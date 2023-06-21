@@ -5,53 +5,51 @@ static unsigned int _windowCount = 0;
 bool sw::Window::PostQuitWhenAllClosed = true;
 
 sw::Window::Window()
-    : WndBase(
-          NULL,
-          L"Window",
-          WS_OVERLAPPEDWINDOW,
-          CW_USEDEFAULT,
-          CW_USEDEFAULT,
-          CW_USEDEFAULT,
-          CW_USEDEFAULT,
-          NULL,
-          NULL,
-          NULL)
+    : WndBase()
 {
-    ++_windowCount;
+    InitWndBase(
+        NULL,                // Optional window styles
+        L"Window",           // Window text
+        WS_OVERLAPPEDWINDOW, // Window style
+
+        // Size and position
+        CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+
+        NULL,  // Parent window
+        NULL); // Menu
 }
 
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 {
-    switch (refMsg.uMsg) {
-        case WM_DESTROY: {
-            this->OnDestroy();
-            return 0;
-        }
-
-        case WM_PAINT: {
-            this->OnPaint();
-            return 0;
-        }
-
+    /*switch (refMsg.uMsg) {
         default: {
             return this->WndBase::WndProc(refMsg);
         }
-    }
+    }*/
+    return this->WndBase::WndProc(refMsg);
 }
 
-void sw::Window::OnDestroy()
+bool sw::Window::OnCreate()
+{
+    ++_windowCount;
+    return true;
+}
+
+bool sw::Window::OnDestroy()
 {
     if (!--_windowCount && PostQuitWhenAllClosed) {
         PostQuitMessage(0);
     }
+    return true;
 }
 
-void sw::Window::OnPaint()
+bool sw::Window::OnPaint()
 {
     PAINTSTRUCT ps{};
     HDC hdc = BeginPaint(this->Handle, &ps);
     FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
     EndPaint(this->Handle, &ps);
+    return true;
 }
 
 void sw::Window::Show()

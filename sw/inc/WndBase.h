@@ -15,7 +15,7 @@ namespace sw
 
     protected:
         static const PCWSTR WndBaseClassName;
-        virtual LRESULT WndProc(const ProcMsg &refMsg);
+        static LRESULT DefaultWndProc(const ProcMsg &refMsg);
 
     private:
         HWND _hwnd;
@@ -30,21 +30,15 @@ namespace sw
         const Property<unsigned int> Height;
         const Property<std::wstring> Text;
 
-    private:
+    protected:
         WndBase();
-
-    public:
-        WndBase(
-            DWORD dwExStyle,
-            LPCWSTR lpWindowName,
-            DWORD dwStyle,
-            int X,
-            int Y,
-            int nWidth,
-            int nHeight,
-            HWND hWndParent,
-            HMENU hMenu,
-            LPVOID lpParam);
+        void InitWndBase(
+            DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwStyle,
+            int X, int Y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu);
+        virtual LRESULT WndProc(const ProcMsg &refMsg);
+        virtual bool OnCreate();
+        virtual bool OnDestroy();
+        virtual bool OnPaint();
 
     public:
         void Show(int nCmdShow);

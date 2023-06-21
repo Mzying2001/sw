@@ -7,6 +7,12 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     WndBase *pWnd;
     pWnd = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
 
+    if (pWnd == NULL && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
+        LPCREATESTRUCTW pCreate;
+        pCreate = reinterpret_cast<LPCREATESTRUCTW>(lParam);
+        pWnd    = reinterpret_cast<WndBase *>(pCreate->lpCreateParams);
+    }
+
     if (pWnd != NULL) {
         return pWnd->WndProc(ProcMsg(hwnd, uMsg, wParam, lParam));
     } else {
@@ -14,7 +20,7 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     }
 }
 
-LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
+LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
 {
     return DefWindowProcW(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
 }
@@ -111,34 +117,62 @@ sw::WndBase::WndBase()
     }
 }
 
-sw::WndBase::WndBase(
-    DWORD dwExStyle,
-    LPCWSTR lpWindowName,
-    DWORD dwStyle,
-    int X,
-    int Y,
-    int nWidth,
-    int nHeight,
-    HWND hWndParent,
-    HMENU hMenu,
-    LPVOID lpParam)
-    : WndBase()
+void sw::WndBase::InitWndBase(
+    DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwStyle,
+    int X, int Y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu)
 {
-    this->_hwnd = CreateWindowExW(
-        dwExStyle,
-        WndBaseClassName,
-        lpWindowName,
-        dwStyle,
-        X,
-        Y,
-        nWidth,
-        nHeight,
-        hWndParent,
-        hMenu,
-        GetModuleHandleW(NULL),
-        lpParam);
-    this->_text = lpWindowName;
-    SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+    if (this->_hwnd == NULL) {
+
+        this->_text = lpWindowName;
+        this->_hwnd = CreateWindowExW(
+            dwExStyle,
+            WndBaseClassName,
+            lpWindowName,
+            dwStyle,
+            X, Y, nWidth, nHeight,
+            hWndParent,
+            hMenu,
+            GetModuleHandleW(NULL),
+            this);
+
+        SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+    }
+}
+
+LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
+{
+    switch (refMsg.uMsg) {
+        case WM_CREATE: {
+            return this->OnCreate() ? 0 : DefaultWndProc(refMsg);
+        }
+
+        case WM_DESTROY: {
+            return this->OnDestroy() ? 0 : DefaultWndProc(refMsg);
+        }
+
+        case WM_PAINT: {
+            return this->OnPaint() ? 0 : DefaultWndProc(refMsg);
+        }
+
+        default: {
+            return DefaultWndProc(refMsg);
+        }
+    }
+}
+
+bool sw::WndBase::OnCreate()
+{
+    return false;
+}
+
+bool sw::WndBase::OnDestroy()
+{
+    return false;
+}
+
+bool sw::WndBase::OnPaint()
+{
+    return false;
 }
 
 void sw::WndBase::Show(int nCmdShow)
