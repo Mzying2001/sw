@@ -5,6 +5,7 @@
 #include "Property.h"
 #include "ProcMsg.h"
 #include "Rect.h"
+#include "App.h"
 
 namespace sw
 {

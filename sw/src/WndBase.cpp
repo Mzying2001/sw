@@ -108,7 +108,7 @@ sw::WndBase::WndBase()
         WNDCLASSEXW wc{};
         wc.cbSize        = sizeof(wc);
         wc.hCursor       = LoadCursorW(NULL, IDC_ARROW);
-        wc.hInstance     = GetModuleHandleW(NULL);
+        wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = _WndProc;
         wc.lpszClassName = WndBaseClassName;
 
@@ -134,10 +134,10 @@ void sw::WndBase::InitWndBase(
             // Size and position
             X, Y, nWidth, nHeight,
 
-            hWndParent,             // Parent window
-            hMenu,                  // Menu
-            GetModuleHandleW(NULL), // Instance handle
-            this                    // Additional application data
+            hWndParent,    // Parent window
+            hMenu,         // Menu
+            App::Instance, // Instance handle
+            this           // Additional application data
         );
 
         SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
