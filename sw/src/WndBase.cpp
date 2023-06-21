@@ -124,16 +124,21 @@ void sw::WndBase::InitWndBase(
     if (this->_hwnd == NULL) {
 
         this->_text = lpWindowName;
+
         this->_hwnd = CreateWindowExW(
-            dwExStyle,
-            WndBaseClassName,
-            lpWindowName,
-            dwStyle,
+            dwExStyle,        // Optional window styles
+            WndBaseClassName, // Window class
+            lpWindowName,     // Window text
+            dwStyle,          // Window style
+
+            // Size and position
             X, Y, nWidth, nHeight,
-            hWndParent,
-            hMenu,
-            GetModuleHandleW(NULL),
-            this);
+
+            hWndParent,             // Parent window
+            hMenu,                  // Menu
+            GetModuleHandleW(NULL), // Instance handle
+            this                    // Additional application data
+        );
 
         SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
     }
