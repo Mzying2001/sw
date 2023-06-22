@@ -92,6 +92,18 @@ sw::WndBase::WndBase()
               this->Rect    = rect;
           }),
 
+      Enabled(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = IsWindowEnabled(this->_hwnd);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              EnableWindow(this->_hwnd, value);
+          }),
+
       _text(),
       Text(
           // get

@@ -30,6 +30,7 @@ namespace sw
         const Property<double> Top;
         const Property<double> Width;
         const Property<double> Height;
+        const Property<bool> Enabled;
         const Property<std::wstring> Text;
 
     protected:
