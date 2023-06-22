@@ -29,12 +29,14 @@ sw::WndBase::WndBase()
     : _hwnd(NULL),
       Handle([&]() -> const HWND & { return this->_hwnd; }),
 
+      _rect(),
       Rect(
           // get
           [&]() -> const sw::Rect & {
               RECT rect;
               GetWindowRect(this->_hwnd, &rect);
-              return sw::Rect(rect);
+              this->_rect = rect;
+              return this->_rect;
           },
           // set
           [&](const sw::Rect &value) {
@@ -44,11 +46,11 @@ sw::WndBase::WndBase()
 
       Left(
           // get
-          [&]() -> double {
+          [&]() -> const double & {
               return this->Rect->left;
           },
           // set
-          [&](double value) {
+          [&](const double &value) {
               sw::Rect rect = this->Rect;
               rect.left     = value;
               this->Rect    = rect;
@@ -56,11 +58,11 @@ sw::WndBase::WndBase()
 
       Top(
           // get
-          [&]() -> double {
+          [&]() -> const double & {
               return this->Rect->top;
           },
           // set
-          [&](double value) {
+          [&](const double &value) {
               sw::Rect rect = this->Rect;
               rect.top      = value;
               this->Rect    = rect;
@@ -68,11 +70,11 @@ sw::WndBase::WndBase()
 
       Width(
           // get
-          [&]() -> double {
+          [&]() -> const double & {
               return this->Rect->width;
           },
           // set
-          [&](double value) {
+          [&](const double &value) {
               sw::Rect rect = this->Rect;
               rect.width    = value;
               this->Rect    = rect;
@@ -80,11 +82,11 @@ sw::WndBase::WndBase()
 
       Height(
           // get
-          [&]() -> double {
+          [&]() -> const double & {
               return this->Rect->height;
           },
           // set
-          [&](double value) {
+          [&](const double &value) {
               sw::Rect rect = this->Rect;
               rect.height   = value;
               this->Rect    = rect;
