@@ -20,16 +20,18 @@ namespace sw
 
     private:
         HWND _hwnd;
-        sw::Rect _rect;
         std::wstring _text;
 
     public:
         const ReadOnlyProperty<HWND> Handle;
-        const Property<Rect> Rect;
+        const Property<sw::Rect> Rect;
         const Property<double> Left;
         const Property<double> Top;
         const Property<double> Width;
         const Property<double> Height;
+        const ReadOnlyProperty<sw::Rect> ClientRect;
+        const ReadOnlyProperty<double> ClientWidth;
+        const ReadOnlyProperty<double> ClientHeight;
         const Property<bool> Enabled;
         const Property<bool> Visible;
         const Property<std::wstring> Text;

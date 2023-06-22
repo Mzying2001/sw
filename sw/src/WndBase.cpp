@@ -29,14 +29,14 @@ sw::WndBase::WndBase()
     : _hwnd(NULL),
       Handle([&]() -> const HWND & { return this->_hwnd; }),
 
-      _rect(),
       Rect(
           // get
           [&]() -> const sw::Rect & {
+              static sw::Rect swRect;
               RECT rect;
               GetWindowRect(this->_hwnd, &rect);
-              this->_rect = rect;
-              return this->_rect;
+              swRect = rect;
+              return swRect;
           },
           // set
           [&](const sw::Rect &value) {
@@ -90,6 +90,28 @@ sw::WndBase::WndBase()
               sw::Rect rect = this->Rect;
               rect.height   = value;
               this->Rect    = rect;
+          }),
+
+      ClientRect(
+          // get
+          [&]() -> const sw::Rect & {
+              static sw::Rect swRect;
+              RECT rect;
+              GetClientRect(this->_hwnd, &rect);
+              swRect = rect;
+              return swRect;
+          }),
+
+      ClientWidth(
+          // get
+          [&]() -> const double & {
+              return this->ClientRect->width;
+          }),
+
+      ClientHeight(
+          // get
+          [&]() -> const double & {
+              return this->ClientRect->height;
           }),
 
       Enabled(
