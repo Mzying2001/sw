@@ -1,18 +1,19 @@
 #pragma once
 
 #include <Windows.h>
+#include "Dpi.h"
 
 namespace sw
 {
     struct Rect {
-        int left;
-        int top;
-        unsigned int width;
-        unsigned int height;
+        double left;
+        double top;
+        double width;
+        double height;
 
         Rect();
-        Rect(int left, int top, unsigned int width, unsigned int height);
+        Rect(double left, double top, double width, double height);
         Rect(const RECT &rect);
-        operator RECT();
+        RECT GetRECT() const;
     };
 }

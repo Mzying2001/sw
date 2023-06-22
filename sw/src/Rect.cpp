@@ -1,26 +1,36 @@
 #include "Rect.h"
+#include <cmath>
 
 sw::Rect::Rect()
     : Rect(0, 0, 0, 0)
 {
 }
 
-sw::Rect::Rect(int left, int top, unsigned int width, unsigned int height)
+sw::Rect::Rect(double left, double top, double width, double height)
     : left(left), top(top), width(width), height(height)
 {
 }
 
 sw::Rect::Rect(const RECT &rect)
-    : Rect(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top)
 {
+    double scaleX = Dpi::ScaleX;
+    double scaleY = Dpi::ScaleY;
+    this->left    = scaleX * rect.left;
+    this->top     = scaleY * rect.top;
+    this->width   = scaleX * (rect.right - rect.left);
+    this->height  = scaleY * (rect.bottom - rect.top);
 }
 
-sw::Rect::operator RECT()
+RECT sw::Rect::GetRECT() const
 {
     RECT rect{};
-    rect.left   = this->left;
-    rect.top    = this->top;
-    rect.right  = this->left + this->width;
-    rect.bottom = this->top + this->height;
+    double scaleX;
+    double scaleY;
+    scaleX      = Dpi::ScaleX;
+    scaleY      = Dpi::ScaleY;
+    rect.left   = std::lround(this->left / scaleX);
+    rect.top    = std::lround(this->top / scaleY);
+    rect.right  = std::lround((this->left + this->width) / scaleX);
+    rect.bottom = std::lround((this->top + this->height) / scaleY);
     return rect;
 }

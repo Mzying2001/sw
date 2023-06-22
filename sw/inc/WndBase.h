@@ -25,10 +25,10 @@ namespace sw
     public:
         const ReadOnlyProperty<HWND> Handle;
         const Property<Rect> Rect;
-        const Property<int> Left;
-        const Property<int> Top;
-        const Property<unsigned int> Width;
-        const Property<unsigned int> Height;
+        const Property<double> Left;
+        const Property<double> Top;
+        const Property<double> Width;
+        const Property<double> Height;
         const Property<std::wstring> Text;
 
     protected:

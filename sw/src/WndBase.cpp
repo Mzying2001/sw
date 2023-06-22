@@ -38,16 +38,17 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const sw::Rect &value) {
-              MoveWindow(this->_hwnd, value.left, value.top, value.width, value.height, TRUE);
+              RECT rect = value.GetRECT();
+              MoveWindow(this->_hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, TRUE);
           }),
 
       Left(
           // get
-          [&]() -> int {
+          [&]() -> double {
               return this->Rect->left;
           },
           // set
-          [&](int value) {
+          [&](double value) {
               sw::Rect rect = this->Rect;
               rect.left     = value;
               this->Rect    = rect;
@@ -55,11 +56,11 @@ sw::WndBase::WndBase()
 
       Top(
           // get
-          [&]() -> int {
+          [&]() -> double {
               return this->Rect->top;
           },
           // set
-          [&](int value) {
+          [&](double value) {
               sw::Rect rect = this->Rect;
               rect.top      = value;
               this->Rect    = rect;
@@ -67,11 +68,11 @@ sw::WndBase::WndBase()
 
       Width(
           // get
-          [&]() -> unsigned int {
+          [&]() -> double {
               return this->Rect->width;
           },
           // set
-          [&](unsigned int value) {
+          [&](double value) {
               sw::Rect rect = this->Rect;
               rect.width    = value;
               this->Rect    = rect;
@@ -79,11 +80,11 @@ sw::WndBase::WndBase()
 
       Height(
           // get
-          [&]() -> unsigned int {
+          [&]() -> double {
               return this->Rect->height;
           },
           // set
-          [&](unsigned int value) {
+          [&](double value) {
               sw::Rect rect = this->Rect;
               rect.height   = value;
               this->Rect    = rect;
