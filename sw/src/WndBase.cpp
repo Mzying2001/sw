@@ -119,8 +119,7 @@ sw::WndBase::WndBase()
 }
 
 void sw::WndBase::InitWndBase(
-    DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwStyle,
-    int X, int Y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu)
+    DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu)
 {
     if (this->_hwnd == NULL) {
 
@@ -133,7 +132,7 @@ void sw::WndBase::InitWndBase(
             dwStyle,          // Window style
 
             // Size and position
-            X, Y, nWidth, nHeight,
+            CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 
             hWndParent,    // Parent window
             hMenu,         // Menu

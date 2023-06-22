@@ -11,12 +11,8 @@ sw::Window::Window()
         NULL,                // Optional window styles
         L"Window",           // Window text
         WS_OVERLAPPEDWINDOW, // Window style
-
-        // Size and position
-        CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-
-        NULL,  // Parent window
-        NULL); // Menu
+        NULL,                // Parent window
+        NULL);               // Menu
 }
 
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)

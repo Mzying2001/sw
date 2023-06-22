@@ -33,9 +33,7 @@ namespace sw
 
     protected:
         WndBase();
-        void InitWndBase(
-            DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwStyle,
-            int X, int Y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu);
+        void InitWndBase(DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu);
         virtual LRESULT WndProc(const ProcMsg &refMsg);
         virtual bool OnCreate();
         virtual bool OnDestroy();
