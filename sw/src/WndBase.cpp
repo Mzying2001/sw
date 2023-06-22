@@ -118,8 +118,7 @@ sw::WndBase::WndBase()
     }
 }
 
-void sw::WndBase::InitWndBase(
-    DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu)
+void sw::WndBase::InitWndBase(DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu)
 {
     if (this->_hwnd == NULL) {
 
