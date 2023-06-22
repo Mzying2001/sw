@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\sw\inc\App.h" />
+    <ClInclude Include="..\..\sw\inc\Dpi.h" />
     <ClInclude Include="..\..\sw\inc\ProcMsg.h" />
     <ClInclude Include="..\..\sw\inc\Property.h" />
     <ClInclude Include="..\..\sw\inc\Rect.h" />
@@ -142,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sw\src\App.cpp" />
+    <ClCompile Include="..\..\sw\src\Dpi.cpp" />
     <ClCompile Include="..\..\sw\src\ProcMsg.cpp" />
     <ClCompile Include="..\..\sw\src\Property.cpp" />
     <ClCompile Include="..\..\sw\src\Rect.cpp" />

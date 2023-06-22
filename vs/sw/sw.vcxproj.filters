@@ -27,6 +27,9 @@
     <ClInclude Include="..\..\sw\inc\App.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw\inc\Dpi.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sw\src\Property.cpp">
@@ -45,6 +48,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw\src\App.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw\src\Dpi.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
