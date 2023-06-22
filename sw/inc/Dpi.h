@@ -15,7 +15,6 @@ namespace sw
 
     private:
         Dpi();
-        static DpiScaleInfo _info;
 
     public:
         static const ReadOnlyProperty<double> ScaleX;

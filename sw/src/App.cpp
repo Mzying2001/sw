@@ -1,8 +1,10 @@
 #include "App.h"
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
-    []() -> HINSTANCE {
-        return GetModuleHandleW(NULL);
+    []() -> const HINSTANCE & {
+        static HINSTANCE _instance;
+        _instance = GetModuleHandleW(NULL);
+        return _instance;
     } //
 );
 

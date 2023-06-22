@@ -1,6 +1,26 @@
 #include "Dpi.h"
 
-static sw::Dpi::DpiScaleInfo GetCurrentScaleInfo()
+static sw::Dpi::DpiScaleInfo _GetCurrentScaleInfo();
+static sw::Dpi::DpiScaleInfo _dpiScaleInfo = _GetCurrentScaleInfo();
+
+void sw::Dpi::Update()
+{
+    _dpiScaleInfo = _GetCurrentScaleInfo();
+}
+
+const sw::ReadOnlyProperty<double> sw::Dpi::ScaleX(
+    []() -> const double & {
+        return _dpiScaleInfo.scaleX;
+    } //
+);
+
+const sw::ReadOnlyProperty<double> sw::Dpi::ScaleY(
+    []() -> const double & {
+        return _dpiScaleInfo.scaleY;
+    } //
+);
+
+static sw::Dpi::DpiScaleInfo _GetCurrentScaleInfo()
 {
     sw::Dpi::DpiScaleInfo info{};
     HDC hdc     = GetDC(NULL);
@@ -9,23 +29,3 @@ static sw::Dpi::DpiScaleInfo GetCurrentScaleInfo()
     ReleaseDC(NULL, hdc);
     return info;
 }
-
-void sw::Dpi::Update()
-{
-    _info = GetCurrentScaleInfo();
-}
-
-sw::Dpi::DpiScaleInfo sw::Dpi::_info =
-    GetCurrentScaleInfo();
-
-const sw::ReadOnlyProperty<double> sw::Dpi::ScaleX(
-    []() -> double {
-        return _info.scaleX;
-    } //
-);
-
-const sw::ReadOnlyProperty<double> sw::Dpi::ScaleY(
-    []() -> double {
-        return _info.scaleY;
-    } //
-);
