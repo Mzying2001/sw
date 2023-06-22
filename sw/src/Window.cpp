@@ -5,7 +5,37 @@ static unsigned int _windowCount = 0;
 bool sw::Window::PostQuitWhenAllClosed = true;
 
 sw::Window::Window()
-    : WndBase()
+    : WndBase(),
+
+      State(
+          // get
+          [&]() -> const WindowState & {
+              static WindowState state;
+              HWND hwnd = this->Handle;
+              if (IsIconic(hwnd)) {
+                  state = WindowState::Minimized;
+              } else if (IsZoomed(hwnd)) {
+                  state = WindowState::Maximized;
+              } else {
+                  state = WindowState::Normal;
+              }
+              return state;
+          },
+          // set
+          [&](const WindowState &value) {
+              HWND hwnd = this->Handle;
+              switch (value) {
+                  case WindowState::Normal:
+                      ShowWindow(hwnd, SW_RESTORE);
+                      break;
+                  case WindowState::Minimized:
+                      ShowWindow(hwnd, SW_MINIMIZE);
+                      break;
+                  case WindowState::Maximized:
+                      ShowWindow(hwnd, SW_MAXIMIZE);
+                      break;
+              }
+          })
 {
     InitWndBase(
         NULL,                // Optional window styles
