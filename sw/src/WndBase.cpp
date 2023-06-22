@@ -95,13 +95,25 @@ sw::WndBase::WndBase()
       Enabled(
           // get
           [&]() -> const bool & {
-              static bool result;
-              result = IsWindowEnabled(this->_hwnd);
-              return result;
+              static bool enabled;
+              enabled = IsWindowEnabled(this->_hwnd);
+              return enabled;
           },
           // set
           [&](const bool &value) {
               EnableWindow(this->_hwnd, value);
+          }),
+
+      Visible(
+          // get
+          [&]() -> const bool & {
+              static bool visible;
+              visible = IsWindowVisible(this->_hwnd);
+              return visible;
+          },
+          // set
+          [&](const bool &value) {
+              ShowWindow(this->_hwnd, value ? SW_SHOW : SW_HIDE);
           }),
 
       _text(),
