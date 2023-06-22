@@ -6,10 +6,6 @@ const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     } //
 );
 
-sw::App::App()
-{
-}
-
 void sw::App::MsgLoop()
 {
     MSG msg{};
