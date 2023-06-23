@@ -102,5 +102,6 @@ namespace sw
     public:
         void Show(int nCmdShow);
         void Close();
+        void Update();
     };
 }

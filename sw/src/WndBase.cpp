@@ -306,3 +306,8 @@ void sw::WndBase::Close()
 {
     CloseWindow(this->_hwnd);
 }
+
+void sw::WndBase::Update()
+{
+    UpdateWindow(this->_hwnd);
+}
