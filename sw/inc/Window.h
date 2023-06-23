@@ -1,11 +1,11 @@
 #pragma once
 
-#include "WndBase.h"
+#include "UIElement.h"
 #include "Screen.h"
 
 namespace sw
 {
-    class Window : public WndBase
+    class Window : public UIElement
     {
     public:
         enum WindowState {
@@ -47,6 +47,6 @@ namespace sw
 
     public:
         void Show(int nCmdShow);
-        virtual void Show();
+        void Show();
     };
 }

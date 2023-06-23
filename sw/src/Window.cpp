@@ -5,9 +5,7 @@ static unsigned int _windowCount = 0;
 bool sw::Window::PostQuitWhenAllClosed = true;
 
 sw::Window::Window()
-    : WndBase(),
-
-      State(
+    : State(
           // get
           [&]() -> const WindowState & {
               static WindowState state;
@@ -131,10 +129,10 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 {
     /*switch (refMsg.uMsg) {
         default: {
-            return this->WndBase::WndProc(refMsg);
+            return this->UIElement::WndProc(refMsg);
         }
     }*/
-    return this->WndBase::WndProc(refMsg);
+    return this->UIElement::WndProc(refMsg);
 }
 
 bool sw::Window::OnCreate()
@@ -171,7 +169,7 @@ void sw::Window::Show(int nCmdShow)
             this->Rect    = rect;
         }
     }
-    this->WndBase::Show(nCmdShow);
+    this->UIElement::Show(nCmdShow);
 }
 
 void sw::Window::Show()
