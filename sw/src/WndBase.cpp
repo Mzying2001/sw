@@ -29,14 +29,11 @@ sw::WndBase::WndBase()
     : _hwnd(NULL),
       Handle([&]() -> const HWND & { return this->_hwnd; }),
 
+      _rect(),
       Rect(
           // get
           [&]() -> const sw::Rect & {
-              static sw::Rect swRect;
-              RECT rect;
-              GetWindowRect(this->_hwnd, &rect);
-              swRect = rect;
-              return swRect;
+              return this->_rect;
           },
           // set
           [&](const sw::Rect &value) {
@@ -187,6 +184,10 @@ void sw::WndBase::InitWndBase(DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwSty
             this           // Additional application data
         );
 
+        RECT rect;
+        GetWindowRect(this->_hwnd, &rect);
+        this->_rect = rect;
+
         SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
     }
 }
@@ -204,6 +205,17 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 
         case WM_PAINT: {
             return this->OnPaint() ? 0 : DefaultWndProc(refMsg);
+        }
+
+        case WM_WINDOWPOSCHANGED: {
+            PWINDOWPOS pWndPos = reinterpret_cast<PWINDOWPOS>(refMsg.lParam);
+            double dpiScaleX   = Dpi::ScaleX;
+            double dpiScaleY   = Dpi::ScaleY;
+            this->_rect.left   = dpiScaleX * pWndPos->x;
+            this->_rect.top    = dpiScaleY * pWndPos->y;
+            this->_rect.width  = dpiScaleX * pWndPos->cx;
+            this->_rect.height = dpiScaleY * pWndPos->cy;
+            return DefaultWndProc(refMsg);
         }
 
         case WM_MOVE: {

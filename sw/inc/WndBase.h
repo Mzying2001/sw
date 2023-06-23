@@ -21,6 +21,7 @@ namespace sw
 
     private:
         HWND _hwnd;
+        sw::Rect _rect;
         std::wstring _text;
 
     public:
