@@ -46,7 +46,6 @@ namespace sw
         virtual bool OnPaint();
 
     public:
-        void Show(int nCmdShow);
         void Show();
     };
 }

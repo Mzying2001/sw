@@ -127,12 +127,24 @@ void sw::Window::SetExtendedStyle(LONG_PTR style, bool value)
 
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 {
-    /*switch (refMsg.uMsg) {
+    switch (refMsg.uMsg) {
+        case WM_SHOWWINDOW: {
+            if (this->_isFirstShow) {
+                this->_isFirstShow = false;
+                if (this->StartupLocation == WindowStartupLocation::CenterScreen) {
+                    sw::Rect rect = this->Rect;
+                    rect.left     = (Screen::Width - rect.width) / 2;
+                    rect.top      = (Screen::Height - rect.height) / 2;
+                    this->Rect    = rect;
+                }
+            }
+            return this->UIElement::WndProc(refMsg);
+        }
+
         default: {
             return this->UIElement::WndProc(refMsg);
         }
-    }*/
-    return this->UIElement::WndProc(refMsg);
+    }
 }
 
 bool sw::Window::OnCreate()
@@ -158,21 +170,7 @@ bool sw::Window::OnPaint()
     return true;
 }
 
-void sw::Window::Show(int nCmdShow)
-{
-    if (_isFirstShow) {
-        _isFirstShow = false;
-        if (this->StartupLocation == CenterScreen) {
-            sw::Rect rect = this->Rect;
-            rect.left     = (Screen::Width - rect.width) / 2;
-            rect.top      = (Screen::Height - rect.height) / 2;
-            this->Rect    = rect;
-        }
-    }
-    this->UIElement::Show(nCmdShow);
-}
-
 void sw::Window::Show()
 {
-    this->Show(SW_SHOW);
+    this->WndBase::Show(SW_SHOW);
 }
