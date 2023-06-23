@@ -6,6 +6,7 @@
 #include "ProcMsg.h"
 #include "Rect.h"
 #include "App.h"
+#include "Dpi.h"
 
 namespace sw
 {
@@ -43,6 +44,8 @@ namespace sw
         virtual bool OnCreate();
         virtual bool OnDestroy();
         virtual bool OnPaint();
+        virtual bool OnMove(double newLeft, double newTop);
+        virtual bool OnSize(double newClientWidth, double newClientHeight);
 
     public:
         void Show(int nCmdShow);

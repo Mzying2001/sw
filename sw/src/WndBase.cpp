@@ -206,6 +206,18 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->OnPaint() ? 0 : DefaultWndProc(refMsg);
         }
 
+        case WM_MOVE: {
+            int xPos = LOWORD(refMsg.lParam); // horizontal position
+            int yPos = HIWORD(refMsg.lParam); // vertical position
+            return this->OnMove(xPos * Dpi::ScaleX, yPos * Dpi::ScaleY) ? 0 : DefaultWndProc(refMsg);
+        }
+
+        case WM_SIZE: {
+            int width  = LOWORD(refMsg.lParam); // the new width of the client area
+            int height = HIWORD(refMsg.lParam); // the new height of the client area
+            return this->OnSize(width * Dpi::ScaleX, height * Dpi::ScaleY) ? 0 : DefaultWndProc(refMsg);
+        }
+
         default: {
             return DefaultWndProc(refMsg);
         }
@@ -223,6 +235,16 @@ bool sw::WndBase::OnDestroy()
 }
 
 bool sw::WndBase::OnPaint()
+{
+    return false;
+}
+
+bool sw::WndBase::OnMove(double newLeft, double newTop)
+{
+    return false;
+}
+
+bool sw::WndBase::OnSize(double newClientWidth, double newClientHeight)
 {
     return false;
 }
