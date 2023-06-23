@@ -14,7 +14,7 @@ namespace sw
             Maximized,
         };
         enum WindowStartupLocation {
-            SystemDefault,
+            Manual,
             CenterScreen,
         };
 
@@ -24,7 +24,7 @@ namespace sw
     public:
         static bool PostQuitWhenAllClosed;
         const Property<WindowState> State;
-        WindowStartupLocation StartupLocation = CenterScreen;
+        WindowStartupLocation StartupLocation = Manual;
 
     public:
         Window();
