@@ -24,10 +24,17 @@ namespace sw
     public:
         static bool PostQuitWhenAllClosed;
         const Property<WindowState> State;
+        const Property<bool> SizeBox;
+        const Property<bool> MaximizeBox;
+        const Property<bool> MinimizeBox;
         WindowStartupLocation StartupLocation = Manual;
 
     public:
         Window();
+
+    private:
+        bool GetStyle(LONG_PTR style);
+        void SetStyle(LONG_PTR style, bool value);
 
     protected:
         virtual LRESULT WndProc(const ProcMsg &refMsg);

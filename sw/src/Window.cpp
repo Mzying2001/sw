@@ -35,6 +35,36 @@ sw::Window::Window()
                       ShowWindow(hwnd, SW_MAXIMIZE);
                       break;
               }
+          }),
+
+      SizeBox(
+          // get
+          [&]() -> const bool & {
+              return this->GetStyle(WS_SIZEBOX);
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(WS_SIZEBOX, value);
+          }),
+
+      MaximizeBox(
+          // get
+          [&]() -> const bool & {
+              return this->GetStyle(WS_MAXIMIZEBOX);
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(WS_MAXIMIZEBOX, value);
+          }),
+
+      MinimizeBox(
+          // get
+          [&]() -> const bool & {
+              return this->GetStyle(WS_MINIMIZEBOX);
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(WS_MINIMIZEBOX, value);
           })
 {
     InitWndBase(
@@ -43,6 +73,22 @@ sw::Window::Window()
         WS_OVERLAPPEDWINDOW, // Window style
         NULL,                // Parent window
         NULL);               // Menu
+}
+
+bool sw::Window::GetStyle(LONG_PTR style)
+{
+    return GetWindowLongPtrW(this->Handle, GWL_STYLE) & style;
+}
+
+void sw::Window::SetStyle(LONG_PTR style, bool value)
+{
+    HWND hwnd = this->Handle;
+    if (value) {
+        style = GetWindowLongPtrW(hwnd, GWL_STYLE) | style;
+    } else {
+        style = GetWindowLongPtrW(hwnd, GWL_STYLE) & ~style;
+    }
+    SetWindowLongPtrW(hwnd, GWL_STYLE, style);
 }
 
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
