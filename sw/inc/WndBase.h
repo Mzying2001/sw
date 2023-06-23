@@ -62,6 +62,12 @@ namespace sw
         virtual bool OnCreate();
 
         /**
+         * @brief  接收到WM_CLOSE时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefWindowProcW
+         */
+        virtual bool OnClose();
+
+        /**
          * @brief  接收到WM_DESTROY时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefWindowProcW
          */

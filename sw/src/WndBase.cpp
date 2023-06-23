@@ -200,6 +200,10 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->OnCreate() ? 0 : DefaultWndProc(refMsg);
         }
 
+        case WM_CLOSE: {
+            return this->OnClose() ? 0 : DefaultWndProc(refMsg);
+        }
+
         case WM_DESTROY: {
             return this->OnDestroy() ? 0 : DefaultWndProc(refMsg);
         }
@@ -245,6 +249,11 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 }
 
 bool sw::WndBase::OnCreate()
+{
+    return false;
+}
+
+bool sw::WndBase::OnClose()
 {
     return false;
 }
