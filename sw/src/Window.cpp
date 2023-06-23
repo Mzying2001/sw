@@ -40,7 +40,9 @@ sw::Window::Window()
       SizeBox(
           // get
           [&]() -> const bool & {
-              return this->GetStyle(WS_SIZEBOX);
+              static bool result;
+              result = this->GetStyle(WS_SIZEBOX);
+              return result;
           },
           // set
           [&](const bool &value) {
@@ -50,7 +52,9 @@ sw::Window::Window()
       MaximizeBox(
           // get
           [&]() -> const bool & {
-              return this->GetStyle(WS_MAXIMIZEBOX);
+              static bool result;
+              result = this->GetStyle(WS_MAXIMIZEBOX);
+              return result;
           },
           // set
           [&](const bool &value) {
@@ -60,7 +64,9 @@ sw::Window::Window()
       MinimizeBox(
           // get
           [&]() -> const bool & {
-              return this->GetStyle(WS_MINIMIZEBOX);
+              static bool result;
+              result = this->GetStyle(WS_MINIMIZEBOX);
+              return result;
           },
           // set
           [&](const bool &value) {
