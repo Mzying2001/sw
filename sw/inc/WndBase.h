@@ -41,6 +41,7 @@ namespace sw
         const Property<bool> Enabled;
         const Property<bool> Visible;
         const Property<std::wstring> Text;
+        const Property<WndBase *> Parent;
 
     protected:
         WndBase();

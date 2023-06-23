@@ -146,6 +146,20 @@ sw::WndBase::WndBase()
               std::wstring newText = value;
               if (this->OnSetText(newText))
                   SetWindowTextW(this->_hwnd, newText.c_str());
+          }),
+
+      Parent(
+          // get
+          [&]() -> WndBase *const & {
+              static WndBase *pWndBase;
+              HWND hwnd = GetParent(this->_hwnd);
+              pWndBase  = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+              return pWndBase;
+          },
+          // set
+          [&](WndBase *const &value) {
+              HWND hwnd = value == NULL ? NULL : value->_hwnd;
+              SetParent(this->_hwnd, hwnd);
           })
 {
     static bool isClassRegistered = false;
