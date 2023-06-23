@@ -78,7 +78,21 @@ bool sw::Window::OnPaint()
     return true;
 }
 
+void sw::Window::Show(int nCmdShow)
+{
+    if (_isFirstShow) {
+        _isFirstShow = false;
+        if (this->StartupLocation == CenterScreen) {
+            sw::Rect rect = this->Rect;
+            rect.left     = (Screen::Width - rect.width) / 2;
+            rect.top      = (Screen::Height - rect.height) / 2;
+            this->Rect    = rect;
+        }
+    }
+    this->WndBase::Show(nCmdShow);
+}
+
 void sw::Window::Show()
 {
-    ShowWindow(this->Handle, SW_SHOW);
+    this->Show(SW_SHOW);
 }

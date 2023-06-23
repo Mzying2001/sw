@@ -1,6 +1,7 @@
 #pragma once
 
 #include "WndBase.h"
+#include "Screen.h"
 
 namespace sw
 {
@@ -12,10 +13,18 @@ namespace sw
             Minimized,
             Maximized,
         };
+        enum WindowStartupLocation {
+            SystemDefault,
+            CenterScreen,
+        };
+
+    private:
+        bool _isFirstShow = true;
 
     public:
         static bool PostQuitWhenAllClosed;
         const Property<WindowState> State;
+        WindowStartupLocation StartupLocation = CenterScreen;
 
     public:
         Window();
@@ -27,7 +36,7 @@ namespace sw
         virtual bool OnPaint();
 
     public:
-        using WndBase::Show;
+        void Show(int nCmdShow);
         virtual void Show();
     };
 }
