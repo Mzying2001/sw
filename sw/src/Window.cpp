@@ -71,6 +71,20 @@ sw::Window::Window()
           // set
           [&](const bool &value) {
               this->SetStyle(WS_MINIMIZEBOX, value);
+          }),
+
+      Topmost(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetExtendedStyle(WS_EX_TOPMOST);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              /*this->SetExtendedStyle(WS_EX_TOPMOST, value);*/
+              HWND hWndInsertAfter = value ? HWND_TOPMOST : HWND_NOTOPMOST;
+              SetWindowPos(this->Handle, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
           })
 {
     InitWndBase(
@@ -95,6 +109,22 @@ void sw::Window::SetStyle(LONG_PTR style, bool value)
         style = GetWindowLongPtrW(hwnd, GWL_STYLE) & ~style;
     }
     SetWindowLongPtrW(hwnd, GWL_STYLE, style);
+}
+
+bool sw::Window::GetExtendedStyle(LONG_PTR style)
+{
+    return GetWindowLongPtrW(this->Handle, GWL_EXSTYLE) & style;
+}
+
+void sw::Window::SetExtendedStyle(LONG_PTR style, bool value)
+{
+    HWND hwnd = this->Handle;
+    if (value) {
+        style = GetWindowLongPtrW(hwnd, GWL_EXSTYLE) | style;
+    } else {
+        style = GetWindowLongPtrW(hwnd, GWL_EXSTYLE) & ~style;
+    }
+    SetWindowLongPtrW(hwnd, GWL_EXSTYLE, style);
 }
 
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)

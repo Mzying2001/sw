@@ -27,6 +27,7 @@ namespace sw
         const Property<bool> SizeBox;
         const Property<bool> MaximizeBox;
         const Property<bool> MinimizeBox;
+        const Property<bool> Topmost;
         WindowStartupLocation StartupLocation = Manual;
 
     public:
@@ -35,6 +36,8 @@ namespace sw
     private:
         bool GetStyle(LONG_PTR style);
         void SetStyle(LONG_PTR style, bool value);
+        bool GetExtendedStyle(LONG_PTR style);
+        void SetExtendedStyle(LONG_PTR style, bool value);
 
     protected:
         virtual LRESULT WndProc(const ProcMsg &refMsg);
