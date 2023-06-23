@@ -143,8 +143,9 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const std::wstring &value) {
-              SetWindowTextW(this->_hwnd, value.c_str());
-              this->_text = value;
+              std::wstring newText = value;
+              if (this->OnSetText(newText))
+                  SetWindowTextW(this->_hwnd, newText.c_str());
           })
 {
     static bool isClassRegistered = false;
@@ -230,6 +231,13 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->OnSize(width * Dpi::ScaleX, height * Dpi::ScaleY) ? 0 : DefaultWndProc(refMsg);
         }
 
+        case WM_SETTEXT: {
+            LRESULT result = DefaultWndProc(refMsg);
+            if (result == TRUE)
+                this->_text = reinterpret_cast<PCWSTR>(refMsg.lParam);
+            return result;
+        }
+
         default: {
             return DefaultWndProc(refMsg);
         }
@@ -259,6 +267,11 @@ bool sw::WndBase::OnMove(double newLeft, double newTop)
 bool sw::WndBase::OnSize(double newClientWidth, double newClientHeight)
 {
     return false;
+}
+
+bool sw::WndBase::OnSetText(std::wstring &newText)
+{
+    return true;
 }
 
 void sw::WndBase::Show(int nCmdShow)
