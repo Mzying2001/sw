@@ -95,6 +95,17 @@ sw::Window::Window()
           // set
           [&](const bool &value) {
               this->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
+          }),
+
+      Background(
+          // get
+          [&]() -> const Color & {
+              return this->_background;
+          },
+          // set
+          [&](const Color &value) {
+              this->_background = value;
+              InvalidateRect(this->Handle, NULL, TRUE);
           })
 {
     InitWndBase(
@@ -190,8 +201,10 @@ bool sw::Window::OnDestroy()
 bool sw::Window::OnPaint()
 {
     PAINTSTRUCT ps{};
-    HDC hdc = BeginPaint(this->Handle, &ps);
-    FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+    HDC hdc       = BeginPaint(this->Handle, &ps);
+    HBRUSH hBrush = CreateSolidBrush(this->_background);
+    FillRect(hdc, &ps.rcPaint, hBrush);
+    DeleteObject(hBrush);
     EndPaint(this->Handle, &ps);
     return true;
 }

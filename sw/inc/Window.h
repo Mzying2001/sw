@@ -2,6 +2,7 @@
 
 #include "UIElement.h"
 #include "Screen.h"
+#include "Color.h"
 
 namespace sw
 {
@@ -20,6 +21,7 @@ namespace sw
 
     private:
         bool _isFirstShow = true;
+        Color _background  = Color::White;
 
     public:
         static bool PostQuitWhenAllClosed;
@@ -29,6 +31,7 @@ namespace sw
         const Property<bool> MinimizeBox;
         const Property<bool> Topmost;
         const Property<bool> ToolWindow;
+        const Property<Color> Background;
         WindowStartupLocation StartupLocation = Manual;
 
     public:
