@@ -153,7 +153,7 @@ bool sw::Window::OnClose()
     bool cancel = false;
     RaiseRoutedEvent(RoutedEventType::WindowClosing, &cancel);
     if (!cancel) {
-        this->Close();
+        DestroyWindow(this->Handle);
     }
     return true;
 }

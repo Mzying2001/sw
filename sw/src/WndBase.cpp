@@ -269,7 +269,8 @@ bool sw::WndBase::OnCreate()
 
 bool sw::WndBase::OnClose()
 {
-    return false;
+    DestroyWindow(this->_hwnd);
+    return true;
 }
 
 bool sw::WndBase::OnDestroy()
@@ -304,7 +305,7 @@ void sw::WndBase::Show(int nCmdShow)
 
 void sw::WndBase::Close()
 {
-    DestroyWindow(this->_hwnd);
+    SendMessageW(this->_hwnd, WM_CLOSE, NULL, NULL);
 }
 
 void sw::WndBase::Update()
