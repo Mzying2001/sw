@@ -28,6 +28,7 @@ namespace sw
         const Property<bool> MaximizeBox;
         const Property<bool> MinimizeBox;
         const Property<bool> Topmost;
+        const Property<bool> ToolWindow;
         WindowStartupLocation StartupLocation = Manual;
 
     public:

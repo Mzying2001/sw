@@ -83,6 +83,18 @@ sw::Window::Window()
               /*this->SetExtendedStyle(WS_EX_TOPMOST, value);*/
               HWND hWndInsertAfter = value ? HWND_TOPMOST : HWND_NOTOPMOST;
               SetWindowPos(this->Handle, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+          }),
+
+      ToolWindow(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetExtendedStyle(WS_EX_TOOLWINDOW);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
           })
 {
     InitWndBase(
