@@ -36,5 +36,11 @@ namespace sw
          * @param eventType 路由事件类型
          */
         bool IsRoutedEventRegistered(RoutedEventType eventType);
+
+    protected:
+        /**
+         * @brief 引发路由事件
+         */
+        void RaiseRoutedEvent(RoutedEventType eventType, void *param = nullptr);
     };
 }
