@@ -16,3 +16,8 @@ void sw::App::MsgLoop()
         DispatchMessageW(&msg);
     }
 }
+
+void sw::App::Quit(int exitCode)
+{
+    PostQuitMessage(exitCode);
+}

@@ -170,7 +170,7 @@ bool sw::Window::OnDestroy()
     RaiseRoutedEvent(RoutedEventType::WindowClosed);
     // 所有窗口都关闭时若PostQuitWhenAllClosed为true则退出程序
     if (!--_windowCount && PostQuitWhenAllClosed) {
-        PostQuitMessage(0);
+        App::Quit();
     }
     return true;
 }

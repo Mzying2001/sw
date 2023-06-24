@@ -13,5 +13,6 @@ namespace sw
     public:
         static const ReadOnlyProperty<HINSTANCE> Instance;
         static void MsgLoop();
+        static void Quit(int exitCode = 0);
     };
 }
