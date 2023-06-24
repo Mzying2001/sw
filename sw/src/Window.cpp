@@ -147,6 +147,17 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
     }
 }
 
+bool sw::Window::OnClose()
+{
+    // 引发路由事件，cancel表示是否取消本次关闭
+    bool cancel = false;
+    RaiseRoutedEvent(RoutedEventType::WindowClosing, &cancel);
+    if (!cancel) {
+        this->Close();
+    }
+    return true;
+}
+
 bool sw::Window::OnCreate()
 {
     ++_windowCount;
@@ -155,6 +166,9 @@ bool sw::Window::OnCreate()
 
 bool sw::Window::OnDestroy()
 {
+    // 路由事件
+    RaiseRoutedEvent(RoutedEventType::WindowClosed);
+    // 所有窗口都关闭时若PostQuitWhenAllClosed为true则退出程序
     if (!--_windowCount && PostQuitWhenAllClosed) {
         PostQuitMessage(0);
     }

@@ -304,7 +304,7 @@ void sw::WndBase::Show(int nCmdShow)
 
 void sw::WndBase::Close()
 {
-    CloseWindow(this->_hwnd);
+    DestroyWindow(this->_hwnd);
 }
 
 void sw::WndBase::Update()

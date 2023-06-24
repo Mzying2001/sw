@@ -41,6 +41,7 @@ namespace sw
 
     protected:
         virtual LRESULT WndProc(const ProcMsg &refMsg);
+        virtual bool OnClose();
         virtual bool OnCreate();
         virtual bool OnDestroy();
         virtual bool OnPaint();
