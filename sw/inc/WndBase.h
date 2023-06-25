@@ -13,6 +13,9 @@ namespace sw
     class WndBase
     {
     private:
+        /**
+         * @brief 窗口过程函数，调用对象的WndProc
+         */
         static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
     protected:
@@ -27,18 +30,69 @@ namespace sw
         std::wstring _text;
 
     public:
+        /**
+         * @brief 窗口句柄
+         */
         const ReadOnlyProperty<HWND> Handle;
+
+        /**
+         * @brief 位置和尺寸
+         */
         const Property<sw::Rect> Rect;
+
+        /**
+         * @brief 左边
+         */
         const Property<double> Left;
+
+        /**
+         * @brief 顶边
+         */
         const Property<double> Top;
+
+        /**
+         * @brief 宽度
+         */
         const Property<double> Width;
+
+        /**
+         * @brief 高度
+         */
         const Property<double> Height;
+
+        /**
+         * @brief 用户区尺寸
+         */
         const ReadOnlyProperty<sw::Rect> ClientRect;
+
+        /**
+         * @brief 用户区宽度
+         */
         const ReadOnlyProperty<double> ClientWidth;
+
+        /**
+         * @brief 用户区高度
+         */
         const ReadOnlyProperty<double> ClientHeight;
+
+        /**
+         * @brief 窗口或控件是否可用
+         */
         const Property<bool> Enabled;
+
+        /**
+         * @brief 窗口或控件是否可见
+         */
         const Property<bool> Visible;
+
+        /**
+         * @brief 窗口标题或控件文本
+         */
         const Property<std::wstring> Text;
+
+        /**
+         * @brief 父窗口
+         */
         const Property<WndBase *> Parent;
 
     protected:
@@ -98,8 +152,19 @@ namespace sw
         virtual bool OnSetText(std::wstring &newText);
 
     public:
+        /**
+         * @brief 该函数调用ShowWindow
+         */
         void Show(int nCmdShow);
+
+        /**
+         * @brief 发送关闭消息
+         */
         void Close();
+
+        /**
+         * @brief 该函数调用UpdateWindow
+         */
         void Update();
     };
 }

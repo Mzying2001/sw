@@ -1,7 +1,13 @@
 #include "Window.h"
 
+/**
+ * @brief 记录当前创建的窗口数
+ */
 static unsigned int _windowCount = 0;
 
+/**
+ * @brief 是否在关闭所有窗口后退出程序
+ */
 bool sw::Window::PostQuitWhenAllClosed = true;
 
 sw::Window::Window()
