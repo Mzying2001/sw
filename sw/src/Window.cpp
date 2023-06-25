@@ -159,6 +159,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
         case WM_SHOWWINDOW: {
+            // 窗口首次启动时按照StartupLocation修改位置
             if (this->_isFirstShow) {
                 this->_isFirstShow = false;
                 if (this->StartupLocation == WindowStartupLocation::CenterScreen) {
@@ -192,7 +193,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
                 LONG minHeight          = std::lround(this->MinHeight / scaleY);
                 pInfo->ptMinTrackSize.y = max(pInfo->ptMinTrackSize.y, minHeight);
             }
-            return DefaultWndProc(refMsg);
+            return 0;
         }
 
         default: {
