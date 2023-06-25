@@ -10,6 +10,7 @@ int WINAPI wWinMain(
     _In_     INT       nCmdShow)
 {
     Window window;
+    window.StartupLocation = Window::CenterScreen;
     window.Show();
 
     window.RegisterRoutedEvent(RoutedEventType::WindowClosing,
