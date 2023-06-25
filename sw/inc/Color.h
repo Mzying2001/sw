@@ -61,7 +61,7 @@ namespace sw
             DimGray              = RGB(105, 105, 105), // 昏灰色
             DodgerBlue           = RGB(30, 144, 255),  // 道奇蓝
             Firebrick            = RGB(178, 34, 34),   // 火砖色
-            FloralWhite          = RGB(255, 250, 240), // 花的白色
+            FloralWhite          = RGB(255, 250, 240), // 花白色
             ForestGreen          = RGB(34, 139, 34),   // 森林绿
             Fuchsia              = RGB(255, 0, 255),   // 紫红色
             Gainsboro            = RGB(220, 220, 220), // 淡灰色
