@@ -1,3 +1,4 @@
+#pragma warning(disable:4819)
 #include "Window.h"
 
 using namespace sw;
