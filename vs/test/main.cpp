@@ -1,5 +1,6 @@
 #pragma warning(disable:4819)
 #include "Window.h"
+#include "MsgBox.h"
 
 using namespace sw;
 
@@ -16,10 +17,10 @@ int WINAPI wWinMain(
     window.RegisterRoutedEvent(RoutedEventType::WindowClosing,
         [](UIElement& element, RoutedEventArgs& args) {
             bool& cancel = *reinterpret_cast<bool*>(args.param);
-            if (MessageBoxW(element.Handle, L"是否关闭？", L"提示", MB_YESNO | MB_ICONQUESTION) == IDNO) {
+            MsgBox::ShowQuestion(&element, L"是否关闭？").OnNo([&]() {
                 cancel = true;
                 element.Text = L"已取消关闭";
-            }
+            });
             args.handled = true;
         }
     );
