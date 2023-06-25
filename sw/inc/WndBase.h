@@ -16,8 +16,6 @@ namespace sw
         static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
     protected:
-        static const PCWSTR WndBaseClassName;
-
         /**
          * @brief 该函数会调用DefWindowProcW
          */

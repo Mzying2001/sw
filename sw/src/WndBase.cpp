@@ -1,6 +1,6 @@
 #include "WndBase.h"
 
-const PCWSTR sw::WndBase::WndBaseClassName = L"sw::WndBase";
+static PCWSTR WINDOW_CLASS_NAME = L"sw::WndBase";
 
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -171,7 +171,7 @@ sw::WndBase::WndBase()
         wc.hCursor       = LoadCursorW(NULL, IDC_ARROW);
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = _WndProc;
-        wc.lpszClassName = WndBaseClassName;
+        wc.lpszClassName = WINDOW_CLASS_NAME;
 
         RegisterClassExW(&wc);
         isClassRegistered = true;
@@ -185,10 +185,10 @@ void sw::WndBase::InitWndBase(DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwSty
         this->_text = lpWindowName;
 
         this->_hwnd = CreateWindowExW(
-            dwExStyle,        // Optional window styles
-            WndBaseClassName, // Window class
-            lpWindowName,     // Window text
-            dwStyle,          // Window style
+            dwExStyle,         // Optional window styles
+            WINDOW_CLASS_NAME, // Window class
+            lpWindowName,      // Window text
+            dwStyle,           // Window style
 
             // Size and position
             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
