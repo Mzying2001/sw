@@ -10,14 +10,14 @@ namespace sw
     {
     public:
         enum WindowState {
-            Normal,    // ÆÕÍ¨´°¿Ú
-            Minimized, // ×îĞ¡»¯´°¿Ú
-            Maximized, // ×î´ó»¯´°¿Ú
+            Normal,    // æ™®é€šçª—å£
+            Minimized, // æœ€å°åŒ–çª—å£
+            Maximized, // æœ€å¤§åŒ–çª—å£
         };
 
         enum WindowStartupLocation {
-            Manual,       // Ê¹ÓÃÏµÍ³Ä¬ÈÏ»òÊÖ¶¯ÉèÖÃ
-            CenterScreen, // ÆÁÄ»ÖĞĞÄ
+            Manual,       // ä½¿ç”¨ç³»ç»Ÿé»˜è®¤æˆ–æ‰‹åŠ¨è®¾ç½®
+            CenterScreen, // å±å¹•ä¸­å¿ƒ
         };
 
     private:
@@ -26,47 +26,47 @@ namespace sw
 
     public:
         /**
-         * @brief ÊÇ·ñÔÚ¹Ø±ÕËùÓĞ´°¿ÚºóÍË³ö³ÌĞò
+         * @brief æ˜¯å¦åœ¨å…³é—­æ‰€æœ‰çª—å£åé€€å‡ºç¨‹åº
          */
         static bool PostQuitWhenAllClosed;
 
         /**
-         * @brief ´°¿Ú×´Ì¬
+         * @brief çª—å£çŠ¶æ€
          */
         const Property<WindowState> State;
 
         /**
-         * @brief ´°¿ÚÊÇ·ñ¿Éµ÷Õû´óĞ¡
+         * @brief çª—å£æ˜¯å¦å¯è°ƒæ•´å¤§å°
          */
         const Property<bool> SizeBox;
 
         /**
-         * @brief ×î´ó»¯°´Å¥ÊÇ·ñ¿ÉÓÃ
+         * @brief æœ€å¤§åŒ–æŒ‰é’®æ˜¯å¦å¯ç”¨
          */
         const Property<bool> MaximizeBox;
 
         /**
-         * @brief ×îĞ¡»¯°´Å¥ÊÇ·ñ¿ÉÓÃ
+         * @brief æœ€å°åŒ–æŒ‰é’®æ˜¯å¦å¯ç”¨
          */
         const Property<bool> MinimizeBox;
 
         /**
-         * @brief ´°¿ÚÊÇ·ñÖÃ¶¥
+         * @brief çª—å£æ˜¯å¦ç½®é¡¶
          */
         const Property<bool> Topmost;
 
         /**
-         * @brief ÊÇ·ñÏÔÊ¾ÎªToolWindow (Õ­±ß¿ò)
+         * @brief æ˜¯å¦æ˜¾ç¤ºä¸ºToolWindow (çª„è¾¹æ¡†)
          */
         const Property<bool> ToolWindow;
 
         /**
-         * @brief ±³¾°ÑÕÉ«
+         * @brief èƒŒæ™¯é¢œè‰²
          */
         const Property<Color> Background;
 
         /**
-         * @brief ´°¿Ú³õ´ÎÆô¶¯µÄÎ»ÖÃ
+         * @brief çª—å£åˆæ¬¡å¯åŠ¨çš„ä½ç½®
          */
         WindowStartupLocation StartupLocation = Manual;
 
@@ -81,37 +81,37 @@ namespace sw
 
     protected:
         /**
-         * @brief ¶ÔWndProcµÄ·â×°
+         * @brief å¯¹WndProcçš„å°è£…
          */
         virtual LRESULT WndProc(const ProcMsg &refMsg);
 
         /**
-         * @brief  ½ÓÊÕµ½WM_CLOSEÊ±µ÷ÓÃ¸Ãº¯Êı
-         * @return ÈôÒÑ´¦Àí¸ÃÏûÏ¢Ôò·µ»Øtrue£¬·ñÔò·µ»ØfalseÒÔµ÷ÓÃDefWindowProcW
+         * @brief  æ¥æ”¶åˆ°WM_CLOSEæ—¶è°ƒç”¨è¯¥å‡½æ•°
+         * @return è‹¥å·²å¤„ç†è¯¥æ¶ˆæ¯åˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›falseä»¥è°ƒç”¨DefWindowProcW
          */
         virtual bool OnClose();
 
         /**
-         * @brief  ½ÓÊÕµ½WM_CREATEÊ±µ÷ÓÃ¸Ãº¯Êı
-         * @return ÈôÒÑ´¦Àí¸ÃÏûÏ¢Ôò·µ»Øtrue£¬·ñÔò·µ»ØfalseÒÔµ÷ÓÃDefWindowProcW
+         * @brief  æ¥æ”¶åˆ°WM_CREATEæ—¶è°ƒç”¨è¯¥å‡½æ•°
+         * @return è‹¥å·²å¤„ç†è¯¥æ¶ˆæ¯åˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›falseä»¥è°ƒç”¨DefWindowProcW
          */
         virtual bool OnCreate();
 
         /**
-         * @brief  ½ÓÊÕµ½WM_DESTROYÊ±µ÷ÓÃ¸Ãº¯Êı
-         * @return ÈôÒÑ´¦Àí¸ÃÏûÏ¢Ôò·µ»Øtrue£¬·ñÔò·µ»ØfalseÒÔµ÷ÓÃDefWindowProcW
+         * @brief  æ¥æ”¶åˆ°WM_DESTROYæ—¶è°ƒç”¨è¯¥å‡½æ•°
+         * @return è‹¥å·²å¤„ç†è¯¥æ¶ˆæ¯åˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›falseä»¥è°ƒç”¨DefWindowProcW
          */
         virtual bool OnDestroy();
 
         /**
-         * @brief  ½ÓÊÕµ½WM_PAINTÊ±µ÷ÓÃ¸Ãº¯Êı
-         * @return ÈôÒÑ´¦Àí¸ÃÏûÏ¢Ôò·µ»Øtrue£¬·ñÔò·µ»ØfalseÒÔµ÷ÓÃDefWindowProcW
+         * @brief  æ¥æ”¶åˆ°WM_PAINTæ—¶è°ƒç”¨è¯¥å‡½æ•°
+         * @return è‹¥å·²å¤„ç†è¯¥æ¶ˆæ¯åˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›falseä»¥è°ƒç”¨DefWindowProcW
          */
         virtual bool OnPaint();
 
     public:
         /**
-         * @brief ÏÔÊ¾´°¿Ú
+         * @brief æ˜¾ç¤ºçª—å£
          */
         void Show();
     };

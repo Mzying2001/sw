@@ -14,13 +14,13 @@ namespace sw
     {
     private:
         /**
-         * @brief ´°¿Ú¹ı³Ìº¯Êı£¬µ÷ÓÃ¶ÔÏóµÄWndProc
+         * @brief çª—å£è¿‡ç¨‹å‡½æ•°ï¼Œè°ƒç”¨å¯¹è±¡çš„WndProc
          */
         static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
     protected:
         /**
-         * @brief ¸Ãº¯Êı»áµ÷ÓÃDefWindowProcW
+         * @brief è¯¥å‡½æ•°ä¼šè°ƒç”¨DefWindowProcW
          */
         static LRESULT DefaultWndProc(const ProcMsg &refMsg);
 
@@ -31,67 +31,67 @@ namespace sw
 
     public:
         /**
-         * @brief ´°¿Ú¾ä±ú
+         * @brief çª—å£å¥æŸ„
          */
         const ReadOnlyProperty<HWND> Handle;
 
         /**
-         * @brief Î»ÖÃºÍ³ß´ç
+         * @brief ä½ç½®å’Œå°ºå¯¸
          */
         const Property<sw::Rect> Rect;
 
         /**
-         * @brief ×ó±ß
+         * @brief å·¦è¾¹
          */
         const Property<double> Left;
 
         /**
-         * @brief ¶¥±ß
+         * @brief é¡¶è¾¹
          */
         const Property<double> Top;
 
         /**
-         * @brief ¿í¶È
+         * @brief å®½åº¦
          */
         const Property<double> Width;
 
         /**
-         * @brief ¸ß¶È
+         * @brief é«˜åº¦
          */
         const Property<double> Height;
 
         /**
-         * @brief ÓÃ»§Çø³ß´ç
+         * @brief ç”¨æˆ·åŒºå°ºå¯¸
          */
         const ReadOnlyProperty<sw::Rect> ClientRect;
 
         /**
-         * @brief ÓÃ»§Çø¿í¶È
+         * @brief ç”¨æˆ·åŒºå®½åº¦
          */
         const ReadOnlyProperty<double> ClientWidth;
 
         /**
-         * @brief ÓÃ»§Çø¸ß¶È
+         * @brief ç”¨æˆ·åŒºé«˜åº¦
          */
         const ReadOnlyProperty<double> ClientHeight;
 
         /**
-         * @brief ´°¿Ú»ò¿Ø¼şÊÇ·ñ¿ÉÓÃ
+         * @brief çª—å£æˆ–æ§ä»¶æ˜¯å¦å¯ç”¨
          */
         const Property<bool> Enabled;
 
         /**
-         * @brief ´°¿Ú»ò¿Ø¼şÊÇ·ñ¿É¼û
+         * @brief çª—å£æˆ–æ§ä»¶æ˜¯å¦å¯è§
          */
         const Property<bool> Visible;
 
         /**
-         * @brief ´°¿Ú±êÌâ»ò¿Ø¼şÎÄ±¾
+         * @brief çª—å£æ ‡é¢˜æˆ–æ§ä»¶æ–‡æœ¬
          */
         const Property<std::wstring> Text;
 
         /**
-         * @brief ¸¸´°¿Ú
+         * @brief çˆ¶çª—å£
          */
         const Property<WndBase *> Parent;
 
@@ -99,71 +99,71 @@ namespace sw
         WndBase();
 
         /**
-         * @brief ³õÊ¼»¯WndBase£¬¸Ãº¯Êı»áµ÷ÓÃCreateWindowExW´´½¨´°¿Ú
+         * @brief åˆå§‹åŒ–WndBaseï¼Œè¯¥å‡½æ•°ä¼šè°ƒç”¨CreateWindowExWåˆ›å»ºçª—å£
          */
         void InitWndBase(DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu);
 
         /**
-         * @brief ¶ÔWndProcµÄ·â×°
+         * @brief å¯¹WndProcçš„å°è£…
          */
         virtual LRESULT WndProc(const ProcMsg &refMsg);
 
         /**
-         * @brief  ½ÓÊÕµ½WM_CREATEÊ±µ÷ÓÃ¸Ãº¯Êı
-         * @return ÈôÒÑ´¦Àí¸ÃÏûÏ¢Ôò·µ»Øtrue£¬·ñÔò·µ»ØfalseÒÔµ÷ÓÃDefWindowProcW
+         * @brief  æ¥æ”¶åˆ°WM_CREATEæ—¶è°ƒç”¨è¯¥å‡½æ•°
+         * @return è‹¥å·²å¤„ç†è¯¥æ¶ˆæ¯åˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›falseä»¥è°ƒç”¨DefWindowProcW
          */
         virtual bool OnCreate();
 
         /**
-         * @brief  ½ÓÊÕµ½WM_CLOSEÊ±µ÷ÓÃ¸Ãº¯Êı
-         * @return ÈôÒÑ´¦Àí¸ÃÏûÏ¢Ôò·µ»Øtrue£¬·ñÔò·µ»ØfalseÒÔµ÷ÓÃDefWindowProcW
+         * @brief  æ¥æ”¶åˆ°WM_CLOSEæ—¶è°ƒç”¨è¯¥å‡½æ•°
+         * @return è‹¥å·²å¤„ç†è¯¥æ¶ˆæ¯åˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›falseä»¥è°ƒç”¨DefWindowProcW
          */
         virtual bool OnClose();
 
         /**
-         * @brief  ½ÓÊÕµ½WM_DESTROYÊ±µ÷ÓÃ¸Ãº¯Êı
-         * @return ÈôÒÑ´¦Àí¸ÃÏûÏ¢Ôò·µ»Øtrue£¬·ñÔò·µ»ØfalseÒÔµ÷ÓÃDefWindowProcW
+         * @brief  æ¥æ”¶åˆ°WM_DESTROYæ—¶è°ƒç”¨è¯¥å‡½æ•°
+         * @return è‹¥å·²å¤„ç†è¯¥æ¶ˆæ¯åˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›falseä»¥è°ƒç”¨DefWindowProcW
          */
         virtual bool OnDestroy();
 
         /**
-         * @brief  ½ÓÊÕµ½WM_PAINTÊ±µ÷ÓÃ¸Ãº¯Êı
-         * @return ÈôÒÑ´¦Àí¸ÃÏûÏ¢Ôò·µ»Øtrue£¬·ñÔò·µ»ØfalseÒÔµ÷ÓÃDefWindowProcW
+         * @brief  æ¥æ”¶åˆ°WM_PAINTæ—¶è°ƒç”¨è¯¥å‡½æ•°
+         * @return è‹¥å·²å¤„ç†è¯¥æ¶ˆæ¯åˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›falseä»¥è°ƒç”¨DefWindowProcW
          */
         virtual bool OnPaint();
 
         /**
-         * @brief  ½ÓÊÕµ½WM_MOVEÊ±µ÷ÓÃ¸Ãº¯Êı
-         * @return ÈôÒÑ´¦Àí¸ÃÏûÏ¢Ôò·µ»Øtrue£¬·ñÔò·µ»ØfalseÒÔµ÷ÓÃDefWindowProcW
+         * @brief  æ¥æ”¶åˆ°WM_MOVEæ—¶è°ƒç”¨è¯¥å‡½æ•°
+         * @return è‹¥å·²å¤„ç†è¯¥æ¶ˆæ¯åˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›falseä»¥è°ƒç”¨DefWindowProcW
          */
         virtual bool OnMove(double newLeft, double newTop);
 
         /**
-         * @brief  ½ÓÊÕµ½WM_SIZEÊ±µ÷ÓÃ¸Ãº¯Êı
-         * @return ÈôÒÑ´¦Àí¸ÃÏûÏ¢Ôò·µ»Øtrue£¬·ñÔò·µ»ØfalseÒÔµ÷ÓÃDefWindowProcW
+         * @brief  æ¥æ”¶åˆ°WM_SIZEæ—¶è°ƒç”¨è¯¥å‡½æ•°
+         * @return è‹¥å·²å¤„ç†è¯¥æ¶ˆæ¯åˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›falseä»¥è°ƒç”¨DefWindowProcW
          */
         virtual bool OnSize(double newClientWidth, double newClientHeight);
 
         /**
-         * @brief         TextÊôĞÔ±»¸³ÖµÊ±µ÷ÓÃ´Ëº¯Êı
-         * @param newText TextµÄĞÂÖµ
-         * @return        ÈôÒªĞŞ¸ÄTextÔò·µ»Øtrue£¬·ñÔò·µ»Øfalse
+         * @brief         Textå±æ€§è¢«èµ‹å€¼æ—¶è°ƒç”¨æ­¤å‡½æ•°
+         * @param newText Textçš„æ–°å€¼
+         * @return        è‹¥è¦ä¿®æ”¹Textåˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›false
          */
         virtual bool OnSetText(std::wstring &newText);
 
     public:
         /**
-         * @brief ¸Ãº¯Êıµ÷ÓÃShowWindow
+         * @brief è¯¥å‡½æ•°è°ƒç”¨ShowWindow
          */
         void Show(int nCmdShow);
 
         /**
-         * @brief ·¢ËÍ¹Ø±ÕÏûÏ¢
+         * @brief å‘é€å…³é—­æ¶ˆæ¯
          */
         void Close();
 
         /**
-         * @brief ¸Ãº¯Êıµ÷ÓÃUpdateWindow
+         * @brief è¯¥å‡½æ•°è°ƒç”¨UpdateWindow
          */
         void Update();
     };

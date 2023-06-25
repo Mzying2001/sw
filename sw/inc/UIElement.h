@@ -19,27 +19,27 @@ namespace sw
         UIElement();
 
         /**
-         * @brief           ×¢²áÂ·ÓÉÊÂ¼ş´¦Àíº¯Êı£¬µ±ÊÂ¼şÒÑ×¢²áÊ±»á¸²¸ÇÒÑ×¢²áµÄº¯Êı
-         * @param eventType Â·ÓÉÊÂ¼şÀàĞÍ
-         * @param event     ´¦Àíº¯Êı£¬µ±ÖµÎªnullptrÊ±¿ÉÈ¡Ïû×¢²á
+         * @brief           æ³¨å†Œè·¯ç”±äº‹ä»¶å¤„ç†å‡½æ•°ï¼Œå½“äº‹ä»¶å·²æ³¨å†Œæ—¶ä¼šè¦†ç›–å·²æ³¨å†Œçš„å‡½æ•°
+         * @param eventType è·¯ç”±äº‹ä»¶ç±»å‹
+         * @param event     å¤„ç†å‡½æ•°ï¼Œå½“å€¼ä¸ºnullptræ—¶å¯å–æ¶ˆæ³¨å†Œ
          */
         void RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &event);
 
         /**
-         * @brief           È¡Ïû¶ÔÓ¦ÀàĞÍÂ·ÓÉÊÂ¼şµÄ×¢²á
-         * @param eventType Â·ÓÉÊÂ¼şÀàĞÍ
+         * @brief           å–æ¶ˆå¯¹åº”ç±»å‹è·¯ç”±äº‹ä»¶çš„æ³¨å†Œ
+         * @param eventType è·¯ç”±äº‹ä»¶ç±»å‹
          */
         void UnregisterRoutedEvent(RoutedEventType eventType);
 
         /**
-         * @brief           ÅĞ¶ÏÂ·ÓÉÊÂ¼şÊÇ·ñÒÑ±»×¢²á
-         * @param eventType Â·ÓÉÊÂ¼şÀàĞÍ
+         * @brief           åˆ¤æ–­è·¯ç”±äº‹ä»¶æ˜¯å¦å·²è¢«æ³¨å†Œ
+         * @param eventType è·¯ç”±äº‹ä»¶ç±»å‹
          */
         bool IsRoutedEventRegistered(RoutedEventType eventType);
 
     protected:
         /**
-         * @brief Òı·¢Â·ÓÉÊÂ¼ş
+         * @brief å¼•å‘è·¯ç”±äº‹ä»¶
          */
         void RaiseRoutedEvent(RoutedEventType eventType, void *param = nullptr);
     };

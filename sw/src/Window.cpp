@@ -1,12 +1,12 @@
 #include "Window.h"
 
 /**
- * @brief ¼ÇÂ¼µ±Ç°´´½¨µÄ´°¿ÚÊı
+ * @brief è®°å½•å½“å‰åˆ›å»ºçš„çª—å£æ•°
  */
 static unsigned int _windowCount = 0;
 
 /**
- * @brief ÊÇ·ñÔÚ¹Ø±ÕËùÓĞ´°¿ÚºóÍË³ö³ÌĞò
+ * @brief æ˜¯å¦åœ¨å…³é—­æ‰€æœ‰çª—å£åé€€å‡ºç¨‹åº
  */
 bool sw::Window::PostQuitWhenAllClosed = true;
 
@@ -178,7 +178,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 
 bool sw::Window::OnClose()
 {
-    // Òı·¢Â·ÓÉÊÂ¼ş£¬cancel±íÊ¾ÊÇ·ñÈ¡Ïû±¾´Î¹Ø±Õ
+    // å¼•å‘è·¯ç”±äº‹ä»¶ï¼Œcancelè¡¨ç¤ºæ˜¯å¦å–æ¶ˆæœ¬æ¬¡å…³é—­
     bool cancel = false;
     RaiseRoutedEvent(RoutedEventType::WindowClosing, &cancel);
     if (!cancel) {
@@ -195,9 +195,9 @@ bool sw::Window::OnCreate()
 
 bool sw::Window::OnDestroy()
 {
-    // Â·ÓÉÊÂ¼ş
+    // è·¯ç”±äº‹ä»¶
     RaiseRoutedEvent(RoutedEventType::WindowClosed);
-    // ËùÓĞ´°¿Ú¶¼¹Ø±ÕÊ±ÈôPostQuitWhenAllClosedÎªtrueÔòÍË³ö³ÌĞò
+    // æ‰€æœ‰çª—å£éƒ½å…³é—­æ—¶è‹¥PostQuitWhenAllClosedä¸ºtrueåˆ™é€€å‡ºç¨‹åº
     if (!--_windowCount && PostQuitWhenAllClosed) {
         App::Quit();
     }

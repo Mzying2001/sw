@@ -1,7 +1,7 @@
 #include "WndBase.h"
 
 /**
- * @brief ´°¿ÚÀàÃû
+ * @brief çª—å£ç±»å
  */
 static PCWSTR WINDOW_CLASS_NAME = L"sw::WndBase";
 

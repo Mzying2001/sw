@@ -10,14 +10,14 @@ namespace sw
         UserEventEnd   = 0x80000000,
 
         /**
-         * @brief ´°¿ÚÕıÔÚ¹Ø±Õ
-         * @param Ö¸ÏòÒ»¸öboolÖµ£¬±íÊ¾ÊÇ·ñÈ¡Ïû±¾´Î¹Ø±Õ
+         * @brief çª—å£æ­£åœ¨å…³é—­
+         * @param æŒ‡å‘ä¸€ä¸ªboolå€¼ï¼Œè¡¨ç¤ºæ˜¯å¦å–æ¶ˆæœ¬æ¬¡å…³é—­
          */
         WindowClosing,
 
         /**
-         * @brief ´°¿ÚÒÑ¹Ø±Õ
-         * @param ÎŞ²ÎÊı
+         * @brief çª—å£å·²å…³é—­
+         * @param æ— å‚æ•°
          */
         WindowClosed,
     };
