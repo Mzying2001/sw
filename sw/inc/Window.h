@@ -1,8 +1,8 @@
 #pragma once
 
-#include "UIElement.h"
-#include "Screen.h"
 #include "Color.h"
+#include "Screen.h"
+#include "UIElement.h"
 
 namespace sw
 {

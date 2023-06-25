@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Windows.h>
 #include "Dpi.h"
+#include <Windows.h>
 
 namespace sw
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Property.h"
 #include "Dpi.h"
+#include "Property.h"
 
 namespace sw
 {
