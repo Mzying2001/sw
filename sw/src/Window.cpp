@@ -1,4 +1,5 @@
 #include "Window.h"
+#include <cmath>
 
 /**
  * @brief 记录当前创建的窗口数
@@ -168,6 +169,30 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
                 }
             }
             return this->UIElement::WndProc(refMsg);
+        }
+
+        case WM_GETMINMAXINFO: {
+            double scaleX     = Dpi::ScaleX;
+            double scaleY     = Dpi::ScaleY;
+            PMINMAXINFO pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
+            // 按照设置限制窗口大小
+            if (this->MaxWidth > 0) {
+                LONG maxWidth           = std::lround(this->MaxWidth / scaleX);
+                pInfo->ptMaxTrackSize.x = min(pInfo->ptMaxTrackSize.x, maxWidth);
+            }
+            if (this->MaxHeight > 0) {
+                LONG maxHeight          = std::lround(this->MaxHeight / scaleY);
+                pInfo->ptMaxTrackSize.y = min(pInfo->ptMaxTrackSize.y, maxHeight);
+            }
+            if (this->MinWidth > 0) {
+                LONG minWidth           = std::lround(this->MinWidth / scaleX);
+                pInfo->ptMinTrackSize.x = max(pInfo->ptMinTrackSize.x, minWidth);
+            }
+            if (this->MinHeight > 0) {
+                LONG minHeight          = std::lround(this->MinHeight / scaleY);
+                pInfo->ptMinTrackSize.y = max(pInfo->ptMinTrackSize.y, minHeight);
+            }
+            return DefaultWndProc(refMsg);
         }
 
         default: {
