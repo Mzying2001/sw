@@ -8,7 +8,7 @@ namespace sw
     class Dip
     {
     public:
-        struct DpiScaleInfo {
+        struct DipScaleInfo {
             double scaleX;
             double scaleY;
         };

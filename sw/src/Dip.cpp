@@ -1,7 +1,7 @@
 #include "Dip.h"
 
-static sw::Dip::DpiScaleInfo _GetCurrentScaleInfo();
-static sw::Dip::DpiScaleInfo _dpiScaleInfo = _GetCurrentScaleInfo();
+static sw::Dip::DipScaleInfo _GetCurrentScaleInfo();
+static sw::Dip::DipScaleInfo _dpiScaleInfo = _GetCurrentScaleInfo();
 
 void sw::Dip::Update()
 {
@@ -20,9 +20,9 @@ const sw::ReadOnlyProperty<double> sw::Dip::ScaleY(
     } //
 );
 
-static sw::Dip::DpiScaleInfo _GetCurrentScaleInfo()
+static sw::Dip::DipScaleInfo _GetCurrentScaleInfo()
 {
-    sw::Dip::DpiScaleInfo info{};
+    sw::Dip::DipScaleInfo info{};
     HWND hwnd   = GetDesktopWindow();
     HDC hdc     = GetDC(hwnd);
     info.scaleX = 96.0 / GetDeviceCaps(hdc, LOGPIXELSX);
