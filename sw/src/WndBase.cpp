@@ -170,7 +170,7 @@ sw::WndBase::WndBase()
           },
           // set
           [&](WndBase *const &value) {
-              HWND hwnd = value == NULL ? NULL : value->_hwnd;
+              HWND hwnd = (value == nullptr) ? _controlInitContainer : value->_hwnd;
               SetParent(this->_hwnd, hwnd);
           })
 {
