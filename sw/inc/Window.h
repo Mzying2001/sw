@@ -101,25 +101,25 @@ namespace sw
 
         /**
          * @brief  接收到WM_CLOSE时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefWindowProcW
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnClose();
 
         /**
          * @brief  接收到WM_CREATE时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefWindowProcW
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnCreate();
 
         /**
          * @brief  接收到WM_DESTROY时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefWindowProcW
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDestroy();
 
         /**
          * @brief  接收到WM_PAINT时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefWindowProcW
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnPaint();
 

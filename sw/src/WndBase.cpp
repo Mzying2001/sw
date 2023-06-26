@@ -30,10 +30,12 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 }
 
 sw::WndBase::WndBase()
-    : _hwnd(NULL),
-      Handle([&]() -> const HWND & { return this->_hwnd; }),
+    : Handle(
+          // get
+          [&]() -> const HWND & {
+              return this->_hwnd;
+          }),
 
-      _rect(),
       Rect(
           // get
           [&]() -> const sw::Rect & {
@@ -139,7 +141,6 @@ sw::WndBase::WndBase()
               ShowWindow(this->_hwnd, value ? SW_SHOW : SW_HIDE);
           }),
 
-      _text(),
       Text(
           // get
           [&]() -> const std::wstring & {

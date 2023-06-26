@@ -19,9 +19,9 @@ namespace sw
         static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
     private:
-        HWND _hwnd;
-        sw::Rect _rect;
-        std::wstring _text;
+        HWND _hwnd         = NULL;
+        sw::Rect _rect     = sw::Rect();
+        std::wstring _text = L"";
 
         /**
          * @brief 当前对象是控件时该函数指针指向控件原本的WndProc
