@@ -18,16 +18,15 @@ namespace sw
          */
         static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-    protected:
-        /**
-         * @brief 该函数会调用DefWindowProcW
-         */
-        static LRESULT DefaultWndProc(const ProcMsg &refMsg);
-
     private:
         HWND _hwnd;
         sw::Rect _rect;
         std::wstring _text;
+
+        /**
+         * @brief 当前对象是控件时该函数指针指向控件原本的WndProc
+         */
+        WNDPROC _controlOldWndProc = NULL;
 
     public:
         /**
@@ -129,43 +128,48 @@ namespace sw
         void SetExtendedStyle(LONG_PTR style, bool value);
 
         /**
+         * @brief 调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc
+         */
+        LRESULT DefaultWndProc(const ProcMsg &refMsg);
+
+        /**
          * @brief 对WndProc的封装
          */
         virtual LRESULT WndProc(const ProcMsg &refMsg);
 
         /**
          * @brief  接收到WM_CREATE时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefWindowProcW
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnCreate();
 
         /**
          * @brief  接收到WM_CLOSE时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefWindowProcW
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnClose();
 
         /**
          * @brief  接收到WM_DESTROY时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefWindowProcW
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDestroy();
 
         /**
          * @brief  接收到WM_PAINT时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefWindowProcW
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnPaint();
 
         /**
          * @brief  接收到WM_MOVE时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefWindowProcW
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMove(double newLeft, double newTop);
 
         /**
          * @brief  接收到WM_SIZE时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefWindowProcW
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(double newClientWidth, double newClientHeight);
 

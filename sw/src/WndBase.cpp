@@ -29,11 +29,6 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     }
 }
 
-LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
-{
-    return DefWindowProcW(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
-}
-
 sw::WndBase::WndBase()
     : _hwnd(NULL),
       Handle([&]() -> const HWND & { return this->_hwnd; }),
@@ -243,7 +238,9 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         this->_rect = rect;
 
         SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-        SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc));
+
+        this->_controlOldWndProc =
+            reinterpret_cast<WNDPROC>(SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
     }
 }
 
@@ -277,23 +274,32 @@ void sw::WndBase::SetExtendedStyle(LONG_PTR style, bool value)
     SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, style);
 }
 
+LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
+{
+    if (this->_controlOldWndProc != NULL) {
+        return this->_controlOldWndProc(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+    } else {
+        return DefWindowProcW(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+    }
+}
+
 LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
         case WM_CREATE: {
-            return this->OnCreate() ? 0 : DefaultWndProc(refMsg);
+            return this->OnCreate() ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_CLOSE: {
-            return this->OnClose() ? 0 : DefaultWndProc(refMsg);
+            return this->OnClose() ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_DESTROY: {
-            return this->OnDestroy() ? 0 : DefaultWndProc(refMsg);
+            return this->OnDestroy() ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_PAINT: {
-            return this->OnPaint() ? 0 : DefaultWndProc(refMsg);
+            return this->OnPaint() ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_WINDOWPOSCHANGED: {
@@ -304,30 +310,30 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             this->_rect.top    = dpiScaleY * pWndPos->y;
             this->_rect.width  = dpiScaleX * pWndPos->cx;
             this->_rect.height = dpiScaleY * pWndPos->cy;
-            return DefaultWndProc(refMsg);
+            return this->DefaultWndProc(refMsg);
         }
 
         case WM_MOVE: {
             int xPos = LOWORD(refMsg.lParam); // horizontal position
             int yPos = HIWORD(refMsg.lParam); // vertical position
-            return this->OnMove(xPos * Dpi::ScaleX, yPos * Dpi::ScaleY) ? 0 : DefaultWndProc(refMsg);
+            return this->OnMove(xPos * Dpi::ScaleX, yPos * Dpi::ScaleY) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_SIZE: {
             int width  = LOWORD(refMsg.lParam); // the new width of the client area
             int height = HIWORD(refMsg.lParam); // the new height of the client area
-            return this->OnSize(width * Dpi::ScaleX, height * Dpi::ScaleY) ? 0 : DefaultWndProc(refMsg);
+            return this->OnSize(width * Dpi::ScaleX, height * Dpi::ScaleY) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_SETTEXT: {
-            LRESULT result = DefaultWndProc(refMsg);
+            LRESULT result = this->DefaultWndProc(refMsg);
             if (result == TRUE)
                 this->_text = reinterpret_cast<PCWSTR>(refMsg.lParam);
             return result;
         }
 
         default: {
-            return DefaultWndProc(refMsg);
+            return this->DefaultWndProc(refMsg);
         }
     }
 }
