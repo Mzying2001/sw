@@ -1,4 +1,5 @@
 #include "WndBase.h"
+#include <cmath>
 
 /**
  * @brief 窗口类名
@@ -47,49 +48,49 @@ sw::WndBase::WndBase()
       Left(
           // get
           [&]() -> const double & {
-              return this->Rect->left;
+              return this->_rect.left;
           },
           // set
           [&](const double &value) {
-              sw::Rect rect = this->Rect;
-              rect.left     = value;
-              this->Rect    = rect;
+              int x = std::lround(value / Dpi::ScaleX);
+              int y = std::lround(this->_rect.top / Dpi::ScaleY);
+              SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
           }),
 
       Top(
           // get
           [&]() -> const double & {
-              return this->Rect->top;
+              return this->_rect.top;
           },
           // set
           [&](const double &value) {
-              sw::Rect rect = this->Rect;
-              rect.top      = value;
-              this->Rect    = rect;
+              int x = std::lround(this->_rect.left / Dpi::ScaleX);
+              int y = std::lround(value / Dpi::ScaleY);
+              SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
           }),
 
       Width(
           // get
           [&]() -> const double & {
-              return this->Rect->width;
+              return this->_rect.width;
           },
           // set
           [&](const double &value) {
-              sw::Rect rect = this->Rect;
-              rect.width    = value;
-              this->Rect    = rect;
+              int cx = std::lround(value / Dpi::ScaleX);
+              int cy = std::lround(this->_rect.height / Dpi::ScaleY);
+              SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
           }),
 
       Height(
           // get
           [&]() -> const double & {
-              return this->Rect->height;
+              return this->_rect.height;
           },
           // set
           [&](const double &value) {
-              sw::Rect rect = this->Rect;
-              rect.height   = value;
-              this->Rect    = rect;
+              int cx = std::lround(this->_rect.width / Dpi::ScaleX);
+              int cy = std::lround(value / Dpi::ScaleY);
+              SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
           }),
 
       ClientRect(
