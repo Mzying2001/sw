@@ -6,6 +6,11 @@
  */
 static PCWSTR WINDOW_CLASS_NAME = L"sw::WndBase";
 
+/**
+ * @brief 控件初始化时所在的窗口
+ */
+static HWND _controlInitContainer = NULL;
+
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     WndBase *pWnd;
@@ -166,30 +171,27 @@ sw::WndBase::WndBase()
               SetParent(this->_hwnd, hwnd);
           })
 {
-    static bool isClassRegistered = false;
+    static WNDCLASSEXW wc = {0};
 
-    if (!isClassRegistered) {
-
-        WNDCLASSEXW wc{};
+    if (wc.cbSize == 0) {
         wc.cbSize        = sizeof(wc);
         wc.hCursor       = LoadCursorW(NULL, IDC_ARROW);
         wc.hInstance     = App::Instance;
-        wc.lpfnWndProc   = _WndProc;
+        wc.lpfnWndProc   = WndBase::_WndProc;
         wc.lpszClassName = WINDOW_CLASS_NAME;
-
-        RegisterClassExW(&wc);
-        isClassRegistered = true;
     }
+
+    RegisterClassExW(&wc);
 }
 
-void sw::WndBase::InitWndBase(DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu)
+void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu)
 {
     if (this->_hwnd == NULL) {
 
         this->_text = lpWindowName;
 
         this->_hwnd = CreateWindowExW(
-            dwExStyle,         // Optional window styles
+            0,                 // Optional window styles
             WINDOW_CLASS_NAME, // Window class
             lpWindowName,      // Window text
             dwStyle,           // Window style
@@ -208,6 +210,40 @@ void sw::WndBase::InitWndBase(DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwSty
         this->_rect = rect;
 
         SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+    }
+}
+
+void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle)
+{
+    if (_controlInitContainer == NULL) {
+        _controlInitContainer = CreateWindowExW(0, WINDOW_CLASS_NAME, L"", WS_POPUP, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+    }
+
+    if (this->_hwnd == NULL) {
+
+        this->_text = lpWindowName;
+
+        this->_hwnd = CreateWindowExW(
+            0,            // Optional window styles
+            lpClassName,  // Window class
+            lpWindowName, // Window text
+            dwStyle,      // Window style
+
+            // Size and position
+            0, 0, 0, 0,
+
+            _controlInitContainer, // Parent window
+            NULL,                  // Menu
+            App::Instance,         // Instance handle
+            this                   // Additional application data
+        );
+
+        RECT rect;
+        GetWindowRect(this->_hwnd, &rect);
+        this->_rect = rect;
+
+        SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+        SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc));
     }
 }
 

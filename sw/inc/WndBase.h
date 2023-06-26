@@ -99,9 +99,14 @@ namespace sw
         WndBase();
 
         /**
-         * @brief 初始化WndBase，该函数会调用CreateWindowExW创建窗口
+         * @brief 初始化为窗口，该函数会调用CreateWindowExW
          */
-        void InitWndBase(DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu);
+        void InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu);
+
+        /**
+         * @brief 初始化为控件，该函数会调用CreateWindowExW
+         */
+        void InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle);
 
         /**
          * @brief 获取窗口样式

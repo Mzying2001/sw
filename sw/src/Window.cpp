@@ -115,8 +115,7 @@ sw::Window::Window()
               InvalidateRect(this->Handle, NULL, TRUE);
           })
 {
-    InitWndBase(
-        NULL,                // Optional window styles
+    InitWindow(
         L"Window",           // Window text
         WS_OVERLAPPEDWINDOW, // Window style
         NULL,                // Parent window
