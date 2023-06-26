@@ -43,8 +43,15 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const sw::Rect &value) {
-              RECT rect = value.GetRECT();
-              MoveWindow(this->_hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, TRUE);
+              /*RECT rect = value.GetRECT();
+              MoveWindow(this->_hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, TRUE);*/
+              double scaleX = Dpi::ScaleX;
+              double scaleY = Dpi::ScaleY;
+              int left      = std::lround(value.left / scaleX);
+              int top       = std::lround(value.top / scaleY);
+              int width     = std::lround(value.width / scaleX);
+              int height    = std::lround(value.height / scaleY);
+              SetWindowPos(this->_hwnd, NULL, left, top, width, height, SWP_NOACTIVATE | SWP_NOZORDER);
           }),
 
       Left(
