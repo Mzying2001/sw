@@ -1,7 +1,7 @@
 #pragma once
 
 #include "App.h"
-#include "Dpi.h"
+#include "Dip.h"
 #include "ProcMsg.h"
 #include "Property.h"
 #include "Rect.h"

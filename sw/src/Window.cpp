@@ -140,8 +140,8 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_GETMINMAXINFO: {
-            double scaleX     = Dpi::ScaleX;
-            double scaleY     = Dpi::ScaleY;
+            double scaleX     = Dip::ScaleX;
+            double scaleY     = Dip::ScaleY;
             PMINMAXINFO pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
             // 按照设置限制窗口大小
             if (this->MaxWidth > 0) {

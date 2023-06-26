@@ -5,7 +5,7 @@
 
 namespace sw
 {
-    class Dpi
+    class Dip
     {
     public:
         struct DpiScaleInfo {
@@ -14,7 +14,7 @@ namespace sw
         };
 
     private:
-        Dpi();
+        Dip();
 
     public:
         static const ReadOnlyProperty<double> ScaleX;

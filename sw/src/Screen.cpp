@@ -3,7 +3,7 @@
 const sw::ReadOnlyProperty<double> sw::Screen::Width(
     []() -> const double & {
         static double width;
-        width = GetSystemMetrics(SM_CXSCREEN) * Dpi::ScaleX;
+        width = GetSystemMetrics(SM_CXSCREEN) * Dip::ScaleX;
         return width;
     } //
 );
@@ -11,7 +11,7 @@ const sw::ReadOnlyProperty<double> sw::Screen::Width(
 const sw::ReadOnlyProperty<double> sw::Screen::Height(
     []() -> const double & {
         static double height;
-        height = GetSystemMetrics(SM_CYSCREEN) * Dpi::ScaleY;
+        height = GetSystemMetrics(SM_CYSCREEN) * Dip::ScaleY;
         return height;
     } //
 );

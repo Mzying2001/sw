@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Dpi.h"
+#include "Dip.h"
 #include <Windows.h>
 
 namespace sw

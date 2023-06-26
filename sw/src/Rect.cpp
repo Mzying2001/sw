@@ -13,8 +13,8 @@ sw::Rect::Rect(double left, double top, double width, double height)
 
 sw::Rect::Rect(const RECT &rect)
 {
-    double scaleX = Dpi::ScaleX;
-    double scaleY = Dpi::ScaleY;
+    double scaleX = Dip::ScaleX;
+    double scaleY = Dip::ScaleY;
     this->left    = scaleX * rect.left;
     this->top     = scaleY * rect.top;
     this->width   = scaleX * (rect.right - rect.left);
@@ -26,8 +26,8 @@ RECT sw::Rect::GetRECT() const
     RECT rect{};
     double scaleX;
     double scaleY;
-    scaleX      = Dpi::ScaleX;
-    scaleY      = Dpi::ScaleY;
+    scaleX      = Dip::ScaleX;
+    scaleY      = Dip::ScaleY;
     rect.left   = std::lround(this->left / scaleX);
     rect.top    = std::lround(this->top / scaleY);
     rect.right  = std::lround((this->left + this->width) / scaleX);
