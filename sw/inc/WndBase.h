@@ -104,6 +104,26 @@ namespace sw
         void InitWndBase(DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu);
 
         /**
+         * @brief 获取窗口样式
+         */
+        bool GetStyle(LONG_PTR style);
+
+        /**
+         * @brief 设置窗口样式
+         */
+        void SetStyle(LONG_PTR style, bool value);
+
+        /**
+         * @brief 获取扩展窗口样式
+         */
+        bool GetExtendedStyle(LONG_PTR style);
+
+        /**
+         * @brief 设置扩展窗口样式
+         */
+        void SetExtendedStyle(LONG_PTR style, bool value);
+
+        /**
          * @brief 对WndProc的封装
          */
         virtual LRESULT WndProc(const ProcMsg &refMsg);

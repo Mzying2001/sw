@@ -211,6 +211,36 @@ void sw::WndBase::InitWndBase(DWORD dwExStyle, LPCWSTR lpWindowName, DWORD dwSty
     }
 }
 
+bool sw::WndBase::GetStyle(LONG_PTR style)
+{
+    return GetWindowLongPtrW(this->_hwnd, GWL_STYLE) & style;
+}
+
+void sw::WndBase::SetStyle(LONG_PTR style, bool value)
+{
+    if (value) {
+        style = GetWindowLongPtrW(this->_hwnd, GWL_STYLE) | style;
+    } else {
+        style = GetWindowLongPtrW(this->_hwnd, GWL_STYLE) & ~style;
+    }
+    SetWindowLongPtrW(this->_hwnd, GWL_STYLE, style);
+}
+
+bool sw::WndBase::GetExtendedStyle(LONG_PTR style)
+{
+    return GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) & style;
+}
+
+void sw::WndBase::SetExtendedStyle(LONG_PTR style, bool value)
+{
+    if (value) {
+        style = GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) | style;
+    } else {
+        style = GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) & ~style;
+    }
+    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, style);
+}
+
 LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {

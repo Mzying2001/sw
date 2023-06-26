@@ -93,12 +93,6 @@ namespace sw
     public:
         Window();
 
-    private:
-        bool GetStyle(LONG_PTR style);
-        void SetStyle(LONG_PTR style, bool value);
-        bool GetExtendedStyle(LONG_PTR style);
-        void SetExtendedStyle(LONG_PTR style, bool value);
-
     protected:
         /**
          * @brief 对WndProc的封装

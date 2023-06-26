@@ -123,38 +123,6 @@ sw::Window::Window()
         NULL);               // Menu
 }
 
-bool sw::Window::GetStyle(LONG_PTR style)
-{
-    return GetWindowLongPtrW(this->Handle, GWL_STYLE) & style;
-}
-
-void sw::Window::SetStyle(LONG_PTR style, bool value)
-{
-    HWND hwnd = this->Handle;
-    if (value) {
-        style = GetWindowLongPtrW(hwnd, GWL_STYLE) | style;
-    } else {
-        style = GetWindowLongPtrW(hwnd, GWL_STYLE) & ~style;
-    }
-    SetWindowLongPtrW(hwnd, GWL_STYLE, style);
-}
-
-bool sw::Window::GetExtendedStyle(LONG_PTR style)
-{
-    return GetWindowLongPtrW(this->Handle, GWL_EXSTYLE) & style;
-}
-
-void sw::Window::SetExtendedStyle(LONG_PTR style, bool value)
-{
-    HWND hwnd = this->Handle;
-    if (value) {
-        style = GetWindowLongPtrW(hwnd, GWL_EXSTYLE) | style;
-    } else {
-        style = GetWindowLongPtrW(hwnd, GWL_EXSTYLE) & ~style;
-    }
-    SetWindowLongPtrW(hwnd, GWL_EXSTYLE, style);
-}
-
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
