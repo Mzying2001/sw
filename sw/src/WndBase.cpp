@@ -284,11 +284,8 @@ void sw::WndBase::SetExtendedStyle(LONG_PTR style, bool value)
 
 LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
 {
-    if (this->_controlOldWndProc != NULL) {
-        return this->_controlOldWndProc(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
-    } else {
-        return DefWindowProcW(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
-    }
+    WNDPROC wndproc = this->IsControl() ? this->_controlOldWndProc : DefWindowProcW;
+    return wndproc(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
 }
 
 LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
@@ -406,4 +403,9 @@ void sw::WndBase::Close()
 void sw::WndBase::Update()
 {
     UpdateWindow(this->_hwnd);
+}
+
+bool sw::WndBase::IsControl()
+{
+    return this->_controlOldWndProc != nullptr;
 }

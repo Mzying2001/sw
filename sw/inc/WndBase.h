@@ -196,5 +196,10 @@ namespace sw
          * @brief 该函数调用UpdateWindow
          */
         void Update();
+
+        /**
+         * @brief 判断当前对象是否是控件
+         */
+        bool IsControl();
     };
 }
