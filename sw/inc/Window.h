@@ -23,6 +23,10 @@ namespace sw
     private:
         bool _isFirstShow = true;
         Color _background = Color::White;
+        double _maxWidth  = -1;
+        double _maxHeight = -1;
+        double _minWidth  = -1;
+        double _minHeight = -1;
 
     public:
         /**
@@ -68,22 +72,22 @@ namespace sw
         /**
          * @brief 最大宽度，当值不大于0时表示不限制
          */
-        double MaxWidth = -1;
+        const Property<double> MaxWidth;
 
         /**
          * @brief 最大高度，当值不大于0时表示不限制
          */
-        double MaxHeight = -1;
+        const Property<double> MaxHeight;
 
         /**
          * @brief 最小宽度，当值不大于0时表示不限制
          */
-        double MinWidth = -1;
+        const Property<double> MinWidth;
 
         /**
          * @brief 最小高度，当值不大于0时表示不限制
          */
-        double MinHeight = -1;
+        const Property<double> MinHeight;
 
         /**
          * @brief 窗口初次启动的位置

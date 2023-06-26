@@ -113,6 +113,50 @@ sw::Window::Window()
           [&](const Color &value) {
               this->_background = value;
               InvalidateRect(this->Handle, NULL, TRUE);
+          }),
+
+      MaxWidth(
+          // get
+          [&]() -> const double & {
+              return this->_maxWidth;
+          },
+          // set
+          [&](const double &value) {
+              this->_maxWidth = value;
+              this->Width     = this->Width;
+          }),
+
+      MaxHeight(
+          // get
+          [&]() -> const double & {
+              return this->_maxHeight;
+          },
+          // set
+          [&](const double &value) {
+              this->_maxHeight = value;
+              this->Height     = this->Height;
+          }),
+
+      MinWidth(
+          // get
+          [&]() -> const double & {
+              return this->_minWidth;
+          },
+          // set
+          [&](const double &value) {
+              this->_minWidth = value;
+              this->Width     = this->Width;
+          }),
+
+      MinHeight(
+          // get
+          [&]() -> const double & {
+              return this->_minHeight;
+          },
+          // set
+          [&](const double &value) {
+              this->_minHeight = value;
+              this->Height     = this->Height;
           })
 {
     InitWindow(
@@ -144,20 +188,20 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             double scaleY     = Dip::ScaleY;
             PMINMAXINFO pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
             // 按照设置限制窗口大小
-            if (this->MaxWidth > 0) {
-                LONG maxWidth           = std::lround(this->MaxWidth / scaleX);
+            if (this->_maxWidth > 0) {
+                LONG maxWidth           = std::lround(this->_maxWidth / scaleX);
                 pInfo->ptMaxTrackSize.x = min(pInfo->ptMaxTrackSize.x, maxWidth);
             }
-            if (this->MaxHeight > 0) {
-                LONG maxHeight          = std::lround(this->MaxHeight / scaleY);
+            if (this->_maxHeight > 0) {
+                LONG maxHeight          = std::lround(this->_maxHeight / scaleY);
                 pInfo->ptMaxTrackSize.y = min(pInfo->ptMaxTrackSize.y, maxHeight);
             }
-            if (this->MinWidth > 0) {
-                LONG minWidth           = std::lround(this->MinWidth / scaleX);
+            if (this->_minWidth > 0) {
+                LONG minWidth           = std::lround(this->_minWidth / scaleX);
                 pInfo->ptMinTrackSize.x = max(pInfo->ptMinTrackSize.x, minWidth);
             }
-            if (this->MinHeight > 0) {
-                LONG minHeight          = std::lround(this->MinHeight / scaleY);
+            if (this->_minHeight > 0) {
+                LONG minHeight          = std::lround(this->_minHeight / scaleY);
                 pInfo->ptMinTrackSize.y = max(pInfo->ptMinTrackSize.y, minHeight);
             }
             return 0;
