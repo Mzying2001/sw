@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Windows.h>
 #include "Property.h"
+#include <Windows.h>
 
 namespace sw
 {

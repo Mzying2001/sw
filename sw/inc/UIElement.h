@@ -1,9 +1,9 @@
 #pragma once
 
+#include "RoutedEvent.h"
+#include "WndBase.h"
 #include <map>
 #include <string>
-#include "WndBase.h"
-#include "RoutedEvent.h"
 
 namespace sw
 {

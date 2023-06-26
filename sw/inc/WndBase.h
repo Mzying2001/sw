@@ -1,12 +1,12 @@
 #pragma once
 
-#include <string>
-#include <Windows.h>
-#include "Property.h"
-#include "ProcMsg.h"
-#include "Rect.h"
 #include "App.h"
 #include "Dpi.h"
+#include "ProcMsg.h"
+#include "Property.h"
+#include "Rect.h"
+#include <Windows.h>
+#include <string>
 
 namespace sw
 {

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "UIElement.h"
-#include "Screen.h"
 #include "Color.h"
+#include "Screen.h"
+#include "UIElement.h"
 
 namespace sw
 {
@@ -64,6 +64,26 @@ namespace sw
          * @brief 背景颜色
          */
         const Property<Color> Background;
+
+        /**
+         * @brief 最大宽度，当值不大于0时表示不限制
+         */
+        double MaxWidth = -1;
+
+        /**
+         * @brief 最大高度，当值不大于0时表示不限制
+         */
+        double MaxHeight = -1;
+
+        /**
+         * @brief 最小宽度，当值不大于0时表示不限制
+         */
+        double MinWidth = -1;
+
+        /**
+         * @brief 最小高度，当值不大于0时表示不限制
+         */
+        double MinHeight = -1;
 
         /**
          * @brief 窗口初次启动的位置
