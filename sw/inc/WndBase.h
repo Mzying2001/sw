@@ -5,6 +5,7 @@
 #include "ProcMsg.h"
 #include "Property.h"
 #include "Rect.h"
+#include "WndMsg.h"
 #include <Windows.h>
 #include <string>
 

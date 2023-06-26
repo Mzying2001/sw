@@ -340,6 +340,17 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return result;
         }
 
+        case WM_COMMAND: {
+            if (refMsg.lParam != NULL) {
+                // 接收到控件消息
+                SendMessageW((HWND)refMsg.lParam, WM_ParentReceivedCommand, refMsg.wParam, refMsg.lParam);
+            } else {
+                // Menu / Accelerator
+                // ...
+            }
+            return 0;
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }

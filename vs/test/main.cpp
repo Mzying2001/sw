@@ -9,7 +9,7 @@ class Button : public WndBase
 public:
     Button()
     {
-        InitControl(L"BUTTON", L"按钮", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON);
+        InitControl(L"BUTTON", L"按钮", WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_PUSHBUTTON);
     }
 
     virtual LRESULT WndProc(const ProcMsg& msg)
@@ -22,7 +22,14 @@ public:
         {
             this->Text = L"LEAVE";
         }
-        return this->DefaultWndProc(msg);
+        else if (msg.uMsg == WM_ParentReceivedCommand)
+        {
+            /*if (HIWORD(msg.wParam) == BN_CLICKED)
+                MsgBox::Show(this, L"按钮被按下");*/
+            if (HIWORD(msg.wParam) == BN_DOUBLECLICKED)
+                MsgBox::Show(this, L"按钮被双击");
+        }
+        return this->WndBase::WndProc(msg);
     }
 };
 

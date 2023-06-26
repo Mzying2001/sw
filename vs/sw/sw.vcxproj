@@ -150,6 +150,7 @@
     <ClInclude Include="..\..\sw\inc\UIElement.h" />
     <ClInclude Include="..\..\sw\inc\Window.h" />
     <ClInclude Include="..\..\sw\inc\WndBase.h" />
+    <ClInclude Include="..\..\sw\inc\WndMsg.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sw\src\App.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="..\..\sw\src\UIElement.cpp" />
     <ClCompile Include="..\..\sw\src\Window.cpp" />
     <ClCompile Include="..\..\sw\src\WndBase.cpp" />
+    <ClCompile Include="..\..\sw\src\WndMsg.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
