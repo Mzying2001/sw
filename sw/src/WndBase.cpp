@@ -312,12 +312,12 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 
         case WM_WINDOWPOSCHANGED: {
             PWINDOWPOS pWndPos = reinterpret_cast<PWINDOWPOS>(refMsg.lParam);
-            double dpiScaleX   = Dip::ScaleX;
-            double dpiScaleY   = Dip::ScaleY;
-            this->_rect.left   = dpiScaleX * pWndPos->x;
-            this->_rect.top    = dpiScaleY * pWndPos->y;
-            this->_rect.width  = dpiScaleX * pWndPos->cx;
-            this->_rect.height = dpiScaleY * pWndPos->cy;
+            double scaleX      = Dip::ScaleX;
+            double scaleY      = Dip::ScaleY;
+            this->_rect.left   = scaleX * pWndPos->x;
+            this->_rect.top    = scaleY * pWndPos->y;
+            this->_rect.width  = scaleX * pWndPos->cx;
+            this->_rect.height = scaleY * pWndPos->cy;
             return this->DefaultWndProc(refMsg);
         }
 
