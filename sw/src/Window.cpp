@@ -215,7 +215,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 
 bool sw::Window::OnClose()
 {
-    // 引发路由事件，cancel表示是否取消本次关闭
+    // 触发路由事件，cancel表示是否取消本次关闭
     bool cancel = false;
     RaiseRoutedEvent(RoutedEventType::WindowClosing, &cancel);
     if (!cancel) {
@@ -232,7 +232,7 @@ bool sw::Window::OnCreate()
 
 bool sw::Window::OnDestroy()
 {
-    // 路由事件
+    // 触发路由事件
     RaiseRoutedEvent(RoutedEventType::WindowClosed);
     // 所有窗口都关闭时若PostQuitWhenAllClosed为true则退出程序
     if (!--_windowCount && PostQuitWhenAllClosed) {
@@ -243,12 +243,13 @@ bool sw::Window::OnDestroy()
 
 bool sw::Window::OnPaint()
 {
-    PAINTSTRUCT ps{};
-    HDC hdc       = BeginPaint(this->Handle, &ps);
+    PAINTSTRUCT ps;
+    HWND hwnd     = this->Handle;
+    HDC hdc       = BeginPaint(hwnd, &ps);
     HBRUSH hBrush = CreateSolidBrush(this->_background);
     FillRect(hdc, &ps.rcPaint, hBrush);
     DeleteObject(hBrush);
-    EndPaint(this->Handle, &ps);
+    EndPaint(hwnd, &ps);
     return true;
 }
 

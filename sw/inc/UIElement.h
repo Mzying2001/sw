@@ -39,7 +39,7 @@ namespace sw
 
     protected:
         /**
-         * @brief 引发路由事件
+         * @brief 触发路由事件
          */
         void RaiseRoutedEvent(RoutedEventType eventType, void *param = nullptr);
     };
