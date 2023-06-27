@@ -53,11 +53,15 @@ bool sw::UIElement::AddChild(UIElement *element)
     if (element == nullptr) {
         return false;
     }
+
     if (std::find(this->_children.begin(), this->_children.end(), element) != this->_children.end()) {
         return false;
     }
 
-    element->WndBase::SetParent(this);
+    if (!element->WndBase::SetParent(this)) {
+        return false;
+    }
+
     this->_children.push_back(element);
     return true;
 }
@@ -75,7 +79,10 @@ bool sw::UIElement::RemoveChild(UIElement *element)
         return false;
     }
 
-    element->WndBase::SetParent(nullptr);
+    if (!element->WndBase::SetParent(nullptr)) {
+        return false;
+    }
+
     this->_children.erase(it);
     return true;
 }
@@ -106,16 +113,15 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType, void *param)
     } while (element != nullptr);
 }
 
-void sw::UIElement::SetParent(WndBase *parent)
+bool sw::UIElement::SetParent(WndBase *parent)
 {
     UIElement *oldParentElement = dynamic_cast<UIElement *>(this->Parent.Get());
     UIElement *newParentElement = dynamic_cast<UIElement *>(parent);
 
     if (oldParentElement == nullptr || newParentElement == nullptr) {
-        this->WndBase::SetParent(parent);
-        return;
+        return this->WndBase::SetParent(parent);
     }
 
-    oldParentElement->RemoveChild(this);
-    newParentElement->AddChild(this);
+    return oldParentElement->RemoveChild(this) &&
+           newParentElement->AddChild(this);
 }

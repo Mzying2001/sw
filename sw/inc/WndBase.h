@@ -182,9 +182,10 @@ namespace sw
         virtual bool OnSetText(std::wstring &newText);
 
         /**
-         * @brief 设置父窗口
+         * @brief  设置父窗口
+         * @return 设置是否成功
          */
-        virtual void SetParent(WndBase *parent);
+        virtual bool SetParent(WndBase *parent);
 
     public:
         /**

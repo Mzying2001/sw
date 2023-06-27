@@ -385,7 +385,7 @@ bool sw::WndBase::OnSetText(std::wstring &newText)
     return true;
 }
 
-void sw::WndBase::SetParent(WndBase *parent)
+bool sw::WndBase::SetParent(WndBase *parent)
 {
     HWND hParent;
 
@@ -395,7 +395,7 @@ void sw::WndBase::SetParent(WndBase *parent)
         hParent = parent->Handle;
     }
 
-    ::SetParent(this->_hwnd, hParent);
+    return ::SetParent(this->_hwnd, hParent) != NULL;
 }
 
 void sw::WndBase::Show(int nCmdShow)

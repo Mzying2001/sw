@@ -88,8 +88,9 @@ namespace sw
         void RaiseRoutedEvent(RoutedEventType eventType, void *param = nullptr);
 
         /**
-         * @brief 设置父窗口
+         * @brief  设置父窗口
+         * @return 设置是否成功
          */
-        virtual void SetParent(WndBase *parent);
+        virtual bool SetParent(WndBase *parent);
     };
 }
