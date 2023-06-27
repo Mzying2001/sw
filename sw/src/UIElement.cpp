@@ -62,6 +62,7 @@ bool sw::UIElement::AddChild(UIElement *element)
         return false;
     }
 
+    element->SetStyle(WS_CHILD, true);
     this->_children.push_back(element);
     return true;
 }
@@ -85,16 +86,6 @@ bool sw::UIElement::RemoveChild(UIElement *element)
 
     this->_children.erase(it);
     return true;
-}
-
-bool sw::UIElement::SetParent(UIElement *parent)
-{
-    return this->SetParent((WndBase *)parent);
-}
-
-bool sw::UIElement::SetParent(nullptr_t)
-{
-    return this->SetParent((WndBase *)nullptr);
 }
 
 sw::UIElement *sw::UIElement::operator[](int index) const

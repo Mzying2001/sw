@@ -72,16 +72,6 @@ namespace sw
         bool RemoveChild(UIElement *element);
 
         /**
-         * @brief 设置父窗口
-         */
-        bool SetParent(UIElement *parent);
-
-        /**
-         * @brief 设置父窗口为null
-         */
-        bool SetParent(nullptr_t);
-
-        /**
          * @brief 通过索引获取子控件
          */
         UIElement *operator[](int index) const;
