@@ -1,6 +1,16 @@
 #include "UIElement.h"
 
 sw::UIElement::UIElement()
+    : Margin(
+          // get
+          [&]() -> const Thickness & {
+              return this->_margin;
+          },
+          // set
+          [&](const Thickness &value) {
+              this->_margin = value;
+              this->NotifyLayoutUpdated();
+          })
 {
 }
 
@@ -22,6 +32,11 @@ void sw::UIElement::UnregisterRoutedEvent(RoutedEventType eventType)
 bool sw::UIElement::IsRoutedEventRegistered(RoutedEventType eventType)
 {
     return this->_eventMap.count(eventType);
+}
+
+void sw::UIElement::NotifyLayoutUpdated()
+{
+    // TODO
 }
 
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType, void *param)

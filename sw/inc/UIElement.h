@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RoutedEvent.h"
+#include "Thickness.h"
 #include "WndBase.h"
 #include <map>
 #include <string>
@@ -10,10 +11,19 @@ namespace sw
     class UIElement : public WndBase
     {
     private:
+        Thickness _margin = Thickness();
         std::map<RoutedEventType, RoutedEvent> _eventMap{};
 
     public:
+        /**
+         * @brief 描述
+         */
         std::wstring Description = L"";
+
+        /**
+         * @brief 边缘空白大小
+         */
+        const Property<Thickness> Margin;
 
     public:
         UIElement();
@@ -36,6 +46,11 @@ namespace sw
          * @param eventType 路由事件类型
          */
         bool IsRoutedEventRegistered(RoutedEventType eventType);
+
+        /**
+         * @brief 通知父窗口布局改变
+         */
+        void NotifyLayoutUpdated();
 
     protected:
         /**
