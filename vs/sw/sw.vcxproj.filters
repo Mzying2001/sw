@@ -51,6 +51,9 @@
     <ClInclude Include="..\..\sw\inc\WndMsg.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw\inc\Thickness.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sw\src\Property.cpp">
@@ -93,6 +96,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw\src\WndMsg.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw\src\Thickness.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
