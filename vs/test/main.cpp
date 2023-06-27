@@ -54,12 +54,14 @@ int WINAPI wWinMain(
         }
     );
 
-    Button btn;
+    /*Button btn;
     btn.Rect = Rect(10, 10, 100, 100);
-    btn.Parent = &window;
+    btn.Parent = &window;*/
 
-    auto hbtn2 = CreateWindowExW(0, L"BUTTON", L"°´Å¥", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        10, 120, 100, 100, window.Handle, NULL, hInstance, NULL);
+    Window window2;
+    window2.Rect = Rect(50, 50, 500, 500);
+    window2.Show();
+    window.AddChild(&window2);
 
     App::MsgLoop();
     return 0;

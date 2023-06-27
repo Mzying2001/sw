@@ -93,7 +93,7 @@ namespace sw
         /**
          * @brief 父窗口
          */
-        const Property<WndBase *> Parent;
+        const ReadOnlyProperty<WndBase *> Parent;
 
     protected:
         WndBase();
@@ -180,6 +180,11 @@ namespace sw
          * @return        若要修改Text则返回true，否则返回false
          */
         virtual bool OnSetText(std::wstring &newText);
+
+        /**
+         * @brief 设置父窗口
+         */
+        virtual void SetParent(WndBase *parent);
 
     public:
         /**

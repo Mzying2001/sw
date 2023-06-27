@@ -167,11 +167,6 @@ sw::WndBase::WndBase()
               HWND hwnd = GetParent(this->_hwnd);
               pWndBase  = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
               return pWndBase;
-          },
-          // set
-          [&](WndBase *const &value) {
-              HWND hwnd = (value == nullptr) ? _controlInitContainer : value->_hwnd;
-              SetParent(this->_hwnd, hwnd);
           })
 {
     static WNDCLASSEXW wc = {0};
@@ -388,6 +383,19 @@ bool sw::WndBase::OnSize(double newClientWidth, double newClientHeight)
 bool sw::WndBase::OnSetText(std::wstring &newText)
 {
     return true;
+}
+
+void sw::WndBase::SetParent(WndBase *parent)
+{
+    HWND hParent;
+
+    if (parent == nullptr) {
+        hParent = this->IsControl() ? _controlInitContainer : NULL;
+    } else {
+        hParent = parent->Handle;
+    }
+
+    ::SetParent(this->_hwnd, hParent);
 }
 
 void sw::WndBase::Show(int nCmdShow)

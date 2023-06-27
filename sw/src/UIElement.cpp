@@ -1,4 +1,5 @@
 #include "UIElement.h"
+#include <algorithm>
 
 sw::UIElement::UIElement()
     : Margin(
@@ -10,6 +11,14 @@ sw::UIElement::UIElement()
           [&](const Thickness &value) {
               this->_margin = value;
               this->NotifyLayoutUpdated();
+          }),
+
+      ChildCount(
+          // get
+          [&]() -> const int & {
+              static int count;
+              count = (int)this->_children.size();
+              return count;
           })
 {
 }
@@ -39,6 +48,48 @@ void sw::UIElement::NotifyLayoutUpdated()
     // TODO
 }
 
+bool sw::UIElement::AddChild(UIElement *element)
+{
+    if (element == nullptr) {
+        return false;
+    }
+    if (std::find(this->_children.begin(), this->_children.end(), element) != this->_children.end()) {
+        return false;
+    }
+
+    element->WndBase::SetParent(this);
+    this->_children.push_back(element);
+    return true;
+}
+
+bool sw::UIElement::RemoveChild(UIElement *element)
+{
+    if (element == nullptr) {
+        return false;
+    }
+
+    std::vector<UIElement *>::iterator it =
+        std::find(this->_children.begin(), this->_children.end(), element);
+
+    if (it == this->_children.end()) {
+        return false;
+    }
+
+    element->WndBase::SetParent(nullptr);
+    this->_children.erase(it);
+    return true;
+}
+
+void sw::UIElement::SetParent(UIElement *parent)
+{
+    this->SetParent((WndBase *)parent);
+}
+
+sw::UIElement *sw::UIElement::operator[](int index) const
+{
+    return this->_children[index];
+}
+
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType, void *param)
 {
     UIElement *element = this;
@@ -53,4 +104,18 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType, void *param)
             element = dynamic_cast<UIElement *>(element->Parent.Get());
         }
     } while (element != nullptr);
+}
+
+void sw::UIElement::SetParent(WndBase *parent)
+{
+    UIElement *oldParentElement = dynamic_cast<UIElement *>(this->Parent.Get());
+    UIElement *newParentElement = dynamic_cast<UIElement *>(parent);
+
+    if (oldParentElement == nullptr || newParentElement == nullptr) {
+        this->WndBase::SetParent(parent);
+        return;
+    }
+
+    oldParentElement->RemoveChild(this);
+    newParentElement->AddChild(this);
 }
