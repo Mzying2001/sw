@@ -57,6 +57,9 @@
     <ClInclude Include="..\..\sw\inc\Size.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw\inc\Alignment.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sw\src\Property.cpp">
@@ -105,6 +108,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw\src\Size.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw\src\Alignment.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

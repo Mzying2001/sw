@@ -3,6 +3,7 @@
 #include "RoutedEvent.h"
 #include "Thickness.h"
 #include "WndBase.h"
+#include <Alignment.h>
 #include <map>
 #include <string>
 #include <vector>
@@ -12,7 +13,9 @@ namespace sw
     class UIElement : public WndBase
     {
     private:
-        Thickness _margin = Thickness();
+        Thickness _margin                        = Thickness();
+        HorizontalAlignment _horizontalAlignment = HorizontalAlignment::Stretch;
+        VerticalAlignment _verticalAlignment     = VerticalAlignment::Stretch;
         std::vector<UIElement *> _children{};
         std::map<RoutedEventType, RoutedEvent> _eventMap{};
 
@@ -26,6 +29,16 @@ namespace sw
          * @brief 边缘空白大小
          */
         const Property<Thickness> Margin;
+
+        /**
+         * @brief 水平对齐方式
+         */
+        const Property<HorizontalAlignment> HorizontalAlignment;
+
+        /**
+         * @brief 垂直对齐方式
+         */
+        const Property<VerticalAlignment> VerticalAlignment;
 
         /**
          * @brief 子控件数量

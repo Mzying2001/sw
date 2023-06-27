@@ -13,6 +13,24 @@ sw::UIElement::UIElement()
               this->NotifyLayoutUpdated();
           }),
 
+      HorizontalAlignment(
+          [&]() -> const sw::HorizontalAlignment & {
+              return this->_horizontalAlignment;
+          },
+          [&](const sw::HorizontalAlignment &value) {
+              this->_horizontalAlignment = value;
+              this->NotifyLayoutUpdated();
+          }),
+
+      VerticalAlignment(
+          [&]() -> const sw::VerticalAlignment & {
+              return this->_verticalAlignment;
+          },
+          [&](const sw::VerticalAlignment &value) {
+              this->_verticalAlignment = value;
+              this->NotifyLayoutUpdated();
+          }),
+
       ChildCount(
           // get
           [&]() -> const int & {
