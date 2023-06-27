@@ -74,7 +74,12 @@ namespace sw
         /**
          * @brief 设置父窗口
          */
-        void SetParent(UIElement *parent);
+        bool SetParent(UIElement *parent);
+
+        /**
+         * @brief 设置父窗口为null
+         */
+        bool SetParent(nullptr_t);
 
         /**
          * @brief 通过索引获取子控件

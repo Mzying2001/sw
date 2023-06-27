@@ -87,9 +87,14 @@ bool sw::UIElement::RemoveChild(UIElement *element)
     return true;
 }
 
-void sw::UIElement::SetParent(UIElement *parent)
+bool sw::UIElement::SetParent(UIElement *parent)
 {
-    this->SetParent((WndBase *)parent);
+    return this->SetParent((WndBase *)parent);
+}
+
+bool sw::UIElement::SetParent(nullptr_t)
+{
+    return this->SetParent((WndBase *)nullptr);
 }
 
 sw::UIElement *sw::UIElement::operator[](int index) const
@@ -118,10 +123,19 @@ bool sw::UIElement::SetParent(WndBase *parent)
     UIElement *oldParentElement = dynamic_cast<UIElement *>(this->Parent.Get());
     UIElement *newParentElement = dynamic_cast<UIElement *>(parent);
 
-    if (oldParentElement == nullptr || newParentElement == nullptr) {
-        return this->WndBase::SetParent(parent);
+    if (newParentElement == nullptr) {
+        if (oldParentElement == nullptr) {
+            return this->WndBase::SetParent(parent);
+        } else {
+            return oldParentElement->RemoveChild(this) &&
+                   this->WndBase::SetParent(parent);
+        }
+    } else {
+        if (oldParentElement == nullptr) {
+            return newParentElement->AddChild(this);
+        } else {
+            return oldParentElement->RemoveChild(this) &&
+                   newParentElement->AddChild(this);
+        }
     }
-
-    return oldParentElement->RemoveChild(this) &&
-           newParentElement->AddChild(this);
 }
