@@ -150,6 +150,11 @@ namespace sw
         UIElement &GetRootElement();
 
         /**
+         * @brief 判断当前对象是否为顶级窗口
+         */
+        bool IsRootElement();
+
+        /**
          * @brief  设置父窗口
          * @return 设置是否成功
          */

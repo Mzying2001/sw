@@ -238,6 +238,11 @@ sw::UIElement &sw::UIElement::GetRootElement()
     return *root;
 }
 
+bool sw::UIElement::IsRootElement()
+{
+    return dynamic_cast<UIElement *>(this->Parent.Get()) == nullptr;
+}
+
 bool sw::UIElement::SetParent(WndBase *parent)
 {
     UIElement *oldParentElement = dynamic_cast<UIElement *>(this->Parent.Get());
