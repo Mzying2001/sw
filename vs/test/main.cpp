@@ -4,7 +4,7 @@
 
 using namespace sw;
 
-class Button : public WndBase
+class Button : public UIElement
 {
 public:
     Button()
@@ -29,7 +29,7 @@ public:
             if (HIWORD(msg.wParam) == BN_DOUBLECLICKED)
                 MsgBox::Show(this, L"°´Å¥±»Ë«»÷");
         }
-        return this->WndBase::WndProc(msg);
+        return this->UIElement::WndProc(msg);
     }
 };
 
@@ -54,14 +54,17 @@ int WINAPI wWinMain(
         }
     );
 
-    /*Button btn;
+    Button btn;
+    btn.Margin = 10;
     btn.Rect = Rect(10, 10, 100, 100);
-    btn.Parent = &window;*/
+    window.AddChild(&btn);
 
-    Window window2;
+    btn.Arrange(window.ClientRect);
+
+    /*Window window2;
     window2.Rect = Rect(50, 50, 500, 500);
     window.AddChild(&window2);
-    window2.Show();
+    window2.Show();*/
 
     App::MsgLoop();
     return 0;

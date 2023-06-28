@@ -137,11 +137,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\sw\inc\AbsoluteLayout.h" />
     <ClInclude Include="..\..\sw\inc\Alignment.h" />
     <ClInclude Include="..\..\sw\inc\App.h" />
     <ClInclude Include="..\..\sw\inc\Color.h" />
     <ClInclude Include="..\..\sw\inc\Dip.h" />
     <ClInclude Include="..\..\sw\inc\ILayout.h" />
+    <ClInclude Include="..\..\sw\inc\LayoutHost.h" />
     <ClInclude Include="..\..\sw\inc\MsgBox.h" />
     <ClInclude Include="..\..\sw\inc\Point.h" />
     <ClInclude Include="..\..\sw\inc\ProcMsg.h" />
@@ -157,11 +159,13 @@
     <ClInclude Include="..\..\sw\inc\WndMsg.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\sw\src\AbsoluteLayout.cpp" />
     <ClCompile Include="..\..\sw\src\Alignment.cpp" />
     <ClCompile Include="..\..\sw\src\App.cpp" />
     <ClCompile Include="..\..\sw\src\Color.cpp" />
     <ClCompile Include="..\..\sw\src\Dip.cpp" />
     <ClCompile Include="..\..\sw\src\ILayout.cpp" />
+    <ClCompile Include="..\..\sw\src\LayoutHost.cpp" />
     <ClCompile Include="..\..\sw\src\MsgBox.cpp" />
     <ClCompile Include="..\..\sw\src\Point.cpp" />
     <ClCompile Include="..\..\sw\src\ProcMsg.cpp" />

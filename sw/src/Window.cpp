@@ -157,13 +157,27 @@ sw::Window::Window()
           [&](const double &value) {
               this->_minHeight = value;
               this->Height     = this->Height;
+          }),
+
+      Layout(
+          // get
+          [&]() -> LayoutHost *const & {
+              return this->_layout;
+          },
+          // set
+          [&](LayoutHost *const &value) {
+              if (value != nullptr)
+                  value->Associate(this);
+              this->_layout = value;
           })
 {
-    InitWindow(
+    this->InitWindow(
         L"Window",           // Window text
         WS_OVERLAPPEDWINDOW, // Window style
         NULL,                // Parent window
         NULL);               // Menu
+
+    this->_defaultLayout.Associate(this);
 }
 
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
@@ -251,6 +265,28 @@ bool sw::Window::OnPaint()
     DeleteObject(hBrush);
     EndPaint(hwnd, &ps);
     return true;
+}
+
+void sw::Window::Measure(const Size &availableSize)
+{
+    GetLayoutHost().Measure(availableSize);
+}
+
+void sw::Window::Arrange(const sw::Rect &finalPosition)
+{
+    if (this->Parent.Get() != nullptr)
+        this->UIElement::Arrange(finalPosition);
+    GetLayoutHost().Arrange(finalPosition);
+}
+
+sw::LayoutHost &sw::Window::GetLayoutHost()
+{
+    return this->_layout == nullptr ? this->_defaultLayout : *this->_layout;
+}
+
+void sw::Window::ApplyLayout()
+{
+    // TODO
 }
 
 void sw::Window::Show()
