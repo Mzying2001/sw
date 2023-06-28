@@ -269,14 +269,21 @@ bool sw::Window::OnPaint()
 
 void sw::Window::Measure(const Size &availableSize)
 {
-    GetLayoutHost().Measure(availableSize);
+    Size size           = availableSize;
+    sw::Rect windowRect = this->Rect;
+    sw::Rect clientRect = this->ClientRect;
+
+    // 考虑窗口边框
+    size.width -= windowRect.width - clientRect.width;
+    size.height -= windowRect.height - clientRect.height;
+
+    GetLayoutHost().Measure(size);
 }
 
 void sw::Window::Arrange(const sw::Rect &finalPosition)
 {
-    if (this->Parent.Get() != nullptr)
-        this->UIElement::Arrange(finalPosition);
-    GetLayoutHost().Arrange(finalPosition);
+    this->UIElement::Arrange(finalPosition);
+    GetLayoutHost().Arrange(this->ClientRect);
 }
 
 sw::LayoutHost &sw::Window::GetLayoutHost()
