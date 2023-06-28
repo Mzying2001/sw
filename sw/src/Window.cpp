@@ -219,7 +219,7 @@ bool sw::Window::OnClose()
     bool cancel = false;
     RaiseRoutedEvent(RoutedEventType::WindowClosing, &cancel);
     if (!cancel) {
-        DestroyWindow(this->Handle);
+        this->UIElement::OnClose();
     }
     return true;
 }

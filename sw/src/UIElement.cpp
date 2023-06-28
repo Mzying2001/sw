@@ -65,7 +65,8 @@ bool sw::UIElement::IsRoutedEventRegistered(RoutedEventType eventType)
 void sw::UIElement::NotifyLayoutUpdated()
 {
     if (!this->_arranging) {
-        // TODO
+        UIElement &root = this->GetRootElement();
+        SendMessageW(root.Handle, WM_LayoutUpdated, NULL, NULL);
     }
 }
 
@@ -85,6 +86,7 @@ bool sw::UIElement::AddChild(UIElement *element)
 
     element->SetStyle(WS_CHILD, true);
     this->_children.push_back(element);
+    this->NotifyLayoutUpdated();
     return true;
 }
 
@@ -106,6 +108,7 @@ bool sw::UIElement::RemoveChild(UIElement *element)
     }
 
     this->_children.erase(it);
+    this->NotifyLayoutUpdated();
     return true;
 }
 
@@ -194,6 +197,18 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     rect.height      = max(rect.height, 0);
     this->Rect       = rect;
     this->_arranging = false;
+}
+
+bool sw::UIElement::OnClose()
+{
+    this->SetParent(nullptr);
+    return this->WndBase::OnClose();
+}
+
+bool sw::UIElement::OnSize(double newClientWidth, double newClientHeight)
+{
+    this->NotifyLayoutUpdated();
+    return true;
 }
 
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType, void *param)

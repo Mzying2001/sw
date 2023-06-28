@@ -4,6 +4,7 @@
 #include "RoutedEvent.h"
 #include "Thickness.h"
 #include "WndBase.h"
+#include "WndMsg.h"
 #include <Alignment.h>
 #include <map>
 #include <string>
@@ -124,6 +125,18 @@ namespace sw
          * @param finalSize 最终控件所安排的位置
          */
         virtual void Arrange(const sw::Rect &finalPosition);
+
+        /**
+         * @brief  接收到WM_CLOSE时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnClose();
+
+        /**
+         * @brief  接收到WM_SIZE时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnSize(double newClientWidth, double newClientHeight);
 
     protected:
         /**
