@@ -132,6 +132,11 @@ namespace sw
         void RaiseRoutedEvent(RoutedEventType eventType, void *param = nullptr);
 
         /**
+         * @brief 获取顶级窗口
+         */
+        UIElement &GetRootElement();
+
+        /**
          * @brief  设置父窗口
          * @return 设置是否成功
          */

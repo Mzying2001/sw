@@ -212,6 +212,17 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType, void *param)
     } while (element != nullptr);
 }
 
+sw::UIElement &sw::UIElement::GetRootElement()
+{
+    UIElement *root;
+    UIElement *element = this;
+    do {
+        root    = element;
+        element = dynamic_cast<UIElement *>(element->Parent.Get());
+    } while (element != nullptr);
+    return *root;
+}
+
 bool sw::UIElement::SetParent(WndBase *parent)
 {
     UIElement *oldParentElement = dynamic_cast<UIElement *>(this->Parent.Get());
