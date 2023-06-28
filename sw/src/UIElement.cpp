@@ -149,11 +149,6 @@ void sw::UIElement::Measure(const Size &availableSize)
 
 void sw::UIElement::Arrange(const sw::Rect &finalPosition)
 {
-    // AbsoluteLayout特殊处理：用nan表示不需要调整位置
-    if (std::isnan(finalPosition.left)) {
-        return;
-    }
-
     this->_arranging  = true;
     sw::Rect rect     = this->Rect;
     Thickness &margin = this->_margin;
@@ -196,6 +191,12 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
             rect.top = finalPosition.top + finalPosition.height - rect.height - margin.top - margin.bottom;
             break;
         }
+    }
+
+    // AbsoluteLayout特殊处理：用nan表示不需要调整位置
+    if (std::isnan(finalPosition.left) || std::isnan(finalPosition.top)) {
+        rect.left = this->Left;
+        rect.top  = this->Top;
     }
 
     rect.width       = max(rect.width, 0);
