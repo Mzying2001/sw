@@ -1,11 +1,11 @@
 #pragma once
 
+#include "Alignment.h"
 #include "ILayout.h"
 #include "RoutedEvent.h"
 #include "Thickness.h"
 #include "WndBase.h"
 #include "WndMsg.h"
-#include <Alignment.h>
 #include <map>
 #include <string>
 #include <vector>
