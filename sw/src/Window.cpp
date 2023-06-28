@@ -221,6 +221,20 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             return 0;
         }
 
+        case WM_LayoutUpdated: {
+            sw::Rect rect    = this->Rect;
+            Thickness margin = this->Margin;
+            // 更新布局
+            sw::Rect pos(
+                rect.left - margin.left,
+                rect.top - margin.top,
+                rect.width + margin.left + margin.right,
+                rect.height + margin.top + margin.bottom);
+            this->Measure(Size(pos.width, pos.height));
+            this->Arrange(pos);
+            return 0;
+        }
+
         default: {
             return this->UIElement::WndProc(refMsg);
         }

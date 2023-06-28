@@ -149,6 +149,11 @@ void sw::UIElement::Measure(const Size &availableSize)
 
 void sw::UIElement::Arrange(const sw::Rect &finalPosition)
 {
+    // AbsoluteLayout特殊处理：用nan表示不需要调整位置
+    if (std::isnan(finalPosition.left)) {
+        return;
+    }
+
     this->_arranging  = true;
     sw::Rect rect     = this->Rect;
     Thickness &margin = this->_margin;
