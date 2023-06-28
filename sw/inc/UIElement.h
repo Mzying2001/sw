@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ILayout.h"
 #include "RoutedEvent.h"
 #include "Thickness.h"
 #include "WndBase.h"
@@ -10,9 +11,12 @@
 
 namespace sw
 {
-    class UIElement : public WndBase
+    class UIElement : public WndBase,
+                      public ILayout
     {
     private:
+        bool _arranging                          = false;
+        Size _desireSize                         = Size();
         Thickness _margin                        = Thickness();
         HorizontalAlignment _horizontalAlignment = HorizontalAlignment::Stretch;
         VerticalAlignment _verticalAlignment     = VerticalAlignment::Stretch;
@@ -88,6 +92,33 @@ namespace sw
          * @brief 通过索引获取子控件
          */
         UIElement *operator[](int index) const;
+
+        /**
+         * @brief 获取子控件的数量
+         */
+        virtual int GetChildLayoutCount();
+
+        /**
+         * @brief 获取对应索引处的子控件
+         */
+        virtual ILayout &GetChildLayoutAt(int index);
+
+        /**
+         * @brief 获取控件所需尺寸
+         */
+        virtual Size GetDesireSize();
+
+        /**
+         * @brief               测量控件所需尺寸
+         * @param availableSize 可用的尺寸
+         */
+        virtual void Measure(const Size &availableSize);
+
+        /**
+         * @brief           安排控件位置
+         * @param finalSize 最终控件所安排的位置
+         */
+        virtual void Arrange(const sw::Rect &finalPosition);
 
     protected:
         /**

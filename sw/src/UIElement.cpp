@@ -1,5 +1,6 @@
 #include "UIElement.h"
 #include <algorithm>
+#include <cmath>
 
 sw::UIElement::UIElement()
     : Margin(
@@ -63,7 +64,9 @@ bool sw::UIElement::IsRoutedEventRegistered(RoutedEventType eventType)
 
 void sw::UIElement::NotifyLayoutUpdated()
 {
-    // TODO
+    if (!this->_arranging) {
+        // TODO
+    }
 }
 
 bool sw::UIElement::AddChild(UIElement *element)
@@ -109,6 +112,81 @@ bool sw::UIElement::RemoveChild(UIElement *element)
 sw::UIElement *sw::UIElement::operator[](int index) const
 {
     return this->_children[index];
+}
+
+int sw::UIElement::GetChildLayoutCount()
+{
+    return (int)this->_children.size();
+}
+
+sw::ILayout &sw::UIElement::GetChildLayoutAt(int index)
+{
+    return *this->_children[index];
+}
+
+sw::Size sw::UIElement::GetDesireSize()
+{
+    return this->_desireSize;
+}
+
+void sw::UIElement::Measure(const Size &availableSize)
+{
+    sw::Rect rect            = this->Rect;
+    Thickness &margin        = this->_margin;
+    this->_desireSize.width  = rect.width + margin.left + margin.right;
+    this->_desireSize.height = rect.height + margin.top + margin.bottom;
+}
+
+void sw::UIElement::Arrange(const sw::Rect &finalPosition)
+{
+    this->_arranging  = true;
+    sw::Rect rect     = this->Rect;
+    Thickness &margin = this->_margin;
+
+    switch (this->_horizontalAlignment) {
+        case HorizontalAlignment::Center: {
+            rect.left = finalPosition.left + (finalPosition.width - rect.width - margin.left - margin.right) / 2 + margin.left;
+            break;
+        }
+        case HorizontalAlignment::Stretch: {
+            rect.left  = finalPosition.left + margin.left;
+            rect.width = finalPosition.width - margin.left - margin.right;
+            break;
+        }
+        case HorizontalAlignment::Left: {
+            rect.left = finalPosition.left + margin.left;
+            break;
+        }
+        case HorizontalAlignment::Right: {
+            rect.left = finalPosition.left + finalPosition.width - rect.width - margin.left - margin.right;
+            break;
+        }
+    }
+
+    switch (this->_verticalAlignment) {
+        case VerticalAlignment::Center: {
+            rect.top = finalPosition.top + (finalPosition.height - rect.height - margin.top - margin.bottom) / 2 + margin.top;
+            break;
+        }
+        case VerticalAlignment::Stretch: {
+            rect.top    = finalPosition.top + margin.top;
+            rect.height = finalPosition.height - margin.top - margin.bottom;
+            break;
+        }
+        case VerticalAlignment::Top: {
+            rect.top = finalPosition.top + margin.top;
+            break;
+        }
+        case VerticalAlignment::Bottom: {
+            rect.top = finalPosition.top + finalPosition.height - rect.height - margin.top - margin.bottom;
+            break;
+        }
+    }
+
+    rect.width       = max(rect.width, 0);
+    rect.height      = max(rect.height, 0);
+    this->Rect       = rect;
+    this->_arranging = false;
 }
 
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType, void *param)

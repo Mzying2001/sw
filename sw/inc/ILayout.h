@@ -19,7 +19,7 @@ namespace sw
         /**
          * @brief 获取对应索引处的子控件
          */
-        virtual ILayout &GetChildLayoutAt() = 0;
+        virtual ILayout &GetChildLayoutAt(int index) = 0;
 
         /**
          * @brief 获取控件所需尺寸
@@ -33,9 +33,9 @@ namespace sw
         virtual void Measure(const Size &availableSize) = 0;
 
         /**
-         * @brief           安排控件位置
-         * @param finalSize 最终控件所安排的位置
+         * @brief               安排控件位置
+         * @param finalPosition 最终控件所安排的位置
          */
-        virtual void Arrange(const Rect &finalSize) = 0;
+        virtual void Arrange(const Rect &finalPosition) = 0;
     };
 }
