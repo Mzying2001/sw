@@ -1,6 +1,7 @@
 #pragma warning(disable:4819)
 #include "Window.h"
 #include "MsgBox.h"
+#include "WrapLayout.h"
 
 using namespace sw;
 
@@ -20,14 +21,14 @@ public:
         }
         else if (msg.uMsg == WM_MOUSELEAVE)
         {
-            this->Text = L"LEAVE";
+            this->Text = L"按钮";
         }
         else if (msg.uMsg == WM_ParentReceivedCommand)
         {
-            /*if (HIWORD(msg.wParam) == BN_CLICKED)
-                MsgBox::Show(this, L"按钮被按下");*/
-            if (HIWORD(msg.wParam) == BN_DOUBLECLICKED)
-                MsgBox::Show(this, L"按钮被双击");
+            if (HIWORD(msg.wParam) == BN_CLICKED)
+                MsgBox::Show(this, L"按钮被按下");
+            /*if (HIWORD(msg.wParam) == BN_DOUBLECLICKED)
+                MsgBox::Show(this, L"按钮被双击");*/
         }
         return this->UIElement::WndProc(msg);
     }
@@ -54,12 +55,17 @@ int WINAPI wWinMain(
         }
     );
 
-    Button btn;
-    btn.Margin = 10;
-    btn.Rect = Rect(10, 10, 100, 100);
-    window.AddChild(&btn);
+    WrapLayout wrapLayout;
+    window.Layout = &wrapLayout;
 
-    btn.Arrange(window.ClientRect);
+    Button btns[10];
+    for (int i = 0; i < 10; ++i) {
+        Button& btn = btns[i];
+        btn.Margin = 10;
+        btn.Rect = Rect(10, 10, 100, 100);
+        /*btn.Height = btn.Height + i * 10;*/
+        window.AddChild(&btn);
+    }
 
     /*Window window2;
     window2.Rect = Rect(50, 50, 500, 500);

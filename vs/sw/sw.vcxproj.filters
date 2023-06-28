@@ -69,6 +69,9 @@
     <ClInclude Include="..\..\sw\inc\LayoutHost.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw\inc\WrapLayout.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sw\src\Property.cpp">
@@ -129,6 +132,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw\src\LayoutHost.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw\src\WrapLayout.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
