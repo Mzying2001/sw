@@ -272,10 +272,11 @@ void sw::Window::Measure(const Size &availableSize)
     Size size           = availableSize;
     sw::Rect windowRect = this->Rect;
     sw::Rect clientRect = this->ClientRect;
+    Thickness margin    = this->Margin;
 
     // 考虑窗口边框
-    size.width -= windowRect.width - clientRect.width;
-    size.height -= windowRect.height - clientRect.height;
+    size.width -= (windowRect.width - clientRect.width) + margin.left + margin.top;
+    size.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
 
     GetLayoutHost().Measure(size);
 }
