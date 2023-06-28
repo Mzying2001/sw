@@ -129,12 +129,19 @@ sw::Size sw::UIElement::GetDesireSize()
     return this->_desireSize;
 }
 
+void sw::UIElement::SetDesireSize(const Size &size)
+{
+    this->_desireSize = size;
+}
+
 void sw::UIElement::Measure(const Size &availableSize)
 {
-    sw::Rect rect            = this->Rect;
-    Thickness &margin        = this->_margin;
-    this->_desireSize.width  = rect.width + margin.left + margin.right;
-    this->_desireSize.height = rect.height + margin.top + margin.bottom;
+    sw::Rect rect     = this->Rect;
+    Thickness &margin = this->_margin;
+
+    this->SetDesireSize(Size(
+        rect.width + margin.left + margin.right,
+        rect.height + margin.top + margin.bottom));
 }
 
 void sw::UIElement::Arrange(const sw::Rect &finalPosition)

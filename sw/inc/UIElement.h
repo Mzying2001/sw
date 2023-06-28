@@ -109,6 +109,11 @@ namespace sw
         virtual Size GetDesireSize();
 
         /**
+         * @brief 设置当前控件所需的尺寸
+         */
+        virtual void SetDesireSize(const Size &size);
+
+        /**
          * @brief               测量控件所需尺寸
          * @param availableSize 可用的尺寸
          */
