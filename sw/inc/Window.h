@@ -153,6 +153,11 @@ namespace sw
          */
         LayoutHost &GetLayoutHost();
 
+        /**
+         * @brief 更新布局
+         */
+        void UpdateLayout();
+
     public:
         /**
          * @brief 显示窗口

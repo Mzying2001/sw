@@ -223,14 +223,12 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 
         case WM_DPICHANGED: {
             Dip::Update(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam));
+            this->UpdateLayout();
             return 0;
         }
 
         case WM_UpdateLayout: {
-            // 更新布局
-            sw::Rect clientRect = this->ClientRect;
-            this->GetLayoutHost().Measure(Size(clientRect.width, clientRect.height));
-            this->GetLayoutHost().Arrange(this->ClientRect);
+            this->UpdateLayout();
             return 0;
         }
 
@@ -304,6 +302,13 @@ void sw::Window::Arrange(const sw::Rect &finalPosition)
 sw::LayoutHost &sw::Window::GetLayoutHost()
 {
     return this->_layout == nullptr ? this->_defaultLayout : *this->_layout;
+}
+
+void sw::Window::UpdateLayout()
+{
+    sw::Rect clientRect = this->ClientRect;
+    this->GetLayoutHost().Measure(Size(clientRect.width, clientRect.height));
+    this->GetLayoutHost().Arrange(this->ClientRect);
 }
 
 void sw::Window::Show()
