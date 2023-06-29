@@ -301,11 +301,6 @@ sw::LayoutHost &sw::Window::GetLayoutHost()
     return this->_layout == nullptr ? this->_defaultLayout : *this->_layout;
 }
 
-void sw::Window::ApplyLayout()
-{
-    // TODO
-}
-
 void sw::Window::Show()
 {
     this->WndBase::Show(SW_SHOW);
