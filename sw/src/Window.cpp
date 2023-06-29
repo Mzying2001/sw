@@ -226,7 +226,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             return 0;
         }
 
-        case WM_LayoutUpdated: {
+        case WM_UpdateLayout: {
             // 更新布局
             sw::Rect clientRect = this->ClientRect;
             this->GetLayoutHost().Measure(Size(clientRect.width, clientRect.height));
