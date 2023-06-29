@@ -145,7 +145,10 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const bool &value) {
-              ShowWindow(this->_hwnd, value ? SW_SHOW : SW_HIDE);
+              if (value != this->Visible) {
+                  ShowWindow(this->_hwnd, value ? SW_SHOW : SW_HIDE);
+                  this->VisibleChanged(value);
+              }
           }),
 
       Text(
@@ -383,6 +386,10 @@ bool sw::WndBase::OnSize(double newClientWidth, double newClientHeight)
 bool sw::WndBase::OnSetText(std::wstring &newText)
 {
     return true;
+}
+
+void sw::WndBase::VisibleChanged(bool newVisible)
+{
 }
 
 bool sw::WndBase::SetParent(WndBase *parent)

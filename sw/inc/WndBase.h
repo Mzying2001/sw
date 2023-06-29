@@ -182,6 +182,11 @@ namespace sw
         virtual bool OnSetText(std::wstring &newText);
 
         /**
+         * @brief Visible属性改变时调用此函数
+         */
+        virtual void VisibleChanged(bool newVisible);
+
+        /**
          * @brief  设置父窗口
          * @return 设置是否成功
          */
