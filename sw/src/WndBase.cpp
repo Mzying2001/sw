@@ -413,6 +413,11 @@ void sw::WndBase::Update()
     UpdateWindow(this->_hwnd);
 }
 
+void sw::WndBase::Redraw()
+{
+    InvalidateRect(this->_hwnd, NULL, TRUE);
+}
+
 bool sw::WndBase::IsControl()
 {
     return this->_controlOldWndProc != nullptr;

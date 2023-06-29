@@ -204,6 +204,11 @@ namespace sw
         void Update();
 
         /**
+         * @brief 重画
+         */
+        void Redraw();
+
+        /**
          * @brief 判断当前对象是否是控件
          */
         bool IsControl();
