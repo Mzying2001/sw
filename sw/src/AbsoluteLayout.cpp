@@ -1,6 +1,6 @@
 #include "AbsoluteLayout.h"
 
-void sw::AbsoluteLayout::Measure(const Size &availableSize)
+void sw::AbsoluteLayout::MeasureOverride(Size &availableSize)
 {
     int count = this->GetChildLayoutCount();
     for (int i = 0; i < count; ++i) {
@@ -9,7 +9,7 @@ void sw::AbsoluteLayout::Measure(const Size &availableSize)
     }
 }
 
-void sw::AbsoluteLayout::Arrange(const Rect &finalPosition)
+void sw::AbsoluteLayout::ArrangeOverride(Size &finalSize)
 {
     int count = this->GetChildLayoutCount();
     for (int i = 0; i < count; ++i) {

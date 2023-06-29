@@ -1,7 +1,7 @@
 #include "WrapLayout.h"
 #include <cmath>
 
-void sw::WrapLayout::Measure(const Size &availableSize)
+void sw::WrapLayout::MeasureOverride(Size &availableSize)
 {
     Size size;
     int count = this->GetChildLayoutCount();
@@ -41,13 +41,11 @@ void sw::WrapLayout::Measure(const Size &availableSize)
     this->SetDesireSize(size);
 }
 
-void sw::WrapLayout::Arrange(const Rect &finalPosition)
+void sw::WrapLayout::ArrangeOverride(Size &finalSize)
 {
     double top       = 0;
     double rowWidth  = 0;
     double rowHeight = 0;
-
-    Size finalSize(finalPosition.width, finalPosition.height);
 
     int count = this->GetChildLayoutCount();
     for (int i = 0; i < count; ++i) {

@@ -8,15 +8,13 @@ namespace sw
     {
     public:
         /**
-         * @brief               测量控件所需尺寸
-         * @param availableSize 可用的尺寸
+         * @brief 计算所需尺寸
          */
-        virtual void Measure(const Size &availableSize);
+        virtual void MeasureOverride(Size &availableSize);
 
         /**
-         * @brief               安排控件位置
-         * @param finalPosition 最终控件所安排的位置
+         * @brief 安排控件
          */
-        virtual void Arrange(const Rect &finalPosition);
+        virtual void ArrangeOverride(Size &finalSize);
     };
 }

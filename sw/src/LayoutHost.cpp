@@ -24,3 +24,15 @@ void sw::LayoutHost::SetDesireSize(const Size &size)
 {
     this->_associatedObj->SetDesireSize(size);
 }
+
+void sw::LayoutHost::Measure(const Size &availableSize)
+{
+    Size size = availableSize;
+    this->MeasureOverride(size);
+}
+
+void sw::LayoutHost::Arrange(const Rect &finalPosition)
+{
+    Size size(finalPosition.width, finalPosition.height);
+    this->ArrangeOverride(size);
+}
