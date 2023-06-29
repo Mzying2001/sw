@@ -306,12 +306,25 @@ sw::LayoutHost &sw::Window::GetLayoutHost()
 
 void sw::Window::UpdateLayout()
 {
-    sw::Rect clientRect = this->ClientRect;
-    this->GetLayoutHost().Measure(Size(clientRect.width, clientRect.height));
-    this->GetLayoutHost().Arrange(this->ClientRect);
+    if (!this->_layoutDisabled) {
+        sw::Rect clientRect = this->ClientRect;
+        this->GetLayoutHost().Measure(Size(clientRect.width, clientRect.height));
+        this->GetLayoutHost().Arrange(this->ClientRect);
+    }
 }
 
 void sw::Window::Show()
 {
     this->WndBase::Show(SW_SHOW);
+}
+
+void sw::Window::DisableLayout()
+{
+    this->_layoutDisabled = true;
+}
+
+void sw::Window::EnableLayout()
+{
+    this->_layoutDisabled = false;
+    this->UpdateLayout();
 }

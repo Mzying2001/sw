@@ -58,27 +58,16 @@ int WINAPI wWinMain(
     WrapLayout wrapLayout;
     window.Layout = &wrapLayout;
 
-    Button btns[10];
-    for (int i = 0; i < 5; ++i) {
+    static Button btns[100];
+    window.DisableLayout();
+    for (int i = 0; i < 50; ++i) {
         Button& btn = btns[i];
         btn.Margin = 10;
         btn.Rect = Rect(10, 10, 100, 100);
         /*btn.Height = btn.Height + i * 10;*/
         window.AddChild(&btn);
     }
-
-    Window window2;
-    window2.Rect = Rect(50, 50, 500, 500);
-    window.AddChild(&window2);
-    window2.Show();
-
-    for (int i = 5; i < 10; ++i) {
-        Button& btn = btns[i];
-        btn.Margin = 10;
-        btn.Rect = Rect(10, 10, 100, 100);
-        /*btn.Height = btn.Height + i * 10;*/
-        window.AddChild(&btn);
-    }
+    window.EnableLayout();
 
     App::MsgLoop();
     return 0;

@@ -29,6 +29,7 @@ namespace sw
         double _maxHeight             = -1;
         double _minWidth              = -1;
         double _minHeight             = -1;
+        bool _layoutDisabled          = false;
         LayoutHost *_layout           = nullptr;
         AbsoluteLayout _defaultLayout = AbsoluteLayout();
 
@@ -163,5 +164,15 @@ namespace sw
          * @brief 显示窗口
          */
         void Show();
+
+        /**
+         * @brief 禁用布局
+         */
+        void DisableLayout();
+
+        /**
+         * @brief 启用布局
+         */
+        void EnableLayout();
     };
 }
