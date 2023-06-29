@@ -24,7 +24,7 @@ void sw::Layer::Measure(const Size &availableSize)
     Thickness margin    = this->Margin;
 
     // 考虑边框
-    size.width -= (windowRect.width - clientRect.width) + margin.left + margin.top;
+    size.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
     size.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
 
     this->UIElement::Measure(availableSize);
