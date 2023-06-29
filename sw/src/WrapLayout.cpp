@@ -17,23 +17,24 @@ void sw::WrapLayout::Measure(const Size &availableSize)
         }
     } else {
         double top       = 0;
-        double right     = 0;
+        double rowWidth  = 0;
         double rowHeight = 0;
+
         for (int i = 0; i < count; ++i) {
             ILayout &item = this->GetChildLayoutAt(i);
-            item.Measure(Size(availableSize.width, INFINITY));
+            item.Measure(Size(availableSize.width - rowWidth, INFINITY));
 
             Size itemDesireSize = item.GetDesireSize();
-            if (right + itemDesireSize.width <= availableSize.width) {
-                right     = right + itemDesireSize.width;
+            if (rowWidth + itemDesireSize.width <= availableSize.width) {
+                rowWidth += itemDesireSize.width;
                 rowHeight = max(rowHeight, itemDesireSize.height);
             } else {
                 top += rowHeight;
-                right     = itemDesireSize.width;
+                rowWidth  = itemDesireSize.width;
                 rowHeight = itemDesireSize.height;
             }
+            size.width = max(size.width, rowWidth);
         }
-        size.width  = top == 0 ? availableSize.width : right;
         size.height = top + rowHeight;
     }
 
@@ -42,21 +43,25 @@ void sw::WrapLayout::Measure(const Size &availableSize)
 
 void sw::WrapLayout::Arrange(const Rect &finalPosition)
 {
-    int count        = this->GetChildLayoutCount();
     double top       = 0;
-    double right     = 0;
+    double rowWidth  = 0;
     double rowHeight = 0;
+
+    Size finalSize(finalPosition.width, finalPosition.height);
+
+    int count = this->GetChildLayoutCount();
     for (int i = 0; i < count; ++i) {
-        ILayout &item       = this->GetChildLayoutAt(i);
+        ILayout &item = this->GetChildLayoutAt(i);
+
         Size itemDesireSize = item.GetDesireSize();
-        if (right + itemDesireSize.width <= finalPosition.width) {
-            item.Arrange(Rect(right, top, itemDesireSize.width, itemDesireSize.height));
-            right     = right + itemDesireSize.width;
+        if (rowWidth + itemDesireSize.width <= finalSize.width) {
+            item.Arrange(Rect(rowWidth, top, itemDesireSize.width, itemDesireSize.height));
+            rowWidth += itemDesireSize.width;
             rowHeight = max(rowHeight, itemDesireSize.height);
         } else {
             top += rowHeight;
             item.Arrange(Rect(0, top, itemDesireSize.width, itemDesireSize.height));
-            right     = itemDesireSize.width;
+            rowWidth  = itemDesireSize.width;
             rowHeight = itemDesireSize.height;
         }
     }
