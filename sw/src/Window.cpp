@@ -112,7 +112,7 @@ sw::Window::Window()
           // set
           [&](const Color &value) {
               this->_background = value;
-              InvalidateRect(this->Handle, NULL, TRUE);
+              this->Redraw();
           }),
 
       MaxWidth(
