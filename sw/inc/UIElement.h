@@ -18,9 +18,10 @@ namespace sw
     private:
         bool _arranging                          = false;
         Size _desireSize                         = Size();
+        Size _origionalSize                      = Size();
         Thickness _margin                        = Thickness();
-        HorizontalAlignment _horizontalAlignment = HorizontalAlignment::Stretch;
-        VerticalAlignment _verticalAlignment     = VerticalAlignment::Stretch;
+        HorizontalAlignment _horizontalAlignment = HorizontalAlignment::Center;
+        VerticalAlignment _verticalAlignment     = VerticalAlignment::Center;
         std::vector<UIElement *> _children{};
         std::map<RoutedEventType, RoutedEvent> _eventMap{};
 

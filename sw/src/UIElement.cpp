@@ -19,8 +19,17 @@ sw::UIElement::UIElement()
               return this->_horizontalAlignment;
           },
           [&](const sw::HorizontalAlignment &value) {
-              this->_horizontalAlignment = value;
-              this->NotifyLayoutUpdated();
+              if (value == this->_horizontalAlignment) {
+                  return;
+              }
+              if (value == sw::HorizontalAlignment::Stretch) {
+                  this->_horizontalAlignment = value;
+                  this->_origionalSize.width = this->Width;
+                  this->NotifyLayoutUpdated();
+              } else {
+                  this->_horizontalAlignment = value;
+                  this->Width                = this->_origionalSize.width;
+              }
           }),
 
       VerticalAlignment(
@@ -28,8 +37,17 @@ sw::UIElement::UIElement()
               return this->_verticalAlignment;
           },
           [&](const sw::VerticalAlignment &value) {
-              this->_verticalAlignment = value;
-              this->NotifyLayoutUpdated();
+              if (value == this->_verticalAlignment) {
+                  return;
+              }
+              if (value == sw::VerticalAlignment::Stretch) {
+                  this->_verticalAlignment    = value;
+                  this->_origionalSize.height = this->Height;
+                  this->NotifyLayoutUpdated();
+              } else {
+                  this->_verticalAlignment = value;
+                  this->Height             = this->_origionalSize.height;
+              }
           }),
 
       ChildCount(
@@ -142,6 +160,13 @@ void sw::UIElement::Measure(const Size &availableSize)
     sw::Rect rect     = this->Rect;
     Thickness &margin = this->_margin;
 
+    if (this->_horizontalAlignment == HorizontalAlignment::Stretch) {
+        rect.width = this->_origionalSize.width;
+    }
+    if (this->_verticalAlignment == VerticalAlignment::Stretch) {
+        rect.height = this->_origionalSize.height;
+    }
+
     this->SetDesireSize(Size(
         rect.width + margin.left + margin.right,
         rect.height + margin.top + margin.bottom));
@@ -215,6 +240,12 @@ bool sw::UIElement::OnClose()
 
 bool sw::UIElement::OnSize(double newClientWidth, double newClientHeight)
 {
+    if (this->_horizontalAlignment != sw::HorizontalAlignment::Stretch) {
+        this->_origionalSize.width = this->Width;
+    }
+    if (this->_verticalAlignment != sw::VerticalAlignment::Stretch) {
+        this->_origionalSize.height = this->Height;
+    }
     this->NotifyLayoutUpdated();
     return true;
 }
