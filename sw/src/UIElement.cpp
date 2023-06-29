@@ -203,6 +203,8 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     rect.height      = max(rect.height, 0);
     this->Rect       = rect;
     this->_arranging = false;
+
+    this->Redraw();
 }
 
 bool sw::UIElement::OnClose()
