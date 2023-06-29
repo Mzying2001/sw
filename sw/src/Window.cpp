@@ -292,13 +292,14 @@ void sw::Window::Measure(const Size &availableSize)
     size.width -= (windowRect.width - clientRect.width) + margin.left + margin.top;
     size.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
 
-    GetLayoutHost().Measure(size);
+    this->UIElement::Measure(availableSize);
+    this->GetLayoutHost().Measure(size);
 }
 
 void sw::Window::Arrange(const sw::Rect &finalPosition)
 {
     this->UIElement::Arrange(finalPosition);
-    GetLayoutHost().Arrange(this->ClientRect);
+    this->GetLayoutHost().Arrange(this->ClientRect);
 }
 
 sw::LayoutHost &sw::Window::GetLayoutHost()

@@ -67,10 +67,10 @@ int WINAPI wWinMain(
         window.AddChild(&btn);
     }
 
-    /*Window window2;
+    Window window2;
     window2.Rect = Rect(50, 50, 500, 500);
     window.AddChild(&window2);
-    window2.Show();*/
+    window2.Show();
 
     App::MsgLoop();
     return 0;
