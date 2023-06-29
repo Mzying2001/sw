@@ -221,6 +221,11 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             return 0;
         }
 
+        case WM_DPICHANGED: {
+            Dip::Update(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam));
+            return 0;
+        }
+
         case WM_LayoutUpdated: {
             // 更新布局
             sw::Rect clientRect = this->ClientRect;

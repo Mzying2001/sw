@@ -1,11 +1,12 @@
 #include "Dip.h"
 
-static sw::Dip::DipScaleInfo _GetCurrentScaleInfo();
-static sw::Dip::DipScaleInfo _dpiScaleInfo = _GetCurrentScaleInfo();
+static sw::Dip::DipScaleInfo _GetScaleInfo();
+static sw::Dip::DipScaleInfo _dpiScaleInfo = _GetScaleInfo();
 
-void sw::Dip::Update()
+void sw::Dip::Update(int dpiX, int dpiY)
 {
-    _dpiScaleInfo = _GetCurrentScaleInfo();
+    _dpiScaleInfo.scaleX = (double)USER_DEFAULT_SCREEN_DPI / dpiX;
+    _dpiScaleInfo.scaleY = (double)USER_DEFAULT_SCREEN_DPI / dpiY;
 }
 
 const sw::ReadOnlyProperty<double> sw::Dip::ScaleX(
@@ -20,13 +21,12 @@ const sw::ReadOnlyProperty<double> sw::Dip::ScaleY(
     } //
 );
 
-static sw::Dip::DipScaleInfo _GetCurrentScaleInfo()
+static sw::Dip::DipScaleInfo _GetScaleInfo()
 {
     sw::Dip::DipScaleInfo info{};
-    HWND hwnd   = GetDesktopWindow();
-    HDC hdc     = GetDC(hwnd);
-    info.scaleX = 96.0 / GetDeviceCaps(hdc, LOGPIXELSX);
-    info.scaleY = 96.0 / GetDeviceCaps(hdc, LOGPIXELSY);
-    ReleaseDC(hwnd, hdc);
+    HDC hdc     = GetDC(NULL);
+    info.scaleX = (double)USER_DEFAULT_SCREEN_DPI / GetDeviceCaps(hdc, LOGPIXELSX);
+    info.scaleY = (double)USER_DEFAULT_SCREEN_DPI / GetDeviceCaps(hdc, LOGPIXELSY);
+    ReleaseDC(NULL, hdc);
     return info;
 }

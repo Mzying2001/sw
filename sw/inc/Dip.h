@@ -19,6 +19,6 @@ namespace sw
     public:
         static const ReadOnlyProperty<double> ScaleX;
         static const ReadOnlyProperty<double> ScaleY;
-        static void Update();
+        static void Update(int dpiX, int dpiY);
     };
 }
