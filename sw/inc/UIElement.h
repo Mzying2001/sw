@@ -179,5 +179,10 @@ namespace sw
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(double newClientWidth, double newClientHeight);
+
+        /**
+         * @brief Visible属性改变时调用此函数
+         */
+        virtual void VisibleChanged(bool newVisible);
     };
 }

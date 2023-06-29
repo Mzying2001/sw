@@ -332,3 +332,10 @@ bool sw::UIElement::OnSize(double newClientWidth, double newClientHeight)
     this->NotifyLayoutUpdated();
     return true;
 }
+
+void sw::UIElement::VisibleChanged(bool newVisible)
+{
+    if (!newVisible && this->_collapseWhenHide) {
+        this->NotifyLayoutUpdated();
+    }
+}

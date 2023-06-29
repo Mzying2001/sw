@@ -83,8 +83,9 @@ int WINAPI wWinMain(
         window.AddChild(btn);
     }
 
-    btns[1].Visible = false;
     window.EnableLayout();
+
+    btns[1].Visible = false;
 
     App::MsgLoop();
     return 0;
