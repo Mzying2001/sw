@@ -85,10 +85,22 @@ namespace sw
         bool AddChild(UIElement *element);
 
         /**
+         * @brief  添加子控件
+         * @return 添加是否成功
+         */
+        bool AddChild(UIElement &element);
+
+        /**
          * @brief  移除子控件
          * @return 移除是否成功
          */
         bool RemoveChild(UIElement *element);
+
+        /**
+         * @brief  移除子控件
+         * @return 移除是否成功
+         */
+        bool RemoveChild(UIElement &element);
 
         /**
          * @brief 通过索引获取子控件

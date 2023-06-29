@@ -66,13 +66,13 @@ int WINAPI wWinMain(
         btn.Margin = 10;
         btn.Rect = Rect(10, 10, 100, 100);
         /*btn.Height = btn.Height + i * 10;*/
-        window.AddChild(&btn);
+        window.AddChild(btn);
     }
 
     Window window2;
     window2.Rect = Rect(0, 0, 300, 300);
     window2.Margin = 10;
-    window.AddChild(&window2);
+    window.AddChild(window2);
     window2.Show();
 
     for (int i = 5; i < 10; ++i) {
@@ -80,7 +80,7 @@ int WINAPI wWinMain(
         btn.Margin = 10;
         btn.Rect = Rect(10, 10, 100, 100);
         /*btn.Height = btn.Height + i * 10;*/
-        window.AddChild(&btn);
+        window.AddChild(btn);
     }
 
     window.EnableLayout();

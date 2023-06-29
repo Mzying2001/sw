@@ -108,6 +108,11 @@ bool sw::UIElement::AddChild(UIElement *element)
     return true;
 }
 
+bool sw::UIElement::AddChild(UIElement &element)
+{
+    return this->AddChild(&element);
+}
+
 bool sw::UIElement::RemoveChild(UIElement *element)
 {
     if (element == nullptr) {
@@ -128,6 +133,11 @@ bool sw::UIElement::RemoveChild(UIElement *element)
     this->_children.erase(it);
     this->NotifyLayoutUpdated();
     return true;
+}
+
+bool sw::UIElement::RemoveChild(UIElement &element)
+{
+    return this->RemoveChild(&element);
 }
 
 sw::UIElement *sw::UIElement::operator[](int index) const
