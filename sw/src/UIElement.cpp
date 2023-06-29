@@ -253,24 +253,6 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     this->Redraw();
 }
 
-bool sw::UIElement::OnClose()
-{
-    this->SetParent(nullptr);
-    return this->WndBase::OnClose();
-}
-
-bool sw::UIElement::OnSize(double newClientWidth, double newClientHeight)
-{
-    if (this->_horizontalAlignment != sw::HorizontalAlignment::Stretch) {
-        this->_origionalSize.width = this->Width;
-    }
-    if (this->_verticalAlignment != sw::VerticalAlignment::Stretch) {
-        this->_origionalSize.height = this->Height;
-    }
-    this->NotifyLayoutUpdated();
-    return true;
-}
-
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType, void *param)
 {
     UIElement *element = this;
@@ -331,4 +313,22 @@ bool sw::UIElement::SetParent(WndBase *parent)
                    newParentElement->AddChild(this);
         }
     }
+}
+
+bool sw::UIElement::OnClose()
+{
+    this->SetParent(nullptr);
+    return this->WndBase::OnClose();
+}
+
+bool sw::UIElement::OnSize(double newClientWidth, double newClientHeight)
+{
+    if (this->_horizontalAlignment != sw::HorizontalAlignment::Stretch) {
+        this->_origionalSize.width = this->Width;
+    }
+    if (this->_verticalAlignment != sw::VerticalAlignment::Stretch) {
+        this->_origionalSize.height = this->Height;
+    }
+    this->NotifyLayoutUpdated();
+    return true;
 }

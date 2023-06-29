@@ -141,18 +141,6 @@ namespace sw
          */
         virtual void Arrange(const sw::Rect &finalPosition);
 
-        /**
-         * @brief  接收到WM_CLOSE时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnClose();
-
-        /**
-         * @brief  接收到WM_SIZE时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnSize(double newClientWidth, double newClientHeight);
-
     protected:
         /**
          * @brief 触发路由事件
@@ -179,5 +167,17 @@ namespace sw
          * @return 设置是否成功
          */
         virtual bool SetParent(WndBase *parent);
+
+        /**
+         * @brief  接收到WM_CLOSE时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnClose();
+
+        /**
+         * @brief  接收到WM_SIZE时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnSize(double newClientWidth, double newClientHeight);
     };
 }
