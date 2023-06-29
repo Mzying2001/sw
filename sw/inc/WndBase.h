@@ -187,6 +187,12 @@ namespace sw
          */
         virtual bool SetParent(WndBase *parent);
 
+        /**
+         * @brief           父窗口改变时调用此函数
+         * @param newParent 新的父窗口
+         */
+        virtual void ParentChanged(WndBase *newParent);
+
     public:
         /**
          * @brief 该函数调用ShowWindow
