@@ -6,20 +6,19 @@
 
 namespace sw
 {
+    enum class WindowState {
+        Normal,    // 普通窗口
+        Minimized, // 最小化窗口
+        Maximized, // 最大化窗口
+    };
+
+    enum class WindowStartupLocation {
+        Manual,       // 使用系统默认或手动设置
+        CenterScreen, // 屏幕中心
+    };
+
     class Window : public Layer
     {
-    public:
-        enum WindowState {
-            Normal,    // 普通窗口
-            Minimized, // 最小化窗口
-            Maximized, // 最大化窗口
-        };
-
-        enum WindowStartupLocation {
-            Manual,       // 使用系统默认或手动设置
-            CenterScreen, // 屏幕中心
-        };
-
     private:
         bool _isFirstShow = true;
         Color _background = Color::White;
@@ -92,7 +91,7 @@ namespace sw
         /**
          * @brief 窗口初次启动的位置
          */
-        WindowStartupLocation StartupLocation = Manual;
+        WindowStartupLocation StartupLocation = WindowStartupLocation::Manual;
 
     public:
         Window();
