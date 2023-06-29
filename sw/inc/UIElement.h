@@ -17,12 +17,14 @@ namespace sw
     {
     private:
         bool _arranging                          = false;
+        bool _collapseWhenHide                   = true;
         Size _desireSize                         = Size();
         Size _origionalSize                      = Size();
         Thickness _margin                        = Thickness();
         HorizontalAlignment _horizontalAlignment = HorizontalAlignment::Center;
         VerticalAlignment _verticalAlignment     = VerticalAlignment::Center;
         std::vector<UIElement *> _children{};
+        std::vector<UIElement *> _childrenNotCollapsed{};
         std::map<RoutedEventType, RoutedEvent> _eventMap{};
 
     public:
@@ -51,6 +53,11 @@ namespace sw
          */
         const ReadOnlyProperty<int> ChildCount;
 
+        /**
+         * @brief 是否在不可见时不参与布局
+         */
+        const Property<bool> CollapseWhenHide;
+
     public:
         UIElement();
 
@@ -72,11 +79,6 @@ namespace sw
          * @param eventType 路由事件类型
          */
         bool IsRoutedEventRegistered(RoutedEventType eventType);
-
-        /**
-         * @brief 通知父窗口布局改变
-         */
-        void NotifyLayoutUpdated();
 
         /**
          * @brief  添加子控件
@@ -108,12 +110,12 @@ namespace sw
         UIElement *operator[](int index) const;
 
         /**
-         * @brief 获取子控件的数量
+         * @brief 获取参与布局的子控件数量
          */
         virtual int GetChildLayoutCount();
 
         /**
-         * @brief 获取对应索引处的子控件
+         * @brief 获取对应索引处的子控件，使用此函数前必须先调用GetChildLayoutCount
          */
         virtual ILayout &GetChildLayoutAt(int index);
 
@@ -166,6 +168,11 @@ namespace sw
          * @brief 判断当前对象是否为顶级窗口
          */
         bool IsRootElement();
+
+        /**
+         * @brief 通知顶级窗口布局改变
+         */
+        void NotifyLayoutUpdated();
 
         /**
          * @brief  设置父窗口

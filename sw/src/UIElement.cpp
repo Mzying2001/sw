@@ -56,6 +56,20 @@ sw::UIElement::UIElement()
               static int count;
               count = (int)this->_children.size();
               return count;
+          }),
+
+      CollapseWhenHide(
+          // get
+          [&]() -> const bool & {
+              return this->_collapseWhenHide;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->_collapseWhenHide != value) {
+                  this->_collapseWhenHide = value;
+                  if (!this->Visible)
+                      this->NotifyLayoutUpdated();
+              }
           })
 {
 }
@@ -78,14 +92,6 @@ void sw::UIElement::UnregisterRoutedEvent(RoutedEventType eventType)
 bool sw::UIElement::IsRoutedEventRegistered(RoutedEventType eventType)
 {
     return this->_eventMap.count(eventType);
-}
-
-void sw::UIElement::NotifyLayoutUpdated()
-{
-    if (!this->_arranging) {
-        UIElement &root = this->GetRootElement();
-        SendMessageW(root.Handle, WM_UpdateLayout, NULL, NULL);
-    }
 }
 
 bool sw::UIElement::AddChild(UIElement *element)
@@ -147,12 +153,17 @@ sw::UIElement *sw::UIElement::operator[](int index) const
 
 int sw::UIElement::GetChildLayoutCount()
 {
-    return (int)this->_children.size();
+    this->_childrenNotCollapsed.clear();
+    for (UIElement *item : this->_children) {
+        if (item->Visible || !item->_collapseWhenHide)
+            this->_childrenNotCollapsed.push_back(item);
+    }
+    return (int)this->_childrenNotCollapsed.size();
 }
 
 sw::ILayout &sw::UIElement::GetChildLayoutAt(int index)
 {
-    return *this->_children[index];
+    return *this->_childrenNotCollapsed[index];
 }
 
 sw::Size sw::UIElement::GetDesireSize()
@@ -290,6 +301,14 @@ sw::UIElement &sw::UIElement::GetRootElement()
 bool sw::UIElement::IsRootElement()
 {
     return dynamic_cast<UIElement *>(this->Parent.Get()) == nullptr;
+}
+
+void sw::UIElement::NotifyLayoutUpdated()
+{
+    if (!this->_arranging) {
+        UIElement &root = this->GetRootElement();
+        SendMessageW(root.Handle, WM_UpdateLayout, NULL, NULL);
+    }
 }
 
 bool sw::UIElement::SetParent(WndBase *parent)
