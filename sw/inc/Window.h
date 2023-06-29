@@ -1,14 +1,12 @@
 #pragma once
 
-#include "AbsoluteLayout.h"
 #include "Color.h"
-#include "LayoutHost.h"
+#include "Layer.h"
 #include "Screen.h"
-#include "UIElement.h"
 
 namespace sw
 {
-    class Window : public UIElement
+    class Window : public Layer
     {
     public:
         enum WindowState {
@@ -23,15 +21,12 @@ namespace sw
         };
 
     private:
-        bool _isFirstShow             = true;
-        Color _background             = Color::White;
-        double _maxWidth              = -1;
-        double _maxHeight             = -1;
-        double _minWidth              = -1;
-        double _minHeight             = -1;
-        bool _layoutDisabled          = false;
-        LayoutHost *_layout           = nullptr;
-        AbsoluteLayout _defaultLayout = AbsoluteLayout();
+        bool _isFirstShow = true;
+        Color _background = Color::White;
+        double _maxWidth  = -1;
+        double _maxHeight = -1;
+        double _minWidth  = -1;
+        double _minHeight = -1;
 
     public:
         /**
@@ -95,11 +90,6 @@ namespace sw
         const Property<double> MinHeight;
 
         /**
-         * @brief 窗口布局方式
-         */
-        const Property<LayoutHost *> Layout;
-
-        /**
          * @brief 窗口初次启动的位置
          */
         WindowStartupLocation StartupLocation = Manual;
@@ -137,42 +127,10 @@ namespace sw
          */
         virtual bool OnPaint();
 
-        /**
-         * @brief               测量控件所需尺寸
-         * @param availableSize 可用的尺寸
-         */
-        virtual void Measure(const Size &availableSize);
-
-        /**
-         * @brief           安排控件位置
-         * @param finalSize 最终控件所安排的位置
-         */
-        virtual void Arrange(const sw::Rect &finalPosition);
-
-        /**
-         * @brief 获取Layout，若Layout为空则返回默认Layout
-         */
-        LayoutHost &GetLayoutHost();
-
-        /**
-         * @brief 更新布局
-         */
-        void UpdateLayout();
-
     public:
         /**
          * @brief 显示窗口
          */
         void Show();
-
-        /**
-         * @brief 禁用布局
-         */
-        void DisableLayout();
-
-        /**
-         * @brief 启用布局
-         */
-        void EnableLayout();
     };
 }
