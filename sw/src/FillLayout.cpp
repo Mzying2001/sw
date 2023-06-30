@@ -15,6 +15,6 @@ void sw::FillLayout::ArrangeOverride(Size &finalSize)
     int count = this->GetChildLayoutCount();
     for (int i = 0; i < count; ++i) {
         ILayout &item = this->GetChildLayoutAt(i);
-        item.Arrange(Rect(0, 0, finalSize.width, finalSize.width));
+        item.Arrange(Rect(0, 0, finalSize.width, finalSize.height));
     }
 }

@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "MsgBox.h"
 #include "WrapLayout.h"
+#include "FillLayout.h"
 
 using namespace sw;
 
@@ -50,13 +51,16 @@ int WINAPI wWinMain(
             MsgBox::ShowQuestion(&element, L"是否关闭？").OnNo([&]() {
                 cancel = true;
                 element.Text = L"已取消关闭";
-            });
+                });
             args.handled = true;
         }
     );
 
-    WrapLayout wrapLayout;
-    window.Layout = &wrapLayout;
+    /*WrapLayout wrapLayout;
+    window.Layout = &wrapLayout;*/
+
+    FillLayout fillLayout;
+    window.Layout = &fillLayout;
 
     window.DisableLayout();
 
