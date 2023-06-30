@@ -231,5 +231,12 @@ namespace sw
          * @return      该点在屏幕上的坐标
          */
         Point PointToScreen(const Point &point);
+
+        /**
+         * @brief             获取屏幕上点在当前用户区点的位置
+         * @param screenPoint 屏幕上点的坐标
+         * @return            该点在用户区的坐标
+         */
+        Point PointFromScreen(const Point &screenPoint);
     };
 }

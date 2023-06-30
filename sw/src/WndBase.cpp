@@ -447,3 +447,10 @@ sw::Point sw::WndBase::PointToScreen(const Point &point)
     ClientToScreen(this->_hwnd, &p);
     return p;
 }
+
+sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint)
+{
+    POINT p = screenPoint;
+    ScreenToClient(this->_hwnd, &p);
+    return p;
+}
