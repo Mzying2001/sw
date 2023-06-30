@@ -14,6 +14,11 @@ sw::Layer::Layer()
           })
 {
     this->_defaultLayout.Associate(this);
+
+    this->DisableLayout();
+    this->HorizontalAlignment = HorizontalAlignment::Stretch;
+    this->VerticalAlignment = VerticalAlignment::Stretch;
+    this->EnableLayout();
 }
 
 void sw::Layer::Measure(const Size &availableSize)
