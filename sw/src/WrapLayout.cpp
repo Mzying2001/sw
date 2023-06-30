@@ -1,5 +1,4 @@
 #include "WrapLayout.h"
-#include <cmath>
 
 void sw::WrapLayout::MeasureOverride(Size &availableSize)
 {
