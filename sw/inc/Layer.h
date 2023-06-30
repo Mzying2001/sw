@@ -6,7 +6,7 @@
 
 namespace sw
 {
-    class Layer : public UIElement
+    class Layer : virtual public UIElement
     {
     private:
         /**
@@ -35,6 +35,17 @@ namespace sw
 
     protected:
         /**
+         * @brief 获取Layout，若Layout为空则返回默认Layout
+         */
+        LayoutHost &GetLayoutHost();
+
+        /**
+         * @brief 更新布局
+         */
+        void UpdateLayout();
+
+    public:
+        /**
          * @brief               测量控件所需尺寸
          * @param availableSize 可用的尺寸
          */
@@ -46,17 +57,6 @@ namespace sw
          */
         virtual void Arrange(const sw::Rect &finalPosition);
 
-        /**
-         * @brief 获取Layout，若Layout为空则返回默认Layout
-         */
-        LayoutHost &GetLayoutHost();
-
-        /**
-         * @brief 更新布局
-         */
-        void UpdateLayout();
-
-    public:
         /**
          * @brief 禁用布局
          */

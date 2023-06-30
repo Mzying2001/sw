@@ -268,3 +268,13 @@ void sw::Window::Show()
 {
     this->WndBase::Show(SW_SHOW);
 }
+
+void sw::Window::Measure(const Size &availableSize)
+{
+    this->Layer::Measure(availableSize);
+}
+
+void sw::Window::Arrange(const sw::Rect &finalPosition)
+{
+    this->Layer::Arrange(finalPosition);
+}

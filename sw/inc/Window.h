@@ -3,6 +3,7 @@
 #include "Color.h"
 #include "Layer.h"
 #include "Screen.h"
+#include "UIElement.h"
 
 namespace sw
 {
@@ -17,7 +18,7 @@ namespace sw
         CenterScreen, // 屏幕中心
     };
 
-    class Window : public Layer
+    class Window : virtual public UIElement, public Layer
     {
     private:
         bool _isFirstShow = true;
@@ -131,5 +132,17 @@ namespace sw
          * @brief 显示窗口
          */
         void Show();
+
+        /**
+         * @brief               测量控件所需尺寸
+         * @param availableSize 可用的尺寸
+         */
+        virtual void Measure(const Size &availableSize);
+
+        /**
+         * @brief           安排控件位置
+         * @param finalSize 最终控件所安排的位置
+         */
+        virtual void Arrange(const sw::Rect &finalPosition);
     };
 }

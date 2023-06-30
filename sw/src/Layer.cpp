@@ -16,6 +16,20 @@ sw::Layer::Layer()
     this->_defaultLayout.Associate(this);
 }
 
+sw::LayoutHost &sw::Layer::GetLayoutHost()
+{
+    return this->_layout == nullptr ? this->_defaultLayout : *this->_layout;
+}
+
+void sw::Layer::UpdateLayout()
+{
+    if (!this->_layoutDisabled) {
+        sw::Rect clientRect = this->ClientRect;
+        this->GetLayoutHost().Measure(Size(clientRect.width, clientRect.height));
+        this->GetLayoutHost().Arrange(clientRect);
+    }
+}
+
 void sw::Layer::Measure(const Size &availableSize)
 {
     Size size           = availableSize;
@@ -35,20 +49,6 @@ void sw::Layer::Arrange(const sw::Rect &finalPosition)
 {
     this->UIElement::Arrange(finalPosition);
     this->GetLayoutHost().Arrange(this->ClientRect);
-}
-
-sw::LayoutHost &sw::Layer::GetLayoutHost()
-{
-    return this->_layout == nullptr ? this->_defaultLayout : *this->_layout;
-}
-
-void sw::Layer::UpdateLayout()
-{
-    if (!this->_layoutDisabled) {
-        sw::Rect clientRect = this->ClientRect;
-        this->GetLayoutHost().Measure(Size(clientRect.width, clientRect.height));
-        this->GetLayoutHost().Arrange(clientRect);
-    }
 }
 
 void sw::Layer::DisableLayout()
