@@ -73,23 +73,26 @@ int WINAPI wWinMain(
         window.AddChild(btn);
     }
 
-    Window window2;
-    window2.Rect = Rect(0, 0, 300, 300);
-    window2.Margin = 10;
-    window.AddChild(window2);
-    window2.Show();
+    btns[0].VerticalAlignment = VerticalAlignment::Top;
+    btns[1].VerticalAlignment = VerticalAlignment::Bottom;
+    btns[2].HorizontalAlignment = HorizontalAlignment::Left;
+    btns[3].HorizontalAlignment = HorizontalAlignment::Right;
 
-    for (int i = 5; i < 10; ++i) {
-        Button& btn = btns[i];
-        btn.Margin = 10;
-        btn.Rect = Rect(10, 10, 100, 100);
-        /*btn.Height = btn.Height + i * 10;*/
-        window.AddChild(btn);
-    }
+    //Window window2;
+    //window2.Rect = Rect(0, 0, 300, 300);
+    //window2.Margin = 10;
+    //window.AddChild(window2);
+    //window2.Show();
+
+    //for (int i = 5; i < 10; ++i) {
+    //    Button& btn = btns[i];
+    //    btn.Margin = 10;
+    //    btn.Rect = Rect(10, 10, 100, 100);
+    //    /*btn.Height = btn.Height + i * 10;*/
+    //    window.AddChild(btn);
+    //}
 
     window.EnableLayout();
-
-    btns[1].Visible = false;
 
     App::MsgLoop();
     return 0;

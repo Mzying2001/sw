@@ -214,7 +214,7 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
             break;
         }
         case HorizontalAlignment::Right: {
-            rect.left = finalPosition.left + finalPosition.width - rect.width - margin.left - margin.right;
+            rect.left = finalPosition.left + finalPosition.width - rect.width - margin.right;
             break;
         }
     }
@@ -234,7 +234,7 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
             break;
         }
         case VerticalAlignment::Bottom: {
-            rect.top = finalPosition.top + finalPosition.height - rect.height - margin.top - margin.bottom;
+            rect.top = finalPosition.top + finalPosition.height - rect.height - margin.bottom;
             break;
         }
     }
