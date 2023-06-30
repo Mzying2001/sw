@@ -75,6 +75,12 @@ int WINAPI wWinMain(
         window.AddChild(btn);
     }
 
+    Window window2;
+    window2.Rect = Rect(0, 0, 300, 300);
+    window2.Margin = 10;
+    window.AddChild(window2);
+    window2.Show();
+
     btns[0].VerticalAlignment = VerticalAlignment::Top;
     btns[1].VerticalAlignment = VerticalAlignment::Bottom;
     btns[2].HorizontalAlignment = HorizontalAlignment::Left;
