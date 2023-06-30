@@ -2,10 +2,11 @@
 #include "Window.h"
 #include "MsgBox.h"
 #include "WrapLayout.h"
-#include "WrapLayoutV.h"
 #include "FillLayout.h"
 
 using namespace sw;
+
+WrapLayout wrapLayout;
 
 class Button : public UIElement
 {
@@ -27,8 +28,10 @@ public:
         }
         else if (msg.uMsg == WM_ParentReceivedCommand)
         {
-            if (HIWORD(msg.wParam) == BN_CLICKED)
-                MsgBox::Show(this, L"按钮被按下");
+            if (HIWORD(msg.wParam) == BN_CLICKED) {
+                wrapLayout.orientation = Orientation(1 - (int)wrapLayout.orientation);
+                this->NotifyLayoutUpdated();
+            }
             /*if (HIWORD(msg.wParam) == BN_DOUBLECLICKED)
                 MsgBox::Show(this, L"按钮被双击");*/
         }
@@ -52,19 +55,15 @@ int WINAPI wWinMain(
             MsgBox::ShowQuestion(&element, L"是否关闭？").OnNo([&]() {
                 cancel = true;
                 element.Text = L"已取消关闭";
-                });
+            });
             args.handled = true;
         }
     );
 
-    WrapLayout wrapLayout;
     window.Layout = &wrapLayout;
 
     /*FillLayout fillLayout;
     window.Layout = &fillLayout;*/
-
-    /*WrapLayoutV wrapLayoutV;
-    window.Layout = &wrapLayoutV;*/
 
     window.DisableLayout();
 
@@ -80,19 +79,19 @@ int WINAPI wWinMain(
     btns[1].VerticalAlignment = VerticalAlignment::Bottom;
     btns[2].HorizontalAlignment = HorizontalAlignment::Left;
     btns[3].HorizontalAlignment = HorizontalAlignment::Right;
-    
+
     btns[4].VerticalAlignment = VerticalAlignment::Top;
     btns[4].HorizontalAlignment = HorizontalAlignment::Left;
-    
+
     btns[5].VerticalAlignment = VerticalAlignment::Top;
     btns[5].HorizontalAlignment = HorizontalAlignment::Right;
-    
+
     btns[6].VerticalAlignment = VerticalAlignment::Bottom;
     btns[6].HorizontalAlignment = HorizontalAlignment::Left;
-    
+
     btns[7].VerticalAlignment = VerticalAlignment::Bottom;
     btns[7].HorizontalAlignment = HorizontalAlignment::Right;
-    
+
     /*btns[8].HorizontalAlignment = HorizontalAlignment::Stretch;
     btns[9].VerticalAlignment = VerticalAlignment::Stretch;*/
 

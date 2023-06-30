@@ -1,12 +1,20 @@
 #pragma once
 
-#include "LayoutHost.h"
+#include "Alignment.h"
+#include "WrapLayoutH.h"
+#include "WrapLayoutV.h"
 
 namespace sw
 {
-    class WrapLayout : public LayoutHost
+    class WrapLayout : public WrapLayoutH,
+                       public WrapLayoutV
     {
     public:
+        /**
+         * @brief 排列方式
+         */
+        Orientation orientation = Orientation::Horizontal;
+
         /**
          * @brief 计算所需尺寸
          */
