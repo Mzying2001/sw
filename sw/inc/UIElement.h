@@ -17,7 +17,7 @@ namespace sw
     {
     private:
         /**
-         * @brief 是否正在Arrange，当该值位true时调用NotifyLayoutUpdated函数不会触发WM_UpdateLayout消息
+         * @brief 是否正在Arrange，当该字段为true时调用NotifyLayoutUpdated函数不会触发WM_UpdateLayout消息
          */
         bool _arranging = false;
 
