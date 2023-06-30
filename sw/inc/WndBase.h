@@ -2,6 +2,7 @@
 
 #include "App.h"
 #include "Dip.h"
+#include "Point.h"
 #include "ProcMsg.h"
 #include "Property.h"
 #include "Rect.h"
@@ -223,5 +224,12 @@ namespace sw
          * @brief 判断当前对象是否是控件
          */
         bool IsControl();
+
+        /**
+         * @brief       获取用户区点在屏幕上点的位置
+         * @param point 用户区坐标
+         * @return      该点在屏幕上的坐标
+         */
+        Point PointToScreen(const Point &point);
     };
 }

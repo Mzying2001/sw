@@ -440,3 +440,10 @@ bool sw::WndBase::IsControl()
 {
     return this->_controlOldWndProc != nullptr;
 }
+
+sw::Point sw::WndBase::PointToScreen(const Point &point)
+{
+    POINT p = point;
+    ClientToScreen(this->_hwnd, &p);
+    return p;
+}
