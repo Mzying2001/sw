@@ -9,8 +9,19 @@ namespace sw
     class Layer : public UIElement
     {
     private:
-        bool _layoutDisabled          = false;
-        LayoutHost *_layout           = nullptr;
+        /**
+         * @brief 是否关闭布局，当该字段为true时调用UpdateLayout不会更新布局，可以用DisableLayout和EnableLayout设置该字段
+         */
+        bool _layoutDisabled = false;
+
+        /**
+         * @brief 指向所使用布局方式对象的指针，调用GetLayoutHost获取所指向的对象，当该字段为nullptr时GetLayoutHost获取到的是_defaultLayout
+         */
+        LayoutHost *_layout = nullptr;
+
+        /**
+         * @brief 默认的布局方式，当Layout为nullptr时使用该布局
+         */
         AbsoluteLayout _defaultLayout = AbsoluteLayout();
 
     public:

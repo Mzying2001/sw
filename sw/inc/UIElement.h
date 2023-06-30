@@ -16,15 +16,54 @@ namespace sw
                       public ILayout
     {
     private:
-        bool _arranging                          = false;
-        bool _collapseWhenHide                   = true;
-        Size _desireSize                         = Size();
-        Size _origionalSize                      = Size();
-        Thickness _margin                        = Thickness();
+        /**
+         * @brief 是否正在Arrange，当该值位true时调用NotifyLayoutUpdated函数不会触发WM_UpdateLayout消息
+         */
+        bool _arranging = false;
+
+        /**
+         * @brief 是否在不可见时不参与布局
+         */
+        bool _collapseWhenHide = true;
+
+        /**
+         * @brief 当前元素所需要占用的尺寸
+         */
+        Size _desireSize = Size();
+
+        /**
+         * @brief 当对齐方式为拉伸时用该字段存储原始大小
+         */
+        Size _origionalSize = Size();
+
+        /**
+         * @brief 边距
+         */
+        Thickness _margin = Thickness();
+
+        /**
+         * @brief 水平对齐方式
+         */
         HorizontalAlignment _horizontalAlignment = HorizontalAlignment::Center;
-        VerticalAlignment _verticalAlignment     = VerticalAlignment::Center;
+
+        /**
+         * @brief 垂直对齐方式
+         */
+        VerticalAlignment _verticalAlignment = VerticalAlignment::Center;
+
+        /**
+         * @brief 所有子窗口
+         */
         std::vector<UIElement *> _children{};
+
+        /**
+         * @brief 参与布局的子窗口，在调用GetChildLayoutCount后会更新，不可见且CollapseWhenHide为true的控件会被忽略
+         */
         std::vector<UIElement *> _childrenNotCollapsed{};
+
+        /**
+         * @brief 记录路由事件的map
+         */
         std::map<RoutedEventType, RoutedEvent> _eventMap{};
 
     public:
@@ -34,7 +73,7 @@ namespace sw
         std::wstring Description = L"";
 
         /**
-         * @brief 边缘空白大小
+         * @brief 边距
          */
         const Property<Thickness> Margin;
 
