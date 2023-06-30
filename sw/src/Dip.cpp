@@ -1,23 +1,23 @@
 #include "Dip.h"
 
 static sw::Dip::DipScaleInfo _GetScaleInfo();
-static sw::Dip::DipScaleInfo _dpiScaleInfo = _GetScaleInfo();
+static sw::Dip::DipScaleInfo _dipScaleInfo = _GetScaleInfo();
 
 void sw::Dip::Update(int dpiX, int dpiY)
 {
-    _dpiScaleInfo.scaleX = (double)USER_DEFAULT_SCREEN_DPI / dpiX;
-    _dpiScaleInfo.scaleY = (double)USER_DEFAULT_SCREEN_DPI / dpiY;
+    _dipScaleInfo.scaleX = (double)USER_DEFAULT_SCREEN_DPI / dpiX;
+    _dipScaleInfo.scaleY = (double)USER_DEFAULT_SCREEN_DPI / dpiY;
 }
 
 const sw::ReadOnlyProperty<double> sw::Dip::ScaleX(
     []() -> const double & {
-        return _dpiScaleInfo.scaleX;
+        return _dipScaleInfo.scaleX;
     } //
 );
 
 const sw::ReadOnlyProperty<double> sw::Dip::ScaleY(
     []() -> const double & {
-        return _dpiScaleInfo.scaleY;
+        return _dipScaleInfo.scaleY;
     } //
 );
 
