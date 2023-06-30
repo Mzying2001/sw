@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "MsgBox.h"
 #include "WrapLayout.h"
+#include "WrapLayoutV.h"
 #include "FillLayout.h"
 
 using namespace sw;
@@ -56,20 +57,22 @@ int WINAPI wWinMain(
         }
     );
 
-    /*WrapLayout wrapLayout;
-    window.Layout = &wrapLayout;*/
+    WrapLayout wrapLayout;
+    window.Layout = &wrapLayout;
 
-    FillLayout fillLayout;
-    window.Layout = &fillLayout;
+    /*FillLayout fillLayout;
+    window.Layout = &fillLayout;*/
+
+    /*WrapLayoutV wrapLayoutV;
+    window.Layout = &wrapLayoutV;*/
 
     window.DisableLayout();
 
-    static Button btns[10];
-    for (int i = 0; i < 5; ++i) {
+    static Button btns[9];
+    for (int i = 0; i < 9; ++i) {
         Button& btn = btns[i];
         btn.Margin = 10;
         btn.Rect = Rect(10, 10, 100, 100);
-        /*btn.Height = btn.Height + i * 10;*/
         window.AddChild(btn);
     }
 
@@ -77,20 +80,21 @@ int WINAPI wWinMain(
     btns[1].VerticalAlignment = VerticalAlignment::Bottom;
     btns[2].HorizontalAlignment = HorizontalAlignment::Left;
     btns[3].HorizontalAlignment = HorizontalAlignment::Right;
-
-    //Window window2;
-    //window2.Rect = Rect(0, 0, 300, 300);
-    //window2.Margin = 10;
-    //window.AddChild(window2);
-    //window2.Show();
-
-    //for (int i = 5; i < 10; ++i) {
-    //    Button& btn = btns[i];
-    //    btn.Margin = 10;
-    //    btn.Rect = Rect(10, 10, 100, 100);
-    //    /*btn.Height = btn.Height + i * 10;*/
-    //    window.AddChild(btn);
-    //}
+    
+    btns[4].VerticalAlignment = VerticalAlignment::Top;
+    btns[4].HorizontalAlignment = HorizontalAlignment::Left;
+    
+    btns[5].VerticalAlignment = VerticalAlignment::Top;
+    btns[5].HorizontalAlignment = HorizontalAlignment::Right;
+    
+    btns[6].VerticalAlignment = VerticalAlignment::Bottom;
+    btns[6].HorizontalAlignment = HorizontalAlignment::Left;
+    
+    btns[7].VerticalAlignment = VerticalAlignment::Bottom;
+    btns[7].HorizontalAlignment = HorizontalAlignment::Right;
+    
+    /*btns[8].HorizontalAlignment = HorizontalAlignment::Stretch;
+    btns[9].VerticalAlignment = VerticalAlignment::Stretch;*/
 
     window.EnableLayout();
 
