@@ -335,7 +335,7 @@ bool sw::UIElement::OnSize(double newClientWidth, double newClientHeight)
 
 void sw::UIElement::VisibleChanged(bool newVisible)
 {
-    if (!newVisible && this->_collapseWhenHide) {
+    if (newVisible || this->_collapseWhenHide) {
         this->NotifyLayoutUpdated();
     }
 }
