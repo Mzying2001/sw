@@ -21,4 +21,12 @@ namespace sw
         Top,     // 顶部对齐
         Bottom,  // 底部对齐
     };
+
+    /**
+     * @brief 排列方式
+     */
+    enum class Orientation {
+        Horizontal, // 水平排列
+        Vertical,   // 垂直排列
+    };
 }
