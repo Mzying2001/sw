@@ -1,5 +1,6 @@
 #pragma warning(disable:4819)
 #include "Window.h"
+#include "Control.h"
 #include "MsgBox.h"
 #include "WrapLayout.h"
 #include "FillLayout.h"
@@ -8,7 +9,7 @@ using namespace sw;
 
 WrapLayout wrapLayout;
 
-class Button : public UIElement
+class Button : public Control
 {
 public:
     Button()
@@ -49,7 +50,7 @@ int WINAPI wWinMain(
     window.StartupLocation = WindowStartupLocation::CenterScreen;
     window.Show();
 
-    window.RegisterRoutedEvent(RoutedEventType::WindowClosing,
+    /*window.RegisterRoutedEvent(RoutedEventType::WindowClosing,
         [](UIElement& element, RoutedEventArgs& args) {
             bool& cancel = *reinterpret_cast<bool*>(args.param);
             MsgBox::ShowQuestion(&element, L"ÊÇ·ñ¹Ø±Õ£¿").OnNo([&]() {
@@ -58,7 +59,7 @@ int WINAPI wWinMain(
             });
             args.handled = true;
         }
-    );
+    );*/
 
     window.Layout = &wrapLayout;
 
