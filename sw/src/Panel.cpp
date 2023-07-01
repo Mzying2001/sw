@@ -2,7 +2,7 @@
 
 sw::Panel::Panel()
 {
-    InitControl(L"STATIC", L"", WS_CHILD | WS_VISIBLE);
+    InitControl(L"STATIC", NULL, WS_CHILD | WS_VISIBLE);
 }
 
 void sw::Panel::Measure(const Size &availableSize)
