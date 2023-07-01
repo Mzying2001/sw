@@ -189,7 +189,7 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParen
 {
     if (this->_hwnd == NULL) {
 
-        this->_text = lpWindowName;
+        this->_text = lpWindowName ? lpWindowName : L"";
 
         this->_hwnd = CreateWindowExW(
             0,                 // Optional window styles
@@ -222,7 +222,7 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
 
     if (this->_hwnd == NULL) {
 
-        this->_text = lpWindowName;
+        this->_text = lpWindowName ? lpWindowName : L"";
 
         this->_hwnd = CreateWindowExW(
             0,            // Optional window styles
