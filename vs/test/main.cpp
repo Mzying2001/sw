@@ -1,44 +1,10 @@
 #pragma warning(disable:4819)
 #include "Window.h"
-#include "Control.h"
-#include "MsgBox.h"
-#include "WrapLayout.h"
 #include "FillLayout.h"
+#include "Panel.h"
+#include "WrapLayout.h"
 
 using namespace sw;
-
-WrapLayout wrapLayout;
-
-class Button : public Control
-{
-public:
-    Button()
-    {
-        InitControl(L"BUTTON", L"按钮", WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_PUSHBUTTON);
-    }
-
-    virtual LRESULT WndProc(const ProcMsg& msg)
-    {
-        if (msg.uMsg == WM_MOUSEMOVE)
-        {
-            this->Text = L"MOVE";
-        }
-        else if (msg.uMsg == WM_MOUSELEAVE)
-        {
-            this->Text = L"按钮";
-        }
-        else if (msg.uMsg == WM_ParentReceivedCommand)
-        {
-            if (HIWORD(msg.wParam) == BN_CLICKED) {
-                wrapLayout.orientation = Orientation(1 - (int)wrapLayout.orientation);
-                this->NotifyLayoutUpdated();
-            }
-            /*if (HIWORD(msg.wParam) == BN_DOUBLECLICKED)
-                MsgBox::Show(this, L"按钮被双击");*/
-        }
-        return this->UIElement::WndProc(msg);
-    }
-};
 
 int WINAPI wWinMain(
     _In_     HINSTANCE hInstance,
@@ -46,63 +12,31 @@ int WINAPI wWinMain(
     _In_     PWSTR     pCmdLine,
     _In_     INT       nCmdShow)
 {
-    Window window;
+    static Window window;
+    static FillLayout layout;
+    window.Layout = &layout;
     window.StartupLocation = WindowStartupLocation::CenterScreen;
     window.Show();
 
-    /*window.RegisterRoutedEvent(RoutedEventType::WindowClosing,
-        [](UIElement& element, RoutedEventArgs& args) {
-            bool& cancel = *reinterpret_cast<bool*>(args.param);
-            MsgBox::ShowQuestion(&element, L"是否关闭？").OnNo([&]() {
-                cancel = true;
-                element.Text = L"已取消关闭";
-            });
-            args.handled = true;
-        }
-    );*/
+    static Panel panel;
+    panel.Margin = 5;
+    panel.VerticalAlignment = VerticalAlignment::Stretch;
+    panel.HorizontalAlignment = HorizontalAlignment::Stretch;
+    panel.BackColor = Color::LightGray;
+    window.AddChild(panel);
 
-    window.Layout = &wrapLayout;
+    static WrapLayout wl;
+    panel.Layout = &wl;
 
-    /*FillLayout fillLayout;
-    window.Layout = &fillLayout;*/
-
-    window.DisableLayout();
-
-    static Button btns[9];
-    for (int i = 0; i < 9; ++i) {
-        Button& btn = btns[i];
-        btn.Margin = 10;
-        btn.Rect = Rect(10, 10, 100, 100);
-        window.AddChild(btn);
+    static Panel panels[10];
+    for (int i = 0; i < 10; ++i)
+    {
+        Panel& p = panels[i];
+        p.Margin = 5;
+        p.Rect = Rect(0, 0, 100, 100);
+        p.BackColor = Color::Gray;
+        panel.AddChild(p);
     }
-
-    Window window2;
-    window2.Rect = Rect(0, 0, 300, 300);
-    window2.Margin = 10;
-    window.AddChild(window2);
-    window2.Show();
-
-    btns[0].VerticalAlignment = VerticalAlignment::Top;
-    btns[1].VerticalAlignment = VerticalAlignment::Bottom;
-    btns[2].HorizontalAlignment = HorizontalAlignment::Left;
-    btns[3].HorizontalAlignment = HorizontalAlignment::Right;
-
-    btns[4].VerticalAlignment = VerticalAlignment::Top;
-    btns[4].HorizontalAlignment = HorizontalAlignment::Left;
-
-    btns[5].VerticalAlignment = VerticalAlignment::Top;
-    btns[5].HorizontalAlignment = HorizontalAlignment::Right;
-
-    btns[6].VerticalAlignment = VerticalAlignment::Bottom;
-    btns[6].HorizontalAlignment = HorizontalAlignment::Left;
-
-    btns[7].VerticalAlignment = VerticalAlignment::Bottom;
-    btns[7].HorizontalAlignment = HorizontalAlignment::Right;
-
-    /*btns[8].HorizontalAlignment = HorizontalAlignment::Stretch;
-    btns[9].VerticalAlignment = VerticalAlignment::Stretch;*/
-
-    window.EnableLayout();
 
     App::MsgLoop();
     return 0;
