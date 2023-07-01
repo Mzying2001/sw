@@ -2,6 +2,7 @@
 
 #include "App.h"
 #include "Dip.h"
+#include "ICtlColor.h"
 #include "Point.h"
 #include "ProcMsg.h"
 #include "Property.h"

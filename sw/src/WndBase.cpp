@@ -346,6 +346,22 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return 0;
         }
 
+        case WM_CTLCOLORBTN:
+        case WM_CTLCOLOREDIT:
+        case WM_CTLCOLORDLG:
+        case WM_CTLCOLORLISTBOX:
+        case WM_CTLCOLORSCROLLBAR:
+        case WM_CTLCOLORSTATIC: {
+            HDC hdc              = (HDC)refMsg.wParam;
+            HWND hwnd            = (HWND)refMsg.lParam;
+            WndBase *pWnd        = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+            ICtlColor *pCtlColor = dynamic_cast<ICtlColor *>(pWnd);
+
+            return pCtlColor == nullptr
+                       ? this->DefaultWndProc(refMsg)
+                       : pCtlColor->CtlColor(hdc, hwnd);
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }
