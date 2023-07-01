@@ -23,16 +23,5 @@ namespace sw
          * @brief 父窗口接收到WM_COMMAND时向控件发该消息，wParam和lParam按原样发回
          */
         WM_ParentReceivedCommand,
-
-        /**
-         * @brief 父窗口接收到以下消息时向控件发该消息，wParam和lParam按原样发回
-         *        WM_CTLCOLORBTN,
-         *        WM_CTLCOLOREDIT,
-         *        WM_CTLCOLORDLG,
-         *        WM_CTLCOLORLISTBOX,
-         *        WM_CTLCOLORSCROLLBAR,
-         *        WM_CTLCOLORSTATIC
-         */
-        WM_ParentReceivedCtlColor,
     };
 }
