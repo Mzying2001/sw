@@ -93,6 +93,9 @@
     <ClInclude Include="..\..\sw\inc\Panel.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw\inc\WrapPanel.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sw\src\Property.cpp">
@@ -177,6 +180,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw\src\Panel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw\src\WrapPanel.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

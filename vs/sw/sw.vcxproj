@@ -165,6 +165,7 @@
     <ClInclude Include="..\..\sw\inc\WrapLayout.h" />
     <ClInclude Include="..\..\sw\inc\WrapLayoutH.h" />
     <ClInclude Include="..\..\sw\inc\WrapLayoutV.h" />
+    <ClInclude Include="..\..\sw\inc\WrapPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sw\src\AbsoluteLayout.cpp" />
@@ -195,6 +196,7 @@
     <ClCompile Include="..\..\sw\src\WrapLayout.cpp" />
     <ClCompile Include="..\..\sw\src\WrapLayoutH.cpp" />
     <ClCompile Include="..\..\sw\src\WrapLayoutV.cpp" />
+    <ClCompile Include="..\..\sw\src\WrapPanel.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
