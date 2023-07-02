@@ -1,8 +1,8 @@
 #pragma warning(disable:4819)
 #include "Window.h"
 #include "FillLayout.h"
-#include "Panel.h"
-#include "WrapLayout.h"
+#include "WrapPanel.h"
+#include "Button.h"
 
 using namespace sw;
 
@@ -18,24 +18,19 @@ int WINAPI wWinMain(
     window.StartupLocation = WindowStartupLocation::CenterScreen;
     window.Show();
 
-    static Panel panel;
+    static WrapPanel panel;
     panel.Margin = 5;
     panel.VerticalAlignment = VerticalAlignment::Stretch;
     panel.HorizontalAlignment = HorizontalAlignment::Stretch;
-    panel.BackColor = Color::LightGray;
     window.AddChild(panel);
 
-    static WrapLayout wl;
-    panel.Layout = &wl;
-
-    static Panel panels[10];
+    static Button btns[10];
     for (int i = 0; i < 10; ++i)
     {
-        Panel& p = panels[i];
-        p.Margin = 5;
-        p.Rect = Rect(0, 0, 100, 100);
-        p.BackColor = Color::Gray;
-        panel.AddChild(p);
+        Button& b = btns[i];
+        b.Margin = 5;
+        b.Rect = Rect(0, 0, 100, 100);
+        panel.AddChild(b);
     }
 
     App::MsgLoop();
