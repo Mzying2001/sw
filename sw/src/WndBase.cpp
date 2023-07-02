@@ -13,8 +13,7 @@ static HWND _controlInitContainer = NULL;
 
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    WndBase *pWnd;
-    pWnd = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+    WndBase *pWnd = WndBase::GetWndBase(hwnd);
 
     if (pWnd == NULL && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
         LPCREATESTRUCTW pCreate;
@@ -168,7 +167,7 @@ sw::WndBase::WndBase()
           [&]() -> WndBase *const & {
               static WndBase *pWndBase;
               HWND hwnd = GetParent(this->_hwnd);
-              pWndBase  = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+              pWndBase  = WndBase::GetWndBase(hwnd);
               return pWndBase;
           })
 {
@@ -354,7 +353,7 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         case WM_CTLCOLORSTATIC: {
             HDC hdc              = (HDC)refMsg.wParam;
             HWND hwnd            = (HWND)refMsg.lParam;
-            WndBase *pWnd        = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+            WndBase *pWnd        = WndBase::GetWndBase(hwnd);
             ICtlColor *pCtlColor = dynamic_cast<ICtlColor *>(pWnd);
 
             return pCtlColor == nullptr
@@ -479,4 +478,9 @@ sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint)
     POINT p = screenPoint;
     ScreenToClient(this->_hwnd, &p);
     return p;
+}
+
+sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
+{
+    return reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
 }
