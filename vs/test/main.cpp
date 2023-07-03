@@ -1,7 +1,7 @@
 #pragma warning(disable:4819)
 #include "Window.h"
 #include "FillLayout.h"
-#include "StackLayout.h"
+#include "StackPanel.h"
 #include "WrapPanel.h"
 #include "Button.h"
 
@@ -17,15 +17,14 @@ int WINAPI wWinMain(
     window.StartupLocation = WindowStartupLocation::CenterScreen;
     window.Show();
 
-    static StackLayout layout;
-    layout.orientation = Orientation::Vertical;
+    static FillLayout layout;
     window.Layout = &layout;
 
-    /*static WrapPanel panel;
+    static StackPanel panel;
     panel.Margin = 5;
     panel.VerticalAlignment = VerticalAlignment::Stretch;
     panel.HorizontalAlignment = HorizontalAlignment::Stretch;
-    window.AddChild(panel);*/
+    window.AddChild(panel);
 
     static Button btns[10];
     for (int i = 0; i < 10; ++i)
@@ -33,8 +32,7 @@ int WINAPI wWinMain(
         Button& b = btns[i];
         b.Margin = 5;
         b.Rect = Rect(0, 0, 100, 100);
-        //panel.AddChild(b);
-        window.AddChild(b);
+        panel.AddChild(b);
     }
 
     App::MsgLoop();

@@ -108,6 +108,9 @@
     <ClInclude Include="..\..\sw\inc\StackLayoutV.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw\inc\StackPanel.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sw\src\Property.cpp">
@@ -207,6 +210,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw\src\StackLayoutV.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw\src\StackPanel.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
