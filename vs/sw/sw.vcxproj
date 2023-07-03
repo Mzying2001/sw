@@ -158,6 +158,9 @@
     <ClInclude Include="..\..\sw\inc\RoutedEvent.h" />
     <ClInclude Include="..\..\sw\inc\Screen.h" />
     <ClInclude Include="..\..\sw\inc\Size.h" />
+    <ClInclude Include="..\..\sw\inc\StackLayout.h" />
+    <ClInclude Include="..\..\sw\inc\StackLayoutH.h" />
+    <ClInclude Include="..\..\sw\inc\StackLayoutV.h" />
     <ClInclude Include="..\..\sw\inc\Thickness.h" />
     <ClInclude Include="..\..\sw\inc\UIElement.h" />
     <ClInclude Include="..\..\sw\inc\Window.h" />
@@ -190,6 +193,9 @@
     <ClCompile Include="..\..\sw\src\RoutedEvent.cpp" />
     <ClCompile Include="..\..\sw\src\Screen.cpp" />
     <ClCompile Include="..\..\sw\src\Size.cpp" />
+    <ClCompile Include="..\..\sw\src\StackLayout.cpp" />
+    <ClCompile Include="..\..\sw\src\StackLayoutH.cpp" />
+    <ClCompile Include="..\..\sw\src\StackLayoutV.cpp" />
     <ClCompile Include="..\..\sw\src\Thickness.cpp" />
     <ClCompile Include="..\..\sw\src\UIElement.cpp" />
     <ClCompile Include="..\..\sw\src\Window.cpp" />
