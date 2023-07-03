@@ -346,7 +346,7 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_ParentReceivedCommand: {
-            this->ParentReceivedCommand(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam));
+            this->ParentReceivedCommand(HIWORD(refMsg.wParam));
             return 0;
         }
 
@@ -436,7 +436,7 @@ void sw::WndBase::ParentChanged(WndBase *newParent)
 {
 }
 
-void sw::WndBase::ParentReceivedCommand(int id, int code)
+void sw::WndBase::ParentReceivedCommand(int code)
 {
 }
 
