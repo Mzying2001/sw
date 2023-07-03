@@ -25,11 +25,11 @@ sw::UIElement::UIElement()
               if (value == sw::HorizontalAlignment::Stretch) {
                   this->_horizontalAlignment = value;
                   this->_origionalSize.width = this->Width;
-                  this->NotifyLayoutUpdated();
               } else {
                   this->_horizontalAlignment = value;
                   this->Width                = this->_origionalSize.width;
               }
+              this->NotifyLayoutUpdated();
           }),
 
       VerticalAlignment(
@@ -43,11 +43,11 @@ sw::UIElement::UIElement()
               if (value == sw::VerticalAlignment::Stretch) {
                   this->_verticalAlignment    = value;
                   this->_origionalSize.height = this->Height;
-                  this->NotifyLayoutUpdated();
               } else {
                   this->_verticalAlignment = value;
                   this->Height             = this->_origionalSize.height;
               }
+              this->NotifyLayoutUpdated();
           }),
 
       ChildCount(
