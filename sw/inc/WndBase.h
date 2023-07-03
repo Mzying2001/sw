@@ -100,6 +100,11 @@ namespace sw
     protected:
         WndBase();
 
+        WndBase(const WndBase &)            = delete; // 删除拷贝构造函数
+        WndBase(WndBase &&)                 = delete; // 删除移动构造函数
+        WndBase &operator=(const WndBase &) = delete; // 删除拷贝赋值运算符
+        WndBase &operator=(WndBase &&)      = delete; // 删除移动赋值运算符
+
         /**
          * @brief 初始化为窗口，该函数会调用CreateWindowExW
          */
