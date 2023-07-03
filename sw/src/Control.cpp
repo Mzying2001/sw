@@ -32,7 +32,15 @@ sw::Control::Control()
 
 LRESULT sw::Control::CtlColor(HDC hdc, HWND hwnd)
 {
+    static HBRUSH hBrush = NULL;
+
+    if (hBrush != NULL) {
+        DeleteObject(hBrush);
+    }
+
+    hBrush = CreateSolidBrush(this->_backColor);
+
     SetTextColor(hdc, this->_textColor);
     SetBkColor(hdc, this->_backColor);
-    return (LRESULT)CreateSolidBrush(this->_backColor);
+    return (LRESULT)hBrush;
 }
