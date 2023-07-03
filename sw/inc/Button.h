@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Control.h"
+#include "ButtonBase.h"
 
 namespace sw
 {
-    class Button : public Control
+    class Button : public ButtonBase
     {
     public:
         Button();
