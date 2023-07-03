@@ -14,6 +14,8 @@ sw::Layer::Layer()
           })
 {
     this->_defaultLayout.Associate(this);
+    this->HorizontalAlignment = HorizontalAlignment::Stretch;
+    this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
 sw::LayoutHost &sw::Layer::GetLayoutHost()

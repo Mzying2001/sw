@@ -22,8 +22,6 @@ int WINAPI wWinMain(
 
     static StackPanel panel;
     panel.Margin = 5;
-    panel.VerticalAlignment = VerticalAlignment::Stretch;
-    panel.HorizontalAlignment = HorizontalAlignment::Stretch;
     window.AddChild(panel);
 
     static Button btns[10];
