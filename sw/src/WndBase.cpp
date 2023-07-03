@@ -345,6 +345,11 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return 0;
         }
 
+        case WM_ParentReceivedCommand: {
+            this->ParentReceivedCommand(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam));
+            return 0;
+        }
+
         case WM_CTLCOLORBTN:
         case WM_CTLCOLOREDIT:
         case WM_CTLCOLORDLG:
@@ -428,6 +433,10 @@ bool sw::WndBase::SetParent(WndBase *parent)
 }
 
 void sw::WndBase::ParentChanged(WndBase *newParent)
+{
+}
+
+void sw::WndBase::ParentReceivedCommand(int id, int code)
 {
 }
 

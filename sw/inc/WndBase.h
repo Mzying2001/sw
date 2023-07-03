@@ -200,6 +200,13 @@ namespace sw
          */
         virtual void ParentChanged(WndBase *newParent);
 
+        /**
+         * @brief      接收到WM_ParentReceivedCommand消息时调用此函数
+         * @param id   控制标识符
+         * @param code 控件定义的通知代码
+         */
+        virtual void ParentReceivedCommand(int id, int code);
+
     public:
         /**
          * @brief 该函数调用ShowWindow
