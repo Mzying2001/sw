@@ -17,7 +17,8 @@ int WINAPI wWinMain(
     window.StartupLocation = WindowStartupLocation::CenterScreen;
     window.Show();
 
-    static StackLayoutH layout;
+    static StackLayout layout;
+    layout.orientation = Orientation::Vertical;
     window.Layout = &layout;
 
     /*static WrapPanel panel;
