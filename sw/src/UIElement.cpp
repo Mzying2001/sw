@@ -196,8 +196,12 @@ void sw::UIElement::Measure(const Size &availableSize)
 void sw::UIElement::Arrange(const sw::Rect &finalPosition)
 {
     this->_arranging  = true;
-    sw::Rect rect     = this->Rect;
+    Size &desireSize  = this->_desireSize;
     Thickness &margin = this->_margin;
+
+    sw::Rect rect = this->Rect;
+    rect.width    = desireSize.width - margin.left - margin.right;
+    rect.height   = desireSize.height - margin.top - margin.bottom;
 
     switch (this->_horizontalAlignment) {
         case HorizontalAlignment::Center: {

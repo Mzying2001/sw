@@ -32,17 +32,23 @@ void sw::Layer::UpdateLayout()
 
 void sw::Layer::Measure(const Size &availableSize)
 {
-    Size size           = availableSize;
+    Size desireSize;
+    Size measureSize    = availableSize;
+    Thickness margin    = this->Margin;
     sw::Rect windowRect = this->Rect;
     sw::Rect clientRect = this->ClientRect;
-    Thickness margin    = this->Margin;
 
     // 考虑边框
-    size.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
-    size.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
+    measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
+    measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
 
-    this->UIElement::Measure(availableSize);
-    this->GetLayoutHost().Measure(size);
+    this->GetLayoutHost().Measure(measureSize);
+
+    // 考虑边框
+    desireSize = this->GetDesireSize();
+    desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
+    desireSize.height += (windowRect.width - clientRect.width) + margin.top + margin.bottom;
+    this->SetDesireSize(desireSize);
 }
 
 void sw::Layer::Arrange(const sw::Rect &finalPosition)
