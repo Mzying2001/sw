@@ -3,6 +3,8 @@
 sw::Panel::Panel()
 {
     this->InitControl(L"STATIC", NULL, WS_CHILD | WS_VISIBLE);
+    this->HorizontalAlignment = HorizontalAlignment::Stretch;
+    this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
 void sw::Panel::Measure(const Size &availableSize)
