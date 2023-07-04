@@ -7,6 +7,15 @@
 
 using namespace sw;
 
+void GetSystemDefaultFont(LOGFONT& font) {
+    NONCLIENTMETRICSW ncm;
+    ncm.cbSize = sizeof(ncm);
+
+    if (SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0)) {
+        font = ncm.lfMessageFont;
+    }
+}
+
 int WINAPI wWinMain(
     _In_     HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -32,6 +41,16 @@ int WINAPI wWinMain(
         b.Rect = Rect(0, 0, 100, 100);
         panel.AddChild(b);
     }
+
+    LOGFONTW font;
+    GetSystemDefaultFont(font);
+    HFONT hFont = CreateFontIndirectW(&font);
+    for (int i = 0; i < 10; ++i)
+    {
+        Button& b = btns[i];
+        SendMessageW(b.Handle, WM_SETFONT, (WPARAM)hFont, TRUE);
+    }
+    //bool b = DeleteObject(hFont);
 
     App::MsgLoop();
     return 0;
