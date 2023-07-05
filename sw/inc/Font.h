@@ -95,7 +95,12 @@ namespace sw
      * @brief 输出质量
      */
     enum class FontQuality : uint8_t {
-        // TODO
+        AntiAliased   = ANTIALIASED_QUALITY,    // 如果字体支持该字体，并且字体大小不是太小或太大，则字体始终为抗锯齿。
+        ClearType     = CLEARTYPE_QUALITY,      // 如果设置，则尽可能使用 ClearType 抗锯齿方法呈现文本。
+        Default       = DEFAULT_QUALITY,        // 字体的外观并不重要。
+        Draft         = DRAFT_QUALITY,          // 字体的外观不如使用PROOF_QUALITY时重要。 对于 GDI 光栅字体，会启用缩放，这意味着可以使用更多字号，但质量可能较低。 如有必要，将合成粗体、斜体、下划线和删除线字体。
+        NoAntiAliased = NONANTIALIASED_QUALITY, // 字体永远不会抗锯齿。
+        Proof         = PROOF_QUALITY,          // 字体的字符质量比逻辑字体属性的精确匹配更重要。 对于 GDI 光栅字体，将禁用缩放，并选择大小最接近的字体。 虽然在使用PROOF_QUALITY时可能无法精确映射所选字号，但字体质量较高，外观不会失真。 如有必要，将合成粗体、斜体、下划线和删除线字体。
     };
 
     /**
@@ -122,75 +127,86 @@ namespace sw
     /**
      * @brief 字体类
      */
-    class Font
-    {
-    public:
+    struct Font {
+        /**
+         * @brief 字体的字体名称，此字符串的长度不能超过 32
+         */
+        std::wstring name = L"";
+
         /**
          * @brief 字体大小，以dip为单位
          */
-        double fontSize;
+        double size = 12;
 
         /**
          * @brief 转义向量与设备的 x 轴之间的角度（以十分之一度为单位）
          */
-        int escapement;
+        int escapement = 0;
 
         /**
          * @brief 每个字符的基线和设备 x 轴之间的角度（以十分之一度为单位）
          */
-        int rientation;
+        int orientation = 0;
 
         /**
          * @brief 字体的粗细，范围为 0 到 1000
          */
-        FontWeight weight;
+        FontWeight weight = FontWeight::DontCare;
 
         /**
          * @brief 是否为斜体
          */
-        bool italic;
+        bool italic = false;
 
         /**
          * @brief 是否有下划线
          */
-        bool underline;
+        bool underline = false;
 
         /**
          * @brief 是否有删除线
          */
-        bool strikeOut;
+        bool strikeOut = false;
 
         /**
          * @brief 字符集
          */
-        FontCharSet charSet;
+        FontCharSet charSet = FontCharSet::Default;
 
         /**
          * @brief 输出精度
          */
-        FontOutPrecision outPrecision;
+        FontOutPrecision outPrecision = FontOutPrecision::Default;
 
         /**
          * @brief 裁剪精度
          */
-        uint8_t clipPrecision;
+        FontClipPrecision clipPrecision = FontClipPrecision::DefaultPrecis;
 
         /**
          * @brief 输出质量
          */
-        uint8_t quality;
+        FontQuality quality = FontQuality::Default;
 
         /**
          * @brief 字体的间距和系列
          */
-        uint8_t pitchAndFamily;
+        /*uint8_t pitchAndFamily;*/
 
         /**
-         * @brief 字体的字体名称，此字符串的长度不能超过 32
+         * @brief 字体的间距
          */
-        std::wstring faceName;
+        FontPitch pitch = FontPitch::Default;
 
-    public:
+        /**
+         * @brief 字体系列
+         */
+        FontFamily family = FontFamily::DontCare;
+
         Font();
+        Font(const std::wstring &name, FontCharSet charSet);
+        Font(const std::wstring &name, double size = 12, FontWeight weight = FontWeight::DontCare);
+        Font(const LOGFONTW &logFont);
+        operator LOGFONTW() const;
     };
 }
