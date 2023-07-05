@@ -74,3 +74,15 @@ sw::Font sw::Font::GetFont(HFONT hFont)
     GetObjectW(hFont, sizeof(logFont), &logFont);
     return logFont;
 }
+
+sw::Font sw::Font::GetSystemDefaultFont()
+{
+    NONCLIENTMETRICSW ncm{};
+    ncm.cbSize = sizeof(ncm);
+
+    if (SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0)) {
+        return ncm.lfMessageFont;
+    } else {
+        return Font();
+    }
+}

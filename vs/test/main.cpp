@@ -4,17 +4,9 @@
 #include "StackPanel.h"
 #include "WrapPanel.h"
 #include "Button.h"
+#include "Font.h"
 
 using namespace sw;
-
-void GetSystemDefaultFont(LOGFONT& font) {
-    NONCLIENTMETRICSW ncm;
-    ncm.cbSize = sizeof(ncm);
-
-    if (SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0)) {
-        font = ncm.lfMessageFont;
-    }
-}
 
 int WINAPI wWinMain(
     _In_     HINSTANCE hInstance,
@@ -42,15 +34,14 @@ int WINAPI wWinMain(
         panel.AddChild(b);
     }
 
-    LOGFONTW font;
-    GetSystemDefaultFont(font);
-    HFONT hFont = CreateFontIndirectW(&font);
+    Font font = Font::GetSystemDefaultFont();
+    HFONT hFont = font.CreateHandle();
+
     for (int i = 0; i < 10; ++i)
     {
         Button& b = btns[i];
         SendMessageW(b.Handle, WM_SETFONT, (WPARAM)hFont, TRUE);
     }
-    //bool b = DeleteObject(hFont);
 
     App::MsgLoop();
     return 0;

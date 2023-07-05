@@ -218,5 +218,11 @@ namespace sw
          * @brief 通过HFONT获取字体信息
          */
         static Font GetFont(HFONT hFont);
+
+        /**
+         * @brief  获取系统默认字体
+         * @return 若获取成功则返回系统默认字体，否则返回默认构造的Font（可通过name字段是否为空字符串判断）
+         */
+        static Font GetSystemDefaultFont();
     };
 }
