@@ -208,5 +208,15 @@ namespace sw
         Font(const std::wstring &name, double size = 12, FontWeight weight = FontWeight::DontCare);
         Font(const LOGFONTW &logFont);
         operator LOGFONTW() const;
+
+        /**
+         * @brief 创建HFONT句柄
+         */
+        HFONT CreateHandle();
+
+        /**
+         * @brief 通过HFONT获取字体信息
+         */
+        static Font GetFont(HFONT hFont);
     };
 }

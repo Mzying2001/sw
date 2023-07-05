@@ -61,3 +61,16 @@ sw::Font::operator LOGFONTW() const
 
     return logFont;
 }
+
+HFONT sw::Font::CreateHandle()
+{
+    LOGFONTW logFont = *this;
+    return CreateFontIndirectW(&logFont);
+}
+
+sw::Font sw::Font::GetFont(HFONT hFont)
+{
+    LOGFONTW logFont{};
+    GetObjectW(hFont, sizeof(logFont), &logFont);
+    return logFont;
+}
