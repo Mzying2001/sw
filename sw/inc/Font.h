@@ -224,6 +224,6 @@ namespace sw
          * @param update 是否重新获取
          * @return       返回默认字体
          */
-        static Font &GetDefaultFont(bool update = true);
+        static Font &GetDefaultFont(bool update = false);
     };
 }
