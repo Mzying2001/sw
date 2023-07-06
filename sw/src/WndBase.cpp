@@ -185,6 +185,16 @@ sw::WndBase::WndBase()
     this->_font = Font::GetDefaultFont();
 }
 
+sw::WndBase::~WndBase()
+{
+    if (this->_hwnd != NULL) {
+        DestroyWindow(this->_hwnd);
+    }
+    if (this->_hfont != NULL) {
+        DeleteObject(this->_hfont);
+    }
+}
+
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu)
 {
     if (this->_hwnd == NULL) {

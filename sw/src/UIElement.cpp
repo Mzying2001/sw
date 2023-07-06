@@ -74,6 +74,11 @@ sw::UIElement::UIElement()
 {
 }
 
+sw::UIElement::~UIElement()
+{
+    this->SetParent(nullptr);
+}
+
 void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &event)
 {
     if (event) {

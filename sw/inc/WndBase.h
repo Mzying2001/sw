@@ -121,6 +121,7 @@ namespace sw
 
     protected:
         WndBase();
+        ~WndBase();
 
         WndBase(const WndBase &)            = delete; // 删除拷贝构造函数
         WndBase(WndBase &&)                 = delete; // 删除移动构造函数

@@ -99,6 +99,7 @@ namespace sw
 
     public:
         UIElement();
+        ~UIElement();
 
         /**
          * @brief           注册路由事件处理函数，当事件已注册时会覆盖已注册的函数

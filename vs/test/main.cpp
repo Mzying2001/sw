@@ -17,7 +17,7 @@ int WINAPI wWinMain(
     static FillLayout layout;
     window.Layout = &layout;
 
-    static StackPanel panel;
+    static WrapPanel panel;
     panel.Margin = 5;
     window.AddChild(panel);
 
