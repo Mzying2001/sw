@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Dip.h"
 #include <Windows.h>
 
 namespace sw

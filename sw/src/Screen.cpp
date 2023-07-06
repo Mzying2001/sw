@@ -1,4 +1,5 @@
 #include "Screen.h"
+#include "Dip.h"
 
 const sw::ReadOnlyProperty<double> sw::Screen::Width(
     []() -> const double & {

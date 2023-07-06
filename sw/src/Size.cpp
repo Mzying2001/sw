@@ -1,4 +1,5 @@
 #include "Size.h"
+#include "Dip.h"
 #include <cmath>
 
 sw::Size::Size()

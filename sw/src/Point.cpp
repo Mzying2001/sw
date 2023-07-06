@@ -1,4 +1,5 @@
 #include "Point.h"
+#include "Dip.h"
 #include <cmath>
 
 sw::Point::Point()

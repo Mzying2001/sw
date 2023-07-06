@@ -1,4 +1,5 @@
 #include "Rect.h"
+#include "Dip.h"
 #include <cmath>
 
 sw::Rect::Rect()
