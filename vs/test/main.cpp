@@ -26,7 +26,7 @@ int WINAPI wWinMain(
     {
         Button& b = btns[i];
         b.Margin = 5;
-        b.Rect = Rect(0, 0, 100, 100);
+        //b.Rect = Rect(0, 0, 100, 100);
         panel.AddChild(b);
     }
 
