@@ -151,6 +151,14 @@ bool sw::UIElement::RemoveChild(UIElement &element)
     return this->RemoveChild(&element);
 }
 
+void sw::UIElement::Clear()
+{
+    for (UIElement *item : this->_children) {
+        item->WndBase::SetParent(nullptr);
+    }
+    this->_children.clear();
+}
+
 sw::UIElement *sw::UIElement::operator[](int index) const
 {
     return this->_children[index];

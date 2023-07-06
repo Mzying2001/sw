@@ -145,6 +145,11 @@ namespace sw
         bool RemoveChild(UIElement &element);
 
         /**
+         * @brief 移除所有子控件
+         */
+        void Clear();
+
+        /**
          * @brief 通过索引获取子控件
          */
         UIElement *operator[](int index) const;
