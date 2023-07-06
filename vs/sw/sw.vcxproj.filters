@@ -117,6 +117,9 @@
     <ClInclude Include="..\..\sw\inc\Font.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw\inc\SimpleWindow.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sw\src\Property.cpp">

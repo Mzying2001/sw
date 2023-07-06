@@ -1,10 +1,6 @@
 #pragma warning(disable:4819)
-#include "Window.h"
-#include "FillLayout.h"
-#include "StackPanel.h"
-#include "WrapPanel.h"
-#include "Button.h"
-#include "Font.h"
+#include <Windows.h>
+#include "SimpleWindow.h"
 
 using namespace sw;
 

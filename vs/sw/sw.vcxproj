@@ -159,6 +159,7 @@
     <ClInclude Include="..\..\sw\inc\Rect.h" />
     <ClInclude Include="..\..\sw\inc\RoutedEvent.h" />
     <ClInclude Include="..\..\sw\inc\Screen.h" />
+    <ClInclude Include="..\..\sw\inc\SimpleWindow.h" />
     <ClInclude Include="..\..\sw\inc\Size.h" />
     <ClInclude Include="..\..\sw\inc\StackLayout.h" />
     <ClInclude Include="..\..\sw\inc\StackLayoutH.h" />
