@@ -75,14 +75,28 @@ sw::Font sw::Font::GetFont(HFONT hFont)
     return logFont;
 }
 
-sw::Font sw::Font::GetSystemDefaultFont()
+sw::Font &sw::Font::GetDefaultFont(bool update)
 {
-    NONCLIENTMETRICSW ncm{};
-    ncm.cbSize = sizeof(ncm);
+    static Font *pFont = nullptr;
 
-    if (SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0)) {
-        return ncm.lfMessageFont;
-    } else {
-        return Font();
+    if (pFont == nullptr) {
+        update = true;
     }
+
+    if (update) {
+        NONCLIENTMETRICSW ncm{};
+        ncm.cbSize = sizeof(ncm);
+
+        if (pFont != nullptr) {
+            delete pFont;
+        }
+
+        if (SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0)) {
+            pFont = new Font(ncm.lfMessageFont);
+        } else {
+            pFont = new Font();
+        }
+    }
+
+    return *pFont;
 }

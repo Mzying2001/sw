@@ -220,9 +220,10 @@ namespace sw
         static Font GetFont(HFONT hFont);
 
         /**
-         * @brief  获取系统默认字体
-         * @return 若获取成功则返回系统默认字体，否则返回默认构造的Font（可通过name字段是否为空字符串判断）
+         * @brief        获取默认字体，可修改返回的引用来更改控件的默认字体，当首次调用或参数update为true时会获取系统默认字体（已创建的控件字体不会因此改变）
+         * @param update 是否重新获取
+         * @return       返回默认字体
          */
-        static Font GetSystemDefaultFont();
+        static Font &GetDefaultFont(bool update = true);
     };
 }

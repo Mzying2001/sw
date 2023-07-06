@@ -30,7 +30,7 @@ int WINAPI wWinMain(
         panel.AddChild(b);
     }
 
-    Font font = Font::GetSystemDefaultFont();
+    Font font = Font::GetDefaultFont();
     HFONT hFont = font.CreateHandle();
 
     for (int i = 0; i < 10; ++i)
