@@ -177,7 +177,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sw\src\AbsoluteLayout.cpp" />
-    <ClCompile Include="..\..\sw\src\Alignment.cpp" />
     <ClCompile Include="..\..\sw\src\App.cpp" />
     <ClCompile Include="..\..\sw\src\Button.cpp" />
     <ClCompile Include="..\..\sw\src\ButtonBase.cpp" />
@@ -186,15 +185,12 @@
     <ClCompile Include="..\..\sw\src\Dip.cpp" />
     <ClCompile Include="..\..\sw\src\FillLayout.cpp" />
     <ClCompile Include="..\..\sw\src\Font.cpp" />
-    <ClCompile Include="..\..\sw\src\ICtlColor.cpp" />
-    <ClCompile Include="..\..\sw\src\ILayout.cpp" />
     <ClCompile Include="..\..\sw\src\Layer.cpp" />
     <ClCompile Include="..\..\sw\src\LayoutHost.cpp" />
     <ClCompile Include="..\..\sw\src\MsgBox.cpp" />
     <ClCompile Include="..\..\sw\src\Panel.cpp" />
     <ClCompile Include="..\..\sw\src\Point.cpp" />
     <ClCompile Include="..\..\sw\src\ProcMsg.cpp" />
-    <ClCompile Include="..\..\sw\src\Property.cpp" />
     <ClCompile Include="..\..\sw\src\Rect.cpp" />
     <ClCompile Include="..\..\sw\src\RoutedEvent.cpp" />
     <ClCompile Include="..\..\sw\src\Screen.cpp" />
@@ -207,7 +203,6 @@
     <ClCompile Include="..\..\sw\src\UIElement.cpp" />
     <ClCompile Include="..\..\sw\src\Window.cpp" />
     <ClCompile Include="..\..\sw\src\WndBase.cpp" />
-    <ClCompile Include="..\..\sw\src\WndMsg.cpp" />
     <ClCompile Include="..\..\sw\src\WrapLayout.cpp" />
     <ClCompile Include="..\..\sw\src\WrapLayoutH.cpp" />
     <ClCompile Include="..\..\sw\src\WrapLayoutV.cpp" />

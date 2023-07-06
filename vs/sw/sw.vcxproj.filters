@@ -122,9 +122,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\sw\src\Property.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\sw\src\WndBase.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -161,19 +158,10 @@
     <ClCompile Include="..\..\sw\src\MsgBox.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sw\src\WndMsg.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\sw\src\Thickness.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw\src\Size.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sw\src\Alignment.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sw\src\ILayout.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw\src\AbsoluteLayout.cpp">
@@ -198,9 +186,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw\src\Control.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sw\src\ICtlColor.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw\src\Panel.cpp">
