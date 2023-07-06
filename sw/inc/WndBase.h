@@ -2,6 +2,7 @@
 
 #include "App.h"
 #include "Dip.h"
+#include "Font.h"
 #include "ICtlColor.h"
 #include "Point.h"
 #include "ProcMsg.h"
@@ -22,8 +23,29 @@ namespace sw
         static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
     private:
-        HWND _hwnd         = NULL;
-        sw::Rect _rect     = sw::Rect();
+        /**
+         * @brief 窗口句柄
+         */
+        HWND _hwnd = NULL;
+
+        /**
+         * @brief 字体句柄
+         */
+        HFONT _hfont = NULL;
+
+        /**
+         * @brief 字体信息
+         */
+        Font _font;
+
+        /**
+         * @brief 窗口的位置和尺寸
+         */
+        sw::Rect _rect = sw::Rect();
+
+        /**
+         * @brief 窗口标题或文本
+         */
         std::wstring _text = L"";
 
         /**
@@ -114,6 +136,11 @@ namespace sw
          * @brief 初始化为控件，该函数会调用CreateWindowExW
          */
         void InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle);
+
+        /**
+         * @brief 更新字体
+         */
+        void UpdateFont();
 
         /**
          * @brief 获取窗口样式

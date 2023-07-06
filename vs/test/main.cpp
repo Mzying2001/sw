@@ -30,15 +30,6 @@ int WINAPI wWinMain(
         panel.AddChild(b);
     }
 
-    Font font = Font::GetDefaultFont();
-    HFONT hFont = font.CreateHandle();
-
-    for (int i = 0; i < 10; ++i)
-    {
-        Button& b = btns[i];
-        SendMessageW(b.Handle, WM_SETFONT, (WPARAM)hFont, TRUE);
-    }
-
     App::MsgLoop();
     return 0;
 }

@@ -182,6 +182,7 @@ sw::WndBase::WndBase()
     }
 
     RegisterClassExW(&wc);
+    this->_font = Font::GetDefaultFont();
 }
 
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu)
@@ -210,6 +211,7 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParen
         this->_rect = rect;
 
         SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+        this->UpdateFont();
     }
 }
 
@@ -246,12 +248,23 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
 
         this->_controlOldWndProc =
             reinterpret_cast<WNDPROC>(SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
+
+        this->UpdateFont();
     }
 }
 
 LONG_PTR sw::WndBase::GetStyle()
 {
     return GetWindowLongPtrW(this->_hwnd, GWL_STYLE);
+}
+
+void sw::WndBase::UpdateFont()
+{
+    if (this->_hfont != NULL) {
+        DeleteObject(this->_hfont);
+    }
+    this->_hfont = this->_font.CreateHandle();
+    SendMessageW(this->_hwnd, WM_SETFONT, (WPARAM)this->_hfont, TRUE);
 }
 
 void sw::WndBase::SetStyle(LONG_PTR style)
