@@ -249,6 +249,16 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
     }
 }
 
+LONG_PTR sw::WndBase::GetStyle()
+{
+    return GetWindowLongPtrW(this->_hwnd, GWL_STYLE);
+}
+
+void sw::WndBase::SetStyle(LONG_PTR style)
+{
+    SetWindowLongPtrW(this->_hwnd, GWL_STYLE, style);
+}
+
 bool sw::WndBase::GetStyle(LONG_PTR style)
 {
     return GetWindowLongPtrW(this->_hwnd, GWL_STYLE) & style;
@@ -262,6 +272,16 @@ void sw::WndBase::SetStyle(LONG_PTR style, bool value)
         style = GetWindowLongPtrW(this->_hwnd, GWL_STYLE) & ~style;
     }
     SetWindowLongPtrW(this->_hwnd, GWL_STYLE, style);
+}
+
+LONG_PTR sw::WndBase::GetExtendedStyle()
+{
+    return GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE);
+}
+
+void sw::WndBase::SetExtendedStyle(LONG_PTR style)
+{
+    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, style);
 }
 
 bool sw::WndBase::GetExtendedStyle(LONG_PTR style)

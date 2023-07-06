@@ -118,20 +118,40 @@ namespace sw
         /**
          * @brief 获取窗口样式
          */
-        bool GetStyle(LONG_PTR style);
+        LONG_PTR GetStyle();
 
         /**
          * @brief 设置窗口样式
+         */
+        void SetStyle(LONG_PTR style);
+
+        /**
+         * @brief 获取窗口的某个样式
+         */
+        bool GetStyle(LONG_PTR style);
+
+        /**
+         * @brief 设置窗口的某个样式
          */
         void SetStyle(LONG_PTR style, bool value);
 
         /**
          * @brief 获取扩展窗口样式
          */
-        bool GetExtendedStyle(LONG_PTR style);
+        LONG_PTR GetExtendedStyle();
 
         /**
          * @brief 设置扩展窗口样式
+         */
+        void SetExtendedStyle(LONG_PTR style);
+
+        /**
+         * @brief 获取窗口的某个扩展样式
+         */
+        bool GetExtendedStyle(LONG_PTR style);
+
+        /**
+         * @brief 设置窗口的某个扩展样式
          */
         void SetExtendedStyle(LONG_PTR style, bool value);
 
