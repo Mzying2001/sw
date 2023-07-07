@@ -36,7 +36,7 @@ namespace sw
         /**
          * @brief 字体信息
          */
-        Font _font;
+        sw::Font _font;
 
         /**
          * @brief 窗口的位置和尺寸
@@ -58,6 +58,26 @@ namespace sw
          * @brief 窗口句柄
          */
         const ReadOnlyProperty<HWND> Handle;
+
+        /**
+         * @brief 字体
+         */
+        const Property<sw::Font> Font;
+
+        /**
+         * @brief 字体名称
+         */
+        const Property<std::wstring> FontName;
+
+        /**
+         * @brief 字体大小
+         */
+        const Property<double> FontSize;
+
+        /**
+         * @brief 字体粗细
+         */
+        const Property<sw::FontWeight> FontWeight;
 
         /**
          * @brief 位置和尺寸

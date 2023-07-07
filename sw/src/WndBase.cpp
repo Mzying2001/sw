@@ -35,6 +35,50 @@ sw::WndBase::WndBase()
               return this->_hwnd;
           }),
 
+      Font(
+          // get
+          [&]() -> const sw::Font & {
+              return this->_font;
+          },
+          // set
+          [&](const sw::Font &value) {
+              this->_font = value;
+              this->UpdateFont();
+          }),
+
+      FontName(
+          // get
+          [&]() -> const std::wstring & {
+              return this->_font.name;
+          },
+          // set
+          [&](const std::wstring &value) {
+              this->_font.name = value;
+              this->UpdateFont();
+          }),
+
+      FontSize(
+          // get
+          [&]() -> const double & {
+              return this->_font.size;
+          },
+          // set
+          [&](const double &value) {
+              this->_font.size = value;
+              this->UpdateFont();
+          }),
+
+      FontWeight(
+          // get
+          [&]() -> const sw::FontWeight & {
+              return this->_font.weight;
+          },
+          // set
+          [&](const sw::FontWeight &value) {
+              this->_font.weight = value;
+              this->UpdateFont();
+          }),
+
       Rect(
           // get
           [&]() -> const sw::Rect & {
@@ -182,7 +226,7 @@ sw::WndBase::WndBase()
     }
 
     RegisterClassExW(&wc);
-    this->_font = Font::GetDefaultFont();
+    this->_font = sw::Font::GetDefaultFont();
 }
 
 sw::WndBase::~WndBase()

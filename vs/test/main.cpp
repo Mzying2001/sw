@@ -30,6 +30,10 @@ int WINAPI wWinMain(
         panel.AddChild(b);
     }
 
+    btns[0].FontName = L"ËÎÌו";
+    btns[1].FontSize = 16;
+    btns[2].FontWeight = FontWeight::Bold;
+
     App::MsgLoop();
     return 0;
 }
