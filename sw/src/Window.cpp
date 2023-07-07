@@ -11,6 +11,11 @@ static unsigned int _windowCount = 0;
  */
 bool sw::Window::PostQuitWhenAllClosed = true;
 
+/**
+ * @brief DIP更新时调用该函数递归地更新所有子项的字体
+ */
+static void _UpdateFontForAllChild(sw::UIElement &element);
+
 sw::Window::Window()
     : State(
           // get
@@ -210,6 +215,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         case WM_DPICHANGED: {
             Dip::Update(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam));
             this->UpdateLayout();
+            _UpdateFontForAllChild(*this);
             return 0;
         }
 
@@ -277,4 +283,14 @@ void sw::Window::Measure(const Size &availableSize)
 void sw::Window::Arrange(const sw::Rect &finalPosition)
 {
     this->Layer::Arrange(finalPosition);
+}
+
+void _UpdateFontForAllChild(sw::UIElement &element)
+{
+    element.FontSize = element.FontSize;
+
+    int count = element.ChildCount;
+    for (int i = 0; i < count; ++i) {
+        _UpdateFontForAllChild(*element[i]);
+    }
 }
