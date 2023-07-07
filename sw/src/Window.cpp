@@ -234,7 +234,7 @@ bool sw::Window::OnClose()
 {
     // 触发路由事件，cancel表示是否取消本次关闭
     bool cancel = false;
-    RaiseRoutedEvent(RoutedEventType::WindowClosing, &cancel);
+    RaiseRoutedEvent(RoutedEventType::Window_Closing, &cancel);
     if (!cancel) {
         this->UIElement::OnClose();
     }
@@ -250,7 +250,7 @@ bool sw::Window::OnCreate()
 bool sw::Window::OnDestroy()
 {
     // 触发路由事件
-    RaiseRoutedEvent(RoutedEventType::WindowClosed);
+    RaiseRoutedEvent(RoutedEventType::Window_Closed);
     // 所有窗口都关闭时若PostQuitWhenAllClosed为true则退出程序
     if (!--_windowCount && PostQuitWhenAllClosed) {
         App::Quit();
