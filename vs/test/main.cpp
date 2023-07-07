@@ -26,13 +26,14 @@ int WINAPI wWinMain(
     {
         Button& b = btns[i];
         b.Margin = 5;
-        //b.Rect = Rect(0, 0, 100, 100);
+        b.Description = std::to_wstring(i + 1);
         panel.AddChild(b);
     }
 
-    btns[0].FontName = L"宋体";
-    btns[1].FontSize = 16;
-    btns[2].FontWeight = FontWeight::Bold;
+    panel.RegisterRoutedEvent(ButtonBase_Clicked, [&](UIElement& element, RoutedEventArgs& args) {
+        args.handled = true;
+        MsgBox::Show(&window, L"你点击了第" + element.Description + L"个按钮");
+    });
 
     App::MsgLoop();
     return 0;
