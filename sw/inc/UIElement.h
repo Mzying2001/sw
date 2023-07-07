@@ -152,7 +152,7 @@ namespace sw
         /**
          * @brief 通过索引获取子控件
          */
-        UIElement *operator[](int index) const;
+        UIElement &operator[](int index) const;
 
         /**
          * @brief 获取参与布局的子控件数量

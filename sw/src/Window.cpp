@@ -12,7 +12,7 @@ static unsigned int _windowCount = 0;
 bool sw::Window::PostQuitWhenAllClosed = true;
 
 /**
- * @brief DIP更新时调用该函数递归地更新所有子项的字体
+ * @brief DPI更新时调用该函数递归地更新所有子项的字体
  */
 static void _UpdateFontForAllChild(sw::UIElement &element);
 
@@ -291,6 +291,6 @@ void _UpdateFontForAllChild(sw::UIElement &element)
 
     int count = element.ChildCount;
     for (int i = 0; i < count; ++i) {
-        _UpdateFontForAllChild(*element[i]);
+        _UpdateFontForAllChild(element[i]);
     }
 }

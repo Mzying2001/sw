@@ -159,9 +159,9 @@ void sw::UIElement::Clear()
     this->_children.clear();
 }
 
-sw::UIElement *sw::UIElement::operator[](int index) const
+sw::UIElement &sw::UIElement::operator[](int index) const
 {
-    return this->_children[index];
+    return *this->_children[index];
 }
 
 int sw::UIElement::GetChildLayoutCount()
