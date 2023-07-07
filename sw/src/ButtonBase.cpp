@@ -11,5 +11,16 @@ void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle)
 
 void sw::ButtonBase::ParentReceivedCommand(int code)
 {
-    // TODO
+    switch (code) {
+        case BN_CLICKED:
+            this->RaiseRoutedEvent(ButtonBase_Clicked);
+            break;
+
+        case BN_DOUBLECLICKED:
+            this->RaiseRoutedEvent(ButtonBase_DoubleClicked);
+            break;
+
+        default:
+            break;
+    }
 }
