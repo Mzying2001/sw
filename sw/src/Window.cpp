@@ -287,7 +287,7 @@ void sw::Window::Arrange(const sw::Rect &finalPosition)
 
 void _UpdateFontForAllChild(sw::UIElement &element)
 {
-    element.FontSize = element.FontSize;
+    element.UpdateFont();
 
     int count = element.ChildCount;
     for (int i = 0; i < count; ++i) {

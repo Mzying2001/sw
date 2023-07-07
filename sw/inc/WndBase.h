@@ -159,11 +159,6 @@ namespace sw
         void InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle);
 
         /**
-         * @brief 更新字体
-         */
-        void UpdateFont();
-
-        /**
          * @brief 获取窗口样式
          */
         LONG_PTR GetStyle();
@@ -294,6 +289,11 @@ namespace sw
          * @brief 该函数调用UpdateWindow
          */
         void Update();
+
+        /**
+         * @brief 更新字体
+         */
+        void UpdateFont();
 
         /**
          * @brief 重画

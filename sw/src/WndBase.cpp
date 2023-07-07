@@ -312,15 +312,6 @@ LONG_PTR sw::WndBase::GetStyle()
     return GetWindowLongPtrW(this->_hwnd, GWL_STYLE);
 }
 
-void sw::WndBase::UpdateFont()
-{
-    if (this->_hfont != NULL) {
-        DeleteObject(this->_hfont);
-    }
-    this->_hfont = this->_font.CreateHandle();
-    SendMessageW(this->_hwnd, WM_SETFONT, (WPARAM)this->_hfont, TRUE);
-}
-
 void sw::WndBase::SetStyle(LONG_PTR style)
 {
     SetWindowLongPtrW(this->_hwnd, GWL_STYLE, style);
@@ -540,6 +531,15 @@ void sw::WndBase::Close()
 void sw::WndBase::Update()
 {
     UpdateWindow(this->_hwnd);
+}
+
+void sw::WndBase::UpdateFont()
+{
+    if (this->_hfont != NULL) {
+        DeleteObject(this->_hfont);
+    }
+    this->_hfont = this->_font.CreateHandle();
+    SendMessageW(this->_hwnd, WM_SETFONT, (WPARAM)this->_hfont, TRUE);
 }
 
 void sw::WndBase::Redraw()
