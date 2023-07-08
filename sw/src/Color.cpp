@@ -21,3 +21,8 @@ sw::Color::operator COLORREF() const
 {
     return RGB(this->r, this->g, this->b);
 }
+
+std::wostream &sw::operator<<(std::wostream &wos, const Color &color)
+{
+    return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
+}

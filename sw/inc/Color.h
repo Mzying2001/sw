@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <cstdint>
+#include <iostream>
 
 namespace sw
 {
@@ -14,6 +15,8 @@ namespace sw
         Color(uint8_t r, uint8_t g, uint8_t b);
         Color(COLORREF color);
         operator COLORREF() const;
+
+        friend std::wostream &operator<<(std::wostream &wos, const Color &color);
 
         /*==================================================*/
 

@@ -35,3 +35,8 @@ RECT sw::Rect::GetRECT() const
     rect.bottom = std::lround((this->top + this->height) / scaleY);
     return rect;
 }
+
+std::wostream &sw::operator<<(std::wostream &wos, const Rect &rect)
+{
+    return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
+}

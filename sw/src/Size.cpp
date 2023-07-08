@@ -25,3 +25,8 @@ sw::Size::operator SIZE() const
     size.cy = std::lround(this->height / Dip::ScaleY);
     return size;
 }
+
+std::wostream &sw::operator<<(std::wostream &wos, const Size &size)
+{
+    return wos << L"Size{width=" << size.width << L", height=" << size.height << L"}";
+}
