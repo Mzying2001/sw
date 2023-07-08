@@ -26,13 +26,23 @@ int WINAPI wWinMain(
     {
         Button& b = btns[i];
         b.Margin = 5;
-        b.Description = std::to_wstring(i + 1);
         panel.AddChild(b);
     }
 
     panel.RegisterRoutedEvent(ButtonBase_Clicked, [&](UIElement& element, RoutedEventArgs& args) {
+
+        int index = -1;
+        for (int i = 0; i < panel.ChildCount; ++i)
+        {
+            if (&panel[i] == &element)
+            {
+                index = i;
+                break;
+            }
+        }
+
         args.handled = true;
-        MsgBox::Show(&window, L"你点击了第" + element.Description + L"个按钮");
+        MsgBox::Show(&window, Utils::BuildStr(L"你点击了第", index + 1, L"个按钮"));
     });
 
     App::MsgLoop();
