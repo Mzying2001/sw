@@ -30,18 +30,8 @@ int WINAPI wWinMain(
     }
 
     panel.RegisterRoutedEvent(ButtonBase_Clicked, [&](UIElement& element, RoutedEventArgs& args) {
-
-        int index = -1;
-        for (int i = 0; i < panel.ChildCount; ++i)
-        {
-            if (&panel[i] == &element)
-            {
-                index = i;
-                break;
-            }
-        }
-
         args.handled = true;
+        int index = panel.IndexOf(element);
         MsgBox::Show(&window, Utils::BuildStr(L"你点击了第", index + 1, L"个按钮"));
     });
 

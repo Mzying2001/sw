@@ -159,6 +159,19 @@ void sw::UIElement::Clear()
     this->_children.clear();
 }
 
+int sw::UIElement::IndexOf(UIElement *element)
+{
+    std::vector<UIElement *>::iterator beg = this->_children.begin();
+    std::vector<UIElement *>::iterator end = this->_children.end();
+    std::vector<UIElement *>::iterator it  = std::find(beg, end, element);
+    return it == end ? -1 : int(it - beg);
+}
+
+int sw::UIElement::IndexOf(UIElement &element)
+{
+    return this->IndexOf(&element);
+}
+
 sw::UIElement &sw::UIElement::operator[](int index) const
 {
     return *this->_children[index];

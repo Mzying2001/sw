@@ -150,6 +150,20 @@ namespace sw
         void Clear();
 
         /**
+         * @brief         获取指定元素的索引
+         * @param element 要查找的元素
+         * @return        若找到指定元素则返回对应的索引，否则返回-1
+        */
+        int IndexOf(UIElement *element);
+
+        /**
+         * @brief         获取指定元素的索引
+         * @param element 要查找的元素
+         * @return        若找到指定元素则返回对应的索引，否则返回-1
+        */
+        int IndexOf(UIElement &element);
+
+        /**
          * @brief 通过索引获取子控件
          */
         UIElement &operator[](int index) const;
