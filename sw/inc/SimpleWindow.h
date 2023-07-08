@@ -31,6 +31,7 @@
 #include "StackPanel.h"
 #include "Thickness.h"
 #include "UIElement.h"
+#include "Utils.h"
 #include "Window.h"
 #include "WndBase.h"
 #include "WndMsg.h"
