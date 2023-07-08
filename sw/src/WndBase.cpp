@@ -413,13 +413,7 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_COMMAND: {
-            if (refMsg.lParam != NULL) {
-                // 接收到控件消息
-                SendMessageW((HWND)refMsg.lParam, WM_ParentReceivedCommand, refMsg.wParam, refMsg.lParam);
-            } else {
-                // Menu / Accelerator
-                // ...
-            }
+            this->OnCommand(refMsg.wParam, refMsg.lParam);
             return 0;
         }
 
@@ -512,6 +506,17 @@ bool sw::WndBase::SetParent(WndBase *parent)
 
 void sw::WndBase::ParentChanged(WndBase *newParent)
 {
+}
+
+void sw::WndBase::OnCommand(WPARAM wParam, LPARAM lParam)
+{
+    if (lParam != NULL) {
+        // 接收到控件消息
+        SendMessageW((HWND)lParam, WM_ParentReceivedCommand, wParam, lParam);
+    } else {
+        // Menu / Accelerator
+        // ...
+    }
 }
 
 void sw::WndBase::ParentReceivedCommand(int code)

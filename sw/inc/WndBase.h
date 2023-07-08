@@ -269,6 +269,13 @@ namespace sw
         virtual void ParentChanged(WndBase *newParent);
 
         /**
+         * @brief 接收到WM_COMMAND后调用此函数
+         * @param wParam
+         * @param lParam
+         */
+        virtual void OnCommand(WPARAM wParam, LPARAM lParam);
+
+        /**
          * @brief      接收到WM_ParentReceivedCommand消息时调用此函数
          * @param code 通知代码
          */
