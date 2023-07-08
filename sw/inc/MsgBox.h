@@ -7,34 +7,52 @@
 
 namespace sw
 {
+    /**
+     * @brief 消息框回调
+     */
     typedef std::function<void()> MsgBoxCallback;
 
+    /**
+     * @brief 消息框按钮类型
+     */
+    enum class MsgBoxButton {
+        Ok          = MB_OK,
+        OkCancel    = MB_OKCANCEL,
+        YesNoCancel = MB_YESNOCANCEL,
+        YesNo       = MB_YESNO,
+    };
+
+    /**
+     * @brief 消息框结果
+     */
+    enum class MsgBoxResult {
+        Ok     = IDOK,
+        Cancel = IDCANCEL,
+        Yes    = IDYES,
+        No     = IDNO,
+    };
+
+    /**
+     * @brief 消息框类
+     */
     class MsgBox
     {
     public:
-        enum MsgBoxButton {
-            Ok          = MB_OK,
-            YesNo       = MB_YESNO,
-            OkCancel    = MB_OKCANCEL,
-            YesNoCancel = MB_YESNOCANCEL,
-        };
-
-    public:
-        int result = -1;
+        MsgBoxResult result;
 
     private:
-        MsgBox();
-        MsgBox(int result);
+        MsgBox() = delete;
+        MsgBox(MsgBoxResult result);
 
     public:
-        static MsgBox Show(const WndBase *parent, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = Ok);
-        static MsgBox ShowInfo(const WndBase *parent, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = Ok);
-        static MsgBox ShowError(const WndBase *parent, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = Ok);
-        static MsgBox ShowWarning(const WndBase *parent, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = Ok);
-        static MsgBox ShowQuestion(const WndBase *parent, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = YesNo);
+        static MsgBox Show(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+        static MsgBox ShowInfo(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+        static MsgBox ShowError(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+        static MsgBox ShowWarning(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+        static MsgBox ShowQuestion(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
 
     private:
-        const MsgBox &On(int btnId, const MsgBoxCallback &callback) const;
+        const MsgBox &On(MsgBoxResult result, const MsgBoxCallback &callback) const;
 
     public:
         const MsgBox &OnOk(const MsgBoxCallback &callback) const;
