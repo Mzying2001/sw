@@ -21,6 +21,22 @@ namespace sw
          */
         template <class... Args>
         static std::wstring BuildStr(const Args &...args);
+
+        /**
+         * @brief      将窄字符串转为宽字符串
+         * @param str  要转换的字符串
+         * @param utf8 是否使用utf8编码
+         * @return     转换后的字符串
+         */
+        static std::wstring ToWideStr(const std::string &str, bool utf8 = false);
+
+        /**
+         * @brief      将宽字符串转为窄字符串
+         * @param wstr 要转换的字符串
+         * @param utf8 是否使用utf8编码
+         * @return     转换后的字符串
+         */
+        static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8 = false);
     };
 
     /*================================================================================*/
