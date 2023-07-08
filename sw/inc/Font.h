@@ -127,7 +127,9 @@ namespace sw
     /**
      * @brief 字体类
      */
-    struct Font {
+    class Font
+    {
+    public:
         /**
          * @brief 字体的字体名称，此字符串的长度不能超过 32
          */
@@ -203,6 +205,7 @@ namespace sw
          */
         FontFamily family = FontFamily::DontCare;
 
+    public:
         Font();
         Font(const std::wstring &name, FontCharSet charSet);
         Font(const std::wstring &name, double size = 12, FontWeight weight = FontWeight::DontCare);
