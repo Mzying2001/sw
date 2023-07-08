@@ -12,8 +12,17 @@ namespace sw
 
         template <class T>
         static void _BuildStr(std::wstringstream &wss, const T &arg);
+        static void _BuildStr(std::wstringstream &wss, const char *str);
+        static void _BuildStr(std::wstringstream &wss, const std::string &str);
+
         template <class First, class... Rest>
         static void _BuildStr(std::wstringstream &wss, const First &first, const Rest &...rest);
+
+        template <class... Rest>
+        static void _BuildStr(std::wstringstream &wss, const char *str, const Rest &...rest);
+
+        template <class... Rest>
+        static void _BuildStr(std::wstringstream &wss, const std::string &str, const Rest &...rest);
 
     public:
         /**
@@ -47,10 +56,34 @@ namespace sw
         wss << arg;
     }
 
+    inline void sw::Utils::_BuildStr(std::wstringstream &wss, const char *str)
+    {
+        wss << Utils::ToWideStr(str);
+    }
+
+    inline void sw::Utils::_BuildStr(std::wstringstream &wss, const std::string &str)
+    {
+        wss << Utils::ToWideStr(str);
+    }
+
     template <class First, class... Rest>
     inline void Utils::_BuildStr(std::wstringstream &wss, const First &first, const Rest &...rest)
     {
         wss << first;
+        Utils::_BuildStr(wss, rest...);
+    }
+
+    template <class... Rest>
+    inline void Utils::_BuildStr(std::wstringstream &wss, const char *str, const Rest &...rest)
+    {
+        wss << Utils::ToWideStr(str);
+        Utils::_BuildStr(wss, rest...);
+    }
+
+    template <class... Rest>
+    inline void Utils::_BuildStr(std::wstringstream &wss, const std::string &str, const Rest &...rest)
+    {
+        wss << Utils::ToWideStr(str);
         Utils::_BuildStr(wss, rest...);
     }
 
