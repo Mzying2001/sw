@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <iostream>
 
 namespace sw
 {
@@ -38,6 +39,9 @@ namespace sw
         const Property &operator=(const T &value) const;
         T *operator->() const;
     };
+
+    template <class T>
+    std::wostream &operator<<(std::wostream &wos, const ReadOnlyProperty<T> &prop);
 
     /*================================================================================*/
 
@@ -102,5 +106,11 @@ namespace sw
     {
         const T &value = this->Get();
         return const_cast<T *>(&value);
+    }
+
+    template <class T>
+    inline std::wostream &operator<<(std::wostream &wos, const ReadOnlyProperty<T> &prop)
+    {
+        return wos << prop.Get();
     }
 }
