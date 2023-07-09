@@ -13,12 +13,12 @@ bool sw::Button::OnSetFocus(HWND hPreFocus)
 {
     this->SetStyle(BUTTONSTYLE_FOCUSED);
     this->Redraw();
-    return true;
+    return this->ButtonBase::OnSetFocus(hPreFocus);
 }
 
 bool sw::Button::OnKillFocus(HWND hNextFocus)
 {
     this->SetStyle(BUTTONSTYLE_DEFAULT);
     this->Redraw();
-    return true;
+    return this->ButtonBase::OnKillFocus(hNextFocus);
 }
