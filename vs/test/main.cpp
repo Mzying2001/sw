@@ -37,8 +37,21 @@ int WINAPI wWinMain(
 
     window.RegisterRoutedEvent(UIElement_PositionChanged, [&](UIElement& element, RoutedEventArgs& args) {
         if (&element == &window) {
-            Point* pos = reinterpret_cast<Point*>(args.param);
-            window.Text = Utils::BuildStr(*pos);
+            Point pos(element.Left, element.Top);
+            window.Text = Utils::BuildStr(pos);
+        }
+    });
+
+    window.RegisterRoutedEvent(UIElement_TextChanged, [&](UIElement& element, RoutedEventArgs& args) {
+        if (&element == &window) {
+            btns[0].Text = window.Text;
+        }
+    });
+
+    window.RegisterRoutedEvent(UIElement_SizeChanged, [&](UIElement& element, RoutedEventArgs& args) {
+        if (&element == &window) {
+            btns[1].Text = Utils::BuildStr(L"w=", window.Width);
+            btns[2].Text = Utils::BuildStr(L"h=", window.Height);
         }
     });
 
