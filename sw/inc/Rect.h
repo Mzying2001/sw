@@ -14,7 +14,7 @@ namespace sw
         Rect();
         Rect(double left, double top, double width, double height);
         Rect(const RECT &rect);
-        RECT GetRECT() const;
+        operator RECT() const;
 
         friend std::wostream &operator<<(std::wostream &wos, const Rect &rect);
     };

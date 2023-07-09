@@ -22,7 +22,7 @@ sw::Rect::Rect(const RECT &rect)
     this->height  = scaleY * (rect.bottom - rect.top);
 }
 
-RECT sw::Rect::GetRECT() const
+sw::Rect::operator RECT() const
 {
     RECT rect{};
     double scaleX;
