@@ -35,6 +35,13 @@ int WINAPI wWinMain(
         MsgBox::Show(&window, Utils::BuildStr(L"你点击了第", index + 1, L"个按钮"));
     });
 
+    window.RegisterRoutedEvent(UIElement_PositionChanged, [&](UIElement& element, RoutedEventArgs& args) {
+        if (&element == &window) {
+            Point* pos = reinterpret_cast<Point*>(args.param);
+            window.Text = Utils::BuildStr(*pos);
+        }
+    });
+
     App::MsgLoop();
     return 0;
 }

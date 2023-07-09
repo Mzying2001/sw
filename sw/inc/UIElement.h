@@ -234,10 +234,22 @@ namespace sw
         virtual bool OnClose();
 
         /**
+         * @brief  接收到WM_MOVE时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnMove(double newLeft, double newTop);
+
+        /**
          * @brief  接收到WM_SIZE时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(double newClientWidth, double newClientHeight);
+
+        /**
+         * @brief         Text属性更改时调用此函数
+         * @param newText Text的新值
+         */
+        virtual void OnTextChanged(const std::wstring &newText);
 
         /**
          * @brief Visible属性改变时调用此函数

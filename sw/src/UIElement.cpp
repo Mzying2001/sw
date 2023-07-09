@@ -351,6 +351,13 @@ bool sw::UIElement::OnClose()
     return this->WndBase::OnClose();
 }
 
+bool sw::UIElement::OnMove(double newLeft, double newTop)
+{
+    Point newPos(newLeft, newTop);
+    this->RaiseRoutedEvent(UIElement_PositionChanged, &newPos);
+    return false;
+}
+
 bool sw::UIElement::OnSize(double newClientWidth, double newClientHeight)
 {
     if (this->_horizontalAlignment != sw::HorizontalAlignment::Stretch) {
@@ -359,8 +366,17 @@ bool sw::UIElement::OnSize(double newClientWidth, double newClientHeight)
     if (this->_verticalAlignment != sw::VerticalAlignment::Stretch) {
         this->_origionalSize.height = this->Height;
     }
+
+    Size newClientSize(newClientWidth, newClientHeight);
+    this->RaiseRoutedEvent(UIElement_SizeChanged, &newClientSize);
+
     this->NotifyLayoutUpdated();
     return true;
+}
+
+void sw::UIElement::OnTextChanged(const std::wstring &newText)
+{
+    this->RaiseRoutedEvent(UIElement_TextChanged, const_cast<std::wstring *>(&newText));
 }
 
 void sw::UIElement::VisibleChanged(bool newVisible)
