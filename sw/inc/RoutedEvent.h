@@ -28,6 +28,16 @@ namespace sw
         UIElement_TextChanged,
 
         /**
+         * @brief 获取到焦点，该事件无参数
+         */
+        UIElement_GotFocus,
+
+        /**
+         * @brief 失去焦点，该事件无参数
+         */
+        UIElement_LostFocus,
+
+        /**
          * @brief 窗口正在关闭，param指向一个bool值，表示是否取消本次关闭
          */
         Window_Closing,

@@ -385,3 +385,15 @@ void sw::UIElement::VisibleChanged(bool newVisible)
         this->NotifyLayoutUpdated();
     }
 }
+
+bool sw::UIElement::OnSetFocus(HWND hPreFocus)
+{
+    this->RaiseRoutedEvent(UIElement_GotFocus);
+    return true;
+}
+
+bool sw::UIElement::OnKillFocus(HWND hNextFocus)
+{
+    this->RaiseRoutedEvent(UIElement_LostFocus);
+    return true;
+}
