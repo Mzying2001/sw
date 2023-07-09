@@ -13,6 +13,21 @@ namespace sw
         UserEventEnd   = 0x80000000,
 
         /**
+         * @brief 尺寸改变，param指向一个sw::Size结构体，表示新的用户区尺寸
+         */
+        UIElement_SizeChanged,
+
+        /**
+         * @brief 位置改变，param指向一个sw::Point结构体，表示新的位置
+         */
+        UIElement_PositionChanged,
+
+        /**
+         * @brief Text属性发生变化，param指向一个std::wstring，表示新的文本
+         */
+        UIElement_TextChanged,
+
+        /**
          * @brief 窗口正在关闭，param指向一个bool值，表示是否取消本次关闭
          */
         Window_Closing,
