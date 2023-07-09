@@ -262,6 +262,12 @@ namespace sw
         virtual bool OnSetText(std::wstring &newText);
 
         /**
+         * @brief         Text属性更改时调用此函数
+         * @param newText Text的新值
+         */
+        virtual void OnTextChanged(const std::wstring &newText);
+
+        /**
          * @brief           接收到WM_SETFOCUS时调用该函数
          * @param hPreFocus 丢失焦点的hwnd，可能为NULL
          * @return          若已处理该消息则返回true，否则返回false以调用DefaultWndProc

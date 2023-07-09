@@ -417,8 +417,10 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 
         case WM_SETTEXT: {
             LRESULT result = this->DefaultWndProc(refMsg);
-            if (result == TRUE)
+            if (result == TRUE) {
                 this->_text = reinterpret_cast<PCWSTR>(refMsg.lParam);
+                this->OnTextChanged(this->_text);
+            }
             return result;
         }
 
@@ -498,6 +500,10 @@ bool sw::WndBase::OnSize(double newClientWidth, double newClientHeight)
 bool sw::WndBase::OnSetText(std::wstring &newText)
 {
     return true;
+}
+
+void sw::WndBase::OnTextChanged(const std::wstring &newText)
+{
 }
 
 bool sw::WndBase::OnSetFocus(HWND hPreFocus)
