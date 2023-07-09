@@ -206,6 +206,16 @@ sw::WndBase::WndBase()
                   SetWindowTextW(this->_hwnd, newText.c_str());
           }),
 
+      Focused(
+          // get
+          [&]() -> const bool & {
+              return this->_focused;
+          },
+          // set
+          [&](const bool &value) {
+              SetFocus(value ? this->_hwnd : NULL);
+          }),
+
       Parent(
           // get
           [&]() -> WndBase *const & {
@@ -413,10 +423,12 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_SETFOCUS: {
+            this->_focused = true;
             return this->OnSetFocus((HWND)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_KILLFOCUS: {
+            this->_focused = false;
             return this->OnKillFocus((HWND)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 

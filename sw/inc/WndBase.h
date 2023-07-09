@@ -49,6 +49,11 @@ namespace sw
         std::wstring _text = L"";
 
         /**
+         * @brief 控件是否拥有焦点
+         */
+        bool _focused = false;
+
+        /**
          * @brief 当前对象是控件时该函数指针指向控件原本的WndProc
          */
         WNDPROC _controlOldWndProc = NULL;
@@ -133,6 +138,11 @@ namespace sw
          * @brief 窗口标题或控件文本
          */
         const Property<std::wstring> Text;
+
+        /**
+         * @brief 窗口是否拥有焦点
+         */
+        const Property<bool> Focused;
 
         /**
          * @brief 父窗口
