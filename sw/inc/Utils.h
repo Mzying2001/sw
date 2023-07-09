@@ -1,7 +1,9 @@
 #pragma once
 
+#include <map>
 #include <sstream>
 #include <string>
+#include <vector>
 
 namespace sw
 {
@@ -41,6 +43,18 @@ namespace sw
          * @return     转换后的字符串
          */
         static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8 = false);
+
+        /**
+         * @brief 使BuildStr支持std::vector
+         */
+        template <class T>
+        friend std::wstringstream &operator<<(std::wstringstream &wss, const std::vector<T> &vec);
+
+        /**
+         * @brief 使BuildStr支持std::map
+         */
+        template <class TKey, class TVal>
+        friend std::wstringstream &operator<<(std::wstringstream &wss, const std::map<TKey, TVal> &map);
     };
 
     /**
@@ -74,5 +88,37 @@ namespace sw
         std::wstringstream wss;
         Utils::_BuildStr(wss, args...);
         return wss.str();
+    }
+
+    template <class T>
+    inline std::wstringstream &operator<<(std::wstringstream &wss, const std::vector<T> &vec)
+    {
+        auto beg = vec.begin();
+        auto end = vec.end();
+        wss << L"[";
+        for (auto it = beg; it != end; ++it) {
+            if (it != beg)
+                wss << L", ";
+            Utils::_BuildStr(wss, *it);
+        }
+        wss << L"]";
+        return wss;
+    }
+
+    template <class TKey, class TVal>
+    inline std::wstringstream &operator<<(std::wstringstream &wss, const std::map<TKey, TVal> &map)
+    {
+        auto beg = map.begin();
+        auto end = map.end();
+        wss << L"{";
+        for (auto it = beg; it != end; ++it) {
+            if (it != beg)
+                wss << L", ";
+            Utils::_BuildStr(wss, it->first);
+            wss << L":";
+            Utils::_BuildStr(wss, it->second);
+        }
+        wss << L"}";
+        return wss;
     }
 }
