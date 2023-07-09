@@ -13,12 +13,12 @@ namespace sw
         UserEventEnd   = 0x80000000,
 
         /**
-         * @brief 尺寸改变，param指向一个sw::Size结构体，表示新的用户区尺寸
+         * @brief 尺寸改变，param指向一个sw::Size结构体，表示用户区的新尺寸
          */
         UIElement_SizeChanged,
 
         /**
-         * @brief 位置改变，param指向一个sw::Point结构体，表示新的位置
+         * @brief 位置改变，param指向一个sw::Point结构体，表示用户区的新位置
          */
         UIElement_PositionChanged,
 
