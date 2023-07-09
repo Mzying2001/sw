@@ -412,6 +412,14 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return result;
         }
 
+        case WM_SETFOCUS: {
+            return this->OnSetFocus((HWND)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_KILLFOCUS: {
+            return this->OnKillFocus((HWND)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
         case WM_COMMAND: {
             this->OnCommand(refMsg.wParam, refMsg.lParam);
             return 0;
@@ -476,6 +484,16 @@ bool sw::WndBase::OnSize(double newClientWidth, double newClientHeight)
 }
 
 bool sw::WndBase::OnSetText(std::wstring &newText)
+{
+    return true;
+}
+
+bool sw::WndBase::OnSetFocus(HWND hPreFocus)
+{
+    return true;
+}
+
+bool sw::WndBase::OnKillFocus(HWND hNextFocus)
 {
     return true;
 }
