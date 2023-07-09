@@ -18,3 +18,13 @@ std::string sw::Utils::ToMultiByteStr(const std::wstring &wstr, bool utf8)
     WideCharToMultiByte(code, 0, wstr.c_str(), -1, &str[0], size, nullptr, nullptr);
     return str;
 }
+
+std::wostream &sw::operator<<(std::wostream &wos, const std::string &str)
+{
+    return wos << Utils::ToWideStr(str);
+}
+
+std::wostream &sw::operator<<(std::wostream &wos, const char *str)
+{
+    return wos << Utils::ToWideStr(str);
+}
