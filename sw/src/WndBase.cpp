@@ -454,7 +454,7 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 
 bool sw::WndBase::OnCreate()
 {
-    return false;
+    return true;
 }
 
 bool sw::WndBase::OnClose()
@@ -465,7 +465,7 @@ bool sw::WndBase::OnClose()
 
 bool sw::WndBase::OnDestroy()
 {
-    return false;
+    return true;
 }
 
 bool sw::WndBase::OnPaint()
@@ -475,12 +475,12 @@ bool sw::WndBase::OnPaint()
 
 bool sw::WndBase::OnMove(double newLeft, double newTop)
 {
-    return false;
+    return true;
 }
 
 bool sw::WndBase::OnSize(double newClientWidth, double newClientHeight)
 {
-    return false;
+    return true;
 }
 
 bool sw::WndBase::OnSetText(std::wstring &newText)
