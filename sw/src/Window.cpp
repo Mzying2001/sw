@@ -7,14 +7,26 @@
 static unsigned int _windowCount = 0;
 
 /**
+ * @brief DPI更新时调用该函数递归地更新所有子项的字体
+ */
+static void _UpdateFontForAllChild(sw::UIElement &element);
+
+/**
  * @brief 是否在关闭所有窗口后退出程序
  */
 bool sw::Window::PostQuitWhenAllClosed = true;
 
 /**
- * @brief DPI更新时调用该函数递归地更新所有子项的字体
+ * @brief 程序的当前活动窗体
  */
-static void _UpdateFontForAllChild(sw::UIElement &element);
+const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
+    []() -> sw::Window *const & {
+        static sw::Window *pWindow;
+        HWND hwnd = GetForegroundWindow();
+        pWindow   = dynamic_cast<sw::Window *>(sw::WndBase::GetWndBase(hwnd));
+        return pWindow;
+    } //
+);
 
 sw::Window::Window()
     : State(

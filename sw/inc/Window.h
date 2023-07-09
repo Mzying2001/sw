@@ -35,6 +35,11 @@ namespace sw
         static bool PostQuitWhenAllClosed;
 
         /**
+         * @brief 程序的当前活动窗体
+         */
+        static const ReadOnlyProperty<Window *> ActiveWindow;
+
+        /**
          * @brief 窗口状态
          */
         const Property<WindowState> State;
