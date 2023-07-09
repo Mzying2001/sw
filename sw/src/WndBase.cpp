@@ -404,8 +404,8 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_MOVE: {
-            int xPos = LOWORD(refMsg.lParam); // horizontal position
-            int yPos = HIWORD(refMsg.lParam); // vertical position
+            int xPos = (int)(short)LOWORD(refMsg.lParam); // horizontal position
+            int yPos = (int)(short)HIWORD(refMsg.lParam); // vertical position
             return this->OnMove(xPos * Dip::ScaleX, yPos * Dip::ScaleY) ? 0 : this->DefaultWndProc(refMsg);
         }
 
@@ -487,7 +487,7 @@ bool sw::WndBase::OnPaint()
     return false;
 }
 
-bool sw::WndBase::OnMove(double newLeft, double newTop)
+bool sw::WndBase::OnMove(double newClientLeft, double newClientTop)
 {
     return true;
 }

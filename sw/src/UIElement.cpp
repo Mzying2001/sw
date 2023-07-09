@@ -351,10 +351,10 @@ bool sw::UIElement::OnClose()
     return this->WndBase::OnClose();
 }
 
-bool sw::UIElement::OnMove(double newLeft, double newTop)
+bool sw::UIElement::OnMove(double newClientLeft, double newClientTop)
 {
-    Point newPos(newLeft, newTop);
-    this->RaiseRoutedEvent(UIElement_PositionChanged, &newPos);
+    Point newClientPos(newClientLeft, newClientTop);
+    this->RaiseRoutedEvent(UIElement_PositionChanged, &newClientPos);
     return false;
 }
 

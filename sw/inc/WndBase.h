@@ -246,7 +246,7 @@ namespace sw
          * @brief  接收到WM_MOVE时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMove(double newLeft, double newTop);
+        virtual bool OnMove(double newClientLeft, double newClientTop);
 
         /**
          * @brief  接收到WM_SIZE时调用该函数
