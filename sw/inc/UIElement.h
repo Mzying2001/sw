@@ -52,6 +52,11 @@ namespace sw
         VerticalAlignment _verticalAlignment = VerticalAlignment::Center;
 
         /**
+         * @brief 指向父元素的指针，在调用SetParent后会更新该值
+         */
+        UIElement *_parent = nullptr;
+
+        /**
          * @brief 所有子窗口
          */
         std::vector<UIElement *> _children{};
@@ -96,6 +101,11 @@ namespace sw
          * @brief 是否在不可见时不参与布局
          */
         const Property<bool> CollapseWhenHide;
+
+        /**
+         * @brief 指向父元素的指针，当前元素为顶级窗口时该值为nullptr
+         */
+        const ReadOnlyProperty<UIElement *> Parent;
 
     public:
         UIElement();
@@ -226,6 +236,12 @@ namespace sw
          * @return 设置是否成功
          */
         virtual bool SetParent(WndBase *parent);
+
+        /**
+         * @brief           父窗口改变时调用此函数
+         * @param newParent 新的父窗口
+         */
+        virtual void ParentChanged(WndBase *newParent);
 
         /**
          * @brief  接收到WM_CLOSE时调用该函数

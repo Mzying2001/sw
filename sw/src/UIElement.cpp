@@ -70,6 +70,12 @@ sw::UIElement::UIElement()
                   if (!this->Visible)
                       this->NotifyLayoutUpdated();
               }
+          }),
+
+      Parent(
+          // get
+          [&]() -> UIElement *const & {
+              return this->_parent;
           })
 {
 }
@@ -294,7 +300,7 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType, void *param)
         if (args.handled) {
             break;
         } else {
-            element = dynamic_cast<UIElement *>(element->Parent.Get());
+            element = element->_parent;
         }
     } while (element != nullptr);
 }
@@ -305,14 +311,14 @@ sw::UIElement &sw::UIElement::GetRootElement()
     UIElement *element = this;
     do {
         root    = element;
-        element = dynamic_cast<UIElement *>(element->Parent.Get());
+        element = element->_parent;
     } while (element != nullptr);
     return *root;
 }
 
 bool sw::UIElement::IsRootElement()
 {
-    return dynamic_cast<UIElement *>(this->Parent.Get()) == nullptr;
+    return this->_parent == nullptr;
 }
 
 void sw::UIElement::NotifyLayoutUpdated()
@@ -325,7 +331,7 @@ void sw::UIElement::NotifyLayoutUpdated()
 
 bool sw::UIElement::SetParent(WndBase *parent)
 {
-    UIElement *oldParentElement = dynamic_cast<UIElement *>(this->Parent.Get());
+    UIElement *oldParentElement = this->_parent;
     UIElement *newParentElement = dynamic_cast<UIElement *>(parent);
 
     if (newParentElement == nullptr) {
@@ -343,6 +349,11 @@ bool sw::UIElement::SetParent(WndBase *parent)
                    newParentElement->AddChild(this);
         }
     }
+}
+
+void sw::UIElement::ParentChanged(WndBase *newParent)
+{
+    this->_parent = dynamic_cast<UIElement *>(newParent);
 }
 
 bool sw::UIElement::OnClose()
