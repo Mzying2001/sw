@@ -28,5 +28,5 @@ sw::Point::operator POINT() const
 
 std::wostream &sw::operator<<(std::wostream &wos, const Point &point)
 {
-    return wos << L"(" << point.x << L"," << point.y << L")";
+    return wos << L"(" << point.x << L", " << point.y << L")";
 }
