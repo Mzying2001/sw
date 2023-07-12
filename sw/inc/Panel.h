@@ -11,6 +11,12 @@ namespace sw
         Panel();
 
         /**
+         * @brief      窗口句柄初始化完成
+         * @param hwnd 窗口句柄
+         */
+        virtual void HandleInitialized(HWND hwnd);
+
+        /**
          * @brief               测量控件所需尺寸
          * @param availableSize 可用的尺寸
          */

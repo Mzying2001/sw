@@ -7,6 +7,11 @@ sw::Panel::Panel()
     this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
+void sw::Panel::HandleInitialized(HWND hwnd)
+{
+    this->Control::HandleInitialized(hwnd);
+}
+
 void sw::Panel::Measure(const Size &availableSize)
 {
     this->Layer::Measure(availableSize);

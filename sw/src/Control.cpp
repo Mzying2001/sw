@@ -23,7 +23,10 @@ sw::Control::Control()
               this->Redraw();
           })
 {
-    HWND hwnd        = this->Handle;
+}
+
+void sw::Control::HandleInitialized(HWND hwnd)
+{
     HDC hdc          = GetDC(hwnd);
     this->_backColor = GetBkColor(hdc);
     this->_textColor = GetTextColor(hdc);

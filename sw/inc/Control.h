@@ -27,6 +27,12 @@ namespace sw
         Control();
 
         /**
+         * @brief      窗口句柄初始化完成
+         * @param hwnd 窗口句柄
+         */
+        virtual void HandleInitialized(HWND hwnd);
+
+        /**
          * @brief 父窗口接收到WM_CTLCOLORxxx的回调
          */
         virtual LRESULT CtlColor(HDC hdc, HWND hwnd);
