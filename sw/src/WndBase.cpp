@@ -270,6 +270,8 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParen
             this           // Additional application data
         );
 
+        this->HandleInitialized(this->_hwnd);
+
         RECT rect;
         GetWindowRect(this->_hwnd, &rect);
         this->_rect = rect;
@@ -304,15 +306,16 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
             this                   // Additional application data
         );
 
+        this->HandleInitialized(this->_hwnd);
+
+        this->_controlOldWndProc =
+            reinterpret_cast<WNDPROC>(SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
+
         RECT rect;
         GetWindowRect(this->_hwnd, &rect);
         this->_rect = rect;
 
         SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-
-        this->_controlOldWndProc =
-            reinterpret_cast<WNDPROC>(SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
-
         this->UpdateFont();
     }
 }
@@ -556,6 +559,10 @@ void sw::WndBase::OnCommand(WPARAM wParam, LPARAM lParam)
 }
 
 void sw::WndBase::ParentReceivedCommand(int code)
+{
+}
+
+void sw::WndBase::HandleInitialized(HWND hwnd)
 {
 }
 

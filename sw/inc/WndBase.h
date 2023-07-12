@@ -311,6 +311,12 @@ namespace sw
          */
         virtual void ParentReceivedCommand(int code);
 
+        /**
+         * @brief      窗口句柄初始化完成
+         * @param hwnd 窗口句柄
+         */
+        virtual void HandleInitialized(HWND hwnd);
+
     public:
         /**
          * @brief 该函数调用ShowWindow
