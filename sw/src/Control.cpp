@@ -25,13 +25,13 @@ sw::Control::Control()
 {
 }
 
-void sw::Control::HandleInitialized(HWND hwnd)
+/*void sw::Control::HandleInitialized(HWND hwnd)
 {
     HDC hdc          = GetDC(hwnd);
     this->_backColor = GetBkColor(hdc);
     this->_textColor = GetTextColor(hdc);
     ReleaseDC(hwnd, hdc);
-}
+}*/
 
 LRESULT sw::Control::CtlColor(HDC hdc, HWND hwnd)
 {

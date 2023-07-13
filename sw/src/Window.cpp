@@ -121,14 +121,14 @@ sw::Window::Window()
               this->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
           }),
 
-      Background(
+      BackColor(
           // get
           [&]() -> const Color & {
-              return this->_background;
+              return this->_backColor;
           },
           // set
           [&](const Color &value) {
-              this->_background = value;
+              this->_backColor = value;
               this->Redraw();
           }),
 
@@ -275,7 +275,7 @@ bool sw::Window::OnPaint()
     PAINTSTRUCT ps;
     HWND hwnd     = this->Handle;
     HDC hdc       = BeginPaint(hwnd, &ps);
-    HBRUSH hBrush = CreateSolidBrush(this->_background);
+    HBRUSH hBrush = CreateSolidBrush(this->_backColor);
     FillRect(hdc, &ps.rcPaint, hBrush);
     DeleteObject(hBrush);
     EndPaint(hwnd, &ps);

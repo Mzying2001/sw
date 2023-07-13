@@ -22,7 +22,7 @@ namespace sw
     {
     private:
         bool _isFirstShow = true;
-        Color _background = Color::White;
+        Color _backColor  = Color::White;
         double _maxWidth  = -1;
         double _maxHeight = -1;
         double _minWidth  = -1;
@@ -72,7 +72,7 @@ namespace sw
         /**
          * @brief 背景颜色
          */
-        const Property<Color> Background;
+        const Property<Color> BackColor;
 
         /**
          * @brief 最大宽度，当值不大于0时表示不限制
