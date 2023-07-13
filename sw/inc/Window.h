@@ -21,18 +21,31 @@ namespace sw
     class Window : virtual public UIElement, public Layer
     {
     private:
+        /**
+         * @brief 是否为第一次显示，该字段使StartupLocation生效
+         */
         bool _isFirstShow = true;
-        Color _backColor  = Color::White;
-        double _maxWidth  = -1;
-        double _maxHeight = -1;
-        double _minWidth  = -1;
-        double _minHeight = -1;
+
+        /**
+         * @brief 窗口背景颜色
+         */
+        Color _backColor = Color::White;
+
+        /**
+         * @brief 窗口的尺寸限制，当值不大于0时表示不限制
+         */
+        double _maxWidth = -1, _maxHeight = -1, _minWidth = -1, _minHeight = -1;
 
     public:
         /**
          * @brief 是否在关闭所有窗口后退出程序
          */
         static bool PostQuitWhenAllClosed;
+
+        /**
+         * @brief 窗口初次启动的位置
+         */
+        WindowStartupLocation StartupLocation = WindowStartupLocation::Manual;
 
         /**
          * @brief 程序的当前活动窗体
@@ -93,11 +106,6 @@ namespace sw
          * @brief 最小高度，当值不大于0时表示不限制
          */
         const Property<double> MinHeight;
-
-        /**
-         * @brief 窗口初次启动的位置
-         */
-        WindowStartupLocation StartupLocation = WindowStartupLocation::Manual;
 
     public:
         Window();
