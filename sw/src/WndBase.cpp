@@ -509,7 +509,7 @@ void sw::WndBase::OnTextChanged(const std::wstring &newText)
 {
 }
 
-bool sw::WndBase::OnSetFocus(HWND hPreFocus)
+bool sw::WndBase::OnSetFocus(HWND hPrevFocus)
 {
     return true;
 }
