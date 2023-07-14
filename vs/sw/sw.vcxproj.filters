@@ -123,6 +123,9 @@
     <ClInclude Include="..\..\sw\inc\Utils.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw\inc\Keys.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sw\src\WndBase.cpp">

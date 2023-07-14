@@ -149,6 +149,7 @@
     <ClInclude Include="..\..\sw\inc\Font.h" />
     <ClInclude Include="..\..\sw\inc\ICtlColor.h" />
     <ClInclude Include="..\..\sw\inc\ILayout.h" />
+    <ClInclude Include="..\..\sw\inc\Keys.h" />
     <ClInclude Include="..\..\sw\inc\Layer.h" />
     <ClInclude Include="..\..\sw\inc\LayoutHost.h" />
     <ClInclude Include="..\..\sw\inc\MsgBox.h" />
