@@ -397,7 +397,7 @@ void sw::UIElement::VisibleChanged(bool newVisible)
     }
 }
 
-bool sw::UIElement::OnSetFocus(HWND hPreFocus)
+bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 {
     this->RaiseRoutedEvent(UIElement_GotFocus);
     return true;
