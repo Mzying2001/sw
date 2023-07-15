@@ -187,6 +187,7 @@
     <ClCompile Include="..\..\sw\src\Dip.cpp" />
     <ClCompile Include="..\..\sw\src\FillLayout.cpp" />
     <ClCompile Include="..\..\sw\src\Font.cpp" />
+    <ClCompile Include="..\..\sw\src\Keys.cpp" />
     <ClCompile Include="..\..\sw\src\Layer.cpp" />
     <ClCompile Include="..\..\sw\src\LayoutHost.cpp" />
     <ClCompile Include="..\..\sw\src\MsgBox.cpp" />

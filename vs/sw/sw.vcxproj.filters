@@ -224,5 +224,8 @@
     <ClCompile Include="..\..\sw\src\Utils.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\sw\src\Keys.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

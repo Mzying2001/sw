@@ -1,9 +1,23 @@
 #pragma once
 
 #include <Windows.h>
+#include <stdint.h>
 
 namespace sw
 {
+    /**
+     * @brief https://learn.microsoft.com/en-us/windows/win32/inputdev/about-keyboard-input#keystroke-message-flags
+     */
+    struct KeyFlags {
+        uint16_t repeatCount;  // repeat count, > 0 if several keydown messages was combined into one message
+        uint8_t scanCode;      // scan code
+        bool isExtendedKey;    // extended-key flag, 1 if scancode has 0xE0 prefix
+        bool contextCode;      // indicates whether the ALT key was down
+        bool previousKeyState; // indicates whether the key that generated the keystroke message was previously up or down
+        bool transitionState;  // transition-state flag, 1 on keyup
+        KeyFlags(LPARAM lParam);
+    };
+
     /**
      * @brief 虚拟按键
      */
