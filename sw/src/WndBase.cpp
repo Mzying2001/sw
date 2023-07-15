@@ -514,6 +514,22 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->OnKeyUp((VirtualKey)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
+        case WM_SYSCHAR: {
+            return this->OnSysChar((wchar_t)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_SYSDEADCHAR: {
+            return this->OnSysDeadChar((wchar_t)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_SYSKEYDOWN: {
+            return this->OnSysKeyDown((VirtualKey)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_SYSKEYUP: {
+            return this->OnSysKeyUp((VirtualKey)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
         case WM_COMMAND: {
             this->OnCommand(refMsg.wParam, refMsg.lParam);
             return 0;
@@ -672,6 +688,26 @@ bool sw::WndBase::OnKeyDown(VirtualKey key, KeyFlags flags)
 }
 
 bool sw::WndBase::OnKeyUp(VirtualKey key, KeyFlags flags)
+{
+    return false;
+}
+
+bool sw::WndBase::OnSysChar(wchar_t ch, KeyFlags flags)
+{
+    return false;
+}
+
+bool sw::WndBase::OnSysDeadChar(wchar_t ch, KeyFlags flags)
+{
+    return false;
+}
+
+bool sw::WndBase::OnSysKeyDown(VirtualKey key, KeyFlags flags)
+{
+    return false;
+}
+
+bool sw::WndBase::OnSysKeyUp(VirtualKey key, KeyFlags flags)
 {
     return false;
 }
