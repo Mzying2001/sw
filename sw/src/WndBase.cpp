@@ -498,6 +498,22 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->OnMouseMiddleButtonDoubleClick(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
+        case WM_CHAR: {
+            return this->OnChar((wchar_t)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_DEADCHAR: {
+            return this->OnDeadChar((wchar_t)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_KEYDOWN: {
+            return this->OnKeyDown((VirtualKey)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_KEYUP: {
+            return this->OnKeyUp((VirtualKey)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
         case WM_COMMAND: {
             this->OnCommand(refMsg.wParam, refMsg.lParam);
             return 0;
@@ -636,6 +652,26 @@ bool sw::WndBase::OnMouseMiddleButtonUp(Point &mousePos, MouseKey keyState)
 }
 
 bool sw::WndBase::OnMouseMiddleButtonDoubleClick(Point &mousePos, MouseKey keyState)
+{
+    return false;
+}
+
+bool sw::WndBase::OnChar(wchar_t ch, KeyFlags flags)
+{
+    return false;
+}
+
+bool sw::WndBase::OnDeadChar(wchar_t ch, KeyFlags flags)
+{
+    return false;
+}
+
+bool sw::WndBase::OnKeyDown(VirtualKey key, KeyFlags flags)
+{
+    return false;
+}
+
+bool sw::WndBase::OnKeyUp(VirtualKey key, KeyFlags flags)
 {
     return false;
 }
