@@ -55,6 +55,5 @@ int WINAPI wWinMain(
         }
     });
 
-    App::MsgLoop();
-    return 0;
+    return App::MsgLoop();
 }
