@@ -362,14 +362,13 @@ bool sw::UIElement::OnClose()
     return this->WndBase::OnClose();
 }
 
-bool sw::UIElement::OnMove(double newClientLeft, double newClientTop)
+bool sw::UIElement::OnMove(Point newClientPosition)
 {
-    Point newClientPos(newClientLeft, newClientTop);
-    this->RaiseRoutedEvent(UIElement_PositionChanged, &newClientPos);
-    return false;
+    this->RaiseRoutedEvent(UIElement_PositionChanged, &newClientPosition);
+    return true;
 }
 
-bool sw::UIElement::OnSize(double newClientWidth, double newClientHeight)
+bool sw::UIElement::OnSize(Size newClientSize)
 {
     if (this->_horizontalAlignment != sw::HorizontalAlignment::Stretch) {
         this->_origionalSize.width = this->Width;
@@ -378,7 +377,6 @@ bool sw::UIElement::OnSize(double newClientWidth, double newClientHeight)
         this->_origionalSize.height = this->Height;
     }
 
-    Size newClientSize(newClientWidth, newClientHeight);
     this->RaiseRoutedEvent(UIElement_SizeChanged, &newClientSize);
 
     this->NotifyLayoutUpdated();

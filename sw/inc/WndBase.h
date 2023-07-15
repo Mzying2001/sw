@@ -9,6 +9,7 @@
 #include "ProcMsg.h"
 #include "Property.h"
 #include "Rect.h"
+#include "Size.h"
 #include "WndMsg.h"
 #include <Windows.h>
 #include <string>
@@ -245,16 +246,18 @@ namespace sw
         virtual bool OnPaint();
 
         /**
-         * @brief  接收到WM_MOVE时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @brief                   接收到WM_MOVE时调用该函数
+         * @param newClientPosition 移动后用户区左上角的位置
+         * @return                  若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMove(double newClientLeft, double newClientTop);
+        virtual bool OnMove(Point newClientPosition);
 
         /**
-         * @brief  接收到WM_SIZE时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @brief               接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSize(double newClientWidth, double newClientHeight);
+        virtual bool OnSize(Size newClientSize);
 
         /**
          * @brief         Text属性被赋值时调用此函数

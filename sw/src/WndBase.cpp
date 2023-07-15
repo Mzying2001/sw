@@ -409,13 +409,13 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         case WM_MOVE: {
             int xPos = (int)(short)LOWORD(refMsg.lParam); // horizontal position
             int yPos = (int)(short)HIWORD(refMsg.lParam); // vertical position
-            return this->OnMove(xPos * Dip::ScaleX, yPos * Dip::ScaleY) ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnMove(Point(xPos, yPos)) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_SIZE: {
             int width  = LOWORD(refMsg.lParam); // the new width of the client area
             int height = HIWORD(refMsg.lParam); // the new height of the client area
-            return this->OnSize(width * Dip::ScaleX, height * Dip::ScaleY) ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnSize(Size(width, height)) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_SETTEXT: {
@@ -567,12 +567,12 @@ bool sw::WndBase::OnPaint()
     return false;
 }
 
-bool sw::WndBase::OnMove(double newClientLeft, double newClientTop)
+bool sw::WndBase::OnMove(Point newClientPosition)
 {
     return true;
 }
 
-bool sw::WndBase::OnSize(double newClientWidth, double newClientHeight)
+bool sw::WndBase::OnSize(Size newClientSize)
 {
     return true;
 }

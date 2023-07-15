@@ -250,16 +250,18 @@ namespace sw
         virtual bool OnClose();
 
         /**
-         * @brief  接收到WM_MOVE时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @brief                   接收到WM_MOVE时调用该函数
+         * @param newClientPosition 移动后用户区左上角的位置
+         * @return                  若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMove(double newClientLeft, double newClientTop);
+        virtual bool OnMove(Point newClientPosition);
 
         /**
-         * @brief  接收到WM_SIZE时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @brief               接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSize(double newClientWidth, double newClientHeight);
+        virtual bool OnSize(Size newClientSize);
 
         /**
          * @brief         Text属性更改时调用此函数
