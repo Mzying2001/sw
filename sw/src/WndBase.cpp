@@ -437,6 +437,67 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->OnKillFocus((HWND)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
+        case WM_MOUSEMOVE: {
+            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseMove(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_MOUSELEAVE: {
+            return this->OnMouseLeave() ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_MOUSEWHEEL: {
+            int fwKeys          = GET_KEYSTATE_WPARAM(refMsg.wParam);
+            int zDelta          = GET_WHEEL_DELTA_WPARAM(refMsg.wParam);
+            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseWheel(zDelta, mousePosition, (MouseKey)fwKeys) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_LBUTTONDOWN: {
+            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseLeftButtonDown(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_LBUTTONUP: {
+            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseLeftButtonUp(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_LBUTTONDBLCLK: {
+            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseLeftButtonDoubleClick(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_RBUTTONDOWN: {
+            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseRightButtonDown(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_RBUTTONUP: {
+            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseRightButtonUp(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_RBUTTONDBLCLK: {
+            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseRightButtonDoubleClick(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_MBUTTONDOWN: {
+            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseMiddleButtonDown(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_MBUTTONUP: {
+            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseMiddleButtonUp(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_MBUTTONDBLCLK: {
+            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseMiddleButtonDoubleClick(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
         case WM_COMMAND: {
             this->OnCommand(refMsg.wParam, refMsg.lParam);
             return 0;
@@ -517,6 +578,66 @@ bool sw::WndBase::OnSetFocus(HWND hPrevFocus)
 bool sw::WndBase::OnKillFocus(HWND hNextFocus)
 {
     return true;
+}
+
+bool sw::WndBase::OnMouseMove(Point &mousePos, MouseKey keyState)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMouseLeave()
+{
+    return false;
+}
+
+bool sw::WndBase::OnMouseWheel(int wheelDelta, Point &mousePosition, MouseKey keyState)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMouseLeftButtonDown(Point &mousePos, MouseKey keyState)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMouseLeftButtonUp(Point &mousePos, MouseKey keyState)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMouseLeftButtonDoubleClick(Point &mousePos, MouseKey keyState)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMouseRightButtonDown(Point &mousePos, MouseKey keyState)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMouseRightButtonUp(Point &mousePos, MouseKey keyState)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMouseRightButtonDoubleClick(Point &mousePos, MouseKey keyState)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMouseMiddleButtonDown(Point &mousePos, MouseKey keyState)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMouseMiddleButtonUp(Point &mousePos, MouseKey keyState)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMouseMiddleButtonDoubleClick(Point &mousePos, MouseKey keyState)
+{
+    return false;
 }
 
 void sw::WndBase::VisibleChanged(bool newVisible)
