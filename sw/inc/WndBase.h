@@ -289,7 +289,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMove(Point &mousePosition, MouseKey keyState);
+        virtual bool OnMouseMove(Point mousePosition, MouseKey keyState);
 
         /**
          * @brief  接收到WM_MOUSELEAVE时调用该函数
@@ -304,7 +304,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseWheel(int wheelDelta, Point &mousePosition, MouseKey keyState);
+        virtual bool OnMouseWheel(int wheelDelta, Point mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_LBUTTONDOWN时调用该函数
@@ -312,7 +312,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseLeftButtonDown(Point &mousePosition, MouseKey keyState);
+        virtual bool OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_LBUTTONUP时调用该函数
@@ -320,7 +320,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseLeftButtonUp(Point &mousePosition, MouseKey keyState);
+        virtual bool OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_LBUTTONDBLCLK时调用该函数
@@ -328,7 +328,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseLeftButtonDoubleClick(Point &mousePosition, MouseKey keyState);
+        virtual bool OnMouseLeftButtonDoubleClick(Point mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_RBUTTONDOWN时调用该函数
@@ -336,7 +336,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseRightButtonDown(Point &mousePosition, MouseKey keyState);
+        virtual bool OnMouseRightButtonDown(Point mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_RBUTTONUP时调用该函数
@@ -344,7 +344,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseRightButtonUp(Point &mousePosition, MouseKey keyState);
+        virtual bool OnMouseRightButtonUp(Point mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_RBUTTONDBLCLK时调用该函数
@@ -352,7 +352,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseRightButtonDoubleClick(Point &mousePosition, MouseKey keyState);
+        virtual bool OnMouseRightButtonDoubleClick(Point mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_MBUTTONDOWN时调用该函数
@@ -360,7 +360,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMiddleButtonDown(Point &mousePosition, MouseKey keyState);
+        virtual bool OnMouseMiddleButtonDown(Point mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_MBUTTONUP时调用该函数
@@ -368,7 +368,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMiddleButtonUp(Point &mousePosition, MouseKey keyState);
+        virtual bool OnMouseMiddleButtonUp(Point mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_MBUTTONDBLCLK时调用该函数
@@ -376,7 +376,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMiddleButtonDoubleClick(Point &mousePosition, MouseKey keyState);
+        virtual bool OnMouseMiddleButtonDoubleClick(Point mousePosition, MouseKey keyState);
 
         /**
          * @brief       接收到WM_CHAR时调用该函数

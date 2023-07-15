@@ -438,8 +438,8 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_MOUSEMOVE: {
-            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
-            return this->OnMouseMove(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+            POINT mousePosition{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseMove(Point(mousePosition), (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_MOUSELEAVE: {
@@ -447,55 +447,55 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_MOUSEWHEEL: {
-            int fwKeys          = GET_KEYSTATE_WPARAM(refMsg.wParam);
-            int zDelta          = GET_WHEEL_DELTA_WPARAM(refMsg.wParam);
-            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
-            return this->OnMouseWheel(zDelta, mousePosition, (MouseKey)fwKeys) ? 0 : this->DefaultWndProc(refMsg);
+            int fwKeys = GET_KEYSTATE_WPARAM(refMsg.wParam);
+            int zDelta = GET_WHEEL_DELTA_WPARAM(refMsg.wParam);
+            POINT mousePosition{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseWheel(zDelta, Point(mousePosition), (MouseKey)fwKeys) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_LBUTTONDOWN: {
-            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
-            return this->OnMouseLeftButtonDown(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+            POINT mousePosition{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseLeftButtonDown(Point(mousePosition), (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_LBUTTONUP: {
-            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
-            return this->OnMouseLeftButtonUp(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+            POINT mousePosition{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseLeftButtonUp(Point(mousePosition), (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_LBUTTONDBLCLK: {
-            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
-            return this->OnMouseLeftButtonDoubleClick(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+            POINT mousePosition{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseLeftButtonDoubleClick(Point(mousePosition), (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_RBUTTONDOWN: {
-            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
-            return this->OnMouseRightButtonDown(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+            POINT mousePosition{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseRightButtonDown(Point(mousePosition), (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_RBUTTONUP: {
-            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
-            return this->OnMouseRightButtonUp(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+            POINT mousePosition{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseRightButtonUp(Point(mousePosition), (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_RBUTTONDBLCLK: {
-            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
-            return this->OnMouseRightButtonDoubleClick(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+            POINT mousePosition{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseRightButtonDoubleClick(Point(mousePosition), (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_MBUTTONDOWN: {
-            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
-            return this->OnMouseMiddleButtonDown(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+            POINT mousePosition{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseMiddleButtonDown(Point(mousePosition), (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_MBUTTONUP: {
-            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
-            return this->OnMouseMiddleButtonUp(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+            POINT mousePosition{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseMiddleButtonUp(Point(mousePosition), (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_MBUTTONDBLCLK: {
-            Point mousePosition = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
-            return this->OnMouseMiddleButtonDoubleClick(mousePosition, (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+            POINT mousePosition{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            return this->OnMouseMiddleButtonDoubleClick(Point(mousePosition), (MouseKey)refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_CHAR: {
@@ -596,7 +596,7 @@ bool sw::WndBase::OnKillFocus(HWND hNextFocus)
     return true;
 }
 
-bool sw::WndBase::OnMouseMove(Point &mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMove(Point mousePos, MouseKey keyState)
 {
     return false;
 }
@@ -606,52 +606,52 @@ bool sw::WndBase::OnMouseLeave()
     return false;
 }
 
-bool sw::WndBase::OnMouseWheel(int wheelDelta, Point &mousePosition, MouseKey keyState)
+bool sw::WndBase::OnMouseWheel(int wheelDelta, Point mousePosition, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseLeftButtonDown(Point &mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseLeftButtonDown(Point mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseLeftButtonUp(Point &mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseLeftButtonUp(Point mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseLeftButtonDoubleClick(Point &mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseLeftButtonDoubleClick(Point mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseRightButtonDown(Point &mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseRightButtonDown(Point mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseRightButtonUp(Point &mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseRightButtonUp(Point mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseRightButtonDoubleClick(Point &mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseRightButtonDoubleClick(Point mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseMiddleButtonDown(Point &mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMiddleButtonDown(Point mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseMiddleButtonUp(Point &mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMiddleButtonUp(Point mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseMiddleButtonDoubleClick(Point &mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMiddleButtonDoubleClick(Point mousePos, MouseKey keyState)
 {
     return false;
 }
