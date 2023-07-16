@@ -2,6 +2,7 @@
 
 #include "Rect.h"
 #include "Size.h"
+#include <cstdint>
 
 namespace sw
 {
@@ -11,6 +12,11 @@ namespace sw
     class ILayout
     {
     public:
+        /**
+         * @brief 获取布局标记
+         */
+        virtual uint32_t GetLayoutTag() = 0;
+
         /**
          * @brief 获取子控件的数量
          */

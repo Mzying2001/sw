@@ -76,6 +76,17 @@ sw::UIElement::UIElement()
           // get
           [&]() -> UIElement *const & {
               return this->_parent;
+          }),
+
+      LayoutTag(
+          // get
+          [&]() -> const uint32_t & {
+              return this->_layoutTag;
+          },
+          // set
+          [&](const uint32_t &value) {
+              this->_layoutTag = value;
+              this->NotifyLayoutUpdated();
           })
 {
 }
@@ -199,6 +210,11 @@ int sw::UIElement::IndexOf(UIElement &element)
 sw::UIElement &sw::UIElement::operator[](int index) const
 {
     return *this->_children[index];
+}
+
+uint32_t sw::UIElement::GetLayoutTag()
+{
+    return this->_layoutTag;
 }
 
 int sw::UIElement::GetChildLayoutCount()

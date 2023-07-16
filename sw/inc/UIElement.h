@@ -7,6 +7,7 @@
 #include "Thickness.h"
 #include "WndBase.h"
 #include "WndMsg.h"
+#include <cstdint>
 #include <map>
 #include <string>
 #include <vector>
@@ -71,6 +72,11 @@ namespace sw
          */
         std::map<RoutedEventType, RoutedEvent> _eventMap{};
 
+        /**
+         * @brief 布局标记
+         */
+        uint32_t _layoutTag = 0;
+
     public:
         /**
          * @brief 描述
@@ -106,6 +112,11 @@ namespace sw
          * @brief 指向父元素的指针，当前元素为顶级窗口时该值为nullptr
          */
         const ReadOnlyProperty<UIElement *> Parent;
+
+        /**
+         * @brief 布局标记，对于不同的布局有不同含义
+         */
+        const Property<uint32_t> LayoutTag;
 
     public:
         UIElement();
@@ -184,6 +195,11 @@ namespace sw
          * @brief 通过索引获取子控件
          */
         UIElement &operator[](int index) const;
+
+        /**
+         * @brief 获取布局标记
+         */
+        virtual uint32_t GetLayoutTag() override;
 
         /**
          * @brief 获取参与布局的子控件数量

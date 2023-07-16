@@ -5,6 +5,11 @@ void sw::LayoutHost::Associate(ILayout *obj)
     this->_associatedObj = obj;
 }
 
+uint32_t sw::LayoutHost::GetLayoutTag()
+{
+    return this->_associatedObj->GetLayoutTag();
+}
+
 int sw::LayoutHost::GetChildLayoutCount()
 {
     return this->_associatedObj->GetChildLayoutCount();
