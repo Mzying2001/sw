@@ -10,6 +10,7 @@
 #include "Color.h"
 #include "Control.h"
 #include "Dip.h"
+#include "DockLayout.h"
 #include "FillLayout.h"
 #include "Font.h"
 #include "ICtlColor.h"
