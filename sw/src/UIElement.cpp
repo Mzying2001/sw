@@ -130,6 +130,24 @@ bool sw::UIElement::AddChild(UIElement &element)
     return this->AddChild(&element);
 }
 
+bool sw::UIElement::RemoveChildAt(int index)
+{
+    if (index < 0 || index >= this->_children.size()) {
+        return false;
+    }
+
+    std::vector<UIElement *>::iterator it =
+        this->_children.begin() + index;
+
+    if (!(*it)->WndBase::SetParent(nullptr)) {
+        return false;
+    }
+
+    this->_children.erase(it);
+    this->NotifyLayoutUpdated();
+    return true;
+}
+
 bool sw::UIElement::RemoveChild(UIElement *element)
 {
     if (element == nullptr) {

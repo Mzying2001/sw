@@ -143,6 +143,13 @@ namespace sw
         bool AddChild(UIElement &element);
 
         /**
+         * @brief       移除指定索引处的子控件
+         * @param index 要移除的索引
+         * @return      移除是否成功
+         */
+        bool RemoveChildAt(int index);
+
+        /**
          * @brief  移除子控件
          * @return 移除是否成功
          */
