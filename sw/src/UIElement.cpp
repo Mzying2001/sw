@@ -435,3 +435,23 @@ bool sw::UIElement::OnKeyUp(VirtualKey key, KeyFlags flags)
     this->RaiseRoutedEvent(args);
     return false;
 }
+
+bool sw::UIElement::OnMouseMove(Point mousePosition, MouseKey keyState)
+{
+    MouseMoveEventArgs args(mousePosition, keyState);
+    this->RaiseRoutedEvent(args);
+    return false;
+}
+
+bool sw::UIElement::OnMouseLeave()
+{
+    this->RaiseRoutedEvent(UIElement_MouseLeave);
+    return false;
+}
+
+bool sw::UIElement::OnMouseWheel(int wheelDelta, Point mousePosition, MouseKey keyState)
+{
+    MouseWheelEventArgs args(wheelDelta, mousePosition, keyState);
+    this->RaiseRoutedEvent(args);
+    return false;
+}

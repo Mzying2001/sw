@@ -70,6 +70,25 @@ namespace sw
     };
 
     /**
+     * @brief 鼠标移动事件参数类型
+     */
+    struct MouseMoveEventArgs : RoutedEventArgsOfType<UIElement_MouseMove> {
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+        MouseMoveEventArgs(Point mousePosition, MouseKey keyState);
+    };
+
+    /**
+     * @brief 鼠标滚轮滚动事件参数类型
+     */
+    struct MouseWheelEventArgs : RoutedEventArgsOfType<UIElement_MouseWheel> {
+        int wheelDelta;      // 滚轮滚动的距离，为120的倍数
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+        MouseWheelEventArgs(int wheelDelta, Point mousePosition, MouseKey keyState);
+    };
+
+    /**
      * @brief 窗口正在关闭事件参数类型
      */
     struct WindowClosingEventArgs : RoutedEventArgsOfType<Window_Closing> {

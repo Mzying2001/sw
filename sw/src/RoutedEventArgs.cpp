@@ -29,3 +29,13 @@ sw::KeyUpEventArgs::KeyUpEventArgs(VirtualKey key, KeyFlags falgs)
     : key(key), flags(flags)
 {
 }
+
+sw::MouseMoveEventArgs::MouseMoveEventArgs(Point mousePosition, MouseKey keyState)
+    : mousePosition(mousePosition), keyState(keyState)
+{
+}
+
+sw::MouseWheelEventArgs::MouseWheelEventArgs(int wheelDelta, Point mousePosition, MouseKey keyState)
+    : wheelDelta(wheelDelta), mousePosition(mousePosition), keyState(keyState)
+{
+}

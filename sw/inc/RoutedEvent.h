@@ -53,6 +53,21 @@ namespace sw
         UIElement_KeyUp,
 
         /**
+         * @brief 鼠标移动，参数类型为sw::MouseMoveEventArgs
+         */
+        UIElement_MouseMove,
+
+        /**
+         * @brief 鼠标离开，参数类型为sw::RoutedEventArgs
+         */
+        UIElement_MouseLeave,
+
+        /**
+         * @brief 鼠标滚轮滚动，参数类型为sw::MouseWheelEventArgs
+         */
+        UIElement_MouseWheel,
+
+        /**
          * @brief 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
          */
         Window_Closing,
