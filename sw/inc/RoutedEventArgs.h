@@ -89,6 +89,26 @@ namespace sw
     };
 
     /**
+     * @brief 鼠标按键按下事件参数类型
+     */
+    struct MouseButtonDownEventArgs : RoutedEventArgsOfType<UIElement_MouseButtonDown> {
+        MouseKey key;        // 按下的按键（左键、中间、右键）
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+        MouseButtonDownEventArgs(MouseKey key, Point mousePosition, MouseKey keyState);
+    };
+
+    /**
+     * @brief 鼠标按键抬起事件参数类型
+     */
+    struct MouseButtonUpEventArgs : RoutedEventArgsOfType<UIElement_MouseButtonUp> {
+        MouseKey key;        // 抬起的按键（左键、中间、右键）
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+        MouseButtonUpEventArgs(MouseKey key, Point mousePosition, MouseKey keyState);
+    };
+
+    /**
      * @brief 窗口正在关闭事件参数类型
      */
     struct WindowClosingEventArgs : RoutedEventArgsOfType<Window_Closing> {

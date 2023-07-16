@@ -39,3 +39,13 @@ sw::MouseWheelEventArgs::MouseWheelEventArgs(int wheelDelta, Point mousePosition
     : wheelDelta(wheelDelta), mousePosition(mousePosition), keyState(keyState)
 {
 }
+
+sw::MouseButtonDownEventArgs::MouseButtonDownEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
+    : key(key), mousePosition(mousePosition), keyState(keyState)
+{
+}
+
+sw::MouseButtonUpEventArgs::MouseButtonUpEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
+    : key(key), mousePosition(mousePosition), keyState(keyState)
+{
+}

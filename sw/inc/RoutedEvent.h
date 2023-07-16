@@ -68,6 +68,16 @@ namespace sw
         UIElement_MouseWheel,
 
         /**
+         * @brief 鼠标按键按下，参数类型为sw::MouseButtonDownEventArgs
+         */
+        UIElement_MouseButtonDown,
+
+        /**
+         * @brief 鼠标按键抬起，参数类型为sw::MouseButtonUpEventArgs
+         */
+        UIElement_MouseButtonUp,
+
+        /**
          * @brief 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
          */
         Window_Closing,

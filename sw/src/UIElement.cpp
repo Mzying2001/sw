@@ -455,3 +455,45 @@ bool sw::UIElement::OnMouseWheel(int wheelDelta, Point mousePosition, MouseKey k
     this->RaiseRoutedEvent(args);
     return false;
 }
+
+bool sw::UIElement::OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState)
+{
+    MouseButtonDownEventArgs args(MouseKey::MouseLeft, mousePosition, keyState);
+    this->RaiseRoutedEvent(args);
+    return false;
+}
+
+bool sw::UIElement::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState)
+{
+    MouseButtonUpEventArgs args(MouseKey::MouseLeft, mousePosition, keyState);
+    this->RaiseRoutedEvent(args);
+    return false;
+}
+
+bool sw::UIElement::OnMouseRightButtonDown(Point mousePosition, MouseKey keyState)
+{
+    MouseButtonDownEventArgs args(MouseKey::MouseRight, mousePosition, keyState);
+    this->RaiseRoutedEvent(args);
+    return false;
+}
+
+bool sw::UIElement::OnMouseRightButtonUp(Point mousePosition, MouseKey keyState)
+{
+    MouseButtonUpEventArgs args(MouseKey::MouseRight, mousePosition, keyState);
+    this->RaiseRoutedEvent(args);
+    return false;
+}
+
+bool sw::UIElement::OnMouseMiddleButtonDown(Point mousePosition, MouseKey keyState)
+{
+    MouseButtonDownEventArgs args(MouseKey::MouseMiddle, mousePosition, keyState);
+    this->RaiseRoutedEvent(args);
+    return false;
+}
+
+bool sw::UIElement::OnMouseMiddleButtonUp(Point mousePosition, MouseKey keyState)
+{
+    MouseButtonUpEventArgs args(MouseKey::MouseMiddle, mousePosition, keyState);
+    this->RaiseRoutedEvent(args);
+    return false;
+}
