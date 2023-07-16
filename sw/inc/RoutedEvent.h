@@ -70,19 +70,14 @@ namespace sw
         RoutedEventType eventType;
 
         /**
-         * @brief 事件参数，根据事件不同有不同的含义
-         */
-        void *param;
-
-        /**
          * @brief 事件是否已被处理，若将此字段设为true，则事件不会继续往上传递
          */
-        bool handled;
+        bool handled = false;
 
         /**
          * @brief RoutedEventArgs构造函数
          */
-        RoutedEventArgs(RoutedEventType eventType, void *param = nullptr, bool handled = false);
+        RoutedEventArgs(RoutedEventType eventType);
     };
 
     class UIElement; // UIElement.h

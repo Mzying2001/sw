@@ -3,6 +3,7 @@
 #include "Alignment.h"
 #include "ILayout.h"
 #include "RoutedEvent.h"
+#include "RoutedEventArgs.h"
 #include "Thickness.h"
 #include "WndBase.h"
 #include "WndMsg.h"
@@ -212,9 +213,16 @@ namespace sw
 
     protected:
         /**
-         * @brief 触发路由事件
+         * @brief           触发路由事件
+         * @param eventType 事件类型
          */
-        void RaiseRoutedEvent(RoutedEventType eventType, void *param = nullptr);
+        void RaiseRoutedEvent(RoutedEventType eventType);
+
+        /**
+         * @brief           触发路由事件
+         * @param eventArgs 要触发事件的事件参数
+         */
+        void RaiseRoutedEvent(RoutedEventArgs &eventArgs);
 
         /**
          * @brief 获取顶级窗口

@@ -24,6 +24,7 @@
 #include "Property.h"
 #include "Rect.h"
 #include "RoutedEvent.h"
+#include "RoutedEventArgs.h"
 #include "Screen.h"
 #include "Size.h"
 #include "StackLayout.h"

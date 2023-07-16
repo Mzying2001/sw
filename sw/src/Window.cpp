@@ -244,12 +244,13 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 
 bool sw::Window::OnClose()
 {
-    // 触发路由事件，cancel表示是否取消本次关闭
-    bool cancel = false;
-    RaiseRoutedEvent(RoutedEventType::Window_Closing, &cancel);
-    if (!cancel) {
+    WindowClosingEventArgs args;
+    RaiseRoutedEvent(args);
+
+    if (!args.cancel) {
         this->UIElement::OnClose();
     }
+
     return true;
 }
 

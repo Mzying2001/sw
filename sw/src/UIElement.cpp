@@ -289,15 +289,20 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     this->Redraw();
 }
 
-void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType, void *param)
+void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)
+{
+    RoutedEventArgs eventArgs(eventType);
+    this->RaiseRoutedEvent(eventArgs);
+}
+
+void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
 {
     UIElement *element = this;
-    RoutedEventArgs args(eventType, param);
     do {
-        if (element->IsRoutedEventRegistered(eventType)) {
-            element->_eventMap[eventType](*this, args);
+        if (element->IsRoutedEventRegistered(eventArgs.eventType)) {
+            element->_eventMap[eventArgs.eventType](*this, eventArgs);
         }
-        if (args.handled) {
+        if (eventArgs.handled) {
             break;
         } else {
             element = element->_parent;
@@ -364,7 +369,8 @@ bool sw::UIElement::OnClose()
 
 bool sw::UIElement::OnMove(Point newClientPosition)
 {
-    this->RaiseRoutedEvent(UIElement_PositionChanged, &newClientPosition);
+    PositionChangedEventArgs args(newClientPosition);
+    this->RaiseRoutedEvent(args);
     return true;
 }
 
@@ -377,7 +383,8 @@ bool sw::UIElement::OnSize(Size newClientSize)
         this->_origionalSize.height = this->Height;
     }
 
-    this->RaiseRoutedEvent(UIElement_SizeChanged, &newClientSize);
+    SizeChangedEventArgs args(newClientSize);
+    this->RaiseRoutedEvent(args);
 
     this->NotifyLayoutUpdated();
     return true;
@@ -385,7 +392,8 @@ bool sw::UIElement::OnSize(Size newClientSize)
 
 void sw::UIElement::OnTextChanged(const std::wstring &newText)
 {
-    this->RaiseRoutedEvent(UIElement_TextChanged, const_cast<std::wstring *>(&newText));
+    TextChangedEventArgs args(newText.c_str());
+    this->RaiseRoutedEvent(args);
 }
 
 void sw::UIElement::VisibleChanged(bool newVisible)
