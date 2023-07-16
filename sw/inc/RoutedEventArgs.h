@@ -8,10 +8,19 @@ namespace sw
 {
     struct RoutedEventArgs; // RoutedEvent.h
 
+    template <RoutedEventType EventType>
+    struct RoutedEventArgsOfType : RoutedEventArgs {
+        static const RoutedEventType TYPE = EventType;
+        inline RoutedEventArgsOfType()
+            : RoutedEventArgs(EventType)
+        {
+        }
+    };
+
     /**
      * @brief 尺寸改变事件参数类型
      */
-    struct SizeChangedEventArgs : RoutedEventArgs {
+    struct SizeChangedEventArgs : RoutedEventArgsOfType<UIElement_SizeChanged> {
         Size newClientSize; // 用户区的新尺寸
         SizeChangedEventArgs(const Size &newClientSize);
     };
@@ -19,7 +28,7 @@ namespace sw
     /**
      * @brief 位置改变事件参数类型
      */
-    struct PositionChangedEventArgs : RoutedEventArgs {
+    struct PositionChangedEventArgs : RoutedEventArgsOfType<UIElement_PositionChanged> {
         Point newClientPosition; // 移动后用户区左上角的位置
         PositionChangedEventArgs(const Point &newClientPosition);
     };
@@ -27,7 +36,7 @@ namespace sw
     /**
      * @brief Text属性改变事件参数类型
      */
-    struct TextChangedEventArgs : RoutedEventArgs {
+    struct TextChangedEventArgs : RoutedEventArgsOfType<UIElement_TextChanged> {
         const wchar_t *newText; // 改变后的Text
         TextChangedEventArgs(const wchar_t *newText);
     };
@@ -35,8 +44,7 @@ namespace sw
     /**
      * @brief 窗口正在关闭事件参数类型
      */
-    struct WindowClosingEventArgs : RoutedEventArgs {
+    struct WindowClosingEventArgs : RoutedEventArgsOfType<Window_Closing> {
         bool cancel = false; // 是否取消本次关闭
-        WindowClosingEventArgs();
     };
 }

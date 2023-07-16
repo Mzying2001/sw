@@ -299,7 +299,7 @@ namespace sw
 
     /**
      * @brief                   注册特定类型的路由事件，当类型不匹配时自动忽略
-     * @tparam TElement         发出该事件控件的类型
+     * @tparam TElement         发出该事件对象的类型
      * @tparam TEventArgs       该事件的事件参数类型
      * @param elementToRegister 要注册该事件的对象
      * @param eventType         事件类型
@@ -310,16 +310,16 @@ namespace sw
         typename TEventArgs,
         typename std::enable_if<std::is_base_of<UIElement, TElement>::value, int>::type         = 0,
         typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0>
-    inline void RegisterRoutedEvent(UIElement &elementToRegister, RoutedEventType eventType, std::function<void(TElement &, TEventArgs &)> handler)
+    inline void RegisterRoutedEvent(UIElement &elementToRegister, std::function<void(TElement &, TEventArgs &)> handler)
     {
         if (!handler) {
-            elementToRegister.RegisterRoutedEvent(eventType, nullptr);
+            elementToRegister.RegisterRoutedEvent(TEventArgs::TYPE, nullptr);
             return;
         }
 
-        elementToRegister.RegisterRoutedEvent(eventType, [handler](UIElement &element, RoutedEventArgs &args) {
+        elementToRegister.RegisterRoutedEvent(TEventArgs::TYPE, [handler](UIElement &element, RoutedEventArgs &args) {
             TElement *pElement     = dynamic_cast<TElement *>(&element);
-            TEventArgs *pEventArgs = dynamic_cast<TEventArgs *>(&args);
+            TEventArgs *pEventArgs = static_cast<TEventArgs *>(&args);
 
             if (pElement != nullptr && pEventArgs != nullptr) {
                 handler(*pElement, *pEventArgs);

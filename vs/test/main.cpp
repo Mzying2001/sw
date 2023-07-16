@@ -29,30 +29,24 @@ int WINAPI wWinMain(
         panel.AddChild(b);
     }
 
-    panel.RegisterRoutedEvent(ButtonBase_Clicked, [&](UIElement& element, RoutedEventArgs& args) {
+    panel.RegisterRoutedEvent(ButtonBase_Clicked, [](UIElement& element, RoutedEventArgs& args) {
         args.handled = true;
         int index = panel.IndexOf(element);
         MsgBox::Show(&window, Utils::BuildStr(L"你点击了第", index + 1, L"个按钮"));
     });
 
-    window.RegisterRoutedEvent(UIElement_PositionChanged, [&](UIElement& element, RoutedEventArgs& args) {
-        if (&element == &window) {
-            Point pos(element.Left, element.Top);
-            window.Text = Utils::BuildStr(pos);
-        }
+    RegisterRoutedEvent<Window, PositionChangedEventArgs>(window, [](Window& w, PositionChangedEventArgs& args) {
+        Point pos(w.Left, w.Top);
+        w.Text = Utils::BuildStr(pos);
     });
 
-    window.RegisterRoutedEvent(UIElement_TextChanged, [&](UIElement& element, RoutedEventArgs& args) {
-        if (&element == &window) {
-            btns[0].Text = window.Text;
-        }
+    RegisterRoutedEvent<Window, TextChangedEventArgs>(window, [](Window& w, TextChangedEventArgs& args) {
+        btns[0].Text = args.newText;
     });
 
-    window.RegisterRoutedEvent(UIElement_SizeChanged, [&](UIElement& element, RoutedEventArgs& args) {
-        if (&element == &window) {
-            btns[1].Text = Utils::BuildStr(L"w=", window.Width);
-            btns[2].Text = Utils::BuildStr(L"h=", window.Height);
-        }
+    RegisterRoutedEvent<Window, SizeChangedEventArgs>(window, [](Window& w, SizeChangedEventArgs& args) {
+        btns[1].Text = Utils::BuildStr(L"w=", w.Width);
+        btns[2].Text = Utils::BuildStr(L"h=", w.Height);
     });
 
     return App::MsgLoop();
