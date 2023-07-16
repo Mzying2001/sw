@@ -13,47 +13,47 @@ namespace sw
         UserEventEnd   = 0x80000000,
 
         /**
-         * @brief 尺寸改变，param指向一个sw::Size结构体，表示用户区的新尺寸
+         * @brief 尺寸改变，参数类型为sw::SizeChangedEventArgs
          */
         UIElement_SizeChanged,
 
         /**
-         * @brief 位置改变，param指向一个sw::Point结构体，表示用户区的新位置
+         * @brief 位置改变，参数类型为sw::PositionChangedEventArgs
          */
         UIElement_PositionChanged,
 
         /**
-         * @brief Text属性发生变化，param指向一个std::wstring，表示新的文本
+         * @brief Text属性发生变化，参数类型为sw::TextChangedEventArgs
          */
         UIElement_TextChanged,
 
         /**
-         * @brief 获取到焦点，该事件无参数
+         * @brief 获取到焦点，参数类型为sw::RoutedEventArgs
          */
         UIElement_GotFocus,
 
         /**
-         * @brief 失去焦点，该事件无参数
+         * @brief 失去焦点，参数类型为sw::RoutedEventArgs
          */
         UIElement_LostFocus,
 
         /**
-         * @brief 窗口正在关闭，param指向一个bool值，表示是否取消本次关闭
+         * @brief 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
          */
         Window_Closing,
 
         /**
-         * @brief 窗口已关闭，该事件无参数
+         * @brief 窗口已关闭，参数类型为sw::RoutedEventArgs
          */
         Window_Closed,
 
         /**
-         * @brief 按钮被单击，该事件无参数
+         * @brief 按钮被单击，参数类型为sw::RoutedEventArgs
          */
         ButtonBase_Clicked,
 
         /**
-         * @brief 按钮被双击，该事件无参数
+         * @brief 按钮被双击，参数类型为sw::RoutedEventArgs
          */
         ButtonBase_DoubleClicked,
     };
