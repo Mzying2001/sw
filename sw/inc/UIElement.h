@@ -295,6 +295,30 @@ namespace sw
          * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnKillFocus(HWND hNextFocus);
+
+        /**
+         * @brief       接收到WM_CHAR时调用该函数
+         * @param ch    按键的字符代码
+         * @param flags 附加信息
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnChar(wchar_t ch, KeyFlags flags);
+
+        /**
+         * @brief       接收到WM_KEYDOWN时调用该函数
+         * @param key   虚拟按键
+         * @param flags 附加信息
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags);
+
+        /**
+         * @brief       接收到WM_KEYUP时调用该函数
+         * @param key   虚拟按键
+         * @param flags 附加信息
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnKeyUp(VirtualKey key, KeyFlags flags);
     };
 
     /**

@@ -38,6 +38,21 @@ namespace sw
         UIElement_LostFocus,
 
         /**
+         * @brief 输入字符，参数类型为sw::GotCharEventArgs
+         */
+        UIElement_GotChar,
+
+        /**
+         * @brief 键盘按键按下，参数类型为sw::KeyDownEventArgs
+         */
+        UIElement_KeyDown,
+
+        /**
+         * @brief 键盘按键抬起，参数类型为sw::KeyUpEventArgs
+         */
+        UIElement_KeyUp,
+
+        /**
          * @brief 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
          */
         Window_Closing,

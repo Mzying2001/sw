@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Keys.h"
 #include "Point.h"
 #include "RoutedEvent.h"
 #include "Size.h"
@@ -39,6 +40,33 @@ namespace sw
     struct TextChangedEventArgs : RoutedEventArgsOfType<UIElement_TextChanged> {
         const wchar_t *newText; // 改变后的Text
         TextChangedEventArgs(const wchar_t *newText);
+    };
+
+    /**
+     * @brief 输入字符事件类型参数
+     */
+    struct GotCharEventArgs : RoutedEventArgsOfType<UIElement_GotChar> {
+        wchar_t ch;     // 输入的字符
+        KeyFlags flags; // 附加信息
+        GotCharEventArgs(wchar_t ch, KeyFlags flags);
+    };
+
+    /**
+     * @brief 键盘按键按下事件参数类型
+     */
+    struct KeyDownEventArgs : RoutedEventArgsOfType<UIElement_KeyDown> {
+        VirtualKey key; // 虚拟按键
+        KeyFlags flags; // 附加信息
+        KeyDownEventArgs(VirtualKey key, KeyFlags falgs);
+    };
+
+    /**
+     * @brief 键盘按键抬起事件参数类型
+     */
+    struct KeyUpEventArgs : RoutedEventArgsOfType<UIElement_KeyUp> {
+        VirtualKey key; // 虚拟按键
+        KeyFlags flags; // 附加信息
+        KeyUpEventArgs(VirtualKey key, KeyFlags falgs);
     };
 
     /**

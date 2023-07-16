@@ -414,3 +414,24 @@ bool sw::UIElement::OnKillFocus(HWND hNextFocus)
     this->RaiseRoutedEvent(UIElement_LostFocus);
     return true;
 }
+
+bool sw::UIElement::OnChar(wchar_t ch, KeyFlags flags)
+{
+    GotCharEventArgs args(ch, flags);
+    this->RaiseRoutedEvent(args);
+    return false;
+}
+
+bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
+{
+    KeyDownEventArgs args(key, flags);
+    this->RaiseRoutedEvent(args);
+    return false;
+}
+
+bool sw::UIElement::OnKeyUp(VirtualKey key, KeyFlags flags)
+{
+    KeyUpEventArgs args(key, flags);
+    this->RaiseRoutedEvent(args);
+    return false;
+}

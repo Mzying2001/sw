@@ -14,3 +14,18 @@ sw::TextChangedEventArgs::TextChangedEventArgs(const wchar_t *newText)
     : newText(newText)
 {
 }
+
+sw::GotCharEventArgs::GotCharEventArgs(wchar_t ch, KeyFlags flags)
+    : ch(ch), flags(flags)
+{
+}
+
+sw::KeyDownEventArgs::KeyDownEventArgs(VirtualKey key, KeyFlags falgs)
+    : key(key), flags(flags)
+{
+}
+
+sw::KeyUpEventArgs::KeyUpEventArgs(VirtualKey key, KeyFlags falgs)
+    : key(key), flags(flags)
+{
+}
