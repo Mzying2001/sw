@@ -298,11 +298,30 @@ namespace sw
     };
 
     /**
+     * @brief                   根据事件参数类型注册路由事件
+     * @tparam TEventArgs       路由事件参数类型
+     * @param elementToRegister 要注册该事件的对象
+     * @param handler           处理该事件的函数
+     */
+    template <
+        typename TEventArgs,
+        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0>
+    inline void RegisterRoutedEvent(UIElement &elementToRegister, std::function<void(UIElement &, TEventArgs &)> handler)
+    {
+        if (!handler) {
+            elementToRegister.UnregisterRoutedEvent(TEventArgs::TYPE);
+            return;
+        }
+        elementToRegister.RegisterRoutedEvent(TEventArgs::TYPE, [handler](UIElement &element, RoutedEventArgs &args) {
+            handler(element, static_cast<TEventArgs &>(args));
+        });
+    }
+
+    /**
      * @brief                   注册特定类型的路由事件，当类型不匹配时自动忽略
      * @tparam TElement         发出该事件对象的类型
      * @tparam TEventArgs       该事件的事件参数类型
      * @param elementToRegister 要注册该事件的对象
-     * @param eventType         事件类型
      * @param handler           处理该事件的函数
      */
     template <
@@ -313,17 +332,13 @@ namespace sw
     inline void RegisterRoutedEvent(UIElement &elementToRegister, std::function<void(TElement &, TEventArgs &)> handler)
     {
         if (!handler) {
-            elementToRegister.RegisterRoutedEvent(TEventArgs::TYPE, nullptr);
+            elementToRegister.UnregisterRoutedEvent(TEventArgs::TYPE);
             return;
         }
-
         elementToRegister.RegisterRoutedEvent(TEventArgs::TYPE, [handler](UIElement &element, RoutedEventArgs &args) {
-            TElement *pElement     = dynamic_cast<TElement *>(&element);
-            TEventArgs *pEventArgs = static_cast<TEventArgs *>(&args);
-
-            if (pElement != nullptr && pEventArgs != nullptr) {
-                handler(*pElement, *pEventArgs);
-            }
+            TElement *pElement = dynamic_cast<TElement *>(&element);
+            if (pElement != nullptr)
+                handler(*pElement, static_cast<TEventArgs &>(args));
         });
     }
 }
