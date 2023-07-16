@@ -19,6 +19,6 @@ namespace sw
          * @brief      接收到WM_ParentReceivedCommand消息时调用此函数
          * @param code 通知代码
          */
-        virtual void ParentReceivedCommand(int code);
+        virtual void ParentReceivedCommand(int code) override;
     };
 }

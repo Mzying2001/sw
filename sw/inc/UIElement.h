@@ -13,8 +13,7 @@
 
 namespace sw
 {
-    class UIElement : public WndBase,
-                      public ILayout
+    class UIElement : public WndBase, public ILayout
     {
     private:
         /**
@@ -182,34 +181,34 @@ namespace sw
         /**
          * @brief 获取参与布局的子控件数量
          */
-        virtual int GetChildLayoutCount();
+        virtual int GetChildLayoutCount() override;
 
         /**
          * @brief 获取对应索引处的子控件，使用此函数前必须先调用GetChildLayoutCount
          */
-        virtual ILayout &GetChildLayoutAt(int index);
+        virtual ILayout &GetChildLayoutAt(int index) override;
 
         /**
          * @brief 获取控件所需尺寸
          */
-        virtual Size GetDesireSize();
+        virtual Size GetDesireSize() override;
 
         /**
          * @brief 设置当前控件所需的尺寸
          */
-        virtual void SetDesireSize(const Size &size);
+        virtual void SetDesireSize(const Size &size) override;
 
         /**
          * @brief               测量控件所需尺寸
          * @param availableSize 可用的尺寸
          */
-        virtual void Measure(const Size &availableSize);
+        virtual void Measure(const Size &availableSize) override;
 
         /**
          * @brief           安排控件位置
          * @param finalSize 最终控件所安排的位置
          */
-        virtual void Arrange(const sw::Rect &finalPosition);
+        virtual void Arrange(const sw::Rect &finalPosition) override;
 
     protected:
         /**
@@ -243,58 +242,58 @@ namespace sw
          * @brief  设置父窗口
          * @return 设置是否成功
          */
-        virtual bool SetParent(WndBase *parent);
+        virtual bool SetParent(WndBase *parent) override;
 
         /**
          * @brief           父窗口改变时调用此函数
          * @param newParent 新的父窗口
          */
-        virtual void ParentChanged(WndBase *newParent);
+        virtual void ParentChanged(WndBase *newParent) override;
 
         /**
          * @brief  接收到WM_CLOSE时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnClose();
+        virtual bool OnClose() override;
 
         /**
          * @brief                   接收到WM_MOVE时调用该函数
          * @param newClientPosition 移动后用户区左上角的位置
          * @return                  若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMove(Point newClientPosition);
+        virtual bool OnMove(Point newClientPosition) override;
 
         /**
          * @brief               接收到WM_SIZE时调用该函数
          * @param newClientSize 改变后的用户区尺寸
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSize(Size newClientSize);
+        virtual bool OnSize(Size newClientSize) override;
 
         /**
          * @brief         Text属性更改时调用此函数
          * @param newText Text的新值
          */
-        virtual void OnTextChanged(const std::wstring &newText);
+        virtual void OnTextChanged(const std::wstring &newText) override;
 
         /**
          * @brief Visible属性改变时调用此函数
          */
-        virtual void VisibleChanged(bool newVisible);
+        virtual void VisibleChanged(bool newVisible) override;
 
         /**
          * @brief            接收到WM_SETFOCUS时调用该函数
          * @param hPrevFocus 丢失焦点的hwnd，可能为NULL
          * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSetFocus(HWND hPrevFocus);
+        virtual bool OnSetFocus(HWND hPrevFocus) override;
 
         /**
          * @brief            接收到WM_KILLFOCUS时调用该函数
          * @param hNextFocus 接收到焦点的hwnd，可能为NULL
          * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKillFocus(HWND hNextFocus);
+        virtual bool OnKillFocus(HWND hNextFocus) override;
 
         /**
          * @brief       接收到WM_CHAR时调用该函数
@@ -302,7 +301,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnChar(wchar_t ch, KeyFlags flags);
+        virtual bool OnChar(wchar_t ch, KeyFlags flags) override;
 
         /**
          * @brief       接收到WM_KEYDOWN时调用该函数
@@ -310,7 +309,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags);
+        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
 
         /**
          * @brief       接收到WM_KEYUP时调用该函数
@@ -318,7 +317,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyUp(VirtualKey key, KeyFlags flags);
+        virtual bool OnKeyUp(VirtualKey key, KeyFlags flags) override;
     };
 
     /**

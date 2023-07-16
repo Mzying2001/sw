@@ -19,34 +19,34 @@ namespace sw
         /**
          * @brief 获取关联对象子控件的数量
          */
-        virtual int GetChildLayoutCount();
+        virtual int GetChildLayoutCount() override;
 
         /**
          * @brief 获取关联对象对应索引处的子控件
          */
-        virtual ILayout &GetChildLayoutAt(int index);
+        virtual ILayout &GetChildLayoutAt(int index) override;
 
         /**
          * @brief 获取关联对象所需尺寸
          */
-        virtual Size GetDesireSize();
+        virtual Size GetDesireSize() override;
 
         /**
          * @brief 设置关联对象所需的尺寸
          */
-        virtual void SetDesireSize(const Size &size);
+        virtual void SetDesireSize(const Size &size) override;
 
         /**
          * @brief               测量控件所需尺寸
          * @param availableSize 可用的尺寸
          */
-        virtual void Measure(const Size &availableSize);
+        virtual void Measure(const Size &availableSize) override;
 
         /**
          * @brief               安排控件位置
          * @param finalPosition 最终控件所安排的位置
          */
-        virtual void Arrange(const Rect &finalPosition);
+        virtual void Arrange(const Rect &finalPosition) override;
 
         /**
          * @brief 重写此函数计算所需尺寸

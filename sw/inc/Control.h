@@ -35,6 +35,6 @@ namespace sw
         /**
          * @brief 父窗口接收到WM_CTLCOLORxxx的回调
          */
-        virtual LRESULT CtlColor(HDC hdc, HWND hwnd);
+        virtual LRESULT CtlColor(HDC hdc, HWND hwnd) override;
     };
 }

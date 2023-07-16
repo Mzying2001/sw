@@ -114,31 +114,31 @@ namespace sw
         /**
          * @brief 对WndProc的封装
          */
-        virtual LRESULT WndProc(const ProcMsg &refMsg);
+        virtual LRESULT WndProc(const ProcMsg &refMsg) override;
 
         /**
          * @brief  接收到WM_CLOSE时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnClose();
+        virtual bool OnClose() override;
 
         /**
          * @brief  接收到WM_CREATE时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnCreate();
+        virtual bool OnCreate() override;
 
         /**
          * @brief  接收到WM_DESTROY时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnDestroy();
+        virtual bool OnDestroy() override;
 
         /**
          * @brief  接收到WM_PAINT时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnPaint();
+        virtual bool OnPaint() override;
 
     public:
         /**
@@ -150,12 +150,12 @@ namespace sw
          * @brief               测量控件所需尺寸
          * @param availableSize 可用的尺寸
          */
-        virtual void Measure(const Size &availableSize);
+        virtual void Measure(const Size &availableSize) override;
 
         /**
          * @brief           安排控件位置
          * @param finalSize 最终控件所安排的位置
          */
-        virtual void Arrange(const sw::Rect &finalPosition);
+        virtual void Arrange(const sw::Rect &finalPosition) override;
     };
 }
