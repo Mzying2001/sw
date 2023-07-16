@@ -23,7 +23,7 @@ namespace sw
      */
     struct SizeChangedEventArgs : RoutedEventArgsOfType<UIElement_SizeChanged> {
         Size newClientSize; // 用户区的新尺寸
-        SizeChangedEventArgs(const Size &newClientSize);
+        SizeChangedEventArgs(Size newClientSize);
     };
 
     /**
@@ -31,7 +31,7 @@ namespace sw
      */
     struct PositionChangedEventArgs : RoutedEventArgsOfType<UIElement_PositionChanged> {
         Point newClientPosition; // 移动后用户区左上角的位置
-        PositionChangedEventArgs(const Point &newClientPosition);
+        PositionChangedEventArgs(Point newClientPosition);
     };
 
     /**

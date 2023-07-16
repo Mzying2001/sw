@@ -1,11 +1,11 @@
 #include "RoutedEventArgs.h"
 
-sw::SizeChangedEventArgs::SizeChangedEventArgs(const Size &newClientSize)
+sw::SizeChangedEventArgs::SizeChangedEventArgs(Size newClientSize)
     : newClientSize(newClientSize)
 {
 }
 
-sw::PositionChangedEventArgs::PositionChangedEventArgs(const Point &newClientPosition)
+sw::PositionChangedEventArgs::PositionChangedEventArgs(Point newClientPosition)
     : newClientPosition(newClientPosition)
 {
 }
