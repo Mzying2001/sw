@@ -93,7 +93,13 @@ sw::UIElement::UIElement()
 
 sw::UIElement::~UIElement()
 {
+    // 将自己从父窗口的children中移除
     this->SetParent(nullptr);
+
+    // 取消子窗口对自己的引用
+    for (UIElement *item : this->_children)
+        item->_parent = nullptr;
+    this->_children.clear();
 }
 
 void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &event)
