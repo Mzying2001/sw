@@ -14,40 +14,30 @@ int WINAPI wWinMain(
     window.StartupLocation = WindowStartupLocation::CenterScreen;
     window.Show();
 
-    static FillLayout layout;
+    DockLayout layout;
     window.Layout = &layout;
 
-    static WrapPanel panel;
-    panel.Margin = 5;
-    window.AddChild(panel);
-
     static Button btns[10];
-    for (int i = 0; i < 10; ++i)
-    {
+    for (int i = 0; i < 10; ++i) {
         Button& b = btns[i];
-        b.Margin = 5;
-        panel.AddChild(b);
+        b.VerticalAlignment = VerticalAlignment::Stretch;
+        b.HorizontalAlignment = HorizontalAlignment::Stretch;
     }
 
-    panel.RegisterRoutedEvent(ButtonBase_Clicked, [](UIElement& element, RoutedEventArgs& args) {
-        args.handled = true;
-        int index = panel.IndexOf(element);
-        MsgBox::Show(&window, Utils::BuildStr(L"你点击了第", index + 1, L"个按钮"));
-    });
+    btns[0].LayoutTag = DockLayout::Left;
+    window.AddChild(btns[0]);
 
-    RegisterRoutedEvent<Window, PositionChangedEventArgs>(window, [](Window& w, PositionChangedEventArgs& args) {
-        Point pos(w.Left, w.Top);
-        w.Text = Utils::BuildStr(pos);
-    });
+    btns[1].LayoutTag = DockLayout::Right;
+    window.AddChild(btns[1]);
 
-    RegisterRoutedEvent<Window, TextChangedEventArgs>(window, [](Window& w, TextChangedEventArgs& args) {
-        btns[0].Text = args.newText;
-    });
+    btns[2].LayoutTag = DockLayout::Top;
+    window.AddChild(btns[2]);
 
-    RegisterRoutedEvent<Window, SizeChangedEventArgs>(window, [](Window& w, SizeChangedEventArgs& args) {
-        btns[1].Text = Utils::BuildStr(L"w=", w.Width);
-        btns[2].Text = Utils::BuildStr(L"h=", w.Height);
-    });
+    btns[3].LayoutTag = DockLayout::Bottom;
+    window.AddChild(btns[3]);
+
+    btns[4].LayoutTag = DockLayout::Bottom;
+    window.AddChild(btns[4]);
 
     return App::MsgLoop();
 }
