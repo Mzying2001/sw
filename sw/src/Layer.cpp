@@ -1,4 +1,5 @@
 #include "Layer.h"
+#include <cmath>
 
 sw::Layer::Layer()
     : Layout(
@@ -32,7 +33,6 @@ void sw::Layer::UpdateLayout()
 
 void sw::Layer::Measure(const Size &availableSize)
 {
-    Size desireSize;
     Size measureSize    = availableSize;
     Thickness margin    = this->Margin;
     sw::Rect windowRect = this->Rect;
@@ -44,11 +44,17 @@ void sw::Layer::Measure(const Size &availableSize)
 
     this->GetLayoutHost().Measure(measureSize);
 
-    // 考虑边框
-    desireSize = this->GetDesireSize();
-    desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
-    desireSize.height += (windowRect.width - clientRect.width) + margin.top + margin.bottom;
-    this->SetDesireSize(desireSize);
+    Size desireSize = this->GetDesireSize();
+
+    if (std::isnan(desireSize.width) || std::isnan(desireSize.height)) {
+        // AbsoluteLayout特殊处理：用nan表示按照普通控件处理
+        this->UIElement::Measure(availableSize);
+    } else {
+        // 考虑边框
+        desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
+        desireSize.height += (windowRect.width - clientRect.width) + margin.top + margin.bottom;
+        this->SetDesireSize(desireSize);
+    }
 }
 
 void sw::Layer::Arrange(const sw::Rect &finalPosition)

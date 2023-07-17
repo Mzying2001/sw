@@ -8,6 +8,8 @@ void sw::AbsoluteLayout::MeasureOverride(Size &availableSize)
         ILayout &item = this->GetChildLayoutAt(i);
         item.Measure(Size(INFINITY, INFINITY));
     }
+    this->SetDesireSize(Size(NAN, NAN));
+    // 注：Layer对AbsoluteLayout有特殊处理，当DesireSize为NAN时将按照普通控件Measure
 }
 
 void sw::AbsoluteLayout::ArrangeOverride(Size &finalSize)
