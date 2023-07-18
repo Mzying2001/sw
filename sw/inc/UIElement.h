@@ -154,6 +154,18 @@ namespace sw
         bool AddChild(UIElement &element);
 
         /**
+         * @brief  添加子控件并设置布局标记
+         * @return 添加是否成功
+         */
+        bool AddChild(UIElement *element, uint32_t layoutTag);
+
+        /**
+         * @brief  添加子控件并设置布局标记
+         * @return 添加是否成功
+         */
+        bool AddChild(UIElement &element, uint32_t layoutTag);
+
+        /**
          * @brief       移除指定索引处的子控件
          * @param index 要移除的索引
          * @return      移除是否成功
