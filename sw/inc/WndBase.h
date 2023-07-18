@@ -57,6 +57,11 @@ namespace sw
         bool _focused = false;
 
         /**
+         * @brief 窗口是否已销毁
+         */
+        bool _isDestroyed = false;
+
+        /**
          * @brief 当前对象是控件时该函数指针指向控件原本的WndProc
          */
         WNDPROC _controlOldWndProc = NULL;
@@ -151,6 +156,11 @@ namespace sw
          * @brief 父窗口
          */
         const ReadOnlyProperty<WndBase *> Parent;
+
+        /**
+         * @brief 是否已销毁，当该值为true时不应该继续使用当前对象
+         */
+        const ReadOnlyProperty<bool> IsDestroyed;
 
     protected:
         WndBase();

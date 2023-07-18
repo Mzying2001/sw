@@ -223,6 +223,12 @@ sw::WndBase::WndBase()
               HWND hwnd = GetParent(this->_hwnd);
               pWndBase  = WndBase::GetWndBase(hwnd);
               return pWndBase;
+          }),
+
+      IsDestroyed(
+          // get
+          [&]() -> const bool & {
+              return this->_isDestroyed;
           })
 {
     static WNDCLASSEXW wc = {0};
@@ -388,6 +394,7 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DESTROY: {
+            this->_isDestroyed = true;
             return this->OnDestroy() ? 0 : this->DefaultWndProc(refMsg);
         }
 
