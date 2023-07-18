@@ -14,10 +14,10 @@ int WINAPI wWinMain(
     window.StartupLocation = WindowStartupLocation::CenterScreen;
     window.Show();
 
-    FillLayout layout;
+    static FillLayout layout;
     window.Layout = &layout;
 
-    DockPanel panel;
+    static DockPanel panel;
     panel.Margin = 5;
     window.AddChild(panel);
 
