@@ -17,6 +17,7 @@
 #include "ICtlColor.h"
 #include "ILayout.h"
 #include "Keys.h"
+#include "Label.h"
 #include "Layer.h"
 #include "LayoutHost.h"
 #include "MsgBox.h"
