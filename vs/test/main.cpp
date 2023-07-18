@@ -14,8 +14,12 @@ int WINAPI wWinMain(
     window.StartupLocation = WindowStartupLocation::CenterScreen;
     window.Show();
 
-    DockLayout layout;
+    static FillLayout layout;
     window.Layout = &layout;
+
+    static DockPanel panel;
+    panel.Margin = 5;
+    window.AddChild(panel);
 
     static Button btns[10];
     for (int i = 0; i < 10; ++i) {
@@ -24,20 +28,11 @@ int WINAPI wWinMain(
         b.HorizontalAlignment = HorizontalAlignment::Stretch;
     }
 
-    btns[0].LayoutTag = DockLayout::Left;
-    window.AddChild(btns[0]);
-
-    btns[1].LayoutTag = DockLayout::Right;
-    window.AddChild(btns[1]);
-
-    btns[2].LayoutTag = DockLayout::Top;
-    window.AddChild(btns[2]);
-
-    btns[3].LayoutTag = DockLayout::Bottom;
-    window.AddChild(btns[3]);
-
-    btns[4].LayoutTag = DockLayout::Bottom;
-    window.AddChild(btns[4]);
+    panel.AddChild(btns[0], DockLayout::Left);
+    panel.AddChild(btns[1], DockLayout::Right);
+    panel.AddChild(btns[2], DockLayout::Top);
+    panel.AddChild(btns[3], DockLayout::Bottom);
+    panel.AddChild(btns[4] /* last child fill */);
 
     return App::MsgLoop();
 }

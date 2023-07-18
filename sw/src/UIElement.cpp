@@ -147,6 +147,21 @@ bool sw::UIElement::AddChild(UIElement &element)
     return this->AddChild(&element);
 }
 
+bool sw::UIElement::AddChild(UIElement *element, uint32_t layoutTag)
+{
+    if (element == nullptr) {
+        return false;
+    }
+    element->_layoutTag = layoutTag;
+    return this->AddChild(element);
+}
+
+bool sw::UIElement::AddChild(UIElement &element, uint32_t layoutTag)
+{
+    element._layoutTag = layoutTag;
+    return this->AddChild(&element);
+}
+
 bool sw::UIElement::RemoveChildAt(int index)
 {
     if (index < 0 || index >= this->_children.size()) {
