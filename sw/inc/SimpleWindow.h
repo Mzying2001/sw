@@ -11,6 +11,7 @@
 #include "Control.h"
 #include "Dip.h"
 #include "DockLayout.h"
+#include "DockPanel.h"
 #include "FillLayout.h"
 #include "Font.h"
 #include "ICtlColor.h"
