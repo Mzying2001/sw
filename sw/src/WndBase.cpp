@@ -828,3 +828,13 @@ sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
 {
     return reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
 }
+
+bool sw::operator==(const WndBase &left, const WndBase &right)
+{
+    return &left == &right;
+}
+
+bool sw::operator!=(const WndBase &left, const WndBase &right)
+{
+    return &left != &right;
+}
