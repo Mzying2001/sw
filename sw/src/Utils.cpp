@@ -1,5 +1,5 @@
 #include "Utils.h"
-#include <Window.h>
+#include <Windows.h>
 
 std::wstring sw::Utils::ToWideStr(const std::string &str, bool utf8)
 {
