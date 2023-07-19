@@ -552,5 +552,15 @@ namespace sw
          * @return     若函数成功则返回对象的指针，否则返回nullptr
          */
         static WndBase *GetWndBase(HWND hwnd);
+
+        /**
+         * @brief 重载==运算符，判断是否为同一个引用
+         */
+        friend bool operator==(const WndBase &left, const WndBase &right);
+
+        /**
+         * @brief 重载!=运算符，判断是否为不同引用
+         */
+        friend bool operator!=(const WndBase &left, const WndBase &right);
     };
 }
