@@ -50,6 +50,42 @@ sw::Label::Label()
           // set
           [&](const sw::VerticalAlignment &value) {
               this->SetStyle(SS_CENTERIMAGE, value == sw::VerticalAlignment::Center);
+          }),
+
+      TextTrimming(
+          // get
+          [&]() -> const sw::TextTrimming & {
+              static sw::TextTrimming result;
+              LONG_PTR style = this->GetStyle();
+              if ((style & SS_WORDELLIPSIS) == SS_WORDELLIPSIS) {
+                  result = sw::TextTrimming::WordEllipsis;
+              } else if (style & SS_ENDELLIPSIS) {
+                  result = sw::TextTrimming::EndEllipsis;
+              } else {
+                  result = sw::TextTrimming::None;
+              }
+              return result;
+          },
+          // set
+          [&](const sw::TextTrimming &value) {
+              switch (value) {
+                  case sw::TextTrimming::None: {
+                      this->SetStyle(SS_WORDELLIPSIS, false);
+                      break;
+                  }
+                  case sw::TextTrimming::WordEllipsis: {
+                      this->SetStyle(SS_WORDELLIPSIS, true);
+                      break;
+                  }
+                  case sw::TextTrimming::EndEllipsis: {
+                      LONG_PTR style = this->GetStyle();
+                      style &= ~SS_WORDELLIPSIS;
+                      style |= SS_ENDELLIPSIS;
+                      this->SetStyle(style);
+                      break;
+                  }
+              }
+              this->Redraw();
           })
 {
     this->InitControl(L"STATIC", L"Label", WS_CHILD | WS_VISIBLE);
