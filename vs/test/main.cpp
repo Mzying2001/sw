@@ -39,10 +39,10 @@ int WINAPI wWinMain(
 
     label.Rect = Rect(0, 0, 100, 100);
     label.Text = L"A very long text that will show complete words with ellipsis.";
-    label.VerticalContentAlignment = VerticalAlignment::Center;
+    //label.VerticalContentAlignment = VerticalAlignment::Center;
     label.HorizontalContentAlignment = HorizontalAlignment::Center;
-
-    label.TextTrimming = TextTrimming::WordEllipsis;
+    //label.TextTrimming = TextTrimming::WordEllipsis;
+    label.AutoWrap = true;
 
     return App::MsgLoop();
 }

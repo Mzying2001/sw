@@ -86,6 +86,18 @@ sw::Label::Label()
                   }
               }
               this->Redraw();
+          }),
+
+      AutoWrap(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(SS_EDITCONTROL);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(SS_EDITCONTROL, value);
           })
 {
     this->InitControl(L"STATIC", L"Label", WS_CHILD | WS_VISIBLE);

@@ -23,14 +23,19 @@ namespace sw
         const Property<sw::HorizontalAlignment> HorizontalContentAlignment;
 
         /**
-         * @brief 文本的垂直对齐方式，仅支持顶部对齐和中心对齐
+         * @brief 文本的垂直对齐方式，仅支持顶部对齐和中心对齐，当使用中心对齐时会使自动换行失效
          */
         const Property<sw::VerticalAlignment> VerticalContentAlignment;
 
         /**
-         * @brief 文本过长时末尾的处理方式，当使用截断时HorizontalContentAlignment将失效
+         * @brief 文本过长时末尾的处理方式，当使用截断时水平对齐和自动换行将失效
          */
         const Property<sw::TextTrimming> TextTrimming;
+
+        /**
+         * @brief 是否自动换行
+         */
+        const Property<bool> AutoWrap;
 
     public:
         Label();
