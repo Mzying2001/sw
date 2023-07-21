@@ -2,6 +2,7 @@
 
 #include "Alignment.h"
 #include "Control.h"
+#include "Size.h"
 
 namespace sw
 {
@@ -16,6 +17,17 @@ namespace sw
 
     class Label : public Control
     {
+    private:
+        /**
+         * @brief 文本所需的尺寸
+         */
+        Size _textSize;
+
+        /**
+         * @brief 是否根据文本自动调整尺寸
+         */
+        bool _autoSize = true;
+
     public:
         /**
          * @brief 文本的水平对齐方式，可设为左对齐、中心对齐、右对齐
@@ -37,7 +49,25 @@ namespace sw
          */
         const Property<bool> AutoWrap;
 
+        /**
+         * @brief 是否根据文本自动调整尺寸
+         */
+        const Property<bool> AutoSize;
+
     public:
         Label();
+
+    private:
+        /**
+         * @brief 更新_textSize
+         */
+        void _UpdateTextSize();
+
+    protected:
+        /**
+         * @brief         Text属性更改时调用此函数
+         * @param newText Text的新值
+         */
+        virtual void OnTextChanged(const std::wstring &newText) override;
     };
 }

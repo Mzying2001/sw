@@ -98,8 +98,48 @@ sw::Label::Label()
           // set
           [&](const bool &value) {
               this->SetStyle(SS_EDITCONTROL, value);
+          }),
+
+      AutoSize(
+          // get
+          [&]() -> const bool & {
+              return this->_autoSize;
+          },
+          // set
+          [&](const bool &value) {
+              this->_autoSize = value;
+              if (value) {
+                  this->NotifyLayoutUpdated();
+              }
           })
 {
     this->InitControl(L"STATIC", L"Label", WS_CHILD | WS_VISIBLE);
-    this->Rect = sw::Rect(0, 0, 40, 20);
+    this->_UpdateTextSize();
+}
+
+void sw::Label::_UpdateTextSize()
+{
+    HWND hwnd = this->Handle;
+    HDC hdc   = GetDC(hwnd);
+
+    SIZE size;
+    const std::wstring &text = this->Text;
+    if (GetTextExtentPoint32W(hdc, text.c_str(), (int)text.size(), &size)) {
+        this->_textSize = size;
+    }
+
+    ReleaseDC(hwnd, hdc);
+}
+
+void sw::Label::OnTextChanged(const std::wstring &newText)
+{
+    this->UIElement::OnTextChanged(newText);
+    this->_UpdateTextSize();
+
+    if (this->_autoSize) {
+        sw::Rect rect = this->Rect;
+        rect.width    = this->_textSize.width;
+        rect.height   = this->_textSize.height;
+        this->Rect    = rect;
+    }
 }
