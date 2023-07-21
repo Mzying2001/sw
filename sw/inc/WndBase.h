@@ -222,6 +222,11 @@ namespace sw
         void SetExtendedStyle(LONG_PTR style, bool value);
 
         /**
+         * @brief 获取字体句柄
+         */
+        HFONT GetFontHandle();
+
+        /**
          * @brief 调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc
          */
         LRESULT DefaultWndProc(const ProcMsg &refMsg);
