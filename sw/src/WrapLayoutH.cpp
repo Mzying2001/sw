@@ -1,4 +1,5 @@
 #include "WrapLayoutH.h"
+#include "Utils.h"
 #include <cmath>
 
 void sw::WrapLayoutH::MeasureOverride(Size &availableSize)
@@ -13,7 +14,7 @@ void sw::WrapLayoutH::MeasureOverride(Size &availableSize)
 
             Size itemDesireSize = item.GetDesireSize();
             size.width += itemDesireSize.width;
-            size.height = max(size.height, itemDesireSize.height);
+            size.height = Utils::Max(size.height, itemDesireSize.height);
         }
     } else {
         double top       = 0;
@@ -27,13 +28,13 @@ void sw::WrapLayoutH::MeasureOverride(Size &availableSize)
             Size itemDesireSize = item.GetDesireSize();
             if (rowWidth + itemDesireSize.width <= availableSize.width) {
                 rowWidth += itemDesireSize.width;
-                rowHeight = max(rowHeight, itemDesireSize.height);
+                rowHeight = Utils::Max(rowHeight, itemDesireSize.height);
             } else {
                 top += rowHeight;
                 rowWidth  = itemDesireSize.width;
                 rowHeight = itemDesireSize.height;
             }
-            size.width = max(size.width, rowWidth);
+            size.width = Utils::Max(size.width, rowWidth);
         }
         size.height = top + rowHeight;
     }
@@ -55,7 +56,7 @@ void sw::WrapLayoutH::ArrangeOverride(Size &finalSize)
         if (rowWidth + itemDesireSize.width <= finalSize.width) {
             item.Arrange(Rect(rowWidth, top, itemDesireSize.width, itemDesireSize.height));
             rowWidth += itemDesireSize.width;
-            rowHeight = max(rowHeight, itemDesireSize.height);
+            rowHeight = Utils::Max(rowHeight, itemDesireSize.height);
         } else {
             top += rowHeight;
             item.Arrange(Rect(0, top, itemDesireSize.width, itemDesireSize.height));

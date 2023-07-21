@@ -1,4 +1,5 @@
 #include "WrapLayoutV.h"
+#include "Utils.h"
 #include <cmath>
 
 void sw::WrapLayoutV::MeasureOverride(Size &availableSize)
@@ -13,7 +14,7 @@ void sw::WrapLayoutV::MeasureOverride(Size &availableSize)
 
             Size itemDesireSize = item.GetDesireSize();
             size.height += itemDesireSize.height;
-            size.width = max(size.width, itemDesireSize.width);
+            size.width = Utils::Max(size.width, itemDesireSize.width);
         }
     } else {
         double left      = 0;
@@ -27,13 +28,13 @@ void sw::WrapLayoutV::MeasureOverride(Size &availableSize)
             Size itemDesireSize = item.GetDesireSize();
             if (colHeight + itemDesireSize.height <= availableSize.height) {
                 colHeight += itemDesireSize.height;
-                colWidth = max(colWidth, itemDesireSize.width);
+                colWidth = Utils::Max(colWidth, itemDesireSize.width);
             } else {
                 left += colWidth;
                 colHeight = itemDesireSize.height;
                 colWidth  = itemDesireSize.width;
             }
-            size.height = max(size.height, colHeight);
+            size.height = Utils::Max(size.height, colHeight);
         }
         size.width = left + colWidth;
     }
@@ -55,7 +56,7 @@ void sw::WrapLayoutV::ArrangeOverride(Size &finalSize)
         if (colHeight + itemDesireSize.height <= finalSize.height) {
             item.Arrange(Rect(left, colHeight, itemDesireSize.width, itemDesireSize.height));
             colHeight += itemDesireSize.height;
-            colWidth = max(colWidth, itemDesireSize.width);
+            colWidth = Utils::Max(colWidth, itemDesireSize.width);
         } else {
             left += colWidth;
             item.Arrange(Rect(left, 0, itemDesireSize.width, itemDesireSize.height));

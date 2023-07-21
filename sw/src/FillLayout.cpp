@@ -1,4 +1,5 @@
 #include "FillLayout.h"
+#include "Utils.h"
 
 void sw::FillLayout::MeasureOverride(Size &availableSize)
 {
@@ -8,8 +9,8 @@ void sw::FillLayout::MeasureOverride(Size &availableSize)
         ILayout &item = this->GetChildLayoutAt(i);
         item.Measure(availableSize);
         Size itemDesireSize = item.GetDesireSize();
-        desireSize.width    = max(desireSize.width, itemDesireSize.width);
-        desireSize.height   = max(desireSize.height, itemDesireSize.height);
+        desireSize.width    = Utils::Max(desireSize.width, itemDesireSize.width);
+        desireSize.height   = Utils::Max(desireSize.height, itemDesireSize.height);
     }
     this->SetDesireSize(desireSize);
 }

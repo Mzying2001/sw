@@ -1,4 +1,5 @@
 #include "UIElement.h"
+#include "Utils.h"
 #include <algorithm>
 #include <cmath>
 
@@ -336,8 +337,8 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
         rect.top  = this->Top;
     }
 
-    rect.width       = max(rect.width, 0);
-    rect.height      = max(rect.height, 0);
+    rect.width       = Utils::Max(rect.width, 0.0);
+    rect.height      = Utils::Max(rect.height, 0.0);
     this->Rect       = rect;
     this->_arranging = false;
 

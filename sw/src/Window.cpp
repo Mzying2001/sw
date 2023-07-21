@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "Utils.h"
 #include <cmath>
 
 /**
@@ -207,19 +208,19 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             // 按照设置限制窗口大小
             if (this->_maxWidth > 0) {
                 LONG maxWidth           = std::lround(this->_maxWidth / scaleX);
-                pInfo->ptMaxTrackSize.x = min(pInfo->ptMaxTrackSize.x, maxWidth);
+                pInfo->ptMaxTrackSize.x = Utils::Min(pInfo->ptMaxTrackSize.x, maxWidth);
             }
             if (this->_maxHeight > 0) {
                 LONG maxHeight          = std::lround(this->_maxHeight / scaleY);
-                pInfo->ptMaxTrackSize.y = min(pInfo->ptMaxTrackSize.y, maxHeight);
+                pInfo->ptMaxTrackSize.y = Utils::Min(pInfo->ptMaxTrackSize.y, maxHeight);
             }
             if (this->_minWidth > 0) {
                 LONG minWidth           = std::lround(this->_minWidth / scaleX);
-                pInfo->ptMinTrackSize.x = max(pInfo->ptMinTrackSize.x, minWidth);
+                pInfo->ptMinTrackSize.x = Utils::Max(pInfo->ptMinTrackSize.x, minWidth);
             }
             if (this->_minHeight > 0) {
                 LONG minHeight          = std::lround(this->_minHeight / scaleY);
-                pInfo->ptMinTrackSize.y = max(pInfo->ptMinTrackSize.y, minHeight);
+                pInfo->ptMinTrackSize.y = Utils::Max(pInfo->ptMinTrackSize.y, minHeight);
             }
             return 0;
         }

@@ -1,4 +1,5 @@
 #include "DockLayout.h"
+#include "Utils.h"
 #include <cmath>
 
 static sw::DockLayout::DockLayoutTag _GetDockLayoutTag(sw::ILayout &item)
@@ -45,7 +46,7 @@ void sw::DockLayout::MeasureOverride(Size &availableSize)
             case DockLayoutTag::Right: {
                 Size itemDesireSize = item.GetDesireSize();
                 desireSize.width += itemDesireSize.width;
-                desireSize.height = max(desireSize.height, itemDesireSize.height);
+                desireSize.height = Utils::Max(desireSize.height, itemDesireSize.height);
                 break;
             }
 
@@ -53,7 +54,7 @@ void sw::DockLayout::MeasureOverride(Size &availableSize)
             case DockLayoutTag::Bottom: {
                 Size itemDesireSize = item.GetDesireSize();
                 desireSize.height += itemDesireSize.height;
-                desireSize.width = max(desireSize.width, itemDesireSize.width);
+                desireSize.width = Utils::Max(desireSize.width, itemDesireSize.width);
                 break;
             }
         }
@@ -78,7 +79,7 @@ void sw::DockLayout::ArrangeOverride(Size &finalSize)
         switch (_GetDockLayoutTag(item)) {
             case DockLayoutTag::Left: {
                 Size itemDesireSize = item.GetDesireSize();
-                double arrangeWidth = min(itemDesireSize.width, restArea.width);
+                double arrangeWidth = Utils::Min(itemDesireSize.width, restArea.width);
 
                 item.Arrange(Rect(
                     restArea.left,
@@ -93,7 +94,7 @@ void sw::DockLayout::ArrangeOverride(Size &finalSize)
 
             case DockLayoutTag::Top: {
                 Size itemDesireSize  = item.GetDesireSize();
-                double arrangeHeight = min(itemDesireSize.height, restArea.height);
+                double arrangeHeight = Utils::Min(itemDesireSize.height, restArea.height);
 
                 item.Arrange(Rect(
                     restArea.left,
@@ -108,7 +109,7 @@ void sw::DockLayout::ArrangeOverride(Size &finalSize)
 
             case DockLayoutTag::Right: {
                 Size itemDesireSize = item.GetDesireSize();
-                double arrangeWidth = min(itemDesireSize.width, restArea.width);
+                double arrangeWidth = Utils::Min(itemDesireSize.width, restArea.width);
 
                 item.Arrange(Rect(
                     restArea.left + restArea.width - arrangeWidth,
@@ -122,7 +123,7 @@ void sw::DockLayout::ArrangeOverride(Size &finalSize)
 
             case DockLayoutTag::Bottom: {
                 Size itemDesireSize  = item.GetDesireSize();
-                double arrangeHeight = min(itemDesireSize.height, restArea.height);
+                double arrangeHeight = Utils::Utils::Min(itemDesireSize.height, restArea.height);
 
                 item.Arrange(Rect(
                     restArea.left,
