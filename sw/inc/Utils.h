@@ -57,7 +57,7 @@ namespace sw
         friend std::wstringstream &operator<<(std::wstringstream &wss, const std::map<TKey, TVal> &map);
 
         /**
-         * @brief 区两值中的较大值
+         * @brief 取两值中的较大值
          */
         template <class T>
         static constexpr inline T Max(const T &a, const T &b)
