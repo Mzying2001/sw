@@ -115,12 +115,15 @@ sw::Label::Label()
 {
     this->InitControl(L"STATIC", L"Label", WS_CHILD | WS_VISIBLE);
     this->_UpdateTextSize();
+    this->_ResizeToTextSize();
 }
 
 void sw::Label::_UpdateTextSize()
 {
     HWND hwnd = this->Handle;
     HDC hdc   = GetDC(hwnd);
+
+    SelectObject(hdc, this->GetFontHandle());
 
     SIZE size;
     const std::wstring &text = this->Text;
@@ -131,15 +134,20 @@ void sw::Label::_UpdateTextSize()
     ReleaseDC(hwnd, hdc);
 }
 
+void sw::Label::_ResizeToTextSize()
+{
+    sw::Rect rect = this->Rect;
+    rect.width    = this->_textSize.width;
+    rect.height   = this->_textSize.height;
+    this->Rect    = rect;
+}
+
 void sw::Label::OnTextChanged(const std::wstring &newText)
 {
     this->UIElement::OnTextChanged(newText);
     this->_UpdateTextSize();
 
     if (this->_autoSize) {
-        sw::Rect rect = this->Rect;
-        rect.width    = this->_textSize.width;
-        rect.height   = this->_textSize.height;
-        this->Rect    = rect;
+        this->_ResizeToTextSize();
     }
 }

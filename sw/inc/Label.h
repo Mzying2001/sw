@@ -63,6 +63,11 @@ namespace sw
          */
         void _UpdateTextSize();
 
+        /**
+         * @brief 调整尺寸为_textSize
+         */
+        void _ResizeToTextSize();
+
     protected:
         /**
          * @brief         Text属性更改时调用此函数
