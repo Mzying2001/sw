@@ -177,11 +177,8 @@ sw::Window::Window()
               this->Height     = this->Height;
           })
 {
-    this->InitWindow(
-        L"Window",           // Window text
-        WS_OVERLAPPEDWINDOW, // Window style
-        NULL,                // Parent window
-        NULL);               // Menu
+    this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, NULL, NULL);
+    this->SetCursor(StandardCursor::Arrow);
 }
 
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
@@ -286,13 +283,23 @@ bool sw::Window::OnPaint()
 
 bool sw::Window::OnMouseMove(Point mousePosition, MouseKey keyState)
 {
-    SetCursor(LoadCursor(NULL, IDC_ARROW));
+    ::SetCursor(this->_hCursor);
     return this->UIElement::OnMouseMove(mousePosition, keyState);
 }
 
 void sw::Window::Show()
 {
     this->WndBase::Show(SW_SHOW);
+}
+
+void sw::Window::SetCursor(HCURSOR hCursor)
+{
+    this->_hCursor = hCursor;
+}
+
+void sw::Window::SetCursor(StandardCursor cursor)
+{
+    this->SetCursor(CursorHelper::GetCursorHandle(cursor));
 }
 
 void sw::Window::Measure(const Size &availableSize)

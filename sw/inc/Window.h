@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Color.h"
+#include "Cursor.h"
 #include "Layer.h"
 #include "Screen.h"
 #include "UIElement.h"
@@ -35,6 +36,11 @@ namespace sw
          * @brief 窗口的尺寸限制，当值不大于0时表示不限制
          */
         double _maxWidth = -1, _maxHeight = -1, _minWidth = -1, _minHeight = -1;
+
+        /**
+         * @brief 鼠标句柄
+         */
+        HCURSOR _hCursor;
 
     public:
         /**
@@ -153,6 +159,18 @@ namespace sw
          * @brief 显示窗口
          */
         void Show();
+
+        /**
+         * @brief         设置鼠标样式
+         * @param hCursor 鼠标句柄
+         */
+        void SetCursor(HCURSOR hCursor);
+
+        /**
+         * @brief        设置鼠标样式
+         * @param cursor 鼠标样式
+         */
+        void SetCursor(StandardCursor cursor);
 
         /**
          * @brief               测量控件所需尺寸
