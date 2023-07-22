@@ -284,6 +284,12 @@ bool sw::Window::OnPaint()
     return true;
 }
 
+bool sw::Window::OnMouseMove(Point mousePosition, MouseKey keyState)
+{
+    SetCursor(LoadCursor(NULL, IDC_ARROW));
+    return this->UIElement::OnMouseMove(mousePosition, keyState);
+}
+
 void sw::Window::Show()
 {
     this->WndBase::Show(SW_SHOW);
