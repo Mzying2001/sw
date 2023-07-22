@@ -17,32 +17,28 @@ int WINAPI wWinMain(
     static FillLayout layout;
     window.Layout = &layout;
 
-    //static DockPanel panel;
-    //panel.Margin = 5;
-    //window.AddChild(panel);
-
-    //static Button btns[10];
-    //for (int i = 0; i < 10; ++i) {
-    //    Button& b = btns[i];
-    //    b.VerticalAlignment = VerticalAlignment::Stretch;
-    //    b.HorizontalAlignment = HorizontalAlignment::Stretch;
-    //}
-
-    //panel.AddChild(btns[0], DockLayout::Left);
-    //panel.AddChild(btns[1], DockLayout::Right);
-    //panel.AddChild(btns[2], DockLayout::Top);
-    //panel.AddChild(btns[3], DockLayout::Bottom);
-    //panel.AddChild(btns[4] /* last child fill */);
+    static StackPanel panel;
+    panel.VerticalAlignment = VerticalAlignment::Center;
+    panel.HorizontalAlignment = HorizontalAlignment::Center;
+    window.AddChild(panel);
 
     static Label label;
-    window.AddChild(label);
+    label.Text = L"Hello, Simple Window!";
+    label.FontSize = 30;
+    panel.AddChild(label);
 
-    label.Rect = Rect(0, 0, 100, 100);
-    label.Text = L"A very long text that will show complete words with ellipsis.";
-    //label.VerticalContentAlignment = VerticalAlignment::Center;
-    label.HorizontalContentAlignment = HorizontalAlignment::Center;
-    //label.TextTrimming = TextTrimming::WordEllipsis;
-    label.AutoWrap = true;
+    static Label label2;
+    label2.Margin = Thickness(0, 20, 0, 20);
+    panel.AddChild(label2);
+
+    static Button button;
+    button.Text = L"Click me!";
+    panel.AddChild(button);
+
+    button.RegisterRoutedEvent(ButtonBase_Clicked, [](UIElement&, RoutedEventArgs&) {
+        static int count = 0;
+        label2.Text = Utils::BuildStr(L"You have clicked button ", ++count, L" times.");
+    });
 
     return App::MsgLoop();
 }
