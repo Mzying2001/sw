@@ -155,6 +155,14 @@ void sw::Label::OnTextChanged(const std::wstring &newText)
     }
 }
 
+void sw::Label::FontChanged(HFONT hfont)
+{
+    this->_UpdateTextSize();
+    if (this->_autoSize) {
+        this->NotifyLayoutUpdated();
+    }
+}
+
 void sw::Label::Measure(const Size &availableSize)
 {
     if (!this->_autoSize) {

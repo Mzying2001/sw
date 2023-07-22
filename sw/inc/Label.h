@@ -76,6 +76,12 @@ namespace sw
         virtual void OnTextChanged(const std::wstring &newText) override;
 
         /**
+         * @brief       字体改变时调用该函数
+         * @param hfont 字体句柄
+         */
+        virtual void FontChanged(HFONT hfont) override;
+
+        /**
          * @brief               测量控件所需尺寸
          * @param availableSize 可用的尺寸
          */
