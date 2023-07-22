@@ -9,6 +9,7 @@
 #include "ButtonBase.h"
 #include "Color.h"
 #include "Control.h"
+#include "Cursor.h"
 #include "Dip.h"
 #include "DockLayout.h"
 #include "DockPanel.h"
