@@ -235,7 +235,7 @@ sw::WndBase::WndBase()
 
     if (wc.cbSize == 0) {
         wc.cbSize        = sizeof(wc);
-        wc.hCursor       = LoadCursorW(NULL, IDC_ARROW);
+        wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = WndBase::_WndProc;
         wc.lpszClassName = WINDOW_CLASS_NAME;

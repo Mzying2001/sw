@@ -37,7 +37,7 @@ sw::Font::Font(const LOGFONTW &logFont)
 
 sw::Font::operator LOGFONTW() const
 {
-    LOGFONT logFont{};
+    LOGFONTW logFont{};
 
     if (this->name.size() < 32) {
         StringCchCopyW(logFont.lfFaceName, 32, this->name.c_str());
