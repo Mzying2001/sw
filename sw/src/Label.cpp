@@ -1,4 +1,6 @@
 #include "Label.h"
+#include "Utils.h"
+#include <cmath>
 
 sw::Label::Label()
     : HorizontalContentAlignment(
@@ -125,11 +127,12 @@ void sw::Label::_UpdateTextSize()
 
     SelectObject(hdc, this->GetFontHandle());
 
-    SIZE size;
+    RECT rect{};
     const std::wstring &text = this->Text;
-    if (GetTextExtentPoint32W(hdc, text.c_str(), (int)text.size(), &size)) {
-        this->_textSize = size;
-    }
+    DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT);
+
+    sw::Rect textRect = rect;
+    this->_textSize   = Size(textRect.width, textRect.height);
 
     ReleaseDC(hwnd, hdc);
 }
@@ -148,6 +151,47 @@ void sw::Label::OnTextChanged(const std::wstring &newText)
     this->_UpdateTextSize();
 
     if (this->_autoSize) {
-        this->_ResizeToTextSize();
+        this->NotifyLayoutUpdated();
     }
+}
+
+void sw::Label::Measure(const Size &availableSize)
+{
+    if (!this->_autoSize) {
+        this->UIElement::Measure(availableSize);
+        return;
+    }
+
+    Thickness margin = this->Margin;
+
+    Size desireSize(
+        this->_textSize.width + margin.left + margin.right,
+        this->_textSize.height + margin.top + margin.bottom);
+
+    if (availableSize.width < desireSize.width) {
+
+        if (this->TextTrimming.Get() != sw::TextTrimming::None) {
+            desireSize.width = availableSize.width;
+
+        } else if (this->AutoWrap) {
+            HWND hwnd = this->Handle;
+            HDC hdc   = GetDC(hwnd);
+
+            SelectObject(hdc, this->GetFontHandle());
+
+            double scaleX = Dip::ScaleX;
+            double scaleY = Dip::ScaleY;
+            RECT rect{0, 0, Utils::Max(0L, std::lround((availableSize.width - margin.left - margin.right) / scaleX)), 0};
+
+            const std::wstring &text = this->Text;
+            DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT | DT_WORDBREAK);
+
+            desireSize.width  = availableSize.width;
+            desireSize.height = (rect.bottom - rect.top) * scaleY + margin.top + margin.bottom;
+
+            ReleaseDC(hwnd, hdc);
+        }
+    }
+
+    this->SetDesireSize(desireSize);
 }

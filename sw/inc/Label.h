@@ -74,5 +74,11 @@ namespace sw
          * @param newText Text的新值
          */
         virtual void OnTextChanged(const std::wstring &newText) override;
+
+        /**
+         * @brief               测量控件所需尺寸
+         * @param availableSize 可用的尺寸
+         */
+        virtual void Measure(const Size &availableSize) override;
     };
 }
