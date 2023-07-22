@@ -771,6 +771,10 @@ void sw::WndBase::HandleInitialized(HWND hwnd)
 {
 }
 
+void sw::WndBase::FontChanged(HFONT hfont)
+{
+}
+
 void sw::WndBase::Show(int nCmdShow)
 {
     ShowWindow(this->_hwnd, nCmdShow);
@@ -793,6 +797,7 @@ void sw::WndBase::UpdateFont()
     }
     this->_hfont = this->_font.CreateHandle();
     SendMessageW(this->_hwnd, WM_SETFONT, (WPARAM)this->_hfont, TRUE);
+    this->FontChanged(this->_hfont);
 }
 
 void sw::WndBase::Redraw()

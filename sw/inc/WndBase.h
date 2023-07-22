@@ -496,6 +496,12 @@ namespace sw
          */
         virtual void HandleInitialized(HWND hwnd);
 
+        /**
+         * @brief       字体改变时调用该函数
+         * @param hfont 字体句柄
+         */
+        virtual void FontChanged(HFONT hfont);
+
     public:
         /**
          * @brief 该函数调用ShowWindow
