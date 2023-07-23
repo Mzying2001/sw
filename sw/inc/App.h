@@ -2,6 +2,7 @@
 
 #include "Property.h"
 #include <Windows.h>
+#include <string>
 
 namespace sw
 {
@@ -17,6 +18,11 @@ namespace sw
         static const ReadOnlyProperty<HINSTANCE> Instance;
 
         /**
+         * @brief 当前exe的文件路径
+         */
+        static const ReadOnlyProperty<std::wstring> ExePath;
+
+        /**
          * @brief  消息循环
          * @return 退出代码
          */
@@ -27,5 +33,11 @@ namespace sw
          * @param exitCode 退出代码
          */
         static void Quit(int exitCode = 0);
+
+    private:
+        /**
+         * @brief  获取当前exe文件路径
+         */
+        static std::wstring _GetExePath();
     };
 }
