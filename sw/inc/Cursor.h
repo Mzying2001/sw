@@ -45,6 +45,14 @@ namespace sw
         /**
          * @brief            从指定模块中获取鼠标句柄
          * @param hInstance  DLL或EXE的模块句柄
+         * @param resourceId 鼠标的资源序号
+         * @return           成功则返回鼠标句柄，否则返回NULL
+         */
+        static HCURSOR GetCursorHandle(HINSTANCE hInstance, int resourceId);
+
+        /**
+         * @brief            从指定模块中获取鼠标句柄
+         * @param hInstance  DLL或EXE的模块句柄
          * @param cursorName 鼠标的资源名称
          * @return           成功则返回鼠标句柄，否则返回NULL
          */

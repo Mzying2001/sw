@@ -5,6 +5,11 @@ HCURSOR sw::CursorHelper::GetCursorHandle(StandardCursor cursor)
     return LoadCursorW(NULL, MAKEINTRESOURCEW(cursor));
 }
 
+HCURSOR sw::CursorHelper::GetCursorHandle(HINSTANCE hInstance, int resourceId)
+{
+    return LoadCursorW(hInstance, MAKEINTRESOURCEW(resourceId));
+}
+
 HCURSOR sw::CursorHelper::GetCursorHandle(HINSTANCE hInstance, const std::wstring &cursorName)
 {
     return LoadCursorW(hInstance, cursorName.c_str());
