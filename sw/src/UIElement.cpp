@@ -386,7 +386,7 @@ void sw::UIElement::NotifyLayoutUpdated()
 {
     if (!this->_arranging) {
         UIElement &root = this->GetRootElement();
-        SendMessageW(root.Handle, WM_UpdateLayout, NULL, NULL);
+        root.SendMessageW(WM_UpdateLayout, NULL, NULL);
     }
 }
 

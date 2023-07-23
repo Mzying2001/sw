@@ -755,7 +755,7 @@ void sw::WndBase::OnCommand(WPARAM wParam, LPARAM lParam)
 {
     if (lParam != NULL) {
         // 接收到控件消息
-        SendMessageW((HWND)lParam, WM_ParentReceivedCommand, wParam, lParam);
+        ::SendMessageW((HWND)lParam, WM_ParentReceivedCommand, wParam, lParam);
     } else {
         // Menu / Accelerator
         // ...
@@ -781,7 +781,7 @@ void sw::WndBase::Show(int nCmdShow)
 
 void sw::WndBase::Close()
 {
-    SendMessageW(this->_hwnd, WM_CLOSE, NULL, NULL);
+    this->SendMessageW(WM_CLOSE, NULL, NULL);
 }
 
 void sw::WndBase::Update()
@@ -795,7 +795,7 @@ void sw::WndBase::UpdateFont()
         DeleteObject(this->_hfont);
     }
     this->_hfont = this->_font.CreateHandle();
-    SendMessageW(this->_hwnd, WM_SETFONT, (WPARAM)this->_hfont, TRUE);
+    this->SendMessageW(WM_SETFONT, (WPARAM)this->_hfont, TRUE);
     this->FontChanged(this->_hfont);
 }
 
@@ -831,6 +831,11 @@ sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint)
     POINT p = screenPoint;
     ScreenToClient(this->_hwnd, &p);
     return p;
+}
+
+LRESULT sw::WndBase::SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return ::SendMessageW(this->_hwnd, uMsg, wParam, lParam);
 }
 
 sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)

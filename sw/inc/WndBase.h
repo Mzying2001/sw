@@ -558,6 +558,11 @@ namespace sw
         Point PointFromScreen(const Point &screenPoint);
 
         /**
+         * @brief 发送消息
+         */
+        LRESULT SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
          * @brief      通过窗口句柄获取WndBase
          * @param hwnd 窗口句柄
          * @return     若函数成功则返回对象的指针，否则返回nullptr
