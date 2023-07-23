@@ -567,6 +567,17 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
                        : pCtlColor->CtlColor(hdc, hwnd);
         }
 
+        case WM_SETCURSOR: {
+            HWND hwnd   = (HWND)refMsg.wParam;
+            int hitTest = LOWORD(refMsg.lParam);
+            int message = HIWORD(refMsg.lParam);
+
+            bool useDefaultWndProc = true;
+
+            bool result = this->OnSetCursor(hwnd, hitTest, message, useDefaultWndProc);
+            return useDefaultWndProc ? this->DefaultWndProc(refMsg) : result;
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }
@@ -772,6 +783,11 @@ void sw::WndBase::HandleInitialized(HWND hwnd)
 
 void sw::WndBase::FontChanged(HFONT hfont)
 {
+}
+
+bool sw::WndBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+{
+    return false;
 }
 
 void sw::WndBase::Show(int nCmdShow)
