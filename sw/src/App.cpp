@@ -3,18 +3,14 @@
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     []() -> const HINSTANCE & {
-        static HINSTANCE hInstance = NULL;
-        if (hInstance == NULL)
-            hInstance = GetModuleHandleW(NULL);
+        static HINSTANCE hInstance = GetModuleHandleW(NULL);
         return hInstance;
     } //
 );
 
 const sw::ReadOnlyProperty<std::wstring> sw::App::ExePath(
     []() -> const std::wstring & {
-        static std::wstring exePath;
-        if (exePath.empty())
-            exePath = App::_GetExePath();
+        static std::wstring exePath = App::_GetExePath();
         return exePath;
     } //
 );
