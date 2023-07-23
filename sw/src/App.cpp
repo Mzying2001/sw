@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Path.h"
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     []() -> const HINSTANCE & {
@@ -15,6 +16,13 @@ const sw::ReadOnlyProperty<std::wstring> sw::App::ExePath(
         if (exePath.empty())
             exePath = App::_GetExePath();
         return exePath;
+    } //
+);
+
+const sw::ReadOnlyProperty<std::wstring> sw::App::ExeDirectory(
+    []() -> const std::wstring & {
+        static std::wstring exeDirectory = Path::GetDirectory(App::ExePath);
+        return exeDirectory;
     } //
 );
 

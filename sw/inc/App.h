@@ -23,6 +23,11 @@ namespace sw
         static const ReadOnlyProperty<std::wstring> ExePath;
 
         /**
+         * @brief 当前exe所在的文件夹路径
+         */
+        static const ReadOnlyProperty<std::wstring> ExeDirectory;
+
+        /**
          * @brief  消息循环
          * @return 退出代码
          */
