@@ -24,6 +24,7 @@
 #include "LayoutHost.h"
 #include "MsgBox.h"
 #include "Panel.h"
+#include "Path.h"
 #include "Point.h"
 #include "ProcMsg.h"
 #include "Property.h"
