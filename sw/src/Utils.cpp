@@ -56,3 +56,28 @@ std::wstring sw::Utils::TrimEnd(const std::wstring &str)
     }
     return str.substr(0, lastNonSpace + 1);
 }
+
+std::vector<std::wstring> sw::Utils::Split(const std::wstring &str, const std::wstring &delimiter)
+{
+    std::vector<std::wstring> result;
+
+    if (delimiter.empty()) {
+        result.push_back(str);
+        return result;
+    }
+
+    size_t start = 0;
+    size_t end   = str.find(delimiter);
+
+    const size_t delimiterLength = delimiter.length();
+
+    while (end != std::wstring::npos) {
+        result.emplace_back(str, start, end - start);
+        start = end + delimiterLength;
+        end   = str.find(delimiter, start);
+    }
+
+    result.emplace_back(str, start);
+
+    return result;
+}

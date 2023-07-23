@@ -94,6 +94,14 @@ namespace sw
          * @return    删除串尾空白字符后的字符串
          */
         static std::wstring TrimEnd(const std::wstring &str);
+
+        /**
+         * @brief           对字符串按照指定分隔符进行拆分
+         * @param str       输入的字符串
+         * @param delimiter 分隔符
+         * @result          包含字串的vector
+         */
+        static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
     };
 
     /**
