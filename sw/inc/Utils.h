@@ -73,6 +73,27 @@ namespace sw
         {
             return a < b ? a : b;
         }
+
+        /**
+         * @brief     删除首尾空白字符
+         * @param str 输入的字符串
+         * @return    删除首位空白字符后的字符串
+         */
+        static std::wstring Trim(const std::wstring &str);
+
+        /**
+         * @brief     删除串首空白字符
+         * @param str 输入的字符串
+         * @return    删除串首空白字符后的字符串
+         */
+        static std::wstring TrimStart(const std::wstring &str);
+
+        /**
+         * @brief     删除串尾空白字符
+         * @param str 输入的字符串
+         * @return    删除串尾空白字符后的字符串
+         */
+        static std::wstring TrimEnd(const std::wstring &str);
     };
 
     /**

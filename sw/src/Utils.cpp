@@ -28,3 +28,31 @@ std::wostream &sw::operator<<(std::wostream &wos, const char *str)
 {
     return wos << Utils::ToWideStr(str);
 }
+
+std::wstring sw::Utils::Trim(const std::wstring &str)
+{
+    size_t firstNonSpace = str.find_first_not_of(L" \t\n\r\f\v");
+    if (firstNonSpace == std::wstring::npos) {
+        return L"";
+    }
+    size_t lastNonSpace = str.find_last_not_of(L" \t\n\r\f\v");
+    return str.substr(firstNonSpace, lastNonSpace - firstNonSpace + 1);
+}
+
+std::wstring sw::Utils::TrimStart(const std::wstring &str)
+{
+    size_t firstNonSpace = str.find_first_not_of(L" \t\n\r\f\v");
+    if (firstNonSpace == std::wstring::npos) {
+        return L"";
+    }
+    return str.substr(firstNonSpace);
+}
+
+std::wstring sw::Utils::TrimEnd(const std::wstring &str)
+{
+    size_t lastNonSpace = str.find_last_not_of(L" \t\n\r\f\v");
+    if (lastNonSpace == std::wstring::npos) {
+        return L"";
+    }
+    return str.substr(0, lastNonSpace + 1);
+}
