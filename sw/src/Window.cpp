@@ -302,6 +302,12 @@ void sw::Window::SetCursor(StandardCursor cursor)
     this->SetCursor(CursorHelper::GetCursorHandle(cursor));
 }
 
+void sw::Window::SetIcon(HICON hIcon)
+{
+    this->SendMessageW(WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+    this->SendMessageW(WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+}
+
 void sw::Window::Measure(const Size &availableSize)
 {
     this->Layer::Measure(availableSize);

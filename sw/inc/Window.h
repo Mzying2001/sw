@@ -173,6 +173,12 @@ namespace sw
         void SetCursor(StandardCursor cursor);
 
         /**
+         * @brief       设置图标
+         * @param hIcon 图标句柄
+         */
+        void SetIcon(HICON hIcon);
+
+        /**
          * @brief               测量控件所需尺寸
          * @param availableSize 可用的尺寸
          */
