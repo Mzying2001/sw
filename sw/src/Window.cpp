@@ -13,6 +13,12 @@ static unsigned int _windowCount = 0;
 static void _UpdateFontForAllChild(sw::UIElement &element);
 
 /**
+ * @brief  获取窗口默认图标（即当前exe图标）
+ * @return 图标句柄
+ */
+static HICON _GetWindowDefaultIcon();
+
+/**
  * @brief 是否在关闭所有窗口后退出程序
  */
 bool sw::Window::PostQuitWhenAllClosed = true;
@@ -179,6 +185,7 @@ sw::Window::Window()
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, NULL, NULL);
     this->SetCursor(StandardCursor::Arrow);
+    this->SetIcon(_GetWindowDefaultIcon());
 }
 
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
@@ -326,4 +333,12 @@ void _UpdateFontForAllChild(sw::UIElement &element)
     for (int i = 0; i < count; ++i) {
         _UpdateFontForAllChild(element[i]);
     }
+}
+
+HICON _GetWindowDefaultIcon()
+{
+    static HICON hIcon = NULL;
+    if (hIcon == NULL)
+        hIcon = ExtractIconW(sw::App::Instance, sw::App::ExePath->c_str(), 0);
+    return hIcon;
 }
