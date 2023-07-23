@@ -141,6 +141,9 @@
     <ClInclude Include="..\..\sw\inc\Cursor.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\sw\inc\Icon.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sw\src\WndBase.cpp">
@@ -255,6 +258,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sw\src\Cursor.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sw\src\Icon.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

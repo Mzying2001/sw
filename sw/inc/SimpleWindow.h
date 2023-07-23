@@ -17,6 +17,7 @@
 #include "Font.h"
 #include "ICtlColor.h"
 #include "ILayout.h"
+#include "Icon.h"
 #include "Keys.h"
 #include "Label.h"
 #include "Layer.h"
