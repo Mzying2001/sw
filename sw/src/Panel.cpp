@@ -21,3 +21,8 @@ void sw::Panel::Arrange(const sw::Rect &finalPosition)
 {
     this->Layer::Arrange(finalPosition);
 }
+
+bool sw::Panel::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+{
+    return this->Control::OnSetCursor(hwnd, hitTest, message, useDefaultWndProc);
+}
