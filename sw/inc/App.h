@@ -28,6 +28,11 @@ namespace sw
         static const ReadOnlyProperty<std::wstring> ExeDirectory;
 
         /**
+         * @brief 当前工作路径
+         */
+        static const Property<std::wstring> CurrentDirectory;
+
+        /**
          * @brief  消息循环
          * @return 退出代码
          */
@@ -44,5 +49,10 @@ namespace sw
          * @brief  获取当前exe文件路径
          */
         static std::wstring _GetExePath();
+
+        /**
+         * @brief 获取当前工作路径
+         */
+        static std::wstring _GetCurrentDirectory();
     };
 }

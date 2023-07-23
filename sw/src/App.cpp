@@ -22,6 +22,19 @@ const sw::ReadOnlyProperty<std::wstring> sw::App::ExeDirectory(
     } //
 );
 
+const sw::Property<std::wstring> sw::App::CurrentDirectory(
+    // get
+    []() -> const std::wstring & {
+        static std::wstring result;
+        result = App::_GetCurrentDirectory();
+        return result;
+    },
+    // set
+    [](const std::wstring &value) {
+        SetCurrentDirectoryW(value.c_str());
+    } //
+);
+
 int sw::App::MsgLoop()
 {
     MSG msg{};
@@ -70,4 +83,29 @@ std::wstring sw::App::_GetExePath()
     delete[] szExePath;
 
     return exePath;
+}
+
+std::wstring sw::App::_GetCurrentDirectory()
+{
+    // 先获取路径的长度
+    DWORD pathLength = GetCurrentDirectoryW(0, nullptr);
+    if (pathLength == 0) {
+        // 获取路径失败，返回空字符串
+        return L"";
+    }
+
+    // 动态分配足够大的缓冲区
+    std::unique_ptr<wchar_t[]> szStartUpPath = std::make_unique<wchar_t[]>(pathLength);
+
+    // 获取当前工作目录（即程序启动的路径）
+    DWORD actualLength = GetCurrentDirectoryW(pathLength, szStartUpPath.get());
+    if (actualLength == 0 || actualLength > pathLength) {
+        // 获取路径失败，返回空字符串
+        return L"";
+    }
+
+    // 转换为 std::wstring
+    std::wstring startUpPath(szStartUpPath.get());
+
+    return startUpPath;
 }
