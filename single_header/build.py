@@ -9,7 +9,8 @@ headers = []           # 所有的头文件的文件名
 
 # 输出文件
 outputfile = open('./sw_all.h', 'w', encoding='utf-8')
-outputfile.writelines('#pragma once\n')
+outputfile.write('// https://github.com/Mzying2001/sw\n\n')
+outputfile.write('#pragma once\n')
 
 # 添加文件到列表
 for item in os.listdir(incpath):
