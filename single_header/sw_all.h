@@ -1,9 +1,10 @@
+// https://github.com/Mzying2001/sw
+
 #pragma once
 #include <Windows.h>
+#include <string>
 #include <cstdint>
 #include <iostream>
-#include <string>
-#include <stdint.h>
 #include <functional>
 #include <map>
 #include <vector>
@@ -204,6 +205,73 @@ namespace sw
             Yellow               = RGB(255, 255, 0),   // 黄色
             YellowGreen          = RGB(154, 205, 50),  // 黄绿色
         };
+    };
+}
+
+// Cursor.h
+
+
+namespace sw
+{
+    /**
+     * @brief 系统标准鼠标样式
+     * @brief https://learn.microsoft.com/en-us/windows/win32/menurc/about-cursors
+     */
+    enum class StandardCursor {
+        Arrow       = 32512, // Normal select
+        IBeam       = 32513, // Text select
+        Wait        = 32514, // Busy
+        Cross       = 32515, // Precision select
+        UpArrow     = 32516, // Alternate select
+        Handwriting = 32631, // Handwriting
+        SizeNWSE    = 32642, // Diagonal resize 1
+        SizeNESW    = 32643, // Diagonal resize 2
+        SizeWE      = 32644, // Horizontal resize
+        SizeNS      = 32645, // Vertical resize
+        SizeAll     = 32646, // Move
+        No          = 32648, // Unavailable
+        Hand        = 32649, // Link select
+        AppStarting = 32650, // Working in background
+        Help        = 32651, // Help select
+        Pin         = 32671, // Location select
+        Person      = 32672, // Person select
+    };
+
+    class CursorHelper
+    {
+    private:
+        CursorHelper() = delete;
+
+    public:
+        /**
+         * @brief        获取系统标准鼠标样式句柄
+         * @param cursor 鼠标样式
+         * @return       鼠标句柄
+         */
+        static HCURSOR GetCursorHandle(StandardCursor cursor);
+
+        /**
+         * @brief            从指定模块中获取鼠标句柄
+         * @param hInstance  DLL或EXE的模块句柄
+         * @param resourceId 鼠标的资源序号
+         * @return           成功则返回鼠标句柄，否则返回NULL
+         */
+        static HCURSOR GetCursorHandle(HINSTANCE hInstance, int resourceId);
+
+        /**
+         * @brief            从指定模块中获取鼠标句柄
+         * @param hInstance  DLL或EXE的模块句柄
+         * @param cursorName 鼠标的资源名称
+         * @return           成功则返回鼠标句柄，否则返回NULL
+         */
+        static HCURSOR GetCursorHandle(HINSTANCE hInstance, const std::wstring &cursorName);
+
+        /**
+         * @brief          从文件加载鼠标句柄
+         * @param fileName 鼠标文件路径
+         * @return         成功则返回鼠标句柄，否则返回NULL
+         */
+        static HCURSOR GetCursorHandle(const std::wstring &fileName);
     };
 }
 
@@ -434,6 +502,63 @@ namespace sw
          * @return       返回默认字体
          */
         static Font &GetDefaultFont(bool update = false);
+    };
+}
+
+// Icon.h
+
+
+namespace sw
+{
+    /**
+     * @brief 系统标准图标样式
+     * @brief https://learn.microsoft.com/en-us/windows/win32/menurc/about-icons
+     */
+    enum class StandardIcon {
+        Application = 32512, // Default application icon
+        Error       = 32513, // Error icon
+        Question    = 32514, // Question mark icon
+        Warning     = 32515, // Warning icon
+        Information = 32516, // Information icon
+        WinLogo     = 32517, // Windows logo icon
+        Shield      = 32518, // Security shield icon
+    };
+
+    class IconHelper
+    {
+    private:
+        IconHelper() = delete;
+
+    public:
+        /**
+         * @brief      获取系统标准图标句柄
+         * @param icon 图标样式
+         * @return     图标句柄
+         */
+        static HICON GetIconHandle(StandardIcon icon);
+
+        /**
+         * @brief            从指定模块中获取图标句柄
+         * @param hInstance  DLL或EXE的模块句柄
+         * @param resourceId 图标的资源序号
+         * @return           成功则返回图标句柄，否则返回NULL
+         */
+        static HICON GetIconHandle(HINSTANCE hInstance, int resourceId);
+
+        /**
+         * @brief            从指定模块中获取图标句柄
+         * @param hInstance  DLL或EXE的模块句柄
+         * @param iconName   图标的资源名称
+         * @return           成功则返回图标句柄，否则返回NULL
+         */
+        static HICON GetIconHandle(HINSTANCE hInstance, const std::wstring &iconName);
+
+        /**
+         * @brief          从文件加载图标句柄
+         * @param fileName 图标文件的路径
+         * @return         成功则返回图标句柄，否则返回NULL
+         */
+        static HICON GetIconHandle(const std::wstring &fileName);
     };
 }
 
@@ -1099,6 +1224,24 @@ namespace sw
          */
         template <class TKey, class TVal>
         friend std::wstringstream &operator<<(std::wstringstream &wss, const std::map<TKey, TVal> &map);
+
+        /**
+         * @brief 取两值中的较大值
+         */
+        template <class T>
+        static constexpr inline T Max(const T &a, const T &b)
+        {
+            return a > b ? a : b;
+        }
+
+        /**
+         * @brief 取两值中的较小值
+         */
+        template <class T>
+        static constexpr inline T Min(const T &a, const T &b)
+        {
+            return a < b ? a : b;
+        }
     };
 
     /**
@@ -1211,6 +1354,11 @@ namespace sw
         static const ReadOnlyProperty<HINSTANCE> Instance;
 
         /**
+         * @brief 当前exe的文件路径
+         */
+        static const ReadOnlyProperty<std::wstring> ExePath;
+
+        /**
          * @brief  消息循环
          * @return 退出代码
          */
@@ -1221,6 +1369,12 @@ namespace sw
          * @param exitCode 退出代码
          */
         static void Quit(int exitCode = 0);
+
+    private:
+        /**
+         * @brief  获取当前exe文件路径
+         */
+        static std::wstring _GetExePath();
     };
 }
 
@@ -1703,6 +1857,11 @@ namespace sw
         void SetExtendedStyle(LONG_PTR style, bool value);
 
         /**
+         * @brief 获取字体句柄
+         */
+        HFONT GetFontHandle();
+
+        /**
          * @brief 调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc
          */
         LRESULT DefaultWndProc(const ProcMsg &refMsg);
@@ -1972,6 +2131,22 @@ namespace sw
          */
         virtual void HandleInitialized(HWND hwnd);
 
+        /**
+         * @brief       字体改变时调用该函数
+         * @param hfont 字体句柄
+         */
+        virtual void FontChanged(HFONT hfont);
+
+        /**
+         * @brief                   接收到WM_SETCURSOR消息时调用该函数
+         * @param hwnd              鼠标所在窗口的句柄
+         * @param hitTest           hit-test的结果，详见WM_NCHITTEST消息的返回值
+         * @param message           触发该事件的鼠标消息，如WM_MOUSEMOVE
+         * @param useDefaultWndProc 是否调用DefaultWndProc并将其返回值作为当前消息的返回值，默认为true
+         * @return                  当useDefaultWndProc为false时使用该值作为消息的返回值，表示是否已处理该消息
+         */
+        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc);
+
     public:
         /**
          * @brief 该函数调用ShowWindow
@@ -2028,11 +2203,26 @@ namespace sw
         Point PointFromScreen(const Point &screenPoint);
 
         /**
+         * @brief 发送消息
+         */
+        LRESULT SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
          * @brief      通过窗口句柄获取WndBase
          * @param hwnd 窗口句柄
          * @return     若函数成功则返回对象的指针，否则返回nullptr
          */
         static WndBase *GetWndBase(HWND hwnd);
+
+        /**
+         * @brief 重载==运算符，判断是否为同一个引用
+         */
+        friend bool operator==(const WndBase &left, const WndBase &right);
+
+        /**
+         * @brief 重载!=运算符，判断是否为不同引用
+         */
+        friend bool operator!=(const WndBase &left, const WndBase &right);
     };
 }
 
@@ -2156,10 +2346,19 @@ namespace sw
 
     public:
         static MsgBox Show(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+        static MsgBox Show(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
         static MsgBox ShowInfo(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+        static MsgBox ShowInfo(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
         static MsgBox ShowError(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+        static MsgBox ShowError(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
         static MsgBox ShowWarning(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+        static MsgBox ShowWarning(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
         static MsgBox ShowQuestion(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
+        static MsgBox ShowQuestion(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
 
     private:
         const MsgBox &On(MsgBoxResult result, const MsgBoxCallback &callback) const;
@@ -2725,8 +2924,25 @@ namespace sw
     class Control : virtual public UIElement, public ICtlColor
     {
     private:
+        /**
+         * @brief 背景颜色
+         */
         Color _backColor = Color::White;
+
+        /**
+         * @brief 文本颜色
+         */
         Color _textColor = Color::Black;
+
+        /**
+         * @brief 是否使用默认的鼠标样式
+         */
+        bool _useDefaultCursor = true;
+
+        /**
+         * @brief 鼠标句柄
+         */
+        HCURSOR _hCursor = NULL;
 
     public:
         /**
@@ -2742,6 +2958,18 @@ namespace sw
     public:
         Control();
 
+    protected:
+        /**
+         * @brief                   接收到WM_SETCURSOR消息时调用该函数
+         * @param hwnd              鼠标所在窗口的句柄
+         * @param hitTest           hit-test的结果，详见WM_NCHITTEST消息的返回值
+         * @param message           触发该事件的鼠标消息，如WM_MOUSEMOVE
+         * @param useDefaultWndProc 是否调用DefaultWndProc并将其返回值作为当前消息的返回值，默认为true
+         * @return                  当useDefaultWndProc为false时使用该值作为消息的返回值，表示是否已处理该消息
+         */
+        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc) override;
+
+    public:
         /**
          * @brief      窗口句柄初始化完成
          * @param hwnd 窗口句柄
@@ -2752,6 +2980,23 @@ namespace sw
          * @brief 父窗口接收到WM_CTLCOLORxxx的回调
          */
         virtual LRESULT CtlColor(HDC hdc, HWND hwnd) override;
+
+        /**
+         * @brief         设置鼠标样式
+         * @param hCursor 鼠标句柄
+         */
+        void SetCursor(HCURSOR hCursor);
+
+        /**
+         * @brief        设置鼠标样式
+         * @param cursor 鼠标样式
+         */
+        void SetCursor(StandardCursor cursor);
+
+        /**
+         * @brief 将鼠标样式设置为默认样式
+         */
+        void ResetCursor();
     };
 }
 
@@ -2904,10 +3149,86 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 文本过长时末尾的处理方式
+     */
+    enum class TextTrimming {
+        None,         // 不处理
+        EndEllipsis,  // 按字符截断并显示“...”
+        WordEllipsis, // 按单词截断并显示“...”
+    };
+
     class Label : public Control
     {
+    private:
+        /**
+         * @brief 文本所需的尺寸
+         */
+        Size _textSize;
+
+        /**
+         * @brief 是否根据文本自动调整尺寸
+         */
+        bool _autoSize = true;
+
+    public:
+        /**
+         * @brief 文本的水平对齐方式，可设为左对齐、中心对齐、右对齐
+         */
+        const Property<sw::HorizontalAlignment> HorizontalContentAlignment;
+
+        /**
+         * @brief 文本的垂直对齐方式，仅支持顶部对齐和中心对齐，当使用中心对齐时会使自动换行失效
+         */
+        const Property<sw::VerticalAlignment> VerticalContentAlignment;
+
+        /**
+         * @brief 文本过长时末尾的处理方式，当使用截断时水平对齐和自动换行将失效
+         */
+        const Property<sw::TextTrimming> TextTrimming;
+
+        /**
+         * @brief 是否自动换行
+         */
+        const Property<bool> AutoWrap;
+
+        /**
+         * @brief 是否根据文本自动调整尺寸
+         */
+        const Property<bool> AutoSize;
+
     public:
         Label();
+
+    private:
+        /**
+         * @brief 更新_textSize
+         */
+        void _UpdateTextSize();
+
+        /**
+         * @brief 调整尺寸为_textSize
+         */
+        void _ResizeToTextSize();
+
+    protected:
+        /**
+         * @brief         Text属性更改时调用此函数
+         * @param newText Text的新值
+         */
+        virtual void OnTextChanged(const std::wstring &newText) override;
+
+        /**
+         * @brief       字体改变时调用该函数
+         * @param hfont 字体句柄
+         */
+        virtual void FontChanged(HFONT hfont) override;
+
+        /**
+         * @brief               测量控件所需尺寸
+         * @param availableSize 可用的尺寸
+         */
+        virtual void Measure(const Size &availableSize) override;
     };
 }
 
@@ -2938,6 +3259,17 @@ namespace sw
          * @param finalSize 最终控件所安排的位置
          */
         virtual void Arrange(const sw::Rect &finalPosition) override;
+
+    protected:
+        /**
+         * @brief                   接收到WM_SETCURSOR消息时调用该函数
+         * @param hwnd              鼠标所在窗口的句柄
+         * @param hitTest           hit-test的结果，详见WM_NCHITTEST消息的返回值
+         * @param message           触发该事件的鼠标消息，如WM_MOUSEMOVE
+         * @param useDefaultWndProc 是否调用DefaultWndProc并将其返回值作为当前消息的返回值，默认为true
+         * @return                  当useDefaultWndProc为false时使用该值作为消息的返回值，表示是否已处理该消息
+         */
+        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc) override;
     };
 }
 
@@ -2974,6 +3306,11 @@ namespace sw
          * @brief 窗口的尺寸限制，当值不大于0时表示不限制
          */
         double _maxWidth = -1, _maxHeight = -1, _minWidth = -1, _minHeight = -1;
+
+        /**
+         * @brief 鼠标句柄
+         */
+        HCURSOR _hCursor;
 
     public:
         /**
@@ -3079,11 +3416,37 @@ namespace sw
          */
         virtual bool OnPaint() override;
 
+        /**
+         * @brief               接收到WM_MOUSEMOVE时调用该函数
+         * @param mousePosition 鼠标在用户区中的位置
+         * @param keyState      指示某些按键是否按下
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
+
     public:
         /**
          * @brief 显示窗口
          */
         void Show();
+
+        /**
+         * @brief         设置鼠标样式
+         * @param hCursor 鼠标句柄
+         */
+        void SetCursor(HCURSOR hCursor);
+
+        /**
+         * @brief        设置鼠标样式
+         * @param cursor 鼠标样式
+         */
+        void SetCursor(StandardCursor cursor);
+
+        /**
+         * @brief       设置图标
+         * @param hIcon 图标句柄
+         */
+        void SetIcon(HICON hIcon);
 
         /**
          * @brief               测量控件所需尺寸

@@ -31,9 +31,19 @@ void sw::AbsoluteLayout::ArrangeOverride(Size &finalSize)
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     []() -> const HINSTANCE & {
-        static HINSTANCE _instance;
-        _instance = GetModuleHandleW(NULL);
-        return _instance;
+        static HINSTANCE hInstance = NULL;
+        if (hInstance == NULL)
+            hInstance = GetModuleHandleW(NULL);
+        return hInstance;
+    } //
+);
+
+const sw::ReadOnlyProperty<std::wstring> sw::App::ExePath(
+    []() -> const std::wstring & {
+        static std::wstring exePath;
+        if (exePath.empty())
+            exePath = App::_GetExePath();
+        return exePath;
     } //
 );
 
@@ -50,6 +60,41 @@ int sw::App::MsgLoop()
 void sw::App::Quit(int exitCode)
 {
     PostQuitMessage(exitCode);
+}
+
+std::wstring sw::App::_GetExePath()
+{
+    DWORD bufferSize = MAX_PATH; // 初始缓冲区大小
+    PWSTR szExePath  = nullptr;
+    DWORD pathLength = 0;
+
+    // 循环直到获取到完整路径或达到一个合理的最大缓冲区大小
+    while (true) {
+
+        // 动态分配足够大的缓冲区
+        delete[] szExePath;
+        szExePath = new WCHAR[bufferSize];
+
+        // 获取当前执行的 EXE 程序的路径
+        pathLength = GetModuleFileNameW(nullptr, szExePath, bufferSize);
+
+        // 判断是否缓冲区太小
+        if (pathLength == 0 || pathLength >= bufferSize) {
+            // 获取失败或缓冲区太小，增加缓冲区大小
+            bufferSize *= 2;
+        } else {
+            // 成功获取完整路径
+            break;
+        }
+    }
+
+    // 转换为 std::wstring
+    std::wstring exePath(szExePath);
+
+    // 释放动态分配的内存
+    delete[] szExePath;
+
+    return exePath;
 }
 
 // Button.cpp
@@ -160,6 +205,16 @@ sw::Control::Control()
 {
 }
 
+bool sw::Control::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+{
+    if (this->_useDefaultCursor) {
+        return false;
+    }
+    ::SetCursor(this->_hCursor);
+    useDefaultWndProc = false;
+    return true;
+}
+
 /*void sw::Control::HandleInitialized(HWND hwnd)
 {
     HDC hdc          = GetDC(hwnd);
@@ -181,6 +236,45 @@ LRESULT sw::Control::CtlColor(HDC hdc, HWND hwnd)
     SetTextColor(hdc, this->_textColor);
     SetBkColor(hdc, this->_backColor);
     return (LRESULT)hBrush;
+}
+
+void sw::Control::SetCursor(HCURSOR hCursor)
+{
+    this->_hCursor          = hCursor;
+    this->_useDefaultCursor = false;
+}
+
+void sw::Control::SetCursor(StandardCursor cursor)
+{
+    this->SetCursor(CursorHelper::GetCursorHandle(cursor));
+}
+
+void sw::Control::ResetCursor()
+{
+    this->_hCursor          = NULL;
+    this->_useDefaultCursor = true;
+}
+
+// Cursor.cpp
+
+HCURSOR sw::CursorHelper::GetCursorHandle(StandardCursor cursor)
+{
+    return LoadCursorW(NULL, MAKEINTRESOURCEW(cursor));
+}
+
+HCURSOR sw::CursorHelper::GetCursorHandle(HINSTANCE hInstance, int resourceId)
+{
+    return LoadCursorW(hInstance, MAKEINTRESOURCEW(resourceId));
+}
+
+HCURSOR sw::CursorHelper::GetCursorHandle(HINSTANCE hInstance, const std::wstring &cursorName)
+{
+    return LoadCursorW(hInstance, cursorName.c_str());
+}
+
+HCURSOR sw::CursorHelper::GetCursorHandle(const std::wstring &fileName)
+{
+    return (HCURSOR)LoadImageW(NULL, fileName.c_str(), IMAGE_CURSOR, 0, 0, LR_LOADFROMFILE);
 }
 
 // Dip.cpp
@@ -262,7 +356,7 @@ void sw::DockLayout::MeasureOverride(Size &availableSize)
             case DockLayoutTag::Right: {
                 Size itemDesireSize = item.GetDesireSize();
                 desireSize.width += itemDesireSize.width;
-                desireSize.height = max(desireSize.height, itemDesireSize.height);
+                desireSize.height = Utils::Max(desireSize.height, itemDesireSize.height);
                 break;
             }
 
@@ -270,7 +364,7 @@ void sw::DockLayout::MeasureOverride(Size &availableSize)
             case DockLayoutTag::Bottom: {
                 Size itemDesireSize = item.GetDesireSize();
                 desireSize.height += itemDesireSize.height;
-                desireSize.width = max(desireSize.width, itemDesireSize.width);
+                desireSize.width = Utils::Max(desireSize.width, itemDesireSize.width);
                 break;
             }
         }
@@ -295,7 +389,7 @@ void sw::DockLayout::ArrangeOverride(Size &finalSize)
         switch (_GetDockLayoutTag(item)) {
             case DockLayoutTag::Left: {
                 Size itemDesireSize = item.GetDesireSize();
-                double arrangeWidth = min(itemDesireSize.width, restArea.width);
+                double arrangeWidth = Utils::Min(itemDesireSize.width, restArea.width);
 
                 item.Arrange(Rect(
                     restArea.left,
@@ -310,7 +404,7 @@ void sw::DockLayout::ArrangeOverride(Size &finalSize)
 
             case DockLayoutTag::Top: {
                 Size itemDesireSize  = item.GetDesireSize();
-                double arrangeHeight = min(itemDesireSize.height, restArea.height);
+                double arrangeHeight = Utils::Min(itemDesireSize.height, restArea.height);
 
                 item.Arrange(Rect(
                     restArea.left,
@@ -325,7 +419,7 @@ void sw::DockLayout::ArrangeOverride(Size &finalSize)
 
             case DockLayoutTag::Right: {
                 Size itemDesireSize = item.GetDesireSize();
-                double arrangeWidth = min(itemDesireSize.width, restArea.width);
+                double arrangeWidth = Utils::Min(itemDesireSize.width, restArea.width);
 
                 item.Arrange(Rect(
                     restArea.left + restArea.width - arrangeWidth,
@@ -339,7 +433,7 @@ void sw::DockLayout::ArrangeOverride(Size &finalSize)
 
             case DockLayoutTag::Bottom: {
                 Size itemDesireSize  = item.GetDesireSize();
-                double arrangeHeight = min(itemDesireSize.height, restArea.height);
+                double arrangeHeight = Utils::Utils::Min(itemDesireSize.height, restArea.height);
 
                 item.Arrange(Rect(
                     restArea.left,
@@ -381,8 +475,8 @@ void sw::FillLayout::MeasureOverride(Size &availableSize)
         ILayout &item = this->GetChildLayoutAt(i);
         item.Measure(availableSize);
         Size itemDesireSize = item.GetDesireSize();
-        desireSize.width    = max(desireSize.width, itemDesireSize.width);
-        desireSize.height   = max(desireSize.height, itemDesireSize.height);
+        desireSize.width    = Utils::Max(desireSize.width, itemDesireSize.width);
+        desireSize.height   = Utils::Max(desireSize.height, itemDesireSize.height);
     }
     this->SetDesireSize(desireSize);
 }
@@ -432,7 +526,7 @@ sw::Font::Font(const LOGFONTW &logFont)
 
 sw::Font::operator LOGFONTW() const
 {
-    LOGFONT logFont{};
+    LOGFONTW logFont{};
 
     if (this->name.size() < 32) {
         StringCchCopyW(logFont.lfFaceName, 32, this->name.c_str());
@@ -496,6 +590,28 @@ sw::Font &sw::Font::GetDefaultFont(bool update)
     return *pFont;
 }
 
+// Icon.cpp
+
+HICON sw::IconHelper::GetIconHandle(StandardIcon icon)
+{
+    return LoadIconW(NULL, MAKEINTRESOURCEW(icon));
+}
+
+HICON sw::IconHelper::GetIconHandle(HINSTANCE hInstance, int resourceId)
+{
+    return LoadIconW(hInstance, MAKEINTRESOURCEW(resourceId));
+}
+
+HICON sw::IconHelper::GetIconHandle(HINSTANCE hInstance, const std::wstring &iconName)
+{
+    return LoadIconW(hInstance, iconName.c_str());
+}
+
+HICON sw::IconHelper::GetIconHandle(const std::wstring &fileName)
+{
+    return (HICON)LoadImageW(NULL, fileName.c_str(), IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE);
+}
+
 // Keys.cpp
 
 sw::KeyFlags::KeyFlags(LPARAM lParam)
@@ -511,9 +627,205 @@ sw::KeyFlags::KeyFlags(LPARAM lParam)
 // Label.cpp
 
 sw::Label::Label()
+    : HorizontalContentAlignment(
+          // get
+          [&]() -> const sw::HorizontalAlignment & {
+              static sw::HorizontalAlignment result;
+              LONG_PTR style = this->GetStyle();
+              if (style & SS_CENTER) {
+                  result = sw::HorizontalAlignment::Center;
+              } else if (style & SS_RIGHT) {
+                  result = sw::HorizontalAlignment::Right;
+              } else {
+                  result = sw::HorizontalAlignment::Left;
+              }
+              return result;
+          },
+          // set
+          [&](const sw::HorizontalAlignment &value) {
+              switch (value) {
+                  case sw::HorizontalAlignment::Left: {
+                      this->SetStyle(SS_CENTER | SS_RIGHT, false);
+                      break;
+                  }
+                  case sw::HorizontalAlignment::Center: {
+                      LONG_PTR style = this->GetStyle();
+                      style &= ~(SS_CENTER | SS_RIGHT);
+                      style |= SS_CENTER;
+                      this->SetStyle(style);
+                      break;
+                  }
+                  case sw::HorizontalAlignment::Right: {
+                      LONG_PTR style = this->GetStyle();
+                      style &= ~(SS_CENTER | SS_RIGHT);
+                      style |= SS_RIGHT;
+                      this->SetStyle(style);
+                      break;
+                  }
+              }
+              this->Redraw();
+          }),
+
+      VerticalContentAlignment(
+          // get
+          [&]() -> const sw::VerticalAlignment & {
+              static sw::VerticalAlignment result;
+              result = this->GetStyle(SS_CENTERIMAGE) ? sw::VerticalAlignment::Center : sw::VerticalAlignment::Top;
+              return result;
+          },
+          // set
+          [&](const sw::VerticalAlignment &value) {
+              this->SetStyle(SS_CENTERIMAGE, value == sw::VerticalAlignment::Center);
+          }),
+
+      TextTrimming(
+          // get
+          [&]() -> const sw::TextTrimming & {
+              static sw::TextTrimming result;
+              LONG_PTR style = this->GetStyle();
+              if ((style & SS_WORDELLIPSIS) == SS_WORDELLIPSIS) {
+                  result = sw::TextTrimming::WordEllipsis;
+              } else if (style & SS_ENDELLIPSIS) {
+                  result = sw::TextTrimming::EndEllipsis;
+              } else {
+                  result = sw::TextTrimming::None;
+              }
+              return result;
+          },
+          // set
+          [&](const sw::TextTrimming &value) {
+              switch (value) {
+                  case sw::TextTrimming::None: {
+                      this->SetStyle(SS_WORDELLIPSIS, false);
+                      break;
+                  }
+                  case sw::TextTrimming::WordEllipsis: {
+                      this->SetStyle(SS_WORDELLIPSIS, true);
+                      break;
+                  }
+                  case sw::TextTrimming::EndEllipsis: {
+                      LONG_PTR style = this->GetStyle();
+                      style &= ~SS_WORDELLIPSIS;
+                      style |= SS_ENDELLIPSIS;
+                      this->SetStyle(style);
+                      break;
+                  }
+              }
+              this->Redraw();
+          }),
+
+      AutoWrap(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(SS_EDITCONTROL);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(SS_EDITCONTROL, value);
+          }),
+
+      AutoSize(
+          // get
+          [&]() -> const bool & {
+              return this->_autoSize;
+          },
+          // set
+          [&](const bool &value) {
+              this->_autoSize = value;
+              if (value) {
+                  this->NotifyLayoutUpdated();
+              }
+          })
 {
     this->InitControl(L"STATIC", L"Label", WS_CHILD | WS_VISIBLE);
-    this->Rect = sw::Rect(0, 0, 40, 20);
+    this->_UpdateTextSize();
+    this->_ResizeToTextSize();
+}
+
+void sw::Label::_UpdateTextSize()
+{
+    HWND hwnd = this->Handle;
+    HDC hdc   = GetDC(hwnd);
+
+    SelectObject(hdc, this->GetFontHandle());
+
+    RECT rect{};
+    const std::wstring &text = this->Text;
+    DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT);
+
+    sw::Rect textRect = rect;
+    this->_textSize   = Size(textRect.width, textRect.height);
+
+    ReleaseDC(hwnd, hdc);
+}
+
+void sw::Label::_ResizeToTextSize()
+{
+    sw::Rect rect = this->Rect;
+    rect.width    = this->_textSize.width;
+    rect.height   = this->_textSize.height;
+    this->Rect    = rect;
+}
+
+void sw::Label::OnTextChanged(const std::wstring &newText)
+{
+    this->UIElement::OnTextChanged(newText);
+    this->_UpdateTextSize();
+
+    if (this->_autoSize) {
+        this->NotifyLayoutUpdated();
+    }
+}
+
+void sw::Label::FontChanged(HFONT hfont)
+{
+    this->_UpdateTextSize();
+    if (this->_autoSize) {
+        this->NotifyLayoutUpdated();
+    }
+}
+
+void sw::Label::Measure(const Size &availableSize)
+{
+    if (!this->_autoSize) {
+        this->UIElement::Measure(availableSize);
+        return;
+    }
+
+    Thickness margin = this->Margin;
+
+    Size desireSize(
+        this->_textSize.width + margin.left + margin.right,
+        this->_textSize.height + margin.top + margin.bottom);
+
+    if (availableSize.width < desireSize.width) {
+
+        if (this->TextTrimming.Get() != sw::TextTrimming::None) {
+            desireSize.width = availableSize.width;
+
+        } else if (this->AutoWrap) {
+            HWND hwnd = this->Handle;
+            HDC hdc   = GetDC(hwnd);
+
+            SelectObject(hdc, this->GetFontHandle());
+
+            double scaleX = Dip::ScaleX;
+            double scaleY = Dip::ScaleY;
+            RECT rect{0, 0, Utils::Max(0L, std::lround((availableSize.width - margin.left - margin.right) / scaleX)), 0};
+
+            const std::wstring &text = this->Text;
+            DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT | DT_WORDBREAK);
+
+            desireSize.width  = availableSize.width;
+            desireSize.height = (rect.bottom - rect.top) * scaleY + margin.top + margin.bottom;
+
+            ReleaseDC(hwnd, hdc);
+        }
+    }
+
+    this->SetDesireSize(desireSize);
 }
 
 // Layer.cpp
@@ -648,10 +960,20 @@ sw::MsgBox sw::MsgBox::Show(const WndBase *owner, const std::wstring &text, cons
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button);
 }
 
+sw::MsgBox sw::MsgBox::Show(const WndBase &owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
+{
+    return MsgBox::Show(&owner, text, caption, button);
+}
+
 sw::MsgBox sw::MsgBox::ShowInfo(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
     HWND hwnd = owner == NULL ? NULL : owner->Handle;
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button | MB_ICONINFORMATION);
+}
+
+sw::MsgBox sw::MsgBox::ShowInfo(const WndBase &owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
+{
+    return MsgBox::ShowInfo(&owner, text, caption, button);
 }
 
 sw::MsgBox sw::MsgBox::ShowError(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
@@ -660,16 +982,31 @@ sw::MsgBox sw::MsgBox::ShowError(const WndBase *owner, const std::wstring &text,
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button | MB_ICONERROR);
 }
 
+sw::MsgBox sw::MsgBox::ShowError(const WndBase &owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
+{
+    return MsgBox::ShowError(&owner, text, caption, button);
+}
+
 sw::MsgBox sw::MsgBox::ShowWarning(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
     HWND hwnd = owner == NULL ? NULL : owner->Handle;
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button | MB_ICONWARNING);
 }
 
+sw::MsgBox sw::MsgBox::ShowWarning(const WndBase &owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
+{
+    return MsgBox::ShowWarning(&owner, text, caption, button);
+}
+
 sw::MsgBox sw::MsgBox::ShowQuestion(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
     HWND hwnd = owner == NULL ? NULL : owner->Handle;
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button | MB_ICONQUESTION);
+}
+
+sw::MsgBox sw::MsgBox::ShowQuestion(const WndBase &owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
+{
+    return MsgBox::ShowQuestion(&owner, text, caption, button);
 }
 
 const sw::MsgBox &sw::MsgBox::On(MsgBoxResult result, const MsgBoxCallback &callback) const
@@ -721,6 +1058,11 @@ void sw::Panel::Measure(const Size &availableSize)
 void sw::Panel::Arrange(const sw::Rect &finalPosition)
 {
     this->Layer::Arrange(finalPosition);
+}
+
+bool sw::Panel::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+{
+    return this->Control::OnSetCursor(hwnd, hitTest, message, useDefaultWndProc);
 }
 
 // Point.cpp
@@ -939,12 +1281,12 @@ void sw::StackLayoutH::MeasureOverride(Size &availableSize)
     int childCount = this->GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
-        ILayout &item = GetChildLayoutAt(i);
+        ILayout &item = this->GetChildLayoutAt(i);
         item.Measure(Size(INFINITY, std::isinf(availableSize.height) ? INFINITY : availableSize.height));
 
         Size itemDesireSize = item.GetDesireSize();
         desireSize.width += itemDesireSize.width;
-        desireSize.height = max(desireSize.height, itemDesireSize.height);
+        desireSize.height = Utils::Max(desireSize.height, itemDesireSize.height);
     }
 
     this->SetDesireSize(desireSize);
@@ -956,7 +1298,8 @@ void sw::StackLayoutH::ArrangeOverride(Size &finalSize)
     int childCount = this->GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
-        ILayout &item       = GetChildLayoutAt(i);
+        ILayout &item = this->GetChildLayoutAt(i);
+
         Size itemDesireSize = item.GetDesireSize();
         item.Arrange(Rect(width, 0, itemDesireSize.width, finalSize.height));
         width += itemDesireSize.width;
@@ -971,12 +1314,12 @@ void sw::StackLayoutV::MeasureOverride(Size &availableSize)
     int childCount = this->GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
-        ILayout &item = GetChildLayoutAt(i);
+        ILayout &item = this->GetChildLayoutAt(i);
         item.Measure(Size(std::isinf(availableSize.width) ? INFINITY : availableSize.width, INFINITY));
 
         Size itemDesireSize = item.GetDesireSize();
         desireSize.height += itemDesireSize.height;
-        desireSize.width = max(desireSize.width, itemDesireSize.width);
+        desireSize.width = Utils::Max(desireSize.width, itemDesireSize.width);
     }
 
     this->SetDesireSize(desireSize);
@@ -988,7 +1331,8 @@ void sw::StackLayoutV::ArrangeOverride(Size &finalSize)
     int childCount = this->GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
-        ILayout &item       = GetChildLayoutAt(i);
+        ILayout &item = this->GetChildLayoutAt(i);
+
         Size itemDesireSize = item.GetDesireSize();
         item.Arrange(Rect(0, top, finalSize.width, itemDesireSize.height));
         top += itemDesireSize.height;
@@ -1370,8 +1714,8 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
         rect.top  = this->Top;
     }
 
-    rect.width       = max(rect.width, 0);
-    rect.height      = max(rect.height, 0);
+    rect.width       = Utils::Max(rect.width, 0.0);
+    rect.height      = Utils::Max(rect.height, 0.0);
     this->Rect       = rect;
     this->_arranging = false;
 
@@ -1419,7 +1763,7 @@ void sw::UIElement::NotifyLayoutUpdated()
 {
     if (!this->_arranging) {
         UIElement &root = this->GetRootElement();
-        SendMessageW(root.Handle, WM_UpdateLayout, NULL, NULL);
+        root.SendMessageW(WM_UpdateLayout, NULL, NULL);
     }
 }
 
@@ -1630,6 +1974,12 @@ static unsigned int _windowCount = 0;
 static void _UpdateFontForAllChild(sw::UIElement &element);
 
 /**
+ * @brief  获取窗口默认图标（即当前exe图标）
+ * @return 图标句柄
+ */
+static HICON _GetWindowDefaultIcon();
+
+/**
  * @brief 是否在关闭所有窗口后退出程序
  */
 bool sw::Window::PostQuitWhenAllClosed = true;
@@ -1794,11 +2144,9 @@ sw::Window::Window()
               this->Height     = this->Height;
           })
 {
-    this->InitWindow(
-        L"Window",           // Window text
-        WS_OVERLAPPEDWINDOW, // Window style
-        NULL,                // Parent window
-        NULL);               // Menu
+    this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, NULL, NULL);
+    this->SetCursor(StandardCursor::Arrow);
+    this->SetIcon(_GetWindowDefaultIcon());
 }
 
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
@@ -1825,19 +2173,19 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             // 按照设置限制窗口大小
             if (this->_maxWidth > 0) {
                 LONG maxWidth           = std::lround(this->_maxWidth / scaleX);
-                pInfo->ptMaxTrackSize.x = min(pInfo->ptMaxTrackSize.x, maxWidth);
+                pInfo->ptMaxTrackSize.x = Utils::Min(pInfo->ptMaxTrackSize.x, maxWidth);
             }
             if (this->_maxHeight > 0) {
                 LONG maxHeight          = std::lround(this->_maxHeight / scaleY);
-                pInfo->ptMaxTrackSize.y = min(pInfo->ptMaxTrackSize.y, maxHeight);
+                pInfo->ptMaxTrackSize.y = Utils::Min(pInfo->ptMaxTrackSize.y, maxHeight);
             }
             if (this->_minWidth > 0) {
                 LONG minWidth           = std::lround(this->_minWidth / scaleX);
-                pInfo->ptMinTrackSize.x = max(pInfo->ptMinTrackSize.x, minWidth);
+                pInfo->ptMinTrackSize.x = Utils::Max(pInfo->ptMinTrackSize.x, minWidth);
             }
             if (this->_minHeight > 0) {
                 LONG minHeight          = std::lround(this->_minHeight / scaleY);
-                pInfo->ptMinTrackSize.y = max(pInfo->ptMinTrackSize.y, minHeight);
+                pInfo->ptMinTrackSize.y = Utils::Max(pInfo->ptMinTrackSize.y, minHeight);
             }
             return 0;
         }
@@ -1901,9 +2249,31 @@ bool sw::Window::OnPaint()
     return true;
 }
 
+bool sw::Window::OnMouseMove(Point mousePosition, MouseKey keyState)
+{
+    ::SetCursor(this->_hCursor);
+    return this->UIElement::OnMouseMove(mousePosition, keyState);
+}
+
 void sw::Window::Show()
 {
     this->WndBase::Show(SW_SHOW);
+}
+
+void sw::Window::SetCursor(HCURSOR hCursor)
+{
+    this->_hCursor = hCursor;
+}
+
+void sw::Window::SetCursor(StandardCursor cursor)
+{
+    this->SetCursor(CursorHelper::GetCursorHandle(cursor));
+}
+
+void sw::Window::SetIcon(HICON hIcon)
+{
+    this->SendMessageW(WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+    this->SendMessageW(WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 }
 
 void sw::Window::Measure(const Size &availableSize)
@@ -1924,6 +2294,14 @@ void _UpdateFontForAllChild(sw::UIElement &element)
     for (int i = 0; i < count; ++i) {
         _UpdateFontForAllChild(element[i]);
     }
+}
+
+HICON _GetWindowDefaultIcon()
+{
+    static HICON hIcon = NULL;
+    if (hIcon == NULL)
+        hIcon = ExtractIconW(sw::App::Instance, sw::App::ExePath->c_str(), 0);
+    return hIcon;
 }
 
 // WndBase.cpp
@@ -2162,7 +2540,6 @@ sw::WndBase::WndBase()
 
     if (wc.cbSize == 0) {
         wc.cbSize        = sizeof(wc);
-        wc.hCursor       = LoadCursorW(NULL, IDC_ARROW);
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = WndBase::_WndProc;
         wc.lpszClassName = WINDOW_CLASS_NAME;
@@ -2301,6 +2678,11 @@ void sw::WndBase::SetExtendedStyle(LONG_PTR style, bool value)
         style = GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) & ~style;
     }
     SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, style);
+}
+
+HFONT sw::WndBase::GetFontHandle()
+{
+    return this->_hfont;
 }
 
 LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
@@ -2488,6 +2870,17 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return pCtlColor == nullptr
                        ? this->DefaultWndProc(refMsg)
                        : pCtlColor->CtlColor(hdc, hwnd);
+        }
+
+        case WM_SETCURSOR: {
+            HWND hwnd   = (HWND)refMsg.wParam;
+            int hitTest = LOWORD(refMsg.lParam);
+            int message = HIWORD(refMsg.lParam);
+
+            bool useDefaultWndProc = true;
+
+            bool result = this->OnSetCursor(hwnd, hitTest, message, useDefaultWndProc);
+            return useDefaultWndProc ? this->DefaultWndProc(refMsg) : result;
         }
 
         default: {
@@ -2678,7 +3071,7 @@ void sw::WndBase::OnCommand(WPARAM wParam, LPARAM lParam)
 {
     if (lParam != NULL) {
         // 接收到控件消息
-        SendMessageW((HWND)lParam, WM_ParentReceivedCommand, wParam, lParam);
+        ::SendMessageW((HWND)lParam, WM_ParentReceivedCommand, wParam, lParam);
     } else {
         // Menu / Accelerator
         // ...
@@ -2693,6 +3086,15 @@ void sw::WndBase::HandleInitialized(HWND hwnd)
 {
 }
 
+void sw::WndBase::FontChanged(HFONT hfont)
+{
+}
+
+bool sw::WndBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+{
+    return false;
+}
+
 void sw::WndBase::Show(int nCmdShow)
 {
     ShowWindow(this->_hwnd, nCmdShow);
@@ -2700,7 +3102,7 @@ void sw::WndBase::Show(int nCmdShow)
 
 void sw::WndBase::Close()
 {
-    SendMessageW(this->_hwnd, WM_CLOSE, NULL, NULL);
+    this->SendMessageW(WM_CLOSE, NULL, NULL);
 }
 
 void sw::WndBase::Update()
@@ -2714,7 +3116,8 @@ void sw::WndBase::UpdateFont()
         DeleteObject(this->_hfont);
     }
     this->_hfont = this->_font.CreateHandle();
-    SendMessageW(this->_hwnd, WM_SETFONT, (WPARAM)this->_hfont, TRUE);
+    this->SendMessageW(WM_SETFONT, (WPARAM)this->_hfont, TRUE);
+    this->FontChanged(this->_hfont);
 }
 
 void sw::WndBase::Redraw()
@@ -2751,9 +3154,24 @@ sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint)
     return p;
 }
 
+LRESULT sw::WndBase::SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return ::SendMessageW(this->_hwnd, uMsg, wParam, lParam);
+}
+
 sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
 {
     return reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+}
+
+bool sw::operator==(const WndBase &left, const WndBase &right)
+{
+    return &left == &right;
+}
+
+bool sw::operator!=(const WndBase &left, const WndBase &right)
+{
+    return &left != &right;
 }
 
 // WrapLayout.cpp
@@ -2786,7 +3204,7 @@ void sw::WrapLayoutH::MeasureOverride(Size &availableSize)
 
             Size itemDesireSize = item.GetDesireSize();
             size.width += itemDesireSize.width;
-            size.height = max(size.height, itemDesireSize.height);
+            size.height = Utils::Max(size.height, itemDesireSize.height);
         }
     } else {
         double top       = 0;
@@ -2800,13 +3218,13 @@ void sw::WrapLayoutH::MeasureOverride(Size &availableSize)
             Size itemDesireSize = item.GetDesireSize();
             if (rowWidth + itemDesireSize.width <= availableSize.width) {
                 rowWidth += itemDesireSize.width;
-                rowHeight = max(rowHeight, itemDesireSize.height);
+                rowHeight = Utils::Max(rowHeight, itemDesireSize.height);
             } else {
                 top += rowHeight;
                 rowWidth  = itemDesireSize.width;
                 rowHeight = itemDesireSize.height;
             }
-            size.width = max(size.width, rowWidth);
+            size.width = Utils::Max(size.width, rowWidth);
         }
         size.height = top + rowHeight;
     }
@@ -2828,7 +3246,7 @@ void sw::WrapLayoutH::ArrangeOverride(Size &finalSize)
         if (rowWidth + itemDesireSize.width <= finalSize.width) {
             item.Arrange(Rect(rowWidth, top, itemDesireSize.width, itemDesireSize.height));
             rowWidth += itemDesireSize.width;
-            rowHeight = max(rowHeight, itemDesireSize.height);
+            rowHeight = Utils::Max(rowHeight, itemDesireSize.height);
         } else {
             top += rowHeight;
             item.Arrange(Rect(0, top, itemDesireSize.width, itemDesireSize.height));
@@ -2852,7 +3270,7 @@ void sw::WrapLayoutV::MeasureOverride(Size &availableSize)
 
             Size itemDesireSize = item.GetDesireSize();
             size.height += itemDesireSize.height;
-            size.width = max(size.width, itemDesireSize.width);
+            size.width = Utils::Max(size.width, itemDesireSize.width);
         }
     } else {
         double left      = 0;
@@ -2866,13 +3284,13 @@ void sw::WrapLayoutV::MeasureOverride(Size &availableSize)
             Size itemDesireSize = item.GetDesireSize();
             if (colHeight + itemDesireSize.height <= availableSize.height) {
                 colHeight += itemDesireSize.height;
-                colWidth = max(colWidth, itemDesireSize.width);
+                colWidth = Utils::Max(colWidth, itemDesireSize.width);
             } else {
                 left += colWidth;
                 colHeight = itemDesireSize.height;
                 colWidth  = itemDesireSize.width;
             }
-            size.height = max(size.height, colHeight);
+            size.height = Utils::Max(size.height, colHeight);
         }
         size.width = left + colWidth;
     }
@@ -2894,7 +3312,7 @@ void sw::WrapLayoutV::ArrangeOverride(Size &finalSize)
         if (colHeight + itemDesireSize.height <= finalSize.height) {
             item.Arrange(Rect(left, colHeight, itemDesireSize.width, itemDesireSize.height));
             colHeight += itemDesireSize.height;
-            colWidth = max(colWidth, itemDesireSize.width);
+            colWidth = Utils::Max(colWidth, itemDesireSize.width);
         } else {
             left += colWidth;
             item.Arrange(Rect(left, 0, itemDesireSize.width, itemDesireSize.height));
