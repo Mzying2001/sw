@@ -1,4 +1,5 @@
 #include "Path.h"
+#include <Windows.h>
 
 std::wstring sw::Path::GetFileName(const std::wstring &path)
 {
@@ -94,4 +95,31 @@ std::wstring sw::Path::Combine(std::initializer_list<std::wstring> paths)
     }
 
     return combinedPath;
+}
+
+std::wstring sw::Path::GetAbsolutePath(const std::wstring &path)
+{
+    // 获取文件路径的最大长度
+    DWORD bufferSize = GetFullPathNameW(path.c_str(), 0, nullptr, nullptr);
+
+    if (bufferSize == 0) {
+        // GetFullPathNameW 返回0表示失败
+        return L"";
+    }
+
+    // 为获取绝对路径分配内存
+    std::wstring absolutePath;
+    absolutePath.resize(bufferSize);
+
+    // 获取绝对路径
+    DWORD result = GetFullPathNameW(path.c_str(), bufferSize, &absolutePath[0], nullptr);
+    if (result == 0 || result >= bufferSize) {
+        // 获取绝对路径失败
+        return L"";
+    }
+
+    // 移除不必要的空白字符
+    absolutePath.resize(result);
+
+    return absolutePath;
 }
