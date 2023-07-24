@@ -13,6 +13,10 @@ namespace sw
         ILayout *_associatedObj = nullptr;
 
     public:
+        /**
+         * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
+         * @param obj 要关联的对象
+         */
         void Associate(ILayout *obj);
 
     public:
