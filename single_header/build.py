@@ -4,11 +4,17 @@ import os
 import re
 from collections import deque
 
-incpath = '../sw/inc'  # inc文件夹路径
-headers = []           # 所有的头文件的文件名
+# 当前脚本文件所在目录
+basedir = os.path.dirname(__file__)
+
+# inc文件夹路径
+incpath = os.path.join(basedir, '../sw/inc')
+
+# 所有的头文件的文件名
+headers = []
 
 # 输出文件
-outputfile = open('./sw_all.h', 'w', encoding='utf-8')
+outputfile = open(os.path.join(basedir, 'sw_all.h'), 'w', encoding='utf-8')
 outputfile.write('// https://github.com/Mzying2001/sw\n\n')
 outputfile.write('#pragma once\n')
 
@@ -94,11 +100,14 @@ outputfile.close()
 
 ####################################################################################################
 
-srcpath = '../sw/src'  # src文件夹路径
-sources = []           # 所有的源文件文件名
+# src文件夹路径
+srcpath = os.path.join(basedir, '../sw/src')
+
+# 所有的源文件文件名
+sources = []
 
 # 输出文件
-outputfile = open('./sw_all.cpp', 'w', encoding='utf-8')
+outputfile = open(os.path.join(basedir, 'sw_all.cpp'), 'w', encoding='utf-8')
 outputfile.write('#include "sw_all.h"\n')
 
 # 输出的源文件代码
