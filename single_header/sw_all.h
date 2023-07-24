@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <iostream>
 #include <functional>
+#include <initializer_list>
 #include <map>
 #include <vector>
 #include <sstream>
@@ -838,6 +839,54 @@ namespace sw
     };
 }
 
+// Path.h
+
+
+namespace sw
+{
+    class Path
+    {
+    private:
+        Path() = delete;
+
+    public:
+        /**
+         * @brief      获取文件名
+         * @param path 文件的路径
+         * @return     文件名，包含扩展名
+         */
+        static std::wstring GetFileName(const std::wstring &path);
+
+        /**
+         * @brief      获取文件名
+         * @param path 文件的路径
+         * @return     文件名，不含扩展名
+         */
+        static std::wstring GetFileNameWithoutExt(const std::wstring &path);
+
+        /**
+         * @brief      获取扩展名
+         * @param path 文件的路径
+         * @return     文件的扩展名，不包含前面的点
+         */
+        static std::wstring GetExtension(const std::wstring &path);
+
+        /**
+         * @brief      获取文件所在路径
+         * @param path 文件的路径
+         * @return     文件所在路径
+        */
+        static std::wstring GetDirectory(const std::wstring &path);
+
+        /**
+         * @brief       对路径进行拼接
+         * @param paths 要拼接的路径
+         * @return      完整的路径
+         */
+        static std::wstring Combine(std::initializer_list<std::wstring> paths);
+    };
+}
+
 // Point.h
 
 
@@ -1242,6 +1291,35 @@ namespace sw
         {
             return a < b ? a : b;
         }
+
+        /**
+         * @brief     删除首尾空白字符
+         * @param str 输入的字符串
+         * @return    删除首位空白字符后的字符串
+         */
+        static std::wstring Trim(const std::wstring &str);
+
+        /**
+         * @brief     删除串首空白字符
+         * @param str 输入的字符串
+         * @return    删除串首空白字符后的字符串
+         */
+        static std::wstring TrimStart(const std::wstring &str);
+
+        /**
+         * @brief     删除串尾空白字符
+         * @param str 输入的字符串
+         * @return    删除串尾空白字符后的字符串
+         */
+        static std::wstring TrimEnd(const std::wstring &str);
+
+        /**
+         * @brief           对字符串按照指定分隔符进行拆分
+         * @param str       输入的字符串
+         * @param delimiter 分隔符
+         * @result          包含字串的vector
+         */
+        static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
     };
 
     /**
@@ -1359,6 +1437,16 @@ namespace sw
         static const ReadOnlyProperty<std::wstring> ExePath;
 
         /**
+         * @brief 当前exe所在的文件夹路径
+         */
+        static const ReadOnlyProperty<std::wstring> ExeDirectory;
+
+        /**
+         * @brief 当前工作路径
+         */
+        static const Property<std::wstring> CurrentDirectory;
+
+        /**
          * @brief  消息循环
          * @return 退出代码
          */
@@ -1375,6 +1463,11 @@ namespace sw
          * @brief  获取当前exe文件路径
          */
         static std::wstring _GetExePath();
+
+        /**
+         * @brief 获取当前工作路径
+         */
+        static std::wstring _GetCurrentDirectory();
     };
 }
 
@@ -1595,6 +1688,10 @@ namespace sw
         ILayout *_associatedObj = nullptr;
 
     public:
+        /**
+         * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
+         * @param obj 要关联的对象
+         */
         void Associate(ILayout *obj);
 
     public:
@@ -3025,7 +3122,7 @@ namespace sw
 
     public:
         /**
-         * @brief 窗口布局方式
+         * @brief 窗口布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设置为nullptr可恢复默认布局
          */
         const Property<LayoutHost *> Layout;
 

@@ -31,19 +31,35 @@ void sw::AbsoluteLayout::ArrangeOverride(Size &finalSize)
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     []() -> const HINSTANCE & {
-        static HINSTANCE hInstance = NULL;
-        if (hInstance == NULL)
-            hInstance = GetModuleHandleW(NULL);
+        static HINSTANCE hInstance = GetModuleHandleW(NULL);
         return hInstance;
     } //
 );
 
 const sw::ReadOnlyProperty<std::wstring> sw::App::ExePath(
     []() -> const std::wstring & {
-        static std::wstring exePath;
-        if (exePath.empty())
-            exePath = App::_GetExePath();
+        static std::wstring exePath = App::_GetExePath();
         return exePath;
+    } //
+);
+
+const sw::ReadOnlyProperty<std::wstring> sw::App::ExeDirectory(
+    []() -> const std::wstring & {
+        static std::wstring exeDirectory = Path::GetDirectory(App::ExePath);
+        return exeDirectory;
+    } //
+);
+
+const sw::Property<std::wstring> sw::App::CurrentDirectory(
+    // get
+    []() -> const std::wstring & {
+        static std::wstring result;
+        result = App::_GetCurrentDirectory();
+        return result;
+    },
+    // set
+    [](const std::wstring &value) {
+        SetCurrentDirectoryW(value.c_str());
     } //
 );
 
@@ -95,6 +111,31 @@ std::wstring sw::App::_GetExePath()
     delete[] szExePath;
 
     return exePath;
+}
+
+std::wstring sw::App::_GetCurrentDirectory()
+{
+    // 先获取路径的长度
+    DWORD pathLength = GetCurrentDirectoryW(0, nullptr);
+    if (pathLength == 0) {
+        // 获取路径失败，返回空字符串
+        return L"";
+    }
+
+    // 动态分配足够大的缓冲区
+    std::unique_ptr<wchar_t[]> szStartUpPath = std::make_unique<wchar_t[]>(pathLength);
+
+    // 获取当前工作目录（即程序启动的路径）
+    DWORD actualLength = GetCurrentDirectoryW(pathLength, szStartUpPath.get());
+    if (actualLength == 0 || actualLength > pathLength) {
+        // 获取路径失败，返回空字符串
+        return L"";
+    }
+
+    // 转换为 std::wstring
+    std::wstring startUpPath(szStartUpPath.get());
+
+    return startUpPath;
 }
 
 // Button.cpp
@@ -1065,6 +1106,104 @@ bool sw::Panel::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaul
     return this->Control::OnSetCursor(hwnd, hitTest, message, useDefaultWndProc);
 }
 
+// Path.cpp
+
+std::wstring sw::Path::GetFileName(const std::wstring &path)
+{
+    // Find the last occurrence of either '/' or '\'
+    size_t lastSlashPos = path.find_last_of(L"/\\");
+
+    // If no slash found or the last character is a slash (folder path)
+    if (lastSlashPos == std::wstring::npos || lastSlashPos == path.length() - 1) {
+        return L"";
+    }
+
+    // Extract the file name from the path and return it
+    return path.substr(lastSlashPos + 1);
+}
+
+std::wstring sw::Path::GetFileNameWithoutExt(const std::wstring &path)
+{
+    // Find the last occurrence of either '/' or '\'
+    size_t lastSlashPos = path.find_last_of(L"/\\");
+
+    // If no slash found or the last character is a slash (folder path)
+    if (lastSlashPos == std::wstring::npos || lastSlashPos == path.length() - 1) {
+        return L"";
+    }
+
+    // Find the last occurrence of the dot (.) after the last slash
+    size_t lastDotPos = path.find_last_of(L'.', lastSlashPos);
+
+    // If no dot found or the dot is at the end of the string (file has no extension)
+    if (lastDotPos == std::wstring::npos || lastDotPos == path.length() - 1) {
+        // Extract the file name from the path and return it
+        return path.substr(lastSlashPos + 1);
+    }
+
+    // Extract the file name without extension from the path and return it
+    return path.substr(lastSlashPos + 1, lastDotPos - lastSlashPos - 1);
+}
+
+std::wstring sw::Path::GetExtension(const std::wstring &path)
+{
+    // Find the last occurrence of either '/' or '\'
+    size_t lastSlashPos = path.find_last_of(L"/\\");
+
+    // Find the last occurrence of the dot (.) after the last slash
+    size_t lastDotPos = path.find_last_of(L'.');
+
+    // If no dot found or the dot is at the end of the string (file has no extension)
+    if (lastDotPos == std::wstring::npos || lastDotPos == path.length() - 1) {
+        return L"";
+    }
+
+    // If no slash found or the last dot is before the last slash (file name has a dot)
+    if (lastSlashPos == std::wstring::npos || lastDotPos < lastSlashPos) {
+        return L"";
+    }
+
+    // Extract the extension from the path and return it
+    return path.substr(lastDotPos + 1);
+}
+
+std::wstring sw::Path::GetDirectory(const std::wstring &path)
+{
+    // Find the last occurrence of either '/' or '\'
+    size_t lastSlashPos = path.find_last_of(L"/\\");
+
+    // If no slash found or the last character is a slash (folder path)
+    if (lastSlashPos == std::wstring::npos || lastSlashPos == path.length() - 1) {
+        return path;
+    }
+
+    // Return the directory part of the path along with the last slash
+    return path.substr(0, lastSlashPos + 1);
+}
+
+std::wstring sw::Path::Combine(std::initializer_list<std::wstring> paths)
+{
+    std::wstring combinedPath;
+
+    for (const auto &path : paths) {
+        if (path.empty()) {
+            continue;
+        }
+
+        if (!combinedPath.empty() && combinedPath.back() != L'/' && combinedPath.back() != L'\\') {
+            combinedPath.append(L"\\");
+        }
+
+        if (path.front() == L'/' || path.front() == L'\\') {
+            combinedPath.append(path.substr(1)); // Skip the first separator
+        } else {
+            combinedPath.append(path);
+        }
+    }
+
+    return combinedPath;
+}
+
 // Point.cpp
 
 sw::Point::Point()
@@ -1959,6 +2098,59 @@ std::wostream &sw::operator<<(std::wostream &wos, const std::string &str)
 std::wostream &sw::operator<<(std::wostream &wos, const char *str)
 {
     return wos << Utils::ToWideStr(str);
+}
+
+std::wstring sw::Utils::Trim(const std::wstring &str)
+{
+    size_t firstNonSpace = str.find_first_not_of(L" \t\n\r\f\v");
+    if (firstNonSpace == std::wstring::npos) {
+        return L"";
+    }
+    size_t lastNonSpace = str.find_last_not_of(L" \t\n\r\f\v");
+    return str.substr(firstNonSpace, lastNonSpace - firstNonSpace + 1);
+}
+
+std::wstring sw::Utils::TrimStart(const std::wstring &str)
+{
+    size_t firstNonSpace = str.find_first_not_of(L" \t\n\r\f\v");
+    if (firstNonSpace == std::wstring::npos) {
+        return L"";
+    }
+    return str.substr(firstNonSpace);
+}
+
+std::wstring sw::Utils::TrimEnd(const std::wstring &str)
+{
+    size_t lastNonSpace = str.find_last_not_of(L" \t\n\r\f\v");
+    if (lastNonSpace == std::wstring::npos) {
+        return L"";
+    }
+    return str.substr(0, lastNonSpace + 1);
+}
+
+std::vector<std::wstring> sw::Utils::Split(const std::wstring &str, const std::wstring &delimiter)
+{
+    std::vector<std::wstring> result;
+
+    if (delimiter.empty()) {
+        result.push_back(str);
+        return result;
+    }
+
+    size_t start = 0;
+    size_t end   = str.find(delimiter);
+
+    const size_t delimiterLength = delimiter.length();
+
+    while (end != std::wstring::npos) {
+        result.emplace_back(str, start, end - start);
+        start = end + delimiterLength;
+        end   = str.find(delimiter, start);
+    }
+
+    result.emplace_back(str, start);
+
+    return result;
 }
 
 // Window.cpp
