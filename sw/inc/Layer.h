@@ -26,7 +26,7 @@ namespace sw
 
     public:
         /**
-         * @brief 窗口布局方式
+         * @brief 窗口布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设置为nullptr可恢复默认布局
          */
         const Property<LayoutHost *> Layout;
 
