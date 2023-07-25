@@ -815,9 +815,10 @@ void sw::WndBase::UpdateFont()
     this->FontChanged(this->_hfont);
 }
 
-void sw::WndBase::Redraw()
+void sw::WndBase::Redraw(bool erase)
 {
-    InvalidateRect(this->_hwnd, NULL, TRUE);
+    InvalidateRect(this->_hwnd, NULL, erase);
+    UpdateWindow(this->_hwnd);
 }
 
 bool sw::WndBase::IsControl()

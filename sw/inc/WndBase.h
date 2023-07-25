@@ -534,9 +534,10 @@ namespace sw
         void UpdateFont();
 
         /**
-         * @brief 重画
+         * @brief       重画
+         * @param erase 是否擦除旧的背景
          */
-        void Redraw();
+        void Redraw(bool erase = false);
 
         /**
          * @brief 判断当前对象是否是控件
