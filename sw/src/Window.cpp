@@ -5,7 +5,7 @@
 /**
  * @brief 记录当前创建的窗口数
  */
-static unsigned int _windowCount = 0;
+static int _windowCount = 0;
 
 /**
  * @brief DPI更新时调用该函数递归地更新所有子项的字体
@@ -269,10 +269,17 @@ bool sw::Window::OnDestroy()
 {
     // 触发路由事件
     RaiseRoutedEvent(RoutedEventType::Window_Closed);
-    // 所有窗口都关闭时若PostQuitWhenAllClosed为true则退出程序
-    if (!--_windowCount && PostQuitWhenAllClosed) {
-        App::Quit();
+
+    // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
+    if (this->_isModal) {
+        App::QuitMsgLoop();
     }
+
+    // 所有窗口都关闭时若PostQuitWhenAllClosed为true则退出主消息循环
+    if (--_windowCount <= 0 && Window::PostQuitWhenAllClosed) {
+        App::QuitMsgLoop();
+    }
+
     return true;
 }
 
@@ -297,6 +304,27 @@ bool sw::Window::OnMouseMove(Point mousePosition, MouseKey keyState)
 void sw::Window::Show()
 {
     this->WndBase::Show(SW_SHOW);
+}
+
+void sw::Window::ShowDialog(Window &owner)
+{
+    if (this->_isModal || this == &owner || this->IsDestroyed) {
+        return;
+    }
+
+    this->_isModal = true;
+    SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(owner.Handle.Get()));
+
+    bool oldIsEnabled = owner.Enabled;
+    owner.Enabled     = false;
+
+    this->Show();
+    App::MsgLoop();
+    SetForegroundWindow(owner.Handle);
+
+    if (oldIsEnabled) {
+        owner.Enabled = true;
+    }
 }
 
 void sw::Window::SetCursor(HCURSOR hCursor)

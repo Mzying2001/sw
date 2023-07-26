@@ -42,6 +42,11 @@ namespace sw
          */
         HCURSOR _hCursor;
 
+        /**
+         * @brief 是否为模态窗口，当调用ShowDialog后该值被设为true
+         */
+        bool _isModal = false;
+
     public:
         /**
          * @brief 是否在关闭所有窗口后退出程序
@@ -159,6 +164,12 @@ namespace sw
          * @brief 显示窗口
          */
         void Show();
+
+        /**
+         * @brief       将窗体显示为模式对话框
+         * @param owner 窗体的所有者，窗体显示期间该窗体的Enabled属性将被设为false，该参数不能设为自己
+         */
+        void ShowDialog(Window &owner);
 
         /**
          * @brief         设置鼠标样式
