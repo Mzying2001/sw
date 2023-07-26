@@ -39,10 +39,10 @@ namespace sw
         static int MsgLoop();
 
         /**
-         * @brief          退出程序
+         * @brief          退出当前消息循环
          * @param exitCode 退出代码
          */
-        static void Quit(int exitCode = 0);
+        static void QuitMsgLoop(int exitCode = 0);
 
     private:
         /**

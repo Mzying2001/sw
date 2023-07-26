@@ -45,7 +45,7 @@ int sw::App::MsgLoop()
     return (int)msg.wParam;
 }
 
-void sw::App::Quit(int exitCode)
+void sw::App::QuitMsgLoop(int exitCode)
 {
     PostQuitMessage(exitCode);
 }
