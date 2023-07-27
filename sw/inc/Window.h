@@ -43,9 +43,9 @@ namespace sw
         HCURSOR _hCursor;
 
         /**
-         * @brief 是否为模态窗口，当调用ShowDialog后该值被设为true
+         * @brief 以模态窗口显示时保存所有者窗口，非模态时该值始终为nullptr
          */
-        bool _isModal = false;
+        Window *_modalOwner = nullptr;
 
     public:
         /**
@@ -188,6 +188,12 @@ namespace sw
          * @param hIcon 图标句柄
          */
         void SetIcon(HICON hIcon);
+
+        /**
+         * @brief  窗口是否显示为模态窗口
+         * @return 当调用ShowDialog时该函数返回true，否则返回false
+         */
+        bool IsModal();
 
         /**
          * @brief               测量控件所需尺寸

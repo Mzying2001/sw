@@ -271,7 +271,7 @@ bool sw::Window::OnDestroy()
     RaiseRoutedEvent(RoutedEventType::Window_Closed);
 
     // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
-    if (this->_isModal) {
+    if (this->IsModal()) {
         App::QuitMsgLoop();
     }
 
@@ -308,11 +308,11 @@ void sw::Window::Show()
 
 void sw::Window::ShowDialog(Window &owner)
 {
-    if (this->_isModal || this == &owner || this->IsDestroyed) {
+    if (this->IsModal() || this == &owner || this->IsDestroyed) {
         return;
     }
 
-    this->_isModal = true;
+    this->_modalOwner = &owner;
     SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(owner.Handle.Get()));
 
     bool oldIsEnabled = owner.Enabled;
@@ -341,6 +341,11 @@ void sw::Window::SetIcon(HICON hIcon)
 {
     this->SendMessageW(WM_SETICON, ICON_BIG, (LPARAM)hIcon);
     this->SendMessageW(WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+}
+
+bool sw::Window::IsModal()
+{
+    return this->_modalOwner != nullptr;
 }
 
 void sw::Window::Measure(const Size &availableSize)
