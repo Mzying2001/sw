@@ -50,11 +50,6 @@ namespace sw
 
     public:
         /**
-         * @brief 是否在关闭所有窗口后退出程序
-         */
-        static bool PostQuitWhenAllClosed;
-
-        /**
          * @brief 窗口初次启动的位置
          */
         WindowStartupLocation StartupLocation = WindowStartupLocation::Manual;

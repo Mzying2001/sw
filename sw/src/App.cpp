@@ -1,6 +1,13 @@
 #include "App.h"
 #include "Path.h"
 
+/**
+ * @brief 储存App::QuitMode的变量，默认为Auto
+ */
+static sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
+
+/*================================================================================*/
+
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     []() -> const HINSTANCE & {
         static HINSTANCE hInstance = GetModuleHandleW(NULL);
@@ -35,6 +42,17 @@ const sw::Property<std::wstring> sw::App::CurrentDirectory(
     } //
 );
 
+const sw::Property<sw::AppQuitMode> sw::App::QuitMode(
+    // get
+    []() -> const sw::AppQuitMode & {
+        return _appQuitMode;
+    },
+    // set
+    [](const sw::AppQuitMode &value) {
+        _appQuitMode = value;
+    } //
+);
+
 int sw::App::MsgLoop()
 {
     MSG msg{};
@@ -49,6 +67,8 @@ void sw::App::QuitMsgLoop(int exitCode)
 {
     PostQuitMessage(exitCode);
 }
+
+/*================================================================================*/
 
 std::wstring sw::App::_GetExePath()
 {

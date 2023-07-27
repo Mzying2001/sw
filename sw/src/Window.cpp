@@ -19,11 +19,6 @@ static void _UpdateFontForAllChild(sw::UIElement &element);
 static HICON _GetWindowDefaultIcon();
 
 /**
- * @brief 是否在关闭所有窗口后退出程序
- */
-bool sw::Window::PostQuitWhenAllClosed = true;
-
-/**
  * @brief 程序的当前活动窗体
  */
 const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
@@ -283,8 +278,8 @@ bool sw::Window::OnDestroy()
         App::QuitMsgLoop();
     }
 
-    // 所有窗口都关闭时若PostQuitWhenAllClosed为true则退出主消息循环
-    if (--_windowCount <= 0 && Window::PostQuitWhenAllClosed) {
+    // 所有窗口都关闭时若App::QuitMode为Auto则退出主消息循环
+    if (--_windowCount <= 0 && App::QuitMode.Get() == AppQuitMode::Auto) {
         App::QuitMsgLoop();
     }
 

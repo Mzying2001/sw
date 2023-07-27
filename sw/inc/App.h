@@ -6,6 +6,17 @@
 
 namespace sw
 {
+    /**
+     * @brief 程序退出消息循环的方式
+     */
+    enum class AppQuitMode {
+        Auto,   // 当所有窗口都销毁时自动退出消息循环
+        Manual, // 需手动调用QuitMsgLoop以退出消息循环
+    };
+
+    /**
+     * @brief App类
+     */
     class App
     {
     private:
@@ -31,6 +42,11 @@ namespace sw
          * @brief 当前工作路径
          */
         static const Property<std::wstring> CurrentDirectory;
+
+        /**
+         * @brief 程序退出消息循环的方式
+         */
+        static const Property<AppQuitMode> QuitMode;
 
         /**
          * @brief  消息循环
