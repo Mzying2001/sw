@@ -200,6 +200,14 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
                     rect.left     = (Screen::Width - rect.width) / 2;
                     rect.top      = (Screen::Height - rect.height) / 2;
                     this->Rect    = rect;
+                } else if (this->StartupLocation == WindowStartupLocation::CenterOwner) {
+                    if (this->IsModal()) {
+                        sw::Rect windowRect = this->Rect;
+                        sw::Rect ownerRect  = this->_modalOwner->Rect;
+                        windowRect.left     = ownerRect.left + (ownerRect.width - windowRect.width) / 2;
+                        windowRect.top      = ownerRect.top + (ownerRect.height - windowRect.height) / 2;
+                        this->Rect          = windowRect;
+                    }
                 }
             }
             return this->UIElement::WndProc(refMsg);

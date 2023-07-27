@@ -17,6 +17,7 @@ namespace sw
     enum class WindowStartupLocation {
         Manual,       // 使用系统默认或手动设置
         CenterScreen, // 屏幕中心
+        CenterOwner,  // 所有者窗口中心，只在ShowDialog时有效
     };
 
     class Window : virtual public UIElement, public Layer
