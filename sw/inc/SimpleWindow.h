@@ -22,6 +22,8 @@
 #include "Label.h"
 #include "Layer.h"
 #include "LayoutHost.h"
+#include "Menu.h"
+#include "MenuItem.h"
 #include "MsgBox.h"
 #include "Panel.h"
 #include "Path.h"
