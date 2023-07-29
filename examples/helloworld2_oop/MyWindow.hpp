@@ -51,7 +51,9 @@ class MyWindow : public sw::Window
     /**
      * @brief 按钮被单击时调用该函数
      */
-    void ButtonClickedHandler(sw::UIElement&, sw::RoutedEventArgs&) {
+    void ButtonClickedHandler(sw::UIElement& sender, sw::RoutedEventArgs& e) {
+        // 默认路由事件会向上冒泡，将RoutedEventArgs的handled字段设为true可停止冒泡
+        e.handled = true;
         // 直接修改Text属性即可更新标签的文本，使用Utils::BuildStr函数可以方便地构建字符串
         labelTips.Text = sw::Utils::BuildStr(L"You have clicked the button ", ++counter, L" times.");
     }
