@@ -171,6 +171,8 @@
     <ClInclude Include="..\sw\inc\Label.h" />
     <ClInclude Include="..\sw\inc\Layer.h" />
     <ClInclude Include="..\sw\inc\LayoutHost.h" />
+    <ClInclude Include="..\sw\inc\Menu.h" />
+    <ClInclude Include="..\sw\inc\MenuItem.h" />
     <ClInclude Include="..\sw\inc\MsgBox.h" />
     <ClInclude Include="..\sw\inc\Panel.h" />
     <ClInclude Include="..\sw\inc\Path.h" />
@@ -216,6 +218,8 @@
     <ClCompile Include="..\sw\src\Label.cpp" />
     <ClCompile Include="..\sw\src\Layer.cpp" />
     <ClCompile Include="..\sw\src\LayoutHost.cpp" />
+    <ClCompile Include="..\sw\src\Menu.cpp" />
+    <ClCompile Include="..\sw\src\MenuItem.cpp" />
     <ClCompile Include="..\sw\src\MsgBox.cpp" />
     <ClCompile Include="..\sw\src\Panel.cpp" />
     <ClCompile Include="..\sw\src\Path.cpp" />

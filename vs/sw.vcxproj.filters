@@ -147,6 +147,12 @@
     <ClInclude Include="..\sw\inc\Path.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\Menu.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\MenuItem.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\WndBase.cpp">
@@ -267,6 +273,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\Path.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\Menu.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\MenuItem.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
