@@ -1,6 +1,9 @@
 #pragma once
 
 #include <Windows.h>
+#include <functional>
+#include <initializer_list>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -8,61 +11,45 @@ namespace sw
 {
     class MenuItem
     {
-    private:
+    public:
         /**
-         * @brief 菜单项文本
+         * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
          */
-        std::wstring _text;
-
-        /**
-         * @brief 是否为分隔条
-         */
-        bool _isSeparator;
+        std::wstring text;
 
         /**
          * @brief 子项
          */
-        std::vector<MenuItem> _subItems;
-
-    public:
-        /**
-         * @brief 创建一个菜单项
-         * @param text 菜单项的文本，当文本为“-”时表示该项为一个分隔条
-         */
-        MenuItem(const std::wstring text);
+        std::vector<std::shared_ptr<MenuItem>> subItems;
 
         /**
-         * @brief 获取当前菜单项的文本
+         * @brief 菜单项被单击时调用的函数
          */
-        const std::wstring &GetText();
+        std::function<void(MenuItem &)> command;
 
         /**
-         * @brief  获取一个bool值，表示当前项是否为分隔条
+         * @brief      构造一个MenuItem，并设置文本
+         * @param text 菜单项的文本
          */
-        bool IsSparator();
+        MenuItem(const std::wstring &text);
 
         /**
-         * @brief  获取子项的数量
-         * @return 子项数量
+         * @brief          构造一个MenuItem，并设置其子项
+         * @param text     菜单下的文本
+         * @param subItems 子项列表
          */
-        int GetSubItemCount();
+        MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
 
         /**
-         * @brief       获取指定索引处的子项
-         * @param index 要找子项的索引
+         * @brief         构造一个MenuItem，并设置其回调函数
+         * @param text    菜单项的文本
+         * @param command 被单击时调用的函数
          */
-        MenuItem &GetSubItemAt(int index);
+        MenuItem(const std::wstring &text, const decltype(command) &command);
 
         /**
-         * @brief          添加一个子项到末尾
-         * @param itemText 要添加的子项文本
-         * @return         新添加的子项的引用
+         * @brief 获取一个值，表示当前菜单项是否为分隔条
          */
-        MenuItem &AppendSubItem(const std::wstring &itemText);
-
-        /**
-         * @brief 添加一个分隔条
-         */
-        void AppendSeparator();
+        bool IsSeparator() const;
     };
 }

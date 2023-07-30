@@ -5,55 +5,87 @@ sw::Menu::Menu()
     this->_hMenu = CreateMenu();
 }
 
-HMENU sw::Menu::GetMenuHandle()
+sw::Menu::Menu(std::initializer_list<MenuItem> items)
+    : Menu()
+{
+    for (const MenuItem &item : items) {
+        std::shared_ptr<MenuItem> pItem = std::make_shared<MenuItem>(item);
+        this->items.push_back(pItem);
+    }
+    this->Update();
+}
+
+sw::Menu::Menu(const Menu &menu)
+    : Menu()
+{
+    this->items = menu.items;
+    this->Update();
+}
+
+sw::Menu::~Menu()
+{
+    this->ClearAddedItems();
+    DestroyMenu(this->_hMenu);
+}
+
+HMENU sw::Menu::GetHandle()
 {
     return this->_hMenu;
 }
 
 void sw::Menu::Update()
 {
-    this->Clear();
-    this->_itemMap.clear();
+    this->ClearAddedItems();
 
-    for (MenuItem &item : this->items) {
-        HMENU hSubMenu = CreatePopupMenu();
-
-        int count = item.GetSubItemCount();
-        AppendMenuW(this->_hMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(hSubMenu), item.GetText().c_str());
-
-        for (int i = 0; i < count; ++i) {
-            this->AppendSubItems(hSubMenu, item.GetSubItemAt(i));
-        }
+    for (std::shared_ptr<MenuItem> pItem : this->items) {
+        if (!pItem->IsSeparator())
+            this->AppendMenuItem(this->_hMenu, pItem);
     }
 }
 
-void sw::Menu::Clear()
+sw::MenuItem *sw::Menu::GetMenuItem(int id)
+{
+    return id >= 0 && id < this->_leaves.size() ? this->_leaves[id].get() : nullptr;
+}
+
+void sw::Menu::ClearAddedItems()
 {
     while (GetMenuItemCount(this->_hMenu) > 0) {
         RemoveMenu(this->_hMenu, 0, MF_BYPOSITION);
     }
+
+    for (HMENU hMenu : this->_popupMenus) {
+        DestroyMenu(hMenu);
+    }
+
+    this->_popupMenus.clear();
+    this->_leaves.clear();
 }
 
-void sw::Menu::AppendSubItems(HMENU hMenu, MenuItem &item)
+void sw::Menu::AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem)
 {
-    int count = item.GetSubItemCount();
-
-    if (item.IsSparator()) {
+    if (pItem->IsSeparator()) {
         AppendMenuW(hMenu, MF_SEPARATOR, 0, NULL);
         return;
     }
 
-    if (count == 0) {
-        AppendMenuW(hMenu, MF_STRING, this->_itemMap.size(), item.GetText().c_str());
-        this->_itemMap.push_back(&item);
+    if (pItem->subItems.size() == 0) {
+        AppendMenuW(hMenu, MF_STRING, this->_leaves.size(), pItem->text.c_str());
+        this->_leaves.push_back(pItem);
         return;
     }
 
     HMENU hSubMenu = CreatePopupMenu();
-    AppendMenuW(hMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(hSubMenu), item.GetText().c_str());
+    this->_popupMenus.push_back(hSubMenu);
+    AppendMenuW(hMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(hSubMenu), pItem->text.c_str());
 
-    for (int i = 0; i < count; ++i) {
-        MenuItem &subItem = item.GetSubItemAt(i);
-        this->AppendSubItems(hSubMenu, subItem);
+    for (std::shared_ptr<MenuItem> pSubItem : pItem->subItems) {
+        this->AppendMenuItem(hSubMenu, pSubItem);
     }
+}
+
+void sw::Menu::RaiseMenuItemCommand(MenuItem &item)
+{
+    if (item.command)
+        item.command(item);
 }

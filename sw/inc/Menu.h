@@ -2,6 +2,8 @@
 
 #include "MenuItem.h"
 #include <Windows.h>
+#include <initializer_list>
+#include <memory>
 #include <vector>
 
 namespace sw
@@ -12,41 +14,75 @@ namespace sw
         /**
          * @brief 菜单句柄
          */
-        HMENU _hMenu = NULL;
+        HMENU _hMenu;
 
         /**
-         * @brief 包含所有子项，索引为子项的id
+         * @brief 储存所有子项菜单句柄
          */
-        std::vector<MenuItem *> _itemMap;
+        std::vector<HMENU> _popupMenus;
+
+        /**
+         * @brief 储存所有叶子节点，即可以被单击的菜单项，索引为其id
+         */
+        std::vector<std::shared_ptr<MenuItem>> _leaves;
 
     public:
         /**
-         * @brief 菜单项
+         * @brief 菜单项集合
          */
-        std::vector<MenuItem> items;
+        std::vector<std::shared_ptr<MenuItem>> items;
 
-    public:
+        /**
+         * @brief 初始化菜单
+         */
         Menu();
+
+        /**
+         * @brief 重载拷贝构造
+         */
+        Menu(const Menu &menu);
+
+        /**
+         * @brief 初始化菜单并添加菜单项
+         */
+        Menu(std::initializer_list<MenuItem> items);
+
+        /**
+         * @brief 释放资源
+         */
+        ~Menu();
 
         /**
          * @brief 获取菜单句柄
          */
-        HMENU GetMenuHandle();
+        HMENU GetHandle();
 
         /**
-         * @brief 更新菜单
+         * @brief 更新菜单项
          */
         void Update();
 
+        /**
+         * @brief    通过id获取菜单项
+         * @param id 要获取菜单项的id
+         * @return   若函数成功则返回菜单项的指针，否则返回nullptr
+         */
+        MenuItem *GetMenuItem(int id);
+
     private:
         /**
-         * @brief 清空菜单
+         * @brief 清除已添加的所有菜单项
          */
-        void Clear();
+        void ClearAddedItems();
 
         /**
-         * @brief 递归添加子项
+         * @brief 添加菜单项到指定句柄
          */
-        void AppendSubItems(HMENU hMenu, MenuItem &item);
+        void AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem);
+
+        /**
+         * @brief 触发菜单项所绑定的回调函数
+         */
+        void RaiseMenuItemCommand(MenuItem &item);
     };
 }

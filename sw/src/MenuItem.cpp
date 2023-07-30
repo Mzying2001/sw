@@ -1,38 +1,26 @@
 #include "MenuItem.h"
-#include <algorithm>
 
-sw::MenuItem::MenuItem(const std::wstring text)
-    : _text(text), _isSeparator(text == L"-")
+sw::MenuItem::MenuItem(const std::wstring &text)
+    : text(text)
 {
 }
 
-const std::wstring &sw::MenuItem::GetText()
+sw::MenuItem::MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems)
+    : MenuItem(text)
 {
-    return this->_text;
+    for (const MenuItem &subItem : subItems) {
+        std::shared_ptr<MenuItem> pSubItem = std::make_shared<MenuItem>(subItem);
+        this->subItems.push_back(pSubItem);
+    }
 }
 
-bool sw::MenuItem::IsSparator()
+sw::MenuItem::MenuItem(const std::wstring &text, const decltype(command) &command)
+    : MenuItem(text)
 {
-    return this->_isSeparator;
+    this->command = command;
 }
 
-int sw::MenuItem::GetSubItemCount()
+bool sw::MenuItem::IsSeparator() const
 {
-    return (int)this->_subItems.size();
-}
-
-sw::MenuItem &sw::MenuItem::GetSubItemAt(int index)
-{
-    return this->_subItems[index];
-}
-
-sw::MenuItem &sw::MenuItem::AppendSubItem(const std::wstring &itemText)
-{
-    this->_subItems.emplace_back(itemText);
-    return *this->_subItems.rbegin();
-}
-
-void sw::MenuItem::AppendSeparator()
-{
-    this->AppendSubItem(L"-");
+    return this->text == L"-";
 }
