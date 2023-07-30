@@ -123,6 +123,96 @@ sw::MenuItem *sw::Menu::GetMenuItem(std::initializer_list<std::wstring> path)
     return result;
 }
 
+bool sw::Menu::GetEnabled(MenuItem &item, bool &out)
+{
+    auto dependencyInfo = this->GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    MENUITEMINFOW info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = MIIM_STATE;
+
+    if (!GetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info)) {
+        return false;
+    }
+
+    out = (info.fState & MFS_DISABLED) != MFS_DISABLED;
+    return true;
+}
+
+bool sw::Menu::SetEnabled(MenuItem &item, bool value)
+{
+    auto dependencyInfo = this->GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    MENUITEMINFOW info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = MIIM_STATE;
+
+    if (!GetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info)) {
+        return false;
+    }
+
+    if (value) {
+        info.fState &= ~MFS_DISABLED;
+    } else {
+        info.fState |= MFS_DISABLED;
+    }
+
+    return SetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info);
+}
+
+bool sw::Menu::GetChecked(MenuItem &item, bool &out)
+{
+    auto dependencyInfo = this->GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    MENUITEMINFOW info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = MIIM_STATE;
+
+    if (!GetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info)) {
+        return false;
+    }
+
+    out = (info.fState & MFS_CHECKED) == MFS_CHECKED;
+    return true;
+}
+
+bool sw::Menu::SetChecked(MenuItem &item, bool value)
+{
+    auto dependencyInfo = this->GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    MENUITEMINFOW info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = MIIM_STATE;
+
+    if (!GetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info)) {
+        return false;
+    }
+
+    if (value) {
+        info.fState |= MFS_CHECKED;
+    } else {
+        info.fState &= ~MFS_CHECKED;
+    }
+
+    return SetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info);
+}
+
 void sw::Menu::ClearAddedItems()
 {
     while (GetMenuItemCount(this->_hMenu) > 0) {
@@ -168,4 +258,10 @@ void sw::Menu::RaiseMenuItemCommand(MenuItem &item)
 {
     if (item.command)
         item.command(item);
+}
+
+sw::Menu::_MenuItemDependencyInfo *sw::Menu::GetMenuItemDependencyInfo(MenuItem &item)
+{
+    MenuItem *p = &item;
+    return this->_dependencyInfoMap.count(p) ? &this->_dependencyInfoMap[p] : nullptr;
 }

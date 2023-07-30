@@ -99,6 +99,38 @@ namespace sw
          */
         MenuItem *GetMenuItem(std::initializer_list<std::wstring> path);
 
+        /**
+         * @brief      获取一个值，表示菜单项是否可用
+         * @param item 要获取的菜单项
+         * @param out  输出值
+         * @return     函数是否成功
+         */
+        bool GetEnabled(MenuItem &item, bool &out);
+
+        /**
+         * @brief       设置菜单项是否可用
+         * @param item  要修改的菜单项
+         * @param value 设置的值
+         * @return      修改是否成功
+         */
+        bool SetEnabled(MenuItem &item, bool value);
+
+        /**
+         * @brief      获取一个值，表示菜单项是否选中
+         * @param item 要获取的菜单项
+         * @param out  输出值
+         * @return     函数是否成功
+         */
+        bool GetChecked(MenuItem &item, bool &out);
+
+        /**
+         * @brief       设置菜单项是否选中
+         * @param item  要修改的菜单项
+         * @param value 设置的值
+         * @return      修改是否成功
+         */
+        bool SetChecked(MenuItem &item, bool value);
+
     private:
         /**
          * @brief 清除已添加的所有菜单项
@@ -114,5 +146,12 @@ namespace sw
          * @brief 触发菜单项所绑定的回调函数
          */
         void RaiseMenuItemCommand(MenuItem &item);
+
+        /**
+         * @brief      获取菜单项的依赖信息
+         * @param item 要获取信息的菜单项
+         * @return     若函数成功则返回指向_MenuItemDependencyInfo的指针，否则返回nullptr
+         */
+        _MenuItemDependencyInfo *GetMenuItemDependencyInfo(MenuItem &item);
     };
 }
