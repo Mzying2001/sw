@@ -23,6 +23,7 @@
 #include "Layer.h"
 #include "LayoutHost.h"
 #include "Menu.h"
+#include "MenuBase.h"
 #include "MenuItem.h"
 #include "MsgBox.h"
 #include "Panel.h"
