@@ -48,6 +48,80 @@ sw::MenuItem *sw::Menu::GetMenuItem(int id)
     return id >= 0 && id < this->_leaves.size() ? this->_leaves[id].get() : nullptr;
 }
 
+sw::MenuItem *sw::Menu::GetMenuItem(std::initializer_list<int> path)
+{
+    MenuItem *result = nullptr;
+
+    std::initializer_list<int>::iterator it  = path.begin();
+    std::initializer_list<int>::iterator end = path.end();
+
+    if (it == end) {
+        return nullptr;
+    }
+
+    int index = *it++;
+
+    if (index < 0 || index >= this->items.size()) {
+        return nullptr;
+    }
+
+    result = this->items[index].get();
+
+    while (it != end) {
+        index = *it++;
+        if (index < 0 || index >= result->subItems.size()) {
+            return nullptr;
+        }
+        result = result->subItems[index].get();
+    }
+
+    return result;
+}
+
+sw::MenuItem *sw::Menu::GetMenuItem(std::initializer_list<std::wstring> path)
+{
+    MenuItem *result = nullptr;
+
+    std::initializer_list<std::wstring>::iterator it  = path.begin();
+    std::initializer_list<std::wstring>::iterator end = path.end();
+
+    if (it == end) {
+        return nullptr;
+    }
+
+    for (std::shared_ptr<MenuItem> pItem : this->items) {
+        if (pItem->text == *it) {
+            result = pItem.get();
+            ++it;
+            break;
+        }
+    }
+
+    if (result == nullptr) {
+        return nullptr;
+    }
+
+    while (it != end) {
+        MenuItem *p = nullptr;
+
+        for (std::shared_ptr<MenuItem> pItem : result->subItems) {
+            if (pItem->text == *it) {
+                p = pItem.get();
+                ++it;
+                break;
+            }
+        }
+
+        if (p == nullptr) {
+            return nullptr;
+        }
+
+        result = p;
+    }
+
+    return result;
+}
+
 void sw::Menu::ClearAddedItems()
 {
     while (GetMenuItemCount(this->_hMenu) > 0) {

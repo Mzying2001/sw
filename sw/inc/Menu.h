@@ -69,6 +69,20 @@ namespace sw
          */
         MenuItem *GetMenuItem(int id);
 
+        /**
+         * @brief      通过索引来获取菜单项
+         * @param path 要找项所在下索引
+         * @return     若函数成功则返回菜单项的指针，否则返回nullptr
+        */
+        MenuItem *GetMenuItem(std::initializer_list<int> path);
+
+        /**
+         * @brief      通过菜单项的text来获取菜单项
+         * @param path 每层要找的text
+         * @return     若函数成功则返回菜单项的指针，否则返回nullptr
+        */
+        MenuItem *GetMenuItem(std::initializer_list<std::wstring> path);
+
     private:
         /**
          * @brief 清除已添加的所有菜单项
