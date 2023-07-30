@@ -37,9 +37,10 @@ void sw::Menu::Update()
 {
     this->ClearAddedItems();
 
+    int i = 0;
     for (std::shared_ptr<MenuItem> pItem : this->items) {
         if (!pItem->IsSeparator())
-            this->AppendMenuItem(this->_hMenu, pItem);
+            this->AppendMenuItem(this->_hMenu, pItem, i++);
     }
 }
 
@@ -132,12 +133,15 @@ void sw::Menu::ClearAddedItems()
         DestroyMenu(hMenu);
     }
 
+    this->_dependencyInfoMap.clear();
     this->_popupMenus.clear();
     this->_leaves.clear();
 }
 
-void sw::Menu::AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem)
+void sw::Menu::AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, int index)
 {
+    this->_dependencyInfoMap[pItem.get()] = {hMenu, NULL, index};
+
     if (pItem->IsSeparator()) {
         AppendMenuW(hMenu, MF_SEPARATOR, 0, NULL);
         return;
@@ -151,10 +155,12 @@ void sw::Menu::AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem)
 
     HMENU hSubMenu = CreatePopupMenu();
     this->_popupMenus.push_back(hSubMenu);
+    this->_dependencyInfoMap[pItem.get()].hSelf = hSubMenu;
     AppendMenuW(hMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(hSubMenu), pItem->text.c_str());
 
+    int i = 0;
     for (std::shared_ptr<MenuItem> pSubItem : pItem->subItems) {
-        this->AppendMenuItem(hSubMenu, pSubItem);
+        this->AppendMenuItem(hSubMenu, pSubItem, i++);
     }
 }
 

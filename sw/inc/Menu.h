@@ -3,6 +3,7 @@
 #include "MenuItem.h"
 #include <Windows.h>
 #include <initializer_list>
+#include <map>
 #include <memory>
 #include <vector>
 
@@ -10,6 +11,16 @@ namespace sw
 {
     class Menu
     {
+    private:
+        /**
+         * @brief 记录菜单项的依赖关系
+         */
+        struct _MenuItemDependencyInfo {
+            HMENU hParent; // 所在菜单的句柄
+            HMENU hSelf;   // 若本身含有子项，则此项为本身的菜单句柄，否则为NULL
+            int index;     // 所在菜单中的索引
+        };
+
     private:
         /**
          * @brief 菜单句柄
@@ -25,6 +36,11 @@ namespace sw
          * @brief 储存所有叶子节点，即可以被单击的菜单项，索引为其id
          */
         std::vector<std::shared_ptr<MenuItem>> _leaves;
+
+        /**
+         * @brief 记录菜单项直接依赖关系的map
+         */
+        std::map<MenuItem *, _MenuItemDependencyInfo> _dependencyInfoMap;
 
     public:
         /**
@@ -73,14 +89,14 @@ namespace sw
          * @brief      通过索引来获取菜单项
          * @param path 要找项所在下索引
          * @return     若函数成功则返回菜单项的指针，否则返回nullptr
-        */
+         */
         MenuItem *GetMenuItem(std::initializer_list<int> path);
 
         /**
          * @brief      通过菜单项的text来获取菜单项
          * @param path 每层要找的text
          * @return     若函数成功则返回菜单项的指针，否则返回nullptr
-        */
+         */
         MenuItem *GetMenuItem(std::initializer_list<std::wstring> path);
 
     private:
@@ -92,7 +108,7 @@ namespace sw
         /**
          * @brief 添加菜单项到指定句柄
          */
-        void AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem);
+        void AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, int index);
 
         /**
          * @brief 触发菜单项所绑定的回调函数
