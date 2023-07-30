@@ -186,6 +186,12 @@ namespace sw
         void SetIcon(HICON hIcon);
 
         /**
+         * @brief       设置菜单
+         * @param hMenu 菜单句柄
+        */
+        void SetMenu(HMENU hMenu);
+
+        /**
          * @brief  窗口是否显示为模态窗口
          * @return 当调用ShowDialog时该函数返回true，否则返回false
          */
