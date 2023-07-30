@@ -74,7 +74,7 @@ namespace sw
         HMENU GetHandle();
 
         /**
-         * @brief 更新菜单项
+         * @brief 更新菜单
          */
         void Update();
 
@@ -130,6 +130,14 @@ namespace sw
          * @return      修改是否成功
          */
         bool SetChecked(MenuItem &item, bool value);
+
+        /**
+         * @brief       设置菜单项文本
+         * @param item  要修改的菜单项
+         * @param value 设置的值
+         * @return      修改是否成功
+         */
+        bool SetText(MenuItem &item, const std::wstring &value);
 
     private:
         /**

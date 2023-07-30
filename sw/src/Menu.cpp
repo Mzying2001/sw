@@ -213,6 +213,28 @@ bool sw::Menu::SetChecked(MenuItem &item, bool value)
     return SetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info);
 }
 
+bool sw::Menu::SetText(MenuItem &item, const std::wstring &value)
+{
+    auto dependencyInfo = this->GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    MENUITEMINFOW info{};
+    info.cbSize     = sizeof(info);
+    info.fMask      = MIIM_STRING;
+    info.dwTypeData = const_cast<LPWSTR>(value.c_str());
+
+    bool success = SetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info);
+
+    if (success) {
+        item.text = value;
+    }
+
+    return success;
+}
+
 void sw::Menu::ClearAddedItems()
 {
     while (GetMenuItemCount(this->_hMenu) > 0) {
