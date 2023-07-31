@@ -176,6 +176,19 @@ sw::Window::Window()
           [&](const double &value) {
               this->_minHeight = value;
               this->Height     = this->Height;
+          }),
+
+      ShowMenu(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = GetMenu(this->Handle) != NULL;
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              HMENU hMenu = value ? this->Menu.GetHandle() : NULL;
+              SetMenu(this->Handle, hMenu);
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, NULL, NULL);
@@ -344,11 +357,6 @@ void sw::Window::SetIcon(HICON hIcon)
 {
     this->SendMessageW(WM_SETICON, ICON_BIG, (LPARAM)hIcon);
     this->SendMessageW(WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
-}
-
-void sw::Window::SetMenu(HMENU hMenu)
-{
-    ::SetMenu(this->Handle, hMenu);
 }
 
 bool sw::Window::IsModal()

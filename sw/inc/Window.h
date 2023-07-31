@@ -3,6 +3,7 @@
 #include "Color.h"
 #include "Cursor.h"
 #include "Layer.h"
+#include "Menu.h"
 #include "Screen.h"
 #include "UIElement.h"
 
@@ -49,6 +50,11 @@ namespace sw
         Window *_modalOwner = nullptr;
 
     public:
+        /**
+         * @brief 窗口的顶部菜单，可将ShowMenu属性设置为true以显示菜单
+         */
+        sw::Menu Menu;
+
         /**
          * @brief 窗口初次启动的位置
          */
@@ -113,6 +119,11 @@ namespace sw
          * @brief 最小高度，当值不大于0时表示不限制
          */
         const Property<double> MinHeight;
+
+        /**
+         * @brief 是否显示菜单
+         */
+        const Property<bool> ShowMenu;
 
     public:
         Window();
@@ -184,12 +195,6 @@ namespace sw
          * @param hIcon 图标句柄
          */
         void SetIcon(HICON hIcon);
-
-        /**
-         * @brief       设置菜单
-         * @param hMenu 菜单句柄
-        */
-        void SetMenu(HMENU hMenu);
 
         /**
          * @brief  窗口是否显示为模态窗口
