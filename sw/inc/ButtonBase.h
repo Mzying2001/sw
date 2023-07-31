@@ -16,9 +16,9 @@ namespace sw
         void InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle);
 
         /**
-         * @brief      接收到WM_ParentReceivedCommand消息时调用此函数
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
          * @param code 通知代码
          */
-        virtual void ParentReceivedCommand(int code) override;
+        virtual void OnCommand(int code) override;
     };
 }

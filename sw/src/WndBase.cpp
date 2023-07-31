@@ -546,11 +546,6 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return 0;
         }
 
-        case WM_ParentReceivedCommand: {
-            this->ParentReceivedCommand(HIWORD(refMsg.wParam));
-            return 0;
-        }
-
         case WM_CTLCOLORBTN:
         case WM_CTLCOLOREDIT:
         case WM_CTLCOLORDLG:
@@ -766,7 +761,7 @@ void sw::WndBase::OnCommand(WPARAM wParam, LPARAM lParam)
 {
     if (lParam != NULL) {
         // 接收到控件消息
-        ::SendMessageW((HWND)lParam, WM_ParentReceivedCommand, wParam, lParam);
+        this->OnControlCommand((HWND)lParam, HIWORD(wParam), LOWORD(wParam));
     } else {
         // 接收到菜单或快捷键消息
         int id = LOWORD(wParam);
@@ -774,15 +769,21 @@ void sw::WndBase::OnCommand(WPARAM wParam, LPARAM lParam)
     }
 }
 
+void sw::WndBase::OnCommand(int code)
+{
+}
+
+void sw::WndBase::OnControlCommand(HWND hControl, int code, int id)
+{
+    WndBase *pControl = WndBase::GetWndBase(hControl);
+    if (pControl) pControl->OnCommand(code);
+}
+
 void sw::WndBase::OnMenuCommand(int id)
 {
 }
 
 void sw::WndBase::OnAcceleratorCommand(int id)
-{
-}
-
-void sw::WndBase::ParentReceivedCommand(int code)
 {
 }
 

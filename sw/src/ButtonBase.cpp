@@ -9,7 +9,7 @@ void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle)
     this->InitControl(L"BUTTON", lpWindowName, dwStyle);
 }
 
-void sw::ButtonBase::ParentReceivedCommand(int code)
+void sw::ButtonBase::OnCommand(int code)
 {
     switch (code) {
         case BN_CLICKED:
