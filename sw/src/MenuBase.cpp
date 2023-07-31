@@ -133,6 +133,23 @@ sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<std::wstring> path
     return result;
 }
 
+sw::MenuItem *sw::MenuBase::GetParent(MenuItem &item)
+{
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return nullptr;
+    }
+
+    for (auto &tuple : this->_popupMenus) {
+        if (std::get<1>(tuple) == dependencyInfo->hParent) {
+            return std::get<0>(tuple).get();
+        }
+    }
+
+    return nullptr;
+}
+
 bool sw::MenuBase::GetEnabled(MenuItem &item, bool &out)
 {
     auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
@@ -251,8 +268,8 @@ void sw::MenuBase::_ClearAddedItems()
         RemoveMenu(this->_hMenu, 0, MF_BYPOSITION);
     }
 
-    for (HMENU hMenu : this->_popupMenus) {
-        DestroyMenu(hMenu);
+    for (auto &tuple : this->_popupMenus) {
+        DestroyMenu(std::get<1>(tuple));
     }
 
     this->_dependencyInfoMap.clear();
@@ -277,7 +294,7 @@ void sw::MenuBase::_AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem,
     }
 
     HMENU hSubMenu = CreatePopupMenu();
-    this->_popupMenus.push_back(hSubMenu);
+    this->_popupMenus.push_back({pItem, hSubMenu});
     this->_dependencyInfoMap[pItem.get()].hSelf = hSubMenu;
     AppendMenuW(hMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(hSubMenu), pItem->text.c_str());
 

@@ -5,6 +5,7 @@
 #include <initializer_list>
 #include <map>
 #include <memory>
+#include <tuple>
 #include <vector>
 
 namespace sw
@@ -30,7 +31,7 @@ namespace sw
         /**
          * @brief 储存所有子项菜单句柄
          */
-        std::vector<HMENU> _popupMenus;
+        std::vector<std::tuple<std::shared_ptr<MenuItem>, HMENU>> _popupMenus;
 
         /**
          * @brief 储存所有叶子节点，即可以被单击的菜单项，索引为其id
@@ -103,6 +104,13 @@ namespace sw
          * @return     若函数成功则返回菜单项的指针，否则返回nullptr
          */
         MenuItem *GetMenuItem(std::initializer_list<std::wstring> path);
+
+        /**
+         * @brief      获取当前菜单中指定菜单项的直接父菜单项
+         * @param item 要查询的子菜单项
+         * @return     若函数成功则返回指向直接父菜单项的指针，否则返回nullptr
+         */
+        MenuItem *GetParent(MenuItem &item);
 
         /**
          * @brief      获取一个值，表示菜单项是否可用
