@@ -18,6 +18,13 @@ sw::MenuBase::~MenuBase()
     DestroyMenu(this->_hMenu);
 }
 
+sw::MenuBase &sw::MenuBase::operator=(const MenuBase &menu)
+{
+    this->items = menu.items;
+    this->Update();
+    return *this;
+}
+
 HMENU sw::MenuBase::GetHandle()
 {
     return this->_hMenu;

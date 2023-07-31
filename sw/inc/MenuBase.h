@@ -64,6 +64,11 @@ namespace sw
         ~MenuBase();
 
         /**
+         * @brief 重载拷贝赋值运算
+         */
+        MenuBase &operator=(const MenuBase &menu);
+
+        /**
          * @brief 获取菜单句柄
          */
         HMENU GetHandle();
