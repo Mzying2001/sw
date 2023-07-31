@@ -143,19 +143,19 @@ namespace sw
         /**
          * @brief 清除已添加的所有菜单项
          */
-        void ClearAddedItems();
+        void _ClearAddedItems();
 
         /**
          * @brief 添加菜单项到指定句柄
          */
-        void AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, int index);
+        void _AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, int index);
 
         /**
          * @brief      获取菜单项的依赖信息
          * @param item 要获取信息的菜单项
          * @return     若函数成功则返回指向_MenuItemDependencyInfo的指针，否则返回nullptr
          */
-        _MenuItemDependencyInfo *GetMenuItemDependencyInfo(MenuItem &item);
+        _MenuItemDependencyInfo *_GetMenuItemDependencyInfo(MenuItem &item);
 
     protected:
         /**

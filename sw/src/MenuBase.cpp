@@ -14,7 +14,7 @@ sw::MenuBase::MenuBase(const MenuBase &menu)
 
 sw::MenuBase::~MenuBase()
 {
-    this->ClearAddedItems();
+    this->_ClearAddedItems();
     DestroyMenu(this->_hMenu);
 }
 
@@ -25,7 +25,7 @@ HMENU sw::MenuBase::GetHandle()
 
 void sw::MenuBase::SetItems(std::initializer_list<MenuItem> items)
 {
-    this->ClearAddedItems();
+    this->_ClearAddedItems();
 
     for (const MenuItem &item : items) {
         std::shared_ptr<MenuItem> pItem = std::make_shared<MenuItem>(item);
@@ -37,12 +37,12 @@ void sw::MenuBase::SetItems(std::initializer_list<MenuItem> items)
 
 void sw::MenuBase::Update()
 {
-    this->ClearAddedItems();
+    this->_ClearAddedItems();
 
     int i = 0;
     for (std::shared_ptr<MenuItem> pItem : this->items) {
         if (!pItem->IsSeparator())
-            this->AppendMenuItem(this->_hMenu, pItem, i++);
+            this->_AppendMenuItem(this->_hMenu, pItem, i++);
     }
 }
 
@@ -128,7 +128,7 @@ sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<std::wstring> path
 
 bool sw::MenuBase::GetEnabled(MenuItem &item, bool &out)
 {
-    auto dependencyInfo = this->GetMenuItemDependencyInfo(item);
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
 
     if (dependencyInfo == nullptr) {
         return false;
@@ -148,7 +148,7 @@ bool sw::MenuBase::GetEnabled(MenuItem &item, bool &out)
 
 bool sw::MenuBase::SetEnabled(MenuItem &item, bool value)
 {
-    auto dependencyInfo = this->GetMenuItemDependencyInfo(item);
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
 
     if (dependencyInfo == nullptr) {
         return false;
@@ -173,7 +173,7 @@ bool sw::MenuBase::SetEnabled(MenuItem &item, bool value)
 
 bool sw::MenuBase::GetChecked(MenuItem &item, bool &out)
 {
-    auto dependencyInfo = this->GetMenuItemDependencyInfo(item);
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
 
     if (dependencyInfo == nullptr) {
         return false;
@@ -193,7 +193,7 @@ bool sw::MenuBase::GetChecked(MenuItem &item, bool &out)
 
 bool sw::MenuBase::SetChecked(MenuItem &item, bool value)
 {
-    auto dependencyInfo = this->GetMenuItemDependencyInfo(item);
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
 
     if (dependencyInfo == nullptr) {
         return false;
@@ -218,7 +218,7 @@ bool sw::MenuBase::SetChecked(MenuItem &item, bool value)
 
 bool sw::MenuBase::SetText(MenuItem &item, const std::wstring &value)
 {
-    auto dependencyInfo = this->GetMenuItemDependencyInfo(item);
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
 
     if (dependencyInfo == nullptr) {
         return false;
@@ -238,7 +238,7 @@ bool sw::MenuBase::SetText(MenuItem &item, const std::wstring &value)
     return success;
 }
 
-void sw::MenuBase::ClearAddedItems()
+void sw::MenuBase::_ClearAddedItems()
 {
     while (GetMenuItemCount(this->_hMenu) > 0) {
         RemoveMenu(this->_hMenu, 0, MF_BYPOSITION);
@@ -253,7 +253,7 @@ void sw::MenuBase::ClearAddedItems()
     this->_leaves.clear();
 }
 
-void sw::MenuBase::AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, int index)
+void sw::MenuBase::_AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, int index)
 {
     this->_dependencyInfoMap[pItem.get()] = {hMenu, NULL, index};
 
@@ -276,11 +276,11 @@ void sw::MenuBase::AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, 
 
     int i = 0;
     for (std::shared_ptr<MenuItem> pSubItem : pItem->subItems) {
-        this->AppendMenuItem(hSubMenu, pSubItem, i++);
+        this->_AppendMenuItem(hSubMenu, pSubItem, i++);
     }
 }
 
-sw::MenuBase::_MenuItemDependencyInfo *sw::MenuBase::GetMenuItemDependencyInfo(MenuItem &item)
+sw::MenuBase::_MenuItemDependencyInfo *sw::MenuBase::_GetMenuItemDependencyInfo(MenuItem &item)
 {
     MenuItem *p = &item;
     return this->_dependencyInfoMap.count(p) ? &this->_dependencyInfoMap[p] : nullptr;
