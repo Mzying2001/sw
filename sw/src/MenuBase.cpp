@@ -280,12 +280,6 @@ void sw::MenuBase::AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, 
     }
 }
 
-void sw::MenuBase::RaiseMenuItemCommand(MenuItem &item)
-{
-    if (item.command)
-        item.command(item);
-}
-
 sw::MenuBase::_MenuItemDependencyInfo *sw::MenuBase::GetMenuItemDependencyInfo(MenuItem &item)
 {
     MenuItem *p = &item;

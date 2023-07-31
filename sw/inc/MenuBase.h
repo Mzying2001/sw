@@ -151,11 +151,6 @@ namespace sw
         void AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, int index);
 
         /**
-         * @brief 触发菜单项所绑定的回调函数
-         */
-        void RaiseMenuItemCommand(MenuItem &item);
-
-        /**
          * @brief      获取菜单项的依赖信息
          * @param item 要获取信息的菜单项
          * @return     若函数成功则返回指向_MenuItemDependencyInfo的指针，否则返回nullptr

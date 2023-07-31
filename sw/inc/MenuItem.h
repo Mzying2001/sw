@@ -51,5 +51,10 @@ namespace sw
          * @brief 获取一个值，表示当前菜单项是否为分隔条
          */
         bool IsSeparator() const;
+
+        /**
+         * @brief 调用command
+         */
+        void CallCommand();
     };
 }

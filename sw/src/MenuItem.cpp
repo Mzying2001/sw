@@ -24,3 +24,9 @@ bool sw::MenuItem::IsSeparator() const
 {
     return this->text == L"-";
 }
+
+void sw::MenuItem::CallCommand()
+{
+    if (this->command)
+        this->command(*this);
+}
