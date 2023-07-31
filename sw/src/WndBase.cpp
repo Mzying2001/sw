@@ -768,9 +768,18 @@ void sw::WndBase::OnCommand(WPARAM wParam, LPARAM lParam)
         // 接收到控件消息
         ::SendMessageW((HWND)lParam, WM_ParentReceivedCommand, wParam, lParam);
     } else {
-        // Menu / Accelerator
-        // ...
+        // 接收到菜单或快捷键消息
+        int id = LOWORD(wParam);
+        HIWORD(wParam) ? this->OnAcceleratorCommand(id) : this->OnMenuCommand(id);
     }
+}
+
+void sw::WndBase::OnMenuCommand(int id)
+{
+}
+
+void sw::WndBase::OnAcceleratorCommand(int id)
+{
 }
 
 void sw::WndBase::ParentReceivedCommand(int code)

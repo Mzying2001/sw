@@ -485,6 +485,18 @@ namespace sw
         virtual void OnCommand(WPARAM wParam, LPARAM lParam);
 
         /**
+         * @brief    当OnCommand接收到菜单命令时调用该函数
+         * @param id 菜单id
+         */
+        virtual void OnMenuCommand(int id);
+
+        /**
+         * @brief    当OnCommand接收到快捷键命令时调用该函数
+         * @param id 快捷键id
+         */
+        virtual void OnAcceleratorCommand(int id);
+
+        /**
          * @brief      接收到WM_ParentReceivedCommand消息时调用此函数
          * @param code 通知代码
          */
