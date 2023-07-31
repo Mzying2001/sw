@@ -317,6 +317,12 @@ bool sw::Window::OnMouseMove(Point mousePosition, MouseKey keyState)
     return this->UIElement::OnMouseMove(mousePosition, keyState);
 }
 
+void sw::Window::OnMenuCommand(int id)
+{
+    MenuItem *item = this->Menu.GetMenuItem(id);
+    if (item) item->CallCommand();
+}
+
 void sw::Window::Show()
 {
     this->WndBase::Show(SW_SHOW);

@@ -166,6 +166,12 @@ namespace sw
          */
         virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
 
+        /**
+         * @brief    当OnCommand接收到菜单命令时调用该函数
+         * @param id 菜单id
+         */
+        virtual void OnMenuCommand(int id) override;
+
     public:
         /**
          * @brief 显示窗口
