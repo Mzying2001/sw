@@ -5,10 +5,12 @@
 #include <string>
 #include <cstdint>
 #include <iostream>
-#include <functional>
 #include <initializer_list>
 #include <map>
+#include <memory>
+#include <tuple>
 #include <vector>
+#include <functional>
 #include <sstream>
 #include <windowsx.h>
 
@@ -839,6 +841,61 @@ namespace sw
     };
 }
 
+// MenuItem.h
+
+
+namespace sw
+{
+    class MenuItem
+    {
+    public:
+        /**
+         * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
+         */
+        std::wstring text;
+
+        /**
+         * @brief 子项
+         */
+        std::vector<std::shared_ptr<MenuItem>> subItems;
+
+        /**
+         * @brief 菜单项被单击时调用的函数
+         */
+        std::function<void(MenuItem &)> command;
+
+        /**
+         * @brief      构造一个MenuItem，并设置文本
+         * @param text 菜单项的文本
+         */
+        MenuItem(const std::wstring &text);
+
+        /**
+         * @brief          构造一个MenuItem，并设置其子项
+         * @param text     菜单下的文本
+         * @param subItems 子项列表
+         */
+        MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
+
+        /**
+         * @brief         构造一个MenuItem，并设置其回调函数
+         * @param text    菜单项的文本
+         * @param command 被单击时调用的函数
+         */
+        MenuItem(const std::wstring &text, const decltype(command) &command);
+
+        /**
+         * @brief 获取一个值，表示当前菜单项是否为分隔条
+         */
+        bool IsSeparator() const;
+
+        /**
+         * @brief 调用command
+         */
+        void CallCommand();
+    };
+}
+
 // Path.h
 
 
@@ -875,7 +932,7 @@ namespace sw
          * @brief      获取文件所在路径
          * @param path 文件的路径
          * @return     文件所在路径
-        */
+         */
         static std::wstring GetDirectory(const std::wstring &path);
 
         /**
@@ -884,6 +941,13 @@ namespace sw
          * @return      完整的路径
          */
         static std::wstring Combine(std::initializer_list<std::wstring> paths);
+
+        /**
+         * @brief       获取路径所对应的绝对路径
+         * @param paths 要转换的路径
+         * @return      若函数成功则返回绝对路径，否则返回空字符串
+         */
+        static std::wstring GetAbsolutePath(const std::wstring &path);
     };
 }
 
@@ -1407,11 +1471,6 @@ namespace sw
          * @brief 控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用
          */
         WM_UpdateLayout,
-
-        /**
-         * @brief 父窗口接收到WM_COMMAND时向控件发该消息，wParam和lParam按原样发回
-         */
-        WM_ParentReceivedCommand,
     };
 }
 
@@ -1420,6 +1479,17 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 程序退出消息循环的方式
+     */
+    enum class AppQuitMode {
+        Auto,   // 当所有窗口都销毁时自动退出消息循环
+        Manual, // 需手动调用QuitMsgLoop以退出消息循环
+    };
+
+    /**
+     * @brief App类
+     */
     class App
     {
     private:
@@ -1447,16 +1517,21 @@ namespace sw
         static const Property<std::wstring> CurrentDirectory;
 
         /**
+         * @brief 程序退出消息循环的方式
+         */
+        static const Property<AppQuitMode> QuitMode;
+
+        /**
          * @brief  消息循环
          * @return 退出代码
          */
         static int MsgLoop();
 
         /**
-         * @brief          退出程序
+         * @brief          退出当前消息循环
          * @param exitCode 退出代码
          */
-        static void Quit(int exitCode = 0);
+        static void QuitMsgLoop(int exitCode = 0);
 
     private:
         /**
@@ -1541,6 +1616,220 @@ namespace sw
          * @param finalPosition 最终控件所安排的位置
          */
         virtual void Arrange(const Rect &finalPosition) = 0;
+    };
+}
+
+// MenuBase.h
+
+
+namespace sw
+{
+    class MenuBase
+    {
+    private:
+        /**
+         * @brief 记录菜单项的依赖关系
+         */
+        struct _MenuItemDependencyInfo {
+            HMENU hParent; // 所在菜单的句柄
+            HMENU hSelf;   // 若本身含有子项，则此项为本身的菜单句柄，否则为NULL
+            int index;     // 所在菜单中的索引
+        };
+
+    private:
+        /**
+         * @brief 菜单句柄
+         */
+        HMENU _hMenu;
+
+        /**
+         * @brief 储存所有子项菜单句柄
+         */
+        std::vector<std::tuple<std::shared_ptr<MenuItem>, HMENU>> _popupMenus;
+
+        /**
+         * @brief 储存所有叶子节点，即可以被单击的菜单项，索引为其id
+         */
+        std::vector<std::shared_ptr<MenuItem>> _leaves;
+
+        /**
+         * @brief 记录菜单项直接依赖关系的map
+         */
+        std::map<MenuItem *, _MenuItemDependencyInfo> _dependencyInfoMap;
+
+    public:
+        /**
+         * @brief 菜单项集合
+         */
+        std::vector<std::shared_ptr<MenuItem>> items;
+
+        /**
+         * @brief 初始化菜单
+         */
+        MenuBase();
+
+        /**
+         * @brief 重载拷贝构造
+         */
+        MenuBase(const MenuBase &menu);
+
+        /**
+         * @brief 释放资源
+         */
+        ~MenuBase();
+
+        /**
+         * @brief 重载拷贝赋值运算
+         */
+        MenuBase &operator=(const MenuBase &menu);
+
+        /**
+         * @brief 获取菜单句柄
+         */
+        HMENU GetHandle();
+
+        /**
+         * @brief 更新菜单
+         */
+        void Update();
+
+        /**
+         * @brief 初始化菜单并添加菜单项
+         */
+        void SetItems(std::initializer_list<MenuItem> items);
+
+        /**
+         * @brief          重新设置当前菜单中某个菜单项的子项
+         * @param item     要修改的菜单项，当该项原先不含有子项时将会调用Update更新整个菜单
+         * @param subItems 新的子项列表
+         * @return         返回一个bool值，表示操作是否成功
+         */
+        bool SetSubItems(MenuItem &item, std::initializer_list<MenuItem> subItems);
+
+        /**
+         * @brief      添加新的菜单项到菜单
+         * @param item 新的菜单项
+         */
+        void AddItem(const MenuItem &item);
+
+        /**
+         * @brief         像当前菜单中的某个菜单项添加新的子项
+         * @param item    要添加子项的菜单项，当该项原本不含有子项时将会调用Update更新整个菜单
+         * @param subItem 要添加的子菜单项
+         * @return        返回一个bool值，表示操作是否成功
+         */
+        bool AddSubItem(MenuItem &item, const MenuItem &subItem);
+
+        /**
+         * @brief      移除当前菜单中的某个子项
+         * @param item 要移除的菜单项
+         * @return     返回一个bool值，表示操作是否成功
+        */
+        bool RemoveItem(MenuItem &item);
+
+        /**
+         * @brief    通过id获取菜单项
+         * @param id 要获取菜单项的id
+         * @return   若函数成功则返回菜单项的指针，否则返回nullptr
+         */
+        MenuItem *GetMenuItem(int id);
+
+        /**
+         * @brief      通过索引来获取菜单项
+         * @param path 要找项所在下索引
+         * @return     若函数成功则返回菜单项的指针，否则返回nullptr
+         */
+        MenuItem *GetMenuItem(std::initializer_list<int> path);
+
+        /**
+         * @brief      通过菜单项的text来获取菜单项
+         * @param path 每层要找的text
+         * @return     若函数成功则返回菜单项的指针，否则返回nullptr
+         */
+        MenuItem *GetMenuItem(std::initializer_list<std::wstring> path);
+
+        /**
+         * @brief      获取当前菜单中指定菜单项的直接父菜单项
+         * @param item 要查询的子菜单项
+         * @return     若函数成功则返回指向直接父菜单项的指针，否则返回nullptr
+         */
+        MenuItem *GetParent(MenuItem &item);
+
+        /**
+         * @brief      获取一个值，表示菜单项是否可用
+         * @param item 要获取的菜单项
+         * @param out  输出值
+         * @return     函数是否成功
+         */
+        bool GetEnabled(MenuItem &item, bool &out);
+
+        /**
+         * @brief       设置菜单项是否可用
+         * @param item  要修改的菜单项
+         * @param value 设置的值
+         * @return      修改是否成功
+         */
+        bool SetEnabled(MenuItem &item, bool value);
+
+        /**
+         * @brief      获取一个值，表示菜单项是否选中
+         * @param item 要获取的菜单项
+         * @param out  输出值
+         * @return     函数是否成功
+         */
+        bool GetChecked(MenuItem &item, bool &out);
+
+        /**
+         * @brief       设置菜单项是否选中
+         * @param item  要修改的菜单项
+         * @param value 设置的值
+         * @return      修改是否成功
+         */
+        bool SetChecked(MenuItem &item, bool value);
+
+        /**
+         * @brief       设置菜单项文本
+         * @param item  要修改的菜单项
+         * @param value 设置的值
+         * @return      修改是否成功
+         */
+        bool SetText(MenuItem &item, const std::wstring &value);
+
+    private:
+        /**
+         * @brief 清除已添加的所有菜单项
+         */
+        void _ClearAddedItems();
+
+        /**
+         * @brief       添加菜单项到指定句柄
+         * @param hMenu 要添加子项的菜单句柄
+         * @param pItem 要添加的菜单项
+         * @param index 菜单项在父菜单中的索引
+         */
+        void _AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, int index);
+
+        /**
+         * @brief      获取菜单项的依赖信息
+         * @param item 要获取信息的菜单项
+         * @return     若函数成功则返回指向_MenuItemDependencyInfo的指针，否则返回nullptr
+         */
+        _MenuItemDependencyInfo *_GetMenuItemDependencyInfo(MenuItem &item);
+
+    protected:
+        /**
+         * @brief       根据索引获取ID
+         * @param index 索引
+         * @return      菜单项的ID
+         */
+        virtual int IndexToID(int index) = 0;
+
+        /**
+         * @brief    根据ID获取索引
+         * @param id 菜单项的ID
+         * @return   索引
+         */
+        virtual int IDToIndex(int id) = 0;
     };
 }
 
@@ -1741,6 +2030,41 @@ namespace sw
          * @brief 重写此函数安排控件
          */
         virtual void ArrangeOverride(Size &finalSize) = 0;
+    };
+}
+
+// Menu.h
+
+
+namespace sw
+{
+    class Menu : public MenuBase
+    {
+    public:
+        /**
+         * @brief 初始化菜单
+         */
+        Menu();
+
+        /**
+         * @brief 初始化菜单并设置菜单项
+         */
+        Menu(std::initializer_list<MenuItem> items);
+
+    protected:
+        /**
+         * @brief       根据索引获取ID
+         * @param index 索引
+         * @return      菜单项的ID
+         */
+        virtual int IndexToID(int index) override;
+
+        /**
+         * @brief    根据ID获取索引
+         * @param id 菜单项的ID
+         * @return   索引
+         */
+        virtual int IDToIndex(int id) override;
     };
 }
 
@@ -2217,10 +2541,30 @@ namespace sw
         virtual void OnCommand(WPARAM wParam, LPARAM lParam);
 
         /**
-         * @brief      接收到WM_ParentReceivedCommand消息时调用此函数
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
          * @param code 通知代码
          */
-        virtual void ParentReceivedCommand(int code);
+        virtual void OnCommand(int code);
+
+        /**
+         * @brief          当WM_COMMAND接收到控件命令时调用该函数
+         * @param hControl 控件的窗口句柄
+         * @param code     通知代码
+         * @param id       控件id
+         */
+        virtual void OnControlCommand(HWND hControl, int code, int id);
+
+        /**
+         * @brief    当WM_COMMAND接收到菜单命令时调用该函数
+         * @param id 菜单id
+         */
+        virtual void OnMenuCommand(int id);
+
+        /**
+         * @brief    当WM_COMMAND接收到快捷键命令时调用该函数
+         * @param id 快捷键id
+         */
+        virtual void OnAcceleratorCommand(int id);
 
         /**
          * @brief      窗口句柄初始化完成
@@ -2266,9 +2610,10 @@ namespace sw
         void UpdateFont();
 
         /**
-         * @brief 重画
+         * @brief       重画
+         * @param erase 是否擦除旧的背景
          */
-        void Redraw();
+        void Redraw(bool erase = false);
 
         /**
          * @brief 判断当前对象是否是控件
@@ -3234,10 +3579,10 @@ namespace sw
         void InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle);
 
         /**
-         * @brief      接收到WM_ParentReceivedCommand消息时调用此函数
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
          * @param code 通知代码
          */
-        virtual void ParentReceivedCommand(int code) override;
+        virtual void OnCommand(int code) override;
     };
 }
 
@@ -3384,6 +3729,7 @@ namespace sw
     enum class WindowStartupLocation {
         Manual,       // 使用系统默认或手动设置
         CenterScreen, // 屏幕中心
+        CenterOwner,  // 所有者窗口中心，只在ShowDialog时有效
     };
 
     class Window : virtual public UIElement, public Layer
@@ -3409,11 +3755,16 @@ namespace sw
          */
         HCURSOR _hCursor;
 
+        /**
+         * @brief 以模态窗口显示时保存所有者窗口，非模态时该值始终为nullptr
+         */
+        Window *_modalOwner = nullptr;
+
     public:
         /**
-         * @brief 是否在关闭所有窗口后退出程序
+         * @brief 窗口的顶部菜单，可将ShowMenu属性设置为true以显示菜单
          */
-        static bool PostQuitWhenAllClosed;
+        sw::Menu Menu;
 
         /**
          * @brief 窗口初次启动的位置
@@ -3480,6 +3831,11 @@ namespace sw
          */
         const Property<double> MinHeight;
 
+        /**
+         * @brief 是否显示菜单
+         */
+        const Property<bool> ShowMenu;
+
     public:
         Window();
 
@@ -3521,11 +3877,23 @@ namespace sw
          */
         virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
 
+        /**
+         * @brief    当OnCommand接收到菜单命令时调用该函数
+         * @param id 菜单id
+         */
+        virtual void OnMenuCommand(int id) override;
+
     public:
         /**
          * @brief 显示窗口
          */
         void Show();
+
+        /**
+         * @brief       将窗体显示为模式对话框
+         * @param owner 窗体的所有者，窗体显示期间该窗体的Enabled属性将被设为false，该参数不能设为自己
+         */
+        void ShowDialog(Window &owner);
 
         /**
          * @brief         设置鼠标样式
@@ -3544,6 +3912,17 @@ namespace sw
          * @param hIcon 图标句柄
          */
         void SetIcon(HICON hIcon);
+
+        /**
+         * @brief 重回窗口的菜单栏
+         */
+        void DrawMenuBar();
+
+        /**
+         * @brief  窗口是否显示为模态窗口
+         * @return 当调用ShowDialog时该函数返回true，否则返回false
+         */
+        bool IsModal();
 
         /**
          * @brief               测量控件所需尺寸
@@ -3653,3 +4032,8 @@ namespace sw
 
 // 包含SimpleWindow所有头文件
 
+
+// 启用视觉样式
+#pragma comment(linker, "\"/manifestdependency:type='win32' \
+name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
+processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")

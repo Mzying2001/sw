@@ -29,6 +29,13 @@ void sw::AbsoluteLayout::ArrangeOverride(Size &finalSize)
 
 // App.cpp
 
+/**
+ * @brief 储存App::QuitMode的变量，默认为Auto
+ */
+static sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
+
+/*================================================================================*/
+
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     []() -> const HINSTANCE & {
         static HINSTANCE hInstance = GetModuleHandleW(NULL);
@@ -63,6 +70,17 @@ const sw::Property<std::wstring> sw::App::CurrentDirectory(
     } //
 );
 
+const sw::Property<sw::AppQuitMode> sw::App::QuitMode(
+    // get
+    []() -> const sw::AppQuitMode & {
+        return _appQuitMode;
+    },
+    // set
+    [](const sw::AppQuitMode &value) {
+        _appQuitMode = value;
+    } //
+);
+
 int sw::App::MsgLoop()
 {
     MSG msg{};
@@ -73,10 +91,12 @@ int sw::App::MsgLoop()
     return (int)msg.wParam;
 }
 
-void sw::App::Quit(int exitCode)
+void sw::App::QuitMsgLoop(int exitCode)
 {
     PostQuitMessage(exitCode);
 }
+
+/*================================================================================*/
 
 std::wstring sw::App::_GetExePath()
 {
@@ -174,7 +194,7 @@ void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle)
     this->InitControl(L"BUTTON", lpWindowName, dwStyle);
 }
 
-void sw::ButtonBase::ParentReceivedCommand(int code)
+void sw::ButtonBase::OnCommand(int code)
 {
     switch (code) {
         case BN_CLICKED:
@@ -988,6 +1008,472 @@ void sw::LayoutHost::Arrange(const Rect &finalPosition)
     this->ArrangeOverride(size);
 }
 
+// Menu.cpp
+
+sw::Menu::Menu()
+    : MenuBase()
+{
+}
+
+sw::Menu::Menu(std::initializer_list<MenuItem> items)
+    : MenuBase()
+{
+    this->SetItems(items);
+}
+
+int sw::Menu::IndexToID(int index)
+{
+    return index;
+}
+
+int sw::Menu::IDToIndex(int id)
+{
+    return id;
+}
+
+// MenuBase.cpp
+
+sw::MenuBase::MenuBase()
+{
+    this->_hMenu = CreateMenu();
+}
+
+sw::MenuBase::MenuBase(const MenuBase &menu)
+    : MenuBase()
+{
+    this->items = menu.items;
+    this->Update();
+}
+
+sw::MenuBase::~MenuBase()
+{
+    this->_ClearAddedItems();
+    DestroyMenu(this->_hMenu);
+}
+
+sw::MenuBase &sw::MenuBase::operator=(const MenuBase &menu)
+{
+    this->items = menu.items;
+    this->Update();
+    return *this;
+}
+
+HMENU sw::MenuBase::GetHandle()
+{
+    return this->_hMenu;
+}
+
+void sw::MenuBase::Update()
+{
+    this->_ClearAddedItems();
+
+    int i = 0;
+    for (std::shared_ptr<MenuItem> pItem : this->items) {
+        if (!pItem->IsSeparator())
+            this->_AppendMenuItem(this->_hMenu, pItem, i++);
+    }
+}
+
+void sw::MenuBase::SetItems(std::initializer_list<MenuItem> items)
+{
+    this->_ClearAddedItems();
+
+    for (const MenuItem &item : items) {
+        std::shared_ptr<MenuItem> pItem = std::make_shared<MenuItem>(item);
+        this->items.push_back(pItem);
+    }
+
+    this->Update();
+}
+
+bool sw::MenuBase::SetSubItems(MenuItem &item, std::initializer_list<MenuItem> subItems)
+{
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    if (dependencyInfo->hSelf == NULL) {
+        item = MenuItem(item.text, subItems);
+        this->Update();
+        return true;
+    }
+
+    while (GetMenuItemCount(dependencyInfo->hSelf) > 0) {
+        RemoveMenu(dependencyInfo->hSelf, 0, MF_BYPOSITION);
+    }
+
+    item.subItems.clear();
+
+    int i = 0;
+    for (const MenuItem &subItem : subItems) {
+        std::shared_ptr<MenuItem> pSubItem(new MenuItem(subItem));
+        item.subItems.push_back(pSubItem);
+        this->_AppendMenuItem(dependencyInfo->hSelf, pSubItem, i++);
+    }
+
+    return true;
+}
+
+void sw::MenuBase::AddItem(const MenuItem &item)
+{
+    std::shared_ptr<MenuItem> pItem(new MenuItem(item));
+    this->_AppendMenuItem(this->_hMenu, pItem, (int)this->items.size());
+    this->items.push_back(pItem);
+}
+
+bool sw::MenuBase::AddSubItem(MenuItem &item, const MenuItem &subItem)
+{
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    if (dependencyInfo->hSelf == NULL) {
+        item.subItems.emplace_back(new MenuItem(subItem));
+        this->Update();
+        return true;
+    }
+
+    std::shared_ptr<MenuItem> pSubItem(new MenuItem(subItem));
+    this->_AppendMenuItem(dependencyInfo->hSelf, pSubItem, (int)item.subItems.size());
+    item.subItems.push_back(pSubItem);
+    return true;
+}
+
+bool sw::MenuBase::RemoveItem(MenuItem &item)
+{
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    if (dependencyInfo->hParent == this->_hMenu) {
+
+        int index = dependencyInfo->index;
+        RemoveMenu(dependencyInfo->hParent, index, MF_BYPOSITION);
+
+        this->_dependencyInfoMap.erase(&item);
+        this->items.erase(this->items.begin() + index);
+
+        for (int i = index; i < this->items.size(); ++i) {
+            this->_dependencyInfoMap[this->items[i].get()].index -= 1;
+        }
+
+    } else {
+
+        MenuItem *parent = this->GetParent(item);
+        if (parent == nullptr) {
+            return false;
+        }
+
+        int index = dependencyInfo->index;
+        RemoveMenu(dependencyInfo->hParent, index, MF_BYPOSITION);
+
+        this->_dependencyInfoMap.erase(&item);
+        parent->subItems.erase(parent->subItems.begin() + index);
+
+        for (int i = index; i < parent->subItems.size(); ++i) {
+            this->_dependencyInfoMap[parent->subItems[i].get()].index -= 1;
+        }
+    }
+
+    return true;
+}
+
+sw::MenuItem *sw::MenuBase::GetMenuItem(int id)
+{
+    int index = this->IDToIndex(id);
+    return index >= 0 && index < this->_leaves.size() ? this->_leaves[index].get() : nullptr;
+}
+
+sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<int> path)
+{
+    MenuItem *result = nullptr;
+
+    std::initializer_list<int>::iterator it  = path.begin();
+    std::initializer_list<int>::iterator end = path.end();
+
+    if (it == end) {
+        return nullptr;
+    }
+
+    int index = *it++;
+
+    if (index < 0 || index >= this->items.size()) {
+        return nullptr;
+    }
+
+    result = this->items[index].get();
+
+    while (it != end) {
+        index = *it++;
+        if (index < 0 || index >= result->subItems.size()) {
+            return nullptr;
+        }
+        result = result->subItems[index].get();
+    }
+
+    return result;
+}
+
+sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<std::wstring> path)
+{
+    MenuItem *result = nullptr;
+
+    std::initializer_list<std::wstring>::iterator it  = path.begin();
+    std::initializer_list<std::wstring>::iterator end = path.end();
+
+    if (it == end) {
+        return nullptr;
+    }
+
+    for (std::shared_ptr<MenuItem> pItem : this->items) {
+        if (pItem->text == *it) {
+            result = pItem.get();
+            ++it;
+            break;
+        }
+    }
+
+    if (result == nullptr) {
+        return nullptr;
+    }
+
+    while (it != end) {
+        MenuItem *p = nullptr;
+
+        for (std::shared_ptr<MenuItem> pItem : result->subItems) {
+            if (pItem->text == *it) {
+                p = pItem.get();
+                ++it;
+                break;
+            }
+        }
+
+        if (p == nullptr) {
+            return nullptr;
+        }
+
+        result = p;
+    }
+
+    return result;
+}
+
+sw::MenuItem *sw::MenuBase::GetParent(MenuItem &item)
+{
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return nullptr;
+    }
+
+    for (auto &tuple : this->_popupMenus) {
+        if (std::get<1>(tuple) == dependencyInfo->hParent) {
+            return std::get<0>(tuple).get();
+        }
+    }
+
+    return nullptr;
+}
+
+bool sw::MenuBase::GetEnabled(MenuItem &item, bool &out)
+{
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    MENUITEMINFOW info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = MIIM_STATE;
+
+    if (!GetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info)) {
+        return false;
+    }
+
+    out = (info.fState & MFS_DISABLED) != MFS_DISABLED;
+    return true;
+}
+
+bool sw::MenuBase::SetEnabled(MenuItem &item, bool value)
+{
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    MENUITEMINFOW info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = MIIM_STATE;
+
+    if (!GetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info)) {
+        return false;
+    }
+
+    if (value) {
+        info.fState &= ~MFS_DISABLED;
+    } else {
+        info.fState |= MFS_DISABLED;
+    }
+
+    return SetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info);
+}
+
+bool sw::MenuBase::GetChecked(MenuItem &item, bool &out)
+{
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    MENUITEMINFOW info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = MIIM_STATE;
+
+    if (!GetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info)) {
+        return false;
+    }
+
+    out = (info.fState & MFS_CHECKED) == MFS_CHECKED;
+    return true;
+}
+
+bool sw::MenuBase::SetChecked(MenuItem &item, bool value)
+{
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    MENUITEMINFOW info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = MIIM_STATE;
+
+    if (!GetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info)) {
+        return false;
+    }
+
+    if (value) {
+        info.fState |= MFS_CHECKED;
+    } else {
+        info.fState &= ~MFS_CHECKED;
+    }
+
+    return SetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info);
+}
+
+bool sw::MenuBase::SetText(MenuItem &item, const std::wstring &value)
+{
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    MENUITEMINFOW info{};
+    info.cbSize     = sizeof(info);
+    info.fMask      = MIIM_STRING;
+    info.dwTypeData = const_cast<LPWSTR>(value.c_str());
+
+    bool success = SetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info);
+
+    if (success) {
+        item.text = value;
+    }
+
+    return success;
+}
+
+void sw::MenuBase::_ClearAddedItems()
+{
+    while (GetMenuItemCount(this->_hMenu) > 0) {
+        RemoveMenu(this->_hMenu, 0, MF_BYPOSITION);
+    }
+
+    for (auto &tuple : this->_popupMenus) {
+        DestroyMenu(std::get<1>(tuple));
+    }
+
+    this->_dependencyInfoMap.clear();
+    this->_popupMenus.clear();
+    this->_leaves.clear();
+}
+
+void sw::MenuBase::_AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, int index)
+{
+    this->_dependencyInfoMap[pItem.get()] = {hMenu, NULL, index};
+
+    if (pItem->IsSeparator()) {
+        AppendMenuW(hMenu, MF_SEPARATOR, 0, NULL);
+        return;
+    }
+
+    if (pItem->subItems.size() == 0) {
+        int id = this->IndexToID(int(this->_leaves.size()));
+        AppendMenuW(hMenu, MF_STRING, id, pItem->text.c_str());
+        this->_leaves.push_back(pItem);
+        return;
+    }
+
+    HMENU hSubMenu = CreatePopupMenu();
+    this->_popupMenus.push_back({pItem, hSubMenu});
+    this->_dependencyInfoMap[pItem.get()].hSelf = hSubMenu;
+    AppendMenuW(hMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(hSubMenu), pItem->text.c_str());
+
+    int i = 0;
+    for (std::shared_ptr<MenuItem> pSubItem : pItem->subItems) {
+        this->_AppendMenuItem(hSubMenu, pSubItem, i++);
+    }
+}
+
+sw::MenuBase::_MenuItemDependencyInfo *sw::MenuBase::_GetMenuItemDependencyInfo(MenuItem &item)
+{
+    MenuItem *p = &item;
+    return this->_dependencyInfoMap.count(p) ? &this->_dependencyInfoMap[p] : nullptr;
+}
+
+// MenuItem.cpp
+
+sw::MenuItem::MenuItem(const std::wstring &text)
+    : text(text)
+{
+}
+
+sw::MenuItem::MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems)
+    : MenuItem(text)
+{
+    for (const MenuItem &subItem : subItems) {
+        std::shared_ptr<MenuItem> pSubItem = std::make_shared<MenuItem>(subItem);
+        this->subItems.push_back(pSubItem);
+    }
+}
+
+sw::MenuItem::MenuItem(const std::wstring &text, const decltype(command) &command)
+    : MenuItem(text)
+{
+    this->command = command;
+}
+
+bool sw::MenuItem::IsSeparator() const
+{
+    return this->text == L"-";
+}
+
+void sw::MenuItem::CallCommand()
+{
+    if (this->command)
+        this->command(*this);
+}
+
 // MsgBox.cpp
 
 sw::MsgBox::MsgBox(MsgBoxResult result)
@@ -1202,6 +1688,33 @@ std::wstring sw::Path::Combine(std::initializer_list<std::wstring> paths)
     }
 
     return combinedPath;
+}
+
+std::wstring sw::Path::GetAbsolutePath(const std::wstring &path)
+{
+    // 获取文件路径的最大长度
+    DWORD bufferSize = GetFullPathNameW(path.c_str(), 0, nullptr, nullptr);
+
+    if (bufferSize == 0) {
+        // GetFullPathNameW 返回0表示失败
+        return L"";
+    }
+
+    // 为获取绝对路径分配内存
+    std::wstring absolutePath;
+    absolutePath.resize(bufferSize);
+
+    // 获取绝对路径
+    DWORD result = GetFullPathNameW(path.c_str(), bufferSize, &absolutePath[0], nullptr);
+    if (result == 0 || result >= bufferSize) {
+        // 获取绝对路径失败
+        return L"";
+    }
+
+    // 移除不必要的空白字符
+    absolutePath.resize(result);
+
+    return absolutePath;
 }
 
 // Point.cpp
@@ -2158,7 +2671,7 @@ std::vector<std::wstring> sw::Utils::Split(const std::wstring &str, const std::w
 /**
  * @brief 记录当前创建的窗口数
  */
-static unsigned int _windowCount = 0;
+static int _windowCount = 0;
 
 /**
  * @brief DPI更新时调用该函数递归地更新所有子项的字体
@@ -2170,11 +2683,6 @@ static void _UpdateFontForAllChild(sw::UIElement &element);
  * @return 图标句柄
  */
 static HICON _GetWindowDefaultIcon();
-
-/**
- * @brief 是否在关闭所有窗口后退出程序
- */
-bool sw::Window::PostQuitWhenAllClosed = true;
 
 /**
  * @brief 程序的当前活动窗体
@@ -2334,6 +2842,19 @@ sw::Window::Window()
           [&](const double &value) {
               this->_minHeight = value;
               this->Height     = this->Height;
+          }),
+
+      ShowMenu(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = GetMenu(this->Handle) != NULL;
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              HMENU hMenu = value ? this->Menu.GetHandle() : NULL;
+              SetMenu(this->Handle, hMenu);
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, NULL, NULL);
@@ -2353,6 +2874,14 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
                     rect.left     = (Screen::Width - rect.width) / 2;
                     rect.top      = (Screen::Height - rect.height) / 2;
                     this->Rect    = rect;
+                } else if (this->StartupLocation == WindowStartupLocation::CenterOwner) {
+                    if (this->IsModal()) {
+                        sw::Rect windowRect = this->Rect;
+                        sw::Rect ownerRect  = this->_modalOwner->Rect;
+                        windowRect.left     = ownerRect.left + (ownerRect.width - windowRect.width) / 2;
+                        windowRect.top      = ownerRect.top + (ownerRect.height - windowRect.height) / 2;
+                        this->Rect          = windowRect;
+                    }
                 }
             }
             return this->UIElement::WndProc(refMsg);
@@ -2422,10 +2951,17 @@ bool sw::Window::OnDestroy()
 {
     // 触发路由事件
     RaiseRoutedEvent(RoutedEventType::Window_Closed);
-    // 所有窗口都关闭时若PostQuitWhenAllClosed为true则退出程序
-    if (!--_windowCount && PostQuitWhenAllClosed) {
-        App::Quit();
+
+    // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
+    if (this->IsModal()) {
+        App::QuitMsgLoop();
     }
+
+    // 所有窗口都关闭时若App::QuitMode为Auto则退出主消息循环
+    if (--_windowCount <= 0 && App::QuitMode.Get() == AppQuitMode::Auto) {
+        App::QuitMsgLoop();
+    }
+
     return true;
 }
 
@@ -2447,9 +2983,36 @@ bool sw::Window::OnMouseMove(Point mousePosition, MouseKey keyState)
     return this->UIElement::OnMouseMove(mousePosition, keyState);
 }
 
+void sw::Window::OnMenuCommand(int id)
+{
+    MenuItem *item = this->Menu.GetMenuItem(id);
+    if (item) item->CallCommand();
+}
+
 void sw::Window::Show()
 {
     this->WndBase::Show(SW_SHOW);
+}
+
+void sw::Window::ShowDialog(Window &owner)
+{
+    if (this->IsModal() || this == &owner || this->IsDestroyed) {
+        return;
+    }
+
+    this->_modalOwner = &owner;
+    SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(owner.Handle.Get()));
+
+    bool oldIsEnabled = owner.Enabled;
+    owner.Enabled     = false;
+
+    this->Show();
+    App::MsgLoop();
+    SetForegroundWindow(owner.Handle);
+
+    if (oldIsEnabled) {
+        owner.Enabled = true;
+    }
 }
 
 void sw::Window::SetCursor(HCURSOR hCursor)
@@ -2466,6 +3029,16 @@ void sw::Window::SetIcon(HICON hIcon)
 {
     this->SendMessageW(WM_SETICON, ICON_BIG, (LPARAM)hIcon);
     this->SendMessageW(WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+}
+
+void sw::Window::DrawMenuBar()
+{
+    ::DrawMenuBar(this->Handle);
+}
+
+bool sw::Window::IsModal()
+{
+    return this->_modalOwner != nullptr;
 }
 
 void sw::Window::Measure(const Size &availableSize)
@@ -3043,11 +3616,6 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return 0;
         }
 
-        case WM_ParentReceivedCommand: {
-            this->ParentReceivedCommand(HIWORD(refMsg.wParam));
-            return 0;
-        }
-
         case WM_CTLCOLORBTN:
         case WM_CTLCOLOREDIT:
         case WM_CTLCOLORDLG:
@@ -3263,14 +3831,29 @@ void sw::WndBase::OnCommand(WPARAM wParam, LPARAM lParam)
 {
     if (lParam != NULL) {
         // 接收到控件消息
-        ::SendMessageW((HWND)lParam, WM_ParentReceivedCommand, wParam, lParam);
+        this->OnControlCommand((HWND)lParam, HIWORD(wParam), LOWORD(wParam));
     } else {
-        // Menu / Accelerator
-        // ...
+        // 接收到菜单或快捷键消息
+        int id = LOWORD(wParam);
+        HIWORD(wParam) ? this->OnAcceleratorCommand(id) : this->OnMenuCommand(id);
     }
 }
 
-void sw::WndBase::ParentReceivedCommand(int code)
+void sw::WndBase::OnCommand(int code)
+{
+}
+
+void sw::WndBase::OnControlCommand(HWND hControl, int code, int id)
+{
+    WndBase *pControl = WndBase::GetWndBase(hControl);
+    if (pControl) pControl->OnCommand(code);
+}
+
+void sw::WndBase::OnMenuCommand(int id)
+{
+}
+
+void sw::WndBase::OnAcceleratorCommand(int id)
 {
 }
 
@@ -3312,9 +3895,10 @@ void sw::WndBase::UpdateFont()
     this->FontChanged(this->_hfont);
 }
 
-void sw::WndBase::Redraw()
+void sw::WndBase::Redraw(bool erase)
 {
-    InvalidateRect(this->_hwnd, NULL, TRUE);
+    InvalidateRect(this->_hwnd, NULL, erase);
+    UpdateWindow(this->_hwnd);
 }
 
 bool sw::WndBase::IsControl()
