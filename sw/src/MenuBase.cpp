@@ -83,6 +83,33 @@ bool sw::MenuBase::SetSubItems(MenuItem &item, std::initializer_list<MenuItem> s
     return true;
 }
 
+void sw::MenuBase::AddItem(const MenuItem &item)
+{
+    std::shared_ptr<MenuItem> pItem(new MenuItem(item));
+    this->_AppendMenuItem(this->_hMenu, pItem, (int)this->items.size());
+    this->items.push_back(pItem);
+}
+
+bool sw::MenuBase::AddSubItem(MenuItem &item, const MenuItem &subItem)
+{
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    if (dependencyInfo->hSelf == NULL) {
+        item.subItems.emplace_back(new MenuItem(subItem));
+        this->Update();
+        return true;
+    }
+
+    std::shared_ptr<MenuItem> pSubItem(new MenuItem(subItem));
+    this->_AppendMenuItem(dependencyInfo->hSelf, pSubItem, (int)item.subItems.size());
+    item.subItems.push_back(pSubItem);
+    return true;
+}
+
 sw::MenuItem *sw::MenuBase::GetMenuItem(int id)
 {
     int index = this->IDToIndex(id);

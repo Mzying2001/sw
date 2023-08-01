@@ -86,11 +86,25 @@ namespace sw
 
         /**
          * @brief          重新设置当前菜单中某个菜单项的子项
-         * @param item     要修改的菜单项，当item原先不含有子项时将会调用Update更新整个菜单
+         * @param item     要修改的菜单项，当该项原先不含有子项时将会调用Update更新整个菜单
          * @param subItems 新的子项列表
          * @return         返回一个bool值，表示操作是否成功
          */
         bool SetSubItems(MenuItem &item, std::initializer_list<MenuItem> subItems);
+
+        /**
+         * @brief      添加新的菜单项到菜单
+         * @param item 新的菜单项
+         */
+        void AddItem(const MenuItem &item);
+
+        /**
+         * @brief         像当前菜单中的某个菜单项添加新的子项
+         * @param item    要添加子项的菜单项，当该项原本不含有子项时将会调用Update更新整个菜单
+         * @param subItem 要添加的子菜单项
+         * @return        返回一个bool值，表示操作是否成功
+         */
+        bool AddSubItem(MenuItem &item, const MenuItem &subItem);
 
         /**
          * @brief    通过id获取菜单项
