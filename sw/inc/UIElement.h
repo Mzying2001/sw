@@ -125,9 +125,30 @@ namespace sw
         /**
          * @brief           注册路由事件处理函数，当事件已注册时会覆盖已注册的函数
          * @param eventType 路由事件类型
-         * @param event     处理函数，当值为nullptr时可取消注册
+         * @param handler   处理函数，当值为nullptr时可取消注册
          */
-        void RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &event);
+        void RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &handler);
+
+        /**
+         * @brief           注册成员函数作为路由事件处理函数，当事件已注册时会覆盖已注册的函数
+         * @tparam T        成员函数所在的类
+         * @param eventType 路由事件类型
+         * @param obj       注册的成员函数所在的对象
+         * @param handler   处理函数，当值为nullptr时可取消注册
+         */
+        template <class T>
+        void RegisterRoutedEvent(RoutedEventType eventType, T &obj, void (T::*handler)(UIElement &, RoutedEventArgs &))
+        {
+            if (handler == nullptr) {
+                this->RegisterRoutedEvent(eventType, nullptr);
+                return;
+            }
+
+            T *p = &obj;
+            this->RegisterRoutedEvent(eventType, [p, handler](UIElement &sender, RoutedEventArgs &e) {
+                (p->*handler)(sender, e);
+            });
+        }
 
         /**
          * @brief           取消对应类型路由事件的注册

@@ -103,10 +103,10 @@ sw::UIElement::~UIElement()
     this->_children.clear();
 }
 
-void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &event)
+void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &handler)
 {
-    if (event) {
-        this->_eventMap[eventType] = event;
+    if (handler) {
+        this->_eventMap[eventType] = handler;
     } else {
         this->UnregisterRoutedEvent(eventType);
     }
