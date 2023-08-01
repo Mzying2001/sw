@@ -203,6 +203,11 @@ namespace sw
         void SetIcon(HICON hIcon);
 
         /**
+         * @brief 重回窗口的菜单栏
+         */
+        void DrawMenuBar();
+
+        /**
          * @brief  窗口是否显示为模态窗口
          * @return 当调用ShowDialog时该函数返回true，否则返回false
          */

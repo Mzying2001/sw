@@ -365,6 +365,11 @@ void sw::Window::SetIcon(HICON hIcon)
     this->SendMessageW(WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 }
 
+void sw::Window::DrawMenuBar()
+{
+    ::DrawMenuBar(this->Handle);
+}
+
 bool sw::Window::IsModal()
 {
     return this->_modalOwner != nullptr;
