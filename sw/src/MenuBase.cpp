@@ -30,6 +30,17 @@ HMENU sw::MenuBase::GetHandle()
     return this->_hMenu;
 }
 
+void sw::MenuBase::Update()
+{
+    this->_ClearAddedItems();
+
+    int i = 0;
+    for (std::shared_ptr<MenuItem> pItem : this->items) {
+        if (!pItem->IsSeparator())
+            this->_AppendMenuItem(this->_hMenu, pItem, i++);
+    }
+}
+
 void sw::MenuBase::SetItems(std::initializer_list<MenuItem> items)
 {
     this->_ClearAddedItems();
@@ -42,15 +53,34 @@ void sw::MenuBase::SetItems(std::initializer_list<MenuItem> items)
     this->Update();
 }
 
-void sw::MenuBase::Update()
+bool sw::MenuBase::SetItems(MenuItem &item, std::initializer_list<MenuItem> subItems)
 {
-    this->_ClearAddedItems();
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    if (dependencyInfo->hSelf == NULL) {
+        item = MenuItem(item.text, subItems);
+        this->Update();
+        return true;
+    }
+
+    while (GetMenuItemCount(dependencyInfo->hSelf) > 0) {
+        RemoveMenu(dependencyInfo->hSelf, 0, MF_BYPOSITION);
+    }
+
+    item.subItems.clear();
 
     int i = 0;
-    for (std::shared_ptr<MenuItem> pItem : this->items) {
-        if (!pItem->IsSeparator())
-            this->_AppendMenuItem(this->_hMenu, pItem, i++);
+    for (const MenuItem &subItem : subItems) {
+        std::shared_ptr<MenuItem> pSubItem(new MenuItem(subItem));
+        item.subItems.push_back(pSubItem);
+        this->_AppendMenuItem(dependencyInfo->hSelf, pSubItem, i++);
     }
+
+    return true;
 }
 
 sw::MenuItem *sw::MenuBase::GetMenuItem(int id)

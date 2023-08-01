@@ -75,14 +75,22 @@ namespace sw
         HMENU GetHandle();
 
         /**
+         * @brief 更新菜单
+         */
+        void Update();
+
+        /**
          * @brief 初始化菜单并添加菜单项
          */
         void SetItems(std::initializer_list<MenuItem> items);
 
         /**
-         * @brief 更新菜单
+         * @brief          设置当前菜单中某个菜单项的子项
+         * @param item     要修改的菜单项，当item原先不含有子项时将会调用Update更新整个菜单
+         * @param subItems 新的子项列表
+         * @return         返回一个bool值，表示操作是否成功
          */
-        void Update();
+        bool SetItems(MenuItem &item, std::initializer_list<MenuItem> subItems);
 
         /**
          * @brief    通过id获取菜单项
@@ -159,7 +167,10 @@ namespace sw
         void _ClearAddedItems();
 
         /**
-         * @brief 添加菜单项到指定句柄
+         * @brief       添加菜单项到指定句柄
+         * @param hMenu 要添加子项的菜单句柄
+         * @param pItem 要添加的菜单项
+         * @param index 菜单项在父菜单中的索引
          */
         void _AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, int index);
 
