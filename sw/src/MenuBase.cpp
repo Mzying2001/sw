@@ -53,7 +53,7 @@ void sw::MenuBase::SetItems(std::initializer_list<MenuItem> items)
     this->Update();
 }
 
-bool sw::MenuBase::SetItems(MenuItem &item, std::initializer_list<MenuItem> subItems)
+bool sw::MenuBase::SetSubItems(MenuItem &item, std::initializer_list<MenuItem> subItems)
 {
     auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
 

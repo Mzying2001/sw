@@ -85,12 +85,12 @@ namespace sw
         void SetItems(std::initializer_list<MenuItem> items);
 
         /**
-         * @brief          设置当前菜单中某个菜单项的子项
+         * @brief          重新设置当前菜单中某个菜单项的子项
          * @param item     要修改的菜单项，当item原先不含有子项时将会调用Update更新整个菜单
          * @param subItems 新的子项列表
          * @return         返回一个bool值，表示操作是否成功
          */
-        bool SetItems(MenuItem &item, std::initializer_list<MenuItem> subItems);
+        bool SetSubItems(MenuItem &item, std::initializer_list<MenuItem> subItems);
 
         /**
          * @brief    通过id获取菜单项
