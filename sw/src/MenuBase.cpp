@@ -110,6 +110,47 @@ bool sw::MenuBase::AddSubItem(MenuItem &item, const MenuItem &subItem)
     return true;
 }
 
+bool sw::MenuBase::RemoveItem(MenuItem &item)
+{
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    if (dependencyInfo->hParent == this->_hMenu) {
+
+        int index = dependencyInfo->index;
+        RemoveMenu(dependencyInfo->hParent, index, MF_BYPOSITION);
+
+        this->_dependencyInfoMap.erase(&item);
+        this->items.erase(this->items.begin() + index);
+
+        for (int i = index; i < this->items.size(); ++i) {
+            this->_dependencyInfoMap[this->items[i].get()].index -= 1;
+        }
+
+    } else {
+
+        MenuItem *parent = this->GetParent(item);
+        if (parent == nullptr) {
+            return false;
+        }
+
+        int index = dependencyInfo->index;
+        RemoveMenu(dependencyInfo->hParent, index, MF_BYPOSITION);
+
+        this->_dependencyInfoMap.erase(&item);
+        parent->subItems.erase(parent->subItems.begin() + index);
+
+        for (int i = index; i < parent->subItems.size(); ++i) {
+            this->_dependencyInfoMap[parent->subItems[i].get()].index -= 1;
+        }
+    }
+
+    return true;
+}
+
 sw::MenuItem *sw::MenuBase::GetMenuItem(int id)
 {
     int index = this->IDToIndex(id);

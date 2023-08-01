@@ -107,6 +107,13 @@ namespace sw
         bool AddSubItem(MenuItem &item, const MenuItem &subItem);
 
         /**
+         * @brief      移除当前菜单中的某个子项
+         * @param item 要移除的菜单项
+         * @return     返回一个bool值，表示操作是否成功
+        */
+        bool RemoveItem(MenuItem &item);
+
+        /**
          * @brief    通过id获取菜单项
          * @param id 要获取菜单项的id
          * @return   若函数成功则返回菜单项的指针，否则返回nullptr
