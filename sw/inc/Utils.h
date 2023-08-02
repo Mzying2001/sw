@@ -16,17 +16,29 @@ namespace sw
         Utils() = delete;
 
         template <class T>
-        static void _BuildStr(std::wstringstream &wss, const T &arg);
+        static void _BuildStr(std::wstringstream &wss, const T &arg)
+        {
+            wss << arg;
+        }
 
         template <class First, class... Rest>
-        static void _BuildStr(std::wstringstream &wss, const First &first, const Rest &...rest);
+        static void _BuildStr(std::wstringstream &wss, const First &first, const Rest &...rest)
+        {
+            wss << first;
+            Utils::_BuildStr(wss, rest...);
+        }
 
     public:
         /**
          * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
          */
         template <class... Args>
-        static std::wstring BuildStr(const Args &...args);
+        static std::wstring BuildStr(const Args &...args)
+        {
+            std::wstringstream wss;
+            Utils::_BuildStr(wss, args...);
+            return wss.str();
+        }
 
         /**
          * @brief      将窄字符串转为宽字符串
@@ -57,24 +69,6 @@ namespace sw
         friend std::wstringstream &operator<<(std::wstringstream &wss, const std::map<TKey, TVal> &map);
 
         /**
-         * @brief 取两值中的较大值
-         */
-        template <class T>
-        static constexpr inline T Max(const T &a, const T &b)
-        {
-            return a > b ? a : b;
-        }
-
-        /**
-         * @brief 取两值中的较小值
-         */
-        template <class T>
-        static constexpr inline T Min(const T &a, const T &b)
-        {
-            return a < b ? a : b;
-        }
-
-        /**
          * @brief     删除首尾空白字符
          * @param str 输入的字符串
          * @return    删除首位空白字符后的字符串
@@ -102,6 +96,24 @@ namespace sw
          * @result          包含字串的vector
          */
         static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
+
+        /**
+         * @brief 取两值中的较大值
+         */
+        template <class T>
+        static constexpr inline T Max(const T &a, const T &b)
+        {
+            return a > b ? a : b;
+        }
+
+        /**
+         * @brief 取两值中的较小值
+         */
+        template <class T>
+        static constexpr inline T Min(const T &a, const T &b)
+        {
+            return a < b ? a : b;
+        }
     };
 
     /**
@@ -117,28 +129,7 @@ namespace sw
     /*================================================================================*/
 
     template <class T>
-    inline void Utils::_BuildStr(std::wstringstream &wss, const T &arg)
-    {
-        wss << arg;
-    }
-
-    template <class First, class... Rest>
-    inline void Utils::_BuildStr(std::wstringstream &wss, const First &first, const Rest &...rest)
-    {
-        wss << first;
-        Utils::_BuildStr(wss, rest...);
-    }
-
-    template <class... Args>
-    inline std::wstring Utils::BuildStr(const Args &...args)
-    {
-        std::wstringstream wss;
-        Utils::_BuildStr(wss, args...);
-        return wss.str();
-    }
-
-    template <class T>
-    inline std::wstringstream &operator<<(std::wstringstream &wss, const std::vector<T> &vec)
+    std::wstringstream &operator<<(std::wstringstream &wss, const std::vector<T> &vec)
     {
         auto beg = vec.begin();
         auto end = vec.end();
@@ -153,7 +144,7 @@ namespace sw
     }
 
     template <class TKey, class TVal>
-    inline std::wstringstream &operator<<(std::wstringstream &wss, const std::map<TKey, TVal> &map)
+    std::wstringstream &operator<<(std::wstringstream &wss, const std::map<TKey, TVal> &map)
     {
         auto beg = map.begin();
         auto end = map.end();
