@@ -9,13 +9,31 @@ namespace sw
 {
     struct RoutedEventArgs; // RoutedEvent.h
 
-    template <RoutedEventType EventType>
+    /**
+     * @brief    表示特定类型路由事件的事件参数类型，继承自该类的事件参数可以用于RegisterRoutedEvent模板函数
+     * @tparam T 一个RoutedEventType枚举值，表示路由事件类型
+     */
+    template <RoutedEventType T>
     struct RoutedEventArgsOfType : RoutedEventArgs {
-        static const RoutedEventType TYPE = EventType;
-        inline RoutedEventArgsOfType()
+        static constexpr RoutedEventType EventType = T;
+        RoutedEventArgsOfType()
             : RoutedEventArgs(EventType)
         {
         }
+    };
+
+    /**
+     * @brief 结构体模板，用于检测类型T是否含有名为EventType的静态字段
+     */
+    template <typename T, typename = void>
+    struct _IsTypedRoutedEventArgs : std::false_type {
+    };
+
+    /**
+     * @brief 模板特化：当T包含EventType时，将_IsTypedRoutedEventArgs<T>设为std::true_type
+     */
+    template <typename T>
+    struct _IsTypedRoutedEventArgs<T, std::void_t<decltype(T::EventType)>> : std::true_type {
     };
 
     /**

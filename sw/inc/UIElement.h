@@ -136,17 +136,60 @@ namespace sw
          * @param obj       注册的成员函数所在的对象
          * @param handler   处理函数，当值为nullptr时可取消注册
          */
-        template <class T>
+        template <typename T>
         void RegisterRoutedEvent(RoutedEventType eventType, T &obj, void (T::*handler)(UIElement &, RoutedEventArgs &))
         {
             if (handler == nullptr) {
-                this->RegisterRoutedEvent(eventType, nullptr);
+                this->UnregisterRoutedEvent(eventType);
                 return;
             }
-
             T *p = &obj;
             this->RegisterRoutedEvent(eventType, [p, handler](UIElement &sender, RoutedEventArgs &e) {
                 (p->*handler)(sender, e);
+            });
+        }
+
+        /**
+         * @brief             根据事件参数类型注册路由事件
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventOfType<...>
+         * @param handler     事件的处理函数，当值为nullptr时可取消注册
+         */
+        template <
+            typename TEventArgs,
+            typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0,
+            typename std::enable_if<sw::_IsTypedRoutedEventArgs<TEventArgs>::value, int>::type      = 0>
+        void RegisterRoutedEvent(std::function<void(UIElement &, TEventArgs &)> handler)
+        {
+            if (!handler) {
+                this->UnregisterRoutedEvent(TEventArgs::EventType);
+                return;
+            }
+            this->RegisterRoutedEvent(TEventArgs::EventType, [handler](UIElement &sender, RoutedEventArgs &e) {
+                handler(sender, static_cast<TEventArgs &>(e));
+            });
+        }
+
+        /**
+         * @brief             根据事件参数类型注册成员函数作为路由事件
+         * @tparam THandleObj 成员函数所在的类
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventOfType<...>
+         * @param obj         注册的成员函数所在的对象
+         * @param handler     事件的处理函数，当值为nullptr时可取消注册
+         */
+        template <
+            typename THandleObj,
+            typename TEventArgs,
+            typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0,
+            typename std::enable_if<sw::_IsTypedRoutedEventArgs<TEventArgs>::value, int>::type      = 0>
+        void RegisterRoutedEvent(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        {
+            if (handler == nullptr) {
+                this->UnregisterRoutedEvent(TEventArgs::EventType);
+                return;
+            }
+            THandleObj *p = &obj;
+            this->RegisterRoutedEvent(TEventArgs::EventType, [p, handler](UIElement &sender, RoutedEventArgs &e) {
+                (p->*handler)(sender, static_cast<TEventArgs &>(e));
             });
         }
 
@@ -446,51 +489,4 @@ namespace sw
          */
         virtual bool OnMouseMiddleButtonUp(Point mousePosition, MouseKey keyState) override;
     };
-
-    /*====================================================================================================*/
-
-    /**
-     * @brief                   根据事件参数类型注册路由事件
-     * @tparam TEventArgs       路由事件参数类型
-     * @param elementToRegister 要注册该事件的对象
-     * @param handler           处理该事件的函数
-     */
-    template <
-        typename TEventArgs,
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0>
-    inline void RegisterRoutedEvent(UIElement &elementToRegister, std::function<void(UIElement &, TEventArgs &)> handler)
-    {
-        if (!handler) {
-            elementToRegister.UnregisterRoutedEvent(TEventArgs::TYPE);
-            return;
-        }
-        elementToRegister.RegisterRoutedEvent(TEventArgs::TYPE, [handler](UIElement &element, RoutedEventArgs &args) {
-            handler(element, static_cast<TEventArgs &>(args));
-        });
-    }
-
-    /**
-     * @brief                   注册特定类型的路由事件，当类型不匹配时自动忽略
-     * @tparam TElement         发出该事件对象的类型
-     * @tparam TEventArgs       该事件的事件参数类型
-     * @param elementToRegister 要注册该事件的对象
-     * @param handler           处理该事件的函数
-     */
-    template <
-        typename TElement,
-        typename TEventArgs,
-        typename std::enable_if<std::is_base_of<UIElement, TElement>::value, int>::type         = 0,
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0>
-    inline void RegisterRoutedEvent(UIElement &elementToRegister, std::function<void(TElement &, TEventArgs &)> handler)
-    {
-        if (!handler) {
-            elementToRegister.UnregisterRoutedEvent(TEventArgs::TYPE);
-            return;
-        }
-        elementToRegister.RegisterRoutedEvent(TEventArgs::TYPE, [handler](UIElement &element, RoutedEventArgs &args) {
-            TElement *pElement = dynamic_cast<TElement *>(&element);
-            if (pElement != nullptr)
-                handler(*pElement, static_cast<TEventArgs &>(args));
-        });
-    }
 }
