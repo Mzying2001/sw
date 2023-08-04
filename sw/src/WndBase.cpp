@@ -573,6 +573,18 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return useDefaultWndProc ? this->DefaultWndProc(refMsg) : result;
         }
 
+        case WM_CONTEXTMENU: {
+            WndBase *pWnd = WndBase::GetWndBase((HWND)refMsg.wParam);
+            if (pWnd == nullptr) {
+                return this->DefaultWndProc(refMsg);
+            } else {
+                int xPos = GET_X_LPARAM(refMsg.lParam);
+                int yPos = GET_Y_LPARAM(refMsg.lParam);
+                bool res = this->OnContextMenu(xPos == -1 && yPos == -1, POINT{xPos, yPos});
+                return res ? 0 : this->DefaultWndProc(refMsg);
+            }
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }
@@ -796,6 +808,11 @@ void sw::WndBase::FontChanged(HFONT hfont)
 }
 
 bool sw::WndBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+{
+    return false;
+}
+
+bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
 {
     return false;
 }
