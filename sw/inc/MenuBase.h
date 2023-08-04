@@ -24,9 +24,9 @@ namespace sw
 
     private:
         /**
-         * @brief 菜单句柄
+         * @brief 菜单句柄，使用InitMenuBase函数设置该值
          */
-        HMENU _hMenu;
+        HMENU _hMenu = NULL;
 
         /**
          * @brief 储存所有子项菜单句柄
@@ -110,7 +110,7 @@ namespace sw
          * @brief      移除当前菜单中的某个子项
          * @param item 要移除的菜单项
          * @return     返回一个bool值，表示操作是否成功
-        */
+         */
         bool RemoveItem(MenuItem &item);
 
         /**
@@ -203,6 +203,12 @@ namespace sw
         _MenuItemDependencyInfo *_GetMenuItemDependencyInfo(MenuItem &item);
 
     protected:
+        /**
+         * @brief       设置菜单句柄
+         * @param hMenu 菜单句柄
+         */
+        void InitMenuBase(HMENU hMenu);
+
         /**
          * @brief       根据索引获取ID
          * @param index 索引

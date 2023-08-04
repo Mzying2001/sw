@@ -2,7 +2,7 @@
 
 sw::MenuBase::MenuBase()
 {
-    this->_hMenu = CreateMenu();
+    /*this->_hMenu = CreateMenu();*/
 }
 
 sw::MenuBase::MenuBase(const MenuBase &menu)
@@ -15,7 +15,10 @@ sw::MenuBase::MenuBase(const MenuBase &menu)
 sw::MenuBase::~MenuBase()
 {
     this->_ClearAddedItems();
-    DestroyMenu(this->_hMenu);
+
+    if (this->_hMenu != NULL) {
+        DestroyMenu(this->_hMenu);
+    }
 }
 
 sw::MenuBase &sw::MenuBase::operator=(const MenuBase &menu)
@@ -406,4 +409,11 @@ sw::MenuBase::_MenuItemDependencyInfo *sw::MenuBase::_GetMenuItemDependencyInfo(
 {
     MenuItem *p = &item;
     return this->_dependencyInfoMap.count(p) ? &this->_dependencyInfoMap[p] : nullptr;
+}
+
+void sw::MenuBase::InitMenuBase(HMENU hMenu)
+{
+    if (this->_hMenu == NULL) {
+        this->_hMenu = hMenu;
+    }
 }

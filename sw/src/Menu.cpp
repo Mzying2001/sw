@@ -3,6 +3,7 @@
 sw::Menu::Menu()
     : MenuBase()
 {
+    this->InitMenuBase(CreateMenu());
 }
 
 sw::Menu::Menu(std::initializer_list<MenuItem> items)
