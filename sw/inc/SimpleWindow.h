@@ -8,6 +8,7 @@
 #include "Button.h"
 #include "ButtonBase.h"
 #include "Color.h"
+#include "ContextMenu.h"
 #include "Control.h"
 #include "Cursor.h"
 #include "Dip.h"
