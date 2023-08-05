@@ -178,17 +178,15 @@ sw::Window::Window()
               this->Height     = this->Height;
           }),
 
-      ShowMenu(
+      Menu(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = GetMenu(this->Handle) != NULL;
-              return result;
+          [&]() -> sw::Menu *const & {
+              return this->_menu;
           },
           // set
-          [&](const bool &value) {
-              HMENU hMenu = value ? this->Menu.GetHandle() : NULL;
-              SetMenu(this->Handle, hMenu);
+          [&](sw::Menu *const &value) {
+              this->_menu = value;
+              SetMenu(this->Handle, value != nullptr ? value->GetHandle() : NULL);
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, NULL, NULL);
@@ -319,8 +317,10 @@ bool sw::Window::OnMouseMove(Point mousePosition, MouseKey keyState)
 
 void sw::Window::OnMenuCommand(int id)
 {
-    MenuItem *item = this->Menu.GetMenuItem(id);
-    if (item) item->CallCommand();
+    if (this->_menu != nullptr) {
+        MenuItem *item = this->_menu->GetMenuItem(id);
+        if (item) item->CallCommand();
+    }
 }
 
 void sw::Window::Show()

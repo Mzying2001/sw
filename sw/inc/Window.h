@@ -49,12 +49,12 @@ namespace sw
          */
         Window *_modalOwner = nullptr;
 
-    public:
         /**
-         * @brief 窗口的顶部菜单，可将ShowMenu属性设置为true以显示菜单
+         * @brief 窗口顶部菜单
          */
-        sw::Menu Menu;
+        sw::Menu *_menu = nullptr;
 
+    public:
         /**
          * @brief 窗口初次启动的位置
          */
@@ -121,9 +121,9 @@ namespace sw
         const Property<double> MinHeight;
 
         /**
-         * @brief 是否显示菜单
+         * @brief 窗口顶部的菜单栏
          */
-        const Property<bool> ShowMenu;
+        const Property<sw::Menu *> Menu;
 
     public:
         Window();
