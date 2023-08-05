@@ -191,6 +191,7 @@
     <ClInclude Include="..\sw\inc\StackLayoutH.h" />
     <ClInclude Include="..\sw\inc\StackLayoutV.h" />
     <ClInclude Include="..\sw\inc\StackPanel.h" />
+    <ClInclude Include="..\sw\inc\TextBox.h" />
     <ClInclude Include="..\sw\inc\Thickness.h" />
     <ClInclude Include="..\sw\inc\UIElement.h" />
     <ClInclude Include="..\sw\inc\Utils.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="..\sw\src\StackLayoutH.cpp" />
     <ClCompile Include="..\sw\src\StackLayoutV.cpp" />
     <ClCompile Include="..\sw\src\StackPanel.cpp" />
+    <ClCompile Include="..\sw\src\TextBox.cpp" />
     <ClCompile Include="..\sw\src\Thickness.cpp" />
     <ClCompile Include="..\sw\src\UIElement.cpp" />
     <ClCompile Include="..\sw\src\Utils.cpp" />

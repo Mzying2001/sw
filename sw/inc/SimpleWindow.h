@@ -41,6 +41,7 @@
 #include "StackLayoutH.h"
 #include "StackLayoutV.h"
 #include "StackPanel.h"
+#include "TextBox.h"
 #include "Thickness.h"
 #include "UIElement.h"
 #include "Utils.h"
