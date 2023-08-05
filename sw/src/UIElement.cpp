@@ -575,7 +575,7 @@ bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
     if (this->_contextMenu == nullptr) {
         return false;
     }
-    this->ShowContextMenu(mousePosition);
+    this->ShowContextMenu(isKeyboardMsg ? this->PointToScreen({0, 0}) : mousePosition);
     return true;
 }
 
