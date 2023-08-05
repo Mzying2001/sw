@@ -578,3 +578,11 @@ bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
     this->ShowContextMenu(mousePosition);
     return true;
 }
+
+void sw::UIElement::OnMenuCommand(int id)
+{
+    if (this->_contextMenu) {
+        MenuItem *item = this->_contextMenu->GetMenuItem(id);
+        if (item) item->CallCommand();
+    }
+}

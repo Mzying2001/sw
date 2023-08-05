@@ -317,7 +317,11 @@ bool sw::Window::OnMouseMove(Point mousePosition, MouseKey keyState)
 
 void sw::Window::OnMenuCommand(int id)
 {
-    if (this->_menu != nullptr) {
+    if (ContextMenu::IsContextMenuID(id)) {
+        this->UIElement::OnMenuCommand(id);
+        return;
+    }
+    if (this->_menu) {
         MenuItem *item = this->_menu->GetMenuItem(id);
         if (item) item->CallCommand();
     }

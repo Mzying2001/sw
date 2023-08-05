@@ -508,5 +508,11 @@ namespace sw
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override;
+
+        /**
+         * @brief    当WM_COMMAND接收到菜单命令时调用该函数
+         * @param id 菜单id
+         */
+        virtual void OnMenuCommand(int id) override;
     };
 }
