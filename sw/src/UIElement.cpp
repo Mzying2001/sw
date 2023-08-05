@@ -88,6 +88,16 @@ sw::UIElement::UIElement()
           [&](const uint32_t &value) {
               this->_layoutTag = value;
               this->NotifyLayoutUpdated();
+          }),
+
+      ContextMenu(
+          // get
+          [&]() -> sw::ContextMenu *const & {
+              return this->_contextMenu;
+          },
+          // set
+          [&](sw::ContextMenu *const &value) {
+              this->_contextMenu = value;
           })
 {
 }
@@ -552,4 +562,15 @@ bool sw::UIElement::OnMouseMiddleButtonUp(Point mousePosition, MouseKey keyState
     MouseButtonUpEventArgs args(MouseKey::MouseMiddle, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return false;
+}
+
+bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+{
+    if (this->_contextMenu == nullptr) {
+        return false;
+    }
+
+    POINT p = mousePosition;
+    TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, NULL);
+    return true;
 }

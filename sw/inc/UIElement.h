@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Alignment.h"
+#include "ContextMenu.h"
 #include "ILayout.h"
 #include "RoutedEvent.h"
 #include "RoutedEventArgs.h"
@@ -77,12 +78,12 @@ namespace sw
          */
         uint32_t _layoutTag = 0;
 
-    public:
         /**
-         * @brief 描述
+         * @brief 上下文菜单
          */
-        std::wstring Description = L"";
+        sw::ContextMenu *_contextMenu = nullptr;
 
+    public:
         /**
          * @brief 边距
          */
@@ -117,6 +118,11 @@ namespace sw
          * @brief 布局标记，对于不同的布局有不同含义
          */
         const Property<uint32_t> LayoutTag;
+
+        /**
+         * @brief 右键按下时弹出的菜单
+         */
+        const Property<sw::ContextMenu *> ContextMenu;
 
     public:
         UIElement();
@@ -488,5 +494,13 @@ namespace sw
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseMiddleButtonUp(Point mousePosition, MouseKey keyState) override;
+
+        /**
+         * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
+         * @param isKeyboardMsg 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
+         * @param mousePosition 鼠标在屏幕中的位置
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override;
     };
 }
