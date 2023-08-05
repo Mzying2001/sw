@@ -127,6 +127,16 @@ namespace sw
     };
 
     /**
+     * @brief 由用户操作唤起上下文菜单的事件参数类型
+     */
+    struct OnContextMenuEventArgs : RoutedEventArgsOfType<UIElement_OnContextMenu> {
+        bool cancel = false; // 是否取消显示上下文菜单
+        bool isKeyboardMsg;  // 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
+        Point mousePosition; // 鼠标在屏幕中的位置
+        OnContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition);
+    };
+
+    /**
      * @brief 窗口正在关闭事件参数类型
      */
     struct WindowClosingEventArgs : RoutedEventArgsOfType<Window_Closing> {

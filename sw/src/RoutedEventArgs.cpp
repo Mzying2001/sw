@@ -45,6 +45,11 @@ sw::MouseButtonDownEventArgs::MouseButtonDownEventArgs(MouseKey key, Point mouse
 {
 }
 
+sw::OnContextMenuEventArgs::OnContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition)
+    : isKeyboardMsg(isKeyboardMsg), mousePosition(mousePosition)
+{
+}
+
 sw::MouseButtonUpEventArgs::MouseButtonUpEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
     : key(key), mousePosition(mousePosition), keyState(keyState)
 {

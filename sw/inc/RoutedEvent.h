@@ -78,6 +78,11 @@ namespace sw
         UIElement_MouseButtonUp,
 
         /**
+         * @brief 由用户操作唤起上下文菜单时触发该事件，参数类型为sw::OnContextMenuEventArgs
+         */
+        UIElement_OnContextMenu,
+
+        /**
          * @brief 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
          */
         Window_Closing,
