@@ -279,6 +279,12 @@ namespace sw
         UIElement &operator[](int index) const;
 
         /**
+         * @brief       弹出当前元素的上下文菜单
+         * @param point 弹出菜单左上角在屏幕中的位置
+         */
+        void ShowContextMenu(const Point &point);
+
+        /**
          * @brief 获取布局标记
          */
         virtual uint32_t GetLayoutTag() override;

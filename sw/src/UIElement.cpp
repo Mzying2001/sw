@@ -244,6 +244,12 @@ sw::UIElement &sw::UIElement::operator[](int index) const
     return *this->_children[index];
 }
 
+void sw::UIElement::ShowContextMenu(const Point &point)
+{
+    POINT p = point;
+    TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, nullptr);
+}
+
 uint32_t sw::UIElement::GetLayoutTag()
 {
     return this->_layoutTag;
@@ -569,8 +575,6 @@ bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
     if (this->_contextMenu == nullptr) {
         return false;
     }
-
-    POINT p = mousePosition;
-    TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, NULL);
+    this->ShowContextMenu(mousePosition);
     return true;
 }
