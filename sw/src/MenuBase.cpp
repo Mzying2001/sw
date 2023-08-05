@@ -39,8 +39,7 @@ void sw::MenuBase::Update()
 
     int i = 0;
     for (std::shared_ptr<MenuItem> pItem : this->items) {
-        if (!pItem->IsSeparator())
-            this->_AppendMenuItem(this->_hMenu, pItem, i++);
+        this->_AppendMenuItem(this->_hMenu, pItem, i++);
     }
 }
 
