@@ -1198,6 +1198,11 @@ namespace sw
         UIElement_MouseButtonUp,
 
         /**
+         * @brief 由用户操作唤起上下文菜单时触发该事件，参数类型为sw::OnContextMenuEventArgs
+         */
+        UIElement_OnContextMenu,
+
+        /**
          * @brief 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
          */
         Window_Closing,
@@ -1298,17 +1303,29 @@ namespace sw
         Utils() = delete;
 
         template <class T>
-        static void _BuildStr(std::wstringstream &wss, const T &arg);
+        static void _BuildStr(std::wstringstream &wss, const T &arg)
+        {
+            wss << arg;
+        }
 
         template <class First, class... Rest>
-        static void _BuildStr(std::wstringstream &wss, const First &first, const Rest &...rest);
+        static void _BuildStr(std::wstringstream &wss, const First &first, const Rest &...rest)
+        {
+            wss << first;
+            Utils::_BuildStr(wss, rest...);
+        }
 
     public:
         /**
          * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
          */
         template <class... Args>
-        static std::wstring BuildStr(const Args &...args);
+        static std::wstring BuildStr(const Args &...args)
+        {
+            std::wstringstream wss;
+            Utils::_BuildStr(wss, args...);
+            return wss.str();
+        }
 
         /**
          * @brief      将窄字符串转为宽字符串
@@ -1339,24 +1356,6 @@ namespace sw
         friend std::wstringstream &operator<<(std::wstringstream &wss, const std::map<TKey, TVal> &map);
 
         /**
-         * @brief 取两值中的较大值
-         */
-        template <class T>
-        static constexpr inline T Max(const T &a, const T &b)
-        {
-            return a > b ? a : b;
-        }
-
-        /**
-         * @brief 取两值中的较小值
-         */
-        template <class T>
-        static constexpr inline T Min(const T &a, const T &b)
-        {
-            return a < b ? a : b;
-        }
-
-        /**
          * @brief     删除首尾空白字符
          * @param str 输入的字符串
          * @return    删除首位空白字符后的字符串
@@ -1384,6 +1383,24 @@ namespace sw
          * @result          包含字串的vector
          */
         static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
+
+        /**
+         * @brief 取两值中的较大值
+         */
+        template <class T>
+        static constexpr inline T Max(const T &a, const T &b)
+        {
+            return a > b ? a : b;
+        }
+
+        /**
+         * @brief 取两值中的较小值
+         */
+        template <class T>
+        static constexpr inline T Min(const T &a, const T &b)
+        {
+            return a < b ? a : b;
+        }
     };
 
     /**
@@ -1399,28 +1416,7 @@ namespace sw
     /*================================================================================*/
 
     template <class T>
-    inline void Utils::_BuildStr(std::wstringstream &wss, const T &arg)
-    {
-        wss << arg;
-    }
-
-    template <class First, class... Rest>
-    inline void Utils::_BuildStr(std::wstringstream &wss, const First &first, const Rest &...rest)
-    {
-        wss << first;
-        Utils::_BuildStr(wss, rest...);
-    }
-
-    template <class... Args>
-    inline std::wstring Utils::BuildStr(const Args &...args)
-    {
-        std::wstringstream wss;
-        Utils::_BuildStr(wss, args...);
-        return wss.str();
-    }
-
-    template <class T>
-    inline std::wstringstream &operator<<(std::wstringstream &wss, const std::vector<T> &vec)
+    std::wstringstream &operator<<(std::wstringstream &wss, const std::vector<T> &vec)
     {
         auto beg = vec.begin();
         auto end = vec.end();
@@ -1435,7 +1431,7 @@ namespace sw
     }
 
     template <class TKey, class TVal>
-    inline std::wstringstream &operator<<(std::wstringstream &wss, const std::map<TKey, TVal> &map)
+    std::wstringstream &operator<<(std::wstringstream &wss, const std::map<TKey, TVal> &map)
     {
         auto beg = map.begin();
         auto end = map.end();
@@ -1638,9 +1634,9 @@ namespace sw
 
     private:
         /**
-         * @brief 菜单句柄
+         * @brief 菜单句柄，使用InitMenuBase函数设置该值
          */
-        HMENU _hMenu;
+        HMENU _hMenu = NULL;
 
         /**
          * @brief 储存所有子项菜单句柄
@@ -1724,7 +1720,7 @@ namespace sw
          * @brief      移除当前菜单中的某个子项
          * @param item 要移除的菜单项
          * @return     返回一个bool值，表示操作是否成功
-        */
+         */
         bool RemoveItem(MenuItem &item);
 
         /**
@@ -1818,6 +1814,12 @@ namespace sw
 
     protected:
         /**
+         * @brief       设置菜单句柄
+         * @param hMenu 菜单句柄
+         */
+        void InitMenuBase(HMENU hMenu);
+
+        /**
          * @brief       根据索引获取ID
          * @param index 索引
          * @return      菜单项的ID
@@ -1840,13 +1842,31 @@ namespace sw
 {
     struct RoutedEventArgs; // RoutedEvent.h
 
-    template <RoutedEventType EventType>
+    /**
+     * @brief    表示特定类型路由事件的事件参数类型，继承自该类的事件参数可以用于RegisterRoutedEvent模板函数
+     * @tparam T 一个RoutedEventType枚举值，表示路由事件类型
+     */
+    template <RoutedEventType T>
     struct RoutedEventArgsOfType : RoutedEventArgs {
-        static const RoutedEventType TYPE = EventType;
-        inline RoutedEventArgsOfType()
+        static constexpr RoutedEventType EventType = T;
+        RoutedEventArgsOfType()
             : RoutedEventArgs(EventType)
         {
         }
+    };
+
+    /**
+     * @brief 结构体模板，用于检测类型T是否含有名为EventType的静态字段
+     */
+    template <typename T, typename = void>
+    struct _IsTypedRoutedEventArgs : std::false_type {
+    };
+
+    /**
+     * @brief 模板特化：当T包含EventType时，将_IsTypedRoutedEventArgs<T>设为std::true_type
+     */
+    template <typename T>
+    struct _IsTypedRoutedEventArgs<T, std::void_t<decltype(T::EventType)>> : std::true_type {
     };
 
     /**
@@ -1940,6 +1960,16 @@ namespace sw
     };
 
     /**
+     * @brief 由用户操作唤起上下文菜单的事件参数类型
+     */
+    struct OnContextMenuEventArgs : RoutedEventArgsOfType<UIElement_OnContextMenu> {
+        bool cancel = false; // 是否取消显示上下文菜单
+        bool isKeyboardMsg;  // 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
+        Point mousePosition; // 鼠标在屏幕中的位置
+        OnContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition);
+    };
+
+    /**
      * @brief 窗口正在关闭事件参数类型
      */
     struct WindowClosingEventArgs : RoutedEventArgsOfType<Window_Closing> {
@@ -1960,6 +1990,48 @@ namespace sw
     public:
         static const ReadOnlyProperty<double> Width;
         static const ReadOnlyProperty<double> Height;
+    };
+}
+
+// ContextMenu.h
+
+
+namespace sw
+{
+    class ContextMenu : public MenuBase
+    {
+    public:
+        /**
+         * @brief 初始化上下文菜单
+         */
+        ContextMenu();
+
+        /**
+         * @brief 初始化上下文菜单并设置菜单项
+         */
+        ContextMenu(std::initializer_list<MenuItem> items);
+
+        /**
+         * @brief    判断ID是否为上下文菜单项的ID
+         * @param id 要判断的ID
+         * @return   ID是否为上下文菜单项的ID
+         */
+        static bool IsContextMenuID(int id);
+
+    protected:
+        /**
+         * @brief       根据索引获取ID
+         * @param index 索引
+         * @return      菜单项的ID
+         */
+        virtual int IndexToID(int index) override;
+
+        /**
+         * @brief    根据ID获取索引
+         * @param id 菜单项的ID
+         * @return   索引
+         */
+        virtual int IDToIndex(int id) override;
     };
 }
 
@@ -2588,6 +2660,14 @@ namespace sw
          */
         virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc);
 
+        /**
+         * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
+         * @param isKeyboardMsg 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
+         * @param mousePosition 鼠标在屏幕中的位置
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition);
+
     public:
         /**
          * @brief 该函数调用ShowWindow
@@ -2921,12 +3001,12 @@ namespace sw
          */
         uint32_t _layoutTag = 0;
 
-    public:
         /**
-         * @brief 描述
+         * @brief 上下文菜单
          */
-        std::wstring Description = L"";
+        sw::ContextMenu *_contextMenu = nullptr;
 
+    public:
         /**
          * @brief 边距
          */
@@ -2962,6 +3042,11 @@ namespace sw
          */
         const Property<uint32_t> LayoutTag;
 
+        /**
+         * @brief 右键按下时弹出的菜单
+         */
+        const Property<sw::ContextMenu *> ContextMenu;
+
     public:
         UIElement();
         ~UIElement();
@@ -2969,9 +3054,73 @@ namespace sw
         /**
          * @brief           注册路由事件处理函数，当事件已注册时会覆盖已注册的函数
          * @param eventType 路由事件类型
-         * @param event     处理函数，当值为nullptr时可取消注册
+         * @param handler   处理函数，当值为nullptr时可取消注册
          */
-        void RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &event);
+        void RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &handler);
+
+        /**
+         * @brief           注册成员函数作为路由事件处理函数，当事件已注册时会覆盖已注册的函数
+         * @tparam T        成员函数所在的类
+         * @param eventType 路由事件类型
+         * @param obj       注册的成员函数所在的对象
+         * @param handler   处理函数，当值为nullptr时可取消注册
+         */
+        template <typename T>
+        void RegisterRoutedEvent(RoutedEventType eventType, T &obj, void (T::*handler)(UIElement &, RoutedEventArgs &))
+        {
+            if (handler == nullptr) {
+                this->UnregisterRoutedEvent(eventType);
+                return;
+            }
+            T *p = &obj;
+            this->RegisterRoutedEvent(eventType, [p, handler](UIElement &sender, RoutedEventArgs &e) {
+                (p->*handler)(sender, e);
+            });
+        }
+
+        /**
+         * @brief             根据事件参数类型注册路由事件
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventOfType<...>
+         * @param handler     事件的处理函数，当值为nullptr时可取消注册
+         */
+        template <
+            typename TEventArgs,
+            typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0,
+            typename std::enable_if<sw::_IsTypedRoutedEventArgs<TEventArgs>::value, int>::type      = 0>
+        void RegisterRoutedEvent(std::function<void(UIElement &, TEventArgs &)> handler)
+        {
+            if (!handler) {
+                this->UnregisterRoutedEvent(TEventArgs::EventType);
+                return;
+            }
+            this->RegisterRoutedEvent(TEventArgs::EventType, [handler](UIElement &sender, RoutedEventArgs &e) {
+                handler(sender, static_cast<TEventArgs &>(e));
+            });
+        }
+
+        /**
+         * @brief             根据事件参数类型注册成员函数作为路由事件
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventOfType<...>
+         * @tparam THandleObj 成员函数所在的类
+         * @param obj         注册的成员函数所在的对象
+         * @param handler     事件的处理函数，当值为nullptr时可取消注册
+         */
+        template <
+            typename TEventArgs,
+            typename THandleObj,
+            typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0,
+            typename std::enable_if<sw::_IsTypedRoutedEventArgs<TEventArgs>::value, int>::type      = 0>
+        void RegisterRoutedEvent(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        {
+            if (handler == nullptr) {
+                this->UnregisterRoutedEvent(TEventArgs::EventType);
+                return;
+            }
+            THandleObj *p = &obj;
+            this->RegisterRoutedEvent(TEventArgs::EventType, [p, handler](UIElement &sender, RoutedEventArgs &e) {
+                (p->*handler)(sender, static_cast<TEventArgs &>(e));
+            });
+        }
 
         /**
          * @brief           取消对应类型路由事件的注册
@@ -3051,6 +3200,12 @@ namespace sw
          * @brief 通过索引获取子控件
          */
         UIElement &operator[](int index) const;
+
+        /**
+         * @brief       弹出当前元素的上下文菜单
+         * @param point 弹出菜单左上角在屏幕中的位置
+         */
+        void ShowContextMenu(const Point &point);
 
         /**
          * @brief 获取布局标记
@@ -3268,54 +3423,21 @@ namespace sw
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseMiddleButtonUp(Point mousePosition, MouseKey keyState) override;
+
+        /**
+         * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
+         * @param isKeyboardMsg 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
+         * @param mousePosition 鼠标在屏幕中的位置
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override;
+
+        /**
+         * @brief    当WM_COMMAND接收到菜单命令时调用该函数
+         * @param id 菜单id
+         */
+        virtual void OnMenuCommand(int id) override;
     };
-
-    /*====================================================================================================*/
-
-    /**
-     * @brief                   根据事件参数类型注册路由事件
-     * @tparam TEventArgs       路由事件参数类型
-     * @param elementToRegister 要注册该事件的对象
-     * @param handler           处理该事件的函数
-     */
-    template <
-        typename TEventArgs,
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0>
-    inline void RegisterRoutedEvent(UIElement &elementToRegister, std::function<void(UIElement &, TEventArgs &)> handler)
-    {
-        if (!handler) {
-            elementToRegister.UnregisterRoutedEvent(TEventArgs::TYPE);
-            return;
-        }
-        elementToRegister.RegisterRoutedEvent(TEventArgs::TYPE, [handler](UIElement &element, RoutedEventArgs &args) {
-            handler(element, static_cast<TEventArgs &>(args));
-        });
-    }
-
-    /**
-     * @brief                   注册特定类型的路由事件，当类型不匹配时自动忽略
-     * @tparam TElement         发出该事件对象的类型
-     * @tparam TEventArgs       该事件的事件参数类型
-     * @param elementToRegister 要注册该事件的对象
-     * @param handler           处理该事件的函数
-     */
-    template <
-        typename TElement,
-        typename TEventArgs,
-        typename std::enable_if<std::is_base_of<UIElement, TElement>::value, int>::type         = 0,
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0>
-    inline void RegisterRoutedEvent(UIElement &elementToRegister, std::function<void(TElement &, TEventArgs &)> handler)
-    {
-        if (!handler) {
-            elementToRegister.UnregisterRoutedEvent(TEventArgs::TYPE);
-            return;
-        }
-        elementToRegister.RegisterRoutedEvent(TEventArgs::TYPE, [handler](UIElement &element, RoutedEventArgs &args) {
-            TElement *pElement = dynamic_cast<TElement *>(&element);
-            if (pElement != nullptr)
-                handler(*pElement, static_cast<TEventArgs &>(args));
-        });
-    }
 }
 
 // WrapLayoutH.h
@@ -3760,12 +3882,12 @@ namespace sw
          */
         Window *_modalOwner = nullptr;
 
-    public:
         /**
-         * @brief 窗口的顶部菜单，可将ShowMenu属性设置为true以显示菜单
+         * @brief 窗口顶部菜单
          */
-        sw::Menu Menu;
+        sw::Menu *_menu = nullptr;
 
+    public:
         /**
          * @brief 窗口初次启动的位置
          */
@@ -3832,9 +3954,9 @@ namespace sw
         const Property<double> MinHeight;
 
         /**
-         * @brief 是否显示菜单
+         * @brief 窗口顶部的菜单栏
          */
-        const Property<bool> ShowMenu;
+        const Property<sw::Menu *> Menu;
 
     public:
         Window();

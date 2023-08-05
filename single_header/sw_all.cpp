@@ -239,6 +239,39 @@ std::wostream &sw::operator<<(std::wostream &wos, const Color &color)
     return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
 }
 
+// ContextMenu.cpp
+
+/**
+ * @brief 上下文菜单ID的起始位置，用于与普通菜单ID区分
+ */
+static constexpr int _ContextMenuIDFirst = 50000;
+
+sw::ContextMenu::ContextMenu()
+{
+    this->InitMenuBase(CreatePopupMenu());
+}
+
+sw::ContextMenu::ContextMenu(std::initializer_list<MenuItem> items)
+    : ContextMenu()
+{
+    this->SetItems(items);
+}
+
+bool sw::ContextMenu::IsContextMenuID(int id)
+{
+    return id >= _ContextMenuIDFirst;
+}
+
+int sw::ContextMenu::IndexToID(int index)
+{
+    return index + _ContextMenuIDFirst;
+}
+
+int sw::ContextMenu::IDToIndex(int id)
+{
+    return id - _ContextMenuIDFirst;
+}
+
 // Control.cpp
 
 sw::Control::Control()
@@ -1011,12 +1044,12 @@ void sw::LayoutHost::Arrange(const Rect &finalPosition)
 // Menu.cpp
 
 sw::Menu::Menu()
-    : MenuBase()
 {
+    this->InitMenuBase(CreateMenu());
 }
 
 sw::Menu::Menu(std::initializer_list<MenuItem> items)
-    : MenuBase()
+    : Menu()
 {
     this->SetItems(items);
 }
@@ -1035,7 +1068,7 @@ int sw::Menu::IDToIndex(int id)
 
 sw::MenuBase::MenuBase()
 {
-    this->_hMenu = CreateMenu();
+    /*this->_hMenu = CreateMenu();*/
 }
 
 sw::MenuBase::MenuBase(const MenuBase &menu)
@@ -1048,7 +1081,10 @@ sw::MenuBase::MenuBase(const MenuBase &menu)
 sw::MenuBase::~MenuBase()
 {
     this->_ClearAddedItems();
-    DestroyMenu(this->_hMenu);
+
+    if (this->_hMenu != NULL) {
+        DestroyMenu(this->_hMenu);
+    }
 }
 
 sw::MenuBase &sw::MenuBase::operator=(const MenuBase &menu)
@@ -1069,8 +1105,7 @@ void sw::MenuBase::Update()
 
     int i = 0;
     for (std::shared_ptr<MenuItem> pItem : this->items) {
-        if (!pItem->IsSeparator())
-            this->_AppendMenuItem(this->_hMenu, pItem, i++);
+        this->_AppendMenuItem(this->_hMenu, pItem, i++);
     }
 }
 
@@ -1441,6 +1476,13 @@ sw::MenuBase::_MenuItemDependencyInfo *sw::MenuBase::_GetMenuItemDependencyInfo(
     return this->_dependencyInfoMap.count(p) ? &this->_dependencyInfoMap[p] : nullptr;
 }
 
+void sw::MenuBase::InitMenuBase(HMENU hMenu)
+{
+    if (this->_hMenu == NULL) {
+        this->_hMenu = hMenu;
+    }
+}
+
 // MenuItem.cpp
 
 sw::MenuItem::MenuItem(const std::wstring &text)
@@ -1567,7 +1609,7 @@ const sw::MsgBox &sw::MsgBox::OnCancel(const MsgBoxCallback &callback) const
 
 sw::Panel::Panel()
 {
-    this->InitControl(L"STATIC", NULL, WS_CHILD | WS_VISIBLE);
+    this->InitControl(L"STATIC", NULL, WS_CHILD | WS_VISIBLE | SS_NOTIFY);
     this->HorizontalAlignment = HorizontalAlignment::Stretch;
     this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
@@ -1855,6 +1897,11 @@ sw::MouseButtonDownEventArgs::MouseButtonDownEventArgs(MouseKey key, Point mouse
 {
 }
 
+sw::OnContextMenuEventArgs::OnContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition)
+    : isKeyboardMsg(isKeyboardMsg), mousePosition(mousePosition)
+{
+}
+
 sw::MouseButtonUpEventArgs::MouseButtonUpEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
     : key(key), mousePosition(mousePosition), keyState(keyState)
 {
@@ -2117,6 +2164,16 @@ sw::UIElement::UIElement()
           [&](const uint32_t &value) {
               this->_layoutTag = value;
               this->NotifyLayoutUpdated();
+          }),
+
+      ContextMenu(
+          // get
+          [&]() -> sw::ContextMenu *const & {
+              return this->_contextMenu;
+          },
+          // set
+          [&](sw::ContextMenu *const &value) {
+              this->_contextMenu = value;
           })
 {
 }
@@ -2132,10 +2189,10 @@ sw::UIElement::~UIElement()
     this->_children.clear();
 }
 
-void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &event)
+void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &handler)
 {
-    if (event) {
-        this->_eventMap[eventType] = event;
+    if (handler) {
+        this->_eventMap[eventType] = handler;
     } else {
         this->UnregisterRoutedEvent(eventType);
     }
@@ -2261,6 +2318,12 @@ int sw::UIElement::IndexOf(UIElement &element)
 sw::UIElement &sw::UIElement::operator[](int index) const
 {
     return *this->_children[index];
+}
+
+void sw::UIElement::ShowContextMenu(const Point &point)
+{
+    POINT p = point;
+    TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, nullptr);
 }
 
 uint32_t sw::UIElement::GetLayoutTag()
@@ -2583,6 +2646,30 @@ bool sw::UIElement::OnMouseMiddleButtonUp(Point mousePosition, MouseKey keyState
     return false;
 }
 
+bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+{
+    if (this->_contextMenu == nullptr) {
+        return false;
+    }
+
+    OnContextMenuEventArgs args(isKeyboardMsg, mousePosition);
+    this->RaiseRoutedEvent(args);
+
+    if (!args.cancel) {
+        this->ShowContextMenu(isKeyboardMsg ? this->PointToScreen({0, 0}) : mousePosition);
+    }
+
+    return true;
+}
+
+void sw::UIElement::OnMenuCommand(int id)
+{
+    if (this->_contextMenu) {
+        MenuItem *item = this->_contextMenu->GetMenuItem(id);
+        if (item) item->CallCommand();
+    }
+}
+
 // Utils.cpp
 
 std::wstring sw::Utils::ToWideStr(const std::string &str, bool utf8)
@@ -2844,17 +2931,15 @@ sw::Window::Window()
               this->Height     = this->Height;
           }),
 
-      ShowMenu(
+      Menu(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = GetMenu(this->Handle) != NULL;
-              return result;
+          [&]() -> sw::Menu *const & {
+              return this->_menu;
           },
           // set
-          [&](const bool &value) {
-              HMENU hMenu = value ? this->Menu.GetHandle() : NULL;
-              SetMenu(this->Handle, hMenu);
+          [&](sw::Menu *const &value) {
+              this->_menu = value;
+              SetMenu(this->Handle, value != nullptr ? value->GetHandle() : NULL);
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, NULL, NULL);
@@ -2985,8 +3070,14 @@ bool sw::Window::OnMouseMove(Point mousePosition, MouseKey keyState)
 
 void sw::Window::OnMenuCommand(int id)
 {
-    MenuItem *item = this->Menu.GetMenuItem(id);
-    if (item) item->CallCommand();
+    if (ContextMenu::IsContextMenuID(id)) {
+        this->UIElement::OnMenuCommand(id);
+        return;
+    }
+    if (this->_menu) {
+        MenuItem *item = this->_menu->GetMenuItem(id);
+        if (item) item->CallCommand();
+    }
 }
 
 void sw::Window::Show()
@@ -3643,6 +3734,18 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return useDefaultWndProc ? this->DefaultWndProc(refMsg) : result;
         }
 
+        case WM_CONTEXTMENU: {
+            WndBase *pWnd = WndBase::GetWndBase((HWND)refMsg.wParam);
+            if (pWnd == nullptr) {
+                return this->DefaultWndProc(refMsg);
+            } else {
+                int xPos = GET_X_LPARAM(refMsg.lParam);
+                int yPos = GET_Y_LPARAM(refMsg.lParam);
+                bool res = this->OnContextMenu(xPos == -1 && yPos == -1, POINT{xPos, yPos});
+                return res ? 0 : this->DefaultWndProc(refMsg);
+            }
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }
@@ -3866,6 +3969,11 @@ void sw::WndBase::FontChanged(HFONT hfont)
 }
 
 bool sw::WndBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+{
+    return false;
+}
+
+bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
 {
     return false;
 }
