@@ -614,12 +614,12 @@ bool sw::WndBase::OnPaint()
 
 bool sw::WndBase::OnMove(Point newClientPosition)
 {
-    return true;
+    return false;
 }
 
 bool sw::WndBase::OnSize(Size newClientSize)
 {
-    return true;
+    return false;
 }
 
 bool sw::WndBase::OnSetText(std::wstring &newText)
@@ -633,12 +633,12 @@ void sw::WndBase::OnTextChanged(const std::wstring &newText)
 
 bool sw::WndBase::OnSetFocus(HWND hPrevFocus)
 {
-    return true;
+    return false;
 }
 
 bool sw::WndBase::OnKillFocus(HWND hNextFocus)
 {
-    return true;
+    return false;
 }
 
 bool sw::WndBase::OnMouseMove(Point mousePos, MouseKey keyState)
