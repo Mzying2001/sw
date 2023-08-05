@@ -443,7 +443,7 @@ bool sw::UIElement::OnMove(Point newClientPosition)
 {
     PositionChangedEventArgs args(newClientPosition);
     this->RaiseRoutedEvent(args);
-    return true;
+    return false;
 }
 
 bool sw::UIElement::OnSize(Size newClientSize)
@@ -459,7 +459,7 @@ bool sw::UIElement::OnSize(Size newClientSize)
     this->RaiseRoutedEvent(args);
 
     this->NotifyLayoutUpdated();
-    return true;
+    return false;
 }
 
 void sw::UIElement::OnTextChanged(const std::wstring &newText)
@@ -478,13 +478,13 @@ void sw::UIElement::VisibleChanged(bool newVisible)
 bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 {
     this->RaiseRoutedEvent(UIElement_GotFocus);
-    return true;
+    return false;
 }
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
     this->RaiseRoutedEvent(UIElement_LostFocus);
-    return true;
+    return false;
 }
 
 bool sw::UIElement::OnChar(wchar_t ch, KeyFlags flags)
