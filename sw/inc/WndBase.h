@@ -275,13 +275,6 @@ namespace sw
         virtual bool OnSize(Size newClientSize);
 
         /**
-         * @brief         Text属性被赋值时调用此函数
-         * @param newText Text的新值
-         * @return        若要修改Text则返回true，否则返回false
-         */
-        virtual bool OnSetText(std::wstring &newText);
-
-        /**
          * @brief         Text属性更改时调用此函数
          * @param newText Text的新值
          */

@@ -201,9 +201,7 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const std::wstring &value) {
-              std::wstring newText = value;
-              if (this->OnSetText(newText))
-                  SetWindowTextW(this->_hwnd, newText.c_str());
+              SetWindowTextW(this->_hwnd, value.c_str());
           }),
 
       Focused(
@@ -620,11 +618,6 @@ bool sw::WndBase::OnMove(Point newClientPosition)
 bool sw::WndBase::OnSize(Size newClientSize)
 {
     return false;
-}
-
-bool sw::WndBase::OnSetText(std::wstring &newText)
-{
-    return true;
 }
 
 void sw::WndBase::OnTextChanged(const std::wstring &newText)
