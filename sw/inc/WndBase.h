@@ -174,12 +174,12 @@ namespace sw
         /**
          * @brief 初始化为窗口，该函数会调用CreateWindowExW
          */
-        void InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu);
+        void InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
 
         /**
          * @brief 初始化为控件，该函数会调用CreateWindowExW
          */
-        void InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle);
+        void InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
 
         /**
          * @brief 获取窗口样式

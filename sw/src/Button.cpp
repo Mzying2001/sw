@@ -5,7 +5,7 @@
 
 sw::Button::Button()
 {
-    this->InitButtonBase(L"Button", BUTTONSTYLE_DEFAULT);
+    this->InitButtonBase(L"Button", BUTTONSTYLE_DEFAULT, 0);
     this->Rect = sw::Rect(0, 0, 70, 30);
 }
 

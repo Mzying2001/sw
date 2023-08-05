@@ -4,9 +4,9 @@ sw::ButtonBase::ButtonBase()
 {
 }
 
-void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle)
+void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
-    this->InitControl(L"BUTTON", lpWindowName, dwStyle);
+    this->InitControl(L"BUTTON", lpWindowName, dwStyle, dwExStyle);
 }
 
 void sw::ButtonBase::OnCommand(int code)

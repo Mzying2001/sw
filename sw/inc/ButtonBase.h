@@ -13,7 +13,7 @@ namespace sw
         /**
          * @brief 初始化控件
          */
-        void InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle);
+        void InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
 
         /**
          * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数

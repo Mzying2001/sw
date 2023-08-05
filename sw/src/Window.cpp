@@ -189,7 +189,7 @@ sw::Window::Window()
               SetMenu(this->Handle, value != nullptr ? value->GetHandle() : NULL);
           })
 {
-    this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, NULL, NULL);
+    this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
     this->SetCursor(StandardCursor::Arrow);
     this->SetIcon(_GetWindowDefaultIcon());
 }

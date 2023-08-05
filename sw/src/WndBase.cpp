@@ -254,14 +254,14 @@ sw::WndBase::~WndBase()
     }
 }
 
-void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu)
+void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
     if (this->_hwnd == NULL) {
 
         this->_text = lpWindowName ? lpWindowName : L"";
 
         this->_hwnd = CreateWindowExW(
-            0,                 // Optional window styles
+            dwExStyle,         // Optional window styles
             WINDOW_CLASS_NAME, // Window class
             lpWindowName,      // Window text
             dwStyle,           // Window style
@@ -269,8 +269,8 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParen
             // Size and position
             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 
-            hWndParent,    // Parent window
-            hMenu,         // Menu
+            NULL,          // Parent window
+            NULL,          // Menu
             App::Instance, // Instance handle
             this           // Additional application data
         );
@@ -286,7 +286,7 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParen
     }
 }
 
-void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle)
+void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
     if (_controlInitContainer == NULL) {
         _controlInitContainer = CreateWindowExW(0, WINDOW_CLASS_NAME, L"", WS_POPUP, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
@@ -297,7 +297,7 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         this->_text = lpWindowName ? lpWindowName : L"";
 
         this->_hwnd = CreateWindowExW(
-            0,            // Optional window styles
+            dwExStyle,    // Optional window styles
             lpClassName,  // Window class
             lpWindowName, // Window text
             dwStyle,      // Window style
