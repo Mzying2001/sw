@@ -1,13 +1,12 @@
 #include "Menu.h"
 
 sw::Menu::Menu()
-    : MenuBase()
 {
     this->InitMenuBase(CreateMenu());
 }
 
 sw::Menu::Menu(std::initializer_list<MenuItem> items)
-    : MenuBase()
+    : Menu()
 {
     this->SetItems(items);
 }

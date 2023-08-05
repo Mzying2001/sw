@@ -11,6 +11,7 @@ sw::ContextMenu::ContextMenu()
 }
 
 sw::ContextMenu::ContextMenu(std::initializer_list<MenuItem> items)
+    : ContextMenu()
 {
     this->SetItems(items);
 }
