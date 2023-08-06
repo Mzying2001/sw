@@ -12,6 +12,16 @@ namespace sw
          */
         const Property<bool> MultiLine;
 
+        /**
+         * @brief 是否显示横向滚动条
+         */
+        const Property<bool> HorizontalScrollBar;
+
+        /**
+         * @brief 是否显示纵向滚动条
+         */
+        const Property<bool> VerticalScrollBar;
+
     public:
         /**
          * @brief 初始化编辑框
