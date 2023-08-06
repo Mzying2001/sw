@@ -20,6 +20,11 @@ namespace sw
          */
         const Property<bool> ReadOnly;
 
+        /**
+         * @brief 是否允许多行文本
+         */
+        const Property<bool> MultiLine;
+
     protected:
         /**
          * @brief  获取窗口文本

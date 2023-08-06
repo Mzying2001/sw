@@ -11,6 +11,21 @@ sw::TextBox::TextBox()
           // set
           [&](const bool &value) {
               this->SendMessageW(EM_SETREADONLY, value, NULL);
+          }),
+
+      MultiLine(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(ES_MULTILINE);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->MultiLine != value) {
+                  this->SetStyle(ES_MULTILINE, value);
+                  this->ResetHandle();
+              }
           })
 {
     this->InitControl(L"EDIT", L"", WS_CHILD | WS_VISIBLE | ES_LEFT | ES_AUTOHSCROLL | ES_AUTOVSCROLL, WS_EX_CLIENTEDGE);
