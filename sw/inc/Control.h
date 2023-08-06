@@ -46,6 +46,11 @@ namespace sw
 
     protected:
         /**
+         * @brief 销毁控件句柄并重新初始化，该操作会创建新的句柄并设置样式、文本、字体等
+         */
+        void ResetHandle();
+
+        /**
          * @brief                   接收到WM_SETCURSOR消息时调用该函数
          * @param hwnd              鼠标所在窗口的句柄
          * @param hitTest           hit-test的结果，详见WM_NCHITTEST消息的返回值
