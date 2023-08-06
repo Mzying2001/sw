@@ -1,7 +1,24 @@
 #include "TextBox.h"
 
 sw::TextBox::TextBox()
-    : MultiLine(
+    : AutoWrap(
+          // get
+          [&]() -> const bool & {
+              return this->_autoWrap;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->_autoWrap == value) {
+                  return;
+              }
+              this->_autoWrap = value;
+              if (this->MultiLine && this->GetStyle(ES_AUTOHSCROLL) == value) {
+                  this->SetStyle(ES_AUTOHSCROLL, !value);
+                  this->ResetHandle();
+              }
+          }),
+
+      MultiLine(
           // get
           [&]() -> const bool & {
               static bool result;
@@ -12,6 +29,7 @@ sw::TextBox::TextBox()
           [&](const bool &value) {
               if (this->MultiLine != value) {
                   this->SetStyle(ES_MULTILINE, value);
+                  this->SetStyle(ES_AUTOHSCROLL, !(value && this->_autoWrap));
                   this->ResetHandle();
               }
           }),

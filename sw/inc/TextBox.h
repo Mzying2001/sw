@@ -6,7 +6,18 @@ namespace sw
 {
     class TextBox : public TextBoxBase
     {
+    private:
+        /**
+         * @brief 是否自动换行
+         */
+        bool _autoWrap = false;
+
     public:
+        /**
+         * @brief 是否自动换行，仅在MultiLine属性为true时有效
+         */
+        const Property<bool> AutoWrap;
+
         /**
          * @brief 是否允许多行文本
          */
