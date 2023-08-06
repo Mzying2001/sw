@@ -13,14 +13,24 @@ void sw::ButtonBase::OnCommand(int code)
 {
     switch (code) {
         case BN_CLICKED:
-            this->RaiseRoutedEvent(ButtonBase_Clicked);
+            this->OnClicked();
             break;
 
         case BN_DOUBLECLICKED:
-            this->RaiseRoutedEvent(ButtonBase_DoubleClicked);
+            this->OnDoubleClicked();
             break;
 
         default:
             break;
     }
+}
+
+void sw::ButtonBase::OnClicked()
+{
+    this->RaiseRoutedEvent(ButtonBase_Clicked);
+}
+
+void sw::ButtonBase::OnDoubleClicked()
+{
+    this->RaiseRoutedEvent(ButtonBase_DoubleClicked);
 }

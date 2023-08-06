@@ -22,5 +22,15 @@ namespace sw
          * @param code 通知代码
          */
         virtual void OnCommand(int code) override;
+
+        /**
+         * @brief 被单击时调用该函数
+         */
+        virtual void OnClicked();
+
+        /**
+         * @brief 被双击时调用该函数
+         */
+        virtual void OnDoubleClicked();
     };
 }
