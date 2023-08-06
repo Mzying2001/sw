@@ -87,11 +87,16 @@ void sw::TextBoxBase::OnCommand(int code)
 {
     switch (code) {
         case EN_CHANGE: {
-            this->_isTextChanged = true;
+            this->OnTextChanged();
             break;
         }
 
         default:
             break;
     }
+}
+
+void sw::TextBoxBase::OnTextChanged()
+{
+    this->_isTextChanged = true;
 }

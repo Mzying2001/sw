@@ -45,5 +45,10 @@ namespace sw
          * @param code 通知代码
          */
         virtual void OnCommand(int code) override;
+
+        /**
+         * @brief 文本被改变时调用该函数
+         */
+        virtual void OnTextChanged();
     };
 }
