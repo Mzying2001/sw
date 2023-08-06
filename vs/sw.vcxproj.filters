@@ -159,6 +159,9 @@
     <ClInclude Include="..\sw\inc\ContextMenu.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\TextBoxBase.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\TextBox.h">
       <Filter>inc</Filter>
     </ClInclude>
@@ -294,6 +297,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\ContextMenu.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\TextBoxBase.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\TextBox.cpp">
