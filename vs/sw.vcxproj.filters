@@ -165,6 +165,9 @@
     <ClInclude Include="..\sw\inc\TextBox.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\PasswordBox.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\AbsoluteLayout.cpp">
@@ -303,6 +306,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\TextBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\PasswordBox.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

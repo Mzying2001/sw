@@ -28,6 +28,7 @@
 #include "MenuItem.h"
 #include "MsgBox.h"
 #include "Panel.h"
+#include "PasswordBox.h"
 #include "Path.h"
 #include "Point.h"
 #include "ProcMsg.h"
