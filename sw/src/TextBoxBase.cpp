@@ -100,3 +100,13 @@ void sw::TextBoxBase::OnTextChanged()
 {
     this->_isTextChanged = true;
 }
+
+void sw::TextBoxBase::Select(int start, int length)
+{
+    this->SendMessageW(EM_SETSEL, start, start + length);
+}
+
+void sw::TextBoxBase::SelectAll()
+{
+    this->SendMessageW(EM_SETSEL, 0, -1);
+}

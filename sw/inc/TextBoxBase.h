@@ -50,5 +50,18 @@ namespace sw
          * @brief 文本被改变时调用该函数
          */
         virtual void OnTextChanged();
+
+    public:
+        /**
+         * @brief        选择指定文本内容
+         * @param start  起始位置
+         * @param length 选择文本的长度
+         */
+        void Select(int start, int length);
+
+        /**
+         * @brief 选中所有文本
+         */
+        void SelectAll();
     };
 }
