@@ -15,6 +15,11 @@ namespace sw
     public:
         TextBox();
 
+        /**
+         * @brief 是否只读
+         */
+        const Property<bool> ReadOnly;
+
     protected:
         /**
          * @brief  获取窗口文本

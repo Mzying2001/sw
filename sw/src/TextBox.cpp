@@ -1,6 +1,17 @@
 #include "TextBox.h"
 
 sw::TextBox::TextBox()
+    : ReadOnly(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(ES_READONLY);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SendMessageW(EM_SETREADONLY, value, NULL);
+          })
 {
     this->InitControl(L"EDIT", L"", WS_CHILD | WS_VISIBLE | ES_LEFT | ES_AUTOHSCROLL | ES_AUTOVSCROLL, WS_EX_CLIENTEDGE);
     this->Rect = sw::Rect(0, 0, 100, 24);
