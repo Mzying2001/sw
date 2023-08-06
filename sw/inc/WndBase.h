@@ -13,6 +13,7 @@
 #include "WndMsg.h"
 #include <Windows.h>
 #include <string>
+#include <type_traits>
 #include <windowsx.h>
 
 namespace sw

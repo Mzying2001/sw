@@ -9,7 +9,10 @@ static PCWSTR WINDOW_CLASS_NAME = L"sw::WndBase";
 /**
  * @brief 控件初始化时所在的窗口
  */
-static HWND _controlInitContainer = NULL;
+static struct : sw::WndBase{} *_controlInitContainer = nullptr;
+
+/**
+ */
 
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -22,7 +25,8 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     }
 
     if (pWnd != NULL) {
-        return pWnd->WndProc(ProcMsg(hwnd, uMsg, wParam, lParam));
+        ProcMsg msg(hwnd, uMsg, wParam, lParam);
+        return pWnd->WndProc(msg);
     } else {
         return DefWindowProcW(hwnd, uMsg, wParam, lParam);
     }
@@ -286,8 +290,9 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
 
 void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
-    if (_controlInitContainer == NULL) {
-        _controlInitContainer = CreateWindowExW(0, WINDOW_CLASS_NAME, L"", WS_POPUP, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+    if (_controlInitContainer == nullptr) {
+        _controlInitContainer = new std::remove_reference_t<decltype(*_controlInitContainer)>;
+        _controlInitContainer->InitWindow(L"", WS_POPUP, 0);
     }
 
     if (this->_hwnd == NULL) {
@@ -303,10 +308,10 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
             // Size and position
             0, 0, 0, 0,
 
-            _controlInitContainer, // Parent window
-            NULL,                  // Menu
-            App::Instance,         // Instance handle
-            this                   // Additional application data
+            _controlInitContainer->_hwnd, // Parent window
+            NULL,                         // Menu
+            App::Instance,                // Instance handle
+            this                          // Additional application data
         );
 
         this->HandleInitialized(this->_hwnd);
@@ -754,7 +759,7 @@ bool sw::WndBase::SetParent(WndBase *parent)
     HWND hParent;
 
     if (parent == nullptr) {
-        hParent = this->IsControl() ? _controlInitContainer : NULL;
+        hParent = this->IsControl() ? _controlInitContainer->_hwnd : NULL;
     } else {
         hParent = parent->Handle;
     }
