@@ -6,10 +6,12 @@ namespace sw
 {
     class ButtonBase : public Control
     {
-    public:
+    protected:
+        /**
+         * @brief 初始化ButtonBase
+         */
         ButtonBase();
 
-    protected:
         /**
          * @brief 初始化控件
          */
