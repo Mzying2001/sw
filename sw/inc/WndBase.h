@@ -237,6 +237,18 @@ namespace sw
         virtual LRESULT WndProc(const ProcMsg &refMsg);
 
         /**
+         * @brief  获取窗口文本
+         * @return _text字段
+         */
+        virtual std::wstring &GetText();
+
+        /**
+         * @brief       调用SetWindowTextW设置窗口文本
+         * @param value 要设置的文本
+         */
+        virtual void SetText(const std::wstring &value);
+
+        /**
          * @brief  接收到WM_CREATE时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */

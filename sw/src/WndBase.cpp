@@ -197,11 +197,11 @@ sw::WndBase::WndBase()
       Text(
           // get
           [&]() -> const std::wstring & {
-              return this->_text;
+              return this->GetText();
           },
           // set
           [&](const std::wstring &value) {
-              SetWindowTextW(this->_hwnd, value.c_str());
+              this->SetText(value);
           }),
 
       Focused(
@@ -587,6 +587,16 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->DefaultWndProc(refMsg);
         }
     }
+}
+
+std::wstring &sw::WndBase::GetText()
+{
+    return this->_text;
+}
+
+void sw::WndBase::SetText(const std::wstring &value)
+{
+    SetWindowTextW(this->_hwnd, value.c_str());
 }
 
 bool sw::WndBase::OnCreate()
