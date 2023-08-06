@@ -59,9 +59,9 @@ void sw::Control::ResetHandle()
 
     LONG_PTR wndProc = GetWindowLongPtrW(oldHwnd, GWLP_WNDPROC);
     SetWindowLongPtrW(refHwnd, GWLP_WNDPROC, wndProc);
+    this->SendMessageW(WM_SETFONT, (WPARAM)this->GetFontHandle(), TRUE);
 
     DestroyWindow(oldHwnd);
-    this->UpdateFont();
 }
 
 bool sw::Control::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
