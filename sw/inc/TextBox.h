@@ -13,8 +13,6 @@ namespace sw
         bool _isTextChanged = false;
 
     public:
-        TextBox();
-
         /**
          * @brief 是否只读
          */
@@ -24,6 +22,17 @@ namespace sw
          * @brief 是否允许多行文本
          */
         const Property<bool> MultiLine;
+
+        /**
+         * @brief 文本的水平对齐方式，可设为左对齐、中心对齐、右对齐
+         */
+        const Property<sw::HorizontalAlignment> HorizontalContentAlignment;
+
+    public:
+        /**
+         * @brief 初始化编辑框
+         */
+        TextBox();
 
     protected:
         /**

@@ -26,6 +26,45 @@ sw::TextBox::TextBox()
                   this->SetStyle(ES_MULTILINE, value);
                   this->ResetHandle();
               }
+          }),
+
+      HorizontalContentAlignment(
+          // get
+          [&]() -> const sw::HorizontalAlignment & {
+              static sw::HorizontalAlignment result;
+              LONG_PTR style = this->GetStyle();
+              if (style & ES_CENTER) {
+                  result = sw::HorizontalAlignment::Center;
+              } else if (style & ES_RIGHT) {
+                  result = sw::HorizontalAlignment::Right;
+              } else {
+                  result = sw::HorizontalAlignment::Left;
+              }
+              return result;
+          },
+          // set
+          [&](const sw::HorizontalAlignment &value) {
+              switch (value) {
+                  case sw::HorizontalAlignment::Left: {
+                      this->SetStyle(ES_CENTER | ES_RIGHT, false);
+                      break;
+                  }
+                  case sw::HorizontalAlignment::Center: {
+                      LONG_PTR style = this->GetStyle();
+                      style &= ~(ES_CENTER | ES_RIGHT);
+                      style |= ES_CENTER;
+                      this->SetStyle(style);
+                      break;
+                  }
+                  case sw::HorizontalAlignment::Right: {
+                      LONG_PTR style = this->GetStyle();
+                      style &= ~(ES_CENTER | ES_RIGHT);
+                      style |= ES_RIGHT;
+                      this->SetStyle(style);
+                      break;
+                  }
+              }
+              this->Redraw();
           })
 {
     this->InitControl(L"EDIT", L"", WS_CHILD | WS_VISIBLE | ES_LEFT | ES_AUTOHSCROLL | ES_AUTOVSCROLL, WS_EX_CLIENTEDGE);
