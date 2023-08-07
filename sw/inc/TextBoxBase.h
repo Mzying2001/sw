@@ -63,5 +63,10 @@ namespace sw
          * @brief 选中所有文本
          */
         void SelectAll();
+
+        /**
+         * @brief 将控件内容滚动到当前插入符号位置
+         */
+        void ScrollToCaret();
     };
 }

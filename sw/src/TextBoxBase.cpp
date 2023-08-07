@@ -110,3 +110,8 @@ void sw::TextBoxBase::SelectAll()
 {
     this->SendMessageW(EM_SETSEL, 0, -1);
 }
+
+void sw::TextBoxBase::ScrollToCaret()
+{
+    this->SendMessageW(EM_SCROLLCARET, 0, 0);
+}
