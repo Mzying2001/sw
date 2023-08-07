@@ -235,7 +235,6 @@
     <ClCompile Include="..\sw\src\ProcMsg.cpp" />
     <ClCompile Include="..\sw\src\Rect.cpp" />
     <ClCompile Include="..\sw\src\RoutedEvent.cpp" />
-    <ClCompile Include="..\sw\src\RoutedEventArgs.cpp" />
     <ClCompile Include="..\sw\src\Screen.cpp" />
     <ClCompile Include="..\sw\src\Size.cpp" />
     <ClCompile Include="..\sw\src\StackLayout.cpp" />
