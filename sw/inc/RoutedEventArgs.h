@@ -68,19 +68,6 @@ namespace sw
     };
 
     /**
-     * @brief Text属性改变事件参数类型
-     */
-    struct TextChangedEventArgs : RoutedEventArgsOfType<UIElement_TextChanged> {
-
-        const wchar_t *newText; // 改变后的Text
-
-        TextChangedEventArgs(const wchar_t *newText)
-            : newText(newText)
-        {
-        }
-    };
-
-    /**
      * @brief 输入字符事件类型参数
      */
     struct GotCharEventArgs : RoutedEventArgsOfType<UIElement_GotChar> {

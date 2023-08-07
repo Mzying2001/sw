@@ -436,7 +436,7 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             LRESULT result = this->DefaultWndProc(refMsg);
             if (result == TRUE) {
                 this->_text = reinterpret_cast<PCWSTR>(refMsg.lParam);
-                this->OnTextChanged(this->_text);
+                this->OnTextChanged();
             }
             return result;
         }
@@ -635,7 +635,7 @@ bool sw::WndBase::OnSize(Size newClientSize)
     return false;
 }
 
-void sw::WndBase::OnTextChanged(const std::wstring &newText)
+void sw::WndBase::OnTextChanged()
 {
 }
 

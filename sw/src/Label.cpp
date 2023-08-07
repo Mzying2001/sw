@@ -145,9 +145,9 @@ void sw::Label::_ResizeToTextSize()
     this->Rect    = rect;
 }
 
-void sw::Label::OnTextChanged(const std::wstring &newText)
+void sw::Label::OnTextChanged()
 {
-    this->UIElement::OnTextChanged(newText);
+    this->UIElement::OnTextChanged();
     this->_UpdateTextSize();
 
     if (this->_autoSize) {

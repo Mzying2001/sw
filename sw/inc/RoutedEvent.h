@@ -23,7 +23,7 @@ namespace sw
         UIElement_PositionChanged,
 
         /**
-         * @brief Text属性发生变化，参数类型为sw::TextChangedEventArgs
+         * @brief Text属性发生变化，参数类型为sw::RoutedEventArgs
          */
         UIElement_TextChanged,
 

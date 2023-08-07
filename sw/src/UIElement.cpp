@@ -462,10 +462,9 @@ bool sw::UIElement::OnSize(Size newClientSize)
     return false;
 }
 
-void sw::UIElement::OnTextChanged(const std::wstring &newText)
+void sw::UIElement::OnTextChanged()
 {
-    TextChangedEventArgs args(newText.c_str());
-    this->RaiseRoutedEvent(args);
+    this->RaiseRoutedEvent(UIElement_TextChanged);
 }
 
 void sw::UIElement::VisibleChanged(bool newVisible)

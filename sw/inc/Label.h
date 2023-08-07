@@ -70,10 +70,9 @@ namespace sw
 
     protected:
         /**
-         * @brief         Text属性更改时调用此函数
-         * @param newText Text的新值
+         * @brief Text属性更改时调用此函数
          */
-        virtual void OnTextChanged(const std::wstring &newText) override;
+        virtual void OnTextChanged() override;
 
         /**
          * @brief       字体改变时调用该函数

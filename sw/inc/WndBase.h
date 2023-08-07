@@ -288,10 +288,9 @@ namespace sw
         virtual bool OnSize(Size newClientSize);
 
         /**
-         * @brief         Text属性更改时调用此函数
-         * @param newText Text的新值
+         * @brief Text属性更改时调用此函数
          */
-        virtual void OnTextChanged(const std::wstring &newText);
+        virtual void OnTextChanged();
 
         /**
          * @brief            接收到WM_SETFOCUS时调用该函数

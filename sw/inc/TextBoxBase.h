@@ -51,11 +51,6 @@ namespace sw
          */
         virtual void OnCommand(int code) override;
 
-        /**
-         * @brief 文本被改变时调用该函数
-         */
-        virtual void OnTextChanged();
-
     public:
         /**
          * @brief        选择指定文本内容
