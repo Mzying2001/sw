@@ -51,6 +51,11 @@ namespace sw
         void ResetHandle();
 
         /**
+         * @brief 控件句柄发生改变时调用该函数
+         */
+        virtual void HandleChenged();
+
+        /**
          * @brief                   接收到WM_SETCURSOR消息时调用该函数
          * @param hwnd              鼠标所在窗口的句柄
          * @param hitTest           hit-test的结果，详见WM_NCHITTEST消息的返回值
