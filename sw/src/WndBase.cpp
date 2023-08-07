@@ -4,7 +4,7 @@
 /**
  * @brief 窗口类名
  */
-static PCWSTR WINDOW_CLASS_NAME = L"sw::WndBase";
+static constexpr wchar_t _WindowClassName[] = L"sw::WndBase";
 
 /**
  * @brief 控件初始化时所在的窗口
@@ -239,7 +239,7 @@ sw::WndBase::WndBase()
         wc.cbSize        = sizeof(wc);
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = WndBase::_WndProc;
-        wc.lpszClassName = WINDOW_CLASS_NAME;
+        wc.lpszClassName = _WindowClassName;
     }
 
     RegisterClassExW(&wc);
@@ -263,10 +263,10 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
         this->_text = lpWindowName ? lpWindowName : L"";
 
         this->_hwnd = CreateWindowExW(
-            dwExStyle,         // Optional window styles
-            WINDOW_CLASS_NAME, // Window class
-            lpWindowName,      // Window text
-            dwStyle,           // Window style
+            dwExStyle,        // Optional window styles
+            _WindowClassName, // Window class
+            lpWindowName,     // Window text
+            dwStyle,          // Window style
 
             // Size and position
             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
