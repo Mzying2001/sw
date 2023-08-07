@@ -23,6 +23,11 @@ namespace sw
          */
         const Property<sw::HorizontalAlignment> HorizontalContentAlignment;
 
+        /**
+         * @brief 是否可以撤销
+         */
+        const ReadOnlyProperty<bool> CanUndo;
+
     protected:
         /**
          * @brief 初始化TextBoxBase
@@ -68,5 +73,11 @@ namespace sw
          * @brief 将控件内容滚动到当前插入符号位置
          */
         void ScrollToCaret();
+
+        /**
+         * @brief  撤销
+         * @return 操作是否成功
+         */
+        bool Undo();
     };
 }

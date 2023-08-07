@@ -50,6 +50,14 @@ sw::TextBoxBase::TextBoxBase()
                   }
               }
               this->Redraw();
+          }),
+
+      CanUndo(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->SendMessageW(EM_CANUNDO, 0, 0);
+              return result;
           })
 {
 }
@@ -114,4 +122,9 @@ void sw::TextBoxBase::SelectAll()
 void sw::TextBoxBase::ScrollToCaret()
 {
     this->SendMessageW(EM_SCROLLCARET, 0, 0);
+}
+
+bool sw::TextBoxBase::Undo()
+{
+    return this->SendMessageW(EM_UNDO, 0, 0);
 }
