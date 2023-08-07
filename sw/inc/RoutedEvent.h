@@ -120,6 +120,11 @@ namespace sw
         bool handled = false;
 
         /**
+         * @brief 表示是否已处理事件所对应的Windows消息，对于部分消息将字段设为true可取消对DefaultWndProc的调用，若当前事件无对应消息则该字段无意义
+         */
+        bool handledMsg = false;
+
+        /**
          * @brief RoutedEventArgs构造函数
          */
         RoutedEventArgs(RoutedEventType eventType);

@@ -443,7 +443,7 @@ bool sw::UIElement::OnMove(Point newClientPosition)
 {
     PositionChangedEventArgs args(newClientPosition);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnSize(Size newClientSize)
@@ -459,7 +459,7 @@ bool sw::UIElement::OnSize(Size newClientSize)
     this->RaiseRoutedEvent(args);
 
     this->NotifyLayoutUpdated();
-    return false;
+    return args.handledMsg;
 }
 
 void sw::UIElement::OnTextChanged()
@@ -476,97 +476,100 @@ void sw::UIElement::VisibleChanged(bool newVisible)
 
 bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 {
-    this->RaiseRoutedEvent(UIElement_GotFocus);
-    return false;
+    RoutedEventArgsOfType<UIElement_GotFocus> args;
+    this->RaiseRoutedEvent(args);
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
-    this->RaiseRoutedEvent(UIElement_LostFocus);
-    return false;
+    RoutedEventArgsOfType<UIElement_LostFocus> args;
+    this->RaiseRoutedEvent(args);
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnChar(wchar_t ch, KeyFlags flags)
 {
     GotCharEventArgs args(ch, flags);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
 {
     KeyDownEventArgs args(key, flags);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnKeyUp(VirtualKey key, KeyFlags flags)
 {
     KeyUpEventArgs args(key, flags);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseMove(Point mousePosition, MouseKey keyState)
 {
     MouseMoveEventArgs args(mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseLeave()
 {
-    this->RaiseRoutedEvent(UIElement_MouseLeave);
-    return false;
+    RoutedEventArgsOfType<UIElement_MouseLeave> args;
+    this->RaiseRoutedEvent(args);
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseWheel(int wheelDelta, Point mousePosition, MouseKey keyState)
 {
     MouseWheelEventArgs args(wheelDelta, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState)
 {
     MouseButtonDownEventArgs args(MouseKey::MouseLeft, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState)
 {
     MouseButtonUpEventArgs args(MouseKey::MouseLeft, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseRightButtonDown(Point mousePosition, MouseKey keyState)
 {
     MouseButtonDownEventArgs args(MouseKey::MouseRight, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseRightButtonUp(Point mousePosition, MouseKey keyState)
 {
     MouseButtonUpEventArgs args(MouseKey::MouseRight, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseMiddleButtonDown(Point mousePosition, MouseKey keyState)
 {
     MouseButtonDownEventArgs args(MouseKey::MouseMiddle, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseMiddleButtonUp(Point mousePosition, MouseKey keyState)
 {
     MouseButtonUpEventArgs args(MouseKey::MouseMiddle, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
