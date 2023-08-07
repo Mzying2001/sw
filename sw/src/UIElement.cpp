@@ -578,7 +578,7 @@ bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
         return false;
     }
 
-    OnContextMenuEventArgs args(isKeyboardMsg, mousePosition);
+    ShowContextMenuEventArgs args(isKeyboardMsg, mousePosition);
     this->RaiseRoutedEvent(args);
 
     if (!args.cancel) {

@@ -78,9 +78,9 @@ namespace sw
         UIElement_MouseButtonUp,
 
         /**
-         * @brief 由用户操作唤起上下文菜单时触发该事件，参数类型为sw::OnContextMenuEventArgs
+         * @brief 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
          */
-        UIElement_OnContextMenu,
+        UIElement_ShowContextMenu,
 
         /**
          * @brief 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
