@@ -7,6 +7,7 @@
 #include "App.h"
 #include "Button.h"
 #include "ButtonBase.h"
+#include "CheckBox.h"
 #include "CheckableButton.h"
 #include "Color.h"
 #include "ContextMenu.h"
