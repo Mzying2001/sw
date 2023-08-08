@@ -28,6 +28,7 @@ void sw::Layer::UpdateLayout()
         sw::Rect clientRect = this->ClientRect;
         this->GetLayoutHost().Measure(Size(clientRect.width, clientRect.height));
         this->GetLayoutHost().Arrange(clientRect);
+        this->Redraw();
     }
 }
 
