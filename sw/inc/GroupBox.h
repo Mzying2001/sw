@@ -1,14 +1,18 @@
 #pragma once
 
-#include "Control.h"
+#include "PanelBase.h"
 
 namespace sw
 {
     /**
      * @brief 组合框
      */
-    class GroupBox : public Control
+    class GroupBox : public PanelBase
     {
-        // TODO
+    public:
+        /**
+         * @brief 初始化组合框
+         */
+        GroupBox();
     };
 }
