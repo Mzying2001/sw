@@ -180,6 +180,9 @@
     <ClInclude Include="..\sw\inc\GroupBox.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\PanelBase.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\AbsoluteLayout.cpp">
@@ -330,6 +333,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\GroupBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\PanelBase.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
