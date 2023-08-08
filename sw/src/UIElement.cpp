@@ -143,6 +143,10 @@ bool sw::UIElement::AddChild(UIElement *element)
         return false;
     }
 
+    if (element->_parent != nullptr && !element->_parent->RemoveChild(element)) {
+        return false;
+    }
+
     if (!element->WndBase::SetParent(this)) {
         return false;
     }
