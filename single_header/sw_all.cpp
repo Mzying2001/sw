@@ -160,25 +160,25 @@ std::wstring sw::App::_GetCurrentDirectory()
 
 // Button.cpp
 
-#define BUTTONSTYLE_DEFAULT (WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_PUSHBUTTON)
-#define BUTTONSTYLE_FOCUSED (WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_DEFPUSHBUTTON)
+static constexpr DWORD _ButtonStyle_Default = WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_PUSHBUTTON;
+static constexpr DWORD _ButtonStyle_Focused = WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_DEFPUSHBUTTON;
 
 sw::Button::Button()
 {
-    this->InitButtonBase(L"Button", BUTTONSTYLE_DEFAULT);
+    this->InitButtonBase(L"Button", _ButtonStyle_Default, 0);
     this->Rect = sw::Rect(0, 0, 70, 30);
 }
 
 bool sw::Button::OnSetFocus(HWND hPreFocus)
 {
-    this->SetStyle(BUTTONSTYLE_FOCUSED);
+    this->SetStyle(_ButtonStyle_Focused);
     this->Redraw();
     return this->ButtonBase::OnSetFocus(hPreFocus);
 }
 
 bool sw::Button::OnKillFocus(HWND hNextFocus)
 {
-    this->SetStyle(BUTTONSTYLE_DEFAULT);
+    this->SetStyle(_ButtonStyle_Default);
     this->Redraw();
     return this->ButtonBase::OnKillFocus(hNextFocus);
 }
@@ -189,25 +189,87 @@ sw::ButtonBase::ButtonBase()
 {
 }
 
-void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle)
+void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
-    this->InitControl(L"BUTTON", lpWindowName, dwStyle);
+    this->InitControl(L"BUTTON", lpWindowName, dwStyle, dwExStyle);
 }
 
 void sw::ButtonBase::OnCommand(int code)
 {
     switch (code) {
         case BN_CLICKED:
-            this->RaiseRoutedEvent(ButtonBase_Clicked);
+            this->OnClicked();
             break;
 
         case BN_DOUBLECLICKED:
-            this->RaiseRoutedEvent(ButtonBase_DoubleClicked);
+            this->OnDoubleClicked();
             break;
 
         default:
             break;
     }
+}
+
+void sw::ButtonBase::OnClicked()
+{
+    this->RaiseRoutedEvent(ButtonBase_Clicked);
+}
+
+void sw::ButtonBase::OnDoubleClicked()
+{
+    this->RaiseRoutedEvent(ButtonBase_DoubleClicked);
+}
+
+// CheckableButton.cpp
+
+sw::CheckableButton::CheckableButton()
+    : CheckState(
+          // get
+          [&]() -> const sw::CheckState & {
+              static sw::CheckState result;
+              result = (sw::CheckState)this->SendMessageW(BM_GETCHECK, 0, 0);
+              return result;
+              return result;
+          },
+          // set
+          [&](const sw::CheckState &value) {
+              this->SendMessageW(BM_SETCHECK, (WPARAM)value, 0);
+          }),
+
+      IsChecked(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->CheckState.Get() == sw::CheckState::Checked;
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->CheckState = value ? sw::CheckState::Checked : sw::CheckState::Unchecked;
+          })
+{
+}
+
+// CheckBox.cpp
+
+static constexpr DWORD _CheckBoxStyle_Normal     = WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_AUTOCHECKBOX;
+static constexpr DWORD _CheckBoxStyle_ThreeState = WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_AUTO3STATE;
+
+sw::CheckBox::CheckBox()
+    : ThreeState(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle() == _CheckBoxStyle_ThreeState;
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(value ? _CheckBoxStyle_ThreeState : _CheckBoxStyle_Normal);
+          })
+{
+    this->InitButtonBase(L"CheckBox", _CheckBoxStyle_Normal, 0);
+    this->Rect = sw::Rect(0, 0, 100, 20);
 }
 
 // Color.cpp
@@ -296,6 +358,51 @@ sw::Control::Control()
               this->_textColor = value;
               this->Redraw();
           })
+{
+}
+
+void sw::Control::ResetHandle()
+{
+    HWND &refHwnd = const_cast<HWND &>(this->Handle.Get());
+
+    HWND oldHwnd       = refHwnd;
+    HWND parent        = GetParent(oldHwnd);
+    DWORD style        = (DWORD)this->GetStyle();
+    DWORD exStyle      = (DWORD)this->GetExtendedStyle();
+    RECT rect          = this->Rect.Get();
+    std::wstring &text = this->GetText();
+
+    wchar_t className[256];
+    GetClassNameW(oldHwnd, className, 256);
+
+    refHwnd = CreateWindowExW(
+        exStyle,      // Optional window styles
+        className,    // Window class
+        text.c_str(), // Window text
+        style,        // Window style
+
+        // Size and position
+        rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
+
+        parent,        // Parent window
+        NULL,          // Menu
+        App::Instance, // Instance handle
+        this           // Additional application data
+    );
+
+    SetWindowLongPtrW(oldHwnd, GWLP_USERDATA, NULL);
+    SetWindowLongPtrW(refHwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>((WndBase *)this));
+
+    LONG_PTR wndProc = GetWindowLongPtrW(oldHwnd, GWLP_WNDPROC);
+    SetWindowLongPtrW(refHwnd, GWLP_WNDPROC, wndProc);
+
+    this->SendMessageW(WM_SETFONT, (WPARAM)this->GetFontHandle(), TRUE);
+    this->HandleChenged();
+
+    DestroyWindow(oldHwnd);
+}
+
+void sw::Control::HandleChenged()
 {
 }
 
@@ -684,6 +791,14 @@ sw::Font &sw::Font::GetDefaultFont(bool update)
     return *pFont;
 }
 
+// GroupBox.cpp
+
+sw::GroupBox::GroupBox()
+{
+    this->InitControl(L"BUTTON", L"GroupBox", WS_CHILD | WS_VISIBLE | BS_GROUPBOX, 0);
+    this->Rect = sw::Rect(0, 0, 200, 200);
+}
+
 // Icon.cpp
 
 HICON sw::IconHelper::GetIconHandle(StandardIcon icon)
@@ -833,7 +948,7 @@ sw::Label::Label()
               }
           })
 {
-    this->InitControl(L"STATIC", L"Label", WS_CHILD | WS_VISIBLE);
+    this->InitControl(L"STATIC", L"Label", WS_CHILD | WS_VISIBLE, 0);
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
 }
@@ -863,9 +978,9 @@ void sw::Label::_ResizeToTextSize()
     this->Rect    = rect;
 }
 
-void sw::Label::OnTextChanged(const std::wstring &newText)
+void sw::Label::OnTextChanged()
 {
-    this->UIElement::OnTextChanged(newText);
+    this->UIElement::OnTextChanged();
     this->_UpdateTextSize();
 
     if (this->_autoSize) {
@@ -951,6 +1066,7 @@ void sw::Layer::UpdateLayout()
         sw::Rect clientRect = this->ClientRect;
         this->GetLayoutHost().Measure(Size(clientRect.width, clientRect.height));
         this->GetLayoutHost().Arrange(clientRect);
+        this->Redraw();
     }
 }
 
@@ -1609,29 +1725,49 @@ const sw::MsgBox &sw::MsgBox::OnCancel(const MsgBoxCallback &callback) const
 
 sw::Panel::Panel()
 {
-    this->InitControl(L"STATIC", NULL, WS_CHILD | WS_VISIBLE | SS_NOTIFY);
+    this->InitControl(L"STATIC", NULL, WS_CHILD | WS_VISIBLE | SS_NOTIFY, 0);
     this->HorizontalAlignment = HorizontalAlignment::Stretch;
     this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
-void sw::Panel::HandleInitialized(HWND hwnd)
+// PanelBase.cpp
+
+sw::PanelBase::PanelBase()
 {
-    this->Control::HandleInitialized(hwnd);
 }
 
-void sw::Panel::Measure(const Size &availableSize)
+bool sw::PanelBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+{
+    return this->Control::OnSetCursor(hwnd, hitTest, message, useDefaultWndProc);
+}
+
+void sw::PanelBase::Measure(const Size &availableSize)
 {
     this->Layer::Measure(availableSize);
 }
 
-void sw::Panel::Arrange(const sw::Rect &finalPosition)
+void sw::PanelBase::Arrange(const sw::Rect &finalPosition)
 {
     this->Layer::Arrange(finalPosition);
 }
 
-bool sw::Panel::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+// PasswordBox.cpp
+
+sw::PasswordBox::PasswordBox()
+    : PasswordChar(
+          // get
+          [&]() -> const wchar_t & {
+              static wchar_t result;
+              result = (wchar_t)this->SendMessageW(EM_GETPASSWORDCHAR, NULL, NULL);
+              return result;
+          },
+          // set
+          [&](const wchar_t &value) {
+              this->SendMessageW(EM_SETPASSWORDCHAR, value, NULL);
+          })
 {
-    return this->Control::OnSetCursor(hwnd, hitTest, message, useDefaultWndProc);
+    this->InitTextBoxBase(WS_CHILD | WS_VISIBLE | ES_PASSWORD | ES_LEFT | ES_AUTOHSCROLL, WS_EX_CLIENTEDGE);
+    this->Rect = sw::Rect(0, 0, 100, 24);
 }
 
 // Path.cpp
@@ -1802,6 +1938,14 @@ sw::ProcMsg::ProcMsg(const HWND &hwnd, const UINT &uMsg, const WPARAM &wParam, c
 {
 }
 
+// RadioButton.cpp
+
+sw::RadioButton::RadioButton()
+{
+    this->InitButtonBase(L"RadioButton", WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_AUTORADIOBUTTON, 0);
+    this->Rect = sw::Rect(0, 0, 100, 20);
+}
+
 // Rect.cpp
 
 sw::Rect::Rect()
@@ -1847,63 +1991,6 @@ std::wostream &sw::operator<<(std::wostream &wos, const Rect &rect)
 
 sw::RoutedEventArgs::RoutedEventArgs(RoutedEventType eventType)
     : eventType(eventType)
-{
-}
-
-// RoutedEventArgs.cpp
-
-sw::SizeChangedEventArgs::SizeChangedEventArgs(Size newClientSize)
-    : newClientSize(newClientSize)
-{
-}
-
-sw::PositionChangedEventArgs::PositionChangedEventArgs(Point newClientPosition)
-    : newClientPosition(newClientPosition)
-{
-}
-
-sw::TextChangedEventArgs::TextChangedEventArgs(const wchar_t *newText)
-    : newText(newText)
-{
-}
-
-sw::GotCharEventArgs::GotCharEventArgs(wchar_t ch, KeyFlags flags)
-    : ch(ch), flags(flags)
-{
-}
-
-sw::KeyDownEventArgs::KeyDownEventArgs(VirtualKey key, KeyFlags falgs)
-    : key(key), flags(flags)
-{
-}
-
-sw::KeyUpEventArgs::KeyUpEventArgs(VirtualKey key, KeyFlags falgs)
-    : key(key), flags(flags)
-{
-}
-
-sw::MouseMoveEventArgs::MouseMoveEventArgs(Point mousePosition, MouseKey keyState)
-    : mousePosition(mousePosition), keyState(keyState)
-{
-}
-
-sw::MouseWheelEventArgs::MouseWheelEventArgs(int wheelDelta, Point mousePosition, MouseKey keyState)
-    : wheelDelta(wheelDelta), mousePosition(mousePosition), keyState(keyState)
-{
-}
-
-sw::MouseButtonDownEventArgs::MouseButtonDownEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
-    : key(key), mousePosition(mousePosition), keyState(keyState)
-{
-}
-
-sw::OnContextMenuEventArgs::OnContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition)
-    : isKeyboardMsg(isKeyboardMsg), mousePosition(mousePosition)
-{
-}
-
-sw::MouseButtonUpEventArgs::MouseButtonUpEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
-    : key(key), mousePosition(mousePosition), keyState(keyState)
 {
 }
 
@@ -2053,6 +2140,203 @@ sw::StackPanel::StackPanel()
           })
 {
     this->Layout = &this->_stackLayout;
+}
+
+// TextBox.cpp
+
+sw::TextBox::TextBox()
+    : AutoWrap(
+          // get
+          [&]() -> const bool & {
+              return this->_autoWrap;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->_autoWrap == value) {
+                  return;
+              }
+              this->_autoWrap = value;
+              if (this->MultiLine && this->GetStyle(ES_AUTOHSCROLL) == value) {
+                  this->SetStyle(ES_AUTOHSCROLL, !value);
+                  this->ResetHandle();
+              }
+          }),
+
+      MultiLine(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(ES_MULTILINE);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->MultiLine != value) {
+                  this->SetStyle(ES_MULTILINE, value);
+                  this->SetStyle(ES_AUTOHSCROLL, !(value && this->_autoWrap));
+                  this->ResetHandle();
+              }
+          }),
+
+      HorizontalScrollBar(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(WS_HSCROLL);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->HorizontalScrollBar != value) {
+                  this->SetStyle(WS_HSCROLL, value);
+                  this->ResetHandle();
+              }
+          }),
+
+      VerticalScrollBar(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(WS_VSCROLL);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->VerticalScrollBar != value) {
+                  this->SetStyle(WS_VSCROLL, value);
+                  this->ResetHandle();
+              }
+          })
+{
+    this->InitTextBoxBase(WS_CHILD | WS_VISIBLE | ES_LEFT | ES_AUTOHSCROLL | ES_AUTOVSCROLL, WS_EX_CLIENTEDGE);
+    this->Rect = sw::Rect(0, 0, 100, 24);
+}
+
+// TextBoxBase.cpp
+
+sw::TextBoxBase::TextBoxBase()
+    : ReadOnly(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(ES_READONLY);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SendMessageW(EM_SETREADONLY, value, NULL);
+          }),
+
+      HorizontalContentAlignment(
+          // get
+          [&]() -> const sw::HorizontalAlignment & {
+              static sw::HorizontalAlignment result;
+              LONG_PTR style = this->GetStyle();
+              if (style & ES_CENTER) {
+                  result = sw::HorizontalAlignment::Center;
+              } else if (style & ES_RIGHT) {
+                  result = sw::HorizontalAlignment::Right;
+              } else {
+                  result = sw::HorizontalAlignment::Left;
+              }
+              return result;
+          },
+          // set
+          [&](const sw::HorizontalAlignment &value) {
+              switch (value) {
+                  case sw::HorizontalAlignment::Left: {
+                      this->SetStyle(ES_CENTER | ES_RIGHT, false);
+                      break;
+                  }
+                  case sw::HorizontalAlignment::Center: {
+                      LONG_PTR style = this->GetStyle();
+                      style &= ~(ES_CENTER | ES_RIGHT);
+                      style |= ES_CENTER;
+                      this->SetStyle(style);
+                      break;
+                  }
+                  case sw::HorizontalAlignment::Right: {
+                      LONG_PTR style = this->GetStyle();
+                      style &= ~(ES_CENTER | ES_RIGHT);
+                      style |= ES_RIGHT;
+                      this->SetStyle(style);
+                      break;
+                  }
+              }
+              this->Redraw();
+          }),
+
+      CanUndo(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->SendMessageW(EM_CANUNDO, 0, 0);
+              return result;
+          })
+{
+}
+
+void sw::TextBoxBase::InitTextBoxBase(DWORD dwStyle, DWORD dwExStyle)
+{
+    this->InitControl(L"EDIT", L"", dwStyle, dwExStyle);
+}
+
+std::wstring &sw::TextBoxBase::GetText()
+{
+    std::wstring &refText = this->WndBase::GetText();
+
+    if (!this->_isTextChanged) {
+        return refText;
+    }
+
+    HWND hwnd = this->Handle;
+    int len   = GetWindowTextLengthW(hwnd);
+
+    if (len > 0) {
+        wchar_t *buf = new wchar_t[len + 1];
+        GetWindowTextW(hwnd, buf, len + 1);
+        refText = buf;
+        delete[] buf;
+    } else {
+        refText = L"";
+    }
+
+    this->_isTextChanged = false;
+    return refText;
+}
+
+void sw::TextBoxBase::OnCommand(int code)
+{
+    switch (code) {
+        case EN_CHANGE: {
+            this->_isTextChanged = true;
+            this->OnTextChanged();
+            break;
+        }
+
+        default:
+            break;
+    }
+}
+
+void sw::TextBoxBase::Select(int start, int length)
+{
+    this->SendMessageW(EM_SETSEL, start, start + length);
+}
+
+void sw::TextBoxBase::SelectAll()
+{
+    this->SendMessageW(EM_SETSEL, 0, -1);
+}
+
+void sw::TextBoxBase::ScrollToCaret()
+{
+    this->SendMessageW(EM_SCROLLCARET, 0, 0);
+}
+
+bool sw::TextBoxBase::Undo()
+{
+    return this->SendMessageW(EM_UNDO, 0, 0);
 }
 
 // Thickness.cpp
@@ -2216,6 +2500,10 @@ bool sw::UIElement::AddChild(UIElement *element)
     }
 
     if (std::find(this->_children.begin(), this->_children.end(), element) != this->_children.end()) {
+        return false;
+    }
+
+    if (element->_parent != nullptr && !element->_parent->RemoveChild(element)) {
         return false;
     }
 
@@ -2519,7 +2807,7 @@ bool sw::UIElement::OnMove(Point newClientPosition)
 {
     PositionChangedEventArgs args(newClientPosition);
     this->RaiseRoutedEvent(args);
-    return true;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnSize(Size newClientSize)
@@ -2535,13 +2823,12 @@ bool sw::UIElement::OnSize(Size newClientSize)
     this->RaiseRoutedEvent(args);
 
     this->NotifyLayoutUpdated();
-    return true;
+    return args.handledMsg;
 }
 
-void sw::UIElement::OnTextChanged(const std::wstring &newText)
+void sw::UIElement::OnTextChanged()
 {
-    TextChangedEventArgs args(newText.c_str());
-    this->RaiseRoutedEvent(args);
+    this->RaiseRoutedEvent(UIElement_TextChanged);
 }
 
 void sw::UIElement::VisibleChanged(bool newVisible)
@@ -2553,97 +2840,100 @@ void sw::UIElement::VisibleChanged(bool newVisible)
 
 bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 {
-    this->RaiseRoutedEvent(UIElement_GotFocus);
-    return true;
+    RoutedEventArgsOfType<UIElement_GotFocus> args;
+    this->RaiseRoutedEvent(args);
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
-    this->RaiseRoutedEvent(UIElement_LostFocus);
-    return true;
+    RoutedEventArgsOfType<UIElement_LostFocus> args;
+    this->RaiseRoutedEvent(args);
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnChar(wchar_t ch, KeyFlags flags)
 {
     GotCharEventArgs args(ch, flags);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
 {
     KeyDownEventArgs args(key, flags);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnKeyUp(VirtualKey key, KeyFlags flags)
 {
     KeyUpEventArgs args(key, flags);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseMove(Point mousePosition, MouseKey keyState)
 {
     MouseMoveEventArgs args(mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseLeave()
 {
-    this->RaiseRoutedEvent(UIElement_MouseLeave);
-    return false;
+    RoutedEventArgsOfType<UIElement_MouseLeave> args;
+    this->RaiseRoutedEvent(args);
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseWheel(int wheelDelta, Point mousePosition, MouseKey keyState)
 {
     MouseWheelEventArgs args(wheelDelta, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState)
 {
     MouseButtonDownEventArgs args(MouseKey::MouseLeft, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState)
 {
     MouseButtonUpEventArgs args(MouseKey::MouseLeft, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseRightButtonDown(Point mousePosition, MouseKey keyState)
 {
     MouseButtonDownEventArgs args(MouseKey::MouseRight, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseRightButtonUp(Point mousePosition, MouseKey keyState)
 {
     MouseButtonUpEventArgs args(MouseKey::MouseRight, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseMiddleButtonDown(Point mousePosition, MouseKey keyState)
 {
     MouseButtonDownEventArgs args(MouseKey::MouseMiddle, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnMouseMiddleButtonUp(Point mousePosition, MouseKey keyState)
 {
     MouseButtonUpEventArgs args(MouseKey::MouseMiddle, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
-    return false;
+    return args.handledMsg;
 }
 
 bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
@@ -2652,7 +2942,7 @@ bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
         return false;
     }
 
-    OnContextMenuEventArgs args(isKeyboardMsg, mousePosition);
+    ShowContextMenuEventArgs args(isKeyboardMsg, mousePosition);
     this->RaiseRoutedEvent(args);
 
     if (!args.cancel) {
@@ -2942,7 +3232,7 @@ sw::Window::Window()
               SetMenu(this->Handle, value != nullptr ? value->GetHandle() : NULL);
           })
 {
-    this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, NULL, NULL);
+    this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
     this->SetCursor(StandardCursor::Arrow);
     this->SetIcon(_GetWindowDefaultIcon());
 }
@@ -3165,12 +3455,15 @@ HICON _GetWindowDefaultIcon()
 /**
  * @brief 窗口类名
  */
-static PCWSTR WINDOW_CLASS_NAME = L"sw::WndBase";
+static constexpr wchar_t _WindowClassName[] = L"sw::WndBase";
 
 /**
  * @brief 控件初始化时所在的窗口
  */
-static HWND _controlInitContainer = NULL;
+static struct : sw::WndBase{} *_controlInitContainer = nullptr;
+
+/**
+ */
 
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -3183,7 +3476,8 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     }
 
     if (pWnd != NULL) {
-        return pWnd->WndProc(ProcMsg(hwnd, uMsg, wParam, lParam));
+        ProcMsg msg(hwnd, uMsg, wParam, lParam);
+        return pWnd->WndProc(msg);
     } else {
         return DefWindowProcW(hwnd, uMsg, wParam, lParam);
     }
@@ -3358,13 +3652,11 @@ sw::WndBase::WndBase()
       Text(
           // get
           [&]() -> const std::wstring & {
-              return this->_text;
+              return this->GetText();
           },
           // set
           [&](const std::wstring &value) {
-              std::wstring newText = value;
-              if (this->OnSetText(newText))
-                  SetWindowTextW(this->_hwnd, newText.c_str());
+              this->SetText(value);
           }),
 
       Focused(
@@ -3398,7 +3690,7 @@ sw::WndBase::WndBase()
         wc.cbSize        = sizeof(wc);
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = WndBase::_WndProc;
-        wc.lpszClassName = WINDOW_CLASS_NAME;
+        wc.lpszClassName = _WindowClassName;
     }
 
     RegisterClassExW(&wc);
@@ -3415,23 +3707,23 @@ sw::WndBase::~WndBase()
     }
 }
 
-void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu)
+void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
     if (this->_hwnd == NULL) {
 
         this->_text = lpWindowName ? lpWindowName : L"";
 
         this->_hwnd = CreateWindowExW(
-            0,                 // Optional window styles
-            WINDOW_CLASS_NAME, // Window class
-            lpWindowName,      // Window text
-            dwStyle,           // Window style
+            dwExStyle,        // Optional window styles
+            _WindowClassName, // Window class
+            lpWindowName,     // Window text
+            dwStyle,          // Window style
 
             // Size and position
             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 
-            hWndParent,    // Parent window
-            hMenu,         // Menu
+            NULL,          // Parent window
+            NULL,          // Menu
             App::Instance, // Instance handle
             this           // Additional application data
         );
@@ -3447,10 +3739,11 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParen
     }
 }
 
-void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle)
+void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
-    if (_controlInitContainer == NULL) {
-        _controlInitContainer = CreateWindowExW(0, WINDOW_CLASS_NAME, L"", WS_POPUP, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+    if (_controlInitContainer == nullptr) {
+        _controlInitContainer = new std::remove_reference_t<decltype(*_controlInitContainer)>;
+        _controlInitContainer->InitWindow(L"", WS_POPUP, 0);
     }
 
     if (this->_hwnd == NULL) {
@@ -3458,7 +3751,7 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         this->_text = lpWindowName ? lpWindowName : L"";
 
         this->_hwnd = CreateWindowExW(
-            0,            // Optional window styles
+            dwExStyle,    // Optional window styles
             lpClassName,  // Window class
             lpWindowName, // Window text
             dwStyle,      // Window style
@@ -3466,10 +3759,10 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
             // Size and position
             0, 0, 0, 0,
 
-            _controlInitContainer, // Parent window
-            NULL,                  // Menu
-            App::Instance,         // Instance handle
-            this                   // Additional application data
+            _controlInitContainer->_hwnd, // Parent window
+            NULL,                         // Menu
+            App::Instance,                // Instance handle
+            this                          // Additional application data
         );
 
         this->HandleInitialized(this->_hwnd);
@@ -3594,7 +3887,7 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             LRESULT result = this->DefaultWndProc(refMsg);
             if (result == TRUE) {
                 this->_text = reinterpret_cast<PCWSTR>(refMsg.lParam);
-                this->OnTextChanged(this->_text);
+                this->OnTextChanged();
             }
             return result;
         }
@@ -3752,6 +4045,16 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
     }
 }
 
+std::wstring &sw::WndBase::GetText()
+{
+    return this->_text;
+}
+
+void sw::WndBase::SetText(const std::wstring &value)
+{
+    SetWindowTextW(this->_hwnd, value.c_str());
+}
+
 bool sw::WndBase::OnCreate()
 {
     return true;
@@ -3775,31 +4078,26 @@ bool sw::WndBase::OnPaint()
 
 bool sw::WndBase::OnMove(Point newClientPosition)
 {
-    return true;
+    return false;
 }
 
 bool sw::WndBase::OnSize(Size newClientSize)
 {
-    return true;
+    return false;
 }
 
-bool sw::WndBase::OnSetText(std::wstring &newText)
-{
-    return true;
-}
-
-void sw::WndBase::OnTextChanged(const std::wstring &newText)
+void sw::WndBase::OnTextChanged()
 {
 }
 
 bool sw::WndBase::OnSetFocus(HWND hPrevFocus)
 {
-    return true;
+    return false;
 }
 
 bool sw::WndBase::OnKillFocus(HWND hNextFocus)
 {
-    return true;
+    return false;
 }
 
 bool sw::WndBase::OnMouseMove(Point mousePos, MouseKey keyState)
@@ -3912,7 +4210,7 @@ bool sw::WndBase::SetParent(WndBase *parent)
     HWND hParent;
 
     if (parent == nullptr) {
-        hParent = this->IsControl() ? _controlInitContainer : NULL;
+        hParent = this->IsControl() ? _controlInitContainer->_hwnd : NULL;
     } else {
         hParent = parent->Handle;
     }

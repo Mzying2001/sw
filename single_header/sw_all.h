@@ -12,6 +12,7 @@
 #include <vector>
 #include <functional>
 #include <sstream>
+#include <type_traits>
 #include <windowsx.h>
 
 // Alignment.h
@@ -1143,7 +1144,7 @@ namespace sw
         UIElement_PositionChanged,
 
         /**
-         * @brief Text属性发生变化，参数类型为sw::TextChangedEventArgs
+         * @brief Text属性发生变化，参数类型为sw::RoutedEventArgs
          */
         UIElement_TextChanged,
 
@@ -1198,9 +1199,9 @@ namespace sw
         UIElement_MouseButtonUp,
 
         /**
-         * @brief 由用户操作唤起上下文菜单时触发该事件，参数类型为sw::OnContextMenuEventArgs
+         * @brief 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
          */
-        UIElement_OnContextMenu,
+        UIElement_ShowContextMenu,
 
         /**
          * @brief 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
@@ -1238,6 +1239,11 @@ namespace sw
          * @brief 事件是否已被处理，若将此字段设为true，则事件不会继续往上传递
          */
         bool handled = false;
+
+        /**
+         * @brief 表示是否已处理事件所对应的Windows消息，对于部分消息将字段设为true可取消对DefaultWndProc的调用，若当前事件无对应消息则该字段无意义
+         */
+        bool handledMsg = false;
 
         /**
          * @brief RoutedEventArgs构造函数
@@ -1843,12 +1849,17 @@ namespace sw
     struct RoutedEventArgs; // RoutedEvent.h
 
     /**
-     * @brief    表示特定类型路由事件的事件参数类型，继承自该类的事件参数可以用于RegisterRoutedEvent模板函数
-     * @tparam T 一个RoutedEventType枚举值，表示路由事件类型
+     * @brief       表示特定类型路由事件的事件参数类型，继承自该类的事件参数可以用于RegisterRoutedEvent模板函数
+     * @tparam TYPE 一个RoutedEventType枚举值，表示路由事件类型
      */
-    template <RoutedEventType T>
+    template <RoutedEventType TYPE>
     struct RoutedEventArgsOfType : RoutedEventArgs {
-        static constexpr RoutedEventType EventType = T;
+
+        /**
+         * @brief 路由事件的类型，RegisterRoutedEvent模板函数使用此字段注册事件
+         */
+        static constexpr RoutedEventType EventType = TYPE;
+
         RoutedEventArgsOfType()
             : RoutedEventArgs(EventType)
         {
@@ -1873,100 +1884,142 @@ namespace sw
      * @brief 尺寸改变事件参数类型
      */
     struct SizeChangedEventArgs : RoutedEventArgsOfType<UIElement_SizeChanged> {
+
         Size newClientSize; // 用户区的新尺寸
-        SizeChangedEventArgs(Size newClientSize);
+
+        SizeChangedEventArgs(Size newClientSize)
+            : newClientSize(newClientSize)
+        {
+        }
     };
 
     /**
      * @brief 位置改变事件参数类型
      */
     struct PositionChangedEventArgs : RoutedEventArgsOfType<UIElement_PositionChanged> {
-        Point newClientPosition; // 移动后用户区左上角的位置
-        PositionChangedEventArgs(Point newClientPosition);
-    };
 
-    /**
-     * @brief Text属性改变事件参数类型
-     */
-    struct TextChangedEventArgs : RoutedEventArgsOfType<UIElement_TextChanged> {
-        const wchar_t *newText; // 改变后的Text
-        TextChangedEventArgs(const wchar_t *newText);
+        Point newClientPosition; // 移动后用户区左上角的位置
+
+        PositionChangedEventArgs(Point newClientPosition)
+            : newClientPosition(newClientPosition)
+        {
+        }
     };
 
     /**
      * @brief 输入字符事件类型参数
      */
     struct GotCharEventArgs : RoutedEventArgsOfType<UIElement_GotChar> {
+
         wchar_t ch;     // 输入的字符
         KeyFlags flags; // 附加信息
-        GotCharEventArgs(wchar_t ch, KeyFlags flags);
+
+        GotCharEventArgs(wchar_t ch, KeyFlags flags)
+            : ch(ch), flags(flags)
+        {
+        }
     };
 
     /**
      * @brief 键盘按键按下事件参数类型
      */
     struct KeyDownEventArgs : RoutedEventArgsOfType<UIElement_KeyDown> {
+
         VirtualKey key; // 虚拟按键
         KeyFlags flags; // 附加信息
-        KeyDownEventArgs(VirtualKey key, KeyFlags falgs);
+
+        KeyDownEventArgs(VirtualKey key, KeyFlags flags)
+            : key(key), flags(flags)
+        {
+        }
     };
 
     /**
      * @brief 键盘按键抬起事件参数类型
      */
     struct KeyUpEventArgs : RoutedEventArgsOfType<UIElement_KeyUp> {
+
         VirtualKey key; // 虚拟按键
         KeyFlags flags; // 附加信息
-        KeyUpEventArgs(VirtualKey key, KeyFlags falgs);
+
+        KeyUpEventArgs(VirtualKey key, KeyFlags flags)
+            : key(key), flags(flags)
+        {
+        }
     };
 
     /**
      * @brief 鼠标移动事件参数类型
      */
     struct MouseMoveEventArgs : RoutedEventArgsOfType<UIElement_MouseMove> {
+
         Point mousePosition; // 鼠标位置
         MouseKey keyState;   // 按键状态
-        MouseMoveEventArgs(Point mousePosition, MouseKey keyState);
+
+        MouseMoveEventArgs(Point mousePosition, MouseKey keyState)
+            : mousePosition(mousePosition), keyState(keyState)
+        {
+        }
     };
 
     /**
      * @brief 鼠标滚轮滚动事件参数类型
      */
     struct MouseWheelEventArgs : RoutedEventArgsOfType<UIElement_MouseWheel> {
+
         int wheelDelta;      // 滚轮滚动的距离，为120的倍数
         Point mousePosition; // 鼠标位置
         MouseKey keyState;   // 按键状态
-        MouseWheelEventArgs(int wheelDelta, Point mousePosition, MouseKey keyState);
+
+        MouseWheelEventArgs(int wheelDelta, Point mousePosition, MouseKey keyState)
+            : wheelDelta(wheelDelta), mousePosition(mousePosition), keyState(keyState)
+        {
+        }
     };
 
     /**
      * @brief 鼠标按键按下事件参数类型
      */
     struct MouseButtonDownEventArgs : RoutedEventArgsOfType<UIElement_MouseButtonDown> {
+
         MouseKey key;        // 按下的按键（左键、中间、右键）
         Point mousePosition; // 鼠标位置
         MouseKey keyState;   // 按键状态
-        MouseButtonDownEventArgs(MouseKey key, Point mousePosition, MouseKey keyState);
+
+        MouseButtonDownEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
+            : key(key), mousePosition(mousePosition), keyState(keyState)
+        {
+        }
     };
 
     /**
      * @brief 鼠标按键抬起事件参数类型
      */
     struct MouseButtonUpEventArgs : RoutedEventArgsOfType<UIElement_MouseButtonUp> {
+
         MouseKey key;        // 抬起的按键（左键、中间、右键）
         Point mousePosition; // 鼠标位置
         MouseKey keyState;   // 按键状态
-        MouseButtonUpEventArgs(MouseKey key, Point mousePosition, MouseKey keyState);
+
+        MouseButtonUpEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
+            : key(key), mousePosition(mousePosition), keyState(keyState)
+        {
+        }
     };
 
     /**
-     * @brief 由用户操作唤起上下文菜单的事件参数类型
+     * @brief 显示用户自定义上下文菜单的事件参数类型
      */
-    struct OnContextMenuEventArgs : RoutedEventArgsOfType<UIElement_OnContextMenu> {
+    struct ShowContextMenuEventArgs : RoutedEventArgsOfType<UIElement_ShowContextMenu> {
+
         bool cancel = false; // 是否取消显示上下文菜单
         bool isKeyboardMsg;  // 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
         Point mousePosition; // 鼠标在屏幕中的位置
-        OnContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition);
+
+        ShowContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition)
+            : isKeyboardMsg(isKeyboardMsg), mousePosition(mousePosition)
+        {
+        }
     };
 
     /**
@@ -2302,12 +2355,12 @@ namespace sw
         /**
          * @brief 初始化为窗口，该函数会调用CreateWindowExW
          */
-        void InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, HWND hWndParent, HMENU hMenu);
+        void InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
 
         /**
          * @brief 初始化为控件，该函数会调用CreateWindowExW
          */
-        void InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle);
+        void InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
 
         /**
          * @brief 获取窗口样式
@@ -2365,6 +2418,18 @@ namespace sw
         virtual LRESULT WndProc(const ProcMsg &refMsg);
 
         /**
+         * @brief  获取窗口文本
+         * @return _text字段
+         */
+        virtual std::wstring &GetText();
+
+        /**
+         * @brief       调用SetWindowTextW设置窗口文本
+         * @param value 要设置的文本
+         */
+        virtual void SetText(const std::wstring &value);
+
+        /**
          * @brief  接收到WM_CREATE时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
@@ -2403,17 +2468,9 @@ namespace sw
         virtual bool OnSize(Size newClientSize);
 
         /**
-         * @brief         Text属性被赋值时调用此函数
-         * @param newText Text的新值
-         * @return        若要修改Text则返回true，否则返回false
+         * @brief Text属性更改时调用此函数
          */
-        virtual bool OnSetText(std::wstring &newText);
-
-        /**
-         * @brief         Text属性更改时调用此函数
-         * @param newText Text的新值
-         */
-        virtual void OnTextChanged(const std::wstring &newText);
+        virtual void OnTextChanged();
 
         /**
          * @brief            接收到WM_SETFOCUS时调用该函数
@@ -3305,10 +3362,9 @@ namespace sw
         virtual bool OnSize(Size newClientSize) override;
 
         /**
-         * @brief         Text属性更改时调用此函数
-         * @param newText Text的新值
+         * @brief Text属性更改时调用此函数
          */
-        virtual void OnTextChanged(const std::wstring &newText) override;
+        virtual void OnTextChanged() override;
 
         /**
          * @brief Visible属性改变时调用此函数
@@ -3524,6 +3580,16 @@ namespace sw
 
     protected:
         /**
+         * @brief 销毁控件句柄并重新初始化，该操作会创建新的句柄并设置样式、文本、字体等
+         */
+        void ResetHandle();
+
+        /**
+         * @brief 控件句柄发生改变时调用该函数
+         */
+        virtual void HandleChenged();
+
+        /**
          * @brief                   接收到WM_SETCURSOR消息时调用该函数
          * @param hwnd              鼠标所在窗口的句柄
          * @param hitTest           hit-test的结果，详见WM_NCHITTEST消息的返回值
@@ -3691,20 +3757,32 @@ namespace sw
 {
     class ButtonBase : public Control
     {
-    public:
+    protected:
+        /**
+         * @brief 初始化ButtonBase
+         */
         ButtonBase();
 
-    protected:
         /**
          * @brief 初始化控件
          */
-        void InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle);
+        void InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
 
         /**
          * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
          * @param code 通知代码
          */
         virtual void OnCommand(int code) override;
+
+        /**
+         * @brief 被单击时调用该函数
+         */
+        virtual void OnClicked();
+
+        /**
+         * @brief 被双击时调用该函数
+         */
+        virtual void OnDoubleClicked();
     };
 }
 
@@ -3777,10 +3855,9 @@ namespace sw
 
     protected:
         /**
-         * @brief         Text属性更改时调用此函数
-         * @param newText Text的新值
+         * @brief Text属性更改时调用此函数
          */
-        virtual void OnTextChanged(const std::wstring &newText) override;
+        virtual void OnTextChanged() override;
 
         /**
          * @brief       字体改变时调用该函数
@@ -3796,33 +3873,18 @@ namespace sw
     };
 }
 
-// Panel.h
+// PanelBase.h
 
 
 namespace sw
 {
-    class Panel : public Control, public Layer
+    class PanelBase : public Control, public Layer
     {
-    public:
-        Panel();
-
+    protected:
         /**
-         * @brief      窗口句柄初始化完成
-         * @param hwnd 窗口句柄
+         * @brief 初始化PanelBase
          */
-        virtual void HandleInitialized(HWND hwnd) override;
-
-        /**
-         * @brief               测量控件所需尺寸
-         * @param availableSize 可用的尺寸
-         */
-        virtual void Measure(const Size &availableSize) override;
-
-        /**
-         * @brief           安排控件位置
-         * @param finalSize 最终控件所安排的位置
-         */
-        virtual void Arrange(const sw::Rect &finalPosition) override;
+        PanelBase();
 
     protected:
         /**
@@ -3834,6 +3896,97 @@ namespace sw
          * @return                  当useDefaultWndProc为false时使用该值作为消息的返回值，表示是否已处理该消息
          */
         virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc) override;
+
+    public:
+        /**
+         * @brief               测量控件所需尺寸
+         * @param availableSize 可用的尺寸
+         */
+        virtual void Measure(const Size &availableSize) override;
+
+        /**
+         * @brief           安排控件位置
+         * @param finalSize 最终控件所安排的位置
+         */
+        virtual void Arrange(const sw::Rect &finalPosition) override;
+    };
+}
+
+// TextBoxBase.h
+
+
+namespace sw
+{
+    class TextBoxBase : public Control
+    {
+    private:
+        /**
+         * @brief 在读取Text属性时用于判断是否需要更新储存的文本
+         */
+        bool _isTextChanged = false;
+
+    public:
+        /**
+         * @brief 是否只读
+         */
+        const Property<bool> ReadOnly;
+
+        /**
+         * @brief 文本的水平对齐方式，可设为左对齐、中心对齐、右对齐
+         */
+        const Property<sw::HorizontalAlignment> HorizontalContentAlignment;
+
+        /**
+         * @brief 是否可以撤销
+         */
+        const ReadOnlyProperty<bool> CanUndo;
+
+    protected:
+        /**
+         * @brief 初始化TextBoxBase
+         */
+        TextBoxBase();
+
+        /**
+         * @brief 初始化控件
+         */
+        void InitTextBoxBase(DWORD dwStyle, DWORD dwExStyle);
+
+        /**
+         * @brief  获取窗口文本
+         * @return _text字段
+         */
+        virtual std::wstring &GetText() override;
+
+        /**
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
+         */
+        virtual void OnCommand(int code) override;
+
+    public:
+        /**
+         * @brief        选择指定文本内容
+         * @param start  起始位置
+         * @param length 选择文本的长度
+         */
+        void Select(int start, int length);
+
+        /**
+         * @brief 选中所有文本
+         */
+        void SelectAll();
+
+        /**
+         * @brief 将控件内容滚动到当前插入符号位置
+         */
+        void ScrollToCaret();
+
+        /**
+         * @brief  撤销
+         * @return 操作是否成功
+         */
+        bool Undo();
     };
 }
 
@@ -4087,6 +4240,167 @@ namespace sw
     };
 }
 
+// CheckableButton.h
+
+
+namespace sw
+{
+    /**
+     * @brief 选中状态枚举类型
+     */
+    enum class CheckState {
+        Unchecked     = BST_UNCHECKED,     // 未选中
+        Checked       = BST_CHECKED,       // 已选中
+        Indeterminate = BST_INDETERMINATE, // 不确定状态
+    };
+
+    /**
+     * @brief 表示可选中的按钮类型（单选框、复选框等）
+     */
+    class CheckableButton : public ButtonBase
+    {
+    public:
+        /**
+         * @brief 选中状态
+         */
+        const Property<sw::CheckState> CheckState;
+
+        /**
+         * @brief 是否选中
+         */
+        const Property<bool> IsChecked;
+
+    protected:
+        /**
+         * @brief 初始化CheckableButton
+         */
+        CheckableButton();
+    };
+}
+
+// GroupBox.h
+
+
+namespace sw
+{
+    /**
+     * @brief 组合框
+     */
+    class GroupBox : public PanelBase
+    {
+    public:
+        /**
+         * @brief 初始化组合框
+         */
+        GroupBox();
+    };
+}
+
+// Panel.h
+
+
+namespace sw
+{
+    /**
+     * @brief 面板
+     */
+    class Panel : public PanelBase
+    {
+    public:
+        /**
+         * @brief 初始化面板
+         */
+        Panel();
+    };
+}
+
+// PasswordBox.h
+
+
+namespace sw
+{
+    class PasswordBox : public TextBoxBase
+    {
+    public:
+        /**
+         * @brief 密码框显示的字符
+         */
+        const Property<wchar_t> PasswordChar;
+
+    public:
+        /**
+         * @brief 初始化密码框
+         */
+        PasswordBox();
+    };
+}
+
+// TextBox.h
+
+
+namespace sw
+{
+    class TextBox : public TextBoxBase
+    {
+    private:
+        /**
+         * @brief 是否自动换行
+         */
+        bool _autoWrap = false;
+
+    public:
+        /**
+         * @brief 是否自动换行，仅在MultiLine属性为true时有效
+         */
+        const Property<bool> AutoWrap;
+
+        /**
+         * @brief 是否允许多行文本
+         */
+        const Property<bool> MultiLine;
+
+        /**
+         * @brief 是否显示横向滚动条
+         */
+        const Property<bool> HorizontalScrollBar;
+
+        /**
+         * @brief 是否显示纵向滚动条
+         */
+        const Property<bool> VerticalScrollBar;
+
+    public:
+        /**
+         * @brief 初始化编辑框
+         */
+        TextBox();
+    };
+}
+
+// CheckBox.h
+
+
+namespace sw
+{
+    /**
+     * @brief 复选框
+     */
+    class CheckBox : public CheckableButton
+    {
+    public:
+        /**
+         * @brief 是否为三态复选框
+         */
+        const Property<bool> ThreeState;
+
+    public:
+        /**
+         * @brief 初始化复选框
+         */
+        CheckBox();
+    };
+}
+
 // DockPanel.h
 
 
@@ -4105,6 +4419,24 @@ namespace sw
 
     public:
         DockPanel();
+    };
+}
+
+// RadioButton.h
+
+
+namespace sw
+{
+    /**
+     * @brief 单选框
+     */
+    class RadioButton : public CheckableButton
+    {
+    public:
+        /**
+         * @brief 初始化单选框
+         */
+        RadioButton();
     };
 }
 
