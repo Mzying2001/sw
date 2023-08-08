@@ -156,6 +156,7 @@
     <ClInclude Include="..\sw\inc\App.h" />
     <ClInclude Include="..\sw\inc\Button.h" />
     <ClInclude Include="..\sw\inc\ButtonBase.h" />
+    <ClInclude Include="..\sw\inc\CheckableButton.h" />
     <ClInclude Include="..\sw\inc\Color.h" />
     <ClInclude Include="..\sw\inc\ContextMenu.h" />
     <ClInclude Include="..\sw\inc\Control.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="..\sw\inc\Point.h" />
     <ClInclude Include="..\sw\inc\ProcMsg.h" />
     <ClInclude Include="..\sw\inc\Property.h" />
+    <ClInclude Include="..\sw\inc\RadioButton.h" />
     <ClInclude Include="..\sw\inc\Rect.h" />
     <ClInclude Include="..\sw\inc\RoutedEvent.h" />
     <ClInclude Include="..\sw\inc\RoutedEventArgs.h" />
@@ -210,6 +212,7 @@
     <ClCompile Include="..\sw\src\App.cpp" />
     <ClCompile Include="..\sw\src\Button.cpp" />
     <ClCompile Include="..\sw\src\ButtonBase.cpp" />
+    <ClCompile Include="..\sw\src\CheckableButton.cpp" />
     <ClCompile Include="..\sw\src\Color.cpp" />
     <ClCompile Include="..\sw\src\ContextMenu.cpp" />
     <ClCompile Include="..\sw\src\Control.cpp" />
@@ -233,6 +236,7 @@
     <ClCompile Include="..\sw\src\Path.cpp" />
     <ClCompile Include="..\sw\src\Point.cpp" />
     <ClCompile Include="..\sw\src\ProcMsg.cpp" />
+    <ClCompile Include="..\sw\src\RadioButton.cpp" />
     <ClCompile Include="..\sw\src\Rect.cpp" />
     <ClCompile Include="..\sw\src\RoutedEvent.cpp" />
     <ClCompile Include="..\sw\src\Screen.cpp" />
