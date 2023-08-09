@@ -57,8 +57,10 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const std::wstring &value) {
-              this->_font.name = value;
-              this->UpdateFont();
+              if (this->_font.name != value) {
+                  this->_font.name = value;
+                  this->UpdateFont();
+              }
           }),
 
       FontSize(
@@ -68,8 +70,10 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
-              this->_font.size = value;
-              this->UpdateFont();
+              if (this->_font.size != value) {
+                  this->_font.size = value;
+                  this->UpdateFont();
+              }
           }),
 
       FontWeight(
@@ -79,8 +83,10 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const sw::FontWeight &value) {
-              this->_font.weight = value;
-              this->UpdateFont();
+              if (this->_font.weight != value) {
+                  this->_font.weight = value;
+                  this->UpdateFont();
+              }
           }),
 
       Rect(
@@ -90,15 +96,15 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const sw::Rect &value) {
-              /*RECT rect = value.GetRECT();
-              MoveWindow(this->_hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, TRUE);*/
-              double scaleX = Dip::ScaleX;
-              double scaleY = Dip::ScaleY;
-              int left      = std::lround(value.left / scaleX);
-              int top       = std::lround(value.top / scaleY);
-              int width     = std::lround(value.width / scaleX);
-              int height    = std::lround(value.height / scaleY);
-              SetWindowPos(this->_hwnd, NULL, left, top, width, height, SWP_NOACTIVATE | SWP_NOZORDER);
+              if (this->_rect != value) {
+                  double scaleX = Dip::ScaleX;
+                  double scaleY = Dip::ScaleY;
+                  int left      = std::lround(value.left / scaleX);
+                  int top       = std::lround(value.top / scaleY);
+                  int width     = std::lround(value.width / scaleX);
+                  int height    = std::lround(value.height / scaleY);
+                  SetWindowPos(this->_hwnd, NULL, left, top, width, height, SWP_NOACTIVATE | SWP_NOZORDER);
+              }
           }),
 
       Left(
@@ -108,9 +114,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
-              int x = std::lround(value / Dip::ScaleX);
-              int y = std::lround(this->_rect.top / Dip::ScaleY);
-              SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
+              if (this->_rect.left != value) {
+                  int x = std::lround(value / Dip::ScaleX);
+                  int y = std::lround(this->_rect.top / Dip::ScaleY);
+                  SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
+              }
           }),
 
       Top(
@@ -120,9 +128,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
-              int x = std::lround(this->_rect.left / Dip::ScaleX);
-              int y = std::lround(value / Dip::ScaleY);
-              SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
+              if (this->_rect.top != value) {
+                  int x = std::lround(this->_rect.left / Dip::ScaleX);
+                  int y = std::lround(value / Dip::ScaleY);
+                  SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
+              }
           }),
 
       Width(
@@ -132,9 +142,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
-              int cx = std::lround(value / Dip::ScaleX);
-              int cy = std::lround(this->_rect.height / Dip::ScaleY);
-              SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
+              if (this->_rect.width != value) {
+                  int cx = std::lround(value / Dip::ScaleX);
+                  int cy = std::lround(this->_rect.height / Dip::ScaleY);
+                  SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
+              }
           }),
 
       Height(
@@ -144,9 +156,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
-              int cx = std::lround(this->_rect.width / Dip::ScaleX);
-              int cy = std::lround(value / Dip::ScaleY);
-              SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
+              if (this->_rect.height != value) {
+                  int cx = std::lround(this->_rect.width / Dip::ScaleX);
+                  int cy = std::lround(value / Dip::ScaleY);
+                  SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
+              }
           }),
 
       ClientRect(
