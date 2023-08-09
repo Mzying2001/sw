@@ -250,6 +250,10 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             return 0;
         }
 
+        case WM_ERASEBKGND: {
+            return 1; // 阻止擦除背景
+        }
+
         case WM_UpdateLayout: {
             this->UpdateLayout();
             return 0;
@@ -300,11 +304,30 @@ bool sw::Window::OnDestroy()
 bool sw::Window::OnPaint()
 {
     PAINTSTRUCT ps;
-    HWND hwnd     = this->Handle;
-    HDC hdc       = BeginPaint(hwnd, &ps);
+    HWND hwnd = this->Handle;
+    HDC hdc   = BeginPaint(hwnd, &ps);
+
+    // 创建内存 DC 和位图
+    HDC hdcMem         = CreateCompatibleDC(hdc);
+    HBITMAP hBitmap    = CreateCompatibleBitmap(hdc, ps.rcPaint.right - ps.rcPaint.left,
+                                                ps.rcPaint.bottom - ps.rcPaint.top);
+    HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
+
+    // 在内存 DC 上进行绘制
     HBRUSH hBrush = CreateSolidBrush(this->_backColor);
-    FillRect(hdc, &ps.rcPaint, hBrush);
+    FillRect(hdcMem, &ps.rcPaint, hBrush);
+
+    // 将内存 DC 的内容绘制到窗口客户区
+    BitBlt(hdc, ps.rcPaint.left, ps.rcPaint.top,
+           ps.rcPaint.right - ps.rcPaint.left, ps.rcPaint.bottom - ps.rcPaint.top,
+           hdcMem, ps.rcPaint.left, ps.rcPaint.top, SRCCOPY);
+
+    // 清理资源
+    SelectObject(hdcMem, hBitmapOld);
+    DeleteObject(hBitmap);
     DeleteObject(hBrush);
+    DeleteDC(hdcMem);
+
     EndPaint(hwnd, &ps);
     return true;
 }
