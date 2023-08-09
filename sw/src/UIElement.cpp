@@ -362,7 +362,7 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     this->Rect       = rect;
     this->_arranging = false;
 
-    this->Redraw();
+    //this->Redraw();
 }
 
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)
