@@ -124,3 +124,8 @@ bool sw::TextBoxBase::Undo()
 {
     return this->SendMessageW(EM_UNDO, 0, 0);
 }
+
+void sw::TextBoxBase::Clear()
+{
+    this->Text = L"";
+}

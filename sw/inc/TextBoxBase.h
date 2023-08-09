@@ -74,5 +74,10 @@ namespace sw
          * @return 操作是否成功
          */
         bool Undo();
+
+        /**
+         * @brief 清空内容
+         */
+        void Clear();
     };
 }
