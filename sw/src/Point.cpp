@@ -26,6 +26,16 @@ sw::Point::operator POINT() const
     return point;
 }
 
+bool sw::operator==(const Point &left, const Point &right)
+{
+    return (left.x == right.x) && (left.y == right.y);
+}
+
+bool sw::operator!=(const Point &left, const Point &right)
+{
+    return (left.x != right.x) || (left.y != right.y);
+}
+
 std::wostream &sw::operator<<(std::wostream &wos, const Point &point)
 {
     return wos << L"(" << point.x << L", " << point.y << L")";

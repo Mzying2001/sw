@@ -16,6 +16,8 @@ namespace sw
         Color(COLORREF color);
         operator COLORREF() const;
 
+        friend bool operator==(const Color &left, const Color &right);
+        friend bool operator!=(const Color &left, const Color &right);
         friend std::wostream &operator<<(std::wostream &wos, const Color &color);
 
         /*==================================================*/

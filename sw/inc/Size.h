@@ -14,6 +14,8 @@ namespace sw
         Size(const SIZE &size);
         operator SIZE() const;
 
+        friend bool operator==(const Size &left, const Size &right);
+        friend bool operator!=(const Size &left, const Size &right);
         friend std::wostream &operator<<(std::wostream &wos, const Size &size);
     };
 }

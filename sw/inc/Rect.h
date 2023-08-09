@@ -16,6 +16,8 @@ namespace sw
         Rect(const RECT &rect);
         operator RECT() const;
 
+        friend bool operator==(const Rect &left, const Rect &right);
+        friend bool operator!=(const Rect &left, const Rect &right);
         friend std::wostream &operator<<(std::wostream &wos, const Rect &rect);
     };
 }

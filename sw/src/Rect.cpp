@@ -36,6 +36,22 @@ sw::Rect::operator RECT() const
     return rect;
 }
 
+bool sw::operator==(const Rect &left, const Rect &right)
+{
+    return (left.left   == right.left)  &&
+           (left.top    == right.top)   &&
+           (left.width  == right.width) &&
+           (left.height == right.height);
+}
+
+bool sw::operator!=(const Rect &left, const Rect &right)
+{
+    return (left.left   != right.left)  ||
+           (left.top    != right.top)   ||
+           (left.width  != right.width) ||
+           (left.height != right.height);
+}
+
 std::wostream &sw::operator<<(std::wostream &wos, const Rect &rect)
 {
     return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";

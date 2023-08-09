@@ -26,6 +26,16 @@ sw::Size::operator SIZE() const
     return size;
 }
 
+bool sw::operator==(const Size &left, const Size &right)
+{
+    return (left.width == right.width) && (left.height == right.height);
+}
+
+bool sw::operator!=(const Size &left, const Size &right)
+{
+    return (left.width != right.width) || (left.height != right.height);
+}
+
 std::wostream &sw::operator<<(std::wostream &wos, const Size &size)
 {
     return wos << L"Size{width=" << size.width << L", height=" << size.height << L"}";
