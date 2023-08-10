@@ -22,6 +22,7 @@
 #include "ICtlColor.h"
 #include "ILayout.h"
 #include "Icon.h"
+#include "ItemsControl.h"
 #include "Keys.h"
 #include "Label.h"
 #include "Layer.h"
