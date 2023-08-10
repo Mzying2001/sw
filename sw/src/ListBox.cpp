@@ -1,6 +1,17 @@
 #include "ListBox.h"
 
 sw::ListBox::ListBox()
+    : TopIndex(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = (int)this->SendMessageW(LB_GETTOPINDEX, 0, 0);
+              return result;
+          },
+          // set
+          [&](const int &value) {
+              this->SendMessageW(LB_SETTOPINDEX, value, 0);
+          })
 {
     this->InitControl(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LBS_NOTIFY, 0);
     this->Rect = sw::Rect(0, 0, 150, 200);

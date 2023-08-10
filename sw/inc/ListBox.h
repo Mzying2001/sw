@@ -11,6 +11,12 @@ namespace sw
     {
     public:
         /**
+         * @brief 当前列表框页面第一个子项的索引
+         */
+        const Property<int> TopIndex;
+
+    public:
+        /**
          * @brief 初始化列表框
          */
         ListBox();
