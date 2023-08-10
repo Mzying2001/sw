@@ -307,20 +307,20 @@ bool sw::Window::OnPaint()
     HWND hwnd = this->Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
+    RECT rtClient;
+    GetClientRect(hwnd, &rtClient);
+
     // 创建内存 DC 和位图
     HDC hdcMem         = CreateCompatibleDC(hdc);
-    HBITMAP hBitmap    = CreateCompatibleBitmap(hdc, ps.rcPaint.right - ps.rcPaint.left,
-                                                ps.rcPaint.bottom - ps.rcPaint.top);
+    HBITMAP hBitmap    = CreateCompatibleBitmap(hdc, rtClient.right - rtClient.left, rtClient.bottom - rtClient.top);
     HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
 
     // 在内存 DC 上进行绘制
     HBRUSH hBrush = CreateSolidBrush(this->_backColor);
-    FillRect(hdcMem, &ps.rcPaint, hBrush);
+    FillRect(hdcMem, &rtClient, hBrush);
 
     // 将内存 DC 的内容绘制到窗口客户区
-    BitBlt(hdc, ps.rcPaint.left, ps.rcPaint.top,
-           ps.rcPaint.right - ps.rcPaint.left, ps.rcPaint.bottom - ps.rcPaint.top,
-           hdcMem, ps.rcPaint.left, ps.rcPaint.top, SRCCOPY);
+    BitBlt(hdc, 0, 0, rtClient.right - rtClient.left, rtClient.bottom - rtClient.top, hdcMem, 0, 0, SRCCOPY);
 
     // 清理资源
     SelectObject(hdcMem, hBitmapOld);
