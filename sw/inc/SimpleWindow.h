@@ -27,6 +27,7 @@
 #include "Label.h"
 #include "Layer.h"
 #include "LayoutHost.h"
+#include "ListBox.h"
 #include "Menu.h"
 #include "MenuBase.h"
 #include "MenuItem.h"
