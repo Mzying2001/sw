@@ -189,6 +189,9 @@
     <ClInclude Include="..\sw\inc\ListBox.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\ComboBox.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\AbsoluteLayout.cpp">
@@ -348,6 +351,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\ListBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\ComboBox.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

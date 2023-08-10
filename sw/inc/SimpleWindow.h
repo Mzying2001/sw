@@ -10,6 +10,7 @@
 #include "CheckBox.h"
 #include "CheckableButton.h"
 #include "Color.h"
+#include "ComboBox.h"
 #include "ContextMenu.h"
 #include "Control.h"
 #include "Cursor.h"
