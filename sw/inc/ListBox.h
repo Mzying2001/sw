@@ -77,5 +77,11 @@ namespace sw
          * @return      操作是否成功
          */
         virtual bool RemoveItemAt(int index) override;
+
+        /**
+         * @brief       获取指定点处子项的索引
+         * @param point 相对于列表框用户区左上角点的位置
+         */
+        int GetItemIndexFromPoint(const Point &point);
     };
 }

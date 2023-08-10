@@ -80,3 +80,9 @@ bool sw::ListBox::RemoveItemAt(int index)
     this->SendMessageW(LB_DELETESTRING, index, 0);
     return this->GetItemsCount() == count - 1;
 }
+
+int sw::ListBox::GetItemIndexFromPoint(const Point &point)
+{
+    POINT p = point;
+    return (int)this->SendMessageW(LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y));
+}
