@@ -26,6 +26,17 @@ std::wstring sw::ListBox::GetSelectedItem()
     return this->GetItemAt(this->GetSelectedIndex());
 }
 
+bool sw::ListBox::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+{
+    int index = this->GetItemIndexFromPoint(this->PointFromScreen(mousePosition));
+
+    if (index >= 0 && index < this->GetItemsCount()) {
+        this->SetSelectedIndex(index);
+    }
+
+    return this->UIElement::OnContextMenu(isKeyboardMsg, mousePosition);
+}
+
 void sw::ListBox::Clear()
 {
     this->SendMessageW(LB_RESETCONTENT, 0, 0);

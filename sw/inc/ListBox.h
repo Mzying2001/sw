@@ -36,6 +36,14 @@ namespace sw
          */
         virtual std::wstring GetSelectedItem() override;
 
+        /**
+         * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
+         * @param isKeyboardMsg 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
+         * @param mousePosition 鼠标在屏幕中的位置
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override;
+
     public:
         /**
          * @brief 清空所有子项
