@@ -11,7 +11,7 @@ namespace sw
     {
     public:
         /**
-         * @brief 组合框内容是否可编辑
+         * @brief 组合框内容是否可编辑，更新该属性会导致已添加的子项被清空
          */
         const Property<bool> IsEditable;
 
