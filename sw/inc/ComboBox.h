@@ -11,6 +11,12 @@ namespace sw
     {
     public:
         /**
+         * @brief 组合框内容是否可编辑
+         */
+        const Property<bool> IsEditable;
+
+    public:
+        /**
          * @brief 初始化组合框
          */
         ComboBox();

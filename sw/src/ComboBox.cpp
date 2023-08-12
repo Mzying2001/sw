@@ -1,8 +1,25 @@
 #include "ComboBox.h"
 
+static constexpr DWORD _ComboBoxStyle_Default  = WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST;
+static constexpr DWORD _ComboBoxStyle_Editable = WS_CHILD | WS_VISIBLE | CBS_DROPDOWN;
+
 sw::ComboBox::ComboBox()
+    : IsEditable(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle() == _ComboBoxStyle_Editable;
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->IsEditable != value) {
+                  this->SetStyle(value ? _ComboBoxStyle_Editable : _ComboBoxStyle_Default);
+                  this->ResetHandle();
+              }
+          })
 {
-    this->InitControl(L"COMBOBOX", L"", WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 0);
+    this->InitControl(L"COMBOBOX", L"", _ComboBoxStyle_Default, 0);
     this->Rect = sw::Rect(0, 0, 100, 24);
 }
 
