@@ -83,5 +83,15 @@ namespace sw
          * @return      操作是否成功
          */
         virtual bool RemoveItemAt(int index) override;
+
+        /**
+         * @brief 显示下拉列表
+         */
+        void ShowDropDown();
+
+        /**
+         * @brief 关闭下拉列表
+         */
+        void CloseDropDown();
     };
 }

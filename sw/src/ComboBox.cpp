@@ -97,3 +97,13 @@ bool sw::ComboBox::RemoveItemAt(int index)
     this->SendMessageW(CB_DELETESTRING, index, 0);
     return this->GetItemsCount() == count - 1;
 }
+
+void sw::ComboBox::ShowDropDown()
+{
+    this->SendMessageW(CB_SHOWDROPDOWN, TRUE, 0);
+}
+
+void sw::ComboBox::CloseDropDown()
+{
+    this->SendMessageW(CB_SHOWDROPDOWN, FALSE, 0);
+}
