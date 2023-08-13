@@ -45,26 +45,11 @@ std::wstring sw::ComboBox::GetSelectedItem()
 
 std::wstring &sw::ComboBox::GetText()
 {
-    std::wstring &refText = this->WndBase::GetText();
-
-    if (!this->_isTextChanged) {
-        return refText;
+    if (this->_isTextChanged) {
+        this->UpdateText();
+        this->_isTextChanged = false;
     }
-
-    HWND hwnd = this->Handle;
-    int len   = GetWindowTextLengthW(hwnd);
-
-    if (len > 0) {
-        wchar_t *buf = new wchar_t[len + 1];
-        GetWindowTextW(hwnd, buf, len + 1);
-        refText = buf;
-        delete[] buf;
-    } else {
-        refText = L"";
-    }
-
-    this->_isTextChanged = false;
-    return refText;
+    return this->WndBase::GetText();
 }
 
 void sw::ComboBox::OnCommand(int code)
