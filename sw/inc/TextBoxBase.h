@@ -41,7 +41,7 @@ namespace sw
 
         /**
          * @brief  获取窗口文本
-         * @return _text字段
+         * @return 编辑框的文本内容
          */
         virtual std::wstring &GetText() override;
 
