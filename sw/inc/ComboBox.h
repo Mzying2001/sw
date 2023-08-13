@@ -54,6 +54,12 @@ namespace sw
         virtual std::wstring &GetText() override;
 
         /**
+         * @brief       设置Text属性时调用该函数
+         * @param value 要设置的文本
+         */
+        virtual void SetText(const std::wstring &value) override;
+
+        /**
          * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
          * @param code 通知代码
          */

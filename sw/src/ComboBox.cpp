@@ -16,6 +16,7 @@ sw::ComboBox::ComboBox()
               if (this->IsEditable != value) {
                   this->SetStyle(value ? _ComboBoxStyle_Editable : _ComboBoxStyle_Default);
                   this->ResetHandle();
+                  this->SetText(this->WndBase::GetText());
               }
           })
 {
@@ -51,6 +52,16 @@ std::wstring &sw::ComboBox::GetText()
         this->_isTextChanged = false;
     }
     return this->WndBase::GetText();
+}
+
+void sw::ComboBox::SetText(const std::wstring &value)
+{
+    if (this->IsEditable) {
+        this->WndBase::SetText(value);
+    } else {
+        this->WndBase::GetText() = value;
+        this->_isTextChanged     = false;
+    }
 }
 
 void sw::ComboBox::OnCommand(int code)
