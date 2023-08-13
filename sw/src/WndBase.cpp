@@ -622,6 +622,22 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
     }
 }
 
+void sw::WndBase::UpdateText()
+{
+    int len = GetWindowTextLengthW(this->_hwnd);
+
+    if (len <= 0) {
+        this->_text = L"";
+        return;
+    }
+
+    wchar_t *buf = new wchar_t[len + 1];
+    GetWindowTextW(this->_hwnd, buf, len + 1);
+
+    this->_text = buf;
+    delete[] buf;
+}
+
 std::wstring &sw::WndBase::GetText()
 {
     return this->_text;

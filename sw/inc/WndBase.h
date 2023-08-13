@@ -238,6 +238,11 @@ namespace sw
         virtual LRESULT WndProc(const ProcMsg &refMsg);
 
         /**
+         * @brief 更新_text字段
+         */
+        void UpdateText();
+
+        /**
          * @brief  获取窗口文本
          * @return _text字段
          */
