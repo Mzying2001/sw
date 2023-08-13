@@ -483,13 +483,6 @@ namespace sw
         virtual void ParentChanged(WndBase *newParent);
 
         /**
-         * @brief 接收到WM_COMMAND后调用此函数
-         * @param wParam
-         * @param lParam
-         */
-        virtual void OnCommand(WPARAM wParam, LPARAM lParam);
-
-        /**
          * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
          * @param code 通知代码
          */
@@ -497,11 +490,11 @@ namespace sw
 
         /**
          * @brief          当WM_COMMAND接收到控件命令时调用该函数
-         * @param hControl 控件的窗口句柄
+         * @param pControl 控件对象指针
          * @param code     通知代码
          * @param id       控件id
          */
-        virtual void OnControlCommand(HWND hControl, int code, int id);
+        virtual void OnControlCommand(WndBase *pControl, int code, int id);
 
         /**
          * @brief    当WM_COMMAND接收到菜单命令时调用该函数

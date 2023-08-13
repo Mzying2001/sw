@@ -559,7 +559,21 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_COMMAND: {
-            this->OnCommand(refMsg.wParam, refMsg.lParam);
+            if (refMsg.lParam != NULL) {
+                // 接收到控件消息，获取控件对象
+                WndBase *pControl = WndBase::GetWndBase(reinterpret_cast<HWND>(refMsg.lParam));
+                // Windows一些控件的内部句柄也是使用WM_COMMAND实现一些功能，如可编辑状态的组合框
+                // 此处尝试获取控件WndBase对象，若为nullptr说明为内部句柄，此时调用原来的WndProc
+                if (pControl == nullptr) {
+                    this->DefaultWndProc(refMsg);
+                } else {
+                    this->OnControlCommand(pControl, HIWORD(refMsg.wParam), LOWORD(refMsg.wParam));
+                }
+            } else {
+                // 接收到菜单或快捷键消息
+                int id = LOWORD(refMsg.wParam);
+                HIWORD(refMsg.wParam) ? this->OnAcceleratorCommand(id) : this->OnMenuCommand(id);
+            }
             return 0;
         }
 
@@ -791,26 +805,13 @@ void sw::WndBase::ParentChanged(WndBase *newParent)
 {
 }
 
-void sw::WndBase::OnCommand(WPARAM wParam, LPARAM lParam)
-{
-    if (lParam != NULL) {
-        // 接收到控件消息
-        this->OnControlCommand((HWND)lParam, HIWORD(wParam), LOWORD(wParam));
-    } else {
-        // 接收到菜单或快捷键消息
-        int id = LOWORD(wParam);
-        HIWORD(wParam) ? this->OnAcceleratorCommand(id) : this->OnMenuCommand(id);
-    }
-}
-
 void sw::WndBase::OnCommand(int code)
 {
 }
 
-void sw::WndBase::OnControlCommand(HWND hControl, int code, int id)
+void sw::WndBase::OnControlCommand(WndBase *pControl, int code, int id)
 {
-    WndBase *pControl = WndBase::GetWndBase(hControl);
-    if (pControl) pControl->OnCommand(code);
+    pControl->OnCommand(code);
 }
 
 void sw::WndBase::OnMenuCommand(int id)
