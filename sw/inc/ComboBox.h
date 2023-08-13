@@ -9,6 +9,12 @@ namespace sw
      */
     class ComboBox : public ItemsControl
     {
+    private:
+        /**
+         * @brief 在读取Text属性时用于判断是否需要更新储存的文本
+         */
+        bool _isTextChanged = false;
+
     public:
         /**
          * @brief 组合框内容是否可编辑，更新该属性会导致已添加的子项被清空
@@ -41,6 +47,17 @@ namespace sw
          * @brief 获取选中项
          */
         virtual std::wstring GetSelectedItem() override;
+
+        /**
+         * @brief  获取可编辑状态下的编辑框文本内容
+         */
+        virtual std::wstring &GetText() override;
+
+        /**
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
+         */
+        virtual void OnCommand(int code) override;
 
     public:
         /**
