@@ -16,7 +16,7 @@ sw::ComboBox::ComboBox()
               if (this->IsEditable != value) {
                   this->SetStyle(value ? _ComboBoxStyle_Editable : _ComboBoxStyle_Default);
                   this->ResetHandle();
-                  this->SetText(this->WndBase::GetText());
+                  this->SetText(this->WndBase::GetText()); // 使切换后文本框内容能够保留
               }
           })
 {
@@ -56,6 +56,11 @@ std::wstring &sw::ComboBox::GetText()
 
 void sw::ComboBox::SetText(const std::wstring &value)
 {
+    // 当组合框可编辑时，直接调用WndBase::SetText以更新文本框
+    // 不可编辑时，直接修改_text字段（WndBase中定义，用于保存窗体文本）
+    // 修改IsEditable属性后会重新创建句柄，会直接将_text字段设为新的文本
+    // 这里直接修改_text以实现在IsEditable为false时修改的Text能够在IsEditable更改为true时文本框内容能正确显示
+
     if (this->IsEditable) {
         this->WndBase::SetText(value);
     } else {
