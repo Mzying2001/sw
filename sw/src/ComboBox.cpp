@@ -36,6 +36,7 @@ int sw::ComboBox::GetSelectedIndex()
 void sw::ComboBox::SetSelectedIndex(int index)
 {
     this->SendMessageW(CB_SETCURSEL, index, 0);
+    this->OnSelectionChanged();
 }
 
 std::wstring sw::ComboBox::GetSelectedItem()
@@ -59,9 +60,19 @@ void sw::ComboBox::OnCommand(int code)
             this->_isTextChanged = true;
             break;
 
+        case CBN_SELCHANGE:
+            this->OnSelectionChanged();
+            break;
+
         default:
             break;
     }
+}
+
+void sw::ComboBox::OnSelectionChanged()
+{
+    this->_isTextChanged     = false;
+    this->WndBase::GetText() = this->GetSelectedItem();
 }
 
 void sw::ComboBox::Clear()

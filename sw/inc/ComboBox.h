@@ -59,6 +59,11 @@ namespace sw
          */
         virtual void OnCommand(int code) override;
 
+        /**
+         * @brief 选中项改变时调用该函数
+         */
+        virtual void OnSelectionChanged();
+
     public:
         /**
          * @brief 清空所有子项
