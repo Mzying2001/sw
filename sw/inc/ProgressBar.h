@@ -40,6 +40,11 @@ namespace sw
          */
         const Property<ProgressBarState> State;
 
+        /**
+         * @brief 是否显示为垂直进度条
+         */
+        const Property<bool> Vertical;
+
     public:
         /**
          * @brief 初始化进度条

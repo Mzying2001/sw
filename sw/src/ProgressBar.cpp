@@ -49,6 +49,18 @@ sw::ProgressBar::ProgressBar()
           // set
           [&](const ProgressBarState &value) {
               this->SendMessageW(PBM_SETSTATE, (WPARAM)value, 0);
+          }),
+
+      Vertical(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(PBS_VERTICAL);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(PBS_VERTICAL, value);
           })
 {
     this->InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
