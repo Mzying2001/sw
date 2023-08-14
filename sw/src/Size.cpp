@@ -25,18 +25,3 @@ sw::Size::operator SIZE() const
     size.cy = std::lround(this->height / Dip::ScaleY);
     return size;
 }
-
-bool operator==(const sw::Size &left, const sw::Size &right)
-{
-    return (left.width == right.width) && (left.height == right.height);
-}
-
-bool operator!=(const sw::Size &left, const sw::Size &right)
-{
-    return (left.width != right.width) || (left.height != right.height);
-}
-
-std::wostream &operator<<(std::wostream &wos, const sw::Size &size)
-{
-    return wos << L"Size{width=" << size.width << L", height=" << size.height << L"}";
-}

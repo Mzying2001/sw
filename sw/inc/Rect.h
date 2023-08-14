@@ -16,8 +16,25 @@ namespace sw
         Rect(const RECT &rect);
         operator RECT() const;
 
-        friend bool operator==(const Rect &left, const Rect &right);
-        friend bool operator!=(const Rect &left, const Rect &right);
-        friend std::wostream &operator<<(std::wostream &wos, const Rect &rect);
+        friend bool operator==(const Rect& left, const Rect& right)
+        {
+            return (left.left   == right.left)  &&
+                   (left.top    == right.top)   &&
+                   (left.width  == right.width) &&
+                   (left.height == right.height);
+        }
+
+        friend bool operator!=(const Rect& left, const Rect& right)
+        {
+            return (left.left   != right.left)  ||
+                   (left.top    != right.top)   ||
+                   (left.width  != right.width) ||
+                   (left.height != right.height);
+        }
+
+        friend std::wostream& operator<<(std::wostream& wos, const Rect& rect)
+        {
+            return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
+        }
     };
 }

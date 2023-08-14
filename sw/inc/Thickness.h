@@ -14,8 +14,25 @@ namespace sw
         Thickness(double thickness);
         Thickness(double left, double top, double right, double bottom);
 
-        friend bool operator==(const Thickness &left, const Thickness &right);
-        friend bool operator!=(const Thickness &left, const Thickness &right);
-        friend std::wostream &operator<<(std::wostream &wos, const Thickness &thickness);
+        friend bool operator==(const Thickness &left, const Thickness &right)
+        {
+            return (left.left   == right.left)  &&
+                   (left.top    == right.top)   &&
+                   (left.right  == right.right) &&
+                   (left.bottom == right.bottom);
+        }
+
+        friend bool operator!=(const Thickness &left, const Thickness &right)
+        {
+            return (left.left   != right.left)  ||
+                   (left.top    != right.top)   ||
+                   (left.right  != right.right) ||
+                   (left.bottom != right.bottom);
+        }
+
+        friend std::wostream &operator<<(std::wostream &wos, const Thickness &thickness)
+        {
+            return wos << L"Thickness{left=" << thickness.left << L", top=" << thickness.top << L", right=" << thickness.right << L", bottom=" << thickness.bottom << L"}";
+        }
     };
 }

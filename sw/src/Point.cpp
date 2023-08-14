@@ -25,18 +25,3 @@ sw::Point::operator POINT() const
     point.y = std::lround(this->y / Dip::ScaleY);
     return point;
 }
-
-bool operator==(const sw::Point &left, const sw::Point &right)
-{
-    return (left.x == right.x) && (left.y == right.y);
-}
-
-bool operator!=(const sw::Point &left, const sw::Point &right)
-{
-    return (left.x != right.x) || (left.y != right.y);
-}
-
-std::wostream &operator<<(std::wostream &wos, const sw::Point &point)
-{
-    return wos << L"(" << point.x << L", " << point.y << L")";
-}

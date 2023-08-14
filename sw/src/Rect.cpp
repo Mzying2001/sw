@@ -35,24 +35,3 @@ sw::Rect::operator RECT() const
     rect.bottom = std::lround((this->top + this->height) / scaleY);
     return rect;
 }
-
-bool operator==(const sw::Rect &left, const sw::Rect &right)
-{
-    return (left.left   == right.left)  &&
-           (left.top    == right.top)   &&
-           (left.width  == right.width) &&
-           (left.height == right.height);
-}
-
-bool operator!=(const sw::Rect &left, const sw::Rect &right)
-{
-    return (left.left   != right.left)  ||
-           (left.top    != right.top)   ||
-           (left.width  != right.width) ||
-           (left.height != right.height);
-}
-
-std::wostream &operator<<(std::wostream &wos, const sw::Rect &rect)
-{
-    return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
-}

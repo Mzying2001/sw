@@ -14,8 +14,19 @@ namespace sw
         Size(const SIZE &size);
         operator SIZE() const;
 
-        friend bool operator==(const Size &left, const Size &right);
-        friend bool operator!=(const Size &left, const Size &right);
-        friend std::wostream &operator<<(std::wostream &wos, const Size &size);
+        friend bool operator==(const Size &left, const Size &right)
+        {
+            return (left.width == right.width) && (left.height == right.height);
+        }
+
+        friend bool operator!=(const Size &left, const Size &right)
+        {
+            return (left.width != right.width) || (left.height != right.height);
+        }
+
+        friend std::wostream &operator<<(std::wostream &wos, const Size &size)
+        {
+            return wos << L"Size{width=" << size.width << L", height=" << size.height << L"}";
+        }
     };
 }
