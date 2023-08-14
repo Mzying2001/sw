@@ -11,6 +11,29 @@ sw::ListBox::ListBox()
           // set
           [&](const int &value) {
               this->SendMessageW(LB_SETTOPINDEX, value, 0);
+          }),
+
+      MultiSelect(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(LBS_MULTIPLESEL);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->GetStyle(LBS_MULTIPLESEL) != value) {
+                  this->SetStyle(LBS_MULTIPLESEL, value);
+                  this->ResetHandle();
+              }
+          }),
+
+      SelectedCount(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = (int)this->SendMessageW(LB_GETSELCOUNT, 0, 0);
+              return result;
           })
 {
     this->InitControl(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LBS_NOTIFY, 0);
@@ -30,6 +53,7 @@ int sw::ListBox::GetSelectedIndex()
 void sw::ListBox::SetSelectedIndex(int index)
 {
     this->SendMessageW(LB_SETCURSEL, index, 0);
+    this->OnSelectionChanged();
 }
 
 std::wstring sw::ListBox::GetSelectedItem()
@@ -114,4 +138,27 @@ int sw::ListBox::GetItemIndexFromPoint(const Point &point)
 {
     POINT p = point;
     return (int)this->SendMessageW(LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y));
+}
+
+std::vector<int> sw::ListBox::GetSelectedIndices()
+{
+    std::vector<int> result;
+    int selectedCount = this->SelectedCount.Get();
+    if (selectedCount > 0) {
+        int *buf = new int[selectedCount];
+        if (this->SendMessageW(LB_GETSELITEMS, selectedCount, reinterpret_cast<LPARAM>(buf)) != LB_ERR) {
+            for (int i = 0; i < selectedCount; ++i) result.push_back(buf[i]);
+        }
+        delete[] buf;
+    }
+    return result;
+}
+
+std::vector<std::wstring> sw::ListBox::GetSelectedItems()
+{
+    std::vector<std::wstring> result;
+    for (int i : this->GetSelectedIndices()) {
+        result.emplace_back(this->GetItemAt(i));
+    }
+    return result;
 }

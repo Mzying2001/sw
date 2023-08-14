@@ -15,6 +15,16 @@ namespace sw
          */
         const Property<int> TopIndex;
 
+        /**
+         * @brief 是否允许多选，更新该属性会导致已添加的子项被清空
+         */
+        const Property<bool> MultiSelect;
+
+        /**
+         * @brief 多选状态下可通过该属性获取选中项的个数
+         */
+        const ReadOnlyProperty<int> SelectedCount;
+
     public:
         /**
          * @brief 初始化列表框
@@ -103,5 +113,17 @@ namespace sw
          * @param point 相对于列表框用户区左上角点的位置
          */
         int GetItemIndexFromPoint(const Point &point);
+
+        /**
+         * @brief  多选状态下可通过该函数获取所有选中项的索引
+         * @return 所有选中项的索引
+         */
+        std::vector<int> GetSelectedIndices();
+
+        /**
+         * @brief  多选状态下可通过该函数获取所有选中项的内容
+         * @return 所有选中项的内容
+         */
+        std::vector<std::wstring> GetSelectedItems();
     };
 }
