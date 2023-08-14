@@ -74,10 +74,12 @@ void sw::ComboBox::OnCommand(int code)
     switch (code) {
         case CBN_EDITCHANGE:
             this->_isTextChanged = true;
+            this->OnTextChanged();
             break;
 
         case CBN_SELCHANGE:
             this->OnSelectionChanged();
+            this->OnTextChanged();
             break;
 
         default:
