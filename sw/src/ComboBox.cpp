@@ -1,7 +1,7 @@
 #include "ComboBox.h"
 
-static constexpr DWORD _ComboBoxStyle_Default  = WS_CHILD | WS_VISIBLE | CBS_HASSTRINGS | CBS_DROPDOWNLIST;
-static constexpr DWORD _ComboBoxStyle_Editable = WS_CHILD | WS_VISIBLE | CBS_HASSTRINGS | CBS_DROPDOWN;
+static constexpr DWORD _ComboBoxStyle_Default  = WS_CHILD | WS_VISIBLE | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWNLIST;
+static constexpr DWORD _ComboBoxStyle_Editable = WS_CHILD | WS_VISIBLE | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWN;
 
 sw::ComboBox::ComboBox()
     : IsEditable(
