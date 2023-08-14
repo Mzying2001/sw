@@ -10,7 +10,7 @@ sw::TextBoxBase::TextBoxBase()
           },
           // set
           [&](const bool &value) {
-              this->SendMessageW(EM_SETREADONLY, value, NULL);
+              this->SendMessageW(EM_SETREADONLY, value, 0);
           }),
 
       HorizontalContentAlignment(

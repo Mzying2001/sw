@@ -559,7 +559,7 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_COMMAND: {
-            if (refMsg.lParam != NULL) {
+            if (refMsg.lParam != (LPARAM)NULL) {
                 // 接收到控件消息，获取控件对象
                 WndBase *pControl = WndBase::GetWndBase(reinterpret_cast<HWND>(refMsg.lParam));
                 // Windows一些控件的内部句柄也是使用WM_COMMAND实现一些功能，如可编辑状态的组合框
@@ -863,7 +863,7 @@ void sw::WndBase::Show(int nCmdShow)
 
 void sw::WndBase::Close()
 {
-    this->SendMessageW(WM_CLOSE, NULL, NULL);
+    this->SendMessageW(WM_CLOSE, 0, 0);
 }
 
 void sw::WndBase::Update()

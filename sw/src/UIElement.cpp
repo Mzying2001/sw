@@ -362,7 +362,7 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     this->Rect       = rect;
     this->_arranging = false;
 
-    //this->Redraw();
+    // this->Redraw();
 }
 
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)
@@ -406,7 +406,7 @@ void sw::UIElement::NotifyLayoutUpdated()
 {
     if (!this->_arranging) {
         UIElement &root = this->GetRootElement();
-        root.SendMessageW(WM_UpdateLayout, NULL, NULL);
+        root.SendMessageW(WM_UpdateLayout, 0, 0);
     }
 }
 

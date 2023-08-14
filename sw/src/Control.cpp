@@ -54,7 +54,7 @@ void sw::Control::ResetHandle()
         this           // Additional application data
     );
 
-    SetWindowLongPtrW(oldHwnd, GWLP_USERDATA, NULL);
+    SetWindowLongPtrW(oldHwnd, GWLP_USERDATA, (LONG_PTR)NULL);
     SetWindowLongPtrW(refHwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>((WndBase *)this));
 
     LONG_PTR wndProc = GetWindowLongPtrW(oldHwnd, GWLP_WNDPROC);
