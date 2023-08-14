@@ -1,5 +1,9 @@
 #include "Dip.h"
 
+#if !defined(USER_DEFAULT_SCREEN_DPI)
+#define USER_DEFAULT_SCREEN_DPI 96
+#endif
+
 static sw::Dip::DipScaleInfo _GetScaleInfo();
 static sw::Dip::DipScaleInfo _dipScaleInfo = _GetScaleInfo();
 

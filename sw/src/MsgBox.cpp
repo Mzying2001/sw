@@ -7,7 +7,7 @@ sw::MsgBox::MsgBox(MsgBoxResult result)
 
 sw::MsgBox sw::MsgBox::Show(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
-    HWND hwnd = owner == NULL ? NULL : owner->Handle;
+    HWND hwnd = owner == nullptr ? reinterpret_cast<HWND>(NULL) : owner->Handle;
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button);
 }
 
@@ -18,7 +18,7 @@ sw::MsgBox sw::MsgBox::Show(const WndBase &owner, const std::wstring &text, cons
 
 sw::MsgBox sw::MsgBox::ShowInfo(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
-    HWND hwnd = owner == NULL ? NULL : owner->Handle;
+    HWND hwnd = owner == nullptr ? reinterpret_cast<HWND>(NULL) : owner->Handle;
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button | MB_ICONINFORMATION);
 }
 
@@ -29,7 +29,7 @@ sw::MsgBox sw::MsgBox::ShowInfo(const WndBase &owner, const std::wstring &text, 
 
 sw::MsgBox sw::MsgBox::ShowError(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
-    HWND hwnd = owner == NULL ? NULL : owner->Handle;
+    HWND hwnd = owner == nullptr ? reinterpret_cast<HWND>(NULL) : owner->Handle;
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button | MB_ICONERROR);
 }
 
@@ -40,7 +40,7 @@ sw::MsgBox sw::MsgBox::ShowError(const WndBase &owner, const std::wstring &text,
 
 sw::MsgBox sw::MsgBox::ShowWarning(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
-    HWND hwnd = owner == NULL ? NULL : owner->Handle;
+    HWND hwnd = owner == nullptr ? reinterpret_cast<HWND>(NULL) : owner->Handle;
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button | MB_ICONWARNING);
 }
 
@@ -51,7 +51,7 @@ sw::MsgBox sw::MsgBox::ShowWarning(const WndBase &owner, const std::wstring &tex
 
 sw::MsgBox sw::MsgBox::ShowQuestion(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
-    HWND hwnd = owner == NULL ? NULL : owner->Handle;
+    HWND hwnd = owner == nullptr ? reinterpret_cast<HWND>(NULL) : owner->Handle;
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button | MB_ICONQUESTION);
 }
 

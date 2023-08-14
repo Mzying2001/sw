@@ -2,6 +2,10 @@
 #include "Utils.h"
 #include <cmath>
 
+#if !defined(WM_DPICHANGED)
+#define WM_DPICHANGED 0x02E0
+#endif
+
 /**
  * @brief 记录当前创建的窗口数
  */

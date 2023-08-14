@@ -80,13 +80,19 @@ namespace sw
     enum class FontClipPrecision : uint8_t {
         CharacterPrecis = CLIP_CHARACTER_PRECIS, // 未使用。
         DefaultPrecis   = CLIP_DEFAULT_PRECIS,   // 指定默认剪辑行为。
-        DFA_Disable     = CLIP_DFA_DISABLE,      // Windows XP SP1： 关闭字体的字体关联。 请注意，此标志不保证在 Windows Server 2003 之后对任何平台产生任何影响。
-        Embedded        = CLIP_EMBEDDED,         // 必须指定此标志才能使用嵌入的只读字体。
-        LH_Angles       = CLIP_LH_ANGLES,        // 使用此值时，所有字体的旋转取决于坐标系的方向是左手还是右手。如果未使用，设备字体始终逆时针旋转，但其他字体的旋转取决于坐标系的方向。
-        Mask            = CLIP_MASK,             // 未使用。
-        /*
-        DFA_Override    = CLIP_DFA_OVERRIDE,     // 关闭字体的字体关联。 这与CLIP_DFA_DISABLE相同，但在某些情况下可能会有问题：建议使用的标志是CLIP_DFA_DISABLE。
-        */
+
+#if defined(CLIP_DFA_DISABLE)
+        DFA_Disable = CLIP_DFA_DISABLE, // Windows XP SP1： 关闭字体的字体关联。 请注意，此标志不保证在 Windows Server 2003 之后对任何平台产生任何影响。
+#endif
+
+        Embedded  = CLIP_EMBEDDED,  // 必须指定此标志才能使用嵌入的只读字体。
+        LH_Angles = CLIP_LH_ANGLES, // 使用此值时，所有字体的旋转取决于坐标系的方向是左手还是右手。如果未使用，设备字体始终逆时针旋转，但其他字体的旋转取决于坐标系的方向。
+        Mask      = CLIP_MASK,      // 未使用。
+
+#if defined(CLIP_DFA_OVERRIDE)
+        DFA_Override = CLIP_DFA_OVERRIDE, // 关闭字体的字体关联。 这与CLIP_DFA_DISABLE相同，但在某些情况下可能会有问题：建议使用的标志是CLIP_DFA_DISABLE。
+#endif
+
         StrokePrecis = CLIP_STROKE_PRECIS, // 字体映射器不使用，但在枚举光栅、矢量或 TrueType 字体时返回。 为了兼容，枚举字体时始终返回此值。
         TT_Always    = CLIP_TT_ALWAYS,     // 未使用。
     };
