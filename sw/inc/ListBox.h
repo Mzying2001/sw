@@ -50,6 +50,12 @@ namespace sw
          */
         virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override;
 
+        /**
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
+         */
+        virtual void OnCommand(int code) override;
+
     public:
         /**
          * @brief 清空所有子项

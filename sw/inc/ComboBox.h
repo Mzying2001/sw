@@ -68,7 +68,7 @@ namespace sw
         /**
          * @brief 选中项改变时调用该函数
          */
-        virtual void OnSelectionChanged();
+        virtual void OnSelectionChanged() override;
 
     public:
         /**

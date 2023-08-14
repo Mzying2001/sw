@@ -29,6 +29,11 @@ namespace sw
         ItemsControl();
 
         /**
+         * @brief 选中项改变时调用该函数
+         */
+        virtual void OnSelectionChanged();
+
+        /**
          * @brief  获取子项数
          */
         virtual int GetItemsCount() = 0;

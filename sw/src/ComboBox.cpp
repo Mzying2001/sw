@@ -89,6 +89,8 @@ void sw::ComboBox::OnSelectionChanged()
 {
     this->_isTextChanged     = false;
     this->WndBase::GetText() = this->GetSelectedItem();
+
+    this->ItemsControl::OnSelectionChanged();
 }
 
 void sw::ComboBox::Clear()

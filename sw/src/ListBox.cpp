@@ -48,6 +48,13 @@ bool sw::ListBox::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
     return this->UIElement::OnContextMenu(isKeyboardMsg, mousePosition);
 }
 
+void sw::ListBox::OnCommand(int code)
+{
+    if (code == LBN_SELCHANGE) {
+        this->OnSelectionChanged();
+    }
+}
+
 void sw::ListBox::Clear()
 {
     this->SendMessageW(LB_RESETCONTENT, 0, 0);

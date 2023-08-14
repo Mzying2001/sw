@@ -30,3 +30,8 @@ sw::ItemsControl::ItemsControl()
           })
 {
 }
+
+void sw::ItemsControl::OnSelectionChanged()
+{
+    this->RaiseRoutedEvent(ItemsControl_SelectionChanged);
+}

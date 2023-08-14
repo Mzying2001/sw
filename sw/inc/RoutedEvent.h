@@ -101,6 +101,11 @@ namespace sw
          * @brief 按钮被双击，参数类型为sw::RoutedEventArgs
          */
         ButtonBase_DoubleClicked,
+
+        /**
+         * @brief 列表框或组合框的选中项改变，参数类型为sw::RoutedEventArgs
+         */
+        ItemsControl_SelectionChanged,
     };
 
     /*================================================================================*/
