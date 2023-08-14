@@ -296,9 +296,166 @@ sw::Color::operator COLORREF() const
     return RGB(this->r, this->g, this->b);
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const Color &color)
+// ComboBox.cpp
+
+static constexpr DWORD _ComboBoxStyle_Default  = WS_CHILD | WS_VISIBLE | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWNLIST;
+static constexpr DWORD _ComboBoxStyle_Editable = WS_CHILD | WS_VISIBLE | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWN;
+
+sw::ComboBox::ComboBox()
+    : IsEditable(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle() == _ComboBoxStyle_Editable;
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->IsEditable != value) {
+                  this->SetStyle(value ? _ComboBoxStyle_Editable : _ComboBoxStyle_Default);
+                  this->ResetHandle();
+                  this->SetText(this->WndBase::GetText()); // 使切换后文本框内容能够保留
+              }
+          })
 {
-    return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
+    this->InitControl(L"COMBOBOX", L"", _ComboBoxStyle_Default, 0);
+    this->Rect = sw::Rect(0, 0, 100, 24);
+}
+
+int sw::ComboBox::GetItemsCount()
+{
+    return (int)this->SendMessageW(CB_GETCOUNT, 0, 0);
+}
+
+int sw::ComboBox::GetSelectedIndex()
+{
+    return (int)this->SendMessageW(CB_GETCURSEL, 0, 0);
+}
+
+void sw::ComboBox::SetSelectedIndex(int index)
+{
+    this->SendMessageW(CB_SETCURSEL, index, 0);
+    this->OnSelectionChanged();
+}
+
+std::wstring sw::ComboBox::GetSelectedItem()
+{
+    return this->GetItemAt(this->GetSelectedIndex());
+}
+
+std::wstring &sw::ComboBox::GetText()
+{
+    if (this->_isTextChanged) {
+        this->UpdateText();
+        this->_isTextChanged = false;
+    }
+    return this->WndBase::GetText();
+}
+
+void sw::ComboBox::SetText(const std::wstring &value)
+{
+    // 当组合框可编辑时，直接调用WndBase::SetText以更新文本框
+    // 不可编辑时，直接修改_text字段（WndBase中定义，用于保存窗体文本）
+    // 修改IsEditable属性后会重新创建句柄，会直接将_text字段设为新的文本
+    // 这里直接修改_text以实现在IsEditable为false时修改的Text能够在IsEditable更改为true时文本框内容能正确显示
+
+    if (this->IsEditable) {
+        this->WndBase::SetText(value);
+    } else {
+        this->WndBase::GetText() = value;
+        this->_isTextChanged     = false;
+    }
+}
+
+void sw::ComboBox::OnCommand(int code)
+{
+    switch (code) {
+        case CBN_EDITCHANGE:
+            this->_isTextChanged = true;
+            this->OnTextChanged();
+            break;
+
+        case CBN_SELCHANGE:
+            this->OnSelectionChanged();
+            this->OnTextChanged();
+            break;
+
+        default:
+            break;
+    }
+}
+
+void sw::ComboBox::OnSelectionChanged()
+{
+    this->_isTextChanged     = false;
+    this->WndBase::GetText() = this->GetSelectedItem();
+
+    this->ItemsControl::OnSelectionChanged();
+}
+
+void sw::ComboBox::Clear()
+{
+    this->SendMessageW(CB_RESETCONTENT, 0, 0);
+}
+
+std::wstring sw::ComboBox::GetItemAt(int index)
+{
+    int len = (int)this->SendMessageW(CB_GETLBTEXTLEN, index, 0);
+
+    if (len <= 0) {
+        return L"";
+    }
+
+    wchar_t *buf = new wchar_t[len + 1];
+    this->SendMessageW(CB_GETLBTEXT, index, reinterpret_cast<LPARAM>(buf));
+
+    std::wstring result = buf;
+
+    delete[] buf;
+    return result;
+}
+
+bool sw::ComboBox::AddItem(const std::wstring &item)
+{
+    int count = this->GetItemsCount();
+    this->SendMessageW(CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(item.c_str()));
+    return this->GetItemsCount() == count + 1;
+}
+
+bool sw::ComboBox::InsertItem(int index, const std::wstring &item)
+{
+    int count = this->GetItemsCount();
+    this->SendMessageW(CB_INSERTSTRING, index, reinterpret_cast<LPARAM>(item.c_str()));
+    return this->GetItemsCount() == count + 1;
+}
+
+bool sw::ComboBox::UpdateItem(int index, const std::wstring &newValue)
+{
+    bool selected = this->GetSelectedIndex() == index;
+    bool updated  = this->RemoveItemAt(index) && this->InsertItem(index, newValue);
+
+    if (updated && selected) {
+        this->SetSelectedIndex(index);
+    }
+
+    return updated;
+}
+
+bool sw::ComboBox::RemoveItemAt(int index)
+{
+    int count = this->GetItemsCount();
+    this->SendMessageW(CB_DELETESTRING, index, 0);
+    return this->GetItemsCount() == count - 1;
+}
+
+void sw::ComboBox::ShowDropDown()
+{
+    this->SendMessageW(CB_SHOWDROPDOWN, TRUE, 0);
+}
+
+void sw::ComboBox::CloseDropDown()
+{
+    this->SendMessageW(CB_SHOWDROPDOWN, FALSE, 0);
 }
 
 // ContextMenu.cpp
@@ -390,7 +547,7 @@ void sw::Control::ResetHandle()
         this           // Additional application data
     );
 
-    SetWindowLongPtrW(oldHwnd, GWLP_USERDATA, NULL);
+    SetWindowLongPtrW(oldHwnd, GWLP_USERDATA, (LONG_PTR)NULL);
     SetWindowLongPtrW(refHwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>((WndBase *)this));
 
     LONG_PTR wndProc = GetWindowLongPtrW(oldHwnd, GWLP_WNDPROC);
@@ -479,6 +636,10 @@ HCURSOR sw::CursorHelper::GetCursorHandle(const std::wstring &fileName)
 }
 
 // Dip.cpp
+
+#if !defined(USER_DEFAULT_SCREEN_DPI)
+#define USER_DEFAULT_SCREEN_DPI 96
+#endif
 
 static sw::Dip::DipScaleInfo _GetScaleInfo();
 static sw::Dip::DipScaleInfo _dipScaleInfo = _GetScaleInfo();
@@ -821,6 +982,44 @@ HICON sw::IconHelper::GetIconHandle(const std::wstring &fileName)
     return (HICON)LoadImageW(NULL, fileName.c_str(), IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE);
 }
 
+// ItemsControl.cpp
+
+sw::ItemsControl::ItemsControl()
+    : ItemsCount(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = this->GetItemsCount();
+              return result;
+          }),
+
+      SelectedIndex(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = this->GetSelectedIndex();
+              return result;
+          },
+          // set
+          [&](const int &value) {
+              this->SetSelectedIndex(value);
+          }),
+
+      SelectedItem(
+          // get
+          [&]() -> const std::wstring & {
+              static std::wstring result;
+              result = this->GetSelectedItem();
+              return result;
+          })
+{
+}
+
+void sw::ItemsControl::OnSelectionChanged()
+{
+    this->RaiseRoutedEvent(ItemsControl_SelectionChanged);
+}
+
 // Keys.cpp
 
 sw::KeyFlags::KeyFlags(LPARAM lParam)
@@ -1155,6 +1354,181 @@ void sw::LayoutHost::Arrange(const Rect &finalPosition)
 {
     Size size(finalPosition.width, finalPosition.height);
     this->ArrangeOverride(size);
+}
+
+// ListBox.cpp
+
+sw::ListBox::ListBox()
+    : TopIndex(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = (int)this->SendMessageW(LB_GETTOPINDEX, 0, 0);
+              return result;
+          },
+          // set
+          [&](const int &value) {
+              this->SendMessageW(LB_SETTOPINDEX, value, 0);
+          }),
+
+      MultiSelect(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(LBS_MULTIPLESEL);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->GetStyle(LBS_MULTIPLESEL) != value) {
+                  this->SetStyle(LBS_MULTIPLESEL, value);
+                  this->ResetHandle();
+              }
+          }),
+
+      SelectedCount(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = (int)this->SendMessageW(LB_GETSELCOUNT, 0, 0);
+              return result;
+          })
+{
+    this->InitControl(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LBS_NOTIFY, 0);
+    this->Rect = sw::Rect(0, 0, 150, 200);
+}
+
+int sw::ListBox::GetItemsCount()
+{
+    return (int)this->SendMessageW(LB_GETCOUNT, 0, 0);
+}
+
+int sw::ListBox::GetSelectedIndex()
+{
+    return (int)this->SendMessageW(LB_GETCURSEL, 0, 0);
+}
+
+void sw::ListBox::SetSelectedIndex(int index)
+{
+    this->SendMessageW(LB_SETCURSEL, index, 0);
+    this->OnSelectionChanged();
+}
+
+std::wstring sw::ListBox::GetSelectedItem()
+{
+    return this->GetItemAt(this->GetSelectedIndex());
+}
+
+bool sw::ListBox::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+{
+    int index = this->GetItemIndexFromPoint(this->PointFromScreen(mousePosition));
+
+    if (index >= 0 && index < this->GetItemsCount()) {
+        this->SetSelectedIndex(index);
+    }
+
+    return this->UIElement::OnContextMenu(isKeyboardMsg, mousePosition);
+}
+
+void sw::ListBox::OnCommand(int code)
+{
+    if (code == LBN_SELCHANGE) {
+        this->OnSelectionChanged();
+    }
+}
+
+void sw::ListBox::Clear()
+{
+    this->SendMessageW(LB_RESETCONTENT, 0, 0);
+}
+
+std::wstring sw::ListBox::GetItemAt(int index)
+{
+    int len = (int)this->SendMessageW(LB_GETTEXTLEN, index, 0);
+
+    if (len <= 0) {
+        return L"";
+    }
+
+    wchar_t *buf = new wchar_t[len + 1];
+    this->SendMessageW(LB_GETTEXT, index, reinterpret_cast<LPARAM>(buf));
+
+    std::wstring result = buf;
+
+    delete[] buf;
+    return result;
+}
+
+bool sw::ListBox::AddItem(const std::wstring &item)
+{
+    int count = this->GetItemsCount();
+    this->SendMessageW(LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(item.c_str()));
+    return this->GetItemsCount() == count + 1;
+}
+
+bool sw::ListBox::InsertItem(int index, const std::wstring &item)
+{
+    int count = this->GetItemsCount();
+    this->SendMessageW(LB_INSERTSTRING, index, reinterpret_cast<LPARAM>(item.c_str()));
+    return this->GetItemsCount() == count + 1;
+}
+
+bool sw::ListBox::UpdateItem(int index, const std::wstring &newValue)
+{
+    bool selected = this->GetSelectedIndex() == index;
+    bool updated  = this->RemoveItemAt(index) && this->InsertItem(index, newValue.c_str());
+
+    if (updated && selected) {
+        this->SetSelectedIndex(index);
+    }
+
+    return updated;
+}
+
+bool sw::ListBox::RemoveItemAt(int index)
+{
+    int count = this->GetItemsCount();
+    this->SendMessageW(LB_DELETESTRING, index, 0);
+    return this->GetItemsCount() == count - 1;
+}
+
+int sw::ListBox::GetItemIndexFromPoint(const Point &point)
+{
+    POINT p = point;
+    return (int)this->SendMessageW(LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y));
+}
+
+std::vector<int> sw::ListBox::GetSelectedIndices()
+{
+    std::vector<int> result;
+    int selectedCount = this->SelectedCount.Get();
+    if (selectedCount > 0) {
+        int *buf = new int[selectedCount];
+        if (this->SendMessageW(LB_GETSELITEMS, selectedCount, reinterpret_cast<LPARAM>(buf)) != LB_ERR) {
+            for (int i = 0; i < selectedCount; ++i) result.push_back(buf[i]);
+        }
+        delete[] buf;
+    }
+    return result;
+}
+
+std::vector<std::wstring> sw::ListBox::GetSelectedItems()
+{
+    std::vector<std::wstring> result;
+    for (int i : this->GetSelectedIndices()) {
+        result.emplace_back(this->GetItemAt(i));
+    }
+    return result;
+}
+
+bool sw::ListBox::GetItemSelectionState(int index)
+{
+    return this->SendMessageW(LB_GETSEL, index, 0) > 0;
+}
+
+void sw::ListBox::SetItemSelectionState(int index, bool value)
+{
+    this->SendMessageW(LB_SETSEL, value, index);
 }
 
 // Menu.cpp
@@ -1641,7 +2015,7 @@ sw::MsgBox::MsgBox(MsgBoxResult result)
 
 sw::MsgBox sw::MsgBox::Show(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
-    HWND hwnd = owner == NULL ? NULL : owner->Handle;
+    HWND hwnd = owner == nullptr ? reinterpret_cast<HWND>(NULL) : owner->Handle;
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button);
 }
 
@@ -1652,7 +2026,7 @@ sw::MsgBox sw::MsgBox::Show(const WndBase &owner, const std::wstring &text, cons
 
 sw::MsgBox sw::MsgBox::ShowInfo(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
-    HWND hwnd = owner == NULL ? NULL : owner->Handle;
+    HWND hwnd = owner == nullptr ? reinterpret_cast<HWND>(NULL) : owner->Handle;
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button | MB_ICONINFORMATION);
 }
 
@@ -1663,7 +2037,7 @@ sw::MsgBox sw::MsgBox::ShowInfo(const WndBase &owner, const std::wstring &text, 
 
 sw::MsgBox sw::MsgBox::ShowError(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
-    HWND hwnd = owner == NULL ? NULL : owner->Handle;
+    HWND hwnd = owner == nullptr ? reinterpret_cast<HWND>(NULL) : owner->Handle;
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button | MB_ICONERROR);
 }
 
@@ -1674,7 +2048,7 @@ sw::MsgBox sw::MsgBox::ShowError(const WndBase &owner, const std::wstring &text,
 
 sw::MsgBox sw::MsgBox::ShowWarning(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
-    HWND hwnd = owner == NULL ? NULL : owner->Handle;
+    HWND hwnd = owner == nullptr ? reinterpret_cast<HWND>(NULL) : owner->Handle;
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button | MB_ICONWARNING);
 }
 
@@ -1685,7 +2059,7 @@ sw::MsgBox sw::MsgBox::ShowWarning(const WndBase &owner, const std::wstring &tex
 
 sw::MsgBox sw::MsgBox::ShowQuestion(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
-    HWND hwnd = owner == NULL ? NULL : owner->Handle;
+    HWND hwnd = owner == nullptr ? reinterpret_cast<HWND>(NULL) : owner->Handle;
     return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button | MB_ICONQUESTION);
 }
 
@@ -1758,12 +2132,12 @@ sw::PasswordBox::PasswordBox()
           // get
           [&]() -> const wchar_t & {
               static wchar_t result;
-              result = (wchar_t)this->SendMessageW(EM_GETPASSWORDCHAR, NULL, NULL);
+              result = (wchar_t)this->SendMessageW(EM_GETPASSWORDCHAR, 0, 0);
               return result;
           },
           // set
           [&](const wchar_t &value) {
-              this->SendMessageW(EM_SETPASSWORDCHAR, value, NULL);
+              this->SendMessageW(EM_SETPASSWORDCHAR, value, 0);
           })
 {
     this->InitTextBoxBase(WS_CHILD | WS_VISIBLE | ES_PASSWORD | ES_LEFT | ES_AUTOHSCROLL, WS_EX_CLIENTEDGE);
@@ -1921,11 +2295,6 @@ sw::Point::operator POINT() const
     return point;
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const Point &point)
-{
-    return wos << L"(" << point.x << L", " << point.y << L")";
-}
-
 // ProcMsg.cpp
 
 sw::ProcMsg::ProcMsg()
@@ -1982,11 +2351,6 @@ sw::Rect::operator RECT() const
     return rect;
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const Rect &rect)
-{
-    return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
-}
-
 // RoutedEvent.cpp
 
 sw::RoutedEventArgs::RoutedEventArgs(RoutedEventType eventType)
@@ -2036,11 +2400,6 @@ sw::Size::operator SIZE() const
     size.cx = std::lround(this->width / Dip::ScaleX);
     size.cy = std::lround(this->height / Dip::ScaleY);
     return size;
-}
-
-std::wostream &sw::operator<<(std::wostream &wos, const Size &size)
-{
-    return wos << L"Size{width=" << size.width << L", height=" << size.height << L"}";
 }
 
 // StackLayout.cpp
@@ -2224,7 +2583,7 @@ sw::TextBoxBase::TextBoxBase()
           },
           // set
           [&](const bool &value) {
-              this->SendMessageW(EM_SETREADONLY, value, NULL);
+              this->SendMessageW(EM_SETREADONLY, value, 0);
           }),
 
       HorizontalContentAlignment(
@@ -2283,26 +2642,11 @@ void sw::TextBoxBase::InitTextBoxBase(DWORD dwStyle, DWORD dwExStyle)
 
 std::wstring &sw::TextBoxBase::GetText()
 {
-    std::wstring &refText = this->WndBase::GetText();
-
-    if (!this->_isTextChanged) {
-        return refText;
+    if (this->_isTextChanged) {
+        this->UpdateText();
+        this->_isTextChanged = false;
     }
-
-    HWND hwnd = this->Handle;
-    int len   = GetWindowTextLengthW(hwnd);
-
-    if (len > 0) {
-        wchar_t *buf = new wchar_t[len + 1];
-        GetWindowTextW(hwnd, buf, len + 1);
-        refText = buf;
-        delete[] buf;
-    } else {
-        refText = L"";
-    }
-
-    this->_isTextChanged = false;
-    return refText;
+    return this->WndBase::GetText();
 }
 
 void sw::TextBoxBase::OnCommand(int code)
@@ -2339,6 +2683,11 @@ bool sw::TextBoxBase::Undo()
     return this->SendMessageW(EM_UNDO, 0, 0);
 }
 
+void sw::TextBoxBase::Clear()
+{
+    this->Text = L"";
+}
+
 // Thickness.cpp
 
 sw::Thickness::Thickness()
@@ -2354,11 +2703,6 @@ sw::Thickness::Thickness(double thickness)
 sw::Thickness::Thickness(double left, double top, double right, double bottom)
     : left(left), top(top), right(right), bottom(bottom)
 {
-}
-
-std::wostream &sw::operator<<(std::wostream &wos, const Thickness &thickness)
-{
-    return wos << L"Thickness{left=" << thickness.left << L", top=" << thickness.top << L", right=" << thickness.right << L", bottom=" << thickness.bottom << L"}";
 }
 
 // UIElement.cpp
@@ -2722,7 +3066,7 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     this->Rect       = rect;
     this->_arranging = false;
 
-    this->Redraw();
+    // this->Redraw();
 }
 
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)
@@ -2766,7 +3110,7 @@ void sw::UIElement::NotifyLayoutUpdated()
 {
     if (!this->_arranging) {
         UIElement &root = this->GetRootElement();
-        root.SendMessageW(WM_UpdateLayout, NULL, NULL);
+        root.SendMessageW(WM_UpdateLayout, 0, 0);
     }
 }
 
@@ -3045,6 +3389,10 @@ std::vector<std::wstring> sw::Utils::Split(const std::wstring &str, const std::w
 
 // Window.cpp
 
+#if !defined(WM_DPICHANGED)
+#define WM_DPICHANGED 0x02E0
+#endif
+
 /**
  * @brief 记录当前创建的窗口数
  */
@@ -3293,6 +3641,10 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             return 0;
         }
 
+        case WM_ERASEBKGND: {
+            return 1; // 阻止擦除背景
+        }
+
         case WM_UpdateLayout: {
             this->UpdateLayout();
             return 0;
@@ -3343,11 +3695,30 @@ bool sw::Window::OnDestroy()
 bool sw::Window::OnPaint()
 {
     PAINTSTRUCT ps;
-    HWND hwnd     = this->Handle;
-    HDC hdc       = BeginPaint(hwnd, &ps);
+    HWND hwnd = this->Handle;
+    HDC hdc   = BeginPaint(hwnd, &ps);
+
+    RECT rtClient;
+    GetClientRect(hwnd, &rtClient);
+
+    // 创建内存 DC 和位图
+    HDC hdcMem         = CreateCompatibleDC(hdc);
+    HBITMAP hBitmap    = CreateCompatibleBitmap(hdc, rtClient.right - rtClient.left, rtClient.bottom - rtClient.top);
+    HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
+
+    // 在内存 DC 上进行绘制
     HBRUSH hBrush = CreateSolidBrush(this->_backColor);
-    FillRect(hdc, &ps.rcPaint, hBrush);
+    FillRect(hdcMem, &rtClient, hBrush);
+
+    // 将内存 DC 的内容绘制到窗口客户区
+    BitBlt(hdc, 0, 0, rtClient.right - rtClient.left, rtClient.bottom - rtClient.top, hdcMem, 0, 0, SRCCOPY);
+
+    // 清理资源
+    SelectObject(hdcMem, hBitmapOld);
+    DeleteObject(hBitmap);
     DeleteObject(hBrush);
+    DeleteDC(hdcMem);
+
     EndPaint(hwnd, &ps);
     return true;
 }
@@ -3508,8 +3879,10 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const std::wstring &value) {
-              this->_font.name = value;
-              this->UpdateFont();
+              if (this->_font.name != value) {
+                  this->_font.name = value;
+                  this->UpdateFont();
+              }
           }),
 
       FontSize(
@@ -3519,8 +3892,10 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
-              this->_font.size = value;
-              this->UpdateFont();
+              if (this->_font.size != value) {
+                  this->_font.size = value;
+                  this->UpdateFont();
+              }
           }),
 
       FontWeight(
@@ -3530,8 +3905,10 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const sw::FontWeight &value) {
-              this->_font.weight = value;
-              this->UpdateFont();
+              if (this->_font.weight != value) {
+                  this->_font.weight = value;
+                  this->UpdateFont();
+              }
           }),
 
       Rect(
@@ -3541,15 +3918,15 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const sw::Rect &value) {
-              /*RECT rect = value.GetRECT();
-              MoveWindow(this->_hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, TRUE);*/
-              double scaleX = Dip::ScaleX;
-              double scaleY = Dip::ScaleY;
-              int left      = std::lround(value.left / scaleX);
-              int top       = std::lround(value.top / scaleY);
-              int width     = std::lround(value.width / scaleX);
-              int height    = std::lround(value.height / scaleY);
-              SetWindowPos(this->_hwnd, NULL, left, top, width, height, SWP_NOACTIVATE | SWP_NOZORDER);
+              if (this->_rect != value) {
+                  double scaleX = Dip::ScaleX;
+                  double scaleY = Dip::ScaleY;
+                  int left      = std::lround(value.left / scaleX);
+                  int top       = std::lround(value.top / scaleY);
+                  int width     = std::lround(value.width / scaleX);
+                  int height    = std::lround(value.height / scaleY);
+                  SetWindowPos(this->_hwnd, NULL, left, top, width, height, SWP_NOACTIVATE | SWP_NOZORDER);
+              }
           }),
 
       Left(
@@ -3559,9 +3936,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
-              int x = std::lround(value / Dip::ScaleX);
-              int y = std::lround(this->_rect.top / Dip::ScaleY);
-              SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
+              if (this->_rect.left != value) {
+                  int x = std::lround(value / Dip::ScaleX);
+                  int y = std::lround(this->_rect.top / Dip::ScaleY);
+                  SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
+              }
           }),
 
       Top(
@@ -3571,9 +3950,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
-              int x = std::lround(this->_rect.left / Dip::ScaleX);
-              int y = std::lround(value / Dip::ScaleY);
-              SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
+              if (this->_rect.top != value) {
+                  int x = std::lround(this->_rect.left / Dip::ScaleX);
+                  int y = std::lround(value / Dip::ScaleY);
+                  SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
+              }
           }),
 
       Width(
@@ -3583,9 +3964,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
-              int cx = std::lround(value / Dip::ScaleX);
-              int cy = std::lround(this->_rect.height / Dip::ScaleY);
-              SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
+              if (this->_rect.width != value) {
+                  int cx = std::lround(value / Dip::ScaleX);
+                  int cy = std::lround(this->_rect.height / Dip::ScaleY);
+                  SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
+              }
           }),
 
       Height(
@@ -3595,9 +3978,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
-              int cx = std::lround(this->_rect.width / Dip::ScaleX);
-              int cy = std::lround(value / Dip::ScaleY);
-              SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
+              if (this->_rect.height != value) {
+                  int cx = std::lround(this->_rect.width / Dip::ScaleX);
+                  int cy = std::lround(value / Dip::ScaleY);
+                  SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
+              }
           }),
 
       ClientRect(
@@ -3996,7 +4381,21 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_COMMAND: {
-            this->OnCommand(refMsg.wParam, refMsg.lParam);
+            if (refMsg.lParam != (LPARAM)NULL) {
+                // 接收到控件消息，获取控件对象
+                WndBase *pControl = WndBase::GetWndBase(reinterpret_cast<HWND>(refMsg.lParam));
+                // Windows一些控件的内部句柄也是使用WM_COMMAND实现一些功能，如可编辑状态的组合框
+                // 此处尝试获取控件WndBase对象，若为nullptr说明为内部句柄，此时调用原来的WndProc
+                if (pControl == nullptr) {
+                    this->DefaultWndProc(refMsg);
+                } else {
+                    this->OnControlCommand(pControl, HIWORD(refMsg.wParam), LOWORD(refMsg.wParam));
+                }
+            } else {
+                // 接收到菜单或快捷键消息
+                int id = LOWORD(refMsg.wParam);
+                HIWORD(refMsg.wParam) ? this->OnAcceleratorCommand(id) : this->OnMenuCommand(id);
+            }
             return 0;
         }
 
@@ -4043,6 +4442,22 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->DefaultWndProc(refMsg);
         }
     }
+}
+
+void sw::WndBase::UpdateText()
+{
+    int len = GetWindowTextLengthW(this->_hwnd);
+
+    if (len <= 0) {
+        this->_text = L"";
+        return;
+    }
+
+    wchar_t *buf = new wchar_t[len + 1];
+    GetWindowTextW(this->_hwnd, buf, len + 1);
+
+    this->_text = buf;
+    delete[] buf;
 }
 
 std::wstring &sw::WndBase::GetText()
@@ -4228,26 +4643,13 @@ void sw::WndBase::ParentChanged(WndBase *newParent)
 {
 }
 
-void sw::WndBase::OnCommand(WPARAM wParam, LPARAM lParam)
-{
-    if (lParam != NULL) {
-        // 接收到控件消息
-        this->OnControlCommand((HWND)lParam, HIWORD(wParam), LOWORD(wParam));
-    } else {
-        // 接收到菜单或快捷键消息
-        int id = LOWORD(wParam);
-        HIWORD(wParam) ? this->OnAcceleratorCommand(id) : this->OnMenuCommand(id);
-    }
-}
-
 void sw::WndBase::OnCommand(int code)
 {
 }
 
-void sw::WndBase::OnControlCommand(HWND hControl, int code, int id)
+void sw::WndBase::OnControlCommand(WndBase *pControl, int code, int id)
 {
-    WndBase *pControl = WndBase::GetWndBase(hControl);
-    if (pControl) pControl->OnCommand(code);
+    pControl->OnCommand(code);
 }
 
 void sw::WndBase::OnMenuCommand(int id)
@@ -4283,7 +4685,7 @@ void sw::WndBase::Show(int nCmdShow)
 
 void sw::WndBase::Close()
 {
-    this->SendMessageW(WM_CLOSE, NULL, NULL);
+    this->SendMessageW(WM_CLOSE, 0, 0);
 }
 
 void sw::WndBase::Update()
@@ -4344,16 +4746,6 @@ LRESULT sw::WndBase::SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)
 sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
 {
     return reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
-}
-
-bool sw::operator==(const WndBase &left, const WndBase &right)
-{
-    return &left == &right;
-}
-
-bool sw::operator!=(const WndBase &left, const WndBase &right)
-{
-    return &left != &right;
 }
 
 // WrapLayout.cpp

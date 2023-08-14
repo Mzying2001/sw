@@ -63,7 +63,20 @@ namespace sw
         Color(COLORREF color);
         operator COLORREF() const;
 
-        friend std::wostream &operator<<(std::wostream &wos, const Color &color);
+        friend bool operator==(const Color &left, const Color &right)
+        {
+            return (left.r == right.r) && (left.g == right.g) && (left.b == left.b);
+        }
+
+        friend bool operator!=(const Color &left, const Color &right)
+        {
+            return (left.r != right.r) || (left.g != right.g) || (left.b != right.b);
+        }
+
+        friend std::wostream &operator<<(std::wostream &wos, const Color &color)
+        {
+            return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
+        }
 
         /*==================================================*/
 
@@ -358,13 +371,19 @@ namespace sw
     enum class FontClipPrecision : uint8_t {
         CharacterPrecis = CLIP_CHARACTER_PRECIS, // 未使用。
         DefaultPrecis   = CLIP_DEFAULT_PRECIS,   // 指定默认剪辑行为。
-        DFA_Disable     = CLIP_DFA_DISABLE,      // Windows XP SP1： 关闭字体的字体关联。 请注意，此标志不保证在 Windows Server 2003 之后对任何平台产生任何影响。
-        Embedded        = CLIP_EMBEDDED,         // 必须指定此标志才能使用嵌入的只读字体。
-        LH_Angles       = CLIP_LH_ANGLES,        // 使用此值时，所有字体的旋转取决于坐标系的方向是左手还是右手。如果未使用，设备字体始终逆时针旋转，但其他字体的旋转取决于坐标系的方向。
-        Mask            = CLIP_MASK,             // 未使用。
-        /*
-        DFA_Override    = CLIP_DFA_OVERRIDE,     // 关闭字体的字体关联。 这与CLIP_DFA_DISABLE相同，但在某些情况下可能会有问题：建议使用的标志是CLIP_DFA_DISABLE。
-        */
+
+#if defined(CLIP_DFA_DISABLE)
+        DFA_Disable = CLIP_DFA_DISABLE, // Windows XP SP1： 关闭字体的字体关联。 请注意，此标志不保证在 Windows Server 2003 之后对任何平台产生任何影响。
+#endif
+
+        Embedded  = CLIP_EMBEDDED,  // 必须指定此标志才能使用嵌入的只读字体。
+        LH_Angles = CLIP_LH_ANGLES, // 使用此值时，所有字体的旋转取决于坐标系的方向是左手还是右手。如果未使用，设备字体始终逆时针旋转，但其他字体的旋转取决于坐标系的方向。
+        Mask      = CLIP_MASK,      // 未使用。
+
+#if defined(CLIP_DFA_OVERRIDE)
+        DFA_Override = CLIP_DFA_OVERRIDE, // 关闭字体的字体关联。 这与CLIP_DFA_DISABLE相同，但在某些情况下可能会有问题：建议使用的标志是CLIP_DFA_DISABLE。
+#endif
+
         StrokePrecis = CLIP_STROKE_PRECIS, // 字体映射器不使用，但在枚举光栅、矢量或 TrueType 字体时返回。 为了兼容，枚举字体时始终返回此值。
         TT_Always    = CLIP_TT_ALWAYS,     // 未使用。
     };
@@ -966,7 +985,20 @@ namespace sw
         Point(const POINT &point);
         operator POINT() const;
 
-        friend std::wostream &operator<<(std::wostream &wos, const Point &point);
+        friend bool operator==(const Point &left, const Point &right)
+        {
+            return (left.x == right.x) && (left.y == right.y);
+        }
+
+        friend bool operator!=(const Point &left, const Point &right)
+        {
+            return (left.x != right.x) || (left.y != right.y);
+        }
+
+        friend std::wostream &operator<<(std::wostream &wos, const Point &point)
+        {
+            return wos << L"(" << point.x << L", " << point.y << L")";
+        }
     };
 }
 
@@ -1117,7 +1149,26 @@ namespace sw
         Rect(const RECT &rect);
         operator RECT() const;
 
-        friend std::wostream &operator<<(std::wostream &wos, const Rect &rect);
+        friend bool operator==(const Rect& left, const Rect& right)
+        {
+            return (left.left   == right.left)  &&
+                   (left.top    == right.top)   &&
+                   (left.width  == right.width) &&
+                   (left.height == right.height);
+        }
+
+        friend bool operator!=(const Rect& left, const Rect& right)
+        {
+            return (left.left   != right.left)  ||
+                   (left.top    != right.top)   ||
+                   (left.width  != right.width) ||
+                   (left.height != right.height);
+        }
+
+        friend std::wostream& operator<<(std::wostream& wos, const Rect& rect)
+        {
+            return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
+        }
     };
 }
 
@@ -1222,6 +1273,11 @@ namespace sw
          * @brief 按钮被双击，参数类型为sw::RoutedEventArgs
          */
         ButtonBase_DoubleClicked,
+
+        /**
+         * @brief 列表框或组合框的选中项改变，参数类型为sw::RoutedEventArgs
+         */
+        ItemsControl_SelectionChanged,
     };
 
     /*================================================================================*/
@@ -1272,7 +1328,20 @@ namespace sw
         Size(const SIZE &size);
         operator SIZE() const;
 
-        friend std::wostream &operator<<(std::wostream &wos, const Size &size);
+        friend bool operator==(const Size &left, const Size &right)
+        {
+            return (left.width == right.width) && (left.height == right.height);
+        }
+
+        friend bool operator!=(const Size &left, const Size &right)
+        {
+            return (left.width != right.width) || (left.height != right.height);
+        }
+
+        friend std::wostream &operator<<(std::wostream &wos, const Size &size)
+        {
+            return wos << L"Size{width=" << size.width << L", height=" << size.height << L"}";
+        }
     };
 }
 
@@ -1291,7 +1360,26 @@ namespace sw
         Thickness(double thickness);
         Thickness(double left, double top, double right, double bottom);
 
-        friend std::wostream &operator<<(std::wostream &wos, const Thickness &thickness);
+        friend bool operator==(const Thickness &left, const Thickness &right)
+        {
+            return (left.left   == right.left)  &&
+                   (left.top    == right.top)   &&
+                   (left.right  == right.right) &&
+                   (left.bottom == right.bottom);
+        }
+
+        friend bool operator!=(const Thickness &left, const Thickness &right)
+        {
+            return (left.left   != right.left)  ||
+                   (left.top    != right.top)   ||
+                   (left.right  != right.right) ||
+                   (left.bottom != right.bottom);
+        }
+
+        friend std::wostream &operator<<(std::wostream &wos, const Thickness &thickness)
+        {
+            return wos << L"Thickness{left=" << thickness.left << L", top=" << thickness.top << L", right=" << thickness.right << L", bottom=" << thickness.bottom << L"}";
+        }
     };
 }
 
@@ -2418,6 +2506,11 @@ namespace sw
         virtual LRESULT WndProc(const ProcMsg &refMsg);
 
         /**
+         * @brief 更新_text字段
+         */
+        void UpdateText();
+
+        /**
          * @brief  获取窗口文本
          * @return _text字段
          */
@@ -2663,13 +2756,6 @@ namespace sw
         virtual void ParentChanged(WndBase *newParent);
 
         /**
-         * @brief 接收到WM_COMMAND后调用此函数
-         * @param wParam
-         * @param lParam
-         */
-        virtual void OnCommand(WPARAM wParam, LPARAM lParam);
-
-        /**
          * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
          * @param code 通知代码
          */
@@ -2677,11 +2763,11 @@ namespace sw
 
         /**
          * @brief          当WM_COMMAND接收到控件命令时调用该函数
-         * @param hControl 控件的窗口句柄
+         * @param pControl 控件对象指针
          * @param code     通知代码
          * @param id       控件id
          */
-        virtual void OnControlCommand(HWND hControl, int code, int id);
+        virtual void OnControlCommand(WndBase *pControl, int code, int id);
 
         /**
          * @brief    当WM_COMMAND接收到菜单命令时调用该函数
@@ -2796,12 +2882,18 @@ namespace sw
         /**
          * @brief 重载==运算符，判断是否为同一个引用
          */
-        friend bool operator==(const WndBase &left, const WndBase &right);
+        friend bool operator==(const WndBase &left, const WndBase &right)
+        {
+            return &left == &right;
+        }
 
         /**
          * @brief 重载!=运算符，判断是否为不同引用
          */
-        friend bool operator!=(const WndBase &left, const WndBase &right);
+        friend bool operator!=(const WndBase &left, const WndBase &right)
+        {
+            return &left != &right;
+        }
     };
 }
 
@@ -3786,6 +3878,104 @@ namespace sw
     };
 }
 
+// ItemsControl.h
+
+
+namespace sw
+{
+    class ItemsControl : public Control
+    {
+    public:
+        /**
+         * @brief 项数
+         */
+        const ReadOnlyProperty<int> ItemsCount;
+
+        /**
+         * @brief 选中项的索引，当无选中项时为-1
+         */
+        const Property<int> SelectedIndex;
+
+        /**
+         * @brief 选中项
+         */
+        const ReadOnlyProperty<std::wstring> SelectedItem;
+
+    protected:
+        /**
+         * @brief 初始化ItemsControl
+         */
+        ItemsControl();
+
+        /**
+         * @brief 选中项改变时调用该函数
+         */
+        virtual void OnSelectionChanged();
+
+        /**
+         * @brief  获取子项数
+         */
+        virtual int GetItemsCount() = 0;
+
+        /**
+         * @brief 选中项的索引，当无选中项时为-1
+         */
+        virtual int GetSelectedIndex() = 0;
+
+        /**
+         * @brief 设置选中项索引
+         */
+        virtual void SetSelectedIndex(int index) = 0;
+
+        /**
+         * @brief 获取选中项
+         */
+        virtual std::wstring GetSelectedItem() = 0;
+
+    public:
+        /**
+         * @brief 清空所有子项
+         */
+        virtual void Clear() = 0;
+
+        /**
+         * @brief       获取指定索引处子项的值
+         * @param index 子项的索引
+         */
+        virtual std::wstring GetItemAt(int index) = 0;
+
+        /**
+         * @brief      添加新的子项
+         * @param item 要添加的子项
+         * @return     是否添加成功
+         */
+        virtual bool AddItem(const std::wstring &item) = 0;
+
+        /**
+         * @brief       添加子项到指定索引
+         * @param index 要插入的位置
+         * @param item  要添加的子项
+         * @return      是否添加成功
+         */
+        virtual bool InsertItem(int index, const std::wstring &item) = 0;
+
+        /**
+         * @brief          更新指定位置的子项
+         * @param index    要更新子项的位置
+         * @param newValue 子项的新值
+         * @return         操作是否成功
+         */
+        virtual bool UpdateItem(int index, const std::wstring &newValue) = 0;
+
+        /**
+         * @brief       移除指定索引处的子项
+         * @param index 要移除子项的索引
+         * @return      操作是否成功
+         */
+        virtual bool RemoveItemAt(int index) = 0;
+    };
+}
+
 // Label.h
 
 
@@ -3954,7 +4144,7 @@ namespace sw
 
         /**
          * @brief  获取窗口文本
-         * @return _text字段
+         * @return 编辑框的文本内容
          */
         virtual std::wstring &GetText() override;
 
@@ -3987,6 +4177,11 @@ namespace sw
          * @return 操作是否成功
          */
         bool Undo();
+
+        /**
+         * @brief 清空内容
+         */
+        void Clear();
     };
 }
 
@@ -4278,6 +4473,131 @@ namespace sw
     };
 }
 
+// ComboBox.h
+
+
+namespace sw
+{
+    /**
+     * @brief 组合框
+     */
+    class ComboBox : public ItemsControl
+    {
+    private:
+        /**
+         * @brief 在读取Text属性时用于判断是否需要更新储存的文本
+         */
+        bool _isTextChanged = false;
+
+    public:
+        /**
+         * @brief 组合框内容是否可编辑，更新该属性会导致已添加的子项被清空
+         */
+        const Property<bool> IsEditable;
+
+    public:
+        /**
+         * @brief 初始化组合框
+         */
+        ComboBox();
+
+    protected:
+        /**
+         * @brief  获取子项数
+         */
+        virtual int GetItemsCount() override;
+
+        /**
+         * @brief 选中项的索引，当无选中项时为-1
+         */
+        virtual int GetSelectedIndex() override;
+
+        /**
+         * @brief 设置选中项索引
+         */
+        virtual void SetSelectedIndex(int index) override;
+
+        /**
+         * @brief 获取选中项
+         */
+        virtual std::wstring GetSelectedItem() override;
+
+        /**
+         * @brief  获取可编辑状态下的编辑框文本内容
+         */
+        virtual std::wstring &GetText() override;
+
+        /**
+         * @brief       设置Text属性时调用该函数
+         * @param value 要设置的文本
+         */
+        virtual void SetText(const std::wstring &value) override;
+
+        /**
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
+         */
+        virtual void OnCommand(int code) override;
+
+        /**
+         * @brief 选中项改变时调用该函数
+         */
+        virtual void OnSelectionChanged() override;
+
+    public:
+        /**
+         * @brief 清空所有子项
+         */
+        virtual void Clear() override;
+
+        /**
+         * @brief       获取指定索引处子项的值
+         * @param index 子项的索引
+         */
+        virtual std::wstring GetItemAt(int index) override;
+
+        /**
+         * @brief      添加新的子项
+         * @param item 要添加的子项
+         * @return     是否添加成功
+         */
+        virtual bool AddItem(const std::wstring &item) override;
+
+        /**
+         * @brief       添加子项到指定索引
+         * @param index 要插入的位置
+         * @param item  要添加的子项
+         * @return      是否添加成功
+         */
+        virtual bool InsertItem(int index, const std::wstring &item) override;
+
+        /**
+         * @brief          更新指定位置的子项
+         * @param index    要更新子项的位置
+         * @param newValue 子项的新值
+         * @return         操作是否成功
+         */
+        virtual bool UpdateItem(int index, const std::wstring &newValue) override;
+
+        /**
+         * @brief       移除指定索引处的子项
+         * @param index 要移除子项的索引
+         * @return      操作是否成功
+         */
+        virtual bool RemoveItemAt(int index) override;
+
+        /**
+         * @brief 显示下拉列表
+         */
+        void ShowDropDown();
+
+        /**
+         * @brief 关闭下拉列表
+         */
+        void CloseDropDown();
+    };
+}
+
 // GroupBox.h
 
 
@@ -4293,6 +4613,149 @@ namespace sw
          * @brief 初始化组合框
          */
         GroupBox();
+    };
+}
+
+// ListBox.h
+
+
+namespace sw
+{
+    /**
+     * @brief 列表框
+     */
+    class ListBox : public ItemsControl
+    {
+    public:
+        /**
+         * @brief 当前列表框页面第一个子项的索引
+         */
+        const Property<int> TopIndex;
+
+        /**
+         * @brief 是否允许多选，更新该属性会导致已添加的子项被清空
+         */
+        const Property<bool> MultiSelect;
+
+        /**
+         * @brief 多选状态下可通过该属性获取选中项的个数
+         */
+        const ReadOnlyProperty<int> SelectedCount;
+
+    public:
+        /**
+         * @brief 初始化列表框
+         */
+        ListBox();
+
+    protected:
+        /**
+         * @brief  获取子项数
+         */
+        virtual int GetItemsCount() override;
+
+        /**
+         * @brief 选中项的索引，当无选中项时为-1
+         */
+        virtual int GetSelectedIndex() override;
+
+        /**
+         * @brief 设置选中项索引
+         */
+        virtual void SetSelectedIndex(int index) override;
+
+        /**
+         * @brief 获取选中项
+         */
+        virtual std::wstring GetSelectedItem() override;
+
+        /**
+         * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
+         * @param isKeyboardMsg 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
+         * @param mousePosition 鼠标在屏幕中的位置
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override;
+
+        /**
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
+         */
+        virtual void OnCommand(int code) override;
+
+    public:
+        /**
+         * @brief 清空所有子项
+         */
+        virtual void Clear() override;
+
+        /**
+         * @brief       获取指定索引处子项的值
+         * @param index 子项的索引
+         */
+        virtual std::wstring GetItemAt(int index) override;
+
+        /**
+         * @brief      添加新的子项
+         * @param item 要添加的子项
+         * @return     是否添加成功
+         */
+        virtual bool AddItem(const std::wstring &item) override;
+
+        /**
+         * @brief       添加子项到指定索引
+         * @param index 要插入的位置
+         * @param item  要添加的子项
+         * @return      是否添加成功
+         */
+        virtual bool InsertItem(int index, const std::wstring &item) override;
+
+        /**
+         * @brief          更新指定位置的子项
+         * @param index    要更新子项的位置
+         * @param newValue 子项的新值
+         * @return         操作是否成功
+         */
+        virtual bool UpdateItem(int index, const std::wstring &newValue) override;
+
+        /**
+         * @brief       移除指定索引处的子项
+         * @param index 要移除子项的索引
+         * @return      操作是否成功
+         */
+        virtual bool RemoveItemAt(int index) override;
+
+        /**
+         * @brief       获取指定点处子项的索引
+         * @param point 相对于列表框用户区左上角点的位置
+         */
+        int GetItemIndexFromPoint(const Point &point);
+
+        /**
+         * @brief  多选状态下可通过该函数获取所有选中项的索引
+         * @return 所有选中项的索引
+         */
+        std::vector<int> GetSelectedIndices();
+
+        /**
+         * @brief  多选状态下可通过该函数获取所有选中项的内容
+         * @return 所有选中项的内容
+         */
+        std::vector<std::wstring> GetSelectedItems();
+
+        /**
+         * @brief       获取指定索引处子项的选中状态
+         * @param index 子项的索引
+         * @return      若子项选中则返回true，否则返回false
+         */
+        bool GetItemSelectionState(int index);
+
+        /**
+         * @brief       多选状态下设置指定索引处子项的选中状态
+         * @param index 子项的索引，输入-1可设置所有子项的选中状态
+         * @param value 要设置的子项状态
+         */
+        void SetItemSelectionState(int index, bool value);
     };
 }
 
