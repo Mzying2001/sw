@@ -60,7 +60,9 @@ sw::ProgressBar::ProgressBar()
           },
           // set
           [&](const bool &value) {
+              auto pos = this->Value.Get();
               this->SetStyle(PBS_VERTICAL, value);
+              this->Value = pos;
           })
 {
     this->InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
