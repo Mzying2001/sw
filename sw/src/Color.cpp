@@ -22,17 +22,17 @@ sw::Color::operator COLORREF() const
     return RGB(this->r, this->g, this->b);
 }
 
-bool sw::operator==(const Color &left, const Color &right)
+bool operator==(const sw::Color &left, const sw::Color &right)
 {
     return (left.r == right.r) && (left.g == right.g) && (left.b == left.b);
 }
 
-bool sw::operator!=(const Color &left, const Color &right)
+bool operator!=(const sw::Color &left, const sw::Color &right)
 {
     return (left.r != right.r) || (left.g != right.g) || (left.b != right.b);
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const Color &color)
+std::wostream &operator<<(std::wostream &wos, const sw::Color &color)
 {
     return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
 }
