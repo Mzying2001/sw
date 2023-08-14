@@ -47,6 +47,7 @@
 #include "RoutedEventArgs.h"
 #include "Screen.h"
 #include "Size.h"
+#include "Slider.h"
 #include "StackLayout.h"
 #include "StackLayoutH.h"
 #include "StackLayoutV.h"
