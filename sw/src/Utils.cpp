@@ -19,16 +19,6 @@ std::string sw::Utils::ToMultiByteStr(const std::wstring &wstr, bool utf8)
     return str;
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const std::string &str)
-{
-    return wos << Utils::ToWideStr(str);
-}
-
-std::wostream &sw::operator<<(std::wostream &wos, const char *str)
-{
-    return wos << Utils::ToWideStr(str);
-}
-
 std::wstring sw::Utils::Trim(const std::wstring &str)
 {
     size_t firstNonSpace = str.find_first_not_of(L" \t\n\r\f\v");

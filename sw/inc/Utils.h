@@ -16,16 +16,57 @@ namespace sw
         Utils() = delete;
 
         template <class T>
-        static void _BuildStr(std::wstringstream &wss, const T &arg)
+        static void _BuildStr(std::wostream &wos, const T &arg)
         {
-            wss << arg;
+            wos << arg;
+        }
+
+        static void _BuildStr(std::wostream &wos, const char *str)
+        {
+            wos << Utils::ToWideStr(str);
+        }
+
+        template <>
+        static void _BuildStr(std::wostream &wos, const std::string &str)
+        {
+            wos << Utils::ToWideStr(str);
+        }
+
+        template <class T>
+        static void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
+        {
+            auto beg = vec.begin();
+            auto end = vec.end();
+            wos << L"[";
+            for (auto it = beg; it != end; ++it) {
+                if (it != beg)
+                    wos << L", ";
+                Utils::_BuildStr(wos, *it);
+            }
+            wos << L"]";
+        }
+
+        template <class TKey, class TVal>
+        static void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
+        {
+            auto beg = map.begin();
+            auto end = map.end();
+            wos << L"{";
+            for (auto it = beg; it != end; ++it) {
+                if (it != beg)
+                    wos << L", ";
+                Utils::_BuildStr(wos, it->first);
+                wos << L":";
+                Utils::_BuildStr(wos, it->second);
+            }
+            wos << L"}";
         }
 
         template <class First, class... Rest>
-        static void _BuildStr(std::wstringstream &wss, const First &first, const Rest &...rest)
+        static void _BuildStr(std::wostream &wos, const First &first, const Rest &...rest)
         {
-            wss << first;
-            Utils::_BuildStr(wss, rest...);
+            Utils::_BuildStr(wos, first);
+            Utils::_BuildStr(wos, rest...);
         }
 
     public:
@@ -55,18 +96,6 @@ namespace sw
          * @return     转换后的字符串
          */
         static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8 = false);
-
-        /**
-         * @brief 使BuildStr支持std::vector
-         */
-        template <class T>
-        friend std::wstringstream &operator<<(std::wstringstream &wss, const std::vector<T> &vec);
-
-        /**
-         * @brief 使BuildStr支持std::map
-         */
-        template <class TKey, class TVal>
-        friend std::wstringstream &operator<<(std::wstringstream &wss, const std::map<TKey, TVal> &map);
 
         /**
          * @brief     删除首尾空白字符
@@ -115,48 +144,4 @@ namespace sw
             return a < b ? a : b;
         }
     };
-
-    /**
-     * @brief 使BuildStr支持窄字符串
-     */
-    std::wostream &operator<<(std::wostream &wos, const char *str);
-
-    /**
-     * @brief 使BuildStr支持窄字符串
-     */
-    std::wostream &operator<<(std::wostream &wos, const std::string &str);
-
-    /*================================================================================*/
-
-    template <class T>
-    std::wstringstream &operator<<(std::wstringstream &wss, const std::vector<T> &vec)
-    {
-        auto beg = vec.begin();
-        auto end = vec.end();
-        wss << L"[";
-        for (auto it = beg; it != end; ++it) {
-            if (it != beg)
-                wss << L", ";
-            Utils::_BuildStr(wss, *it);
-        }
-        wss << L"]";
-        return wss;
-    }
-
-    template <class TKey, class TVal>
-    std::wstringstream &operator<<(std::wstringstream &wss, const std::map<TKey, TVal> &map)
-    {
-        auto beg = map.begin();
-        auto end = map.end();
-        wss << L"{";
-        for (auto it = beg; it != end; ++it) {
-            if (it != beg)
-                wss << L", ";
-            Utils::_BuildStr(wss, it->first);
-            wss << L":";
-            Utils::_BuildStr(wss, it->second);
-        }
-        wss << L"}";
-        return wss;
-    }
 }
