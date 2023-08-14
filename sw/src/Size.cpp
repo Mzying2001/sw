@@ -26,17 +26,17 @@ sw::Size::operator SIZE() const
     return size;
 }
 
-bool sw::operator==(const Size &left, const Size &right)
+bool operator==(const sw::Size &left, const sw::Size &right)
 {
     return (left.width == right.width) && (left.height == right.height);
 }
 
-bool sw::operator!=(const Size &left, const Size &right)
+bool operator!=(const sw::Size &left, const sw::Size &right)
 {
     return (left.width != right.width) || (left.height != right.height);
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const Size &size)
+std::wostream &operator<<(std::wostream &wos, const sw::Size &size)
 {
     return wos << L"Size{width=" << size.width << L", height=" << size.height << L"}";
 }

@@ -15,7 +15,7 @@ sw::Thickness::Thickness(double left, double top, double right, double bottom)
 {
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const Thickness &thickness)
+std::wostream &operator<<(std::wostream &wos, const sw::Thickness &thickness)
 {
     return wos << L"Thickness{left=" << thickness.left << L", top=" << thickness.top << L", right=" << thickness.right << L", bottom=" << thickness.bottom << L"}";
 }
