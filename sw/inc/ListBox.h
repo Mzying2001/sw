@@ -125,5 +125,19 @@ namespace sw
          * @return 所有选中项的内容
          */
         std::vector<std::wstring> GetSelectedItems();
+
+        /**
+         * @brief       获取指定索引处子项的选中状态
+         * @param index 子项的索引
+         * @return      若子项选中则返回true，否则返回false
+         */
+        bool GetItemSelectionState(int index);
+
+        /**
+         * @brief       多选状态下设置指定索引处子项的选中状态
+         * @param index 子项的索引，输入-1可设置所有子项的选中状态
+         * @param value 要设置的子项状态
+         */
+        void SetItemSelectionState(int index, bool value);
     };
 }

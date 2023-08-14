@@ -162,3 +162,13 @@ std::vector<std::wstring> sw::ListBox::GetSelectedItems()
     }
     return result;
 }
+
+bool sw::ListBox::GetItemSelectionState(int index)
+{
+    return this->SendMessageW(LB_GETSEL, index, 0) > 0;
+}
+
+void sw::ListBox::SetItemSelectionState(int index, bool value)
+{
+    this->SendMessageW(LB_SETSEL, value, index);
+}
