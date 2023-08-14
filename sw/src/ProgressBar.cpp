@@ -51,6 +51,6 @@ sw::ProgressBar::ProgressBar()
               this->SendMessageW(PBM_SETSTATE, (WPARAM)value, 0);
           })
 {
-    this->InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | PBS_SMOOTH, 0);
+    this->InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
     this->Rect = sw::Rect(0, 0, 150, 20);
 }
