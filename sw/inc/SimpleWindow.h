@@ -39,6 +39,7 @@
 #include "Path.h"
 #include "Point.h"
 #include "ProcMsg.h"
+#include "ProgressBar.h"
 #include "Property.h"
 #include "RadioButton.h"
 #include "Rect.h"
