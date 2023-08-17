@@ -577,6 +577,12 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return 0;
         }
 
+        case WM_NOTIFY: {
+            NMHDR *pNMHDR = reinterpret_cast<NMHDR *>(refMsg.lParam);
+            this->OnNotify(pNMHDR);
+            return 0;
+        }
+
         case WM_CTLCOLORBTN:
         case WM_CTLCOLOREDIT:
         case WM_CTLCOLORDLG:
@@ -854,6 +860,16 @@ bool sw::WndBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefa
 bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
 {
     return false;
+}
+
+void sw::WndBase::OnNotify(NMHDR *pNMHDR)
+{
+    WndBase *pWnd = WndBase::GetWndBase(pNMHDR->hwndFrom);
+    if (pWnd) pWnd->OnNotified(pNMHDR);
+}
+
+void sw::WndBase::OnNotified(NMHDR *pNMHDR)
+{
 }
 
 void sw::WndBase::Show(int nCmdShow)

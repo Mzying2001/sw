@@ -543,6 +543,16 @@ namespace sw
          */
         virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition);
 
+        /**
+         * @brief 接收到WM_NOTIFY后调用该函数
+         */
+        virtual void OnNotify(NMHDR *pNMHDR);
+
+        /**
+         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         */
+        virtual void OnNotified(NMHDR *pNMHDR);
+
     public:
         /**
          * @brief 该函数调用ShowWindow
