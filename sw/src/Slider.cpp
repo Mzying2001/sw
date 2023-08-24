@@ -70,6 +70,32 @@ sw::Slider::Slider()
               }
           })
 {
-    this->InitControl(TRACKBAR_CLASSW, L"", WS_CHILD | WS_VISIBLE | TBS_DOWNISLEFT, 0);
+    this->InitControl(TRACKBAR_CLASSW, L"", WS_CHILD | WS_VISIBLE | TBS_NOTIFYBEFOREMOVE | TBS_DOWNISLEFT, 0);
     this->Rect = sw::Rect(0, 0, 150, 30);
+}
+
+void sw::Slider::OnNotified(NMHDR *pNMHDR)
+{
+    switch (pNMHDR->code) {
+        case TRBN_THUMBPOSCHANGING:
+            this->OnValueChanging();
+            break;
+
+        case NM_RELEASEDCAPTURE:
+            this->OnValueChanged();
+            break;
+
+        default:
+            break;
+    }
+}
+
+void sw::Slider::OnValueChanging()
+{
+    this->RaiseRoutedEvent(Slider_ValueChanging);
+}
+
+void sw::Slider::OnValueChanged()
+{
+    this->RaiseRoutedEvent(Slider_ValueChanged);
 }

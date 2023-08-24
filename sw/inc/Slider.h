@@ -41,5 +41,21 @@ namespace sw
          * @brief 初始化滑块控件
          */
         Slider();
+
+    protected:
+        /**
+         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         */
+        virtual void OnNotified(NMHDR *pNMHDR) override;
+
+        /**
+         * @brief 鼠标拖动滑块时调用该函数
+         */
+        virtual void OnValueChanging();
+
+        /**
+         * @brief 鼠标释放滑块时调用该函数
+         */
+        virtual void OnValueChanged();
     };
 }

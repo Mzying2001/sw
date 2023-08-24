@@ -106,6 +106,16 @@ namespace sw
          * @brief 列表框或组合框的选中项改变，参数类型为sw::RoutedEventArgs
          */
         ItemsControl_SelectionChanged,
+
+        /**
+         * @brief 鼠标拖动滑块，参数类型为sw::RoutedEventArgs
+         */
+        Slider_ValueChanging,
+
+        /**
+         * @brief 鼠标释放滑块，参数类型为sw::RoutedEventArgs
+         */
+        Slider_ValueChanged,
     };
 
     /*================================================================================*/
