@@ -12,6 +12,30 @@ sw::Layer::Layer()
               if (value != nullptr)
                   value->Associate(this);
               this->_layout = value;
+          }),
+
+      HorizontalScrollBar(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(WS_HSCROLL);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              ShowScrollBar(this->Handle, SB_HORZ, value);
+          }),
+
+      VerticalScrollBar(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(WS_VSCROLL);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              ShowScrollBar(this->Handle, SB_VERT, value);
           })
 {
     this->_defaultLayout.Associate(this);

@@ -30,6 +30,16 @@ namespace sw
          */
         const Property<LayoutHost *> Layout;
 
+        /**
+         * @brief 是否显示横向滚动条
+         */
+        const Property<bool> HorizontalScrollBar;
+
+        /**
+         * @brief 是否显示纵向滚动条
+         */
+        const Property<bool> VerticalScrollBar;
+
     public:
         Layer();
 
