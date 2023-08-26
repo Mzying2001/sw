@@ -106,11 +106,6 @@ sw::UIElement::~UIElement()
 {
     // 将自己从父窗口的children中移除
     this->SetParent(nullptr);
-
-    // 取消子窗口对自己的引用
-    for (UIElement *item : this->_children)
-        item->_parent = nullptr;
-    this->_children.clear();
 }
 
 void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &handler)
@@ -416,13 +411,31 @@ bool sw::UIElement::SetParent(WndBase *parent)
     UIElement *newParentElement = dynamic_cast<UIElement *>(parent);
 
     if (newParentElement == nullptr) {
+        /*
+         * 要设置的父元素为nullptr
+         */
         if (oldParentElement == nullptr) {
-            return this->WndBase::SetParent(parent);
+            // 在析构函数中会调用SetParent函数以保证自己从父元素的Children中移除
+            // 当当前元素为顶级窗口或者不在界面中的控件（已移除/未加入）时会出现该情况
+            this->_parent = nullptr;
+            return true;
         } else {
-            return oldParentElement->RemoveChild(this) &&
-                   this->WndBase::SetParent(parent);
+            // UIElement虚构函数时调用SerParent函数保证从父元素的Children中移除
+            // 当当前元素已经添加到界面中但中途对象被销毁时会出现该情况，调用父元素的RemoveChild函数移除引用
+            bool temp = oldParentElement->RemoveChild(this);
+            // 当程序将要退出时::SetParent函数可能会失败，此时RemoveChild函数返回false
+            // 此时直接将其从父元素的Children中移除
+            if (!temp) {
+                auto it = std::find(oldParentElement->_children.begin(), oldParentElement->_children.end(), this);
+                if (it != oldParentElement->_children.end()) oldParentElement->_children.erase(it);
+            }
+            this->_parent = nullptr;
+            return true;
         }
     } else {
+        /*
+         * 添加为某个元素的子元素
+         */
         if (oldParentElement == nullptr) {
             return newParentElement->AddChild(this);
         } else {
