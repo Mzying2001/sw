@@ -83,6 +83,16 @@ namespace sw
          */
         sw::ContextMenu *_contextMenu = nullptr;
 
+        /**
+         * @brief Arrange时子元素的水平偏移量
+         */
+        double _arrangeOffsetX = 0;
+
+        /**
+         * @brief Arrange时子元素的垂直偏移量
+         */
+        double _arrangeOffsetY = 0;
+
     public:
         /**
          * @brief 边距
@@ -348,6 +358,16 @@ namespace sw
          * @brief 通知顶级窗口布局改变
          */
         void NotifyLayoutUpdated();
+
+        /**
+         * @brief 获取Arrange时子元素的水平偏移量
+         */
+        double &GetArrangeOffsetX();
+
+        /**
+         * @brief 获取Arrange时子元素的垂直偏移量
+         */
+        double &GetArrangeOffsetY();
 
         /**
          * @brief  设置父窗口

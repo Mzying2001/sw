@@ -346,18 +346,20 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
         }
     }
 
-    // AbsoluteLayout特殊处理：用nan表示不需要调整位置
     if (std::isnan(finalPosition.left) || std::isnan(finalPosition.top)) {
+        // AbsoluteLayout特殊处理：用nan表示不需要调整位置
         rect.left = this->Left;
         rect.top  = this->Top;
+    } else {
+        // 不是AbsoluteLayout时考虑偏移量
+        rect.left += this->_arrangeOffsetX;
+        rect.top += this->_arrangeOffsetY;
     }
 
     rect.width       = Utils::Max(rect.width, 0.0);
     rect.height      = Utils::Max(rect.height, 0.0);
     this->Rect       = rect;
     this->_arranging = false;
-
-    // this->Redraw();
 }
 
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)
@@ -403,6 +405,16 @@ void sw::UIElement::NotifyLayoutUpdated()
         UIElement &root = this->GetRootElement();
         root.SendMessageW(WM_UpdateLayout, 0, 0);
     }
+}
+
+double &sw::UIElement::GetArrangeOffsetX()
+{
+    return this->_arrangeOffsetX;
+}
+
+double &sw::UIElement::GetArrangeOffsetY()
+{
+    return this->_arrangeOffsetY;
 }
 
 bool sw::UIElement::SetParent(WndBase *parent)
