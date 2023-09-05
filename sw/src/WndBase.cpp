@@ -622,6 +622,30 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             }
         }
 
+        case WM_VSCROLL: {
+            if (refMsg.lParam == NULL) {
+                return this->OnVerticalScroll(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+            }
+            WndBase *pWnd = WndBase::GetWndBase(reinterpret_cast<HWND>(refMsg.lParam));
+            if (pWnd) {
+                return pWnd->OnVerticalScroll(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+            } else {
+                return this->DefaultWndProc(refMsg);
+            }
+        }
+
+        case WM_HSCROLL: {
+            if (refMsg.lParam == NULL) {
+                return this->OnHorizontalScroll(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+            }
+            WndBase *pWnd = WndBase::GetWndBase(reinterpret_cast<HWND>(refMsg.lParam));
+            if (pWnd) {
+                return pWnd->OnHorizontalScroll(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+            } else {
+                return this->DefaultWndProc(refMsg);
+            }
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }
@@ -870,6 +894,16 @@ void sw::WndBase::OnNotify(NMHDR *pNMHDR)
 
 void sw::WndBase::OnNotified(NMHDR *pNMHDR)
 {
+}
+
+bool sw::WndBase::OnVerticalScroll(int event, int pos)
+{
+    return false;
+}
+
+bool sw::WndBase::OnHorizontalScroll(int event, int pos)
+{
+    return false;
 }
 
 void sw::WndBase::Show(int nCmdShow)

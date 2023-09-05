@@ -553,6 +553,22 @@ namespace sw
          */
         virtual void OnNotified(NMHDR *pNMHDR);
 
+        /**
+         * @brief       接收到WM_VSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnVerticalScroll(int event, int pos);
+
+        /**
+         * @brief       接收到WM_HSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnHorizontalScroll(int event, int pos);
+
     public:
         /**
          * @brief 该函数调用ShowWindow
