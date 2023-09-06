@@ -52,6 +52,9 @@ void sw::Layer::UpdateLayout()
         sw::Rect clientRect = this->ClientRect;
         this->GetLayoutHost().Measure(Size(clientRect.width, clientRect.height));
         this->GetLayoutHost().Arrange(clientRect);
+
+        this->UpdateScrollBarRange();
+
         this->Redraw();
     }
 }
@@ -86,6 +89,8 @@ void sw::Layer::Arrange(const sw::Rect &finalPosition)
 {
     this->UIElement::Arrange(finalPosition);
     this->GetLayoutHost().Arrange(this->ClientRect);
+
+    this->UpdateScrollBarRange();
 }
 
 void sw::Layer::DisableLayout()
@@ -97,4 +102,59 @@ void sw::Layer::EnableLayout()
 {
     this->_layoutDisabled = false;
     this->UpdateLayout();
+}
+
+void sw::Layer::SetHorizontalScrollBarRange(double min, double max)
+{
+    double scale = Dip::ScaleX;
+
+    SCROLLINFO info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = SIF_RANGE | SIF_PAGE;
+    info.nMin   = std::lround(min / scale);
+    info.nMax   = std::lround(max / scale);
+    info.nPage  = std::lround(this->ClientWidth / scale);
+
+    SetScrollInfo(this->Handle, SB_HORZ, &info, false);
+}
+
+void sw::Layer::SetVerticalScrollBarRange(double min, double max)
+{
+    double scale = Dip::ScaleY;
+
+    SCROLLINFO info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = SIF_RANGE | SIF_PAGE;
+    info.nMin   = std::lround(min / scale);
+    info.nMax   = std::lround(max / scale);
+    info.nPage  = std::lround(this->ClientHeight / scale);
+
+    SetScrollInfo(this->Handle, SB_VERT, &info, false);
+}
+
+void sw::Layer::UpdateScrollBarRange()
+{
+    if (this->_layout == nullptr || dynamic_cast<AbsoluteLayout *>(this->_layout) != nullptr) {
+        return; // 当使用绝对布局时不更新
+    }
+
+    if (this->HorizontalScrollBar) {
+        double childRightmost = this->GetChildRightmost(true);
+        if (childRightmost > this->ClientWidth) {
+            EnableScrollBar(this->Handle, SB_HORZ, ESB_ENABLE_BOTH);
+            this->SetHorizontalScrollBarRange(0, childRightmost);
+        } else {
+            EnableScrollBar(this->Handle, SB_HORZ, ESB_DISABLE_BOTH);
+        }
+    }
+
+    if (this->VerticalScrollBar) {
+        double childBottommost = this->GetChildBottommost(true);
+        if (childBottommost > this->ClientHeight) {
+            EnableScrollBar(this->Handle, SB_VERT, ESB_ENABLE_BOTH);
+            this->SetVerticalScrollBarRange(0, childBottommost);
+        } else {
+            EnableScrollBar(this->Handle, SB_VERT, ESB_DISABLE_BOTH);
+        }
+    }
 }

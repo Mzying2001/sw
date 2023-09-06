@@ -41,6 +41,9 @@ namespace sw
         const Property<bool> VerticalScrollBar;
 
     public:
+        /**
+         * @brief 初始化Layer
+         */
         Layer();
 
     protected:
@@ -76,5 +79,24 @@ namespace sw
          * @brief 启用布局
          */
         void EnableLayout();
+
+        /**
+         * @brief     设置横向滚动条的范围
+         * @param min 滚动范围最小值
+         * @param max 滚动范围最大值
+         */
+        void SetHorizontalScrollBarRange(double min, double max);
+
+        /**
+         * @brief     设置纵向滚动条的范围
+         * @param min 滚动范围最小值
+         * @param max 滚动范围最大值
+         */
+        void SetVerticalScrollBarRange(double min, double max);
+
+        /**
+         * @brief 根据子元素更新滚动条范围，当使用绝对布局时该函数无效
+         */
+        void UpdateScrollBarRange();
     };
 }
