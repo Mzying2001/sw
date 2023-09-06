@@ -21,7 +21,7 @@ namespace sw
         CenterOwner,  // 所有者窗口中心，只在ShowDialog时有效
     };
 
-    class Window : virtual public UIElement, public Layer
+    class Window : public Layer
     {
     private:
         /**
@@ -126,6 +126,9 @@ namespace sw
         const Property<sw::Menu *> Menu;
 
     public:
+        /**
+         * @brief 初始化窗口
+         */
         Window();
 
     protected:
@@ -212,17 +215,5 @@ namespace sw
          * @return 当调用ShowDialog时该函数返回true，否则返回false
          */
         bool IsModal();
-
-        /**
-         * @brief               测量控件所需尺寸
-         * @param availableSize 可用的尺寸
-         */
-        virtual void Measure(const Size &availableSize) override;
-
-        /**
-         * @brief           安排控件位置
-         * @param finalSize 最终控件所安排的位置
-         */
-        virtual void Arrange(const sw::Rect &finalPosition) override;
     };
 }

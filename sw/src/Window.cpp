@@ -406,16 +406,6 @@ bool sw::Window::IsModal()
     return this->_modalOwner != nullptr;
 }
 
-void sw::Window::Measure(const Size &availableSize)
-{
-    this->Layer::Measure(availableSize);
-}
-
-void sw::Window::Arrange(const sw::Rect &finalPosition)
-{
-    this->Layer::Arrange(finalPosition);
-}
-
 void _UpdateFontForAllChild(sw::UIElement &element)
 {
     element.UpdateFont();
