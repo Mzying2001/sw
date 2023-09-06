@@ -9,6 +9,16 @@ bool sw::PanelBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDe
     return this->Control::OnSetCursor(hwnd, hitTest, message, useDefaultWndProc);
 }
 
+bool sw::PanelBase::OnVerticalScroll(int event, int pos)
+{
+    return this->Layer::OnVerticalScroll(event, pos);
+}
+
+bool sw::PanelBase::OnHorizontalScroll(int event, int pos)
+{
+    return this->Layer::OnHorizontalScroll(event, pos);
+}
+
 void sw::PanelBase::Measure(const Size &availableSize)
 {
     this->Layer::Measure(availableSize);
