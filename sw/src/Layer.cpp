@@ -36,6 +36,60 @@ sw::Layer::Layer()
           // set
           [&](const bool &value) {
               ShowScrollBar(this->Handle, SB_VERT, value);
+          }),
+
+      HorizontalScrollBarPos(
+          // get
+          [&]() -> const double & {
+              static double result;
+
+              SCROLLINFO info{};
+              info.cbSize = sizeof(info);
+              info.fMask  = SIF_POS;
+              GetScrollInfo(this->Handle, SB_HORZ, &info);
+
+              result = info.nPos * Dip::ScaleX;
+              return result;
+          },
+          // set
+          [&](const double &value) {
+              SCROLLINFO info{};
+              info.cbSize = sizeof(info);
+              info.fMask  = SIF_POS;
+              info.nPos   = std::lround(value / Dip::ScaleX);
+              SetScrollInfo(this->Handle, SB_HORZ, &info, false);
+
+              if (!this->IsUsingAbsoluteLayout()) {
+                  this->GetArrangeOffsetX() = -value;
+                  this->GetLayoutHost().Arrange(this->ClientRect);
+              }
+          }),
+
+      VerticalScrollBarPos(
+          // get
+          [&]() -> const double & {
+              static double result;
+
+              SCROLLINFO info{};
+              info.cbSize = sizeof(info);
+              info.fMask  = SIF_POS;
+              GetScrollInfo(this->Handle, SB_VERT, &info);
+
+              result = info.nPos * Dip::ScaleY;
+              return result;
+          },
+          // set
+          [&](const double &value) {
+              SCROLLINFO info{};
+              info.cbSize = sizeof(info);
+              info.fMask  = SIF_POS;
+              info.nPos   = std::lround(value / Dip::ScaleY);
+              SetScrollInfo(this->Handle, SB_VERT, &info, false);
+
+              if (!this->IsUsingAbsoluteLayout()) {
+                  this->GetArrangeOffsetY() = -value;
+                  this->GetLayoutHost().Arrange(this->ClientRect);
+              }
           })
 {
     this->_defaultLayout.Associate(this);
@@ -57,6 +111,24 @@ void sw::Layer::UpdateLayout()
 
         this->Redraw();
     }
+}
+
+bool sw::Layer::OnVerticalScroll(int event, int pos)
+{
+    if (event == SB_THUMBTRACK) {
+        this->VerticalScrollBarPos = pos * Dip::ScaleY;
+        this->Redraw();
+    }
+    return true;
+}
+
+bool sw::Layer::OnHorizontalScroll(int event, int pos)
+{
+    if (event == SB_THUMBTRACK) {
+        this->HorizontalScrollBarPos = pos * Dip::ScaleX;
+        this->Redraw();
+    }
+    return true;
 }
 
 void sw::Layer::Measure(const Size &availableSize)
@@ -91,6 +163,11 @@ void sw::Layer::Arrange(const sw::Rect &finalPosition)
     this->GetLayoutHost().Arrange(this->ClientRect);
 
     this->UpdateScrollBarRange();
+}
+
+bool sw::Layer::IsUsingAbsoluteLayout()
+{
+    return this->_layout == nullptr || dynamic_cast<AbsoluteLayout *>(this->_layout) != nullptr;
 }
 
 void sw::Layer::DisableLayout()
@@ -134,26 +211,44 @@ void sw::Layer::SetVerticalScrollBarRange(double min, double max)
 
 void sw::Layer::UpdateScrollBarRange()
 {
-    if (this->_layout == nullptr || dynamic_cast<AbsoluteLayout *>(this->_layout) != nullptr) {
+    if (this->IsUsingAbsoluteLayout()) {
         return; // 当使用绝对布局时不更新
     }
 
     if (this->HorizontalScrollBar) {
         double childRightmost = this->GetChildRightmost(true);
+
         if (childRightmost > this->ClientWidth) {
             EnableScrollBar(this->Handle, SB_HORZ, ESB_ENABLE_BOTH);
             this->SetHorizontalScrollBarRange(0, childRightmost);
+
+            // 当尺寸改变时确保子元素位置与滚动条同步
+            double pos = this->HorizontalScrollBarPos;
+            if (-this->GetArrangeOffsetX() > pos) {
+                this->HorizontalScrollBarPos = pos;
+            }
+
         } else {
+            this->HorizontalScrollBarPos = 0;
             EnableScrollBar(this->Handle, SB_HORZ, ESB_DISABLE_BOTH);
         }
     }
 
     if (this->VerticalScrollBar) {
         double childBottommost = this->GetChildBottommost(true);
+
         if (childBottommost > this->ClientHeight) {
             EnableScrollBar(this->Handle, SB_VERT, ESB_ENABLE_BOTH);
             this->SetVerticalScrollBarRange(0, childBottommost);
+
+            // 当尺寸改变时确保子元素位置与滚动条同步
+            double pos = this->VerticalScrollBarPos;
+            if (-this->GetArrangeOffsetY() > pos) {
+                this->VerticalScrollBarPos = pos;
+            }
+
         } else {
+            this->VerticalScrollBarPos = 0;
             EnableScrollBar(this->Handle, SB_VERT, ESB_DISABLE_BOTH);
         }
     }

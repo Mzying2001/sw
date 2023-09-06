@@ -350,10 +350,10 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
         // AbsoluteLayout特殊处理：用nan表示不需要调整位置
         rect.left = this->Left;
         rect.top  = this->Top;
-    } else {
+    } else if (this->_parent) {
         // 不是AbsoluteLayout时考虑偏移量
-        rect.left += this->_arrangeOffsetX;
-        rect.top += this->_arrangeOffsetY;
+        rect.left += this->_parent->_arrangeOffsetX;
+        rect.top += this->_parent->_arrangeOffsetY;
     }
 
     rect.width       = Utils::Max(rect.width, 0.0);

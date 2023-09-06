@@ -40,6 +40,16 @@ namespace sw
          */
         const Property<bool> VerticalScrollBar;
 
+        /**
+         * @brief 横向滚动条位置
+         */
+        const Property<double> HorizontalScrollBarPos;
+
+        /**
+         * @brief 纵向滚动条位置
+         */
+        const Property<double> VerticalScrollBarPos;
+
     public:
         /**
          * @brief 初始化Layer
@@ -57,6 +67,22 @@ namespace sw
          */
         void UpdateLayout();
 
+        /**
+         * @brief       接收到WM_VSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnVerticalScroll(int event, int pos) override;
+
+        /**
+         * @brief       接收到WM_HSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnHorizontalScroll(int event, int pos) override;
+
     public:
         /**
          * @brief               测量控件所需尺寸
@@ -69,6 +95,11 @@ namespace sw
          * @param finalSize 最终控件所安排的位置
          */
         virtual void Arrange(const sw::Rect &finalPosition) override;
+
+        /**
+         * @brief 获取一个bool值，表示当前使用布局方式是否为绝对布局
+         */
+        bool IsUsingAbsoluteLayout();
 
         /**
          * @brief 禁用布局
