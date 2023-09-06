@@ -93,6 +93,16 @@ namespace sw
          */
         double _arrangeOffsetY = 0;
 
+        /**
+         * @brief 所有子元素在当前元素中最右边的位置
+         */
+        double _childRightmost = 0;
+
+        /**
+         * @brief 所有子元素在当前元素中最底边的位置
+         */
+        double _childBottommost = 0;
+
     public:
         /**
          * @brief 边距
@@ -368,6 +378,20 @@ namespace sw
          * @brief 获取Arrange时子元素的垂直偏移量
          */
         double &GetArrangeOffsetY();
+
+        /**
+         * @brief        获取所有子元素在当前元素中最右边的位置（只考虑参与布局的子窗口）
+         * @param update 是否更字段
+         * @return       _childRightmost字段
+         */
+        double GetChildRightmost(bool update);
+
+        /**
+         * @brief        获取所有子元素在当前元素中最底边的位置（只考虑参与布局的子窗口）
+         * @param update 是否更字段
+         * @return       _childBottommost字段
+         */
+        double GetChildBottommost(bool update);
 
         /**
          * @brief  设置父窗口
