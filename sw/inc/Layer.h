@@ -53,12 +53,12 @@ namespace sw
         /**
          * @brief 横向滚动条位置
          */
-        const Property<double> HorizontalScrollBarPos;
+        const Property<double> HorizontalScrollPos;
 
         /**
          * @brief 纵向滚动条位置
          */
-        const Property<double> VerticalScrollBarPos;
+        const Property<double> VerticalScrollPos;
 
     public:
         /**
@@ -126,32 +126,32 @@ namespace sw
          * @param refMin 滚动范围最小值
          * @param refMax 滚动范围最大值
          */
-        void GetHorizontalScrollBarRange(double &refMin, double &refMax);
+        void GetHorizontalScrollRange(double &refMin, double &refMax);
 
         /**
          * @brief        获取纵向滚动条的范围
          * @param refMin 滚动范围最小值
          * @param refMax 滚动范围最大值
          */
-        void GetVerticalScrollBarRange(double &refMin, double &refMax);
+        void GetVerticalScrollRange(double &refMin, double &refMax);
 
         /**
          * @brief     设置横向滚动条的范围
          * @param min 滚动范围最小值
          * @param max 滚动范围最大值
          */
-        void SetHorizontalScrollBarRange(double min, double max);
+        void SetHorizontalScrollRange(double min, double max);
 
         /**
          * @brief     设置纵向滚动条的范围
          * @param min 滚动范围最小值
          * @param max 滚动范围最大值
          */
-        void SetVerticalScrollBarRange(double min, double max);
+        void SetVerticalScrollRange(double min, double max);
 
         /**
          * @brief 根据子元素更新滚动条范围，当使用绝对布局时该函数无效
          */
-        void UpdateScrollBarRange();
+        void UpdateScrollRange();
     };
 }
