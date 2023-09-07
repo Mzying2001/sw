@@ -422,7 +422,7 @@ double sw::UIElement::GetChildRightmost(bool update)
     if (update) {
         this->_childRightmost = 0;
         for (UIElement *item : this->_childrenNotCollapsed)
-            this->_childRightmost = Utils::Max(this->_childRightmost, item->Left + item->Width - this->_arrangeOffsetX);
+            this->_childRightmost = Utils::Max(this->_childRightmost, item->Left + item->Width + item->_margin.right - this->_arrangeOffsetX);
     }
     return this->_childRightmost;
 }
@@ -432,7 +432,7 @@ double sw::UIElement::GetChildBottommost(bool update)
     if (update) {
         this->_childBottommost = 0;
         for (UIElement *item : this->_childrenNotCollapsed)
-            this->_childBottommost = Utils::Max(this->_childBottommost, item->Top + item->Height - this->_arrangeOffsetY);
+            this->_childBottommost = Utils::Max(this->_childBottommost, item->Top + item->Height + item->_margin.bottom - this->_arrangeOffsetY);
     }
     return this->_childBottommost;
 }
