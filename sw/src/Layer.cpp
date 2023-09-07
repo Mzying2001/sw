@@ -181,6 +181,28 @@ void sw::Layer::EnableLayout()
     this->UpdateLayout();
 }
 
+void sw::Layer::GetHorizontalScrollBarRange(double &refMin, double &refMax)
+{
+    double scale = Dip::ScaleX;
+
+    INT nMin = 0, nMax = 0;
+    GetScrollRange(this->Handle, SB_HORZ, &nMin, &nMax);
+
+    refMin = nMin * scale;
+    refMax = nMax * scale;
+}
+
+void sw::Layer::GetVerticalScrollBarRange(double &refMin, double &refMax)
+{
+    double scale = Dip::ScaleY;
+
+    INT nMin = 0, nMax = 0;
+    GetScrollRange(this->Handle, SB_VERT, &nMin, &nMax);
+
+    refMin = nMin * scale;
+    refMax = nMax * scale;
+}
+
 void sw::Layer::SetHorizontalScrollBarRange(double min, double max)
 {
     double scale = Dip::ScaleX;

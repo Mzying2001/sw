@@ -112,6 +112,20 @@ namespace sw
         void EnableLayout();
 
         /**
+         * @brief        获取横向滚动条的范围
+         * @param refMin 滚动范围最小值
+         * @param refMax 滚动范围最大值
+         */
+        void GetHorizontalScrollBarRange(double &refMin, double &refMax);
+
+        /**
+         * @brief        获取纵向滚动条的范围
+         * @param refMin 滚动范围最小值
+         * @param refMax 滚动范围最大值
+         */
+        void GetVerticalScrollBarRange(double &refMin, double &refMax);
+
+        /**
          * @brief     设置横向滚动条的范围
          * @param min 滚动范围最小值
          * @param max 滚动范围最大值
