@@ -57,10 +57,10 @@ sw::Layer::Layer()
               info.cbSize = sizeof(info);
               info.fMask  = SIF_POS;
               info.nPos   = std::lround(value / Dip::ScaleX);
-              SetScrollInfo(this->Handle, SB_HORZ, &info, false);
+              SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 
               if (!this->IsUsingAbsoluteLayout()) {
-                  this->GetArrangeOffsetX() = -value;
+                  this->GetArrangeOffsetX() = -HorizontalScrollBarPos;
                   this->GetLayoutHost().Arrange(this->ClientRect);
               }
           }),
@@ -84,10 +84,10 @@ sw::Layer::Layer()
               info.cbSize = sizeof(info);
               info.fMask  = SIF_POS;
               info.nPos   = std::lround(value / Dip::ScaleY);
-              SetScrollInfo(this->Handle, SB_VERT, &info, false);
+              SetScrollInfo(this->Handle, SB_VERT, &info, true);
 
               if (!this->IsUsingAbsoluteLayout()) {
-                  this->GetArrangeOffsetY() = -value;
+                  this->GetArrangeOffsetY() = -VerticalScrollBarPos;
                   this->GetLayoutHost().Arrange(this->ClientRect);
               }
           })
