@@ -59,7 +59,7 @@ sw::Layer::Layer()
               info.nPos   = std::lround(value / Dip::ScaleX);
               SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 
-              if (!this->IsUsingAbsoluteLayout()) {
+              if (!this->IsUsingAbsoluteLayout() && !this->_horizontalScrollDisabled) {
                   this->GetArrangeOffsetX() = -HorizontalScrollBarPos;
                   this->GetLayoutHost().Arrange(this->ClientRect);
               }
@@ -86,7 +86,7 @@ sw::Layer::Layer()
               info.nPos   = std::lround(value / Dip::ScaleY);
               SetScrollInfo(this->Handle, SB_VERT, &info, true);
 
-              if (!this->IsUsingAbsoluteLayout()) {
+              if (!this->IsUsingAbsoluteLayout() && !this->_verticalScrollDisabled) {
                   this->GetArrangeOffsetY() = -VerticalScrollBarPos;
                   this->GetLayoutHost().Arrange(this->ClientRect);
               }
@@ -241,6 +241,7 @@ void sw::Layer::UpdateScrollBarRange()
         double childRightmost = this->GetChildRightmost(true);
 
         if (childRightmost > this->ClientWidth) {
+            this->_horizontalScrollDisabled = false;
             EnableScrollBar(this->Handle, SB_HORZ, ESB_ENABLE_BOTH);
             this->SetHorizontalScrollBarRange(0, childRightmost);
 
@@ -253,6 +254,7 @@ void sw::Layer::UpdateScrollBarRange()
         } else {
             this->HorizontalScrollBarPos = 0;
             EnableScrollBar(this->Handle, SB_HORZ, ESB_DISABLE_BOTH);
+            this->_horizontalScrollDisabled = true;
         }
     }
 
@@ -260,6 +262,7 @@ void sw::Layer::UpdateScrollBarRange()
         double childBottommost = this->GetChildBottommost(true);
 
         if (childBottommost > this->ClientHeight) {
+            this->_verticalScrollDisabled = false;
             EnableScrollBar(this->Handle, SB_VERT, ESB_ENABLE_BOTH);
             this->SetVerticalScrollBarRange(0, childBottommost);
 
@@ -272,6 +275,7 @@ void sw::Layer::UpdateScrollBarRange()
         } else {
             this->VerticalScrollBarPos = 0;
             EnableScrollBar(this->Handle, SB_VERT, ESB_DISABLE_BOTH);
+            this->_verticalScrollDisabled = true;
         }
     }
 }

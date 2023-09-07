@@ -24,6 +24,16 @@ namespace sw
          */
         AbsoluteLayout _defaultLayout = AbsoluteLayout();
 
+        /**
+         * @brief 记录水平滚动条是否已被禁止
+         */
+        bool _horizontalScrollDisabled = true;
+
+        /**
+         * @brief 记录垂直滚动条是否已被禁止
+         */
+        bool _verticalScrollDisabled = true;
+
     public:
         /**
          * @brief 窗口布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设置为nullptr可恢复默认布局
