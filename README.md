@@ -1,5 +1,7 @@
 # `sw`
 
+**中文** | [English](./README.en.md)
+
 `sw` 即 `SimpleWindow`，是一个用于构建 Windows 桌面程序的 C++ GUI 框架，实现了对 Windows 标准控件的面向对象封装，适合用于构建简单的桌面应用程序。
 
 ## 特点
@@ -17,7 +19,7 @@
 
 ## 快速入门
 
-以下是一个 SimpleWindow 的 HelloWorld 程序，更多示例详见[这里](https://github.com/Mzying2001/sw/tree/main/examples)。
+以下是一个 SimpleWindow 的 HelloWorld 程序，更多示例详见[这里](./examples)。
 
 ```c++
 #include "SimpleWindow.h"
