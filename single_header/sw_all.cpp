@@ -1249,6 +1249,140 @@ sw::Layer::Layer()
               if (value != nullptr)
                   value->Associate(this);
               this->_layout = value;
+          }),
+
+      HorizontalScrollBar(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(WS_HSCROLL);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->HorizontalScrollBar == value) {
+                  return;
+              }
+              if (value) {
+                  ShowScrollBar(this->Handle, SB_HORZ, value);
+                  this->HorizontalScrollPos = this->HorizontalScrollPos;
+              } else {
+                  this->HorizontalScrollPos = 0;
+                  ShowScrollBar(this->Handle, SB_HORZ, value);
+              }
+          }),
+
+      VerticalScrollBar(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(WS_VSCROLL);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->VerticalScrollBar == value) {
+                  return;
+              }
+              if (value) {
+                  ShowScrollBar(this->Handle, SB_VERT, value);
+                  this->VerticalScrollPos = this->VerticalScrollPos;
+              } else {
+                  this->VerticalScrollPos = 0;
+                  ShowScrollBar(this->Handle, SB_VERT, value);
+              }
+          }),
+
+      HorizontalScrollPos(
+          // get
+          [&]() -> const double & {
+              static double result;
+
+              SCROLLINFO info{};
+              info.cbSize = sizeof(info);
+              info.fMask  = SIF_POS;
+              GetScrollInfo(this->Handle, SB_HORZ, &info);
+
+              result = info.nPos * Dip::ScaleX;
+              return result;
+          },
+          // set
+          [&](const double &value) {
+              SCROLLINFO info{};
+              info.cbSize = sizeof(info);
+              info.fMask  = SIF_POS;
+              info.nPos   = std::lround(value / Dip::ScaleX);
+              SetScrollInfo(this->Handle, SB_HORZ, &info, true);
+
+              if (!this->IsUsingAbsoluteLayout() && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
+                  this->GetArrangeOffsetX() = -HorizontalScrollPos;
+                  this->GetLayoutHost().Arrange(this->ClientRect);
+              }
+          }),
+
+      VerticalScrollPos(
+          // get
+          [&]() -> const double & {
+              static double result;
+
+              SCROLLINFO info{};
+              info.cbSize = sizeof(info);
+              info.fMask  = SIF_POS;
+              GetScrollInfo(this->Handle, SB_VERT, &info);
+
+              result = info.nPos * Dip::ScaleY;
+              return result;
+          },
+          // set
+          [&](const double &value) {
+              SCROLLINFO info{};
+              info.cbSize = sizeof(info);
+              info.fMask  = SIF_POS;
+              info.nPos   = std::lround(value / Dip::ScaleY);
+              SetScrollInfo(this->Handle, SB_VERT, &info, true);
+
+              if (!this->IsUsingAbsoluteLayout() && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
+                  this->GetArrangeOffsetY() = -VerticalScrollPos;
+                  this->GetLayoutHost().Arrange(this->ClientRect);
+              }
+          }),
+
+      HorizontalScrollLimit(
+          // get
+          [&]() -> const double & {
+              static double result;
+
+              if (this->_horizontalScrollDisabled) {
+                  result = 0;
+                  return result;
+              }
+
+              SCROLLINFO info{};
+              info.cbSize = sizeof(info);
+              info.fMask  = SIF_RANGE | SIF_PAGE;
+              GetScrollInfo(this->Handle, SB_HORZ, &info);
+
+              result = (info.nMax - info.nPage + 1) * Dip::ScaleX;
+              return result;
+          }),
+
+      VerticalScrollLimit(
+          // get
+          [&]() -> const double & {
+              static double result;
+
+              if (this->_verticalScrollDisabled) {
+                  result = 0;
+                  return result;
+              }
+
+              SCROLLINFO info{};
+              info.cbSize = sizeof(info);
+              info.fMask  = SIF_RANGE | SIF_PAGE;
+              GetScrollInfo(this->Handle, SB_VERT, &info);
+
+              result = (info.nMax - info.nPage + 1) * Dip::ScaleY;
+              return result;
           })
 {
     this->_defaultLayout.Associate(this);
@@ -1265,8 +1399,95 @@ void sw::Layer::UpdateLayout()
         sw::Rect clientRect = this->ClientRect;
         this->GetLayoutHost().Measure(Size(clientRect.width, clientRect.height));
         this->GetLayoutHost().Arrange(clientRect);
+
+        this->UpdateScrollRange();
+
         this->Redraw();
     }
+}
+
+bool sw::Layer::OnVerticalScroll(int event, int pos)
+{
+    switch (event) {
+        case SB_THUMBTRACK: {
+            this->VerticalScrollPos = pos * Dip::ScaleY;
+            this->Redraw();
+            break;
+        }
+        case SB_BOTTOM: {
+            this->ScrollToBottom();
+            this->Redraw();
+            break;
+        }
+        case SB_TOP: {
+            this->ScrollToTop();
+            this->Redraw();
+            break;
+        }
+        case SB_PAGEUP: {
+            this->VerticalScrollPos = this->VerticalScrollPos - this->GetVerticalScrollPageSize();
+            this->Redraw();
+            break;
+        }
+        case SB_PAGEDOWN: {
+            this->VerticalScrollPos = this->VerticalScrollPos + this->GetVerticalScrollPageSize();
+            this->Redraw();
+            break;
+        }
+        case SB_LINEUP: {
+            this->VerticalScrollPos = this->VerticalScrollPos - 20;
+            this->Redraw();
+            break;
+        }
+        case SB_LINEDOWN: {
+            this->VerticalScrollPos = this->VerticalScrollPos + 20;
+            this->Redraw();
+            break;
+        }
+    }
+    return true;
+}
+
+bool sw::Layer::OnHorizontalScroll(int event, int pos)
+{
+    switch (event) {
+        case SB_THUMBTRACK: {
+            this->HorizontalScrollPos = pos * Dip::ScaleX;
+            this->Redraw();
+            break;
+        }
+        case SB_LEFT: {
+            this->ScrollToLeft();
+            this->Redraw();
+            break;
+        }
+        case SB_RIGHT: {
+            this->ScrollToRight();
+            this->Redraw();
+            break;
+        }
+        case SB_PAGELEFT: {
+            this->HorizontalScrollPos = this->HorizontalScrollPos - this->GetHorizontalScrollPageSize();
+            this->Redraw();
+            break;
+        }
+        case SB_PAGERIGHT: {
+            this->HorizontalScrollPos = this->HorizontalScrollPos + this->GetHorizontalScrollPageSize();
+            this->Redraw();
+            break;
+        }
+        case SB_LINELEFT: {
+            this->HorizontalScrollPos = this->HorizontalScrollPos - 20;
+            this->Redraw();
+            break;
+        }
+        case SB_LINERIGHT: {
+            this->HorizontalScrollPos = this->HorizontalScrollPos + 20;
+            this->Redraw();
+            break;
+        }
+    }
+    return true;
 }
 
 void sw::Layer::Measure(const Size &availableSize)
@@ -1299,6 +1520,13 @@ void sw::Layer::Arrange(const sw::Rect &finalPosition)
 {
     this->UIElement::Arrange(finalPosition);
     this->GetLayoutHost().Arrange(this->ClientRect);
+
+    this->UpdateScrollRange();
+}
+
+bool sw::Layer::IsUsingAbsoluteLayout()
+{
+    return this->_layout == nullptr || dynamic_cast<AbsoluteLayout *>(this->_layout) != nullptr;
 }
 
 void sw::Layer::DisableLayout()
@@ -1310,6 +1538,165 @@ void sw::Layer::EnableLayout()
 {
     this->_layoutDisabled = false;
     this->UpdateLayout();
+}
+
+void sw::Layer::GetHorizontalScrollRange(double &refMin, double &refMax)
+{
+    double scale = Dip::ScaleX;
+
+    INT nMin = 0, nMax = 0;
+    GetScrollRange(this->Handle, SB_HORZ, &nMin, &nMax);
+
+    refMin = nMin * scale;
+    refMax = nMax * scale;
+}
+
+void sw::Layer::GetVerticalScrollRange(double &refMin, double &refMax)
+{
+    double scale = Dip::ScaleY;
+
+    INT nMin = 0, nMax = 0;
+    GetScrollRange(this->Handle, SB_VERT, &nMin, &nMax);
+
+    refMin = nMin * scale;
+    refMax = nMax * scale;
+}
+
+void sw::Layer::SetHorizontalScrollRange(double min, double max)
+{
+    double scale = Dip::ScaleX;
+
+    SCROLLINFO info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = SIF_RANGE | SIF_PAGE;
+    info.nMin   = std::lround(min / scale);
+    info.nMax   = std::lround(max / scale);
+    info.nPage  = std::lround(this->ClientWidth / scale);
+
+    SetScrollInfo(this->Handle, SB_HORZ, &info, true);
+}
+
+void sw::Layer::SetVerticalScrollRange(double min, double max)
+{
+    double scale = Dip::ScaleY;
+
+    SCROLLINFO info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = SIF_RANGE | SIF_PAGE;
+    info.nMin   = std::lround(min / scale);
+    info.nMax   = std::lround(max / scale);
+    info.nPage  = std::lround(this->ClientHeight / scale);
+
+    SetScrollInfo(this->Handle, SB_VERT, &info, true);
+}
+
+double sw::Layer::GetHorizontalScrollPageSize()
+{
+    SCROLLINFO info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = SIF_PAGE;
+    GetScrollInfo(this->Handle, SB_HORZ, &info);
+    return info.nPage * Dip::ScaleX;
+}
+
+double sw::Layer::GetVerticalScrollPageSize()
+{
+    SCROLLINFO info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = SIF_PAGE;
+    GetScrollInfo(this->Handle, SB_VERT, &info);
+    return info.nPage * Dip::ScaleY;
+}
+
+void sw::Layer::SetHorizontalScrollPageSize(double pageSize)
+{
+    SCROLLINFO info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = SIF_PAGE;
+    info.nPage  = std::lround(pageSize / Dip::ScaleX);
+    SetScrollInfo(this->Handle, SB_HORZ, &info, true);
+}
+
+void sw::Layer::SetVerticalScrollPageSize(double pageSize)
+{
+    SCROLLINFO info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = SIF_PAGE;
+    info.nPage  = std::lround(pageSize / Dip::ScaleY);
+    SetScrollInfo(this->Handle, SB_VERT, &info, true);
+}
+
+void sw::Layer::UpdateScrollRange()
+{
+    if (this->IsUsingAbsoluteLayout()) {
+        // 当使用绝对布局时滚动条和控件位置需要手动设置
+        // 将以下俩字段设为false确保xxxScrollLimit属性在使用绝对布局时仍可用
+        this->_horizontalScrollDisabled = false;
+        this->_verticalScrollDisabled   = false;
+        return;
+    }
+
+    if (this->HorizontalScrollBar) {
+        double childRightmost = this->GetChildRightmost(true);
+
+        if (int(childRightmost - this->ClientWidth) > 0) {
+            this->_horizontalScrollDisabled = false;
+            EnableScrollBar(this->Handle, SB_HORZ, ESB_ENABLE_BOTH);
+            this->SetHorizontalScrollRange(0, childRightmost);
+
+            // 当尺寸改变时确保子元素位置与滚动条同步
+            double pos = this->HorizontalScrollPos;
+            if (-this->GetArrangeOffsetX() > pos) {
+                this->HorizontalScrollPos = pos;
+            }
+
+        } else {
+            this->HorizontalScrollPos = 0;
+            EnableScrollBar(this->Handle, SB_HORZ, ESB_DISABLE_BOTH);
+            this->_horizontalScrollDisabled = true;
+        }
+    }
+
+    if (this->VerticalScrollBar) {
+        double childBottommost = this->GetChildBottommost(true);
+
+        if (int(childBottommost - this->ClientHeight) > 0) {
+            this->_verticalScrollDisabled = false;
+            EnableScrollBar(this->Handle, SB_VERT, ESB_ENABLE_BOTH);
+            this->SetVerticalScrollRange(0, childBottommost);
+
+            // 当尺寸改变时确保子元素位置与滚动条同步
+            double pos = this->VerticalScrollPos;
+            if (-this->GetArrangeOffsetY() > pos) {
+                this->VerticalScrollPos = pos;
+            }
+
+        } else {
+            this->VerticalScrollPos = 0;
+            EnableScrollBar(this->Handle, SB_VERT, ESB_DISABLE_BOTH);
+            this->_verticalScrollDisabled = true;
+        }
+    }
+}
+
+void sw::Layer::ScrollToTop()
+{
+    this->VerticalScrollPos = 0;
+}
+
+void sw::Layer::ScrollToBottom()
+{
+    this->VerticalScrollPos = this->VerticalScrollLimit;
+}
+
+void sw::Layer::ScrollToLeft()
+{
+    this->HorizontalScrollPos = 0;
+}
+
+void sw::Layer::ScrollToRight()
+{
+    this->HorizontalScrollPos = this->HorizontalScrollLimit;
 }
 
 // LayoutHost.cpp
@@ -2099,9 +2486,77 @@ const sw::MsgBox &sw::MsgBox::OnCancel(const MsgBoxCallback &callback) const
 
 sw::Panel::Panel()
 {
-    this->InitControl(L"STATIC", NULL, WS_CHILD | WS_VISIBLE | SS_NOTIFY, 0);
+    // STATIC控件默认没有响应滚动条操作，故使用BUTTON
+    this->InitControl(L"BUTTON", NULL, WS_CHILD | WS_VISIBLE, WS_EX_NOACTIVATE);
     this->HorizontalAlignment = HorizontalAlignment::Stretch;
     this->VerticalAlignment   = VerticalAlignment::Stretch;
+}
+
+void sw::Panel::SetText(const std::wstring &value)
+{
+    // 原本修改Text会调用SetWindowTextW导致界面绘制成按钮
+    // 这里直接修改WndBase的_text字段，以防止界面重绘
+    this->GetText() = value;
+    this->OnTextChanged();
+}
+
+bool sw::Panel::OnPaint()
+{
+    PAINTSTRUCT ps;
+    HWND hwnd = this->Handle;
+    HDC hdc   = BeginPaint(hwnd, &ps);
+
+    RECT clientRect;
+    GetClientRect(hwnd, &clientRect);
+
+    HBRUSH hBrush = CreateSolidBrush(this->BackColor.Get());
+    FillRect(hdc, &clientRect, hBrush);
+
+    DeleteObject(hBrush);
+    EndPaint(hwnd, &ps);
+    return true;
+}
+
+bool sw::Panel::OnKeyDown(VirtualKey key, KeyFlags flags)
+{
+    this->UIElement::OnKeyDown(key, flags);
+    return true;
+}
+
+bool sw::Panel::OnKeyUp(VirtualKey key, KeyFlags flags)
+{
+    this->UIElement::OnKeyUp(key, flags);
+    return true;
+}
+
+bool sw::Panel::OnMouseMove(Point mousePosition, MouseKey keyState)
+{
+    this->UIElement::OnMouseMove(mousePosition, keyState);
+    return true;
+}
+
+bool sw::Panel::OnMouseLeave()
+{
+    this->UIElement::OnMouseLeave();
+    return true;
+}
+
+bool sw::Panel::OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState)
+{
+    this->UIElement::OnMouseLeftButtonDown(mousePosition, keyState);
+    return true;
+}
+
+bool sw::Panel::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState)
+{
+    this->UIElement::OnMouseLeftButtonUp(mousePosition, keyState);
+    return true;
+}
+
+bool sw::Panel::OnMouseLeftButtonDoubleClick(Point mousePosition, MouseKey keyState)
+{
+    /*this->WndBase::OnMouseLeftButtonDoubleClick(mousePosition, keyState);*/
+    return true;
 }
 
 // PanelBase.cpp
@@ -2113,6 +2568,16 @@ sw::PanelBase::PanelBase()
 bool sw::PanelBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
 {
     return this->Control::OnSetCursor(hwnd, hitTest, message, useDefaultWndProc);
+}
+
+bool sw::PanelBase::OnVerticalScroll(int event, int pos)
+{
+    return this->Layer::OnVerticalScroll(event, pos);
+}
+
+bool sw::PanelBase::OnHorizontalScroll(int event, int pos)
+{
+    return this->Layer::OnHorizontalScroll(event, pos);
 }
 
 void sw::PanelBase::Measure(const Size &availableSize)
@@ -2307,6 +2772,77 @@ sw::ProcMsg::ProcMsg(const HWND &hwnd, const UINT &uMsg, const WPARAM &wParam, c
 {
 }
 
+// ProgressBar.cpp
+
+sw::ProgressBar::ProgressBar()
+    : Minimum(
+          // get
+          [&]() -> const uint16_t & {
+              static uint16_t result;
+              result = (uint16_t)this->SendMessageW(PBM_GETRANGE, TRUE, 0);
+              return result;
+          },
+          // set
+          [&](const uint16_t &value) {
+              uint16_t maximum = this->Maximum;
+              this->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(value, maximum));
+          }),
+
+      Maximum(
+          // get
+          [&]() -> const uint16_t & {
+              static uint16_t result;
+              result = (uint16_t)this->SendMessageW(PBM_GETRANGE, FALSE, 0);
+              return result;
+          },
+          // set
+          [&](const uint16_t &value) {
+              uint16_t minimum = this->Minimum;
+              this->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(minimum, value));
+          }),
+
+      Value(
+          // get
+          [&]() -> const uint16_t & {
+              static uint16_t result;
+              result = (uint16_t)this->SendMessageW(PBM_GETPOS, 0, 0);
+              return result;
+          },
+          // set
+          [&](const uint16_t &value) {
+              this->SendMessageW(PBM_SETPOS, value, 0);
+          }),
+
+      State(
+          // get
+          [&]() -> const ProgressBarState & {
+              static ProgressBarState result;
+              result = (ProgressBarState)this->SendMessageW(PBM_GETSTATE, 0, 0);
+              return result;
+          },
+          // set
+          [&](const ProgressBarState &value) {
+              this->SendMessageW(PBM_SETSTATE, (WPARAM)value, 0);
+          }),
+
+      Vertical(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(PBS_VERTICAL);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              auto pos = this->Value.Get();
+              this->SetStyle(PBS_VERTICAL, value);
+              this->Value = pos;
+          })
+{
+    this->InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
+    this->Rect = sw::Rect(0, 0, 150, 20);
+}
+
 // RadioButton.cpp
 
 sw::RadioButton::RadioButton()
@@ -2400,6 +2936,137 @@ sw::Size::operator SIZE() const
     size.cx = std::lround(this->width / Dip::ScaleX);
     size.cy = std::lround(this->height / Dip::ScaleY);
     return size;
+}
+
+// Slider.cpp
+
+sw::Slider::Slider()
+    : Minimum(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = (int)this->SendMessageW(TBM_GETRANGEMIN, 0, 0);
+              return result;
+          },
+          // set
+          [&](const int &value) {
+              this->SendMessageW(TBM_SETRANGEMIN, TRUE, value);
+          }),
+
+      Maximum(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = (int)this->SendMessageW(TBM_GETRANGEMAX, 0, 0);
+              return result;
+          },
+          // set
+          [&](const int &value) {
+              this->SendMessageW(TBM_SETRANGEMAX, TRUE, value);
+          }),
+
+      Value(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = (int)this->SendMessageW(TBM_GETPOS, 0, 0);
+              return result;
+          },
+          // set
+          [&](const int &value) {
+              this->SendMessageW(TBM_SETPOS, TRUE, value);
+              this->OnValueChanged();
+              this->OnEndTrack();
+          }),
+
+      Vertical(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(TBS_VERT);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(TBS_VERT, value);
+          }),
+
+      ValueTooltips(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(TBS_TOOLTIPS);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->ValueTooltips != value) {
+                  int maximum  = this->Maximum;
+                  int minimum  = this->Minimum;
+                  int position = this->Value;
+                  this->SetStyle(TBS_TOOLTIPS, value);
+                  this->ResetHandle();
+                  this->SendMessageW(TBM_SETRANGEMIN, FALSE, minimum);
+                  this->SendMessageW(TBM_SETRANGEMAX, FALSE, maximum);
+                  this->SendMessageW(TBM_SETPOS, TRUE, position);
+              }
+          })
+{
+    this->InitControl(TRACKBAR_CLASSW, L"", WS_CHILD | WS_VISIBLE | TBS_NOTIFYBEFOREMOVE | TBS_DOWNISLEFT, 0);
+    this->Rect = sw::Rect(0, 0, 150, 30);
+}
+
+bool sw::Slider::OnVerticalScroll(int event, int pos)
+{
+    switch (event) {
+        case TB_BOTTOM:
+        case TB_LINEDOWN:
+        case TB_LINEUP:
+        case TB_PAGEDOWN:
+        case TB_PAGEUP:
+        case TB_THUMBPOSITION:
+        case TB_THUMBTRACK:
+        case TB_TOP: {
+            this->OnValueChanged();
+            break;
+        }
+        case TB_ENDTRACK: {
+            this->OnEndTrack();
+            break;
+        }
+    }
+    return true;
+}
+
+bool sw::Slider::OnHorizontalScroll(int event, int pos)
+{
+    switch (event) {
+        case TB_BOTTOM:
+        case TB_LINEDOWN:
+        case TB_LINEUP:
+        case TB_PAGEDOWN:
+        case TB_PAGEUP:
+        case TB_THUMBTRACK:
+        case TB_TOP: {
+            this->OnValueChanged();
+            break;
+        }
+        case TB_ENDTRACK: {
+            this->OnEndTrack();
+            break;
+        }
+    }
+    return true;
+}
+
+void sw::Slider::OnValueChanged()
+{
+    this->RaiseRoutedEvent(Slider_ValueChanged);
+}
+
+void sw::Slider::OnEndTrack()
+{
+    this->RaiseRoutedEvent(Slider_EndTrack);
 }
 
 // StackLayout.cpp
@@ -2810,11 +3477,6 @@ sw::UIElement::~UIElement()
 {
     // 将自己从父窗口的children中移除
     this->SetParent(nullptr);
-
-    // 取消子窗口对自己的引用
-    for (UIElement *item : this->_children)
-        item->_parent = nullptr;
-    this->_children.clear();
 }
 
 void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &handler)
@@ -3055,18 +3717,20 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
         }
     }
 
-    // AbsoluteLayout特殊处理：用nan表示不需要调整位置
     if (std::isnan(finalPosition.left) || std::isnan(finalPosition.top)) {
+        // AbsoluteLayout特殊处理：用nan表示不需要调整位置
         rect.left = this->Left;
         rect.top  = this->Top;
+    } else if (this->_parent) {
+        // 不是AbsoluteLayout时考虑偏移量
+        rect.left += this->_parent->_arrangeOffsetX;
+        rect.top += this->_parent->_arrangeOffsetY;
     }
 
     rect.width       = Utils::Max(rect.width, 0.0);
     rect.height      = Utils::Max(rect.height, 0.0);
     this->Rect       = rect;
     this->_arranging = false;
-
-    // this->Redraw();
 }
 
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)
@@ -3114,19 +3778,67 @@ void sw::UIElement::NotifyLayoutUpdated()
     }
 }
 
+double &sw::UIElement::GetArrangeOffsetX()
+{
+    return this->_arrangeOffsetX;
+}
+
+double &sw::UIElement::GetArrangeOffsetY()
+{
+    return this->_arrangeOffsetY;
+}
+
+double sw::UIElement::GetChildRightmost(bool update)
+{
+    if (update) {
+        this->_childRightmost = 0;
+        for (UIElement *item : this->_childrenNotCollapsed)
+            this->_childRightmost = Utils::Max(this->_childRightmost, item->Left + item->Width + item->_margin.right - this->_arrangeOffsetX);
+    }
+    return this->_childRightmost;
+}
+
+double sw::UIElement::GetChildBottommost(bool update)
+{
+    if (update) {
+        this->_childBottommost = 0;
+        for (UIElement *item : this->_childrenNotCollapsed)
+            this->_childBottommost = Utils::Max(this->_childBottommost, item->Top + item->Height + item->_margin.bottom - this->_arrangeOffsetY);
+    }
+    return this->_childBottommost;
+}
+
 bool sw::UIElement::SetParent(WndBase *parent)
 {
     UIElement *oldParentElement = this->_parent;
     UIElement *newParentElement = dynamic_cast<UIElement *>(parent);
 
     if (newParentElement == nullptr) {
+        /*
+         * 要设置的父元素为nullptr
+         */
         if (oldParentElement == nullptr) {
-            return this->WndBase::SetParent(parent);
+            // 在析构函数中会调用SetParent函数以保证自己从父元素的Children中移除
+            // 当当前元素为顶级窗口或者不在界面中的控件（已移除/未加入）时会出现该情况
+            this->_parent = nullptr;
+            return true;
         } else {
-            return oldParentElement->RemoveChild(this) &&
-                   this->WndBase::SetParent(parent);
+            // UIElement虚构函数时调用SerParent函数保证从父元素的Children中移除
+            // 当当前元素已经添加到界面中但中途对象被销毁时会出现该情况，调用父元素的RemoveChild函数移除引用
+            bool temp = oldParentElement->RemoveChild(this);
+            // 当程序将要退出时::SetParent函数可能会失败，此时RemoveChild函数返回false
+            // 此时直接将其从父元素的Children中移除
+            if (!temp) {
+                auto it = std::find(oldParentElement->_children.begin(), oldParentElement->_children.end(), this);
+                if (it != oldParentElement->_children.end()) oldParentElement->_children.erase(it);
+            }
+            this->_parent = nullptr;
+            return true;
         }
     } else {
+        /*
+         * 添加为某个元素的子元素
+         */
         if (oldParentElement == nullptr) {
             return newParentElement->AddChild(this);
         } else {
@@ -3322,16 +4034,6 @@ std::string sw::Utils::ToMultiByteStr(const std::wstring &wstr, bool utf8)
     std::string str(size - 1, '\0');
     WideCharToMultiByte(code, 0, wstr.c_str(), -1, &str[0], size, nullptr, nullptr);
     return str;
-}
-
-std::wostream &sw::operator<<(std::wostream &wos, const std::string &str)
-{
-    return wos << Utils::ToWideStr(str);
-}
-
-std::wostream &sw::operator<<(std::wostream &wos, const char *str)
-{
-    return wos << Utils::ToWideStr(str);
 }
 
 std::wstring sw::Utils::Trim(const std::wstring &str)
@@ -3791,16 +4493,6 @@ void sw::Window::DrawMenuBar()
 bool sw::Window::IsModal()
 {
     return this->_modalOwner != nullptr;
-}
-
-void sw::Window::Measure(const Size &availableSize)
-{
-    this->Layer::Measure(availableSize);
-}
-
-void sw::Window::Arrange(const sw::Rect &finalPosition)
-{
-    this->Layer::Arrange(finalPosition);
 }
 
 void _UpdateFontForAllChild(sw::UIElement &element)
@@ -4399,6 +5091,12 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return 0;
         }
 
+        case WM_NOTIFY: {
+            NMHDR *pNMHDR = reinterpret_cast<NMHDR *>(refMsg.lParam);
+            this->OnNotify(pNMHDR);
+            return 0;
+        }
+
         case WM_CTLCOLORBTN:
         case WM_CTLCOLOREDIT:
         case WM_CTLCOLORDLG:
@@ -4435,6 +5133,30 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
                 int yPos = GET_Y_LPARAM(refMsg.lParam);
                 bool res = this->OnContextMenu(xPos == -1 && yPos == -1, POINT{xPos, yPos});
                 return res ? 0 : this->DefaultWndProc(refMsg);
+            }
+        }
+
+        case WM_VSCROLL: {
+            if (refMsg.lParam == NULL) {
+                return this->OnVerticalScroll(LOWORD(refMsg.wParam), (int16_t)HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+            }
+            WndBase *pWnd = WndBase::GetWndBase(reinterpret_cast<HWND>(refMsg.lParam));
+            if (pWnd) {
+                return pWnd->OnVerticalScroll(LOWORD(refMsg.wParam), (int16_t)HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+            } else {
+                return this->DefaultWndProc(refMsg);
+            }
+        }
+
+        case WM_HSCROLL: {
+            if (refMsg.lParam == NULL) {
+                return this->OnHorizontalScroll(LOWORD(refMsg.wParam), (int16_t)HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+            }
+            WndBase *pWnd = WndBase::GetWndBase(reinterpret_cast<HWND>(refMsg.lParam));
+            if (pWnd) {
+                return pWnd->OnHorizontalScroll(LOWORD(refMsg.wParam), (int16_t)HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+            } else {
+                return this->DefaultWndProc(refMsg);
             }
         }
 
@@ -4674,6 +5396,26 @@ bool sw::WndBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefa
 }
 
 bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+{
+    return false;
+}
+
+void sw::WndBase::OnNotify(NMHDR *pNMHDR)
+{
+    WndBase *pWnd = WndBase::GetWndBase(pNMHDR->hwndFrom);
+    if (pWnd) pWnd->OnNotified(pNMHDR);
+}
+
+void sw::WndBase::OnNotified(NMHDR *pNMHDR)
+{
+}
+
+bool sw::WndBase::OnVerticalScroll(int event, int pos)
+{
+    return false;
+}
+
+bool sw::WndBase::OnHorizontalScroll(int event, int pos)
 {
     return false;
 }

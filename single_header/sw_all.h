@@ -11,6 +11,7 @@
 #include <tuple>
 #include <vector>
 #include <functional>
+#include <CommCtrl.h>
 #include <sstream>
 #include <type_traits>
 #include <windowsx.h>
@@ -1278,6 +1279,16 @@ namespace sw
          * @brief 列表框或组合框的选中项改变，参数类型为sw::RoutedEventArgs
          */
         ItemsControl_SelectionChanged,
+
+        /**
+         * @brief 滑块的值被改变，参数类型为sw::RoutedEventArgs
+         */
+        Slider_ValueChanged,
+
+        /**
+         * @brief 滑块被释放，参数类型为sw::RoutedEventArgs
+         */
+        Slider_EndTrack,
     };
 
     /*================================================================================*/
@@ -1397,16 +1408,57 @@ namespace sw
         Utils() = delete;
 
         template <class T>
-        static void _BuildStr(std::wstringstream &wss, const T &arg)
+        static void _BuildStr(std::wostream &wos, const T &arg)
         {
-            wss << arg;
+            wos << arg;
+        }
+
+        static void _BuildStr(std::wostream &wos, const char *str)
+        {
+            wos << Utils::ToWideStr(str);
+        }
+
+        template <>
+        static void _BuildStr(std::wostream &wos, const std::string &str)
+        {
+            wos << Utils::ToWideStr(str);
+        }
+
+        template <class T>
+        static void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
+        {
+            auto beg = vec.begin();
+            auto end = vec.end();
+            wos << L"[";
+            for (auto it = beg; it != end; ++it) {
+                if (it != beg)
+                    wos << L", ";
+                Utils::_BuildStr(wos, *it);
+            }
+            wos << L"]";
+        }
+
+        template <class TKey, class TVal>
+        static void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
+        {
+            auto beg = map.begin();
+            auto end = map.end();
+            wos << L"{";
+            for (auto it = beg; it != end; ++it) {
+                if (it != beg)
+                    wos << L", ";
+                Utils::_BuildStr(wos, it->first);
+                wos << L":";
+                Utils::_BuildStr(wos, it->second);
+            }
+            wos << L"}";
         }
 
         template <class First, class... Rest>
-        static void _BuildStr(std::wstringstream &wss, const First &first, const Rest &...rest)
+        static void _BuildStr(std::wostream &wos, const First &first, const Rest &...rest)
         {
-            wss << first;
-            Utils::_BuildStr(wss, rest...);
+            Utils::_BuildStr(wos, first);
+            Utils::_BuildStr(wos, rest...);
         }
 
     public:
@@ -1436,18 +1488,6 @@ namespace sw
          * @return     转换后的字符串
          */
         static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8 = false);
-
-        /**
-         * @brief 使BuildStr支持std::vector
-         */
-        template <class T>
-        friend std::wstringstream &operator<<(std::wstringstream &wss, const std::vector<T> &vec);
-
-        /**
-         * @brief 使BuildStr支持std::map
-         */
-        template <class TKey, class TVal>
-        friend std::wstringstream &operator<<(std::wstringstream &wss, const std::map<TKey, TVal> &map);
 
         /**
          * @brief     删除首尾空白字符
@@ -1496,50 +1536,6 @@ namespace sw
             return a < b ? a : b;
         }
     };
-
-    /**
-     * @brief 使BuildStr支持窄字符串
-     */
-    std::wostream &operator<<(std::wostream &wos, const char *str);
-
-    /**
-     * @brief 使BuildStr支持窄字符串
-     */
-    std::wostream &operator<<(std::wostream &wos, const std::string &str);
-
-    /*================================================================================*/
-
-    template <class T>
-    std::wstringstream &operator<<(std::wstringstream &wss, const std::vector<T> &vec)
-    {
-        auto beg = vec.begin();
-        auto end = vec.end();
-        wss << L"[";
-        for (auto it = beg; it != end; ++it) {
-            if (it != beg)
-                wss << L", ";
-            Utils::_BuildStr(wss, *it);
-        }
-        wss << L"]";
-        return wss;
-    }
-
-    template <class TKey, class TVal>
-    std::wstringstream &operator<<(std::wstringstream &wss, const std::map<TKey, TVal> &map)
-    {
-        auto beg = map.begin();
-        auto end = map.end();
-        wss << L"{";
-        for (auto it = beg; it != end; ++it) {
-            if (it != beg)
-                wss << L", ";
-            Utils::_BuildStr(wss, it->first);
-            wss << L":";
-            Utils::_BuildStr(wss, it->second);
-        }
-        wss << L"}";
-        return wss;
-    }
 }
 
 // WndMsg.h
@@ -2811,6 +2807,32 @@ namespace sw
          */
         virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition);
 
+        /**
+         * @brief 接收到WM_NOTIFY后调用该函数
+         */
+        virtual void OnNotify(NMHDR *pNMHDR);
+
+        /**
+         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         */
+        virtual void OnNotified(NMHDR *pNMHDR);
+
+        /**
+         * @brief       接收到WM_VSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnVerticalScroll(int event, int pos);
+
+        /**
+         * @brief       接收到WM_HSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnHorizontalScroll(int event, int pos);
+
     public:
         /**
          * @brief 该函数调用ShowWindow
@@ -3155,6 +3177,26 @@ namespace sw
          */
         sw::ContextMenu *_contextMenu = nullptr;
 
+        /**
+         * @brief Arrange时子元素的水平偏移量
+         */
+        double _arrangeOffsetX = 0;
+
+        /**
+         * @brief Arrange时子元素的垂直偏移量
+         */
+        double _arrangeOffsetY = 0;
+
+        /**
+         * @brief 所有子元素在当前元素中最右边的位置
+         */
+        double _childRightmost = 0;
+
+        /**
+         * @brief 所有子元素在当前元素中最底边的位置
+         */
+        double _childBottommost = 0;
+
     public:
         /**
          * @brief 边距
@@ -3420,6 +3462,30 @@ namespace sw
          * @brief 通知顶级窗口布局改变
          */
         void NotifyLayoutUpdated();
+
+        /**
+         * @brief 获取Arrange时子元素的水平偏移量
+         */
+        double &GetArrangeOffsetX();
+
+        /**
+         * @brief 获取Arrange时子元素的垂直偏移量
+         */
+        double &GetArrangeOffsetY();
+
+        /**
+         * @brief        获取所有子元素在当前元素中最右边的位置（只考虑参与布局的子窗口）
+         * @param update 是否更字段
+         * @return       _childRightmost字段
+         */
+        double GetChildRightmost(bool update);
+
+        /**
+         * @brief        获取所有子元素在当前元素中最底边的位置（只考虑参与布局的子窗口）
+         * @param update 是否更字段
+         * @return       _childBottommost字段
+         */
+        double GetChildBottommost(bool update);
 
         /**
          * @brief  设置父窗口
@@ -3745,13 +3811,56 @@ namespace sw
          */
         AbsoluteLayout _defaultLayout = AbsoluteLayout();
 
+        /**
+         * @brief 记录水平滚动条是否已被禁止
+         */
+        bool _horizontalScrollDisabled = true;
+
+        /**
+         * @brief 记录垂直滚动条是否已被禁止
+         */
+        bool _verticalScrollDisabled = true;
+
     public:
         /**
          * @brief 窗口布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设置为nullptr可恢复默认布局
          */
         const Property<LayoutHost *> Layout;
 
+        /**
+         * @brief 是否显示横向滚动条
+         */
+        const Property<bool> HorizontalScrollBar;
+
+        /**
+         * @brief 是否显示纵向滚动条
+         */
+        const Property<bool> VerticalScrollBar;
+
+        /**
+         * @brief 横向滚动条位置
+         */
+        const Property<double> HorizontalScrollPos;
+
+        /**
+         * @brief 纵向滚动条位置
+         */
+        const Property<double> VerticalScrollPos;
+
+        /**
+         * @brief 横向滚动条可设置的最大位置
+         */
+        const ReadOnlyProperty<double> HorizontalScrollLimit;
+
+        /**
+         * @brief 纵向滚动条可设置的最大位置
+         */
+        const ReadOnlyProperty<double> VerticalScrollLimit;
+
     public:
+        /**
+         * @brief 初始化Layer
+         */
         Layer();
 
     protected:
@@ -3764,6 +3873,22 @@ namespace sw
          * @brief 更新布局
          */
         void UpdateLayout();
+
+        /**
+         * @brief       接收到WM_VSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnVerticalScroll(int event, int pos) override;
+
+        /**
+         * @brief       接收到WM_HSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnHorizontalScroll(int event, int pos) override;
 
     public:
         /**
@@ -3779,6 +3904,11 @@ namespace sw
         virtual void Arrange(const sw::Rect &finalPosition) override;
 
         /**
+         * @brief 获取一个bool值，表示当前使用布局方式是否为绝对布局
+         */
+        bool IsUsingAbsoluteLayout();
+
+        /**
          * @brief 禁用布局
          */
         void DisableLayout();
@@ -3787,6 +3917,79 @@ namespace sw
          * @brief 启用布局
          */
         void EnableLayout();
+
+        /**
+         * @brief        获取横向滚动条的范围
+         * @param refMin 滚动范围最小值
+         * @param refMax 滚动范围最大值
+         */
+        void GetHorizontalScrollRange(double &refMin, double &refMax);
+
+        /**
+         * @brief        获取纵向滚动条的范围
+         * @param refMin 滚动范围最小值
+         * @param refMax 滚动范围最大值
+         */
+        void GetVerticalScrollRange(double &refMin, double &refMax);
+
+        /**
+         * @brief     设置横向滚动条的范围
+         * @param min 滚动范围最小值
+         * @param max 滚动范围最大值
+         */
+        void SetHorizontalScrollRange(double min, double max);
+
+        /**
+         * @brief     设置纵向滚动条的范围
+         * @param min 滚动范围最小值
+         * @param max 滚动范围最大值
+         */
+        void SetVerticalScrollRange(double min, double max);
+
+        /**
+         * @brief 获取水平滚动条滚动页面大小
+         */
+        double GetHorizontalScrollPageSize();
+
+        /**
+         * @brief 获取垂直滚动条滚动页面大小
+         */
+        double GetVerticalScrollPageSize();
+
+        /**
+         * @brief 设置水平滚动条滚动页面大小
+         */
+        void SetHorizontalScrollPageSize(double pageSize);
+
+        /**
+         * @brief 设置垂直滚动条滚动页面大小
+         */
+        void SetVerticalScrollPageSize(double pageSize);
+
+        /**
+         * @brief 根据子元素更新滚动条范围，当使用绝对布局时该函数无效
+         */
+        void UpdateScrollRange();
+
+        /**
+         * @brief 将垂直滚动条移动到顶部
+         */
+        void ScrollToTop();
+
+        /**
+         * @brief 将垂直滚动条移动到底部
+         */
+        void ScrollToBottom();
+
+        /**
+         * @brief 将水平滚动条移动到最左
+         */
+        void ScrollToLeft();
+
+        /**
+         * @brief 将水平滚动条移动到最右
+         */
+        void ScrollToRight();
     };
 }
 
@@ -4087,6 +4290,22 @@ namespace sw
          */
         virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc) override;
 
+        /**
+         * @brief       接收到WM_VSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnVerticalScroll(int event, int pos) override;
+
+        /**
+         * @brief       接收到WM_HSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnHorizontalScroll(int event, int pos) override;
+
     public:
         /**
          * @brief               测量控件所需尺寸
@@ -4099,6 +4318,130 @@ namespace sw
          * @param finalSize 最终控件所安排的位置
          */
         virtual void Arrange(const sw::Rect &finalPosition) override;
+    };
+}
+
+// ProgressBar.h
+
+
+namespace sw
+{
+    /**
+     * @brief 进度条状态
+     */
+    enum class ProgressBarState {
+        Normal = PBST_NORMAL, // 正常
+        Error  = PBST_ERROR,  // 错误
+        Paused = PBST_PAUSED, // 暂停
+    };
+
+    /**
+     * @brief 进度条控件
+     */
+    class ProgressBar : public Control
+    {
+    public:
+        /**
+         * @brief 进度范围的下限
+         */
+        const Property<uint16_t> Minimum;
+
+        /**
+         * @brief 进度范围的上限
+         */
+        const Property<uint16_t> Maximum;
+
+        /**
+         * @brief 当前进度值
+         */
+        const Property<uint16_t> Value;
+
+        /**
+         * @brief 进度条状态
+         */
+        const Property<ProgressBarState> State;
+
+        /**
+         * @brief 是否显示为垂直进度条
+         */
+        const Property<bool> Vertical;
+
+    public:
+        /**
+         * @brief 初始化进度条
+         */
+        ProgressBar();
+    };
+}
+
+// Slider.h
+
+
+namespace sw
+{
+    /**
+     * @brief 滑块控件
+     */
+    class Slider : public Control
+    {
+    public:
+        /**
+         * @brief 最小值
+         */
+        const Property<int> Minimum;
+
+        /**
+         * @brief 最大值
+         */
+        const Property<int> Maximum;
+
+        /**
+         * @brief 当前滑块的值
+         */
+        const Property<int> Value;
+
+        /**
+         * @brief 是否显示为垂直滑块
+         */
+        const Property<bool> Vertical;
+
+        /**
+         * @brief 是否在滑动时显示数值提示
+         */
+        const Property<bool> ValueTooltips;
+
+    public:
+        /**
+         * @brief 初始化滑块控件
+         */
+        Slider();
+
+    protected:
+        /**
+         * @brief       接收到WM_VSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnVerticalScroll(int event, int pos) override;
+
+        /**
+         * @brief       接收到WM_HSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnHorizontalScroll(int event, int pos) override;
+
+        /**
+         * @brief 滑块的值改变时调用该函数
+         */
+        virtual void OnValueChanged();
+
+        /**
+         * @brief 释放滑块时调用该函数
+         */
+        virtual void OnEndTrack();
     };
 }
 
@@ -4202,7 +4545,7 @@ namespace sw
         CenterOwner,  // 所有者窗口中心，只在ShowDialog时有效
     };
 
-    class Window : virtual public UIElement, public Layer
+    class Window : public Layer
     {
     private:
         /**
@@ -4307,6 +4650,9 @@ namespace sw
         const Property<sw::Menu *> Menu;
 
     public:
+        /**
+         * @brief 初始化窗口
+         */
         Window();
 
     protected:
@@ -4393,18 +4739,6 @@ namespace sw
          * @return 当调用ShowDialog时该函数返回true，否则返回false
          */
         bool IsModal();
-
-        /**
-         * @brief               测量控件所需尺寸
-         * @param availableSize 可用的尺寸
-         */
-        virtual void Measure(const Size &availableSize) override;
-
-        /**
-         * @brief           安排控件位置
-         * @param finalSize 最终控件所安排的位置
-         */
-        virtual void Arrange(const sw::Rect &finalPosition) override;
     };
 }
 
@@ -4774,6 +5108,73 @@ namespace sw
          * @brief 初始化面板
          */
         Panel();
+
+    private:
+        /**
+         * @brief       重写SetText以防止修改Text属性时调用SetWindowTextW设置窗口文本
+         * @param value 要设置的文本
+         */
+        virtual void SetText(const std::wstring &value);
+
+        /**
+         * @brief  接收到WM_PAINT时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnPaint() override;
+
+        /**
+         * @brief       接收到WM_KEYDOWN时调用该函数
+         * @param key   虚拟按键
+         * @param flags 附加信息
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
+
+        /**
+         * @brief       接收到WM_KEYUP时调用该函数
+         * @param key   虚拟按键
+         * @param flags 附加信息
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnKeyUp(VirtualKey key, KeyFlags flags) override;
+
+        /**
+         * @brief               接收到WM_MOUSEMOVE时调用该函数
+         * @param mousePosition 鼠标在用户区中的位置
+         * @param keyState      指示某些按键是否按下
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
+
+        /**
+         * @brief  接收到WM_MOUSELEAVE时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnMouseLeave() override;
+
+        /**
+         * @brief               接收到WM_LBUTTONDOWN时调用该函数
+         * @param mousePosition 鼠标在用户区中的位置
+         * @param keyState      指示某些按键是否按下
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState) override;
+
+        /**
+         * @brief               接收到WM_LBUTTONUP时调用该函数
+         * @param mousePosition 鼠标在用户区中的位置
+         * @param keyState      指示某些按键是否按下
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState) override;
+
+        /**
+         * @brief               接收到WM_LBUTTONDBLCLK时调用该函数
+         * @param mousePosition 鼠标在用户区中的位置
+         * @param keyState      指示某些按键是否按下
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnMouseLeftButtonDoubleClick(Point mousePosition, MouseKey keyState) override;
     };
 }
 
