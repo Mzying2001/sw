@@ -326,7 +326,11 @@ void sw::Layer::SetVerticalScrollPageSize(double pageSize)
 void sw::Layer::UpdateScrollRange()
 {
     if (this->IsUsingAbsoluteLayout()) {
-        return; // 当使用绝对布局时不更新
+        // 当使用绝对布局时滚动条和控件位置需要手动设置
+        // 将以下俩字段设为false确保xxxScrollLimit属性在使用绝对布局时仍可用
+        this->_horizontalScrollDisabled = false;
+        this->_verticalScrollDisabled   = false;
+        return;
     }
 
     if (this->HorizontalScrollBar) {
