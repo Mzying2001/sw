@@ -108,6 +108,44 @@ sw::Layer::Layer()
                   this->GetArrangeOffsetY() = -VerticalScrollPos;
                   this->GetLayoutHost().Arrange(this->ClientRect);
               }
+          }),
+
+      HorizontalScrollLimit(
+          // get
+          [&]() -> const double & {
+              static double result;
+
+              if (this->_horizontalScrollDisabled) {
+                  result = 0;
+                  return result;
+              }
+
+              SCROLLINFO info{};
+              info.cbSize = sizeof(info);
+              info.fMask  = SIF_RANGE | SIF_PAGE;
+              GetScrollInfo(this->Handle, SB_HORZ, &info);
+
+              result = (info.nMax - info.nPage + 1) * Dip::ScaleX;
+              return result;
+          }),
+
+      VerticalScrollLimit(
+          // get
+          [&]() -> const double & {
+              static double result;
+
+              if (this->_verticalScrollDisabled) {
+                  result = 0;
+                  return result;
+              }
+
+              SCROLLINFO info{};
+              info.cbSize = sizeof(info);
+              info.fMask  = SIF_RANGE | SIF_PAGE;
+              GetScrollInfo(this->Handle, SB_VERT, &info);
+
+              result = (info.nMax - info.nPage + 1) * Dip::ScaleY;
+              return result;
           })
 {
     this->_defaultLayout.Associate(this);
@@ -247,6 +285,42 @@ void sw::Layer::SetVerticalScrollRange(double min, double max)
     info.nPage  = std::lround(this->ClientHeight / scale);
 
     SetScrollInfo(this->Handle, SB_VERT, &info, false);
+}
+
+double sw::Layer::GetHorizontalScrollPageSize()
+{
+    SCROLLINFO info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = SIF_PAGE;
+    GetScrollInfo(this->Handle, SB_HORZ, &info);
+    return info.nPage * Dip::ScaleX;
+}
+
+double sw::Layer::GetVerticalScrollPageSize()
+{
+    SCROLLINFO info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = SIF_PAGE;
+    GetScrollInfo(this->Handle, SB_VERT, &info);
+    return info.nPage * Dip::ScaleY;
+}
+
+void sw::Layer::SetHorizontalScrollPageSize(double pageSize)
+{
+    SCROLLINFO info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = SIF_PAGE;
+    info.nPage  = std::lround(pageSize / Dip::ScaleX);
+    SetScrollInfo(this->Handle, SB_HORZ, &info, true);
+}
+
+void sw::Layer::SetVerticalScrollPageSize(double pageSize)
+{
+    SCROLLINFO info{};
+    info.cbSize = sizeof(info);
+    info.fMask  = SIF_PAGE;
+    info.nPage  = std::lround(pageSize / Dip::ScaleY);
+    SetScrollInfo(this->Handle, SB_VERT, &info, true);
 }
 
 void sw::Layer::UpdateScrollRange()

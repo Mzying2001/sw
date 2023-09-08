@@ -60,6 +60,16 @@ namespace sw
          */
         const Property<double> VerticalScrollPos;
 
+        /**
+         * @brief 横向滚动条可设置的最大位置
+         */
+        const ReadOnlyProperty<double> HorizontalScrollLimit;
+
+        /**
+         * @brief 纵向滚动条可设置的最大位置
+         */
+        const ReadOnlyProperty<double> VerticalScrollLimit;
+
     public:
         /**
          * @brief 初始化Layer
@@ -148,6 +158,26 @@ namespace sw
          * @param max 滚动范围最大值
          */
         void SetVerticalScrollRange(double min, double max);
+
+        /**
+         * @brief 获取水平滚动条滚动页面大小
+         */
+        double GetHorizontalScrollPageSize();
+
+        /**
+         * @brief 获取垂直滚动条滚动页面大小
+         */
+        double GetVerticalScrollPageSize();
+
+        /**
+         * @brief 设置水平滚动条滚动页面大小
+         */
+        void SetHorizontalScrollPageSize(double pageSize);
+
+        /**
+         * @brief 设置垂直滚动条滚动页面大小
+         */
+        void SetVerticalScrollPageSize(double pageSize);
 
         /**
          * @brief 根据子元素更新滚动条范围，当使用绝对布局时该函数无效
