@@ -375,3 +375,23 @@ void sw::Layer::UpdateScrollRange()
         }
     }
 }
+
+void sw::Layer::ScrollToTop()
+{
+    this->VerticalScrollPos = 0;
+}
+
+void sw::Layer::ScrollToBottom()
+{
+    this->VerticalScrollPos = this->VerticalScrollLimit;
+}
+
+void sw::Layer::ScrollToLeft()
+{
+    this->HorizontalScrollPos = 0;
+}
+
+void sw::Layer::ScrollToRight()
+{
+    this->HorizontalScrollPos = this->HorizontalScrollLimit;
+}

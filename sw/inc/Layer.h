@@ -183,5 +183,25 @@ namespace sw
          * @brief 根据子元素更新滚动条范围，当使用绝对布局时该函数无效
          */
         void UpdateScrollRange();
+
+        /**
+         * @brief 将垂直滚动条移动到顶部
+         */
+        void ScrollToTop();
+
+        /**
+         * @brief 将垂直滚动条移动到底部
+         */
+        void ScrollToBottom();
+
+        /**
+         * @brief 将水平滚动条移动到最左
+         */
+        void ScrollToLeft();
+
+        /**
+         * @brief 将水平滚动条移动到最右
+         */
+        void ScrollToRight();
     };
 }
