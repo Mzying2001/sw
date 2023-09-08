@@ -2774,6 +2774,18 @@ sw::ProcMsg::ProcMsg(const HWND &hwnd, const UINT &uMsg, const WPARAM &wParam, c
 
 // ProgressBar.cpp
 
+#if !defined(PBM_SETSTATE) // g++
+#define PBM_SETSTATE (WM_USER + 16)
+#endif
+
+#if !defined(PBM_GETSTATE) // g++
+#define PBM_GETSTATE (WM_USER + 17)
+#endif
+
+#if !defined(PBS_SMOOTHREVERSE) // g++
+#define PBS_SMOOTHREVERSE 0x10
+#endif
+
 sw::ProgressBar::ProgressBar()
     : Minimum(
           // get
@@ -5137,7 +5149,7 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_VSCROLL: {
-            if (refMsg.lParam == NULL) {
+            if (!refMsg.lParam /*refMsg.lParam == NULL*/) {
                 return this->OnVerticalScroll(LOWORD(refMsg.wParam), (int16_t)HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
             }
             WndBase *pWnd = WndBase::GetWndBase(reinterpret_cast<HWND>(refMsg.lParam));
@@ -5149,7 +5161,7 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_HSCROLL: {
-            if (refMsg.lParam == NULL) {
+            if (!refMsg.lParam /*refMsg.lParam == NULL*/) {
                 return this->OnHorizontalScroll(LOWORD(refMsg.wParam), (int16_t)HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
             }
             WndBase *pWnd = WndBase::GetWndBase(reinterpret_cast<HWND>(refMsg.lParam));

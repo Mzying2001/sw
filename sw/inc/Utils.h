@@ -15,7 +15,7 @@ namespace sw
     private:
         Utils() = delete;
 
-        template <class T>
+        template <typename T>
         static void _BuildStr(std::wostream &wos, const T &arg)
         {
             wos << arg;
@@ -26,13 +26,12 @@ namespace sw
             wos << Utils::ToWideStr(str);
         }
 
-        template <>
         static void _BuildStr(std::wostream &wos, const std::string &str)
         {
             wos << Utils::ToWideStr(str);
         }
 
-        template <class T>
+        template <typename T>
         static void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
         {
             auto beg = vec.begin();
@@ -46,7 +45,7 @@ namespace sw
             wos << L"]";
         }
 
-        template <class TKey, class TVal>
+        template <typename TKey, typename TVal>
         static void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
         {
             auto beg = map.begin();
@@ -62,7 +61,7 @@ namespace sw
             wos << L"}";
         }
 
-        template <class First, class... Rest>
+        template <typename First, typename... Rest>
         static void _BuildStr(std::wostream &wos, const First &first, const Rest &...rest)
         {
             Utils::_BuildStr(wos, first);
@@ -73,7 +72,7 @@ namespace sw
         /**
          * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
          */
-        template <class... Args>
+        template <typename... Args>
         static std::wstring BuildStr(const Args &...args)
         {
             std::wstringstream wss;
@@ -129,7 +128,7 @@ namespace sw
         /**
          * @brief 取两值中的较大值
          */
-        template <class T>
+        template <typename T>
         static constexpr inline T Max(const T &a, const T &b)
         {
             return a > b ? a : b;
@@ -138,7 +137,7 @@ namespace sw
         /**
          * @brief 取两值中的较小值
          */
-        template <class T>
+        template <typename T>
         static constexpr inline T Min(const T &a, const T &b)
         {
             return a < b ? a : b;

@@ -3,6 +3,18 @@
 #include "Control.h"
 #include <CommCtrl.h>
 
+#if !defined(PBST_NORMAL) // g++
+#define PBST_NORMAL 0x0001
+#endif
+
+#if !defined(PBST_ERROR) // g++
+#define PBST_ERROR 0x0002
+#endif
+
+#if !defined(PBST_PAUSED) // g++
+#define PBST_PAUSED 0x0003
+#endif
+
 namespace sw
 {
     /**

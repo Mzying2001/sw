@@ -1,5 +1,17 @@
 #include "ProgressBar.h"
 
+#if !defined(PBM_SETSTATE) // g++
+#define PBM_SETSTATE (WM_USER + 16)
+#endif
+
+#if !defined(PBM_GETSTATE) // g++
+#define PBM_GETSTATE (WM_USER + 17)
+#endif
+
+#if !defined(PBS_SMOOTHREVERSE) // g++
+#define PBS_SMOOTHREVERSE 0x10
+#endif
+
 sw::ProgressBar::ProgressBar()
     : Minimum(
           // get
