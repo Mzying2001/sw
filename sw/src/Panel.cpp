@@ -8,6 +8,14 @@ sw::Panel::Panel()
     this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
+void sw::Panel::SetText(const std::wstring &value)
+{
+    // 原本修改Text会调用SetWindowTextW导致界面绘制成按钮
+    // 这里直接修改WndBase的_text字段，以防止界面重绘
+    this->GetText() = value;
+    this->OnTextChanged();
+}
+
 bool sw::Panel::OnPaint()
 {
     PAINTSTRUCT ps;
