@@ -44,18 +44,29 @@ namespace sw
 
     protected:
         /**
-         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         * @brief       接收到WM_VSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnNotified(NMHDR *pNMHDR) override;
+        virtual bool OnVerticalScroll(int event, int pos) override;
 
         /**
-         * @brief 鼠标拖动滑块时调用该函数
+         * @brief       接收到WM_HSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnValueChanging();
+        virtual bool OnHorizontalScroll(int event, int pos) override;
 
         /**
-         * @brief 鼠标释放滑块时调用该函数
+         * @brief 滑块的值改变时调用该函数
          */
         virtual void OnValueChanged();
+
+        /**
+         * @brief 释放滑块时调用该函数
+         */
+        virtual void OnEndTrack();
     };
 }

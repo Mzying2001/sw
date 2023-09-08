@@ -35,6 +35,8 @@ sw::Slider::Slider()
           // set
           [&](const int &value) {
               this->SendMessageW(TBM_SETPOS, TRUE, value);
+              this->OnValueChanged();
+              this->OnEndTrack();
           }),
 
       Vertical(
@@ -74,28 +76,55 @@ sw::Slider::Slider()
     this->Rect = sw::Rect(0, 0, 150, 30);
 }
 
-void sw::Slider::OnNotified(NMHDR *pNMHDR)
+bool sw::Slider::OnVerticalScroll(int event, int pos)
 {
-    switch (pNMHDR->code) {
-        case TRBN_THUMBPOSCHANGING:
-            this->OnValueChanging();
-            break;
-
-        case NM_RELEASEDCAPTURE:
+    switch (event) {
+        case TB_BOTTOM:
+        case TB_LINEDOWN:
+        case TB_LINEUP:
+        case TB_PAGEDOWN:
+        case TB_PAGEUP:
+        case TB_THUMBPOSITION:
+        case TB_THUMBTRACK:
+        case TB_TOP: {
             this->OnValueChanged();
             break;
-
-        default:
+        }
+        case TB_ENDTRACK: {
+            this->OnEndTrack();
             break;
+        }
     }
+    return true;
 }
 
-void sw::Slider::OnValueChanging()
+bool sw::Slider::OnHorizontalScroll(int event, int pos)
 {
-    this->RaiseRoutedEvent(Slider_ValueChanging);
+    switch (event) {
+        case TB_BOTTOM:
+        case TB_LINEDOWN:
+        case TB_LINEUP:
+        case TB_PAGEDOWN:
+        case TB_PAGEUP:
+        case TB_THUMBTRACK:
+        case TB_TOP: {
+            this->OnValueChanged();
+            break;
+        }
+        case TB_ENDTRACK: {
+            this->OnEndTrack();
+            break;
+        }
+    }
+    return true;
 }
 
 void sw::Slider::OnValueChanged()
 {
     this->RaiseRoutedEvent(Slider_ValueChanged);
+}
+
+void sw::Slider::OnEndTrack()
+{
+    this->RaiseRoutedEvent(Slider_EndTrack);
 }

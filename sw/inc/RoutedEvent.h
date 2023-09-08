@@ -108,14 +108,14 @@ namespace sw
         ItemsControl_SelectionChanged,
 
         /**
-         * @brief 鼠标拖动滑块，参数类型为sw::RoutedEventArgs
-         */
-        Slider_ValueChanging,
-
-        /**
-         * @brief 鼠标释放滑块，参数类型为sw::RoutedEventArgs
+         * @brief 滑块的值被改变，参数类型为sw::RoutedEventArgs
          */
         Slider_ValueChanged,
+
+        /**
+         * @brief 滑块被释放，参数类型为sw::RoutedEventArgs
+         */
+        Slider_EndTrack,
     };
 
     /*================================================================================*/
