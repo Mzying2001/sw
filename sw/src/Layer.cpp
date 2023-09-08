@@ -171,18 +171,84 @@ void sw::Layer::UpdateLayout()
 
 bool sw::Layer::OnVerticalScroll(int event, int pos)
 {
-    if (event == SB_THUMBTRACK) {
-        this->VerticalScrollPos = pos * Dip::ScaleY;
-        this->Redraw();
+    switch (event) {
+        case SB_THUMBTRACK: {
+            this->VerticalScrollPos = pos * Dip::ScaleY;
+            this->Redraw();
+            break;
+        }
+        case SB_BOTTOM: {
+            this->ScrollToBottom();
+            this->Redraw();
+            break;
+        }
+        case SB_TOP: {
+            this->ScrollToTop();
+            this->Redraw();
+            break;
+        }
+        case SB_PAGEUP: {
+            this->VerticalScrollPos = this->VerticalScrollPos - this->GetVerticalScrollPageSize();
+            this->Redraw();
+            break;
+        }
+        case SB_PAGEDOWN: {
+            this->VerticalScrollPos = this->VerticalScrollPos + this->GetVerticalScrollPageSize();
+            this->Redraw();
+            break;
+        }
+        case SB_LINEUP: {
+            this->VerticalScrollPos = this->VerticalScrollPos - 20;
+            this->Redraw();
+            break;
+        }
+        case SB_LINEDOWN: {
+            this->VerticalScrollPos = this->VerticalScrollPos + 20;
+            this->Redraw();
+            break;
+        }
     }
     return true;
 }
 
 bool sw::Layer::OnHorizontalScroll(int event, int pos)
 {
-    if (event == SB_THUMBTRACK) {
-        this->HorizontalScrollPos = pos * Dip::ScaleX;
-        this->Redraw();
+    switch (event) {
+        case SB_THUMBTRACK: {
+            this->HorizontalScrollPos = pos * Dip::ScaleX;
+            this->Redraw();
+            break;
+        }
+        case SB_LEFT: {
+            this->ScrollToLeft();
+            this->Redraw();
+            break;
+        }
+        case SB_RIGHT: {
+            this->ScrollToRight();
+            this->Redraw();
+            break;
+        }
+        case SB_PAGELEFT: {
+            this->HorizontalScrollPos = this->HorizontalScrollPos - this->GetHorizontalScrollPageSize();
+            this->Redraw();
+            break;
+        }
+        case SB_PAGERIGHT: {
+            this->HorizontalScrollPos = this->HorizontalScrollPos + this->GetHorizontalScrollPageSize();
+            this->Redraw();
+            break;
+        }
+        case SB_LINELEFT: {
+            this->HorizontalScrollPos = this->HorizontalScrollPos - 20;
+            this->Redraw();
+            break;
+        }
+        case SB_LINERIGHT: {
+            this->HorizontalScrollPos = this->HorizontalScrollPos + 20;
+            this->Redraw();
+            break;
+        }
     }
     return true;
 }
