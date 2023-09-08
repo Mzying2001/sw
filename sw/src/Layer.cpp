@@ -336,7 +336,7 @@ void sw::Layer::SetHorizontalScrollRange(double min, double max)
     info.nMax   = std::lround(max / scale);
     info.nPage  = std::lround(this->ClientWidth / scale);
 
-    SetScrollInfo(this->Handle, SB_HORZ, &info, false);
+    SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 }
 
 void sw::Layer::SetVerticalScrollRange(double min, double max)
@@ -350,7 +350,7 @@ void sw::Layer::SetVerticalScrollRange(double min, double max)
     info.nMax   = std::lround(max / scale);
     info.nPage  = std::lround(this->ClientHeight / scale);
 
-    SetScrollInfo(this->Handle, SB_VERT, &info, false);
+    SetScrollInfo(this->Handle, SB_VERT, &info, true);
 }
 
 double sw::Layer::GetHorizontalScrollPageSize()
