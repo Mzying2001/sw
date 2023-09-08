@@ -23,7 +23,16 @@ sw::Layer::Layer()
           },
           // set
           [&](const bool &value) {
-              ShowScrollBar(this->Handle, SB_HORZ, value);
+              if (this->HorizontalScrollBar == value) {
+                  return;
+              }
+              if (value) {
+                  ShowScrollBar(this->Handle, SB_HORZ, value);
+                  this->HorizontalScrollPos = this->HorizontalScrollPos;
+              } else {
+                  this->HorizontalScrollPos = 0;
+                  ShowScrollBar(this->Handle, SB_HORZ, value);
+              }
           }),
 
       VerticalScrollBar(
@@ -35,7 +44,16 @@ sw::Layer::Layer()
           },
           // set
           [&](const bool &value) {
-              ShowScrollBar(this->Handle, SB_VERT, value);
+              if (this->VerticalScrollBar == value) {
+                  return;
+              }
+              if (value) {
+                  ShowScrollBar(this->Handle, SB_VERT, value);
+                  this->VerticalScrollPos = this->VerticalScrollPos;
+              } else {
+                  this->VerticalScrollPos = 0;
+                  ShowScrollBar(this->Handle, SB_VERT, value);
+              }
           }),
 
       HorizontalScrollPos(
@@ -59,7 +77,7 @@ sw::Layer::Layer()
               info.nPos   = std::lround(value / Dip::ScaleX);
               SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 
-              if (!this->IsUsingAbsoluteLayout() && !this->_horizontalScrollDisabled) {
+              if (!this->IsUsingAbsoluteLayout() && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
                   this->GetArrangeOffsetX() = -HorizontalScrollPos;
                   this->GetLayoutHost().Arrange(this->ClientRect);
               }
@@ -86,7 +104,7 @@ sw::Layer::Layer()
               info.nPos   = std::lround(value / Dip::ScaleY);
               SetScrollInfo(this->Handle, SB_VERT, &info, true);
 
-              if (!this->IsUsingAbsoluteLayout() && !this->_verticalScrollDisabled) {
+              if (!this->IsUsingAbsoluteLayout() && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
                   this->GetArrangeOffsetY() = -VerticalScrollPos;
                   this->GetLayoutHost().Arrange(this->ClientRect);
               }
