@@ -624,11 +624,11 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 
         case WM_VSCROLL: {
             if (refMsg.lParam == NULL) {
-                return this->OnVerticalScroll(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+                return this->OnVerticalScroll(LOWORD(refMsg.wParam), (int16_t)HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
             }
             WndBase *pWnd = WndBase::GetWndBase(reinterpret_cast<HWND>(refMsg.lParam));
             if (pWnd) {
-                return pWnd->OnVerticalScroll(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+                return pWnd->OnVerticalScroll(LOWORD(refMsg.wParam), (int16_t)HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
             } else {
                 return this->DefaultWndProc(refMsg);
             }
@@ -636,11 +636,11 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 
         case WM_HSCROLL: {
             if (refMsg.lParam == NULL) {
-                return this->OnHorizontalScroll(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+                return this->OnHorizontalScroll(LOWORD(refMsg.wParam), (int16_t)HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
             }
             WndBase *pWnd = WndBase::GetWndBase(reinterpret_cast<HWND>(refMsg.lParam));
             if (pWnd) {
-                return pWnd->OnHorizontalScroll(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+                return pWnd->OnHorizontalScroll(LOWORD(refMsg.wParam), (int16_t)HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
             } else {
                 return this->DefaultWndProc(refMsg);
             }
