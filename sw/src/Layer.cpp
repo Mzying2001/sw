@@ -336,7 +336,7 @@ void sw::Layer::UpdateScrollRange()
     if (this->HorizontalScrollBar) {
         double childRightmost = this->GetChildRightmost(true);
 
-        if (childRightmost > this->ClientWidth) {
+        if (int(childRightmost - this->ClientWidth) > 0) {
             this->_horizontalScrollDisabled = false;
             EnableScrollBar(this->Handle, SB_HORZ, ESB_ENABLE_BOTH);
             this->SetHorizontalScrollRange(0, childRightmost);
@@ -357,7 +357,7 @@ void sw::Layer::UpdateScrollRange()
     if (this->VerticalScrollBar) {
         double childBottommost = this->GetChildBottommost(true);
 
-        if (childBottommost > this->ClientHeight) {
+        if (int(childBottommost - this->ClientHeight) > 0) {
             this->_verticalScrollDisabled = false;
             EnableScrollBar(this->Handle, SB_VERT, ESB_ENABLE_BOTH);
             this->SetVerticalScrollRange(0, childBottommost);
