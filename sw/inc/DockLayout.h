@@ -11,7 +11,7 @@ namespace sw
         /**
          * @brief Dock布局标记
          */
-        enum DockLayoutTag : uint32_t {
+        enum DockLayoutTag {
             Left,   // 左边
             Top,    // 顶边
             Right,  // 右边
