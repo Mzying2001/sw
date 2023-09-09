@@ -103,6 +103,11 @@ namespace sw
          */
         double _childBottommost = 0;
 
+        /**
+         * @brief 元素是否悬浮，若元素悬浮则该元素不会随滚动条滚动而改变位置
+         */
+        bool _float = false;
+
     public:
         /**
          * @brief 边距
@@ -143,6 +148,11 @@ namespace sw
          * @brief 右键按下时弹出的菜单
          */
         const Property<sw::ContextMenu *> ContextMenu;
+
+        /**
+         * @brief 元素是否悬浮，若元素悬浮则该元素不会随滚动条滚动而改变位置
+         */
+        const Property<bool> Float;
 
     public:
         UIElement();
@@ -380,14 +390,14 @@ namespace sw
         double &GetArrangeOffsetY();
 
         /**
-         * @brief        获取所有子元素在当前元素中最右边的位置（只考虑参与布局的子窗口）
+         * @brief        获取所有子元素在当前元素中最右边的位置（只考虑参与布局的子窗口且忽略悬浮的元素）
          * @param update 是否更字段
          * @return       _childRightmost字段
          */
         double GetChildRightmost(bool update);
 
         /**
-         * @brief        获取所有子元素在当前元素中最底边的位置（只考虑参与布局的子窗口）
+         * @brief        获取所有子元素在当前元素中最底边的位置（只考虑参与布局的子窗口且忽略悬浮的元素）
          * @param update 是否更字段
          * @return       _childBottommost字段
          */

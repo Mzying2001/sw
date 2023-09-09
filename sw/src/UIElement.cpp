@@ -98,6 +98,17 @@ sw::UIElement::UIElement()
           // set
           [&](sw::ContextMenu *const &value) {
               this->_contextMenu = value;
+          }),
+
+      Float(
+          // get
+          [&]() -> const bool & {
+              return this->_float;
+          },
+          // set
+          [&](const bool &value) {
+              this->_float = value;
+              this->NotifyLayoutUpdated();
           })
 {
 }
@@ -350,7 +361,7 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
         // AbsoluteLayout特殊处理：用nan表示不需要调整位置
         rect.left = this->Left;
         rect.top  = this->Top;
-    } else if (this->_parent) {
+    } else if (this->_parent && !this->_float) {
         // 不是AbsoluteLayout时考虑偏移量
         rect.left += this->_parent->_arrangeOffsetX;
         rect.top += this->_parent->_arrangeOffsetY;
@@ -421,8 +432,10 @@ double sw::UIElement::GetChildRightmost(bool update)
 {
     if (update) {
         this->_childRightmost = 0;
-        for (UIElement *item : this->_childrenNotCollapsed)
+        for (UIElement *item : this->_childrenNotCollapsed) {
+            if (item->_float) continue;
             this->_childRightmost = Utils::Max(this->_childRightmost, item->Left + item->Width + item->_margin.right - this->_arrangeOffsetX);
+        }
     }
     return this->_childRightmost;
 }
@@ -431,8 +444,10 @@ double sw::UIElement::GetChildBottommost(bool update)
 {
     if (update) {
         this->_childBottommost = 0;
-        for (UIElement *item : this->_childrenNotCollapsed)
+        for (UIElement *item : this->_childrenNotCollapsed) {
+            if (item->_float) continue;
             this->_childBottommost = Utils::Max(this->_childBottommost, item->Top + item->Height + item->_margin.bottom - this->_arrangeOffsetY);
+        }
     }
     return this->_childBottommost;
 }
