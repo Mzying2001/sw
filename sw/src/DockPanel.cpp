@@ -14,3 +14,13 @@ sw::DockPanel::DockPanel()
 {
     this->Layout = &this->_dockLayout;
 }
+
+sw::DockLayout::DockLayoutTag sw::DockPanel::GetDock(UIElement &element)
+{
+    return (DockLayout::DockLayoutTag)element.LayoutTag.Get();
+}
+
+void sw::DockPanel::SetDock(UIElement &element, DockLayout::DockLayoutTag dock)
+{
+    element.LayoutTag = dock;
+}

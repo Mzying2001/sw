@@ -17,6 +17,19 @@ namespace sw
         const Property<bool> LastChildFill;
 
     public:
+        /**
+         * @brief 初始化DockPanel
+         */
         DockPanel();
+
+        /**
+         * @brief 获取指定元素的Dock
+         */
+        static DockLayout::DockLayoutTag GetDock(UIElement &element);
+
+        /**
+         * @brief 设置指定元素的Dock
+         */
+        static void SetDock(UIElement &element, DockLayout::DockLayoutTag dock);
     };
 }
