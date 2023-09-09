@@ -74,3 +74,8 @@ bool sw::Panel::OnMouseLeftButtonDoubleClick(Point mousePosition, MouseKey keySt
     /*this->WndBase::OnMouseLeftButtonDoubleClick(mousePosition, keyState);*/
     return true;
 }
+
+bool sw::Panel::OnEnabledChanged(bool newValue)
+{
+    return true;
+}

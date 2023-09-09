@@ -81,5 +81,12 @@ namespace sw
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseLeftButtonDoubleClick(Point mousePosition, MouseKey keyState) override;
+
+        /**
+         * @brief          接收到WM_ENABLE时调用该函数
+         * @param newValue Enabled的新值
+         * @return         若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnEnabledChanged(bool newValue) override;
     };
 }
