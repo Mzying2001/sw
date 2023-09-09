@@ -183,37 +183,30 @@ void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double 
         switch (event) {
             case ScrollEvent::ThubmTrack: {
                 this->HorizontalScrollPos = pos;
-                this->Redraw();
                 break;
             }
             case ScrollEvent::Left: {
                 this->ScrollToLeft();
-                this->Redraw();
                 break;
             }
             case ScrollEvent::Right: {
                 this->ScrollToRight();
-                this->Redraw();
                 break;
             }
             case ScrollEvent::PageLeft: {
                 this->ScrollHorizontal(-this->GetHorizontalScrollPageSize());
-                this->Redraw();
                 break;
             }
             case ScrollEvent::PageRight: {
                 this->ScrollHorizontal(this->GetHorizontalScrollPageSize());
-                this->Redraw();
                 break;
             }
             case ScrollEvent::LineLeft: {
                 this->ScrollHorizontal(-20);
-                this->Redraw();
                 break;
             }
             case ScrollEvent::LineRight: {
                 this->ScrollHorizontal(20);
-                this->Redraw();
                 break;
             }
         }
@@ -222,37 +215,30 @@ void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double 
         switch (event) {
             case ScrollEvent::ThubmTrack: {
                 this->VerticalScrollPos = pos;
-                this->Redraw();
                 break;
             }
             case ScrollEvent::Bottom: {
                 this->ScrollToBottom();
-                this->Redraw();
                 break;
             }
             case ScrollEvent::Top: {
                 this->ScrollToTop();
-                this->Redraw();
                 break;
             }
             case ScrollEvent::PageUp: {
                 this->ScrollVertical(-this->GetVerticalScrollPageSize());
-                this->Redraw();
                 break;
             }
             case ScrollEvent::PageDown: {
                 this->ScrollVertical(this->GetVerticalScrollPageSize());
-                this->Redraw();
                 break;
             }
             case ScrollEvent::LineUp: {
                 this->ScrollVertical(-20);
-                this->Redraw();
                 break;
             }
             case ScrollEvent::LineDown: {
                 this->ScrollVertical(20);
-                this->Redraw();
                 break;
             }
         }
