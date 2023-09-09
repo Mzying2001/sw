@@ -646,6 +646,10 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             }
         }
 
+        case WM_ENABLE: {
+            return this->OnEnabledChanged(refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }
@@ -902,6 +906,11 @@ bool sw::WndBase::OnVerticalScroll(int event, int pos)
 }
 
 bool sw::WndBase::OnHorizontalScroll(int event, int pos)
+{
+    return false;
+}
+
+bool sw::WndBase::OnEnabledChanged(bool newValue)
 {
     return false;
 }
