@@ -76,7 +76,7 @@ namespace sw
         /**
          * @brief 布局标记
          */
-        uint32_t _layoutTag = 0;
+        uint64_t _layoutTag = 0;
 
         /**
          * @brief 上下文菜单
@@ -137,7 +137,7 @@ namespace sw
         /**
          * @brief 布局标记，对于不同的布局有不同含义
          */
-        const Property<uint32_t> LayoutTag;
+        const Property<uint64_t> LayoutTag;
 
         /**
          * @brief 右键按下时弹出的菜单
@@ -247,13 +247,13 @@ namespace sw
          * @brief  添加子控件并设置布局标记
          * @return 添加是否成功
          */
-        bool AddChild(UIElement *element, uint32_t layoutTag);
+        bool AddChild(UIElement *element, uint64_t layoutTag);
 
         /**
          * @brief  添加子控件并设置布局标记
          * @return 添加是否成功
          */
-        bool AddChild(UIElement &element, uint32_t layoutTag);
+        bool AddChild(UIElement &element, uint64_t layoutTag);
 
         /**
          * @brief       移除指定索引处的子控件
@@ -307,7 +307,7 @@ namespace sw
         /**
          * @brief 获取布局标记
          */
-        virtual uint32_t GetLayoutTag() override;
+        virtual uint64_t GetLayoutTag() override;
 
         /**
          * @brief 获取参与布局的子控件数量

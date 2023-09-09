@@ -23,7 +23,7 @@ namespace sw
         /**
          * @brief 获取布局标记
          */
-        virtual uint32_t GetLayoutTag() override;
+        virtual uint64_t GetLayoutTag() override;
 
         /**
          * @brief 获取关联对象子控件的数量

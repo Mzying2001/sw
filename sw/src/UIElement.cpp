@@ -81,11 +81,11 @@ sw::UIElement::UIElement()
 
       LayoutTag(
           // get
-          [&]() -> const uint32_t & {
+          [&]() -> const uint64_t & {
               return this->_layoutTag;
           },
           // set
-          [&](const uint32_t &value) {
+          [&](const uint64_t &value) {
               this->_layoutTag = value;
               this->NotifyLayoutUpdated();
           }),
@@ -157,7 +157,7 @@ bool sw::UIElement::AddChild(UIElement &element)
     return this->AddChild(&element);
 }
 
-bool sw::UIElement::AddChild(UIElement *element, uint32_t layoutTag)
+bool sw::UIElement::AddChild(UIElement *element, uint64_t layoutTag)
 {
     if (element == nullptr) {
         return false;
@@ -166,7 +166,7 @@ bool sw::UIElement::AddChild(UIElement *element, uint32_t layoutTag)
     return this->AddChild(element);
 }
 
-bool sw::UIElement::AddChild(UIElement &element, uint32_t layoutTag)
+bool sw::UIElement::AddChild(UIElement &element, uint64_t layoutTag)
 {
     element._layoutTag = layoutTag;
     return this->AddChild(&element);
@@ -249,7 +249,7 @@ void sw::UIElement::ShowContextMenu(const Point &point)
     TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, nullptr);
 }
 
-uint32_t sw::UIElement::GetLayoutTag()
+uint64_t sw::UIElement::GetLayoutTag()
 {
     return this->_layoutTag;
 }

@@ -15,7 +15,7 @@ namespace sw
         /**
          * @brief 获取布局标记
          */
-        virtual uint32_t GetLayoutTag() = 0;
+        virtual uint64_t GetLayoutTag() = 0;
 
         /**
          * @brief 获取子控件的数量
