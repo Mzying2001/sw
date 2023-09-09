@@ -46,6 +46,7 @@
 #include "RoutedEvent.h"
 #include "RoutedEventArgs.h"
 #include "Screen.h"
+#include "ScrollEnums.h"
 #include "Size.h"
 #include "Slider.h"
 #include "StackLayout.h"
