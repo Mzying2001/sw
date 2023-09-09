@@ -2,6 +2,7 @@
 
 #include "AbsoluteLayout.h"
 #include "LayoutHost.h"
+#include "ScrollEnums.h"
 #include "UIElement.h"
 
 namespace sw
@@ -86,6 +87,14 @@ namespace sw
          * @brief 更新布局
          */
         void UpdateLayout();
+
+        /**
+         * @brief           触发滚动条相关事件时调用该函数
+         * @param scrollbar 滚动条类型
+         * @param event     滚动条事件
+         * @param pos       当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
+         */
+        virtual void OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double pos);
 
         /**
          * @brief       接收到WM_VSCROLL时调用目标控件的该函数

@@ -169,87 +169,100 @@ void sw::Layer::UpdateLayout()
     }
 }
 
-bool sw::Layer::OnVerticalScroll(int event, int pos)
+void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double pos)
 {
-    switch (event) {
-        case SB_THUMBTRACK: {
-            this->VerticalScrollPos = pos * Dip::ScaleY;
-            this->Redraw();
-            break;
+    if (scrollbar == ScrollOrientation::Horizontal) {
+        // 水平滚动条
+        switch (event) {
+            case ScrollEvent::ThubmTrack: {
+                this->HorizontalScrollPos = pos;
+                this->Redraw();
+                break;
+            }
+            case ScrollEvent::Left: {
+                this->ScrollToLeft();
+                this->Redraw();
+                break;
+            }
+            case ScrollEvent::Right: {
+                this->ScrollToRight();
+                this->Redraw();
+                break;
+            }
+            case ScrollEvent::PageLeft: {
+                this->HorizontalScrollPos = this->HorizontalScrollPos - this->GetHorizontalScrollPageSize();
+                this->Redraw();
+                break;
+            }
+            case ScrollEvent::PageRight: {
+                this->HorizontalScrollPos = this->HorizontalScrollPos + this->GetHorizontalScrollPageSize();
+                this->Redraw();
+                break;
+            }
+            case ScrollEvent::LineLeft: {
+                this->HorizontalScrollPos = this->HorizontalScrollPos - 20;
+                this->Redraw();
+                break;
+            }
+            case ScrollEvent::LineRight: {
+                this->HorizontalScrollPos = this->HorizontalScrollPos + 20;
+                this->Redraw();
+                break;
+            }
         }
-        case SB_BOTTOM: {
-            this->ScrollToBottom();
-            this->Redraw();
-            break;
-        }
-        case SB_TOP: {
-            this->ScrollToTop();
-            this->Redraw();
-            break;
-        }
-        case SB_PAGEUP: {
-            this->VerticalScrollPos = this->VerticalScrollPos - this->GetVerticalScrollPageSize();
-            this->Redraw();
-            break;
-        }
-        case SB_PAGEDOWN: {
-            this->VerticalScrollPos = this->VerticalScrollPos + this->GetVerticalScrollPageSize();
-            this->Redraw();
-            break;
-        }
-        case SB_LINEUP: {
-            this->VerticalScrollPos = this->VerticalScrollPos - 20;
-            this->Redraw();
-            break;
-        }
-        case SB_LINEDOWN: {
-            this->VerticalScrollPos = this->VerticalScrollPos + 20;
-            this->Redraw();
-            break;
+    } else {
+        // 垂直滚动条
+        switch (event) {
+            case ScrollEvent::ThubmTrack: {
+                this->VerticalScrollPos = pos;
+                this->Redraw();
+                break;
+            }
+            case ScrollEvent::Bottom: {
+                this->ScrollToBottom();
+                this->Redraw();
+                break;
+            }
+            case ScrollEvent::Top: {
+                this->ScrollToTop();
+                this->Redraw();
+                break;
+            }
+            case ScrollEvent::PageUp: {
+                this->VerticalScrollPos = this->VerticalScrollPos - this->GetVerticalScrollPageSize();
+                this->Redraw();
+                break;
+            }
+            case ScrollEvent::PageDown: {
+                this->VerticalScrollPos = this->VerticalScrollPos + this->GetVerticalScrollPageSize();
+                this->Redraw();
+                break;
+            }
+            case ScrollEvent::LineUp: {
+                this->VerticalScrollPos = this->VerticalScrollPos - 20;
+                this->Redraw();
+                break;
+            }
+            case ScrollEvent::LineDown: {
+                this->VerticalScrollPos = this->VerticalScrollPos + 20;
+                this->Redraw();
+                break;
+            }
         }
     }
+}
+
+bool sw::Layer::OnVerticalScroll(int event, int pos)
+{
+    this->OnScroll(ScrollOrientation::Vertical, (ScrollEvent)event,
+                   (event == SB_THUMBTRACK || event == SB_THUMBPOSITION) ? (pos * Dip::ScaleY) : (0.0));
     return true;
 }
 
 bool sw::Layer::OnHorizontalScroll(int event, int pos)
 {
-    switch (event) {
-        case SB_THUMBTRACK: {
-            this->HorizontalScrollPos = pos * Dip::ScaleX;
-            this->Redraw();
-            break;
-        }
-        case SB_LEFT: {
-            this->ScrollToLeft();
-            this->Redraw();
-            break;
-        }
-        case SB_RIGHT: {
-            this->ScrollToRight();
-            this->Redraw();
-            break;
-        }
-        case SB_PAGELEFT: {
-            this->HorizontalScrollPos = this->HorizontalScrollPos - this->GetHorizontalScrollPageSize();
-            this->Redraw();
-            break;
-        }
-        case SB_PAGERIGHT: {
-            this->HorizontalScrollPos = this->HorizontalScrollPos + this->GetHorizontalScrollPageSize();
-            this->Redraw();
-            break;
-        }
-        case SB_LINELEFT: {
-            this->HorizontalScrollPos = this->HorizontalScrollPos - 20;
-            this->Redraw();
-            break;
-        }
-        case SB_LINERIGHT: {
-            this->HorizontalScrollPos = this->HorizontalScrollPos + 20;
-            this->Redraw();
-            break;
-        }
-    }
+    this->OnScroll(ScrollOrientation::Horizontal, (ScrollEvent)event,
+                   (event == SB_THUMBTRACK || event == SB_THUMBPOSITION) ? (pos * Dip::ScaleX) : (0.0));
     return true;
 }
 
