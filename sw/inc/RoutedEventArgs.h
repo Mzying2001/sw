@@ -3,6 +3,7 @@
 #include "Keys.h"
 #include "Point.h"
 #include "RoutedEvent.h"
+#include "ScrollEnums.h"
 #include "Size.h"
 
 namespace sw
@@ -188,5 +189,21 @@ namespace sw
      */
     struct WindowClosingEventArgs : RoutedEventArgsOfType<Window_Closing> {
         bool cancel = false; // 是否取消本次关闭
+    };
+
+    /**
+     * @brief 窗口/面板滚动条滚动事件参数类型
+     */
+    struct ScrollingEventArgs : RoutedEventArgsOfType<Layer_Scrolling> {
+
+        bool cancel = false;         // 是否取消滚动条默认行为
+        ScrollOrientation scrollbar; // 滚动条类型
+        ScrollEvent event;           // 滚动条事件
+        double pos;                  // 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
+
+        ScrollingEventArgs(ScrollOrientation scrollbar, ScrollEvent event, double pos)
+            : scrollbar(scrollbar), event(event), pos(pos)
+        {
+        }
     };
 }

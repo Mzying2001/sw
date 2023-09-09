@@ -116,6 +116,11 @@ namespace sw
          * @brief 滑块被释放，参数类型为sw::RoutedEventArgs
          */
         Slider_EndTrack,
+
+        /**
+         * @brief 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
+         */
+        Layer_Scrolling,
     };
 
     /*================================================================================*/

@@ -171,6 +171,13 @@ void sw::Layer::UpdateLayout()
 
 void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double pos)
 {
+    ScrollingEventArgs args(scrollbar, event, pos);
+    this->RaiseRoutedEvent(args);
+
+    if (args.cancel) {
+        return;
+    }
+
     if (scrollbar == ScrollOrientation::Horizontal) {
         // 水平滚动条
         switch (event) {
