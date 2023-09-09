@@ -212,5 +212,17 @@ namespace sw
          * @brief 将水平滚动条移动到最右
          */
         void ScrollToRight();
+
+        /**
+         * @brief        水平滚动
+         * @param offset 滚动的偏移量
+         */
+        void ScrollHorizontal(double offset);
+
+        /**
+         * @brief        垂直滚动
+         * @param offset 滚动的偏移量
+         */
+        void ScrollVertical(double offset);
     };
 }

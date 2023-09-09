@@ -190,22 +190,22 @@ void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double 
                 break;
             }
             case ScrollEvent::PageLeft: {
-                this->HorizontalScrollPos = this->HorizontalScrollPos - this->GetHorizontalScrollPageSize();
+                this->ScrollHorizontal(-this->GetHorizontalScrollPageSize());
                 this->Redraw();
                 break;
             }
             case ScrollEvent::PageRight: {
-                this->HorizontalScrollPos = this->HorizontalScrollPos + this->GetHorizontalScrollPageSize();
+                this->ScrollHorizontal(this->GetHorizontalScrollPageSize());
                 this->Redraw();
                 break;
             }
             case ScrollEvent::LineLeft: {
-                this->HorizontalScrollPos = this->HorizontalScrollPos - 20;
+                this->ScrollHorizontal(-20);
                 this->Redraw();
                 break;
             }
             case ScrollEvent::LineRight: {
-                this->HorizontalScrollPos = this->HorizontalScrollPos + 20;
+                this->ScrollHorizontal(20);
                 this->Redraw();
                 break;
             }
@@ -229,22 +229,22 @@ void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double 
                 break;
             }
             case ScrollEvent::PageUp: {
-                this->VerticalScrollPos = this->VerticalScrollPos - this->GetVerticalScrollPageSize();
+                this->ScrollVertical(-this->GetVerticalScrollPageSize());
                 this->Redraw();
                 break;
             }
             case ScrollEvent::PageDown: {
-                this->VerticalScrollPos = this->VerticalScrollPos + this->GetVerticalScrollPageSize();
+                this->ScrollVertical(this->GetVerticalScrollPageSize());
                 this->Redraw();
                 break;
             }
             case ScrollEvent::LineUp: {
-                this->VerticalScrollPos = this->VerticalScrollPos - 20;
+                this->ScrollVertical(-20);
                 this->Redraw();
                 break;
             }
             case ScrollEvent::LineDown: {
-                this->VerticalScrollPos = this->VerticalScrollPos + 20;
+                this->ScrollVertical(20);
                 this->Redraw();
                 break;
             }
@@ -473,4 +473,14 @@ void sw::Layer::ScrollToLeft()
 void sw::Layer::ScrollToRight()
 {
     this->HorizontalScrollPos = this->HorizontalScrollLimit;
+}
+
+void sw::Layer::ScrollHorizontal(double offset)
+{
+    this->HorizontalScrollPos = this->HorizontalScrollPos + offset;
+}
+
+void sw::Layer::ScrollVertical(double offset)
+{
+    this->VerticalScrollPos = this->VerticalScrollPos + offset;
 }
