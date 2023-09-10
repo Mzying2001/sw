@@ -18,7 +18,8 @@ class MyWindow : public sw::Window
     /**
      * @brief 初始化窗口和控件
      */
-    void InitializeComponent() {
+    void InitializeComponent()
+    {
         // 设置窗口布局方式为DockLayout
         this->Layout = &dockLayout;
 
@@ -60,7 +61,8 @@ public:
     /**
      * @brief MyWindow构造函数
      */
-    MyWindow() {
+    MyWindow()
+    {
         this->InitializeComponent();
     }
 };

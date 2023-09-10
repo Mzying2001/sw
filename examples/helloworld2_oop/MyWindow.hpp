@@ -20,7 +20,8 @@ class MyWindow : public sw::Window
     /**
      * @brief 初始化窗口和控件
      */
-    void InitializeComponent() {
+    void InitializeComponent()
+    {
         // 设置窗口布局
         this->Layout = &fillLayout;
 
@@ -50,7 +51,8 @@ class MyWindow : public sw::Window
     /**
      * @brief 按钮被单击时调用该函数
      */
-    void ButtonClickedHandler(sw::UIElement& sender, sw::RoutedEventArgs& e) {
+    void ButtonClickedHandler(sw::UIElement& sender, sw::RoutedEventArgs& e)
+    {
         // 默认路由事件会向上冒泡，将RoutedEventArgs的handled字段设为true可停止冒泡
         e.handled = true;
         // 直接修改Text属性即可更新标签的文本，使用Utils::BuildStr函数可以方便地构建字符串
@@ -63,7 +65,8 @@ public:
     /**
      * @brief MyWindow构造函数
      */
-    MyWindow() {
+    MyWindow()
+    {
         this->InitializeComponent();
     }
 };
