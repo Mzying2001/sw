@@ -676,7 +676,7 @@ static sw::Dip::DipScaleInfo _GetScaleInfo()
 
 static sw::DockLayout::DockLayoutTag _GetDockLayoutTag(sw::ILayout &item)
 {
-    uint32_t tag = item.GetLayoutTag();
+    auto tag = item.GetLayoutTag();
     return tag > sw::DockLayout::Bottom ? sw::DockLayout::Left : (sw::DockLayout::DockLayoutTag)tag;
 }
 
@@ -825,6 +825,16 @@ sw::DockPanel::DockPanel()
           })
 {
     this->Layout = &this->_dockLayout;
+}
+
+sw::DockLayout::DockLayoutTag sw::DockPanel::GetDock(UIElement &element)
+{
+    return (DockLayout::DockLayoutTag)element.LayoutTag.Get();
+}
+
+void sw::DockPanel::SetDock(UIElement &element, DockLayout::DockLayoutTag dock)
+{
+    element.LayoutTag = dock;
 }
 
 // FillLayout.cpp
@@ -1068,6 +1078,9 @@ sw::Label::Label()
                       style &= ~(SS_CENTER | SS_RIGHT);
                       style |= SS_RIGHT;
                       this->SetStyle(style);
+                      break;
+                  }
+                  default: {
                       break;
                   }
               }
@@ -1406,87 +1419,99 @@ void sw::Layer::UpdateLayout()
     }
 }
 
-bool sw::Layer::OnVerticalScroll(int event, int pos)
+void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double pos)
 {
-    switch (event) {
-        case SB_THUMBTRACK: {
-            this->VerticalScrollPos = pos * Dip::ScaleY;
-            this->Redraw();
-            break;
+    ScrollingEventArgs args(scrollbar, event, pos);
+    this->RaiseRoutedEvent(args);
+
+    if (args.cancel) {
+        return;
+    }
+
+    if (scrollbar == ScrollOrientation::Horizontal) {
+        // 水平滚动条
+        switch (event) {
+            case ScrollEvent::ThubmTrack: {
+                this->HorizontalScrollPos = pos;
+                break;
+            }
+            case ScrollEvent::Left: {
+                this->ScrollToLeft();
+                break;
+            }
+            case ScrollEvent::Right: {
+                this->ScrollToRight();
+                break;
+            }
+            case ScrollEvent::PageLeft: {
+                this->ScrollHorizontal(-this->GetHorizontalScrollPageSize());
+                break;
+            }
+            case ScrollEvent::PageRight: {
+                this->ScrollHorizontal(this->GetHorizontalScrollPageSize());
+                break;
+            }
+            case ScrollEvent::LineLeft: {
+                this->ScrollHorizontal(-20);
+                break;
+            }
+            case ScrollEvent::LineRight: {
+                this->ScrollHorizontal(20);
+                break;
+            }
+            default: {
+                break;
+            }
         }
-        case SB_BOTTOM: {
-            this->ScrollToBottom();
-            this->Redraw();
-            break;
-        }
-        case SB_TOP: {
-            this->ScrollToTop();
-            this->Redraw();
-            break;
-        }
-        case SB_PAGEUP: {
-            this->VerticalScrollPos = this->VerticalScrollPos - this->GetVerticalScrollPageSize();
-            this->Redraw();
-            break;
-        }
-        case SB_PAGEDOWN: {
-            this->VerticalScrollPos = this->VerticalScrollPos + this->GetVerticalScrollPageSize();
-            this->Redraw();
-            break;
-        }
-        case SB_LINEUP: {
-            this->VerticalScrollPos = this->VerticalScrollPos - 20;
-            this->Redraw();
-            break;
-        }
-        case SB_LINEDOWN: {
-            this->VerticalScrollPos = this->VerticalScrollPos + 20;
-            this->Redraw();
-            break;
+    } else {
+        // 垂直滚动条
+        switch (event) {
+            case ScrollEvent::ThubmTrack: {
+                this->VerticalScrollPos = pos;
+                break;
+            }
+            case ScrollEvent::Bottom: {
+                this->ScrollToBottom();
+                break;
+            }
+            case ScrollEvent::Top: {
+                this->ScrollToTop();
+                break;
+            }
+            case ScrollEvent::PageUp: {
+                this->ScrollVertical(-this->GetVerticalScrollPageSize());
+                break;
+            }
+            case ScrollEvent::PageDown: {
+                this->ScrollVertical(this->GetVerticalScrollPageSize());
+                break;
+            }
+            case ScrollEvent::LineUp: {
+                this->ScrollVertical(-20);
+                break;
+            }
+            case ScrollEvent::LineDown: {
+                this->ScrollVertical(20);
+                break;
+            }
+            default: {
+                break;
+            }
         }
     }
+}
+
+bool sw::Layer::OnVerticalScroll(int event, int pos)
+{
+    this->OnScroll(ScrollOrientation::Vertical, (ScrollEvent)event,
+                   (event == SB_THUMBTRACK || event == SB_THUMBPOSITION) ? (pos * Dip::ScaleY) : (0.0));
     return true;
 }
 
 bool sw::Layer::OnHorizontalScroll(int event, int pos)
 {
-    switch (event) {
-        case SB_THUMBTRACK: {
-            this->HorizontalScrollPos = pos * Dip::ScaleX;
-            this->Redraw();
-            break;
-        }
-        case SB_LEFT: {
-            this->ScrollToLeft();
-            this->Redraw();
-            break;
-        }
-        case SB_RIGHT: {
-            this->ScrollToRight();
-            this->Redraw();
-            break;
-        }
-        case SB_PAGELEFT: {
-            this->HorizontalScrollPos = this->HorizontalScrollPos - this->GetHorizontalScrollPageSize();
-            this->Redraw();
-            break;
-        }
-        case SB_PAGERIGHT: {
-            this->HorizontalScrollPos = this->HorizontalScrollPos + this->GetHorizontalScrollPageSize();
-            this->Redraw();
-            break;
-        }
-        case SB_LINELEFT: {
-            this->HorizontalScrollPos = this->HorizontalScrollPos - 20;
-            this->Redraw();
-            break;
-        }
-        case SB_LINERIGHT: {
-            this->HorizontalScrollPos = this->HorizontalScrollPos + 20;
-            this->Redraw();
-            break;
-        }
-    }
+    this->OnScroll(ScrollOrientation::Horizontal, (ScrollEvent)event,
+                   (event == SB_THUMBTRACK || event == SB_THUMBPOSITION) ? (pos * Dip::ScaleX) : (0.0));
     return true;
 }
 
@@ -1699,6 +1724,16 @@ void sw::Layer::ScrollToRight()
     this->HorizontalScrollPos = this->HorizontalScrollLimit;
 }
 
+void sw::Layer::ScrollHorizontal(double offset)
+{
+    this->HorizontalScrollPos = this->HorizontalScrollPos + offset;
+}
+
+void sw::Layer::ScrollVertical(double offset)
+{
+    this->VerticalScrollPos = this->VerticalScrollPos + offset;
+}
+
 // LayoutHost.cpp
 
 void sw::LayoutHost::Associate(ILayout *obj)
@@ -1706,7 +1741,7 @@ void sw::LayoutHost::Associate(ILayout *obj)
     this->_associatedObj = obj;
 }
 
-uint32_t sw::LayoutHost::GetLayoutTag()
+uint64_t sw::LayoutHost::GetLayoutTag()
 {
     return this->_associatedObj->GetLayoutTag();
 }
@@ -2071,7 +2106,7 @@ bool sw::MenuBase::RemoveItem(MenuItem &item)
         this->_dependencyInfoMap.erase(&item);
         this->items.erase(this->items.begin() + index);
 
-        for (int i = index; i < this->items.size(); ++i) {
+        for (int i = index; i < (int)this->items.size(); ++i) {
             this->_dependencyInfoMap[this->items[i].get()].index -= 1;
         }
 
@@ -2088,7 +2123,7 @@ bool sw::MenuBase::RemoveItem(MenuItem &item)
         this->_dependencyInfoMap.erase(&item);
         parent->subItems.erase(parent->subItems.begin() + index);
 
-        for (int i = index; i < parent->subItems.size(); ++i) {
+        for (int i = index; i < (int)parent->subItems.size(); ++i) {
             this->_dependencyInfoMap[parent->subItems[i].get()].index -= 1;
         }
     }
@@ -2099,7 +2134,7 @@ bool sw::MenuBase::RemoveItem(MenuItem &item)
 sw::MenuItem *sw::MenuBase::GetMenuItem(int id)
 {
     int index = this->IDToIndex(id);
-    return index >= 0 && index < this->_leaves.size() ? this->_leaves[index].get() : nullptr;
+    return index >= 0 && index < (int)this->_leaves.size() ? this->_leaves[index].get() : nullptr;
 }
 
 sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<int> path)
@@ -2115,7 +2150,7 @@ sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<int> path)
 
     int index = *it++;
 
-    if (index < 0 || index >= this->items.size()) {
+    if (index < 0 || index >= (int)this->items.size()) {
         return nullptr;
     }
 
@@ -2123,7 +2158,7 @@ sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<int> path)
 
     while (it != end) {
         index = *it++;
-        if (index < 0 || index >= result->subItems.size()) {
+        if (index < 0 || index >= (int)result->subItems.size()) {
             return nullptr;
         }
         result = result->subItems[index].get();
@@ -2556,6 +2591,11 @@ bool sw::Panel::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState)
 bool sw::Panel::OnMouseLeftButtonDoubleClick(Point mousePosition, MouseKey keyState)
 {
     /*this->WndBase::OnMouseLeftButtonDoubleClick(mousePosition, keyState);*/
+    return true;
+}
+
+bool sw::Panel::OnEnabledChanged(bool newValue)
+{
     return true;
 }
 
@@ -3300,6 +3340,9 @@ sw::TextBoxBase::TextBoxBase()
                       this->SetStyle(style);
                       break;
                   }
+                  default: {
+                      break;
+                  }
               }
               this->Redraw();
           }),
@@ -3464,11 +3507,11 @@ sw::UIElement::UIElement()
 
       LayoutTag(
           // get
-          [&]() -> const uint32_t & {
+          [&]() -> const uint64_t & {
               return this->_layoutTag;
           },
           // set
-          [&](const uint32_t &value) {
+          [&](const uint64_t &value) {
               this->_layoutTag = value;
               this->NotifyLayoutUpdated();
           }),
@@ -3481,6 +3524,17 @@ sw::UIElement::UIElement()
           // set
           [&](sw::ContextMenu *const &value) {
               this->_contextMenu = value;
+          }),
+
+      Float(
+          // get
+          [&]() -> const bool & {
+              return this->_float;
+          },
+          // set
+          [&](const bool &value) {
+              this->_float = value;
+              this->NotifyLayoutUpdated();
           })
 {
 }
@@ -3540,7 +3594,7 @@ bool sw::UIElement::AddChild(UIElement &element)
     return this->AddChild(&element);
 }
 
-bool sw::UIElement::AddChild(UIElement *element, uint32_t layoutTag)
+bool sw::UIElement::AddChild(UIElement *element, uint64_t layoutTag)
 {
     if (element == nullptr) {
         return false;
@@ -3549,7 +3603,7 @@ bool sw::UIElement::AddChild(UIElement *element, uint32_t layoutTag)
     return this->AddChild(element);
 }
 
-bool sw::UIElement::AddChild(UIElement &element, uint32_t layoutTag)
+bool sw::UIElement::AddChild(UIElement &element, uint64_t layoutTag)
 {
     element._layoutTag = layoutTag;
     return this->AddChild(&element);
@@ -3557,7 +3611,7 @@ bool sw::UIElement::AddChild(UIElement &element, uint32_t layoutTag)
 
 bool sw::UIElement::RemoveChildAt(int index)
 {
-    if (index < 0 || index >= this->_children.size()) {
+    if (index < 0 || index >= (int)this->_children.size()) {
         return false;
     }
 
@@ -3632,7 +3686,7 @@ void sw::UIElement::ShowContextMenu(const Point &point)
     TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, nullptr);
 }
 
-uint32_t sw::UIElement::GetLayoutTag()
+uint64_t sw::UIElement::GetLayoutTag()
 {
     return this->_layoutTag;
 }
@@ -3733,7 +3787,7 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
         // AbsoluteLayout特殊处理：用nan表示不需要调整位置
         rect.left = this->Left;
         rect.top  = this->Top;
-    } else if (this->_parent) {
+    } else if (this->_parent && !this->_float) {
         // 不是AbsoluteLayout时考虑偏移量
         rect.left += this->_parent->_arrangeOffsetX;
         rect.top += this->_parent->_arrangeOffsetY;
@@ -3804,8 +3858,10 @@ double sw::UIElement::GetChildRightmost(bool update)
 {
     if (update) {
         this->_childRightmost = 0;
-        for (UIElement *item : this->_childrenNotCollapsed)
+        for (UIElement *item : this->_childrenNotCollapsed) {
+            if (item->_float) continue;
             this->_childRightmost = Utils::Max(this->_childRightmost, item->Left + item->Width + item->_margin.right - this->_arrangeOffsetX);
+        }
     }
     return this->_childRightmost;
 }
@@ -3814,8 +3870,10 @@ double sw::UIElement::GetChildBottommost(bool update)
 {
     if (update) {
         this->_childBottommost = 0;
-        for (UIElement *item : this->_childrenNotCollapsed)
+        for (UIElement *item : this->_childrenNotCollapsed) {
+            if (item->_float) continue;
             this->_childBottommost = Utils::Max(this->_childBottommost, item->Top + item->Height + item->_margin.bottom - this->_arrangeOffsetY);
+        }
     }
     return this->_childBottommost;
 }
@@ -5172,6 +5230,10 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             }
         }
 
+        case WM_ENABLE: {
+            return this->OnEnabledChanged(refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }
@@ -5428,6 +5490,11 @@ bool sw::WndBase::OnVerticalScroll(int event, int pos)
 }
 
 bool sw::WndBase::OnHorizontalScroll(int event, int pos)
+{
+    return false;
+}
+
+bool sw::WndBase::OnEnabledChanged(bool newValue)
 {
     return false;
 }

@@ -2,18 +2,18 @@
 
 #pragma once
 #include <Windows.h>
+#include <memory>
 #include <string>
 #include <cstdint>
 #include <iostream>
 #include <initializer_list>
 #include <map>
-#include <memory>
 #include <tuple>
 #include <vector>
 #include <functional>
 #include <CommCtrl.h>
-#include <sstream>
 #include <type_traits>
+#include <sstream>
 #include <windowsx.h>
 
 // Alignment.h
@@ -66,7 +66,7 @@ namespace sw
 
         friend bool operator==(const Color &left, const Color &right)
         {
-            return (left.r == right.r) && (left.g == right.g) && (left.b == left.b);
+            return (left.r == right.r) && (left.g == right.g) && (left.b == right.b);
         }
 
         friend bool operator!=(const Color &left, const Color &right)
@@ -1289,6 +1289,11 @@ namespace sw
          * @brief 滑块被释放，参数类型为sw::RoutedEventArgs
          */
         Slider_EndTrack,
+
+        /**
+         * @brief 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
+         */
+        Layer_Scrolling,
     };
 
     /*================================================================================*/
@@ -1323,6 +1328,41 @@ namespace sw
      * @brief 路由事件类型
      */
     typedef std::function<void(UIElement &, RoutedEventArgs &)> RoutedEvent;
+}
+
+// ScrollEnums.h
+
+
+namespace sw
+{
+    /**
+     * @brief 滚动条方向
+     */
+    enum class ScrollOrientation {
+        Horizontal, // 水平滚动条
+        Vertical,   // 垂直滚动条
+    };
+
+    /**
+     * @brief 滚动条事件
+     */
+    enum class ScrollEvent {
+        LineUp        = SB_LINEUP,        // Scrolls one line up.
+        LineLeft      = SB_LINELEFT,      // Scrolls left by one unit.
+        LineDown      = SB_LINEDOWN,      // Scrolls one line down.
+        LineRight     = SB_LINERIGHT,     // Scrolls right by one unit.
+        PageUp        = SB_PAGEUP,        // Scrolls one page up.
+        PageLeft      = SB_PAGELEFT,      // Scrolls left by the width of the window.
+        PageDown      = SB_PAGEDOWN,      // Scrolls one page down.
+        PageRight     = SB_PAGERIGHT,     // Scrolls right by the width of the window.
+        ThumbPosition = SB_THUMBPOSITION, // The user has dragged the scroll box (thumb) and released the mouse button. The HIWORD indicates the position of the scroll box at the end of the drag operation.
+        ThubmTrack    = SB_THUMBTRACK,    // The user is dragging the scroll box. This message is sent repeatedly until the user releases the mouse button. The HIWORD indicates the position that the scroll box has been dragged to.
+        Top           = SB_TOP,           // Scrolls to the upper left.
+        Left          = SB_LEFT,          // Scrolls to the upper left.
+        Bottom        = SB_BOTTOM,        // Scrolls to the lower right.
+        Right         = SB_RIGHT,         // Scrolls to the lower right.
+        EndScroll     = SB_ENDSCROLL,     // Ends scroll.
+    };
 }
 
 // Size.h
@@ -1668,7 +1708,7 @@ namespace sw
         /**
          * @brief 获取布局标记
          */
-        virtual uint32_t GetLayoutTag() = 0;
+        virtual uint64_t GetLayoutTag() = 0;
 
         /**
          * @brief 获取子控件的数量
@@ -1960,7 +2000,7 @@ namespace sw
      * @brief 模板特化：当T包含EventType时，将_IsTypedRoutedEventArgs<T>设为std::true_type
      */
     template <typename T>
-    struct _IsTypedRoutedEventArgs<T, std::void_t<decltype(T::EventType)>> : std::true_type {
+    struct _IsTypedRoutedEventArgs<T, decltype(void(std::declval<T>().EventType))> : std::true_type {
     };
 
     /**
@@ -2111,6 +2151,22 @@ namespace sw
     struct WindowClosingEventArgs : RoutedEventArgsOfType<Window_Closing> {
         bool cancel = false; // 是否取消本次关闭
     };
+
+    /**
+     * @brief 窗口/面板滚动条滚动事件参数类型
+     */
+    struct ScrollingEventArgs : RoutedEventArgsOfType<Layer_Scrolling> {
+
+        bool cancel = false;         // 是否取消滚动条默认行为
+        ScrollOrientation scrollbar; // 滚动条类型
+        ScrollEvent event;           // 滚动条事件
+        double pos;                  // 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
+
+        ScrollingEventArgs(ScrollOrientation scrollbar, ScrollEvent event, double pos)
+            : scrollbar(scrollbar), event(event), pos(pos)
+        {
+        }
+    };
 }
 
 // Screen.h
@@ -2195,7 +2251,7 @@ namespace sw
         /**
          * @brief 获取布局标记
          */
-        virtual uint32_t GetLayoutTag() override;
+        virtual uint64_t GetLayoutTag() override;
 
         /**
          * @brief 获取关联对象子控件的数量
@@ -2832,6 +2888,13 @@ namespace sw
          */
         virtual bool OnHorizontalScroll(int event, int pos);
 
+        /**
+         * @brief          接收到WM_ENABLE时调用该函数
+         * @param newValue Enabled的新值
+         * @return         若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnEnabledChanged(bool newValue);
+
     public:
         /**
          * @brief 该函数调用ShowWindow
@@ -2949,7 +3012,7 @@ namespace sw
         /**
          * @brief Dock布局标记
          */
-        enum DockLayoutTag : uint32_t {
+        enum DockLayoutTag {
             Left,   // 左边
             Top,    // 顶边
             Right,  // 右边
@@ -3169,7 +3232,7 @@ namespace sw
         /**
          * @brief 布局标记
          */
-        uint32_t _layoutTag = 0;
+        uint64_t _layoutTag = 0;
 
         /**
          * @brief 上下文菜单
@@ -3195,6 +3258,11 @@ namespace sw
          * @brief 所有子元素在当前元素中最底边的位置
          */
         double _childBottommost = 0;
+
+        /**
+         * @brief 元素是否悬浮，若元素悬浮则该元素不会随滚动条滚动而改变位置
+         */
+        bool _float = false;
 
     public:
         /**
@@ -3230,12 +3298,17 @@ namespace sw
         /**
          * @brief 布局标记，对于不同的布局有不同含义
          */
-        const Property<uint32_t> LayoutTag;
+        const Property<uint64_t> LayoutTag;
 
         /**
          * @brief 右键按下时弹出的菜单
          */
         const Property<sw::ContextMenu *> ContextMenu;
+
+        /**
+         * @brief 元素是否悬浮，若元素悬浮则该元素不会随滚动条滚动而改变位置
+         */
+        const Property<bool> Float;
 
     public:
         UIElement();
@@ -3340,13 +3413,13 @@ namespace sw
          * @brief  添加子控件并设置布局标记
          * @return 添加是否成功
          */
-        bool AddChild(UIElement *element, uint32_t layoutTag);
+        bool AddChild(UIElement *element, uint64_t layoutTag);
 
         /**
          * @brief  添加子控件并设置布局标记
          * @return 添加是否成功
          */
-        bool AddChild(UIElement &element, uint32_t layoutTag);
+        bool AddChild(UIElement &element, uint64_t layoutTag);
 
         /**
          * @brief       移除指定索引处的子控件
@@ -3400,7 +3473,7 @@ namespace sw
         /**
          * @brief 获取布局标记
          */
-        virtual uint32_t GetLayoutTag() override;
+        virtual uint64_t GetLayoutTag() override;
 
         /**
          * @brief 获取参与布局的子控件数量
@@ -3473,14 +3546,14 @@ namespace sw
         double &GetArrangeOffsetY();
 
         /**
-         * @brief        获取所有子元素在当前元素中最右边的位置（只考虑参与布局的子窗口）
+         * @brief        获取所有子元素在当前元素中最右边的位置（只考虑参与布局的子窗口且忽略悬浮的元素）
          * @param update 是否更字段
          * @return       _childRightmost字段
          */
         double GetChildRightmost(bool update);
 
         /**
-         * @brief        获取所有子元素在当前元素中最底边的位置（只考虑参与布局的子窗口）
+         * @brief        获取所有子元素在当前元素中最底边的位置（只考虑参与布局的子窗口且忽略悬浮的元素）
          * @param update 是否更字段
          * @return       _childBottommost字段
          */
@@ -3874,6 +3947,14 @@ namespace sw
         void UpdateLayout();
 
         /**
+         * @brief           触发滚动条相关事件时调用该函数
+         * @param scrollbar 滚动条类型
+         * @param event     滚动条事件
+         * @param pos       当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
+         */
+        virtual void OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double pos);
+
+        /**
          * @brief       接收到WM_VSCROLL时调用目标控件的该函数
          * @param event 事件类型，即消息wParam的低字
          * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
@@ -3989,6 +4070,18 @@ namespace sw
          * @brief 将水平滚动条移动到最右
          */
         void ScrollToRight();
+
+        /**
+         * @brief        水平滚动
+         * @param offset 滚动的偏移量
+         */
+        void ScrollHorizontal(double offset);
+
+        /**
+         * @brief        垂直滚动
+         * @param offset 滚动的偏移量
+         */
+        void ScrollVertical(double offset);
     };
 }
 
@@ -5186,6 +5279,13 @@ namespace sw
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseLeftButtonDoubleClick(Point mousePosition, MouseKey keyState) override;
+
+        /**
+         * @brief          接收到WM_ENABLE时调用该函数
+         * @param newValue Enabled的新值
+         * @return         若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnEnabledChanged(bool newValue) override;
     };
 }
 
@@ -5293,7 +5393,20 @@ namespace sw
         const Property<bool> LastChildFill;
 
     public:
+        /**
+         * @brief 初始化DockPanel
+         */
         DockPanel();
+
+        /**
+         * @brief 获取指定元素的Dock
+         */
+        static DockLayout::DockLayoutTag GetDock(UIElement &element);
+
+        /**
+         * @brief 设置指定元素的Dock
+         */
+        static void SetDock(UIElement &element, DockLayout::DockLayoutTag dock);
     };
 }
 
