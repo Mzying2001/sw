@@ -185,7 +185,7 @@ bool sw::UIElement::AddChild(UIElement &element, uint64_t layoutTag)
 
 bool sw::UIElement::RemoveChildAt(int index)
 {
-    if (index < 0 || index >= this->_children.size()) {
+    if (index < 0 || index >= (int)this->_children.size()) {
         return false;
     }
 

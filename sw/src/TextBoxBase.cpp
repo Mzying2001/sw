@@ -48,6 +48,9 @@ sw::TextBoxBase::TextBoxBase()
                       this->SetStyle(style);
                       break;
                   }
+                  default: {
+                      break;
+                  }
               }
               this->Redraw();
           }),

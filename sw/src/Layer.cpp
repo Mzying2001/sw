@@ -209,6 +209,9 @@ void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double 
                 this->ScrollHorizontal(20);
                 break;
             }
+            default: {
+                break;
+            }
         }
     } else {
         // 垂直滚动条
@@ -239,6 +242,9 @@ void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double 
             }
             case ScrollEvent::LineDown: {
                 this->ScrollVertical(20);
+                break;
+            }
+            default: {
                 break;
             }
         }

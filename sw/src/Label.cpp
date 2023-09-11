@@ -38,6 +38,9 @@ sw::Label::Label()
                       this->SetStyle(style);
                       break;
                   }
+                  default: {
+                      break;
+                  }
               }
               this->Redraw();
           }),

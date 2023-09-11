@@ -128,7 +128,7 @@ bool sw::MenuBase::RemoveItem(MenuItem &item)
         this->_dependencyInfoMap.erase(&item);
         this->items.erase(this->items.begin() + index);
 
-        for (int i = index; i < this->items.size(); ++i) {
+        for (int i = index; i < (int)this->items.size(); ++i) {
             this->_dependencyInfoMap[this->items[i].get()].index -= 1;
         }
 
@@ -145,7 +145,7 @@ bool sw::MenuBase::RemoveItem(MenuItem &item)
         this->_dependencyInfoMap.erase(&item);
         parent->subItems.erase(parent->subItems.begin() + index);
 
-        for (int i = index; i < parent->subItems.size(); ++i) {
+        for (int i = index; i < (int)parent->subItems.size(); ++i) {
             this->_dependencyInfoMap[parent->subItems[i].get()].index -= 1;
         }
     }
@@ -156,7 +156,7 @@ bool sw::MenuBase::RemoveItem(MenuItem &item)
 sw::MenuItem *sw::MenuBase::GetMenuItem(int id)
 {
     int index = this->IDToIndex(id);
-    return index >= 0 && index < this->_leaves.size() ? this->_leaves[index].get() : nullptr;
+    return index >= 0 && index < (int)this->_leaves.size() ? this->_leaves[index].get() : nullptr;
 }
 
 sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<int> path)
@@ -172,7 +172,7 @@ sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<int> path)
 
     int index = *it++;
 
-    if (index < 0 || index >= this->items.size()) {
+    if (index < 0 || index >= (int)this->items.size()) {
         return nullptr;
     }
 
@@ -180,7 +180,7 @@ sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<int> path)
 
     while (it != end) {
         index = *it++;
-        if (index < 0 || index >= result->subItems.size()) {
+        if (index < 0 || index >= (int)result->subItems.size()) {
             return nullptr;
         }
         result = result->subItems[index].get();
