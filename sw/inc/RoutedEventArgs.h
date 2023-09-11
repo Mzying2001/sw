@@ -5,6 +5,7 @@
 #include "RoutedEvent.h"
 #include "ScrollEnums.h"
 #include "Size.h"
+#include <type_traits>
 
 namespace sw
 {
@@ -39,7 +40,7 @@ namespace sw
      * @brief 模板特化：当T包含EventType时，将_IsTypedRoutedEventArgs<T>设为std::true_type
      */
     template <typename T>
-    struct _IsTypedRoutedEventArgs<T, std::void_t<decltype(T::EventType)>> : std::true_type {
+    struct _IsTypedRoutedEventArgs<T, decltype(void(std::declval<T>().EventType))> : std::true_type {
     };
 
     /**
