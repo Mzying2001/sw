@@ -2,6 +2,7 @@
 
 #include "Property.h"
 #include <Windows.h>
+#include <memory>
 #include <string>
 
 namespace sw
