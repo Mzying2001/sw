@@ -18,7 +18,7 @@ namespace sw
 
         friend bool operator==(const Color &left, const Color &right)
         {
-            return (left.r == right.r) && (left.g == right.g) && (left.b == left.b);
+            return (left.r == right.r) && (left.g == right.g) && (left.b == right.b);
         }
 
         friend bool operator!=(const Color &left, const Color &right)
