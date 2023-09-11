@@ -14,4 +14,4 @@ include_directories("${PROJECT_SOURCE_DIR}/inc")
 
 aux_source_directory("${PROJECT_SOURCE_DIR}/src" DIR_SRC)
 
-add_library(${CMAKE_PROJECT_NAME} STATIC ${DIR_SRC})
+add_library(sw STATIC ${DIR_SRC})
