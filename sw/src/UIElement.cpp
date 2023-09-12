@@ -256,8 +256,10 @@ sw::UIElement &sw::UIElement::operator[](int index) const
 
 void sw::UIElement::ShowContextMenu(const Point &point)
 {
-    POINT p = point;
-    TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, nullptr);
+    if (this->_contextMenu != nullptr) {
+        POINT p = point;
+        TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, nullptr);
+    }
 }
 
 uint64_t sw::UIElement::GetLayoutTag()
