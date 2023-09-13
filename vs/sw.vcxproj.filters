@@ -201,6 +201,9 @@
     <ClInclude Include="..\sw\inc\ScrollEnums.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\ITag.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\AbsoluteLayout.cpp">

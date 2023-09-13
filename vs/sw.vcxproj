@@ -172,6 +172,7 @@
     <ClInclude Include="..\sw\inc\Icon.h" />
     <ClInclude Include="..\sw\inc\ICtlColor.h" />
     <ClInclude Include="..\sw\inc\ILayout.h" />
+    <ClInclude Include="..\sw\inc\ITag.h" />
     <ClInclude Include="..\sw\inc\ItemsControl.h" />
     <ClInclude Include="..\sw\inc\Keys.h" />
     <ClInclude Include="..\sw\inc\Label.h" />
