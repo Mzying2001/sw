@@ -22,6 +22,7 @@
 #include "GroupBox.h"
 #include "ICtlColor.h"
 #include "ILayout.h"
+#include "ITag.h"
 #include "Icon.h"
 #include "ItemsControl.h"
 #include "Keys.h"
