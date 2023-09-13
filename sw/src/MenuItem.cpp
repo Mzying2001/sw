@@ -30,3 +30,13 @@ void sw::MenuItem::CallCommand()
     if (this->command)
         this->command(*this);
 }
+
+uint64_t sw::MenuItem::GetTag()
+{
+    return this->tag;
+}
+
+void sw::MenuItem::SetTag(uint64_t tag)
+{
+    this->tag = tag;
+}

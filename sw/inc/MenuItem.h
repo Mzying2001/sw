@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ITag.h"
 #include <Windows.h>
 #include <functional>
 #include <initializer_list>
@@ -9,9 +10,14 @@
 
 namespace sw
 {
-    class MenuItem
+    class MenuItem : public ITag
     {
     public:
+        /**
+         * @brief 储存用户自定义信息
+         */
+        uint64_t tag = 0;
+
         /**
          * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
          */
@@ -56,5 +62,15 @@ namespace sw
          * @brief 调用command
          */
         void CallCommand();
+
+        /**
+         * @brief 获取Tag
+         */
+        virtual uint64_t GetTag();
+
+        /**
+         * @brief 设置Tag
+         */
+        virtual void SetTag(uint64_t tag);
     };
 }
