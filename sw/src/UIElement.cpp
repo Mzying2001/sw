@@ -79,6 +79,16 @@ sw::UIElement::UIElement()
               return this->_parent;
           }),
 
+      Tag(
+          // get
+          [&]() -> const uint64_t & {
+              return this->_tag;
+          },
+          // set
+          [&](const uint64_t &value) {
+              this->_tag = value;
+          }),
+
       LayoutTag(
           // get
           [&]() -> const uint64_t & {
@@ -260,6 +270,16 @@ void sw::UIElement::ShowContextMenu(const Point &point)
         POINT p = point;
         TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, nullptr);
     }
+}
+
+uint64_t sw::UIElement::GetTag()
+{
+    return this->_tag;
+}
+
+void sw::UIElement::SetTag(uint64_t tag)
+{
+    this->_tag = tag;
 }
 
 uint64_t sw::UIElement::GetLayoutTag()
