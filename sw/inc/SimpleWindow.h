@@ -54,6 +54,7 @@
 #include "StackLayoutH.h"
 #include "StackLayoutV.h"
 #include "StackPanel.h"
+#include "TabControl.h"
 #include "TextBox.h"
 #include "TextBoxBase.h"
 #include "Thickness.h"
