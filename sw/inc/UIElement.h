@@ -425,6 +425,18 @@ namespace sw
         double GetChildBottommost(bool update);
 
         /**
+         * @brief         添加子元素后调用该函数
+         * @param element 添加的子元素
+         */
+        virtual void OnAddedChild(UIElement &element);
+
+        /**
+         * @brief         移除子元素后调用该函数
+         * @param element 移除的子元素
+         */
+        virtual void OnRemovedChild(UIElement &element);
+
+        /**
          * @brief  设置父窗口
          * @return 设置是否成功
          */

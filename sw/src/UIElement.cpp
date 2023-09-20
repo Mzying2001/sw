@@ -169,6 +169,8 @@ bool sw::UIElement::AddChild(UIElement *element)
 
     element->SetStyle(WS_CHILD, true);
     this->_children.push_back(element);
+
+    this->OnAddedChild(*element);
     this->NotifyLayoutUpdated();
     return true;
 }
@@ -206,7 +208,10 @@ bool sw::UIElement::RemoveChildAt(int index)
         return false;
     }
 
+    UIElement *element = *it;
     this->_children.erase(it);
+
+    this->OnRemovedChild(*element);
     this->NotifyLayoutUpdated();
     return true;
 }
@@ -229,6 +234,8 @@ bool sw::UIElement::RemoveChild(UIElement *element)
     }
 
     this->_children.erase(it);
+
+    this->OnRemovedChild(*element);
     this->NotifyLayoutUpdated();
     return true;
 }
@@ -240,10 +247,12 @@ bool sw::UIElement::RemoveChild(UIElement &element)
 
 void sw::UIElement::Clear()
 {
-    for (UIElement *item : this->_children) {
+    while (!this->_children.empty()) {
+        UIElement *item = this->_children.back();
         item->WndBase::SetParent(nullptr);
+        this->_children.pop_back();
+        this->OnRemovedChild(*item);
     }
-    this->_children.clear();
 }
 
 int sw::UIElement::IndexOf(UIElement *element)
@@ -472,6 +481,14 @@ double sw::UIElement::GetChildBottommost(bool update)
         }
     }
     return this->_childBottommost;
+}
+
+void sw::UIElement::OnAddedChild(UIElement &element)
+{
+}
+
+void sw::UIElement::OnRemovedChild(UIElement &element)
+{
 }
 
 bool sw::UIElement::SetParent(WndBase *parent)
