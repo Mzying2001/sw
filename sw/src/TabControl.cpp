@@ -14,12 +14,12 @@ sw::TabControl::TabControl()
           // get
           [&]() -> const int & {
               static int result;
-              result = (int)TabCtrl_GetCurSel(this->Handle);
+              result = (int)this->SendMessageW(TCM_GETCURSEL, 0, 0);
               return result;
           },
           // set
           [&](const int &value) {
-              TabCtrl_SetCurSel(this->Handle, value);
+              this->SendMessageW(TCM_SETCURSEL, (WPARAM)value, 0);
               this->UpdateChildVisible();
           })
 {
@@ -29,7 +29,7 @@ sw::TabControl::TabControl()
 
 int sw::TabControl::GetTabCount()
 {
-    return (int)TabCtrl_GetItemCount(this->Handle);
+    return (int)this->SendMessageW(TCM_GETITEMCOUNT, 0, 0);
 }
 
 void sw::TabControl::UpdateTab()
@@ -37,22 +37,20 @@ void sw::TabControl::UpdateTab()
     int childCount = this->ChildCount;
     int tabCount   = this->GetTabCount();
 
-    HWND hwnd = this->Handle;
-
-    TCITEMW tci{};
-    tci.mask = TCIF_TEXT;
+    TCITEMW item{};
+    item.mask = TCIF_TEXT;
 
     if (tabCount == childCount) {
         for (int i = 0; i < childCount; ++i) {
-            tci.pszText = (LPWSTR)(*this)[i].Text->c_str();
-            TabCtrl_SetItem(hwnd, i, &tci);
+            item.pszText = (LPWSTR)(*this)[i].Text->c_str();
+            this->SetItem(i, item);
         }
     } else {
         int selectedIndex = this->SelectedIndex;
-        TabCtrl_DeleteAllItems(hwnd);
+        this->DeleteAllItems();
         for (int i = 0; i < childCount; ++i) {
-            tci.pszText = (LPWSTR)(*this)[i].Text->c_str();
-            TabCtrl_InsertItem(hwnd, i, &tci);
+            item.pszText = (LPWSTR)(*this)[i].Text->c_str();
+            this->InsertItem(i, item);
         }
         if (selectedIndex >= 0) {
             this->SelectedIndex = selectedIndex;
@@ -70,10 +68,10 @@ void sw::TabControl::UpdateTabText(int index)
     int tabCount   = this->GetTabCount();
 
     if (index < childCount && index < tabCount) {
-        TCITEMW tci{};
-        tci.mask    = TCIF_TEXT;
-        tci.pszText = (LPWSTR)(*this)[index].Text->c_str();
-        TabCtrl_SetItem(this->Handle, index, &tci);
+        TCITEMW item{};
+        item.mask    = TCIF_TEXT;
+        item.pszText = (LPWSTR)(*this)[index].Text->c_str();
+        this->SetItem(index, item);
     }
 }
 
@@ -104,17 +102,17 @@ void sw::TabControl::Arrange(const sw::Rect &finalPosition)
 
 void sw::TabControl::OnAddedChild(UIElement &element)
 {
-    TCITEMW tci{};
-    tci.mask    = TCIF_TEXT;
-    tci.pszText = (LPWSTR)L"";
+    TCITEMW item{};
+    item.mask    = TCIF_TEXT;
+    item.pszText = (LPWSTR)L"";
 
-    TabCtrl_InsertItem(this->Handle, this->GetTabCount(), &tci);
+    this->InsertItem(this->GetTabCount(), item);
     this->UpdateTab();
 }
 
 void sw::TabControl::OnRemovedChild(UIElement &element)
 {
-    TabCtrl_DeleteItem(this->Handle, this->GetTabCount() - 1);
+    this->DeleteItem(this->GetTabCount() - 1);
     this->UpdateTab();
 }
 
@@ -135,6 +133,26 @@ void sw::TabControl::UpdateChildVisible()
         item.Visible    = i == selectedIndex;
         item.Visible    = i == selectedIndex; // 不加这个在点击按钮后立刻换页按钮会莫名其妙固定在界面上
     }
+}
+
+int sw::TabControl::InsertItem(int index, TCITEMW &item)
+{
+    return (int)this->SendMessageW(TCM_INSERTITEMW, (WPARAM)index, reinterpret_cast<LPARAM>(&item));
+}
+
+bool sw::TabControl::SetItem(int index, TCITEMW &item)
+{
+    return this->SendMessageW(TCM_SETITEMW, (WPARAM)index, reinterpret_cast<LPARAM>(&item));
+}
+
+bool sw::TabControl::DeleteItem(int index)
+{
+    return this->SendMessageW(TCM_DELETEITEM, (WPARAM)index, 0);
+}
+
+bool sw::TabControl::DeleteAllItems()
+{
+    return this->SendMessageW(TCM_DELETEALLITEMS, 0, 0);
 }
 
 void sw::TabControl::OnNotified(NMHDR *pNMHDR)

@@ -77,8 +77,28 @@ namespace sw
         void UpdateChildVisible();
 
         /**
+         * @brief 发送TCM_INSERTITEMW消息
+         */
+        int InsertItem(int index, TCITEMW &item);
+
+        /**
+         * @brief 发送TCM_SETITEMW消息
+         */
+        bool SetItem(int index, TCITEMW &item);
+
+        /**
+         * @brief 发送TCM_DELETEITEM消息
+         */
+        bool DeleteItem(int index);
+
+        /**
+         * @brief 发送TCM_DELETEALLITEMS消息
+         */
+        bool DeleteAllItems();
+
+        /**
          * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
          */
-        virtual void OnNotified(NMHDR *pNMHDR);
+        virtual void OnNotified(NMHDR *pNMHDR) override;
     };
 }
