@@ -6,7 +6,12 @@ sw::TabControl::TabControl()
           // get
           [&]() -> const sw::Rect & {
               static sw::Rect result;
-              result = this->GetContentRect(this->ClientRect);
+
+              RECT rect;
+              GetClientRect(this->Handle, &rect);
+              this->SendMessageW(TCM_ADJUSTRECT, FALSE, reinterpret_cast<LPARAM>(&rect));
+
+              result = rect;
               return result;
           }),
 
@@ -21,6 +26,91 @@ sw::TabControl::TabControl()
           [&](const int &value) {
               this->SendMessageW(TCM_SETCURSEL, (WPARAM)value, 0);
               this->UpdateChildVisible();
+          }),
+
+      Alignment(
+          // get
+          [&]() -> const TabAlignment & {
+              static TabAlignment result;
+              auto style = this->GetStyle();
+
+              if (style & TCS_VERTICAL) {
+                  result = (style & TCS_RIGHT) ? TabAlignment::Right : TabAlignment::Left;
+                  return result;
+              } else {
+                  result = (style & TCS_BOTTOM) ? TabAlignment::Bottom : TabAlignment::Top;
+                  return result;
+              }
+          },
+          // set
+          [&](const TabAlignment &value) {
+              auto oldStyle = this->GetStyle();
+              auto style    = oldStyle;
+
+              switch (value) {
+                  case TabAlignment::Top: {
+                      style &= ~(TCS_VERTICAL | TCS_BOTTOM);
+                      break;
+                  }
+                  case TabAlignment::Bottom: {
+                      style &= ~TCS_VERTICAL;
+                      style |= TCS_BOTTOM;
+                      break;
+                  }
+                  case TabAlignment::Left: {
+                      style |= (TCS_VERTICAL | TCS_MULTILINE);
+                      style &= ~TCS_RIGHT;
+                      break;
+                  }
+                  case TabAlignment::Right: {
+                      style |= (TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHT);
+                      break;
+                  }
+              }
+
+              if (style == oldStyle) {
+                  return;
+              } else {
+                  this->SetStyle(style);
+              }
+
+              // 特定情况下需要重新创建控件
+              if ((style & TCS_VERTICAL) ||                               // TCS_VERTICAL位为1
+                  ((style & TCS_VERTICAL) ^ (oldStyle & TCS_VERTICAL))) { // TCS_VERTICAL位改变
+
+                  int selectedIndex = this->SelectedIndex;
+                  int childCount    = this->ChildCount;
+
+                  std::vector<UIElement *> children;
+                  children.reserve(childCount);
+                  for (int i = childCount - 1; i >= 0; --i) {
+                      children.push_back(&(*this)[i]);
+                      this->RemoveChildAt(i);
+                  }
+
+                  this->ResetHandle();
+                  for (int i = childCount - 1; i >= 0; --i) {
+                      this->AddChild(children[i]);
+                  }
+
+                  this->SelectedIndex = selectedIndex;
+
+              } else {
+                  this->NotifyLayoutUpdated();
+              }
+          }),
+
+      MultiLine(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(TCS_MULTILINE);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(TCS_MULTILINE, value);
+              this->NotifyLayoutUpdated();
           })
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | TCS_FOCUSNEVER, 0);
@@ -82,8 +172,7 @@ void sw::TabControl::Measure(const Size &availableSize)
     int selectedIndex = this->SelectedIndex;
     if (selectedIndex < 0 || selectedIndex >= this->ChildCount) return;
 
-    sw::Rect contentRect;
-    contentRect = this->GetContentRect(contentRect);
+    sw::Rect contentRect = this->ContentRect;
 
     measureSize = {contentRect.width, contentRect.height};
     (*this)[selectedIndex].Measure(measureSize);
@@ -117,11 +206,11 @@ void sw::TabControl::OnRemovedChild(UIElement &element)
     this->UpdateChildVisible();
 }
 
-sw::Rect sw::TabControl::GetContentRect(const sw::Rect &rect)
+void sw::TabControl::OnNotified(NMHDR *pNMHDR)
 {
-    RECT rt = rect;
-    this->SendMessageW(TCM_ADJUSTRECT, FALSE, reinterpret_cast<LPARAM>(&rt));
-    return rt;
+    if (pNMHDR->code == TCN_SELCHANGE) {
+        this->UpdateChildVisible();
+    }
 }
 
 void sw::TabControl::UpdateChildVisible()
@@ -154,11 +243,4 @@ bool sw::TabControl::DeleteItem(int index)
 bool sw::TabControl::DeleteAllItems()
 {
     return this->SendMessageW(TCM_DELETEALLITEMS, 0, 0);
-}
-
-void sw::TabControl::OnNotified(NMHDR *pNMHDR)
-{
-    if (pNMHDR->code == TCN_SELCHANGE) {
-        this->UpdateChildVisible();
-    }
 }

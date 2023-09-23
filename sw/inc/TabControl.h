@@ -5,6 +5,19 @@
 
 namespace sw
 {
+    /**
+     * @brief TabControl标签的位置
+     */
+    enum class TabAlignment {
+        Top,    // 顶部
+        Bottom, // 底部
+        Left,   // 左边
+        Right   // 右边
+    };
+
+    /**
+     * @brief 标签页控件
+     */
     class TabControl : public Control
     {
     public:
@@ -18,9 +31,19 @@ namespace sw
          */
         const Property<int> SelectedIndex;
 
+        /**
+         * @brief 标签的位置
+         */
+        const Property<TabAlignment> Alignment;
+
+        /**
+         * @brief 是否开启多行标签
+         */
+        const Property<bool> MultiLine;
+
     public:
         /**
-         * @brief 初始化TabControl
+         * @brief 初始化标签页控件
          */
         TabControl();
 
@@ -65,12 +88,12 @@ namespace sw
          */
         virtual void OnRemovedChild(UIElement &element) override;
 
-    private:
         /**
-         * @brief 获取指定尺寸时的内容位置和尺寸
+         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
          */
-        sw::Rect GetContentRect(const sw::Rect &rect);
+        virtual void OnNotified(NMHDR *pNMHDR) override;
 
+    private:
         /**
          * @brief 根据选中的tab更新子元素的Visible属性
          */
@@ -95,10 +118,5 @@ namespace sw
          * @brief 发送TCM_DELETEALLITEMS消息
          */
         bool DeleteAllItems();
-
-        /**
-         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
-         */
-        virtual void OnNotified(NMHDR *pNMHDR) override;
     };
 }
