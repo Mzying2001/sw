@@ -34,27 +34,26 @@ int sw::TabControl::GetTabCount()
 
 void sw::TabControl::UpdateTab()
 {
+    TCITEMW item{};
+    item.mask    = TCIF_TEXT;
+    item.pszText = (LPWSTR)L"";
+
     int childCount = this->ChildCount;
     int tabCount   = this->GetTabCount();
 
-    TCITEMW item{};
-    item.mask = TCIF_TEXT;
+    while (tabCount < childCount) {
+        this->InsertItem(tabCount, item);
+        tabCount = this->GetTabCount();
+    }
 
-    if (tabCount == childCount) {
-        for (int i = 0; i < childCount; ++i) {
-            item.pszText = (LPWSTR)(*this)[i].Text->c_str();
-            this->SetItem(i, item);
-        }
-    } else {
-        int selectedIndex = this->SelectedIndex;
-        this->DeleteAllItems();
-        for (int i = 0; i < childCount; ++i) {
-            item.pszText = (LPWSTR)(*this)[i].Text->c_str();
-            this->InsertItem(i, item);
-        }
-        if (selectedIndex >= 0) {
-            this->SelectedIndex = selectedIndex;
-        }
+    while (tabCount > childCount) {
+        this->DeleteItem(tabCount - 1);
+        tabCount = this->GetTabCount();
+    }
+
+    for (int i = 0; i < childCount; ++i) {
+        item.pszText = (LPWSTR)(*this)[i].Text->c_str();
+        this->SetItem(i, item);
     }
 }
 
@@ -104,16 +103,18 @@ void sw::TabControl::OnAddedChild(UIElement &element)
 {
     TCITEMW item{};
     item.mask    = TCIF_TEXT;
-    item.pszText = (LPWSTR)L"";
+    item.pszText = (LPWSTR)element.Text->c_str();
 
-    this->InsertItem(this->GetTabCount(), item);
-    this->UpdateTab();
+    int index = this->IndexOf(element);
+
+    this->InsertItem(index, item);
+    element.Visible = index == this->SelectedIndex;
 }
 
 void sw::TabControl::OnRemovedChild(UIElement &element)
 {
-    this->DeleteItem(this->GetTabCount() - 1);
     this->UpdateTab();
+    this->UpdateChildVisible();
 }
 
 sw::Rect sw::TabControl::GetContentRect(const sw::Rect &rect)
