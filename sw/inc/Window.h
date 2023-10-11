@@ -49,7 +49,12 @@ namespace sw
         double _maxWidth = -1, _maxHeight = -1, _minWidth = -1, _minHeight = -1;
 
         /**
-         * @brief 鼠标句柄
+         * @brief 窗口初次启动的位置
+         */
+        WindowStartupLocation _startupLocation = WindowStartupLocation::Manual;
+
+        /**
+         * @brief 鼠标句柄，窗口初始化时会赋值
          */
         HCURSOR _hCursor;
 
@@ -70,14 +75,14 @@ namespace sw
 
     public:
         /**
-         * @brief 窗口初次启动的位置
-         */
-        WindowStartupLocation StartupLocation = WindowStartupLocation::Manual;
-
-        /**
          * @brief 程序的当前活动窗体
          */
         static const ReadOnlyProperty<Window *> ActiveWindow;
+
+        /**
+         * @brief 窗口初次启动的位置
+         */
+        const Property<WindowStartupLocation> StartupLocation;
 
         /**
          * @brief 窗口状态

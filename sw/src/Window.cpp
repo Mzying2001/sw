@@ -35,7 +35,17 @@ const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
 );
 
 sw::Window::Window()
-    : State(
+    : StartupLocation(
+          // get
+          [&]() -> const WindowStartupLocation & {
+              return this->_startupLocation;
+          },
+          // set
+          [&](const WindowStartupLocation &value) {
+              this->_startupLocation = value;
+          }),
+
+      State(
           // get
           [&]() -> const WindowState & {
               static WindowState state;
@@ -205,12 +215,12 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             // 窗口首次启动时按照StartupLocation修改位置
             if (this->_isFirstShow) {
                 this->_isFirstShow = false;
-                if (this->StartupLocation == WindowStartupLocation::CenterScreen) {
+                if (this->_startupLocation == WindowStartupLocation::CenterScreen) {
                     sw::Rect rect = this->Rect;
                     rect.left     = (Screen::Width - rect.width) / 2;
                     rect.top      = (Screen::Height - rect.height) / 2;
                     this->Rect    = rect;
-                } else if (this->StartupLocation == WindowStartupLocation::CenterOwner) {
+                } else if (this->_startupLocation == WindowStartupLocation::CenterOwner) {
                     if (this->IsModal()) {
                         sw::Rect windowRect = this->Rect;
                         sw::Rect ownerRect  = this->_modalOwner->Rect;
