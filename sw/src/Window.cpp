@@ -28,7 +28,7 @@ static HICON _GetWindowDefaultIcon();
 const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
     []() -> sw::Window *const & {
         static sw::Window *pWindow;
-        HWND hwnd = GetForegroundWindow();
+        HWND hwnd = GetActiveWindow();
         pWindow   = dynamic_cast<sw::Window *>(sw::WndBase::GetWndBase(hwnd));
         return pWindow;
     } //
