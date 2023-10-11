@@ -258,6 +258,14 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             return 1; // 阻止擦除背景
         }
 
+        case WM_ACTIVATE: {
+            if (refMsg.wParam == WA_INACTIVE)
+                this->OnInactived();
+            else
+                this->OnActived();
+            return 0;
+        }
+
         case WM_UpdateLayout: {
             this->UpdateLayout();
             return 0;
@@ -352,6 +360,16 @@ void sw::Window::OnMenuCommand(int id)
         MenuItem *item = this->_menu->GetMenuItem(id);
         if (item) item->CallCommand();
     }
+}
+
+void sw::Window::OnActived()
+{
+    SetFocus(this->_hPrevFocused);
+}
+
+void sw::Window::OnInactived()
+{
+    this->_hPrevFocused = GetFocus();
 }
 
 void sw::Window::Show()

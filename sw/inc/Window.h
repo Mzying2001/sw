@@ -9,18 +9,27 @@
 
 namespace sw
 {
+    /**
+     * @brief 窗口状态
+     */
     enum class WindowState {
         Normal,    // 普通窗口
         Minimized, // 最小化窗口
         Maximized, // 最大化窗口
     };
 
+    /**
+     * @brief 窗口启动位置
+     */
     enum class WindowStartupLocation {
         Manual,       // 使用系统默认或手动设置
         CenterScreen, // 屏幕中心
         CenterOwner,  // 所有者窗口中心，只在ShowDialog时有效
     };
 
+    /**
+     * @brief 窗口
+     */
     class Window : public Layer
     {
     private:
@@ -53,6 +62,11 @@ namespace sw
          * @brief 窗口顶部菜单
          */
         sw::Menu *_menu = nullptr;
+
+        /**
+         * @brief 窗口在失去焦点前保存句柄，用于窗口重新获得焦点时保留原先焦点控件的焦点
+         */
+        HWND _hPrevFocused = NULL;
 
     public:
         /**
@@ -174,6 +188,16 @@ namespace sw
          * @param id 菜单id
          */
         virtual void OnMenuCommand(int id) override;
+
+        /**
+         * @brief 窗口成为前台窗口时调用该函数
+         */
+        virtual void OnActived();
+
+        /**
+         * @brief 窗口成为后台窗口时调用该函数
+         */
+        virtual void OnInactived();
 
     public:
         /**
