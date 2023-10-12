@@ -579,8 +579,12 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 
         case WM_NOTIFY: {
             NMHDR *pNMHDR = reinterpret_cast<NMHDR *>(refMsg.lParam);
-            this->OnNotify(pNMHDR);
-            return 0;
+            bool handled  = this->OnNotify(pNMHDR);
+
+            WndBase *pWnd = WndBase::GetWndBase(pNMHDR->hwndFrom);
+            if (pWnd) pWnd->OnNotified(pNMHDR);
+
+            return handled ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_CTLCOLORBTN:
@@ -890,10 +894,9 @@ bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
     return false;
 }
 
-void sw::WndBase::OnNotify(NMHDR *pNMHDR)
+bool sw::WndBase::OnNotify(NMHDR *pNMHDR)
 {
-    WndBase *pWnd = WndBase::GetWndBase(pNMHDR->hwndFrom);
-    if (pWnd) pWnd->OnNotified(pNMHDR);
+    return false;
 }
 
 void sw::WndBase::OnNotified(NMHDR *pNMHDR)

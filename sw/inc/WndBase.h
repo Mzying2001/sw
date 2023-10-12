@@ -544,9 +544,11 @@ namespace sw
         virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition);
 
         /**
-         * @brief 接收到WM_NOTIFY后调用该函数
+         * @brief        接收到WM_NOTIFY后调用该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnNotify(NMHDR *pNMHDR);
+        virtual bool OnNotify(NMHDR *pNMHDR);
 
         /**
          * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
