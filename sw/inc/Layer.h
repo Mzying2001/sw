@@ -1,6 +1,5 @@
 #pragma once
 
-#include "AbsoluteLayout.h"
 #include "LayoutHost.h"
 #include "ScrollEnums.h"
 #include "UIElement.h"
@@ -16,14 +15,9 @@ namespace sw
         bool _layoutDisabled = false;
 
         /**
-         * @brief 指向所使用布局方式对象的指针，调用GetLayoutHost获取所指向的对象，当该字段为nullptr时GetLayoutHost获取到的是_defaultLayout
+         * @brief 指向所使用布局方式对象的指针
          */
         LayoutHost *_layout = nullptr;
-
-        /**
-         * @brief 默认的布局方式，当Layout为nullptr时使用该布局
-         */
-        AbsoluteLayout _defaultLayout = AbsoluteLayout();
 
         /**
          * @brief 记录水平滚动条是否已被禁止
@@ -37,7 +31,7 @@ namespace sw
 
     public:
         /**
-         * @brief 窗口布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设置为nullptr可恢复默认布局
+         * @brief 窗口布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象
          */
         const Property<LayoutHost *> Layout;
 
@@ -77,12 +71,13 @@ namespace sw
          */
         Layer();
 
-    protected:
+    private:
         /**
-         * @brief 获取Layout，若Layout为空则返回默认Layout
+         * @brief 在没有设定布局方式时，使用该函数对子元素Measure和Arrange
          */
-        LayoutHost &GetLayoutHost();
+        void MeasureAndArrangeWithoutLayout();
 
+    protected:
         /**
          * @brief 更新布局
          */
@@ -124,11 +119,6 @@ namespace sw
          * @param finalSize 最终控件所安排的位置
          */
         virtual void Arrange(const sw::Rect &finalPosition) override;
-
-        /**
-         * @brief 获取一个bool值，表示当前使用布局方式是否为绝对布局
-         */
-        bool IsUsingAbsoluteLayout();
 
         /**
          * @brief 禁用布局
@@ -189,7 +179,7 @@ namespace sw
         void SetVerticalScrollPageSize(double pageSize);
 
         /**
-         * @brief 根据子元素更新滚动条范围，当使用绝对布局时该函数无效
+         * @brief 根据子元素更新滚动条范围，未设定布局方式时该函数无效
          */
         void UpdateScrollRange();
 

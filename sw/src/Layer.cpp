@@ -77,9 +77,9 @@ sw::Layer::Layer()
               info.nPos   = std::lround(value / Dip::ScaleX);
               SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 
-              if (!this->IsUsingAbsoluteLayout() && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
+              if (this->_layout && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
                   this->GetArrangeOffsetX() = -HorizontalScrollPos;
-                  this->GetLayoutHost().Arrange(this->ClientRect);
+                  this->_layout->Arrange(this->ClientRect);
               }
           }),
 
@@ -104,9 +104,9 @@ sw::Layer::Layer()
               info.nPos   = std::lround(value / Dip::ScaleY);
               SetScrollInfo(this->Handle, SB_VERT, &info, true);
 
-              if (!this->IsUsingAbsoluteLayout() && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
+              if (this->_layout && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
                   this->GetArrangeOffsetY() = -VerticalScrollPos;
-                  this->GetLayoutHost().Arrange(this->ClientRect);
+                  this->_layout->Arrange(this->ClientRect);
               }
           }),
 
@@ -148,25 +148,36 @@ sw::Layer::Layer()
               return result;
           })
 {
-    this->_defaultLayout.Associate(this);
 }
 
-sw::LayoutHost &sw::Layer::GetLayoutHost()
+void sw::Layer::MeasureAndArrangeWithoutLayout()
 {
-    return this->_layout == nullptr ? this->_defaultLayout : *this->_layout;
+    int childCount = this->GetChildLayoutCount();
+
+    for (int i = 0; i < childCount; ++i) {
+        UIElement &child = static_cast<UIElement &>(this->GetChildLayoutAt(i));
+        child.Measure(Size(INFINITY, INFINITY));
+        Size desireSize = child.GetDesireSize();
+        child.Arrange(sw::Rect(child.Left, child.Top, desireSize.width, desireSize.height));
+    }
 }
 
 void sw::Layer::UpdateLayout()
 {
-    if (!this->_layoutDisabled) {
-        sw::Rect clientRect = this->ClientRect;
-        this->GetLayoutHost().Measure(Size(clientRect.width, clientRect.height));
-        this->GetLayoutHost().Arrange(clientRect);
-
-        this->UpdateScrollRange();
-
-        this->Redraw();
+    if (this->_layoutDisabled) {
+        return;
     }
+
+    if (this->_layout == nullptr) {
+        this->MeasureAndArrangeWithoutLayout();
+    } else {
+        sw::Rect clientRect = this->ClientRect;
+        this->_layout->Measure(Size(clientRect.width, clientRect.height));
+        this->_layout->Arrange(clientRect);
+    }
+
+    this->UpdateScrollRange();
+    this->Redraw();
 }
 
 void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double pos)
@@ -267,6 +278,11 @@ bool sw::Layer::OnHorizontalScroll(int event, int pos)
 
 void sw::Layer::Measure(const Size &availableSize)
 {
+    if (this->_layout == nullptr) {
+        this->UIElement::Measure(availableSize);
+        return;
+    }
+
     Size measureSize    = availableSize;
     Thickness margin    = this->Margin;
     sw::Rect windowRect = this->Rect;
@@ -276,32 +292,25 @@ void sw::Layer::Measure(const Size &availableSize)
     measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
     measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
 
-    this->GetLayoutHost().Measure(measureSize);
-
+    this->_layout->Measure(measureSize);
     Size desireSize = this->GetDesireSize();
 
-    if (std::isnan(desireSize.width) || std::isnan(desireSize.height)) {
-        // AbsoluteLayout特殊处理：用nan表示按照普通控件处理
-        this->UIElement::Measure(availableSize);
-    } else {
-        // 考虑边框
-        desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
-        desireSize.height += (windowRect.width - clientRect.width) + margin.top + margin.bottom;
-        this->SetDesireSize(desireSize);
-    }
+    desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
+    desireSize.height += (windowRect.width - clientRect.width) + margin.top + margin.bottom;
+    this->SetDesireSize(desireSize);
 }
 
 void sw::Layer::Arrange(const sw::Rect &finalPosition)
 {
     this->UIElement::Arrange(finalPosition);
-    this->GetLayoutHost().Arrange(this->ClientRect);
+
+    if (this->_layout == nullptr) {
+        this->MeasureAndArrangeWithoutLayout();
+    } else {
+        this->_layout->Arrange(this->ClientRect);
+    }
 
     this->UpdateScrollRange();
-}
-
-bool sw::Layer::IsUsingAbsoluteLayout()
-{
-    return this->_layout == nullptr || dynamic_cast<AbsoluteLayout *>(this->_layout) != nullptr;
 }
 
 void sw::Layer::DisableLayout()
@@ -403,9 +412,9 @@ void sw::Layer::SetVerticalScrollPageSize(double pageSize)
 
 void sw::Layer::UpdateScrollRange()
 {
-    if (this->IsUsingAbsoluteLayout()) {
-        // 当使用绝对布局时滚动条和控件位置需要手动设置
-        // 将以下俩字段设为false确保xxxScrollLimit属性在使用绝对布局时仍可用
+    if (this->_layout == nullptr) {
+        // 当未设置布局方式时滚动条和控件位置需要手动设置
+        // 将以下俩字段设为false确保xxxScrollLimit属性在未设置布局方式时仍可用
         this->_horizontalScrollDisabled = false;
         this->_verticalScrollDisabled   = false;
         return;
