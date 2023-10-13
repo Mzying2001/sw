@@ -164,20 +164,6 @@ void sw::TabControl::UpdateTabText(int index)
     }
 }
 
-void sw::TabControl::Measure(const Size &availableSize)
-{
-    Size measureSize = availableSize;
-    this->UIElement::Measure(measureSize);
-
-    int selectedIndex = this->SelectedIndex;
-    if (selectedIndex < 0 || selectedIndex >= this->ChildCount) return;
-
-    sw::Rect contentRect = this->ContentRect;
-
-    measureSize = {contentRect.width, contentRect.height};
-    (*this)[selectedIndex].Measure(measureSize);
-}
-
 void sw::TabControl::Arrange(const sw::Rect &finalPosition)
 {
     this->UIElement::Arrange(finalPosition);
@@ -185,7 +171,11 @@ void sw::TabControl::Arrange(const sw::Rect &finalPosition)
     int selectedIndex = this->SelectedIndex;
     if (selectedIndex < 0 || selectedIndex >= this->ChildCount) return;
 
-    (*this)[selectedIndex].Arrange(this->ContentRect);
+    UIElement &selectedItem = this->operator[](selectedIndex);
+    sw::Rect contentRect    = this->ContentRect;
+
+    selectedItem.Measure({contentRect.width, contentRect.height});
+    selectedItem.Arrange(contentRect);
 }
 
 void sw::TabControl::OnAddedChild(UIElement &element)
