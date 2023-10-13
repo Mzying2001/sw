@@ -93,6 +93,16 @@ namespace sw
         Window_Closed,
 
         /**
+         * @brief 窗口成为前台窗口，参数类型为sw::RoutedEventArgs
+         */
+        Window_Actived,
+
+        /**
+         * @brief 窗口成为后台窗口，参数类型为sw::RoutedEventArgs
+         */
+        Window_Inactived,
+
+        /**
          * @brief 按钮被单击，参数类型为sw::RoutedEventArgs
          */
         ButtonBase_Clicked,

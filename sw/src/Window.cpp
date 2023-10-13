@@ -375,10 +375,12 @@ void sw::Window::OnMenuCommand(int id)
 void sw::Window::OnActived()
 {
     SetFocus(this->_hPrevFocused);
+    this->RaiseRoutedEvent(Window_Actived);
 }
 
 void sw::Window::OnInactived()
 {
+    this->RaiseRoutedEvent(Window_Inactived);
     this->_hPrevFocused = GetFocus();
 }
 
