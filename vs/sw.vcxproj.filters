@@ -9,9 +9,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\sw\inc\AbsoluteLayout.h">
-      <Filter>inc</Filter>
-    </ClInclude>
     <ClInclude Include="..\sw\inc\Alignment.h">
       <Filter>inc</Filter>
     </ClInclude>
@@ -209,9 +206,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\sw\src\AbsoluteLayout.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\sw\src\App.cpp">
       <Filter>src</Filter>
     </ClCompile>

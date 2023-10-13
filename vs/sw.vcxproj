@@ -151,7 +151,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\sw\inc\AbsoluteLayout.h" />
     <ClInclude Include="..\sw\inc\Alignment.h" />
     <ClInclude Include="..\sw\inc\App.h" />
     <ClInclude Include="..\sw\inc\Button.h" />
@@ -219,7 +218,6 @@
     <ClInclude Include="..\sw\inc\WrapPanel.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\sw\src\AbsoluteLayout.cpp" />
     <ClCompile Include="..\sw\src\App.cpp" />
     <ClCompile Include="..\sw\src\Button.cpp" />
     <ClCompile Include="..\sw\src\ButtonBase.cpp" />
