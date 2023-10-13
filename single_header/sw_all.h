@@ -6,6 +6,7 @@
 #include <string>
 #include <cstdint>
 #include <iostream>
+#include <stdint.h>
 #include <initializer_list>
 #include <map>
 #include <tuple>
@@ -604,6 +605,29 @@ namespace sw
     };
 }
 
+// ITag.h
+
+
+namespace sw
+{
+    /**
+     * @brief Tag接口
+     */
+    class ITag
+    {
+    public:
+        /**
+         * @brief 获取Tag
+         */
+        virtual uint64_t GetTag() = 0;
+
+        /**
+         * @brief 设置Tag
+         */
+        virtual void SetTag(uint64_t tag) = 0;
+    };
+}
+
 // Keys.h
 
 
@@ -859,61 +883,6 @@ namespace sw
         Shift       = MK_SHIFT,    // The SHIFT key is down.
         MouseX1     = MK_XBUTTON1, // The first X button is down.
         MouseX2     = MK_XBUTTON2, // The second X button is down.
-    };
-}
-
-// MenuItem.h
-
-
-namespace sw
-{
-    class MenuItem
-    {
-    public:
-        /**
-         * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
-         */
-        std::wstring text;
-
-        /**
-         * @brief 子项
-         */
-        std::vector<std::shared_ptr<MenuItem>> subItems;
-
-        /**
-         * @brief 菜单项被单击时调用的函数
-         */
-        std::function<void(MenuItem &)> command;
-
-        /**
-         * @brief      构造一个MenuItem，并设置文本
-         * @param text 菜单项的文本
-         */
-        MenuItem(const std::wstring &text);
-
-        /**
-         * @brief          构造一个MenuItem，并设置其子项
-         * @param text     菜单下的文本
-         * @param subItems 子项列表
-         */
-        MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
-
-        /**
-         * @brief         构造一个MenuItem，并设置其回调函数
-         * @param text    菜单项的文本
-         * @param command 被单击时调用的函数
-         */
-        MenuItem(const std::wstring &text, const decltype(command) &command);
-
-        /**
-         * @brief 获取一个值，表示当前菜单项是否为分隔条
-         */
-        bool IsSeparator() const;
-
-        /**
-         * @brief 调用command
-         */
-        void CallCommand();
     };
 }
 
@@ -1266,6 +1235,16 @@ namespace sw
         Window_Closed,
 
         /**
+         * @brief 窗口成为前台窗口，参数类型为sw::RoutedEventArgs
+         */
+        Window_Actived,
+
+        /**
+         * @brief 窗口成为后台窗口，参数类型为sw::RoutedEventArgs
+         */
+        Window_Inactived,
+
+        /**
          * @brief 按钮被单击，参数类型为sw::RoutedEventArgs
          */
         ButtonBase_Clicked,
@@ -1294,6 +1273,11 @@ namespace sw
          * @brief 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
          */
         Layer_Scrolling,
+
+        /**
+         * @brief SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
+         */
+        TabControl_SelectedIndexChanged,
     };
 
     /*================================================================================*/
@@ -1744,6 +1728,374 @@ namespace sw
     };
 }
 
+// MenuItem.h
+
+
+namespace sw
+{
+    class MenuItem : public ITag
+    {
+    public:
+        /**
+         * @brief 储存用户自定义信息
+         */
+        uint64_t tag = 0;
+
+        /**
+         * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
+         */
+        std::wstring text;
+
+        /**
+         * @brief 子项
+         */
+        std::vector<std::shared_ptr<MenuItem>> subItems;
+
+        /**
+         * @brief 菜单项被单击时调用的函数
+         */
+        std::function<void(MenuItem &)> command;
+
+        /**
+         * @brief      构造一个MenuItem，并设置文本
+         * @param text 菜单项的文本
+         */
+        MenuItem(const std::wstring &text);
+
+        /**
+         * @brief          构造一个MenuItem，并设置其子项
+         * @param text     菜单下的文本
+         * @param subItems 子项列表
+         */
+        MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
+
+        /**
+         * @brief         构造一个MenuItem，并设置其回调函数
+         * @param text    菜单项的文本
+         * @param command 被单击时调用的函数
+         */
+        MenuItem(const std::wstring &text, const decltype(command) &command);
+
+        /**
+         * @brief 获取一个值，表示当前菜单项是否为分隔条
+         */
+        bool IsSeparator() const;
+
+        /**
+         * @brief 调用command
+         */
+        void CallCommand();
+
+        /**
+         * @brief 获取Tag
+         */
+        virtual uint64_t GetTag();
+
+        /**
+         * @brief 设置Tag
+         */
+        virtual void SetTag(uint64_t tag);
+    };
+}
+
+// RoutedEventArgs.h
+
+
+namespace sw
+{
+    struct RoutedEventArgs; // RoutedEvent.h
+
+    /**
+     * @brief       表示特定类型路由事件的事件参数类型，继承自该类的事件参数可以用于RegisterRoutedEvent模板函数
+     * @tparam TYPE 一个RoutedEventType枚举值，表示路由事件类型
+     */
+    template <RoutedEventType TYPE>
+    struct RoutedEventArgsOfType : RoutedEventArgs {
+
+        /**
+         * @brief 路由事件的类型，RegisterRoutedEvent模板函数使用此字段注册事件
+         */
+        static constexpr RoutedEventType EventType = TYPE;
+
+        RoutedEventArgsOfType()
+            : RoutedEventArgs(EventType)
+        {
+        }
+    };
+
+    /**
+     * @brief 结构体模板，用于检测类型T是否含有名为EventType的静态字段
+     */
+    template <typename T, typename = void>
+    struct _HasEventType : std::false_type {
+    };
+
+    /**
+     * @brief 模板特化：当T包含EventType时，将_IsTypedRoutedEventArgs<T>设为std::true_type
+     */
+    template <typename T>
+    struct _HasEventType<T, decltype(void(std::declval<T>().EventType))> : std::true_type {
+    };
+
+    /**
+     * @brief 结构体模板，用于检测类型T是否包含事件类型信息
+     */
+    template <typename T>
+    struct _IsTypedRoutedEventArgs : _HasEventType<T> {
+    };
+
+    /**
+     * @brief 尺寸改变事件参数类型
+     */
+    struct SizeChangedEventArgs : RoutedEventArgsOfType<UIElement_SizeChanged> {
+
+        Size newClientSize; // 用户区的新尺寸
+
+        SizeChangedEventArgs(Size newClientSize)
+            : newClientSize(newClientSize)
+        {
+        }
+    };
+
+    /**
+     * @brief 位置改变事件参数类型
+     */
+    struct PositionChangedEventArgs : RoutedEventArgsOfType<UIElement_PositionChanged> {
+
+        Point newClientPosition; // 移动后用户区左上角的位置
+
+        PositionChangedEventArgs(Point newClientPosition)
+            : newClientPosition(newClientPosition)
+        {
+        }
+    };
+
+    /**
+     * @brief 输入字符事件类型参数
+     */
+    struct GotCharEventArgs : RoutedEventArgsOfType<UIElement_GotChar> {
+
+        wchar_t ch;     // 输入的字符
+        KeyFlags flags; // 附加信息
+
+        GotCharEventArgs(wchar_t ch, KeyFlags flags)
+            : ch(ch), flags(flags)
+        {
+        }
+    };
+
+    /**
+     * @brief 键盘按键按下事件参数类型
+     */
+    struct KeyDownEventArgs : RoutedEventArgsOfType<UIElement_KeyDown> {
+
+        VirtualKey key; // 虚拟按键
+        KeyFlags flags; // 附加信息
+
+        KeyDownEventArgs(VirtualKey key, KeyFlags flags)
+            : key(key), flags(flags)
+        {
+        }
+    };
+
+    /**
+     * @brief 键盘按键抬起事件参数类型
+     */
+    struct KeyUpEventArgs : RoutedEventArgsOfType<UIElement_KeyUp> {
+
+        VirtualKey key; // 虚拟按键
+        KeyFlags flags; // 附加信息
+
+        KeyUpEventArgs(VirtualKey key, KeyFlags flags)
+            : key(key), flags(flags)
+        {
+        }
+    };
+
+    /**
+     * @brief 鼠标移动事件参数类型
+     */
+    struct MouseMoveEventArgs : RoutedEventArgsOfType<UIElement_MouseMove> {
+
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+
+        MouseMoveEventArgs(Point mousePosition, MouseKey keyState)
+            : mousePosition(mousePosition), keyState(keyState)
+        {
+        }
+    };
+
+    /**
+     * @brief 鼠标滚轮滚动事件参数类型
+     */
+    struct MouseWheelEventArgs : RoutedEventArgsOfType<UIElement_MouseWheel> {
+
+        int wheelDelta;      // 滚轮滚动的距离，为120的倍数
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+
+        MouseWheelEventArgs(int wheelDelta, Point mousePosition, MouseKey keyState)
+            : wheelDelta(wheelDelta), mousePosition(mousePosition), keyState(keyState)
+        {
+        }
+    };
+
+    /**
+     * @brief 鼠标按键按下事件参数类型
+     */
+    struct MouseButtonDownEventArgs : RoutedEventArgsOfType<UIElement_MouseButtonDown> {
+
+        MouseKey key;        // 按下的按键（左键、中间、右键）
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+
+        MouseButtonDownEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
+            : key(key), mousePosition(mousePosition), keyState(keyState)
+        {
+        }
+    };
+
+    /**
+     * @brief 鼠标按键抬起事件参数类型
+     */
+    struct MouseButtonUpEventArgs : RoutedEventArgsOfType<UIElement_MouseButtonUp> {
+
+        MouseKey key;        // 抬起的按键（左键、中间、右键）
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+
+        MouseButtonUpEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
+            : key(key), mousePosition(mousePosition), keyState(keyState)
+        {
+        }
+    };
+
+    /**
+     * @brief 显示用户自定义上下文菜单的事件参数类型
+     */
+    struct ShowContextMenuEventArgs : RoutedEventArgsOfType<UIElement_ShowContextMenu> {
+
+        bool cancel = false; // 是否取消显示上下文菜单
+        bool isKeyboardMsg;  // 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
+        Point mousePosition; // 鼠标在屏幕中的位置
+
+        ShowContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition)
+            : isKeyboardMsg(isKeyboardMsg), mousePosition(mousePosition)
+        {
+        }
+    };
+
+    /**
+     * @brief 窗口正在关闭事件参数类型
+     */
+    struct WindowClosingEventArgs : RoutedEventArgsOfType<Window_Closing> {
+        bool cancel = false; // 是否取消本次关闭
+    };
+
+    /**
+     * @brief 窗口/面板滚动条滚动事件参数类型
+     */
+    struct ScrollingEventArgs : RoutedEventArgsOfType<Layer_Scrolling> {
+
+        bool cancel = false;         // 是否取消滚动条默认行为
+        ScrollOrientation scrollbar; // 滚动条类型
+        ScrollEvent event;           // 滚动条事件
+        double pos;                  // 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
+
+        ScrollingEventArgs(ScrollOrientation scrollbar, ScrollEvent event, double pos)
+            : scrollbar(scrollbar), event(event), pos(pos)
+        {
+        }
+    };
+}
+
+// Screen.h
+
+
+namespace sw
+{
+    class Screen
+    {
+    private:
+        Screen();
+
+    public:
+        static const ReadOnlyProperty<double> Width;
+        static const ReadOnlyProperty<double> Height;
+    };
+}
+
+// LayoutHost.h
+
+
+namespace sw
+{
+    class LayoutHost : public ILayout
+    {
+    private:
+        /**
+         * @brief 关联的对象
+         */
+        ILayout *_associatedObj = nullptr;
+
+    public:
+        /**
+         * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
+         * @param obj 要关联的对象
+         */
+        void Associate(ILayout *obj);
+
+    public:
+        /**
+         * @brief 获取布局标记
+         */
+        virtual uint64_t GetLayoutTag() override;
+
+        /**
+         * @brief 获取关联对象子控件的数量
+         */
+        virtual int GetChildLayoutCount() override;
+
+        /**
+         * @brief 获取关联对象对应索引处的子控件
+         */
+        virtual ILayout &GetChildLayoutAt(int index) override;
+
+        /**
+         * @brief 获取关联对象所需尺寸
+         */
+        virtual Size GetDesireSize() override;
+
+        /**
+         * @brief 设置关联对象所需的尺寸
+         */
+        virtual void SetDesireSize(const Size &size) override;
+
+        /**
+         * @brief               测量控件所需尺寸
+         * @param availableSize 可用的尺寸
+         */
+        virtual void Measure(const Size &availableSize) override;
+
+        /**
+         * @brief               安排控件位置
+         * @param finalPosition 最终控件所安排的位置
+         */
+        virtual void Arrange(const Rect &finalPosition) override;
+
+        /**
+         * @brief 重写此函数计算所需尺寸
+         */
+        virtual void MeasureOverride(Size &availableSize) = 0;
+
+        /**
+         * @brief 重写此函数安排控件
+         */
+        virtual void ArrangeOverride(Size &finalSize) = 0;
+    };
+}
+
 // MenuBase.h
 
 
@@ -1961,374 +2313,6 @@ namespace sw
          * @return   索引
          */
         virtual int IDToIndex(int id) = 0;
-    };
-}
-
-// RoutedEventArgs.h
-
-
-namespace sw
-{
-    struct RoutedEventArgs; // RoutedEvent.h
-
-    /**
-     * @brief       表示特定类型路由事件的事件参数类型，继承自该类的事件参数可以用于RegisterRoutedEvent模板函数
-     * @tparam TYPE 一个RoutedEventType枚举值，表示路由事件类型
-     */
-    template <RoutedEventType TYPE>
-    struct RoutedEventArgsOfType : RoutedEventArgs {
-
-        /**
-         * @brief 路由事件的类型，RegisterRoutedEvent模板函数使用此字段注册事件
-         */
-        static constexpr RoutedEventType EventType = TYPE;
-
-        RoutedEventArgsOfType()
-            : RoutedEventArgs(EventType)
-        {
-        }
-    };
-
-    /**
-     * @brief 结构体模板，用于检测类型T是否含有名为EventType的静态字段
-     */
-    template <typename T, typename = void>
-    struct _IsTypedRoutedEventArgs : std::false_type {
-    };
-
-    /**
-     * @brief 模板特化：当T包含EventType时，将_IsTypedRoutedEventArgs<T>设为std::true_type
-     */
-    template <typename T>
-    struct _IsTypedRoutedEventArgs<T, decltype(void(std::declval<T>().EventType))> : std::true_type {
-    };
-
-    /**
-     * @brief 尺寸改变事件参数类型
-     */
-    struct SizeChangedEventArgs : RoutedEventArgsOfType<UIElement_SizeChanged> {
-
-        Size newClientSize; // 用户区的新尺寸
-
-        SizeChangedEventArgs(Size newClientSize)
-            : newClientSize(newClientSize)
-        {
-        }
-    };
-
-    /**
-     * @brief 位置改变事件参数类型
-     */
-    struct PositionChangedEventArgs : RoutedEventArgsOfType<UIElement_PositionChanged> {
-
-        Point newClientPosition; // 移动后用户区左上角的位置
-
-        PositionChangedEventArgs(Point newClientPosition)
-            : newClientPosition(newClientPosition)
-        {
-        }
-    };
-
-    /**
-     * @brief 输入字符事件类型参数
-     */
-    struct GotCharEventArgs : RoutedEventArgsOfType<UIElement_GotChar> {
-
-        wchar_t ch;     // 输入的字符
-        KeyFlags flags; // 附加信息
-
-        GotCharEventArgs(wchar_t ch, KeyFlags flags)
-            : ch(ch), flags(flags)
-        {
-        }
-    };
-
-    /**
-     * @brief 键盘按键按下事件参数类型
-     */
-    struct KeyDownEventArgs : RoutedEventArgsOfType<UIElement_KeyDown> {
-
-        VirtualKey key; // 虚拟按键
-        KeyFlags flags; // 附加信息
-
-        KeyDownEventArgs(VirtualKey key, KeyFlags flags)
-            : key(key), flags(flags)
-        {
-        }
-    };
-
-    /**
-     * @brief 键盘按键抬起事件参数类型
-     */
-    struct KeyUpEventArgs : RoutedEventArgsOfType<UIElement_KeyUp> {
-
-        VirtualKey key; // 虚拟按键
-        KeyFlags flags; // 附加信息
-
-        KeyUpEventArgs(VirtualKey key, KeyFlags flags)
-            : key(key), flags(flags)
-        {
-        }
-    };
-
-    /**
-     * @brief 鼠标移动事件参数类型
-     */
-    struct MouseMoveEventArgs : RoutedEventArgsOfType<UIElement_MouseMove> {
-
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-
-        MouseMoveEventArgs(Point mousePosition, MouseKey keyState)
-            : mousePosition(mousePosition), keyState(keyState)
-        {
-        }
-    };
-
-    /**
-     * @brief 鼠标滚轮滚动事件参数类型
-     */
-    struct MouseWheelEventArgs : RoutedEventArgsOfType<UIElement_MouseWheel> {
-
-        int wheelDelta;      // 滚轮滚动的距离，为120的倍数
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-
-        MouseWheelEventArgs(int wheelDelta, Point mousePosition, MouseKey keyState)
-            : wheelDelta(wheelDelta), mousePosition(mousePosition), keyState(keyState)
-        {
-        }
-    };
-
-    /**
-     * @brief 鼠标按键按下事件参数类型
-     */
-    struct MouseButtonDownEventArgs : RoutedEventArgsOfType<UIElement_MouseButtonDown> {
-
-        MouseKey key;        // 按下的按键（左键、中间、右键）
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-
-        MouseButtonDownEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
-            : key(key), mousePosition(mousePosition), keyState(keyState)
-        {
-        }
-    };
-
-    /**
-     * @brief 鼠标按键抬起事件参数类型
-     */
-    struct MouseButtonUpEventArgs : RoutedEventArgsOfType<UIElement_MouseButtonUp> {
-
-        MouseKey key;        // 抬起的按键（左键、中间、右键）
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-
-        MouseButtonUpEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
-            : key(key), mousePosition(mousePosition), keyState(keyState)
-        {
-        }
-    };
-
-    /**
-     * @brief 显示用户自定义上下文菜单的事件参数类型
-     */
-    struct ShowContextMenuEventArgs : RoutedEventArgsOfType<UIElement_ShowContextMenu> {
-
-        bool cancel = false; // 是否取消显示上下文菜单
-        bool isKeyboardMsg;  // 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
-        Point mousePosition; // 鼠标在屏幕中的位置
-
-        ShowContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition)
-            : isKeyboardMsg(isKeyboardMsg), mousePosition(mousePosition)
-        {
-        }
-    };
-
-    /**
-     * @brief 窗口正在关闭事件参数类型
-     */
-    struct WindowClosingEventArgs : RoutedEventArgsOfType<Window_Closing> {
-        bool cancel = false; // 是否取消本次关闭
-    };
-
-    /**
-     * @brief 窗口/面板滚动条滚动事件参数类型
-     */
-    struct ScrollingEventArgs : RoutedEventArgsOfType<Layer_Scrolling> {
-
-        bool cancel = false;         // 是否取消滚动条默认行为
-        ScrollOrientation scrollbar; // 滚动条类型
-        ScrollEvent event;           // 滚动条事件
-        double pos;                  // 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
-
-        ScrollingEventArgs(ScrollOrientation scrollbar, ScrollEvent event, double pos)
-            : scrollbar(scrollbar), event(event), pos(pos)
-        {
-        }
-    };
-}
-
-// Screen.h
-
-
-namespace sw
-{
-    class Screen
-    {
-    private:
-        Screen();
-
-    public:
-        static const ReadOnlyProperty<double> Width;
-        static const ReadOnlyProperty<double> Height;
-    };
-}
-
-// ContextMenu.h
-
-
-namespace sw
-{
-    class ContextMenu : public MenuBase
-    {
-    public:
-        /**
-         * @brief 初始化上下文菜单
-         */
-        ContextMenu();
-
-        /**
-         * @brief 初始化上下文菜单并设置菜单项
-         */
-        ContextMenu(std::initializer_list<MenuItem> items);
-
-        /**
-         * @brief    判断ID是否为上下文菜单项的ID
-         * @param id 要判断的ID
-         * @return   ID是否为上下文菜单项的ID
-         */
-        static bool IsContextMenuID(int id);
-
-    protected:
-        /**
-         * @brief       根据索引获取ID
-         * @param index 索引
-         * @return      菜单项的ID
-         */
-        virtual int IndexToID(int index) override;
-
-        /**
-         * @brief    根据ID获取索引
-         * @param id 菜单项的ID
-         * @return   索引
-         */
-        virtual int IDToIndex(int id) override;
-    };
-}
-
-// LayoutHost.h
-
-
-namespace sw
-{
-    class LayoutHost : public ILayout
-    {
-    private:
-        /**
-         * @brief 关联的对象
-         */
-        ILayout *_associatedObj = nullptr;
-
-    public:
-        /**
-         * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
-         * @param obj 要关联的对象
-         */
-        void Associate(ILayout *obj);
-
-    public:
-        /**
-         * @brief 获取布局标记
-         */
-        virtual uint64_t GetLayoutTag() override;
-
-        /**
-         * @brief 获取关联对象子控件的数量
-         */
-        virtual int GetChildLayoutCount() override;
-
-        /**
-         * @brief 获取关联对象对应索引处的子控件
-         */
-        virtual ILayout &GetChildLayoutAt(int index) override;
-
-        /**
-         * @brief 获取关联对象所需尺寸
-         */
-        virtual Size GetDesireSize() override;
-
-        /**
-         * @brief 设置关联对象所需的尺寸
-         */
-        virtual void SetDesireSize(const Size &size) override;
-
-        /**
-         * @brief               测量控件所需尺寸
-         * @param availableSize 可用的尺寸
-         */
-        virtual void Measure(const Size &availableSize) override;
-
-        /**
-         * @brief               安排控件位置
-         * @param finalPosition 最终控件所安排的位置
-         */
-        virtual void Arrange(const Rect &finalPosition) override;
-
-        /**
-         * @brief 重写此函数计算所需尺寸
-         */
-        virtual void MeasureOverride(Size &availableSize) = 0;
-
-        /**
-         * @brief 重写此函数安排控件
-         */
-        virtual void ArrangeOverride(Size &finalSize) = 0;
-    };
-}
-
-// Menu.h
-
-
-namespace sw
-{
-    class Menu : public MenuBase
-    {
-    public:
-        /**
-         * @brief 初始化菜单
-         */
-        Menu();
-
-        /**
-         * @brief 初始化菜单并设置菜单项
-         */
-        Menu(std::initializer_list<MenuItem> items);
-
-    protected:
-        /**
-         * @brief       根据索引获取ID
-         * @param index 索引
-         * @return      菜单项的ID
-         */
-        virtual int IndexToID(int index) override;
-
-        /**
-         * @brief    根据ID获取索引
-         * @param id 菜单项的ID
-         * @return   索引
-         */
-        virtual int IDToIndex(int id) override;
     };
 }
 
@@ -2863,9 +2847,11 @@ namespace sw
         virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition);
 
         /**
-         * @brief 接收到WM_NOTIFY后调用该函数
+         * @brief        接收到WM_NOTIFY后调用该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnNotify(NMHDR *pNMHDR);
+        virtual bool OnNotify(NMHDR *pNMHDR);
 
         /**
          * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
@@ -2981,23 +2967,45 @@ namespace sw
     };
 }
 
-// AbsoluteLayout.h
+// ContextMenu.h
 
 
 namespace sw
 {
-    class AbsoluteLayout : public LayoutHost
+    class ContextMenu : public MenuBase
     {
     public:
         /**
-         * @brief 计算所需尺寸
+         * @brief 初始化上下文菜单
          */
-        virtual void MeasureOverride(Size &availableSize) override;
+        ContextMenu();
 
         /**
-         * @brief 安排控件
+         * @brief 初始化上下文菜单并设置菜单项
          */
-        virtual void ArrangeOverride(Size &finalSize) override;
+        ContextMenu(std::initializer_list<MenuItem> items);
+
+        /**
+         * @brief    判断ID是否为上下文菜单项的ID
+         * @param id 要判断的ID
+         * @return   ID是否为上下文菜单项的ID
+         */
+        static bool IsContextMenuID(int id);
+
+    protected:
+        /**
+         * @brief       根据索引获取ID
+         * @param index 索引
+         * @return      菜单项的ID
+         */
+        virtual int IndexToID(int index) override;
+
+        /**
+         * @brief    根据ID获取索引
+         * @param id 菜单项的ID
+         * @return   索引
+         */
+        virtual int IDToIndex(int id) override;
     };
 }
 
@@ -3054,6 +3062,41 @@ namespace sw
          * @brief 安排控件
          */
         virtual void ArrangeOverride(Size &finalSize) override;
+    };
+}
+
+// Menu.h
+
+
+namespace sw
+{
+    class Menu : public MenuBase
+    {
+    public:
+        /**
+         * @brief 初始化菜单
+         */
+        Menu();
+
+        /**
+         * @brief 初始化菜单并设置菜单项
+         */
+        Menu(std::initializer_list<MenuItem> items);
+
+    protected:
+        /**
+         * @brief       根据索引获取ID
+         * @param index 索引
+         * @return      菜单项的ID
+         */
+        virtual int IndexToID(int index) override;
+
+        /**
+         * @brief    根据ID获取索引
+         * @param id 菜单项的ID
+         * @return   索引
+         */
+        virtual int IDToIndex(int id) override;
     };
 }
 
@@ -3166,12 +3209,78 @@ namespace sw
     };
 }
 
+// WrapLayoutH.h
+
+
+namespace sw
+{
+    class WrapLayoutH : virtual public LayoutHost
+    {
+    public:
+        /**
+         * @brief 计算所需尺寸
+         */
+        virtual void MeasureOverride(Size &availableSize) override;
+
+        /**
+         * @brief 安排控件
+         */
+        virtual void ArrangeOverride(Size &finalSize) override;
+    };
+}
+
+// WrapLayoutV.h
+
+
+namespace sw
+{
+    class WrapLayoutV : virtual public LayoutHost
+    {
+    public:
+        /**
+         * @brief 计算所需尺寸
+         */
+        virtual void MeasureOverride(Size &availableSize) override;
+
+        /**
+         * @brief 安排控件
+         */
+        virtual void ArrangeOverride(Size &finalSize) override;
+    };
+}
+
+// StackLayout.h
+
+
+namespace sw
+{
+    class StackLayout : public StackLayoutH,
+                        public StackLayoutV
+    {
+    public:
+        /**
+         * @brief 排列方式
+         */
+        Orientation orientation = Orientation::Vertical;
+
+        /**
+         * @brief 计算所需尺寸
+         */
+        virtual void MeasureOverride(Size &availableSize) override;
+
+        /**
+         * @brief 安排控件
+         */
+        virtual void ArrangeOverride(Size &finalSize) override;
+    };
+}
+
 // UIElement.h
 
 
 namespace sw
 {
-    class UIElement : public WndBase, public ILayout
+    class UIElement : public WndBase, public ILayout, public ITag
     {
     private:
         /**
@@ -3228,6 +3337,11 @@ namespace sw
          * @brief 记录路由事件的map
          */
         std::map<RoutedEventType, RoutedEvent> _eventMap{};
+
+        /**
+         * @brief 储存用户自定义信息
+         */
+        uint64_t _tag = 0;
 
         /**
          * @brief 布局标记
@@ -3294,6 +3408,11 @@ namespace sw
          * @brief 指向父元素的指针，当前元素为顶级窗口时该值为nullptr
          */
         const ReadOnlyProperty<UIElement *> Parent;
+
+        /**
+         * @brief 储存用户自定义信息的标记
+         */
+        const Property<uint64_t> Tag;
 
         /**
          * @brief 布局标记，对于不同的布局有不同含义
@@ -3471,6 +3590,16 @@ namespace sw
         void ShowContextMenu(const Point &point);
 
         /**
+         * @brief 获取Tag
+         */
+        virtual uint64_t GetTag();
+
+        /**
+         * @brief 设置Tag
+         */
+        virtual void SetTag(uint64_t tag);
+
+        /**
          * @brief 获取布局标记
          */
         virtual uint64_t GetLayoutTag() override;
@@ -3558,6 +3687,18 @@ namespace sw
          * @return       _childBottommost字段
          */
         double GetChildBottommost(bool update);
+
+        /**
+         * @brief         添加子元素后调用该函数
+         * @param element 添加的子元素
+         */
+        virtual void OnAddedChild(UIElement &element);
+
+        /**
+         * @brief         移除子元素后调用该函数
+         * @param element 移除的子元素
+         */
+        virtual void OnRemovedChild(UIElement &element);
 
         /**
          * @brief  设置父窗口
@@ -3726,34 +3867,20 @@ namespace sw
     };
 }
 
-// WrapLayoutH.h
+// WrapLayout.h
 
 
 namespace sw
 {
-    class WrapLayoutH : virtual public LayoutHost
+    class WrapLayout : public WrapLayoutH,
+                       public WrapLayoutV
     {
     public:
         /**
-         * @brief 计算所需尺寸
+         * @brief 排列方式
          */
-        virtual void MeasureOverride(Size &availableSize) override;
+        Orientation orientation = Orientation::Horizontal;
 
-        /**
-         * @brief 安排控件
-         */
-        virtual void ArrangeOverride(Size &finalSize) override;
-    };
-}
-
-// WrapLayoutV.h
-
-
-namespace sw
-{
-    class WrapLayoutV : virtual public LayoutHost
-    {
-    public:
         /**
          * @brief 计算所需尺寸
          */
@@ -3874,14 +4001,9 @@ namespace sw
         bool _layoutDisabled = false;
 
         /**
-         * @brief 指向所使用布局方式对象的指针，调用GetLayoutHost获取所指向的对象，当该字段为nullptr时GetLayoutHost获取到的是_defaultLayout
+         * @brief 指向所使用布局方式对象的指针
          */
         LayoutHost *_layout = nullptr;
-
-        /**
-         * @brief 默认的布局方式，当Layout为nullptr时使用该布局
-         */
-        AbsoluteLayout _defaultLayout = AbsoluteLayout();
 
         /**
          * @brief 记录水平滚动条是否已被禁止
@@ -3895,7 +4017,7 @@ namespace sw
 
     public:
         /**
-         * @brief 窗口布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设置为nullptr可恢复默认布局
+         * @brief 窗口布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象
          */
         const Property<LayoutHost *> Layout;
 
@@ -3935,12 +4057,13 @@ namespace sw
          */
         Layer();
 
-    protected:
+    private:
         /**
-         * @brief 获取Layout，若Layout为空则返回默认Layout
+         * @brief 在没有设定布局方式时，使用该函数对子元素Measure和Arrange
          */
-        LayoutHost &GetLayoutHost();
+        void MeasureAndArrangeWithoutLayout();
 
+    protected:
         /**
          * @brief 更新布局
          */
@@ -3982,11 +4105,6 @@ namespace sw
          * @param finalSize 最终控件所安排的位置
          */
         virtual void Arrange(const sw::Rect &finalPosition) override;
-
-        /**
-         * @brief 获取一个bool值，表示当前使用布局方式是否为绝对布局
-         */
-        bool IsUsingAbsoluteLayout();
 
         /**
          * @brief 禁用布局
@@ -4047,7 +4165,7 @@ namespace sw
         void SetVerticalScrollPageSize(double pageSize);
 
         /**
-         * @brief 根据子元素更新滚动条范围，当使用绝对布局时该函数无效
+         * @brief 根据子元素更新滚动条范围，未设定布局方式时该函数无效
          */
         void UpdateScrollRange();
 
@@ -4082,58 +4200,6 @@ namespace sw
          * @param offset 滚动的偏移量
          */
         void ScrollVertical(double offset);
-    };
-}
-
-// StackLayout.h
-
-
-namespace sw
-{
-    class StackLayout : public StackLayoutH,
-                        public StackLayoutV
-    {
-    public:
-        /**
-         * @brief 排列方式
-         */
-        Orientation orientation = Orientation::Vertical;
-
-        /**
-         * @brief 计算所需尺寸
-         */
-        virtual void MeasureOverride(Size &availableSize) override;
-
-        /**
-         * @brief 安排控件
-         */
-        virtual void ArrangeOverride(Size &finalSize) override;
-    };
-}
-
-// WrapLayout.h
-
-
-namespace sw
-{
-    class WrapLayout : public WrapLayoutH,
-                       public WrapLayoutV
-    {
-    public:
-        /**
-         * @brief 排列方式
-         */
-        Orientation orientation = Orientation::Horizontal;
-
-        /**
-         * @brief 计算所需尺寸
-         */
-        virtual void MeasureOverride(Size &availableSize) override;
-
-        /**
-         * @brief 安排控件
-         */
-        virtual void ArrangeOverride(Size &finalSize) override;
     };
 }
 
@@ -4549,6 +4615,126 @@ namespace sw
     };
 }
 
+// TabControl.h
+
+
+namespace sw
+{
+    /**
+     * @brief TabControl标签的位置
+     */
+    enum class TabAlignment {
+        Top,    // 顶部
+        Bottom, // 底部
+        Left,   // 左边
+        Right   // 右边
+    };
+
+    /**
+     * @brief 标签页控件
+     */
+    class TabControl : public Control
+    {
+    public:
+        /**
+         * @brief 内容区域位置与尺寸
+         */
+        const ReadOnlyProperty<sw::Rect> ContentRect;
+
+        /**
+         * @brief 当前页面的索引
+         */
+        const Property<int> SelectedIndex;
+
+        /**
+         * @brief 标签的位置
+         */
+        const Property<TabAlignment> Alignment;
+
+        /**
+         * @brief 是否开启多行标签
+         */
+        const Property<bool> MultiLine;
+
+    public:
+        /**
+         * @brief 初始化标签页控件
+         */
+        TabControl();
+
+        /**
+         * @brief 获取标签项的数量
+         */
+        int GetTabCount();
+
+        /**
+         * @brief 更新标签项信息
+         */
+        void UpdateTab();
+
+        /**
+         * @brief       更新指定索引处页面项的文本
+         * @param index 要更新的索引
+         */
+        void UpdateTabText(int index);
+
+        /**
+         * @brief               安排控件位置
+         * @param finalPosition 最终控件所安排的位置
+         */
+        virtual void Arrange(const sw::Rect &finalPosition) override;
+
+    protected:
+        /**
+         * @brief         添加子元素后调用该函数
+         * @param element 添加的子元素
+         */
+        virtual void OnAddedChild(UIElement &element) override;
+
+        /**
+         * @brief         移除子元素后调用该函数
+         * @param element 移除的子元素
+         */
+        virtual void OnRemovedChild(UIElement &element) override;
+
+        /**
+         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         */
+        virtual void OnNotified(NMHDR *pNMHDR) override;
+
+        /**
+         * @brief SelectedIndex属性更改时调用该函数
+         */
+        virtual void OnSelectedIndexChanged();
+
+    private:
+        /**
+         * @brief 根据选中的tab更新子元素的Visible属性
+         */
+        void UpdateChildVisible();
+
+        /**
+         * @brief 发送TCM_INSERTITEMW消息
+         */
+        int InsertItem(int index, TCITEMW &item);
+
+        /**
+         * @brief 发送TCM_SETITEMW消息
+         */
+        bool SetItem(int index, TCITEMW &item);
+
+        /**
+         * @brief 发送TCM_DELETEITEM消息
+         */
+        bool DeleteItem(int index);
+
+        /**
+         * @brief 发送TCM_DELETEALLITEMS消息
+         */
+        bool DeleteAllItems();
+    };
+}
+
 // TextBoxBase.h
 
 
@@ -4637,18 +4823,27 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 窗口状态
+     */
     enum class WindowState {
         Normal,    // 普通窗口
         Minimized, // 最小化窗口
         Maximized, // 最大化窗口
     };
 
+    /**
+     * @brief 窗口启动位置
+     */
     enum class WindowStartupLocation {
         Manual,       // 使用系统默认或手动设置
         CenterScreen, // 屏幕中心
         CenterOwner,  // 所有者窗口中心，只在ShowDialog时有效
     };
 
+    /**
+     * @brief 窗口
+     */
     class Window : public Layer
     {
     private:
@@ -4668,7 +4863,12 @@ namespace sw
         double _maxWidth = -1, _maxHeight = -1, _minWidth = -1, _minHeight = -1;
 
         /**
-         * @brief 鼠标句柄
+         * @brief 窗口初次启动的位置
+         */
+        WindowStartupLocation _startupLocation = WindowStartupLocation::Manual;
+
+        /**
+         * @brief 鼠标句柄，窗口初始化时会赋值
          */
         HCURSOR _hCursor;
 
@@ -4682,16 +4882,21 @@ namespace sw
          */
         sw::Menu *_menu = nullptr;
 
-    public:
         /**
-         * @brief 窗口初次启动的位置
+         * @brief 窗口在失去焦点前保存句柄，用于窗口重新获得焦点时保留原先焦点控件的焦点
          */
-        WindowStartupLocation StartupLocation = WindowStartupLocation::Manual;
+        HWND _hPrevFocused = NULL;
 
+    public:
         /**
          * @brief 程序的当前活动窗体
          */
         static const ReadOnlyProperty<Window *> ActiveWindow;
+
+        /**
+         * @brief 窗口初次启动的位置
+         */
+        const Property<WindowStartupLocation> StartupLocation;
 
         /**
          * @brief 窗口状态
@@ -4802,6 +5007,16 @@ namespace sw
          * @param id 菜单id
          */
         virtual void OnMenuCommand(int id) override;
+
+        /**
+         * @brief 窗口成为前台窗口时调用该函数
+         */
+        virtual void OnActived();
+
+        /**
+         * @brief 窗口成为后台窗口时调用该函数
+         */
+        virtual void OnInactived();
 
     public:
         /**
@@ -5473,7 +5688,6 @@ namespace sw
 // SimpleWindow.h
 
 // 包含SimpleWindow所有头文件
-
 
 // 启用视觉样式
 #pragma comment(linker, "\"/manifestdependency:type='win32' \

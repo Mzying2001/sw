@@ -3,30 +3,6 @@
 #include <strsafe.h>
 #include <algorithm>
 
-// AbsoluteLayout.cpp
-
-void sw::AbsoluteLayout::MeasureOverride(Size &availableSize)
-{
-    int count = this->GetChildLayoutCount();
-    for (int i = 0; i < count; ++i) {
-        ILayout &item = this->GetChildLayoutAt(i);
-        item.Measure(Size(INFINITY, INFINITY));
-    }
-    this->SetDesireSize(Size(NAN, NAN));
-    // 注：Layer对AbsoluteLayout有特殊处理，当DesireSize为NAN时将按照普通控件Measure
-}
-
-void sw::AbsoluteLayout::ArrangeOverride(Size &finalSize)
-{
-    int count = this->GetChildLayoutCount();
-    for (int i = 0; i < count; ++i) {
-        ILayout &item       = this->GetChildLayoutAt(i);
-        Size itemDesireSize = item.GetDesireSize();
-        item.Arrange(Rect(NAN, NAN, itemDesireSize.width, itemDesireSize.height));
-    }
-    // 注：UIElement对AbsoluteLayout有特殊处理，当Size的左边或顶边为NAN时，Arrange只调整尺寸不改位置
-}
-
 // App.cpp
 
 /**
@@ -1327,9 +1303,9 @@ sw::Layer::Layer()
               info.nPos   = std::lround(value / Dip::ScaleX);
               SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 
-              if (!this->IsUsingAbsoluteLayout() && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
+              if (this->_layout && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
                   this->GetArrangeOffsetX() = -HorizontalScrollPos;
-                  this->GetLayoutHost().Arrange(this->ClientRect);
+                  this->_layout->Arrange(this->ClientRect);
               }
           }),
 
@@ -1354,9 +1330,9 @@ sw::Layer::Layer()
               info.nPos   = std::lround(value / Dip::ScaleY);
               SetScrollInfo(this->Handle, SB_VERT, &info, true);
 
-              if (!this->IsUsingAbsoluteLayout() && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
+              if (this->_layout && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
                   this->GetArrangeOffsetY() = -VerticalScrollPos;
-                  this->GetLayoutHost().Arrange(this->ClientRect);
+                  this->_layout->Arrange(this->ClientRect);
               }
           }),
 
@@ -1398,25 +1374,36 @@ sw::Layer::Layer()
               return result;
           })
 {
-    this->_defaultLayout.Associate(this);
 }
 
-sw::LayoutHost &sw::Layer::GetLayoutHost()
+void sw::Layer::MeasureAndArrangeWithoutLayout()
 {
-    return this->_layout == nullptr ? this->_defaultLayout : *this->_layout;
+    int childCount = this->GetChildLayoutCount();
+
+    for (int i = 0; i < childCount; ++i) {
+        UIElement &child = static_cast<UIElement &>(this->GetChildLayoutAt(i));
+        child.Measure(Size(INFINITY, INFINITY));
+        Size desireSize = child.GetDesireSize();
+        child.Arrange(sw::Rect(child.Left, child.Top, desireSize.width, desireSize.height));
+    }
 }
 
 void sw::Layer::UpdateLayout()
 {
-    if (!this->_layoutDisabled) {
-        sw::Rect clientRect = this->ClientRect;
-        this->GetLayoutHost().Measure(Size(clientRect.width, clientRect.height));
-        this->GetLayoutHost().Arrange(clientRect);
-
-        this->UpdateScrollRange();
-
-        this->Redraw();
+    if (this->_layoutDisabled) {
+        return;
     }
+
+    if (this->_layout == nullptr) {
+        this->MeasureAndArrangeWithoutLayout();
+    } else {
+        sw::Rect clientRect = this->ClientRect;
+        this->_layout->Measure(Size(clientRect.width, clientRect.height));
+        this->_layout->Arrange(clientRect);
+    }
+
+    this->UpdateScrollRange();
+    this->Redraw();
 }
 
 void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double pos)
@@ -1517,6 +1504,11 @@ bool sw::Layer::OnHorizontalScroll(int event, int pos)
 
 void sw::Layer::Measure(const Size &availableSize)
 {
+    if (this->_layout == nullptr) {
+        this->UIElement::Measure(availableSize);
+        return;
+    }
+
     Size measureSize    = availableSize;
     Thickness margin    = this->Margin;
     sw::Rect windowRect = this->Rect;
@@ -1526,32 +1518,25 @@ void sw::Layer::Measure(const Size &availableSize)
     measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
     measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
 
-    this->GetLayoutHost().Measure(measureSize);
-
+    this->_layout->Measure(measureSize);
     Size desireSize = this->GetDesireSize();
 
-    if (std::isnan(desireSize.width) || std::isnan(desireSize.height)) {
-        // AbsoluteLayout特殊处理：用nan表示按照普通控件处理
-        this->UIElement::Measure(availableSize);
-    } else {
-        // 考虑边框
-        desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
-        desireSize.height += (windowRect.width - clientRect.width) + margin.top + margin.bottom;
-        this->SetDesireSize(desireSize);
-    }
+    desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
+    desireSize.height += (windowRect.width - clientRect.width) + margin.top + margin.bottom;
+    this->SetDesireSize(desireSize);
 }
 
 void sw::Layer::Arrange(const sw::Rect &finalPosition)
 {
     this->UIElement::Arrange(finalPosition);
-    this->GetLayoutHost().Arrange(this->ClientRect);
+
+    if (this->_layout == nullptr) {
+        this->MeasureAndArrangeWithoutLayout();
+    } else {
+        this->_layout->Arrange(this->ClientRect);
+    }
 
     this->UpdateScrollRange();
-}
-
-bool sw::Layer::IsUsingAbsoluteLayout()
-{
-    return this->_layout == nullptr || dynamic_cast<AbsoluteLayout *>(this->_layout) != nullptr;
 }
 
 void sw::Layer::DisableLayout()
@@ -1653,9 +1638,9 @@ void sw::Layer::SetVerticalScrollPageSize(double pageSize)
 
 void sw::Layer::UpdateScrollRange()
 {
-    if (this->IsUsingAbsoluteLayout()) {
-        // 当使用绝对布局时滚动条和控件位置需要手动设置
-        // 将以下俩字段设为false确保xxxScrollLimit属性在使用绝对布局时仍可用
+    if (this->_layout == nullptr) {
+        // 当未设置布局方式时滚动条和控件位置需要手动设置
+        // 将以下俩字段设为false确保xxxScrollLimit属性在未设置布局方式时仍可用
         this->_horizontalScrollDisabled = false;
         this->_verticalScrollDisabled   = false;
         return;
@@ -2426,6 +2411,16 @@ void sw::MenuItem::CallCommand()
 {
     if (this->command)
         this->command(*this);
+}
+
+uint64_t sw::MenuItem::GetTag()
+{
+    return this->tag;
+}
+
+void sw::MenuItem::SetTag(uint64_t tag)
+{
+    this->tag = tag;
 }
 
 // MsgBox.cpp
@@ -3220,6 +3215,248 @@ sw::StackPanel::StackPanel()
     this->Layout = &this->_stackLayout;
 }
 
+// TabControl.cpp
+
+sw::TabControl::TabControl()
+    : ContentRect(
+          // get
+          [&]() -> const sw::Rect & {
+              static sw::Rect result;
+
+              RECT rect;
+              GetClientRect(this->Handle, &rect);
+              this->SendMessageW(TCM_ADJUSTRECT, FALSE, reinterpret_cast<LPARAM>(&rect));
+
+              result = rect;
+              return result;
+          }),
+
+      SelectedIndex(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = (int)this->SendMessageW(TCM_GETCURSEL, 0, 0);
+              return result;
+          },
+          // set
+          [&](const int &value) {
+              this->SendMessageW(TCM_SETCURSEL, (WPARAM)value, 0);
+              this->UpdateChildVisible();
+          }),
+
+      Alignment(
+          // get
+          [&]() -> const TabAlignment & {
+              static TabAlignment result;
+              auto style = this->GetStyle();
+
+              if (style & TCS_VERTICAL) {
+                  result = (style & TCS_RIGHT) ? TabAlignment::Right : TabAlignment::Left;
+                  return result;
+              } else {
+                  result = (style & TCS_BOTTOM) ? TabAlignment::Bottom : TabAlignment::Top;
+                  return result;
+              }
+          },
+          // set
+          [&](const TabAlignment &value) {
+              auto oldStyle = this->GetStyle();
+              auto style    = oldStyle;
+
+              switch (value) {
+                  case TabAlignment::Top: {
+                      style &= ~(TCS_VERTICAL | TCS_BOTTOM);
+                      break;
+                  }
+                  case TabAlignment::Bottom: {
+                      style &= ~TCS_VERTICAL;
+                      style |= TCS_BOTTOM;
+                      break;
+                  }
+                  case TabAlignment::Left: {
+                      style |= (TCS_VERTICAL | TCS_MULTILINE);
+                      style &= ~TCS_RIGHT;
+                      break;
+                  }
+                  case TabAlignment::Right: {
+                      style |= (TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHT);
+                      break;
+                  }
+              }
+
+              if (style == oldStyle) {
+                  return;
+              } else {
+                  this->SetStyle(style);
+              }
+
+              // 特定情况下需要重新创建控件
+              if ((style & TCS_VERTICAL) ||                               // TCS_VERTICAL位为1
+                  ((style & TCS_VERTICAL) ^ (oldStyle & TCS_VERTICAL))) { // TCS_VERTICAL位改变
+
+                  int selectedIndex = this->SelectedIndex;
+                  int childCount    = this->ChildCount;
+
+                  std::vector<UIElement *> children;
+                  children.reserve(childCount);
+                  for (int i = childCount - 1; i >= 0; --i) {
+                      children.push_back(&(*this)[i]);
+                      this->RemoveChildAt(i);
+                  }
+
+                  this->ResetHandle();
+                  for (int i = childCount - 1; i >= 0; --i) {
+                      this->AddChild(children[i]);
+                  }
+
+                  this->SelectedIndex = selectedIndex;
+
+              } else {
+                  this->NotifyLayoutUpdated();
+              }
+          }),
+
+      MultiLine(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(TCS_MULTILINE);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(TCS_MULTILINE, value);
+              this->NotifyLayoutUpdated();
+          })
+{
+    this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | TCS_FOCUSNEVER, 0);
+    this->Rect = sw::Rect(0, 0, 200, 200);
+}
+
+int sw::TabControl::GetTabCount()
+{
+    return (int)this->SendMessageW(TCM_GETITEMCOUNT, 0, 0);
+}
+
+void sw::TabControl::UpdateTab()
+{
+    TCITEMW item{};
+    item.mask    = TCIF_TEXT;
+    item.pszText = (LPWSTR)L"";
+
+    int childCount = this->ChildCount;
+    int tabCount   = this->GetTabCount();
+
+    while (tabCount < childCount) {
+        this->InsertItem(tabCount, item);
+        tabCount = this->GetTabCount();
+    }
+
+    while (tabCount > childCount) {
+        this->DeleteItem(tabCount - 1);
+        tabCount = this->GetTabCount();
+    }
+
+    for (int i = 0; i < childCount; ++i) {
+        item.pszText = (LPWSTR)(*this)[i].Text->c_str();
+        this->SetItem(i, item);
+    }
+}
+
+void sw::TabControl::UpdateTabText(int index)
+{
+    if (index < 0) {
+        return;
+    }
+
+    int childCount = this->ChildCount;
+    int tabCount   = this->GetTabCount();
+
+    if (index < childCount && index < tabCount) {
+        TCITEMW item{};
+        item.mask    = TCIF_TEXT;
+        item.pszText = (LPWSTR)(*this)[index].Text->c_str();
+        this->SetItem(index, item);
+    }
+}
+
+void sw::TabControl::Arrange(const sw::Rect &finalPosition)
+{
+    this->UIElement::Arrange(finalPosition);
+
+    int selectedIndex = this->SelectedIndex;
+    if (selectedIndex < 0 || selectedIndex >= this->ChildCount) return;
+
+    UIElement &selectedItem = this->operator[](selectedIndex);
+    sw::Rect contentRect    = this->ContentRect;
+
+    selectedItem.Measure({contentRect.width, contentRect.height});
+    selectedItem.Arrange(contentRect);
+}
+
+void sw::TabControl::OnAddedChild(UIElement &element)
+{
+    TCITEMW item{};
+    item.mask    = TCIF_TEXT;
+    item.pszText = (LPWSTR)element.Text->c_str();
+
+    int index = this->IndexOf(element);
+
+    this->InsertItem(index, item);
+    element.Visible = index == this->SelectedIndex;
+}
+
+void sw::TabControl::OnRemovedChild(UIElement &element)
+{
+    this->UpdateTab();
+    this->UpdateChildVisible();
+}
+
+void sw::TabControl::OnNotified(NMHDR *pNMHDR)
+{
+    if (pNMHDR->code == TCN_SELCHANGE) {
+        this->OnSelectedIndexChanged();
+    }
+}
+
+void sw::TabControl::OnSelectedIndexChanged()
+{
+    this->UpdateChildVisible();
+    this->RaiseRoutedEvent(TabControl_SelectedIndexChanged);
+}
+
+void sw::TabControl::UpdateChildVisible()
+{
+    int selectedIndex = this->SelectedIndex;
+    int childCount    = this->ChildCount;
+
+    for (int i = 0; i < childCount; ++i) {
+        UIElement &item = (*this)[i];
+        item.Visible    = i == selectedIndex;
+        item.Visible    = i == selectedIndex; // 不加这个在点击按钮后立刻换页按钮会莫名其妙固定在界面上
+    }
+}
+
+int sw::TabControl::InsertItem(int index, TCITEMW &item)
+{
+    return (int)this->SendMessageW(TCM_INSERTITEMW, (WPARAM)index, reinterpret_cast<LPARAM>(&item));
+}
+
+bool sw::TabControl::SetItem(int index, TCITEMW &item)
+{
+    return this->SendMessageW(TCM_SETITEMW, (WPARAM)index, reinterpret_cast<LPARAM>(&item));
+}
+
+bool sw::TabControl::DeleteItem(int index)
+{
+    return this->SendMessageW(TCM_DELETEITEM, (WPARAM)index, 0);
+}
+
+bool sw::TabControl::DeleteAllItems()
+{
+    return this->SendMessageW(TCM_DELETEALLITEMS, 0, 0);
+}
+
 // TextBox.cpp
 
 sw::TextBox::TextBox()
@@ -3505,6 +3742,16 @@ sw::UIElement::UIElement()
               return this->_parent;
           }),
 
+      Tag(
+          // get
+          [&]() -> const uint64_t & {
+              return this->_tag;
+          },
+          // set
+          [&](const uint64_t &value) {
+              this->_tag = value;
+          }),
+
       LayoutTag(
           // get
           [&]() -> const uint64_t & {
@@ -3585,6 +3832,8 @@ bool sw::UIElement::AddChild(UIElement *element)
 
     element->SetStyle(WS_CHILD, true);
     this->_children.push_back(element);
+
+    this->OnAddedChild(*element);
     this->NotifyLayoutUpdated();
     return true;
 }
@@ -3622,7 +3871,10 @@ bool sw::UIElement::RemoveChildAt(int index)
         return false;
     }
 
+    UIElement *element = *it;
     this->_children.erase(it);
+
+    this->OnRemovedChild(*element);
     this->NotifyLayoutUpdated();
     return true;
 }
@@ -3645,6 +3897,8 @@ bool sw::UIElement::RemoveChild(UIElement *element)
     }
 
     this->_children.erase(it);
+
+    this->OnRemovedChild(*element);
     this->NotifyLayoutUpdated();
     return true;
 }
@@ -3656,10 +3910,12 @@ bool sw::UIElement::RemoveChild(UIElement &element)
 
 void sw::UIElement::Clear()
 {
-    for (UIElement *item : this->_children) {
+    while (!this->_children.empty()) {
+        UIElement *item = this->_children.back();
         item->WndBase::SetParent(nullptr);
+        this->_children.pop_back();
+        this->OnRemovedChild(*item);
     }
-    this->_children.clear();
 }
 
 int sw::UIElement::IndexOf(UIElement *element)
@@ -3682,8 +3938,20 @@ sw::UIElement &sw::UIElement::operator[](int index) const
 
 void sw::UIElement::ShowContextMenu(const Point &point)
 {
-    POINT p = point;
-    TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, nullptr);
+    if (this->_contextMenu != nullptr) {
+        POINT p = point;
+        TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, nullptr);
+    }
+}
+
+uint64_t sw::UIElement::GetTag()
+{
+    return this->_tag;
+}
+
+void sw::UIElement::SetTag(uint64_t tag)
+{
+    this->_tag = tag;
 }
 
 uint64_t sw::UIElement::GetLayoutTag()
@@ -3783,18 +4051,13 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
         }
     }
 
-    if (std::isnan(finalPosition.left) || std::isnan(finalPosition.top)) {
-        // AbsoluteLayout特殊处理：用nan表示不需要调整位置
-        rect.left = this->Left;
-        rect.top  = this->Top;
-    } else if (this->_parent && !this->_float) {
-        // 不是AbsoluteLayout时考虑偏移量
+    if (this->_parent && !this->_float) { // 考虑偏移量
         rect.left += this->_parent->_arrangeOffsetX;
         rect.top += this->_parent->_arrangeOffsetY;
     }
 
-    rect.width       = Utils::Max(rect.width, 0.0);
-    rect.height      = Utils::Max(rect.height, 0.0);
+    rect.width       = Utils::Max(0.0, rect.width);
+    rect.height      = Utils::Max(0.0, rect.height);
     this->Rect       = rect;
     this->_arranging = false;
 }
@@ -3876,6 +4139,14 @@ double sw::UIElement::GetChildBottommost(bool update)
         }
     }
     return this->_childBottommost;
+}
+
+void sw::UIElement::OnAddedChild(UIElement &element)
+{
+}
+
+void sw::UIElement::OnRemovedChild(UIElement &element)
+{
 }
 
 bool sw::UIElement::SetParent(WndBase *parent)
@@ -4187,14 +4458,24 @@ static HICON _GetWindowDefaultIcon();
 const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
     []() -> sw::Window *const & {
         static sw::Window *pWindow;
-        HWND hwnd = GetForegroundWindow();
+        HWND hwnd = GetActiveWindow();
         pWindow   = dynamic_cast<sw::Window *>(sw::WndBase::GetWndBase(hwnd));
         return pWindow;
     } //
 );
 
 sw::Window::Window()
-    : State(
+    : StartupLocation(
+          // get
+          [&]() -> const WindowStartupLocation & {
+              return this->_startupLocation;
+          },
+          // set
+          [&](const WindowStartupLocation &value) {
+              this->_startupLocation = value;
+          }),
+
+      State(
           // get
           [&]() -> const WindowState & {
               static WindowState state;
@@ -4364,12 +4645,12 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             // 窗口首次启动时按照StartupLocation修改位置
             if (this->_isFirstShow) {
                 this->_isFirstShow = false;
-                if (this->StartupLocation == WindowStartupLocation::CenterScreen) {
+                if (this->_startupLocation == WindowStartupLocation::CenterScreen) {
                     sw::Rect rect = this->Rect;
                     rect.left     = (Screen::Width - rect.width) / 2;
                     rect.top      = (Screen::Height - rect.height) / 2;
                     this->Rect    = rect;
-                } else if (this->StartupLocation == WindowStartupLocation::CenterOwner) {
+                } else if (this->_startupLocation == WindowStartupLocation::CenterOwner) {
                     if (this->IsModal()) {
                         sw::Rect windowRect = this->Rect;
                         sw::Rect ownerRect  = this->_modalOwner->Rect;
@@ -4415,6 +4696,14 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 
         case WM_ERASEBKGND: {
             return 1; // 阻止擦除背景
+        }
+
+        case WM_ACTIVATE: {
+            if (refMsg.wParam == WA_INACTIVE)
+                this->OnInactived();
+            else
+                this->OnActived();
+            return 0;
         }
 
         case WM_UpdateLayout: {
@@ -4511,6 +4800,18 @@ void sw::Window::OnMenuCommand(int id)
         MenuItem *item = this->_menu->GetMenuItem(id);
         if (item) item->CallCommand();
     }
+}
+
+void sw::Window::OnActived()
+{
+    SetFocus(this->_hPrevFocused);
+    this->RaiseRoutedEvent(Window_Actived);
+}
+
+void sw::Window::OnInactived()
+{
+    this->RaiseRoutedEvent(Window_Inactived);
+    this->_hPrevFocused = GetFocus();
 }
 
 void sw::Window::Show()
@@ -5163,8 +5464,12 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 
         case WM_NOTIFY: {
             NMHDR *pNMHDR = reinterpret_cast<NMHDR *>(refMsg.lParam);
-            this->OnNotify(pNMHDR);
-            return 0;
+            bool handled  = this->OnNotify(pNMHDR);
+
+            WndBase *pWnd = WndBase::GetWndBase(pNMHDR->hwndFrom);
+            if (pWnd) pWnd->OnNotified(pNMHDR);
+
+            return handled ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_CTLCOLORBTN:
@@ -5474,10 +5779,9 @@ bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
     return false;
 }
 
-void sw::WndBase::OnNotify(NMHDR *pNMHDR)
+bool sw::WndBase::OnNotify(NMHDR *pNMHDR)
 {
-    WndBase *pWnd = WndBase::GetWndBase(pNMHDR->hwndFrom);
-    if (pWnd) pWnd->OnNotified(pNMHDR);
+    return false;
 }
 
 void sw::WndBase::OnNotified(NMHDR *pNMHDR)
