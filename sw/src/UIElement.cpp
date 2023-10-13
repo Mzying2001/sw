@@ -388,18 +388,13 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
         }
     }
 
-    if (std::isnan(finalPosition.left) || std::isnan(finalPosition.top)) {
-        // AbsoluteLayout特殊处理：用nan表示不需要调整位置
-        rect.left = this->Left;
-        rect.top  = this->Top;
-    } else if (this->_parent && !this->_float) {
-        // 不是AbsoluteLayout时考虑偏移量
+    if (this->_parent && !this->_float) { // 考虑偏移量
         rect.left += this->_parent->_arrangeOffsetX;
         rect.top += this->_parent->_arrangeOffsetY;
     }
 
-    rect.width       = Utils::Max(rect.width, 0.0);
-    rect.height      = Utils::Max(rect.height, 0.0);
+    rect.width       = Utils::Max(0.0, rect.width);
+    rect.height      = Utils::Max(0.0, rect.height);
     this->Rect       = rect;
     this->_arranging = false;
 }

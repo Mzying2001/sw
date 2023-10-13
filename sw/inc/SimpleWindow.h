@@ -1,8 +1,6 @@
 #pragma once
 
 // 包含SimpleWindow所有头文件
-
-#include "AbsoluteLayout.h"
 #include "Alignment.h"
 #include "App.h"
 #include "Button.h"
