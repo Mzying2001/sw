@@ -131,6 +131,11 @@ namespace sw
          * @brief 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
          */
         Layer_Scrolling,
+
+        /**
+         * @brief SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
+         */
+        TabControl_SelectedIndexChanged,
     };
 
     /*================================================================================*/

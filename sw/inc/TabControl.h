@@ -93,6 +93,11 @@ namespace sw
          */
         virtual void OnNotified(NMHDR *pNMHDR) override;
 
+        /**
+         * @brief SelectedIndex属性更改时调用该函数
+         */
+        virtual void OnSelectedIndexChanged();
+
     private:
         /**
          * @brief 根据选中的tab更新子元素的Visible属性
