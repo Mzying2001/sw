@@ -9,9 +9,8 @@ int APIENTRY wWinMain(
     // 窗口对象
     static sw::Window window;
 
-    // 修改窗口布局方式为拉伸填充，将窗口的Layout属性指向指定类型的对象即可
-    static sw::FillLayout layout;
-    window.Layout = &layout;
+    // 修改窗口布局方式为拉伸填充，调用SetLayout或者设置Layout属性即可修改窗口的布局方式
+    window.SetLayout<sw::FillLayout>();
 
     // 创建一个StackPanel，该面板可以将控件从上到下或者从左到右依次排列
     static sw::StackPanel stackPanel;
@@ -35,7 +34,7 @@ int APIENTRY wWinMain(
         static int counter = 0;
         // 直接修改Text属性即可更新标签的文本，使用Utils::BuildStr函数可以方便地构建字符串
         labelTips.Text = sw::Utils::BuildStr(L"You have clicked the button ", ++counter, L" times.");
-    });
+        });
 
     // 使用AddChild函数添加控件
     window.AddChild(stackPanel);

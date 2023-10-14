@@ -7,9 +7,6 @@
  */
 class MyWindow : public sw::Window
 {
-    // 窗口布局方式对象
-    sw::DockLayout dockLayout;
-
     // 按钮对象
     sw::Button btn1, btn2, btn3, btn4, btn5;
 
@@ -21,7 +18,7 @@ class MyWindow : public sw::Window
     void InitializeComponent()
     {
         // 设置窗口布局方式为DockLayout
-        this->Layout = &dockLayout;
+        this->SetLayout<sw::DockLayout>();
 
         // 修改按钮的对齐方式，使按钮填充其所在位置
         btn1.VerticalAlignment = sw::VerticalAlignment::Stretch;

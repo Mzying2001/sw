@@ -7,9 +7,6 @@
  */
 class MyWindow : public sw::Window
 {
-    // 窗口布局对象
-    sw::StackLayout stackLayout;
-
     // 按钮个数
     static constexpr int BTN_COUNT = 10;
 
@@ -23,8 +20,8 @@ class MyWindow : public sw::Window
      */
     void InitializeComponent()
     {
-        // 设置窗口布局
-        this->Layout = &stackLayout;
+        // 设置窗口布局方式
+        this->SetLayout<sw::StackLayout>();
 
         // 添加按钮到窗口
         for (int i = 0; i < BTN_COUNT; ++i) {
@@ -36,7 +33,7 @@ class MyWindow : public sw::Window
         }
 
         // 显示滚动条，当用户区大小不足以容纳所有按钮时滚动条会自动启用
-        // 注：对于AbsoluteLayout（即未指定布局方式）需要自行调整滚动条参数和控件位置，其他布局方式可自动完成
+        // 注：仅在设置了布局方式时可自动调整滚动条参数可控件位置，若未设置则需要自行调整
         this->VerticalScrollBar = true;
 
         // 注册鼠标滚轮事件实现页面随鼠标滚动而滚动

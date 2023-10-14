@@ -7,7 +7,6 @@
  */
 class MyWindow : public sw::Window
 {
-    sw::FillLayout fillLayout; // 窗口布局方式对象
     sw::StackPanel stackPanel; // 堆叠面板，可将子控件依次排列
     sw::Label labelTitle;      // 标题标签
     sw::Label labelTips;       // 提示标签
@@ -22,8 +21,8 @@ class MyWindow : public sw::Window
      */
     void InitializeComponent()
     {
-        // 设置窗口布局
-        this->Layout = &fillLayout;
+        // 设置窗口布局方式
+        this->SetLayout<sw::FillLayout>();
 
         // 将stackPanel的垂直和水平对齐方式设置为居中
         stackPanel.HorizontalAlignment = sw::HorizontalAlignment::Center;
