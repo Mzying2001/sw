@@ -5,9 +5,15 @@
 
 namespace sw
 {
+    /**
+     * @brief 停靠面板
+     */
     class DockPanel : public Panel
     {
     private:
+        /**
+         * @brief 默认布局对象
+         */
         DockLayout _dockLayout = DockLayout();
 
     public:
@@ -31,5 +37,11 @@ namespace sw
          * @brief 设置指定元素的Dock
          */
         static void SetDock(UIElement &element, DockLayout::DockLayoutTag dock);
+
+    protected:
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout() override;
     };
 }

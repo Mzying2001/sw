@@ -12,7 +12,7 @@ sw::DockPanel::DockPanel()
               this->NotifyLayoutUpdated();
           })
 {
-    this->Layout = &this->_dockLayout;
+    this->_dockLayout.Associate(this);
 }
 
 sw::DockLayout::DockLayoutTag sw::DockPanel::GetDock(UIElement &element)
@@ -23,4 +23,9 @@ sw::DockLayout::DockLayoutTag sw::DockPanel::GetDock(UIElement &element)
 void sw::DockPanel::SetDock(UIElement &element, DockLayout::DockLayoutTag dock)
 {
     element.LayoutTag = dock;
+}
+
+sw::LayoutHost *sw::DockPanel::GetDefaultLayout()
+{
+    return &this->_dockLayout;
 }

@@ -12,5 +12,10 @@ sw::WrapPanel::WrapPanel()
               this->NotifyLayoutUpdated();
           })
 {
-    this->Layout = &this->_wrapLayout;
+    this->_wrapLayout.Associate(this);
+}
+
+sw::LayoutHost *sw::WrapPanel::GetDefaultLayout()
+{
+    return &this->_wrapLayout;
 }

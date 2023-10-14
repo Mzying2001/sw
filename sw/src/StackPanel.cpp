@@ -12,5 +12,10 @@ sw::StackPanel::StackPanel()
               this->NotifyLayoutUpdated();
           })
 {
-    this->Layout = &this->_stackLayout;
+    this->_stackLayout.Associate(this);
+}
+
+sw::LayoutHost *sw::StackPanel::GetDefaultLayout()
+{
+    return &this->_stackLayout;
 }

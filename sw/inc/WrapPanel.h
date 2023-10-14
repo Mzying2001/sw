@@ -5,9 +5,15 @@
 
 namespace sw
 {
+    /**
+     * @brief 自动换行面板
+     */
     class WrapPanel : public Panel
     {
     private:
+        /**
+         * @brief 默认布局对象
+         */
         WrapLayout _wrapLayout = WrapLayout();
 
     public:
@@ -17,6 +23,15 @@ namespace sw
         const Property<sw::Orientation> Orientation;
 
     public:
+        /**
+         * @brief 初始化WrapPanel
+         */
         WrapPanel();
+
+    protected:
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout() override;
     };
 }
