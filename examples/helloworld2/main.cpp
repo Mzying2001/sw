@@ -34,7 +34,7 @@ int APIENTRY wWinMain(
         static int counter = 0;
         // 直接修改Text属性即可更新标签的文本，使用Utils::BuildStr函数可以方便地构建字符串
         labelTips.Text = sw::Utils::BuildStr(L"You have clicked the button ", ++counter, L" times.");
-        });
+    });
 
     // 使用AddChild函数添加控件
     window.AddChild(stackPanel);
