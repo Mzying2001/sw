@@ -161,6 +161,9 @@ sw::LayoutHost *sw::Layer::GetLayout()
 
 void sw::Layer::MeasureAndArrangeWithoutLayout()
 {
+    this->GetArrangeOffsetX() = 0;
+    this->GetArrangeOffsetY() = 0;
+
     int childCount = this->GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
