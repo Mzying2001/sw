@@ -800,7 +800,7 @@ sw::DockPanel::DockPanel()
               this->NotifyLayoutUpdated();
           })
 {
-    this->Layout = &this->_dockLayout;
+    this->_dockLayout.Associate(this);
 }
 
 sw::DockLayout::DockLayoutTag sw::DockPanel::GetDock(UIElement &element)
@@ -811,6 +811,11 @@ sw::DockLayout::DockLayoutTag sw::DockPanel::GetDock(UIElement &element)
 void sw::DockPanel::SetDock(UIElement &element, DockLayout::DockLayoutTag dock)
 {
     element.LayoutTag = dock;
+}
+
+sw::LayoutHost *sw::DockPanel::GetDefaultLayout()
+{
+    return &this->_dockLayout;
 }
 
 // FillLayout.cpp
@@ -1231,13 +1236,13 @@ sw::Layer::Layer()
     : Layout(
           // get
           [&]() -> LayoutHost *const & {
-              return this->_layout;
+              return this->_customLayout;
           },
           // set
           [&](LayoutHost *const &value) {
               if (value != nullptr)
                   value->Associate(this);
-              this->_layout = value;
+              this->_customLayout = value;
           }),
 
       HorizontalScrollBar(
@@ -1303,9 +1308,11 @@ sw::Layer::Layer()
               info.nPos   = std::lround(value / Dip::ScaleX);
               SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 
-              if (this->_layout && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
+              LayoutHost *layout = this->GetLayout();
+
+              if (layout != nullptr && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
                   this->GetArrangeOffsetX() = -HorizontalScrollPos;
-                  this->_layout->Arrange(this->ClientRect);
+                  layout->Arrange(this->ClientRect);
               }
           }),
 
@@ -1330,9 +1337,11 @@ sw::Layer::Layer()
               info.nPos   = std::lround(value / Dip::ScaleY);
               SetScrollInfo(this->Handle, SB_VERT, &info, true);
 
-              if (this->_layout && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
+              LayoutHost *layout = this->GetLayout();
+
+              if (layout != nullptr && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
                   this->GetArrangeOffsetY() = -VerticalScrollPos;
-                  this->_layout->Arrange(this->ClientRect);
+                  layout->Arrange(this->ClientRect);
               }
           }),
 
@@ -1376,6 +1385,11 @@ sw::Layer::Layer()
 {
 }
 
+sw::LayoutHost *sw::Layer::GetLayout()
+{
+    return this->_customLayout != nullptr ? this->_customLayout : this->GetDefaultLayout();
+}
+
 void sw::Layer::MeasureAndArrangeWithoutLayout()
 {
     int childCount = this->GetChildLayoutCount();
@@ -1394,16 +1408,23 @@ void sw::Layer::UpdateLayout()
         return;
     }
 
-    if (this->_layout == nullptr) {
+    LayoutHost *layout = this->GetLayout();
+
+    if (layout == nullptr) {
         this->MeasureAndArrangeWithoutLayout();
     } else {
         sw::Rect clientRect = this->ClientRect;
-        this->_layout->Measure(Size(clientRect.width, clientRect.height));
-        this->_layout->Arrange(clientRect);
+        layout->Measure(Size(clientRect.width, clientRect.height));
+        layout->Arrange(clientRect);
     }
 
     this->UpdateScrollRange();
     this->Redraw();
+}
+
+sw::LayoutHost *sw::Layer::GetDefaultLayout()
+{
+    return nullptr;
 }
 
 void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double pos)
@@ -1504,7 +1525,9 @@ bool sw::Layer::OnHorizontalScroll(int event, int pos)
 
 void sw::Layer::Measure(const Size &availableSize)
 {
-    if (this->_layout == nullptr) {
+    LayoutHost *layout = this->GetLayout();
+
+    if (layout == nullptr) {
         this->UIElement::Measure(availableSize);
         return;
     }
@@ -1518,7 +1541,7 @@ void sw::Layer::Measure(const Size &availableSize)
     measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
     measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
 
-    this->_layout->Measure(measureSize);
+    layout->Measure(measureSize);
     Size desireSize = this->GetDesireSize();
 
     desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
@@ -1530,10 +1553,11 @@ void sw::Layer::Arrange(const sw::Rect &finalPosition)
 {
     this->UIElement::Arrange(finalPosition);
 
-    if (this->_layout == nullptr) {
+    LayoutHost *layout = this->GetLayout();
+    if (layout == nullptr) {
         this->MeasureAndArrangeWithoutLayout();
     } else {
-        this->_layout->Arrange(this->ClientRect);
+        layout->Arrange(this->ClientRect);
     }
 
     this->UpdateScrollRange();
@@ -1638,7 +1662,7 @@ void sw::Layer::SetVerticalScrollPageSize(double pageSize)
 
 void sw::Layer::UpdateScrollRange()
 {
-    if (this->_layout == nullptr) {
+    if (this->GetLayout() == nullptr) {
         // 当未设置布局方式时滚动条和控件位置需要手动设置
         // 将以下俩字段设为false确保xxxScrollLimit属性在未设置布局方式时仍可用
         this->_horizontalScrollDisabled = false;
@@ -3212,7 +3236,12 @@ sw::StackPanel::StackPanel()
               this->NotifyLayoutUpdated();
           })
 {
-    this->Layout = &this->_stackLayout;
+    this->_stackLayout.Associate(this);
+}
+
+sw::LayoutHost *sw::StackPanel::GetDefaultLayout()
+{
+    return &this->_stackLayout;
 }
 
 // TabControl.cpp
@@ -4007,9 +4036,9 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     Size &desireSize  = this->_desireSize;
     Thickness &margin = this->_margin;
 
-    sw::Rect rect = this->Rect;
-    rect.width    = desireSize.width - margin.left - margin.right;
-    rect.height   = desireSize.height - margin.top - margin.bottom;
+    sw::Rect rect;
+    rect.width  = desireSize.width - margin.left - margin.right;
+    rect.height = desireSize.height - margin.top - margin.bottom;
 
     switch (this->_horizontalAlignment) {
         case HorizontalAlignment::Center: {
@@ -4715,6 +4744,11 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             return this->UIElement::WndProc(refMsg);
         }
     }
+}
+
+sw::LayoutHost *sw::Window::GetDefaultLayout()
+{
+    return this->_layout.get();
 }
 
 bool sw::Window::OnClose()
@@ -6035,5 +6069,10 @@ sw::WrapPanel::WrapPanel()
               this->NotifyLayoutUpdated();
           })
 {
-    this->Layout = &this->_wrapLayout;
+    this->_wrapLayout.Associate(this);
+}
+
+sw::LayoutHost *sw::WrapPanel::GetDefaultLayout()
+{
+    return &this->_wrapLayout;
 }

@@ -4001,9 +4001,9 @@ namespace sw
         bool _layoutDisabled = false;
 
         /**
-         * @brief 指向所使用布局方式对象的指针
+         * @brief 指向所自定义的布局方式对象的指针
          */
-        LayoutHost *_layout = nullptr;
+        LayoutHost *_customLayout = nullptr;
 
         /**
          * @brief 记录水平滚动条是否已被禁止
@@ -4017,7 +4017,7 @@ namespace sw
 
     public:
         /**
-         * @brief 窗口布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象
+         * @brief 自定义的布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设为nullptr可恢复默认布局
          */
         const Property<LayoutHost *> Layout;
 
@@ -4059,6 +4059,11 @@ namespace sw
 
     private:
         /**
+         * @brief 获取布局对象，若Layout属性被赋值则返回设置的对象，否则返回默认布局对象
+         */
+        LayoutHost *GetLayout();
+
+        /**
          * @brief 在没有设定布局方式时，使用该函数对子元素Measure和Arrange
          */
         void MeasureAndArrangeWithoutLayout();
@@ -4068,6 +4073,11 @@ namespace sw
          * @brief 更新布局
          */
         void UpdateLayout();
+
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout();
 
         /**
          * @brief           触发滚动条相关事件时调用该函数
@@ -4887,6 +4897,11 @@ namespace sw
          */
         HWND _hPrevFocused = NULL;
 
+        /**
+         * @brief 窗口的默认布局方式
+         */
+        std::shared_ptr<LayoutHost> _layout;
+
     public:
         /**
          * @brief 程序的当前活动窗体
@@ -4969,6 +4984,11 @@ namespace sw
          * @brief 对WndProc的封装
          */
         virtual LRESULT WndProc(const ProcMsg &refMsg) override;
+
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout() override;
 
         /**
          * @brief  接收到WM_CLOSE时调用该函数
@@ -5058,6 +5078,30 @@ namespace sw
          * @return 当调用ShowDialog时该函数返回true，否则返回false
          */
         bool IsModal();
+
+        /**
+         * @brief 设置窗口的默认布局方式
+         */
+        template <
+            typename TLayout,
+            typename std::enable_if<std::is_base_of<LayoutHost, TLayout>::value, int>::type = 0>
+        void SetLayout()
+        {
+            auto layout = std::make_shared<TLayout>();
+            layout->Associate(this);
+            this->_layout = layout;
+            this->NotifyLayoutUpdated();
+        }
+
+        /**
+         * @brief 取消通过SetLayout设置的布局方式
+         */
+        template <nullptr_t>
+        void SetLayout()
+        {
+            this->_layout = nullptr;
+            this->NotifyLayoutUpdated();
+        }
     };
 }
 
@@ -5596,9 +5640,15 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 停靠面板
+     */
     class DockPanel : public Panel
     {
     private:
+        /**
+         * @brief 默认布局对象
+         */
         DockLayout _dockLayout = DockLayout();
 
     public:
@@ -5622,6 +5672,12 @@ namespace sw
          * @brief 设置指定元素的Dock
          */
         static void SetDock(UIElement &element, DockLayout::DockLayoutTag dock);
+
+    protected:
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout() override;
     };
 }
 
@@ -5648,9 +5704,15 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 堆叠面板
+     */
     class StackPanel : public Panel
     {
     private:
+        /**
+         * @brief 默认布局对象
+         */
         StackLayout _stackLayout = StackLayout();
 
     public:
@@ -5660,7 +5722,16 @@ namespace sw
         const Property<sw::Orientation> Orientation;
 
     public:
+        /**
+         * @brief 初始化StackPanel
+         */
         StackPanel();
+
+    protected:
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout() override;
     };
 }
 
@@ -5669,9 +5740,15 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 自动换行面板
+     */
     class WrapPanel : public Panel
     {
     private:
+        /**
+         * @brief 默认布局对象
+         */
         WrapLayout _wrapLayout = WrapLayout();
 
     public:
@@ -5681,7 +5758,16 @@ namespace sw
         const Property<sw::Orientation> Orientation;
 
     public:
+        /**
+         * @brief 初始化WrapPanel
+         */
         WrapPanel();
+
+    protected:
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout() override;
     };
 }
 
