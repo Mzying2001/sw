@@ -167,10 +167,14 @@ void sw::Layer::MeasureAndArrangeWithoutLayout()
     int childCount = this->GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
-        UIElement &child = static_cast<UIElement &>(this->GetChildLayoutAt(i));
-        child.Measure(Size(INFINITY, INFINITY));
-        Size desireSize = child.GetDesireSize();
-        child.Arrange(sw::Rect(child.Left, child.Top, desireSize.width, desireSize.height));
+        // measure
+        UIElement &item = static_cast<UIElement &>(this->GetChildLayoutAt(i));
+        item.Measure(Size(INFINITY, INFINITY));
+        // arrange
+        Size desireSize      = item.GetDesireSize();
+        sw::Rect itemRect    = item.Rect;
+        Thickness itemMargin = item.Margin;
+        item.Arrange(sw::Rect(itemRect.left - itemMargin.left, itemRect.top - itemMargin.top, desireSize.width, desireSize.height));
     }
 }
 
