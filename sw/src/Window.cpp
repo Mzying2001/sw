@@ -287,6 +287,11 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
     }
 }
 
+sw::LayoutHost *sw::Window::GetDefaultLayout()
+{
+    return this->_layout.get();
+}
+
 bool sw::Window::OnClose()
 {
     WindowClosingEventArgs args;
