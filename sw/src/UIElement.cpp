@@ -344,9 +344,9 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     Size &desireSize  = this->_desireSize;
     Thickness &margin = this->_margin;
 
-    sw::Rect rect = this->Rect;
-    rect.width    = desireSize.width - margin.left - margin.right;
-    rect.height   = desireSize.height - margin.top - margin.bottom;
+    sw::Rect rect;
+    rect.width  = desireSize.width - margin.left - margin.right;
+    rect.height = desireSize.height - margin.top - margin.bottom;
 
     switch (this->_horizontalAlignment) {
         case HorizontalAlignment::Center: {
