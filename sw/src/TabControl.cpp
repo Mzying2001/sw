@@ -25,7 +25,7 @@ sw::TabControl::TabControl()
           // set
           [&](const int &value) {
               this->SendMessageW(TCM_SETCURSEL, (WPARAM)value, 0);
-              this->UpdateChildVisible();
+              this->_UpdateChildVisible();
           }),
 
       Alignment(
@@ -132,18 +132,18 @@ void sw::TabControl::UpdateTab()
     int tabCount   = this->GetTabCount();
 
     while (tabCount < childCount) {
-        this->InsertItem(tabCount, item);
+        this->_InsertItem(tabCount, item);
         tabCount = this->GetTabCount();
     }
 
     while (tabCount > childCount) {
-        this->DeleteItem(tabCount - 1);
+        this->_DeleteItem(tabCount - 1);
         tabCount = this->GetTabCount();
     }
 
     for (int i = 0; i < childCount; ++i) {
         item.pszText = (LPWSTR)(*this)[i].Text->c_str();
-        this->SetItem(i, item);
+        this->_SetItem(i, item);
     }
 }
 
@@ -160,7 +160,7 @@ void sw::TabControl::UpdateTabText(int index)
         TCITEMW item{};
         item.mask    = TCIF_TEXT;
         item.pszText = (LPWSTR)(*this)[index].Text->c_str();
-        this->SetItem(index, item);
+        this->_SetItem(index, item);
     }
 }
 
@@ -186,14 +186,14 @@ void sw::TabControl::OnAddedChild(UIElement &element)
 
     int index = this->IndexOf(element);
 
-    this->InsertItem(index, item);
+    this->_InsertItem(index, item);
     element.Visible = index == this->SelectedIndex;
 }
 
 void sw::TabControl::OnRemovedChild(UIElement &element)
 {
     this->UpdateTab();
-    this->UpdateChildVisible();
+    this->_UpdateChildVisible();
 }
 
 void sw::TabControl::OnNotified(NMHDR *pNMHDR)
@@ -205,11 +205,11 @@ void sw::TabControl::OnNotified(NMHDR *pNMHDR)
 
 void sw::TabControl::OnSelectedIndexChanged()
 {
-    this->UpdateChildVisible();
+    this->_UpdateChildVisible();
     this->RaiseRoutedEvent(TabControl_SelectedIndexChanged);
 }
 
-void sw::TabControl::UpdateChildVisible()
+void sw::TabControl::_UpdateChildVisible()
 {
     int selectedIndex = this->SelectedIndex;
     int childCount    = this->ChildCount;
@@ -221,22 +221,22 @@ void sw::TabControl::UpdateChildVisible()
     }
 }
 
-int sw::TabControl::InsertItem(int index, TCITEMW &item)
+int sw::TabControl::_InsertItem(int index, TCITEMW &item)
 {
     return (int)this->SendMessageW(TCM_INSERTITEMW, (WPARAM)index, reinterpret_cast<LPARAM>(&item));
 }
 
-bool sw::TabControl::SetItem(int index, TCITEMW &item)
+bool sw::TabControl::_SetItem(int index, TCITEMW &item)
 {
     return this->SendMessageW(TCM_SETITEMW, (WPARAM)index, reinterpret_cast<LPARAM>(&item));
 }
 
-bool sw::TabControl::DeleteItem(int index)
+bool sw::TabControl::_DeleteItem(int index)
 {
     return this->SendMessageW(TCM_DELETEITEM, (WPARAM)index, 0);
 }
 
-bool sw::TabControl::DeleteAllItems()
+bool sw::TabControl::_DeleteAllItems()
 {
     return this->SendMessageW(TCM_DELETEALLITEMS, 0, 0);
 }

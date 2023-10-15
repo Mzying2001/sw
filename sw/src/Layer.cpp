@@ -77,7 +77,7 @@ sw::Layer::Layer()
               info.nPos   = std::lround(value / Dip::ScaleX);
               SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 
-              LayoutHost *layout = this->GetLayout();
+              LayoutHost *layout = this->_GetLayout();
 
               if (layout != nullptr && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
                   this->GetArrangeOffsetX() = -HorizontalScrollPos;
@@ -106,7 +106,7 @@ sw::Layer::Layer()
               info.nPos   = std::lround(value / Dip::ScaleY);
               SetScrollInfo(this->Handle, SB_VERT, &info, true);
 
-              LayoutHost *layout = this->GetLayout();
+              LayoutHost *layout = this->_GetLayout();
 
               if (layout != nullptr && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
                   this->GetArrangeOffsetY() = -VerticalScrollPos;
@@ -154,12 +154,12 @@ sw::Layer::Layer()
 {
 }
 
-sw::LayoutHost *sw::Layer::GetLayout()
+sw::LayoutHost *sw::Layer::_GetLayout()
 {
     return this->_customLayout != nullptr ? this->_customLayout : this->GetDefaultLayout();
 }
 
-void sw::Layer::MeasureAndArrangeWithoutLayout()
+void sw::Layer::_MeasureAndArrangeWithoutLayout()
 {
     this->GetArrangeOffsetX() = 0;
     this->GetArrangeOffsetY() = 0;
@@ -184,10 +184,10 @@ void sw::Layer::UpdateLayout()
         return;
     }
 
-    LayoutHost *layout = this->GetLayout();
+    LayoutHost *layout = this->_GetLayout();
 
     if (layout == nullptr) {
-        this->MeasureAndArrangeWithoutLayout();
+        this->_MeasureAndArrangeWithoutLayout();
     } else {
         sw::Rect clientRect = this->ClientRect;
         layout->Measure(Size(clientRect.width, clientRect.height));
@@ -301,7 +301,7 @@ bool sw::Layer::OnHorizontalScroll(int event, int pos)
 
 void sw::Layer::Measure(const Size &availableSize)
 {
-    LayoutHost *layout = this->GetLayout();
+    LayoutHost *layout = this->_GetLayout();
 
     if (layout == nullptr) {
         this->UIElement::Measure(availableSize);
@@ -329,9 +329,9 @@ void sw::Layer::Arrange(const sw::Rect &finalPosition)
 {
     this->UIElement::Arrange(finalPosition);
 
-    LayoutHost *layout = this->GetLayout();
+    LayoutHost *layout = this->_GetLayout();
     if (layout == nullptr) {
-        this->MeasureAndArrangeWithoutLayout();
+        this->_MeasureAndArrangeWithoutLayout();
     } else {
         layout->Arrange(this->ClientRect);
     }
@@ -438,7 +438,7 @@ void sw::Layer::SetVerticalScrollPageSize(double pageSize)
 
 void sw::Layer::UpdateScrollRange()
 {
-    if (this->GetLayout() == nullptr) {
+    if (this->_GetLayout() == nullptr) {
         // 当未设置布局方式时滚动条和控件位置需要手动设置
         // 将以下俩字段设为false确保xxxScrollLimit属性在未设置布局方式时仍可用
         this->_horizontalScrollDisabled = false;

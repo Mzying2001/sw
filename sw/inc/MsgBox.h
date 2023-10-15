@@ -61,7 +61,7 @@ namespace sw
         static MsgBox ShowQuestion(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
 
     private:
-        const MsgBox &On(MsgBoxResult result, const MsgBoxCallback &callback) const;
+        const MsgBox &_On(MsgBoxResult result, const MsgBoxCallback &callback) const;
 
     public:
         const MsgBox &OnOk(const MsgBoxCallback &callback) const;

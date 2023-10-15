@@ -60,7 +60,7 @@ sw::MsgBox sw::MsgBox::ShowQuestion(const WndBase &owner, const std::wstring &te
     return MsgBox::ShowQuestion(&owner, text, caption, button);
 }
 
-const sw::MsgBox &sw::MsgBox::On(MsgBoxResult result, const MsgBoxCallback &callback) const
+const sw::MsgBox &sw::MsgBox::_On(MsgBoxResult result, const MsgBoxCallback &callback) const
 {
     if (this->result == result && callback)
         callback();
@@ -69,20 +69,20 @@ const sw::MsgBox &sw::MsgBox::On(MsgBoxResult result, const MsgBoxCallback &call
 
 const sw::MsgBox &sw::MsgBox::OnOk(const MsgBoxCallback &callback) const
 {
-    return this->On(MsgBoxResult::Ok, callback);
+    return this->_On(MsgBoxResult::Ok, callback);
 }
 
 const sw::MsgBox &sw::MsgBox::OnYes(const MsgBoxCallback &callback) const
 {
-    return this->On(MsgBoxResult::Yes, callback);
+    return this->_On(MsgBoxResult::Yes, callback);
 }
 
 const sw::MsgBox &sw::MsgBox::OnNo(const MsgBoxCallback &callback) const
 {
-    return this->On(MsgBoxResult::No, callback);
+    return this->_On(MsgBoxResult::No, callback);
 }
 
 const sw::MsgBox &sw::MsgBox::OnCancel(const MsgBoxCallback &callback) const
 {
-    return this->On(MsgBoxResult::Cancel, callback);
+    return this->_On(MsgBoxResult::Cancel, callback);
 }

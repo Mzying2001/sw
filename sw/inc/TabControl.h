@@ -96,26 +96,26 @@ namespace sw
         /**
          * @brief 根据选中的tab更新子元素的Visible属性
          */
-        void UpdateChildVisible();
+        void _UpdateChildVisible();
 
         /**
          * @brief 发送TCM_INSERTITEMW消息
          */
-        int InsertItem(int index, TCITEMW &item);
+        int _InsertItem(int index, TCITEMW &item);
 
         /**
          * @brief 发送TCM_SETITEMW消息
          */
-        bool SetItem(int index, TCITEMW &item);
+        bool _SetItem(int index, TCITEMW &item);
 
         /**
          * @brief 发送TCM_DELETEITEM消息
          */
-        bool DeleteItem(int index);
+        bool _DeleteItem(int index);
 
         /**
          * @brief 发送TCM_DELETEALLITEMS消息
          */
-        bool DeleteAllItems();
+        bool _DeleteAllItems();
     };
 }

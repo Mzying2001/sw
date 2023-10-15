@@ -75,12 +75,12 @@ namespace sw
         /**
          * @brief 获取布局对象，若Layout属性被赋值则返回设置的对象，否则返回默认布局对象
          */
-        LayoutHost *GetLayout();
+        LayoutHost *_GetLayout();
 
         /**
          * @brief 在没有设定布局方式时，使用该函数对子元素Measure和Arrange
          */
-        void MeasureAndArrangeWithoutLayout();
+        void _MeasureAndArrangeWithoutLayout();
 
     protected:
         /**
