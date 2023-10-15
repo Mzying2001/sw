@@ -277,7 +277,7 @@ namespace sw
         /**
          * @brief 取消通过SetLayout设置的布局方式
          */
-        template <nullptr_t>
+        template <std::nullptr_t>
         void SetLayout()
         {
             this->_layout = nullptr;
