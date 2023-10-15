@@ -478,6 +478,24 @@ double sw::UIElement::GetChildBottommost(bool update)
     return this->_childBottommost;
 }
 
+void sw::UIElement::UpdateChildrenZOrder()
+{
+    int childCount = (int)this->_children.size();
+    if (childCount < 2) return;
+
+    for (UIElement *child : this->_children) {
+        HWND hwnd = child->Handle;
+        SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    }
+}
+
+void sw::UIElement::UpdateSiblingsZOrder()
+{
+    if (this->_parent != nullptr) {
+        this->_parent->UpdateChildrenZOrder();
+    }
+}
+
 void sw::UIElement::OnAddedChild(UIElement &element)
 {
 }

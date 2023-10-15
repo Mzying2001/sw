@@ -425,6 +425,16 @@ namespace sw
         double GetChildBottommost(bool update);
 
         /**
+         * @brief 更新子元素的Z轴位置
+         */
+        void UpdateChildrenZOrder();
+
+        /**
+         * @brief 更新兄弟元素的Z轴位置
+         */
+        void UpdateSiblingsZOrder();
+
+        /**
          * @brief         添加子元素后调用该函数
          * @param element 添加的子元素
          */
