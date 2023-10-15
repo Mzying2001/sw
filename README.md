@@ -32,6 +32,9 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT n
     // 按钮对象
     static sw::Button button;
 
+    // 修改窗口的布局方式，让按钮居中
+    mainWindow.SetLayout<sw::FillLayout>();
+
     // 对Text属性赋值即可修改按钮文本
     button.Text = L"Click Me";
 
@@ -39,8 +42,7 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT n
     button.RegisterRoutedEvent(sw::ButtonBase_Clicked,
         [](sw::UIElement& sender, sw::RoutedEventArgs& e) {
             sw::MsgBox::Show(mainWindow, L"Hello, SimpleWindow!");
-        }
-    );
+        });
 
     mainWindow.AddChild(button);
     mainWindow.Show();
@@ -57,3 +59,7 @@ SimpleWindow 框架是基于 MIT 许可证发布的，允许您在自己的项�
 ## 贡献
 
 欢迎贡献者参与 SimpleWindow 的开发和改进。如果您发现 Bug 或有改进建议，请提出 Issue 或发送 Pull Request。
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/Mzying2001/sw.svg)](https://starchart.cc/Mzying2001/sw)

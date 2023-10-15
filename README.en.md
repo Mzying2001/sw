@@ -32,6 +32,9 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT n
     // Button object
     static sw::Button button;
 
+    // Modify the window layout to center the button
+    mainWindow.SetLayout<sw::FillLayout>();
+
     // Modify the button text by assigning a value to the Text property
     button.Text = L"Click Me";
 
@@ -39,8 +42,7 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT n
     button.RegisterRoutedEvent(sw::ButtonBase_Clicked,
         [](sw::UIElement& sender, sw::RoutedEventArgs& e) {
             sw::MsgBox::Show(mainWindow, L"Hello, SimpleWindow!");
-        }
-    );
+        });
 
     mainWindow.AddChild(button);
     mainWindow.Show();
@@ -57,3 +59,7 @@ The SimpleWindow framework is released under the MIT license, allowing you to fr
 ## Contribution
 
 Contributors are welcome to participate in the development and improvement of SimpleWindow. If you find bugs or have suggestions for improvements, please raise an issue or submit a pull request.
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/Mzying2001/sw.svg)](https://starchart.cc/Mzying2001/sw)
