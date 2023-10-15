@@ -960,16 +960,6 @@ bool sw::WndBase::IsControl()
     return this->_controlOldWndProc != nullptr;
 }
 
-void sw::WndBase::MoveToTop()
-{
-    SetWindowPos(this->_hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE);
-}
-
-void sw::WndBase::MoveToBottom()
-{
-    SetWindowPos(this->_hwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE);
-}
-
 sw::Point sw::WndBase::PointToScreen(const Point &point)
 {
     POINT p = point;

@@ -616,16 +616,6 @@ namespace sw
         bool IsControl();
 
         /**
-         * @brief 将窗口置于 Z 顺序的顶部
-         */
-        void MoveToTop();
-
-        /**
-         * @brief 将窗口置于 Z 顺序的底部
-         */
-        void MoveToBottom();
-
-        /**
          * @brief       获取用户区点在屏幕上点的位置
          * @param point 用户区坐标
          * @return      该点在屏幕上的坐标
