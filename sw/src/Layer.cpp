@@ -195,7 +195,7 @@ void sw::Layer::UpdateLayout()
     }
 
     this->UpdateScrollRange();
-    this->Redraw();
+    // this->Redraw();
 }
 
 sw::LayoutHost *sw::Layer::GetDefaultLayout()
