@@ -85,6 +85,11 @@ namespace sw
         static const ReadOnlyProperty<Window *> ActiveWindow;
 
         /**
+         * @brief 当前已创建的窗口数
+         */
+        static const ReadOnlyProperty<int> WindowCount;
+
+        /**
          * @brief 窗口初次启动的位置
          */
         const Property<WindowStartupLocation> StartupLocation;

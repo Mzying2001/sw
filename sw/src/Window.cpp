@@ -34,6 +34,15 @@ const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
     } //
 );
 
+/**
+ * @brief 当前已创建的窗口数
+ */
+const sw::ReadOnlyProperty<int> sw::Window::WindowCount(
+    []() -> const int & {
+        return _windowCount;
+    } //
+);
+
 sw::Window::Window()
     : StartupLocation(
           // get
