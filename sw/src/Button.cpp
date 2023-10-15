@@ -22,3 +22,14 @@ bool sw::Button::OnKillFocus(HWND hNextFocus)
     this->Redraw();
     return this->ButtonBase::OnKillFocus(hNextFocus);
 }
+
+bool sw::Button::OnKeyDown(VirtualKey key, KeyFlags flags)
+{
+    bool result = this->UIElement::OnKeyDown(key, flags);
+
+    if (key == VirtualKey::Enter) {
+        this->OnClicked();
+    }
+
+    return result;
+}
