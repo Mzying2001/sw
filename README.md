@@ -60,6 +60,6 @@ SimpleWindow 框架是基于 MIT 许可证发布的，允许您在自己的项�
 
 欢迎贡献者参与 SimpleWindow 的开发和改进。如果您发现 Bug 或有改进建议，请提出 Issue 或发送 Pull Request。
 
-## Stargazers over time
+## Star 趋势
 
 [![Stargazers over time](https://starchart.cc/Mzying2001/sw.svg)](https://starchart.cc/Mzying2001/sw)
