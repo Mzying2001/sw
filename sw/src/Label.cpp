@@ -118,7 +118,7 @@ sw::Label::Label()
               }
           })
 {
-    this->InitControl(L"STATIC", L"Label", WS_CHILD | WS_VISIBLE, 0);
+    this->InitControl(L"STATIC", L"Label", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
 }

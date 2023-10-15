@@ -3,7 +3,7 @@
 sw::Panel::Panel()
 {
     // STATIC控件默认没有响应滚动条操作，故使用BUTTON
-    this->InitControl(L"BUTTON", NULL, WS_CHILD | WS_VISIBLE, WS_EX_NOACTIVATE);
+    this->InitControl(L"BUTTON", NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
     this->HorizontalAlignment = HorizontalAlignment::Stretch;
     this->VerticalAlignment   = VerticalAlignment::Stretch;
 }

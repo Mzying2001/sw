@@ -1,7 +1,7 @@
 #include "Button.h"
 
-static constexpr DWORD _ButtonStyle_Default = WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_PUSHBUTTON;
-static constexpr DWORD _ButtonStyle_Focused = WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_DEFPUSHBUTTON;
+static constexpr DWORD _ButtonStyle_Default = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_PUSHBUTTON;
+static constexpr DWORD _ButtonStyle_Focused = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_DEFPUSHBUTTON;
 
 sw::Button::Button()
 {

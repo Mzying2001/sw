@@ -77,6 +77,6 @@ sw::ProgressBar::ProgressBar()
               this->Value = pos;
           })
 {
-    this->InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
+    this->InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
     this->Rect = sw::Rect(0, 0, 150, 20);
 }
