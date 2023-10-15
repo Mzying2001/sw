@@ -420,7 +420,9 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_PAINT: {
-            return this->OnPaint() ? 0 : this->DefaultWndProc(refMsg);
+            LRESULT result = this->OnPaint() ? 0 : this->DefaultWndProc(refMsg);
+            this->OnEndPaint();
+            return result;
         }
 
         case WM_WINDOWPOSCHANGED: {
@@ -705,6 +707,10 @@ bool sw::WndBase::OnDestroy()
 bool sw::WndBase::OnPaint()
 {
     return false;
+}
+
+void sw::WndBase::OnEndPaint()
+{
 }
 
 bool sw::WndBase::OnMove(Point newClientPosition)
