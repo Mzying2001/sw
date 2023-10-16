@@ -290,6 +290,48 @@ void sw::UIElement::ShowContextMenu(const Point &point)
     }
 }
 
+void sw::UIElement::MoveToTop()
+{
+    UIElement *parent = this->_parent;
+    if (parent == nullptr) return;
+
+    int index = parent->IndexOf(this);
+    if (index == -1 || index == parent->_children.size() - 1) return;
+
+    parent->_children.erase(parent->_children.begin() + index);
+    parent->_children.push_back(this);
+    SetWindowPos(this->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+
+    if (!this->_float) {
+        for (UIElement *item : parent->_children) {
+            if (item->_float)
+                SetWindowPos(item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        }
+    }
+}
+
+void sw::UIElement::MoveToBottom()
+{
+    UIElement *parent = this->_parent;
+    if (parent == nullptr) return;
+
+    int index = parent->IndexOf(this);
+    if (index == -1 || index == 0) return;
+
+    for (int i = index; i; --i)
+        parent->_children[i] = parent->_children[i - 1];
+    parent->_children[0] = this;
+
+    if (this->_float) {
+        for (UIElement *item : parent->_children) {
+            if (item->_float)
+                SetWindowPos(item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        }
+    } else {
+        SetWindowPos(this->Handle, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    }
+}
+
 uint64_t sw::UIElement::GetTag()
 {
     return this->_tag;

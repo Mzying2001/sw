@@ -326,6 +326,16 @@ namespace sw
         void ShowContextMenu(const Point &point);
 
         /**
+         * @brief 移动到界面顶部
+         */
+        void MoveToTop();
+
+        /**
+         * @brief 移动到界面底部
+         */
+        void MoveToBottom();
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;
