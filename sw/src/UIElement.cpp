@@ -296,7 +296,7 @@ void sw::UIElement::MoveToTop()
     if (parent == nullptr) return;
 
     int index = parent->IndexOf(this);
-    if (index == -1 || index == parent->_children.size() - 1) return;
+    if (index == -1 || index == (int)parent->_children.size() - 1) return;
 
     parent->_children.erase(parent->_children.begin() + index);
     parent->_children.push_back(this);
