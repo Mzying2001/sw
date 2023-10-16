@@ -62,6 +62,7 @@ void sw::Control::ResetHandle()
 
     this->SendMessageW(WM_SETFONT, (WPARAM)this->GetFontHandle(), TRUE);
     this->HandleChenged();
+    this->UpdateSiblingsZOrder();
 
     DestroyWindow(oldHwnd);
 }
