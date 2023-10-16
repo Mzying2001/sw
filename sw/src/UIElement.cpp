@@ -2,6 +2,7 @@
 #include "Utils.h"
 #include <algorithm>
 #include <cmath>
+#include <deque>
 
 sw::UIElement::UIElement()
     : Margin(
@@ -118,6 +119,7 @@ sw::UIElement::UIElement()
           // set
           [&](const bool &value) {
               this->_float = value;
+              this->UpdateSiblingsZOrder();
               this->NotifyLayoutUpdated();
           })
 {
@@ -171,6 +173,7 @@ bool sw::UIElement::AddChild(UIElement *element)
     this->_children.push_back(element);
 
     this->OnAddedChild(*element);
+    this->UpdateChildrenZOrder();
     this->NotifyLayoutUpdated();
     return true;
 }
@@ -483,9 +486,20 @@ void sw::UIElement::UpdateChildrenZOrder()
     int childCount = (int)this->_children.size();
     if (childCount < 2) return;
 
+    std::deque<HWND> floatingElements;
+
     for (UIElement *child : this->_children) {
         HWND hwnd = child->Handle;
-        SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+        if (child->_float) {
+            floatingElements.push_back(hwnd);
+        } else {
+            SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        }
+    }
+
+    while (!floatingElements.empty()) {
+        SetWindowPos(floatingElements.front(), HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        floatingElements.pop_front();
     }
 }
 
