@@ -169,11 +169,17 @@ bool sw::UIElement::AddChild(UIElement *element)
         return false;
     }
 
-    element->SetStyle(WS_CHILD, true);
     this->_children.push_back(element);
-
     this->OnAddedChild(*element);
-    this->UpdateChildrenZOrder();
+
+    // 处理z轴顺序，确保悬浮的元素在最前
+    if (!element->_float) {
+        for (UIElement *child : this->_children) {
+            if (child->_float)
+                SetWindowPos(child->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        }
+    }
+
     this->NotifyLayoutUpdated();
     return true;
 }
