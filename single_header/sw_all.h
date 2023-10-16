@@ -6,7 +6,6 @@
 #include <string>
 #include <cstdint>
 #include <iostream>
-#include <stdint.h>
 #include <initializer_list>
 #include <map>
 #include <tuple>
@@ -1789,12 +1788,12 @@ namespace sw
         /**
          * @brief 获取Tag
          */
-        virtual uint64_t GetTag();
+        virtual uint64_t GetTag() override;
 
         /**
          * @brief 设置Tag
          */
-        virtual void SetTag(uint64_t tag);
+        virtual void SetTag(uint64_t tag) override;
     };
 }
 
@@ -2582,6 +2581,11 @@ namespace sw
         virtual bool OnPaint();
 
         /**
+         * @brief 在OnPaint函数完成之后调用该函数
+         */
+        virtual void OnEndPaint();
+
+        /**
          * @brief                   接收到WM_MOVE时调用该函数
          * @param newClientPosition 移动后用户区左上角的位置
          * @return                  若已处理该消息则返回true，否则返回false以调用DefaultWndProc
@@ -2914,16 +2918,6 @@ namespace sw
         bool IsControl();
 
         /**
-         * @brief 将窗口置于 Z 顺序的顶部
-         */
-        void MoveToTop();
-
-        /**
-         * @brief 将窗口置于 Z 顺序的底部
-         */
-        void MoveToBottom();
-
-        /**
          * @brief       获取用户区点在屏幕上点的位置
          * @param point 用户区坐标
          * @return      该点在屏幕上的坐标
@@ -3159,7 +3153,7 @@ namespace sw
         static MsgBox ShowQuestion(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
 
     private:
-        const MsgBox &On(MsgBoxResult result, const MsgBoxCallback &callback) const;
+        const MsgBox &_On(MsgBoxResult result, const MsgBoxCallback &callback) const;
 
     public:
         const MsgBox &OnOk(const MsgBoxCallback &callback) const;
@@ -3590,14 +3584,24 @@ namespace sw
         void ShowContextMenu(const Point &point);
 
         /**
+         * @brief 移动到界面顶部
+         */
+        void MoveToTop();
+
+        /**
+         * @brief 移动到界面底部
+         */
+        void MoveToBottom();
+
+        /**
          * @brief 获取Tag
          */
-        virtual uint64_t GetTag();
+        virtual uint64_t GetTag() override;
 
         /**
          * @brief 设置Tag
          */
-        virtual void SetTag(uint64_t tag);
+        virtual void SetTag(uint64_t tag) override;
 
         /**
          * @brief 获取布局标记
@@ -3687,6 +3691,16 @@ namespace sw
          * @return       _childBottommost字段
          */
         double GetChildBottommost(bool update);
+
+        /**
+         * @brief 更新子元素的Z轴位置
+         */
+        void UpdateChildrenZOrder();
+
+        /**
+         * @brief 更新兄弟元素的Z轴位置
+         */
+        void UpdateSiblingsZOrder();
 
         /**
          * @brief         添加子元素后调用该函数
@@ -4061,12 +4075,12 @@ namespace sw
         /**
          * @brief 获取布局对象，若Layout属性被赋值则返回设置的对象，否则返回默认布局对象
          */
-        LayoutHost *GetLayout();
+        LayoutHost *_GetLayout();
 
         /**
          * @brief 在没有设定布局方式时，使用该函数对子元素Measure和Arrange
          */
-        void MeasureAndArrangeWithoutLayout();
+        void _MeasureAndArrangeWithoutLayout();
 
     protected:
         /**
@@ -4721,27 +4735,27 @@ namespace sw
         /**
          * @brief 根据选中的tab更新子元素的Visible属性
          */
-        void UpdateChildVisible();
+        void _UpdateChildVisible();
 
         /**
          * @brief 发送TCM_INSERTITEMW消息
          */
-        int InsertItem(int index, TCITEMW &item);
+        int _InsertItem(int index, TCITEMW &item);
 
         /**
          * @brief 发送TCM_SETITEMW消息
          */
-        bool SetItem(int index, TCITEMW &item);
+        bool _SetItem(int index, TCITEMW &item);
 
         /**
          * @brief 发送TCM_DELETEITEM消息
          */
-        bool DeleteItem(int index);
+        bool _DeleteItem(int index);
 
         /**
          * @brief 发送TCM_DELETEALLITEMS消息
          */
-        bool DeleteAllItems();
+        bool _DeleteAllItems();
     };
 }
 
@@ -4907,6 +4921,11 @@ namespace sw
          * @brief 程序的当前活动窗体
          */
         static const ReadOnlyProperty<Window *> ActiveWindow;
+
+        /**
+         * @brief 当前已创建的窗口数
+         */
+        static const ReadOnlyProperty<int> WindowCount;
 
         /**
          * @brief 窗口初次启动的位置
@@ -5096,7 +5115,7 @@ namespace sw
         /**
          * @brief 取消通过SetLayout设置的布局方式
          */
-        template <nullptr_t>
+        template <std::nullptr_t>
         void SetLayout()
         {
             this->_layout = nullptr;
@@ -5110,9 +5129,15 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 按钮
+     */
     class Button : public ButtonBase
     {
     public:
+        /**
+         * @brief 初始化按钮
+         */
         Button();
 
     protected:
@@ -5129,6 +5154,14 @@ namespace sw
          * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnKillFocus(HWND hNextFocus) override;
+
+        /**
+         * @brief       接收到WM_KEYDOWN时调用该函数
+         * @param key   虚拟按键
+         * @param flags 附加信息
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
     };
 }
 

@@ -2,6 +2,7 @@
 #include <cmath>
 #include <strsafe.h>
 #include <algorithm>
+#include <deque>
 
 // App.cpp
 
@@ -136,8 +137,8 @@ std::wstring sw::App::_GetCurrentDirectory()
 
 // Button.cpp
 
-static constexpr DWORD _ButtonStyle_Default = WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_PUSHBUTTON;
-static constexpr DWORD _ButtonStyle_Focused = WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_DEFPUSHBUTTON;
+static constexpr DWORD _ButtonStyle_Default = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_PUSHBUTTON;
+static constexpr DWORD _ButtonStyle_Focused = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_DEFPUSHBUTTON;
 
 sw::Button::Button()
 {
@@ -157,6 +158,17 @@ bool sw::Button::OnKillFocus(HWND hNextFocus)
     this->SetStyle(_ButtonStyle_Default);
     this->Redraw();
     return this->ButtonBase::OnKillFocus(hNextFocus);
+}
+
+bool sw::Button::OnKeyDown(VirtualKey key, KeyFlags flags)
+{
+    bool result = this->UIElement::OnKeyDown(key, flags);
+
+    if (key == VirtualKey::Enter) {
+        this->OnClicked();
+    }
+
+    return result;
 }
 
 // ButtonBase.cpp
@@ -228,8 +240,8 @@ sw::CheckableButton::CheckableButton()
 
 // CheckBox.cpp
 
-static constexpr DWORD _CheckBoxStyle_Normal     = WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_AUTOCHECKBOX;
-static constexpr DWORD _CheckBoxStyle_ThreeState = WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_AUTO3STATE;
+static constexpr DWORD _CheckBoxStyle_Normal     = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTOCHECKBOX;
+static constexpr DWORD _CheckBoxStyle_ThreeState = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTO3STATE;
 
 sw::CheckBox::CheckBox()
     : ThreeState(
@@ -274,8 +286,8 @@ sw::Color::operator COLORREF() const
 
 // ComboBox.cpp
 
-static constexpr DWORD _ComboBoxStyle_Default  = WS_CHILD | WS_VISIBLE | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWNLIST;
-static constexpr DWORD _ComboBoxStyle_Editable = WS_CHILD | WS_VISIBLE | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWN;
+static constexpr DWORD _ComboBoxStyle_Default  = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWNLIST;
+static constexpr DWORD _ComboBoxStyle_Editable = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWN;
 
 sw::ComboBox::ComboBox()
     : IsEditable(
@@ -531,6 +543,7 @@ void sw::Control::ResetHandle()
 
     this->SendMessageW(WM_SETFONT, (WPARAM)this->GetFontHandle(), TRUE);
     this->HandleChenged();
+    this->UpdateSiblingsZOrder();
 
     DestroyWindow(oldHwnd);
 }
@@ -947,7 +960,7 @@ sw::Font &sw::Font::GetDefaultFont(bool update)
 
 sw::GroupBox::GroupBox()
 {
-    this->InitControl(L"BUTTON", L"GroupBox", WS_CHILD | WS_VISIBLE | BS_GROUPBOX, 0);
+    this->InitControl(L"BUTTON", L"GroupBox", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_GROUPBOX, 0);
     this->Rect = sw::Rect(0, 0, 200, 200);
 }
 
@@ -1141,7 +1154,7 @@ sw::Label::Label()
               }
           })
 {
-    this->InitControl(L"STATIC", L"Label", WS_CHILD | WS_VISIBLE, 0);
+    this->InitControl(L"STATIC", L"Label", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
 }
@@ -1308,7 +1321,7 @@ sw::Layer::Layer()
               info.nPos   = std::lround(value / Dip::ScaleX);
               SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 
-              LayoutHost *layout = this->GetLayout();
+              LayoutHost *layout = this->_GetLayout();
 
               if (layout != nullptr && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
                   this->GetArrangeOffsetX() = -HorizontalScrollPos;
@@ -1337,7 +1350,7 @@ sw::Layer::Layer()
               info.nPos   = std::lround(value / Dip::ScaleY);
               SetScrollInfo(this->Handle, SB_VERT, &info, true);
 
-              LayoutHost *layout = this->GetLayout();
+              LayoutHost *layout = this->_GetLayout();
 
               if (layout != nullptr && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
                   this->GetArrangeOffsetY() = -VerticalScrollPos;
@@ -1385,12 +1398,12 @@ sw::Layer::Layer()
 {
 }
 
-sw::LayoutHost *sw::Layer::GetLayout()
+sw::LayoutHost *sw::Layer::_GetLayout()
 {
     return this->_customLayout != nullptr ? this->_customLayout : this->GetDefaultLayout();
 }
 
-void sw::Layer::MeasureAndArrangeWithoutLayout()
+void sw::Layer::_MeasureAndArrangeWithoutLayout()
 {
     this->GetArrangeOffsetX() = 0;
     this->GetArrangeOffsetY() = 0;
@@ -1415,10 +1428,10 @@ void sw::Layer::UpdateLayout()
         return;
     }
 
-    LayoutHost *layout = this->GetLayout();
+    LayoutHost *layout = this->_GetLayout();
 
     if (layout == nullptr) {
-        this->MeasureAndArrangeWithoutLayout();
+        this->_MeasureAndArrangeWithoutLayout();
     } else {
         sw::Rect clientRect = this->ClientRect;
         layout->Measure(Size(clientRect.width, clientRect.height));
@@ -1426,7 +1439,7 @@ void sw::Layer::UpdateLayout()
     }
 
     this->UpdateScrollRange();
-    this->Redraw();
+    // this->Redraw();
 }
 
 sw::LayoutHost *sw::Layer::GetDefaultLayout()
@@ -1532,7 +1545,7 @@ bool sw::Layer::OnHorizontalScroll(int event, int pos)
 
 void sw::Layer::Measure(const Size &availableSize)
 {
-    LayoutHost *layout = this->GetLayout();
+    LayoutHost *layout = this->_GetLayout();
 
     if (layout == nullptr) {
         this->UIElement::Measure(availableSize);
@@ -1560,9 +1573,9 @@ void sw::Layer::Arrange(const sw::Rect &finalPosition)
 {
     this->UIElement::Arrange(finalPosition);
 
-    LayoutHost *layout = this->GetLayout();
+    LayoutHost *layout = this->_GetLayout();
     if (layout == nullptr) {
-        this->MeasureAndArrangeWithoutLayout();
+        this->_MeasureAndArrangeWithoutLayout();
     } else {
         layout->Arrange(this->ClientRect);
     }
@@ -1669,7 +1682,7 @@ void sw::Layer::SetVerticalScrollPageSize(double pageSize)
 
 void sw::Layer::UpdateScrollRange()
 {
-    if (this->GetLayout() == nullptr) {
+    if (this->_GetLayout() == nullptr) {
         // 当未设置布局方式时滚动条和控件位置需要手动设置
         // 将以下俩字段设为false确保xxxScrollLimit属性在未设置布局方式时仍可用
         this->_horizontalScrollDisabled = false;
@@ -1832,7 +1845,7 @@ sw::ListBox::ListBox()
               return result;
           })
 {
-    this->InitControl(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LBS_NOTIFY, 0);
+    this->InitControl(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | WS_VSCROLL | LBS_NOTIFY, 0);
     this->Rect = sw::Rect(0, 0, 150, 200);
 }
 
@@ -2516,7 +2529,7 @@ sw::MsgBox sw::MsgBox::ShowQuestion(const WndBase &owner, const std::wstring &te
     return MsgBox::ShowQuestion(&owner, text, caption, button);
 }
 
-const sw::MsgBox &sw::MsgBox::On(MsgBoxResult result, const MsgBoxCallback &callback) const
+const sw::MsgBox &sw::MsgBox::_On(MsgBoxResult result, const MsgBoxCallback &callback) const
 {
     if (this->result == result && callback)
         callback();
@@ -2525,22 +2538,22 @@ const sw::MsgBox &sw::MsgBox::On(MsgBoxResult result, const MsgBoxCallback &call
 
 const sw::MsgBox &sw::MsgBox::OnOk(const MsgBoxCallback &callback) const
 {
-    return this->On(MsgBoxResult::Ok, callback);
+    return this->_On(MsgBoxResult::Ok, callback);
 }
 
 const sw::MsgBox &sw::MsgBox::OnYes(const MsgBoxCallback &callback) const
 {
-    return this->On(MsgBoxResult::Yes, callback);
+    return this->_On(MsgBoxResult::Yes, callback);
 }
 
 const sw::MsgBox &sw::MsgBox::OnNo(const MsgBoxCallback &callback) const
 {
-    return this->On(MsgBoxResult::No, callback);
+    return this->_On(MsgBoxResult::No, callback);
 }
 
 const sw::MsgBox &sw::MsgBox::OnCancel(const MsgBoxCallback &callback) const
 {
-    return this->On(MsgBoxResult::Cancel, callback);
+    return this->_On(MsgBoxResult::Cancel, callback);
 }
 
 // Panel.cpp
@@ -2548,7 +2561,7 @@ const sw::MsgBox &sw::MsgBox::OnCancel(const MsgBoxCallback &callback) const
 sw::Panel::Panel()
 {
     // STATIC控件默认没有响应滚动条操作，故使用BUTTON
-    this->InitControl(L"BUTTON", NULL, WS_CHILD | WS_VISIBLE, WS_EX_NOACTIVATE);
+    this->InitControl(L"BUTTON", NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
     this->HorizontalAlignment = HorizontalAlignment::Stretch;
     this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
@@ -2671,7 +2684,7 @@ sw::PasswordBox::PasswordBox()
               this->SendMessageW(EM_SETPASSWORDCHAR, value, 0);
           })
 {
-    this->InitTextBoxBase(WS_CHILD | WS_VISIBLE | ES_PASSWORD | ES_LEFT | ES_AUTOHSCROLL, WS_EX_CLIENTEDGE);
+    this->InitTextBoxBase(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | ES_PASSWORD | ES_LEFT | ES_AUTOHSCROLL, WS_EX_CLIENTEDGE);
     this->Rect = sw::Rect(0, 0, 100, 24);
 }
 
@@ -2917,7 +2930,7 @@ sw::ProgressBar::ProgressBar()
               this->Value = pos;
           })
 {
-    this->InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
+    this->InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
     this->Rect = sw::Rect(0, 0, 150, 20);
 }
 
@@ -2925,7 +2938,7 @@ sw::ProgressBar::ProgressBar()
 
 sw::RadioButton::RadioButton()
 {
-    this->InitButtonBase(L"RadioButton", WS_CHILD | WS_VISIBLE | BS_NOTIFY | BS_AUTORADIOBUTTON, 0);
+    this->InitButtonBase(L"RadioButton", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTORADIOBUTTON, 0);
     this->Rect = sw::Rect(0, 0, 100, 20);
 }
 
@@ -3090,7 +3103,7 @@ sw::Slider::Slider()
               }
           })
 {
-    this->InitControl(TRACKBAR_CLASSW, L"", WS_CHILD | WS_VISIBLE | TBS_NOTIFYBEFOREMOVE | TBS_DOWNISLEFT, 0);
+    this->InitControl(TRACKBAR_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TBS_NOTIFYBEFOREMOVE | TBS_DOWNISLEFT, 0);
     this->Rect = sw::Rect(0, 0, 150, 30);
 }
 
@@ -3277,7 +3290,7 @@ sw::TabControl::TabControl()
           // set
           [&](const int &value) {
               this->SendMessageW(TCM_SETCURSEL, (WPARAM)value, 0);
-              this->UpdateChildVisible();
+              this->_UpdateChildVisible();
           }),
 
       Alignment(
@@ -3365,7 +3378,7 @@ sw::TabControl::TabControl()
               this->NotifyLayoutUpdated();
           })
 {
-    this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | TCS_FOCUSNEVER, 0);
+    this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_FOCUSNEVER, 0);
     this->Rect = sw::Rect(0, 0, 200, 200);
 }
 
@@ -3384,18 +3397,18 @@ void sw::TabControl::UpdateTab()
     int tabCount   = this->GetTabCount();
 
     while (tabCount < childCount) {
-        this->InsertItem(tabCount, item);
+        this->_InsertItem(tabCount, item);
         tabCount = this->GetTabCount();
     }
 
     while (tabCount > childCount) {
-        this->DeleteItem(tabCount - 1);
+        this->_DeleteItem(tabCount - 1);
         tabCount = this->GetTabCount();
     }
 
     for (int i = 0; i < childCount; ++i) {
         item.pszText = (LPWSTR)(*this)[i].Text->c_str();
-        this->SetItem(i, item);
+        this->_SetItem(i, item);
     }
 }
 
@@ -3412,7 +3425,7 @@ void sw::TabControl::UpdateTabText(int index)
         TCITEMW item{};
         item.mask    = TCIF_TEXT;
         item.pszText = (LPWSTR)(*this)[index].Text->c_str();
-        this->SetItem(index, item);
+        this->_SetItem(index, item);
     }
 }
 
@@ -3438,14 +3451,14 @@ void sw::TabControl::OnAddedChild(UIElement &element)
 
     int index = this->IndexOf(element);
 
-    this->InsertItem(index, item);
+    this->_InsertItem(index, item);
     element.Visible = index == this->SelectedIndex;
 }
 
 void sw::TabControl::OnRemovedChild(UIElement &element)
 {
     this->UpdateTab();
-    this->UpdateChildVisible();
+    this->_UpdateChildVisible();
 }
 
 void sw::TabControl::OnNotified(NMHDR *pNMHDR)
@@ -3457,11 +3470,11 @@ void sw::TabControl::OnNotified(NMHDR *pNMHDR)
 
 void sw::TabControl::OnSelectedIndexChanged()
 {
-    this->UpdateChildVisible();
+    this->_UpdateChildVisible();
     this->RaiseRoutedEvent(TabControl_SelectedIndexChanged);
 }
 
-void sw::TabControl::UpdateChildVisible()
+void sw::TabControl::_UpdateChildVisible()
 {
     int selectedIndex = this->SelectedIndex;
     int childCount    = this->ChildCount;
@@ -3473,22 +3486,22 @@ void sw::TabControl::UpdateChildVisible()
     }
 }
 
-int sw::TabControl::InsertItem(int index, TCITEMW &item)
+int sw::TabControl::_InsertItem(int index, TCITEMW &item)
 {
     return (int)this->SendMessageW(TCM_INSERTITEMW, (WPARAM)index, reinterpret_cast<LPARAM>(&item));
 }
 
-bool sw::TabControl::SetItem(int index, TCITEMW &item)
+bool sw::TabControl::_SetItem(int index, TCITEMW &item)
 {
     return this->SendMessageW(TCM_SETITEMW, (WPARAM)index, reinterpret_cast<LPARAM>(&item));
 }
 
-bool sw::TabControl::DeleteItem(int index)
+bool sw::TabControl::_DeleteItem(int index)
 {
     return this->SendMessageW(TCM_DELETEITEM, (WPARAM)index, 0);
 }
 
-bool sw::TabControl::DeleteAllItems()
+bool sw::TabControl::_DeleteAllItems()
 {
     return this->SendMessageW(TCM_DELETEALLITEMS, 0, 0);
 }
@@ -3559,7 +3572,7 @@ sw::TextBox::TextBox()
               }
           })
 {
-    this->InitTextBoxBase(WS_CHILD | WS_VISIBLE | ES_LEFT | ES_AUTOHSCROLL | ES_AUTOVSCROLL, WS_EX_CLIENTEDGE);
+    this->InitTextBoxBase(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | ES_LEFT | ES_AUTOHSCROLL | ES_AUTOVSCROLL, WS_EX_CLIENTEDGE);
     this->Rect = sw::Rect(0, 0, 100, 24);
 }
 
@@ -3817,6 +3830,7 @@ sw::UIElement::UIElement()
           // set
           [&](const bool &value) {
               this->_float = value;
+              this->UpdateSiblingsZOrder();
               this->NotifyLayoutUpdated();
           })
 {
@@ -3866,10 +3880,17 @@ bool sw::UIElement::AddChild(UIElement *element)
         return false;
     }
 
-    element->SetStyle(WS_CHILD, true);
     this->_children.push_back(element);
-
     this->OnAddedChild(*element);
+
+    // 处理z轴顺序，确保悬浮的元素在最前
+    if (!element->_float) {
+        for (UIElement *child : this->_children) {
+            if (child->_float)
+                SetWindowPos(child->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        }
+    }
+
     this->NotifyLayoutUpdated();
     return true;
 }
@@ -3977,6 +3998,48 @@ void sw::UIElement::ShowContextMenu(const Point &point)
     if (this->_contextMenu != nullptr) {
         POINT p = point;
         TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, nullptr);
+    }
+}
+
+void sw::UIElement::MoveToTop()
+{
+    UIElement *parent = this->_parent;
+    if (parent == nullptr) return;
+
+    int index = parent->IndexOf(this);
+    if (index == -1 || index == (int)parent->_children.size() - 1) return;
+
+    parent->_children.erase(parent->_children.begin() + index);
+    parent->_children.push_back(this);
+    SetWindowPos(this->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+
+    if (!this->_float) {
+        for (UIElement *item : parent->_children) {
+            if (item->_float)
+                SetWindowPos(item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        }
+    }
+}
+
+void sw::UIElement::MoveToBottom()
+{
+    UIElement *parent = this->_parent;
+    if (parent == nullptr) return;
+
+    int index = parent->IndexOf(this);
+    if (index == -1 || index == 0) return;
+
+    for (int i = index; i; --i)
+        parent->_children[i] = parent->_children[i - 1];
+    parent->_children[0] = this;
+
+    if (this->_float) {
+        for (UIElement *item : parent->_children) {
+            if (item->_float)
+                SetWindowPos(item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        }
+    } else {
+        SetWindowPos(this->Handle, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     }
 }
 
@@ -4175,6 +4238,35 @@ double sw::UIElement::GetChildBottommost(bool update)
         }
     }
     return this->_childBottommost;
+}
+
+void sw::UIElement::UpdateChildrenZOrder()
+{
+    int childCount = (int)this->_children.size();
+    if (childCount < 2) return;
+
+    std::deque<HWND> floatingElements;
+
+    for (UIElement *child : this->_children) {
+        HWND hwnd = child->Handle;
+        if (child->_float) {
+            floatingElements.push_back(hwnd);
+        } else {
+            SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        }
+    }
+
+    while (!floatingElements.empty()) {
+        SetWindowPos(floatingElements.front(), HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        floatingElements.pop_front();
+    }
+}
+
+void sw::UIElement::UpdateSiblingsZOrder()
+{
+    if (this->_parent != nullptr) {
+        this->_parent->UpdateChildrenZOrder();
+    }
 }
 
 void sw::UIElement::OnAddedChild(UIElement &element)
@@ -4497,6 +4589,15 @@ const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
         HWND hwnd = GetActiveWindow();
         pWindow   = dynamic_cast<sw::Window *>(sw::WndBase::GetWndBase(hwnd));
         return pWindow;
+    } //
+);
+
+/**
+ * @brief 当前已创建的窗口数
+ */
+const sw::ReadOnlyProperty<int> sw::Window::WindowCount(
+    []() -> const int & {
+        return _windowCount;
     } //
 );
 
@@ -4919,9 +5020,7 @@ void _UpdateFontForAllChild(sw::UIElement &element)
 
 HICON _GetWindowDefaultIcon()
 {
-    static HICON hIcon = NULL;
-    if (hIcon == NULL)
-        hIcon = ExtractIconW(sw::App::Instance, sw::App::ExePath->c_str(), 0);
+    static HICON hIcon = ExtractIconW(sw::App::Instance, sw::App::ExePath->c_str(), 0);
     return hIcon;
 }
 
@@ -5346,7 +5445,9 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_PAINT: {
-            return this->OnPaint() ? 0 : this->DefaultWndProc(refMsg);
+            LRESULT result = this->OnPaint() ? 0 : this->DefaultWndProc(refMsg);
+            this->OnEndPaint();
+            return result;
         }
 
         case WM_WINDOWPOSCHANGED: {
@@ -5633,6 +5734,10 @@ bool sw::WndBase::OnPaint()
     return false;
 }
 
+void sw::WndBase::OnEndPaint()
+{
+}
+
 bool sw::WndBase::OnMove(Point newClientPosition)
 {
     return false;
@@ -5878,16 +5983,6 @@ void sw::WndBase::Redraw(bool erase)
 bool sw::WndBase::IsControl()
 {
     return this->_controlOldWndProc != nullptr;
-}
-
-void sw::WndBase::MoveToTop()
-{
-    SetWindowPos(this->_hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE);
-}
-
-void sw::WndBase::MoveToBottom()
-{
-    SetWindowPos(this->_hwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE);
 }
 
 sw::Point sw::WndBase::PointToScreen(const Point &point)
