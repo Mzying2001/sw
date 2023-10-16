@@ -328,12 +328,12 @@ namespace sw
         /**
          * @brief 获取Tag
          */
-        virtual uint64_t GetTag();
+        virtual uint64_t GetTag() override;
 
         /**
          * @brief 设置Tag
          */
-        virtual void SetTag(uint64_t tag);
+        virtual void SetTag(uint64_t tag) override;
 
         /**
          * @brief 获取布局标记
