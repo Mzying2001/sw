@@ -4,6 +4,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 编辑框
+     */
     class TextBox : public TextBoxBase
     {
     private:
