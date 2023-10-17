@@ -3372,6 +3372,11 @@ namespace sw
          */
         bool _float = false;
 
+        /**
+         * @brief 表示用户是否可以通过按下Tab键将焦点移动到当前元素
+         */
+        bool _tabStop = false;
+
     public:
         /**
          * @brief 边距
@@ -3422,6 +3427,11 @@ namespace sw
          * @brief 元素是否悬浮，若元素悬浮则该元素不会随滚动条滚动而改变位置
          */
         const Property<bool> Float;
+
+        /**
+         * @brief 表示用户是否可以通过按下Tab键将焦点移动到当前元素
+         */
+        const Property<bool> TabStop;
 
     public:
         UIElement();
@@ -3594,6 +3604,26 @@ namespace sw
         void MoveToBottom();
 
         /**
+         * @brief 判断当前元素是否为根节点
+         */
+        bool IsRootElement();
+
+        /**
+         * @brief 获取当前元素所在界面树的根节点
+         */
+        UIElement *GetRootElement();
+
+        /**
+         * @brief 获取当前元素在界面树上的下一个节点，若已是最后一个节点则返回根节点
+         */
+        UIElement *GetNextElement();
+
+        /**
+         * @brief 获取下一个TabStop属性为true的元素
+         */
+        UIElement *GetNextTabStopElement();
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;
@@ -3652,16 +3682,6 @@ namespace sw
          * @param eventArgs 要触发事件的事件参数
          */
         void RaiseRoutedEvent(RoutedEventArgs &eventArgs);
-
-        /**
-         * @brief 获取顶级窗口
-         */
-        UIElement &GetRootElement();
-
-        /**
-         * @brief 判断当前对象是否为顶级窗口
-         */
-        bool IsRootElement();
 
         /**
          * @brief 通知顶级窗口布局改变
@@ -3878,6 +3898,12 @@ namespace sw
          * @param id 菜单id
          */
         virtual void OnMenuCommand(int id) override;
+
+    private:
+        /**
+         * @brief 循环获取界面树上的下一个节点
+         */
+        static UIElement *_GetNextElement(UIElement *element, bool searchChildren = true);
     };
 }
 
@@ -4772,6 +4798,11 @@ namespace sw
          */
         bool _isTextChanged = false;
 
+        /**
+         * @brief 是否允许输入制表符
+         */
+        bool _acceptTab = false;
+
     public:
         /**
          * @brief 是否只读
@@ -4787,6 +4818,11 @@ namespace sw
          * @brief 是否可以撤销
          */
         const ReadOnlyProperty<bool> CanUndo;
+
+        /**
+         * @brief 是否允许输入制表符
+         */
+        const Property<bool> AcceptTab;
 
     protected:
         /**
@@ -4810,6 +4846,22 @@ namespace sw
          * @param code 通知代码
          */
         virtual void OnCommand(int code) override;
+
+        /**
+         * @brief       接收到WM_CHAR时调用该函数
+         * @param ch    按键的字符代码
+         * @param flags 附加信息
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnChar(wchar_t ch, KeyFlags flags) override;
+
+        /**
+         * @brief       接收到WM_KEYDOWN时调用该函数
+         * @param key   虚拟按键
+         * @param flags 附加信息
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
 
     public:
         /**
@@ -5607,6 +5659,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 编辑框
+     */
     class TextBox : public TextBoxBase
     {
     private:

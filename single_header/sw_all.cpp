@@ -175,6 +175,7 @@ bool sw::Button::OnKeyDown(VirtualKey key, KeyFlags flags)
 
 sw::ButtonBase::ButtonBase()
 {
+    this->TabStop = true;
 }
 
 void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
@@ -307,7 +308,8 @@ sw::ComboBox::ComboBox()
           })
 {
     this->InitControl(L"COMBOBOX", L"", _ComboBoxStyle_Default, 0);
-    this->Rect = sw::Rect(0, 0, 100, 24);
+    this->Rect    = sw::Rect(0, 0, 100, 24);
+    this->TabStop = true;
 }
 
 int sw::ComboBox::GetItemsCount()
@@ -1846,7 +1848,8 @@ sw::ListBox::ListBox()
           })
 {
     this->InitControl(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | WS_VSCROLL | LBS_NOTIFY, 0);
-    this->Rect = sw::Rect(0, 0, 150, 200);
+    this->Rect    = sw::Rect(0, 0, 150, 200);
+    this->TabStop = true;
 }
 
 int sw::ListBox::GetItemsCount()
@@ -3104,7 +3107,8 @@ sw::Slider::Slider()
           })
 {
     this->InitControl(TRACKBAR_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TBS_NOTIFYBEFOREMOVE | TBS_DOWNISLEFT, 0);
-    this->Rect = sw::Rect(0, 0, 150, 30);
+    this->Rect    = sw::Rect(0, 0, 150, 30);
+    this->TabStop = true;
 }
 
 bool sw::Slider::OnVerticalScroll(int event, int pos)
@@ -3639,8 +3643,19 @@ sw::TextBoxBase::TextBoxBase()
               static bool result;
               result = this->SendMessageW(EM_CANUNDO, 0, 0);
               return result;
+          }),
+
+      AcceptTab(
+          // get
+          [&]() -> const bool & {
+              return this->_acceptTab;
+          },
+          // set
+          [&](const bool &value) {
+              this->_acceptTab = value;
           })
 {
+    this->TabStop = true;
 }
 
 void sw::TextBoxBase::InitTextBoxBase(DWORD dwStyle, DWORD dwExStyle)
@@ -3669,6 +3684,33 @@ void sw::TextBoxBase::OnCommand(int code)
         default:
             break;
     }
+}
+
+bool sw::TextBoxBase::OnChar(wchar_t ch, KeyFlags flags)
+{
+    GotCharEventArgs e(ch, flags);
+    this->RaiseRoutedEvent(e);
+
+    if (!e.handledMsg && ch == L'\t') {
+        if (this->_acceptTab && !this->ReadOnly)
+            this->SendMessageW(EM_REPLACESEL, TRUE, reinterpret_cast<LPARAM>(L"\t"));
+        e.handledMsg = true; // 取消duang~~
+    }
+
+    return e.handledMsg;
+}
+
+bool sw::TextBoxBase::OnKeyDown(VirtualKey key, KeyFlags flags)
+{
+    KeyDownEventArgs e(key, flags);
+    this->RaiseRoutedEvent(e);
+
+    if (!e.handledMsg && key == VirtualKey::Tab && (!this->_acceptTab || this->ReadOnly)) {
+        UIElement *next = this->GetNextTabStopElement();
+        if (next && next != this) next->Focused = true;
+    }
+
+    return e.handledMsg;
 }
 
 void sw::TextBoxBase::Select(int start, int length)
@@ -3832,6 +3874,16 @@ sw::UIElement::UIElement()
               this->_float = value;
               this->UpdateSiblingsZOrder();
               this->NotifyLayoutUpdated();
+          }),
+
+      TabStop(
+          // get
+          [&]() -> const bool & {
+              return this->_tabStop;
+          },
+          // set
+          [&](const bool &value) {
+              this->_tabStop = value;
           })
 {
 }
@@ -4043,6 +4095,36 @@ void sw::UIElement::MoveToBottom()
     }
 }
 
+bool sw::UIElement::IsRootElement()
+{
+    return this->_parent == nullptr;
+}
+
+sw::UIElement *sw::UIElement::GetRootElement()
+{
+    UIElement *root;
+    UIElement *element = this;
+    do {
+        root    = element;
+        element = element->_parent;
+    } while (element != nullptr);
+    return root;
+}
+
+sw::UIElement *sw::UIElement::GetNextElement()
+{
+    return _GetNextElement(this);
+}
+
+sw::UIElement *sw::UIElement::GetNextTabStopElement()
+{
+    UIElement *element = this;
+    do {
+        element = element->GetNextElement();
+    } while (element != nullptr && !element->_tabStop && element != this);
+    return element;
+}
+
 uint64_t sw::UIElement::GetTag()
 {
     return this->_tag;
@@ -4182,27 +4264,11 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
     } while (element != nullptr);
 }
 
-sw::UIElement &sw::UIElement::GetRootElement()
-{
-    UIElement *root;
-    UIElement *element = this;
-    do {
-        root    = element;
-        element = element->_parent;
-    } while (element != nullptr);
-    return *root;
-}
-
-bool sw::UIElement::IsRootElement()
-{
-    return this->_parent == nullptr;
-}
-
 void sw::UIElement::NotifyLayoutUpdated()
 {
     if (!this->_arranging) {
-        UIElement &root = this->GetRootElement();
-        root.SendMessageW(WM_UpdateLayout, 0, 0);
+        UIElement *root = this->GetRootElement();
+        if (root) root->SendMessageW(WM_UpdateLayout, 0, 0);
     }
 }
 
@@ -4388,6 +4454,13 @@ bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
 {
     KeyDownEventArgs args(key, flags);
     this->RaiseRoutedEvent(args);
+
+    // 实现按下Tab键转移焦点
+    if (!args.handledMsg && key == VirtualKey::Tab) {
+        UIElement *next = this->GetNextTabStopElement();
+        if (next && next != this) next->Focused = true;
+    }
+
     return args.handledMsg;
 }
 
@@ -4483,6 +4556,25 @@ void sw::UIElement::OnMenuCommand(int id)
         MenuItem *item = this->_contextMenu->GetMenuItem(id);
         if (item) item->CallCommand();
     }
+}
+
+sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element, bool searchChildren)
+{
+    if (searchChildren && !element->_children.empty()) {
+        return element->_children.front();
+    }
+
+    UIElement *parent = element->_parent;
+    if (parent == nullptr) {
+        return element; // 回到根节点
+    }
+
+    int index = parent->IndexOf(element);
+    if (index == (int)parent->_children.size() - 1) {
+        return _GetNextElement(parent, false);
+    }
+
+    return parent->_children[index + 1];
 }
 
 // Utils.cpp
