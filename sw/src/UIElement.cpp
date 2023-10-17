@@ -332,6 +332,22 @@ void sw::UIElement::MoveToBottom()
     }
 }
 
+bool sw::UIElement::IsRootElement()
+{
+    return this->_parent == nullptr;
+}
+
+sw::UIElement *sw::UIElement::GetRootElement()
+{
+    UIElement *root;
+    UIElement *element = this;
+    do {
+        root    = element;
+        element = element->_parent;
+    } while (element != nullptr);
+    return root;
+}
+
 sw::UIElement *sw::UIElement::GetNextElement()
 {
     return _GetNextElement(this);
@@ -476,27 +492,11 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
     } while (element != nullptr);
 }
 
-sw::UIElement &sw::UIElement::GetRootElement()
-{
-    UIElement *root;
-    UIElement *element = this;
-    do {
-        root    = element;
-        element = element->_parent;
-    } while (element != nullptr);
-    return *root;
-}
-
-bool sw::UIElement::IsRootElement()
-{
-    return this->_parent == nullptr;
-}
-
 void sw::UIElement::NotifyLayoutUpdated()
 {
     if (!this->_arranging) {
-        UIElement &root = this->GetRootElement();
-        root.SendMessageW(WM_UpdateLayout, 0, 0);
+        UIElement *root = this->GetRootElement();
+        if (root) root->SendMessageW(WM_UpdateLayout, 0, 0);
     }
 }
 

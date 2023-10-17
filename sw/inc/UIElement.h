@@ -336,6 +336,16 @@ namespace sw
         void MoveToBottom();
 
         /**
+         * @brief 判断当前元素是否为根节点
+         */
+        bool IsRootElement();
+
+        /**
+         * @brief 获取当前元素所在界面树的根节点
+         */
+        UIElement *GetRootElement();
+
+        /**
          * @brief 获取当前元素在界面树上的下一个节点，若已是最后一个节点则返回根节点
          */
         UIElement *GetNextElement();
@@ -399,16 +409,6 @@ namespace sw
          * @param eventArgs 要触发事件的事件参数
          */
         void RaiseRoutedEvent(RoutedEventArgs &eventArgs);
-
-        /**
-         * @brief 获取顶级窗口
-         */
-        UIElement &GetRootElement();
-
-        /**
-         * @brief 判断当前对象是否为顶级窗口
-         */
-        bool IsRootElement();
 
         /**
          * @brief 通知顶级窗口布局改变
