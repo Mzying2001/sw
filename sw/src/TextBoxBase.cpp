@@ -109,7 +109,7 @@ bool sw::TextBoxBase::OnChar(wchar_t ch, KeyFlags flags)
     this->RaiseRoutedEvent(e);
 
     if (!e.handledMsg && ch == L'\t') {
-        if (this->_acceptTab)
+        if (this->_acceptTab && !this->ReadOnly)
             this->SendMessageW(EM_REPLACESEL, TRUE, reinterpret_cast<LPARAM>(L"\t"));
         e.handledMsg = true; // 取消duang~~
     }
