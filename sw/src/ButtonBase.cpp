@@ -2,6 +2,7 @@
 
 sw::ButtonBase::ButtonBase()
 {
+    this->TabStop = true;
 }
 
 void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)

@@ -21,7 +21,8 @@ sw::ComboBox::ComboBox()
           })
 {
     this->InitControl(L"COMBOBOX", L"", _ComboBoxStyle_Default, 0);
-    this->Rect = sw::Rect(0, 0, 100, 24);
+    this->Rect    = sw::Rect(0, 0, 100, 24);
+    this->TabStop = true;
 }
 
 int sw::ComboBox::GetItemsCount()

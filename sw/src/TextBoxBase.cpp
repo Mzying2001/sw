@@ -73,6 +73,7 @@ sw::TextBoxBase::TextBoxBase()
               this->_acceptTab = value;
           })
 {
+    this->TabStop = true;
 }
 
 void sw::TextBoxBase::InitTextBoxBase(DWORD dwStyle, DWORD dwExStyle)

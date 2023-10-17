@@ -73,7 +73,8 @@ sw::Slider::Slider()
           })
 {
     this->InitControl(TRACKBAR_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TBS_NOTIFYBEFOREMOVE | TBS_DOWNISLEFT, 0);
-    this->Rect = sw::Rect(0, 0, 150, 30);
+    this->Rect    = sw::Rect(0, 0, 150, 30);
+    this->TabStop = true;
 }
 
 bool sw::Slider::OnVerticalScroll(int event, int pos)

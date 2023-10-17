@@ -37,7 +37,8 @@ sw::ListBox::ListBox()
           })
 {
     this->InitControl(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | WS_VSCROLL | LBS_NOTIFY, 0);
-    this->Rect = sw::Rect(0, 0, 150, 200);
+    this->Rect    = sw::Rect(0, 0, 150, 200);
+    this->TabStop = true;
 }
 
 int sw::ListBox::GetItemsCount()
