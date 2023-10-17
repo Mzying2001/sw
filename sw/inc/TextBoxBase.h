@@ -12,6 +12,11 @@ namespace sw
          */
         bool _isTextChanged = false;
 
+        /**
+         * @brief 是否允许输入制表符
+         */
+        bool _acceptTab = false;
+
     public:
         /**
          * @brief 是否只读
@@ -27,6 +32,11 @@ namespace sw
          * @brief 是否可以撤销
          */
         const ReadOnlyProperty<bool> CanUndo;
+
+        /**
+         * @brief 是否允许输入制表符
+         */
+        const Property<bool> AcceptTab;
 
     protected:
         /**
@@ -50,6 +60,22 @@ namespace sw
          * @param code 通知代码
          */
         virtual void OnCommand(int code) override;
+
+        /**
+         * @brief       接收到WM_CHAR时调用该函数
+         * @param ch    按键的字符代码
+         * @param flags 附加信息
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnChar(wchar_t ch, KeyFlags flags) override;
+
+        /**
+         * @brief       接收到WM_KEYDOWN时调用该函数
+         * @param key   虚拟按键
+         * @param flags 附加信息
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
 
     public:
         /**

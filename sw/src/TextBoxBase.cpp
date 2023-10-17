@@ -61,6 +61,16 @@ sw::TextBoxBase::TextBoxBase()
               static bool result;
               result = this->SendMessageW(EM_CANUNDO, 0, 0);
               return result;
+          }),
+
+      AcceptTab(
+          // get
+          [&]() -> const bool & {
+              return this->_acceptTab;
+          },
+          // set
+          [&](const bool &value) {
+              this->_acceptTab = value;
           })
 {
 }
@@ -91,6 +101,33 @@ void sw::TextBoxBase::OnCommand(int code)
         default:
             break;
     }
+}
+
+bool sw::TextBoxBase::OnChar(wchar_t ch, KeyFlags flags)
+{
+    GotCharEventArgs e(ch, flags);
+    this->RaiseRoutedEvent(e);
+
+    if (!e.handledMsg && ch == L'\t') {
+        if (this->_acceptTab)
+            this->SendMessageW(EM_REPLACESEL, TRUE, reinterpret_cast<LPARAM>(L"\t"));
+        e.handledMsg = true; // 取消duang~~
+    }
+
+    return e.handledMsg;
+}
+
+bool sw::TextBoxBase::OnKeyDown(VirtualKey key, KeyFlags flags)
+{
+    KeyDownEventArgs e(key, flags);
+    this->RaiseRoutedEvent(e);
+
+    if (!e.handledMsg && key == VirtualKey::Tab && (!this->_acceptTab || this->ReadOnly)) {
+        UIElement *next = this->GetNextTabStopElement();
+        if (next && next != this) next->Focused = true;
+    }
+
+    return e.handledMsg;
 }
 
 void sw::TextBoxBase::Select(int start, int length)
