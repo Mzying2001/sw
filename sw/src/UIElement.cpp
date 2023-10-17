@@ -121,6 +121,16 @@ sw::UIElement::UIElement()
               this->_float = value;
               this->UpdateSiblingsZOrder();
               this->NotifyLayoutUpdated();
+          }),
+
+      TabStop(
+          // get
+          [&]() -> const bool & {
+              return this->_tabStop;
+          },
+          // set
+          [&](const bool &value) {
+              this->_tabStop = value;
           })
 {
 }
@@ -351,6 +361,15 @@ sw::UIElement *sw::UIElement::GetRootElement()
 sw::UIElement *sw::UIElement::GetNextElement()
 {
     return _GetNextElement(this);
+}
+
+sw::UIElement *sw::UIElement::GetNextTabStopElement()
+{
+    UIElement *element = this;
+    do {
+        element = element->GetNextElement();
+    } while (element != nullptr && !element->_tabStop && element != this);
+    return element;
 }
 
 uint64_t sw::UIElement::GetTag()

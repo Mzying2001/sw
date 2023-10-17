@@ -114,6 +114,11 @@ namespace sw
          */
         bool _float = false;
 
+        /**
+         * @brief 表示用户是否可以通过按下Tab键将焦点移动到当前元素
+         */
+        bool _tabStop = false;
+
     public:
         /**
          * @brief 边距
@@ -164,6 +169,11 @@ namespace sw
          * @brief 元素是否悬浮，若元素悬浮则该元素不会随滚动条滚动而改变位置
          */
         const Property<bool> Float;
+
+        /**
+         * @brief 表示用户是否可以通过按下Tab键将焦点移动到当前元素
+         */
+        const Property<bool> TabStop;
 
     public:
         UIElement();
@@ -349,6 +359,11 @@ namespace sw
          * @brief 获取当前元素在界面树上的下一个节点，若已是最后一个节点则返回根节点
          */
         UIElement *GetNextElement();
+
+        /**
+         * @brief 获取下一个TabStop属性为true的元素
+         */
+        UIElement *GetNextTabStopElement();
 
         /**
          * @brief 获取Tag
