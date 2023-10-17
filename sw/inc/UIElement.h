@@ -336,6 +336,11 @@ namespace sw
         void MoveToBottom();
 
         /**
+         * @brief 获取当前元素在界面树上的下一个节点，若已是最后一个节点则返回根节点
+         */
+        UIElement *GetNextElement();
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;
@@ -620,5 +625,11 @@ namespace sw
          * @param id 菜单id
          */
         virtual void OnMenuCommand(int id) override;
+
+    private:
+        /**
+         * @brief 循环获取界面树上的下一个节点
+         */
+        static UIElement *_GetNextElement(UIElement *element, bool searchChildren = true);
     };
 }

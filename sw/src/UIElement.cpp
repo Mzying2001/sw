@@ -332,6 +332,11 @@ void sw::UIElement::MoveToBottom()
     }
 }
 
+sw::UIElement *sw::UIElement::GetNextElement()
+{
+    return _GetNextElement(this);
+}
+
 uint64_t sw::UIElement::GetTag()
 {
     return this->_tag;
@@ -772,4 +777,23 @@ void sw::UIElement::OnMenuCommand(int id)
         MenuItem *item = this->_contextMenu->GetMenuItem(id);
         if (item) item->CallCommand();
     }
+}
+
+sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element, bool searchChildren)
+{
+    if (searchChildren && !element->_children.empty()) {
+        return element->_children.front();
+    }
+
+    UIElement *parent = element->_parent;
+    if (parent == nullptr) {
+        return element; // 回到根节点
+    }
+
+    int index = parent->IndexOf(element);
+    if (index == (int)parent->_children.size() - 1) {
+        return _GetNextElement(parent, false);
+    }
+
+    return parent->_children[index + 1];
 }
