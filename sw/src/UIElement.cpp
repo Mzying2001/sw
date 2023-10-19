@@ -590,6 +590,22 @@ void sw::UIElement::OnRemovedChild(UIElement &element)
 {
 }
 
+void sw::UIElement::OnTabStop()
+{
+    this->_drawFocusRect = true;
+    this->Focused        = true;
+}
+
+void sw::UIElement::OnDrawFocusRect()
+{
+    HWND hwnd = this->Handle;
+    RECT rect = this->ClientRect.Get();
+    HDC hdc   = GetDC(hwnd);
+
+    DrawFocusRect(hdc, &rect);
+    ReleaseDC(hwnd, hdc);
+}
+
 bool sw::UIElement::SetParent(WndBase *parent)
 {
     UIElement *oldParentElement = this->_parent;
@@ -633,6 +649,12 @@ bool sw::UIElement::SetParent(WndBase *parent)
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
     this->_parent = dynamic_cast<UIElement *>(newParent);
+}
+
+void sw::UIElement::OnEndPaint()
+{
+    if (this->_drawFocusRect)
+        this->OnDrawFocusRect();
 }
 
 bool sw::UIElement::OnClose()
@@ -685,6 +707,8 @@ bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
+    this->_drawFocusRect = false;
+
     RoutedEventArgsOfType<UIElement_LostFocus> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
@@ -705,7 +729,7 @@ bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
     // 实现按下Tab键转移焦点
     if (!args.handledMsg && key == VirtualKey::Tab) {
         UIElement *next = this->GetNextTabStopElement();
-        if (next && next != this) next->Focused = true;
+        if (next && next != this) next->OnTabStop();
     }
 
     return args.handledMsg;
