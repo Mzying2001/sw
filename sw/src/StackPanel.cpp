@@ -13,6 +13,8 @@ sw::StackPanel::StackPanel()
           })
 {
     this->_stackLayout.Associate(this);
+    this->HorizontalAlignment = HorizontalAlignment::Stretch;
+    this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
 sw::LayoutHost *sw::StackPanel::GetDefaultLayout()

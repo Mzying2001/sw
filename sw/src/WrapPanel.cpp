@@ -13,6 +13,8 @@ sw::WrapPanel::WrapPanel()
           })
 {
     this->_wrapLayout.Associate(this);
+    this->HorizontalAlignment = HorizontalAlignment::Stretch;
+    this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
 sw::LayoutHost *sw::WrapPanel::GetDefaultLayout()

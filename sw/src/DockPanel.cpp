@@ -13,6 +13,8 @@ sw::DockPanel::DockPanel()
           })
 {
     this->_dockLayout.Associate(this);
+    this->HorizontalAlignment = HorizontalAlignment::Stretch;
+    this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
 sw::DockLayout::DockLayoutTag sw::DockPanel::GetDock(UIElement &element)
