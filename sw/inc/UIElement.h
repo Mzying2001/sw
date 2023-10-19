@@ -470,6 +470,11 @@ namespace sw
         void UpdateSiblingsZOrder();
 
         /**
+         * @brief 设置下一个TabStop属性为true的元素为焦点元素
+         */
+        void SetNextTabStopFocus();
+
+        /**
          * @brief         添加子元素后调用该函数
          * @param element 添加的子元素
          */

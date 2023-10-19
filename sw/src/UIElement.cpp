@@ -582,6 +582,12 @@ void sw::UIElement::UpdateSiblingsZOrder()
     }
 }
 
+void sw::UIElement::SetNextTabStopFocus()
+{
+    UIElement *next = this->GetNextTabStopElement();
+    if (next && next != this) next->OnTabStop();
+}
+
 void sw::UIElement::OnAddedChild(UIElement &element)
 {
 }
@@ -728,8 +734,7 @@ bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
 
     // 实现按下Tab键转移焦点
     if (!args.handledMsg && key == VirtualKey::Tab) {
-        UIElement *next = this->GetNextTabStopElement();
-        if (next && next != this) next->OnTabStop();
+        this->SetNextTabStopFocus();
     }
 
     return args.handledMsg;
