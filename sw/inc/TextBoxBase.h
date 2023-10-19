@@ -77,6 +77,11 @@ namespace sw
          */
         virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
 
+        /**
+         * @brief 绘制虚线框时调用该函数
+         */
+        virtual void OnDrawFocusRect() override;
+
     public:
         /**
          * @brief        选择指定文本内容

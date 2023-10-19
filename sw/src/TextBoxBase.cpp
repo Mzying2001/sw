@@ -124,11 +124,15 @@ bool sw::TextBoxBase::OnKeyDown(VirtualKey key, KeyFlags flags)
     this->RaiseRoutedEvent(e);
 
     if (!e.handledMsg && key == VirtualKey::Tab && (!this->_acceptTab || this->ReadOnly)) {
-        UIElement *next = this->GetNextTabStopElement();
-        if (next && next != this) next->Focused = true;
+        this->SetNextTabStopFocus();
     }
 
     return e.handledMsg;
+}
+
+void sw::TextBoxBase::OnDrawFocusRect()
+{
+    // 不绘制虚线框
 }
 
 void sw::TextBoxBase::Select(int start, int length)
