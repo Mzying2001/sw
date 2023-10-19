@@ -220,12 +220,29 @@ sw::Window::Window()
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
+        case WM_CREATE: {
+            ++_windowCount;
+            return this->WndBase::WndProc(refMsg);
+        }
+
+        case WM_DESTROY: {
+            // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
+            if (this->IsModal()) {
+                App::QuitMsgLoop();
+            }
+            // 所有窗口都关闭时若App::QuitMode为Auto则退出主消息循环
+            if (--_windowCount <= 0 && App::QuitMode.Get() == AppQuitMode::Auto) {
+                App::QuitMsgLoop();
+            }
+            return this->WndBase::WndProc(refMsg);
+        }
+
         case WM_SHOWWINDOW: {
             if (this->_isFirstShow) {
                 this->_isFirstShow = false;
                 this->OnFirstShow();
             }
-            return this->UIElement::WndProc(refMsg);
+            return this->WndBase::WndProc(refMsg);
         }
 
         case WM_GETMINMAXINFO: {
@@ -277,7 +294,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         default: {
-            return this->UIElement::WndProc(refMsg);
+            return this->WndBase::WndProc(refMsg);
         }
     }
 }
@@ -299,27 +316,9 @@ bool sw::Window::OnClose()
     return true;
 }
 
-bool sw::Window::OnCreate()
-{
-    ++_windowCount;
-    return true;
-}
-
 bool sw::Window::OnDestroy()
 {
-    // 触发路由事件
-    RaiseRoutedEvent(RoutedEventType::Window_Closed);
-
-    // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
-    if (this->IsModal()) {
-        App::QuitMsgLoop();
-    }
-
-    // 所有窗口都关闭时若App::QuitMode为Auto则退出主消息循环
-    if (--_windowCount <= 0 && App::QuitMode.Get() == AppQuitMode::Auto) {
-        App::QuitMsgLoop();
-    }
-
+    RaiseRoutedEvent(Window_Closed);
     return true;
 }
 
