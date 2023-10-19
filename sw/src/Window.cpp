@@ -221,23 +221,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
         case WM_SHOWWINDOW: {
-            // 窗口首次启动时按照StartupLocation修改位置
             if (this->_isFirstShow) {
                 this->_isFirstShow = false;
-                if (this->_startupLocation == WindowStartupLocation::CenterScreen) {
-                    sw::Rect rect = this->Rect;
-                    rect.left     = (Screen::Width - rect.width) / 2;
-                    rect.top      = (Screen::Height - rect.height) / 2;
-                    this->Rect    = rect;
-                } else if (this->_startupLocation == WindowStartupLocation::CenterOwner) {
-                    if (this->IsModal()) {
-                        sw::Rect windowRect = this->Rect;
-                        sw::Rect ownerRect  = this->_modalOwner->Rect;
-                        windowRect.left     = ownerRect.left + (ownerRect.width - windowRect.width) / 2;
-                        windowRect.top      = ownerRect.top + (ownerRect.height - windowRect.height) / 2;
-                        this->Rect          = windowRect;
-                    }
-                }
+                this->OnFirstShow();
             }
             return this->UIElement::WndProc(refMsg);
         }
@@ -383,6 +369,30 @@ void sw::Window::OnMenuCommand(int id)
     if (this->_menu) {
         MenuItem *item = this->_menu->GetMenuItem(id);
         if (item) item->CallCommand();
+    }
+}
+
+void sw::Window::OnFirstShow()
+{
+    // 若未设置焦点元素则默认第一个元素为焦点元素
+    if (this->ChildCount && GetAncestor(GetFocus(), GA_ROOT) != this->Handle) {
+        this->operator[](0).Focused = true;
+    }
+
+    // 按照StartupLocation修改位置
+    if (this->_startupLocation == WindowStartupLocation::CenterScreen) {
+        sw::Rect rect = this->Rect;
+        rect.left     = (Screen::Width - rect.width) / 2;
+        rect.top      = (Screen::Height - rect.height) / 2;
+        this->Rect    = rect;
+    } else if (this->_startupLocation == WindowStartupLocation::CenterOwner) {
+        if (this->IsModal()) {
+            sw::Rect windowRect = this->Rect;
+            sw::Rect ownerRect  = this->_modalOwner->Rect;
+            windowRect.left     = ownerRect.left + (ownerRect.width - windowRect.width) / 2;
+            windowRect.top      = ownerRect.top + (ownerRect.height - windowRect.height) / 2;
+            this->Rect          = windowRect;
+        }
     }
 }
 

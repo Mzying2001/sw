@@ -210,6 +210,11 @@ namespace sw
         virtual void OnMenuCommand(int id) override;
 
         /**
+         * @brief 窗口第一次显示时调用该函数
+         */
+        virtual void OnFirstShow();
+
+        /**
          * @brief 窗口成为前台窗口时调用该函数
          */
         virtual void OnActived();
