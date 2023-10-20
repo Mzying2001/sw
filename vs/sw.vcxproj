@@ -236,7 +236,6 @@
     <ClCompile Include="..\sw\src\Font.cpp" />
     <ClCompile Include="..\sw\src\GroupBox.cpp" />
     <ClCompile Include="..\sw\src\Icon.cpp" />
-    <ClCompile Include="..\sw\src\ItemsControl.cpp" />
     <ClCompile Include="..\sw\src\Keys.cpp" />
     <ClCompile Include="..\sw\src\Label.cpp" />
     <ClCompile Include="..\sw\src\Layer.cpp" />

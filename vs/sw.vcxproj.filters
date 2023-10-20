@@ -359,9 +359,6 @@
     <ClCompile Include="..\sw\src\PanelBase.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\sw\src\ItemsControl.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\sw\src\ListBox.cpp">
       <Filter>src</Filter>
     </ClCompile>
