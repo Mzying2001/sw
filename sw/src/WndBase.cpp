@@ -849,7 +849,7 @@ bool sw::WndBase::SetParent(WndBase *parent)
     if (parent == nullptr) {
         hParent = this->IsControl() ? _controlInitContainer->_hwnd : NULL;
     } else {
-        hParent = parent->Handle;
+        hParent = parent->_hwnd;
     }
 
     success = ::SetParent(this->_hwnd, hParent) != NULL;
