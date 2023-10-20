@@ -1,8 +1,6 @@
 #pragma once
 
-#include "Alignment.h"
-#include "Control.h"
-#include "Size.h"
+#include "StaticControl.h"
 
 namespace sw
 {
@@ -15,7 +13,10 @@ namespace sw
         WordEllipsis, // 按单词截断并显示“...”
     };
 
-    class Label : public Control
+    /**
+     * @brief 标签
+     */
+    class Label : public StaticControl
     {
     private:
         /**
@@ -55,6 +56,9 @@ namespace sw
         const Property<bool> AutoSize;
 
     public:
+        /**
+         * @brief 初始化标签
+         */
         Label();
 
     private:
