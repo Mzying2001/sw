@@ -204,6 +204,9 @@
     <ClInclude Include="..\sw\inc\TabControl.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\StaticControl.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\App.cpp">
@@ -372,6 +375,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\TabControl.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\StaticControl.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
