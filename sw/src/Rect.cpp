@@ -35,3 +35,13 @@ sw::Rect::operator RECT() const
     rect.bottom = std::lround((this->top + this->height) / scaleY);
     return rect;
 }
+
+sw::Point sw::Rect::GetPos() const
+{
+    return Point(this->left, this->top);
+}
+
+sw::Size sw::Rect::GetSize() const
+{
+    return Size(this->width, this->height);
+}

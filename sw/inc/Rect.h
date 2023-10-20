@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Point.h"
+#include "Size.h"
 #include <Windows.h>
 #include <iostream>
 
@@ -15,6 +17,9 @@ namespace sw
         Rect(double left, double top, double width, double height);
         Rect(const RECT &rect);
         operator RECT() const;
+
+        Point GetPos() const;
+        Size GetSize() const;
 
         friend bool operator==(const Rect& left, const Rect& right)
         {
