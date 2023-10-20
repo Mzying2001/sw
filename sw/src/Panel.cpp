@@ -1,6 +1,18 @@
 #include "Panel.h"
 
 sw::Panel::Panel()
+    : BorderStyle(
+          // get
+          [&]() -> const sw::BorderStyle & {
+              return this->_borderStyle;
+          },
+          // set
+          [&](const sw::BorderStyle &value) {
+              if (this->_borderStyle != value) {
+                  this->_borderStyle = value;
+                  this->Redraw();
+              }
+          })
 {
     // STATIC控件默认没有响应滚动条操作，故使用BUTTON
     this->InitControl(L"BUTTON", NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
@@ -26,6 +38,9 @@ bool sw::Panel::OnPaint()
 
     HBRUSH hBrush = CreateSolidBrush(this->BackColor.Get());
     FillRect(hdc, &clientRect, hBrush);
+
+    if (this->_borderStyle != sw::BorderStyle::None)
+        DrawEdge(hdc, &clientRect, (UINT)this->_borderStyle, BF_RECT);
 
     DeleteObject(hBrush);
     EndPaint(hwnd, &ps);
