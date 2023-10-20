@@ -146,6 +146,23 @@ sw::Button::Button()
     this->Rect = sw::Rect(0, 0, 70, 30);
 }
 
+void sw::Button::OnDrawFocusRect()
+{
+    HWND hwnd = this->Handle;
+    HDC hdc   = GetDC(hwnd);
+
+    RECT rect;
+    GetClientRect(hwnd, &rect);
+
+    rect.left += 3;
+    rect.top += 3;
+    rect.right -= 3;
+    rect.bottom -= 3;
+
+    DrawFocusRect(hdc, &rect);
+    ReleaseDC(hwnd, hdc);
+}
+
 bool sw::Button::OnSetFocus(HWND hPreFocus)
 {
     this->SetStyle(_ButtonStyle_Focused);
@@ -816,6 +833,8 @@ sw::DockPanel::DockPanel()
           })
 {
     this->_dockLayout.Associate(this);
+    this->HorizontalAlignment = HorizontalAlignment::Stretch;
+    this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
 sw::DockLayout::DockLayoutTag sw::DockPanel::GetDock(UIElement &element)
@@ -2562,11 +2581,22 @@ const sw::MsgBox &sw::MsgBox::OnCancel(const MsgBoxCallback &callback) const
 // Panel.cpp
 
 sw::Panel::Panel()
+    : BorderStyle(
+          // get
+          [&]() -> const sw::BorderStyle & {
+              return this->_borderStyle;
+          },
+          // set
+          [&](const sw::BorderStyle &value) {
+              if (this->_borderStyle != value) {
+                  this->_borderStyle = value;
+                  this->Redraw();
+              }
+          })
 {
     // STATIC控件默认没有响应滚动条操作，故使用BUTTON
     this->InitControl(L"BUTTON", NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
-    this->HorizontalAlignment = HorizontalAlignment::Stretch;
-    this->VerticalAlignment   = VerticalAlignment::Stretch;
+    this->Rect = sw::Rect(0, 0, 200, 200);
 }
 
 void sw::Panel::SetText(const std::wstring &value)
@@ -2588,6 +2618,9 @@ bool sw::Panel::OnPaint()
 
     HBRUSH hBrush = CreateSolidBrush(this->BackColor.Get());
     FillRect(hdc, &clientRect, hBrush);
+
+    if (this->_borderStyle != sw::BorderStyle::None)
+        DrawEdge(hdc, &clientRect, (UINT)this->_borderStyle, BF_RECT);
 
     DeleteObject(hBrush);
     EndPaint(hwnd, &ps);
@@ -2981,6 +3014,16 @@ sw::Rect::operator RECT() const
     return rect;
 }
 
+sw::Point sw::Rect::GetPos() const
+{
+    return Point(this->left, this->top);
+}
+
+sw::Size sw::Rect::GetSize() const
+{
+    return Size(this->width, this->height);
+}
+
 // RoutedEvent.cpp
 
 sw::RoutedEventArgs::RoutedEventArgs(RoutedEventType eventType)
@@ -3261,6 +3304,8 @@ sw::StackPanel::StackPanel()
           })
 {
     this->_stackLayout.Associate(this);
+    this->HorizontalAlignment = HorizontalAlignment::Stretch;
+    this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
 sw::LayoutHost *sw::StackPanel::GetDefaultLayout()
@@ -3706,11 +3751,15 @@ bool sw::TextBoxBase::OnKeyDown(VirtualKey key, KeyFlags flags)
     this->RaiseRoutedEvent(e);
 
     if (!e.handledMsg && key == VirtualKey::Tab && (!this->_acceptTab || this->ReadOnly)) {
-        UIElement *next = this->GetNextTabStopElement();
-        if (next && next != this) next->Focused = true;
+        this->SetNextTabStopFocus();
     }
 
     return e.handledMsg;
+}
+
+void sw::TextBoxBase::OnDrawFocusRect()
+{
+    // 不绘制虚线框
 }
 
 void sw::TextBoxBase::Select(int start, int length)
@@ -3747,6 +3796,11 @@ sw::Thickness::Thickness()
 
 sw::Thickness::Thickness(double thickness)
     : Thickness(thickness, thickness, thickness, thickness)
+{
+}
+
+sw::Thickness::Thickness(double horizontal, double vertical)
+    : Thickness(horizontal, vertical, horizontal, vertical)
 {
 }
 
@@ -4335,12 +4389,34 @@ void sw::UIElement::UpdateSiblingsZOrder()
     }
 }
 
+void sw::UIElement::SetNextTabStopFocus()
+{
+    UIElement *next = this->GetNextTabStopElement();
+    if (next && next != this) next->OnTabStop();
+}
+
 void sw::UIElement::OnAddedChild(UIElement &element)
 {
 }
 
 void sw::UIElement::OnRemovedChild(UIElement &element)
 {
+}
+
+void sw::UIElement::OnTabStop()
+{
+    this->_drawFocusRect = true;
+    this->Focused        = true;
+}
+
+void sw::UIElement::OnDrawFocusRect()
+{
+    HWND hwnd = this->Handle;
+    RECT rect = this->ClientRect.Get();
+    HDC hdc   = GetDC(hwnd);
+
+    DrawFocusRect(hdc, &rect);
+    ReleaseDC(hwnd, hdc);
 }
 
 bool sw::UIElement::SetParent(WndBase *parent)
@@ -4386,6 +4462,12 @@ bool sw::UIElement::SetParent(WndBase *parent)
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
     this->_parent = dynamic_cast<UIElement *>(newParent);
+}
+
+void sw::UIElement::OnEndPaint()
+{
+    if (this->_drawFocusRect)
+        this->OnDrawFocusRect();
 }
 
 bool sw::UIElement::OnClose()
@@ -4438,6 +4520,8 @@ bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
+    this->_drawFocusRect = false;
+
     RoutedEventArgsOfType<UIElement_LostFocus> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
@@ -4457,8 +4541,7 @@ bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
 
     // 实现按下Tab键转移焦点
     if (!args.handledMsg && key == VirtualKey::Tab) {
-        UIElement *next = this->GetNextTabStopElement();
-        if (next && next != this) next->Focused = true;
+        this->SetNextTabStopFocus();
     }
 
     return args.handledMsg;
@@ -4870,26 +4953,29 @@ sw::Window::Window()
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
+        case WM_CREATE: {
+            ++_windowCount;
+            return this->WndBase::WndProc(refMsg);
+        }
+
+        case WM_DESTROY: {
+            // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
+            if (this->IsModal()) {
+                App::QuitMsgLoop();
+            }
+            // 所有窗口都关闭时若App::QuitMode为Auto则退出主消息循环
+            if (--_windowCount <= 0 && App::QuitMode.Get() == AppQuitMode::Auto) {
+                App::QuitMsgLoop();
+            }
+            return this->WndBase::WndProc(refMsg);
+        }
+
         case WM_SHOWWINDOW: {
-            // 窗口首次启动时按照StartupLocation修改位置
             if (this->_isFirstShow) {
                 this->_isFirstShow = false;
-                if (this->_startupLocation == WindowStartupLocation::CenterScreen) {
-                    sw::Rect rect = this->Rect;
-                    rect.left     = (Screen::Width - rect.width) / 2;
-                    rect.top      = (Screen::Height - rect.height) / 2;
-                    this->Rect    = rect;
-                } else if (this->_startupLocation == WindowStartupLocation::CenterOwner) {
-                    if (this->IsModal()) {
-                        sw::Rect windowRect = this->Rect;
-                        sw::Rect ownerRect  = this->_modalOwner->Rect;
-                        windowRect.left     = ownerRect.left + (ownerRect.width - windowRect.width) / 2;
-                        windowRect.top      = ownerRect.top + (ownerRect.height - windowRect.height) / 2;
-                        this->Rect          = windowRect;
-                    }
-                }
+                this->OnFirstShow();
             }
-            return this->UIElement::WndProc(refMsg);
+            return this->WndBase::WndProc(refMsg);
         }
 
         case WM_GETMINMAXINFO: {
@@ -4941,7 +5027,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         default: {
-            return this->UIElement::WndProc(refMsg);
+            return this->WndBase::WndProc(refMsg);
         }
     }
 }
@@ -4963,27 +5049,9 @@ bool sw::Window::OnClose()
     return true;
 }
 
-bool sw::Window::OnCreate()
-{
-    ++_windowCount;
-    return true;
-}
-
 bool sw::Window::OnDestroy()
 {
-    // 触发路由事件
-    RaiseRoutedEvent(RoutedEventType::Window_Closed);
-
-    // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
-    if (this->IsModal()) {
-        App::QuitMsgLoop();
-    }
-
-    // 所有窗口都关闭时若App::QuitMode为Auto则退出主消息循环
-    if (--_windowCount <= 0 && App::QuitMode.Get() == AppQuitMode::Auto) {
-        App::QuitMsgLoop();
-    }
-
+    RaiseRoutedEvent(Window_Closed);
     return true;
 }
 
@@ -5033,6 +5101,30 @@ void sw::Window::OnMenuCommand(int id)
     if (this->_menu) {
         MenuItem *item = this->_menu->GetMenuItem(id);
         if (item) item->CallCommand();
+    }
+}
+
+void sw::Window::OnFirstShow()
+{
+    // 若未设置焦点元素则默认第一个元素为焦点元素
+    if (this->ChildCount && GetAncestor(GetFocus(), GA_ROOT) != this->Handle) {
+        this->operator[](0).Focused = true;
+    }
+
+    // 按照StartupLocation修改位置
+    if (this->_startupLocation == WindowStartupLocation::CenterScreen) {
+        sw::Rect rect = this->Rect;
+        rect.left     = (Screen::Width - rect.width) / 2;
+        rect.top      = (Screen::Height - rect.height) / 2;
+        this->Rect    = rect;
+    } else if (this->_startupLocation == WindowStartupLocation::CenterOwner) {
+        if (this->IsModal()) {
+            sw::Rect windowRect = this->Rect;
+            sw::Rect ownerRect  = this->_modalOwner->Rect;
+            windowRect.left     = ownerRect.left + (ownerRect.width - windowRect.width) / 2;
+            windowRect.top      = ownerRect.top + (ownerRect.height - windowRect.height) / 2;
+            this->Rect          = windowRect;
+        }
     }
 }
 
@@ -5966,7 +6058,7 @@ bool sw::WndBase::SetParent(WndBase *parent)
     if (parent == nullptr) {
         hParent = this->IsControl() ? _controlInitContainer->_hwnd : NULL;
     } else {
-        hParent = parent->Handle;
+        hParent = parent->_hwnd;
     }
 
     success = ::SetParent(this->_hwnd, hParent) != NULL;
@@ -6264,6 +6356,8 @@ sw::WrapPanel::WrapPanel()
           })
 {
     this->_wrapLayout.Associate(this);
+    this->HorizontalAlignment = HorizontalAlignment::Stretch;
+    this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
 sw::LayoutHost *sw::WrapPanel::GetDefaultLayout()

@@ -1102,45 +1102,6 @@ namespace sw
     }
 }
 
-// Rect.h
-
-
-namespace sw
-{
-    struct Rect {
-        double left;
-        double top;
-        double width;
-        double height;
-
-        Rect();
-        Rect(double left, double top, double width, double height);
-        Rect(const RECT &rect);
-        operator RECT() const;
-
-        friend bool operator==(const Rect& left, const Rect& right)
-        {
-            return (left.left   == right.left)  &&
-                   (left.top    == right.top)   &&
-                   (left.width  == right.width) &&
-                   (left.height == right.height);
-        }
-
-        friend bool operator!=(const Rect& left, const Rect& right)
-        {
-            return (left.left   != right.left)  ||
-                   (left.top    != right.top)   ||
-                   (left.width  != right.width) ||
-                   (left.height != right.height);
-        }
-
-        friend std::wostream& operator<<(std::wostream& wos, const Rect& rect)
-        {
-            return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
-        }
-    };
-}
-
 // RoutedEvent.h
 
 
@@ -1392,6 +1353,7 @@ namespace sw
 
         Thickness();
         Thickness(double thickness);
+        Thickness(double horizontal, double vertical);
         Thickness(double left, double top, double right, double bottom);
 
         friend bool operator==(const Thickness &left, const Thickness &right)
@@ -1677,56 +1639,6 @@ namespace sw
     };
 }
 
-// ILayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 布局接口
-     */
-    class ILayout
-    {
-    public:
-        /**
-         * @brief 获取布局标记
-         */
-        virtual uint64_t GetLayoutTag() = 0;
-
-        /**
-         * @brief 获取子控件的数量
-         */
-        virtual int GetChildLayoutCount() = 0;
-
-        /**
-         * @brief 获取对应索引处的子控件
-         */
-        virtual ILayout &GetChildLayoutAt(int index) = 0;
-
-        /**
-         * @brief 获取控件所需尺寸
-         */
-        virtual Size GetDesireSize() = 0;
-
-        /**
-         * @brief 设置当前控件所需的尺寸
-         */
-        virtual void SetDesireSize(const Size &size) = 0;
-
-        /**
-         * @brief               测量控件所需尺寸
-         * @param availableSize 可用的尺寸
-         */
-        virtual void Measure(const Size &availableSize) = 0;
-
-        /**
-         * @brief               安排控件位置
-         * @param finalPosition 最终控件所安排的位置
-         */
-        virtual void Arrange(const Rect &finalPosition) = 0;
-    };
-}
-
 // MenuItem.h
 
 
@@ -1794,6 +1706,48 @@ namespace sw
          * @brief 设置Tag
          */
         virtual void SetTag(uint64_t tag) override;
+    };
+}
+
+// Rect.h
+
+
+namespace sw
+{
+    struct Rect {
+        double left;
+        double top;
+        double width;
+        double height;
+
+        Rect();
+        Rect(double left, double top, double width, double height);
+        Rect(const RECT &rect);
+        operator RECT() const;
+
+        Point GetPos() const;
+        Size GetSize() const;
+
+        friend bool operator==(const Rect& left, const Rect& right)
+        {
+            return (left.left   == right.left)  &&
+                   (left.top    == right.top)   &&
+                   (left.width  == right.width) &&
+                   (left.height == right.height);
+        }
+
+        friend bool operator!=(const Rect& left, const Rect& right)
+        {
+            return (left.left   != right.left)  ||
+                   (left.top    != right.top)   ||
+                   (left.width  != right.width) ||
+                   (left.height != right.height);
+        }
+
+        friend std::wostream& operator<<(std::wostream& wos, const Rect& rect)
+        {
+            return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
+        }
     };
 }
 
@@ -2025,73 +1979,53 @@ namespace sw
     };
 }
 
-// LayoutHost.h
+// ILayout.h
 
 
 namespace sw
 {
-    class LayoutHost : public ILayout
+    /**
+     * @brief 布局接口
+     */
+    class ILayout
     {
-    private:
-        /**
-         * @brief 关联的对象
-         */
-        ILayout *_associatedObj = nullptr;
-
-    public:
-        /**
-         * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
-         * @param obj 要关联的对象
-         */
-        void Associate(ILayout *obj);
-
     public:
         /**
          * @brief 获取布局标记
          */
-        virtual uint64_t GetLayoutTag() override;
+        virtual uint64_t GetLayoutTag() = 0;
 
         /**
-         * @brief 获取关联对象子控件的数量
+         * @brief 获取子控件的数量
          */
-        virtual int GetChildLayoutCount() override;
+        virtual int GetChildLayoutCount() = 0;
 
         /**
-         * @brief 获取关联对象对应索引处的子控件
+         * @brief 获取对应索引处的子控件
          */
-        virtual ILayout &GetChildLayoutAt(int index) override;
+        virtual ILayout &GetChildLayoutAt(int index) = 0;
 
         /**
-         * @brief 获取关联对象所需尺寸
+         * @brief 获取控件所需尺寸
          */
-        virtual Size GetDesireSize() override;
+        virtual Size GetDesireSize() = 0;
 
         /**
-         * @brief 设置关联对象所需的尺寸
+         * @brief 设置当前控件所需的尺寸
          */
-        virtual void SetDesireSize(const Size &size) override;
+        virtual void SetDesireSize(const Size &size) = 0;
 
         /**
          * @brief               测量控件所需尺寸
          * @param availableSize 可用的尺寸
          */
-        virtual void Measure(const Size &availableSize) override;
+        virtual void Measure(const Size &availableSize) = 0;
 
         /**
          * @brief               安排控件位置
          * @param finalPosition 最终控件所安排的位置
          */
-        virtual void Arrange(const Rect &finalPosition) override;
-
-        /**
-         * @brief 重写此函数计算所需尺寸
-         */
-        virtual void MeasureOverride(Size &availableSize) = 0;
-
-        /**
-         * @brief 重写此函数安排控件
-         */
-        virtual void ArrangeOverride(Size &finalSize) = 0;
+        virtual void Arrange(const Rect &finalPosition) = 0;
     };
 }
 
@@ -3003,59 +2937,73 @@ namespace sw
     };
 }
 
-// DockLayout.h
+// LayoutHost.h
 
 
 namespace sw
 {
-    class DockLayout : public LayoutHost
+    class LayoutHost : public ILayout
     {
-    public:
+    private:
         /**
-         * @brief Dock布局标记
+         * @brief 关联的对象
          */
-        enum DockLayoutTag {
-            Left,   // 左边
-            Top,    // 顶边
-            Right,  // 右边
-            Bottom, // 底边
-        };
+        ILayout *_associatedObj = nullptr;
 
     public:
         /**
-         * @brief 最后一个子元素是否填充剩余空间
+         * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
+         * @param obj 要关联的对象
          */
-        bool lastChildFill = true;
+        void Associate(ILayout *obj);
 
-        /**
-         * @brief 计算所需尺寸
-         */
-        virtual void MeasureOverride(Size &availableSize) override;
-
-        /**
-         * @brief 安排控件
-         */
-        virtual void ArrangeOverride(Size &finalSize) override;
-    };
-}
-
-// FillLayout.h
-
-
-namespace sw
-{
-    class FillLayout : public LayoutHost
-    {
     public:
         /**
-         * @brief 计算所需尺寸
+         * @brief 获取布局标记
          */
-        virtual void MeasureOverride(Size &availableSize) override;
+        virtual uint64_t GetLayoutTag() override;
 
         /**
-         * @brief 安排控件
+         * @brief 获取关联对象子控件的数量
          */
-        virtual void ArrangeOverride(Size &finalSize) override;
+        virtual int GetChildLayoutCount() override;
+
+        /**
+         * @brief 获取关联对象对应索引处的子控件
+         */
+        virtual ILayout &GetChildLayoutAt(int index) override;
+
+        /**
+         * @brief 获取关联对象所需尺寸
+         */
+        virtual Size GetDesireSize() override;
+
+        /**
+         * @brief 设置关联对象所需的尺寸
+         */
+        virtual void SetDesireSize(const Size &size) override;
+
+        /**
+         * @brief               测量控件所需尺寸
+         * @param availableSize 可用的尺寸
+         */
+        virtual void Measure(const Size &availableSize) override;
+
+        /**
+         * @brief               安排控件位置
+         * @param finalPosition 最终控件所安排的位置
+         */
+        virtual void Arrange(const Rect &finalPosition) override;
+
+        /**
+         * @brief 重写此函数计算所需尺寸
+         */
+        virtual void MeasureOverride(Size &availableSize) = 0;
+
+        /**
+         * @brief 重写此函数安排控件
+         */
+        virtual void ArrangeOverride(Size &finalSize) = 0;
     };
 }
 
@@ -3163,6 +3111,62 @@ namespace sw
     };
 }
 
+// DockLayout.h
+
+
+namespace sw
+{
+    class DockLayout : public LayoutHost
+    {
+    public:
+        /**
+         * @brief Dock布局标记
+         */
+        enum DockLayoutTag {
+            Left,   // 左边
+            Top,    // 顶边
+            Right,  // 右边
+            Bottom, // 底边
+        };
+
+    public:
+        /**
+         * @brief 最后一个子元素是否填充剩余空间
+         */
+        bool lastChildFill = true;
+
+        /**
+         * @brief 计算所需尺寸
+         */
+        virtual void MeasureOverride(Size &availableSize) override;
+
+        /**
+         * @brief 安排控件
+         */
+        virtual void ArrangeOverride(Size &finalSize) override;
+    };
+}
+
+// FillLayout.h
+
+
+namespace sw
+{
+    class FillLayout : public LayoutHost
+    {
+    public:
+        /**
+         * @brief 计算所需尺寸
+         */
+        virtual void MeasureOverride(Size &availableSize) override;
+
+        /**
+         * @brief 安排控件
+         */
+        virtual void ArrangeOverride(Size &finalSize) override;
+    };
+}
+
 // StackLayoutH.h
 
 
@@ -3191,72 +3195,6 @@ namespace sw
     class StackLayoutV : virtual public LayoutHost
     {
     public:
-        /**
-         * @brief 计算所需尺寸
-         */
-        virtual void MeasureOverride(Size &availableSize) override;
-
-        /**
-         * @brief 安排控件
-         */
-        virtual void ArrangeOverride(Size &finalSize) override;
-    };
-}
-
-// WrapLayoutH.h
-
-
-namespace sw
-{
-    class WrapLayoutH : virtual public LayoutHost
-    {
-    public:
-        /**
-         * @brief 计算所需尺寸
-         */
-        virtual void MeasureOverride(Size &availableSize) override;
-
-        /**
-         * @brief 安排控件
-         */
-        virtual void ArrangeOverride(Size &finalSize) override;
-    };
-}
-
-// WrapLayoutV.h
-
-
-namespace sw
-{
-    class WrapLayoutV : virtual public LayoutHost
-    {
-    public:
-        /**
-         * @brief 计算所需尺寸
-         */
-        virtual void MeasureOverride(Size &availableSize) override;
-
-        /**
-         * @brief 安排控件
-         */
-        virtual void ArrangeOverride(Size &finalSize) override;
-    };
-}
-
-// StackLayout.h
-
-
-namespace sw
-{
-    class StackLayout : public StackLayoutH,
-                        public StackLayoutV
-    {
-    public:
-        /**
-         * @brief 排列方式
-         */
-        Orientation orientation = Orientation::Vertical;
-
         /**
          * @brief 计算所需尺寸
          */
@@ -3376,6 +3314,11 @@ namespace sw
          * @brief 表示用户是否可以通过按下Tab键将焦点移动到当前元素
          */
         bool _tabStop = false;
+
+        /**
+         * @brief 是否绘制虚线框
+         */
+        bool _drawFocusRect = false;
 
     public:
         /**
@@ -3723,6 +3666,11 @@ namespace sw
         void UpdateSiblingsZOrder();
 
         /**
+         * @brief 设置下一个TabStop属性为true的元素为焦点元素
+         */
+        void SetNextTabStopFocus();
+
+        /**
          * @brief         添加子元素后调用该函数
          * @param element 添加的子元素
          */
@@ -3735,6 +3683,16 @@ namespace sw
         virtual void OnRemovedChild(UIElement &element);
 
         /**
+         * @brief 通过tab键将焦点移动到当前元素时调用该函数
+         */
+        virtual void OnTabStop();
+
+        /**
+         * @brief 绘制虚线框时调用该函数
+         */
+        virtual void OnDrawFocusRect();
+
+        /**
          * @brief  设置父窗口
          * @return 设置是否成功
          */
@@ -3745,6 +3703,11 @@ namespace sw
          * @param newParent 新的父窗口
          */
         virtual void ParentChanged(WndBase *newParent) override;
+
+        /**
+         * @brief 在OnPaint函数完成之后调用该函数
+         */
+        virtual void OnEndPaint() override;
 
         /**
          * @brief  接收到WM_CLOSE时调用该函数
@@ -3907,20 +3870,34 @@ namespace sw
     };
 }
 
-// WrapLayout.h
+// WrapLayoutH.h
 
 
 namespace sw
 {
-    class WrapLayout : public WrapLayoutH,
-                       public WrapLayoutV
+    class WrapLayoutH : virtual public LayoutHost
     {
     public:
         /**
-         * @brief 排列方式
+         * @brief 计算所需尺寸
          */
-        Orientation orientation = Orientation::Horizontal;
+        virtual void MeasureOverride(Size &availableSize) override;
 
+        /**
+         * @brief 安排控件
+         */
+        virtual void ArrangeOverride(Size &finalSize) override;
+    };
+}
+
+// WrapLayoutV.h
+
+
+namespace sw
+{
+    class WrapLayoutV : virtual public LayoutHost
+    {
+    public:
         /**
          * @brief 计算所需尺寸
          */
@@ -4250,6 +4227,58 @@ namespace sw
          * @param offset 滚动的偏移量
          */
         void ScrollVertical(double offset);
+    };
+}
+
+// StackLayout.h
+
+
+namespace sw
+{
+    class StackLayout : public StackLayoutH,
+                        public StackLayoutV
+    {
+    public:
+        /**
+         * @brief 排列方式
+         */
+        Orientation orientation = Orientation::Vertical;
+
+        /**
+         * @brief 计算所需尺寸
+         */
+        virtual void MeasureOverride(Size &availableSize) override;
+
+        /**
+         * @brief 安排控件
+         */
+        virtual void ArrangeOverride(Size &finalSize) override;
+    };
+}
+
+// WrapLayout.h
+
+
+namespace sw
+{
+    class WrapLayout : public WrapLayoutH,
+                       public WrapLayoutV
+    {
+    public:
+        /**
+         * @brief 排列方式
+         */
+        Orientation orientation = Orientation::Horizontal;
+
+        /**
+         * @brief 计算所需尺寸
+         */
+        virtual void MeasureOverride(Size &availableSize) override;
+
+        /**
+         * @brief 安排控件
+         */
+        virtual void ArrangeOverride(Size &finalSize) override;
     };
 }
 
@@ -4863,6 +4892,11 @@ namespace sw
          */
         virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
 
+        /**
+         * @brief 绘制虚线框时调用该函数
+         */
+        virtual void OnDrawFocusRect() override;
+
     public:
         /**
          * @brief        选择指定文本内容
@@ -5068,12 +5102,6 @@ namespace sw
         virtual bool OnClose() override;
 
         /**
-         * @brief  接收到WM_CREATE时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnCreate() override;
-
-        /**
          * @brief  接收到WM_DESTROY时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
@@ -5098,6 +5126,11 @@ namespace sw
          * @param id 菜单id
          */
         virtual void OnMenuCommand(int id) override;
+
+        /**
+         * @brief 窗口第一次显示时调用该函数
+         */
+        virtual void OnFirstShow();
 
         /**
          * @brief 窗口成为前台窗口时调用该函数
@@ -5193,6 +5226,11 @@ namespace sw
         Button();
 
     protected:
+        /**
+         * @brief 绘制虚线框时调用该函数
+         */
+        virtual void OnDrawFocusRect() override;
+
         /**
          * @brief           接收到WM_SETFOCUS时调用该函数
          * @param hPreFocus 丢失焦点的hwnd，可能为NULL
@@ -5547,22 +5585,45 @@ namespace sw
 namespace sw
 {
     /**
+     * @brief 边框类型
+     */
+    enum class BorderStyle {
+        None   = 0,           // 无边框
+        Bump   = EDGE_BUMP,   // 突出的凸起边框
+        Etched = EDGE_ETCHED, // 刻痕式边框
+        Raised = EDGE_RAISED, // 凸起边框
+        Sunked = EDGE_SUNKEN, // 凹陷边框
+    };
+
+    /**
      * @brief 面板
      */
     class Panel : public PanelBase
     {
+    private:
+        /**
+         * @brief 边框类型，默认为无边框
+         */
+        BorderStyle _borderStyle = sw::BorderStyle::None;
+
+    public:
+        /**
+         * @brief 边框样式
+         */
+        const Property<sw::BorderStyle> BorderStyle;
+
     public:
         /**
          * @brief 初始化面板
          */
         Panel();
 
-    private:
+    protected:
         /**
          * @brief       重写SetText以防止修改Text属性时调用SetWindowTextW设置窗口文本
          * @param value 要设置的文本
          */
-        virtual void SetText(const std::wstring &value);
+        virtual void SetText(const std::wstring &value) override;
 
         /**
          * @brief  接收到WM_PAINT时调用该函数
