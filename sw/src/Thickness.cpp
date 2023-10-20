@@ -10,6 +10,11 @@ sw::Thickness::Thickness(double thickness)
 {
 }
 
+sw::Thickness::Thickness(double horizontal, double vertical)
+    : Thickness(horizontal, vertical, horizontal, vertical)
+{
+}
+
 sw::Thickness::Thickness(double left, double top, double right, double bottom)
     : left(left), top(top), right(right), bottom(bottom)
 {

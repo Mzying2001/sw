@@ -12,6 +12,7 @@ namespace sw
 
         Thickness();
         Thickness(double thickness);
+        Thickness(double horizontal, double vertical);
         Thickness(double left, double top, double right, double bottom);
 
         friend bool operator==(const Thickness &left, const Thickness &right)
