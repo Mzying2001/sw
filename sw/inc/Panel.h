@@ -20,7 +20,7 @@ namespace sw
          * @brief       重写SetText以防止修改Text属性时调用SetWindowTextW设置窗口文本
          * @param value 要设置的文本
          */
-        virtual void SetText(const std::wstring &value);
+        virtual void SetText(const std::wstring &value) override;
 
         /**
          * @brief  接收到WM_PAINT时调用该函数
