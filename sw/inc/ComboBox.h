@@ -7,7 +7,7 @@ namespace sw
     /**
      * @brief 组合框
      */
-    class ComboBox : public ItemsControl
+    class ComboBox : public StrItemsControl
     {
     private:
         /**

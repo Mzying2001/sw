@@ -7,7 +7,7 @@ namespace sw
     /**
      * @brief 列表框
      */
-    class ListBox : public ItemsControl
+    class ListBox : public StrItemsControl
     {
     public:
         /**

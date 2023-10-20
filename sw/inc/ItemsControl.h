@@ -4,35 +4,68 @@
 
 namespace sw
 {
+    template <typename TItem>
+    class ItemsControl; // 向前声明
+
+    /**
+     * @brief 表示可用于呈现一组字符串的控件
+     */
+    typedef ItemsControl<std::wstring> StrItemsControl;
+
+    /**
+     * @brief 表示可用于呈现一组项的控件
+     */
+    template <typename TItem>
     class ItemsControl : public Control
     {
     public:
         /**
          * @brief 项数
          */
-        const ReadOnlyProperty<int> ItemsCount;
+        const ReadOnlyProperty<int> ItemsCount = ReadOnlyProperty<int>(
+            // get
+            [&]() -> const int & {
+                static int result;
+                result = this->GetItemsCount();
+                return result;
+            });
 
         /**
          * @brief 选中项的索引，当无选中项时为-1
          */
-        const Property<int> SelectedIndex;
+        const Property<int> SelectedIndex = Property<int>(
+            // get
+            [&]() -> const int & {
+                static int result;
+                result = this->GetSelectedIndex();
+                return result;
+            },
+            // set
+            [&](const int &value) {
+                this->SetSelectedIndex(value);
+            });
 
         /**
          * @brief 选中项
          */
-        const ReadOnlyProperty<std::wstring> SelectedItem;
+        const ReadOnlyProperty<TItem> SelectedItem = ReadOnlyProperty<TItem>(
+            // get
+            [&]() -> const TItem & {
+                static TItem result;
+                result = this->GetSelectedItem();
+                return result;
+            });
 
     protected:
         /**
-         * @brief 初始化ItemsControl
-         */
-        ItemsControl();
-
-        /**
          * @brief 选中项改变时调用该函数
          */
-        virtual void OnSelectionChanged();
+        virtual void OnSelectionChanged()
+        {
+            this->RaiseRoutedEvent(ItemsControl_SelectionChanged);
+        }
 
+    protected:
         /**
          * @brief  获取子项数
          */
@@ -51,7 +84,7 @@ namespace sw
         /**
          * @brief 获取选中项
          */
-        virtual std::wstring GetSelectedItem() = 0;
+        virtual TItem GetSelectedItem() = 0;
 
     public:
         /**
@@ -63,14 +96,14 @@ namespace sw
          * @brief       获取指定索引处子项的值
          * @param index 子项的索引
          */
-        virtual std::wstring GetItemAt(int index) = 0;
+        virtual TItem GetItemAt(int index) = 0;
 
         /**
          * @brief      添加新的子项
          * @param item 要添加的子项
          * @return     是否添加成功
          */
-        virtual bool AddItem(const std::wstring &item) = 0;
+        virtual bool AddItem(const TItem &item) = 0;
 
         /**
          * @brief       添加子项到指定索引
@@ -78,7 +111,7 @@ namespace sw
          * @param item  要添加的子项
          * @return      是否添加成功
          */
-        virtual bool InsertItem(int index, const std::wstring &item) = 0;
+        virtual bool InsertItem(int index, const TItem &item) = 0;
 
         /**
          * @brief          更新指定位置的子项
@@ -86,7 +119,7 @@ namespace sw
          * @param newValue 子项的新值
          * @return         操作是否成功
          */
-        virtual bool UpdateItem(int index, const std::wstring &newValue) = 0;
+        virtual bool UpdateItem(int index, const TItem &newValue) = 0;
 
         /**
          * @brief       移除指定索引处的子项
