@@ -7,6 +7,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 控件
+     */
     class Control : virtual public UIElement, public ICtlColor
     {
     private:
@@ -42,6 +45,9 @@ namespace sw
         const Property<Color> TextColor;
 
     public:
+        /**
+         * @brief 初始化控件
+         */
         Control();
 
     protected:
@@ -56,6 +62,20 @@ namespace sw
         virtual void HandleChenged();
 
         /**
+         * @brief        设置背景颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetBackColor(Color color, bool redraw);
+
+        /**
+         * @brief        设置文本颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetTextColor(Color color, bool redraw);
+
+        /**
          * @brief                   接收到WM_SETCURSOR消息时调用该函数
          * @param hwnd              鼠标所在窗口的句柄
          * @param hitTest           hit-test的结果，详见WM_NCHITTEST消息的返回值
@@ -66,12 +86,6 @@ namespace sw
         virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc) override;
 
     public:
-        /**
-         * @brief      窗口句柄初始化完成
-         * @param hwnd 窗口句柄
-         */
-        /*virtual void HandleInitialized(HWND hwnd);*/
-
         /**
          * @brief 父窗口接收到WM_CTLCOLORxxx的回调
          */
