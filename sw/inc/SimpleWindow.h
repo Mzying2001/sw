@@ -12,6 +12,7 @@
 #include "ContextMenu.h"
 #include "Control.h"
 #include "Cursor.h"
+#include "Dictionary.h"
 #include "Dip.h"
 #include "DockLayout.h"
 #include "DockPanel.h"
