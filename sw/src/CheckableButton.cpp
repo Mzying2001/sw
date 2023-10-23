@@ -7,7 +7,6 @@ sw::CheckableButton::CheckableButton()
               static sw::CheckState result;
               result = (sw::CheckState)this->SendMessageW(BM_GETCHECK, 0, 0);
               return result;
-              return result;
           },
           // set
           [&](const sw::CheckState &value) {
