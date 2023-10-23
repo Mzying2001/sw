@@ -103,6 +103,14 @@ namespace sw
         }
 
         /**
+         * @brief 获取键值对个数
+         */
+        int Count() const
+        {
+            return (int)this->_pMap->size();
+        }
+
+        /**
          * @brief 字典是否为空
          */
         bool IsEmpty() const
