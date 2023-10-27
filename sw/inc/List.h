@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Utils.h"
+#include <algorithm>
 #include <memory>
 #include <string>
 #include <vector>
