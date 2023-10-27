@@ -82,7 +82,7 @@ namespace sw
          * @brief     获取或设置值
          * @param key 键值
          */
-        auto &operator[](const TKey &key)
+        auto &operator[](const TKey &key) const
         {
             return this->_pMap->operator[](key);
         }
@@ -141,7 +141,7 @@ namespace sw
          * @brief     移除指定键值对
          * @param key 要删除的键值
          */
-        void Remove(const TKey &key)
+        void Remove(const TKey &key) const
         {
             this->_pMap->erase(key);
         }
@@ -149,7 +149,7 @@ namespace sw
         /**
          * @brief 清空字典
          */
-        void Clear()
+        void Clear() const
         {
             this->_pMap->clear();
         }
