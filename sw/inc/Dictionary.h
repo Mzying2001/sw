@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Utils.h"
 #include <map>
 #include <memory>
 #include <string>
@@ -89,7 +90,7 @@ namespace sw
         /**
          * @brief 判断是否为同一个字典
          */
-        friend bool operator==(const Dictionary &left, const Dictionary right)
+        friend bool operator==(const Dictionary &left, const Dictionary &right)
         {
             return left._pMap == right._pMap;
         }
@@ -97,9 +98,18 @@ namespace sw
         /**
          * @brief 判断是否不是同一个字典
          */
-        friend bool operator!=(const Dictionary &left, const Dictionary right)
+        friend bool operator!=(const Dictionary &left, const Dictionary &right)
         {
             return left._pMap != right._pMap;
+        }
+
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const Dictionary &dic)
+        {
+            wos << Utils::BuildStr(*dic._pMap);
+            return wos;
         }
 
         /**
