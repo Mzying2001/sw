@@ -153,6 +153,14 @@ namespace sw
         }
 
         /**
+         * @brief 在指定位置插入值
+         */
+        void Insert(int index, const T &value) const
+        {
+            this->_pVec->insert(this->_pVec->begin() + index, value);
+        }
+
+        /**
          * @brief       列表是否包含某个值
          * @param value 要查找的值
          */
