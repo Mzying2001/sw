@@ -3,10 +3,9 @@
 sw::ListView::ListView()
 {
     this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT | LVS_SINGLESEL, 0);
+    this->_SetExtendedListViewStyle(LVS_EX_FULLROWSELECT);
     this->Rect    = sw::Rect(0, 0, 200, 200);
     this->TabStop = true;
-
-    // ListView_SetExtendedListViewStyle(this->Handle, LVS_EX_FULLROWSELECT);
 }
 
 int sw::ListView::GetItemsCount()
@@ -144,4 +143,14 @@ int sw::ListView::_GetColCount()
 {
     HWND hHeader = (HWND)this->SendMessageW(LVM_GETHEADER, 0, 0);
     return (int)::SendMessageW(hHeader, HDM_GETITEMCOUNT, 0, 0);
+}
+
+DWORD sw::ListView::_GetExtendedListViewStyle()
+{
+    return (DWORD)this->SendMessageW(LVM_GETEXTENDEDLISTVIEWSTYLE, 0, 0);
+}
+
+DWORD sw::ListView::_SetExtendedListViewStyle(DWORD style)
+{
+    return (DWORD)this->SendMessageW(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, (LPARAM)style);
 }

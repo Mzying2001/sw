@@ -90,5 +90,16 @@ namespace sw
          * @brief 获取列数
          */
         int _GetColCount();
+
+        /**
+         * @brief 获取ListView扩展样式
+         */
+        DWORD _GetExtendedListViewStyle();
+
+        /**
+         * @brief  设置ListView扩展样式
+         * @return 先前的样式
+         */
+        DWORD _SetExtendedListViewStyle(DWORD style);
     };
 };
