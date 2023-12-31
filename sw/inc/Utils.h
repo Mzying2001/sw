@@ -61,13 +61,6 @@ namespace sw
             wos << L"}";
         }
 
-        template <typename First, typename... Rest>
-        static void _BuildStr(std::wostream &wos, const First &first, const Rest &...rest)
-        {
-            Utils::_BuildStr(wos, first);
-            Utils::_BuildStr(wos, rest...);
-        }
-
     public:
         /**
          * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
@@ -76,7 +69,7 @@ namespace sw
         static std::wstring BuildStr(const Args &...args)
         {
             std::wstringstream wss;
-            Utils::_BuildStr(wss, args...);
+            int _[]{(Utils::_BuildStr(wss, args), 0)...};
             return wss.str();
         }
 
