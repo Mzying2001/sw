@@ -79,5 +79,16 @@ namespace sw
          * @return      操作是否成功
          */
         virtual bool RemoveItemAt(int index) override;
+
+    private:
+        /**
+         * @brief 获取行数
+         */
+        int _GetRowCount();
+
+        /**
+         * @brief 获取列数
+         */
+        int _GetColCount();
     };
 };
