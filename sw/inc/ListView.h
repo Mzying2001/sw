@@ -210,6 +210,13 @@ namespace sw
         bool SetColumnWidth(int index, double width);
 
         /**
+         * @brief       移除指定列
+         * @param index 列的索引
+         * @return      操作是否成功
+         */
+        bool RemoveColumnAt(int index);
+
+        /**
          * @brief 获取所有选中项的索引
          */
         List<int> GetAllSelectedIndexes();

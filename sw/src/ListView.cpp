@@ -329,6 +329,11 @@ bool sw::ListView::SetColumnWidth(int index, double width)
     return this->SendMessageW(LVM_SETCOLUMNWIDTH, index, std::lround(width / Dip::ScaleX));
 }
 
+bool sw::ListView::RemoveColumnAt(int index)
+{
+    return this->SendMessageW(LVM_DELETECOLUMN, index, 0);
+}
+
 sw::List<int> sw::ListView::GetAllSelectedIndexes()
 {
     List<int> result;
