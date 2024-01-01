@@ -20,9 +20,22 @@ sw::ListViewColumn::ListViewColumn(const LVCOLUMNW &lvc)
 
     if (lvc.mask & LVCF_TEXT) {
         this->header = lvc.pszText;
+    } else {
+        this->header = L"";
     }
+
     if (lvc.mask & LVCF_WIDTH) {
         this->width = lvc.cx * scaleX;
+    } else {
+        this->width = 0;
+    }
+
+    if (lvc.mask & LVCF_FMT) {
+        if (lvc.fmt & LVCFMT_RIGHT) {
+            this->alignment = ListViewColumnAlignment::Right;
+        } else if (lvc.fmt & LVCFMT_CENTER) {
+            this->alignment = ListViewColumnAlignment::Center;
+        } /*else { this->alignment = ListViewColumnAlignment::Left; }*/
     }
 }
 
@@ -31,9 +44,14 @@ sw::ListViewColumn::operator LVCOLUMNW() const
     double scaleX = Dip::ScaleX;
 
     LVCOLUMNW lvc{};
-    lvc.mask    = LVCF_TEXT | LVCF_WIDTH;
-    lvc.cx      = std::lround(this->width / scaleX);
+    lvc.mask    = LVCF_TEXT | LVCF_FMT;
     lvc.pszText = const_cast<LPWSTR>(this->header.c_str());
+    lvc.fmt     = (int)this->alignment;
+
+    if (this->width >= 0) {
+        lvc.mask |= LVCF_WIDTH;
+        lvc.cx = std::lround(this->width / scaleX);
+    }
 
     return lvc;
 }

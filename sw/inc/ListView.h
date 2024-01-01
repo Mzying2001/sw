@@ -7,6 +7,15 @@
 namespace sw
 {
     /**
+     * @brief 列表视图的列对齐方式
+     */
+    enum class ListViewColumnAlignment {
+        Left   = LVCFMT_LEFT,   // 左对齐
+        Right  = LVCFMT_RIGHT,  // 右对齐
+        Center = LVCFMT_CENTER, // 居中
+    };
+
+    /**
      * @brief 列表视图的列信息
      */
     struct ListViewColumn {
@@ -19,6 +28,11 @@ namespace sw
          * @brief 列宽度
          */
         double width;
+
+        /**
+         * @brief 对齐方式
+         */
+        ListViewColumnAlignment alignment = ListViewColumnAlignment::Left;
 
         ListViewColumn(const std::wstring &header);
         ListViewColumn(const std::wstring &header, double width);
