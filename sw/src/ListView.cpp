@@ -157,6 +157,19 @@ sw::StrList sw::ListView::GetSelectedItem()
     return this->GetItemAt(this->GetSelectedIndex());
 }
 
+void sw::ListView::SetBackColor(Color color, bool redraw)
+{
+    this->Control::SetBackColor(color, false);
+    this->SendMessageW(LVM_SETBKCOLOR, 0, (LPARAM)(COLORREF)color);
+    this->SendMessageW(LVM_SETTEXTBKCOLOR, 0, (LPARAM)(COLORREF)color);
+}
+
+void sw::ListView::SetTextColor(Color color, bool redraw)
+{
+    this->Control::SetTextColor(color, false);
+    this->SendMessageW(LVM_SETTEXTCOLOR, 0, (LPARAM)(COLORREF)color);
+}
+
 void sw::ListView::OnNotified(NMHDR *pNMHDR)
 {
     if (pNMHDR->code == LVN_ITEMCHANGED) {

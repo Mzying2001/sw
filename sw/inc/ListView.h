@@ -104,6 +104,20 @@ namespace sw
         virtual StrList GetSelectedItem() override;
 
         /**
+         * @brief        设置背景颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetBackColor(Color color, bool redraw) override;
+
+        /**
+         * @brief        设置文本颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetTextColor(Color color, bool redraw) override;
+
+        /**
          * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
          */
         virtual void OnNotified(NMHDR *pNMHDR) override;
