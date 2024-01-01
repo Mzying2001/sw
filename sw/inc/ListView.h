@@ -56,6 +56,11 @@ namespace sw
          */
         const Property<bool> GridLines;
 
+        /**
+         * @brief 是否允许多选
+         */
+        const Property<bool> MultiSelect;
+
     public:
         /**
          * @brief 初始化ListView

@@ -78,6 +78,18 @@ sw::ListView::ListView()
               style = this->_GetExtendedListViewStyle();
               style = value ? (style | LVS_EX_GRIDLINES) : (style & (~LVS_EX_GRIDLINES));
               this->_SetExtendedListViewStyle(style);
+          }),
+
+      MultiSelect(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = !(this->GetStyle() & LVS_SINGLESEL);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(LVS_SINGLESEL, !value);
           })
 {
     this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT | LVS_SINGLESEL, 0);
