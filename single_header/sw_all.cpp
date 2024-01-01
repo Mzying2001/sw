@@ -1,7 +1,6 @@
 #include "sw_all.h"
 #include <cmath>
 #include <strsafe.h>
-#include <algorithm>
 #include <deque>
 
 // App.cpp
@@ -234,7 +233,6 @@ sw::CheckableButton::CheckableButton()
           [&]() -> const sw::CheckState & {
               static sw::CheckState result;
               result = (sw::CheckState)this->SendMessageW(BM_GETCHECK, 0, 0);
-              return result;
               return result;
           },
           // set
@@ -508,8 +506,7 @@ sw::Control::Control()
           },
           // set
           [&](const Color &value) {
-              this->_backColor = value;
-              this->Redraw();
+              this->SetBackColor(value, true);
           }),
 
       TextColor(
@@ -519,8 +516,7 @@ sw::Control::Control()
           },
           // set
           [&](const Color &value) {
-              this->_textColor = value;
-              this->Redraw();
+              this->SetTextColor(value, true);
           })
 {
 }
@@ -571,6 +567,18 @@ void sw::Control::HandleChenged()
 {
 }
 
+void sw::Control::SetBackColor(Color color, bool redraw)
+{
+    this->_backColor = color;
+    if (redraw) this->Redraw();
+}
+
+void sw::Control::SetTextColor(Color color, bool redraw)
+{
+    this->_textColor = color;
+    if (redraw) this->Redraw();
+}
+
 bool sw::Control::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
 {
     if (this->_useDefaultCursor) {
@@ -580,14 +588,6 @@ bool sw::Control::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefa
     useDefaultWndProc = false;
     return true;
 }
-
-/*void sw::Control::HandleInitialized(HWND hwnd)
-{
-    HDC hdc          = GetDC(hwnd);
-    this->_backColor = GetBkColor(hdc);
-    this->_textColor = GetTextColor(hdc);
-    ReleaseDC(hwnd, hdc);
-}*/
 
 LRESULT sw::Control::CtlColor(HDC hdc, HWND hwnd)
 {
@@ -599,8 +599,8 @@ LRESULT sw::Control::CtlColor(HDC hdc, HWND hwnd)
 
     hBrush = CreateSolidBrush(this->_backColor);
 
-    SetTextColor(hdc, this->_textColor);
-    SetBkColor(hdc, this->_backColor);
+    ::SetTextColor(hdc, this->_textColor);
+    ::SetBkColor(hdc, this->_backColor);
     return (LRESULT)hBrush;
 }
 
@@ -1007,44 +1007,6 @@ HICON sw::IconHelper::GetIconHandle(const std::wstring &fileName)
     return (HICON)LoadImageW(NULL, fileName.c_str(), IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE);
 }
 
-// ItemsControl.cpp
-
-sw::ItemsControl::ItemsControl()
-    : ItemsCount(
-          // get
-          [&]() -> const int & {
-              static int result;
-              result = this->GetItemsCount();
-              return result;
-          }),
-
-      SelectedIndex(
-          // get
-          [&]() -> const int & {
-              static int result;
-              result = this->GetSelectedIndex();
-              return result;
-          },
-          // set
-          [&](const int &value) {
-              this->SetSelectedIndex(value);
-          }),
-
-      SelectedItem(
-          // get
-          [&]() -> const std::wstring & {
-              static std::wstring result;
-              result = this->GetSelectedItem();
-              return result;
-          })
-{
-}
-
-void sw::ItemsControl::OnSelectionChanged()
-{
-    this->RaiseRoutedEvent(ItemsControl_SelectionChanged);
-}
-
 // Keys.cpp
 
 sw::KeyFlags::KeyFlags(LPARAM lParam)
@@ -1175,7 +1137,7 @@ sw::Label::Label()
               }
           })
 {
-    this->InitControl(L"STATIC", L"Label", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
+    this->SetText(L"Label");
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
 }
@@ -1971,25 +1933,25 @@ int sw::ListBox::GetItemIndexFromPoint(const Point &point)
     return (int)this->SendMessageW(LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y));
 }
 
-std::vector<int> sw::ListBox::GetSelectedIndices()
+sw::List<int> sw::ListBox::GetSelectedIndices()
 {
-    std::vector<int> result;
+    List<int> result;
     int selectedCount = this->SelectedCount.Get();
     if (selectedCount > 0) {
         int *buf = new int[selectedCount];
         if (this->SendMessageW(LB_GETSELITEMS, selectedCount, reinterpret_cast<LPARAM>(buf)) != LB_ERR) {
-            for (int i = 0; i < selectedCount; ++i) result.push_back(buf[i]);
+            for (int i = 0; i < selectedCount; ++i) result.Append(buf[i]);
         }
         delete[] buf;
     }
     return result;
 }
 
-std::vector<std::wstring> sw::ListBox::GetSelectedItems()
+sw::StrList sw::ListBox::GetSelectedItems()
 {
-    std::vector<std::wstring> result;
+    StrList result;
     for (int i : this->GetSelectedIndices()) {
-        result.emplace_back(this->GetItemAt(i));
+        result.Append(this->GetItemAt(i));
     }
     return result;
 }
@@ -2002,6 +1964,448 @@ bool sw::ListBox::GetItemSelectionState(int index)
 void sw::ListBox::SetItemSelectionState(int index, bool value)
 {
     this->SendMessageW(LB_SETSEL, value, index);
+}
+
+// ListView.cpp
+
+static constexpr int _InitialBufferSize = 256; // 获取文本时缓冲区的初始大小
+
+sw::ListViewColumn::ListViewColumn(const std::wstring &header)
+    : ListViewColumn(header, 100)
+{
+}
+
+sw::ListViewColumn::ListViewColumn(const std::wstring &header, double width)
+    : header(header), width(width)
+{
+}
+
+sw::ListViewColumn::ListViewColumn(const LVCOLUMNW &lvc)
+{
+    double scaleX = Dip::ScaleX;
+
+    if (lvc.mask & LVCF_TEXT) {
+        this->header = lvc.pszText;
+    } else {
+        this->header = L"";
+    }
+
+    if (lvc.mask & LVCF_WIDTH) {
+        this->width = lvc.cx * scaleX;
+    } else {
+        this->width = 0;
+    }
+
+    if (lvc.mask & LVCF_FMT) {
+        if (lvc.fmt & LVCFMT_RIGHT) {
+            this->alignment = ListViewColumnAlignment::Right;
+        } else if (lvc.fmt & LVCFMT_CENTER) {
+            this->alignment = ListViewColumnAlignment::Center;
+        } /*else { this->alignment = ListViewColumnAlignment::Left; }*/
+    }
+}
+
+sw::ListViewColumn::operator LVCOLUMNW() const
+{
+    double scaleX = Dip::ScaleX;
+
+    LVCOLUMNW lvc{};
+    lvc.mask    = LVCF_TEXT | LVCF_FMT;
+    lvc.pszText = const_cast<LPWSTR>(this->header.c_str());
+    lvc.fmt     = (int)this->alignment;
+
+    if (this->width >= 0) {
+        lvc.mask |= LVCF_WIDTH;
+        lvc.cx = std::lround(this->width / scaleX);
+    }
+
+    return lvc;
+}
+
+sw::ListView::ListView()
+    : ColumnsCount(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = this->_GetColCount();
+              return result;
+          }),
+
+      GridLines(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->_GetExtendedListViewStyle() & LVS_EX_GRIDLINES;
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              DWORD style;
+              style = this->_GetExtendedListViewStyle();
+              style = value ? (style | LVS_EX_GRIDLINES) : (style & (~LVS_EX_GRIDLINES));
+              this->_SetExtendedListViewStyle(style);
+          }),
+
+      MultiSelect(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = !(this->GetStyle() & LVS_SINGLESEL);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(LVS_SINGLESEL, !value);
+          }),
+
+      SelectedCount(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = (int)this->SendMessageW(LVM_GETSELECTEDCOUNT, 0, 0);
+              return result;
+          }),
+
+      CheckBoxes(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->_GetExtendedListViewStyle() & LVS_EX_CHECKBOXES;
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              DWORD style;
+              style = this->_GetExtendedListViewStyle();
+              style = value ? (style | LVS_EX_CHECKBOXES) : (style & (~LVS_EX_CHECKBOXES));
+              this->_SetExtendedListViewStyle(style);
+          }),
+
+      TopIndex(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = (int)this->SendMessageW(LVM_GETTOPINDEX, 0, 0);
+              return result;
+          })
+{
+    this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT, 0);
+    this->_SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
+    this->Rect    = sw::Rect(0, 0, 200, 200);
+    this->TabStop = true;
+}
+
+int sw::ListView::GetItemsCount()
+{
+    return this->_GetRowCount();
+}
+
+int sw::ListView::GetSelectedIndex()
+{
+    return (int)this->SendMessageW(LVM_GETNEXTITEM, -1, LVNI_SELECTED);
+}
+
+void sw::ListView::SetSelectedIndex(int index)
+{
+    LVITEMW lvi;
+
+    lvi.stateMask = LVIS_SELECTED;
+    lvi.state     = 0;
+    this->SendMessageW(LVM_SETITEMSTATE, -1, reinterpret_cast<LPARAM>(&lvi));
+
+    lvi.stateMask = LVIS_SELECTED | LVIS_FOCUSED;
+    lvi.state     = LVIS_SELECTED | LVIS_FOCUSED;
+    this->SendMessageW(LVM_SETITEMSTATE, index, reinterpret_cast<LPARAM>(&lvi));
+}
+
+sw::StrList sw::ListView::GetSelectedItem()
+{
+    return this->GetItemAt(this->GetSelectedIndex());
+}
+
+void sw::ListView::SetBackColor(Color color, bool redraw)
+{
+    this->Control::SetBackColor(color, false);
+    this->SendMessageW(LVM_SETBKCOLOR, 0, (LPARAM)(COLORREF)color);
+    this->SendMessageW(LVM_SETTEXTBKCOLOR, 0, (LPARAM)(COLORREF)color);
+}
+
+void sw::ListView::SetTextColor(Color color, bool redraw)
+{
+    this->Control::SetTextColor(color, false);
+    this->SendMessageW(LVM_SETTEXTCOLOR, 0, (LPARAM)(COLORREF)color);
+}
+
+void sw::ListView::OnNotified(NMHDR *pNMHDR)
+{
+    if (pNMHDR->code == LVN_ITEMCHANGED) {
+        this->OnItemChanged(reinterpret_cast<NMLISTVIEW *>(pNMHDR));
+    }
+}
+
+void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
+{
+    if (pNMLV->uChanged & LVIF_STATE) {
+        auto changedState = pNMLV->uOldState ^ pNMLV->uNewState;
+
+        if (changedState & LVIS_SELECTED) {
+            this->OnSelectionChanged();
+        }
+
+        if (((changedState & LVIS_STATEIMAGEMASK) >> 12) & ~1) { // checkbox state changed
+            this->OnCheckStateChanged(pNMLV->iItem);
+        }
+    }
+}
+
+void sw::ListView::OnCheckStateChanged(int index)
+{
+    ListViewCheckStateChangedEventArgs args(index);
+    this->RaiseRoutedEvent(args);
+}
+
+void sw::ListView::Clear()
+{
+    this->SendMessageW(LVM_DELETEALLITEMS, 0, 0);
+}
+
+sw::StrList sw::ListView::GetItemAt(int index)
+{
+    StrList result;
+    if (index < 0) return result;
+
+    int row = this->_GetRowCount();
+    if (row <= 0 || index >= row) return result;
+
+    int col = this->_GetColCount();
+    if (col <= 0) return result;
+
+    int bufsize = _InitialBufferSize;
+    std::unique_ptr<wchar_t[]> buf(new wchar_t[bufsize]);
+
+    LVITEMW lvi;
+    lvi.mask       = LVIF_TEXT;
+    lvi.iItem      = index;
+    lvi.pszText    = buf.get();
+    lvi.cchTextMax = bufsize;
+
+    for (int j = 0; j < col; ++j) {
+        lvi.iSubItem = j;
+
+        int len = (int)this->SendMessageW(LVM_GETITEMTEXTW, index, reinterpret_cast<LPARAM>(&lvi));
+
+        while (len == bufsize - 1 && bufsize * 2 > bufsize) {
+            bufsize *= 2;
+            buf.reset(new wchar_t[bufsize]);
+            lvi.pszText    = buf.get();
+            lvi.cchTextMax = bufsize;
+            len            = (int)this->SendMessageW(LVM_GETITEMTEXTW, index, reinterpret_cast<LPARAM>(&lvi));
+        }
+
+        result.Append(buf.get());
+    }
+
+    return result;
+}
+
+bool sw::ListView::AddItem(const StrList &item)
+{
+    return this->InsertItem(this->_GetRowCount(), item);
+}
+
+bool sw::ListView::InsertItem(int index, const StrList &item)
+{
+    int colCount = item.Count();
+    if (colCount == 0) return false;
+
+    LVITEMW lvi;
+    lvi.mask     = LVIF_TEXT;
+    lvi.iItem    = index;
+    lvi.iSubItem = 0;
+    lvi.pszText  = const_cast<LPWSTR>(item[0].c_str());
+
+    index = (int)this->SendMessageW(LVM_INSERTITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
+    if (index == -1) return false;
+
+    lvi.iItem = index;
+    for (int j = 1; j < colCount; ++j) {
+        lvi.iSubItem = j;
+        lvi.pszText  = const_cast<LPWSTR>(item[j].c_str());
+        this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
+    }
+
+    return true;
+}
+
+bool sw::ListView::UpdateItem(int index, const StrList &newValue)
+{
+    if (index < 0 || index >= this->_GetRowCount() || newValue.IsEmpty()) {
+        return false;
+    }
+
+    LVITEMW lvi;
+    lvi.mask  = LVIF_TEXT;
+    lvi.iItem = index;
+
+    int colCount = newValue.Count();
+    for (int j = 0; j < colCount; ++j) {
+        lvi.iSubItem = j;
+        lvi.pszText  = const_cast<LPWSTR>(newValue[j].c_str());
+        this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
+    }
+
+    return true;
+}
+
+bool sw::ListView::RemoveItemAt(int index)
+{
+    return this->SendMessageW(LVM_DELETEITEM, index, 0);
+}
+
+std::wstring sw::ListView::GetItemAt(int row, int col)
+{
+    int bufsize = _InitialBufferSize;
+    std::unique_ptr<wchar_t[]> buf(new wchar_t[bufsize]);
+
+    LVITEMW lvi;
+    lvi.mask       = LVIF_TEXT;
+    lvi.iItem      = row;
+    lvi.iSubItem   = col;
+    lvi.pszText    = buf.get();
+    lvi.cchTextMax = bufsize;
+
+    int len = (int)this->SendMessageW(LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
+    if (len == 0) return std::wstring();
+
+    while (len == bufsize - 1 && bufsize * 2 > bufsize) {
+        bufsize *= 2;
+        buf.reset(new wchar_t[bufsize]);
+        lvi.pszText    = buf.get();
+        lvi.cchTextMax = bufsize;
+        len            = (int)this->SendMessageW(LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
+    }
+
+    return std::wstring(buf.get());
+}
+
+bool sw::ListView::UpdateItem(int row, int col, const std::wstring &newValue)
+{
+    LVITEMW lvi;
+    lvi.mask     = LVIF_TEXT;
+    lvi.iItem    = row;
+    lvi.iSubItem = col;
+    lvi.pszText  = const_cast<LPWSTR>(newValue.c_str());
+
+    return this->SendMessageW(LVM_SETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
+}
+
+bool sw::ListView::AddColumn(const ListViewColumn &column)
+{
+    return this->InsertColumn(this->_GetColCount(), column);
+}
+
+bool sw::ListView::AddColumn(const std::wstring &header)
+{
+    ListViewColumn column(header);
+    return this->InsertColumn(this->_GetColCount(), column);
+}
+
+bool sw::ListView::InsertColumn(int index, const ListViewColumn &column)
+{
+    LVCOLUMNW lvc = column;
+    return this->SendMessageW(LVM_INSERTCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != -1;
+}
+
+bool sw::ListView::InsertColumn(int index, const std::wstring &header)
+{
+    ListViewColumn column(header);
+    return this->InsertColumn(index, column);
+}
+
+bool sw::ListView::SetColumnHeader(int index, const std::wstring &header)
+{
+    LVCOLUMNW lvc;
+    lvc.mask    = LVCF_TEXT;
+    lvc.pszText = const_cast<LPWSTR>(header.c_str());
+    return this->SendMessageW(LVM_SETCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc));
+}
+
+double sw::ListView::GetColumnWidth(int index)
+{
+    if (index < 0 || index >= this->_GetColCount()) {
+        return -1;
+    } else {
+        return this->SendMessageW(LVM_GETCOLUMNWIDTH, index, 0) * Dip::ScaleX;
+    }
+}
+
+bool sw::ListView::SetColumnWidth(int index, double width)
+{
+    return this->SendMessageW(LVM_SETCOLUMNWIDTH, index, std::lround(width / Dip::ScaleX));
+}
+
+bool sw::ListView::RemoveColumnAt(int index)
+{
+    return this->SendMessageW(LVM_DELETECOLUMN, index, 0);
+}
+
+sw::List<int> sw::ListView::GetSelectedIndices()
+{
+    List<int> result;
+    for (int i = -1; (i = (int)this->SendMessageW(LVM_GETNEXTITEM, i, LVNI_SELECTED)) != -1;)
+        result.Append(i);
+    return result;
+}
+
+sw::List<int> sw::ListView::GetCheckedIndices()
+{
+    List<int> result;
+    HWND hwnd    = this->Handle;
+    int rowCount = this->_GetRowCount();
+    for (int i = 0; i < rowCount; ++i) {
+        int state = (int)ListView_GetCheckState(hwnd, i);
+        if (state != -1 && state) result.Append(i);
+    }
+    return result;
+}
+
+bool sw::ListView::GetItemCheckState(int index)
+{
+    int result = (int)ListView_GetCheckState(this->Handle, index);
+    return result == -1 ? false : result;
+}
+
+void sw::ListView::SetItemCheckState(int index, bool value)
+{
+    ListView_SetCheckState(this->Handle, index, value);
+}
+
+int sw::ListView::GetItemIndexFromPoint(const Point &point)
+{
+    LVHITTESTINFO hitTestInfo{};
+    hitTestInfo.pt = point;
+    return (int)this->SendMessageW(LVM_HITTEST, 0, reinterpret_cast<LPARAM>(&hitTestInfo));
+}
+
+int sw::ListView::_GetRowCount()
+{
+    return (int)this->SendMessageW(LVM_GETITEMCOUNT, 0, 0);
+}
+
+int sw::ListView::_GetColCount()
+{
+    HWND hHeader = (HWND)this->SendMessageW(LVM_GETHEADER, 0, 0);
+    return (int)::SendMessageW(hHeader, HDM_GETITEMCOUNT, 0, 0);
+}
+
+DWORD sw::ListView::_GetExtendedListViewStyle()
+{
+    return (DWORD)this->SendMessageW(LVM_GETEXTENDEDLISTVIEWSTYLE, 0, 0);
+}
+
+DWORD sw::ListView::_SetExtendedListViewStyle(DWORD style)
+{
+    return (DWORD)this->SendMessageW(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, (LPARAM)style);
 }
 
 // Menu.cpp
@@ -3049,6 +3453,16 @@ const sw::ReadOnlyProperty<double> sw::Screen::Height(
     } //
 );
 
+const sw::ReadOnlyProperty<sw::Point> sw::Screen::CursorPosition(
+    []() -> const sw::Point & {
+        static sw::Point result;
+        POINT p;
+        GetCursorPos(&p);
+        result = p;
+        return result;
+    } //
+);
+
 // Size.cpp
 
 sw::Size::Size()
@@ -3313,6 +3727,13 @@ sw::LayoutHost *sw::StackPanel::GetDefaultLayout()
     return &this->_stackLayout;
 }
 
+// StaticControl.cpp
+
+sw::StaticControl::StaticControl()
+{
+    this->InitControl(L"STATIC", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
+}
+
 // TabControl.cpp
 
 sw::TabControl::TabControl()
@@ -3427,7 +3848,7 @@ sw::TabControl::TabControl()
               this->NotifyLayoutUpdated();
           })
 {
-    this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_FOCUSNEVER, 0);
+    this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
     this->Rect = sw::Rect(0, 0, 200, 200);
 }
 
@@ -4071,7 +4492,7 @@ bool sw::UIElement::RemoveChild(UIElement &element)
     return this->RemoveChild(&element);
 }
 
-void sw::UIElement::Clear()
+void sw::UIElement::ClearChildren()
 {
     while (!this->_children.empty()) {
         UIElement *item = this->_children.back();

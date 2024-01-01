@@ -6,12 +6,13 @@
 #include <string>
 #include <cstdint>
 #include <iostream>
-#include <initializer_list>
 #include <map>
-#include <tuple>
+#include <algorithm>
 #include <vector>
-#include <functional>
 #include <CommCtrl.h>
+#include <initializer_list>
+#include <tuple>
+#include <functional>
 #include <type_traits>
 #include <sstream>
 #include <windowsx.h>
@@ -1215,9 +1216,14 @@ namespace sw
         ButtonBase_DoubleClicked,
 
         /**
-         * @brief 列表框或组合框的选中项改变，参数类型为sw::RoutedEventArgs
+         * @brief 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
          */
         ItemsControl_SelectionChanged,
+
+        /**
+         * @brief 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
+         */
+        ListView_CheckStateChanged,
 
         /**
          * @brief 滑块的值被改变，参数类型为sw::RoutedEventArgs
@@ -1438,13 +1444,6 @@ namespace sw
             wos << L"}";
         }
 
-        template <typename First, typename... Rest>
-        static void _BuildStr(std::wostream &wos, const First &first, const Rest &...rest)
-        {
-            Utils::_BuildStr(wos, first);
-            Utils::_BuildStr(wos, rest...);
-        }
-
     public:
         /**
          * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
@@ -1453,7 +1452,7 @@ namespace sw
         static std::wstring BuildStr(const Args &...args)
         {
             std::wstringstream wss;
-            Utils::_BuildStr(wss, args...);
+            int _[]{(Utils::_BuildStr(wss, args), 0)...};
             return wss.str();
         }
 
@@ -1616,6 +1615,170 @@ namespace sw
     };
 }
 
+// Dictionary.h
+
+
+namespace sw
+{
+    template <typename TKey, typename TVal>
+    class Dictionary; // 向前声明
+
+    /**
+     * @brief 以字符串为键值的字典
+     */
+    template <typename TVal>
+    using StrDictionary = Dictionary<std::wstring, TVal>;
+
+    /**
+     * @brief 字典类，内部维护了一个指向std::map的智能指针
+     */
+    template <typename TKey, typename TVal>
+    class Dictionary
+    {
+    private:
+        /**
+         * @brief 指向std::map的智能指针
+         */
+        std::shared_ptr<std::map<TKey, TVal>> _pMap;
+
+    public:
+        /**
+         * @brief 初始化字典
+         */
+        Dictionary()
+            : _pMap(new std::map<TKey, TVal>)
+        {
+        }
+
+        /**
+         * @brief 使用初始化列表
+         */
+        Dictionary(std::initializer_list<std::pair<const TKey, TVal>> list)
+            : Dictionary()
+        {
+            this->_pMap->insert(list);
+        }
+
+        /**
+         * @brief 正向迭代器开始
+         */
+        auto begin() const
+        {
+            return this->_pMap->begin();
+        }
+
+        /**
+         * @brief 正向迭代器结束
+         */
+        auto end() const
+        {
+            return this->_pMap->end();
+        }
+
+        /**
+         * @brief 反向迭代器开始
+         */
+        auto rbegin() const
+        {
+            return this->_pMap->rbegin();
+        }
+
+        /**
+         * @brief 反向迭代器结束
+         */
+        auto rend() const
+        {
+            return this->_pMap->rend();
+        }
+
+        /**
+         * @brief     获取或设置值
+         * @param key 键值
+         */
+        auto &operator[](const TKey &key) const
+        {
+            return this->_pMap->operator[](key);
+        }
+
+        /**
+         * @brief 判断是否为同一个字典
+         */
+        friend bool operator==(const Dictionary &left, const Dictionary &right)
+        {
+            return left._pMap == right._pMap;
+        }
+
+        /**
+         * @brief 判断是否不是同一个字典
+         */
+        friend bool operator!=(const Dictionary &left, const Dictionary &right)
+        {
+            return left._pMap != right._pMap;
+        }
+
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const Dictionary &dic)
+        {
+            wos << Utils::BuildStr(*dic._pMap);
+            return wos;
+        }
+
+        /**
+         * @brief 获取键值对个数
+         */
+        int Count() const
+        {
+            return (int)this->_pMap->size();
+        }
+
+        /**
+         * @brief 字典是否为空
+         */
+        bool IsEmpty() const
+        {
+            return this->_pMap->empty();
+        }
+
+        /**
+         * @brief     是否存在某个键值
+         * @param key 要查询的键值
+         */
+        bool ContainsKey(const TKey &key) const
+        {
+            return this->_pMap->count(key);
+        }
+
+        /**
+         * @brief     移除指定键值对
+         * @param key 要删除的键值
+         */
+        void Remove(const TKey &key) const
+        {
+            this->_pMap->erase(key);
+        }
+
+        /**
+         * @brief 清空字典
+         */
+        void Clear() const
+        {
+            this->_pMap->clear();
+        }
+
+        /**
+         * @brief 复制当前字典
+         */
+        Dictionary Copy() const
+        {
+            Dictionary dic;
+            dic._pMap->insert(this->_pMap->begin(), this->_pMap->end());
+            return dic;
+        }
+    };
+}
+
 // Dip.h
 
 
@@ -1636,6 +1799,226 @@ namespace sw
         static const ReadOnlyProperty<double> ScaleX;
         static const ReadOnlyProperty<double> ScaleY;
         static void Update(int dpiX, int dpiY);
+    };
+}
+
+// List.h
+
+
+namespace sw
+{
+    template <typename T>
+    class List; // 向前声明
+
+    /**
+     * @brief 字符串列表
+     */
+    using StrList = List<std::wstring>;
+
+    /**
+     * @brief 列表类，内部维护了一个指向std::vector的智能指针
+     */
+    template <typename T>
+    class List
+    {
+    private:
+        /**
+         * @brief 指向std::vector的智能指针
+         */
+        std::shared_ptr<std::vector<T>> _pVec;
+
+    public:
+        /**
+         * @brief 初始化列表
+         */
+        List()
+            : _pVec(new std::vector<T>)
+        {
+        }
+
+        /**
+         * @brief 使用初始化列表
+         */
+        List(std::initializer_list<T> list)
+            : _pVec(new std::vector<T>(list))
+        {
+        }
+
+        /**
+         * @brief 初始化列表并指定容量
+         */
+        List(int capacity)
+            : List()
+        {
+            this->_pVec->reserve(capacity);
+        }
+
+        /**
+         * @brief 正向迭代器开始
+         */
+        auto begin() const
+        {
+            return this->_pVec->begin();
+        }
+
+        /**
+         * @brief 正向迭代器结束
+         */
+        auto end() const
+        {
+            return this->_pVec->end();
+        }
+
+        /**
+         * @brief 反向迭代器开始
+         */
+        auto rbegin() const
+        {
+            return this->_pVec->rbegin();
+        }
+
+        /**
+         * @brief 反向迭代器结束
+         */
+        auto rend() const
+        {
+            return this->_pVec->rend();
+        }
+
+        /**
+         * @brief 获取或设置列表中指定位置的值
+         */
+        auto &operator[](int index) const
+        {
+            return this->_pVec->operator[](index);
+        }
+
+        /**
+         * @brief 判断是否为同一个列表
+         */
+        friend bool operator==(const List &left, const List &right)
+        {
+            return left._pVec == right._pVec;
+        }
+
+        /**
+         * @brief 判断是否不是同一个列表
+         */
+        friend bool operator!=(const List &left, const List &right)
+        {
+            return left._pVec != right._pVec;
+        }
+
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const List &list)
+        {
+            wos << Utils::BuildStr(*list._pVec);
+            return wos;
+        }
+
+        /**
+         * @brief 列表当前的容量
+         */
+        int Capacity() const
+        {
+            return (int)this->_pVec->capacity();
+        }
+
+        /**
+         * @brief 获取元素个数
+         */
+        int Count() const
+        {
+            return (int)this->_pVec->size();
+        }
+
+        /**
+         * @brief 列表是否为空
+         */
+        bool IsEmpty() const
+        {
+            return this->_pVec->empty();
+        }
+
+        /**
+         * @brief 添加一个值到列表末尾
+         */
+        auto &Append(const T &value) const
+        {
+            this->_pVec->push_back(value);
+            return *this;
+        }
+
+        /**
+         * @brief 在指定位置插入值
+         */
+        void Insert(int index, const T &value) const
+        {
+            this->_pVec->insert(this->_pVec->begin() + index, value);
+        }
+
+        /**
+         * @brief       列表是否包含某个值
+         * @param value 要查找的值
+         */
+        bool Contains(const T &value) const
+        {
+            return std::find(this->_pVec->begin(), this->_pVec->end(), value) != this->_pVec->end();
+        }
+
+        /**
+         * @brief       查找值在列表中的索引
+         * @param value 要查找的值
+         * @return      若列表中包含该值则返回其索引，否则返回-1
+         */
+        int IndexOf(const T &value) const
+        {
+            auto it = std::find(this->_pVec->begin(), this->_pVec->end(), value);
+            return it == this->_pVec->end() ? -1 : int(it - this->_pVec->begin());
+        }
+
+        /**
+         * @brief       移除列表中第一个指定的值
+         * @param value 要移除的值
+         * @return      是否成功移除
+         */
+        bool Remove(const T &value) const
+        {
+            auto it = std::find(this->_pVec->begin(), this->_pVec->end(), value);
+            if (it == this->_pVec->end())
+                return false;
+            this->_pVec->erase(it);
+            return true;
+        }
+
+        /**
+         * @brief       移除指定索引处的值
+         * @param index 要移除元素的索引
+         */
+        void RemoveAt(int index) const
+        {
+            this->_pVec->erase(this->_pVec->begin() + index);
+        }
+
+        /**
+         * @brief 清空列表
+         */
+        void Clear() const
+        {
+            this->_pVec->clear();
+        }
+
+        /**
+         * @brief 复制当前列表
+         */
+        List Copy() const
+        {
+            List list((int)this->_pVec->capacity());
+            list._pVec->assign(this->_pVec->begin(), this->_pVec->end());
+            return list;
+        }
     };
 }
 
@@ -1961,6 +2344,19 @@ namespace sw
         {
         }
     };
+
+    /**
+     * @brief 列表视图某个复选框选中状态改变的事件参数类型
+     */
+    struct ListViewCheckStateChangedEventArgs : RoutedEventArgsOfType<ListView_CheckStateChanged> {
+
+        int index; // 改变项的索引
+
+        ListViewCheckStateChangedEventArgs(int index)
+            : index(index)
+        {
+        }
+    };
 }
 
 // Screen.h
@@ -1968,14 +2364,29 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 屏幕相关
+     */
     class Screen
     {
     private:
-        Screen();
+        Screen() = delete;
 
     public:
+        /**
+         * @brief 屏幕宽度
+         */
         static const ReadOnlyProperty<double> Width;
+
+        /**
+         * @brief 屏幕高度
+         */
         static const ReadOnlyProperty<double> Height;
+
+        /**
+         * @brief 鼠标在屏幕中的位置
+         */
+        static const ReadOnlyProperty<Point> CursorPosition;
     };
 }
 
@@ -2401,7 +2812,7 @@ namespace sw
 
     protected:
         WndBase();
-        ~WndBase();
+        virtual ~WndBase();
 
         WndBase(const WndBase &)            = delete; // 删除拷贝构造函数
         WndBase(WndBase &&)                 = delete; // 删除移动构造函数
@@ -3378,7 +3789,7 @@ namespace sw
 
     public:
         UIElement();
-        ~UIElement();
+        virtual ~UIElement();
 
         /**
          * @brief           注册路由事件处理函数，当事件已注册时会覆盖已注册的函数
@@ -3509,7 +3920,7 @@ namespace sw
         /**
          * @brief 移除所有子控件
          */
-        void Clear();
+        void ClearChildren();
 
         /**
          * @brief         获取指定元素的索引
@@ -3915,6 +4326,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 控件
+     */
     class Control : virtual public UIElement, public ICtlColor
     {
     private:
@@ -3950,6 +4364,9 @@ namespace sw
         const Property<Color> TextColor;
 
     public:
+        /**
+         * @brief 初始化控件
+         */
         Control();
 
     protected:
@@ -3964,6 +4381,20 @@ namespace sw
         virtual void HandleChenged();
 
         /**
+         * @brief        设置背景颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetBackColor(Color color, bool redraw);
+
+        /**
+         * @brief        设置文本颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetTextColor(Color color, bool redraw);
+
+        /**
          * @brief                   接收到WM_SETCURSOR消息时调用该函数
          * @param hwnd              鼠标所在窗口的句柄
          * @param hitTest           hit-test的结果，详见WM_NCHITTEST消息的返回值
@@ -3974,12 +4405,6 @@ namespace sw
         virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc) override;
 
     public:
-        /**
-         * @brief      窗口句柄初始化完成
-         * @param hwnd 窗口句柄
-         */
-        /*virtual void HandleInitialized(HWND hwnd);*/
-
         /**
          * @brief 父窗口接收到WM_CTLCOLORxxx的回调
          */
@@ -4323,35 +4748,68 @@ namespace sw
 
 namespace sw
 {
+    template <typename TItem>
+    class ItemsControl; // 向前声明
+
+    /**
+     * @brief 表示可用于呈现一组字符串的控件
+     */
+    typedef ItemsControl<std::wstring> StrItemsControl;
+
+    /**
+     * @brief 表示可用于呈现一组项的控件
+     */
+    template <typename TItem>
     class ItemsControl : public Control
     {
     public:
         /**
          * @brief 项数
          */
-        const ReadOnlyProperty<int> ItemsCount;
+        const ReadOnlyProperty<int> ItemsCount = ReadOnlyProperty<int>(
+            // get
+            [&]() -> const int & {
+                static int result;
+                result = this->GetItemsCount();
+                return result;
+            });
 
         /**
          * @brief 选中项的索引，当无选中项时为-1
          */
-        const Property<int> SelectedIndex;
+        const Property<int> SelectedIndex = Property<int>(
+            // get
+            [&]() -> const int & {
+                static int result;
+                result = this->GetSelectedIndex();
+                return result;
+            },
+            // set
+            [&](const int &value) {
+                this->SetSelectedIndex(value);
+            });
 
         /**
          * @brief 选中项
          */
-        const ReadOnlyProperty<std::wstring> SelectedItem;
+        const ReadOnlyProperty<TItem> SelectedItem = ReadOnlyProperty<TItem>(
+            // get
+            [&]() -> const TItem & {
+                static TItem result;
+                result = this->GetSelectedItem();
+                return result;
+            });
 
     protected:
         /**
-         * @brief 初始化ItemsControl
-         */
-        ItemsControl();
-
-        /**
          * @brief 选中项改变时调用该函数
          */
-        virtual void OnSelectionChanged();
+        virtual void OnSelectionChanged()
+        {
+            this->RaiseRoutedEvent(ItemsControl_SelectionChanged);
+        }
 
+    protected:
         /**
          * @brief  获取子项数
          */
@@ -4370,7 +4828,7 @@ namespace sw
         /**
          * @brief 获取选中项
          */
-        virtual std::wstring GetSelectedItem() = 0;
+        virtual TItem GetSelectedItem() = 0;
 
     public:
         /**
@@ -4382,14 +4840,14 @@ namespace sw
          * @brief       获取指定索引处子项的值
          * @param index 子项的索引
          */
-        virtual std::wstring GetItemAt(int index) = 0;
+        virtual TItem GetItemAt(int index) = 0;
 
         /**
          * @brief      添加新的子项
          * @param item 要添加的子项
          * @return     是否添加成功
          */
-        virtual bool AddItem(const std::wstring &item) = 0;
+        virtual bool AddItem(const TItem &item) = 0;
 
         /**
          * @brief       添加子项到指定索引
@@ -4397,7 +4855,7 @@ namespace sw
          * @param item  要添加的子项
          * @return      是否添加成功
          */
-        virtual bool InsertItem(int index, const std::wstring &item) = 0;
+        virtual bool InsertItem(int index, const TItem &item) = 0;
 
         /**
          * @brief          更新指定位置的子项
@@ -4405,7 +4863,7 @@ namespace sw
          * @param newValue 子项的新值
          * @return         操作是否成功
          */
-        virtual bool UpdateItem(int index, const std::wstring &newValue) = 0;
+        virtual bool UpdateItem(int index, const TItem &newValue) = 0;
 
         /**
          * @brief       移除指定索引处的子项
@@ -4413,93 +4871,6 @@ namespace sw
          * @return      操作是否成功
          */
         virtual bool RemoveItemAt(int index) = 0;
-    };
-}
-
-// Label.h
-
-
-namespace sw
-{
-    /**
-     * @brief 文本过长时末尾的处理方式
-     */
-    enum class TextTrimming {
-        None,         // 不处理
-        EndEllipsis,  // 按字符截断并显示“...”
-        WordEllipsis, // 按单词截断并显示“...”
-    };
-
-    class Label : public Control
-    {
-    private:
-        /**
-         * @brief 文本所需的尺寸
-         */
-        Size _textSize;
-
-        /**
-         * @brief 是否根据文本自动调整尺寸
-         */
-        bool _autoSize = true;
-
-    public:
-        /**
-         * @brief 文本的水平对齐方式，可设为左对齐、中心对齐、右对齐
-         */
-        const Property<sw::HorizontalAlignment> HorizontalContentAlignment;
-
-        /**
-         * @brief 文本的垂直对齐方式，仅支持顶部对齐和中心对齐，当使用中心对齐时会使自动换行失效
-         */
-        const Property<sw::VerticalAlignment> VerticalContentAlignment;
-
-        /**
-         * @brief 文本过长时末尾的处理方式，当使用截断时水平对齐和自动换行将失效
-         */
-        const Property<sw::TextTrimming> TextTrimming;
-
-        /**
-         * @brief 是否自动换行
-         */
-        const Property<bool> AutoWrap;
-
-        /**
-         * @brief 是否根据文本自动调整尺寸
-         */
-        const Property<bool> AutoSize;
-
-    public:
-        Label();
-
-    private:
-        /**
-         * @brief 更新_textSize
-         */
-        void _UpdateTextSize();
-
-        /**
-         * @brief 调整尺寸为_textSize
-         */
-        void _ResizeToTextSize();
-
-    protected:
-        /**
-         * @brief Text属性更改时调用此函数
-         */
-        virtual void OnTextChanged() override;
-
-        /**
-         * @brief       字体改变时调用该函数
-         * @param hfont 字体句柄
-         */
-        virtual void FontChanged(HFONT hfont) override;
-
-        /**
-         * @brief               测量控件所需尺寸
-         * @param availableSize 可用的尺寸
-         */
-        virtual void Measure(const Size &availableSize) override;
     };
 }
 
@@ -4691,6 +5062,24 @@ namespace sw
          * @brief 释放滑块时调用该函数
          */
         virtual void OnEndTrack();
+    };
+}
+
+// StaticControl.h
+
+
+namespace sw
+{
+    /**
+     * @brief 静态控件
+     */
+    class StaticControl : public Control
+    {
+    public:
+        /**
+         * @brief 初始化静态控件
+         */
+        StaticControl();
     };
 }
 
@@ -5301,7 +5690,7 @@ namespace sw
     /**
      * @brief 组合框
      */
-    class ComboBox : public ItemsControl
+    class ComboBox : public StrItemsControl
     {
     private:
         /**
@@ -5436,6 +5825,99 @@ namespace sw
     };
 }
 
+// Label.h
+
+
+namespace sw
+{
+    /**
+     * @brief 文本过长时末尾的处理方式
+     */
+    enum class TextTrimming {
+        None,         // 不处理
+        EndEllipsis,  // 按字符截断并显示“...”
+        WordEllipsis, // 按单词截断并显示“...”
+    };
+
+    /**
+     * @brief 标签
+     */
+    class Label : public StaticControl
+    {
+    private:
+        /**
+         * @brief 文本所需的尺寸
+         */
+        Size _textSize;
+
+        /**
+         * @brief 是否根据文本自动调整尺寸
+         */
+        bool _autoSize = true;
+
+    public:
+        /**
+         * @brief 文本的水平对齐方式，可设为左对齐、中心对齐、右对齐
+         */
+        const Property<sw::HorizontalAlignment> HorizontalContentAlignment;
+
+        /**
+         * @brief 文本的垂直对齐方式，仅支持顶部对齐和中心对齐，当使用中心对齐时会使自动换行失效
+         */
+        const Property<sw::VerticalAlignment> VerticalContentAlignment;
+
+        /**
+         * @brief 文本过长时末尾的处理方式，当使用截断时水平对齐和自动换行将失效
+         */
+        const Property<sw::TextTrimming> TextTrimming;
+
+        /**
+         * @brief 是否自动换行
+         */
+        const Property<bool> AutoWrap;
+
+        /**
+         * @brief 是否根据文本自动调整尺寸
+         */
+        const Property<bool> AutoSize;
+
+    public:
+        /**
+         * @brief 初始化标签
+         */
+        Label();
+
+    private:
+        /**
+         * @brief 更新_textSize
+         */
+        void _UpdateTextSize();
+
+        /**
+         * @brief 调整尺寸为_textSize
+         */
+        void _ResizeToTextSize();
+
+    protected:
+        /**
+         * @brief Text属性更改时调用此函数
+         */
+        virtual void OnTextChanged() override;
+
+        /**
+         * @brief       字体改变时调用该函数
+         * @param hfont 字体句柄
+         */
+        virtual void FontChanged(HFONT hfont) override;
+
+        /**
+         * @brief               测量控件所需尺寸
+         * @param availableSize 可用的尺寸
+         */
+        virtual void Measure(const Size &availableSize) override;
+    };
+}
+
 // ListBox.h
 
 
@@ -5444,7 +5926,7 @@ namespace sw
     /**
      * @brief 列表框
      */
-    class ListBox : public ItemsControl
+    class ListBox : public StrItemsControl
     {
     public:
         /**
@@ -5555,13 +6037,13 @@ namespace sw
          * @brief  多选状态下可通过该函数获取所有选中项的索引
          * @return 所有选中项的索引
          */
-        std::vector<int> GetSelectedIndices();
+        List<int> GetSelectedIndices();
 
         /**
          * @brief  多选状态下可通过该函数获取所有选中项的内容
          * @return 所有选中项的内容
          */
-        std::vector<std::wstring> GetSelectedItems();
+        StrList GetSelectedItems();
 
         /**
          * @brief       获取指定索引处子项的选中状态
@@ -5578,6 +6060,306 @@ namespace sw
         void SetItemSelectionState(int index, bool value);
     };
 }
+
+// ListView.h
+
+
+namespace sw
+{
+    /**
+     * @brief 列表视图的列对齐方式
+     */
+    enum class ListViewColumnAlignment {
+        Left   = LVCFMT_LEFT,   // 左对齐
+        Right  = LVCFMT_RIGHT,  // 右对齐
+        Center = LVCFMT_CENTER, // 居中
+    };
+
+    /**
+     * @brief 列表视图的列信息
+     */
+    struct ListViewColumn {
+        /**
+         * @brief 列标题
+         */
+        std::wstring header;
+
+        /**
+         * @brief 列宽度
+         */
+        double width;
+
+        /**
+         * @brief 对齐方式
+         */
+        ListViewColumnAlignment alignment = ListViewColumnAlignment::Left;
+
+        ListViewColumn(const std::wstring &header);
+        ListViewColumn(const std::wstring &header, double width);
+        ListViewColumn(const LVCOLUMNW &lvc);
+        operator LVCOLUMNW() const;
+    };
+
+    /**
+     * @brief 列表视图
+     */
+    class ListView : public ItemsControl<StrList>
+    {
+    public:
+        /**
+         * @brief 列数
+         */
+        const ReadOnlyProperty<int> ColumnsCount;
+
+        /**
+         * @brief 是否显示网格线
+         */
+        const Property<bool> GridLines;
+
+        /**
+         * @brief 是否允许多选
+         */
+        const Property<bool> MultiSelect;
+
+        /**
+         * @brief 多选状态下可通过该属性获取选中项的个数
+         */
+        const ReadOnlyProperty<int> SelectedCount;
+
+        /**
+         * @brief 是否在第一列显示复选框
+         */
+        const Property<bool> CheckBoxes;
+
+        /**
+         * @brief 当前列表框页面第一个子项的索引
+         */
+        const ReadOnlyProperty<int> TopIndex;
+
+    public:
+        /**
+         * @brief 初始化ListView
+         */
+        ListView();
+
+    protected:
+        /**
+         * @brief  获取子项数
+         */
+        virtual int GetItemsCount() override;
+
+        /**
+         * @brief 选中项的索引，当无选中项时为-1
+         */
+        virtual int GetSelectedIndex() override;
+
+        /**
+         * @brief 设置选中项索引
+         */
+        virtual void SetSelectedIndex(int index) override;
+
+        /**
+         * @brief 获取选中项
+         */
+        virtual StrList GetSelectedItem() override;
+
+        /**
+         * @brief        设置背景颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetBackColor(Color color, bool redraw) override;
+
+        /**
+         * @brief        设置文本颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetTextColor(Color color, bool redraw) override;
+
+        /**
+         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         */
+        virtual void OnNotified(NMHDR *pNMHDR) override;
+
+        /**
+         * @brief 列表项某些属性发生变化时调用该函数
+         */
+        virtual void OnItemChanged(NMLISTVIEW *pNMLV);
+
+        /**
+         * @brief       复选框选中状态发生改变
+         * @param index 改变项的索引
+         */
+        virtual void OnCheckStateChanged(int index);
+
+    public:
+        /**
+         * @brief 清空所有子项
+         */
+        virtual void Clear() override;
+
+        /**
+         * @brief       获取指定索引处子项的值
+         * @param index 子项的索引
+         */
+        virtual StrList GetItemAt(int index) override;
+
+        /**
+         * @brief      添加新的子项
+         * @param item 要添加的子项
+         * @return     是否添加成功
+         */
+        virtual bool AddItem(const StrList &item) override;
+
+        /**
+         * @brief       添加子项到指定索引
+         * @param index 要插入的位置
+         * @param item  要添加的子项
+         * @return      是否添加成功
+         */
+        virtual bool InsertItem(int index, const StrList &item) override;
+
+        /**
+         * @brief          更新指定位置的子项
+         * @param index    要更新子项的位置
+         * @param newValue 子项的新值
+         * @return         操作是否成功
+         */
+        virtual bool UpdateItem(int index, const StrList &newValue) override;
+
+        /**
+         * @brief       移除指定索引处的子项
+         * @param index 要移除子项的索引
+         * @return      操作是否成功
+         */
+        virtual bool RemoveItemAt(int index) override;
+
+        /**
+         * @brief     获取指定位置处文本
+         * @param row 所在行
+         * @param col 所在列
+         * @return    对应位置的文本，若获取失败则返回空字符串
+         */
+        std::wstring GetItemAt(int row, int col);
+
+        /**
+         * @brief          更新指定位置处文本
+         * @param row      所在行
+         * @param col      所在列
+         * @param newValue 要设置的文本
+         * @return         操作是否成功
+         */
+        bool UpdateItem(int row, int col, const std::wstring &newValue);
+
+        /**
+         * @brief        添加新的列
+         * @param column 要添加的列信息
+         * @return       操作是否成功
+         */
+        bool AddColumn(const ListViewColumn &column);
+
+        /**
+         * @brief        添加新的列
+         * @param header 要添加列的标题
+         * @return       操作是否成功
+         */
+        bool AddColumn(const std::wstring &header);
+
+        /**
+         * @brief        添加新的列到指定索引
+         * @param index  要插入的位置
+         * @param column 要添加的列信息
+         * @return       操作是否成功
+         */
+        bool InsertColumn(int index, const ListViewColumn &column);
+
+        /**
+         * @brief        添加新的列到指定索引
+         * @param index  要插入的位置
+         * @param header 要添加列的标题
+         * @return       操作是否成功
+         */
+        bool InsertColumn(int index, const std::wstring &header);
+
+        /**
+         * @brief       设置指定列的标题
+         * @param index 列的索引
+         * @return      操作是否成功
+         */
+        bool SetColumnHeader(int index, const std::wstring &header);
+
+        /**
+         * @brief       获取指定列的宽度
+         * @param index 列的索引
+         * @return      列的宽度，若列不存在则返回-1
+         */
+        double GetColumnWidth(int index);
+
+        /**
+         * @brief       设置指定列的宽度
+         * @param index 列的索引
+         * @param width 要设置的宽度
+         * @return      操作是否成功
+         */
+        bool SetColumnWidth(int index, double width);
+
+        /**
+         * @brief       移除指定列
+         * @param index 列的索引
+         * @return      操作是否成功
+         */
+        bool RemoveColumnAt(int index);
+
+        /**
+         * @brief 获取所有选中项的索引
+         */
+        List<int> GetSelectedIndices();
+
+        /**
+         * @brief 获取所有复选框选中的项的索引
+         */
+        List<int> GetCheckedIndices();
+
+        /**
+         * @brief 获取指定索引项的复选框是否选中
+         */
+        bool GetItemCheckState(int index);
+
+        /**
+         * @brief 设置指定索引项复选框的选中状态
+         */
+        void SetItemCheckState(int index, bool value);
+
+        /**
+         * @brief       获取指定点处子项的索引
+         * @param point 相对于用户区左上角点的位置
+         */
+        int GetItemIndexFromPoint(const Point &point);
+
+    private:
+        /**
+         * @brief 获取行数
+         */
+        int _GetRowCount();
+
+        /**
+         * @brief 获取列数
+         */
+        int _GetColCount();
+
+        /**
+         * @brief 获取ListView扩展样式
+         */
+        DWORD _GetExtendedListViewStyle();
+
+        /**
+         * @brief  设置ListView扩展样式
+         * @return 先前的样式
+         */
+        DWORD _SetExtendedListViewStyle(DWORD style);
+    };
+};
 
 // Panel.h
 
