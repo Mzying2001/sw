@@ -115,8 +115,8 @@ sw::ListView::ListView()
               this->_SetExtendedListViewStyle(style);
           })
 {
-    this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT | LVS_SINGLESEL, 0);
-    this->_SetExtendedListViewStyle(LVS_EX_FULLROWSELECT);
+    this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT, 0);
+    this->_SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
     this->Rect    = sw::Rect(0, 0, 200, 200);
     this->TabStop = true;
 }
