@@ -61,6 +61,11 @@ namespace sw
          */
         const Property<bool> MultiSelect;
 
+        /**
+         * @brief 多选状态下可通过该属性获取选中项的个数
+         */
+        const ReadOnlyProperty<int> SelectedCount;
+
     public:
         /**
          * @brief 初始化ListView

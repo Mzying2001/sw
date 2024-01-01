@@ -90,6 +90,14 @@ sw::ListView::ListView()
           // set
           [&](const bool &value) {
               this->SetStyle(LVS_SINGLESEL, !value);
+          }),
+
+      SelectedCount(
+          // get
+          [&]() -> const bool & {
+              static int result;
+              result = (int)this->SendMessageW(LVM_GETSELECTEDCOUNT, 0, 0);
+              return result;
           })
 {
     this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT | LVS_SINGLESEL, 0);
