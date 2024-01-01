@@ -112,6 +112,23 @@ namespace sw
         virtual bool RemoveItemAt(int index) override;
 
         /**
+         * @brief     获取指定位置处文本
+         * @param row 所在行
+         * @param col 所在列
+         * @return    对应位置的文本，若获取失败则返回空字符串
+         */
+        std::wstring GetItemAt(int row, int col);
+
+        /**
+         * @brief          更新指定位置处文本
+         * @param row      所在行
+         * @param col      所在列
+         * @param newValue 要设置的文本
+         * @return         操作是否成功
+         */
+        bool UpdateItem(int row, int col, const std::wstring &newValue);
+
+        /**
          * @brief        添加新的列
          * @param column 要添加的列信息
          * @return       操作是否成功

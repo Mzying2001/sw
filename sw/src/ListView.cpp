@@ -191,6 +191,43 @@ bool sw::ListView::RemoveItemAt(int index)
     return this->SendMessageW(LVM_DELETEITEM, index, 0);
 }
 
+std::wstring sw::ListView::GetItemAt(int row, int col)
+{
+    int bufsize = 256;
+    std::unique_ptr<wchar_t[]> buf(new wchar_t[bufsize]);
+
+    LVITEMW lvi;
+    lvi.mask       = LVIF_TEXT;
+    lvi.iItem      = row;
+    lvi.iSubItem   = col;
+    lvi.pszText    = buf.get();
+    lvi.cchTextMax = bufsize;
+
+    int len = (int)this->SendMessageW(LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
+    if (len == 0) return std::wstring();
+
+    while (len == bufsize - 1 && bufsize * 2 > bufsize) {
+        bufsize *= 2;
+        buf.reset(new wchar_t[bufsize]);
+        lvi.pszText    = buf.get();
+        lvi.cchTextMax = bufsize;
+        len            = (int)this->SendMessageW(LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
+    }
+
+    return std::wstring(buf.get());
+}
+
+bool sw::ListView::UpdateItem(int row, int col, const std::wstring &newValue)
+{
+    LVITEMW lvi;
+    lvi.mask     = LVIF_TEXT;
+    lvi.iItem    = row;
+    lvi.iSubItem = col;
+    lvi.pszText  = const_cast<LPWSTR>(newValue.c_str());
+
+    return this->SendMessageW(LVM_SETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
+}
+
 bool sw::ListView::AddColumn(const ListViewColumn &column)
 {
     return this->InsertColumn(this->_GetColCount(), column);
