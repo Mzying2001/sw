@@ -13,6 +13,17 @@ namespace sw
     {
     public:
         /**
+         * @brief 列数
+         */
+        const ReadOnlyProperty<int> ColumnsCount;
+
+        /**
+         * @brief 是否显示网格线
+         */
+        const Property<bool> GridLines;
+
+    public:
+        /**
          * @brief 初始化ListView
          */
         ListView();

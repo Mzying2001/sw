@@ -1,6 +1,28 @@
 #include "ListView.h"
 
 sw::ListView::ListView()
+    : ColumnsCount(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = this->_GetColCount();
+              return result;
+          }),
+
+      GridLines(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->_GetExtendedListViewStyle() & LVS_EX_GRIDLINES;
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              DWORD style;
+              style = this->_GetExtendedListViewStyle();
+              style = value ? (style | LVS_EX_GRIDLINES) : (style & (~LVS_EX_GRIDLINES));
+              this->_SetExtendedListViewStyle(style);
+          })
 {
     this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT | LVS_SINGLESEL, 0);
     this->_SetExtendedListViewStyle(LVS_EX_FULLROWSELECT);
