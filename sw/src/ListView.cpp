@@ -314,6 +314,14 @@ bool sw::ListView::SetColumnWidth(int index, double width)
     return this->SendMessageW(LVM_SETCOLUMNWIDTH, index, std::lround(width / Dip::ScaleX));
 }
 
+sw::List<int> sw::ListView::GetAllSelectedIndexes()
+{
+    List<int> result;
+    for (int i = -1; (i = (int)this->SendMessageW(LVM_GETNEXTITEM, i, LVNI_SELECTED)) != -1;)
+        result.Append(i);
+    return result;
+}
+
 int sw::ListView::_GetRowCount()
 {
     return (int)this->SendMessageW(LVM_GETITEMCOUNT, 0, 0);

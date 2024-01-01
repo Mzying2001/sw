@@ -204,6 +204,11 @@ namespace sw
          */
         bool SetColumnWidth(int index, double width);
 
+        /**
+         * @brief 获取所有选中的索引
+         */
+        List<int> GetAllSelectedIndexes();
+
     private:
         /**
          * @brief 获取行数
