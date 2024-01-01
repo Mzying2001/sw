@@ -214,6 +214,28 @@ bool sw::ListView::InsertColumn(int index, const std::wstring &header)
     return this->InsertColumn(index, column);
 }
 
+bool sw::ListView::SetColumnHeader(int index, const std::wstring &header)
+{
+    LVCOLUMNW lvc;
+    lvc.mask    = LVCF_TEXT;
+    lvc.pszText = const_cast<LPWSTR>(header.c_str());
+    return this->SendMessageW(LVM_SETCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc));
+}
+
+double sw::ListView::GetColumnWidth(int index)
+{
+    if (index < 0 || index >= this->_GetColCount()) {
+        return -1;
+    } else {
+        return this->SendMessageW(LVM_GETCOLUMNWIDTH, index, 0) * Dip::ScaleX;
+    }
+}
+
+bool sw::ListView::SetColumnWidth(int index, double width)
+{
+    return this->SendMessageW(LVM_SETCOLUMNWIDTH, index, std::lround(width / Dip::ScaleX));
+}
+
 int sw::ListView::_GetRowCount()
 {
     return (int)this->SendMessageW(LVM_GETITEMCOUNT, 0, 0);

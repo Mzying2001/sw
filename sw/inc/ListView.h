@@ -141,6 +141,28 @@ namespace sw
          */
         bool InsertColumn(int index, const std::wstring &header);
 
+        /**
+         * @brief       设置指定列的标题
+         * @param index 列的索引
+         * @return      操作是否成功
+         */
+        bool SetColumnHeader(int index, const std::wstring &header);
+
+        /**
+         * @brief       获取指定列的宽度
+         * @param index 列的索引
+         * @return      列的宽度，若列不存在则返回-1
+         */
+        double GetColumnWidth(int index);
+
+        /**
+         * @brief       设置指定列的宽度
+         * @param index 列的索引
+         * @param width 要设置的宽度
+         * @return      操作是否成功
+         */
+        bool SetColumnWidth(int index, double width);
+
     private:
         /**
          * @brief 获取行数
