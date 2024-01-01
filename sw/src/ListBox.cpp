@@ -141,25 +141,25 @@ int sw::ListBox::GetItemIndexFromPoint(const Point &point)
     return (int)this->SendMessageW(LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y));
 }
 
-std::vector<int> sw::ListBox::GetSelectedIndices()
+sw::List<int> sw::ListBox::GetSelectedIndices()
 {
-    std::vector<int> result;
+    List<int> result;
     int selectedCount = this->SelectedCount.Get();
     if (selectedCount > 0) {
         int *buf = new int[selectedCount];
         if (this->SendMessageW(LB_GETSELITEMS, selectedCount, reinterpret_cast<LPARAM>(buf)) != LB_ERR) {
-            for (int i = 0; i < selectedCount; ++i) result.push_back(buf[i]);
+            for (int i = 0; i < selectedCount; ++i) result.Append(buf[i]);
         }
         delete[] buf;
     }
     return result;
 }
 
-std::vector<std::wstring> sw::ListBox::GetSelectedItems()
+sw::StrList sw::ListBox::GetSelectedItems()
 {
-    std::vector<std::wstring> result;
+    StrList result;
     for (int i : this->GetSelectedIndices()) {
-        result.emplace_back(this->GetItemAt(i));
+        result.Append(this->GetItemAt(i));
     }
     return result;
 }

@@ -113,9 +113,14 @@ namespace sw
         ButtonBase_DoubleClicked,
 
         /**
-         * @brief 列表框或组合框的选中项改变，参数类型为sw::RoutedEventArgs
+         * @brief 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
          */
         ItemsControl_SelectionChanged,
+
+        /**
+         * @brief 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
+         */
+        ListView_CheckStateChanged,
 
         /**
          * @brief 滑块的值被改变，参数类型为sw::RoutedEventArgs

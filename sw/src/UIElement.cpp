@@ -264,7 +264,7 @@ bool sw::UIElement::RemoveChild(UIElement &element)
     return this->RemoveChild(&element);
 }
 
-void sw::UIElement::Clear()
+void sw::UIElement::ClearChildren()
 {
     while (!this->_children.empty()) {
         UIElement *item = this->_children.back();

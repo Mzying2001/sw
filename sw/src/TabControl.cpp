@@ -113,7 +113,7 @@ sw::TabControl::TabControl()
               this->NotifyLayoutUpdated();
           })
 {
-    this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_FOCUSNEVER, 0);
+    this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
     this->Rect = sw::Rect(0, 0, 200, 200);
 }
 

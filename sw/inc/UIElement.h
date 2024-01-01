@@ -182,7 +182,7 @@ namespace sw
 
     public:
         UIElement();
-        ~UIElement();
+        virtual ~UIElement();
 
         /**
          * @brief           注册路由事件处理函数，当事件已注册时会覆盖已注册的函数
@@ -313,7 +313,7 @@ namespace sw
         /**
          * @brief 移除所有子控件
          */
-        void Clear();
+        void ClearChildren();
 
         /**
          * @brief         获取指定元素的索引
