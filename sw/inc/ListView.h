@@ -219,12 +219,12 @@ namespace sw
         /**
          * @brief 获取所有选中项的索引
          */
-        List<int> GetAllSelectedIndexes();
+        List<int> GetSelectedIndices();
 
         /**
          * @brief 获取所有复选框选中的项的索引
          */
-        List<int> GetAllCheckedIndexes();
+        List<int> GetCheckedIndices();
 
         /**
          * @brief 获取指定索引项的复选框是否选中

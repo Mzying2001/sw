@@ -334,7 +334,7 @@ bool sw::ListView::RemoveColumnAt(int index)
     return this->SendMessageW(LVM_DELETECOLUMN, index, 0);
 }
 
-sw::List<int> sw::ListView::GetAllSelectedIndexes()
+sw::List<int> sw::ListView::GetSelectedIndices()
 {
     List<int> result;
     for (int i = -1; (i = (int)this->SendMessageW(LVM_GETNEXTITEM, i, LVNI_SELECTED)) != -1;)
@@ -342,7 +342,7 @@ sw::List<int> sw::ListView::GetAllSelectedIndexes()
     return result;
 }
 
-sw::List<int> sw::ListView::GetAllCheckedIndexes()
+sw::List<int> sw::ListView::GetCheckedIndices()
 {
     List<int> result;
     HWND hwnd    = this->Handle;
