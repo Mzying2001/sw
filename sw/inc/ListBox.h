@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ItemsControl.h"
+#include "List.h"
 
 namespace sw
 {
@@ -118,13 +119,13 @@ namespace sw
          * @brief  多选状态下可通过该函数获取所有选中项的索引
          * @return 所有选中项的索引
          */
-        std::vector<int> GetSelectedIndices();
+        List<int> GetSelectedIndices();
 
         /**
          * @brief  多选状态下可通过该函数获取所有选中项的内容
          * @return 所有选中项的内容
          */
-        std::vector<std::wstring> GetSelectedItems();
+        StrList GetSelectedItems();
 
         /**
          * @brief       获取指定索引处子项的选中状态
