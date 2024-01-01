@@ -7,6 +7,26 @@
 namespace sw
 {
     /**
+     * @brief 列表视图的列信息
+     */
+    struct ListViewColumn {
+        /**
+         * @brief 列标题
+         */
+        std::wstring header;
+
+        /**
+         * @brief 列宽度
+         */
+        double width;
+
+        ListViewColumn(const std::wstring &header);
+        ListViewColumn(const std::wstring &header, double width);
+        ListViewColumn(const LVCOLUMNW &lvc);
+        operator LVCOLUMNW() const;
+    };
+
+    /**
      * @brief 列表视图
      */
     class ListView : public ItemsControl<StrList>
@@ -90,6 +110,36 @@ namespace sw
          * @return      操作是否成功
          */
         virtual bool RemoveItemAt(int index) override;
+
+        /**
+         * @brief        添加新的列
+         * @param column 要添加的列信息
+         * @return       操作是否成功
+         */
+        bool AddColumn(const ListViewColumn &column);
+
+        /**
+         * @brief        添加新的列
+         * @param header 要添加列的标题
+         * @return       操作是否成功
+         */
+        bool AddColumn(const std::wstring &header);
+
+        /**
+         * @brief        添加新的列到指定索引
+         * @param index  要插入的位置
+         * @param column 要添加的列信息
+         * @return       操作是否成功
+         */
+        bool InsertColumn(int index, const ListViewColumn &column);
+
+        /**
+         * @brief        添加新的列到指定索引
+         * @param index  要插入的位置
+         * @param header 要添加列的标题
+         * @return       操作是否成功
+         */
+        bool InsertColumn(int index, const std::wstring &header);
 
     private:
         /**

@@ -1,4 +1,39 @@
 #include "ListView.h"
+#include <cmath>
+
+sw::ListViewColumn::ListViewColumn(const std::wstring &header)
+    : ListViewColumn(header, 100)
+{
+}
+
+sw::ListViewColumn::ListViewColumn(const std::wstring &header, double width)
+    : header(header), width(width)
+{
+}
+
+sw::ListViewColumn::ListViewColumn(const LVCOLUMNW &lvc)
+{
+    double scaleX = Dip::ScaleX;
+
+    if (lvc.mask & LVCF_TEXT) {
+        this->header = lvc.pszText;
+    }
+    if (lvc.mask & LVCF_WIDTH) {
+        this->width = lvc.cx * scaleX;
+    }
+}
+
+sw::ListViewColumn::operator LVCOLUMNW() const
+{
+    double scaleX = Dip::ScaleX;
+
+    LVCOLUMNW lvc{};
+    lvc.mask    = LVCF_TEXT | LVCF_WIDTH;
+    lvc.cx      = std::lround(this->width / scaleX);
+    lvc.pszText = const_cast<LPWSTR>(this->header.c_str());
+
+    return lvc;
+}
 
 sw::ListView::ListView()
     : ColumnsCount(
@@ -154,6 +189,29 @@ bool sw::ListView::UpdateItem(int index, const StrList &newValue)
 bool sw::ListView::RemoveItemAt(int index)
 {
     return this->SendMessageW(LVM_DELETEITEM, index, 0);
+}
+
+bool sw::ListView::AddColumn(const ListViewColumn &column)
+{
+    return this->InsertColumn(this->_GetColCount(), column);
+}
+
+bool sw::ListView::AddColumn(const std::wstring &header)
+{
+    ListViewColumn column(header);
+    return this->InsertColumn(this->_GetColCount(), column);
+}
+
+bool sw::ListView::InsertColumn(int index, const ListViewColumn &column)
+{
+    LVCOLUMNW lvc = column;
+    return this->SendMessageW(LVM_INSERTCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != -1;
+}
+
+bool sw::ListView::InsertColumn(int index, const std::wstring &header)
+{
+    ListViewColumn column(header);
+    return this->InsertColumn(index, column);
 }
 
 int sw::ListView::_GetRowCount()
