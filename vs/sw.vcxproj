@@ -178,6 +178,7 @@
     <ClInclude Include="..\sw\inc\Label.h" />
     <ClInclude Include="..\sw\inc\Layer.h" />
     <ClInclude Include="..\sw\inc\LayoutHost.h" />
+    <ClInclude Include="..\sw\inc\List.h" />
     <ClInclude Include="..\sw\inc\ListBox.h" />
     <ClInclude Include="..\sw\inc\ListView.h" />
     <ClInclude Include="..\sw\inc\Menu.h" />
