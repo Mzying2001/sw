@@ -103,6 +103,16 @@ namespace sw
          */
         virtual StrList GetSelectedItem() override;
 
+        /**
+         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         */
+        virtual void OnNotified(NMHDR *pNMHDR) override;
+
+        /**
+         * @brief 列表项某些属性发生变化时调用该函数
+         */
+        virtual void OnItemChanged(NMLISTVIEW *pNMLV);
+
     public:
         /**
          * @brief 清空所有子项

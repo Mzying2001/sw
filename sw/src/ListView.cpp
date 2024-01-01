@@ -157,6 +157,21 @@ sw::StrList sw::ListView::GetSelectedItem()
     return this->GetItemAt(this->GetSelectedIndex());
 }
 
+void sw::ListView::OnNotified(NMHDR *pNMHDR)
+{
+    if (pNMHDR->code == LVN_ITEMCHANGED) {
+        this->OnItemChanged(reinterpret_cast<NMLISTVIEW *>(pNMHDR));
+    }
+}
+
+void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
+{
+    if (pNMLV->uChanged & LVIF_STATE) {
+        auto changedState = pNMLV->uOldState ^ pNMLV->uNewState;
+        if (changedState & LVIS_SELECTED) this->OnSelectionChanged();
+    }
+}
+
 void sw::ListView::Clear()
 {
     this->SendMessageW(LVM_DELETEALLITEMS, 0, 0);
