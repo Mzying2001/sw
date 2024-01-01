@@ -401,6 +401,13 @@ void sw::ListView::SetItemCheckState(int index, bool value)
     ListView_SetCheckState(this->Handle, index, value);
 }
 
+int sw::ListView::GetItemIndexFromPoint(const Point &point)
+{
+    LVHITTESTINFO hitTestInfo{};
+    hitTestInfo.pt = point;
+    return (int)this->SendMessageW(LVM_HITTEST, 0, reinterpret_cast<LPARAM>(&hitTestInfo));
+}
+
 int sw::ListView::_GetRowCount()
 {
     return (int)this->SendMessageW(LVM_GETITEMCOUNT, 0, 0);

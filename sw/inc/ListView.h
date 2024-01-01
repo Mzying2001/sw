@@ -257,6 +257,12 @@ namespace sw
          */
         void SetItemCheckState(int index, bool value);
 
+        /**
+         * @brief       获取指定点处子项的索引
+         * @param point 相对于用户区左上角点的位置
+         */
+        int GetItemIndexFromPoint(const Point &point);
+
     private:
         /**
          * @brief 获取行数
