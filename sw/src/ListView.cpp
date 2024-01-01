@@ -113,6 +113,14 @@ sw::ListView::ListView()
               style = this->_GetExtendedListViewStyle();
               style = value ? (style | LVS_EX_CHECKBOXES) : (style & (~LVS_EX_CHECKBOXES));
               this->_SetExtendedListViewStyle(style);
+          }),
+
+      TopIndex(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = (int)this->SendMessageW(LVM_GETTOPINDEX, 0, 0);
+              return result;
           })
 {
     this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT, 0);

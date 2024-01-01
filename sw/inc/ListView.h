@@ -71,6 +71,11 @@ namespace sw
          */
         const Property<bool> CheckBoxes;
 
+        /**
+         * @brief 当前列表框页面第一个子项的索引
+         */
+        const ReadOnlyProperty<int> TopIndex;
+
     public:
         /**
          * @brief 初始化ListView
