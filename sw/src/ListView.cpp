@@ -94,10 +94,25 @@ sw::ListView::ListView()
 
       SelectedCount(
           // get
-          [&]() -> const bool & {
+          [&]() -> const int & {
               static int result;
               result = (int)this->SendMessageW(LVM_GETSELECTEDCOUNT, 0, 0);
               return result;
+          }),
+
+      CheckBoxes(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->_GetExtendedListViewStyle() & LVS_EX_CHECKBOXES;
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              DWORD style;
+              style = this->_GetExtendedListViewStyle();
+              style = value ? (style | LVS_EX_CHECKBOXES) : (style & (~LVS_EX_CHECKBOXES));
+              this->_SetExtendedListViewStyle(style);
           })
 {
     this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT | LVS_SINGLESEL, 0);

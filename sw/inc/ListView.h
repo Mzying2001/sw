@@ -66,6 +66,11 @@ namespace sw
          */
         const ReadOnlyProperty<int> SelectedCount;
 
+        /**
+         * @brief 是否在第一列显示复选框
+         */
+        const Property<bool> CheckBoxes;
+
     public:
         /**
          * @brief 初始化ListView
