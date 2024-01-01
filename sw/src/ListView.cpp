@@ -109,8 +109,8 @@ bool sw::ListView::AddItem(const StrList &item)
 
 bool sw::ListView::InsertItem(int index, const StrList &item)
 {
-    int itemCount = item.Count();
-    if (itemCount == 0) return false;
+    int colCount = item.Count();
+    if (colCount == 0) return false;
 
     LVITEMW lvi;
     lvi.mask     = LVIF_TEXT;
@@ -122,7 +122,7 @@ bool sw::ListView::InsertItem(int index, const StrList &item)
     if (index == -1) return false;
 
     lvi.iItem = index;
-    for (int j = 1; j < itemCount; ++j) {
+    for (int j = 1; j < colCount; ++j) {
         lvi.iSubItem = j;
         lvi.pszText  = const_cast<LPWSTR>(item[j].c_str());
         this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
@@ -141,8 +141,8 @@ bool sw::ListView::UpdateItem(int index, const StrList &newValue)
     lvi.mask  = LVIF_TEXT;
     lvi.iItem = index;
 
-    int itemCount = newValue.Count();
-    for (int j = 0; j < itemCount; ++j) {
+    int colCount = newValue.Count();
+    for (int j = 0; j < colCount; ++j) {
         lvi.iSubItem = j;
         lvi.pszText  = const_cast<LPWSTR>(newValue[j].c_str());
         this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
