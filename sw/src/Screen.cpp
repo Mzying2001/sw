@@ -16,3 +16,13 @@ const sw::ReadOnlyProperty<double> sw::Screen::Height(
         return height;
     } //
 );
+
+const sw::ReadOnlyProperty<sw::Point> sw::Screen::CursorPosition(
+    []() -> const sw::Point & {
+        static sw::Point result;
+        POINT p;
+        GetCursorPos(&p);
+        result = p;
+        return result;
+    } //
+);
