@@ -337,6 +337,29 @@ sw::List<int> sw::ListView::GetAllSelectedIndexes()
     return result;
 }
 
+sw::List<int> sw::ListView::GetAllCheckedIndexes()
+{
+    List<int> result;
+    HWND hwnd    = this->Handle;
+    int rowCount = this->_GetRowCount();
+    for (int i = 0; i < rowCount; ++i) {
+        int state = (int)ListView_GetCheckState(hwnd, i);
+        if (state != -1 && state) result.Append(i);
+    }
+    return result;
+}
+
+bool sw::ListView::GetItemCheckState(int index)
+{
+    int result = (int)ListView_GetCheckState(this->Handle, index);
+    return result == -1 ? false : result;
+}
+
+void sw::ListView::SetItemCheckState(int index, bool value)
+{
+    ListView_SetCheckState(this->Handle, index, value);
+}
+
 int sw::ListView::_GetRowCount()
 {
     return (int)this->SendMessageW(LVM_GETITEMCOUNT, 0, 0);

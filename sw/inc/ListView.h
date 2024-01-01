@@ -210,9 +210,24 @@ namespace sw
         bool SetColumnWidth(int index, double width);
 
         /**
-         * @brief 获取所有选中的索引
+         * @brief 获取所有选中项的索引
          */
         List<int> GetAllSelectedIndexes();
+
+        /**
+         * @brief 获取所有复选框选中的项的索引
+         */
+        List<int> GetAllCheckedIndexes();
+
+        /**
+         * @brief 获取指定索引项的复选框是否选中
+         */
+        bool GetItemCheckState(int index);
+
+        /**
+         * @brief 设置指定索引项复选框的选中状态
+         */
+        void SetItemCheckState(int index, bool value);
 
     private:
         /**
