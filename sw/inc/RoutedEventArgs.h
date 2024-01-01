@@ -214,4 +214,17 @@ namespace sw
         {
         }
     };
+
+    /**
+     * @brief 列表视图某个复选框选中状态改变的事件参数类型
+     */
+    struct ListViewCheckStateChangedEventArgs : RoutedEventArgsOfType<ListView_CheckStateChanged> {
+
+        int index; // 改变项的索引
+
+        ListViewCheckStateChangedEventArgs(int index)
+            : index(index)
+        {
+        }
+    };
 }

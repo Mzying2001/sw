@@ -168,8 +168,21 @@ void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
 {
     if (pNMLV->uChanged & LVIF_STATE) {
         auto changedState = pNMLV->uOldState ^ pNMLV->uNewState;
-        if (changedState & LVIS_SELECTED) this->OnSelectionChanged();
+
+        if (changedState & LVIS_SELECTED) {
+            this->OnSelectionChanged();
+        }
+
+        if (((changedState & LVIS_STATEIMAGEMASK) >> 12) & ~1) { // checkbox state changed
+            this->OnCheckStateChanged(pNMLV->iItem);
+        }
     }
+}
+
+void sw::ListView::OnCheckStateChanged(int index)
+{
+    ListViewCheckStateChangedEventArgs args(index);
+    this->RaiseRoutedEvent(args);
 }
 
 void sw::ListView::Clear()

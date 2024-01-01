@@ -113,6 +113,12 @@ namespace sw
          */
         virtual void OnItemChanged(NMLISTVIEW *pNMLV);
 
+        /**
+         * @brief       复选框选中状态发生改变
+         * @param index 改变项的索引
+         */
+        virtual void OnCheckStateChanged(int index);
+
     public:
         /**
          * @brief 清空所有子项
