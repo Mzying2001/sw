@@ -170,6 +170,21 @@ void sw::ListView::SetTextColor(Color color, bool redraw)
     this->SendMessageW(LVM_SETTEXTCOLOR, 0, (LPARAM)(COLORREF)color);
 }
 
+bool sw::ListView::OnNotify(NMHDR *pNMHDR)
+{
+    switch (pNMHDR->code) {
+        case HDN_ITEMCLICKW: {
+            this->OnHeaderItemClicked(reinterpret_cast<NMHEADERW *>(pNMHDR));
+            break;
+        }
+        case HDN_ITEMDBLCLICKW: {
+            this->OnHeaderItemDoubleClicked(reinterpret_cast<NMHEADERW *>(pNMHDR));
+            break;
+        }
+    };
+    return false;
+}
+
 void sw::ListView::OnNotified(NMHDR *pNMHDR)
 {
     if (pNMHDR->code == LVN_ITEMCHANGED) {
@@ -195,6 +210,18 @@ void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
 void sw::ListView::OnCheckStateChanged(int index)
 {
     ListViewCheckStateChangedEventArgs args(index);
+    this->RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnHeaderItemClicked(NMHEADERW *pNMH)
+{
+    ListViewHeaderClickedEventArgs args(ListView_HeaderClicked, pNMH->iItem);
+    this->RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnHeaderItemDoubleClicked(NMHEADERW *pNMH)
+{
+    ListViewHeaderClickedEventArgs args(ListView_HeaderDoubleClicked, pNMH->iItem);
     this->RaiseRoutedEvent(args);
 }
 

@@ -118,6 +118,13 @@ namespace sw
         virtual void SetTextColor(Color color, bool redraw) override;
 
         /**
+         * @brief        接收到WM_NOTIFY后调用该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnNotify(NMHDR *pNMHDR) override;
+
+        /**
          * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
          */
         virtual void OnNotified(NMHDR *pNMHDR) override;
@@ -132,6 +139,16 @@ namespace sw
          * @param index 改变项的索引
          */
         virtual void OnCheckStateChanged(int index);
+
+        /**
+         * @brief 鼠标左键单击列标题时调用该函数
+         */
+        virtual void OnHeaderItemClicked(NMHEADERW *pNMH);
+
+        /**
+         * @brief 鼠标左键双击列标题时调用该函数
+         */
+        virtual void OnHeaderItemDoubleClicked(NMHEADERW *pNMH);
 
     public:
         /**
