@@ -1,25 +1,6 @@
 #include "Control.h"
 
 sw::Control::Control()
-    : BackColor(
-          // get
-          [&]() -> const Color & {
-              return this->_backColor;
-          },
-          // set
-          [&](const Color &value) {
-              this->SetBackColor(value, true);
-          }),
-
-      TextColor(
-          // get
-          [&]() -> const Color & {
-              return this->_textColor;
-          },
-          // set
-          [&](const Color &value) {
-              this->SetTextColor(value, true);
-          })
 {
 }
 
@@ -69,41 +50,14 @@ void sw::Control::HandleChenged()
 {
 }
 
-void sw::Control::SetBackColor(Color color, bool redraw)
-{
-    this->_backColor = color;
-    if (redraw) this->Redraw();
-}
-
-void sw::Control::SetTextColor(Color color, bool redraw)
-{
-    this->_textColor = color;
-    if (redraw) this->Redraw();
-}
-
-bool sw::Control::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+bool sw::Control::OnSetCursor(HWND hwnd, int hitTest, int message, bool &result)
 {
     if (this->_useDefaultCursor) {
         return false;
     }
     ::SetCursor(this->_hCursor);
-    useDefaultWndProc = false;
+    result = true;
     return true;
-}
-
-LRESULT sw::Control::CtlColor(HDC hdc, HWND hwnd)
-{
-    static HBRUSH hBrush = NULL;
-
-    if (hBrush != NULL) {
-        DeleteObject(hBrush);
-    }
-
-    hBrush = CreateSolidBrush(this->_backColor);
-
-    ::SetTextColor(hdc, this->_textColor);
-    ::SetBkColor(hdc, this->_backColor);
-    return (LRESULT)hBrush;
 }
 
 void sw::Control::SetCursor(HCURSOR hCursor)

@@ -4,7 +4,7 @@
 /**
  * @brief 窗口类名
  */
-static constexpr wchar_t _WindowClassName[] = L"sw::WndBase";
+static constexpr wchar_t _WindowClassName[] = L"sw::Window";
 
 /**
  * @brief 控件初始化时所在的窗口
@@ -222,6 +222,26 @@ sw::WndBase::WndBase()
               this->SetText(value);
           }),
 
+      BackColor(
+          // get
+          [&]() -> const Color & {
+              return this->_backColor;
+          },
+          // set
+          [&](const Color &value) {
+              this->SetBackColor(value, true);
+          }),
+
+      TextColor(
+          // get
+          [&]() -> const Color & {
+              return this->_textColor;
+          },
+          // set
+          [&](const Color &value) {
+              this->SetTextColor(value, true);
+          }),
+
       Focused(
           // get
           [&]() -> const bool & {
@@ -254,9 +274,9 @@ sw::WndBase::WndBase()
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = WndBase::_WndProc;
         wc.lpszClassName = _WindowClassName;
+        RegisterClassExW(&wc);
     }
 
-    RegisterClassExW(&wc);
     this->_font = sw::Font::GetDefaultFont();
 }
 
@@ -589,31 +609,25 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return handled ? 0 : this->DefaultWndProc(refMsg);
         }
 
-        case WM_CTLCOLORBTN:
+        case WM_CTLCOLORMSGBOX:
         case WM_CTLCOLOREDIT:
-        case WM_CTLCOLORDLG:
         case WM_CTLCOLORLISTBOX:
+        case WM_CTLCOLORBTN:
+        case WM_CTLCOLORDLG:
         case WM_CTLCOLORSCROLLBAR:
         case WM_CTLCOLORSTATIC: {
-            HDC hdc              = (HDC)refMsg.wParam;
-            HWND hwnd            = (HWND)refMsg.lParam;
-            WndBase *pWnd        = WndBase::GetWndBase(hwnd);
-            ICtlColor *pCtlColor = dynamic_cast<ICtlColor *>(pWnd);
-
-            return pCtlColor == nullptr
-                       ? this->DefaultWndProc(refMsg)
-                       : pCtlColor->CtlColor(hdc, hwnd);
+            HDC hdc       = (HDC)refMsg.wParam;
+            HWND hControl = (HWND)refMsg.lParam;
+            HBRUSH hBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+            return this->OnCtlColor(hdc, hControl, hBrush) ? (LRESULT)hBrush : this->DefaultWndProc(refMsg);
         }
 
         case WM_SETCURSOR: {
             HWND hwnd   = (HWND)refMsg.wParam;
             int hitTest = LOWORD(refMsg.lParam);
             int message = HIWORD(refMsg.lParam);
-
-            bool useDefaultWndProc = true;
-
-            bool result = this->OnSetCursor(hwnd, hitTest, message, useDefaultWndProc);
-            return useDefaultWndProc ? this->DefaultWndProc(refMsg) : result;
+            bool result = false;
+            return this->OnSetCursor(hwnd, hitTest, message, result) ? result : this->DefaultWndProc(refMsg);
         }
 
         case WM_CONTEXTMENU: {
@@ -686,6 +700,18 @@ std::wstring &sw::WndBase::GetText()
 void sw::WndBase::SetText(const std::wstring &value)
 {
     SetWindowTextW(this->_hwnd, value.c_str());
+}
+
+void sw::WndBase::SetBackColor(Color color, bool redraw)
+{
+    this->_backColor = color;
+    if (redraw) this->Redraw();
+}
+
+void sw::WndBase::SetTextColor(Color color, bool redraw)
+{
+    this->_textColor = color;
+    if (redraw) this->Redraw();
 }
 
 bool sw::WndBase::OnCreate()
@@ -890,7 +916,7 @@ void sw::WndBase::FontChanged(HFONT hfont)
 {
 }
 
-bool sw::WndBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+bool sw::WndBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &result)
 {
     return false;
 }
@@ -921,6 +947,30 @@ bool sw::WndBase::OnHorizontalScroll(int event, int pos)
 
 bool sw::WndBase::OnEnabledChanged(bool newValue)
 {
+    return false;
+}
+
+bool sw::WndBase::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
+{
+    static HBRUSH hBrush = NULL;
+
+    WndBase *control = WndBase::GetWndBase(hControl);
+
+    if (control) {
+
+        if (hBrush != NULL) {
+            DeleteObject(hBrush);
+        }
+
+        hBrush = CreateSolidBrush(control->_backColor);
+
+        ::SetTextColor(hdc, control->_textColor);
+        ::SetBkColor(hdc, control->_backColor);
+
+        hRetBrush = hBrush;
+        return true;
+    }
+
     return false;
 }
 

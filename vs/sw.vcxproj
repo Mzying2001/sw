@@ -170,7 +170,6 @@
     <ClInclude Include="..\sw\inc\Font.h" />
     <ClInclude Include="..\sw\inc\GroupBox.h" />
     <ClInclude Include="..\sw\inc\Icon.h" />
-    <ClInclude Include="..\sw\inc\ICtlColor.h" />
     <ClInclude Include="..\sw\inc\ILayout.h" />
     <ClInclude Include="..\sw\inc\ITag.h" />
     <ClInclude Include="..\sw\inc\ItemsControl.h" />

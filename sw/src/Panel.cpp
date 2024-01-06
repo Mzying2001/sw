@@ -1,5 +1,10 @@
 #include "Panel.h"
 
+/**
+ * @brief 面板的窗口类名
+ */
+static constexpr wchar_t _PanelClassName[] = L"sw::Panel";
+
 sw::Panel::Panel()
     : BorderStyle(
           // get
@@ -14,17 +19,19 @@ sw::Panel::Panel()
               }
           })
 {
-    // STATIC控件默认没有响应滚动条操作，故使用BUTTON
-    this->InitControl(L"BUTTON", NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
-    this->Rect = sw::Rect(0, 0, 200, 200);
-}
+    static WNDCLASSEXW wc = {0};
 
-void sw::Panel::SetText(const std::wstring &value)
-{
-    // 原本修改Text会调用SetWindowTextW导致界面绘制成按钮
-    // 这里直接修改WndBase的_text字段，以防止界面重绘
-    this->GetText() = value;
-    this->OnTextChanged();
+    if (wc.cbSize == 0) {
+        wc.cbSize        = sizeof(wc);
+        wc.hInstance     = App::Instance;
+        wc.lpfnWndProc   = DefWindowProcW;
+        wc.lpszClassName = _PanelClassName;
+        RegisterClassExW(&wc);
+    }
+
+    this->InitControl(_PanelClassName, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
+    this->Rect        = sw::Rect(0, 0, 200, 200);
+    this->Transparent = true;
 }
 
 bool sw::Panel::OnPaint()
@@ -36,7 +43,7 @@ bool sw::Panel::OnPaint()
     RECT clientRect;
     GetClientRect(hwnd, &clientRect);
 
-    HBRUSH hBrush = CreateSolidBrush(this->BackColor.Get());
+    HBRUSH hBrush = CreateSolidBrush(this->GetRealBackColor());
     FillRect(hdc, &clientRect, hBrush);
 
     if (this->_borderStyle != sw::BorderStyle::None)
@@ -47,49 +54,15 @@ bool sw::Panel::OnPaint()
     return true;
 }
 
-bool sw::Panel::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::Panel::OnSize(Size newClientSize)
 {
-    this->UIElement::OnKeyDown(key, flags);
-    return true;
-}
-
-bool sw::Panel::OnKeyUp(VirtualKey key, KeyFlags flags)
-{
-    this->UIElement::OnKeyUp(key, flags);
-    return true;
+    InvalidateRect(this->Handle, NULL, TRUE);
+    return UIElement::OnSize(newClientSize);
 }
 
 bool sw::Panel::OnMouseMove(Point mousePosition, MouseKey keyState)
 {
-    this->UIElement::OnMouseMove(mousePosition, keyState);
-    return true;
-}
-
-bool sw::Panel::OnMouseLeave()
-{
-    this->UIElement::OnMouseLeave();
-    return true;
-}
-
-bool sw::Panel::OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState)
-{
-    this->UIElement::OnMouseLeftButtonDown(mousePosition, keyState);
-    return true;
-}
-
-bool sw::Panel::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState)
-{
-    this->UIElement::OnMouseLeftButtonUp(mousePosition, keyState);
-    return true;
-}
-
-bool sw::Panel::OnMouseLeftButtonDoubleClick(Point mousePosition, MouseKey keyState)
-{
-    /*this->WndBase::OnMouseLeftButtonDoubleClick(mousePosition, keyState);*/
-    return true;
-}
-
-bool sw::Panel::OnEnabledChanged(bool newValue)
-{
-    return true;
+    HWND hwnd = this->Handle;
+    this->SendMessageW(WM_SETCURSOR, (WPARAM)hwnd, MAKELONG(HTCLIENT, WM_MOUSEMOVE));
+    return UIElement::OnMouseMove(mousePosition, keyState);
 }

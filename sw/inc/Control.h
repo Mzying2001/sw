@@ -1,8 +1,6 @@
 #pragma once
 
-#include "Color.h"
 #include "Cursor.h"
-#include "ICtlColor.h"
 #include "UIElement.h"
 
 namespace sw
@@ -10,19 +8,9 @@ namespace sw
     /**
      * @brief 控件
      */
-    class Control : virtual public UIElement, public ICtlColor
+    class Control : virtual public UIElement
     {
     private:
-        /**
-         * @brief 背景颜色
-         */
-        Color _backColor = Color::White;
-
-        /**
-         * @brief 文本颜色
-         */
-        Color _textColor = Color::Black;
-
         /**
          * @brief 是否使用默认的鼠标样式
          */
@@ -32,17 +20,6 @@ namespace sw
          * @brief 鼠标句柄
          */
         HCURSOR _hCursor = NULL;
-
-    public:
-        /**
-         * @brief 背景颜色，该属性对部分控件无效
-         */
-        const Property<Color> BackColor;
-
-        /**
-         * @brief 文本颜色，该属性对部分控件无效
-         */
-        const Property<Color> TextColor;
 
     public:
         /**
@@ -62,35 +39,16 @@ namespace sw
         virtual void HandleChenged();
 
         /**
-         * @brief        设置背景颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
+         * @brief         接收到WM_SETCURSOR消息时调用该函数
+         * @param hwnd    鼠标所在窗口的句柄
+         * @param hitTest hit-test的结果，详见WM_NCHITTEST消息的返回值
+         * @param message 触发该事件的鼠标消息，如WM_MOUSEMOVE
+         * @param result  消息的返回值，默认为false
+         * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
-        virtual void SetBackColor(Color color, bool redraw);
-
-        /**
-         * @brief        设置文本颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetTextColor(Color color, bool redraw);
-
-        /**
-         * @brief                   接收到WM_SETCURSOR消息时调用该函数
-         * @param hwnd              鼠标所在窗口的句柄
-         * @param hitTest           hit-test的结果，详见WM_NCHITTEST消息的返回值
-         * @param message           触发该事件的鼠标消息，如WM_MOUSEMOVE
-         * @param useDefaultWndProc 是否调用DefaultWndProc并将其返回值作为当前消息的返回值，默认为true
-         * @return                  当useDefaultWndProc为false时使用该值作为消息的返回值，表示是否已处理该消息
-         */
-        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc) override;
+        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &result) override;
 
     public:
-        /**
-         * @brief 父窗口接收到WM_CTLCOLORxxx的回调
-         */
-        virtual LRESULT CtlColor(HDC hdc, HWND hwnd) override;
-
         /**
          * @brief         设置鼠标样式
          * @param hCursor 鼠标句柄

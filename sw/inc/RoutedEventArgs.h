@@ -227,4 +227,31 @@ namespace sw
         {
         }
     };
+
+    /**
+     * @brief 列表视图的列标题单击与双击事件参数类型
+     */
+    struct ListViewHeaderClickedEventArgs : RoutedEventArgs {
+
+        int index; // 被点击列标题的索引
+
+        ListViewHeaderClickedEventArgs(RoutedEventType eventType, int index)
+            : RoutedEventArgs(eventType), index(index)
+        {
+        }
+    };
+
+    /**
+     * @brief 列表视图项单击与双击事件参数类型
+     */
+    struct ListViewItemClickedEventArgs : RoutedEventArgs {
+
+        int row; // 被点击的行
+        int col; // 被点击的列
+
+        ListViewItemClickedEventArgs(RoutedEventType eventType, int row, int col)
+            : RoutedEventArgs(eventType), row(row), col(col)
+        {
+        }
+    };
 }

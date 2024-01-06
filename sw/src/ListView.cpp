@@ -170,10 +170,36 @@ void sw::ListView::SetTextColor(Color color, bool redraw)
     this->SendMessageW(LVM_SETTEXTCOLOR, 0, (LPARAM)(COLORREF)color);
 }
 
+bool sw::ListView::OnNotify(NMHDR *pNMHDR)
+{
+    switch (pNMHDR->code) {
+        case HDN_ITEMCLICKW: {
+            this->OnHeaderItemClicked(reinterpret_cast<NMHEADERW *>(pNMHDR));
+            break;
+        }
+        case HDN_ITEMDBLCLICKW: {
+            this->OnHeaderItemDoubleClicked(reinterpret_cast<NMHEADERW *>(pNMHDR));
+            break;
+        }
+    };
+    return false;
+}
+
 void sw::ListView::OnNotified(NMHDR *pNMHDR)
 {
-    if (pNMHDR->code == LVN_ITEMCHANGED) {
-        this->OnItemChanged(reinterpret_cast<NMLISTVIEW *>(pNMHDR));
+    switch (pNMHDR->code) {
+        case LVN_ITEMCHANGED: {
+            this->OnItemChanged(reinterpret_cast<NMLISTVIEW *>(pNMHDR));
+            break;
+        }
+        case NM_CLICK: {
+            this->OnItemClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
+            break;
+        }
+        case NM_DBLCLK: {
+            this->OnItemDoubleClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
+            break;
+        }
     }
 }
 
@@ -195,6 +221,30 @@ void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
 void sw::ListView::OnCheckStateChanged(int index)
 {
     ListViewCheckStateChangedEventArgs args(index);
+    this->RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnHeaderItemClicked(NMHEADERW *pNMH)
+{
+    ListViewHeaderClickedEventArgs args(ListView_HeaderClicked, pNMH->iItem);
+    this->RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnHeaderItemDoubleClicked(NMHEADERW *pNMH)
+{
+    ListViewHeaderClickedEventArgs args(ListView_HeaderDoubleClicked, pNMH->iItem);
+    this->RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnItemClicked(NMITEMACTIVATE *pNMIA)
+{
+    ListViewItemClickedEventArgs args(ListView_ItemClicked, pNMIA->iItem, pNMIA->iSubItem);
+    this->RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnItemDoubleClicked(NMITEMACTIVATE *pNMIA)
+{
+    ListViewItemClickedEventArgs args(ListView_ItemDoubleClicked, pNMIA->iItem, pNMIA->iSubItem);
     this->RaiseRoutedEvent(args);
 }
 

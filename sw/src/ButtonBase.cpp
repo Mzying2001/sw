@@ -8,6 +8,7 @@ sw::ButtonBase::ButtonBase()
 void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
     this->InitControl(L"BUTTON", lpWindowName, dwStyle, dwExStyle);
+    this->Transparent = true;
 }
 
 void sw::ButtonBase::OnCommand(int code)

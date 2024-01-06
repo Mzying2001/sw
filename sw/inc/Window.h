@@ -39,11 +39,6 @@ namespace sw
         bool _isFirstShow = true;
 
         /**
-         * @brief 窗口背景颜色
-         */
-        Color _backColor = Color::White;
-
-        /**
          * @brief 窗口的尺寸限制，当值不大于0时表示不限制
          */
         double _maxWidth = -1, _maxHeight = -1, _minWidth = -1, _minHeight = -1;
@@ -123,11 +118,6 @@ namespace sw
          * @brief 是否显示为ToolWindow (窄边框)
          */
         const Property<bool> ToolWindow;
-
-        /**
-         * @brief 背景颜色
-         */
-        const Property<Color> BackColor;
 
         /**
          * @brief 最大宽度，当值不大于0时表示不限制

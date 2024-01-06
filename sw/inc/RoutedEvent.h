@@ -123,6 +123,26 @@ namespace sw
         ListView_CheckStateChanged,
 
         /**
+         * @brief 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
+         */
+        ListView_HeaderClicked,
+
+        /**
+         * @brief 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
+         */
+        ListView_HeaderDoubleClicked,
+
+        /**
+         * @brief 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
+         */
+        ListView_ItemClicked,
+
+        /**
+         * @brief 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
+         */
+        ListView_ItemDoubleClicked,
+
+        /**
          * @brief 滑块的值被改变，参数类型为sw::RoutedEventArgs
          */
         Slider_ValueChanged,
