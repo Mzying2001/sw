@@ -4,7 +4,7 @@
 /**
  * @brief 窗口类名
  */
-static constexpr wchar_t _WindowClassName[] = L"sw::WndBase";
+static constexpr wchar_t _WindowClassName[] = L"sw::Window";
 
 /**
  * @brief 控件初始化时所在的窗口
@@ -274,9 +274,9 @@ sw::WndBase::WndBase()
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = WndBase::_WndProc;
         wc.lpszClassName = _WindowClassName;
+        RegisterClassExW(&wc);
     }
 
-    RegisterClassExW(&wc);
     this->_font = sw::Font::GetDefaultFont();
 }
 
