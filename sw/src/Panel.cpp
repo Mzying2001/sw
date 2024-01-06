@@ -61,6 +61,7 @@ bool sw::Panel::OnSize(Size newClientSize)
 
 bool sw::Panel::OnMouseMove(Point mousePosition, MouseKey keyState)
 {
-    this->SendMessageW(WM_SETCURSOR, 0, WM_MOUSEMOVE);
+    HWND hwnd = this->Handle;
+    this->SendMessageW(WM_SETCURSOR, (WPARAM)hwnd, MAKELONG(HTCLIENT, WM_MOUSEMOVE));
     return UIElement::OnMouseMove(mousePosition, keyState);
 }
