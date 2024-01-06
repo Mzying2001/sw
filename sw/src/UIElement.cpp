@@ -131,6 +131,17 @@ sw::UIElement::UIElement()
           // set
           [&](const bool &value) {
               this->_tabStop = value;
+          }),
+
+      Transparent(
+          // get
+          [&]() -> const bool & {
+              return this->_transparent;
+          },
+          // set
+          [&](const bool &value) {
+              this->_transparent = value;
+              this->Redraw();
           })
 {
 }
@@ -370,6 +381,19 @@ sw::UIElement *sw::UIElement::GetNextTabStopElement()
         element = element->GetNextElement();
     } while (element != nullptr && !element->_tabStop && element != this);
     return element;
+}
+
+sw::Color sw::UIElement::GetRealBackColor()
+{
+    if (!this->_transparent) {
+        return this->BackColor.Get();
+    }
+
+    UIElement *p = this;
+    while (p->_transparent && p->_parent != nullptr)
+        p = p->_parent;
+
+    return p->BackColor.Get();
 }
 
 uint64_t sw::UIElement::GetTag()
@@ -832,6 +856,30 @@ void sw::UIElement::OnMenuCommand(int id)
         MenuItem *item = this->_contextMenu->GetMenuItem(id);
         if (item) item->CallCommand();
     }
+}
+
+bool sw::UIElement::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
+{
+    WndBase *childWnd = WndBase::GetWndBase(hControl);
+    if (childWnd == nullptr) return false;
+
+    UIElement *child = dynamic_cast<UIElement *>(childWnd);
+    if (child == nullptr) return this->WndBase::OnCtlColor(hdc, hControl, hRetBrush);
+
+    static HBRUSH hBrush = NULL;
+    COLORREF textColor   = child->TextColor.Get();
+    COLORREF backColor   = child->GetRealBackColor();
+
+    ::SetTextColor(hdc, textColor);
+    ::SetBkColor(hdc, backColor);
+
+    if (hBrush != NULL) {
+        DeleteObject(hBrush);
+    }
+
+    hBrush    = CreateSolidBrush(backColor);
+    hRetBrush = hBrush;
+    return true;
 }
 
 sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element, bool searchChildren)

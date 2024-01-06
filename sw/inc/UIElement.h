@@ -124,6 +124,11 @@ namespace sw
          */
         bool _drawFocusRect = false;
 
+        /**
+         * @brief 是否使用透明背景
+         */
+        bool _transparent = false;
+
     public:
         /**
          * @brief 边距
@@ -179,6 +184,11 @@ namespace sw
          * @brief 表示用户是否可以通过按下Tab键将焦点移动到当前元素
          */
         const Property<bool> TabStop;
+
+        /**
+         * @brief 是否使用透明背景（此属性并非真正意义上的透明，将该属性设为true可继承父元素的背景颜色）
+         */
+        const Property<bool> Transparent;
 
     public:
         UIElement();
@@ -369,6 +379,11 @@ namespace sw
          * @brief 获取下一个TabStop属性为true的元素
          */
         UIElement *GetNextTabStopElement();
+
+        /**
+         * @brief 获取当前要显示的背景颜色：当Transparent为true时获取到祖先节点中首个Transparent为false的背景颜色，否则返回当前元素的背景颜色
+         */
+        Color GetRealBackColor();
 
         /**
          * @brief 获取Tag
@@ -665,6 +680,15 @@ namespace sw
          * @param id 菜单id
          */
         virtual void OnMenuCommand(int id) override;
+
+        /**
+         * @brief           接收到WM_CTLCOLORxxx时调用该函数
+         * @param hdc       控件的显示上下文句柄
+         * @param hControl  控件的句柄
+         * @param hRetBrush 要返回的画笔
+         * @return          若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush) override;
 
     private:
         /**
