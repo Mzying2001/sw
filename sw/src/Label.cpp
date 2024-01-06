@@ -121,6 +121,7 @@ sw::Label::Label()
     this->SetText(L"Label");
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
+    this->Transparent = true;
 }
 
 void sw::Label::_UpdateTextSize()

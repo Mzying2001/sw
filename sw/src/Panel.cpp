@@ -30,7 +30,8 @@ sw::Panel::Panel()
     }
 
     this->InitControl(_PanelClassName, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
-    this->Rect = sw::Rect(0, 0, 200, 200);
+    this->Rect        = sw::Rect(0, 0, 200, 200);
+    this->Transparent = true;
 }
 
 bool sw::Panel::OnPaint()
