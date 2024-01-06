@@ -50,13 +50,13 @@ void sw::Control::HandleChenged()
 {
 }
 
-bool sw::Control::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+bool sw::Control::OnSetCursor(HWND hwnd, int hitTest, int message, bool &result)
 {
     if (this->_useDefaultCursor) {
         return false;
     }
     ::SetCursor(this->_hCursor);
-    useDefaultWndProc = false;
+    result = true;
     return true;
 }
 
