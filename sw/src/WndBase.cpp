@@ -966,7 +966,6 @@ bool sw::WndBase::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
         }
 
         hBrush = CreateSolidBrush(control->_backColor);
-        SelectObject(hdc, hBrush);
 
         ::SetTextColor(hdc, control->_textColor);
         ::SetBkColor(hdc, control->_backColor);
