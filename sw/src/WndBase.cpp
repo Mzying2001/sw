@@ -222,6 +222,26 @@ sw::WndBase::WndBase()
               this->SetText(value);
           }),
 
+      BackColor(
+          // get
+          [&]() -> const Color & {
+              return this->_backColor;
+          },
+          // set
+          [&](const Color &value) {
+              this->SetBackColor(value, true);
+          }),
+
+      TextColor(
+          // get
+          [&]() -> const Color & {
+              return this->_textColor;
+          },
+          // set
+          [&](const Color &value) {
+              this->SetTextColor(value, true);
+          }),
+
       Focused(
           // get
           [&]() -> const bool & {
@@ -589,20 +609,17 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return handled ? 0 : this->DefaultWndProc(refMsg);
         }
 
-        case WM_CTLCOLORBTN:
+        case WM_CTLCOLORMSGBOX:
         case WM_CTLCOLOREDIT:
-        case WM_CTLCOLORDLG:
         case WM_CTLCOLORLISTBOX:
+        case WM_CTLCOLORBTN:
+        case WM_CTLCOLORDLG:
         case WM_CTLCOLORSCROLLBAR:
         case WM_CTLCOLORSTATIC: {
-            HDC hdc              = (HDC)refMsg.wParam;
-            HWND hwnd            = (HWND)refMsg.lParam;
-            WndBase *pWnd        = WndBase::GetWndBase(hwnd);
-            ICtlColor *pCtlColor = dynamic_cast<ICtlColor *>(pWnd);
-
-            return pCtlColor == nullptr
-                       ? this->DefaultWndProc(refMsg)
-                       : pCtlColor->CtlColor(hdc, hwnd);
+            HDC hdc       = (HDC)refMsg.wParam;
+            HWND hControl = (HWND)refMsg.lParam;
+            HBRUSH hBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+            return this->OnCtlColor(hdc, hControl, hBrush) ? (LRESULT)hBrush : this->DefaultWndProc(refMsg);
         }
 
         case WM_SETCURSOR: {
@@ -686,6 +703,18 @@ std::wstring &sw::WndBase::GetText()
 void sw::WndBase::SetText(const std::wstring &value)
 {
     SetWindowTextW(this->_hwnd, value.c_str());
+}
+
+void sw::WndBase::SetBackColor(Color color, bool redraw)
+{
+    this->_backColor = color;
+    if (redraw) this->Redraw();
+}
+
+void sw::WndBase::SetTextColor(Color color, bool redraw)
+{
+    this->_textColor = color;
+    if (redraw) this->Redraw();
 }
 
 bool sw::WndBase::OnCreate()
@@ -921,6 +950,31 @@ bool sw::WndBase::OnHorizontalScroll(int event, int pos)
 
 bool sw::WndBase::OnEnabledChanged(bool newValue)
 {
+    return false;
+}
+
+bool sw::WndBase::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
+{
+    static HBRUSH hBrush = NULL;
+
+    WndBase *control = WndBase::GetWndBase(hControl);
+
+    if (control) {
+
+        if (hBrush != NULL) {
+            DeleteObject(hBrush);
+        }
+
+        hBrush = CreateSolidBrush(control->_backColor);
+        SelectObject(hdc, hBrush);
+
+        ::SetTextColor(hdc, control->_textColor);
+        ::SetBkColor(hdc, control->_backColor);
+
+        hRetBrush = hBrush;
+        return true;
+    }
+
     return false;
 }
 

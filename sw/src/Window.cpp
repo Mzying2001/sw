@@ -146,17 +146,6 @@ sw::Window::Window()
               this->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
           }),
 
-      BackColor(
-          // get
-          [&]() -> const Color & {
-              return this->_backColor;
-          },
-          // set
-          [&](const Color &value) {
-              this->_backColor = value;
-              this->Redraw();
-          }),
-
       MaxWidth(
           // get
           [&]() -> const double & {
@@ -337,7 +326,7 @@ bool sw::Window::OnPaint()
     HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
 
     // 在内存 DC 上进行绘制
-    HBRUSH hBrush = CreateSolidBrush(this->_backColor);
+    HBRUSH hBrush = CreateSolidBrush(this->BackColor.Get());
     FillRect(hdcMem, &rtClient, hBrush);
 
     // 将内存 DC 的内容绘制到窗口客户区
