@@ -197,6 +197,7 @@ sw::ButtonBase::ButtonBase()
 void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
     this->InitControl(L"BUTTON", lpWindowName, dwStyle, dwExStyle);
+    this->Transparent = true;
 }
 
 void sw::ButtonBase::OnCommand(int code)
@@ -499,25 +500,6 @@ int sw::ContextMenu::IDToIndex(int id)
 // Control.cpp
 
 sw::Control::Control()
-    : BackColor(
-          // get
-          [&]() -> const Color & {
-              return this->_backColor;
-          },
-          // set
-          [&](const Color &value) {
-              this->SetBackColor(value, true);
-          }),
-
-      TextColor(
-          // get
-          [&]() -> const Color & {
-              return this->_textColor;
-          },
-          // set
-          [&](const Color &value) {
-              this->SetTextColor(value, true);
-          })
 {
 }
 
@@ -567,41 +549,14 @@ void sw::Control::HandleChenged()
 {
 }
 
-void sw::Control::SetBackColor(Color color, bool redraw)
-{
-    this->_backColor = color;
-    if (redraw) this->Redraw();
-}
-
-void sw::Control::SetTextColor(Color color, bool redraw)
-{
-    this->_textColor = color;
-    if (redraw) this->Redraw();
-}
-
-bool sw::Control::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+bool sw::Control::OnSetCursor(HWND hwnd, int hitTest, int message, bool &result)
 {
     if (this->_useDefaultCursor) {
         return false;
     }
     ::SetCursor(this->_hCursor);
-    useDefaultWndProc = false;
+    result = true;
     return true;
-}
-
-LRESULT sw::Control::CtlColor(HDC hdc, HWND hwnd)
-{
-    static HBRUSH hBrush = NULL;
-
-    if (hBrush != NULL) {
-        DeleteObject(hBrush);
-    }
-
-    hBrush = CreateSolidBrush(this->_backColor);
-
-    ::SetTextColor(hdc, this->_textColor);
-    ::SetBkColor(hdc, this->_backColor);
-    return (LRESULT)hBrush;
 }
 
 void sw::Control::SetCursor(HCURSOR hCursor)
@@ -982,7 +937,8 @@ sw::Font &sw::Font::GetDefaultFont(bool update)
 sw::GroupBox::GroupBox()
 {
     this->InitControl(L"BUTTON", L"GroupBox", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_GROUPBOX, 0);
-    this->Rect = sw::Rect(0, 0, 200, 200);
+    this->Rect        = sw::Rect(0, 0, 200, 200);
+    this->Transparent = true;
 }
 
 // Icon.cpp
@@ -1140,6 +1096,7 @@ sw::Label::Label()
     this->SetText(L"Label");
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
+    this->Transparent = true;
 }
 
 void sw::Label::_UpdateTextSize()
@@ -2136,10 +2093,36 @@ void sw::ListView::SetTextColor(Color color, bool redraw)
     this->SendMessageW(LVM_SETTEXTCOLOR, 0, (LPARAM)(COLORREF)color);
 }
 
+bool sw::ListView::OnNotify(NMHDR *pNMHDR)
+{
+    switch (pNMHDR->code) {
+        case HDN_ITEMCLICKW: {
+            this->OnHeaderItemClicked(reinterpret_cast<NMHEADERW *>(pNMHDR));
+            break;
+        }
+        case HDN_ITEMDBLCLICKW: {
+            this->OnHeaderItemDoubleClicked(reinterpret_cast<NMHEADERW *>(pNMHDR));
+            break;
+        }
+    };
+    return false;
+}
+
 void sw::ListView::OnNotified(NMHDR *pNMHDR)
 {
-    if (pNMHDR->code == LVN_ITEMCHANGED) {
-        this->OnItemChanged(reinterpret_cast<NMLISTVIEW *>(pNMHDR));
+    switch (pNMHDR->code) {
+        case LVN_ITEMCHANGED: {
+            this->OnItemChanged(reinterpret_cast<NMLISTVIEW *>(pNMHDR));
+            break;
+        }
+        case NM_CLICK: {
+            this->OnItemClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
+            break;
+        }
+        case NM_DBLCLK: {
+            this->OnItemDoubleClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
+            break;
+        }
     }
 }
 
@@ -2161,6 +2144,30 @@ void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
 void sw::ListView::OnCheckStateChanged(int index)
 {
     ListViewCheckStateChangedEventArgs args(index);
+    this->RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnHeaderItemClicked(NMHEADERW *pNMH)
+{
+    ListViewHeaderClickedEventArgs args(ListView_HeaderClicked, pNMH->iItem);
+    this->RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnHeaderItemDoubleClicked(NMHEADERW *pNMH)
+{
+    ListViewHeaderClickedEventArgs args(ListView_HeaderDoubleClicked, pNMH->iItem);
+    this->RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnItemClicked(NMITEMACTIVATE *pNMIA)
+{
+    ListViewItemClickedEventArgs args(ListView_ItemClicked, pNMIA->iItem, pNMIA->iSubItem);
+    this->RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnItemDoubleClicked(NMITEMACTIVATE *pNMIA)
+{
+    ListViewItemClickedEventArgs args(ListView_ItemDoubleClicked, pNMIA->iItem, pNMIA->iSubItem);
     this->RaiseRoutedEvent(args);
 }
 
@@ -2984,6 +2991,11 @@ const sw::MsgBox &sw::MsgBox::OnCancel(const MsgBoxCallback &callback) const
 
 // Panel.cpp
 
+/**
+ * @brief 面板的窗口类名
+ */
+static constexpr wchar_t _PanelClassName[] = L"sw::Panel";
+
 sw::Panel::Panel()
     : BorderStyle(
           // get
@@ -2998,17 +3010,19 @@ sw::Panel::Panel()
               }
           })
 {
-    // STATIC控件默认没有响应滚动条操作，故使用BUTTON
-    this->InitControl(L"BUTTON", NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
-    this->Rect = sw::Rect(0, 0, 200, 200);
-}
+    static WNDCLASSEXW wc = {0};
 
-void sw::Panel::SetText(const std::wstring &value)
-{
-    // 原本修改Text会调用SetWindowTextW导致界面绘制成按钮
-    // 这里直接修改WndBase的_text字段，以防止界面重绘
-    this->GetText() = value;
-    this->OnTextChanged();
+    if (wc.cbSize == 0) {
+        wc.cbSize        = sizeof(wc);
+        wc.hInstance     = App::Instance;
+        wc.lpfnWndProc   = DefWindowProcW;
+        wc.lpszClassName = _PanelClassName;
+        RegisterClassExW(&wc);
+    }
+
+    this->InitControl(_PanelClassName, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
+    this->Rect        = sw::Rect(0, 0, 200, 200);
+    this->Transparent = true;
 }
 
 bool sw::Panel::OnPaint()
@@ -3020,7 +3034,7 @@ bool sw::Panel::OnPaint()
     RECT clientRect;
     GetClientRect(hwnd, &clientRect);
 
-    HBRUSH hBrush = CreateSolidBrush(this->BackColor.Get());
+    HBRUSH hBrush = CreateSolidBrush(this->GetRealBackColor());
     FillRect(hdc, &clientRect, hBrush);
 
     if (this->_borderStyle != sw::BorderStyle::None)
@@ -3031,51 +3045,17 @@ bool sw::Panel::OnPaint()
     return true;
 }
 
-bool sw::Panel::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::Panel::OnSize(Size newClientSize)
 {
-    this->UIElement::OnKeyDown(key, flags);
-    return true;
-}
-
-bool sw::Panel::OnKeyUp(VirtualKey key, KeyFlags flags)
-{
-    this->UIElement::OnKeyUp(key, flags);
-    return true;
+    InvalidateRect(this->Handle, NULL, TRUE);
+    return UIElement::OnSize(newClientSize);
 }
 
 bool sw::Panel::OnMouseMove(Point mousePosition, MouseKey keyState)
 {
-    this->UIElement::OnMouseMove(mousePosition, keyState);
-    return true;
-}
-
-bool sw::Panel::OnMouseLeave()
-{
-    this->UIElement::OnMouseLeave();
-    return true;
-}
-
-bool sw::Panel::OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState)
-{
-    this->UIElement::OnMouseLeftButtonDown(mousePosition, keyState);
-    return true;
-}
-
-bool sw::Panel::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState)
-{
-    this->UIElement::OnMouseLeftButtonUp(mousePosition, keyState);
-    return true;
-}
-
-bool sw::Panel::OnMouseLeftButtonDoubleClick(Point mousePosition, MouseKey keyState)
-{
-    /*this->WndBase::OnMouseLeftButtonDoubleClick(mousePosition, keyState);*/
-    return true;
-}
-
-bool sw::Panel::OnEnabledChanged(bool newValue)
-{
-    return true;
+    HWND hwnd = this->Handle;
+    this->SendMessageW(WM_SETCURSOR, (WPARAM)hwnd, MAKELONG(HTCLIENT, WM_MOUSEMOVE));
+    return UIElement::OnMouseMove(mousePosition, keyState);
 }
 
 // PanelBase.cpp
@@ -3084,9 +3064,9 @@ sw::PanelBase::PanelBase()
 {
 }
 
-bool sw::PanelBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+bool sw::PanelBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &result)
 {
-    return this->Control::OnSetCursor(hwnd, hitTest, message, useDefaultWndProc);
+    return this->Control::OnSetCursor(hwnd, hitTest, message, result);
 }
 
 bool sw::PanelBase::OnVerticalScroll(int event, int pos)
@@ -4359,6 +4339,17 @@ sw::UIElement::UIElement()
           // set
           [&](const bool &value) {
               this->_tabStop = value;
+          }),
+
+      Transparent(
+          // get
+          [&]() -> const bool & {
+              return this->_transparent;
+          },
+          // set
+          [&](const bool &value) {
+              this->_transparent = value;
+              this->Redraw();
           })
 {
 }
@@ -4598,6 +4589,19 @@ sw::UIElement *sw::UIElement::GetNextTabStopElement()
         element = element->GetNextElement();
     } while (element != nullptr && !element->_tabStop && element != this);
     return element;
+}
+
+sw::Color sw::UIElement::GetRealBackColor()
+{
+    if (!this->_transparent) {
+        return this->BackColor.Get();
+    }
+
+    UIElement *p = this;
+    while (p->_transparent && p->_parent != nullptr)
+        p = p->_parent;
+
+    return p->BackColor.Get();
 }
 
 uint64_t sw::UIElement::GetTag()
@@ -5062,6 +5066,30 @@ void sw::UIElement::OnMenuCommand(int id)
     }
 }
 
+bool sw::UIElement::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
+{
+    WndBase *childWnd = WndBase::GetWndBase(hControl);
+    if (childWnd == nullptr) return false;
+
+    UIElement *child = dynamic_cast<UIElement *>(childWnd);
+    if (child == nullptr) return this->WndBase::OnCtlColor(hdc, hControl, hRetBrush);
+
+    static HBRUSH hBrush = NULL;
+    COLORREF textColor   = child->TextColor.Get();
+    COLORREF backColor   = child->GetRealBackColor();
+
+    ::SetTextColor(hdc, textColor);
+    ::SetBkColor(hdc, backColor);
+
+    if (hBrush != NULL) {
+        DeleteObject(hBrush);
+    }
+
+    hBrush    = CreateSolidBrush(backColor);
+    hRetBrush = hBrush;
+    return true;
+}
+
 sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element, bool searchChildren)
 {
     if (searchChildren && !element->_children.empty()) {
@@ -5300,17 +5328,6 @@ sw::Window::Window()
               this->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
           }),
 
-      BackColor(
-          // get
-          [&]() -> const Color & {
-              return this->_backColor;
-          },
-          // set
-          [&](const Color &value) {
-              this->_backColor = value;
-              this->Redraw();
-          }),
-
       MaxWidth(
           // get
           [&]() -> const double & {
@@ -5491,7 +5508,7 @@ bool sw::Window::OnPaint()
     HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
 
     // 在内存 DC 上进行绘制
-    HBRUSH hBrush = CreateSolidBrush(this->_backColor);
+    HBRUSH hBrush = CreateSolidBrush(this->BackColor.Get());
     FillRect(hdcMem, &rtClient, hBrush);
 
     // 将内存 DC 的内容绘制到窗口客户区
@@ -5634,7 +5651,7 @@ HICON _GetWindowDefaultIcon()
 /**
  * @brief 窗口类名
  */
-static constexpr wchar_t _WindowClassName[] = L"sw::WndBase";
+static constexpr wchar_t _WindowClassName[] = L"sw::Window";
 
 /**
  * @brief 控件初始化时所在的窗口
@@ -5852,6 +5869,26 @@ sw::WndBase::WndBase()
               this->SetText(value);
           }),
 
+      BackColor(
+          // get
+          [&]() -> const Color & {
+              return this->_backColor;
+          },
+          // set
+          [&](const Color &value) {
+              this->SetBackColor(value, true);
+          }),
+
+      TextColor(
+          // get
+          [&]() -> const Color & {
+              return this->_textColor;
+          },
+          // set
+          [&](const Color &value) {
+              this->SetTextColor(value, true);
+          }),
+
       Focused(
           // get
           [&]() -> const bool & {
@@ -5884,9 +5921,9 @@ sw::WndBase::WndBase()
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = WndBase::_WndProc;
         wc.lpszClassName = _WindowClassName;
+        RegisterClassExW(&wc);
     }
 
-    RegisterClassExW(&wc);
     this->_font = sw::Font::GetDefaultFont();
 }
 
@@ -6219,31 +6256,25 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return handled ? 0 : this->DefaultWndProc(refMsg);
         }
 
-        case WM_CTLCOLORBTN:
+        case WM_CTLCOLORMSGBOX:
         case WM_CTLCOLOREDIT:
-        case WM_CTLCOLORDLG:
         case WM_CTLCOLORLISTBOX:
+        case WM_CTLCOLORBTN:
+        case WM_CTLCOLORDLG:
         case WM_CTLCOLORSCROLLBAR:
         case WM_CTLCOLORSTATIC: {
-            HDC hdc              = (HDC)refMsg.wParam;
-            HWND hwnd            = (HWND)refMsg.lParam;
-            WndBase *pWnd        = WndBase::GetWndBase(hwnd);
-            ICtlColor *pCtlColor = dynamic_cast<ICtlColor *>(pWnd);
-
-            return pCtlColor == nullptr
-                       ? this->DefaultWndProc(refMsg)
-                       : pCtlColor->CtlColor(hdc, hwnd);
+            HDC hdc       = (HDC)refMsg.wParam;
+            HWND hControl = (HWND)refMsg.lParam;
+            HBRUSH hBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+            return this->OnCtlColor(hdc, hControl, hBrush) ? (LRESULT)hBrush : this->DefaultWndProc(refMsg);
         }
 
         case WM_SETCURSOR: {
             HWND hwnd   = (HWND)refMsg.wParam;
             int hitTest = LOWORD(refMsg.lParam);
             int message = HIWORD(refMsg.lParam);
-
-            bool useDefaultWndProc = true;
-
-            bool result = this->OnSetCursor(hwnd, hitTest, message, useDefaultWndProc);
-            return useDefaultWndProc ? this->DefaultWndProc(refMsg) : result;
+            bool result = false;
+            return this->OnSetCursor(hwnd, hitTest, message, result) ? result : this->DefaultWndProc(refMsg);
         }
 
         case WM_CONTEXTMENU: {
@@ -6316,6 +6347,18 @@ std::wstring &sw::WndBase::GetText()
 void sw::WndBase::SetText(const std::wstring &value)
 {
     SetWindowTextW(this->_hwnd, value.c_str());
+}
+
+void sw::WndBase::SetBackColor(Color color, bool redraw)
+{
+    this->_backColor = color;
+    if (redraw) this->Redraw();
+}
+
+void sw::WndBase::SetTextColor(Color color, bool redraw)
+{
+    this->_textColor = color;
+    if (redraw) this->Redraw();
 }
 
 bool sw::WndBase::OnCreate()
@@ -6520,7 +6563,7 @@ void sw::WndBase::FontChanged(HFONT hfont)
 {
 }
 
-bool sw::WndBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc)
+bool sw::WndBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &result)
 {
     return false;
 }
@@ -6551,6 +6594,30 @@ bool sw::WndBase::OnHorizontalScroll(int event, int pos)
 
 bool sw::WndBase::OnEnabledChanged(bool newValue)
 {
+    return false;
+}
+
+bool sw::WndBase::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
+{
+    static HBRUSH hBrush = NULL;
+
+    WndBase *control = WndBase::GetWndBase(hControl);
+
+    if (control) {
+
+        if (hBrush != NULL) {
+            DeleteObject(hBrush);
+        }
+
+        hBrush = CreateSolidBrush(control->_backColor);
+
+        ::SetTextColor(hdc, control->_textColor);
+        ::SetBkColor(hdc, control->_backColor);
+
+        hRetBrush = hBrush;
+        return true;
+    }
+
     return false;
 }
 

@@ -587,24 +587,6 @@ namespace sw
     };
 }
 
-// ICtlColor.h
-
-
-namespace sw
-{
-    /**
-     * @brief CtlColor接口，在父窗口接收到WM_CTLCOLORxxx消息时调用该接口
-     */
-    class ICtlColor
-    {
-    public:
-        /**
-         * @brief 父窗口接收到WM_CTLCOLORxxx的回调
-         */
-        virtual LRESULT CtlColor(HDC hdc, HWND hwnd) = 0;
-    };
-}
-
 // ITag.h
 
 
@@ -1224,6 +1206,26 @@ namespace sw
          * @brief 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
          */
         ListView_CheckStateChanged,
+
+        /**
+         * @brief 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
+         */
+        ListView_HeaderClicked,
+
+        /**
+         * @brief 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
+         */
+        ListView_HeaderDoubleClicked,
+
+        /**
+         * @brief 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
+         */
+        ListView_ItemClicked,
+
+        /**
+         * @brief 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
+         */
+        ListView_ItemDoubleClicked,
 
         /**
          * @brief 滑块的值被改变，参数类型为sw::RoutedEventArgs
@@ -2357,6 +2359,33 @@ namespace sw
         {
         }
     };
+
+    /**
+     * @brief 列表视图的列标题单击与双击事件参数类型
+     */
+    struct ListViewHeaderClickedEventArgs : RoutedEventArgs {
+
+        int index; // 被点击列标题的索引
+
+        ListViewHeaderClickedEventArgs(RoutedEventType eventType, int index)
+            : RoutedEventArgs(eventType), index(index)
+        {
+        }
+    };
+
+    /**
+     * @brief 列表视图项单击与双击事件参数类型
+     */
+    struct ListViewItemClickedEventArgs : RoutedEventArgs {
+
+        int row; // 被点击的行
+        int col; // 被点击的列
+
+        ListViewItemClickedEventArgs(RoutedEventType eventType, int row, int col)
+            : RoutedEventArgs(eventType), row(row), col(col)
+        {
+        }
+    };
 }
 
 // Screen.h
@@ -2700,6 +2729,16 @@ namespace sw
         std::wstring _text = L"";
 
         /**
+         * @brief 背景颜色
+         */
+        Color _backColor = Color::White;
+
+        /**
+         * @brief 文本颜色
+         */
+        Color _textColor = Color::Black;
+
+        /**
          * @brief 控件是否拥有焦点
          */
         bool _focused = false;
@@ -2794,6 +2833,16 @@ namespace sw
          * @brief 窗口标题或控件文本
          */
         const Property<std::wstring> Text;
+
+        /**
+         * @brief 背景颜色，对于部分控件该属性可能会失效
+         */
+        const Property<Color> BackColor;
+
+        /**
+         * @brief 文本颜色，对于部分控件该属性可能会失效
+         */
+        const Property<Color> TextColor;
 
         /**
          * @brief 窗口是否拥有焦点
@@ -2900,6 +2949,20 @@ namespace sw
          * @param value 要设置的文本
          */
         virtual void SetText(const std::wstring &value);
+
+        /**
+         * @brief        设置背景颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetBackColor(Color color, bool redraw);
+
+        /**
+         * @brief        设置文本颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetTextColor(Color color, bool redraw);
 
         /**
          * @brief  接收到WM_CREATE时调用该函数
@@ -3178,14 +3241,14 @@ namespace sw
         virtual void FontChanged(HFONT hfont);
 
         /**
-         * @brief                   接收到WM_SETCURSOR消息时调用该函数
-         * @param hwnd              鼠标所在窗口的句柄
-         * @param hitTest           hit-test的结果，详见WM_NCHITTEST消息的返回值
-         * @param message           触发该事件的鼠标消息，如WM_MOUSEMOVE
-         * @param useDefaultWndProc 是否调用DefaultWndProc并将其返回值作为当前消息的返回值，默认为true
-         * @return                  当useDefaultWndProc为false时使用该值作为消息的返回值，表示是否已处理该消息
+         * @brief         接收到WM_SETCURSOR消息时调用该函数
+         * @param hwnd    鼠标所在窗口的句柄
+         * @param hitTest hit-test的结果，详见WM_NCHITTEST消息的返回值
+         * @param message 触发该事件的鼠标消息，如WM_MOUSEMOVE
+         * @param result  消息的返回值，默认为false
+         * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
-        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc);
+        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &result);
 
         /**
          * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
@@ -3229,6 +3292,15 @@ namespace sw
          * @return         若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnEnabledChanged(bool newValue);
+
+        /**
+         * @brief           接收到WM_CTLCOLORxxx时调用该函数
+         * @param hdc       控件的显示上下文句柄
+         * @param hControl  控件的句柄
+         * @param hRetBrush 要返回的画笔
+         * @return          若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush);
 
     public:
         /**
@@ -3731,6 +3803,11 @@ namespace sw
          */
         bool _drawFocusRect = false;
 
+        /**
+         * @brief 是否使用透明背景
+         */
+        bool _transparent = false;
+
     public:
         /**
          * @brief 边距
@@ -3786,6 +3863,11 @@ namespace sw
          * @brief 表示用户是否可以通过按下Tab键将焦点移动到当前元素
          */
         const Property<bool> TabStop;
+
+        /**
+         * @brief 是否使用透明背景（此属性并非真正意义上的透明，将该属性设为true可继承父元素的背景颜色）
+         */
+        const Property<bool> Transparent;
 
     public:
         UIElement();
@@ -3976,6 +4058,11 @@ namespace sw
          * @brief 获取下一个TabStop属性为true的元素
          */
         UIElement *GetNextTabStopElement();
+
+        /**
+         * @brief 获取当前要显示的背景颜色：当Transparent为true时获取到祖先节点中首个Transparent为false的背景颜色，否则返回当前元素的背景颜色
+         */
+        Color GetRealBackColor();
 
         /**
          * @brief 获取Tag
@@ -4273,6 +4360,15 @@ namespace sw
          */
         virtual void OnMenuCommand(int id) override;
 
+        /**
+         * @brief           接收到WM_CTLCOLORxxx时调用该函数
+         * @param hdc       控件的显示上下文句柄
+         * @param hControl  控件的句柄
+         * @param hRetBrush 要返回的画笔
+         * @return          若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush) override;
+
     private:
         /**
          * @brief 循环获取界面树上的下一个节点
@@ -4329,19 +4425,9 @@ namespace sw
     /**
      * @brief 控件
      */
-    class Control : virtual public UIElement, public ICtlColor
+    class Control : virtual public UIElement
     {
     private:
-        /**
-         * @brief 背景颜色
-         */
-        Color _backColor = Color::White;
-
-        /**
-         * @brief 文本颜色
-         */
-        Color _textColor = Color::Black;
-
         /**
          * @brief 是否使用默认的鼠标样式
          */
@@ -4351,17 +4437,6 @@ namespace sw
          * @brief 鼠标句柄
          */
         HCURSOR _hCursor = NULL;
-
-    public:
-        /**
-         * @brief 背景颜色，该属性对部分控件无效
-         */
-        const Property<Color> BackColor;
-
-        /**
-         * @brief 文本颜色，该属性对部分控件无效
-         */
-        const Property<Color> TextColor;
 
     public:
         /**
@@ -4381,35 +4456,16 @@ namespace sw
         virtual void HandleChenged();
 
         /**
-         * @brief        设置背景颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
+         * @brief         接收到WM_SETCURSOR消息时调用该函数
+         * @param hwnd    鼠标所在窗口的句柄
+         * @param hitTest hit-test的结果，详见WM_NCHITTEST消息的返回值
+         * @param message 触发该事件的鼠标消息，如WM_MOUSEMOVE
+         * @param result  消息的返回值，默认为false
+         * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
-        virtual void SetBackColor(Color color, bool redraw);
-
-        /**
-         * @brief        设置文本颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetTextColor(Color color, bool redraw);
-
-        /**
-         * @brief                   接收到WM_SETCURSOR消息时调用该函数
-         * @param hwnd              鼠标所在窗口的句柄
-         * @param hitTest           hit-test的结果，详见WM_NCHITTEST消息的返回值
-         * @param message           触发该事件的鼠标消息，如WM_MOUSEMOVE
-         * @param useDefaultWndProc 是否调用DefaultWndProc并将其返回值作为当前消息的返回值，默认为true
-         * @return                  当useDefaultWndProc为false时使用该值作为消息的返回值，表示是否已处理该消息
-         */
-        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc) override;
+        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &result) override;
 
     public:
-        /**
-         * @brief 父窗口接收到WM_CTLCOLORxxx的回调
-         */
-        virtual LRESULT CtlColor(HDC hdc, HWND hwnd) override;
-
         /**
          * @brief         设置鼠标样式
          * @param hCursor 鼠标句柄
@@ -4889,14 +4945,14 @@ namespace sw
 
     protected:
         /**
-         * @brief                   接收到WM_SETCURSOR消息时调用该函数
-         * @param hwnd              鼠标所在窗口的句柄
-         * @param hitTest           hit-test的结果，详见WM_NCHITTEST消息的返回值
-         * @param message           触发该事件的鼠标消息，如WM_MOUSEMOVE
-         * @param useDefaultWndProc 是否调用DefaultWndProc并将其返回值作为当前消息的返回值，默认为true
-         * @return                  当useDefaultWndProc为false时使用该值作为消息的返回值，表示是否已处理该消息
+         * @brief         接收到WM_SETCURSOR消息时调用该函数
+         * @param hwnd    鼠标所在窗口的句柄
+         * @param hitTest hit-test的结果，详见WM_NCHITTEST消息的返回值
+         * @param message 触发该事件的鼠标消息，如WM_MOUSEMOVE
+         * @param result  消息的返回值，默认为false
+         * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
-        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &useDefaultWndProc) override;
+        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &result) override;
 
         /**
          * @brief       接收到WM_VSCROLL时调用目标控件的该函数
@@ -5352,11 +5408,6 @@ namespace sw
         bool _isFirstShow = true;
 
         /**
-         * @brief 窗口背景颜色
-         */
-        Color _backColor = Color::White;
-
-        /**
          * @brief 窗口的尺寸限制，当值不大于0时表示不限制
          */
         double _maxWidth = -1, _maxHeight = -1, _minWidth = -1, _minHeight = -1;
@@ -5436,11 +5487,6 @@ namespace sw
          * @brief 是否显示为ToolWindow (窄边框)
          */
         const Property<bool> ToolWindow;
-
-        /**
-         * @brief 背景颜色
-         */
-        const Property<Color> BackColor;
 
         /**
          * @brief 最大宽度，当值不大于0时表示不限制
@@ -6178,6 +6224,13 @@ namespace sw
         virtual void SetTextColor(Color color, bool redraw) override;
 
         /**
+         * @brief        接收到WM_NOTIFY后调用该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnNotify(NMHDR *pNMHDR) override;
+
+        /**
          * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
          */
         virtual void OnNotified(NMHDR *pNMHDR) override;
@@ -6192,6 +6245,26 @@ namespace sw
          * @param index 改变项的索引
          */
         virtual void OnCheckStateChanged(int index);
+
+        /**
+         * @brief 鼠标左键单击列标题时调用该函数
+         */
+        virtual void OnHeaderItemClicked(NMHEADERW *pNMH);
+
+        /**
+         * @brief 鼠标左键双击列标题时调用该函数
+         */
+        virtual void OnHeaderItemDoubleClicked(NMHEADERW *pNMH);
+
+        /**
+         * @brief 鼠标左键单击某一项时调用该函数
+         */
+        virtual void OnItemClicked(NMITEMACTIVATE *pNMIA);
+
+        /**
+         * @brief 鼠标左键双击某一项调用该函数
+         */
+        virtual void OnItemDoubleClicked(NMITEMACTIVATE *pNMIA);
 
     public:
         /**
@@ -6402,32 +6475,17 @@ namespace sw
 
     protected:
         /**
-         * @brief       重写SetText以防止修改Text属性时调用SetWindowTextW设置窗口文本
-         * @param value 要设置的文本
-         */
-        virtual void SetText(const std::wstring &value) override;
-
-        /**
          * @brief  接收到WM_PAINT时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnPaint() override;
 
         /**
-         * @brief       接收到WM_KEYDOWN时调用该函数
-         * @param key   虚拟按键
-         * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @brief               接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
-
-        /**
-         * @brief       接收到WM_KEYUP时调用该函数
-         * @param key   虚拟按键
-         * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnKeyUp(VirtualKey key, KeyFlags flags) override;
+        virtual bool OnSize(Size newClientSize) override;
 
         /**
          * @brief               接收到WM_MOUSEMOVE时调用该函数
@@ -6436,43 +6494,6 @@ namespace sw
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
-
-        /**
-         * @brief  接收到WM_MOUSELEAVE时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnMouseLeave() override;
-
-        /**
-         * @brief               接收到WM_LBUTTONDOWN时调用该函数
-         * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState) override;
-
-        /**
-         * @brief               接收到WM_LBUTTONUP时调用该函数
-         * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState) override;
-
-        /**
-         * @brief               接收到WM_LBUTTONDBLCLK时调用该函数
-         * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnMouseLeftButtonDoubleClick(Point mousePosition, MouseKey keyState) override;
-
-        /**
-         * @brief          接收到WM_ENABLE时调用该函数
-         * @param newValue Enabled的新值
-         * @return         若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnEnabledChanged(bool newValue) override;
     };
 }
 
