@@ -187,8 +187,19 @@ bool sw::ListView::OnNotify(NMHDR *pNMHDR)
 
 void sw::ListView::OnNotified(NMHDR *pNMHDR)
 {
-    if (pNMHDR->code == LVN_ITEMCHANGED) {
-        this->OnItemChanged(reinterpret_cast<NMLISTVIEW *>(pNMHDR));
+    switch (pNMHDR->code) {
+        case LVN_ITEMCHANGED: {
+            this->OnItemChanged(reinterpret_cast<NMLISTVIEW *>(pNMHDR));
+            break;
+        }
+        case NM_CLICK: {
+            this->OnItemClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
+            break;
+        }
+        case NM_DBLCLK: {
+            this->OnItemDoubleClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
+            break;
+        }
     }
 }
 
@@ -222,6 +233,18 @@ void sw::ListView::OnHeaderItemClicked(NMHEADERW *pNMH)
 void sw::ListView::OnHeaderItemDoubleClicked(NMHEADERW *pNMH)
 {
     ListViewHeaderClickedEventArgs args(ListView_HeaderDoubleClicked, pNMH->iItem);
+    this->RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnItemClicked(NMITEMACTIVATE *pNMIA)
+{
+    ListViewItemClickedEventArgs args(ListView_ItemClicked, pNMIA->iItem, pNMIA->iSubItem);
+    this->RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnItemDoubleClicked(NMITEMACTIVATE *pNMIA)
+{
+    ListViewItemClickedEventArgs args(ListView_ItemDoubleClicked, pNMIA->iItem, pNMIA->iSubItem);
     this->RaiseRoutedEvent(args);
 }
 

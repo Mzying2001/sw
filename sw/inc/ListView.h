@@ -150,6 +150,16 @@ namespace sw
          */
         virtual void OnHeaderItemDoubleClicked(NMHEADERW *pNMH);
 
+        /**
+         * @brief 鼠标左键单击某一项时调用该函数
+         */
+        virtual void OnItemClicked(NMITEMACTIVATE *pNMIA);
+
+        /**
+         * @brief 鼠标左键双击某一项调用该函数
+         */
+        virtual void OnItemDoubleClicked(NMITEMACTIVATE *pNMIA);
+
     public:
         /**
          * @brief 清空所有子项
