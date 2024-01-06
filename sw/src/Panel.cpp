@@ -42,7 +42,7 @@ bool sw::Panel::OnPaint()
     RECT clientRect;
     GetClientRect(hwnd, &clientRect);
 
-    HBRUSH hBrush = CreateSolidBrush(this->BackColor.Get());
+    HBRUSH hBrush = CreateSolidBrush(this->GetRealBackColor());
     FillRect(hdc, &clientRect, hBrush);
 
     if (this->_borderStyle != sw::BorderStyle::None)
