@@ -379,7 +379,7 @@ sw::UIElement *sw::UIElement::GetNextTabStopElement()
     UIElement *element = this;
     do {
         element = element->GetNextElement();
-    } while (element != nullptr && !element->_tabStop && element != this);
+    } while (element != nullptr && element != this && (!element->_tabStop || !element->Visible));
     return element;
 }
 
