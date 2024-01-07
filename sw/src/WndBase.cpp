@@ -625,7 +625,7 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             int hitTest = LOWORD(refMsg.lParam);
             int message = HIWORD(refMsg.lParam);
             bool result = false;
-            return this->OnSetCursor(hwnd, hitTest, message, result) ? result : this->DefaultWndProc(refMsg);
+            return this->OnSetCursor(hwnd, (HitTestResult)hitTest, message, result) ? result : this->DefaultWndProc(refMsg);
         }
 
         case WM_CONTEXTMENU: {
@@ -921,7 +921,7 @@ void sw::WndBase::FontChanged(HFONT hfont)
 {
 }
 
-bool sw::WndBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &result)
+bool sw::WndBase::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result)
 {
     return false;
 }

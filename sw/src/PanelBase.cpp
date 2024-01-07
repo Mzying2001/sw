@@ -4,7 +4,7 @@ sw::PanelBase::PanelBase()
 {
 }
 
-bool sw::PanelBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &result)
+bool sw::PanelBase::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result)
 {
     return this->Control::OnSetCursor(hwnd, hitTest, message, result);
 }

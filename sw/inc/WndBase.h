@@ -573,7 +573,7 @@ namespace sw
          * @param result  消息的返回值，默认为false
          * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
-        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &result);
+        virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result);
 
         /**
          * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数

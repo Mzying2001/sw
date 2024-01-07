@@ -50,7 +50,7 @@ void sw::Control::HandleChenged()
 {
 }
 
-bool sw::Control::OnSetCursor(HWND hwnd, int hitTest, int message, bool &result)
+bool sw::Control::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result)
 {
     if (this->_useDefaultCursor) {
         return false;
