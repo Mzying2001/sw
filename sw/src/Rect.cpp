@@ -14,21 +14,21 @@ sw::Rect::Rect(double left, double top, double width, double height)
 
 sw::Rect::Rect(const RECT &rect)
 {
-    double scaleX = Dip::ScaleX;
-    double scaleY = Dip::ScaleY;
-    this->left    = scaleX * rect.left;
-    this->top     = scaleY * rect.top;
-    this->width   = scaleX * (rect.right - rect.left);
-    this->height  = scaleY * (rect.bottom - rect.top);
+    static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+    static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+
+    this->left   = scaleX * rect.left;
+    this->top    = scaleY * rect.top;
+    this->width  = scaleX * (rect.right - rect.left);
+    this->height = scaleY * (rect.bottom - rect.top);
 }
 
 sw::Rect::operator RECT() const
 {
+    static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+    static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+
     RECT rect{};
-    double scaleX;
-    double scaleY;
-    scaleX      = Dip::ScaleX;
-    scaleY      = Dip::ScaleY;
     rect.left   = std::lround(this->left / scaleX);
     rect.top    = std::lround(this->top / scaleY);
     rect.right  = std::lround((this->left + this->width) / scaleX);

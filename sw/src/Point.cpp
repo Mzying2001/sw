@@ -14,14 +14,20 @@ sw::Point::Point(double x, double y)
 
 sw::Point::Point(const POINT &point)
 {
-    this->x = Dip::ScaleX * point.x;
-    this->y = Dip::ScaleY * point.y;
+    static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+    static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+
+    this->x = scaleX * point.x;
+    this->y = scaleY * point.y;
 }
 
 sw::Point::operator POINT() const
 {
+    static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+    static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+
     POINT point{};
-    point.x = std::lround(this->x / Dip::ScaleX);
-    point.y = std::lround(this->y / Dip::ScaleY);
+    point.x = std::lround(this->x / scaleX);
+    point.y = std::lround(this->y / scaleY);
     return point;
 }
