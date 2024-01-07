@@ -4,6 +4,7 @@
 #include "Color.h"
 #include "Dip.h"
 #include "Font.h"
+#include "HitTestResult.h"
 #include "Keys.h"
 #include "Point.h"
 #include "ProcMsg.h"
@@ -626,6 +627,13 @@ namespace sw
          */
         virtual bool OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush);
 
+        /**
+         * @brief           接收到WM_NCHITTEST后调用该函数
+         * @param testPoint 要测试的点在屏幕中的位置
+         * @param result    测试的结果，默认为调用DefaultWndProc的结果
+         */
+        virtual void OnNcHitTest(const Point &testPoint, HitTestResult &result);
+
     public:
         /**
          * @brief 该函数调用ShowWindow
@@ -676,6 +684,12 @@ namespace sw
          * @brief 发送消息
          */
         LRESULT SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
+         * @brief           测试指定点在窗口的哪一部分
+         * @param testPoint 要测试的点在屏幕中的位置
+         */
+        HitTestResult NcHitTest(const Point &testPoint);
 
         /**
          * @brief      通过窗口句柄获取WndBase

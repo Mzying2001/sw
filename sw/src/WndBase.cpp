@@ -668,6 +668,13 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->OnEnabledChanged(refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
+        case WM_NCHITTEST: {
+            Point testPoint      = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            HitTestResult result = (HitTestResult)this->DefaultWndProc(refMsg);
+            this->OnNcHitTest(testPoint, result);
+            return (LRESULT)result;
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }
@@ -972,6 +979,10 @@ bool sw::WndBase::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
     return false;
 }
 
+void sw::WndBase::OnNcHitTest(const Point &testPoint, HitTestResult &result)
+{
+}
+
 void sw::WndBase::Show(int nCmdShow)
 {
     ShowWindow(this->_hwnd, nCmdShow);
@@ -1025,6 +1036,12 @@ sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint)
 LRESULT sw::WndBase::SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     return ::SendMessageW(this->_hwnd, uMsg, wParam, lParam);
+}
+
+sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
+{
+    POINT point = testPoint;
+    return (HitTestResult)this->SendMessageW(WM_NCHITTEST, 0, MAKELPARAM(point.x, point.y));
 }
 
 sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)

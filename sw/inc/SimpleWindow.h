@@ -19,6 +19,7 @@
 #include "FillLayout.h"
 #include "Font.h"
 #include "GroupBox.h"
+#include "HitTestResult.h"
 #include "ILayout.h"
 #include "ITag.h"
 #include "Icon.h"
