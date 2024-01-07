@@ -65,7 +65,7 @@ namespace sw
          */
         const ReadOnlyProperty<double> VerticalScrollLimit;
 
-    public:
+    protected:
         /**
          * @brief 初始化Layer
          */
