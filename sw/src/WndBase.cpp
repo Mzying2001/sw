@@ -96,13 +96,13 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const sw::Rect &value) {
+              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
               if (this->_rect != value) {
-                  double scaleX = Dip::ScaleX;
-                  double scaleY = Dip::ScaleY;
-                  int left      = std::lround(value.left / scaleX);
-                  int top       = std::lround(value.top / scaleY);
-                  int width     = std::lround(value.width / scaleX);
-                  int height    = std::lround(value.height / scaleY);
+                  int left   = std::lround(value.left / scaleX);
+                  int top    = std::lround(value.top / scaleY);
+                  int width  = std::lround(value.width / scaleX);
+                  int height = std::lround(value.height / scaleY);
                   SetWindowPos(this->_hwnd, NULL, left, top, width, height, SWP_NOACTIVATE | SWP_NOZORDER);
               }
           }),
@@ -114,9 +114,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
+              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
               if (this->_rect.left != value) {
-                  int x = std::lround(value / Dip::ScaleX);
-                  int y = std::lround(this->_rect.top / Dip::ScaleY);
+                  int x = std::lround(value / scaleX);
+                  int y = std::lround(this->_rect.top / scaleY);
                   SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
               }
           }),
@@ -128,9 +130,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
+              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
               if (this->_rect.top != value) {
-                  int x = std::lround(this->_rect.left / Dip::ScaleX);
-                  int y = std::lround(value / Dip::ScaleY);
+                  int x = std::lround(this->_rect.left / scaleX);
+                  int y = std::lround(value / scaleY);
                   SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
               }
           }),
@@ -142,9 +146,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
+              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
               if (this->_rect.width != value) {
-                  int cx = std::lround(value / Dip::ScaleX);
-                  int cy = std::lround(this->_rect.height / Dip::ScaleY);
+                  int cx = std::lround(value / scaleX);
+                  int cy = std::lround(this->_rect.height / scaleY);
                   SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
               }
           }),
@@ -156,9 +162,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
+              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
               if (this->_rect.height != value) {
-                  int cx = std::lround(this->_rect.width / Dip::ScaleX);
-                  int cy = std::lround(value / Dip::ScaleY);
+                  int cx = std::lround(this->_rect.width / scaleX);
+                  int cy = std::lround(value / scaleY);
                   SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
               }
           }),
@@ -444,9 +452,10 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_WINDOWPOSCHANGED: {
+            static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+            static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+
             PWINDOWPOS pWndPos = reinterpret_cast<PWINDOWPOS>(refMsg.lParam);
-            double scaleX      = Dip::ScaleX;
-            double scaleY      = Dip::ScaleY;
             this->_rect.left   = scaleX * pWndPos->x;
             this->_rect.top    = scaleY * pWndPos->y;
             this->_rect.width  = scaleX * pWndPos->cx;
