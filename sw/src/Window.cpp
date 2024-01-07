@@ -326,7 +326,7 @@ bool sw::Window::OnPaint()
     HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
 
     // 在内存 DC 上进行绘制
-    HBRUSH hBrush = CreateSolidBrush(this->BackColor.Get());
+    HBRUSH hBrush = CreateSolidBrush(this->GetRealBackColor());
     FillRect(hdcMem, &rtClient, hBrush);
 
     // 将内存 DC 的内容绘制到窗口客户区

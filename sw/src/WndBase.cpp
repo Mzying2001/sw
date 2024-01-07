@@ -206,10 +206,8 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const bool &value) {
-              if (value != this->Visible) {
-                  ShowWindow(this->_hwnd, value ? SW_SHOW : SW_HIDE);
-                  this->VisibleChanged(value);
-              }
+              ShowWindow(this->_hwnd, value ? SW_SHOW : SW_HIDE);
+              this->VisibleChanged(value);
           }),
 
       Text(

@@ -187,7 +187,8 @@ void sw::TabControl::OnAddedChild(UIElement &element)
     int index = this->IndexOf(element);
 
     this->_InsertItem(index, item);
-    element.Visible = index == this->SelectedIndex;
+    // element.Visible = index == this->SelectedIndex;
+    ShowWindow(element.Handle, index == this->SelectedIndex ? SW_SHOW : SW_HIDE);
 }
 
 void sw::TabControl::OnRemovedChild(UIElement &element)
@@ -216,8 +217,13 @@ void sw::TabControl::_UpdateChildVisible()
 
     for (int i = 0; i < childCount; ++i) {
         UIElement &item = (*this)[i];
-        item.Visible    = i == selectedIndex;
-        item.Visible    = i == selectedIndex; // 不加这个在点击按钮后立刻换页按钮会莫名其妙固定在界面上
+        // item.Visible    = i == selectedIndex;
+        ShowWindow(item.Handle, i == selectedIndex ? SW_SHOW : SW_HIDE);
+        ShowWindow(item.Handle, i == selectedIndex ? SW_SHOW : SW_HIDE); // 不加这个在点击按钮后立刻换页按钮会莫名其妙固定在界面上
+
+        sw::Rect contentRect = this->ContentRect;
+        item.Measure({contentRect.width, contentRect.height});
+        item.Arrange(contentRect);
     }
 }
 
