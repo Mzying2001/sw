@@ -639,6 +639,11 @@ namespace sw
         bool IsControl();
 
         /**
+         * @brief 判断当前对象在界面中是否可视，与Visible属性不同的是该函数返回值会受父窗口的影响
+         */
+        bool IsVisible();
+
+        /**
          * @brief       获取用户区点在屏幕上点的位置
          * @param point 用户区坐标
          * @return      该点在屏幕上的坐标

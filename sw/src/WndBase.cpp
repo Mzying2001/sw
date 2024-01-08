@@ -209,7 +209,7 @@ sw::WndBase::WndBase()
           // get
           [&]() -> const bool & {
               static bool visible;
-              visible = IsWindowVisible(this->_hwnd);
+              visible = this->GetStyle(WS_VISIBLE);
               return visible;
           },
           // set
@@ -985,6 +985,11 @@ void sw::WndBase::Redraw(bool erase)
 bool sw::WndBase::IsControl()
 {
     return this->_controlOldWndProc != nullptr;
+}
+
+bool sw::WndBase::IsVisible()
+{
+    return IsWindowVisible(this->_hwnd);
 }
 
 sw::Point sw::WndBase::PointToScreen(const Point &point)
