@@ -51,13 +51,5 @@ namespace sw
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(Size newClientSize) override;
-
-        /**
-         * @brief               接收到WM_MOUSEMOVE时调用该函数
-         * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
     };
 }

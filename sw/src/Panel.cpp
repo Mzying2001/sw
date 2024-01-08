@@ -26,6 +26,7 @@ sw::Panel::Panel()
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = DefWindowProcW;
         wc.lpszClassName = _PanelClassName;
+        wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
         RegisterClassExW(&wc);
     }
 
@@ -58,11 +59,4 @@ bool sw::Panel::OnSize(Size newClientSize)
 {
     InvalidateRect(this->Handle, NULL, TRUE);
     return UIElement::OnSize(newClientSize);
-}
-
-bool sw::Panel::OnMouseMove(Point mousePosition, MouseKey keyState)
-{
-    HWND hwnd = this->Handle;
-    this->SendMessageW(WM_SETCURSOR, (WPARAM)hwnd, MAKELPARAM(HTCLIENT, WM_MOUSEMOVE));
-    return UIElement::OnMouseMove(mousePosition, keyState);
 }
