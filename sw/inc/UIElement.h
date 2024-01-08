@@ -140,6 +140,16 @@ namespace sw
          */
         bool _transparent = false;
 
+        /**
+         * @brief 是否使用默认的鼠标样式
+         */
+        bool _useDefaultCursor = true;
+
+        /**
+         * @brief 鼠标句柄
+         */
+        HCURSOR _hCursor = NULL;
+
     public:
         /**
          * @brief 边距
@@ -405,6 +415,23 @@ namespace sw
          * @brief 获取当前要显示的背景颜色：当Transparent为true时获取到祖先节点中首个Transparent为false的背景颜色，否则返回当前元素的背景颜色
          */
         Color GetRealBackColor();
+
+        /**
+         * @brief         设置鼠标样式
+         * @param hCursor 鼠标句柄
+         */
+        void SetCursor(HCURSOR hCursor);
+
+        /**
+         * @brief        设置鼠标样式
+         * @param cursor 鼠标样式
+         */
+        void SetCursor(StandardCursor cursor);
+
+        /**
+         * @brief 将鼠标样式设置为默认样式
+         */
+        void ResetCursor();
 
         /**
          * @brief 获取Tag
@@ -724,6 +751,16 @@ namespace sw
          * @return          若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
          */
         virtual bool OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush) override;
+
+        /**
+         * @brief         接收到WM_SETCURSOR消息时调用该函数
+         * @param hwnd    鼠标所在窗口的句柄
+         * @param hitTest hit-test的结果，详见WM_NCHITTEST消息的返回值
+         * @param message 触发该事件的鼠标消息，如WM_MOUSEMOVE
+         * @param result  消息的返回值，默认为false
+         * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result) override;
 
     private:
         /**

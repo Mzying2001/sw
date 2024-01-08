@@ -412,6 +412,23 @@ sw::Color sw::UIElement::GetRealBackColor()
     return p->_backColor;
 }
 
+void sw::UIElement::SetCursor(HCURSOR hCursor)
+{
+    this->_hCursor          = hCursor;
+    this->_useDefaultCursor = false;
+}
+
+void sw::UIElement::SetCursor(StandardCursor cursor)
+{
+    this->SetCursor(CursorHelper::GetCursorHandle(cursor));
+}
+
+void sw::UIElement::ResetCursor()
+{
+    this->_hCursor          = NULL;
+    this->_useDefaultCursor = true;
+}
+
 uint64_t sw::UIElement::GetTag()
 {
     return this->_tag;
@@ -907,6 +924,16 @@ bool sw::UIElement::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
 
     hBrush    = CreateSolidBrush(backColor);
     hRetBrush = hBrush;
+    return true;
+}
+
+bool sw::UIElement::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result)
+{
+    if (this->_useDefaultCursor || hitTest != HitTestResult::HitClient) {
+        return false;
+    }
+    ::SetCursor(this->_hCursor);
+    result = true;
     return true;
 }
 

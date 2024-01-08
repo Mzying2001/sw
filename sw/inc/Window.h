@@ -49,11 +49,6 @@ namespace sw
         WindowStartupLocation _startupLocation = WindowStartupLocation::Manual;
 
         /**
-         * @brief 鼠标句柄，窗口初始化时会赋值
-         */
-        HCURSOR _hCursor;
-
-        /**
          * @brief 以模态窗口显示时保存所有者窗口，非模态时该值始终为nullptr
          */
         Window *_modalOwner = nullptr;
@@ -187,14 +182,6 @@ namespace sw
         virtual bool OnPaint() override;
 
         /**
-         * @brief               接收到WM_MOUSEMOVE时调用该函数
-         * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
-
-        /**
          * @brief    当OnCommand接收到菜单命令时调用该函数
          * @param id 菜单id
          */
@@ -226,18 +213,6 @@ namespace sw
          * @param owner 窗体的所有者，窗体显示期间该窗体的Enabled属性将被设为false，该参数不能设为自己
          */
         void ShowDialog(Window &owner);
-
-        /**
-         * @brief         设置鼠标样式
-         * @param hCursor 鼠标句柄
-         */
-        void SetCursor(HCURSOR hCursor);
-
-        /**
-         * @brief        设置鼠标样式
-         * @param cursor 鼠标样式
-         */
-        void SetCursor(StandardCursor cursor);
 
         /**
          * @brief       设置图标

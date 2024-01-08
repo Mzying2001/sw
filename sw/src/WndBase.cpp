@@ -260,6 +260,7 @@ sw::WndBase::WndBase()
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = WndBase::_WndProc;
         wc.lpszClassName = _WindowClassName;
+        wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
         RegisterClassExW(&wc);
     }
 

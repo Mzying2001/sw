@@ -344,12 +344,6 @@ bool sw::Window::OnPaint()
     return true;
 }
 
-bool sw::Window::OnMouseMove(Point mousePosition, MouseKey keyState)
-{
-    ::SetCursor(this->_hCursor);
-    return this->UIElement::OnMouseMove(mousePosition, keyState);
-}
-
 void sw::Window::OnMenuCommand(int id)
 {
     if (ContextMenu::IsContextMenuID(id)) {
@@ -422,16 +416,6 @@ void sw::Window::ShowDialog(Window &owner)
     if (oldIsEnabled) {
         owner.Enabled = true;
     }
-}
-
-void sw::Window::SetCursor(HCURSOR hCursor)
-{
-    this->_hCursor = hCursor;
-}
-
-void sw::Window::SetCursor(StandardCursor cursor)
-{
-    this->SetCursor(CursorHelper::GetCursorHandle(cursor));
 }
 
 void sw::Window::SetIcon(HICON hIcon)

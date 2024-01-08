@@ -1,6 +1,7 @@
 #pragma once
 
 #include "App.h"
+#include "Cursor.h"
 #include "Dip.h"
 #include "Font.h"
 #include "HitTestResult.h"
