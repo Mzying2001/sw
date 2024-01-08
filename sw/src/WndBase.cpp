@@ -664,6 +664,11 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return (LRESULT)result;
         }
 
+        case WM_ERASEBKGND: {
+            int result = 0;
+            return this->OnEraseBackground(result) ? (LRESULT)result : this->DefaultWndProc(refMsg);
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }
@@ -939,6 +944,11 @@ bool sw::WndBase::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
 
 void sw::WndBase::OnNcHitTest(const Point &testPoint, HitTestResult &result)
 {
+}
+
+bool sw::WndBase::OnEraseBackground(int &result)
+{
+    return false;
 }
 
 void sw::WndBase::Show(int nCmdShow)

@@ -599,6 +599,13 @@ namespace sw
          */
         virtual void OnNcHitTest(const Point &testPoint, HitTestResult &result);
 
+        /**
+         * @brief        接收到WM_ERASEBKGND时调用该函数
+         * @param result 若已处理该消息则设为非零值，默认值为0
+         * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnEraseBackground(int &result);
+
     public:
         /**
          * @brief 该函数调用ShowWindow

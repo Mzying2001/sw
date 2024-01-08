@@ -265,10 +265,6 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             return 0;
         }
 
-        case WM_ERASEBKGND: {
-            return 1; // 阻止擦除背景
-        }
-
         case WM_ACTIVATE: {
             if (refMsg.wParam == WA_INACTIVE)
                 this->OnInactived();
@@ -308,6 +304,12 @@ bool sw::Window::OnClose()
 bool sw::Window::OnDestroy()
 {
     RaiseRoutedEvent(Window_Closed);
+    return true;
+}
+
+bool sw::Window::OnEraseBackground(int &result)
+{
+    result = 1; // 阻止擦除背景
     return true;
 }
 
