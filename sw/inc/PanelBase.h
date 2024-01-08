@@ -15,16 +15,6 @@ namespace sw
 
     protected:
         /**
-         * @brief         接收到WM_SETCURSOR消息时调用该函数
-         * @param hwnd    鼠标所在窗口的句柄
-         * @param hitTest hit-test的结果，详见WM_NCHITTEST消息的返回值
-         * @param message 触发该事件的鼠标消息，如WM_MOUSEMOVE
-         * @param result  消息的返回值，默认为false
-         * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
-         */
-        virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result) override;
-
-        /**
          * @brief       接收到WM_VSCROLL时调用目标控件的该函数
          * @param event 事件类型，即消息wParam的低字
          * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
