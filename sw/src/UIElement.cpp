@@ -909,7 +909,7 @@ bool sw::UIElement::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
     if (childWnd == nullptr) return false;
 
     UIElement *child = dynamic_cast<UIElement *>(childWnd);
-    if (child == nullptr) return this->WndBase::OnCtlColor(hdc, hControl, hRetBrush);
+    if (child == nullptr) return false;
 
     static HBRUSH hBrush = NULL;
     COLORREF textColor   = child->_textColor;
