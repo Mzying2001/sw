@@ -607,6 +607,14 @@ namespace sw
          */
         virtual bool OnEraseBackground(int &result);
 
+        /**
+         * @brief           接收到WM_DRAWITEM时调用该函数
+         * @param id        控件的标识符，若消息是通过菜单发送的则此参数为零
+         * @param pDrawItem 包含有关要绘制的项和所需绘图类型的信息的结构体指针
+         * @return          若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem);
+
     public:
         /**
          * @brief 该函数调用ShowWindow

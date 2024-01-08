@@ -670,6 +670,10 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->OnEraseBackground(result) ? (LRESULT)result : this->DefaultWndProc(refMsg);
         }
 
+        case WM_DRAWITEM: {
+            return this->OnDrawItem((int)refMsg.wParam, reinterpret_cast<DRAWITEMSTRUCT *>(refMsg.lParam)) ? TRUE : this->DefaultWndProc(refMsg);
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }
@@ -948,6 +952,11 @@ void sw::WndBase::OnNcHitTest(const Point &testPoint, HitTestResult &result)
 }
 
 bool sw::WndBase::OnEraseBackground(int &result)
+{
+    return false;
+}
+
+bool sw::WndBase::OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem)
 {
     return false;
 }
