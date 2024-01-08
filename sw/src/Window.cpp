@@ -202,7 +202,6 @@ sw::Window::Window()
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
-    this->SetCursor(StandardCursor::Arrow);
     this->SetIcon(_GetWindowDefaultIcon());
 }
 
