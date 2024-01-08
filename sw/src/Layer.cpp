@@ -23,7 +23,8 @@ sw::Layer::Layer()
           [&](const bool &value) {
               if (this->_autoSize != value) {
                   this->_autoSize = value;
-                  this->NotifyLayoutUpdated();
+                  if (!this->IsRootElement())
+                      this->NotifyLayoutUpdated();
               }
           }),
 
