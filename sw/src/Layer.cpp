@@ -349,7 +349,7 @@ void sw::Layer::Measure(const Size &availableSize)
     Size desireSize = this->GetDesireSize();
 
     desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
-    desireSize.height += (windowRect.width - clientRect.width) + margin.top + margin.bottom;
+    desireSize.height += (windowRect.height - clientRect.height) + margin.top + margin.bottom;
     this->SetDesireSize(desireSize);
 }
 
