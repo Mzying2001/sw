@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Alignment.h"
+#include "Color.h"
 #include "ContextMenu.h"
 #include "ILayout.h"
 #include "ITag.h"
@@ -125,6 +126,16 @@ namespace sw
         bool _drawFocusRect = false;
 
         /**
+         * @brief 背景颜色
+         */
+        Color _backColor = Color::White;
+
+        /**
+         * @brief 文本颜色
+         */
+        Color _textColor = Color::Black;
+
+        /**
          * @brief 是否使用透明背景
          */
         bool _transparent = false;
@@ -184,6 +195,16 @@ namespace sw
          * @brief 表示用户是否可以通过按下Tab键将焦点移动到当前元素
          */
         const Property<bool> TabStop;
+
+        /**
+         * @brief 背景颜色，对于部分控件该属性可能会失效
+         */
+        const Property<Color> BackColor;
+
+        /**
+         * @brief 文本颜色，对于部分控件该属性可能会失效
+         */
+        const Property<Color> TextColor;
 
         /**
          * @brief 是否使用透明背景（此属性并非真正意义上的透明，将该属性设为true可继承父元素的背景颜色）
@@ -488,6 +509,20 @@ namespace sw
          * @brief 设置下一个TabStop属性为true的元素为焦点元素
          */
         void SetNextTabStopFocus();
+
+        /**
+         * @brief        设置背景颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetBackColor(Color color, bool redraw);
+
+        /**
+         * @brief        设置文本颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetTextColor(Color color, bool redraw);
 
         /**
          * @brief         添加子元素后调用该函数

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "App.h"
-#include "Color.h"
 #include "Dip.h"
 #include "Font.h"
 #include "HitTestResult.h"
@@ -52,16 +51,6 @@ namespace sw
          * @brief 窗口标题或文本
          */
         std::wstring _text = L"";
-
-        /**
-         * @brief 背景颜色
-         */
-        Color _backColor = Color::White;
-
-        /**
-         * @brief 文本颜色
-         */
-        Color _textColor = Color::Black;
 
         /**
          * @brief 控件是否拥有焦点
@@ -158,16 +147,6 @@ namespace sw
          * @brief 窗口标题或控件文本
          */
         const Property<std::wstring> Text;
-
-        /**
-         * @brief 背景颜色，对于部分控件该属性可能会失效
-         */
-        const Property<Color> BackColor;
-
-        /**
-         * @brief 文本颜色，对于部分控件该属性可能会失效
-         */
-        const Property<Color> TextColor;
 
         /**
          * @brief 窗口是否拥有焦点
@@ -274,20 +253,6 @@ namespace sw
          * @param value 要设置的文本
          */
         virtual void SetText(const std::wstring &value);
-
-        /**
-         * @brief        设置背景颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetBackColor(Color color, bool redraw);
-
-        /**
-         * @brief        设置文本颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetTextColor(Color color, bool redraw);
 
         /**
          * @brief  接收到WM_CREATE时调用该函数

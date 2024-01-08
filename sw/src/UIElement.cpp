@@ -133,6 +133,26 @@ sw::UIElement::UIElement()
               this->_tabStop = value;
           }),
 
+      BackColor(
+          // get
+          [&]() -> const Color & {
+              return this->_backColor;
+          },
+          // set
+          [&](const Color &value) {
+              this->SetBackColor(value, true);
+          }),
+
+      TextColor(
+          // get
+          [&]() -> const Color & {
+              return this->_textColor;
+          },
+          // set
+          [&](const Color &value) {
+              this->SetTextColor(value, true);
+          }),
+
       Transparent(
           // get
           [&]() -> const bool & {
@@ -385,15 +405,11 @@ sw::UIElement *sw::UIElement::GetNextTabStopElement()
 
 sw::Color sw::UIElement::GetRealBackColor()
 {
-    if (!this->_transparent) {
-        return this->BackColor.Get();
-    }
-
     UIElement *p = this;
-    while (p->_transparent && p->_parent != nullptr)
+    while (p->_transparent && p->_parent != nullptr) {
         p = p->_parent;
-
-    return p->BackColor.Get();
+    }
+    return p->_backColor;
 }
 
 uint64_t sw::UIElement::GetTag()
@@ -610,6 +626,18 @@ void sw::UIElement::SetNextTabStopFocus()
 {
     UIElement *next = this->GetNextTabStopElement();
     if (next && next != this) next->OnTabStop();
+}
+
+void sw::UIElement::SetBackColor(Color color, bool redraw)
+{
+    this->_backColor = color;
+    if (redraw) this->Redraw();
+}
+
+void sw::UIElement::SetTextColor(Color color, bool redraw)
+{
+    this->_textColor = color;
+    if (redraw) this->Redraw();
 }
 
 void sw::UIElement::OnAddedChild(UIElement &element)
@@ -867,7 +895,7 @@ bool sw::UIElement::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
     if (child == nullptr) return this->WndBase::OnCtlColor(hdc, hControl, hRetBrush);
 
     static HBRUSH hBrush = NULL;
-    COLORREF textColor   = child->TextColor.Get();
+    COLORREF textColor   = child->_textColor;
     COLORREF backColor   = child->GetRealBackColor();
 
     ::SetTextColor(hdc, textColor);
