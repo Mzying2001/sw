@@ -49,11 +49,6 @@ namespace sw
         WindowStartupLocation _startupLocation = WindowStartupLocation::Manual;
 
         /**
-         * @brief 鼠标句柄，窗口初始化时会赋值
-         */
-        HCURSOR _hCursor;
-
-        /**
          * @brief 以模态窗口显示时保存所有者窗口，非模态时该值始终为nullptr
          */
         Window *_modalOwner = nullptr;
@@ -174,18 +169,17 @@ namespace sw
         virtual bool OnDestroy() override;
 
         /**
+         * @brief        接收到WM_ERASEBKGND时调用该函数
+         * @param result 若已处理该消息则设为非零值，默认值为0
+         * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnEraseBackground(int &result) override;
+
+        /**
          * @brief  接收到WM_PAINT时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnPaint() override;
-
-        /**
-         * @brief               接收到WM_MOUSEMOVE时调用该函数
-         * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
 
         /**
          * @brief    当OnCommand接收到菜单命令时调用该函数
@@ -221,18 +215,6 @@ namespace sw
         void ShowDialog(Window &owner);
 
         /**
-         * @brief         设置鼠标样式
-         * @param hCursor 鼠标句柄
-         */
-        void SetCursor(HCURSOR hCursor);
-
-        /**
-         * @brief        设置鼠标样式
-         * @param cursor 鼠标样式
-         */
-        void SetCursor(StandardCursor cursor);
-
-        /**
          * @brief       设置图标
          * @param hIcon 图标句柄
          */
@@ -248,6 +230,11 @@ namespace sw
          * @return 当调用ShowDialog时该函数返回true，否则返回false
          */
         bool IsModal();
+
+        /**
+         * @brief 调整窗口尺寸以适应其内容大小，只对设置了布局方式的顶级窗口有效
+         */
+        void SizeToContent();
 
         /**
          * @brief 设置窗口的默认布局方式

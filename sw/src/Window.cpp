@@ -202,7 +202,6 @@ sw::Window::Window()
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
-    this->SetCursor(StandardCursor::Arrow);
     this->SetIcon(_GetWindowDefaultIcon());
 }
 
@@ -235,9 +234,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_GETMINMAXINFO: {
-            double scaleX     = Dip::ScaleX;
-            double scaleY     = Dip::ScaleY;
-            PMINMAXINFO pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
+            static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+            static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+            PMINMAXINFO pInfo     = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
             // 按照设置限制窗口大小
             if (this->_maxWidth > 0) {
                 LONG maxWidth           = std::lround(this->_maxWidth / scaleX);
@@ -263,10 +262,6 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             this->UpdateLayout();
             _UpdateFontForAllChild(*this);
             return 0;
-        }
-
-        case WM_ERASEBKGND: {
-            return 1; // 阻止擦除背景
         }
 
         case WM_ACTIVATE: {
@@ -311,6 +306,12 @@ bool sw::Window::OnDestroy()
     return true;
 }
 
+bool sw::Window::OnEraseBackground(int &result)
+{
+    result = 1; // 阻止擦除背景
+    return true;
+}
+
 bool sw::Window::OnPaint()
 {
     PAINTSTRUCT ps;
@@ -340,12 +341,6 @@ bool sw::Window::OnPaint()
 
     EndPaint(hwnd, &ps);
     return true;
-}
-
-bool sw::Window::OnMouseMove(Point mousePosition, MouseKey keyState)
-{
-    ::SetCursor(this->_hCursor);
-    return this->UIElement::OnMouseMove(mousePosition, keyState);
 }
 
 void sw::Window::OnMenuCommand(int id)
@@ -422,16 +417,6 @@ void sw::Window::ShowDialog(Window &owner)
     }
 }
 
-void sw::Window::SetCursor(HCURSOR hCursor)
-{
-    this->_hCursor = hCursor;
-}
-
-void sw::Window::SetCursor(StandardCursor cursor)
-{
-    this->SetCursor(CursorHelper::GetCursorHandle(cursor));
-}
-
 void sw::Window::SetIcon(HICON hIcon)
 {
     this->SendMessageW(WM_SETICON, ICON_BIG, (LPARAM)hIcon);
@@ -446,6 +431,30 @@ void sw::Window::DrawMenuBar()
 bool sw::Window::IsModal()
 {
     return this->_modalOwner != nullptr;
+}
+
+void sw::Window::SizeToContent()
+{
+    if (!this->IsRootElement()) {
+        return; // 只对顶级窗口有效
+    }
+
+    // 该函数需要AutoSize为true，这里先备份其值以做后续恢复
+    bool oldAutoSize = this->AutoSize;
+    this->AutoSize   = true;
+
+    // measure
+    sw::Size measureSize(INFINITY, INFINITY);
+    this->Measure(measureSize);
+
+    // arrange
+    sw::Size desireSize  = this->GetDesireSize();
+    sw::Rect windowRect  = this->Rect;
+    sw::Thickness margin = this->Margin;
+    this->Arrange(sw::Rect(windowRect.left - margin.left, windowRect.top - margin.top, desireSize.width, desireSize.height));
+
+    // 恢复AutoSize属性的值
+    this->AutoSize = oldAutoSize;
 }
 
 void _UpdateFontForAllChild(sw::UIElement &element)

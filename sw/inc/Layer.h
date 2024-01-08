@@ -15,6 +15,11 @@ namespace sw
         bool _layoutDisabled = false;
 
         /**
+         * @brief 是否按照布局方式与子元素自动调整尺寸
+         */
+        bool _autoSize = true;
+
+        /**
          * @brief 指向所自定义的布局方式对象的指针
          */
         LayoutHost *_customLayout = nullptr;
@@ -34,6 +39,11 @@ namespace sw
          * @brief 自定义的布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设为nullptr可恢复默认布局
          */
         const Property<LayoutHost *> Layout;
+
+        /**
+         * @brief 是否按照布局方式与子元素自动调整尺寸，该属性仅在当前元素已设置布局方式并且非顶级元素时有效
+         */
+        const Property<bool> AutoSize;
 
         /**
          * @brief 是否显示横向滚动条
@@ -65,7 +75,7 @@ namespace sw
          */
         const ReadOnlyProperty<double> VerticalScrollLimit;
 
-    public:
+    protected:
         /**
          * @brief 初始化Layer
          */
@@ -81,6 +91,11 @@ namespace sw
          * @brief 在没有设定布局方式时，使用该函数对子元素Measure和Arrange
          */
         void _MeasureAndArrangeWithoutLayout();
+
+        /**
+         * @brief 使用设定的布局方式对子元素进行Measure和Arrange，不改变当前的尺寸和DesireSize
+         */
+        void _MeasureAndArrangeWithoutResize();
 
     protected:
         /**

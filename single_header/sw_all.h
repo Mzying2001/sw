@@ -530,6 +530,44 @@ namespace sw
     };
 }
 
+// HitTestResult.h
+
+
+namespace sw
+{
+    /**
+     * @brief NcHitTest（WM_NCHITTEST）的返回值
+     */
+    enum class HitTestResult {
+        HitBorder      = HTBORDER,      // 在没有大小边界的窗口边框中。
+        HitBottom      = HTBOTTOM,      // 在可调整大小的窗口的下水平边框中（用户可以单击鼠标以垂直调整窗口大小）。
+        HitBottomLeft  = HTBOTTOMLEFT,  // 在可调整大小的窗口的边框左下角（用户可以单击鼠标以对角线调整窗口大小）。
+        HitBottomRight = HTBOTTOMRIGHT, // 在可调整大小的窗口的边框右下角（用户可以单击鼠标以对角线调整窗口大小）。
+        HitCaption     = HTCAPTION,     // 在标题栏中。
+        HitClient      = HTCLIENT,      // 在客户端区中。
+        HitClose       = HTCLOSE,       // 在关闭按钮中。
+        HitError       = HTERROR,       // 在屏幕背景上或窗口之间的分割线上（与 HTNOWHERE 相同，只是 DefWindowProc 函数会生成系统蜂鸣音以指示错误）。
+        HitGrowBox     = HTGROWBOX,     // 在大小框中（与 HTSIZE 相同）。
+        HitHelp        = HTHELP,        // 在帮助按钮中。
+        HitHScroll     = HTHSCROLL,     // 在水平滚动条中。
+        HitLeft        = HTLEFT,        // 在可调整大小的窗口的左边框中（用户可以单击鼠标以水平调整窗口大小）。
+        HitMenu        = HTMENU,        // 在菜单中。
+        HitMaxButton   = HTMAXBUTTON,   // 在最大化按钮中。
+        HitMinButton   = HTMINBUTTON,   // 在最小化按钮中。
+        HitNoWhere     = HTNOWHERE,     // 在屏幕背景上，或在窗口之间的分隔线上。
+        HitReduce      = HTREDUCE,      // 在最小化按钮中。
+        HitRight       = HTRIGHT,       // 在可调整大小的窗口的右左边框中（用户可以单击鼠标以水平调整窗口大小）。
+        HitSize        = HTSIZE,        // 在大小框中（与 HTGROWBOX 相同）。
+        HitSysMenu     = HTSYSMENU,     // 在窗口菜单或子窗口的关闭按钮中。
+        HitTop         = HTTOP,         // 在窗口的上水平边框中。
+        HitTopLeft     = HTTOPLEFT,     // 在窗口边框的左上角。
+        HitTopRight    = HTTOPRIGHT,    // 在窗口边框的右上角。
+        HitTransparent = HTTRANSPARENT, // 在同一线程当前由另一个窗口覆盖的窗口中（消息将发送到同一线程中的基础窗口，直到其中一个窗口返回不是 HTTRANSPARENT 的代码）。
+        HitVScroll     = HTVSCROLL,     // 在垂直滚动条中。
+        HitZoom        = HTZOOM,        // 在最大化按钮中。
+    };
+}
+
 // Icon.h
 
 
@@ -2729,16 +2767,6 @@ namespace sw
         std::wstring _text = L"";
 
         /**
-         * @brief 背景颜色
-         */
-        Color _backColor = Color::White;
-
-        /**
-         * @brief 文本颜色
-         */
-        Color _textColor = Color::Black;
-
-        /**
          * @brief 控件是否拥有焦点
          */
         bool _focused = false;
@@ -2833,16 +2861,6 @@ namespace sw
          * @brief 窗口标题或控件文本
          */
         const Property<std::wstring> Text;
-
-        /**
-         * @brief 背景颜色，对于部分控件该属性可能会失效
-         */
-        const Property<Color> BackColor;
-
-        /**
-         * @brief 文本颜色，对于部分控件该属性可能会失效
-         */
-        const Property<Color> TextColor;
 
         /**
          * @brief 窗口是否拥有焦点
@@ -2949,20 +2967,6 @@ namespace sw
          * @param value 要设置的文本
          */
         virtual void SetText(const std::wstring &value);
-
-        /**
-         * @brief        设置背景颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetBackColor(Color color, bool redraw);
-
-        /**
-         * @brief        设置文本颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetTextColor(Color color, bool redraw);
 
         /**
          * @brief  接收到WM_CREATE时调用该函数
@@ -3248,7 +3252,7 @@ namespace sw
          * @param result  消息的返回值，默认为false
          * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
-        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &result);
+        virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result);
 
         /**
          * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
@@ -3302,6 +3306,28 @@ namespace sw
          */
         virtual bool OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush);
 
+        /**
+         * @brief           接收到WM_NCHITTEST后调用该函数
+         * @param testPoint 要测试的点在屏幕中的位置
+         * @param result    测试的结果，默认为调用DefaultWndProc的结果
+         */
+        virtual void OnNcHitTest(const Point &testPoint, HitTestResult &result);
+
+        /**
+         * @brief        接收到WM_ERASEBKGND时调用该函数
+         * @param result 若已处理该消息则设为非零值，默认值为0
+         * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnEraseBackground(int &result);
+
+        /**
+         * @brief           接收到WM_DRAWITEM时调用该函数
+         * @param id        控件的标识符，若消息是通过菜单发送的则此参数为零
+         * @param pDrawItem 包含有关要绘制的项和所需绘图类型的信息的结构体指针
+         * @return          若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem);
+
     public:
         /**
          * @brief 该函数调用ShowWindow
@@ -3335,6 +3361,11 @@ namespace sw
         bool IsControl();
 
         /**
+         * @brief 判断当前对象在界面中是否可视，与Visible属性不同的是该函数返回值会受父窗口的影响
+         */
+        bool IsVisible();
+
+        /**
          * @brief       获取用户区点在屏幕上点的位置
          * @param point 用户区坐标
          * @return      该点在屏幕上的坐标
@@ -3352,6 +3383,12 @@ namespace sw
          * @brief 发送消息
          */
         LRESULT SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
+         * @brief           测试指定点在窗口的哪一部分
+         * @param testPoint 要测试的点在屏幕中的位置
+         */
+        HitTestResult NcHitTest(const Point &testPoint);
 
         /**
          * @brief      通过窗口句柄获取WndBase
@@ -3804,9 +3841,29 @@ namespace sw
         bool _drawFocusRect = false;
 
         /**
+         * @brief 背景颜色
+         */
+        Color _backColor = Color::White;
+
+        /**
+         * @brief 文本颜色
+         */
+        Color _textColor = Color::Black;
+
+        /**
          * @brief 是否使用透明背景
          */
         bool _transparent = false;
+
+        /**
+         * @brief 是否使用默认的鼠标样式
+         */
+        bool _useDefaultCursor = true;
+
+        /**
+         * @brief 鼠标句柄
+         */
+        HCURSOR _hCursor = NULL;
 
     public:
         /**
@@ -3863,6 +3920,16 @@ namespace sw
          * @brief 表示用户是否可以通过按下Tab键将焦点移动到当前元素
          */
         const Property<bool> TabStop;
+
+        /**
+         * @brief 背景颜色，对于部分控件该属性可能会失效
+         */
+        const Property<Color> BackColor;
+
+        /**
+         * @brief 文本颜色，对于部分控件该属性可能会失效
+         */
+        const Property<Color> TextColor;
 
         /**
          * @brief 是否使用透明背景（此属性并非真正意义上的透明，将该属性设为true可继承父元素的背景颜色）
@@ -4065,6 +4132,23 @@ namespace sw
         Color GetRealBackColor();
 
         /**
+         * @brief         设置鼠标样式
+         * @param hCursor 鼠标句柄
+         */
+        void SetCursor(HCURSOR hCursor);
+
+        /**
+         * @brief        设置鼠标样式
+         * @param cursor 鼠标样式
+         */
+        void SetCursor(StandardCursor cursor);
+
+        /**
+         * @brief 将鼠标样式设置为默认样式
+         */
+        void ResetCursor();
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;
@@ -4167,6 +4251,20 @@ namespace sw
          * @brief 设置下一个TabStop属性为true的元素为焦点元素
          */
         void SetNextTabStopFocus();
+
+        /**
+         * @brief        设置背景颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetBackColor(Color color, bool redraw);
+
+        /**
+         * @brief        设置文本颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetTextColor(Color color, bool redraw);
 
         /**
          * @brief         添加子元素后调用该函数
@@ -4369,6 +4467,16 @@ namespace sw
          */
         virtual bool OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush) override;
 
+        /**
+         * @brief         接收到WM_SETCURSOR消息时调用该函数
+         * @param hwnd    鼠标所在窗口的句柄
+         * @param hitTest hit-test的结果，详见WM_NCHITTEST消息的返回值
+         * @param message 触发该事件的鼠标消息，如WM_MOUSEMOVE
+         * @param result  消息的返回值，默认为false
+         * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result) override;
+
     private:
         /**
          * @brief 循环获取界面树上的下一个节点
@@ -4427,18 +4535,7 @@ namespace sw
      */
     class Control : virtual public UIElement
     {
-    private:
-        /**
-         * @brief 是否使用默认的鼠标样式
-         */
-        bool _useDefaultCursor = true;
-
-        /**
-         * @brief 鼠标句柄
-         */
-        HCURSOR _hCursor = NULL;
-
-    public:
+    protected:
         /**
          * @brief 初始化控件
          */
@@ -4454,34 +4551,6 @@ namespace sw
          * @brief 控件句柄发生改变时调用该函数
          */
         virtual void HandleChenged();
-
-        /**
-         * @brief         接收到WM_SETCURSOR消息时调用该函数
-         * @param hwnd    鼠标所在窗口的句柄
-         * @param hitTest hit-test的结果，详见WM_NCHITTEST消息的返回值
-         * @param message 触发该事件的鼠标消息，如WM_MOUSEMOVE
-         * @param result  消息的返回值，默认为false
-         * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
-         */
-        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &result) override;
-
-    public:
-        /**
-         * @brief         设置鼠标样式
-         * @param hCursor 鼠标句柄
-         */
-        void SetCursor(HCURSOR hCursor);
-
-        /**
-         * @brief        设置鼠标样式
-         * @param cursor 鼠标样式
-         */
-        void SetCursor(StandardCursor cursor);
-
-        /**
-         * @brief 将鼠标样式设置为默认样式
-         */
-        void ResetCursor();
     };
 }
 
@@ -4497,6 +4566,11 @@ namespace sw
          * @brief 是否关闭布局，当该字段为true时调用UpdateLayout不会更新布局，可以用DisableLayout和EnableLayout设置该字段
          */
         bool _layoutDisabled = false;
+
+        /**
+         * @brief 是否按照布局方式与子元素自动调整尺寸
+         */
+        bool _autoSize = true;
 
         /**
          * @brief 指向所自定义的布局方式对象的指针
@@ -4518,6 +4592,11 @@ namespace sw
          * @brief 自定义的布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设为nullptr可恢复默认布局
          */
         const Property<LayoutHost *> Layout;
+
+        /**
+         * @brief 是否按照布局方式与子元素自动调整尺寸，该属性仅在当前元素已设置布局方式并且非顶级元素时有效
+         */
+        const Property<bool> AutoSize;
 
         /**
          * @brief 是否显示横向滚动条
@@ -4549,7 +4628,7 @@ namespace sw
          */
         const ReadOnlyProperty<double> VerticalScrollLimit;
 
-    public:
+    protected:
         /**
          * @brief 初始化Layer
          */
@@ -4565,6 +4644,11 @@ namespace sw
          * @brief 在没有设定布局方式时，使用该函数对子元素Measure和Arrange
          */
         void _MeasureAndArrangeWithoutLayout();
+
+        /**
+         * @brief 使用设定的布局方式对子元素进行Measure和Arrange，不改变当前的尺寸和DesireSize
+         */
+        void _MeasureAndArrangeWithoutResize();
 
     protected:
         /**
@@ -4944,16 +5028,6 @@ namespace sw
         PanelBase();
 
     protected:
-        /**
-         * @brief         接收到WM_SETCURSOR消息时调用该函数
-         * @param hwnd    鼠标所在窗口的句柄
-         * @param hitTest hit-test的结果，详见WM_NCHITTEST消息的返回值
-         * @param message 触发该事件的鼠标消息，如WM_MOUSEMOVE
-         * @param result  消息的返回值，默认为false
-         * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
-         */
-        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &result) override;
-
         /**
          * @brief       接收到WM_VSCROLL时调用目标控件的该函数
          * @param event 事件类型，即消息wParam的低字
@@ -5418,11 +5492,6 @@ namespace sw
         WindowStartupLocation _startupLocation = WindowStartupLocation::Manual;
 
         /**
-         * @brief 鼠标句柄，窗口初始化时会赋值
-         */
-        HCURSOR _hCursor;
-
-        /**
          * @brief 以模态窗口显示时保存所有者窗口，非模态时该值始终为nullptr
          */
         Window *_modalOwner = nullptr;
@@ -5543,18 +5612,17 @@ namespace sw
         virtual bool OnDestroy() override;
 
         /**
+         * @brief        接收到WM_ERASEBKGND时调用该函数
+         * @param result 若已处理该消息则设为非零值，默认值为0
+         * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnEraseBackground(int &result) override;
+
+        /**
          * @brief  接收到WM_PAINT时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnPaint() override;
-
-        /**
-         * @brief               接收到WM_MOUSEMOVE时调用该函数
-         * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
 
         /**
          * @brief    当OnCommand接收到菜单命令时调用该函数
@@ -5590,18 +5658,6 @@ namespace sw
         void ShowDialog(Window &owner);
 
         /**
-         * @brief         设置鼠标样式
-         * @param hCursor 鼠标句柄
-         */
-        void SetCursor(HCURSOR hCursor);
-
-        /**
-         * @brief        设置鼠标样式
-         * @param cursor 鼠标样式
-         */
-        void SetCursor(StandardCursor cursor);
-
-        /**
          * @brief       设置图标
          * @param hIcon 图标句柄
          */
@@ -5617,6 +5673,11 @@ namespace sw
          * @return 当调用ShowDialog时该函数返回true，否则返回false
          */
         bool IsModal();
+
+        /**
+         * @brief 调整窗口尺寸以适应其内容大小，只对设置了布局方式的顶级窗口有效
+         */
+        void SizeToContent();
 
         /**
          * @brief 设置窗口的默认布局方式
@@ -6486,14 +6547,6 @@ namespace sw
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(Size newClientSize) override;
-
-        /**
-         * @brief               接收到WM_MOUSEMOVE时调用该函数
-         * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
     };
 }
 

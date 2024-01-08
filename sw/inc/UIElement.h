@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Alignment.h"
+#include "Color.h"
 #include "ContextMenu.h"
 #include "ILayout.h"
 #include "ITag.h"
@@ -125,9 +126,29 @@ namespace sw
         bool _drawFocusRect = false;
 
         /**
+         * @brief 背景颜色
+         */
+        Color _backColor = Color::White;
+
+        /**
+         * @brief 文本颜色
+         */
+        Color _textColor = Color::Black;
+
+        /**
          * @brief 是否使用透明背景
          */
         bool _transparent = false;
+
+        /**
+         * @brief 是否使用默认的鼠标样式
+         */
+        bool _useDefaultCursor = true;
+
+        /**
+         * @brief 鼠标句柄
+         */
+        HCURSOR _hCursor = NULL;
 
     public:
         /**
@@ -184,6 +205,16 @@ namespace sw
          * @brief 表示用户是否可以通过按下Tab键将焦点移动到当前元素
          */
         const Property<bool> TabStop;
+
+        /**
+         * @brief 背景颜色，对于部分控件该属性可能会失效
+         */
+        const Property<Color> BackColor;
+
+        /**
+         * @brief 文本颜色，对于部分控件该属性可能会失效
+         */
+        const Property<Color> TextColor;
 
         /**
          * @brief 是否使用透明背景（此属性并非真正意义上的透明，将该属性设为true可继承父元素的背景颜色）
@@ -386,6 +417,23 @@ namespace sw
         Color GetRealBackColor();
 
         /**
+         * @brief         设置鼠标样式
+         * @param hCursor 鼠标句柄
+         */
+        void SetCursor(HCURSOR hCursor);
+
+        /**
+         * @brief        设置鼠标样式
+         * @param cursor 鼠标样式
+         */
+        void SetCursor(StandardCursor cursor);
+
+        /**
+         * @brief 将鼠标样式设置为默认样式
+         */
+        void ResetCursor();
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;
@@ -488,6 +536,20 @@ namespace sw
          * @brief 设置下一个TabStop属性为true的元素为焦点元素
          */
         void SetNextTabStopFocus();
+
+        /**
+         * @brief        设置背景颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetBackColor(Color color, bool redraw);
+
+        /**
+         * @brief        设置文本颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetTextColor(Color color, bool redraw);
 
         /**
          * @brief         添加子元素后调用该函数
@@ -689,6 +751,16 @@ namespace sw
          * @return          若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
          */
         virtual bool OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush) override;
+
+        /**
+         * @brief         接收到WM_SETCURSOR消息时调用该函数
+         * @param hwnd    鼠标所在窗口的句柄
+         * @param hitTest hit-test的结果，详见WM_NCHITTEST消息的返回值
+         * @param message 触发该事件的鼠标消息，如WM_MOUSEMOVE
+         * @param result  消息的返回值，默认为false
+         * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result) override;
 
     private:
         /**

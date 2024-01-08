@@ -1,9 +1,10 @@
 #pragma once
 
 #include "App.h"
-#include "Color.h"
+#include "Cursor.h"
 #include "Dip.h"
 #include "Font.h"
+#include "HitTestResult.h"
 #include "Keys.h"
 #include "Point.h"
 #include "ProcMsg.h"
@@ -51,16 +52,6 @@ namespace sw
          * @brief 窗口标题或文本
          */
         std::wstring _text = L"";
-
-        /**
-         * @brief 背景颜色
-         */
-        Color _backColor = Color::White;
-
-        /**
-         * @brief 文本颜色
-         */
-        Color _textColor = Color::Black;
 
         /**
          * @brief 控件是否拥有焦点
@@ -157,16 +148,6 @@ namespace sw
          * @brief 窗口标题或控件文本
          */
         const Property<std::wstring> Text;
-
-        /**
-         * @brief 背景颜色，对于部分控件该属性可能会失效
-         */
-        const Property<Color> BackColor;
-
-        /**
-         * @brief 文本颜色，对于部分控件该属性可能会失效
-         */
-        const Property<Color> TextColor;
 
         /**
          * @brief 窗口是否拥有焦点
@@ -273,20 +254,6 @@ namespace sw
          * @param value 要设置的文本
          */
         virtual void SetText(const std::wstring &value);
-
-        /**
-         * @brief        设置背景颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetBackColor(Color color, bool redraw);
-
-        /**
-         * @brief        设置文本颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetTextColor(Color color, bool redraw);
 
         /**
          * @brief  接收到WM_CREATE时调用该函数
@@ -572,7 +539,7 @@ namespace sw
          * @param result  消息的返回值，默认为false
          * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
-        virtual bool OnSetCursor(HWND hwnd, int hitTest, int message, bool &result);
+        virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result);
 
         /**
          * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
@@ -626,6 +593,28 @@ namespace sw
          */
         virtual bool OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush);
 
+        /**
+         * @brief           接收到WM_NCHITTEST后调用该函数
+         * @param testPoint 要测试的点在屏幕中的位置
+         * @param result    测试的结果，默认为调用DefaultWndProc的结果
+         */
+        virtual void OnNcHitTest(const Point &testPoint, HitTestResult &result);
+
+        /**
+         * @brief        接收到WM_ERASEBKGND时调用该函数
+         * @param result 若已处理该消息则设为非零值，默认值为0
+         * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnEraseBackground(int &result);
+
+        /**
+         * @brief           接收到WM_DRAWITEM时调用该函数
+         * @param id        控件的标识符，若消息是通过菜单发送的则此参数为零
+         * @param pDrawItem 包含有关要绘制的项和所需绘图类型的信息的结构体指针
+         * @return          若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem);
+
     public:
         /**
          * @brief 该函数调用ShowWindow
@@ -659,6 +648,11 @@ namespace sw
         bool IsControl();
 
         /**
+         * @brief 判断当前对象在界面中是否可视，与Visible属性不同的是该函数返回值会受父窗口的影响
+         */
+        bool IsVisible();
+
+        /**
          * @brief       获取用户区点在屏幕上点的位置
          * @param point 用户区坐标
          * @return      该点在屏幕上的坐标
@@ -676,6 +670,12 @@ namespace sw
          * @brief 发送消息
          */
         LRESULT SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
+         * @brief           测试指定点在窗口的哪一部分
+         * @param testPoint 要测试的点在屏幕中的位置
+         */
+        HitTestResult NcHitTest(const Point &testPoint);
 
         /**
          * @brief      通过窗口句柄获取WndBase

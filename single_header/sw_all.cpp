@@ -549,33 +549,6 @@ void sw::Control::HandleChenged()
 {
 }
 
-bool sw::Control::OnSetCursor(HWND hwnd, int hitTest, int message, bool &result)
-{
-    if (this->_useDefaultCursor) {
-        return false;
-    }
-    ::SetCursor(this->_hCursor);
-    result = true;
-    return true;
-}
-
-void sw::Control::SetCursor(HCURSOR hCursor)
-{
-    this->_hCursor          = hCursor;
-    this->_useDefaultCursor = false;
-}
-
-void sw::Control::SetCursor(StandardCursor cursor)
-{
-    this->SetCursor(CursorHelper::GetCursorHandle(cursor));
-}
-
-void sw::Control::ResetCursor()
-{
-    this->_hCursor          = NULL;
-    this->_useDefaultCursor = true;
-}
-
 // Cursor.cpp
 
 HCURSOR sw::CursorHelper::GetCursorHandle(StandardCursor cursor)
@@ -1198,6 +1171,20 @@ sw::Layer::Layer()
               this->_customLayout = value;
           }),
 
+      AutoSize(
+          // get
+          [&]() -> const bool & {
+              return this->_autoSize;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->_autoSize != value) {
+                  this->_autoSize = value;
+                  if (!this->IsRootElement())
+                      this->NotifyLayoutUpdated();
+              }
+          }),
+
       HorizontalScrollBar(
           // get
           [&]() -> const bool & {
@@ -1362,6 +1349,20 @@ void sw::Layer::_MeasureAndArrangeWithoutLayout()
     }
 }
 
+void sw::Layer::_MeasureAndArrangeWithoutResize()
+{
+    LayoutHost *layout  = this->_GetLayout();
+    sw::Size desireSize = this->GetDesireSize();
+    sw::Rect clientRect = this->ClientRect;
+
+    // measure
+    layout->Measure(clientRect.GetSize());
+    this->SetDesireSize(desireSize); // 恢复DesireSize
+
+    // arrange
+    layout->Arrange(clientRect);
+}
+
 void sw::Layer::UpdateLayout()
 {
     if (this->_layoutDisabled) {
@@ -1373,9 +1374,7 @@ void sw::Layer::UpdateLayout()
     if (layout == nullptr) {
         this->_MeasureAndArrangeWithoutLayout();
     } else {
-        sw::Rect clientRect = this->ClientRect;
-        layout->Measure(Size(clientRect.width, clientRect.height));
-        layout->Arrange(clientRect);
+        this->_MeasureAndArrangeWithoutResize();
     }
 
     this->UpdateScrollRange();
@@ -1487,7 +1486,9 @@ void sw::Layer::Measure(const Size &availableSize)
 {
     LayoutHost *layout = this->_GetLayout();
 
-    if (layout == nullptr) {
+    // 未设置布局时无法使用自动尺寸
+    // 若未使用自动尺寸，则按照普通元素measure
+    if (layout == nullptr || !this->_autoSize) {
         this->UIElement::Measure(availableSize);
         return;
     }
@@ -1505,7 +1506,7 @@ void sw::Layer::Measure(const Size &availableSize)
     Size desireSize = this->GetDesireSize();
 
     desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
-    desireSize.height += (windowRect.width - clientRect.width) + margin.top + margin.bottom;
+    desireSize.height += (windowRect.height - clientRect.height) + margin.top + margin.bottom;
     this->SetDesireSize(desireSize);
 }
 
@@ -1514,9 +1515,15 @@ void sw::Layer::Arrange(const sw::Rect &finalPosition)
     this->UIElement::Arrange(finalPosition);
 
     LayoutHost *layout = this->_GetLayout();
+
     if (layout == nullptr) {
+        // 未设置布局方式，此时需要对子元素进行Measure和Arrange
         this->_MeasureAndArrangeWithoutLayout();
+    } else if (!this->_autoSize) {
+        // 已设置布局方式，但是AutoSize被取消，此时子元素也未Measure
+        this->_MeasureAndArrangeWithoutResize();
     } else {
+        // 已设置布局方式且AutoSize为true，此时子元素已Measure，调用Arrange即可
         layout->Arrange(this->ClientRect);
     }
 
@@ -3017,6 +3024,7 @@ sw::Panel::Panel()
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = DefWindowProcW;
         wc.lpszClassName = _PanelClassName;
+        wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
         RegisterClassExW(&wc);
     }
 
@@ -3051,22 +3059,10 @@ bool sw::Panel::OnSize(Size newClientSize)
     return UIElement::OnSize(newClientSize);
 }
 
-bool sw::Panel::OnMouseMove(Point mousePosition, MouseKey keyState)
-{
-    HWND hwnd = this->Handle;
-    this->SendMessageW(WM_SETCURSOR, (WPARAM)hwnd, MAKELONG(HTCLIENT, WM_MOUSEMOVE));
-    return UIElement::OnMouseMove(mousePosition, keyState);
-}
-
 // PanelBase.cpp
 
 sw::PanelBase::PanelBase()
 {
-}
-
-bool sw::PanelBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &result)
-{
-    return this->Control::OnSetCursor(hwnd, hitTest, message, result);
 }
 
 bool sw::PanelBase::OnVerticalScroll(int event, int pos)
@@ -3247,15 +3243,21 @@ sw::Point::Point(double x, double y)
 
 sw::Point::Point(const POINT &point)
 {
-    this->x = Dip::ScaleX * point.x;
-    this->y = Dip::ScaleY * point.y;
+    static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+    static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+
+    this->x = scaleX * point.x;
+    this->y = scaleY * point.y;
 }
 
 sw::Point::operator POINT() const
 {
+    static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+    static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+
     POINT point{};
-    point.x = std::lround(this->x / Dip::ScaleX);
-    point.y = std::lround(this->y / Dip::ScaleY);
+    point.x = std::lround(this->x / scaleX);
+    point.y = std::lround(this->y / scaleY);
     return point;
 }
 
@@ -3376,21 +3378,21 @@ sw::Rect::Rect(double left, double top, double width, double height)
 
 sw::Rect::Rect(const RECT &rect)
 {
-    double scaleX = Dip::ScaleX;
-    double scaleY = Dip::ScaleY;
-    this->left    = scaleX * rect.left;
-    this->top     = scaleY * rect.top;
-    this->width   = scaleX * (rect.right - rect.left);
-    this->height  = scaleY * (rect.bottom - rect.top);
+    static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+    static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+
+    this->left   = scaleX * rect.left;
+    this->top    = scaleY * rect.top;
+    this->width  = scaleX * (rect.right - rect.left);
+    this->height = scaleY * (rect.bottom - rect.top);
 }
 
 sw::Rect::operator RECT() const
 {
+    static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+    static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+
     RECT rect{};
-    double scaleX;
-    double scaleY;
-    scaleX      = Dip::ScaleX;
-    scaleY      = Dip::ScaleY;
     rect.left   = std::lround(this->left / scaleX);
     rect.top    = std::lround(this->top / scaleY);
     rect.right  = std::lround((this->left + this->width) / scaleX);
@@ -3457,15 +3459,21 @@ sw::Size::Size(double width, double height)
 
 sw::Size::Size(const SIZE &size)
 {
-    this->width  = size.cx * Dip::ScaleX;
-    this->height = size.cy * Dip::ScaleY;
+    static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+    static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+
+    this->width  = size.cx * scaleX;
+    this->height = size.cy * scaleY;
 }
 
 sw::Size::operator SIZE() const
 {
+    static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+    static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+
     SIZE size{};
-    size.cx = std::lround(this->width / Dip::ScaleX);
-    size.cy = std::lround(this->height / Dip::ScaleY);
+    size.cx = std::lround(this->width / scaleX);
+    size.cy = std::lround(this->height / scaleY);
     return size;
 }
 
@@ -4347,6 +4355,26 @@ sw::UIElement::UIElement()
               this->_tabStop = value;
           }),
 
+      BackColor(
+          // get
+          [&]() -> const Color & {
+              return this->_backColor;
+          },
+          // set
+          [&](const Color &value) {
+              this->SetBackColor(value, true);
+          }),
+
+      TextColor(
+          // get
+          [&]() -> const Color & {
+              return this->_textColor;
+          },
+          // set
+          [&](const Color &value) {
+              this->SetTextColor(value, true);
+          }),
+
       Transparent(
           // get
           [&]() -> const bool & {
@@ -4593,21 +4621,34 @@ sw::UIElement *sw::UIElement::GetNextTabStopElement()
     UIElement *element = this;
     do {
         element = element->GetNextElement();
-    } while (element != nullptr && element != this && (!element->_tabStop || !element->Visible));
+    } while (element != nullptr && element != this && (!element->_tabStop || !element->IsVisible()));
     return element;
 }
 
 sw::Color sw::UIElement::GetRealBackColor()
 {
-    if (!this->_transparent) {
-        return this->BackColor.Get();
-    }
-
     UIElement *p = this;
-    while (p->_transparent && p->_parent != nullptr)
+    while (p->_transparent && p->_parent != nullptr) {
         p = p->_parent;
+    }
+    return p->_backColor;
+}
 
-    return p->BackColor.Get();
+void sw::UIElement::SetCursor(HCURSOR hCursor)
+{
+    this->_hCursor          = hCursor;
+    this->_useDefaultCursor = false;
+}
+
+void sw::UIElement::SetCursor(StandardCursor cursor)
+{
+    this->SetCursor(CursorHelper::GetCursorHandle(cursor));
+}
+
+void sw::UIElement::ResetCursor()
+{
+    this->_hCursor          = NULL;
+    this->_useDefaultCursor = true;
 }
 
 uint64_t sw::UIElement::GetTag()
@@ -4824,6 +4865,18 @@ void sw::UIElement::SetNextTabStopFocus()
 {
     UIElement *next = this->GetNextTabStopElement();
     if (next && next != this) next->OnTabStop();
+}
+
+void sw::UIElement::SetBackColor(Color color, bool redraw)
+{
+    this->_backColor = color;
+    if (redraw) this->Redraw();
+}
+
+void sw::UIElement::SetTextColor(Color color, bool redraw)
+{
+    this->_textColor = color;
+    if (redraw) this->Redraw();
 }
 
 void sw::UIElement::OnAddedChild(UIElement &element)
@@ -5081,7 +5134,7 @@ bool sw::UIElement::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
     if (child == nullptr) return this->WndBase::OnCtlColor(hdc, hControl, hRetBrush);
 
     static HBRUSH hBrush = NULL;
-    COLORREF textColor   = child->TextColor.Get();
+    COLORREF textColor   = child->_textColor;
     COLORREF backColor   = child->GetRealBackColor();
 
     ::SetTextColor(hdc, textColor);
@@ -5093,6 +5146,16 @@ bool sw::UIElement::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
 
     hBrush    = CreateSolidBrush(backColor);
     hRetBrush = hBrush;
+    return true;
+}
+
+bool sw::UIElement::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result)
+{
+    if (this->_useDefaultCursor || hitTest != HitTestResult::HitClient) {
+        return false;
+    }
+    ::SetCursor(this->_hCursor);
+    result = true;
     return true;
 }
 
@@ -5390,7 +5453,6 @@ sw::Window::Window()
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
-    this->SetCursor(StandardCursor::Arrow);
     this->SetIcon(_GetWindowDefaultIcon());
 }
 
@@ -5423,9 +5485,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_GETMINMAXINFO: {
-            double scaleX     = Dip::ScaleX;
-            double scaleY     = Dip::ScaleY;
-            PMINMAXINFO pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
+            static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+            static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+            PMINMAXINFO pInfo     = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
             // 按照设置限制窗口大小
             if (this->_maxWidth > 0) {
                 LONG maxWidth           = std::lround(this->_maxWidth / scaleX);
@@ -5451,10 +5513,6 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             this->UpdateLayout();
             _UpdateFontForAllChild(*this);
             return 0;
-        }
-
-        case WM_ERASEBKGND: {
-            return 1; // 阻止擦除背景
         }
 
         case WM_ACTIVATE: {
@@ -5499,6 +5557,12 @@ bool sw::Window::OnDestroy()
     return true;
 }
 
+bool sw::Window::OnEraseBackground(int &result)
+{
+    result = 1; // 阻止擦除背景
+    return true;
+}
+
 bool sw::Window::OnPaint()
 {
     PAINTSTRUCT ps;
@@ -5528,12 +5592,6 @@ bool sw::Window::OnPaint()
 
     EndPaint(hwnd, &ps);
     return true;
-}
-
-bool sw::Window::OnMouseMove(Point mousePosition, MouseKey keyState)
-{
-    ::SetCursor(this->_hCursor);
-    return this->UIElement::OnMouseMove(mousePosition, keyState);
 }
 
 void sw::Window::OnMenuCommand(int id)
@@ -5610,16 +5668,6 @@ void sw::Window::ShowDialog(Window &owner)
     }
 }
 
-void sw::Window::SetCursor(HCURSOR hCursor)
-{
-    this->_hCursor = hCursor;
-}
-
-void sw::Window::SetCursor(StandardCursor cursor)
-{
-    this->SetCursor(CursorHelper::GetCursorHandle(cursor));
-}
-
 void sw::Window::SetIcon(HICON hIcon)
 {
     this->SendMessageW(WM_SETICON, ICON_BIG, (LPARAM)hIcon);
@@ -5634,6 +5682,30 @@ void sw::Window::DrawMenuBar()
 bool sw::Window::IsModal()
 {
     return this->_modalOwner != nullptr;
+}
+
+void sw::Window::SizeToContent()
+{
+    if (!this->IsRootElement()) {
+        return; // 只对顶级窗口有效
+    }
+
+    // 该函数需要AutoSize为true，这里先备份其值以做后续恢复
+    bool oldAutoSize = this->AutoSize;
+    this->AutoSize   = true;
+
+    // measure
+    sw::Size measureSize(INFINITY, INFINITY);
+    this->Measure(measureSize);
+
+    // arrange
+    sw::Size desireSize  = this->GetDesireSize();
+    sw::Rect windowRect  = this->Rect;
+    sw::Thickness margin = this->Margin;
+    this->Arrange(sw::Rect(windowRect.left - margin.left, windowRect.top - margin.top, desireSize.width, desireSize.height));
+
+    // 恢复AutoSize属性的值
+    this->AutoSize = oldAutoSize;
 }
 
 void _UpdateFontForAllChild(sw::UIElement &element)
@@ -5749,13 +5821,13 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const sw::Rect &value) {
+              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
               if (this->_rect != value) {
-                  double scaleX = Dip::ScaleX;
-                  double scaleY = Dip::ScaleY;
-                  int left      = std::lround(value.left / scaleX);
-                  int top       = std::lround(value.top / scaleY);
-                  int width     = std::lround(value.width / scaleX);
-                  int height    = std::lround(value.height / scaleY);
+                  int left   = std::lround(value.left / scaleX);
+                  int top    = std::lround(value.top / scaleY);
+                  int width  = std::lround(value.width / scaleX);
+                  int height = std::lround(value.height / scaleY);
                   SetWindowPos(this->_hwnd, NULL, left, top, width, height, SWP_NOACTIVATE | SWP_NOZORDER);
               }
           }),
@@ -5767,9 +5839,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
+              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
               if (this->_rect.left != value) {
-                  int x = std::lround(value / Dip::ScaleX);
-                  int y = std::lround(this->_rect.top / Dip::ScaleY);
+                  int x = std::lround(value / scaleX);
+                  int y = std::lround(this->_rect.top / scaleY);
                   SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
               }
           }),
@@ -5781,9 +5855,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
+              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
               if (this->_rect.top != value) {
-                  int x = std::lround(this->_rect.left / Dip::ScaleX);
-                  int y = std::lround(value / Dip::ScaleY);
+                  int x = std::lround(this->_rect.left / scaleX);
+                  int y = std::lround(value / scaleY);
                   SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
               }
           }),
@@ -5795,9 +5871,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
+              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
               if (this->_rect.width != value) {
-                  int cx = std::lround(value / Dip::ScaleX);
-                  int cy = std::lround(this->_rect.height / Dip::ScaleY);
+                  int cx = std::lround(value / scaleX);
+                  int cy = std::lround(this->_rect.height / scaleY);
                   SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
               }
           }),
@@ -5809,9 +5887,11 @@ sw::WndBase::WndBase()
           },
           // set
           [&](const double &value) {
+              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
               if (this->_rect.height != value) {
-                  int cx = std::lround(this->_rect.width / Dip::ScaleX);
-                  int cy = std::lround(value / Dip::ScaleY);
+                  int cx = std::lround(this->_rect.width / scaleX);
+                  int cy = std::lround(value / scaleY);
                   SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
               }
           }),
@@ -5854,7 +5934,7 @@ sw::WndBase::WndBase()
           // get
           [&]() -> const bool & {
               static bool visible;
-              visible = IsWindowVisible(this->_hwnd);
+              visible = this->GetStyle(WS_VISIBLE);
               return visible;
           },
           // set
@@ -5871,26 +5951,6 @@ sw::WndBase::WndBase()
           // set
           [&](const std::wstring &value) {
               this->SetText(value);
-          }),
-
-      BackColor(
-          // get
-          [&]() -> const Color & {
-              return this->_backColor;
-          },
-          // set
-          [&](const Color &value) {
-              this->SetBackColor(value, true);
-          }),
-
-      TextColor(
-          // get
-          [&]() -> const Color & {
-              return this->_textColor;
-          },
-          // set
-          [&](const Color &value) {
-              this->SetTextColor(value, true);
           }),
 
       Focused(
@@ -5925,6 +5985,7 @@ sw::WndBase::WndBase()
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = WndBase::_WndProc;
         wc.lpszClassName = _WindowClassName;
+        wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
         RegisterClassExW(&wc);
     }
 
@@ -6097,9 +6158,10 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_WINDOWPOSCHANGED: {
+            static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+            static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+
             PWINDOWPOS pWndPos = reinterpret_cast<PWINDOWPOS>(refMsg.lParam);
-            double scaleX      = Dip::ScaleX;
-            double scaleY      = Dip::ScaleY;
             this->_rect.left   = scaleX * pWndPos->x;
             this->_rect.top    = scaleY * pWndPos->y;
             this->_rect.width  = scaleX * pWndPos->cx;
@@ -6278,7 +6340,7 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             int hitTest = LOWORD(refMsg.lParam);
             int message = HIWORD(refMsg.lParam);
             bool result = false;
-            return this->OnSetCursor(hwnd, hitTest, message, result) ? result : this->DefaultWndProc(refMsg);
+            return this->OnSetCursor(hwnd, (HitTestResult)hitTest, message, result) ? result : this->DefaultWndProc(refMsg);
         }
 
         case WM_CONTEXTMENU: {
@@ -6321,6 +6383,22 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->OnEnabledChanged(refMsg.wParam) ? 0 : this->DefaultWndProc(refMsg);
         }
 
+        case WM_NCHITTEST: {
+            Point testPoint      = POINT{GET_X_LPARAM(refMsg.lParam), GET_Y_LPARAM(refMsg.lParam)};
+            HitTestResult result = (HitTestResult)this->DefaultWndProc(refMsg);
+            this->OnNcHitTest(testPoint, result);
+            return (LRESULT)result;
+        }
+
+        case WM_ERASEBKGND: {
+            int result = 0;
+            return this->OnEraseBackground(result) ? (LRESULT)result : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_DRAWITEM: {
+            return this->OnDrawItem((int)refMsg.wParam, reinterpret_cast<DRAWITEMSTRUCT *>(refMsg.lParam)) ? TRUE : this->DefaultWndProc(refMsg);
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }
@@ -6351,18 +6429,6 @@ std::wstring &sw::WndBase::GetText()
 void sw::WndBase::SetText(const std::wstring &value)
 {
     SetWindowTextW(this->_hwnd, value.c_str());
-}
-
-void sw::WndBase::SetBackColor(Color color, bool redraw)
-{
-    this->_backColor = color;
-    if (redraw) this->Redraw();
-}
-
-void sw::WndBase::SetTextColor(Color color, bool redraw)
-{
-    this->_textColor = color;
-    if (redraw) this->Redraw();
 }
 
 bool sw::WndBase::OnCreate()
@@ -6567,7 +6633,7 @@ void sw::WndBase::FontChanged(HFONT hfont)
 {
 }
 
-bool sw::WndBase::OnSetCursor(HWND hwnd, int hitTest, int message, bool &result)
+bool sw::WndBase::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result)
 {
     return false;
 }
@@ -6603,25 +6669,20 @@ bool sw::WndBase::OnEnabledChanged(bool newValue)
 
 bool sw::WndBase::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
 {
-    static HBRUSH hBrush = NULL;
+    return false;
+}
 
-    WndBase *control = WndBase::GetWndBase(hControl);
+void sw::WndBase::OnNcHitTest(const Point &testPoint, HitTestResult &result)
+{
+}
 
-    if (control) {
+bool sw::WndBase::OnEraseBackground(int &result)
+{
+    return false;
+}
 
-        if (hBrush != NULL) {
-            DeleteObject(hBrush);
-        }
-
-        hBrush = CreateSolidBrush(control->_backColor);
-
-        ::SetTextColor(hdc, control->_textColor);
-        ::SetBkColor(hdc, control->_backColor);
-
-        hRetBrush = hBrush;
-        return true;
-    }
-
+bool sw::WndBase::OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem)
+{
     return false;
 }
 
@@ -6661,6 +6722,11 @@ bool sw::WndBase::IsControl()
     return this->_controlOldWndProc != nullptr;
 }
 
+bool sw::WndBase::IsVisible()
+{
+    return IsWindowVisible(this->_hwnd);
+}
+
 sw::Point sw::WndBase::PointToScreen(const Point &point)
 {
     POINT p = point;
@@ -6678,6 +6744,12 @@ sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint)
 LRESULT sw::WndBase::SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     return ::SendMessageW(this->_hwnd, uMsg, wParam, lParam);
+}
+
+sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
+{
+    POINT point = testPoint;
+    return (HitTestResult)this->SendMessageW(WM_NCHITTEST, 0, MAKELPARAM(point.x, point.y));
 }
 
 sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
