@@ -232,6 +232,11 @@ namespace sw
         bool IsModal();
 
         /**
+         * @brief 调整窗口尺寸以适应其内容大小，只对设置了布局方式的顶级窗口有效
+         */
+        void SizeToContent();
+
+        /**
          * @brief 设置窗口的默认布局方式
          */
         template <

@@ -433,6 +433,30 @@ bool sw::Window::IsModal()
     return this->_modalOwner != nullptr;
 }
 
+void sw::Window::SizeToContent()
+{
+    if (!this->IsRootElement()) {
+        return; // 只对顶级窗口有效
+    }
+
+    // 该函数需要AutoSize为true，这里先备份其值以做后续恢复
+    bool oldAutoSize = this->AutoSize;
+    this->AutoSize   = true;
+
+    // measure
+    sw::Size measureSize(INFINITY, INFINITY);
+    this->Measure(measureSize);
+
+    // arrange
+    sw::Size desireSize  = this->GetDesireSize();
+    sw::Rect windowRect  = this->Rect;
+    sw::Thickness margin = this->Margin;
+    this->Arrange(sw::Rect(windowRect.left - margin.left, windowRect.top - margin.top, desireSize.width, desireSize.height));
+
+    // 恢复AutoSize属性的值
+    this->AutoSize = oldAutoSize;
+}
+
 void _UpdateFontForAllChild(sw::UIElement &element)
 {
     element.UpdateFont();
