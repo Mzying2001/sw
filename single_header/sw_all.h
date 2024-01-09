@@ -3856,6 +3856,11 @@ namespace sw
         bool _transparent = false;
 
         /**
+         * @brief 是否继承父元素的文本颜色
+         */
+        bool _inheritTextColor = false;
+
+        /**
          * @brief 是否使用默认的鼠标样式
          */
         bool _useDefaultCursor = true;
@@ -3922,12 +3927,12 @@ namespace sw
         const Property<bool> TabStop;
 
         /**
-         * @brief 背景颜色，对于部分控件该属性可能会失效
+         * @brief 背景颜色，修改该属性会同时将Transparent属性设为false，对于部分控件该属性可能不生效
          */
         const Property<Color> BackColor;
 
         /**
-         * @brief 文本颜色，对于部分控件该属性可能会失效
+         * @brief 文本颜色，修改该属性会同时将InheritTextColor属性设为false，对于部分控件该属性可能不生效
          */
         const Property<Color> TextColor;
 
@@ -3935,6 +3940,11 @@ namespace sw
          * @brief 是否使用透明背景（此属性并非真正意义上的透明，将该属性设为true可继承父元素的背景颜色）
          */
         const Property<bool> Transparent;
+
+        /**
+         * @brief 是否继承父元素的文本颜色
+         */
+        const Property<bool> InheritTextColor;
 
     public:
         UIElement();
@@ -4130,6 +4140,11 @@ namespace sw
          * @brief 获取当前要显示的背景颜色：当Transparent为true时获取到祖先节点中首个Transparent为false的背景颜色，否则返回当前元素的背景颜色
          */
         Color GetRealBackColor();
+
+        /**
+         * @brief 获取当前要显示的文本颜色：当InheritTextColor为true时获取到祖先节点中首个InheritTextColor为false的文本颜色，否则返回当前元素的文本颜色
+         */
+        Color GetRealTextColor();
 
         /**
          * @brief         设置鼠标样式

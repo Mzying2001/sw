@@ -140,6 +140,7 @@ sw::UIElement::UIElement()
           },
           // set
           [&](const Color &value) {
+              this->_transparent = false;
               this->SetBackColor(value, true);
           }),
 
@@ -150,6 +151,7 @@ sw::UIElement::UIElement()
           },
           // set
           [&](const Color &value) {
+              this->_inheritTextColor = false;
               this->SetTextColor(value, true);
           }),
 
@@ -161,6 +163,17 @@ sw::UIElement::UIElement()
           // set
           [&](const bool &value) {
               this->_transparent = value;
+              this->Redraw();
+          }),
+
+      InheritTextColor(
+          // get
+          [&]() -> const bool & {
+              return this->_inheritTextColor;
+          },
+          // set
+          [&](const bool &value) {
+              this->_inheritTextColor = value;
               this->Redraw();
           })
 {
@@ -410,6 +423,15 @@ sw::Color sw::UIElement::GetRealBackColor()
         p = p->_parent;
     }
     return p->_backColor;
+}
+
+sw::Color sw::UIElement::GetRealTextColor()
+{
+    UIElement *p = this;
+    while (p->_inheritTextColor && p->_parent != nullptr) {
+        p = p->_parent;
+    }
+    return p->_textColor;
 }
 
 void sw::UIElement::SetCursor(HCURSOR hCursor)
@@ -909,10 +931,10 @@ bool sw::UIElement::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
     if (childWnd == nullptr) return false;
 
     UIElement *child = dynamic_cast<UIElement *>(childWnd);
-    if (child == nullptr) return this->WndBase::OnCtlColor(hdc, hControl, hRetBrush);
+    if (child == nullptr) return false;
 
     static HBRUSH hBrush = NULL;
-    COLORREF textColor   = child->_textColor;
+    COLORREF textColor   = child->GetRealTextColor();
     COLORREF backColor   = child->GetRealBackColor();
 
     ::SetTextColor(hdc, textColor);
