@@ -207,12 +207,12 @@ namespace sw
         const Property<bool> TabStop;
 
         /**
-         * @brief 背景颜色，对于部分控件该属性可能会失效
+         * @brief 背景颜色，修改该属性会同时将Transparent属性设为false，对于部分控件该属性可能不生效
          */
         const Property<Color> BackColor;
 
         /**
-         * @brief 文本颜色，对于部分控件该属性可能会失效
+         * @brief 文本颜色，对于部分控件该属性可能不生效
          */
         const Property<Color> TextColor;
 

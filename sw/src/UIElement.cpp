@@ -140,6 +140,7 @@ sw::UIElement::UIElement()
           },
           // set
           [&](const Color &value) {
+              this->_transparent = false;
               this->SetBackColor(value, true);
           }),
 
