@@ -449,6 +449,13 @@ namespace sw
         void ResetCursor();
 
         /**
+         * @brief      设置对齐方式
+         * @param horz 水平对齐方式
+         * @param vert 垂直对齐方式
+         */
+        void SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlignment vert);
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;
@@ -778,6 +785,20 @@ namespace sw
         virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result) override;
 
     private:
+        /**
+         * @brief       设置水平对齐方式
+         * @param value 要设置的值
+         * @return      值是否发生改变
+         */
+        bool _SetHorzAlignment(sw::HorizontalAlignment value);
+
+        /**
+         * @brief       设置垂直对齐方式
+         * @param value 要设置的值
+         * @return      值是否发生改变
+         */
+        bool _SetVertAlignment(sw::VerticalAlignment value);
+
         /**
          * @brief 循环获取界面树上的下一个节点
          */

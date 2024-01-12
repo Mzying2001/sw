@@ -21,17 +21,9 @@ sw::UIElement::UIElement()
               return this->_horizontalAlignment;
           },
           [&](const sw::HorizontalAlignment &value) {
-              if (value == this->_horizontalAlignment) {
-                  return;
+              if (this->_SetHorzAlignment(value)) {
+                  this->NotifyLayoutUpdated();
               }
-              if (value == sw::HorizontalAlignment::Stretch) {
-                  this->_horizontalAlignment = value;
-                  this->_origionalSize.width = this->Width;
-              } else {
-                  this->_horizontalAlignment = value;
-                  this->Width                = this->_origionalSize.width;
-              }
-              this->NotifyLayoutUpdated();
           }),
 
       VerticalAlignment(
@@ -39,17 +31,9 @@ sw::UIElement::UIElement()
               return this->_verticalAlignment;
           },
           [&](const sw::VerticalAlignment &value) {
-              if (value == this->_verticalAlignment) {
-                  return;
+              if (this->_SetVertAlignment(value)) {
+                  this->NotifyLayoutUpdated();
               }
-              if (value == sw::VerticalAlignment::Stretch) {
-                  this->_verticalAlignment    = value;
-                  this->_origionalSize.height = this->Height;
-              } else {
-                  this->_verticalAlignment = value;
-                  this->Height             = this->_origionalSize.height;
-              }
-              this->NotifyLayoutUpdated();
           }),
 
       ChildCount(
@@ -449,6 +433,18 @@ void sw::UIElement::ResetCursor()
 {
     this->_hCursor          = NULL;
     this->_useDefaultCursor = true;
+}
+
+void sw::UIElement::SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlignment vert)
+{
+    bool changed = false;
+
+    changed |= this->_SetHorzAlignment(horz);
+    changed |= this->_SetVertAlignment(vert);
+
+    if (changed) {
+        this->NotifyLayoutUpdated();
+    }
 }
 
 uint64_t sw::UIElement::GetTag()
@@ -956,6 +952,40 @@ bool sw::UIElement::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, b
     }
     ::SetCursor(this->_hCursor);
     result = true;
+    return true;
+}
+
+bool sw::UIElement::_SetHorzAlignment(sw::HorizontalAlignment value)
+{
+    if (value == this->_horizontalAlignment) {
+        return false;
+    }
+
+    if (value == sw::HorizontalAlignment::Stretch) {
+        this->_horizontalAlignment = value;
+        this->_origionalSize.width = this->Width;
+    } else {
+        this->_horizontalAlignment = value;
+        this->Width                = this->_origionalSize.width;
+    }
+
+    return true;
+}
+
+bool sw::UIElement::_SetVertAlignment(sw::VerticalAlignment value)
+{
+    if (value == this->_verticalAlignment) {
+        return false;
+    }
+
+    if (value == sw::VerticalAlignment::Stretch) {
+        this->_verticalAlignment    = value;
+        this->_origionalSize.height = this->Height;
+    } else {
+        this->_verticalAlignment = value;
+        this->Height             = this->_origionalSize.height;
+    }
+
     return true;
 }
 
