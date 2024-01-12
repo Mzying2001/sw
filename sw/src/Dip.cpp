@@ -5,7 +5,7 @@
 #define USER_DEFAULT_SCREEN_DPI 96
 #endif
 
-struct _ScaleInfo {
+static struct _ScaleInfo {
     double scaleX;
     double scaleY;
     _ScaleInfo();
