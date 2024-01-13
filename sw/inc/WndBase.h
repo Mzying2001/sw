@@ -586,12 +586,20 @@ namespace sw
 
         /**
          * @brief           接收到WM_CTLCOLORxxx时调用该函数
+         * @param pControl  消息相关的控件
          * @param hdc       控件的显示上下文句柄
-         * @param hControl  控件的句柄
          * @param hRetBrush 要返回的画笔
          * @return          若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
          */
-        virtual bool OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush);
+        virtual bool OnCtlColor(WndBase *pControl, HDC hdc, HBRUSH &hRetBrush);
+
+        /**
+         * @brief           父窗口接收到WM_CTLCOLORxxx时调用对应控件的该函数
+         * @param hdc       控件的显示上下文句柄
+         * @param hRetBrush 要返回的画笔
+         * @return          若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnColor(HDC hdc, HBRUSH &hRetBrush);
 
         /**
          * @brief           接收到WM_NCHITTEST后调用该函数

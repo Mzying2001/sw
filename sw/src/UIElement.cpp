@@ -921,17 +921,11 @@ void sw::UIElement::OnMenuCommand(int id)
     }
 }
 
-bool sw::UIElement::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
+bool sw::UIElement::OnColor(HDC hdc, HBRUSH &hRetBrush)
 {
-    WndBase *childWnd = WndBase::GetWndBase(hControl);
-    if (childWnd == nullptr) return false;
-
-    UIElement *child = dynamic_cast<UIElement *>(childWnd);
-    if (child == nullptr) return false;
-
     static HBRUSH hBrush = NULL;
-    COLORREF textColor   = child->GetRealTextColor();
-    COLORREF backColor   = child->GetRealBackColor();
+    COLORREF textColor   = this->GetRealTextColor();
+    COLORREF backColor   = this->GetRealBackColor();
 
     ::SetTextColor(hdc, textColor);
     ::SetBkColor(hdc, backColor);

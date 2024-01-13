@@ -604,10 +604,15 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         case WM_CTLCOLORDLG:
         case WM_CTLCOLORSCROLLBAR:
         case WM_CTLCOLORSTATIC: {
-            HDC hdc       = (HDC)refMsg.wParam;
-            HWND hControl = (HWND)refMsg.lParam;
-            HBRUSH hBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
-            return this->OnCtlColor(hdc, hControl, hBrush) ? (LRESULT)hBrush : this->DefaultWndProc(refMsg);
+            HWND hControl     = (HWND)refMsg.lParam;
+            WndBase *pControl = WndBase::GetWndBase(hControl);
+            if (pControl == nullptr) {
+                return this->DefaultWndProc(refMsg);
+            } else {
+                HDC hdc       = (HDC)refMsg.wParam;
+                HBRUSH hBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+                return this->OnCtlColor(pControl, hdc, hBrush) ? (LRESULT)hBrush : this->DefaultWndProc(refMsg);
+            }
         }
 
         case WM_SETCURSOR: {
@@ -942,7 +947,12 @@ bool sw::WndBase::OnEnabledChanged(bool newValue)
     return false;
 }
 
-bool sw::WndBase::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
+bool sw::WndBase::OnCtlColor(WndBase *pControl, HDC hdc, HBRUSH &hRetBrush)
+{
+    return pControl->OnColor(hdc, hRetBrush);
+}
+
+bool sw::WndBase::OnColor(HDC hdc, HBRUSH &hRetBrush)
 {
     return false;
 }
