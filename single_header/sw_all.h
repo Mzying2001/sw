@@ -1497,6 +1497,25 @@ namespace sw
         }
 
         /**
+         * @brief 取两值中的较大值
+         */
+        template <typename T>
+        static constexpr inline T Max(const T &a, const T &b)
+        {
+            return a > b ? a : b;
+        }
+
+        /**
+         * @brief 取两值中的较小值
+         */
+        template <typename T>
+        static constexpr inline T Min(const T &a, const T &b)
+        {
+            return a < b ? a : b;
+        }
+
+    public:
+        /**
          * @brief      将窄字符串转为宽字符串
          * @param str  要转换的字符串
          * @param utf8 是否使用utf8编码
@@ -1540,24 +1559,6 @@ namespace sw
          * @result          包含字串的vector
          */
         static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
-
-        /**
-         * @brief 取两值中的较大值
-         */
-        template <typename T>
-        static constexpr inline T Max(const T &a, const T &b)
-        {
-            return a > b ? a : b;
-        }
-
-        /**
-         * @brief 取两值中的较小值
-         */
-        template <typename T>
-        static constexpr inline T Min(const T &a, const T &b)
-        {
-            return a < b ? a : b;
-        }
     };
 }
 
@@ -1824,21 +1825,49 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 用于处理设备独立像素（dip）与屏幕像素之间的转换
+     */
     class Dip
     {
-    public:
-        struct DipScaleInfo {
-            double scaleX;
-            double scaleY;
-        };
-
     private:
-        Dip();
+        Dip() = delete;
 
     public:
+        /**
+         * @brief 水平缩放比例
+         */
         static const ReadOnlyProperty<double> ScaleX;
+
+        /**
+         * @brief 垂直缩放比例
+         */
         static const ReadOnlyProperty<double> ScaleY;
+
+        /**
+         * @brief dpi改变时调用该函数更新缩放比例
+         */
         static void Update(int dpiX, int dpiY);
+
+        /**
+         * @brief 像素转dip（水平方向）
+         */
+        static double PxToDipX(int px);
+
+        /**
+         * @brief 像素转dip（垂直方向）
+         */
+        static double PxToDipY(int px);
+
+        /**
+         * @brief dip转像素（水平方向）
+         */
+        static int DipToPxX(double dip);
+
+        /**
+         * @brief dip转像素（垂直方向）
+         */
+        static int DipToPxY(double dip);
     };
 }
 
@@ -3299,12 +3328,20 @@ namespace sw
 
         /**
          * @brief           接收到WM_CTLCOLORxxx时调用该函数
+         * @param pControl  消息相关的控件
          * @param hdc       控件的显示上下文句柄
-         * @param hControl  控件的句柄
          * @param hRetBrush 要返回的画笔
          * @return          若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
          */
-        virtual bool OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush);
+        virtual bool OnCtlColor(WndBase *pControl, HDC hdc, HBRUSH &hRetBrush);
+
+        /**
+         * @brief           父窗口接收到WM_CTLCOLORxxx时调用对应控件的该函数
+         * @param hdc       控件的显示上下文句柄
+         * @param hRetBrush 要返回的画笔
+         * @return          若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnColor(HDC hdc, HBRUSH &hRetBrush);
 
         /**
          * @brief           接收到WM_NCHITTEST后调用该函数
@@ -4164,6 +4201,13 @@ namespace sw
         void ResetCursor();
 
         /**
+         * @brief      设置对齐方式
+         * @param horz 水平对齐方式
+         * @param vert 垂直对齐方式
+         */
+        void SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlignment vert);
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;
@@ -4474,13 +4518,12 @@ namespace sw
         virtual void OnMenuCommand(int id) override;
 
         /**
-         * @brief           接收到WM_CTLCOLORxxx时调用该函数
+         * @brief           父窗口接收到WM_CTLCOLORxxx时调用对应控件的该函数
          * @param hdc       控件的显示上下文句柄
-         * @param hControl  控件的句柄
          * @param hRetBrush 要返回的画笔
          * @return          若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
          */
-        virtual bool OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush) override;
+        virtual bool OnColor(HDC hdc, HBRUSH &hRetBrush) override;
 
         /**
          * @brief         接收到WM_SETCURSOR消息时调用该函数
@@ -4493,6 +4536,20 @@ namespace sw
         virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result) override;
 
     private:
+        /**
+         * @brief       设置水平对齐方式
+         * @param value 要设置的值
+         * @return      值是否发生改变
+         */
+        bool _SetHorzAlignment(sw::HorizontalAlignment value);
+
+        /**
+         * @brief       设置垂直对齐方式
+         * @param value 要设置的值
+         * @return      值是否发生改变
+         */
+        bool _SetVertAlignment(sw::VerticalAlignment value);
+
         /**
          * @brief 循环获取界面树上的下一个节点
          */
