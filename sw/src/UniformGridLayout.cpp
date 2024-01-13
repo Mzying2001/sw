@@ -32,8 +32,8 @@ void sw::UniformGridLayout::ArrangeOverride(Size &finalSize)
     int colCount = Utils::Max(1, this->columns);
     int beginCol = Utils::Max(0, Utils::Min(rowCount - 1, this->firstColumn));
 
-    double arrangeWidth = finalSize.width / colCount;
-    double arrangeHeiht = finalSize.height / rowCount;
+    double arrangeWidth  = finalSize.width / colCount;
+    double arrangeHeight = finalSize.height / rowCount;
 
     int childCount = this->GetChildLayoutCount();
 
@@ -47,6 +47,6 @@ void sw::UniformGridLayout::ArrangeOverride(Size &finalSize)
         }
 
         ILayout &item = this->GetChildLayoutAt(i);
-        item.Arrange(Rect(arrangeCol * arrangeWidth, arrangeRow * arrangeHeiht, arrangeWidth, arrangeHeiht));
+        item.Arrange(Rect(arrangeCol * arrangeWidth, arrangeRow * arrangeHeight, arrangeWidth, arrangeHeight));
     }
 }
