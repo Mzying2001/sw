@@ -58,6 +58,6 @@ bool sw::Panel::OnPaint()
 
 bool sw::Panel::OnSize(Size newClientSize)
 {
-    InvalidateRect(this->Handle, NULL, TRUE);
+    InvalidateRect(this->Handle, NULL, FALSE);
     return UIElement::OnSize(newClientSize);
 }

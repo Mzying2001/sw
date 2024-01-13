@@ -578,35 +578,58 @@ HCURSOR sw::CursorHelper::GetCursorHandle(const std::wstring &fileName)
 #define USER_DEFAULT_SCREEN_DPI 96
 #endif
 
-static sw::Dip::DipScaleInfo _GetScaleInfo();
-static sw::Dip::DipScaleInfo _dipScaleInfo = _GetScaleInfo();
+static struct _ScaleInfo {
+    double scaleX;
+    double scaleY;
+    _ScaleInfo();
+} _scaleInfo;
 
-void sw::Dip::Update(int dpiX, int dpiY)
+_ScaleInfo::_ScaleInfo()
 {
-    _dipScaleInfo.scaleX = (double)USER_DEFAULT_SCREEN_DPI / dpiX;
-    _dipScaleInfo.scaleY = (double)USER_DEFAULT_SCREEN_DPI / dpiY;
+    HDC hdc      = GetDC(NULL);
+    this->scaleX = (double)USER_DEFAULT_SCREEN_DPI / GetDeviceCaps(hdc, LOGPIXELSX);
+    this->scaleY = (double)USER_DEFAULT_SCREEN_DPI / GetDeviceCaps(hdc, LOGPIXELSY);
+    ReleaseDC(NULL, hdc);
 }
+
+/*================================================================================*/
 
 const sw::ReadOnlyProperty<double> sw::Dip::ScaleX(
     []() -> const double & {
-        return _dipScaleInfo.scaleX;
+        return _scaleInfo.scaleX;
     } //
 );
 
 const sw::ReadOnlyProperty<double> sw::Dip::ScaleY(
     []() -> const double & {
-        return _dipScaleInfo.scaleY;
+        return _scaleInfo.scaleY;
     } //
 );
 
-static sw::Dip::DipScaleInfo _GetScaleInfo()
+void sw::Dip::Update(int dpiX, int dpiY)
 {
-    sw::Dip::DipScaleInfo info{};
-    HDC hdc     = GetDC(NULL);
-    info.scaleX = (double)USER_DEFAULT_SCREEN_DPI / GetDeviceCaps(hdc, LOGPIXELSX);
-    info.scaleY = (double)USER_DEFAULT_SCREEN_DPI / GetDeviceCaps(hdc, LOGPIXELSY);
-    ReleaseDC(NULL, hdc);
-    return info;
+    _scaleInfo.scaleX = (double)USER_DEFAULT_SCREEN_DPI / dpiX;
+    _scaleInfo.scaleY = (double)USER_DEFAULT_SCREEN_DPI / dpiY;
+}
+
+double sw::Dip::PxToDipX(int px)
+{
+    return px * _scaleInfo.scaleX;
+}
+
+double sw::Dip::PxToDipY(int px)
+{
+    return px * _scaleInfo.scaleY;
+}
+
+int sw::Dip::DipToPxX(double dip)
+{
+    return (int)std::lround(dip / _scaleInfo.scaleX);
+}
+
+int sw::Dip::DipToPxY(double dip)
+{
+    return (int)std::lround(dip / _scaleInfo.scaleY);
 }
 
 // DockLayout.cpp
@@ -1240,7 +1263,7 @@ sw::Layer::Layer()
               info.fMask  = SIF_POS;
               GetScrollInfo(this->Handle, SB_HORZ, &info);
 
-              result = info.nPos * Dip::ScaleX;
+              result = Dip::PxToDipX(info.nPos);
               return result;
           },
           // set
@@ -1248,7 +1271,7 @@ sw::Layer::Layer()
               SCROLLINFO info{};
               info.cbSize = sizeof(info);
               info.fMask  = SIF_POS;
-              info.nPos   = std::lround(value / Dip::ScaleX);
+              info.nPos   = Dip::DipToPxX(value);
               SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 
               LayoutHost *layout = this->_GetLayout();
@@ -1269,7 +1292,7 @@ sw::Layer::Layer()
               info.fMask  = SIF_POS;
               GetScrollInfo(this->Handle, SB_VERT, &info);
 
-              result = info.nPos * Dip::ScaleY;
+              result = Dip::PxToDipY(info.nPos);
               return result;
           },
           // set
@@ -1277,7 +1300,7 @@ sw::Layer::Layer()
               SCROLLINFO info{};
               info.cbSize = sizeof(info);
               info.fMask  = SIF_POS;
-              info.nPos   = std::lround(value / Dip::ScaleY);
+              info.nPos   = Dip::DipToPxY(value);
               SetScrollInfo(this->Handle, SB_VERT, &info, true);
 
               LayoutHost *layout = this->_GetLayout();
@@ -1303,7 +1326,7 @@ sw::Layer::Layer()
               info.fMask  = SIF_RANGE | SIF_PAGE;
               GetScrollInfo(this->Handle, SB_HORZ, &info);
 
-              result = (info.nMax - info.nPage + 1) * Dip::ScaleX;
+              result = Dip::PxToDipX(info.nMax - info.nPage + 1);
               return result;
           }),
 
@@ -1322,7 +1345,7 @@ sw::Layer::Layer()
               info.fMask  = SIF_RANGE | SIF_PAGE;
               GetScrollInfo(this->Handle, SB_VERT, &info);
 
-              result = (info.nMax - info.nPage + 1) * Dip::ScaleY;
+              result = Dip::PxToDipY(info.nMax - info.nPage + 1);
               return result;
           })
 {
@@ -1474,14 +1497,14 @@ void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double 
 bool sw::Layer::OnVerticalScroll(int event, int pos)
 {
     this->OnScroll(ScrollOrientation::Vertical, (ScrollEvent)event,
-                   (event == SB_THUMBTRACK || event == SB_THUMBPOSITION) ? (pos * Dip::ScaleY) : (0.0));
+                   (event == SB_THUMBTRACK || event == SB_THUMBPOSITION) ? Dip::PxToDipY(pos) : (0.0));
     return true;
 }
 
 bool sw::Layer::OnHorizontalScroll(int event, int pos)
 {
     this->OnScroll(ScrollOrientation::Horizontal, (ScrollEvent)event,
-                   (event == SB_THUMBTRACK || event == SB_THUMBPOSITION) ? (pos * Dip::ScaleX) : (0.0));
+                   (event == SB_THUMBTRACK || event == SB_THUMBPOSITION) ? Dip::PxToDipX(pos) : (0.0));
     return true;
 }
 
@@ -1546,50 +1569,42 @@ void sw::Layer::EnableLayout()
 
 void sw::Layer::GetHorizontalScrollRange(double &refMin, double &refMax)
 {
-    double scale = Dip::ScaleX;
-
     INT nMin = 0, nMax = 0;
     GetScrollRange(this->Handle, SB_HORZ, &nMin, &nMax);
 
-    refMin = nMin * scale;
-    refMax = nMax * scale;
+    refMin = Dip::PxToDipX(nMin);
+    refMax = Dip::PxToDipX(nMax);
 }
 
 void sw::Layer::GetVerticalScrollRange(double &refMin, double &refMax)
 {
-    double scale = Dip::ScaleY;
-
     INT nMin = 0, nMax = 0;
     GetScrollRange(this->Handle, SB_VERT, &nMin, &nMax);
 
-    refMin = nMin * scale;
-    refMax = nMax * scale;
+    refMin = Dip::PxToDipY(nMin);
+    refMax = Dip::PxToDipY(nMax);
 }
 
 void sw::Layer::SetHorizontalScrollRange(double min, double max)
 {
-    double scale = Dip::ScaleX;
-
     SCROLLINFO info{};
     info.cbSize = sizeof(info);
     info.fMask  = SIF_RANGE | SIF_PAGE;
-    info.nMin   = std::lround(min / scale);
-    info.nMax   = std::lround(max / scale);
-    info.nPage  = std::lround(this->ClientWidth / scale);
+    info.nMin   = Dip::DipToPxX(min);
+    info.nMax   = Dip::DipToPxX(max);
+    info.nPage  = Dip::DipToPxX(this->ClientWidth);
 
     SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 }
 
 void sw::Layer::SetVerticalScrollRange(double min, double max)
 {
-    double scale = Dip::ScaleY;
-
     SCROLLINFO info{};
     info.cbSize = sizeof(info);
     info.fMask  = SIF_RANGE | SIF_PAGE;
-    info.nMin   = std::lround(min / scale);
-    info.nMax   = std::lround(max / scale);
-    info.nPage  = std::lround(this->ClientHeight / scale);
+    info.nMin   = Dip::DipToPxY(min);
+    info.nMax   = Dip::DipToPxY(max);
+    info.nPage  = Dip::DipToPxY(this->ClientHeight);
 
     SetScrollInfo(this->Handle, SB_VERT, &info, true);
 }
@@ -1600,7 +1615,7 @@ double sw::Layer::GetHorizontalScrollPageSize()
     info.cbSize = sizeof(info);
     info.fMask  = SIF_PAGE;
     GetScrollInfo(this->Handle, SB_HORZ, &info);
-    return info.nPage * Dip::ScaleX;
+    return Dip::PxToDipX(info.nPage);
 }
 
 double sw::Layer::GetVerticalScrollPageSize()
@@ -1609,7 +1624,7 @@ double sw::Layer::GetVerticalScrollPageSize()
     info.cbSize = sizeof(info);
     info.fMask  = SIF_PAGE;
     GetScrollInfo(this->Handle, SB_VERT, &info);
-    return info.nPage * Dip::ScaleY;
+    return Dip::PxToDipY(info.nPage);
 }
 
 void sw::Layer::SetHorizontalScrollPageSize(double pageSize)
@@ -1617,7 +1632,7 @@ void sw::Layer::SetHorizontalScrollPageSize(double pageSize)
     SCROLLINFO info{};
     info.cbSize = sizeof(info);
     info.fMask  = SIF_PAGE;
-    info.nPage  = std::lround(pageSize / Dip::ScaleX);
+    info.nPage  = Dip::DipToPxX(pageSize);
     SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 }
 
@@ -1626,7 +1641,7 @@ void sw::Layer::SetVerticalScrollPageSize(double pageSize)
     SCROLLINFO info{};
     info.cbSize = sizeof(info);
     info.fMask  = SIF_PAGE;
-    info.nPage  = std::lround(pageSize / Dip::ScaleY);
+    info.nPage  = Dip::DipToPxY(pageSize);
     SetScrollInfo(this->Handle, SB_VERT, &info, true);
 }
 
@@ -1795,7 +1810,7 @@ sw::ListBox::ListBox()
               return result;
           })
 {
-    this->InitControl(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | WS_VSCROLL | LBS_NOTIFY, 0);
+    this->InitControl(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY, 0);
     this->Rect    = sw::Rect(0, 0, 150, 200);
     this->TabStop = true;
 }
@@ -3059,7 +3074,7 @@ bool sw::Panel::OnPaint()
 
 bool sw::Panel::OnSize(Size newClientSize)
 {
-    InvalidateRect(this->Handle, NULL, TRUE);
+    InvalidateRect(this->Handle, NULL, FALSE);
     return UIElement::OnSize(newClientSize);
 }
 
@@ -4247,17 +4262,9 @@ sw::UIElement::UIElement()
               return this->_horizontalAlignment;
           },
           [&](const sw::HorizontalAlignment &value) {
-              if (value == this->_horizontalAlignment) {
-                  return;
+              if (this->_SetHorzAlignment(value)) {
+                  this->NotifyLayoutUpdated();
               }
-              if (value == sw::HorizontalAlignment::Stretch) {
-                  this->_horizontalAlignment = value;
-                  this->_origionalSize.width = this->Width;
-              } else {
-                  this->_horizontalAlignment = value;
-                  this->Width                = this->_origionalSize.width;
-              }
-              this->NotifyLayoutUpdated();
           }),
 
       VerticalAlignment(
@@ -4265,17 +4272,9 @@ sw::UIElement::UIElement()
               return this->_verticalAlignment;
           },
           [&](const sw::VerticalAlignment &value) {
-              if (value == this->_verticalAlignment) {
-                  return;
+              if (this->_SetVertAlignment(value)) {
+                  this->NotifyLayoutUpdated();
               }
-              if (value == sw::VerticalAlignment::Stretch) {
-                  this->_verticalAlignment    = value;
-                  this->_origionalSize.height = this->Height;
-              } else {
-                  this->_verticalAlignment = value;
-                  this->Height             = this->_origionalSize.height;
-              }
-              this->NotifyLayoutUpdated();
           }),
 
       ChildCount(
@@ -4675,6 +4674,18 @@ void sw::UIElement::ResetCursor()
 {
     this->_hCursor          = NULL;
     this->_useDefaultCursor = true;
+}
+
+void sw::UIElement::SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlignment vert)
+{
+    bool changed = false;
+
+    changed |= this->_SetHorzAlignment(horz);
+    changed |= this->_SetVertAlignment(vert);
+
+    if (changed) {
+        this->NotifyLayoutUpdated();
+    }
 }
 
 uint64_t sw::UIElement::GetTag()
@@ -5151,17 +5162,11 @@ void sw::UIElement::OnMenuCommand(int id)
     }
 }
 
-bool sw::UIElement::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
+bool sw::UIElement::OnColor(HDC hdc, HBRUSH &hRetBrush)
 {
-    WndBase *childWnd = WndBase::GetWndBase(hControl);
-    if (childWnd == nullptr) return false;
-
-    UIElement *child = dynamic_cast<UIElement *>(childWnd);
-    if (child == nullptr) return false;
-
     static HBRUSH hBrush = NULL;
-    COLORREF textColor   = child->GetRealTextColor();
-    COLORREF backColor   = child->GetRealBackColor();
+    COLORREF textColor   = this->GetRealTextColor();
+    COLORREF backColor   = this->GetRealBackColor();
 
     ::SetTextColor(hdc, textColor);
     ::SetBkColor(hdc, backColor);
@@ -5182,6 +5187,40 @@ bool sw::UIElement::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, b
     }
     ::SetCursor(this->_hCursor);
     result = true;
+    return true;
+}
+
+bool sw::UIElement::_SetHorzAlignment(sw::HorizontalAlignment value)
+{
+    if (value == this->_horizontalAlignment) {
+        return false;
+    }
+
+    if (value == sw::HorizontalAlignment::Stretch) {
+        this->_horizontalAlignment = value;
+        this->_origionalSize.width = this->Width;
+    } else {
+        this->_horizontalAlignment = value;
+        this->Width                = this->_origionalSize.width;
+    }
+
+    return true;
+}
+
+bool sw::UIElement::_SetVertAlignment(sw::VerticalAlignment value)
+{
+    if (value == this->_verticalAlignment) {
+        return false;
+    }
+
+    if (value == sw::VerticalAlignment::Stretch) {
+        this->_verticalAlignment    = value;
+        this->_origionalSize.height = this->Height;
+    } else {
+        this->_verticalAlignment = value;
+        this->Height             = this->_origionalSize.height;
+    }
+
     return true;
 }
 
@@ -6355,10 +6394,15 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         case WM_CTLCOLORDLG:
         case WM_CTLCOLORSCROLLBAR:
         case WM_CTLCOLORSTATIC: {
-            HDC hdc       = (HDC)refMsg.wParam;
-            HWND hControl = (HWND)refMsg.lParam;
-            HBRUSH hBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
-            return this->OnCtlColor(hdc, hControl, hBrush) ? (LRESULT)hBrush : this->DefaultWndProc(refMsg);
+            HWND hControl     = (HWND)refMsg.lParam;
+            WndBase *pControl = WndBase::GetWndBase(hControl);
+            if (pControl == nullptr) {
+                return this->DefaultWndProc(refMsg);
+            } else {
+                HDC hdc       = (HDC)refMsg.wParam;
+                HBRUSH hBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+                return this->OnCtlColor(pControl, hdc, hBrush) ? (LRESULT)hBrush : this->DefaultWndProc(refMsg);
+            }
         }
 
         case WM_SETCURSOR: {
@@ -6693,7 +6737,12 @@ bool sw::WndBase::OnEnabledChanged(bool newValue)
     return false;
 }
 
-bool sw::WndBase::OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush)
+bool sw::WndBase::OnCtlColor(WndBase *pControl, HDC hdc, HBRUSH &hRetBrush)
+{
+    return pControl->OnColor(hdc, hRetBrush);
+}
+
+bool sw::WndBase::OnColor(HDC hdc, HBRUSH &hRetBrush)
 {
     return false;
 }

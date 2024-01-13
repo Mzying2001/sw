@@ -80,7 +80,7 @@ sw::Layer::Layer()
               info.fMask  = SIF_POS;
               GetScrollInfo(this->Handle, SB_HORZ, &info);
 
-              result = info.nPos * Dip::ScaleX;
+              result = Dip::PxToDipX(info.nPos);
               return result;
           },
           // set
@@ -88,7 +88,7 @@ sw::Layer::Layer()
               SCROLLINFO info{};
               info.cbSize = sizeof(info);
               info.fMask  = SIF_POS;
-              info.nPos   = std::lround(value / Dip::ScaleX);
+              info.nPos   = Dip::DipToPxX(value);
               SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 
               LayoutHost *layout = this->_GetLayout();
@@ -109,7 +109,7 @@ sw::Layer::Layer()
               info.fMask  = SIF_POS;
               GetScrollInfo(this->Handle, SB_VERT, &info);
 
-              result = info.nPos * Dip::ScaleY;
+              result = Dip::PxToDipY(info.nPos);
               return result;
           },
           // set
@@ -117,7 +117,7 @@ sw::Layer::Layer()
               SCROLLINFO info{};
               info.cbSize = sizeof(info);
               info.fMask  = SIF_POS;
-              info.nPos   = std::lround(value / Dip::ScaleY);
+              info.nPos   = Dip::DipToPxY(value);
               SetScrollInfo(this->Handle, SB_VERT, &info, true);
 
               LayoutHost *layout = this->_GetLayout();
@@ -143,7 +143,7 @@ sw::Layer::Layer()
               info.fMask  = SIF_RANGE | SIF_PAGE;
               GetScrollInfo(this->Handle, SB_HORZ, &info);
 
-              result = (info.nMax - info.nPage + 1) * Dip::ScaleX;
+              result = Dip::PxToDipX(info.nMax - info.nPage + 1);
               return result;
           }),
 
@@ -162,7 +162,7 @@ sw::Layer::Layer()
               info.fMask  = SIF_RANGE | SIF_PAGE;
               GetScrollInfo(this->Handle, SB_VERT, &info);
 
-              result = (info.nMax - info.nPage + 1) * Dip::ScaleY;
+              result = Dip::PxToDipY(info.nMax - info.nPage + 1);
               return result;
           })
 {
@@ -314,14 +314,14 @@ void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double 
 bool sw::Layer::OnVerticalScroll(int event, int pos)
 {
     this->OnScroll(ScrollOrientation::Vertical, (ScrollEvent)event,
-                   (event == SB_THUMBTRACK || event == SB_THUMBPOSITION) ? (pos * Dip::ScaleY) : (0.0));
+                   (event == SB_THUMBTRACK || event == SB_THUMBPOSITION) ? Dip::PxToDipY(pos) : (0.0));
     return true;
 }
 
 bool sw::Layer::OnHorizontalScroll(int event, int pos)
 {
     this->OnScroll(ScrollOrientation::Horizontal, (ScrollEvent)event,
-                   (event == SB_THUMBTRACK || event == SB_THUMBPOSITION) ? (pos * Dip::ScaleX) : (0.0));
+                   (event == SB_THUMBTRACK || event == SB_THUMBPOSITION) ? Dip::PxToDipX(pos) : (0.0));
     return true;
 }
 
@@ -386,50 +386,42 @@ void sw::Layer::EnableLayout()
 
 void sw::Layer::GetHorizontalScrollRange(double &refMin, double &refMax)
 {
-    double scale = Dip::ScaleX;
-
     INT nMin = 0, nMax = 0;
     GetScrollRange(this->Handle, SB_HORZ, &nMin, &nMax);
 
-    refMin = nMin * scale;
-    refMax = nMax * scale;
+    refMin = Dip::PxToDipX(nMin);
+    refMax = Dip::PxToDipX(nMax);
 }
 
 void sw::Layer::GetVerticalScrollRange(double &refMin, double &refMax)
 {
-    double scale = Dip::ScaleY;
-
     INT nMin = 0, nMax = 0;
     GetScrollRange(this->Handle, SB_VERT, &nMin, &nMax);
 
-    refMin = nMin * scale;
-    refMax = nMax * scale;
+    refMin = Dip::PxToDipY(nMin);
+    refMax = Dip::PxToDipY(nMax);
 }
 
 void sw::Layer::SetHorizontalScrollRange(double min, double max)
 {
-    double scale = Dip::ScaleX;
-
     SCROLLINFO info{};
     info.cbSize = sizeof(info);
     info.fMask  = SIF_RANGE | SIF_PAGE;
-    info.nMin   = std::lround(min / scale);
-    info.nMax   = std::lround(max / scale);
-    info.nPage  = std::lround(this->ClientWidth / scale);
+    info.nMin   = Dip::DipToPxX(min);
+    info.nMax   = Dip::DipToPxX(max);
+    info.nPage  = Dip::DipToPxX(this->ClientWidth);
 
     SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 }
 
 void sw::Layer::SetVerticalScrollRange(double min, double max)
 {
-    double scale = Dip::ScaleY;
-
     SCROLLINFO info{};
     info.cbSize = sizeof(info);
     info.fMask  = SIF_RANGE | SIF_PAGE;
-    info.nMin   = std::lround(min / scale);
-    info.nMax   = std::lround(max / scale);
-    info.nPage  = std::lround(this->ClientHeight / scale);
+    info.nMin   = Dip::DipToPxY(min);
+    info.nMax   = Dip::DipToPxY(max);
+    info.nPage  = Dip::DipToPxY(this->ClientHeight);
 
     SetScrollInfo(this->Handle, SB_VERT, &info, true);
 }
@@ -440,7 +432,7 @@ double sw::Layer::GetHorizontalScrollPageSize()
     info.cbSize = sizeof(info);
     info.fMask  = SIF_PAGE;
     GetScrollInfo(this->Handle, SB_HORZ, &info);
-    return info.nPage * Dip::ScaleX;
+    return Dip::PxToDipX(info.nPage);
 }
 
 double sw::Layer::GetVerticalScrollPageSize()
@@ -449,7 +441,7 @@ double sw::Layer::GetVerticalScrollPageSize()
     info.cbSize = sizeof(info);
     info.fMask  = SIF_PAGE;
     GetScrollInfo(this->Handle, SB_VERT, &info);
-    return info.nPage * Dip::ScaleY;
+    return Dip::PxToDipY(info.nPage);
 }
 
 void sw::Layer::SetHorizontalScrollPageSize(double pageSize)
@@ -457,7 +449,7 @@ void sw::Layer::SetHorizontalScrollPageSize(double pageSize)
     SCROLLINFO info{};
     info.cbSize = sizeof(info);
     info.fMask  = SIF_PAGE;
-    info.nPage  = std::lround(pageSize / Dip::ScaleX);
+    info.nPage  = Dip::DipToPxX(pageSize);
     SetScrollInfo(this->Handle, SB_HORZ, &info, true);
 }
 
@@ -466,7 +458,7 @@ void sw::Layer::SetVerticalScrollPageSize(double pageSize)
     SCROLLINFO info{};
     info.cbSize = sizeof(info);
     info.fMask  = SIF_PAGE;
-    info.nPage  = std::lround(pageSize / Dip::ScaleY);
+    info.nPage  = Dip::DipToPxY(pageSize);
     SetScrollInfo(this->Handle, SB_VERT, &info, true);
 }
 

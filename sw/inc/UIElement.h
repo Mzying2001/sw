@@ -449,6 +449,13 @@ namespace sw
         void ResetCursor();
 
         /**
+         * @brief      设置对齐方式
+         * @param horz 水平对齐方式
+         * @param vert 垂直对齐方式
+         */
+        void SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlignment vert);
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;
@@ -759,13 +766,12 @@ namespace sw
         virtual void OnMenuCommand(int id) override;
 
         /**
-         * @brief           接收到WM_CTLCOLORxxx时调用该函数
+         * @brief           父窗口接收到WM_CTLCOLORxxx时调用对应控件的该函数
          * @param hdc       控件的显示上下文句柄
-         * @param hControl  控件的句柄
          * @param hRetBrush 要返回的画笔
          * @return          若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
          */
-        virtual bool OnCtlColor(HDC hdc, HWND hControl, HBRUSH &hRetBrush) override;
+        virtual bool OnColor(HDC hdc, HBRUSH &hRetBrush) override;
 
         /**
          * @brief         接收到WM_SETCURSOR消息时调用该函数
@@ -778,6 +784,20 @@ namespace sw
         virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result) override;
 
     private:
+        /**
+         * @brief       设置水平对齐方式
+         * @param value 要设置的值
+         * @return      值是否发生改变
+         */
+        bool _SetHorzAlignment(sw::HorizontalAlignment value);
+
+        /**
+         * @brief       设置垂直对齐方式
+         * @param value 要设置的值
+         * @return      值是否发生改变
+         */
+        bool _SetVertAlignment(sw::VerticalAlignment value);
+
         /**
          * @brief 循环获取界面树上的下一个节点
          */
