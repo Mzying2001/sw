@@ -212,6 +212,8 @@
     <ClInclude Include="..\sw\inc\TextBoxBase.h" />
     <ClInclude Include="..\sw\inc\Thickness.h" />
     <ClInclude Include="..\sw\inc\UIElement.h" />
+    <ClInclude Include="..\sw\inc\UniformGrid.h" />
+    <ClInclude Include="..\sw\inc\UniformGridLayout.h" />
     <ClInclude Include="..\sw\inc\Utils.h" />
     <ClInclude Include="..\sw\inc\Window.h" />
     <ClInclude Include="..\sw\inc\WndBase.h" />
@@ -272,6 +274,8 @@
     <ClCompile Include="..\sw\src\TextBoxBase.cpp" />
     <ClCompile Include="..\sw\src\Thickness.cpp" />
     <ClCompile Include="..\sw\src\UIElement.cpp" />
+    <ClCompile Include="..\sw\src\UniformGrid.cpp" />
+    <ClCompile Include="..\sw\src\UniformGridLayout.cpp" />
     <ClCompile Include="..\sw\src\Utils.cpp" />
     <ClCompile Include="..\sw\src\Window.cpp" />
     <ClCompile Include="..\sw\src\WndBase.cpp" />
