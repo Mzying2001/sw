@@ -13,6 +13,12 @@ namespace sw
          */
         PanelBase();
 
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~PanelBase() = 0;
+
     protected:
         /**
          * @brief       接收到WM_VSCROLL时调用目标控件的该函数

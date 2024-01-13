@@ -165,14 +165,23 @@ namespace sw
         const ReadOnlyProperty<bool> IsDestroyed;
 
     protected:
+        /**
+         * @brief 初始化WndBase
+         */
         WndBase();
-        virtual ~WndBase();
 
         WndBase(const WndBase &)            = delete; // 删除拷贝构造函数
         WndBase(WndBase &&)                 = delete; // 删除移动构造函数
         WndBase &operator=(const WndBase &) = delete; // 删除拷贝赋值运算符
         WndBase &operator=(WndBase &&)      = delete; // 删除移动赋值运算符
 
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~WndBase() = 0;
+
+    protected:
         /**
          * @brief 初始化为窗口，该函数会调用CreateWindowExW
          */

@@ -4,6 +4,10 @@ sw::PanelBase::PanelBase()
 {
 }
 
+sw::PanelBase::~PanelBase()
+{
+}
+
 bool sw::PanelBase::OnVerticalScroll(int event, int pos)
 {
     return this->Layer::OnVerticalScroll(event, pos);

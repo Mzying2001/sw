@@ -4,6 +4,10 @@ sw::Control::Control()
 {
 }
 
+sw::Control::~Control()
+{
+}
+
 void sw::Control::ResetHandle()
 {
     HWND &refHwnd = const_cast<HWND &>(this->Handle.Get());

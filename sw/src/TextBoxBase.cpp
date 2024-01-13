@@ -76,6 +76,10 @@ sw::TextBoxBase::TextBoxBase()
     this->TabStop = true;
 }
 
+sw::TextBoxBase::~TextBoxBase()
+{
+}
+
 void sw::TextBoxBase::InitTextBoxBase(DWORD dwStyle, DWORD dwExStyle)
 {
     this->InitControl(L"EDIT", L"", dwStyle, dwExStyle);
