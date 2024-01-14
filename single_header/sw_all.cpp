@@ -194,6 +194,10 @@ sw::ButtonBase::ButtonBase()
     this->TabStop = true;
 }
 
+sw::ButtonBase::~ButtonBase()
+{
+}
+
 void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
     this->InitControl(L"BUTTON", lpWindowName, dwStyle, dwExStyle);
@@ -253,6 +257,10 @@ sw::CheckableButton::CheckableButton()
           [&](const bool &value) {
               this->CheckState = value ? sw::CheckState::Checked : sw::CheckState::Unchecked;
           })
+{
+}
+
+sw::CheckableButton::~CheckableButton()
 {
 }
 
@@ -501,6 +509,10 @@ int sw::ContextMenu::IDToIndex(int id)
 // Control.cpp
 
 sw::Control::Control()
+{
+}
+
+sw::Control::~Control()
 {
 }
 
@@ -3084,6 +3096,10 @@ sw::PanelBase::PanelBase()
 {
 }
 
+sw::PanelBase::~PanelBase()
+{
+}
+
 bool sw::PanelBase::OnVerticalScroll(int event, int pos)
 {
     return this->Layer::OnVerticalScroll(event, pos);
@@ -4135,6 +4151,10 @@ sw::TextBoxBase::TextBoxBase()
           })
 {
     this->TabStop = true;
+}
+
+sw::TextBoxBase::~TextBoxBase()
+{
 }
 
 void sw::TextBoxBase::InitTextBoxBase(DWORD dwStyle, DWORD dwExStyle)
@@ -5241,6 +5261,103 @@ sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element, bool searchChi
     }
 
     return parent->_children[index + 1];
+}
+
+// UniformGrid.cpp
+
+sw::UniformGrid::UniformGrid()
+    : Rows(
+          // get
+          [&]() -> const int & {
+              return this->_uniformGridLayout.rows;
+          },
+          // set
+          [&](const int &value) {
+              this->_uniformGridLayout.rows = value;
+              this->NotifyLayoutUpdated();
+          }),
+
+      Columns(
+          // get
+          [&]() -> const int & {
+              return this->_uniformGridLayout.columns;
+          },
+          // set
+          [&](const int &value) {
+              this->_uniformGridLayout.columns = value;
+              this->NotifyLayoutUpdated();
+          }),
+
+      FirstColumn(
+          // get
+          [&]() -> const int & {
+              return this->_uniformGridLayout.firstColumn;
+          },
+          // set
+          [&](const int &value) {
+              this->_uniformGridLayout.firstColumn = value;
+              this->NotifyLayoutUpdated();
+          })
+{
+    this->_uniformGridLayout.Associate(this);
+    this->HorizontalAlignment = HorizontalAlignment::Stretch;
+    this->VerticalAlignment   = VerticalAlignment::Stretch;
+}
+
+sw::LayoutHost *sw::UniformGrid::GetDefaultLayout()
+{
+    return &this->_uniformGridLayout;
+}
+
+// UniformGridLayout.cpp
+
+void sw::UniformGridLayout::MeasureOverride(Size &availableSize)
+{
+    int rowCount = Utils::Max(1, this->rows);
+    int colCount = Utils::Max(1, this->columns);
+
+    double itemMaxDesireWidth  = 0;
+    double itemMaxDesireHeight = 0;
+
+    int childCount = this->GetChildLayoutCount();
+    Size measureSize{availableSize.width / colCount, availableSize.height / rowCount};
+
+    for (int i = 0; i < childCount; ++i) {
+        ILayout &item = this->GetChildLayoutAt(i);
+        item.Measure(measureSize);
+        Size itemDesireSize = item.GetDesireSize();
+        itemMaxDesireWidth  = Utils::Max(itemDesireSize.width, itemMaxDesireWidth);
+        itemMaxDesireHeight = Utils::Max(itemDesireSize.height, itemMaxDesireHeight);
+    }
+
+    this->SetDesireSize(Size(
+        std::isinf(availableSize.width) ? (itemMaxDesireWidth * colCount) : (availableSize.width),
+        std::isinf(availableSize.height) ? (itemMaxDesireHeight * rowCount) : (availableSize.height)));
+}
+
+void sw::UniformGridLayout::ArrangeOverride(Size &finalSize)
+{
+    int rowCount = Utils::Max(1, this->rows);
+    int colCount = Utils::Max(1, this->columns);
+    int beginCol = Utils::Max(0, Utils::Min(rowCount - 1, this->firstColumn));
+
+    double arrangeWidth  = finalSize.width / colCount;
+    double arrangeHeight = finalSize.height / rowCount;
+
+    int childCount = this->GetChildLayoutCount();
+
+    for (int i = 0; i < childCount; ++i) {
+        int arrangeRow = (i + beginCol) / colCount;
+        int arrangeCol = (i + beginCol) % colCount;
+
+        if (arrangeRow >= rowCount) {
+            arrangeRow = rowCount - 1;
+            arrangeCol = colCount - 1;
+        }
+
+        ILayout &item = this->GetChildLayoutAt(i);
+        item.Arrange(Rect(arrangeCol * arrangeWidth, arrangeRow * arrangeHeight, arrangeWidth, arrangeHeight));
+    }
 }
 
 // Utils.cpp

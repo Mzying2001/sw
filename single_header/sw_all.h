@@ -2907,14 +2907,23 @@ namespace sw
         const ReadOnlyProperty<bool> IsDestroyed;
 
     protected:
+        /**
+         * @brief 初始化WndBase
+         */
         WndBase();
-        virtual ~WndBase();
 
         WndBase(const WndBase &)            = delete; // 删除拷贝构造函数
         WndBase(WndBase &&)                 = delete; // 删除移动构造函数
         WndBase &operator=(const WndBase &) = delete; // 删除拷贝赋值运算符
         WndBase &operator=(WndBase &&)      = delete; // 删除移动赋值运算符
 
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~WndBase() = 0;
+
+    protected:
         /**
          * @brief 初始化为窗口，该函数会调用CreateWindowExW
          */
@@ -3983,9 +3992,17 @@ namespace sw
          */
         const Property<bool> InheritTextColor;
 
-    public:
+    protected:
+        /**
+         * @brief 初始化UIElement
+         */
         UIElement();
-        virtual ~UIElement();
+
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~UIElement() = 0;
 
         /**
          * @brief           注册路由事件处理函数，当事件已注册时会覆盖已注册的函数
@@ -4557,6 +4574,41 @@ namespace sw
     };
 }
 
+// UniformGridLayout.h
+
+
+namespace sw
+{
+    class UniformGridLayout : public LayoutHost
+    {
+    public:
+        /**
+         * @brief 行数
+         */
+        int rows = 1;
+
+        /**
+         * @brief 列数
+         */
+        int columns = 1;
+
+        /**
+         * @brief 网格第一行中前导空白单元格的数量
+         */
+        int firstColumn = 0;
+
+        /**
+         * @brief 计算所需尺寸
+         */
+        virtual void MeasureOverride(Size &availableSize) override;
+
+        /**
+         * @brief 安排控件
+         */
+        virtual void ArrangeOverride(Size &finalSize) override;
+    };
+}
+
 // WrapLayoutH.h
 
 
@@ -4612,6 +4664,12 @@ namespace sw
          * @brief 初始化控件
          */
         Control();
+
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~Control() = 0;
 
     protected:
         /**
@@ -4932,6 +4990,13 @@ namespace sw
          */
         ButtonBase();
 
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~ButtonBase() = 0;
+
+    protected:
         /**
          * @brief 初始化控件
          */
@@ -5098,6 +5163,12 @@ namespace sw
          * @brief 初始化PanelBase
          */
         PanelBase();
+
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~PanelBase() = 0;
 
     protected:
         /**
@@ -5450,6 +5521,13 @@ namespace sw
          */
         TextBoxBase();
 
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~TextBoxBase() = 0;
+
+    protected:
         /**
          * @brief 初始化控件
          */
@@ -5858,6 +5936,12 @@ namespace sw
          * @brief 初始化CheckableButton
          */
         CheckableButton();
+
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~CheckableButton() = 0;
     };
 }
 
@@ -6803,6 +6887,52 @@ namespace sw
          * @brief 初始化StackPanel
          */
         StackPanel();
+
+    protected:
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout() override;
+    };
+}
+
+// UniformGrid.h
+
+
+namespace sw
+{
+    /**
+     * @brief 提供一种在网格（网格中的所有单元格都具有相同的大小）中排列内容的方法
+     */
+    class UniformGrid : public Panel
+    {
+    private:
+        /**
+         * @brief 默认布局对象
+         */
+        UniformGridLayout _uniformGridLayout = UniformGridLayout();
+
+    public:
+        /**
+         * @brief 行数
+         */
+        const Property<int> Rows;
+
+        /**
+         * @brief 列数
+         */
+        const Property<int> Columns;
+
+        /**
+         * @brief 网格第一行中前导空白单元格的数量
+         */
+        const Property<int> FirstColumn;
+
+    public:
+        /**
+         * @brief 初始化UniformGrid
+         */
+        UniformGrid();
 
     protected:
         /**
