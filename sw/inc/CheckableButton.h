@@ -34,5 +34,11 @@ namespace sw
          * @brief 初始化CheckableButton
          */
         CheckableButton();
+
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~CheckableButton() = 0;
     };
 }

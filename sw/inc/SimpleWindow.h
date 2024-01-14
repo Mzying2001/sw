@@ -61,6 +61,8 @@
 #include "TextBoxBase.h"
 #include "Thickness.h"
 #include "UIElement.h"
+#include "UniformGrid.h"
+#include "UniformGridLayout.h"
 #include "Utils.h"
 #include "Window.h"
 #include "WndBase.h"

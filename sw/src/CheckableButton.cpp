@@ -26,3 +26,7 @@ sw::CheckableButton::CheckableButton()
           })
 {
 }
+
+sw::CheckableButton::~CheckableButton()
+{
+}

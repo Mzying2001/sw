@@ -231,9 +231,17 @@ namespace sw
          */
         const Property<bool> InheritTextColor;
 
-    public:
+    protected:
+        /**
+         * @brief 初始化UIElement
+         */
         UIElement();
-        virtual ~UIElement();
+
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~UIElement() = 0;
 
         /**
          * @brief           注册路由事件处理函数，当事件已注册时会覆盖已注册的函数

@@ -5,6 +5,10 @@ sw::ButtonBase::ButtonBase()
     this->TabStop = true;
 }
 
+sw::ButtonBase::~ButtonBase()
+{
+}
+
 void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
     this->InitControl(L"BUTTON", lpWindowName, dwStyle, dwExStyle);

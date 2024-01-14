@@ -44,6 +44,13 @@ namespace sw
          */
         TextBoxBase();
 
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~TextBoxBase() = 0;
+
+    protected:
         /**
          * @brief 初始化控件
          */

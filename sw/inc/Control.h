@@ -15,6 +15,12 @@ namespace sw
          */
         Control();
 
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~Control() = 0;
+
     protected:
         /**
          * @brief 销毁控件句柄并重新初始化，该操作会创建新的句柄并设置样式、文本、字体等
