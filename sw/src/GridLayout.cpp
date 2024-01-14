@@ -16,6 +16,26 @@ sw::GridLayoutTag::operator uint64_t() const
     return *reinterpret_cast<const uint64_t *>(this);
 }
 
+sw::GridRow::GridRow(GridRCType type, double height)
+    : type(type), height(height)
+{
+}
+
+sw::GridRow::GridRow(double height)
+    : type(GridRCType::FixSize), height(height)
+{
+}
+
+sw::GridColumn::GridColumn(GridRCType type, double width)
+    : type(type), width(width)
+{
+}
+
+sw::GridColumn::GridColumn(double width)
+    : type(GridRCType::FixSize), width(width)
+{
+}
+
 void sw::GridLayout::MeasureOverride(Size &availableSize)
 {
     // TODO
