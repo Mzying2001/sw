@@ -1,6 +1,7 @@
 #pragma once
 
 #include "LayoutHost.h"
+#include "List.h"
 
 namespace sw
 {
@@ -68,6 +69,11 @@ namespace sw
         double height;
 
         /**
+         * @brief 创建一个FillRemain的GridRow
+         */
+        GridRow();
+
+        /**
          * @brief 初始化GridRow
          */
         GridRow(GridRCType type, double height);
@@ -93,6 +99,11 @@ namespace sw
         double width;
 
         /**
+         * @brief 创建一个FillRemain的GridColumn
+         */
+        GridColumn();
+
+        /**
          * @brief 初始化GridColumn
          */
         GridColumn(GridRCType type, double width);
@@ -108,7 +119,51 @@ namespace sw
      */
     class GridLayout : public LayoutHost
     {
+    private:
+        /**
+         * @brief 子元素的信息
+         */
+        struct _ChildInfo {
+            ILayout *instance;       // 子元素对象
+            GridLayoutTag layoutTag; // 布局标记
+        };
+
+        /**
+         * @brief 行信息
+         */
+        struct _RowInfo {
+            GridRow row;     // 行
+            double size = 0; // 所需空间大小
+        };
+
+        /**
+         * @brief 列信息
+         */
+        struct _ColInfo {
+            GridColumn col;  // 列
+            double size = 0; // 所需空间大小
+        };
+
+        /**
+         * @brief 一些内部数据
+         */
+        struct {
+            std::vector<_RowInfo> rowsInfo;       // 行信息
+            std::vector<_ColInfo> colsInfo;       // 列信息
+            std::vector<_ChildInfo> childrenInfo; // 子元素信息
+        } _internalData;
+
     public:
+        /**
+         * @brief 行定义
+         */
+        List<GridRow> rows;
+
+        /**
+         * @brief 列定义
+         */
+        List<GridColumn> columns;
+
         /**
          * @brief 计算所需尺寸
          */
@@ -118,5 +173,11 @@ namespace sw
          * @brief 安排控件
          */
         virtual void ArrangeOverride(Size &finalSize) override;
+
+    private:
+        /**
+         * @brief 更新内部数据
+         */
+        void _UpdateInternalData();
     };
 }
