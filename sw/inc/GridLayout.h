@@ -30,6 +30,11 @@ namespace sw
         uint16_t columnSpan;
 
         /**
+         * @brief GridLayoutTag默认值
+         */
+        GridLayoutTag();
+
+        /**
          * @brief 初始化GridLayoutTag
          */
         GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan);
@@ -124,8 +129,10 @@ namespace sw
          * @brief 子元素的信息
          */
         struct _ChildInfo {
-            ILayout *instance;       // 子元素对象
-            GridLayoutTag layoutTag; // 布局标记
+            ILayout *instance;         // 子元素对象
+            GridLayoutTag layoutTag;   // 布局标记
+            GridRCType rowMeasureType; // 元素measure行时的类型
+            GridRCType colMeasureType; // 元素measure列时的类型
         };
 
         /**
