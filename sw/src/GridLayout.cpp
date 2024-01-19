@@ -337,93 +337,92 @@ void sw::GridLayout::MeasureOverride(Size &availableSize)
     }
 
     // Measure行类型为FillRemain的元素
-    if (measureIndex < childCount) {
-        if (heightSizeToContent) {
-            // 高度由内容决定，依据所占宽度最大元素为基准计算列宽度
-            while (measureIndex < childCount) {
-                _ChildInfo &childInfo = this->_internalData.childrenInfo[measureIndex++];
+    if (heightSizeToContent) {
+        // 高度由内容决定，依据所占宽度最大元素为基准计算列宽度
+        while (measureIndex < childCount) {
+            _ChildInfo &childInfo = this->_internalData.childrenInfo[measureIndex++];
 
-                Size measureSize{0, INFINITY};
-                for (int i = 0; i < childInfo.layoutTag.columnSpan; ++i)
-                    measureSize.width += this->_internalData.colsInfo[childInfo.layoutTag.column + i].size;
+            Size measureSize{0, INFINITY};
+            for (int i = 0; i < childInfo.layoutTag.columnSpan; ++i)
+                measureSize.width += this->_internalData.colsInfo[childInfo.layoutTag.column + i].size;
 
-                childInfo.instance->Measure(measureSize);
-                Size childDesireSize = childInfo.instance->GetDesireSize();
+            childInfo.instance->Measure(measureSize);
+            Size childDesireSize = childInfo.instance->GetDesireSize();
 
-                if (childInfo.layoutTag.rowSpan <= 1) {
-                    // 若RowSpan为1，直接更新对应列的尺寸
-                    this->_internalData.rowsInfo[childInfo.layoutTag.row].size =
-                        Utils::Max(this->_internalData.rowsInfo[childInfo.layoutTag.row].size, childDesireSize.height);
-                } else {
-                    // 若RowSpan不为1，则对所跨类型为FillRemain的列均匀贡献
-                    int count  = 0;
-                    double sum = 0;
+            if (childInfo.layoutTag.rowSpan <= 1) {
+                // 若RowSpan为1，直接更新对应列的尺寸
+                this->_internalData.rowsInfo[childInfo.layoutTag.row].size =
+                    Utils::Max(this->_internalData.rowsInfo[childInfo.layoutTag.row].size, childDesireSize.height);
+            } else {
+                // 若RowSpan不为1，则对所跨类型为FillRemain的列均匀贡献
+                int count  = 0;
+                double sum = 0;
 
+                for (int i = 0; i < childInfo.layoutTag.rowSpan; ++i) {
+                    _RowInfo &rowInfo =
+                        this->_internalData.rowsInfo[childInfo.layoutTag.row + i];
+                    count += rowInfo.row.type == GridRCType::FillRemain;
+                    sum += rowInfo.size;
+                }
+
+                if (sum < childDesireSize.height) {
+                    double tmp =
+                        (childDesireSize.height - sum) / count;
                     for (int i = 0; i < childInfo.layoutTag.rowSpan; ++i) {
                         _RowInfo &rowInfo =
                             this->_internalData.rowsInfo[childInfo.layoutTag.row + i];
-                        count += rowInfo.row.type == GridRCType::FillRemain;
-                        sum += rowInfo.size;
-                    }
-
-                    if (sum < childDesireSize.height) {
-                        double tmp =
-                            (childDesireSize.height - sum) / count;
-                        for (int i = 0; i < childInfo.layoutTag.rowSpan; ++i) {
-                            _RowInfo &rowInfo =
-                                this->_internalData.rowsInfo[childInfo.layoutTag.row + i];
-                            if (rowInfo.row.type == GridRCType::FillRemain) {
-                                rowInfo.size += tmp;
-                            }
+                        if (rowInfo.row.type == GridRCType::FillRemain) {
+                            rowInfo.size += tmp;
                         }
                     }
                 }
             }
+        }
 
-            // 高度由内容决定，依据所占高度最大元素为基准计算行高度
-            _RowInfo *maxHeightRow = nullptr;
-            for (_RowInfo &rowInfo : this->_internalData.rowsInfo) {
-                if (rowInfo.row.type == GridRCType::FillRemain &&
-                    (maxHeightRow == nullptr || rowInfo.size > maxHeightRow->size)) {
-                    maxHeightRow = &rowInfo;
-                }
+        // 高度由内容决定，依据所占高度最大元素为基准计算行高度
+        _RowInfo *maxHeightRow = nullptr;
+        for (_RowInfo &rowInfo : this->_internalData.rowsInfo) {
+            if (rowInfo.row.type == GridRCType::FillRemain &&
+                (maxHeightRow == nullptr || rowInfo.size > maxHeightRow->size)) {
+                maxHeightRow = &rowInfo;
             }
-            if (maxHeightRow != nullptr) {
-                double tmp =
-                    maxHeightRow->size / maxHeightRow->proportion;
-                for (_RowInfo &rowInfo : this->_internalData.rowsInfo) {
-                    if (rowInfo.row.type == GridRCType::FillRemain) {
-                        rowInfo.size = tmp * rowInfo.proportion;
-                    }
-                }
-            }
-        } else {
-            // 高度不是由内容决定时计算类型为FillRemain的列的宽度
-            double remainHeight = availableSize.height;
-            for (_RowInfo &rowInfo : this->_internalData.rowsInfo) {
-                if (rowInfo.row.type != GridRCType::FillRemain) {
-                    remainHeight -= rowInfo.size;
-                }
-            }
-            if (remainHeight < 0) {
-                remainHeight = 0;
-            }
+        }
+        if (maxHeightRow != nullptr) {
+            double tmp =
+                maxHeightRow->size / maxHeightRow->proportion;
             for (_RowInfo &rowInfo : this->_internalData.rowsInfo) {
                 if (rowInfo.row.type == GridRCType::FillRemain) {
-                    rowInfo.size = remainHeight * rowInfo.proportion;
+                    rowInfo.size = tmp * rowInfo.proportion;
                 }
             }
-            // Measure
-            while (measureIndex < childCount) {
-                _ChildInfo &childInfo = this->_internalData.childrenInfo[measureIndex++];
+        }
 
-                Size measureSize{};
-                for (int i = 0; i < childInfo.layoutTag.columnSpan; ++i)
-                    measureSize.width += this->_internalData.colsInfo[childInfo.layoutTag.column + i].size;
-                for (int i = 0; i < childInfo.layoutTag.rowSpan; ++i)
-                    measureSize.height += this->_internalData.rowsInfo[childInfo.layoutTag.row + i].size;
-                childInfo.instance->Measure(measureSize);
+    } else {
+        // 高度不是由内容决定时计算类型为FillRemain的列的宽度
+        double remainHeight = availableSize.height;
+        for (_RowInfo &rowInfo : this->_internalData.rowsInfo) {
+            if (rowInfo.row.type != GridRCType::FillRemain) {
+                remainHeight -= rowInfo.size;
             }
+        }
+        if (remainHeight < 0) {
+            remainHeight = 0;
+        }
+        for (_RowInfo &rowInfo : this->_internalData.rowsInfo) {
+            if (rowInfo.row.type == GridRCType::FillRemain) {
+                rowInfo.size = remainHeight * rowInfo.proportion;
+            }
+        }
+        // Measure
+        while (measureIndex < childCount) {
+            _ChildInfo &childInfo = this->_internalData.childrenInfo[measureIndex++];
+
+            Size measureSize{};
+            for (int i = 0; i < childInfo.layoutTag.columnSpan; ++i)
+                measureSize.width += this->_internalData.colsInfo[childInfo.layoutTag.column + i].size;
+            for (int i = 0; i < childInfo.layoutTag.rowSpan; ++i)
+                measureSize.height += this->_internalData.rowsInfo[childInfo.layoutTag.row + i].size;
+            childInfo.instance->Measure(measureSize);
         }
     }
 
