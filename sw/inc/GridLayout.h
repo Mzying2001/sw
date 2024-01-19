@@ -139,16 +139,18 @@ namespace sw
          * @brief 行信息
          */
         struct _RowInfo {
-            GridRow row;     // 行
-            double size = 0; // 所需空间大小
+            GridRow row;           // 行
+            double size       = 0; // 所需空间大小
+            double proportion = 0; // 类型为FillRemain时该字段保存该行的高度占比，范围为0~1
         };
 
         /**
          * @brief 列信息
          */
         struct _ColInfo {
-            GridColumn col;  // 列
-            double size = 0; // 所需空间大小
+            GridColumn col;        // 列
+            double size       = 0; // 所需空间大小
+            double proportion = 0; // 类型为FillRemain时该字段保存该列的宽度占比，范围为0~1
         };
 
         /**

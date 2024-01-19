@@ -267,8 +267,12 @@ void sw::GridLayout::_UpdateInternalData()
         _RowInfo info;
 
         if (this->rows.IsEmpty()) {
+            info.proportion = 1;
             this->_internalData.rowsInfo.emplace_back(info);
         } else {
+            int count  = 0; // 类型为FillRemain的行数
+            double sum = 0; // FillRemain行的高度求和
+
             for (GridRow &row : this->rows) {
                 info.row = row;
                 // 防止值小于0
@@ -282,7 +286,21 @@ void sw::GridLayout::_UpdateInternalData()
                     // 其他类型此时无法确定行高
                     info.size = 0;
                 }
+                // 记录FillRemain类型行的信息，用于计算percentage
+                if (info.row.type == GridRCType::FillRemain) {
+                    ++count;
+                    sum += info.row.height;
+                }
                 this->_internalData.rowsInfo.emplace_back(info);
+            }
+
+            // 设置percentage字段
+            if (count && sum > 0) {
+                for (_RowInfo &rowInfo : this->_internalData.rowsInfo) {
+                    if (rowInfo.row.type == GridRCType::FillRemain) {
+                        rowInfo.proportion = rowInfo.row.height / sum;
+                    }
+                }
             }
         }
     }
@@ -292,8 +310,12 @@ void sw::GridLayout::_UpdateInternalData()
         _ColInfo info;
 
         if (this->columns.IsEmpty()) {
+            info.proportion = 1;
             this->_internalData.colsInfo.emplace_back(info);
         } else {
+            int count  = 0; // 类型为FillRemain的列数
+            double sum = 0; // FillRemain列的高度求和
+
             for (GridColumn &col : this->columns) {
                 info.col = col;
                 // 防止值小于0
@@ -307,7 +329,21 @@ void sw::GridLayout::_UpdateInternalData()
                     // 其他类型此时无法确定列宽
                     info.size = 0;
                 }
+                // 记录FillRemain类型列的信息，用于计算percentage
+                if (info.col.type == GridRCType::FillRemain) {
+                    ++count;
+                    sum += info.col.width;
+                }
                 this->_internalData.colsInfo.emplace_back(info);
+            }
+
+            // 设置percentage字段
+            if (count && sum > 0) {
+                for (_ColInfo &colInfo : this->_internalData.colsInfo) {
+                    if (colInfo.col.type == GridRCType::FillRemain) {
+                        colInfo.proportion = colInfo.col.width / sum;
+                    }
+                }
             }
         }
     }
