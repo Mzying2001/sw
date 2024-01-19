@@ -397,6 +397,27 @@ void sw::GridLayout::MeasureOverride(Size &availableSize)
         }
     }
 
+    // 更新网格信息
+    {
+        double left = 0;
+        double top  = 0;
+
+        for (int i = 0; i < rowCount; ++i) {
+            _RowInfo &rowInfo = this->_internalData.rowsInfo[i];
+            for (int j = 0; j < colCount; ++j) {
+                _ColInfo &colInfo = this->_internalData.colsInfo[j];
+                Rect &cell        = this->_GetCell(i, j);
+                cell.left         = left;
+                cell.top          = top;
+                cell.width        = colInfo.size;
+                cell.height       = rowInfo.size;
+                left += colInfo.size;
+            }
+            left = 0;
+            top += rowInfo.size;
+        }
+    }
+
     // 设置DesireSize
     for (_ColInfo &colInfo : this->_internalData.colsInfo)
         desireSize.width += colInfo.size;
@@ -407,15 +428,21 @@ void sw::GridLayout::MeasureOverride(Size &availableSize)
 
 void sw::GridLayout::ArrangeOverride(Size &finalSize)
 {
-    int rowCount   = (int)this->_internalData.rowsInfo.size();
-    int colCount   = (int)this->_internalData.colsInfo.size();
     int childCount = (int)this->_internalData.childrenInfo.size();
+    if (childCount == 0) return;
 
-    if (childCount == 0) {
-        return;
+    for (_ChildInfo &childInfo : this->_internalData.childrenInfo) {
+        int row = childInfo.layoutTag.row;
+        int col = childInfo.layoutTag.column;
+
+        Rect arrangeRect = this->_GetCell(row, col);
+        for (int i = 1; i < childInfo.layoutTag.columnSpan; ++i)
+            arrangeRect.width += this->_GetCell(row, col + i).width;
+        for (int i = 1; i < childInfo.layoutTag.rowSpan; ++i)
+            arrangeRect.height += this->_GetCell(row + i, col).height;
+
+        childInfo.instance->Arrange(arrangeRect);
     }
-
-    // TODO
 }
 
 void sw::GridLayout::_UpdateInternalData()
@@ -585,4 +612,14 @@ void sw::GridLayout::_UpdateInternalData()
             this->_internalData.childrenInfo.emplace_back(info);
         }
     }
+
+    // cells
+    {
+        this->_internalData.cells.resize(this->_internalData.rowsInfo.size() * this->_internalData.colsInfo.size());
+    }
+}
+
+sw::Rect &sw::GridLayout::_GetCell(int row, int col)
+{
+    return this->_internalData.cells[this->_internalData.colsInfo.size() * row + col];
 }

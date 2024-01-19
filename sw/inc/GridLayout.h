@@ -160,6 +160,7 @@ namespace sw
             std::vector<_RowInfo> rowsInfo;       // 行信息
             std::vector<_ColInfo> colsInfo;       // 列信息
             std::vector<_ChildInfo> childrenInfo; // 子元素信息
+            std::vector<Rect> cells;              // 保存格信息
         } _internalData;
 
     public:
@@ -188,5 +189,10 @@ namespace sw
          * @brief 更新内部数据
          */
         void _UpdateInternalData();
+
+        /**
+         * @brief 获取指定行列处的网格信息
+         */
+        Rect &_GetCell(int row, int col);
     };
 }
