@@ -42,6 +42,21 @@ sw::GridRow::GridRow(double height)
 {
 }
 
+sw::FixSizeGridRow::FixSizeGridRow(double height)
+    : GridRow(GridRCType::FixSize, height)
+{
+}
+
+sw::AutoSizeGridRow::AutoSizeGridRow()
+    : GridRow(GridRCType::AutoSize, 0)
+{
+}
+
+sw::FillRemainGridRow::FillRemainGridRow(double proportion)
+    : GridRow(GridRCType::FillRemain, proportion)
+{
+}
+
 sw::GridColumn::GridColumn()
     : type(GridRCType::FillRemain), width(1)
 {
@@ -54,6 +69,21 @@ sw::GridColumn::GridColumn(GridRCType type, double width)
 
 sw::GridColumn::GridColumn(double width)
     : type(GridRCType::FixSize), width(width)
+{
+}
+
+sw::FixSizeGridColumn::FixSizeGridColumn(double width)
+    : GridColumn(GridRCType::FixSize, width)
+{
+}
+
+sw::AutoSizeGridColumn::AutoSizeGridColumn()
+    : GridColumn(GridRCType::AutoSize, 0)
+{
+}
+
+sw::FillRemainGridColumn::FillRemainGridColumn(double proportion)
+    : GridColumn(GridRCType::FillRemain, proportion)
 {
 }
 

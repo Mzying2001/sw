@@ -6,7 +6,7 @@
 namespace sw
 {
     /**
-     * @brief Grid布局方式的布局标记
+     * @brief 网格布局方式的布局标记
      */
     struct GridLayoutTag {
         /**
@@ -60,7 +60,7 @@ namespace sw
     };
 
     /**
-     * @brief Grid的行定义
+     * @brief 网格中的行信息
      */
     struct GridRow {
         /**
@@ -90,7 +90,37 @@ namespace sw
     };
 
     /**
-     * @brief Grid的列定义
+     * @brief 固定高度的行
+     */
+    struct FixSizeGridRow : public GridRow {
+        /**
+         * @brief 初始化FixSizeGridRow
+         */
+        FixSizeGridRow(double height);
+    };
+
+    /**
+     * @brief 自动高度的行
+     */
+    struct AutoSizeGridRow : public GridRow {
+        /**
+         * @brief 初始化AutoSizeGridRow
+         */
+        AutoSizeGridRow();
+    };
+
+    /**
+     * @brief 填充剩余高度的行
+     */
+    struct FillRemainGridRow : public GridRow {
+        /**
+         * @brief 初始化FillRemainGridRow
+         */
+        FillRemainGridRow(double proportion);
+    };
+
+    /**
+     * @brief 网格中的列信息
      */
     struct GridColumn {
         /**
@@ -120,7 +150,37 @@ namespace sw
     };
 
     /**
-     * @brief Grid布局方式
+     * @brief 固定宽度的列
+     */
+    struct FixSizeGridColumn : public GridColumn {
+        /**
+         * @brief 初始化FixSizeGridColumn
+         */
+        FixSizeGridColumn(double width);
+    };
+
+    /**
+     * @brief 自动宽度的列
+     */
+    struct AutoSizeGridColumn : public GridColumn {
+        /**
+         * @brief 初始化AutoSizeGridColumn
+         */
+        AutoSizeGridColumn();
+    };
+
+    /**
+     * @brief 填充剩余宽度的列
+     */
+    struct FillRemainGridColumn : public GridColumn {
+        /**
+         * @brief 初始化FillRemainGridColumn
+         */
+        FillRemainGridColumn(double proportion);
+    };
+
+    /**
+     * @brief 网格布局方式
      */
     class GridLayout : public LayoutHost
     {
