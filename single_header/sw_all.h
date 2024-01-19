@@ -7,10 +7,10 @@
 #include <cstdint>
 #include <iostream>
 #include <map>
+#include <initializer_list>
 #include <algorithm>
 #include <vector>
 #include <CommCtrl.h>
-#include <initializer_list>
 #include <tuple>
 #include <functional>
 #include <type_traits>
@@ -55,9 +55,23 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 颜色
+     */
     struct Color {
+        /**
+         * @brief R分量
+         */
         uint8_t r;
+
+        /**
+         * @brief G分量
+         */
         uint8_t g;
+
+        /**
+         * @brief B分量
+         */
         uint8_t b;
 
         Color();
@@ -256,6 +270,9 @@ namespace sw
         Person      = 32672, // Person select
     };
 
+    /**
+     * @brief 用于获取鼠标句柄的工具类
+     */
     class CursorHelper
     {
     private:
@@ -587,6 +604,9 @@ namespace sw
         Shield      = 32518, // Security shield icon
     };
 
+    /**
+     * @brief 用于获取图标句柄的工具类
+     */
     class IconHelper
     {
     private:
@@ -911,6 +931,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 用于处理文件路径的工具类
+     */
     class Path
     {
     private:
@@ -966,8 +989,18 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 表示相对于左上角的点坐标
+     */
     struct Point {
+        /**
+         * @brief 横坐标
+         */
         double x;
+
+        /**
+         * @brief 纵坐标
+         */
         double y;
 
         Point();
@@ -997,10 +1030,28 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 对Windows窗口消息的封装
+     */
     struct ProcMsg {
+        /**
+         * @brief 接收到消息的窗口句柄
+         */
         HWND hwnd;
+
+        /**
+         * @brief 消息类型
+         */
         UINT uMsg;
+
+        /**
+         * @brief 消息的附加信息
+         */
         WPARAM wParam;
+
+        /**
+         * @brief 消息的附加信息
+         */
         LPARAM lParam;
 
         ProcMsg();
@@ -1013,110 +1064,128 @@ namespace sw
 
 namespace sw
 {
-    template <class T>
+    /**
+     * @brief 只读属性
+     */
+    template <typename T>
     class ReadOnlyProperty
     {
     private:
+        /**
+         * @brief 读取属性的函数
+         */
         std::function<const T &()> _funcGet;
 
     public:
-        ReadOnlyProperty(const std::function<const T &()> &funcGet);
-        const T &Get() const;
-        operator const T &() const;
-        const T *operator->() const;
+        /**
+         * @brief 初始化ReadOnlyProperty
+         */
+        ReadOnlyProperty(const std::function<const T &()> &funcGet)
+            : _funcGet(funcGet)
+        {
+        }
+
+        /**
+         * @brief 读属性
+         */
+        const T &Get() const
+        {
+            return this->_funcGet();
+        }
+
+        /**
+         * @brief 读属性
+         */
+        operator const T &() const
+        {
+            return this->_funcGet();
+        }
+
+        /**
+         * @brief 取属性成员
+         */
+        const T *operator->() const
+        {
+            return &this->_funcGet();
+        }
     };
 
-    template <class T>
+    /**
+     * @brief 只写属性
+     */
+    template <typename T>
     class WriteOnlyProperty
     {
     private:
+        /**
+         * @brief 写属性的函数
+         */
         std::function<void(const T &)> _funcSet;
 
     public:
-        WriteOnlyProperty(const std::function<void(const T &)> &funcSet);
-        void Set(const T &value) const;
-        const WriteOnlyProperty &operator=(const T &value) const;
+        /**
+         * @brief 初始化WriteOnlyProperty
+         */
+        WriteOnlyProperty(const std::function<void(const T &)> &funcSet)
+            : _funcSet(funcSet)
+        {
+        }
+
+        /**
+         * @brief 写属性
+         */
+        void Set(const T &value) const
+        {
+            this->_funcSet(value);
+        }
+
+        /**
+         * @brief 写属性
+         */
+        const WriteOnlyProperty &operator=(const T &value) const
+        {
+            this->_funcSet(value);
+            return *this;
+        }
     };
 
-    template <class T>
-    class Property : public ReadOnlyProperty<T>,
-                     public WriteOnlyProperty<T>
+    /**
+     * @brief 属性
+     */
+    template <typename T>
+    class Property : public ReadOnlyProperty<T>, public WriteOnlyProperty<T>
     {
     public:
-        Property(const std::function<const T &()> &funcGet, const std::function<void(const T &)> &funcSet);
-        const Property &operator=(const T &value) const;
-        T *operator->() const;
-    };
+        /**
+         * @brief 初始化Property
+         */
+        Property(const std::function<const T &()> &funcGet, const std::function<void(const T &)> &funcSet)
+            : ReadOnlyProperty<T>(funcGet), WriteOnlyProperty<T>(funcSet)
+        {
+        }
 
-    template <class T>
-    std::wostream &operator<<(std::wostream &wos, const ReadOnlyProperty<T> &prop);
+        /**
+         * @brief 写属性
+         */
+        const Property &operator=(const T &value) const
+        {
+            this->Set(value);
+            return *this;
+        }
+
+        /**
+         * @brief 取属性成员
+         */
+        T *operator->() const
+        {
+            const T &value = this->Get();
+            return const_cast<T *>(&value);
+        }
+    };
 
     /*================================================================================*/
 
-    template <class T>
-    inline ReadOnlyProperty<T>::ReadOnlyProperty(const std::function<const T &()> &funcGet)
-        : _funcGet(funcGet)
-    {
-    }
-
-    template <class T>
-    inline const T &ReadOnlyProperty<T>::Get() const
-    {
-        return this->_funcGet();
-    }
-
-    template <class T>
-    inline ReadOnlyProperty<T>::operator const T &() const
-    {
-        return this->_funcGet();
-    }
-
-    template <class T>
-    inline const T *ReadOnlyProperty<T>::operator->() const
-    {
-        return &this->_funcGet();
-    }
-
-    template <class T>
-    inline WriteOnlyProperty<T>::WriteOnlyProperty(const std::function<void(const T &)> &funcSet)
-        : _funcSet(funcSet)
-    {
-    }
-
-    template <class T>
-    inline void WriteOnlyProperty<T>::Set(const T &value) const
-    {
-        this->_funcSet(value);
-    }
-
-    template <class T>
-    inline const WriteOnlyProperty<T> &WriteOnlyProperty<T>::operator=(const T &value) const
-    {
-        this->_funcSet(value);
-        return *this;
-    }
-
-    template <class T>
-    inline Property<T>::Property(const std::function<const T &()> &funcGet, const std::function<void(const T &)> &funcSet)
-        : ReadOnlyProperty<T>(funcGet), WriteOnlyProperty<T>(funcSet)
-    {
-    }
-
-    template <class T>
-    inline const Property<T> &Property<T>::operator=(const T &value) const
-    {
-        this->Set(value);
-        return *this;
-    }
-
-    template <class T>
-    inline T *Property<T>::operator->() const
-    {
-        const T &value = this->Get();
-        return const_cast<T *>(&value);
-    }
-
-    template <class T>
+    template <typename T>
     inline std::wostream &operator<<(std::wostream &wos, const ReadOnlyProperty<T> &prop)
     {
         return wos << prop.Get();
@@ -1360,8 +1429,18 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 尺寸
+     */
     struct Size {
+        /**
+         * @brief 宽度
+         */
         double width;
+
+        /**
+         * @brief 高度
+         */
         double height;
 
         Size();
@@ -1391,10 +1470,28 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 表示矩形区域周围边框的厚度
+     */
     struct Thickness {
+        /**
+         * @brief 左边
+         */
         double left;
+
+        /**
+         * @brief 顶边
+         */
         double top;
+
+        /**
+         * @brief 右边
+         */
         double right;
+
+        /**
+         * @brief 底边
+         */
         double bottom;
 
         Thickness();
@@ -2096,6 +2193,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 菜单项
+     */
     class MenuItem : public ITag
     {
     public:
@@ -2166,10 +2266,28 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 表示一个矩形区域
+     */
     struct Rect {
+        /**
+         * @brief 左边
+         */
         double left;
+
+        /**
+         * @brief 顶边
+         */
         double top;
+
+        /**
+         * @brief 宽度
+         */
         double width;
+
+        /**
+         * @brief 高度
+         */
         double height;
 
         Rect();
@@ -2541,6 +2659,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 菜单类型的基类
+     */
     class MenuBase
     {
     private:
@@ -2761,6 +2882,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 表示一个Windows窗口，是所有窗口和控件的基类
+     */
     class WndBase
     {
     private:
@@ -3466,6 +3590,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 上下文菜单
+     */
     class ContextMenu : public MenuBase
     {
     public:
@@ -3508,6 +3635,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 用于托管元素的布局方式的对象类型，是所有布局方式类型的基类
+     */
     class LayoutHost : public ILayout
     {
     private:
@@ -3578,6 +3708,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 菜单
+     */
     class Menu : public MenuBase
     {
     public:
@@ -3682,6 +3815,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 停靠布局
+     */
     class DockLayout : public LayoutHost
     {
     public:
@@ -3718,6 +3854,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 一种将全部元素都铺满的布局，一般用于在只有一个子元素的时候将该元素铺满整个可用区域
+     */
     class FillLayout : public LayoutHost
     {
     public:
@@ -3733,11 +3872,271 @@ namespace sw
     };
 }
 
+// GridLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 网格布局方式的布局标记
+     */
+    struct GridLayoutTag {
+        /**
+         * @brief 所在行
+         */
+        uint16_t row;
+
+        /**
+         * @brief 所在列
+         */
+        uint16_t column;
+
+        /**
+         * @brief 所跨行数
+         */
+        uint16_t rowSpan;
+
+        /**
+         * @brief 所跨列数
+         */
+        uint16_t columnSpan;
+
+        /**
+         * @brief GridLayoutTag默认值
+         */
+        GridLayoutTag();
+
+        /**
+         * @brief 初始化GridLayoutTag
+         */
+        GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan);
+
+        /**
+         * @brief 从LayoutTag创建
+         */
+        GridLayoutTag(uint64_t layoutTag);
+
+        /**
+         * @brief 隐式转换LayoutTag
+         */
+        operator uint64_t() const;
+    };
+
+    /**
+     * @brief GridRow和GridColumn的类型
+     */
+    enum class GridRCType {
+        FixSize,    // 固定大小
+        AutoSize,   // 自动大小
+        FillRemain, // 填充剩余空间
+    };
+
+    /**
+     * @brief 网格中的行信息
+     */
+    struct GridRow {
+        /**
+         * @brief 类型
+         */
+        GridRCType type;
+
+        /**
+         * @brief 高度
+         */
+        double height;
+
+        /**
+         * @brief 创建一个FillRemain的GridRow
+         */
+        GridRow();
+
+        /**
+         * @brief 初始化GridRow
+         */
+        GridRow(GridRCType type, double height);
+
+        /**
+         * @brief 固定大小的行
+         */
+        GridRow(double height);
+    };
+
+    /**
+     * @brief 固定高度的行
+     */
+    struct FixSizeGridRow : public GridRow {
+        /**
+         * @brief 初始化FixSizeGridRow
+         */
+        FixSizeGridRow(double height);
+    };
+
+    /**
+     * @brief 自动高度的行
+     */
+    struct AutoSizeGridRow : public GridRow {
+        /**
+         * @brief 初始化AutoSizeGridRow
+         */
+        AutoSizeGridRow();
+    };
+
+    /**
+     * @brief 填充剩余高度的行
+     */
+    struct FillRemainGridRow : public GridRow {
+        /**
+         * @brief 初始化FillRemainGridRow
+         */
+        FillRemainGridRow(double proportion);
+    };
+
+    /**
+     * @brief 网格中的列信息
+     */
+    struct GridColumn {
+        /**
+         * @brief 类型
+         */
+        GridRCType type;
+
+        /**
+         * @brief 宽度
+         */
+        double width;
+
+        /**
+         * @brief 创建一个FillRemain的GridColumn
+         */
+        GridColumn();
+
+        /**
+         * @brief 初始化GridColumn
+         */
+        GridColumn(GridRCType type, double width);
+
+        /**
+         * @brief 固定大小的列
+         */
+        GridColumn(double width);
+    };
+
+    /**
+     * @brief 固定宽度的列
+     */
+    struct FixSizeGridColumn : public GridColumn {
+        /**
+         * @brief 初始化FixSizeGridColumn
+         */
+        FixSizeGridColumn(double width);
+    };
+
+    /**
+     * @brief 自动宽度的列
+     */
+    struct AutoSizeGridColumn : public GridColumn {
+        /**
+         * @brief 初始化AutoSizeGridColumn
+         */
+        AutoSizeGridColumn();
+    };
+
+    /**
+     * @brief 填充剩余宽度的列
+     */
+    struct FillRemainGridColumn : public GridColumn {
+        /**
+         * @brief 初始化FillRemainGridColumn
+         */
+        FillRemainGridColumn(double proportion);
+    };
+
+    /**
+     * @brief 网格布局方式
+     */
+    class GridLayout : public LayoutHost
+    {
+    private:
+        /**
+         * @brief 子元素的信息
+         */
+        struct _ChildInfo {
+            ILayout *instance;         // 子元素对象
+            GridLayoutTag layoutTag;   // 布局标记
+            GridRCType rowMeasureType; // 元素measure行时的类型
+            GridRCType colMeasureType; // 元素measure列时的类型
+        };
+
+        /**
+         * @brief 行信息
+         */
+        struct _RowInfo {
+            GridRow row;           // 行
+            double size       = 0; // 所需空间大小
+            double proportion = 0; // 类型为FillRemain时该字段保存该行的高度占比，范围为0~1
+        };
+
+        /**
+         * @brief 列信息
+         */
+        struct _ColInfo {
+            GridColumn col;        // 列
+            double size       = 0; // 所需空间大小
+            double proportion = 0; // 类型为FillRemain时该字段保存该列的宽度占比，范围为0~1
+        };
+
+        /**
+         * @brief 一些内部数据
+         */
+        struct {
+            std::vector<_RowInfo> rowsInfo;       // 行信息
+            std::vector<_ColInfo> colsInfo;       // 列信息
+            std::vector<_ChildInfo> childrenInfo; // 子元素信息
+            std::vector<Rect> cells;              // 保存格信息
+        } _internalData;
+
+    public:
+        /**
+         * @brief 行定义
+         */
+        List<GridRow> rows;
+
+        /**
+         * @brief 列定义
+         */
+        List<GridColumn> columns;
+
+        /**
+         * @brief 计算所需尺寸
+         */
+        virtual void MeasureOverride(Size &availableSize) override;
+
+        /**
+         * @brief 安排控件
+         */
+        virtual void ArrangeOverride(Size &finalSize) override;
+
+    private:
+        /**
+         * @brief 更新内部数据
+         */
+        void _UpdateInternalData();
+
+        /**
+         * @brief 获取指定行列处的网格信息
+         */
+        Rect &_GetCell(int row, int col);
+    };
+}
+
 // StackLayoutH.h
 
 
 namespace sw
 {
+    /**
+     * @brief 横向堆叠布局
+     */
     class StackLayoutH : virtual public LayoutHost
     {
     public:
@@ -3758,6 +4157,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 纵向堆叠布局
+     */
     class StackLayoutV : virtual public LayoutHost
     {
     public:
@@ -3778,6 +4180,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 表示界面中的元素
+     */
     class UIElement : public WndBase, public ILayout, public ITag
     {
     private:
@@ -4579,6 +4984,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 均匀大小网格布局
+     */
     class UniformGridLayout : public LayoutHost
     {
     public:
@@ -4614,6 +5022,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 横向自动换行布局
+     */
     class WrapLayoutH : virtual public LayoutHost
     {
     public:
@@ -4634,6 +5045,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 纵向自动换行布局
+     */
     class WrapLayoutV : virtual public LayoutHost
     {
     public:
@@ -4689,6 +5103,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 表示可以设置布局方式的元素类型，如窗口、面板等
+     */
     class Layer : virtual public UIElement
     {
     private:
@@ -4763,6 +5180,12 @@ namespace sw
          * @brief 初始化Layer
          */
         Layer();
+
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~Layer() = 0;
 
     private:
         /**
@@ -4930,8 +5353,10 @@ namespace sw
 
 namespace sw
 {
-    class StackLayout : public StackLayoutH,
-                        public StackLayoutV
+    /**
+     * @brief 堆叠布局
+     */
+    class StackLayout : public StackLayoutH, public StackLayoutV
     {
     public:
         /**
@@ -4956,8 +5381,10 @@ namespace sw
 
 namespace sw
 {
-    class WrapLayout : public WrapLayoutH,
-                       public WrapLayoutV
+    /**
+     * @brief 自动换行布局
+     */
+    class WrapLayout : public WrapLayoutH, public WrapLayoutV
     {
     public:
         /**
@@ -4982,6 +5409,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 窗口类名为BUTTON的控件类型的基类
+     */
     class ButtonBase : public Control
     {
     protected:
@@ -5156,6 +5586,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 面板类型的基类
+     */
     class PanelBase : public Control, public Layer
     {
     protected:
@@ -5481,6 +5914,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 窗口类名为EDIT的控件类型的基类
+     */
     class TextBoxBase : public Control
     {
     private:
@@ -6711,6 +7147,9 @@ namespace sw
 
 namespace sw
 {
+    /**
+     * @brief 密码框
+     */
     class PasswordBox : public TextBoxBase
     {
     public:
@@ -6833,6 +7272,76 @@ namespace sw
          * @brief 设置指定元素的Dock
          */
         static void SetDock(UIElement &element, DockLayout::DockLayoutTag dock);
+
+    protected:
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout() override;
+    };
+}
+
+// Grid.h
+
+
+namespace sw
+{
+    /**
+     * @brief 由列和行组成的灵活的网格区域
+     */
+    class Grid : public Panel
+    {
+    private:
+        /**
+         * @brief 默认布局对象
+         */
+        GridLayout _gridLayout = GridLayout();
+
+    public:
+        /**
+         * @brief 初始化Grid
+         */
+        Grid();
+
+        /**
+         * @brief 添加行
+         */
+        void AddRow(const GridRow &row);
+
+        /**
+         * @brief 设置行信息
+         */
+        void SetRows(std::initializer_list<GridRow> rows);
+
+        /**
+         * @brief 添加列
+         */
+        void AddColumn(const GridColumn &col);
+
+        /**
+         * @brief 设置列信息
+         */
+        void SetColumns(std::initializer_list<GridColumn> cols);
+
+        /**
+         * @brief 清空行
+         */
+        void ClearRows();
+
+        /**
+         * @brief 清空列
+         */
+        void ClearColumns();
+
+        /**
+         * @brief 获取指定元素的网格布局标记
+         */
+        static GridLayoutTag GetGridLayoutTag(UIElement &element);
+
+        /**
+         * @brief 给指定元素设置网格布局标记
+         */
+        static void SetGridLayoutTag(UIElement &element, const GridLayoutTag &tag);
 
     protected:
         /**

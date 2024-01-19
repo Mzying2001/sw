@@ -5,6 +5,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 停靠布局
+     */
     class DockLayout : public LayoutHost
     {
     public:

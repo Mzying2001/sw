@@ -6,9 +6,23 @@
 
 namespace sw
 {
+    /**
+     * @brief 颜色
+     */
     struct Color {
+        /**
+         * @brief R分量
+         */
         uint8_t r;
+
+        /**
+         * @brief G分量
+         */
         uint8_t g;
+
+        /**
+         * @brief B分量
+         */
         uint8_t b;
 
         Color();

@@ -4,10 +4,28 @@
 
 namespace sw
 {
+    /**
+     * @brief 表示矩形区域周围边框的厚度
+     */
     struct Thickness {
+        /**
+         * @brief 左边
+         */
         double left;
+
+        /**
+         * @brief 顶边
+         */
         double top;
+
+        /**
+         * @brief 右边
+         */
         double right;
+
+        /**
+         * @brief 底边
+         */
         double bottom;
 
         Thickness();

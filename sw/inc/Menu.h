@@ -4,6 +4,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 菜单
+     */
     class Menu : public MenuBase
     {
     public:

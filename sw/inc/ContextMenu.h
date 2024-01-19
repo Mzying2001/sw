@@ -4,6 +4,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 上下文菜单
+     */
     class ContextMenu : public MenuBase
     {
     public:

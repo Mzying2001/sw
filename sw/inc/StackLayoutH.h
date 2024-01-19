@@ -4,6 +4,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 横向堆叠布局
+     */
     class StackLayoutH : virtual public LayoutHost
     {
     public:

@@ -4,6 +4,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 窗口类名为EDIT的控件类型的基类
+     */
     class TextBoxBase : public Control
     {
     private:

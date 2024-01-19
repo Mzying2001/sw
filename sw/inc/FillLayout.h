@@ -4,6 +4,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 一种将全部元素都铺满的布局，一般用于在只有一个子元素的时候将该元素铺满整个可用区域
+     */
     class FillLayout : public LayoutHost
     {
     public:

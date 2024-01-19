@@ -168,6 +168,10 @@ sw::Layer::Layer()
 {
 }
 
+sw::Layer::~Layer()
+{
+}
+
 sw::LayoutHost *sw::Layer::_GetLayout()
 {
     return this->_customLayout != nullptr ? this->_customLayout : this->GetDefaultLayout();

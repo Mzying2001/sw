@@ -168,6 +168,8 @@
     <ClInclude Include="..\sw\inc\DockPanel.h" />
     <ClInclude Include="..\sw\inc\FillLayout.h" />
     <ClInclude Include="..\sw\inc\Font.h" />
+    <ClInclude Include="..\sw\inc\Grid.h" />
+    <ClInclude Include="..\sw\inc\GridLayout.h" />
     <ClInclude Include="..\sw\inc\GroupBox.h" />
     <ClInclude Include="..\sw\inc\HitTestResult.h" />
     <ClInclude Include="..\sw\inc\Icon.h" />
@@ -239,6 +241,8 @@
     <ClCompile Include="..\sw\src\DockPanel.cpp" />
     <ClCompile Include="..\sw\src\FillLayout.cpp" />
     <ClCompile Include="..\sw\src\Font.cpp" />
+    <ClCompile Include="..\sw\src\Grid.cpp" />
+    <ClCompile Include="..\sw\src\GridLayout.cpp" />
     <ClCompile Include="..\sw\src\GroupBox.cpp" />
     <ClCompile Include="..\sw\src\Icon.cpp" />
     <ClCompile Include="..\sw\src\Keys.cpp" />

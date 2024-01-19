@@ -10,6 +10,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 菜单项
+     */
     class MenuItem : public ITag
     {
     public:

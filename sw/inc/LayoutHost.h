@@ -4,6 +4,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 用于托管元素的布局方式的对象类型，是所有布局方式类型的基类
+     */
     class LayoutHost : public ILayout
     {
     private:

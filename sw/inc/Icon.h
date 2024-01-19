@@ -19,6 +19,9 @@ namespace sw
         Shield      = 32518, // Security shield icon
     };
 
+    /**
+     * @brief 用于获取图标句柄的工具类
+     */
     class IconHelper
     {
     private:

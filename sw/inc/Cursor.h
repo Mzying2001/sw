@@ -29,6 +29,9 @@ namespace sw
         Person      = 32672, // Person select
     };
 
+    /**
+     * @brief 用于获取鼠标句柄的工具类
+     */
     class CursorHelper
     {
     private:

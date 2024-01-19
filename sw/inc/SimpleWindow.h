@@ -18,6 +18,8 @@
 #include "DockPanel.h"
 #include "FillLayout.h"
 #include "Font.h"
+#include "Grid.h"
+#include "GridLayout.h"
 #include "GroupBox.h"
 #include "HitTestResult.h"
 #include "ILayout.h"

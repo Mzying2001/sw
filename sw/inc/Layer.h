@@ -6,6 +6,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 表示可以设置布局方式的元素类型，如窗口、面板等
+     */
     class Layer : virtual public UIElement
     {
     private:
@@ -80,6 +83,12 @@ namespace sw
          * @brief 初始化Layer
          */
         Layer();
+
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~Layer() = 0;
 
     private:
         /**

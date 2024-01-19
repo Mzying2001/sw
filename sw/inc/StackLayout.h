@@ -6,8 +6,10 @@
 
 namespace sw
 {
-    class StackLayout : public StackLayoutH,
-                        public StackLayoutV
+    /**
+     * @brief 堆叠布局
+     */
+    class StackLayout : public StackLayoutH, public StackLayoutV
     {
     public:
         /**
