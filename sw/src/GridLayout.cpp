@@ -106,19 +106,19 @@ void sw::GridLayout::MeasureOverride(Size &availableSize)
                         Utils::Max(this->_internalData.colsInfo[childInfo.layoutTag.column].size, childDesireSize.width);
                 } else {
                     // 若ColumnSpan不为1，则对所跨类型为AutoSize的列均匀贡献
-                    int autoSizeColCount = 0;
-                    double totalWidth    = 0;
+                    int count  = 0;
+                    double sum = 0;
 
                     for (int i = 0; i < childInfo.layoutTag.columnSpan; ++i) {
                         _ColInfo &colInfo =
                             this->_internalData.colsInfo[childInfo.layoutTag.column + i];
-                        autoSizeColCount += colInfo.col.type == GridRCType::AutoSize;
-                        totalWidth += colInfo.size;
+                        count += colInfo.col.type == GridRCType::AutoSize;
+                        sum += colInfo.size;
                     }
 
-                    if (totalWidth < childDesireSize.width) {
+                    if (sum < childDesireSize.width) {
                         double tmp =
-                            (childDesireSize.width - totalWidth) / autoSizeColCount;
+                            (childDesireSize.width - sum) / count;
                         for (int i = 0; i < childInfo.layoutTag.columnSpan; ++i) {
                             _ColInfo &colInfo =
                                 this->_internalData.colsInfo[childInfo.layoutTag.column + i];
@@ -149,19 +149,19 @@ void sw::GridLayout::MeasureOverride(Size &availableSize)
                         Utils::Max(this->_internalData.colsInfo[childInfo.layoutTag.column].size, childDesireSize.width);
                 } else {
                     // 若ColumnSpan不为1，则对所跨类型为FillRemain的列均匀贡献
-                    int autoSizeColCount = 0;
-                    double totalWidth    = 0;
+                    int count  = 0;
+                    double sum = 0;
 
                     for (int i = 0; i < childInfo.layoutTag.columnSpan; ++i) {
                         _ColInfo &colInfo =
                             this->_internalData.colsInfo[childInfo.layoutTag.column + i];
-                        autoSizeColCount += colInfo.col.type == GridRCType::FillRemain;
-                        totalWidth += colInfo.size;
+                        count += colInfo.col.type == GridRCType::FillRemain;
+                        sum += colInfo.size;
                     }
 
-                    if (totalWidth < childDesireSize.width) {
+                    if (sum < childDesireSize.width) {
                         double tmp =
-                            (childDesireSize.width - totalWidth) / autoSizeColCount;
+                            (childDesireSize.width - sum) / count;
                         for (int i = 0; i < childInfo.layoutTag.columnSpan; ++i) {
                             _ColInfo &colInfo =
                                 this->_internalData.colsInfo[childInfo.layoutTag.column + i];
@@ -182,46 +182,35 @@ void sw::GridLayout::MeasureOverride(Size &availableSize)
 
     if (!widthSizeToContent) {
         // 宽度不是由内容决定时计算类型为FillRemain的列的宽度
-        int count          = 0;
-        double widthSum    = 0;
         double remainWidth = availableSize.width;
         for (_ColInfo &colInfo : this->_internalData.colsInfo) {
-            if (colInfo.col.type == GridRCType::FillRemain) {
-                ++count;
-                widthSum += colInfo.col.width;
-            } else {
+            if (colInfo.col.type != GridRCType::FillRemain) {
                 remainWidth -= colInfo.size;
             }
         }
-        if (count && widthSum > 0) {
-            if (remainWidth < 0) {
-                remainWidth = 0;
-            }
-            for (_ColInfo &colInfo : this->_internalData.colsInfo) {
-                if (colInfo.col.type == GridRCType::FillRemain) {
-                    colInfo.size = remainWidth * colInfo.col.width / widthSum;
-                }
+        if (remainWidth < 0) {
+            remainWidth = 0;
+        }
+        for (_ColInfo &colInfo : this->_internalData.colsInfo) {
+            if (colInfo.col.type == GridRCType::FillRemain) {
+                colInfo.size = remainWidth * colInfo.proportion;
             }
         }
     } else {
         // 宽度由内容决定，依据所占宽度最大元素为基准计算列宽度
-        int count             = 0;
-        double widthSum       = 0;
         _ColInfo *maxWidthCol = nullptr;
         for (_ColInfo &colInfo : this->_internalData.colsInfo) {
             if (colInfo.col.type == GridRCType::FillRemain &&
                 (maxWidthCol == nullptr || colInfo.size > maxWidthCol->size)) {
-                ++count;
-                widthSum += colInfo.col.width;
                 maxWidthCol = &colInfo;
             }
         }
-        if (count > 1 && widthSum > 0) {
+        if (maxWidthCol != nullptr) {
             double tmp =
-                maxWidthCol->size / (maxWidthCol->col.width / widthSum);
+                maxWidthCol->size / maxWidthCol->proportion;
             for (_ColInfo &colInfo : this->_internalData.colsInfo) {
                 if (colInfo.col.type == GridRCType::FillRemain) {
-                    colInfo.size = tmp * colInfo.col.width / widthSum;
+                    colInfo.size = tmp * colInfo.proportion;
                 }
             }
         }
