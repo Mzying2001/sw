@@ -53,6 +53,16 @@ namespace sw
          */
         void ClearColumns();
 
+        /**
+         * @brief 获取指定元素的网格布局标记
+         */
+        static GridLayoutTag GetGridLayoutTag(UIElement &element);
+
+        /**
+         * @brief 给指定元素设置网格布局标记
+         */
+        static void SetGridLayoutTag(UIElement &element, const GridLayoutTag &tag);
+
     protected:
         /**
          * @brief 获取默认布局对象

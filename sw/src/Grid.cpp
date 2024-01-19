@@ -45,6 +45,16 @@ void sw::Grid::ClearColumns()
     this->NotifyLayoutUpdated();
 }
 
+sw::GridLayoutTag sw::Grid::GetGridLayoutTag(UIElement &element)
+{
+    return element.LayoutTag.Get();
+}
+
+void sw::Grid::SetGridLayoutTag(UIElement &element, const GridLayoutTag &tag)
+{
+    element.LayoutTag.Set(tag);
+}
+
 sw::LayoutHost *sw::Grid::GetDefaultLayout()
 {
     return &this->_gridLayout;
