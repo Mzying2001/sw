@@ -13,6 +13,11 @@ sw::GridLayoutTag::GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan
 {
 }
 
+sw::GridLayoutTag::GridLayoutTag(uint16_t row, uint16_t column)
+    : row(row), column(column), rowSpan(1), columnSpan(1)
+{
+}
+
 sw::GridLayoutTag::GridLayoutTag(uint64_t layoutTag)
     : row((layoutTag >> 0) & 0xffff), column((layoutTag >> 16) & 0xffff),
       rowSpan((layoutTag >> 32) & 0xffff), columnSpan((layoutTag >> 48) & 0xffff)
