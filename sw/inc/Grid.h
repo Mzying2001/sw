@@ -2,6 +2,7 @@
 
 #include "GridLayout.h"
 #include "Panel.h"
+#include <initializer_list>
 
 namespace sw
 {
@@ -21,6 +22,36 @@ namespace sw
          * @brief 初始化Grid
          */
         Grid();
+
+        /**
+         * @brief 添加行
+         */
+        void AddRow(const GridRow &row);
+
+        /**
+         * @brief 设置行信息
+         */
+        void SetRows(std::initializer_list<GridRow> rows);
+
+        /**
+         * @brief 添加列
+         */
+        void AddColumn(const GridColumn &col);
+
+        /**
+         * @brief 设置列信息
+         */
+        void SetColumns(std::initializer_list<GridColumn> cols);
+
+        /**
+         * @brief 清空行
+         */
+        void ClearRows();
+
+        /**
+         * @brief 清空列
+         */
+        void ClearColumns();
 
     protected:
         /**
