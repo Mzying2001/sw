@@ -84,6 +84,12 @@ namespace sw
          */
         Layer();
 
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~Layer() = 0;
+
     private:
         /**
          * @brief 获取布局对象，若Layout属性被赋值则返回设置的对象，否则返回默认布局对象
