@@ -121,7 +121,7 @@ namespace sw
         /**
          * @brief 初始化FillRemainGridRow
          */
-        FillRemainGridRow(double proportion);
+        FillRemainGridRow(double proportion = 1);
     };
 
     /**
@@ -181,7 +181,7 @@ namespace sw
         /**
          * @brief 初始化FillRemainGridColumn
          */
-        FillRemainGridColumn(double proportion);
+        FillRemainGridColumn(double proportion = 1);
     };
 
     /**
