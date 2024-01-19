@@ -7,10 +7,28 @@
 
 namespace sw
 {
+    /**
+     * @brief 表示一个矩形区域
+     */
     struct Rect {
+        /**
+         * @brief 左边
+         */
         double left;
+
+        /**
+         * @brief 顶边
+         */
         double top;
+
+        /**
+         * @brief 宽度
+         */
         double width;
+
+        /**
+         * @brief 高度
+         */
         double height;
 
         Rect();

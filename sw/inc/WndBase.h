@@ -19,6 +19,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 表示一个Windows窗口，是所有窗口和控件的基类
+     */
     class WndBase
     {
     private:

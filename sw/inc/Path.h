@@ -5,6 +5,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 用于处理文件路径的工具类
+     */
     class Path
     {
     private:

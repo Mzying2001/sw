@@ -5,8 +5,18 @@
 
 namespace sw
 {
+    /**
+     * @brief 尺寸
+     */
     struct Size {
+        /**
+         * @brief 宽度
+         */
         double width;
+
+        /**
+         * @brief 高度
+         */
         double height;
 
         Size();

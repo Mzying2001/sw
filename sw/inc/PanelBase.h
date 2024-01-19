@@ -5,6 +5,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 面板类型的基类
+     */
     class PanelBase : public Control, public Layer
     {
     protected:

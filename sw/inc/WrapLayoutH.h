@@ -4,6 +4,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 横向自动换行布局
+     */
     class WrapLayoutH : virtual public LayoutHost
     {
     public:

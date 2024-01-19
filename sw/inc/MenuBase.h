@@ -10,6 +10,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 菜单类型的基类
+     */
     class MenuBase
     {
     private:

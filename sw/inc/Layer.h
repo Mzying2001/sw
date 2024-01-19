@@ -6,6 +6,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 表示可以设置布局方式的元素类型，如窗口、面板等
+     */
     class Layer : virtual public UIElement
     {
     private:

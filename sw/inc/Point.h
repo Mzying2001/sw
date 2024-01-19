@@ -5,8 +5,18 @@
 
 namespace sw
 {
+    /**
+     * @brief 表示相对于左上角的点坐标
+     */
     struct Point {
+        /**
+         * @brief 横坐标
+         */
         double x;
+
+        /**
+         * @brief 纵坐标
+         */
         double y;
 
         Point();

@@ -4,6 +4,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 均匀大小网格布局
+     */
     class UniformGridLayout : public LayoutHost
     {
     public:

@@ -6,8 +6,10 @@
 
 namespace sw
 {
-    class WrapLayout : public WrapLayoutH,
-                       public WrapLayoutV
+    /**
+     * @brief 自动换行布局
+     */
+    class WrapLayout : public WrapLayoutH, public WrapLayoutV
     {
     public:
         /**

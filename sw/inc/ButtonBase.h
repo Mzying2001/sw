@@ -4,6 +4,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 窗口类名为BUTTON的控件类型的基类
+     */
     class ButtonBase : public Control
     {
     protected:

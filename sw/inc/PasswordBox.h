@@ -4,6 +4,9 @@
 
 namespace sw
 {
+    /**
+     * @brief 密码框
+     */
     class PasswordBox : public TextBoxBase
     {
     public:
