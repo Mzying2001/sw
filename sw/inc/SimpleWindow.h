@@ -5,6 +5,8 @@
 #include "App.h"
 #include "Button.h"
 #include "ButtonBase.h"
+#include "Canvas.h"
+#include "CanvasLayout.h"
 #include "CheckBox.h"
 #include "CheckableButton.h"
 #include "Color.h"
