@@ -155,6 +155,8 @@
     <ClInclude Include="..\sw\inc\App.h" />
     <ClInclude Include="..\sw\inc\Button.h" />
     <ClInclude Include="..\sw\inc\ButtonBase.h" />
+    <ClInclude Include="..\sw\inc\Canvas.h" />
+    <ClInclude Include="..\sw\inc\CanvasLayout.h" />
     <ClInclude Include="..\sw\inc\CheckableButton.h" />
     <ClInclude Include="..\sw\inc\CheckBox.h" />
     <ClInclude Include="..\sw\inc\Color.h" />
@@ -229,6 +231,8 @@
     <ClCompile Include="..\sw\src\App.cpp" />
     <ClCompile Include="..\sw\src\Button.cpp" />
     <ClCompile Include="..\sw\src\ButtonBase.cpp" />
+    <ClCompile Include="..\sw\src\Canvas.cpp" />
+    <ClCompile Include="..\sw\src\CanvasLayout.cpp" />
     <ClCompile Include="..\sw\src\CheckableButton.cpp" />
     <ClCompile Include="..\sw\src\CheckBox.cpp" />
     <ClCompile Include="..\sw\src\Color.cpp" />
