@@ -13,7 +13,7 @@
 + **High DPI Support**:  
   Native support for high DPI using DIP (Device Independent Pixels) as the default unit of measurement.
 + **Flexible Layout**:  
-  Implements a layout system similar to WPF, supporting features like `Margin` and various layouts such as `StackLayout` and `DockLayout`.
+  Implements a layout system similar to WPF, supporting various layouts such as `GridLayout`, `StackLayout`, `DockLayout`, and more.
 + **Routed Events**:  
   Adopts a routed event mechanism, where events can bubble up from the source control to propagate upwards. Event handlers can be registered on controls at different levels.
 
