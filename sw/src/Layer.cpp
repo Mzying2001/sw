@@ -95,7 +95,7 @@ sw::Layer::Layer()
 
               if (layout != nullptr && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
                   this->GetArrangeOffsetX() = -HorizontalScrollPos;
-                  layout->Arrange(this->ClientRect);
+                  this->_MeasureAndArrangeWithoutResize();
               }
           }),
 
@@ -124,7 +124,7 @@ sw::Layer::Layer()
 
               if (layout != nullptr && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
                   this->GetArrangeOffsetY() = -VerticalScrollPos;
-                  layout->Arrange(this->ClientRect);
+                  this->_MeasureAndArrangeWithoutResize();
               }
           }),
 
