@@ -5,12 +5,24 @@
 
 namespace sw
 {
+    template <typename T>
+    class Property; // 向前声明
+
     /**
      * @brief 只读属性
      */
     template <typename T>
     class ReadOnlyProperty
     {
+        // 添加Property类为友元类
+        friend class Property<T>;
+
+        // 删除拷贝构造函数
+        ReadOnlyProperty(const ReadOnlyProperty &) = delete;
+
+        // 删除拷贝赋值运算符
+        ReadOnlyProperty &operator=(const ReadOnlyProperty &) = delete;
+
     private:
         /**
          * @brief 读取属性的函数
@@ -49,6 +61,14 @@ namespace sw
         {
             return &this->_funcGet();
         }
+
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const ReadOnlyProperty &prop)
+        {
+            return wos << prop._funcGet();
+        }
     };
 
     /**
@@ -57,6 +77,15 @@ namespace sw
     template <typename T>
     class WriteOnlyProperty
     {
+        // 添加Property类为友元类
+        friend class Property<T>;
+
+        // 删除拷贝构造函数
+        WriteOnlyProperty(const WriteOnlyProperty &) = delete;
+
+        // 删除拷贝赋值运算符
+        WriteOnlyProperty &operator=(const WriteOnlyProperty &) = delete;
+
     private:
         /**
          * @brief 写属性的函数
@@ -96,6 +125,12 @@ namespace sw
     template <typename T>
     class Property : public ReadOnlyProperty<T>, public WriteOnlyProperty<T>
     {
+        // 删除拷贝构造函数
+        Property(const Property &) = delete;
+
+        // 删除拷贝赋值运算符
+        Property &operator=(const Property &) = delete;
+
     public:
         /**
          * @brief 初始化Property
@@ -110,7 +145,7 @@ namespace sw
          */
         const Property &operator=(const T &value) const
         {
-            this->Set(value);
+            this->_funcSet(value);
             return *this;
         }
 
@@ -119,16 +154,8 @@ namespace sw
          */
         T *operator->() const
         {
-            const T &value = this->Get();
+            const T &value = this->_funcGet();
             return const_cast<T *>(&value);
         }
     };
-
-    /*================================================================================*/
-
-    template <typename T>
-    inline std::wostream &operator<<(std::wostream &wos, const ReadOnlyProperty<T> &prop)
-    {
-        return wos << prop.Get();
-    }
 }

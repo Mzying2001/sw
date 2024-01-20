@@ -40,6 +40,11 @@ namespace sw
         GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan);
 
         /**
+         * @brief 初始化GridLayoutTag
+         */
+        GridLayoutTag(uint16_t row, uint16_t column);
+
+        /**
          * @brief 从LayoutTag创建
          */
         GridLayoutTag(uint64_t layoutTag);
@@ -116,7 +121,7 @@ namespace sw
         /**
          * @brief 初始化FillRemainGridRow
          */
-        FillRemainGridRow(double proportion);
+        FillRemainGridRow(double proportion = 1);
     };
 
     /**
@@ -176,7 +181,7 @@ namespace sw
         /**
          * @brief 初始化FillRemainGridColumn
          */
-        FillRemainGridColumn(double proportion);
+        FillRemainGridColumn(double proportion = 1);
     };
 
     /**
