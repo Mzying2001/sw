@@ -231,6 +231,85 @@ void sw::ButtonBase::OnDoubleClicked()
     this->RaiseRoutedEvent(ButtonBase_DoubleClicked);
 }
 
+// Canvas.cpp
+
+sw::Canvas::Canvas()
+{
+    this->_canvasLayout.Associate(this);
+    this->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Stretch);
+}
+
+sw::CanvasLayoutTag sw::Canvas::GetCanvasLayoutTag(UIElement &element)
+{
+    return element.LayoutTag.Get();
+}
+
+void sw::Canvas::SetCanvasLayoutTag(UIElement &element, const CanvasLayoutTag &tag)
+{
+    element.LayoutTag.Set(tag);
+}
+
+sw::LayoutHost *sw::Canvas::GetDefaultLayout()
+{
+    return &this->_canvasLayout;
+}
+
+// CanvasLayout.cpp
+
+sw::CanvasLayoutTag::CanvasLayoutTag()
+    : left(0), top(0)
+{
+}
+
+sw::CanvasLayoutTag::CanvasLayoutTag(float left, float top)
+    : left(left), top(top)
+{
+}
+
+sw::CanvasLayoutTag::CanvasLayoutTag(uint64_t layoutTag)
+    : left(reinterpret_cast<float *>(&layoutTag)[0]),
+      top(reinterpret_cast<float *>(&layoutTag)[1])
+{
+}
+
+sw::CanvasLayoutTag::operator uint64_t() const
+{
+    uint64_t result;
+    reinterpret_cast<float *>(&result)[0] = left;
+    reinterpret_cast<float *>(&result)[1] = top;
+    return result;
+}
+
+void sw::CanvasLayout::MeasureOverride(Size &availableSize)
+{
+    Size desireSize{};
+    Size measureSize{INFINITY, INFINITY};
+
+    int childCount = this->GetChildLayoutCount();
+    for (int i = 0; i < childCount; ++i) {
+        ILayout &item = this->GetChildLayoutAt(i);
+
+        item.Measure(measureSize);
+        Size childDesireSize = item.GetDesireSize();
+        CanvasLayoutTag tag  = item.GetLayoutTag();
+        desireSize.width     = Utils::Max(tag.left + childDesireSize.width, desireSize.width);
+        desireSize.height    = Utils::Max(tag.top + childDesireSize.height, desireSize.height);
+    }
+
+    this->SetDesireSize(desireSize);
+}
+
+void sw::CanvasLayout::ArrangeOverride(Size &finalSize)
+{
+    int childCount = this->GetChildLayoutCount();
+    for (int i = 0; i < childCount; ++i) {
+        ILayout &item        = this->GetChildLayoutAt(i);
+        Size childDesireSize = item.GetDesireSize();
+        CanvasLayoutTag tag  = item.GetLayoutTag();
+        item.Arrange(Rect{tag.left, tag.top, childDesireSize.width, childDesireSize.height});
+    }
+}
+
 // CheckableButton.cpp
 
 sw::CheckableButton::CheckableButton()
@@ -1012,6 +1091,11 @@ sw::GridLayoutTag::GridLayoutTag()
 
 sw::GridLayoutTag::GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan)
     : row(row), column(column), rowSpan(rowSpan), columnSpan(columnSpan)
+{
+}
+
+sw::GridLayoutTag::GridLayoutTag(uint16_t row, uint16_t column)
+    : row(row), column(column), rowSpan(1), columnSpan(1)
 {
 }
 
@@ -3804,7 +3888,8 @@ bool sw::Panel::OnPaint()
 
 bool sw::Panel::OnSize(Size newClientSize)
 {
-    InvalidateRect(this->Handle, NULL, FALSE);
+    if (this->_borderStyle != sw::BorderStyle::None)
+        InvalidateRect(this->Handle, NULL, FALSE);
     return UIElement::OnSize(newClientSize);
 }
 

@@ -1064,12 +1064,24 @@ namespace sw
 
 namespace sw
 {
+    template <typename T>
+    class Property; // 向前声明
+
     /**
      * @brief 只读属性
      */
     template <typename T>
     class ReadOnlyProperty
     {
+        // 添加Property类为友元类
+        friend class Property<T>;
+
+        // 删除拷贝构造函数
+        ReadOnlyProperty(const ReadOnlyProperty &) = delete;
+
+        // 删除拷贝赋值运算符
+        ReadOnlyProperty &operator=(const ReadOnlyProperty &) = delete;
+
     private:
         /**
          * @brief 读取属性的函数
@@ -1108,6 +1120,14 @@ namespace sw
         {
             return &this->_funcGet();
         }
+
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const ReadOnlyProperty &prop)
+        {
+            return wos << prop._funcGet();
+        }
     };
 
     /**
@@ -1116,6 +1136,15 @@ namespace sw
     template <typename T>
     class WriteOnlyProperty
     {
+        // 添加Property类为友元类
+        friend class Property<T>;
+
+        // 删除拷贝构造函数
+        WriteOnlyProperty(const WriteOnlyProperty &) = delete;
+
+        // 删除拷贝赋值运算符
+        WriteOnlyProperty &operator=(const WriteOnlyProperty &) = delete;
+
     private:
         /**
          * @brief 写属性的函数
@@ -1155,6 +1184,12 @@ namespace sw
     template <typename T>
     class Property : public ReadOnlyProperty<T>, public WriteOnlyProperty<T>
     {
+        // 删除拷贝构造函数
+        Property(const Property &) = delete;
+
+        // 删除拷贝赋值运算符
+        Property &operator=(const Property &) = delete;
+
     public:
         /**
          * @brief 初始化Property
@@ -1169,7 +1204,7 @@ namespace sw
          */
         const Property &operator=(const T &value) const
         {
-            this->Set(value);
+            this->_funcSet(value);
             return *this;
         }
 
@@ -1178,18 +1213,10 @@ namespace sw
          */
         T *operator->() const
         {
-            const T &value = this->Get();
+            const T &value = this->_funcGet();
             return const_cast<T *>(&value);
         }
     };
-
-    /*================================================================================*/
-
-    template <typename T>
-    inline std::wostream &operator<<(std::wostream &wos, const ReadOnlyProperty<T> &prop)
-    {
-        return wos << prop.Get();
-    }
 }
 
 // RoutedEvent.h
@@ -3810,6 +3837,64 @@ namespace sw
     };
 }
 
+// CanvasLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 绝对位置布局方式的布局标记
+     */
+    struct CanvasLayoutTag {
+        /**
+         * @brief 左边
+         */
+        float left;
+
+        /**
+         * @brief 顶边
+         */
+        float top;
+
+        /**
+         * @brief 左边顶边均为0
+         */
+        CanvasLayoutTag();
+
+        /**
+         * @brief 指定左边和顶边
+         */
+        CanvasLayoutTag(float left, float top);
+
+        /**
+         * @brief 从LayoutTag创建
+         */
+        CanvasLayoutTag(uint64_t layoutTag);
+
+        /**
+         * @brief 隐式转换LayoutTag
+         */
+        operator uint64_t() const;
+    };
+
+    /**
+     * @brief 绝对位置布局方式
+     */
+    class CanvasLayout : public LayoutHost
+    {
+    public:
+        /**
+         * @brief 计算所需尺寸
+         */
+        virtual void MeasureOverride(Size &availableSize) override;
+
+        /**
+         * @brief 安排控件
+         */
+        virtual void ArrangeOverride(Size &finalSize) override;
+    };
+}
+
 // DockLayout.h
 
 
@@ -3912,6 +3997,11 @@ namespace sw
         GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan);
 
         /**
+         * @brief 初始化GridLayoutTag
+         */
+        GridLayoutTag(uint16_t row, uint16_t column);
+
+        /**
          * @brief 从LayoutTag创建
          */
         GridLayoutTag(uint64_t layoutTag);
@@ -3988,7 +4078,7 @@ namespace sw
         /**
          * @brief 初始化FillRemainGridRow
          */
-        FillRemainGridRow(double proportion);
+        FillRemainGridRow(double proportion = 1);
     };
 
     /**
@@ -4048,7 +4138,7 @@ namespace sw
         /**
          * @brief 初始化FillRemainGridColumn
          */
-        FillRemainGridColumn(double proportion);
+        FillRemainGridColumn(double proportion = 1);
     };
 
     /**
@@ -5473,41 +5563,53 @@ namespace sw
         /**
          * @brief 项数
          */
-        const ReadOnlyProperty<int> ItemsCount = ReadOnlyProperty<int>(
-            // get
-            [&]() -> const int & {
-                static int result;
-                result = this->GetItemsCount();
-                return result;
-            });
+        const ReadOnlyProperty<int> ItemsCount;
 
         /**
          * @brief 选中项的索引，当无选中项时为-1
          */
-        const Property<int> SelectedIndex = Property<int>(
-            // get
-            [&]() -> const int & {
-                static int result;
-                result = this->GetSelectedIndex();
-                return result;
-            },
-            // set
-            [&](const int &value) {
-                this->SetSelectedIndex(value);
-            });
+        const Property<int> SelectedIndex;
 
         /**
          * @brief 选中项
          */
-        const ReadOnlyProperty<TItem> SelectedItem = ReadOnlyProperty<TItem>(
-            // get
-            [&]() -> const TItem & {
-                static TItem result;
-                result = this->GetSelectedItem();
-                return result;
-            });
+        const ReadOnlyProperty<TItem> SelectedItem;
 
     protected:
+        /**
+         * @brief 初始化ItemsControl
+         */
+        ItemsControl()
+            : ItemsCount(
+                  // get
+                  [&]() -> const int & {
+                      static int result;
+                      result = this->GetItemsCount();
+                      return result;
+                  }),
+
+              SelectedIndex(
+                  // get
+                  [&]() -> const int & {
+                      static int result;
+                      result = this->GetSelectedIndex();
+                      return result;
+                  },
+                  // set
+                  [&](const int &value) {
+                      this->SetSelectedIndex(value);
+                  }),
+
+              SelectedItem(
+                  // get
+                  [&]() -> const TItem & {
+                      static TItem result;
+                      result = this->GetSelectedItem();
+                      return result;
+                  })
+        {
+        }
+
         /**
          * @brief 选中项改变时调用该函数
          */
@@ -7208,6 +7310,46 @@ namespace sw
          * @brief 初始化编辑框
          */
         TextBox();
+    };
+}
+
+// Canvas.h
+
+
+namespace sw
+{
+    /**
+     * @brief 一种可以为子元素设置绝对位置的面板，与普通Panel不同的是Canvas支持自动滚动条
+     */
+    class Canvas : public Panel
+    {
+    private:
+        /**
+         * @brief 默认布局对象
+         */
+        CanvasLayout _canvasLayout = CanvasLayout();
+
+    public:
+        /**
+         * @brief 初始化Canvas
+         */
+        Canvas();
+
+        /**
+         * @brief 获取指定元素的布局标记
+         */
+        static CanvasLayoutTag GetCanvasLayoutTag(UIElement &element);
+
+        /**
+         * @brief 给指定元素设置布局标记
+         */
+        static void SetCanvasLayoutTag(UIElement &element, const CanvasLayoutTag &tag);
+
+    protected:
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout() override;
     };
 }
 
