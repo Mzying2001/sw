@@ -17,6 +17,12 @@ namespace sw
         // 添加Property类为友元类
         friend class Property<T>;
 
+        // 删除拷贝构造函数
+        ReadOnlyProperty(const ReadOnlyProperty &) = delete;
+
+        // 删除拷贝赋值运算符
+        ReadOnlyProperty &operator=(const ReadOnlyProperty &) = delete;
+
     private:
         /**
          * @brief 读取属性的函数
@@ -74,6 +80,12 @@ namespace sw
         // 添加Property类为友元类
         friend class Property<T>;
 
+        // 删除拷贝构造函数
+        WriteOnlyProperty(const WriteOnlyProperty &) = delete;
+
+        // 删除拷贝赋值运算符
+        WriteOnlyProperty &operator=(const WriteOnlyProperty &) = delete;
+
     private:
         /**
          * @brief 写属性的函数
@@ -113,6 +125,12 @@ namespace sw
     template <typename T>
     class Property : public ReadOnlyProperty<T>, public WriteOnlyProperty<T>
     {
+        // 删除拷贝构造函数
+        Property(const Property &) = delete;
+
+        // 删除拷贝赋值运算符
+        Property &operator=(const Property &) = delete;
+
     public:
         /**
          * @brief 初始化Property
