@@ -1185,16 +1185,28 @@ void sw::GridLayout::MeasureOverride(Size &availableSize)
     bool widthSizeToContent  = std::isinf(availableSize.width);
     bool heightSizeToContent = std::isinf(availableSize.height);
 
-    // 子元素为空，DesireSize只受类型为FixSize的行列影响
+    // 子元素为空，可以直接计算DesireSize
+    // 若无类型为FillRemain的行/列，对固定大小的行/列求和即可
+    // 若有类型为FillRemain的行/列，且大小不是由内容决定时，铺满availableSize
     if (childCount == 0) {
+        bool hasFillRemainCols = false;
+        bool hasFillRemainRows = false;
         for (_ColInfo &colInfo : this->_internalData.colsInfo) {
             if (colInfo.col.type == GridRCType::FixSize)
                 desireSize.width += colInfo.size;
+            else if (colInfo.col.type == GridRCType::FillRemain && colInfo.proportion != 0)
+                hasFillRemainCols = true;
         }
         for (_RowInfo &rowInfo : this->_internalData.rowsInfo) {
             if (rowInfo.row.type == GridRCType::FixSize)
                 desireSize.height += rowInfo.size;
+            else if (rowInfo.row.type == GridRCType::FillRemain && rowInfo.proportion != 0)
+                hasFillRemainRows = true;
         }
+        if (!widthSizeToContent && hasFillRemainCols)
+            desireSize.width = Utils::Max(availableSize.width, desireSize.width);
+        if (!heightSizeToContent && hasFillRemainRows)
+            desireSize.height = Utils::Max(availableSize.height, desireSize.height);
         this->SetDesireSize(desireSize);
         return;
     }
@@ -1590,7 +1602,7 @@ void sw::GridLayout::_UpdateInternalData()
                     // 其他类型此时无法确定行高
                     info.size = 0;
                 }
-                // 记录FillRemain类型行的信息，用于计算percentage
+                // 记录FillRemain类型行的信息，用于计算proportion
                 if (info.row.type == GridRCType::FillRemain) {
                     ++count;
                     sum += info.row.height;
@@ -1598,7 +1610,7 @@ void sw::GridLayout::_UpdateInternalData()
                 this->_internalData.rowsInfo.emplace_back(info);
             }
 
-            // 设置percentage字段
+            // 设置proportion字段
             if (count && sum > 0) {
                 for (_RowInfo &rowInfo : this->_internalData.rowsInfo) {
                     if (rowInfo.row.type == GridRCType::FillRemain) {
@@ -1633,7 +1645,7 @@ void sw::GridLayout::_UpdateInternalData()
                     // 其他类型此时无法确定列宽
                     info.size = 0;
                 }
-                // 记录FillRemain类型列的信息，用于计算percentage
+                // 记录FillRemain类型列的信息，用于计算proportion
                 if (info.col.type == GridRCType::FillRemain) {
                     ++count;
                     sum += info.col.width;
@@ -1641,7 +1653,7 @@ void sw::GridLayout::_UpdateInternalData()
                 this->_internalData.colsInfo.emplace_back(info);
             }
 
-            // 设置percentage字段
+            // 设置proportion字段
             if (count && sum > 0) {
                 for (_ColInfo &colInfo : this->_internalData.colsInfo) {
                     if (colInfo.col.type == GridRCType::FillRemain) {
@@ -2088,7 +2100,7 @@ sw::Layer::Layer()
 
               if (layout != nullptr && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
                   this->GetArrangeOffsetX() = -HorizontalScrollPos;
-                  layout->Arrange(this->ClientRect);
+                  this->_MeasureAndArrangeWithoutResize();
               }
           }),
 
@@ -2117,7 +2129,7 @@ sw::Layer::Layer()
 
               if (layout != nullptr && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
                   this->GetArrangeOffsetY() = -VerticalScrollPos;
-                  layout->Arrange(this->ClientRect);
+                  this->_MeasureAndArrangeWithoutResize();
               }
           }),
 
