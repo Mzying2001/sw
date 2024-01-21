@@ -256,4 +256,12 @@ namespace sw
         MouseX1     = MK_XBUTTON1, // The first X button is down.
         MouseX2     = MK_XBUTTON2, // The second X button is down.
     };
+
+    /**
+     * @brief 让MouseKey枚举类支持按位与操作
+     */
+    inline constexpr int operator&(MouseKey left, MouseKey right)
+    {
+        return int(left) & int(right);
+    }
 }
