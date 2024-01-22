@@ -27,10 +27,10 @@ Here is a SimpleWindow HelloWorld program. For more examples, see [here](./examp
 int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT nCmdShow)
 {
     // Window object
-    static sw::Window mainWindow;
+    sw::Window mainWindow;
 
     // Button object
-    static sw::Button button;
+    sw::Button button;
 
     // Modify the window layout to center the button
     mainWindow.SetLayout<sw::FillLayout>();
@@ -40,7 +40,7 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT n
 
     // Register a button click event handler to show a message box when the button is clicked
     button.RegisterRoutedEvent(sw::ButtonBase_Clicked,
-        [](sw::UIElement& sender, sw::RoutedEventArgs& e) {
+        [&](sw::UIElement& sender, sw::RoutedEventArgs& e) {
             sw::MsgBox::Show(mainWindow, L"Hello, SimpleWindow!");
         });
 
