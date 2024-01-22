@@ -52,6 +52,10 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT n
 }
 ```
 
+## Documentation
+
+For detailed documentation on SimpleWindow, please visit [mzying2001.github.io/sw](https://mzying2001.github.io/sw).
+
 ## License
 
 The SimpleWindow framework is released under the MIT license, allowing you to freely use and modify it in your own projects.
