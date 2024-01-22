@@ -27,10 +27,10 @@
 int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT nCmdShow)
 {
     // 窗口对象
-    static sw::Window mainWindow;
+    sw::Window mainWindow;
 
     // 按钮对象
-    static sw::Button button;
+    sw::Button button;
 
     // 修改窗口的布局方式，让按钮居中
     mainWindow.SetLayout<sw::FillLayout>();
@@ -40,7 +40,7 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT n
 
     // 注册按钮单击事件处理函数，实现单击按钮弹出消息框
     button.RegisterRoutedEvent(sw::ButtonBase_Clicked,
-        [](sw::UIElement& sender, sw::RoutedEventArgs& e) {
+        [&](sw::UIElement& sender, sw::RoutedEventArgs& e) {
             sw::MsgBox::Show(mainWindow, L"Hello, SimpleWindow!");
         });
 

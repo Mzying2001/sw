@@ -67,8 +67,8 @@ class MyWindow : public sw::Window
     void MouseWheelHandler(sw::UIElement& sender, sw::MouseWheelEventArgs& e)
     {
         if (e.wheelDelta != 0) {
-            int direction = e.wheelDelta / std::abs(e.wheelDelta);
-            this->ScrollVertical(-direction * 20);
+            double offset = -std::copysign(20, e.wheelDelta);
+            this->ScrollVertical(offset);
         }
     }
 

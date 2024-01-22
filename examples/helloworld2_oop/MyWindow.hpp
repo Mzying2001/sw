@@ -24,9 +24,8 @@ class MyWindow : public sw::Window
         // 设置窗口布局方式
         this->SetLayout<sw::FillLayout>();
 
-        // 将stackPanel的垂直和水平对齐方式设置为居中
-        stackPanel.HorizontalAlignment = sw::HorizontalAlignment::Center;
-        stackPanel.VerticalAlignment = sw::VerticalAlignment::Center;
+        // 使用SetAlignment函数将stackPanel的垂直和水平对齐方式设置为居中
+        stackPanel.SetAlignment(sw::HorizontalAlignment::Center, sw::VerticalAlignment::Center);
 
         labelTitle.FontSize = 30;                       // 设置标题标签字体大小为30
         labelTitle.Text = L"Hello, Simple Window!";     // 设置标题标签文字内容

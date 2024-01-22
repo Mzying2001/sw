@@ -7,10 +7,10 @@ int APIENTRY wWinMain(
     _In_     INT       nCmdShow)
 {
     // 创建自定义的窗口对象
-    static MyWindow myWindow;
+    auto myWindow = std::make_unique<MyWindow>();
 
     // 显示窗口
-    myWindow.Show();
+    myWindow->Show();
 
     // 开始消息循环
     return sw::App::MsgLoop();
