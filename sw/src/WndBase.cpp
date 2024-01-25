@@ -399,11 +399,6 @@ void sw::WndBase::SetExtendedStyle(LONG_PTR style, bool value)
     SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, style);
 }
 
-HFONT sw::WndBase::GetFontHandle()
-{
-    return this->_hfont;
-}
-
 LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
 {
     WNDPROC wndproc = this->IsControl() ? this->_controlOldWndProc : DefWindowProcW;
@@ -994,6 +989,11 @@ void sw::WndBase::UpdateFont()
     this->_hfont = this->_font.CreateHandle();
     this->SendMessageW(WM_SETFONT, (WPARAM)this->_hfont, TRUE);
     this->FontChanged(this->_hfont);
+}
+
+HFONT sw::WndBase::GetFontHandle()
+{
+    return this->_hfont;
 }
 
 void sw::WndBase::Redraw(bool erase)

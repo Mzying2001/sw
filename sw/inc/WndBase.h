@@ -236,11 +236,6 @@ namespace sw
         void SetExtendedStyle(LONG_PTR style, bool value);
 
         /**
-         * @brief 获取字体句柄
-         */
-        HFONT GetFontHandle();
-
-        /**
          * @brief 调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc
          */
         LRESULT DefaultWndProc(const ProcMsg &refMsg);
@@ -657,6 +652,11 @@ namespace sw
         void UpdateFont();
 
         /**
+         * @brief 获取字体句柄
+         */
+        HFONT GetFontHandle();
+
+        /**
          * @brief       重画
          * @param erase 是否擦除旧的背景
          */
@@ -702,6 +702,7 @@ namespace sw
          */
         HitTestResult NcHitTest(const Point &testPoint);
 
+    public:
         /**
          * @brief      通过窗口句柄获取WndBase
          * @param hwnd 窗口句柄
