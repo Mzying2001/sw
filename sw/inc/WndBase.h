@@ -687,7 +687,12 @@ namespace sw
         Point PointFromScreen(const Point &screenPoint);
 
         /**
-         * @brief 发送消息
+         * @brief 发送消息（ASCII）
+         */
+        LRESULT SendMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
+         * @brief 发送消息（UNICODE）
          */
         LRESULT SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
 

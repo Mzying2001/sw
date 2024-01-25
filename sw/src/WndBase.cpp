@@ -1026,6 +1026,11 @@ sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint)
     return p;
 }
 
+LRESULT sw::WndBase::SendMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return ::SendMessageA(this->_hwnd, uMsg, wParam, lParam);
+}
+
 LRESULT sw::WndBase::SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     return ::SendMessageW(this->_hwnd, uMsg, wParam, lParam);
