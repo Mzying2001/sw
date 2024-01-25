@@ -16,20 +16,24 @@ static struct : sw::WndBase{} *_controlInitContainer = nullptr;
 
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    WndBase *pWnd = WndBase::GetWndBase(hwnd);
+    WndBase *pWnd = nullptr;
 
-    if (pWnd == NULL && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
+    if (hwnd != NULL) {
+        pWnd = WndBase::GetWndBase(hwnd);
+    }
+
+    if (pWnd == nullptr && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
         LPCREATESTRUCTW pCreate;
         pCreate = reinterpret_cast<LPCREATESTRUCTW>(lParam);
         pWnd    = reinterpret_cast<WndBase *>(pCreate->lpCreateParams);
     }
 
-    if (pWnd != NULL) {
-        ProcMsg msg(hwnd, uMsg, wParam, lParam);
+    if (pWnd != nullptr) {
+        ProcMsg msg{hwnd, uMsg, wParam, lParam};
         return pWnd->WndProc(msg);
-    } else {
-        return DefWindowProcW(hwnd, uMsg, wParam, lParam);
     }
+
+    return DefWindowProcW(hwnd, uMsg, wParam, lParam);
 }
 
 sw::WndBase::WndBase()
