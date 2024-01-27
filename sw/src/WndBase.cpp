@@ -639,15 +639,18 @@ void sw::WndBase::UpdateText()
     int len = GetWindowTextLengthW(this->_hwnd);
 
     if (len <= 0) {
-        this->_text = L"";
+        this->_text.clear();
         return;
     }
 
-    wchar_t *buf = new wchar_t[len + 1];
-    GetWindowTextW(this->_hwnd, buf, len + 1);
+    // wchar_t *buf = new wchar_t[len + 1];
+    // GetWindowTextW(this->_hwnd, buf, len + 1);
+    // this->_text = buf;
+    // delete[] buf;
 
-    this->_text = buf;
-    delete[] buf;
+    this->_text.resize(len + 1);
+    GetWindowTextW(this->_hwnd, &this->_text[0], len + 1);
+    this->_text.resize(len);
 }
 
 std::wstring &sw::WndBase::GetText()
