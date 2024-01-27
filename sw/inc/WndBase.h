@@ -196,46 +196,6 @@ namespace sw
         void InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
 
         /**
-         * @brief 获取窗口样式
-         */
-        LONG_PTR GetStyle();
-
-        /**
-         * @brief 设置窗口样式
-         */
-        void SetStyle(LONG_PTR style);
-
-        /**
-         * @brief 获取窗口的某个样式
-         */
-        bool GetStyle(LONG_PTR style);
-
-        /**
-         * @brief 设置窗口的某个样式
-         */
-        void SetStyle(LONG_PTR style, bool value);
-
-        /**
-         * @brief 获取扩展窗口样式
-         */
-        LONG_PTR GetExtendedStyle();
-
-        /**
-         * @brief 设置扩展窗口样式
-         */
-        void SetExtendedStyle(LONG_PTR style);
-
-        /**
-         * @brief 获取窗口的某个扩展样式
-         */
-        bool GetExtendedStyle(LONG_PTR style);
-
-        /**
-         * @brief 设置窗口的某个扩展样式
-         */
-        void SetExtendedStyle(LONG_PTR style, bool value);
-
-        /**
          * @brief 调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc
          */
         LRESULT DefaultWndProc(const ProcMsg &refMsg);
@@ -671,6 +631,52 @@ namespace sw
          * @brief 判断当前对象在界面中是否可视，与Visible属性不同的是该函数返回值会受父窗口的影响
          */
         bool IsVisible();
+
+        /**
+         * @brief 获取窗口样式
+         */
+        LONG_PTR GetStyle();
+
+        /**
+         * @brief 设置窗口样式
+         */
+        void SetStyle(LONG_PTR style);
+
+        /**
+         * @brief      判断窗口是否设有指定样式
+         * @param mask 样式的位掩码，可以是多个样式
+         */
+        bool GetStyle(LONG_PTR mask);
+
+        /**
+         * @brief       打开或关闭指定的样式
+         * @param mask  样式的位掩码，可以是多个样式
+         * @param value 是否启用指定的样式
+         */
+        void SetStyle(LONG_PTR mask, bool value);
+
+        /**
+         * @brief 获取扩展窗口样式
+         */
+        LONG_PTR GetExtendedStyle();
+
+        /**
+         * @brief 设置扩展窗口样式
+         */
+        void SetExtendedStyle(LONG_PTR style);
+
+        /**
+         * @brief      判断窗口是否设有指定扩展样式
+         * @param mask 扩展样式的位掩码，可以是多个扩展样式
+         */
+        bool GetExtendedStyle(LONG_PTR mask);
+
+        /**
+         * @brief       打开或关闭指定的扩展样式
+         * @param mask  扩展样式的位掩码，可以是多个扩展样式
+         * @param value 是否启用指定的扩展样式
+         */
+        void SetExtendedStyle(LONG_PTR mask, bool value);
 
         /**
          * @brief       获取用户区点在屏幕上点的位置
