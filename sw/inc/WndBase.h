@@ -49,12 +49,12 @@ namespace sw
         /**
          * @brief 窗口的位置和尺寸
          */
-        sw::Rect _rect = sw::Rect();
+        sw::Rect _rect{};
 
         /**
          * @brief 窗口标题或文本
          */
-        std::wstring _text = L"";
+        std::wstring _text{};
 
         /**
          * @brief 控件是否拥有焦点
@@ -194,51 +194,6 @@ namespace sw
          * @brief 初始化为控件，该函数会调用CreateWindowExW
          */
         void InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
-
-        /**
-         * @brief 获取窗口样式
-         */
-        LONG_PTR GetStyle();
-
-        /**
-         * @brief 设置窗口样式
-         */
-        void SetStyle(LONG_PTR style);
-
-        /**
-         * @brief 获取窗口的某个样式
-         */
-        bool GetStyle(LONG_PTR style);
-
-        /**
-         * @brief 设置窗口的某个样式
-         */
-        void SetStyle(LONG_PTR style, bool value);
-
-        /**
-         * @brief 获取扩展窗口样式
-         */
-        LONG_PTR GetExtendedStyle();
-
-        /**
-         * @brief 设置扩展窗口样式
-         */
-        void SetExtendedStyle(LONG_PTR style);
-
-        /**
-         * @brief 获取窗口的某个扩展样式
-         */
-        bool GetExtendedStyle(LONG_PTR style);
-
-        /**
-         * @brief 设置窗口的某个扩展样式
-         */
-        void SetExtendedStyle(LONG_PTR style, bool value);
-
-        /**
-         * @brief 获取字体句柄
-         */
-        HFONT GetFontHandle();
 
         /**
          * @brief 调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc
@@ -657,6 +612,11 @@ namespace sw
         void UpdateFont();
 
         /**
+         * @brief 获取字体句柄
+         */
+        HFONT GetFontHandle();
+
+        /**
          * @brief       重画
          * @param erase 是否擦除旧的背景
          */
@@ -673,6 +633,52 @@ namespace sw
         bool IsVisible();
 
         /**
+         * @brief 获取窗口样式
+         */
+        LONG_PTR GetStyle();
+
+        /**
+         * @brief 设置窗口样式
+         */
+        void SetStyle(LONG_PTR style);
+
+        /**
+         * @brief      判断窗口是否设有指定样式
+         * @param mask 样式的位掩码，可以是多个样式
+         */
+        bool GetStyle(LONG_PTR mask);
+
+        /**
+         * @brief       打开或关闭指定的样式
+         * @param mask  样式的位掩码，可以是多个样式
+         * @param value 是否启用指定的样式
+         */
+        void SetStyle(LONG_PTR mask, bool value);
+
+        /**
+         * @brief 获取扩展窗口样式
+         */
+        LONG_PTR GetExtendedStyle();
+
+        /**
+         * @brief 设置扩展窗口样式
+         */
+        void SetExtendedStyle(LONG_PTR style);
+
+        /**
+         * @brief      判断窗口是否设有指定扩展样式
+         * @param mask 扩展样式的位掩码，可以是多个扩展样式
+         */
+        bool GetExtendedStyle(LONG_PTR mask);
+
+        /**
+         * @brief       打开或关闭指定的扩展样式
+         * @param mask  扩展样式的位掩码，可以是多个扩展样式
+         * @param value 是否启用指定的扩展样式
+         */
+        void SetExtendedStyle(LONG_PTR mask, bool value);
+
+        /**
          * @brief       获取用户区点在屏幕上点的位置
          * @param point 用户区坐标
          * @return      该点在屏幕上的坐标
@@ -687,7 +693,12 @@ namespace sw
         Point PointFromScreen(const Point &screenPoint);
 
         /**
-         * @brief 发送消息
+         * @brief 发送消息（ASCII）
+         */
+        LRESULT SendMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
+         * @brief 发送消息（UNICODE）
          */
         LRESULT SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -697,6 +708,7 @@ namespace sw
          */
         HitTestResult NcHitTest(const Point &testPoint);
 
+    public:
         /**
          * @brief      通过窗口句柄获取WndBase
          * @param hwnd 窗口句柄

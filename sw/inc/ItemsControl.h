@@ -22,53 +22,41 @@ namespace sw
         /**
          * @brief 项数
          */
-        const ReadOnlyProperty<int> ItemsCount;
+        const ReadOnlyProperty<int> ItemsCount{
+            // get
+            [&]() -> const int & {
+                static int result;
+                result = this->GetItemsCount();
+                return result;
+            }};
 
         /**
          * @brief 选中项的索引，当无选中项时为-1
          */
-        const Property<int> SelectedIndex;
+        const Property<int> SelectedIndex{
+            // get
+            [&]() -> const int & {
+                static int result;
+                result = this->GetSelectedIndex();
+                return result;
+            },
+            // set
+            [&](const int &value) {
+                this->SetSelectedIndex(value);
+            }};
 
         /**
          * @brief 选中项
          */
-        const ReadOnlyProperty<TItem> SelectedItem;
+        const ReadOnlyProperty<TItem> SelectedItem{
+            // get
+            [&]() -> const TItem & {
+                static TItem result;
+                result = this->GetSelectedItem();
+                return result;
+            }};
 
     protected:
-        /**
-         * @brief 初始化ItemsControl
-         */
-        ItemsControl()
-            : ItemsCount(
-                  // get
-                  [&]() -> const int & {
-                      static int result;
-                      result = this->GetItemsCount();
-                      return result;
-                  }),
-
-              SelectedIndex(
-                  // get
-                  [&]() -> const int & {
-                      static int result;
-                      result = this->GetSelectedIndex();
-                      return result;
-                  },
-                  // set
-                  [&](const int &value) {
-                      this->SetSelectedIndex(value);
-                  }),
-
-              SelectedItem(
-                  // get
-                  [&]() -> const TItem & {
-                      static TItem result;
-                      result = this->GetSelectedItem();
-                      return result;
-                  })
-        {
-        }
-
         /**
          * @brief 选中项改变时调用该函数
          */

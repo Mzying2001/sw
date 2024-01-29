@@ -3,27 +3,15 @@
 #include "Control.h"
 #include <CommCtrl.h>
 
-#if !defined(PBST_NORMAL) // g++
-#define PBST_NORMAL 0x0001
-#endif
-
-#if !defined(PBST_ERROR) // g++
-#define PBST_ERROR 0x0002
-#endif
-
-#if !defined(PBST_PAUSED) // g++
-#define PBST_PAUSED 0x0003
-#endif
-
 namespace sw
 {
     /**
      * @brief 进度条状态
      */
     enum class ProgressBarState {
-        Normal = PBST_NORMAL, // 正常
-        Error  = PBST_ERROR,  // 错误
-        Paused = PBST_PAUSED, // 暂停
+        Normal = 0x0001, // 正常（PBST_NORMAL）
+        Error  = 0x0002, // 错误（PBST_ERROR）
+        Paused = 0x0003, // 暂停（PBST_PAUSED）
     };
 
     /**

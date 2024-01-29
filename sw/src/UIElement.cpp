@@ -506,7 +506,8 @@ void sw::UIElement::Measure(const Size &availableSize)
 
 void sw::UIElement::Arrange(const sw::Rect &finalPosition)
 {
-    this->_arranging  = true;
+    this->_arranging = true;
+
     Size &desireSize  = this->_desireSize;
     Thickness &margin = this->_margin;
 
@@ -559,9 +560,17 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
         rect.top += this->_parent->_arrangeOffsetY;
     }
 
-    rect.width       = Utils::Max(0.0, rect.width);
-    rect.height      = Utils::Max(0.0, rect.height);
-    this->Rect       = rect;
+    rect.width  = Utils::Max(0.0, rect.width);
+    rect.height = Utils::Max(0.0, rect.height);
+
+    static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
+    static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+
+    SetWindowPos(this->Handle, NULL,
+                 std::lround(rect.left / scaleX), std::lround(rect.top / scaleY),
+                 std::lround(rect.width / scaleX), std::lround(rect.height / scaleY),
+                 SWP_NOACTIVATE | SWP_NOZORDER);
+
     this->_arranging = false;
 }
 

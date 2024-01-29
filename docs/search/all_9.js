@@ -29,7 +29,7 @@ var searchData=
   ['itag_26',['ITag',['../classsw_1_1_i_tag.html',1,'sw']]],
   ['italic_27',['italic',['../classsw_1_1_font.html#aa7ea90de17d56a063c395cf015baf11f',1,'sw::Font']]],
   ['items_28',['items',['../classsw_1_1_menu_base.html#a661efe79f75f4e6ae0d5b166b7db4147',1,'sw::MenuBase']]],
-  ['itemscontrol_29',['ItemsControl',['../classsw_1_1_items_control.html',1,'sw::ItemsControl&lt; TItem &gt;'],['../classsw_1_1_items_control.html#a35e8ff864ec4faded2e2ff54f02e85b5',1,'sw::ItemsControl::ItemsControl()']]],
+  ['itemscontrol_29',['ItemsControl',['../classsw_1_1_items_control.html',1,'sw']]],
   ['itemscontrol_3c_20strlist_20_3e_30',['ItemsControl&lt; StrList &gt;',['../classsw_1_1_items_control.html',1,'sw']]],
   ['itemscount_31',['ItemsCount',['../classsw_1_1_items_control.html#a765b2e51cb5f439c464abbe031b0db09',1,'sw::ItemsControl']]]
 ];

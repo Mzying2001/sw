@@ -2947,12 +2947,12 @@ namespace sw
         /**
          * @brief 窗口的位置和尺寸
          */
-        sw::Rect _rect = sw::Rect();
+        sw::Rect _rect{};
 
         /**
          * @brief 窗口标题或文本
          */
-        std::wstring _text = L"";
+        std::wstring _text{};
 
         /**
          * @brief 控件是否拥有焦点
@@ -3092,51 +3092,6 @@ namespace sw
          * @brief 初始化为控件，该函数会调用CreateWindowExW
          */
         void InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
-
-        /**
-         * @brief 获取窗口样式
-         */
-        LONG_PTR GetStyle();
-
-        /**
-         * @brief 设置窗口样式
-         */
-        void SetStyle(LONG_PTR style);
-
-        /**
-         * @brief 获取窗口的某个样式
-         */
-        bool GetStyle(LONG_PTR style);
-
-        /**
-         * @brief 设置窗口的某个样式
-         */
-        void SetStyle(LONG_PTR style, bool value);
-
-        /**
-         * @brief 获取扩展窗口样式
-         */
-        LONG_PTR GetExtendedStyle();
-
-        /**
-         * @brief 设置扩展窗口样式
-         */
-        void SetExtendedStyle(LONG_PTR style);
-
-        /**
-         * @brief 获取窗口的某个扩展样式
-         */
-        bool GetExtendedStyle(LONG_PTR style);
-
-        /**
-         * @brief 设置窗口的某个扩展样式
-         */
-        void SetExtendedStyle(LONG_PTR style, bool value);
-
-        /**
-         * @brief 获取字体句柄
-         */
-        HFONT GetFontHandle();
 
         /**
          * @brief 调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc
@@ -3555,6 +3510,11 @@ namespace sw
         void UpdateFont();
 
         /**
+         * @brief 获取字体句柄
+         */
+        HFONT GetFontHandle();
+
+        /**
          * @brief       重画
          * @param erase 是否擦除旧的背景
          */
@@ -3571,6 +3531,52 @@ namespace sw
         bool IsVisible();
 
         /**
+         * @brief 获取窗口样式
+         */
+        LONG_PTR GetStyle();
+
+        /**
+         * @brief 设置窗口样式
+         */
+        void SetStyle(LONG_PTR style);
+
+        /**
+         * @brief      判断窗口是否设有指定样式
+         * @param mask 样式的位掩码，可以是多个样式
+         */
+        bool GetStyle(LONG_PTR mask);
+
+        /**
+         * @brief       打开或关闭指定的样式
+         * @param mask  样式的位掩码，可以是多个样式
+         * @param value 是否启用指定的样式
+         */
+        void SetStyle(LONG_PTR mask, bool value);
+
+        /**
+         * @brief 获取扩展窗口样式
+         */
+        LONG_PTR GetExtendedStyle();
+
+        /**
+         * @brief 设置扩展窗口样式
+         */
+        void SetExtendedStyle(LONG_PTR style);
+
+        /**
+         * @brief      判断窗口是否设有指定扩展样式
+         * @param mask 扩展样式的位掩码，可以是多个扩展样式
+         */
+        bool GetExtendedStyle(LONG_PTR mask);
+
+        /**
+         * @brief       打开或关闭指定的扩展样式
+         * @param mask  扩展样式的位掩码，可以是多个扩展样式
+         * @param value 是否启用指定的扩展样式
+         */
+        void SetExtendedStyle(LONG_PTR mask, bool value);
+
+        /**
          * @brief       获取用户区点在屏幕上点的位置
          * @param point 用户区坐标
          * @return      该点在屏幕上的坐标
@@ -3585,7 +3591,12 @@ namespace sw
         Point PointFromScreen(const Point &screenPoint);
 
         /**
-         * @brief 发送消息
+         * @brief 发送消息（ASCII）
+         */
+        LRESULT SendMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
+         * @brief 发送消息（UNICODE）
          */
         LRESULT SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -3595,6 +3606,7 @@ namespace sw
          */
         HitTestResult NcHitTest(const Point &testPoint);
 
+    public:
         /**
          * @brief      通过窗口句柄获取WndBase
          * @param hwnd 窗口句柄
@@ -4297,17 +4309,17 @@ namespace sw
         /**
          * @brief 当前元素所需要占用的尺寸
          */
-        Size _desireSize = Size();
+        Size _desireSize{};
 
         /**
          * @brief 当对齐方式为拉伸时用该字段存储原始大小
          */
-        Size _origionalSize = Size();
+        Size _origionalSize{};
 
         /**
          * @brief 边距
          */
-        Thickness _margin = Thickness();
+        Thickness _margin{};
 
         /**
          * @brief 水平对齐方式
@@ -4392,12 +4404,12 @@ namespace sw
         /**
          * @brief 背景颜色
          */
-        Color _backColor = Color::White;
+        Color _backColor{Color::White};
 
         /**
          * @brief 文本颜色
          */
-        Color _textColor = Color::Black;
+        Color _textColor{Color::Black};
 
         /**
          * @brief 是否使用透明背景
@@ -5571,53 +5583,41 @@ namespace sw
         /**
          * @brief 项数
          */
-        const ReadOnlyProperty<int> ItemsCount;
+        const ReadOnlyProperty<int> ItemsCount{
+            // get
+            [&]() -> const int & {
+                static int result;
+                result = this->GetItemsCount();
+                return result;
+            }};
 
         /**
          * @brief 选中项的索引，当无选中项时为-1
          */
-        const Property<int> SelectedIndex;
+        const Property<int> SelectedIndex{
+            // get
+            [&]() -> const int & {
+                static int result;
+                result = this->GetSelectedIndex();
+                return result;
+            },
+            // set
+            [&](const int &value) {
+                this->SetSelectedIndex(value);
+            }};
 
         /**
          * @brief 选中项
          */
-        const ReadOnlyProperty<TItem> SelectedItem;
+        const ReadOnlyProperty<TItem> SelectedItem{
+            // get
+            [&]() -> const TItem & {
+                static TItem result;
+                result = this->GetSelectedItem();
+                return result;
+            }};
 
     protected:
-        /**
-         * @brief 初始化ItemsControl
-         */
-        ItemsControl()
-            : ItemsCount(
-                  // get
-                  [&]() -> const int & {
-                      static int result;
-                      result = this->GetItemsCount();
-                      return result;
-                  }),
-
-              SelectedIndex(
-                  // get
-                  [&]() -> const int & {
-                      static int result;
-                      result = this->GetSelectedIndex();
-                      return result;
-                  },
-                  // set
-                  [&](const int &value) {
-                      this->SetSelectedIndex(value);
-                  }),
-
-              SelectedItem(
-                  // get
-                  [&]() -> const TItem & {
-                      static TItem result;
-                      result = this->GetSelectedItem();
-                      return result;
-                  })
-        {
-        }
-
         /**
          * @brief 选中项改变时调用该函数
          */
@@ -5748,27 +5748,15 @@ namespace sw
 // ProgressBar.h
 
 
-#if !defined(PBST_NORMAL) // g++
-#define PBST_NORMAL 0x0001
-#endif
-
-#if !defined(PBST_ERROR) // g++
-#define PBST_ERROR 0x0002
-#endif
-
-#if !defined(PBST_PAUSED) // g++
-#define PBST_PAUSED 0x0003
-#endif
-
 namespace sw
 {
     /**
      * @brief 进度条状态
      */
     enum class ProgressBarState {
-        Normal = PBST_NORMAL, // 正常
-        Error  = PBST_ERROR,  // 错误
-        Paused = PBST_PAUSED, // 暂停
+        Normal = 0x0001, // 正常（PBST_NORMAL）
+        Error  = 0x0002, // 错误（PBST_ERROR）
+        Paused = 0x0003, // 暂停（PBST_PAUSED）
     };
 
     /**
@@ -5891,6 +5879,12 @@ namespace sw
      */
     class StaticControl : public Control
     {
+    public:
+        /**
+         * @brief 获取或设置控件的SS_NOTIFY样式
+         */
+        const Property<bool> Notify;
+
     public:
         /**
          * @brief 初始化静态控件
@@ -6340,6 +6334,13 @@ namespace sw
          * @brief 窗口成为后台窗口时调用该函数
          */
         virtual void OnInactived();
+
+        /**
+         * @brief      接收到WM_DPICHANGED时调用该函数
+         * @param dpiX 横向DPI
+         * @param dpiY 纵向DPI
+         */
+        virtual void OnDpiChanged(int dpiX, int dpiY);
 
     public:
         /**

@@ -258,17 +258,14 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DPICHANGED: {
-            Dip::Update(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam));
-            this->UpdateLayout();
-            _UpdateFontForAllChild(*this);
+            this->OnDpiChanged(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam));
             return 0;
         }
 
         case WM_ACTIVATE: {
-            if (refMsg.wParam == WA_INACTIVE)
-                this->OnInactived();
-            else
-                this->OnActived();
+            (refMsg.wParam == WA_INACTIVE)
+                ? this->OnInactived()
+                : this->OnActived();
             return 0;
         }
 
@@ -389,6 +386,13 @@ void sw::Window::OnInactived()
 {
     this->RaiseRoutedEvent(Window_Inactived);
     this->_hPrevFocused = GetFocus();
+}
+
+void sw::Window::OnDpiChanged(int dpiX, int dpiY)
+{
+    Dip::Update(dpiX, dpiY);
+    this->UpdateLayout();
+    _UpdateFontForAllChild(*this);
 }
 
 void sw::Window::Show()

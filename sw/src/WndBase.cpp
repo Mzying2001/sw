@@ -16,20 +16,24 @@ static struct : sw::WndBase{} *_controlInitContainer = nullptr;
 
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    WndBase *pWnd = WndBase::GetWndBase(hwnd);
+    WndBase *pWnd = nullptr;
 
-    if (pWnd == NULL && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
+    if (hwnd != NULL) {
+        pWnd = WndBase::GetWndBase(hwnd);
+    }
+
+    if (pWnd == nullptr && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
         LPCREATESTRUCTW pCreate;
         pCreate = reinterpret_cast<LPCREATESTRUCTW>(lParam);
         pWnd    = reinterpret_cast<WndBase *>(pCreate->lpCreateParams);
     }
 
-    if (pWnd != NULL) {
-        ProcMsg msg(hwnd, uMsg, wParam, lParam);
+    if (pWnd != nullptr) {
+        ProcMsg msg{hwnd, uMsg, wParam, lParam};
         return pWnd->WndProc(msg);
-    } else {
-        return DefWindowProcW(hwnd, uMsg, wParam, lParam);
     }
+
+    return DefWindowProcW(hwnd, uMsg, wParam, lParam);
 }
 
 sw::WndBase::WndBase()
@@ -349,61 +353,6 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
     }
 }
 
-LONG_PTR sw::WndBase::GetStyle()
-{
-    return GetWindowLongPtrW(this->_hwnd, GWL_STYLE);
-}
-
-void sw::WndBase::SetStyle(LONG_PTR style)
-{
-    SetWindowLongPtrW(this->_hwnd, GWL_STYLE, style);
-}
-
-bool sw::WndBase::GetStyle(LONG_PTR style)
-{
-    return GetWindowLongPtrW(this->_hwnd, GWL_STYLE) & style;
-}
-
-void sw::WndBase::SetStyle(LONG_PTR style, bool value)
-{
-    if (value) {
-        style = GetWindowLongPtrW(this->_hwnd, GWL_STYLE) | style;
-    } else {
-        style = GetWindowLongPtrW(this->_hwnd, GWL_STYLE) & ~style;
-    }
-    SetWindowLongPtrW(this->_hwnd, GWL_STYLE, style);
-}
-
-LONG_PTR sw::WndBase::GetExtendedStyle()
-{
-    return GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE);
-}
-
-void sw::WndBase::SetExtendedStyle(LONG_PTR style)
-{
-    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, style);
-}
-
-bool sw::WndBase::GetExtendedStyle(LONG_PTR style)
-{
-    return GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) & style;
-}
-
-void sw::WndBase::SetExtendedStyle(LONG_PTR style, bool value)
-{
-    if (value) {
-        style = GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) | style;
-    } else {
-        style = GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) & ~style;
-    }
-    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, style);
-}
-
-HFONT sw::WndBase::GetFontHandle()
-{
-    return this->_hfont;
-}
-
 LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
 {
     WNDPROC wndproc = this->IsControl() ? this->_controlOldWndProc : DefWindowProcW;
@@ -690,15 +639,18 @@ void sw::WndBase::UpdateText()
     int len = GetWindowTextLengthW(this->_hwnd);
 
     if (len <= 0) {
-        this->_text = L"";
+        this->_text.clear();
         return;
     }
 
-    wchar_t *buf = new wchar_t[len + 1];
-    GetWindowTextW(this->_hwnd, buf, len + 1);
+    // wchar_t *buf = new wchar_t[len + 1];
+    // GetWindowTextW(this->_hwnd, buf, len + 1);
+    // this->_text = buf;
+    // delete[] buf;
 
-    this->_text = buf;
-    delete[] buf;
+    this->_text.resize(len + 1);
+    GetWindowTextW(this->_hwnd, &this->_text[0], len + 1);
+    this->_text.resize(len);
 }
 
 std::wstring &sw::WndBase::GetText()
@@ -996,6 +948,11 @@ void sw::WndBase::UpdateFont()
     this->FontChanged(this->_hfont);
 }
 
+HFONT sw::WndBase::GetFontHandle()
+{
+    return this->_hfont;
+}
+
 void sw::WndBase::Redraw(bool erase)
 {
     InvalidateRect(this->_hwnd, NULL, erase);
@@ -1012,6 +969,52 @@ bool sw::WndBase::IsVisible()
     return IsWindowVisible(this->_hwnd);
 }
 
+LONG_PTR sw::WndBase::GetStyle()
+{
+    return GetWindowLongPtrW(this->_hwnd, GWL_STYLE);
+}
+
+void sw::WndBase::SetStyle(LONG_PTR style)
+{
+    SetWindowLongPtrW(this->_hwnd, GWL_STYLE, style);
+}
+
+bool sw::WndBase::GetStyle(LONG_PTR mask)
+{
+    return GetWindowLongPtrW(this->_hwnd, GWL_STYLE) & mask;
+}
+
+void sw::WndBase::SetStyle(LONG_PTR mask, bool value)
+{
+    LONG_PTR newstyle =
+        value ? (GetWindowLongPtrW(this->_hwnd, GWL_STYLE) | mask)
+              : (GetWindowLongPtrW(this->_hwnd, GWL_STYLE) & ~mask);
+    SetWindowLongPtrW(this->_hwnd, GWL_STYLE, newstyle);
+}
+
+LONG_PTR sw::WndBase::GetExtendedStyle()
+{
+    return GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE);
+}
+
+void sw::WndBase::SetExtendedStyle(LONG_PTR style)
+{
+    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, style);
+}
+
+bool sw::WndBase::GetExtendedStyle(LONG_PTR mask)
+{
+    return GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) & mask;
+}
+
+void sw::WndBase::SetExtendedStyle(LONG_PTR mask, bool value)
+{
+    LONG_PTR newstyle =
+        value ? (GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) | mask)
+              : (GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) & ~mask);
+    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, newstyle);
+}
+
 sw::Point sw::WndBase::PointToScreen(const Point &point)
 {
     POINT p = point;
@@ -1024,6 +1027,11 @@ sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint)
     POINT p = screenPoint;
     ScreenToClient(this->_hwnd, &p);
     return p;
+}
+
+LRESULT sw::WndBase::SendMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return ::SendMessageA(this->_hwnd, uMsg, wParam, lParam);
 }
 
 LRESULT sw::WndBase::SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)

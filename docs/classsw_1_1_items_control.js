@@ -1,6 +1,5 @@
 var classsw_1_1_items_control =
 [
-    [ "ItemsControl", "classsw_1_1_items_control.html#a35e8ff864ec4faded2e2ff54f02e85b5", null ],
     [ "AddItem", "classsw_1_1_items_control.html#a5fab112663e10fe37cf901fc6288bcff", null ],
     [ "Clear", "classsw_1_1_items_control.html#a36312564b15eb327474696bf407b7864", null ],
     [ "GetItemAt", "classsw_1_1_items_control.html#a34a19d40a81adc967b14e84689e8a7e4", null ],

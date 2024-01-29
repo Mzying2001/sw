@@ -20,11 +20,11 @@ var indexSectionNames =
 
 var indexSectionLabels =
 {
-  0: "All",
-  1: "Classes",
-  2: "Functions",
-  3: "Variables",
-  4: "Enumerations",
-  5: "Friends"
+  0: "全部",
+  1: "类",
+  2: "函数",
+  3: "变量",
+  4: "枚举",
+  5: "友元"
 };
 
