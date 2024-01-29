@@ -36,17 +36,17 @@ namespace sw
         /**
          * @brief 当前元素所需要占用的尺寸
          */
-        Size _desireSize = Size();
+        Size _desireSize{};
 
         /**
          * @brief 当对齐方式为拉伸时用该字段存储原始大小
          */
-        Size _origionalSize = Size();
+        Size _origionalSize{};
 
         /**
          * @brief 边距
          */
-        Thickness _margin = Thickness();
+        Thickness _margin{};
 
         /**
          * @brief 水平对齐方式
@@ -131,12 +131,12 @@ namespace sw
         /**
          * @brief 背景颜色
          */
-        Color _backColor = Color::White;
+        Color _backColor{Color::White};
 
         /**
          * @brief 文本颜色
          */
-        Color _textColor = Color::Black;
+        Color _textColor{Color::Black};
 
         /**
          * @brief 是否使用透明背景
