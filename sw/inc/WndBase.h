@@ -49,12 +49,12 @@ namespace sw
         /**
          * @brief 窗口的位置和尺寸
          */
-        sw::Rect _rect = sw::Rect();
+        sw::Rect _rect{};
 
         /**
          * @brief 窗口标题或文本
          */
-        std::wstring _text = L"";
+        std::wstring _text{};
 
         /**
          * @brief 控件是否拥有焦点
