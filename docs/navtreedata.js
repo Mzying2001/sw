@@ -25,20 +25,20 @@
 var NAVTREE =
 [
   [ "SimpleWindow", "index.html", [
-    [ "Classes", "annotated.html", [
-      [ "Class List", "annotated.html", "annotated_dup" ],
-      [ "Class Index", "classes.html", null ],
-      [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
-      [ "Class Members", "functions.html", [
-        [ "All", "functions.html", "functions_dup" ],
-        [ "Functions", "functions_func.html", "functions_func" ],
-        [ "Variables", "functions_vars.html", null ],
-        [ "Enumerations", "functions_enum.html", null ],
-        [ "Related Symbols", "functions_rela.html", null ]
+    [ "类", "annotated.html", [
+      [ "类列表", "annotated.html", "annotated_dup" ],
+      [ "类索引", "classes.html", null ],
+      [ "类继承关系", "hierarchy.html", "hierarchy" ],
+      [ "类成员", "functions.html", [
+        [ "全部", "functions.html", "functions_dup" ],
+        [ "函数", "functions_func.html", "functions_func" ],
+        [ "变量", "functions_vars.html", null ],
+        [ "枚举", "functions_enum.html", null ],
+        [ "相关函数", "functions_rela.html", null ]
       ] ]
     ] ],
-    [ "Files", "files.html", [
-      [ "File List", "files.html", "files_dup" ]
+    [ "文件", "files.html", [
+      [ "文件列表", "files.html", "files_dup" ]
     ] ]
   ] ]
 ];
@@ -46,10 +46,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_alignment_8h_source.html",
-"classsw_1_1_layer.html#a61030d006cafc26525bc07bced899b92",
+"classsw_1_1_layer.html#a61a3007c7519de5b677dcc61b723034a",
 "classsw_1_1_text_box_base.html#a1e7210993dcbf6cfdaff3dcc3246dfd5",
-"classsw_1_1_wnd_base.html#ad63e584926b894913ee1ef4c039a2f98"
+"classsw_1_1_wnd_base.html#ad5e7d8d1a548315b3e709151f71766b3"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronisation';
-var SYNCOFFMSG = 'click to enable panel synchronisation';
+var SYNCONMSG = '点击 关闭 面板同步';
+var SYNCOFFMSG = '点击 开启 面板同步';
