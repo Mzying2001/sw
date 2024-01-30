@@ -55,6 +55,7 @@
 #include "ScrollEnums.h"
 #include "Size.h"
 #include "Slider.h"
+#include "Splitter.h"
 #include "StackLayout.h"
 #include "StackLayoutH.h"
 #include "StackLayoutV.h"
