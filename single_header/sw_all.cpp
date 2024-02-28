@@ -599,42 +599,45 @@ void sw::Control::ResetHandle()
 {
     HWND &refHwnd = const_cast<HWND &>(this->Handle.Get());
 
-    HWND oldHwnd       = refHwnd;
-    HWND parent        = GetParent(oldHwnd);
-    DWORD style        = (DWORD)this->GetStyle();
-    DWORD exStyle      = (DWORD)this->GetExtendedStyle();
-    RECT rect          = this->Rect.Get();
-    std::wstring &text = this->GetText();
+    RECT rect = this->Rect.Get();
+    auto text = this->GetText().c_str();
+
+    HWND oldHwnd  = refHwnd;
+    HWND hParent  = GetParent(oldHwnd);
+    DWORD style   = DWORD(GetWindowLongPtrW(oldHwnd, GWL_STYLE));
+    DWORD exStyle = DWORD(GetWindowLongPtrW(oldHwnd, GWL_EXSTYLE));
 
     wchar_t className[256];
     GetClassNameW(oldHwnd, className, 256);
 
-    refHwnd = CreateWindowExW(
-        exStyle,      // Optional window styles
-        className,    // Window class
-        text.c_str(), // Window text
-        style,        // Window style
+    HWND newHwnd = CreateWindowExW(
+        exStyle,   // Optional window styles
+        className, // Window class
+        text,      // Window text
+        style,     // Window style
 
         // Size and position
         rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
 
-        parent,        // Parent window
-        NULL,          // Menu
-        App::Instance, // Instance handle
-        this           // Additional application data
+        hParent,        // Parent window
+        NULL,           // Menu
+        App::Instance,  // Instance handle
+        (WndBase *)this // Additional application data
     );
 
+    LONG_PTR wndproc =
+        SetWindowLongPtrW(oldHwnd, GWLP_WNDPROC, GetWindowLongPtrW(newHwnd, GWLP_WNDPROC));
     SetWindowLongPtrW(oldHwnd, GWLP_USERDATA, (LONG_PTR)NULL);
-    SetWindowLongPtrW(refHwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>((WndBase *)this));
 
-    LONG_PTR wndProc = GetWindowLongPtrW(oldHwnd, GWLP_WNDPROC);
-    SetWindowLongPtrW(refHwnd, GWLP_WNDPROC, wndProc);
+    SetWindowLongPtrW(newHwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>((WndBase *)this));
+    SetWindowLongPtrW(newHwnd, GWLP_WNDPROC, wndproc);
+
+    refHwnd = newHwnd;
+    DestroyWindow(oldHwnd);
 
     this->SendMessageW(WM_SETFONT, (WPARAM)this->GetFontHandle(), TRUE);
-    this->HandleChenged();
     this->UpdateSiblingsZOrder();
-
-    DestroyWindow(oldHwnd);
+    this->HandleChenged();
 }
 
 void sw::Control::HandleChenged()
@@ -1759,6 +1762,32 @@ sw::GroupBox::GroupBox()
     this->Rect             = sw::Rect(0, 0, 200, 200);
     this->Transparent      = true;
     this->InheritTextColor = true;
+}
+
+// HwndHost.cpp
+
+void sw::HwndHost::InitHwndHost()
+{
+    if (this->_hWindowCore == NULL && !this->IsDestroyed)
+        this->_hWindowCore = this->BuildWindowCore(this->Handle);
+}
+
+bool sw::HwndHost::OnSize(Size newClientSize)
+{
+    if (this->_hWindowCore != NULL) {
+        SetWindowPos(this->_hWindowCore, NULL, 0, 0,
+                     Dip::DipToPxX(newClientSize.width),
+                     Dip::DipToPxY(newClientSize.height),
+                     SWP_NOACTIVATE | SWP_NOZORDER);
+    }
+    return this->StaticControl::OnSize(newClientSize);
+}
+
+bool sw::HwndHost::OnDestroy()
+{
+    this->DestroyWindowCore(this->_hWindowCore);
+    this->_hWindowCore = NULL;
+    return this->StaticControl::OnDestroy();
 }
 
 // Icon.cpp
@@ -4459,6 +4488,63 @@ void sw::Slider::OnEndTrack()
     this->RaiseRoutedEvent(Slider_EndTrack);
 }
 
+// Splitter.cpp
+
+sw::Splitter::Splitter()
+    : Orientation(
+          // get
+          [&]() -> const sw::Orientation & {
+              return this->_orientation;
+          },
+          // set
+          [&](const sw::Orientation &value) {
+              if (this->_orientation != value) {
+                  this->_orientation = value;
+                  value == Orientation::Horizontal
+                      ? this->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center)
+                      : this->SetAlignment(HorizontalAlignment::Center, VerticalAlignment::Stretch);
+              }
+          })
+{
+    this->Rect        = sw::Rect{0, 0, 10, 10};
+    this->Transparent = true;
+    this->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center);
+}
+
+bool sw::Splitter::OnPaint()
+{
+    PAINTSTRUCT ps;
+
+    HWND hwnd = this->Handle;
+    HDC hdc   = BeginPaint(hwnd, &ps);
+
+    RECT rect;
+    GetClientRect(hwnd, &rect);
+
+    HBRUSH hBrush = CreateSolidBrush(this->GetRealBackColor());
+    FillRect(hdc, &rect, hBrush);
+
+    if (this->_orientation == sw::Orientation::Horizontal) {
+        // 在中间绘制横向分隔条
+        rect.top += Utils::Max(0L, (rect.bottom - rect.top) / 2 - 1);
+        DrawEdge(hdc, &rect, EDGE_ETCHED, BF_TOP);
+    } else {
+        // 在中间绘制纵向分隔条
+        rect.left += Utils::Max(0L, (rect.right - rect.left) / 2 - 1);
+        DrawEdge(hdc, &rect, EDGE_ETCHED, BF_LEFT);
+    }
+
+    DeleteObject(hBrush);
+    EndPaint(hwnd, &ps);
+    return true;
+}
+
+bool sw::Splitter::OnSize(Size newClientSize)
+{
+    InvalidateRect(this->Handle, NULL, FALSE);
+    return this->UIElement::OnSize(newClientSize);
+}
+
 // StackLayout.cpp
 
 void sw::StackLayout::MeasureOverride(Size &availableSize)
@@ -7142,13 +7228,13 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         case WM_MOVE: {
             int xPos = (int)(short)LOWORD(refMsg.lParam); // horizontal position
             int yPos = (int)(short)HIWORD(refMsg.lParam); // vertical position
-            return this->OnMove(Point(xPos, yPos)) ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnMove(POINT{xPos, yPos}) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_SIZE: {
             int width  = LOWORD(refMsg.lParam); // the new width of the client area
             int height = HIWORD(refMsg.lParam); // the new height of the client area
-            return this->OnSize(Size(width, height)) ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnSize(SIZE{width, height}) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_SETTEXT: {

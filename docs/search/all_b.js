@@ -1,8 +1,8 @@
 var searchData=
 [
   ['label_0',['Label',['../classsw_1_1_label.html',1,'sw::Label'],['../classsw_1_1_label.html#ae1ee6644b4de352317836eb2a4c00c3c',1,'sw::Label::Label()']]],
-  ['lastchildfill_1',['lastChildFill',['../classsw_1_1_dock_layout.html#ae3279e6cc696c453a2f6171ca152fc47',1,'sw::DockLayout']]],
-  ['lastchildfill_2',['LastChildFill',['../classsw_1_1_dock_panel.html#aa3f8617a879fb8c536799beae2ad2a31',1,'sw::DockPanel']]],
+  ['lastchildfill_1',['LastChildFill',['../classsw_1_1_dock_panel.html#aa3f8617a879fb8c536799beae2ad2a31',1,'sw::DockPanel']]],
+  ['lastchildfill_2',['lastChildFill',['../classsw_1_1_dock_layout.html#ae3279e6cc696c453a2f6171ca152fc47',1,'sw::DockLayout']]],
   ['layer_3',['Layer',['../classsw_1_1_layer.html',1,'sw::Layer'],['../classsw_1_1_layer.html#a61030d006cafc26525bc07bced899b92',1,'sw::Layer::Layer()']]],
   ['layout_4',['Layout',['../classsw_1_1_layer.html#accb80d7a016d5a56b1c744db4ef96059',1,'sw::Layer']]],
   ['layouthost_5',['LayoutHost',['../classsw_1_1_layout_host.html',1,'sw']]],

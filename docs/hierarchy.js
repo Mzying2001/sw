@@ -74,7 +74,9 @@ var hierarchy =
           [ "sw::ProgressBar", "classsw_1_1_progress_bar.html", null ],
           [ "sw::Slider", "classsw_1_1_slider.html", null ],
           [ "sw::StaticControl", "classsw_1_1_static_control.html", [
-            [ "sw::Label", "classsw_1_1_label.html", null ]
+            [ "sw::HwndHost", "classsw_1_1_hwnd_host.html", null ],
+            [ "sw::Label", "classsw_1_1_label.html", null ],
+            [ "sw::Splitter", "classsw_1_1_splitter.html", null ]
           ] ],
           [ "sw::TabControl", "classsw_1_1_tab_control.html", null ],
           [ "sw::TextBoxBase", "classsw_1_1_text_box_base.html", [
@@ -120,6 +122,7 @@ var hierarchy =
       [ "sw::Property< wchar_t >", "classsw_1_1_property.html", null ],
       [ "sw::Property< uint16_t >", "classsw_1_1_property.html", null ],
       [ "sw::Property< ProgressBarState >", "classsw_1_1_property.html", null ],
+      [ "sw::Property< Orientation >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::Orientation >", "classsw_1_1_property.html", null ],
       [ "sw::Property< TabAlignment >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::Thickness >", "classsw_1_1_property.html", null ],
@@ -143,6 +146,7 @@ var hierarchy =
     [ "sw::ReadOnlyProperty< HorizontalAlignment >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< HWND >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< int >", "classsw_1_1_read_only_property.html", null ],
+    [ "sw::ReadOnlyProperty< Orientation >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< ProgressBarState >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< std::wstring >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< StrList >", "classsw_1_1_read_only_property.html", null ],
@@ -242,6 +246,7 @@ var hierarchy =
       [ "sw::Property< wchar_t >", "classsw_1_1_property.html", null ],
       [ "sw::Property< uint16_t >", "classsw_1_1_property.html", null ],
       [ "sw::Property< ProgressBarState >", "classsw_1_1_property.html", null ],
+      [ "sw::Property< Orientation >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::Orientation >", "classsw_1_1_property.html", null ],
       [ "sw::Property< TabAlignment >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::Thickness >", "classsw_1_1_property.html", null ],
@@ -263,6 +268,7 @@ var hierarchy =
     [ "sw::WriteOnlyProperty< double >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< HorizontalAlignment >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< int >", "classsw_1_1_write_only_property.html", null ],
+    [ "sw::WriteOnlyProperty< Orientation >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< ProgressBarState >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< std::wstring >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< sw::BorderStyle >", "classsw_1_1_write_only_property.html", null ],

@@ -6,6 +6,7 @@ var searchData=
   ['borderstyle_3',['BorderStyle',['../classsw_1_1_panel.html#aa7b04b11114891c5df7b84932fd3370f',1,'sw::Panel']]],
   ['bottom_4',['bottom',['../structsw_1_1_thickness.html#acea3dd0c6fdcc155ac47ec7c3eab97fa',1,'sw::Thickness']]],
   ['buildstr_5',['BuildStr',['../classsw_1_1_utils.html#abb9a32e7b7d1fb83832c9a39a84c3452',1,'sw::Utils']]],
-  ['button_6',['Button',['../classsw_1_1_button.html',1,'sw::Button'],['../classsw_1_1_button.html#aafd2e523e98d68c45e451d93f22ead13',1,'sw::Button::Button()']]],
-  ['buttonbase_7',['ButtonBase',['../classsw_1_1_button_base.html',1,'sw::ButtonBase'],['../classsw_1_1_button_base.html#ae5dad2a65523da878df700fa4aefe3ee',1,'sw::ButtonBase::ButtonBase()']]]
+  ['buildwindowcore_6',['BuildWindowCore',['../classsw_1_1_hwnd_host.html#a9ac22adfa9d96348e7f89932d82cf3d3',1,'sw::HwndHost']]],
+  ['button_7',['Button',['../classsw_1_1_button.html',1,'sw::Button'],['../classsw_1_1_button.html#aafd2e523e98d68c45e451d93f22ead13',1,'sw::Button::Button()']]],
+  ['buttonbase_8',['ButtonBase',['../classsw_1_1_button_base.html',1,'sw::ButtonBase'],['../classsw_1_1_button_base.html#ae5dad2a65523da878df700fa4aefe3ee',1,'sw::ButtonBase::ButtonBase()']]]
 ];
