@@ -50,197 +50,6 @@ namespace sw
     };
 }
 
-// Color.h
-
-
-namespace sw
-{
-    /**
-     * @brief 颜色
-     */
-    struct Color {
-        /**
-         * @brief R分量
-         */
-        uint8_t r;
-
-        /**
-         * @brief G分量
-         */
-        uint8_t g;
-
-        /**
-         * @brief B分量
-         */
-        uint8_t b;
-
-        Color();
-        Color(uint8_t r, uint8_t g, uint8_t b);
-        Color(COLORREF color);
-        operator COLORREF() const;
-
-        friend bool operator==(const Color &left, const Color &right)
-        {
-            return (left.r == right.r) && (left.g == right.g) && (left.b == right.b);
-        }
-
-        friend bool operator!=(const Color &left, const Color &right)
-        {
-            return (left.r != right.r) || (left.g != right.g) || (left.b != right.b);
-        }
-
-        friend std::wostream &operator<<(std::wostream &wos, const Color &color)
-        {
-            return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
-        }
-
-        /*==================================================*/
-
-        enum SolidColors : COLORREF {
-            AliceBlue            = RGB(240, 248, 255), // 爱丽丝蓝
-            AntiqueWhite         = RGB(250, 235, 215), // 古董白
-            Aqua                 = RGB(0, 255, 255),   // 青色
-            Aquamarine           = RGB(127, 255, 212), // 碧绿色
-            Azure                = RGB(240, 255, 255), // 蔚蓝色
-            Beige                = RGB(245, 245, 220), // 米色
-            Bisque               = RGB(255, 228, 196), // 橘黄色
-            Black                = RGB(0, 0, 0),       // 黑色
-            BlanchedAlmond       = RGB(255, 235, 205), // 杏白色
-            Blue                 = RGB(0, 0, 255),     // 蓝色
-            BlueViolet           = RGB(138, 43, 226),  // 蓝紫色
-            Brown                = RGB(165, 42, 42),   // 棕色
-            BurlyWood            = RGB(222, 184, 135), // 实木色
-            CadetBlue            = RGB(95, 158, 160),  // 军服蓝
-            Chartreuse           = RGB(127, 255, 0),   // 查特酒绿
-            Chocolate            = RGB(210, 105, 30),  // 巧克力色
-            Coral                = RGB(255, 127, 80),  // 珊瑚红
-            CornflowerBlue       = RGB(100, 149, 237), // 矢车菊蓝
-            Cornsilk             = RGB(255, 248, 220), // 玉米丝色
-            Crimson              = RGB(220, 20, 60),   // 深红色
-            Cyan                 = RGB(0, 255, 255),   // 青色
-            DarkBlue             = RGB(0, 0, 139),     // 深蓝色
-            DarkCyan             = RGB(0, 139, 139),   // 深青色
-            DarkGoldenrod        = RGB(184, 134, 11),  // 深金黄色
-            DarkGray             = RGB(169, 169, 169), // 深灰色
-            DarkGreen            = RGB(0, 100, 0),     // 深绿色
-            DarkKhaki            = RGB(189, 183, 107), // 深卡其色
-            DarkMagenta          = RGB(139, 0, 139),   // 深洋红色
-            DarkOliveGreen       = RGB(85, 107, 47),   // 深橄榄绿
-            DarkOrange           = RGB(255, 140, 0),   // 深橙色
-            DarkOrchid           = RGB(153, 50, 204),  // 深兰花紫
-            DarkRed              = RGB(139, 0, 0),     // 深红色
-            DarkSalmon           = RGB(233, 150, 122), // 深橙红
-            DarkSeaGreen         = RGB(143, 188, 143), // 深海绿色
-            DarkSlateBlue        = RGB(72, 61, 139),   // 深石板蓝
-            DarkSlateGray        = RGB(47, 79, 79),    // 深石板灰
-            DarkTurquoise        = RGB(0, 206, 209),   // 深青绿色
-            DarkViolet           = RGB(148, 0, 211),   // 深紫罗兰色
-            DeepPink             = RGB(255, 20, 147),  // 深粉红色
-            DeepSkyBlue          = RGB(0, 191, 255),   // 深天蓝色
-            DimGray              = RGB(105, 105, 105), // 昏灰色
-            DodgerBlue           = RGB(30, 144, 255),  // 道奇蓝
-            Firebrick            = RGB(178, 34, 34),   // 火砖色
-            FloralWhite          = RGB(255, 250, 240), // 花白色
-            ForestGreen          = RGB(34, 139, 34),   // 森林绿
-            Fuchsia              = RGB(255, 0, 255),   // 紫红色
-            Gainsboro            = RGB(220, 220, 220), // 淡灰色
-            GhostWhite           = RGB(248, 248, 255), // 幽灵白
-            Gold                 = RGB(255, 215, 0),   // 金色
-            Goldenrod            = RGB(218, 165, 32),  // 金麒麟色
-            Gray                 = RGB(128, 128, 128), // 灰色
-            Green                = RGB(0, 128, 0),     // 绿色
-            GreenYellow          = RGB(173, 255, 47),  // 绿黄色
-            Honeydew             = RGB(240, 255, 240), // 蜜瓜色
-            HotPink              = RGB(255, 105, 180), // 热情粉红色
-            IndianRed            = RGB(205, 92, 92),   // 印度红
-            Indigo               = RGB(75, 0, 130),    // 靛青色
-            Ivory                = RGB(255, 255, 240), // 象牙色
-            Khaki                = RGB(240, 230, 140), // 卡其色
-            Lavender             = RGB(230, 230, 250), // 薰衣草淡紫色
-            LavenderBlush        = RGB(255, 240, 245), // 淡紫红色
-            LawnGreen            = RGB(124, 252, 0),   // 草坪绿
-            LemonChiffon         = RGB(255, 250, 205), // 柠檬绸色
-            LightBlue            = RGB(173, 216, 230), // 淡蓝色
-            LightCoral           = RGB(240, 128, 128), // 浅珊瑚色
-            LightCyan            = RGB(224, 255, 255), // 淡青色
-            LightGoldenrodYellow = RGB(250, 250, 210), // 浅金菊黄色
-            LightGray            = RGB(211, 211, 211), // 浅灰色
-            LightGreen           = RGB(144, 238, 144), // 浅绿色
-            LightPink            = RGB(255, 182, 193), // 浅粉红色
-            LightSalmon          = RGB(255, 160, 122), // 浅鲑鱼肉色
-            LightSeaGreen        = RGB(32, 178, 170),  // 浅海洋绿色
-            LightSkyBlue         = RGB(135, 206, 250), // 浅天蓝色
-            LightSlateGray       = RGB(119, 136, 153), // 浅石板灰
-            LightSteelBlue       = RGB(176, 196, 222), // 浅钢蓝色
-            LightYellow          = RGB(255, 255, 224), // 浅黄色
-            Lime                 = RGB(0, 255, 0),     // 酸橙色
-            LimeGreen            = RGB(50, 205, 50),   // 酸橙绿色
-            Linen                = RGB(250, 240, 230), // 亚麻色
-            Magenta              = RGB(255, 0, 255),   // 洋红色
-            Maroon               = RGB(128, 0, 0),     // 栗色
-            MediumAquamarine     = RGB(102, 205, 170), // 中绿宝石色
-            MediumBlue           = RGB(0, 0, 205),     // 中蓝色
-            MediumOrchid         = RGB(186, 85, 211),  // 中兰花紫
-            MediumPurple         = RGB(147, 112, 219), // 中紫色
-            MediumSeaGreen       = RGB(60, 179, 113),  // 中海洋绿色
-            MediumSlateBlue      = RGB(123, 104, 238), // 中石板蓝色
-            MediumSpringGreen    = RGB(0, 250, 154),   // 中春绿色
-            MediumTurquoise      = RGB(72, 209, 204),  // 中绿宝石色
-            MediumVioletRed      = RGB(199, 21, 133),  // 中紫罗兰色
-            MidnightBlue         = RGB(25, 25, 112),   // 午夜蓝
-            MintCream            = RGB(245, 255, 250), // 薄荷奶油色
-            MistyRose            = RGB(255, 228, 225), // 浅玫瑰色
-            Moccasin             = RGB(255, 228, 181), // 鹿皮色
-            NavajoWhite          = RGB(255, 222, 173), // 纳瓦白
-            Navy                 = RGB(0, 0, 128),     // 海军蓝
-            OldLace              = RGB(253, 245, 230), // 老花色
-            Olive                = RGB(128, 128, 0),   // 橄榄色
-            OliveDrab            = RGB(107, 142, 35),  // 橄榄褐色
-            Orange               = RGB(255, 165, 0),   // 橙色
-            OrangeRed            = RGB(255, 69, 0),    // 橙红色
-            Orchid               = RGB(218, 112, 214), // 兰花紫
-            PaleGoldenrod        = RGB(238, 232, 170), // 苍麒麟色
-            PaleGreen            = RGB(152, 251, 152), // 苍绿色
-            PaleTurquoise        = RGB(175, 238, 238), // 苍宝石绿
-            PaleVioletRed        = RGB(219, 112, 147), // 苍紫罗兰色
-            PapayaWhip           = RGB(255, 239, 213), // 番木色
-            PeachPuff            = RGB(255, 218, 185), // 桃色
-            Peru                 = RGB(205, 133, 63),  // 秘鲁色
-            Pink                 = RGB(255, 192, 203), // 粉红色
-            Plum                 = RGB(221, 160, 221), // 李子色
-            PowderBlue           = RGB(176, 224, 230), // 粉蓝色
-            Purple               = RGB(128, 0, 128),   // 紫色
-            Red                  = RGB(255, 0, 0),     // 红色
-            RosyBrown            = RGB(188, 143, 143), // 玫瑰褐色
-            RoyalBlue            = RGB(65, 105, 225),  // 皇家蓝
-            SaddleBrown          = RGB(139, 69, 19),   // 鞍褐色
-            Salmon               = RGB(250, 128, 114), // 鲜肉色
-            SandyBrown           = RGB(244, 164, 96),  // 沙褐色
-            SeaGreen             = RGB(46, 139, 87),   // 海洋绿色
-            SeaShell             = RGB(255, 245, 238), // 海贝壳色
-            Sienna               = RGB(160, 82, 45),   // 黄土赭色
-            Silver               = RGB(192, 192, 192), // 银色
-            SkyBlue              = RGB(135, 206, 235), // 天蓝色
-            SlateBlue            = RGB(106, 90, 205),  // 石板蓝色
-            SlateGray            = RGB(112, 128, 144), // 石板灰
-            Snow                 = RGB(255, 250, 250), // 雪白色
-            SpringGreen          = RGB(0, 255, 127),   // 春绿色
-            SteelBlue            = RGB(70, 130, 180),  // 钢蓝色
-            Tan                  = RGB(210, 180, 140), // 茶色
-            Teal                 = RGB(0, 128, 128),   // 水鸭色
-            Thistle              = RGB(216, 191, 216), // 蓟色
-            Tomato               = RGB(255, 99, 71),   // 番茄色
-            Turquoise            = RGB(64, 224, 208),  // 绿宝石色
-            Violet               = RGB(238, 130, 238), // 紫罗兰色
-            Wheat                = RGB(245, 222, 179), // 浅黄色
-            White                = RGB(255, 255, 255), // 白色
-            WhiteSmoke           = RGB(245, 245, 245), // 烟白色
-            Yellow               = RGB(255, 255, 0),   // 黄色
-            YellowGreen          = RGB(154, 205, 50),  // 黄绿色
-        };
-    };
-}
-
 // Cursor.h
 
 
@@ -932,6 +741,193 @@ namespace sw
     {
         return int(left) & int(right);
     }
+}
+
+// KnownColor.h
+
+
+namespace sw
+{
+    /**
+     * @brief 已知的颜色
+     */
+    enum class KnownColor {
+        ActiveBorder            = RGB(0xb4, 0xb4, 0xb4), // 活动边框颜色
+        ActiveCaption           = RGB(0x99, 0xb4, 0xd1), // 活动标题栏颜色
+        ActiveCaptionText       = RGB(0x00, 0x00, 0x00), // 活动标题栏文本颜色
+        AppWorkspace            = RGB(0xab, 0xab, 0xab), // 应用程序工作区颜色
+        Control                 = RGB(0xf0, 0xf0, 0xf0), // 控件颜色
+        ControlDark             = RGB(0xa0, 0xa0, 0xa0), // 控件深色颜色
+        ControlDarkDark         = RGB(0x69, 0x69, 0x69), // 控件深深色颜色
+        ControlLight            = RGB(0xe3, 0xe3, 0xe3), // 控件浅色颜色
+        ControlLightLight       = RGB(0xff, 0xff, 0xff), // 控件浅浅色颜色
+        ControlText             = RGB(0x00, 0x00, 0x00), // 控件文本颜色
+        Desktop                 = RGB(0x00, 0x00, 0x00), // 桌面颜色
+        GrayText                = RGB(0x6d, 0x6d, 0x6d), // 灰色文本颜色
+        Highlight               = RGB(0x00, 0x78, 0xd7), // 高亮颜色
+        HighlightText           = RGB(0xff, 0xff, 0xff), // 高亮文本颜色
+        HotTrack                = RGB(0x00, 0x66, 0xcc), // 热跟踪颜色
+        InactiveBorder          = RGB(0xf4, 0xf7, 0xfc), // 非活动边框颜色
+        InactiveCaption         = RGB(0xbf, 0xcd, 0xdb), // 非活动标题栏颜色
+        InactiveCaptionText     = RGB(0x00, 0x00, 0x00), // 非活动标题栏文本颜色
+        Info                    = RGB(0xff, 0xff, 0xe1), // 信息颜色
+        InfoText                = RGB(0x00, 0x00, 0x00), // 信息文本颜色
+        Menu                    = RGB(0xf0, 0xf0, 0xf0), // 菜单颜色
+        MenuText                = RGB(0x00, 0x00, 0x00), // 菜单文本颜色
+        ScrollBar               = RGB(0xc8, 0xc8, 0xc8), // 滚动条颜色
+        Window                  = RGB(0xff, 0xff, 0xff), // 窗口颜色
+        WindowFrame             = RGB(0x64, 0x64, 0x64), // 窗口框架颜色
+        WindowText              = RGB(0x00, 0x00, 0x00), // 窗口文本颜色
+        Transparent             = RGB(0xff, 0xff, 0xff), // 透明色
+        AliceBlue               = RGB(0xf0, 0xf8, 0xff), // 爱丽丝蓝色
+        AntiqueWhite            = RGB(0xfa, 0xeb, 0xd7), // 古董白色
+        Aqua                    = RGB(0x00, 0xff, 0xff), // 青色
+        Aquamarine              = RGB(0x7f, 0xff, 0xd4), // 碧绿色
+        Azure                   = RGB(0xf0, 0xff, 0xff), // 天蓝色
+        Beige                   = RGB(0xf5, 0xf5, 0xdc), // 米色
+        Bisque                  = RGB(0xff, 0xe4, 0xc4), // 橘黄色
+        Black                   = RGB(0x00, 0x00, 0x00), // 黑色
+        BlanchedAlmond          = RGB(0xff, 0xeb, 0xcd), // 白杏色
+        Blue                    = RGB(0x00, 0x00, 0xff), // 蓝色
+        BlueViolet              = RGB(0x8a, 0x2b, 0xe2), // 蓝紫色
+        Brown                   = RGB(0xa5, 0x2a, 0x2a), // 棕色
+        BurlyWood               = RGB(0xde, 0xb8, 0x87), // 硬木色
+        CadetBlue               = RGB(0x5f, 0x9e, 0xa0), // 军装蓝色
+        Chartreuse              = RGB(0x7f, 0xff, 0x00), // 黄绿色
+        Chocolate               = RGB(0xd2, 0x69, 0x1e), // 巧克力色
+        Coral                   = RGB(0xff, 0x7f, 0x50), // 珊瑚色
+        CornflowerBlue          = RGB(0x64, 0x95, 0xed), // 矢车菊蓝色
+        Cornsilk                = RGB(0xff, 0xf8, 0xdc), // 米绸色
+        Crimson                 = RGB(0xdc, 0x14, 0x3c), // 绯红色
+        Cyan                    = RGB(0x00, 0xff, 0xff), // 青色
+        DarkBlue                = RGB(0x00, 0x00, 0x8b), // 深蓝色
+        DarkCyan                = RGB(0x00, 0x8b, 0x8b), // 深青色
+        DarkGoldenrod           = RGB(0xb8, 0x86, 0x0b), // 深金黄色
+        DarkGray                = RGB(0xa9, 0xa9, 0xa9), // 深灰色
+        DarkGreen               = RGB(0x00, 0x64, 0x00), // 深绿色
+        DarkKhaki               = RGB(0xbd, 0xb7, 0x6b), // 深卡其色
+        DarkMagenta             = RGB(0x8b, 0x00, 0x8b), // 深洋红色
+        DarkOliveGreen          = RGB(0x55, 0x6b, 0x2f), // 深橄榄绿色
+        DarkOrange              = RGB(0xff, 0x8c, 0x00), // 深橙色
+        DarkOrchid              = RGB(0x99, 0x32, 0xcc), // 深兰花色
+        DarkRed                 = RGB(0x8b, 0x00, 0x00), // 深红色
+        DarkSalmon              = RGB(0xe9, 0x96, 0x7a), // 深鲑鱼色
+        DarkSeaGreen            = RGB(0x8f, 0xbc, 0x8f), // 深海绿色
+        DarkSlateBlue           = RGB(0x48, 0x3d, 0x8b), // 深青蓝色
+        DarkSlateGray           = RGB(0x2f, 0x4f, 0x4f), // 深青灰色
+        DarkTurquoise           = RGB(0x00, 0xce, 0xd1), // 深青色
+        DarkViolet              = RGB(0x94, 0x00, 0xd3), // 深紫罗兰色
+        DeepPink                = RGB(0xff, 0x14, 0x93), // 深粉色
+        DeepSkyBlue             = RGB(0x00, 0xbf, 0xff), // 深天蓝色
+        DimGray                 = RGB(0x69, 0x69, 0x69), // 暗灰色
+        DodgerBlue              = RGB(0x1e, 0x90, 0xff), // 道奇蓝色
+        Firebrick               = RGB(0xb2, 0x22, 0x22), // 火砖色
+        FloralWhite             = RGB(0xff, 0xfa, 0xf0), // 花白色
+        ForestGreen             = RGB(0x22, 0x8b, 0x22), // 森林绿色
+        Fuchsia                 = RGB(0xff, 0x00, 0xff), // 紫红色
+        Gainsboro               = RGB(0xdc, 0xdc, 0xdc), // 盖茨伯勒色
+        GhostWhite              = RGB(0xf8, 0xf8, 0xff), // 幽灵白色
+        Gold                    = RGB(0xff, 0xd7, 0x00), // 金色
+        Goldenrod               = RGB(0xda, 0xa5, 0x20), // 金菊黄色
+        Gray                    = RGB(0x80, 0x80, 0x80), // 灰色
+        Green                   = RGB(0x00, 0x80, 0x00), // 绿色
+        GreenYellow             = RGB(0xad, 0xff, 0x2f), // 绿黄色
+        Honeydew                = RGB(0xf0, 0xff, 0xf0), // 蜜色
+        HotPink                 = RGB(0xff, 0x69, 0xb4), // 亮粉红色
+        IndianRed               = RGB(0xcd, 0x5c, 0x5c), // 印度红色
+        Indigo                  = RGB(0x4b, 0x00, 0x82), // 靛青色
+        Ivory                   = RGB(0xff, 0xff, 0xf0), // 象牙色
+        Khaki                   = RGB(0xf0, 0xe6, 0x8c), // 卡其色
+        Lavender                = RGB(0xe6, 0xe6, 0xfa), // 熏衣草色
+        LavenderBlush           = RGB(0xff, 0xf0, 0xf5), // 淡紫红色
+        LawnGreen               = RGB(0x7c, 0xfc, 0x00), // 草绿色
+        LemonChiffon            = RGB(0xff, 0xfa, 0xcd), // 柠檬绸色
+        LightBlue               = RGB(0xad, 0xd8, 0xe6), // 淡蓝色
+        LightCoral              = RGB(0xf0, 0x80, 0x80), // 淡珊瑚色
+        LightCyan               = RGB(0xe0, 0xff, 0xff), // 淡青色
+        LightGoldenrodYellow    = RGB(0xfa, 0xfa, 0xd2), // 浅金菊黄色
+        LightGray               = RGB(0xd3, 0xd3, 0xd3), // 浅灰色
+        LightGreen              = RGB(0x90, 0xee, 0x90), // 浅绿色
+        LightPink               = RGB(0xff, 0xb6, 0xc1), // 浅粉色
+        LightSalmon             = RGB(0xff, 0xa0, 0x7a), // 浅鲑鱼色
+        LightSeaGreen           = RGB(0x20, 0xb2, 0xaa), // 浅海绿色
+        LightSkyBlue            = RGB(0x87, 0xce, 0xfa), // 浅天蓝色
+        LightSlateGray          = RGB(0x77, 0x88, 0x99), // 浅青灰色
+        LightSteelBlue          = RGB(0xb0, 0xc4, 0xde), // 浅钢蓝色
+        LightYellow             = RGB(0xff, 0xff, 0xe0), // 浅黄色
+        Lime                    = RGB(0x00, 0xff, 0x00), // 酸橙色
+        LimeGreen               = RGB(0x32, 0xcd, 0x32), // 柠檬绿色
+        Linen                   = RGB(0xfa, 0xf0, 0xe6), // 亚麻色
+        Magenta                 = RGB(0xff, 0x00, 0xff), // 洋红色
+        Maroon                  = RGB(0x80, 0x00, 0x00), // 栗色
+        MediumAquamarine        = RGB(0x66, 0xcd, 0xaa), // 中碧绿色
+        MediumBlue              = RGB(0x00, 0x00, 0xcd), // 中蓝色
+        MediumOrchid            = RGB(0xba, 0x55, 0xd3), // 中兰花紫色
+        MediumPurple            = RGB(0x93, 0x70, 0xdb), // 中紫色
+        MediumSeaGreen          = RGB(0x3c, 0xb3, 0x71), // 中海绿色
+        MediumSlateBlue         = RGB(0x7b, 0x68, 0xee), // 中青蓝色
+        MediumSpringGreen       = RGB(0x00, 0xfa, 0x9a), // 中春绿色
+        MediumTurquoise         = RGB(0x48, 0xd1, 0xcc), // 中青色
+        MediumVioletRed         = RGB(0xc7, 0x15, 0x85), // 中紫罗兰色
+        MidnightBlue            = RGB(0x19, 0x19, 0x70), // 午夜蓝色
+        MintCream               = RGB(0xf5, 0xff, 0xfa), // 薄荷色
+        MistyRose               = RGB(0xff, 0xe4, 0xe1), // 浅玫瑰色
+        Moccasin                = RGB(0xff, 0xe4, 0xb5), // 鹿皮色
+        NavajoWhite             = RGB(0xff, 0xde, 0xad), // 纳瓦白色
+        Navy                    = RGB(0x00, 0x00, 0x80), // 海军蓝色
+        OldLace                 = RGB(0xfd, 0xf5, 0xe6), // 老花色
+        Olive                   = RGB(0x80, 0x80, 0x00), // 橄榄色
+        OliveDrab               = RGB(0x6b, 0x8e, 0x23), // 橄榄褐色
+        Orange                  = RGB(0xff, 0xa5, 0x00), // 橙色
+        OrangeRed               = RGB(0xff, 0x45, 0x00), // 橙红色
+        Orchid                  = RGB(0xda, 0x70, 0xd6), // 兰花紫色
+        PaleGoldenrod           = RGB(0xee, 0xe8, 0xaa), // 苍麒麟色
+        PaleGreen               = RGB(0x98, 0xfb, 0x98), // 苍绿色
+        PaleTurquoise           = RGB(0xaf, 0xee, 0xee), // 苍宝石绿色
+        PaleVioletRed           = RGB(0xdb, 0x70, 0x93), // 苍紫罗兰红色
+        PapayaWhip              = RGB(0xff, 0xef, 0xd5), // 番木瓜色
+        PeachPuff               = RGB(0xff, 0xda, 0xb9), // 桃肉色
+        Peru                    = RGB(0xcd, 0x85, 0x3f), // 秘鲁色
+        Pink                    = RGB(0xff, 0xc0, 0xcb), // 粉红色
+        Plum                    = RGB(0xdd, 0xa0, 0xdd), // 李紫色
+        PowderBlue              = RGB(0xb0, 0xe0, 0xe6), // 粉蓝色
+        Purple                  = RGB(0x80, 0x00, 0x80), // 紫色
+        Red                     = RGB(0xff, 0x00, 0x00), // 红色
+        RosyBrown               = RGB(0xbc, 0x8f, 0x8f), // 玫瑰棕色
+        RoyalBlue               = RGB(0x41, 0x69, 0xe1), // 皇家蓝色
+        SaddleBrown             = RGB(0x8b, 0x45, 0x13), // 马鞍棕色
+        Salmon                  = RGB(0xfa, 0x80, 0x72), // 鲑鱼色
+        SandyBrown              = RGB(0xf4, 0xa4, 0x60), // 沙棕色
+        SeaGreen                = RGB(0x2e, 0x8b, 0x57), // 海绿色
+        SeaShell                = RGB(0xff, 0xf5, 0xee), // 海贝色
+        Sienna                  = RGB(0xa0, 0x52, 0x2d), // 黄土赭色
+        Silver                  = RGB(0xc0, 0xc0, 0xc0), // 银色
+        SkyBlue                 = RGB(0x87, 0xce, 0xeb), // 天蓝色
+        SlateBlue               = RGB(0x6a, 0x5a, 0xcd), // 青蓝色
+        SlateGray               = RGB(0x70, 0x80, 0x90), // 青灰色
+        Snow                    = RGB(0xff, 0xfa, 0xfa), // 雪白色
+        SpringGreen             = RGB(0x00, 0xff, 0x7f), // 春绿色
+        SteelBlue               = RGB(0x46, 0x82, 0xb4), // 钢蓝色
+        Tan                     = RGB(0xd2, 0xb4, 0x8c), // 茶色
+        Teal                    = RGB(0x00, 0x80, 0x80), // 鸭翅绿色
+        Thistle                 = RGB(0xd8, 0xbf, 0xd8), // 蓟色
+        Tomato                  = RGB(0xff, 0x63, 0x47), // 番茄色
+        Turquoise               = RGB(0x40, 0xe0, 0xd0), // 青绿色
+        Violet                  = RGB(0xee, 0x82, 0xee), // 紫罗兰色
+        Wheat                   = RGB(0xf5, 0xde, 0xb3), // 小麦色
+        White                   = RGB(0xff, 0xff, 0xff), // 白色
+        WhiteSmoke              = RGB(0xf5, 0xf5, 0xf5), // 白烟色
+        Yellow                  = RGB(0xff, 0xff, 0x00), // 黄色
+        YellowGreen             = RGB(0x9a, 0xcd, 0x32), // 黄绿色
+        ButtonFace              = RGB(0xf0, 0xf0, 0xf0), // 按钮表面色
+        ButtonHighlight         = RGB(0xff, 0xff, 0xff), // 按钮高亮色
+        ButtonShadow            = RGB(0xa0, 0xa0, 0xa0), // 按钮阴影色
+        GradientActiveCaption   = RGB(0xb9, 0xd1, 0xea), // 渐变激活标题栏色
+        GradientInactiveCaption = RGB(0xd7, 0xe4, 0xf2), // 渐变非激活标题栏色
+        MenuBar                 = RGB(0xf0, 0xf0, 0xf0), // 菜单栏色
+        MenuHighlight           = RGB(0x33, 0x99, 0xff), // 菜单高亮色
+        RebeccaPurple           = RGB(0x66, 0x33, 0x99), // 紫罗兰色
+    };
 }
 
 // Path.h
@@ -1785,6 +1781,58 @@ namespace sw
          * @brief 获取当前工作路径
          */
         static std::wstring _GetCurrentDirectory();
+    };
+}
+
+// Color.h
+
+
+namespace sw
+{
+    /**
+     * @brief 颜色
+     */
+    struct Color {
+        /**
+         * @brief R分量
+         */
+        uint8_t r;
+
+        /**
+         * @brief G分量
+         */
+        uint8_t g;
+
+        /**
+         * @brief B分量
+         */
+        uint8_t b;
+
+        /**
+         * @brief 保留字段
+         */
+        uint8_t _reserved{0};
+
+        Color();
+        Color(uint8_t r, uint8_t g, uint8_t b);
+        Color(KnownColor knownColor);
+        Color(COLORREF color);
+        operator COLORREF() const;
+
+        friend bool operator==(const Color &left, const Color &right)
+        {
+            return (left.r == right.r) && (left.g == right.g) && (left.b == right.b);
+        }
+
+        friend bool operator!=(const Color &left, const Color &right)
+        {
+            return (left.r != right.r) || (left.g != right.g) || (left.b != right.b);
+        }
+
+        friend std::wostream &operator<<(std::wostream &wos, const Color &color)
+        {
+            return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
+        }
     };
 }
 
@@ -3921,21 +3969,50 @@ namespace sw
 namespace sw
 {
     /**
+     * @brief 停靠布局标记
+     */
+    class DockLayoutTag
+    {
+    public:
+        static constexpr uint64_t Left   = 0; // 左边
+        static constexpr uint64_t Top    = 1; // 顶边
+        static constexpr uint64_t Right  = 2; // 右边
+        static constexpr uint64_t Bottom = 3; // 底边
+
+    private:
+        uint64_t _value; // 值
+
+    public:
+        /**
+         * @brief 创建DockLayoutTag
+         */
+        inline DockLayoutTag(uint64_t value)
+            : _value(value)
+        {
+        }
+
+        /**
+         * @brief 隐式转换uint64_t
+         */
+        inline operator uint64_t() const
+        {
+            return _value;
+        }
+
+        /**
+         * @brief 判断值是否相等
+         */
+        friend inline bool operator==(const DockLayoutTag &left, const DockLayoutTag &right)
+        {
+            return left._value == right._value;
+        }
+    };
+
+    /**
      * @brief 停靠布局
      */
     class DockLayout : public LayoutHost
     {
-    public:
-        /**
-         * @brief Dock布局标记
-         */
-        enum DockLayoutTag {
-            Left,   // 左边
-            Top,    // 顶边
-            Right,  // 右边
-            Bottom, // 底边
-        };
-
     public:
         /**
          * @brief 最后一个子元素是否填充剩余空间
@@ -4404,12 +4481,12 @@ namespace sw
         /**
          * @brief 背景颜色
          */
-        Color _backColor{Color::White};
+        Color _backColor{KnownColor::White};
 
         /**
          * @brief 文本颜色
          */
-        Color _textColor{Color::Black};
+        Color _textColor{KnownColor::Black};
 
         /**
          * @brief 是否使用透明背景
@@ -7510,12 +7587,12 @@ namespace sw
         /**
          * @brief 获取指定元素的Dock
          */
-        static DockLayout::DockLayoutTag GetDock(UIElement &element);
+        static DockLayoutTag GetDock(UIElement &element);
 
         /**
          * @brief 设置指定元素的Dock
          */
-        static void SetDock(UIElement &element, DockLayout::DockLayoutTag dock);
+        static void SetDock(UIElement &element, DockLayoutTag dock);
 
     protected:
         /**
