@@ -10,6 +10,11 @@ sw::Color::Color(uint8_t r, uint8_t g, uint8_t b)
 {
 }
 
+sw::Color::Color(KnownColor knownColor)
+    : Color(COLORREF(knownColor))
+{
+}
+
 sw::Color::Color(COLORREF color)
 {
     this->r = (color >> 0) & 0xFF;
