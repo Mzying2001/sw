@@ -31,10 +31,10 @@ void sw::Control::ResetHandle()
         // Size and position
         rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
 
-        parent,        // Parent window
-        NULL,          // Menu
-        App::Instance, // Instance handle
-        this           // Additional application data
+        parent,         // Parent window
+        NULL,           // Menu
+        App::Instance,  // Instance handle
+        (WndBase *)this // Additional application data
     );
 
     SetWindowLongPtrW(oldHwnd, GWLP_USERDATA, (LONG_PTR)NULL);
