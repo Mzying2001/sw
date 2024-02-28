@@ -35,7 +35,7 @@ class MyWindow : public sw::Window
         groupBox.Width = 200;
         groupBox.Margin = sw::Thickness(10, 10, 0, 10);
         groupBox.VerticalAlignment = sw::VerticalAlignment::Stretch;
-        this->AddChild(groupBox, sw::DockLayout::Left);
+        this->AddChild(groupBox, sw::DockLayoutTag::Left);
 
         // 添加按钮到界面
         for (int i = 0; i < BTN_COUNT; ++i) {

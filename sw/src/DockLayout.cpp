@@ -2,10 +2,10 @@
 #include "Utils.h"
 #include <cmath>
 
-static sw::DockLayout::DockLayoutTag _GetDockLayoutTag(sw::ILayout &item)
+static int _GetDockLayoutTag(sw::ILayout &item)
 {
     auto tag = item.GetLayoutTag();
-    return tag > sw::DockLayout::Bottom ? sw::DockLayout::Left : (sw::DockLayout::DockLayoutTag)tag;
+    return (tag > sw::DockLayoutTag::Bottom) ? sw::DockLayoutTag::Left : int(tag);
 }
 
 void sw::DockLayout::MeasureOverride(Size &availableSize)

@@ -17,12 +17,12 @@ sw::DockPanel::DockPanel()
     this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
-sw::DockLayout::DockLayoutTag sw::DockPanel::GetDock(UIElement &element)
+sw::DockLayoutTag sw::DockPanel::GetDock(UIElement &element)
 {
-    return (DockLayout::DockLayoutTag)element.LayoutTag.Get();
+    return DockLayoutTag{element.LayoutTag.Get()};
 }
 
-void sw::DockPanel::SetDock(UIElement &element, DockLayout::DockLayoutTag dock)
+void sw::DockPanel::SetDock(UIElement &element, DockLayoutTag dock)
 {
     element.LayoutTag = dock;
 }
