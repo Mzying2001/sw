@@ -6,6 +6,7 @@ var hierarchy =
     [ "sw::CursorHelper", "classsw_1_1_cursor_helper.html", null ],
     [ "sw::Dictionary< TKey, TVal >", "classsw_1_1_dictionary.html", null ],
     [ "sw::Dip", "classsw_1_1_dip.html", null ],
+    [ "sw::DockLayoutTag", "classsw_1_1_dock_layout_tag.html", null ],
     [ "std::false_type", null, [
       [ "sw::_HasEventType< T, typename >", "structsw_1_1___has_event_type.html", [
         [ "sw::_IsTypedRoutedEventArgs< T >", "structsw_1_1___is_typed_routed_event_args.html", null ]

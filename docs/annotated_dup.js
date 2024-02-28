@@ -22,6 +22,7 @@ var annotated_dup =
       [ "Dictionary", "classsw_1_1_dictionary.html", "classsw_1_1_dictionary" ],
       [ "Dip", "classsw_1_1_dip.html", null ],
       [ "DockLayout", "classsw_1_1_dock_layout.html", "classsw_1_1_dock_layout" ],
+      [ "DockLayoutTag", "classsw_1_1_dock_layout_tag.html", "classsw_1_1_dock_layout_tag" ],
       [ "DockPanel", "classsw_1_1_dock_panel.html", "classsw_1_1_dock_panel" ],
       [ "FillLayout", "classsw_1_1_fill_layout.html", "classsw_1_1_fill_layout" ],
       [ "FillRemainGridColumn", "structsw_1_1_fill_remain_grid_column.html", "structsw_1_1_fill_remain_grid_column" ],

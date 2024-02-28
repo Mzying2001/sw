@@ -29,6 +29,7 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "ITag.h", "_i_tag_8h_source.html", null ],
     [ "ItemsControl.h", "_items_control_8h_source.html", null ],
     [ "Keys.h", "_keys_8h_source.html", null ],
+    [ "KnownColor.h", "_known_color_8h_source.html", null ],
     [ "Label.h", "_label_8h_source.html", null ],
     [ "Layer.h", "_layer_8h_source.html", null ],
     [ "LayoutHost.h", "_layout_host_8h_source.html", null ],

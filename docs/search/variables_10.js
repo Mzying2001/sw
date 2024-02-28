@@ -1,18 +1,14 @@
 var searchData=
 [
-  ['tabstop_0',['TabStop',['../classsw_1_1_u_i_element.html#a2b54e00e1e41af2a634ad694da3ffa98',1,'sw::UIElement']]],
-  ['tag_1',['Tag',['../classsw_1_1_u_i_element.html#a895d79a2fa53382a43b3d02dee195360',1,'sw::UIElement']]],
-  ['tag_2',['tag',['../classsw_1_1_menu_item.html#a71e23c18ace7346f28415ed747d80905',1,'sw::MenuItem']]],
-  ['text_3',['text',['../classsw_1_1_menu_item.html#a0f67fc28cb879876a328495035031979',1,'sw::MenuItem']]],
-  ['text_4',['Text',['../classsw_1_1_wnd_base.html#a9afff86d32e9b54cccc204ef29a85891',1,'sw::WndBase']]],
-  ['textcolor_5',['TextColor',['../classsw_1_1_u_i_element.html#aeaf2381fdffd82bd41e90c1a2cf69022',1,'sw::UIElement']]],
-  ['texttrimming_6',['TextTrimming',['../classsw_1_1_label.html#a967e6a7cfc9341958f362ae94c56f583',1,'sw::Label']]],
-  ['threestate_7',['ThreeState',['../classsw_1_1_check_box.html#ac8a52241895124f970ee2878f5d00d11',1,'sw::CheckBox']]],
-  ['toolwindow_8',['ToolWindow',['../classsw_1_1_window.html#ac61382d82d410403dc2a9bc0afe49f38',1,'sw::Window']]],
-  ['top_9',['top',['../structsw_1_1_canvas_layout_tag.html#aebee142b9a9c5838c3fc2cb7a62374af',1,'sw::CanvasLayoutTag::top'],['../structsw_1_1_rect.html#adeb78de2f6a13f22d475605eb0e0e074',1,'sw::Rect::top'],['../structsw_1_1_thickness.html#a817cf35540e487ad81984daf97b92208',1,'sw::Thickness::top']]],
-  ['top_10',['Top',['../classsw_1_1_wnd_base.html#a6dbe3776aeb038659f0a290fbe1dc6d7',1,'sw::WndBase']]],
-  ['topindex_11',['TopIndex',['../classsw_1_1_list_box.html#a3fa1be9a1a9752e54d61cb6cadd1bc4a',1,'sw::ListBox::TopIndex'],['../classsw_1_1_list_view.html#a4158ee431cd207fc45ef4212baf7b37a',1,'sw::ListView::TopIndex']]],
-  ['topmost_12',['Topmost',['../classsw_1_1_window.html#a1a15faeb81c21aa3327dcd8fefdc5ffd',1,'sw::Window']]],
-  ['transparent_13',['Transparent',['../classsw_1_1_u_i_element.html#aa9d544a538ca2cfa3d022da61e7637e5',1,'sw::UIElement']]],
-  ['type_14',['type',['../structsw_1_1_grid_row.html#a6d8ada10faf765f507353052361bfacf',1,'sw::GridRow::type'],['../structsw_1_1_grid_column.html#a6291c41939a7abda14003bf799325d1b',1,'sw::GridColumn::type']]]
+  ['scalex_0',['ScaleX',['../classsw_1_1_dip.html#a6222ad22b358fd8418cb0dbe9a7f6437',1,'sw::Dip']]],
+  ['scaley_1',['ScaleY',['../classsw_1_1_dip.html#a82e30c32d6521756a933aa63040f136d',1,'sw::Dip']]],
+  ['selectedcount_2',['SelectedCount',['../classsw_1_1_list_box.html#a6f921779be05ff24d598701feffd1705',1,'sw::ListBox::SelectedCount'],['../classsw_1_1_list_view.html#ae1e499b6f04912769eb8f4fe732ad35c',1,'sw::ListView::SelectedCount']]],
+  ['selectedindex_3',['SelectedIndex',['../classsw_1_1_items_control.html#ae78a074093f7746f18c1ece3654fdcf6',1,'sw::ItemsControl::SelectedIndex'],['../classsw_1_1_tab_control.html#a5e70f66a21997157773d149dec3339ce',1,'sw::TabControl::SelectedIndex']]],
+  ['selecteditem_4',['SelectedItem',['../classsw_1_1_items_control.html#a81efc45fe838c47908e37e241614c672',1,'sw::ItemsControl']]],
+  ['size_5',['size',['../classsw_1_1_font.html#aad5569847e5d52c155fe3c1a049324f3',1,'sw::Font']]],
+  ['sizebox_6',['SizeBox',['../classsw_1_1_window.html#a518c14e6ddbf171489a86baff4cbb6a3',1,'sw::Window']]],
+  ['startuplocation_7',['StartupLocation',['../classsw_1_1_window.html#a4a09a7ec772a2febfcda54b9aa6a8557',1,'sw::Window']]],
+  ['state_8',['State',['../classsw_1_1_progress_bar.html#a596e05cda7fcc656dde20354a519cee4',1,'sw::ProgressBar::State'],['../classsw_1_1_window.html#a257ba940703f41b12990678bb3ff0e0e',1,'sw::Window::State']]],
+  ['strikeout_9',['strikeOut',['../classsw_1_1_font.html#a14ae471a9508e23aad832f3060bbcb85',1,'sw::Font']]],
+  ['subitems_10',['subItems',['../classsw_1_1_menu_item.html#ac8e01802bb6cc6f1336025819050f3c4',1,'sw::MenuItem']]]
 ];
