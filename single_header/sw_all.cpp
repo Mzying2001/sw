@@ -377,11 +377,14 @@ sw::Color::Color(uint8_t r, uint8_t g, uint8_t b)
 {
 }
 
-sw::Color::Color(COLORREF color)
+sw::Color::Color(KnownColor knownColor)
+    : Color(COLORREF(knownColor))
 {
-    this->r = (color >> 0) & 0xFF;
-    this->g = (color >> 8) & 0xFF;
-    this->b = (color >> 16) & 0xFF;
+}
+
+sw::Color::Color(COLORREF color)
+    : r((color >> 0) & 0xFF), g((color >> 8) & 0xFF), b((color >> 16) & 0xFF)
+{
 }
 
 sw::Color::operator COLORREF() const
@@ -728,10 +731,10 @@ int sw::Dip::DipToPxY(double dip)
 
 // DockLayout.cpp
 
-static sw::DockLayout::DockLayoutTag _GetDockLayoutTag(sw::ILayout &item)
+static int _GetDockLayoutTag(sw::ILayout &item)
 {
     auto tag = item.GetLayoutTag();
-    return tag > sw::DockLayout::Bottom ? sw::DockLayout::Left : (sw::DockLayout::DockLayoutTag)tag;
+    return (tag > sw::DockLayoutTag::Bottom) ? sw::DockLayoutTag::Left : int(tag);
 }
 
 void sw::DockLayout::MeasureOverride(Size &availableSize)
@@ -883,12 +886,12 @@ sw::DockPanel::DockPanel()
     this->VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
-sw::DockLayout::DockLayoutTag sw::DockPanel::GetDock(UIElement &element)
+sw::DockLayoutTag sw::DockPanel::GetDock(UIElement &element)
 {
-    return (DockLayout::DockLayoutTag)element.LayoutTag.Get();
+    return DockLayoutTag{element.LayoutTag.Get()};
 }
 
-void sw::DockPanel::SetDock(UIElement &element, DockLayout::DockLayoutTag dock)
+void sw::DockPanel::SetDock(UIElement &element, DockLayoutTag dock)
 {
     element.LayoutTag = dock;
 }

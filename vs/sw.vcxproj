@@ -180,6 +180,7 @@
     <ClInclude Include="..\sw\inc\ITag.h" />
     <ClInclude Include="..\sw\inc\ItemsControl.h" />
     <ClInclude Include="..\sw\inc\Keys.h" />
+    <ClInclude Include="..\sw\inc\KnownColor.h" />
     <ClInclude Include="..\sw\inc\Label.h" />
     <ClInclude Include="..\sw\inc\Layer.h" />
     <ClInclude Include="..\sw\inc\LayoutHost.h" />

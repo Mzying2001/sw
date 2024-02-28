@@ -39,13 +39,13 @@ class MyWindow : public sw::Window
         */
 
         // 修改LayoutTag来指定Dock
-        btn1.LayoutTag = sw::DockLayout::Top;
+        btn1.LayoutTag = sw::DockLayoutTag::Top;
         this->AddChild(btn1);
 
         // 可通过AddChild函数传参的方式指定Dock，该函数内部先修改LayoutTag再添加
-        this->AddChild(btn4, sw::DockLayout::Bottom);
-        this->AddChild(btn3, sw::DockLayout::Left);
-        this->AddChild(btn2, sw::DockLayout::Right);
+        this->AddChild(btn4, sw::DockLayoutTag::Bottom);
+        this->AddChild(btn3, sw::DockLayoutTag::Left);
+        this->AddChild(btn2, sw::DockLayoutTag::Right);
 
         // DockLayout默认最后一个元素会填充剩余空间，此时指定的Dock会被忽略
         // 若要最后一个元素不填充，将dockLayout的lastChildFill设为false即可（对于DockPanel则是LastChildFill属性）

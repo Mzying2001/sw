@@ -30,6 +30,7 @@
 #include "Icon.h"
 #include "ItemsControl.h"
 #include "Keys.h"
+#include "KnownColor.h"
 #include "Label.h"
 #include "Layer.h"
 #include "LayoutHost.h"

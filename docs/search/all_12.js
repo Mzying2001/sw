@@ -28,7 +28,7 @@ var searchData=
   ['setcolumnwidth_25',['SetColumnWidth',['../classsw_1_1_list_view.html#a71c4c33a03aa2811a3fee6d7a9d0c2c3',1,'sw::ListView']]],
   ['setcursor_26',['SetCursor',['../classsw_1_1_u_i_element.html#a0ce7edc8a920e950a9a75cf1a84ea627',1,'sw::UIElement::SetCursor(HCURSOR hCursor)'],['../classsw_1_1_u_i_element.html#a848d8b2ee3267758e9a784be75b65e46',1,'sw::UIElement::SetCursor(StandardCursor cursor)']]],
   ['setdesiresize_27',['SetDesireSize',['../classsw_1_1_i_layout.html#ab5c5df73b4a3e76840c5d16ab1dfb7fc',1,'sw::ILayout::SetDesireSize()'],['../classsw_1_1_layout_host.html#a035aefcab7040b1ac1503e4f25501e48',1,'sw::LayoutHost::SetDesireSize()'],['../classsw_1_1_u_i_element.html#a3370e535f462680d66063e45b92807f6',1,'sw::UIElement::SetDesireSize()']]],
-  ['setdock_28',['SetDock',['../classsw_1_1_dock_panel.html#a99c73e208b981b58ad4875bfe9d2f0f0',1,'sw::DockPanel']]],
+  ['setdock_28',['SetDock',['../classsw_1_1_dock_panel.html#a3f76f2884b1f1c8a462ed76d58509c86',1,'sw::DockPanel']]],
   ['setenabled_29',['SetEnabled',['../classsw_1_1_menu_base.html#a537663148790e0516c1a2aca7b02afd1',1,'sw::MenuBase']]],
   ['setextendedstyle_30',['SetExtendedStyle',['../classsw_1_1_wnd_base.html#a58f8e7dd73212a5aed4785a5af1f8a76',1,'sw::WndBase::SetExtendedStyle(LONG_PTR style)'],['../classsw_1_1_wnd_base.html#ab69baf3851ba40b7f6bba5fb67f9ab51',1,'sw::WndBase::SetExtendedStyle(LONG_PTR mask, bool value)']]],
   ['setgridlayouttag_31',['SetGridLayoutTag',['../classsw_1_1_grid.html#aa586593cd6a20329efaab07c87ac2ede',1,'sw::Grid']]],

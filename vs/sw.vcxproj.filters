@@ -240,6 +240,9 @@
     <ClInclude Include="..\sw\inc\HwndHost.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\KnownColor.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\App.cpp">

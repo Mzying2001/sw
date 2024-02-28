@@ -31,12 +31,12 @@ namespace sw
         /**
          * @brief 获取指定元素的Dock
          */
-        static DockLayout::DockLayoutTag GetDock(UIElement &element);
+        static DockLayoutTag GetDock(UIElement &element);
 
         /**
          * @brief 设置指定元素的Dock
          */
-        static void SetDock(UIElement &element, DockLayout::DockLayoutTag dock);
+        static void SetDock(UIElement &element, DockLayoutTag dock);
 
     protected:
         /**

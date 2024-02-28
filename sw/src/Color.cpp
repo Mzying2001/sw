@@ -10,11 +10,14 @@ sw::Color::Color(uint8_t r, uint8_t g, uint8_t b)
 {
 }
 
-sw::Color::Color(COLORREF color)
+sw::Color::Color(KnownColor knownColor)
+    : Color(COLORREF(knownColor))
 {
-    this->r = (color >> 0) & 0xFF;
-    this->g = (color >> 8) & 0xFF;
-    this->b = (color >> 16) & 0xFF;
+}
+
+sw::Color::Color(COLORREF color)
+    : r((color >> 0) & 0xFF), g((color >> 8) & 0xFF), b((color >> 16) & 0xFF)
+{
 }
 
 sw::Color::operator COLORREF() const

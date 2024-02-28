@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['b_0',['b',['../structsw_1_1_color.html#aeeb136eece447ed3f36a6767a807bb4d',1,'sw::Color']]],
-  ['backcolor_1',['BackColor',['../classsw_1_1_u_i_element.html#aaf6897b58dc2899c37a3b395bfe124b9',1,'sw::UIElement']]],
-  ['borderstyle_2',['BorderStyle',['../classsw_1_1_panel.html#aa7b04b11114891c5df7b84932fd3370f',1,'sw::Panel']]],
-  ['bottom_3',['bottom',['../structsw_1_1_thickness.html#acea3dd0c6fdcc155ac47ec7c3eab97fa',1,'sw::Thickness']]]
+  ['accepttab_0',['AcceptTab',['../classsw_1_1_text_box_base.html#a91bad54640a2bdd486232d3836611608',1,'sw::TextBoxBase']]],
+  ['activewindow_1',['ActiveWindow',['../classsw_1_1_window.html#a53a830719caa870a49934419c6b231a3',1,'sw::Window']]],
+  ['alignment_2',['Alignment',['../classsw_1_1_tab_control.html#a09a693f18956f7629fab2377ab1a1dda',1,'sw::TabControl']]],
+  ['alignment_3',['alignment',['../structsw_1_1_list_view_column.html#a073e675567add518aa85b5356d472cf9',1,'sw::ListViewColumn']]],
+  ['autosize_4',['AutoSize',['../classsw_1_1_label.html#a18a52422a3d9c21f2025a4830533b088',1,'sw::Label::AutoSize'],['../classsw_1_1_layer.html#ad4a741e4ddddbd9886cefb88efd9e3e0',1,'sw::Layer::AutoSize']]],
+  ['autowrap_5',['AutoWrap',['../classsw_1_1_label.html#af94d8f66f1119690c6c2dbca2f794de6',1,'sw::Label::AutoWrap'],['../classsw_1_1_text_box.html#aada3afc3bd30f97361d20b598903dabb',1,'sw::TextBox::AutoWrap']]]
 ];

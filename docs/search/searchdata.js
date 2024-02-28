@@ -3,9 +3,8 @@ var indexSectionsWithContent =
   0: "_abcdefghiklmnopqrstuvwxy~",
   1: "_abcdfghiklmprstuw",
   2: "abcdefghilmnopqrstuvw~",
-  3: "abcefghilmnopqrstuvwxy",
-  4: "d",
-  5: "o"
+  3: "_abcefghilmnopqrstuvwxy",
+  4: "o"
 };
 
 var indexSectionNames =
@@ -14,8 +13,7 @@ var indexSectionNames =
   1: "classes",
   2: "functions",
   3: "variables",
-  4: "enums",
-  5: "related"
+  4: "related"
 };
 
 var indexSectionLabels =
@@ -24,7 +22,6 @@ var indexSectionLabels =
   1: "类",
   2: "函数",
   3: "变量",
-  4: "枚举",
-  5: "友元"
+  4: "友元"
 };
 

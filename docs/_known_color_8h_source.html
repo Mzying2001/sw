@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: KnownColor.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_known_color_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">KnownColor.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;Windows.h&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">enum class</span> KnownColor {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        ActiveBorder            = RGB(0xb4, 0xb4, 0xb4), <span class="comment">// 活动边框颜色</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        ActiveCaption           = RGB(0x99, 0xb4, 0xd1), <span class="comment">// 活动标题栏颜色</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        ActiveCaptionText       = RGB(0x00, 0x00, 0x00), <span class="comment">// 活动标题栏文本颜色</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        AppWorkspace            = RGB(0xab, 0xab, 0xab), <span class="comment">// 应用程序工作区颜色</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        Control                 = RGB(0xf0, 0xf0, 0xf0), <span class="comment">// 控件颜色</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        ControlDark             = RGB(0xa0, 0xa0, 0xa0), <span class="comment">// 控件深色颜色</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        ControlDarkDark         = RGB(0x69, 0x69, 0x69), <span class="comment">// 控件深深色颜色</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        ControlLight            = RGB(0xe3, 0xe3, 0xe3), <span class="comment">// 控件浅色颜色</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        ControlLightLight       = RGB(0xff, 0xff, 0xff), <span class="comment">// 控件浅浅色颜色</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        ControlText             = RGB(0x00, 0x00, 0x00), <span class="comment">// 控件文本颜色</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        Desktop                 = RGB(0x00, 0x00, 0x00), <span class="comment">// 桌面颜色</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        GrayText                = RGB(0x6d, 0x6d, 0x6d), <span class="comment">// 灰色文本颜色</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        Highlight               = RGB(0x00, 0x78, 0xd7), <span class="comment">// 高亮颜色</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        HighlightText           = RGB(0xff, 0xff, 0xff), <span class="comment">// 高亮文本颜色</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        HotTrack                = RGB(0x00, 0x66, 0xcc), <span class="comment">// 热跟踪颜色</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        InactiveBorder          = RGB(0xf4, 0xf7, 0xfc), <span class="comment">// 非活动边框颜色</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        InactiveCaption         = RGB(0xbf, 0xcd, 0xdb), <span class="comment">// 非活动标题栏颜色</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        InactiveCaptionText     = RGB(0x00, 0x00, 0x00), <span class="comment">// 非活动标题栏文本颜色</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        Info                    = RGB(0xff, 0xff, 0xe1), <span class="comment">// 信息颜色</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        InfoText                = RGB(0x00, 0x00, 0x00), <span class="comment">// 信息文本颜色</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        Menu                    = RGB(0xf0, 0xf0, 0xf0), <span class="comment">// 菜单颜色</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        MenuText                = RGB(0x00, 0x00, 0x00), <span class="comment">// 菜单文本颜色</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        ScrollBar               = RGB(0xc8, 0xc8, 0xc8), <span class="comment">// 滚动条颜色</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        Window                  = RGB(0xff, 0xff, 0xff), <span class="comment">// 窗口颜色</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        WindowFrame             = RGB(0x64, 0x64, 0x64), <span class="comment">// 窗口框架颜色</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        WindowText              = RGB(0x00, 0x00, 0x00), <span class="comment">// 窗口文本颜色</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        Transparent             = RGB(0xff, 0xff, 0xff), <span class="comment">// 透明色</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        AliceBlue               = RGB(0xf0, 0xf8, 0xff), <span class="comment">// 爱丽丝蓝色</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        AntiqueWhite            = RGB(0xfa, 0xeb, 0xd7), <span class="comment">// 古董白色</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        Aqua                    = RGB(0x00, 0xff, 0xff), <span class="comment">// 青色</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        Aquamarine              = RGB(0x7f, 0xff, 0xd4), <span class="comment">// 碧绿色</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        Azure                   = RGB(0xf0, 0xff, 0xff), <span class="comment">// 天蓝色</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        Beige                   = RGB(0xf5, 0xf5, 0xdc), <span class="comment">// 米色</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        Bisque                  = RGB(0xff, 0xe4, 0xc4), <span class="comment">// 橘黄色</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        Black                   = RGB(0x00, 0x00, 0x00), <span class="comment">// 黑色</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        BlanchedAlmond          = RGB(0xff, 0xeb, 0xcd), <span class="comment">// 白杏色</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        Blue                    = RGB(0x00, 0x00, 0xff), <span class="comment">// 蓝色</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        BlueViolet              = RGB(0x8a, 0x2b, 0xe2), <span class="comment">// 蓝紫色</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        Brown                   = RGB(0xa5, 0x2a, 0x2a), <span class="comment">// 棕色</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        BurlyWood               = RGB(0xde, 0xb8, 0x87), <span class="comment">// 硬木色</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        CadetBlue               = RGB(0x5f, 0x9e, 0xa0), <span class="comment">// 军装蓝色</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        Chartreuse              = RGB(0x7f, 0xff, 0x00), <span class="comment">// 黄绿色</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        Chocolate               = RGB(0xd2, 0x69, 0x1e), <span class="comment">// 巧克力色</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        Coral                   = RGB(0xff, 0x7f, 0x50), <span class="comment">// 珊瑚色</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        CornflowerBlue          = RGB(0x64, 0x95, 0xed), <span class="comment">// 矢车菊蓝色</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        Cornsilk                = RGB(0xff, 0xf8, 0xdc), <span class="comment">// 米绸色</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        Crimson                 = RGB(0xdc, 0x14, 0x3c), <span class="comment">// 绯红色</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        Cyan                    = RGB(0x00, 0xff, 0xff), <span class="comment">// 青色</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        DarkBlue                = RGB(0x00, 0x00, 0x8b), <span class="comment">// 深蓝色</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        DarkCyan                = RGB(0x00, 0x8b, 0x8b), <span class="comment">// 深青色</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        DarkGoldenrod           = RGB(0xb8, 0x86, 0x0b), <span class="comment">// 深金黄色</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        DarkGray                = RGB(0xa9, 0xa9, 0xa9), <span class="comment">// 深灰色</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        DarkGreen               = RGB(0x00, 0x64, 0x00), <span class="comment">// 深绿色</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        DarkKhaki               = RGB(0xbd, 0xb7, 0x6b), <span class="comment">// 深卡其色</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        DarkMagenta             = RGB(0x8b, 0x00, 0x8b), <span class="comment">// 深洋红色</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        DarkOliveGreen          = RGB(0x55, 0x6b, 0x2f), <span class="comment">// 深橄榄绿色</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        DarkOrange              = RGB(0xff, 0x8c, 0x00), <span class="comment">// 深橙色</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        DarkOrchid              = RGB(0x99, 0x32, 0xcc), <span class="comment">// 深兰花色</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        DarkRed                 = RGB(0x8b, 0x00, 0x00), <span class="comment">// 深红色</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        DarkSalmon              = RGB(0xe9, 0x96, 0x7a), <span class="comment">// 深鲑鱼色</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        DarkSeaGreen            = RGB(0x8f, 0xbc, 0x8f), <span class="comment">// 深海绿色</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        DarkSlateBlue           = RGB(0x48, 0x3d, 0x8b), <span class="comment">// 深青蓝色</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        DarkSlateGray           = RGB(0x2f, 0x4f, 0x4f), <span class="comment">// 深青灰色</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        DarkTurquoise           = RGB(0x00, 0xce, 0xd1), <span class="comment">// 深青色</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        DarkViolet              = RGB(0x94, 0x00, 0xd3), <span class="comment">// 深紫罗兰色</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        DeepPink                = RGB(0xff, 0x14, 0x93), <span class="comment">// 深粉色</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        DeepSkyBlue             = RGB(0x00, 0xbf, 0xff), <span class="comment">// 深天蓝色</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        DimGray                 = RGB(0x69, 0x69, 0x69), <span class="comment">// 暗灰色</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        DodgerBlue              = RGB(0x1e, 0x90, 0xff), <span class="comment">// 道奇蓝色</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        Firebrick               = RGB(0xb2, 0x22, 0x22), <span class="comment">// 火砖色</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        FloralWhite             = RGB(0xff, 0xfa, 0xf0), <span class="comment">// 花白色</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        ForestGreen             = RGB(0x22, 0x8b, 0x22), <span class="comment">// 森林绿色</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        Fuchsia                 = RGB(0xff, 0x00, 0xff), <span class="comment">// 紫红色</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        Gainsboro               = RGB(0xdc, 0xdc, 0xdc), <span class="comment">// 盖茨伯勒色</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        GhostWhite              = RGB(0xf8, 0xf8, 0xff), <span class="comment">// 幽灵白色</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        Gold                    = RGB(0xff, 0xd7, 0x00), <span class="comment">// 金色</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        Goldenrod               = RGB(0xda, 0xa5, 0x20), <span class="comment">// 金菊黄色</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        Gray                    = RGB(0x80, 0x80, 0x80), <span class="comment">// 灰色</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        Green                   = RGB(0x00, 0x80, 0x00), <span class="comment">// 绿色</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        GreenYellow             = RGB(0xad, 0xff, 0x2f), <span class="comment">// 绿黄色</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        Honeydew                = RGB(0xf0, 0xff, 0xf0), <span class="comment">// 蜜色</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        HotPink                 = RGB(0xff, 0x69, 0xb4), <span class="comment">// 亮粉红色</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        IndianRed               = RGB(0xcd, 0x5c, 0x5c), <span class="comment">// 印度红色</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        Indigo                  = RGB(0x4b, 0x00, 0x82), <span class="comment">// 靛青色</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        Ivory                   = RGB(0xff, 0xff, 0xf0), <span class="comment">// 象牙色</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        Khaki                   = RGB(0xf0, 0xe6, 0x8c), <span class="comment">// 卡其色</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        Lavender                = RGB(0xe6, 0xe6, 0xfa), <span class="comment">// 熏衣草色</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        LavenderBlush           = RGB(0xff, 0xf0, 0xf5), <span class="comment">// 淡紫红色</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        LawnGreen               = RGB(0x7c, 0xfc, 0x00), <span class="comment">// 草绿色</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        LemonChiffon            = RGB(0xff, 0xfa, 0xcd), <span class="comment">// 柠檬绸色</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        LightBlue               = RGB(0xad, 0xd8, 0xe6), <span class="comment">// 淡蓝色</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        LightCoral              = RGB(0xf0, 0x80, 0x80), <span class="comment">// 淡珊瑚色</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        LightCyan               = RGB(0xe0, 0xff, 0xff), <span class="comment">// 淡青色</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        LightGoldenrodYellow    = RGB(0xfa, 0xfa, 0xd2), <span class="comment">// 浅金菊黄色</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        LightGray               = RGB(0xd3, 0xd3, 0xd3), <span class="comment">// 浅灰色</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        LightGreen              = RGB(0x90, 0xee, 0x90), <span class="comment">// 浅绿色</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        LightPink               = RGB(0xff, 0xb6, 0xc1), <span class="comment">// 浅粉色</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        LightSalmon             = RGB(0xff, 0xa0, 0x7a), <span class="comment">// 浅鲑鱼色</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        LightSeaGreen           = RGB(0x20, 0xb2, 0xaa), <span class="comment">// 浅海绿色</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        LightSkyBlue            = RGB(0x87, 0xce, 0xfa), <span class="comment">// 浅天蓝色</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        LightSlateGray          = RGB(0x77, 0x88, 0x99), <span class="comment">// 浅青灰色</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        LightSteelBlue          = RGB(0xb0, 0xc4, 0xde), <span class="comment">// 浅钢蓝色</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        LightYellow             = RGB(0xff, 0xff, 0xe0), <span class="comment">// 浅黄色</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        Lime                    = RGB(0x00, 0xff, 0x00), <span class="comment">// 酸橙色</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        LimeGreen               = RGB(0x32, 0xcd, 0x32), <span class="comment">// 柠檬绿色</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        Linen                   = RGB(0xfa, 0xf0, 0xe6), <span class="comment">// 亚麻色</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        Magenta                 = RGB(0xff, 0x00, 0xff), <span class="comment">// 洋红色</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        Maroon                  = RGB(0x80, 0x00, 0x00), <span class="comment">// 栗色</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        MediumAquamarine        = RGB(0x66, 0xcd, 0xaa), <span class="comment">// 中碧绿色</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        MediumBlue              = RGB(0x00, 0x00, 0xcd), <span class="comment">// 中蓝色</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        MediumOrchid            = RGB(0xba, 0x55, 0xd3), <span class="comment">// 中兰花紫色</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        MediumPurple            = RGB(0x93, 0x70, 0xdb), <span class="comment">// 中紫色</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        MediumSeaGreen          = RGB(0x3c, 0xb3, 0x71), <span class="comment">// 中海绿色</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        MediumSlateBlue         = RGB(0x7b, 0x68, 0xee), <span class="comment">// 中青蓝色</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        MediumSpringGreen       = RGB(0x00, 0xfa, 0x9a), <span class="comment">// 中春绿色</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        MediumTurquoise         = RGB(0x48, 0xd1, 0xcc), <span class="comment">// 中青色</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        MediumVioletRed         = RGB(0xc7, 0x15, 0x85), <span class="comment">// 中紫罗兰色</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        MidnightBlue            = RGB(0x19, 0x19, 0x70), <span class="comment">// 午夜蓝色</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        MintCream               = RGB(0xf5, 0xff, 0xfa), <span class="comment">// 薄荷色</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        MistyRose               = RGB(0xff, 0xe4, 0xe1), <span class="comment">// 浅玫瑰色</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        Moccasin                = RGB(0xff, 0xe4, 0xb5), <span class="comment">// 鹿皮色</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        NavajoWhite             = RGB(0xff, 0xde, 0xad), <span class="comment">// 纳瓦白色</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        Navy                    = RGB(0x00, 0x00, 0x80), <span class="comment">// 海军蓝色</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        OldLace                 = RGB(0xfd, 0xf5, 0xe6), <span class="comment">// 老花色</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        Olive                   = RGB(0x80, 0x80, 0x00), <span class="comment">// 橄榄色</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        OliveDrab               = RGB(0x6b, 0x8e, 0x23), <span class="comment">// 橄榄褐色</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        Orange                  = RGB(0xff, 0xa5, 0x00), <span class="comment">// 橙色</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        OrangeRed               = RGB(0xff, 0x45, 0x00), <span class="comment">// 橙红色</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        Orchid                  = RGB(0xda, 0x70, 0xd6), <span class="comment">// 兰花紫色</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        PaleGoldenrod           = RGB(0xee, 0xe8, 0xaa), <span class="comment">// 苍麒麟色</span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        PaleGreen               = RGB(0x98, 0xfb, 0x98), <span class="comment">// 苍绿色</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        PaleTurquoise           = RGB(0xaf, 0xee, 0xee), <span class="comment">// 苍宝石绿色</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        PaleVioletRed           = RGB(0xdb, 0x70, 0x93), <span class="comment">// 苍紫罗兰红色</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        PapayaWhip              = RGB(0xff, 0xef, 0xd5), <span class="comment">// 番木瓜色</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        PeachPuff               = RGB(0xff, 0xda, 0xb9), <span class="comment">// 桃肉色</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        Peru                    = RGB(0xcd, 0x85, 0x3f), <span class="comment">// 秘鲁色</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        Pink                    = RGB(0xff, 0xc0, 0xcb), <span class="comment">// 粉红色</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        Plum                    = RGB(0xdd, 0xa0, 0xdd), <span class="comment">// 李紫色</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        PowderBlue              = RGB(0xb0, 0xe0, 0xe6), <span class="comment">// 粉蓝色</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        Purple                  = RGB(0x80, 0x00, 0x80), <span class="comment">// 紫色</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        Red                     = RGB(0xff, 0x00, 0x00), <span class="comment">// 红色</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        RosyBrown               = RGB(0xbc, 0x8f, 0x8f), <span class="comment">// 玫瑰棕色</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        RoyalBlue               = RGB(0x41, 0x69, 0xe1), <span class="comment">// 皇家蓝色</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        SaddleBrown             = RGB(0x8b, 0x45, 0x13), <span class="comment">// 马鞍棕色</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        Salmon                  = RGB(0xfa, 0x80, 0x72), <span class="comment">// 鲑鱼色</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        SandyBrown              = RGB(0xf4, 0xa4, 0x60), <span class="comment">// 沙棕色</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        SeaGreen                = RGB(0x2e, 0x8b, 0x57), <span class="comment">// 海绿色</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        SeaShell                = RGB(0xff, 0xf5, 0xee), <span class="comment">// 海贝色</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        Sienna                  = RGB(0xa0, 0x52, 0x2d), <span class="comment">// 黄土赭色</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        Silver                  = RGB(0xc0, 0xc0, 0xc0), <span class="comment">// 银色</span></div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        SkyBlue                 = RGB(0x87, 0xce, 0xeb), <span class="comment">// 天蓝色</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        SlateBlue               = RGB(0x6a, 0x5a, 0xcd), <span class="comment">// 青蓝色</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        SlateGray               = RGB(0x70, 0x80, 0x90), <span class="comment">// 青灰色</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        Snow                    = RGB(0xff, 0xfa, 0xfa), <span class="comment">// 雪白色</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        SpringGreen             = RGB(0x00, 0xff, 0x7f), <span class="comment">// 春绿色</span></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        SteelBlue               = RGB(0x46, 0x82, 0xb4), <span class="comment">// 钢蓝色</span></div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        Tan                     = RGB(0xd2, 0xb4, 0x8c), <span class="comment">// 茶色</span></div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        Teal                    = RGB(0x00, 0x80, 0x80), <span class="comment">// 鸭翅绿色</span></div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        Thistle                 = RGB(0xd8, 0xbf, 0xd8), <span class="comment">// 蓟色</span></div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        Tomato                  = RGB(0xff, 0x63, 0x47), <span class="comment">// 番茄色</span></div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        Turquoise               = RGB(0x40, 0xe0, 0xd0), <span class="comment">// 青绿色</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        Violet                  = RGB(0xee, 0x82, 0xee), <span class="comment">// 紫罗兰色</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        Wheat                   = RGB(0xf5, 0xde, 0xb3), <span class="comment">// 小麦色</span></div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        White                   = RGB(0xff, 0xff, 0xff), <span class="comment">// 白色</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        WhiteSmoke              = RGB(0xf5, 0xf5, 0xf5), <span class="comment">// 白烟色</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        Yellow                  = RGB(0xff, 0xff, 0x00), <span class="comment">// 黄色</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        YellowGreen             = RGB(0x9a, 0xcd, 0x32), <span class="comment">// 黄绿色</span></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>        ButtonFace              = RGB(0xf0, 0xf0, 0xf0), <span class="comment">// 按钮表面色</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>        ButtonHighlight         = RGB(0xff, 0xff, 0xff), <span class="comment">// 按钮高亮色</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        ButtonShadow            = RGB(0xa0, 0xa0, 0xa0), <span class="comment">// 按钮阴影色</span></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        GradientActiveCaption   = RGB(0xb9, 0xd1, 0xea), <span class="comment">// 渐变激活标题栏色</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        GradientInactiveCaption = RGB(0xd7, 0xe4, 0xf2), <span class="comment">// 渐变非激活标题栏色</span></div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        MenuBar                 = RGB(0xf0, 0xf0, 0xf0), <span class="comment">// 菜单栏色</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        MenuHighlight           = RGB(0x33, 0x99, 0xff), <span class="comment">// 菜单高亮色</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        RebeccaPurple           = RGB(0x66, 0x33, 0x99), <span class="comment">// 紫罗兰色</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    };</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>}</div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>KnownColor.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+  </ul>
+</div>
+</body>
+</html>
