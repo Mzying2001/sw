@@ -24,6 +24,7 @@
 #include "GridLayout.h"
 #include "GroupBox.h"
 #include "HitTestResult.h"
+#include "HwndHost.h"
 #include "ILayout.h"
 #include "ITag.h"
 #include "Icon.h"
