@@ -62,13 +62,14 @@ var searchData=
   ['sizetocontent_59',['SizeToContent',['../classsw_1_1_window.html#abff0275ae90d22951d40b769f952d415',1,'sw::Window']]],
   ['slider_60',['Slider',['../classsw_1_1_slider.html',1,'sw::Slider'],['../classsw_1_1_slider.html#a44907de8805117d38ba3631545f39453',1,'sw::Slider::Slider()']]],
   ['split_61',['Split',['../classsw_1_1_utils.html#a8f0292de23814b539a4f5db889422a06',1,'sw::Utils']]],
-  ['stacklayout_62',['StackLayout',['../classsw_1_1_stack_layout.html',1,'sw']]],
-  ['stacklayouth_63',['StackLayoutH',['../classsw_1_1_stack_layout_h.html',1,'sw']]],
-  ['stacklayoutv_64',['StackLayoutV',['../classsw_1_1_stack_layout_v.html',1,'sw']]],
-  ['stackpanel_65',['StackPanel',['../classsw_1_1_stack_panel.html',1,'sw::StackPanel'],['../classsw_1_1_stack_panel.html#adaf90a1ad8018e5365e22f45a0a0341a',1,'sw::StackPanel::StackPanel()']]],
-  ['startuplocation_66',['StartupLocation',['../classsw_1_1_window.html#a4a09a7ec772a2febfcda54b9aa6a8557',1,'sw::Window']]],
-  ['state_67',['State',['../classsw_1_1_progress_bar.html#a596e05cda7fcc656dde20354a519cee4',1,'sw::ProgressBar::State'],['../classsw_1_1_window.html#a257ba940703f41b12990678bb3ff0e0e',1,'sw::Window::State']]],
-  ['staticcontrol_68',['StaticControl',['../classsw_1_1_static_control.html',1,'sw::StaticControl'],['../classsw_1_1_static_control.html#a88dea3db611c5cc94df004cdae9c74ef',1,'sw::StaticControl::StaticControl()']]],
-  ['strikeout_69',['strikeOut',['../classsw_1_1_font.html#a14ae471a9508e23aad832f3060bbcb85',1,'sw::Font']]],
-  ['subitems_70',['subItems',['../classsw_1_1_menu_item.html#ac8e01802bb6cc6f1336025819050f3c4',1,'sw::MenuItem']]]
+  ['splitter_62',['Splitter',['../classsw_1_1_splitter.html',1,'sw::Splitter'],['../classsw_1_1_splitter.html#acc4ee8d727fd36e75444d014cbf1a1ff',1,'sw::Splitter::Splitter()']]],
+  ['stacklayout_63',['StackLayout',['../classsw_1_1_stack_layout.html',1,'sw']]],
+  ['stacklayouth_64',['StackLayoutH',['../classsw_1_1_stack_layout_h.html',1,'sw']]],
+  ['stacklayoutv_65',['StackLayoutV',['../classsw_1_1_stack_layout_v.html',1,'sw']]],
+  ['stackpanel_66',['StackPanel',['../classsw_1_1_stack_panel.html',1,'sw::StackPanel'],['../classsw_1_1_stack_panel.html#adaf90a1ad8018e5365e22f45a0a0341a',1,'sw::StackPanel::StackPanel()']]],
+  ['startuplocation_67',['StartupLocation',['../classsw_1_1_window.html#a4a09a7ec772a2febfcda54b9aa6a8557',1,'sw::Window']]],
+  ['state_68',['State',['../classsw_1_1_progress_bar.html#a596e05cda7fcc656dde20354a519cee4',1,'sw::ProgressBar::State'],['../classsw_1_1_window.html#a257ba940703f41b12990678bb3ff0e0e',1,'sw::Window::State']]],
+  ['staticcontrol_69',['StaticControl',['../classsw_1_1_static_control.html',1,'sw::StaticControl'],['../classsw_1_1_static_control.html#a88dea3db611c5cc94df004cdae9c74ef',1,'sw::StaticControl::StaticControl()']]],
+  ['strikeout_70',['strikeOut',['../classsw_1_1_font.html#a14ae471a9508e23aad832f3060bbcb85',1,'sw::Font']]],
+  ['subitems_71',['subItems',['../classsw_1_1_menu_item.html#ac8e01802bb6cc6f1336025819050f3c4',1,'sw::MenuItem']]]
 ];

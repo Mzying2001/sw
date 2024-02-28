@@ -50,6 +50,7 @@ var searchData=
   ['sizetocontent_47',['SizeToContent',['../classsw_1_1_window.html#abff0275ae90d22951d40b769f952d415',1,'sw::Window']]],
   ['slider_48',['Slider',['../classsw_1_1_slider.html#a44907de8805117d38ba3631545f39453',1,'sw::Slider']]],
   ['split_49',['Split',['../classsw_1_1_utils.html#a8f0292de23814b539a4f5db889422a06',1,'sw::Utils']]],
-  ['stackpanel_50',['StackPanel',['../classsw_1_1_stack_panel.html#adaf90a1ad8018e5365e22f45a0a0341a',1,'sw::StackPanel']]],
-  ['staticcontrol_51',['StaticControl',['../classsw_1_1_static_control.html#a88dea3db611c5cc94df004cdae9c74ef',1,'sw::StaticControl']]]
+  ['splitter_50',['Splitter',['../classsw_1_1_splitter.html#acc4ee8d727fd36e75444d014cbf1a1ff',1,'sw::Splitter']]],
+  ['stackpanel_51',['StackPanel',['../classsw_1_1_stack_panel.html#adaf90a1ad8018e5365e22f45a0a0341a',1,'sw::StackPanel']]],
+  ['staticcontrol_52',['StaticControl',['../classsw_1_1_static_control.html#a88dea3db611c5cc94df004cdae9c74ef',1,'sw::StaticControl']]]
 ];
