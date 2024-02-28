@@ -16,10 +16,8 @@ sw::Color::Color(KnownColor knownColor)
 }
 
 sw::Color::Color(COLORREF color)
+    : r((color >> 0) & 0xFF), g((color >> 8) & 0xFF), b((color >> 16) & 0xFF)
 {
-    this->r = (color >> 0) & 0xFF;
-    this->g = (color >> 8) & 0xFF;
-    this->b = (color >> 16) & 0xFF;
 }
 
 sw::Color::operator COLORREF() const
