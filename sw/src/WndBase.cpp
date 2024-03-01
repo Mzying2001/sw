@@ -255,6 +255,18 @@ sw::WndBase::WndBase()
           // get
           [&]() -> const bool & {
               return this->_isDestroyed;
+          }),
+
+      AcceptFiles(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetExtendedStyle(WS_EX_ACCEPTFILES);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
           })
 {
     static WNDCLASSEXW wc = {0};
@@ -628,6 +640,10 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->OnDrawItem((int)refMsg.wParam, reinterpret_cast<DRAWITEMSTRUCT *>(refMsg.lParam)) ? TRUE : this->DefaultWndProc(refMsg);
         }
 
+        case WM_DROPFILES: {
+            return this->OnDropFiles(reinterpret_cast<HDROP>(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }
@@ -919,6 +935,11 @@ bool sw::WndBase::OnEraseBackground(int &result)
 }
 
 bool sw::WndBase::OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem)
+{
+    return false;
+}
+
+bool sw::WndBase::OnDropFiles(HDROP hDrop)
 {
     return false;
 }

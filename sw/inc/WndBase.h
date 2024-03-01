@@ -167,6 +167,11 @@ namespace sw
          */
         const ReadOnlyProperty<bool> IsDestroyed;
 
+        /**
+         * @brief 是否接受拖放文件
+         */
+        const Property<bool> AcceptFiles;
+
     protected:
         /**
          * @brief 初始化WndBase
@@ -589,6 +594,13 @@ namespace sw
          * @return          若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem);
+
+        /**
+         * @brief       接收到WM_DROPFILES时调用该函数
+         * @param hDrop 描述拖入文件的句柄
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDropFiles(HDROP hDrop);
 
     public:
         /**
