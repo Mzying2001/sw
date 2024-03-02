@@ -9,157 +9,101 @@ namespace sw
      * @brief 路由事件类型枚举
      */
     enum RoutedEventType : uint32_t {
-        UserEventBegin = 0,
-        UserEventEnd   = 0x80000000,
 
-        /**
-         * @brief 尺寸改变，参数类型为sw::SizeChangedEventArgs
-         */
+        // 从该值开始到UserEventEnd结束表示用户可以自定义路由事件的值范围
+        UserEventBegin = 0,
+
+        // 用户自定义路由事件的值的最大值
+        UserEventEnd = 0x80000000,
+
+        // 尺寸改变，参数类型为sw::SizeChangedEventArgs
         UIElement_SizeChanged,
 
-        /**
-         * @brief 位置改变，参数类型为sw::PositionChangedEventArgs
-         */
+        // 位置改变，参数类型为sw::PositionChangedEventArgs
         UIElement_PositionChanged,
 
-        /**
-         * @brief Text属性发生变化，参数类型为sw::RoutedEventArgs
-         */
+        // Text属性发生变化，参数类型为sw::RoutedEventArgs
         UIElement_TextChanged,
 
-        /**
-         * @brief 获取到焦点，参数类型为sw::RoutedEventArgs
-         */
+        // 获取到焦点，参数类型为sw::RoutedEventArgs
         UIElement_GotFocus,
 
-        /**
-         * @brief 失去焦点，参数类型为sw::RoutedEventArgs
-         */
+        // 失去焦点，参数类型为sw::RoutedEventArgs
         UIElement_LostFocus,
 
-        /**
-         * @brief 输入字符，参数类型为sw::GotCharEventArgs
-         */
+        // 输入字符，参数类型为sw::GotCharEventArgs
         UIElement_GotChar,
 
-        /**
-         * @brief 键盘按键按下，参数类型为sw::KeyDownEventArgs
-         */
+        // 键盘按键按下，参数类型为sw::KeyDownEventArgs
         UIElement_KeyDown,
 
-        /**
-         * @brief 键盘按键抬起，参数类型为sw::KeyUpEventArgs
-         */
+        // 键盘按键抬起，参数类型为sw::KeyUpEventArgs
         UIElement_KeyUp,
 
-        /**
-         * @brief 鼠标移动，参数类型为sw::MouseMoveEventArgs
-         */
+        // 鼠标移动，参数类型为sw::MouseMoveEventArgs
         UIElement_MouseMove,
 
-        /**
-         * @brief 鼠标离开，参数类型为sw::RoutedEventArgs
-         */
+        // 鼠标离开，参数类型为sw::RoutedEventArgs
         UIElement_MouseLeave,
 
-        /**
-         * @brief 鼠标滚轮滚动，参数类型为sw::MouseWheelEventArgs
-         */
+        // 鼠标滚轮滚动，参数类型为sw::MouseWheelEventArgs
         UIElement_MouseWheel,
 
-        /**
-         * @brief 鼠标按键按下，参数类型为sw::MouseButtonDownEventArgs
-         */
+        // 鼠标按键按下，参数类型为sw::MouseButtonDownEventArgs
         UIElement_MouseButtonDown,
 
-        /**
-         * @brief 鼠标按键抬起，参数类型为sw::MouseButtonUpEventArgs
-         */
+        // 鼠标按键抬起，参数类型为sw::MouseButtonUpEventArgs
         UIElement_MouseButtonUp,
 
-        /**
-         * @brief 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
-         */
+        // 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
         UIElement_ShowContextMenu,
 
-        /**
-         * @brief 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
-         */
+        // 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
         Window_Closing,
 
-        /**
-         * @brief 窗口已关闭，参数类型为sw::RoutedEventArgs
-         */
+        // 窗口已关闭，参数类型为sw::RoutedEventArgs
         Window_Closed,
 
-        /**
-         * @brief 窗口成为前台窗口，参数类型为sw::RoutedEventArgs
-         */
+        // 窗口成为前台窗口，参数类型为sw::RoutedEventArgs
         Window_Actived,
 
-        /**
-         * @brief 窗口成为后台窗口，参数类型为sw::RoutedEventArgs
-         */
+        // 窗口成为后台窗口，参数类型为sw::RoutedEventArgs
         Window_Inactived,
 
-        /**
-         * @brief 按钮被单击，参数类型为sw::RoutedEventArgs
-         */
+        // 按钮被单击，参数类型为sw::RoutedEventArgs
         ButtonBase_Clicked,
 
-        /**
-         * @brief 按钮被双击，参数类型为sw::RoutedEventArgs
-         */
+        // 按钮被双击，参数类型为sw::RoutedEventArgs
         ButtonBase_DoubleClicked,
 
-        /**
-         * @brief 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
-         */
+        // 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
         ItemsControl_SelectionChanged,
 
-        /**
-         * @brief 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
-         */
+        // 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
         ListView_CheckStateChanged,
 
-        /**
-         * @brief 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
-         */
+        // 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
         ListView_HeaderClicked,
 
-        /**
-         * @brief 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
-         */
+        // 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
         ListView_HeaderDoubleClicked,
 
-        /**
-         * @brief 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
-         */
+        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
         ListView_ItemClicked,
 
-        /**
-         * @brief 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
-         */
+        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
         ListView_ItemDoubleClicked,
 
-        /**
-         * @brief 滑块的值被改变，参数类型为sw::RoutedEventArgs
-         */
+        // 滑块的值被改变，参数类型为sw::RoutedEventArgs
         Slider_ValueChanged,
 
-        /**
-         * @brief 滑块被释放，参数类型为sw::RoutedEventArgs
-         */
+        // 滑块被释放，参数类型为sw::RoutedEventArgs
         Slider_EndTrack,
 
-        /**
-         * @brief 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
-         */
+        // 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
         Layer_Scrolling,
 
-        /**
-         * @brief SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
-         */
+        // SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
         TabControl_SelectedIndexChanged,
     };
 
@@ -190,9 +134,12 @@ namespace sw
         RoutedEventArgs(RoutedEventType eventType);
     };
 
+    /*================================================================================*/
+
     class UIElement; // UIElement.h
+
     /**
      * @brief 路由事件类型
      */
-    typedef std::function<void(UIElement &, RoutedEventArgs &)> RoutedEvent;
+    using RoutedEvent = std::function<void(UIElement &, RoutedEventArgs &)>;
 }
