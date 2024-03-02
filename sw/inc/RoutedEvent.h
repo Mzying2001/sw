@@ -58,6 +58,9 @@ namespace sw
         // 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
         UIElement_ShowContextMenu,
 
+        // 接收到文件拖放，参数类型为sw::DropFilesEventArgs
+        UIElement_DropFiles,
+
         // 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
         Window_Closing,
 

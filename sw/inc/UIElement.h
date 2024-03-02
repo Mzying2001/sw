@@ -794,6 +794,13 @@ namespace sw
          */
         virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result) override;
 
+        /**
+         * @brief       接收到WM_DROPFILES时调用该函数
+         * @param hDrop 描述拖入文件的句柄
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDropFiles(HDROP hDrop) override;
+
     private:
         /**
          * @brief       设置水平对齐方式
