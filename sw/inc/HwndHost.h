@@ -15,6 +15,12 @@ namespace sw
          */
         HWND _hWindowCore{NULL};
 
+    public:
+        /**
+         * @brief 创建HwndHost对象
+         */
+        HwndHost();
+
     protected:
         /**
          * @brief 子类需要调用该函数以初始化HwndHost，该函数会调用BuildWindowCore
