@@ -2,6 +2,11 @@
 #include <cmath>
 
 /**
+ * @brief _check字段的值，用于判断给定指针是否为指向WndBase的指针
+ */
+static constexpr uint32_t _WndBaseMagicNumber = 0x946dba7e;
+
+/**
  * @brief 窗口类名
  */
 static constexpr wchar_t _WindowClassName[] = L"sw::Window";
@@ -23,9 +28,9 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     }
 
     if (pWnd == nullptr && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
-        LPCREATESTRUCTW pCreate;
-        pCreate = reinterpret_cast<LPCREATESTRUCTW>(lParam);
-        pWnd    = reinterpret_cast<WndBase *>(pCreate->lpCreateParams);
+        auto pCreate = reinterpret_cast<LPCREATESTRUCTW>(lParam);
+        auto temp    = reinterpret_cast<WndBase *>(pCreate->lpCreateParams);
+        if (temp != nullptr && temp->_check == _WndBaseMagicNumber) pWnd = temp;
     }
 
     if (pWnd != nullptr) {
@@ -37,7 +42,9 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 }
 
 sw::WndBase::WndBase()
-    : Handle(
+    : _check(_WndBaseMagicNumber),
+
+      Handle(
           // get
           [&]() -> const HWND & {
               return this->_hwnd;
@@ -1068,5 +1075,6 @@ sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
 
 sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
 {
-    return reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+    auto p = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+    return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
 }
