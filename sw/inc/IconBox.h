@@ -22,6 +22,11 @@ namespace sw
          */
         const ReadOnlyProperty<HICON> IconHandle;
 
+        /**
+         * @brief 是否拉伸图标以填充整个控件，值为true时成功调用Load函数会自动调整尺寸为图标尺寸，反之则不会调整尺寸
+         */
+        const Property<bool> StretchIcon;
+
     public:
         /**
          * @brief 初始化IconBox

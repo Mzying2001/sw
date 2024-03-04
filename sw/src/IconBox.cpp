@@ -5,8 +5,21 @@ sw::IconBox::IconBox()
           // get
           [&]() -> const HICON & {
               return this->_hIcon;
+          }),
+
+      StretchIcon(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = !this->GetStyle(SS_CENTERIMAGE);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(SS_CENTERIMAGE, !value);
           })
 {
+    this->Rect = sw::Rect{0, 0, 50, 50};
     this->SetStyle(SS_ICON, true);
     this->Transparent = true;
 }
