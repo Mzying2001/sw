@@ -28,6 +28,7 @@
 #include "ILayout.h"
 #include "ITag.h"
 #include "Icon.h"
+#include "IconBox.h"
 #include "ItemsControl.h"
 #include "Keys.h"
 #include "KnownColor.h"
