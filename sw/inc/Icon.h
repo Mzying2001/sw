@@ -44,14 +44,6 @@ namespace sw
         static HICON GetIconHandle(HINSTANCE hInstance, int resourceId);
 
         /**
-         * @brief            从指定模块中获取图标句柄
-         * @param hInstance  DLL或EXE的模块句柄
-         * @param iconName   图标的资源名称
-         * @return           成功则返回图标句柄，否则返回NULL
-         */
-        static HICON GetIconHandle(HINSTANCE hInstance, const std::wstring &iconName);
-
-        /**
          * @brief          从文件加载图标句柄
          * @param fileName 图标文件的路径
          * @return         成功则返回图标句柄，否则返回NULL
