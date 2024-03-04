@@ -17,7 +17,7 @@ HICON sw::IconBox::Load(HICON hIcon)
     if (hNewIcon == NULL) return NULL;
 
     this->_SetIcon(hNewIcon);
-    return hNewIcon;
+    return this->_hIcon;
 }
 
 HICON sw::IconBox::Load(StandardIcon icon)
@@ -26,7 +26,7 @@ HICON sw::IconBox::Load(StandardIcon icon)
     if (hNewIcon == NULL) return NULL;
 
     this->_SetIcon(hNewIcon);
-    return hNewIcon;
+    return this->_hIcon;
 }
 
 HICON sw::IconBox::Load(HINSTANCE hInstance, int resourceId)
@@ -35,7 +35,16 @@ HICON sw::IconBox::Load(HINSTANCE hInstance, int resourceId)
     if (hNewIcon == NULL) return NULL;
 
     this->_SetIcon(hNewIcon);
-    return hNewIcon;
+    return this->_hIcon;
+}
+
+HICON sw::IconBox::Load(const std::wstring &fileName)
+{
+    HICON hNewIcon = IconHelper::GetIconHandle(fileName);
+    if (hNewIcon == NULL) return NULL;
+
+    this->_SetIcon(hNewIcon);
+    return this->_hIcon;
 }
 
 void sw::IconBox::Clear()

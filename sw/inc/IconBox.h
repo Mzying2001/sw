@@ -51,6 +51,13 @@ namespace sw
         HICON Load(HINSTANCE hInstance, int resourceId);
 
         /**
+         * @brief          从文件加载图标
+         * @param fileName 图标文件的路径
+         * @return         加载到IconBox的图标句柄，若加载失败则返回NULL，该资源由IconBox内部管理，在加载新图标或控件销毁时会自动释放
+         */
+        HICON Load(const std::wstring &fileName);
+
+        /**
          * @brief 清除加载的图标
          */
         void Clear();
