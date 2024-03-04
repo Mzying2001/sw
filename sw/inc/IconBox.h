@@ -75,5 +75,12 @@ namespace sw
          * @param hIcon 图标句柄
          */
         void _SetIcon(HICON hIcon);
+
+        /**
+         * @brief       传入的图标不为NULL时调用_SetIcon
+         * @param hIcon 图标句柄
+         * @return      传入的图标
+         */
+        HICON _SetIconIfNotNull(HICON hIcon);
     };
 }

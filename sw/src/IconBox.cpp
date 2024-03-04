@@ -14,37 +14,25 @@ sw::IconBox::IconBox()
 HICON sw::IconBox::Load(HICON hIcon)
 {
     HICON hNewIcon = CopyIcon(hIcon);
-    if (hNewIcon == NULL) return NULL;
-
-    this->_SetIcon(hNewIcon);
-    return this->_hIcon;
+    return this->_SetIconIfNotNull(hNewIcon);
 }
 
 HICON sw::IconBox::Load(StandardIcon icon)
 {
     HICON hNewIcon = IconHelper::GetIconHandle(icon);
-    if (hNewIcon == NULL) return NULL;
-
-    this->_SetIcon(hNewIcon);
-    return this->_hIcon;
+    return this->_SetIconIfNotNull(hNewIcon);
 }
 
 HICON sw::IconBox::Load(HINSTANCE hInstance, int resourceId)
 {
     HICON hNewIcon = IconHelper::GetIconHandle(hInstance, resourceId);
-    if (hNewIcon == NULL) return NULL;
-
-    this->_SetIcon(hNewIcon);
-    return this->_hIcon;
+    return this->_SetIconIfNotNull(hNewIcon);
 }
 
 HICON sw::IconBox::Load(const std::wstring &fileName)
 {
     HICON hNewIcon = IconHelper::GetIconHandle(fileName);
-    if (hNewIcon == NULL) return NULL;
-
-    this->_SetIcon(hNewIcon);
-    return this->_hIcon;
+    return this->_SetIconIfNotNull(hNewIcon);
 }
 
 void sw::IconBox::Clear()
@@ -71,4 +59,12 @@ void sw::IconBox::_SetIcon(HICON hIcon)
     if (hOldIcon != NULL) {
         DestroyIcon(hOldIcon);
     }
+}
+
+HICON sw::IconBox::_SetIconIfNotNull(HICON hIcon)
+{
+    if (hIcon != NULL) {
+        this->_SetIcon(hIcon);
+    }
+    return hIcon;
 }
