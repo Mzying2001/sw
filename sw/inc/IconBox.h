@@ -67,6 +67,11 @@ namespace sw
          */
         void Clear();
 
+        /**
+         * @brief 调整控件尺寸为图标尺寸，未加载图标时该函数不生效
+         */
+        void SizeToIcon();
+
     protected:
         /**
          * @brief  接收到WM_DESTROY时调用该函数

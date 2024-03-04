@@ -53,6 +53,22 @@ void sw::IconBox::Clear()
     this->_SetIcon(NULL);
 }
 
+void sw::IconBox::SizeToIcon()
+{
+    ICONINFO info;
+    BITMAP bm;
+
+    if (!GetIconInfo(this->_hIcon, &info))
+        return;
+
+    if (GetObjectW(info.hbmColor, sizeof(bm), &bm)) {
+        SetWindowPos(this->Handle, NULL, 0, 0, bm.bmWidth, bm.bmHeight, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER);
+    }
+
+    DeleteObject(info.hbmColor);
+    DeleteObject(info.hbmMask);
+}
+
 bool sw::IconBox::OnDestroy()
 {
     if (this->_hIcon != NULL) {
