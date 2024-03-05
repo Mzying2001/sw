@@ -246,6 +246,9 @@
     <ClInclude Include="..\sw\inc\IconBox.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\BmpBox.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\App.cpp">
@@ -444,6 +447,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\IconBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\BmpBox.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
