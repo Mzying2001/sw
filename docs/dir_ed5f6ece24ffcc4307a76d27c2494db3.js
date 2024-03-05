@@ -2,6 +2,7 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
 [
     [ "Alignment.h", "_alignment_8h_source.html", null ],
     [ "App.h", "_app_8h_source.html", null ],
+    [ "BmpBox.h", "_bmp_box_8h_source.html", null ],
     [ "Button.h", "_button_8h_source.html", null ],
     [ "ButtonBase.h", "_button_base_8h_source.html", null ],
     [ "Canvas.h", "_canvas_8h_source.html", null ],
@@ -25,6 +26,7 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "HitTestResult.h", "_hit_test_result_8h_source.html", null ],
     [ "HwndHost.h", "_hwnd_host_8h_source.html", null ],
     [ "Icon.h", "_icon_8h_source.html", null ],
+    [ "IconBox.h", "_icon_box_8h_source.html", null ],
     [ "ILayout.h", "_i_layout_8h_source.html", null ],
     [ "ITag.h", "_i_tag_8h_source.html", null ],
     [ "ItemsControl.h", "_items_control_8h_source.html", null ],

@@ -487,6 +487,10 @@ Public 属性</h2></td></tr>
 <a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1_dictionary.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsDestroyed</b></td></tr>
 <tr class="memdesc:a54aa973b24b4bc4b681ac2c21a50d204 inherit pub_attribs_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否已销毁，当该值为true时不应该继续使用当前对象 <br /></td></tr>
 <tr class="separator:a54aa973b24b4bc4b681ac2c21a50d204 inherit pub_attribs_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43b324f78290554d0c08bf6f33cdb5fd inherit pub_attribs_classsw_1_1_wnd_base" id="r_a43b324f78290554d0c08bf6f33cdb5fd"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_property.html">Property</a>&lt; <a class="el" href="classsw_1_1_dictionary.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>AcceptFiles</b></td></tr>
+<tr class="memdesc:a43b324f78290554d0c08bf6f33cdb5fd inherit pub_attribs_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否接受拖放文件 <br /></td></tr>
+<tr class="separator:a43b324f78290554d0c08bf6f33cdb5fd inherit pub_attribs_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
@@ -627,6 +631,9 @@ Protected 成员函数</h2></td></tr>
 <tr class="memitem:a6175e146290ecff80407d4c8afa1cf05" id="r_a6175e146290ecff80407d4c8afa1cf05"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1_dictionary.html">virtual</a> <a class="el" href="classsw_1_1_dictionary.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6175e146290ecff80407d4c8afa1cf05">OnSetCursor</a> (<a class="el" href="classsw_1_1_dictionary.html">HWND</a> hwnd, HitTestResult <a class="el" href="classsw_1_1_dictionary.html">hitTest</a>, <a class="el" href="classsw_1_1_dictionary.html">int</a> <a class="el" href="classsw_1_1_dictionary.html">message</a>, <a class="el" href="classsw_1_1_dictionary.html">bool</a> &amp;result) <a class="el" href="classsw_1_1_dictionary.html">override</a></td></tr>
 <tr class="memdesc:a6175e146290ecff80407d4c8afa1cf05"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SETCURSOR消息时调用该函数  <br /></td></tr>
 <tr class="separator:a6175e146290ecff80407d4c8afa1cf05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a331869736475e10e2f861b5a242565" id="r_a6a331869736475e10e2f861b5a242565"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1_dictionary.html">virtual</a> <a class="el" href="classsw_1_1_dictionary.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a331869736475e10e2f861b5a242565">OnDropFiles</a> (<a class="el" href="classsw_1_1_dictionary.html">HDROP</a> hDrop) <a class="el" href="classsw_1_1_dictionary.html">override</a></td></tr>
+<tr class="memdesc:a6a331869736475e10e2f861b5a242565"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DROPFILES时调用该函数  <br /></td></tr>
+<tr class="separator:a6a331869736475e10e2f861b5a242565"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classsw_1_1_wnd_base"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classsw_1_1_wnd_base')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classsw_1_1_wnd_base.html">sw::WndBase</a></td></tr>
 <tr class="memitem:aab509b68c9c0b612862cf41d8ef685a3 inherit pro_methods_classsw_1_1_wnd_base" id="r_aab509b68c9c0b612862cf41d8ef685a3"><td class="memItemLeft" align="right" valign="top">
 &#160;</td><td class="memItemRight" valign="bottom"><b>WndBase</b> ()</td></tr>
@@ -1203,7 +1210,7 @@ Protected 成员函数</h2></td></tr>
 
 <p>实现了 <a class="el" href="classsw_1_1_i_layout.html#afcdbdecd5f99cdb25b891c7dc3093fdb">sw::ILayout</a>.</p>
 
-<p>被 <a class="el" href="classsw_1_1_label.html#aa7fe8e679f9d35eaf5691403ed5c9a96">sw::Label</a>, <a class="el" href="classsw_1_1_layer.html#a3ac4fcba5970f01d5c944c0376a354c7">sw::Layer</a> , 以及 <a class="el" href="classsw_1_1_panel_base.html#a8ac6001fdc5c32131b3d33678bd376b3">sw::PanelBase</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1_bmp_box.html#adf6357c58fba6f846f136bb2956368d9">sw::BmpBox</a>, <a class="el" href="classsw_1_1_label.html#aa7fe8e679f9d35eaf5691403ed5c9a96">sw::Label</a>, <a class="el" href="classsw_1_1_layer.html#a3ac4fcba5970f01d5c944c0376a354c7">sw::Layer</a> , 以及 <a class="el" href="classsw_1_1_panel_base.html#a8ac6001fdc5c32131b3d33678bd376b3">sw::PanelBase</a> 重载.</p>
 
 </div>
 </div>
@@ -1427,6 +1434,42 @@ Protected 成员函数</h2></td></tr>
 <p>绘制虚线框时调用该函数 </p>
 
 <p>被 <a class="el" href="classsw_1_1_button.html#a496b008fab7266676831e3473353537d">sw::Button</a> , 以及 <a class="el" href="classsw_1_1_text_box_base.html#a89b507ceef32d379c93a60b5989b74fe">sw::TextBoxBase</a> 重载.</p>
+
+</div>
+</div>
+<a id="a6a331869736475e10e2f861b5a242565" name="a6a331869736475e10e2f861b5a242565"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a331869736475e10e2f861b5a242565">&#9670;&#160;</a></span>OnDropFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1_dictionary.html">virtual</a> <a class="el" href="classsw_1_1_dictionary.html">bool</a> sw::UIElement::OnDropFiles </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">HDROP</a></td>          <td class="paramname"><span class="paramname"><em>hDrop</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_DROPFILES时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hDrop</td><td>描述拖入文件的句柄 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>重载 <a class="el" href="classsw_1_1_wnd_base.html#a9e95c73d7ac95cf80a1f49a970703b0b">sw::WndBase</a> .</p>
 
 </div>
 </div>
@@ -2178,7 +2221,7 @@ Protected 成员函数</h2></td></tr>
 
 <p>重载 <a class="el" href="classsw_1_1_wnd_base.html#aaba3c3ea0a8d12be237ef28e44018677">sw::WndBase</a> .</p>
 
-<p>被 <a class="el" href="classsw_1_1_hwnd_host.html#a811a6d21dd8534addfc401bb79f829f7">sw::HwndHost</a>, <a class="el" href="classsw_1_1_panel.html#a655497d6bdbf760e34df1d799d89b009">sw::Panel</a> , 以及 <a class="el" href="classsw_1_1_splitter.html#a961677b3a6e12fc522bdb4e7b22690c2">sw::Splitter</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1_bmp_box.html#a6cb7446ef4d2308b971af9fe28b11bae">sw::BmpBox</a>, <a class="el" href="classsw_1_1_hwnd_host.html#a811a6d21dd8534addfc401bb79f829f7">sw::HwndHost</a>, <a class="el" href="classsw_1_1_panel.html#a655497d6bdbf760e34df1d799d89b009">sw::Panel</a> , 以及 <a class="el" href="classsw_1_1_splitter.html#a961677b3a6e12fc522bdb4e7b22690c2">sw::Splitter</a> 重载.</p>
 
 </div>
 </div>
