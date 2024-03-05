@@ -3,6 +3,7 @@
 // 包含SimpleWindow所有头文件
 #include "Alignment.h"
 #include "App.h"
+#include "BmpBox.h"
 #include "Button.h"
 #include "ButtonBase.h"
 #include "Canvas.h"
