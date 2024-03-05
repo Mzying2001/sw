@@ -958,6 +958,13 @@ bool sw::UIElement::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, b
     return true;
 }
 
+bool sw::UIElement::OnDropFiles(HDROP hDrop)
+{
+    DropFilesEventArgs args(hDrop);
+    this->RaiseRoutedEvent(args);
+    return args.handledMsg;
+}
+
 bool sw::UIElement::_SetHorzAlignment(sw::HorizontalAlignment value)
 {
     if (value == this->_horizontalAlignment) {

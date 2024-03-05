@@ -1,8 +1,8 @@
 var searchData=
 [
   ['label_0',['Label',['../classsw_1_1_label.html',1,'sw::Label'],['../classsw_1_1_label.html#ae1ee6644b4de352317836eb2a4c00c3c',1,'sw::Label::Label()']]],
-  ['lastchildfill_1',['LastChildFill',['../classsw_1_1_dock_panel.html#aa3f8617a879fb8c536799beae2ad2a31',1,'sw::DockPanel']]],
-  ['lastchildfill_2',['lastChildFill',['../classsw_1_1_dock_layout.html#ae3279e6cc696c453a2f6171ca152fc47',1,'sw::DockLayout']]],
+  ['lastchildfill_1',['lastChildFill',['../classsw_1_1_dock_layout.html#ae3279e6cc696c453a2f6171ca152fc47',1,'sw::DockLayout']]],
+  ['lastchildfill_2',['LastChildFill',['../classsw_1_1_dock_panel.html#aa3f8617a879fb8c536799beae2ad2a31',1,'sw::DockPanel']]],
   ['layer_3',['Layer',['../classsw_1_1_layer.html',1,'sw::Layer'],['../classsw_1_1_layer.html#a61030d006cafc26525bc07bced899b92',1,'sw::Layer::Layer()']]],
   ['layout_4',['Layout',['../classsw_1_1_layer.html#accb80d7a016d5a56b1c744db4ef96059',1,'sw::Layer']]],
   ['layouthost_5',['LayoutHost',['../classsw_1_1_layout_host.html',1,'sw']]],
@@ -18,5 +18,6 @@ var searchData=
   ['listviewcolumn_15',['ListViewColumn',['../structsw_1_1_list_view_column.html',1,'sw']]],
   ['listviewheaderclickedeventargs_16',['ListViewHeaderClickedEventArgs',['../structsw_1_1_list_view_header_clicked_event_args.html',1,'sw']]],
   ['listviewitemclickedeventargs_17',['ListViewItemClickedEventArgs',['../structsw_1_1_list_view_item_clicked_event_args.html',1,'sw']]],
-  ['lparam_18',['lParam',['../structsw_1_1_proc_msg.html#acb7f68d396561c6c4c877255b18b1b5d',1,'sw::ProcMsg']]]
+  ['load_18',['Load',['../classsw_1_1_bmp_box.html#a7ec9a45e8ce8eb49376c2ea2771ceb31',1,'sw::BmpBox::Load(HBITMAP hBitmap)'],['../classsw_1_1_bmp_box.html#a3f5b0e93b3b5b391e210f7441256d860',1,'sw::BmpBox::Load(HINSTANCE hInstance, int resourceId)'],['../classsw_1_1_bmp_box.html#a5c1cd1e0f949c017d3d620bac1e5404a',1,'sw::BmpBox::Load(const std::wstring &amp;fileName)'],['../classsw_1_1_icon_box.html#ae34c7e0ea1078e63d0a134aedfc462f3',1,'sw::IconBox::Load(HICON hIcon)'],['../classsw_1_1_icon_box.html#afc568ee65bce84fdba7862b6119597a7',1,'sw::IconBox::Load(StandardIcon icon)'],['../classsw_1_1_icon_box.html#a11eda4aff2538aa9ff7fa58530f123da',1,'sw::IconBox::Load(HINSTANCE hInstance, int resourceId)'],['../classsw_1_1_icon_box.html#ab1d31f8f05c7c486d9e686414dbbc61d',1,'sw::IconBox::Load(const std::wstring &amp;fileName)']]],
+  ['lparam_19',['lParam',['../structsw_1_1_proc_msg.html#acb7f68d396561c6c4c877255b18b1b5d',1,'sw::ProcMsg']]]
 ];

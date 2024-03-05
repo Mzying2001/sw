@@ -90,15 +90,19 @@ std::wstring sw::ListBox::GetItemAt(int index)
     int len = (int)this->SendMessageW(LB_GETTEXTLEN, index, 0);
 
     if (len <= 0) {
-        return L"";
+        return std::wstring{};
     }
 
-    wchar_t *buf = new wchar_t[len + 1];
-    this->SendMessageW(LB_GETTEXT, index, reinterpret_cast<LPARAM>(buf));
+    // wchar_t *buf = new wchar_t[len + 1];
+    // this->SendMessageW(LB_GETTEXT, index, reinterpret_cast<LPARAM>(buf));
+    // std::wstring result = buf;
+    // delete[] buf;
+    // return result;
 
-    std::wstring result = buf;
-
-    delete[] buf;
+    std::wstring result;
+    result.resize(len + 1);
+    this->SendMessageW(LB_GETTEXT, index, reinterpret_cast<LPARAM>(&result[0]));
+    result.resize(len);
     return result;
 }
 

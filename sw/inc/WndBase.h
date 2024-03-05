@@ -32,6 +32,11 @@ namespace sw
 
     private:
         /**
+         * @brief 用于判断给定指针是否为指向WndBase的指针
+         */
+        uint32_t _check;
+
+        /**
          * @brief 窗口句柄
          */
         HWND _hwnd = NULL;
@@ -166,6 +171,11 @@ namespace sw
          * @brief 是否已销毁，当该值为true时不应该继续使用当前对象
          */
         const ReadOnlyProperty<bool> IsDestroyed;
+
+        /**
+         * @brief 是否接受拖放文件
+         */
+        const Property<bool> AcceptFiles;
 
     protected:
         /**
@@ -589,6 +599,13 @@ namespace sw
          * @return          若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem);
+
+        /**
+         * @brief       接收到WM_DROPFILES时调用该函数
+         * @param hDrop 描述拖入文件的句柄
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDropFiles(HDROP hDrop);
 
     public:
         /**

@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="..\sw\inc\Alignment.h" />
     <ClInclude Include="..\sw\inc\App.h" />
+    <ClInclude Include="..\sw\inc\BmpBox.h" />
     <ClInclude Include="..\sw\inc\Button.h" />
     <ClInclude Include="..\sw\inc\ButtonBase.h" />
     <ClInclude Include="..\sw\inc\Canvas.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="..\sw\inc\HitTestResult.h" />
     <ClInclude Include="..\sw\inc\HwndHost.h" />
     <ClInclude Include="..\sw\inc\Icon.h" />
+    <ClInclude Include="..\sw\inc\IconBox.h" />
     <ClInclude Include="..\sw\inc\ILayout.h" />
     <ClInclude Include="..\sw\inc\ITag.h" />
     <ClInclude Include="..\sw\inc\ItemsControl.h" />
@@ -232,6 +234,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\App.cpp" />
+    <ClCompile Include="..\sw\src\BmpBox.cpp" />
     <ClCompile Include="..\sw\src\Button.cpp" />
     <ClCompile Include="..\sw\src\ButtonBase.cpp" />
     <ClCompile Include="..\sw\src\Canvas.cpp" />
@@ -253,6 +256,7 @@
     <ClCompile Include="..\sw\src\GroupBox.cpp" />
     <ClCompile Include="..\sw\src\HwndHost.cpp" />
     <ClCompile Include="..\sw\src\Icon.cpp" />
+    <ClCompile Include="..\sw\src\IconBox.cpp" />
     <ClCompile Include="..\sw\src\Keys.cpp" />
     <ClCompile Include="..\sw\src\Label.cpp" />
     <ClCompile Include="..\sw\src\Layer.cpp" />

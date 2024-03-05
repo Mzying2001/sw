@@ -75,7 +75,9 @@ var hierarchy =
           [ "sw::ProgressBar", "classsw_1_1_progress_bar.html", null ],
           [ "sw::Slider", "classsw_1_1_slider.html", null ],
           [ "sw::StaticControl", "classsw_1_1_static_control.html", [
+            [ "sw::BmpBox", "classsw_1_1_bmp_box.html", null ],
             [ "sw::HwndHost", "classsw_1_1_hwnd_host.html", null ],
+            [ "sw::IconBox", "classsw_1_1_icon_box.html", null ],
             [ "sw::Label", "classsw_1_1_label.html", null ],
             [ "sw::Splitter", "classsw_1_1_splitter.html", null ]
           ] ],
@@ -112,6 +114,7 @@ var hierarchy =
       [ "sw::Property< int >", "classsw_1_1_property.html", null ],
       [ "sw::Property< std::wstring >", "classsw_1_1_property.html", null ],
       [ "sw::Property< AppQuitMode >", "classsw_1_1_property.html", null ],
+      [ "sw::Property< BmpBoxSizeMode >", "classsw_1_1_property.html", null ],
       [ "sw::Property< bool >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::CheckState >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::HorizontalAlignment >", "classsw_1_1_property.html", null ],
@@ -141,8 +144,11 @@ var hierarchy =
       [ "sw::Property< T >", "classsw_1_1_property.html", null ]
     ] ],
     [ "sw::ReadOnlyProperty< AppQuitMode >", "classsw_1_1_read_only_property.html", null ],
+    [ "sw::ReadOnlyProperty< BmpBoxSizeMode >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< bool >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< double >", "classsw_1_1_read_only_property.html", null ],
+    [ "sw::ReadOnlyProperty< HBITMAP >", "classsw_1_1_read_only_property.html", null ],
+    [ "sw::ReadOnlyProperty< HICON >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< HINSTANCE >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< HorizontalAlignment >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< HWND >", "classsw_1_1_read_only_property.html", null ],
@@ -179,6 +185,9 @@ var hierarchy =
     [ "sw::ReadOnlyProperty< WindowState >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::Rect", "structsw_1_1_rect.html", null ],
     [ "sw::RoutedEventArgs", "structsw_1_1_routed_event_args.html", [
+      [ "sw::RoutedEventArgsOfType< UIElement_DropFiles >", "structsw_1_1_routed_event_args_of_type.html", [
+        [ "sw::DropFilesEventArgs", "structsw_1_1_drop_files_event_args.html", null ]
+      ] ],
       [ "sw::RoutedEventArgsOfType< UIElement_GotChar >", "structsw_1_1_routed_event_args_of_type.html", [
         [ "sw::GotCharEventArgs", "structsw_1_1_got_char_event_args.html", null ]
       ] ],
@@ -236,6 +245,7 @@ var hierarchy =
       [ "sw::Property< int >", "classsw_1_1_property.html", null ],
       [ "sw::Property< std::wstring >", "classsw_1_1_property.html", null ],
       [ "sw::Property< AppQuitMode >", "classsw_1_1_property.html", null ],
+      [ "sw::Property< BmpBoxSizeMode >", "classsw_1_1_property.html", null ],
       [ "sw::Property< bool >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::CheckState >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::HorizontalAlignment >", "classsw_1_1_property.html", null ],
@@ -265,6 +275,7 @@ var hierarchy =
       [ "sw::Property< T >", "classsw_1_1_property.html", null ]
     ] ],
     [ "sw::WriteOnlyProperty< AppQuitMode >", "classsw_1_1_write_only_property.html", null ],
+    [ "sw::WriteOnlyProperty< BmpBoxSizeMode >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< bool >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< double >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< HorizontalAlignment >", "classsw_1_1_write_only_property.html", null ],

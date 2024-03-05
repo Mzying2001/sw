@@ -276,89 +276,102 @@ $(function(){initNavTree('_routed_event_args_8h_source.html',''); initResizable(
 </div>
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
 <div class="foldopen" id="foldopen00198" data-start="{" data-end="};">
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno"><a class="line" href="structsw_1_1_window_closing_event_args.html">  198</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1_window_closing_event_args.html">WindowClosingEventArgs</a> : <a class="code hl_struct" href="structsw_1_1_routed_event_args_of_type.html">RoutedEventArgsOfType</a>&lt;Window_Closing&gt; {</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        <span class="keywordtype">bool</span> cancel = <span class="keyword">false</span>; <span class="comment">// 是否取消本次关闭</span></div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    };</div>
-</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno"><a class="line" href="structsw_1_1_drop_files_event_args.html">  198</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1_drop_files_event_args.html">DropFilesEventArgs</a> : <a class="code hl_struct" href="structsw_1_1_routed_event_args_of_type.html">RoutedEventArgsOfType</a>&lt;UIElement_DropFiles&gt; {</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        <a class="code hl_class" href="classsw_1_1_dictionary.html">HDROP</a> hDrop; <span class="comment">// 描述拖入文件的句柄</span></div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span> </div>
-<div class="foldopen" id="foldopen00205" data-start="{" data-end="};">
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="structsw_1_1_scrolling_event_args.html">  205</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1_scrolling_event_args.html">ScrollingEventArgs</a> : <a class="code hl_struct" href="structsw_1_1_routed_event_args_of_type.html">RoutedEventArgsOfType</a>&lt;Layer_Scrolling&gt; {</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        <span class="keywordtype">bool</span> cancel = <span class="keyword">false</span>;         <span class="comment">// 是否取消滚动条默认行为</span></div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        ScrollOrientation scrollbar; <span class="comment">// 滚动条类型</span></div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        ScrollEvent event;           <span class="comment">// 滚动条事件</span></div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>        <span class="keywordtype">double</span> pos;                  <span class="comment">// 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0</span></div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        <a class="code hl_struct" href="structsw_1_1_scrolling_event_args.html">ScrollingEventArgs</a>(ScrollOrientation scrollbar, ScrollEvent event, <span class="keywordtype">double</span> pos)</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>            : scrollbar(scrollbar), event(event), pos(pos)</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        {</div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        }</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>    };</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        <a class="code hl_struct" href="structsw_1_1_drop_files_event_args.html">DropFilesEventArgs</a>(<a class="code hl_class" href="classsw_1_1_dictionary.html">HDROP</a> hDrop)</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            : hDrop(hDrop)</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>        {</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        }</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    };</div>
 </div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
-<div class="foldopen" id="foldopen00221" data-start="{" data-end="};">
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="structsw_1_1_list_view_check_state_changed_event_args.html">  221</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1_list_view_check_state_changed_event_args.html">ListViewCheckStateChangedEventArgs</a> : <a class="code hl_struct" href="structsw_1_1_routed_event_args_of_type.html">RoutedEventArgsOfType</a>&lt;ListView_CheckStateChanged&gt; {</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        <span class="keywordtype">int</span> index; <span class="comment">// 改变项的索引</span></div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
+<div class="foldopen" id="foldopen00211" data-start="{" data-end="};">
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="structsw_1_1_window_closing_event_args.html">  211</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1_window_closing_event_args.html">WindowClosingEventArgs</a> : <a class="code hl_struct" href="structsw_1_1_routed_event_args_of_type.html">RoutedEventArgsOfType</a>&lt;Window_Closing&gt; {</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        <span class="keywordtype">bool</span> cancel = <span class="keyword">false</span>; <span class="comment">// 是否取消本次关闭</span></div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    };</div>
+</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
+<div class="foldopen" id="foldopen00218" data-start="{" data-end="};">
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno"><a class="line" href="structsw_1_1_scrolling_event_args.html">  218</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1_scrolling_event_args.html">ScrollingEventArgs</a> : <a class="code hl_struct" href="structsw_1_1_routed_event_args_of_type.html">RoutedEventArgsOfType</a>&lt;Layer_Scrolling&gt; {</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>        <span class="keywordtype">bool</span> cancel = <span class="keyword">false</span>;         <span class="comment">// 是否取消滚动条默认行为</span></div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        ScrollOrientation scrollbar; <span class="comment">// 滚动条类型</span></div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        ScrollEvent event;           <span class="comment">// 滚动条事件</span></div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        <span class="keywordtype">double</span> pos;                  <span class="comment">// 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0</span></div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span> </div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>        <a class="code hl_struct" href="structsw_1_1_list_view_check_state_changed_event_args.html">ListViewCheckStateChangedEventArgs</a>(<span class="keywordtype">int</span> index)</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>            : index(index)</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>        <a class="code hl_struct" href="structsw_1_1_scrolling_event_args.html">ScrollingEventArgs</a>(ScrollOrientation scrollbar, ScrollEvent event, <span class="keywordtype">double</span> pos)</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>            : scrollbar(scrollbar), event(event), pos(pos)</div>
 <div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>        {</div>
 <div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>        }</div>
 <div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    };</div>
 </div>
 <div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span> </div>
 <div class="foldopen" id="foldopen00234" data-start="{" data-end="};">
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno"><a class="line" href="structsw_1_1_list_view_header_clicked_event_args.html">  234</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1_list_view_header_clicked_event_args.html">ListViewHeaderClickedEventArgs</a> : <a class="code hl_struct" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> {</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno"><a class="line" href="structsw_1_1_list_view_check_state_changed_event_args.html">  234</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1_list_view_check_state_changed_event_args.html">ListViewCheckStateChangedEventArgs</a> : <a class="code hl_struct" href="structsw_1_1_routed_event_args_of_type.html">RoutedEventArgsOfType</a>&lt;ListView_CheckStateChanged&gt; {</div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        <span class="keywordtype">int</span> index; <span class="comment">// 被点击列标题的索引</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        <span class="keywordtype">int</span> index; <span class="comment">// 改变项的索引</span></div>
 <div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>        <a class="code hl_struct" href="structsw_1_1_list_view_header_clicked_event_args.html">ListViewHeaderClickedEventArgs</a>(RoutedEventType <a class="code hl_variable" href="structsw_1_1_routed_event_args.html#a46df8118b89dcc6c494cdbded901b082">eventType</a>, <span class="keywordtype">int</span> index)</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>            : <a class="code hl_function" href="structsw_1_1_routed_event_args.html#ad6e6da62f114abfabb682afd38b6f7a3">RoutedEventArgs</a>(<a class="code hl_variable" href="structsw_1_1_routed_event_args.html#a46df8118b89dcc6c494cdbded901b082">eventType</a>), index(index)</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>        <a class="code hl_struct" href="structsw_1_1_list_view_check_state_changed_event_args.html">ListViewCheckStateChangedEventArgs</a>(<span class="keywordtype">int</span> index)</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>            : index(index)</div>
 <div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>        {</div>
 <div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>        }</div>
 <div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>    };</div>
 </div>
 <div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
 <div class="foldopen" id="foldopen00247" data-start="{" data-end="};">
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno"><a class="line" href="structsw_1_1_list_view_item_clicked_event_args.html">  247</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1_list_view_item_clicked_event_args.html">ListViewItemClickedEventArgs</a> : <a class="code hl_struct" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> {</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno"><a class="line" href="structsw_1_1_list_view_header_clicked_event_args.html">  247</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1_list_view_header_clicked_event_args.html">ListViewHeaderClickedEventArgs</a> : <a class="code hl_struct" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> {</div>
 <div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span> </div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>        <span class="keywordtype">int</span> row; <span class="comment">// 被点击的行</span></div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>        <span class="keywordtype">int</span> col; <span class="comment">// 被点击的列</span></div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span> </div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>        <a class="code hl_struct" href="structsw_1_1_list_view_item_clicked_event_args.html">ListViewItemClickedEventArgs</a>(RoutedEventType <a class="code hl_variable" href="structsw_1_1_routed_event_args.html#a46df8118b89dcc6c494cdbded901b082">eventType</a>, <span class="keywordtype">int</span> row, <span class="keywordtype">int</span> col)</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>            : <a class="code hl_function" href="structsw_1_1_routed_event_args.html#ad6e6da62f114abfabb682afd38b6f7a3">RoutedEventArgs</a>(<a class="code hl_variable" href="structsw_1_1_routed_event_args.html#a46df8118b89dcc6c494cdbded901b082">eventType</a>), row(row), col(col)</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>        {</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>        }</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>    };</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>        <span class="keywordtype">int</span> index; <span class="comment">// 被点击列标题的索引</span></div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>        <a class="code hl_struct" href="structsw_1_1_list_view_header_clicked_event_args.html">ListViewHeaderClickedEventArgs</a>(RoutedEventType <a class="code hl_variable" href="structsw_1_1_routed_event_args.html#a46df8118b89dcc6c494cdbded901b082">eventType</a>, <span class="keywordtype">int</span> index)</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>            : <a class="code hl_function" href="structsw_1_1_routed_event_args.html#ad6e6da62f114abfabb682afd38b6f7a3">RoutedEventArgs</a>(<a class="code hl_variable" href="structsw_1_1_routed_event_args.html#a46df8118b89dcc6c494cdbded901b082">eventType</a>), index(index)</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        {</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>        }</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    };</div>
 </div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>}</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
+<div class="foldopen" id="foldopen00260" data-start="{" data-end="};">
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno"><a class="line" href="structsw_1_1_list_view_item_clicked_event_args.html">  260</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1_list_view_item_clicked_event_args.html">ListViewItemClickedEventArgs</a> : <a class="code hl_struct" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> {</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span> </div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        <span class="keywordtype">int</span> row; <span class="comment">// 被点击的行</span></div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>        <span class="keywordtype">int</span> col; <span class="comment">// 被点击的列</span></div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span> </div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>        <a class="code hl_struct" href="structsw_1_1_list_view_item_clicked_event_args.html">ListViewItemClickedEventArgs</a>(RoutedEventType <a class="code hl_variable" href="structsw_1_1_routed_event_args.html#a46df8118b89dcc6c494cdbded901b082">eventType</a>, <span class="keywordtype">int</span> row, <span class="keywordtype">int</span> col)</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>            : <a class="code hl_function" href="structsw_1_1_routed_event_args.html#ad6e6da62f114abfabb682afd38b6f7a3">RoutedEventArgs</a>(<a class="code hl_variable" href="structsw_1_1_routed_event_args.html#a46df8118b89dcc6c494cdbded901b082">eventType</a>), row(row), col(col)</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>        {</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        }</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    };</div>
+</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>}</div>
 <div class="ttc" id="aclasssw_1_1_dictionary_html"><div class="ttname"><a href="classsw_1_1_dictionary.html">sw::Dictionary</a></div><div class="ttdoc">字典类，内部维护了一个指向std::map的智能指针</div><div class="ttdef"><b>Definition</b> Dictionary.h:24</div></div>
 <div class="ttc" id="astructsw_1_1___has_event_type_html"><div class="ttname"><a href="structsw_1_1___has_event_type.html">sw::_HasEventType</a></div><div class="ttdoc">结构体模板，用于检测类型T是否含有名为EventType的静态字段</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:36</div></div>
 <div class="ttc" id="astructsw_1_1___is_typed_routed_event_args_html"><div class="ttname"><a href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a></div><div class="ttdoc">结构体模板，用于检测类型T是否包含事件类型信息</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:50</div></div>
+<div class="ttc" id="astructsw_1_1_drop_files_event_args_html"><div class="ttname"><a href="structsw_1_1_drop_files_event_args.html">sw::DropFilesEventArgs</a></div><div class="ttdoc">文件拖放事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:198</div></div>
 <div class="ttc" id="astructsw_1_1_got_char_event_args_html"><div class="ttname"><a href="structsw_1_1_got_char_event_args.html">sw::GotCharEventArgs</a></div><div class="ttdoc">输入字符事件类型参数</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:82</div></div>
 <div class="ttc" id="astructsw_1_1_key_down_event_args_html"><div class="ttname"><a href="structsw_1_1_key_down_event_args.html">sw::KeyDownEventArgs</a></div><div class="ttdoc">键盘按键按下事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:96</div></div>
 <div class="ttc" id="astructsw_1_1_key_flags_html"><div class="ttname"><a href="structsw_1_1_key_flags.html">sw::KeyFlags</a></div><div class="ttdoc">https://learn.microsoft.com/en-us/windows/win32/inputdev/about-keyboard-input#keystroke-message-flags</div><div class="ttdef"><b>Definition</b> Keys.h:11</div></div>
 <div class="ttc" id="astructsw_1_1_key_up_event_args_html"><div class="ttname"><a href="structsw_1_1_key_up_event_args.html">sw::KeyUpEventArgs</a></div><div class="ttdoc">键盘按键抬起事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:110</div></div>
-<div class="ttc" id="astructsw_1_1_list_view_check_state_changed_event_args_html"><div class="ttname"><a href="structsw_1_1_list_view_check_state_changed_event_args.html">sw::ListViewCheckStateChangedEventArgs</a></div><div class="ttdoc">列表视图某个复选框选中状态改变的事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:221</div></div>
-<div class="ttc" id="astructsw_1_1_list_view_header_clicked_event_args_html"><div class="ttname"><a href="structsw_1_1_list_view_header_clicked_event_args.html">sw::ListViewHeaderClickedEventArgs</a></div><div class="ttdoc">列表视图的列标题单击与双击事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:234</div></div>
-<div class="ttc" id="astructsw_1_1_list_view_item_clicked_event_args_html"><div class="ttname"><a href="structsw_1_1_list_view_item_clicked_event_args.html">sw::ListViewItemClickedEventArgs</a></div><div class="ttdoc">列表视图项单击与双击事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:247</div></div>
+<div class="ttc" id="astructsw_1_1_list_view_check_state_changed_event_args_html"><div class="ttname"><a href="structsw_1_1_list_view_check_state_changed_event_args.html">sw::ListViewCheckStateChangedEventArgs</a></div><div class="ttdoc">列表视图某个复选框选中状态改变的事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:234</div></div>
+<div class="ttc" id="astructsw_1_1_list_view_header_clicked_event_args_html"><div class="ttname"><a href="structsw_1_1_list_view_header_clicked_event_args.html">sw::ListViewHeaderClickedEventArgs</a></div><div class="ttdoc">列表视图的列标题单击与双击事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:247</div></div>
+<div class="ttc" id="astructsw_1_1_list_view_item_clicked_event_args_html"><div class="ttname"><a href="structsw_1_1_list_view_item_clicked_event_args.html">sw::ListViewItemClickedEventArgs</a></div><div class="ttdoc">列表视图项单击与双击事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:260</div></div>
 <div class="ttc" id="astructsw_1_1_mouse_button_down_event_args_html"><div class="ttname"><a href="structsw_1_1_mouse_button_down_event_args.html">sw::MouseButtonDownEventArgs</a></div><div class="ttdoc">鼠标按键按下事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:153</div></div>
 <div class="ttc" id="astructsw_1_1_mouse_button_up_event_args_html"><div class="ttname"><a href="structsw_1_1_mouse_button_up_event_args.html">sw::MouseButtonUpEventArgs</a></div><div class="ttdoc">鼠标按键抬起事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:168</div></div>
 <div class="ttc" id="astructsw_1_1_mouse_move_event_args_html"><div class="ttname"><a href="structsw_1_1_mouse_move_event_args.html">sw::MouseMoveEventArgs</a></div><div class="ttdoc">鼠标移动事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:124</div></div>
 <div class="ttc" id="astructsw_1_1_mouse_wheel_event_args_html"><div class="ttname"><a href="structsw_1_1_mouse_wheel_event_args.html">sw::MouseWheelEventArgs</a></div><div class="ttdoc">鼠标滚轮滚动事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:138</div></div>
 <div class="ttc" id="astructsw_1_1_point_html"><div class="ttname"><a href="structsw_1_1_point.html">sw::Point</a></div><div class="ttdoc">表示相对于左上角的点坐标</div><div class="ttdef"><b>Definition</b> Point.h:11</div></div>
 <div class="ttc" id="astructsw_1_1_position_changed_event_args_html"><div class="ttname"><a href="structsw_1_1_position_changed_event_args.html">sw::PositionChangedEventArgs</a></div><div class="ttdoc">位置改变事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:69</div></div>
-<div class="ttc" id="astructsw_1_1_routed_event_args_html"><div class="ttname"><a href="structsw_1_1_routed_event_args.html">sw::RoutedEventArgs</a></div><div class="ttdoc">路由事件的参数</div><div class="ttdef"><b>Definition</b> RoutedEvent.h:171</div></div>
-<div class="ttc" id="astructsw_1_1_routed_event_args_html_a46df8118b89dcc6c494cdbded901b082"><div class="ttname"><a href="structsw_1_1_routed_event_args.html#a46df8118b89dcc6c494cdbded901b082">sw::RoutedEventArgs::eventType</a></div><div class="ttdeci">RoutedEventType eventType</div><div class="ttdoc">事件类型</div><div class="ttdef"><b>Definition</b> RoutedEvent.h:175</div></div>
+<div class="ttc" id="astructsw_1_1_routed_event_args_html"><div class="ttname"><a href="structsw_1_1_routed_event_args.html">sw::RoutedEventArgs</a></div><div class="ttdoc">路由事件的参数</div><div class="ttdef"><b>Definition</b> RoutedEvent.h:118</div></div>
+<div class="ttc" id="astructsw_1_1_routed_event_args_html_a46df8118b89dcc6c494cdbded901b082"><div class="ttname"><a href="structsw_1_1_routed_event_args.html#a46df8118b89dcc6c494cdbded901b082">sw::RoutedEventArgs::eventType</a></div><div class="ttdeci">RoutedEventType eventType</div><div class="ttdoc">事件类型</div><div class="ttdef"><b>Definition</b> RoutedEvent.h:122</div></div>
 <div class="ttc" id="astructsw_1_1_routed_event_args_html_ad6e6da62f114abfabb682afd38b6f7a3"><div class="ttname"><a href="structsw_1_1_routed_event_args.html#ad6e6da62f114abfabb682afd38b6f7a3">sw::RoutedEventArgs::RoutedEventArgs</a></div><div class="ttdeci">RoutedEventArgs(RoutedEventType eventType)</div><div class="ttdoc">RoutedEventArgs构造函数</div></div>
 <div class="ttc" id="astructsw_1_1_routed_event_args_of_type_html"><div class="ttname"><a href="structsw_1_1_routed_event_args_of_type.html">sw::RoutedEventArgsOfType</a></div><div class="ttdoc">表示特定类型路由事件的事件参数类型，继承自该类的事件参数可以用于RegisterRoutedEvent模板函数</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:19</div></div>
 <div class="ttc" id="astructsw_1_1_routed_event_args_of_type_html_a3fc47b03d3857d9ec7e9bb3c40a61b79"><div class="ttname"><a href="structsw_1_1_routed_event_args_of_type.html#a3fc47b03d3857d9ec7e9bb3c40a61b79">sw::RoutedEventArgsOfType::EventType</a></div><div class="ttdeci">static constexpr RoutedEventType EventType</div><div class="ttdoc">路由事件的类型，RegisterRoutedEvent模板函数使用此字段注册事件</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:24</div></div>
-<div class="ttc" id="astructsw_1_1_scrolling_event_args_html"><div class="ttname"><a href="structsw_1_1_scrolling_event_args.html">sw::ScrollingEventArgs</a></div><div class="ttdoc">窗口/面板滚动条滚动事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:205</div></div>
+<div class="ttc" id="astructsw_1_1_scrolling_event_args_html"><div class="ttname"><a href="structsw_1_1_scrolling_event_args.html">sw::ScrollingEventArgs</a></div><div class="ttdoc">窗口/面板滚动条滚动事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:218</div></div>
 <div class="ttc" id="astructsw_1_1_show_context_menu_event_args_html"><div class="ttname"><a href="structsw_1_1_show_context_menu_event_args.html">sw::ShowContextMenuEventArgs</a></div><div class="ttdoc">显示用户自定义上下文菜单的事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:183</div></div>
 <div class="ttc" id="astructsw_1_1_size_changed_event_args_html"><div class="ttname"><a href="structsw_1_1_size_changed_event_args.html">sw::SizeChangedEventArgs</a></div><div class="ttdoc">尺寸改变事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:56</div></div>
 <div class="ttc" id="astructsw_1_1_size_html"><div class="ttname"><a href="structsw_1_1_size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>Definition</b> Size.h:11</div></div>
-<div class="ttc" id="astructsw_1_1_window_closing_event_args_html"><div class="ttname"><a href="structsw_1_1_window_closing_event_args.html">sw::WindowClosingEventArgs</a></div><div class="ttdoc">窗口正在关闭事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:198</div></div>
+<div class="ttc" id="astructsw_1_1_window_closing_event_args_html"><div class="ttname"><a href="structsw_1_1_window_closing_event_args.html">sw::WindowClosingEventArgs</a></div><div class="ttdoc">窗口正在关闭事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:211</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

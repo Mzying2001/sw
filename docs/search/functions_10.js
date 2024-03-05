@@ -48,9 +48,11 @@ var searchData=
   ['showdialog_45',['ShowDialog',['../classsw_1_1_window.html#a37bc59a8775b6f39e244cdd6f82d5e51',1,'sw::Window']]],
   ['showdropdown_46',['ShowDropDown',['../classsw_1_1_combo_box.html#a5127d5cdcd1873ae9e092a59b6bff70c',1,'sw::ComboBox']]],
   ['sizetocontent_47',['SizeToContent',['../classsw_1_1_window.html#abff0275ae90d22951d40b769f952d415',1,'sw::Window']]],
-  ['slider_48',['Slider',['../classsw_1_1_slider.html#a44907de8805117d38ba3631545f39453',1,'sw::Slider']]],
-  ['split_49',['Split',['../classsw_1_1_utils.html#a8f0292de23814b539a4f5db889422a06',1,'sw::Utils']]],
-  ['splitter_50',['Splitter',['../classsw_1_1_splitter.html#acc4ee8d727fd36e75444d014cbf1a1ff',1,'sw::Splitter']]],
-  ['stackpanel_51',['StackPanel',['../classsw_1_1_stack_panel.html#adaf90a1ad8018e5365e22f45a0a0341a',1,'sw::StackPanel']]],
-  ['staticcontrol_52',['StaticControl',['../classsw_1_1_static_control.html#a88dea3db611c5cc94df004cdae9c74ef',1,'sw::StaticControl']]]
+  ['sizetoicon_48',['SizeToIcon',['../classsw_1_1_icon_box.html#a168d63b72c3a020635327f84e131d44a',1,'sw::IconBox']]],
+  ['sizetoimage_49',['SizeToImage',['../classsw_1_1_bmp_box.html#a2c5616dbf6f3fadc1af535cdec92f3f7',1,'sw::BmpBox']]],
+  ['slider_50',['Slider',['../classsw_1_1_slider.html#a44907de8805117d38ba3631545f39453',1,'sw::Slider']]],
+  ['split_51',['Split',['../classsw_1_1_utils.html#a8f0292de23814b539a4f5db889422a06',1,'sw::Utils']]],
+  ['splitter_52',['Splitter',['../classsw_1_1_splitter.html#acc4ee8d727fd36e75444d014cbf1a1ff',1,'sw::Splitter']]],
+  ['stackpanel_53',['StackPanel',['../classsw_1_1_stack_panel.html#adaf90a1ad8018e5365e22f45a0a0341a',1,'sw::StackPanel']]],
+  ['staticcontrol_54',['StaticControl',['../classsw_1_1_static_control.html#a88dea3db611c5cc94df004cdae9c74ef',1,'sw::StaticControl']]]
 ];

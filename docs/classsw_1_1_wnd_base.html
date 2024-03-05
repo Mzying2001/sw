@@ -296,6 +296,10 @@ Public 属性</h2></td></tr>
 <a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1_dictionary.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsDestroyed</b></td></tr>
 <tr class="memdesc:a54aa973b24b4bc4b681ac2c21a50d204"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否已销毁，当该值为true时不应该继续使用当前对象 <br /></td></tr>
 <tr class="separator:a54aa973b24b4bc4b681ac2c21a50d204"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43b324f78290554d0c08bf6f33cdb5fd" id="r_a43b324f78290554d0c08bf6f33cdb5fd"><td class="memItemLeft" align="right" valign="top"><a id="a43b324f78290554d0c08bf6f33cdb5fd" name="a43b324f78290554d0c08bf6f33cdb5fd"></a>
+<a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_property.html">Property</a>&lt; <a class="el" href="classsw_1_1_dictionary.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>AcceptFiles</b></td></tr>
+<tr class="memdesc:a43b324f78290554d0c08bf6f33cdb5fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否接受拖放文件 <br /></td></tr>
+<tr class="separator:a43b324f78290554d0c08bf6f33cdb5fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
@@ -493,6 +497,9 @@ Protected 成员函数</h2></td></tr>
 <tr class="memitem:a6e9cac4e02b3a420c42968cbf061fd02" id="r_a6e9cac4e02b3a420c42968cbf061fd02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1_dictionary.html">virtual</a> <a class="el" href="classsw_1_1_dictionary.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e9cac4e02b3a420c42968cbf061fd02">OnDrawItem</a> (<a class="el" href="classsw_1_1_dictionary.html">int</a> <a class="el" href="classsw_1_1_dictionary.html">id</a>, <a class="el" href="classsw_1_1_dictionary.html">DRAWITEMSTRUCT</a> *<a class="el" href="classsw_1_1_dictionary.html">pDrawItem</a>)</td></tr>
 <tr class="memdesc:a6e9cac4e02b3a420c42968cbf061fd02"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DRAWITEM时调用该函数  <br /></td></tr>
 <tr class="separator:a6e9cac4e02b3a420c42968cbf061fd02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e95c73d7ac95cf80a1f49a970703b0b" id="r_a9e95c73d7ac95cf80a1f49a970703b0b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1_dictionary.html">virtual</a> <a class="el" href="classsw_1_1_dictionary.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e95c73d7ac95cf80a1f49a970703b0b">OnDropFiles</a> (<a class="el" href="classsw_1_1_dictionary.html">HDROP</a> hDrop)</td></tr>
+<tr class="memdesc:a9e95c73d7ac95cf80a1f49a970703b0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DROPFILES时调用该函数  <br /></td></tr>
+<tr class="separator:a9e95c73d7ac95cf80a1f49a970703b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 友元</h2></td></tr>
@@ -1118,7 +1125,7 @@ Protected 成员函数</h2></td></tr>
 <p>接收到WM_DESTROY时调用该函数 </p>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1_hwnd_host.html#a9535b63e17fbb079ce4f618c288cb9bd">sw::HwndHost</a> , 以及 <a class="el" href="classsw_1_1_window.html#a09165434040ada6ea3f00a7d79b1f7a2">sw::Window</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1_bmp_box.html#a332642f5bef5d54589d5c1d322fd6ded">sw::BmpBox</a>, <a class="el" href="classsw_1_1_hwnd_host.html#a9535b63e17fbb079ce4f618c288cb9bd">sw::HwndHost</a>, <a class="el" href="classsw_1_1_icon_box.html#a94a361433c19bfbf8e3f0a44441448d7">sw::IconBox</a> , 以及 <a class="el" href="classsw_1_1_window.html#a09165434040ada6ea3f00a7d79b1f7a2">sw::Window</a> 重载.</p>
 
 </div>
 </div>
@@ -1158,6 +1165,42 @@ Protected 成员函数</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="a9e95c73d7ac95cf80a1f49a970703b0b" name="a9e95c73d7ac95cf80a1f49a970703b0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e95c73d7ac95cf80a1f49a970703b0b">&#9670;&#160;</a></span>OnDropFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1_dictionary.html">virtual</a> <a class="el" href="classsw_1_1_dictionary.html">bool</a> sw::WndBase::OnDropFiles </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">HDROP</a></td>          <td class="paramname"><span class="paramname"><em>hDrop</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_DROPFILES时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hDrop</td><td>描述拖入文件的句柄 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#a6a331869736475e10e2f861b5a242565">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>
@@ -2100,7 +2143,7 @@ Protected 成员函数</h2></td></tr>
 <p>接收到WM_PAINT时调用该函数 </p>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1_panel.html#ab57a6afea25cdefeea622ff364727a8e">sw::Panel</a>, <a class="el" href="classsw_1_1_splitter.html#a363276ad838de7235b53f76d767a408d">sw::Splitter</a> , 以及 <a class="el" href="classsw_1_1_window.html#afa57e21216664a6fa3f9fdf04dad7a7d">sw::Window</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1_bmp_box.html#aa3b5703631e66331b23cc3397d51f305">sw::BmpBox</a>, <a class="el" href="classsw_1_1_panel.html#ab57a6afea25cdefeea622ff364727a8e">sw::Panel</a>, <a class="el" href="classsw_1_1_splitter.html#a363276ad838de7235b53f76d767a408d">sw::Splitter</a> , 以及 <a class="el" href="classsw_1_1_window.html#afa57e21216664a6fa3f9fdf04dad7a7d">sw::Window</a> 重载.</p>
 
 </div>
 </div>
@@ -2225,7 +2268,7 @@ Protected 成员函数</h2></td></tr>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1_hwnd_host.html#a811a6d21dd8534addfc401bb79f829f7">sw::HwndHost</a>, <a class="el" href="classsw_1_1_panel.html#a655497d6bdbf760e34df1d799d89b009">sw::Panel</a>, <a class="el" href="classsw_1_1_splitter.html#a961677b3a6e12fc522bdb4e7b22690c2">sw::Splitter</a> , 以及 <a class="el" href="classsw_1_1_u_i_element.html#af4f4d3a0d23a886c0257c439821f5809">sw::UIElement</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1_bmp_box.html#a6cb7446ef4d2308b971af9fe28b11bae">sw::BmpBox</a>, <a class="el" href="classsw_1_1_hwnd_host.html#a811a6d21dd8534addfc401bb79f829f7">sw::HwndHost</a>, <a class="el" href="classsw_1_1_panel.html#a655497d6bdbf760e34df1d799d89b009">sw::Panel</a>, <a class="el" href="classsw_1_1_splitter.html#a961677b3a6e12fc522bdb4e7b22690c2">sw::Splitter</a> , 以及 <a class="el" href="classsw_1_1_u_i_element.html#af4f4d3a0d23a886c0257c439821f5809">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>

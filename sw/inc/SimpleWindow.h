@@ -3,6 +3,7 @@
 // 包含SimpleWindow所有头文件
 #include "Alignment.h"
 #include "App.h"
+#include "BmpBox.h"
 #include "Button.h"
 #include "ButtonBase.h"
 #include "Canvas.h"
@@ -28,6 +29,7 @@
 #include "ILayout.h"
 #include "ITag.h"
 #include "Icon.h"
+#include "IconBox.h"
 #include "ItemsControl.h"
 #include "Keys.h"
 #include "KnownColor.h"

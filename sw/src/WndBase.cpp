@@ -2,6 +2,11 @@
 #include <cmath>
 
 /**
+ * @brief _check字段的值，用于判断给定指针是否为指向WndBase的指针
+ */
+static constexpr uint32_t _WndBaseMagicNumber = 0x946dba7e;
+
+/**
  * @brief 窗口类名
  */
 static constexpr wchar_t _WindowClassName[] = L"sw::Window";
@@ -23,9 +28,9 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     }
 
     if (pWnd == nullptr && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
-        LPCREATESTRUCTW pCreate;
-        pCreate = reinterpret_cast<LPCREATESTRUCTW>(lParam);
-        pWnd    = reinterpret_cast<WndBase *>(pCreate->lpCreateParams);
+        auto pCreate = reinterpret_cast<LPCREATESTRUCTW>(lParam);
+        auto temp    = reinterpret_cast<WndBase *>(pCreate->lpCreateParams);
+        if (temp != nullptr && temp->_check == _WndBaseMagicNumber) pWnd = temp;
     }
 
     if (pWnd != nullptr) {
@@ -37,7 +42,9 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 }
 
 sw::WndBase::WndBase()
-    : Handle(
+    : _check(_WndBaseMagicNumber),
+
+      Handle(
           // get
           [&]() -> const HWND & {
               return this->_hwnd;
@@ -255,6 +262,18 @@ sw::WndBase::WndBase()
           // get
           [&]() -> const bool & {
               return this->_isDestroyed;
+          }),
+
+      AcceptFiles(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetExtendedStyle(WS_EX_ACCEPTFILES);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
           })
 {
     static WNDCLASSEXW wc = {0};
@@ -628,6 +647,10 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->OnDrawItem((int)refMsg.wParam, reinterpret_cast<DRAWITEMSTRUCT *>(refMsg.lParam)) ? TRUE : this->DefaultWndProc(refMsg);
         }
 
+        case WM_DROPFILES: {
+            return this->OnDropFiles(reinterpret_cast<HDROP>(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }
@@ -923,6 +946,11 @@ bool sw::WndBase::OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem)
     return false;
 }
 
+bool sw::WndBase::OnDropFiles(HDROP hDrop)
+{
+    return false;
+}
+
 void sw::WndBase::Show(int nCmdShow)
 {
     ShowWindow(this->_hwnd, nCmdShow);
@@ -1047,5 +1075,6 @@ sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
 
 sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
 {
-    return reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+    auto p = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+    return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
 }

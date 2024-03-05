@@ -10,5 +10,6 @@ var searchData=
   ['docklayout_7',['DockLayout',['../classsw_1_1_dock_layout.html',1,'sw']]],
   ['docklayouttag_8',['DockLayoutTag',['../classsw_1_1_dock_layout_tag.html',1,'sw::DockLayoutTag'],['../classsw_1_1_dock_layout_tag.html#af17218c2cdff950251e44c60f6473793',1,'sw::DockLayoutTag::DockLayoutTag()']]],
   ['dockpanel_9',['DockPanel',['../classsw_1_1_dock_panel.html',1,'sw::DockPanel'],['../classsw_1_1_dock_panel.html#a8c9ce34641a342dc14c8bae2d49e3c08',1,'sw::DockPanel::DockPanel()']]],
-  ['drawmenubar_10',['DrawMenuBar',['../classsw_1_1_window.html#a3daeab5c99e045449a8a5f086c19877e',1,'sw::Window']]]
+  ['drawmenubar_10',['DrawMenuBar',['../classsw_1_1_window.html#a3daeab5c99e045449a8a5f086c19877e',1,'sw::Window']]],
+  ['dropfileseventargs_11',['DropFilesEventArgs',['../structsw_1_1_drop_files_event_args.html',1,'sw']]]
 ];

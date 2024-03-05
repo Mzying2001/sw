@@ -193,6 +193,19 @@ namespace sw
     };
 
     /**
+     * @brief 文件拖放事件参数类型
+     */
+    struct DropFilesEventArgs : RoutedEventArgsOfType<UIElement_DropFiles> {
+
+        HDROP hDrop; // 描述拖入文件的句柄
+
+        DropFilesEventArgs(HDROP hDrop)
+            : hDrop(hDrop)
+        {
+        }
+    };
+
+    /**
      * @brief 窗口正在关闭事件参数类型
      */
     struct WindowClosingEventArgs : RoutedEventArgsOfType<Window_Closing> {
