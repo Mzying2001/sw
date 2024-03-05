@@ -104,14 +104,6 @@ namespace sw
         static HCURSOR GetCursorHandle(HINSTANCE hInstance, int resourceId);
 
         /**
-         * @brief            从指定模块中获取鼠标句柄
-         * @param hInstance  DLL或EXE的模块句柄
-         * @param cursorName 鼠标的资源名称
-         * @return           成功则返回鼠标句柄，否则返回NULL
-         */
-        static HCURSOR GetCursorHandle(HINSTANCE hInstance, const std::wstring &cursorName);
-
-        /**
          * @brief          从文件加载鼠标句柄
          * @param fileName 鼠标文件路径
          * @return         成功则返回鼠标句柄，否则返回NULL
@@ -436,14 +428,6 @@ namespace sw
          * @return           成功则返回图标句柄，否则返回NULL
          */
         static HICON GetIconHandle(HINSTANCE hInstance, int resourceId);
-
-        /**
-         * @brief            从指定模块中获取图标句柄
-         * @param hInstance  DLL或EXE的模块句柄
-         * @param iconName   图标的资源名称
-         * @return           成功则返回图标句柄，否则返回NULL
-         */
-        static HICON GetIconHandle(HINSTANCE hInstance, const std::wstring &iconName);
 
         /**
          * @brief          从文件加载图标句柄
@@ -1232,157 +1216,104 @@ namespace sw
      * @brief 路由事件类型枚举
      */
     enum RoutedEventType : uint32_t {
-        UserEventBegin = 0,
-        UserEventEnd   = 0x80000000,
 
-        /**
-         * @brief 尺寸改变，参数类型为sw::SizeChangedEventArgs
-         */
+        // 从该值开始到UserEventEnd结束表示用户可以自定义路由事件的值范围
+        UserEventBegin = 0,
+
+        // 用户自定义路由事件的值的最大值
+        UserEventEnd = 0x80000000,
+
+        // 尺寸改变，参数类型为sw::SizeChangedEventArgs
         UIElement_SizeChanged,
 
-        /**
-         * @brief 位置改变，参数类型为sw::PositionChangedEventArgs
-         */
+        // 位置改变，参数类型为sw::PositionChangedEventArgs
         UIElement_PositionChanged,
 
-        /**
-         * @brief Text属性发生变化，参数类型为sw::RoutedEventArgs
-         */
+        // Text属性发生变化，参数类型为sw::RoutedEventArgs
         UIElement_TextChanged,
 
-        /**
-         * @brief 获取到焦点，参数类型为sw::RoutedEventArgs
-         */
+        // 获取到焦点，参数类型为sw::RoutedEventArgs
         UIElement_GotFocus,
 
-        /**
-         * @brief 失去焦点，参数类型为sw::RoutedEventArgs
-         */
+        // 失去焦点，参数类型为sw::RoutedEventArgs
         UIElement_LostFocus,
 
-        /**
-         * @brief 输入字符，参数类型为sw::GotCharEventArgs
-         */
+        // 输入字符，参数类型为sw::GotCharEventArgs
         UIElement_GotChar,
 
-        /**
-         * @brief 键盘按键按下，参数类型为sw::KeyDownEventArgs
-         */
+        // 键盘按键按下，参数类型为sw::KeyDownEventArgs
         UIElement_KeyDown,
 
-        /**
-         * @brief 键盘按键抬起，参数类型为sw::KeyUpEventArgs
-         */
+        // 键盘按键抬起，参数类型为sw::KeyUpEventArgs
         UIElement_KeyUp,
 
-        /**
-         * @brief 鼠标移动，参数类型为sw::MouseMoveEventArgs
-         */
+        // 鼠标移动，参数类型为sw::MouseMoveEventArgs
         UIElement_MouseMove,
 
-        /**
-         * @brief 鼠标离开，参数类型为sw::RoutedEventArgs
-         */
+        // 鼠标离开，参数类型为sw::RoutedEventArgs
         UIElement_MouseLeave,
 
-        /**
-         * @brief 鼠标滚轮滚动，参数类型为sw::MouseWheelEventArgs
-         */
+        // 鼠标滚轮滚动，参数类型为sw::MouseWheelEventArgs
         UIElement_MouseWheel,
 
-        /**
-         * @brief 鼠标按键按下，参数类型为sw::MouseButtonDownEventArgs
-         */
+        // 鼠标按键按下，参数类型为sw::MouseButtonDownEventArgs
         UIElement_MouseButtonDown,
 
-        /**
-         * @brief 鼠标按键抬起，参数类型为sw::MouseButtonUpEventArgs
-         */
+        // 鼠标按键抬起，参数类型为sw::MouseButtonUpEventArgs
         UIElement_MouseButtonUp,
 
-        /**
-         * @brief 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
-         */
+        // 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
         UIElement_ShowContextMenu,
 
-        /**
-         * @brief 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
-         */
+        // 接收到文件拖放，参数类型为sw::DropFilesEventArgs
+        UIElement_DropFiles,
+
+        // 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
         Window_Closing,
 
-        /**
-         * @brief 窗口已关闭，参数类型为sw::RoutedEventArgs
-         */
+        // 窗口已关闭，参数类型为sw::RoutedEventArgs
         Window_Closed,
 
-        /**
-         * @brief 窗口成为前台窗口，参数类型为sw::RoutedEventArgs
-         */
+        // 窗口成为前台窗口，参数类型为sw::RoutedEventArgs
         Window_Actived,
 
-        /**
-         * @brief 窗口成为后台窗口，参数类型为sw::RoutedEventArgs
-         */
+        // 窗口成为后台窗口，参数类型为sw::RoutedEventArgs
         Window_Inactived,
 
-        /**
-         * @brief 按钮被单击，参数类型为sw::RoutedEventArgs
-         */
+        // 按钮被单击，参数类型为sw::RoutedEventArgs
         ButtonBase_Clicked,
 
-        /**
-         * @brief 按钮被双击，参数类型为sw::RoutedEventArgs
-         */
+        // 按钮被双击，参数类型为sw::RoutedEventArgs
         ButtonBase_DoubleClicked,
 
-        /**
-         * @brief 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
-         */
+        // 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
         ItemsControl_SelectionChanged,
 
-        /**
-         * @brief 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
-         */
+        // 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
         ListView_CheckStateChanged,
 
-        /**
-         * @brief 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
-         */
+        // 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
         ListView_HeaderClicked,
 
-        /**
-         * @brief 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
-         */
+        // 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
         ListView_HeaderDoubleClicked,
 
-        /**
-         * @brief 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
-         */
+        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
         ListView_ItemClicked,
 
-        /**
-         * @brief 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
-         */
+        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
         ListView_ItemDoubleClicked,
 
-        /**
-         * @brief 滑块的值被改变，参数类型为sw::RoutedEventArgs
-         */
+        // 滑块的值被改变，参数类型为sw::RoutedEventArgs
         Slider_ValueChanged,
 
-        /**
-         * @brief 滑块被释放，参数类型为sw::RoutedEventArgs
-         */
+        // 滑块被释放，参数类型为sw::RoutedEventArgs
         Slider_EndTrack,
 
-        /**
-         * @brief 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
-         */
+        // 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
         Layer_Scrolling,
 
-        /**
-         * @brief SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
-         */
+        // SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
         TabControl_SelectedIndexChanged,
     };
 
@@ -1413,11 +1344,14 @@ namespace sw
         RoutedEventArgs(RoutedEventType eventType);
     };
 
+    /*================================================================================*/
+
     class UIElement; // UIElement.h
+
     /**
      * @brief 路由事件类型
      */
-    typedef std::function<void(UIElement &, RoutedEventArgs &)> RoutedEvent;
+    using RoutedEvent = std::function<void(UIElement &, RoutedEventArgs &)>;
 }
 
 // ScrollEnums.h
@@ -1700,15 +1634,14 @@ namespace sw
      */
     enum WndMsg : UINT {
 
-        /**
-         * @brief SimpleWindow所用消息的起始位置
-         */
+        // SimpleWindow所用消息的起始位置
         WM_SimpleWindowBegin = WM_USER + 0x3000,
 
-        /**
-         * @brief 控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用
-         */
+        // 控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用
         WM_UpdateLayout,
+
+        // SimpleWindow所用消息的结束位置
+        WM_SimpleWindowEnd,
     };
 }
 
@@ -2593,6 +2526,19 @@ namespace sw
     };
 
     /**
+     * @brief 文件拖放事件参数类型
+     */
+    struct DropFilesEventArgs : RoutedEventArgsOfType<UIElement_DropFiles> {
+
+        HDROP hDrop; // 描述拖入文件的句柄
+
+        DropFilesEventArgs(HDROP hDrop)
+            : hDrop(hDrop)
+        {
+        }
+    };
+
+    /**
      * @brief 窗口正在关闭事件参数类型
      */
     struct WindowClosingEventArgs : RoutedEventArgsOfType<Window_Closing> {
@@ -2978,6 +2924,11 @@ namespace sw
 
     private:
         /**
+         * @brief 用于判断给定指针是否为指向WndBase的指针
+         */
+        uint32_t _check;
+
+        /**
          * @brief 窗口句柄
          */
         HWND _hwnd = NULL;
@@ -3112,6 +3063,11 @@ namespace sw
          * @brief 是否已销毁，当该值为true时不应该继续使用当前对象
          */
         const ReadOnlyProperty<bool> IsDestroyed;
+
+        /**
+         * @brief 是否接受拖放文件
+         */
+        const Property<bool> AcceptFiles;
 
     protected:
         /**
@@ -3535,6 +3491,13 @@ namespace sw
          * @return          若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem);
+
+        /**
+         * @brief       接收到WM_DROPFILES时调用该函数
+         * @param hDrop 描述拖入文件的句柄
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDropFiles(HDROP hDrop);
 
     public:
         /**
@@ -5144,6 +5107,13 @@ namespace sw
          */
         virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result) override;
 
+        /**
+         * @brief       接收到WM_DROPFILES时调用该函数
+         * @param hDrop 描述拖入文件的句柄
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDropFiles(HDROP hDrop) override;
+
     private:
         /**
          * @brief       设置水平对齐方式
@@ -6479,6 +6449,139 @@ namespace sw
     };
 }
 
+// BmpBox.h
+
+
+namespace sw
+{
+    /**
+     * @brief 指定位图在BmpBox中的定位方式
+     */
+    enum class BmpBoxSizeMode {
+        Normal,       // 位图置于BmpBox左上角
+        StretchImage, // 拉伸位图填充BmpBox
+        AutoSize,     // 调整BmpBox大小，使其等于所包含位图的大小
+        CenterImage,  // 将位图居中显示
+        Zoom,         // 图像按照原来的比例缩放
+    };
+
+    /**
+     * @brief 用于显示一个位图的控件
+     */
+    class BmpBox : public StaticControl
+    {
+    private:
+        /**
+         * @brief 位图句柄
+         */
+        HBITMAP _hBitmap{NULL};
+
+        /**
+         * @brief 位图尺寸（以像素为单位），调用_UpdateBmpSize更新
+         */
+        SIZE _bmpSize{0, 0};
+
+        /**
+         * @brief 位图定位方式
+         */
+        BmpBoxSizeMode _sizeMode{BmpBoxSizeMode::Normal};
+
+    public:
+        /**
+         * @brief 当前控件显示的位图句柄，使用Load函数可以加载位图
+         */
+        const ReadOnlyProperty<HBITMAP> BmpHandle;
+
+        /**
+         * @brief 位图在BmpBox中的定位方式
+         */
+        const Property<BmpBoxSizeMode> SizeMode;
+
+    public:
+        /**
+         * @brief 初始化BmpBox
+         */
+        BmpBox();
+
+        /**
+         * @brief         加载位图，该函数会复制一个位图句柄作为显示的位图
+         * @param hBitmap 要加载的位图
+         * @return        加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
+         */
+        HBITMAP Load(HBITMAP hBitmap);
+
+        /**
+         * @brief            从指定模块中加载位图
+         * @param hInstance  DLL或EXE的模块句柄
+         * @param resourceId 位图的资源序号
+         * @return           加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
+         */
+        HBITMAP Load(HINSTANCE hInstance, int resourceId);
+
+        /**
+         * @brief          从文件加载位图
+         * @param fileName 位图文件的路径
+         * @return         加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
+         */
+        HBITMAP Load(const std::wstring &fileName);
+
+        /**
+         * @brief 清除加载的位图
+         */
+        void Clear();
+
+        /**
+         * @brief 调整控件尺寸为位图尺寸，未加载位图时该函数不生效
+         */
+        void SizeToImage();
+
+    protected:
+        /**
+         * @brief  接收到WM_DESTROY时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDestroy() override;
+
+        /**
+         * @brief  接收到WM_PAINT时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnPaint() override;
+
+        /**
+         * @brief               接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnSize(Size newClientSize) override;
+
+        /**
+         * @brief               测量控件所需尺寸
+         * @param availableSize 可用的尺寸
+         */
+        virtual void Measure(const Size &availableSize) override;
+
+    private:
+        /**
+         * @brief 更新_bmpSize
+         */
+        void _UpdateBmpSize();
+
+        /**
+         * @brief         设置位图
+         * @param hBitmap 位图句柄
+         */
+        void _SetBmp(HBITMAP hBitmap);
+
+        /**
+         * @brief         传入的位图不为NULL时调用_SetBmp
+         * @param hBitmap 位图句柄
+         * @return        传入的位图
+         */
+        HBITMAP _SetBmpIfNotNull(HBITMAP hBitmap);
+    };
+}
+
 // Button.h
 
 
@@ -6728,6 +6831,12 @@ namespace sw
          */
         HWND _hWindowCore{NULL};
 
+    public:
+        /**
+         * @brief 创建HwndHost对象
+         */
+        HwndHost();
+
     protected:
         /**
          * @brief 子类需要调用该函数以初始化HwndHost，该函数会调用BuildWindowCore
@@ -6759,6 +6868,101 @@ namespace sw
          * @param hwnd 被托管窗口句柄
          */
         virtual void DestroyWindowCore(HWND hwnd) = 0;
+    };
+}
+
+// IconBox.h
+
+
+namespace sw
+{
+    /**
+     * @brief 用于显示一个图标的控件
+     */
+    class IconBox : public StaticControl
+    {
+    private:
+        /**
+         * @brief 图标句柄
+         */
+        HICON _hIcon{NULL};
+
+    public:
+        /**
+         * @brief 当前控件显示的图标句柄，使用Load函数可以加载图标
+         */
+        const ReadOnlyProperty<HICON> IconHandle;
+
+        /**
+         * @brief 是否拉伸图标以填充整个控件，值为true时成功调用Load函数会自动调整尺寸为图标尺寸，反之则不会调整尺寸
+         */
+        const Property<bool> StretchIcon;
+
+    public:
+        /**
+         * @brief 初始化IconBox
+         */
+        IconBox();
+
+        /**
+         * @brief       加载图标，该函数会复制一个图标句柄作为显示的图标
+         * @param hIcon 要加载的图标
+         * @return      加载到IconBox的图标句柄，若加载失败则返回NULL，该资源由IconBox内部管理，在加载新图标或控件销毁时会自动释放
+         */
+        HICON Load(HICON hIcon);
+
+        /**
+         * @brief      加载系统标准图标
+         * @param icon 图标样式
+         * @return     加载到IconBox的图标句柄，若加载失败则返回NULL，该资源由IconBox内部管理，在加载新图标或控件销毁时会自动释放
+         */
+        HICON Load(StandardIcon icon);
+
+        /**
+         * @brief            从指定模块中加载图标
+         * @param hInstance  DLL或EXE的模块句柄
+         * @param resourceId 图标的资源序号
+         * @return           加载到IconBox的图标句柄，若加载失败则返回NULL，该资源由IconBox内部管理，在加载新图标或控件销毁时会自动释放
+         */
+        HICON Load(HINSTANCE hInstance, int resourceId);
+
+        /**
+         * @brief          从文件加载图标
+         * @param fileName 图标文件的路径
+         * @return         加载到IconBox的图标句柄，若加载失败则返回NULL，该资源由IconBox内部管理，在加载新图标或控件销毁时会自动释放
+         */
+        HICON Load(const std::wstring &fileName);
+
+        /**
+         * @brief 清除加载的图标
+         */
+        void Clear();
+
+        /**
+         * @brief 调整控件尺寸为图标尺寸，未加载图标时该函数不生效
+         */
+        void SizeToIcon();
+
+    protected:
+        /**
+         * @brief  接收到WM_DESTROY时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDestroy() override;
+
+    private:
+        /**
+         * @brief       设置图标
+         * @param hIcon 图标句柄
+         */
+        void _SetIcon(HICON hIcon);
+
+        /**
+         * @brief       传入的图标不为NULL时调用_SetIcon
+         * @param hIcon 图标句柄
+         * @return      传入的图标
+         */
+        HICON _SetIconIfNotNull(HICON hIcon);
     };
 }
 

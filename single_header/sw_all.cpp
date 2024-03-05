@@ -134,6 +134,195 @@ std::wstring sw::App::_GetCurrentDirectory()
     return startUpPath;
 }
 
+// BmpBox.cpp
+
+sw::BmpBox::BmpBox()
+    : BmpHandle(
+          // get
+          [&]() -> const HBITMAP & {
+              return this->_hBitmap;
+          }),
+
+      SizeMode(
+          // get
+          [&]() -> const BmpBoxSizeMode & {
+              return this->_sizeMode;
+          },
+          // set
+          [&](const BmpBoxSizeMode &value) {
+              if (this->_sizeMode != value) {
+                  this->_sizeMode = value;
+                  this->Redraw();
+                  this->NotifyLayoutUpdated();
+              }
+          })
+{
+    this->Rect        = sw::Rect{0, 0, 200, 200};
+    this->Transparent = true;
+}
+
+HBITMAP sw::BmpBox::Load(HBITMAP hBitmap)
+{
+    HBITMAP hNewBitmap = (HBITMAP)CopyImage(hBitmap, IMAGE_BITMAP, 0, 0, 0);
+    return this->_SetBmpIfNotNull(hNewBitmap);
+}
+
+HBITMAP sw::BmpBox::Load(HINSTANCE hInstance, int resourceId)
+{
+    HBITMAP hNewBitmap = (HBITMAP)LoadImageW(hInstance, MAKEINTRESOURCEW(resourceId), IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE);
+    return this->_SetBmpIfNotNull(hNewBitmap);
+}
+
+HBITMAP sw::BmpBox::Load(const std::wstring &fileName)
+{
+    HBITMAP hNewBitmap = (HBITMAP)LoadImageW(NULL, fileName.c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE);
+    return this->_SetBmpIfNotNull(hNewBitmap);
+}
+
+void sw::BmpBox::Clear()
+{
+    this->_SetBmp(NULL);
+}
+
+void sw::BmpBox::SizeToImage()
+{
+    if (this->_hBitmap != NULL) {
+        SetWindowPos(this->Handle, NULL, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER);
+    }
+}
+
+bool sw::BmpBox::OnDestroy()
+{
+    if (this->_hBitmap != NULL) {
+        DeleteObject(this->_hBitmap);
+        this->_hBitmap = NULL;
+    }
+    return this->StaticControl::OnDestroy();
+}
+
+bool sw::BmpBox::OnPaint()
+{
+    HWND hwnd = this->Handle;
+
+    PAINTSTRUCT ps;
+    HDC hdc = BeginPaint(hwnd, &ps);
+
+    RECT clientRect;
+    GetClientRect(hwnd, &clientRect);
+
+    HBRUSH hBackColorBrush = CreateSolidBrush(this->GetRealBackColor());
+    FillRect(hdc, &clientRect, hBackColorBrush);
+
+    if (this->_hBitmap != NULL &&
+        this->_bmpSize.cx > 0 && this->_bmpSize.cy > 0) {
+        HDC hdcmem = CreateCompatibleDC(hdc);
+        SelectObject(hdcmem, this->_hBitmap);
+
+        switch (this->_sizeMode) {
+            case BmpBoxSizeMode::Normal: {
+                BitBlt(hdc, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, hdcmem, 0, 0, SRCCOPY);
+                break;
+            }
+
+            case BmpBoxSizeMode::StretchImage: {
+                StretchBlt(hdc, 0, 0, clientRect.right - clientRect.left, clientRect.bottom - clientRect.top,
+                           hdcmem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
+                break;
+            }
+
+            case BmpBoxSizeMode::AutoSize:
+            case BmpBoxSizeMode::CenterImage: {
+                int x = ((clientRect.right - clientRect.left) - this->_bmpSize.cx) / 2;
+                int y = ((clientRect.bottom - clientRect.top) - this->_bmpSize.cy) / 2;
+                BitBlt(hdc, x, y, this->_bmpSize.cx, this->_bmpSize.cy, hdcmem, 0, 0, SRCCOPY);
+                break;
+            }
+
+            case BmpBoxSizeMode::Zoom: {
+                int w = clientRect.right - clientRect.left;
+                int h = clientRect.bottom - clientRect.top;
+
+                double scale_w = double(w) / this->_bmpSize.cx;
+                double scale_h = double(h) / this->_bmpSize.cy;
+
+                if (scale_w < scale_h) {
+                    int draw_w = w;
+                    int draw_h = std::lround(scale_w * this->_bmpSize.cy);
+                    StretchBlt(hdc, 0, (h - draw_h) / 2, draw_w, draw_h,
+                               hdcmem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
+                } else {
+                    int draw_w = std::lround(scale_h * this->_bmpSize.cx);
+                    int draw_h = h;
+                    StretchBlt(hdc, (w - draw_w) / 2, 0, draw_w, draw_h,
+                               hdcmem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
+                }
+                break;
+            }
+        }
+
+        DeleteDC(hdcmem);
+    }
+
+    EndPaint(hwnd, &ps);
+    DeleteObject(hBackColorBrush);
+    return true;
+}
+
+bool sw::BmpBox::OnSize(Size newClientSize)
+{
+    if (this->_sizeMode != BmpBoxSizeMode::Normal) {
+        InvalidateRect(this->Handle, NULL, FALSE);
+    }
+    return this->StaticControl::OnSize(newClientSize);
+}
+
+void sw::BmpBox::Measure(const Size &availableSize)
+{
+    if (this->_sizeMode != BmpBoxSizeMode::AutoSize) {
+        this->StaticControl::Measure(availableSize);
+        return;
+    }
+
+    const Thickness &margin = this->Margin;
+
+    this->SetDesireSize(sw::Size{
+        Dip::PxToDipX(this->_bmpSize.cx) + margin.left + margin.right,
+        Dip::PxToDipY(this->_bmpSize.cy) + margin.top + margin.bottom});
+}
+
+void sw::BmpBox::_UpdateBmpSize()
+{
+    BITMAP bm;
+    if (GetObjectW(this->_hBitmap, sizeof(bm), &bm)) {
+        this->_bmpSize = {bm.bmWidth, bm.bmHeight};
+    }
+}
+
+void sw::BmpBox::_SetBmp(HBITMAP hBitmap)
+{
+    HBITMAP hOldBitmap = this->_hBitmap;
+
+    this->_hBitmap = hBitmap;
+    this->_UpdateBmpSize();
+    this->Redraw();
+
+    if (this->_sizeMode == BmpBoxSizeMode::AutoSize) {
+        this->NotifyLayoutUpdated();
+    }
+
+    if (hOldBitmap != NULL) {
+        DeleteObject(hOldBitmap);
+    }
+}
+
+HBITMAP sw::BmpBox::_SetBmpIfNotNull(HBITMAP hBitmap)
+{
+    if (hBitmap != NULL) {
+        this->_SetBmp(hBitmap);
+    }
+    return hBitmap;
+}
+
 // Button.cpp
 
 static constexpr DWORD _ButtonStyle_Default = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_PUSHBUTTON;
@@ -657,11 +846,6 @@ HCURSOR sw::CursorHelper::GetCursorHandle(StandardCursor cursor)
 HCURSOR sw::CursorHelper::GetCursorHandle(HINSTANCE hInstance, int resourceId)
 {
     return LoadCursorW(hInstance, MAKEINTRESOURCEW(resourceId));
-}
-
-HCURSOR sw::CursorHelper::GetCursorHandle(HINSTANCE hInstance, const std::wstring &cursorName)
-{
-    return LoadCursorW(hInstance, cursorName.c_str());
 }
 
 HCURSOR sw::CursorHelper::GetCursorHandle(const std::wstring &fileName)
@@ -1769,6 +1953,11 @@ sw::GroupBox::GroupBox()
 
 // HwndHost.cpp
 
+sw::HwndHost::HwndHost()
+{
+    this->Rect = sw::Rect{0, 0, 100, 100};
+}
+
 void sw::HwndHost::InitHwndHost()
 {
     if (this->_hWindowCore == NULL && !this->IsDestroyed)
@@ -1805,14 +1994,109 @@ HICON sw::IconHelper::GetIconHandle(HINSTANCE hInstance, int resourceId)
     return LoadIconW(hInstance, MAKEINTRESOURCEW(resourceId));
 }
 
-HICON sw::IconHelper::GetIconHandle(HINSTANCE hInstance, const std::wstring &iconName)
-{
-    return LoadIconW(hInstance, iconName.c_str());
-}
-
 HICON sw::IconHelper::GetIconHandle(const std::wstring &fileName)
 {
     return (HICON)LoadImageW(NULL, fileName.c_str(), IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE);
+}
+
+// IconBox.cpp
+
+sw::IconBox::IconBox()
+    : IconHandle(
+          // get
+          [&]() -> const HICON & {
+              return this->_hIcon;
+          }),
+
+      StretchIcon(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = !this->GetStyle(SS_CENTERIMAGE);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(SS_CENTERIMAGE, !value);
+          })
+{
+    this->Rect = sw::Rect{0, 0, 50, 50};
+    this->SetStyle(SS_ICON, true);
+    this->Transparent = true;
+}
+
+HICON sw::IconBox::Load(HICON hIcon)
+{
+    HICON hNewIcon = CopyIcon(hIcon);
+    return this->_SetIconIfNotNull(hNewIcon);
+}
+
+HICON sw::IconBox::Load(StandardIcon icon)
+{
+    HICON hNewIcon = IconHelper::GetIconHandle(icon);
+    return this->_SetIconIfNotNull(hNewIcon);
+}
+
+HICON sw::IconBox::Load(HINSTANCE hInstance, int resourceId)
+{
+    HICON hNewIcon = IconHelper::GetIconHandle(hInstance, resourceId);
+    return this->_SetIconIfNotNull(hNewIcon);
+}
+
+HICON sw::IconBox::Load(const std::wstring &fileName)
+{
+    HICON hNewIcon = IconHelper::GetIconHandle(fileName);
+    return this->_SetIconIfNotNull(hNewIcon);
+}
+
+void sw::IconBox::Clear()
+{
+    this->_SetIcon(NULL);
+}
+
+void sw::IconBox::SizeToIcon()
+{
+    ICONINFO info;
+    BITMAP bm;
+
+    if (!GetIconInfo(this->_hIcon, &info))
+        return;
+
+    if (GetObjectW(info.hbmColor, sizeof(bm), &bm)) {
+        SetWindowPos(this->Handle, NULL, 0, 0, bm.bmWidth, bm.bmHeight, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER);
+    }
+
+    DeleteObject(info.hbmColor);
+    DeleteObject(info.hbmMask);
+}
+
+bool sw::IconBox::OnDestroy()
+{
+    if (this->_hIcon != NULL) {
+        DestroyIcon(this->_hIcon);
+        this->_hIcon = NULL;
+    }
+    return this->StaticControl::OnDestroy();
+}
+
+void sw::IconBox::_SetIcon(HICON hIcon)
+{
+    HICON hOldIcon = this->_hIcon;
+
+    this->_hIcon = hIcon;
+    this->SendMessageW(STM_SETICON, reinterpret_cast<WPARAM>(hIcon), 0);
+
+    if (hOldIcon != NULL) {
+        DestroyIcon(hOldIcon);
+    }
+}
+
+HICON sw::IconBox::_SetIconIfNotNull(HICON hIcon)
+{
+    if (hIcon != NULL) {
+        this->_SetIcon(hIcon);
+    }
+    return hIcon;
 }
 
 // Keys.cpp
@@ -2722,15 +3006,19 @@ std::wstring sw::ListBox::GetItemAt(int index)
     int len = (int)this->SendMessageW(LB_GETTEXTLEN, index, 0);
 
     if (len <= 0) {
-        return L"";
+        return std::wstring{};
     }
 
-    wchar_t *buf = new wchar_t[len + 1];
-    this->SendMessageW(LB_GETTEXT, index, reinterpret_cast<LPARAM>(buf));
+    // wchar_t *buf = new wchar_t[len + 1];
+    // this->SendMessageW(LB_GETTEXT, index, reinterpret_cast<LPARAM>(buf));
+    // std::wstring result = buf;
+    // delete[] buf;
+    // return result;
 
-    std::wstring result = buf;
-
-    delete[] buf;
+    std::wstring result;
+    result.resize(len + 1);
+    this->SendMessageW(LB_GETTEXT, index, reinterpret_cast<LPARAM>(&result[0]));
+    result.resize(len);
     return result;
 }
 
@@ -6134,6 +6422,13 @@ bool sw::UIElement::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, b
     return true;
 }
 
+bool sw::UIElement::OnDropFiles(HDROP hDrop)
+{
+    DropFilesEventArgs args(hDrop);
+    this->RaiseRoutedEvent(args);
+    return args.handledMsg;
+}
+
 bool sw::UIElement::_SetHorzAlignment(sw::HorizontalAlignment value)
 {
     if (value == this->_horizontalAlignment) {
@@ -6837,6 +7132,11 @@ HICON _GetWindowDefaultIcon()
 // WndBase.cpp
 
 /**
+ * @brief _check字段的值，用于判断给定指针是否为指向WndBase的指针
+ */
+static constexpr uint32_t _WndBaseMagicNumber = 0x946dba7e;
+
+/**
  * @brief 窗口类名
  */
 static constexpr wchar_t _WindowClassName[] = L"sw::Window";
@@ -6858,9 +7158,9 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     }
 
     if (pWnd == nullptr && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
-        LPCREATESTRUCTW pCreate;
-        pCreate = reinterpret_cast<LPCREATESTRUCTW>(lParam);
-        pWnd    = reinterpret_cast<WndBase *>(pCreate->lpCreateParams);
+        auto pCreate = reinterpret_cast<LPCREATESTRUCTW>(lParam);
+        auto temp    = reinterpret_cast<WndBase *>(pCreate->lpCreateParams);
+        if (temp != nullptr && temp->_check == _WndBaseMagicNumber) pWnd = temp;
     }
 
     if (pWnd != nullptr) {
@@ -6872,7 +7172,9 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 }
 
 sw::WndBase::WndBase()
-    : Handle(
+    : _check(_WndBaseMagicNumber),
+
+      Handle(
           // get
           [&]() -> const HWND & {
               return this->_hwnd;
@@ -7090,6 +7392,18 @@ sw::WndBase::WndBase()
           // get
           [&]() -> const bool & {
               return this->_isDestroyed;
+          }),
+
+      AcceptFiles(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetExtendedStyle(WS_EX_ACCEPTFILES);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
           })
 {
     static WNDCLASSEXW wc = {0};
@@ -7463,6 +7777,10 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->OnDrawItem((int)refMsg.wParam, reinterpret_cast<DRAWITEMSTRUCT *>(refMsg.lParam)) ? TRUE : this->DefaultWndProc(refMsg);
         }
 
+        case WM_DROPFILES: {
+            return this->OnDropFiles(reinterpret_cast<HDROP>(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
         default: {
             return this->DefaultWndProc(refMsg);
         }
@@ -7758,6 +8076,11 @@ bool sw::WndBase::OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem)
     return false;
 }
 
+bool sw::WndBase::OnDropFiles(HDROP hDrop)
+{
+    return false;
+}
+
 void sw::WndBase::Show(int nCmdShow)
 {
     ShowWindow(this->_hwnd, nCmdShow);
@@ -7882,7 +8205,8 @@ sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
 
 sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
 {
-    return reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+    auto p = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+    return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
 }
 
 // WrapLayout.cpp
