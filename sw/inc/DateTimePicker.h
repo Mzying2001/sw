@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Control.h"
-#include <commctrl.h>
+#include <CommCtrl.h>
 
 namespace sw
 {
