@@ -66,7 +66,27 @@ bool sw::DateTimePicker::GetTime(SYSTEMTIME &out)
 
 bool sw::DateTimePicker::SetTime(const SYSTEMTIME &time)
 {
-    return this->SendMessageW(DTM_SETSYSTEMTIME, GDT_VALID, reinterpret_cast<LPARAM>(&time));
+    bool result = this->SendMessageW(DTM_SETSYSTEMTIME, GDT_VALID, reinterpret_cast<LPARAM>(&time));
+    if (result) {
+        SYSTEMTIME time{};
+        this->GetTime(time);
+        DateTimePickerTimeChangedEventArgs arg{time};
+        this->RaiseRoutedEvent(arg);
+    }
+    return result;
+}
+
+void sw::DateTimePicker::OnNotified(NMHDR *pNMHDR)
+{
+    if (pNMHDR->code == DTN_DATETIMECHANGE) {
+        this->OnTimeChanged(reinterpret_cast<NMDATETIMECHANGE *>(pNMHDR));
+    }
+}
+
+void sw::DateTimePicker::OnTimeChanged(NMDATETIMECHANGE *pInfo)
+{
+    DateTimePickerTimeChangedEventArgs arg{pInfo->st};
+    this->RaiseRoutedEvent(arg);
 }
 
 void sw::DateTimePicker::_SetFormat(const std::wstring &value)
@@ -82,7 +102,7 @@ void sw::DateTimePicker::_UpdateStyle(DWORD style)
 
     this->ResetHandle(style, this->GetExtendedStyle());
 
-    this->SetTime(time);
+    this->SendMessageW(DTM_SETSYSTEMTIME, GDT_VALID, reinterpret_cast<LPARAM>(&time));
     if (this->_format == DateTimePickerFormat::Custom) {
         this->_SetFormat(this->_customFormat);
     }

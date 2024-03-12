@@ -66,6 +66,18 @@ namespace sw
          */
         bool SetTime(const SYSTEMTIME &time);
 
+    protected:
+        /**
+         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         */
+        virtual void OnNotified(NMHDR *pNMHDR);
+
+        /**
+         * @brief       当前控件表示的时间改变时调用该函数
+         * @param pInfo 发生改变的信息
+         */
+        virtual void OnTimeChanged(NMDATETIMECHANGE *pInfo);
+
     private:
         /**
          * @brief       设置格式字符串
