@@ -10,15 +10,20 @@ sw::Control::~Control()
 
 void sw::Control::ResetHandle()
 {
+    DWORD style   = static_cast<DWORD>(this->GetStyle());
+    DWORD exStyle = static_cast<DWORD>(this->GetExtendedStyle());
+    this->ResetHandle(style, exStyle);
+}
+
+void sw::Control::ResetHandle(DWORD style, DWORD exStyle)
+{
     HWND &refHwnd = const_cast<HWND &>(this->Handle.Get());
 
     RECT rect = this->Rect.Get();
     auto text = this->GetText().c_str();
 
-    HWND oldHwnd  = refHwnd;
-    HWND hParent  = GetParent(oldHwnd);
-    DWORD style   = DWORD(GetWindowLongPtrW(oldHwnd, GWL_STYLE));
-    DWORD exStyle = DWORD(GetWindowLongPtrW(oldHwnd, GWL_EXSTYLE));
+    HWND oldHwnd = refHwnd;
+    HWND hParent = GetParent(oldHwnd);
 
     wchar_t className[256];
     GetClassNameW(oldHwnd, className, 256);
