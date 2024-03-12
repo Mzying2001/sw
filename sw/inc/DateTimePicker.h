@@ -70,7 +70,7 @@ namespace sw
         /**
          * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
          */
-        virtual void OnNotified(NMHDR *pNMHDR);
+        virtual void OnNotified(NMHDR *pNMHDR) override;
 
         /**
          * @brief       当前控件表示的时间改变时调用该函数
