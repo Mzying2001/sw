@@ -25,8 +25,8 @@ var searchData=
   ['collapsewhenhide_22',['CollapseWhenHide',['../classsw_1_1_u_i_element.html#a952e87aef0f2dfdec6bd98e944b6d891',1,'sw::UIElement']]],
   ['color_23',['Color',['../structsw_1_1_color.html',1,'sw']]],
   ['column_24',['column',['../structsw_1_1_grid_layout_tag.html#aa7a46315a36db1adc57e6cd12aa36713',1,'sw::GridLayoutTag']]],
-  ['columns_25',['columns',['../classsw_1_1_grid_layout.html#a31dc19020481d77169ecad187bad886e',1,'sw::GridLayout::columns'],['../classsw_1_1_uniform_grid_layout.html#a73d71cc8e99540d40ab1f4fd528b9492',1,'sw::UniformGridLayout::columns']]],
-  ['columns_26',['Columns',['../classsw_1_1_uniform_grid.html#ac6abb7aaf70869b91207c53cfaf59bca',1,'sw::UniformGrid']]],
+  ['columns_25',['Columns',['../classsw_1_1_uniform_grid.html#ac6abb7aaf70869b91207c53cfaf59bca',1,'sw::UniformGrid']]],
+  ['columns_26',['columns',['../classsw_1_1_grid_layout.html#a31dc19020481d77169ecad187bad886e',1,'sw::GridLayout::columns'],['../classsw_1_1_uniform_grid_layout.html#a73d71cc8e99540d40ab1f4fd528b9492',1,'sw::UniformGridLayout::columns']]],
   ['columnscount_27',['ColumnsCount',['../classsw_1_1_list_view.html#a0b84ba1066f16317e48629059b94ded8',1,'sw::ListView']]],
   ['columnspan_28',['columnSpan',['../structsw_1_1_grid_layout_tag.html#ad6949937cb3becc28cee7f7c79604fd8',1,'sw::GridLayoutTag']]],
   ['combine_29',['Combine',['../classsw_1_1_path.html#aaa1b4b0e392fed266c3ca9eeabd5200d',1,'sw::Path']]],
@@ -42,5 +42,6 @@ var searchData=
   ['createhandle_39',['CreateHandle',['../classsw_1_1_font.html#ac38911636974d3f67e7ece35cfc8172e',1,'sw::Font']]],
   ['currentdirectory_40',['CurrentDirectory',['../classsw_1_1_app.html#a6d37ddbf6c419a02182c325a1dce5575',1,'sw::App']]],
   ['cursorhelper_41',['CursorHelper',['../classsw_1_1_cursor_helper.html',1,'sw']]],
-  ['cursorposition_42',['CursorPosition',['../classsw_1_1_screen.html#a0bf87a2c7e6680747d8a77e4daf466a8',1,'sw::Screen']]]
+  ['cursorposition_42',['CursorPosition',['../classsw_1_1_screen.html#a0bf87a2c7e6680747d8a77e4daf466a8',1,'sw::Screen']]],
+  ['customformat_43',['CustomFormat',['../classsw_1_1_date_time_picker.html#a02536c45142f088a408d311ef17fde62',1,'sw::DateTimePicker']]]
 ];

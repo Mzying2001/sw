@@ -8,5 +8,6 @@ var searchData=
   ['font_5',['Font',['../classsw_1_1_wnd_base.html#a529436cd730fc39ad2875728cdfe4a51',1,'sw::WndBase']]],
   ['fontname_6',['FontName',['../classsw_1_1_wnd_base.html#a72a604f374bba1e6c34b5d5e56cd26f0',1,'sw::WndBase']]],
   ['fontsize_7',['FontSize',['../classsw_1_1_wnd_base.html#ac49c6452ceb4950dd581189615753b0c',1,'sw::WndBase']]],
-  ['fontweight_8',['FontWeight',['../classsw_1_1_wnd_base.html#a50e006e69f07abb4e6ba381121abcd22',1,'sw::WndBase']]]
+  ['fontweight_8',['FontWeight',['../classsw_1_1_wnd_base.html#a50e006e69f07abb4e6ba381121abcd22',1,'sw::WndBase']]],
+  ['format_9',['Format',['../classsw_1_1_date_time_picker.html#afd9a0d466134e5d6ef0238c6ceed1d03',1,'sw::DateTimePicker']]]
 ];

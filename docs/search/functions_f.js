@@ -15,6 +15,6 @@ var searchData=
   ['removeitemat_12',['RemoveItemAt',['../classsw_1_1_combo_box.html#acd95ee1c4a1d8909d78df8c8e1820088',1,'sw::ComboBox::RemoveItemAt()'],['../classsw_1_1_items_control.html#a8ee8ced8a1134133fa7066ee4e29b7eb',1,'sw::ItemsControl::RemoveItemAt()'],['../classsw_1_1_list_box.html#a7bc0ff18482d6a90f643e9b4d796c9ed',1,'sw::ListBox::RemoveItemAt()'],['../classsw_1_1_list_view.html#aa8794834f72d435f8b6dee8b34d1d59c',1,'sw::ListView::RemoveItemAt()']]],
   ['rend_13',['rend',['../classsw_1_1_dictionary.html#ab46b8829980f88dd6fe703d4d2961773',1,'sw::Dictionary::rend()'],['../classsw_1_1_list.html#a926521f6a537069d6e398306b9f870fb',1,'sw::List::rend()']]],
   ['resetcursor_14',['ResetCursor',['../classsw_1_1_u_i_element.html#a421400e98ae700b0593cda2ceec5c1f7',1,'sw::UIElement']]],
-  ['resethandle_15',['ResetHandle',['../classsw_1_1_control.html#ac6593e51639858796dfa85f3910ccba9',1,'sw::Control']]],
+  ['resethandle_15',['ResetHandle',['../classsw_1_1_control.html#ac6593e51639858796dfa85f3910ccba9',1,'sw::Control::ResetHandle()'],['../classsw_1_1_control.html#a22f117bd4d39c273cfe625d9ce00361a',1,'sw::Control::ResetHandle(DWORD style, DWORD exStyle)']]],
   ['routedeventargs_16',['RoutedEventArgs',['../structsw_1_1_routed_event_args.html#ad6e6da62f114abfabb682afd38b6f7a3',1,'sw::RoutedEventArgs']]]
 ];

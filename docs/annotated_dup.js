@@ -20,6 +20,8 @@ var annotated_dup =
       [ "ContextMenu", "classsw_1_1_context_menu.html", "classsw_1_1_context_menu" ],
       [ "Control", "classsw_1_1_control.html", "classsw_1_1_control" ],
       [ "CursorHelper", "classsw_1_1_cursor_helper.html", null ],
+      [ "DateTimePicker", "classsw_1_1_date_time_picker.html", "classsw_1_1_date_time_picker" ],
+      [ "DateTimePickerTimeChangedEventArgs", "structsw_1_1_date_time_picker_time_changed_event_args.html", null ],
       [ "Dictionary", "classsw_1_1_dictionary.html", "classsw_1_1_dictionary" ],
       [ "Dip", "classsw_1_1_dip.html", null ],
       [ "DockLayout", "classsw_1_1_dock_layout.html", "classsw_1_1_dock_layout" ],
