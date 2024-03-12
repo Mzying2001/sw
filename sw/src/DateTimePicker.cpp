@@ -28,7 +28,7 @@ sw::DateTimePicker::DateTimePicker()
                   return;
               }
               DWORD style = this->GetStyle();
-              style &= ~((DTS_SHORTDATEFORMAT | DTS_LONGDATEFORMAT) & ~DTS_UPDOWN);
+              style &= ~(DTS_SHORTDATEFORMAT | DTS_LONGDATEFORMAT);
               switch (value) {
                   case DateTimePickerFormat::Short:
                   case DateTimePickerFormat::Custom:
