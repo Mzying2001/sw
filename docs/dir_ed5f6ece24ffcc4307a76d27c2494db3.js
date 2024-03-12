@@ -14,6 +14,7 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "ContextMenu.h", "_context_menu_8h_source.html", null ],
     [ "Control.h", "_control_8h_source.html", null ],
     [ "Cursor.h", "_cursor_8h_source.html", null ],
+    [ "DateTimePicker.h", "_date_time_picker_8h_source.html", null ],
     [ "Dictionary.h", "_dictionary_8h_source.html", null ],
     [ "Dip.h", "_dip_8h_source.html", null ],
     [ "DockLayout.h", "_dock_layout_8h_source.html", null ],

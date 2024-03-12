@@ -267,4 +267,17 @@ namespace sw
         {
         }
     };
+
+    /**
+     * @brief DateTimePicker控件时间改变事件参数类型
+     */
+    struct DateTimePickerTimeChangedEventArgs : RoutedEventArgsOfType<DateTimePicker_TimeChanged> {
+
+        SYSTEMTIME time; // 时间的新值
+
+        DateTimePickerTimeChangedEventArgs(const SYSTEMTIME &time)
+            : time(time)
+        {
+        }
+    };
 }

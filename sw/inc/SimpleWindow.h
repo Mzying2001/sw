@@ -15,6 +15,7 @@
 #include "ContextMenu.h"
 #include "Control.h"
 #include "Cursor.h"
+#include "DateTimePicker.h"
 #include "Dictionary.h"
 #include "Dip.h"
 #include "DockLayout.h"

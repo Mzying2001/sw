@@ -997,50 +997,50 @@ bool sw::WndBase::IsVisible()
     return IsWindowVisible(this->_hwnd);
 }
 
-LONG_PTR sw::WndBase::GetStyle()
+DWORD sw::WndBase::GetStyle()
 {
-    return GetWindowLongPtrW(this->_hwnd, GWL_STYLE);
+    return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE));
 }
 
-void sw::WndBase::SetStyle(LONG_PTR style)
+void sw::WndBase::SetStyle(DWORD style)
 {
-    SetWindowLongPtrW(this->_hwnd, GWL_STYLE, style);
+    SetWindowLongPtrW(this->_hwnd, GWL_STYLE, LONG_PTR(style));
 }
 
-bool sw::WndBase::GetStyle(LONG_PTR mask)
+bool sw::WndBase::GetStyle(DWORD mask)
 {
-    return GetWindowLongPtrW(this->_hwnd, GWL_STYLE) & mask;
+    return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) & mask;
 }
 
-void sw::WndBase::SetStyle(LONG_PTR mask, bool value)
+void sw::WndBase::SetStyle(DWORD mask, bool value)
 {
-    LONG_PTR newstyle =
-        value ? (GetWindowLongPtrW(this->_hwnd, GWL_STYLE) | mask)
-              : (GetWindowLongPtrW(this->_hwnd, GWL_STYLE) & ~mask);
-    SetWindowLongPtrW(this->_hwnd, GWL_STYLE, newstyle);
+    DWORD newstyle =
+        value ? (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) | mask)
+              : (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) & ~mask);
+    SetWindowLongPtrW(this->_hwnd, GWL_STYLE, LONG_PTR(newstyle));
 }
 
-LONG_PTR sw::WndBase::GetExtendedStyle()
+DWORD sw::WndBase::GetExtendedStyle()
 {
-    return GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE);
+    return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE));
 }
 
-void sw::WndBase::SetExtendedStyle(LONG_PTR style)
+void sw::WndBase::SetExtendedStyle(DWORD style)
 {
-    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, style);
+    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, LONG_PTR(style));
 }
 
-bool sw::WndBase::GetExtendedStyle(LONG_PTR mask)
+bool sw::WndBase::GetExtendedStyle(DWORD mask)
 {
-    return GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) & mask;
+    return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE)) & mask;
 }
 
-void sw::WndBase::SetExtendedStyle(LONG_PTR mask, bool value)
+void sw::WndBase::SetExtendedStyle(DWORD mask, bool value)
 {
-    LONG_PTR newstyle =
-        value ? (GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) | mask)
-              : (GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) & ~mask);
-    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, newstyle);
+    DWORD newstyle =
+        value ? (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE)) | mask)
+              : (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE)) & ~mask);
+    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, LONG_PTR(newstyle));
 }
 
 sw::Point sw::WndBase::PointToScreen(const Point &point)

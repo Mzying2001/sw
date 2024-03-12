@@ -14,5 +14,6 @@ var searchData=
   ['fontchanged_11',['FontChanged',['../classsw_1_1_label.html#af5e6d5d4530ee12b52ce2ab16f180aac',1,'sw::Label::FontChanged()'],['../classsw_1_1_wnd_base.html#ac34494921eed0f67a053a9393d78bcf9',1,'sw::WndBase::FontChanged(HFONT hfont)']]],
   ['fontname_12',['FontName',['../classsw_1_1_wnd_base.html#a72a604f374bba1e6c34b5d5e56cd26f0',1,'sw::WndBase']]],
   ['fontsize_13',['FontSize',['../classsw_1_1_wnd_base.html#ac49c6452ceb4950dd581189615753b0c',1,'sw::WndBase']]],
-  ['fontweight_14',['FontWeight',['../classsw_1_1_wnd_base.html#a50e006e69f07abb4e6ba381121abcd22',1,'sw::WndBase']]]
+  ['fontweight_14',['FontWeight',['../classsw_1_1_wnd_base.html#a50e006e69f07abb4e6ba381121abcd22',1,'sw::WndBase']]],
+  ['format_15',['Format',['../classsw_1_1_date_time_picker.html#afd9a0d466134e5d6ef0238c6ceed1d03',1,'sw::DateTimePicker']]]
 ];

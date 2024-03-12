@@ -6,6 +6,7 @@
 #include <string>
 #include <cstdint>
 #include <iostream>
+#include <commctrl.h>
 #include <map>
 #include <initializer_list>
 #include <algorithm>
@@ -1315,6 +1316,9 @@ namespace sw
 
         // SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
         TabControl_SelectedIndexChanged,
+
+        // DateTimePicker控件的时间改变，参数类型为sw::DateTimePickerTimeChangedEventArgs
+        DateTimePicker_TimeChanged,
     };
 
     /*================================================================================*/
@@ -2600,6 +2604,19 @@ namespace sw
         {
         }
     };
+
+    /**
+     * @brief DateTimePicker控件时间改变事件参数类型
+     */
+    struct DateTimePickerTimeChangedEventArgs : RoutedEventArgsOfType<DateTimePicker_TimeChanged> {
+
+        SYSTEMTIME time; // 时间的新值
+
+        DateTimePickerTimeChangedEventArgs(const SYSTEMTIME &time)
+            : time(time)
+        {
+        }
+    };
 }
 
 // Screen.h
@@ -3544,48 +3561,48 @@ namespace sw
         /**
          * @brief 获取窗口样式
          */
-        LONG_PTR GetStyle();
+        DWORD GetStyle();
 
         /**
          * @brief 设置窗口样式
          */
-        void SetStyle(LONG_PTR style);
+        void SetStyle(DWORD style);
 
         /**
          * @brief      判断窗口是否设有指定样式
          * @param mask 样式的位掩码，可以是多个样式
          */
-        bool GetStyle(LONG_PTR mask);
+        bool GetStyle(DWORD mask);
 
         /**
          * @brief       打开或关闭指定的样式
          * @param mask  样式的位掩码，可以是多个样式
          * @param value 是否启用指定的样式
          */
-        void SetStyle(LONG_PTR mask, bool value);
+        void SetStyle(DWORD mask, bool value);
 
         /**
          * @brief 获取扩展窗口样式
          */
-        LONG_PTR GetExtendedStyle();
+        DWORD GetExtendedStyle();
 
         /**
          * @brief 设置扩展窗口样式
          */
-        void SetExtendedStyle(LONG_PTR style);
+        void SetExtendedStyle(DWORD style);
 
         /**
          * @brief      判断窗口是否设有指定扩展样式
          * @param mask 扩展样式的位掩码，可以是多个扩展样式
          */
-        bool GetExtendedStyle(LONG_PTR mask);
+        bool GetExtendedStyle(DWORD mask);
 
         /**
          * @brief       打开或关闭指定的扩展样式
          * @param mask  扩展样式的位掩码，可以是多个扩展样式
          * @param value 是否启用指定的扩展样式
          */
-        void SetExtendedStyle(LONG_PTR mask, bool value);
+        void SetExtendedStyle(DWORD mask, bool value);
 
         /**
          * @brief       获取用户区点在屏幕上点的位置
@@ -5249,6 +5266,13 @@ namespace sw
         void ResetHandle();
 
         /**
+         * @brief         销毁控件句柄并重新初始化，并修改样式，该操作会创建新的句柄并设置样式、文本、字体等
+         * @param style   新的样式
+         * @param exStyle 新的扩展样式
+         */
+        void ResetHandle(DWORD style, DWORD exStyle);
+
+        /**
          * @brief 控件句柄发生改变时调用该函数
          */
         virtual void HandleChenged();
@@ -5604,6 +5628,99 @@ namespace sw
          * @brief 被双击时调用该函数
          */
         virtual void OnDoubleClicked();
+    };
+}
+
+// DateTimePicker.h
+
+
+namespace sw
+{
+    /**
+     * @brief 指定DateTimePicker控件显示的日期和时间格式
+     */
+    enum class DateTimePickerFormat {
+        Short,  // 以短格式显示日期
+        Long,   // 以长格式显示日期
+        Custom, // 自定义格式
+    };
+
+    /**
+     * @brief 日期和时间选取器
+     */
+    class DateTimePicker : public Control
+    {
+    private:
+        /**
+         * @brief 日期和时间格式
+         */
+        DateTimePickerFormat _format{DateTimePickerFormat::Short};
+
+        /**
+         * @brief 自定义格式字符串
+         */
+        std::wstring _customFormat{};
+
+    public:
+        /**
+         * @brief 是否显示上下调整按钮
+         */
+        const Property<bool> ShowUpDownButton;
+
+        /**
+         * @brief 日期和时间格式
+         */
+        const Property<DateTimePickerFormat> Format;
+
+        /**
+         * @brief 自定义日期和时间格式字符串，空字符串表示默认格式
+         */
+        const Property<std::wstring> CustomFormat;
+
+    public:
+        /**
+         * @brief 初始化DateTimePicker
+         */
+        DateTimePicker();
+
+        /**
+         * @brief     获取当前控件表示的时间
+         * @param out 输出的SYSTEMTIME结构体
+         * @return    若获取成功则返回true，否则返回false
+         */
+        bool GetTime(SYSTEMTIME &out);
+
+        /**
+         * @brief      设置当前控件表示的时间
+         * @param time 要设置的时间
+         * @return     若设置成功则返回true，否则返回false
+         */
+        bool SetTime(const SYSTEMTIME &time);
+
+    protected:
+        /**
+         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         */
+        virtual void OnNotified(NMHDR *pNMHDR);
+
+        /**
+         * @brief       当前控件表示的时间改变时调用该函数
+         * @param pInfo 发生改变的信息
+         */
+        virtual void OnTimeChanged(NMDATETIMECHANGE *pInfo);
+
+    private:
+        /**
+         * @brief       设置格式字符串
+         * @param value 要设置的值
+         */
+        void _SetFormat(const std::wstring &value);
+
+        /**
+         * @brief       修改当前控件的样式，该函数会调用ResetHandle
+         * @param style 新的样式
+         */
+        void _UpdateStyle(DWORD style);
     };
 }
 

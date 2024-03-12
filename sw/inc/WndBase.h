@@ -652,48 +652,48 @@ namespace sw
         /**
          * @brief 获取窗口样式
          */
-        LONG_PTR GetStyle();
+        DWORD GetStyle();
 
         /**
          * @brief 设置窗口样式
          */
-        void SetStyle(LONG_PTR style);
+        void SetStyle(DWORD style);
 
         /**
          * @brief      判断窗口是否设有指定样式
          * @param mask 样式的位掩码，可以是多个样式
          */
-        bool GetStyle(LONG_PTR mask);
+        bool GetStyle(DWORD mask);
 
         /**
          * @brief       打开或关闭指定的样式
          * @param mask  样式的位掩码，可以是多个样式
          * @param value 是否启用指定的样式
          */
-        void SetStyle(LONG_PTR mask, bool value);
+        void SetStyle(DWORD mask, bool value);
 
         /**
          * @brief 获取扩展窗口样式
          */
-        LONG_PTR GetExtendedStyle();
+        DWORD GetExtendedStyle();
 
         /**
          * @brief 设置扩展窗口样式
          */
-        void SetExtendedStyle(LONG_PTR style);
+        void SetExtendedStyle(DWORD style);
 
         /**
          * @brief      判断窗口是否设有指定扩展样式
          * @param mask 扩展样式的位掩码，可以是多个扩展样式
          */
-        bool GetExtendedStyle(LONG_PTR mask);
+        bool GetExtendedStyle(DWORD mask);
 
         /**
          * @brief       打开或关闭指定的扩展样式
          * @param mask  扩展样式的位掩码，可以是多个扩展样式
          * @param value 是否启用指定的扩展样式
          */
-        void SetExtendedStyle(LONG_PTR mask, bool value);
+        void SetExtendedStyle(DWORD mask, bool value);
 
         /**
          * @brief       获取用户区点在屏幕上点的位置

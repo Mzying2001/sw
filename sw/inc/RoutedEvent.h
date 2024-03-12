@@ -108,6 +108,9 @@ namespace sw
 
         // SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
         TabControl_SelectedIndexChanged,
+
+        // DateTimePicker控件的时间改变，参数类型为sw::DateTimePickerTimeChangedEventArgs
+        DateTimePicker_TimeChanged,
     };
 
     /*================================================================================*/

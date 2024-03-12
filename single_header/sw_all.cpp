@@ -789,15 +789,20 @@ sw::Control::~Control()
 
 void sw::Control::ResetHandle()
 {
+    DWORD style   = this->GetStyle();
+    DWORD exStyle = this->GetExtendedStyle();
+    this->ResetHandle(style, exStyle);
+}
+
+void sw::Control::ResetHandle(DWORD style, DWORD exStyle)
+{
     HWND &refHwnd = const_cast<HWND &>(this->Handle.Get());
 
     RECT rect = this->Rect.Get();
     auto text = this->GetText().c_str();
 
-    HWND oldHwnd  = refHwnd;
-    HWND hParent  = GetParent(oldHwnd);
-    DWORD style   = DWORD(GetWindowLongPtrW(oldHwnd, GWL_STYLE));
-    DWORD exStyle = DWORD(GetWindowLongPtrW(oldHwnd, GWL_EXSTYLE));
+    HWND oldHwnd = refHwnd;
+    HWND hParent = GetParent(oldHwnd);
 
     wchar_t className[256];
     GetClassNameW(oldHwnd, className, 256);
@@ -851,6 +856,116 @@ HCURSOR sw::CursorHelper::GetCursorHandle(HINSTANCE hInstance, int resourceId)
 HCURSOR sw::CursorHelper::GetCursorHandle(const std::wstring &fileName)
 {
     return (HCURSOR)LoadImageW(NULL, fileName.c_str(), IMAGE_CURSOR, 0, 0, LR_LOADFROMFILE);
+}
+
+// DateTimePicker.cpp
+
+sw::DateTimePicker::DateTimePicker()
+    : ShowUpDownButton(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(DTS_UPDOWN);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->ShowUpDownButton != value) {
+                  this->_UpdateStyle(
+                      value ? (this->GetStyle() | DTS_UPDOWN)
+                            : (this->GetStyle() & ~DTS_UPDOWN));
+              }
+          }),
+
+      Format(
+          // get
+          [&]() -> const DateTimePickerFormat & {
+              return this->_format;
+          },
+          // set
+          [&](const DateTimePickerFormat &value) {
+              if (this->_format == value) {
+                  return;
+              }
+              DWORD style = this->GetStyle();
+              style &= ~((DTS_SHORTDATEFORMAT | DTS_LONGDATEFORMAT) & ~DTS_UPDOWN);
+              switch (value) {
+                  case DateTimePickerFormat::Short:
+                  case DateTimePickerFormat::Custom:
+                      style |= DTS_SHORTDATEFORMAT;
+                      break;
+                  case DateTimePickerFormat::Long:
+                      style |= DTS_LONGDATEFORMAT;
+                      break;
+              }
+              this->_format = value;
+              this->_UpdateStyle(style);
+          }),
+
+      CustomFormat(
+          // get
+          [&]() -> const std::wstring & {
+              return this->_customFormat;
+          },
+          // set
+          [&](const std::wstring &value) {
+              this->_format       = DateTimePickerFormat::Custom;
+              this->_customFormat = value;
+              this->_SetFormat(this->_customFormat);
+          })
+{
+    this->InitControl(DATETIMEPICK_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | DTS_SHORTDATEFORMAT, 0);
+    this->Rect    = sw::Rect{0, 0, 100, 24};
+    this->TabStop = true;
+}
+
+bool sw::DateTimePicker::GetTime(SYSTEMTIME &out)
+{
+    return this->SendMessageW(DTM_GETSYSTEMTIME, 0, reinterpret_cast<LPARAM>(&out)) == GDT_VALID;
+}
+
+bool sw::DateTimePicker::SetTime(const SYSTEMTIME &time)
+{
+    bool result = this->SendMessageW(DTM_SETSYSTEMTIME, GDT_VALID, reinterpret_cast<LPARAM>(&time));
+    if (result) {
+        SYSTEMTIME time{};
+        this->GetTime(time);
+        DateTimePickerTimeChangedEventArgs arg{time};
+        this->RaiseRoutedEvent(arg);
+    }
+    return result;
+}
+
+void sw::DateTimePicker::OnNotified(NMHDR *pNMHDR)
+{
+    if (pNMHDR->code == DTN_DATETIMECHANGE) {
+        this->OnTimeChanged(reinterpret_cast<NMDATETIMECHANGE *>(pNMHDR));
+    }
+}
+
+void sw::DateTimePicker::OnTimeChanged(NMDATETIMECHANGE *pInfo)
+{
+    DateTimePickerTimeChangedEventArgs arg{pInfo->st};
+    this->RaiseRoutedEvent(arg);
+}
+
+void sw::DateTimePicker::_SetFormat(const std::wstring &value)
+{
+    LPCWSTR fmt = value.empty() ? nullptr : value.c_str();
+    this->SendMessageW(DTM_SETFORMATW, 0, reinterpret_cast<LPARAM>(fmt));
+}
+
+void sw::DateTimePicker::_UpdateStyle(DWORD style)
+{
+    SYSTEMTIME time;
+    this->GetTime(time);
+
+    this->ResetHandle(style, this->GetExtendedStyle());
+
+    this->SendMessageW(DTM_SETSYSTEMTIME, GDT_VALID, reinterpret_cast<LPARAM>(&time));
+    if (this->_format == DateTimePickerFormat::Custom) {
+        this->_SetFormat(this->_customFormat);
+    }
 }
 
 // Dip.cpp
@@ -2118,7 +2233,7 @@ sw::Label::Label()
           // get
           [&]() -> const sw::HorizontalAlignment & {
               static sw::HorizontalAlignment result;
-              LONG_PTR style = this->GetStyle();
+              DWORD style = this->GetStyle();
               if (style & SS_CENTER) {
                   result = sw::HorizontalAlignment::Center;
               } else if (style & SS_RIGHT) {
@@ -2136,14 +2251,14 @@ sw::Label::Label()
                       break;
                   }
                   case sw::HorizontalAlignment::Center: {
-                      LONG_PTR style = this->GetStyle();
+                      DWORD style = this->GetStyle();
                       style &= ~(SS_CENTER | SS_RIGHT);
                       style |= SS_CENTER;
                       this->SetStyle(style);
                       break;
                   }
                   case sw::HorizontalAlignment::Right: {
-                      LONG_PTR style = this->GetStyle();
+                      DWORD style = this->GetStyle();
                       style &= ~(SS_CENTER | SS_RIGHT);
                       style |= SS_RIGHT;
                       this->SetStyle(style);
@@ -2172,7 +2287,7 @@ sw::Label::Label()
           // get
           [&]() -> const sw::TextTrimming & {
               static sw::TextTrimming result;
-              LONG_PTR style = this->GetStyle();
+              DWORD style = this->GetStyle();
               if ((style & SS_WORDELLIPSIS) == SS_WORDELLIPSIS) {
                   result = sw::TextTrimming::WordEllipsis;
               } else if (style & SS_ENDELLIPSIS) {
@@ -2194,7 +2309,7 @@ sw::Label::Label()
                       break;
                   }
                   case sw::TextTrimming::EndEllipsis: {
-                      LONG_PTR style = this->GetStyle();
+                      DWORD style = this->GetStyle();
                       style &= ~SS_WORDELLIPSIS;
                       style |= SS_ENDELLIPSIS;
                       this->SetStyle(style);
@@ -5315,14 +5430,14 @@ sw::TextBoxBase::TextBoxBase()
                       break;
                   }
                   case sw::HorizontalAlignment::Center: {
-                      LONG_PTR style = this->GetStyle();
+                      DWORD style = this->GetStyle();
                       style &= ~(ES_CENTER | ES_RIGHT);
                       style |= ES_CENTER;
                       this->SetStyle(style);
                       break;
                   }
                   case sw::HorizontalAlignment::Right: {
-                      LONG_PTR style = this->GetStyle();
+                      DWORD style = this->GetStyle();
                       style &= ~(ES_CENTER | ES_RIGHT);
                       style |= ES_RIGHT;
                       this->SetStyle(style);
@@ -8127,50 +8242,50 @@ bool sw::WndBase::IsVisible()
     return IsWindowVisible(this->_hwnd);
 }
 
-LONG_PTR sw::WndBase::GetStyle()
+DWORD sw::WndBase::GetStyle()
 {
-    return GetWindowLongPtrW(this->_hwnd, GWL_STYLE);
+    return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE));
 }
 
-void sw::WndBase::SetStyle(LONG_PTR style)
+void sw::WndBase::SetStyle(DWORD style)
 {
-    SetWindowLongPtrW(this->_hwnd, GWL_STYLE, style);
+    SetWindowLongPtrW(this->_hwnd, GWL_STYLE, LONG_PTR(style));
 }
 
-bool sw::WndBase::GetStyle(LONG_PTR mask)
+bool sw::WndBase::GetStyle(DWORD mask)
 {
-    return GetWindowLongPtrW(this->_hwnd, GWL_STYLE) & mask;
+    return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) & mask;
 }
 
-void sw::WndBase::SetStyle(LONG_PTR mask, bool value)
+void sw::WndBase::SetStyle(DWORD mask, bool value)
 {
-    LONG_PTR newstyle =
-        value ? (GetWindowLongPtrW(this->_hwnd, GWL_STYLE) | mask)
-              : (GetWindowLongPtrW(this->_hwnd, GWL_STYLE) & ~mask);
-    SetWindowLongPtrW(this->_hwnd, GWL_STYLE, newstyle);
+    DWORD newstyle =
+        value ? (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) | mask)
+              : (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) & ~mask);
+    SetWindowLongPtrW(this->_hwnd, GWL_STYLE, LONG_PTR(newstyle));
 }
 
-LONG_PTR sw::WndBase::GetExtendedStyle()
+DWORD sw::WndBase::GetExtendedStyle()
 {
-    return GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE);
+    return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE));
 }
 
-void sw::WndBase::SetExtendedStyle(LONG_PTR style)
+void sw::WndBase::SetExtendedStyle(DWORD style)
 {
-    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, style);
+    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, LONG_PTR(style));
 }
 
-bool sw::WndBase::GetExtendedStyle(LONG_PTR mask)
+bool sw::WndBase::GetExtendedStyle(DWORD mask)
 {
-    return GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) & mask;
+    return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE)) & mask;
 }
 
-void sw::WndBase::SetExtendedStyle(LONG_PTR mask, bool value)
+void sw::WndBase::SetExtendedStyle(DWORD mask, bool value)
 {
-    LONG_PTR newstyle =
-        value ? (GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) | mask)
-              : (GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) & ~mask);
-    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, newstyle);
+    DWORD newstyle =
+        value ? (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE)) | mask)
+              : (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE)) & ~mask);
+    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, LONG_PTR(newstyle));
 }
 
 sw::Point sw::WndBase::PointToScreen(const Point &point)
