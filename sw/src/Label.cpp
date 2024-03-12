@@ -7,7 +7,7 @@ sw::Label::Label()
           // get
           [&]() -> const sw::HorizontalAlignment & {
               static sw::HorizontalAlignment result;
-              LONG_PTR style = this->GetStyle();
+              DWORD style = this->GetStyle();
               if (style & SS_CENTER) {
                   result = sw::HorizontalAlignment::Center;
               } else if (style & SS_RIGHT) {
@@ -25,14 +25,14 @@ sw::Label::Label()
                       break;
                   }
                   case sw::HorizontalAlignment::Center: {
-                      LONG_PTR style = this->GetStyle();
+                      DWORD style = this->GetStyle();
                       style &= ~(SS_CENTER | SS_RIGHT);
                       style |= SS_CENTER;
                       this->SetStyle(style);
                       break;
                   }
                   case sw::HorizontalAlignment::Right: {
-                      LONG_PTR style = this->GetStyle();
+                      DWORD style = this->GetStyle();
                       style &= ~(SS_CENTER | SS_RIGHT);
                       style |= SS_RIGHT;
                       this->SetStyle(style);
@@ -61,7 +61,7 @@ sw::Label::Label()
           // get
           [&]() -> const sw::TextTrimming & {
               static sw::TextTrimming result;
-              LONG_PTR style = this->GetStyle();
+              DWORD style = this->GetStyle();
               if ((style & SS_WORDELLIPSIS) == SS_WORDELLIPSIS) {
                   result = sw::TextTrimming::WordEllipsis;
               } else if (style & SS_ENDELLIPSIS) {
@@ -83,7 +83,7 @@ sw::Label::Label()
                       break;
                   }
                   case sw::TextTrimming::EndEllipsis: {
-                      LONG_PTR style = this->GetStyle();
+                      DWORD style = this->GetStyle();
                       style &= ~SS_WORDELLIPSIS;
                       style |= SS_ENDELLIPSIS;
                       this->SetStyle(style);

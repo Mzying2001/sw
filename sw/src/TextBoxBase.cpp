@@ -35,14 +35,14 @@ sw::TextBoxBase::TextBoxBase()
                       break;
                   }
                   case sw::HorizontalAlignment::Center: {
-                      LONG_PTR style = this->GetStyle();
+                      DWORD style = this->GetStyle();
                       style &= ~(ES_CENTER | ES_RIGHT);
                       style |= ES_CENTER;
                       this->SetStyle(style);
                       break;
                   }
                   case sw::HorizontalAlignment::Right: {
-                      LONG_PTR style = this->GetStyle();
+                      DWORD style = this->GetStyle();
                       style &= ~(ES_CENTER | ES_RIGHT);
                       style |= ES_RIGHT;
                       this->SetStyle(style);

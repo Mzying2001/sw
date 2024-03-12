@@ -10,8 +10,8 @@ sw::Control::~Control()
 
 void sw::Control::ResetHandle()
 {
-    DWORD style   = static_cast<DWORD>(this->GetStyle());
-    DWORD exStyle = static_cast<DWORD>(this->GetExtendedStyle());
+    DWORD style   = this->GetStyle();
+    DWORD exStyle = this->GetExtendedStyle();
     this->ResetHandle(style, exStyle);
 }
 
