@@ -1,8 +1,8 @@
 var searchData=
 [
   ['weight_0',['weight',['../classsw_1_1_font.html#aa5126e73aad9ba2fd6aab826bac16a5c',1,'sw::Font']]],
-  ['width_1',['width',['../structsw_1_1_grid_column.html#aa07dbbfe79ce8c33ebd7bffa430bf6eb',1,'sw::GridColumn::width'],['../structsw_1_1_list_view_column.html#abd8ec9f51310be92ec1ff113314e5257',1,'sw::ListViewColumn::width'],['../structsw_1_1_rect.html#ada69154ab3d734587ef9695b10144b01',1,'sw::Rect::width'],['../structsw_1_1_size.html#a22c3b210b0c48e2812604381f729d5bd',1,'sw::Size::width']]],
-  ['width_2',['Width',['../classsw_1_1_screen.html#a2276c1ff4a907b74517a0e12b3999c92',1,'sw::Screen::Width'],['../classsw_1_1_wnd_base.html#a445edbe5db50a5a4486ddff98e8ffbae',1,'sw::WndBase::Width']]],
+  ['width_1',['Width',['../classsw_1_1_screen.html#a2276c1ff4a907b74517a0e12b3999c92',1,'sw::Screen::Width'],['../classsw_1_1_wnd_base.html#a445edbe5db50a5a4486ddff98e8ffbae',1,'sw::WndBase::Width']]],
+  ['width_2',['width',['../structsw_1_1_grid_column.html#aa07dbbfe79ce8c33ebd7bffa430bf6eb',1,'sw::GridColumn::width'],['../structsw_1_1_list_view_column.html#abd8ec9f51310be92ec1ff113314e5257',1,'sw::ListViewColumn::width'],['../structsw_1_1_rect.html#ada69154ab3d734587ef9695b10144b01',1,'sw::Rect::width'],['../structsw_1_1_size.html#a22c3b210b0c48e2812604381f729d5bd',1,'sw::Size::width']]],
   ['window_3',['Window',['../classsw_1_1_window.html',1,'sw::Window'],['../classsw_1_1_window.html#a24eed02d394d13b368f5cf99b2a68c44',1,'sw::Window::Window()']]],
   ['windowclosingeventargs_4',['WindowClosingEventArgs',['../structsw_1_1_window_closing_event_args.html',1,'sw']]],
   ['windowcount_5',['WindowCount',['../classsw_1_1_window.html#a317c7f1dea4dd3f29d5d7c865563c310',1,'sw::Window']]],
@@ -40,9 +40,10 @@ var searchData=
   ['writeonlyproperty_3c_20sw_3a_3averticalalignment_20_3e_37',['WriteOnlyProperty&lt; sw::VerticalAlignment &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
   ['writeonlyproperty_3c_20tabalignment_20_3e_38',['WriteOnlyProperty&lt; TabAlignment &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
   ['writeonlyproperty_3c_20uint16_5ft_20_3e_39',['WriteOnlyProperty&lt; uint16_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20uint64_5ft_20_3e_40',['WriteOnlyProperty&lt; uint64_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20verticalalignment_20_3e_41',['WriteOnlyProperty&lt; VerticalAlignment &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20wchar_5ft_20_3e_42',['WriteOnlyProperty&lt; wchar_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20windowstartuplocation_20_3e_43',['WriteOnlyProperty&lt; WindowStartupLocation &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20windowstate_20_3e_44',['WriteOnlyProperty&lt; WindowState &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]]
+  ['writeonlyproperty_3c_20uint32_5ft_20_3e_40',['WriteOnlyProperty&lt; uint32_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20uint64_5ft_20_3e_41',['WriteOnlyProperty&lt; uint64_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20verticalalignment_20_3e_42',['WriteOnlyProperty&lt; VerticalAlignment &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20wchar_5ft_20_3e_43',['WriteOnlyProperty&lt; wchar_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20windowstartuplocation_20_3e_44',['WriteOnlyProperty&lt; WindowStartupLocation &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20windowstate_20_3e_45',['WriteOnlyProperty&lt; WindowState &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]]
 ];

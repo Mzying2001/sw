@@ -77,7 +77,9 @@ var hierarchy =
           [ "sw::Slider", "classsw_1_1_slider.html", null ],
           [ "sw::StaticControl", "classsw_1_1_static_control.html", [
             [ "sw::BmpBox", "classsw_1_1_bmp_box.html", null ],
-            [ "sw::HwndHost", "classsw_1_1_hwnd_host.html", null ],
+            [ "sw::HwndHost", "classsw_1_1_hwnd_host.html", [
+              [ "sw::IPAddressControl", "classsw_1_1_i_p_address_control.html", null ]
+            ] ],
             [ "sw::IconBox", "classsw_1_1_icon_box.html", null ],
             [ "sw::Label", "classsw_1_1_label.html", null ],
             [ "sw::Splitter", "classsw_1_1_splitter.html", null ]
@@ -119,6 +121,7 @@ var hierarchy =
       [ "sw::Property< bool >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::CheckState >", "classsw_1_1_property.html", null ],
       [ "sw::Property< DateTimePickerFormat >", "classsw_1_1_property.html", null ],
+      [ "sw::Property< uint32_t >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::HorizontalAlignment >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::VerticalAlignment >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::TextTrimming >", "classsw_1_1_property.html", null ],
@@ -181,6 +184,7 @@ var hierarchy =
     [ "sw::ReadOnlyProperty< TabAlignment >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< TItem >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< uint16_t >", "classsw_1_1_read_only_property.html", null ],
+    [ "sw::ReadOnlyProperty< uint32_t >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< uint64_t >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< VerticalAlignment >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< wchar_t >", "classsw_1_1_read_only_property.html", null ],
@@ -255,6 +259,7 @@ var hierarchy =
       [ "sw::Property< bool >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::CheckState >", "classsw_1_1_property.html", null ],
       [ "sw::Property< DateTimePickerFormat >", "classsw_1_1_property.html", null ],
+      [ "sw::Property< uint32_t >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::HorizontalAlignment >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::VerticalAlignment >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::TextTrimming >", "classsw_1_1_property.html", null ],
@@ -307,6 +312,7 @@ var hierarchy =
     [ "sw::WriteOnlyProperty< sw::VerticalAlignment >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< TabAlignment >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< uint16_t >", "classsw_1_1_write_only_property.html", null ],
+    [ "sw::WriteOnlyProperty< uint32_t >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< uint64_t >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< VerticalAlignment >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< wchar_t >", "classsw_1_1_write_only_property.html", null ],

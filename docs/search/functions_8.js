@@ -13,12 +13,13 @@ var searchData=
   ['insert_10',['Insert',['../classsw_1_1_list.html#a68c7aaae99a0e18274de59cad82c5743',1,'sw::List']]],
   ['insertcolumn_11',['InsertColumn',['../classsw_1_1_list_view.html#a985c48bef310cdcb10b722c9aec8ebbf',1,'sw::ListView::InsertColumn(int index, const ListViewColumn &amp;column)'],['../classsw_1_1_list_view.html#a0abf70d4eee217e060b84686f30b8a09',1,'sw::ListView::InsertColumn(int index, const std::wstring &amp;header)']]],
   ['insertitem_12',['InsertItem',['../classsw_1_1_combo_box.html#ab1cf2dc76d67d10a2088acfeb29d1398',1,'sw::ComboBox::InsertItem()'],['../classsw_1_1_items_control.html#ab4f053e3c099caf009fab48f7370ad96',1,'sw::ItemsControl::InsertItem()'],['../classsw_1_1_list_box.html#abaa05ef08a38822976373307156029b2',1,'sw::ListBox::InsertItem()'],['../classsw_1_1_list_view.html#a34425690bf39e914861b2211004c2ce1',1,'sw::ListView::InsertItem()']]],
-  ['iscontextmenuid_13',['IsContextMenuID',['../classsw_1_1_context_menu.html#a968f4539826715feb35237acb1ec02b3',1,'sw::ContextMenu']]],
-  ['iscontrol_14',['IsControl',['../classsw_1_1_wnd_base.html#ace8f6b05caa5d335f7d574c38035bfa7',1,'sw::WndBase']]],
-  ['isempty_15',['IsEmpty',['../classsw_1_1_dictionary.html#a16703bd325716445121e257ae489dcc4',1,'sw::Dictionary::IsEmpty()'],['../classsw_1_1_list.html#aed38231dffce414f40d272aba6e7099c',1,'sw::List::IsEmpty()']]],
-  ['ismodal_16',['IsModal',['../classsw_1_1_window.html#a1cdd78ebe0571b1c9bb49403ed8d8381',1,'sw::Window']]],
-  ['isrootelement_17',['IsRootElement',['../classsw_1_1_u_i_element.html#a67bd7d81e6091118e4c97cc24c68543d',1,'sw::UIElement']]],
-  ['isroutedeventregistered_18',['IsRoutedEventRegistered',['../classsw_1_1_u_i_element.html#adf8152f31c5e109ba016316182bcec47',1,'sw::UIElement']]],
-  ['isseparator_19',['IsSeparator',['../classsw_1_1_menu_item.html#a136e71998ffff40e3d165749ba7f7306',1,'sw::MenuItem']]],
-  ['isvisible_20',['IsVisible',['../classsw_1_1_wnd_base.html#a6ee668e7a5261f96df0bd69a1fb868d3',1,'sw::WndBase']]]
+  ['ipaddresscontrol_13',['IPAddressControl',['../classsw_1_1_i_p_address_control.html#a015bd651f4bcdf741ab81f16cbaf155c',1,'sw::IPAddressControl']]],
+  ['iscontextmenuid_14',['IsContextMenuID',['../classsw_1_1_context_menu.html#a968f4539826715feb35237acb1ec02b3',1,'sw::ContextMenu']]],
+  ['iscontrol_15',['IsControl',['../classsw_1_1_wnd_base.html#ace8f6b05caa5d335f7d574c38035bfa7',1,'sw::WndBase']]],
+  ['isempty_16',['IsEmpty',['../classsw_1_1_dictionary.html#a16703bd325716445121e257ae489dcc4',1,'sw::Dictionary::IsEmpty()'],['../classsw_1_1_list.html#aed38231dffce414f40d272aba6e7099c',1,'sw::List::IsEmpty()']]],
+  ['ismodal_17',['IsModal',['../classsw_1_1_window.html#a1cdd78ebe0571b1c9bb49403ed8d8381',1,'sw::Window']]],
+  ['isrootelement_18',['IsRootElement',['../classsw_1_1_u_i_element.html#a67bd7d81e6091118e4c97cc24c68543d',1,'sw::UIElement']]],
+  ['isroutedeventregistered_19',['IsRoutedEventRegistered',['../classsw_1_1_u_i_element.html#adf8152f31c5e109ba016316182bcec47',1,'sw::UIElement']]],
+  ['isseparator_20',['IsSeparator',['../classsw_1_1_menu_item.html#a136e71998ffff40e3d165749ba7f7306',1,'sw::MenuItem']]],
+  ['isvisible_21',['IsVisible',['../classsw_1_1_wnd_base.html#a6ee668e7a5261f96df0bd69a1fb868d3',1,'sw::WndBase']]]
 ];

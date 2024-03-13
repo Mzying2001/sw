@@ -41,11 +41,12 @@ var searchData=
   ['property_3c_20sw_3a_3averticalalignment_20_3e_38',['Property&lt; sw::VerticalAlignment &gt;',['../classsw_1_1_property.html',1,'sw']]],
   ['property_3c_20tabalignment_20_3e_39',['Property&lt; TabAlignment &gt;',['../classsw_1_1_property.html',1,'sw']]],
   ['property_3c_20uint16_5ft_20_3e_40',['Property&lt; uint16_t &gt;',['../classsw_1_1_property.html',1,'sw']]],
-  ['property_3c_20uint64_5ft_20_3e_41',['Property&lt; uint64_t &gt;',['../classsw_1_1_property.html',1,'sw']]],
-  ['property_3c_20verticalalignment_20_3e_42',['Property&lt; VerticalAlignment &gt;',['../classsw_1_1_property.html',1,'sw']]],
-  ['property_3c_20wchar_5ft_20_3e_43',['Property&lt; wchar_t &gt;',['../classsw_1_1_property.html',1,'sw']]],
-  ['property_3c_20windowstartuplocation_20_3e_44',['Property&lt; WindowStartupLocation &gt;',['../classsw_1_1_property.html',1,'sw']]],
-  ['property_3c_20windowstate_20_3e_45',['Property&lt; WindowState &gt;',['../classsw_1_1_property.html',1,'sw']]],
-  ['pxtodipx_46',['PxToDipX',['../classsw_1_1_dip.html#aa0244988630536a31439cdfde27ec209',1,'sw::Dip']]],
-  ['pxtodipy_47',['PxToDipY',['../classsw_1_1_dip.html#a54fd07b8418adcff0ecb8483098ab860',1,'sw::Dip']]]
+  ['property_3c_20uint32_5ft_20_3e_41',['Property&lt; uint32_t &gt;',['../classsw_1_1_property.html',1,'sw']]],
+  ['property_3c_20uint64_5ft_20_3e_42',['Property&lt; uint64_t &gt;',['../classsw_1_1_property.html',1,'sw']]],
+  ['property_3c_20verticalalignment_20_3e_43',['Property&lt; VerticalAlignment &gt;',['../classsw_1_1_property.html',1,'sw']]],
+  ['property_3c_20wchar_5ft_20_3e_44',['Property&lt; wchar_t &gt;',['../classsw_1_1_property.html',1,'sw']]],
+  ['property_3c_20windowstartuplocation_20_3e_45',['Property&lt; WindowStartupLocation &gt;',['../classsw_1_1_property.html',1,'sw']]],
+  ['property_3c_20windowstate_20_3e_46',['Property&lt; WindowState &gt;',['../classsw_1_1_property.html',1,'sw']]],
+  ['pxtodipx_47',['PxToDipX',['../classsw_1_1_dip.html#aa0244988630536a31439cdfde27ec209',1,'sw::Dip']]],
+  ['pxtodipy_48',['PxToDipY',['../classsw_1_1_dip.html#a54fd07b8418adcff0ecb8483098ab860',1,'sw::Dip']]]
 ];
