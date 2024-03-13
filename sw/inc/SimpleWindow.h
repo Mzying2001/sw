@@ -28,6 +28,7 @@
 #include "HitTestResult.h"
 #include "HwndHost.h"
 #include "ILayout.h"
+#include "IPAddressControl.h"
 #include "ITag.h"
 #include "Icon.h"
 #include "IconBox.h"
