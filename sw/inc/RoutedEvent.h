@@ -111,6 +111,9 @@ namespace sw
 
         // DateTimePicker控件的时间改变，参数类型为sw::DateTimePickerTimeChangedEventArgs
         DateTimePicker_TimeChanged,
+
+        // IP地址框地址被改变，参数类型为sw::RoutedEventArgs
+        IPAddressControl_AddressChanged,
     };
 
     /*================================================================================*/

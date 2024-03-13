@@ -19,6 +19,7 @@ sw::IPAddressControl::IPAddressControl()
           // set
           [&](const uint32_t &value) {
               ::SendMessageW(this->_hIPAddrCtrl, IPM_SETADDRESS, 0, (LPARAM)value);
+              this->OnAddressChanged();
           })
 {
     this->Rect    = sw::Rect{0, 0, 150, 24};
@@ -67,4 +68,16 @@ bool sw::IPAddressControl::OnSetFocus(HWND hPrevFocus)
     // SetFocus(this->_hIPAddrCtrl);
     ::SendMessageW(this->_hIPAddrCtrl, IPM_SETFOCUS, -1, 0);
     return this->HwndHost::OnSetFocus(hPrevFocus);
+}
+
+bool sw::IPAddressControl::OnNotify(NMHDR *pNMHDR)
+{
+    if (pNMHDR->code == IPN_FIELDCHANGED)
+        this->OnAddressChanged();
+    return this->HwndHost::OnNotify(pNMHDR);
+}
+
+void sw::IPAddressControl::OnAddressChanged()
+{
+    this->RaiseRoutedEvent(IPAddressControl_AddressChanged);
 }

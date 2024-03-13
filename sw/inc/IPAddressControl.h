@@ -73,5 +73,17 @@ namespace sw
          * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSetFocus(HWND hPrevFocus) override;
+
+        /**
+         * @brief        接收到WM_NOTIFY后调用该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnNotify(NMHDR *pNMHDR) override;
+
+        /**
+         * @brief 地址改变时调用该函数
+         */
+        virtual void OnAddressChanged();
     };
 }
