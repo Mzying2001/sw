@@ -888,7 +888,7 @@ sw::DateTimePicker::DateTimePicker()
                   return;
               }
               DWORD style = this->GetStyle();
-              style &= ~((DTS_SHORTDATEFORMAT | DTS_LONGDATEFORMAT) & ~DTS_UPDOWN);
+              style &= ~(DTS_SHORTDATEFORMAT | DTS_LONGDATEFORMAT);
               switch (value) {
                   case DateTimePickerFormat::Short:
                   case DateTimePickerFormat::Custom:
@@ -936,6 +936,12 @@ bool sw::DateTimePicker::SetTime(const SYSTEMTIME &time)
     return result;
 }
 
+bool sw::DateTimePicker::SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &maxTime)
+{
+    SYSTEMTIME range[2] = {minTime, maxTime};
+    return this->SendMessageW(DTM_SETRANGE, GDTR_MIN | GDTR_MAX, reinterpret_cast<LPARAM>(range));
+}
+
 void sw::DateTimePicker::OnNotified(NMHDR *pNMHDR)
 {
     if (pNMHDR->code == DTN_DATETIMECHANGE) {
@@ -960,9 +966,14 @@ void sw::DateTimePicker::_UpdateStyle(DWORD style)
     SYSTEMTIME time;
     this->GetTime(time);
 
+    SYSTEMTIME range[2];
+    DWORD flag = (DWORD)this->SendMessageW(DTM_GETRANGE, 0, reinterpret_cast<LPARAM>(range));
+
     this->ResetHandle(style, this->GetExtendedStyle());
 
     this->SendMessageW(DTM_SETSYSTEMTIME, GDT_VALID, reinterpret_cast<LPARAM>(&time));
+    this->SendMessageW(DTM_SETRANGE, flag, reinterpret_cast<LPARAM>(range));
+
     if (this->_format == DateTimePickerFormat::Custom) {
         this->_SetFormat(this->_customFormat);
     }
@@ -2212,6 +2223,90 @@ HICON sw::IconBox::_SetIconIfNotNull(HICON hIcon)
         this->_SetIcon(hIcon);
     }
     return hIcon;
+}
+
+// IPAddressControl.cpp
+
+sw::IPAddressControl::IPAddressControl()
+    : IsBlank(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = ::SendMessageW(this->_hIPAddrCtrl, IPM_ISBLANK, 0, 0);
+              return result;
+          }),
+
+      Address(
+          // get
+          [&]() -> const uint32_t & {
+              static uint32_t result;
+              ::SendMessageW(this->_hIPAddrCtrl, IPM_GETADDRESS, 0, reinterpret_cast<LPARAM>(&result));
+              return result;
+          },
+          // set
+          [&](const uint32_t &value) {
+              ::SendMessageW(this->_hIPAddrCtrl, IPM_SETADDRESS, 0, (LPARAM)value);
+              this->OnAddressChanged();
+          })
+{
+    this->Rect    = sw::Rect{0, 0, 150, 24};
+    this->TabStop = true;
+
+    this->InitHwndHost();
+    ::SendMessageW(this->_hIPAddrCtrl, WM_SETFONT, reinterpret_cast<WPARAM>(this->GetFontHandle()), FALSE);
+}
+
+void sw::IPAddressControl::Clear()
+{
+    ::SendMessageW(this->_hIPAddrCtrl, IPM_CLEARADDRESS, 0, 0);
+}
+
+bool sw::IPAddressControl::SetRange(int field, uint8_t min, uint8_t max)
+{
+    return ::SendMessageW(this->_hIPAddrCtrl, IPM_SETRANGE, field, MAKEIPRANGE(min, max));
+}
+
+HWND sw::IPAddressControl::BuildWindowCore(HWND hParent)
+{
+    RECT rect;
+    GetClientRect(hParent, &rect);
+
+    this->_hIPAddrCtrl = CreateWindowExW(0, WC_IPADDRESSW, L"", WS_CHILD | WS_VISIBLE,
+                                         0, 0, rect.right - rect.left, rect.bottom - rect.top,
+                                         hParent, NULL, App::Instance, NULL);
+
+    return this->_hIPAddrCtrl;
+}
+
+void sw::IPAddressControl::DestroyWindowCore(HWND hwnd)
+{
+    DestroyWindow(this->_hIPAddrCtrl);
+    this->_hIPAddrCtrl = NULL;
+}
+
+void sw::IPAddressControl::FontChanged(HFONT hfont)
+{
+    if (this->_hIPAddrCtrl != NULL)
+        ::SendMessageW(this->_hIPAddrCtrl, WM_SETFONT, reinterpret_cast<WPARAM>(hfont), TRUE);
+}
+
+bool sw::IPAddressControl::OnSetFocus(HWND hPrevFocus)
+{
+    // SetFocus(this->_hIPAddrCtrl);
+    ::SendMessageW(this->_hIPAddrCtrl, IPM_SETFOCUS, -1, 0);
+    return this->HwndHost::OnSetFocus(hPrevFocus);
+}
+
+bool sw::IPAddressControl::OnNotify(NMHDR *pNMHDR)
+{
+    if (pNMHDR->code == IPN_FIELDCHANGED)
+        this->OnAddressChanged();
+    return this->HwndHost::OnNotify(pNMHDR);
+}
+
+void sw::IPAddressControl::OnAddressChanged()
+{
+    this->RaiseRoutedEvent(IPAddressControl_AddressChanged);
 }
 
 // Keys.cpp
