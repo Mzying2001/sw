@@ -78,8 +78,8 @@ bool sw::DateTimePicker::SetTime(const SYSTEMTIME &time)
 
 bool sw::DateTimePicker::SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &maxTime)
 {
-    SYSTEMTIME minmax[] = {minTime, maxTime};
-    return this->SendMessageW(DTM_SETRANGE, GDTR_MIN | GDTR_MAX, reinterpret_cast<LPARAM>(minmax));
+    SYSTEMTIME range[2] = {minTime, maxTime};
+    return this->SendMessageW(DTM_SETRANGE, GDTR_MIN | GDTR_MAX, reinterpret_cast<LPARAM>(range));
 }
 
 void sw::DateTimePicker::OnNotified(NMHDR *pNMHDR)
