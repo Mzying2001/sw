@@ -28,7 +28,7 @@ sw::DateTimePicker::DateTimePicker()
                   return;
               }
               DWORD style = this->GetStyle();
-              style &= ~((DTS_SHORTDATEFORMAT | DTS_LONGDATEFORMAT) & ~DTS_UPDOWN);
+              style &= ~(DTS_SHORTDATEFORMAT | DTS_LONGDATEFORMAT);
               switch (value) {
                   case DateTimePickerFormat::Short:
                   case DateTimePickerFormat::Custom:
@@ -76,6 +76,12 @@ bool sw::DateTimePicker::SetTime(const SYSTEMTIME &time)
     return result;
 }
 
+bool sw::DateTimePicker::SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &maxTime)
+{
+    SYSTEMTIME range[2] = {minTime, maxTime};
+    return this->SendMessageW(DTM_SETRANGE, GDTR_MIN | GDTR_MAX, reinterpret_cast<LPARAM>(range));
+}
+
 void sw::DateTimePicker::OnNotified(NMHDR *pNMHDR)
 {
     if (pNMHDR->code == DTN_DATETIMECHANGE) {
@@ -100,9 +106,14 @@ void sw::DateTimePicker::_UpdateStyle(DWORD style)
     SYSTEMTIME time;
     this->GetTime(time);
 
+    SYSTEMTIME range[2];
+    DWORD flag = (DWORD)this->SendMessageW(DTM_GETRANGE, 0, reinterpret_cast<LPARAM>(range));
+
     this->ResetHandle(style, this->GetExtendedStyle());
 
     this->SendMessageW(DTM_SETSYSTEMTIME, GDT_VALID, reinterpret_cast<LPARAM>(&time));
+    this->SendMessageW(DTM_SETRANGE, flag, reinterpret_cast<LPARAM>(range));
+
     if (this->_format == DateTimePickerFormat::Custom) {
         this->_SetFormat(this->_customFormat);
     }

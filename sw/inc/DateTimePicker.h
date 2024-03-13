@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Control.h"
-#include <commctrl.h>
+#include <CommCtrl.h>
 
 namespace sw
 {
@@ -66,11 +66,19 @@ namespace sw
          */
         bool SetTime(const SYSTEMTIME &time);
 
+        /**
+         * @brief         设置可选的时间段
+         * @param minTime 最早时间
+         * @param maxTime 最晚时间
+         * @return        若设置成功则返回true，否则返回false
+         */
+        bool SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &maxTime);
+
     protected:
         /**
          * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
          */
-        virtual void OnNotified(NMHDR *pNMHDR);
+        virtual void OnNotified(NMHDR *pNMHDR) override;
 
         /**
          * @brief       当前控件表示的时间改变时调用该函数

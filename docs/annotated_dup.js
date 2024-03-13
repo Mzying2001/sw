@@ -45,6 +45,7 @@ var annotated_dup =
       [ "IconBox", "classsw_1_1_icon_box.html", "classsw_1_1_icon_box" ],
       [ "IconHelper", "classsw_1_1_icon_helper.html", null ],
       [ "ILayout", "classsw_1_1_i_layout.html", "classsw_1_1_i_layout" ],
+      [ "IPAddressControl", "classsw_1_1_i_p_address_control.html", "classsw_1_1_i_p_address_control" ],
       [ "ITag", "classsw_1_1_i_tag.html", "classsw_1_1_i_tag" ],
       [ "ItemsControl", "classsw_1_1_items_control.html", "classsw_1_1_items_control" ],
       [ "KeyDownEventArgs", "structsw_1_1_key_down_event_args.html", null ],

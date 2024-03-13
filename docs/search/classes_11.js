@@ -34,9 +34,10 @@ var searchData=
   ['writeonlyproperty_3c_20sw_3a_3averticalalignment_20_3e_31',['WriteOnlyProperty&lt; sw::VerticalAlignment &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
   ['writeonlyproperty_3c_20tabalignment_20_3e_32',['WriteOnlyProperty&lt; TabAlignment &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
   ['writeonlyproperty_3c_20uint16_5ft_20_3e_33',['WriteOnlyProperty&lt; uint16_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20uint64_5ft_20_3e_34',['WriteOnlyProperty&lt; uint64_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20verticalalignment_20_3e_35',['WriteOnlyProperty&lt; VerticalAlignment &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20wchar_5ft_20_3e_36',['WriteOnlyProperty&lt; wchar_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20windowstartuplocation_20_3e_37',['WriteOnlyProperty&lt; WindowStartupLocation &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20windowstate_20_3e_38',['WriteOnlyProperty&lt; WindowState &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]]
+  ['writeonlyproperty_3c_20uint32_5ft_20_3e_34',['WriteOnlyProperty&lt; uint32_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20uint64_5ft_20_3e_35',['WriteOnlyProperty&lt; uint64_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20verticalalignment_20_3e_36',['WriteOnlyProperty&lt; VerticalAlignment &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20wchar_5ft_20_3e_37',['WriteOnlyProperty&lt; wchar_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20windowstartuplocation_20_3e_38',['WriteOnlyProperty&lt; WindowStartupLocation &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20windowstate_20_3e_39',['WriteOnlyProperty&lt; WindowState &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]]
 ];

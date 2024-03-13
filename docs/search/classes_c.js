@@ -35,9 +35,10 @@ var searchData=
   ['property_3c_20sw_3a_3averticalalignment_20_3e_32',['Property&lt; sw::VerticalAlignment &gt;',['../classsw_1_1_property.html',1,'sw']]],
   ['property_3c_20tabalignment_20_3e_33',['Property&lt; TabAlignment &gt;',['../classsw_1_1_property.html',1,'sw']]],
   ['property_3c_20uint16_5ft_20_3e_34',['Property&lt; uint16_t &gt;',['../classsw_1_1_property.html',1,'sw']]],
-  ['property_3c_20uint64_5ft_20_3e_35',['Property&lt; uint64_t &gt;',['../classsw_1_1_property.html',1,'sw']]],
-  ['property_3c_20verticalalignment_20_3e_36',['Property&lt; VerticalAlignment &gt;',['../classsw_1_1_property.html',1,'sw']]],
-  ['property_3c_20wchar_5ft_20_3e_37',['Property&lt; wchar_t &gt;',['../classsw_1_1_property.html',1,'sw']]],
-  ['property_3c_20windowstartuplocation_20_3e_38',['Property&lt; WindowStartupLocation &gt;',['../classsw_1_1_property.html',1,'sw']]],
-  ['property_3c_20windowstate_20_3e_39',['Property&lt; WindowState &gt;',['../classsw_1_1_property.html',1,'sw']]]
+  ['property_3c_20uint32_5ft_20_3e_35',['Property&lt; uint32_t &gt;',['../classsw_1_1_property.html',1,'sw']]],
+  ['property_3c_20uint64_5ft_20_3e_36',['Property&lt; uint64_t &gt;',['../classsw_1_1_property.html',1,'sw']]],
+  ['property_3c_20verticalalignment_20_3e_37',['Property&lt; VerticalAlignment &gt;',['../classsw_1_1_property.html',1,'sw']]],
+  ['property_3c_20wchar_5ft_20_3e_38',['Property&lt; wchar_t &gt;',['../classsw_1_1_property.html',1,'sw']]],
+  ['property_3c_20windowstartuplocation_20_3e_39',['Property&lt; WindowStartupLocation &gt;',['../classsw_1_1_property.html',1,'sw']]],
+  ['property_3c_20windowstate_20_3e_40',['Property&lt; WindowState &gt;',['../classsw_1_1_property.html',1,'sw']]]
 ];
