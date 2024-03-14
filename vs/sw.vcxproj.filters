@@ -255,6 +255,9 @@
     <ClInclude Include="..\sw\inc\IPAddressControl.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\ToolTip.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\App.cpp">
@@ -462,6 +465,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\IPAddressControl.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\ToolTip.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
