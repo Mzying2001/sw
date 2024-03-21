@@ -63,7 +63,7 @@ namespace sw
         /**
          * @brief           设置成员函数为计时器事件处理函数
          * @tparam T        成员函数所在的类
-         * @param obj       注册的成员函数所在的对象
+         * @param obj       成员函数所在的对象
          * @param handler   处理函数
          */
         template <typename T>
