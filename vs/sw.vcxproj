@@ -360,6 +360,7 @@
     <ClInclude Include="..\sw\inc\TextBox.h" />
     <ClInclude Include="..\sw\inc\TextBoxBase.h" />
     <ClInclude Include="..\sw\inc\Thickness.h" />
+    <ClInclude Include="..\sw\inc\Timer.h" />
     <ClInclude Include="..\sw\inc\ToolTip.h" />
     <ClInclude Include="..\sw\inc\UIElement.h" />
     <ClInclude Include="..\sw\inc\UniformGrid.h" />
@@ -433,6 +434,7 @@
     <ClCompile Include="..\sw\src\TextBox.cpp" />
     <ClCompile Include="..\sw\src\TextBoxBase.cpp" />
     <ClCompile Include="..\sw\src\Thickness.cpp" />
+    <ClCompile Include="..\sw\src\Timer.cpp" />
     <ClCompile Include="..\sw\src\ToolTip.cpp" />
     <ClCompile Include="..\sw\src\UIElement.cpp" />
     <ClCompile Include="..\sw\src\UniformGrid.cpp" />
