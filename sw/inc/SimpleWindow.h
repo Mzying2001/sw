@@ -71,6 +71,8 @@
 #include "TextBox.h"
 #include "TextBoxBase.h"
 #include "Thickness.h"
+#include "Timer.h"
+#include "ToolTip.h"
 #include "UIElement.h"
 #include "UniformGrid.h"
 #include "UniformGridLayout.h"

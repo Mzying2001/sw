@@ -134,6 +134,7 @@ var hierarchy =
       [ "sw::Property< Orientation >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::Orientation >", "classsw_1_1_property.html", null ],
       [ "sw::Property< TabAlignment >", "classsw_1_1_property.html", null ],
+      [ "sw::Property< ToolTipIcon >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::Thickness >", "classsw_1_1_property.html", null ],
       [ "sw::Property< HorizontalAlignment >", "classsw_1_1_property.html", null ],
       [ "sw::Property< VerticalAlignment >", "classsw_1_1_property.html", null ],
@@ -183,6 +184,7 @@ var hierarchy =
     [ "sw::ReadOnlyProperty< sw::WndBase * >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< TabAlignment >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< TItem >", "classsw_1_1_read_only_property.html", null ],
+    [ "sw::ReadOnlyProperty< ToolTipIcon >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< uint16_t >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< uint32_t >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< uint64_t >", "classsw_1_1_read_only_property.html", null ],
@@ -249,6 +251,10 @@ var hierarchy =
     ] ],
     [ "sw::Utils", "classsw_1_1_utils.html", null ],
     [ "sw::WndBase", "classsw_1_1_wnd_base.html", [
+      [ "sw::Timer", "classsw_1_1_timer.html", null ],
+      [ "sw::ToolTip", "classsw_1_1_tool_tip.html", [
+        [ "sw::BallonToolTip", "classsw_1_1_ballon_tool_tip.html", null ]
+      ] ],
       [ "sw::UIElement", "classsw_1_1_u_i_element.html", null ]
     ] ],
     [ "sw::WriteOnlyProperty< T >", "classsw_1_1_write_only_property.html", [
@@ -272,6 +278,7 @@ var hierarchy =
       [ "sw::Property< Orientation >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::Orientation >", "classsw_1_1_property.html", null ],
       [ "sw::Property< TabAlignment >", "classsw_1_1_property.html", null ],
+      [ "sw::Property< ToolTipIcon >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::Thickness >", "classsw_1_1_property.html", null ],
       [ "sw::Property< HorizontalAlignment >", "classsw_1_1_property.html", null ],
       [ "sw::Property< VerticalAlignment >", "classsw_1_1_property.html", null ],
@@ -311,6 +318,7 @@ var hierarchy =
     [ "sw::WriteOnlyProperty< sw::Thickness >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< sw::VerticalAlignment >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< TabAlignment >", "classsw_1_1_write_only_property.html", null ],
+    [ "sw::WriteOnlyProperty< ToolTipIcon >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< uint16_t >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< uint32_t >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< uint64_t >", "classsw_1_1_write_only_property.html", null ],
