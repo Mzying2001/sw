@@ -5676,6 +5676,161 @@ sw::Thickness::Thickness(double left, double top, double right, double bottom)
 {
 }
 
+// Timer.cpp
+
+sw::Timer::Timer()
+    : Interval(
+          // get
+          [&]() -> const uint32_t & {
+              return this->_interval;
+          },
+          // set
+          [&](const uint32_t &value) {
+              this->_interval = value;
+              if (this->_started) {
+                  this->Stop();
+                  this->Start();
+              }
+          })
+{
+    this->InitControl(L"STATIC", L"", WS_POPUP, 0);
+}
+
+void sw::Timer::Start()
+{
+    if (!this->_started) {
+        this->_started = true;
+        SetTimer(this->Handle, 0, this->_interval, &Timer::_TimerProc);
+    }
+}
+
+void sw::Timer::Stop()
+{
+    if (this->_started) {
+        this->_started = false;
+        KillTimer(this->Handle, 0);
+    }
+}
+
+void sw::Timer::SetTickHandler(const TimerTickHandler &handler)
+{
+    this->_handler = handler;
+}
+
+void sw::Timer::OnTick()
+{
+    if (this->_handler)
+        this->_handler(*this);
+}
+
+void sw::Timer::_TimerProc(HWND hwnd, UINT msg, UINT_PTR idTimer, DWORD time)
+{
+    if (msg == WM_TIMER) {
+        auto timer = dynamic_cast<Timer *>(WndBase::GetWndBase(hwnd));
+        if (timer) timer->OnTick();
+    }
+}
+
+// ToolTip.cpp
+
+sw::ToolTip::ToolTip()
+    : ToolTip(WS_POPUP)
+{
+}
+
+sw::ToolTip::ToolTip(DWORD style)
+    : InitialDelay(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = int(this->SendMessageW(TTM_GETDELAYTIME, TTDT_INITIAL, 0));
+              return result;
+          },
+          // set
+          [&](const int &value) {
+              this->SendMessageW(TTM_SETDELAYTIME, TTDT_AUTOMATIC, static_cast<LPARAM>(value));
+          }),
+
+      ToolTipIcon(
+          // get
+          [&]() -> const sw::ToolTipIcon & {
+              return this->_icon;
+          },
+          // set
+          [&](const sw::ToolTipIcon &value) {
+              this->_icon = value;
+              this->_UpdateIconAndTitle();
+          }),
+
+      ToolTipTitle(
+          // get
+          [&]() -> const std::wstring & {
+              return this->_title;
+          },
+          // set
+          [&](const std::wstring &value) {
+              this->_title = value;
+              this->_UpdateIconAndTitle();
+          }),
+
+      MaxTipWidth(
+          // get
+          [&]() -> const double & {
+              static double result;
+              int w  = int(this->SendMessageW(TTM_GETMAXTIPWIDTH, 0, 0));
+              result = w == -1 ? -1 : Dip::PxToDipX(w);
+              return result;
+          },
+          // set
+          [&](const double &value) {
+              int w = value < 0 ? -1 : Dip::DipToPxX(value);
+              this->SendMessageW(TTM_SETMAXTIPWIDTH, 0, w);
+          })
+{
+    this->InitControl(TOOLTIPS_CLASSW, L"", style, 0);
+}
+
+bool sw::ToolTip::SetToolTip(HWND hwnd, const std::wstring &tooltip)
+{
+    TOOLINFOW info{};
+    info.cbSize = sizeof(info);
+    info.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
+    info.hwnd   = hwnd;
+    info.uId    = reinterpret_cast<UINT_PTR>(hwnd);
+
+    if (this->SendMessageW(TTM_GETTOOLINFOW, 0, reinterpret_cast<LPARAM>(&info))) {
+        info.lpszText = const_cast<LPWSTR>(tooltip.c_str());
+        this->SendMessageW(TTM_UPDATETIPTEXTW, 0, reinterpret_cast<LPARAM>(&info));
+        return true;
+    } else {
+        info.lpszText = const_cast<LPWSTR>(tooltip.c_str());
+        return this->SendMessageW(TTM_ADDTOOLW, 0, reinterpret_cast<LPARAM>(&info));
+    }
+}
+
+bool sw::ToolTip::SetToolTip(const WndBase &wnd, const std::wstring &tooltip)
+{
+    return this->SetToolTip(wnd.Handle, tooltip);
+}
+
+void sw::ToolTip::RemoveAll()
+{
+    TOOLINFOW info{};
+    info.cbSize = sizeof(info);
+    while (this->SendMessageW(TTM_ENUMTOOLSW, 0, reinterpret_cast<LPARAM>(&info)))
+        this->SendMessageW(TTM_DELTOOLW, 0, reinterpret_cast<LPARAM>(&info));
+}
+
+void sw::ToolTip::_UpdateIconAndTitle()
+{
+    this->SendMessageW(TTM_SETTITLEW, static_cast<WPARAM>(this->_icon), reinterpret_cast<LPARAM>(this->_title.c_str()));
+}
+
+sw::BallonToolTip::BallonToolTip()
+    : ToolTip(WS_POPUP | TTS_BALLOON)
+{
+}
+
 // UIElement.cpp
 
 sw::UIElement::UIElement()

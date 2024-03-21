@@ -3887,6 +3887,200 @@ namespace sw
     };
 }
 
+// Timer.h
+
+
+namespace sw
+{
+    class Timer; // 向前声明
+
+    /**
+     * @brief 计时器触发事件类型
+     */
+    using TimerTickHandler = std::function<void(Timer &)>;
+
+    /**
+     * @brief 计时器
+     */
+    class Timer : public WndBase
+    {
+    private:
+        /**
+         * @brief 是否已启动
+         */
+        bool _started = false;
+
+        /**
+         * @brief 触发间隔
+         */
+        uint32_t _interval = 1000;
+
+        /**
+         * @brief 处理函数
+         */
+        TimerTickHandler _handler{nullptr};
+
+    public:
+        /**
+         * @brief 相对于上一次触发的Tick事件引发下一次Tick事件之间的时间（以毫秒为单位）
+         */
+        Property<uint32_t> Interval;
+
+    public:
+        /**
+         * @brief 初始化计时器
+         */
+        Timer();
+
+        /**
+         * @brief 开始计时器
+         */
+        void Start();
+
+        /**
+         * @brief 停止计时器
+         */
+        void Stop();
+
+        /**
+         * @brief         设置计时器事件处理函数
+         * @param handler 处理函数
+         */
+        void SetTickHandler(const TimerTickHandler &handler);
+
+        /**
+         * @brief           设置成员函数为计时器事件处理函数
+         * @tparam T        成员函数所在的类
+         * @param obj       成员函数所在的对象
+         * @param handler   处理函数
+         */
+        template <typename T>
+        void SetTickHandler(T &obj, void (T::*handler)(Timer &))
+        {
+            T *p = &obj;
+            this->SetTickHandler([p, handler](Timer &timer) { (p->*handler)(timer); });
+        }
+
+    protected:
+        /**
+         * @brief 计时器已启动并且达到间隔时间时调用该函数
+         */
+        virtual void OnTick();
+
+    private:
+        /**
+         * @brief TimerProc回调函数
+         */
+        static void CALLBACK _TimerProc(HWND hwnd, UINT msg, UINT_PTR idTimer, DWORD time);
+    };
+}
+
+// ToolTip.h
+
+
+namespace sw
+{
+    /**
+     * @brief 提示信息图标类型
+     */
+    enum class ToolTipIcon {
+        None         = TTI_NONE,                // 无图标
+        Info         = TTI_INFO,                // 信息图标
+        Warning      = TTI_WARNING,             // 警告图标
+        Error        = TTI_ERROR,               // 错误图标
+        LargeInfo    = 4 /*TTI_INFO_LARGE*/,    // 大错误图标
+        LargeWarning = 5 /*TTI_WARNING_LARGE*/, // 大错误图标
+        LargeError   = 6 /*TTI_ERROR_LARGE*/,   // 大错误图标
+    };
+
+    /**
+     * @brief 信息提示，用于用户将指针移过关联控件时显示信息
+     */
+    class ToolTip : public WndBase
+    {
+    private:
+        /**
+         * @brief 图标
+         */
+        ToolTipIcon _icon{ToolTipIcon::None};
+
+        /**
+         * @brief 标题
+         */
+        std::wstring _title{};
+
+    public:
+        /**
+         * @brief 触发提示信息的时间，以毫秒为单位，设置负数可恢复默认值
+         */
+        const Property<int> InitialDelay;
+
+        /**
+         * @brief 提示框中显示的图标，标题不为空时图标才会显示
+         */
+        const Property<ToolTipIcon> ToolTipIcon;
+
+        /**
+         * @brief 提示框中显示的标题
+         */
+        const Property<std::wstring> ToolTipTitle;
+
+        /**
+         * @brief 提示框的最大宽度，若未设置则为-1，设置负值可取消限制
+         */
+        const Property<double> MaxTipWidth;
+
+    public:
+        /**
+         * @brief 初始化ToolTip
+         */
+        ToolTip();
+
+        /**
+         * @brief 初始化ToolTip，指定窗口样式
+         */
+        explicit ToolTip(DWORD style);
+
+    public:
+        /**
+         * @brief         给指定句柄设置提示信息
+         * @param hwnd    要设置提示信息的句柄
+         * @param tooltip 提示信息
+         */
+        bool SetToolTip(HWND hwnd, const std::wstring &tooltip);
+
+        /**
+         * @brief         给指定窗口或控件设置提示信息
+         * @param wnd     要设置提示信息的窗口或控件
+         * @param tooltip 提示信息
+         */
+        bool SetToolTip(const WndBase &wnd, const std::wstring &tooltip);
+
+        /**
+         * @brief 移除所有关联的提示信息
+         */
+        void RemoveAll();
+
+    private:
+        /**
+         * @brief 更新图标和标题
+         */
+        void _UpdateIconAndTitle();
+    };
+
+    /**
+     * @brief 气泡样式的信息提示
+     */
+    class BallonToolTip : public ToolTip
+    {
+    public:
+        /**
+         * @brief 初始化BallonToolTip
+         */
+        BallonToolTip();
+    };
+}
+
 // CanvasLayout.h
 
 
