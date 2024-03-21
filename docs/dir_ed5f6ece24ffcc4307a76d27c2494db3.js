@@ -71,6 +71,8 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "TextBox.h", "_text_box_8h_source.html", null ],
     [ "TextBoxBase.h", "_text_box_base_8h_source.html", null ],
     [ "Thickness.h", "_thickness_8h_source.html", null ],
+    [ "Timer.h", "_timer_8h_source.html", null ],
+    [ "ToolTip.h", "_tool_tip_8h_source.html", null ],
     [ "UIElement.h", "_u_i_element_8h_source.html", null ],
     [ "UniformGrid.h", "_uniform_grid_8h_source.html", null ],
     [ "UniformGridLayout.h", "_uniform_grid_layout_8h_source.html", null ],
