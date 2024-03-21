@@ -55,10 +55,23 @@ namespace sw
         void Stop();
 
         /**
-         * @brief         设置处理函数
+         * @brief         设置计时器事件处理函数
          * @param handler 处理函数
          */
         void SetTickHandler(const TimerTickHandler &handler);
+
+        /**
+         * @brief           设置成员函数为计时器事件处理函数
+         * @tparam T        成员函数所在的类
+         * @param obj       注册的成员函数所在的对象
+         * @param handler   处理函数
+         */
+        template <typename T>
+        void SetTickHandler(T &obj, void (T::*handler)(Timer &))
+        {
+            T *p = &obj;
+            this->SetTickHandler([p, handler](Timer &timer) { (p->*handler)(timer); });
+        }
 
     protected:
         /**
