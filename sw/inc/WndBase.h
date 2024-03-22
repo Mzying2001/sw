@@ -34,7 +34,7 @@ namespace sw
         /**
          * @brief 用于判断给定指针是否为指向WndBase的指针
          */
-        uint32_t _check;
+        const uint32_t _check;
 
         /**
          * @brief 窗口句柄
