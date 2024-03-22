@@ -302,34 +302,37 @@ sw::WndBase::~WndBase()
 
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
-    if (this->_hwnd == NULL) {
-
-        this->_text = lpWindowName ? lpWindowName : L"";
-
-        this->_hwnd = CreateWindowExW(
-            dwExStyle,        // Optional window styles
-            _WindowClassName, // Window class
-            lpWindowName,     // Window text
-            dwStyle,          // Window style
-
-            // Size and position
-            CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-
-            NULL,          // Parent window
-            NULL,          // Menu
-            App::Instance, // Instance handle
-            this           // Additional application data
-        );
-
-        this->HandleInitialized(this->_hwnd);
-
-        RECT rect;
-        GetWindowRect(this->_hwnd, &rect);
-        this->_rect = rect;
-
-        SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-        this->UpdateFont();
+    if (this->_hwnd != NULL) {
+        return;
     }
+
+    if (lpWindowName) {
+        this->_text = lpWindowName;
+    }
+
+    this->_hwnd = CreateWindowExW(
+        dwExStyle,           // Optional window styles
+        _WindowClassName,    // Window class
+        this->_text.c_str(), // Window text
+        dwStyle,             // Window style
+
+        // Size and position
+        CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+
+        NULL,          // Parent window
+        NULL,          // Menu
+        App::Instance, // Instance handle
+        this           // Additional application data
+    );
+
+    RECT rect;
+    GetWindowRect(this->_hwnd, &rect);
+    this->_rect = rect;
+
+    SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+
+    this->HandleInitialized(this->_hwnd);
+    this->UpdateFont();
 }
 
 void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
@@ -339,37 +342,33 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         _controlInitContainer->InitWindow(L"", WS_POPUP, 0);
     }
 
-    if (this->_hwnd == NULL) {
-
-        this->_text = lpWindowName ? lpWindowName : L"";
-
-        this->_hwnd = CreateWindowExW(
-            dwExStyle,    // Optional window styles
-            lpClassName,  // Window class
-            lpWindowName, // Window text
-            dwStyle,      // Window style
-
-            // Size and position
-            0, 0, 0, 0,
-
-            _controlInitContainer->_hwnd, // Parent window
-            NULL,                         // Menu
-            App::Instance,                // Instance handle
-            this                          // Additional application data
-        );
-
-        this->HandleInitialized(this->_hwnd);
-
-        this->_controlOldWndProc =
-            reinterpret_cast<WNDPROC>(SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
-
-        RECT rect;
-        GetWindowRect(this->_hwnd, &rect);
-        this->_rect = rect;
-
-        SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-        this->UpdateFont();
+    if (this->_hwnd != NULL) {
+        return;
     }
+
+    if (lpWindowName) {
+        this->_text = lpWindowName;
+    }
+
+    this->_hwnd = CreateWindowExW(
+        dwExStyle,                    // Optional window styles
+        lpClassName,                  // Window class
+        this->_text.c_str(),          // Window text
+        dwStyle,                      // Window style
+        0, 0, 0, 0,                   // Size and position
+        _controlInitContainer->_hwnd, // Parent window
+        NULL,                         // Menu
+        App::Instance,                // Instance handle
+        this                          // Additional application data
+    );
+
+    SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+
+    this->_controlOldWndProc =
+        reinterpret_cast<WNDPROC>(SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
+
+    this->HandleInitialized(this->_hwnd);
+    this->UpdateFont();
 }
 
 LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
