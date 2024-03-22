@@ -280,4 +280,17 @@ namespace sw
         {
         }
     };
+
+    /**
+     * @brief 月历控件时间改变事件参数类型
+     */
+    struct MonthCalendarTimeChangedEventArgs : RoutedEventArgsOfType<MonthCalendar_TimeChanged> {
+
+        SYSTEMTIME time; // 时间的新值
+
+        MonthCalendarTimeChangedEventArgs(const SYSTEMTIME &time)
+            : time(time)
+        {
+        }
+    };
 }

@@ -77,5 +77,16 @@ namespace sw
          * @param redraw 是否重绘
          */
         virtual void SetTextColor(Color color, bool redraw) override;
+
+        /**
+         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         */
+        virtual void OnNotified(NMHDR *pNMHDR) override;
+
+        /**
+         * @brief       当前控件表示的时间改变时调用该函数
+         * @param pInfo 发生改变的信息
+         */
+        virtual void OnTimeChanged(NMSELCHANGE *pInfo);
     };
 }
