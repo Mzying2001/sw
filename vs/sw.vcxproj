@@ -332,6 +332,7 @@
     <ClInclude Include="..\sw\inc\Menu.h" />
     <ClInclude Include="..\sw\inc\MenuBase.h" />
     <ClInclude Include="..\sw\inc\MenuItem.h" />
+    <ClInclude Include="..\sw\inc\MonthCalendar.h" />
     <ClInclude Include="..\sw\inc\MsgBox.h" />
     <ClInclude Include="..\sw\inc\Panel.h" />
     <ClInclude Include="..\sw\inc\PanelBase.h" />
@@ -410,6 +411,7 @@
     <ClCompile Include="..\sw\src\Menu.cpp" />
     <ClCompile Include="..\sw\src\MenuBase.cpp" />
     <ClCompile Include="..\sw\src\MenuItem.cpp" />
+    <ClCompile Include="..\sw\src\MonthCalendar.cpp" />
     <ClCompile Include="..\sw\src\MsgBox.cpp" />
     <ClCompile Include="..\sw\src\Panel.cpp" />
     <ClCompile Include="..\sw\src\PanelBase.cpp" />
