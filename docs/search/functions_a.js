@@ -7,7 +7,8 @@ var searchData=
   ['menubase_4',['MenuBase',['../classsw_1_1_menu_base.html#aae4c6660b8c5341160a67d88bca9bc18',1,'sw::MenuBase::MenuBase()'],['../classsw_1_1_menu_base.html#a48c5d3f04743099a94a1832fa7d9d31b',1,'sw::MenuBase::MenuBase(const MenuBase &amp;menu)']]],
   ['menuitem_5',['MenuItem',['../classsw_1_1_menu_item.html#a45cb03eb9423fbe1c187f237ec89377a',1,'sw::MenuItem::MenuItem(const std::wstring &amp;text)'],['../classsw_1_1_menu_item.html#af68934d85fe10b3b01bf4038d66275e4',1,'sw::MenuItem::MenuItem(const std::wstring &amp;text, std::initializer_list&lt; MenuItem &gt; subItems)'],['../classsw_1_1_menu_item.html#a7f24130f1770af6fce9792fb41cba522',1,'sw::MenuItem::MenuItem(const std::wstring &amp;text, const decltype(command) &amp;command)']]],
   ['min_6',['Min',['../classsw_1_1_utils.html#a76b3fe0842e62bf943a314afed4d474a',1,'sw::Utils']]],
-  ['movetobottom_7',['MoveToBottom',['../classsw_1_1_u_i_element.html#a793adc7d50d0373d099b26b0a511b95d',1,'sw::UIElement']]],
-  ['movetotop_8',['MoveToTop',['../classsw_1_1_u_i_element.html#abce4a26101de27550375c300b121d95d',1,'sw::UIElement']]],
-  ['msgloop_9',['MsgLoop',['../classsw_1_1_app.html#a05192f9abf49cc0a698024855dde22de',1,'sw::App']]]
+  ['monthcalendar_7',['MonthCalendar',['../classsw_1_1_month_calendar.html#a0ea779945c5838f27137cdd39894a143',1,'sw::MonthCalendar']]],
+  ['movetobottom_8',['MoveToBottom',['../classsw_1_1_u_i_element.html#a793adc7d50d0373d099b26b0a511b95d',1,'sw::UIElement']]],
+  ['movetotop_9',['MoveToTop',['../classsw_1_1_u_i_element.html#abce4a26101de27550375c300b121d95d',1,'sw::UIElement']]],
+  ['msgloop_10',['MsgLoop',['../classsw_1_1_app.html#a05192f9abf49cc0a698024855dde22de',1,'sw::App']]]
 ];

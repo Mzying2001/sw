@@ -116,15 +116,17 @@ $(function(){initNavTree('classsw_1_1_u_i_element.html',''); initResizable(); })
 <area href="classsw_1_1_control.html" title="控件" alt="sw::Control" shape="rect" coords="0,112,161,136"/>
 <area href="classsw_1_1_layer.html" title="表示可以设置布局方式的元素类型，如窗口、面板等" alt="sw::Layer" shape="rect" coords="342,112,503,136"/>
 <area href="classsw_1_1_items_control.html" alt="sw::ItemsControl&lt; StrList &gt;" shape="rect" coords="171,168,332,192"/>
-<area href="classsw_1_1_button_base.html" title="窗口类名为BUTTON的控件类型的基类" alt="sw::ButtonBase" shape="rect" coords="171,224,332,248"/>
-<area href="classsw_1_1_date_time_picker.html" title="日期和时间选取器" alt="sw::DateTimePicker" shape="rect" coords="171,280,332,304"/>
-<area href="classsw_1_1_items_control.html" title="表示可用于呈现一组项的控件" alt="sw::ItemsControl&lt; TItem &gt;" shape="rect" coords="171,336,332,360"/>
-<area href="classsw_1_1_panel_base.html" title="面板类型的基类" alt="sw::PanelBase" shape="rect" coords="171,392,332,416"/>
-<area href="classsw_1_1_progress_bar.html" title="进度条控件" alt="sw::ProgressBar" shape="rect" coords="171,448,332,472"/>
-<area href="classsw_1_1_slider.html" title="滑块控件" alt="sw::Slider" shape="rect" coords="171,504,332,528"/>
-<area href="classsw_1_1_static_control.html" title="静态控件" alt="sw::StaticControl" shape="rect" coords="171,560,332,584"/>
-<area href="classsw_1_1_tab_control.html" title="标签页控件" alt="sw::TabControl" shape="rect" coords="171,616,332,640"/>
-<area href="classsw_1_1_text_box_base.html" title="窗口类名为EDIT的控件类型的基类" alt="sw::TextBoxBase" shape="rect" coords="171,672,332,696"/>
+<area href="classsw_1_1_animation.html" title="动画控件，仅支持无音频的avi动画" alt="sw::Animation" shape="rect" coords="171,224,332,248"/>
+<area href="classsw_1_1_button_base.html" title="窗口类名为BUTTON的控件类型的基类" alt="sw::ButtonBase" shape="rect" coords="171,280,332,304"/>
+<area href="classsw_1_1_date_time_picker.html" title="日期和时间选取器" alt="sw::DateTimePicker" shape="rect" coords="171,336,332,360"/>
+<area href="classsw_1_1_items_control.html" title="表示可用于呈现一组项的控件" alt="sw::ItemsControl&lt; TItem &gt;" shape="rect" coords="171,392,332,416"/>
+<area href="classsw_1_1_month_calendar.html" title="月历控件" alt="sw::MonthCalendar" shape="rect" coords="171,448,332,472"/>
+<area href="classsw_1_1_panel_base.html" title="面板类型的基类" alt="sw::PanelBase" shape="rect" coords="171,504,332,528"/>
+<area href="classsw_1_1_progress_bar.html" title="进度条控件" alt="sw::ProgressBar" shape="rect" coords="171,560,332,584"/>
+<area href="classsw_1_1_slider.html" title="滑块控件" alt="sw::Slider" shape="rect" coords="171,616,332,640"/>
+<area href="classsw_1_1_static_control.html" title="静态控件" alt="sw::StaticControl" shape="rect" coords="171,672,332,696"/>
+<area href="classsw_1_1_tab_control.html" title="标签页控件" alt="sw::TabControl" shape="rect" coords="171,728,332,752"/>
+<area href="classsw_1_1_text_box_base.html" title="窗口类名为EDIT的控件类型的基类" alt="sw::TextBoxBase" shape="rect" coords="171,784,332,808"/>
 <area href="classsw_1_1_panel_base.html" title="面板类型的基类" alt="sw::PanelBase" shape="rect" coords="513,168,674,192"/>
 <area href="classsw_1_1_window.html" title="窗口" alt="sw::Window" shape="rect" coords="513,224,674,248"/>
   </map>
@@ -1434,7 +1436,7 @@ Protected 成员函数</h2></td></tr>
 
 <p>绘制虚线框时调用该函数 </p>
 
-<p>被 <a class="el" href="classsw_1_1_button.html#a496b008fab7266676831e3473353537d">sw::Button</a> , 以及 <a class="el" href="classsw_1_1_text_box_base.html#a89b507ceef32d379c93a60b5989b74fe">sw::TextBoxBase</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1_button.html#a496b008fab7266676831e3473353537d">sw::Button</a>, <a class="el" href="classsw_1_1_month_calendar.html#ab5ca0c5ed05d9f4796a8fc8c089c2a21">sw::MonthCalendar</a> , 以及 <a class="el" href="classsw_1_1_text_box_base.html#a89b507ceef32d379c93a60b5989b74fe">sw::TextBoxBase</a> 重载.</p>
 
 </div>
 </div>
@@ -2660,7 +2662,7 @@ template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> <a cla
   </dd>
 </dl>
 
-<p>被 <a class="el" href="classsw_1_1_list_view.html#a56b546d6ddeadd258522b2441ec9bcc4">sw::ListView</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1_list_view.html#a56b546d6ddeadd258522b2441ec9bcc4">sw::ListView</a> , 以及 <a class="el" href="classsw_1_1_month_calendar.html#a2422390122597047226c500dc896f7cb">sw::MonthCalendar</a> 重载.</p>
 
 </div>
 </div>
@@ -2838,7 +2840,7 @@ template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> <a cla
   </dd>
 </dl>
 
-<p>被 <a class="el" href="classsw_1_1_list_view.html#acb06dc6710aafdb341e75fd92fc08af1">sw::ListView</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1_list_view.html#acb06dc6710aafdb341e75fd92fc08af1">sw::ListView</a> , 以及 <a class="el" href="classsw_1_1_month_calendar.html#ac735773615992feb4f3394a7d361a8c1">sw::MonthCalendar</a> 重载.</p>
 
 </div>
 </div>
