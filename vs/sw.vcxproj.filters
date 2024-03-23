@@ -261,6 +261,12 @@
     <ClInclude Include="..\sw\inc\Timer.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\MonthCalendar.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\Animation.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\App.cpp">
@@ -474,6 +480,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\Timer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\MonthCalendar.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\Animation.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

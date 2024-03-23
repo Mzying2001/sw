@@ -2,6 +2,7 @@
 
 // 包含SimpleWindow所有头文件
 #include "Alignment.h"
+#include "Animation.h"
 #include "App.h"
 #include "BmpBox.h"
 #include "Button.h"
@@ -44,6 +45,7 @@
 #include "Menu.h"
 #include "MenuBase.h"
 #include "MenuItem.h"
+#include "MonthCalendar.h"
 #include "MsgBox.h"
 #include "Panel.h"
 #include "PanelBase.h"

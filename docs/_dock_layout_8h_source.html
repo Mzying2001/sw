@@ -110,58 +110,68 @@ $(function(){initNavTree('_dock_layout_8h_source.html',''); initResizable(); });
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout_tag.html">   11</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1_dock_layout_tag.html">DockLayoutTag</a></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    {</div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keyword">static</span> <span class="keyword">constexpr</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">uint64_t</a> Left   = 0; <span class="comment">// 左边</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <span class="keyword">static</span> <span class="keyword">constexpr</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">uint64_t</a> Top    = 1; <span class="comment">// 顶边</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keyword">static</span> <span class="keyword">constexpr</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">uint64_t</a> Right  = 2; <span class="comment">// 右边</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keyword">static</span> <span class="keyword">constexpr</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">uint64_t</a> Bottom = 3; <span class="comment">// 底边</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <a class="code hl_class" href="classsw_1_1_dictionary.html">uint64_t</a> _value; <span class="comment">// 值</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00026" data-start="{" data-end="}">
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout_tag.html#af17218c2cdff950251e44c60f6473793">   26</a></span>        <span class="keyword">inline</span> <a class="code hl_function" href="classsw_1_1_dock_layout_tag.html#af17218c2cdff950251e44c60f6473793">DockLayoutTag</a>(<a class="code hl_class" href="classsw_1_1_dictionary.html">uint64_t</a> <a class="code hl_class" href="classsw_1_1_dictionary.html">value</a>)</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            : _value(<a class="code hl_class" href="classsw_1_1_dictionary.html">value</a>)</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        {</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        }</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <a class="code hl_class" href="classsw_1_1_dictionary.html">enum</a> : <a class="code hl_class" href="classsw_1_1_dictionary.html">uint64_t</a> {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>            Left,   <span class="comment">// 左边</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>            Top,    <span class="comment">// 顶边</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            Right,  <span class="comment">// 右边</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>            Bottom, <span class="comment">// 底边</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        };</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <a class="code hl_class" href="classsw_1_1_dictionary.html">uint64_t</a> _value; <span class="comment">// 值</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00028" data-start="{" data-end="}">
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout_tag.html#af17218c2cdff950251e44c60f6473793">   28</a></span>        <span class="keyword">inline</span> <a class="code hl_function" href="classsw_1_1_dock_layout_tag.html#af17218c2cdff950251e44c60f6473793">DockLayoutTag</a>(<a class="code hl_class" href="classsw_1_1_dictionary.html">uint64_t</a> <a class="code hl_class" href="classsw_1_1_dictionary.html">value</a>)</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            : _value(<a class="code hl_class" href="classsw_1_1_dictionary.html">value</a>)</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        }</div>
 </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="foldopen" id="foldopen00034" data-start="{" data-end="}">
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout_tag.html#a1fe5c71d55834aaa777e6adfe8e3e0b2">   34</a></span>        <span class="keyword">inline</span> <span class="keyword">operator</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">uint64_t</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            <span class="keywordflow">return</span> _value;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="}">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout_tag.html#a1fe5c71d55834aaa777e6adfe8e3e0b2">   36</a></span>        <span class="keyword">inline</span> <span class="keyword">operator</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">uint64_t</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            <span class="keywordflow">return</span> _value;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        }</div>
 </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="foldopen" id="foldopen00042" data-start="{" data-end="};">
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout_tag.html#a754bc98a72a1ab8208a696d873ad4907">   42</a></span>        <span class="keyword">friend</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_friend" href="classsw_1_1_dock_layout_tag.html#a754bc98a72a1ab8208a696d873ad4907">operator==</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dock_layout_tag.html">DockLayoutTag</a> &amp;left, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dock_layout_tag.html">DockLayoutTag</a> &amp;right)</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        {</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keywordflow">return</span> left._value == right._value;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        }</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="foldopen" id="foldopen00044" data-start="{" data-end="};">
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout_tag.html#a754bc98a72a1ab8208a696d873ad4907">   44</a></span>        <span class="keyword">friend</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_friend" href="classsw_1_1_dock_layout_tag.html#a754bc98a72a1ab8208a696d873ad4907">operator==</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dock_layout_tag.html">DockLayoutTag</a> &amp;left, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dock_layout_tag.html">DockLayoutTag</a> &amp;right)</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            <span class="keywordflow">return</span> left._value == right._value;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        }</div>
 </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    };</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="foldopen" id="foldopen00052" data-start="{" data-end="};">
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout_tag.html#a29f1d3816b37de3a3a236ff63607409a">   52</a></span>        <span class="keyword">friend</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_friend" href="classsw_1_1_dock_layout_tag.html#a29f1d3816b37de3a3a236ff63607409a">operator!=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dock_layout_tag.html">DockLayoutTag</a> &amp;left, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dock_layout_tag.html">DockLayoutTag</a> &amp;right)</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            <span class="keywordflow">return</span> left._value != right._value;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        }</div>
 </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="foldopen" id="foldopen00051" data-start="{" data-end="};">
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout.html">   51</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1_dock_layout.html">DockLayout</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1_layout_host.html">LayoutHost</a></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    {</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout.html#ae3279e6cc696c453a2f6171ca152fc47">   57</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsw_1_1_dock_layout.html#ae3279e6cc696c453a2f6171ca152fc47">lastChildFill</a> = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout.html#a62fcb5b4236d5706caadb23ac557139a">   62</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_dock_layout.html#a62fcb5b4236d5706caadb23ac557139a">MeasureOverride</a>(<a class="code hl_struct" href="structsw_1_1_size.html">Size</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">availableSize</a>) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout.html#a095344f448138136a4988d4323dae0f9">   67</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_dock_layout.html#a095344f448138136a4988d4323dae0f9">ArrangeOverride</a>(<a class="code hl_struct" href="structsw_1_1_size.html">Size</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">finalSize</a>) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    };</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    };</div>
 </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>}</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="foldopen" id="foldopen00061" data-start="{" data-end="};">
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout.html">   61</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1_dock_layout.html">DockLayout</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1_layout_host.html">LayoutHost</a></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout.html#ae3279e6cc696c453a2f6171ca152fc47">   67</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsw_1_1_dock_layout.html#ae3279e6cc696c453a2f6171ca152fc47">lastChildFill</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout.html#a62fcb5b4236d5706caadb23ac557139a">   72</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_dock_layout.html#a62fcb5b4236d5706caadb23ac557139a">MeasureOverride</a>(<a class="code hl_struct" href="structsw_1_1_size.html">Size</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">availableSize</a>) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="classsw_1_1_dock_layout.html#a095344f448138136a4988d4323dae0f9">   77</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_dock_layout.html#a095344f448138136a4988d4323dae0f9">ArrangeOverride</a>(<a class="code hl_struct" href="structsw_1_1_size.html">Size</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">finalSize</a>) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    };</div>
+</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>}</div>
 <div class="ttc" id="aclasssw_1_1_dictionary_html"><div class="ttname"><a href="classsw_1_1_dictionary.html">sw::Dictionary</a></div><div class="ttdoc">字典类，内部维护了一个指向std::map的智能指针</div><div class="ttdef"><b>Definition</b> Dictionary.h:24</div></div>
-<div class="ttc" id="aclasssw_1_1_dock_layout_html"><div class="ttname"><a href="classsw_1_1_dock_layout.html">sw::DockLayout</a></div><div class="ttdoc">停靠布局</div><div class="ttdef"><b>Definition</b> DockLayout.h:52</div></div>
+<div class="ttc" id="aclasssw_1_1_dock_layout_html"><div class="ttname"><a href="classsw_1_1_dock_layout.html">sw::DockLayout</a></div><div class="ttdoc">停靠布局</div><div class="ttdef"><b>Definition</b> DockLayout.h:62</div></div>
 <div class="ttc" id="aclasssw_1_1_dock_layout_html_a095344f448138136a4988d4323dae0f9"><div class="ttname"><a href="classsw_1_1_dock_layout.html#a095344f448138136a4988d4323dae0f9">sw::DockLayout::ArrangeOverride</a></div><div class="ttdeci">virtual void ArrangeOverride(Size &amp;finalSize) override</div><div class="ttdoc">安排控件</div></div>
 <div class="ttc" id="aclasssw_1_1_dock_layout_html_a62fcb5b4236d5706caadb23ac557139a"><div class="ttname"><a href="classsw_1_1_dock_layout.html#a62fcb5b4236d5706caadb23ac557139a">sw::DockLayout::MeasureOverride</a></div><div class="ttdeci">virtual void MeasureOverride(Size &amp;availableSize) override</div><div class="ttdoc">计算所需尺寸</div></div>
-<div class="ttc" id="aclasssw_1_1_dock_layout_html_ae3279e6cc696c453a2f6171ca152fc47"><div class="ttname"><a href="classsw_1_1_dock_layout.html#ae3279e6cc696c453a2f6171ca152fc47">sw::DockLayout::lastChildFill</a></div><div class="ttdeci">bool lastChildFill</div><div class="ttdoc">最后一个子元素是否填充剩余空间</div><div class="ttdef"><b>Definition</b> DockLayout.h:57</div></div>
+<div class="ttc" id="aclasssw_1_1_dock_layout_html_ae3279e6cc696c453a2f6171ca152fc47"><div class="ttname"><a href="classsw_1_1_dock_layout.html#ae3279e6cc696c453a2f6171ca152fc47">sw::DockLayout::lastChildFill</a></div><div class="ttdeci">bool lastChildFill</div><div class="ttdoc">最后一个子元素是否填充剩余空间</div><div class="ttdef"><b>Definition</b> DockLayout.h:67</div></div>
 <div class="ttc" id="aclasssw_1_1_dock_layout_tag_html"><div class="ttname"><a href="classsw_1_1_dock_layout_tag.html">sw::DockLayoutTag</a></div><div class="ttdoc">停靠布局标记</div><div class="ttdef"><b>Definition</b> DockLayout.h:12</div></div>
-<div class="ttc" id="aclasssw_1_1_dock_layout_tag_html_a754bc98a72a1ab8208a696d873ad4907"><div class="ttname"><a href="classsw_1_1_dock_layout_tag.html#a754bc98a72a1ab8208a696d873ad4907">sw::DockLayoutTag::operator==</a></div><div class="ttdeci">friend bool operator==(const DockLayoutTag &amp;left, const DockLayoutTag &amp;right)</div><div class="ttdoc">判断值是否相等</div><div class="ttdef"><b>Definition</b> DockLayout.h:42</div></div>
-<div class="ttc" id="aclasssw_1_1_dock_layout_tag_html_af17218c2cdff950251e44c60f6473793"><div class="ttname"><a href="classsw_1_1_dock_layout_tag.html#af17218c2cdff950251e44c60f6473793">sw::DockLayoutTag::DockLayoutTag</a></div><div class="ttdeci">DockLayoutTag(uint64_t value)</div><div class="ttdoc">创建DockLayoutTag</div><div class="ttdef"><b>Definition</b> DockLayout.h:26</div></div>
+<div class="ttc" id="aclasssw_1_1_dock_layout_tag_html_a29f1d3816b37de3a3a236ff63607409a"><div class="ttname"><a href="classsw_1_1_dock_layout_tag.html#a29f1d3816b37de3a3a236ff63607409a">sw::DockLayoutTag::operator!=</a></div><div class="ttdeci">friend bool operator!=(const DockLayoutTag &amp;left, const DockLayoutTag &amp;right)</div><div class="ttdoc">判断值是否不相等</div><div class="ttdef"><b>Definition</b> DockLayout.h:52</div></div>
+<div class="ttc" id="aclasssw_1_1_dock_layout_tag_html_a754bc98a72a1ab8208a696d873ad4907"><div class="ttname"><a href="classsw_1_1_dock_layout_tag.html#a754bc98a72a1ab8208a696d873ad4907">sw::DockLayoutTag::operator==</a></div><div class="ttdeci">friend bool operator==(const DockLayoutTag &amp;left, const DockLayoutTag &amp;right)</div><div class="ttdoc">判断值是否相等</div><div class="ttdef"><b>Definition</b> DockLayout.h:44</div></div>
+<div class="ttc" id="aclasssw_1_1_dock_layout_tag_html_af17218c2cdff950251e44c60f6473793"><div class="ttname"><a href="classsw_1_1_dock_layout_tag.html#af17218c2cdff950251e44c60f6473793">sw::DockLayoutTag::DockLayoutTag</a></div><div class="ttdeci">DockLayoutTag(uint64_t value)</div><div class="ttdoc">创建DockLayoutTag</div><div class="ttdef"><b>Definition</b> DockLayout.h:28</div></div>
 <div class="ttc" id="aclasssw_1_1_layout_host_html"><div class="ttname"><a href="classsw_1_1_layout_host.html">sw::LayoutHost</a></div><div class="ttdoc">用于托管元素的布局方式的对象类型，是所有布局方式类型的基类</div><div class="ttdef"><b>Definition</b> LayoutHost.h:11</div></div>
 <div class="ttc" id="astructsw_1_1_size_html"><div class="ttname"><a href="structsw_1_1_size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>Definition</b> Size.h:11</div></div>
 </div><!-- fragment --></div><!-- contents -->

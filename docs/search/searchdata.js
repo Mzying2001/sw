@@ -1,10 +1,11 @@
 var indexSectionsWithContent =
 {
-  0: "_abcdefghiklmnopqrstuvwxy~",
+  0: "_abcdefghiklmnopqrstuvwxy~开快特许贡趋",
   1: "_abcdfghiklmprstuw",
   2: "abcdefghilmnopqrstuvw~",
   3: "_abcefghilmnopqrstuvwxy",
-  4: "o"
+  4: "o",
+  5: "st"
 };
 
 var indexSectionNames =
@@ -13,7 +14,8 @@ var indexSectionNames =
   1: "classes",
   2: "functions",
   3: "variables",
-  4: "related"
+  4: "related",
+  5: "pages"
 };
 
 var indexSectionLabels =
@@ -22,6 +24,7 @@ var indexSectionLabels =
   1: "类",
   2: "函数",
   3: "变量",
-  4: "友元"
+  4: "友元",
+  5: "页"
 };
 

@@ -11,10 +11,12 @@ namespace sw
     class DockLayoutTag
     {
     public:
-        static constexpr uint64_t Left   = 0; // 左边
-        static constexpr uint64_t Top    = 1; // 顶边
-        static constexpr uint64_t Right  = 2; // 右边
-        static constexpr uint64_t Bottom = 3; // 底边
+        enum : uint64_t {
+            Left,   // 左边
+            Top,    // 顶边
+            Right,  // 右边
+            Bottom, // 底边
+        };
 
     private:
         uint64_t _value; // 值
@@ -42,6 +44,14 @@ namespace sw
         friend inline bool operator==(const DockLayoutTag &left, const DockLayoutTag &right)
         {
             return left._value == right._value;
+        }
+
+        /**
+         * @brief 判断值是否不相等
+         */
+        friend inline bool operator!=(const DockLayoutTag &left, const DockLayoutTag &right)
+        {
+            return left._value != right._value;
         }
     };
 

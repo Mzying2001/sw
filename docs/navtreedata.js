@@ -25,6 +25,7 @@
 var NAVTREE =
 [
   [ "SimpleWindow", "index.html", [
+    [ "<tt>sw</tt>", "index.html", "index" ],
     [ "类", "annotated.html", [
       [ "类列表", "annotated.html", "annotated_dup" ],
       [ "类索引", "classes.html", null ],
@@ -32,7 +33,7 @@ var NAVTREE =
       [ "类成员", "functions.html", [
         [ "全部", "functions.html", "functions_dup" ],
         [ "函数", "functions_func.html", "functions_func" ],
-        [ "变量", "functions_vars.html", null ],
+        [ "变量", "functions_vars.html", "functions_vars" ],
         [ "相关函数", "functions_rela.html", null ]
       ] ]
     ] ],
@@ -45,10 +46,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_alignment_8h_source.html",
-"classsw_1_1_i_p_address_control.html",
-"classsw_1_1_progress_bar.html#a6dd5e209fbc7f35a89309f4056ae3d1f",
-"classsw_1_1_wnd_base.html",
-"structsw_1_1_proc_msg.html"
+"classsw_1_1_hwnd_host.html#a811a6d21dd8534addfc401bb79f829f7",
+"classsw_1_1_month_calendar.html#aaad4d350fd1f66ddbf95f2f9a70024f6",
+"classsw_1_1_window.html#a24eed02d394d13b368f5cf99b2a68c44",
+"structsw_1_1_canvas_layout_tag.html#aebee142b9a9c5838c3fc2cb7a62374af"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

@@ -50,6 +50,7 @@ var hierarchy =
           [ "sw::ItemsControl< StrList >", "classsw_1_1_items_control.html", [
             [ "sw::ListView", "classsw_1_1_list_view.html", null ]
           ] ],
+          [ "sw::Animation", "classsw_1_1_animation.html", null ],
           [ "sw::ButtonBase", "classsw_1_1_button_base.html", [
             [ "sw::Button", "classsw_1_1_button.html", null ],
             [ "sw::CheckableButton", "classsw_1_1_checkable_button.html", [
@@ -62,6 +63,7 @@ var hierarchy =
             [ "sw::ComboBox", "classsw_1_1_combo_box.html", null ],
             [ "sw::ListBox", "classsw_1_1_list_box.html", null ]
           ] ],
+          [ "sw::MonthCalendar", "classsw_1_1_month_calendar.html", null ],
           [ "sw::PanelBase", "classsw_1_1_panel_base.html", [
             [ "sw::GroupBox", "classsw_1_1_group_box.html", null ],
             [ "sw::Panel", "classsw_1_1_panel.html", [
@@ -115,10 +117,10 @@ var hierarchy =
     [ "sw::ProcMsg", "structsw_1_1_proc_msg.html", null ],
     [ "sw::ReadOnlyProperty< T >", "classsw_1_1_read_only_property.html", [
       [ "sw::Property< int >", "classsw_1_1_property.html", null ],
+      [ "sw::Property< bool >", "classsw_1_1_property.html", null ],
       [ "sw::Property< std::wstring >", "classsw_1_1_property.html", null ],
       [ "sw::Property< AppQuitMode >", "classsw_1_1_property.html", null ],
       [ "sw::Property< BmpBoxSizeMode >", "classsw_1_1_property.html", null ],
-      [ "sw::Property< bool >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::CheckState >", "classsw_1_1_property.html", null ],
       [ "sw::Property< DateTimePickerFormat >", "classsw_1_1_property.html", null ],
       [ "sw::Property< uint32_t >", "classsw_1_1_property.html", null ],
@@ -212,6 +214,9 @@ var hierarchy =
       [ "sw::RoutedEventArgsOfType< ListView_CheckStateChanged >", "structsw_1_1_routed_event_args_of_type.html", [
         [ "sw::ListViewCheckStateChangedEventArgs", "structsw_1_1_list_view_check_state_changed_event_args.html", null ]
       ] ],
+      [ "sw::RoutedEventArgsOfType< MonthCalendar_TimeChanged >", "structsw_1_1_routed_event_args_of_type.html", [
+        [ "sw::MonthCalendarTimeChangedEventArgs", "structsw_1_1_month_calendar_time_changed_event_args.html", null ]
+      ] ],
       [ "sw::RoutedEventArgsOfType< UIElement_MouseButtonDown >", "structsw_1_1_routed_event_args_of_type.html", [
         [ "sw::MouseButtonDownEventArgs", "structsw_1_1_mouse_button_down_event_args.html", null ]
       ] ],
@@ -259,10 +264,10 @@ var hierarchy =
     ] ],
     [ "sw::WriteOnlyProperty< T >", "classsw_1_1_write_only_property.html", [
       [ "sw::Property< int >", "classsw_1_1_property.html", null ],
+      [ "sw::Property< bool >", "classsw_1_1_property.html", null ],
       [ "sw::Property< std::wstring >", "classsw_1_1_property.html", null ],
       [ "sw::Property< AppQuitMode >", "classsw_1_1_property.html", null ],
       [ "sw::Property< BmpBoxSizeMode >", "classsw_1_1_property.html", null ],
-      [ "sw::Property< bool >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::CheckState >", "classsw_1_1_property.html", null ],
       [ "sw::Property< DateTimePickerFormat >", "classsw_1_1_property.html", null ],
       [ "sw::Property< uint32_t >", "classsw_1_1_property.html", null ],
