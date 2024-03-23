@@ -1,12 +1,12 @@
 // https://github.com/Mzying2001/sw
 
 #pragma once
+#include <CommCtrl.h>
 #include <Windows.h>
 #include <memory>
 #include <string>
 #include <cstdint>
 #include <iostream>
-#include <CommCtrl.h>
 #include <map>
 #include <initializer_list>
 #include <algorithm>
@@ -1319,6 +1319,9 @@ namespace sw
         // DateTimePicker控件的时间改变，参数类型为sw::DateTimePickerTimeChangedEventArgs
         DateTimePicker_TimeChanged,
 
+        // 月历控件的时间改变，参数类型为sw::MonthCalendarTimeChangedEventArgs
+        MonthCalendar_TimeChanged,
+
         // IP地址框地址被改变，参数类型为sw::RoutedEventArgs
         IPAddressControl_AddressChanged,
     };
@@ -2619,6 +2622,19 @@ namespace sw
         {
         }
     };
+
+    /**
+     * @brief 月历控件时间改变事件参数类型
+     */
+    struct MonthCalendarTimeChangedEventArgs : RoutedEventArgsOfType<MonthCalendar_TimeChanged> {
+
+        SYSTEMTIME time; // 时间的新值
+
+        MonthCalendarTimeChangedEventArgs(const SYSTEMTIME &time)
+            : time(time)
+        {
+        }
+    };
 }
 
 // Screen.h
@@ -2945,7 +2961,7 @@ namespace sw
         /**
          * @brief 用于判断给定指针是否为指向WndBase的指针
          */
-        uint32_t _check;
+        const uint32_t _check;
 
         /**
          * @brief 窗口句柄
@@ -4150,10 +4166,12 @@ namespace sw
     class DockLayoutTag
     {
     public:
-        static constexpr uint64_t Left   = 0; // 左边
-        static constexpr uint64_t Top    = 1; // 顶边
-        static constexpr uint64_t Right  = 2; // 右边
-        static constexpr uint64_t Bottom = 3; // 底边
+        enum : uint64_t {
+            Left,   // 左边
+            Top,    // 顶边
+            Right,  // 右边
+            Bottom, // 底边
+        };
 
     private:
         uint64_t _value; // 值
@@ -4181,6 +4199,14 @@ namespace sw
         friend inline bool operator==(const DockLayoutTag &left, const DockLayoutTag &right)
         {
             return left._value == right._value;
+        }
+
+        /**
+         * @brief 判断值是否不相等
+         */
+        friend inline bool operator!=(const DockLayoutTag &left, const DockLayoutTag &right)
+        {
+            return left._value != right._value;
         }
     };
 
@@ -5781,6 +5807,84 @@ namespace sw
     };
 }
 
+// Animation.h
+
+
+namespace sw
+{
+    /**
+     * @brief 动画控件，仅支持无音频的avi动画
+     */
+    class Animation : public Control
+    {
+    public:
+        /**
+         * @brief 是否将动画居中显示
+         */
+        const Property<bool> Center;
+
+        /**
+         * @brief 是否在打开avi文件后自动播放
+         */
+        const Property<bool> AutoPlay;
+
+        /**
+         * @brief 动画是否正在播放
+         */
+        const ReadOnlyProperty<bool> IsPlaying;
+
+    public:
+        /**
+         * @brief 初始化动画控件
+         */
+        Animation();
+
+        /**
+         * @brief            从指定模块中打开avi动画
+         * @param hInstance  DLL或EXE的模块句柄
+         * @param resourceId 动画的资源序号
+         * @return           若函数成功则返回true，否则返回false
+         */
+        bool Open(HINSTANCE hInstance, int resourceId);
+
+        /**
+         * @brief          从本地文件打开avi动画
+         * @param fileName 动画的文件路径
+         * @return         若函数成功则返回true，否则返回false
+         */
+        bool Open(const std::wstring &fileName);
+
+        /**
+         * @brief          从本地文件打开avi动画，传入nullptr可以关闭打开的动画
+         * @param fileName 动画的文件路径
+         * @return         若函数成功则返回true，否则返回false
+         */
+        bool Open(const wchar_t *fileName);
+
+        /**
+         * @brief            播放动画
+         * @param times      循环播放次数，设为-1表示无限循环播放
+         * @param beginFrame 从第几帧开始播放，值必须小于65536
+         * @param endFrame   播放到第几帧，值必须小于65536，设为-1表示播放到动画结尾
+         * @return           若函数成功则返回true，否则返回false
+         */
+        bool Play(int times, int beginFrame, int endFrame);
+
+        /**
+         * @brief            播放动画
+         * @param times      循环播放次数，设为-1表示无限循环播放
+         * @return           若函数成功则返回true，否则返回false
+         */
+        bool Play(int times = -1);
+
+        /**
+         * @brief  停止播放
+         * @return 若函数成功则返回true，否则返回false
+         */
+        bool Stop();
+    };
+}
+
 // ButtonBase.h
 
 
@@ -6056,6 +6160,97 @@ namespace sw
          * @return      操作是否成功
          */
         virtual bool RemoveItemAt(int index) = 0;
+    };
+}
+
+// MonthCalendar.h
+
+
+namespace sw
+{
+    /**
+     * @brief 月历控件
+     */
+    class MonthCalendar : public Control
+    {
+    public:
+        /**
+         * @brief 是否显示当前日期
+         */
+        const Property<bool> ShowToday;
+
+    public:
+        /**
+         * @brief 初始化月历控件
+         */
+        MonthCalendar();
+
+        /**
+         * @brief     获取当前控件的“今天”部分所表示的时间
+         * @param out 输出的SYSTEMTIME结构体
+         * @return    若获取成功则返回true，否则返回false
+         */
+        bool GetToday(SYSTEMTIME &out);
+
+        /**
+         * @brief       设置当前控件的“今天”部分所表示的时间
+         * @param today 要设置的时间
+         * @return      若设置成功则返回true，否则返回false
+         */
+        bool SetToday(const SYSTEMTIME &today);
+
+        /**
+         * @brief     获取当前控件表示的时间
+         * @param out 输出的SYSTEMTIME结构体
+         * @return    若获取成功则返回true，否则返回false
+         */
+        bool GetTime(SYSTEMTIME &out);
+
+        /**
+         * @brief      设置当前控件表示的时间
+         * @param time 要设置的时间
+         * @return     若设置成功则返回true，否则返回false
+         */
+        bool SetTime(const SYSTEMTIME &time);
+
+        /**
+         * @brief         设置可选的时间段
+         * @param minTime 最早时间
+         * @param maxTime 最晚时间
+         * @return        若设置成功则返回true，否则返回false
+         */
+        bool SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &maxTime);
+
+    protected:
+        /**
+         * @brief 绘制虚线框时调用该函数
+         */
+        virtual void OnDrawFocusRect() override;
+
+        /**
+         * @brief        设置背景颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetBackColor(Color color, bool redraw) override;
+
+        /**
+         * @brief        设置文本颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetTextColor(Color color, bool redraw) override;
+
+        /**
+         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         */
+        virtual void OnNotified(NMHDR *pNMHDR) override;
+
+        /**
+         * @brief       当前控件表示的时间改变时调用该函数
+         * @param pInfo 发生改变的信息
+         */
+        virtual void OnTimeChanged(NMSELCHANGE *pInfo);
     };
 }
 
