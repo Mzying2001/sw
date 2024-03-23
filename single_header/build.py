@@ -55,7 +55,6 @@ for index in range(0, count):
                 incfile = match.group(1)
                 if incfile not in included:
                     included.add(incfile)
-                    outputfile.write(line + '\n')
                 continue
 
             # 匹配include
@@ -69,6 +68,13 @@ for index in range(0, count):
 
             # 不是include，记录文件内容
             contents[index] += line + '\n'
+
+
+# 输出include部分（将Windows.h提前是因为CommCtrl.h依赖Windows.h）
+outputfile.write('#include <Windows.h>\n')
+for incfile in sorted(included):
+    if incfile != 'Windows.h':
+        outputfile.write(f'#include <{incfile}>\n')
 
 
 # 记录入度为0点的队列
