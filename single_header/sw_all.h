@@ -1,20 +1,20 @@
 // https://github.com/Mzying2001/sw
 
 #pragma once
-#include <CommCtrl.h>
 #include <Windows.h>
-#include <memory>
-#include <string>
+#include <CommCtrl.h>
+#include <algorithm>
 #include <cstdint>
+#include <functional>
+#include <initializer_list>
 #include <iostream>
 #include <map>
-#include <initializer_list>
-#include <algorithm>
-#include <vector>
-#include <tuple>
-#include <functional>
-#include <type_traits>
+#include <memory>
 #include <sstream>
+#include <string>
+#include <tuple>
+#include <type_traits>
+#include <vector>
 #include <windowsx.h>
 
 // Alignment.h
