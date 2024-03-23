@@ -2,6 +2,7 @@
 
 // 包含SimpleWindow所有头文件
 #include "Alignment.h"
+#include "Animation.h"
 #include "App.h"
 #include "BmpBox.h"
 #include "Button.h"

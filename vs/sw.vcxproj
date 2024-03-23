@@ -290,6 +290,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\sw\inc\Alignment.h" />
+    <ClInclude Include="..\sw\inc\Animation.h" />
     <ClInclude Include="..\sw\inc\App.h" />
     <ClInclude Include="..\sw\inc\BmpBox.h" />
     <ClInclude Include="..\sw\inc\Button.h" />
@@ -376,6 +377,7 @@
     <ClInclude Include="..\sw\inc\WrapPanel.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\sw\src\Animation.cpp" />
     <ClCompile Include="..\sw\src\App.cpp" />
     <ClCompile Include="..\sw\src\BmpBox.cpp" />
     <ClCompile Include="..\sw\src\Button.cpp" />
