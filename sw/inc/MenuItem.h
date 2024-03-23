@@ -10,6 +10,13 @@
 
 namespace sw
 {
+    class MenuItem; // 向前声明
+
+    /**
+     * @brief 菜单项关联的回调函数类型
+     */
+    using MenuItemCommand = std::function<void(MenuItem &)>;
+
     /**
      * @brief 菜单项
      */
@@ -19,7 +26,7 @@ namespace sw
         /**
          * @brief 储存用户自定义信息
          */
-        uint64_t tag = 0;
+        uint64_t tag;
 
         /**
          * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
@@ -27,20 +34,28 @@ namespace sw
         std::wstring text;
 
         /**
-         * @brief 子项
-         */
-        std::vector<std::shared_ptr<MenuItem>> subItems;
-
-        /**
          * @brief 菜单项被单击时调用的函数
          */
-        std::function<void(MenuItem &)> command;
+        MenuItemCommand command;
 
+        /**
+         * @brief 子项
+         */
+        std::vector<std::shared_ptr<MenuItem>> subItems{};
+
+    public:
         /**
          * @brief      构造一个MenuItem，并设置文本
          * @param text 菜单项的文本
          */
         MenuItem(const std::wstring &text);
+
+        /**
+         * @brief         构造一个MenuItem，并设置其回调函数
+         * @param text    菜单项的文本
+         * @param command 被单击时调用的函数
+         */
+        MenuItem(const std::wstring &text, const MenuItemCommand &command);
 
         /**
          * @brief          构造一个MenuItem，并设置其子项
@@ -50,12 +65,19 @@ namespace sw
         MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
 
         /**
-         * @brief         构造一个MenuItem，并设置其回调函数
+         * @brief      构造一个MenuItem，并设置tag及文本
+         * @param text 菜单项的文本
+         */
+        MenuItem(uint64_t tag, const std::wstring &text);
+
+        /**
+         * @brief         构造一个MenuItem，并设置tag及回调函数
          * @param text    菜单项的文本
          * @param command 被单击时调用的函数
          */
-        MenuItem(const std::wstring &text, const decltype(command) &command);
+        MenuItem(uint64_t tag, const std::wstring &text, const MenuItemCommand &command);
 
+    public:
         /**
          * @brief 获取一个值，表示当前菜单项是否为分隔条
          */
