@@ -77,6 +77,32 @@ namespace sw
          */
         MenuItem(uint64_t tag, const std::wstring &text, const MenuItemCommand &command);
 
+        /**
+         * @brief         构造一个MenuItem，设置成员函数为回调函数
+         * @tparam T      成员函数所在的类
+         * @param obj     成员函数所在的对象
+         * @param handler 处理函数
+         */
+        template <typename T>
+        MenuItem(const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
+            : MenuItem(0, text, obj, handler)
+        {
+        }
+
+        /**
+         * @brief         构造一个MenuItem，设置成员函数为回调函数
+         * @tparam T      成员函数所在的类
+         * @param obj     成员函数所在的对象
+         * @param handler 处理函数
+         */
+        template <typename T>
+        MenuItem(uint64_t tag, const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
+            : MenuItem(tag, text)
+        {
+            T *pObj       = &obj;
+            this->command = [pObj, handler](MenuItem &item) { (pObj->*handler)(item); };
+        }
+
     public:
         /**
          * @brief 获取一个值，表示当前菜单项是否为分隔条
