@@ -2,7 +2,8 @@
 #include <cmath>
 #include <memory>
 
-static constexpr int _InitialBufferSize = 256; // 获取文本时缓冲区的初始大小
+// 获取文本时缓冲区的初始大小
+static constexpr int _ListViewTextInitialBufferSize = 256;
 
 sw::ListViewColumn::ListViewColumn(const std::wstring &header)
     : ListViewColumn(header, 100)
@@ -264,7 +265,7 @@ sw::StrList sw::ListView::GetItemAt(int index)
     int col = this->_GetColCount();
     if (col <= 0) return result;
 
-    int bufsize = _InitialBufferSize;
+    int bufsize = _ListViewTextInitialBufferSize;
     std::unique_ptr<wchar_t[]> buf(new wchar_t[bufsize]);
 
     LVITEMW lvi;
@@ -348,7 +349,7 @@ bool sw::ListView::RemoveItemAt(int index)
 
 std::wstring sw::ListView::GetItemAt(int row, int col)
 {
-    int bufsize = _InitialBufferSize;
+    int bufsize = _ListViewTextInitialBufferSize;
     std::unique_ptr<wchar_t[]> buf(new wchar_t[bufsize]);
 
     LVITEMW lvi;
