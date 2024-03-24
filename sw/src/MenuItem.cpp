@@ -1,12 +1,17 @@
 #include "MenuItem.h"
 
 sw::MenuItem::MenuItem(const std::wstring &text)
-    : text(text)
+    : tag(0), text(text), command(nullptr)
+{
+}
+
+sw::MenuItem::MenuItem(const std::wstring &text, const MenuItemCommand &command)
+    : tag(0), text(text), command(command)
 {
 }
 
 sw::MenuItem::MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems)
-    : MenuItem(text)
+    : tag(0), text(text), command(nullptr)
 {
     for (const MenuItem &subItem : subItems) {
         std::shared_ptr<MenuItem> pSubItem = std::make_shared<MenuItem>(subItem);
@@ -14,10 +19,14 @@ sw::MenuItem::MenuItem(const std::wstring &text, std::initializer_list<MenuItem>
     }
 }
 
-sw::MenuItem::MenuItem(const std::wstring &text, const decltype(command) &command)
-    : MenuItem(text)
+sw::MenuItem::MenuItem(uint64_t tag, const std::wstring &text)
+    : tag(tag), text(text), command(nullptr)
 {
-    this->command = command;
+}
+
+sw::MenuItem::MenuItem(uint64_t tag, const std::wstring &text, const MenuItemCommand &command)
+    : tag(tag), text(text), command(command)
+{
 }
 
 bool sw::MenuItem::IsSeparator() const

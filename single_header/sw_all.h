@@ -1507,83 +1507,7 @@ namespace sw
     class Utils
     {
     private:
-        Utils() = delete;
-
-        template <typename T>
-        static void _BuildStr(std::wostream &wos, const T &arg)
-        {
-            wos << arg;
-        }
-
-        static void _BuildStr(std::wostream &wos, const char *str)
-        {
-            wos << Utils::ToWideStr(str);
-        }
-
-        static void _BuildStr(std::wostream &wos, const std::string &str)
-        {
-            wos << Utils::ToWideStr(str);
-        }
-
-        template <typename T>
-        static void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
-        {
-            auto beg = vec.begin();
-            auto end = vec.end();
-            wos << L"[";
-            for (auto it = beg; it != end; ++it) {
-                if (it != beg)
-                    wos << L", ";
-                Utils::_BuildStr(wos, *it);
-            }
-            wos << L"]";
-        }
-
-        template <typename TKey, typename TVal>
-        static void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
-        {
-            auto beg = map.begin();
-            auto end = map.end();
-            wos << L"{";
-            for (auto it = beg; it != end; ++it) {
-                if (it != beg)
-                    wos << L", ";
-                Utils::_BuildStr(wos, it->first);
-                wos << L":";
-                Utils::_BuildStr(wos, it->second);
-            }
-            wos << L"}";
-        }
-
-    public:
-        /**
-         * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
-         */
-        template <typename... Args>
-        static std::wstring BuildStr(const Args &...args)
-        {
-            std::wstringstream wss;
-            int _[]{(Utils::_BuildStr(wss, args), 0)...};
-            return wss.str();
-        }
-
-        /**
-         * @brief 取两值中的较大值
-         */
-        template <typename T>
-        static constexpr inline T Max(const T &a, const T &b)
-        {
-            return a > b ? a : b;
-        }
-
-        /**
-         * @brief 取两值中的较小值
-         */
-        template <typename T>
-        static constexpr inline T Min(const T &a, const T &b)
-        {
-            return a < b ? a : b;
-        }
+        Utils() = delete; // 删除构造函数
 
     public:
         /**
@@ -1630,6 +1554,106 @@ namespace sw
          * @result          包含字串的vector
          */
         static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
+
+    public:
+        /**
+         * @brief 取两值中的较大值
+         */
+        template <typename T>
+        static constexpr inline T Max(const T &a, const T &b)
+        {
+            return a > b ? a : b;
+        }
+
+        /**
+         * @brief 取两值中的较小值
+         */
+        template <typename T>
+        static constexpr inline T Min(const T &a, const T &b)
+        {
+            return a < b ? a : b;
+        }
+
+        /**
+         * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
+         */
+        template <typename... Args>
+        static inline std::wstring BuildStr(const Args &...args)
+        {
+            std::wstringstream wss;
+            int _[]{(Utils::_BuildStr(wss, args), 0)...};
+            return wss.str();
+        }
+
+    private:
+        /**
+         * @brief BuildStr函数内部实现
+         */
+        template <typename T>
+        static inline void _BuildStr(std::wostream &wos, const T &arg)
+        {
+            wos << arg;
+        }
+
+        /**
+         * @brief 让BuildStr函数将bool类型转化为"true"或"false"而不是数字1或0
+         */
+        static inline void _BuildStr(std::wostream &wos, bool b)
+        {
+            wos << (b ? L"true" : L"false");
+        }
+
+        /**
+         * @brief 让BuildStr函数支持窄字符串
+         */
+        static inline void _BuildStr(std::wostream &wos, const char *str)
+        {
+            wos << Utils::ToWideStr(str);
+        }
+
+        /**
+         * @brief 让BuildStr函数支持窄字符串
+         */
+        static inline void _BuildStr(std::wostream &wos, const std::string &str)
+        {
+            wos << Utils::ToWideStr(str);
+        }
+
+        /**
+         * @brief 让BuildStr函数支持std::vector
+         */
+        template <typename T>
+        static inline void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
+        {
+            auto beg = vec.begin();
+            auto end = vec.end();
+            wos << L"[";
+            for (auto it = beg; it != end; ++it) {
+                if (it != beg)
+                    wos << L", ";
+                Utils::_BuildStr(wos, *it);
+            }
+            wos << L"]";
+        }
+
+        /**
+         * @brief 让BildStr函数支持std::map
+         */
+        template <typename TKey, typename TVal>
+        static inline void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
+        {
+            auto beg = map.begin();
+            auto end = map.end();
+            wos << L"{";
+            for (auto it = beg; it != end; ++it) {
+                if (it != beg)
+                    wos << L", ";
+                Utils::_BuildStr(wos, it->first);
+                wos << L":";
+                Utils::_BuildStr(wos, it->second);
+            }
+            wos << L"}";
+        }
     };
 }
 
@@ -2218,6 +2242,13 @@ namespace sw
 
 namespace sw
 {
+    class MenuItem; // 向前声明
+
+    /**
+     * @brief 菜单项关联的回调函数类型
+     */
+    using MenuItemCommand = std::function<void(MenuItem &)>;
+
     /**
      * @brief 菜单项
      */
@@ -2227,7 +2258,7 @@ namespace sw
         /**
          * @brief 储存用户自定义信息
          */
-        uint64_t tag = 0;
+        uint64_t tag;
 
         /**
          * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
@@ -2235,20 +2266,28 @@ namespace sw
         std::wstring text;
 
         /**
-         * @brief 子项
-         */
-        std::vector<std::shared_ptr<MenuItem>> subItems;
-
-        /**
          * @brief 菜单项被单击时调用的函数
          */
-        std::function<void(MenuItem &)> command;
+        MenuItemCommand command;
 
+        /**
+         * @brief 子项
+         */
+        std::vector<std::shared_ptr<MenuItem>> subItems{};
+
+    public:
         /**
          * @brief      构造一个MenuItem，并设置文本
          * @param text 菜单项的文本
          */
         MenuItem(const std::wstring &text);
+
+        /**
+         * @brief         构造一个MenuItem，并设置其回调函数
+         * @param text    菜单项的文本
+         * @param command 被单击时调用的函数
+         */
+        MenuItem(const std::wstring &text, const MenuItemCommand &command);
 
         /**
          * @brief          构造一个MenuItem，并设置其子项
@@ -2258,12 +2297,45 @@ namespace sw
         MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
 
         /**
-         * @brief         构造一个MenuItem，并设置其回调函数
+         * @brief      构造一个MenuItem，并设置tag及文本
+         * @param text 菜单项的文本
+         */
+        MenuItem(uint64_t tag, const std::wstring &text);
+
+        /**
+         * @brief         构造一个MenuItem，并设置tag及回调函数
          * @param text    菜单项的文本
          * @param command 被单击时调用的函数
          */
-        MenuItem(const std::wstring &text, const decltype(command) &command);
+        MenuItem(uint64_t tag, const std::wstring &text, const MenuItemCommand &command);
 
+        /**
+         * @brief         构造一个MenuItem，设置成员函数为回调函数
+         * @tparam T      成员函数所在的类
+         * @param obj     成员函数所在的对象
+         * @param handler 处理函数
+         */
+        template <typename T>
+        MenuItem(const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
+            : MenuItem(0, text, obj, handler)
+        {
+        }
+
+        /**
+         * @brief         构造一个MenuItem，设置成员函数为回调函数
+         * @tparam T      成员函数所在的类
+         * @param obj     成员函数所在的对象
+         * @param handler 处理函数
+         */
+        template <typename T>
+        MenuItem(uint64_t tag, const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
+            : MenuItem(tag, text)
+        {
+            T *pObj       = &obj;
+            this->command = [pObj, handler](MenuItem &item) { (pObj->*handler)(item); };
+        }
+
+    public:
         /**
          * @brief 获取一个值，表示当前菜单项是否为分隔条
          */
@@ -2745,45 +2817,41 @@ namespace sw
         HMENU _hMenu = NULL;
 
         /**
-         * @brief 储存所有子项菜单句柄
+         * @brief 菜单项集合
+         */
+        std::vector<std::shared_ptr<MenuItem>> _items;
+
+        /**
+         * @brief 记录所有包含子项的菜单的句柄
          */
         std::vector<std::tuple<std::shared_ptr<MenuItem>, HMENU>> _popupMenus;
 
         /**
-         * @brief 储存所有叶子节点，即可以被单击的菜单项，索引为其id
+         * @brief 记录菜单项的ID，可通过菜单项所在索引获取ID（调用IndexToID）
          */
-        std::vector<std::shared_ptr<MenuItem>> _leaves;
+        std::vector<std::shared_ptr<MenuItem>> _ids;
 
         /**
          * @brief 记录菜单项直接依赖关系的map
          */
         std::map<MenuItem *, _MenuItemDependencyInfo> _dependencyInfoMap;
 
-    public:
-        /**
-         * @brief 菜单项集合
-         */
-        std::vector<std::shared_ptr<MenuItem>> items;
-
+    protected:
         /**
          * @brief 初始化菜单
          */
-        MenuBase();
+        MenuBase(HMENU hMenu);
 
-        /**
-         * @brief 重载拷贝构造
-         */
-        MenuBase(const MenuBase &menu);
+        MenuBase(const MenuBase &)            = delete; // 删除拷贝构造函数
+        MenuBase(MenuBase &&)                 = delete; // 删除移动构造函数
+        MenuBase &operator=(const MenuBase &) = delete; // 删除拷贝赋值运算符
+        MenuBase &operator=(MenuBase &&)      = delete; // 删除移动赋值运算符
 
+    public:
         /**
          * @brief 释放资源
          */
-        ~MenuBase();
-
-        /**
-         * @brief 重载拷贝赋值运算
-         */
-        MenuBase &operator=(const MenuBase &menu);
+        virtual ~MenuBase();
 
         /**
          * @brief 获取菜单句柄
@@ -2791,7 +2859,7 @@ namespace sw
         HMENU GetHandle();
 
         /**
-         * @brief 更新菜单
+         * @brief 更新菜单，该操作会导致菜单项的Enabled、Checked等恢复到初始状态
          */
         void Update();
 
@@ -2851,6 +2919,13 @@ namespace sw
         MenuItem *GetMenuItem(std::initializer_list<std::wstring> path);
 
         /**
+         * @brief     通过tag值获取菜单项
+         * @param tag 指定的tag
+         * @return    若函数成功则返回菜单项的指针，否则返回nullptr
+         */
+        MenuItem *GetMenuItemByTag(uint64_t tag);
+
+        /**
          * @brief      获取当前菜单中指定菜单项的直接父菜单项
          * @param item 要查询的子菜单项
          * @return     若函数成功则返回指向直接父菜单项的指针，否则返回nullptr
@@ -2897,6 +2972,23 @@ namespace sw
          */
         bool SetText(MenuItem &item, const std::wstring &value);
 
+        /**
+         * @brief         设置菜单项要显示的位图
+         * @param item    要修改的菜单项
+         * @param hBitmap 要设置的位图句柄
+         * @return        修改是否成功
+         */
+        bool SetBitmap(MenuItem &item, HBITMAP hBitmap);
+
+        /**
+         * @brief               设置菜单不同选中状态下显示的位图
+         * @param item          要修改的菜单项
+         * @param hBmpUnchecked 未选中时显示的位图
+         * @param hBmpChecked   选中时显示的位图
+         * @return              修改是否成功
+         */
+        bool SetCheckBitmap(MenuItem &item, HBITMAP hBmpUnchecked, HBITMAP hBmpChecked);
+
     private:
         /**
          * @brief 清除已添加的所有菜单项
@@ -2918,13 +3010,15 @@ namespace sw
          */
         _MenuItemDependencyInfo *_GetMenuItemDependencyInfo(MenuItem &item);
 
-    protected:
         /**
-         * @brief       设置菜单句柄
-         * @param hMenu 菜单句柄
+         * @brief       通过tag值获取菜单项
+         * @param items 查找的vector
+         * @param tag   指定的tag
+         * @return      若函数成功则返回菜单项的指针，否则返回nullptr
          */
-        void InitMenuBase(HMENU hMenu);
+        MenuItem *_GetMenuItemByTag(std::vector<std::shared_ptr<MenuItem>> &items, uint64_t tag);
 
+    protected:
         /**
          * @brief       根据索引获取ID
          * @param index 索引

@@ -32,45 +32,41 @@ namespace sw
         HMENU _hMenu = NULL;
 
         /**
-         * @brief 储存所有子项菜单句柄
+         * @brief 菜单项集合
+         */
+        std::vector<std::shared_ptr<MenuItem>> _items;
+
+        /**
+         * @brief 记录所有包含子项的菜单的句柄
          */
         std::vector<std::tuple<std::shared_ptr<MenuItem>, HMENU>> _popupMenus;
 
         /**
-         * @brief 储存所有叶子节点，即可以被单击的菜单项，索引为其id
+         * @brief 记录菜单项的ID，可通过菜单项所在索引获取ID（调用IndexToID）
          */
-        std::vector<std::shared_ptr<MenuItem>> _leaves;
+        std::vector<std::shared_ptr<MenuItem>> _ids;
 
         /**
          * @brief 记录菜单项直接依赖关系的map
          */
         std::map<MenuItem *, _MenuItemDependencyInfo> _dependencyInfoMap;
 
-    public:
-        /**
-         * @brief 菜单项集合
-         */
-        std::vector<std::shared_ptr<MenuItem>> items;
-
+    protected:
         /**
          * @brief 初始化菜单
          */
-        MenuBase();
+        MenuBase(HMENU hMenu);
 
-        /**
-         * @brief 重载拷贝构造
-         */
-        MenuBase(const MenuBase &menu);
+        MenuBase(const MenuBase &)            = delete; // 删除拷贝构造函数
+        MenuBase(MenuBase &&)                 = delete; // 删除移动构造函数
+        MenuBase &operator=(const MenuBase &) = delete; // 删除拷贝赋值运算符
+        MenuBase &operator=(MenuBase &&)      = delete; // 删除移动赋值运算符
 
+    public:
         /**
          * @brief 释放资源
          */
-        ~MenuBase();
-
-        /**
-         * @brief 重载拷贝赋值运算
-         */
-        MenuBase &operator=(const MenuBase &menu);
+        virtual ~MenuBase();
 
         /**
          * @brief 获取菜单句柄
@@ -78,7 +74,7 @@ namespace sw
         HMENU GetHandle();
 
         /**
-         * @brief 更新菜单
+         * @brief 更新菜单，该操作会导致菜单项的Enabled、Checked等恢复到初始状态
          */
         void Update();
 
@@ -138,6 +134,13 @@ namespace sw
         MenuItem *GetMenuItem(std::initializer_list<std::wstring> path);
 
         /**
+         * @brief     通过tag值获取菜单项
+         * @param tag 指定的tag
+         * @return    若函数成功则返回菜单项的指针，否则返回nullptr
+         */
+        MenuItem *GetMenuItemByTag(uint64_t tag);
+
+        /**
          * @brief      获取当前菜单中指定菜单项的直接父菜单项
          * @param item 要查询的子菜单项
          * @return     若函数成功则返回指向直接父菜单项的指针，否则返回nullptr
@@ -184,6 +187,23 @@ namespace sw
          */
         bool SetText(MenuItem &item, const std::wstring &value);
 
+        /**
+         * @brief         设置菜单项要显示的位图
+         * @param item    要修改的菜单项
+         * @param hBitmap 要设置的位图句柄
+         * @return        修改是否成功
+         */
+        bool SetBitmap(MenuItem &item, HBITMAP hBitmap);
+
+        /**
+         * @brief               设置菜单不同选中状态下显示的位图
+         * @param item          要修改的菜单项
+         * @param hBmpUnchecked 未选中时显示的位图
+         * @param hBmpChecked   选中时显示的位图
+         * @return              修改是否成功
+         */
+        bool SetCheckBitmap(MenuItem &item, HBITMAP hBmpUnchecked, HBITMAP hBmpChecked);
+
     private:
         /**
          * @brief 清除已添加的所有菜单项
@@ -205,13 +225,15 @@ namespace sw
          */
         _MenuItemDependencyInfo *_GetMenuItemDependencyInfo(MenuItem &item);
 
-    protected:
         /**
-         * @brief       设置菜单句柄
-         * @param hMenu 菜单句柄
+         * @brief       通过tag值获取菜单项
+         * @param items 查找的vector
+         * @param tag   指定的tag
+         * @return      若函数成功则返回菜单项的指针，否则返回nullptr
          */
-        void InitMenuBase(HMENU hMenu);
+        MenuItem *_GetMenuItemByTag(std::vector<std::shared_ptr<MenuItem>> &items, uint64_t tag);
 
+    protected:
         /**
          * @brief       根据索引获取ID
          * @param index 索引
