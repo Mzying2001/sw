@@ -134,6 +134,13 @@ namespace sw
         MenuItem *GetMenuItem(std::initializer_list<std::wstring> path);
 
         /**
+         * @brief     通过tag值获取菜单项
+         * @param tag 指定的tag
+         * @return    若函数成功则返回菜单项的指针，否则返回nullptr
+         */
+        MenuItem *GetMenuItemByTag(uint64_t tag);
+
+        /**
          * @brief      获取当前菜单中指定菜单项的直接父菜单项
          * @param item 要查询的子菜单项
          * @return     若函数成功则返回指向直接父菜单项的指针，否则返回nullptr
@@ -200,6 +207,14 @@ namespace sw
          * @return     若函数成功则返回指向_MenuItemDependencyInfo的指针，否则返回nullptr
          */
         _MenuItemDependencyInfo *_GetMenuItemDependencyInfo(MenuItem &item);
+
+        /**
+         * @brief       通过tag值获取菜单项
+         * @param items 查找的vector
+         * @param tag   指定的tag
+         * @return      若函数成功则返回菜单项的指针，否则返回nullptr
+         */
+        MenuItem *_GetMenuItemByTag(std::vector<std::shared_ptr<MenuItem>> &items, uint64_t tag);
 
     protected:
         /**

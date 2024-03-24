@@ -219,6 +219,11 @@ sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<std::wstring> path
     return result;
 }
 
+sw::MenuItem *sw::MenuBase::GetMenuItemByTag(uint64_t tag)
+{
+    return this->_GetMenuItemByTag(this->_items, tag);
+}
+
 sw::MenuItem *sw::MenuBase::GetParent(MenuItem &item)
 {
     auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
@@ -395,4 +400,22 @@ sw::MenuBase::_MenuItemDependencyInfo *sw::MenuBase::_GetMenuItemDependencyInfo(
 {
     MenuItem *p = &item;
     return this->_dependencyInfoMap.count(p) ? &this->_dependencyInfoMap[p] : nullptr;
+}
+
+sw::MenuItem *sw::MenuBase::_GetMenuItemByTag(std::vector<std::shared_ptr<MenuItem>> &items, uint64_t tag)
+{
+    MenuItem *result = nullptr;
+
+    for (std::shared_ptr<MenuItem> pItem : items) {
+        if (pItem->tag == tag) {
+            result = pItem.get();
+            break;
+        }
+        if (!pItem->subItems.empty()) {
+            result = this->_GetMenuItemByTag(pItem->subItems, tag);
+            if (result) break;
+        }
+    }
+
+    return result;
 }
