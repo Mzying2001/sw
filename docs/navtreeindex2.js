@@ -1,5 +1,8 @@
 var NAVTREEINDEX2 =
 {
+"classsw_1_1_month_calendar.html#a27e71bfd28f2ab4da69b73507d8e2133":[1,0,0,65,2],
+"classsw_1_1_month_calendar.html#a4e5c2c34e0e552166fa5bb9a5b17b3df":[1,0,0,65,5],
+"classsw_1_1_month_calendar.html#a529242b38bc049b66b568e09d2a228e0":[1,0,0,65,10],
 "classsw_1_1_month_calendar.html#aaad4d350fd1f66ddbf95f2f9a70024f6":[1,0,0,65,9],
 "classsw_1_1_month_calendar.html#ab5ca0c5ed05d9f4796a8fc8c089c2a21":[1,0,0,65,3],
 "classsw_1_1_month_calendar.html#ac101b69ac321b4f21e9e9867135c8512":[1,0,0,65,7],
@@ -246,8 +249,5 @@ var NAVTREEINDEX2 =
 "classsw_1_1_utils.html":[1,0,0,107],
 "classsw_1_1_window.html":[1,0,0,108],
 "classsw_1_1_window.html#a09165434040ada6ea3f00a7d79b1f7a2":[1,0,0,108,6],
-"classsw_1_1_window.html#a1a15faeb81c21aa3327dcd8fefdc5ffd":[1,0,0,108,31],
-"classsw_1_1_window.html#a1cdd78ebe0571b1c9bb49403ed8d8381":[1,0,0,108,3],
-"classsw_1_1_window.html#a236c7f298b6bbb432ce7c3c82a5eaacd":[1,0,0,108,15],
-"classsw_1_1_window.html#a2403f422df1271f56f2ef574d91f232d":[1,0,0,108,4]
+"classsw_1_1_window.html#a1a15faeb81c21aa3327dcd8fefdc5ffd":[1,0,0,108,31]
 };

@@ -1,5 +1,8 @@
 var NAVTREEINDEX3 =
 {
+"classsw_1_1_window.html#a1cdd78ebe0571b1c9bb49403ed8d8381":[1,0,0,108,3],
+"classsw_1_1_window.html#a236c7f298b6bbb432ce7c3c82a5eaacd":[1,0,0,108,15],
+"classsw_1_1_window.html#a2403f422df1271f56f2ef574d91f232d":[1,0,0,108,4],
 "classsw_1_1_window.html#a24eed02d394d13b368f5cf99b2a68c44":[1,0,0,108,0],
 "classsw_1_1_window.html#a257ba940703f41b12990678bb3ff0e0e":[1,0,0,108,29],
 "classsw_1_1_window.html#a27de84e46eda2bccca6f5b2f30fb3117":[1,0,0,108,23],
@@ -153,8 +156,8 @@ var NAVTREEINDEX3 =
 "dir_01fcd3835fb4e7d9331b722d86291b65.html":[2,0,0],
 "dir_ed5f6ece24ffcc4307a76d27c2494db3.html":[2,0,0,0],
 "files.html":[2,0],
-"functions.html":[1,3,0,0],
 "functions.html":[1,3,0],
+"functions.html":[1,3,0,0],
 "functions_a.html":[1,3,0,1],
 "functions_b.html":[1,3,0,2],
 "functions_c.html":[1,3,0,3],
@@ -199,8 +202,8 @@ var NAVTREEINDEX3 =
 "functions_t.html":[1,3,0,18],
 "functions_u.html":[1,3,0,19],
 "functions_v.html":[1,3,0,20],
-"functions_vars.html":[1,3,2,0],
 "functions_vars.html":[1,3,2],
+"functions_vars.html":[1,3,2,0],
 "functions_vars_a.html":[1,3,2,1],
 "functions_vars_b.html":[1,3,2,2],
 "functions_vars_c.html":[1,3,2,3],
@@ -228,8 +231,8 @@ var NAVTREEINDEX3 =
 "functions_y.html":[1,3,0,23],
 "functions_~.html":[1,3,0,24],
 "hierarchy.html":[1,2],
-"index.html":[0],
 "index.html":[],
+"index.html":[0],
 "index.html#autotoc_md1":[0,0],
 "index.html#autotoc_md2":[0,1],
 "index.html#autotoc_md3":[0,2],
@@ -246,8 +249,5 @@ var NAVTREEINDEX3 =
 "structsw_1_1_auto_size_grid_row.html#a2bdf1d29e1b15c59580fd5592afade9a":[1,0,0,6,0],
 "structsw_1_1_canvas_layout_tag.html":[1,0,0,13],
 "structsw_1_1_canvas_layout_tag.html#a54ca60a93c85b0c06ad1d848fed9af42":[1,0,0,13,3],
-"structsw_1_1_canvas_layout_tag.html#a5fcb2062d7a1239c4bd0f9fbf971718c":[1,0,0,13,2],
-"structsw_1_1_canvas_layout_tag.html#a66e509ca8ce039a228ccb15cba5aa509":[1,0,0,13,4],
-"structsw_1_1_canvas_layout_tag.html#ad3e70c4391d2f7835676e5aae48a4377":[1,0,0,13,0],
-"structsw_1_1_canvas_layout_tag.html#ae9def609feb263d19aa829b29010184c":[1,0,0,13,1]
+"structsw_1_1_canvas_layout_tag.html#a5fcb2062d7a1239c4bd0f9fbf971718c":[1,0,0,13,2]
 };

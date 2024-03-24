@@ -11,6 +11,5 @@ var searchData=
   ['iseditable_8',['IsEditable',['../classsw_1_1_combo_box.html#aa495a8136f05548a3e26bdf3e0612a8f',1,'sw::ComboBox']]],
   ['isplaying_9',['IsPlaying',['../classsw_1_1_animation.html#a2b255ea3d4b90630726ecb47b1b08eb1',1,'sw::Animation']]],
   ['italic_10',['italic',['../classsw_1_1_font.html#aa7ea90de17d56a063c395cf015baf11f',1,'sw::Font']]],
-  ['items_11',['items',['../classsw_1_1_menu_base.html#a661efe79f75f4e6ae0d5b166b7db4147',1,'sw::MenuBase']]],
-  ['itemscount_12',['ItemsCount',['../classsw_1_1_items_control.html#a765b2e51cb5f439c464abbe031b0db09',1,'sw::ItemsControl']]]
+  ['itemscount_11',['ItemsCount',['../classsw_1_1_items_control.html#a765b2e51cb5f439c464abbe031b0db09',1,'sw::ItemsControl']]]
 ];
