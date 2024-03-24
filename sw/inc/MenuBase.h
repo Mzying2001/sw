@@ -187,6 +187,14 @@ namespace sw
          */
         bool SetText(MenuItem &item, const std::wstring &value);
 
+        /**
+         * @brief         设置菜单项要显示的位图
+         * @param item    要修改的菜单项
+         * @param hBitmap 要设置的位图句柄
+         * @return        修改是否成功
+         */
+        bool SetBitmap(MenuItem &item, HBITMAP hBitmap);
+
     private:
         /**
          * @brief 清除已添加的所有菜单项

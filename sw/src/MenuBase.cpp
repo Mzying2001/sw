@@ -353,6 +353,22 @@ bool sw::MenuBase::SetText(MenuItem &item, const std::wstring &value)
     return success;
 }
 
+bool sw::MenuBase::SetBitmap(MenuItem &item, HBITMAP hBitmap)
+{
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    MENUITEMINFOW info{};
+    info.cbSize   = sizeof(info);
+    info.fMask    = MIIM_BITMAP;
+    info.hbmpItem = hBitmap;
+
+    return SetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info);
+}
+
 void sw::MenuBase::_ClearAddedItems()
 {
     while (GetMenuItemCount(this->_hMenu) > 0) {
