@@ -369,6 +369,17 @@ bool sw::MenuBase::SetBitmap(MenuItem &item, HBITMAP hBitmap)
     return SetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info);
 }
 
+bool sw::MenuBase::SetCheckBitmap(MenuItem &item, HBITMAP hBmpUnchecked, HBITMAP hBmpChecked)
+{
+    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
+
+    if (dependencyInfo == nullptr) {
+        return false;
+    }
+
+    return SetMenuItemBitmaps(dependencyInfo->hParent, dependencyInfo->index, MF_BYPOSITION, hBmpUnchecked, hBmpChecked);
+}
+
 void sw::MenuBase::_ClearAddedItems()
 {
     while (GetMenuItemCount(this->_hMenu) > 0) {

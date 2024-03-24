@@ -195,6 +195,15 @@ namespace sw
          */
         bool SetBitmap(MenuItem &item, HBITMAP hBitmap);
 
+        /**
+         * @brief               设置菜单不同选中状态下显示的位图
+         * @param item          要修改的菜单项
+         * @param hBmpUnchecked 未选中时显示的位图
+         * @param hBmpChecked   选中时显示的位图
+         * @return              修改是否成功
+         */
+        bool SetCheckBitmap(MenuItem &item, HBITMAP hBmpUnchecked, HBITMAP hBmpChecked);
+
     private:
         /**
          * @brief 清除已添加的所有菜单项
