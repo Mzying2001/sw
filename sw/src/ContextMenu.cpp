@@ -6,8 +6,8 @@
 static constexpr int _ContextMenuIDFirst = 50000;
 
 sw::ContextMenu::ContextMenu()
+    : MenuBase(CreatePopupMenu())
 {
-    this->InitMenuBase(CreatePopupMenu());
 }
 
 sw::ContextMenu::ContextMenu(std::initializer_list<MenuItem> items)

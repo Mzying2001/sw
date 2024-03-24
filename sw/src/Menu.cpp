@@ -1,8 +1,8 @@
 #include "Menu.h"
 
 sw::Menu::Menu()
+    : MenuBase(CreateMenu())
 {
-    this->InitMenuBase(CreateMenu());
 }
 
 sw::Menu::Menu(std::initializer_list<MenuItem> items)

@@ -1,15 +1,8 @@
 #include "MenuBase.h"
 
-sw::MenuBase::MenuBase()
+sw::MenuBase::MenuBase(HMENU hMenu)
+    : _hMenu(hMenu)
 {
-    /*this->_hMenu = CreateMenu();*/
-}
-
-sw::MenuBase::MenuBase(const MenuBase &menu)
-    : MenuBase()
-{
-    this->items = menu.items;
-    this->Update();
 }
 
 sw::MenuBase::~MenuBase()
@@ -19,13 +12,6 @@ sw::MenuBase::~MenuBase()
     if (this->_hMenu != NULL) {
         DestroyMenu(this->_hMenu);
     }
-}
-
-sw::MenuBase &sw::MenuBase::operator=(const MenuBase &menu)
-{
-    this->items = menu.items;
-    this->Update();
-    return *this;
 }
 
 HMENU sw::MenuBase::GetHandle()
@@ -38,7 +24,7 @@ void sw::MenuBase::Update()
     this->_ClearAddedItems();
 
     int i = 0;
-    for (std::shared_ptr<MenuItem> pItem : this->items) {
+    for (std::shared_ptr<MenuItem> pItem : this->_items) {
         this->_AppendMenuItem(this->_hMenu, pItem, i++);
     }
 }
@@ -49,7 +35,7 @@ void sw::MenuBase::SetItems(std::initializer_list<MenuItem> items)
 
     for (const MenuItem &item : items) {
         std::shared_ptr<MenuItem> pItem = std::make_shared<MenuItem>(item);
-        this->items.push_back(pItem);
+        this->_items.push_back(pItem);
     }
 
     this->Update();
@@ -88,8 +74,8 @@ bool sw::MenuBase::SetSubItems(MenuItem &item, std::initializer_list<MenuItem> s
 void sw::MenuBase::AddItem(const MenuItem &item)
 {
     std::shared_ptr<MenuItem> pItem(new MenuItem(item));
-    this->_AppendMenuItem(this->_hMenu, pItem, (int)this->items.size());
-    this->items.push_back(pItem);
+    this->_AppendMenuItem(this->_hMenu, pItem, (int)this->_items.size());
+    this->_items.push_back(pItem);
 }
 
 bool sw::MenuBase::AddSubItem(MenuItem &item, const MenuItem &subItem)
@@ -126,10 +112,10 @@ bool sw::MenuBase::RemoveItem(MenuItem &item)
         RemoveMenu(dependencyInfo->hParent, index, MF_BYPOSITION);
 
         this->_dependencyInfoMap.erase(&item);
-        this->items.erase(this->items.begin() + index);
+        this->_items.erase(this->_items.begin() + index);
 
-        for (int i = index; i < (int)this->items.size(); ++i) {
-            this->_dependencyInfoMap[this->items[i].get()].index -= 1;
+        for (int i = index; i < (int)this->_items.size(); ++i) {
+            this->_dependencyInfoMap[this->_items[i].get()].index -= 1;
         }
 
     } else {
@@ -156,7 +142,7 @@ bool sw::MenuBase::RemoveItem(MenuItem &item)
 sw::MenuItem *sw::MenuBase::GetMenuItem(int id)
 {
     int index = this->IDToIndex(id);
-    return index >= 0 && index < (int)this->_leaves.size() ? this->_leaves[index].get() : nullptr;
+    return index >= 0 && index < (int)this->_ids.size() ? this->_ids[index].get() : nullptr;
 }
 
 sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<int> path)
@@ -172,11 +158,11 @@ sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<int> path)
 
     int index = *it++;
 
-    if (index < 0 || index >= (int)this->items.size()) {
+    if (index < 0 || index >= (int)this->_items.size()) {
         return nullptr;
     }
 
-    result = this->items[index].get();
+    result = this->_items[index].get();
 
     while (it != end) {
         index = *it++;
@@ -200,7 +186,7 @@ sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<std::wstring> path
         return nullptr;
     }
 
-    for (std::shared_ptr<MenuItem> pItem : this->items) {
+    for (std::shared_ptr<MenuItem> pItem : this->_items) {
         if (pItem->text == *it) {
             result = pItem.get();
             ++it;
@@ -374,12 +360,13 @@ void sw::MenuBase::_ClearAddedItems()
 
     this->_dependencyInfoMap.clear();
     this->_popupMenus.clear();
-    this->_leaves.clear();
+    this->_ids.clear();
 }
 
 void sw::MenuBase::_AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, int index)
 {
-    this->_dependencyInfoMap[pItem.get()] = {hMenu, NULL, index};
+    this->_dependencyInfoMap[pItem.get()] =
+        {/*hParent*/ hMenu, /*hSelf*/ NULL, /*index*/ index};
 
     if (pItem->IsSeparator()) {
         AppendMenuW(hMenu, MF_SEPARATOR, 0, NULL);
@@ -387,14 +374,14 @@ void sw::MenuBase::_AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem,
     }
 
     if (pItem->subItems.size() == 0) {
-        int id = this->IndexToID(int(this->_leaves.size()));
+        int id = this->IndexToID(int(this->_ids.size()));
         AppendMenuW(hMenu, MF_STRING, id, pItem->text.c_str());
-        this->_leaves.push_back(pItem);
+        this->_ids.push_back(pItem);
         return;
     }
 
     HMENU hSubMenu = CreatePopupMenu();
-    this->_popupMenus.push_back({pItem, hSubMenu});
+    this->_popupMenus.push_back(std::make_tuple(pItem, hSubMenu));
     this->_dependencyInfoMap[pItem.get()].hSelf = hSubMenu;
     AppendMenuW(hMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(hSubMenu), pItem->text.c_str());
 
@@ -408,11 +395,4 @@ sw::MenuBase::_MenuItemDependencyInfo *sw::MenuBase::_GetMenuItemDependencyInfo(
 {
     MenuItem *p = &item;
     return this->_dependencyInfoMap.count(p) ? &this->_dependencyInfoMap[p] : nullptr;
-}
-
-void sw::MenuBase::InitMenuBase(HMENU hMenu)
-{
-    if (this->_hMenu == NULL) {
-        this->_hMenu = hMenu;
-    }
 }
