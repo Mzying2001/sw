@@ -1,5 +1,6 @@
 #include "SysLink.h"
 #include "Utils.h"
+#include <climits>
 
 #if !defined(LM_GETIDEALSIZE)
 #define LM_GETIDEALSIZE (LM_GETIDEALHEIGHT)
@@ -34,6 +35,8 @@ sw::SysLink::SysLink()
     this->InitControl(WC_LINK, L"<a>SysLink</a>", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0);
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
+    this->Transparent      = true;
+    this->InheritTextColor = true;
 }
 
 void sw::SysLink::OnTextChanged()
