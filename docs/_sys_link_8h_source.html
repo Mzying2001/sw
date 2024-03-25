@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: SysLink.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_sys_link_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">SysLink.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Control.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;CommCtrl.h&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
+<div class="foldopen" id="foldopen00011" data-start="{" data-end="};">
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="classsw_1_1_sys_link.html">   11</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1_sys_link.html">SysLink</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1_control.html">Control</a></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <a class="code hl_struct" href="structsw_1_1_size.html">sw::Size</a> _textSize;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keywordtype">bool</span> _autoSize = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classsw_1_1_sys_link.html#a117ea396b1e35951b45c8758fa3ad1d2">   28</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_sys_link.html#a117ea396b1e35951b45c8758fa3ad1d2">IgnoreReturn</a>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classsw_1_1_sys_link.html#a4c01eeaeaa8e226b69b747f17390f514">   33</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_sys_link.html#a4c01eeaeaa8e226b69b747f17390f514">AutoSize</a>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classsw_1_1_sys_link.html#ad39ca7ed3ee2156ff6229d548235e3c3">   39</a></span>        <a class="code hl_function" href="classsw_1_1_sys_link.html#ad39ca7ed3ee2156ff6229d548235e3c3">SysLink</a>();</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classsw_1_1_sys_link.html#a1e9809bbbdea81a36919060d271b5051">   45</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_sys_link.html#a1e9809bbbdea81a36919060d271b5051">OnTextChanged</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classsw_1_1_sys_link.html#a6429fa1b1fc327bdbb958d695d4943cc">   51</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_sys_link.html#a6429fa1b1fc327bdbb958d695d4943cc">FontChanged</a>(<a class="code hl_class" href="classsw_1_1_dictionary.html">HFONT</a> <a class="code hl_class" href="classsw_1_1_dictionary.html">hfont</a>) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="classsw_1_1_sys_link.html#ae5751ea373927d6248ca3bb7cdb65ef3">   57</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_sys_link.html#ae5751ea373927d6248ca3bb7cdb65ef3">Measure</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1_size.html">Size</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">availableSize</a>) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classsw_1_1_sys_link.html#adf7f928e49c1a89de96a66fa8bfc7348">   62</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_sys_link.html#adf7f928e49c1a89de96a66fa8bfc7348">OnNotified</a>(<a class="code hl_class" href="classsw_1_1_dictionary.html">NMHDR</a> *<a class="code hl_class" href="classsw_1_1_dictionary.html">pNMHDR</a>) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classsw_1_1_sys_link.html#a2a06e827e8769a13a432d35350386da2">   68</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_sys_link.html#a2a06e827e8769a13a432d35350386da2">OnClicked</a>(<a class="code hl_class" href="classsw_1_1_dictionary.html">NMLINK</a> *<a class="code hl_class" href="classsw_1_1_dictionary.html">pNMLink</a>);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordtype">void</span> _UpdateTextSize();</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keywordtype">void</span> _ResizeToTextSize();</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    };</div>
+</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>}</div>
+<div class="ttc" id="aclasssw_1_1_control_html"><div class="ttname"><a href="classsw_1_1_control.html">sw::Control</a></div><div class="ttdoc">控件</div><div class="ttdef"><b>Definition</b> Control.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html"><div class="ttname"><a href="classsw_1_1_dictionary.html">sw::Dictionary</a></div><div class="ttdoc">字典类，内部维护了一个指向std::map的智能指针</div><div class="ttdef"><b>Definition</b> Dictionary.h:24</div></div>
+<div class="ttc" id="aclasssw_1_1_sys_link_html"><div class="ttname"><a href="classsw_1_1_sys_link.html">sw::SysLink</a></div><div class="ttdoc">包含链接的文本区域</div><div class="ttdef"><b>Definition</b> SysLink.h:12</div></div>
+<div class="ttc" id="aclasssw_1_1_sys_link_html_a117ea396b1e35951b45c8758fa3ad1d2"><div class="ttname"><a href="classsw_1_1_sys_link.html#a117ea396b1e35951b45c8758fa3ad1d2">sw::SysLink::IgnoreReturn</a></div><div class="ttdeci">const Property&lt; bool &gt; IgnoreReturn</div><div class="ttdoc">是否忽略回车按键，当该属性为true时按下回车键不会触发单击事件</div><div class="ttdef"><b>Definition</b> SysLink.h:28</div></div>
+<div class="ttc" id="aclasssw_1_1_sys_link_html_a1e9809bbbdea81a36919060d271b5051"><div class="ttname"><a href="classsw_1_1_sys_link.html#a1e9809bbbdea81a36919060d271b5051">sw::SysLink::OnTextChanged</a></div><div class="ttdeci">virtual void OnTextChanged() override</div><div class="ttdoc">Text属性更改时调用此函数</div></div>
+<div class="ttc" id="aclasssw_1_1_sys_link_html_a2a06e827e8769a13a432d35350386da2"><div class="ttname"><a href="classsw_1_1_sys_link.html#a2a06e827e8769a13a432d35350386da2">sw::SysLink::OnClicked</a></div><div class="ttdeci">virtual void OnClicked(NMLINK *pNMLink)</div><div class="ttdoc">链接被单击时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1_sys_link_html_a4c01eeaeaa8e226b69b747f17390f514"><div class="ttname"><a href="classsw_1_1_sys_link.html#a4c01eeaeaa8e226b69b747f17390f514">sw::SysLink::AutoSize</a></div><div class="ttdeci">const Property&lt; bool &gt; AutoSize</div><div class="ttdoc">是否根据内容自动调整尺寸</div><div class="ttdef"><b>Definition</b> SysLink.h:33</div></div>
+<div class="ttc" id="aclasssw_1_1_sys_link_html_a6429fa1b1fc327bdbb958d695d4943cc"><div class="ttname"><a href="classsw_1_1_sys_link.html#a6429fa1b1fc327bdbb958d695d4943cc">sw::SysLink::FontChanged</a></div><div class="ttdeci">virtual void FontChanged(HFONT hfont) override</div><div class="ttdoc">字体改变时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1_sys_link_html_ad39ca7ed3ee2156ff6229d548235e3c3"><div class="ttname"><a href="classsw_1_1_sys_link.html#ad39ca7ed3ee2156ff6229d548235e3c3">sw::SysLink::SysLink</a></div><div class="ttdeci">SysLink()</div><div class="ttdoc">初始化SysLink</div></div>
+<div class="ttc" id="aclasssw_1_1_sys_link_html_adf7f928e49c1a89de96a66fa8bfc7348"><div class="ttname"><a href="classsw_1_1_sys_link.html#adf7f928e49c1a89de96a66fa8bfc7348">sw::SysLink::OnNotified</a></div><div class="ttdeci">virtual void OnNotified(NMHDR *pNMHDR) override</div><div class="ttdoc">父窗口接收到WM_NOTIFY后调用发出通知控件的该函数</div></div>
+<div class="ttc" id="aclasssw_1_1_sys_link_html_ae5751ea373927d6248ca3bb7cdb65ef3"><div class="ttname"><a href="classsw_1_1_sys_link.html#ae5751ea373927d6248ca3bb7cdb65ef3">sw::SysLink::Measure</a></div><div class="ttdeci">virtual void Measure(const Size &amp;availableSize) override</div><div class="ttdoc">测量控件所需尺寸</div></div>
+<div class="ttc" id="astructsw_1_1_size_html"><div class="ttname"><a href="structsw_1_1_size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>Definition</b> Size.h:11</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>SysLink.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+  </ul>
+</div>
+</body>
+</html>

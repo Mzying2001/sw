@@ -88,5 +88,7 @@ var searchData=
   ['stretchicon_85',['StretchIcon',['../classsw_1_1_icon_box.html#a5d2016c9ce58815053fcaccb7b2ae8a2',1,'sw::IconBox']]],
   ['strikeout_86',['strikeOut',['../classsw_1_1_font.html#a14ae471a9508e23aad832f3060bbcb85',1,'sw::Font']]],
   ['subitems_87',['subItems',['../classsw_1_1_menu_item.html#ac8e01802bb6cc6f1336025819050f3c4',1,'sw::MenuItem']]],
-  ['sw_20tt_88',['&lt;tt&gt;sw&lt;/tt&gt;',['../index.html',1,'']]]
+  ['sw_20tt_88',['&lt;tt&gt;sw&lt;/tt&gt;',['../index.html',1,'']]],
+  ['syslink_89',['SysLink',['../classsw_1_1_sys_link.html',1,'sw::SysLink'],['../classsw_1_1_sys_link.html#ad39ca7ed3ee2156ff6229d548235e3c3',1,'sw::SysLink::SysLink()']]],
+  ['syslinkclickedeventargs_90',['SysLinkClickedEventArgs',['../structsw_1_1_sys_link_clicked_event_args.html',1,'sw']]]
 ];

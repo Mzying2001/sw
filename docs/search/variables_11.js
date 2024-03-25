@@ -1,8 +1,8 @@
 var searchData=
 [
   ['tabstop_0',['TabStop',['../classsw_1_1_u_i_element.html#a2b54e00e1e41af2a634ad694da3ffa98',1,'sw::UIElement']]],
-  ['tag_1',['tag',['../classsw_1_1_menu_item.html#a71e23c18ace7346f28415ed747d80905',1,'sw::MenuItem']]],
-  ['tag_2',['Tag',['../classsw_1_1_u_i_element.html#a895d79a2fa53382a43b3d02dee195360',1,'sw::UIElement']]],
+  ['tag_1',['Tag',['../classsw_1_1_u_i_element.html#a895d79a2fa53382a43b3d02dee195360',1,'sw::UIElement']]],
+  ['tag_2',['tag',['../classsw_1_1_menu_item.html#a71e23c18ace7346f28415ed747d80905',1,'sw::MenuItem']]],
   ['text_3',['text',['../classsw_1_1_menu_item.html#a0f67fc28cb879876a328495035031979',1,'sw::MenuItem']]],
   ['text_4',['Text',['../classsw_1_1_wnd_base.html#a9afff86d32e9b54cccc204ef29a85891',1,'sw::WndBase']]],
   ['textcolor_5',['TextColor',['../classsw_1_1_u_i_element.html#aeaf2381fdffd82bd41e90c1a2cf69022',1,'sw::UIElement']]],

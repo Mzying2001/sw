@@ -99,6 +99,8 @@ var annotated_dup =
       [ "StackLayoutV", "classsw_1_1_stack_layout_v.html", "classsw_1_1_stack_layout_v" ],
       [ "StackPanel", "classsw_1_1_stack_panel.html", "classsw_1_1_stack_panel" ],
       [ "StaticControl", "classsw_1_1_static_control.html", "classsw_1_1_static_control" ],
+      [ "SysLink", "classsw_1_1_sys_link.html", "classsw_1_1_sys_link" ],
+      [ "SysLinkClickedEventArgs", "structsw_1_1_sys_link_clicked_event_args.html", null ],
       [ "TabControl", "classsw_1_1_tab_control.html", "classsw_1_1_tab_control" ],
       [ "TextBox", "classsw_1_1_text_box.html", "classsw_1_1_text_box" ],
       [ "TextBoxBase", "classsw_1_1_text_box_base.html", "classsw_1_1_text_box_base" ],

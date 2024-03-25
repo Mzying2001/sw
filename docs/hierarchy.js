@@ -86,6 +86,7 @@ var hierarchy =
             [ "sw::Label", "classsw_1_1_label.html", null ],
             [ "sw::Splitter", "classsw_1_1_splitter.html", null ]
           ] ],
+          [ "sw::SysLink", "classsw_1_1_sys_link.html", null ],
           [ "sw::TabControl", "classsw_1_1_tab_control.html", null ],
           [ "sw::TextBoxBase", "classsw_1_1_text_box_base.html", [
             [ "sw::PasswordBox", "classsw_1_1_password_box.html", null ],
@@ -240,6 +241,9 @@ var hierarchy =
       ] ],
       [ "sw::RoutedEventArgsOfType< UIElement_SizeChanged >", "structsw_1_1_routed_event_args_of_type.html", [
         [ "sw::SizeChangedEventArgs", "structsw_1_1_size_changed_event_args.html", null ]
+      ] ],
+      [ "sw::RoutedEventArgsOfType< SysLink_Clicked >", "structsw_1_1_routed_event_args_of_type.html", [
+        [ "sw::SysLinkClickedEventArgs", "structsw_1_1_sys_link_clicked_event_args.html", null ]
       ] ],
       [ "sw::RoutedEventArgsOfType< Window_Closing >", "structsw_1_1_routed_event_args_of_type.html", [
         [ "sw::WindowClosingEventArgs", "structsw_1_1_window_closing_event_args.html", null ]
