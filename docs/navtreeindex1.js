@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"classsw_1_1_hwnd_host.html":[1,0,0,42],
 "classsw_1_1_hwnd_host.html#a811a6d21dd8534addfc401bb79f829f7":[1,0,0,42,5],
 "classsw_1_1_hwnd_host.html#a9535b63e17fbb079ce4f618c288cb9bd":[1,0,0,42,4],
 "classsw_1_1_hwnd_host.html#a9ac22adfa9d96348e7f89932d82cf3d3":[1,0,0,42,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "classsw_1_1_month_calendar.html":[1,0,0,65],
 "classsw_1_1_month_calendar.html#a0276dd32163b585b0903c92186ae3e9c":[1,0,0,65,4],
 "classsw_1_1_month_calendar.html#a0882a0fca2d2a8c4b5c719fd896f3576":[1,0,0,65,11],
-"classsw_1_1_month_calendar.html#a0ea779945c5838f27137cdd39894a143":[1,0,0,65,0],
-"classsw_1_1_month_calendar.html#a2422390122597047226c500dc896f7cb":[1,0,0,65,6]
+"classsw_1_1_month_calendar.html#a0ea779945c5838f27137cdd39894a143":[1,0,0,65,0]
 };

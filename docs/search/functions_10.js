@@ -63,5 +63,6 @@ var searchData=
   ['stackpanel_60',['StackPanel',['../classsw_1_1_stack_panel.html#adaf90a1ad8018e5365e22f45a0a0341a',1,'sw::StackPanel']]],
   ['start_61',['Start',['../classsw_1_1_timer.html#a22a88da239c06516c7bb7b452dbbf0bc',1,'sw::Timer']]],
   ['staticcontrol_62',['StaticControl',['../classsw_1_1_static_control.html#a88dea3db611c5cc94df004cdae9c74ef',1,'sw::StaticControl']]],
-  ['stop_63',['Stop',['../classsw_1_1_animation.html#a257e02c8513fdb634abbf157c02ae081',1,'sw::Animation::Stop()'],['../classsw_1_1_timer.html#a73ee7d7c41d88b3d99f505872ea930b6',1,'sw::Timer::Stop()']]]
+  ['stop_63',['Stop',['../classsw_1_1_animation.html#a257e02c8513fdb634abbf157c02ae081',1,'sw::Animation::Stop()'],['../classsw_1_1_timer.html#a73ee7d7c41d88b3d99f505872ea930b6',1,'sw::Timer::Stop()']]],
+  ['syslink_64',['SysLink',['../classsw_1_1_sys_link.html#ad39ca7ed3ee2156ff6229d548235e3c3',1,'sw::SysLink']]]
 ];

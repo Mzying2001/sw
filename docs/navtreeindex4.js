@@ -1,5 +1,15 @@
 var NAVTREEINDEX4 =
 {
+"structsw_1_1___has_event_type.html":[1,0,0,0],
+"structsw_1_1___has_event_type_3_01_t_00_01decltype_07void_07std_1_1declval_3_01_t_01_4_07_08_8_event_type_08_08_4.html":[1,0,0,1],
+"structsw_1_1___is_typed_routed_event_args.html":[1,0,0,2],
+"structsw_1_1_auto_size_grid_column.html":[1,0,0,5],
+"structsw_1_1_auto_size_grid_column.html#a6dd90239ba99030b22c7354dd9ef1fc9":[1,0,0,5,0],
+"structsw_1_1_auto_size_grid_row.html":[1,0,0,6],
+"structsw_1_1_auto_size_grid_row.html#a2bdf1d29e1b15c59580fd5592afade9a":[1,0,0,6,0],
+"structsw_1_1_canvas_layout_tag.html":[1,0,0,13],
+"structsw_1_1_canvas_layout_tag.html#a54ca60a93c85b0c06ad1d848fed9af42":[1,0,0,13,3],
+"structsw_1_1_canvas_layout_tag.html#a5fcb2062d7a1239c4bd0f9fbf971718c":[1,0,0,13,2],
 "structsw_1_1_canvas_layout_tag.html#a66e509ca8ce039a228ccb15cba5aa509":[1,0,0,13,4],
 "structsw_1_1_canvas_layout_tag.html#ad3e70c4391d2f7835676e5aae48a4377":[1,0,0,13,0],
 "structsw_1_1_canvas_layout_tag.html#ae9def609feb263d19aa829b29010184c":[1,0,0,13,1],
@@ -83,10 +93,11 @@ var NAVTREEINDEX4 =
 "structsw_1_1_size.html#a084604eba918ac19b2f8402e330d767b":[1,0,0,89,0],
 "structsw_1_1_size.html#a22c3b210b0c48e2812604381f729d5bd":[1,0,0,89,1],
 "structsw_1_1_size_changed_event_args.html":[1,0,0,90],
-"structsw_1_1_thickness.html":[1,0,0,101],
-"structsw_1_1_thickness.html#a0efb5b20b89f2d86885a447b36926bd5":[1,0,0,101,2],
-"structsw_1_1_thickness.html#a817cf35540e487ad81984daf97b92208":[1,0,0,101,3],
-"structsw_1_1_thickness.html#acea3dd0c6fdcc155ac47ec7c3eab97fa":[1,0,0,101,0],
-"structsw_1_1_thickness.html#ad060a41dfe2453ef882849546eb7980e":[1,0,0,101,1],
-"structsw_1_1_window_closing_event_args.html":[1,0,0,109]
+"structsw_1_1_sys_link_clicked_event_args.html":[1,0,0,99],
+"structsw_1_1_thickness.html":[1,0,0,103],
+"structsw_1_1_thickness.html#a0efb5b20b89f2d86885a447b36926bd5":[1,0,0,103,2],
+"structsw_1_1_thickness.html#a817cf35540e487ad81984daf97b92208":[1,0,0,103,3],
+"structsw_1_1_thickness.html#acea3dd0c6fdcc155ac47ec7c3eab97fa":[1,0,0,103,0],
+"structsw_1_1_thickness.html#ad060a41dfe2453ef882849546eb7980e":[1,0,0,103,1],
+"structsw_1_1_window_closing_event_args.html":[1,0,0,111]
 };

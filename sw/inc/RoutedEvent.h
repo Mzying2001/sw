@@ -117,6 +117,9 @@ namespace sw
 
         // IP地址框地址被改变，参数类型为sw::RoutedEventArgs
         IPAddressControl_AddressChanged,
+
+        // SysLink控件链接被单击，参数类型为sw::SysLinkClickedEventArgs
+        SysLink_Clicked,
     };
 
     /*================================================================================*/
