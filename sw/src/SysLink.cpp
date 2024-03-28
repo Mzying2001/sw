@@ -32,7 +32,7 @@ sw::SysLink::SysLink()
               }
           })
 {
-    this->InitControl(WC_LINK, L"<a>SysLink</a>", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0);
+    this->InitControl(WC_LINK, L"<a>SysLink</a>", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_TABSTOP, 0);
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
     this->Transparent      = true;

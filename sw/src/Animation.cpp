@@ -33,7 +33,7 @@ sw::Animation::Animation()
               return result;
           })
 {
-    this->InitControl(ANIMATE_CLASSW, L"", WS_CHILD | WS_VISIBLE, 0);
+    this->InitControl(ANIMATE_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
     this->Rect = {0, 0, 200, 200};
 }
 

@@ -13,7 +13,7 @@ sw::MonthCalendar::MonthCalendar()
               this->SetStyle(MCS_NOTODAY, !value);
           })
 {
-    this->InitControl(MONTHCAL_CLASSW, L"", WS_CHILD | WS_VISIBLE, 0);
+    this->InitControl(MONTHCAL_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
     this->Rect    = {0, 0, 250, 200};
     this->TabStop = true;
 }
