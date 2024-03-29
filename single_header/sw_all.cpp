@@ -39,7 +39,7 @@ sw::Animation::Animation()
               return result;
           })
 {
-    this->InitControl(ANIMATE_CLASSW, L"", WS_CHILD | WS_VISIBLE, 0);
+    this->InitControl(ANIMATE_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
     this->Rect = {0, 0, 200, 200};
 }
 
@@ -4406,7 +4406,7 @@ sw::MonthCalendar::MonthCalendar()
               this->SetStyle(MCS_NOTODAY, !value);
           })
 {
-    this->InitControl(MONTHCAL_CLASSW, L"", WS_CHILD | WS_VISIBLE, 0);
+    this->InitControl(MONTHCAL_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
     this->Rect    = {0, 0, 250, 200};
     this->TabStop = true;
 }
@@ -5363,6 +5363,110 @@ sw::StaticControl::StaticControl()
     this->InitControl(L"STATIC", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
 }
 
+// StatusBar.cpp
+
+sw::StatusBar::StatusBar()
+    : SizingGrip(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(SBARS_SIZEGRIP);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              if (this->SizingGrip != value) {
+                  auto style   = this->GetStyle();
+                  auto exstyle = this->GetExtendedStyle();
+                  this->ResetHandle(value ? (style | SBARS_SIZEGRIP) : (style & ~SBARS_SIZEGRIP), exstyle);
+              }
+          }),
+
+      PartsCount(
+          // get
+          [&]() -> const int & {
+              static int result;
+              result = (int)this->SendMessageW(SB_GETPARTS, 0, 0);
+              return result;
+          }),
+
+      UseUnicode(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->SendMessageW(SB_GETUNICODEFORMAT, 0, 0);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SendMessageW(SB_SETUNICODEFORMAT, value, 0);
+          })
+{
+    this->InitControl(STATUSCLASSNAMEW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CCS_NORESIZE, 0);
+    this->Height = 25;
+    this->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Bottom);
+    this->Control::SetBackColor(KnownColor::Control, false);
+}
+
+bool sw::StatusBar::SetParts(std::initializer_list<double> parts)
+{
+    int count = (int)parts.size();
+
+    if (count <= 0) {
+        int tmp = -1;
+        this->SendMessageW(SB_SETPARTS, 1, reinterpret_cast<LPARAM>(&tmp));
+    }
+
+    std::vector<int> vec;
+    vec.reserve(count);
+
+    int right = 0;
+    for (double item : parts) {
+        if (item == -1) {
+            vec.push_back(-1);
+            break;
+        } else {
+            right += Utils::Max(0, Dip::DipToPxX(item));
+            vec.push_back(right);
+            right += 2; // 分隔条
+        }
+    }
+
+    return this->SendMessageW(SB_SETPARTS, vec.size(), reinterpret_cast<LPARAM>(vec.data()));
+}
+
+bool sw::StatusBar::GetTextAt(uint8_t index, std::wstring &out)
+{
+    int len = LOWORD(this->SendMessageW(SB_GETTEXTLENGTHW, index, 0));
+    if (len <= 0) return false;
+
+    out.resize(len + 1);
+    this->SendMessageW(SB_GETTEXTW, index, reinterpret_cast<LPARAM>(&out[0]));
+    out.resize(len);
+    return true;
+}
+
+bool sw::StatusBar::SetTextAt(uint8_t index, const std::wstring &text)
+{
+    return this->SendMessageW(SB_SETTEXTW, index, reinterpret_cast<LPARAM>(text.c_str()));
+}
+
+bool sw::StatusBar::GetRectAt(uint8_t index, sw::Rect &out)
+{
+    RECT rect;
+    if (this->SendMessageW(SB_GETRECT, index, reinterpret_cast<LPARAM>(&rect))) {
+        out = rect;
+        return true;
+    }
+    return false;
+}
+
+void sw::StatusBar::SetBackColor(Color color, bool redraw)
+{
+    this->Control::SetBackColor(color, false);
+    this->SendMessageW(SB_SETBKCOLOR, 0, (COLORREF)color);
+}
+
 // SysLink.cpp
 
 #if !defined(LM_GETIDEALSIZE)
@@ -5395,7 +5499,7 @@ sw::SysLink::SysLink()
               }
           })
 {
-    this->InitControl(WC_LINK, L"<a>SysLink</a>", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0);
+    this->InitControl(WC_LINK, L"<a>SysLink</a>", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_TABSTOP, 0);
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
     this->Transparent      = true;
@@ -5505,8 +5609,10 @@ sw::TabControl::TabControl()
           },
           // set
           [&](const int &value) {
-              this->SendMessageW(TCM_SETCURSEL, (WPARAM)value, 0);
-              this->_UpdateChildVisible();
+              if (this->SelectedIndex != value) {
+                  this->SendMessageW(TCM_SETCURSEL, (WPARAM)value, 0);
+                  this->OnSelectedIndexChanged();
+              }
           }),
 
       Alignment(
@@ -5668,7 +5774,6 @@ void sw::TabControl::OnAddedChild(UIElement &element)
     int index = this->IndexOf(element);
 
     this->_InsertItem(index, item);
-    // element.Visible = index == this->SelectedIndex;
     ShowWindow(element.Handle, index == this->SelectedIndex ? SW_SHOW : SW_HIDE);
 }
 
@@ -5697,14 +5802,16 @@ void sw::TabControl::_UpdateChildVisible()
     int childCount    = this->ChildCount;
 
     for (int i = 0; i < childCount; ++i) {
-        UIElement &item = (*this)[i];
-        // item.Visible    = i == selectedIndex;
-        ShowWindow(item.Handle, i == selectedIndex ? SW_SHOW : SW_HIDE);
-        ShowWindow(item.Handle, i == selectedIndex ? SW_SHOW : SW_HIDE); // 不加这个在点击按钮后立刻换页按钮会莫名其妙固定在界面上
-
-        sw::Rect contentRect = this->ContentRect;
-        item.Measure({contentRect.width, contentRect.height});
-        item.Arrange(contentRect);
+        auto &item = (*this)[i];
+        HWND hwnd  = item.Handle;
+        if (i != selectedIndex) {
+            ShowWindow(hwnd, SW_HIDE);
+        } else {
+            sw::Rect contentRect = this->ContentRect;
+            item.Measure(contentRect.GetSize());
+            item.Arrange(contentRect);
+            ShowWindow(hwnd, SW_SHOW);
+        }
     }
 }
 
