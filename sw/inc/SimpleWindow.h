@@ -69,6 +69,7 @@
 #include "StackLayoutV.h"
 #include "StackPanel.h"
 #include "StaticControl.h"
+#include "StatusBar.h"
 #include "SysLink.h"
 #include "TabControl.h"
 #include "TextBox.h"
