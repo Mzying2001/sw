@@ -24,8 +24,10 @@ sw::TabControl::TabControl()
           },
           // set
           [&](const int &value) {
-              this->SendMessageW(TCM_SETCURSEL, (WPARAM)value, 0);
-              this->_UpdateChildVisible();
+              if (this->SelectedIndex != value) {
+                  this->SendMessageW(TCM_SETCURSEL, (WPARAM)value, 0);
+                  this->OnSelectedIndexChanged();
+              }
           }),
 
       Alignment(
@@ -187,7 +189,6 @@ void sw::TabControl::OnAddedChild(UIElement &element)
     int index = this->IndexOf(element);
 
     this->_InsertItem(index, item);
-    // element.Visible = index == this->SelectedIndex;
     ShowWindow(element.Handle, index == this->SelectedIndex ? SW_SHOW : SW_HIDE);
 }
 
@@ -216,14 +217,16 @@ void sw::TabControl::_UpdateChildVisible()
     int childCount    = this->ChildCount;
 
     for (int i = 0; i < childCount; ++i) {
-        UIElement &item = (*this)[i];
-        // item.Visible    = i == selectedIndex;
-        ShowWindow(item.Handle, i == selectedIndex ? SW_SHOW : SW_HIDE);
-        ShowWindow(item.Handle, i == selectedIndex ? SW_SHOW : SW_HIDE); // 不加这个在点击按钮后立刻换页按钮会莫名其妙固定在界面上
-
-        sw::Rect contentRect = this->ContentRect;
-        item.Measure({contentRect.width, contentRect.height});
-        item.Arrange(contentRect);
+        auto &item = (*this)[i];
+        HWND hwnd  = item.Handle;
+        if (i != selectedIndex) {
+            ShowWindow(hwnd, SW_HIDE);
+        } else {
+            sw::Rect contentRect = this->ContentRect;
+            item.Measure(contentRect.GetSize());
+            item.Arrange(contentRect);
+            ShowWindow(hwnd, SW_SHOW);
+        }
     }
 }
 
