@@ -2,8 +2,8 @@ var searchData=
 [
   ['tabcontrol_0',['TabControl',['../classsw_1_1_tab_control.html',1,'sw::TabControl'],['../classsw_1_1_tab_control.html#a402ae0be40a8a236d09b5c8a31c5aca1',1,'sw::TabControl::TabControl()']]],
   ['tabstop_1',['TabStop',['../classsw_1_1_u_i_element.html#a2b54e00e1e41af2a634ad694da3ffa98',1,'sw::UIElement']]],
-  ['tag_2',['Tag',['../classsw_1_1_u_i_element.html#a895d79a2fa53382a43b3d02dee195360',1,'sw::UIElement']]],
-  ['tag_3',['tag',['../classsw_1_1_menu_item.html#a71e23c18ace7346f28415ed747d80905',1,'sw::MenuItem']]],
+  ['tag_2',['tag',['../classsw_1_1_menu_item.html#a71e23c18ace7346f28415ed747d80905',1,'sw::MenuItem']]],
+  ['tag_3',['Tag',['../classsw_1_1_u_i_element.html#a895d79a2fa53382a43b3d02dee195360',1,'sw::UIElement']]],
   ['text_4',['text',['../classsw_1_1_menu_item.html#a0f67fc28cb879876a328495035031979',1,'sw::MenuItem']]],
   ['text_5',['Text',['../classsw_1_1_wnd_base.html#a9afff86d32e9b54cccc204ef29a85891',1,'sw::WndBase']]],
   ['textbox_6',['TextBox',['../classsw_1_1_text_box.html',1,'sw::TextBox'],['../classsw_1_1_text_box.html#ae2cffffb2a78119a7094d78109060326',1,'sw::TextBox::TextBox()']]],

@@ -69,6 +69,7 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "StackLayoutV.h", "_stack_layout_v_8h_source.html", null ],
     [ "StackPanel.h", "_stack_panel_8h_source.html", null ],
     [ "StaticControl.h", "_static_control_8h_source.html", null ],
+    [ "StatusBar.h", "_status_bar_8h_source.html", null ],
     [ "SysLink.h", "_sys_link_8h_source.html", null ],
     [ "TabControl.h", "_tab_control_8h_source.html", null ],
     [ "TextBox.h", "_text_box_8h_source.html", null ],

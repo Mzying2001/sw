@@ -10,9 +10,10 @@ var searchData=
   ['size_7',['size',['../classsw_1_1_font.html#aad5569847e5d52c155fe3c1a049324f3',1,'sw::Font']]],
   ['sizebox_8',['SizeBox',['../classsw_1_1_window.html#a518c14e6ddbf171489a86baff4cbb6a3',1,'sw::Window']]],
   ['sizemode_9',['SizeMode',['../classsw_1_1_bmp_box.html#a95fbd6a72c3a54987b3fc7df107a4edd',1,'sw::BmpBox']]],
-  ['startuplocation_10',['StartupLocation',['../classsw_1_1_window.html#a4a09a7ec772a2febfcda54b9aa6a8557',1,'sw::Window']]],
-  ['state_11',['State',['../classsw_1_1_progress_bar.html#a596e05cda7fcc656dde20354a519cee4',1,'sw::ProgressBar::State'],['../classsw_1_1_window.html#a257ba940703f41b12990678bb3ff0e0e',1,'sw::Window::State']]],
-  ['stretchicon_12',['StretchIcon',['../classsw_1_1_icon_box.html#a5d2016c9ce58815053fcaccb7b2ae8a2',1,'sw::IconBox']]],
-  ['strikeout_13',['strikeOut',['../classsw_1_1_font.html#a14ae471a9508e23aad832f3060bbcb85',1,'sw::Font']]],
-  ['subitems_14',['subItems',['../classsw_1_1_menu_item.html#ac8e01802bb6cc6f1336025819050f3c4',1,'sw::MenuItem']]]
+  ['sizinggrip_10',['SizingGrip',['../classsw_1_1_status_bar.html#a4da5dcbe130095ab4e52a67e9f3f9a65',1,'sw::StatusBar']]],
+  ['startuplocation_11',['StartupLocation',['../classsw_1_1_window.html#a4a09a7ec772a2febfcda54b9aa6a8557',1,'sw::Window']]],
+  ['state_12',['State',['../classsw_1_1_progress_bar.html#a596e05cda7fcc656dde20354a519cee4',1,'sw::ProgressBar::State'],['../classsw_1_1_window.html#a257ba940703f41b12990678bb3ff0e0e',1,'sw::Window::State']]],
+  ['stretchicon_13',['StretchIcon',['../classsw_1_1_icon_box.html#a5d2016c9ce58815053fcaccb7b2ae8a2',1,'sw::IconBox']]],
+  ['strikeout_14',['strikeOut',['../classsw_1_1_font.html#a14ae471a9508e23aad832f3060bbcb85',1,'sw::Font']]],
+  ['subitems_15',['subItems',['../classsw_1_1_menu_item.html#ac8e01802bb6cc6f1336025819050f3c4',1,'sw::MenuItem']]]
 ];

@@ -86,6 +86,7 @@ var hierarchy =
             [ "sw::Label", "classsw_1_1_label.html", null ],
             [ "sw::Splitter", "classsw_1_1_splitter.html", null ]
           ] ],
+          [ "sw::StatusBar", "classsw_1_1_status_bar.html", null ],
           [ "sw::SysLink", "classsw_1_1_sys_link.html", null ],
           [ "sw::TabControl", "classsw_1_1_tab_control.html", null ],
           [ "sw::TextBoxBase", "classsw_1_1_text_box_base.html", [

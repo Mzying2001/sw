@@ -12,6 +12,7 @@ var searchData=
   ['stacklayoutv_9',['StackLayoutV',['../classsw_1_1_stack_layout_v.html',1,'sw']]],
   ['stackpanel_10',['StackPanel',['../classsw_1_1_stack_panel.html',1,'sw']]],
   ['staticcontrol_11',['StaticControl',['../classsw_1_1_static_control.html',1,'sw']]],
-  ['syslink_12',['SysLink',['../classsw_1_1_sys_link.html',1,'sw']]],
-  ['syslinkclickedeventargs_13',['SysLinkClickedEventArgs',['../structsw_1_1_sys_link_clicked_event_args.html',1,'sw']]]
+  ['statusbar_12',['StatusBar',['../classsw_1_1_status_bar.html',1,'sw']]],
+  ['syslink_13',['SysLink',['../classsw_1_1_sys_link.html',1,'sw']]],
+  ['syslinkclickedeventargs_14',['SysLinkClickedEventArgs',['../structsw_1_1_sys_link_clicked_event_args.html',1,'sw']]]
 ];

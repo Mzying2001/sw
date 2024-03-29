@@ -17,5 +17,6 @@ var searchData=
   ['updatetab_14',['UpdateTab',['../classsw_1_1_tab_control.html#acbde185af6197161f7b22485ebff02b2',1,'sw::TabControl']]],
   ['updatetabtext_15',['UpdateTabText',['../classsw_1_1_tab_control.html#ab14ce7faf0e6feb71ba66e7a1029673c',1,'sw::TabControl']]],
   ['updatetext_16',['UpdateText',['../classsw_1_1_wnd_base.html#a292bd97b5820a1b4e7a38d65e2b609e8',1,'sw::WndBase']]],
-  ['utils_17',['Utils',['../classsw_1_1_utils.html',1,'sw']]]
+  ['useunicode_17',['UseUnicode',['../classsw_1_1_status_bar.html#a0a97d4bff90e41bcbd6260ee9f9fa66a',1,'sw::StatusBar']]],
+  ['utils_18',['Utils',['../classsw_1_1_utils.html',1,'sw']]]
 ];
