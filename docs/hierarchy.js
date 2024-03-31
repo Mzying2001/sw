@@ -24,6 +24,7 @@ var hierarchy =
       [ "sw::FillRemainGridRow", "structsw_1_1_fill_remain_grid_row.html", null ],
       [ "sw::FixSizeGridRow", "structsw_1_1_fix_size_grid_row.html", null ]
     ] ],
+    [ "sw::HotKey", "structsw_1_1_hot_key.html", null ],
     [ "sw::IconHelper", "classsw_1_1_icon_helper.html", null ],
     [ "sw::ILayout", "classsw_1_1_i_layout.html", [
       [ "sw::LayoutHost", "classsw_1_1_layout_host.html", [
@@ -59,6 +60,7 @@ var hierarchy =
             ] ]
           ] ],
           [ "sw::DateTimePicker", "classsw_1_1_date_time_picker.html", null ],
+          [ "sw::HotKeyControl", "classsw_1_1_hot_key_control.html", null ],
           [ "sw::ItemsControl< TItem >", "classsw_1_1_items_control.html", [
             [ "sw::ComboBox", "classsw_1_1_combo_box.html", null ],
             [ "sw::ListBox", "classsw_1_1_list_box.html", null ]
@@ -100,6 +102,7 @@ var hierarchy =
         ] ]
       ] ]
     ] ],
+    [ "sw::ImageList", "classsw_1_1_image_list.html", null ],
     [ "sw::ITag", "classsw_1_1_i_tag.html", [
       [ "sw::MenuItem", "classsw_1_1_menu_item.html", null ],
       [ "sw::UIElement", "classsw_1_1_u_i_element.html", null ]
@@ -125,6 +128,7 @@ var hierarchy =
       [ "sw::Property< BmpBoxSizeMode >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::CheckState >", "classsw_1_1_property.html", null ],
       [ "sw::Property< DateTimePickerFormat >", "classsw_1_1_property.html", null ],
+      [ "sw::Property< sw::HotKey >", "classsw_1_1_property.html", null ],
       [ "sw::Property< uint32_t >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::HorizontalAlignment >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::VerticalAlignment >", "classsw_1_1_property.html", null ],
@@ -175,6 +179,7 @@ var hierarchy =
     [ "sw::ReadOnlyProperty< sw::Font >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< sw::FontWeight >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< sw::HorizontalAlignment >", "classsw_1_1_read_only_property.html", null ],
+    [ "sw::ReadOnlyProperty< sw::HotKey >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< sw::LayoutHost * >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< sw::Menu * >", "classsw_1_1_read_only_property.html", null ],
     [ "sw::ReadOnlyProperty< sw::Orientation >", "classsw_1_1_read_only_property.html", null ],
@@ -206,6 +211,9 @@ var hierarchy =
       ] ],
       [ "sw::RoutedEventArgsOfType< UIElement_GotChar >", "structsw_1_1_routed_event_args_of_type.html", [
         [ "sw::GotCharEventArgs", "structsw_1_1_got_char_event_args.html", null ]
+      ] ],
+      [ "sw::RoutedEventArgsOfType< HotKeyControl_ValueChanged >", "structsw_1_1_routed_event_args_of_type.html", [
+        [ "sw::HotKeyValueChangedEventArgs", "structsw_1_1_hot_key_value_changed_event_args.html", null ]
       ] ],
       [ "sw::RoutedEventArgsOfType< UIElement_KeyDown >", "structsw_1_1_routed_event_args_of_type.html", [
         [ "sw::KeyDownEventArgs", "structsw_1_1_key_down_event_args.html", null ]
@@ -275,6 +283,7 @@ var hierarchy =
       [ "sw::Property< BmpBoxSizeMode >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::CheckState >", "classsw_1_1_property.html", null ],
       [ "sw::Property< DateTimePickerFormat >", "classsw_1_1_property.html", null ],
+      [ "sw::Property< sw::HotKey >", "classsw_1_1_property.html", null ],
       [ "sw::Property< uint32_t >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::HorizontalAlignment >", "classsw_1_1_property.html", null ],
       [ "sw::Property< sw::VerticalAlignment >", "classsw_1_1_property.html", null ],
@@ -320,6 +329,7 @@ var hierarchy =
     [ "sw::WriteOnlyProperty< sw::Font >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< sw::FontWeight >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< sw::HorizontalAlignment >", "classsw_1_1_write_only_property.html", null ],
+    [ "sw::WriteOnlyProperty< sw::HotKey >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< sw::LayoutHost * >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< sw::Menu * >", "classsw_1_1_write_only_property.html", null ],
     [ "sw::WriteOnlyProperty< sw::Orientation >", "classsw_1_1_write_only_property.html", null ],

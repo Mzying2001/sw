@@ -6,9 +6,10 @@ var searchData=
   ['menu_3',['Menu',['../classsw_1_1_menu.html#a6fb318031278424d8e571ee05b6654bc',1,'sw::Menu::Menu()'],['../classsw_1_1_menu.html#ac24676f02acaac6350331a49ca2e6f44',1,'sw::Menu::Menu(std::initializer_list&lt; MenuItem &gt; items)']]],
   ['menubase_4',['MenuBase',['../classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978',1,'sw::MenuBase']]],
   ['menuitem_5',['MenuItem',['../classsw_1_1_menu_item.html#a45cb03eb9423fbe1c187f237ec89377a',1,'sw::MenuItem::MenuItem(const std::wstring &amp;text)'],['../classsw_1_1_menu_item.html#afc23694c9e8b0cba6910f360e96e07ac',1,'sw::MenuItem::MenuItem(const std::wstring &amp;text, const MenuItemCommand &amp;command)'],['../classsw_1_1_menu_item.html#af68934d85fe10b3b01bf4038d66275e4',1,'sw::MenuItem::MenuItem(const std::wstring &amp;text, std::initializer_list&lt; MenuItem &gt; subItems)'],['../classsw_1_1_menu_item.html#a202803354be2beb12a1cf1aa5cab00b6',1,'sw::MenuItem::MenuItem(uint64_t tag, const std::wstring &amp;text)'],['../classsw_1_1_menu_item.html#a5abf91fc5b59265e48a5add77b6030c1',1,'sw::MenuItem::MenuItem(uint64_t tag, const std::wstring &amp;text, const MenuItemCommand &amp;command)'],['../classsw_1_1_menu_item.html#a8a140ecb317179de2ed111974666bae1',1,'sw::MenuItem::MenuItem(const std::wstring &amp;text, T &amp;obj, void(T::*handler)(MenuItem &amp;))'],['../classsw_1_1_menu_item.html#a89486612b9f4dde7765430494bd9e034',1,'sw::MenuItem::MenuItem(uint64_t tag, const std::wstring &amp;text, T &amp;obj, void(T::*handler)(MenuItem &amp;))']]],
-  ['min_6',['Min',['../classsw_1_1_utils.html#a76b3fe0842e62bf943a314afed4d474a',1,'sw::Utils']]],
-  ['monthcalendar_7',['MonthCalendar',['../classsw_1_1_month_calendar.html#a0ea779945c5838f27137cdd39894a143',1,'sw::MonthCalendar']]],
-  ['movetobottom_8',['MoveToBottom',['../classsw_1_1_u_i_element.html#a793adc7d50d0373d099b26b0a511b95d',1,'sw::UIElement']]],
-  ['movetotop_9',['MoveToTop',['../classsw_1_1_u_i_element.html#abce4a26101de27550375c300b121d95d',1,'sw::UIElement']]],
-  ['msgloop_10',['MsgLoop',['../classsw_1_1_app.html#a05192f9abf49cc0a698024855dde22de',1,'sw::App']]]
+  ['merge_6',['Merge',['../classsw_1_1_image_list.html#adca5d8123ebaccbbc618b9934e1d4158',1,'sw::ImageList']]],
+  ['min_7',['Min',['../classsw_1_1_utils.html#a76b3fe0842e62bf943a314afed4d474a',1,'sw::Utils']]],
+  ['monthcalendar_8',['MonthCalendar',['../classsw_1_1_month_calendar.html#a0ea779945c5838f27137cdd39894a143',1,'sw::MonthCalendar']]],
+  ['movetobottom_9',['MoveToBottom',['../classsw_1_1_u_i_element.html#a793adc7d50d0373d099b26b0a511b95d',1,'sw::UIElement']]],
+  ['movetotop_10',['MoveToTop',['../classsw_1_1_u_i_element.html#abce4a26101de27550375c300b121d95d',1,'sw::UIElement']]],
+  ['msgloop_11',['MsgLoop',['../classsw_1_1_app.html#a05192f9abf49cc0a698024855dde22de',1,'sw::App']]]
 ];

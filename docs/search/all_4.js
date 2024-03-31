@@ -12,6 +12,13 @@ var searchData=
   ['docklayout_9',['DockLayout',['../classsw_1_1_dock_layout.html',1,'sw']]],
   ['docklayouttag_10',['DockLayoutTag',['../classsw_1_1_dock_layout_tag.html',1,'sw::DockLayoutTag'],['../classsw_1_1_dock_layout_tag.html#af17218c2cdff950251e44c60f6473793',1,'sw::DockLayoutTag::DockLayoutTag()']]],
   ['dockpanel_11',['DockPanel',['../classsw_1_1_dock_panel.html',1,'sw::DockPanel'],['../classsw_1_1_dock_panel.html#a8c9ce34641a342dc14c8bae2d49e3c08',1,'sw::DockPanel::DockPanel()']]],
-  ['drawmenubar_12',['DrawMenuBar',['../classsw_1_1_window.html#a3daeab5c99e045449a8a5f086c19877e',1,'sw::Window']]],
-  ['dropfileseventargs_13',['DropFilesEventArgs',['../structsw_1_1_drop_files_event_args.html',1,'sw']]]
+  ['dragenter_12',['DragEnter',['../classsw_1_1_image_list.html#a6663c89b5ad3ae965ec4871d73560d01',1,'sw::ImageList']]],
+  ['dragleave_13',['DragLeave',['../classsw_1_1_image_list.html#ad2bfeeb41dbd1c7e720c99834acb59ac',1,'sw::ImageList']]],
+  ['dragmove_14',['DragMove',['../classsw_1_1_image_list.html#ad7c173d2524fec0403df9cec068c7f61',1,'sw::ImageList']]],
+  ['dragshownolock_15',['DragShowNolock',['../classsw_1_1_image_list.html#aa0d44a25ff0352d05b34228d675c69c0',1,'sw::ImageList']]],
+  ['draw_16',['Draw',['../classsw_1_1_image_list.html#a55b79373d96af59d74a3c9bfe3965d3c',1,'sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, UINT fStyle)'],['../classsw_1_1_image_list.html#aa78e37dc1f35ea0feab07a371d976284',1,'sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, double dx, double dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle)']]],
+  ['drawmenubar_17',['DrawMenuBar',['../classsw_1_1_window.html#a3daeab5c99e045449a8a5f086c19877e',1,'sw::Window']]],
+  ['drawpx_18',['DrawPx',['../classsw_1_1_image_list.html#af1a861fe7edfb350de315fcc94064165',1,'sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, UINT fStyle)'],['../classsw_1_1_image_list.html#a84b971450d4e751bfe517219869289ae',1,'sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle)']]],
+  ['dropfileseventargs_19',['DropFilesEventArgs',['../structsw_1_1_drop_files_event_args.html',1,'sw']]],
+  ['duplicate_20',['Duplicate',['../classsw_1_1_image_list.html#a65d9d17f68f44ab3c23531c7e9fe8d4b',1,'sw::ImageList']]]
 ];

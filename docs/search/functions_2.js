@@ -18,7 +18,8 @@ var searchData=
   ['containskey_15',['ContainsKey',['../classsw_1_1_dictionary.html#a726bccc37022c21d7864673c69138acc',1,'sw::Dictionary']]],
   ['contextmenu_16',['ContextMenu',['../classsw_1_1_context_menu.html#ac51b991e84733be50e525147c3cc9d43',1,'sw::ContextMenu::ContextMenu()'],['../classsw_1_1_context_menu.html#a63c072213d8bfb7cbe4d6974eb44266b',1,'sw::ContextMenu::ContextMenu(std::initializer_list&lt; MenuItem &gt; items)']]],
   ['control_17',['Control',['../classsw_1_1_control.html#aec7b384d013e9d25c507cf9ded87bff1',1,'sw::Control']]],
-  ['copy_18',['Copy',['../classsw_1_1_dictionary.html#afa7a405134901716b4affecc9f01df0f',1,'sw::Dictionary::Copy()'],['../classsw_1_1_list.html#a765086d760ea625121500730a2579d28',1,'sw::List::Copy()']]],
+  ['copy_18',['Copy',['../classsw_1_1_dictionary.html#afa7a405134901716b4affecc9f01df0f',1,'sw::Dictionary::Copy()'],['../classsw_1_1_image_list.html#a48997d021e3a815ddc3f8a609c801416',1,'sw::ImageList::Copy()'],['../classsw_1_1_list.html#a765086d760ea625121500730a2579d28',1,'sw::List::Copy()']]],
   ['count_19',['Count',['../classsw_1_1_dictionary.html#a7c16eced6a889e97f4a1807697090fd3',1,'sw::Dictionary::Count()'],['../classsw_1_1_list.html#ac06d9081e817d6c808453928dd33525a',1,'sw::List::Count()']]],
-  ['createhandle_20',['CreateHandle',['../classsw_1_1_font.html#ac38911636974d3f67e7ece35cfc8172e',1,'sw::Font']]]
+  ['create_20',['Create',['../classsw_1_1_image_list.html#a880ac4fd98a4602480ce760fa6a9d332',1,'sw::ImageList']]],
+  ['createhandle_21',['CreateHandle',['../classsw_1_1_font.html#ac38911636974d3f67e7ece35cfc8172e',1,'sw::Font']]]
 ];

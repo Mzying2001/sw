@@ -10,6 +10,7 @@ var classsw_1_1_layer =
     [ "GetHorizontalScrollRange", "classsw_1_1_layer.html#a61a3007c7519de5b677dcc61b723034a", null ],
     [ "GetVerticalScrollPageSize", "classsw_1_1_layer.html#af373e47fda965795550b31e622839a7f", null ],
     [ "GetVerticalScrollRange", "classsw_1_1_layer.html#a3f5248e4483b277a2f99c9b3cde086b7", null ],
+    [ "IsLayoutDisabled", "classsw_1_1_layer.html#aad286771872cc835570d7f6508772a20", null ],
     [ "Measure", "classsw_1_1_layer.html#a3ac4fcba5970f01d5c944c0376a354c7", null ],
     [ "OnHorizontalScroll", "classsw_1_1_layer.html#ab199e8fc6b90975b7dcb5fdb4e5f2853", null ],
     [ "OnScroll", "classsw_1_1_layer.html#af21620044342125a8e59671a6fb222e8", null ],
