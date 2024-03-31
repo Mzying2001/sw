@@ -388,6 +388,11 @@ void sw::Layer::EnableLayout()
     this->UpdateLayout();
 }
 
+bool sw::Layer::IsLayoutDisabled()
+{
+    return this->_layoutDisabled;
+}
+
 void sw::Layer::GetHorizontalScrollRange(double &refMin, double &refMax)
 {
     INT nMin = 0, nMax = 0;
