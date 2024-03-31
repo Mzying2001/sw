@@ -404,10 +404,14 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
 
             PWINDOWPOS pWndPos = reinterpret_cast<PWINDOWPOS>(refMsg.lParam);
-            this->_rect.left   = scaleX * pWndPos->x;
-            this->_rect.top    = scaleY * pWndPos->y;
-            this->_rect.width  = scaleX * pWndPos->cx;
-            this->_rect.height = scaleY * pWndPos->cy;
+            if ((pWndPos->flags & SWP_NOMOVE) == 0) {
+                this->_rect.left = scaleX * pWndPos->x;
+                this->_rect.top  = scaleY * pWndPos->y;
+            }
+            if ((pWndPos->flags & SWP_NOSIZE) == 0) {
+                this->_rect.width  = scaleX * pWndPos->cx;
+                this->_rect.height = scaleY * pWndPos->cy;
+            }
             return this->DefaultWndProc(refMsg);
         }
 
