@@ -391,8 +391,15 @@ void sw::Window::OnInactived()
 void sw::Window::OnDpiChanged(int dpiX, int dpiY)
 {
     Dip::Update(dpiX, dpiY);
-    this->UpdateLayout();
+
+    bool layoutDisabled = this->IsLayoutDisabled();
+
+    this->DisableLayout();
     _UpdateFontForAllChild(*this);
+
+    if (!layoutDisabled) {
+        this->EnableLayout();
+    }
 }
 
 void sw::Window::Show()
