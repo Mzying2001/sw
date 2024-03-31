@@ -719,11 +719,46 @@ namespace sw
     };
 
     /**
+     * @brief 表示热键框控件中的辅助按键，可以是一个或多个按键
+     */
+    enum class HotKeyModifier {
+        None  = 0,                       // 无按键
+        Shift = /*HOTKEYF_SHIFT*/ 0x1,   // Alt键
+        Ctrl  = /*HOTKEYF_CONTROL*/ 0x2, // Ctrl键
+        Alt   = /*HOTKEYF_ALT*/ 0x4,     // 扩展键
+        Ext   = /*HOTKEYF_EXT*/ 0x8,     // Shift键
+    };
+
+    /**
      * @brief 让MouseKey枚举类支持按位与操作
      */
-    inline constexpr int operator&(MouseKey left, MouseKey right)
+    inline constexpr MouseKey operator&(MouseKey left, MouseKey right)
     {
-        return int(left) & int(right);
+        return MouseKey(int(left) & int(right));
+    }
+
+    /**
+     * @brief 让MouseKey枚举类支持按位或操作
+     */
+    inline constexpr MouseKey operator|(MouseKey left, MouseKey right)
+    {
+        return MouseKey(int(left) | int(right));
+    }
+
+    /**
+     * @brief 让HotKeyModifier枚举类支持按位与操作
+     */
+    inline constexpr HotKeyModifier operator&(HotKeyModifier left, HotKeyModifier right)
+    {
+        return HotKeyModifier(int(left) & int(right));
+    }
+
+    /**
+     * @brief 让HotKeyModifier枚举类支持按位或操作
+     */
+    inline constexpr HotKeyModifier operator|(HotKeyModifier left, HotKeyModifier right)
+    {
+        return HotKeyModifier(int(left) | int(right));
     }
 }
 
@@ -1327,6 +1362,9 @@ namespace sw
 
         // SysLink控件链接被单击，参数类型为sw::SysLinkClickedEventArgs
         SysLink_Clicked,
+
+        // 热键框的值被改变，参数类型为sw::HotKeyValueChangedEventArgs
+        HotKeyControl_ValueChanged,
     };
 
     /*================================================================================*/
@@ -2687,6 +2725,18 @@ namespace sw
         {
         }
     };
+
+    /**
+     * @brief 热键框值改变事件参数类型
+     */
+    struct HotKeyValueChangedEventArgs : RoutedEventArgsOfType<HotKeyControl_ValueChanged> {
+        VirtualKey key;          // 按键
+        HotKeyModifier modifier; // 辅助按键
+        HotKeyValueChangedEventArgs(VirtualKey key, HotKeyModifier modifier)
+            : key(key), modifier(modifier)
+        {
+        }
+    };
 }
 
 // Screen.h
@@ -2767,6 +2817,268 @@ namespace sw
          * @param finalPosition 最终控件所安排的位置
          */
         virtual void Arrange(const Rect &finalPosition) = 0;
+    };
+}
+
+// ImageList.h
+
+
+namespace sw
+{
+    /**
+     * @brief 图像列表
+     */
+    class ImageList
+    {
+    private:
+        /**
+         * @brief 图像列表的句柄
+         */
+        HIMAGELIST _hImageList;
+
+        /**
+         * @brief 记录是否为包装对象
+         */
+        bool _isWrap;
+
+    protected:
+        /**
+         * @brief            初始化图像列表
+         * @param hImageList 图像列表的句柄
+         * @param isWrap     是否为包装对象
+         */
+        ImageList(HIMAGELIST hImageList, bool isWrap);
+
+    public:
+        /**
+         * @brief 创建图像列表，参数与ImageList_Create相同
+         */
+        ImageList(int cx, int cy, UINT flags, int cInitial, int cGrow);
+
+        /**
+         * @brief 拷贝构造
+         */
+        ImageList(const ImageList &value);
+
+        /**
+         * @brief 移动构造
+         */
+        ImageList(ImageList &&rvalue);
+
+        /**
+         * @brief 析构函数
+         */
+        virtual ~ImageList();
+
+        /**
+         * @brief 拷贝赋值
+         */
+        ImageList &operator=(const ImageList &value);
+
+        /**
+         * @brief 移动赋值
+         */
+        ImageList &operator=(ImageList &&rvalue);
+
+        /**
+         * @brief  创建一个图像列表，该函数调用ImageList_Create
+         * @return 图像列表对象
+         */
+        static ImageList Create(int cx, int cy, UINT flags, int cInitial, int cGrow);
+
+        /**
+         * @brief            包装一个图像列表句柄为ImageList对象，通过该函数创建的对象析构时不会销毁句柄
+         * @param hImageList 要包装的句柄
+         * @return           包装原有句柄的对象
+         */
+        static ImageList Wrap(HIMAGELIST hImageList);
+
+        /**
+         * @brief 复制图像，该函数调用ImageList_Copy
+         */
+        static bool Copy(const ImageList &dst, int iDst, const ImageList &src, int iSrc, UINT uFlags);
+
+        /**
+         * @brief 锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter
+         */
+        static bool DragEnter(HWND hwndLock, double x, double y);
+
+        /**
+         * @brief 解除窗口锁定并隐藏显示的拖拽图像，该函数调用ImageList_DragLeave
+         */
+        static bool DragLeave(HWND hwndLock);
+
+        /**
+         * @brief 拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove
+         */
+        static bool DragMove(double x, double y);
+
+        /**
+         * @brief 拖拽时显示或隐藏图像，该函数调用ImageList_DragShowNolock
+         */
+        static bool DragShowNolock(bool fShow);
+
+        /**
+         * @brief 结束拖拽，该函数调用ImageList_EndDrag
+         */
+        static void EndDrag();
+
+        /**
+         * @brief 获取拖拽中图像的列表，该函数调用ImageList_GetDragImage
+         */
+        static ImageList GetDragImage(Point &pt, Point &ptHotspot);
+
+        /**
+         * @brief 加载图像列表，该函数调用ImageList_LoadImageA
+         */
+        static ImageList LoadImageA(HINSTANCE hi, LPCSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags);
+
+        /**
+         * @brief 加载图像列表，该函数调用ImageList_LoadImageW
+         */
+        static ImageList LoadImageW(HINSTANCE hi, LPCWSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags);
+
+        /**
+         * @brief 合并两个图像列表，该函数调用ImageList_Merge
+         */
+        static ImageList Merge(const ImageList &iml1, int i1, const ImageList &iml2, int i2, int dx, int dy);
+
+        /**
+         * @brief 读取图像列表，该函数调用ImageList_Read
+         */
+        static ImageList Read(IStream *pstm);
+
+    public:
+        /**
+         * @brief 获取图像列表的句柄
+         */
+        HIMAGELIST GetHandle();
+
+        /**
+         * @brief 判断当前对象是否为包装对象
+         */
+        bool IsWrap();
+
+        /**
+         * @brief 添加图像，该函数调用ImageList_Add
+         */
+        int Add(HBITMAP hbmImage, HBITMAP hbmMask);
+
+        /**
+         * @brief 添加图像，指定颜色为mask，该函数调用ImageList_AddMasked
+         */
+        int AddMasked(HBITMAP hbmImage, COLORREF crMask);
+
+        /**
+         * @brief 开始拖拽图像，该函数调用ImageList_BeginDrag
+         */
+        bool BeginDrag(int iTrack, double dxHotspot, double dyHotspot);
+
+        /**
+         * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_Draw
+         */
+        bool Draw(int i, HDC hdcDst, double x, double y, UINT fStyle);
+
+        /**
+         * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx
+         */
+        bool Draw(int i, HDC hdcDst, double x, double y, double dx, double dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle);
+
+        /**
+         * @brief 以像素为单位，在指定上下文DC下绘制图像，该函数调用ImageList_Draw
+         */
+        bool DrawPx(int i, HDC hdcDst, int x, int y, UINT fStyle);
+
+        /**
+         * @brief 以像素为单位，在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx
+         */
+        bool DrawPx(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle);
+
+        /**
+         * @brief 复制当前图像列表，该函数调用ImageList_Duplicate
+         */
+        ImageList Duplicate();
+
+        /**
+         * @brief 获取背景颜色，该函数调用ImageList_GetBkColor
+         */
+        COLORREF GetBkColor();
+
+        /**
+         * @brief 通过指定位置的图像创建图标句柄，该函数调用ImageList_GetIcon
+         */
+        HICON GetIcon(int i, UINT flags);
+
+        /**
+         * @brief 获取图标大小，该函数调用ImageList_GetIconSize
+         */
+        bool GetIconSize(int &cx, int &cy);
+
+        /**
+         * @brief 获取图像个数，该函数调用ImageList_GetImageCount
+         */
+        int GetImageCount();
+
+        /**
+         * @brief 获取图像信息，该函数调用ImageList_GetImageInfo
+         */
+        bool GetImageInfo(int i, IMAGEINFO *pImageInfo);
+
+        /**
+         * @brief 移除指定图像，该函数调用ImageList_Remove
+         */
+        bool Remove(int i);
+
+        /**
+         * @brief 移除所有图像，该函数调用ImageList_Remove
+         */
+        bool RemoveAll();
+
+        /**
+         * @brief 更换指定位置的图像，该函数调用ImageList_Replace
+         */
+        bool Replace(int i, HBITMAP hbmImage, HBITMAP hbmMask);
+
+        /**
+         * @brief 更换图标，该函数调用ImageList_ReplaceIcon
+         */
+        int ReplaceIcon(int i, HICON hicon);
+
+        /**
+         * @brief 设置背景颜色，该函数调用ImageList_SetBkColor
+         */
+        COLORREF SetBkColor(COLORREF clrBk);
+
+        /**
+         * @brief 设置拖拽图标为指定图标与当前拖拽图标的结合，该函数调用ImageList_SetDragCursorImage
+         */
+        bool SetDragCursorImage(int iDrag, int dxHotspot, int dyHotspot);
+
+        /**
+         * @brief 设置图像大小并移除所有图像，该函数调用ImageList_SetIconSize
+         */
+        bool SetIconSize(int cx, int cy);
+
+        /**
+         * @brief 设置图像个数，该函数调用ImageList_SetImageCount
+         */
+        bool SetImageCount(UINT uNewCount);
+
+        /**
+         * @brief 将指定的图像添加到要用作覆盖遮罩的图像列表中，该函数调用ImageList_SetOverlayImage
+         */
+        bool SetOverlayImage(int iImage, int iOverlay);
+
+        /**
+         * @brief 写图像列表，该函数调用ImageList_Write
+         */
+        bool Write(IStream *pstm);
+
+    private:
+        /**
+         * @brief 若_isWrap为false时调用ImageList_Destroy
+         */
+        void _DestroyIfNotWrap();
     };
 }
 
@@ -5729,14 +6041,19 @@ namespace sw
         virtual void Arrange(const sw::Rect &finalPosition) override;
 
         /**
-         * @brief 禁用布局
+         * @brief 禁用布局，禁用布局后调用UpdateLayout不会更新布局
          */
         void DisableLayout();
 
         /**
-         * @brief 启用布局
+         * @brief 启用布局，并立即更新布局
          */
         void EnableLayout();
+
+        /**
+         * @brief 获取一个值，表示当前控件是否已禁用布局
+         */
+        bool IsLayoutDisabled();
 
         /**
          * @brief        获取横向滚动条的范围
@@ -6103,6 +6420,99 @@ namespace sw
          * @param style 新的样式
          */
         void _UpdateStyle(DWORD style);
+    };
+}
+
+// HotKeyControl.h
+
+
+namespace sw
+{
+    /**
+     * @brief 表示一个热键
+     */
+    struct HotKey {
+        VirtualKey key;          // 按键
+        HotKeyModifier modifier; // 辅助按键
+    };
+
+    /**
+     * @brief 热键组合
+     */
+    enum class HotKeyCombination {
+        Alt          = HKCOMB_A,    // ALT
+        Ctrl         = HKCOMB_C,    // CTRL
+        CtrlAlt      = HKCOMB_CA,   // CTRL+ALT
+        None         = HKCOMB_NONE, // Unmodified keys
+        Shift        = HKCOMB_S,    // SHIFT
+        ShiftAlt     = HKCOMB_SA,   // SHIFT+ALT
+        ShiftCtrl    = HKCOMB_SC,   // SHIFT+CTRL
+        ShiftCtrlAlt = HKCOMB_SCA,  // SHIFT+CTRL+ALT
+    };
+
+    /**
+     * @brief 让HotKeyCombination枚举类支持按位与操作
+     */
+    inline constexpr HotKeyCombination operator&(HotKeyCombination left, HotKeyCombination right)
+    {
+        return HotKeyCombination(int(left) & int(right));
+    }
+
+    /**
+     * @brief 让HotKeyCombination枚举类支持按位或操作
+     */
+    inline constexpr HotKeyCombination operator|(HotKeyCombination left, HotKeyCombination right)
+    {
+        return HotKeyCombination(int(left) | int(right));
+    }
+
+    /**
+     * @brief 热键框
+     */
+    class HotKeyControl : public Control
+    {
+    private:
+        /**
+         * @brief 热键的值
+         */
+        HotKey _value;
+
+    public:
+        /**
+         * @brief 当前控件所表示的热键值
+         */
+        const Property<HotKey> Value;
+
+    public:
+        /**
+         * @brief 初始化热键框
+         */
+        HotKeyControl();
+
+        /**
+         * @brief                 设置无效组合与默认值
+         * @param invalidComb     无效的组合键
+         * @param defaultModifier 用户输入无效组合时使用该组合键替换
+         */
+        void SetRules(HotKeyCombination invalidComb, HotKeyModifier defaultModifier);
+
+    protected:
+        /**
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
+         */
+        virtual void OnCommand(int code) override;
+
+        /**
+         * @brief 控件表示的热键值发生改变时调用该函数
+         */
+        virtual void OnValueChanged(HotKey value);
+
+    private:
+        /**
+         * @brief 更新_value
+         */
+        void _UpdateValue();
     };
 }
 
@@ -8851,3 +9261,6 @@ namespace sw
 #pragma comment(linker, "\"/manifestdependency:type='win32' \
 name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
 processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+
+// Comctl32
+#pragma comment(lib, "comctl32.lib")

@@ -315,10 +315,12 @@
     <ClInclude Include="..\sw\inc\GridLayout.h" />
     <ClInclude Include="..\sw\inc\GroupBox.h" />
     <ClInclude Include="..\sw\inc\HitTestResult.h" />
+    <ClInclude Include="..\sw\inc\HotKeyControl.h" />
     <ClInclude Include="..\sw\inc\HwndHost.h" />
     <ClInclude Include="..\sw\inc\Icon.h" />
     <ClInclude Include="..\sw\inc\IconBox.h" />
     <ClInclude Include="..\sw\inc\ILayout.h" />
+    <ClInclude Include="..\sw\inc\ImageList.h" />
     <ClInclude Include="..\sw\inc\IPAddressControl.h" />
     <ClInclude Include="..\sw\inc\ITag.h" />
     <ClInclude Include="..\sw\inc\ItemsControl.h" />
@@ -402,9 +404,11 @@
     <ClCompile Include="..\sw\src\Grid.cpp" />
     <ClCompile Include="..\sw\src\GridLayout.cpp" />
     <ClCompile Include="..\sw\src\GroupBox.cpp" />
+    <ClCompile Include="..\sw\src\HotKeyControl.cpp" />
     <ClCompile Include="..\sw\src\HwndHost.cpp" />
     <ClCompile Include="..\sw\src\Icon.cpp" />
     <ClCompile Include="..\sw\src\IconBox.cpp" />
+    <ClCompile Include="..\sw\src\ImageList.cpp" />
     <ClCompile Include="..\sw\src\IPAddressControl.cpp" />
     <ClCompile Include="..\sw\src\Keys.cpp" />
     <ClCompile Include="..\sw\src\Label.cpp" />

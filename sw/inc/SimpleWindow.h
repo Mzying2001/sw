@@ -27,12 +27,14 @@
 #include "GridLayout.h"
 #include "GroupBox.h"
 #include "HitTestResult.h"
+#include "HotKeyControl.h"
 #include "HwndHost.h"
 #include "ILayout.h"
 #include "IPAddressControl.h"
 #include "ITag.h"
 #include "Icon.h"
 #include "IconBox.h"
+#include "ImageList.h"
 #include "ItemsControl.h"
 #include "Keys.h"
 #include "KnownColor.h"
@@ -93,3 +95,6 @@
 #pragma comment(linker, "\"/manifestdependency:type='win32' \
 name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
 processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+
+// Comctl32
+#pragma comment(lib, "comctl32.lib")

@@ -155,14 +155,19 @@ namespace sw
         virtual void Arrange(const sw::Rect &finalPosition) override;
 
         /**
-         * @brief 禁用布局
+         * @brief 禁用布局，禁用布局后调用UpdateLayout不会更新布局
          */
         void DisableLayout();
 
         /**
-         * @brief 启用布局
+         * @brief 启用布局，并立即更新布局
          */
         void EnableLayout();
+
+        /**
+         * @brief 获取一个值，表示当前控件是否已禁用布局
+         */
+        bool IsLayoutDisabled();
 
         /**
          * @brief        获取横向滚动条的范围

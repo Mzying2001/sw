@@ -12,7 +12,13 @@
     <ClInclude Include="..\sw\inc\Alignment.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\Animation.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\App.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\BmpBox.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Button.h">
@@ -21,13 +27,37 @@
     <ClInclude Include="..\sw\inc\ButtonBase.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\Canvas.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\CanvasLayout.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\CheckableButton.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\CheckBox.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\Color.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\ComboBox.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\ContextMenu.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Control.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Cursor.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\DateTimePicker.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\Dictionary.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Dip.h">
@@ -45,13 +75,49 @@
     <ClInclude Include="..\sw\inc\Font.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\Grid.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\GridLayout.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\GroupBox.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\HitTestResult.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\HotKeyControl.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\HwndHost.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\Icon.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\IconBox.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\ILayout.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\ImageList.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\IPAddressControl.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\ITag.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\ItemsControl.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\Keys.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\KnownColor.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Label.h">
@@ -63,6 +129,15 @@
     <ClInclude Include="..\sw\inc\LayoutHost.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\List.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\ListBox.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\ListView.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\Menu.h">
       <Filter>inc</Filter>
     </ClInclude>
@@ -72,10 +147,19 @@
     <ClInclude Include="..\sw\inc\MenuItem.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\MonthCalendar.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\MsgBox.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Panel.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\PanelBase.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\PasswordBox.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Path.h">
@@ -87,7 +171,13 @@
     <ClInclude Include="..\sw\inc\ProcMsg.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\ProgressBar.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\Property.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\RadioButton.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Rect.h">
@@ -102,10 +192,19 @@
     <ClInclude Include="..\sw\inc\Screen.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\ScrollEnums.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\SimpleWindow.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Size.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\Slider.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\Splitter.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\StackLayout.h">
@@ -120,10 +219,40 @@
     <ClInclude Include="..\sw\inc\StackPanel.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\StaticControl.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\StatusBar.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\SysLink.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\TabControl.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\TextBox.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\TextBoxBase.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\Thickness.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\Timer.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\ToolTip.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\UIElement.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\UniformGrid.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\UniformGridLayout.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Utils.h">
@@ -150,132 +279,15 @@
     <ClInclude Include="..\sw\inc\WrapPanel.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\sw\inc\ContextMenu.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\TextBoxBase.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\TextBox.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\PasswordBox.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\RadioButton.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\CheckableButton.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\CheckBox.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\GroupBox.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\PanelBase.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\ItemsControl.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\ListBox.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\ComboBox.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\ProgressBar.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Slider.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\ScrollEnums.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\ITag.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\TabControl.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\StaticControl.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Dictionary.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\ListView.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\List.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\HitTestResult.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\UniformGridLayout.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\UniformGrid.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Grid.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\GridLayout.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Canvas.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\CanvasLayout.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Splitter.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\HwndHost.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\KnownColor.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\IconBox.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\BmpBox.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\DateTimePicker.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\IPAddressControl.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\ToolTip.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Timer.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\MonthCalendar.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Animation.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\SysLink.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\StatusBar.h">
-      <Filter>inc</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\sw\src\Animation.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\App.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\BmpBox.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\Button.cpp">
@@ -284,13 +296,34 @@
     <ClCompile Include="..\sw\src\ButtonBase.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\Canvas.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\CanvasLayout.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\CheckableButton.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\CheckBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\Color.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\ComboBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\ContextMenu.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\Control.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\Cursor.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\DateTimePicker.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\Dip.cpp">
@@ -308,7 +341,31 @@
     <ClCompile Include="..\sw\src\Font.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\Grid.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\GridLayout.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\GroupBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\HotKeyControl.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\HwndHost.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\Icon.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\IconBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\ImageList.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\IPAddressControl.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\Keys.cpp">
@@ -323,6 +380,12 @@
     <ClCompile Include="..\sw\src\LayoutHost.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\ListBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\ListView.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\Menu.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -332,10 +395,19 @@
     <ClCompile Include="..\sw\src\MenuItem.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\MonthCalendar.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\MsgBox.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\Panel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\PanelBase.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\PasswordBox.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\Path.cpp">
@@ -345,6 +417,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\ProcMsg.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\ProgressBar.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\RadioButton.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\Rect.cpp">
@@ -359,6 +437,12 @@
     <ClCompile Include="..\sw\src\Size.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\Slider.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\Splitter.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\StackLayout.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -371,10 +455,40 @@
     <ClCompile Include="..\sw\src\StackPanel.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\StaticControl.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\StatusBar.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\SysLink.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\TabControl.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\TextBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\TextBoxBase.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\Thickness.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\Timer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\ToolTip.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\UIElement.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\UniformGrid.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\UniformGridLayout.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\Utils.cpp">
@@ -396,108 +510,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\WrapPanel.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\ContextMenu.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\TextBoxBase.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\TextBox.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\PasswordBox.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\RadioButton.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\CheckableButton.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\CheckBox.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\GroupBox.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\PanelBase.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\ListBox.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\ComboBox.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\ProgressBar.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\Slider.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\TabControl.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\StaticControl.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\ListView.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\UniformGridLayout.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\UniformGrid.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\Grid.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\GridLayout.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\Canvas.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\CanvasLayout.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\Splitter.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\HwndHost.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\IconBox.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\BmpBox.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\DateTimePicker.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\IPAddressControl.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\ToolTip.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\Timer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\MonthCalendar.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\Animation.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\SysLink.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\StatusBar.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
