@@ -390,11 +390,32 @@ void sw::Window::OnInactived()
 
 void sw::Window::OnDpiChanged(int dpiX, int dpiY)
 {
-    Dip::Update(dpiX, dpiY);
-
     bool layoutDisabled = this->IsLayoutDisabled();
 
+    Dip::Update(dpiX, dpiY);
     this->DisableLayout();
+
+    {
+        // Windows在DIP改变时会自动调整窗口大小，此时会先触发WM_WINDOWPOSCHANGED，再触发WM_DPICHANGED
+        // 因此在先触发的WM_WINDOWPOSCHANGED消息中，（Dip类中）DPI信息未更新，从而导致窗口的Rect数据错误
+        // 此处在更新DPI信息后手动发送一个WM_WINDOWPOSCHANGED以修正窗口的Rect数据
+
+        HWND hwnd = this->Handle;
+
+        RECT rect;
+        GetWindowRect(hwnd, &rect);
+
+        WINDOWPOS pos{};
+        pos.hwnd  = hwnd;
+        pos.x     = rect.left;
+        pos.y     = rect.top;
+        pos.cx    = rect.right - rect.left;
+        pos.cy    = rect.bottom - rect.top;
+        pos.flags = SWP_NOACTIVATE | SWP_NOZORDER;
+
+        this->SendMessageW(WM_WINDOWPOSCHANGED, 0, reinterpret_cast<LPARAM>(&pos));
+    }
+
     _UpdateFontForAllChild(*this);
 
     if (!layoutDisabled) {
