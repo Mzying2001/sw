@@ -120,6 +120,9 @@ namespace sw
 
         // SysLink控件链接被单击，参数类型为sw::SysLinkClickedEventArgs
         SysLink_Clicked,
+
+        // 热键框的值被改变，参数类型为sw::HotKeyValueChangedEventArgs
+        HotKeyControl_ValueChanged,
     };
 
     /*================================================================================*/

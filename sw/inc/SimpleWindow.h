@@ -27,6 +27,7 @@
 #include "GridLayout.h"
 #include "GroupBox.h"
 #include "HitTestResult.h"
+#include "HotKeyControl.h"
 #include "HwndHost.h"
 #include "ILayout.h"
 #include "IPAddressControl.h"

@@ -270,4 +270,16 @@ namespace sw
         {
         }
     };
+
+    /**
+     * @brief 热键框值改变事件参数类型
+     */
+    struct HotKeyValueChangedEventArgs : RoutedEventArgsOfType<HotKeyControl_ValueChanged> {
+        VirtualKey key;          // 按键
+        HotKeyModifier modifier; // 辅助按键
+        HotKeyValueChangedEventArgs(VirtualKey key, HotKeyModifier modifier)
+            : key(key), modifier(modifier)
+        {
+        }
+    };
 }

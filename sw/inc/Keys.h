@@ -258,10 +258,45 @@ namespace sw
     };
 
     /**
+     * @brief 表示热键框控件中的辅助按键，可以是一个或多个按键
+     */
+    enum class HotKeyModifier {
+        None  = 0,                       // 无按键
+        Shift = /*HOTKEYF_SHIFT*/ 0x1,   // Alt键
+        Ctrl  = /*HOTKEYF_CONTROL*/ 0x2, // Ctrl键
+        Alt   = /*HOTKEYF_ALT*/ 0x4,     // 扩展键
+        Ext   = /*HOTKEYF_EXT*/ 0x8,     // Shift键
+    };
+
+    /**
      * @brief 让MouseKey枚举类支持按位与操作
      */
-    inline constexpr int operator&(MouseKey left, MouseKey right)
+    inline constexpr MouseKey operator&(MouseKey left, MouseKey right)
     {
-        return int(left) & int(right);
+        return MouseKey(int(left) & int(right));
+    }
+
+    /**
+     * @brief 让MouseKey枚举类支持按位或操作
+     */
+    inline constexpr MouseKey operator|(MouseKey left, MouseKey right)
+    {
+        return MouseKey(int(left) | int(right));
+    }
+
+    /**
+     * @brief 让HotKeyModifier枚举类支持按位与操作
+     */
+    inline constexpr HotKeyModifier operator&(HotKeyModifier left, HotKeyModifier right)
+    {
+        return HotKeyModifier(int(left) & int(right));
+    }
+
+    /**
+     * @brief 让HotKeyModifier枚举类支持按位或操作
+     */
+    inline constexpr HotKeyModifier operator|(HotKeyModifier left, HotKeyModifier right)
+    {
+        return HotKeyModifier(int(left) | int(right));
     }
 }
