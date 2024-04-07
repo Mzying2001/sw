@@ -122,6 +122,18 @@ sw::ListView::ListView()
               static int result;
               result = (int)this->SendMessageW(LVM_GETTOPINDEX, 0, 0);
               return result;
+          }),
+
+      ShareImageLists(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(LVS_SHAREIMAGELISTS);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(LVS_SHAREIMAGELISTS, value);
           })
 {
     this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT, 0);
@@ -470,6 +482,16 @@ int sw::ListView::GetItemIndexFromPoint(const Point &point)
     LVHITTESTINFO hitTestInfo{};
     hitTestInfo.pt = point;
     return (int)this->SendMessageW(LVM_HITTEST, 0, reinterpret_cast<LPARAM>(&hitTestInfo));
+}
+
+sw::ImageList sw::ListView::GetImageList(ListViewImageList imageList)
+{
+    return ImageList::Wrap((HIMAGELIST)this->SendMessageW(LVM_GETIMAGELIST, (WPARAM)imageList, 0));
+}
+
+HIMAGELIST sw::ListView::SetImageList(ListViewImageList imageList, HIMAGELIST value)
+{
+    return (HIMAGELIST)this->SendMessageW(LVM_SETIMAGELIST, (WPARAM)imageList, (LPARAM)value);
 }
 
 int sw::ListView::_GetRowCount()

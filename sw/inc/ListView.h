@@ -1,11 +1,22 @@
 #pragma once
 
+#include "ImageList.h"
 #include "ItemsControl.h"
 #include "List.h"
 #include <CommCtrl.h>
 
 namespace sw
 {
+    /**
+     * @brief 列表视图的图像列表枚举
+     */
+    enum class ListViewImageList {
+        Normal      = LVSIL_NORMAL,      // 包含大图标的图像列表
+        Small       = LVSIL_SMALL,       // 包含小图标的图像列表
+        State       = LVSIL_STATE,       // 包含状态图像的图像列表
+        GroupHeader = LVSIL_GROUPHEADER, // 组标头的图像列表
+    };
+
     /**
      * @brief 列表视图的列对齐方式
      */
@@ -75,6 +86,11 @@ namespace sw
          * @brief 当前列表框页面第一个子项的索引
          */
         const ReadOnlyProperty<int> TopIndex;
+
+        /**
+         * @brief 允许将同一图像列表与多个列表视图控件配合使用，控件销毁时若该属性为true则不会销毁图像列表
+         */
+        const Property<bool> ShareImageLists;
 
     public:
         /**
@@ -303,6 +319,20 @@ namespace sw
          * @param point 相对于用户区左上角点的位置
          */
         int GetItemIndexFromPoint(const Point &point);
+
+        /**
+         * @brief           获取列表视图的图像列表
+         * @param imageList 要获取的图像列表类型
+         */
+        ImageList GetImageList(ListViewImageList imageList);
+
+        /**
+         * @brief           设置列表视图的图像列表
+         * @param imageList 要设置的图像列表类型
+         * @param value     要设置的图像列表的句柄
+         * @return          若函数成功则返回之前与控件关联的图像列表，否则返回NULL
+         */
+        HIMAGELIST SetImageList(ListViewImageList imageList, HIMAGELIST value);
 
     private:
         /**
