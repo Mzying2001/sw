@@ -133,12 +133,18 @@ namespace sw
         /**
          * @brief 获取图像列表的句柄
          */
-        HIMAGELIST GetHandle();
+        HIMAGELIST GetHandle() const;
 
         /**
          * @brief 判断当前对象是否为包装对象
          */
-        bool IsWrap();
+        bool IsWrap() const;
+
+        /**
+         * @brief  获取图像列表句柄并取消对句柄的托管，调用该函数后当前对象将不可用，析构时也不会销毁句柄
+         * @return 当前对象的图像列表句柄
+         */
+        HIMAGELIST ReleaseHandle();
 
         /**
          * @brief 添加图像，该函数调用ImageList_Add

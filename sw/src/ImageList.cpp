@@ -127,14 +127,21 @@ sw::ImageList sw::ImageList::Read(IStream *pstm)
     return ImageList{ImageList_Read(pstm), false};
 }
 
-HIMAGELIST sw::ImageList::GetHandle()
+HIMAGELIST sw::ImageList::GetHandle() const
 {
     return this->_hImageList;
 }
 
-bool sw::ImageList::IsWrap()
+bool sw::ImageList::IsWrap() const
 {
     return this->_isWrap;
+}
+
+HIMAGELIST sw::ImageList::ReleaseHandle()
+{
+    HIMAGELIST result = this->_hImageList;
+    this->_hImageList = NULL;
+    return result;
 }
 
 int sw::ImageList::Add(HBITMAP hbmImage, HBITMAP hbmMask)
