@@ -494,6 +494,17 @@ HIMAGELIST sw::ListView::SetImageList(ListViewImageList imageList, HIMAGELIST va
     return (HIMAGELIST)this->SendMessageW(LVM_SETIMAGELIST, (WPARAM)imageList, (LPARAM)value);
 }
 
+bool sw::ListView::SetItemImage(int index, int imgIndex)
+{
+    LVITEMW lvi;
+    lvi.mask     = LVIF_IMAGE;
+    lvi.iItem    = index;
+    lvi.iSubItem = 0;
+    lvi.iImage   = imgIndex;
+
+    return this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
+}
+
 int sw::ListView::_GetRowCount()
 {
     return (int)this->SendMessageW(LVM_GETITEMCOUNT, 0, 0);

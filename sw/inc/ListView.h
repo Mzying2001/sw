@@ -334,6 +334,14 @@ namespace sw
          */
         HIMAGELIST SetImageList(ListViewImageList imageList, HIMAGELIST value);
 
+        /**
+         * @brief          设置指定子项的图像
+         * @param index    子项的索引
+         * @param imgIndex 图像在图像列表中的索引
+         * @return         操作是否成功
+         */
+        bool SetItemImage(int index, int imgIndex);
+
     private:
         /**
          * @brief 获取行数
