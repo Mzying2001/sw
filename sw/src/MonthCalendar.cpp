@@ -68,11 +68,12 @@ void sw::MonthCalendar::SetTextColor(Color color, bool redraw)
     this->SendMessageW(MCM_SETCOLOR, MCSC_TEXT, (COLORREF)color);
 }
 
-void sw::MonthCalendar::OnNotified(NMHDR *pNMHDR)
+bool sw::MonthCalendar::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
     if (pNMHDR->code == MCN_SELCHANGE) {
         this->OnTimeChanged(reinterpret_cast<NMSELCHANGE *>(pNMHDR));
     }
+    return false;
 }
 
 void sw::MonthCalendar::OnTimeChanged(NMSELCHANGE *pInfo)

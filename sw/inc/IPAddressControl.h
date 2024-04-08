@@ -77,9 +77,10 @@ namespace sw
         /**
          * @brief        接收到WM_NOTIFY后调用该函数
          * @param pNMHDR 包含有关通知消息的信息
-         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param result 函数返回值为true时将该值作为消息的返回值，默认值为0
+         * @return       若已处理该消息则返回true，否则调用发出通知控件的OnNotified函数，依据其返回值判断是否调用DefaultWndProc
          */
-        virtual bool OnNotify(NMHDR *pNMHDR) override;
+        virtual bool OnNotify(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
          * @brief 地址改变时调用该函数

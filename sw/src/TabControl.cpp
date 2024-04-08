@@ -198,11 +198,12 @@ void sw::TabControl::OnRemovedChild(UIElement &element)
     this->_UpdateChildVisible();
 }
 
-void sw::TabControl::OnNotified(NMHDR *pNMHDR)
+bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
     if (pNMHDR->code == TCN_SELCHANGE) {
         this->OnSelectedIndexChanged();
     }
+    return false;
 }
 
 void sw::TabControl::OnSelectedIndexChanged()

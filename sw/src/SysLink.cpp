@@ -81,7 +81,7 @@ void sw::SysLink::Measure(const Size &availableSize)
     this->SetDesireSize(desireSize);
 }
 
-void sw::SysLink::OnNotified(NMHDR *pNMHDR)
+bool sw::SysLink::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
     switch (pNMHDR->code) {
         case NM_RETURN: {
@@ -94,6 +94,7 @@ void sw::SysLink::OnNotified(NMHDR *pNMHDR)
             break;
         }
     }
+    return false;
 }
 
 void sw::SysLink::OnClicked(NMLINK *pNMLink)

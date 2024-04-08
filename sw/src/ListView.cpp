@@ -183,7 +183,7 @@ void sw::ListView::SetTextColor(Color color, bool redraw)
     this->SendMessageW(LVM_SETTEXTCOLOR, 0, (LPARAM)(COLORREF)color);
 }
 
-bool sw::ListView::OnNotify(NMHDR *pNMHDR)
+bool sw::ListView::OnNotify(NMHDR *pNMHDR, LRESULT &result)
 {
     switch (pNMHDR->code) {
         case HDN_ITEMCLICKW: {
@@ -198,7 +198,7 @@ bool sw::ListView::OnNotify(NMHDR *pNMHDR)
     return false;
 }
 
-void sw::ListView::OnNotified(NMHDR *pNMHDR)
+bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
     switch (pNMHDR->code) {
         case LVN_ITEMCHANGED: {
@@ -214,6 +214,7 @@ void sw::ListView::OnNotified(NMHDR *pNMHDR)
             break;
         }
     }
+    return false;
 }
 
 void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)

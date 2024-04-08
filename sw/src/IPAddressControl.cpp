@@ -70,11 +70,12 @@ bool sw::IPAddressControl::OnSetFocus(HWND hPrevFocus)
     return this->HwndHost::OnSetFocus(hPrevFocus);
 }
 
-bool sw::IPAddressControl::OnNotify(NMHDR *pNMHDR)
+bool sw::IPAddressControl::OnNotify(NMHDR *pNMHDR, LRESULT &result)
 {
-    if (pNMHDR->code == IPN_FIELDCHANGED)
+    if (pNMHDR->code == IPN_FIELDCHANGED) {
         this->OnAddressChanged();
-    return this->HwndHost::OnNotify(pNMHDR);
+    }
+    return this->HwndHost::OnNotify(pNMHDR, result);
 }
 
 void sw::IPAddressControl::OnAddressChanged()
