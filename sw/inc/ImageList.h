@@ -152,6 +152,11 @@ namespace sw
         int Add(HBITMAP hbmImage, HBITMAP hbmMask);
 
         /**
+         * @brief 添加图标，该函数调用ImageList_AddIcon
+         */
+        int AddIcon(HICON hIcon);
+
+        /**
          * @brief 添加图像，指定颜色为mask，该函数调用ImageList_AddMasked
          */
         int AddMasked(HBITMAP hbmImage, COLORREF crMask);

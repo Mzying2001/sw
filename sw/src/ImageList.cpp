@@ -149,6 +149,11 @@ int sw::ImageList::Add(HBITMAP hbmImage, HBITMAP hbmMask)
     return ImageList_Add(this->_hImageList, hbmImage, hbmMask);
 }
 
+int sw::ImageList::AddIcon(HICON hIcon)
+{
+    return ImageList_AddIcon(this->_hImageList, hIcon);
+}
+
 int sw::ImageList::AddMasked(HBITMAP hbmImage, COLORREF crMask)
 {
     return ImageList_AddMasked(this->_hImageList, hbmImage, crMask);
