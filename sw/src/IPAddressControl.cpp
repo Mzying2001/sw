@@ -1,6 +1,11 @@
 #include "IPAddressControl.h"
 
 sw::IPAddressControl::IPAddressControl()
+    : IPAddressControl(sw::Size{150, 24})
+{
+}
+
+sw::IPAddressControl::IPAddressControl(sw::Size size)
     : IsBlank(
           // get
           [&]() -> const bool & {
@@ -22,7 +27,7 @@ sw::IPAddressControl::IPAddressControl()
               this->OnAddressChanged();
           })
 {
-    this->Rect    = sw::Rect{0, 0, 150, 24};
+    this->Rect    = sw::Rect{0, 0, size.width, size.height};
     this->TabStop = true;
 
     this->InitHwndHost();

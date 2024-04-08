@@ -34,6 +34,11 @@ namespace sw
         IPAddressControl();
 
         /**
+         * @brief 初始化IP地址框，并设置控件尺寸
+         */
+        explicit IPAddressControl(sw::Size size);
+
+        /**
          * @brief 清空输入的内容
          */
         void Clear();
