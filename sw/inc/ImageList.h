@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Dip.h"
-#include "Point.h"
 #include <CommCtrl.h>
 
 namespace sw
@@ -107,7 +106,7 @@ namespace sw
         /**
          * @brief 获取拖拽中图像的列表，该函数调用ImageList_GetDragImage
          */
-        static ImageList GetDragImage(Point &pt, Point &ptHotspot);
+        static ImageList GetDragImage(POINT *ppt, POINT *pptHotspot);
 
         /**
          * @brief 加载图像列表，该函数调用ImageList_LoadImageA
@@ -164,7 +163,7 @@ namespace sw
         /**
          * @brief 开始拖拽图像，该函数调用ImageList_BeginDrag
          */
-        bool BeginDrag(int iTrack, double dxHotspot, double dyHotspot);
+        bool BeginDrag(int iTrack, int dxHotspot, int dyHotspot);
 
         /**
          * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_Draw
