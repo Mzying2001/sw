@@ -45,9 +45,24 @@ namespace sw
          */
         ListViewColumnAlignment alignment = ListViewColumnAlignment::Left;
 
+        /**
+         * @brief 构造函数
+         */
         ListViewColumn(const std::wstring &header);
+
+        /**
+         * @brief 构造函数
+         */
         ListViewColumn(const std::wstring &header, double width);
+
+        /**
+         * @brief 从LVCOLUMNW构造
+         */
         ListViewColumn(const LVCOLUMNW &lvc);
+
+        /**
+         * @brief 隐式转换LVCOLUMNW
+         */
         operator LVCOLUMNW() const;
     };
 
