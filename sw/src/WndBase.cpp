@@ -337,7 +337,8 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
 
 void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
-    if (_controlInitContainer == nullptr) {
+    if (_controlInitContainer == nullptr || _controlInitContainer->_isDestroyed) {
+        delete _controlInitContainer;
         _controlInitContainer = new std::remove_reference_t<decltype(*_controlInitContainer)>;
         _controlInitContainer->InitWindow(L"", WS_POPUP, 0);
     }
