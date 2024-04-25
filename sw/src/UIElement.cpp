@@ -447,6 +447,15 @@ void sw::UIElement::SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlign
     }
 }
 
+void sw::UIElement::Resize(const Size &size)
+{
+    this->_origionalSize = size;
+
+    SetWindowPos(this->Handle, NULL,
+                 0, 0, Dip::DipToPxX(size.width), Dip::DipToPxY(size.height),
+                 SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
+}
+
 uint64_t sw::UIElement::GetTag()
 {
     return this->_tag;
