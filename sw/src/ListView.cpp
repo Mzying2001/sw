@@ -134,6 +134,18 @@ sw::ListView::ListView()
           // set
           [&](const bool &value) {
               this->SetStyle(LVS_SHAREIMAGELISTS, value);
+          }),
+
+      Editable(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(LVS_EDITLABELS);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(LVS_EDITLABELS, value);
           })
 {
     this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT, 0);
@@ -213,6 +225,10 @@ bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
             this->OnItemDoubleClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
             break;
         }
+        case LVN_ENDLABELEDITW: {
+            result = (LRESULT)this->OnEndEdit(reinterpret_cast<NMLVDISPINFOW *>(pNMHDR));
+            return true;
+        }
     }
     return false;
 }
@@ -260,6 +276,17 @@ void sw::ListView::OnItemDoubleClicked(NMITEMACTIVATE *pNMIA)
 {
     ListViewItemClickedEventArgs args(ListView_ItemDoubleClicked, pNMIA->iItem, pNMIA->iSubItem);
     this->RaiseRoutedEvent(args);
+}
+
+bool sw::ListView::OnEndEdit(NMLVDISPINFOW *pNMInfo)
+{
+    if (pNMInfo->item.pszText == nullptr) {
+        return false;
+    }
+    ListViewEndEditEventArgs args(pNMInfo->item.iItem, pNMInfo->item.pszText);
+    this->RaiseRoutedEvent(args);
+    pNMInfo->item.pszText = args.newText;
+    return !args.cancel;
 }
 
 void sw::ListView::Clear()

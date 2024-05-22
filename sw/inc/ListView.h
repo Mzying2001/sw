@@ -107,6 +107,11 @@ namespace sw
          */
         const Property<bool> ShareImageLists;
 
+        /**
+         * @brief 是否允许编辑
+         */
+        const Property<bool> Editable;
+
     public:
         /**
          * @brief 初始化ListView
@@ -194,6 +199,12 @@ namespace sw
          * @brief 鼠标左键双击某一项调用该函数
          */
         virtual void OnItemDoubleClicked(NMITEMACTIVATE *pNMIA);
+
+        /**
+         * @brief  编辑状态结束后调用该函数
+         * @return 是否应用新文本
+         */
+        virtual bool OnEndEdit(NMLVDISPINFOW *pNMInfo);
 
     public:
         /**
