@@ -224,6 +224,9 @@ var hierarchy =
       [ "sw::RoutedEventArgsOfType< ListView_CheckStateChanged >", "structsw_1_1_routed_event_args_of_type.html", [
         [ "sw::ListViewCheckStateChangedEventArgs", "structsw_1_1_list_view_check_state_changed_event_args.html", null ]
       ] ],
+      [ "sw::RoutedEventArgsOfType< ListView_EndEdit >", "structsw_1_1_routed_event_args_of_type.html", [
+        [ "sw::ListViewEndEditEventArgs", "structsw_1_1_list_view_end_edit_event_args.html", null ]
+      ] ],
       [ "sw::RoutedEventArgsOfType< MonthCalendar_TimeChanged >", "structsw_1_1_routed_event_args_of_type.html", [
         [ "sw::MonthCalendarTimeChangedEventArgs", "structsw_1_1_month_calendar_time_changed_event_args.html", null ]
       ] ],

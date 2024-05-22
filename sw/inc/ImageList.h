@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Dip.h"
-#include "Point.h"
 #include <CommCtrl.h>
 
 namespace sw
@@ -107,7 +106,7 @@ namespace sw
         /**
          * @brief 获取拖拽中图像的列表，该函数调用ImageList_GetDragImage
          */
-        static ImageList GetDragImage(Point &pt, Point &ptHotspot);
+        static ImageList GetDragImage(POINT *ppt, POINT *pptHotspot);
 
         /**
          * @brief 加载图像列表，该函数调用ImageList_LoadImageA
@@ -133,17 +132,28 @@ namespace sw
         /**
          * @brief 获取图像列表的句柄
          */
-        HIMAGELIST GetHandle();
+        HIMAGELIST GetHandle() const;
 
         /**
          * @brief 判断当前对象是否为包装对象
          */
-        bool IsWrap();
+        bool IsWrap() const;
+
+        /**
+         * @brief  获取图像列表句柄并取消对句柄的托管，调用该函数后当前对象将不可用，析构时也不会销毁句柄
+         * @return 当前对象的图像列表句柄
+         */
+        HIMAGELIST ReleaseHandle();
 
         /**
          * @brief 添加图像，该函数调用ImageList_Add
          */
         int Add(HBITMAP hbmImage, HBITMAP hbmMask);
+
+        /**
+         * @brief 添加图标，该函数调用ImageList_AddIcon
+         */
+        int AddIcon(HICON hIcon);
 
         /**
          * @brief 添加图像，指定颜色为mask，该函数调用ImageList_AddMasked
@@ -153,7 +163,7 @@ namespace sw
         /**
          * @brief 开始拖拽图像，该函数调用ImageList_BeginDrag
          */
-        bool BeginDrag(int iTrack, double dxHotspot, double dyHotspot);
+        bool BeginDrag(int iTrack, int dxHotspot, int dyHotspot);
 
         /**
          * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_Draw

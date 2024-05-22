@@ -238,6 +238,19 @@ namespace sw
     };
 
     /**
+     * @brief 列表视图编辑状态结束事件参数类型
+     */
+    struct ListViewEndEditEventArgs : RoutedEventArgsOfType<ListView_EndEdit> {
+        bool cancel = false; // 是否取消文本更改，默认为false
+        int index;           // 被编辑项的索引
+        wchar_t *newText;    // 新的文本
+        ListViewEndEditEventArgs(int index, wchar_t *newText)
+            : index(index), newText(newText)
+        {
+        }
+    };
+
+    /**
      * @brief DateTimePicker控件时间改变事件参数类型
      */
     struct DateTimePickerTimeChangedEventArgs : RoutedEventArgsOfType<DateTimePicker_TimeChanged> {

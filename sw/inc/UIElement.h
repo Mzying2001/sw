@@ -467,6 +467,11 @@ namespace sw
         void SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlignment vert);
 
         /**
+         * @brief 调整当前元素的尺寸，也可以用该函数更改默认Measure函数在当前横向或纵向对齐方式为拉伸时的DesireSize
+         */
+        void Resize(const Size &size);
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;

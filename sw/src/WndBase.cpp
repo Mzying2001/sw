@@ -337,7 +337,8 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
 
 void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
-    if (_controlInitContainer == nullptr) {
+    if (_controlInitContainer == nullptr || _controlInitContainer->_isDestroyed) {
+        delete _controlInitContainer;
         _controlInitContainer = new std::remove_reference_t<decltype(*_controlInitContainer)>;
         _controlInitContainer->InitWindow(L"", WS_POPUP, 0);
     }
@@ -559,13 +560,17 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_NOTIFY: {
+            LRESULT result = 0;
+
             NMHDR *pNMHDR = reinterpret_cast<NMHDR *>(refMsg.lParam);
-            bool handled  = this->OnNotify(pNMHDR);
+            bool handled  = this->OnNotify(pNMHDR, result);
 
-            WndBase *pWnd = WndBase::GetWndBase(pNMHDR->hwndFrom);
-            if (pWnd) pWnd->OnNotified(pNMHDR);
+            if (!handled) {
+                WndBase *pWnd = WndBase::GetWndBase(pNMHDR->hwndFrom);
+                if (pWnd) handled = pWnd->OnNotified(pNMHDR, result);
+            }
 
-            return handled ? 0 : this->DefaultWndProc(refMsg);
+            return handled ? result : this->DefaultWndProc(refMsg);
         }
 
         case WM_CTLCOLORMSGBOX:
@@ -901,13 +906,14 @@ bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
     return false;
 }
 
-bool sw::WndBase::OnNotify(NMHDR *pNMHDR)
+bool sw::WndBase::OnNotify(NMHDR *pNMHDR, LRESULT &result)
 {
     return false;
 }
 
-void sw::WndBase::OnNotified(NMHDR *pNMHDR)
+bool sw::WndBase::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
+    return false;
 }
 
 bool sw::WndBase::OnVerticalScroll(int event, int pos)

@@ -10,7 +10,10 @@ static sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     []() -> const HINSTANCE & {
-        static HINSTANCE hInstance = GetModuleHandleW(NULL);
+        static HINSTANCE hInstance = NULL;
+        if (hInstance == NULL) {
+            hInstance = GetModuleHandleW(NULL);
+        }
         return hInstance;
     } //
 );

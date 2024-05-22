@@ -97,6 +97,9 @@ namespace sw
         // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
         ListView_ItemDoubleClicked,
 
+        // 编辑状态结束，参数类型为sw::ListViewEndEditEventArgs
+        ListView_EndEdit,
+
         // 滑块的值被改变，参数类型为sw::RoutedEventArgs
         Slider_ValueChanged,
 

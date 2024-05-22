@@ -99,12 +99,9 @@ void sw::ImageList::EndDrag()
     ImageList_EndDrag();
 }
 
-sw::ImageList sw::ImageList::GetDragImage(Point &pt, Point &ptHotspot)
+sw::ImageList sw::ImageList::GetDragImage(POINT *ppt, POINT *pptHotspot)
 {
-    POINT points[2];
-    HIMAGELIST h = ImageList_GetDragImage(&points[0], &points[1]);
-    pt = points[0], ptHotspot = points[1];
-    return ImageList{h, false};
+    return ImageList{ImageList_GetDragImage(ppt, pptHotspot), false};
 }
 
 sw::ImageList sw::ImageList::LoadImageA(HINSTANCE hi, LPCSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags)
@@ -127,14 +124,21 @@ sw::ImageList sw::ImageList::Read(IStream *pstm)
     return ImageList{ImageList_Read(pstm), false};
 }
 
-HIMAGELIST sw::ImageList::GetHandle()
+HIMAGELIST sw::ImageList::GetHandle() const
 {
     return this->_hImageList;
 }
 
-bool sw::ImageList::IsWrap()
+bool sw::ImageList::IsWrap() const
 {
     return this->_isWrap;
+}
+
+HIMAGELIST sw::ImageList::ReleaseHandle()
+{
+    HIMAGELIST result = this->_hImageList;
+    this->_hImageList = NULL;
+    return result;
 }
 
 int sw::ImageList::Add(HBITMAP hbmImage, HBITMAP hbmMask)
@@ -142,14 +146,19 @@ int sw::ImageList::Add(HBITMAP hbmImage, HBITMAP hbmMask)
     return ImageList_Add(this->_hImageList, hbmImage, hbmMask);
 }
 
+int sw::ImageList::AddIcon(HICON hIcon)
+{
+    return ImageList_AddIcon(this->_hImageList, hIcon);
+}
+
 int sw::ImageList::AddMasked(HBITMAP hbmImage, COLORREF crMask)
 {
     return ImageList_AddMasked(this->_hImageList, hbmImage, crMask);
 }
 
-bool sw::ImageList::BeginDrag(int iTrack, double dxHotspot, double dyHotspot)
+bool sw::ImageList::BeginDrag(int iTrack, int dxHotspot, int dyHotspot)
 {
-    return ImageList_BeginDrag(this->_hImageList, iTrack, Dip::DipToPxX(dxHotspot), Dip::DipToPxY(dyHotspot));
+    return ImageList_BeginDrag(this->_hImageList, iTrack, dxHotspot, dyHotspot);
 }
 
 bool sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, UINT fStyle)

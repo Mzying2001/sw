@@ -82,11 +82,12 @@ bool sw::DateTimePicker::SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &m
     return this->SendMessageW(DTM_SETRANGE, GDTR_MIN | GDTR_MAX, reinterpret_cast<LPARAM>(range));
 }
 
-void sw::DateTimePicker::OnNotified(NMHDR *pNMHDR)
+bool sw::DateTimePicker::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
     if (pNMHDR->code == DTN_DATETIMECHANGE) {
         this->OnTimeChanged(reinterpret_cast<NMDATETIMECHANGE *>(pNMHDR));
     }
+    return false;
 }
 
 void sw::DateTimePicker::OnTimeChanged(NMDATETIMECHANGE *pInfo)

@@ -122,6 +122,30 @@ sw::ListView::ListView()
               static int result;
               result = (int)this->SendMessageW(LVM_GETTOPINDEX, 0, 0);
               return result;
+          }),
+
+      ShareImageLists(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(LVS_SHAREIMAGELISTS);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(LVS_SHAREIMAGELISTS, value);
+          }),
+
+      Editable(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(LVS_EDITLABELS);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(LVS_EDITLABELS, value);
           })
 {
     this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT, 0);
@@ -171,7 +195,7 @@ void sw::ListView::SetTextColor(Color color, bool redraw)
     this->SendMessageW(LVM_SETTEXTCOLOR, 0, (LPARAM)(COLORREF)color);
 }
 
-bool sw::ListView::OnNotify(NMHDR *pNMHDR)
+bool sw::ListView::OnNotify(NMHDR *pNMHDR, LRESULT &result)
 {
     switch (pNMHDR->code) {
         case HDN_ITEMCLICKW: {
@@ -186,7 +210,7 @@ bool sw::ListView::OnNotify(NMHDR *pNMHDR)
     return false;
 }
 
-void sw::ListView::OnNotified(NMHDR *pNMHDR)
+bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
     switch (pNMHDR->code) {
         case LVN_ITEMCHANGED: {
@@ -201,7 +225,12 @@ void sw::ListView::OnNotified(NMHDR *pNMHDR)
             this->OnItemDoubleClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
             break;
         }
+        case LVN_ENDLABELEDITW: {
+            result = (LRESULT)this->OnEndEdit(reinterpret_cast<NMLVDISPINFOW *>(pNMHDR));
+            return true;
+        }
     }
+    return false;
 }
 
 void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
@@ -247,6 +276,17 @@ void sw::ListView::OnItemDoubleClicked(NMITEMACTIVATE *pNMIA)
 {
     ListViewItemClickedEventArgs args(ListView_ItemDoubleClicked, pNMIA->iItem, pNMIA->iSubItem);
     this->RaiseRoutedEvent(args);
+}
+
+bool sw::ListView::OnEndEdit(NMLVDISPINFOW *pNMInfo)
+{
+    if (pNMInfo->item.pszText == nullptr) {
+        return false;
+    }
+    ListViewEndEditEventArgs args(pNMInfo->item.iItem, pNMInfo->item.pszText);
+    this->RaiseRoutedEvent(args);
+    pNMInfo->item.pszText = args.newText;
+    return !args.cancel;
 }
 
 void sw::ListView::Clear()
@@ -470,6 +510,37 @@ int sw::ListView::GetItemIndexFromPoint(const Point &point)
     LVHITTESTINFO hitTestInfo{};
     hitTestInfo.pt = point;
     return (int)this->SendMessageW(LVM_HITTEST, 0, reinterpret_cast<LPARAM>(&hitTestInfo));
+}
+
+sw::ImageList sw::ListView::GetImageList(ListViewImageList imageList)
+{
+    return ImageList::Wrap((HIMAGELIST)this->SendMessageW(LVM_GETIMAGELIST, (WPARAM)imageList, 0));
+}
+
+HIMAGELIST sw::ListView::SetImageList(ListViewImageList imageList, HIMAGELIST value)
+{
+    return (HIMAGELIST)this->SendMessageW(LVM_SETIMAGELIST, (WPARAM)imageList, (LPARAM)value);
+}
+
+bool sw::ListView::SetItemImage(int index, int imgIndex)
+{
+    LVITEMW lvi;
+    lvi.mask     = LVIF_IMAGE;
+    lvi.iItem    = index;
+    lvi.iSubItem = 0;
+    lvi.iImage   = imgIndex;
+
+    return this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
+}
+
+bool sw::ListView::EditItem(int index)
+{
+    return this->SendMessageW(LVM_EDITLABELW, index, 0) != NULL;
+}
+
+void sw::ListView::CancelEdit()
+{
+    this->SendMessageW(LVM_CANCELEDITLABEL, 0, 0);
 }
 
 int sw::ListView::_GetRowCount()
