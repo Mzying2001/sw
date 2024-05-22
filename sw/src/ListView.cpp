@@ -533,6 +533,16 @@ bool sw::ListView::SetItemImage(int index, int imgIndex)
     return this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
 }
 
+bool sw::ListView::EditItem(int index)
+{
+    return this->SendMessageW(LVM_EDITLABELW, index, 0) != NULL;
+}
+
+void sw::ListView::CancelEdit()
+{
+    this->SendMessageW(LVM_CANCELEDITLABEL, 0, 0);
+}
+
 int sw::ListView::_GetRowCount()
 {
     return (int)this->SendMessageW(LVM_GETITEMCOUNT, 0, 0);

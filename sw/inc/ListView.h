@@ -372,6 +372,18 @@ namespace sw
          */
         bool SetItemImage(int index, int imgIndex);
 
+        /**
+         * @brief       进入编辑模式，调用该函数前需要将Editable属性设为true
+         * @param index 编辑项的索引
+         * @return      操作是否成功
+         */
+        bool EditItem(int index);
+
+        /**
+         * @brief 取消编辑
+         */
+        void CancelEdit();
+
     private:
         /**
          * @brief 获取行数
