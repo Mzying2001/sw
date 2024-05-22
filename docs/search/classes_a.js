@@ -10,6 +10,7 @@ var searchData=
   ['listview_7',['ListView',['../classsw_1_1_list_view.html',1,'sw']]],
   ['listviewcheckstatechangedeventargs_8',['ListViewCheckStateChangedEventArgs',['../structsw_1_1_list_view_check_state_changed_event_args.html',1,'sw']]],
   ['listviewcolumn_9',['ListViewColumn',['../structsw_1_1_list_view_column.html',1,'sw']]],
-  ['listviewheaderclickedeventargs_10',['ListViewHeaderClickedEventArgs',['../structsw_1_1_list_view_header_clicked_event_args.html',1,'sw']]],
-  ['listviewitemclickedeventargs_11',['ListViewItemClickedEventArgs',['../structsw_1_1_list_view_item_clicked_event_args.html',1,'sw']]]
+  ['listviewendediteventargs_10',['ListViewEndEditEventArgs',['../structsw_1_1_list_view_end_edit_event_args.html',1,'sw']]],
+  ['listviewheaderclickedeventargs_11',['ListViewHeaderClickedEventArgs',['../structsw_1_1_list_view_header_clicked_event_args.html',1,'sw']]],
+  ['listviewitemclickedeventargs_12',['ListViewItemClickedEventArgs',['../structsw_1_1_list_view_item_clicked_event_args.html',1,'sw']]]
 ];

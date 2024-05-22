@@ -70,6 +70,7 @@ var classsw_1_1_u_i_element =
     [ "RemoveChild", "classsw_1_1_u_i_element.html#a925353891b62cb6989410d788a8a4e90", null ],
     [ "RemoveChildAt", "classsw_1_1_u_i_element.html#a622a68f74b9122c0de9c57e547b0a62b", null ],
     [ "ResetCursor", "classsw_1_1_u_i_element.html#a421400e98ae700b0593cda2ceec5c1f7", null ],
+    [ "Resize", "classsw_1_1_u_i_element.html#aa6442acf30572cc5708fad45d227d130", null ],
     [ "SetAlignment", "classsw_1_1_u_i_element.html#a7b2f0c77c7ec5d6d68bc3c772a72201a", null ],
     [ "SetBackColor", "classsw_1_1_u_i_element.html#af60b45de9f894f4fb152491413f1fa73", null ],
     [ "SetCursor", "classsw_1_1_u_i_element.html#a0ce7edc8a920e950a9a75cf1a84ea627", null ],

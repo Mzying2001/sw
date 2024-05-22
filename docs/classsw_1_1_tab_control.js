@@ -4,7 +4,7 @@ var classsw_1_1_tab_control =
     [ "Arrange", "classsw_1_1_tab_control.html#a2826913f7180e01ec24542dd87ea8676", null ],
     [ "GetTabCount", "classsw_1_1_tab_control.html#ac52a5ebc430c68920f8ee7e7755f7f34", null ],
     [ "OnAddedChild", "classsw_1_1_tab_control.html#a6a4c0d7c81d279669765feaef0f55ecd", null ],
-    [ "OnNotified", "classsw_1_1_tab_control.html#ac0342af02418896ed6e98f6d11125348", null ],
+    [ "OnNotified", "classsw_1_1_tab_control.html#a331b4b48881bf2165f392724aa586cc3", null ],
     [ "OnRemovedChild", "classsw_1_1_tab_control.html#a1642e450b1cf606338eb85bd9f93c82c", null ],
     [ "OnSelectedIndexChanged", "classsw_1_1_tab_control.html#a654688668bdf8331e27cbe4564d6cf63", null ],
     [ "UpdateTab", "classsw_1_1_tab_control.html#acbde185af6197161f7b22485ebff02b2", null ],

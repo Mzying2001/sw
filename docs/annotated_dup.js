@@ -65,6 +65,7 @@ var annotated_dup =
       [ "ListView", "classsw_1_1_list_view.html", "classsw_1_1_list_view" ],
       [ "ListViewCheckStateChangedEventArgs", "structsw_1_1_list_view_check_state_changed_event_args.html", null ],
       [ "ListViewColumn", "structsw_1_1_list_view_column.html", "structsw_1_1_list_view_column" ],
+      [ "ListViewEndEditEventArgs", "structsw_1_1_list_view_end_edit_event_args.html", null ],
       [ "ListViewHeaderClickedEventArgs", "structsw_1_1_list_view_header_clicked_event_args.html", null ],
       [ "ListViewItemClickedEventArgs", "structsw_1_1_list_view_item_clicked_event_args.html", null ],
       [ "Menu", "classsw_1_1_menu.html", "classsw_1_1_menu" ],

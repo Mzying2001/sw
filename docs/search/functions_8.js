@@ -13,7 +13,7 @@ var searchData=
   ['insert_10',['Insert',['../classsw_1_1_list.html#a68c7aaae99a0e18274de59cad82c5743',1,'sw::List']]],
   ['insertcolumn_11',['InsertColumn',['../classsw_1_1_list_view.html#a985c48bef310cdcb10b722c9aec8ebbf',1,'sw::ListView::InsertColumn(int index, const ListViewColumn &amp;column)'],['../classsw_1_1_list_view.html#a0abf70d4eee217e060b84686f30b8a09',1,'sw::ListView::InsertColumn(int index, const std::wstring &amp;header)']]],
   ['insertitem_12',['InsertItem',['../classsw_1_1_combo_box.html#ab1cf2dc76d67d10a2088acfeb29d1398',1,'sw::ComboBox::InsertItem()'],['../classsw_1_1_items_control.html#ab4f053e3c099caf009fab48f7370ad96',1,'sw::ItemsControl::InsertItem()'],['../classsw_1_1_list_box.html#abaa05ef08a38822976373307156029b2',1,'sw::ListBox::InsertItem()'],['../classsw_1_1_list_view.html#a34425690bf39e914861b2211004c2ce1',1,'sw::ListView::InsertItem()']]],
-  ['ipaddresscontrol_13',['IPAddressControl',['../classsw_1_1_i_p_address_control.html#a015bd651f4bcdf741ab81f16cbaf155c',1,'sw::IPAddressControl']]],
+  ['ipaddresscontrol_13',['IPAddressControl',['../classsw_1_1_i_p_address_control.html#a015bd651f4bcdf741ab81f16cbaf155c',1,'sw::IPAddressControl::IPAddressControl()'],['../classsw_1_1_i_p_address_control.html#a47cbdf3446c3df0923679b4d65843a4b',1,'sw::IPAddressControl::IPAddressControl(sw::Size size)']]],
   ['iscontextmenuid_14',['IsContextMenuID',['../classsw_1_1_context_menu.html#a968f4539826715feb35237acb1ec02b3',1,'sw::ContextMenu']]],
   ['iscontrol_15',['IsControl',['../classsw_1_1_wnd_base.html#ace8f6b05caa5d335f7d574c38035bfa7',1,'sw::WndBase']]],
   ['isempty_16',['IsEmpty',['../classsw_1_1_dictionary.html#a16703bd325716445121e257ae489dcc4',1,'sw::Dictionary::IsEmpty()'],['../classsw_1_1_list.html#aed38231dffce414f40d272aba6e7099c',1,'sw::List::IsEmpty()']]],
@@ -23,5 +23,5 @@ var searchData=
   ['isroutedeventregistered_20',['IsRoutedEventRegistered',['../classsw_1_1_u_i_element.html#adf8152f31c5e109ba016316182bcec47',1,'sw::UIElement']]],
   ['isseparator_21',['IsSeparator',['../classsw_1_1_menu_item.html#a136e71998ffff40e3d165749ba7f7306',1,'sw::MenuItem']]],
   ['isvisible_22',['IsVisible',['../classsw_1_1_wnd_base.html#a6ee668e7a5261f96df0bd69a1fb868d3',1,'sw::WndBase']]],
-  ['iswrap_23',['IsWrap',['../classsw_1_1_image_list.html#a640e190d8b3710b6d234792197bb329b',1,'sw::ImageList']]]
+  ['iswrap_23',['IsWrap',['../classsw_1_1_image_list.html#a0cf385d15bc51bcd7214f3f5969b494c',1,'sw::ImageList']]]
 ];
