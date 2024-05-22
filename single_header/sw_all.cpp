@@ -84,7 +84,10 @@ static sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     []() -> const HINSTANCE & {
-        static HINSTANCE hInstance = GetModuleHandleW(NULL);
+        static HINSTANCE hInstance = NULL;
+        if (hInstance == NULL) {
+            hInstance = GetModuleHandleW(NULL);
+        }
         return hInstance;
     } //
 );
@@ -1012,11 +1015,12 @@ bool sw::DateTimePicker::SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &m
     return this->SendMessageW(DTM_SETRANGE, GDTR_MIN | GDTR_MAX, reinterpret_cast<LPARAM>(range));
 }
 
-void sw::DateTimePicker::OnNotified(NMHDR *pNMHDR)
+bool sw::DateTimePicker::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
     if (pNMHDR->code == DTN_DATETIMECHANGE) {
         this->OnTimeChanged(reinterpret_cast<NMDATETIMECHANGE *>(pNMHDR));
     }
+    return false;
 }
 
 void sw::DateTimePicker::OnTimeChanged(NMDATETIMECHANGE *pInfo)
@@ -2444,12 +2448,9 @@ void sw::ImageList::EndDrag()
     ImageList_EndDrag();
 }
 
-sw::ImageList sw::ImageList::GetDragImage(Point &pt, Point &ptHotspot)
+sw::ImageList sw::ImageList::GetDragImage(POINT *ppt, POINT *pptHotspot)
 {
-    POINT points[2];
-    HIMAGELIST h = ImageList_GetDragImage(&points[0], &points[1]);
-    pt = points[0], ptHotspot = points[1];
-    return ImageList{h, false};
+    return ImageList{ImageList_GetDragImage(ppt, pptHotspot), false};
 }
 
 sw::ImageList sw::ImageList::LoadImageA(HINSTANCE hi, LPCSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags)
@@ -2472,14 +2473,21 @@ sw::ImageList sw::ImageList::Read(IStream *pstm)
     return ImageList{ImageList_Read(pstm), false};
 }
 
-HIMAGELIST sw::ImageList::GetHandle()
+HIMAGELIST sw::ImageList::GetHandle() const
 {
     return this->_hImageList;
 }
 
-bool sw::ImageList::IsWrap()
+bool sw::ImageList::IsWrap() const
 {
     return this->_isWrap;
+}
+
+HIMAGELIST sw::ImageList::ReleaseHandle()
+{
+    HIMAGELIST result = this->_hImageList;
+    this->_hImageList = NULL;
+    return result;
 }
 
 int sw::ImageList::Add(HBITMAP hbmImage, HBITMAP hbmMask)
@@ -2487,14 +2495,19 @@ int sw::ImageList::Add(HBITMAP hbmImage, HBITMAP hbmMask)
     return ImageList_Add(this->_hImageList, hbmImage, hbmMask);
 }
 
+int sw::ImageList::AddIcon(HICON hIcon)
+{
+    return ImageList_AddIcon(this->_hImageList, hIcon);
+}
+
 int sw::ImageList::AddMasked(HBITMAP hbmImage, COLORREF crMask)
 {
     return ImageList_AddMasked(this->_hImageList, hbmImage, crMask);
 }
 
-bool sw::ImageList::BeginDrag(int iTrack, double dxHotspot, double dyHotspot)
+bool sw::ImageList::BeginDrag(int iTrack, int dxHotspot, int dyHotspot)
 {
-    return ImageList_BeginDrag(this->_hImageList, iTrack, Dip::DipToPxX(dxHotspot), Dip::DipToPxY(dyHotspot));
+    return ImageList_BeginDrag(this->_hImageList, iTrack, dxHotspot, dyHotspot);
 }
 
 bool sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, UINT fStyle)
@@ -2607,6 +2620,11 @@ void sw::ImageList::_DestroyIfNotWrap()
 // IPAddressControl.cpp
 
 sw::IPAddressControl::IPAddressControl()
+    : IPAddressControl(sw::Size{150, 24})
+{
+}
+
+sw::IPAddressControl::IPAddressControl(sw::Size size)
     : IsBlank(
           // get
           [&]() -> const bool & {
@@ -2628,7 +2646,7 @@ sw::IPAddressControl::IPAddressControl()
               this->OnAddressChanged();
           })
 {
-    this->Rect    = sw::Rect{0, 0, 150, 24};
+    this->Rect    = sw::Rect{0, 0, size.width, size.height};
     this->TabStop = true;
 
     this->InitHwndHost();
@@ -2676,11 +2694,12 @@ bool sw::IPAddressControl::OnSetFocus(HWND hPrevFocus)
     return this->HwndHost::OnSetFocus(hPrevFocus);
 }
 
-bool sw::IPAddressControl::OnNotify(NMHDR *pNMHDR)
+bool sw::IPAddressControl::OnNotify(NMHDR *pNMHDR, LRESULT &result)
 {
-    if (pNMHDR->code == IPN_FIELDCHANGED)
+    if (pNMHDR->code == IPN_FIELDCHANGED) {
         this->OnAddressChanged();
-    return this->HwndHost::OnNotify(pNMHDR);
+    }
+    return this->HwndHost::OnNotify(pNMHDR, result);
 }
 
 void sw::IPAddressControl::OnAddressChanged()
@@ -3810,6 +3829,30 @@ sw::ListView::ListView()
               static int result;
               result = (int)this->SendMessageW(LVM_GETTOPINDEX, 0, 0);
               return result;
+          }),
+
+      ShareImageLists(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(LVS_SHAREIMAGELISTS);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(LVS_SHAREIMAGELISTS, value);
+          }),
+
+      Editable(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->GetStyle(LVS_EDITLABELS);
+              return result;
+          },
+          // set
+          [&](const bool &value) {
+              this->SetStyle(LVS_EDITLABELS, value);
           })
 {
     this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT, 0);
@@ -3859,7 +3902,7 @@ void sw::ListView::SetTextColor(Color color, bool redraw)
     this->SendMessageW(LVM_SETTEXTCOLOR, 0, (LPARAM)(COLORREF)color);
 }
 
-bool sw::ListView::OnNotify(NMHDR *pNMHDR)
+bool sw::ListView::OnNotify(NMHDR *pNMHDR, LRESULT &result)
 {
     switch (pNMHDR->code) {
         case HDN_ITEMCLICKW: {
@@ -3874,7 +3917,7 @@ bool sw::ListView::OnNotify(NMHDR *pNMHDR)
     return false;
 }
 
-void sw::ListView::OnNotified(NMHDR *pNMHDR)
+bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
     switch (pNMHDR->code) {
         case LVN_ITEMCHANGED: {
@@ -3889,7 +3932,12 @@ void sw::ListView::OnNotified(NMHDR *pNMHDR)
             this->OnItemDoubleClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
             break;
         }
+        case LVN_ENDLABELEDITW: {
+            result = (LRESULT)this->OnEndEdit(reinterpret_cast<NMLVDISPINFOW *>(pNMHDR));
+            return true;
+        }
     }
+    return false;
 }
 
 void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
@@ -3935,6 +3983,17 @@ void sw::ListView::OnItemDoubleClicked(NMITEMACTIVATE *pNMIA)
 {
     ListViewItemClickedEventArgs args(ListView_ItemDoubleClicked, pNMIA->iItem, pNMIA->iSubItem);
     this->RaiseRoutedEvent(args);
+}
+
+bool sw::ListView::OnEndEdit(NMLVDISPINFOW *pNMInfo)
+{
+    if (pNMInfo->item.pszText == nullptr) {
+        return false;
+    }
+    ListViewEndEditEventArgs args(pNMInfo->item.iItem, pNMInfo->item.pszText);
+    this->RaiseRoutedEvent(args);
+    pNMInfo->item.pszText = args.newText;
+    return !args.cancel;
 }
 
 void sw::ListView::Clear()
@@ -4158,6 +4217,37 @@ int sw::ListView::GetItemIndexFromPoint(const Point &point)
     LVHITTESTINFO hitTestInfo{};
     hitTestInfo.pt = point;
     return (int)this->SendMessageW(LVM_HITTEST, 0, reinterpret_cast<LPARAM>(&hitTestInfo));
+}
+
+sw::ImageList sw::ListView::GetImageList(ListViewImageList imageList)
+{
+    return ImageList::Wrap((HIMAGELIST)this->SendMessageW(LVM_GETIMAGELIST, (WPARAM)imageList, 0));
+}
+
+HIMAGELIST sw::ListView::SetImageList(ListViewImageList imageList, HIMAGELIST value)
+{
+    return (HIMAGELIST)this->SendMessageW(LVM_SETIMAGELIST, (WPARAM)imageList, (LPARAM)value);
+}
+
+bool sw::ListView::SetItemImage(int index, int imgIndex)
+{
+    LVITEMW lvi;
+    lvi.mask     = LVIF_IMAGE;
+    lvi.iItem    = index;
+    lvi.iSubItem = 0;
+    lvi.iImage   = imgIndex;
+
+    return this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
+}
+
+bool sw::ListView::EditItem(int index)
+{
+    return this->SendMessageW(LVM_EDITLABELW, index, 0) != NULL;
+}
+
+void sw::ListView::CancelEdit()
+{
+    this->SendMessageW(LVM_CANCELEDITLABEL, 0, 0);
 }
 
 int sw::ListView::_GetRowCount()
@@ -4775,11 +4865,12 @@ void sw::MonthCalendar::SetTextColor(Color color, bool redraw)
     this->SendMessageW(MCM_SETCOLOR, MCSC_TEXT, (COLORREF)color);
 }
 
-void sw::MonthCalendar::OnNotified(NMHDR *pNMHDR)
+bool sw::MonthCalendar::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
     if (pNMHDR->code == MCN_SELCHANGE) {
         this->OnTimeChanged(reinterpret_cast<NMSELCHANGE *>(pNMHDR));
     }
+    return false;
 }
 
 void sw::MonthCalendar::OnTimeChanged(NMSELCHANGE *pInfo)
@@ -5862,7 +5953,7 @@ void sw::SysLink::Measure(const Size &availableSize)
     this->SetDesireSize(desireSize);
 }
 
-void sw::SysLink::OnNotified(NMHDR *pNMHDR)
+bool sw::SysLink::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
     switch (pNMHDR->code) {
         case NM_RETURN: {
@@ -5875,6 +5966,7 @@ void sw::SysLink::OnNotified(NMHDR *pNMHDR)
             break;
         }
     }
+    return false;
 }
 
 void sw::SysLink::OnClicked(NMLINK *pNMLink)
@@ -6097,11 +6189,12 @@ void sw::TabControl::OnRemovedChild(UIElement &element)
     this->_UpdateChildVisible();
 }
 
-void sw::TabControl::OnNotified(NMHDR *pNMHDR)
+bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
     if (pNMHDR->code == TCN_SELCHANGE) {
         this->OnSelectedIndexChanged();
     }
+    return false;
 }
 
 void sw::TabControl::OnSelectedIndexChanged()
@@ -7005,6 +7098,15 @@ void sw::UIElement::SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlign
     if (changed) {
         this->NotifyLayoutUpdated();
     }
+}
+
+void sw::UIElement::Resize(const Size &size)
+{
+    this->_origionalSize = size;
+
+    SetWindowPos(this->Handle, NULL,
+                 0, 0, Dip::DipToPxX(size.width), Dip::DipToPxY(size.height),
+                 SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
 }
 
 uint64_t sw::UIElement::GetTag()
@@ -8591,7 +8693,8 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
 
 void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
-    if (_controlInitContainer == nullptr) {
+    if (_controlInitContainer == nullptr || _controlInitContainer->_isDestroyed) {
+        delete _controlInitContainer;
         _controlInitContainer = new std::remove_reference_t<decltype(*_controlInitContainer)>;
         _controlInitContainer->InitWindow(L"", WS_POPUP, 0);
     }
@@ -8813,13 +8916,17 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_NOTIFY: {
+            LRESULT result = 0;
+
             NMHDR *pNMHDR = reinterpret_cast<NMHDR *>(refMsg.lParam);
-            bool handled  = this->OnNotify(pNMHDR);
+            bool handled  = this->OnNotify(pNMHDR, result);
 
-            WndBase *pWnd = WndBase::GetWndBase(pNMHDR->hwndFrom);
-            if (pWnd) pWnd->OnNotified(pNMHDR);
+            if (!handled) {
+                WndBase *pWnd = WndBase::GetWndBase(pNMHDR->hwndFrom);
+                if (pWnd) handled = pWnd->OnNotified(pNMHDR, result);
+            }
 
-            return handled ? 0 : this->DefaultWndProc(refMsg);
+            return handled ? result : this->DefaultWndProc(refMsg);
         }
 
         case WM_CTLCOLORMSGBOX:
@@ -9155,13 +9262,14 @@ bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
     return false;
 }
 
-bool sw::WndBase::OnNotify(NMHDR *pNMHDR)
+bool sw::WndBase::OnNotify(NMHDR *pNMHDR, LRESULT &result)
 {
     return false;
 }
 
-void sw::WndBase::OnNotified(NMHDR *pNMHDR)
+bool sw::WndBase::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
+    return false;
 }
 
 bool sw::WndBase::OnVerticalScroll(int event, int pos)

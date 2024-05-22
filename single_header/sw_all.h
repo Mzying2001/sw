@@ -1339,6 +1339,9 @@ namespace sw
         // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
         ListView_ItemDoubleClicked,
 
+        // 编辑状态结束，参数类型为sw::ListViewEndEditEventArgs
+        ListView_EndEdit,
+
         // 滑块的值被改变，参数类型为sw::RoutedEventArgs
         Slider_ValueChanged,
 
@@ -2693,6 +2696,19 @@ namespace sw
     };
 
     /**
+     * @brief 列表视图编辑状态结束事件参数类型
+     */
+    struct ListViewEndEditEventArgs : RoutedEventArgsOfType<ListView_EndEdit> {
+        bool cancel = false; // 是否取消文本更改，默认为false
+        int index;           // 被编辑项的索引
+        wchar_t *newText;    // 新的文本
+        ListViewEndEditEventArgs(int index, wchar_t *newText)
+            : index(index), newText(newText)
+        {
+        }
+    };
+
+    /**
      * @brief DateTimePicker控件时间改变事件参数类型
      */
     struct DateTimePickerTimeChangedEventArgs : RoutedEventArgsOfType<DateTimePicker_TimeChanged> {
@@ -2926,7 +2942,7 @@ namespace sw
         /**
          * @brief 获取拖拽中图像的列表，该函数调用ImageList_GetDragImage
          */
-        static ImageList GetDragImage(Point &pt, Point &ptHotspot);
+        static ImageList GetDragImage(POINT *ppt, POINT *pptHotspot);
 
         /**
          * @brief 加载图像列表，该函数调用ImageList_LoadImageA
@@ -2952,17 +2968,28 @@ namespace sw
         /**
          * @brief 获取图像列表的句柄
          */
-        HIMAGELIST GetHandle();
+        HIMAGELIST GetHandle() const;
 
         /**
          * @brief 判断当前对象是否为包装对象
          */
-        bool IsWrap();
+        bool IsWrap() const;
+
+        /**
+         * @brief  获取图像列表句柄并取消对句柄的托管，调用该函数后当前对象将不可用，析构时也不会销毁句柄
+         * @return 当前对象的图像列表句柄
+         */
+        HIMAGELIST ReleaseHandle();
 
         /**
          * @brief 添加图像，该函数调用ImageList_Add
          */
         int Add(HBITMAP hbmImage, HBITMAP hbmMask);
+
+        /**
+         * @brief 添加图标，该函数调用ImageList_AddIcon
+         */
+        int AddIcon(HICON hIcon);
 
         /**
          * @brief 添加图像，指定颜色为mask，该函数调用ImageList_AddMasked
@@ -2972,7 +2999,7 @@ namespace sw
         /**
          * @brief 开始拖拽图像，该函数调用ImageList_BeginDrag
          */
-        bool BeginDrag(int iTrack, double dxHotspot, double dyHotspot);
+        bool BeginDrag(int iTrack, int dxHotspot, int dyHotspot);
 
         /**
          * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_Draw
@@ -3842,14 +3869,18 @@ namespace sw
         /**
          * @brief        接收到WM_NOTIFY后调用该函数
          * @param pNMHDR 包含有关通知消息的信息
-         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param result 函数返回值为true时将该值作为消息的返回值，默认值为0
+         * @return       若已处理该消息则返回true，否则调用发出通知控件的OnNotified函数，依据其返回值判断是否调用DefaultWndProc
          */
-        virtual bool OnNotify(NMHDR *pNMHDR);
+        virtual bool OnNotify(NMHDR *pNMHDR, LRESULT &result);
 
         /**
-         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnNotified(NMHDR *pNMHDR);
+        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result);
 
         /**
          * @brief       接收到WM_VSCROLL时调用目标控件的该函数
@@ -5405,6 +5436,11 @@ namespace sw
         void SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlignment vert);
 
         /**
+         * @brief 调整当前元素的尺寸，也可以用该函数更改默认Measure函数在当前横向或纵向对齐方式为拉伸时的DesireSize
+         */
+        void Resize(const Size &size);
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;
@@ -6398,9 +6434,12 @@ namespace sw
 
     protected:
         /**
-         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnNotified(NMHDR *pNMHDR) override;
+        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
          * @brief       当前控件表示的时间改变时调用该函数
@@ -6726,9 +6765,12 @@ namespace sw
         virtual void SetTextColor(Color color, bool redraw) override;
 
         /**
-         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnNotified(NMHDR *pNMHDR) override;
+        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
          * @brief       当前控件表示的时间改变时调用该函数
@@ -7070,9 +7112,12 @@ namespace sw
         virtual void Measure(const Size &availableSize) override;
 
         /**
-         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnNotified(NMHDR *pNMHDR) override;
+        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
          * @brief         链接被单击时调用该函数
@@ -7176,9 +7221,12 @@ namespace sw
         virtual void OnRemovedChild(UIElement &element) override;
 
         /**
-         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnNotified(NMHDR *pNMHDR) override;
+        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
          * @brief SelectedIndex属性更改时调用该函数
@@ -8361,6 +8409,16 @@ namespace sw
 namespace sw
 {
     /**
+     * @brief 列表视图的图像列表枚举
+     */
+    enum class ListViewImageList {
+        Normal      = LVSIL_NORMAL,      // 包含大图标的图像列表
+        Small       = LVSIL_SMALL,       // 包含小图标的图像列表
+        State       = LVSIL_STATE,       // 包含状态图像的图像列表
+        GroupHeader = LVSIL_GROUPHEADER, // 组标头的图像列表
+    };
+
+    /**
      * @brief 列表视图的列对齐方式
      */
     enum class ListViewColumnAlignment {
@@ -8388,9 +8446,24 @@ namespace sw
          */
         ListViewColumnAlignment alignment = ListViewColumnAlignment::Left;
 
+        /**
+         * @brief 构造函数
+         */
         ListViewColumn(const std::wstring &header);
+
+        /**
+         * @brief 构造函数
+         */
         ListViewColumn(const std::wstring &header, double width);
+
+        /**
+         * @brief 从LVCOLUMNW构造
+         */
         ListViewColumn(const LVCOLUMNW &lvc);
+
+        /**
+         * @brief 隐式转换LVCOLUMNW
+         */
         operator LVCOLUMNW() const;
     };
 
@@ -8429,6 +8502,16 @@ namespace sw
          * @brief 当前列表框页面第一个子项的索引
          */
         const ReadOnlyProperty<int> TopIndex;
+
+        /**
+         * @brief 允许将同一图像列表与多个列表视图控件配合使用，控件销毁时若该属性为true则不会销毁图像列表
+         */
+        const Property<bool> ShareImageLists;
+
+        /**
+         * @brief 是否允许编辑
+         */
+        const Property<bool> Editable;
 
     public:
         /**
@@ -8474,14 +8557,18 @@ namespace sw
         /**
          * @brief        接收到WM_NOTIFY后调用该函数
          * @param pNMHDR 包含有关通知消息的信息
-         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param result 函数返回值为true时将该值作为消息的返回值，默认值为0
+         * @return       若已处理该消息则返回true，否则调用发出通知控件的OnNotified函数，依据其返回值判断是否调用DefaultWndProc
          */
-        virtual bool OnNotify(NMHDR *pNMHDR) override;
+        virtual bool OnNotify(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
-         * @brief 父窗口接收到WM_NOTIFY后调用发出通知控件的该函数
+         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnNotified(NMHDR *pNMHDR) override;
+        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
          * @brief 列表项某些属性发生变化时调用该函数
@@ -8513,6 +8600,12 @@ namespace sw
          * @brief 鼠标左键双击某一项调用该函数
          */
         virtual void OnItemDoubleClicked(NMITEMACTIVATE *pNMIA);
+
+        /**
+         * @brief  编辑状态结束后调用该函数
+         * @return 是否应用新文本
+         */
+        virtual bool OnEndEdit(NMLVDISPINFOW *pNMInfo);
 
     public:
         /**
@@ -8657,6 +8750,40 @@ namespace sw
          * @param point 相对于用户区左上角点的位置
          */
         int GetItemIndexFromPoint(const Point &point);
+
+        /**
+         * @brief           获取列表视图的图像列表
+         * @param imageList 要获取的图像列表类型
+         */
+        ImageList GetImageList(ListViewImageList imageList);
+
+        /**
+         * @brief           设置列表视图的图像列表
+         * @param imageList 要设置的图像列表类型
+         * @param value     要设置的图像列表的句柄
+         * @return          若函数成功则返回之前与控件关联的图像列表，否则返回NULL
+         */
+        HIMAGELIST SetImageList(ListViewImageList imageList, HIMAGELIST value);
+
+        /**
+         * @brief          设置指定子项的图像
+         * @param index    子项的索引
+         * @param imgIndex 图像在图像列表中的索引
+         * @return         操作是否成功
+         */
+        bool SetItemImage(int index, int imgIndex);
+
+        /**
+         * @brief       进入编辑模式，调用该函数前需要将Editable属性设为true
+         * @param index 编辑项的索引
+         * @return      操作是否成功
+         */
+        bool EditItem(int index);
+
+        /**
+         * @brief 取消编辑
+         */
+        void CancelEdit();
 
     private:
         /**
@@ -9063,6 +9190,11 @@ namespace sw
         IPAddressControl();
 
         /**
+         * @brief 初始化IP地址框，并设置控件尺寸
+         */
+        explicit IPAddressControl(sw::Size size);
+
+        /**
          * @brief 清空输入的内容
          */
         void Clear();
@@ -9106,9 +9238,10 @@ namespace sw
         /**
          * @brief        接收到WM_NOTIFY后调用该函数
          * @param pNMHDR 包含有关通知消息的信息
-         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param result 函数返回值为true时将该值作为消息的返回值，默认值为0
+         * @return       若已处理该消息则返回true，否则调用发出通知控件的OnNotified函数，依据其返回值判断是否调用DefaultWndProc
          */
-        virtual bool OnNotify(NMHDR *pNMHDR) override;
+        virtual bool OnNotify(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
          * @brief 地址改变时调用该函数
