@@ -199,6 +199,14 @@ sw::Window::Window()
           [&](sw::Menu *const &value) {
               this->_menu = value;
               SetMenu(this->Handle, value != nullptr ? value->GetHandle() : NULL);
+          }),
+
+      IsModal(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->_modalOwner != nullptr;
+              return result;
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
@@ -215,7 +223,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 
         case WM_DESTROY: {
             // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
-            if (this->IsModal()) {
+            if (this->IsModal) {
                 App::QuitMsgLoop();
             }
             // 所有窗口都关闭时若App::QuitMode为Auto则退出主消息循环
@@ -366,7 +374,7 @@ void sw::Window::OnFirstShow()
         rect.top      = (Screen::Height - rect.height) / 2;
         this->Rect    = rect;
     } else if (this->_startupLocation == WindowStartupLocation::CenterOwner) {
-        if (this->IsModal()) {
+        if (this->IsModal) {
             sw::Rect windowRect = this->Rect;
             sw::Rect ownerRect  = this->_modalOwner->Rect;
             windowRect.left     = ownerRect.left + (ownerRect.width - windowRect.width) / 2;
@@ -430,7 +438,7 @@ void sw::Window::Show()
 
 void sw::Window::ShowDialog(Window &owner)
 {
-    if (this->IsModal() || this == &owner || this->IsDestroyed) {
+    if (this == &owner || this->IsModal || this->IsDestroyed) {
         return;
     }
 
@@ -458,11 +466,6 @@ void sw::Window::SetIcon(HICON hIcon)
 void sw::Window::DrawMenuBar()
 {
     ::DrawMenuBar(this->Handle);
-}
-
-bool sw::Window::IsModal()
-{
-    return this->_modalOwner != nullptr;
 }
 
 void sw::Window::SizeToContent()
