@@ -390,9 +390,10 @@ void sw::Window::OnFirstShow()
         rect.top      = (Screen::Height - rect.height) / 2;
         this->Rect    = rect;
     } else if (this->_startupLocation == WindowStartupLocation::CenterOwner) {
-        if (this->IsModal) {
+        Window *owner = this->Owner;
+        if (owner) {
             sw::Rect windowRect = this->Rect;
-            sw::Rect ownerRect  = this->_modalOwner->Rect;
+            sw::Rect ownerRect  = owner->Rect;
             windowRect.left     = ownerRect.left + (ownerRect.width - windowRect.width) / 2;
             windowRect.top      = ownerRect.top + (ownerRect.height - windowRect.height) / 2;
             this->Rect          = windowRect;
