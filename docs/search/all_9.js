@@ -30,7 +30,7 @@ var searchData=
   ['iseditable_27',['IsEditable',['../classsw_1_1_combo_box.html#aa495a8136f05548a3e26bdf3e0612a8f',1,'sw::ComboBox']]],
   ['isempty_28',['IsEmpty',['../classsw_1_1_dictionary.html#a16703bd325716445121e257ae489dcc4',1,'sw::Dictionary::IsEmpty()'],['../classsw_1_1_list.html#aed38231dffce414f40d272aba6e7099c',1,'sw::List::IsEmpty()']]],
   ['islayoutdisabled_29',['IsLayoutDisabled',['../classsw_1_1_layer.html#aad286771872cc835570d7f6508772a20',1,'sw::Layer']]],
-  ['ismodal_30',['IsModal',['../classsw_1_1_window.html#a1cdd78ebe0571b1c9bb49403ed8d8381',1,'sw::Window']]],
+  ['ismodal_30',['IsModal',['../classsw_1_1_window.html#a709b4ecc32fb2dccb7c12dd24078aed8',1,'sw::Window']]],
   ['isplaying_31',['IsPlaying',['../classsw_1_1_animation.html#a2b255ea3d4b90630726ecb47b1b08eb1',1,'sw::Animation']]],
   ['isrootelement_32',['IsRootElement',['../classsw_1_1_u_i_element.html#a67bd7d81e6091118e4c97cc24c68543d',1,'sw::UIElement']]],
   ['isroutedeventregistered_33',['IsRoutedEventRegistered',['../classsw_1_1_u_i_element.html#adf8152f31c5e109ba016316182bcec47',1,'sw::UIElement']]],

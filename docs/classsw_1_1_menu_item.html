@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>SimpleWindow: sw::MenuItem类 参考</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -11,9 +11,9 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -35,10 +35,15 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.10.0 -->
+<!-- 制作者 Doxygen 1.12.0 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -46,7 +51,7 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(function() {
-  initMenu('',true,false,'search.php','搜索');
+  initMenu('',true,false,'search.php','搜索',true);
   $(function() { init_search(); });
 });
 /* @license-end */
@@ -65,7 +70,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('classsw_1_1_menu_item.html',''); initResizable(); });
+$(function(){initNavTree('classsw_1_1_menu_item.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -115,48 +120,49 @@ $(function(){initNavTree('classsw_1_1_menu_item.html',''); initResizable(); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
-<tr class="memitem:a45cb03eb9423fbe1c187f237ec89377a" id="r_a45cb03eb9423fbe1c187f237ec89377a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45cb03eb9423fbe1c187f237ec89377a">MenuItem</a> (<a class="el" href="classsw_1_1_dictionary.html">const</a> std::wstring &amp;<a class="el" href="#a0f67fc28cb879876a328495035031979">text</a>)</td></tr>
+<tr class="memitem:a45cb03eb9423fbe1c187f237ec89377a" id="r_a45cb03eb9423fbe1c187f237ec89377a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45cb03eb9423fbe1c187f237ec89377a">MenuItem</a> (const std::wstring &amp;<a class="el" href="#a0f67fc28cb879876a328495035031979">text</a>)</td></tr>
 <tr class="memdesc:a45cb03eb9423fbe1c187f237ec89377a"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造一个MenuItem，并设置文本  <br /></td></tr>
 <tr class="separator:a45cb03eb9423fbe1c187f237ec89377a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc23694c9e8b0cba6910f360e96e07ac" id="r_afc23694c9e8b0cba6910f360e96e07ac"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc23694c9e8b0cba6910f360e96e07ac">MenuItem</a> (<a class="el" href="classsw_1_1_dictionary.html">const</a> std::wstring &amp;<a class="el" href="#a0f67fc28cb879876a328495035031979">text</a>, <a class="el" href="classsw_1_1_dictionary.html">const</a> MenuItemCommand &amp;<a class="el" href="#a2a89a577f6cc2eafe9b6d55eb3c9c8ee">command</a>)</td></tr>
+<tr class="memitem:afc23694c9e8b0cba6910f360e96e07ac" id="r_afc23694c9e8b0cba6910f360e96e07ac"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc23694c9e8b0cba6910f360e96e07ac">MenuItem</a> (const std::wstring &amp;<a class="el" href="#a0f67fc28cb879876a328495035031979">text</a>, const MenuItemCommand &amp;<a class="el" href="#a2a89a577f6cc2eafe9b6d55eb3c9c8ee">command</a>)</td></tr>
 <tr class="memdesc:afc23694c9e8b0cba6910f360e96e07ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造一个MenuItem，并设置其回调函数  <br /></td></tr>
 <tr class="separator:afc23694c9e8b0cba6910f360e96e07ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af68934d85fe10b3b01bf4038d66275e4" id="r_af68934d85fe10b3b01bf4038d66275e4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af68934d85fe10b3b01bf4038d66275e4">MenuItem</a> (<a class="el" href="classsw_1_1_dictionary.html">const</a> std::wstring &amp;<a class="el" href="#a0f67fc28cb879876a328495035031979">text</a>, std::initializer_list&lt; <a class="el" href="classsw_1_1_menu_item.html">MenuItem</a> &gt; <a class="el" href="#ac8e01802bb6cc6f1336025819050f3c4">subItems</a>)</td></tr>
+<tr class="memitem:af68934d85fe10b3b01bf4038d66275e4" id="r_af68934d85fe10b3b01bf4038d66275e4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af68934d85fe10b3b01bf4038d66275e4">MenuItem</a> (const std::wstring &amp;<a class="el" href="#a0f67fc28cb879876a328495035031979">text</a>, std::initializer_list&lt; <a class="el" href="classsw_1_1_menu_item.html">MenuItem</a> &gt; <a class="el" href="#ac8e01802bb6cc6f1336025819050f3c4">subItems</a>)</td></tr>
 <tr class="memdesc:af68934d85fe10b3b01bf4038d66275e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造一个MenuItem，并设置其子项  <br /></td></tr>
 <tr class="separator:af68934d85fe10b3b01bf4038d66275e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a202803354be2beb12a1cf1aa5cab00b6" id="r_a202803354be2beb12a1cf1aa5cab00b6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a202803354be2beb12a1cf1aa5cab00b6">MenuItem</a> (<a class="el" href="classsw_1_1_dictionary.html">uint64_t</a> <a class="el" href="#a71e23c18ace7346f28415ed747d80905">tag</a>, <a class="el" href="classsw_1_1_dictionary.html">const</a> std::wstring &amp;<a class="el" href="#a0f67fc28cb879876a328495035031979">text</a>)</td></tr>
+<tr class="memitem:a202803354be2beb12a1cf1aa5cab00b6" id="r_a202803354be2beb12a1cf1aa5cab00b6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a202803354be2beb12a1cf1aa5cab00b6">MenuItem</a> (uint64_t <a class="el" href="#a71e23c18ace7346f28415ed747d80905">tag</a>, const std::wstring &amp;<a class="el" href="#a0f67fc28cb879876a328495035031979">text</a>)</td></tr>
 <tr class="memdesc:a202803354be2beb12a1cf1aa5cab00b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造一个MenuItem，并设置tag及文本  <br /></td></tr>
 <tr class="separator:a202803354be2beb12a1cf1aa5cab00b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5abf91fc5b59265e48a5add77b6030c1" id="r_a5abf91fc5b59265e48a5add77b6030c1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5abf91fc5b59265e48a5add77b6030c1">MenuItem</a> (<a class="el" href="classsw_1_1_dictionary.html">uint64_t</a> <a class="el" href="#a71e23c18ace7346f28415ed747d80905">tag</a>, <a class="el" href="classsw_1_1_dictionary.html">const</a> std::wstring &amp;<a class="el" href="#a0f67fc28cb879876a328495035031979">text</a>, <a class="el" href="classsw_1_1_dictionary.html">const</a> MenuItemCommand &amp;<a class="el" href="#a2a89a577f6cc2eafe9b6d55eb3c9c8ee">command</a>)</td></tr>
+<tr class="memitem:a5abf91fc5b59265e48a5add77b6030c1" id="r_a5abf91fc5b59265e48a5add77b6030c1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5abf91fc5b59265e48a5add77b6030c1">MenuItem</a> (uint64_t <a class="el" href="#a71e23c18ace7346f28415ed747d80905">tag</a>, const std::wstring &amp;<a class="el" href="#a0f67fc28cb879876a328495035031979">text</a>, const MenuItemCommand &amp;<a class="el" href="#a2a89a577f6cc2eafe9b6d55eb3c9c8ee">command</a>)</td></tr>
 <tr class="memdesc:a5abf91fc5b59265e48a5add77b6030c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造一个MenuItem，并设置tag及回调函数  <br /></td></tr>
 <tr class="separator:a5abf91fc5b59265e48a5add77b6030c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a140ecb317179de2ed111974666bae1" id="r_a8a140ecb317179de2ed111974666bae1"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> T &gt; </td></tr>
-<tr class="memitem:a8a140ecb317179de2ed111974666bae1"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8a140ecb317179de2ed111974666bae1">MenuItem</a> (<a class="el" href="classsw_1_1_dictionary.html">const</a> std::wstring &amp;<a class="el" href="#a0f67fc28cb879876a328495035031979">text</a>, T &amp;<a class="el" href="classsw_1_1_dictionary.html">obj</a>, <a class="el" href="classsw_1_1_dictionary.html">void</a>(T::*<a class="el" href="classsw_1_1_dictionary.html">handler</a>)(<a class="el" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;))</td></tr>
+<tr class="memitem:a8a140ecb317179de2ed111974666bae1" id="r_a8a140ecb317179de2ed111974666bae1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a8a140ecb317179de2ed111974666bae1"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8a140ecb317179de2ed111974666bae1">MenuItem</a> (const std::wstring &amp;<a class="el" href="#a0f67fc28cb879876a328495035031979">text</a>, T &amp;obj, void(T::*handler)(<a class="el" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;))</td></tr>
 <tr class="memdesc:a8a140ecb317179de2ed111974666bae1"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造一个MenuItem，设置成员函数为回调函数  <br /></td></tr>
 <tr class="separator:a8a140ecb317179de2ed111974666bae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89486612b9f4dde7765430494bd9e034" id="r_a89486612b9f4dde7765430494bd9e034"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> T &gt; </td></tr>
-<tr class="memitem:a89486612b9f4dde7765430494bd9e034"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a89486612b9f4dde7765430494bd9e034">MenuItem</a> (<a class="el" href="classsw_1_1_dictionary.html">uint64_t</a> <a class="el" href="#a71e23c18ace7346f28415ed747d80905">tag</a>, <a class="el" href="classsw_1_1_dictionary.html">const</a> std::wstring &amp;<a class="el" href="#a0f67fc28cb879876a328495035031979">text</a>, T &amp;<a class="el" href="classsw_1_1_dictionary.html">obj</a>, <a class="el" href="classsw_1_1_dictionary.html">void</a>(T::*<a class="el" href="classsw_1_1_dictionary.html">handler</a>)(<a class="el" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;))</td></tr>
+<tr class="memitem:a89486612b9f4dde7765430494bd9e034" id="r_a89486612b9f4dde7765430494bd9e034"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a89486612b9f4dde7765430494bd9e034"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a89486612b9f4dde7765430494bd9e034">MenuItem</a> (uint64_t <a class="el" href="#a71e23c18ace7346f28415ed747d80905">tag</a>, const std::wstring &amp;<a class="el" href="#a0f67fc28cb879876a328495035031979">text</a>, T &amp;obj, void(T::*handler)(<a class="el" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;))</td></tr>
 <tr class="memdesc:a89486612b9f4dde7765430494bd9e034"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造一个MenuItem，设置成员函数为回调函数  <br /></td></tr>
 <tr class="separator:a89486612b9f4dde7765430494bd9e034"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a136e71998ffff40e3d165749ba7f7306" id="r_a136e71998ffff40e3d165749ba7f7306"><td class="memItemLeft" align="right" valign="top"><a id="a136e71998ffff40e3d165749ba7f7306" name="a136e71998ffff40e3d165749ba7f7306"></a>
-<a class="el" href="classsw_1_1_dictionary.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>IsSeparator</b> () <a class="el" href="classsw_1_1_dictionary.html">const</a></td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsSeparator</b> () const</td></tr>
 <tr class="memdesc:a136e71998ffff40e3d165749ba7f7306"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取一个值，表示当前菜单项是否为分隔条 <br /></td></tr>
 <tr class="separator:a136e71998ffff40e3d165749ba7f7306"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b1b34eaed41f83ca8e6072c0db486a0" id="r_a1b1b34eaed41f83ca8e6072c0db486a0"><td class="memItemLeft" align="right" valign="top"><a id="a1b1b34eaed41f83ca8e6072c0db486a0" name="a1b1b34eaed41f83ca8e6072c0db486a0"></a>
-<a class="el" href="classsw_1_1_dictionary.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>CallCommand</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>CallCommand</b> ()</td></tr>
 <tr class="memdesc:a1b1b34eaed41f83ca8e6072c0db486a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">调用command <br /></td></tr>
 <tr class="separator:a1b1b34eaed41f83ca8e6072c0db486a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1187cb70902ab261b8302e7c0c561da9" id="r_a1187cb70902ab261b8302e7c0c561da9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1_dictionary.html">virtual</a> <a class="el" href="classsw_1_1_dictionary.html">uint64_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1187cb70902ab261b8302e7c0c561da9">GetTag</a> () <a class="el" href="classsw_1_1_dictionary.html">override</a></td></tr>
+<tr class="memitem:a1187cb70902ab261b8302e7c0c561da9" id="r_a1187cb70902ab261b8302e7c0c561da9"><td class="memItemLeft" align="right" valign="top">virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1187cb70902ab261b8302e7c0c561da9">GetTag</a> () override</td></tr>
 <tr class="memdesc:a1187cb70902ab261b8302e7c0c561da9"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取Tag  <br /></td></tr>
 <tr class="separator:a1187cb70902ab261b8302e7c0c561da9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0b1236f09532f993324f76c07c7b8c7" id="r_ab0b1236f09532f993324f76c07c7b8c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1_dictionary.html">virtual</a> <a class="el" href="classsw_1_1_dictionary.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab0b1236f09532f993324f76c07c7b8c7">SetTag</a> (<a class="el" href="classsw_1_1_dictionary.html">uint64_t</a> <a class="el" href="#a71e23c18ace7346f28415ed747d80905">tag</a>) <a class="el" href="classsw_1_1_dictionary.html">override</a></td></tr>
+<tr class="memitem:ab0b1236f09532f993324f76c07c7b8c7" id="r_ab0b1236f09532f993324f76c07c7b8c7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab0b1236f09532f993324f76c07c7b8c7">SetTag</a> (uint64_t <a class="el" href="#a71e23c18ace7346f28415ed747d80905">tag</a>) override</td></tr>
 <tr class="memdesc:ab0b1236f09532f993324f76c07c7b8c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置Tag  <br /></td></tr>
 <tr class="separator:ab0b1236f09532f993324f76c07c7b8c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsw_1_1_i_tag"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classsw_1_1_i_tag')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1_i_tag.html">sw::ITag</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public 属性</h2></td></tr>
 <tr class="memitem:a71e23c18ace7346f28415ed747d80905" id="r_a71e23c18ace7346f28415ed747d80905"><td class="memItemLeft" align="right" valign="top"><a id="a71e23c18ace7346f28415ed747d80905" name="a71e23c18ace7346f28415ed747d80905"></a>
-<a class="el" href="classsw_1_1_dictionary.html">uint64_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>tag</b></td></tr>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>tag</b></td></tr>
 <tr class="memdesc:a71e23c18ace7346f28415ed747d80905"><td class="mdescLeft">&#160;</td><td class="mdescRight">储存用户自定义信息 <br /></td></tr>
 <tr class="separator:a71e23c18ace7346f28415ed747d80905"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f67fc28cb879876a328495035031979" id="r_a0f67fc28cb879876a328495035031979"><td class="memItemLeft" align="right" valign="top"><a id="a0f67fc28cb879876a328495035031979" name="a0f67fc28cb879876a328495035031979"></a>
@@ -184,7 +190,7 @@ std::vector&lt; std::shared_ptr&lt; <a class="el" href="classsw_1_1_menu_item.ht
         <tr>
           <td class="memname">sw::MenuItem::MenuItem </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">const</a> std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span></td><td>)</td>
+          <td class="paramtype">const std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -209,12 +215,12 @@ std::vector&lt; std::shared_ptr&lt; <a class="el" href="classsw_1_1_menu_item.ht
         <tr>
           <td class="memname">sw::MenuItem::MenuItem </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">const</a> std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em>, </span></td>
+          <td class="paramtype">const std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">const</a> MenuItemCommand &amp;</td>          <td class="paramname"><span class="paramname"><em>command</em></span>&#160;)</td>
+          <td class="paramtype">const MenuItemCommand &amp;</td>          <td class="paramname"><span class="paramname"><em>command</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -239,7 +245,7 @@ std::vector&lt; std::shared_ptr&lt; <a class="el" href="classsw_1_1_menu_item.ht
         <tr>
           <td class="memname">sw::MenuItem::MenuItem </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">const</a> std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em>, </span></td>
+          <td class="paramtype">const std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -269,12 +275,12 @@ std::vector&lt; std::shared_ptr&lt; <a class="el" href="classsw_1_1_menu_item.ht
         <tr>
           <td class="memname">sw::MenuItem::MenuItem </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">uint64_t</a></td>          <td class="paramname"><span class="paramname"><em>tag</em>, </span></td>
+          <td class="paramtype">uint64_t</td>          <td class="paramname"><span class="paramname"><em>tag</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">const</a> std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span>&#160;)</td>
+          <td class="paramtype">const std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -298,17 +304,17 @@ std::vector&lt; std::shared_ptr&lt; <a class="el" href="classsw_1_1_menu_item.ht
         <tr>
           <td class="memname">sw::MenuItem::MenuItem </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">uint64_t</a></td>          <td class="paramname"><span class="paramname"><em>tag</em>, </span></td>
+          <td class="paramtype">uint64_t</td>          <td class="paramname"><span class="paramname"><em>tag</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">const</a> std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em>, </span></td>
+          <td class="paramtype">const std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">const</a> MenuItemCommand &amp;</td>          <td class="paramname"><span class="paramname"><em>command</em></span>&#160;)</td>
+          <td class="paramtype">const MenuItemCommand &amp;</td>          <td class="paramname"><span class="paramname"><em>command</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -330,7 +336,7 @@ std::vector&lt; std::shared_ptr&lt; <a class="el" href="classsw_1_1_menu_item.ht
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> T &gt; </div>
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -338,17 +344,17 @@ template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> T &gt;
         <tr>
           <td class="memname">sw::MenuItem::MenuItem </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">const</a> std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em>, </span></td>
+          <td class="paramtype">const std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T &amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em>, </span></td>
+          <td class="paramtype">T &amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">void</a>(T::*)(<a class="el" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;)</td>          <td class="paramname"><span class="paramname"><em>handler</em></span>&#160;)</td>
+          <td class="paramtype">void(T::*</td>          <td class="paramname"><span class="paramname"><em>handler&#160;</em></span>)(<a class="el" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;)&#160;)</td>
         </tr>
       </table>
   </td>
@@ -381,7 +387,7 @@ template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> T &gt;
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> T &gt; </div>
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -389,22 +395,22 @@ template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> T &gt;
         <tr>
           <td class="memname">sw::MenuItem::MenuItem </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">uint64_t</a></td>          <td class="paramname"><span class="paramname"><em>tag</em>, </span></td>
+          <td class="paramtype">uint64_t</td>          <td class="paramname"><span class="paramname"><em>tag</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">const</a> std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em>, </span></td>
+          <td class="paramtype">const std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T &amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em>, </span></td>
+          <td class="paramtype">T &amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">void</a>(T::*)(<a class="el" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;)</td>          <td class="paramname"><span class="paramname"><em>handler</em></span>&#160;)</td>
+          <td class="paramtype">void(T::*</td>          <td class="paramname"><span class="paramname"><em>handler&#160;</em></span>)(<a class="el" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;)&#160;)</td>
         </tr>
       </table>
   </td>
@@ -442,9 +448,9 @@ template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> T &gt;
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1_dictionary.html">virtual</a> <a class="el" href="classsw_1_1_dictionary.html">uint64_t</a> sw::MenuItem::GetTag </td>
+          <td class="memname">virtual uint64_t sw::MenuItem::GetTag </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -471,9 +477,9 @@ template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> T &gt;
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1_dictionary.html">virtual</a> <a class="el" href="classsw_1_1_dictionary.html">void</a> sw::MenuItem::SetTag </td>
+          <td class="memname">virtual void sw::MenuItem::SetTag </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">uint64_t</a></td>          <td class="paramname"><span class="paramname"><em>tag</em></span></td><td>)</td>
+          <td class="paramtype">uint64_t</td>          <td class="paramname"><span class="paramname"><em>tag</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -499,7 +505,7 @@ template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> T &gt;
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>sw</b></li><li class="navelem"><a class="el" href="classsw_1_1_menu_item.html">MenuItem</a></li>
-    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>SimpleWindow: MenuBase.h 源文件</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -11,9 +11,9 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -35,10 +35,15 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.10.0 -->
+<!-- 制作者 Doxygen 1.12.0 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -46,17 +51,12 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(function() {
-  initMenu('',true,false,'search.php','搜索');
+  initMenu('',true,false,'search.php','搜索',true);
   $(function() { init_search(); });
 });
 /* @license-end */
 </script>
 <div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
-</script>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -70,7 +70,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('_menu_base_8h_source.html',''); initResizable(); });
+$(function(){initNavTree('_menu_base_8h_source.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -116,24 +116,24 @@ $(function(){initNavTree('_menu_base_8h_source.html',''); initResizable(); });
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    {</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keyword">private</span>:</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keyword">struct </span>_MenuItemDependencyInfo {</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            <a class="code hl_class" href="classsw_1_1_dictionary.html">HMENU</a> hParent; <span class="comment">// 所在菜单的句柄</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            <a class="code hl_class" href="classsw_1_1_dictionary.html">HMENU</a> hSelf;   <span class="comment">// 若本身含有子项，则此项为本身的菜单句柄，否则为NULL</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            HMENU hParent; <span class="comment">// 所在菜单的句柄</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            HMENU hSelf;   <span class="comment">// 若本身含有子项，则此项为本身的菜单句柄，否则为NULL</span></div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            <span class="keywordtype">int</span> index;     <span class="comment">// 所在菜单中的索引</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        };</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <a class="code hl_class" href="classsw_1_1_dictionary.html">HMENU</a> _hMenu = <a class="code hl_class" href="classsw_1_1_dictionary.html">NULL</a>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        HMENU _hMenu = NULL;</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        std::vector&lt;std::shared_ptr&lt;MenuItem&gt;&gt; _items;</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        std::vector&lt;std::tuple&lt;std::shared_ptr&lt;MenuItem&gt;, <a class="code hl_class" href="classsw_1_1_dictionary.html">HMENU</a>&gt;&gt; _popupMenus;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        std::vector&lt;std::tuple&lt;std::shared_ptr&lt;MenuItem&gt;, HMENU&gt;&gt; _popupMenus;</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        std::vector&lt;std::shared_ptr&lt;MenuItem&gt;&gt; _ids;</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        std::map&lt;MenuItem *, _MenuItemDependencyInfo&gt; _dependencyInfoMap;</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keyword">protected</span>:</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">   58</a></span>        <a class="code hl_function" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">MenuBase</a>(<a class="code hl_class" href="classsw_1_1_dictionary.html">HMENU</a> <a class="code hl_class" href="classsw_1_1_dictionary.html">hMenu</a>);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">   58</a></span>        <a class="code hl_function" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">MenuBase</a>(HMENU hMenu);</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <a class="code hl_function" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">MenuBase</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_menu_base.html">MenuBase</a> &amp;)            = <span class="keyword">delete</span>; <span class="comment">// 删除拷贝构造函数</span></div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <a class="code hl_function" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">MenuBase</a>(<a class="code hl_class" href="classsw_1_1_menu_base.html">MenuBase</a> &amp;&amp;)                 = <span class="keyword">delete</span>; <span class="comment">// 删除移动构造函数</span></div>
@@ -143,52 +143,52 @@ $(function(){initNavTree('_menu_base_8h_source.html',''); initResizable(); });
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keyword">public</span>:</div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a5e53085e7078b090cabf8998d6146831">   69</a></span>        <span class="keyword">virtual</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a5e53085e7078b090cabf8998d6146831">~MenuBase</a>();</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a7f18755d0245d1e8c536438b5ec99093">   74</a></span>        <a class="code hl_class" href="classsw_1_1_dictionary.html">HMENU</a> <a class="code hl_function" href="classsw_1_1_menu_base.html#a7f18755d0245d1e8c536438b5ec99093">GetHandle</a>();</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a7f18755d0245d1e8c536438b5ec99093">   74</a></span>        HMENU <a class="code hl_function" href="classsw_1_1_menu_base.html#a7f18755d0245d1e8c536438b5ec99093">GetHandle</a>();</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#aa5e31e8a7e3f1744fec35acfdce47b2e">   79</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#aa5e31e8a7e3f1744fec35acfdce47b2e">Update</a>();</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a1aec7eb5fee274eed8a9a49179383a94">   84</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a1aec7eb5fee274eed8a9a49179383a94">SetItems</a>(std::initializer_list&lt;MenuItem&gt; <a class="code hl_class" href="classsw_1_1_dictionary.html">items</a>);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a1aec7eb5fee274eed8a9a49179383a94">   84</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a1aec7eb5fee274eed8a9a49179383a94">SetItems</a>(std::initializer_list&lt;MenuItem&gt; items);</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a2f4d2832b6bcc759e291a99278b3eb12">   92</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a2f4d2832b6bcc759e291a99278b3eb12">SetSubItems</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">item</a>, std::initializer_list&lt;MenuItem&gt; subItems);</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a2f4d2832b6bcc759e291a99278b3eb12">   92</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a2f4d2832b6bcc759e291a99278b3eb12">SetSubItems</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, std::initializer_list&lt;MenuItem&gt; subItems);</div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a300bc76b5be03814cb8fa534a3a74cfe">   98</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a300bc76b5be03814cb8fa534a3a74cfe">AddItem</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">item</a>);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a300bc76b5be03814cb8fa534a3a74cfe">   98</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a300bc76b5be03814cb8fa534a3a74cfe">AddItem</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item);</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#aa48a89a167974e8a7397ffe6058c475f">  106</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#aa48a89a167974e8a7397ffe6058c475f">AddSubItem</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">item</a>, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">subItem</a>);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#aa48a89a167974e8a7397ffe6058c475f">  106</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#aa48a89a167974e8a7397ffe6058c475f">AddSubItem</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;subItem);</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a75c96dd59694d38a9ea59e3973cd5bea">  113</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a75c96dd59694d38a9ea59e3973cd5bea">RemoveItem</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">item</a>);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a75c96dd59694d38a9ea59e3973cd5bea">  113</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a75c96dd59694d38a9ea59e3973cd5bea">RemoveItem</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item);</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a47fe9d419c9c50459389c46b410849d8">  120</a></span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *<a class="code hl_function" href="classsw_1_1_menu_base.html#a47fe9d419c9c50459389c46b410849d8">GetMenuItem</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>);</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a207341719edb495ca22be7090b3a8b37">  127</a></span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *<a class="code hl_function" href="classsw_1_1_menu_base.html#a207341719edb495ca22be7090b3a8b37">GetMenuItem</a>(std::initializer_list&lt;int&gt; <a class="code hl_class" href="classsw_1_1_dictionary.html">path</a>);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a207341719edb495ca22be7090b3a8b37">  127</a></span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *<a class="code hl_function" href="classsw_1_1_menu_base.html#a207341719edb495ca22be7090b3a8b37">GetMenuItem</a>(std::initializer_list&lt;int&gt; path);</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a09259eb19e71878bd77f4d3dece7fed8">  134</a></span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *<a class="code hl_function" href="classsw_1_1_menu_base.html#a09259eb19e71878bd77f4d3dece7fed8">GetMenuItem</a>(std::initializer_list&lt;std::wstring&gt; <a class="code hl_class" href="classsw_1_1_dictionary.html">path</a>);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a09259eb19e71878bd77f4d3dece7fed8">  134</a></span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *<a class="code hl_function" href="classsw_1_1_menu_base.html#a09259eb19e71878bd77f4d3dece7fed8">GetMenuItem</a>(std::initializer_list&lt;std::wstring&gt; path);</div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a1df38ffd7053c561bc746e5830672295">  141</a></span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *<a class="code hl_function" href="classsw_1_1_menu_base.html#a1df38ffd7053c561bc746e5830672295">GetMenuItemByTag</a>(<a class="code hl_class" href="classsw_1_1_dictionary.html">uint64_t</a> tag);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a1df38ffd7053c561bc746e5830672295">  141</a></span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *<a class="code hl_function" href="classsw_1_1_menu_base.html#a1df38ffd7053c561bc746e5830672295">GetMenuItemByTag</a>(uint64_t tag);</div>
 <div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a1cb75444ab44b6b4dc3599634b30b07e">  148</a></span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *<a class="code hl_function" href="classsw_1_1_menu_base.html#a1cb75444ab44b6b4dc3599634b30b07e">GetParent</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">item</a>);</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a1cb75444ab44b6b4dc3599634b30b07e">  148</a></span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *<a class="code hl_function" href="classsw_1_1_menu_base.html#a1cb75444ab44b6b4dc3599634b30b07e">GetParent</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item);</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#ab610a8a98e4bf6f199fe7706dbb57f4d">  156</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#ab610a8a98e4bf6f199fe7706dbb57f4d">GetEnabled</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">item</a>, <span class="keywordtype">bool</span> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">out</a>);</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#ab610a8a98e4bf6f199fe7706dbb57f4d">  156</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#ab610a8a98e4bf6f199fe7706dbb57f4d">GetEnabled</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, <span class="keywordtype">bool</span> &amp;out);</div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a537663148790e0516c1a2aca7b02afd1">  164</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a537663148790e0516c1a2aca7b02afd1">SetEnabled</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">item</a>, <span class="keywordtype">bool</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">value</a>);</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a537663148790e0516c1a2aca7b02afd1">  164</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a537663148790e0516c1a2aca7b02afd1">SetEnabled</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, <span class="keywordtype">bool</span> value);</div>
 <div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a2a631549b5be6a41f8a24342a880826d">  172</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a2a631549b5be6a41f8a24342a880826d">GetChecked</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">item</a>, <span class="keywordtype">bool</span> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">out</a>);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a2a631549b5be6a41f8a24342a880826d">  172</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a2a631549b5be6a41f8a24342a880826d">GetChecked</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, <span class="keywordtype">bool</span> &amp;out);</div>
 <div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a114b4fe9eb2cd543c605479198d67517">  180</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a114b4fe9eb2cd543c605479198d67517">SetChecked</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">item</a>, <span class="keywordtype">bool</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">value</a>);</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a114b4fe9eb2cd543c605479198d67517">  180</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a114b4fe9eb2cd543c605479198d67517">SetChecked</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, <span class="keywordtype">bool</span> value);</div>
 <div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a9f9fb3eda715d2c71e3e4a1b0562bac8">  188</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a9f9fb3eda715d2c71e3e4a1b0562bac8">SetText</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">item</a>, <span class="keyword">const</span> std::wstring &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">value</a>);</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a9f9fb3eda715d2c71e3e4a1b0562bac8">  188</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a9f9fb3eda715d2c71e3e4a1b0562bac8">SetText</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, <span class="keyword">const</span> std::wstring &amp;value);</div>
 <div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#ad9660cec7666003c520171dc44e85c13">  196</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#ad9660cec7666003c520171dc44e85c13">SetBitmap</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">item</a>, <a class="code hl_class" href="classsw_1_1_dictionary.html">HBITMAP</a> <a class="code hl_class" href="classsw_1_1_dictionary.html">hBitmap</a>);</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#ad9660cec7666003c520171dc44e85c13">  196</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#ad9660cec7666003c520171dc44e85c13">SetBitmap</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, HBITMAP hBitmap);</div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span> </div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a7795d9c4dd7dca16341249fab6f9cfb9">  205</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a7795d9c4dd7dca16341249fab6f9cfb9">SetCheckBitmap</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">item</a>, <a class="code hl_class" href="classsw_1_1_dictionary.html">HBITMAP</a> <a class="code hl_class" href="classsw_1_1_dictionary.html">hBmpUnchecked</a>, <a class="code hl_class" href="classsw_1_1_dictionary.html">HBITMAP</a> <a class="code hl_class" href="classsw_1_1_dictionary.html">hBmpChecked</a>);</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a7795d9c4dd7dca16341249fab6f9cfb9">  205</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a7795d9c4dd7dca16341249fab6f9cfb9">SetCheckBitmap</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, HBITMAP hBmpUnchecked, HBITMAP hBmpChecked);</div>
 <div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="keyword">private</span>:</div>
 <div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>        <span class="keywordtype">void</span> _ClearAddedItems();</div>
 <div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        <span class="keywordtype">void</span> _AppendMenuItem(<a class="code hl_class" href="classsw_1_1_dictionary.html">HMENU</a> <a class="code hl_class" href="classsw_1_1_dictionary.html">hMenu</a>, std::shared_ptr&lt;MenuItem&gt; <a class="code hl_class" href="classsw_1_1_dictionary.html">pItem</a>, <span class="keywordtype">int</span> index);</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        <span class="keywordtype">void</span> _AppendMenuItem(HMENU hMenu, std::shared_ptr&lt;MenuItem&gt; pItem, <span class="keywordtype">int</span> index);</div>
 <div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>        _MenuItemDependencyInfo *_GetMenuItemDependencyInfo(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">item</a>);</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>        _MenuItemDependencyInfo *_GetMenuItemDependencyInfo(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item);</div>
 <div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *_GetMenuItemByTag(std::vector&lt;std::shared_ptr&lt;MenuItem&gt;&gt; &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">items</a>, <a class="code hl_class" href="classsw_1_1_dictionary.html">uint64_t</a> tag);</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *_GetMenuItemByTag(std::vector&lt;std::shared_ptr&lt;MenuItem&gt;&gt; &amp;items, uint64_t tag);</div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
 <div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="keyword">protected</span>:</div>
 <div class="line"><a id="l00242" name="l00242"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a9f94aca19decada231feeed33ab19743">  242</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a9f94aca19decada231feeed33ab19743">IndexToID</a>(<span class="keywordtype">int</span> index) = 0;</div>
@@ -197,8 +197,7 @@ $(function(){initNavTree('_menu_base_8h_source.html',''); initResizable(); });
 <div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    };</div>
 </div>
 <div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>}</div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html"><div class="ttname"><a href="classsw_1_1_dictionary.html">sw::Dictionary</a></div><div class="ttdoc">字典类，内部维护了一个指向std::map的智能指针</div><div class="ttdef"><b>Definition</b> Dictionary.h:24</div></div>
-<div class="ttc" id="aclasssw_1_1_menu_base_html"><div class="ttname"><a href="classsw_1_1_menu_base.html">sw::MenuBase</a></div><div class="ttdoc">菜单类型的基类</div><div class="ttdef"><b>Definition</b> MenuBase.h:17</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html"><div class="ttname"><a href="classsw_1_1_menu_base.html">sw::MenuBase</a></div><div class="ttdoc">菜单类型的基类</div><div class="ttdef"><b>定义</b> MenuBase.h:17</div></div>
 <div class="ttc" id="aclasssw_1_1_menu_base_html_a09259eb19e71878bd77f4d3dece7fed8"><div class="ttname"><a href="classsw_1_1_menu_base.html#a09259eb19e71878bd77f4d3dece7fed8">sw::MenuBase::GetMenuItem</a></div><div class="ttdeci">MenuItem * GetMenuItem(std::initializer_list&lt; std::wstring &gt; path)</div><div class="ttdoc">通过菜单项的text来获取菜单项</div></div>
 <div class="ttc" id="aclasssw_1_1_menu_base_html_a114b4fe9eb2cd543c605479198d67517"><div class="ttname"><a href="classsw_1_1_menu_base.html#a114b4fe9eb2cd543c605479198d67517">sw::MenuBase::SetChecked</a></div><div class="ttdeci">bool SetChecked(MenuItem &amp;item, bool value)</div><div class="ttdoc">设置菜单项是否选中</div></div>
 <div class="ttc" id="aclasssw_1_1_menu_base_html_a1aec7eb5fee274eed8a9a49179383a94"><div class="ttname"><a href="classsw_1_1_menu_base.html#a1aec7eb5fee274eed8a9a49179383a94">sw::MenuBase::SetItems</a></div><div class="ttdeci">void SetItems(std::initializer_list&lt; MenuItem &gt; items)</div><div class="ttdoc">初始化菜单并添加菜单项</div></div>
@@ -222,14 +221,14 @@ $(function(){initNavTree('_menu_base_8h_source.html',''); initResizable(); });
 <div class="ttc" id="aclasssw_1_1_menu_base_html_ab610a8a98e4bf6f199fe7706dbb57f4d"><div class="ttname"><a href="classsw_1_1_menu_base.html#ab610a8a98e4bf6f199fe7706dbb57f4d">sw::MenuBase::GetEnabled</a></div><div class="ttdeci">bool GetEnabled(MenuItem &amp;item, bool &amp;out)</div><div class="ttdoc">获取一个值，表示菜单项是否可用</div></div>
 <div class="ttc" id="aclasssw_1_1_menu_base_html_ad43a6100a635a765a80d603d7226d978"><div class="ttname"><a href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">sw::MenuBase::MenuBase</a></div><div class="ttdeci">MenuBase(HMENU hMenu)</div><div class="ttdoc">初始化菜单</div></div>
 <div class="ttc" id="aclasssw_1_1_menu_base_html_ad9660cec7666003c520171dc44e85c13"><div class="ttname"><a href="classsw_1_1_menu_base.html#ad9660cec7666003c520171dc44e85c13">sw::MenuBase::SetBitmap</a></div><div class="ttdeci">bool SetBitmap(MenuItem &amp;item, HBITMAP hBitmap)</div><div class="ttdoc">设置菜单项要显示的位图</div></div>
-<div class="ttc" id="aclasssw_1_1_menu_item_html"><div class="ttname"><a href="classsw_1_1_menu_item.html">sw::MenuItem</a></div><div class="ttdoc">菜单项</div><div class="ttdef"><b>Definition</b> MenuItem.h:24</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_item_html"><div class="ttname"><a href="classsw_1_1_menu_item.html">sw::MenuItem</a></div><div class="ttdoc">菜单项</div><div class="ttdef"><b>定义</b> MenuItem.h:24</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>MenuBase.h</b></li>
-    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

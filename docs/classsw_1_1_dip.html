@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>SimpleWindow: sw::Dip类 参考</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -11,9 +11,9 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -35,10 +35,15 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.10.0 -->
+<!-- 制作者 Doxygen 1.12.0 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -46,7 +51,7 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(function() {
-  initMenu('',true,false,'search.php','搜索');
+  initMenu('',true,false,'search.php','搜索',true);
   $(function() { init_search(); });
 });
 /* @license-end */
@@ -65,7 +70,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('classsw_1_1_dip.html',''); initResizable(); });
+$(function(){initNavTree('classsw_1_1_dip.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -107,34 +112,34 @@ $(function(){initNavTree('classsw_1_1_dip.html',''); initResizable(); });
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 静态 Public 成员函数</h2></td></tr>
 <tr class="memitem:a3c299de3610198634e20773878486a4f" id="r_a3c299de3610198634e20773878486a4f"><td class="memItemLeft" align="right" valign="top"><a id="a3c299de3610198634e20773878486a4f" name="a3c299de3610198634e20773878486a4f"></a>
-<a class="el" href="classsw_1_1_dictionary.html">static</a> <a class="el" href="classsw_1_1_dictionary.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Update</b> (<a class="el" href="classsw_1_1_dictionary.html">int</a> <a class="el" href="classsw_1_1_dictionary.html">dpiX</a>, <a class="el" href="classsw_1_1_dictionary.html">int</a> <a class="el" href="classsw_1_1_dictionary.html">dpiY</a>)</td></tr>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>Update</b> (int dpiX, int dpiY)</td></tr>
 <tr class="memdesc:a3c299de3610198634e20773878486a4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">dpi改变时调用该函数更新缩放比例 <br /></td></tr>
 <tr class="separator:a3c299de3610198634e20773878486a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0244988630536a31439cdfde27ec209" id="r_aa0244988630536a31439cdfde27ec209"><td class="memItemLeft" align="right" valign="top"><a id="aa0244988630536a31439cdfde27ec209" name="aa0244988630536a31439cdfde27ec209"></a>
-<a class="el" href="classsw_1_1_dictionary.html">static</a> <a class="el" href="classsw_1_1_dictionary.html">double</a>&#160;</td><td class="memItemRight" valign="bottom"><b>PxToDipX</b> (<a class="el" href="classsw_1_1_dictionary.html">int</a> <a class="el" href="classsw_1_1_dictionary.html">px</a>)</td></tr>
+static double&#160;</td><td class="memItemRight" valign="bottom"><b>PxToDipX</b> (int px)</td></tr>
 <tr class="memdesc:aa0244988630536a31439cdfde27ec209"><td class="mdescLeft">&#160;</td><td class="mdescRight">像素转dip（水平方向） <br /></td></tr>
 <tr class="separator:aa0244988630536a31439cdfde27ec209"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54fd07b8418adcff0ecb8483098ab860" id="r_a54fd07b8418adcff0ecb8483098ab860"><td class="memItemLeft" align="right" valign="top"><a id="a54fd07b8418adcff0ecb8483098ab860" name="a54fd07b8418adcff0ecb8483098ab860"></a>
-<a class="el" href="classsw_1_1_dictionary.html">static</a> <a class="el" href="classsw_1_1_dictionary.html">double</a>&#160;</td><td class="memItemRight" valign="bottom"><b>PxToDipY</b> (<a class="el" href="classsw_1_1_dictionary.html">int</a> <a class="el" href="classsw_1_1_dictionary.html">px</a>)</td></tr>
+static double&#160;</td><td class="memItemRight" valign="bottom"><b>PxToDipY</b> (int px)</td></tr>
 <tr class="memdesc:a54fd07b8418adcff0ecb8483098ab860"><td class="mdescLeft">&#160;</td><td class="mdescRight">像素转dip（垂直方向） <br /></td></tr>
 <tr class="separator:a54fd07b8418adcff0ecb8483098ab860"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66e3c3a119b77b632ec5f1f37051ee6d" id="r_a66e3c3a119b77b632ec5f1f37051ee6d"><td class="memItemLeft" align="right" valign="top"><a id="a66e3c3a119b77b632ec5f1f37051ee6d" name="a66e3c3a119b77b632ec5f1f37051ee6d"></a>
-<a class="el" href="classsw_1_1_dictionary.html">static</a> <a class="el" href="classsw_1_1_dictionary.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DipToPxX</b> (<a class="el" href="classsw_1_1_dictionary.html">double</a> <a class="el" href="classsw_1_1_dictionary.html">dip</a>)</td></tr>
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>DipToPxX</b> (double dip)</td></tr>
 <tr class="memdesc:a66e3c3a119b77b632ec5f1f37051ee6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">dip转像素（水平方向） <br /></td></tr>
 <tr class="separator:a66e3c3a119b77b632ec5f1f37051ee6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8986a97dc498280957b4c9e5fa53124" id="r_ae8986a97dc498280957b4c9e5fa53124"><td class="memItemLeft" align="right" valign="top"><a id="ae8986a97dc498280957b4c9e5fa53124" name="ae8986a97dc498280957b4c9e5fa53124"></a>
-<a class="el" href="classsw_1_1_dictionary.html">static</a> <a class="el" href="classsw_1_1_dictionary.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DipToPxY</b> (<a class="el" href="classsw_1_1_dictionary.html">double</a> <a class="el" href="classsw_1_1_dictionary.html">dip</a>)</td></tr>
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>DipToPxY</b> (double dip)</td></tr>
 <tr class="memdesc:ae8986a97dc498280957b4c9e5fa53124"><td class="mdescLeft">&#160;</td><td class="mdescRight">dip转像素（垂直方向） <br /></td></tr>
 <tr class="separator:ae8986a97dc498280957b4c9e5fa53124"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 静态 Public 属性</h2></td></tr>
 <tr class="memitem:a6222ad22b358fd8418cb0dbe9a7f6437" id="r_a6222ad22b358fd8418cb0dbe9a7f6437"><td class="memItemLeft" align="right" valign="top"><a id="a6222ad22b358fd8418cb0dbe9a7f6437" name="a6222ad22b358fd8418cb0dbe9a7f6437"></a>
-<a class="el" href="classsw_1_1_dictionary.html">static</a> <a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1_dictionary.html">double</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ScaleX</b></td></tr>
+static const <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ScaleX</b></td></tr>
 <tr class="memdesc:a6222ad22b358fd8418cb0dbe9a7f6437"><td class="mdescLeft">&#160;</td><td class="mdescRight">水平缩放比例 <br /></td></tr>
 <tr class="separator:a6222ad22b358fd8418cb0dbe9a7f6437"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82e30c32d6521756a933aa63040f136d" id="r_a82e30c32d6521756a933aa63040f136d"><td class="memItemLeft" align="right" valign="top"><a id="a82e30c32d6521756a933aa63040f136d" name="a82e30c32d6521756a933aa63040f136d"></a>
-<a class="el" href="classsw_1_1_dictionary.html">static</a> <a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1_dictionary.html">double</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ScaleY</b></td></tr>
+static const <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ScaleY</b></td></tr>
 <tr class="memdesc:a82e30c32d6521756a933aa63040f136d"><td class="mdescLeft">&#160;</td><td class="mdescRight">垂直缩放比例 <br /></td></tr>
 <tr class="separator:a82e30c32d6521756a933aa63040f136d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -149,7 +154,7 @@ $(function(){initNavTree('classsw_1_1_dip.html',''); initResizable(); });
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>sw</b></li><li class="navelem"><a class="el" href="classsw_1_1_dip.html">Dip</a></li>
-    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

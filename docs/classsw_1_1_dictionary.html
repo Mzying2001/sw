@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>SimpleWindow: sw::Dictionary&lt; TKey, TVal &gt; 模板类 参考</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -11,9 +11,9 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -35,10 +35,15 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.10.0 -->
+<!-- 制作者 Doxygen 1.12.0 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -46,7 +51,7 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(function() {
-  initMenu('',true,false,'search.php','搜索');
+  initMenu('',true,false,'search.php','搜索',true);
   $(function() { init_search(); });
 });
 /* @license-end */
@@ -65,7 +70,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('classsw_1_1_dictionary.html',''); initResizable(); });
+$(function(){initNavTree('classsw_1_1_dictionary.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -111,68 +116,68 @@ Public 成员函数</h2></td></tr>
 <tr class="memdesc:a77cbfe628092b74f1a698e7b5fe56c69"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化字典 <br /></td></tr>
 <tr class="separator:a77cbfe628092b74f1a698e7b5fe56c69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a178b607824a4eff707914f2eb3aaaa22" id="r_a178b607824a4eff707914f2eb3aaaa22"><td class="memItemLeft" align="right" valign="top"><a id="a178b607824a4eff707914f2eb3aaaa22" name="a178b607824a4eff707914f2eb3aaaa22"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Dictionary</b> (std::initializer_list&lt; std::pair&lt; <a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_dictionary.html">TKey</a>, <a class="el" href="classsw_1_1_dictionary.html">TVal</a> &gt; &gt; <a class="el" href="classsw_1_1_dictionary.html">list</a>)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Dictionary</b> (std::initializer_list&lt; std::pair&lt; const TKey, TVal &gt; &gt; list)</td></tr>
 <tr class="memdesc:a178b607824a4eff707914f2eb3aaaa22"><td class="mdescLeft">&#160;</td><td class="mdescRight">使用初始化列表 <br /></td></tr>
 <tr class="separator:a178b607824a4eff707914f2eb3aaaa22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e7e3d687118005beb08bbf9e3a3a2bc" id="r_a9e7e3d687118005beb08bbf9e3a3a2bc"><td class="memItemLeft" align="right" valign="top"><a id="a9e7e3d687118005beb08bbf9e3a3a2bc" name="a9e7e3d687118005beb08bbf9e3a3a2bc"></a>
-<a class="el" href="classsw_1_1_dictionary.html">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> () <a class="el" href="classsw_1_1_dictionary.html">const</a></td></tr>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> () const</td></tr>
 <tr class="memdesc:a9e7e3d687118005beb08bbf9e3a3a2bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">正向迭代器开始 <br /></td></tr>
 <tr class="separator:a9e7e3d687118005beb08bbf9e3a3a2bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98945b3a8a7c6b3e1110a406718a49c8" id="r_a98945b3a8a7c6b3e1110a406718a49c8"><td class="memItemLeft" align="right" valign="top"><a id="a98945b3a8a7c6b3e1110a406718a49c8" name="a98945b3a8a7c6b3e1110a406718a49c8"></a>
-<a class="el" href="classsw_1_1_dictionary.html">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><b>end</b> () <a class="el" href="classsw_1_1_dictionary.html">const</a></td></tr>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>end</b> () const</td></tr>
 <tr class="memdesc:a98945b3a8a7c6b3e1110a406718a49c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">正向迭代器结束 <br /></td></tr>
 <tr class="separator:a98945b3a8a7c6b3e1110a406718a49c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad835fe48c0fccba0e7e99001c7f3de6" id="r_aad835fe48c0fccba0e7e99001c7f3de6"><td class="memItemLeft" align="right" valign="top"><a id="aad835fe48c0fccba0e7e99001c7f3de6" name="aad835fe48c0fccba0e7e99001c7f3de6"></a>
-<a class="el" href="classsw_1_1_dictionary.html">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><b>rbegin</b> () <a class="el" href="classsw_1_1_dictionary.html">const</a></td></tr>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>rbegin</b> () const</td></tr>
 <tr class="memdesc:aad835fe48c0fccba0e7e99001c7f3de6"><td class="mdescLeft">&#160;</td><td class="mdescRight">反向迭代器开始 <br /></td></tr>
 <tr class="separator:aad835fe48c0fccba0e7e99001c7f3de6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab46b8829980f88dd6fe703d4d2961773" id="r_ab46b8829980f88dd6fe703d4d2961773"><td class="memItemLeft" align="right" valign="top"><a id="ab46b8829980f88dd6fe703d4d2961773" name="ab46b8829980f88dd6fe703d4d2961773"></a>
-<a class="el" href="classsw_1_1_dictionary.html">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><b>rend</b> () <a class="el" href="classsw_1_1_dictionary.html">const</a></td></tr>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>rend</b> () const</td></tr>
 <tr class="memdesc:ab46b8829980f88dd6fe703d4d2961773"><td class="mdescLeft">&#160;</td><td class="mdescRight">反向迭代器结束 <br /></td></tr>
 <tr class="separator:ab46b8829980f88dd6fe703d4d2961773"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f2f6938ef081002887f747d74950a30" id="r_a3f2f6938ef081002887f747d74950a30"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1_dictionary.html">auto</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f2f6938ef081002887f747d74950a30">operator[]</a> (<a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_dictionary.html">TKey</a> &amp;key) <a class="el" href="classsw_1_1_dictionary.html">const</a></td></tr>
+<tr class="memitem:a3f2f6938ef081002887f747d74950a30" id="r_a3f2f6938ef081002887f747d74950a30"><td class="memItemLeft" align="right" valign="top">auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f2f6938ef081002887f747d74950a30">operator[]</a> (const TKey &amp;key) const</td></tr>
 <tr class="memdesc:a3f2f6938ef081002887f747d74950a30"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取或设置值  <br /></td></tr>
 <tr class="separator:a3f2f6938ef081002887f747d74950a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c16eced6a889e97f4a1807697090fd3" id="r_a7c16eced6a889e97f4a1807697090fd3"><td class="memItemLeft" align="right" valign="top"><a id="a7c16eced6a889e97f4a1807697090fd3" name="a7c16eced6a889e97f4a1807697090fd3"></a>
-<a class="el" href="classsw_1_1_dictionary.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Count</b> () <a class="el" href="classsw_1_1_dictionary.html">const</a></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>Count</b> () const</td></tr>
 <tr class="memdesc:a7c16eced6a889e97f4a1807697090fd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取键值对个数 <br /></td></tr>
 <tr class="separator:a7c16eced6a889e97f4a1807697090fd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16703bd325716445121e257ae489dcc4" id="r_a16703bd325716445121e257ae489dcc4"><td class="memItemLeft" align="right" valign="top"><a id="a16703bd325716445121e257ae489dcc4" name="a16703bd325716445121e257ae489dcc4"></a>
-<a class="el" href="classsw_1_1_dictionary.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>IsEmpty</b> () <a class="el" href="classsw_1_1_dictionary.html">const</a></td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsEmpty</b> () const</td></tr>
 <tr class="memdesc:a16703bd325716445121e257ae489dcc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">字典是否为空 <br /></td></tr>
 <tr class="separator:a16703bd325716445121e257ae489dcc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a726bccc37022c21d7864673c69138acc" id="r_a726bccc37022c21d7864673c69138acc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1_dictionary.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a726bccc37022c21d7864673c69138acc">ContainsKey</a> (<a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_dictionary.html">TKey</a> &amp;key) <a class="el" href="classsw_1_1_dictionary.html">const</a></td></tr>
+<tr class="memitem:a726bccc37022c21d7864673c69138acc" id="r_a726bccc37022c21d7864673c69138acc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a726bccc37022c21d7864673c69138acc">ContainsKey</a> (const TKey &amp;key) const</td></tr>
 <tr class="memdesc:a726bccc37022c21d7864673c69138acc"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否存在某个键值  <br /></td></tr>
 <tr class="separator:a726bccc37022c21d7864673c69138acc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc07e417b7ccc36dc5a7dab5018b6186" id="r_afc07e417b7ccc36dc5a7dab5018b6186"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1_dictionary.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc07e417b7ccc36dc5a7dab5018b6186">Remove</a> (<a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_dictionary.html">TKey</a> &amp;key) <a class="el" href="classsw_1_1_dictionary.html">const</a></td></tr>
+<tr class="memitem:afc07e417b7ccc36dc5a7dab5018b6186" id="r_afc07e417b7ccc36dc5a7dab5018b6186"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc07e417b7ccc36dc5a7dab5018b6186">Remove</a> (const TKey &amp;key) const</td></tr>
 <tr class="memdesc:afc07e417b7ccc36dc5a7dab5018b6186"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除指定键值对  <br /></td></tr>
 <tr class="separator:afc07e417b7ccc36dc5a7dab5018b6186"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a061c70ddd433b90b5d8b61a9c81fc8da" id="r_a061c70ddd433b90b5d8b61a9c81fc8da"><td class="memItemLeft" align="right" valign="top"><a id="a061c70ddd433b90b5d8b61a9c81fc8da" name="a061c70ddd433b90b5d8b61a9c81fc8da"></a>
-<a class="el" href="classsw_1_1_dictionary.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Clear</b> () <a class="el" href="classsw_1_1_dictionary.html">const</a></td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Clear</b> () const</td></tr>
 <tr class="memdesc:a061c70ddd433b90b5d8b61a9c81fc8da"><td class="mdescLeft">&#160;</td><td class="mdescRight">清空字典 <br /></td></tr>
 <tr class="separator:a061c70ddd433b90b5d8b61a9c81fc8da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa7a405134901716b4affecc9f01df0f" id="r_afa7a405134901716b4affecc9f01df0f"><td class="memItemLeft" align="right" valign="top"><a id="afa7a405134901716b4affecc9f01df0f" name="afa7a405134901716b4affecc9f01df0f"></a>
-<a class="el" href="classsw_1_1_dictionary.html">Dictionary</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Copy</b> () <a class="el" href="classsw_1_1_dictionary.html">const</a></td></tr>
+<a class="el" href="classsw_1_1_dictionary.html">Dictionary</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Copy</b> () const</td></tr>
 <tr class="memdesc:afa7a405134901716b4affecc9f01df0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">复制当前字典 <br /></td></tr>
 <tr class="separator:afa7a405134901716b4affecc9f01df0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 友元</h2></td></tr>
 <tr class="memitem:aa139d8b586f45b45157b268832ac9522" id="r_aa139d8b586f45b45157b268832ac9522"><td class="memItemLeft" align="right" valign="top"><a id="aa139d8b586f45b45157b268832ac9522" name="aa139d8b586f45b45157b268832ac9522"></a>
-<a class="el" href="classsw_1_1_dictionary.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (<a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;left, <a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;right)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;left, const <a class="el" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;right)</td></tr>
 <tr class="memdesc:aa139d8b586f45b45157b268832ac9522"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断是否为同一个字典 <br /></td></tr>
 <tr class="separator:aa139d8b586f45b45157b268832ac9522"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d62c349f91ea2d17e49c9f424e522da" id="r_a9d62c349f91ea2d17e49c9f424e522da"><td class="memItemLeft" align="right" valign="top"><a id="a9d62c349f91ea2d17e49c9f424e522da" name="a9d62c349f91ea2d17e49c9f424e522da"></a>
-<a class="el" href="classsw_1_1_dictionary.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (<a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;left, <a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;right)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;left, const <a class="el" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;right)</td></tr>
 <tr class="memdesc:a9d62c349f91ea2d17e49c9f424e522da"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断是否不是同一个字典 <br /></td></tr>
 <tr class="separator:a9d62c349f91ea2d17e49c9f424e522da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09fce0167bbe5ff0e080de8b1a52e286" id="r_a09fce0167bbe5ff0e080de8b1a52e286"><td class="memItemLeft" align="right" valign="top"><a id="a09fce0167bbe5ff0e080de8b1a52e286" name="a09fce0167bbe5ff0e080de8b1a52e286"></a>
-std::wostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::wostream &amp;<a class="el" href="classsw_1_1_dictionary.html">wos</a>, <a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;<a class="el" href="classsw_1_1_dictionary.html">dic</a>)</td></tr>
+std::wostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::wostream &amp;wos, const <a class="el" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;dic)</td></tr>
 <tr class="memdesc:a09fce0167bbe5ff0e080de8b1a52e286"><td class="mdescLeft">&#160;</td><td class="mdescRight">支持Utils::BuildStr <br /></td></tr>
 <tr class="separator:a09fce0167bbe5ff0e080de8b1a52e286"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="#a77cbfe628092b74f1a698e7b5fe56c69">typename</a> <a class="el" href="#a77cbfe628092b74f1a698e7b5fe56c69">TKey</a>, <a class="el" href="#a77cbfe628092b74f1a698e7b5fe56c69">typename</a> <a class="el" href="#a77cbfe628092b74f1a698e7b5fe56c69">TVal</a>&gt;<br />
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename TKey, typename TVal&gt;<br />
 class sw::Dictionary&lt; TKey, TVal &gt;</div><p>字典类，内部维护了一个指向std::map的智能指针 </p>
 </div><h2 class="groupheader">成员函数说明</h2>
 <a id="a726bccc37022c21d7864673c69138acc" name="a726bccc37022c21d7864673c69138acc"></a>
@@ -181,15 +186,15 @@ class sw::Dictionary&lt; TKey, TVal &gt;</div><p>字典类，内部维护了一�
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> <a class="el" href="classsw_1_1_dictionary.html">TKey</a> , <a class="el" href="classsw_1_1_dictionary.html">typename</a> <a class="el" href="classsw_1_1_dictionary.html">TVal</a> &gt; </div>
+template&lt;typename TKey , typename TVal &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1_dictionary.html">bool</a> <a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary</a>&lt; <a class="el" href="classsw_1_1_dictionary.html">TKey</a>, <a class="el" href="classsw_1_1_dictionary.html">TVal</a> &gt;::ContainsKey </td>
+          <td class="memname">bool <a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary</a>&lt; TKey, TVal &gt;::ContainsKey </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_dictionary.html">TKey</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype">const TKey &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -216,15 +221,15 @@ template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> <a cla
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> <a class="el" href="classsw_1_1_dictionary.html">TKey</a> , <a class="el" href="classsw_1_1_dictionary.html">typename</a> <a class="el" href="classsw_1_1_dictionary.html">TVal</a> &gt; </div>
+template&lt;typename TKey , typename TVal &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1_dictionary.html">auto</a> &amp; <a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary</a>&lt; <a class="el" href="classsw_1_1_dictionary.html">TKey</a>, <a class="el" href="classsw_1_1_dictionary.html">TVal</a> &gt;<a class="el" href="#a77cbfe628092b74f1a698e7b5fe56c69">::operator</a>[] </td>
+          <td class="memname">auto &amp; <a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary</a>&lt; TKey, TVal &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_dictionary.html">TKey</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype">const TKey &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -251,15 +256,15 @@ template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> <a cla
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> <a class="el" href="classsw_1_1_dictionary.html">TKey</a> , <a class="el" href="classsw_1_1_dictionary.html">typename</a> <a class="el" href="classsw_1_1_dictionary.html">TVal</a> &gt; </div>
+template&lt;typename TKey , typename TVal &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1_dictionary.html">void</a> <a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary</a>&lt; <a class="el" href="classsw_1_1_dictionary.html">TKey</a>, <a class="el" href="classsw_1_1_dictionary.html">TVal</a> &gt;::Remove </td>
+          <td class="memname">void <a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary</a>&lt; TKey, TVal &gt;::Remove </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1_dictionary.html">const</a> <a class="el" href="classsw_1_1_dictionary.html">TKey</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype">const TKey &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -289,7 +294,7 @@ template&lt;<a class="el" href="classsw_1_1_dictionary.html">typename</a> <a cla
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>sw</b></li><li class="navelem"><a class="el" href="classsw_1_1_dictionary.html">Dictionary</a></li>
-    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

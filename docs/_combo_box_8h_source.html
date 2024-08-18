@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>SimpleWindow: ComboBox.h 源文件</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -11,9 +11,9 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -35,10 +35,15 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.10.0 -->
+<!-- 制作者 Doxygen 1.12.0 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -46,17 +51,12 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(function() {
-  initMenu('',true,false,'search.php','搜索');
+  initMenu('',true,false,'search.php','搜索',true);
   $(function() { init_search(); });
 });
 /* @license-end */
 </script>
 <div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
-</script>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -70,7 +70,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('_combo_box_8h_source.html',''); initResizable(); });
+$(function(){initNavTree('_combo_box_8h_source.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -153,7 +153,7 @@ $(function(){initNavTree('_combo_box_8h_source.html',''); initResizable(); });
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    };</div>
 </div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>}</div>
-<div class="ttc" id="aclasssw_1_1_combo_box_html"><div class="ttname"><a href="classsw_1_1_combo_box.html">sw::ComboBox</a></div><div class="ttdoc">组合框</div><div class="ttdef"><b>Definition</b> ComboBox.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1_combo_box_html"><div class="ttname"><a href="classsw_1_1_combo_box.html">sw::ComboBox</a></div><div class="ttdoc">组合框</div><div class="ttdef"><b>定义</b> ComboBox.h:11</div></div>
 <div class="ttc" id="aclasssw_1_1_combo_box_html_a021e4d94ae1b811514523942fe94f7fe"><div class="ttname"><a href="classsw_1_1_combo_box.html#a021e4d94ae1b811514523942fe94f7fe">sw::ComboBox::SetSelectedIndex</a></div><div class="ttdeci">virtual void SetSelectedIndex(int index) override</div><div class="ttdoc">设置选中项索引</div></div>
 <div class="ttc" id="aclasssw_1_1_combo_box_html_a1b7b120c4f55c724f3b9f29038659d81"><div class="ttname"><a href="classsw_1_1_combo_box.html#a1b7b120c4f55c724f3b9f29038659d81">sw::ComboBox::GetSelectedIndex</a></div><div class="ttdeci">virtual int GetSelectedIndex() override</div><div class="ttdoc">选中项的索引，当无选中项时为-1</div></div>
 <div class="ttc" id="aclasssw_1_1_combo_box_html_a2a8aa04ae1b6d8544f0d772c8dd2aa2c"><div class="ttname"><a href="classsw_1_1_combo_box.html#a2a8aa04ae1b6d8544f0d772c8dd2aa2c">sw::ComboBox::AddItem</a></div><div class="ttdeci">virtual bool AddItem(const std::wstring &amp;item) override</div><div class="ttdoc">添加新的子项</div></div>
@@ -163,7 +163,7 @@ $(function(){initNavTree('_combo_box_8h_source.html',''); initResizable(); });
 <div class="ttc" id="aclasssw_1_1_combo_box_html_a691d1f3e1dd2cadae40fdcca2f05f6e2"><div class="ttname"><a href="classsw_1_1_combo_box.html#a691d1f3e1dd2cadae40fdcca2f05f6e2">sw::ComboBox::OnCommand</a></div><div class="ttdeci">virtual void OnCommand(int code) override</div><div class="ttdoc">当父窗口接收到控件的WM_COMMAND时调用该函数</div></div>
 <div class="ttc" id="aclasssw_1_1_combo_box_html_a8681ea3c984f21f86269518407981d26"><div class="ttname"><a href="classsw_1_1_combo_box.html#a8681ea3c984f21f86269518407981d26">sw::ComboBox::UpdateItem</a></div><div class="ttdeci">virtual bool UpdateItem(int index, const std::wstring &amp;newValue) override</div><div class="ttdoc">更新指定位置的子项</div></div>
 <div class="ttc" id="aclasssw_1_1_combo_box_html_a9847d3dead963ac17d4e181aa138e4d4"><div class="ttname"><a href="classsw_1_1_combo_box.html#a9847d3dead963ac17d4e181aa138e4d4">sw::ComboBox::GetItemAt</a></div><div class="ttdeci">virtual std::wstring GetItemAt(int index) override</div><div class="ttdoc">获取指定索引处子项的值</div></div>
-<div class="ttc" id="aclasssw_1_1_combo_box_html_aa495a8136f05548a3e26bdf3e0612a8f"><div class="ttname"><a href="classsw_1_1_combo_box.html#aa495a8136f05548a3e26bdf3e0612a8f">sw::ComboBox::IsEditable</a></div><div class="ttdeci">const Property&lt; bool &gt; IsEditable</div><div class="ttdoc">组合框内容是否可编辑，更新该属性会导致已添加的子项被清空</div><div class="ttdef"><b>Definition</b> ComboBox.h:22</div></div>
+<div class="ttc" id="aclasssw_1_1_combo_box_html_aa495a8136f05548a3e26bdf3e0612a8f"><div class="ttname"><a href="classsw_1_1_combo_box.html#aa495a8136f05548a3e26bdf3e0612a8f">sw::ComboBox::IsEditable</a></div><div class="ttdeci">const Property&lt; bool &gt; IsEditable</div><div class="ttdoc">组合框内容是否可编辑，更新该属性会导致已添加的子项被清空</div><div class="ttdef"><b>定义</b> ComboBox.h:22</div></div>
 <div class="ttc" id="aclasssw_1_1_combo_box_html_aac58ae29f08c67b0fe043d6b8822e74d"><div class="ttname"><a href="classsw_1_1_combo_box.html#aac58ae29f08c67b0fe043d6b8822e74d">sw::ComboBox::GetText</a></div><div class="ttdeci">virtual std::wstring &amp; GetText() override</div><div class="ttdoc">获取可编辑状态下的编辑框文本内容</div></div>
 <div class="ttc" id="aclasssw_1_1_combo_box_html_aae57315267ac472d28f9a55ac28cc902"><div class="ttname"><a href="classsw_1_1_combo_box.html#aae57315267ac472d28f9a55ac28cc902">sw::ComboBox::OnSelectionChanged</a></div><div class="ttdeci">virtual void OnSelectionChanged() override</div><div class="ttdoc">选中项改变时调用该函数</div></div>
 <div class="ttc" id="aclasssw_1_1_combo_box_html_ab1cf2dc76d67d10a2088acfeb29d1398"><div class="ttname"><a href="classsw_1_1_combo_box.html#ab1cf2dc76d67d10a2088acfeb29d1398">sw::ComboBox::InsertItem</a></div><div class="ttdeci">virtual bool InsertItem(int index, const std::wstring &amp;item) override</div><div class="ttdoc">添加子项到指定索引</div></div>
@@ -172,15 +172,15 @@ $(function(){initNavTree('_combo_box_8h_source.html',''); initResizable(); });
 <div class="ttc" id="aclasssw_1_1_combo_box_html_acd95ee1c4a1d8909d78df8c8e1820088"><div class="ttname"><a href="classsw_1_1_combo_box.html#acd95ee1c4a1d8909d78df8c8e1820088">sw::ComboBox::RemoveItemAt</a></div><div class="ttdeci">virtual bool RemoveItemAt(int index) override</div><div class="ttdoc">移除指定索引处的子项</div></div>
 <div class="ttc" id="aclasssw_1_1_combo_box_html_ae3956a539565249f84c343ff7a8cc945"><div class="ttname"><a href="classsw_1_1_combo_box.html#ae3956a539565249f84c343ff7a8cc945">sw::ComboBox::Clear</a></div><div class="ttdeci">virtual void Clear() override</div><div class="ttdoc">清空所有子项</div></div>
 <div class="ttc" id="aclasssw_1_1_combo_box_html_af18b947a96cf7de045525294fcac2825"><div class="ttname"><a href="classsw_1_1_combo_box.html#af18b947a96cf7de045525294fcac2825">sw::ComboBox::GetItemsCount</a></div><div class="ttdeci">virtual int GetItemsCount() override</div><div class="ttdoc">获取子项数</div></div>
-<div class="ttc" id="aclasssw_1_1_items_control_html"><div class="ttname"><a href="classsw_1_1_items_control.html">sw::ItemsControl</a></div><div class="ttdoc">表示可用于呈现一组项的控件</div><div class="ttdef"><b>Definition</b> ItemsControl.h:20</div></div>
-<div class="ttc" id="aclasssw_1_1_property_html"><div class="ttname"><a href="classsw_1_1_property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:127</div></div>
+<div class="ttc" id="aclasssw_1_1_items_control_html"><div class="ttname"><a href="classsw_1_1_items_control.html">sw::ItemsControl</a></div><div class="ttdoc">表示可用于呈现一组项的控件</div><div class="ttdef"><b>定义</b> ItemsControl.h:20</div></div>
+<div class="ttc" id="aclasssw_1_1_property_html"><div class="ttname"><a href="classsw_1_1_property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>定义</b> Property.h:127</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>ComboBox.h</b></li>
-    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>
