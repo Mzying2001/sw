@@ -60,16 +60,5 @@ namespace sw
          * @param exitCode 退出代码
          */
         static void QuitMsgLoop(int exitCode = 0);
-
-    private:
-        /**
-         * @brief  获取当前exe文件路径
-         */
-        static std::wstring _GetExePath();
-
-        /**
-         * @brief 获取当前工作路径
-         */
-        static std::wstring _GetCurrentDirectory();
     };
 }
