@@ -207,6 +207,22 @@ sw::Window::Window()
               static bool result;
               result = this->_modalOwner != nullptr;
               return result;
+          }),
+
+      Owner(
+          // get
+          [&]() -> Window *const & {
+              static Window *result;
+
+              HWND hOwner  = reinterpret_cast<HWND>(GetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT));
+              WndBase *wnd = (hOwner == NULL) ? nullptr : WndBase::GetWndBase(hOwner);
+
+              result = dynamic_cast<Window *>(wnd);
+              return result;
+          },
+          // set
+          [&](Window *const &value) {
+              SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(value ? value->Handle.Get() : NULL));
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
@@ -442,8 +458,8 @@ void sw::Window::ShowDialog(Window &owner)
         return;
     }
 
+    this->Owner       = &owner;
     this->_modalOwner = &owner;
-    SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(owner.Handle.Get()));
 
     bool oldIsEnabled = owner.Enabled;
     owner.Enabled     = false;

@@ -144,6 +144,11 @@ namespace sw
          */
         const ReadOnlyProperty<bool> IsModal;
 
+        /**
+         * @brief 拥有者窗口
+         */
+        const Property<Window *> Owner;
+
     public:
         /**
          * @brief 初始化窗口
