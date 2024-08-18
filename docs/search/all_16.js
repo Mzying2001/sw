@@ -41,13 +41,14 @@ var searchData=
   ['writeonlyproperty_3c_20sw_3a_3atexttrimming_20_3e_38',['WriteOnlyProperty&lt; sw::TextTrimming &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
   ['writeonlyproperty_3c_20sw_3a_3athickness_20_3e_39',['WriteOnlyProperty&lt; sw::Thickness &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
   ['writeonlyproperty_3c_20sw_3a_3averticalalignment_20_3e_40',['WriteOnlyProperty&lt; sw::VerticalAlignment &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20tabalignment_20_3e_41',['WriteOnlyProperty&lt; TabAlignment &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20tooltipicon_20_3e_42',['WriteOnlyProperty&lt; ToolTipIcon &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20uint16_5ft_20_3e_43',['WriteOnlyProperty&lt; uint16_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20uint32_5ft_20_3e_44',['WriteOnlyProperty&lt; uint32_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20uint64_5ft_20_3e_45',['WriteOnlyProperty&lt; uint64_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20verticalalignment_20_3e_46',['WriteOnlyProperty&lt; VerticalAlignment &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20wchar_5ft_20_3e_47',['WriteOnlyProperty&lt; wchar_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20windowstartuplocation_20_3e_48',['WriteOnlyProperty&lt; WindowStartupLocation &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyproperty_3c_20windowstate_20_3e_49',['WriteOnlyProperty&lt; WindowState &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]]
+  ['writeonlyproperty_3c_20sw_3a_3awindow_20_2a_20_3e_41',['WriteOnlyProperty&lt; sw::Window * &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20tabalignment_20_3e_42',['WriteOnlyProperty&lt; TabAlignment &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20tooltipicon_20_3e_43',['WriteOnlyProperty&lt; ToolTipIcon &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20uint16_5ft_20_3e_44',['WriteOnlyProperty&lt; uint16_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20uint32_5ft_20_3e_45',['WriteOnlyProperty&lt; uint32_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20uint64_5ft_20_3e_46',['WriteOnlyProperty&lt; uint64_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20verticalalignment_20_3e_47',['WriteOnlyProperty&lt; VerticalAlignment &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20wchar_5ft_20_3e_48',['WriteOnlyProperty&lt; wchar_t &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20windowstartuplocation_20_3e_49',['WriteOnlyProperty&lt; WindowStartupLocation &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]],
+  ['writeonlyproperty_3c_20windowstate_20_3e_50',['WriteOnlyProperty&lt; WindowState &gt;',['../classsw_1_1_write_only_property.html',1,'sw']]]
 ];

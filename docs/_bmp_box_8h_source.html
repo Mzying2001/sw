@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>SimpleWindow: BmpBox.h 源文件</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -11,9 +11,9 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -35,10 +35,15 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.10.0 -->
+<!-- 制作者 Doxygen 1.12.0 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -46,17 +51,12 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(function() {
-  initMenu('',true,false,'search.php','搜索');
+  initMenu('',true,false,'search.php','搜索',true);
   $(function() { init_search(); });
 });
 /* @license-end */
 </script>
 <div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
-</script>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -70,7 +70,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('_bmp_box_8h_source.html',''); initResizable(); });
+$(function(){initNavTree('_bmp_box_8h_source.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -159,7 +159,7 @@ $(function(){initNavTree('_bmp_box_8h_source.html',''); initResizable(); });
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    };</div>
 </div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>}</div>
-<div class="ttc" id="aclasssw_1_1_bmp_box_html"><div class="ttname"><a href="classsw_1_1_bmp_box.html">sw::BmpBox</a></div><div class="ttdoc">用于显示一个位图的控件</div><div class="ttdef"><b>Definition</b> BmpBox.h:22</div></div>
+<div class="ttc" id="aclasssw_1_1_bmp_box_html"><div class="ttname"><a href="classsw_1_1_bmp_box.html">sw::BmpBox</a></div><div class="ttdoc">用于显示一个位图的控件</div><div class="ttdef"><b>定义</b> BmpBox.h:22</div></div>
 <div class="ttc" id="aclasssw_1_1_bmp_box_html_a28f8a39285fc7e6c6359f9b87db6953f"><div class="ttname"><a href="classsw_1_1_bmp_box.html#a28f8a39285fc7e6c6359f9b87db6953f">sw::BmpBox::BmpBox</a></div><div class="ttdeci">BmpBox()</div><div class="ttdoc">初始化BmpBox</div></div>
 <div class="ttc" id="aclasssw_1_1_bmp_box_html_a2c5616dbf6f3fadc1af535cdec92f3f7"><div class="ttname"><a href="classsw_1_1_bmp_box.html#a2c5616dbf6f3fadc1af535cdec92f3f7">sw::BmpBox::SizeToImage</a></div><div class="ttdeci">void SizeToImage()</div><div class="ttdoc">调整控件尺寸为位图尺寸，未加载位图时该函数不生效</div></div>
 <div class="ttc" id="aclasssw_1_1_bmp_box_html_a332642f5bef5d54589d5c1d322fd6ded"><div class="ttname"><a href="classsw_1_1_bmp_box.html#a332642f5bef5d54589d5c1d322fd6ded">sw::BmpBox::OnDestroy</a></div><div class="ttdeci">virtual bool OnDestroy() override</div><div class="ttdoc">接收到WM_DESTROY时调用该函数</div></div>
@@ -167,22 +167,22 @@ $(function(){initNavTree('_bmp_box_8h_source.html',''); initResizable(); });
 <div class="ttc" id="aclasssw_1_1_bmp_box_html_a5c1cd1e0f949c017d3d620bac1e5404a"><div class="ttname"><a href="classsw_1_1_bmp_box.html#a5c1cd1e0f949c017d3d620bac1e5404a">sw::BmpBox::Load</a></div><div class="ttdeci">HBITMAP Load(const std::wstring &amp;fileName)</div><div class="ttdoc">从文件加载位图</div></div>
 <div class="ttc" id="aclasssw_1_1_bmp_box_html_a6cb7446ef4d2308b971af9fe28b11bae"><div class="ttname"><a href="classsw_1_1_bmp_box.html#a6cb7446ef4d2308b971af9fe28b11bae">sw::BmpBox::OnSize</a></div><div class="ttdeci">virtual bool OnSize(Size newClientSize) override</div><div class="ttdoc">接收到WM_SIZE时调用该函数</div></div>
 <div class="ttc" id="aclasssw_1_1_bmp_box_html_a7ec9a45e8ce8eb49376c2ea2771ceb31"><div class="ttname"><a href="classsw_1_1_bmp_box.html#a7ec9a45e8ce8eb49376c2ea2771ceb31">sw::BmpBox::Load</a></div><div class="ttdeci">HBITMAP Load(HBITMAP hBitmap)</div><div class="ttdoc">加载位图，该函数会复制一个位图句柄作为显示的位图</div></div>
-<div class="ttc" id="aclasssw_1_1_bmp_box_html_a95fbd6a72c3a54987b3fc7df107a4edd"><div class="ttname"><a href="classsw_1_1_bmp_box.html#a95fbd6a72c3a54987b3fc7df107a4edd">sw::BmpBox::SizeMode</a></div><div class="ttdeci">const Property&lt; BmpBoxSizeMode &gt; SizeMode</div><div class="ttdoc">位图在BmpBox中的定位方式</div><div class="ttdef"><b>Definition</b> BmpBox.h:48</div></div>
+<div class="ttc" id="aclasssw_1_1_bmp_box_html_a95fbd6a72c3a54987b3fc7df107a4edd"><div class="ttname"><a href="classsw_1_1_bmp_box.html#a95fbd6a72c3a54987b3fc7df107a4edd">sw::BmpBox::SizeMode</a></div><div class="ttdeci">const Property&lt; BmpBoxSizeMode &gt; SizeMode</div><div class="ttdoc">位图在BmpBox中的定位方式</div><div class="ttdef"><b>定义</b> BmpBox.h:48</div></div>
 <div class="ttc" id="aclasssw_1_1_bmp_box_html_aa3b5703631e66331b23cc3397d51f305"><div class="ttname"><a href="classsw_1_1_bmp_box.html#aa3b5703631e66331b23cc3397d51f305">sw::BmpBox::OnPaint</a></div><div class="ttdeci">virtual bool OnPaint() override</div><div class="ttdoc">接收到WM_PAINT时调用该函数</div></div>
 <div class="ttc" id="aclasssw_1_1_bmp_box_html_ad26478ac46d40880851a221a2d90ba68"><div class="ttname"><a href="classsw_1_1_bmp_box.html#ad26478ac46d40880851a221a2d90ba68">sw::BmpBox::Clear</a></div><div class="ttdeci">void Clear()</div><div class="ttdoc">清除加载的位图</div></div>
 <div class="ttc" id="aclasssw_1_1_bmp_box_html_adf6357c58fba6f846f136bb2956368d9"><div class="ttname"><a href="classsw_1_1_bmp_box.html#adf6357c58fba6f846f136bb2956368d9">sw::BmpBox::Measure</a></div><div class="ttdeci">virtual void Measure(const Size &amp;availableSize) override</div><div class="ttdoc">测量控件所需尺寸</div></div>
-<div class="ttc" id="aclasssw_1_1_bmp_box_html_af7ec573fbf6a7dcf2eec165f02edef41"><div class="ttname"><a href="classsw_1_1_bmp_box.html#af7ec573fbf6a7dcf2eec165f02edef41">sw::BmpBox::BmpHandle</a></div><div class="ttdeci">const ReadOnlyProperty&lt; HBITMAP &gt; BmpHandle</div><div class="ttdoc">当前控件显示的位图句柄，使用Load函数可以加载位图</div><div class="ttdef"><b>Definition</b> BmpBox.h:43</div></div>
-<div class="ttc" id="aclasssw_1_1_property_html"><div class="ttname"><a href="classsw_1_1_property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:127</div></div>
-<div class="ttc" id="aclasssw_1_1_read_only_property_html"><div class="ttname"><a href="classsw_1_1_read_only_property.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>Definition</b> Property.h:16</div></div>
-<div class="ttc" id="aclasssw_1_1_static_control_html"><div class="ttname"><a href="classsw_1_1_static_control.html">sw::StaticControl</a></div><div class="ttdoc">静态控件</div><div class="ttdef"><b>Definition</b> StaticControl.h:11</div></div>
-<div class="ttc" id="astructsw_1_1_size_html"><div class="ttname"><a href="structsw_1_1_size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>Definition</b> Size.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1_bmp_box_html_af7ec573fbf6a7dcf2eec165f02edef41"><div class="ttname"><a href="classsw_1_1_bmp_box.html#af7ec573fbf6a7dcf2eec165f02edef41">sw::BmpBox::BmpHandle</a></div><div class="ttdeci">const ReadOnlyProperty&lt; HBITMAP &gt; BmpHandle</div><div class="ttdoc">当前控件显示的位图句柄，使用Load函数可以加载位图</div><div class="ttdef"><b>定义</b> BmpBox.h:43</div></div>
+<div class="ttc" id="aclasssw_1_1_property_html"><div class="ttname"><a href="classsw_1_1_property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>定义</b> Property.h:127</div></div>
+<div class="ttc" id="aclasssw_1_1_read_only_property_html"><div class="ttname"><a href="classsw_1_1_read_only_property.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>定义</b> Property.h:16</div></div>
+<div class="ttc" id="aclasssw_1_1_static_control_html"><div class="ttname"><a href="classsw_1_1_static_control.html">sw::StaticControl</a></div><div class="ttdoc">静态控件</div><div class="ttdef"><b>定义</b> StaticControl.h:11</div></div>
+<div class="ttc" id="astructsw_1_1_size_html"><div class="ttname"><a href="structsw_1_1_size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>定义</b> Size.h:11</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>BmpBox.h</b></li>
-    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

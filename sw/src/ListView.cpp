@@ -535,7 +535,7 @@ bool sw::ListView::SetItemImage(int index, int imgIndex)
 
 bool sw::ListView::EditItem(int index)
 {
-    return this->SendMessageW(LVM_EDITLABELW, index, 0) != NULL;
+    return this->SendMessageW(LVM_EDITLABELW, index, 0) != 0;
 }
 
 void sw::ListView::CancelEdit()

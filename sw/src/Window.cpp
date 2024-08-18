@@ -199,6 +199,30 @@ sw::Window::Window()
           [&](sw::Menu *const &value) {
               this->_menu = value;
               SetMenu(this->Handle, value != nullptr ? value->GetHandle() : NULL);
+          }),
+
+      IsModal(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->_modalOwner != nullptr;
+              return result;
+          }),
+
+      Owner(
+          // get
+          [&]() -> Window *const & {
+              static Window *result;
+
+              HWND hOwner  = reinterpret_cast<HWND>(GetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT));
+              WndBase *wnd = (hOwner == NULL) ? nullptr : WndBase::GetWndBase(hOwner);
+
+              result = dynamic_cast<Window *>(wnd);
+              return result;
+          },
+          // set
+          [&](Window *const &value) {
+              SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(value ? value->Handle.Get() : NULL));
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
@@ -215,7 +239,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 
         case WM_DESTROY: {
             // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
-            if (this->IsModal()) {
+            if (this->IsModal) {
                 App::QuitMsgLoop();
             }
             // 所有窗口都关闭时若App::QuitMode为Auto则退出主消息循环
@@ -366,9 +390,10 @@ void sw::Window::OnFirstShow()
         rect.top      = (Screen::Height - rect.height) / 2;
         this->Rect    = rect;
     } else if (this->_startupLocation == WindowStartupLocation::CenterOwner) {
-        if (this->IsModal()) {
+        Window *owner = this->Owner;
+        if (owner) {
             sw::Rect windowRect = this->Rect;
-            sw::Rect ownerRect  = this->_modalOwner->Rect;
+            sw::Rect ownerRect  = owner->Rect;
             windowRect.left     = ownerRect.left + (ownerRect.width - windowRect.width) / 2;
             windowRect.top      = ownerRect.top + (ownerRect.height - windowRect.height) / 2;
             this->Rect          = windowRect;
@@ -430,12 +455,12 @@ void sw::Window::Show()
 
 void sw::Window::ShowDialog(Window &owner)
 {
-    if (this->IsModal() || this == &owner || this->IsDestroyed) {
+    if (this == &owner || this->IsModal || this->IsDestroyed) {
         return;
     }
 
+    this->Owner       = &owner;
     this->_modalOwner = &owner;
-    SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(owner.Handle.Get()));
 
     bool oldIsEnabled = owner.Enabled;
     owner.Enabled     = false;
@@ -458,11 +483,6 @@ void sw::Window::SetIcon(HICON hIcon)
 void sw::Window::DrawMenuBar()
 {
     ::DrawMenuBar(this->Handle);
-}
-
-bool sw::Window::IsModal()
-{
-    return this->_modalOwner != nullptr;
 }
 
 void sw::Window::SizeToContent()

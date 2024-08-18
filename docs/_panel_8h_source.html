@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>SimpleWindow: Panel.h 源文件</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -11,9 +11,9 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -35,10 +35,15 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.10.0 -->
+<!-- 制作者 Doxygen 1.12.0 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -46,17 +51,12 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(function() {
-  initMenu('',true,false,'search.php','搜索');
+  initMenu('',true,false,'search.php','搜索',true);
   $(function() { init_search(); });
 });
 /* @license-end */
 </script>
 <div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
-</script>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -70,7 +70,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('_panel_8h_source.html',''); initResizable(); });
+$(function(){initNavTree('_panel_8h_source.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -120,7 +120,7 @@ $(function(){initNavTree('_panel_8h_source.html',''); initResizable(); });
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        BorderStyle _borderStyle = sw::BorderStyle::None;</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classsw_1_1_panel.html#aa7b04b11114891c5df7b84932fd3370f">   33</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">Property&lt;sw::BorderStyle&gt;</a> <a class="code hl_variable" href="classsw_1_1_panel.html#aa7b04b11114891c5df7b84932fd3370f">BorderStyle</a>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classsw_1_1_panel.html#aa7b04b11114891c5df7b84932fd3370f">   33</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;sw::BorderStyle&gt;</a> <a class="code hl_variable" href="classsw_1_1_panel.html#aa7b04b11114891c5df7b84932fd3370f">BorderStyle</a>;</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">public</span>:</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classsw_1_1_panel.html#a937db7d8878602d93eead371e0aab655">   39</a></span>        <a class="code hl_function" href="classsw_1_1_panel.html#a937db7d8878602d93eead371e0aab655">Panel</a>();</div>
@@ -132,21 +132,21 @@ $(function(){initNavTree('_panel_8h_source.html',''); initResizable(); });
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    };</div>
 </div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}</div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html"><div class="ttname"><a href="classsw_1_1_dictionary.html">sw::Dictionary</a></div><div class="ttdoc">字典类，内部维护了一个指向std::map的智能指针</div><div class="ttdef"><b>Definition</b> Dictionary.h:24</div></div>
-<div class="ttc" id="aclasssw_1_1_panel_base_html"><div class="ttname"><a href="classsw_1_1_panel_base.html">sw::PanelBase</a></div><div class="ttdoc">面板类型的基类</div><div class="ttdef"><b>Definition</b> PanelBase.h:12</div></div>
-<div class="ttc" id="aclasssw_1_1_panel_html"><div class="ttname"><a href="classsw_1_1_panel.html">sw::Panel</a></div><div class="ttdoc">面板</div><div class="ttdef"><b>Definition</b> Panel.h:22</div></div>
+<div class="ttc" id="aclasssw_1_1_panel_base_html"><div class="ttname"><a href="classsw_1_1_panel_base.html">sw::PanelBase</a></div><div class="ttdoc">面板类型的基类</div><div class="ttdef"><b>定义</b> PanelBase.h:12</div></div>
+<div class="ttc" id="aclasssw_1_1_panel_html"><div class="ttname"><a href="classsw_1_1_panel.html">sw::Panel</a></div><div class="ttdoc">面板</div><div class="ttdef"><b>定义</b> Panel.h:22</div></div>
 <div class="ttc" id="aclasssw_1_1_panel_html_a655497d6bdbf760e34df1d799d89b009"><div class="ttname"><a href="classsw_1_1_panel.html#a655497d6bdbf760e34df1d799d89b009">sw::Panel::OnSize</a></div><div class="ttdeci">virtual bool OnSize(Size newClientSize) override</div><div class="ttdoc">接收到WM_SIZE时调用该函数</div></div>
 <div class="ttc" id="aclasssw_1_1_panel_html_a937db7d8878602d93eead371e0aab655"><div class="ttname"><a href="classsw_1_1_panel.html#a937db7d8878602d93eead371e0aab655">sw::Panel::Panel</a></div><div class="ttdeci">Panel()</div><div class="ttdoc">初始化面板</div></div>
-<div class="ttc" id="aclasssw_1_1_panel_html_aa7b04b11114891c5df7b84932fd3370f"><div class="ttname"><a href="classsw_1_1_panel.html#aa7b04b11114891c5df7b84932fd3370f">sw::Panel::BorderStyle</a></div><div class="ttdeci">const Property&lt; sw::BorderStyle &gt; BorderStyle</div><div class="ttdoc">边框样式</div><div class="ttdef"><b>Definition</b> Panel.h:33</div></div>
+<div class="ttc" id="aclasssw_1_1_panel_html_aa7b04b11114891c5df7b84932fd3370f"><div class="ttname"><a href="classsw_1_1_panel.html#aa7b04b11114891c5df7b84932fd3370f">sw::Panel::BorderStyle</a></div><div class="ttdeci">const Property&lt; sw::BorderStyle &gt; BorderStyle</div><div class="ttdoc">边框样式</div><div class="ttdef"><b>定义</b> Panel.h:33</div></div>
 <div class="ttc" id="aclasssw_1_1_panel_html_ab57a6afea25cdefeea622ff364727a8e"><div class="ttname"><a href="classsw_1_1_panel.html#ab57a6afea25cdefeea622ff364727a8e">sw::Panel::OnPaint</a></div><div class="ttdeci">virtual bool OnPaint() override</div><div class="ttdoc">接收到WM_PAINT时调用该函数</div></div>
-<div class="ttc" id="astructsw_1_1_size_html"><div class="ttname"><a href="structsw_1_1_size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>Definition</b> Size.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1_property_html"><div class="ttname"><a href="classsw_1_1_property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>定义</b> Property.h:127</div></div>
+<div class="ttc" id="astructsw_1_1_size_html"><div class="ttname"><a href="structsw_1_1_size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>定义</b> Size.h:11</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>Panel.h</b></li>
-    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

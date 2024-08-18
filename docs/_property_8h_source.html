@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>SimpleWindow: Property.h 源文件</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -11,9 +11,9 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -35,10 +35,15 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.10.0 -->
+<!-- 制作者 Doxygen 1.12.0 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -46,17 +51,12 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(function() {
-  initMenu('',true,false,'search.php','搜索');
+  initMenu('',true,false,'search.php','搜索',true);
   $(function() { init_search(); });
 });
 /* @license-end */
 </script>
 <div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
-</script>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -70,7 +70,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('_property_8h_source.html',''); initResizable(); });
+$(function(){initNavTree('_property_8h_source.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -127,8 +127,8 @@ $(function(){initNavTree('_property_8h_source.html',''); initResizable(); });
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">public</span>:</div>
 <div class="foldopen" id="foldopen00036" data-start="{" data-end="}">
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classsw_1_1_read_only_property.html#a800a531ff60f5be40012d548537be339">   36</a></span>        <a class="code hl_function" href="classsw_1_1_read_only_property.html#a800a531ff60f5be40012d548537be339">ReadOnlyProperty</a>(<span class="keyword">const</span> std::function&lt;<span class="keyword">const</span> T &amp;()&gt; &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">funcGet</a>)</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            : _funcGet(<a class="code hl_class" href="classsw_1_1_dictionary.html">funcGet</a>)</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classsw_1_1_read_only_property.html#a800a531ff60f5be40012d548537be339">   36</a></span>        <a class="code hl_function" href="classsw_1_1_read_only_property.html#a800a531ff60f5be40012d548537be339">ReadOnlyProperty</a>(<span class="keyword">const</span> std::function&lt;<span class="keyword">const</span> T &amp;()&gt; &amp;funcGet)</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            : _funcGet(funcGet)</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        {</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        }</div>
 </div>
@@ -155,9 +155,9 @@ $(function(){initNavTree('_property_8h_source.html',''); initResizable(); });
 </div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
 <div class="foldopen" id="foldopen00068" data-start="{" data-end="};">
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classsw_1_1_read_only_property.html#a081d365b2904532c706e9dc7e4c0bd90">   68</a></span>        <span class="keyword">friend</span> std::wostream &amp;<a class="code hl_friend" href="classsw_1_1_read_only_property.html#a081d365b2904532c706e9dc7e4c0bd90">operator&lt;&lt;</a>(std::wostream &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">wos</a>, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">prop</a>)</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classsw_1_1_read_only_property.html#a081d365b2904532c706e9dc7e4c0bd90">   68</a></span>        <span class="keyword">friend</span> std::wostream &amp;<a class="code hl_friend" href="classsw_1_1_read_only_property.html#a081d365b2904532c706e9dc7e4c0bd90">operator&lt;&lt;</a>(std::wostream &amp;wos, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a> &amp;prop)</div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        {</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            <span class="keywordflow">return</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">wos</a> &lt;&lt; <a class="code hl_class" href="classsw_1_1_dictionary.html">prop</a>._funcGet();</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            <span class="keywordflow">return</span> wos &lt;&lt; prop._funcGet();</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        }</div>
 </div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    };</div>
@@ -177,27 +177,27 @@ $(function(){initNavTree('_property_8h_source.html',''); initResizable(); });
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <a class="code hl_class" href="classsw_1_1_write_only_property.html">WriteOnlyProperty</a> &amp;operator=(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_write_only_property.html">WriteOnlyProperty</a> &amp;) = <span class="keyword">delete</span>;</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        std::function&lt;<a class="code hl_class" href="classsw_1_1_dictionary.html">void</a>(<span class="keyword">const</span> T &amp;)&gt; _funcSet;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        std::function&lt;void(<span class="keyword">const</span> T &amp;)&gt; _funcSet;</div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keyword">public</span>:</div>
 <div class="foldopen" id="foldopen00099" data-start="{" data-end="}">
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classsw_1_1_write_only_property.html#a38c348942cc3981b10e3929da579a147">   99</a></span>        <a class="code hl_function" href="classsw_1_1_write_only_property.html#a38c348942cc3981b10e3929da579a147">WriteOnlyProperty</a>(<span class="keyword">const</span> std::function&lt;<span class="keywordtype">void</span>(<span class="keyword">const</span> T &amp;)&gt; &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">funcSet</a>)</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            : _funcSet(<a class="code hl_class" href="classsw_1_1_dictionary.html">funcSet</a>)</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classsw_1_1_write_only_property.html#a38c348942cc3981b10e3929da579a147">   99</a></span>        <a class="code hl_function" href="classsw_1_1_write_only_property.html#a38c348942cc3981b10e3929da579a147">WriteOnlyProperty</a>(<span class="keyword">const</span> std::function&lt;<span class="keywordtype">void</span>(<span class="keyword">const</span> T &amp;)&gt; &amp;funcSet)</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            : _funcSet(funcSet)</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        {</div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        }</div>
 </div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
 <div class="foldopen" id="foldopen00107" data-start="{" data-end="}">
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="classsw_1_1_write_only_property.html#a870a065cc24bec479bc35eeaa0afee87">  107</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_write_only_property.html#a870a065cc24bec479bc35eeaa0afee87">Set</a>(<span class="keyword">const</span> T &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">value</a>)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="classsw_1_1_write_only_property.html#a870a065cc24bec479bc35eeaa0afee87">  107</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_write_only_property.html#a870a065cc24bec479bc35eeaa0afee87">Set</a>(<span class="keyword">const</span> T &amp;value)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            this-&gt;_funcSet(<a class="code hl_class" href="classsw_1_1_dictionary.html">value</a>);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            this-&gt;_funcSet(value);</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        }</div>
 </div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
 <div class="foldopen" id="foldopen00115" data-start="{" data-end="}">
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="classsw_1_1_write_only_property.html#a63a9ab87270f1ce81833bb36349e258a">  115</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_write_only_property.html">WriteOnlyProperty</a> &amp;<a class="code hl_function" href="classsw_1_1_write_only_property.html#a63a9ab87270f1ce81833bb36349e258a">operator=</a>(<span class="keyword">const</span> T &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">value</a>)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="classsw_1_1_write_only_property.html#a63a9ab87270f1ce81833bb36349e258a">  115</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_write_only_property.html">WriteOnlyProperty</a> &amp;<a class="code hl_function" href="classsw_1_1_write_only_property.html#a63a9ab87270f1ce81833bb36349e258a">operator=</a>(<span class="keyword">const</span> T &amp;value)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>            this-&gt;_funcSet(<a class="code hl_class" href="classsw_1_1_dictionary.html">value</a>);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>            this-&gt;_funcSet(value);</div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        }</div>
 </div>
@@ -216,16 +216,16 @@ $(function(){initNavTree('_property_8h_source.html',''); initResizable(); });
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keyword">public</span>:</div>
 <div class="foldopen" id="foldopen00138" data-start="{" data-end="}">
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="classsw_1_1_property.html#a657ad195af10d76fb55801b3cec62aca">  138</a></span>        <a class="code hl_function" href="classsw_1_1_property.html#a657ad195af10d76fb55801b3cec62aca">Property</a>(<span class="keyword">const</span> std::function&lt;<span class="keyword">const</span> T &amp;()&gt; &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">funcGet</a>, <span class="keyword">const</span> std::function&lt;<span class="keywordtype">void</span>(<span class="keyword">const</span> T &amp;)&gt; &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">funcSet</a>)</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            : <a class="code hl_class" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt;T&gt;(<a class="code hl_class" href="classsw_1_1_dictionary.html">funcGet</a>), <a class="code hl_class" href="classsw_1_1_write_only_property.html">WriteOnlyProperty</a>&lt;T&gt;(<a class="code hl_class" href="classsw_1_1_dictionary.html">funcSet</a>)</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="classsw_1_1_property.html#a657ad195af10d76fb55801b3cec62aca">  138</a></span>        <a class="code hl_function" href="classsw_1_1_property.html#a657ad195af10d76fb55801b3cec62aca">Property</a>(<span class="keyword">const</span> std::function&lt;<span class="keyword">const</span> T &amp;()&gt; &amp;funcGet, <span class="keyword">const</span> std::function&lt;<span class="keywordtype">void</span>(<span class="keyword">const</span> T &amp;)&gt; &amp;funcSet)</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            : <a class="code hl_class" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt;T&gt;(funcGet), <a class="code hl_class" href="classsw_1_1_write_only_property.html">WriteOnlyProperty</a>&lt;T&gt;(funcSet)</div>
 <div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        {</div>
 <div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        }</div>
 </div>
 <div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
 <div class="foldopen" id="foldopen00146" data-start="{" data-end="}">
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="classsw_1_1_property.html#a15318a6d29413d76006662d698f447c5">  146</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property</a> &amp;<a class="code hl_function" href="classsw_1_1_property.html#a15318a6d29413d76006662d698f447c5">operator=</a>(<span class="keyword">const</span> T &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">value</a>)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="classsw_1_1_property.html#a15318a6d29413d76006662d698f447c5">  146</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property</a> &amp;<a class="code hl_function" href="classsw_1_1_property.html#a15318a6d29413d76006662d698f447c5">operator=</a>(<span class="keyword">const</span> T &amp;value)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            this-&gt;_funcSet(<a class="code hl_class" href="classsw_1_1_dictionary.html">value</a>);</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            this-&gt;_funcSet(value);</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>            <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        }</div>
 </div>
@@ -233,34 +233,33 @@ $(function(){initNavTree('_property_8h_source.html',''); initResizable(); });
 <div class="foldopen" id="foldopen00155" data-start="{" data-end="}">
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="classsw_1_1_property.html#adbca5ee89c3f7d07035fcece6af5c9be">  155</a></span>        T *<a class="code hl_function" href="classsw_1_1_property.html#adbca5ee89c3f7d07035fcece6af5c9be">operator-&gt;</a>()<span class="keyword"> const</span></div>
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            <span class="keyword">const</span> T &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">value</a> = this-&gt;_funcGet();</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>            <span class="keywordflow">return</span> <span class="keyword">const_cast&lt;</span>T *<span class="keyword">&gt;</span>(&amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">value</a>);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            <span class="keyword">const</span> T &amp;value = this-&gt;_funcGet();</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>            <span class="keywordflow">return</span> <span class="keyword">const_cast&lt;</span>T *<span class="keyword">&gt;</span>(&amp;value);</div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        }</div>
 </div>
 <div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    };</div>
 </div>
 <div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>}</div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html"><div class="ttname"><a href="classsw_1_1_dictionary.html">sw::Dictionary</a></div><div class="ttdoc">字典类，内部维护了一个指向std::map的智能指针</div><div class="ttdef"><b>Definition</b> Dictionary.h:24</div></div>
-<div class="ttc" id="aclasssw_1_1_property_html"><div class="ttname"><a href="classsw_1_1_property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:127</div></div>
-<div class="ttc" id="aclasssw_1_1_property_html_a15318a6d29413d76006662d698f447c5"><div class="ttname"><a href="classsw_1_1_property.html#a15318a6d29413d76006662d698f447c5">sw::Property::operator=</a></div><div class="ttdeci">const Property &amp; operator=(const T &amp;value) const</div><div class="ttdoc">写属性</div><div class="ttdef"><b>Definition</b> Property.h:146</div></div>
-<div class="ttc" id="aclasssw_1_1_property_html_a657ad195af10d76fb55801b3cec62aca"><div class="ttname"><a href="classsw_1_1_property.html#a657ad195af10d76fb55801b3cec62aca">sw::Property::Property</a></div><div class="ttdeci">Property(const std::function&lt; const T &amp;()&gt; &amp;funcGet, const std::function&lt; void(const T &amp;)&gt; &amp;funcSet)</div><div class="ttdoc">初始化Property</div><div class="ttdef"><b>Definition</b> Property.h:138</div></div>
-<div class="ttc" id="aclasssw_1_1_property_html_adbca5ee89c3f7d07035fcece6af5c9be"><div class="ttname"><a href="classsw_1_1_property.html#adbca5ee89c3f7d07035fcece6af5c9be">sw::Property::operator-&gt;</a></div><div class="ttdeci">T * operator-&gt;() const</div><div class="ttdoc">取属性成员</div><div class="ttdef"><b>Definition</b> Property.h:155</div></div>
-<div class="ttc" id="aclasssw_1_1_read_only_property_html"><div class="ttname"><a href="classsw_1_1_read_only_property.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>Definition</b> Property.h:16</div></div>
-<div class="ttc" id="aclasssw_1_1_read_only_property_html_a081d365b2904532c706e9dc7e4c0bd90"><div class="ttname"><a href="classsw_1_1_read_only_property.html#a081d365b2904532c706e9dc7e4c0bd90">sw::ReadOnlyProperty::operator&lt;&lt;</a></div><div class="ttdeci">friend std::wostream &amp; operator&lt;&lt;(std::wostream &amp;wos, const ReadOnlyProperty &amp;prop)</div><div class="ttdoc">支持Utils::BuildStr</div><div class="ttdef"><b>Definition</b> Property.h:68</div></div>
-<div class="ttc" id="aclasssw_1_1_read_only_property_html_a800a531ff60f5be40012d548537be339"><div class="ttname"><a href="classsw_1_1_read_only_property.html#a800a531ff60f5be40012d548537be339">sw::ReadOnlyProperty::ReadOnlyProperty</a></div><div class="ttdeci">ReadOnlyProperty(const std::function&lt; const T &amp;()&gt; &amp;funcGet)</div><div class="ttdoc">初始化ReadOnlyProperty</div><div class="ttdef"><b>Definition</b> Property.h:36</div></div>
-<div class="ttc" id="aclasssw_1_1_read_only_property_html_ac4317dbef2c25af64659b805cbbb26f6"><div class="ttname"><a href="classsw_1_1_read_only_property.html#ac4317dbef2c25af64659b805cbbb26f6">sw::ReadOnlyProperty::Get</a></div><div class="ttdeci">const T &amp; Get() const</div><div class="ttdoc">读属性</div><div class="ttdef"><b>Definition</b> Property.h:44</div></div>
-<div class="ttc" id="aclasssw_1_1_read_only_property_html_ace02f4ac6e2e2ba863038ed5b1befb8c"><div class="ttname"><a href="classsw_1_1_read_only_property.html#ace02f4ac6e2e2ba863038ed5b1befb8c">sw::ReadOnlyProperty::operator-&gt;</a></div><div class="ttdeci">const T * operator-&gt;() const</div><div class="ttdoc">取属性成员</div><div class="ttdef"><b>Definition</b> Property.h:60</div></div>
-<div class="ttc" id="aclasssw_1_1_write_only_property_html"><div class="ttname"><a href="classsw_1_1_write_only_property.html">sw::WriteOnlyProperty</a></div><div class="ttdoc">只写属性</div><div class="ttdef"><b>Definition</b> Property.h:79</div></div>
-<div class="ttc" id="aclasssw_1_1_write_only_property_html_a38c348942cc3981b10e3929da579a147"><div class="ttname"><a href="classsw_1_1_write_only_property.html#a38c348942cc3981b10e3929da579a147">sw::WriteOnlyProperty::WriteOnlyProperty</a></div><div class="ttdeci">WriteOnlyProperty(const std::function&lt; void(const T &amp;)&gt; &amp;funcSet)</div><div class="ttdoc">初始化WriteOnlyProperty</div><div class="ttdef"><b>Definition</b> Property.h:99</div></div>
-<div class="ttc" id="aclasssw_1_1_write_only_property_html_a63a9ab87270f1ce81833bb36349e258a"><div class="ttname"><a href="classsw_1_1_write_only_property.html#a63a9ab87270f1ce81833bb36349e258a">sw::WriteOnlyProperty::operator=</a></div><div class="ttdeci">const WriteOnlyProperty &amp; operator=(const T &amp;value) const</div><div class="ttdoc">写属性</div><div class="ttdef"><b>Definition</b> Property.h:115</div></div>
-<div class="ttc" id="aclasssw_1_1_write_only_property_html_a870a065cc24bec479bc35eeaa0afee87"><div class="ttname"><a href="classsw_1_1_write_only_property.html#a870a065cc24bec479bc35eeaa0afee87">sw::WriteOnlyProperty::Set</a></div><div class="ttdeci">void Set(const T &amp;value) const</div><div class="ttdoc">写属性</div><div class="ttdef"><b>Definition</b> Property.h:107</div></div>
+<div class="ttc" id="aclasssw_1_1_property_html"><div class="ttname"><a href="classsw_1_1_property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>定义</b> Property.h:127</div></div>
+<div class="ttc" id="aclasssw_1_1_property_html_a15318a6d29413d76006662d698f447c5"><div class="ttname"><a href="classsw_1_1_property.html#a15318a6d29413d76006662d698f447c5">sw::Property::operator=</a></div><div class="ttdeci">const Property &amp; operator=(const T &amp;value) const</div><div class="ttdoc">写属性</div><div class="ttdef"><b>定义</b> Property.h:146</div></div>
+<div class="ttc" id="aclasssw_1_1_property_html_a657ad195af10d76fb55801b3cec62aca"><div class="ttname"><a href="classsw_1_1_property.html#a657ad195af10d76fb55801b3cec62aca">sw::Property::Property</a></div><div class="ttdeci">Property(const std::function&lt; const T &amp;()&gt; &amp;funcGet, const std::function&lt; void(const T &amp;)&gt; &amp;funcSet)</div><div class="ttdoc">初始化Property</div><div class="ttdef"><b>定义</b> Property.h:138</div></div>
+<div class="ttc" id="aclasssw_1_1_property_html_adbca5ee89c3f7d07035fcece6af5c9be"><div class="ttname"><a href="classsw_1_1_property.html#adbca5ee89c3f7d07035fcece6af5c9be">sw::Property::operator-&gt;</a></div><div class="ttdeci">T * operator-&gt;() const</div><div class="ttdoc">取属性成员</div><div class="ttdef"><b>定义</b> Property.h:155</div></div>
+<div class="ttc" id="aclasssw_1_1_read_only_property_html"><div class="ttname"><a href="classsw_1_1_read_only_property.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>定义</b> Property.h:16</div></div>
+<div class="ttc" id="aclasssw_1_1_read_only_property_html_a081d365b2904532c706e9dc7e4c0bd90"><div class="ttname"><a href="classsw_1_1_read_only_property.html#a081d365b2904532c706e9dc7e4c0bd90">sw::ReadOnlyProperty::operator&lt;&lt;</a></div><div class="ttdeci">friend std::wostream &amp; operator&lt;&lt;(std::wostream &amp;wos, const ReadOnlyProperty &amp;prop)</div><div class="ttdoc">支持Utils::BuildStr</div><div class="ttdef"><b>定义</b> Property.h:68</div></div>
+<div class="ttc" id="aclasssw_1_1_read_only_property_html_a800a531ff60f5be40012d548537be339"><div class="ttname"><a href="classsw_1_1_read_only_property.html#a800a531ff60f5be40012d548537be339">sw::ReadOnlyProperty::ReadOnlyProperty</a></div><div class="ttdeci">ReadOnlyProperty(const std::function&lt; const T &amp;()&gt; &amp;funcGet)</div><div class="ttdoc">初始化ReadOnlyProperty</div><div class="ttdef"><b>定义</b> Property.h:36</div></div>
+<div class="ttc" id="aclasssw_1_1_read_only_property_html_ac4317dbef2c25af64659b805cbbb26f6"><div class="ttname"><a href="classsw_1_1_read_only_property.html#ac4317dbef2c25af64659b805cbbb26f6">sw::ReadOnlyProperty::Get</a></div><div class="ttdeci">const T &amp; Get() const</div><div class="ttdoc">读属性</div><div class="ttdef"><b>定义</b> Property.h:44</div></div>
+<div class="ttc" id="aclasssw_1_1_read_only_property_html_ace02f4ac6e2e2ba863038ed5b1befb8c"><div class="ttname"><a href="classsw_1_1_read_only_property.html#ace02f4ac6e2e2ba863038ed5b1befb8c">sw::ReadOnlyProperty::operator-&gt;</a></div><div class="ttdeci">const T * operator-&gt;() const</div><div class="ttdoc">取属性成员</div><div class="ttdef"><b>定义</b> Property.h:60</div></div>
+<div class="ttc" id="aclasssw_1_1_write_only_property_html"><div class="ttname"><a href="classsw_1_1_write_only_property.html">sw::WriteOnlyProperty</a></div><div class="ttdoc">只写属性</div><div class="ttdef"><b>定义</b> Property.h:79</div></div>
+<div class="ttc" id="aclasssw_1_1_write_only_property_html_a38c348942cc3981b10e3929da579a147"><div class="ttname"><a href="classsw_1_1_write_only_property.html#a38c348942cc3981b10e3929da579a147">sw::WriteOnlyProperty::WriteOnlyProperty</a></div><div class="ttdeci">WriteOnlyProperty(const std::function&lt; void(const T &amp;)&gt; &amp;funcSet)</div><div class="ttdoc">初始化WriteOnlyProperty</div><div class="ttdef"><b>定义</b> Property.h:99</div></div>
+<div class="ttc" id="aclasssw_1_1_write_only_property_html_a63a9ab87270f1ce81833bb36349e258a"><div class="ttname"><a href="classsw_1_1_write_only_property.html#a63a9ab87270f1ce81833bb36349e258a">sw::WriteOnlyProperty::operator=</a></div><div class="ttdeci">const WriteOnlyProperty &amp; operator=(const T &amp;value) const</div><div class="ttdoc">写属性</div><div class="ttdef"><b>定义</b> Property.h:115</div></div>
+<div class="ttc" id="aclasssw_1_1_write_only_property_html_a870a065cc24bec479bc35eeaa0afee87"><div class="ttname"><a href="classsw_1_1_write_only_property.html#a870a065cc24bec479bc35eeaa0afee87">sw::WriteOnlyProperty::Set</a></div><div class="ttdeci">void Set(const T &amp;value) const</div><div class="ttdoc">写属性</div><div class="ttdef"><b>定义</b> Property.h:107</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>Property.h</b></li>
-    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>SimpleWindow: Grid.h 源文件</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -11,9 +11,9 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -35,10 +35,15 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.10.0 -->
+<!-- 制作者 Doxygen 1.12.0 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -46,17 +51,12 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(function() {
-  initMenu('',true,false,'search.php','搜索');
+  initMenu('',true,false,'search.php','搜索',true);
   $(function() { init_search(); });
 });
 /* @license-end */
 </script>
 <div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
-</script>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -70,7 +70,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('_grid_8h_source.html',''); initResizable(); });
+$(function(){initNavTree('_grid_8h_source.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -122,23 +122,22 @@ $(function(){initNavTree('_grid_8h_source.html',''); initResizable(); });
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classsw_1_1_grid.html#ab4dd516b400e34b39674ab220a538da3">   39</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_grid.html#ab4dd516b400e34b39674ab220a538da3">AddColumn</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1_grid_column.html">GridColumn</a> &amp;col);</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classsw_1_1_grid.html#ae79bb614d8319f8abfd6018f40c11e73">   44</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_grid.html#ae79bb614d8319f8abfd6018f40c11e73">SetColumns</a>(std::initializer_list&lt;GridColumn&gt; <a class="code hl_class" href="classsw_1_1_dictionary.html">cols</a>);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classsw_1_1_grid.html#ae79bb614d8319f8abfd6018f40c11e73">   44</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_grid.html#ae79bb614d8319f8abfd6018f40c11e73">SetColumns</a>(std::initializer_list&lt;GridColumn&gt; cols);</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classsw_1_1_grid.html#affdc4e3a683b4577a3f82e2986dd7b2d">   49</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_grid.html#affdc4e3a683b4577a3f82e2986dd7b2d">ClearRows</a>();</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classsw_1_1_grid.html#a9889b8f4e5cc9c290c444a25594e9e5a">   54</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_grid.html#a9889b8f4e5cc9c290c444a25594e9e5a">ClearColumns</a>();</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classsw_1_1_grid.html#af4b5153c0e5b4548be65c4eba0f0e7c4">   59</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1_grid_layout_tag.html">GridLayoutTag</a> <a class="code hl_function" href="classsw_1_1_grid.html#af4b5153c0e5b4548be65c4eba0f0e7c4">GetGridLayoutTag</a>(<a class="code hl_class" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">element</a>);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classsw_1_1_grid.html#af4b5153c0e5b4548be65c4eba0f0e7c4">   59</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1_grid_layout_tag.html">GridLayoutTag</a> <a class="code hl_function" href="classsw_1_1_grid.html#af4b5153c0e5b4548be65c4eba0f0e7c4">GetGridLayoutTag</a>(<a class="code hl_class" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;element);</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="classsw_1_1_grid.html#aa586593cd6a20329efaab07c87ac2ede">   64</a></span>        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_grid.html#aa586593cd6a20329efaab07c87ac2ede">SetGridLayoutTag</a>(<a class="code hl_class" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;<a class="code hl_class" href="classsw_1_1_dictionary.html">element</a>, <span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1_grid_layout_tag.html">GridLayoutTag</a> &amp;tag);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="classsw_1_1_grid.html#aa586593cd6a20329efaab07c87ac2ede">   64</a></span>        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_grid.html#aa586593cd6a20329efaab07c87ac2ede">SetGridLayoutTag</a>(<a class="code hl_class" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;element, <span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1_grid_layout_tag.html">GridLayoutTag</a> &amp;tag);</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keyword">protected</span>:</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="classsw_1_1_grid.html#aa7e060ae29483d32a5fdfa8b8cc6420d">   70</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classsw_1_1_layout_host.html">LayoutHost</a> *<a class="code hl_function" href="classsw_1_1_grid.html#aa7e060ae29483d32a5fdfa8b8cc6420d">GetDefaultLayout</a>() <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    };</div>
 </div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>}</div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html"><div class="ttname"><a href="classsw_1_1_dictionary.html">sw::Dictionary</a></div><div class="ttdoc">字典类，内部维护了一个指向std::map的智能指针</div><div class="ttdef"><b>Definition</b> Dictionary.h:24</div></div>
-<div class="ttc" id="aclasssw_1_1_grid_html"><div class="ttname"><a href="classsw_1_1_grid.html">sw::Grid</a></div><div class="ttdoc">由列和行组成的灵活的网格区域</div><div class="ttdef"><b>Definition</b> Grid.h:13</div></div>
+<div class="ttc" id="aclasssw_1_1_grid_html"><div class="ttname"><a href="classsw_1_1_grid.html">sw::Grid</a></div><div class="ttdoc">由列和行组成的灵活的网格区域</div><div class="ttdef"><b>定义</b> Grid.h:13</div></div>
 <div class="ttc" id="aclasssw_1_1_grid_html_a4878fb93660714d7f0a70a6a131852a1"><div class="ttname"><a href="classsw_1_1_grid.html#a4878fb93660714d7f0a70a6a131852a1">sw::Grid::AddRow</a></div><div class="ttdeci">void AddRow(const GridRow &amp;row)</div><div class="ttdoc">添加行</div></div>
 <div class="ttc" id="aclasssw_1_1_grid_html_a58863e85b90d1e4253937f46cc30b8aa"><div class="ttname"><a href="classsw_1_1_grid.html#a58863e85b90d1e4253937f46cc30b8aa">sw::Grid::SetRows</a></div><div class="ttdeci">void SetRows(std::initializer_list&lt; GridRow &gt; rows)</div><div class="ttdoc">设置行信息</div></div>
 <div class="ttc" id="aclasssw_1_1_grid_html_a9889b8f4e5cc9c290c444a25594e9e5a"><div class="ttname"><a href="classsw_1_1_grid.html#a9889b8f4e5cc9c290c444a25594e9e5a">sw::Grid::ClearColumns</a></div><div class="ttdeci">void ClearColumns()</div><div class="ttdoc">清空列</div></div>
@@ -149,20 +148,20 @@ $(function(){initNavTree('_grid_8h_source.html',''); initResizable(); });
 <div class="ttc" id="aclasssw_1_1_grid_html_af4b5153c0e5b4548be65c4eba0f0e7c4"><div class="ttname"><a href="classsw_1_1_grid.html#af4b5153c0e5b4548be65c4eba0f0e7c4">sw::Grid::GetGridLayoutTag</a></div><div class="ttdeci">static GridLayoutTag GetGridLayoutTag(UIElement &amp;element)</div><div class="ttdoc">获取指定元素的网格布局标记</div></div>
 <div class="ttc" id="aclasssw_1_1_grid_html_afbb7806a3fabedee2c10c0775076f8bb"><div class="ttname"><a href="classsw_1_1_grid.html#afbb7806a3fabedee2c10c0775076f8bb">sw::Grid::Grid</a></div><div class="ttdeci">Grid()</div><div class="ttdoc">初始化Grid</div></div>
 <div class="ttc" id="aclasssw_1_1_grid_html_affdc4e3a683b4577a3f82e2986dd7b2d"><div class="ttname"><a href="classsw_1_1_grid.html#affdc4e3a683b4577a3f82e2986dd7b2d">sw::Grid::ClearRows</a></div><div class="ttdeci">void ClearRows()</div><div class="ttdoc">清空行</div></div>
-<div class="ttc" id="aclasssw_1_1_grid_layout_html"><div class="ttname"><a href="classsw_1_1_grid_layout.html">sw::GridLayout</a></div><div class="ttdoc">网格布局方式</div><div class="ttdef"><b>Definition</b> GridLayout.h:191</div></div>
-<div class="ttc" id="aclasssw_1_1_layout_host_html"><div class="ttname"><a href="classsw_1_1_layout_host.html">sw::LayoutHost</a></div><div class="ttdoc">用于托管元素的布局方式的对象类型，是所有布局方式类型的基类</div><div class="ttdef"><b>Definition</b> LayoutHost.h:11</div></div>
-<div class="ttc" id="aclasssw_1_1_panel_html"><div class="ttname"><a href="classsw_1_1_panel.html">sw::Panel</a></div><div class="ttdoc">面板</div><div class="ttdef"><b>Definition</b> Panel.h:22</div></div>
-<div class="ttc" id="aclasssw_1_1_u_i_element_html"><div class="ttname"><a href="classsw_1_1_u_i_element.html">sw::UIElement</a></div><div class="ttdoc">表示界面中的元素</div><div class="ttdef"><b>Definition</b> UIElement.h:24</div></div>
-<div class="ttc" id="astructsw_1_1_grid_column_html"><div class="ttname"><a href="structsw_1_1_grid_column.html">sw::GridColumn</a></div><div class="ttdoc">网格中的列信息</div><div class="ttdef"><b>Definition</b> GridLayout.h:130</div></div>
-<div class="ttc" id="astructsw_1_1_grid_layout_tag_html"><div class="ttname"><a href="structsw_1_1_grid_layout_tag.html">sw::GridLayoutTag</a></div><div class="ttdoc">网格布局方式的布局标记</div><div class="ttdef"><b>Definition</b> GridLayout.h:11</div></div>
-<div class="ttc" id="astructsw_1_1_grid_row_html"><div class="ttname"><a href="structsw_1_1_grid_row.html">sw::GridRow</a></div><div class="ttdoc">网格中的行信息</div><div class="ttdef"><b>Definition</b> GridLayout.h:70</div></div>
+<div class="ttc" id="aclasssw_1_1_grid_layout_html"><div class="ttname"><a href="classsw_1_1_grid_layout.html">sw::GridLayout</a></div><div class="ttdoc">网格布局方式</div><div class="ttdef"><b>定义</b> GridLayout.h:191</div></div>
+<div class="ttc" id="aclasssw_1_1_layout_host_html"><div class="ttname"><a href="classsw_1_1_layout_host.html">sw::LayoutHost</a></div><div class="ttdoc">用于托管元素的布局方式的对象类型，是所有布局方式类型的基类</div><div class="ttdef"><b>定义</b> LayoutHost.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1_panel_html"><div class="ttname"><a href="classsw_1_1_panel.html">sw::Panel</a></div><div class="ttdoc">面板</div><div class="ttdef"><b>定义</b> Panel.h:22</div></div>
+<div class="ttc" id="aclasssw_1_1_u_i_element_html"><div class="ttname"><a href="classsw_1_1_u_i_element.html">sw::UIElement</a></div><div class="ttdoc">表示界面中的元素</div><div class="ttdef"><b>定义</b> UIElement.h:24</div></div>
+<div class="ttc" id="astructsw_1_1_grid_column_html"><div class="ttname"><a href="structsw_1_1_grid_column.html">sw::GridColumn</a></div><div class="ttdoc">网格中的列信息</div><div class="ttdef"><b>定义</b> GridLayout.h:130</div></div>
+<div class="ttc" id="astructsw_1_1_grid_layout_tag_html"><div class="ttname"><a href="structsw_1_1_grid_layout_tag.html">sw::GridLayoutTag</a></div><div class="ttdoc">网格布局方式的布局标记</div><div class="ttdef"><b>定义</b> GridLayout.h:11</div></div>
+<div class="ttc" id="astructsw_1_1_grid_row_html"><div class="ttname"><a href="structsw_1_1_grid_row.html">sw::GridRow</a></div><div class="ttdoc">网格中的行信息</div><div class="ttdef"><b>定义</b> GridLayout.h:70</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>Grid.h</b></li>
-    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

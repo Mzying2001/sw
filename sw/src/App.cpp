@@ -6,6 +6,16 @@
  */
 static sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
 
+/**
+ * @brief  获取当前exe文件路径
+ */
+static std::wstring _GetExePath();
+
+/**
+ * @brief 获取当前工作路径
+ */
+static std::wstring _GetCurrentDirectory();
+
 /*================================================================================*/
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
@@ -20,7 +30,7 @@ const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
 
 const sw::ReadOnlyProperty<std::wstring> sw::App::ExePath(
     []() -> const std::wstring & {
-        static std::wstring exePath = App::_GetExePath();
+        static std::wstring exePath = _GetExePath();
         return exePath;
     } //
 );
@@ -36,7 +46,7 @@ const sw::Property<std::wstring> sw::App::CurrentDirectory(
     // get
     []() -> const std::wstring & {
         static std::wstring result;
-        result = App::_GetCurrentDirectory();
+        result = _GetCurrentDirectory();
         return result;
     },
     // set
@@ -73,7 +83,7 @@ void sw::App::QuitMsgLoop(int exitCode)
 
 /*================================================================================*/
 
-std::wstring sw::App::_GetExePath()
+std::wstring _GetExePath()
 {
     DWORD bufferSize = MAX_PATH; // 初始缓冲区大小
     PWSTR szExePath  = nullptr;
@@ -108,7 +118,7 @@ std::wstring sw::App::_GetExePath()
     return exePath;
 }
 
-std::wstring sw::App::_GetCurrentDirectory()
+std::wstring _GetCurrentDirectory()
 {
     // 先获取路径的长度
     DWORD pathLength = GetCurrentDirectoryW(0, nullptr);

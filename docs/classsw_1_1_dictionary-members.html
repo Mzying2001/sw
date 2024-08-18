@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>SimpleWindow: 成员列表</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -11,9 +11,9 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -35,10 +35,15 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.10.0 -->
+<!-- 制作者 Doxygen 1.12.0 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -46,7 +51,7 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(function() {
-  initMenu('',true,false,'search.php','搜索');
+  initMenu('',true,false,'search.php','搜索',true);
   $(function() { init_search(); });
 });
 /* @license-end */
@@ -65,7 +70,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('classsw_1_1_dictionary.html',''); initResizable(); });
+$(function(){initNavTree('classsw_1_1_dictionary.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -106,9 +111,9 @@ $(function(){initNavTree('classsw_1_1_dictionary.html',''); initResizable(); });
   <tr class="even"><td class="entry"><a class="el" href="classsw_1_1_dictionary.html#a178b607824a4eff707914f2eb3aaaa22">Dictionary</a>(std::initializer_list&lt; std::pair&lt; const TKey, TVal &gt; &gt; list)</td><td class="entry"><a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary&lt; TKey, TVal &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classsw_1_1_dictionary.html#a98945b3a8a7c6b3e1110a406718a49c8">end</a>() const</td><td class="entry"><a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary&lt; TKey, TVal &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classsw_1_1_dictionary.html#a16703bd325716445121e257ae489dcc4">IsEmpty</a>() const</td><td class="entry"><a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary&lt; TKey, TVal &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classsw_1_1_dictionary.html#a9d62c349f91ea2d17e49c9f424e522da">operator!=</a></td><td class="entry"><a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary&lt; TKey, TVal &gt;</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classsw_1_1_dictionary.html#a09fce0167bbe5ff0e080de8b1a52e286">operator&lt;&lt;</a></td><td class="entry"><a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary&lt; TKey, TVal &gt;</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classsw_1_1_dictionary.html#aa139d8b586f45b45157b268832ac9522">operator==</a></td><td class="entry"><a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary&lt; TKey, TVal &gt;</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classsw_1_1_dictionary.html#a9d62c349f91ea2d17e49c9f424e522da">operator!=</a>(const Dictionary &amp;left, const Dictionary &amp;right)</td><td class="entry"><a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary&lt; TKey, TVal &gt;</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classsw_1_1_dictionary.html#a09fce0167bbe5ff0e080de8b1a52e286">operator&lt;&lt;</a>(std::wostream &amp;wos, const Dictionary &amp;dic)</td><td class="entry"><a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary&lt; TKey, TVal &gt;</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classsw_1_1_dictionary.html#aa139d8b586f45b45157b268832ac9522">operator==</a>(const Dictionary &amp;left, const Dictionary &amp;right)</td><td class="entry"><a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary&lt; TKey, TVal &gt;</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classsw_1_1_dictionary.html#a3f2f6938ef081002887f747d74950a30">operator[]</a>(const TKey &amp;key) const</td><td class="entry"><a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary&lt; TKey, TVal &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classsw_1_1_dictionary.html#aad835fe48c0fccba0e7e99001c7f3de6">rbegin</a>() const</td><td class="entry"><a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary&lt; TKey, TVal &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classsw_1_1_dictionary.html#afc07e417b7ccc36dc5a7dab5018b6186">Remove</a>(const TKey &amp;key) const</td><td class="entry"><a class="el" href="classsw_1_1_dictionary.html">sw::Dictionary&lt; TKey, TVal &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
@@ -118,7 +123,7 @@ $(function(){initNavTree('classsw_1_1_dictionary.html',''); initResizable(); });
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
 </body>

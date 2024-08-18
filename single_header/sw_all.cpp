@@ -80,6 +80,16 @@ bool sw::Animation::Stop()
  */
 static sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
 
+/**
+ * @brief  获取当前exe文件路径
+ */
+static std::wstring _GetExePath();
+
+/**
+ * @brief 获取当前工作路径
+ */
+static std::wstring _GetCurrentDirectory();
+
 /*================================================================================*/
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
@@ -94,7 +104,7 @@ const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
 
 const sw::ReadOnlyProperty<std::wstring> sw::App::ExePath(
     []() -> const std::wstring & {
-        static std::wstring exePath = App::_GetExePath();
+        static std::wstring exePath = _GetExePath();
         return exePath;
     } //
 );
@@ -110,7 +120,7 @@ const sw::Property<std::wstring> sw::App::CurrentDirectory(
     // get
     []() -> const std::wstring & {
         static std::wstring result;
-        result = App::_GetCurrentDirectory();
+        result = _GetCurrentDirectory();
         return result;
     },
     // set
@@ -147,7 +157,7 @@ void sw::App::QuitMsgLoop(int exitCode)
 
 /*================================================================================*/
 
-std::wstring sw::App::_GetExePath()
+std::wstring _GetExePath()
 {
     DWORD bufferSize = MAX_PATH; // 初始缓冲区大小
     PWSTR szExePath  = nullptr;
@@ -182,7 +192,7 @@ std::wstring sw::App::_GetExePath()
     return exePath;
 }
 
-std::wstring sw::App::_GetCurrentDirectory()
+std::wstring _GetCurrentDirectory()
 {
     // 先获取路径的长度
     DWORD pathLength = GetCurrentDirectoryW(0, nullptr);
@@ -4242,7 +4252,7 @@ bool sw::ListView::SetItemImage(int index, int imgIndex)
 
 bool sw::ListView::EditItem(int index)
 {
-    return this->SendMessageW(LVM_EDITLABELW, index, 0) != NULL;
+    return this->SendMessageW(LVM_EDITLABELW, index, 0) != 0;
 }
 
 void sw::ListView::CancelEdit()
@@ -8049,6 +8059,30 @@ sw::Window::Window()
           [&](sw::Menu *const &value) {
               this->_menu = value;
               SetMenu(this->Handle, value != nullptr ? value->GetHandle() : NULL);
+          }),
+
+      IsModal(
+          // get
+          [&]() -> const bool & {
+              static bool result;
+              result = this->_modalOwner != nullptr;
+              return result;
+          }),
+
+      Owner(
+          // get
+          [&]() -> Window *const & {
+              static Window *result;
+
+              HWND hOwner  = reinterpret_cast<HWND>(GetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT));
+              WndBase *wnd = (hOwner == NULL) ? nullptr : WndBase::GetWndBase(hOwner);
+
+              result = dynamic_cast<Window *>(wnd);
+              return result;
+          },
+          // set
+          [&](Window *const &value) {
+              SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(value ? value->Handle.Get() : NULL));
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
@@ -8065,7 +8099,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 
         case WM_DESTROY: {
             // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
-            if (this->IsModal()) {
+            if (this->IsModal) {
                 App::QuitMsgLoop();
             }
             // 所有窗口都关闭时若App::QuitMode为Auto则退出主消息循环
@@ -8216,9 +8250,10 @@ void sw::Window::OnFirstShow()
         rect.top      = (Screen::Height - rect.height) / 2;
         this->Rect    = rect;
     } else if (this->_startupLocation == WindowStartupLocation::CenterOwner) {
-        if (this->IsModal()) {
+        Window *owner = this->Owner;
+        if (owner) {
             sw::Rect windowRect = this->Rect;
-            sw::Rect ownerRect  = this->_modalOwner->Rect;
+            sw::Rect ownerRect  = owner->Rect;
             windowRect.left     = ownerRect.left + (ownerRect.width - windowRect.width) / 2;
             windowRect.top      = ownerRect.top + (ownerRect.height - windowRect.height) / 2;
             this->Rect          = windowRect;
@@ -8280,12 +8315,12 @@ void sw::Window::Show()
 
 void sw::Window::ShowDialog(Window &owner)
 {
-    if (this->IsModal() || this == &owner || this->IsDestroyed) {
+    if (this == &owner || this->IsModal || this->IsDestroyed) {
         return;
     }
 
+    this->Owner       = &owner;
     this->_modalOwner = &owner;
-    SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(owner.Handle.Get()));
 
     bool oldIsEnabled = owner.Enabled;
     owner.Enabled     = false;
@@ -8308,11 +8343,6 @@ void sw::Window::SetIcon(HICON hIcon)
 void sw::Window::DrawMenuBar()
 {
     ::DrawMenuBar(this->Handle);
-}
-
-bool sw::Window::IsModal()
-{
-    return this->_modalOwner != nullptr;
 }
 
 void sw::Window::SizeToContent()

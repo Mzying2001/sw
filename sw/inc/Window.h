@@ -24,7 +24,7 @@ namespace sw
     enum class WindowStartupLocation {
         Manual,       // 使用系统默认或手动设置
         CenterScreen, // 屏幕中心
-        CenterOwner,  // 所有者窗口中心，只在ShowDialog时有效
+        CenterOwner,  // 所有者窗口中心
     };
 
     /**
@@ -139,6 +139,16 @@ namespace sw
          */
         const Property<sw::Menu *> Menu;
 
+        /**
+         * @brief  窗口是否显示为模态窗口，当调用ShowDialog时该属性值为true，否则为false
+         */
+        const ReadOnlyProperty<bool> IsModal;
+
+        /**
+         * @brief 拥有者窗口
+         */
+        const Property<Window *> Owner;
+
     public:
         /**
          * @brief 初始化窗口
@@ -231,12 +241,6 @@ namespace sw
          * @brief 重回窗口的菜单栏
          */
         void DrawMenuBar();
-
-        /**
-         * @brief  窗口是否显示为模态窗口
-         * @return 当调用ShowDialog时该函数返回true，否则返回false
-         */
-        bool IsModal();
 
         /**
          * @brief 调整窗口尺寸以适应其内容大小，只对设置了布局方式的顶级窗口有效
