@@ -41,7 +41,7 @@ namespace sw
         /**
          * @brief 自定义的布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设为nullptr可恢复默认布局
          */
-        const Property<LayoutHost *> Layout;
+        const PtrProperty<LayoutHost *> Layout;
 
         /**
          * @brief 是否按照布局方式与子元素自动调整尺寸，该属性仅在当前元素已设置布局方式并且非顶级元素时有效

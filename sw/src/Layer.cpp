@@ -8,7 +8,7 @@ sw::Layer::Layer()
               return this->_customLayout;
           },
           // set
-          [this](LayoutHost *const &value) {
+          [this](LayoutHost *value) {
               if (value != nullptr)
                   value->Associate(this);
               this->_customLayout = value;

@@ -89,7 +89,7 @@ sw::UIElement::UIElement()
               return this->_contextMenu;
           },
           // set
-          [this](sw::ContextMenu *const &value) {
+          [this](sw::ContextMenu *value) {
               this->_contextMenu = value;
           }),
 

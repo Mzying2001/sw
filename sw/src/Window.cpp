@@ -25,7 +25,7 @@ static HICON _GetWindowDefaultIcon();
 /**
  * @brief 程序的当前活动窗体
  */
-const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
+const sw::ReadOnlyPtrProperty<sw::Window *> sw::Window::ActiveWindow(
     []() -> sw::Window * {
         HWND hwnd = GetActiveWindow();
         return dynamic_cast<sw::Window *>(sw::WndBase::GetWndBase(hwnd));
@@ -182,7 +182,7 @@ sw::Window::Window()
               return this->_menu;
           },
           // set
-          [this](sw::Menu *const &value) {
+          [this](sw::Menu *value) {
               this->_menu = value;
               SetMenu(this->Handle, value != nullptr ? value->GetHandle() : NULL);
           }),
@@ -201,7 +201,7 @@ sw::Window::Window()
               return dynamic_cast<Window *>(wnd);
           },
           // set
-          [this](Window *const &value) {
+          [this](Window *value) {
               SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(value ? value->Handle.Get() : NULL));
           })
 {
