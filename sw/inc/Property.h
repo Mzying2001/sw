@@ -5,117 +5,161 @@
 
 namespace sw
 {
-    template <typename T>
-    class Property; // 向前声明
-
     /**
-     * @brief 只读属性
+     * @brief 伪指针，用于实现使用operator->取属性字段
      */
     template <typename T>
-    class ReadOnlyProperty
-    {
-        // 添加Property类为友元类
-        friend class Property<T>;
-
-        // 删除拷贝构造函数
-        ReadOnlyProperty(const ReadOnlyProperty &) = delete;
-
-        // 删除拷贝赋值运算符
-        ReadOnlyProperty &operator=(const ReadOnlyProperty &) = delete;
-
-    private:
+    struct FakePtr {
         /**
-         * @brief 读取属性的函数
+         * @brief 伪指针所维护的值
          */
-        std::function<const T &()> _funcGet;
+        T value;
 
-    public:
         /**
-         * @brief 初始化ReadOnlyProperty
+         * @brief 构造伪指针
          */
-        ReadOnlyProperty(const std::function<const T &()> &funcGet)
-            : _funcGet(funcGet)
+        template <typename... Args>
+        FakePtr(Args &&...args)
+            : value(std::forward<Args>(args)...)
         {
         }
 
         /**
-         * @brief 读属性
+         * @brief 取字段
          */
-        const T &Get() const
+        T *operator->()
         {
-            return this->_funcGet();
+            return &value;
         }
 
         /**
-         * @brief 读属性
-         */
-        operator const T &() const
-        {
-            return this->_funcGet();
-        }
-
-        /**
-         * @brief 取属性成员
+         * @brief 取字段
          */
         const T *operator->() const
         {
-            return &this->_funcGet();
+            return &value;
+        }
+
+        /**
+         * @brief 隐式转换为指针
+         */
+        operator T *()
+        {
+            return &value;
+        }
+
+        /**
+         * @brief 隐式转换为指针
+         */
+        operator const T *() const
+        {
+            return &value;
+        }
+    };
+
+    /**
+     * @brief 属性类型基类模板
+     */
+    template <typename T, typename TDerived>
+    class PropertyBase
+    {
+    public:
+        // 使用默认构造函数
+        PropertyBase() = default;
+
+        // 删除移动构造
+        PropertyBase(PropertyBase &&) = delete;
+
+        // 删除拷贝构造
+        PropertyBase(const PropertyBase &) = delete;
+
+        // 删除移动赋值
+        PropertyBase &operator=(PropertyBase &&) = delete;
+
+        /**
+         * @brief 获取属性值，由子类实现
+         */
+        T GetterImpl() const;
+
+        /**
+         * @brief 设置属性值，由子类实现
+         */
+        void SetterImpl(const T &value) const;
+
+        /**
+         * @brief 获取属性值
+         */
+        T Get() const
+        {
+            return static_cast<const TDerived *>(this)->GetterImpl();
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        void Set(const T &value) const
+        {
+            static_cast<const TDerived *>(this)->SetterImpl(value);
+        }
+
+        /**
+         * @brief 获取属性值
+         */
+        operator T() const
+        {
+            return this->Get();
+        }
+
+        /**
+         * @brief 取属性字段
+         */
+        FakePtr<T> operator->() const
+        {
+            return FakePtr<T>(this->Get());
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        PropertyBase &operator=(const T &value)
+        {
+            this->Set(value);
+            return *this;
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        const PropertyBase &operator=(const T &value) const
+        {
+            this->Set(value);
+            return *this;
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        PropertyBase &operator=(const PropertyBase &prop)
+        {
+            this->Set(prop.Get());
+            return *this;
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        const PropertyBase &operator=(const PropertyBase &prop) const
+        {
+            this->Set(prop.Get());
+            return *this;
         }
 
         /**
          * @brief 支持Utils::BuildStr
          */
-        friend std::wostream &operator<<(std::wostream &wos, const ReadOnlyProperty &prop)
+        friend std::wostream &operator<<(std::wostream &wos, const PropertyBase &prop)
         {
-            return wos << prop._funcGet();
-        }
-    };
-
-    /**
-     * @brief 只写属性
-     */
-    template <typename T>
-    class WriteOnlyProperty
-    {
-        // 添加Property类为友元类
-        friend class Property<T>;
-
-        // 删除拷贝构造函数
-        WriteOnlyProperty(const WriteOnlyProperty &) = delete;
-
-        // 删除拷贝赋值运算符
-        WriteOnlyProperty &operator=(const WriteOnlyProperty &) = delete;
-
-    private:
-        /**
-         * @brief 写属性的函数
-         */
-        std::function<void(const T &)> _funcSet;
-
-    public:
-        /**
-         * @brief 初始化WriteOnlyProperty
-         */
-        WriteOnlyProperty(const std::function<void(const T &)> &funcSet)
-            : _funcSet(funcSet)
-        {
-        }
-
-        /**
-         * @brief 写属性
-         */
-        void Set(const T &value) const
-        {
-            this->_funcSet(value);
-        }
-
-        /**
-         * @brief 写属性
-         */
-        const WriteOnlyProperty &operator=(const T &value) const
-        {
-            this->_funcSet(value);
-            return *this;
+            return wos << prop.Get();
         }
     };
 
@@ -123,39 +167,136 @@ namespace sw
      * @brief 属性
      */
     template <typename T>
-    class Property : public ReadOnlyProperty<T>, public WriteOnlyProperty<T>
+    class Property : public PropertyBase<T, Property<T>>
     {
-        // 删除拷贝构造函数
-        Property(const Property &) = delete;
+    public:
+        using TBase = PropertyBase<T, Property<T>>;
+        using FnGet = std::function<T()>;
+        using FnSet = std::function<void(const T &)>;
+        using TBase::operator=;
 
-        // 删除拷贝赋值运算符
-        Property &operator=(const Property &) = delete;
+    private:
+        FnGet _getter;
+        FnSet _setter;
 
     public:
         /**
-         * @brief 初始化Property
+         * @brief 构造属性
          */
-        Property(const std::function<const T &()> &funcGet, const std::function<void(const T &)> &funcSet)
-            : ReadOnlyProperty<T>(funcGet), WriteOnlyProperty<T>(funcSet)
+        Property(const FnGet &getter, const FnSet &setter)
+            : _getter(getter), _setter(setter)
         {
         }
 
         /**
-         * @brief 写属性
+         * @brief 获取属性值
          */
-        const Property &operator=(const T &value) const
+        T GetterImpl() const
         {
-            this->_funcSet(value);
-            return *this;
+            return this->_getter();
         }
 
         /**
-         * @brief 取属性成员
+         * @brief 设置属性值
          */
-        T *operator->() const
+        void SetterImpl(const T &value) const
         {
-            const T &value = this->_funcGet();
-            return const_cast<T *>(&value);
+            this->_setter(value);
+        }
+
+        /**
+         * @brief 重设Getter
+         */
+        void ResetGetter(const FnGet &getter)
+        {
+            this->_getter = getter;
+        }
+
+        /**
+         * @brief 重设Setter
+         */
+        void ResetSetter(const FnSet &setter)
+        {
+            this->_setter = setter;
+        }
+    };
+
+    /**
+     * @brief 只读属性
+     */
+    template <typename T>
+    class ReadOnlyProperty : public PropertyBase<T, ReadOnlyProperty<T>>
+    {
+    public:
+        using TBase = PropertyBase<T, ReadOnlyProperty<T>>;
+        using FnGet = std::function<T()>;
+
+    private:
+        FnGet _getter;
+
+    public:
+        /**
+         * @brief 构造只读属性
+         */
+        ReadOnlyProperty(const FnGet &getter)
+            : _getter(getter)
+        {
+        }
+
+        /**
+         * @brief 获取属性值
+         */
+        T GetterImpl() const
+        {
+            return this->_getter();
+        }
+
+        /**
+         * @brief 重设Getter
+         */
+        void ResetGetter(const FnGet &getter)
+        {
+            this->_getter = getter;
+        }
+    };
+
+    /**
+     * @brief 只写属性
+     */
+    template <typename T>
+    class WriteOnlyProperty : public PropertyBase<T, WriteOnlyProperty<T>>
+    {
+    public:
+        using TBase = PropertyBase<T, WriteOnlyProperty<T>>;
+        using FnSet = std::function<void(const T &)>;
+        using TBase::operator=;
+
+    private:
+        FnSet _setter;
+
+    public:
+        /**
+         * @brief 构造属性
+         */
+        WriteOnlyProperty(const FnSet &setter)
+            : _setter(setter)
+        {
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        void SetterImpl(const T &value) const
+        {
+            this->_setter(value);
+        }
+
+        /**
+         * @brief 重设Setter
+         */
+        void ResetSetter(const FnSet &setter)
+        {
+            this->_setter = setter;
         }
     };
 }
