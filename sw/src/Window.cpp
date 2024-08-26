@@ -258,9 +258,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_GETMINMAXINFO: {
-            static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
-            static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
-            PMINMAXINFO pInfo     = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
+            double scaleX     = Dip::ScaleX.Get();
+            double scaleY     = Dip::ScaleY.Get();
+            PMINMAXINFO pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
             // 按照设置限制窗口大小
             if (this->_maxWidth > 0) {
                 LONG maxWidth           = std::lround(this->_maxWidth / scaleX);

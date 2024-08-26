@@ -572,8 +572,8 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     rect.width  = Utils::Max(0.0, rect.width);
     rect.height = Utils::Max(0.0, rect.height);
 
-    static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
-    static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+    double scaleX = Dip::ScaleX.Get();
+    double scaleY = Dip::ScaleY.Get();
 
     SetWindowPos(this->Handle, NULL,
                  std::lround(rect.left / scaleX), std::lround(rect.top / scaleY),
