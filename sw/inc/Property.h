@@ -41,22 +41,6 @@ namespace sw
         {
             return &value;
         }
-
-        /**
-         * @brief 隐式转换为指针
-         */
-        operator T *()
-        {
-            return &value;
-        }
-
-        /**
-         * @brief 隐式转换为指针
-         */
-        operator const T *() const
-        {
-            return &value;
-        }
     };
 
     /*================================================================================*/
