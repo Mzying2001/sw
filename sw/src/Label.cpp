@@ -5,20 +5,18 @@
 sw::Label::Label()
     : HorizontalContentAlignment(
           // get
-          [&]() -> const sw::HorizontalAlignment & {
-              static sw::HorizontalAlignment result;
+          [this]() -> sw::HorizontalAlignment {
               DWORD style = this->GetStyle();
               if (style & SS_CENTER) {
-                  result = sw::HorizontalAlignment::Center;
+                  return sw::HorizontalAlignment::Center;
               } else if (style & SS_RIGHT) {
-                  result = sw::HorizontalAlignment::Right;
+                  return sw::HorizontalAlignment::Right;
               } else {
-                  result = sw::HorizontalAlignment::Left;
+                  return sw::HorizontalAlignment::Left;
               }
-              return result;
           },
           // set
-          [&](const sw::HorizontalAlignment &value) {
+          [this](const sw::HorizontalAlignment &value) {
               switch (value) {
                   case sw::HorizontalAlignment::Left: {
                       this->SetStyle(SS_CENTER | SS_RIGHT, false);
@@ -47,32 +45,28 @@ sw::Label::Label()
 
       VerticalContentAlignment(
           // get
-          [&]() -> const sw::VerticalAlignment & {
-              static sw::VerticalAlignment result;
-              result = this->GetStyle(SS_CENTERIMAGE) ? sw::VerticalAlignment::Center : sw::VerticalAlignment::Top;
-              return result;
+          [this]() -> sw::VerticalAlignment {
+              return this->GetStyle(SS_CENTERIMAGE) ? sw::VerticalAlignment::Center : sw::VerticalAlignment::Top;
           },
           // set
-          [&](const sw::VerticalAlignment &value) {
+          [this](const sw::VerticalAlignment &value) {
               this->SetStyle(SS_CENTERIMAGE, value == sw::VerticalAlignment::Center);
           }),
 
       TextTrimming(
           // get
-          [&]() -> const sw::TextTrimming & {
-              static sw::TextTrimming result;
+          [this]() -> sw::TextTrimming {
               DWORD style = this->GetStyle();
               if ((style & SS_WORDELLIPSIS) == SS_WORDELLIPSIS) {
-                  result = sw::TextTrimming::WordEllipsis;
+                  return sw::TextTrimming::WordEllipsis;
               } else if (style & SS_ENDELLIPSIS) {
-                  result = sw::TextTrimming::EndEllipsis;
+                  return sw::TextTrimming::EndEllipsis;
               } else {
-                  result = sw::TextTrimming::None;
+                  return sw::TextTrimming::None;
               }
-              return result;
           },
           // set
-          [&](const sw::TextTrimming &value) {
+          [this](const sw::TextTrimming &value) {
               switch (value) {
                   case sw::TextTrimming::None: {
                       this->SetStyle(SS_WORDELLIPSIS, false);
@@ -95,23 +89,21 @@ sw::Label::Label()
 
       AutoWrap(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(SS_EDITCONTROL);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(SS_EDITCONTROL);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(SS_EDITCONTROL, value);
           }),
 
       AutoSize(
           // get
-          [&]() -> const bool & {
+          [this]() -> bool {
               return this->_autoSize;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->_autoSize = value;
               if (value) {
                   this->NotifyLayoutUpdated();

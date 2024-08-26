@@ -3,33 +3,33 @@
 sw::UniformGrid::UniformGrid()
     : Rows(
           // get
-          [&]() -> const int & {
+          [this]() -> int {
               return this->_uniformGridLayout.rows;
           },
           // set
-          [&](const int &value) {
+          [this](const int &value) {
               this->_uniformGridLayout.rows = value;
               this->NotifyLayoutUpdated();
           }),
 
       Columns(
           // get
-          [&]() -> const int & {
+          [this]() -> int {
               return this->_uniformGridLayout.columns;
           },
           // set
-          [&](const int &value) {
+          [this](const int &value) {
               this->_uniformGridLayout.columns = value;
               this->NotifyLayoutUpdated();
           }),
 
       FirstColumn(
           // get
-          [&]() -> const int & {
+          [this]() -> int {
               return this->_uniformGridLayout.firstColumn;
           },
           // set
-          [&](const int &value) {
+          [this](const int &value) {
               this->_uniformGridLayout.firstColumn = value;
               this->NotifyLayoutUpdated();
           })

@@ -60,21 +60,17 @@ sw::ListViewColumn::operator LVCOLUMNW() const
 sw::ListView::ListView()
     : ColumnsCount(
           // get
-          [&]() -> const int & {
-              static int result;
-              result = this->_GetColCount();
-              return result;
+          [this]() -> int {
+              return this->_GetColCount();
           }),
 
       GridLines(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->_GetExtendedListViewStyle() & LVS_EX_GRIDLINES;
-              return result;
+          [this]() -> bool {
+              return this->_GetExtendedListViewStyle() & LVS_EX_GRIDLINES;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               DWORD style;
               style = this->_GetExtendedListViewStyle();
               style = value ? (style | LVS_EX_GRIDLINES) : (style & (~LVS_EX_GRIDLINES));
@@ -83,33 +79,27 @@ sw::ListView::ListView()
 
       MultiSelect(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = !(this->GetStyle() & LVS_SINGLESEL);
-              return result;
+          [this]() -> bool {
+              return !(this->GetStyle() & LVS_SINGLESEL);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(LVS_SINGLESEL, !value);
           }),
 
       SelectedCount(
           // get
-          [&]() -> const int & {
-              static int result;
-              result = (int)this->SendMessageW(LVM_GETSELECTEDCOUNT, 0, 0);
-              return result;
+          [this]() -> int {
+              return (int)this->SendMessageW(LVM_GETSELECTEDCOUNT, 0, 0);
           }),
 
       CheckBoxes(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->_GetExtendedListViewStyle() & LVS_EX_CHECKBOXES;
-              return result;
+          [this]() -> bool {
+              return this->_GetExtendedListViewStyle() & LVS_EX_CHECKBOXES;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               DWORD style;
               style = this->_GetExtendedListViewStyle();
               style = value ? (style | LVS_EX_CHECKBOXES) : (style & (~LVS_EX_CHECKBOXES));
@@ -118,33 +108,27 @@ sw::ListView::ListView()
 
       TopIndex(
           // get
-          [&]() -> const int & {
-              static int result;
-              result = (int)this->SendMessageW(LVM_GETTOPINDEX, 0, 0);
-              return result;
+          [this]() -> int {
+              return (int)this->SendMessageW(LVM_GETTOPINDEX, 0, 0);
           }),
 
       ShareImageLists(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(LVS_SHAREIMAGELISTS);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(LVS_SHAREIMAGELISTS);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(LVS_SHAREIMAGELISTS, value);
           }),
 
       Editable(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(LVS_EDITLABELS);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(LVS_EDITLABELS);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(LVS_EDITLABELS, value);
           })
 {

@@ -3,32 +3,28 @@
 sw::TextBoxBase::TextBoxBase()
     : ReadOnly(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(ES_READONLY);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(ES_READONLY);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SendMessageW(EM_SETREADONLY, value, 0);
           }),
 
       HorizontalContentAlignment(
           // get
-          [&]() -> const sw::HorizontalAlignment & {
-              static sw::HorizontalAlignment result;
+          [this]() -> sw::HorizontalAlignment {
               LONG_PTR style = this->GetStyle();
               if (style & ES_CENTER) {
-                  result = sw::HorizontalAlignment::Center;
+                  return sw::HorizontalAlignment::Center;
               } else if (style & ES_RIGHT) {
-                  result = sw::HorizontalAlignment::Right;
+                  return sw::HorizontalAlignment::Right;
               } else {
-                  result = sw::HorizontalAlignment::Left;
+                  return sw::HorizontalAlignment::Left;
               }
-              return result;
           },
           // set
-          [&](const sw::HorizontalAlignment &value) {
+          [this](const sw::HorizontalAlignment &value) {
               switch (value) {
                   case sw::HorizontalAlignment::Left: {
                       this->SetStyle(ES_CENTER | ES_RIGHT, false);
@@ -57,19 +53,17 @@ sw::TextBoxBase::TextBoxBase()
 
       CanUndo(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->SendMessageW(EM_CANUNDO, 0, 0);
-              return result;
+          [this]() -> bool {
+              return this->SendMessageW(EM_CANUNDO, 0, 0);
           }),
 
       AcceptTab(
           // get
-          [&]() -> const bool & {
+          [this]() -> bool {
               return this->_acceptTab;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->_acceptTab = value;
           })
 {

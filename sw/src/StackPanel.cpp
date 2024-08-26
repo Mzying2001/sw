@@ -3,11 +3,11 @@
 sw::StackPanel::StackPanel()
     : Orientation(
           // get
-          [&]() -> const sw::Orientation & {
+          [this]() -> sw::Orientation {
               return this->_stackLayout.orientation;
           },
           // set
-          [&](const sw::Orientation &value) {
+          [this](const sw::Orientation &value) {
               this->_stackLayout.orientation = value;
               this->NotifyLayoutUpdated();
           })

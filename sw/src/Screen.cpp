@@ -2,27 +2,21 @@
 #include "Dip.h"
 
 const sw::ReadOnlyProperty<double> sw::Screen::Width(
-    []() -> const double & {
-        static double width;
-        width = GetSystemMetrics(SM_CXSCREEN) * Dip::ScaleX;
-        return width;
+    []() -> double {
+        return Dip::PxToDipX(GetSystemMetrics(SM_CXSCREEN));
     } //
 );
 
 const sw::ReadOnlyProperty<double> sw::Screen::Height(
-    []() -> const double & {
-        static double height;
-        height = GetSystemMetrics(SM_CYSCREEN) * Dip::ScaleY;
-        return height;
+    []() -> double {
+        return Dip::PxToDipY(GetSystemMetrics(SM_CYSCREEN));
     } //
 );
 
 const sw::ReadOnlyProperty<sw::Point> sw::Screen::CursorPosition(
-    []() -> const sw::Point & {
-        static sw::Point result;
+    []() -> sw::Point {
         POINT p;
         GetCursorPos(&p);
-        result = p;
-        return result;
+        return p;
     } //
 );

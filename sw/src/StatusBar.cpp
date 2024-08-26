@@ -4,13 +4,11 @@
 sw::StatusBar::StatusBar()
     : SizingGrip(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(SBARS_SIZEGRIP);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(SBARS_SIZEGRIP);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               if (this->SizingGrip != value) {
                   auto style   = this->GetStyle();
                   auto exstyle = this->GetExtendedStyle();
@@ -20,21 +18,17 @@ sw::StatusBar::StatusBar()
 
       PartsCount(
           // get
-          [&]() -> const int & {
-              static int result;
-              result = (int)this->SendMessageW(SB_GETPARTS, 0, 0);
-              return result;
+          [this]() -> int {
+              return (int)this->SendMessageW(SB_GETPARTS, 0, 0);
           }),
 
       UseUnicode(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->SendMessageW(SB_GETUNICODEFORMAT, 0, 0);
-              return result;
+          [this]() -> bool {
+              return this->SendMessageW(SB_GETUNICODEFORMAT, 0, 0);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SendMessageW(SB_SETUNICODEFORMAT, value, 0);
           })
 {

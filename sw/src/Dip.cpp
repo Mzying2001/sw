@@ -22,13 +22,13 @@ _ScaleInfo::_ScaleInfo()
 /*================================================================================*/
 
 const sw::ReadOnlyProperty<double> sw::Dip::ScaleX(
-    []() -> const double & {
+    []() -> double {
         return _scaleInfo.scaleX;
     } //
 );
 
 const sw::ReadOnlyProperty<double> sw::Dip::ScaleY(
-    []() -> const double & {
+    []() -> double {
         return _scaleInfo.scaleY;
     } //
 );

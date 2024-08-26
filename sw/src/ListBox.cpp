@@ -3,25 +3,21 @@
 sw::ListBox::ListBox()
     : TopIndex(
           // get
-          [&]() -> const int & {
-              static int result;
-              result = (int)this->SendMessageW(LB_GETTOPINDEX, 0, 0);
-              return result;
+          [this]() -> int {
+              return (int)this->SendMessageW(LB_GETTOPINDEX, 0, 0);
           },
           // set
-          [&](const int &value) {
+          [this](const int &value) {
               this->SendMessageW(LB_SETTOPINDEX, value, 0);
           }),
 
       MultiSelect(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(LBS_MULTIPLESEL);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(LBS_MULTIPLESEL);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               if (this->GetStyle(LBS_MULTIPLESEL) != value) {
                   this->SetStyle(LBS_MULTIPLESEL, value);
                   this->ResetHandle();
@@ -30,10 +26,8 @@ sw::ListBox::ListBox()
 
       SelectedCount(
           // get
-          [&]() -> const int & {
-              static int result;
-              result = (int)this->SendMessageW(LB_GETSELCOUNT, 0, 0);
-              return result;
+          [this]() -> int {
+              return (int)this->SendMessageW(LB_GETSELCOUNT, 0, 0);
           })
 {
     this->InitControl(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY, 0);

@@ -3,37 +3,31 @@
 sw::Slider::Slider()
     : Minimum(
           // get
-          [&]() -> const int & {
-              static int result;
-              result = (int)this->SendMessageW(TBM_GETRANGEMIN, 0, 0);
-              return result;
+          [this]() -> int {
+              return (int)this->SendMessageW(TBM_GETRANGEMIN, 0, 0);
           },
           // set
-          [&](const int &value) {
+          [this](const int &value) {
               this->SendMessageW(TBM_SETRANGEMIN, TRUE, value);
           }),
 
       Maximum(
           // get
-          [&]() -> const int & {
-              static int result;
-              result = (int)this->SendMessageW(TBM_GETRANGEMAX, 0, 0);
-              return result;
+          [this]() -> int {
+              return (int)this->SendMessageW(TBM_GETRANGEMAX, 0, 0);
           },
           // set
-          [&](const int &value) {
+          [this](const int &value) {
               this->SendMessageW(TBM_SETRANGEMAX, TRUE, value);
           }),
 
       Value(
           // get
-          [&]() -> const int & {
-              static int result;
-              result = (int)this->SendMessageW(TBM_GETPOS, 0, 0);
-              return result;
+          [this]() -> int {
+              return (int)this->SendMessageW(TBM_GETPOS, 0, 0);
           },
           // set
-          [&](const int &value) {
+          [this](const int &value) {
               this->SendMessageW(TBM_SETPOS, TRUE, value);
               this->OnValueChanged();
               this->OnEndTrack();
@@ -41,25 +35,21 @@ sw::Slider::Slider()
 
       Vertical(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(TBS_VERT);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(TBS_VERT);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(TBS_VERT, value);
           }),
 
       ValueTooltips(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(TBS_TOOLTIPS);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(TBS_TOOLTIPS);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               if (this->ValueTooltips != value) {
                   int maximum  = this->Maximum;
                   int minimum  = this->Minimum;

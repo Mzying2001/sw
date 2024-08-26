@@ -3,25 +3,21 @@
 sw::CheckableButton::CheckableButton()
     : CheckState(
           // get
-          [&]() -> const sw::CheckState & {
-              static sw::CheckState result;
-              result = (sw::CheckState)this->SendMessageW(BM_GETCHECK, 0, 0);
-              return result;
+          [this]() -> sw::CheckState {
+              return (sw::CheckState)this->SendMessageW(BM_GETCHECK, 0, 0);
           },
           // set
-          [&](const sw::CheckState &value) {
+          [this](const sw::CheckState &value) {
               this->SendMessageW(BM_SETCHECK, (WPARAM)value, 0);
           }),
 
       IsChecked(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->CheckState.Get() == sw::CheckState::Checked;
-              return result;
+          [this]() -> bool {
+              return this->CheckState.Get() == sw::CheckState::Checked;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->CheckState = value ? sw::CheckState::Checked : sw::CheckState::Unchecked;
           })
 {

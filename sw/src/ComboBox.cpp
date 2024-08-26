@@ -6,13 +6,11 @@ static constexpr DWORD _ComboBoxStyle_Editable = WS_CHILD | WS_VISIBLE | WS_CLIP
 sw::ComboBox::ComboBox()
     : IsEditable(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle() == _ComboBoxStyle_Editable;
-              return result;
+          [this]() -> bool {
+              return this->GetStyle() == _ComboBoxStyle_Editable;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               if (this->IsEditable != value) {
                   this->SetStyle(value ? _ComboBoxStyle_Editable : _ComboBoxStyle_Default);
                   this->ResetHandle();

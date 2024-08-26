@@ -3,19 +3,19 @@
 sw::IconBox::IconBox()
     : IconHandle(
           // get
-          [&]() -> const HICON & {
+          [this]() -> HICON {
               return this->_hIcon;
           }),
 
       StretchIcon(
           // get
-          [&]() -> const bool & {
+          [this]() -> bool {
               static bool result;
               result = !this->GetStyle(SS_CENTERIMAGE);
               return result;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(SS_CENTERIMAGE, !value);
           })
 {

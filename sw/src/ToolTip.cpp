@@ -8,48 +8,44 @@ sw::ToolTip::ToolTip()
 sw::ToolTip::ToolTip(DWORD style)
     : InitialDelay(
           // get
-          [&]() -> const int & {
-              static int result;
-              result = int(this->SendMessageW(TTM_GETDELAYTIME, TTDT_INITIAL, 0));
-              return result;
+          [this]() -> int {
+              return int(this->SendMessageW(TTM_GETDELAYTIME, TTDT_INITIAL, 0));
           },
           // set
-          [&](const int &value) {
+          [this](const int &value) {
               this->SendMessageW(TTM_SETDELAYTIME, TTDT_AUTOMATIC, static_cast<LPARAM>(value));
           }),
 
       ToolTipIcon(
           // get
-          [&]() -> const sw::ToolTipIcon & {
+          [this]() -> sw::ToolTipIcon {
               return this->_icon;
           },
           // set
-          [&](const sw::ToolTipIcon &value) {
+          [this](const sw::ToolTipIcon &value) {
               this->_icon = value;
               this->_UpdateIconAndTitle();
           }),
 
       ToolTipTitle(
           // get
-          [&]() -> const std::wstring & {
+          [this]() -> std::wstring {
               return this->_title;
           },
           // set
-          [&](const std::wstring &value) {
+          [this](const std::wstring &value) {
               this->_title = value;
               this->_UpdateIconAndTitle();
           }),
 
       MaxTipWidth(
           // get
-          [&]() -> const double & {
-              static double result;
-              int w  = int(this->SendMessageW(TTM_GETMAXTIPWIDTH, 0, 0));
-              result = w == -1 ? -1 : Dip::PxToDipX(w);
-              return result;
+          [this]() -> double {
+              int w = int(this->SendMessageW(TTM_GETMAXTIPWIDTH, 0, 0));
+              return (w == -1) ? -1 : Dip::PxToDipX(w);
           },
           // set
-          [&](const double &value) {
+          [this](const double &value) {
               int w = value < 0 ? -1 : Dip::DipToPxX(value);
               this->SendMessageW(TTM_SETMAXTIPWIDTH, 0, w);
           })

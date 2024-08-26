@@ -3,13 +3,11 @@
 sw::StaticControl::StaticControl()
     : Notify(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(SS_NOTIFY);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(SS_NOTIFY);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(SS_NOTIFY, value);
           })
 {

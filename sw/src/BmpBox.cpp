@@ -4,17 +4,17 @@
 sw::BmpBox::BmpBox()
     : BmpHandle(
           // get
-          [&]() -> const HBITMAP & {
+          [this]() -> HBITMAP {
               return this->_hBitmap;
           }),
 
       SizeMode(
           // get
-          [&]() -> const BmpBoxSizeMode & {
+          [this]() -> BmpBoxSizeMode {
               return this->_sizeMode;
           },
           // set
-          [&](const BmpBoxSizeMode &value) {
+          [this](const BmpBoxSizeMode &value) {
               if (this->_sizeMode != value) {
                   this->_sizeMode = value;
                   this->Redraw();

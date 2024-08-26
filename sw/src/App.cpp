@@ -19,24 +19,21 @@ static std::wstring _GetCurrentDirectory();
 /*================================================================================*/
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
-    []() -> const HINSTANCE & {
-        static HINSTANCE hInstance = NULL;
-        if (hInstance == NULL) {
-            hInstance = GetModuleHandleW(NULL);
-        }
+    []() -> HINSTANCE {
+        static HINSTANCE hInstance = GetModuleHandleW(NULL);
         return hInstance;
     } //
 );
 
 const sw::ReadOnlyProperty<std::wstring> sw::App::ExePath(
-    []() -> const std::wstring & {
+    []() -> std::wstring {
         static std::wstring exePath = _GetExePath();
         return exePath;
     } //
 );
 
 const sw::ReadOnlyProperty<std::wstring> sw::App::ExeDirectory(
-    []() -> const std::wstring & {
+    []() -> std::wstring {
         static std::wstring exeDirectory = Path::GetDirectory(App::ExePath);
         return exeDirectory;
     } //
@@ -44,10 +41,8 @@ const sw::ReadOnlyProperty<std::wstring> sw::App::ExeDirectory(
 
 const sw::Property<std::wstring> sw::App::CurrentDirectory(
     // get
-    []() -> const std::wstring & {
-        static std::wstring result;
-        result = _GetCurrentDirectory();
-        return result;
+    []() -> std::wstring {
+        return _GetCurrentDirectory();
     },
     // set
     [](const std::wstring &value) {
@@ -57,7 +52,7 @@ const sw::Property<std::wstring> sw::App::CurrentDirectory(
 
 const sw::Property<sw::AppQuitMode> sw::App::QuitMode(
     // get
-    []() -> const sw::AppQuitMode & {
+    []() -> sw::AppQuitMode {
         return _appQuitMode;
     },
     // set

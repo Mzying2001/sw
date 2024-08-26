@@ -4,26 +4,20 @@
 sw::TabControl::TabControl()
     : ContentRect(
           // get
-          [&]() -> const sw::Rect & {
-              static sw::Rect result;
-
+          [this]() -> sw::Rect {
               RECT rect;
               GetClientRect(this->Handle, &rect);
               this->SendMessageW(TCM_ADJUSTRECT, FALSE, reinterpret_cast<LPARAM>(&rect));
-
-              result = rect;
-              return result;
+              return rect;
           }),
 
       SelectedIndex(
           // get
-          [&]() -> const int & {
-              static int result;
-              result = (int)this->SendMessageW(TCM_GETCURSEL, 0, 0);
-              return result;
+          [this]() -> int {
+              return (int)this->SendMessageW(TCM_GETCURSEL, 0, 0);
           },
           // set
-          [&](const int &value) {
+          [this](const int &value) {
               if (this->SelectedIndex != value) {
                   this->SendMessageW(TCM_SETCURSEL, (WPARAM)value, 0);
                   this->OnSelectedIndexChanged();
@@ -32,20 +26,16 @@ sw::TabControl::TabControl()
 
       Alignment(
           // get
-          [&]() -> const TabAlignment & {
-              static TabAlignment result;
+          [this]() -> TabAlignment {
               auto style = this->GetStyle();
-
               if (style & TCS_VERTICAL) {
-                  result = (style & TCS_RIGHT) ? TabAlignment::Right : TabAlignment::Left;
-                  return result;
+                  return (style & TCS_RIGHT) ? TabAlignment::Right : TabAlignment::Left;
               } else {
-                  result = (style & TCS_BOTTOM) ? TabAlignment::Bottom : TabAlignment::Top;
-                  return result;
+                  return (style & TCS_BOTTOM) ? TabAlignment::Bottom : TabAlignment::Top;
               }
           },
           // set
-          [&](const TabAlignment &value) {
+          [this](const TabAlignment &value) {
               auto oldStyle = this->GetStyle();
               auto style    = oldStyle;
 
@@ -104,13 +94,11 @@ sw::TabControl::TabControl()
 
       MultiLine(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(TCS_MULTILINE);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(TCS_MULTILINE);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(TCS_MULTILINE, value);
               this->NotifyLayoutUpdated();
           })

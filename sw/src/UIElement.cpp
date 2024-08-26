@@ -7,30 +7,30 @@
 sw::UIElement::UIElement()
     : Margin(
           // get
-          [&]() -> const Thickness & {
+          [this]() -> Thickness {
               return this->_margin;
           },
           // set
-          [&](const Thickness &value) {
+          [this](const Thickness &value) {
               this->_margin = value;
               this->NotifyLayoutUpdated();
           }),
 
       HorizontalAlignment(
-          [&]() -> const sw::HorizontalAlignment & {
+          [this]() -> sw::HorizontalAlignment {
               return this->_horizontalAlignment;
           },
-          [&](const sw::HorizontalAlignment &value) {
+          [this](const sw::HorizontalAlignment &value) {
               if (this->_SetHorzAlignment(value)) {
                   this->NotifyLayoutUpdated();
               }
           }),
 
       VerticalAlignment(
-          [&]() -> const sw::VerticalAlignment & {
+          [this]() -> sw::VerticalAlignment {
               return this->_verticalAlignment;
           },
-          [&](const sw::VerticalAlignment &value) {
+          [this](const sw::VerticalAlignment &value) {
               if (this->_SetVertAlignment(value)) {
                   this->NotifyLayoutUpdated();
               }
@@ -38,19 +38,17 @@ sw::UIElement::UIElement()
 
       ChildCount(
           // get
-          [&]() -> const int & {
-              static int count;
-              count = (int)this->_children.size();
-              return count;
+          [this]() -> int {
+              return (int)this->_children.size();
           }),
 
       CollapseWhenHide(
           // get
-          [&]() -> const bool & {
+          [this]() -> bool {
               return this->_collapseWhenHide;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               if (this->_collapseWhenHide != value) {
                   this->_collapseWhenHide = value;
                   if (!this->Visible)
@@ -60,48 +58,48 @@ sw::UIElement::UIElement()
 
       Parent(
           // get
-          [&]() -> UIElement *const & {
+          [this]() -> UIElement * {
               return this->_parent;
           }),
 
       Tag(
           // get
-          [&]() -> const uint64_t & {
+          [this]() -> uint64_t {
               return this->_tag;
           },
           // set
-          [&](const uint64_t &value) {
+          [this](const uint64_t &value) {
               this->_tag = value;
           }),
 
       LayoutTag(
           // get
-          [&]() -> const uint64_t & {
+          [this]() -> uint64_t {
               return this->_layoutTag;
           },
           // set
-          [&](const uint64_t &value) {
+          [this](const uint64_t &value) {
               this->_layoutTag = value;
               this->NotifyLayoutUpdated();
           }),
 
       ContextMenu(
           // get
-          [&]() -> sw::ContextMenu *const & {
+          [this]() -> sw::ContextMenu * {
               return this->_contextMenu;
           },
           // set
-          [&](sw::ContextMenu *const &value) {
+          [this](sw::ContextMenu *const &value) {
               this->_contextMenu = value;
           }),
 
       Float(
           // get
-          [&]() -> const bool & {
+          [this]() -> bool {
               return this->_float;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->_float = value;
               this->UpdateSiblingsZOrder();
               this->NotifyLayoutUpdated();
@@ -109,54 +107,54 @@ sw::UIElement::UIElement()
 
       TabStop(
           // get
-          [&]() -> const bool & {
+          [this]() -> bool {
               return this->_tabStop;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->_tabStop = value;
           }),
 
       BackColor(
           // get
-          [&]() -> const Color & {
+          [this]() -> Color {
               return this->_backColor;
           },
           // set
-          [&](const Color &value) {
+          [this](const Color &value) {
               this->_transparent = false;
               this->SetBackColor(value, true);
           }),
 
       TextColor(
           // get
-          [&]() -> const Color & {
+          [this]() -> Color {
               return this->_textColor;
           },
           // set
-          [&](const Color &value) {
+          [this](const Color &value) {
               this->_inheritTextColor = false;
               this->SetTextColor(value, true);
           }),
 
       Transparent(
           // get
-          [&]() -> const bool & {
+          [this]() -> bool {
               return this->_transparent;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->_transparent = value;
               this->Redraw();
           }),
 
       InheritTextColor(
           // get
-          [&]() -> const bool & {
+          [this]() -> bool {
               return this->_inheritTextColor;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->_inheritTextColor = value;
               this->Redraw();
           })

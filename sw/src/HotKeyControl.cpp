@@ -3,11 +3,11 @@
 sw::HotKeyControl::HotKeyControl()
     : Value(
           // get
-          [&]() -> const HotKey & {
+          [this]() -> HotKey {
               return this->_value;
           },
           // set
-          [&](const HotKey &value) {
+          [this](const HotKey &value) {
               if (value.key != this->_value.key && value.modifier != this->_value.modifier) {
                   WORD val = MAKEWORD(value.key, value.modifier);
                   this->SendMessageW(HKM_SETHOTKEY, val, 0);

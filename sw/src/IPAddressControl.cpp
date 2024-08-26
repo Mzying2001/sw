@@ -8,21 +8,19 @@ sw::IPAddressControl::IPAddressControl()
 sw::IPAddressControl::IPAddressControl(sw::Size size)
     : IsBlank(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = ::SendMessageW(this->_hIPAddrCtrl, IPM_ISBLANK, 0, 0);
-              return result;
+          [this]() -> bool {
+              return ::SendMessageW(this->_hIPAddrCtrl, IPM_ISBLANK, 0, 0);
           }),
 
       Address(
           // get
-          [&]() -> const uint32_t & {
-              static uint32_t result;
+          [this]() -> uint32_t {
+              uint32_t result;
               ::SendMessageW(this->_hIPAddrCtrl, IPM_GETADDRESS, 0, reinterpret_cast<LPARAM>(&result));
               return result;
           },
           // set
-          [&](const uint32_t &value) {
+          [this](const uint32_t &value) {
               ::SendMessageW(this->_hIPAddrCtrl, IPM_SETADDRESS, 0, (LPARAM)value);
               this->OnAddressChanged();
           })

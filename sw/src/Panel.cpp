@@ -8,11 +8,11 @@ static constexpr wchar_t _PanelClassName[] = L"sw::Panel";
 sw::Panel::Panel()
     : BorderStyle(
           // get
-          [&]() -> const sw::BorderStyle & {
+          [this]() -> sw::BorderStyle {
               return this->_borderStyle;
           },
           // set
-          [&](const sw::BorderStyle &value) {
+          [this](const sw::BorderStyle &value) {
               if (this->_borderStyle != value) {
                   this->_borderStyle = value;
                   this->Redraw();

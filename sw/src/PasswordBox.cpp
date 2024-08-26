@@ -3,13 +3,11 @@
 sw::PasswordBox::PasswordBox()
     : PasswordChar(
           // get
-          [&]() -> const wchar_t & {
-              static wchar_t result;
-              result = (wchar_t)this->SendMessageW(EM_GETPASSWORDCHAR, 0, 0);
-              return result;
+          [this]() -> wchar_t {
+              return (wchar_t)this->SendMessageW(EM_GETPASSWORDCHAR, 0, 0);
           },
           // set
-          [&](const wchar_t &value) {
+          [this](const wchar_t &value) {
               this->SendMessageW(EM_SETPASSWORDCHAR, value, 0);
           })
 {

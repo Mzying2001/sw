@@ -3,11 +3,11 @@
 sw::DockPanel::DockPanel()
     : LastChildFill(
           // get
-          [&]() -> const bool & {
+          [this]() -> bool {
               return this->_dockLayout.lastChildFill;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->_dockLayout.lastChildFill = value;
               this->NotifyLayoutUpdated();
           })
