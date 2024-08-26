@@ -17,7 +17,7 @@ void sw::Control::ResetHandle()
 
 void sw::Control::ResetHandle(DWORD style, DWORD exStyle)
 {
-    HWND &refHwnd = const_cast<HWND &>(this->Handle.Get());
+    HWND &refHwnd = this->_hwnd;
 
     RECT rect = this->Rect.Get();
     auto text = this->GetText().c_str();
