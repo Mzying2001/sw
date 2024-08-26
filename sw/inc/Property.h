@@ -2,6 +2,8 @@
 
 #include <functional>
 #include <iostream>
+#include <memory>
+#include <type_traits>
 
 namespace sw
 {
@@ -57,8 +59,10 @@ namespace sw
         }
     };
 
+    /*================================================================================*/
+
     /**
-     * @brief 属性类型基类模板
+     * @brief 属性基类模板
      */
     template <typename T, typename TDerived>
     class PropertyBase
@@ -87,6 +91,14 @@ namespace sw
         void SetterImpl(const T &value) const;
 
         /**
+         * @brief 获取字段，可由子类重写
+         */
+        FakePtr<T> ListFieldsImpl() const
+        {
+            return FakePtr<T>(this->Get());
+        }
+
+        /**
          * @brief 获取属性值
          */
         T Get() const
@@ -103,19 +115,19 @@ namespace sw
         }
 
         /**
+         * @brief 取属性字段
+         */
+        auto operator->() const
+        {
+            return static_cast<const TDerived *>(this)->ListFieldsImpl();
+        }
+
+        /**
          * @brief 获取属性值
          */
         operator T() const
         {
             return this->Get();
-        }
-
-        /**
-         * @brief 取属性字段
-         */
-        FakePtr<T> operator->() const
-        {
-            return FakePtr<T>(this->Get());
         }
 
         /**
@@ -162,6 +174,8 @@ namespace sw
             return wos << prop.Get();
         }
     };
+
+    /*================================================================================*/
 
     /**
      * @brief 属性
@@ -287,6 +301,175 @@ namespace sw
          * @brief 设置属性值
          */
         void SetterImpl(const T &value) const
+        {
+            this->_setter(value);
+        }
+
+        /**
+         * @brief 重设Setter
+         */
+        void ResetSetter(const FnSet &setter)
+        {
+            this->_setter = setter;
+        }
+    };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 指针属性基类模板
+     */
+    template <typename T, typename TDerived>
+    class PtrPropertyBase : public PropertyBase<T, TDerived>
+    {
+        static_assert(std::is_pointer<T>::value, "T should be pointer type");
+
+    public:
+        using TBase = PropertyBase<T, TDerived>;
+        using TBase::PropertyBase;
+        using TBase::operator=;
+
+        /**
+         * @brief 获取字段
+         */
+        T ListFieldsImpl() const
+        {
+            return this->Get();
+        }
+
+        /**
+         * @brief 属性值是否为nullptr
+         */
+        bool IsNull() const
+        {
+            return this->Get() == nullptr;
+        }
+    };
+
+    /**
+     * @brief 指针属性
+     */
+    template <typename T>
+    class PtrProperty : public PtrPropertyBase<T, PtrProperty<T>>
+    {
+    public:
+        using TBase = PtrPropertyBase<T, PtrProperty<T>>;
+        using FnGet = std::function<T()>;
+        using FnSet = std::function<void(T)>;
+        using TBase::operator=;
+
+    private:
+        FnGet _getter;
+        FnSet _setter;
+
+    public:
+        /**
+         * @brief 构造属性
+         */
+        PtrProperty(const FnGet &getter, const FnSet &setter)
+            : _getter(getter), _setter(setter)
+        {
+        }
+
+        /**
+         * @brief 获取属性值
+         */
+        T GetterImpl() const
+        {
+            return this->_getter();
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        void SetterImpl(T value) const
+        {
+            this->_setter(value);
+        }
+
+        /**
+         * @brief 重设Getter
+         */
+        void ResetGetter(const FnGet &getter)
+        {
+            this->_getter = getter;
+        }
+
+        /**
+         * @brief 重设Setter
+         */
+        void ResetSetter(const FnSet &setter)
+        {
+            this->_setter = setter;
+        }
+    };
+
+    /**
+     * @brief 指针只读属性
+     */
+    template <typename T>
+    class ReadOnlyPtrProperty : public PtrPropertyBase<T, ReadOnlyPtrProperty<T>>
+    {
+    public:
+        using TBase = PtrPropertyBase<T, ReadOnlyPtrProperty<T>>;
+        using FnGet = std::function<T()>;
+
+    private:
+        FnGet _getter;
+
+    public:
+        /**
+         * @brief 构造属性
+         */
+        ReadOnlyPtrProperty(const FnGet &getter)
+            : _getter(getter)
+        {
+        }
+
+        /**
+         * @brief 获取属性值
+         */
+        T GetterImpl() const
+        {
+            return this->_getter();
+        }
+
+        /**
+         * @brief 重设Getter
+         */
+        void ResetGetter(const FnGet &getter)
+        {
+            this->_getter = getter;
+        }
+    };
+
+    /**
+     * @brief 指针只写属性
+     */
+    template <typename T>
+    class WriteOnlyPtrProperty : public PtrPropertyBase<T, WriteOnlyPtrProperty<T>>
+    {
+    public:
+        using TBase = PtrPropertyBase<T, WriteOnlyPtrProperty<T>>;
+        using FnSet = std::function<void(T)>;
+        using TBase::operator=;
+
+    private:
+        FnSet _setter;
+
+    public:
+        /**
+         * @brief 构造属性
+         */
+        WriteOnlyPtrProperty(const FnSet &setter)
+            : _setter(setter)
+        {
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        void SetterImpl(T value) const
         {
             this->_setter(value);
         }
