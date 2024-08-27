@@ -268,6 +268,26 @@ namespace sw
         }
 
         /**
+         * @brief 前置自减运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator--()
+        {
+            this->Set(this->Get() - 1);
+            return *this;
+        }
+
+        /**
+         * @brief 前置自减运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator--() const
+        {
+            this->Set(this->Get() - 1);
+            return *this;
+        }
+
+        /**
          * @brief 后置自增运算
          */
         template <typename U = T>
@@ -275,6 +295,17 @@ namespace sw
         {
             T oldval = this->Get();
             this->Set(oldval + 1);
+            return oldval;
+        }
+
+        /**
+         * @brief 后置自减运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, T>::type operator--(int)
+        {
+            T oldval = this->Get();
+            this->Set(oldval - 1);
             return oldval;
         }
 
