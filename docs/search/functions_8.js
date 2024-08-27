@@ -18,9 +18,10 @@ var searchData=
   ['iscontrol_15',['IsControl',['../classsw_1_1_wnd_base.html#ace8f6b05caa5d335f7d574c38035bfa7',1,'sw::WndBase']]],
   ['isempty_16',['IsEmpty',['../classsw_1_1_dictionary.html#a16703bd325716445121e257ae489dcc4',1,'sw::Dictionary::IsEmpty()'],['../classsw_1_1_list.html#aed38231dffce414f40d272aba6e7099c',1,'sw::List::IsEmpty()']]],
   ['islayoutdisabled_17',['IsLayoutDisabled',['../classsw_1_1_layer.html#aad286771872cc835570d7f6508772a20',1,'sw::Layer']]],
-  ['isrootelement_18',['IsRootElement',['../classsw_1_1_u_i_element.html#a67bd7d81e6091118e4c97cc24c68543d',1,'sw::UIElement']]],
-  ['isroutedeventregistered_19',['IsRoutedEventRegistered',['../classsw_1_1_u_i_element.html#adf8152f31c5e109ba016316182bcec47',1,'sw::UIElement']]],
-  ['isseparator_20',['IsSeparator',['../classsw_1_1_menu_item.html#a136e71998ffff40e3d165749ba7f7306',1,'sw::MenuItem']]],
-  ['isvisible_21',['IsVisible',['../classsw_1_1_wnd_base.html#a6ee668e7a5261f96df0bd69a1fb868d3',1,'sw::WndBase']]],
-  ['iswrap_22',['IsWrap',['../classsw_1_1_image_list.html#a0cf385d15bc51bcd7214f3f5969b494c',1,'sw::ImageList']]]
+  ['isnull_18',['IsNull',['../classsw_1_1_ptr_property_base.html#a8e9a919b081b246737e9aba31800281b',1,'sw::PtrPropertyBase']]],
+  ['isrootelement_19',['IsRootElement',['../classsw_1_1_u_i_element.html#a67bd7d81e6091118e4c97cc24c68543d',1,'sw::UIElement']]],
+  ['isroutedeventregistered_20',['IsRoutedEventRegistered',['../classsw_1_1_u_i_element.html#adf8152f31c5e109ba016316182bcec47',1,'sw::UIElement']]],
+  ['isseparator_21',['IsSeparator',['../classsw_1_1_menu_item.html#a136e71998ffff40e3d165749ba7f7306',1,'sw::MenuItem']]],
+  ['isvisible_22',['IsVisible',['../classsw_1_1_wnd_base.html#a6ee668e7a5261f96df0bd69a1fb868d3',1,'sw::WndBase']]],
+  ['iswrap_23',['IsWrap',['../classsw_1_1_image_list.html#a0cf385d15bc51bcd7214f3f5969b494c',1,'sw::ImageList']]]
 ];

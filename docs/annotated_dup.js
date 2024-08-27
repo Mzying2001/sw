@@ -30,6 +30,7 @@ var annotated_dup =
       [ "DockLayoutTag", "classsw_1_1_dock_layout_tag.html", "classsw_1_1_dock_layout_tag" ],
       [ "DockPanel", "classsw_1_1_dock_panel.html", "classsw_1_1_dock_panel" ],
       [ "DropFilesEventArgs", "structsw_1_1_drop_files_event_args.html", null ],
+      [ "FakePtr", "structsw_1_1_fake_ptr.html", "structsw_1_1_fake_ptr" ],
       [ "FillLayout", "classsw_1_1_fill_layout.html", "classsw_1_1_fill_layout" ],
       [ "FillRemainGridColumn", "structsw_1_1_fill_remain_grid_column.html", "structsw_1_1_fill_remain_grid_column" ],
       [ "FillRemainGridRow", "structsw_1_1_fill_remain_grid_row.html", "structsw_1_1_fill_remain_grid_row" ],
@@ -87,8 +88,12 @@ var annotated_dup =
       [ "ProcMsg", "structsw_1_1_proc_msg.html", "structsw_1_1_proc_msg" ],
       [ "ProgressBar", "classsw_1_1_progress_bar.html", "classsw_1_1_progress_bar" ],
       [ "Property", "classsw_1_1_property.html", "classsw_1_1_property" ],
+      [ "PropertyBase", "classsw_1_1_property_base.html", "classsw_1_1_property_base" ],
+      [ "PtrProperty", "classsw_1_1_ptr_property.html", "classsw_1_1_ptr_property" ],
+      [ "PtrPropertyBase", "classsw_1_1_ptr_property_base.html", "classsw_1_1_ptr_property_base" ],
       [ "RadioButton", "classsw_1_1_radio_button.html", "classsw_1_1_radio_button" ],
       [ "ReadOnlyProperty", "classsw_1_1_read_only_property.html", "classsw_1_1_read_only_property" ],
+      [ "ReadOnlyPtrProperty", "classsw_1_1_read_only_ptr_property.html", "classsw_1_1_read_only_ptr_property" ],
       [ "Rect", "structsw_1_1_rect.html", "structsw_1_1_rect" ],
       [ "RoutedEventArgs", "structsw_1_1_routed_event_args.html", "structsw_1_1_routed_event_args" ],
       [ "RoutedEventArgsOfType", "structsw_1_1_routed_event_args_of_type.html", null ],
@@ -124,6 +129,7 @@ var annotated_dup =
       [ "WrapLayoutH", "classsw_1_1_wrap_layout_h.html", "classsw_1_1_wrap_layout_h" ],
       [ "WrapLayoutV", "classsw_1_1_wrap_layout_v.html", "classsw_1_1_wrap_layout_v" ],
       [ "WrapPanel", "classsw_1_1_wrap_panel.html", "classsw_1_1_wrap_panel" ],
-      [ "WriteOnlyProperty", "classsw_1_1_write_only_property.html", "classsw_1_1_write_only_property" ]
+      [ "WriteOnlyProperty", "classsw_1_1_write_only_property.html", "classsw_1_1_write_only_property" ],
+      [ "WriteOnlyPtrProperty", "classsw_1_1_write_only_ptr_property.html", "classsw_1_1_write_only_ptr_property" ]
     ] ]
 ];

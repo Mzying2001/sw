@@ -2,7 +2,7 @@ var searchData=
 [
   ['acceptfiles_0',['AcceptFiles',['../classsw_1_1_wnd_base.html#a43b324f78290554d0c08bf6f33cdb5fd',1,'sw::WndBase']]],
   ['accepttab_1',['AcceptTab',['../classsw_1_1_text_box_base.html#a91bad54640a2bdd486232d3836611608',1,'sw::TextBoxBase']]],
-  ['activewindow_2',['ActiveWindow',['../classsw_1_1_window.html#a53a830719caa870a49934419c6b231a3',1,'sw::Window']]],
+  ['activewindow_2',['ActiveWindow',['../classsw_1_1_window.html#a8130cc659ba117691acd1f2e0d18967c',1,'sw::Window']]],
   ['add_3',['Add',['../classsw_1_1_image_list.html#a16929804b8a2084329f0958a5b263503',1,'sw::ImageList']]],
   ['addchild_4',['AddChild',['../classsw_1_1_u_i_element.html#a32893339be348aa964441954f3a31101',1,'sw::UIElement::AddChild(UIElement *element)'],['../classsw_1_1_u_i_element.html#a1576ecfeec8347256a1c43a33169e1dc',1,'sw::UIElement::AddChild(UIElement &amp;element)'],['../classsw_1_1_u_i_element.html#ac020bc2d263e0dcffa59e0f474ea6e95',1,'sw::UIElement::AddChild(UIElement *element, uint64_t layoutTag)'],['../classsw_1_1_u_i_element.html#a3e08b05c1a3ac1d95fd54a3ffaab81a0',1,'sw::UIElement::AddChild(UIElement &amp;element, uint64_t layoutTag)']]],
   ['addcolumn_5',['AddColumn',['../classsw_1_1_grid.html#ab4dd516b400e34b39674ab220a538da3',1,'sw::Grid::AddColumn()'],['../classsw_1_1_list_view.html#abdc6fdb5bbe352fa0cfed2587260f6fc',1,'sw::ListView::AddColumn(const ListViewColumn &amp;column)'],['../classsw_1_1_list_view.html#a46f3f478e2f3bd4c1b3518eefd2a75fe',1,'sw::ListView::AddColumn(const std::wstring &amp;header)']]],

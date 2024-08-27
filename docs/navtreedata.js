@@ -48,8 +48,8 @@ var NAVTREEINDEX =
 "_alignment_8h_source.html",
 "classsw_1_1_grid_layout.html#aac702cbbed9459c559d85c337313d3a9",
 "classsw_1_1_list_view.html#ad9e879d4c14b0d12382eb6c005c1340b",
-"classsw_1_1_u_i_element.html#a6a331869736475e10e2f861b5a242565",
-"functions_func_l.html"
+"classsw_1_1_timer.html#a306078a056429c54ec5261bc45fc15d0",
+"classsw_1_1_wnd_base.html#ad5e7d8d1a548315b3e709151f71766b3"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';
