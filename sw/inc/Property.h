@@ -168,6 +168,117 @@ namespace sw
         }
 
         /**
+         * @brief 加赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator+=(T value)
+        {
+            this->Set(this->Get() + value);
+            return *this;
+        }
+
+        /**
+         * @brief 加赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator+=(T value) const
+        {
+            this->Set(this->Get() + value);
+            return *this;
+        }
+
+        /**
+         * @brief 减赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator-=(T value)
+        {
+            this->Set(this->Get() - value);
+            return *this;
+        }
+
+        /**
+         * @brief 减赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator-=(T value) const
+        {
+            this->Set(this->Get() - value);
+            return *this;
+        }
+
+        /**
+         * @brief 乘赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator*=(T value)
+        {
+            this->Set(this->Get() * value);
+            return *this;
+        }
+
+        /**
+         * @brief 乘赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator*=(T value) const
+        {
+            this->Set(this->Get() * value);
+            return *this;
+        }
+
+        /**
+         * @brief 除赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator/=(T value)
+        {
+            this->Set(this->Get() / value);
+            return *this;
+        }
+
+        /**
+         * @brief 除赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator/=(T value) const
+        {
+            this->Set(this->Get() / value);
+            return *this;
+        }
+
+        /**
+         * @brief 前置自增运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator++()
+        {
+            this->Set(this->Get() + 1);
+            return *this;
+        }
+
+        /**
+         * @brief 前置自增运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator++() const
+        {
+            this->Set(this->Get() + 1);
+            return *this;
+        }
+
+        /**
+         * @brief 后置自增运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, T>::type operator++(int)
+        {
+            T oldval = this->Get();
+            this->Set(oldval + 1);
+            return oldval;
+        }
+
+        /**
          * @brief 支持Utils::BuildStr
          */
         friend std::wostream &operator<<(std::wostream &wos, const PropertyBase &prop)
