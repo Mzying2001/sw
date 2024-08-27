@@ -4,11 +4,11 @@
 sw::Layer::Layer()
     : Layout(
           // get
-          [&]() -> LayoutHost *const & {
+          [this]() -> LayoutHost * {
               return this->_customLayout;
           },
           // set
-          [&](LayoutHost *const &value) {
+          [this](LayoutHost *value) {
               if (value != nullptr)
                   value->Associate(this);
               this->_customLayout = value;
@@ -16,11 +16,11 @@ sw::Layer::Layer()
 
       AutoSize(
           // get
-          [&]() -> const bool & {
+          [this]() -> bool {
               return this->_autoSize;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               if (this->_autoSize != value) {
                   this->_autoSize = value;
                   if (!this->IsRootElement())
@@ -30,13 +30,11 @@ sw::Layer::Layer()
 
       HorizontalScrollBar(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(WS_HSCROLL);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(WS_HSCROLL);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               if (this->HorizontalScrollBar == value) {
                   return;
               }
@@ -51,13 +49,11 @@ sw::Layer::Layer()
 
       VerticalScrollBar(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(WS_VSCROLL);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(WS_VSCROLL);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               if (this->VerticalScrollBar == value) {
                   return;
               }
@@ -72,19 +68,15 @@ sw::Layer::Layer()
 
       HorizontalScrollPos(
           // get
-          [&]() -> const double & {
-              static double result;
-
+          [this]() -> double {
               SCROLLINFO info{};
               info.cbSize = sizeof(info);
               info.fMask  = SIF_POS;
               GetScrollInfo(this->Handle, SB_HORZ, &info);
-
-              result = Dip::PxToDipX(info.nPos);
-              return result;
+              return Dip::PxToDipX(info.nPos);
           },
           // set
-          [&](const double &value) {
+          [this](const double &value) {
               SCROLLINFO info{};
               info.cbSize = sizeof(info);
               info.fMask  = SIF_POS;
@@ -101,19 +93,15 @@ sw::Layer::Layer()
 
       VerticalScrollPos(
           // get
-          [&]() -> const double & {
-              static double result;
-
+          [this]() -> double {
               SCROLLINFO info{};
               info.cbSize = sizeof(info);
               info.fMask  = SIF_POS;
               GetScrollInfo(this->Handle, SB_VERT, &info);
-
-              result = Dip::PxToDipY(info.nPos);
-              return result;
+              return Dip::PxToDipY(info.nPos);
           },
           // set
-          [&](const double &value) {
+          [this](const double &value) {
               SCROLLINFO info{};
               info.cbSize = sizeof(info);
               info.fMask  = SIF_POS;
@@ -130,40 +118,28 @@ sw::Layer::Layer()
 
       HorizontalScrollLimit(
           // get
-          [&]() -> const double & {
-              static double result;
-
+          [this]() -> double {
               if (this->_horizontalScrollDisabled) {
-                  result = 0;
-                  return result;
+                  return 0;
               }
-
               SCROLLINFO info{};
               info.cbSize = sizeof(info);
               info.fMask  = SIF_RANGE | SIF_PAGE;
               GetScrollInfo(this->Handle, SB_HORZ, &info);
-
-              result = Dip::PxToDipX(info.nMax - info.nPage + 1);
-              return result;
+              return Dip::PxToDipX(info.nMax - info.nPage + 1);
           }),
 
       VerticalScrollLimit(
           // get
-          [&]() -> const double & {
-              static double result;
-
+          [this]() -> double {
               if (this->_verticalScrollDisabled) {
-                  result = 0;
-                  return result;
+                  return 0;
               }
-
               SCROLLINFO info{};
               info.cbSize = sizeof(info);
               info.fMask  = SIF_RANGE | SIF_PAGE;
               GetScrollInfo(this->Handle, SB_VERT, &info);
-
-              result = Dip::PxToDipY(info.nMax - info.nPage + 1);
-              return result;
+              return Dip::PxToDipY(info.nMax - info.nPage + 1);
           })
 {
 }

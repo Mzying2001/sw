@@ -3,13 +3,11 @@
 sw::DateTimePicker::DateTimePicker()
     : ShowUpDownButton(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(DTS_UPDOWN);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(DTS_UPDOWN);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               if (this->ShowUpDownButton != value) {
                   this->_UpdateStyle(
                       value ? (this->GetStyle() | DTS_UPDOWN)
@@ -19,11 +17,11 @@ sw::DateTimePicker::DateTimePicker()
 
       Format(
           // get
-          [&]() -> const DateTimePickerFormat & {
+          [this]() -> DateTimePickerFormat {
               return this->_format;
           },
           // set
-          [&](const DateTimePickerFormat &value) {
+          [this](const DateTimePickerFormat &value) {
               if (this->_format == value) {
                   return;
               }
@@ -44,11 +42,11 @@ sw::DateTimePicker::DateTimePicker()
 
       CustomFormat(
           // get
-          [&]() -> const std::wstring & {
+          [this]() -> std::wstring {
               return this->_customFormat;
           },
           // set
-          [&](const std::wstring &value) {
+          [this](const std::wstring &value) {
               this->_format       = DateTimePickerFormat::Custom;
               this->_customFormat = value;
               this->_SetFormat(this->_customFormat);

@@ -72,7 +72,7 @@ namespace sw
         /**
          * @brief 程序的当前活动窗体
          */
-        static const ReadOnlyProperty<Window *> ActiveWindow;
+        static const ReadOnlyPtrProperty<Window *> ActiveWindow;
 
         /**
          * @brief 当前已创建的窗口数
@@ -137,7 +137,7 @@ namespace sw
         /**
          * @brief 窗口顶部的菜单栏
          */
-        const Property<sw::Menu *> Menu;
+        const PtrProperty<sw::Menu *> Menu;
 
         /**
          * @brief  窗口是否显示为模态窗口，当调用ShowDialog时该属性值为true，否则为false
@@ -147,7 +147,7 @@ namespace sw
         /**
          * @brief 拥有者窗口
          */
-        const Property<Window *> Owner;
+        const PtrProperty<Window *> Owner;
 
     public:
         /**

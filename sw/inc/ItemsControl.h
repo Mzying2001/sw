@@ -24,10 +24,8 @@ namespace sw
          */
         const ReadOnlyProperty<int> ItemsCount{
             // get
-            [&]() -> const int & {
-                static int result;
-                result = this->GetItemsCount();
-                return result;
+            [this]() -> int {
+                return this->GetItemsCount();
             }};
 
         /**
@@ -35,13 +33,11 @@ namespace sw
          */
         const Property<int> SelectedIndex{
             // get
-            [&]() -> const int & {
-                static int result;
-                result = this->GetSelectedIndex();
-                return result;
+            [this]() -> int {
+                return this->GetSelectedIndex();
             },
             // set
-            [&](const int &value) {
+            [this](const int &value) {
                 this->SetSelectedIndex(value);
             }};
 
@@ -50,10 +46,8 @@ namespace sw
          */
         const ReadOnlyProperty<TItem> SelectedItem{
             // get
-            [&]() -> const TItem & {
-                static TItem result;
-                result = this->GetSelectedItem();
-                return result;
+            [this]() -> TItem {
+                return this->GetSelectedItem();
             }};
 
     protected:

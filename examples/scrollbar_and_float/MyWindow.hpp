@@ -41,7 +41,7 @@ class MyWindow : public sw::Window
         for (int i = 0; i < BTN_COUNT; ++i) {
             sw::Button& btn = btnarr[i];
             btn.Text = sw::Utils::BuildStr(L"Button", i + 1);
-            btn.Margin->top = i ? 10 : 0;
+            btn.Margin = sw::Thickness(0, i ? 10 : 0, 0, 0);
             btn.HorizontalAlignment = sw::HorizontalAlignment::Stretch;
             stackPanel.AddChild(btn);
         }

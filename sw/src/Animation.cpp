@@ -3,34 +3,28 @@
 sw::Animation::Animation()
     : Center(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(ACS_CENTER);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(ACS_CENTER);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(ACS_CENTER, value);
           }),
 
       AutoPlay(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(ACS_AUTOPLAY);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(ACS_AUTOPLAY);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(ACS_AUTOPLAY, value);
           }),
 
       IsPlaying(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->SendMessageW(ACM_ISPLAYING, 0, 0);
-              return result;
+          [this]() -> bool {
+              return this->SendMessageW(ACM_ISPLAYING, 0, 0);
           })
 {
     this->InitControl(ANIMATE_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);

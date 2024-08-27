@@ -25,12 +25,10 @@ static HICON _GetWindowDefaultIcon();
 /**
  * @brief 程序的当前活动窗体
  */
-const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
-    []() -> sw::Window *const & {
-        static sw::Window *pWindow;
+const sw::ReadOnlyPtrProperty<sw::Window *> sw::Window::ActiveWindow(
+    []() -> sw::Window * {
         HWND hwnd = GetActiveWindow();
-        pWindow   = dynamic_cast<sw::Window *>(sw::WndBase::GetWndBase(hwnd));
-        return pWindow;
+        return dynamic_cast<sw::Window *>(sw::WndBase::GetWndBase(hwnd));
     } //
 );
 
@@ -38,7 +36,7 @@ const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
  * @brief 当前已创建的窗口数
  */
 const sw::ReadOnlyProperty<int> sw::Window::WindowCount(
-    []() -> const int & {
+    []() -> int {
         return _windowCount;
     } //
 );
@@ -46,30 +44,28 @@ const sw::ReadOnlyProperty<int> sw::Window::WindowCount(
 sw::Window::Window()
     : StartupLocation(
           // get
-          [&]() -> const WindowStartupLocation & {
+          [this]() -> WindowStartupLocation {
               return this->_startupLocation;
           },
           // set
-          [&](const WindowStartupLocation &value) {
+          [this](const WindowStartupLocation &value) {
               this->_startupLocation = value;
           }),
 
       State(
           // get
-          [&]() -> const WindowState & {
-              static WindowState state;
+          [this]() -> WindowState {
               HWND hwnd = this->Handle;
               if (IsIconic(hwnd)) {
-                  state = WindowState::Minimized;
+                  return WindowState::Minimized;
               } else if (IsZoomed(hwnd)) {
-                  state = WindowState::Maximized;
+                  return WindowState::Maximized;
               } else {
-                  state = WindowState::Normal;
+                  return WindowState::Normal;
               }
-              return state;
           },
           // set
-          [&](const WindowState &value) {
+          [this](const WindowState &value) {
               HWND hwnd = this->Handle;
               switch (value) {
                   case WindowState::Normal:
@@ -86,49 +82,41 @@ sw::Window::Window()
 
       SizeBox(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(WS_SIZEBOX);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(WS_SIZEBOX);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(WS_SIZEBOX, value);
           }),
 
       MaximizeBox(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(WS_MAXIMIZEBOX);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(WS_MAXIMIZEBOX);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(WS_MAXIMIZEBOX, value);
           }),
 
       MinimizeBox(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(WS_MINIMIZEBOX);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(WS_MINIMIZEBOX);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(WS_MINIMIZEBOX, value);
           }),
 
       Topmost(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetExtendedStyle(WS_EX_TOPMOST);
-              return result;
+          [this]() -> bool {
+              return this->GetExtendedStyle(WS_EX_TOPMOST);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               /*this->SetExtendedStyle(WS_EX_TOPMOST, value);*/
               HWND hWndInsertAfter = value ? HWND_TOPMOST : HWND_NOTOPMOST;
               SetWindowPos(this->Handle, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -136,92 +124,84 @@ sw::Window::Window()
 
       ToolWindow(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetExtendedStyle(WS_EX_TOOLWINDOW);
-              return result;
+          [this]() -> bool {
+              return this->GetExtendedStyle(WS_EX_TOOLWINDOW);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
           }),
 
       MaxWidth(
           // get
-          [&]() -> const double & {
+          [this]() -> double {
               return this->_maxWidth;
           },
           // set
-          [&](const double &value) {
+          [this](const double &value) {
               this->_maxWidth = value;
               this->Width     = this->Width;
           }),
 
       MaxHeight(
           // get
-          [&]() -> const double & {
+          [this]() -> double {
               return this->_maxHeight;
           },
           // set
-          [&](const double &value) {
+          [this](const double &value) {
               this->_maxHeight = value;
               this->Height     = this->Height;
           }),
 
       MinWidth(
           // get
-          [&]() -> const double & {
+          [this]() -> double {
               return this->_minWidth;
           },
           // set
-          [&](const double &value) {
+          [this](const double &value) {
               this->_minWidth = value;
               this->Width     = this->Width;
           }),
 
       MinHeight(
           // get
-          [&]() -> const double & {
+          [this]() -> double {
               return this->_minHeight;
           },
           // set
-          [&](const double &value) {
+          [this](const double &value) {
               this->_minHeight = value;
               this->Height     = this->Height;
           }),
 
       Menu(
           // get
-          [&]() -> sw::Menu *const & {
+          [this]() -> sw::Menu * {
               return this->_menu;
           },
           // set
-          [&](sw::Menu *const &value) {
+          [this](sw::Menu *value) {
               this->_menu = value;
               SetMenu(this->Handle, value != nullptr ? value->GetHandle() : NULL);
           }),
 
       IsModal(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->_modalOwner != nullptr;
-              return result;
+          [this]() -> bool {
+              return this->_modalOwner != nullptr;
           }),
 
       Owner(
           // get
-          [&]() -> Window *const & {
-              static Window *result;
-
+          [this]() -> Window * {
               HWND hOwner  = reinterpret_cast<HWND>(GetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT));
               WndBase *wnd = (hOwner == NULL) ? nullptr : WndBase::GetWndBase(hOwner);
-
-              result = dynamic_cast<Window *>(wnd);
-              return result;
+              return dynamic_cast<Window *>(wnd);
           },
           // set
-          [&](Window *const &value) {
+          [this](Window *value) {
               SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(value ? value->Handle.Get() : NULL));
           })
 {
@@ -258,9 +238,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_GETMINMAXINFO: {
-            static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
-            static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
-            PMINMAXINFO pInfo     = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
+            double scaleX     = Dip::ScaleX.Get();
+            double scaleY     = Dip::ScaleY.Get();
+            PMINMAXINFO pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
             // 按照设置限制窗口大小
             if (this->_maxWidth > 0) {
                 LONG maxWidth           = std::lround(this->_maxWidth / scaleX);

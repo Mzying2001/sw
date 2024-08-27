@@ -8,7 +8,8 @@ var searchData=
   ['pointfromscreen_5',['PointFromScreen',['../classsw_1_1_wnd_base.html#a6f1b33e5930fc14467f65ad89c2c35c3',1,'sw::WndBase']]],
   ['pointtoscreen_6',['PointToScreen',['../classsw_1_1_wnd_base.html#a292d93c230f5534cdf68ac5d685dd487',1,'sw::WndBase']]],
   ['progressbar_7',['ProgressBar',['../classsw_1_1_progress_bar.html#a461cb23f2cc6c276eda9312cb269a403',1,'sw::ProgressBar']]],
-  ['property_8',['Property',['../classsw_1_1_property.html#a657ad195af10d76fb55801b3cec62aca',1,'sw::Property']]],
-  ['pxtodipx_9',['PxToDipX',['../classsw_1_1_dip.html#aa0244988630536a31439cdfde27ec209',1,'sw::Dip']]],
-  ['pxtodipy_10',['PxToDipY',['../classsw_1_1_dip.html#a54fd07b8418adcff0ecb8483098ab860',1,'sw::Dip']]]
+  ['property_8',['Property',['../classsw_1_1_property.html#aed49183e5aff7da2c6a8afcfdfafe24c',1,'sw::Property']]],
+  ['ptrproperty_9',['PtrProperty',['../classsw_1_1_ptr_property.html#a3e5f1454eaacf741a73f423277fe62ab',1,'sw::PtrProperty']]],
+  ['pxtodipx_10',['PxToDipX',['../classsw_1_1_dip.html#aa0244988630536a31439cdfde27ec209',1,'sw::Dip']]],
+  ['pxtodipy_11',['PxToDipY',['../classsw_1_1_dip.html#a54fd07b8418adcff0ecb8483098ab860',1,'sw::Dip']]]
 ];

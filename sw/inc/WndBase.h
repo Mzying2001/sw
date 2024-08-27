@@ -19,11 +19,16 @@
 
 namespace sw
 {
+    class Control; // Control.h
+
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
     class WndBase
     {
+        // 部分控件可能会改变HWND，设为友元类向Control类暴露_hwnd字段
+        friend class Control;
+
     private:
         /**
          * @brief 窗口过程函数，调用对象的WndProc
@@ -165,7 +170,7 @@ namespace sw
         /**
          * @brief 父窗口
          */
-        const ReadOnlyProperty<WndBase *> Parent;
+        const ReadOnlyPtrProperty<WndBase *> Parent;
 
         /**
          * @brief 是否已销毁，当该值为true时不应该继续使用当前对象

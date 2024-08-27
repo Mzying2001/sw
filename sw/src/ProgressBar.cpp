@@ -15,63 +15,53 @@
 sw::ProgressBar::ProgressBar()
     : Minimum(
           // get
-          [&]() -> const uint16_t & {
-              static uint16_t result;
-              result = (uint16_t)this->SendMessageW(PBM_GETRANGE, TRUE, 0);
-              return result;
+          [this]() -> uint16_t {
+              return (uint16_t)this->SendMessageW(PBM_GETRANGE, TRUE, 0);
           },
           // set
-          [&](const uint16_t &value) {
+          [this](const uint16_t &value) {
               uint16_t maximum = this->Maximum;
               this->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(value, maximum));
           }),
 
       Maximum(
           // get
-          [&]() -> const uint16_t & {
-              static uint16_t result;
-              result = (uint16_t)this->SendMessageW(PBM_GETRANGE, FALSE, 0);
-              return result;
+          [this]() -> uint16_t {
+              return (uint16_t)this->SendMessageW(PBM_GETRANGE, FALSE, 0);
           },
           // set
-          [&](const uint16_t &value) {
+          [this](const uint16_t &value) {
               uint16_t minimum = this->Minimum;
               this->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(minimum, value));
           }),
 
       Value(
           // get
-          [&]() -> const uint16_t & {
-              static uint16_t result;
-              result = (uint16_t)this->SendMessageW(PBM_GETPOS, 0, 0);
-              return result;
+          [this]() -> uint16_t {
+              return (uint16_t)this->SendMessageW(PBM_GETPOS, 0, 0);
           },
           // set
-          [&](const uint16_t &value) {
+          [this](const uint16_t &value) {
               this->SendMessageW(PBM_SETPOS, value, 0);
           }),
 
       State(
           // get
-          [&]() -> const ProgressBarState & {
-              static ProgressBarState result;
-              result = (ProgressBarState)this->SendMessageW(PBM_GETSTATE, 0, 0);
-              return result;
+          [this]() -> ProgressBarState {
+              return (ProgressBarState)this->SendMessageW(PBM_GETSTATE, 0, 0);
           },
           // set
-          [&](const ProgressBarState &value) {
+          [this](const ProgressBarState &value) {
               this->SendMessageW(PBM_SETSTATE, (WPARAM)value, 0);
           }),
 
       Vertical(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(PBS_VERTICAL);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(PBS_VERTICAL);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               auto pos = this->Value.Get();
               this->SetStyle(PBS_VERTICAL, value);
               this->Value = pos;

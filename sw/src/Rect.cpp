@@ -14,8 +14,8 @@ sw::Rect::Rect(double left, double top, double width, double height)
 
 sw::Rect::Rect(const RECT &rect)
 {
-    static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
-    static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+    double scaleX = Dip::ScaleX.Get();
+    double scaleY = Dip::ScaleY.Get();
 
     this->left   = scaleX * rect.left;
     this->top    = scaleY * rect.top;
@@ -25,8 +25,8 @@ sw::Rect::Rect(const RECT &rect)
 
 sw::Rect::operator RECT() const
 {
-    static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
-    static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+    double scaleX = Dip::ScaleX.Get();
+    double scaleY = Dip::ScaleY.Get();
 
     RECT rect{};
     rect.left   = std::lround(this->left / scaleX);

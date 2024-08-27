@@ -3,11 +3,11 @@
 sw::Timer::Timer()
     : Interval(
           // get
-          [&]() -> const uint32_t & {
+          [this]() -> uint32_t {
               return this->_interval;
           },
           // set
-          [&](const uint32_t &value) {
+          [this](const uint32_t &value) {
               this->_interval = value;
               if (this->_started) {
                   this->Stop();

@@ -1087,69 +1087,514 @@ namespace sw
 
 namespace sw
 {
-    template <typename T>
-    class Property; // 向前声明
-
     /**
-     * @brief 只读属性
+     * @brief 伪指针，用于实现使用operator->取属性字段
      */
     template <typename T>
-    class ReadOnlyProperty
-    {
-        // 添加Property类为友元类
-        friend class Property<T>;
-
-        // 删除拷贝构造函数
-        ReadOnlyProperty(const ReadOnlyProperty &) = delete;
-
-        // 删除拷贝赋值运算符
-        ReadOnlyProperty &operator=(const ReadOnlyProperty &) = delete;
-
-    private:
+    struct FakePtr {
         /**
-         * @brief 读取属性的函数
+         * @brief 伪指针所维护的值
          */
-        std::function<const T &()> _funcGet;
+        T value;
 
-    public:
         /**
-         * @brief 初始化ReadOnlyProperty
+         * @brief 构造伪指针
          */
-        ReadOnlyProperty(const std::function<const T &()> &funcGet)
-            : _funcGet(funcGet)
+        template <typename... Args>
+        FakePtr(Args &&...args)
+            : value(std::forward<Args>(args)...)
         {
         }
 
         /**
-         * @brief 读属性
+         * @brief 取字段
          */
-        const T &Get() const
+        T *operator->()
         {
-            return this->_funcGet();
+            return &value;
         }
 
         /**
-         * @brief 读属性
-         */
-        operator const T &() const
-        {
-            return this->_funcGet();
-        }
-
-        /**
-         * @brief 取属性成员
+         * @brief 取字段
          */
         const T *operator->() const
         {
-            return &this->_funcGet();
+            return &value;
+        }
+    };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 属性基类模板
+     */
+    template <typename T, typename TDerived>
+    class PropertyBase
+    {
+    public:
+        // 使用默认构造函数
+        PropertyBase() = default;
+
+        // 删除移动构造
+        PropertyBase(PropertyBase &&) = delete;
+
+        // 删除拷贝构造
+        PropertyBase(const PropertyBase &) = delete;
+
+        // 删除移动赋值
+        PropertyBase &operator=(PropertyBase &&) = delete;
+
+        /**
+         * @brief 获取属性值，由子类实现
+         */
+        T GetterImpl() const;
+
+        /**
+         * @brief 设置属性值，由子类实现
+         */
+        void SetterImpl(const T &value) const;
+
+        // /**
+        //  * @brief 获取字段，可由子类重写
+        //  */
+        // FakePtr<T> ListFieldsImpl() const
+        // {
+        //     return FakePtr<T>(this->Get());
+        // }
+
+        /**
+         * @brief 获取字段，可由子类重写
+         */
+        template <typename U = T>
+        typename std::enable_if<!std::is_pointer<U>::value, FakePtr<T>>::type ListFieldsImpl() const
+        {
+            return FakePtr<T>(this->Get());
+        }
+
+        /**
+         * @brief 获取字段，可由子类重写
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_pointer<U>::value, T>::type ListFieldsImpl() const
+        {
+            return this->Get();
+        }
+
+        /**
+         * @brief 获取属性值
+         */
+        T Get() const
+        {
+            return static_cast<const TDerived *>(this)->GetterImpl();
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        void Set(const T &value) const
+        {
+            static_cast<const TDerived *>(this)->SetterImpl(value);
+        }
+
+        /**
+         * @brief 取属性字段
+         */
+        auto operator->() const
+        {
+            return static_cast<const TDerived *>(this)->ListFieldsImpl();
+        }
+
+        /**
+         * @brief 获取属性值
+         */
+        operator T() const
+        {
+            return this->Get();
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        PropertyBase &operator=(const T &value)
+        {
+            this->Set(value);
+            return *this;
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        const PropertyBase &operator=(const T &value) const
+        {
+            this->Set(value);
+            return *this;
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        PropertyBase &operator=(const PropertyBase &prop)
+        {
+            this->Set(prop.Get());
+            return *this;
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        const PropertyBase &operator=(const PropertyBase &prop) const
+        {
+            this->Set(prop.Get());
+            return *this;
+        }
+
+        /**
+         * @brief 加赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator+=(T value)
+        {
+            this->Set(this->Get() + value);
+            return *this;
+        }
+
+        /**
+         * @brief 加赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator+=(T value) const
+        {
+            this->Set(this->Get() + value);
+            return *this;
+        }
+
+        /**
+         * @brief 减赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator-=(T value)
+        {
+            this->Set(this->Get() - value);
+            return *this;
+        }
+
+        /**
+         * @brief 减赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator-=(T value) const
+        {
+            this->Set(this->Get() - value);
+            return *this;
+        }
+
+        /**
+         * @brief 乘赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator*=(T value)
+        {
+            this->Set(this->Get() * value);
+            return *this;
+        }
+
+        /**
+         * @brief 乘赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator*=(T value) const
+        {
+            this->Set(this->Get() * value);
+            return *this;
+        }
+
+        /**
+         * @brief 除赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator/=(T value)
+        {
+            this->Set(this->Get() / value);
+            return *this;
+        }
+
+        /**
+         * @brief 除赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator/=(T value) const
+        {
+            this->Set(this->Get() / value);
+            return *this;
+        }
+
+        /**
+         * @brief 前置自增运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator++()
+        {
+            this->Set(this->Get() + 1);
+            return *this;
+        }
+
+        /**
+         * @brief 前置自增运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator++() const
+        {
+            this->Set(this->Get() + 1);
+            return *this;
+        }
+
+        /**
+         * @brief 前置自减运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator--()
+        {
+            this->Set(this->Get() - 1);
+            return *this;
+        }
+
+        /**
+         * @brief 前置自减运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator--() const
+        {
+            this->Set(this->Get() - 1);
+            return *this;
+        }
+
+        /**
+         * @brief 后置自增运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, T>::type operator++(int)
+        {
+            T oldval = this->Get();
+            this->Set(oldval + 1);
+            return oldval;
+        }
+
+        /**
+         * @brief 后置自减运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_arithmetic<U>::value, T>::type operator--(int)
+        {
+            T oldval = this->Get();
+            this->Set(oldval - 1);
+            return oldval;
+        }
+
+        /**
+         * @brief 按位与赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator&=(T value)
+        {
+            this->Set(this->Get() & value);
+            return *this;
+        }
+
+        /**
+         * @brief 按位与赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator&=(T value) const
+        {
+            this->Set(this->Get() & value);
+            return *this;
+        }
+
+        /**
+         * @brief 按位或赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator|=(T value)
+        {
+            this->Set(this->Get() | value);
+            return *this;
+        }
+
+        /**
+         * @brief 按位或赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator|=(T value) const
+        {
+            this->Set(this->Get() | value);
+            return *this;
+        }
+
+        /**
+         * @brief 按位异或赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator^=(T value)
+        {
+            this->Set(this->Get() ^ value);
+            return *this;
+        }
+
+        /**
+         * @brief 按位异或赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator^=(T value) const
+        {
+            this->Set(this->Get() ^ value);
+            return *this;
+        }
+
+        /**
+         * @brief 左移赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator<<=(T value)
+        {
+            this->Set(this->Get() << value);
+            return *this;
+        }
+
+        /**
+         * @brief 左移赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator<<=(T value) const
+        {
+            this->Set(this->Get() << value);
+            return *this;
+        }
+
+        /**
+         * @brief 右移赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator>>=(T value)
+        {
+            this->Set(this->Get() >> value);
+            return *this;
+        }
+
+        /**
+         * @brief 右移赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator>>=(T value) const
+        {
+            this->Set(this->Get() >> value);
+            return *this;
         }
 
         /**
          * @brief 支持Utils::BuildStr
          */
-        friend std::wostream &operator<<(std::wostream &wos, const ReadOnlyProperty &prop)
+        friend std::wostream &operator<<(std::wostream &wos, const PropertyBase &prop)
         {
-            return wos << prop._funcGet();
+            return wos << prop.Get();
+        }
+    };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 属性
+     */
+    template <typename T>
+    class Property : public PropertyBase<T, Property<T>>
+    {
+    public:
+        using TBase = PropertyBase<T, Property<T>>;
+        using FnGet = std::function<T()>;
+        using FnSet = std::function<void(const T &)>;
+        using TBase::operator=;
+
+    private:
+        FnGet _getter;
+        FnSet _setter;
+
+    public:
+        /**
+         * @brief 构造属性
+         */
+        Property(const FnGet &getter, const FnSet &setter)
+            : _getter(getter), _setter(setter)
+        {
+        }
+
+        /**
+         * @brief 获取属性值
+         */
+        T GetterImpl() const
+        {
+            return this->_getter();
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        void SetterImpl(const T &value) const
+        {
+            this->_setter(value);
+        }
+
+        /**
+         * @brief 重设Getter
+         */
+        void ResetGetter(const FnGet &getter)
+        {
+            this->_getter = getter;
+        }
+
+        /**
+         * @brief 重设Setter
+         */
+        void ResetSetter(const FnSet &setter)
+        {
+            this->_setter = setter;
+        }
+    };
+
+    /**
+     * @brief 只读属性
+     */
+    template <typename T>
+    class ReadOnlyProperty : public PropertyBase<T, ReadOnlyProperty<T>>
+    {
+    public:
+        using TBase = PropertyBase<T, ReadOnlyProperty<T>>;
+        using FnGet = std::function<T()>;
+
+    private:
+        FnGet _getter;
+
+    public:
+        /**
+         * @brief 构造只读属性
+         */
+        ReadOnlyProperty(const FnGet &getter)
+            : _getter(getter)
+        {
+        }
+
+        /**
+         * @brief 获取属性值
+         */
+        T GetterImpl() const
+        {
+            return this->_getter();
+        }
+
+        /**
+         * @brief 重设Getter
+         */
+        void ResetGetter(const FnGet &getter)
+        {
+            this->_getter = getter;
         }
     };
 
@@ -1157,87 +1602,224 @@ namespace sw
      * @brief 只写属性
      */
     template <typename T>
-    class WriteOnlyProperty
+    class WriteOnlyProperty : public PropertyBase<T, WriteOnlyProperty<T>>
     {
-        // 添加Property类为友元类
-        friend class Property<T>;
-
-        // 删除拷贝构造函数
-        WriteOnlyProperty(const WriteOnlyProperty &) = delete;
-
-        // 删除拷贝赋值运算符
-        WriteOnlyProperty &operator=(const WriteOnlyProperty &) = delete;
+    public:
+        using TBase = PropertyBase<T, WriteOnlyProperty<T>>;
+        using FnSet = std::function<void(const T &)>;
+        using TBase::operator=;
 
     private:
-        /**
-         * @brief 写属性的函数
-         */
-        std::function<void(const T &)> _funcSet;
+        FnSet _setter;
 
     public:
         /**
-         * @brief 初始化WriteOnlyProperty
+         * @brief 构造属性
          */
-        WriteOnlyProperty(const std::function<void(const T &)> &funcSet)
-            : _funcSet(funcSet)
+        WriteOnlyProperty(const FnSet &setter)
+            : _setter(setter)
         {
         }
 
         /**
-         * @brief 写属性
+         * @brief 设置属性值
          */
-        void Set(const T &value) const
+        void SetterImpl(const T &value) const
         {
-            this->_funcSet(value);
+            this->_setter(value);
         }
 
         /**
-         * @brief 写属性
+         * @brief 重设Setter
          */
-        const WriteOnlyProperty &operator=(const T &value) const
+        void ResetSetter(const FnSet &setter)
         {
-            this->_funcSet(value);
-            return *this;
+            this->_setter = setter;
+        }
+    };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 指针属性基类模板
+     */
+    template <typename T, typename TDerived>
+    class PtrPropertyBase : public PropertyBase<T, TDerived>
+    {
+        static_assert(std::is_pointer<T>::value, "T should be pointer type");
+
+    public:
+        using TBase = PropertyBase<T, TDerived>;
+        using TBase::PropertyBase;
+        using TBase::operator=;
+
+        /**
+         * @brief 获取字段
+         */
+        T ListFieldsImpl() const
+        {
+            return this->Get();
+        }
+
+        /**
+         * @brief 属性值是否为nullptr
+         */
+        bool IsNull() const
+        {
+            return this->Get() == nullptr;
+        }
+
+        /**
+         * @brief 解引用
+         */
+        auto &operator*() const
+        {
+            return *this->Get();
+        }
+
+        /**
+         * @brief 解引用
+         */
+        auto &operator[](int index) const
+        {
+            return this->Get()[index];
         }
     };
 
     /**
-     * @brief 属性
+     * @brief 指针属性
      */
     template <typename T>
-    class Property : public ReadOnlyProperty<T>, public WriteOnlyProperty<T>
+    class PtrProperty : public PtrPropertyBase<T, PtrProperty<T>>
     {
-        // 删除拷贝构造函数
-        Property(const Property &) = delete;
+    public:
+        using TBase = PtrPropertyBase<T, PtrProperty<T>>;
+        using FnGet = std::function<T()>;
+        using FnSet = std::function<void(T)>;
+        using TBase::operator=;
 
-        // 删除拷贝赋值运算符
-        Property &operator=(const Property &) = delete;
+    private:
+        FnGet _getter;
+        FnSet _setter;
 
     public:
         /**
-         * @brief 初始化Property
+         * @brief 构造属性
          */
-        Property(const std::function<const T &()> &funcGet, const std::function<void(const T &)> &funcSet)
-            : ReadOnlyProperty<T>(funcGet), WriteOnlyProperty<T>(funcSet)
+        PtrProperty(const FnGet &getter, const FnSet &setter)
+            : _getter(getter), _setter(setter)
         {
         }
 
         /**
-         * @brief 写属性
+         * @brief 获取属性值
          */
-        const Property &operator=(const T &value) const
+        T GetterImpl() const
         {
-            this->_funcSet(value);
-            return *this;
+            return this->_getter();
         }
 
         /**
-         * @brief 取属性成员
+         * @brief 设置属性值
          */
-        T *operator->() const
+        void SetterImpl(T value) const
         {
-            const T &value = this->_funcGet();
-            return const_cast<T *>(&value);
+            this->_setter(value);
+        }
+
+        /**
+         * @brief 重设Getter
+         */
+        void ResetGetter(const FnGet &getter)
+        {
+            this->_getter = getter;
+        }
+
+        /**
+         * @brief 重设Setter
+         */
+        void ResetSetter(const FnSet &setter)
+        {
+            this->_setter = setter;
+        }
+    };
+
+    /**
+     * @brief 指针只读属性
+     */
+    template <typename T>
+    class ReadOnlyPtrProperty : public PtrPropertyBase<T, ReadOnlyPtrProperty<T>>
+    {
+    public:
+        using TBase = PtrPropertyBase<T, ReadOnlyPtrProperty<T>>;
+        using FnGet = std::function<T()>;
+
+    private:
+        FnGet _getter;
+
+    public:
+        /**
+         * @brief 构造属性
+         */
+        ReadOnlyPtrProperty(const FnGet &getter)
+            : _getter(getter)
+        {
+        }
+
+        /**
+         * @brief 获取属性值
+         */
+        T GetterImpl() const
+        {
+            return this->_getter();
+        }
+
+        /**
+         * @brief 重设Getter
+         */
+        void ResetGetter(const FnGet &getter)
+        {
+            this->_getter = getter;
+        }
+    };
+
+    /**
+     * @brief 指针只写属性
+     */
+    template <typename T>
+    class WriteOnlyPtrProperty : public PtrPropertyBase<T, WriteOnlyPtrProperty<T>>
+    {
+    public:
+        using TBase = PtrPropertyBase<T, WriteOnlyPtrProperty<T>>;
+        using FnSet = std::function<void(T)>;
+        using TBase::operator=;
+
+    private:
+        FnSet _setter;
+
+    public:
+        /**
+         * @brief 构造属性
+         */
+        WriteOnlyPtrProperty(const FnSet &setter)
+            : _setter(setter)
+        {
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        void SetterImpl(T value) const
+        {
+            this->_setter(value);
+        }
+
+        /**
+         * @brief 重设Setter
+         */
+        void ResetSetter(const FnSet &setter)
+        {
+            this->_setter = setter;
         }
     };
 }
@@ -3348,11 +3930,16 @@ namespace sw
 
 namespace sw
 {
+    class Control; // Control.h
+
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
     class WndBase
     {
+        // 部分控件可能会改变HWND，设为友元类向Control类暴露_hwnd字段
+        friend class Control;
+
     private:
         /**
          * @brief 窗口过程函数，调用对象的WndProc
@@ -3494,7 +4081,7 @@ namespace sw
         /**
          * @brief 父窗口
          */
-        const ReadOnlyProperty<WndBase *> Parent;
+        const ReadOnlyPtrProperty<WndBase *> Parent;
 
         /**
          * @brief 是否已销毁，当该值为true时不应该继续使用当前对象
@@ -5145,7 +5732,7 @@ namespace sw
         /**
          * @brief 指向父元素的指针，当前元素为顶级窗口时该值为nullptr
          */
-        const ReadOnlyProperty<UIElement *> Parent;
+        const ReadOnlyPtrProperty<UIElement *> Parent;
 
         /**
          * @brief 储存用户自定义信息的标记
@@ -5160,7 +5747,7 @@ namespace sw
         /**
          * @brief 右键按下时弹出的菜单
          */
-        const Property<sw::ContextMenu *> ContextMenu;
+        const PtrProperty<sw::ContextMenu *> ContextMenu;
 
         /**
          * @brief 元素是否悬浮，若元素悬浮则该元素不会随滚动条滚动而改变位置
@@ -5952,7 +6539,7 @@ namespace sw
         /**
          * @brief 自定义的布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设为nullptr可恢复默认布局
          */
-        const Property<LayoutHost *> Layout;
+        const PtrProperty<LayoutHost *> Layout;
 
         /**
          * @brief 是否按照布局方式与子元素自动调整尺寸，该属性仅在当前元素已设置布局方式并且非顶级元素时有效
@@ -6569,10 +7156,8 @@ namespace sw
          */
         const ReadOnlyProperty<int> ItemsCount{
             // get
-            [&]() -> const int & {
-                static int result;
-                result = this->GetItemsCount();
-                return result;
+            [this]() -> int {
+                return this->GetItemsCount();
             }};
 
         /**
@@ -6580,13 +7165,11 @@ namespace sw
          */
         const Property<int> SelectedIndex{
             // get
-            [&]() -> const int & {
-                static int result;
-                result = this->GetSelectedIndex();
-                return result;
+            [this]() -> int {
+                return this->GetSelectedIndex();
             },
             // set
-            [&](const int &value) {
+            [this](const int &value) {
                 this->SetSelectedIndex(value);
             }};
 
@@ -6595,10 +7178,8 @@ namespace sw
          */
         const ReadOnlyProperty<TItem> SelectedItem{
             // get
-            [&]() -> const TItem & {
-                static TItem result;
-                result = this->GetSelectedItem();
-                return result;
+            [this]() -> TItem {
+                return this->GetSelectedItem();
             }};
 
     protected:
@@ -7442,7 +8023,7 @@ namespace sw
         /**
          * @brief 程序的当前活动窗体
          */
-        static const ReadOnlyProperty<Window *> ActiveWindow;
+        static const ReadOnlyPtrProperty<Window *> ActiveWindow;
 
         /**
          * @brief 当前已创建的窗口数
@@ -7507,7 +8088,7 @@ namespace sw
         /**
          * @brief 窗口顶部的菜单栏
          */
-        const Property<sw::Menu *> Menu;
+        const PtrProperty<sw::Menu *> Menu;
 
         /**
          * @brief  窗口是否显示为模态窗口，当调用ShowDialog时该属性值为true，否则为false
@@ -7517,7 +8098,7 @@ namespace sw
         /**
          * @brief 拥有者窗口
          */
-        const Property<Window *> Owner;
+        const PtrProperty<Window *> Owner;
 
     public:
         /**

@@ -46,28 +46,28 @@ sw::WndBase::WndBase()
 
       Handle(
           // get
-          [&]() -> const HWND & {
+          [this]() -> HWND {
               return this->_hwnd;
           }),
 
       Font(
           // get
-          [&]() -> const sw::Font & {
+          [this]() -> sw::Font {
               return this->_font;
           },
           // set
-          [&](const sw::Font &value) {
+          [this](const sw::Font &value) {
               this->_font = value;
               this->UpdateFont();
           }),
 
       FontName(
           // get
-          [&]() -> const std::wstring & {
+          [this]() -> std::wstring {
               return this->_font.name;
           },
           // set
-          [&](const std::wstring &value) {
+          [this](const std::wstring &value) {
               if (this->_font.name != value) {
                   this->_font.name = value;
                   this->UpdateFont();
@@ -76,11 +76,11 @@ sw::WndBase::WndBase()
 
       FontSize(
           // get
-          [&]() -> const double & {
+          [this]() -> double {
               return this->_font.size;
           },
           // set
-          [&](const double &value) {
+          [this](const double &value) {
               if (this->_font.size != value) {
                   this->_font.size = value;
                   this->UpdateFont();
@@ -89,11 +89,11 @@ sw::WndBase::WndBase()
 
       FontWeight(
           // get
-          [&]() -> const sw::FontWeight & {
+          [this]() -> sw::FontWeight {
               return this->_font.weight;
           },
           // set
-          [&](const sw::FontWeight &value) {
+          [this](const sw::FontWeight &value) {
               if (this->_font.weight != value) {
                   this->_font.weight = value;
                   this->UpdateFont();
@@ -102,13 +102,13 @@ sw::WndBase::WndBase()
 
       Rect(
           // get
-          [&]() -> const sw::Rect & {
+          [this]() -> sw::Rect {
               return this->_rect;
           },
           // set
-          [&](const sw::Rect &value) {
-              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
-              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+          [this](const sw::Rect &value) {
+              double scaleX = Dip::ScaleX.Get();
+              double scaleY = Dip::ScaleY.Get();
               if (this->_rect != value) {
                   int left   = std::lround(value.left / scaleX);
                   int top    = std::lround(value.top / scaleY);
@@ -120,13 +120,13 @@ sw::WndBase::WndBase()
 
       Left(
           // get
-          [&]() -> const double & {
+          [this]() -> double {
               return this->_rect.left;
           },
           // set
-          [&](const double &value) {
-              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
-              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+          [this](const double &value) {
+              double scaleX = Dip::ScaleX.Get();
+              double scaleY = Dip::ScaleY.Get();
               if (this->_rect.left != value) {
                   int x = std::lround(value / scaleX);
                   int y = std::lround(this->_rect.top / scaleY);
@@ -136,13 +136,13 @@ sw::WndBase::WndBase()
 
       Top(
           // get
-          [&]() -> const double & {
+          [this]() -> double {
               return this->_rect.top;
           },
           // set
-          [&](const double &value) {
-              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
-              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+          [this](const double &value) {
+              double scaleX = Dip::ScaleX.Get();
+              double scaleY = Dip::ScaleY.Get();
               if (this->_rect.top != value) {
                   int x = std::lround(this->_rect.left / scaleX);
                   int y = std::lround(value / scaleY);
@@ -152,13 +152,13 @@ sw::WndBase::WndBase()
 
       Width(
           // get
-          [&]() -> const double & {
+          [this]() -> double {
               return this->_rect.width;
           },
           // set
-          [&](const double &value) {
-              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
-              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+          [this](const double &value) {
+              double scaleX = Dip::ScaleX.Get();
+              double scaleY = Dip::ScaleY.Get();
               if (this->_rect.width != value) {
                   int cx = std::lround(value / scaleX);
                   int cy = std::lround(this->_rect.height / scaleY);
@@ -168,13 +168,13 @@ sw::WndBase::WndBase()
 
       Height(
           // get
-          [&]() -> const double & {
+          [this]() -> double {
               return this->_rect.height;
           },
           // set
-          [&](const double &value) {
-              static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
-              static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+          [this](const double &value) {
+              double scaleX = Dip::ScaleX.Get();
+              double scaleY = Dip::ScaleY.Get();
               if (this->_rect.height != value) {
                   int cx = std::lround(this->_rect.width / scaleX);
                   int cy = std::lround(value / scaleY);
@@ -184,95 +184,85 @@ sw::WndBase::WndBase()
 
       ClientRect(
           // get
-          [&]() -> const sw::Rect & {
-              static sw::Rect swRect;
+          [this]() -> sw::Rect {
               RECT rect;
               GetClientRect(this->_hwnd, &rect);
-              swRect = rect;
-              return swRect;
+              return rect;
           }),
 
       ClientWidth(
           // get
-          [&]() -> const double & {
+          [this]() -> double {
               return this->ClientRect->width;
           }),
 
       ClientHeight(
           // get
-          [&]() -> const double & {
+          [this]() -> double {
               return this->ClientRect->height;
           }),
 
       Enabled(
           // get
-          [&]() -> const bool & {
-              static bool enabled;
-              enabled = IsWindowEnabled(this->_hwnd);
-              return enabled;
+          [this]() -> bool {
+              return IsWindowEnabled(this->_hwnd);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               EnableWindow(this->_hwnd, value);
           }),
 
       Visible(
           // get
-          [&]() -> const bool & {
-              static bool visible;
-              visible = this->GetStyle(WS_VISIBLE);
-              return visible;
+          [this]() -> bool {
+              return this->GetStyle(WS_VISIBLE);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               ShowWindow(this->_hwnd, value ? SW_SHOW : SW_HIDE);
               this->VisibleChanged(value);
           }),
 
       Text(
           // get
-          [&]() -> const std::wstring & {
+          [this]() -> std::wstring {
               return this->GetText();
           },
           // set
-          [&](const std::wstring &value) {
+          [this](const std::wstring &value) {
               this->SetText(value);
           }),
 
       Focused(
           // get
-          [&]() -> const bool & {
+          [this]() -> bool {
               return this->_focused;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               SetFocus(value ? this->_hwnd : NULL);
           }),
 
       Parent(
           // get
-          [&]() -> WndBase *const & {
-              static WndBase *pWndBase;
+          [this]() -> WndBase * {
               HWND hwnd = GetParent(this->_hwnd);
-              pWndBase  = WndBase::GetWndBase(hwnd);
-              return pWndBase;
+              return WndBase::GetWndBase(hwnd);
           }),
 
       IsDestroyed(
           // get
-          [&]() -> const bool & {
+          [this]() -> bool {
               return this->_isDestroyed;
           }),
 
       AcceptFiles(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetExtendedStyle(WS_EX_ACCEPTFILES);
-              return result;
+          [this]() -> bool {
+              return this->GetExtendedStyle(WS_EX_ACCEPTFILES);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
           })
 {
@@ -401,8 +391,8 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_WINDOWPOSCHANGED: {
-            static double &scaleX = const_cast<double &>(Dip::ScaleX.Get());
-            static double &scaleY = const_cast<double &>(Dip::ScaleY.Get());
+            double scaleX = Dip::ScaleX.Get();
+            double scaleY = Dip::ScaleY.Get();
 
             PWINDOWPOS pWndPos = reinterpret_cast<PWINDOWPOS>(refMsg.lParam);
             if ((pWndPos->flags & SWP_NOMOVE) == 0) {

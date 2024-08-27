@@ -4,11 +4,11 @@
 sw::Splitter::Splitter()
     : Orientation(
           // get
-          [&]() -> const sw::Orientation & {
+          [this]() -> sw::Orientation {
               return this->_orientation;
           },
           // set
-          [&](const sw::Orientation &value) {
+          [this](const sw::Orientation &value) {
               if (this->_orientation != value) {
                   this->_orientation = value;
                   value == Orientation::Horizontal

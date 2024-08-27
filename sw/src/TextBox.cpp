@@ -3,11 +3,11 @@
 sw::TextBox::TextBox()
     : AutoWrap(
           // get
-          [&]() -> const bool & {
+          [this]() -> bool {
               return this->_autoWrap;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               if (this->_autoWrap == value) {
                   return;
               }
@@ -20,13 +20,11 @@ sw::TextBox::TextBox()
 
       MultiLine(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(ES_MULTILINE);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(ES_MULTILINE);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               if (this->MultiLine != value) {
                   this->SetStyle(ES_MULTILINE, value);
                   this->SetStyle(ES_AUTOHSCROLL, !(value && this->_autoWrap));
@@ -36,13 +34,11 @@ sw::TextBox::TextBox()
 
       HorizontalScrollBar(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(WS_HSCROLL);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(WS_HSCROLL);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               if (this->HorizontalScrollBar != value) {
                   this->SetStyle(WS_HSCROLL, value);
                   this->ResetHandle();
@@ -51,13 +47,11 @@ sw::TextBox::TextBox()
 
       VerticalScrollBar(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(WS_VSCROLL);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(WS_VSCROLL);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               if (this->VerticalScrollBar != value) {
                   this->SetStyle(WS_VSCROLL, value);
                   this->ResetHandle();

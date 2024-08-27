@@ -7,6 +7,7 @@ var hierarchy =
     [ "sw::Dictionary< TKey, TVal >", "classsw_1_1_dictionary.html", null ],
     [ "sw::Dip", "classsw_1_1_dip.html", null ],
     [ "sw::DockLayoutTag", "classsw_1_1_dock_layout_tag.html", null ],
+    [ "sw::FakePtr< T >", "structsw_1_1_fake_ptr.html", null ],
     [ "std::false_type", null, [
       [ "sw::_HasEventType< T, typename >", "structsw_1_1___has_event_type.html", [
         [ "sw::_IsTypedRoutedEventArgs< T >", "structsw_1_1___is_typed_routed_event_args.html", null ]
@@ -120,121 +121,195 @@ var hierarchy =
     [ "sw::Path", "classsw_1_1_path.html", null ],
     [ "sw::Point", "structsw_1_1_point.html", null ],
     [ "sw::ProcMsg", "structsw_1_1_proc_msg.html", null ],
-    [ "sw::ReadOnlyProperty< T >", "classsw_1_1_read_only_property.html", [
-      [ "sw::Property< T >", "classsw_1_1_property.html", null ]
+    [ "sw::PropertyBase< T, TDerived >", "classsw_1_1_property_base.html", [
+      [ "sw::PtrPropertyBase< T, TDerived >", "classsw_1_1_ptr_property_base.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< AppQuitMode >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< AppQuitMode, Property< AppQuitMode > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< AppQuitMode >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< BmpBoxSizeMode >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< BmpBoxSizeMode, Property< BmpBoxSizeMode > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< BmpBoxSizeMode >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< bool >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< bool, Property< bool > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< bool >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< DateTimePickerFormat >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< bool, ReadOnlyProperty< bool > >", "classsw_1_1_property_base.html", [
+      [ "sw::ReadOnlyProperty< bool >", "classsw_1_1_read_only_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< DateTimePickerFormat, Property< DateTimePickerFormat > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< DateTimePickerFormat >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< double >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< double, Property< double > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< double >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< HBITMAP >", "classsw_1_1_read_only_property.html", null ],
-    [ "sw::ReadOnlyProperty< HICON >", "classsw_1_1_read_only_property.html", null ],
-    [ "sw::ReadOnlyProperty< HINSTANCE >", "classsw_1_1_read_only_property.html", null ],
-    [ "sw::ReadOnlyProperty< HorizontalAlignment >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< double, ReadOnlyProperty< double > >", "classsw_1_1_property_base.html", [
+      [ "sw::ReadOnlyProperty< double >", "classsw_1_1_read_only_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< HBITMAP, ReadOnlyProperty< HBITMAP > >", "classsw_1_1_property_base.html", [
+      [ "sw::ReadOnlyProperty< HBITMAP >", "classsw_1_1_read_only_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< HICON, ReadOnlyProperty< HICON > >", "classsw_1_1_property_base.html", [
+      [ "sw::ReadOnlyProperty< HICON >", "classsw_1_1_read_only_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< HINSTANCE, ReadOnlyProperty< HINSTANCE > >", "classsw_1_1_property_base.html", [
+      [ "sw::ReadOnlyProperty< HINSTANCE >", "classsw_1_1_read_only_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< HorizontalAlignment, Property< HorizontalAlignment > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< HorizontalAlignment >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< HWND >", "classsw_1_1_read_only_property.html", null ],
-    [ "sw::ReadOnlyProperty< int >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< HWND, ReadOnlyProperty< HWND > >", "classsw_1_1_property_base.html", [
+      [ "sw::ReadOnlyProperty< HWND >", "classsw_1_1_read_only_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< int, Property< int > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< int >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< Orientation >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< int, ReadOnlyProperty< int > >", "classsw_1_1_property_base.html", [
+      [ "sw::ReadOnlyProperty< int >", "classsw_1_1_read_only_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< Orientation, Property< Orientation > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< Orientation >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< ProgressBarState >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< ProgressBarState, Property< ProgressBarState > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< ProgressBarState >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< std::wstring >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< std::wstring, Property< std::wstring > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< std::wstring >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< StrList >", "classsw_1_1_read_only_property.html", null ],
-    [ "sw::ReadOnlyProperty< sw::BorderStyle >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< std::wstring, ReadOnlyProperty< std::wstring > >", "classsw_1_1_property_base.html", [
+      [ "sw::ReadOnlyProperty< std::wstring >", "classsw_1_1_read_only_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< StrList, ReadOnlyProperty< StrList > >", "classsw_1_1_property_base.html", [
+      [ "sw::ReadOnlyProperty< StrList >", "classsw_1_1_read_only_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< sw::BorderStyle, Property< sw::BorderStyle > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< sw::BorderStyle >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::CheckState >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< sw::CheckState, Property< sw::CheckState > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< sw::CheckState >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::Color >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< sw::Color, Property< sw::Color > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< sw::Color >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::ContextMenu * >", "classsw_1_1_read_only_property.html", [
-      [ "sw::Property< sw::ContextMenu * >", "classsw_1_1_property.html", null ]
+    [ "sw::PropertyBase< sw::ContextMenu *, PtrProperty< sw::ContextMenu * > >", "classsw_1_1_property_base.html", [
+      [ "sw::PtrPropertyBase< sw::ContextMenu *, PtrProperty< sw::ContextMenu * > >", "classsw_1_1_ptr_property_base.html", [
+        [ "sw::PtrProperty< sw::ContextMenu * >", "classsw_1_1_ptr_property.html", null ]
+      ] ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::Font >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< sw::Font, Property< sw::Font > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< sw::Font >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::FontWeight >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< sw::FontWeight, Property< sw::FontWeight > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< sw::FontWeight >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::HorizontalAlignment >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< sw::HorizontalAlignment, Property< sw::HorizontalAlignment > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< sw::HorizontalAlignment >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::HotKey >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< sw::HotKey, Property< sw::HotKey > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< sw::HotKey >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::LayoutHost * >", "classsw_1_1_read_only_property.html", [
-      [ "sw::Property< sw::LayoutHost * >", "classsw_1_1_property.html", null ]
+    [ "sw::PropertyBase< sw::LayoutHost *, PtrProperty< sw::LayoutHost * > >", "classsw_1_1_property_base.html", [
+      [ "sw::PtrPropertyBase< sw::LayoutHost *, PtrProperty< sw::LayoutHost * > >", "classsw_1_1_ptr_property_base.html", [
+        [ "sw::PtrProperty< sw::LayoutHost * >", "classsw_1_1_ptr_property.html", null ]
+      ] ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::Menu * >", "classsw_1_1_read_only_property.html", [
-      [ "sw::Property< sw::Menu * >", "classsw_1_1_property.html", null ]
+    [ "sw::PropertyBase< sw::Menu *, PtrProperty< sw::Menu * > >", "classsw_1_1_property_base.html", [
+      [ "sw::PtrPropertyBase< sw::Menu *, PtrProperty< sw::Menu * > >", "classsw_1_1_ptr_property_base.html", [
+        [ "sw::PtrProperty< sw::Menu * >", "classsw_1_1_ptr_property.html", null ]
+      ] ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::Orientation >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< sw::Orientation, Property< sw::Orientation > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< sw::Orientation >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::Point >", "classsw_1_1_read_only_property.html", null ],
-    [ "sw::ReadOnlyProperty< sw::Rect >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< sw::Point, ReadOnlyProperty< sw::Point > >", "classsw_1_1_property_base.html", [
+      [ "sw::ReadOnlyProperty< sw::Point >", "classsw_1_1_read_only_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< sw::Rect, Property< sw::Rect > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< sw::Rect >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::TextTrimming >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< sw::Rect, ReadOnlyProperty< sw::Rect > >", "classsw_1_1_property_base.html", [
+      [ "sw::ReadOnlyProperty< sw::Rect >", "classsw_1_1_read_only_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< sw::TextTrimming, Property< sw::TextTrimming > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< sw::TextTrimming >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::Thickness >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< sw::Thickness, Property< sw::Thickness > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< sw::Thickness >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::UIElement * >", "classsw_1_1_read_only_property.html", null ],
-    [ "sw::ReadOnlyProperty< sw::VerticalAlignment >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< sw::UIElement *, ReadOnlyPtrProperty< sw::UIElement * > >", "classsw_1_1_property_base.html", [
+      [ "sw::PtrPropertyBase< sw::UIElement *, ReadOnlyPtrProperty< sw::UIElement * > >", "classsw_1_1_ptr_property_base.html", [
+        [ "sw::ReadOnlyPtrProperty< sw::UIElement * >", "classsw_1_1_read_only_ptr_property.html", null ]
+      ] ]
+    ] ],
+    [ "sw::PropertyBase< sw::VerticalAlignment, Property< sw::VerticalAlignment > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< sw::VerticalAlignment >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::Window * >", "classsw_1_1_read_only_property.html", [
-      [ "sw::Property< sw::Window * >", "classsw_1_1_property.html", null ]
+    [ "sw::PropertyBase< sw::Window *, PtrProperty< sw::Window * > >", "classsw_1_1_property_base.html", [
+      [ "sw::PtrPropertyBase< sw::Window *, PtrProperty< sw::Window * > >", "classsw_1_1_ptr_property_base.html", [
+        [ "sw::PtrProperty< sw::Window * >", "classsw_1_1_ptr_property.html", null ]
+      ] ]
     ] ],
-    [ "sw::ReadOnlyProperty< sw::WndBase * >", "classsw_1_1_read_only_property.html", null ],
-    [ "sw::ReadOnlyProperty< TabAlignment >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< sw::Window *, ReadOnlyPtrProperty< sw::Window * > >", "classsw_1_1_property_base.html", [
+      [ "sw::PtrPropertyBase< sw::Window *, ReadOnlyPtrProperty< sw::Window * > >", "classsw_1_1_ptr_property_base.html", [
+        [ "sw::ReadOnlyPtrProperty< sw::Window * >", "classsw_1_1_read_only_ptr_property.html", null ]
+      ] ]
+    ] ],
+    [ "sw::PropertyBase< sw::WndBase *, ReadOnlyPtrProperty< sw::WndBase * > >", "classsw_1_1_property_base.html", [
+      [ "sw::PtrPropertyBase< sw::WndBase *, ReadOnlyPtrProperty< sw::WndBase * > >", "classsw_1_1_ptr_property_base.html", [
+        [ "sw::ReadOnlyPtrProperty< sw::WndBase * >", "classsw_1_1_read_only_ptr_property.html", null ]
+      ] ]
+    ] ],
+    [ "sw::PropertyBase< T, Property< T > >", "classsw_1_1_property_base.html", [
+      [ "sw::Property< T >", "classsw_1_1_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< T, PtrProperty< T > >", "classsw_1_1_property_base.html", [
+      [ "sw::PtrPropertyBase< T, PtrProperty< T > >", "classsw_1_1_ptr_property_base.html", [
+        [ "sw::PtrProperty< T >", "classsw_1_1_ptr_property.html", null ]
+      ] ]
+    ] ],
+    [ "sw::PropertyBase< T, ReadOnlyProperty< T > >", "classsw_1_1_property_base.html", [
+      [ "sw::ReadOnlyProperty< T >", "classsw_1_1_read_only_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< T, ReadOnlyPtrProperty< T > >", "classsw_1_1_property_base.html", [
+      [ "sw::PtrPropertyBase< T, ReadOnlyPtrProperty< T > >", "classsw_1_1_ptr_property_base.html", [
+        [ "sw::ReadOnlyPtrProperty< T >", "classsw_1_1_read_only_ptr_property.html", null ]
+      ] ]
+    ] ],
+    [ "sw::PropertyBase< T, WriteOnlyProperty< T > >", "classsw_1_1_property_base.html", [
+      [ "sw::WriteOnlyProperty< T >", "classsw_1_1_write_only_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< T, WriteOnlyPtrProperty< T > >", "classsw_1_1_property_base.html", [
+      [ "sw::PtrPropertyBase< T, WriteOnlyPtrProperty< T > >", "classsw_1_1_ptr_property_base.html", [
+        [ "sw::WriteOnlyPtrProperty< T >", "classsw_1_1_write_only_ptr_property.html", null ]
+      ] ]
+    ] ],
+    [ "sw::PropertyBase< TabAlignment, Property< TabAlignment > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< TabAlignment >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< TItem >", "classsw_1_1_read_only_property.html", null ],
-    [ "sw::ReadOnlyProperty< ToolTipIcon >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< TItem, ReadOnlyProperty< TItem > >", "classsw_1_1_property_base.html", [
+      [ "sw::ReadOnlyProperty< TItem >", "classsw_1_1_read_only_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< ToolTipIcon, Property< ToolTipIcon > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< ToolTipIcon >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< uint16_t >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< uint16_t, Property< uint16_t > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< uint16_t >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< uint32_t >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< uint32_t, Property< uint32_t > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< uint32_t >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< uint64_t >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< uint64_t, Property< uint64_t > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< uint64_t >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< VerticalAlignment >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< VerticalAlignment, Property< VerticalAlignment > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< VerticalAlignment >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< wchar_t >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< wchar_t, Property< wchar_t > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< wchar_t >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< WindowStartupLocation >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< WindowStartupLocation, Property< WindowStartupLocation > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< WindowStartupLocation >", "classsw_1_1_property.html", null ]
     ] ],
-    [ "sw::ReadOnlyProperty< WindowState >", "classsw_1_1_read_only_property.html", [
+    [ "sw::PropertyBase< WindowState, Property< WindowState > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< WindowState >", "classsw_1_1_property.html", null ]
     ] ],
     [ "sw::Rect", "structsw_1_1_rect.html", null ],
@@ -313,113 +388,5 @@ var hierarchy =
         [ "sw::BallonToolTip", "classsw_1_1_ballon_tool_tip.html", null ]
       ] ],
       [ "sw::UIElement", "classsw_1_1_u_i_element.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< T >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< T >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< AppQuitMode >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< AppQuitMode >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< BmpBoxSizeMode >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< BmpBoxSizeMode >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< bool >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< bool >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< DateTimePickerFormat >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< DateTimePickerFormat >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< double >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< double >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< HorizontalAlignment >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< HorizontalAlignment >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< int >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< int >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< Orientation >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< Orientation >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< ProgressBarState >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< ProgressBarState >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< std::wstring >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< std::wstring >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::BorderStyle >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::BorderStyle >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::CheckState >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::CheckState >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::Color >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::Color >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::ContextMenu * >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::ContextMenu * >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::Font >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::Font >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::FontWeight >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::FontWeight >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::HorizontalAlignment >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::HorizontalAlignment >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::HotKey >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::HotKey >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::LayoutHost * >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::LayoutHost * >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::Menu * >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::Menu * >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::Orientation >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::Orientation >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::Rect >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::Rect >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::TextTrimming >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::TextTrimming >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::Thickness >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::Thickness >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::VerticalAlignment >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::VerticalAlignment >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< sw::Window * >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< sw::Window * >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< TabAlignment >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< TabAlignment >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< ToolTipIcon >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< ToolTipIcon >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< uint16_t >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< uint16_t >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< uint32_t >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< uint32_t >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< uint64_t >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< uint64_t >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< VerticalAlignment >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< VerticalAlignment >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< wchar_t >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< wchar_t >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< WindowStartupLocation >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< WindowStartupLocation >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::WriteOnlyProperty< WindowState >", "classsw_1_1_write_only_property.html", [
-      [ "sw::Property< WindowState >", "classsw_1_1_property.html", null ]
     ] ]
 ];

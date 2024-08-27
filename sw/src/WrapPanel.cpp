@@ -3,11 +3,11 @@
 sw::WrapPanel::WrapPanel()
     : Orientation(
           // get
-          [&]() -> const sw::Orientation & {
+          [this]() -> sw::Orientation {
               return this->_wrapLayout.orientation;
           },
           // set
-          [&](const sw::Orientation &value) {
+          [this](const sw::Orientation &value) {
               this->_wrapLayout.orientation = value;
               this->NotifyLayoutUpdated();
           })

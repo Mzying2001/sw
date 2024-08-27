@@ -3,13 +3,11 @@
 sw::MonthCalendar::MonthCalendar()
     : ShowToday(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = !this->GetStyle(MCS_NOTODAY);
-              return result;
+          [this]() -> bool {
+              return !this->GetStyle(MCS_NOTODAY);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(MCS_NOTODAY, !value);
           })
 {

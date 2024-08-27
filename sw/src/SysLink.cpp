@@ -9,23 +9,21 @@
 sw::SysLink::SysLink()
     : IgnoreReturn(
           // get
-          [&]() -> const bool & {
-              static bool result;
-              result = this->GetStyle(LWS_IGNORERETURN);
-              return result;
+          [this]() -> bool {
+              return this->GetStyle(LWS_IGNORERETURN);
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->SetStyle(LWS_IGNORERETURN, value);
           }),
 
       AutoSize(
           // get
-          [&]() -> const bool & {
+          [this]() -> bool {
               return this->_autoSize;
           },
           // set
-          [&](const bool &value) {
+          [this](const bool &value) {
               this->_autoSize = value;
               if (value) {
                   this->NotifyLayoutUpdated();
