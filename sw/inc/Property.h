@@ -279,6 +279,106 @@ namespace sw
         }
 
         /**
+         * @brief 按位与赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator&=(T value)
+        {
+            this->Set(this->Get() & value);
+            return *this;
+        }
+
+        /**
+         * @brief 按位与赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator&=(T value) const
+        {
+            this->Set(this->Get() & value);
+            return *this;
+        }
+
+        /**
+         * @brief 按位或赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator|=(T value)
+        {
+            this->Set(this->Get() | value);
+            return *this;
+        }
+
+        /**
+         * @brief 按位或赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator|=(T value) const
+        {
+            this->Set(this->Get() | value);
+            return *this;
+        }
+
+        /**
+         * @brief 按位异或赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator^=(T value)
+        {
+            this->Set(this->Get() ^ value);
+            return *this;
+        }
+
+        /**
+         * @brief 按位异或赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator^=(T value) const
+        {
+            this->Set(this->Get() ^ value);
+            return *this;
+        }
+
+        /**
+         * @brief 左移赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator<<=(T value)
+        {
+            this->Set(this->Get() << value);
+            return *this;
+        }
+
+        /**
+         * @brief 左移赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator<<=(T value) const
+        {
+            this->Set(this->Get() << value);
+            return *this;
+        }
+
+        /**
+         * @brief 右移赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator>>=(T value)
+        {
+            this->Set(this->Get() >> value);
+            return *this;
+        }
+
+        /**
+         * @brief 右移赋值运算
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator>>=(T value) const
+        {
+            this->Set(this->Get() >> value);
+            return *this;
+        }
+
+        /**
          * @brief 支持Utils::BuildStr
          */
         friend std::wostream &operator<<(std::wostream &wos, const PropertyBase &prop)
