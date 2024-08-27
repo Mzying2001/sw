@@ -345,6 +345,22 @@ namespace sw
         {
             return this->Get() == nullptr;
         }
+
+        /**
+         * @brief 解引用
+         */
+        auto &operator*() const
+        {
+            return *this->Get();
+        }
+
+        /**
+         * @brief 解引用
+         */
+        auto &operator[](int index) const
+        {
+            return this->Get()[index];
+        }
     };
 
     /**
