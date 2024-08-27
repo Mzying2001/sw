@@ -2,7 +2,6 @@
 
 #include <functional>
 #include <iostream>
-#include <memory>
 #include <type_traits>
 
 namespace sw
@@ -74,12 +73,30 @@ namespace sw
          */
         void SetterImpl(const T &value) const;
 
+        // /**
+        //  * @brief 获取字段，可由子类重写
+        //  */
+        // FakePtr<T> ListFieldsImpl() const
+        // {
+        //     return FakePtr<T>(this->Get());
+        // }
+
         /**
          * @brief 获取字段，可由子类重写
          */
-        FakePtr<T> ListFieldsImpl() const
+        template <typename U = T>
+        typename std::enable_if<!std::is_pointer<U>::value, FakePtr<T>>::type ListFieldsImpl() const
         {
             return FakePtr<T>(this->Get());
+        }
+
+        /**
+         * @brief 获取字段，可由子类重写
+         */
+        template <typename U = T>
+        typename std::enable_if<std::is_pointer<U>::value, T>::type ListFieldsImpl() const
+        {
+            return this->Get();
         }
 
         /**
