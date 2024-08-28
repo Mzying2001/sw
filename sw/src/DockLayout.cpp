@@ -123,7 +123,7 @@ void sw::DockLayout::ArrangeOverride(Size &finalSize)
 
             case DockLayoutTag::Bottom: {
                 Size itemDesireSize  = item.GetDesireSize();
-                double arrangeHeight = Utils::Utils::Min(itemDesireSize.height, restArea.height);
+                double arrangeHeight = Utils::Min(itemDesireSize.height, restArea.height);
 
                 item.Arrange(Rect(
                     restArea.left,
