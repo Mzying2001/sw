@@ -1225,7 +1225,7 @@ void sw::DockLayout::ArrangeOverride(Size &finalSize)
 
             case DockLayoutTag::Bottom: {
                 Size itemDesireSize  = item.GetDesireSize();
-                double arrangeHeight = Utils::Utils::Min(itemDesireSize.height, restArea.height);
+                double arrangeHeight = Utils::Min(itemDesireSize.height, restArea.height);
 
                 item.Arrange(Rect(
                     restArea.left,
@@ -5149,23 +5149,13 @@ sw::Point::Point(double x, double y)
 }
 
 sw::Point::Point(const POINT &point)
+    : x(Dip::PxToDipX(point.x)), y(Dip::PxToDipY(point.y))
 {
-    double scaleX = Dip::ScaleX.Get();
-    double scaleY = Dip::ScaleY.Get();
-
-    this->x = scaleX * point.x;
-    this->y = scaleY * point.y;
 }
 
 sw::Point::operator POINT() const
 {
-    double scaleX = Dip::ScaleX.Get();
-    double scaleY = Dip::ScaleY.Get();
-
-    POINT point{};
-    point.x = std::lround(this->x / scaleX);
-    point.y = std::lround(this->y / scaleY);
-    return point;
+    return {Dip::DipToPxX(this->x), Dip::DipToPxY(this->y)};
 }
 
 // ProcMsg.cpp
@@ -5274,27 +5264,19 @@ sw::Rect::Rect(double left, double top, double width, double height)
 }
 
 sw::Rect::Rect(const RECT &rect)
+    : left(Dip::PxToDipX(rect.left)),
+      top(Dip::PxToDipY(rect.top)),
+      width(Dip::PxToDipX(rect.right - rect.left)),
+      height(Dip::PxToDipY(rect.bottom - rect.top))
 {
-    double scaleX = Dip::ScaleX.Get();
-    double scaleY = Dip::ScaleY.Get();
-
-    this->left   = scaleX * rect.left;
-    this->top    = scaleY * rect.top;
-    this->width  = scaleX * (rect.right - rect.left);
-    this->height = scaleY * (rect.bottom - rect.top);
 }
 
 sw::Rect::operator RECT() const
 {
-    double scaleX = Dip::ScaleX.Get();
-    double scaleY = Dip::ScaleY.Get();
-
-    RECT rect{};
-    rect.left   = std::lround(this->left / scaleX);
-    rect.top    = std::lround(this->top / scaleY);
-    rect.right  = std::lround((this->left + this->width) / scaleX);
-    rect.bottom = std::lround((this->top + this->height) / scaleY);
-    return rect;
+    return {Dip::DipToPxX(this->left),
+            Dip::DipToPxY(this->top),
+            Dip::DipToPxX(this->left + this->width),
+            Dip::DipToPxY(this->top + this->height)};
 }
 
 sw::Point sw::Rect::GetPos() const
@@ -5349,23 +5331,13 @@ sw::Size::Size(double width, double height)
 }
 
 sw::Size::Size(const SIZE &size)
+    : width(Dip::PxToDipX(size.cx)), height(Dip::PxToDipY(size.cy))
 {
-    double scaleX = Dip::ScaleX.Get();
-    double scaleY = Dip::ScaleY.Get();
-
-    this->width  = size.cx * scaleX;
-    this->height = size.cy * scaleY;
 }
 
 sw::Size::operator SIZE() const
 {
-    double scaleX = Dip::ScaleX.Get();
-    double scaleY = Dip::ScaleY.Get();
-
-    SIZE size{};
-    size.cx = std::lround(this->width / scaleX);
-    size.cy = std::lround(this->height / scaleY);
-    return size;
+    return {Dip::DipToPxX(this->width), Dip::DipToPxY(this->height)};
 }
 
 // Slider.cpp
@@ -6016,9 +5988,12 @@ void sw::TabControl::UpdateTab()
     }
 
     for (int i = 0; i < childCount; ++i) {
-        item.pszText = (LPWSTR)(*this)[i].Text->c_str();
+        auto text    = (*this)[i].Text.Get();
+        item.pszText = (LPWSTR)text.c_str();
         this->_SetItem(i, item);
     }
+
+    this->Redraw();
 }
 
 void sw::TabControl::UpdateTabText(int index)
@@ -6030,12 +6005,18 @@ void sw::TabControl::UpdateTabText(int index)
     int childCount = this->ChildCount;
     int tabCount   = this->GetTabCount();
 
-    if (index < childCount && index < tabCount) {
-        TCITEMW item{};
-        item.mask    = TCIF_TEXT;
-        item.pszText = (LPWSTR)(*this)[index].Text->c_str();
-        this->_SetItem(index, item);
+    if (index >= childCount || index >= tabCount) {
+        return;
     }
+
+    auto text = (*this)[index].Text.Get();
+
+    TCITEMW item{};
+    item.mask    = TCIF_TEXT;
+    item.pszText = (LPWSTR)text.c_str();
+    this->_SetItem(index, item);
+
+    this->Redraw();
 }
 
 void sw::TabControl::Arrange(const sw::Rect &finalPosition)
@@ -6054,12 +6035,13 @@ void sw::TabControl::Arrange(const sw::Rect &finalPosition)
 
 void sw::TabControl::OnAddedChild(UIElement &element)
 {
+    auto text = element.Text.Get();
+
     TCITEMW item{};
     item.mask    = TCIF_TEXT;
-    item.pszText = (LPWSTR)element.Text->c_str();
+    item.pszText = (LPWSTR)text.c_str();
 
     int index = this->IndexOf(element);
-
     this->_InsertItem(index, item);
     ShowWindow(element.Handle, index == this->SelectedIndex ? SW_SHOW : SW_HIDE);
 }
@@ -7088,12 +7070,9 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     rect.width  = Utils::Max(0.0, rect.width);
     rect.height = Utils::Max(0.0, rect.height);
 
-    double scaleX = Dip::ScaleX.Get();
-    double scaleY = Dip::ScaleY.Get();
-
     SetWindowPos(this->Handle, NULL,
-                 std::lround(rect.left / scaleX), std::lround(rect.top / scaleY),
-                 std::lround(rect.width / scaleX), std::lround(rect.height / scaleY),
+                 Dip::DipToPxX(rect.left), Dip::DipToPxY(rect.top),
+                 Dip::DipToPxX(rect.width), Dip::DipToPxY(rect.height),
                  SWP_NOACTIVATE | SWP_NOZORDER);
 
     this->_arranging = false;
@@ -7951,24 +7930,22 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_GETMINMAXINFO: {
-            double scaleX     = Dip::ScaleX.Get();
-            double scaleY     = Dip::ScaleY.Get();
-            PMINMAXINFO pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
+            auto pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
             // 按照设置限制窗口大小
             if (this->_maxWidth > 0) {
-                LONG maxWidth           = std::lround(this->_maxWidth / scaleX);
+                LONG maxWidth           = Dip::DipToPxX(this->_maxWidth);
                 pInfo->ptMaxTrackSize.x = Utils::Min(pInfo->ptMaxTrackSize.x, maxWidth);
             }
             if (this->_maxHeight > 0) {
-                LONG maxHeight          = std::lround(this->_maxHeight / scaleY);
+                LONG maxHeight          = Dip::DipToPxY(this->_maxHeight);
                 pInfo->ptMaxTrackSize.y = Utils::Min(pInfo->ptMaxTrackSize.y, maxHeight);
             }
             if (this->_minWidth > 0) {
-                LONG minWidth           = std::lround(this->_minWidth / scaleX);
+                LONG minWidth           = Dip::DipToPxX(this->_minWidth);
                 pInfo->ptMinTrackSize.x = Utils::Max(pInfo->ptMinTrackSize.x, minWidth);
             }
             if (this->_minHeight > 0) {
-                LONG minHeight          = std::lround(this->_minHeight / scaleY);
+                LONG minHeight          = Dip::DipToPxY(this->_minHeight);
                 pInfo->ptMinTrackSize.y = Utils::Max(pInfo->ptMinTrackSize.y, minHeight);
             }
             return 0;
@@ -8214,7 +8191,11 @@ void _UpdateFontForAllChild(sw::UIElement &element)
 
 HICON _GetWindowDefaultIcon()
 {
-    static HICON hIcon = ExtractIconW(sw::App::Instance, sw::App::ExePath->c_str(), 0);
+    static HICON hIcon = NULL;
+    if (hIcon == NULL) {
+        auto exePath = sw::App::ExePath.Get();
+        ExtractIconW(sw::App::Instance, exePath.c_str(), 0);
+    }
     return hIcon;
 }
 
@@ -8326,13 +8307,11 @@ sw::WndBase::WndBase()
           },
           // set
           [this](const sw::Rect &value) {
-              double scaleX = Dip::ScaleX.Get();
-              double scaleY = Dip::ScaleY.Get();
               if (this->_rect != value) {
-                  int left   = std::lround(value.left / scaleX);
-                  int top    = std::lround(value.top / scaleY);
-                  int width  = std::lround(value.width / scaleX);
-                  int height = std::lround(value.height / scaleY);
+                  int left   = Dip::DipToPxX(value.left);
+                  int top    = Dip::DipToPxY(value.top);
+                  int width  = Dip::DipToPxX(value.width);
+                  int height = Dip::DipToPxY(value.height);
                   SetWindowPos(this->_hwnd, NULL, left, top, width, height, SWP_NOACTIVATE | SWP_NOZORDER);
               }
           }),
@@ -8344,11 +8323,9 @@ sw::WndBase::WndBase()
           },
           // set
           [this](const double &value) {
-              double scaleX = Dip::ScaleX.Get();
-              double scaleY = Dip::ScaleY.Get();
               if (this->_rect.left != value) {
-                  int x = std::lround(value / scaleX);
-                  int y = std::lround(this->_rect.top / scaleY);
+                  int x = Dip::DipToPxX(value);
+                  int y = Dip::DipToPxY(this->_rect.top);
                   SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
               }
           }),
@@ -8360,11 +8337,9 @@ sw::WndBase::WndBase()
           },
           // set
           [this](const double &value) {
-              double scaleX = Dip::ScaleX.Get();
-              double scaleY = Dip::ScaleY.Get();
               if (this->_rect.top != value) {
-                  int x = std::lround(this->_rect.left / scaleX);
-                  int y = std::lround(value / scaleY);
+                  int x = Dip::DipToPxX(this->_rect.left);
+                  int y = Dip::DipToPxY(value);
                   SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
               }
           }),
@@ -8376,11 +8351,9 @@ sw::WndBase::WndBase()
           },
           // set
           [this](const double &value) {
-              double scaleX = Dip::ScaleX.Get();
-              double scaleY = Dip::ScaleY.Get();
               if (this->_rect.width != value) {
-                  int cx = std::lround(value / scaleX);
-                  int cy = std::lround(this->_rect.height / scaleY);
+                  int cx = Dip::DipToPxX(value);
+                  int cy = Dip::DipToPxY(this->_rect.height);
                   SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
               }
           }),
@@ -8392,11 +8365,9 @@ sw::WndBase::WndBase()
           },
           // set
           [this](const double &value) {
-              double scaleX = Dip::ScaleX.Get();
-              double scaleY = Dip::ScaleY.Get();
               if (this->_rect.height != value) {
-                  int cx = std::lround(this->_rect.width / scaleX);
-                  int cy = std::lround(value / scaleY);
+                  int cx = Dip::DipToPxX(this->_rect.width);
+                  int cy = Dip::DipToPxY(value);
                   SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
               }
           }),
@@ -8610,17 +8581,14 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_WINDOWPOSCHANGED: {
-            double scaleX = Dip::ScaleX.Get();
-            double scaleY = Dip::ScaleY.Get();
-
-            PWINDOWPOS pWndPos = reinterpret_cast<PWINDOWPOS>(refMsg.lParam);
+            auto pWndPos = reinterpret_cast<PWINDOWPOS>(refMsg.lParam);
             if ((pWndPos->flags & SWP_NOMOVE) == 0) {
-                this->_rect.left = scaleX * pWndPos->x;
-                this->_rect.top  = scaleY * pWndPos->y;
+                this->_rect.left = Dip::PxToDipX(pWndPos->x);
+                this->_rect.top  = Dip::PxToDipY(pWndPos->y);
             }
             if ((pWndPos->flags & SWP_NOSIZE) == 0) {
-                this->_rect.width  = scaleX * pWndPos->cx;
-                this->_rect.height = scaleY * pWndPos->cy;
+                this->_rect.width  = Dip::PxToDipX(pWndPos->cx);
+                this->_rect.height = Dip::PxToDipY(pWndPos->cy);
             }
             return this->DefaultWndProc(refMsg);
         }

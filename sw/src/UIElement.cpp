@@ -1,7 +1,6 @@
 #include "UIElement.h"
 #include "Utils.h"
 #include <algorithm>
-#include <cmath>
 #include <deque>
 
 sw::UIElement::UIElement()
@@ -570,12 +569,9 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     rect.width  = Utils::Max(0.0, rect.width);
     rect.height = Utils::Max(0.0, rect.height);
 
-    double scaleX = Dip::ScaleX.Get();
-    double scaleY = Dip::ScaleY.Get();
-
     SetWindowPos(this->Handle, NULL,
-                 std::lround(rect.left / scaleX), std::lround(rect.top / scaleY),
-                 std::lround(rect.width / scaleX), std::lround(rect.height / scaleY),
+                 Dip::DipToPxX(rect.left), Dip::DipToPxY(rect.top),
+                 Dip::DipToPxX(rect.width), Dip::DipToPxY(rect.height),
                  SWP_NOACTIVATE | SWP_NOZORDER);
 
     this->_arranging = false;

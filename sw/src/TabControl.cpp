@@ -132,9 +132,12 @@ void sw::TabControl::UpdateTab()
     }
 
     for (int i = 0; i < childCount; ++i) {
-        item.pszText = (LPWSTR)(*this)[i].Text->c_str();
+        auto text    = (*this)[i].Text.Get();
+        item.pszText = (LPWSTR)text.c_str();
         this->_SetItem(i, item);
     }
+
+    this->Redraw();
 }
 
 void sw::TabControl::UpdateTabText(int index)
@@ -146,12 +149,18 @@ void sw::TabControl::UpdateTabText(int index)
     int childCount = this->ChildCount;
     int tabCount   = this->GetTabCount();
 
-    if (index < childCount && index < tabCount) {
-        TCITEMW item{};
-        item.mask    = TCIF_TEXT;
-        item.pszText = (LPWSTR)(*this)[index].Text->c_str();
-        this->_SetItem(index, item);
+    if (index >= childCount || index >= tabCount) {
+        return;
     }
+
+    auto text = (*this)[index].Text.Get();
+
+    TCITEMW item{};
+    item.mask    = TCIF_TEXT;
+    item.pszText = (LPWSTR)text.c_str();
+    this->_SetItem(index, item);
+
+    this->Redraw();
 }
 
 void sw::TabControl::Arrange(const sw::Rect &finalPosition)
@@ -170,12 +179,13 @@ void sw::TabControl::Arrange(const sw::Rect &finalPosition)
 
 void sw::TabControl::OnAddedChild(UIElement &element)
 {
+    auto text = element.Text.Get();
+
     TCITEMW item{};
     item.mask    = TCIF_TEXT;
-    item.pszText = (LPWSTR)element.Text->c_str();
+    item.pszText = (LPWSTR)text.c_str();
 
     int index = this->IndexOf(element);
-
     this->_InsertItem(index, item);
     ShowWindow(element.Handle, index == this->SelectedIndex ? SW_SHOW : SW_HIDE);
 }
