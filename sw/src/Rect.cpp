@@ -1,6 +1,5 @@
 #include "Rect.h"
 #include "Dip.h"
-#include <cmath>
 
 sw::Rect::Rect()
     : Rect(0, 0, 0, 0)
@@ -13,27 +12,19 @@ sw::Rect::Rect(double left, double top, double width, double height)
 }
 
 sw::Rect::Rect(const RECT &rect)
+    : left(Dip::PxToDipX(rect.left)),
+      top(Dip::PxToDipY(rect.top)),
+      width(Dip::PxToDipX(rect.right - rect.left)),
+      height(Dip::PxToDipY(rect.bottom - rect.top))
 {
-    double scaleX = Dip::ScaleX.Get();
-    double scaleY = Dip::ScaleY.Get();
-
-    this->left   = scaleX * rect.left;
-    this->top    = scaleY * rect.top;
-    this->width  = scaleX * (rect.right - rect.left);
-    this->height = scaleY * (rect.bottom - rect.top);
 }
 
 sw::Rect::operator RECT() const
 {
-    double scaleX = Dip::ScaleX.Get();
-    double scaleY = Dip::ScaleY.Get();
-
-    RECT rect{};
-    rect.left   = std::lround(this->left / scaleX);
-    rect.top    = std::lround(this->top / scaleY);
-    rect.right  = std::lround((this->left + this->width) / scaleX);
-    rect.bottom = std::lround((this->top + this->height) / scaleY);
-    return rect;
+    return {Dip::DipToPxX(this->left),
+            Dip::DipToPxY(this->top),
+            Dip::DipToPxX(this->left + this->width),
+            Dip::DipToPxY(this->top + this->height)};
 }
 
 sw::Point sw::Rect::GetPos() const

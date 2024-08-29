@@ -1,6 +1,5 @@
 #include "Point.h"
 #include "Dip.h"
-#include <cmath>
 
 sw::Point::Point()
     : Point(0, 0)
@@ -13,21 +12,11 @@ sw::Point::Point(double x, double y)
 }
 
 sw::Point::Point(const POINT &point)
+    : x(Dip::PxToDipX(point.x)), y(Dip::PxToDipY(point.y))
 {
-    double scaleX = Dip::ScaleX.Get();
-    double scaleY = Dip::ScaleY.Get();
-
-    this->x = scaleX * point.x;
-    this->y = scaleY * point.y;
 }
 
 sw::Point::operator POINT() const
 {
-    double scaleX = Dip::ScaleX.Get();
-    double scaleY = Dip::ScaleY.Get();
-
-    POINT point{};
-    point.x = std::lround(this->x / scaleX);
-    point.y = std::lround(this->y / scaleY);
-    return point;
+    return {Dip::DipToPxX(this->x), Dip::DipToPxY(this->y)};
 }

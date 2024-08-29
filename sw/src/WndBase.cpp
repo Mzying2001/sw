@@ -1,5 +1,4 @@
 #include "WndBase.h"
-#include <cmath>
 
 /**
  * @brief _check字段的值，用于判断给定指针是否为指向WndBase的指针
@@ -107,13 +106,11 @@ sw::WndBase::WndBase()
           },
           // set
           [this](const sw::Rect &value) {
-              double scaleX = Dip::ScaleX.Get();
-              double scaleY = Dip::ScaleY.Get();
               if (this->_rect != value) {
-                  int left   = std::lround(value.left / scaleX);
-                  int top    = std::lround(value.top / scaleY);
-                  int width  = std::lround(value.width / scaleX);
-                  int height = std::lround(value.height / scaleY);
+                  int left   = Dip::DipToPxX(value.left);
+                  int top    = Dip::DipToPxY(value.top);
+                  int width  = Dip::DipToPxX(value.width);
+                  int height = Dip::DipToPxY(value.height);
                   SetWindowPos(this->_hwnd, NULL, left, top, width, height, SWP_NOACTIVATE | SWP_NOZORDER);
               }
           }),
@@ -125,11 +122,9 @@ sw::WndBase::WndBase()
           },
           // set
           [this](const double &value) {
-              double scaleX = Dip::ScaleX.Get();
-              double scaleY = Dip::ScaleY.Get();
               if (this->_rect.left != value) {
-                  int x = std::lround(value / scaleX);
-                  int y = std::lround(this->_rect.top / scaleY);
+                  int x = Dip::DipToPxX(value);
+                  int y = Dip::DipToPxY(this->_rect.top);
                   SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
               }
           }),
@@ -141,11 +136,9 @@ sw::WndBase::WndBase()
           },
           // set
           [this](const double &value) {
-              double scaleX = Dip::ScaleX.Get();
-              double scaleY = Dip::ScaleY.Get();
               if (this->_rect.top != value) {
-                  int x = std::lround(this->_rect.left / scaleX);
-                  int y = std::lround(value / scaleY);
+                  int x = Dip::DipToPxX(this->_rect.left);
+                  int y = Dip::DipToPxY(value);
                   SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
               }
           }),
@@ -157,11 +150,9 @@ sw::WndBase::WndBase()
           },
           // set
           [this](const double &value) {
-              double scaleX = Dip::ScaleX.Get();
-              double scaleY = Dip::ScaleY.Get();
               if (this->_rect.width != value) {
-                  int cx = std::lround(value / scaleX);
-                  int cy = std::lround(this->_rect.height / scaleY);
+                  int cx = Dip::DipToPxX(value);
+                  int cy = Dip::DipToPxY(this->_rect.height);
                   SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
               }
           }),
@@ -173,11 +164,9 @@ sw::WndBase::WndBase()
           },
           // set
           [this](const double &value) {
-              double scaleX = Dip::ScaleX.Get();
-              double scaleY = Dip::ScaleY.Get();
               if (this->_rect.height != value) {
-                  int cx = std::lround(this->_rect.width / scaleX);
-                  int cy = std::lround(value / scaleY);
+                  int cx = Dip::DipToPxX(this->_rect.width);
+                  int cy = Dip::DipToPxY(value);
                   SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
               }
           }),
@@ -391,17 +380,14 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_WINDOWPOSCHANGED: {
-            double scaleX = Dip::ScaleX.Get();
-            double scaleY = Dip::ScaleY.Get();
-
-            PWINDOWPOS pWndPos = reinterpret_cast<PWINDOWPOS>(refMsg.lParam);
+            auto pWndPos = reinterpret_cast<PWINDOWPOS>(refMsg.lParam);
             if ((pWndPos->flags & SWP_NOMOVE) == 0) {
-                this->_rect.left = scaleX * pWndPos->x;
-                this->_rect.top  = scaleY * pWndPos->y;
+                this->_rect.left = Dip::PxToDipX(pWndPos->x);
+                this->_rect.top  = Dip::PxToDipY(pWndPos->y);
             }
             if ((pWndPos->flags & SWP_NOSIZE) == 0) {
-                this->_rect.width  = scaleX * pWndPos->cx;
-                this->_rect.height = scaleY * pWndPos->cy;
+                this->_rect.width  = Dip::PxToDipX(pWndPos->cx);
+                this->_rect.height = Dip::PxToDipY(pWndPos->cy);
             }
             return this->DefaultWndProc(refMsg);
         }

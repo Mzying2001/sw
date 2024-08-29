@@ -238,24 +238,22 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_GETMINMAXINFO: {
-            double scaleX     = Dip::ScaleX.Get();
-            double scaleY     = Dip::ScaleY.Get();
-            PMINMAXINFO pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
+            auto pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
             // 按照设置限制窗口大小
             if (this->_maxWidth > 0) {
-                LONG maxWidth           = std::lround(this->_maxWidth / scaleX);
+                LONG maxWidth           = Dip::DipToPxX(this->_maxWidth);
                 pInfo->ptMaxTrackSize.x = Utils::Min(pInfo->ptMaxTrackSize.x, maxWidth);
             }
             if (this->_maxHeight > 0) {
-                LONG maxHeight          = std::lround(this->_maxHeight / scaleY);
+                LONG maxHeight          = Dip::DipToPxY(this->_maxHeight);
                 pInfo->ptMaxTrackSize.y = Utils::Min(pInfo->ptMaxTrackSize.y, maxHeight);
             }
             if (this->_minWidth > 0) {
-                LONG minWidth           = std::lround(this->_minWidth / scaleX);
+                LONG minWidth           = Dip::DipToPxX(this->_minWidth);
                 pInfo->ptMinTrackSize.x = Utils::Max(pInfo->ptMinTrackSize.x, minWidth);
             }
             if (this->_minHeight > 0) {
-                LONG minHeight          = std::lround(this->_minHeight / scaleY);
+                LONG minHeight          = Dip::DipToPxY(this->_minHeight);
                 pInfo->ptMinTrackSize.y = Utils::Max(pInfo->ptMinTrackSize.y, minHeight);
             }
             return 0;
