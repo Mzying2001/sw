@@ -63,15 +63,15 @@ namespace sw
         // 删除移动赋值
         PropertyBase &operator=(PropertyBase &&) = delete;
 
-        /**
-         * @brief 获取属性值，由子类实现
-         */
-        T GetterImpl() const;
+        // /**
+        //  * @brief 获取属性值，由子类实现
+        //  */
+        // T GetterImpl() const;
 
-        /**
-         * @brief 设置属性值，由子类实现
-         */
-        void SetterImpl(const T &value) const;
+        // /**
+        //  * @brief 设置属性值，由子类实现
+        //  */
+        // void SetterImpl(const T &value) const;
 
         // /**
         //  * @brief 获取字段，可由子类重写
@@ -80,6 +80,24 @@ namespace sw
         // {
         //     return FakePtr<T>(this->Get());
         // }
+
+        /**
+         * @brief 获取属性值，由子类实现
+         */
+        template <typename = void>
+        T GetterImpl() const
+        {
+            static_assert(false, "GetterImpl not implemented");
+        }
+
+        /**
+         * @brief 设置属性值，由子类实现
+         */
+        template <typename = void>
+        void SetterImpl(const T &value) const
+        {
+            static_assert(false, "SetterImpl not implemented");
+        }
 
         /**
          * @brief 获取字段，可由子类重写
