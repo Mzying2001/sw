@@ -142,6 +142,12 @@ void sw::Label::_ResizeToTextSize()
     this->Rect    = rect;
 }
 
+bool sw::Label::OnSize(Size newClientSize)
+{
+    this->Redraw();
+    return StaticControl::OnSize(newClientSize);
+}
+
 void sw::Label::OnTextChanged()
 {
     this->UIElement::OnTextChanged();
