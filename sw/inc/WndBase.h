@@ -745,17 +745,11 @@ namespace sw
         /**
          * @brief 重载==运算符，判断是否为同一个引用
          */
-        friend bool operator==(const WndBase &left, const WndBase &right)
-        {
-            return &left == &right;
-        }
+        friend bool operator==(const WndBase &left, const WndBase &right);
 
         /**
          * @brief 重载!=运算符，判断是否为不同引用
          */
-        friend bool operator!=(const WndBase &left, const WndBase &right)
-        {
-            return &left != &right;
-        }
+        friend bool operator!=(const WndBase &left, const WndBase &right);
     };
 }

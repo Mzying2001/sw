@@ -1063,3 +1063,13 @@ sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
     auto p = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
     return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
 }
+
+bool sw::operator==(const WndBase &left, const WndBase &right)
+{
+    return &left == &right;
+}
+
+bool sw::operator!=(const WndBase &left, const WndBase &right)
+{
+    return &left != &right;
+}
