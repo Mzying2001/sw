@@ -28,7 +28,14 @@ namespace sw
          */
         LPARAM lParam;
 
+        /**
+         * @brief 构造所有字段均为0的ProcMsg
+         */
         ProcMsg();
-        ProcMsg(const HWND &hwnd, const UINT &uMsg, const WPARAM &wParam, const LPARAM &lParam);
+
+        /**
+         * @brief 构造ProcMsg
+         */
+        ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
     };
 }

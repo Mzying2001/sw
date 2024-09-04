@@ -355,7 +355,7 @@ void sw::BmpBox::Measure(const Size &availableSize)
         return;
     }
 
-    const Thickness &margin = this->Margin;
+    Thickness margin = this->Margin;
 
     this->SetDesireSize(sw::Size{
         Dip::PxToDipX(this->_bmpSize.cx) + margin.left + margin.right,
@@ -645,6 +645,21 @@ sw::Color::Color(COLORREF color)
 sw::Color::operator COLORREF() const
 {
     return RGB(this->r, this->g, this->b);
+}
+
+bool sw::Color::operator==(const Color &other) const
+{
+    return (this->r == other.r) && (this->g == other.g) && (this->b == other.b);
+}
+
+bool sw::Color::operator!=(const Color &other) const
+{
+    return (this->r != other.r) || (this->g != other.g) || (this->b != other.b);
+}
+
+std::wostream &sw::operator<<(std::wostream &wos, const Color &color)
+{
+    return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
 }
 
 // ComboBox.cpp
@@ -2831,7 +2846,7 @@ void sw::Label::_UpdateTextSize()
     SelectObject(hdc, this->GetFontHandle());
 
     RECT rect{};
-    const std::wstring &text = this->Text;
+    std::wstring &text = this->GetText();
     DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT);
 
     sw::Rect textRect = rect;
@@ -2846,6 +2861,12 @@ void sw::Label::_ResizeToTextSize()
     rect.width    = this->_textSize.width;
     rect.height   = this->_textSize.height;
     this->Rect    = rect;
+}
+
+bool sw::Label::OnSize(Size newClientSize)
+{
+    this->Redraw();
+    return StaticControl::OnSize(newClientSize);
 }
 
 void sw::Label::OnTextChanged()
@@ -2890,15 +2911,12 @@ void sw::Label::Measure(const Size &availableSize)
 
             SelectObject(hdc, this->GetFontHandle());
 
-            double scaleX = Dip::ScaleX;
-            double scaleY = Dip::ScaleY;
-            RECT rect{0, 0, Utils::Max(0L, std::lround((availableSize.width - margin.left - margin.right) / scaleX)), 0};
-
-            const std::wstring &text = this->Text;
+            std::wstring &text = this->GetText();
+            RECT rect{0, 0, Utils::Max(0, Dip::DipToPxX(availableSize.width - margin.left - margin.right)), 0};
             DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT | DT_WORDBREAK);
 
             desireSize.width  = availableSize.width;
-            desireSize.height = (rect.bottom - rect.top) * scaleY + margin.top + margin.bottom;
+            desireSize.height = Dip::PxToDipY(rect.bottom - rect.top) + margin.top + margin.bottom;
 
             ReleaseDC(hwnd, hdc);
         }
@@ -5158,6 +5176,21 @@ sw::Point::operator POINT() const
     return {Dip::DipToPxX(this->x), Dip::DipToPxY(this->y)};
 }
 
+bool sw::Point::operator==(const Point &other) const
+{
+    return (this->x == other.x) && (this->y == other.y);
+}
+
+bool sw::Point::operator!=(const Point &other) const
+{
+    return (this->x != other.x) || (this->y != other.y);
+}
+
+std::wostream &sw::operator<<(std::wostream &wos, const Point &point)
+{
+    return wos << L"(" << point.x << L", " << point.y << L")";
+}
+
 // ProcMsg.cpp
 
 sw::ProcMsg::ProcMsg()
@@ -5165,7 +5198,7 @@ sw::ProcMsg::ProcMsg()
 {
 }
 
-sw::ProcMsg::ProcMsg(const HWND &hwnd, const UINT &uMsg, const WPARAM &wParam, const LPARAM &lParam)
+sw::ProcMsg::ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     : hwnd(hwnd), uMsg(uMsg), wParam(wParam), lParam(lParam)
 {
 }
@@ -5289,6 +5322,27 @@ sw::Size sw::Rect::GetSize() const
     return Size(this->width, this->height);
 }
 
+bool sw::Rect::operator==(const Rect &other) const
+{
+    return (this->left == other.left) &&
+           (this->top == other.top) &&
+           (this->width == other.width) &&
+           (this->height == other.height);
+}
+
+bool sw::Rect::operator!=(const Rect &other) const
+{
+    return (this->left != other.left) ||
+           (this->top != other.top) ||
+           (this->width != other.width) ||
+           (this->height != other.height);
+}
+
+std::wostream &sw::operator<<(std::wostream &wos, const Rect &rect)
+{
+    return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
+}
+
 // RoutedEvent.cpp
 
 sw::RoutedEventArgs::RoutedEventArgs(RoutedEventType eventType)
@@ -5338,6 +5392,21 @@ sw::Size::Size(const SIZE &size)
 sw::Size::operator SIZE() const
 {
     return {Dip::DipToPxX(this->width), Dip::DipToPxY(this->height)};
+}
+
+bool sw::Size::operator==(const Size &other) const
+{
+    return (this->width == other.width) && (this->height == other.height);
+}
+
+bool sw::Size::operator!=(const Size &other) const
+{
+    return (this->width != other.width) || (this->height != other.height);
+}
+
+std::wostream &sw::operator<<(std::wostream &wos, const Size &size)
+{
+    return wos << L"Size{width=" << size.width << L", height=" << size.height << L"}";
 }
 
 // Slider.cpp
@@ -6349,6 +6418,27 @@ sw::Thickness::Thickness(double horizontal, double vertical)
 sw::Thickness::Thickness(double left, double top, double right, double bottom)
     : left(left), top(top), right(right), bottom(bottom)
 {
+}
+
+bool sw::Thickness::operator==(const Thickness &other) const
+{
+    return (this->left == other.left) &&
+           (this->top == other.top) &&
+           (this->right == other.right) &&
+           (this->bottom == other.bottom);
+}
+
+bool sw::Thickness::operator!=(const Thickness &other) const
+{
+    return (this->left != other.left) ||
+           (this->top != other.top) ||
+           (this->right != other.right) ||
+           (this->bottom != other.bottom);
+}
+
+std::wostream &sw::operator<<(std::wostream &wos, const Thickness &thickness)
+{
+    return wos << L"Thickness{left=" << thickness.left << L", top=" << thickness.top << L", right=" << thickness.right << L", bottom=" << thickness.bottom << L"}";
 }
 
 // Timer.cpp
@@ -9167,10 +9257,10 @@ HFONT sw::WndBase::GetFontHandle()
     return this->_hfont;
 }
 
-void sw::WndBase::Redraw(bool erase)
+void sw::WndBase::Redraw(bool erase, bool updateWindow)
 {
     InvalidateRect(this->_hwnd, NULL, erase);
-    UpdateWindow(this->_hwnd);
+    if (updateWindow) UpdateWindow(this->_hwnd);
 }
 
 bool sw::WndBase::IsControl()
@@ -9263,6 +9353,16 @@ sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
 {
     auto p = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
     return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
+}
+
+bool sw::operator==(const WndBase &left, const WndBase &right)
+{
+    return &left == &right;
+}
+
+bool sw::operator!=(const WndBase &left, const WndBase &right)
+{
+    return &left != &right;
 }
 
 // WrapLayout.cpp

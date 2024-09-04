@@ -31,33 +31,49 @@ namespace sw
          */
         double height;
 
+        /**
+         * @brief 构造Rect
+         */
         Rect();
+
+        /**
+         * @brief 构造Rect
+         */
         Rect(double left, double top, double width, double height);
+
+        /**
+         * @brief 从RECT构造Rect
+         */
         Rect(const RECT &rect);
+
+        /**
+         * @brief 隐式转换RECT
+         */
         operator RECT() const;
 
+        /**
+         * @brief 获取Rect左上角的位置
+         */
         Point GetPos() const;
+
+        /**
+         * @brief 获取Rect的尺寸
+         */
         Size GetSize() const;
 
-        friend bool operator==(const Rect& left, const Rect& right)
-        {
-            return (left.left   == right.left)  &&
-                   (left.top    == right.top)   &&
-                   (left.width  == right.width) &&
-                   (left.height == right.height);
-        }
+        /**
+         * @brief 判断两个Rect是否相等
+         */
+        bool operator==(const Rect &other) const;
 
-        friend bool operator!=(const Rect& left, const Rect& right)
-        {
-            return (left.left   != right.left)  ||
-                   (left.top    != right.top)   ||
-                   (left.width  != right.width) ||
-                   (left.height != right.height);
-        }
+        /**
+         * @brief 判断两个Rect是否不相等
+         */
+        bool operator!=(const Rect &other) const;
 
-        friend std::wostream& operator<<(std::wostream& wos, const Rect& rect)
-        {
-            return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
-        }
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const Rect &rect);
     };
 }

@@ -966,10 +966,10 @@ HFONT sw::WndBase::GetFontHandle()
     return this->_hfont;
 }
 
-void sw::WndBase::Redraw(bool erase)
+void sw::WndBase::Redraw(bool erase, bool updateWindow)
 {
     InvalidateRect(this->_hwnd, NULL, erase);
-    UpdateWindow(this->_hwnd);
+    if (updateWindow) UpdateWindow(this->_hwnd);
 }
 
 bool sw::WndBase::IsControl()
@@ -1062,4 +1062,14 @@ sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
 {
     auto p = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
     return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
+}
+
+bool sw::operator==(const WndBase &left, const WndBase &right)
+{
+    return &left == &right;
+}
+
+bool sw::operator!=(const WndBase &left, const WndBase &right)
+{
+    return &left != &right;
 }

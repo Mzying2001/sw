@@ -19,24 +19,39 @@ namespace sw
          */
         double height;
 
+        /**
+         * @brief 构造宽高均为0的Size结构体
+         */
         Size();
+
+        /**
+         * @brief 构造指定宽高的Size结构体
+         */
         Size(double width, double height);
+
+        /**
+         * @brief 从SIZE构造Size结构体
+         */
         Size(const SIZE &size);
+
+        /**
+         * @brief 隐式转换SIZE
+         */
         operator SIZE() const;
 
-        friend bool operator==(const Size &left, const Size &right)
-        {
-            return (left.width == right.width) && (left.height == right.height);
-        }
+        /**
+         * @brief 判断两个Size是否相等
+         */
+        bool operator==(const Size &other) const;
 
-        friend bool operator!=(const Size &left, const Size &right)
-        {
-            return (left.width != right.width) || (left.height != right.height);
-        }
+        /**
+         * @brief 判断两个Size是否不相等
+         */
+        bool operator!=(const Size &other) const;
 
-        friend std::wostream &operator<<(std::wostream &wos, const Size &size)
-        {
-            return wos << L"Size{width=" << size.width << L", height=" << size.height << L"}";
-        }
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const Size &size);
     };
 }

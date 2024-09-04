@@ -20,3 +20,18 @@ sw::Point::operator POINT() const
 {
     return {Dip::DipToPxX(this->x), Dip::DipToPxY(this->y)};
 }
+
+bool sw::Point::operator==(const Point &other) const
+{
+    return (this->x == other.x) && (this->y == other.y);
+}
+
+bool sw::Point::operator!=(const Point &other) const
+{
+    return (this->x != other.x) || (this->y != other.y);
+}
+
+std::wostream &sw::operator<<(std::wostream &wos, const Point &point)
+{
+    return wos << L"(" << point.x << L", " << point.y << L")";
+}

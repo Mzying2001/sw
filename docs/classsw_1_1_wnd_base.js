@@ -67,7 +67,7 @@ var classsw_1_1_wnd_base =
     [ "ParentChanged", "classsw_1_1_wnd_base.html#a4d09cfbc382789150798ff6ad3d9f988", null ],
     [ "PointFromScreen", "classsw_1_1_wnd_base.html#a6f1b33e5930fc14467f65ad89c2c35c3", null ],
     [ "PointToScreen", "classsw_1_1_wnd_base.html#a292d93c230f5534cdf68ac5d685dd487", null ],
-    [ "Redraw", "classsw_1_1_wnd_base.html#a1c0d183115a35f097b0598af43c9ca9a", null ],
+    [ "Redraw", "classsw_1_1_wnd_base.html#a6c0e2c8a2900eff9e5a390e251ada042", null ],
     [ "SendMessageA", "classsw_1_1_wnd_base.html#a33d23326907c603a24385f81e179e174", null ],
     [ "SendMessageW", "classsw_1_1_wnd_base.html#ad50166a8ade9a7eaf0088f13fd708e2f", null ],
     [ "SetExtendedStyle", "classsw_1_1_wnd_base.html#a05caaf7da3138fe9063f7a3e1088f9ac", null ],

@@ -129,17 +129,19 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:aa5c53fef813cf9f00489c61effd43ed0" id="r_aa5c53fef813cf9f00489c61effd43ed0"><td class="memItemLeft" align="right" valign="top"><a id="aa5c53fef813cf9f00489c61effd43ed0" name="aa5c53fef813cf9f00489c61effd43ed0"></a>
 <a class="el" href="classsw_1_1_property_base.html">PropertyBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classsw_1_1_property_base.html">PropertyBase</a> &amp;&amp;)=delete</td></tr>
 <tr class="separator:aa5c53fef813cf9f00489c61effd43ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96453c7a2eca60e6bcd1f9c688688ab5" id="r_a96453c7a2eca60e6bcd1f9c688688ab5"><td class="memItemLeft" align="right" valign="top"><a id="a96453c7a2eca60e6bcd1f9c688688ab5" name="a96453c7a2eca60e6bcd1f9c688688ab5"></a>
-T&#160;</td><td class="memItemRight" valign="bottom"><b>GetterImpl</b> () const</td></tr>
-<tr class="memdesc:a96453c7a2eca60e6bcd1f9c688688ab5"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性值，由子类实现 <br /></td></tr>
-<tr class="separator:a96453c7a2eca60e6bcd1f9c688688ab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5e1fdca199a8d170765b7156f2ca0bf" id="r_ae5e1fdca199a8d170765b7156f2ca0bf"><td class="memItemLeft" align="right" valign="top"><a id="ae5e1fdca199a8d170765b7156f2ca0bf" name="ae5e1fdca199a8d170765b7156f2ca0bf"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetterImpl</b> (const T &amp;value) const</td></tr>
-<tr class="memdesc:ae5e1fdca199a8d170765b7156f2ca0bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值，由子类实现 <br /></td></tr>
-<tr class="separator:ae5e1fdca199a8d170765b7156f2ca0bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d0177fdddde9353596f3e93a9a73b09" id="r_a0d0177fdddde9353596f3e93a9a73b09"><td class="memTemplParams" colspan="2">template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a0d0177fdddde9353596f3e93a9a73b09"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;!std::is_pointer&lt; U &gt;::value, <a class="el" href="structsw_1_1_fake_ptr.html">FakePtr</a>&lt; T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a0d0177fdddde9353596f3e93a9a73b09">ListFieldsImpl</a> () const</td></tr>
-<tr class="memdesc:a0d0177fdddde9353596f3e93a9a73b09"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取字段，可由子类重写  <br /></td></tr>
+<tr class="memitem:ad5af4c70a229113dee26ea7f77765b90" id="r_ad5af4c70a229113dee26ea7f77765b90"><td class="memTemplParams" colspan="2">template&lt;typename  = void&gt; </td></tr>
+<tr class="memitem:ad5af4c70a229113dee26ea7f77765b90"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad5af4c70a229113dee26ea7f77765b90">GetterImpl</a> () const</td></tr>
+<tr class="memdesc:ad5af4c70a229113dee26ea7f77765b90"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性值，由子类实现  <br /></td></tr>
+<tr class="separator:ad5af4c70a229113dee26ea7f77765b90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54570b5e99ffd550936fa3f8e4649ebf" id="r_a54570b5e99ffd550936fa3f8e4649ebf"><td class="memTemplParams" colspan="2"><a id="a54570b5e99ffd550936fa3f8e4649ebf" name="a54570b5e99ffd550936fa3f8e4649ebf"></a>
+template&lt;typename  = void&gt; </td></tr>
+<tr class="memitem:a54570b5e99ffd550936fa3f8e4649ebf"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>SetterImpl</b> (const T &amp;value) const</td></tr>
+<tr class="memdesc:a54570b5e99ffd550936fa3f8e4649ebf"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值，由子类实现 <br /></td></tr>
+<tr class="separator:a54570b5e99ffd550936fa3f8e4649ebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d0177fdddde9353596f3e93a9a73b09" id="r_a0d0177fdddde9353596f3e93a9a73b09"><td class="memTemplParams" colspan="2"><a id="a0d0177fdddde9353596f3e93a9a73b09" name="a0d0177fdddde9353596f3e93a9a73b09"></a>
+template&lt;typename U  = T&gt; </td></tr>
+<tr class="memitem:a0d0177fdddde9353596f3e93a9a73b09"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;!std::is_pointer&lt; U &gt;::value, <a class="el" href="structsw_1_1_fake_ptr.html">FakePtr</a>&lt; T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>ListFieldsImpl</b> () const</td></tr>
+<tr class="memdesc:a0d0177fdddde9353596f3e93a9a73b09"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取字段，可由子类重写 <br /></td></tr>
 <tr class="separator:a0d0177fdddde9353596f3e93a9a73b09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa181b8d366bd1878d6e801064167873e" id="r_aa181b8d366bd1878d6e801064167873e"><td class="memTemplParams" colspan="2"><a id="aa181b8d366bd1878d6e801064167873e" name="aa181b8d366bd1878d6e801064167873e"></a>
 template&lt;typename U  = T&gt; </td></tr>
@@ -310,21 +312,21 @@ std::wostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operat
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T, typename TDerived&gt;<br />
 class sw::PropertyBase&lt; T, TDerived &gt;</div><p>属性基类模板 </p>
 </div><h2 class="groupheader">成员函数说明</h2>
-<a id="a0d0177fdddde9353596f3e93a9a73b09" name="a0d0177fdddde9353596f3e93a9a73b09"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d0177fdddde9353596f3e93a9a73b09">&#9670;&#160;</a></span>ListFieldsImpl()</h2>
+<a id="ad5af4c70a229113dee26ea7f77765b90" name="ad5af4c70a229113dee26ea7f77765b90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5af4c70a229113dee26ea7f77765b90">&#9670;&#160;</a></span>GetterImpl()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T , typename TDerived &gt; </div>
 <div class="memtemplate">
-template&lt;typename U  = T&gt; </div>
+template&lt;typename  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::enable_if&lt;!std::is_pointer&lt; U &gt;::value, <a class="el" href="structsw_1_1_fake_ptr.html">FakePtr</a>&lt; T &gt; &gt;::type <a class="el" href="classsw_1_1_property_base.html">sw::PropertyBase</a>&lt; T, TDerived &gt;::ListFieldsImpl </td>
+          <td class="memname">T <a class="el" href="classsw_1_1_property_base.html">sw::PropertyBase</a>&lt; T, TDerived &gt;::GetterImpl </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -337,8 +339,10 @@ template&lt;typename U  = T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>获取字段，可由子类重写 </p>
-<p>获取字段，可由子类重写 </p>
+<p>获取属性值，由子类实现 </p>
+<p>设置属性值，由子类实现</p>
+<p>获取字段，可由子类重写</p>
+<p>获取属性值，由子类实现 </p>
 
 </div>
 </div>

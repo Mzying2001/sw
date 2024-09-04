@@ -74,6 +74,13 @@ namespace sw
 
     protected:
         /**
+         * @brief               接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnSize(Size newClientSize) override;
+
+        /**
          * @brief Text属性更改时调用此函数
          */
         virtual void OnTextChanged() override;

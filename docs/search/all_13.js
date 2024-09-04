@@ -10,7 +10,7 @@ var searchData=
   ['textboxbase_7',['TextBoxBase',['../classsw_1_1_text_box_base.html',1,'sw::TextBoxBase'],['../classsw_1_1_text_box_base.html#a67d628d8d0d746292ef4350ad1a5a84a',1,'sw::TextBoxBase::TextBoxBase()']]],
   ['textcolor_8',['TextColor',['../classsw_1_1_u_i_element.html#aeaf2381fdffd82bd41e90c1a2cf69022',1,'sw::UIElement']]],
   ['texttrimming_9',['TextTrimming',['../classsw_1_1_label.html#a967e6a7cfc9341958f362ae94c56f583',1,'sw::Label']]],
-  ['thickness_10',['Thickness',['../structsw_1_1_thickness.html',1,'sw']]],
+  ['thickness_10',['Thickness',['../structsw_1_1_thickness.html',1,'sw::Thickness'],['../structsw_1_1_thickness.html#aec67d4d10a7e12b8f8376585f0fb50e3',1,'sw::Thickness::Thickness()'],['../structsw_1_1_thickness.html#a92583f6c2c74f2ccb80c0668c46a3ec1',1,'sw::Thickness::Thickness(double thickness)'],['../structsw_1_1_thickness.html#adbc2226c0f9e9c9b63b72231312c1ce9',1,'sw::Thickness::Thickness(double horizontal, double vertical)'],['../structsw_1_1_thickness.html#aa76efc673c41ede9df532cd0a8735315',1,'sw::Thickness::Thickness(double left, double top, double right, double bottom)']]],
   ['threestate_11',['ThreeState',['../classsw_1_1_check_box.html#ac8a52241895124f970ee2878f5d00d11',1,'sw::CheckBox']]],
   ['timer_12',['Timer',['../classsw_1_1_timer.html',1,'sw::Timer'],['../classsw_1_1_timer.html#a40811de5ab230e0ffdce49c3a0fdee84',1,'sw::Timer::Timer()']]],
   ['tomultibytestr_13',['ToMultiByteStr',['../classsw_1_1_utils.html#a6cc154f2d595b5624b3aaca8b64fd3dd',1,'sw::Utils']]],

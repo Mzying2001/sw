@@ -125,7 +125,7 @@ void sw::Label::_UpdateTextSize()
     SelectObject(hdc, this->GetFontHandle());
 
     RECT rect{};
-    const std::wstring &text = this->Text;
+    std::wstring &text = this->GetText();
     DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT);
 
     sw::Rect textRect = rect;
@@ -140,6 +140,12 @@ void sw::Label::_ResizeToTextSize()
     rect.width    = this->_textSize.width;
     rect.height   = this->_textSize.height;
     this->Rect    = rect;
+}
+
+bool sw::Label::OnSize(Size newClientSize)
+{
+    this->Redraw();
+    return StaticControl::OnSize(newClientSize);
 }
 
 void sw::Label::OnTextChanged()
@@ -184,15 +190,12 @@ void sw::Label::Measure(const Size &availableSize)
 
             SelectObject(hdc, this->GetFontHandle());
 
-            double scaleX = Dip::ScaleX;
-            double scaleY = Dip::ScaleY;
-            RECT rect{0, 0, Utils::Max(0L, std::lround((availableSize.width - margin.left - margin.right) / scaleX)), 0};
-
-            const std::wstring &text = this->Text;
+            std::wstring &text = this->GetText();
+            RECT rect{0, 0, Utils::Max(0, Dip::DipToPxX(availableSize.width - margin.left - margin.right)), 0};
             DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT | DT_WORDBREAK);
 
             desireSize.width  = availableSize.width;
-            desireSize.height = (rect.bottom - rect.top) * scaleY + margin.top + margin.bottom;
+            desireSize.height = Dip::PxToDipY(rect.bottom - rect.top) + margin.top + margin.bottom;
 
             ReleaseDC(hwnd, hdc);
         }

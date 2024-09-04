@@ -148,7 +148,7 @@ void sw::BmpBox::Measure(const Size &availableSize)
         return;
     }
 
-    const Thickness &margin = this->Margin;
+    Thickness margin = this->Margin;
 
     this->SetDesireSize(sw::Size{
         Dip::PxToDipX(this->_bmpSize.cx) + margin.left + margin.right,

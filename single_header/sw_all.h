@@ -1026,25 +1026,40 @@ namespace sw
          */
         double y;
 
+        /**
+         * @brief 构造xy均为0的Point结构体
+         */
         Point();
+
+        /**
+         * @brief 构造指定xy值的Point结构体
+         */
         Point(double x, double y);
+
+        /**
+         * @brief 从POINT构造Point结构体
+         */
         Point(const POINT &point);
+
+        /**
+         * @brief 隐式转换POINT
+         */
         operator POINT() const;
 
-        friend bool operator==(const Point &left, const Point &right)
-        {
-            return (left.x == right.x) && (left.y == right.y);
-        }
+        /**
+         * @brief 判断两个Point是否相等
+         */
+        bool operator==(const Point &other) const;
 
-        friend bool operator!=(const Point &left, const Point &right)
-        {
-            return (left.x != right.x) || (left.y != right.y);
-        }
+        /**
+         * @brief 判断两个Point是否不相等
+         */
+        bool operator!=(const Point &other) const;
 
-        friend std::wostream &operator<<(std::wostream &wos, const Point &point)
-        {
-            return wos << L"(" << point.x << L", " << point.y << L")";
-        }
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const Point &point);
     };
 }
 
@@ -1077,8 +1092,15 @@ namespace sw
          */
         LPARAM lParam;
 
+        /**
+         * @brief 构造所有字段均为0的ProcMsg
+         */
         ProcMsg();
-        ProcMsg(const HWND &hwnd, const UINT &uMsg, const WPARAM &wParam, const LPARAM &lParam);
+
+        /**
+         * @brief 构造ProcMsg
+         */
+        ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
     };
 }
 
@@ -1144,15 +1166,15 @@ namespace sw
         // 删除移动赋值
         PropertyBase &operator=(PropertyBase &&) = delete;
 
-        /**
-         * @brief 获取属性值，由子类实现
-         */
-        T GetterImpl() const;
+        // /**
+        //  * @brief 获取属性值，由子类实现
+        //  */
+        // T GetterImpl() const;
 
-        /**
-         * @brief 设置属性值，由子类实现
-         */
-        void SetterImpl(const T &value) const;
+        // /**
+        //  * @brief 设置属性值，由子类实现
+        //  */
+        // void SetterImpl(const T &value) const;
 
         // /**
         //  * @brief 获取字段，可由子类重写
@@ -1161,6 +1183,24 @@ namespace sw
         // {
         //     return FakePtr<T>(this->Get());
         // }
+
+        /**
+         * @brief 获取属性值，由子类实现
+         */
+        template <typename = void>
+        T GetterImpl() const
+        {
+            static_assert(false, "GetterImpl not implemented");
+        }
+
+        /**
+         * @brief 设置属性值，由子类实现
+         */
+        template <typename = void>
+        void SetterImpl(const T &value) const
+        {
+            static_assert(false, "SetterImpl not implemented");
+        }
 
         /**
          * @brief 获取字段，可由子类重写
@@ -2043,25 +2083,40 @@ namespace sw
          */
         double height;
 
+        /**
+         * @brief 构造宽高均为0的Size结构体
+         */
         Size();
+
+        /**
+         * @brief 构造指定宽高的Size结构体
+         */
         Size(double width, double height);
+
+        /**
+         * @brief 从SIZE构造Size结构体
+         */
         Size(const SIZE &size);
+
+        /**
+         * @brief 隐式转换SIZE
+         */
         operator SIZE() const;
 
-        friend bool operator==(const Size &left, const Size &right)
-        {
-            return (left.width == right.width) && (left.height == right.height);
-        }
+        /**
+         * @brief 判断两个Size是否相等
+         */
+        bool operator==(const Size &other) const;
 
-        friend bool operator!=(const Size &left, const Size &right)
-        {
-            return (left.width != right.width) || (left.height != right.height);
-        }
+        /**
+         * @brief 判断两个Size是否不相等
+         */
+        bool operator!=(const Size &other) const;
 
-        friend std::wostream &operator<<(std::wostream &wos, const Size &size)
-        {
-            return wos << L"Size{width=" << size.width << L", height=" << size.height << L"}";
-        }
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const Size &size);
     };
 }
 
@@ -2094,31 +2149,40 @@ namespace sw
          */
         double bottom;
 
+        /**
+         * @brief 构造一个四边都为0的Thickness结构体
+         */
         Thickness();
+
+        /**
+         * @brief 构造一个四边都相同的Thickness结构体
+         */
         Thickness(double thickness);
+
+        /**
+         * @brief 指定横向和纵向值构造Thickness结构体
+         */
         Thickness(double horizontal, double vertical);
+
+        /**
+         * @brief 指定四边的值构造Thickness结构体
+         */
         Thickness(double left, double top, double right, double bottom);
 
-        friend bool operator==(const Thickness &left, const Thickness &right)
-        {
-            return (left.left   == right.left)  &&
-                   (left.top    == right.top)   &&
-                   (left.right  == right.right) &&
-                   (left.bottom == right.bottom);
-        }
+        /**
+         * @brief 判断两个Thickness是否相同
+         */
+        bool operator==(const Thickness &other) const;
 
-        friend bool operator!=(const Thickness &left, const Thickness &right)
-        {
-            return (left.left   != right.left)  ||
-                   (left.top    != right.top)   ||
-                   (left.right  != right.right) ||
-                   (left.bottom != right.bottom);
-        }
+        /**
+         * @brief 判断两个Thickness是否相同
+         */
+        bool operator!=(const Thickness &other) const;
 
-        friend std::wostream &operator<<(std::wostream &wos, const Thickness &thickness)
-        {
-            return wos << L"Thickness{left=" << thickness.left << L", top=" << thickness.top << L", right=" << thickness.right << L", bottom=" << thickness.bottom << L"}";
-        }
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const Thickness &thickness);
     };
 }
 
@@ -2394,26 +2458,45 @@ namespace sw
          */
         uint8_t _reserved{0};
 
+        /**
+         * @brief 构造一个rgb分量均为0的Color结构体
+         */
         Color();
+
+        /**
+         * @brief 通过rgb构造Color结构体
+         */
         Color(uint8_t r, uint8_t g, uint8_t b);
+
+        /**
+         * @brief 通过KnownColor构造Color结构体
+         */
         Color(KnownColor knownColor);
+
+        /**
+         * @brief 通过COLORREF构造Color结构体
+         */
         Color(COLORREF color);
+
+        /**
+         * @brief 隐式转换COLORREF
+         */
         operator COLORREF() const;
 
-        friend bool operator==(const Color &left, const Color &right)
-        {
-            return (left.r == right.r) && (left.g == right.g) && (left.b == right.b);
-        }
+        /**
+         * @brief 判断两个Color是否相等
+         */
+        bool operator==(const Color &other) const;
 
-        friend bool operator!=(const Color &left, const Color &right)
-        {
-            return (left.r != right.r) || (left.g != right.g) || (left.b != right.b);
-        }
+        /**
+         * @brief 判断两个Color是否不相等
+         */
+        bool operator!=(const Color &other) const;
 
-        friend std::wostream &operator<<(std::wostream &wos, const Color &color)
-        {
-            return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
-        }
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const Color &color);
     };
 }
 
@@ -3002,34 +3085,50 @@ namespace sw
          */
         double height;
 
+        /**
+         * @brief 构造Rect
+         */
         Rect();
+
+        /**
+         * @brief 构造Rect
+         */
         Rect(double left, double top, double width, double height);
+
+        /**
+         * @brief 从RECT构造Rect
+         */
         Rect(const RECT &rect);
+
+        /**
+         * @brief 隐式转换RECT
+         */
         operator RECT() const;
 
+        /**
+         * @brief 获取Rect左上角的位置
+         */
         Point GetPos() const;
+
+        /**
+         * @brief 获取Rect的尺寸
+         */
         Size GetSize() const;
 
-        friend bool operator==(const Rect& left, const Rect& right)
-        {
-            return (left.left   == right.left)  &&
-                   (left.top    == right.top)   &&
-                   (left.width  == right.width) &&
-                   (left.height == right.height);
-        }
+        /**
+         * @brief 判断两个Rect是否相等
+         */
+        bool operator==(const Rect &other) const;
 
-        friend bool operator!=(const Rect& left, const Rect& right)
-        {
-            return (left.left   != right.left)  ||
-                   (left.top    != right.top)   ||
-                   (left.width  != right.width) ||
-                   (left.height != right.height);
-        }
+        /**
+         * @brief 判断两个Rect是否不相等
+         */
+        bool operator!=(const Rect &other) const;
 
-        friend std::wostream& operator<<(std::wostream& wos, const Rect& rect)
-        {
-            return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
-        }
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const Rect &rect);
     };
 }
 
@@ -4554,10 +4653,11 @@ namespace sw
         HFONT GetFontHandle();
 
         /**
-         * @brief       重画
-         * @param erase 是否擦除旧的背景
+         * @brief              重画
+         * @param erase        是否擦除旧的背景
+         * @param updateWindow 是否调用UpdateWindow
          */
-        void Redraw(bool erase = false);
+        void Redraw(bool erase = false, bool updateWindow = false);
 
         /**
          * @brief 判断当前对象是否是控件
@@ -4656,18 +4756,12 @@ namespace sw
         /**
          * @brief 重载==运算符，判断是否为同一个引用
          */
-        friend bool operator==(const WndBase &left, const WndBase &right)
-        {
-            return &left == &right;
-        }
+        friend bool operator==(const WndBase &left, const WndBase &right);
 
         /**
          * @brief 重载!=运算符，判断是否为不同引用
          */
-        friend bool operator!=(const WndBase &left, const WndBase &right)
-        {
-            return &left != &right;
-        }
+        friend bool operator!=(const WndBase &left, const WndBase &right);
     };
 }
 
@@ -8815,6 +8909,13 @@ namespace sw
         void _ResizeToTextSize();
 
     protected:
+        /**
+         * @brief               接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnSize(Size newClientSize) override;
+
         /**
          * @brief Text属性更改时调用此函数
          */
