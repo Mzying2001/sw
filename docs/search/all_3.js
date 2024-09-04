@@ -25,7 +25,7 @@ var searchData=
   ['close_22',['Close',['../classsw_1_1_wnd_base.html#a436818f8ad91446f86b42081dd1a7358',1,'sw::WndBase']]],
   ['closedropdown_23',['CloseDropDown',['../classsw_1_1_combo_box.html#a347c5bf1646ae709ec6a4585dea20dae',1,'sw::ComboBox']]],
   ['collapsewhenhide_24',['CollapseWhenHide',['../classsw_1_1_u_i_element.html#a952e87aef0f2dfdec6bd98e944b6d891',1,'sw::UIElement']]],
-  ['color_25',['Color',['../structsw_1_1_color.html',1,'sw']]],
+  ['color_25',['Color',['../structsw_1_1_color.html',1,'sw::Color'],['../structsw_1_1_color.html#aa0d9276e270e57dc0320dce6274106ba',1,'sw::Color::Color()'],['../structsw_1_1_color.html#a377fdd6222c311557980e216d7fb4a73',1,'sw::Color::Color(uint8_t r, uint8_t g, uint8_t b)'],['../structsw_1_1_color.html#a29d2604b27aa307de90e942e48e0c00a',1,'sw::Color::Color(KnownColor knownColor)'],['../structsw_1_1_color.html#aa42552f373fab2b4132c73de6febad58',1,'sw::Color::Color(COLORREF color)']]],
   ['column_26',['column',['../structsw_1_1_grid_layout_tag.html#aa7a46315a36db1adc57e6cd12aa36713',1,'sw::GridLayoutTag']]],
   ['columns_27',['Columns',['../classsw_1_1_uniform_grid.html#ac6abb7aaf70869b91207c53cfaf59bca',1,'sw::UniformGrid']]],
   ['columns_28',['columns',['../classsw_1_1_grid_layout.html#a31dc19020481d77169ecad187bad886e',1,'sw::GridLayout::columns'],['../classsw_1_1_uniform_grid_layout.html#a73d71cc8e99540d40ab1f4fd528b9492',1,'sw::UniformGridLayout::columns']]],

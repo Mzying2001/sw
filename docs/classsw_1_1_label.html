@@ -302,9 +302,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateFont</b> ()</td
 HFONT&#160;</td><td class="memItemRight" valign="bottom"><b>GetFontHandle</b> ()</td></tr>
 <tr class="memdesc:a2eec178adddff9e44d83238f19d57b1b inherit pub_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取字体句柄 <br /></td></tr>
 <tr class="separator:a2eec178adddff9e44d83238f19d57b1b inherit pub_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c0d183115a35f097b0598af43c9ca9a inherit pub_methods_classsw_1_1_wnd_base" id="r_a1c0d183115a35f097b0598af43c9ca9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_wnd_base.html#a1c0d183115a35f097b0598af43c9ca9a">Redraw</a> (bool erase=false)</td></tr>
-<tr class="memdesc:a1c0d183115a35f097b0598af43c9ca9a inherit pub_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">重画  <br /></td></tr>
-<tr class="separator:a1c0d183115a35f097b0598af43c9ca9a inherit pub_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c0e2c8a2900eff9e5a390e251ada042 inherit pub_methods_classsw_1_1_wnd_base" id="r_a6c0e2c8a2900eff9e5a390e251ada042"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_wnd_base.html#a6c0e2c8a2900eff9e5a390e251ada042">Redraw</a> (bool erase=false, bool updateWindow=false)</td></tr>
+<tr class="memdesc:a6c0e2c8a2900eff9e5a390e251ada042 inherit pub_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">重画  <br /></td></tr>
+<tr class="separator:a6c0e2c8a2900eff9e5a390e251ada042 inherit pub_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace8f6b05caa5d335f7d574c38035bfa7 inherit pub_methods_classsw_1_1_wnd_base" id="r_ace8f6b05caa5d335f7d574c38035bfa7"><td class="memItemLeft" align="right" valign="top">
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsControl</b> ()</td></tr>
 <tr class="memdesc:ace8f6b05caa5d335f7d574c38035bfa7 inherit pub_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象是否是控件 <br /></td></tr>
@@ -533,6 +533,9 @@ const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; bool &gt;&
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
+<tr class="memitem:a9476581e1a9460e3de3c0822e927f7ec" id="r_a9476581e1a9460e3de3c0822e927f7ec"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9476581e1a9460e3de3c0822e927f7ec">OnSize</a> (<a class="el" href="structsw_1_1_size.html">Size</a> newClientSize) override</td></tr>
+<tr class="memdesc:a9476581e1a9460e3de3c0822e927f7ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SIZE时调用该函数  <br /></td></tr>
+<tr class="separator:a9476581e1a9460e3de3c0822e927f7ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af90d6f76f8d674ae945193f3f4f630e9" id="r_af90d6f76f8d674ae945193f3f4f630e9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af90d6f76f8d674ae945193f3f4f630e9">OnTextChanged</a> () override</td></tr>
 <tr class="memdesc:af90d6f76f8d674ae945193f3f4f630e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Text属性更改时调用此函数  <br /></td></tr>
 <tr class="separator:af90d6f76f8d674ae945193f3f4f630e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -633,9 +636,6 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnTabStop</b>
 <tr class="memitem:a6482d770b94d6b40da944d64730e8237 inherit pro_methods_classsw_1_1_u_i_element" id="r_a6482d770b94d6b40da944d64730e8237"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_u_i_element.html#a6482d770b94d6b40da944d64730e8237">OnMove</a> (<a class="el" href="structsw_1_1_point.html">Point</a> newClientPosition) override</td></tr>
 <tr class="memdesc:a6482d770b94d6b40da944d64730e8237 inherit pro_methods_classsw_1_1_u_i_element"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MOVE时调用该函数  <br /></td></tr>
 <tr class="separator:a6482d770b94d6b40da944d64730e8237 inherit pro_methods_classsw_1_1_u_i_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4f4d3a0d23a886c0257c439821f5809 inherit pro_methods_classsw_1_1_u_i_element" id="r_af4f4d3a0d23a886c0257c439821f5809"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_u_i_element.html#af4f4d3a0d23a886c0257c439821f5809">OnSize</a> (<a class="el" href="structsw_1_1_size.html">Size</a> newClientSize) override</td></tr>
-<tr class="memdesc:af4f4d3a0d23a886c0257c439821f5809 inherit pro_methods_classsw_1_1_u_i_element"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SIZE时调用该函数  <br /></td></tr>
-<tr class="separator:af4f4d3a0d23a886c0257c439821f5809 inherit pro_methods_classsw_1_1_u_i_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98812949329f77e400f7e0e381c56c3d inherit pro_methods_classsw_1_1_u_i_element" id="r_a98812949329f77e400f7e0e381c56c3d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_u_i_element.html#a98812949329f77e400f7e0e381c56c3d">VisibleChanged</a> (bool newVisible) override</td></tr>
 <tr class="memdesc:a98812949329f77e400f7e0e381c56c3d inherit pro_methods_classsw_1_1_u_i_element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visible属性改变时调用此函数  <br /></td></tr>
 <tr class="separator:a98812949329f77e400f7e0e381c56c3d inherit pro_methods_classsw_1_1_u_i_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -888,6 +888,42 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 </dl>
 
 <p>重载 <a class="el" href="classsw_1_1_u_i_element.html#aef217f2655c4a746606bf302edc16cf4">sw::UIElement</a> .</p>
+
+</div>
+</div>
+<a id="a9476581e1a9460e3de3c0822e927f7ec" name="a9476581e1a9460e3de3c0822e927f7ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9476581e1a9460e3de3c0822e927f7ec">&#9670;&#160;</a></span>OnSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool sw::Label::OnSize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_size.html">Size</a></td>          <td class="paramname"><span class="paramname"><em>newClientSize</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_SIZE时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newClientSize</td><td>改变后的用户区尺寸 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>重载 <a class="el" href="classsw_1_1_u_i_element.html#af4f4d3a0d23a886c0257c439821f5809">sw::UIElement</a> .</p>
 
 </div>
 </div>
