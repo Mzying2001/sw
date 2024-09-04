@@ -30,25 +30,44 @@ namespace sw
          */
         uint8_t _reserved{0};
 
+        /**
+         * @brief 构造一个rgb分量均为0的Color结构体
+         */
         Color();
+
+        /**
+         * @brief 通过rgb构造Color结构体
+         */
         Color(uint8_t r, uint8_t g, uint8_t b);
+
+        /**
+         * @brief 通过KnownColor构造Color结构体
+         */
         Color(KnownColor knownColor);
+
+        /**
+         * @brief 通过COLORREF构造Color结构体
+         */
         Color(COLORREF color);
+
+        /**
+         * @brief 隐式转换COLORREF
+         */
         operator COLORREF() const;
 
-        friend bool operator==(const Color &left, const Color &right)
-        {
-            return (left.r == right.r) && (left.g == right.g) && (left.b == right.b);
-        }
+        /**
+         * @brief 判断两个Color是否相等
+         */
+        bool operator==(const Color &other) const;
 
-        friend bool operator!=(const Color &left, const Color &right)
-        {
-            return (left.r != right.r) || (left.g != right.g) || (left.b != right.b);
-        }
+        /**
+         * @brief 判断两个Color是否不相等
+         */
+        bool operator!=(const Color &other) const;
 
-        friend std::wostream &operator<<(std::wostream &wos, const Color &color)
-        {
-            return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
-        }
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const Color &color);
     };
 }

@@ -19,24 +19,39 @@ namespace sw
          */
         double y;
 
+        /**
+         * @brief 构造xy均为0的Point结构体
+         */
         Point();
+
+        /**
+         * @brief 构造指定xy值的Point结构体
+         */
         Point(double x, double y);
+
+        /**
+         * @brief 从POINT构造Point结构体
+         */
         Point(const POINT &point);
+
+        /**
+         * @brief 隐式转换POINT
+         */
         operator POINT() const;
 
-        friend bool operator==(const Point &left, const Point &right)
-        {
-            return (left.x == right.x) && (left.y == right.y);
-        }
+        /**
+         * @brief 判断两个Point是否相等
+         */
+        bool operator==(const Point &other) const;
 
-        friend bool operator!=(const Point &left, const Point &right)
-        {
-            return (left.x != right.x) || (left.y != right.y);
-        }
+        /**
+         * @brief 判断两个Point是否不相等
+         */
+        bool operator!=(const Point &other) const;
 
-        friend std::wostream &operator<<(std::wostream &wos, const Point &point)
-        {
-            return wos << L"(" << point.x << L", " << point.y << L")";
-        }
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const Point &point);
     };
 }

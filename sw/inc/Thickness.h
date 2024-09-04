@@ -28,30 +28,39 @@ namespace sw
          */
         double bottom;
 
+        /**
+         * @brief 构造一个四边都为0的Thickness结构体
+         */
         Thickness();
+
+        /**
+         * @brief 构造一个四边都相同的Thickness结构体
+         */
         Thickness(double thickness);
+
+        /**
+         * @brief 指定横向和纵向值构造Thickness结构体
+         */
         Thickness(double horizontal, double vertical);
+
+        /**
+         * @brief 指定四边的值构造Thickness结构体
+         */
         Thickness(double left, double top, double right, double bottom);
 
-        friend bool operator==(const Thickness &left, const Thickness &right)
-        {
-            return (left.left   == right.left)  &&
-                   (left.top    == right.top)   &&
-                   (left.right  == right.right) &&
-                   (left.bottom == right.bottom);
-        }
+        /**
+         * @brief 判断两个Thickness是否相同
+         */
+        bool operator==(const Thickness &other) const;
 
-        friend bool operator!=(const Thickness &left, const Thickness &right)
-        {
-            return (left.left   != right.left)  ||
-                   (left.top    != right.top)   ||
-                   (left.right  != right.right) ||
-                   (left.bottom != right.bottom);
-        }
+        /**
+         * @brief 判断两个Thickness是否相同
+         */
+        bool operator!=(const Thickness &other) const;
 
-        friend std::wostream &operator<<(std::wostream &wos, const Thickness &thickness)
-        {
-            return wos << L"Thickness{left=" << thickness.left << L", top=" << thickness.top << L", right=" << thickness.right << L", bottom=" << thickness.bottom << L"}";
-        }
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const Thickness &thickness);
     };
 }
