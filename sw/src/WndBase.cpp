@@ -966,10 +966,10 @@ HFONT sw::WndBase::GetFontHandle()
     return this->_hfont;
 }
 
-void sw::WndBase::Redraw(bool erase)
+void sw::WndBase::Redraw(bool erase, bool updateWindow)
 {
     InvalidateRect(this->_hwnd, NULL, erase);
-    UpdateWindow(this->_hwnd);
+    if (updateWindow) UpdateWindow(this->_hwnd);
 }
 
 bool sw::WndBase::IsControl()

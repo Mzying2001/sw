@@ -643,10 +643,11 @@ namespace sw
         HFONT GetFontHandle();
 
         /**
-         * @brief       重画
-         * @param erase 是否擦除旧的背景
+         * @brief              重画
+         * @param erase        是否擦除旧的背景
+         * @param updateWindow 是否调用UpdateWindow
          */
-        void Redraw(bool erase = false);
+        void Redraw(bool erase = false, bool updateWindow = false);
 
         /**
          * @brief 判断当前对象是否是控件
