@@ -1,4 +1,5 @@
 #include "MsgBox.h"
+#include "Window.h"
 
 sw::MsgBoxResultHelper::MsgBoxResultHelper(MsgBoxResult result)
     : result(result)
@@ -41,6 +42,11 @@ sw::MsgBoxResultHelper sw::MsgBox::Show(const WndBase &owner, const std::wstring
     return MsgBox::Show(&owner, text, caption, button);
 }
 
+sw::MsgBoxResultHelper sw::MsgBox::Show(const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
+{
+    return MsgBox::Show(Window::ActiveWindow, text, caption, button);
+}
+
 sw::MsgBoxResultHelper sw::MsgBox::ShowInfo(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
     HWND hwnd = (owner == nullptr) ? reinterpret_cast<HWND>(NULL) : owner->Handle;
@@ -50,6 +56,11 @@ sw::MsgBoxResultHelper sw::MsgBox::ShowInfo(const WndBase *owner, const std::wst
 sw::MsgBoxResultHelper sw::MsgBox::ShowInfo(const WndBase &owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
     return MsgBox::ShowInfo(&owner, text, caption, button);
+}
+
+sw::MsgBoxResultHelper sw::MsgBox::ShowInfo(const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
+{
+    return MsgBox::ShowInfo(Window::ActiveWindow, text, caption, button);
 }
 
 sw::MsgBoxResultHelper sw::MsgBox::ShowError(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
@@ -63,6 +74,11 @@ sw::MsgBoxResultHelper sw::MsgBox::ShowError(const WndBase &owner, const std::ws
     return MsgBox::ShowError(&owner, text, caption, button);
 }
 
+sw::MsgBoxResultHelper sw::MsgBox::ShowError(const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
+{
+    return MsgBox::ShowError(Window::ActiveWindow, text, caption, button);
+}
+
 sw::MsgBoxResultHelper sw::MsgBox::ShowWarning(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
     HWND hwnd = (owner == nullptr) ? reinterpret_cast<HWND>(NULL) : owner->Handle;
@@ -74,6 +90,11 @@ sw::MsgBoxResultHelper sw::MsgBox::ShowWarning(const WndBase &owner, const std::
     return MsgBox::ShowWarning(&owner, text, caption, button);
 }
 
+sw::MsgBoxResultHelper sw::MsgBox::ShowWarning(const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
+{
+    return MsgBox::ShowWarning(Window::ActiveWindow, text, caption, button);
+}
+
 sw::MsgBoxResultHelper sw::MsgBox::ShowQuestion(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
     HWND hwnd = (owner == nullptr) ? reinterpret_cast<HWND>(NULL) : owner->Handle;
@@ -83,4 +104,9 @@ sw::MsgBoxResultHelper sw::MsgBox::ShowQuestion(const WndBase *owner, const std:
 sw::MsgBoxResultHelper sw::MsgBox::ShowQuestion(const WndBase &owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
 {
     return MsgBox::ShowQuestion(&owner, text, caption, button);
+}
+
+sw::MsgBoxResultHelper sw::MsgBox::ShowQuestion(const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
+{
+    return MsgBox::ShowQuestion(Window::ActiveWindow, text, caption, button);
 }

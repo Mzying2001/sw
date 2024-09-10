@@ -104,6 +104,11 @@ namespace sw
         static MsgBoxResultHelper Show(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
 
         /**
+         * @brief 显示一个不含图标的消息框，将当前活动窗体作为Owner
+         */
+        static MsgBoxResultHelper Show(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
          * @brief 显示一个含“消息”图标的消息框
          */
         static MsgBoxResultHelper ShowInfo(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
@@ -112,6 +117,11 @@ namespace sw
          * @brief 显示一个含“消息”图标的消息框
          */
         static MsgBoxResultHelper ShowInfo(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
+         * @brief 显示一个含“消息”图标的消息框，将当前活动窗体作为Owner
+         */
+        static MsgBoxResultHelper ShowInfo(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
 
         /**
          * @brief 显示一个含“错误”图标的消息框
@@ -124,6 +134,11 @@ namespace sw
         static MsgBoxResultHelper ShowError(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
 
         /**
+         * @brief 显示一个含“错误”图标的消息框，将当前活动窗体作为Owner
+         */
+        static MsgBoxResultHelper ShowError(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
          * @brief 显示一个含“警告”图标的消息框
          */
         static MsgBoxResultHelper ShowWarning(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
@@ -134,6 +149,11 @@ namespace sw
         static MsgBoxResultHelper ShowWarning(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
 
         /**
+         * @brief 显示一个含“警告”图标的消息框，将当前活动窗体作为Owner
+         */
+        static MsgBoxResultHelper ShowWarning(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
          * @brief 显示一个含“问题”图标的消息框
          */
         static MsgBoxResultHelper ShowQuestion(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
@@ -142,5 +162,10 @@ namespace sw
          * @brief 显示一个含“问题”图标的消息框
          */
         static MsgBoxResultHelper ShowQuestion(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
+
+        /**
+         * @brief 显示一个含“问题”图标的消息框，将当前活动窗体作为Owner
+         */
+        static MsgBoxResultHelper ShowQuestion(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
     };
 }
