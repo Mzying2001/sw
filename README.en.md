@@ -40,8 +40,8 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT n
 
     // Register a button click event handler to show a message box when the button is clicked
     button.RegisterRoutedEvent(sw::ButtonBase_Clicked,
-        [&](sw::UIElement& sender, sw::RoutedEventArgs& e) {
-            sw::MsgBox::Show(mainWindow, L"Hello, SimpleWindow!");
+        [](sw::UIElement& sender, sw::RoutedEventArgs& e) {
+            sw::MsgBox::Show(L"Hello, SimpleWindow!");
         });
 
     mainWindow.AddChild(button);
