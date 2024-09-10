@@ -79,6 +79,7 @@ var annotated_dup =
       [ "MouseMoveEventArgs", "structsw_1_1_mouse_move_event_args.html", null ],
       [ "MouseWheelEventArgs", "structsw_1_1_mouse_wheel_event_args.html", null ],
       [ "MsgBox", "classsw_1_1_msg_box.html", null ],
+      [ "MsgBoxResultHelper", "structsw_1_1_msg_box_result_helper.html", "structsw_1_1_msg_box_result_helper" ],
       [ "Panel", "classsw_1_1_panel.html", "classsw_1_1_panel" ],
       [ "PanelBase", "classsw_1_1_panel_base.html", "classsw_1_1_panel_base" ],
       [ "PasswordBox", "classsw_1_1_password_box.html", "classsw_1_1_password_box" ],

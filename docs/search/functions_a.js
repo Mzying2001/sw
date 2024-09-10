@@ -11,5 +11,6 @@ var searchData=
   ['monthcalendar_8',['MonthCalendar',['../classsw_1_1_month_calendar.html#a0ea779945c5838f27137cdd39894a143',1,'sw::MonthCalendar']]],
   ['movetobottom_9',['MoveToBottom',['../classsw_1_1_u_i_element.html#a793adc7d50d0373d099b26b0a511b95d',1,'sw::UIElement']]],
   ['movetotop_10',['MoveToTop',['../classsw_1_1_u_i_element.html#abce4a26101de27550375c300b121d95d',1,'sw::UIElement']]],
-  ['msgloop_11',['MsgLoop',['../classsw_1_1_app.html#a05192f9abf49cc0a698024855dde22de',1,'sw::App']]]
+  ['msgboxresulthelper_11',['MsgBoxResultHelper',['../structsw_1_1_msg_box_result_helper.html#ac75e4774f3a663cdd014aa8b4a97e2af',1,'sw::MsgBoxResultHelper']]],
+  ['msgloop_12',['MsgLoop',['../classsw_1_1_app.html#a05192f9abf49cc0a698024855dde22de',1,'sw::App']]]
 ];

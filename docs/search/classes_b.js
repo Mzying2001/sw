@@ -9,5 +9,6 @@ var searchData=
   ['mousebuttonupeventargs_6',['MouseButtonUpEventArgs',['../structsw_1_1_mouse_button_up_event_args.html',1,'sw']]],
   ['mousemoveeventargs_7',['MouseMoveEventArgs',['../structsw_1_1_mouse_move_event_args.html',1,'sw']]],
   ['mousewheeleventargs_8',['MouseWheelEventArgs',['../structsw_1_1_mouse_wheel_event_args.html',1,'sw']]],
-  ['msgbox_9',['MsgBox',['../classsw_1_1_msg_box.html',1,'sw']]]
+  ['msgbox_9',['MsgBox',['../classsw_1_1_msg_box.html',1,'sw']]],
+  ['msgboxresulthelper_10',['MsgBoxResultHelper',['../structsw_1_1_msg_box_result_helper.html',1,'sw']]]
 ];

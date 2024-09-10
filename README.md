@@ -40,8 +40,8 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT n
 
     // 注册按钮单击事件处理函数，实现单击按钮弹出消息框
     button.RegisterRoutedEvent(sw::ButtonBase_Clicked,
-        [&](sw::UIElement& sender, sw::RoutedEventArgs& e) {
-            sw::MsgBox::Show(mainWindow, L"Hello, SimpleWindow!");
+        [](sw::UIElement& sender, sw::RoutedEventArgs& e) {
+            sw::MsgBox::Show(L"Hello, SimpleWindow!");
         });
 
     mainWindow.AddChild(button);

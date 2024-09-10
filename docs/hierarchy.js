@@ -118,6 +118,7 @@ var hierarchy =
       [ "sw::Menu", "classsw_1_1_menu.html", null ]
     ] ],
     [ "sw::MsgBox", "classsw_1_1_msg_box.html", null ],
+    [ "sw::MsgBoxResultHelper", "structsw_1_1_msg_box_result_helper.html", null ],
     [ "sw::Path", "classsw_1_1_path.html", null ],
     [ "sw::Point", "structsw_1_1_point.html", null ],
     [ "sw::ProcMsg", "structsw_1_1_proc_msg.html", null ],
