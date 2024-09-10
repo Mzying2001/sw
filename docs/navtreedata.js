@@ -50,7 +50,7 @@ var NAVTREEINDEX =
 "classsw_1_1_list_view.html#ad6cb1adb485bbf70a18e8bdd491407e5",
 "classsw_1_1_timer.html#a22a88da239c06516c7bb7b452dbbf0bc",
 "classsw_1_1_wnd_base.html#ad50166a8ade9a7eaf0088f13fd708e2f",
-"structsw_1_1_routed_event_args.html#ac299c564c53fa039f47a06d08272d969"
+"structsw_1_1_rect.html#a93dcaabfcb0e106c540a03f74b21b52f"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';
