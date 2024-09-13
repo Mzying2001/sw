@@ -13,6 +13,12 @@ namespace sw
     {
     public:
         /**
+         * @brief 默认虚析构函数
+         */
+        virtual ~ILayout() = default;
+
+    public:
+        /**
          * @brief 获取布局标记
          */
         virtual uint64_t GetLayoutTag() = 0;
