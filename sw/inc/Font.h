@@ -240,7 +240,7 @@ namespace sw
         /**
          * @brief 创建HFONT句柄
          */
-        HFONT CreateHandle();
+        HFONT CreateHandle() const;
 
         /**
          * @brief 通过HFONT获取字体信息

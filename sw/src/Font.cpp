@@ -62,7 +62,7 @@ sw::Font::operator LOGFONTW() const
     return logFont;
 }
 
-HFONT sw::Font::CreateHandle()
+HFONT sw::Font::CreateHandle() const
 {
     LOGFONTW logFont = *this;
     return CreateFontIndirectW(&logFont);
