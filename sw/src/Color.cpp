@@ -35,7 +35,10 @@ bool sw::Color::operator!=(const Color &other) const
     return (this->r != other.r) || (this->g != other.g) || (this->b != other.b);
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const Color &color)
+namespace sw
 {
-    return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
+    std::wostream &operator<<(std::wostream &wos, const Color &color)
+    {
+        return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
+    }
 }

@@ -36,7 +36,10 @@ bool sw::Thickness::operator!=(const Thickness &other) const
            (this->bottom != other.bottom);
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const Thickness &thickness)
+namespace sw
 {
-    return wos << L"Thickness{left=" << thickness.left << L", top=" << thickness.top << L", right=" << thickness.right << L", bottom=" << thickness.bottom << L"}";
+    std::wostream &operator<<(std::wostream &wos, const Thickness &thickness)
+    {
+        return wos << L"Thickness{left=" << thickness.left << L", top=" << thickness.top << L", right=" << thickness.right << L", bottom=" << thickness.bottom << L"}";
+    }
 }

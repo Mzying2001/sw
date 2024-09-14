@@ -1064,12 +1064,15 @@ sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
     return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
 }
 
-bool sw::operator==(const WndBase &left, const WndBase &right)
+namespace sw
 {
-    return &left == &right;
-}
+    bool operator==(const WndBase &left, const WndBase &right)
+    {
+        return &left == &right;
+    }
 
-bool sw::operator!=(const WndBase &left, const WndBase &right)
-{
-    return &left != &right;
+    bool operator!=(const WndBase &left, const WndBase &right)
+    {
+        return &left != &right;
+    }
 }
