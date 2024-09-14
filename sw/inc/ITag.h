@@ -11,6 +11,12 @@ namespace sw
     {
     public:
         /**
+         * @brief 默认虚析构函数
+         */
+        virtual ~ITag() = default;
+
+    public:
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() = 0;
