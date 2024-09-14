@@ -223,7 +223,7 @@ namespace sw
         /**
          * @brief 显示窗口
          */
-        void Show();
+        void Show(int nCmdShow = SW_SHOW);
 
         /**
          * @brief       将窗体显示为模式对话框
