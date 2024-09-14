@@ -199,6 +199,16 @@ namespace sw
          */
         virtual ~WndBase() = 0;
 
+        /**
+         * @brief 判断两个WndBase是否为同一实例
+         */
+        bool operator==(const WndBase &other) const;
+
+        /**
+         * @brief 判断两个WndBase是否为不同实例
+         */
+        bool operator!=(const WndBase &other) const;
+
     protected:
         /**
          * @brief 初始化为窗口，该函数会调用CreateWindowExW
@@ -742,15 +752,5 @@ namespace sw
          * @return     若函数成功则返回对象的指针，否则返回nullptr
          */
         static WndBase *GetWndBase(HWND hwnd);
-
-        /**
-         * @brief 重载==运算符，判断是否为同一个引用
-         */
-        friend bool operator==(const WndBase &left, const WndBase &right);
-
-        /**
-         * @brief 重载!=运算符，判断是否为不同引用
-         */
-        friend bool operator!=(const WndBase &left, const WndBase &right);
     };
 }
