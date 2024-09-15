@@ -1,5 +1,6 @@
 #pragma once
 
+#include "EnumBit.h"
 #include <Windows.h>
 #include <cstdint>
 
@@ -258,6 +259,13 @@ namespace sw
     };
 
     /**
+     * @brief 标记MouseKey枚举类型支持位运算
+     */
+    template <>
+    struct _EnumSupportBitOperations<MouseKey> : std::true_type {
+    };
+
+    /**
      * @brief 表示热键框控件中的辅助按键，可以是一个或多个按键
      */
     enum class HotKeyModifier {
@@ -269,34 +277,9 @@ namespace sw
     };
 
     /**
-     * @brief 让MouseKey枚举类支持按位与操作
+     * @brief 标记HotKeyModifier枚举类型支持位运算
      */
-    inline constexpr MouseKey operator&(MouseKey left, MouseKey right)
-    {
-        return MouseKey(int(left) & int(right));
-    }
-
-    /**
-     * @brief 让MouseKey枚举类支持按位或操作
-     */
-    inline constexpr MouseKey operator|(MouseKey left, MouseKey right)
-    {
-        return MouseKey(int(left) | int(right));
-    }
-
-    /**
-     * @brief 让HotKeyModifier枚举类支持按位与操作
-     */
-    inline constexpr HotKeyModifier operator&(HotKeyModifier left, HotKeyModifier right)
-    {
-        return HotKeyModifier(int(left) & int(right));
-    }
-
-    /**
-     * @brief 让HotKeyModifier枚举类支持按位或操作
-     */
-    inline constexpr HotKeyModifier operator|(HotKeyModifier left, HotKeyModifier right)
-    {
-        return HotKeyModifier(int(left) | int(right));
-    }
+    template <>
+    struct _EnumSupportBitOperations<HotKeyModifier> : std::true_type {
+    };
 }
