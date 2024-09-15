@@ -309,6 +309,7 @@
     <ClInclude Include="..\sw\inc\Dip.h" />
     <ClInclude Include="..\sw\inc\DockLayout.h" />
     <ClInclude Include="..\sw\inc\DockPanel.h" />
+    <ClInclude Include="..\sw\inc\EnumBit.h" />
     <ClInclude Include="..\sw\inc\FillLayout.h" />
     <ClInclude Include="..\sw\inc\Font.h" />
     <ClInclude Include="..\sw\inc\Grid.h" />
