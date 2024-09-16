@@ -216,7 +216,7 @@ namespace sw
     /**
      * @brief “打开文件”对话框与“另存为”对话框的基类
      */
-    class FileDialogBase
+    class FileDialog
     {
     private:
         /**
@@ -294,12 +294,12 @@ namespace sw
         /**
          * @brief 初始化FileDialogBase
          */
-        FileDialogBase();
+        FileDialog();
 
         /**
          * @brief 默认虚析构函数
          */
-        virtual ~FileDialogBase() = default;
+        virtual ~FileDialog() = default;
 
         /**
          * @brief        设置筛选器
@@ -345,7 +345,7 @@ namespace sw
     /**
      * @brief “打开文件”对话框
      */
-    class OpenFileDialog : public FileDialogBase
+    class OpenFileDialog : public FileDialog
     {
     public:
         /**
@@ -356,7 +356,7 @@ namespace sw
         /**
          * @brief 继承ShowDialog的重载
          */
-        using FileDialogBase::ShowDialog;
+        using FileDialog::ShowDialog;
 
         /**
          * @brief  显示对话框，并指定所有者窗口
@@ -368,7 +368,7 @@ namespace sw
     /**
      * @brief “另存为”对话框
      */
-    class SaveFileDialog : public FileDialogBase
+    class SaveFileDialog : public FileDialog
     {
     public:
         /**
@@ -379,7 +379,7 @@ namespace sw
         /**
          * @brief 继承ShowDialog的重载
          */
-        using FileDialogBase::ShowDialog;
+        using FileDialog::ShowDialog;
 
         /**
          * @brief  显示对话框，并指定所有者窗口

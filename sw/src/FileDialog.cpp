@@ -3,9 +3,9 @@
 #include "Utils.h"
 
 /**
- * @brief FileDialogBase缓冲区默认大小
+ * @brief FileDialog缓冲区默认大小
  */
-static constexpr int _FileDialogBaseInitialBufferSize = 1024;
+static constexpr int _FileDialogInitialBufferSize = 1024;
 
 /**
  */
@@ -59,7 +59,7 @@ wchar_t *sw::FileFilter::GetFilterStr()
     return this->_buffer.empty() ? nullptr : this->_buffer.data();
 }
 
-sw::FileDialogBase::FileDialogBase()
+sw::FileDialog::FileDialog()
     : BufferSize(
           // ger
           [this]() -> int {
@@ -188,40 +188,40 @@ sw::FileDialogBase::FileDialogBase()
     this->_ofn.lpstrCustomFilter = nullptr; // 直接设置Filter即可，不提供CustomFilter支持
     this->_ofn.nMaxCustFilter    = 0;
 
-    this->BufferSize  = _FileDialogBaseInitialBufferSize;
+    this->BufferSize  = _FileDialogInitialBufferSize;
     this->Flags       = FileDialogFlags::Explorer;
     this->Title       = L"";
     this->InitialDir  = L"";
     this->FilterIndex = 0;
 }
 
-void sw::FileDialogBase::SetFilter(const FileFilter &filter)
+void sw::FileDialog::SetFilter(const FileFilter &filter)
 {
     this->_filter = filter;
 }
 
-bool sw::FileDialogBase::ShowDialog()
+bool sw::FileDialog::ShowDialog()
 {
     return this->ShowDialog(Window::ActiveWindow);
 }
 
-bool sw::FileDialogBase::ShowDialog(const Window &owner)
+bool sw::FileDialog::ShowDialog(const Window &owner)
 {
     return this->ShowDialog(&owner);
 }
 
-OPENFILENAMEW *sw::FileDialogBase::GetOFN()
+OPENFILENAMEW *sw::FileDialog::GetOFN()
 {
     this->_ofn.lpstrFilter = this->_filter.GetFilterStr();
     return &this->_ofn;
 }
 
-wchar_t *sw::FileDialogBase::GetBuffer()
+wchar_t *sw::FileDialog::GetBuffer()
 {
     return this->_buffer.data();
 }
 
-void sw::FileDialogBase::ClearBuffer()
+void sw::FileDialog::ClearBuffer()
 {
     this->_buffer.at(0) = 0;
 }
