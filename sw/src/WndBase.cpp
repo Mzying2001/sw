@@ -1,19 +1,22 @@
 #include "WndBase.h"
 
-/**
- * @brief _check字段的值，用于判断给定指针是否为指向WndBase的指针
- */
-static constexpr uint32_t _WndBaseMagicNumber = 0x946dba7e;
+namespace
+{
+    /**
+     * @brief _check字段的值，用于判断给定指针是否为指向WndBase的指针
+     */
+    static constexpr uint32_t _WndBaseMagicNumber = 0x946dba7e;
 
-/**
- * @brief 窗口类名
- */
-static constexpr wchar_t _WindowClassName[] = L"sw::Window";
+    /**
+     * @brief 窗口类名
+     */
+    static constexpr wchar_t _WindowClassName[] = L"sw::Window";
 
-/**
- * @brief 控件初始化时所在的窗口
- */
-static struct : sw::WndBase{} *_controlInitContainer = nullptr;
+    /**
+     * @brief 控件初始化时所在的窗口
+     */
+    static struct : sw::WndBase{} *_controlInitContainer = nullptr;
+}
 
 /**
  */
