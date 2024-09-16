@@ -138,6 +138,20 @@ namespace sw
         }
 
         /**
+         * @brief       遍历字典，查询是否存在某个值
+         * @param value 要查询的值
+         */
+        bool ContainsValue(const TVal &value) const
+        {
+            for (const auto &pair : *this->_pMap) {
+                if (pair.second == value) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
          * @brief     移除指定键值对
          * @param key 要删除的键值
          */
