@@ -2,6 +2,14 @@
 #include "Path.h"
 #include "Utils.h"
 
+/**
+ * @brief FileDialogBase缓冲区默认大小
+ */
+static constexpr int _FileDialogBaseInitialBufferSize = 1024;
+
+/**
+ */
+
 sw::FileFilter::FileFilter(std::initializer_list<std::pair<std::wstring, std::wstring>> filters)
 {
     this->SetFilter(filters);
@@ -174,7 +182,7 @@ sw::FileDialogBase::FileDialogBase()
     this->_ofn.lpstrCustomFilter = nullptr; // 直接设置Filter即可，不提供CustomFilter支持
     this->_ofn.nMaxCustFilter    = 0;
 
-    this->BufferSize  = MAX_PATH;
+    this->BufferSize  = _FileDialogBaseInitialBufferSize;
     this->Flags       = FileDialogFlags::Explorer;
     this->Title       = L"";
     this->InitialDir  = L"";
