@@ -82,24 +82,6 @@ namespace sw
         // }
 
         /**
-         * @brief 获取属性值，由子类实现
-         */
-        template <typename = void>
-        T GetterImpl() const
-        {
-            static_assert(false, "GetterImpl not implemented");
-        }
-
-        /**
-         * @brief 设置属性值，由子类实现
-         */
-        template <typename = void>
-        void SetterImpl(const T &value) const
-        {
-            static_assert(false, "SetterImpl not implemented");
-        }
-
-        /**
          * @brief 获取字段，可由子类重写
          */
         template <typename U = T>
