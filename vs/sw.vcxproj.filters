@@ -282,6 +282,9 @@
     <ClInclude Include="..\sw\inc\EnumBit.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\FileDialog.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\Animation.cpp">
@@ -513,6 +516,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\WrapPanel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\FileDialog.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
