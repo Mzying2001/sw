@@ -135,37 +135,43 @@ namespace sw
         }
 
         /**
-         * @brief 添加一个值到列表末尾
+         * @brief  添加一个值到列表末尾
+         * @return 当前列表
          */
-        auto &Append(const T &value) const
+        auto Append(const T &value) const
         {
             this->_pVec->push_back(value);
             return *this;
         }
 
         /**
-         * @brief 添加一个值到列表末尾
+         * @brief  添加一个值到列表末尾
+         * @return 当前列表
          */
-        auto &Append(T &&value) const
+        auto Append(T &&value) const
         {
             this->_pVec->push_back(std::forward<T>(value));
             return *this;
         }
 
         /**
-         * @brief 在指定位置插入值
+         * @brief  在指定位置插入值
+         * @return 当前列表
          */
-        void Insert(int index, const T &value) const
+        auto Insert(int index, const T &value) const
         {
             this->_pVec->insert(this->_pVec->begin() + index, value);
+            return *this;
         }
 
         /**
-         * @brief 在指定位置插入值
+         * @brief  在指定位置插入值
+         * @return 当前列表
          */
-        void Insert(int index, T &&value) const
+        auto Insert(int index, T &&value) const
         {
             this->_pVec->insert(this->_pVec->begin() + index, std::forward<T>(value));
+            return *this;
         }
 
         /**
