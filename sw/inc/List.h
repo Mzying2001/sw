@@ -97,26 +97,17 @@ namespace sw
         /**
          * @brief 判断是否为同一个列表
          */
-        friend bool operator==(const List &left, const List &right)
+        bool operator==(const List &other) const
         {
-            return left._pVec == right._pVec;
+            return this->_pVec == other._pVec;
         }
 
         /**
          * @brief 判断是否不是同一个列表
          */
-        friend bool operator!=(const List &left, const List &right)
+        bool operator!=(const List &other) const
         {
-            return left._pVec != right._pVec;
-        }
-
-        /**
-         * @brief 支持Utils::BuildStr
-         */
-        friend std::wostream &operator<<(std::wostream &wos, const List &list)
-        {
-            wos << Utils::BuildStr(*list._pVec);
-            return wos;
+            return this->_pVec != other._pVec;
         }
 
         /**
@@ -219,6 +210,15 @@ namespace sw
             List list((int)this->_pVec->capacity());
             list._pVec->assign(this->_pVec->begin(), this->_pVec->end());
             return list;
+        }
+
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const List &list)
+        {
+            wos << Utils::BuildStr(*list._pVec);
+            return wos;
         }
     };
 }

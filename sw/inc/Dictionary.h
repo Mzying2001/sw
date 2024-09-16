@@ -90,26 +90,17 @@ namespace sw
         /**
          * @brief 判断是否为同一个字典
          */
-        friend bool operator==(const Dictionary &left, const Dictionary &right)
+        bool operator==(const Dictionary &other) const
         {
-            return left._pMap == right._pMap;
+            return this->_pMap == other._pMap;
         }
 
         /**
          * @brief 判断是否不是同一个字典
          */
-        friend bool operator!=(const Dictionary &left, const Dictionary &right)
+        bool operator!=(const Dictionary &other) const
         {
-            return left._pMap != right._pMap;
-        }
-
-        /**
-         * @brief 支持Utils::BuildStr
-         */
-        friend std::wostream &operator<<(std::wostream &wos, const Dictionary &dic)
-        {
-            wos << Utils::BuildStr(*dic._pMap);
-            return wos;
+            return this->_pMap != other._pMap;
         }
 
         /**
@@ -162,6 +153,15 @@ namespace sw
             Dictionary dic;
             dic._pMap->insert(this->_pMap->begin(), this->_pMap->end());
             return dic;
+        }
+
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const Dictionary &dic)
+        {
+            wos << Utils::BuildStr(*dic._pMap);
+            return wos;
         }
     };
 }
