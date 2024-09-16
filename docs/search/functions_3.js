@@ -7,7 +7,7 @@ var searchData=
   ['diptopxx_4',['DipToPxX',['../classsw_1_1_dip.html#a66e3c3a119b77b632ec5f1f37051ee6d',1,'sw::Dip']]],
   ['diptopxy_5',['DipToPxY',['../classsw_1_1_dip.html#ae8986a97dc498280957b4c9e5fa53124',1,'sw::Dip']]],
   ['disablelayout_6',['DisableLayout',['../classsw_1_1_layer.html#a4c9e94621cab7abd5ca2e10f5691c3c1',1,'sw::Layer']]],
-  ['docklayouttag_7',['DockLayoutTag',['../classsw_1_1_dock_layout_tag.html#af17218c2cdff950251e44c60f6473793',1,'sw::DockLayoutTag']]],
+  ['docklayouttag_7',['DockLayoutTag',['../classsw_1_1_dock_layout_tag.html#aae2e7ab3530f1f93e29828264e62b42b',1,'sw::DockLayoutTag']]],
   ['dockpanel_8',['DockPanel',['../classsw_1_1_dock_panel.html#a8c9ce34641a342dc14c8bae2d49e3c08',1,'sw::DockPanel']]],
   ['dragenter_9',['DragEnter',['../classsw_1_1_image_list.html#a6663c89b5ad3ae965ec4871d73560d01',1,'sw::ImageList']]],
   ['dragleave_10',['DragLeave',['../classsw_1_1_image_list.html#ad2bfeeb41dbd1c7e720c99834acb59ac',1,'sw::ImageList']]],

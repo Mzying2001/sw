@@ -131,7 +131,7 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 <div class="line">    <a class="code hl_class" href="classsw_1_1_button.html">sw::Button</a> button;</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// 修改窗口的布局方式，让按钮居中</span></div>
-<div class="line">    mainWindow.<a class="code hl_function" href="classsw_1_1_window.html#abdf47e48c8a4e9d9c368cb549ba3d938">SetLayout</a>&lt;<a class="code hl_class" href="classsw_1_1_fill_layout.html">sw::FillLayout</a>&gt;();</div>
+<div class="line">    mainWindow.<a class="code hl_function" href="classsw_1_1_window.html#a4ac5f0cb7ef04a2732e25dc598c12133">SetLayout</a>&lt;<a class="code hl_class" href="classsw_1_1_fill_layout.html">sw::FillLayout</a>&gt;();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// 对Text属性赋值即可修改按钮文本</span></div>
 <div class="line">    button.<a class="code hl_variable" href="classsw_1_1_wnd_base.html#a9afff86d32e9b54cccc204ef29a85891">Text</a> = L<span class="stringliteral">&quot;Click Me&quot;</span>;</div>
@@ -143,7 +143,7 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 <div class="line">        });</div>
 <div class="line"> </div>
 <div class="line">    mainWindow.<a class="code hl_function" href="classsw_1_1_u_i_element.html#a32893339be348aa964441954f3a31101">AddChild</a>(button);</div>
-<div class="line">    mainWindow.<a class="code hl_function" href="classsw_1_1_window.html#a3281c944ffc505243ff2b958b42e6fa7">Show</a>();</div>
+<div class="line">    mainWindow.<a class="code hl_function" href="classsw_1_1_window.html#a97f714390560b186f28c05b1f6a35cec">Show</a>();</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// 开始消息循环</span></div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code hl_function" href="classsw_1_1_app.html#a05192f9abf49cc0a698024855dde22de">sw::App::MsgLoop</a>();</div>
@@ -156,8 +156,8 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 <div class="ttc" id="aclasssw_1_1_u_i_element_html_a32893339be348aa964441954f3a31101"><div class="ttname"><a href="classsw_1_1_u_i_element.html#a32893339be348aa964441954f3a31101">sw::UIElement::AddChild</a></div><div class="ttdeci">bool AddChild(UIElement *element)</div><div class="ttdoc">添加子控件</div></div>
 <div class="ttc" id="aclasssw_1_1_u_i_element_html_a62c0e59790735abb3f0a9f002e651c16"><div class="ttname"><a href="classsw_1_1_u_i_element.html#a62c0e59790735abb3f0a9f002e651c16">sw::UIElement::RegisterRoutedEvent</a></div><div class="ttdeci">void RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &amp;handler)</div><div class="ttdoc">注册路由事件处理函数，当事件已注册时会覆盖已注册的函数</div></div>
 <div class="ttc" id="aclasssw_1_1_window_html"><div class="ttname"><a href="classsw_1_1_window.html">sw::Window</a></div><div class="ttdoc">窗口</div><div class="ttdef"><b>定义</b> Window.h:34</div></div>
-<div class="ttc" id="aclasssw_1_1_window_html_a3281c944ffc505243ff2b958b42e6fa7"><div class="ttname"><a href="classsw_1_1_window.html#a3281c944ffc505243ff2b958b42e6fa7">sw::Window::Show</a></div><div class="ttdeci">void Show()</div><div class="ttdoc">显示窗口</div></div>
-<div class="ttc" id="aclasssw_1_1_window_html_abdf47e48c8a4e9d9c368cb549ba3d938"><div class="ttname"><a href="classsw_1_1_window.html#abdf47e48c8a4e9d9c368cb549ba3d938">sw::Window::SetLayout</a></div><div class="ttdeci">void SetLayout()</div><div class="ttdoc">设置窗口的默认布局方式</div><div class="ttdef"><b>定义</b> Window.h:256</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a4ac5f0cb7ef04a2732e25dc598c12133"><div class="ttname"><a href="classsw_1_1_window.html#a4ac5f0cb7ef04a2732e25dc598c12133">sw::Window::SetLayout</a></div><div class="ttdeci">std::enable_if&lt; std::is_base_of&lt; LayoutHost, TLayout &gt;::value &gt;::type SetLayout()</div><div class="ttdoc">设置窗口的默认布局方式</div><div class="ttdef"><b>定义</b> Window.h:254</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a97f714390560b186f28c05b1f6a35cec"><div class="ttname"><a href="classsw_1_1_window.html#a97f714390560b186f28c05b1f6a35cec">sw::Window::Show</a></div><div class="ttdeci">void Show(int nCmdShow=SW_SHOW)</div><div class="ttdoc">显示窗口</div></div>
 <div class="ttc" id="aclasssw_1_1_wnd_base_html_a9afff86d32e9b54cccc204ef29a85891"><div class="ttname"><a href="classsw_1_1_wnd_base.html#a9afff86d32e9b54cccc204ef29a85891">sw::WndBase::Text</a></div><div class="ttdeci">const Property&lt; std::wstring &gt; Text</div><div class="ttdoc">窗口标题或控件文本</div><div class="ttdef"><b>定义</b> WndBase.h:163</div></div>
 <div class="ttc" id="astructsw_1_1_routed_event_args_html"><div class="ttname"><a href="structsw_1_1_routed_event_args.html">sw::RoutedEventArgs</a></div><div class="ttdoc">路由事件的参数</div><div class="ttdef"><b>定义</b> RoutedEvent.h:136</div></div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md3"></a>
