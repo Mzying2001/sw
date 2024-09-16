@@ -135,8 +135,8 @@ sw::FileDialogBase::FileDialogBase()
               if (!this->MultiSelect) {
                   return this->GetBuffer();
               }
-              std::wstring path = this->GetBuffer();
-              wchar_t *pFile    = this->GetBuffer() + path.size() + 1;
+              std::wstring path(this->GetBuffer());
+              wchar_t *pFile = this->GetBuffer() + path.size() + 1;
               return *pFile ? Path::Combine({path, pFile}) : path;
           }),
 
@@ -160,15 +160,21 @@ sw::FileDialogBase::FileDialogBase()
               List<std::wstring> result;
 
               if (!this->MultiSelect) {
-                  result.Append(this->FileName);
-                  if (result[0].empty()) {
-                      result.Clear(); // 无选中项
-                  }
+                  auto fileName = this->FileName.Get();
+                  if (!fileName.empty())
+                      result.Append(fileName);
                   return result;
               }
 
-              std::wstring path = this->GetBuffer();
-              for (wchar_t *pFile = this->GetBuffer() + path.size() + 1; *pFile;) {
+              std::wstring path(this->GetBuffer());
+              wchar_t *pFile = this->GetBuffer() + path.size() + 1;
+
+              if (*pFile == 0) { // 多选状态下只选中一项时，buffer中存放的就是选择的文件路径
+                  result.Append(path);
+                  return result;
+              }
+
+              while (*pFile) {
                   std::wstring file = pFile;
                   result.Append(Path::Combine({path, file}));
                   pFile += file.size() + 1;
