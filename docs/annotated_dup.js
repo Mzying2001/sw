@@ -1,6 +1,10 @@
 var annotated_dup =
 [
     [ "sw", null, [
+      [ "_EnumSupportBitOperations", "structsw_1_1___enum_support_bit_operations.html", null ],
+      [ "_EnumSupportBitOperations< HotKeyCombination >", "structsw_1_1___enum_support_bit_operations_3_01_hot_key_combination_01_4.html", null ],
+      [ "_EnumSupportBitOperations< HotKeyModifier >", "structsw_1_1___enum_support_bit_operations_3_01_hot_key_modifier_01_4.html", null ],
+      [ "_EnumSupportBitOperations< MouseKey >", "structsw_1_1___enum_support_bit_operations_3_01_mouse_key_01_4.html", null ],
       [ "_HasEventType", "structsw_1_1___has_event_type.html", null ],
       [ "_HasEventType< T, decltype(void(std::declval< T >().EventType))>", "structsw_1_1___has_event_type_3_01_t_00_01decltype_07void_07std_1_1declval_3_01_t_01_4_07_08_8_event_type_08_08_4.html", null ],
       [ "_IsTypedRoutedEventArgs", "structsw_1_1___is_typed_routed_event_args.html", null ],

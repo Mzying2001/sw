@@ -212,16 +212,35 @@ namespace sw
         FontFamily family = FontFamily::DontCare;
 
     public:
+        /**
+         * @brief 构造字体对象
+         */
         Font();
+
+        /**
+         * @brief 构造指定字体名称和字符集的字体对象
+         */
         Font(const std::wstring &name, FontCharSet charSet);
+
+        /**
+         * @brief 构造指定字体名称、大小与粗细的字体对象
+         */
         Font(const std::wstring &name, double size = 12, FontWeight weight = FontWeight::DontCare);
+
+        /**
+         * @brief 从LOGFONTW构造字体对象
+         */
         Font(const LOGFONTW &logFont);
+
+        /**
+         * @brief 隐式转换LOGFONTW
+         */
         operator LOGFONTW() const;
 
         /**
          * @brief 创建HFONT句柄
          */
-        HFONT CreateHandle();
+        HFONT CreateHandle() const;
 
         /**
          * @brief 通过HFONT获取字体信息

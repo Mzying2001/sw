@@ -66,7 +66,7 @@ namespace sw
         /**
          * @brief 窗口的默认布局方式
          */
-        std::shared_ptr<LayoutHost> _layout;
+        std::unique_ptr<LayoutHost> _layout;
 
     public:
         /**
@@ -223,7 +223,7 @@ namespace sw
         /**
          * @brief 显示窗口
          */
-        void Show();
+        void Show(int nCmdShow = SW_SHOW);
 
         /**
          * @brief       将窗体显示为模式对话框
@@ -250,14 +250,11 @@ namespace sw
         /**
          * @brief 设置窗口的默认布局方式
          */
-        template <
-            typename TLayout,
-            typename std::enable_if<std::is_base_of<LayoutHost, TLayout>::value, int>::type = 0>
-        void SetLayout()
+        template <typename TLayout>
+        typename std::enable_if<std::is_base_of<LayoutHost, TLayout>::value>::type SetLayout()
         {
-            auto layout = std::make_shared<TLayout>();
-            layout->Associate(this);
-            this->_layout = layout;
+            this->_layout.reset(new TLayout);
+            this->_layout->Associate(this);
             this->NotifyLayoutUpdated();
         }
 
@@ -267,7 +264,7 @@ namespace sw
         template <std::nullptr_t>
         void SetLayout()
         {
-            this->_layout = nullptr;
+            this->_layout.reset(nullptr);
             this->NotifyLayoutUpdated();
         }
     };

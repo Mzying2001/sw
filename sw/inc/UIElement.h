@@ -278,11 +278,9 @@ namespace sw
          * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventOfType<...>
          * @param handler     事件的处理函数，当值为nullptr时可取消注册
          */
-        template <
-            typename TEventArgs,
-            typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0,
-            typename std::enable_if<sw::_IsTypedRoutedEventArgs<TEventArgs>::value, int>::type      = 0>
-        void RegisterRoutedEvent(std::function<void(UIElement &, TEventArgs &)> handler)
+        template <typename TEventArgs>
+        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
+        RegisterRoutedEvent(std::function<void(UIElement &, TEventArgs &)> handler)
         {
             if (!handler) {
                 this->UnregisterRoutedEvent(TEventArgs::EventType);
@@ -300,12 +298,9 @@ namespace sw
          * @param obj         注册的成员函数所在的对象
          * @param handler     事件的处理函数，当值为nullptr时可取消注册
          */
-        template <
-            typename TEventArgs,
-            typename THandleObj,
-            typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0,
-            typename std::enable_if<sw::_IsTypedRoutedEventArgs<TEventArgs>::value, int>::type      = 0>
-        void RegisterRoutedEvent(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        template <typename TEventArgs, typename THandleObj>
+        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
+        RegisterRoutedEvent(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
         {
             if (handler == nullptr) {
                 this->UnregisterRoutedEvent(TEventArgs::EventType);

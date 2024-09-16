@@ -1,6 +1,11 @@
 var classsw_1_1_font =
 [
-    [ "CreateHandle", "classsw_1_1_font.html#ac38911636974d3f67e7ece35cfc8172e", null ],
+    [ "Font", "classsw_1_1_font.html#a29b97f1db7e9eb3aa3dc93c3321a36f0", null ],
+    [ "Font", "classsw_1_1_font.html#addb3f6d09a71e97a3b0ca0ee0a2bc6a0", null ],
+    [ "Font", "classsw_1_1_font.html#a9d5fba4ba8cc99801f1a4f714d392e78", null ],
+    [ "Font", "classsw_1_1_font.html#a756db4f4398e9dfb74ddb402e5067207", null ],
+    [ "CreateHandle", "classsw_1_1_font.html#a09a1a6e50ebe2585f78bdd3a5b2940cd", null ],
+    [ "operator LOGFONTW", "classsw_1_1_font.html#a45fb8434e9375bcababc2d03cebacf77", null ],
     [ "charSet", "classsw_1_1_font.html#ac2b4f997e58b3dcadcaf95e0452599c6", null ],
     [ "clipPrecision", "classsw_1_1_font.html#a17830a6ab96c792ea5c31f1dc4eb6b9b", null ],
     [ "escapement", "classsw_1_1_font.html#a6c870ded0829330446de69e8c0994a1e", null ],

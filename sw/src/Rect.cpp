@@ -53,7 +53,10 @@ bool sw::Rect::operator!=(const Rect &other) const
            (this->height != other.height);
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const Rect &rect)
+namespace sw
 {
-    return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
+    std::wostream &operator<<(std::wostream &wos, const Rect &rect)
+    {
+        return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
+    }
 }

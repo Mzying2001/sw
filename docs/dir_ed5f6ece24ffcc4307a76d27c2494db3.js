@@ -20,6 +20,7 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "Dip.h", "_dip_8h_source.html", null ],
     [ "DockLayout.h", "_dock_layout_8h_source.html", null ],
     [ "DockPanel.h", "_dock_panel_8h_source.html", null ],
+    [ "EnumBit.h", "_enum_bit_8h_source.html", null ],
     [ "FillLayout.h", "_fill_layout_8h_source.html", null ],
     [ "Font.h", "_font_8h_source.html", null ],
     [ "Grid.h", "_grid_8h_source.html", null ],

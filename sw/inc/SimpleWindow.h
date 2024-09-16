@@ -21,6 +21,7 @@
 #include "Dip.h"
 #include "DockLayout.h"
 #include "DockPanel.h"
+#include "EnumBit.h"
 #include "FillLayout.h"
 #include "Font.h"
 #include "Grid.h"

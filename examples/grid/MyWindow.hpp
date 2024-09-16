@@ -75,7 +75,7 @@ class MyWindow : public sw::Window
         tb.HorizontalAlignment = sw::HorizontalAlignment::Stretch;
 
         // 添加编辑框到界面
-        grid.AddChild(tb, sw::GridLayoutTag{ 1,1,1,4 }); // （序列从0开始）第一列、第一行、跨一行四列
+        grid.AddChild(tb, sw::GridLayoutTag{ 1,1,1,4 }); // （序列从0开始）第一行、第一列、跨一行四列
 
         // 创建按钮并设置对齐方式
         for (int i = 0; i < 17; ++i) {

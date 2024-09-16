@@ -19,40 +19,41 @@ namespace sw
         };
 
     private:
-        uint64_t _value; // 值
+        /**
+         * @brief Tag值
+         */
+        uint64_t _value;
 
     public:
         /**
          * @brief 创建DockLayoutTag
          */
-        inline DockLayoutTag(uint64_t value)
-            : _value(value)
-        {
-        }
+        DockLayoutTag(uint64_t value = Left);
 
         /**
          * @brief 隐式转换uint64_t
          */
-        inline operator uint64_t() const
-        {
-            return _value;
-        }
+        operator uint64_t() const;
 
         /**
          * @brief 判断值是否相等
          */
-        friend inline bool operator==(const DockLayoutTag &left, const DockLayoutTag &right)
-        {
-            return left._value == right._value;
-        }
+        bool operator==(const DockLayoutTag &other) const;
 
         /**
          * @brief 判断值是否不相等
          */
-        friend inline bool operator!=(const DockLayoutTag &left, const DockLayoutTag &right)
-        {
-            return left._value != right._value;
-        }
+        bool operator!=(const DockLayoutTag &other) const;
+
+        /**
+         * @brief 判断值是否相等
+         */
+        bool operator==(uint64_t value) const;
+
+        /**
+         * @brief 判断值是否不相等
+         */
+        bool operator!=(uint64_t value) const;
     };
 
     /**

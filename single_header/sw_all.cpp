@@ -657,9 +657,12 @@ bool sw::Color::operator!=(const Color &other) const
     return (this->r != other.r) || (this->g != other.g) || (this->b != other.b);
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const Color &color)
+namespace sw
 {
-    return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
+    std::wostream &operator<<(std::wostream &wos, const Color &color)
+    {
+        return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
+    }
 }
 
 // ComboBox.cpp
@@ -1125,6 +1128,36 @@ static int _GetDockLayoutTag(sw::ILayout &item)
     return (tag > sw::DockLayoutTag::Bottom) ? sw::DockLayoutTag::Left : int(tag);
 }
 
+sw::DockLayoutTag::DockLayoutTag(uint64_t value)
+    : _value(value)
+{
+}
+
+sw::DockLayoutTag::operator uint64_t() const
+{
+    return this->_value;
+}
+
+bool sw::DockLayoutTag::operator==(const DockLayoutTag &other) const
+{
+    return this->_value == other._value;
+}
+
+bool sw::DockLayoutTag::operator!=(const DockLayoutTag &other) const
+{
+    return this->_value != other._value;
+}
+
+bool sw::DockLayoutTag::operator==(uint64_t value) const
+{
+    return this->_value == value;
+}
+
+bool sw::DockLayoutTag::operator!=(uint64_t value) const
+{
+    return this->_value != value;
+}
+
 void sw::DockLayout::MeasureOverride(Size &availableSize)
 {
     Size restSize = availableSize;
@@ -1375,7 +1408,7 @@ sw::Font::operator LOGFONTW() const
     return logFont;
 }
 
-HFONT sw::Font::CreateHandle()
+HFONT sw::Font::CreateHandle() const
 {
     LOGFONTW logFont = *this;
     return CreateFontIndirectW(&logFont);
@@ -5209,9 +5242,12 @@ bool sw::Point::operator!=(const Point &other) const
     return (this->x != other.x) || (this->y != other.y);
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const Point &point)
+namespace sw
 {
-    return wos << L"(" << point.x << L", " << point.y << L")";
+    std::wostream &operator<<(std::wostream &wos, const Point &point)
+    {
+        return wos << L"(" << point.x << L", " << point.y << L")";
+    }
 }
 
 // ProcMsg.cpp
@@ -5361,9 +5397,12 @@ bool sw::Rect::operator!=(const Rect &other) const
            (this->height != other.height);
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const Rect &rect)
+namespace sw
 {
-    return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
+    std::wostream &operator<<(std::wostream &wos, const Rect &rect)
+    {
+        return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
+    }
 }
 
 // RoutedEvent.cpp
@@ -5427,9 +5466,12 @@ bool sw::Size::operator!=(const Size &other) const
     return (this->width != other.width) || (this->height != other.height);
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const Size &size)
+namespace sw
 {
-    return wos << L"Size{width=" << size.width << L", height=" << size.height << L"}";
+    std::wostream &operator<<(std::wostream &wos, const Size &size)
+    {
+        return wos << L"Size{width=" << size.width << L", height=" << size.height << L"}";
+    }
 }
 
 // Slider.cpp
@@ -6459,9 +6501,12 @@ bool sw::Thickness::operator!=(const Thickness &other) const
            (this->bottom != other.bottom);
 }
 
-std::wostream &sw::operator<<(std::wostream &wos, const Thickness &thickness)
+namespace sw
 {
-    return wos << L"Thickness{left=" << thickness.left << L", top=" << thickness.top << L", right=" << thickness.right << L", bottom=" << thickness.bottom << L"}";
+    std::wostream &operator<<(std::wostream &wos, const Thickness &thickness)
+    {
+        return wos << L"Thickness{left=" << thickness.left << L", top=" << thickness.top << L", right=" << thickness.right << L", bottom=" << thickness.bottom << L"}";
+    }
 }
 
 // Timer.cpp
@@ -8231,9 +8276,9 @@ void sw::Window::OnDpiChanged(int dpiX, int dpiY)
     }
 }
 
-void sw::Window::Show()
+void sw::Window::Show(int nCmdShow)
 {
-    this->WndBase::Show(SW_SHOW);
+    this->WndBase::Show(nCmdShow);
 }
 
 void sw::Window::ShowDialog(Window &owner)
@@ -8591,6 +8636,16 @@ sw::WndBase::~WndBase()
     if (this->_hfont != NULL) {
         DeleteObject(this->_hfont);
     }
+}
+
+bool sw::WndBase::operator==(const WndBase &other) const
+{
+    return this == &other;
+}
+
+bool sw::WndBase::operator!=(const WndBase &other) const
+{
+    return this != &other;
 }
 
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
@@ -9376,16 +9431,6 @@ sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
 {
     auto p = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
     return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
-}
-
-bool sw::operator==(const WndBase &left, const WndBase &right)
-{
-    return &left == &right;
-}
-
-bool sw::operator!=(const WndBase &left, const WndBase &right)
-{
-    return &left != &right;
 }
 
 // WrapLayout.cpp

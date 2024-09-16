@@ -426,9 +426,9 @@ void sw::Window::OnDpiChanged(int dpiX, int dpiY)
     }
 }
 
-void sw::Window::Show()
+void sw::Window::Show(int nCmdShow)
 {
-    this->WndBase::Show(SW_SHOW);
+    this->WndBase::Show(nCmdShow);
 }
 
 void sw::Window::ShowDialog(Window &owner)

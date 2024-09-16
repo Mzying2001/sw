@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Control.h"
+#include "EnumBit.h"
 #include <CommCtrl.h>
 
 namespace sw
@@ -28,20 +29,11 @@ namespace sw
     };
 
     /**
-     * @brief 让HotKeyCombination枚举类支持按位与操作
+     * @brief 标记HotKeyCombination枚举类型支持位运算
      */
-    inline constexpr HotKeyCombination operator&(HotKeyCombination left, HotKeyCombination right)
-    {
-        return HotKeyCombination(int(left) & int(right));
-    }
-
-    /**
-     * @brief 让HotKeyCombination枚举类支持按位或操作
-     */
-    inline constexpr HotKeyCombination operator|(HotKeyCombination left, HotKeyCombination right)
-    {
-        return HotKeyCombination(int(left) | int(right));
-    }
+    template <>
+    struct _EnumSupportBitOperations<HotKeyCombination> : std::true_type {
+    };
 
     /**
      * @brief 热键框

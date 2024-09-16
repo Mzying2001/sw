@@ -149,6 +149,14 @@ Public 成员函数</h2></td></tr>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~WndBase</b> ()=0</td></tr>
 <tr class="memdesc:a6c99714fa3f313e7535936585f63b9cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数，这里用纯虚函数使该类成为抽象类 <br /></td></tr>
 <tr class="separator:a6c99714fa3f313e7535936585f63b9cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72d371a06c4595e2cd7f9d6c8922732f" id="r_a72d371a06c4595e2cd7f9d6c8922732f"><td class="memItemLeft" align="right" valign="top"><a id="a72d371a06c4595e2cd7f9d6c8922732f" name="a72d371a06c4595e2cd7f9d6c8922732f"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;other) const</td></tr>
+<tr class="memdesc:a72d371a06c4595e2cd7f9d6c8922732f"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断两个WndBase是否为同一实例 <br /></td></tr>
+<tr class="separator:a72d371a06c4595e2cd7f9d6c8922732f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7cf435cbf25ab105badc19ec8f82128" id="r_ab7cf435cbf25ab105badc19ec8f82128"><td class="memItemLeft" align="right" valign="top"><a id="ab7cf435cbf25ab105badc19ec8f82128" name="ab7cf435cbf25ab105badc19ec8f82128"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;other) const</td></tr>
+<tr class="memdesc:ab7cf435cbf25ab105badc19ec8f82128"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断两个WndBase是否为不同实例 <br /></td></tr>
+<tr class="separator:ab7cf435cbf25ab105badc19ec8f82128"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2f1b78dd8165c8bca0313180a9f4b81" id="r_ae2f1b78dd8165c8bca0313180a9f4b81"><td class="memItemLeft" align="right" valign="top"><a id="ae2f1b78dd8165c8bca0313180a9f4b81" name="ae2f1b78dd8165c8bca0313180a9f4b81"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Show</b> (int nCmdShow)</td></tr>
 <tr class="memdesc:ae2f1b78dd8165c8bca0313180a9f4b81"><td class="mdescLeft">&#160;</td><td class="mdescRight">该函数调用ShowWindow <br /></td></tr>
@@ -520,14 +528,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 <tr class="memitem:a9adf7c444a8611024541177662d4716a" id="r_a9adf7c444a8611024541177662d4716a"><td class="memItemLeft" align="right" valign="top"><a id="a9adf7c444a8611024541177662d4716a" name="a9adf7c444a8611024541177662d4716a"></a>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>Control</b></td></tr>
 <tr class="separator:a9adf7c444a8611024541177662d4716a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91165e81b129c626cabcc7b3d8a5dc43" id="r_a91165e81b129c626cabcc7b3d8a5dc43"><td class="memItemLeft" align="right" valign="top"><a id="a91165e81b129c626cabcc7b3d8a5dc43" name="a91165e81b129c626cabcc7b3d8a5dc43"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;left, const <a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;right)</td></tr>
-<tr class="memdesc:a91165e81b129c626cabcc7b3d8a5dc43"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载==运算符，判断是否为同一个引用 <br /></td></tr>
-<tr class="separator:a91165e81b129c626cabcc7b3d8a5dc43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e4f8edb05ac0381561f4a105db73a34" id="r_a3e4f8edb05ac0381561f4a105db73a34"><td class="memItemLeft" align="right" valign="top"><a id="a3e4f8edb05ac0381561f4a105db73a34" name="a3e4f8edb05ac0381561f4a105db73a34"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;left, const <a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;right)</td></tr>
-<tr class="memdesc:a3e4f8edb05ac0381561f4a105db73a34"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载!=运算符，判断是否为不同引用 <br /></td></tr>
-<tr class="separator:a3e4f8edb05ac0381561f4a105db73a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>表示一个Windows窗口，是所有窗口和控件的基类 </p>

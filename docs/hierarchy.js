@@ -9,6 +9,7 @@ var hierarchy =
     [ "sw::DockLayoutTag", "classsw_1_1_dock_layout_tag.html", null ],
     [ "sw::FakePtr< T >", "structsw_1_1_fake_ptr.html", null ],
     [ "std::false_type", null, [
+      [ "sw::_EnumSupportBitOperations< T >", "structsw_1_1___enum_support_bit_operations.html", null ],
       [ "sw::_HasEventType< T, typename >", "structsw_1_1___has_event_type.html", [
         [ "sw::_IsTypedRoutedEventArgs< T >", "structsw_1_1___is_typed_routed_event_args.html", null ]
       ] ]
@@ -380,6 +381,9 @@ var hierarchy =
     [ "sw::Size", "structsw_1_1_size.html", null ],
     [ "sw::Thickness", "structsw_1_1_thickness.html", null ],
     [ "std::true_type", null, [
+      [ "sw::_EnumSupportBitOperations< HotKeyCombination >", "structsw_1_1___enum_support_bit_operations_3_01_hot_key_combination_01_4.html", null ],
+      [ "sw::_EnumSupportBitOperations< HotKeyModifier >", "structsw_1_1___enum_support_bit_operations_3_01_hot_key_modifier_01_4.html", null ],
+      [ "sw::_EnumSupportBitOperations< MouseKey >", "structsw_1_1___enum_support_bit_operations_3_01_mouse_key_01_4.html", null ],
       [ "sw::_HasEventType< T, decltype(void(std::declval< T >().EventType))>", "structsw_1_1___has_event_type_3_01_t_00_01decltype_07void_07std_1_1declval_3_01_t_01_4_07_08_8_event_type_08_08_4.html", null ]
     ] ],
     [ "sw::Utils", "classsw_1_1_utils.html", null ],

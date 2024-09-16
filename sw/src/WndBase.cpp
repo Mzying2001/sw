@@ -279,6 +279,16 @@ sw::WndBase::~WndBase()
     }
 }
 
+bool sw::WndBase::operator==(const WndBase &other) const
+{
+    return this == &other;
+}
+
+bool sw::WndBase::operator!=(const WndBase &other) const
+{
+    return this != &other;
+}
+
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
     if (this->_hwnd != NULL) {
@@ -1062,14 +1072,4 @@ sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
 {
     auto p = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
     return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
-}
-
-bool sw::operator==(const WndBase &left, const WndBase &right)
-{
-    return &left == &right;
-}
-
-bool sw::operator!=(const WndBase &left, const WndBase &right)
-{
-    return &left != &right;
 }
