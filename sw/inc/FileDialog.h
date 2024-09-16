@@ -292,7 +292,7 @@ namespace sw
 
     public:
         /**
-         * @brief 初始化FileDialogBase
+         * @brief 初始化FileDialog
          */
         FileDialog();
 
