@@ -33,7 +33,7 @@ namespace sw
          * @brief 初始化字典
          */
         Dictionary()
-            : _pMap(new std::map<TKey, TVal>)
+            : _pMap(std::make_shared<std::map<TKey, TVal>>())
         {
         }
 
@@ -41,9 +41,8 @@ namespace sw
          * @brief 使用初始化列表
          */
         Dictionary(std::initializer_list<std::pair<const TKey, TVal>> list)
-            : Dictionary()
+            : _pMap(std::make_shared<std::map<TKey, TVal>>(list))
         {
-            this->_pMap->insert(list);
         }
 
         /**

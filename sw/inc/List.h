@@ -33,7 +33,7 @@ namespace sw
          * @brief 初始化列表
          */
         List()
-            : _pVec(new std::vector<T>)
+            : _pVec(std::make_shared<std::vector<T>>())
         {
         }
 
@@ -41,14 +41,14 @@ namespace sw
          * @brief 使用初始化列表
          */
         List(std::initializer_list<T> list)
-            : _pVec(new std::vector<T>(list))
+            : _pVec(std::make_shared<std::vector<T>>(list))
         {
         }
 
         /**
          * @brief 初始化列表并指定容量
          */
-        List(int capacity)
+        explicit List(int capacity)
             : List()
         {
             this->_pVec->reserve(capacity);
