@@ -1,7 +1,6 @@
 var classsw_1_1_property_base =
 [
     [ "Get", "classsw_1_1_property_base.html#a2a6eec000ec894f07376cdfe0cb9484c", null ],
-    [ "GetterImpl", "classsw_1_1_property_base.html#ad5af4c70a229113dee26ea7f77765b90", null ],
     [ "ListFieldsImpl", "classsw_1_1_property_base.html#a0d0177fdddde9353596f3e93a9a73b09", null ],
     [ "ListFieldsImpl", "classsw_1_1_property_base.html#aa181b8d366bd1878d6e801064167873e", null ],
     [ "operator T", "classsw_1_1_property_base.html#a56fd0e6ae8d4e922810ebb705f09bf33", null ],
@@ -35,6 +34,5 @@ var classsw_1_1_property_base =
     [ "operator|=", "classsw_1_1_property_base.html#a454b677a2b57cc87a5b00d2c349dbc59", null ],
     [ "operator|=", "classsw_1_1_property_base.html#aa6d16b8c23bdc62dfc9fae8398f8fe8f", null ],
     [ "Set", "classsw_1_1_property_base.html#a42e3a9f3255c614c210f3db6d38c664b", null ],
-    [ "SetterImpl", "classsw_1_1_property_base.html#a54570b5e99ffd550936fa3f8e4649ebf", null ],
     [ "operator<<", "classsw_1_1_property_base.html#abee6b6fe3f5de41f6fb962fee7ba20bb", null ]
 ];
