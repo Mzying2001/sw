@@ -119,6 +119,16 @@ namespace sw
         }
 
         /**
+         * @brief  添加键值对到字典
+         * @return 当前字典
+         */
+        auto Add(const TKey &key, const TVal &value) const
+        {
+            this->_pMap->insert(std::make_pair(key, value));
+            return *this;
+        }
+
+        /**
          * @brief     是否存在某个键值
          * @param key 要查询的键值
          */
