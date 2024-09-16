@@ -5,18 +5,43 @@
 #define USER_DEFAULT_SCREEN_DPI 96
 #endif
 
-static struct _ScaleInfo {
-    double scaleX;
-    double scaleY;
-    _ScaleInfo();
-} _scaleInfo;
-
-_ScaleInfo::_ScaleInfo()
+namespace
 {
-    HDC hdc      = GetDC(NULL);
-    this->scaleX = (double)USER_DEFAULT_SCREEN_DPI / GetDeviceCaps(hdc, LOGPIXELSX);
-    this->scaleY = (double)USER_DEFAULT_SCREEN_DPI / GetDeviceCaps(hdc, LOGPIXELSY);
-    ReleaseDC(NULL, hdc);
+    /**
+     * @brief 内部类，储存缩放信息
+     */
+    struct _ScaleInfo {
+        /**
+         * @brief 横向缩放比例
+         */
+        double scaleX;
+
+        /**
+         * @brief 纵向缩放比例
+         */
+        double scaleY;
+
+        /**
+         * @brief 构造函数，根据系统DPI计算缩放比例
+         */
+        _ScaleInfo()
+        {
+            HDC hdc = GetDC(NULL);
+            if (hdc == NULL) {
+                this->scaleX = 1;
+                this->scaleY = 1;
+            } else {
+                this->scaleX = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / GetDeviceCaps(hdc, LOGPIXELSX);
+                this->scaleY = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / GetDeviceCaps(hdc, LOGPIXELSY);
+                ReleaseDC(NULL, hdc);
+            }
+        }
+    };
+
+    /**
+     * @brief 储存缩放信息
+     */
+    static _ScaleInfo _scaleInfo;
 }
 
 /*================================================================================*/
@@ -35,8 +60,8 @@ const sw::ReadOnlyProperty<double> sw::Dip::ScaleY(
 
 void sw::Dip::Update(int dpiX, int dpiY)
 {
-    _scaleInfo.scaleX = (double)USER_DEFAULT_SCREEN_DPI / dpiX;
-    _scaleInfo.scaleY = (double)USER_DEFAULT_SCREEN_DPI / dpiY;
+    _scaleInfo.scaleX = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / dpiX;
+    _scaleInfo.scaleY = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / dpiY;
 }
 
 double sw::Dip::PxToDipX(int px)
