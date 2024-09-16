@@ -170,7 +170,8 @@ sw::FileDialog::FileDialog()
               wchar_t *pFile = this->GetBuffer() + path.size() + 1;
 
               if (*pFile == 0) { // 多选状态下只选中一项时，buffer中存放的就是选择的文件路径
-                  result.Append(path);
+                  if (!path.empty())
+                      result.Append(path);
                   return result;
               }
 
