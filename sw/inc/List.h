@@ -91,7 +91,7 @@ namespace sw
          */
         auto &operator[](int index) const
         {
-            return this->_pVec->operator[](index);
+            return this->_pVec->at(index);
         }
 
         /**

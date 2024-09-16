@@ -83,7 +83,7 @@ namespace sw
          */
         auto &operator[](const TKey &key) const
         {
-            return this->_pMap->operator[](key);
+            return this->_pMap->at(key);
         }
 
         /**
