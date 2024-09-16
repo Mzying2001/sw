@@ -280,7 +280,15 @@ namespace sw
          */
         const ReadOnlyProperty<std::wstring> FileName;
 
-        // const ReadOnlyProperty<sw::List<std::wstring>> FileNames;
+        /**
+         * @brief 是否允许多选
+         */
+        const Property<bool> MultiSelect;
+
+        /**
+         * @brief 所有选中的文件路径
+         */
+        const ReadOnlyProperty<sw::List<std::wstring>> FileNames;
 
     public:
         /**

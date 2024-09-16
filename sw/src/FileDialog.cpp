@@ -1,4 +1,5 @@
 #include "FileDialog.h"
+#include "Path.h"
 #include "Utils.h"
 
 sw::FileFilter::FileFilter(std::initializer_list<std::pair<std::wstring, std::wstring>> filters)
@@ -123,7 +124,48 @@ sw::FileDialogBase::FileDialogBase()
       FileName(
           // get
           [this]() -> std::wstring {
-              return this->_buffer.data();
+              if (!this->MultiSelect) {
+                  return this->GetBuffer();
+              }
+              std::wstring path = this->GetBuffer();
+              wchar_t *pFile    = this->GetBuffer() + path.size() + 1;
+              return *pFile ? Path::Combine({path, pFile}) : path;
+          }),
+
+      MultiSelect(
+          // get
+          [this]() -> bool {
+              return (this->Flags.Get() & FileDialogFlags::AllowMultiSelect) == FileDialogFlags::AllowMultiSelect;
+          },
+          // set
+          [this](const bool &value) {
+              if (value) {
+                  this->Flags = this->Flags.Get() | FileDialogFlags::AllowMultiSelect;
+              } else {
+                  this->Flags = this->Flags.Get() & ~FileDialogFlags::AllowMultiSelect;
+              }
+          }),
+
+      FileNames(
+          // get
+          [this]() -> List<std::wstring> {
+              List<std::wstring> result;
+
+              if (!this->MultiSelect) {
+                  result.Append(this->FileName);
+                  if (result[0].empty()) {
+                      result.Clear(); // 无选中项
+                  }
+                  return result;
+              }
+
+              std::wstring path = this->GetBuffer();
+              for (wchar_t *pFile = this->GetBuffer() + path.size() + 1; *pFile;) {
+                  std::wstring file = pFile;
+                  result.Append(Path::Combine({path, file}));
+                  pFile += file.size() + 1;
+              }
+              return result;
           })
 {
     this->_ofn.lStructSize       = sizeof(this->_ofn);
@@ -133,6 +175,7 @@ sw::FileDialogBase::FileDialogBase()
     this->_ofn.nMaxCustFilter    = 0;
 
     this->BufferSize  = MAX_PATH;
+    this->Flags       = FileDialogFlags::Explorer;
     this->Title       = L"";
     this->InitialDir  = L"";
     this->FilterIndex = 0;
