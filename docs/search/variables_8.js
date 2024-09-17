@@ -1,17 +1,15 @@
 var searchData=
 [
-  ['iconhandle_0',['IconHandle',['../classsw_1_1_icon_box.html#a86e82265ade73734e49489ffd7a97769',1,'sw::IconBox']]],
-  ['ignorereturn_1',['IgnoreReturn',['../classsw_1_1_sys_link.html#a117ea396b1e35951b45c8758fa3ad1d2',1,'sw::SysLink']]],
-  ['inherittextcolor_2',['InheritTextColor',['../classsw_1_1_u_i_element.html#a7da2f416b1ed5038d8a3a59d6e44fcf5',1,'sw::UIElement']]],
-  ['initialdelay_3',['InitialDelay',['../classsw_1_1_tool_tip.html#a0df81d8cecc641e512276efe15572cd6',1,'sw::ToolTip']]],
-  ['instance_4',['Instance',['../classsw_1_1_app.html#a5a6949cf6702559276151c987a2f5c5c',1,'sw::App']]],
-  ['interval_5',['Interval',['../classsw_1_1_timer.html#a306078a056429c54ec5261bc45fc15d0',1,'sw::Timer']]],
-  ['isblank_6',['IsBlank',['../classsw_1_1_i_p_address_control.html#a9d66f52a8aba8db5543ee9e09a6711a6',1,'sw::IPAddressControl']]],
-  ['ischecked_7',['IsChecked',['../classsw_1_1_checkable_button.html#a52e1547dc73eb7b8f6cd4ecb523e7f56',1,'sw::CheckableButton']]],
-  ['isdestroyed_8',['IsDestroyed',['../classsw_1_1_wnd_base.html#a54aa973b24b4bc4b681ac2c21a50d204',1,'sw::WndBase']]],
-  ['iseditable_9',['IsEditable',['../classsw_1_1_combo_box.html#aa495a8136f05548a3e26bdf3e0612a8f',1,'sw::ComboBox']]],
-  ['ismodal_10',['IsModal',['../classsw_1_1_window.html#a709b4ecc32fb2dccb7c12dd24078aed8',1,'sw::Window']]],
-  ['isplaying_11',['IsPlaying',['../classsw_1_1_animation.html#a2b255ea3d4b90630726ecb47b1b08eb1',1,'sw::Animation']]],
-  ['italic_12',['italic',['../classsw_1_1_font.html#aa7ea90de17d56a063c395cf015baf11f',1,'sw::Font']]],
-  ['itemscount_13',['ItemsCount',['../classsw_1_1_items_control.html#a765b2e51cb5f439c464abbe031b0db09',1,'sw::ItemsControl']]]
+  ['handle_0',['Handle',['../classsw_1_1_wnd_base.html#abc0b653ccc071c2cfcba42fa8eef738f',1,'sw::WndBase']]],
+  ['handled_1',['handled',['../structsw_1_1_routed_event_args.html#a9fb971eec1e6ba4aee1366c3f9c20bfd',1,'sw::RoutedEventArgs']]],
+  ['handledmsg_2',['handledMsg',['../structsw_1_1_routed_event_args.html#ac299c564c53fa039f47a06d08272d969',1,'sw::RoutedEventArgs']]],
+  ['header_3',['header',['../structsw_1_1_list_view_column.html#a2fd382151fa269ec5f5042232cfb84f8',1,'sw::ListViewColumn']]],
+  ['height_4',['Height',['../classsw_1_1_screen.html#a904c5ac3f5dc61d271357f22f734b921',1,'sw::Screen::Height'],['../classsw_1_1_wnd_base.html#a51fdc4b943e62bd67ffbff4a6e65de2a',1,'sw::WndBase::Height']]],
+  ['height_5',['height',['../structsw_1_1_grid_row.html#abe71efc459295a5dbfad7bf7aaff4d4e',1,'sw::GridRow::height'],['../structsw_1_1_rect.html#afb7a0a9a12dad7756f46b2e1abdafa7c',1,'sw::Rect::height'],['../structsw_1_1_size.html#a084604eba918ac19b2f8402e330d767b',1,'sw::Size::height']]],
+  ['horizontalalignment_6',['HorizontalAlignment',['../classsw_1_1_u_i_element.html#a05b569383791dce14d9d6789e3a43d85',1,'sw::UIElement']]],
+  ['horizontalcontentalignment_7',['HorizontalContentAlignment',['../classsw_1_1_label.html#a83b3ae20c61b09a613cc07dddc1c9179',1,'sw::Label::HorizontalContentAlignment'],['../classsw_1_1_text_box_base.html#abaa4c52632b7a8d2bdb41341fc1ab0e8',1,'sw::TextBoxBase::HorizontalContentAlignment']]],
+  ['horizontalscrollbar_8',['HorizontalScrollBar',['../classsw_1_1_layer.html#a4bb56843061a3db9497703f16e58f4ba',1,'sw::Layer::HorizontalScrollBar'],['../classsw_1_1_text_box.html#a4fed0b73690d263fb740f09eda870fdb',1,'sw::TextBox::HorizontalScrollBar']]],
+  ['horizontalscrolllimit_9',['HorizontalScrollLimit',['../classsw_1_1_layer.html#a5af8ff318d2438eab8f8b325cf8e66da',1,'sw::Layer']]],
+  ['horizontalscrollpos_10',['HorizontalScrollPos',['../classsw_1_1_layer.html#ae738d7ede2ba0d5547553df25f8d8ed8',1,'sw::Layer']]],
+  ['hwnd_11',['hwnd',['../structsw_1_1_proc_msg.html#a944e366c9c75b08eebbb32fc3959f334',1,'sw::ProcMsg']]]
 ];

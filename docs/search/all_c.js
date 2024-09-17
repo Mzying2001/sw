@@ -30,5 +30,5 @@ var searchData=
   ['msgboxresulthelper_27',['MsgBoxResultHelper',['../structsw_1_1_msg_box_result_helper.html',1,'sw::MsgBoxResultHelper'],['../structsw_1_1_msg_box_result_helper.html#ac75e4774f3a663cdd014aa8b4a97e2af',1,'sw::MsgBoxResultHelper::MsgBoxResultHelper()']]],
   ['msgloop_28',['MsgLoop',['../classsw_1_1_app.html#a05192f9abf49cc0a698024855dde22de',1,'sw::App']]],
   ['multiline_29',['MultiLine',['../classsw_1_1_tab_control.html#ae0fc4dead5149c903eb429d0927ec182',1,'sw::TabControl::MultiLine'],['../classsw_1_1_text_box.html#a74bf917de24ebc4ce676306922a080ec',1,'sw::TextBox::MultiLine']]],
-  ['multiselect_30',['MultiSelect',['../classsw_1_1_list_box.html#ae9db46dd55f8f156d31cf5fa9ea3409c',1,'sw::ListBox::MultiSelect'],['../classsw_1_1_list_view.html#a07b5ecb6c37936ae7b6cef9d68d7a541',1,'sw::ListView::MultiSelect']]]
+  ['multiselect_30',['MultiSelect',['../classsw_1_1_file_dialog.html#a14842fca73b74ef747363fcc662b644f',1,'sw::FileDialog::MultiSelect'],['../classsw_1_1_list_box.html#ae9db46dd55f8f156d31cf5fa9ea3409c',1,'sw::ListBox::MultiSelect'],['../classsw_1_1_list_view.html#a07b5ecb6c37936ae7b6cef9d68d7a541',1,'sw::ListView::MultiSelect']]]
 ];
