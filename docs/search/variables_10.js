@@ -1,20 +1,12 @@
 var searchData=
 [
-  ['scalex_0',['ScaleX',['../classsw_1_1_dip.html#a6222ad22b358fd8418cb0dbe9a7f6437',1,'sw::Dip']]],
-  ['scaley_1',['ScaleY',['../classsw_1_1_dip.html#a82e30c32d6521756a933aa63040f136d',1,'sw::Dip']]],
-  ['selectedcount_2',['SelectedCount',['../classsw_1_1_list_box.html#a6f921779be05ff24d598701feffd1705',1,'sw::ListBox::SelectedCount'],['../classsw_1_1_list_view.html#ae1e499b6f04912769eb8f4fe732ad35c',1,'sw::ListView::SelectedCount']]],
-  ['selectedindex_3',['SelectedIndex',['../classsw_1_1_items_control.html#ae78a074093f7746f18c1ece3654fdcf6',1,'sw::ItemsControl::SelectedIndex'],['../classsw_1_1_tab_control.html#a5e70f66a21997157773d149dec3339ce',1,'sw::TabControl::SelectedIndex']]],
-  ['selecteditem_4',['SelectedItem',['../classsw_1_1_items_control.html#a81efc45fe838c47908e37e241614c672',1,'sw::ItemsControl']]],
-  ['shareimagelists_5',['ShareImageLists',['../classsw_1_1_list_view.html#acfb43542368bf6e08c732f5151222190',1,'sw::ListView']]],
-  ['showtoday_6',['ShowToday',['../classsw_1_1_month_calendar.html#a0882a0fca2d2a8c4b5c719fd896f3576',1,'sw::MonthCalendar']]],
-  ['showupdownbutton_7',['ShowUpDownButton',['../classsw_1_1_date_time_picker.html#af44a2e7a26d334ef83404e872c2420b9',1,'sw::DateTimePicker']]],
-  ['size_8',['size',['../classsw_1_1_font.html#aad5569847e5d52c155fe3c1a049324f3',1,'sw::Font']]],
-  ['sizebox_9',['SizeBox',['../classsw_1_1_window.html#a518c14e6ddbf171489a86baff4cbb6a3',1,'sw::Window']]],
-  ['sizemode_10',['SizeMode',['../classsw_1_1_bmp_box.html#a95fbd6a72c3a54987b3fc7df107a4edd',1,'sw::BmpBox']]],
-  ['sizinggrip_11',['SizingGrip',['../classsw_1_1_status_bar.html#a4da5dcbe130095ab4e52a67e9f3f9a65',1,'sw::StatusBar']]],
-  ['startuplocation_12',['StartupLocation',['../classsw_1_1_window.html#a4a09a7ec772a2febfcda54b9aa6a8557',1,'sw::Window']]],
-  ['state_13',['State',['../classsw_1_1_progress_bar.html#a596e05cda7fcc656dde20354a519cee4',1,'sw::ProgressBar::State'],['../classsw_1_1_window.html#a257ba940703f41b12990678bb3ff0e0e',1,'sw::Window::State']]],
-  ['stretchicon_14',['StretchIcon',['../classsw_1_1_icon_box.html#a5d2016c9ce58815053fcaccb7b2ae8a2',1,'sw::IconBox']]],
-  ['strikeout_15',['strikeOut',['../classsw_1_1_font.html#a14ae471a9508e23aad832f3060bbcb85',1,'sw::Font']]],
-  ['subitems_16',['subItems',['../classsw_1_1_menu_item.html#ac8e01802bb6cc6f1336025819050f3c4',1,'sw::MenuItem']]]
+  ['r_0',['r',['../structsw_1_1_color.html#ab334150d36ae29d3db72843e072994c9',1,'sw::Color']]],
+  ['readonly_1',['ReadOnly',['../classsw_1_1_text_box_base.html#a77e44c645068eb384a5e77765fdccbae',1,'sw::TextBoxBase']]],
+  ['rect_2',['Rect',['../classsw_1_1_wnd_base.html#a7598603457217f09aae0deaad59ef063',1,'sw::WndBase']]],
+  ['result_3',['result',['../structsw_1_1_msg_box_result_helper.html#a5fc47647c81c0a11be8113559250de14',1,'sw::MsgBoxResultHelper']]],
+  ['right_4',['right',['../structsw_1_1_thickness.html#a0efb5b20b89f2d86885a447b36926bd5',1,'sw::Thickness']]],
+  ['row_5',['row',['../structsw_1_1_grid_layout_tag.html#a8411afa319d4ad7cf2d95edd5aa3434c',1,'sw::GridLayoutTag']]],
+  ['rows_6',['Rows',['../classsw_1_1_uniform_grid.html#a65a180db32f61dee181c0ae7e36364a6',1,'sw::UniformGrid']]],
+  ['rows_7',['rows',['../classsw_1_1_grid_layout.html#a5ac3f18d6079d89b414a9f0a342670ea',1,'sw::GridLayout::rows'],['../classsw_1_1_uniform_grid_layout.html#a2cde92e2a61f62efb85761f11c221390',1,'sw::UniformGridLayout::rows']]],
+  ['rowspan_8',['rowSpan',['../structsw_1_1_grid_layout_tag.html#a5caf39bc6aa93afd290f09ee15f2c722',1,'sw::GridLayoutTag']]]
 ];

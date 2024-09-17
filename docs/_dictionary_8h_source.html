@@ -124,87 +124,86 @@ $(function(){initNavTree('_dictionary_8h_source.html',''); initResizable(true); 
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keyword">public</span>:</div>
 <div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a77cbfe628092b74f1a698e7b5fe56c69">   35</a></span>        <a class="code hl_function" href="classsw_1_1_dictionary.html#a77cbfe628092b74f1a698e7b5fe56c69">Dictionary</a>()</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            : _pMap(new std::map&lt;TKey, TVal&gt;)</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            : _pMap(std::make_shared&lt;std::map&lt;TKey, TVal&gt;&gt;())</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        {</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        }</div>
 </div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
 <div class="foldopen" id="foldopen00043" data-start="{" data-end="}">
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a178b607824a4eff707914f2eb3aaaa22">   43</a></span>        <a class="code hl_function" href="classsw_1_1_dictionary.html#a178b607824a4eff707914f2eb3aaaa22">Dictionary</a>(std::initializer_list&lt;std::pair&lt;const TKey, TVal&gt;&gt; list)</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            : <a class="code hl_class" href="classsw_1_1_dictionary.html">Dictionary</a>()</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            : _pMap(std::make_shared&lt;std::map&lt;TKey, TVal&gt;&gt;(list))</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        {</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            this-&gt;_pMap-&gt;insert(list);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        }</div>
 </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="foldopen" id="foldopen00052" data-start="{" data-end="}">
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a9e7e3d687118005beb08bbf9e3a3a2bc">   52</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#a9e7e3d687118005beb08bbf9e3a3a2bc">begin</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            <span class="keywordflow">return</span> this-&gt;_pMap-&gt;begin();</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="foldopen" id="foldopen00051" data-start="{" data-end="}">
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a9e7e3d687118005beb08bbf9e3a3a2bc">   51</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#a9e7e3d687118005beb08bbf9e3a3a2bc">begin</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            <span class="keywordflow">return</span> this-&gt;_pMap-&gt;begin();</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        }</div>
 </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="foldopen" id="foldopen00060" data-start="{" data-end="}">
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a98945b3a8a7c6b3e1110a406718a49c8">   60</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#a98945b3a8a7c6b3e1110a406718a49c8">end</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="keywordflow">return</span> this-&gt;_pMap-&gt;end();</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="foldopen" id="foldopen00059" data-start="{" data-end="}">
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a98945b3a8a7c6b3e1110a406718a49c8">   59</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#a98945b3a8a7c6b3e1110a406718a49c8">end</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <span class="keywordflow">return</span> this-&gt;_pMap-&gt;end();</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        }</div>
 </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="foldopen" id="foldopen00068" data-start="{" data-end="}">
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#aad835fe48c0fccba0e7e99001c7f3de6">   68</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#aad835fe48c0fccba0e7e99001c7f3de6">rbegin</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            <span class="keywordflow">return</span> this-&gt;_pMap-&gt;rbegin();</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="foldopen" id="foldopen00067" data-start="{" data-end="}">
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#aad835fe48c0fccba0e7e99001c7f3de6">   67</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#aad835fe48c0fccba0e7e99001c7f3de6">rbegin</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            <span class="keywordflow">return</span> this-&gt;_pMap-&gt;rbegin();</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        }</div>
 </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="foldopen" id="foldopen00076" data-start="{" data-end="}">
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#ab46b8829980f88dd6fe703d4d2961773">   76</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#ab46b8829980f88dd6fe703d4d2961773">rend</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            <span class="keywordflow">return</span> this-&gt;_pMap-&gt;rend();</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        }</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="foldopen" id="foldopen00075" data-start="{" data-end="}">
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#ab46b8829980f88dd6fe703d4d2961773">   75</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#ab46b8829980f88dd6fe703d4d2961773">rend</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            <span class="keywordflow">return</span> this-&gt;_pMap-&gt;rend();</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        }</div>
 </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="foldopen" id="foldopen00085" data-start="{" data-end="}">
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a3f2f6938ef081002887f747d74950a30">   85</a></span>        <span class="keyword">auto</span> &amp;<a class="code hl_function" href="classsw_1_1_dictionary.html#a3f2f6938ef081002887f747d74950a30">operator[]</a>(<span class="keyword">const</span> TKey &amp;key)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            <span class="keywordflow">return</span> this-&gt;_pMap-&gt;operator[](key);</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        }</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="foldopen" id="foldopen00084" data-start="{" data-end="}">
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a3f2f6938ef081002887f747d74950a30">   84</a></span>        <span class="keyword">auto</span> &amp;<a class="code hl_function" href="classsw_1_1_dictionary.html#a3f2f6938ef081002887f747d74950a30">operator[]</a>(<span class="keyword">const</span> TKey &amp;key)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            <span class="keywordflow">return</span> this-&gt;_pMap-&gt;at(key);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        }</div>
 </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="foldopen" id="foldopen00093" data-start="{" data-end="};">
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#aa139d8b586f45b45157b268832ac9522">   93</a></span>        <span class="keyword">friend</span> <span class="keywordtype">bool</span> <a class="code hl_friend" href="classsw_1_1_dictionary.html#aa139d8b586f45b45157b268832ac9522">operator==</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;left, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;right)</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        {</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            <span class="keywordflow">return</span> left._pMap == right._pMap;</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="foldopen" id="foldopen00092" data-start="{" data-end="}">
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a66e49e3de4c336ab16ab112ad92ffdc3">   92</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#a66e49e3de4c336ab16ab112ad92ffdc3">operator==</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;other)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <span class="keywordflow">return</span> this-&gt;_pMap == other._pMap;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        }</div>
 </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
-<div class="foldopen" id="foldopen00101" data-start="{" data-end="};">
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a9d62c349f91ea2d17e49c9f424e522da">  101</a></span>        <span class="keyword">friend</span> <span class="keywordtype">bool</span> <a class="code hl_friend" href="classsw_1_1_dictionary.html#a9d62c349f91ea2d17e49c9f424e522da">operator!=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;left, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;right)</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        {</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            <span class="keywordflow">return</span> left._pMap != right._pMap;</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        }</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="foldopen" id="foldopen00100" data-start="{" data-end="}">
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a346b637e419b23fecb11ff446825012a">  100</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#a346b637e419b23fecb11ff446825012a">operator!=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;other)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            <span class="keywordflow">return</span> this-&gt;_pMap != other._pMap;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        }</div>
 </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="foldopen" id="foldopen00109" data-start="{" data-end="};">
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a09fce0167bbe5ff0e080de8b1a52e286">  109</a></span>        <span class="keyword">friend</span> std::wostream &amp;<a class="code hl_friend" href="classsw_1_1_dictionary.html#a09fce0167bbe5ff0e080de8b1a52e286">operator&lt;&lt;</a>(std::wostream &amp;wos, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;dic)</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        {</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>            wos &lt;&lt; <a class="code hl_function" href="classsw_1_1_utils.html#abb9a32e7b7d1fb83832c9a39a84c3452">Utils::BuildStr</a>(*dic._pMap);</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>            <span class="keywordflow">return</span> wos;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        }</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="foldopen" id="foldopen00108" data-start="{" data-end="}">
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a7c16eced6a889e97f4a1807697090fd3">  108</a></span>        <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#a7c16eced6a889e97f4a1807697090fd3">Count</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)this-&gt;_pMap-&gt;size();</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        }</div>
 </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
-<div class="foldopen" id="foldopen00118" data-start="{" data-end="}">
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a7c16eced6a889e97f4a1807697090fd3">  118</a></span>        <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#a7c16eced6a889e97f4a1807697090fd3">Count</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)this-&gt;_pMap-&gt;size();</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        }</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="foldopen" id="foldopen00116" data-start="{" data-end="}">
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a16703bd325716445121e257ae489dcc4">  116</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#a16703bd325716445121e257ae489dcc4">IsEmpty</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            <span class="keywordflow">return</span> this-&gt;_pMap-&gt;empty();</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        }</div>
 </div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
-<div class="foldopen" id="foldopen00126" data-start="{" data-end="}">
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a16703bd325716445121e257ae489dcc4">  126</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#a16703bd325716445121e257ae489dcc4">IsEmpty</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            <span class="keywordflow">return</span> this-&gt;_pMap-&gt;empty();</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="foldopen" id="foldopen00125" data-start="{" data-end="}">
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a0af560d8247d632ae72b3a3ec3f70318">  125</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#a0af560d8247d632ae72b3a3ec3f70318">Add</a>(<span class="keyword">const</span> TKey &amp;key, <span class="keyword">const</span> TVal &amp;value)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>            this-&gt;_pMap-&gt;insert(std::make_pair(key, value));</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        }</div>
 </div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
@@ -216,47 +215,69 @@ $(function(){initNavTree('_dictionary_8h_source.html',''); initResizable(true); 
 </div>
 <div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
 <div class="foldopen" id="foldopen00144" data-start="{" data-end="}">
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#afc07e417b7ccc36dc5a7dab5018b6186">  144</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#afc07e417b7ccc36dc5a7dab5018b6186">Remove</a>(<span class="keyword">const</span> TKey &amp;key)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a9fd27b6adac442cbffa3bf41d10c6eac">  144</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#a9fd27b6adac442cbffa3bf41d10c6eac">ContainsValue</a>(<span class="keyword">const</span> TVal &amp;value)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            this-&gt;_pMap-&gt;erase(key);</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        }</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;pair : *this-&gt;_pMap) {</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                <span class="keywordflow">if</span> (pair.second == value) {</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>                }</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>            }</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        }</div>
 </div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
-<div class="foldopen" id="foldopen00152" data-start="{" data-end="}">
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a061c70ddd433b90b5d8b61a9c81fc8da">  152</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#a061c70ddd433b90b5d8b61a9c81fc8da">Clear</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>            this-&gt;_pMap-&gt;clear();</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        }</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="foldopen" id="foldopen00158" data-start="{" data-end="}">
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#afc07e417b7ccc36dc5a7dab5018b6186">  158</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#afc07e417b7ccc36dc5a7dab5018b6186">Remove</a>(<span class="keyword">const</span> TKey &amp;key)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>            this-&gt;_pMap-&gt;erase(key);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        }</div>
 </div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
-<div class="foldopen" id="foldopen00160" data-start="{" data-end="}">
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#afa7a405134901716b4affecc9f01df0f">  160</a></span>        <a class="code hl_class" href="classsw_1_1_dictionary.html">Dictionary</a> <a class="code hl_function" href="classsw_1_1_dictionary.html#afa7a405134901716b4affecc9f01df0f">Copy</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>            <a class="code hl_class" href="classsw_1_1_dictionary.html">Dictionary</a> dic;</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>            dic._pMap-&gt;insert(this-&gt;_pMap-&gt;begin(), this-&gt;_pMap-&gt;end());</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>            <span class="keywordflow">return</span> dic;</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        }</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="foldopen" id="foldopen00166" data-start="{" data-end="}">
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a061c70ddd433b90b5d8b61a9c81fc8da">  166</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_dictionary.html#a061c70ddd433b90b5d8b61a9c81fc8da">Clear</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>            this-&gt;_pMap-&gt;clear();</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        }</div>
 </div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    };</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
+<div class="foldopen" id="foldopen00174" data-start="{" data-end="}">
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#afa7a405134901716b4affecc9f01df0f">  174</a></span>        <a class="code hl_class" href="classsw_1_1_dictionary.html">Dictionary</a> <a class="code hl_function" href="classsw_1_1_dictionary.html#afa7a405134901716b4affecc9f01df0f">Copy</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>            <a class="code hl_class" href="classsw_1_1_dictionary.html">Dictionary</a> dic;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            dic._pMap-&gt;insert(this-&gt;_pMap-&gt;begin(), this-&gt;_pMap-&gt;end());</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            <span class="keywordflow">return</span> dic;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>        }</div>
 </div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>}</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="foldopen" id="foldopen00184" data-start="{" data-end="};">
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno"><a class="line" href="classsw_1_1_dictionary.html#a09fce0167bbe5ff0e080de8b1a52e286">  184</a></span>        <span class="keyword">friend</span> std::wostream &amp;<a class="code hl_friend" href="classsw_1_1_dictionary.html#a09fce0167bbe5ff0e080de8b1a52e286">operator&lt;&lt;</a>(std::wostream &amp;wos, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_dictionary.html">Dictionary</a> &amp;dic)</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        {</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>            wos &lt;&lt; <a class="code hl_function" href="classsw_1_1_utils.html#abb9a32e7b7d1fb83832c9a39a84c3452">Utils::BuildStr</a>(*dic._pMap);</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>            <span class="keywordflow">return</span> wos;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        }</div>
+</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    };</div>
+</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>}</div>
 <div class="ttc" id="aclasssw_1_1_dictionary_html"><div class="ttname"><a href="classsw_1_1_dictionary.html">sw::Dictionary</a></div><div class="ttdoc">字典类，内部维护了一个指向std::map的智能指针</div><div class="ttdef"><b>定义</b> Dictionary.h:24</div></div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html_a061c70ddd433b90b5d8b61a9c81fc8da"><div class="ttname"><a href="classsw_1_1_dictionary.html#a061c70ddd433b90b5d8b61a9c81fc8da">sw::Dictionary::Clear</a></div><div class="ttdeci">void Clear() const</div><div class="ttdoc">清空字典</div><div class="ttdef"><b>定义</b> Dictionary.h:152</div></div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html_a09fce0167bbe5ff0e080de8b1a52e286"><div class="ttname"><a href="classsw_1_1_dictionary.html#a09fce0167bbe5ff0e080de8b1a52e286">sw::Dictionary::operator&lt;&lt;</a></div><div class="ttdeci">friend std::wostream &amp; operator&lt;&lt;(std::wostream &amp;wos, const Dictionary &amp;dic)</div><div class="ttdoc">支持Utils::BuildStr</div><div class="ttdef"><b>定义</b> Dictionary.h:109</div></div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html_a16703bd325716445121e257ae489dcc4"><div class="ttname"><a href="classsw_1_1_dictionary.html#a16703bd325716445121e257ae489dcc4">sw::Dictionary::IsEmpty</a></div><div class="ttdeci">bool IsEmpty() const</div><div class="ttdoc">字典是否为空</div><div class="ttdef"><b>定义</b> Dictionary.h:126</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_a061c70ddd433b90b5d8b61a9c81fc8da"><div class="ttname"><a href="classsw_1_1_dictionary.html#a061c70ddd433b90b5d8b61a9c81fc8da">sw::Dictionary::Clear</a></div><div class="ttdeci">void Clear() const</div><div class="ttdoc">清空字典</div><div class="ttdef"><b>定义</b> Dictionary.h:166</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_a09fce0167bbe5ff0e080de8b1a52e286"><div class="ttname"><a href="classsw_1_1_dictionary.html#a09fce0167bbe5ff0e080de8b1a52e286">sw::Dictionary::operator&lt;&lt;</a></div><div class="ttdeci">friend std::wostream &amp; operator&lt;&lt;(std::wostream &amp;wos, const Dictionary &amp;dic)</div><div class="ttdoc">支持Utils::BuildStr</div><div class="ttdef"><b>定义</b> Dictionary.h:184</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_a0af560d8247d632ae72b3a3ec3f70318"><div class="ttname"><a href="classsw_1_1_dictionary.html#a0af560d8247d632ae72b3a3ec3f70318">sw::Dictionary::Add</a></div><div class="ttdeci">auto Add(const TKey &amp;key, const TVal &amp;value) const</div><div class="ttdoc">添加键值对到字典</div><div class="ttdef"><b>定义</b> Dictionary.h:125</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_a16703bd325716445121e257ae489dcc4"><div class="ttname"><a href="classsw_1_1_dictionary.html#a16703bd325716445121e257ae489dcc4">sw::Dictionary::IsEmpty</a></div><div class="ttdeci">bool IsEmpty() const</div><div class="ttdoc">字典是否为空</div><div class="ttdef"><b>定义</b> Dictionary.h:116</div></div>
 <div class="ttc" id="aclasssw_1_1_dictionary_html_a178b607824a4eff707914f2eb3aaaa22"><div class="ttname"><a href="classsw_1_1_dictionary.html#a178b607824a4eff707914f2eb3aaaa22">sw::Dictionary::Dictionary</a></div><div class="ttdeci">Dictionary(std::initializer_list&lt; std::pair&lt; const TKey, TVal &gt; &gt; list)</div><div class="ttdoc">使用初始化列表</div><div class="ttdef"><b>定义</b> Dictionary.h:43</div></div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html_a3f2f6938ef081002887f747d74950a30"><div class="ttname"><a href="classsw_1_1_dictionary.html#a3f2f6938ef081002887f747d74950a30">sw::Dictionary::operator[]</a></div><div class="ttdeci">auto &amp; operator[](const TKey &amp;key) const</div><div class="ttdoc">获取或设置值</div><div class="ttdef"><b>定义</b> Dictionary.h:85</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_a346b637e419b23fecb11ff446825012a"><div class="ttname"><a href="classsw_1_1_dictionary.html#a346b637e419b23fecb11ff446825012a">sw::Dictionary::operator!=</a></div><div class="ttdeci">bool operator!=(const Dictionary &amp;other) const</div><div class="ttdoc">判断是否不是同一个字典</div><div class="ttdef"><b>定义</b> Dictionary.h:100</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_a3f2f6938ef081002887f747d74950a30"><div class="ttname"><a href="classsw_1_1_dictionary.html#a3f2f6938ef081002887f747d74950a30">sw::Dictionary::operator[]</a></div><div class="ttdeci">auto &amp; operator[](const TKey &amp;key) const</div><div class="ttdoc">获取或设置值</div><div class="ttdef"><b>定义</b> Dictionary.h:84</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_a66e49e3de4c336ab16ab112ad92ffdc3"><div class="ttname"><a href="classsw_1_1_dictionary.html#a66e49e3de4c336ab16ab112ad92ffdc3">sw::Dictionary::operator==</a></div><div class="ttdeci">bool operator==(const Dictionary &amp;other) const</div><div class="ttdoc">判断是否为同一个字典</div><div class="ttdef"><b>定义</b> Dictionary.h:92</div></div>
 <div class="ttc" id="aclasssw_1_1_dictionary_html_a726bccc37022c21d7864673c69138acc"><div class="ttname"><a href="classsw_1_1_dictionary.html#a726bccc37022c21d7864673c69138acc">sw::Dictionary::ContainsKey</a></div><div class="ttdeci">bool ContainsKey(const TKey &amp;key) const</div><div class="ttdoc">是否存在某个键值</div><div class="ttdef"><b>定义</b> Dictionary.h:135</div></div>
 <div class="ttc" id="aclasssw_1_1_dictionary_html_a77cbfe628092b74f1a698e7b5fe56c69"><div class="ttname"><a href="classsw_1_1_dictionary.html#a77cbfe628092b74f1a698e7b5fe56c69">sw::Dictionary::Dictionary</a></div><div class="ttdeci">Dictionary()</div><div class="ttdoc">初始化字典</div><div class="ttdef"><b>定义</b> Dictionary.h:35</div></div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html_a7c16eced6a889e97f4a1807697090fd3"><div class="ttname"><a href="classsw_1_1_dictionary.html#a7c16eced6a889e97f4a1807697090fd3">sw::Dictionary::Count</a></div><div class="ttdeci">int Count() const</div><div class="ttdoc">获取键值对个数</div><div class="ttdef"><b>定义</b> Dictionary.h:118</div></div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html_a98945b3a8a7c6b3e1110a406718a49c8"><div class="ttname"><a href="classsw_1_1_dictionary.html#a98945b3a8a7c6b3e1110a406718a49c8">sw::Dictionary::end</a></div><div class="ttdeci">auto end() const</div><div class="ttdoc">正向迭代器结束</div><div class="ttdef"><b>定义</b> Dictionary.h:60</div></div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html_a9d62c349f91ea2d17e49c9f424e522da"><div class="ttname"><a href="classsw_1_1_dictionary.html#a9d62c349f91ea2d17e49c9f424e522da">sw::Dictionary::operator!=</a></div><div class="ttdeci">friend bool operator!=(const Dictionary &amp;left, const Dictionary &amp;right)</div><div class="ttdoc">判断是否不是同一个字典</div><div class="ttdef"><b>定义</b> Dictionary.h:101</div></div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html_a9e7e3d687118005beb08bbf9e3a3a2bc"><div class="ttname"><a href="classsw_1_1_dictionary.html#a9e7e3d687118005beb08bbf9e3a3a2bc">sw::Dictionary::begin</a></div><div class="ttdeci">auto begin() const</div><div class="ttdoc">正向迭代器开始</div><div class="ttdef"><b>定义</b> Dictionary.h:52</div></div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html_aa139d8b586f45b45157b268832ac9522"><div class="ttname"><a href="classsw_1_1_dictionary.html#aa139d8b586f45b45157b268832ac9522">sw::Dictionary::operator==</a></div><div class="ttdeci">friend bool operator==(const Dictionary &amp;left, const Dictionary &amp;right)</div><div class="ttdoc">判断是否为同一个字典</div><div class="ttdef"><b>定义</b> Dictionary.h:93</div></div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html_aad835fe48c0fccba0e7e99001c7f3de6"><div class="ttname"><a href="classsw_1_1_dictionary.html#aad835fe48c0fccba0e7e99001c7f3de6">sw::Dictionary::rbegin</a></div><div class="ttdeci">auto rbegin() const</div><div class="ttdoc">反向迭代器开始</div><div class="ttdef"><b>定义</b> Dictionary.h:68</div></div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html_ab46b8829980f88dd6fe703d4d2961773"><div class="ttname"><a href="classsw_1_1_dictionary.html#ab46b8829980f88dd6fe703d4d2961773">sw::Dictionary::rend</a></div><div class="ttdeci">auto rend() const</div><div class="ttdoc">反向迭代器结束</div><div class="ttdef"><b>定义</b> Dictionary.h:76</div></div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html_afa7a405134901716b4affecc9f01df0f"><div class="ttname"><a href="classsw_1_1_dictionary.html#afa7a405134901716b4affecc9f01df0f">sw::Dictionary::Copy</a></div><div class="ttdeci">Dictionary Copy() const</div><div class="ttdoc">复制当前字典</div><div class="ttdef"><b>定义</b> Dictionary.h:160</div></div>
-<div class="ttc" id="aclasssw_1_1_dictionary_html_afc07e417b7ccc36dc5a7dab5018b6186"><div class="ttname"><a href="classsw_1_1_dictionary.html#afc07e417b7ccc36dc5a7dab5018b6186">sw::Dictionary::Remove</a></div><div class="ttdeci">void Remove(const TKey &amp;key) const</div><div class="ttdoc">移除指定键值对</div><div class="ttdef"><b>定义</b> Dictionary.h:144</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_a7c16eced6a889e97f4a1807697090fd3"><div class="ttname"><a href="classsw_1_1_dictionary.html#a7c16eced6a889e97f4a1807697090fd3">sw::Dictionary::Count</a></div><div class="ttdeci">int Count() const</div><div class="ttdoc">获取键值对个数</div><div class="ttdef"><b>定义</b> Dictionary.h:108</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_a98945b3a8a7c6b3e1110a406718a49c8"><div class="ttname"><a href="classsw_1_1_dictionary.html#a98945b3a8a7c6b3e1110a406718a49c8">sw::Dictionary::end</a></div><div class="ttdeci">auto end() const</div><div class="ttdoc">正向迭代器结束</div><div class="ttdef"><b>定义</b> Dictionary.h:59</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_a9e7e3d687118005beb08bbf9e3a3a2bc"><div class="ttname"><a href="classsw_1_1_dictionary.html#a9e7e3d687118005beb08bbf9e3a3a2bc">sw::Dictionary::begin</a></div><div class="ttdeci">auto begin() const</div><div class="ttdoc">正向迭代器开始</div><div class="ttdef"><b>定义</b> Dictionary.h:51</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_a9fd27b6adac442cbffa3bf41d10c6eac"><div class="ttname"><a href="classsw_1_1_dictionary.html#a9fd27b6adac442cbffa3bf41d10c6eac">sw::Dictionary::ContainsValue</a></div><div class="ttdeci">bool ContainsValue(const TVal &amp;value) const</div><div class="ttdoc">遍历字典，查询是否存在某个值</div><div class="ttdef"><b>定义</b> Dictionary.h:144</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_aad835fe48c0fccba0e7e99001c7f3de6"><div class="ttname"><a href="classsw_1_1_dictionary.html#aad835fe48c0fccba0e7e99001c7f3de6">sw::Dictionary::rbegin</a></div><div class="ttdeci">auto rbegin() const</div><div class="ttdoc">反向迭代器开始</div><div class="ttdef"><b>定义</b> Dictionary.h:67</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_ab46b8829980f88dd6fe703d4d2961773"><div class="ttname"><a href="classsw_1_1_dictionary.html#ab46b8829980f88dd6fe703d4d2961773">sw::Dictionary::rend</a></div><div class="ttdeci">auto rend() const</div><div class="ttdoc">反向迭代器结束</div><div class="ttdef"><b>定义</b> Dictionary.h:75</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_afa7a405134901716b4affecc9f01df0f"><div class="ttname"><a href="classsw_1_1_dictionary.html#afa7a405134901716b4affecc9f01df0f">sw::Dictionary::Copy</a></div><div class="ttdeci">Dictionary Copy() const</div><div class="ttdoc">复制当前字典</div><div class="ttdef"><b>定义</b> Dictionary.h:174</div></div>
+<div class="ttc" id="aclasssw_1_1_dictionary_html_afc07e417b7ccc36dc5a7dab5018b6186"><div class="ttname"><a href="classsw_1_1_dictionary.html#afc07e417b7ccc36dc5a7dab5018b6186">sw::Dictionary::Remove</a></div><div class="ttdeci">void Remove(const TKey &amp;key) const</div><div class="ttdoc">移除指定键值对</div><div class="ttdef"><b>定义</b> Dictionary.h:158</div></div>
 <div class="ttc" id="aclasssw_1_1_utils_html_abb9a32e7b7d1fb83832c9a39a84c3452"><div class="ttname"><a href="classsw_1_1_utils.html#abb9a32e7b7d1fb83832c9a39a84c3452">sw::Utils::BuildStr</a></div><div class="ttdeci">static std::wstring BuildStr(const Args &amp;...args)</div><div class="ttdoc">拼接字符串，也可使用此函数将其他类型转为wstring</div><div class="ttdef"><b>定义</b> Utils.h:87</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

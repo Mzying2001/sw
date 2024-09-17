@@ -14,6 +14,12 @@ var hierarchy =
         [ "sw::_IsTypedRoutedEventArgs< T >", "structsw_1_1___is_typed_routed_event_args.html", null ]
       ] ]
     ] ],
+    [ "sw::FileDialog", "classsw_1_1_file_dialog.html", [
+      [ "sw::OpenFileDialog", "classsw_1_1_open_file_dialog.html", null ],
+      [ "sw::SaveFileDialog", "classsw_1_1_save_file_dialog.html", null ]
+    ] ],
+    [ "sw::FileFilter", "classsw_1_1_file_filter.html", null ],
+    [ "sw::FolderBrowserDialog", "classsw_1_1_folder_browser_dialog.html", null ],
     [ "sw::Font", "classsw_1_1_font.html", null ],
     [ "sw::GridColumn", "structsw_1_1_grid_column.html", [
       [ "sw::AutoSizeGridColumn", "structsw_1_1_auto_size_grid_column.html", null ],
@@ -147,6 +153,12 @@ var hierarchy =
     [ "sw::PropertyBase< double, ReadOnlyProperty< double > >", "classsw_1_1_property_base.html", [
       [ "sw::ReadOnlyProperty< double >", "classsw_1_1_read_only_property.html", null ]
     ] ],
+    [ "sw::PropertyBase< FileDialogFlags, Property< FileDialogFlags > >", "classsw_1_1_property_base.html", [
+      [ "sw::Property< FileDialogFlags >", "classsw_1_1_property.html", null ]
+    ] ],
+    [ "sw::PropertyBase< FolderDialogFlags, Property< FolderDialogFlags > >", "classsw_1_1_property_base.html", [
+      [ "sw::Property< FolderDialogFlags >", "classsw_1_1_property.html", null ]
+    ] ],
     [ "sw::PropertyBase< HBITMAP, ReadOnlyProperty< HBITMAP > >", "classsw_1_1_property_base.html", [
       [ "sw::ReadOnlyProperty< HBITMAP >", "classsw_1_1_read_only_property.html", null ]
     ] ],
@@ -197,6 +209,11 @@ var hierarchy =
         [ "sw::PtrProperty< sw::ContextMenu * >", "classsw_1_1_ptr_property.html", null ]
       ] ]
     ] ],
+    [ "sw::PropertyBase< sw::FileFilter *, ReadOnlyPtrProperty< sw::FileFilter * > >", "classsw_1_1_property_base.html", [
+      [ "sw::PtrPropertyBase< sw::FileFilter *, ReadOnlyPtrProperty< sw::FileFilter * > >", "classsw_1_1_ptr_property_base.html", [
+        [ "sw::ReadOnlyPtrProperty< sw::FileFilter * >", "classsw_1_1_read_only_ptr_property.html", null ]
+      ] ]
+    ] ],
     [ "sw::PropertyBase< sw::Font, Property< sw::Font > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< sw::Font >", "classsw_1_1_property.html", null ]
     ] ],
@@ -213,6 +230,9 @@ var hierarchy =
       [ "sw::PtrPropertyBase< sw::LayoutHost *, PtrProperty< sw::LayoutHost * > >", "classsw_1_1_ptr_property_base.html", [
         [ "sw::PtrProperty< sw::LayoutHost * >", "classsw_1_1_ptr_property.html", null ]
       ] ]
+    ] ],
+    [ "sw::PropertyBase< sw::List< std::wstring >, ReadOnlyProperty< sw::List< std::wstring > > >", "classsw_1_1_property_base.html", [
+      [ "sw::ReadOnlyProperty< sw::List< std::wstring > >", "classsw_1_1_read_only_property.html", null ]
     ] ],
     [ "sw::PropertyBase< sw::Menu *, PtrProperty< sw::Menu * > >", "classsw_1_1_property_base.html", [
       [ "sw::PtrPropertyBase< sw::Menu *, PtrProperty< sw::Menu * > >", "classsw_1_1_ptr_property_base.html", [
@@ -381,6 +401,8 @@ var hierarchy =
     [ "sw::Size", "structsw_1_1_size.html", null ],
     [ "sw::Thickness", "structsw_1_1_thickness.html", null ],
     [ "std::true_type", null, [
+      [ "sw::_EnumSupportBitOperations< FileDialogFlags >", "structsw_1_1___enum_support_bit_operations_3_01_file_dialog_flags_01_4.html", null ],
+      [ "sw::_EnumSupportBitOperations< FolderDialogFlags >", "structsw_1_1___enum_support_bit_operations_3_01_folder_dialog_flags_01_4.html", null ],
       [ "sw::_EnumSupportBitOperations< HotKeyCombination >", "structsw_1_1___enum_support_bit_operations_3_01_hot_key_combination_01_4.html", null ],
       [ "sw::_EnumSupportBitOperations< HotKeyModifier >", "structsw_1_1___enum_support_bit_operations_3_01_hot_key_modifier_01_4.html", null ],
       [ "sw::_EnumSupportBitOperations< MouseKey >", "structsw_1_1___enum_support_bit_operations_3_01_mouse_key_01_4.html", null ],

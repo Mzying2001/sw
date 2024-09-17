@@ -33,7 +33,7 @@ namespace sw
          * @brief 初始化字典
          */
         Dictionary()
-            : _pMap(new std::map<TKey, TVal>)
+            : _pMap(std::make_shared<std::map<TKey, TVal>>())
         {
         }
 
@@ -41,9 +41,8 @@ namespace sw
          * @brief 使用初始化列表
          */
         Dictionary(std::initializer_list<std::pair<const TKey, TVal>> list)
-            : Dictionary()
+            : _pMap(std::make_shared<std::map<TKey, TVal>>(list))
         {
-            this->_pMap->insert(list);
         }
 
         /**
@@ -84,32 +83,23 @@ namespace sw
          */
         auto &operator[](const TKey &key) const
         {
-            return this->_pMap->operator[](key);
+            return this->_pMap->at(key);
         }
 
         /**
          * @brief 判断是否为同一个字典
          */
-        friend bool operator==(const Dictionary &left, const Dictionary &right)
+        bool operator==(const Dictionary &other) const
         {
-            return left._pMap == right._pMap;
+            return this->_pMap == other._pMap;
         }
 
         /**
          * @brief 判断是否不是同一个字典
          */
-        friend bool operator!=(const Dictionary &left, const Dictionary &right)
+        bool operator!=(const Dictionary &other) const
         {
-            return left._pMap != right._pMap;
-        }
-
-        /**
-         * @brief 支持Utils::BuildStr
-         */
-        friend std::wostream &operator<<(std::wostream &wos, const Dictionary &dic)
-        {
-            wos << Utils::BuildStr(*dic._pMap);
-            return wos;
+            return this->_pMap != other._pMap;
         }
 
         /**
@@ -129,12 +119,36 @@ namespace sw
         }
 
         /**
+         * @brief  添加键值对到字典
+         * @return 当前字典
+         */
+        auto Add(const TKey &key, const TVal &value) const
+        {
+            this->_pMap->insert(std::make_pair(key, value));
+            return *this;
+        }
+
+        /**
          * @brief     是否存在某个键值
          * @param key 要查询的键值
          */
         bool ContainsKey(const TKey &key) const
         {
             return this->_pMap->count(key);
+        }
+
+        /**
+         * @brief       遍历字典，查询是否存在某个值
+         * @param value 要查询的值
+         */
+        bool ContainsValue(const TVal &value) const
+        {
+            for (const auto &pair : *this->_pMap) {
+                if (pair.second == value) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /**
@@ -162,6 +176,15 @@ namespace sw
             Dictionary dic;
             dic._pMap->insert(this->_pMap->begin(), this->_pMap->end());
             return dic;
+        }
+
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const Dictionary &dic)
+        {
+            wos << Utils::BuildStr(*dic._pMap);
+            return wos;
         }
     };
 }

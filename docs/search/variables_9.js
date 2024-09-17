@@ -1,10 +1,18 @@
 var searchData=
 [
-  ['lastchildfill_0',['LastChildFill',['../classsw_1_1_dock_panel.html#aa3f8617a879fb8c536799beae2ad2a31',1,'sw::DockPanel']]],
-  ['lastchildfill_1',['lastChildFill',['../classsw_1_1_dock_layout.html#ae3279e6cc696c453a2f6171ca152fc47',1,'sw::DockLayout']]],
-  ['layout_2',['Layout',['../classsw_1_1_layer.html#a3c749a7ed688a040cecfa455be293300',1,'sw::Layer']]],
-  ['layouttag_3',['LayoutTag',['../classsw_1_1_u_i_element.html#a70e870fcabb76b1d74c06d50637f4f92',1,'sw::UIElement']]],
-  ['left_4',['Left',['../classsw_1_1_wnd_base.html#a4f0b57de9babc053c655872ed91468dd',1,'sw::WndBase']]],
-  ['left_5',['left',['../structsw_1_1_canvas_layout_tag.html#a66e509ca8ce039a228ccb15cba5aa509',1,'sw::CanvasLayoutTag::left'],['../structsw_1_1_rect.html#af6c8b62aa73047637c58d8cdf6c05aff',1,'sw::Rect::left'],['../structsw_1_1_thickness.html#ad060a41dfe2453ef882849546eb7980e',1,'sw::Thickness::left']]],
-  ['lparam_6',['lParam',['../structsw_1_1_proc_msg.html#acb7f68d396561c6c4c877255b18b1b5d',1,'sw::ProcMsg']]]
+  ['iconhandle_0',['IconHandle',['../classsw_1_1_icon_box.html#a86e82265ade73734e49489ffd7a97769',1,'sw::IconBox']]],
+  ['ignorereturn_1',['IgnoreReturn',['../classsw_1_1_sys_link.html#a117ea396b1e35951b45c8758fa3ad1d2',1,'sw::SysLink']]],
+  ['inherittextcolor_2',['InheritTextColor',['../classsw_1_1_u_i_element.html#a7da2f416b1ed5038d8a3a59d6e44fcf5',1,'sw::UIElement']]],
+  ['initialdelay_3',['InitialDelay',['../classsw_1_1_tool_tip.html#a0df81d8cecc641e512276efe15572cd6',1,'sw::ToolTip']]],
+  ['initialdir_4',['InitialDir',['../classsw_1_1_file_dialog.html#aadaaa88d6a65fcf60ceac37e116bd6ee',1,'sw::FileDialog']]],
+  ['instance_5',['Instance',['../classsw_1_1_app.html#a5a6949cf6702559276151c987a2f5c5c',1,'sw::App']]],
+  ['interval_6',['Interval',['../classsw_1_1_timer.html#a306078a056429c54ec5261bc45fc15d0',1,'sw::Timer']]],
+  ['isblank_7',['IsBlank',['../classsw_1_1_i_p_address_control.html#a9d66f52a8aba8db5543ee9e09a6711a6',1,'sw::IPAddressControl']]],
+  ['ischecked_8',['IsChecked',['../classsw_1_1_checkable_button.html#a52e1547dc73eb7b8f6cd4ecb523e7f56',1,'sw::CheckableButton']]],
+  ['isdestroyed_9',['IsDestroyed',['../classsw_1_1_wnd_base.html#a54aa973b24b4bc4b681ac2c21a50d204',1,'sw::WndBase']]],
+  ['iseditable_10',['IsEditable',['../classsw_1_1_combo_box.html#aa495a8136f05548a3e26bdf3e0612a8f',1,'sw::ComboBox']]],
+  ['ismodal_11',['IsModal',['../classsw_1_1_window.html#a709b4ecc32fb2dccb7c12dd24078aed8',1,'sw::Window']]],
+  ['isplaying_12',['IsPlaying',['../classsw_1_1_animation.html#a2b255ea3d4b90630726ecb47b1b08eb1',1,'sw::Animation']]],
+  ['italic_13',['italic',['../classsw_1_1_font.html#aa7ea90de17d56a063c395cf015baf11f',1,'sw::Font']]],
+  ['itemscount_14',['ItemsCount',['../classsw_1_1_items_control.html#a765b2e51cb5f439c464abbe031b0db09',1,'sw::ItemsControl']]]
 ];

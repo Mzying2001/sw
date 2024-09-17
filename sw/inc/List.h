@@ -33,7 +33,7 @@ namespace sw
          * @brief 初始化列表
          */
         List()
-            : _pVec(new std::vector<T>)
+            : _pVec(std::make_shared<std::vector<T>>())
         {
         }
 
@@ -41,14 +41,14 @@ namespace sw
          * @brief 使用初始化列表
          */
         List(std::initializer_list<T> list)
-            : _pVec(new std::vector<T>(list))
+            : _pVec(std::make_shared<std::vector<T>>(list))
         {
         }
 
         /**
          * @brief 初始化列表并指定容量
          */
-        List(int capacity)
+        explicit List(int capacity)
             : List()
         {
             this->_pVec->reserve(capacity);
@@ -91,32 +91,23 @@ namespace sw
          */
         auto &operator[](int index) const
         {
-            return this->_pVec->operator[](index);
+            return this->_pVec->at(index);
         }
 
         /**
          * @brief 判断是否为同一个列表
          */
-        friend bool operator==(const List &left, const List &right)
+        bool operator==(const List &other) const
         {
-            return left._pVec == right._pVec;
+            return this->_pVec == other._pVec;
         }
 
         /**
          * @brief 判断是否不是同一个列表
          */
-        friend bool operator!=(const List &left, const List &right)
+        bool operator!=(const List &other) const
         {
-            return left._pVec != right._pVec;
-        }
-
-        /**
-         * @brief 支持Utils::BuildStr
-         */
-        friend std::wostream &operator<<(std::wostream &wos, const List &list)
-        {
-            wos << Utils::BuildStr(*list._pVec);
-            return wos;
+            return this->_pVec != other._pVec;
         }
 
         /**
@@ -144,20 +135,43 @@ namespace sw
         }
 
         /**
-         * @brief 添加一个值到列表末尾
+         * @brief  添加一个值到列表末尾
+         * @return 当前列表
          */
-        auto &Append(const T &value) const
+        auto Append(const T &value) const
         {
             this->_pVec->push_back(value);
             return *this;
         }
 
         /**
-         * @brief 在指定位置插入值
+         * @brief  添加一个值到列表末尾
+         * @return 当前列表
          */
-        void Insert(int index, const T &value) const
+        auto Append(T &&value) const
+        {
+            this->_pVec->push_back(std::forward<T>(value));
+            return *this;
+        }
+
+        /**
+         * @brief  在指定位置插入值
+         * @return 当前列表
+         */
+        auto Insert(int index, const T &value) const
         {
             this->_pVec->insert(this->_pVec->begin() + index, value);
+            return *this;
+        }
+
+        /**
+         * @brief  在指定位置插入值
+         * @return 当前列表
+         */
+        auto Insert(int index, T &&value) const
+        {
+            this->_pVec->insert(this->_pVec->begin() + index, std::forward<T>(value));
+            return *this;
         }
 
         /**
@@ -219,6 +233,15 @@ namespace sw
             List list((int)this->_pVec->capacity());
             list._pVec->assign(this->_pVec->begin(), this->_pVec->end());
             return list;
+        }
+
+        /**
+         * @brief 支持Utils::BuildStr
+         */
+        friend std::wostream &operator<<(std::wostream &wos, const List &list)
+        {
+            wos << Utils::BuildStr(*list._pVec);
+            return wos;
         }
     };
 }
