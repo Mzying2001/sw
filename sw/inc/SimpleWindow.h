@@ -24,6 +24,7 @@
 #include "EnumBit.h"
 #include "FileDialog.h"
 #include "FillLayout.h"
+#include "FolderDialog.h"
 #include "Font.h"
 #include "Grid.h"
 #include "GridLayout.h"
