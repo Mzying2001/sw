@@ -61,7 +61,7 @@ wchar_t *sw::FileFilter::GetFilterStr()
 
 sw::FileDialog::FileDialog()
     : BufferSize(
-          // ger
+          // get
           [this]() -> int {
               return (int)this->_buffer.size();
           },
@@ -120,7 +120,7 @@ sw::FileDialog::FileDialog()
           }),
 
       FilterIndex(
-          // ger
+          // get
           [this]() -> int {
               return (int)this->_ofn.nFilterIndex - 1;
           },
