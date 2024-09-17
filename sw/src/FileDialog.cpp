@@ -70,7 +70,7 @@ sw::FileDialog::FileDialog()
               int size = Utils::Max(MAX_PATH, value);
               this->_buffer.resize(size);
               this->_ofn.lpstrFile = this->_buffer.data();
-              this->_ofn.nMaxFile  = this->_buffer.size();
+              this->_ofn.nMaxFile  = (DWORD)this->_buffer.size();
           }),
 
       Flags(
