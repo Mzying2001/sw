@@ -71,6 +71,7 @@ sw::FileDialog::FileDialog()
               this->_buffer.resize(size);
               this->_ofn.lpstrFile = this->_buffer.data();
               this->_ofn.nMaxFile  = (DWORD)this->_buffer.size();
+              this->ClearBuffer(); // 清空缓冲区，防止BufferSize比原来小时获取FileName访问到缓冲区外的内存
           }),
 
       Flags(
