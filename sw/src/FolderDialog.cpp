@@ -50,6 +50,20 @@ sw::FolderBrowserDialog::FolderBrowserDialog()
           // get
           [this]() -> std::wstring {
               return this->GetBuffer();
+          }),
+
+      NewFolderButton(
+          // get
+          [this]() -> bool {
+              return !((this->Flags.Get() & FolderDialogFlags::NoNewFolderButton) == FolderDialogFlags::NoNewFolderButton);
+          },
+          // set
+          [this](const bool &value) {
+              if (value) {
+                  this->Flags = this->Flags.Get() & ~FolderDialogFlags::NoNewFolderButton;
+              } else {
+                  this->Flags = this->Flags.Get() | FolderDialogFlags::NoNewFolderButton;
+              }
           })
 {
     this->BufferSize  = _FolderBrowserDialogInitialBufferSize;

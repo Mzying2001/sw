@@ -143,6 +143,11 @@ namespace sw
          */
         const ReadOnlyProperty<std::wstring> SelectedPath;
 
+        /**
+         * @brief 是否显示“新建文件夹”按钮
+         */
+        const Property<bool> NewFolderButton;
+
     public:
         /**
          * @brief 初始化FolderBrowserDialog
