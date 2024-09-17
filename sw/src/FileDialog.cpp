@@ -225,6 +225,7 @@ wchar_t *sw::FileDialog::GetBuffer()
 void sw::FileDialog::ClearBuffer()
 {
     this->_buffer.at(0) = 0;
+    this->_buffer.at(1) = 0; // 两个'\0'表示结束，防止多选时FileName的意外拼接
 }
 
 sw::OpenFileDialog::OpenFileDialog()
