@@ -291,7 +291,7 @@ namespace sw
          * @brief 后置自增运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, T>::type operator++(int)
+        typename std::enable_if<std::is_arithmetic<U>::value, T>::type operator++(int) const
         {
             T oldval = this->Get();
             this->Set(oldval + 1);
@@ -302,7 +302,7 @@ namespace sw
          * @brief 后置自减运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, T>::type operator--(int)
+        typename std::enable_if<std::is_arithmetic<U>::value, T>::type operator--(int) const
         {
             T oldval = this->Get();
             this->Set(oldval - 1);
