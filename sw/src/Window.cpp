@@ -499,10 +499,6 @@ void _UpdateFontForAllChild(sw::UIElement &element)
 
 HICON _GetWindowDefaultIcon()
 {
-    static HICON hIcon = NULL;
-    if (hIcon == NULL) {
-        auto exePath = sw::App::ExePath.Get();
-        ExtractIconW(sw::App::Instance, exePath.c_str(), 0);
-    }
+    static HICON hIcon = ExtractIconW(sw::App::Instance, sw::App::ExePath->c_str(), 0);
     return hIcon;
 }
