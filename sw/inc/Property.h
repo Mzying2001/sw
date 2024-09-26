@@ -134,157 +134,157 @@ namespace sw
         /**
          * @brief 设置属性值
          */
-        PropertyBase &operator=(const T &value)
+        TDerived &operator=(const T &value)
         {
             this->Set(value);
-            return *this;
+            return *static_cast<TDerived *>(this);
         }
 
         /**
          * @brief 设置属性值
          */
-        const PropertyBase &operator=(const T &value) const
+        const TDerived &operator=(const T &value) const
         {
             this->Set(value);
-            return *this;
+            return *static_cast<const TDerived *>(this);
         }
 
         /**
          * @brief 设置属性值
          */
-        PropertyBase &operator=(const PropertyBase &prop)
+        TDerived &operator=(const PropertyBase &prop)
         {
             this->Set(prop.Get());
-            return *this;
+            return *static_cast<TDerived *>(this);
         }
 
         /**
          * @brief 设置属性值
          */
-        const PropertyBase &operator=(const PropertyBase &prop) const
+        const TDerived &operator=(const PropertyBase &prop) const
         {
             this->Set(prop.Get());
-            return *this;
+            return *static_cast<const TDerived *>(this);
         }
 
         /**
          * @brief 加赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator+=(T value)
+        typename std::enable_if<std::is_arithmetic<U>::value, TDerived &>::type operator+=(T value)
         {
             this->Set(this->Get() + value);
-            return *this;
+            return *static_cast<TDerived *>(this);
         }
 
         /**
          * @brief 加赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator+=(T value) const
+        typename std::enable_if<std::is_arithmetic<U>::value, const TDerived &>::type operator+=(T value) const
         {
             this->Set(this->Get() + value);
-            return *this;
+            return *static_cast<const TDerived *>(this);
         }
 
         /**
          * @brief 减赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator-=(T value)
+        typename std::enable_if<std::is_arithmetic<U>::value, TDerived &>::type operator-=(T value)
         {
             this->Set(this->Get() - value);
-            return *this;
+            return *static_cast<TDerived *>(this);
         }
 
         /**
          * @brief 减赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator-=(T value) const
+        typename std::enable_if<std::is_arithmetic<U>::value, const TDerived &>::type operator-=(T value) const
         {
             this->Set(this->Get() - value);
-            return *this;
+            return *static_cast<const TDerived *>(this);
         }
 
         /**
          * @brief 乘赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator*=(T value)
+        typename std::enable_if<std::is_arithmetic<U>::value, TDerived &>::type operator*=(T value)
         {
             this->Set(this->Get() * value);
-            return *this;
+            return *static_cast<TDerived *>(this);
         }
 
         /**
          * @brief 乘赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator*=(T value) const
+        typename std::enable_if<std::is_arithmetic<U>::value, const TDerived &>::type operator*=(T value) const
         {
             this->Set(this->Get() * value);
-            return *this;
+            return *static_cast<const TDerived *>(this);
         }
 
         /**
          * @brief 除赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator/=(T value)
+        typename std::enable_if<std::is_arithmetic<U>::value, TDerived &>::type operator/=(T value)
         {
             this->Set(this->Get() / value);
-            return *this;
+            return *static_cast<TDerived *>(this);
         }
 
         /**
          * @brief 除赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator/=(T value) const
+        typename std::enable_if<std::is_arithmetic<U>::value, const TDerived &>::type operator/=(T value) const
         {
             this->Set(this->Get() / value);
-            return *this;
+            return *static_cast<const TDerived *>(this);
         }
 
         /**
          * @brief 前置自增运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator++()
+        typename std::enable_if<std::is_arithmetic<U>::value, TDerived &>::type operator++()
         {
             this->Set(this->Get() + 1);
-            return *this;
+            return *static_cast<TDerived *>(this);
         }
 
         /**
          * @brief 前置自增运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator++() const
+        typename std::enable_if<std::is_arithmetic<U>::value, const TDerived &>::type operator++() const
         {
             this->Set(this->Get() + 1);
-            return *this;
+            return *static_cast<const TDerived *>(this);
         }
 
         /**
          * @brief 前置自减运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, PropertyBase &>::type operator--()
+        typename std::enable_if<std::is_arithmetic<U>::value, TDerived &>::type operator--()
         {
             this->Set(this->Get() - 1);
-            return *this;
+            return *static_cast<TDerived *>(this);
         }
 
         /**
          * @brief 前置自减运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, const PropertyBase &>::type operator--() const
+        typename std::enable_if<std::is_arithmetic<U>::value, const TDerived &>::type operator--() const
         {
             this->Set(this->Get() - 1);
-            return *this;
+            return *static_cast<const TDerived *>(this);
         }
 
         /**
@@ -313,100 +313,100 @@ namespace sw
          * @brief 按位与赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator&=(T value)
+        typename std::enable_if<std::is_integral<U>::value, TDerived &>::type operator&=(T value)
         {
             this->Set(this->Get() & value);
-            return *this;
+            return *static_cast<TDerived *>(this);
         }
 
         /**
          * @brief 按位与赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator&=(T value) const
+        typename std::enable_if<std::is_integral<U>::value, const TDerived &>::type operator&=(T value) const
         {
             this->Set(this->Get() & value);
-            return *this;
+            return *static_cast<const TDerived *>(this);
         }
 
         /**
          * @brief 按位或赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator|=(T value)
+        typename std::enable_if<std::is_integral<U>::value, TDerived &>::type operator|=(T value)
         {
             this->Set(this->Get() | value);
-            return *this;
+            return *static_cast<TDerived *>(this);
         }
 
         /**
          * @brief 按位或赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator|=(T value) const
+        typename std::enable_if<std::is_integral<U>::value, const TDerived &>::type operator|=(T value) const
         {
             this->Set(this->Get() | value);
-            return *this;
+            return *static_cast<const TDerived *>(this);
         }
 
         /**
          * @brief 按位异或赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator^=(T value)
+        typename std::enable_if<std::is_integral<U>::value, TDerived &>::type operator^=(T value)
         {
             this->Set(this->Get() ^ value);
-            return *this;
+            return *static_cast<TDerived *>(this);
         }
 
         /**
          * @brief 按位异或赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator^=(T value) const
+        typename std::enable_if<std::is_integral<U>::value, const TDerived &>::type operator^=(T value) const
         {
             this->Set(this->Get() ^ value);
-            return *this;
+            return *static_cast<const TDerived *>(this);
         }
 
         /**
          * @brief 左移赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator<<=(T value)
+        typename std::enable_if<std::is_integral<U>::value, TDerived &>::type operator<<=(T value)
         {
             this->Set(this->Get() << value);
-            return *this;
+            return *static_cast<TDerived *>(this);
         }
 
         /**
          * @brief 左移赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator<<=(T value) const
+        typename std::enable_if<std::is_integral<U>::value, const TDerived &>::type operator<<=(T value) const
         {
             this->Set(this->Get() << value);
-            return *this;
+            return *static_cast<const TDerived *>(this);
         }
 
         /**
          * @brief 右移赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, PropertyBase &>::type operator>>=(T value)
+        typename std::enable_if<std::is_integral<U>::value, TDerived &>::type operator>>=(T value)
         {
             this->Set(this->Get() >> value);
-            return *this;
+            return *static_cast<TDerived *>(this);
         }
 
         /**
          * @brief 右移赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, const PropertyBase &>::type operator>>=(T value) const
+        typename std::enable_if<std::is_integral<U>::value, const TDerived &>::type operator>>=(T value) const
         {
             this->Set(this->Get() >> value);
-            return *this;
+            return *static_cast<const TDerived *>(this);
         }
 
         /**
