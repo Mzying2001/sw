@@ -641,7 +641,15 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DRAWITEM: {
-            return this->OnDrawItem((int)refMsg.wParam, reinterpret_cast<DRAWITEMSTRUCT *>(refMsg.lParam)) ? TRUE : this->DefaultWndProc(refMsg);
+            auto pDrawItem = reinterpret_cast<DRAWITEMSTRUCT *>(refMsg.lParam);
+            if (this->OnDrawItem((int)refMsg.wParam, pDrawItem)) {
+                return TRUE;
+            }
+            if (pDrawItem->CtlType != ODT_MENU && pDrawItem->hwndItem != NULL) {
+                WndBase *pWnd = GetWndBase(pDrawItem->hwndItem);
+                if (pWnd && pWnd->OnDrawItemSelf(pDrawItem)) return TRUE;
+            }
+            return this->DefaultWndProc(refMsg);
         }
 
         case WM_DROPFILES: {
@@ -940,6 +948,11 @@ bool sw::WndBase::OnEraseBackground(int &result)
 }
 
 bool sw::WndBase::OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem)
+{
+    return false;
+}
+
+bool sw::WndBase::OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem)
 {
     return false;
 }

@@ -615,9 +615,16 @@ namespace sw
          * @brief           接收到WM_DRAWITEM时调用该函数
          * @param id        控件的标识符，若消息是通过菜单发送的则此参数为零
          * @param pDrawItem 包含有关要绘制的项和所需绘图类型的信息的结构体指针
-         * @return          若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return          若已处理该消息则返回true，否则调用发出通知控件的OnDrawItemSelf函数，依据其返回值判断是否调用DefaultWndProc
          */
         virtual bool OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem);
+
+        /**
+         * @brief           父窗口接收到WM_DRAWITEM后且父窗口OnDrawItem函数返回false时调用发出通知控件的该函数
+         * @param pDrawItem 包含有关要绘制的项和所需绘图类型的信息的结构体指针
+         * @return          若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem);
 
         /**
          * @brief       接收到WM_DROPFILES时调用该函数
