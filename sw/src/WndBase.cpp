@@ -20,7 +20,7 @@ namespace
     /**
      * @brief 控件id计数器
      */
-    static uintptr_t _controlIdCounder = 10000;
+    static int _controlIdCounter = 10000;
 }
 
 /**
@@ -348,6 +348,9 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         this->_text = lpWindowName;
     }
 
+    HMENU id = reinterpret_cast<HMENU>(
+        static_cast<uintptr_t>(_controlIdCounter++));
+
     this->_hwnd = CreateWindowExW(
         dwExStyle,                    // Optional window styles
         lpClassName,                  // Window class
@@ -355,7 +358,7 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         dwStyle,                      // Window style
         0, 0, 0, 0,                   // Size and position
         _controlInitContainer->_hwnd, // Parent window
-        (HMENU)++_controlIdCounder,   // Control id
+        id,                           // Control id
         App::Instance,                // Instance handle
         this                          // Additional application data
     );
