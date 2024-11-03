@@ -9,6 +9,12 @@ namespace sw
      */
     class Control : virtual public UIElement
     {
+    public:
+        /**
+         * @brief 当前控件的id
+         */
+        const ReadOnlyProperty<int> ControlId;
+
     protected:
         /**
          * @brief 初始化控件

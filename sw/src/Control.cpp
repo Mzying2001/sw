@@ -1,6 +1,11 @@
 #include "Control.h"
 
 sw::Control::Control()
+    : ControlId(
+          // get
+          [this]() -> int {
+              return GetDlgCtrlID(this->_hwnd);
+          })
 {
 }
 
