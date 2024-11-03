@@ -657,6 +657,18 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return this->DefaultWndProc(refMsg);
         }
 
+        case WM_MEASUREITEM: {
+            auto pMeasure = reinterpret_cast<MEASUREITEMSTRUCT *>(refMsg.lParam);
+            if (this->OnMeasureItem((int)refMsg.wParam, pMeasure)) {
+                return TRUE;
+            }
+            if (pMeasure->CtlType != ODT_MENU) {
+                WndBase *pWnd = GetWndBase(GetDlgItem(this->_hwnd, (int)refMsg.wParam));
+                if (pWnd && pWnd->OnMeasureItemSelf(pMeasure)) return TRUE;
+            }
+            return this->DefaultWndProc(refMsg);
+        }
+
         case WM_DROPFILES: {
             return this->OnDropFiles(reinterpret_cast<HDROP>(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
         }
@@ -958,6 +970,16 @@ bool sw::WndBase::OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem)
 }
 
 bool sw::WndBase::OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMeasureItem(int id, MEASUREITEMSTRUCT *pMeasure)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMeasureItemSelf(MEASUREITEMSTRUCT *pMeasure)
 {
     return false;
 }

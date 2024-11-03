@@ -627,6 +627,21 @@ namespace sw
         virtual bool OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem);
 
         /**
+         * @brief          接收到WM_MEASUREITEM时调用该函数
+         * @param id       控件的标识符，若消息是通过菜单发送的则此参数为零
+         * @param pMeasure 包含有关要绘制的项的信息的结构体指针
+         * @return         若已处理该消息则返回true，否则调用发出通知控件的OnMeasureItemSelf函数，依据其返回值判断是否调用DefaultWndProc
+         */
+        virtual bool OnMeasureItem(int id, MEASUREITEMSTRUCT *pMeasure);
+
+        /**
+         * @brief          父窗口接收到WM_MEASUREITEM后且父窗口OnMeasureItem函数返回false时调用发出通知控件的该函数
+         * @param pMeasure 包含有关要绘制的项的信息的结构体指针
+         * @return         若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnMeasureItemSelf(MEASUREITEMSTRUCT *pMeasure);
+
+        /**
          * @brief       接收到WM_DROPFILES时调用该函数
          * @param hDrop 描述拖入文件的句柄
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
