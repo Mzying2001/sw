@@ -16,6 +16,11 @@ namespace
      * @brief 控件初始化时所在的窗口
      */
     static struct : sw::WndBase{} *_controlInitContainer = nullptr;
+
+    /**
+     * @brief 控件id计数器
+     */
+    static uintptr_t _controlIdCounder = 10000;
 }
 
 /**
@@ -350,7 +355,7 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         dwStyle,                      // Window style
         0, 0, 0, 0,                   // Size and position
         _controlInitContainer->_hwnd, // Parent window
-        NULL,                         // Menu
+        (HMENU)++_controlIdCounder,   // Control id
         App::Instance,                // Instance handle
         this                          // Additional application data
     );
