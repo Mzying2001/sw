@@ -11,7 +11,7 @@ namespace sw
     {
     public:
         /**
-         * @brief 当前控件的id
+         * @brief 控件的标识符
          */
         const ReadOnlyProperty<int> ControlId;
 
