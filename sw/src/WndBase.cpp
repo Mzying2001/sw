@@ -241,6 +241,12 @@ sw::WndBase::WndBase()
           // set
           [this](const bool &value) {
               this->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
+          }),
+
+      IsControl(
+          // get
+          [this]() -> bool {
+              return this->_isControl;
           })
 {
     static WNDCLASSEXW wc = {0};
@@ -343,9 +349,10 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         this                          // Additional application data
     );
 
+    this->_isControl = true;
     WndBase::_SetWndBase(this->_hwnd, *this);
 
-    this->_controlOldWndProc =
+    this->_originalWndProc =
         reinterpret_cast<WNDPROC>(SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
 
     this->HandleInitialized(this->_hwnd);
@@ -354,7 +361,7 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
 
 LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
 {
-    WNDPROC wndproc = this->IsControl() ? this->_controlOldWndProc : DefWindowProcW;
+    WNDPROC wndproc = this->_originalWndProc ? this->_originalWndProc : DefWindowProcW;
     return wndproc(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
 }
 
@@ -850,7 +857,7 @@ bool sw::WndBase::SetParent(WndBase *parent)
     HWND hParent;
 
     if (parent == nullptr) {
-        hParent = this->IsControl() ? _controlInitContainer->_hwnd : NULL;
+        hParent = this->_isControl ? _controlInitContainer->_hwnd : NULL;
     } else {
         hParent = parent->_hwnd;
     }
@@ -1006,11 +1013,6 @@ void sw::WndBase::Redraw(bool erase, bool updateWindow)
 {
     InvalidateRect(this->_hwnd, NULL, erase);
     if (updateWindow) UpdateWindow(this->_hwnd);
-}
-
-bool sw::WndBase::IsControl()
-{
-    return this->_controlOldWndProc != nullptr;
 }
 
 bool sw::WndBase::IsVisible()

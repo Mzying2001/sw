@@ -61,7 +61,7 @@ namespace sw
         std::wstring _text{};
 
         /**
-         * @brief 控件是否拥有焦点
+         * @brief 窗口是否拥有焦点
          */
         bool _focused = false;
 
@@ -71,9 +71,14 @@ namespace sw
         bool _isDestroyed = false;
 
         /**
-         * @brief 当前对象是控件时该函数指针指向控件原本的WndProc
+         * @brief 当前对象是否是控件
          */
-        WNDPROC _controlOldWndProc = NULL;
+        bool _isControl = false;
+
+        /**
+         * @brief 窗口句柄原本的WndProc
+         */
+        WNDPROC _originalWndProc = NULL;
 
     public:
         /**
@@ -175,6 +180,11 @@ namespace sw
          * @brief 是否接受拖放文件
          */
         const Property<bool> AcceptFiles;
+
+        /**
+         * @brief 当前对象是否是控件
+         */
+        const ReadOnlyProperty<bool> IsControl;
 
     protected:
         /**
@@ -674,11 +684,6 @@ namespace sw
          * @param updateWindow 是否调用UpdateWindow
          */
         void Redraw(bool erase = false, bool updateWindow = false);
-
-        /**
-         * @brief 判断当前对象是否是控件
-         */
-        bool IsControl();
 
         /**
          * @brief 判断当前对象在界面中是否可视，与Visible属性不同的是该函数返回值会受父窗口的影响
