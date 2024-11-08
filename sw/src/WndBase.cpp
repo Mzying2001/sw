@@ -318,7 +318,7 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
     this->UpdateFont();
 }
 
-void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
+void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam)
 {
     if (_controlInitContainer == nullptr || _controlInitContainer->_isDestroyed) {
         delete _controlInitContainer;
@@ -346,7 +346,7 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         _controlInitContainer->_hwnd, // Parent window
         id,                           // Control id
         App::Instance,                // Instance handle
-        this                          // Additional application data
+        lpParam                       // Additional application data
     );
 
     this->_isControl = true;

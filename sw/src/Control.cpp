@@ -13,14 +13,14 @@ sw::Control::~Control()
 {
 }
 
-void sw::Control::ResetHandle()
+void sw::Control::ResetHandle(LPVOID lpParam)
 {
     DWORD style   = this->GetStyle();
     DWORD exStyle = this->GetExtendedStyle();
-    this->ResetHandle(style, exStyle);
+    this->ResetHandle(style, exStyle, lpParam);
 }
 
-void sw::Control::ResetHandle(DWORD style, DWORD exStyle)
+void sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
 {
     HWND &refHwnd = this->_hwnd;
 
@@ -42,10 +42,10 @@ void sw::Control::ResetHandle(DWORD style, DWORD exStyle)
         // Size and position
         rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
 
-        hParent,        // Parent window
-        NULL,           // Menu
-        App::Instance,  // Instance handle
-        (WndBase *)this // Additional application data
+        hParent,       // Parent window
+        NULL,          // Menu
+        App::Instance, // Instance handle
+        lpParam        // Additional application data
     );
 
     LONG_PTR wndproc =
