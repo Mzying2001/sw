@@ -335,7 +335,7 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
     }
 
     HMENU id = reinterpret_cast<HMENU>(
-        static_cast<uintptr_t>(_controlIdCounter++));
+        static_cast<uintptr_t>(WndBase::_NextControlId()));
 
     this->_hwnd = CreateWindowExW(
         dwExStyle,                    // Optional window styles
@@ -1126,6 +1126,11 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     }
 
     return DefWindowProcW(hwnd, uMsg, wParam, lParam);
+}
+
+int sw::WndBase::_NextControlId()
+{
+    return _controlIdCounter++;
 }
 
 void sw::WndBase::_SetWndBase(HWND hwnd, WndBase &wnd)

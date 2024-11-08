@@ -783,6 +783,11 @@ namespace sw
         static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
         /**
+         * @brief 获取一个新的控件id
+         */
+        static int _NextControlId();
+
+        /**
          * @brief      关联窗口句柄与WndBase对象
          * @param hwnd 窗口句柄
          * @param wnd  与句柄关联的对象
