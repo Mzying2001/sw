@@ -23,31 +23,6 @@ namespace
     int _controlIdCounter = 10000;
 }
 
-/**
- */
-
-LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    WndBase *pWnd = nullptr;
-
-    if (hwnd != NULL) {
-        pWnd = WndBase::GetWndBase(hwnd);
-    }
-
-    if (pWnd == nullptr && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
-        auto pCreate = reinterpret_cast<LPCREATESTRUCTW>(lParam);
-        auto temp    = reinterpret_cast<WndBase *>(pCreate->lpCreateParams);
-        if (temp != nullptr && temp->_check == _WndBaseMagicNumber) pWnd = temp;
-    }
-
-    if (pWnd != nullptr) {
-        ProcMsg msg{hwnd, uMsg, wParam, lParam};
-        return pWnd->WndProc(msg);
-    }
-
-    return DefWindowProcW(hwnd, uMsg, wParam, lParam);
-}
-
 sw::WndBase::WndBase()
     : _check(_WndBaseMagicNumber),
 
@@ -1112,6 +1087,28 @@ sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
 {
     POINT point = testPoint;
     return (HitTestResult)this->SendMessageW(WM_NCHITTEST, 0, MAKELPARAM(point.x, point.y));
+}
+
+LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    WndBase *pWnd = nullptr;
+
+    if (hwnd != NULL) {
+        pWnd = WndBase::GetWndBase(hwnd);
+    }
+
+    if (pWnd == nullptr && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
+        auto pCreate = reinterpret_cast<LPCREATESTRUCTW>(lParam);
+        auto temp    = reinterpret_cast<WndBase *>(pCreate->lpCreateParams);
+        if (temp != nullptr && temp->_check == _WndBaseMagicNumber) pWnd = temp;
+    }
+
+    if (pWnd != nullptr) {
+        ProcMsg msg{hwnd, uMsg, wParam, lParam};
+        return pWnd->WndProc(msg);
+    }
+
+    return DefWindowProcW(hwnd, uMsg, wParam, lParam);
 }
 
 sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)

@@ -31,12 +31,6 @@ namespace sw
 
     private:
         /**
-         * @brief 窗口过程函数，调用对象的WndProc
-         */
-        static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-    private:
-        /**
          * @brief 用于判断给定指针是否为指向WndBase的指针
          */
         const uint32_t _check;
@@ -766,6 +760,12 @@ namespace sw
          * @param testPoint 要测试的点在屏幕中的位置
          */
         HitTestResult NcHitTest(const Point &testPoint);
+
+    private:
+        /**
+         * @brief 窗口过程函数，调用对象的WndProc
+         */
+        static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
     public:
         /**
