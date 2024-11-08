@@ -50,9 +50,8 @@ void sw::Control::ResetHandle(DWORD style, DWORD exStyle)
 
     LONG_PTR wndproc =
         SetWindowLongPtrW(oldHwnd, GWLP_WNDPROC, GetWindowLongPtrW(newHwnd, GWLP_WNDPROC));
-    SetWindowLongPtrW(oldHwnd, GWLP_USERDATA, (LONG_PTR)NULL);
 
-    SetWindowLongPtrW(newHwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>((WndBase *)this));
+    WndBase::_SetWndBase(newHwnd, *this);
     SetWindowLongPtrW(newHwnd, GWLP_WNDPROC, wndproc);
 
     refHwnd = newHwnd;

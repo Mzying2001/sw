@@ -767,6 +767,13 @@ namespace sw
          */
         static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+        /**
+         * @brief      关联窗口句柄与WndBase对象
+         * @param hwnd 窗口句柄
+         * @param wnd  与句柄关联的对象
+         */
+        static void _SetWndBase(HWND hwnd, WndBase &wnd);
+
     public:
         /**
          * @brief      通过窗口句柄获取WndBase

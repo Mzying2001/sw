@@ -8,6 +8,11 @@ namespace
     constexpr uint32_t _WndBaseMagicNumber = 0x946dba7e;
 
     /**
+     * @brief 窗口句柄保存WndBase指针的属性名称
+     */
+    constexpr wchar_t _WndBasePtrProp[] = L"_WndBasePtr";
+
+    /**
      * @brief 窗口类名
      */
     constexpr wchar_t _WindowClassName[] = L"sw::Window";
@@ -297,11 +302,11 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
         this           // Additional application data
     );
 
+    WndBase::_SetWndBase(this->_hwnd, *this);
+
     RECT rect;
     GetWindowRect(this->_hwnd, &rect);
     this->_rect = rect;
-
-    SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
     this->HandleInitialized(this->_hwnd);
     this->UpdateFont();
@@ -338,7 +343,7 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         this                          // Additional application data
     );
 
-    SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+    WndBase::_SetWndBase(this->_hwnd, *this);
 
     this->_controlOldWndProc =
         reinterpret_cast<WNDPROC>(SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
@@ -1111,8 +1116,13 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     return DefWindowProcW(hwnd, uMsg, wParam, lParam);
 }
 
+void sw::WndBase::_SetWndBase(HWND hwnd, WndBase &wnd)
+{
+    SetPropW(hwnd, _WndBasePtrProp, reinterpret_cast<HANDLE>(&wnd));
+}
+
 sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
 {
-    auto p = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+    auto p = reinterpret_cast<WndBase *>(GetPropW(hwnd, _WndBasePtrProp));
     return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
 }
