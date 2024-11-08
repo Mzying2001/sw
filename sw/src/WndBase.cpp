@@ -1090,6 +1090,16 @@ LRESULT sw::WndBase::SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)
     return ::SendMessageW(this->_hwnd, uMsg, wParam, lParam);
 }
 
+BOOL sw::WndBase::PostMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return ::PostMessageA(this->_hwnd, uMsg, wParam, lParam);
+}
+
+BOOL sw::WndBase::PostMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return ::PostMessageW(this->_hwnd, uMsg, wParam, lParam);
+}
+
 sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
 {
     POINT point = testPoint;

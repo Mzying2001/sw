@@ -761,6 +761,16 @@ namespace sw
         LRESULT SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
         /**
+         * @brief 发送消息（ASCII）并立即返回
+         */
+        BOOL PostMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
+         * @brief 发送消息（UNICODE）并立即返回
+         */
+        BOOL PostMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
          * @brief           测试指定点在窗口的哪一部分
          * @param testPoint 要测试的点在屏幕中的位置
          */
