@@ -1115,8 +1115,8 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     }
 
     if (pWnd == nullptr && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
-        auto pCreate = reinterpret_cast<LPCREATESTRUCTW>(lParam);
-        auto temp    = reinterpret_cast<WndBase *>(pCreate->lpCreateParams);
+        auto temp = reinterpret_cast<WndBase *>(
+            reinterpret_cast<LPCREATESTRUCTW>(lParam)->lpCreateParams);
         if (temp != nullptr && temp->_check == _WndBaseMagicNumber) pWnd = temp;
     }
 
