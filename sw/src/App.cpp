@@ -1,22 +1,51 @@
 #include "App.h"
 #include "Path.h"
 
-/**
- * @brief 储存App::QuitMode的变量，默认为Auto
- */
-static sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
+namespace
+{
+    /**
+     * @brief 程序退出消息循环的方式，默认为Auto
+     */
+    sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
 
-/**
- * @brief  获取当前exe文件路径
- */
-static std::wstring _GetExePath();
+    /**
+     * @brief  获取当前exe文件路径
+     */
+    std::wstring _GetExePath()
+    {
+        HMODULE hModule = GetModuleHandleW(NULL);
 
-/**
- * @brief 获取当前工作路径
- */
-static std::wstring _GetCurrentDirectory();
+        std::wstring exePath;
+        exePath.resize(MAX_PATH);
 
-/*================================================================================*/
+        while (true) {
+            DWORD len =
+                GetModuleFileNameW(hModule, &exePath[0], (DWORD)exePath.size());
+            if (len == 0) {
+                exePath.clear();
+                break;
+            } else if (len < exePath.size()) {
+                exePath.resize(len);
+                break;
+            } else {
+                exePath.resize(exePath.size() * 2);
+            }
+        }
+        return exePath;
+    }
+
+    /**
+     * @brief 获取当前工作路径
+     */
+    std::wstring _GetCurrentDirectory()
+    {
+        std::wstring curdir;
+        curdir.resize(GetCurrentDirectoryW(0, NULL));
+        if (curdir.size())
+            curdir.resize(GetCurrentDirectoryW((DWORD)curdir.size(), &curdir[0]));
+        return curdir;
+    }
+}
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     []() -> HINSTANCE {
@@ -74,66 +103,4 @@ int sw::App::MsgLoop()
 void sw::App::QuitMsgLoop(int exitCode)
 {
     PostQuitMessage(exitCode);
-}
-
-/*================================================================================*/
-
-std::wstring _GetExePath()
-{
-    DWORD bufferSize = MAX_PATH; // 初始缓冲区大小
-    PWSTR szExePath  = nullptr;
-    DWORD pathLength = 0;
-
-    // 循环直到获取到完整路径或达到一个合理的最大缓冲区大小
-    while (true) {
-
-        // 动态分配足够大的缓冲区
-        delete[] szExePath;
-        szExePath = new WCHAR[bufferSize];
-
-        // 获取当前执行的 EXE 程序的路径
-        pathLength = GetModuleFileNameW(nullptr, szExePath, bufferSize);
-
-        // 判断是否缓冲区太小
-        if (pathLength == 0 || pathLength >= bufferSize) {
-            // 获取失败或缓冲区太小，增加缓冲区大小
-            bufferSize *= 2;
-        } else {
-            // 成功获取完整路径
-            break;
-        }
-    }
-
-    // 转换为 std::wstring
-    std::wstring exePath(szExePath);
-
-    // 释放动态分配的内存
-    delete[] szExePath;
-
-    return exePath;
-}
-
-std::wstring _GetCurrentDirectory()
-{
-    // 先获取路径的长度
-    DWORD pathLength = GetCurrentDirectoryW(0, nullptr);
-    if (pathLength == 0) {
-        // 获取路径失败，返回空字符串
-        return L"";
-    }
-
-    // 动态分配足够大的缓冲区
-    std::unique_ptr<wchar_t[]> szStartUpPath = std::make_unique<wchar_t[]>(pathLength);
-
-    // 获取当前工作目录（即程序启动的路径）
-    DWORD actualLength = GetCurrentDirectoryW(pathLength, szStartUpPath.get());
-    if (actualLength == 0 || actualLength > pathLength) {
-        // 获取路径失败，返回空字符串
-        return L"";
-    }
-
-    // 转换为 std::wstring
-    std::wstring startUpPath(szStartUpPath.get());
-
-    return startUpPath;
 }
