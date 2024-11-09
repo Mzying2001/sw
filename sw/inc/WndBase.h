@@ -19,8 +19,6 @@
 
 namespace sw
 {
-    class Control; // Control.h
-
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
@@ -28,6 +26,9 @@ namespace sw
     {
         // 部分控件可能会改变HWND，设为友元类向Control类暴露_hwnd字段
         friend class Control;
+
+        // HwndWrapper不使用InitWindow或InitControl初始化句柄，向其暴露底层细节以便实现相关功能
+        friend class HwndWrapper;
 
     private:
         /**
