@@ -783,6 +783,11 @@ namespace sw
         static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
         /**
+         * @brief 初始化控件创建时所在的容器
+         */
+        static void _InitControlContainer();
+
+        /**
          * @brief 获取一个新的控件id
          */
         static int _NextControlId();
