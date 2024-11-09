@@ -41,7 +41,7 @@ namespace sw
         virtual bool OnDestroy() override;
 
         /**
-         * @brief         HwndHost创建时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄
+         * @brief         初始化HwndHost时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄
          * @param hParent 需要给被托管窗口句柄设置的父窗口句柄
          * @return        被托管窗口句柄
          */
