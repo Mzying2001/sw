@@ -19,7 +19,8 @@ var searchData=
   ['command_16',['command',['../classsw_1_1_menu_item.html#a2a89a577f6cc2eafe9b6d55eb3c9c8ee',1,'sw::MenuItem']]],
   ['contentrect_17',['ContentRect',['../classsw_1_1_tab_control.html#a14f5debfc882417906f0d610617f5b05',1,'sw::TabControl']]],
   ['contextmenu_18',['ContextMenu',['../classsw_1_1_u_i_element.html#a7eddeae16aabd2b8ef984e61443410a3',1,'sw::UIElement']]],
-  ['currentdirectory_19',['CurrentDirectory',['../classsw_1_1_app.html#a6d37ddbf6c419a02182c325a1dce5575',1,'sw::App']]],
-  ['cursorposition_20',['CursorPosition',['../classsw_1_1_screen.html#a0bf87a2c7e6680747d8a77e4daf466a8',1,'sw::Screen']]],
-  ['customformat_21',['CustomFormat',['../classsw_1_1_date_time_picker.html#a02536c45142f088a408d311ef17fde62',1,'sw::DateTimePicker']]]
+  ['controlid_19',['ControlId',['../classsw_1_1_control.html#aa5875535fe04ce79df6fb8719b64c0dc',1,'sw::Control']]],
+  ['currentdirectory_20',['CurrentDirectory',['../classsw_1_1_app.html#a6d37ddbf6c419a02182c325a1dce5575',1,'sw::App']]],
+  ['cursorposition_21',['CursorPosition',['../classsw_1_1_screen.html#a0bf87a2c7e6680747d8a77e4daf466a8',1,'sw::Screen']]],
+  ['customformat_22',['CustomFormat',['../classsw_1_1_date_time_picker.html#a02536c45142f088a408d311ef17fde62',1,'sw::DateTimePicker']]]
 ];
