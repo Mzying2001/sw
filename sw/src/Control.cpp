@@ -1,6 +1,11 @@
 #include "Control.h"
 
 sw::Control::Control()
+    : ControlId(
+          // get
+          [this]() -> int {
+              return GetDlgCtrlID(this->_hwnd);
+          })
 {
 }
 
@@ -8,25 +13,26 @@ sw::Control::~Control()
 {
 }
 
-void sw::Control::ResetHandle()
+void sw::Control::ResetHandle(LPVOID lpParam)
 {
     DWORD style   = this->GetStyle();
     DWORD exStyle = this->GetExtendedStyle();
-    this->ResetHandle(style, exStyle);
+    this->ResetHandle(style, exStyle, lpParam);
 }
 
-void sw::Control::ResetHandle(DWORD style, DWORD exStyle)
+void sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
 {
-    HWND &refHwnd = this->_hwnd;
-
     RECT rect = this->Rect.Get();
     auto text = this->GetText().c_str();
 
-    HWND oldHwnd = refHwnd;
+    HWND oldHwnd = this->_hwnd;
     HWND hParent = GetParent(oldHwnd);
 
     wchar_t className[256];
     GetClassNameW(oldHwnd, className, 256);
+
+    HMENU id = reinterpret_cast<HMENU>(
+        static_cast<uintptr_t>(GetDlgCtrlID(oldHwnd)));
 
     HWND newHwnd = CreateWindowExW(
         exStyle,   // Optional window styles
@@ -37,20 +43,19 @@ void sw::Control::ResetHandle(DWORD style, DWORD exStyle)
         // Size and position
         rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
 
-        hParent,        // Parent window
-        NULL,           // Menu
-        App::Instance,  // Instance handle
-        (WndBase *)this // Additional application data
+        hParent,       // Parent window
+        id,            // Control id
+        App::Instance, // Instance handle
+        lpParam        // Additional application data
     );
 
     LONG_PTR wndproc =
         SetWindowLongPtrW(oldHwnd, GWLP_WNDPROC, GetWindowLongPtrW(newHwnd, GWLP_WNDPROC));
-    SetWindowLongPtrW(oldHwnd, GWLP_USERDATA, (LONG_PTR)NULL);
 
-    SetWindowLongPtrW(newHwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>((WndBase *)this));
+    WndBase::_SetWndBase(newHwnd, *this);
     SetWindowLongPtrW(newHwnd, GWLP_WNDPROC, wndproc);
 
-    refHwnd = newHwnd;
+    this->_hwnd = newHwnd;
     DestroyWindow(oldHwnd);
 
     this->SendMessageW(WM_SETFONT, (WPARAM)this->GetFontHandle(), TRUE);

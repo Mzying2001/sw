@@ -5,42 +5,27 @@ namespace
     /**
      * @brief _check字段的值，用于判断给定指针是否为指向WndBase的指针
      */
-    static constexpr uint32_t _WndBaseMagicNumber = 0x946dba7e;
+    constexpr uint32_t _WndBaseMagicNumber = 0x946dba7e;
+
+    /**
+     * @brief 窗口句柄保存WndBase指针的属性名称
+     */
+    constexpr wchar_t _WndBasePtrProp[] = L"_WndBasePtr";
 
     /**
      * @brief 窗口类名
      */
-    static constexpr wchar_t _WindowClassName[] = L"sw::Window";
+    constexpr wchar_t _WindowClassName[] = L"sw::Window";
 
     /**
      * @brief 控件初始化时所在的窗口
      */
-    static struct : sw::WndBase{} *_controlInitContainer = nullptr;
-}
+    struct : sw::WndBase{} *_controlInitContainer = nullptr;
 
-/**
- */
-
-LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    WndBase *pWnd = nullptr;
-
-    if (hwnd != NULL) {
-        pWnd = WndBase::GetWndBase(hwnd);
-    }
-
-    if (pWnd == nullptr && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
-        auto pCreate = reinterpret_cast<LPCREATESTRUCTW>(lParam);
-        auto temp    = reinterpret_cast<WndBase *>(pCreate->lpCreateParams);
-        if (temp != nullptr && temp->_check == _WndBaseMagicNumber) pWnd = temp;
-    }
-
-    if (pWnd != nullptr) {
-        ProcMsg msg{hwnd, uMsg, wParam, lParam};
-        return pWnd->WndProc(msg);
-    }
-
-    return DefWindowProcW(hwnd, uMsg, wParam, lParam);
+    /**
+     * @brief 控件id计数器
+     */
+    int _controlIdCounter = 1073741827;
 }
 
 sw::WndBase::WndBase()
@@ -256,6 +241,12 @@ sw::WndBase::WndBase()
           // set
           [this](const bool &value) {
               this->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
+          }),
+
+      IsControl(
+          // get
+          [this]() -> bool {
+              return this->_isControl;
           })
 {
     static WNDCLASSEXW wc = {0};
@@ -317,17 +308,17 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
         this           // Additional application data
     );
 
+    WndBase::_SetWndBase(this->_hwnd, *this);
+
     RECT rect;
     GetWindowRect(this->_hwnd, &rect);
     this->_rect = rect;
-
-    SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
     this->HandleInitialized(this->_hwnd);
     this->UpdateFont();
 }
 
-void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
+void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam)
 {
     if (_controlInitContainer == nullptr || _controlInitContainer->_isDestroyed) {
         delete _controlInitContainer;
@@ -343,6 +334,9 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         this->_text = lpWindowName;
     }
 
+    HMENU id = reinterpret_cast<HMENU>(
+        static_cast<uintptr_t>(WndBase::_NextControlId()));
+
     this->_hwnd = CreateWindowExW(
         dwExStyle,                    // Optional window styles
         lpClassName,                  // Window class
@@ -350,14 +344,15 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         dwStyle,                      // Window style
         0, 0, 0, 0,                   // Size and position
         _controlInitContainer->_hwnd, // Parent window
-        NULL,                         // Menu
+        id,                           // Control id
         App::Instance,                // Instance handle
-        this                          // Additional application data
+        lpParam                       // Additional application data
     );
 
-    SetWindowLongPtrW(this->_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+    this->_isControl = true;
+    WndBase::_SetWndBase(this->_hwnd, *this);
 
-    this->_controlOldWndProc =
+    this->_originalWndProc =
         reinterpret_cast<WNDPROC>(SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
 
     this->HandleInitialized(this->_hwnd);
@@ -366,7 +361,7 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
 
 LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
 {
-    WNDPROC wndproc = this->IsControl() ? this->_controlOldWndProc : DefWindowProcW;
+    WNDPROC wndproc = this->_originalWndProc ? this->_originalWndProc : DefWindowProcW;
     return wndproc(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
 }
 
@@ -641,7 +636,27 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DRAWITEM: {
-            return this->OnDrawItem((int)refMsg.wParam, reinterpret_cast<DRAWITEMSTRUCT *>(refMsg.lParam)) ? TRUE : this->DefaultWndProc(refMsg);
+            auto pDrawItem = reinterpret_cast<DRAWITEMSTRUCT *>(refMsg.lParam);
+            if (this->OnDrawItem((int)refMsg.wParam, pDrawItem)) {
+                return TRUE;
+            }
+            if (pDrawItem->CtlType != ODT_MENU && pDrawItem->hwndItem != NULL) {
+                WndBase *pWnd = GetWndBase(pDrawItem->hwndItem);
+                if (pWnd && pWnd->OnDrawItemSelf(pDrawItem)) return TRUE;
+            }
+            return this->DefaultWndProc(refMsg);
+        }
+
+        case WM_MEASUREITEM: {
+            auto pMeasure = reinterpret_cast<MEASUREITEMSTRUCT *>(refMsg.lParam);
+            if (this->OnMeasureItem((int)refMsg.wParam, pMeasure)) {
+                return TRUE;
+            }
+            if (pMeasure->CtlType != ODT_MENU) {
+                WndBase *pWnd = GetWndBase(GetDlgItem(this->_hwnd, (int)refMsg.wParam));
+                if (pWnd && pWnd->OnMeasureItemSelf(pMeasure)) return TRUE;
+            }
+            return this->DefaultWndProc(refMsg);
         }
 
         case WM_DROPFILES: {
@@ -842,7 +857,7 @@ bool sw::WndBase::SetParent(WndBase *parent)
     HWND hParent;
 
     if (parent == nullptr) {
-        hParent = this->IsControl() ? _controlInitContainer->_hwnd : NULL;
+        hParent = this->_isControl ? _controlInitContainer->_hwnd : NULL;
     } else {
         hParent = parent->_hwnd;
     }
@@ -944,6 +959,21 @@ bool sw::WndBase::OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem)
     return false;
 }
 
+bool sw::WndBase::OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMeasureItem(int id, MEASUREITEMSTRUCT *pMeasure)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMeasureItemSelf(MEASUREITEMSTRUCT *pMeasure)
+{
+    return false;
+}
+
 bool sw::WndBase::OnDropFiles(HDROP hDrop)
 {
     return false;
@@ -983,11 +1013,6 @@ void sw::WndBase::Redraw(bool erase, bool updateWindow)
 {
     InvalidateRect(this->_hwnd, NULL, erase);
     if (updateWindow) UpdateWindow(this->_hwnd);
-}
-
-bool sw::WndBase::IsControl()
-{
-    return this->_controlOldWndProc != nullptr;
 }
 
 bool sw::WndBase::IsVisible()
@@ -1065,14 +1090,56 @@ LRESULT sw::WndBase::SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)
     return ::SendMessageW(this->_hwnd, uMsg, wParam, lParam);
 }
 
+BOOL sw::WndBase::PostMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return ::PostMessageA(this->_hwnd, uMsg, wParam, lParam);
+}
+
+BOOL sw::WndBase::PostMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return ::PostMessageW(this->_hwnd, uMsg, wParam, lParam);
+}
+
 sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
 {
     POINT point = testPoint;
     return (HitTestResult)this->SendMessageW(WM_NCHITTEST, 0, MAKELPARAM(point.x, point.y));
 }
 
+LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    WndBase *pWnd = nullptr;
+
+    if (hwnd != NULL) {
+        pWnd = WndBase::GetWndBase(hwnd);
+    }
+
+    if (pWnd == nullptr && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
+        auto temp = reinterpret_cast<WndBase *>(
+            reinterpret_cast<LPCREATESTRUCTW>(lParam)->lpCreateParams);
+        if (temp != nullptr && temp->_check == _WndBaseMagicNumber) pWnd = temp;
+    }
+
+    if (pWnd != nullptr) {
+        ProcMsg msg{hwnd, uMsg, wParam, lParam};
+        return pWnd->WndProc(msg);
+    }
+
+    return DefWindowProcW(hwnd, uMsg, wParam, lParam);
+}
+
+int sw::WndBase::_NextControlId()
+{
+    return _controlIdCounter++;
+}
+
+void sw::WndBase::_SetWndBase(HWND hwnd, WndBase &wnd)
+{
+    SetPropW(hwnd, _WndBasePtrProp, reinterpret_cast<HANDLE>(&wnd));
+}
+
 sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
 {
-    auto p = reinterpret_cast<WndBase *>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+    auto p = reinterpret_cast<WndBase *>(GetPropW(hwnd, _WndBasePtrProp));
     return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
 }

@@ -41,12 +41,13 @@ var searchData=
   ['contentrect_38',['ContentRect',['../classsw_1_1_tab_control.html#a14f5debfc882417906f0d610617f5b05',1,'sw::TabControl']]],
   ['contextmenu_39',['ContextMenu',['../classsw_1_1_context_menu.html',1,'sw::ContextMenu'],['../classsw_1_1_u_i_element.html#a7eddeae16aabd2b8ef984e61443410a3',1,'sw::UIElement::ContextMenu'],['../classsw_1_1_context_menu.html#ac51b991e84733be50e525147c3cc9d43',1,'sw::ContextMenu::ContextMenu()'],['../classsw_1_1_context_menu.html#a63c072213d8bfb7cbe4d6974eb44266b',1,'sw::ContextMenu::ContextMenu(std::initializer_list&lt; MenuItem &gt; items)']]],
   ['control_40',['Control',['../classsw_1_1_control.html',1,'sw::Control'],['../classsw_1_1_control.html#aec7b384d013e9d25c507cf9ded87bff1',1,'sw::Control::Control()']]],
-  ['copy_41',['Copy',['../classsw_1_1_dictionary.html#afa7a405134901716b4affecc9f01df0f',1,'sw::Dictionary::Copy()'],['../classsw_1_1_image_list.html#a48997d021e3a815ddc3f8a609c801416',1,'sw::ImageList::Copy()'],['../classsw_1_1_list.html#a765086d760ea625121500730a2579d28',1,'sw::List::Copy()']]],
-  ['count_42',['Count',['../classsw_1_1_dictionary.html#a7c16eced6a889e97f4a1807697090fd3',1,'sw::Dictionary::Count()'],['../classsw_1_1_list.html#ac06d9081e817d6c808453928dd33525a',1,'sw::List::Count()']]],
-  ['create_43',['Create',['../classsw_1_1_image_list.html#a880ac4fd98a4602480ce760fa6a9d332',1,'sw::ImageList']]],
-  ['createhandle_44',['CreateHandle',['../classsw_1_1_font.html#a09a1a6e50ebe2585f78bdd3a5b2940cd',1,'sw::Font']]],
-  ['currentdirectory_45',['CurrentDirectory',['../classsw_1_1_app.html#a6d37ddbf6c419a02182c325a1dce5575',1,'sw::App']]],
-  ['cursorhelper_46',['CursorHelper',['../classsw_1_1_cursor_helper.html',1,'sw']]],
-  ['cursorposition_47',['CursorPosition',['../classsw_1_1_screen.html#a0bf87a2c7e6680747d8a77e4daf466a8',1,'sw::Screen']]],
-  ['customformat_48',['CustomFormat',['../classsw_1_1_date_time_picker.html#a02536c45142f088a408d311ef17fde62',1,'sw::DateTimePicker']]]
+  ['controlid_41',['ControlId',['../classsw_1_1_control.html#aa5875535fe04ce79df6fb8719b64c0dc',1,'sw::Control']]],
+  ['copy_42',['Copy',['../classsw_1_1_dictionary.html#afa7a405134901716b4affecc9f01df0f',1,'sw::Dictionary::Copy()'],['../classsw_1_1_image_list.html#a48997d021e3a815ddc3f8a609c801416',1,'sw::ImageList::Copy()'],['../classsw_1_1_list.html#a765086d760ea625121500730a2579d28',1,'sw::List::Copy()']]],
+  ['count_43',['Count',['../classsw_1_1_dictionary.html#a7c16eced6a889e97f4a1807697090fd3',1,'sw::Dictionary::Count()'],['../classsw_1_1_list.html#ac06d9081e817d6c808453928dd33525a',1,'sw::List::Count()']]],
+  ['create_44',['Create',['../classsw_1_1_image_list.html#a880ac4fd98a4602480ce760fa6a9d332',1,'sw::ImageList']]],
+  ['createhandle_45',['CreateHandle',['../classsw_1_1_font.html#a09a1a6e50ebe2585f78bdd3a5b2940cd',1,'sw::Font']]],
+  ['currentdirectory_46',['CurrentDirectory',['../classsw_1_1_app.html#a6d37ddbf6c419a02182c325a1dce5575',1,'sw::App']]],
+  ['cursorhelper_47',['CursorHelper',['../classsw_1_1_cursor_helper.html',1,'sw']]],
+  ['cursorposition_48',['CursorPosition',['../classsw_1_1_screen.html#a0bf87a2c7e6680747d8a77e4daf466a8',1,'sw::Screen']]],
+  ['customformat_49',['CustomFormat',['../classsw_1_1_date_time_picker.html#a02536c45142f088a408d311ef17fde62',1,'sw::DateTimePicker']]]
 ];

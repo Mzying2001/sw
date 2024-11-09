@@ -206,6 +206,14 @@ namespace sw
          */
         virtual bool OnEndEdit(NMLVDISPINFOW *pNMInfo);
 
+        /**
+         * @brief        当OnNotified接收到NM_CUSTOMDRAW通知时调用该函数
+         * @param pNMCD  包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnCustomDraw(NMLVCUSTOMDRAW *pNMCD, LRESULT &result);
+
     public:
         /**
          * @brief 清空所有子项

@@ -4170,12 +4170,6 @@ namespace sw
 
     private:
         /**
-         * @brief 窗口过程函数，调用对象的WndProc
-         */
-        static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-    private:
-        /**
          * @brief 用于判断给定指针是否为指向WndBase的指针
          */
         const uint32_t _check;
@@ -4206,7 +4200,7 @@ namespace sw
         std::wstring _text{};
 
         /**
-         * @brief 控件是否拥有焦点
+         * @brief 窗口是否拥有焦点
          */
         bool _focused = false;
 
@@ -4216,9 +4210,14 @@ namespace sw
         bool _isDestroyed = false;
 
         /**
-         * @brief 当前对象是控件时该函数指针指向控件原本的WndProc
+         * @brief 当前对象是否是控件
          */
-        WNDPROC _controlOldWndProc = NULL;
+        bool _isControl = false;
+
+        /**
+         * @brief 窗口句柄原本的WndProc
+         */
+        WNDPROC _originalWndProc = NULL;
 
     public:
         /**
@@ -4321,6 +4320,11 @@ namespace sw
          */
         const Property<bool> AcceptFiles;
 
+        /**
+         * @brief 当前对象是否是控件
+         */
+        const ReadOnlyProperty<bool> IsControl;
+
     protected:
         /**
          * @brief 初始化WndBase
@@ -4357,7 +4361,7 @@ namespace sw
         /**
          * @brief 初始化为控件，该函数会调用CreateWindowExW
          */
-        void InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
+        void InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam = NULL);
 
         /**
          * @brief 调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc
@@ -4754,9 +4758,31 @@ namespace sw
          * @brief           接收到WM_DRAWITEM时调用该函数
          * @param id        控件的标识符，若消息是通过菜单发送的则此参数为零
          * @param pDrawItem 包含有关要绘制的项和所需绘图类型的信息的结构体指针
-         * @return          若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return          若已处理该消息则返回true，否则调用发出通知控件的OnDrawItemSelf函数，依据其返回值判断是否调用DefaultWndProc
          */
         virtual bool OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem);
+
+        /**
+         * @brief           父窗口接收到WM_DRAWITEM后且父窗口OnDrawItem函数返回false时调用发出通知控件的该函数
+         * @param pDrawItem 包含有关要绘制的项和所需绘图类型的信息的结构体指针
+         * @return          若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem);
+
+        /**
+         * @brief          接收到WM_MEASUREITEM时调用该函数
+         * @param id       控件的标识符，若消息是通过菜单发送的则此参数为零
+         * @param pMeasure 包含有关要绘制的项的信息的结构体指针
+         * @return         若已处理该消息则返回true，否则调用发出通知控件的OnMeasureItemSelf函数，依据其返回值判断是否调用DefaultWndProc
+         */
+        virtual bool OnMeasureItem(int id, MEASUREITEMSTRUCT *pMeasure);
+
+        /**
+         * @brief          父窗口接收到WM_MEASUREITEM后且父窗口OnMeasureItem函数返回false时调用发出通知控件的该函数
+         * @param pMeasure 包含有关要绘制的项的信息的结构体指针
+         * @return         若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnMeasureItemSelf(MEASUREITEMSTRUCT *pMeasure);
 
         /**
          * @brief       接收到WM_DROPFILES时调用该函数
@@ -4797,11 +4823,6 @@ namespace sw
          * @param updateWindow 是否调用UpdateWindow
          */
         void Redraw(bool erase = false, bool updateWindow = false);
-
-        /**
-         * @brief 判断当前对象是否是控件
-         */
-        bool IsControl();
 
         /**
          * @brief 判断当前对象在界面中是否可视，与Visible属性不同的是该函数返回值会受父窗口的影响
@@ -4879,10 +4900,38 @@ namespace sw
         LRESULT SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
         /**
+         * @brief 发送消息（ASCII）并立即返回
+         */
+        BOOL PostMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
+         * @brief 发送消息（UNICODE）并立即返回
+         */
+        BOOL PostMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
          * @brief           测试指定点在窗口的哪一部分
          * @param testPoint 要测试的点在屏幕中的位置
          */
         HitTestResult NcHitTest(const Point &testPoint);
+
+    private:
+        /**
+         * @brief 窗口过程函数，调用对象的WndProc
+         */
+        static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
+         * @brief 获取一个新的控件id
+         */
+        static int _NextControlId();
+
+        /**
+         * @brief      关联窗口句柄与WndBase对象
+         * @param hwnd 窗口句柄
+         * @param wnd  与句柄关联的对象
+         */
+        static void _SetWndBase(HWND hwnd, WndBase &wnd);
 
     public:
         /**
@@ -6785,6 +6834,12 @@ namespace sw
      */
     class Control : virtual public UIElement
     {
+    public:
+        /**
+         * @brief 控件的标识符
+         */
+        const ReadOnlyProperty<int> ControlId;
+
     protected:
         /**
          * @brief 初始化控件
@@ -6799,16 +6854,18 @@ namespace sw
 
     protected:
         /**
-         * @brief 销毁控件句柄并重新初始化，该操作会创建新的句柄并设置样式、文本、字体等
+         * @brief         销毁控件句柄并重新初始化，该操作会创建新的句柄并设置样式、文本、字体等
+         * @param lpParam 创建控件句柄时传给CreateWindowExW的参数
          */
-        void ResetHandle();
+        void ResetHandle(LPVOID lpParam = NULL);
 
         /**
          * @brief         销毁控件句柄并重新初始化，并修改样式，该操作会创建新的句柄并设置样式、文本、字体等
          * @param style   新的样式
          * @param exStyle 新的扩展样式
+         * @param lpParam 创建控件句柄时传给CreateWindowExW的参数
          */
-        void ResetHandle(DWORD style, DWORD exStyle);
+        void ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam = NULL);
 
         /**
          * @brief 控件句柄发生改变时调用该函数
@@ -10071,6 +10128,14 @@ namespace sw
          * @return 是否应用新文本
          */
         virtual bool OnEndEdit(NMLVDISPINFOW *pNMInfo);
+
+        /**
+         * @brief        当OnNotified接收到NM_CUSTOMDRAW通知时调用该函数
+         * @param pNMCD  包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnCustomDraw(NMLVCUSTOMDRAW *pNMCD, LRESULT &result);
 
     public:
         /**
