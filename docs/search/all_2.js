@@ -11,7 +11,7 @@ var searchData=
   ['bottom_8',['bottom',['../structsw_1_1_thickness.html#acea3dd0c6fdcc155ac47ec7c3eab97fa',1,'sw::Thickness']]],
   ['buffersize_9',['BufferSize',['../classsw_1_1_file_dialog.html#a5e6e2f2ce50e191d4ed8d215778f859b',1,'sw::FileDialog::BufferSize'],['../classsw_1_1_folder_browser_dialog.html#ae516c8b298cb378a4f159babfc09692a',1,'sw::FolderBrowserDialog::BufferSize']]],
   ['buildstr_10',['BuildStr',['../classsw_1_1_utils.html#abb9a32e7b7d1fb83832c9a39a84c3452',1,'sw::Utils']]],
-  ['buildwindowcore_11',['BuildWindowCore',['../classsw_1_1_hwnd_host.html#a9ac22adfa9d96348e7f89932d82cf3d3',1,'sw::HwndHost::BuildWindowCore()'],['../classsw_1_1_i_p_address_control.html#ad0eddbb54d50cac5eb5475b1424d12f1',1,'sw::IPAddressControl::BuildWindowCore()']]],
+  ['buildwindowcore_11',['BuildWindowCore',['../classsw_1_1_hwnd_host.html#a9ac22adfa9d96348e7f89932d82cf3d3',1,'sw::HwndHost::BuildWindowCore()'],['../classsw_1_1_hwnd_wrapper.html#a6fe8e281590746253fc9fc523fb1c893',1,'sw::HwndWrapper::BuildWindowCore()'],['../classsw_1_1_i_p_address_control.html#ad0eddbb54d50cac5eb5475b1424d12f1',1,'sw::IPAddressControl::BuildWindowCore()']]],
   ['button_12',['Button',['../classsw_1_1_button.html',1,'sw::Button'],['../classsw_1_1_button.html#aafd2e523e98d68c45e451d93f22ead13',1,'sw::Button::Button()']]],
   ['buttonbase_13',['ButtonBase',['../classsw_1_1_button_base.html',1,'sw::ButtonBase'],['../classsw_1_1_button_base.html#ae5dad2a65523da878df700fa4aefe3ee',1,'sw::ButtonBase::ButtonBase()']]]
 ];

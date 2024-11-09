@@ -320,11 +320,7 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
 
 void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam)
 {
-    if (_controlInitContainer == nullptr || _controlInitContainer->_isDestroyed) {
-        delete _controlInitContainer;
-        _controlInitContainer = new std::remove_reference_t<decltype(*_controlInitContainer)>;
-        _controlInitContainer->InitWindow(L"", WS_POPUP, 0);
-    }
+    WndBase::_InitControlContainer();
 
     if (this->_hwnd != NULL) {
         return;
@@ -1126,6 +1122,15 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     }
 
     return DefWindowProcW(hwnd, uMsg, wParam, lParam);
+}
+
+void sw::WndBase::_InitControlContainer()
+{
+    if (_controlInitContainer == nullptr || _controlInitContainer->_isDestroyed) {
+        delete _controlInitContainer;
+        _controlInitContainer = new std::remove_reference<decltype(*_controlInitContainer)>::type;
+        _controlInitContainer->InitWindow(L"", WS_POPUP, 0);
+    }
 }
 
 int sw::WndBase::_NextControlId()

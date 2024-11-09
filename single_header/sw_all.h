@@ -4158,8 +4158,6 @@ namespace sw
 
 namespace sw
 {
-    class Control; // Control.h
-
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
@@ -4167,6 +4165,9 @@ namespace sw
     {
         // 部分控件可能会改变HWND，设为友元类向Control类暴露_hwnd字段
         friend class Control;
+
+        // HwndWrapper不使用InitWindow或InitControl初始化句柄，向其暴露底层细节以便实现相关功能
+        friend class HwndWrapper;
 
     private:
         /**
@@ -4920,6 +4921,11 @@ namespace sw
          * @brief 窗口过程函数，调用对象的WndProc
          */
         static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
+         * @brief 初始化控件创建时所在的容器
+         */
+        static void _InitControlContainer();
 
         /**
          * @brief 获取一个新的控件id
@@ -6871,6 +6877,33 @@ namespace sw
          * @brief 控件句柄发生改变时调用该函数
          */
         virtual void HandleChenged();
+    };
+}
+
+// HwndWrapper.h
+
+
+namespace sw
+{
+    /**
+     * @brief 将Win32 window包装为SimpleWindow对象
+     * @note  与HwndHost类似，不同的是HwndWrapper不会创建容器窗口并且会接管句柄的窗口过程函数
+     */
+    class HwndWrapper : public UIElement
+    {
+    protected:
+        /**
+         * @brief 子类需要调用该函数以初始化HwndWrapper，该函数会调用BuildWindowCore
+         */
+        void InitHwndWrapper();
+
+        /**
+         * @brief           初始化HwndWrapper时会调用该函数，需在该函数中创建并返回要被托管的窗口句柄
+         * @param isControl 若被托管的窗口句柄是一个控件需要将该值置为true
+         * @param controlId 当isControl被设为true时，该值提供一个可用的控件id，确保不会与其他控件的id相重复
+         * @return          被托管窗口句柄
+         */
+        virtual HWND BuildWindowCore(bool &isControl, int controlId) = 0;
     };
 }
 
@@ -9573,7 +9606,7 @@ namespace sw
         virtual bool OnDestroy() override;
 
         /**
-         * @brief         HwndHost创建时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄
+         * @brief         初始化HwndHost时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄
          * @param hParent 需要给被托管窗口句柄设置的父窗口句柄
          * @return        被托管窗口句柄
          */
@@ -10740,7 +10773,7 @@ namespace sw
 
     protected:
         /**
-         * @brief         HwndHost创建时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄
+         * @brief         初始化HwndHost时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄
          * @param hParent 需要给被托管窗口句柄设置的父窗口句柄
          * @return        被托管窗口句柄
          */

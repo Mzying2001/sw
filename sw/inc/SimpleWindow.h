@@ -32,6 +32,7 @@
 #include "HitTestResult.h"
 #include "HotKeyControl.h"
 #include "HwndHost.h"
+#include "HwndWrapper.h"
 #include "ILayout.h"
 #include "IPAddressControl.h"
 #include "ITag.h"
