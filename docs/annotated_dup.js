@@ -57,6 +57,7 @@ var annotated_dup =
       [ "HotKeyControl", "classsw_1_1_hot_key_control.html", "classsw_1_1_hot_key_control" ],
       [ "HotKeyValueChangedEventArgs", "structsw_1_1_hot_key_value_changed_event_args.html", null ],
       [ "HwndHost", "classsw_1_1_hwnd_host.html", "classsw_1_1_hwnd_host" ],
+      [ "HwndWrapper", "classsw_1_1_hwnd_wrapper.html", "classsw_1_1_hwnd_wrapper" ],
       [ "IconBox", "classsw_1_1_icon_box.html", "classsw_1_1_icon_box" ],
       [ "IconHelper", "classsw_1_1_icon_helper.html", null ],
       [ "ILayout", "classsw_1_1_i_layout.html", "classsw_1_1_i_layout" ],

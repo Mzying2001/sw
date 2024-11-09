@@ -104,6 +104,7 @@ var hierarchy =
             [ "sw::TextBox", "classsw_1_1_text_box.html", null ]
           ] ]
         ] ],
+        [ "sw::HwndWrapper", "classsw_1_1_hwnd_wrapper.html", null ],
         [ "sw::Layer", "classsw_1_1_layer.html", [
           [ "sw::PanelBase", "classsw_1_1_panel_base.html", null ],
           [ "sw::Window", "classsw_1_1_window.html", null ]

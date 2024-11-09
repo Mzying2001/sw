@@ -31,6 +31,7 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "HitTestResult.h", "_hit_test_result_8h_source.html", null ],
     [ "HotKeyControl.h", "_hot_key_control_8h_source.html", null ],
     [ "HwndHost.h", "_hwnd_host_8h_source.html", null ],
+    [ "HwndWrapper.h", "_hwnd_wrapper_8h_source.html", null ],
     [ "Icon.h", "_icon_8h_source.html", null ],
     [ "IconBox.h", "_icon_box_8h_source.html", null ],
     [ "ILayout.h", "_i_layout_8h_source.html", null ],

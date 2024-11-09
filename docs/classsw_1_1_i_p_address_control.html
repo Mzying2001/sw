@@ -571,7 +571,7 @@ const <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty<
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
 <tr class="memitem:ad0eddbb54d50cac5eb5475b1424d12f1" id="r_ad0eddbb54d50cac5eb5475b1424d12f1"><td class="memItemLeft" align="right" valign="top">virtual HWND&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0eddbb54d50cac5eb5475b1424d12f1">BuildWindowCore</a> (HWND hParent) override</td></tr>
-<tr class="memdesc:ad0eddbb54d50cac5eb5475b1424d12f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">HwndHost创建时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄  <br /></td></tr>
+<tr class="memdesc:ad0eddbb54d50cac5eb5475b1424d12f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化HwndHost时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄  <br /></td></tr>
 <tr class="separator:ad0eddbb54d50cac5eb5475b1424d12f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3187c6c8bdf6da11b5c5027b49fc2dd0" id="r_a3187c6c8bdf6da11b5c5027b49fc2dd0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3187c6c8bdf6da11b5c5027b49fc2dd0">DestroyWindowCore</a> (HWND hwnd) override</td></tr>
 <tr class="memdesc:a3187c6c8bdf6da11b5c5027b49fc2dd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">HwndHost被销毁时会调用该函数来销毁被托管的窗口句柄  <br /></td></tr>
@@ -901,7 +901,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 </table>
 </div><div class="memdoc">
 
-<p>HwndHost创建时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄 </p>
+<p>初始化HwndHost时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">hParent</td><td>需要给被托管窗口句柄设置的父窗口句柄 </td></tr>

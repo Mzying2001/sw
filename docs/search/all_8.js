@@ -17,5 +17,6 @@ var searchData=
   ['hotkeycontrol_14',['HotKeyControl',['../classsw_1_1_hot_key_control.html',1,'sw::HotKeyControl'],['../classsw_1_1_hot_key_control.html#ae58ad7be2266801faaab1777b443f10c',1,'sw::HotKeyControl::HotKeyControl()']]],
   ['hotkeyvaluechangedeventargs_15',['HotKeyValueChangedEventArgs',['../structsw_1_1_hot_key_value_changed_event_args.html',1,'sw']]],
   ['hwnd_16',['hwnd',['../structsw_1_1_proc_msg.html#a944e366c9c75b08eebbb32fc3959f334',1,'sw::ProcMsg']]],
-  ['hwndhost_17',['HwndHost',['../classsw_1_1_hwnd_host.html',1,'sw::HwndHost'],['../classsw_1_1_hwnd_host.html#af050f409c9407b9cf5e6670392830688',1,'sw::HwndHost::HwndHost()']]]
+  ['hwndhost_17',['HwndHost',['../classsw_1_1_hwnd_host.html',1,'sw::HwndHost'],['../classsw_1_1_hwnd_host.html#af050f409c9407b9cf5e6670392830688',1,'sw::HwndHost::HwndHost()']]],
+  ['hwndwrapper_18',['HwndWrapper',['../classsw_1_1_hwnd_wrapper.html',1,'sw']]]
 ];
