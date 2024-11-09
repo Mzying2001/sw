@@ -2659,6 +2659,39 @@ bool sw::HwndHost::OnDestroy()
     return this->StaticControl::OnDestroy();
 }
 
+// HwndWrapper.cpp
+
+void sw::HwndWrapper::InitHwndWrapper()
+{
+    if (this->_hwnd != NULL) {
+        return;
+    }
+
+    bool isControl = false;
+
+    this->_hwnd = this->BuildWindowCore(
+        isControl, WndBase::_NextControlId());
+
+    this->_isControl = isControl;
+    WndBase::_SetWndBase(this->_hwnd, *this);
+
+    this->_originalWndProc = reinterpret_cast<WNDPROC>(
+        SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
+
+    RECT rect;
+    GetWindowRect(this->_hwnd, &rect);
+    this->_rect = rect;
+
+    this->UpdateText();
+    this->HandleInitialized(this->_hwnd);
+    this->UpdateFont();
+
+    if (this->_isControl) {
+        WndBase::_InitControlContainer();
+        this->SetParent(nullptr);
+    }
+}
+
 // Icon.cpp
 
 HICON sw::IconHelper::GetIconHandle(StandardIcon icon)
@@ -9075,11 +9108,7 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
 
 void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam)
 {
-    if (_controlInitContainer == nullptr || _controlInitContainer->_isDestroyed) {
-        delete _controlInitContainer;
-        _controlInitContainer = new std::remove_reference_t<decltype(*_controlInitContainer)>;
-        _controlInitContainer->InitWindow(L"", WS_POPUP, 0);
-    }
+    WndBase::_InitControlContainer();
 
     if (this->_hwnd != NULL) {
         return;
@@ -9881,6 +9910,15 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     }
 
     return DefWindowProcW(hwnd, uMsg, wParam, lParam);
+}
+
+void sw::WndBase::_InitControlContainer()
+{
+    if (_controlInitContainer == nullptr || _controlInitContainer->_isDestroyed) {
+        delete _controlInitContainer;
+        _controlInitContainer = new std::remove_reference<decltype(*_controlInitContainer)>::type;
+        _controlInitContainer->InitWindow(L"", WS_POPUP, 0);
+    }
 }
 
 int sw::WndBase::_NextControlId()
