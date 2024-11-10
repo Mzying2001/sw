@@ -31,6 +31,6 @@ void sw::HwndWrapper::InitHwndWrapper()
 
     if (this->_isControl) {
         WndBase::_InitControlContainer();
-        this->SetParent(nullptr);
+        this->WndBase::SetParent(nullptr);
     }
 }
