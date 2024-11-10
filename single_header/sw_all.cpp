@@ -2678,6 +2678,10 @@ void sw::HwndWrapper::InitHwndWrapper()
     this->_originalWndProc = reinterpret_cast<WNDPROC>(
         SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
 
+    if (this->_originalWndProc == WndBase::_WndProc) {
+        this->_originalWndProc = nullptr; // 防止无限递归
+    }
+
     RECT rect;
     GetWindowRect(this->_hwnd, &rect);
     this->_rect = rect;
@@ -2688,7 +2692,7 @@ void sw::HwndWrapper::InitHwndWrapper()
 
     if (this->_isControl) {
         WndBase::_InitControlContainer();
-        this->SetParent(nullptr);
+        this->WndBase::SetParent(nullptr);
     }
 }
 
