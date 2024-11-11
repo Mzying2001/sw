@@ -4158,6 +4158,8 @@ namespace sw
 
 namespace sw
 {
+    class UIElement; // UIElement.h
+
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
@@ -4352,6 +4354,12 @@ namespace sw
          * @brief 判断两个WndBase是否为不同实例
          */
         bool operator!=(const WndBase &other) const;
+
+        /**
+         * @brief  尝试将对象转换成UIElement
+         * @return 若函数成功则返回UIElement指针，否则返回nullptr
+         */
+        virtual UIElement *ToUIElement();
 
     protected:
         /**
@@ -5354,6 +5362,20 @@ namespace sw
         virtual void OnTick();
 
     private:
+        /**
+         * @brief      通过窗口句柄获取Timer指针
+         * @param hwnd 窗口句柄
+         * @return     若函数成功则返回对象的指针，否则返回nullptr
+         */
+        static Timer *_GetTimerPtr(HWND hwnd);
+
+        /**
+         * @brief       关联窗口句柄与Timer对象
+         * @param hwnd  窗口句柄
+         * @param timer 与句柄关联的对象
+         */
+        static void _SetTimerPtr(HWND hwnd, Timer &timer);
+
         /**
          * @brief TimerProc回调函数
          */
@@ -6435,6 +6457,12 @@ namespace sw
          * @param finalSize 最终控件所安排的位置
          */
         virtual void Arrange(const sw::Rect &finalPosition) override;
+
+        /**
+         * @brief  尝试将对象转换成UIElement
+         * @return 若函数成功则返回UIElement指针，否则返回nullptr
+         */
+        virtual UIElement *ToUIElement() override;
 
     protected:
         /**
