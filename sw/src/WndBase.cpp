@@ -283,6 +283,11 @@ bool sw::WndBase::operator!=(const WndBase &other) const
     return this != &other;
 }
 
+sw::UIElement *sw::WndBase::ToUIElement()
+{
+    return nullptr;
+}
+
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
     if (this->_hwnd != NULL) {

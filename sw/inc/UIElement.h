@@ -513,6 +513,12 @@ namespace sw
          */
         virtual void Arrange(const sw::Rect &finalPosition) override;
 
+        /**
+         * @brief  尝试将对象转换成UIElement
+         * @return 若函数成功则返回UIElement指针，否则返回nullptr
+         */
+        virtual UIElement *ToUIElement() override;
+
     protected:
         /**
          * @brief           触发路由事件

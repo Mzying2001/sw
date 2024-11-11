@@ -19,6 +19,8 @@
 
 namespace sw
 {
+    class UIElement; // UIElement.h
+
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
@@ -213,6 +215,12 @@ namespace sw
          * @brief 判断两个WndBase是否为不同实例
          */
         bool operator!=(const WndBase &other) const;
+
+        /**
+         * @brief  尝试将对象转换成UIElement
+         * @return 若函数成功则返回UIElement指针，否则返回nullptr
+         */
+        virtual UIElement *ToUIElement();
 
     protected:
         /**

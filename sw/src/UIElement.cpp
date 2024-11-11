@@ -577,6 +577,11 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     this->_arranging = false;
 }
 
+sw::UIElement *sw::UIElement::ToUIElement()
+{
+    return this;
+}
+
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)
 {
     RoutedEventArgs eventArgs(eventType);
