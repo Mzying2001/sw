@@ -81,6 +81,7 @@ var classsw_1_1_u_i_element =
     [ "SetTag", "classsw_1_1_u_i_element.html#a09acdba6221e69b6ecb17b49975a1414", null ],
     [ "SetTextColor", "classsw_1_1_u_i_element.html#ab8557638ba9975346d62f5339de55664", null ],
     [ "ShowContextMenu", "classsw_1_1_u_i_element.html#ae513a79247f76498e8f586d4ced1ff6e", null ],
+    [ "ToUIElement", "classsw_1_1_u_i_element.html#a56ab87f8a258e25ae429dab03771b5b4", null ],
     [ "UnregisterRoutedEvent", "classsw_1_1_u_i_element.html#a0cbfb44f8280a3e5e01b71906e588d69", null ],
     [ "UpdateChildrenZOrder", "classsw_1_1_u_i_element.html#acf5b0f1e5c2e24390b7f267db28c595a", null ],
     [ "UpdateSiblingsZOrder", "classsw_1_1_u_i_element.html#ae7e788c5e662363d6244414c5250a39d", null ],

@@ -23,12 +23,13 @@ var searchData=
   ['top_20',['top',['../structsw_1_1_canvas_layout_tag.html#aebee142b9a9c5838c3fc2cb7a62374af',1,'sw::CanvasLayoutTag::top'],['../structsw_1_1_rect.html#adeb78de2f6a13f22d475605eb0e0e074',1,'sw::Rect::top'],['../structsw_1_1_thickness.html#a817cf35540e487ad81984daf97b92208',1,'sw::Thickness::top']]],
   ['topindex_21',['TopIndex',['../classsw_1_1_list_box.html#a3fa1be9a1a9752e54d61cb6cadd1bc4a',1,'sw::ListBox::TopIndex'],['../classsw_1_1_list_view.html#a4158ee431cd207fc45ef4212baf7b37a',1,'sw::ListView::TopIndex']]],
   ['topmost_22',['Topmost',['../classsw_1_1_window.html#a1a15faeb81c21aa3327dcd8fefdc5ffd',1,'sw::Window']]],
-  ['towidestr_23',['ToWideStr',['../classsw_1_1_utils.html#ae08072c3e4e8796d5ffad7027e41f773',1,'sw::Utils']]],
-  ['transparent_24',['Transparent',['../classsw_1_1_u_i_element.html#aa9d544a538ca2cfa3d022da61e7637e5',1,'sw::UIElement']]],
-  ['trim_25',['Trim',['../classsw_1_1_utils.html#ac1a4b590a8f330ca9af3ec557f3c0eac',1,'sw::Utils']]],
-  ['trimend_26',['TrimEnd',['../classsw_1_1_utils.html#ab2e47287405f057170c24ba15d9ebe48',1,'sw::Utils']]],
-  ['trimstart_27',['TrimStart',['../classsw_1_1_utils.html#ad19ab16d87c5c8f6ee319b593bf21fc7',1,'sw::Utils']]],
-  ['tt_28',['&lt;tt&gt;sw&lt;/tt&gt;',['../index.html',1,'']]],
-  ['tt_20sw_20tt_29',['&lt;tt&gt;sw&lt;/tt&gt;',['../index.html',1,'']]],
-  ['type_30',['type',['../structsw_1_1_grid_row.html#a6d8ada10faf765f507353052361bfacf',1,'sw::GridRow::type'],['../structsw_1_1_grid_column.html#a6291c41939a7abda14003bf799325d1b',1,'sw::GridColumn::type']]]
+  ['touielement_23',['ToUIElement',['../classsw_1_1_u_i_element.html#a56ab87f8a258e25ae429dab03771b5b4',1,'sw::UIElement::ToUIElement()'],['../classsw_1_1_wnd_base.html#ac04608233daebea10a3f0aa37c02b36d',1,'sw::WndBase::ToUIElement()']]],
+  ['towidestr_24',['ToWideStr',['../classsw_1_1_utils.html#ae08072c3e4e8796d5ffad7027e41f773',1,'sw::Utils']]],
+  ['transparent_25',['Transparent',['../classsw_1_1_u_i_element.html#aa9d544a538ca2cfa3d022da61e7637e5',1,'sw::UIElement']]],
+  ['trim_26',['Trim',['../classsw_1_1_utils.html#ac1a4b590a8f330ca9af3ec557f3c0eac',1,'sw::Utils']]],
+  ['trimend_27',['TrimEnd',['../classsw_1_1_utils.html#ab2e47287405f057170c24ba15d9ebe48',1,'sw::Utils']]],
+  ['trimstart_28',['TrimStart',['../classsw_1_1_utils.html#ad19ab16d87c5c8f6ee319b593bf21fc7',1,'sw::Utils']]],
+  ['tt_29',['&lt;tt&gt;sw&lt;/tt&gt;',['../index.html',1,'']]],
+  ['tt_20sw_20tt_30',['&lt;tt&gt;sw&lt;/tt&gt;',['../index.html',1,'']]],
+  ['type_31',['type',['../structsw_1_1_grid_row.html#a6d8ada10faf765f507353052361bfacf',1,'sw::GridRow::type'],['../structsw_1_1_grid_column.html#a6291c41939a7abda14003bf799325d1b',1,'sw::GridColumn::type']]]
 ];
