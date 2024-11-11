@@ -14,6 +14,31 @@ namespace
     int _windowCount = 0;
 
     /**
+     * @brief 窗口句柄保存Window指针的属性名称
+     */
+    constexpr wchar_t _WindowPtrProp[] = L"SWPROP_WindowPtr";
+
+    /**
+     * @brief      通过窗口句柄获取Window指针
+     * @param hwnd 窗口句柄
+     * @return     若函数成功则返回对象的指针，否则返回nullptr
+     */
+    sw::Window *_GetWindowPtr(HWND hwnd)
+    {
+        return reinterpret_cast<sw::Window *>(GetPropW(hwnd, _WindowPtrProp));
+    }
+
+    /**
+     * @brief      关联窗口句柄与Window对象
+     * @param hwnd 窗口句柄
+     * @param wnd  与句柄关联的对象
+     */
+    void _SetWindowPtr(HWND hwnd, sw::Window &wnd)
+    {
+        SetPropW(hwnd, _WindowPtrProp, reinterpret_cast<HANDLE>(&wnd));
+    }
+
+    /**
      * @brief DPI更新时调用该函数递归地更新所有子项的字体
      */
     void _UpdateFontForAllChild(sw::UIElement &element)
@@ -42,7 +67,7 @@ namespace
 const sw::ReadOnlyPtrProperty<sw::Window *> sw::Window::ActiveWindow(
     []() -> sw::Window * {
         HWND hwnd = GetActiveWindow();
-        return dynamic_cast<sw::Window *>(sw::WndBase::GetWndBase(hwnd));
+        return _GetWindowPtr(hwnd);
     } //
 );
 
@@ -210,9 +235,8 @@ sw::Window::Window()
       Owner(
           // get
           [this]() -> Window * {
-              HWND hOwner  = reinterpret_cast<HWND>(GetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT));
-              WndBase *wnd = (hOwner == NULL) ? nullptr : WndBase::GetWndBase(hOwner);
-              return dynamic_cast<Window *>(wnd);
+              HWND hOwner = reinterpret_cast<HWND>(GetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT));
+              return _GetWindowPtr(hOwner);
           },
           // set
           [this](Window *value) {
@@ -220,6 +244,7 @@ sw::Window::Window()
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
+    _SetWindowPtr(this->Handle, *this);
     this->SetIcon(_GetWindowDefaultIcon());
 }
 
