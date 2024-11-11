@@ -23,7 +23,7 @@ sw::Timer::Timer()
               }
           })
 {
-    this->InitControl(L"STATIC", L"", WS_POPUP, 0);
+    this->InitControl(L"STATIC", L"", WS_CHILD, 0);
     Timer::_SetTimerPtr(this->Handle, *this);
 }
 
