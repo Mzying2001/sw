@@ -144,10 +144,14 @@ $(function(){initNavTree('_timer_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="classsw_1_1_timer.html#a06fa34b75d4c720a783993591dac1d3f">   80</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_timer.html#a06fa34b75d4c720a783993591dac1d3f">OnTick</a>();</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keyword">static</span> <span class="keywordtype">void</span> CALLBACK _TimerProc(HWND hwnd, UINT msg, UINT_PTR idTimer, DWORD time);</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    };</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keyword">static</span> <a class="code hl_class" href="classsw_1_1_timer.html">Timer</a> *_GetTimerPtr(HWND hwnd);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keyword">static</span> <span class="keywordtype">void</span> _SetTimerPtr(HWND hwnd, <a class="code hl_class" href="classsw_1_1_timer.html">Timer</a> &amp;timer);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keyword">static</span> <span class="keywordtype">void</span> CALLBACK _TimerProc(HWND hwnd, UINT msg, UINT_PTR idTimer, DWORD time);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    };</div>
 </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>}</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>}</div>
 <div class="ttc" id="aclasssw_1_1_property_html"><div class="ttname"><a href="classsw_1_1_property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>定义</b> Property.h:428</div></div>
 <div class="ttc" id="aclasssw_1_1_timer_html"><div class="ttname"><a href="classsw_1_1_timer.html">sw::Timer</a></div><div class="ttdoc">计时器</div><div class="ttdef"><b>定义</b> Timer.h:18</div></div>
 <div class="ttc" id="aclasssw_1_1_timer_html_a06fa34b75d4c720a783993591dac1d3f"><div class="ttname"><a href="classsw_1_1_timer.html#a06fa34b75d4c720a783993591dac1d3f">sw::Timer::OnTick</a></div><div class="ttdeci">virtual void OnTick()</div><div class="ttdoc">计时器已启动并且达到间隔时间时调用该函数</div></div>
@@ -157,7 +161,7 @@ $(function(){initNavTree('_timer_8h_source.html',''); initResizable(true); });
 <div class="ttc" id="aclasssw_1_1_timer_html_a73ee7d7c41d88b3d99f505872ea930b6"><div class="ttname"><a href="classsw_1_1_timer.html#a73ee7d7c41d88b3d99f505872ea930b6">sw::Timer::Stop</a></div><div class="ttdeci">void Stop()</div><div class="ttdoc">停止计时器</div></div>
 <div class="ttc" id="aclasssw_1_1_timer_html_acec5ee73ac5d69fc7c7f44a73a3dd9c5"><div class="ttname"><a href="classsw_1_1_timer.html#acec5ee73ac5d69fc7c7f44a73a3dd9c5">sw::Timer::SetTickHandler</a></div><div class="ttdeci">void SetTickHandler(const TimerTickHandler &amp;handler)</div><div class="ttdoc">设置计时器事件处理函数</div></div>
 <div class="ttc" id="aclasssw_1_1_timer_html_adae6ca9fd2757656b3eada5d02b7925b"><div class="ttname"><a href="classsw_1_1_timer.html#adae6ca9fd2757656b3eada5d02b7925b">sw::Timer::SetTickHandler</a></div><div class="ttdeci">void SetTickHandler(T &amp;obj, void(T::*handler)(Timer &amp;))</div><div class="ttdoc">设置成员函数为计时器事件处理函数</div><div class="ttdef"><b>定义</b> Timer.h:70</div></div>
-<div class="ttc" id="aclasssw_1_1_wnd_base_html"><div class="ttname"><a href="classsw_1_1_wnd_base.html">sw::WndBase</a></div><div class="ttdoc">表示一个Windows窗口，是所有窗口和控件的基类</div><div class="ttdef"><b>定义</b> WndBase.h:26</div></div>
+<div class="ttc" id="aclasssw_1_1_wnd_base_html"><div class="ttname"><a href="classsw_1_1_wnd_base.html">sw::WndBase</a></div><div class="ttdoc">表示一个Windows窗口，是所有窗口和控件的基类</div><div class="ttdef"><b>定义</b> WndBase.h:28</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

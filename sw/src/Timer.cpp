@@ -1,5 +1,13 @@
 #include "Timer.h"
 
+/**
+ * @brief 窗口句柄保存Timer指针的属性名称
+ */
+static constexpr wchar_t _TimerPtrProp[] = L"SWPROP_TimerPtr";
+
+/**
+ */
+
 sw::Timer::Timer()
     : Interval(
           // get
@@ -15,7 +23,8 @@ sw::Timer::Timer()
               }
           })
 {
-    this->InitControl(L"STATIC", L"", WS_POPUP, 0);
+    this->InitControl(L"STATIC", L"", WS_CHILD, 0);
+    Timer::_SetTimerPtr(this->Handle, *this);
 }
 
 void sw::Timer::Start()
@@ -45,10 +54,20 @@ void sw::Timer::OnTick()
         this->_handler(*this);
 }
 
+sw::Timer *sw::Timer::_GetTimerPtr(HWND hwnd)
+{
+    return reinterpret_cast<Timer *>(GetPropW(hwnd, _TimerPtrProp));
+}
+
+void sw::Timer::_SetTimerPtr(HWND hwnd, Timer &timer)
+{
+    SetPropW(hwnd, _TimerPtrProp, reinterpret_cast<HANDLE>(&timer));
+}
+
 void sw::Timer::_TimerProc(HWND hwnd, UINT msg, UINT_PTR idTimer, DWORD time)
 {
     if (msg == WM_TIMER) {
-        auto timer = dynamic_cast<Timer *>(WndBase::GetWndBase(hwnd));
+        auto timer = Timer::_GetTimerPtr(hwnd);
         if (timer) timer->OnTick();
     }
 }

@@ -7,8 +7,9 @@ var searchData=
   ['timer_4',['Timer',['../classsw_1_1_timer.html#a40811de5ab230e0ffdce49c3a0fdee84',1,'sw::Timer']]],
   ['tomultibytestr_5',['ToMultiByteStr',['../classsw_1_1_utils.html#a6cc154f2d595b5624b3aaca8b64fd3dd',1,'sw::Utils']]],
   ['tooltip_6',['ToolTip',['../classsw_1_1_tool_tip.html#a364f8ce1a0e039241bcac3592eb6840f',1,'sw::ToolTip::ToolTip()'],['../classsw_1_1_tool_tip.html#a44f7d8b2c456deb0b4a5cdb86fc637e5',1,'sw::ToolTip::ToolTip(DWORD style)']]],
-  ['towidestr_7',['ToWideStr',['../classsw_1_1_utils.html#ae08072c3e4e8796d5ffad7027e41f773',1,'sw::Utils']]],
-  ['trim_8',['Trim',['../classsw_1_1_utils.html#ac1a4b590a8f330ca9af3ec557f3c0eac',1,'sw::Utils']]],
-  ['trimend_9',['TrimEnd',['../classsw_1_1_utils.html#ab2e47287405f057170c24ba15d9ebe48',1,'sw::Utils']]],
-  ['trimstart_10',['TrimStart',['../classsw_1_1_utils.html#ad19ab16d87c5c8f6ee319b593bf21fc7',1,'sw::Utils']]]
+  ['touielement_7',['ToUIElement',['../classsw_1_1_u_i_element.html#a56ab87f8a258e25ae429dab03771b5b4',1,'sw::UIElement::ToUIElement()'],['../classsw_1_1_wnd_base.html#ac04608233daebea10a3f0aa37c02b36d',1,'sw::WndBase::ToUIElement()']]],
+  ['towidestr_8',['ToWideStr',['../classsw_1_1_utils.html#ae08072c3e4e8796d5ffad7027e41f773',1,'sw::Utils']]],
+  ['trim_9',['Trim',['../classsw_1_1_utils.html#ac1a4b590a8f330ca9af3ec557f3c0eac',1,'sw::Utils']]],
+  ['trimend_10',['TrimEnd',['../classsw_1_1_utils.html#ab2e47287405f057170c24ba15d9ebe48',1,'sw::Utils']]],
+  ['trimstart_11',['TrimStart',['../classsw_1_1_utils.html#ad19ab16d87c5c8f6ee319b593bf21fc7',1,'sw::Utils']]]
 ];

@@ -577,6 +577,11 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     this->_arranging = false;
 }
 
+sw::UIElement *sw::UIElement::ToUIElement()
+{
+    return this;
+}
+
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)
 {
     RoutedEventArgs eventArgs(eventType);
@@ -714,7 +719,7 @@ void sw::UIElement::OnDrawFocusRect()
 bool sw::UIElement::SetParent(WndBase *parent)
 {
     UIElement *oldParentElement = this->_parent;
-    UIElement *newParentElement = dynamic_cast<UIElement *>(parent);
+    UIElement *newParentElement = parent ? parent->ToUIElement() : nullptr;
 
     if (newParentElement == nullptr) {
         /*
@@ -753,7 +758,7 @@ bool sw::UIElement::SetParent(WndBase *parent)
 
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
-    this->_parent = dynamic_cast<UIElement *>(newParent);
+    this->_parent = newParent ? newParent->ToUIElement() : nullptr;
 }
 
 void sw::UIElement::OnEndPaint()

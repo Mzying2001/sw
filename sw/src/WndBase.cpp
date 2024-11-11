@@ -10,7 +10,7 @@ namespace
     /**
      * @brief 窗口句柄保存WndBase指针的属性名称
      */
-    constexpr wchar_t _WndBasePtrProp[] = L"_WndBasePtr";
+    constexpr wchar_t _WndBasePtrProp[] = L"SWPROP_WndBasePtr";
 
     /**
      * @brief 窗口类名
@@ -281,6 +281,11 @@ bool sw::WndBase::operator==(const WndBase &other) const
 bool sw::WndBase::operator!=(const WndBase &other) const
 {
     return this != &other;
+}
+
+sw::UIElement *sw::WndBase::ToUIElement()
+{
+    return nullptr;
 }
 
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
