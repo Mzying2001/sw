@@ -6,21 +6,35 @@
 #define WM_DPICHANGED 0x02E0
 #endif
 
-/**
- * @brief 记录当前创建的窗口数
- */
-static int _windowCount = 0;
+namespace
+{
+    /**
+     * @brief 记录当前创建的窗口数
+     */
+    int _windowCount = 0;
 
-/**
- * @brief DPI更新时调用该函数递归地更新所有子项的字体
- */
-static void _UpdateFontForAllChild(sw::UIElement &element);
+    /**
+     * @brief DPI更新时调用该函数递归地更新所有子项的字体
+     */
+    void _UpdateFontForAllChild(sw::UIElement &element)
+    {
+        element.UpdateFont();
+        int count = element.ChildCount;
+        for (int i = 0; i < count; ++i) {
+            _UpdateFontForAllChild(element[i]);
+        }
+    }
 
-/**
- * @brief  获取窗口默认图标（即当前exe图标）
- * @return 图标句柄
- */
-static HICON _GetWindowDefaultIcon();
+    /**
+     * @brief  获取窗口默认图标（即当前exe图标）
+     * @return 图标句柄
+     */
+    HICON _GetWindowDefaultIcon()
+    {
+        static HICON hIcon = ExtractIconW(sw::App::Instance, sw::App::ExePath->c_str(), 0);
+        return hIcon;
+    }
+}
 
 /**
  * @brief 程序的当前活动窗体
@@ -485,20 +499,4 @@ void sw::Window::SizeToContent()
 
     // 恢复AutoSize属性的值
     this->AutoSize = oldAutoSize;
-}
-
-void _UpdateFontForAllChild(sw::UIElement &element)
-{
-    element.UpdateFont();
-
-    int count = element.ChildCount;
-    for (int i = 0; i < count; ++i) {
-        _UpdateFontForAllChild(element[i]);
-    }
-}
-
-HICON _GetWindowDefaultIcon()
-{
-    static HICON hIcon = ExtractIconW(sw::App::Instance, sw::App::ExePath->c_str(), 0);
-    return hIcon;
 }
