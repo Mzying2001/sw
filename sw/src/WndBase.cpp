@@ -631,8 +631,8 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_ERASEBKGND: {
-            int result = 0;
-            return this->OnEraseBackground(result) ? (LRESULT)result : this->DefaultWndProc(refMsg);
+            LRESULT result = 0;
+            return this->OnEraseBackground(reinterpret_cast<HDC>(refMsg.wParam), result) ? result : this->DefaultWndProc(refMsg);
         }
 
         case WM_DRAWITEM: {
@@ -949,7 +949,7 @@ void sw::WndBase::OnNcHitTest(const Point &testPoint, HitTestResult &result)
 {
 }
 
-bool sw::WndBase::OnEraseBackground(int &result)
+bool sw::WndBase::OnEraseBackground(HDC hdc, LRESULT &result)
 {
     return false;
 }
