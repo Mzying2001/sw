@@ -7,7 +7,7 @@ var classsw_1_1_window =
     [ "OnClose", "classsw_1_1_window.html#a50969fbd9f30ad27e72f11cb28ee4697", null ],
     [ "OnDestroy", "classsw_1_1_window.html#a09165434040ada6ea3f00a7d79b1f7a2", null ],
     [ "OnDpiChanged", "classsw_1_1_window.html#a850c77ff7a3271e6d2bc77258c2ed11d", null ],
-    [ "OnEraseBackground", "classsw_1_1_window.html#adfcacbd8da1c33b53a16990c76d86079", null ],
+    [ "OnEraseBackground", "classsw_1_1_window.html#af798c81f7a3d0b1c72b033b0940d9884", null ],
     [ "OnFirstShow", "classsw_1_1_window.html#a35a8bd930f1cf8a85204569f00b33f34", null ],
     [ "OnInactived", "classsw_1_1_window.html#a9f8bea034629f087944e9b33af60d9ec", null ],
     [ "OnMenuCommand", "classsw_1_1_window.html#a8ff6176f2fb886593f448b430c21fc90", null ],

@@ -326,6 +326,9 @@ var hierarchy =
     [ "sw::PropertyBase< VerticalAlignment, Property< VerticalAlignment > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< VerticalAlignment >", "classsw_1_1_property.html", null ]
     ] ],
+    [ "sw::PropertyBase< void(*)(const MSG &), Property< void(*)(const MSG &) > >", "classsw_1_1_property_base.html", [
+      [ "sw::Property< void(*)(const MSG &)>", "classsw_1_1_property.html", null ]
+    ] ],
     [ "sw::PropertyBase< wchar_t, Property< wchar_t > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< wchar_t >", "classsw_1_1_property.html", null ]
     ] ],
