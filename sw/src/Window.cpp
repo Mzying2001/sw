@@ -344,7 +344,7 @@ bool sw::Window::OnDestroy()
     return true;
 }
 
-bool sw::Window::OnEraseBackground(int &result)
+bool sw::Window::OnEraseBackground(HDC hdc, LRESULT &result)
 {
     result = 1; // 阻止擦除背景
     return true;

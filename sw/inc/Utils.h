@@ -61,6 +61,14 @@ namespace sw
          */
         static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
 
+        /**
+         * @brief     格式化字符串，类似于 `swprintf`，但返回一个动态分配的 `std::wstring`
+         * @param fmt 格式化字符串
+         * @param ... 可变参数，符合 `fmt` 格式的输入
+         * @return    返回一个包含格式化结果的字符串
+         */
+        static std::wstring FormatStr(const wchar_t *fmt, ...);
+
     public:
         /**
          * @brief 取两值中的较大值

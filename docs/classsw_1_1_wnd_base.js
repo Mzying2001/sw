@@ -32,7 +32,7 @@ var classsw_1_1_wnd_base =
     [ "OnDropFiles", "classsw_1_1_wnd_base.html#a9e95c73d7ac95cf80a1f49a970703b0b", null ],
     [ "OnEnabledChanged", "classsw_1_1_wnd_base.html#a755bd826227232fd30ba5fda47bfb060", null ],
     [ "OnEndPaint", "classsw_1_1_wnd_base.html#ad90b0eebbaa959949cae5b736e2104aa", null ],
-    [ "OnEraseBackground", "classsw_1_1_wnd_base.html#a748fda35e75d416077598f243afe9da1", null ],
+    [ "OnEraseBackground", "classsw_1_1_wnd_base.html#afd6fa4ee7f0a89966f165292c6be1e4c", null ],
     [ "OnHorizontalScroll", "classsw_1_1_wnd_base.html#af6773148b0a9a1fdd3c8a0d8cd54a2fd", null ],
     [ "OnKeyDown", "classsw_1_1_wnd_base.html#aea1d61cd6e108834e498009926ff3ebd", null ],
     [ "OnKeyUp", "classsw_1_1_wnd_base.html#af4e6b89a39f12d2fbdf987d79c05b190", null ],

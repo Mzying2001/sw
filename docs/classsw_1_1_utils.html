@@ -128,6 +128,9 @@ $(function(){initNavTree('classsw_1_1_utils.html',''); initResizable(true); });
 <tr class="memitem:a8f0292de23814b539a4f5db889422a06" id="r_a8f0292de23814b539a4f5db889422a06"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f0292de23814b539a4f5db889422a06">Split</a> (const std::wstring &amp;str, const std::wstring &amp;delimiter)</td></tr>
 <tr class="memdesc:a8f0292de23814b539a4f5db889422a06"><td class="mdescLeft">&#160;</td><td class="mdescRight">对字符串按照指定分隔符进行拆分  <br /></td></tr>
 <tr class="separator:a8f0292de23814b539a4f5db889422a06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c24af34667f813a9ccaa7ed834606d5" id="r_a5c24af34667f813a9ccaa7ed834606d5"><td class="memItemLeft" align="right" valign="top">static std::wstring&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c24af34667f813a9ccaa7ed834606d5">FormatStr</a> (const wchar_t *fmt,...)</td></tr>
+<tr class="memdesc:a5c24af34667f813a9ccaa7ed834606d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">格式化字符串，类似于 <code>swprintf</code>，但返回一个动态分配的 <code>std::wstring</code>  <br /></td></tr>
+<tr class="separator:a5c24af34667f813a9ccaa7ed834606d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add73fdd8d714ed80d3741fffcef5fbec" id="r_add73fdd8d714ed80d3741fffcef5fbec"><td class="memTemplParams" colspan="2"><a id="add73fdd8d714ed80d3741fffcef5fbec" name="add73fdd8d714ed80d3741fffcef5fbec"></a>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:add73fdd8d714ed80d3741fffcef5fbec"><td class="memTemplItemLeft" align="right" valign="top">static constexpr T&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Max</b> (const T &amp;a, const T &amp;b)</td></tr>
@@ -147,6 +150,45 @@ template&lt;typename... Args&gt; </td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>工具类 </p>
 </div><h2 class="groupheader">成员函数说明</h2>
+<a id="a5c24af34667f813a9ccaa7ed834606d5" name="a5c24af34667f813a9ccaa7ed834606d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c24af34667f813a9ccaa7ed834606d5">&#9670;&#160;</a></span>FormatStr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static std::wstring sw::Utils::FormatStr </td>
+          <td>(</td>
+          <td class="paramtype">const wchar_t *</td>          <td class="paramname"><span class="paramname"><em>fmt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>...</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>格式化字符串，类似于 <code>swprintf</code>，但返回一个动态分配的 <code>std::wstring</code> </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fmt</td><td>格式化字符串 </td></tr>
+    <tr><td class="paramname">...</td><td>可变参数，符合 <code>fmt</code> 格式的输入 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>返回一个包含格式化结果的字符串 </dd></dl>
+
+</div>
+</div>
 <a id="a8f0292de23814b539a4f5db889422a06" name="a8f0292de23814b539a4f5db889422a06"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8f0292de23814b539a4f5db889422a06">&#9670;&#160;</a></span>Split()</h2>
 

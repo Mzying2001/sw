@@ -9,6 +9,11 @@ namespace
     sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
 
     /**
+     * @brief 消息循环中处理空句柄消息的回调函数
+     */
+    void (*_nullHwndMsgHandler)(const MSG &) = nullptr;
+
+    /**
      * @brief  获取当前exe文件路径
      */
     std::wstring _GetExePath()
@@ -90,12 +95,28 @@ const sw::Property<sw::AppQuitMode> sw::App::QuitMode(
     } //
 );
 
+const sw::Property<void (*)(const MSG &)> sw::App::NullHwndMsgHandler(
+    // get
+    []() -> void (*)(const MSG &) {
+        return _nullHwndMsgHandler;
+    },
+    // set
+    [](void (*const &value)(const MSG &)) {
+        _nullHwndMsgHandler = value;
+    } //
+);
+
 int sw::App::MsgLoop()
 {
-    MSG msg{};
+    MSG msg;
     while (GetMessageW(&msg, NULL, 0, 0) > 0) {
-        TranslateMessage(&msg);
-        DispatchMessageW(&msg);
+        if (msg.hwnd == NULL) {
+            if (_nullHwndMsgHandler)
+                _nullHwndMsgHandler(msg);
+        } else {
+            TranslateMessage(&msg);
+            DispatchMessageW(&msg);
+        }
     }
     return (int)msg.wParam;
 }

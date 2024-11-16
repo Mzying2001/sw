@@ -2039,6 +2039,14 @@ namespace sw
          */
         static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
 
+        /**
+         * @brief     格式化字符串，类似于 `swprintf`，但返回一个动态分配的 `std::wstring`
+         * @param fmt 格式化字符串
+         * @param ... 可变参数，符合 `fmt` 格式的输入
+         * @return    返回一个包含格式化结果的字符串
+         */
+        static std::wstring FormatStr(const wchar_t *fmt, ...);
+
     public:
         /**
          * @brief 取两值中的较大值
@@ -2208,6 +2216,11 @@ namespace sw
          * @brief 程序退出消息循环的方式
          */
         static const Property<AppQuitMode> QuitMode;
+
+        /**
+         * @brief 消息循环中处理空句柄消息的回调函数
+         */
+        static const Property<void (*)(const MSG &)> NullHwndMsgHandler;
 
         /**
          * @brief  消息循环
@@ -4758,10 +4771,11 @@ namespace sw
 
         /**
          * @brief        接收到WM_ERASEBKGND时调用该函数
+         * @param hdc    设备上下文句柄
          * @param result 若已处理该消息则设为非零值，默认值为0
          * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
-        virtual bool OnEraseBackground(int &result);
+        virtual bool OnEraseBackground(HDC hdc, LRESULT &result);
 
         /**
          * @brief           接收到WM_DRAWITEM时调用该函数
@@ -8558,10 +8572,11 @@ namespace sw
 
         /**
          * @brief        接收到WM_ERASEBKGND时调用该函数
+         * @param hdc    设备上下文句柄
          * @param result 若已处理该消息则设为非零值，默认值为0
          * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
-        virtual bool OnEraseBackground(int &result) override;
+        virtual bool OnEraseBackground(HDC hdc, LRESULT &result) override;
 
         /**
          * @brief  接收到WM_PAINT时调用该函数

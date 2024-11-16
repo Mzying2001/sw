@@ -739,9 +739,9 @@ Protected 成员函数</h2></td></tr>
 <tr class="memitem:a09165434040ada6ea3f00a7d79b1f7a2" id="r_a09165434040ada6ea3f00a7d79b1f7a2"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09165434040ada6ea3f00a7d79b1f7a2">OnDestroy</a> () override</td></tr>
 <tr class="memdesc:a09165434040ada6ea3f00a7d79b1f7a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DESTROY时调用该函数  <br /></td></tr>
 <tr class="separator:a09165434040ada6ea3f00a7d79b1f7a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfcacbd8da1c33b53a16990c76d86079" id="r_adfcacbd8da1c33b53a16990c76d86079"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adfcacbd8da1c33b53a16990c76d86079">OnEraseBackground</a> (int &amp;result) override</td></tr>
-<tr class="memdesc:adfcacbd8da1c33b53a16990c76d86079"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_ERASEBKGND时调用该函数  <br /></td></tr>
-<tr class="separator:adfcacbd8da1c33b53a16990c76d86079"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af798c81f7a3d0b1c72b033b0940d9884" id="r_af798c81f7a3d0b1c72b033b0940d9884"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af798c81f7a3d0b1c72b033b0940d9884">OnEraseBackground</a> (HDC hdc, LRESULT &amp;result) override</td></tr>
+<tr class="memdesc:af798c81f7a3d0b1c72b033b0940d9884"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_ERASEBKGND时调用该函数  <br /></td></tr>
+<tr class="separator:af798c81f7a3d0b1c72b033b0940d9884"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa57e21216664a6fa3f9fdf04dad7a7d" id="r_afa57e21216664a6fa3f9fdf04dad7a7d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa57e21216664a6fa3f9fdf04dad7a7d">OnPaint</a> () override</td></tr>
 <tr class="memdesc:afa57e21216664a6fa3f9fdf04dad7a7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_PAINT时调用该函数  <br /></td></tr>
 <tr class="separator:afa57e21216664a6fa3f9fdf04dad7a7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1162,8 +1162,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 
 </div>
 </div>
-<a id="adfcacbd8da1c33b53a16990c76d86079" name="adfcacbd8da1c33b53a16990c76d86079"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adfcacbd8da1c33b53a16990c76d86079">&#9670;&#160;</a></span>OnEraseBackground()</h2>
+<a id="af798c81f7a3d0b1c72b033b0940d9884" name="af798c81f7a3d0b1c72b033b0940d9884"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af798c81f7a3d0b1c72b033b0940d9884">&#9670;&#160;</a></span>OnEraseBackground()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1174,8 +1174,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
         <tr>
           <td class="memname">virtual bool sw::Window::OnEraseBackground </td>
           <td>(</td>
-          <td class="paramtype">int &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span></td><td>)</td>
+          <td class="paramtype">HDC</td>          <td class="paramname"><span class="paramname"><em>hdc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">LRESULT &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1188,13 +1192,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 <p>接收到WM_ERASEBKGND时调用该函数 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
+    <tr><td class="paramname">hdc</td><td>设备上下文句柄 </td></tr>
     <tr><td class="paramname">result</td><td>若已处理该消息则设为非零值，默认值为0 </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值 </dd></dl>
 
-<p>重载 <a class="el" href="classsw_1_1_wnd_base.html#a748fda35e75d416077598f243afe9da1">sw::WndBase</a> .</p>
+<p>重载 <a class="el" href="classsw_1_1_wnd_base.html#afd6fa4ee7f0a89966f165292c6be1e4c">sw::WndBase</a> .</p>
 
 </div>
 </div>
