@@ -50,6 +50,11 @@ namespace sw
         static const Property<AppQuitMode> QuitMode;
 
         /**
+         * @brief 消息循环中处理空句柄消息的回调函数
+         */
+        static const Property<void (*)(const MSG &)> NullHwndMsgHandler;
+
+        /**
          * @brief  消息循环
          * @return 退出代码
          */
