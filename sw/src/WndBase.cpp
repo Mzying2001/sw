@@ -249,17 +249,6 @@ sw::WndBase::WndBase()
               return this->_isControl;
           })
 {
-    static WNDCLASSEXW wc = {0};
-
-    if (wc.cbSize == 0) {
-        wc.cbSize        = sizeof(wc);
-        wc.hInstance     = App::Instance;
-        wc.lpfnWndProc   = WndBase::_WndProc;
-        wc.lpszClassName = _WindowClassName;
-        wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
-        RegisterClassExW(&wc);
-    }
-
     this->_font = sw::Font::GetDefaultFont();
 }
 
@@ -292,6 +281,16 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
 {
     if (this->_hwnd != NULL) {
         return;
+    }
+
+    static WNDCLASSEXW wc{};
+    if (wc.cbSize == 0) {
+        wc.cbSize        = sizeof(wc);
+        wc.hInstance     = App::Instance;
+        wc.lpfnWndProc   = WndBase::_WndProc;
+        wc.lpszClassName = _WindowClassName;
+        wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
+        RegisterClassExW(&wc);
     }
 
     if (lpWindowName) {
