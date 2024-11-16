@@ -3,6 +3,7 @@
 #include <strsafe.h>
 #include <climits>
 #include <deque>
+#include <cstdarg>
 
 // Animation.cpp
 
@@ -75,6 +76,11 @@ namespace
      * @brief 程序退出消息循环的方式，默认为Auto
      */
     sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
+
+    /**
+     * @brief 消息循环中处理空句柄消息的回调函数
+     */
+    void (*_nullHwndMsgHandler)(const MSG &) = nullptr;
 
     /**
      * @brief  获取当前exe文件路径
@@ -158,12 +164,28 @@ const sw::Property<sw::AppQuitMode> sw::App::QuitMode(
     } //
 );
 
+const sw::Property<void (*)(const MSG &)> sw::App::NullHwndMsgHandler(
+    // get
+    []() -> void (*)(const MSG &) {
+        return _nullHwndMsgHandler;
+    },
+    // set
+    [](void (*const &value)(const MSG &)) {
+        _nullHwndMsgHandler = value;
+    } //
+);
+
 int sw::App::MsgLoop()
 {
-    MSG msg{};
+    MSG msg;
     while (GetMessageW(&msg, NULL, 0, 0) > 0) {
-        TranslateMessage(&msg);
-        DispatchMessageW(&msg);
+        if (msg.hwnd == NULL) {
+            if (_nullHwndMsgHandler)
+                _nullHwndMsgHandler(msg);
+        } else {
+            TranslateMessage(&msg);
+            DispatchMessageW(&msg);
+        }
     }
     return (int)msg.wParam;
 }
@@ -8244,8 +8266,8 @@ std::wstring sw::Utils::ToWideStr(const std::string &str, bool utf8)
 {
     int code = utf8 ? CP_UTF8 : CP_ACP;
     int size = MultiByteToWideChar(code, 0, str.c_str(), -1, nullptr, 0);
-    std::wstring wstr(size - 1, L'\0');
-    MultiByteToWideChar(code, 0, str.c_str(), -1, &wstr[0], size);
+    std::wstring wstr(size, L'\0');
+    wstr.resize(MultiByteToWideChar(code, 0, str.c_str(), -1, &wstr[0], size));
     return wstr;
 }
 
@@ -8253,8 +8275,8 @@ std::string sw::Utils::ToMultiByteStr(const std::wstring &wstr, bool utf8)
 {
     int code = utf8 ? CP_UTF8 : CP_ACP;
     int size = WideCharToMultiByte(code, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
-    std::string str(size - 1, '\0');
-    WideCharToMultiByte(code, 0, wstr.c_str(), -1, &str[0], size, nullptr, nullptr);
+    std::string str(size, '\0');
+    str.resize(WideCharToMultiByte(code, 0, wstr.c_str(), -1, &str[0], size, nullptr, nullptr));
     return str;
 }
 
@@ -8307,6 +8329,22 @@ std::vector<std::wstring> sw::Utils::Split(const std::wstring &str, const std::w
     }
 
     result.emplace_back(str, start);
+
+    return result;
+}
+
+std::wstring sw::Utils::FormatStr(const wchar_t *fmt, ...)
+{
+    va_list args;
+
+    va_start(args, fmt);
+    size_t len = std::vswprintf(nullptr, 0, fmt, args);
+    va_end(args);
+
+    std::wstring result(len + 1, L'\0');
+    va_start(args, fmt);
+    result.resize(std::vswprintf(&result[0], result.size(), fmt, args));
+    va_end(args);
 
     return result;
 }
@@ -8655,7 +8693,7 @@ bool sw::Window::OnDestroy()
     return true;
 }
 
-bool sw::Window::OnEraseBackground(int &result)
+bool sw::Window::OnEraseBackground(HDC hdc, LRESULT &result)
 {
     result = 1; // 阻止擦除背景
     return true;
@@ -9088,17 +9126,6 @@ sw::WndBase::WndBase()
               return this->_isControl;
           })
 {
-    static WNDCLASSEXW wc = {0};
-
-    if (wc.cbSize == 0) {
-        wc.cbSize        = sizeof(wc);
-        wc.hInstance     = App::Instance;
-        wc.lpfnWndProc   = WndBase::_WndProc;
-        wc.lpszClassName = _WindowClassName;
-        wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
-        RegisterClassExW(&wc);
-    }
-
     this->_font = sw::Font::GetDefaultFont();
 }
 
@@ -9131,6 +9158,16 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
 {
     if (this->_hwnd != NULL) {
         return;
+    }
+
+    static WNDCLASSEXW wc{};
+    if (wc.cbSize == 0) {
+        wc.cbSize        = sizeof(wc);
+        wc.hInstance     = App::Instance;
+        wc.lpfnWndProc   = WndBase::_WndProc;
+        wc.lpszClassName = _WindowClassName;
+        wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
+        RegisterClassExW(&wc);
     }
 
     if (lpWindowName) {
@@ -9471,8 +9508,8 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_ERASEBKGND: {
-            int result = 0;
-            return this->OnEraseBackground(result) ? (LRESULT)result : this->DefaultWndProc(refMsg);
+            LRESULT result = 0;
+            return this->OnEraseBackground(reinterpret_cast<HDC>(refMsg.wParam), result) ? result : this->DefaultWndProc(refMsg);
         }
 
         case WM_DRAWITEM: {
@@ -9789,7 +9826,7 @@ void sw::WndBase::OnNcHitTest(const Point &testPoint, HitTestResult &result)
 {
 }
 
-bool sw::WndBase::OnEraseBackground(int &result)
+bool sw::WndBase::OnEraseBackground(HDC hdc, LRESULT &result)
 {
     return false;
 }
