@@ -325,6 +325,16 @@ namespace sw
         bool IsRoutedEventRegistered(RoutedEventType eventType);
 
         /**
+         * @brief 通过索引获取子控件
+         */
+        UIElement &operator[](int index) const;
+
+        /**
+         * @brief 获取子控件
+         */
+        UIElement &GetChildAt(int index) const;
+
+        /**
          * @brief  添加子控件
          * @return 添加是否成功
          */
@@ -385,11 +395,6 @@ namespace sw
          * @return        若找到指定元素则返回对应的索引，否则返回-1
          */
         int IndexOf(UIElement &element);
-
-        /**
-         * @brief 通过索引获取子控件
-         */
-        UIElement &operator[](int index) const;
 
         /**
          * @brief       弹出当前元素的上下文菜单

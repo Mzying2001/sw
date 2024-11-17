@@ -186,6 +186,16 @@ bool sw::UIElement::IsRoutedEventRegistered(RoutedEventType eventType)
     return this->_eventMap.count(eventType);
 }
 
+sw::UIElement &sw::UIElement::operator[](int index) const
+{
+    return *this->_children[index];
+}
+
+sw::UIElement &sw::UIElement::GetChildAt(int index) const
+{
+    return *this->_children.at(index);
+}
+
 bool sw::UIElement::AddChild(UIElement *element)
 {
     if (element == nullptr) {
@@ -310,11 +320,6 @@ int sw::UIElement::IndexOf(UIElement *element)
 int sw::UIElement::IndexOf(UIElement &element)
 {
     return this->IndexOf(&element);
-}
-
-sw::UIElement &sw::UIElement::operator[](int index) const
-{
-    return *this->_children[index];
 }
 
 void sw::UIElement::ShowContextMenu(const Point &point)
