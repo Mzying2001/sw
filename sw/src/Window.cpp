@@ -397,7 +397,7 @@ void sw::Window::OnFirstShow()
 {
     // 若未设置焦点元素则默认第一个元素为焦点元素
     if (this->ChildCount && GetAncestor(GetFocus(), GA_ROOT) != this->Handle) {
-        this->operator[](0).Focused = true;
+        this->GetChildAt(0).Focused = true;
     }
 
     // 按照StartupLocation修改位置
