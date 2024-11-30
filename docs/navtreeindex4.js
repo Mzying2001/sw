@@ -1,5 +1,7 @@
 var NAVTREEINDEX4 =
 {
+"classsw_1_1_wnd_base.html#a2d3e7d32b7cdcfd3489c0d890a2910ab":[1,0,0,136,6],
+"classsw_1_1_wnd_base.html#a2eec178adddff9e44d83238f19d57b1b":[1,0,0,136,7],
 "classsw_1_1_wnd_base.html#a33d23326907c603a24385f81e179e174":[1,0,0,136,74],
 "classsw_1_1_wnd_base.html#a348d10334d2f74a44f741bf85eddaa2c":[1,0,0,136,45],
 "classsw_1_1_wnd_base.html#a34a1c2216b75bd9cd45d4a2e042b55c5":[1,0,0,136,79],
@@ -247,7 +249,5 @@ var NAVTREEINDEX4 =
 "structsw_1_1_fake_ptr.html#a68b8add8e09006a29646fa2170e1362f":[1,0,0,35,0],
 "structsw_1_1_fill_remain_grid_column.html":[1,0,0,39],
 "structsw_1_1_fill_remain_grid_column.html#a0835e5144c6f0246c6d7cf2c8dfd18a1":[1,0,0,39,0],
-"structsw_1_1_fill_remain_grid_row.html":[1,0,0,40],
-"structsw_1_1_fill_remain_grid_row.html#ae4f6bd7474c82f753a03296a972bd308":[1,0,0,40,0],
-"structsw_1_1_fix_size_grid_column.html":[1,0,0,41]
+"structsw_1_1_fill_remain_grid_row.html":[1,0,0,40]
 };

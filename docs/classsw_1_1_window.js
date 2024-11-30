@@ -16,6 +16,7 @@ var classsw_1_1_window =
     [ "SetLayout", "classsw_1_1_window.html#a4ac5f0cb7ef04a2732e25dc598c12133", null ],
     [ "SetLayout", "classsw_1_1_window.html#a236c7f298b6bbb432ce7c3c82a5eaacd", null ],
     [ "Show", "classsw_1_1_window.html#a97f714390560b186f28c05b1f6a35cec", null ],
+    [ "ShowDialog", "classsw_1_1_window.html#a9766b18edbb89086949cfd4735741583", null ],
     [ "ShowDialog", "classsw_1_1_window.html#a37bc59a8775b6f39e244cdd6f82d5e51", null ],
     [ "SizeToContent", "classsw_1_1_window.html#abff0275ae90d22951d40b769f952d415", null ],
     [ "WndProc", "classsw_1_1_window.html#a5c4a30ad5dd71cba0de201846867de25", null ],
