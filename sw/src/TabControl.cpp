@@ -76,7 +76,7 @@ sw::TabControl::TabControl()
                   std::vector<UIElement *> children;
                   children.reserve(childCount);
                   for (int i = childCount - 1; i >= 0; --i) {
-                      children.push_back(&(*this)[i]);
+                      children.push_back(&this->GetChildAt(i));
                       this->RemoveChildAt(i);
                   }
 
@@ -132,7 +132,7 @@ void sw::TabControl::UpdateTab()
     }
 
     for (int i = 0; i < childCount; ++i) {
-        auto text    = (*this)[i].Text.Get();
+        auto text    = this->GetChildAt(i).Text.Get();
         item.pszText = (LPWSTR)text.c_str();
         this->_SetItem(i, item);
     }
@@ -153,7 +153,8 @@ void sw::TabControl::UpdateTabText(int index)
         return;
     }
 
-    auto text = (*this)[index].Text.Get();
+    std::wstring text =
+        this->GetChildAt(index).Text;
 
     TCITEMW item{};
     item.mask    = TCIF_TEXT;
@@ -170,7 +171,7 @@ void sw::TabControl::Arrange(const sw::Rect &finalPosition)
     int selectedIndex = this->SelectedIndex;
     if (selectedIndex < 0 || selectedIndex >= this->ChildCount) return;
 
-    UIElement &selectedItem = this->operator[](selectedIndex);
+    UIElement &selectedItem = this->GetChildAt(selectedIndex);
     sw::Rect contentRect    = this->ContentRect;
 
     selectedItem.Measure({contentRect.width, contentRect.height});
@@ -216,7 +217,7 @@ void sw::TabControl::_UpdateChildVisible()
     int childCount    = this->ChildCount;
 
     for (int i = 0; i < childCount; ++i) {
-        auto &item = (*this)[i];
+        auto &item = this->GetChildAt(i);
         HWND hwnd  = item.Handle;
         if (i != selectedIndex) {
             ShowWindow(hwnd, SW_HIDE);

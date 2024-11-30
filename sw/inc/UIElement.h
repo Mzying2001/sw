@@ -175,7 +175,7 @@ namespace sw
         const Property<VerticalAlignment> VerticalAlignment;
 
         /**
-         * @brief 子控件数量
+         * @brief 子元素数量
          */
         const ReadOnlyProperty<int> ChildCount;
 
@@ -325,50 +325,60 @@ namespace sw
         bool IsRoutedEventRegistered(RoutedEventType eventType);
 
         /**
-         * @brief  添加子控件
+         * @brief 通过索引获取子元素
+         */
+        UIElement &operator[](int index) const;
+
+        /**
+         * @brief 获取子元素
+         */
+        UIElement &GetChildAt(int index) const;
+
+        /**
+         * @brief  添加子元素
          * @return 添加是否成功
          */
         bool AddChild(UIElement *element);
 
         /**
-         * @brief  添加子控件
+         * @brief  添加子元素
          * @return 添加是否成功
          */
         bool AddChild(UIElement &element);
 
         /**
-         * @brief  添加子控件并设置布局标记
+         * @brief  添加子元素并设置布局标记
          * @return 添加是否成功
          */
         bool AddChild(UIElement *element, uint64_t layoutTag);
 
         /**
-         * @brief  添加子控件并设置布局标记
+         * @brief  添加子元素并设置布局标记
          * @return 添加是否成功
          */
         bool AddChild(UIElement &element, uint64_t layoutTag);
 
         /**
-         * @brief       移除指定索引处的子控件
+         * @brief       移除指定索引处的子元素
          * @param index 要移除的索引
          * @return      移除是否成功
          */
         bool RemoveChildAt(int index);
 
         /**
-         * @brief  移除子控件
+         * @brief  移除子元素
          * @return 移除是否成功
          */
         bool RemoveChild(UIElement *element);
 
         /**
-         * @brief  移除子控件
+         * @brief  移除子元素
          * @return 移除是否成功
          */
         bool RemoveChild(UIElement &element);
 
         /**
-         * @brief 移除所有子控件
+         * @brief 移除所有子元素
          */
         void ClearChildren();
 
@@ -385,11 +395,6 @@ namespace sw
          * @return        若找到指定元素则返回对应的索引，否则返回-1
          */
         int IndexOf(UIElement &element);
-
-        /**
-         * @brief 通过索引获取子控件
-         */
-        UIElement &operator[](int index) const;
 
         /**
          * @brief       弹出当前元素的上下文菜单

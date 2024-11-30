@@ -10,6 +10,7 @@ var classsw_1_1_u_i_element =
     [ "ClearChildren", "classsw_1_1_u_i_element.html#a9585aee58045291cdca577e64f4a56e3", null ],
     [ "GetArrangeOffsetX", "classsw_1_1_u_i_element.html#ae43f4f3c5a5c723d29f20e5590641388", null ],
     [ "GetArrangeOffsetY", "classsw_1_1_u_i_element.html#ab48faeb3dde62fbbe944a28dce2f3133", null ],
+    [ "GetChildAt", "classsw_1_1_u_i_element.html#a4228f4002d366297ece2eb81875f667d", null ],
     [ "GetChildBottommost", "classsw_1_1_u_i_element.html#a7bda5652549fe9909e3b6b1383754b30", null ],
     [ "GetChildLayoutAt", "classsw_1_1_u_i_element.html#a3683672f3c2fc8f80e4f808aac78d262", null ],
     [ "GetChildLayoutCount", "classsw_1_1_u_i_element.html#a994aad366bc1f62ef7d53defa9456e64", null ],

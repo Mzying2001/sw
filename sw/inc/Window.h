@@ -49,11 +49,6 @@ namespace sw
         WindowStartupLocation _startupLocation = WindowStartupLocation::Manual;
 
         /**
-         * @brief 以模态窗口显示时保存所有者窗口，非模态时该值始终为nullptr
-         */
-        Window *_modalOwner = nullptr;
-
-        /**
          * @brief 窗口顶部菜单
          */
         sw::Menu *_menu = nullptr;
@@ -67,6 +62,16 @@ namespace sw
          * @brief 窗口的默认布局方式
          */
         std::unique_ptr<LayoutHost> _layout;
+
+        /**
+         * @brief 当前窗口是否显示为模态窗口
+         */
+        bool _isModal = false;
+
+        /**
+         * @brief 以模态窗口显示时保存所有者窗口
+         */
+        HWND _hModalOwner = NULL;
 
     public:
         /**
@@ -227,10 +232,17 @@ namespace sw
         void Show(int nCmdShow = SW_SHOW);
 
         /**
-         * @brief       将窗体显示为模式对话框
+         * @brief       将窗口显示为模式对话框
          * @param owner 窗体的所有者，窗体显示期间该窗体的Enabled属性将被设为false，该参数不能设为自己
+         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出
          */
         void ShowDialog(Window &owner);
+
+        /**
+         * @brief 将窗口显示为模式对话框
+         * @note  该函数会创建一个新的消息循环并在窗口销毁时退出
+         */
+        void ShowDialog();
 
         /**
          * @brief       设置图标

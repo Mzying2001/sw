@@ -6525,7 +6525,7 @@ sw::TabControl::TabControl()
                   std::vector<UIElement *> children;
                   children.reserve(childCount);
                   for (int i = childCount - 1; i >= 0; --i) {
-                      children.push_back(&(*this)[i]);
+                      children.push_back(&this->GetChildAt(i));
                       this->RemoveChildAt(i);
                   }
 
@@ -6581,7 +6581,7 @@ void sw::TabControl::UpdateTab()
     }
 
     for (int i = 0; i < childCount; ++i) {
-        auto text    = (*this)[i].Text.Get();
+        auto text    = this->GetChildAt(i).Text.Get();
         item.pszText = (LPWSTR)text.c_str();
         this->_SetItem(i, item);
     }
@@ -6602,7 +6602,8 @@ void sw::TabControl::UpdateTabText(int index)
         return;
     }
 
-    auto text = (*this)[index].Text.Get();
+    std::wstring text =
+        this->GetChildAt(index).Text;
 
     TCITEMW item{};
     item.mask    = TCIF_TEXT;
@@ -6619,7 +6620,7 @@ void sw::TabControl::Arrange(const sw::Rect &finalPosition)
     int selectedIndex = this->SelectedIndex;
     if (selectedIndex < 0 || selectedIndex >= this->ChildCount) return;
 
-    UIElement &selectedItem = this->operator[](selectedIndex);
+    UIElement &selectedItem = this->GetChildAt(selectedIndex);
     sw::Rect contentRect    = this->ContentRect;
 
     selectedItem.Measure({contentRect.width, contentRect.height});
@@ -6665,7 +6666,7 @@ void sw::TabControl::_UpdateChildVisible()
     int childCount    = this->ChildCount;
 
     for (int i = 0; i < childCount; ++i) {
-        auto &item = (*this)[i];
+        auto &item = this->GetChildAt(i);
         HWND hwnd  = item.Handle;
         if (i != selectedIndex) {
             ShowWindow(hwnd, SW_HIDE);
@@ -7323,6 +7324,16 @@ bool sw::UIElement::IsRoutedEventRegistered(RoutedEventType eventType)
     return this->_eventMap.count(eventType);
 }
 
+sw::UIElement &sw::UIElement::operator[](int index) const
+{
+    return *this->_children[index];
+}
+
+sw::UIElement &sw::UIElement::GetChildAt(int index) const
+{
+    return *this->_children.at(index);
+}
+
 bool sw::UIElement::AddChild(UIElement *element)
 {
     if (element == nullptr) {
@@ -7447,11 +7458,6 @@ int sw::UIElement::IndexOf(UIElement *element)
 int sw::UIElement::IndexOf(UIElement &element)
 {
     return this->IndexOf(&element);
-}
-
-sw::UIElement &sw::UIElement::operator[](int index) const
-{
-    return *this->_children[index];
 }
 
 void sw::UIElement::ShowContextMenu(const Point &point)
@@ -8578,7 +8584,7 @@ sw::Window::Window()
       IsModal(
           // get
           [this]() -> bool {
-              return this->_modalOwner != nullptr;
+              return this->_isModal;
           }),
 
       Owner(
@@ -8606,13 +8612,15 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DESTROY: {
+            bool quitted = false;
             // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
-            if (this->IsModal) {
+            if (this->_isModal) {
                 App::QuitMsgLoop();
+                quitted = true;
             }
             // 所有窗口都关闭时若App::QuitMode为Auto则退出主消息循环
-            if (--_windowCount <= 0 && App::QuitMode.Get() == AppQuitMode::Auto) {
-                App::QuitMsgLoop();
+            if (--_windowCount <= 0 && App::QuitMode == AppQuitMode::Auto) {
+                if (!quitted) App::QuitMsgLoop();
             }
             return this->WndBase::WndProc(refMsg);
         }
@@ -8746,7 +8754,7 @@ void sw::Window::OnFirstShow()
 {
     // 若未设置焦点元素则默认第一个元素为焦点元素
     if (this->ChildCount && GetAncestor(GetFocus(), GA_ROOT) != this->Handle) {
-        this->operator[](0).Focused = true;
+        this->GetChildAt(0).Focused = true;
     }
 
     // 按照StartupLocation修改位置
@@ -8821,12 +8829,13 @@ void sw::Window::Show(int nCmdShow)
 
 void sw::Window::ShowDialog(Window &owner)
 {
-    if (this == &owner || this->IsModal || this->IsDestroyed) {
+    if (this == &owner || this->_isModal || this->IsDestroyed) {
         return;
     }
 
-    this->Owner       = &owner;
-    this->_modalOwner = &owner;
+    this->Owner        = &owner;
+    this->_isModal     = true;
+    this->_hModalOwner = owner.Handle;
 
     bool oldIsEnabled = owner.Enabled;
     owner.Enabled     = false;
@@ -8837,6 +8846,43 @@ void sw::Window::ShowDialog(Window &owner)
 
     if (oldIsEnabled) {
         owner.Enabled = true;
+    }
+}
+
+void sw::Window::ShowDialog()
+{
+    if (this->_isModal || this->IsDestroyed) {
+        return;
+    }
+
+    HWND hOwner = NULL;
+    HWND hwnd   = this->Handle;
+
+    {
+        Window *pOwner;
+        pOwner = this->Owner;
+        hOwner = pOwner ? pOwner->Handle : reinterpret_cast<HWND>(GetWindowLongPtrW(hwnd, GWLP_HWNDPARENT));
+    }
+
+    if (hOwner == NULL) {
+        if (hOwner = GetActiveWindow()) {
+            SetWindowLongPtrW(hwnd, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
+        }
+    }
+
+    this->_isModal     = true;
+    this->_hModalOwner = hOwner;
+
+    if (hOwner == NULL) {
+        this->Show();
+        App::MsgLoop();
+    } else {
+        bool oldIsEnabled = IsWindowEnabled(hOwner);
+        EnableWindow(hOwner, false);
+        this->Show();
+        App::MsgLoop();
+        SetForegroundWindow(hOwner);
+        EnableWindow(hOwner, oldIsEnabled);
     }
 }
 

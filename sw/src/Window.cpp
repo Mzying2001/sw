@@ -229,7 +229,7 @@ sw::Window::Window()
       IsModal(
           // get
           [this]() -> bool {
-              return this->_modalOwner != nullptr;
+              return this->_isModal;
           }),
 
       Owner(
@@ -257,13 +257,15 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DESTROY: {
+            bool quitted = false;
             // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
-            if (this->IsModal) {
+            if (this->_isModal) {
                 App::QuitMsgLoop();
+                quitted = true;
             }
             // 所有窗口都关闭时若App::QuitMode为Auto则退出主消息循环
-            if (--_windowCount <= 0 && App::QuitMode.Get() == AppQuitMode::Auto) {
-                App::QuitMsgLoop();
+            if (--_windowCount <= 0 && App::QuitMode == AppQuitMode::Auto) {
+                if (!quitted) App::QuitMsgLoop();
             }
             return this->WndBase::WndProc(refMsg);
         }
@@ -397,7 +399,7 @@ void sw::Window::OnFirstShow()
 {
     // 若未设置焦点元素则默认第一个元素为焦点元素
     if (this->ChildCount && GetAncestor(GetFocus(), GA_ROOT) != this->Handle) {
-        this->operator[](0).Focused = true;
+        this->GetChildAt(0).Focused = true;
     }
 
     // 按照StartupLocation修改位置
@@ -472,12 +474,13 @@ void sw::Window::Show(int nCmdShow)
 
 void sw::Window::ShowDialog(Window &owner)
 {
-    if (this == &owner || this->IsModal || this->IsDestroyed) {
+    if (this == &owner || this->_isModal || this->IsDestroyed) {
         return;
     }
 
-    this->Owner       = &owner;
-    this->_modalOwner = &owner;
+    this->Owner        = &owner;
+    this->_isModal     = true;
+    this->_hModalOwner = owner.Handle;
 
     bool oldIsEnabled = owner.Enabled;
     owner.Enabled     = false;
@@ -488,6 +491,43 @@ void sw::Window::ShowDialog(Window &owner)
 
     if (oldIsEnabled) {
         owner.Enabled = true;
+    }
+}
+
+void sw::Window::ShowDialog()
+{
+    if (this->_isModal || this->IsDestroyed) {
+        return;
+    }
+
+    HWND hOwner = NULL;
+    HWND hwnd   = this->Handle;
+
+    {
+        Window *pOwner;
+        pOwner = this->Owner;
+        hOwner = pOwner ? pOwner->Handle : reinterpret_cast<HWND>(GetWindowLongPtrW(hwnd, GWLP_HWNDPARENT));
+    }
+
+    if (hOwner == NULL) {
+        if (hOwner = GetActiveWindow()) {
+            SetWindowLongPtrW(hwnd, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
+        }
+    }
+
+    this->_isModal     = true;
+    this->_hModalOwner = hOwner;
+
+    if (hOwner == NULL) {
+        this->Show();
+        App::MsgLoop();
+    } else {
+        bool oldIsEnabled = IsWindowEnabled(hOwner);
+        EnableWindow(hOwner, false);
+        this->Show();
+        App::MsgLoop();
+        SetForegroundWindow(hOwner);
+        EnableWindow(hOwner, oldIsEnabled);
     }
 }
 
