@@ -6134,7 +6134,7 @@ namespace sw
         const Property<VerticalAlignment> VerticalAlignment;
 
         /**
-         * @brief 子控件数量
+         * @brief 子元素数量
          */
         const ReadOnlyProperty<int> ChildCount;
 
@@ -6284,50 +6284,60 @@ namespace sw
         bool IsRoutedEventRegistered(RoutedEventType eventType);
 
         /**
-         * @brief  添加子控件
+         * @brief 通过索引获取子元素
+         */
+        UIElement &operator[](int index) const;
+
+        /**
+         * @brief 获取子元素
+         */
+        UIElement &GetChildAt(int index) const;
+
+        /**
+         * @brief  添加子元素
          * @return 添加是否成功
          */
         bool AddChild(UIElement *element);
 
         /**
-         * @brief  添加子控件
+         * @brief  添加子元素
          * @return 添加是否成功
          */
         bool AddChild(UIElement &element);
 
         /**
-         * @brief  添加子控件并设置布局标记
+         * @brief  添加子元素并设置布局标记
          * @return 添加是否成功
          */
         bool AddChild(UIElement *element, uint64_t layoutTag);
 
         /**
-         * @brief  添加子控件并设置布局标记
+         * @brief  添加子元素并设置布局标记
          * @return 添加是否成功
          */
         bool AddChild(UIElement &element, uint64_t layoutTag);
 
         /**
-         * @brief       移除指定索引处的子控件
+         * @brief       移除指定索引处的子元素
          * @param index 要移除的索引
          * @return      移除是否成功
          */
         bool RemoveChildAt(int index);
 
         /**
-         * @brief  移除子控件
+         * @brief  移除子元素
          * @return 移除是否成功
          */
         bool RemoveChild(UIElement *element);
 
         /**
-         * @brief  移除子控件
+         * @brief  移除子元素
          * @return 移除是否成功
          */
         bool RemoveChild(UIElement &element);
 
         /**
-         * @brief 移除所有子控件
+         * @brief 移除所有子元素
          */
         void ClearChildren();
 
@@ -6344,11 +6354,6 @@ namespace sw
          * @return        若找到指定元素则返回对应的索引，否则返回-1
          */
         int IndexOf(UIElement &element);
-
-        /**
-         * @brief 通过索引获取子控件
-         */
-        UIElement &operator[](int index) const;
 
         /**
          * @brief       弹出当前元素的上下文菜单
@@ -8441,11 +8446,6 @@ namespace sw
         WindowStartupLocation _startupLocation = WindowStartupLocation::Manual;
 
         /**
-         * @brief 以模态窗口显示时保存所有者窗口，非模态时该值始终为nullptr
-         */
-        Window *_modalOwner = nullptr;
-
-        /**
          * @brief 窗口顶部菜单
          */
         sw::Menu *_menu = nullptr;
@@ -8459,6 +8459,16 @@ namespace sw
          * @brief 窗口的默认布局方式
          */
         std::unique_ptr<LayoutHost> _layout;
+
+        /**
+         * @brief 当前窗口是否显示为模态窗口
+         */
+        bool _isModal = false;
+
+        /**
+         * @brief 以模态窗口显示时保存所有者窗口
+         */
+        HWND _hModalOwner = NULL;
 
     public:
         /**
@@ -8619,10 +8629,17 @@ namespace sw
         void Show(int nCmdShow = SW_SHOW);
 
         /**
-         * @brief       将窗体显示为模式对话框
+         * @brief       将窗口显示为模式对话框
          * @param owner 窗体的所有者，窗体显示期间该窗体的Enabled属性将被设为false，该参数不能设为自己
+         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出
          */
         void ShowDialog(Window &owner);
+
+        /**
+         * @brief 将窗口显示为模式对话框
+         * @note  该函数会创建一个新的消息循环并在窗口销毁时退出
+         */
+        void ShowDialog();
 
         /**
          * @brief       设置图标
