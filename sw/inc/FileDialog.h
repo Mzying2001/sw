@@ -166,6 +166,21 @@ namespace sw
     };
 
     /**
+     * @brief 文件筛选器信息
+     */
+    struct FileFilterItem {
+        /**
+         * @brief 文本
+         */
+        std::wstring name;
+
+        /**
+         * @brief 筛选器字符串，有多个类型时用分号分隔
+         */
+        std::wstring filter;
+    };
+
+    /**
      * @brief 文件筛选器
      */
     class FileFilter
@@ -185,7 +200,7 @@ namespace sw
         /**
          * @brief 初始话并设置筛选器
          */
-        FileFilter(std::initializer_list<std::pair<std::wstring, std::wstring>> filters);
+        FileFilter(std::initializer_list<FileFilterItem> filters);
 
         /**
          * @brief        添加筛选器
@@ -200,7 +215,7 @@ namespace sw
          * @param filters 筛选器列表
          * @return        成功添加的筛选器个数
          */
-        int SetFilter(std::initializer_list<std::pair<std::wstring, std::wstring>> filters);
+        int SetFilter(std::initializer_list<FileFilterItem> filters);
 
         /**
          * @brief 清空所有已添加的筛选器

@@ -2,15 +2,15 @@
 #include "Path.h"
 #include "Utils.h"
 
-/**
- * @brief FileDialog缓冲区默认大小
- */
-static constexpr int _FileDialogInitialBufferSize = 1024;
+namespace
+{
+    /**
+     * @brief FileDialog缓冲区默认大小
+     */
+    constexpr int _FileDialogInitialBufferSize = 1024;
+}
 
-/**
- */
-
-sw::FileFilter::FileFilter(std::initializer_list<std::pair<std::wstring, std::wstring>> filters)
+sw::FileFilter::FileFilter(std::initializer_list<FileFilterItem> filters)
 {
     this->SetFilter(filters);
 }
@@ -39,12 +39,12 @@ bool sw::FileFilter::AddFilter(const std::wstring &name, const std::wstring &fil
     return true;
 }
 
-int sw::FileFilter::SetFilter(std::initializer_list<std::pair<std::wstring, std::wstring>> filters)
+int sw::FileFilter::SetFilter(std::initializer_list<FileFilterItem> filters)
 {
     int result = 0;
     this->Clear();
-    for (auto &pair : filters) {
-        result += this->AddFilter(pair.first, pair.second);
+    for (auto &item : filters) {
+        result += this->AddFilter(item.name, item.filter);
     }
     return result;
 }
