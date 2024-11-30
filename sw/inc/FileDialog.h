@@ -64,7 +64,7 @@ namespace sw
         // the system uses the specified template to create a dialog box that is a child of the default
         // Explorer-style dialog box. If the OFN_EXPLORER flag is not set, the system uses the template to
         // create an old-style dialog box that replaces the default dialog box.
-        EnableTEmplateHandle = 0x00000080,
+        EnableTemplateHandle = 0x00000080,
 
         // Indicates that any customizations made to the Open or Save As dialog box use the Explorer-style
         // customization methods. For more information, see Explorer-Style Hook Procedures and Explorer-Style
