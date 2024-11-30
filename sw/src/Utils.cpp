@@ -7,7 +7,8 @@ std::wstring sw::Utils::ToWideStr(const std::string &str, bool utf8)
     int code = utf8 ? CP_UTF8 : CP_ACP;
     int size = MultiByteToWideChar(code, 0, str.c_str(), -1, nullptr, 0);
     std::wstring wstr(size, L'\0');
-    wstr.resize(MultiByteToWideChar(code, 0, str.c_str(), -1, &wstr[0], size));
+    MultiByteToWideChar(code, 0, str.c_str(), -1, wstr.data(), size);
+    wstr.resize(wcslen(wstr.data()));
     return wstr;
 }
 
@@ -16,7 +17,8 @@ std::string sw::Utils::ToMultiByteStr(const std::wstring &wstr, bool utf8)
     int code = utf8 ? CP_UTF8 : CP_ACP;
     int size = WideCharToMultiByte(code, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
     std::string str(size, '\0');
-    str.resize(WideCharToMultiByte(code, 0, wstr.c_str(), -1, &str[0], size, nullptr, nullptr));
+    WideCharToMultiByte(code, 0, wstr.c_str(), -1, str.data(), size, nullptr, nullptr);
+    str.resize(strlen(str.data()));
     return str;
 }
 
