@@ -178,6 +178,11 @@ namespace sw
          * @brief 筛选器字符串，有多个类型时用分号分隔
          */
         std::wstring filter;
+
+        /**
+         * @brief 默认扩展名，当SaveFileDialog用户没有填写扩展名时会使用该值作为扩展名
+         */
+        std::wstring defaultExt;
     };
 
     /**
@@ -190,6 +195,11 @@ namespace sw
          * @brief 缓冲区
          */
         std::vector<wchar_t> _buffer;
+
+        /**
+         * @brief 默认扩展名
+         */
+        std::vector<std::wstring> _defaultExts;
 
     public:
         /**
@@ -208,7 +218,7 @@ namespace sw
          * @param filter 筛选器，示例：*.*
          * @return       是否成功添加
          */
-        bool AddFilter(const std::wstring &name, const std::wstring &filter);
+        bool AddFilter(const std::wstring &name, const std::wstring &filter, const std::wstring &defaultExt = L"");
 
         /**
          * @brief         清空现有筛选器并重新设置筛选器
@@ -226,6 +236,11 @@ namespace sw
          * @brief 获取OPENFILENAMEW结构体lpstrFilter格式的字符串
          */
         wchar_t *GetFilterStr();
+
+        /**
+         * @brief  获取指定索引处筛选器的默认扩展名
+         */
+        const wchar_t *GetDefaultExt(int index);
     };
 
     /**
@@ -355,6 +370,12 @@ namespace sw
          * @brief 清空缓冲区，显示对话框前必须调用此函数
          */
         void ClearBuffer();
+
+        /**
+         * @brief          处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理
+         * @param fileName 获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容
+         */
+        virtual void ProcessFileName(std::wstring &fileName);
     };
 
     /**
@@ -401,5 +422,12 @@ namespace sw
          * @return 用户是否选择了文件
          */
         virtual bool ShowDialog(const Window *owner) override;
+
+    protected:
+        /**
+         * @brief          处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理
+         * @param fileName 获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容
+         */
+        virtual void ProcessFileName(std::wstring &fileName) override;
     };
 }
