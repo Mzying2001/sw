@@ -196,10 +196,48 @@ wchar_t *&#160;</td><td class="memItemRight" valign="bottom"><b>GetBuffer</b> ()
 void&#160;</td><td class="memItemRight" valign="bottom"><b>ClearBuffer</b> ()</td></tr>
 <tr class="memdesc:a700147f35c0dc579773a57dff819ad34"><td class="mdescLeft">&#160;</td><td class="mdescRight">清空缓冲区，显示对话框前必须调用此函数 <br /></td></tr>
 <tr class="separator:a700147f35c0dc579773a57dff819ad34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bd7e540fa7f066eaf19f2744d506321" id="r_a7bd7e540fa7f066eaf19f2744d506321"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bd7e540fa7f066eaf19f2744d506321">ProcessFileName</a> (std::wstring &amp;fileName)</td></tr>
+<tr class="memdesc:a7bd7e540fa7f066eaf19f2744d506321"><td class="mdescLeft">&#160;</td><td class="mdescRight">处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理  <br /></td></tr>
+<tr class="separator:a7bd7e540fa7f066eaf19f2744d506321"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>“打开文件”对话框与“另存为”对话框的基类 </p>
 </div><h2 class="groupheader">成员函数说明</h2>
+<a id="a7bd7e540fa7f066eaf19f2744d506321" name="a7bd7e540fa7f066eaf19f2744d506321"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bd7e540fa7f066eaf19f2744d506321">&#9670;&#160;</a></span>ProcessFileName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sw::FileDialog::ProcessFileName </td>
+          <td>(</td>
+          <td class="paramtype">std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>fileName</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileName</td><td>获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>被 <a class="el" href="classsw_1_1_save_file_dialog.html#ae7e9e72d0d77337c9489bef40e4bb01c">sw::SaveFileDialog</a> 重载.</p>
+
+</div>
+</div>
 <a id="a5cc79643efa4ddff5a2f45008608fc00" name="a5cc79643efa4ddff5a2f45008608fc00"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5cc79643efa4ddff5a2f45008608fc00">&#9670;&#160;</a></span>SetFilter()</h2>
 

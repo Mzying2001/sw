@@ -19,6 +19,7 @@ var hierarchy =
       [ "sw::SaveFileDialog", "classsw_1_1_save_file_dialog.html", null ]
     ] ],
     [ "sw::FileFilter", "classsw_1_1_file_filter.html", null ],
+    [ "sw::FileFilterItem", "structsw_1_1_file_filter_item.html", null ],
     [ "sw::FolderBrowserDialog", "classsw_1_1_folder_browser_dialog.html", null ],
     [ "sw::Font", "classsw_1_1_font.html", null ],
     [ "sw::GridColumn", "structsw_1_1_grid_column.html", [
