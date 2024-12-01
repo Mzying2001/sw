@@ -29,7 +29,7 @@ var searchData=
   ['setdragcursorimage_26',['SetDragCursorImage',['../classsw_1_1_image_list.html#a19ff9980768b9e0dace609e2f182db72',1,'sw::ImageList']]],
   ['setenabled_27',['SetEnabled',['../classsw_1_1_menu_base.html#a537663148790e0516c1a2aca7b02afd1',1,'sw::MenuBase']]],
   ['setextendedstyle_28',['SetExtendedStyle',['../classsw_1_1_wnd_base.html#a074171e62cdb3e20f53b9262164852ca',1,'sw::WndBase::SetExtendedStyle(DWORD style)'],['../classsw_1_1_wnd_base.html#a05caaf7da3138fe9063f7a3e1088f9ac',1,'sw::WndBase::SetExtendedStyle(DWORD mask, bool value)']]],
-  ['setfilter_29',['SetFilter',['../classsw_1_1_file_filter.html#af5453afa21f1baca498c3a3a8b8f7c81',1,'sw::FileFilter::SetFilter()'],['../classsw_1_1_file_dialog.html#a5cc79643efa4ddff5a2f45008608fc00',1,'sw::FileDialog::SetFilter()']]],
+  ['setfilter_29',['SetFilter',['../classsw_1_1_file_filter.html#a0ca892bb78f2f266f76ef42e828ef8a6',1,'sw::FileFilter::SetFilter()'],['../classsw_1_1_file_dialog.html#a5cc79643efa4ddff5a2f45008608fc00',1,'sw::FileDialog::SetFilter()']]],
   ['setgridlayouttag_30',['SetGridLayoutTag',['../classsw_1_1_grid.html#aa586593cd6a20329efaab07c87ac2ede',1,'sw::Grid']]],
   ['sethorizontalscrollpagesize_31',['SetHorizontalScrollPageSize',['../classsw_1_1_layer.html#aead2fa34ba3641781a849d3abd7f5839',1,'sw::Layer']]],
   ['sethorizontalscrollrange_32',['SetHorizontalScrollRange',['../classsw_1_1_layer.html#aac08647d3f15d95e874a2c84c6237dde',1,'sw::Layer']]],

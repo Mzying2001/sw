@@ -2,20 +2,20 @@
 #include "Path.h"
 #include "Utils.h"
 
-/**
- * @brief FileDialog缓冲区默认大小
- */
-static constexpr int _FileDialogInitialBufferSize = 1024;
+namespace
+{
+    /**
+     * @brief FileDialog缓冲区默认大小
+     */
+    constexpr int _FileDialogInitialBufferSize = 1024;
+}
 
-/**
- */
-
-sw::FileFilter::FileFilter(std::initializer_list<std::pair<std::wstring, std::wstring>> filters)
+sw::FileFilter::FileFilter(std::initializer_list<FileFilterItem> filters)
 {
     this->SetFilter(filters);
 }
 
-bool sw::FileFilter::AddFilter(const std::wstring &name, const std::wstring &filter)
+bool sw::FileFilter::AddFilter(const std::wstring &name, const std::wstring &filter, const std::wstring &defaultExt)
 {
     if (name.empty() || filter.empty()) {
         return false;
@@ -36,15 +36,16 @@ bool sw::FileFilter::AddFilter(const std::wstring &name, const std::wstring &fil
     this->_buffer.push_back(0);
     this->_buffer.push_back(0);
 
+    this->_defaultExts.emplace_back(defaultExt);
     return true;
 }
 
-int sw::FileFilter::SetFilter(std::initializer_list<std::pair<std::wstring, std::wstring>> filters)
+int sw::FileFilter::SetFilter(std::initializer_list<FileFilterItem> filters)
 {
     int result = 0;
     this->Clear();
-    for (auto &pair : filters) {
-        result += this->AddFilter(pair.first, pair.second);
+    for (auto &item : filters) {
+        result += this->AddFilter(item.name, item.filter, item.defaultExt);
     }
     return result;
 }
@@ -52,11 +53,17 @@ int sw::FileFilter::SetFilter(std::initializer_list<std::pair<std::wstring, std:
 void sw::FileFilter::Clear()
 {
     this->_buffer.clear();
+    this->_defaultExts.clear();
 }
 
 wchar_t *sw::FileFilter::GetFilterStr()
 {
     return this->_buffer.empty() ? nullptr : this->_buffer.data();
+}
+
+const wchar_t *sw::FileFilter::GetDefaultExt(int index)
+{
+    return (index >= 0 && index < _defaultExts.size()) ? _defaultExts[index].c_str() : L"";
 }
 
 sw::FileDialog::FileDialog()
@@ -134,11 +141,16 @@ sw::FileDialog::FileDialog()
           // get
           [this]() -> std::wstring {
               if (!this->MultiSelect) {
-                  return this->GetBuffer();
+                  std::wstring result(this->GetBuffer());
+                  this->ProcessFileName(result);
+                  return result;
+              } else {
+                  std::wstring path(this->GetBuffer());
+                  wchar_t *pFile = this->GetBuffer() + path.size() + 1;
+                  std::wstring result(*pFile ? Path::Combine({path, pFile}) : path);
+                  this->ProcessFileName(result);
+                  return result;
               }
-              std::wstring path(this->GetBuffer());
-              wchar_t *pFile = this->GetBuffer() + path.size() + 1;
-              return *pFile ? Path::Combine({path, pFile}) : path;
           }),
 
       MultiSelect(
@@ -171,14 +183,17 @@ sw::FileDialog::FileDialog()
               wchar_t *pFile = this->GetBuffer() + path.size() + 1;
 
               if (*pFile == 0) { // 多选状态下只选中一项时，buffer中存放的就是选择的文件路径
-                  if (!path.empty())
+                  if (!path.empty()) {
                       result.Append(path);
+                      this->ProcessFileName(result[result.Count() - 1]);
+                  }
                   return result;
               }
 
               while (*pFile) {
                   std::wstring file = pFile;
                   result.Append(Path::Combine({path, file}));
+                  this->ProcessFileName(result[result.Count() - 1]);
                   pFile += file.size() + 1;
               }
               return result;
@@ -227,6 +242,10 @@ void sw::FileDialog::ClearBuffer()
 {
     this->_buffer.at(0) = 0;
     this->_buffer.at(1) = 0; // 两个'\0'表示结束，防止多选时FileName的意外拼接
+}
+
+void sw::FileDialog::ProcessFileName(std::wstring &fileName)
+{
 }
 
 sw::OpenFileDialog::OpenFileDialog()
@@ -280,4 +299,18 @@ bool sw::SaveFileDialog::ShowDialog(const Window *owner)
     } while (!result && ((errcode = CommDlgExtendedError()) == FNERR_BUFFERTOOSMALL));
 
     return result;
+}
+
+void sw::SaveFileDialog::ProcessFileName(std::wstring &fileName)
+{
+    const wchar_t *ext = this->Filter->GetDefaultExt(this->FilterIndex);
+    if (ext == nullptr || ext[0] == L'\0') return;
+
+    size_t indexSlash = fileName.find_last_of(L"\\/");
+    size_t indexDot   = fileName.find_last_of(L'.');
+
+    static const auto npos = std::wstring::npos;
+    if (indexDot == npos || (indexSlash != npos && indexSlash > indexDot)) {
+        fileName += ext;
+    }
 }

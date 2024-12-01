@@ -39,6 +39,7 @@ var annotated_dup =
       [ "FakePtr", "structsw_1_1_fake_ptr.html", "structsw_1_1_fake_ptr" ],
       [ "FileDialog", "classsw_1_1_file_dialog.html", "classsw_1_1_file_dialog" ],
       [ "FileFilter", "classsw_1_1_file_filter.html", "classsw_1_1_file_filter" ],
+      [ "FileFilterItem", "structsw_1_1_file_filter_item.html", "structsw_1_1_file_filter_item" ],
       [ "FillLayout", "classsw_1_1_fill_layout.html", "classsw_1_1_fill_layout" ],
       [ "FillRemainGridColumn", "structsw_1_1_fill_remain_grid_column.html", "structsw_1_1_fill_remain_grid_column" ],
       [ "FillRemainGridRow", "structsw_1_1_fill_remain_grid_row.html", "structsw_1_1_fill_remain_grid_row" ],

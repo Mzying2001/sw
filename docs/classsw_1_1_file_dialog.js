@@ -5,6 +5,7 @@ var classsw_1_1_file_dialog =
     [ "ClearBuffer", "classsw_1_1_file_dialog.html#a700147f35c0dc579773a57dff819ad34", null ],
     [ "GetBuffer", "classsw_1_1_file_dialog.html#ac691ca90c042a9600beefecf7050458c", null ],
     [ "GetOFN", "classsw_1_1_file_dialog.html#a990e6c6d81faacbb3cd37df96401e575", null ],
+    [ "ProcessFileName", "classsw_1_1_file_dialog.html#a7bd7e540fa7f066eaf19f2744d506321", null ],
     [ "SetFilter", "classsw_1_1_file_dialog.html#a5cc79643efa4ddff5a2f45008608fc00", null ],
     [ "ShowDialog", "classsw_1_1_file_dialog.html#a66f25d80acee110f107a52adb8bfbb92", null ],
     [ "ShowDialog", "classsw_1_1_file_dialog.html#aa6c9ae2f5de6c5e73e2a37e8f9db0a26", null ],

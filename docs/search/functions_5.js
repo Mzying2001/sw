@@ -2,7 +2,7 @@ var searchData=
 [
   ['fakeptr_0',['FakePtr',['../structsw_1_1_fake_ptr.html#a68b8add8e09006a29646fa2170e1362f',1,'sw::FakePtr']]],
   ['filedialog_1',['FileDialog',['../classsw_1_1_file_dialog.html#a0990ac4f5f33abef6003418c602980a7',1,'sw::FileDialog']]],
-  ['filefilter_2',['FileFilter',['../classsw_1_1_file_filter.html#a249a6d83a8b704406429fcee9c5d71d0',1,'sw::FileFilter::FileFilter()=default'],['../classsw_1_1_file_filter.html#a7ac893abe8e79b492f3ca5ec408ab733',1,'sw::FileFilter::FileFilter(std::initializer_list&lt; std::pair&lt; std::wstring, std::wstring &gt; &gt; filters)']]],
+  ['filefilter_2',['FileFilter',['../classsw_1_1_file_filter.html#a249a6d83a8b704406429fcee9c5d71d0',1,'sw::FileFilter::FileFilter()=default'],['../classsw_1_1_file_filter.html#a7c6c97230a10cab5ef5538564adfaeb6',1,'sw::FileFilter::FileFilter(std::initializer_list&lt; FileFilterItem &gt; filters)']]],
   ['fillremaingridcolumn_3',['FillRemainGridColumn',['../structsw_1_1_fill_remain_grid_column.html#a0835e5144c6f0246c6d7cf2c8dfd18a1',1,'sw::FillRemainGridColumn']]],
   ['fillremaingridrow_4',['FillRemainGridRow',['../structsw_1_1_fill_remain_grid_row.html#ae4f6bd7474c82f753a03296a972bd308',1,'sw::FillRemainGridRow']]],
   ['fixsizegridcolumn_5',['FixSizeGridColumn',['../structsw_1_1_fix_size_grid_column.html#a2564cacaada11c191704e59dab7d735b',1,'sw::FixSizeGridColumn']]],

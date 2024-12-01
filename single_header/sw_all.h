@@ -9092,7 +9092,7 @@ namespace sw
         // the system uses the specified template to create a dialog box that is a child of the default
         // Explorer-style dialog box. If the OFN_EXPLORER flag is not set, the system uses the template to
         // create an old-style dialog box that replaces the default dialog box.
-        EnableTEmplateHandle = 0x00000080,
+        EnableTemplateHandle = 0x00000080,
 
         // Indicates that any customizations made to the Open or Save As dialog box use the Explorer-style
         // customization methods. For more information, see Explorer-Style Hook Procedures and Explorer-Style
@@ -9194,6 +9194,26 @@ namespace sw
     };
 
     /**
+     * @brief 文件筛选器信息
+     */
+    struct FileFilterItem {
+        /**
+         * @brief 文本
+         */
+        std::wstring name;
+
+        /**
+         * @brief 筛选器字符串，有多个类型时用分号分隔
+         */
+        std::wstring filter;
+
+        /**
+         * @brief 默认扩展名，当SaveFileDialog用户没有填写扩展名时会使用该值作为扩展名
+         */
+        std::wstring defaultExt;
+    };
+
+    /**
      * @brief 文件筛选器
      */
     class FileFilter
@@ -9204,6 +9224,11 @@ namespace sw
          */
         std::vector<wchar_t> _buffer;
 
+        /**
+         * @brief 默认扩展名
+         */
+        std::vector<std::wstring> _defaultExts;
+
     public:
         /**
          * @brief 默认构造函数
@@ -9213,7 +9238,7 @@ namespace sw
         /**
          * @brief 初始话并设置筛选器
          */
-        FileFilter(std::initializer_list<std::pair<std::wstring, std::wstring>> filters);
+        FileFilter(std::initializer_list<FileFilterItem> filters);
 
         /**
          * @brief        添加筛选器
@@ -9221,14 +9246,14 @@ namespace sw
          * @param filter 筛选器，示例：*.*
          * @return       是否成功添加
          */
-        bool AddFilter(const std::wstring &name, const std::wstring &filter);
+        bool AddFilter(const std::wstring &name, const std::wstring &filter, const std::wstring &defaultExt = L"");
 
         /**
          * @brief         清空现有筛选器并重新设置筛选器
          * @param filters 筛选器列表
          * @return        成功添加的筛选器个数
          */
-        int SetFilter(std::initializer_list<std::pair<std::wstring, std::wstring>> filters);
+        int SetFilter(std::initializer_list<FileFilterItem> filters);
 
         /**
          * @brief 清空所有已添加的筛选器
@@ -9239,6 +9264,11 @@ namespace sw
          * @brief 获取OPENFILENAMEW结构体lpstrFilter格式的字符串
          */
         wchar_t *GetFilterStr();
+
+        /**
+         * @brief  获取指定索引处筛选器的默认扩展名
+         */
+        const wchar_t *GetDefaultExt(int index);
     };
 
     /**
@@ -9368,6 +9398,12 @@ namespace sw
          * @brief 清空缓冲区，显示对话框前必须调用此函数
          */
         void ClearBuffer();
+
+        /**
+         * @brief          处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理
+         * @param fileName 获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容
+         */
+        virtual void ProcessFileName(std::wstring &fileName);
     };
 
     /**
@@ -9414,6 +9450,13 @@ namespace sw
          * @return 用户是否选择了文件
          */
         virtual bool ShowDialog(const Window *owner) override;
+
+    protected:
+        /**
+         * @brief          处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理
+         * @param fileName 获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容
+         */
+        virtual void ProcessFileName(std::wstring &fileName) override;
     };
 }
 
