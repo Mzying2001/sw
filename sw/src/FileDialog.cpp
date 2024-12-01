@@ -63,7 +63,7 @@ wchar_t *sw::FileFilter::GetFilterStr()
 
 const wchar_t *sw::FileFilter::GetDefaultExt(int index)
 {
-    return (index >= 0 && index < _defaultExts.size()) ? _defaultExts[index].c_str() : L"";
+    return (index >= 0 && index < (int)_defaultExts.size()) ? _defaultExts[index].c_str() : L"";
 }
 
 sw::FileDialog::FileDialog()
