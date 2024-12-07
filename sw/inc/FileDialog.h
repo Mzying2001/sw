@@ -406,7 +406,18 @@ namespace sw
      */
     class SaveFileDialog : public FileDialog
     {
+    private:
+        /**
+         * @brief 初始文件名
+         */
+        std::wstring _initialFileName;
+
     public:
+        /**
+         * @brief 初始文件名
+         */
+        const Property<std::wstring> InitialFileName;
+
         /**
          * @brief 初始化SaveFileDialog
          */
@@ -429,5 +440,11 @@ namespace sw
          * @param fileName 获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容
          */
         virtual void ProcessFileName(std::wstring &fileName) override;
+
+    private:
+        /**
+         * @brief 设置初始文件名到缓冲区
+         */
+        void _SetInitialFileName();
     };
 }
