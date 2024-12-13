@@ -179,6 +179,14 @@ namespace sw
         }
 
         /**
+         * @brief 获取字典内部维护的std::map
+         */
+        std::map<TKey, TVal> &GetStdMap() const
+        {
+            return *this->_pMap;
+        }
+
+        /**
          * @brief 支持Utils::BuildStr
          */
         friend std::wostream &operator<<(std::wostream &wos, const Dictionary &dic)
