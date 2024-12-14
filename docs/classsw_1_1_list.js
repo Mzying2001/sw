@@ -12,6 +12,7 @@ var classsw_1_1_list =
     [ "Copy", "classsw_1_1_list.html#a765086d760ea625121500730a2579d28", null ],
     [ "Count", "classsw_1_1_list.html#ac06d9081e817d6c808453928dd33525a", null ],
     [ "end", "classsw_1_1_list.html#a9630ceee45943beca3b53931b7864095", null ],
+    [ "GetStdVector", "classsw_1_1_list.html#ac42490bd0a02fd82fb84650bbb54bba7", null ],
     [ "IndexOf", "classsw_1_1_list.html#a53adb5e4e7172f03bf87113443e9d2b5", null ],
     [ "Insert", "classsw_1_1_list.html#a03c0b009c991425948514cd7d462b6f2", null ],
     [ "Insert", "classsw_1_1_list.html#ad403ed04d959a7d9b44219541895dafa", null ],

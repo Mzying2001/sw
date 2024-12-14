@@ -10,6 +10,7 @@ var classsw_1_1_dictionary =
     [ "Copy", "classsw_1_1_dictionary.html#afa7a405134901716b4affecc9f01df0f", null ],
     [ "Count", "classsw_1_1_dictionary.html#a7c16eced6a889e97f4a1807697090fd3", null ],
     [ "end", "classsw_1_1_dictionary.html#a98945b3a8a7c6b3e1110a406718a49c8", null ],
+    [ "GetStdMap", "classsw_1_1_dictionary.html#a6164d690060a4eec00a614ad5aa1dc66", null ],
     [ "IsEmpty", "classsw_1_1_dictionary.html#a16703bd325716445121e257ae489dcc4", null ],
     [ "operator!=", "classsw_1_1_dictionary.html#a346b637e419b23fecb11ff446825012a", null ],
     [ "operator==", "classsw_1_1_dictionary.html#a66e49e3de4c336ab16ab112ad92ffdc3", null ],
