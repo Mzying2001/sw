@@ -2484,6 +2484,14 @@ namespace sw
         }
 
         /**
+         * @brief 获取字典内部维护的std::map
+         */
+        std::map<TKey, TVal> &GetStdMap() const
+        {
+            return *this->_pMap;
+        }
+
+        /**
          * @brief 支持Utils::BuildStr
          */
         friend std::wostream &operator<<(std::wostream &wos, const Dictionary &dic)
@@ -3058,6 +3066,14 @@ namespace sw
             List list((int)this->_pVec->capacity());
             list._pVec->assign(this->_pVec->begin(), this->_pVec->end());
             return list;
+        }
+
+        /**
+         * @brief 获取列表内部维护的std::vector
+         */
+        std::vector<T> &GetStdVector() const
+        {
+            return *this->_pVec;
         }
 
         /**
@@ -9434,7 +9450,18 @@ namespace sw
      */
     class SaveFileDialog : public FileDialog
     {
+    private:
+        /**
+         * @brief 初始文件名
+         */
+        std::wstring _initialFileName;
+
     public:
+        /**
+         * @brief 初始文件名
+         */
+        const Property<std::wstring> InitialFileName;
+
         /**
          * @brief 初始化SaveFileDialog
          */
@@ -9457,6 +9484,12 @@ namespace sw
          * @param fileName 获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容
          */
         virtual void ProcessFileName(std::wstring &fileName) override;
+
+    private:
+        /**
+         * @brief 设置初始文件名到缓冲区
+         */
+        void _SetInitialFileName();
     };
 }
 
@@ -10260,6 +10293,12 @@ namespace sw
         virtual void OnItemDoubleClicked(NMITEMACTIVATE *pNMIA);
 
         /**
+         * @brief         当OnNotified接收到LVN_GETDISPINFOW通知时调用该函数
+         * @param pNMInfo 包含有关通知消息的信息
+         */
+        virtual void OnGetDispInfo(NMLVDISPINFOW *pNMInfo);
+
+        /**
          * @brief  编辑状态结束后调用该函数
          * @return 是否应用新文本
          */
@@ -10321,7 +10360,7 @@ namespace sw
          * @param col 所在列
          * @return    对应位置的文本，若获取失败则返回空字符串
          */
-        std::wstring GetItemAt(int row, int col);
+        virtual std::wstring GetItemAt(int row, int col);
 
         /**
          * @brief          更新指定位置处文本
@@ -10330,7 +10369,7 @@ namespace sw
          * @param newValue 要设置的文本
          * @return         操作是否成功
          */
-        bool UpdateItem(int row, int col, const std::wstring &newValue);
+        virtual bool UpdateItem(int row, int col, const std::wstring &newValue);
 
         /**
          * @brief        添加新的列
