@@ -262,7 +262,7 @@ namespace sw
          * @param col 所在列
          * @return    对应位置的文本，若获取失败则返回空字符串
          */
-        std::wstring GetItemAt(int row, int col);
+        virtual std::wstring GetItemAt(int row, int col);
 
         /**
          * @brief          更新指定位置处文本
@@ -271,7 +271,7 @@ namespace sw
          * @param newValue 要设置的文本
          * @return         操作是否成功
          */
-        bool UpdateItem(int row, int col, const std::wstring &newValue);
+        virtual bool UpdateItem(int row, int col, const std::wstring &newValue);
 
         /**
          * @brief        添加新的列
