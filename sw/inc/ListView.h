@@ -201,6 +201,12 @@ namespace sw
         virtual void OnItemDoubleClicked(NMITEMACTIVATE *pNMIA);
 
         /**
+         * @brief         当OnNotified接收到LVN_GETDISPINFOW通知时调用该函数
+         * @param pNMInfo 包含有关通知消息的信息
+         */
+        virtual void OnGetDispInfo(NMLVDISPINFOW *pNMInfo);
+
+        /**
          * @brief  编辑状态结束后调用该函数
          * @return 是否应用新文本
          */

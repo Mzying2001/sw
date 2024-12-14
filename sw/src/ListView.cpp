@@ -209,6 +209,10 @@ bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
             this->OnItemDoubleClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
             break;
         }
+        case LVN_GETDISPINFOW: {
+            this->OnGetDispInfo(reinterpret_cast<NMLVDISPINFOW *>(pNMHDR));
+            return true;
+        }
         case LVN_ENDLABELEDITW: {
             result = (LRESULT)this->OnEndEdit(reinterpret_cast<NMLVDISPINFOW *>(pNMHDR));
             return true;
@@ -263,6 +267,10 @@ void sw::ListView::OnItemDoubleClicked(NMITEMACTIVATE *pNMIA)
 {
     ListViewItemClickedEventArgs args(ListView_ItemDoubleClicked, pNMIA->iItem, pNMIA->iSubItem);
     this->RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnGetDispInfo(NMLVDISPINFOW *pNMInfo)
+{
 }
 
 bool sw::ListView::OnEndEdit(NMLVDISPINFOW *pNMInfo)
