@@ -1032,7 +1032,7 @@ void sw::WndBase::SetStyle(DWORD style)
 
 bool sw::WndBase::GetStyle(DWORD mask)
 {
-    return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) & mask;
+    return (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) & mask) == mask;
 }
 
 void sw::WndBase::SetStyle(DWORD mask, bool value)
@@ -1055,7 +1055,7 @@ void sw::WndBase::SetExtendedStyle(DWORD style)
 
 bool sw::WndBase::GetExtendedStyle(DWORD mask)
 {
-    return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE)) & mask;
+    return (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE)) & mask) == mask;
 }
 
 void sw::WndBase::SetExtendedStyle(DWORD mask, bool value)
