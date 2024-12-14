@@ -209,6 +209,10 @@ bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
             this->OnItemDoubleClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
             break;
         }
+        case LVN_GETDISPINFOW: {
+            this->OnGetDispInfo(reinterpret_cast<NMLVDISPINFOW *>(pNMHDR));
+            return true;
+        }
         case LVN_ENDLABELEDITW: {
             result = (LRESULT)this->OnEndEdit(reinterpret_cast<NMLVDISPINFOW *>(pNMHDR));
             return true;
@@ -265,6 +269,10 @@ void sw::ListView::OnItemDoubleClicked(NMITEMACTIVATE *pNMIA)
     this->RaiseRoutedEvent(args);
 }
 
+void sw::ListView::OnGetDispInfo(NMLVDISPINFOW *pNMInfo)
+{
+}
+
 bool sw::ListView::OnEndEdit(NMLVDISPINFOW *pNMInfo)
 {
     if (pNMInfo->item.pszText == nullptr) {
@@ -310,8 +318,7 @@ sw::StrList sw::ListView::GetItemAt(int index)
         lvi.iSubItem = j;
 
         int len = (int)this->SendMessageW(LVM_GETITEMTEXTW, index, reinterpret_cast<LPARAM>(&lvi));
-
-        while (len == bufsize - 1 && bufsize * 2 > bufsize) {
+        while (len == bufsize - 1 && bufsize < INT_MAX / 2) {
             bufsize *= 2;
             buf.reset(new wchar_t[bufsize]);
             lvi.pszText    = buf.get();
@@ -381,28 +388,29 @@ bool sw::ListView::RemoveItemAt(int index)
 
 std::wstring sw::ListView::GetItemAt(int row, int col)
 {
+    std::wstring result;
+
     int bufsize = _ListViewTextInitialBufferSize;
-    std::unique_ptr<wchar_t[]> buf(new wchar_t[bufsize]);
+    result.resize(bufsize);
 
     LVITEMW lvi;
     lvi.mask       = LVIF_TEXT;
     lvi.iItem      = row;
     lvi.iSubItem   = col;
-    lvi.pszText    = buf.get();
+    lvi.pszText    = &result[0];
     lvi.cchTextMax = bufsize;
 
     int len = (int)this->SendMessageW(LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
-    if (len == 0) return std::wstring();
-
-    while (len == bufsize - 1 && bufsize * 2 > bufsize) {
+    while (len == bufsize - 1 && bufsize < INT_MAX / 2) {
         bufsize *= 2;
-        buf.reset(new wchar_t[bufsize]);
-        lvi.pszText    = buf.get();
+        result.resize(bufsize);
+        lvi.pszText    = &result[0];
         lvi.cchTextMax = bufsize;
         len            = (int)this->SendMessageW(LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
     }
 
-    return std::wstring(buf.get());
+    result.resize(len);
+    return result;
 }
 
 bool sw::ListView::UpdateItem(int row, int col, const std::wstring &newValue)

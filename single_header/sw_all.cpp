@@ -1404,7 +1404,7 @@ wchar_t *sw::FileFilter::GetFilterStr()
 
 const wchar_t *sw::FileFilter::GetDefaultExt(int index)
 {
-    return (index >= 0 && index < _defaultExts.size()) ? _defaultExts[index].c_str() : L"";
+    return (index >= 0 && index < (int)_defaultExts.size()) ? _defaultExts[index].c_str() : L"";
 }
 
 sw::FileDialog::FileDialog()
@@ -1616,6 +1616,15 @@ bool sw::OpenFileDialog::ShowDialog(const Window *owner)
 }
 
 sw::SaveFileDialog::SaveFileDialog()
+    : InitialFileName(
+          // get
+          [this]() -> std::wstring {
+              return this->_initialFileName;
+          },
+          // set
+          [this](const std::wstring &value) {
+              this->_initialFileName = value;
+          })
 {
     this->Flags = this->Flags.Get() |
                   FileDialogFlags::PathMustExist |
@@ -1635,10 +1644,17 @@ bool sw::SaveFileDialog::ShowDialog(const Window *owner)
         if (errcode == FNERR_BUFFERTOOSMALL) {
             this->BufferSize = *reinterpret_cast<uint16_t *>(this->GetBuffer());
         }
-        this->ClearBuffer();
+        if (this->_initialFileName.empty()) {
+            this->ClearBuffer();
+        } else {
+            this->_SetInitialFileName();
+        }
         result = GetSaveFileNameW(pOFN);
     } while (!result && ((errcode = CommDlgExtendedError()) == FNERR_BUFFERTOOSMALL));
 
+    if (!result) {
+        this->ClearBuffer();
+    }
     return result;
 }
 
@@ -1654,6 +1670,20 @@ void sw::SaveFileDialog::ProcessFileName(std::wstring &fileName)
     if (indexDot == npos || (indexSlash != npos && indexSlash > indexDot)) {
         fileName += ext;
     }
+}
+
+void sw::SaveFileDialog::_SetInitialFileName()
+{
+    auto &str = this->_initialFileName;
+    int size  = (int)str.size();
+
+    if (this->BufferSize < size + 2) {
+        this->BufferSize = size + 2;
+    }
+
+    wchar_t *buffer = this->GetBuffer();
+    memcpy(buffer, &str[0], sizeof(wchar_t) * size);
+    buffer[size] = buffer[size + 1] = 0;
 }
 
 // FillLayout.cpp
@@ -4400,6 +4430,10 @@ bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
             this->OnItemDoubleClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
             break;
         }
+        case LVN_GETDISPINFOW: {
+            this->OnGetDispInfo(reinterpret_cast<NMLVDISPINFOW *>(pNMHDR));
+            return true;
+        }
         case LVN_ENDLABELEDITW: {
             result = (LRESULT)this->OnEndEdit(reinterpret_cast<NMLVDISPINFOW *>(pNMHDR));
             return true;
@@ -4456,6 +4490,10 @@ void sw::ListView::OnItemDoubleClicked(NMITEMACTIVATE *pNMIA)
     this->RaiseRoutedEvent(args);
 }
 
+void sw::ListView::OnGetDispInfo(NMLVDISPINFOW *pNMInfo)
+{
+}
+
 bool sw::ListView::OnEndEdit(NMLVDISPINFOW *pNMInfo)
 {
     if (pNMInfo->item.pszText == nullptr) {
@@ -4501,8 +4539,7 @@ sw::StrList sw::ListView::GetItemAt(int index)
         lvi.iSubItem = j;
 
         int len = (int)this->SendMessageW(LVM_GETITEMTEXTW, index, reinterpret_cast<LPARAM>(&lvi));
-
-        while (len == bufsize - 1 && bufsize * 2 > bufsize) {
+        while (len == bufsize - 1 && bufsize < INT_MAX / 2) {
             bufsize *= 2;
             buf.reset(new wchar_t[bufsize]);
             lvi.pszText    = buf.get();
@@ -4572,28 +4609,29 @@ bool sw::ListView::RemoveItemAt(int index)
 
 std::wstring sw::ListView::GetItemAt(int row, int col)
 {
+    std::wstring result;
+
     int bufsize = _ListViewTextInitialBufferSize;
-    std::unique_ptr<wchar_t[]> buf(new wchar_t[bufsize]);
+    result.resize(bufsize);
 
     LVITEMW lvi;
     lvi.mask       = LVIF_TEXT;
     lvi.iItem      = row;
     lvi.iSubItem   = col;
-    lvi.pszText    = buf.get();
+    lvi.pszText    = &result[0];
     lvi.cchTextMax = bufsize;
 
     int len = (int)this->SendMessageW(LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
-    if (len == 0) return std::wstring();
-
-    while (len == bufsize - 1 && bufsize * 2 > bufsize) {
+    while (len == bufsize - 1 && bufsize < INT_MAX / 2) {
         bufsize *= 2;
-        buf.reset(new wchar_t[bufsize]);
-        lvi.pszText    = buf.get();
+        result.resize(bufsize);
+        lvi.pszText    = &result[0];
         lvi.cchTextMax = bufsize;
         len            = (int)this->SendMessageW(LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
     }
 
-    return std::wstring(buf.get());
+    result.resize(len);
+    return result;
 }
 
 bool sw::ListView::UpdateItem(int row, int col, const std::wstring &newValue)
@@ -9990,7 +10028,7 @@ void sw::WndBase::SetStyle(DWORD style)
 
 bool sw::WndBase::GetStyle(DWORD mask)
 {
-    return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) & mask;
+    return (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) & mask) == mask;
 }
 
 void sw::WndBase::SetStyle(DWORD mask, bool value)
@@ -10013,7 +10051,7 @@ void sw::WndBase::SetExtendedStyle(DWORD style)
 
 bool sw::WndBase::GetExtendedStyle(DWORD mask)
 {
-    return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE)) & mask;
+    return (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE)) & mask) == mask;
 }
 
 void sw::WndBase::SetExtendedStyle(DWORD mask, bool value)

@@ -236,6 +236,14 @@ namespace sw
         }
 
         /**
+         * @brief 获取列表内部维护的std::vector
+         */
+        std::vector<T> &GetStdVector() const
+        {
+            return *this->_pVec;
+        }
+
+        /**
          * @brief 支持Utils::BuildStr
          */
         friend std::wostream &operator<<(std::wostream &wos, const List &list)

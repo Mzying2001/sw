@@ -98,6 +98,7 @@ $(function(){initNavTree('classsw_1_1_save_file_dialog.html',''); initResizable(
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-attribs">Public 属性</a> &#124;
 <a href="#pro-methods">Protected 成员函数</a> &#124;
 <a href="classsw_1_1_save_file_dialog-members.html">所有成员列表</a>  </div>
   <div class="headertitle"><div class="title">sw::SaveFileDialog类 参考</div></div>
@@ -154,27 +155,12 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~FileDialog</b> ()
 <tr class="memdesc:aa6c9ae2f5de6c5e73e2a37e8f9db0a26 inherit pub_methods_classsw_1_1_file_dialog"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示对话框，并指定所有者窗口  <br /></td></tr>
 <tr class="separator:aa6c9ae2f5de6c5e73e2a37e8f9db0a26 inherit pub_methods_classsw_1_1_file_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
-Protected 成员函数</h2></td></tr>
-<tr class="memitem:ae7e9e72d0d77337c9489bef40e4bb01c" id="r_ae7e9e72d0d77337c9489bef40e4bb01c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7e9e72d0d77337c9489bef40e4bb01c">ProcessFileName</a> (std::wstring &amp;fileName) override</td></tr>
-<tr class="memdesc:ae7e9e72d0d77337c9489bef40e4bb01c"><td class="mdescLeft">&#160;</td><td class="mdescRight">处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理  <br /></td></tr>
-<tr class="separator:ae7e9e72d0d77337c9489bef40e4bb01c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_methods_classsw_1_1_file_dialog"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classsw_1_1_file_dialog')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classsw_1_1_file_dialog.html">sw::FileDialog</a></td></tr>
-<tr class="memitem:a990e6c6d81faacbb3cd37df96401e575 inherit pro_methods_classsw_1_1_file_dialog" id="r_a990e6c6d81faacbb3cd37df96401e575"><td class="memItemLeft" align="right" valign="top">
-OPENFILENAMEW *&#160;</td><td class="memItemRight" valign="bottom"><b>GetOFN</b> ()</td></tr>
-<tr class="memdesc:a990e6c6d81faacbb3cd37df96401e575 inherit pro_methods_classsw_1_1_file_dialog"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取OPENFILENAMEW指针 <br /></td></tr>
-<tr class="separator:a990e6c6d81faacbb3cd37df96401e575 inherit pro_methods_classsw_1_1_file_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac691ca90c042a9600beefecf7050458c inherit pro_methods_classsw_1_1_file_dialog" id="r_ac691ca90c042a9600beefecf7050458c"><td class="memItemLeft" align="right" valign="top">
-wchar_t *&#160;</td><td class="memItemRight" valign="bottom"><b>GetBuffer</b> ()</td></tr>
-<tr class="memdesc:ac691ca90c042a9600beefecf7050458c inherit pro_methods_classsw_1_1_file_dialog"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指向缓冲区的指针 <br /></td></tr>
-<tr class="separator:ac691ca90c042a9600beefecf7050458c inherit pro_methods_classsw_1_1_file_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a700147f35c0dc579773a57dff819ad34 inherit pro_methods_classsw_1_1_file_dialog" id="r_a700147f35c0dc579773a57dff819ad34"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>ClearBuffer</b> ()</td></tr>
-<tr class="memdesc:a700147f35c0dc579773a57dff819ad34 inherit pro_methods_classsw_1_1_file_dialog"><td class="mdescLeft">&#160;</td><td class="mdescRight">清空缓冲区，显示对话框前必须调用此函数 <br /></td></tr>
-<tr class="separator:a700147f35c0dc579773a57dff819ad34 inherit pro_methods_classsw_1_1_file_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
-额外继承的成员函数</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public 属性</h2></td></tr>
+<tr class="memitem:ae3b6a7c8ec315910e19ee8fb0f4baed3" id="r_ae3b6a7c8ec315910e19ee8fb0f4baed3"><td class="memItemLeft" align="right" valign="top"><a id="ae3b6a7c8ec315910e19ee8fb0f4baed3" name="ae3b6a7c8ec315910e19ee8fb0f4baed3"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>InitialFileName</b></td></tr>
+<tr class="memdesc:ae3b6a7c8ec315910e19ee8fb0f4baed3"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始文件名 <br /></td></tr>
+<tr class="separator:ae3b6a7c8ec315910e19ee8fb0f4baed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classsw_1_1_file_dialog"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_classsw_1_1_file_dialog')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1_file_dialog.html">sw::FileDialog</a></td></tr>
 <tr class="memitem:a5e6e2f2ce50e191d4ed8d215778f859b inherit pub_attribs_classsw_1_1_file_dialog" id="r_a5e6e2f2ce50e191d4ed8d215778f859b"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>BufferSize</b></td></tr>
@@ -212,6 +198,25 @@ const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; bool &gt;&
 const <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1_list.html">sw::List</a>&lt; std::wstring &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FileNames</b></td></tr>
 <tr class="memdesc:a224a3ee1fd1f592ecf230e7c28e4f27b inherit pub_attribs_classsw_1_1_file_dialog"><td class="mdescLeft">&#160;</td><td class="mdescRight">所有选中的文件路径 <br /></td></tr>
 <tr class="separator:a224a3ee1fd1f592ecf230e7c28e4f27b inherit pub_attribs_classsw_1_1_file_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected 成员函数</h2></td></tr>
+<tr class="memitem:ae7e9e72d0d77337c9489bef40e4bb01c" id="r_ae7e9e72d0d77337c9489bef40e4bb01c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7e9e72d0d77337c9489bef40e4bb01c">ProcessFileName</a> (std::wstring &amp;fileName) override</td></tr>
+<tr class="memdesc:ae7e9e72d0d77337c9489bef40e4bb01c"><td class="mdescLeft">&#160;</td><td class="mdescRight">处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理  <br /></td></tr>
+<tr class="separator:ae7e9e72d0d77337c9489bef40e4bb01c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classsw_1_1_file_dialog"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classsw_1_1_file_dialog')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classsw_1_1_file_dialog.html">sw::FileDialog</a></td></tr>
+<tr class="memitem:a990e6c6d81faacbb3cd37df96401e575 inherit pro_methods_classsw_1_1_file_dialog" id="r_a990e6c6d81faacbb3cd37df96401e575"><td class="memItemLeft" align="right" valign="top">
+OPENFILENAMEW *&#160;</td><td class="memItemRight" valign="bottom"><b>GetOFN</b> ()</td></tr>
+<tr class="memdesc:a990e6c6d81faacbb3cd37df96401e575 inherit pro_methods_classsw_1_1_file_dialog"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取OPENFILENAMEW指针 <br /></td></tr>
+<tr class="separator:a990e6c6d81faacbb3cd37df96401e575 inherit pro_methods_classsw_1_1_file_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac691ca90c042a9600beefecf7050458c inherit pro_methods_classsw_1_1_file_dialog" id="r_ac691ca90c042a9600beefecf7050458c"><td class="memItemLeft" align="right" valign="top">
+wchar_t *&#160;</td><td class="memItemRight" valign="bottom"><b>GetBuffer</b> ()</td></tr>
+<tr class="memdesc:ac691ca90c042a9600beefecf7050458c inherit pro_methods_classsw_1_1_file_dialog"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指向缓冲区的指针 <br /></td></tr>
+<tr class="separator:ac691ca90c042a9600beefecf7050458c inherit pro_methods_classsw_1_1_file_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a700147f35c0dc579773a57dff819ad34 inherit pro_methods_classsw_1_1_file_dialog" id="r_a700147f35c0dc579773a57dff819ad34"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>ClearBuffer</b> ()</td></tr>
+<tr class="memdesc:a700147f35c0dc579773a57dff819ad34 inherit pro_methods_classsw_1_1_file_dialog"><td class="mdescLeft">&#160;</td><td class="mdescRight">清空缓冲区，显示对话框前必须调用此函数 <br /></td></tr>
+<tr class="separator:a700147f35c0dc579773a57dff819ad34 inherit pro_methods_classsw_1_1_file_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>“另存为”对话框 </p>

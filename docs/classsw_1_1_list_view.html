@@ -148,12 +148,12 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:aa8794834f72d435f8b6dee8b34d1d59c" id="r_aa8794834f72d435f8b6dee8b34d1d59c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8794834f72d435f8b6dee8b34d1d59c">RemoveItemAt</a> (int index) override</td></tr>
 <tr class="memdesc:aa8794834f72d435f8b6dee8b34d1d59c"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除指定索引处的子项  <br /></td></tr>
 <tr class="separator:aa8794834f72d435f8b6dee8b34d1d59c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9a96bf777e2b3662007f17b274a4a2e" id="r_ab9a96bf777e2b3662007f17b274a4a2e"><td class="memItemLeft" align="right" valign="top">std::wstring&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab9a96bf777e2b3662007f17b274a4a2e">GetItemAt</a> (int row, int col)</td></tr>
-<tr class="memdesc:ab9a96bf777e2b3662007f17b274a4a2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指定位置处文本  <br /></td></tr>
-<tr class="separator:ab9a96bf777e2b3662007f17b274a4a2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad51ae3ae4b5cf3b60d56867738a8b960" id="r_ad51ae3ae4b5cf3b60d56867738a8b960"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad51ae3ae4b5cf3b60d56867738a8b960">UpdateItem</a> (int row, int col, const std::wstring &amp;newValue)</td></tr>
-<tr class="memdesc:ad51ae3ae4b5cf3b60d56867738a8b960"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新指定位置处文本  <br /></td></tr>
-<tr class="separator:ad51ae3ae4b5cf3b60d56867738a8b960"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff8803b3c12f7f8c48191c01c61c49cc" id="r_aff8803b3c12f7f8c48191c01c61c49cc"><td class="memItemLeft" align="right" valign="top">virtual std::wstring&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff8803b3c12f7f8c48191c01c61c49cc">GetItemAt</a> (int row, int col)</td></tr>
+<tr class="memdesc:aff8803b3c12f7f8c48191c01c61c49cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指定位置处文本  <br /></td></tr>
+<tr class="separator:aff8803b3c12f7f8c48191c01c61c49cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11253f03f7f355a8164450e517cbbf98" id="r_a11253f03f7f355a8164450e517cbbf98"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11253f03f7f355a8164450e517cbbf98">UpdateItem</a> (int row, int col, const std::wstring &amp;newValue)</td></tr>
+<tr class="memdesc:a11253f03f7f355a8164450e517cbbf98"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新指定位置处文本  <br /></td></tr>
+<tr class="separator:a11253f03f7f355a8164450e517cbbf98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdc6fdb5bbe352fa0cfed2587260f6fc" id="r_abdc6fdb5bbe352fa0cfed2587260f6fc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abdc6fdb5bbe352fa0cfed2587260f6fc">AddColumn</a> (const <a class="el" href="structsw_1_1_list_view_column.html">ListViewColumn</a> &amp;column)</td></tr>
 <tr class="memdesc:abdc6fdb5bbe352fa0cfed2587260f6fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加新的列  <br /></td></tr>
 <tr class="separator:abdc6fdb5bbe352fa0cfed2587260f6fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -718,6 +718,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnItemClicked
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnItemDoubleClicked</b> (NMITEMACTIVATE *pNMIA)</td></tr>
 <tr class="memdesc:aad1b3b081bf328350b93f1cfba68cd0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">鼠标左键双击某一项调用该函数 <br /></td></tr>
 <tr class="separator:aad1b3b081bf328350b93f1cfba68cd0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a685d431b998be4b714fd51c0eeccfe1f" id="r_a685d431b998be4b714fd51c0eeccfe1f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a685d431b998be4b714fd51c0eeccfe1f">OnGetDispInfo</a> (NMLVDISPINFOW *pNMInfo)</td></tr>
+<tr class="memdesc:a685d431b998be4b714fd51c0eeccfe1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">当OnNotified接收到LVN_GETDISPINFOW通知时调用该函数  <br /></td></tr>
+<tr class="separator:a685d431b998be4b714fd51c0eeccfe1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9e879d4c14b0d12382eb6c005c1340b" id="r_ad9e879d4c14b0d12382eb6c005c1340b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9e879d4c14b0d12382eb6c005c1340b">OnEndEdit</a> (NMLVDISPINFOW *pNMInfo)</td></tr>
 <tr class="memdesc:ad9e879d4c14b0d12382eb6c005c1340b"><td class="mdescLeft">&#160;</td><td class="mdescRight">编辑状态结束后调用该函数  <br /></td></tr>
 <tr class="separator:ad9e879d4c14b0d12382eb6c005c1340b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1239,14 +1242,17 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 
 </div>
 </div>
-<a id="ab9a96bf777e2b3662007f17b274a4a2e" name="ab9a96bf777e2b3662007f17b274a4a2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9a96bf777e2b3662007f17b274a4a2e">&#9670;&#160;</a></span>GetItemAt() <span class="overload">[2/2]</span></h2>
+<a id="aff8803b3c12f7f8c48191c01c61c49cc" name="aff8803b3c12f7f8c48191c01c61c49cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff8803b3c12f7f8c48191c01c61c49cc">&#9670;&#160;</a></span>GetItemAt() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::wstring sw::ListView::GetItemAt </td>
+          <td class="memname">virtual std::wstring sw::ListView::GetItemAt </td>
           <td>(</td>
           <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>row</em></span>, </td>
         </tr>
@@ -1256,6 +1262,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
           <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>col</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>获取指定位置处文本 </p>
@@ -1582,6 +1593,39 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 
 <p>编辑状态结束后调用该函数 </p>
 <dl class="section return"><dt>返回</dt><dd>是否应用新文本 </dd></dl>
+
+</div>
+</div>
+<a id="a685d431b998be4b714fd51c0eeccfe1f" name="a685d431b998be4b714fd51c0eeccfe1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a685d431b998be4b714fd51c0eeccfe1f">&#9670;&#160;</a></span>OnGetDispInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sw::ListView::OnGetDispInfo </td>
+          <td>(</td>
+          <td class="paramtype">NMLVDISPINFOW *</td>          <td class="paramname"><span class="paramname"><em>pNMInfo</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当OnNotified接收到LVN_GETDISPINFOW通知时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pNMInfo</td><td>包含有关通知消息的信息 </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -2002,14 +2046,17 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 
 </div>
 </div>
-<a id="ad51ae3ae4b5cf3b60d56867738a8b960" name="ad51ae3ae4b5cf3b60d56867738a8b960"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad51ae3ae4b5cf3b60d56867738a8b960">&#9670;&#160;</a></span>UpdateItem() <span class="overload">[2/2]</span></h2>
+<a id="a11253f03f7f355a8164450e517cbbf98" name="a11253f03f7f355a8164450e517cbbf98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11253f03f7f355a8164450e517cbbf98">&#9670;&#160;</a></span>UpdateItem() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool sw::ListView::UpdateItem </td>
+          <td class="memname">virtual bool sw::ListView::UpdateItem </td>
           <td>(</td>
           <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>row</em></span>, </td>
         </tr>
@@ -2024,6 +2071,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
           <td class="paramtype">const std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>newValue</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>更新指定位置处文本 </p>

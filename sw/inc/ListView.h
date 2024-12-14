@@ -201,6 +201,12 @@ namespace sw
         virtual void OnItemDoubleClicked(NMITEMACTIVATE *pNMIA);
 
         /**
+         * @brief         当OnNotified接收到LVN_GETDISPINFOW通知时调用该函数
+         * @param pNMInfo 包含有关通知消息的信息
+         */
+        virtual void OnGetDispInfo(NMLVDISPINFOW *pNMInfo);
+
+        /**
          * @brief  编辑状态结束后调用该函数
          * @return 是否应用新文本
          */
@@ -262,7 +268,7 @@ namespace sw
          * @param col 所在列
          * @return    对应位置的文本，若获取失败则返回空字符串
          */
-        std::wstring GetItemAt(int row, int col);
+        virtual std::wstring GetItemAt(int row, int col);
 
         /**
          * @brief          更新指定位置处文本
@@ -271,7 +277,7 @@ namespace sw
          * @param newValue 要设置的文本
          * @return         操作是否成功
          */
-        bool UpdateItem(int row, int col, const std::wstring &newValue);
+        virtual bool UpdateItem(int row, int col, const std::wstring &newValue);
 
         /**
          * @brief        添加新的列

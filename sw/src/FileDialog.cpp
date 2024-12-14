@@ -63,7 +63,7 @@ wchar_t *sw::FileFilter::GetFilterStr()
 
 const wchar_t *sw::FileFilter::GetDefaultExt(int index)
 {
-    return (index >= 0 && index < _defaultExts.size()) ? _defaultExts[index].c_str() : L"";
+    return (index >= 0 && index < (int)_defaultExts.size()) ? _defaultExts[index].c_str() : L"";
 }
 
 sw::FileDialog::FileDialog()
@@ -275,6 +275,15 @@ bool sw::OpenFileDialog::ShowDialog(const Window *owner)
 }
 
 sw::SaveFileDialog::SaveFileDialog()
+    : InitialFileName(
+          // get
+          [this]() -> std::wstring {
+              return this->_initialFileName;
+          },
+          // set
+          [this](const std::wstring &value) {
+              this->_initialFileName = value;
+          })
 {
     this->Flags = this->Flags.Get() |
                   FileDialogFlags::PathMustExist |
@@ -294,10 +303,17 @@ bool sw::SaveFileDialog::ShowDialog(const Window *owner)
         if (errcode == FNERR_BUFFERTOOSMALL) {
             this->BufferSize = *reinterpret_cast<uint16_t *>(this->GetBuffer());
         }
-        this->ClearBuffer();
+        if (this->_initialFileName.empty()) {
+            this->ClearBuffer();
+        } else {
+            this->_SetInitialFileName();
+        }
         result = GetSaveFileNameW(pOFN);
     } while (!result && ((errcode = CommDlgExtendedError()) == FNERR_BUFFERTOOSMALL));
 
+    if (!result) {
+        this->ClearBuffer();
+    }
     return result;
 }
 
@@ -313,4 +329,18 @@ void sw::SaveFileDialog::ProcessFileName(std::wstring &fileName)
     if (indexDot == npos || (indexSlash != npos && indexSlash > indexDot)) {
         fileName += ext;
     }
+}
+
+void sw::SaveFileDialog::_SetInitialFileName()
+{
+    auto &str = this->_initialFileName;
+    int size  = (int)str.size();
+
+    if (this->BufferSize < size + 2) {
+        this->BufferSize = size + 2;
+    }
+
+    wchar_t *buffer = this->GetBuffer();
+    memcpy(buffer, &str[0], sizeof(wchar_t) * size);
+    buffer[size] = buffer[size + 1] = 0;
 }
