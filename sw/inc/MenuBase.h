@@ -17,6 +17,14 @@ namespace sw
     {
     private:
         /**
+         * @brief 包含子项的菜单项的句柄信息
+         */
+        struct _PopupMenuInfo {
+            std::shared_ptr<MenuItem> pItem; // 菜单项
+            HMENU hSelf;                     // 菜单句柄
+        };
+
+        /**
          * @brief 记录菜单项的依赖关系
          */
         struct _MenuItemDependencyInfo {
@@ -32,22 +40,22 @@ namespace sw
         HMENU _hMenu = NULL;
 
         /**
-         * @brief 菜单项集合
+         * @brief 菜单所直接包含的菜单项集合（即第一级菜单项）
          */
         std::vector<std::shared_ptr<MenuItem>> _items;
 
         /**
-         * @brief 记录所有包含子项的菜单的句柄
+         * @brief 记录包含子项的菜单项的句柄信息
          */
-        std::vector<std::tuple<std::shared_ptr<MenuItem>, HMENU>> _popupMenus;
+        std::vector<_PopupMenuInfo> _popupMenus;
 
         /**
-         * @brief 记录菜单项的ID，可通过菜单项所在索引获取ID（调用IndexToID）
+         * @brief 记录每个菜单项的ID，可通过菜单项所在索引获取ID（调用IndexToID）
          */
         std::vector<std::shared_ptr<MenuItem>> _ids;
 
         /**
-         * @brief 记录菜单项直接依赖关系的map
+         * @brief 记录每个菜单项直接依赖关系的map
          */
         std::map<MenuItem *, _MenuItemDependencyInfo> _dependencyInfoMap;
 
@@ -98,7 +106,7 @@ namespace sw
         void AddItem(const MenuItem &item);
 
         /**
-         * @brief         像当前菜单中的某个菜单项添加新的子项
+         * @brief         向当前菜单中的某个菜单项添加新的子项
          * @param item    要添加子项的菜单项，当该项原本不含有子项时将会调用Update更新整个菜单
          * @param subItem 要添加的子菜单项
          * @return        返回一个bool值，表示操作是否成功
