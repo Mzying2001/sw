@@ -15,7 +15,17 @@ namespace sw
          */
         HWND _hWindowCore{NULL};
 
+        /**
+         * @brief 是否自动填充托管的内容
+         */
+        bool _fillContent = true;
+
     public:
+        /**
+         * @brief 是否自动填充托管的内容
+         */
+        const Property<bool> FillContent;
+
         /**
          * @brief 创建HwndHost对象
          */
@@ -40,6 +50,7 @@ namespace sw
          */
         virtual bool OnDestroy() override;
 
+    protected:
         /**
          * @brief         初始化HwndHost时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄
          * @param hParent 需要给被托管窗口句柄设置的父窗口句柄
