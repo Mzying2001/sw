@@ -1,6 +1,14 @@
 #include "Layer.h"
 #include <cmath>
 
+namespace
+{
+    /**
+     * @brief 滚动条滚动一行的距离
+     */
+    constexpr int _LayerScrollBarLineInterval = 20;
+}
+
 sw::Layer::Layer()
     : Layout(
           // get
@@ -242,11 +250,11 @@ void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double 
                 break;
             }
             case ScrollEvent::LineLeft: {
-                this->ScrollHorizontal(-20);
+                this->ScrollHorizontal(-_LayerScrollBarLineInterval);
                 break;
             }
             case ScrollEvent::LineRight: {
-                this->ScrollHorizontal(20);
+                this->ScrollHorizontal(_LayerScrollBarLineInterval);
                 break;
             }
             default: {
@@ -277,11 +285,11 @@ void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double 
                 break;
             }
             case ScrollEvent::LineUp: {
-                this->ScrollVertical(-20);
+                this->ScrollVertical(-_LayerScrollBarLineInterval);
                 break;
             }
             case ScrollEvent::LineDown: {
-                this->ScrollVertical(20);
+                this->ScrollVertical(_LayerScrollBarLineInterval);
                 break;
             }
             default: {
@@ -522,10 +530,10 @@ void sw::Layer::ScrollToRight()
 
 void sw::Layer::ScrollHorizontal(double offset)
 {
-    this->HorizontalScrollPos = this->HorizontalScrollPos + offset;
+    this->HorizontalScrollPos += offset;
 }
 
 void sw::Layer::ScrollVertical(double offset)
 {
-    this->VerticalScrollPos = this->VerticalScrollPos + offset;
+    this->VerticalScrollPos += offset;
 }
