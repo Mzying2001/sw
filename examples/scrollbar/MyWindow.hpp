@@ -8,12 +8,10 @@
 class MyWindow : public sw::Window
 {
     // 按钮个数
-    static constexpr int BTN_COUNT = 10;
+    static constexpr int BTN_COUNT = 20;
 
     // 按钮数组
     sw::Button btnarr[BTN_COUNT];
-
-
 
     /**
      * @brief 初始化窗口和控件
@@ -25,9 +23,9 @@ class MyWindow : public sw::Window
 
         // 添加按钮到窗口
         for (int i = 0; i < BTN_COUNT; ++i) {
-            sw::Button& btn = btnarr[i];
-            btn.Text = sw::Utils::BuildStr(L"Button", i + 1);
-            btn.Margin = sw::Thickness(10, 10, 10, 0);
+            sw::Button &btn         = btnarr[i];
+            btn.Text                = sw::Utils::BuildStr(L"Button", i + 1);
+            btn.Margin              = sw::Thickness(10, 10, 10, 0);
             btn.HorizontalAlignment = sw::HorizontalAlignment::Stretch;
             this->AddChild(btn);
         }
@@ -40,20 +38,16 @@ class MyWindow : public sw::Window
         this->RegisterRoutedEvent<sw::MouseWheelEventArgs>(*this, &MyWindow::MouseWheelHandler);
     }
 
-
-
     /**
      * @brief 鼠标滚轮事件处理函数
      */
-    void MouseWheelHandler(sw::UIElement& sender, sw::MouseWheelEventArgs& e)
+    void MouseWheelHandler(sw::UIElement &sender, sw::MouseWheelEventArgs &e)
     {
         if (e.wheelDelta != 0) {
             double offset = -std::copysign(20, e.wheelDelta);
             this->ScrollVertical(offset);
         }
     }
-
-
 
 public:
     /**
