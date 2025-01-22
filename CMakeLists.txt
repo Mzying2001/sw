@@ -21,7 +21,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC "include")
 
 add_subdirectory(single_header)
 add_subdirectory(examples)
-#add_subdirectory(docs)
 
 
 # 查找 Doxygen

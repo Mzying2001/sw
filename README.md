@@ -21,8 +21,25 @@
 
 以下是一个 SimpleWindow 的 HelloWorld 程序，更多示例详见[这里](./examples)。
 
+```cmake
+include(FetchContent)
+FetchContent_Declare(
+    sw
+    GIT_REPOSITORY https://github.com/Hunlongyu/sw
+    GIT_TAG v0.1.0)
+FetchContent_MakeAvailable(sw)
+
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE
+    sw
+    # sw_all # 如果想用单文件，引入这个，两者二选一即可
+)
+```
+
 ```c++
-#include "SimpleWindow.h"
+#include "SimpleWindow.h" // 默认使用方式
+// #include "sw_all.h" // 单文件使用方式
 
 int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT nCmdShow)
 {
