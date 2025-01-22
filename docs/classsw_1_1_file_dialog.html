@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: sw::FileDialog类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('classsw_1_1_file_dialog.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-attribs">Public 属性</a> &#124;
+<a href="#pro-methods">Protected 成员函数</a> &#124;
+<a href="classsw_1_1_file_dialog-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sw::FileDialog类 参考<span class="mlabels"><span class="mlabel abstract">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>“打开文件”对话框与“另存为”对话框的基类  
+ <a href="#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_file_dialog_8h_source.html">FileDialog.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sw::FileDialog 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classsw_1_1_file_dialog.png" usemap="#sw::FileDialog_map" alt=""/>
+  <map id="sw::FileDialog_map" name="sw::FileDialog_map">
+<area href="classsw_1_1_open_file_dialog.html" title="“打开文件”对话框" alt="sw::OpenFileDialog" shape="rect" coords="0,56,121,80"/>
+<area href="classsw_1_1_save_file_dialog.html" title="“另存为”对话框" alt="sw::SaveFileDialog" shape="rect" coords="131,56,252,80"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a0990ac4f5f33abef6003418c602980a7" id="r_a0990ac4f5f33abef6003418c602980a7"><td class="memItemLeft" align="right" valign="top"><a id="a0990ac4f5f33abef6003418c602980a7" name="a0990ac4f5f33abef6003418c602980a7"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>FileDialog</b> ()</td></tr>
+<tr class="memdesc:a0990ac4f5f33abef6003418c602980a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化FileDialog <br /></td></tr>
+<tr class="separator:a0990ac4f5f33abef6003418c602980a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8db9fc8df65ed42fb79eac1f377e7975" id="r_a8db9fc8df65ed42fb79eac1f377e7975"><td class="memItemLeft" align="right" valign="top"><a id="a8db9fc8df65ed42fb79eac1f377e7975" name="a8db9fc8df65ed42fb79eac1f377e7975"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~FileDialog</b> ()=default</td></tr>
+<tr class="memdesc:a8db9fc8df65ed42fb79eac1f377e7975"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认虚析构函数 <br /></td></tr>
+<tr class="separator:a8db9fc8df65ed42fb79eac1f377e7975"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cc79643efa4ddff5a2f45008608fc00" id="r_a5cc79643efa4ddff5a2f45008608fc00"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5cc79643efa4ddff5a2f45008608fc00">SetFilter</a> (const <a class="el" href="classsw_1_1_file_filter.html">FileFilter</a> &amp;filter)</td></tr>
+<tr class="memdesc:a5cc79643efa4ddff5a2f45008608fc00"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置筛选器  <br /></td></tr>
+<tr class="separator:a5cc79643efa4ddff5a2f45008608fc00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66f25d80acee110f107a52adb8bfbb92" id="r_a66f25d80acee110f107a52adb8bfbb92"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a66f25d80acee110f107a52adb8bfbb92">ShowDialog</a> ()</td></tr>
+<tr class="memdesc:a66f25d80acee110f107a52adb8bfbb92"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示对话框，并指定当前活动窗口作为所有者窗口  <br /></td></tr>
+<tr class="separator:a66f25d80acee110f107a52adb8bfbb92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6c9ae2f5de6c5e73e2a37e8f9db0a26" id="r_aa6c9ae2f5de6c5e73e2a37e8f9db0a26"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6c9ae2f5de6c5e73e2a37e8f9db0a26">ShowDialog</a> (const <a class="el" href="classsw_1_1_window.html">Window</a> &amp;owner)</td></tr>
+<tr class="memdesc:aa6c9ae2f5de6c5e73e2a37e8f9db0a26"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示对话框，并指定所有者窗口  <br /></td></tr>
+<tr class="separator:aa6c9ae2f5de6c5e73e2a37e8f9db0a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2a49944d6c051ee94a3b614d1fa1458" id="r_af2a49944d6c051ee94a3b614d1fa1458"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af2a49944d6c051ee94a3b614d1fa1458">ShowDialog</a> (const <a class="el" href="classsw_1_1_window.html">Window</a> *owner)=0</td></tr>
+<tr class="memdesc:af2a49944d6c051ee94a3b614d1fa1458"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示对话框，并指定所有者窗口  <br /></td></tr>
+<tr class="separator:af2a49944d6c051ee94a3b614d1fa1458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public 属性</h2></td></tr>
+<tr class="memitem:a5e6e2f2ce50e191d4ed8d215778f859b" id="r_a5e6e2f2ce50e191d4ed8d215778f859b"><td class="memItemLeft" align="right" valign="top"><a id="a5e6e2f2ce50e191d4ed8d215778f859b" name="a5e6e2f2ce50e191d4ed8d215778f859b"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>BufferSize</b></td></tr>
+<tr class="memdesc:a5e6e2f2ce50e191d4ed8d215778f859b"><td class="mdescLeft">&#160;</td><td class="mdescRight">储存文件名的缓冲区大小，值不能小于MAX_PATH <br /></td></tr>
+<tr class="separator:a5e6e2f2ce50e191d4ed8d215778f859b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbed576a8749fac8dd69a85c6c1bb4fa" id="r_acbed576a8749fac8dd69a85c6c1bb4fa"><td class="memItemLeft" align="right" valign="top"><a id="acbed576a8749fac8dd69a85c6c1bb4fa" name="acbed576a8749fac8dd69a85c6c1bb4fa"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; FileDialogFlags &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Flags</b></td></tr>
+<tr class="memdesc:acbed576a8749fac8dd69a85c6c1bb4fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">对话框标志 <br /></td></tr>
+<tr class="separator:acbed576a8749fac8dd69a85c6c1bb4fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37064ae5c1d6c830f899816922721735" id="r_a37064ae5c1d6c830f899816922721735"><td class="memItemLeft" align="right" valign="top"><a id="a37064ae5c1d6c830f899816922721735" name="a37064ae5c1d6c830f899816922721735"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Title</b></td></tr>
+<tr class="memdesc:a37064ae5c1d6c830f899816922721735"><td class="mdescLeft">&#160;</td><td class="mdescRight">对话框标题，设为空字符串可显示默认标题 <br /></td></tr>
+<tr class="separator:a37064ae5c1d6c830f899816922721735"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadaaa88d6a65fcf60ceac37e116bd6ee" id="r_aadaaa88d6a65fcf60ceac37e116bd6ee"><td class="memItemLeft" align="right" valign="top"><a id="aadaaa88d6a65fcf60ceac37e116bd6ee" name="aadaaa88d6a65fcf60ceac37e116bd6ee"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>InitialDir</b></td></tr>
+<tr class="memdesc:aadaaa88d6a65fcf60ceac37e116bd6ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始目录 <br /></td></tr>
+<tr class="separator:aadaaa88d6a65fcf60ceac37e116bd6ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88f71ada4217f55aec3ea4eaac5f7fb5" id="r_a88f71ada4217f55aec3ea4eaac5f7fb5"><td class="memItemLeft" align="right" valign="top"><a id="a88f71ada4217f55aec3ea4eaac5f7fb5" name="a88f71ada4217f55aec3ea4eaac5f7fb5"></a>
+const <a class="el" href="classsw_1_1_read_only_ptr_property.html">ReadOnlyPtrProperty</a>&lt; <a class="el" href="classsw_1_1_file_filter.html">FileFilter</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Filter</b></td></tr>
+<tr class="memdesc:a88f71ada4217f55aec3ea4eaac5f7fb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">筛选器 <br /></td></tr>
+<tr class="separator:a88f71ada4217f55aec3ea4eaac5f7fb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a0c06e354a41cecd168dd8aef79db67" id="r_a0a0c06e354a41cecd168dd8aef79db67"><td class="memItemLeft" align="right" valign="top"><a id="a0a0c06e354a41cecd168dd8aef79db67" name="a0a0c06e354a41cecd168dd8aef79db67"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FilterIndex</b></td></tr>
+<tr class="memdesc:a0a0c06e354a41cecd168dd8aef79db67"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前筛选器的索引，索引值从0开始 <br /></td></tr>
+<tr class="separator:a0a0c06e354a41cecd168dd8aef79db67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ead1d9988473f521caa2568f2bdd308" id="r_a8ead1d9988473f521caa2568f2bdd308"><td class="memItemLeft" align="right" valign="top"><a id="a8ead1d9988473f521caa2568f2bdd308" name="a8ead1d9988473f521caa2568f2bdd308"></a>
+const <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FileName</b></td></tr>
+<tr class="memdesc:a8ead1d9988473f521caa2568f2bdd308"><td class="mdescLeft">&#160;</td><td class="mdescRight">选中文件的路径 <br /></td></tr>
+<tr class="separator:a8ead1d9988473f521caa2568f2bdd308"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14842fca73b74ef747363fcc662b644f" id="r_a14842fca73b74ef747363fcc662b644f"><td class="memItemLeft" align="right" valign="top"><a id="a14842fca73b74ef747363fcc662b644f" name="a14842fca73b74ef747363fcc662b644f"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>MultiSelect</b></td></tr>
+<tr class="memdesc:a14842fca73b74ef747363fcc662b644f"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否允许多选 <br /></td></tr>
+<tr class="separator:a14842fca73b74ef747363fcc662b644f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a224a3ee1fd1f592ecf230e7c28e4f27b" id="r_a224a3ee1fd1f592ecf230e7c28e4f27b"><td class="memItemLeft" align="right" valign="top"><a id="a224a3ee1fd1f592ecf230e7c28e4f27b" name="a224a3ee1fd1f592ecf230e7c28e4f27b"></a>
+const <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1_list.html">sw::List</a>&lt; std::wstring &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FileNames</b></td></tr>
+<tr class="memdesc:a224a3ee1fd1f592ecf230e7c28e4f27b"><td class="mdescLeft">&#160;</td><td class="mdescRight">所有选中的文件路径 <br /></td></tr>
+<tr class="separator:a224a3ee1fd1f592ecf230e7c28e4f27b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected 成员函数</h2></td></tr>
+<tr class="memitem:a990e6c6d81faacbb3cd37df96401e575" id="r_a990e6c6d81faacbb3cd37df96401e575"><td class="memItemLeft" align="right" valign="top"><a id="a990e6c6d81faacbb3cd37df96401e575" name="a990e6c6d81faacbb3cd37df96401e575"></a>
+OPENFILENAMEW *&#160;</td><td class="memItemRight" valign="bottom"><b>GetOFN</b> ()</td></tr>
+<tr class="memdesc:a990e6c6d81faacbb3cd37df96401e575"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取OPENFILENAMEW指针 <br /></td></tr>
+<tr class="separator:a990e6c6d81faacbb3cd37df96401e575"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac691ca90c042a9600beefecf7050458c" id="r_ac691ca90c042a9600beefecf7050458c"><td class="memItemLeft" align="right" valign="top"><a id="ac691ca90c042a9600beefecf7050458c" name="ac691ca90c042a9600beefecf7050458c"></a>
+wchar_t *&#160;</td><td class="memItemRight" valign="bottom"><b>GetBuffer</b> ()</td></tr>
+<tr class="memdesc:ac691ca90c042a9600beefecf7050458c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指向缓冲区的指针 <br /></td></tr>
+<tr class="separator:ac691ca90c042a9600beefecf7050458c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a700147f35c0dc579773a57dff819ad34" id="r_a700147f35c0dc579773a57dff819ad34"><td class="memItemLeft" align="right" valign="top"><a id="a700147f35c0dc579773a57dff819ad34" name="a700147f35c0dc579773a57dff819ad34"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>ClearBuffer</b> ()</td></tr>
+<tr class="memdesc:a700147f35c0dc579773a57dff819ad34"><td class="mdescLeft">&#160;</td><td class="mdescRight">清空缓冲区，显示对话框前必须调用此函数 <br /></td></tr>
+<tr class="separator:a700147f35c0dc579773a57dff819ad34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28d6de7ae1465aae254685d2088814ab" id="r_a28d6de7ae1465aae254685d2088814ab"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a28d6de7ae1465aae254685d2088814ab">ProcessFileName</a> (std::wstring &amp;fileName)</td></tr>
+<tr class="memdesc:a28d6de7ae1465aae254685d2088814ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理  <br /></td></tr>
+<tr class="separator:a28d6de7ae1465aae254685d2088814ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>“打开文件”对话框与“另存为”对话框的基类 </p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="a28d6de7ae1465aae254685d2088814ab" name="a28d6de7ae1465aae254685d2088814ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28d6de7ae1465aae254685d2088814ab">&#9670;&#160;</a></span>ProcessFileName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::FileDialog::ProcessFileName </td>
+          <td>(</td>
+          <td class="paramtype">std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>fileName</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileName</td><td>获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>被 <a class="el" href="classsw_1_1_save_file_dialog.html#aff489a5413ff63df9c7aa648eadbbc6b">sw::SaveFileDialog</a> 重载.</p>
+
+</div>
+</div>
+<a id="a5cc79643efa4ddff5a2f45008608fc00" name="a5cc79643efa4ddff5a2f45008608fc00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cc79643efa4ddff5a2f45008608fc00">&#9670;&#160;</a></span>SetFilter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::FileDialog::SetFilter </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsw_1_1_file_filter.html">FileFilter</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>filter</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置筛选器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filter</td><td>筛选器 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a66f25d80acee110f107a52adb8bfbb92" name="a66f25d80acee110f107a52adb8bfbb92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66f25d80acee110f107a52adb8bfbb92">&#9670;&#160;</a></span>ShowDialog() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::FileDialog::ShowDialog </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>显示对话框，并指定当前活动窗口作为所有者窗口 </p>
+<dl class="section return"><dt>返回</dt><dd>用户是否选择了文件 </dd></dl>
+
+</div>
+</div>
+<a id="aa6c9ae2f5de6c5e73e2a37e8f9db0a26" name="aa6c9ae2f5de6c5e73e2a37e8f9db0a26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6c9ae2f5de6c5e73e2a37e8f9db0a26">&#9670;&#160;</a></span>ShowDialog() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::FileDialog::ShowDialog </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsw_1_1_window.html">Window</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>owner</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>显示对话框，并指定所有者窗口 </p>
+<dl class="section return"><dt>返回</dt><dd>用户是否选择了文件 </dd></dl>
+
+</div>
+</div>
+<a id="af2a49944d6c051ee94a3b614d1fa1458" name="af2a49944d6c051ee94a3b614d1fa1458"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2a49944d6c051ee94a3b614d1fa1458">&#9670;&#160;</a></span>ShowDialog() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool sw::FileDialog::ShowDialog </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsw_1_1_window.html">Window</a> *</td>          <td class="paramname"><span class="paramname"><em>owner</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>显示对话框，并指定所有者窗口 </p>
+<dl class="section return"><dt>返回</dt><dd>用户是否选择了文件 </dd></dl>
+
+<p>在 <a class="el" href="classsw_1_1_open_file_dialog.html#a45e8cc2cc29996d4af75325dc1aa0e67">sw::OpenFileDialog</a> , 以及 <a class="el" href="classsw_1_1_save_file_dialog.html#aff49fa5122f983f054b87e900ba58786">sw::SaveFileDialog</a> 内被实现.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="_file_dialog_8h_source.html">FileDialog.h</a></li>
+<li><b>FileDialog.cpp</b></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>sw</b></li><li class="navelem"><a class="el" href="classsw_1_1_file_dialog.html">FileDialog</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: HotKeyControl.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_hot_key_control_8h_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">HotKeyControl.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Control.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;EnumBit.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;CommCtrl.h&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>{</div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="};">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="structsw_1_1_hot_key.html">   12</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1_hot_key.html">HotKey</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        VirtualKey key;          <span class="comment">// 按键</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        HotKeyModifier modifier; <span class="comment">// 辅助按键</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    };</div>
+</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keyword">enum class</span> HotKeyCombination {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        Alt          = HKCOMB_A,    <span class="comment">// ALT</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        Ctrl         = HKCOMB_C,    <span class="comment">// CTRL</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        CtrlAlt      = HKCOMB_CA,   <span class="comment">// CTRL+ALT</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        None         = HKCOMB_NONE, <span class="comment">// Unmodified keys</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        Shift        = HKCOMB_S,    <span class="comment">// SHIFT</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        ShiftAlt     = HKCOMB_SA,   <span class="comment">// SHIFT+ALT</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        ShiftCtrl    = HKCOMB_SC,   <span class="comment">// SHIFT+CTRL</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        ShiftCtrlAlt = HKCOMB_SCA,  <span class="comment">// SHIFT+CTRL+ALT</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    };</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">template</span> &lt;&gt;</div>
+<div class="foldopen" id="foldopen00035" data-start="{" data-end="};">
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="structsw_1_1___enum_support_bit_operations_3_01_hot_key_combination_01_4.html">   35</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1___enum_support_bit_operations.html">_EnumSupportBitOperations</a>&lt;HotKeyCombination&gt; : std::true_type {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    };</div>
+</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span></div>
+<div class="foldopen" id="foldopen00041" data-start="{" data-end="};">
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classsw_1_1_hot_key_control.html">   41</a></span>    <span class="keyword">class </span><a class="code hl_function" href="classsw_1_1_hot_key_control.html#ae58ad7be2266801faaab1777b443f10c">HotKeyControl</a> : <span class="keyword">public</span> <a class="code hl_function" href="classsw_1_1_control.html#aec7b384d013e9d25c507cf9ded87bff1">Control</a></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <a class="code hl_struct" href="structsw_1_1_hot_key.html">HotKey</a> _value;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classsw_1_1_hot_key_control.html#ac935ffe86b400b6ad8685cafe1a93f28">   53</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;HotKey&gt;</a> <a class="code hl_variable" href="classsw_1_1_hot_key_control.html#ac935ffe86b400b6ad8685cafe1a93f28">Value</a>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <a class="code hl_function" href="classsw_1_1_hot_key_control.html#ae58ad7be2266801faaab1777b443f10c">HotKeyControl</a>();</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_hot_key_control.html#abf405cd5167e076e2851adaa617e9a57">SetRules</a>(HotKeyCombination invalidComb, HotKeyModifier defaultModifier);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_hot_key_control.html#a7cb82c38f73e670ce91a1594e17a864e">OnCommand</a>(<span class="keywordtype">int</span> code) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_hot_key_control.html#a86446cfd181572c1d7ac78949afd154b">OnValueChanged</a>(<a class="code hl_struct" href="structsw_1_1_hot_key.html">HotKey</a> value);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keywordtype">void</span> _UpdateValue();</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    };</div>
+</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>}</div>
+<div class="ttc" id="aclasssw_1_1_control_html_aec7b384d013e9d25c507cf9ded87bff1"><div class="ttname"><a href="classsw_1_1_control.html#aec7b384d013e9d25c507cf9ded87bff1">sw::Control::Control</a></div><div class="ttdeci">Control()</div><div class="ttdoc">初始化控件</div><div class="ttdef"><b>定义</b> Control.cpp:3</div></div>
+<div class="ttc" id="aclasssw_1_1_hot_key_control_html_a7cb82c38f73e670ce91a1594e17a864e"><div class="ttname"><a href="classsw_1_1_hot_key_control.html#a7cb82c38f73e670ce91a1594e17a864e">sw::HotKeyControl::OnCommand</a></div><div class="ttdeci">virtual void OnCommand(int code) override</div><div class="ttdoc">当父窗口接收到控件的WM_COMMAND时调用该函数</div><div class="ttdef"><b>定义</b> HotKeyControl.cpp:29</div></div>
+<div class="ttc" id="aclasssw_1_1_hot_key_control_html_a86446cfd181572c1d7ac78949afd154b"><div class="ttname"><a href="classsw_1_1_hot_key_control.html#a86446cfd181572c1d7ac78949afd154b">sw::HotKeyControl::OnValueChanged</a></div><div class="ttdeci">virtual void OnValueChanged(HotKey value)</div><div class="ttdoc">控件表示的热键值发生改变时调用该函数</div><div class="ttdef"><b>定义</b> HotKeyControl.cpp:37</div></div>
+<div class="ttc" id="aclasssw_1_1_hot_key_control_html_abf405cd5167e076e2851adaa617e9a57"><div class="ttname"><a href="classsw_1_1_hot_key_control.html#abf405cd5167e076e2851adaa617e9a57">sw::HotKeyControl::SetRules</a></div><div class="ttdeci">void SetRules(HotKeyCombination invalidComb, HotKeyModifier defaultModifier)</div><div class="ttdoc">设置无效组合与默认值</div><div class="ttdef"><b>定义</b> HotKeyControl.cpp:24</div></div>
+<div class="ttc" id="aclasssw_1_1_hot_key_control_html_ac935ffe86b400b6ad8685cafe1a93f28"><div class="ttname"><a href="classsw_1_1_hot_key_control.html#ac935ffe86b400b6ad8685cafe1a93f28">sw::HotKeyControl::Value</a></div><div class="ttdeci">const Property&lt; HotKey &gt; Value</div><div class="ttdoc">当前控件所表示的热键值</div><div class="ttdef"><b>定义</b> HotKeyControl.h:53</div></div>
+<div class="ttc" id="aclasssw_1_1_hot_key_control_html_ae58ad7be2266801faaab1777b443f10c"><div class="ttname"><a href="classsw_1_1_hot_key_control.html#ae58ad7be2266801faaab1777b443f10c">sw::HotKeyControl::HotKeyControl</a></div><div class="ttdeci">HotKeyControl()</div><div class="ttdoc">初始化热键框</div><div class="ttdef"><b>定义</b> HotKeyControl.cpp:3</div></div>
+<div class="ttc" id="aclasssw_1_1_property_html"><div class="ttname"><a href="classsw_1_1_property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>定义</b> Property.h:428</div></div>
+<div class="ttc" id="astructsw_1_1___enum_support_bit_operations_html"><div class="ttname"><a href="structsw_1_1___enum_support_bit_operations.html">sw::_EnumSupportBitOperations</a></div><div class="ttdoc">用于标记枚举是否支持位运算</div><div class="ttdef"><b>定义</b> EnumBit.h:11</div></div>
+<div class="ttc" id="astructsw_1_1_hot_key_html"><div class="ttname"><a href="structsw_1_1_hot_key.html">sw::HotKey</a></div><div class="ttdoc">表示一个热键</div><div class="ttdef"><b>定义</b> HotKeyControl.h:12</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><b>HotKeyControl.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: RoutedEvent.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_routed_event_8h_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">RoutedEvent.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keyword">enum</span> RoutedEventType : uint32_t {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <span class="comment">// 从该值开始到UserEventEnd结束表示用户可以自定义路由事件的值范围</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        UserEventBegin = 0,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="comment">// 用户自定义路由事件的值的最大值</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        UserEventEnd = 0x80000000,</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="comment">// 尺寸改变，参数类型为sw::SizeChangedEventArgs</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        UIElement_SizeChanged,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="comment">// 位置改变，参数类型为sw::PositionChangedEventArgs</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        UIElement_PositionChanged,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="comment">// Text属性发生变化，参数类型为sw::RoutedEventArgs</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        UIElement_TextChanged,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="comment">// 获取到焦点，参数类型为sw::RoutedEventArgs</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        UIElement_GotFocus,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="comment">// 失去焦点，参数类型为sw::RoutedEventArgs</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        UIElement_LostFocus,</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="comment">// 输入字符，参数类型为sw::GotCharEventArgs</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        UIElement_GotChar,</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="comment">// 键盘按键按下，参数类型为sw::KeyDownEventArgs</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        UIElement_KeyDown,</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="comment">// 键盘按键抬起，参数类型为sw::KeyUpEventArgs</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        UIElement_KeyUp,</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="comment">// 鼠标移动，参数类型为sw::MouseMoveEventArgs</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        UIElement_MouseMove,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="comment">// 鼠标离开，参数类型为sw::RoutedEventArgs</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        UIElement_MouseLeave,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="comment">// 鼠标滚轮滚动，参数类型为sw::MouseWheelEventArgs</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        UIElement_MouseWheel,</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <span class="comment">// 鼠标按键按下，参数类型为sw::MouseButtonDownEventArgs</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        UIElement_MouseButtonDown,</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="comment">// 鼠标按键抬起，参数类型为sw::MouseButtonUpEventArgs</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        UIElement_MouseButtonUp,</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="comment">// 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        UIElement_ShowContextMenu,</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="comment">// 接收到文件拖放，参数类型为sw::DropFilesEventArgs</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        UIElement_DropFiles,</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="comment">// 窗口正在关闭，参数类型为sw::WindowClosingEventArgs</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        Window_Closing,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="comment">// 窗口已关闭，参数类型为sw::RoutedEventArgs</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        Window_Closed,</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="comment">// 窗口成为前台窗口，参数类型为sw::RoutedEventArgs</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        Window_Actived,</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="comment">// 窗口成为后台窗口，参数类型为sw::RoutedEventArgs</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        Window_Inactived,</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="comment">// 按钮被单击，参数类型为sw::RoutedEventArgs</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        ButtonBase_Clicked,</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="comment">// 按钮被双击，参数类型为sw::RoutedEventArgs</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        ButtonBase_DoubleClicked,</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="comment">// 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        ItemsControl_SelectionChanged,</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="comment">// 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        ListView_CheckStateChanged,</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="comment">// 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        ListView_HeaderClicked,</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="comment">// 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        ListView_HeaderDoubleClicked,</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="comment">// 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        ListView_ItemClicked,</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="comment">// 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        ListView_ItemDoubleClicked,</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="comment">// 编辑状态结束，参数类型为sw::ListViewEndEditEventArgs</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        ListView_EndEdit,</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="comment">// 滑块的值被改变，参数类型为sw::RoutedEventArgs</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        Slider_ValueChanged,</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="comment">// 滑块被释放，参数类型为sw::RoutedEventArgs</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        Slider_EndTrack,</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="comment">// 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        Layer_Scrolling,</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <span class="comment">// SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        TabControl_SelectedIndexChanged,</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="comment">// DateTimePicker控件的时间改变，参数类型为sw::DateTimePickerTimeChangedEventArgs</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        DateTimePicker_TimeChanged,</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="comment">// 月历控件的时间改变，参数类型为sw::MonthCalendarTimeChangedEventArgs</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        MonthCalendar_TimeChanged,</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="comment">// IP地址框地址被改变，参数类型为sw::RoutedEventArgs</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        IPAddressControl_AddressChanged,</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="comment">// SysLink控件链接被单击，参数类型为sw::SysLinkClickedEventArgs</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        SysLink_Clicked,</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="comment">// 热键框的值被改变，参数类型为sw::HotKeyValueChangedEventArgs</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        HotKeyControl_ValueChanged,</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    };</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="comment">/*================================================================================*/</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span></div>
+<div class="foldopen" id="foldopen00136" data-start="{" data-end="};">
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno"><a class="line" href="structsw_1_1_routed_event_args.html">  136</a></span>    <span class="keyword">struct </span><a class="code hl_function" href="structsw_1_1_routed_event_args.html#ad6e6da62f114abfabb682afd38b6f7a3">RoutedEventArgs</a> {</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="structsw_1_1_routed_event_args.html#a46df8118b89dcc6c494cdbded901b082">  140</a></span>        RoutedEventType <a class="code hl_variable" href="structsw_1_1_routed_event_args.html#a46df8118b89dcc6c494cdbded901b082">eventType</a>;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="structsw_1_1_routed_event_args.html#a9fb971eec1e6ba4aee1366c3f9c20bfd">  145</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsw_1_1_routed_event_args.html#a9fb971eec1e6ba4aee1366c3f9c20bfd">handled</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="structsw_1_1_routed_event_args.html#ac299c564c53fa039f47a06d08272d969">  150</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsw_1_1_routed_event_args.html#ac299c564c53fa039f47a06d08272d969">handledMsg</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        <a class="code hl_function" href="structsw_1_1_routed_event_args.html#ad6e6da62f114abfabb682afd38b6f7a3">RoutedEventArgs</a>(RoutedEventType <a class="code hl_variable" href="structsw_1_1_routed_event_args.html#a46df8118b89dcc6c494cdbded901b082">eventType</a>);</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    };</div>
+</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <span class="comment">/*================================================================================*/</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1_u_i_element.html">UIElement</a>; <span class="comment">// UIElement.h</span></div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="keyword">using </span>RoutedEvent = std::function&lt;void(<a class="code hl_class" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, <a class="code hl_struct" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> &amp;)&gt;;</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>}</div>
+<div class="ttc" id="aclasssw_1_1_u_i_element_html"><div class="ttname"><a href="classsw_1_1_u_i_element.html">sw::UIElement</a></div><div class="ttdoc">表示界面中的元素</div><div class="ttdef"><b>定义</b> UIElement.h:24</div></div>
+<div class="ttc" id="astructsw_1_1_routed_event_args_html"><div class="ttname"><a href="structsw_1_1_routed_event_args.html">sw::RoutedEventArgs</a></div><div class="ttdoc">路由事件的参数</div><div class="ttdef"><b>定义</b> RoutedEvent.h:136</div></div>
+<div class="ttc" id="astructsw_1_1_routed_event_args_html_a46df8118b89dcc6c494cdbded901b082"><div class="ttname"><a href="structsw_1_1_routed_event_args.html#a46df8118b89dcc6c494cdbded901b082">sw::RoutedEventArgs::eventType</a></div><div class="ttdeci">RoutedEventType eventType</div><div class="ttdoc">事件类型</div><div class="ttdef"><b>定义</b> RoutedEvent.h:140</div></div>
+<div class="ttc" id="astructsw_1_1_routed_event_args_html_a9fb971eec1e6ba4aee1366c3f9c20bfd"><div class="ttname"><a href="structsw_1_1_routed_event_args.html#a9fb971eec1e6ba4aee1366c3f9c20bfd">sw::RoutedEventArgs::handled</a></div><div class="ttdeci">bool handled</div><div class="ttdoc">事件是否已被处理，若将此字段设为true，则事件不会继续往上传递</div><div class="ttdef"><b>定义</b> RoutedEvent.h:145</div></div>
+<div class="ttc" id="astructsw_1_1_routed_event_args_html_ac299c564c53fa039f47a06d08272d969"><div class="ttname"><a href="structsw_1_1_routed_event_args.html#ac299c564c53fa039f47a06d08272d969">sw::RoutedEventArgs::handledMsg</a></div><div class="ttdeci">bool handledMsg</div><div class="ttdoc">表示是否已处理事件所对应的Windows消息，对于部分消息将字段设为true可取消对DefaultWndProc的调用，若当前事件无对应消息则该字段无意义</div><div class="ttdef"><b>定义</b> RoutedEvent.h:150</div></div>
+<div class="ttc" id="astructsw_1_1_routed_event_args_html_ad6e6da62f114abfabb682afd38b6f7a3"><div class="ttname"><a href="structsw_1_1_routed_event_args.html#ad6e6da62f114abfabb682afd38b6f7a3">sw::RoutedEventArgs::RoutedEventArgs</a></div><div class="ttdeci">RoutedEventArgs(RoutedEventType eventType)</div><div class="ttdoc">RoutedEventArgs构造函数</div><div class="ttdef"><b>定义</b> RoutedEvent.cpp:3</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><b>RoutedEvent.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

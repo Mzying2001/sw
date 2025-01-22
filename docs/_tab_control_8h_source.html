@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: TabControl.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_tab_control_8h_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">TabControl.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Control.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;CommCtrl.h&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keyword">enum class</span> TabAlignment {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        Top,    <span class="comment">// 顶部</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        Bottom, <span class="comment">// 底部</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        Left,   <span class="comment">// 左边</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        Right   <span class="comment">// 右边</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    };</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span></div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classsw_1_1_tab_control.html">   21</a></span>    <span class="keyword">class </span><a class="code hl_function" href="classsw_1_1_tab_control.html#a402ae0be40a8a236d09b5c8a31c5aca1">TabControl</a> : <span class="keyword">public</span> <a class="code hl_function" href="classsw_1_1_control.html#aec7b384d013e9d25c507cf9ded87bff1">Control</a></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classsw_1_1_tab_control.html#a14f5debfc882417906f0d610617f5b05">   27</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_read_only_property.html">ReadOnlyProperty&lt;sw::Rect&gt;</a> <a class="code hl_variable" href="classsw_1_1_tab_control.html#a14f5debfc882417906f0d610617f5b05">ContentRect</a>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classsw_1_1_tab_control.html#a5e70f66a21997157773d149dec3339ce">   32</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;int&gt;</a> <a class="code hl_variable" href="classsw_1_1_tab_control.html#a5e70f66a21997157773d149dec3339ce">SelectedIndex</a>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classsw_1_1_tab_control.html#a09a693f18956f7629fab2377ab1a1dda">   37</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;TabAlignment&gt;</a> <a class="code hl_variable" href="classsw_1_1_tab_control.html#a09a693f18956f7629fab2377ab1a1dda">Alignment</a>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="classsw_1_1_tab_control.html#ae0fc4dead5149c903eb429d0927ec182">   42</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_tab_control.html#ae0fc4dead5149c903eb429d0927ec182">MultiLine</a>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <a class="code hl_function" href="classsw_1_1_tab_control.html#a402ae0be40a8a236d09b5c8a31c5aca1">TabControl</a>();</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_tab_control.html#ac52a5ebc430c68920f8ee7e7755f7f34">GetTabCount</a>();</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_tab_control.html#acbde185af6197161f7b22485ebff02b2">UpdateTab</a>();</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_tab_control.html#ab14ce7faf0e6feb71ba66e7a1029673c">UpdateTabText</a>(<span class="keywordtype">int</span> index);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_tab_control.html#acd519a60cfffd204f8727ba9ea569c4b">Arrange</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1_rect.html">sw::Rect</a> &amp;finalPosition) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_tab_control.html#a87f651ca898147ecd0ac97c0d6ee1723">OnAddedChild</a>(<a class="code hl_class" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;element) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_tab_control.html#a7b231967428abd3a59f02011b512884b">OnRemovedChild</a>(<a class="code hl_class" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;element) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_tab_control.html#a93512c387a25fcba201c40174692b38c">OnNotified</a>(NMHDR *pNMHDR, LRESULT &amp;result) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_tab_control.html#acf63411b181434cece311f4985c407ff">OnSelectedIndexChanged</a>();</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <span class="keywordtype">void</span> _UpdateChildVisible();</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keywordtype">int</span> _InsertItem(<span class="keywordtype">int</span> index, TCITEMW &amp;item);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <span class="keywordtype">bool</span> _SetItem(<span class="keywordtype">int</span> index, TCITEMW &amp;item);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keywordtype">bool</span> _DeleteItem(<span class="keywordtype">int</span> index);</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        <span class="keywordtype">bool</span> _DeleteAllItems();</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    };</div>
+</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>}</div>
+<div class="ttc" id="aclasssw_1_1_control_html_aec7b384d013e9d25c507cf9ded87bff1"><div class="ttname"><a href="classsw_1_1_control.html#aec7b384d013e9d25c507cf9ded87bff1">sw::Control::Control</a></div><div class="ttdeci">Control()</div><div class="ttdoc">初始化控件</div><div class="ttdef"><b>定义</b> Control.cpp:3</div></div>
+<div class="ttc" id="aclasssw_1_1_property_html"><div class="ttname"><a href="classsw_1_1_property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>定义</b> Property.h:428</div></div>
+<div class="ttc" id="aclasssw_1_1_read_only_property_html"><div class="ttname"><a href="classsw_1_1_read_only_property.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>定义</b> Property.h:486</div></div>
+<div class="ttc" id="aclasssw_1_1_tab_control_html_a09a693f18956f7629fab2377ab1a1dda"><div class="ttname"><a href="classsw_1_1_tab_control.html#a09a693f18956f7629fab2377ab1a1dda">sw::TabControl::Alignment</a></div><div class="ttdeci">const Property&lt; TabAlignment &gt; Alignment</div><div class="ttdoc">标签的位置</div><div class="ttdef"><b>定义</b> TabControl.h:37</div></div>
+<div class="ttc" id="aclasssw_1_1_tab_control_html_a14f5debfc882417906f0d610617f5b05"><div class="ttname"><a href="classsw_1_1_tab_control.html#a14f5debfc882417906f0d610617f5b05">sw::TabControl::ContentRect</a></div><div class="ttdeci">const ReadOnlyProperty&lt; sw::Rect &gt; ContentRect</div><div class="ttdoc">内容区域位置与尺寸</div><div class="ttdef"><b>定义</b> TabControl.h:27</div></div>
+<div class="ttc" id="aclasssw_1_1_tab_control_html_a402ae0be40a8a236d09b5c8a31c5aca1"><div class="ttname"><a href="classsw_1_1_tab_control.html#a402ae0be40a8a236d09b5c8a31c5aca1">sw::TabControl::TabControl</a></div><div class="ttdeci">TabControl()</div><div class="ttdoc">初始化标签页控件</div><div class="ttdef"><b>定义</b> TabControl.cpp:4</div></div>
+<div class="ttc" id="aclasssw_1_1_tab_control_html_a5e70f66a21997157773d149dec3339ce"><div class="ttname"><a href="classsw_1_1_tab_control.html#a5e70f66a21997157773d149dec3339ce">sw::TabControl::SelectedIndex</a></div><div class="ttdeci">const Property&lt; int &gt; SelectedIndex</div><div class="ttdoc">当前页面的索引</div><div class="ttdef"><b>定义</b> TabControl.h:32</div></div>
+<div class="ttc" id="aclasssw_1_1_tab_control_html_a7b231967428abd3a59f02011b512884b"><div class="ttname"><a href="classsw_1_1_tab_control.html#a7b231967428abd3a59f02011b512884b">sw::TabControl::OnRemovedChild</a></div><div class="ttdeci">virtual void OnRemovedChild(UIElement &amp;element) override</div><div class="ttdoc">移除子元素后调用该函数</div><div class="ttdef"><b>定义</b> TabControl.cpp:194</div></div>
+<div class="ttc" id="aclasssw_1_1_tab_control_html_a87f651ca898147ecd0ac97c0d6ee1723"><div class="ttname"><a href="classsw_1_1_tab_control.html#a87f651ca898147ecd0ac97c0d6ee1723">sw::TabControl::OnAddedChild</a></div><div class="ttdeci">virtual void OnAddedChild(UIElement &amp;element) override</div><div class="ttdoc">添加子元素后调用该函数</div><div class="ttdef"><b>定义</b> TabControl.cpp:181</div></div>
+<div class="ttc" id="aclasssw_1_1_tab_control_html_a93512c387a25fcba201c40174692b38c"><div class="ttname"><a href="classsw_1_1_tab_control.html#a93512c387a25fcba201c40174692b38c">sw::TabControl::OnNotified</a></div><div class="ttdeci">virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &amp;result) override</div><div class="ttdoc">父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数</div><div class="ttdef"><b>定义</b> TabControl.cpp:200</div></div>
+<div class="ttc" id="aclasssw_1_1_tab_control_html_ab14ce7faf0e6feb71ba66e7a1029673c"><div class="ttname"><a href="classsw_1_1_tab_control.html#ab14ce7faf0e6feb71ba66e7a1029673c">sw::TabControl::UpdateTabText</a></div><div class="ttdeci">void UpdateTabText(int index)</div><div class="ttdoc">更新指定索引处页面项的文本</div><div class="ttdef"><b>定义</b> TabControl.cpp:143</div></div>
+<div class="ttc" id="aclasssw_1_1_tab_control_html_ac52a5ebc430c68920f8ee7e7755f7f34"><div class="ttname"><a href="classsw_1_1_tab_control.html#ac52a5ebc430c68920f8ee7e7755f7f34">sw::TabControl::GetTabCount</a></div><div class="ttdeci">int GetTabCount()</div><div class="ttdoc">获取标签项的数量</div><div class="ttdef"><b>定义</b> TabControl.cpp:110</div></div>
+<div class="ttc" id="aclasssw_1_1_tab_control_html_acbde185af6197161f7b22485ebff02b2"><div class="ttname"><a href="classsw_1_1_tab_control.html#acbde185af6197161f7b22485ebff02b2">sw::TabControl::UpdateTab</a></div><div class="ttdeci">void UpdateTab()</div><div class="ttdoc">更新标签项信息</div><div class="ttdef"><b>定义</b> TabControl.cpp:115</div></div>
+<div class="ttc" id="aclasssw_1_1_tab_control_html_acd519a60cfffd204f8727ba9ea569c4b"><div class="ttname"><a href="classsw_1_1_tab_control.html#acd519a60cfffd204f8727ba9ea569c4b">sw::TabControl::Arrange</a></div><div class="ttdeci">virtual void Arrange(const sw::Rect &amp;finalPosition) override</div><div class="ttdoc">安排控件位置</div><div class="ttdef"><b>定义</b> TabControl.cpp:167</div></div>
+<div class="ttc" id="aclasssw_1_1_tab_control_html_acf63411b181434cece311f4985c407ff"><div class="ttname"><a href="classsw_1_1_tab_control.html#acf63411b181434cece311f4985c407ff">sw::TabControl::OnSelectedIndexChanged</a></div><div class="ttdeci">virtual void OnSelectedIndexChanged()</div><div class="ttdoc">SelectedIndex属性更改时调用该函数</div><div class="ttdef"><b>定义</b> TabControl.cpp:208</div></div>
+<div class="ttc" id="aclasssw_1_1_tab_control_html_ae0fc4dead5149c903eb429d0927ec182"><div class="ttname"><a href="classsw_1_1_tab_control.html#ae0fc4dead5149c903eb429d0927ec182">sw::TabControl::MultiLine</a></div><div class="ttdeci">const Property&lt; bool &gt; MultiLine</div><div class="ttdoc">是否开启多行标签</div><div class="ttdef"><b>定义</b> TabControl.h:42</div></div>
+<div class="ttc" id="aclasssw_1_1_u_i_element_html"><div class="ttname"><a href="classsw_1_1_u_i_element.html">sw::UIElement</a></div><div class="ttdoc">表示界面中的元素</div><div class="ttdef"><b>定义</b> UIElement.h:24</div></div>
+<div class="ttc" id="astructsw_1_1_rect_html"><div class="ttname"><a href="structsw_1_1_rect.html">sw::Rect</a></div><div class="ttdoc">表示一个矩形区域</div><div class="ttdef"><b>定义</b> Rect.h:13</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><b>TabControl.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

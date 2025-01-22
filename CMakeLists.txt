@@ -22,3 +22,25 @@ target_include_directories(${PROJECT_NAME} PUBLIC "include")
 add_subdirectory(single_header)
 add_subdirectory(examples)
 #add_subdirectory(docs)
+
+
+# 查找 Doxygen
+find_package(Doxygen REQUIRED)
+# 配置 Doxygen
+if (DOXYGEN_FOUND)
+    message("Doxygen found.")
+    # 设置 Doxygen 输入目录
+    set(DOXYGEN_INPUT "${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/src")
+
+    # 设置 Doxygen 输出目录
+    set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/docs")
+
+    # 添加自定义目标来生成文档
+    add_custom_target(docs
+        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_SOURCE_DIR}/Doxyfile
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+    )
+else()
+    message(WARNING "Doxygen not found, documentation target will not be available")
+endif()

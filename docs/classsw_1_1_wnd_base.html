@@ -1,0 +1,3016 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: sw::WndBase类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('classsw_1_1_wnd_base.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pub-attribs">Public 属性</a> &#124;
+<a href="#pro-methods">Protected 成员函数</a> &#124;
+<a href="#friends">友元</a> &#124;
+<a href="classsw_1_1_wnd_base-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sw::WndBase类 参考<span class="mlabels"><span class="mlabel abstract">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>表示一个Windows窗口，是所有窗口和控件的基类  
+ <a href="#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_wnd_base_8h_source.html">WndBase.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sw::WndBase 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classsw_1_1_wnd_base.png" usemap="#sw::WndBase_map" alt=""/>
+  <map id="sw::WndBase_map" name="sw::WndBase_map">
+<area href="classsw_1_1_timer.html" title="计时器" alt="sw::Timer" shape="rect" coords="0,56,188,80"/>
+<area href="classsw_1_1_tool_tip.html" title="信息提示，用于用户将指针移过关联控件时显示信息" alt="sw::ToolTip" shape="rect" coords="198,56,386,80"/>
+<area href="classsw_1_1_u_i_element.html" title="表示界面中的元素" alt="sw::UIElement" shape="rect" coords="594,56,782,80"/>
+<area href="classsw_1_1_ballon_tool_tip.html" title="气泡样式的信息提示" alt="sw::BallonToolTip" shape="rect" coords="198,112,386,136"/>
+<area href="classsw_1_1_control.html" title="控件" alt="sw::Control" shape="rect" coords="396,112,584,136"/>
+<area href="classsw_1_1_hwnd_wrapper.html" title="将Win32 window包装为SimpleWindow对象" alt="sw::HwndWrapper" shape="rect" coords="594,112,782,136"/>
+<area href="classsw_1_1_layer.html" title="表示可以设置布局方式的元素类型，如窗口、面板等" alt="sw::Layer" shape="rect" coords="792,112,980,136"/>
+<area href="classsw_1_1_items_control.html" alt="sw::ItemsControl&lt; std::wstring &gt;" shape="rect" coords="594,168,782,192"/>
+<area href="classsw_1_1_items_control.html" alt="sw::ItemsControl&lt; StrList &gt;" shape="rect" coords="594,224,782,248"/>
+<area href="classsw_1_1_animation.html" title="动画控件，仅支持无音频的avi动画" alt="sw::Animation" shape="rect" coords="594,280,782,304"/>
+<area href="classsw_1_1_button_base.html" title="窗口类名为BUTTON的控件类型的基类" alt="sw::ButtonBase" shape="rect" coords="594,336,782,360"/>
+<area href="classsw_1_1_date_time_picker.html" title="日期和时间选取器" alt="sw::DateTimePicker" shape="rect" coords="594,392,782,416"/>
+<area href="classsw_1_1_hot_key_control.html" title="热键框" alt="sw::HotKeyControl" shape="rect" coords="594,448,782,472"/>
+<area href="classsw_1_1_items_control.html" title="表示可用于呈现一组项的控件" alt="sw::ItemsControl&lt; TItem &gt;" shape="rect" coords="594,504,782,528"/>
+<area href="classsw_1_1_month_calendar.html" title="月历控件" alt="sw::MonthCalendar" shape="rect" coords="594,560,782,584"/>
+<area href="classsw_1_1_panel_base.html" title="面板类型的基类" alt="sw::PanelBase" shape="rect" coords="594,616,782,640"/>
+<area href="classsw_1_1_progress_bar.html" title="进度条控件" alt="sw::ProgressBar" shape="rect" coords="594,672,782,696"/>
+<area href="classsw_1_1_slider.html" title="滑块控件" alt="sw::Slider" shape="rect" coords="594,728,782,752"/>
+<area href="classsw_1_1_static_control.html" title="静态控件" alt="sw::StaticControl" shape="rect" coords="594,784,782,808"/>
+<area href="classsw_1_1_status_bar.html" title="状态栏" alt="sw::StatusBar" shape="rect" coords="594,840,782,864"/>
+<area href="classsw_1_1_sys_link.html" title="包含链接的文本区域" alt="sw::SysLink" shape="rect" coords="594,896,782,920"/>
+<area href="classsw_1_1_tab_control.html" title="标签页控件" alt="sw::TabControl" shape="rect" coords="594,952,782,976"/>
+<area href="classsw_1_1_text_box_base.html" title="窗口类名为EDIT的控件类型的基类" alt="sw::TextBoxBase" shape="rect" coords="594,1008,782,1032"/>
+<area href="classsw_1_1_panel_base.html" title="面板类型的基类" alt="sw::PanelBase" shape="rect" coords="990,168,1178,192"/>
+<area href="classsw_1_1_window.html" title="窗口" alt="sw::Window" shape="rect" coords="990,224,1178,248"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:ace7c535512a832e83c72ef1baa9ebc5a" id="r_ace7c535512a832e83c72ef1baa9ebc5a"><td class="memItemLeft" align="right" valign="top"><a id="ace7c535512a832e83c72ef1baa9ebc5a" name="ace7c535512a832e83c72ef1baa9ebc5a"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~WndBase</b> ()=0</td></tr>
+<tr class="memdesc:ace7c535512a832e83c72ef1baa9ebc5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数，这里用纯虚函数使该类成为抽象类 <br /></td></tr>
+<tr class="separator:ace7c535512a832e83c72ef1baa9ebc5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72d371a06c4595e2cd7f9d6c8922732f" id="r_a72d371a06c4595e2cd7f9d6c8922732f"><td class="memItemLeft" align="right" valign="top"><a id="a72d371a06c4595e2cd7f9d6c8922732f" name="a72d371a06c4595e2cd7f9d6c8922732f"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;other) const</td></tr>
+<tr class="memdesc:a72d371a06c4595e2cd7f9d6c8922732f"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断两个WndBase是否为同一实例 <br /></td></tr>
+<tr class="separator:a72d371a06c4595e2cd7f9d6c8922732f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7cf435cbf25ab105badc19ec8f82128" id="r_ab7cf435cbf25ab105badc19ec8f82128"><td class="memItemLeft" align="right" valign="top"><a id="ab7cf435cbf25ab105badc19ec8f82128" name="ab7cf435cbf25ab105badc19ec8f82128"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;other) const</td></tr>
+<tr class="memdesc:ab7cf435cbf25ab105badc19ec8f82128"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断两个WndBase是否为不同实例 <br /></td></tr>
+<tr class="separator:ab7cf435cbf25ab105badc19ec8f82128"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0efb00c05f0f5201e298d90b52c9d66" id="r_ae0efb00c05f0f5201e298d90b52c9d66"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0efb00c05f0f5201e298d90b52c9d66">ToUIElement</a> ()</td></tr>
+<tr class="memdesc:ae0efb00c05f0f5201e298d90b52c9d66"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成UIElement  <br /></td></tr>
+<tr class="separator:ae0efb00c05f0f5201e298d90b52c9d66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2f1b78dd8165c8bca0313180a9f4b81" id="r_ae2f1b78dd8165c8bca0313180a9f4b81"><td class="memItemLeft" align="right" valign="top"><a id="ae2f1b78dd8165c8bca0313180a9f4b81" name="ae2f1b78dd8165c8bca0313180a9f4b81"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Show</b> (int nCmdShow)</td></tr>
+<tr class="memdesc:ae2f1b78dd8165c8bca0313180a9f4b81"><td class="mdescLeft">&#160;</td><td class="mdescRight">该函数调用ShowWindow <br /></td></tr>
+<tr class="separator:ae2f1b78dd8165c8bca0313180a9f4b81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a436818f8ad91446f86b42081dd1a7358" id="r_a436818f8ad91446f86b42081dd1a7358"><td class="memItemLeft" align="right" valign="top"><a id="a436818f8ad91446f86b42081dd1a7358" name="a436818f8ad91446f86b42081dd1a7358"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Close</b> ()</td></tr>
+<tr class="memdesc:a436818f8ad91446f86b42081dd1a7358"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送关闭消息 <br /></td></tr>
+<tr class="separator:a436818f8ad91446f86b42081dd1a7358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7ac81f0ed48a5093fd3170c7c756963" id="r_ab7ac81f0ed48a5093fd3170c7c756963"><td class="memItemLeft" align="right" valign="top"><a id="ab7ac81f0ed48a5093fd3170c7c756963" name="ab7ac81f0ed48a5093fd3170c7c756963"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Update</b> ()</td></tr>
+<tr class="memdesc:ab7ac81f0ed48a5093fd3170c7c756963"><td class="mdescLeft">&#160;</td><td class="mdescRight">该函数调用UpdateWindow <br /></td></tr>
+<tr class="separator:ab7ac81f0ed48a5093fd3170c7c756963"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8df0384e2be0569e0da1f51985204c8" id="r_af8df0384e2be0569e0da1f51985204c8"><td class="memItemLeft" align="right" valign="top"><a id="af8df0384e2be0569e0da1f51985204c8" name="af8df0384e2be0569e0da1f51985204c8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateFont</b> ()</td></tr>
+<tr class="memdesc:af8df0384e2be0569e0da1f51985204c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新字体 <br /></td></tr>
+<tr class="separator:af8df0384e2be0569e0da1f51985204c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2eec178adddff9e44d83238f19d57b1b" id="r_a2eec178adddff9e44d83238f19d57b1b"><td class="memItemLeft" align="right" valign="top"><a id="a2eec178adddff9e44d83238f19d57b1b" name="a2eec178adddff9e44d83238f19d57b1b"></a>
+HFONT&#160;</td><td class="memItemRight" valign="bottom"><b>GetFontHandle</b> ()</td></tr>
+<tr class="memdesc:a2eec178adddff9e44d83238f19d57b1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取字体句柄 <br /></td></tr>
+<tr class="separator:a2eec178adddff9e44d83238f19d57b1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c0e2c8a2900eff9e5a390e251ada042" id="r_a6c0e2c8a2900eff9e5a390e251ada042"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c0e2c8a2900eff9e5a390e251ada042">Redraw</a> (bool erase=false, bool updateWindow=false)</td></tr>
+<tr class="memdesc:a6c0e2c8a2900eff9e5a390e251ada042"><td class="mdescLeft">&#160;</td><td class="mdescRight">重画  <br /></td></tr>
+<tr class="separator:a6c0e2c8a2900eff9e5a390e251ada042"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ee668e7a5261f96df0bd69a1fb868d3" id="r_a6ee668e7a5261f96df0bd69a1fb868d3"><td class="memItemLeft" align="right" valign="top"><a id="a6ee668e7a5261f96df0bd69a1fb868d3" name="a6ee668e7a5261f96df0bd69a1fb868d3"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsVisible</b> ()</td></tr>
+<tr class="memdesc:a6ee668e7a5261f96df0bd69a1fb868d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象在界面中是否可视，与Visible属性不同的是该函数返回值会受父窗口的影响 <br /></td></tr>
+<tr class="separator:a6ee668e7a5261f96df0bd69a1fb868d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a975bcf1d7c27e7d482aa18f7faaf23d0" id="r_a975bcf1d7c27e7d482aa18f7faaf23d0"><td class="memItemLeft" align="right" valign="top"><a id="a975bcf1d7c27e7d482aa18f7faaf23d0" name="a975bcf1d7c27e7d482aa18f7faaf23d0"></a>
+DWORD&#160;</td><td class="memItemRight" valign="bottom"><b>GetStyle</b> ()</td></tr>
+<tr class="memdesc:a975bcf1d7c27e7d482aa18f7faaf23d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取窗口样式 <br /></td></tr>
+<tr class="separator:a975bcf1d7c27e7d482aa18f7faaf23d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc6dbe392704320ef2e6896eff55dd4f" id="r_afc6dbe392704320ef2e6896eff55dd4f"><td class="memItemLeft" align="right" valign="top"><a id="afc6dbe392704320ef2e6896eff55dd4f" name="afc6dbe392704320ef2e6896eff55dd4f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetStyle</b> (DWORD style)</td></tr>
+<tr class="memdesc:afc6dbe392704320ef2e6896eff55dd4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置窗口样式 <br /></td></tr>
+<tr class="separator:afc6dbe392704320ef2e6896eff55dd4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae545de230ba94e3263f3197e98308079" id="r_ae545de230ba94e3263f3197e98308079"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae545de230ba94e3263f3197e98308079">GetStyle</a> (DWORD mask)</td></tr>
+<tr class="memdesc:ae545de230ba94e3263f3197e98308079"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断窗口是否设有指定样式  <br /></td></tr>
+<tr class="separator:ae545de230ba94e3263f3197e98308079"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34a1c2216b75bd9cd45d4a2e042b55c5" id="r_a34a1c2216b75bd9cd45d4a2e042b55c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a34a1c2216b75bd9cd45d4a2e042b55c5">SetStyle</a> (DWORD mask, bool value)</td></tr>
+<tr class="memdesc:a34a1c2216b75bd9cd45d4a2e042b55c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">打开或关闭指定的样式  <br /></td></tr>
+<tr class="separator:a34a1c2216b75bd9cd45d4a2e042b55c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af536e23ad45de7e0d0a48c156671e331" id="r_af536e23ad45de7e0d0a48c156671e331"><td class="memItemLeft" align="right" valign="top"><a id="af536e23ad45de7e0d0a48c156671e331" name="af536e23ad45de7e0d0a48c156671e331"></a>
+DWORD&#160;</td><td class="memItemRight" valign="bottom"><b>GetExtendedStyle</b> ()</td></tr>
+<tr class="memdesc:af536e23ad45de7e0d0a48c156671e331"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取扩展窗口样式 <br /></td></tr>
+<tr class="separator:af536e23ad45de7e0d0a48c156671e331"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a074171e62cdb3e20f53b9262164852ca" id="r_a074171e62cdb3e20f53b9262164852ca"><td class="memItemLeft" align="right" valign="top"><a id="a074171e62cdb3e20f53b9262164852ca" name="a074171e62cdb3e20f53b9262164852ca"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetExtendedStyle</b> (DWORD style)</td></tr>
+<tr class="memdesc:a074171e62cdb3e20f53b9262164852ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置扩展窗口样式 <br /></td></tr>
+<tr class="separator:a074171e62cdb3e20f53b9262164852ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d3e7d32b7cdcfd3489c0d890a2910ab" id="r_a2d3e7d32b7cdcfd3489c0d890a2910ab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d3e7d32b7cdcfd3489c0d890a2910ab">GetExtendedStyle</a> (DWORD mask)</td></tr>
+<tr class="memdesc:a2d3e7d32b7cdcfd3489c0d890a2910ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断窗口是否设有指定扩展样式  <br /></td></tr>
+<tr class="separator:a2d3e7d32b7cdcfd3489c0d890a2910ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05caaf7da3138fe9063f7a3e1088f9ac" id="r_a05caaf7da3138fe9063f7a3e1088f9ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05caaf7da3138fe9063f7a3e1088f9ac">SetExtendedStyle</a> (DWORD mask, bool value)</td></tr>
+<tr class="memdesc:a05caaf7da3138fe9063f7a3e1088f9ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">打开或关闭指定的扩展样式  <br /></td></tr>
+<tr class="separator:a05caaf7da3138fe9063f7a3e1088f9ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1927e16b0881d37a3afce3932747a114" id="r_a1927e16b0881d37a3afce3932747a114"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsw_1_1_point.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1927e16b0881d37a3afce3932747a114">PointToScreen</a> (const <a class="el" href="structsw_1_1_point.html">Point</a> &amp;point)</td></tr>
+<tr class="memdesc:a1927e16b0881d37a3afce3932747a114"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取用户区点在屏幕上点的位置  <br /></td></tr>
+<tr class="separator:a1927e16b0881d37a3afce3932747a114"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af541b06ab641b55a691953b075693eb2" id="r_af541b06ab641b55a691953b075693eb2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsw_1_1_point.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af541b06ab641b55a691953b075693eb2">PointFromScreen</a> (const <a class="el" href="structsw_1_1_point.html">Point</a> &amp;screenPoint)</td></tr>
+<tr class="memdesc:af541b06ab641b55a691953b075693eb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取屏幕上点在当前用户区点的位置  <br /></td></tr>
+<tr class="separator:af541b06ab641b55a691953b075693eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33d23326907c603a24385f81e179e174" id="r_a33d23326907c603a24385f81e179e174"><td class="memItemLeft" align="right" valign="top"><a id="a33d23326907c603a24385f81e179e174" name="a33d23326907c603a24385f81e179e174"></a>
+LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>SendMessageA</b> (UINT uMsg, WPARAM wParam, LPARAM lParam)</td></tr>
+<tr class="memdesc:a33d23326907c603a24385f81e179e174"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送消息（ASCII） <br /></td></tr>
+<tr class="separator:a33d23326907c603a24385f81e179e174"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad50166a8ade9a7eaf0088f13fd708e2f" id="r_ad50166a8ade9a7eaf0088f13fd708e2f"><td class="memItemLeft" align="right" valign="top"><a id="ad50166a8ade9a7eaf0088f13fd708e2f" name="ad50166a8ade9a7eaf0088f13fd708e2f"></a>
+LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>SendMessageW</b> (UINT uMsg, WPARAM wParam, LPARAM lParam)</td></tr>
+<tr class="memdesc:ad50166a8ade9a7eaf0088f13fd708e2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送消息（UNICODE） <br /></td></tr>
+<tr class="separator:ad50166a8ade9a7eaf0088f13fd708e2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a37ba388e9d85339ffc749d427c541f" id="r_a4a37ba388e9d85339ffc749d427c541f"><td class="memItemLeft" align="right" valign="top"><a id="a4a37ba388e9d85339ffc749d427c541f" name="a4a37ba388e9d85339ffc749d427c541f"></a>
+BOOL&#160;</td><td class="memItemRight" valign="bottom"><b>PostMessageA</b> (UINT uMsg, WPARAM wParam, LPARAM lParam)</td></tr>
+<tr class="memdesc:a4a37ba388e9d85339ffc749d427c541f"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送消息（ASCII）并立即返回 <br /></td></tr>
+<tr class="separator:a4a37ba388e9d85339ffc749d427c541f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae73c2839e2380db3c59a3dbe068937d5" id="r_ae73c2839e2380db3c59a3dbe068937d5"><td class="memItemLeft" align="right" valign="top"><a id="ae73c2839e2380db3c59a3dbe068937d5" name="ae73c2839e2380db3c59a3dbe068937d5"></a>
+BOOL&#160;</td><td class="memItemRight" valign="bottom"><b>PostMessageW</b> (UINT uMsg, WPARAM wParam, LPARAM lParam)</td></tr>
+<tr class="memdesc:ae73c2839e2380db3c59a3dbe068937d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送消息（UNICODE）并立即返回 <br /></td></tr>
+<tr class="separator:ae73c2839e2380db3c59a3dbe068937d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53cf494f17b15f5b5d12d6870e95e068" id="r_a53cf494f17b15f5b5d12d6870e95e068"><td class="memItemLeft" align="right" valign="top">HitTestResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53cf494f17b15f5b5d12d6870e95e068">NcHitTest</a> (const <a class="el" href="structsw_1_1_point.html">Point</a> &amp;testPoint)</td></tr>
+<tr class="memdesc:a53cf494f17b15f5b5d12d6870e95e068"><td class="mdescLeft">&#160;</td><td class="mdescRight">测试指定点在窗口的哪一部分  <br /></td></tr>
+<tr class="separator:a53cf494f17b15f5b5d12d6870e95e068"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a202b750a9ecce359c39d70f685d9f320" id="r_a202b750a9ecce359c39d70f685d9f320"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a202b750a9ecce359c39d70f685d9f320">GetWndBase</a> (HWND hwnd)</td></tr>
+<tr class="memdesc:a202b750a9ecce359c39d70f685d9f320"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过窗口句柄获取WndBase  <br /></td></tr>
+<tr class="separator:a202b750a9ecce359c39d70f685d9f320"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public 属性</h2></td></tr>
+<tr class="memitem:abc0b653ccc071c2cfcba42fa8eef738f" id="r_abc0b653ccc071c2cfcba42fa8eef738f"><td class="memItemLeft" align="right" valign="top"><a id="abc0b653ccc071c2cfcba42fa8eef738f" name="abc0b653ccc071c2cfcba42fa8eef738f"></a>
+const <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; HWND &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Handle</b></td></tr>
+<tr class="memdesc:abc0b653ccc071c2cfcba42fa8eef738f"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口句柄 <br /></td></tr>
+<tr class="separator:abc0b653ccc071c2cfcba42fa8eef738f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a529436cd730fc39ad2875728cdfe4a51" id="r_a529436cd730fc39ad2875728cdfe4a51"><td class="memItemLeft" align="right" valign="top"><a id="a529436cd730fc39ad2875728cdfe4a51" name="a529436cd730fc39ad2875728cdfe4a51"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; <a class="el" href="classsw_1_1_font.html">sw::Font</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Font</b></td></tr>
+<tr class="memdesc:a529436cd730fc39ad2875728cdfe4a51"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体 <br /></td></tr>
+<tr class="separator:a529436cd730fc39ad2875728cdfe4a51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72a604f374bba1e6c34b5d5e56cd26f0" id="r_a72a604f374bba1e6c34b5d5e56cd26f0"><td class="memItemLeft" align="right" valign="top"><a id="a72a604f374bba1e6c34b5d5e56cd26f0" name="a72a604f374bba1e6c34b5d5e56cd26f0"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FontName</b></td></tr>
+<tr class="memdesc:a72a604f374bba1e6c34b5d5e56cd26f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体名称 <br /></td></tr>
+<tr class="separator:a72a604f374bba1e6c34b5d5e56cd26f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac49c6452ceb4950dd581189615753b0c" id="r_ac49c6452ceb4950dd581189615753b0c"><td class="memItemLeft" align="right" valign="top"><a id="ac49c6452ceb4950dd581189615753b0c" name="ac49c6452ceb4950dd581189615753b0c"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FontSize</b></td></tr>
+<tr class="memdesc:ac49c6452ceb4950dd581189615753b0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体大小 <br /></td></tr>
+<tr class="separator:ac49c6452ceb4950dd581189615753b0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50e006e69f07abb4e6ba381121abcd22" id="r_a50e006e69f07abb4e6ba381121abcd22"><td class="memItemLeft" align="right" valign="top"><a id="a50e006e69f07abb4e6ba381121abcd22" name="a50e006e69f07abb4e6ba381121abcd22"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; sw::FontWeight &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FontWeight</b></td></tr>
+<tr class="memdesc:a50e006e69f07abb4e6ba381121abcd22"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体粗细 <br /></td></tr>
+<tr class="separator:a50e006e69f07abb4e6ba381121abcd22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7598603457217f09aae0deaad59ef063" id="r_a7598603457217f09aae0deaad59ef063"><td class="memItemLeft" align="right" valign="top"><a id="a7598603457217f09aae0deaad59ef063" name="a7598603457217f09aae0deaad59ef063"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; <a class="el" href="structsw_1_1_rect.html">sw::Rect</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Rect</b></td></tr>
+<tr class="memdesc:a7598603457217f09aae0deaad59ef063"><td class="mdescLeft">&#160;</td><td class="mdescRight">位置和尺寸 <br /></td></tr>
+<tr class="separator:a7598603457217f09aae0deaad59ef063"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f0b57de9babc053c655872ed91468dd" id="r_a4f0b57de9babc053c655872ed91468dd"><td class="memItemLeft" align="right" valign="top"><a id="a4f0b57de9babc053c655872ed91468dd" name="a4f0b57de9babc053c655872ed91468dd"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Left</b></td></tr>
+<tr class="memdesc:a4f0b57de9babc053c655872ed91468dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">左边 <br /></td></tr>
+<tr class="separator:a4f0b57de9babc053c655872ed91468dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dbe3776aeb038659f0a290fbe1dc6d7" id="r_a6dbe3776aeb038659f0a290fbe1dc6d7"><td class="memItemLeft" align="right" valign="top"><a id="a6dbe3776aeb038659f0a290fbe1dc6d7" name="a6dbe3776aeb038659f0a290fbe1dc6d7"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Top</b></td></tr>
+<tr class="memdesc:a6dbe3776aeb038659f0a290fbe1dc6d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">顶边 <br /></td></tr>
+<tr class="separator:a6dbe3776aeb038659f0a290fbe1dc6d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a445edbe5db50a5a4486ddff98e8ffbae" id="r_a445edbe5db50a5a4486ddff98e8ffbae"><td class="memItemLeft" align="right" valign="top"><a id="a445edbe5db50a5a4486ddff98e8ffbae" name="a445edbe5db50a5a4486ddff98e8ffbae"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Width</b></td></tr>
+<tr class="memdesc:a445edbe5db50a5a4486ddff98e8ffbae"><td class="mdescLeft">&#160;</td><td class="mdescRight">宽度 <br /></td></tr>
+<tr class="separator:a445edbe5db50a5a4486ddff98e8ffbae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51fdc4b943e62bd67ffbff4a6e65de2a" id="r_a51fdc4b943e62bd67ffbff4a6e65de2a"><td class="memItemLeft" align="right" valign="top"><a id="a51fdc4b943e62bd67ffbff4a6e65de2a" name="a51fdc4b943e62bd67ffbff4a6e65de2a"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Height</b></td></tr>
+<tr class="memdesc:a51fdc4b943e62bd67ffbff4a6e65de2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">高度 <br /></td></tr>
+<tr class="separator:a51fdc4b943e62bd67ffbff4a6e65de2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0126115c0626d137ba3e7b0a5c8d793b" id="r_a0126115c0626d137ba3e7b0a5c8d793b"><td class="memItemLeft" align="right" valign="top"><a id="a0126115c0626d137ba3e7b0a5c8d793b" name="a0126115c0626d137ba3e7b0a5c8d793b"></a>
+const <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; <a class="el" href="structsw_1_1_rect.html">sw::Rect</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClientRect</b></td></tr>
+<tr class="memdesc:a0126115c0626d137ba3e7b0a5c8d793b"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户区尺寸 <br /></td></tr>
+<tr class="separator:a0126115c0626d137ba3e7b0a5c8d793b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97898f967c916e67c152c69f4c7c6cd6" id="r_a97898f967c916e67c152c69f4c7c6cd6"><td class="memItemLeft" align="right" valign="top"><a id="a97898f967c916e67c152c69f4c7c6cd6" name="a97898f967c916e67c152c69f4c7c6cd6"></a>
+const <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClientWidth</b></td></tr>
+<tr class="memdesc:a97898f967c916e67c152c69f4c7c6cd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户区宽度 <br /></td></tr>
+<tr class="separator:a97898f967c916e67c152c69f4c7c6cd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4030b80afd9e81e3046ccd5ec94ec83f" id="r_a4030b80afd9e81e3046ccd5ec94ec83f"><td class="memItemLeft" align="right" valign="top"><a id="a4030b80afd9e81e3046ccd5ec94ec83f" name="a4030b80afd9e81e3046ccd5ec94ec83f"></a>
+const <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClientHeight</b></td></tr>
+<tr class="memdesc:a4030b80afd9e81e3046ccd5ec94ec83f"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户区高度 <br /></td></tr>
+<tr class="separator:a4030b80afd9e81e3046ccd5ec94ec83f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5e7d8d1a548315b3e709151f71766b3" id="r_ad5e7d8d1a548315b3e709151f71766b3"><td class="memItemLeft" align="right" valign="top"><a id="ad5e7d8d1a548315b3e709151f71766b3" name="ad5e7d8d1a548315b3e709151f71766b3"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Enabled</b></td></tr>
+<tr class="memdesc:ad5e7d8d1a548315b3e709151f71766b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口或控件是否可用 <br /></td></tr>
+<tr class="separator:ad5e7d8d1a548315b3e709151f71766b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a808f5d6fd407e3b65cff88f1873bd754" id="r_a808f5d6fd407e3b65cff88f1873bd754"><td class="memItemLeft" align="right" valign="top"><a id="a808f5d6fd407e3b65cff88f1873bd754" name="a808f5d6fd407e3b65cff88f1873bd754"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Visible</b></td></tr>
+<tr class="memdesc:a808f5d6fd407e3b65cff88f1873bd754"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口或控件是否可见 <br /></td></tr>
+<tr class="separator:a808f5d6fd407e3b65cff88f1873bd754"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9afff86d32e9b54cccc204ef29a85891" id="r_a9afff86d32e9b54cccc204ef29a85891"><td class="memItemLeft" align="right" valign="top"><a id="a9afff86d32e9b54cccc204ef29a85891" name="a9afff86d32e9b54cccc204ef29a85891"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Text</b></td></tr>
+<tr class="memdesc:a9afff86d32e9b54cccc204ef29a85891"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口标题或控件文本 <br /></td></tr>
+<tr class="separator:a9afff86d32e9b54cccc204ef29a85891"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71498b3ad8ae548fd7f4a531a6b70982" id="r_a71498b3ad8ae548fd7f4a531a6b70982"><td class="memItemLeft" align="right" valign="top"><a id="a71498b3ad8ae548fd7f4a531a6b70982" name="a71498b3ad8ae548fd7f4a531a6b70982"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Focused</b></td></tr>
+<tr class="memdesc:a71498b3ad8ae548fd7f4a531a6b70982"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口是否拥有焦点 <br /></td></tr>
+<tr class="separator:a71498b3ad8ae548fd7f4a531a6b70982"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf231660a654d2f3182753794fa505ac" id="r_abf231660a654d2f3182753794fa505ac"><td class="memItemLeft" align="right" valign="top"><a id="abf231660a654d2f3182753794fa505ac" name="abf231660a654d2f3182753794fa505ac"></a>
+const <a class="el" href="classsw_1_1_read_only_ptr_property.html">ReadOnlyPtrProperty</a>&lt; <a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Parent</b></td></tr>
+<tr class="memdesc:abf231660a654d2f3182753794fa505ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">父窗口 <br /></td></tr>
+<tr class="separator:abf231660a654d2f3182753794fa505ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54aa973b24b4bc4b681ac2c21a50d204" id="r_a54aa973b24b4bc4b681ac2c21a50d204"><td class="memItemLeft" align="right" valign="top"><a id="a54aa973b24b4bc4b681ac2c21a50d204" name="a54aa973b24b4bc4b681ac2c21a50d204"></a>
+const <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsDestroyed</b></td></tr>
+<tr class="memdesc:a54aa973b24b4bc4b681ac2c21a50d204"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否已销毁，当该值为true时不应该继续使用当前对象 <br /></td></tr>
+<tr class="separator:a54aa973b24b4bc4b681ac2c21a50d204"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43b324f78290554d0c08bf6f33cdb5fd" id="r_a43b324f78290554d0c08bf6f33cdb5fd"><td class="memItemLeft" align="right" valign="top"><a id="a43b324f78290554d0c08bf6f33cdb5fd" name="a43b324f78290554d0c08bf6f33cdb5fd"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>AcceptFiles</b></td></tr>
+<tr class="memdesc:a43b324f78290554d0c08bf6f33cdb5fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否接受拖放文件 <br /></td></tr>
+<tr class="separator:a43b324f78290554d0c08bf6f33cdb5fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b72c64e192b49d1ace945e96c2368ab" id="r_a4b72c64e192b49d1ace945e96c2368ab"><td class="memItemLeft" align="right" valign="top"><a id="a4b72c64e192b49d1ace945e96c2368ab" name="a4b72c64e192b49d1ace945e96c2368ab"></a>
+const <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsControl</b></td></tr>
+<tr class="memdesc:a4b72c64e192b49d1ace945e96c2368ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前对象是否是控件 <br /></td></tr>
+<tr class="separator:a4b72c64e192b49d1ace945e96c2368ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected 成员函数</h2></td></tr>
+<tr class="memitem:aab509b68c9c0b612862cf41d8ef685a3" id="r_aab509b68c9c0b612862cf41d8ef685a3"><td class="memItemLeft" align="right" valign="top"><a id="aab509b68c9c0b612862cf41d8ef685a3" name="aab509b68c9c0b612862cf41d8ef685a3"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>WndBase</b> ()</td></tr>
+<tr class="memdesc:aab509b68c9c0b612862cf41d8ef685a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化WndBase <br /></td></tr>
+<tr class="separator:aab509b68c9c0b612862cf41d8ef685a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39726d256f8a2ba0d3d0f8bc79c1ab96" id="r_a39726d256f8a2ba0d3d0f8bc79c1ab96"><td class="memItemLeft" align="right" valign="top"><a id="a39726d256f8a2ba0d3d0f8bc79c1ab96" name="a39726d256f8a2ba0d3d0f8bc79c1ab96"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>WndBase</b> (const <a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;)=delete</td></tr>
+<tr class="separator:a39726d256f8a2ba0d3d0f8bc79c1ab96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98bfb3adbc06758e172fe3698151446e" id="r_a98bfb3adbc06758e172fe3698151446e"><td class="memItemLeft" align="right" valign="top"><a id="a98bfb3adbc06758e172fe3698151446e" name="a98bfb3adbc06758e172fe3698151446e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>WndBase</b> (<a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;&amp;)=delete</td></tr>
+<tr class="separator:a98bfb3adbc06758e172fe3698151446e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69ec401ebcb3c062630d8cb4521cb2dc" id="r_a69ec401ebcb3c062630d8cb4521cb2dc"><td class="memItemLeft" align="right" valign="top"><a id="a69ec401ebcb3c062630d8cb4521cb2dc" name="a69ec401ebcb3c062630d8cb4521cb2dc"></a>
+<a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;)=delete</td></tr>
+<tr class="separator:a69ec401ebcb3c062630d8cb4521cb2dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbd4824ac4898f164a0df2f53986aa86" id="r_abbd4824ac4898f164a0df2f53986aa86"><td class="memItemLeft" align="right" valign="top"><a id="abbd4824ac4898f164a0df2f53986aa86" name="abbd4824ac4898f164a0df2f53986aa86"></a>
+<a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;&amp;)=delete</td></tr>
+<tr class="separator:abbd4824ac4898f164a0df2f53986aa86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4889c45dfad820c103dd7f74f2cd0661" id="r_a4889c45dfad820c103dd7f74f2cd0661"><td class="memItemLeft" align="right" valign="top"><a id="a4889c45dfad820c103dd7f74f2cd0661" name="a4889c45dfad820c103dd7f74f2cd0661"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>InitWindow</b> (LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)</td></tr>
+<tr class="memdesc:a4889c45dfad820c103dd7f74f2cd0661"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化为窗口，该函数会调用CreateWindowExW <br /></td></tr>
+<tr class="separator:a4889c45dfad820c103dd7f74f2cd0661"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecb12507b6a8137427841d3bc4181fc6" id="r_aecb12507b6a8137427841d3bc4181fc6"><td class="memItemLeft" align="right" valign="top"><a id="aecb12507b6a8137427841d3bc4181fc6" name="aecb12507b6a8137427841d3bc4181fc6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>InitControl</b> (LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam=NULL)</td></tr>
+<tr class="memdesc:aecb12507b6a8137427841d3bc4181fc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化为控件，该函数会调用CreateWindowExW <br /></td></tr>
+<tr class="separator:aecb12507b6a8137427841d3bc4181fc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a585967d861673ea0477f25c1a5c0fb30" id="r_a585967d861673ea0477f25c1a5c0fb30"><td class="memItemLeft" align="right" valign="top"><a id="a585967d861673ea0477f25c1a5c0fb30" name="a585967d861673ea0477f25c1a5c0fb30"></a>
+LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>DefaultWndProc</b> (const <a class="el" href="structsw_1_1_proc_msg.html">ProcMsg</a> &amp;refMsg)</td></tr>
+<tr class="memdesc:a585967d861673ea0477f25c1a5c0fb30"><td class="mdescLeft">&#160;</td><td class="mdescRight">调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc <br /></td></tr>
+<tr class="separator:a585967d861673ea0477f25c1a5c0fb30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44cfdf2958fb76e9a0180738d4e345ea" id="r_a44cfdf2958fb76e9a0180738d4e345ea"><td class="memItemLeft" align="right" valign="top">virtual LRESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44cfdf2958fb76e9a0180738d4e345ea">WndProc</a> (const <a class="el" href="structsw_1_1_proc_msg.html">ProcMsg</a> &amp;refMsg)</td></tr>
+<tr class="memdesc:a44cfdf2958fb76e9a0180738d4e345ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">对WndProc的封装  <br /></td></tr>
+<tr class="separator:a44cfdf2958fb76e9a0180738d4e345ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a292bd97b5820a1b4e7a38d65e2b609e8" id="r_a292bd97b5820a1b4e7a38d65e2b609e8"><td class="memItemLeft" align="right" valign="top"><a id="a292bd97b5820a1b4e7a38d65e2b609e8" name="a292bd97b5820a1b4e7a38d65e2b609e8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td></tr>
+<tr class="memdesc:a292bd97b5820a1b4e7a38d65e2b609e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新_text字段 <br /></td></tr>
+<tr class="separator:a292bd97b5820a1b4e7a38d65e2b609e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f45a9189be047b3e3994fea7064ac92" id="r_a0f45a9189be047b3e3994fea7064ac92"><td class="memItemLeft" align="right" valign="top">virtual std::wstring &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f45a9189be047b3e3994fea7064ac92">GetText</a> ()</td></tr>
+<tr class="memdesc:a0f45a9189be047b3e3994fea7064ac92"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取窗口文本  <br /></td></tr>
+<tr class="separator:a0f45a9189be047b3e3994fea7064ac92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a186a4ed2d34414f88ff68cdcdffed330" id="r_a186a4ed2d34414f88ff68cdcdffed330"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a186a4ed2d34414f88ff68cdcdffed330">SetText</a> (const std::wstring &amp;value)</td></tr>
+<tr class="memdesc:a186a4ed2d34414f88ff68cdcdffed330"><td class="mdescLeft">&#160;</td><td class="mdescRight">调用SetWindowTextW设置窗口文本  <br /></td></tr>
+<tr class="separator:a186a4ed2d34414f88ff68cdcdffed330"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5aaf320c9d67a85f144398ea78c1e3e2" id="r_a5aaf320c9d67a85f144398ea78c1e3e2"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5aaf320c9d67a85f144398ea78c1e3e2">OnCreate</a> ()</td></tr>
+<tr class="memdesc:a5aaf320c9d67a85f144398ea78c1e3e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CREATE时调用该函数  <br /></td></tr>
+<tr class="separator:a5aaf320c9d67a85f144398ea78c1e3e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac18756eaea608e066f2e2f1663f1eb92" id="r_ac18756eaea608e066f2e2f1663f1eb92"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac18756eaea608e066f2e2f1663f1eb92">OnClose</a> ()</td></tr>
+<tr class="memdesc:ac18756eaea608e066f2e2f1663f1eb92"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CLOSE时调用该函数  <br /></td></tr>
+<tr class="separator:ac18756eaea608e066f2e2f1663f1eb92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86307407a75bdacb1a123cf126691bcc" id="r_a86307407a75bdacb1a123cf126691bcc"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86307407a75bdacb1a123cf126691bcc">OnDestroy</a> ()</td></tr>
+<tr class="memdesc:a86307407a75bdacb1a123cf126691bcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DESTROY时调用该函数  <br /></td></tr>
+<tr class="separator:a86307407a75bdacb1a123cf126691bcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99b8ed99c16cf55102158d915e530768" id="r_a99b8ed99c16cf55102158d915e530768"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99b8ed99c16cf55102158d915e530768">OnPaint</a> ()</td></tr>
+<tr class="memdesc:a99b8ed99c16cf55102158d915e530768"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_PAINT时调用该函数  <br /></td></tr>
+<tr class="separator:a99b8ed99c16cf55102158d915e530768"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab075887dc1a0cc2c17cef9da6d37b8c7" id="r_ab075887dc1a0cc2c17cef9da6d37b8c7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab075887dc1a0cc2c17cef9da6d37b8c7">OnEndPaint</a> ()</td></tr>
+<tr class="memdesc:ab075887dc1a0cc2c17cef9da6d37b8c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnPaint函数完成之后调用该函数  <br /></td></tr>
+<tr class="separator:ab075887dc1a0cc2c17cef9da6d37b8c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d3c35c16d9e7baf367b0b9fceaf08b5" id="r_a8d3c35c16d9e7baf367b0b9fceaf08b5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d3c35c16d9e7baf367b0b9fceaf08b5">OnMove</a> (<a class="el" href="structsw_1_1_point.html">Point</a> newClientPosition)</td></tr>
+<tr class="memdesc:a8d3c35c16d9e7baf367b0b9fceaf08b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MOVE时调用该函数  <br /></td></tr>
+<tr class="separator:a8d3c35c16d9e7baf367b0b9fceaf08b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6756b17346c311b083a5f34de13ee05a" id="r_a6756b17346c311b083a5f34de13ee05a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6756b17346c311b083a5f34de13ee05a">OnSize</a> (<a class="el" href="structsw_1_1_size.html">Size</a> newClientSize)</td></tr>
+<tr class="memdesc:a6756b17346c311b083a5f34de13ee05a"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SIZE时调用该函数  <br /></td></tr>
+<tr class="separator:a6756b17346c311b083a5f34de13ee05a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf37a263d0b97fa43640ecd73adbc9af" id="r_aaf37a263d0b97fa43640ecd73adbc9af"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf37a263d0b97fa43640ecd73adbc9af">OnTextChanged</a> ()</td></tr>
+<tr class="memdesc:aaf37a263d0b97fa43640ecd73adbc9af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Text属性更改时调用此函数  <br /></td></tr>
+<tr class="separator:aaf37a263d0b97fa43640ecd73adbc9af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb58c908f3a99fb8802d1013fda6a566" id="r_adb58c908f3a99fb8802d1013fda6a566"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb58c908f3a99fb8802d1013fda6a566">OnSetFocus</a> (HWND hPrevFocus)</td></tr>
+<tr class="memdesc:adb58c908f3a99fb8802d1013fda6a566"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SETFOCUS时调用该函数  <br /></td></tr>
+<tr class="separator:adb58c908f3a99fb8802d1013fda6a566"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a283392767c251832125b2474cf6a2a1e" id="r_a283392767c251832125b2474cf6a2a1e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a283392767c251832125b2474cf6a2a1e">OnKillFocus</a> (HWND hNextFocus)</td></tr>
+<tr class="memdesc:a283392767c251832125b2474cf6a2a1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_KILLFOCUS时调用该函数  <br /></td></tr>
+<tr class="separator:a283392767c251832125b2474cf6a2a1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a475a4cb08a2d2f501dd0a12df68d6699" id="r_a475a4cb08a2d2f501dd0a12df68d6699"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a475a4cb08a2d2f501dd0a12df68d6699">OnMouseMove</a> (<a class="el" href="structsw_1_1_point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
+<tr class="memdesc:a475a4cb08a2d2f501dd0a12df68d6699"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MOUSEMOVE时调用该函数  <br /></td></tr>
+<tr class="separator:a475a4cb08a2d2f501dd0a12df68d6699"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac52e0cc43251f4240692ba43db3066e1" id="r_ac52e0cc43251f4240692ba43db3066e1"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac52e0cc43251f4240692ba43db3066e1">OnMouseLeave</a> ()</td></tr>
+<tr class="memdesc:ac52e0cc43251f4240692ba43db3066e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MOUSELEAVE时调用该函数  <br /></td></tr>
+<tr class="separator:ac52e0cc43251f4240692ba43db3066e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5f6bd79ac82613233793e94ec4bee7d" id="r_ab5f6bd79ac82613233793e94ec4bee7d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5f6bd79ac82613233793e94ec4bee7d">OnMouseWheel</a> (int wheelDelta, <a class="el" href="structsw_1_1_point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
+<tr class="memdesc:ab5f6bd79ac82613233793e94ec4bee7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MOUSEWHEEL时调用该函数  <br /></td></tr>
+<tr class="separator:ab5f6bd79ac82613233793e94ec4bee7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdf134fd9de9f8d5b126a26c9c90865a" id="r_afdf134fd9de9f8d5b126a26c9c90865a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdf134fd9de9f8d5b126a26c9c90865a">OnMouseLeftButtonDown</a> (<a class="el" href="structsw_1_1_point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
+<tr class="memdesc:afdf134fd9de9f8d5b126a26c9c90865a"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_LBUTTONDOWN时调用该函数  <br /></td></tr>
+<tr class="separator:afdf134fd9de9f8d5b126a26c9c90865a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86aaee0a78b6668a819d7c5bd0d4da19" id="r_a86aaee0a78b6668a819d7c5bd0d4da19"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86aaee0a78b6668a819d7c5bd0d4da19">OnMouseLeftButtonUp</a> (<a class="el" href="structsw_1_1_point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
+<tr class="memdesc:a86aaee0a78b6668a819d7c5bd0d4da19"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_LBUTTONUP时调用该函数  <br /></td></tr>
+<tr class="separator:a86aaee0a78b6668a819d7c5bd0d4da19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac8dff7876f5a1bf6887b3baf327996e" id="r_aac8dff7876f5a1bf6887b3baf327996e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac8dff7876f5a1bf6887b3baf327996e">OnMouseLeftButtonDoubleClick</a> (<a class="el" href="structsw_1_1_point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
+<tr class="memdesc:aac8dff7876f5a1bf6887b3baf327996e"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_LBUTTONDBLCLK时调用该函数  <br /></td></tr>
+<tr class="separator:aac8dff7876f5a1bf6887b3baf327996e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1f6ec104536c05544c166dd184db3d8" id="r_ac1f6ec104536c05544c166dd184db3d8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1f6ec104536c05544c166dd184db3d8">OnMouseRightButtonDown</a> (<a class="el" href="structsw_1_1_point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
+<tr class="memdesc:ac1f6ec104536c05544c166dd184db3d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_RBUTTONDOWN时调用该函数  <br /></td></tr>
+<tr class="separator:ac1f6ec104536c05544c166dd184db3d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75e2a5f8d4a5d17c3c6d613765f8372f" id="r_a75e2a5f8d4a5d17c3c6d613765f8372f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75e2a5f8d4a5d17c3c6d613765f8372f">OnMouseRightButtonUp</a> (<a class="el" href="structsw_1_1_point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
+<tr class="memdesc:a75e2a5f8d4a5d17c3c6d613765f8372f"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_RBUTTONUP时调用该函数  <br /></td></tr>
+<tr class="separator:a75e2a5f8d4a5d17c3c6d613765f8372f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a456316a7af2e03a91e50e7d17d43ea40" id="r_a456316a7af2e03a91e50e7d17d43ea40"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a456316a7af2e03a91e50e7d17d43ea40">OnMouseRightButtonDoubleClick</a> (<a class="el" href="structsw_1_1_point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
+<tr class="memdesc:a456316a7af2e03a91e50e7d17d43ea40"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_RBUTTONDBLCLK时调用该函数  <br /></td></tr>
+<tr class="separator:a456316a7af2e03a91e50e7d17d43ea40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e8396c4e58dba2d9eb8c86f1c723806" id="r_a7e8396c4e58dba2d9eb8c86f1c723806"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e8396c4e58dba2d9eb8c86f1c723806">OnMouseMiddleButtonDown</a> (<a class="el" href="structsw_1_1_point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
+<tr class="memdesc:a7e8396c4e58dba2d9eb8c86f1c723806"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MBUTTONDOWN时调用该函数  <br /></td></tr>
+<tr class="separator:a7e8396c4e58dba2d9eb8c86f1c723806"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7d6ff057def2b1ce3ef595cb6866e6e" id="r_ad7d6ff057def2b1ce3ef595cb6866e6e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7d6ff057def2b1ce3ef595cb6866e6e">OnMouseMiddleButtonUp</a> (<a class="el" href="structsw_1_1_point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
+<tr class="memdesc:ad7d6ff057def2b1ce3ef595cb6866e6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MBUTTONUP时调用该函数  <br /></td></tr>
+<tr class="separator:ad7d6ff057def2b1ce3ef595cb6866e6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e818713f8f1bd74b7ce3ce692977145" id="r_a5e818713f8f1bd74b7ce3ce692977145"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5e818713f8f1bd74b7ce3ce692977145">OnMouseMiddleButtonDoubleClick</a> (<a class="el" href="structsw_1_1_point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
+<tr class="memdesc:a5e818713f8f1bd74b7ce3ce692977145"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MBUTTONDBLCLK时调用该函数  <br /></td></tr>
+<tr class="separator:a5e818713f8f1bd74b7ce3ce692977145"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba9ed77e70559367a467491d09578c73" id="r_aba9ed77e70559367a467491d09578c73"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba9ed77e70559367a467491d09578c73">OnChar</a> (wchar_t ch, <a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a> flags)</td></tr>
+<tr class="memdesc:aba9ed77e70559367a467491d09578c73"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CHAR时调用该函数  <br /></td></tr>
+<tr class="separator:aba9ed77e70559367a467491d09578c73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3ad914d783729bfd9ca7ad508131f91" id="r_af3ad914d783729bfd9ca7ad508131f91"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af3ad914d783729bfd9ca7ad508131f91">OnDeadChar</a> (wchar_t ch, <a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a> flags)</td></tr>
+<tr class="memdesc:af3ad914d783729bfd9ca7ad508131f91"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DEADCHAR时调用该函数  <br /></td></tr>
+<tr class="separator:af3ad914d783729bfd9ca7ad508131f91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68ea50a7f9ba7b65827f6e3bb981aaa9" id="r_a68ea50a7f9ba7b65827f6e3bb981aaa9"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68ea50a7f9ba7b65827f6e3bb981aaa9">OnKeyDown</a> (VirtualKey key, <a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a> flags)</td></tr>
+<tr class="memdesc:a68ea50a7f9ba7b65827f6e3bb981aaa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_KEYDOWN时调用该函数  <br /></td></tr>
+<tr class="separator:a68ea50a7f9ba7b65827f6e3bb981aaa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99d4f8adbdf34694694fe884a614488a" id="r_a99d4f8adbdf34694694fe884a614488a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99d4f8adbdf34694694fe884a614488a">OnKeyUp</a> (VirtualKey key, <a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a> flags)</td></tr>
+<tr class="memdesc:a99d4f8adbdf34694694fe884a614488a"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_KEYUP时调用该函数  <br /></td></tr>
+<tr class="separator:a99d4f8adbdf34694694fe884a614488a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1065c6fc7e416f27a9872ef2d735d48" id="r_ac1065c6fc7e416f27a9872ef2d735d48"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1065c6fc7e416f27a9872ef2d735d48">OnSysChar</a> (wchar_t ch, <a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a> flags)</td></tr>
+<tr class="memdesc:ac1065c6fc7e416f27a9872ef2d735d48"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SYSCHAR时调用该函数  <br /></td></tr>
+<tr class="separator:ac1065c6fc7e416f27a9872ef2d735d48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7621fed8750c965a038ee570f0c6ea00" id="r_a7621fed8750c965a038ee570f0c6ea00"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7621fed8750c965a038ee570f0c6ea00">OnSysDeadChar</a> (wchar_t ch, <a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a> flags)</td></tr>
+<tr class="memdesc:a7621fed8750c965a038ee570f0c6ea00"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SYSDEADCHAR时调用该函数  <br /></td></tr>
+<tr class="separator:a7621fed8750c965a038ee570f0c6ea00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e7fa0fffbf59396981bac46b92d18cc" id="r_a8e7fa0fffbf59396981bac46b92d18cc"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e7fa0fffbf59396981bac46b92d18cc">OnSysKeyDown</a> (VirtualKey key, <a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a> flags)</td></tr>
+<tr class="memdesc:a8e7fa0fffbf59396981bac46b92d18cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SYSKEYDOWN时调用该函数  <br /></td></tr>
+<tr class="separator:a8e7fa0fffbf59396981bac46b92d18cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a274aa18aa0a43ef32d542f063a20218d" id="r_a274aa18aa0a43ef32d542f063a20218d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a274aa18aa0a43ef32d542f063a20218d">OnSysKeyUp</a> (VirtualKey key, <a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a> flags)</td></tr>
+<tr class="memdesc:a274aa18aa0a43ef32d542f063a20218d"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SYSKEYUP时调用该函数  <br /></td></tr>
+<tr class="separator:a274aa18aa0a43ef32d542f063a20218d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50c8c3fe0de4e38f886139f51970c750" id="r_a50c8c3fe0de4e38f886139f51970c750"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50c8c3fe0de4e38f886139f51970c750">VisibleChanged</a> (bool newVisible)</td></tr>
+<tr class="memdesc:a50c8c3fe0de4e38f886139f51970c750"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visible属性改变时调用此函数  <br /></td></tr>
+<tr class="separator:a50c8c3fe0de4e38f886139f51970c750"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf945166915bd75cb5b15779ff07e282" id="r_aaf945166915bd75cb5b15779ff07e282"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf945166915bd75cb5b15779ff07e282">SetParent</a> (<a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> *parent)</td></tr>
+<tr class="memdesc:aaf945166915bd75cb5b15779ff07e282"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置父窗口  <br /></td></tr>
+<tr class="separator:aaf945166915bd75cb5b15779ff07e282"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af33074083224b890330466eebaba71e4" id="r_af33074083224b890330466eebaba71e4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af33074083224b890330466eebaba71e4">ParentChanged</a> (<a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> *newParent)</td></tr>
+<tr class="memdesc:af33074083224b890330466eebaba71e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">父窗口改变时调用此函数  <br /></td></tr>
+<tr class="separator:af33074083224b890330466eebaba71e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa09679a81f3ee6c5facb6e6ddb57b4c8" id="r_aa09679a81f3ee6c5facb6e6ddb57b4c8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa09679a81f3ee6c5facb6e6ddb57b4c8">OnCommand</a> (int code)</td></tr>
+<tr class="memdesc:aa09679a81f3ee6c5facb6e6ddb57b4c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">当父窗口接收到控件的WM_COMMAND时调用该函数  <br /></td></tr>
+<tr class="separator:aa09679a81f3ee6c5facb6e6ddb57b4c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4402101d3ffce1a18161af49c942cd43" id="r_a4402101d3ffce1a18161af49c942cd43"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4402101d3ffce1a18161af49c942cd43">OnControlCommand</a> (<a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> *pControl, int code, int id)</td></tr>
+<tr class="memdesc:a4402101d3ffce1a18161af49c942cd43"><td class="mdescLeft">&#160;</td><td class="mdescRight">当WM_COMMAND接收到控件命令时调用该函数  <br /></td></tr>
+<tr class="separator:a4402101d3ffce1a18161af49c942cd43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a656de341fc3403b29036c39beaf65714" id="r_a656de341fc3403b29036c39beaf65714"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a656de341fc3403b29036c39beaf65714">OnMenuCommand</a> (int id)</td></tr>
+<tr class="memdesc:a656de341fc3403b29036c39beaf65714"><td class="mdescLeft">&#160;</td><td class="mdescRight">当WM_COMMAND接收到菜单命令时调用该函数  <br /></td></tr>
+<tr class="separator:a656de341fc3403b29036c39beaf65714"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8edc80558205dbbb535bac534acc05ce" id="r_a8edc80558205dbbb535bac534acc05ce"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8edc80558205dbbb535bac534acc05ce">OnAcceleratorCommand</a> (int id)</td></tr>
+<tr class="memdesc:a8edc80558205dbbb535bac534acc05ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">当WM_COMMAND接收到快捷键命令时调用该函数  <br /></td></tr>
+<tr class="separator:a8edc80558205dbbb535bac534acc05ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bd896c026a66317880042ede9b12453" id="r_a2bd896c026a66317880042ede9b12453"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2bd896c026a66317880042ede9b12453">HandleInitialized</a> (HWND hwnd)</td></tr>
+<tr class="memdesc:a2bd896c026a66317880042ede9b12453"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口句柄初始化完成  <br /></td></tr>
+<tr class="separator:a2bd896c026a66317880042ede9b12453"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add57c3bd1e299a67ff8af590ca17835d" id="r_add57c3bd1e299a67ff8af590ca17835d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add57c3bd1e299a67ff8af590ca17835d">FontChanged</a> (HFONT hfont)</td></tr>
+<tr class="memdesc:add57c3bd1e299a67ff8af590ca17835d"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体改变时调用该函数  <br /></td></tr>
+<tr class="separator:add57c3bd1e299a67ff8af590ca17835d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbd311b82650d35eba4f8eaad9cd6dea" id="r_adbd311b82650d35eba4f8eaad9cd6dea"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adbd311b82650d35eba4f8eaad9cd6dea">OnSetCursor</a> (HWND hwnd, HitTestResult hitTest, int message, bool &amp;result)</td></tr>
+<tr class="memdesc:adbd311b82650d35eba4f8eaad9cd6dea"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SETCURSOR消息时调用该函数  <br /></td></tr>
+<tr class="separator:adbd311b82650d35eba4f8eaad9cd6dea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5c535477783ac2b89f804ddfe820a5a" id="r_ae5c535477783ac2b89f804ddfe820a5a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5c535477783ac2b89f804ddfe820a5a">OnContextMenu</a> (bool isKeyboardMsg, <a class="el" href="structsw_1_1_point.html">Point</a> mousePosition)</td></tr>
+<tr class="memdesc:ae5c535477783ac2b89f804ddfe820a5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CONTEXTMENU后调用目标控件的该函数  <br /></td></tr>
+<tr class="separator:ae5c535477783ac2b89f804ddfe820a5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e4a68fa52a082b28d598c7c0a2ef3ce" id="r_a7e4a68fa52a082b28d598c7c0a2ef3ce"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e4a68fa52a082b28d598c7c0a2ef3ce">OnNotify</a> (NMHDR *pNMHDR, LRESULT &amp;result)</td></tr>
+<tr class="memdesc:a7e4a68fa52a082b28d598c7c0a2ef3ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NOTIFY后调用该函数  <br /></td></tr>
+<tr class="separator:a7e4a68fa52a082b28d598c7c0a2ef3ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41652b9e5315ec14215e79ddb857064f" id="r_a41652b9e5315ec14215e79ddb857064f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41652b9e5315ec14215e79ddb857064f">OnNotified</a> (NMHDR *pNMHDR, LRESULT &amp;result)</td></tr>
+<tr class="memdesc:a41652b9e5315ec14215e79ddb857064f"><td class="mdescLeft">&#160;</td><td class="mdescRight">父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数  <br /></td></tr>
+<tr class="separator:a41652b9e5315ec14215e79ddb857064f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2601c3ea34a1ce941c11b7055949e95e" id="r_a2601c3ea34a1ce941c11b7055949e95e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2601c3ea34a1ce941c11b7055949e95e">OnVerticalScroll</a> (int event, int pos)</td></tr>
+<tr class="memdesc:a2601c3ea34a1ce941c11b7055949e95e"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_VSCROLL时调用目标控件的该函数  <br /></td></tr>
+<tr class="separator:a2601c3ea34a1ce941c11b7055949e95e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe051fdd684a661c5dc4a247e1f54282" id="r_afe051fdd684a661c5dc4a247e1f54282"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe051fdd684a661c5dc4a247e1f54282">OnHorizontalScroll</a> (int event, int pos)</td></tr>
+<tr class="memdesc:afe051fdd684a661c5dc4a247e1f54282"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_HSCROLL时调用目标控件的该函数  <br /></td></tr>
+<tr class="separator:afe051fdd684a661c5dc4a247e1f54282"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70983e1bc25a060f26587ac205995a43" id="r_a70983e1bc25a060f26587ac205995a43"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70983e1bc25a060f26587ac205995a43">OnEnabledChanged</a> (bool newValue)</td></tr>
+<tr class="memdesc:a70983e1bc25a060f26587ac205995a43"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_ENABLE时调用该函数  <br /></td></tr>
+<tr class="separator:a70983e1bc25a060f26587ac205995a43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44e7a14bc98611534e886d7d62a1040d" id="r_a44e7a14bc98611534e886d7d62a1040d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44e7a14bc98611534e886d7d62a1040d">OnCtlColor</a> (<a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> *pControl, HDC hdc, HBRUSH &amp;hRetBrush)</td></tr>
+<tr class="memdesc:a44e7a14bc98611534e886d7d62a1040d"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CTLCOLORxxx时调用该函数  <br /></td></tr>
+<tr class="separator:a44e7a14bc98611534e886d7d62a1040d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a144c904c5e80e7ab219bcf47b42f6b2c" id="r_a144c904c5e80e7ab219bcf47b42f6b2c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a144c904c5e80e7ab219bcf47b42f6b2c">OnColor</a> (HDC hdc, HBRUSH &amp;hRetBrush)</td></tr>
+<tr class="memdesc:a144c904c5e80e7ab219bcf47b42f6b2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">父窗口接收到WM_CTLCOLORxxx时调用对应控件的该函数  <br /></td></tr>
+<tr class="separator:a144c904c5e80e7ab219bcf47b42f6b2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a5905cafcab37d271b83efcaee52d9a" id="r_a5a5905cafcab37d271b83efcaee52d9a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a5905cafcab37d271b83efcaee52d9a">OnNcHitTest</a> (const <a class="el" href="structsw_1_1_point.html">Point</a> &amp;testPoint, HitTestResult &amp;result)</td></tr>
+<tr class="memdesc:a5a5905cafcab37d271b83efcaee52d9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NCHITTEST后调用该函数  <br /></td></tr>
+<tr class="separator:a5a5905cafcab37d271b83efcaee52d9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c4b959c19a77d596bc89c552a99d391" id="r_a0c4b959c19a77d596bc89c552a99d391"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c4b959c19a77d596bc89c552a99d391">OnEraseBackground</a> (HDC hdc, LRESULT &amp;result)</td></tr>
+<tr class="memdesc:a0c4b959c19a77d596bc89c552a99d391"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_ERASEBKGND时调用该函数  <br /></td></tr>
+<tr class="separator:a0c4b959c19a77d596bc89c552a99d391"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b5960b85c1f0acdf0ab2d8ecc30df27" id="r_a6b5960b85c1f0acdf0ab2d8ecc30df27"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b5960b85c1f0acdf0ab2d8ecc30df27">OnDrawItem</a> (int id, DRAWITEMSTRUCT *pDrawItem)</td></tr>
+<tr class="memdesc:a6b5960b85c1f0acdf0ab2d8ecc30df27"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DRAWITEM时调用该函数  <br /></td></tr>
+<tr class="separator:a6b5960b85c1f0acdf0ab2d8ecc30df27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93a8fe3e7fcfbb0c032867c4ba15b6ef" id="r_a93a8fe3e7fcfbb0c032867c4ba15b6ef"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a93a8fe3e7fcfbb0c032867c4ba15b6ef">OnDrawItemSelf</a> (DRAWITEMSTRUCT *pDrawItem)</td></tr>
+<tr class="memdesc:a93a8fe3e7fcfbb0c032867c4ba15b6ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">父窗口接收到WM_DRAWITEM后且父窗口OnDrawItem函数返回false时调用发出通知控件的该函数  <br /></td></tr>
+<tr class="separator:a93a8fe3e7fcfbb0c032867c4ba15b6ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5cf4fc21e7c2e67b78657c0d5748e6f" id="r_af5cf4fc21e7c2e67b78657c0d5748e6f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5cf4fc21e7c2e67b78657c0d5748e6f">OnMeasureItem</a> (int id, MEASUREITEMSTRUCT *pMeasure)</td></tr>
+<tr class="memdesc:af5cf4fc21e7c2e67b78657c0d5748e6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MEASUREITEM时调用该函数  <br /></td></tr>
+<tr class="separator:af5cf4fc21e7c2e67b78657c0d5748e6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab16d56b1270e075c01254758342e9ec7" id="r_ab16d56b1270e075c01254758342e9ec7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab16d56b1270e075c01254758342e9ec7">OnMeasureItemSelf</a> (MEASUREITEMSTRUCT *pMeasure)</td></tr>
+<tr class="memdesc:ab16d56b1270e075c01254758342e9ec7"><td class="mdescLeft">&#160;</td><td class="mdescRight">父窗口接收到WM_MEASUREITEM后且父窗口OnMeasureItem函数返回false时调用发出通知控件的该函数  <br /></td></tr>
+<tr class="separator:ab16d56b1270e075c01254758342e9ec7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03f86086db3f29341ed2891fbd7889e1" id="r_a03f86086db3f29341ed2891fbd7889e1"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03f86086db3f29341ed2891fbd7889e1">OnDropFiles</a> (HDROP hDrop)</td></tr>
+<tr class="memdesc:a03f86086db3f29341ed2891fbd7889e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DROPFILES时调用该函数  <br /></td></tr>
+<tr class="separator:a03f86086db3f29341ed2891fbd7889e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+友元</h2></td></tr>
+<tr class="memitem:a9adf7c444a8611024541177662d4716a" id="r_a9adf7c444a8611024541177662d4716a"><td class="memItemLeft" align="right" valign="top"><a id="a9adf7c444a8611024541177662d4716a" name="a9adf7c444a8611024541177662d4716a"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>Control</b></td></tr>
+<tr class="separator:a9adf7c444a8611024541177662d4716a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada73da2fa09184c7c48a3ad82a9cfc88" id="r_ada73da2fa09184c7c48a3ad82a9cfc88"><td class="memItemLeft" align="right" valign="top"><a id="ada73da2fa09184c7c48a3ad82a9cfc88" name="ada73da2fa09184c7c48a3ad82a9cfc88"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td></tr>
+<tr class="separator:ada73da2fa09184c7c48a3ad82a9cfc88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>表示一个Windows窗口，是所有窗口和控件的基类 </p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="add57c3bd1e299a67ff8af590ca17835d" name="add57c3bd1e299a67ff8af590ca17835d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add57c3bd1e299a67ff8af590ca17835d">&#9670;&#160;</a></span>FontChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::FontChanged </td>
+          <td>(</td>
+          <td class="paramtype">HFONT</td>          <td class="paramname"><span class="paramname"><em>hfont</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>字体改变时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hfont</td><td>字体句柄 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>被 <a class="el" href="classsw_1_1_i_p_address_control.html#a4199223a14694f69bc7751ccb4ca5224">sw::IPAddressControl</a>, <a class="el" href="classsw_1_1_label.html#aa796b4293d545290927d5d98e5210c1b">sw::Label</a> , 以及 <a class="el" href="classsw_1_1_sys_link.html#a19fede1a2d6af2032f4c4794d41b848c">sw::SysLink</a> 重载.</p>
+
+</div>
+</div>
+<a id="a2d3e7d32b7cdcfd3489c0d890a2910ab" name="a2d3e7d32b7cdcfd3489c0d890a2910ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d3e7d32b7cdcfd3489c0d890a2910ab">&#9670;&#160;</a></span>GetExtendedStyle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::GetExtendedStyle </td>
+          <td>(</td>
+          <td class="paramtype">DWORD</td>          <td class="paramname"><span class="paramname"><em>mask</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>判断窗口是否设有指定扩展样式 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mask</td><td>扩展样式的位掩码，可以是多个扩展样式 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae545de230ba94e3263f3197e98308079" name="ae545de230ba94e3263f3197e98308079"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae545de230ba94e3263f3197e98308079">&#9670;&#160;</a></span>GetStyle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::GetStyle </td>
+          <td>(</td>
+          <td class="paramtype">DWORD</td>          <td class="paramname"><span class="paramname"><em>mask</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>判断窗口是否设有指定样式 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mask</td><td>样式的位掩码，可以是多个样式 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0f45a9189be047b3e3994fea7064ac92" name="a0f45a9189be047b3e3994fea7064ac92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f45a9189be047b3e3994fea7064ac92">&#9670;&#160;</a></span>GetText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::wstring &amp; sw::WndBase::GetText </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取窗口文本 </p>
+<dl class="section return"><dt>返回</dt><dd>_text字段 </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_combo_box.html#a9f1ef5d138383d81a4b782ce0e222477">sw::ComboBox</a> , 以及 <a class="el" href="classsw_1_1_text_box_base.html#ae6861311afd1aa7b9fed2ebb4dd0043a">sw::TextBoxBase</a> 重载.</p>
+
+</div>
+</div>
+<a id="a202b750a9ecce359c39d70f685d9f320" name="a202b750a9ecce359c39d70f685d9f320"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a202b750a9ecce359c39d70f685d9f320">&#9670;&#160;</a></span>GetWndBase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1_wnd_base.html">sw::WndBase</a> * sw::WndBase::GetWndBase </td>
+          <td>(</td>
+          <td class="paramtype">HWND</td>          <td class="paramname"><span class="paramname"><em>hwnd</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>通过窗口句柄获取WndBase </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hwnd</td><td>窗口句柄 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若函数成功则返回对象的指针，否则返回nullptr </dd></dl>
+
+</div>
+</div>
+<a id="a2bd896c026a66317880042ede9b12453" name="a2bd896c026a66317880042ede9b12453"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bd896c026a66317880042ede9b12453">&#9670;&#160;</a></span>HandleInitialized()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::HandleInitialized </td>
+          <td>(</td>
+          <td class="paramtype">HWND</td>          <td class="paramname"><span class="paramname"><em>hwnd</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>窗口句柄初始化完成 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hwnd</td><td>窗口句柄 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a53cf494f17b15f5b5d12d6870e95e068" name="a53cf494f17b15f5b5d12d6870e95e068"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53cf494f17b15f5b5d12d6870e95e068">&#9670;&#160;</a></span>NcHitTest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sw::HitTestResult sw::WndBase::NcHitTest </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1_point.html">Point</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>testPoint</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>测试指定点在窗口的哪一部分 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">testPoint</td><td>要测试的点在屏幕中的位置 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8edc80558205dbbb535bac534acc05ce" name="a8edc80558205dbbb535bac534acc05ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8edc80558205dbbb535bac534acc05ce">&#9670;&#160;</a></span>OnAcceleratorCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::OnAcceleratorCommand </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当WM_COMMAND接收到快捷键命令时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>快捷键id </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aba9ed77e70559367a467491d09578c73" name="aba9ed77e70559367a467491d09578c73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba9ed77e70559367a467491d09578c73">&#9670;&#160;</a></span>OnChar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnChar </td>
+          <td>(</td>
+          <td class="paramtype">wchar_t</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a></td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_CHAR时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>按键的字符代码 </td></tr>
+    <tr><td class="paramname">flags</td><td>附加信息 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_text_box_base.html#abf6615346a4d67635696d4effbc3dd56">sw::TextBoxBase</a> , 以及 <a class="el" href="classsw_1_1_u_i_element.html#adb5beaa2d63223c50c86f66aae695f02">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="ac18756eaea608e066f2e2f1663f1eb92" name="ac18756eaea608e066f2e2f1663f1eb92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac18756eaea608e066f2e2f1663f1eb92">&#9670;&#160;</a></span>OnClose()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnClose </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_CLOSE时调用该函数 </p>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#addb324a059db28b8a56781b415d32d12">sw::UIElement</a> , 以及 <a class="el" href="classsw_1_1_window.html#a8b67e6f3e04fa2ef80a9a2ab8850a9a0">sw::Window</a> 重载.</p>
+
+</div>
+</div>
+<a id="a144c904c5e80e7ab219bcf47b42f6b2c" name="a144c904c5e80e7ab219bcf47b42f6b2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a144c904c5e80e7ab219bcf47b42f6b2c">&#9670;&#160;</a></span>OnColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnColor </td>
+          <td>(</td>
+          <td class="paramtype">HDC</td>          <td class="paramname"><span class="paramname"><em>hdc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">HBRUSH &amp;</td>          <td class="paramname"><span class="paramname"><em>hRetBrush</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>父窗口接收到WM_CTLCOLORxxx时调用对应控件的该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hdc</td><td>控件的显示上下文句柄 </td></tr>
+    <tr><td class="paramname">hRetBrush</td><td>要返回的画笔 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值 </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#a7b87b078efe100e95b3c2e32a924d25f">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="aa09679a81f3ee6c5facb6e6ddb57b4c8" name="aa09679a81f3ee6c5facb6e6ddb57b4c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa09679a81f3ee6c5facb6e6ddb57b4c8">&#9670;&#160;</a></span>OnCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::OnCommand </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>code</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当父窗口接收到控件的WM_COMMAND时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">code</td><td>通知代码 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>被 <a class="el" href="classsw_1_1_button_base.html#a381948fc1da4896530b34b8947d48d69">sw::ButtonBase</a>, <a class="el" href="classsw_1_1_combo_box.html#af85895e972869908ef768133c3200ace">sw::ComboBox</a>, <a class="el" href="classsw_1_1_hot_key_control.html#a7cb82c38f73e670ce91a1594e17a864e">sw::HotKeyControl</a>, <a class="el" href="classsw_1_1_list_box.html#a69d9434e5e1b954e4d7bc7fa1bc9715a">sw::ListBox</a> , 以及 <a class="el" href="classsw_1_1_text_box_base.html#a92290dde173064c32ace1bc9f7878b2d">sw::TextBoxBase</a> 重载.</p>
+
+</div>
+</div>
+<a id="ae5c535477783ac2b89f804ddfe820a5a" name="ae5c535477783ac2b89f804ddfe820a5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5c535477783ac2b89f804ddfe820a5a">&#9670;&#160;</a></span>OnContextMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnContextMenu </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>isKeyboardMsg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_point.html">Point</a></td>          <td class="paramname"><span class="paramname"><em>mousePosition</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_CONTEXTMENU后调用目标控件的该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">isKeyboardMsg</td><td>消息是否由按下快捷键（Shift+F10、VK_APPS）产生 </td></tr>
+    <tr><td class="paramname">mousePosition</td><td>鼠标在屏幕中的位置 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_list_box.html#a5e8df9638b061531dae3396930be8964">sw::ListBox</a> , 以及 <a class="el" href="classsw_1_1_u_i_element.html#a41116a0043ed0179517c76ff13af2ab6">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a4402101d3ffce1a18161af49c942cd43" name="a4402101d3ffce1a18161af49c942cd43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4402101d3ffce1a18161af49c942cd43">&#9670;&#160;</a></span>OnControlCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::OnControlCommand </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> *</td>          <td class="paramname"><span class="paramname"><em>pControl</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>code</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>id</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当WM_COMMAND接收到控件命令时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pControl</td><td>控件对象指针 </td></tr>
+    <tr><td class="paramname">code</td><td>通知代码 </td></tr>
+    <tr><td class="paramname">id</td><td>控件id </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5aaf320c9d67a85f144398ea78c1e3e2" name="a5aaf320c9d67a85f144398ea78c1e3e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5aaf320c9d67a85f144398ea78c1e3e2">&#9670;&#160;</a></span>OnCreate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnCreate </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_CREATE时调用该函数 </p>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="a44e7a14bc98611534e886d7d62a1040d" name="a44e7a14bc98611534e886d7d62a1040d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44e7a14bc98611534e886d7d62a1040d">&#9670;&#160;</a></span>OnCtlColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnCtlColor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> *</td>          <td class="paramname"><span class="paramname"><em>pControl</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">HDC</td>          <td class="paramname"><span class="paramname"><em>hdc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">HBRUSH &amp;</td>          <td class="paramname"><span class="paramname"><em>hRetBrush</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_CTLCOLORxxx时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pControl</td><td>消息相关的控件 </td></tr>
+    <tr><td class="paramname">hdc</td><td>控件的显示上下文句柄 </td></tr>
+    <tr><td class="paramname">hRetBrush</td><td>要返回的画笔 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值 </dd></dl>
+
+</div>
+</div>
+<a id="af3ad914d783729bfd9ca7ad508131f91" name="af3ad914d783729bfd9ca7ad508131f91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3ad914d783729bfd9ca7ad508131f91">&#9670;&#160;</a></span>OnDeadChar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnDeadChar </td>
+          <td>(</td>
+          <td class="paramtype">wchar_t</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a></td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_DEADCHAR时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>按键的字符代码 </td></tr>
+    <tr><td class="paramname">flags</td><td>附加信息 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="a86307407a75bdacb1a123cf126691bcc" name="a86307407a75bdacb1a123cf126691bcc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86307407a75bdacb1a123cf126691bcc">&#9670;&#160;</a></span>OnDestroy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnDestroy </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_DESTROY时调用该函数 </p>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_bmp_box.html#aac4bc3d92461c0e67e7d53c4af275620">sw::BmpBox</a>, <a class="el" href="classsw_1_1_hwnd_host.html#a4701022da4f6e7d06ad5df457cea095d">sw::HwndHost</a>, <a class="el" href="classsw_1_1_icon_box.html#acd163211ac5d83f133068e494811a1a2">sw::IconBox</a> , 以及 <a class="el" href="classsw_1_1_window.html#a0466a3eedc70951777601b86b33af35c">sw::Window</a> 重载.</p>
+
+</div>
+</div>
+<a id="a6b5960b85c1f0acdf0ab2d8ecc30df27" name="a6b5960b85c1f0acdf0ab2d8ecc30df27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b5960b85c1f0acdf0ab2d8ecc30df27">&#9670;&#160;</a></span>OnDrawItem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnDrawItem </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DRAWITEMSTRUCT *</td>          <td class="paramname"><span class="paramname"><em>pDrawItem</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_DRAWITEM时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>控件的标识符，若消息是通过菜单发送的则此参数为零 </td></tr>
+    <tr><td class="paramname">pDrawItem</td><td>包含有关要绘制的项和所需绘图类型的信息的结构体指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则调用发出通知控件的OnDrawItemSelf函数，依据其返回值判断是否调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="a93a8fe3e7fcfbb0c032867c4ba15b6ef" name="a93a8fe3e7fcfbb0c032867c4ba15b6ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93a8fe3e7fcfbb0c032867c4ba15b6ef">&#9670;&#160;</a></span>OnDrawItemSelf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnDrawItemSelf </td>
+          <td>(</td>
+          <td class="paramtype">DRAWITEMSTRUCT *</td>          <td class="paramname"><span class="paramname"><em>pDrawItem</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>父窗口接收到WM_DRAWITEM后且父窗口OnDrawItem函数返回false时调用发出通知控件的该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pDrawItem</td><td>包含有关要绘制的项和所需绘图类型的信息的结构体指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="a03f86086db3f29341ed2891fbd7889e1" name="a03f86086db3f29341ed2891fbd7889e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03f86086db3f29341ed2891fbd7889e1">&#9670;&#160;</a></span>OnDropFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnDropFiles </td>
+          <td>(</td>
+          <td class="paramtype">HDROP</td>          <td class="paramname"><span class="paramname"><em>hDrop</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_DROPFILES时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hDrop</td><td>描述拖入文件的句柄 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#ad36efabe2e11546a2bcd02acfbbafe3f">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a70983e1bc25a060f26587ac205995a43" name="a70983e1bc25a060f26587ac205995a43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70983e1bc25a060f26587ac205995a43">&#9670;&#160;</a></span>OnEnabledChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnEnabledChanged </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>newValue</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_ENABLE时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newValue</td><td>Enabled的新值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="ab075887dc1a0cc2c17cef9da6d37b8c7" name="ab075887dc1a0cc2c17cef9da6d37b8c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab075887dc1a0cc2c17cef9da6d37b8c7">&#9670;&#160;</a></span>OnEndPaint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::OnEndPaint </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在OnPaint函数完成之后调用该函数 </p>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#a152ce03be61437e3b0816be1784cb649">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a0c4b959c19a77d596bc89c552a99d391" name="a0c4b959c19a77d596bc89c552a99d391"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c4b959c19a77d596bc89c552a99d391">&#9670;&#160;</a></span>OnEraseBackground()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnEraseBackground </td>
+          <td>(</td>
+          <td class="paramtype">HDC</td>          <td class="paramname"><span class="paramname"><em>hdc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_ERASEBKGND时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hdc</td><td>设备上下文句柄 </td></tr>
+    <tr><td class="paramname">result</td><td>若已处理该消息则设为非零值，默认值为0 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值 </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_window.html#aab8ee867ca5ab5eabb6c41459a19ab45">sw::Window</a> 重载.</p>
+
+</div>
+</div>
+<a id="afe051fdd684a661c5dc4a247e1f54282" name="afe051fdd684a661c5dc4a247e1f54282"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe051fdd684a661c5dc4a247e1f54282">&#9670;&#160;</a></span>OnHorizontalScroll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnHorizontalScroll </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>event</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_HSCROLL时调用目标控件的该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>事件类型，即消息wParam的低字 </td></tr>
+    <tr><td class="paramname">pos</td><td>当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_layer.html#ab80204155a3faddeee4b8588ee8a0cdc">sw::Layer</a>, <a class="el" href="classsw_1_1_panel_base.html#a5d8320d14bea8cca43b34dbfc835941b">sw::PanelBase</a> , 以及 <a class="el" href="classsw_1_1_slider.html#ab6f299c75e462c74283d1dec405bb016">sw::Slider</a> 重载.</p>
+
+</div>
+</div>
+<a id="a68ea50a7f9ba7b65827f6e3bb981aaa9" name="a68ea50a7f9ba7b65827f6e3bb981aaa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68ea50a7f9ba7b65827f6e3bb981aaa9">&#9670;&#160;</a></span>OnKeyDown()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnKeyDown </td>
+          <td>(</td>
+          <td class="paramtype">VirtualKey</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a></td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_KEYDOWN时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>虚拟按键 </td></tr>
+    <tr><td class="paramname">flags</td><td>附加信息 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_button.html#a886495a7c3e9b645700b1377ecd95aa7">sw::Button</a>, <a class="el" href="classsw_1_1_text_box_base.html#a549e746c87d807371fe1abd50fcdb797">sw::TextBoxBase</a> , 以及 <a class="el" href="classsw_1_1_u_i_element.html#a5a29c0e132e5fe8880a5e9e45baad790">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a99d4f8adbdf34694694fe884a614488a" name="a99d4f8adbdf34694694fe884a614488a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99d4f8adbdf34694694fe884a614488a">&#9670;&#160;</a></span>OnKeyUp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnKeyUp </td>
+          <td>(</td>
+          <td class="paramtype">VirtualKey</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a></td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_KEYUP时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>虚拟按键 </td></tr>
+    <tr><td class="paramname">flags</td><td>附加信息 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#a38a1d03b426dd7e98ea97865a1e9d872">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a283392767c251832125b2474cf6a2a1e" name="a283392767c251832125b2474cf6a2a1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a283392767c251832125b2474cf6a2a1e">&#9670;&#160;</a></span>OnKillFocus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnKillFocus </td>
+          <td>(</td>
+          <td class="paramtype">HWND</td>          <td class="paramname"><span class="paramname"><em>hNextFocus</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_KILLFOCUS时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hNextFocus</td><td>接收到焦点的hwnd，可能为NULL </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_button.html#a21be0a6c5437de59d24e2b3c464f080a">sw::Button</a> , 以及 <a class="el" href="classsw_1_1_u_i_element.html#a0da05d5beda8bd2774e4dabcdcc246ac">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="af5cf4fc21e7c2e67b78657c0d5748e6f" name="af5cf4fc21e7c2e67b78657c0d5748e6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5cf4fc21e7c2e67b78657c0d5748e6f">&#9670;&#160;</a></span>OnMeasureItem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMeasureItem </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MEASUREITEMSTRUCT *</td>          <td class="paramname"><span class="paramname"><em>pMeasure</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_MEASUREITEM时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>控件的标识符，若消息是通过菜单发送的则此参数为零 </td></tr>
+    <tr><td class="paramname">pMeasure</td><td>包含有关要绘制的项的信息的结构体指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则调用发出通知控件的OnMeasureItemSelf函数，依据其返回值判断是否调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="ab16d56b1270e075c01254758342e9ec7" name="ab16d56b1270e075c01254758342e9ec7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab16d56b1270e075c01254758342e9ec7">&#9670;&#160;</a></span>OnMeasureItemSelf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMeasureItemSelf </td>
+          <td>(</td>
+          <td class="paramtype">MEASUREITEMSTRUCT *</td>          <td class="paramname"><span class="paramname"><em>pMeasure</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>父窗口接收到WM_MEASUREITEM后且父窗口OnMeasureItem函数返回false时调用发出通知控件的该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pMeasure</td><td>包含有关要绘制的项的信息的结构体指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="a656de341fc3403b29036c39beaf65714" name="a656de341fc3403b29036c39beaf65714"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a656de341fc3403b29036c39beaf65714">&#9670;&#160;</a></span>OnMenuCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::OnMenuCommand </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当WM_COMMAND接收到菜单命令时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>菜单id </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#a25337260944a348795a21460d9322e7f">sw::UIElement</a> , 以及 <a class="el" href="classsw_1_1_window.html#afcdffe73517a3f50ad6b27319f9c3905">sw::Window</a> 重载.</p>
+
+</div>
+</div>
+<a id="ac52e0cc43251f4240692ba43db3066e1" name="ac52e0cc43251f4240692ba43db3066e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac52e0cc43251f4240692ba43db3066e1">&#9670;&#160;</a></span>OnMouseLeave()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMouseLeave </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_MOUSELEAVE时调用该函数 </p>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#a9dbdd772792107fcb4f26a1fc177bcc4">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="aac8dff7876f5a1bf6887b3baf327996e" name="aac8dff7876f5a1bf6887b3baf327996e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac8dff7876f5a1bf6887b3baf327996e">&#9670;&#160;</a></span>OnMouseLeftButtonDoubleClick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMouseLeftButtonDoubleClick </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_point.html">Point</a></td>          <td class="paramname"><span class="paramname"><em>mousePosition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MouseKey</td>          <td class="paramname"><span class="paramname"><em>keyState</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_LBUTTONDBLCLK时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mousePosition</td><td>鼠标在用户区中的位置 </td></tr>
+    <tr><td class="paramname">keyState</td><td>指示某些按键是否按下 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="afdf134fd9de9f8d5b126a26c9c90865a" name="afdf134fd9de9f8d5b126a26c9c90865a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdf134fd9de9f8d5b126a26c9c90865a">&#9670;&#160;</a></span>OnMouseLeftButtonDown()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMouseLeftButtonDown </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_point.html">Point</a></td>          <td class="paramname"><span class="paramname"><em>mousePosition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MouseKey</td>          <td class="paramname"><span class="paramname"><em>keyState</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_LBUTTONDOWN时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mousePosition</td><td>鼠标在用户区中的位置 </td></tr>
+    <tr><td class="paramname">keyState</td><td>指示某些按键是否按下 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#a90c0af4ba20ff9ea92ff1703feae58ec">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a86aaee0a78b6668a819d7c5bd0d4da19" name="a86aaee0a78b6668a819d7c5bd0d4da19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86aaee0a78b6668a819d7c5bd0d4da19">&#9670;&#160;</a></span>OnMouseLeftButtonUp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMouseLeftButtonUp </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_point.html">Point</a></td>          <td class="paramname"><span class="paramname"><em>mousePosition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MouseKey</td>          <td class="paramname"><span class="paramname"><em>keyState</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_LBUTTONUP时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mousePosition</td><td>鼠标在用户区中的位置 </td></tr>
+    <tr><td class="paramname">keyState</td><td>指示某些按键是否按下 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#ae1a40c9ad8681a01a438eefb05c7edce">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a5e818713f8f1bd74b7ce3ce692977145" name="a5e818713f8f1bd74b7ce3ce692977145"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e818713f8f1bd74b7ce3ce692977145">&#9670;&#160;</a></span>OnMouseMiddleButtonDoubleClick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMouseMiddleButtonDoubleClick </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_point.html">Point</a></td>          <td class="paramname"><span class="paramname"><em>mousePosition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MouseKey</td>          <td class="paramname"><span class="paramname"><em>keyState</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_MBUTTONDBLCLK时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mousePosition</td><td>鼠标在用户区中的位置 </td></tr>
+    <tr><td class="paramname">keyState</td><td>指示某些按键是否按下 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="a7e8396c4e58dba2d9eb8c86f1c723806" name="a7e8396c4e58dba2d9eb8c86f1c723806"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e8396c4e58dba2d9eb8c86f1c723806">&#9670;&#160;</a></span>OnMouseMiddleButtonDown()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMouseMiddleButtonDown </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_point.html">Point</a></td>          <td class="paramname"><span class="paramname"><em>mousePosition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MouseKey</td>          <td class="paramname"><span class="paramname"><em>keyState</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_MBUTTONDOWN时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mousePosition</td><td>鼠标在用户区中的位置 </td></tr>
+    <tr><td class="paramname">keyState</td><td>指示某些按键是否按下 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#a7117336deca67a6b3f258e2abb85c61d">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="ad7d6ff057def2b1ce3ef595cb6866e6e" name="ad7d6ff057def2b1ce3ef595cb6866e6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7d6ff057def2b1ce3ef595cb6866e6e">&#9670;&#160;</a></span>OnMouseMiddleButtonUp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMouseMiddleButtonUp </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_point.html">Point</a></td>          <td class="paramname"><span class="paramname"><em>mousePosition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MouseKey</td>          <td class="paramname"><span class="paramname"><em>keyState</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_MBUTTONUP时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mousePosition</td><td>鼠标在用户区中的位置 </td></tr>
+    <tr><td class="paramname">keyState</td><td>指示某些按键是否按下 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#a2876de603834ff6f5364e1e24841d0c2">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a475a4cb08a2d2f501dd0a12df68d6699" name="a475a4cb08a2d2f501dd0a12df68d6699"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a475a4cb08a2d2f501dd0a12df68d6699">&#9670;&#160;</a></span>OnMouseMove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMouseMove </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_point.html">Point</a></td>          <td class="paramname"><span class="paramname"><em>mousePosition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MouseKey</td>          <td class="paramname"><span class="paramname"><em>keyState</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_MOUSEMOVE时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mousePosition</td><td>鼠标在用户区中的位置 </td></tr>
+    <tr><td class="paramname">keyState</td><td>指示某些按键是否按下 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#a68acec8767677d12b2ff4a84b70186fd">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a456316a7af2e03a91e50e7d17d43ea40" name="a456316a7af2e03a91e50e7d17d43ea40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a456316a7af2e03a91e50e7d17d43ea40">&#9670;&#160;</a></span>OnMouseRightButtonDoubleClick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMouseRightButtonDoubleClick </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_point.html">Point</a></td>          <td class="paramname"><span class="paramname"><em>mousePosition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MouseKey</td>          <td class="paramname"><span class="paramname"><em>keyState</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_RBUTTONDBLCLK时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mousePosition</td><td>鼠标在用户区中的位置 </td></tr>
+    <tr><td class="paramname">keyState</td><td>指示某些按键是否按下 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="ac1f6ec104536c05544c166dd184db3d8" name="ac1f6ec104536c05544c166dd184db3d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1f6ec104536c05544c166dd184db3d8">&#9670;&#160;</a></span>OnMouseRightButtonDown()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMouseRightButtonDown </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_point.html">Point</a></td>          <td class="paramname"><span class="paramname"><em>mousePosition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MouseKey</td>          <td class="paramname"><span class="paramname"><em>keyState</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_RBUTTONDOWN时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mousePosition</td><td>鼠标在用户区中的位置 </td></tr>
+    <tr><td class="paramname">keyState</td><td>指示某些按键是否按下 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#a89d9a1fab834da399b49a3aead97b832">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a75e2a5f8d4a5d17c3c6d613765f8372f" name="a75e2a5f8d4a5d17c3c6d613765f8372f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75e2a5f8d4a5d17c3c6d613765f8372f">&#9670;&#160;</a></span>OnMouseRightButtonUp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMouseRightButtonUp </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_point.html">Point</a></td>          <td class="paramname"><span class="paramname"><em>mousePosition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MouseKey</td>          <td class="paramname"><span class="paramname"><em>keyState</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_RBUTTONUP时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mousePosition</td><td>鼠标在用户区中的位置 </td></tr>
+    <tr><td class="paramname">keyState</td><td>指示某些按键是否按下 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#aa5ef4506fda10b8e972b281cea9b9b98">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="ab5f6bd79ac82613233793e94ec4bee7d" name="ab5f6bd79ac82613233793e94ec4bee7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5f6bd79ac82613233793e94ec4bee7d">&#9670;&#160;</a></span>OnMouseWheel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMouseWheel </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>wheelDelta</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_point.html">Point</a></td>          <td class="paramname"><span class="paramname"><em>mousePosition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MouseKey</td>          <td class="paramname"><span class="paramname"><em>keyState</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_MOUSEWHEEL时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">wheelDelta</td><td>滚轮滚动的距离，为120的倍数 </td></tr>
+    <tr><td class="paramname">mousePosition</td><td>鼠标在用户区中的位置 </td></tr>
+    <tr><td class="paramname">keyState</td><td>指示某些按键是否按下 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#a8bc0cad4ab9f53237a928b80a8e9165b">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a8d3c35c16d9e7baf367b0b9fceaf08b5" name="a8d3c35c16d9e7baf367b0b9fceaf08b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d3c35c16d9e7baf367b0b9fceaf08b5">&#9670;&#160;</a></span>OnMove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnMove </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_point.html">Point</a></td>          <td class="paramname"><span class="paramname"><em>newClientPosition</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_MOVE时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newClientPosition</td><td>移动后用户区左上角的位置 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#adcf6a1759382d487528ae4ba8000220b">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a5a5905cafcab37d271b83efcaee52d9a" name="a5a5905cafcab37d271b83efcaee52d9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a5905cafcab37d271b83efcaee52d9a">&#9670;&#160;</a></span>OnNcHitTest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::OnNcHitTest </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1_point.html">Point</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>testPoint</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">HitTestResult &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_NCHITTEST后调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">testPoint</td><td>要测试的点在屏幕中的位置 </td></tr>
+    <tr><td class="paramname">result</td><td>测试的结果，默认为调用DefaultWndProc的结果 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a41652b9e5315ec14215e79ddb857064f" name="a41652b9e5315ec14215e79ddb857064f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41652b9e5315ec14215e79ddb857064f">&#9670;&#160;</a></span>OnNotified()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnNotified </td>
+          <td>(</td>
+          <td class="paramtype">NMHDR *</td>          <td class="paramname"><span class="paramname"><em>pNMHDR</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pNMHDR</td><td>包含有关通知消息的信息 </td></tr>
+    <tr><td class="paramname">result</td><td>函数返回值为true时将该值作为消息的返回值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_date_time_picker.html#ab60ba3fede462ca5444ba5137b4551c6">sw::DateTimePicker</a>, <a class="el" href="classsw_1_1_list_view.html#aac687ebfeea20b23fbc7652ee5e478c6">sw::ListView</a>, <a class="el" href="classsw_1_1_month_calendar.html#a38f1b82d411d62c354f65fa3d2de4134">sw::MonthCalendar</a>, <a class="el" href="classsw_1_1_sys_link.html#a16773c781441a4764d2fdb46b787128c">sw::SysLink</a> , 以及 <a class="el" href="classsw_1_1_tab_control.html#a93512c387a25fcba201c40174692b38c">sw::TabControl</a> 重载.</p>
+
+</div>
+</div>
+<a id="a7e4a68fa52a082b28d598c7c0a2ef3ce" name="a7e4a68fa52a082b28d598c7c0a2ef3ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e4a68fa52a082b28d598c7c0a2ef3ce">&#9670;&#160;</a></span>OnNotify()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnNotify </td>
+          <td>(</td>
+          <td class="paramtype">NMHDR *</td>          <td class="paramname"><span class="paramname"><em>pNMHDR</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_NOTIFY后调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pNMHDR</td><td>包含有关通知消息的信息 </td></tr>
+    <tr><td class="paramname">result</td><td>函数返回值为true时将该值作为消息的返回值，默认值为0 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则调用发出通知控件的OnNotified函数，依据其返回值判断是否调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_i_p_address_control.html#a4ab9bc534b0d4133f02b3fbb66baca95">sw::IPAddressControl</a> , 以及 <a class="el" href="classsw_1_1_list_view.html#a5b9514599a04a141f72d3ceaa955a034">sw::ListView</a> 重载.</p>
+
+</div>
+</div>
+<a id="a99b8ed99c16cf55102158d915e530768" name="a99b8ed99c16cf55102158d915e530768"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99b8ed99c16cf55102158d915e530768">&#9670;&#160;</a></span>OnPaint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnPaint </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_PAINT时调用该函数 </p>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_bmp_box.html#ac1e3686248c6d39467f4d00152bb1758">sw::BmpBox</a>, <a class="el" href="classsw_1_1_panel.html#a4ba7ef4631be51e71992851f7e18aae2">sw::Panel</a>, <a class="el" href="classsw_1_1_splitter.html#a09116958295bc1be12284da0c44d0215">sw::Splitter</a> , 以及 <a class="el" href="classsw_1_1_window.html#aee39198d0ac1ca93d0cfca888d01a2a0">sw::Window</a> 重载.</p>
+
+</div>
+</div>
+<a id="adbd311b82650d35eba4f8eaad9cd6dea" name="adbd311b82650d35eba4f8eaad9cd6dea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbd311b82650d35eba4f8eaad9cd6dea">&#9670;&#160;</a></span>OnSetCursor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnSetCursor </td>
+          <td>(</td>
+          <td class="paramtype">HWND</td>          <td class="paramname"><span class="paramname"><em>hwnd</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">HitTestResult</td>          <td class="paramname"><span class="paramname"><em>hitTest</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_SETCURSOR消息时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hwnd</td><td>鼠标所在窗口的句柄 </td></tr>
+    <tr><td class="paramname">hitTest</td><td>hit-test的结果，详见WM_NCHITTEST消息的返回值 </td></tr>
+    <tr><td class="paramname">message</td><td>触发该事件的鼠标消息，如WM_MOUSEMOVE </td></tr>
+    <tr><td class="paramname">result</td><td>消息的返回值，默认为false </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值 </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#ab17abccfe26709090fcb081c6234515e">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="adb58c908f3a99fb8802d1013fda6a566" name="adb58c908f3a99fb8802d1013fda6a566"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb58c908f3a99fb8802d1013fda6a566">&#9670;&#160;</a></span>OnSetFocus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnSetFocus </td>
+          <td>(</td>
+          <td class="paramtype">HWND</td>          <td class="paramname"><span class="paramname"><em>hPrevFocus</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_SETFOCUS时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hPrevFocus</td><td>丢失焦点的hwnd，可能为NULL </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_button.html#ae7f58a1a78396cb181c64ee016b09d9a">sw::Button</a>, <a class="el" href="classsw_1_1_i_p_address_control.html#aceff2351d8e214af70e93abb4cc3212d">sw::IPAddressControl</a> , 以及 <a class="el" href="classsw_1_1_u_i_element.html#a934236bd3ac7ad17e4fdfa62ec0bf2c2">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a6756b17346c311b083a5f34de13ee05a" name="a6756b17346c311b083a5f34de13ee05a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6756b17346c311b083a5f34de13ee05a">&#9670;&#160;</a></span>OnSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnSize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_size.html">Size</a></td>          <td class="paramname"><span class="paramname"><em>newClientSize</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_SIZE时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newClientSize</td><td>改变后的用户区尺寸 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_bmp_box.html#ac0ed7124f3120dcbfcbcdaa95b3226af">sw::BmpBox</a>, <a class="el" href="classsw_1_1_hwnd_host.html#a7d6ace97faa1b4cb2ad0aa02d71d32e0">sw::HwndHost</a>, <a class="el" href="classsw_1_1_label.html#aa229afd2afff9746fb2d459466cfaea2">sw::Label</a>, <a class="el" href="classsw_1_1_panel.html#a65403359b283ff94df7981bc00327121">sw::Panel</a>, <a class="el" href="classsw_1_1_splitter.html#aeebe83dd20597217a3eb76cac45e7c4d">sw::Splitter</a> , 以及 <a class="el" href="classsw_1_1_u_i_element.html#a796c73cf100f6faa92d14e0cdff8dcc2">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="ac1065c6fc7e416f27a9872ef2d735d48" name="ac1065c6fc7e416f27a9872ef2d735d48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1065c6fc7e416f27a9872ef2d735d48">&#9670;&#160;</a></span>OnSysChar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnSysChar </td>
+          <td>(</td>
+          <td class="paramtype">wchar_t</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a></td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_SYSCHAR时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>按键的字符代码 </td></tr>
+    <tr><td class="paramname">flags</td><td>附加信息 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="a7621fed8750c965a038ee570f0c6ea00" name="a7621fed8750c965a038ee570f0c6ea00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7621fed8750c965a038ee570f0c6ea00">&#9670;&#160;</a></span>OnSysDeadChar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnSysDeadChar </td>
+          <td>(</td>
+          <td class="paramtype">wchar_t</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a></td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_SYSDEADCHAR时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>按键的字符代码 </td></tr>
+    <tr><td class="paramname">flags</td><td>附加信息 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="a8e7fa0fffbf59396981bac46b92d18cc" name="a8e7fa0fffbf59396981bac46b92d18cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e7fa0fffbf59396981bac46b92d18cc">&#9670;&#160;</a></span>OnSysKeyDown()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnSysKeyDown </td>
+          <td>(</td>
+          <td class="paramtype">VirtualKey</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a></td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_SYSKEYDOWN时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>虚拟按键 </td></tr>
+    <tr><td class="paramname">flags</td><td>附加信息 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="a274aa18aa0a43ef32d542f063a20218d" name="a274aa18aa0a43ef32d542f063a20218d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a274aa18aa0a43ef32d542f063a20218d">&#9670;&#160;</a></span>OnSysKeyUp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnSysKeyUp </td>
+          <td>(</td>
+          <td class="paramtype">VirtualKey</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsw_1_1_key_flags.html">KeyFlags</a></td>          <td class="paramname"><span class="paramname"><em>flags</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_SYSKEYUP时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>虚拟按键 </td></tr>
+    <tr><td class="paramname">flags</td><td>附加信息 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="aaf37a263d0b97fa43640ecd73adbc9af" name="aaf37a263d0b97fa43640ecd73adbc9af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf37a263d0b97fa43640ecd73adbc9af">&#9670;&#160;</a></span>OnTextChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::OnTextChanged </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Text属性更改时调用此函数 </p>
+
+<p>被 <a class="el" href="classsw_1_1_label.html#a6efa66772de6e89e4eff8b91216b6016">sw::Label</a>, <a class="el" href="classsw_1_1_sys_link.html#ae61b994ceebbe29380b6cc18d63eec85">sw::SysLink</a> , 以及 <a class="el" href="classsw_1_1_u_i_element.html#afc625a875118980fe302ee2441682439">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a2601c3ea34a1ce941c11b7055949e95e" name="a2601c3ea34a1ce941c11b7055949e95e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2601c3ea34a1ce941c11b7055949e95e">&#9670;&#160;</a></span>OnVerticalScroll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::OnVerticalScroll </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>event</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_VSCROLL时调用目标控件的该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>事件类型，即消息wParam的低字 </td></tr>
+    <tr><td class="paramname">pos</td><td>当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_layer.html#a505401a8b92fb8e7a9c75860c6a80816">sw::Layer</a>, <a class="el" href="classsw_1_1_panel_base.html#adcbd6fa0c4f009d08c1bd4c101f33295">sw::PanelBase</a> , 以及 <a class="el" href="classsw_1_1_slider.html#ac61e29ab7cc563c674f9f21f8a2f968a">sw::Slider</a> 重载.</p>
+
+</div>
+</div>
+<a id="af33074083224b890330466eebaba71e4" name="af33074083224b890330466eebaba71e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af33074083224b890330466eebaba71e4">&#9670;&#160;</a></span>ParentChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::ParentChanged </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> *</td>          <td class="paramname"><span class="paramname"><em>newParent</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>父窗口改变时调用此函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newParent</td><td>新的父窗口 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#aa006c6ee47616fedc3959b265d7ae476">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="af541b06ab641b55a691953b075693eb2" name="af541b06ab641b55a691953b075693eb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af541b06ab641b55a691953b075693eb2">&#9670;&#160;</a></span>PointFromScreen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsw_1_1_point.html">sw::Point</a> sw::WndBase::PointFromScreen </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1_point.html">Point</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>screenPoint</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取屏幕上点在当前用户区点的位置 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">screenPoint</td><td>屏幕上点的坐标 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>该点在用户区的坐标 </dd></dl>
+
+</div>
+</div>
+<a id="a1927e16b0881d37a3afce3932747a114" name="a1927e16b0881d37a3afce3932747a114"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1927e16b0881d37a3afce3932747a114">&#9670;&#160;</a></span>PointToScreen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsw_1_1_point.html">sw::Point</a> sw::WndBase::PointToScreen </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1_point.html">Point</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>point</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取用户区点在屏幕上点的位置 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">point</td><td>用户区坐标 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>该点在屏幕上的坐标 </dd></dl>
+
+</div>
+</div>
+<a id="a6c0e2c8a2900eff9e5a390e251ada042" name="a6c0e2c8a2900eff9e5a390e251ada042"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c0e2c8a2900eff9e5a390e251ada042">&#9670;&#160;</a></span>Redraw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::Redraw </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>erase</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>updateWindow</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>重画 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">erase</td><td>是否擦除旧的背景 </td></tr>
+    <tr><td class="paramname">updateWindow</td><td>是否调用UpdateWindow </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a05caaf7da3138fe9063f7a3e1088f9ac" name="a05caaf7da3138fe9063f7a3e1088f9ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05caaf7da3138fe9063f7a3e1088f9ac">&#9670;&#160;</a></span>SetExtendedStyle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::SetExtendedStyle </td>
+          <td>(</td>
+          <td class="paramtype">DWORD</td>          <td class="paramname"><span class="paramname"><em>mask</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>打开或关闭指定的扩展样式 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mask</td><td>扩展样式的位掩码，可以是多个扩展样式 </td></tr>
+    <tr><td class="paramname">value</td><td>是否启用指定的扩展样式 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aaf945166915bd75cb5b15779ff07e282" name="aaf945166915bd75cb5b15779ff07e282"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf945166915bd75cb5b15779ff07e282">&#9670;&#160;</a></span>SetParent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::WndBase::SetParent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> *</td>          <td class="paramname"><span class="paramname"><em>parent</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置父窗口 </p>
+<dl class="section return"><dt>返回</dt><dd>设置是否成功 </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#a4e7f65cc90de87fb7b05ef5fd830e3cd">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a34a1c2216b75bd9cd45d4a2e042b55c5" name="a34a1c2216b75bd9cd45d4a2e042b55c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34a1c2216b75bd9cd45d4a2e042b55c5">&#9670;&#160;</a></span>SetStyle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::SetStyle </td>
+          <td>(</td>
+          <td class="paramtype">DWORD</td>          <td class="paramname"><span class="paramname"><em>mask</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>打开或关闭指定的样式 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mask</td><td>样式的位掩码，可以是多个样式 </td></tr>
+    <tr><td class="paramname">value</td><td>是否启用指定的样式 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a186a4ed2d34414f88ff68cdcdffed330" name="a186a4ed2d34414f88ff68cdcdffed330"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a186a4ed2d34414f88ff68cdcdffed330">&#9670;&#160;</a></span>SetText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::SetText </td>
+          <td>(</td>
+          <td class="paramtype">const std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>调用SetWindowTextW设置窗口文本 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>要设置的文本 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>被 <a class="el" href="classsw_1_1_combo_box.html#a5530b33d355758d3357c4ca061afed04">sw::ComboBox</a> 重载.</p>
+
+</div>
+</div>
+<a id="ae0efb00c05f0f5201e298d90b52c9d66" name="ae0efb00c05f0f5201e298d90b52c9d66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0efb00c05f0f5201e298d90b52c9d66">&#9670;&#160;</a></span>ToUIElement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1_u_i_element.html">sw::UIElement</a> * sw::WndBase::ToUIElement </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>尝试将对象转换成UIElement </p>
+<dl class="section return"><dt>返回</dt><dd>若函数成功则返回UIElement指针，否则返回nullptr </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#a3547a036bf106108f5b843bd8fbd3b02">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a50c8c3fe0de4e38f886139f51970c750" name="a50c8c3fe0de4e38f886139f51970c750"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50c8c3fe0de4e38f886139f51970c750">&#9670;&#160;</a></span>VisibleChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::WndBase::VisibleChanged </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>newVisible</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Visible属性改变时调用此函数 </p>
+
+<p>被 <a class="el" href="classsw_1_1_u_i_element.html#af9fe441481d0639cbaa1404c58fe8214">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a44cfdf2958fb76e9a0180738d4e345ea" name="a44cfdf2958fb76e9a0180738d4e345ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44cfdf2958fb76e9a0180738d4e345ea">&#9670;&#160;</a></span>WndProc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">LRESULT sw::WndBase::WndProc </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1_proc_msg.html">ProcMsg</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>refMsg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>对WndProc的封装 </p>
+
+<p>被 <a class="el" href="classsw_1_1_window.html#a886c8b2204d56e235418525a0df54e40">sw::Window</a> 重载.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="_wnd_base_8h_source.html">WndBase.h</a></li>
+<li><b>WndBase.cpp</b></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>sw</b></li><li class="navelem"><a class="el" href="classsw_1_1_wnd_base.html">WndBase</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

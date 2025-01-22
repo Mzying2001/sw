@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: ListBox.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_list_box_8h_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ListBox.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;ItemsControl.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;List.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
+<div class="foldopen" id="foldopen00011" data-start="{" data-end="};">
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="classsw_1_1_list_box.html">   11</a></span>    <span class="keyword">class </span><a class="code hl_function" href="classsw_1_1_list_box.html#a479eeef30684198f09eaaa472def8550">ListBox</a> : <span class="keyword">public</span> StrItemsControl</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="classsw_1_1_list_box.html#a3fa1be9a1a9752e54d61cb6cadd1bc4a">   17</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;int&gt;</a> <a class="code hl_variable" href="classsw_1_1_list_box.html#a3fa1be9a1a9752e54d61cb6cadd1bc4a">TopIndex</a>;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classsw_1_1_list_box.html#ae9db46dd55f8f156d31cf5fa9ea3409c">   22</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_list_box.html#ae9db46dd55f8f156d31cf5fa9ea3409c">MultiSelect</a>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classsw_1_1_list_box.html#a6f921779be05ff24d598701feffd1705">   27</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_read_only_property.html">ReadOnlyProperty&lt;int&gt;</a> <a class="code hl_variable" href="classsw_1_1_list_box.html#a6f921779be05ff24d598701feffd1705">SelectedCount</a>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_function" href="classsw_1_1_list_box.html#a479eeef30684198f09eaaa472def8550">ListBox</a>();</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_list_box.html#ab6a43dcb3c8a5c3a71236abd5a8ecfbe">GetItemsCount</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_list_box.html#a506a17d2d56e10ba31ecdb53b20bfaa1">GetSelectedIndex</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_box.html#a87aef512e52b45ae893167a9132f4d1d">SetSelectedIndex</a>(<span class="keywordtype">int</span> index) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="keyword">virtual</span> std::wstring <a class="code hl_function" href="classsw_1_1_list_box.html#afc69c107560dc6d7af6d39cfe5558d93">GetSelectedItem</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_box.html#a5e8df9638b061531dae3396930be8964">OnContextMenu</a>(<span class="keywordtype">bool</span> isKeyboardMsg, <a class="code hl_struct" href="structsw_1_1_point.html">Point</a> mousePosition) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_box.html#a69d9434e5e1b954e4d7bc7fa1bc9715a">OnCommand</a>(<span class="keywordtype">int</span> code) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_box.html#a31f6453542fba2b5e3a782b583d2d3fb">Clear</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keyword">virtual</span> std::wstring <a class="code hl_function" href="classsw_1_1_list_box.html#a7379158453f047570fdb87f5947afa17">GetItemAt</a>(<span class="keywordtype">int</span> index) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_box.html#a1afd6130f37aebe667c2dcfa83f6554d">AddItem</a>(<span class="keyword">const</span> std::wstring &amp;item) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_box.html#a34ea543c6d07d34b9c8000662634507c">InsertItem</a>(<span class="keywordtype">int</span> index, <span class="keyword">const</span> std::wstring &amp;item) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_box.html#a849930163ac5f02460b2e5d51b034ac5">UpdateItem</a>(<span class="keywordtype">int</span> index, <span class="keyword">const</span> std::wstring &amp;newValue) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_box.html#a32acce40e46a597a102281ba4d61f220">RemoveItemAt</a>(<span class="keywordtype">int</span> index) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_list_box.html#aa6dd58ecf150a782c5c3ec8f4f3c0355">GetItemIndexFromPoint</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1_point.html">Point</a> &amp;point);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        <a class="code hl_class" href="classsw_1_1_list.html">List&lt;int&gt;</a> <a class="code hl_function" href="classsw_1_1_list_box.html#acb87c785b6969d99fe28bbdfb87eeaa7">GetSelectedIndices</a>();</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        StrList <a class="code hl_function" href="classsw_1_1_list_box.html#a081c032e47133e4592dcf7dc27634bcf">GetSelectedItems</a>();</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_box.html#aa8db114872f69e0be2f32bebba134b20">GetItemSelectionState</a>(<span class="keywordtype">int</span> index);</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_box.html#a1b4104d35b0bbe19239fdaa4f43dd956">SetItemSelectionState</a>(<span class="keywordtype">int</span> index, <span class="keywordtype">bool</span> value);</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    };</div>
+</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>}</div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a081c032e47133e4592dcf7dc27634bcf"><div class="ttname"><a href="classsw_1_1_list_box.html#a081c032e47133e4592dcf7dc27634bcf">sw::ListBox::GetSelectedItems</a></div><div class="ttdeci">StrList GetSelectedItems()</div><div class="ttdoc">多选状态下可通过该函数获取所有选中项的内容</div><div class="ttdef"><b>定义</b> ListBox.cpp:156</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a1afd6130f37aebe667c2dcfa83f6554d"><div class="ttname"><a href="classsw_1_1_list_box.html#a1afd6130f37aebe667c2dcfa83f6554d">sw::ListBox::AddItem</a></div><div class="ttdeci">virtual bool AddItem(const std::wstring &amp;item) override</div><div class="ttdoc">添加新的子项</div><div class="ttdef"><b>定义</b> ListBox.cpp:103</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a1b4104d35b0bbe19239fdaa4f43dd956"><div class="ttname"><a href="classsw_1_1_list_box.html#a1b4104d35b0bbe19239fdaa4f43dd956">sw::ListBox::SetItemSelectionState</a></div><div class="ttdeci">void SetItemSelectionState(int index, bool value)</div><div class="ttdoc">多选状态下设置指定索引处子项的选中状态</div><div class="ttdef"><b>定义</b> ListBox.cpp:170</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a31f6453542fba2b5e3a782b583d2d3fb"><div class="ttname"><a href="classsw_1_1_list_box.html#a31f6453542fba2b5e3a782b583d2d3fb">sw::ListBox::Clear</a></div><div class="ttdeci">virtual void Clear() override</div><div class="ttdoc">清空所有子项</div><div class="ttdef"><b>定义</b> ListBox.cpp:77</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a32acce40e46a597a102281ba4d61f220"><div class="ttname"><a href="classsw_1_1_list_box.html#a32acce40e46a597a102281ba4d61f220">sw::ListBox::RemoveItemAt</a></div><div class="ttdeci">virtual bool RemoveItemAt(int index) override</div><div class="ttdoc">移除指定索引处的子项</div><div class="ttdef"><b>定义</b> ListBox.cpp:129</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a34ea543c6d07d34b9c8000662634507c"><div class="ttname"><a href="classsw_1_1_list_box.html#a34ea543c6d07d34b9c8000662634507c">sw::ListBox::InsertItem</a></div><div class="ttdeci">virtual bool InsertItem(int index, const std::wstring &amp;item) override</div><div class="ttdoc">添加子项到指定索引</div><div class="ttdef"><b>定义</b> ListBox.cpp:110</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a3fa1be9a1a9752e54d61cb6cadd1bc4a"><div class="ttname"><a href="classsw_1_1_list_box.html#a3fa1be9a1a9752e54d61cb6cadd1bc4a">sw::ListBox::TopIndex</a></div><div class="ttdeci">const Property&lt; int &gt; TopIndex</div><div class="ttdoc">当前列表框页面第一个子项的索引</div><div class="ttdef"><b>定义</b> ListBox.h:17</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a479eeef30684198f09eaaa472def8550"><div class="ttname"><a href="classsw_1_1_list_box.html#a479eeef30684198f09eaaa472def8550">sw::ListBox::ListBox</a></div><div class="ttdeci">ListBox()</div><div class="ttdoc">初始化列表框</div><div class="ttdef"><b>定义</b> ListBox.cpp:3</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a506a17d2d56e10ba31ecdb53b20bfaa1"><div class="ttname"><a href="classsw_1_1_list_box.html#a506a17d2d56e10ba31ecdb53b20bfaa1">sw::ListBox::GetSelectedIndex</a></div><div class="ttdeci">virtual int GetSelectedIndex() override</div><div class="ttdoc">选中项的索引，当无选中项时为-1</div><div class="ttdef"><b>定义</b> ListBox.cpp:43</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a5e8df9638b061531dae3396930be8964"><div class="ttname"><a href="classsw_1_1_list_box.html#a5e8df9638b061531dae3396930be8964">sw::ListBox::OnContextMenu</a></div><div class="ttdeci">virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override</div><div class="ttdoc">接收到WM_CONTEXTMENU后调用目标控件的该函数</div><div class="ttdef"><b>定义</b> ListBox.cpp:59</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a69d9434e5e1b954e4d7bc7fa1bc9715a"><div class="ttname"><a href="classsw_1_1_list_box.html#a69d9434e5e1b954e4d7bc7fa1bc9715a">sw::ListBox::OnCommand</a></div><div class="ttdeci">virtual void OnCommand(int code) override</div><div class="ttdoc">当父窗口接收到控件的WM_COMMAND时调用该函数</div><div class="ttdef"><b>定义</b> ListBox.cpp:70</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a6f921779be05ff24d598701feffd1705"><div class="ttname"><a href="classsw_1_1_list_box.html#a6f921779be05ff24d598701feffd1705">sw::ListBox::SelectedCount</a></div><div class="ttdeci">const ReadOnlyProperty&lt; int &gt; SelectedCount</div><div class="ttdoc">多选状态下可通过该属性获取选中项的个数</div><div class="ttdef"><b>定义</b> ListBox.h:27</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a7379158453f047570fdb87f5947afa17"><div class="ttname"><a href="classsw_1_1_list_box.html#a7379158453f047570fdb87f5947afa17">sw::ListBox::GetItemAt</a></div><div class="ttdeci">virtual std::wstring GetItemAt(int index) override</div><div class="ttdoc">获取指定索引处子项的值</div><div class="ttdef"><b>定义</b> ListBox.cpp:82</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a849930163ac5f02460b2e5d51b034ac5"><div class="ttname"><a href="classsw_1_1_list_box.html#a849930163ac5f02460b2e5d51b034ac5">sw::ListBox::UpdateItem</a></div><div class="ttdeci">virtual bool UpdateItem(int index, const std::wstring &amp;newValue) override</div><div class="ttdoc">更新指定位置的子项</div><div class="ttdef"><b>定义</b> ListBox.cpp:117</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_a87aef512e52b45ae893167a9132f4d1d"><div class="ttname"><a href="classsw_1_1_list_box.html#a87aef512e52b45ae893167a9132f4d1d">sw::ListBox::SetSelectedIndex</a></div><div class="ttdeci">virtual void SetSelectedIndex(int index) override</div><div class="ttdoc">设置选中项索引</div><div class="ttdef"><b>定义</b> ListBox.cpp:48</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_aa6dd58ecf150a782c5c3ec8f4f3c0355"><div class="ttname"><a href="classsw_1_1_list_box.html#aa6dd58ecf150a782c5c3ec8f4f3c0355">sw::ListBox::GetItemIndexFromPoint</a></div><div class="ttdeci">int GetItemIndexFromPoint(const Point &amp;point)</div><div class="ttdoc">获取指定点处子项的索引</div><div class="ttdef"><b>定义</b> ListBox.cpp:136</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_aa8db114872f69e0be2f32bebba134b20"><div class="ttname"><a href="classsw_1_1_list_box.html#aa8db114872f69e0be2f32bebba134b20">sw::ListBox::GetItemSelectionState</a></div><div class="ttdeci">bool GetItemSelectionState(int index)</div><div class="ttdoc">获取指定索引处子项的选中状态</div><div class="ttdef"><b>定义</b> ListBox.cpp:165</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_ab6a43dcb3c8a5c3a71236abd5a8ecfbe"><div class="ttname"><a href="classsw_1_1_list_box.html#ab6a43dcb3c8a5c3a71236abd5a8ecfbe">sw::ListBox::GetItemsCount</a></div><div class="ttdeci">virtual int GetItemsCount() override</div><div class="ttdoc">获取子项数</div><div class="ttdef"><b>定义</b> ListBox.cpp:38</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_acb87c785b6969d99fe28bbdfb87eeaa7"><div class="ttname"><a href="classsw_1_1_list_box.html#acb87c785b6969d99fe28bbdfb87eeaa7">sw::ListBox::GetSelectedIndices</a></div><div class="ttdeci">List&lt; int &gt; GetSelectedIndices()</div><div class="ttdoc">多选状态下可通过该函数获取所有选中项的索引</div><div class="ttdef"><b>定义</b> ListBox.cpp:142</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_ae9db46dd55f8f156d31cf5fa9ea3409c"><div class="ttname"><a href="classsw_1_1_list_box.html#ae9db46dd55f8f156d31cf5fa9ea3409c">sw::ListBox::MultiSelect</a></div><div class="ttdeci">const Property&lt; bool &gt; MultiSelect</div><div class="ttdoc">是否允许多选，更新该属性会导致已添加的子项被清空</div><div class="ttdef"><b>定义</b> ListBox.h:22</div></div>
+<div class="ttc" id="aclasssw_1_1_list_box_html_afc69c107560dc6d7af6d39cfe5558d93"><div class="ttname"><a href="classsw_1_1_list_box.html#afc69c107560dc6d7af6d39cfe5558d93">sw::ListBox::GetSelectedItem</a></div><div class="ttdeci">virtual std::wstring GetSelectedItem() override</div><div class="ttdoc">获取选中项</div><div class="ttdef"><b>定义</b> ListBox.cpp:54</div></div>
+<div class="ttc" id="aclasssw_1_1_list_html"><div class="ttname"><a href="classsw_1_1_list.html">sw::List</a></div><div class="ttdoc">列表类，内部维护了一个指向std::vector的智能指针</div><div class="ttdef"><b>定义</b> List.h:24</div></div>
+<div class="ttc" id="aclasssw_1_1_property_html"><div class="ttname"><a href="classsw_1_1_property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>定义</b> Property.h:428</div></div>
+<div class="ttc" id="aclasssw_1_1_read_only_property_html"><div class="ttname"><a href="classsw_1_1_read_only_property.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>定义</b> Property.h:486</div></div>
+<div class="ttc" id="astructsw_1_1_point_html"><div class="ttname"><a href="structsw_1_1_point.html">sw::Point</a></div><div class="ttdoc">表示相对于左上角的点坐标</div><div class="ttdef"><b>定义</b> Point.h:11</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><b>ListBox.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

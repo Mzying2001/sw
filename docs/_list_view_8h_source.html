@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: ListView.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_list_view_8h_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ListView.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;ImageList.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;ItemsControl.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;List.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;CommCtrl.h&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>{</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keyword">enum class</span> ListViewImageList {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        Normal      = LVSIL_NORMAL,      <span class="comment">// 包含大图标的图像列表</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        Small       = LVSIL_SMALL,       <span class="comment">// 包含小图标的图像列表</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        State       = LVSIL_STATE,       <span class="comment">// 包含状态图像的图像列表</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        GroupHeader = LVSIL_GROUPHEADER, <span class="comment">// 组标头的图像列表</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    };</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">enum class</span> ListViewColumnAlignment {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        Left   = LVCFMT_LEFT,   <span class="comment">// 左对齐</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        Right  = LVCFMT_RIGHT,  <span class="comment">// 右对齐</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        Center = LVCFMT_CENTER, <span class="comment">// 居中</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    };</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span></div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="};">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="structsw_1_1_list_view_column.html">   32</a></span>    <span class="keyword">struct </span><a class="code hl_function" href="structsw_1_1_list_view_column.html#a995f2dcb3508ac3e1bb18d0039e09d8b">ListViewColumn</a> {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="structsw_1_1_list_view_column.html#a2fd382151fa269ec5f5042232cfb84f8">   36</a></span>        std::wstring <a class="code hl_variable" href="structsw_1_1_list_view_column.html#a2fd382151fa269ec5f5042232cfb84f8">header</a>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="structsw_1_1_list_view_column.html#abd8ec9f51310be92ec1ff113314e5257">   41</a></span>        <span class="keywordtype">double</span> <a class="code hl_variable" href="structsw_1_1_list_view_column.html#abd8ec9f51310be92ec1ff113314e5257">width</a>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="structsw_1_1_list_view_column.html#a073e675567add518aa85b5356d472cf9">   46</a></span>        ListViewColumnAlignment <a class="code hl_variable" href="structsw_1_1_list_view_column.html#a073e675567add518aa85b5356d472cf9">alignment</a> = ListViewColumnAlignment::Left;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <a class="code hl_function" href="structsw_1_1_list_view_column.html#a995f2dcb3508ac3e1bb18d0039e09d8b">ListViewColumn</a>(<span class="keyword">const</span> std::wstring &amp;<a class="code hl_variable" href="structsw_1_1_list_view_column.html#a2fd382151fa269ec5f5042232cfb84f8">header</a>);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <a class="code hl_function" href="structsw_1_1_list_view_column.html#a995f2dcb3508ac3e1bb18d0039e09d8b">ListViewColumn</a>(<span class="keyword">const</span> std::wstring &amp;<a class="code hl_variable" href="structsw_1_1_list_view_column.html#a2fd382151fa269ec5f5042232cfb84f8">header</a>, <span class="keywordtype">double</span> <a class="code hl_variable" href="structsw_1_1_list_view_column.html#abd8ec9f51310be92ec1ff113314e5257">width</a>);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <a class="code hl_function" href="structsw_1_1_list_view_column.html#a995f2dcb3508ac3e1bb18d0039e09d8b">ListViewColumn</a>(<span class="keyword">const</span> LVCOLUMNW &amp;lvc);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keyword">operator</span> LVCOLUMNW() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    };</div>
+</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span></div>
+<div class="foldopen" id="foldopen00072" data-start="{" data-end="};">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classsw_1_1_list_view.html">   72</a></span>    <span class="keyword">class </span><a class="code hl_function" href="classsw_1_1_list_view.html#a6f491872e0416f1ab65cdb3866009293">ListView</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1_items_control.html">ItemsControl</a>&lt;StrList&gt;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classsw_1_1_list_view.html#a0b84ba1066f16317e48629059b94ded8">   78</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_read_only_property.html">ReadOnlyProperty&lt;int&gt;</a> <a class="code hl_variable" href="classsw_1_1_list_view.html#a0b84ba1066f16317e48629059b94ded8">ColumnsCount</a>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classsw_1_1_list_view.html#ab3b05ee1d7f10c5abcc7b31facc5964b">   83</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_list_view.html#ab3b05ee1d7f10c5abcc7b31facc5964b">GridLines</a>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="classsw_1_1_list_view.html#a07b5ecb6c37936ae7b6cef9d68d7a541">   88</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_list_view.html#a07b5ecb6c37936ae7b6cef9d68d7a541">MultiSelect</a>;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="classsw_1_1_list_view.html#ae1e499b6f04912769eb8f4fe732ad35c">   93</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_read_only_property.html">ReadOnlyProperty&lt;int&gt;</a> <a class="code hl_variable" href="classsw_1_1_list_view.html#ae1e499b6f04912769eb8f4fe732ad35c">SelectedCount</a>;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="classsw_1_1_list_view.html#a6708aba4c056b8729c66fe39b4035b7b">   98</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_list_view.html#a6708aba4c056b8729c66fe39b4035b7b">CheckBoxes</a>;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="classsw_1_1_list_view.html#a4158ee431cd207fc45ef4212baf7b37a">  103</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_read_only_property.html">ReadOnlyProperty&lt;int&gt;</a> <a class="code hl_variable" href="classsw_1_1_list_view.html#a4158ee431cd207fc45ef4212baf7b37a">TopIndex</a>;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="classsw_1_1_list_view.html#acfb43542368bf6e08c732f5151222190">  108</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_list_view.html#acfb43542368bf6e08c732f5151222190">ShareImageLists</a>;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="classsw_1_1_list_view.html#a009e1ad93554e1993e48809f8f693123">  113</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_list_view.html#a009e1ad93554e1993e48809f8f693123">Editable</a>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <a class="code hl_function" href="classsw_1_1_list_view.html#a6f491872e0416f1ab65cdb3866009293">ListView</a>();</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a2af3bc80d3c4ccbac6f73955f482ffd6">GetItemsCount</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a96de7c5e2d303184020a49b11f8f3744">GetSelectedIndex</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a4bb0e6b9ce1944495667a347bf56eb3b">SetSelectedIndex</a>(<span class="keywordtype">int</span> index) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        <span class="keyword">virtual</span> StrList <a class="code hl_function" href="classsw_1_1_list_view.html#a90c0a84231a5e411c0a6e9b04892e56b">GetSelectedItem</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a37812e53c05995d7fe021b21c3b59818">SetBackColor</a>(<a class="code hl_struct" href="structsw_1_1_color.html">Color</a> color, <span class="keywordtype">bool</span> redraw) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a146e0e9beceeb16e44a908e3d871ce15">SetTextColor</a>(<a class="code hl_struct" href="structsw_1_1_color.html">Color</a> color, <span class="keywordtype">bool</span> redraw) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a5b9514599a04a141f72d3ceaa955a034">OnNotify</a>(NMHDR *pNMHDR, LRESULT &amp;result) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span></div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#aac687ebfeea20b23fbc7652ee5e478c6">OnNotified</a>(NMHDR *pNMHDR, LRESULT &amp;result) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a52e897558631a4a098b37c2affc644e8">OnItemChanged</a>(NMLISTVIEW *pNMLV);</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a945d1db6d244ba9bf6fd7d412df06a57">OnCheckStateChanged</a>(<span class="keywordtype">int</span> index);</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a0821d821becdc39ff9d1c520c5b3f17e">OnHeaderItemClicked</a>(NMHEADERW *pNMH);</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a185fa8882d7451b0deab30e0d7f7aa3b">OnHeaderItemDoubleClicked</a>(NMHEADERW *pNMH);</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_view.html#ab4a1987696ec562161ce6d37d43e0dad">OnItemClicked</a>(NMITEMACTIVATE *pNMIA);</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a2c124e2ae01ee729a2316add70e5ac6c">OnItemDoubleClicked</a>(NMITEMACTIVATE *pNMIA);</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span></div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a45a9c7d5149d65f70097d42fde78fd6b">OnGetDispInfo</a>(NMLVDISPINFOW *pNMInfo);</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span></div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#aea006c288bc577e72a61e956797c8eca">OnEndEdit</a>(NMLVDISPINFOW *pNMInfo);</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span></div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a45d73fe56192212476bae246cde224c8">OnCustomDraw</a>(NMLVCUSTOMDRAW *pNMCD, LRESULT &amp;result);</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_view.html#aa14ac5666a1f12f19764cd4ef6e14af3">Clear</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>        <span class="keyword">virtual</span> StrList <a class="code hl_function" href="classsw_1_1_list_view.html#a1c71a4c26401529c36c141069882664c">GetItemAt</a>(<span class="keywordtype">int</span> index) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span></div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#ad6be2d3ef7d5bd11ace28e74b16a5aa2">AddItem</a>(<span class="keyword">const</span> StrList &amp;item) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span></div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a44d28dd605543465d20ef4359243e938">InsertItem</a>(<span class="keywordtype">int</span> index, <span class="keyword">const</span> StrList &amp;item) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a98520b8288fc6c60ac4ff6f1898c8240">UpdateItem</a>(<span class="keywordtype">int</span> index, <span class="keyword">const</span> StrList &amp;newValue) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span></div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a0198d1f91bb72a405397054de52a2141">RemoveItemAt</a>(<span class="keywordtype">int</span> index) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span></div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>        <span class="keyword">virtual</span> std::wstring <a class="code hl_function" href="classsw_1_1_list_view.html#a1c71a4c26401529c36c141069882664c">GetItemAt</a>(<span class="keywordtype">int</span> row, <span class="keywordtype">int</span> col);</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span></div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a98520b8288fc6c60ac4ff6f1898c8240">UpdateItem</a>(<span class="keywordtype">int</span> row, <span class="keywordtype">int</span> col, <span class="keyword">const</span> std::wstring &amp;newValue);</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span></div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#abdc6fdb5bbe352fa0cfed2587260f6fc">AddColumn</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1_list_view_column.html">ListViewColumn</a> &amp;column);</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#abdc6fdb5bbe352fa0cfed2587260f6fc">AddColumn</a>(<span class="keyword">const</span> std::wstring &amp;header);</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span></div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a985c48bef310cdcb10b722c9aec8ebbf">InsertColumn</a>(<span class="keywordtype">int</span> index, <span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1_list_view_column.html">ListViewColumn</a> &amp;column);</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span></div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a985c48bef310cdcb10b722c9aec8ebbf">InsertColumn</a>(<span class="keywordtype">int</span> index, <span class="keyword">const</span> std::wstring &amp;header);</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span></div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a8ee454faaa1351526c069174589f5403">SetColumnHeader</a>(<span class="keywordtype">int</span> index, <span class="keyword">const</span> std::wstring &amp;header);</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span></div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>        <span class="keywordtype">double</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a35e0f172950516ae97ab0bbbfddbab14">GetColumnWidth</a>(<span class="keywordtype">int</span> index);</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span></div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a71c4c33a03aa2811a3fee6d7a9d0c2c3">SetColumnWidth</a>(<span class="keywordtype">int</span> index, <span class="keywordtype">double</span> width);</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span></div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a739a22388145f5bdc9d694e0a7cdf060">RemoveColumnAt</a>(<span class="keywordtype">int</span> index);</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span></div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>        <a class="code hl_class" href="classsw_1_1_list.html">List&lt;int&gt;</a> <a class="code hl_function" href="classsw_1_1_list_view.html#afbc306cca3c2711e1f1e04596ad60a46">GetSelectedIndices</a>();</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span></div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>        <a class="code hl_class" href="classsw_1_1_list.html">List&lt;int&gt;</a> <a class="code hl_function" href="classsw_1_1_list_view.html#a13bee08dab7dc7862c6b7645b5450039">GetCheckedIndices</a>();</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span></div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#ac34d4382c8e43346da5a67ebcf78f97f">GetItemCheckState</a>(<span class="keywordtype">int</span> index);</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span></div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_view.html#affa13393f8c08a2e1f1b9b4018ceef3f">SetItemCheckState</a>(<span class="keywordtype">int</span> index, <span class="keywordtype">bool</span> value);</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span></div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>        <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_list_view.html#aaa8be22cc91981886a241ca44c932c65">GetItemIndexFromPoint</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1_point.html">Point</a> &amp;point);</div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span></div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>        <a class="code hl_class" href="classsw_1_1_image_list.html">ImageList</a> <a class="code hl_function" href="classsw_1_1_list_view.html#a14dbb3da0797b39ec357bcef86024009">GetImageList</a>(ListViewImageList imageList);</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span></div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>        HIMAGELIST <a class="code hl_function" href="classsw_1_1_list_view.html#aff03d3c051b010336c8c047f48cbdd70">SetImageList</a>(ListViewImageList imageList, HIMAGELIST value);</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span></div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a41c8a24527a7bd25a68e317d388d5238">SetItemImage</a>(<span class="keywordtype">int</span> index, <span class="keywordtype">int</span> imgIndex);</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span></div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_list_view.html#ac9176a64ab6317f4c7114d9ac6adb94c">EditItem</a>(<span class="keywordtype">int</span> index);</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span></div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_list_view.html#a4bb086375d8bfc0318fe89e8a123a025">CancelEdit</a>();</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span> </div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>        <span class="keywordtype">int</span> _GetRowCount();</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span></div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>        <span class="keywordtype">int</span> _GetColCount();</div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span></div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>        DWORD _GetExtendedListViewStyle();</div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span></div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>        DWORD _SetExtendedListViewStyle(DWORD style);</div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>    };</div>
+</div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>};</div>
+<div class="ttc" id="aclasssw_1_1_image_list_html"><div class="ttname"><a href="classsw_1_1_image_list.html">sw::ImageList</a></div><div class="ttdoc">图像列表</div><div class="ttdef"><b>定义</b> ImageList.h:12</div></div>
+<div class="ttc" id="aclasssw_1_1_items_control_html"><div class="ttname"><a href="classsw_1_1_items_control.html">sw::ItemsControl</a></div><div class="ttdoc">表示可用于呈现一组项的控件</div><div class="ttdef"><b>定义</b> ItemsControl.h:20</div></div>
+<div class="ttc" id="aclasssw_1_1_list_html"><div class="ttname"><a href="classsw_1_1_list.html">sw::List</a></div><div class="ttdoc">列表类，内部维护了一个指向std::vector的智能指针</div><div class="ttdef"><b>定义</b> List.h:24</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a009e1ad93554e1993e48809f8f693123"><div class="ttname"><a href="classsw_1_1_list_view.html#a009e1ad93554e1993e48809f8f693123">sw::ListView::Editable</a></div><div class="ttdeci">const Property&lt; bool &gt; Editable</div><div class="ttdoc">是否允许编辑</div><div class="ttdef"><b>定义</b> ListView.h:113</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a0198d1f91bb72a405397054de52a2141"><div class="ttname"><a href="classsw_1_1_list_view.html#a0198d1f91bb72a405397054de52a2141">sw::ListView::RemoveItemAt</a></div><div class="ttdeci">virtual bool RemoveItemAt(int index) override</div><div class="ttdoc">移除指定索引处的子项</div><div class="ttdef"><b>定义</b> ListView.cpp:384</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a07b5ecb6c37936ae7b6cef9d68d7a541"><div class="ttname"><a href="classsw_1_1_list_view.html#a07b5ecb6c37936ae7b6cef9d68d7a541">sw::ListView::MultiSelect</a></div><div class="ttdeci">const Property&lt; bool &gt; MultiSelect</div><div class="ttdoc">是否允许多选</div><div class="ttdef"><b>定义</b> ListView.h:88</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a0821d821becdc39ff9d1c520c5b3f17e"><div class="ttname"><a href="classsw_1_1_list_view.html#a0821d821becdc39ff9d1c520c5b3f17e">sw::ListView::OnHeaderItemClicked</a></div><div class="ttdeci">virtual void OnHeaderItemClicked(NMHEADERW *pNMH)</div><div class="ttdoc">鼠标左键单击列标题时调用该函数</div><div class="ttdef"><b>定义</b> ListView.cpp:248</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a0b84ba1066f16317e48629059b94ded8"><div class="ttname"><a href="classsw_1_1_list_view.html#a0b84ba1066f16317e48629059b94ded8">sw::ListView::ColumnsCount</a></div><div class="ttdeci">const ReadOnlyProperty&lt; int &gt; ColumnsCount</div><div class="ttdoc">列数</div><div class="ttdef"><b>定义</b> ListView.h:78</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a13bee08dab7dc7862c6b7645b5450039"><div class="ttname"><a href="classsw_1_1_list_view.html#a13bee08dab7dc7862c6b7645b5450039">sw::ListView::GetCheckedIndices</a></div><div class="ttdeci">List&lt; int &gt; GetCheckedIndices()</div><div class="ttdoc">获取所有复选框选中的项的索引</div><div class="ttdef"><b>定义</b> ListView.cpp:485</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a146e0e9beceeb16e44a908e3d871ce15"><div class="ttname"><a href="classsw_1_1_list_view.html#a146e0e9beceeb16e44a908e3d871ce15">sw::ListView::SetTextColor</a></div><div class="ttdeci">virtual void SetTextColor(Color color, bool redraw) override</div><div class="ttdoc">设置文本颜色</div><div class="ttdef"><b>定义</b> ListView.cpp:176</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a14dbb3da0797b39ec357bcef86024009"><div class="ttname"><a href="classsw_1_1_list_view.html#a14dbb3da0797b39ec357bcef86024009">sw::ListView::GetImageList</a></div><div class="ttdeci">ImageList GetImageList(ListViewImageList imageList)</div><div class="ttdoc">获取列表视图的图像列表</div><div class="ttdef"><b>定义</b> ListView.cpp:515</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a185fa8882d7451b0deab30e0d7f7aa3b"><div class="ttname"><a href="classsw_1_1_list_view.html#a185fa8882d7451b0deab30e0d7f7aa3b">sw::ListView::OnHeaderItemDoubleClicked</a></div><div class="ttdeci">virtual void OnHeaderItemDoubleClicked(NMHEADERW *pNMH)</div><div class="ttdoc">鼠标左键双击列标题时调用该函数</div><div class="ttdef"><b>定义</b> ListView.cpp:254</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a1c71a4c26401529c36c141069882664c"><div class="ttname"><a href="classsw_1_1_list_view.html#a1c71a4c26401529c36c141069882664c">sw::ListView::GetItemAt</a></div><div class="ttdeci">virtual StrList GetItemAt(int index) override</div><div class="ttdoc">获取指定索引处子项的值</div><div class="ttdef"><b>定义</b> ListView.cpp:297</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a2af3bc80d3c4ccbac6f73955f482ffd6"><div class="ttname"><a href="classsw_1_1_list_view.html#a2af3bc80d3c4ccbac6f73955f482ffd6">sw::ListView::GetItemsCount</a></div><div class="ttdeci">virtual int GetItemsCount() override</div><div class="ttdoc">获取子项数</div><div class="ttdef"><b>定义</b> ListView.cpp:141</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a2c124e2ae01ee729a2316add70e5ac6c"><div class="ttname"><a href="classsw_1_1_list_view.html#a2c124e2ae01ee729a2316add70e5ac6c">sw::ListView::OnItemDoubleClicked</a></div><div class="ttdeci">virtual void OnItemDoubleClicked(NMITEMACTIVATE *pNMIA)</div><div class="ttdoc">鼠标左键双击某一项调用该函数</div><div class="ttdef"><b>定义</b> ListView.cpp:266</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a35e0f172950516ae97ab0bbbfddbab14"><div class="ttname"><a href="classsw_1_1_list_view.html#a35e0f172950516ae97ab0bbbfddbab14">sw::ListView::GetColumnWidth</a></div><div class="ttdeci">double GetColumnWidth(int index)</div><div class="ttdoc">获取指定列的宽度</div><div class="ttdef"><b>定义</b> ListView.cpp:458</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a37812e53c05995d7fe021b21c3b59818"><div class="ttname"><a href="classsw_1_1_list_view.html#a37812e53c05995d7fe021b21c3b59818">sw::ListView::SetBackColor</a></div><div class="ttdeci">virtual void SetBackColor(Color color, bool redraw) override</div><div class="ttdoc">设置背景颜色</div><div class="ttdef"><b>定义</b> ListView.cpp:169</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a4158ee431cd207fc45ef4212baf7b37a"><div class="ttname"><a href="classsw_1_1_list_view.html#a4158ee431cd207fc45ef4212baf7b37a">sw::ListView::TopIndex</a></div><div class="ttdeci">const ReadOnlyProperty&lt; int &gt; TopIndex</div><div class="ttdoc">当前列表框页面第一个子项的索引</div><div class="ttdef"><b>定义</b> ListView.h:103</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a41c8a24527a7bd25a68e317d388d5238"><div class="ttname"><a href="classsw_1_1_list_view.html#a41c8a24527a7bd25a68e317d388d5238">sw::ListView::SetItemImage</a></div><div class="ttdeci">bool SetItemImage(int index, int imgIndex)</div><div class="ttdoc">设置指定子项的图像</div><div class="ttdef"><b>定义</b> ListView.cpp:525</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a44d28dd605543465d20ef4359243e938"><div class="ttname"><a href="classsw_1_1_list_view.html#a44d28dd605543465d20ef4359243e938">sw::ListView::InsertItem</a></div><div class="ttdeci">virtual bool InsertItem(int index, const StrList &amp;item) override</div><div class="ttdoc">添加子项到指定索引</div><div class="ttdef"><b>定义</b> ListView.cpp:340</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a45a9c7d5149d65f70097d42fde78fd6b"><div class="ttname"><a href="classsw_1_1_list_view.html#a45a9c7d5149d65f70097d42fde78fd6b">sw::ListView::OnGetDispInfo</a></div><div class="ttdeci">virtual void OnGetDispInfo(NMLVDISPINFOW *pNMInfo)</div><div class="ttdoc">当OnNotified接收到LVN_GETDISPINFOW通知时调用该函数</div><div class="ttdef"><b>定义</b> ListView.cpp:272</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a45d73fe56192212476bae246cde224c8"><div class="ttname"><a href="classsw_1_1_list_view.html#a45d73fe56192212476bae246cde224c8">sw::ListView::OnCustomDraw</a></div><div class="ttdeci">virtual bool OnCustomDraw(NMLVCUSTOMDRAW *pNMCD, LRESULT &amp;result)</div><div class="ttdoc">当OnNotified接收到NM_CUSTOMDRAW通知时调用该函数</div><div class="ttdef"><b>定义</b> ListView.cpp:287</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a4bb086375d8bfc0318fe89e8a123a025"><div class="ttname"><a href="classsw_1_1_list_view.html#a4bb086375d8bfc0318fe89e8a123a025">sw::ListView::CancelEdit</a></div><div class="ttdeci">void CancelEdit()</div><div class="ttdoc">取消编辑</div><div class="ttdef"><b>定义</b> ListView.cpp:541</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a4bb0e6b9ce1944495667a347bf56eb3b"><div class="ttname"><a href="classsw_1_1_list_view.html#a4bb0e6b9ce1944495667a347bf56eb3b">sw::ListView::SetSelectedIndex</a></div><div class="ttdeci">virtual void SetSelectedIndex(int index) override</div><div class="ttdoc">设置选中项索引</div><div class="ttdef"><b>定义</b> ListView.cpp:151</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a52e897558631a4a098b37c2affc644e8"><div class="ttname"><a href="classsw_1_1_list_view.html#a52e897558631a4a098b37c2affc644e8">sw::ListView::OnItemChanged</a></div><div class="ttdeci">virtual void OnItemChanged(NMLISTVIEW *pNMLV)</div><div class="ttdoc">列表项某些属性发生变化时调用该函数</div><div class="ttdef"><b>定义</b> ListView.cpp:227</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a5b9514599a04a141f72d3ceaa955a034"><div class="ttname"><a href="classsw_1_1_list_view.html#a5b9514599a04a141f72d3ceaa955a034">sw::ListView::OnNotify</a></div><div class="ttdeci">virtual bool OnNotify(NMHDR *pNMHDR, LRESULT &amp;result) override</div><div class="ttdoc">接收到WM_NOTIFY后调用该函数</div><div class="ttdef"><b>定义</b> ListView.cpp:182</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a6708aba4c056b8729c66fe39b4035b7b"><div class="ttname"><a href="classsw_1_1_list_view.html#a6708aba4c056b8729c66fe39b4035b7b">sw::ListView::CheckBoxes</a></div><div class="ttdeci">const Property&lt; bool &gt; CheckBoxes</div><div class="ttdoc">是否在第一列显示复选框</div><div class="ttdef"><b>定义</b> ListView.h:98</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a6f491872e0416f1ab65cdb3866009293"><div class="ttname"><a href="classsw_1_1_list_view.html#a6f491872e0416f1ab65cdb3866009293">sw::ListView::ListView</a></div><div class="ttdeci">ListView()</div><div class="ttdoc">初始化ListView</div><div class="ttdef"><b>定义</b> ListView.cpp:60</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a71c4c33a03aa2811a3fee6d7a9d0c2c3"><div class="ttname"><a href="classsw_1_1_list_view.html#a71c4c33a03aa2811a3fee6d7a9d0c2c3">sw::ListView::SetColumnWidth</a></div><div class="ttdeci">bool SetColumnWidth(int index, double width)</div><div class="ttdoc">设置指定列的宽度</div><div class="ttdef"><b>定义</b> ListView.cpp:467</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a739a22388145f5bdc9d694e0a7cdf060"><div class="ttname"><a href="classsw_1_1_list_view.html#a739a22388145f5bdc9d694e0a7cdf060">sw::ListView::RemoveColumnAt</a></div><div class="ttdeci">bool RemoveColumnAt(int index)</div><div class="ttdoc">移除指定列</div><div class="ttdef"><b>定义</b> ListView.cpp:472</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a8ee454faaa1351526c069174589f5403"><div class="ttname"><a href="classsw_1_1_list_view.html#a8ee454faaa1351526c069174589f5403">sw::ListView::SetColumnHeader</a></div><div class="ttdeci">bool SetColumnHeader(int index, const std::wstring &amp;header)</div><div class="ttdoc">设置指定列的标题</div><div class="ttdef"><b>定义</b> ListView.cpp:450</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a90c0a84231a5e411c0a6e9b04892e56b"><div class="ttname"><a href="classsw_1_1_list_view.html#a90c0a84231a5e411c0a6e9b04892e56b">sw::ListView::GetSelectedItem</a></div><div class="ttdeci">virtual StrList GetSelectedItem() override</div><div class="ttdoc">获取选中项</div><div class="ttdef"><b>定义</b> ListView.cpp:164</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a945d1db6d244ba9bf6fd7d412df06a57"><div class="ttname"><a href="classsw_1_1_list_view.html#a945d1db6d244ba9bf6fd7d412df06a57">sw::ListView::OnCheckStateChanged</a></div><div class="ttdeci">virtual void OnCheckStateChanged(int index)</div><div class="ttdoc">复选框选中状态发生改变</div><div class="ttdef"><b>定义</b> ListView.cpp:242</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a96de7c5e2d303184020a49b11f8f3744"><div class="ttname"><a href="classsw_1_1_list_view.html#a96de7c5e2d303184020a49b11f8f3744">sw::ListView::GetSelectedIndex</a></div><div class="ttdeci">virtual int GetSelectedIndex() override</div><div class="ttdoc">选中项的索引，当无选中项时为-1</div><div class="ttdef"><b>定义</b> ListView.cpp:146</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a98520b8288fc6c60ac4ff6f1898c8240"><div class="ttname"><a href="classsw_1_1_list_view.html#a98520b8288fc6c60ac4ff6f1898c8240">sw::ListView::UpdateItem</a></div><div class="ttdeci">virtual bool UpdateItem(int index, const StrList &amp;newValue) override</div><div class="ttdoc">更新指定位置的子项</div><div class="ttdef"><b>定义</b> ListView.cpp:364</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_a985c48bef310cdcb10b722c9aec8ebbf"><div class="ttname"><a href="classsw_1_1_list_view.html#a985c48bef310cdcb10b722c9aec8ebbf">sw::ListView::InsertColumn</a></div><div class="ttdeci">bool InsertColumn(int index, const ListViewColumn &amp;column)</div><div class="ttdoc">添加新的列到指定索引</div><div class="ttdef"><b>定义</b> ListView.cpp:438</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_aa14ac5666a1f12f19764cd4ef6e14af3"><div class="ttname"><a href="classsw_1_1_list_view.html#aa14ac5666a1f12f19764cd4ef6e14af3">sw::ListView::Clear</a></div><div class="ttdeci">virtual void Clear() override</div><div class="ttdoc">清空所有子项</div><div class="ttdef"><b>定义</b> ListView.cpp:292</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_aaa8be22cc91981886a241ca44c932c65"><div class="ttname"><a href="classsw_1_1_list_view.html#aaa8be22cc91981886a241ca44c932c65">sw::ListView::GetItemIndexFromPoint</a></div><div class="ttdeci">int GetItemIndexFromPoint(const Point &amp;point)</div><div class="ttdoc">获取指定点处子项的索引</div><div class="ttdef"><b>定义</b> ListView.cpp:508</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_aac687ebfeea20b23fbc7652ee5e478c6"><div class="ttname"><a href="classsw_1_1_list_view.html#aac687ebfeea20b23fbc7652ee5e478c6">sw::ListView::OnNotified</a></div><div class="ttdeci">virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &amp;result) override</div><div class="ttdoc">父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数</div><div class="ttdef"><b>定义</b> ListView.cpp:197</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_ab3b05ee1d7f10c5abcc7b31facc5964b"><div class="ttname"><a href="classsw_1_1_list_view.html#ab3b05ee1d7f10c5abcc7b31facc5964b">sw::ListView::GridLines</a></div><div class="ttdeci">const Property&lt; bool &gt; GridLines</div><div class="ttdoc">是否显示网格线</div><div class="ttdef"><b>定义</b> ListView.h:83</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_ab4a1987696ec562161ce6d37d43e0dad"><div class="ttname"><a href="classsw_1_1_list_view.html#ab4a1987696ec562161ce6d37d43e0dad">sw::ListView::OnItemClicked</a></div><div class="ttdeci">virtual void OnItemClicked(NMITEMACTIVATE *pNMIA)</div><div class="ttdoc">鼠标左键单击某一项时调用该函数</div><div class="ttdef"><b>定义</b> ListView.cpp:260</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_abdc6fdb5bbe352fa0cfed2587260f6fc"><div class="ttname"><a href="classsw_1_1_list_view.html#abdc6fdb5bbe352fa0cfed2587260f6fc">sw::ListView::AddColumn</a></div><div class="ttdeci">bool AddColumn(const ListViewColumn &amp;column)</div><div class="ttdoc">添加新的列</div><div class="ttdef"><b>定义</b> ListView.cpp:427</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_ac34d4382c8e43346da5a67ebcf78f97f"><div class="ttname"><a href="classsw_1_1_list_view.html#ac34d4382c8e43346da5a67ebcf78f97f">sw::ListView::GetItemCheckState</a></div><div class="ttdeci">bool GetItemCheckState(int index)</div><div class="ttdoc">获取指定索引项的复选框是否选中</div><div class="ttdef"><b>定义</b> ListView.cpp:497</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_ac9176a64ab6317f4c7114d9ac6adb94c"><div class="ttname"><a href="classsw_1_1_list_view.html#ac9176a64ab6317f4c7114d9ac6adb94c">sw::ListView::EditItem</a></div><div class="ttdeci">bool EditItem(int index)</div><div class="ttdoc">进入编辑模式，调用该函数前需要将Editable属性设为true</div><div class="ttdef"><b>定义</b> ListView.cpp:536</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_acfb43542368bf6e08c732f5151222190"><div class="ttname"><a href="classsw_1_1_list_view.html#acfb43542368bf6e08c732f5151222190">sw::ListView::ShareImageLists</a></div><div class="ttdeci">const Property&lt; bool &gt; ShareImageLists</div><div class="ttdoc">允许将同一图像列表与多个列表视图控件配合使用，控件销毁时若该属性为true则不会销毁图像列表</div><div class="ttdef"><b>定义</b> ListView.h:108</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_ad6be2d3ef7d5bd11ace28e74b16a5aa2"><div class="ttname"><a href="classsw_1_1_list_view.html#ad6be2d3ef7d5bd11ace28e74b16a5aa2">sw::ListView::AddItem</a></div><div class="ttdeci">virtual bool AddItem(const StrList &amp;item) override</div><div class="ttdoc">添加新的子项</div><div class="ttdef"><b>定义</b> ListView.cpp:335</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_ae1e499b6f04912769eb8f4fe732ad35c"><div class="ttname"><a href="classsw_1_1_list_view.html#ae1e499b6f04912769eb8f4fe732ad35c">sw::ListView::SelectedCount</a></div><div class="ttdeci">const ReadOnlyProperty&lt; int &gt; SelectedCount</div><div class="ttdoc">多选状态下可通过该属性获取选中项的个数</div><div class="ttdef"><b>定义</b> ListView.h:93</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_aea006c288bc577e72a61e956797c8eca"><div class="ttname"><a href="classsw_1_1_list_view.html#aea006c288bc577e72a61e956797c8eca">sw::ListView::OnEndEdit</a></div><div class="ttdeci">virtual bool OnEndEdit(NMLVDISPINFOW *pNMInfo)</div><div class="ttdoc">编辑状态结束后调用该函数</div><div class="ttdef"><b>定义</b> ListView.cpp:276</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_afbc306cca3c2711e1f1e04596ad60a46"><div class="ttname"><a href="classsw_1_1_list_view.html#afbc306cca3c2711e1f1e04596ad60a46">sw::ListView::GetSelectedIndices</a></div><div class="ttdeci">List&lt; int &gt; GetSelectedIndices()</div><div class="ttdoc">获取所有选中项的索引</div><div class="ttdef"><b>定义</b> ListView.cpp:477</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_aff03d3c051b010336c8c047f48cbdd70"><div class="ttname"><a href="classsw_1_1_list_view.html#aff03d3c051b010336c8c047f48cbdd70">sw::ListView::SetImageList</a></div><div class="ttdeci">HIMAGELIST SetImageList(ListViewImageList imageList, HIMAGELIST value)</div><div class="ttdoc">设置列表视图的图像列表</div><div class="ttdef"><b>定义</b> ListView.cpp:520</div></div>
+<div class="ttc" id="aclasssw_1_1_list_view_html_affa13393f8c08a2e1f1b9b4018ceef3f"><div class="ttname"><a href="classsw_1_1_list_view.html#affa13393f8c08a2e1f1b9b4018ceef3f">sw::ListView::SetItemCheckState</a></div><div class="ttdeci">void SetItemCheckState(int index, bool value)</div><div class="ttdoc">设置指定索引项复选框的选中状态</div><div class="ttdef"><b>定义</b> ListView.cpp:503</div></div>
+<div class="ttc" id="aclasssw_1_1_property_html"><div class="ttname"><a href="classsw_1_1_property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>定义</b> Property.h:428</div></div>
+<div class="ttc" id="aclasssw_1_1_read_only_property_html"><div class="ttname"><a href="classsw_1_1_read_only_property.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>定义</b> Property.h:486</div></div>
+<div class="ttc" id="astructsw_1_1_color_html"><div class="ttname"><a href="structsw_1_1_color.html">sw::Color</a></div><div class="ttdoc">颜色</div><div class="ttdef"><b>定义</b> Color.h:12</div></div>
+<div class="ttc" id="astructsw_1_1_list_view_column_html"><div class="ttname"><a href="structsw_1_1_list_view_column.html">sw::ListViewColumn</a></div><div class="ttdoc">列表视图的列信息</div><div class="ttdef"><b>定义</b> ListView.h:32</div></div>
+<div class="ttc" id="astructsw_1_1_list_view_column_html_a073e675567add518aa85b5356d472cf9"><div class="ttname"><a href="structsw_1_1_list_view_column.html#a073e675567add518aa85b5356d472cf9">sw::ListViewColumn::alignment</a></div><div class="ttdeci">ListViewColumnAlignment alignment</div><div class="ttdoc">对齐方式</div><div class="ttdef"><b>定义</b> ListView.h:46</div></div>
+<div class="ttc" id="astructsw_1_1_list_view_column_html_a2fd382151fa269ec5f5042232cfb84f8"><div class="ttname"><a href="structsw_1_1_list_view_column.html#a2fd382151fa269ec5f5042232cfb84f8">sw::ListViewColumn::header</a></div><div class="ttdeci">std::wstring header</div><div class="ttdoc">列标题</div><div class="ttdef"><b>定义</b> ListView.h:36</div></div>
+<div class="ttc" id="astructsw_1_1_list_view_column_html_a995f2dcb3508ac3e1bb18d0039e09d8b"><div class="ttname"><a href="structsw_1_1_list_view_column.html#a995f2dcb3508ac3e1bb18d0039e09d8b">sw::ListViewColumn::ListViewColumn</a></div><div class="ttdeci">ListViewColumn(const std::wstring &amp;header)</div><div class="ttdoc">构造函数</div><div class="ttdef"><b>定义</b> ListView.cpp:8</div></div>
+<div class="ttc" id="astructsw_1_1_list_view_column_html_abd8ec9f51310be92ec1ff113314e5257"><div class="ttname"><a href="structsw_1_1_list_view_column.html#abd8ec9f51310be92ec1ff113314e5257">sw::ListViewColumn::width</a></div><div class="ttdeci">double width</div><div class="ttdoc">列宽度</div><div class="ttdef"><b>定义</b> ListView.h:41</div></div>
+<div class="ttc" id="astructsw_1_1_point_html"><div class="ttname"><a href="structsw_1_1_point.html">sw::Point</a></div><div class="ttdoc">表示相对于左上角的点坐标</div><div class="ttdef"><b>定义</b> Point.h:11</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><b>ListView.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

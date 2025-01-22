@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: MenuBase.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_menu_base_8h_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">MenuBase.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;MenuItem.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;Windows.h&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;initializer_list&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;map&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;tuple&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>{</div>
+<div class="foldopen" id="foldopen00016" data-start="{" data-end="};">
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html">   16</a></span>    <span class="keyword">class </span><a class="code hl_function" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">MenuBase</a></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keyword">struct </span>_MenuItemDependencyInfo {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            HMENU hParent; <span class="comment">// 所在菜单的句柄</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            HMENU hSelf;   <span class="comment">// 若本身含有子项，则此项为本身的菜单句柄，否则为NULL</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            <span class="keywordtype">int</span> index;     <span class="comment">// 所在菜单中的索引</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        };</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        HMENU _hMenu = NULL;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        std::vector&lt;std::shared_ptr&lt;MenuItem&gt;&gt; _items;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        std::vector&lt;std::tuple&lt;std::shared_ptr&lt;MenuItem&gt;, HMENU&gt;&gt; _popupMenus;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        std::vector&lt;std::shared_ptr&lt;MenuItem&gt;&gt; _ids;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        std::map&lt;MenuItem *, _MenuItemDependencyInfo&gt; _dependencyInfoMap;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <a class="code hl_function" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">MenuBase</a>(HMENU hMenu);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <a class="code hl_function" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">MenuBase</a>(<span class="keyword">const</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">MenuBase</a> &amp;)            = <span class="keyword">delete</span>; <span class="comment">// 删除拷贝构造函数</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <a class="code hl_function" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">MenuBase</a>(<a class="code hl_function" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">MenuBase</a> &amp;&amp;)                 = <span class="keyword">delete</span>; <span class="comment">// 删除移动构造函数</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <a class="code hl_function" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">MenuBase</a> &amp;operator=(<span class="keyword">const</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">MenuBase</a> &amp;) = <span class="keyword">delete</span>; <span class="comment">// 删除拷贝赋值运算符</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <a class="code hl_function" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">MenuBase</a> &amp;operator=(<a class="code hl_function" href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">MenuBase</a> &amp;&amp;)      = <span class="keyword">delete</span>; <span class="comment">// 删除移动赋值运算符</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keyword">virtual</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#abde93ccb3c829385d8e15f6ee1a36d0f">~MenuBase</a>();</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        HMENU <a class="code hl_function" href="classsw_1_1_menu_base.html#a7f18755d0245d1e8c536438b5ec99093">GetHandle</a>();</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#aa5e31e8a7e3f1744fec35acfdce47b2e">Update</a>();</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a1aec7eb5fee274eed8a9a49179383a94">SetItems</a>(std::initializer_list&lt;MenuItem&gt; items);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a2f4d2832b6bcc759e291a99278b3eb12">SetSubItems</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, std::initializer_list&lt;MenuItem&gt; subItems);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a300bc76b5be03814cb8fa534a3a74cfe">AddItem</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item);</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#aa48a89a167974e8a7397ffe6058c475f">AddSubItem</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;subItem);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a75c96dd59694d38a9ea59e3973cd5bea">RemoveItem</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *<a class="code hl_function" href="classsw_1_1_menu_base.html#ac066dc1f3a24c60bb8d987b4ee388491">GetMenuItem</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *<a class="code hl_function" href="classsw_1_1_menu_base.html#ac066dc1f3a24c60bb8d987b4ee388491">GetMenuItem</a>(std::initializer_list&lt;int&gt; path);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *<a class="code hl_function" href="classsw_1_1_menu_base.html#ac066dc1f3a24c60bb8d987b4ee388491">GetMenuItem</a>(std::initializer_list&lt;std::wstring&gt; path);</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *<a class="code hl_function" href="classsw_1_1_menu_base.html#a4d96d8a914f772cd42224f3211c3f1c1">GetMenuItemByTag</a>(uint64_t tag);</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *<a class="code hl_function" href="classsw_1_1_menu_base.html#abdcb26f2b27d4acc0a1a9188adf86d47">GetParent</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item);</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#ab610a8a98e4bf6f199fe7706dbb57f4d">GetEnabled</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, <span class="keywordtype">bool</span> &amp;out);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a537663148790e0516c1a2aca7b02afd1">SetEnabled</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, <span class="keywordtype">bool</span> value);</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a2a631549b5be6a41f8a24342a880826d">GetChecked</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, <span class="keywordtype">bool</span> &amp;out);</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a114b4fe9eb2cd543c605479198d67517">SetChecked</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, <span class="keywordtype">bool</span> value);</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a9f9fb3eda715d2c71e3e4a1b0562bac8">SetText</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, <span class="keyword">const</span> std::wstring &amp;value);</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#ad9660cec7666003c520171dc44e85c13">SetBitmap</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, HBITMAP hBitmap);</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a7795d9c4dd7dca16341249fab6f9cfb9">SetCheckBitmap</a>(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item, HBITMAP hBmpUnchecked, HBITMAP hBmpChecked);</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>        <span class="keywordtype">void</span> _ClearAddedItems();</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span></div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        <span class="keywordtype">void</span> _AppendMenuItem(HMENU hMenu, std::shared_ptr&lt;MenuItem&gt; pItem, <span class="keywordtype">int</span> index);</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>        _MenuItemDependencyInfo *_GetMenuItemDependencyInfo(<a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> &amp;item);</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        <a class="code hl_class" href="classsw_1_1_menu_item.html">MenuItem</a> *_GetMenuItemByTag(std::vector&lt;std::shared_ptr&lt;MenuItem&gt;&gt; &amp;items, uint64_t tag);</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a9f94aca19decada231feeed33ab19743">  242</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a9f94aca19decada231feeed33ab19743">IndexToID</a>(<span class="keywordtype">int</span> index) = 0;</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span></div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno"><a class="line" href="classsw_1_1_menu_base.html#a84c15b6a20df581e6aed4b9df9e84f9a">  249</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_menu_base.html#a84c15b6a20df581e6aed4b9df9e84f9a">IDToIndex</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>) = 0;</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    };</div>
+</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>}</div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_a114b4fe9eb2cd543c605479198d67517"><div class="ttname"><a href="classsw_1_1_menu_base.html#a114b4fe9eb2cd543c605479198d67517">sw::MenuBase::SetChecked</a></div><div class="ttdeci">bool SetChecked(MenuItem &amp;item, bool value)</div><div class="ttdoc">设置菜单项是否选中</div><div class="ttdef"><b>定义</b> MenuBase.cpp:309</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_a1aec7eb5fee274eed8a9a49179383a94"><div class="ttname"><a href="classsw_1_1_menu_base.html#a1aec7eb5fee274eed8a9a49179383a94">sw::MenuBase::SetItems</a></div><div class="ttdeci">void SetItems(std::initializer_list&lt; MenuItem &gt; items)</div><div class="ttdoc">初始化菜单并添加菜单项</div><div class="ttdef"><b>定义</b> MenuBase.cpp:32</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_a2a631549b5be6a41f8a24342a880826d"><div class="ttname"><a href="classsw_1_1_menu_base.html#a2a631549b5be6a41f8a24342a880826d">sw::MenuBase::GetChecked</a></div><div class="ttdeci">bool GetChecked(MenuItem &amp;item, bool &amp;out)</div><div class="ttdoc">获取一个值，表示菜单项是否选中</div><div class="ttdef"><b>定义</b> MenuBase.cpp:289</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_a2f4d2832b6bcc759e291a99278b3eb12"><div class="ttname"><a href="classsw_1_1_menu_base.html#a2f4d2832b6bcc759e291a99278b3eb12">sw::MenuBase::SetSubItems</a></div><div class="ttdeci">bool SetSubItems(MenuItem &amp;item, std::initializer_list&lt; MenuItem &gt; subItems)</div><div class="ttdoc">重新设置当前菜单中某个菜单项的子项</div><div class="ttdef"><b>定义</b> MenuBase.cpp:44</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_a300bc76b5be03814cb8fa534a3a74cfe"><div class="ttname"><a href="classsw_1_1_menu_base.html#a300bc76b5be03814cb8fa534a3a74cfe">sw::MenuBase::AddItem</a></div><div class="ttdeci">void AddItem(const MenuItem &amp;item)</div><div class="ttdoc">添加新的菜单项到菜单</div><div class="ttdef"><b>定义</b> MenuBase.cpp:74</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_a4d96d8a914f772cd42224f3211c3f1c1"><div class="ttname"><a href="classsw_1_1_menu_base.html#a4d96d8a914f772cd42224f3211c3f1c1">sw::MenuBase::GetMenuItemByTag</a></div><div class="ttdeci">MenuItem * GetMenuItemByTag(uint64_t tag)</div><div class="ttdoc">通过tag值获取菜单项</div><div class="ttdef"><b>定义</b> MenuBase.cpp:222</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_a537663148790e0516c1a2aca7b02afd1"><div class="ttname"><a href="classsw_1_1_menu_base.html#a537663148790e0516c1a2aca7b02afd1">sw::MenuBase::SetEnabled</a></div><div class="ttdeci">bool SetEnabled(MenuItem &amp;item, bool value)</div><div class="ttdoc">设置菜单项是否可用</div><div class="ttdef"><b>定义</b> MenuBase.cpp:264</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_a75c96dd59694d38a9ea59e3973cd5bea"><div class="ttname"><a href="classsw_1_1_menu_base.html#a75c96dd59694d38a9ea59e3973cd5bea">sw::MenuBase::RemoveItem</a></div><div class="ttdeci">bool RemoveItem(MenuItem &amp;item)</div><div class="ttdoc">移除当前菜单中的某个子项</div><div class="ttdef"><b>定义</b> MenuBase.cpp:101</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_a7795d9c4dd7dca16341249fab6f9cfb9"><div class="ttname"><a href="classsw_1_1_menu_base.html#a7795d9c4dd7dca16341249fab6f9cfb9">sw::MenuBase::SetCheckBitmap</a></div><div class="ttdeci">bool SetCheckBitmap(MenuItem &amp;item, HBITMAP hBmpUnchecked, HBITMAP hBmpChecked)</div><div class="ttdoc">设置菜单不同选中状态下显示的位图</div><div class="ttdef"><b>定义</b> MenuBase.cpp:372</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_a7f18755d0245d1e8c536438b5ec99093"><div class="ttname"><a href="classsw_1_1_menu_base.html#a7f18755d0245d1e8c536438b5ec99093">sw::MenuBase::GetHandle</a></div><div class="ttdeci">HMENU GetHandle()</div><div class="ttdoc">获取菜单句柄</div><div class="ttdef"><b>定义</b> MenuBase.cpp:17</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_a84c15b6a20df581e6aed4b9df9e84f9a"><div class="ttname"><a href="classsw_1_1_menu_base.html#a84c15b6a20df581e6aed4b9df9e84f9a">sw::MenuBase::IDToIndex</a></div><div class="ttdeci">virtual int IDToIndex(int id)=0</div><div class="ttdoc">根据ID获取索引</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_a9f94aca19decada231feeed33ab19743"><div class="ttname"><a href="classsw_1_1_menu_base.html#a9f94aca19decada231feeed33ab19743">sw::MenuBase::IndexToID</a></div><div class="ttdeci">virtual int IndexToID(int index)=0</div><div class="ttdoc">根据索引获取ID</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_a9f9fb3eda715d2c71e3e4a1b0562bac8"><div class="ttname"><a href="classsw_1_1_menu_base.html#a9f9fb3eda715d2c71e3e4a1b0562bac8">sw::MenuBase::SetText</a></div><div class="ttdeci">bool SetText(MenuItem &amp;item, const std::wstring &amp;value)</div><div class="ttdoc">设置菜单项文本</div><div class="ttdef"><b>定义</b> MenuBase.cpp:334</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_aa48a89a167974e8a7397ffe6058c475f"><div class="ttname"><a href="classsw_1_1_menu_base.html#aa48a89a167974e8a7397ffe6058c475f">sw::MenuBase::AddSubItem</a></div><div class="ttdeci">bool AddSubItem(MenuItem &amp;item, const MenuItem &amp;subItem)</div><div class="ttdoc">像当前菜单中的某个菜单项添加新的子项</div><div class="ttdef"><b>定义</b> MenuBase.cpp:81</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_aa5e31e8a7e3f1744fec35acfdce47b2e"><div class="ttname"><a href="classsw_1_1_menu_base.html#aa5e31e8a7e3f1744fec35acfdce47b2e">sw::MenuBase::Update</a></div><div class="ttdeci">void Update()</div><div class="ttdoc">更新菜单，该操作会导致菜单项的Enabled、Checked等恢复到初始状态</div><div class="ttdef"><b>定义</b> MenuBase.cpp:22</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_ab610a8a98e4bf6f199fe7706dbb57f4d"><div class="ttname"><a href="classsw_1_1_menu_base.html#ab610a8a98e4bf6f199fe7706dbb57f4d">sw::MenuBase::GetEnabled</a></div><div class="ttdeci">bool GetEnabled(MenuItem &amp;item, bool &amp;out)</div><div class="ttdoc">获取一个值，表示菜单项是否可用</div><div class="ttdef"><b>定义</b> MenuBase.cpp:244</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_abdcb26f2b27d4acc0a1a9188adf86d47"><div class="ttname"><a href="classsw_1_1_menu_base.html#abdcb26f2b27d4acc0a1a9188adf86d47">sw::MenuBase::GetParent</a></div><div class="ttdeci">MenuItem * GetParent(MenuItem &amp;item)</div><div class="ttdoc">获取当前菜单中指定菜单项的直接父菜单项</div><div class="ttdef"><b>定义</b> MenuBase.cpp:227</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_abde93ccb3c829385d8e15f6ee1a36d0f"><div class="ttname"><a href="classsw_1_1_menu_base.html#abde93ccb3c829385d8e15f6ee1a36d0f">sw::MenuBase::~MenuBase</a></div><div class="ttdeci">virtual ~MenuBase()</div><div class="ttdoc">释放资源</div><div class="ttdef"><b>定义</b> MenuBase.cpp:8</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_ac066dc1f3a24c60bb8d987b4ee388491"><div class="ttname"><a href="classsw_1_1_menu_base.html#ac066dc1f3a24c60bb8d987b4ee388491">sw::MenuBase::GetMenuItem</a></div><div class="ttdeci">MenuItem * GetMenuItem(int id)</div><div class="ttdoc">通过id获取菜单项</div><div class="ttdef"><b>定义</b> MenuBase.cpp:142</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_ad43a6100a635a765a80d603d7226d978"><div class="ttname"><a href="classsw_1_1_menu_base.html#ad43a6100a635a765a80d603d7226d978">sw::MenuBase::MenuBase</a></div><div class="ttdeci">MenuBase(HMENU hMenu)</div><div class="ttdoc">初始化菜单</div><div class="ttdef"><b>定义</b> MenuBase.cpp:3</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_base_html_ad9660cec7666003c520171dc44e85c13"><div class="ttname"><a href="classsw_1_1_menu_base.html#ad9660cec7666003c520171dc44e85c13">sw::MenuBase::SetBitmap</a></div><div class="ttdeci">bool SetBitmap(MenuItem &amp;item, HBITMAP hBitmap)</div><div class="ttdoc">设置菜单项要显示的位图</div><div class="ttdef"><b>定义</b> MenuBase.cpp:356</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_item_html"><div class="ttname"><a href="classsw_1_1_menu_item.html">sw::MenuItem</a></div><div class="ttdoc">菜单项</div><div class="ttdef"><b>定义</b> MenuItem.h:24</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><b>MenuBase.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

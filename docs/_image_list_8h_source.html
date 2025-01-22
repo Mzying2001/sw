@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: ImageList.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_image_list_8h_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ImageList.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Dip.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;CommCtrl.h&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
+<div class="foldopen" id="foldopen00011" data-start="{" data-end="};">
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="classsw_1_1_image_list.html">   11</a></span>    <span class="keyword">class </span><a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        HIMAGELIST _hImageList;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keywordtype">bool</span> _isWrap;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a>(HIMAGELIST hImageList, <span class="keywordtype">bool</span> isWrap);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a>(<span class="keywordtype">int</span> cx, <span class="keywordtype">int</span> cy, UINT flags, <span class="keywordtype">int</span> cInitial, <span class="keywordtype">int</span> cGrow);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a>(<span class="keyword">const</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> &amp;value);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a>(<a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> &amp;&amp;rvalue);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keyword">virtual</span> <a class="code hl_function" href="classsw_1_1_image_list.html#af192780c179366e3151699a90902f9e0">~ImageList</a>();</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> &amp;<a class="code hl_function" href="classsw_1_1_image_list.html#a43f2aa3ce9236b6a6847615bcbce111c">operator=</a>(<span class="keyword">const</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> &amp;value);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> &amp;<a class="code hl_function" href="classsw_1_1_image_list.html#a43f2aa3ce9236b6a6847615bcbce111c">operator=</a>(<a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> &amp;&amp;rvalue);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keyword">static</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> <a class="code hl_function" href="classsw_1_1_image_list.html#adbe8bce112c740b4bb3abe8ead9ad979">Create</a>(<span class="keywordtype">int</span> cx, <span class="keywordtype">int</span> cy, UINT flags, <span class="keywordtype">int</span> cInitial, <span class="keywordtype">int</span> cGrow);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keyword">static</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> <a class="code hl_function" href="classsw_1_1_image_list.html#a9edb28306237cc3aaa2061f80eeaa766">Wrap</a>(HIMAGELIST hImageList);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a0a2e705b291d66b3e8aee42013cc2e5d">Copy</a>(<span class="keyword">const</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> &amp;dst, <span class="keywordtype">int</span> iDst, <span class="keyword">const</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> &amp;src, <span class="keywordtype">int</span> iSrc, UINT uFlags);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a11b72ad5d981877895d9fd9754c405ff">DragEnter</a>(HWND hwndLock, <span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a92321f3f8c35fccb097c522886bc49c0">DragLeave</a>(HWND hwndLock);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a5a5a11321cd1b727e22e63841d992a5b">DragMove</a>(<span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#af3297011886bb266f1635a0adde46c1d">DragShowNolock</a>(<span class="keywordtype">bool</span> fShow);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a30f46046b3c05159c305afae9d9caebd">EndDrag</a>();</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keyword">static</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> <a class="code hl_function" href="classsw_1_1_image_list.html#ae1e4bac704108429670521881dc0b6c8">GetDragImage</a>(POINT *ppt, POINT *pptHotspot);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        <span class="keyword">static</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> <a class="code hl_function" href="classsw_1_1_image_list.html#ab893e209beb900a19b20d1ff80729321">LoadImageA</a>(HINSTANCE hi, LPCSTR lpbmp, <span class="keywordtype">int</span> cx, <span class="keywordtype">int</span> cGrow, COLORREF crMask, UINT uType, UINT uFlags);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <span class="keyword">static</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> <a class="code hl_function" href="classsw_1_1_image_list.html#af4db1102c479846defd93e6f18c7e942">LoadImageW</a>(HINSTANCE hi, LPCWSTR lpbmp, <span class="keywordtype">int</span> cx, <span class="keywordtype">int</span> cGrow, COLORREF crMask, UINT uType, UINT uFlags);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="keyword">static</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> <a class="code hl_function" href="classsw_1_1_image_list.html#a8995e4832511229ae27786329fa8be15">Merge</a>(<span class="keyword">const</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> &amp;iml1, <span class="keywordtype">int</span> i1, <span class="keyword">const</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> &amp;iml2, <span class="keywordtype">int</span> i2, <span class="keywordtype">int</span> dx, <span class="keywordtype">int</span> dy);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        <span class="keyword">static</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> <a class="code hl_function" href="classsw_1_1_image_list.html#a1a7cb6a0a5edf9c3753892dcde15ad20">Read</a>(IStream *pstm);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        HIMAGELIST <a class="code hl_function" href="classsw_1_1_image_list.html#a2b27f289f8b70fadb347b6781eb65c42">GetHandle</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a0cf385d15bc51bcd7214f3f5969b494c">IsWrap</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        HIMAGELIST <a class="code hl_function" href="classsw_1_1_image_list.html#a4485f73aac2fd3df79aa5f8c322fe388">ReleaseHandle</a>();</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a16929804b8a2084329f0958a5b263503">Add</a>(HBITMAP hbmImage, HBITMAP hbmMask);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aecc9001c00394dc6dcea2471b150f17d">AddIcon</a>(HICON hIcon);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span></div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a371fa168a8a4206474e7b281eb448260">AddMasked</a>(HBITMAP hbmImage, COLORREF crMask);</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a2a181ecc8dbe2cc5dee3aebb1e0b670d">BeginDrag</a>(<span class="keywordtype">int</span> iTrack, <span class="keywordtype">int</span> dxHotspot, <span class="keywordtype">int</span> dyHotspot);</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span></div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a55b79373d96af59d74a3c9bfe3965d3c">Draw</a>(<span class="keywordtype">int</span> i, HDC hdcDst, <span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y, UINT fStyle);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a55b79373d96af59d74a3c9bfe3965d3c">Draw</a>(<span class="keywordtype">int</span> i, HDC hdcDst, <span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y, <span class="keywordtype">double</span> dx, <span class="keywordtype">double</span> dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle);</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#af1a861fe7edfb350de315fcc94064165">DrawPx</a>(<span class="keywordtype">int</span> i, HDC hdcDst, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, UINT fStyle);</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#af1a861fe7edfb350de315fcc94064165">DrawPx</a>(<span class="keywordtype">int</span> i, HDC hdcDst, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> dx, <span class="keywordtype">int</span> dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle);</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        <a class="code hl_function" href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> <a class="code hl_function" href="classsw_1_1_image_list.html#a5abeb3e05fc06ab779faaab32706f9f0">Duplicate</a>();</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        COLORREF <a class="code hl_function" href="classsw_1_1_image_list.html#a91e2810916e7a2b1cc1f0b645f2e93c2">GetBkColor</a>();</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        HICON <a class="code hl_function" href="classsw_1_1_image_list.html#a7c6bd70272e91cb2864eadd2cad8699e">GetIcon</a>(<span class="keywordtype">int</span> i, UINT flags);</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a06efc8f7069f2b36ebe6e1b670fd76e0">GetIconSize</a>(<span class="keywordtype">int</span> &amp;cx, <span class="keywordtype">int</span> &amp;cy);</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>        <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_image_list.html#aecd3933b5f90659befc686971249fd23">GetImageCount</a>();</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span></div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#ac7a6e514c37ea4efc090d6a927f74e0b">GetImageInfo</a>(<span class="keywordtype">int</span> i, IMAGEINFO *pImageInfo);</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span></div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a44e2ba6e4c0634bc657f68efef2e2780">Remove</a>(<span class="keywordtype">int</span> i);</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a64792d6a098071c39917191399d2ce9c">RemoveAll</a>();</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span></div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a9a6b0efc4217626ce43c7dd4d922e484">Replace</a>(<span class="keywordtype">int</span> i, HBITMAP hbmImage, HBITMAP hbmMask);</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a3ed6264ffa967f24bdaf547cd8b2129d">ReplaceIcon</a>(<span class="keywordtype">int</span> i, HICON hicon);</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span></div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>        COLORREF <a class="code hl_function" href="classsw_1_1_image_list.html#a90faf8d6d490055ae723dd7735221ea0">SetBkColor</a>(COLORREF clrBk);</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span></div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a19ff9980768b9e0dace609e2f182db72">SetDragCursorImage</a>(<span class="keywordtype">int</span> iDrag, <span class="keywordtype">int</span> dxHotspot, <span class="keywordtype">int</span> dyHotspot);</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a750f71a7a8f14d18d14c026ea3bc2566">SetIconSize</a>(<span class="keywordtype">int</span> cx, <span class="keywordtype">int</span> cy);</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a8db4caa03f9f294950eae85ed79a67e6">SetImageCount</a>(UINT uNewCount);</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span></div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#ab54ce1532d2576f7103468486d7b5dac">SetOverlayImage</a>(<span class="keywordtype">int</span> iImage, <span class="keywordtype">int</span> iOverlay);</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span></div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_image_list.html#a978978d6bc38f32b85e8cdcaafd08664">Write</a>(IStream *pstm);</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span> </div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        <span class="keywordtype">void</span> _DestroyIfNotWrap();</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    };</div>
+</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>}</div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a06efc8f7069f2b36ebe6e1b670fd76e0"><div class="ttname"><a href="classsw_1_1_image_list.html#a06efc8f7069f2b36ebe6e1b670fd76e0">sw::ImageList::GetIconSize</a></div><div class="ttdeci">bool GetIconSize(int &amp;cx, int &amp;cy)</div><div class="ttdoc">获取图标大小，该函数调用ImageList_GetIconSize</div><div class="ttdef"><b>定义</b> ImageList.cpp:199</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a0a2e705b291d66b3e8aee42013cc2e5d"><div class="ttname"><a href="classsw_1_1_image_list.html#a0a2e705b291d66b3e8aee42013cc2e5d">sw::ImageList::Copy</a></div><div class="ttdeci">static bool Copy(const ImageList &amp;dst, int iDst, const ImageList &amp;src, int iSrc, UINT uFlags)</div><div class="ttdoc">复制图像，该函数调用ImageList_Copy</div><div class="ttdef"><b>定义</b> ImageList.cpp:72</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a0cf385d15bc51bcd7214f3f5969b494c"><div class="ttname"><a href="classsw_1_1_image_list.html#a0cf385d15bc51bcd7214f3f5969b494c">sw::ImageList::IsWrap</a></div><div class="ttdeci">bool IsWrap() const</div><div class="ttdoc">判断当前对象是否为包装对象</div><div class="ttdef"><b>定义</b> ImageList.cpp:132</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a11b72ad5d981877895d9fd9754c405ff"><div class="ttname"><a href="classsw_1_1_image_list.html#a11b72ad5d981877895d9fd9754c405ff">sw::ImageList::DragEnter</a></div><div class="ttdeci">static bool DragEnter(HWND hwndLock, double x, double y)</div><div class="ttdoc">锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter</div><div class="ttdef"><b>定义</b> ImageList.cpp:77</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a16929804b8a2084329f0958a5b263503"><div class="ttname"><a href="classsw_1_1_image_list.html#a16929804b8a2084329f0958a5b263503">sw::ImageList::Add</a></div><div class="ttdeci">int Add(HBITMAP hbmImage, HBITMAP hbmMask)</div><div class="ttdoc">添加图像，该函数调用ImageList_Add</div><div class="ttdef"><b>定义</b> ImageList.cpp:144</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a19ff9980768b9e0dace609e2f182db72"><div class="ttname"><a href="classsw_1_1_image_list.html#a19ff9980768b9e0dace609e2f182db72">sw::ImageList::SetDragCursorImage</a></div><div class="ttdeci">bool SetDragCursorImage(int iDrag, int dxHotspot, int dyHotspot)</div><div class="ttdoc">设置拖拽图标为指定图标与当前拖拽图标的结合，该函数调用ImageList_SetDragCursorImage</div><div class="ttdef"><b>定义</b> ImageList.cpp:239</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a1a7cb6a0a5edf9c3753892dcde15ad20"><div class="ttname"><a href="classsw_1_1_image_list.html#a1a7cb6a0a5edf9c3753892dcde15ad20">sw::ImageList::Read</a></div><div class="ttdeci">static ImageList Read(IStream *pstm)</div><div class="ttdoc">读取图像列表，该函数调用ImageList_Read</div><div class="ttdef"><b>定义</b> ImageList.cpp:122</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a2a181ecc8dbe2cc5dee3aebb1e0b670d"><div class="ttname"><a href="classsw_1_1_image_list.html#a2a181ecc8dbe2cc5dee3aebb1e0b670d">sw::ImageList::BeginDrag</a></div><div class="ttdeci">bool BeginDrag(int iTrack, int dxHotspot, int dyHotspot)</div><div class="ttdoc">开始拖拽图像，该函数调用ImageList_BeginDrag</div><div class="ttdef"><b>定义</b> ImageList.cpp:159</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a2b27f289f8b70fadb347b6781eb65c42"><div class="ttname"><a href="classsw_1_1_image_list.html#a2b27f289f8b70fadb347b6781eb65c42">sw::ImageList::GetHandle</a></div><div class="ttdeci">HIMAGELIST GetHandle() const</div><div class="ttdoc">获取图像列表的句柄</div><div class="ttdef"><b>定义</b> ImageList.cpp:127</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a30f46046b3c05159c305afae9d9caebd"><div class="ttname"><a href="classsw_1_1_image_list.html#a30f46046b3c05159c305afae9d9caebd">sw::ImageList::EndDrag</a></div><div class="ttdeci">static void EndDrag()</div><div class="ttdoc">结束拖拽，该函数调用ImageList_EndDrag</div><div class="ttdef"><b>定义</b> ImageList.cpp:97</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a371fa168a8a4206474e7b281eb448260"><div class="ttname"><a href="classsw_1_1_image_list.html#a371fa168a8a4206474e7b281eb448260">sw::ImageList::AddMasked</a></div><div class="ttdeci">int AddMasked(HBITMAP hbmImage, COLORREF crMask)</div><div class="ttdoc">添加图像，指定颜色为mask，该函数调用ImageList_AddMasked</div><div class="ttdef"><b>定义</b> ImageList.cpp:154</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a3ed6264ffa967f24bdaf547cd8b2129d"><div class="ttname"><a href="classsw_1_1_image_list.html#a3ed6264ffa967f24bdaf547cd8b2129d">sw::ImageList::ReplaceIcon</a></div><div class="ttdeci">int ReplaceIcon(int i, HICON hicon)</div><div class="ttdoc">更换图标，该函数调用ImageList_ReplaceIcon</div><div class="ttdef"><b>定义</b> ImageList.cpp:229</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a43f2aa3ce9236b6a6847615bcbce111c"><div class="ttname"><a href="classsw_1_1_image_list.html#a43f2aa3ce9236b6a6847615bcbce111c">sw::ImageList::operator=</a></div><div class="ttdeci">ImageList &amp; operator=(const ImageList &amp;value)</div><div class="ttdoc">拷贝赋值</div><div class="ttdef"><b>定义</b> ImageList.cpp:36</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a4485f73aac2fd3df79aa5f8c322fe388"><div class="ttname"><a href="classsw_1_1_image_list.html#a4485f73aac2fd3df79aa5f8c322fe388">sw::ImageList::ReleaseHandle</a></div><div class="ttdeci">HIMAGELIST ReleaseHandle()</div><div class="ttdoc">获取图像列表句柄并取消对句柄的托管，调用该函数后当前对象将不可用，析构时也不会销毁句柄</div><div class="ttdef"><b>定义</b> ImageList.cpp:137</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a44e2ba6e4c0634bc657f68efef2e2780"><div class="ttname"><a href="classsw_1_1_image_list.html#a44e2ba6e4c0634bc657f68efef2e2780">sw::ImageList::Remove</a></div><div class="ttdeci">bool Remove(int i)</div><div class="ttdoc">移除指定图像，该函数调用ImageList_Remove</div><div class="ttdef"><b>定义</b> ImageList.cpp:214</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a55b79373d96af59d74a3c9bfe3965d3c"><div class="ttname"><a href="classsw_1_1_image_list.html#a55b79373d96af59d74a3c9bfe3965d3c">sw::ImageList::Draw</a></div><div class="ttdeci">bool Draw(int i, HDC hdcDst, double x, double y, UINT fStyle)</div><div class="ttdoc">在指定上下文DC下绘制图像，该函数调用ImageList_Draw</div><div class="ttdef"><b>定义</b> ImageList.cpp:164</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a5a5a11321cd1b727e22e63841d992a5b"><div class="ttname"><a href="classsw_1_1_image_list.html#a5a5a11321cd1b727e22e63841d992a5b">sw::ImageList::DragMove</a></div><div class="ttdeci">static bool DragMove(double x, double y)</div><div class="ttdoc">拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove</div><div class="ttdef"><b>定义</b> ImageList.cpp:87</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a5abeb3e05fc06ab779faaab32706f9f0"><div class="ttname"><a href="classsw_1_1_image_list.html#a5abeb3e05fc06ab779faaab32706f9f0">sw::ImageList::Duplicate</a></div><div class="ttdeci">ImageList Duplicate()</div><div class="ttdoc">复制当前图像列表，该函数调用ImageList_Duplicate</div><div class="ttdef"><b>定义</b> ImageList.cpp:184</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a64792d6a098071c39917191399d2ce9c"><div class="ttname"><a href="classsw_1_1_image_list.html#a64792d6a098071c39917191399d2ce9c">sw::ImageList::RemoveAll</a></div><div class="ttdeci">bool RemoveAll()</div><div class="ttdoc">移除所有图像，该函数调用ImageList_Remove</div><div class="ttdef"><b>定义</b> ImageList.cpp:219</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a750f71a7a8f14d18d14c026ea3bc2566"><div class="ttname"><a href="classsw_1_1_image_list.html#a750f71a7a8f14d18d14c026ea3bc2566">sw::ImageList::SetIconSize</a></div><div class="ttdeci">bool SetIconSize(int cx, int cy)</div><div class="ttdoc">设置图像大小并移除所有图像，该函数调用ImageList_SetIconSize</div><div class="ttdef"><b>定义</b> ImageList.cpp:244</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a7c6bd70272e91cb2864eadd2cad8699e"><div class="ttname"><a href="classsw_1_1_image_list.html#a7c6bd70272e91cb2864eadd2cad8699e">sw::ImageList::GetIcon</a></div><div class="ttdeci">HICON GetIcon(int i, UINT flags)</div><div class="ttdoc">通过指定位置的图像创建图标句柄，该函数调用ImageList_GetIcon</div><div class="ttdef"><b>定义</b> ImageList.cpp:194</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a8995e4832511229ae27786329fa8be15"><div class="ttname"><a href="classsw_1_1_image_list.html#a8995e4832511229ae27786329fa8be15">sw::ImageList::Merge</a></div><div class="ttdeci">static ImageList Merge(const ImageList &amp;iml1, int i1, const ImageList &amp;iml2, int i2, int dx, int dy)</div><div class="ttdoc">合并两个图像列表，该函数调用ImageList_Merge</div><div class="ttdef"><b>定义</b> ImageList.cpp:117</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a8db4caa03f9f294950eae85ed79a67e6"><div class="ttname"><a href="classsw_1_1_image_list.html#a8db4caa03f9f294950eae85ed79a67e6">sw::ImageList::SetImageCount</a></div><div class="ttdeci">bool SetImageCount(UINT uNewCount)</div><div class="ttdoc">设置图像个数，该函数调用ImageList_SetImageCount</div><div class="ttdef"><b>定义</b> ImageList.cpp:249</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a90faf8d6d490055ae723dd7735221ea0"><div class="ttname"><a href="classsw_1_1_image_list.html#a90faf8d6d490055ae723dd7735221ea0">sw::ImageList::SetBkColor</a></div><div class="ttdeci">COLORREF SetBkColor(COLORREF clrBk)</div><div class="ttdoc">设置背景颜色，该函数调用ImageList_SetBkColor</div><div class="ttdef"><b>定义</b> ImageList.cpp:234</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a91e2810916e7a2b1cc1f0b645f2e93c2"><div class="ttname"><a href="classsw_1_1_image_list.html#a91e2810916e7a2b1cc1f0b645f2e93c2">sw::ImageList::GetBkColor</a></div><div class="ttdeci">COLORREF GetBkColor()</div><div class="ttdoc">获取背景颜色，该函数调用ImageList_GetBkColor</div><div class="ttdef"><b>定义</b> ImageList.cpp:189</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a92321f3f8c35fccb097c522886bc49c0"><div class="ttname"><a href="classsw_1_1_image_list.html#a92321f3f8c35fccb097c522886bc49c0">sw::ImageList::DragLeave</a></div><div class="ttdeci">static bool DragLeave(HWND hwndLock)</div><div class="ttdoc">解除窗口锁定并隐藏显示的拖拽图像，该函数调用ImageList_DragLeave</div><div class="ttdef"><b>定义</b> ImageList.cpp:82</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a978978d6bc38f32b85e8cdcaafd08664"><div class="ttname"><a href="classsw_1_1_image_list.html#a978978d6bc38f32b85e8cdcaafd08664">sw::ImageList::Write</a></div><div class="ttdeci">bool Write(IStream *pstm)</div><div class="ttdoc">写图像列表，该函数调用ImageList_Write</div><div class="ttdef"><b>定义</b> ImageList.cpp:259</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a9a6b0efc4217626ce43c7dd4d922e484"><div class="ttname"><a href="classsw_1_1_image_list.html#a9a6b0efc4217626ce43c7dd4d922e484">sw::ImageList::Replace</a></div><div class="ttdeci">bool Replace(int i, HBITMAP hbmImage, HBITMAP hbmMask)</div><div class="ttdoc">更换指定位置的图像，该函数调用ImageList_Replace</div><div class="ttdef"><b>定义</b> ImageList.cpp:224</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_a9edb28306237cc3aaa2061f80eeaa766"><div class="ttname"><a href="classsw_1_1_image_list.html#a9edb28306237cc3aaa2061f80eeaa766">sw::ImageList::Wrap</a></div><div class="ttdeci">static ImageList Wrap(HIMAGELIST hImageList)</div><div class="ttdoc">包装一个图像列表句柄为ImageList对象，通过该函数创建的对象析构时不会销毁句柄</div><div class="ttdef"><b>定义</b> ImageList.cpp:67</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_ab54ce1532d2576f7103468486d7b5dac"><div class="ttname"><a href="classsw_1_1_image_list.html#ab54ce1532d2576f7103468486d7b5dac">sw::ImageList::SetOverlayImage</a></div><div class="ttdeci">bool SetOverlayImage(int iImage, int iOverlay)</div><div class="ttdoc">将指定的图像添加到要用作覆盖遮罩的图像列表中，该函数调用ImageList_SetOverlayImage</div><div class="ttdef"><b>定义</b> ImageList.cpp:254</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_ab893e209beb900a19b20d1ff80729321"><div class="ttname"><a href="classsw_1_1_image_list.html#ab893e209beb900a19b20d1ff80729321">sw::ImageList::LoadImageA</a></div><div class="ttdeci">static ImageList LoadImageA(HINSTANCE hi, LPCSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags)</div><div class="ttdoc">加载图像列表，该函数调用ImageList_LoadImageA</div><div class="ttdef"><b>定义</b> ImageList.cpp:107</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_ac7a6e514c37ea4efc090d6a927f74e0b"><div class="ttname"><a href="classsw_1_1_image_list.html#ac7a6e514c37ea4efc090d6a927f74e0b">sw::ImageList::GetImageInfo</a></div><div class="ttdeci">bool GetImageInfo(int i, IMAGEINFO *pImageInfo)</div><div class="ttdoc">获取图像信息，该函数调用ImageList_GetImageInfo</div><div class="ttdef"><b>定义</b> ImageList.cpp:209</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_adbe8bce112c740b4bb3abe8ead9ad979"><div class="ttname"><a href="classsw_1_1_image_list.html#adbe8bce112c740b4bb3abe8ead9ad979">sw::ImageList::Create</a></div><div class="ttdeci">static ImageList Create(int cx, int cy, UINT flags, int cInitial, int cGrow)</div><div class="ttdoc">创建一个图像列表，该函数调用ImageList_Create</div><div class="ttdef"><b>定义</b> ImageList.cpp:62</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_ae1e4bac704108429670521881dc0b6c8"><div class="ttname"><a href="classsw_1_1_image_list.html#ae1e4bac704108429670521881dc0b6c8">sw::ImageList::GetDragImage</a></div><div class="ttdeci">static ImageList GetDragImage(POINT *ppt, POINT *pptHotspot)</div><div class="ttdoc">获取拖拽中图像的列表，该函数调用ImageList_GetDragImage</div><div class="ttdef"><b>定义</b> ImageList.cpp:102</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_aebd5f923b68aed80790b269303a621fa"><div class="ttname"><a href="classsw_1_1_image_list.html#aebd5f923b68aed80790b269303a621fa">sw::ImageList::ImageList</a></div><div class="ttdeci">ImageList(HIMAGELIST hImageList, bool isWrap)</div><div class="ttdoc">初始化图像列表</div><div class="ttdef"><b>定义</b> ImageList.cpp:3</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_aecc9001c00394dc6dcea2471b150f17d"><div class="ttname"><a href="classsw_1_1_image_list.html#aecc9001c00394dc6dcea2471b150f17d">sw::ImageList::AddIcon</a></div><div class="ttdeci">int AddIcon(HICON hIcon)</div><div class="ttdoc">添加图标，该函数调用ImageList_AddIcon</div><div class="ttdef"><b>定义</b> ImageList.cpp:149</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_aecd3933b5f90659befc686971249fd23"><div class="ttname"><a href="classsw_1_1_image_list.html#aecd3933b5f90659befc686971249fd23">sw::ImageList::GetImageCount</a></div><div class="ttdeci">int GetImageCount()</div><div class="ttdoc">获取图像个数，该函数调用ImageList_GetImageCount</div><div class="ttdef"><b>定义</b> ImageList.cpp:204</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_af192780c179366e3151699a90902f9e0"><div class="ttname"><a href="classsw_1_1_image_list.html#af192780c179366e3151699a90902f9e0">sw::ImageList::~ImageList</a></div><div class="ttdeci">virtual ~ImageList()</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>定义</b> ImageList.cpp:31</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_af1a861fe7edfb350de315fcc94064165"><div class="ttname"><a href="classsw_1_1_image_list.html#af1a861fe7edfb350de315fcc94064165">sw::ImageList::DrawPx</a></div><div class="ttdeci">bool DrawPx(int i, HDC hdcDst, int x, int y, UINT fStyle)</div><div class="ttdoc">以像素为单位，在指定上下文DC下绘制图像，该函数调用ImageList_Draw</div><div class="ttdef"><b>定义</b> ImageList.cpp:174</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_af3297011886bb266f1635a0adde46c1d"><div class="ttname"><a href="classsw_1_1_image_list.html#af3297011886bb266f1635a0adde46c1d">sw::ImageList::DragShowNolock</a></div><div class="ttdeci">static bool DragShowNolock(bool fShow)</div><div class="ttdoc">拖拽时显示或隐藏图像，该函数调用ImageList_DragShowNolock</div><div class="ttdef"><b>定义</b> ImageList.cpp:92</div></div>
+<div class="ttc" id="aclasssw_1_1_image_list_html_af4db1102c479846defd93e6f18c7e942"><div class="ttname"><a href="classsw_1_1_image_list.html#af4db1102c479846defd93e6f18c7e942">sw::ImageList::LoadImageW</a></div><div class="ttdeci">static ImageList LoadImageW(HINSTANCE hi, LPCWSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags)</div><div class="ttdoc">加载图像列表，该函数调用ImageList_LoadImageW</div><div class="ttdef"><b>定义</b> ImageList.cpp:112</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><b>ImageList.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

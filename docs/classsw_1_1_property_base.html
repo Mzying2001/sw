@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: sw::PropertyBase&lt; T, TDerived &gt; 模板类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('classsw_1_1_property_base.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#friends">友元</a> &#124;
+<a href="classsw_1_1_property_base-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sw::PropertyBase&lt; T, TDerived &gt; 模板类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>属性基类模板  
+ <a href="#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_property_8h_source.html">Property.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sw::PropertyBase&lt; T, TDerived &gt; 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classsw_1_1_property_base.png" usemap="#sw::PropertyBase_3C_20T_2C_20TDerived_20_3E_map" alt=""/>
+  <map id="sw::PropertyBase_3C_20T_2C_20TDerived_20_3E_map" name="sw::PropertyBase_3C_20T_2C_20TDerived_20_3E_map">
+<area href="classsw_1_1_ptr_property_base.html" alt="sw::PtrPropertyBase&lt; T, PtrProperty&lt; T &gt; &gt;" shape="rect" coords="0,56,318,80"/>
+<area href="classsw_1_1_ptr_property_base.html" alt="sw::PtrPropertyBase&lt; T, ReadOnlyPtrProperty&lt; T &gt; &gt;" shape="rect" coords="328,56,646,80"/>
+<area href="classsw_1_1_ptr_property_base.html" alt="sw::PtrPropertyBase&lt; T, WriteOnlyPtrProperty&lt; T &gt; &gt;" shape="rect" coords="656,56,974,80"/>
+<area href="classsw_1_1_ptr_property_base.html" title="指针属性基类模板" alt="sw::PtrPropertyBase&lt; T, TDerived &gt;" shape="rect" coords="984,56,1302,80"/>
+<area href="classsw_1_1_ptr_property.html" title="指针属性" alt="sw::PtrProperty&lt; T &gt;" shape="rect" coords="0,112,318,136"/>
+<area href="classsw_1_1_read_only_ptr_property.html" title="指针只读属性" alt="sw::ReadOnlyPtrProperty&lt; T &gt;" shape="rect" coords="328,112,646,136"/>
+<area href="classsw_1_1_write_only_ptr_property.html" title="指针只写属性" alt="sw::WriteOnlyPtrProperty&lt; T &gt;" shape="rect" coords="656,112,974,136"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a9d5fb64152a5a305c158716a27803106" id="r_a9d5fb64152a5a305c158716a27803106"><td class="memItemLeft" align="right" valign="top"><a id="a9d5fb64152a5a305c158716a27803106" name="a9d5fb64152a5a305c158716a27803106"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>PropertyBase</b> (<a class="el" href="classsw_1_1_property_base.html">PropertyBase</a> &amp;&amp;)=delete</td></tr>
+<tr class="separator:a9d5fb64152a5a305c158716a27803106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83de6ab87e3986509cde7c3f05152baa" id="r_a83de6ab87e3986509cde7c3f05152baa"><td class="memItemLeft" align="right" valign="top"><a id="a83de6ab87e3986509cde7c3f05152baa" name="a83de6ab87e3986509cde7c3f05152baa"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>PropertyBase</b> (const <a class="el" href="classsw_1_1_property_base.html">PropertyBase</a> &amp;)=delete</td></tr>
+<tr class="separator:a83de6ab87e3986509cde7c3f05152baa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5c53fef813cf9f00489c61effd43ed0" id="r_aa5c53fef813cf9f00489c61effd43ed0"><td class="memItemLeft" align="right" valign="top"><a id="aa5c53fef813cf9f00489c61effd43ed0" name="aa5c53fef813cf9f00489c61effd43ed0"></a>
+<a class="el" href="classsw_1_1_property_base.html">PropertyBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classsw_1_1_property_base.html">PropertyBase</a> &amp;&amp;)=delete</td></tr>
+<tr class="separator:aa5c53fef813cf9f00489c61effd43ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d0177fdddde9353596f3e93a9a73b09" id="r_a0d0177fdddde9353596f3e93a9a73b09"><td class="memTemplParams" colspan="2">template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a0d0177fdddde9353596f3e93a9a73b09"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;!std::is_pointer&lt; U &gt;::value, <a class="el" href="structsw_1_1_fake_ptr.html">FakePtr</a>&lt; T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a0d0177fdddde9353596f3e93a9a73b09">ListFieldsImpl</a> () const</td></tr>
+<tr class="memdesc:a0d0177fdddde9353596f3e93a9a73b09"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性值，由子类实现  <br /></td></tr>
+<tr class="separator:a0d0177fdddde9353596f3e93a9a73b09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa181b8d366bd1878d6e801064167873e" id="r_aa181b8d366bd1878d6e801064167873e"><td class="memTemplParams" colspan="2"><a id="aa181b8d366bd1878d6e801064167873e" name="aa181b8d366bd1878d6e801064167873e"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:aa181b8d366bd1878d6e801064167873e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_pointer&lt; U &gt;::value, T &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>ListFieldsImpl</b> () const</td></tr>
+<tr class="memdesc:aa181b8d366bd1878d6e801064167873e"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取字段，可由子类重写 <br /></td></tr>
+<tr class="separator:aa181b8d366bd1878d6e801064167873e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a6eec000ec894f07376cdfe0cb9484c" id="r_a2a6eec000ec894f07376cdfe0cb9484c"><td class="memItemLeft" align="right" valign="top"><a id="a2a6eec000ec894f07376cdfe0cb9484c" name="a2a6eec000ec894f07376cdfe0cb9484c"></a>
+T&#160;</td><td class="memItemRight" valign="bottom"><b>Get</b> () const</td></tr>
+<tr class="memdesc:a2a6eec000ec894f07376cdfe0cb9484c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性值 <br /></td></tr>
+<tr class="separator:a2a6eec000ec894f07376cdfe0cb9484c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42e3a9f3255c614c210f3db6d38c664b" id="r_a42e3a9f3255c614c210f3db6d38c664b"><td class="memItemLeft" align="right" valign="top"><a id="a42e3a9f3255c614c210f3db6d38c664b" name="a42e3a9f3255c614c210f3db6d38c664b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Set</b> (const T &amp;value) const</td></tr>
+<tr class="memdesc:a42e3a9f3255c614c210f3db6d38c664b"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值 <br /></td></tr>
+<tr class="separator:a42e3a9f3255c614c210f3db6d38c664b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf481da925e2a96ae035e50af9551b29" id="r_aaf481da925e2a96ae035e50af9551b29"><td class="memItemLeft" align="right" valign="top"><a id="aaf481da925e2a96ae035e50af9551b29" name="aaf481da925e2a96ae035e50af9551b29"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>operator-&gt;</b> () const</td></tr>
+<tr class="memdesc:aaf481da925e2a96ae035e50af9551b29"><td class="mdescLeft">&#160;</td><td class="mdescRight">取属性字段 <br /></td></tr>
+<tr class="separator:aaf481da925e2a96ae035e50af9551b29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56fd0e6ae8d4e922810ebb705f09bf33" id="r_a56fd0e6ae8d4e922810ebb705f09bf33"><td class="memItemLeft" align="right" valign="top"><a id="a56fd0e6ae8d4e922810ebb705f09bf33" name="a56fd0e6ae8d4e922810ebb705f09bf33"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>operator T</b> () const</td></tr>
+<tr class="memdesc:a56fd0e6ae8d4e922810ebb705f09bf33"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性值 <br /></td></tr>
+<tr class="separator:a56fd0e6ae8d4e922810ebb705f09bf33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afade30e8e93f9c0b452446d5435313b1" id="r_afade30e8e93f9c0b452446d5435313b1"><td class="memItemLeft" align="right" valign="top"><a id="afade30e8e93f9c0b452446d5435313b1" name="afade30e8e93f9c0b452446d5435313b1"></a>
+TDerived &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const T &amp;value)</td></tr>
+<tr class="memdesc:afade30e8e93f9c0b452446d5435313b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值 <br /></td></tr>
+<tr class="separator:afade30e8e93f9c0b452446d5435313b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a537449433e58543ba02c17417e0ef62f" id="r_a537449433e58543ba02c17417e0ef62f"><td class="memItemLeft" align="right" valign="top"><a id="a537449433e58543ba02c17417e0ef62f" name="a537449433e58543ba02c17417e0ef62f"></a>
+const TDerived &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const T &amp;value) const</td></tr>
+<tr class="memdesc:a537449433e58543ba02c17417e0ef62f"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值 <br /></td></tr>
+<tr class="separator:a537449433e58543ba02c17417e0ef62f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80b6374c36e5b394b9cedcc3b928cc81" id="r_a80b6374c36e5b394b9cedcc3b928cc81"><td class="memItemLeft" align="right" valign="top"><a id="a80b6374c36e5b394b9cedcc3b928cc81" name="a80b6374c36e5b394b9cedcc3b928cc81"></a>
+TDerived &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classsw_1_1_property_base.html">PropertyBase</a> &amp;prop)</td></tr>
+<tr class="memdesc:a80b6374c36e5b394b9cedcc3b928cc81"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值 <br /></td></tr>
+<tr class="separator:a80b6374c36e5b394b9cedcc3b928cc81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c3ca8dbb0be4e6d5a2b85d528692b89" id="r_a4c3ca8dbb0be4e6d5a2b85d528692b89"><td class="memItemLeft" align="right" valign="top"><a id="a4c3ca8dbb0be4e6d5a2b85d528692b89" name="a4c3ca8dbb0be4e6d5a2b85d528692b89"></a>
+const TDerived &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classsw_1_1_property_base.html">PropertyBase</a> &amp;prop) const</td></tr>
+<tr class="memdesc:a4c3ca8dbb0be4e6d5a2b85d528692b89"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值 <br /></td></tr>
+<tr class="separator:a4c3ca8dbb0be4e6d5a2b85d528692b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a178d9b7f0a5e6fa2a2442845204b43d2" id="r_a178d9b7f0a5e6fa2a2442845204b43d2"><td class="memTemplParams" colspan="2"><a id="a178d9b7f0a5e6fa2a2442845204b43d2" name="a178d9b7f0a5e6fa2a2442845204b43d2"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a178d9b7f0a5e6fa2a2442845204b43d2"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_arithmetic&lt; U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+=</b> (T value)</td></tr>
+<tr class="memdesc:a178d9b7f0a5e6fa2a2442845204b43d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">加赋值运算 <br /></td></tr>
+<tr class="separator:a178d9b7f0a5e6fa2a2442845204b43d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecca3155d682b192f978c8efb81bc8f7" id="r_aecca3155d682b192f978c8efb81bc8f7"><td class="memTemplParams" colspan="2"><a id="aecca3155d682b192f978c8efb81bc8f7" name="aecca3155d682b192f978c8efb81bc8f7"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:aecca3155d682b192f978c8efb81bc8f7"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_arithmetic&lt; U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+=</b> (T value) const</td></tr>
+<tr class="memdesc:aecca3155d682b192f978c8efb81bc8f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">加赋值运算 <br /></td></tr>
+<tr class="separator:aecca3155d682b192f978c8efb81bc8f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09df81af9e212a7e86f9e5f12dbc2adb" id="r_a09df81af9e212a7e86f9e5f12dbc2adb"><td class="memTemplParams" colspan="2"><a id="a09df81af9e212a7e86f9e5f12dbc2adb" name="a09df81af9e212a7e86f9e5f12dbc2adb"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a09df81af9e212a7e86f9e5f12dbc2adb"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_arithmetic&lt; U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-=</b> (T value)</td></tr>
+<tr class="memdesc:a09df81af9e212a7e86f9e5f12dbc2adb"><td class="mdescLeft">&#160;</td><td class="mdescRight">减赋值运算 <br /></td></tr>
+<tr class="separator:a09df81af9e212a7e86f9e5f12dbc2adb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a188e64facc3349a8be0301cd5c8055" id="r_a6a188e64facc3349a8be0301cd5c8055"><td class="memTemplParams" colspan="2"><a id="a6a188e64facc3349a8be0301cd5c8055" name="a6a188e64facc3349a8be0301cd5c8055"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a6a188e64facc3349a8be0301cd5c8055"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_arithmetic&lt; U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-=</b> (T value) const</td></tr>
+<tr class="memdesc:a6a188e64facc3349a8be0301cd5c8055"><td class="mdescLeft">&#160;</td><td class="mdescRight">减赋值运算 <br /></td></tr>
+<tr class="separator:a6a188e64facc3349a8be0301cd5c8055"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27ec5ab4ccca746d98509c6ddef9f8ba" id="r_a27ec5ab4ccca746d98509c6ddef9f8ba"><td class="memTemplParams" colspan="2"><a id="a27ec5ab4ccca746d98509c6ddef9f8ba" name="a27ec5ab4ccca746d98509c6ddef9f8ba"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a27ec5ab4ccca746d98509c6ddef9f8ba"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_arithmetic&lt; U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator*=</b> (T value)</td></tr>
+<tr class="memdesc:a27ec5ab4ccca746d98509c6ddef9f8ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">乘赋值运算 <br /></td></tr>
+<tr class="separator:a27ec5ab4ccca746d98509c6ddef9f8ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43d9869a073e502bc45576dc7df46c9e" id="r_a43d9869a073e502bc45576dc7df46c9e"><td class="memTemplParams" colspan="2"><a id="a43d9869a073e502bc45576dc7df46c9e" name="a43d9869a073e502bc45576dc7df46c9e"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a43d9869a073e502bc45576dc7df46c9e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_arithmetic&lt; U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator*=</b> (T value) const</td></tr>
+<tr class="memdesc:a43d9869a073e502bc45576dc7df46c9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">乘赋值运算 <br /></td></tr>
+<tr class="separator:a43d9869a073e502bc45576dc7df46c9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6f91e5dfaf85e292da6793bb624c71f" id="r_ab6f91e5dfaf85e292da6793bb624c71f"><td class="memTemplParams" colspan="2"><a id="ab6f91e5dfaf85e292da6793bb624c71f" name="ab6f91e5dfaf85e292da6793bb624c71f"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:ab6f91e5dfaf85e292da6793bb624c71f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_arithmetic&lt; U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator/=</b> (T value)</td></tr>
+<tr class="memdesc:ab6f91e5dfaf85e292da6793bb624c71f"><td class="mdescLeft">&#160;</td><td class="mdescRight">除赋值运算 <br /></td></tr>
+<tr class="separator:ab6f91e5dfaf85e292da6793bb624c71f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd6743ea9cc04daaf7cc7abe1ff278c2" id="r_afd6743ea9cc04daaf7cc7abe1ff278c2"><td class="memTemplParams" colspan="2"><a id="afd6743ea9cc04daaf7cc7abe1ff278c2" name="afd6743ea9cc04daaf7cc7abe1ff278c2"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:afd6743ea9cc04daaf7cc7abe1ff278c2"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_arithmetic&lt; U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator/=</b> (T value) const</td></tr>
+<tr class="memdesc:afd6743ea9cc04daaf7cc7abe1ff278c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">除赋值运算 <br /></td></tr>
+<tr class="separator:afd6743ea9cc04daaf7cc7abe1ff278c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4763de2eea82860f360f6fde4890625e" id="r_a4763de2eea82860f360f6fde4890625e"><td class="memTemplParams" colspan="2"><a id="a4763de2eea82860f360f6fde4890625e" name="a4763de2eea82860f360f6fde4890625e"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a4763de2eea82860f360f6fde4890625e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_arithmetic&lt; U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator++</b> ()</td></tr>
+<tr class="memdesc:a4763de2eea82860f360f6fde4890625e"><td class="mdescLeft">&#160;</td><td class="mdescRight">前置自增运算 <br /></td></tr>
+<tr class="separator:a4763de2eea82860f360f6fde4890625e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a155f8987236a5e823075f9225e771525" id="r_a155f8987236a5e823075f9225e771525"><td class="memTemplParams" colspan="2"><a id="a155f8987236a5e823075f9225e771525" name="a155f8987236a5e823075f9225e771525"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a155f8987236a5e823075f9225e771525"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_arithmetic&lt; U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator++</b> () const</td></tr>
+<tr class="memdesc:a155f8987236a5e823075f9225e771525"><td class="mdescLeft">&#160;</td><td class="mdescRight">前置自增运算 <br /></td></tr>
+<tr class="separator:a155f8987236a5e823075f9225e771525"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca9881f6c11ed211b25cbff9c10901ee" id="r_aca9881f6c11ed211b25cbff9c10901ee"><td class="memTemplParams" colspan="2"><a id="aca9881f6c11ed211b25cbff9c10901ee" name="aca9881f6c11ed211b25cbff9c10901ee"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:aca9881f6c11ed211b25cbff9c10901ee"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_arithmetic&lt; U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator--</b> ()</td></tr>
+<tr class="memdesc:aca9881f6c11ed211b25cbff9c10901ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">前置自减运算 <br /></td></tr>
+<tr class="separator:aca9881f6c11ed211b25cbff9c10901ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b910994bfa3f9324903c13dd6a51f96" id="r_a3b910994bfa3f9324903c13dd6a51f96"><td class="memTemplParams" colspan="2"><a id="a3b910994bfa3f9324903c13dd6a51f96" name="a3b910994bfa3f9324903c13dd6a51f96"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a3b910994bfa3f9324903c13dd6a51f96"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_arithmetic&lt; U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator--</b> () const</td></tr>
+<tr class="memdesc:a3b910994bfa3f9324903c13dd6a51f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">前置自减运算 <br /></td></tr>
+<tr class="separator:a3b910994bfa3f9324903c13dd6a51f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1722afe59c67c528e2d539dcd53364c" id="r_aa1722afe59c67c528e2d539dcd53364c"><td class="memTemplParams" colspan="2"><a id="aa1722afe59c67c528e2d539dcd53364c" name="aa1722afe59c67c528e2d539dcd53364c"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:aa1722afe59c67c528e2d539dcd53364c"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_arithmetic&lt; U &gt;::value, T &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator++</b> (int) const</td></tr>
+<tr class="memdesc:aa1722afe59c67c528e2d539dcd53364c"><td class="mdescLeft">&#160;</td><td class="mdescRight">后置自增运算 <br /></td></tr>
+<tr class="separator:aa1722afe59c67c528e2d539dcd53364c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4ac2b7525263c76cac2a2dba9612745" id="r_aa4ac2b7525263c76cac2a2dba9612745"><td class="memTemplParams" colspan="2"><a id="aa4ac2b7525263c76cac2a2dba9612745" name="aa4ac2b7525263c76cac2a2dba9612745"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:aa4ac2b7525263c76cac2a2dba9612745"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_arithmetic&lt; U &gt;::value, T &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator--</b> (int) const</td></tr>
+<tr class="memdesc:aa4ac2b7525263c76cac2a2dba9612745"><td class="mdescLeft">&#160;</td><td class="mdescRight">后置自减运算 <br /></td></tr>
+<tr class="separator:aa4ac2b7525263c76cac2a2dba9612745"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f63b58a580d7c434d2f660111aa9849" id="r_a5f63b58a580d7c434d2f660111aa9849"><td class="memTemplParams" colspan="2"><a id="a5f63b58a580d7c434d2f660111aa9849" name="a5f63b58a580d7c434d2f660111aa9849"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a5f63b58a580d7c434d2f660111aa9849"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;=</b> (T value)</td></tr>
+<tr class="memdesc:a5f63b58a580d7c434d2f660111aa9849"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位与赋值运算 <br /></td></tr>
+<tr class="separator:a5f63b58a580d7c434d2f660111aa9849"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a851c3368874f0024035897aa044b7a41" id="r_a851c3368874f0024035897aa044b7a41"><td class="memTemplParams" colspan="2"><a id="a851c3368874f0024035897aa044b7a41" name="a851c3368874f0024035897aa044b7a41"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a851c3368874f0024035897aa044b7a41"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;=</b> (T value) const</td></tr>
+<tr class="memdesc:a851c3368874f0024035897aa044b7a41"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位与赋值运算 <br /></td></tr>
+<tr class="separator:a851c3368874f0024035897aa044b7a41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46728e2df80a378c48bcbbc859006aa1" id="r_a46728e2df80a378c48bcbbc859006aa1"><td class="memTemplParams" colspan="2"><a id="a46728e2df80a378c48bcbbc859006aa1" name="a46728e2df80a378c48bcbbc859006aa1"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a46728e2df80a378c48bcbbc859006aa1"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator|=</b> (T value)</td></tr>
+<tr class="memdesc:a46728e2df80a378c48bcbbc859006aa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位或赋值运算 <br /></td></tr>
+<tr class="separator:a46728e2df80a378c48bcbbc859006aa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac92622e071e093bacb7741633e46d461" id="r_ac92622e071e093bacb7741633e46d461"><td class="memTemplParams" colspan="2"><a id="ac92622e071e093bacb7741633e46d461" name="ac92622e071e093bacb7741633e46d461"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:ac92622e071e093bacb7741633e46d461"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator|=</b> (T value) const</td></tr>
+<tr class="memdesc:ac92622e071e093bacb7741633e46d461"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位或赋值运算 <br /></td></tr>
+<tr class="separator:ac92622e071e093bacb7741633e46d461"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecae07f02eb334ebd213f8c10cea9d0a" id="r_aecae07f02eb334ebd213f8c10cea9d0a"><td class="memTemplParams" colspan="2"><a id="aecae07f02eb334ebd213f8c10cea9d0a" name="aecae07f02eb334ebd213f8c10cea9d0a"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:aecae07f02eb334ebd213f8c10cea9d0a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator^=</b> (T value)</td></tr>
+<tr class="memdesc:aecae07f02eb334ebd213f8c10cea9d0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位异或赋值运算 <br /></td></tr>
+<tr class="separator:aecae07f02eb334ebd213f8c10cea9d0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa44b94a1517b129945fbb506ca39d6e1" id="r_aa44b94a1517b129945fbb506ca39d6e1"><td class="memTemplParams" colspan="2"><a id="aa44b94a1517b129945fbb506ca39d6e1" name="aa44b94a1517b129945fbb506ca39d6e1"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:aa44b94a1517b129945fbb506ca39d6e1"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator^=</b> (T value) const</td></tr>
+<tr class="memdesc:aa44b94a1517b129945fbb506ca39d6e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位异或赋值运算 <br /></td></tr>
+<tr class="separator:aa44b94a1517b129945fbb506ca39d6e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9c76cff2982a47a1da612ac8bacb7bf" id="r_ad9c76cff2982a47a1da612ac8bacb7bf"><td class="memTemplParams" colspan="2"><a id="ad9c76cff2982a47a1da612ac8bacb7bf" name="ad9c76cff2982a47a1da612ac8bacb7bf"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:ad9c76cff2982a47a1da612ac8bacb7bf"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;=</b> (T value)</td></tr>
+<tr class="memdesc:ad9c76cff2982a47a1da612ac8bacb7bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">左移赋值运算 <br /></td></tr>
+<tr class="separator:ad9c76cff2982a47a1da612ac8bacb7bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d2b941955d0bbaf6ce0661a862a920a" id="r_a8d2b941955d0bbaf6ce0661a862a920a"><td class="memTemplParams" colspan="2"><a id="a8d2b941955d0bbaf6ce0661a862a920a" name="a8d2b941955d0bbaf6ce0661a862a920a"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a8d2b941955d0bbaf6ce0661a862a920a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;=</b> (T value) const</td></tr>
+<tr class="memdesc:a8d2b941955d0bbaf6ce0661a862a920a"><td class="mdescLeft">&#160;</td><td class="mdescRight">左移赋值运算 <br /></td></tr>
+<tr class="separator:a8d2b941955d0bbaf6ce0661a862a920a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c6415633850d099441865918429a888" id="r_a5c6415633850d099441865918429a888"><td class="memTemplParams" colspan="2"><a id="a5c6415633850d099441865918429a888" name="a5c6415633850d099441865918429a888"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a5c6415633850d099441865918429a888"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;&gt;=</b> (T value)</td></tr>
+<tr class="memdesc:a5c6415633850d099441865918429a888"><td class="mdescLeft">&#160;</td><td class="mdescRight">右移赋值运算 <br /></td></tr>
+<tr class="separator:a5c6415633850d099441865918429a888"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65c0d14631183dad5f3b07d909596f66" id="r_a65c0d14631183dad5f3b07d909596f66"><td class="memTemplParams" colspan="2"><a id="a65c0d14631183dad5f3b07d909596f66" name="a65c0d14631183dad5f3b07d909596f66"></a>
+template&lt;typename U = T&gt; </td></tr>
+<tr class="memitem:a65c0d14631183dad5f3b07d909596f66"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;&gt;=</b> (T value) const</td></tr>
+<tr class="memdesc:a65c0d14631183dad5f3b07d909596f66"><td class="mdescLeft">&#160;</td><td class="mdescRight">右移赋值运算 <br /></td></tr>
+<tr class="separator:a65c0d14631183dad5f3b07d909596f66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+友元</h2></td></tr>
+<tr class="memitem:abee6b6fe3f5de41f6fb962fee7ba20bb" id="r_abee6b6fe3f5de41f6fb962fee7ba20bb"><td class="memItemLeft" align="right" valign="top"><a id="abee6b6fe3f5de41f6fb962fee7ba20bb" name="abee6b6fe3f5de41f6fb962fee7ba20bb"></a>
+std::wostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::wostream &amp;wos, const <a class="el" href="classsw_1_1_property_base.html">PropertyBase</a> &amp;prop)</td></tr>
+<tr class="memdesc:abee6b6fe3f5de41f6fb962fee7ba20bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">支持Utils::BuildStr <br /></td></tr>
+<tr class="separator:abee6b6fe3f5de41f6fb962fee7ba20bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T, typename TDerived&gt;<br />
+class sw::PropertyBase&lt; T, TDerived &gt;</div><p>属性基类模板 </p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="a0d0177fdddde9353596f3e93a9a73b09" name="a0d0177fdddde9353596f3e93a9a73b09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d0177fdddde9353596f3e93a9a73b09">&#9670;&#160;</a></span>ListFieldsImpl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TDerived&gt; </div>
+<div class="memtemplate">
+template&lt;typename U = T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt;!std::is_pointer&lt; U &gt;::value, <a class="el" href="structsw_1_1_fake_ptr.html">FakePtr</a>&lt; T &gt; &gt;::type <a class="el" href="classsw_1_1_property_base.html">sw::PropertyBase</a>&lt; T, TDerived &gt;::ListFieldsImpl </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取属性值，由子类实现 </p>
+<p>设置属性值，由子类实现</p>
+<p>获取字段，可由子类重写</p>
+<p>获取字段，可由子类重写 </p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="_property_8h_source.html">Property.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>sw</b></li><li class="navelem"><a class="el" href="classsw_1_1_property_base.html">PropertyBase</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

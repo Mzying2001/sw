@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: Window.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_window_8h_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Window.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Color.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;Cursor.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;Layer.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;Menu.h&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;Screen.h&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;UIElement.h&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>{</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keyword">enum class</span> WindowState {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        Normal,    <span class="comment">// 普通窗口</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        Minimized, <span class="comment">// 最小化窗口</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        Maximized, <span class="comment">// 最大化窗口</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    };</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">enum class</span> WindowStartupLocation {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        Manual,       <span class="comment">// 使用系统默认或手动设置</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        CenterScreen, <span class="comment">// 屏幕中心</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        CenterOwner,  <span class="comment">// 所有者窗口中心</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    };</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span></div>
+<div class="foldopen" id="foldopen00033" data-start="{" data-end="};">
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html">   33</a></span>    <span class="keyword">class </span><a class="code hl_function" href="classsw_1_1_window.html#a24eed02d394d13b368f5cf99b2a68c44">Window</a> : <span class="keyword">public</span> <a class="code hl_function" href="classsw_1_1_layer.html#a61030d006cafc26525bc07bced899b92">Layer</a></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keywordtype">bool</span> _isFirstShow = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordtype">double</span> _maxWidth = -1, _maxHeight = -1, _minWidth = -1, _minHeight = -1;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        WindowStartupLocation _startupLocation = WindowStartupLocation::Manual;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <a class="code hl_class" href="classsw_1_1_menu.html">sw::Menu</a> *_menu = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        HWND _hPrevFocused = NULL;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        std::unique_ptr&lt;LayoutHost&gt; _layout;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordtype">bool</span> _isModal = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        HWND _hModalOwner = NULL;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#ae379d4985139db57f67d6aca0c0dbcbd">   80</a></span>        <span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_read_only_ptr_property.html">ReadOnlyPtrProperty&lt;Window *&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#ae379d4985139db57f67d6aca0c0dbcbd">ActiveWindow</a>;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#a79e61798acf605d23dd8a461c1859c3b">   85</a></span>        <span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_read_only_property.html">ReadOnlyProperty&lt;int&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#a79e61798acf605d23dd8a461c1859c3b">WindowCount</a>;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#a4a09a7ec772a2febfcda54b9aa6a8557">   90</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;WindowStartupLocation&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#a4a09a7ec772a2febfcda54b9aa6a8557">StartupLocation</a>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#a257ba940703f41b12990678bb3ff0e0e">   95</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;WindowState&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#a257ba940703f41b12990678bb3ff0e0e">State</a>;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#a518c14e6ddbf171489a86baff4cbb6a3">  100</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#a518c14e6ddbf171489a86baff4cbb6a3">SizeBox</a>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#a6852326120a03242ffef09aa3bae9e09">  105</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#a6852326120a03242ffef09aa3bae9e09">MaximizeBox</a>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#aa9476a0b4bff312e523bba76aa82b96b">  110</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#aa9476a0b4bff312e523bba76aa82b96b">MinimizeBox</a>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#a1a15faeb81c21aa3327dcd8fefdc5ffd">  115</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#a1a15faeb81c21aa3327dcd8fefdc5ffd">Topmost</a>;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#ac61382d82d410403dc2a9bc0afe49f38">  120</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#ac61382d82d410403dc2a9bc0afe49f38">ToolWindow</a>;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#a881e11126ef89b4b0badb890c8f7ac21">  125</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;double&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#a881e11126ef89b4b0badb890c8f7ac21">MaxWidth</a>;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#a64ad0c8611945758af32b7681a74a0f7">  130</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;double&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#a64ad0c8611945758af32b7681a74a0f7">MaxHeight</a>;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#aa39df901ba7c3d77ac013ccdf6caf161">  135</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;double&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#aa39df901ba7c3d77ac013ccdf6caf161">MinWidth</a>;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#aa9782debda43bce7438531290aa509ae">  140</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_property.html">Property&lt;double&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#aa9782debda43bce7438531290aa509ae">MinHeight</a>;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#ab46162d73ce63504fb34702aa2686b2e">  145</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_ptr_property.html">PtrProperty&lt;sw::Menu *&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#ab46162d73ce63504fb34702aa2686b2e">Menu</a>;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#a709b4ecc32fb2dccb7c12dd24078aed8">  150</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_read_only_property.html">ReadOnlyProperty&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#a709b4ecc32fb2dccb7c12dd24078aed8">IsModal</a>;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#ad30b0047e41ada26784ab2688b1176fd">  155</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_ptr_property.html">PtrProperty&lt;Window *&gt;</a> <a class="code hl_variable" href="classsw_1_1_window.html#ad30b0047e41ada26784ab2688b1176fd">Owner</a>;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        <a class="code hl_function" href="classsw_1_1_window.html#a24eed02d394d13b368f5cf99b2a68c44">Window</a>();</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <span class="keyword">virtual</span> LRESULT <a class="code hl_function" href="classsw_1_1_window.html#a886c8b2204d56e235418525a0df54e40">WndProc</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1_proc_msg.html">ProcMsg</a> &amp;refMsg) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classsw_1_1_layout_host.html">LayoutHost</a> *<a class="code hl_function" href="classsw_1_1_window.html#a0536882f1d6e59632bb28c43cbd1314d">GetDefaultLayout</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_window.html#a8b67e6f3e04fa2ef80a9a2ab8850a9a0">OnClose</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_window.html#a0466a3eedc70951777601b86b33af35c">OnDestroy</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_window.html#aab8ee867ca5ab5eabb6c41459a19ab45">OnEraseBackground</a>(HDC hdc, LRESULT &amp;result) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1_window.html#aee39198d0ac1ca93d0cfca888d01a2a0">OnPaint</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_window.html#afcdffe73517a3f50ad6b27319f9c3905">OnMenuCommand</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span></div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_window.html#aa58b2be6ea7e53016f6a504183b398ca">OnFirstShow</a>();</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span></div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_window.html#a3cc36beda9f442e39b039d9f6a5b86f4">OnActived</a>();</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span></div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_window.html#ab24f0fa1674e25365bb911b81c8e1f06">OnInactived</a>();</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_window.html#ab33d737b3dd652ac407ab2a24344eb95">OnDpiChanged</a>(<span class="keywordtype">int</span> dpiX, <span class="keywordtype">int</span> dpiY);</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_window.html#a97f714390560b186f28c05b1f6a35cec">Show</a>(<span class="keywordtype">int</span> nCmdShow = SW_SHOW);</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_window.html#a9766b18edbb89086949cfd4735741583">ShowDialog</a>(<a class="code hl_function" href="classsw_1_1_window.html#a24eed02d394d13b368f5cf99b2a68c44">Window</a> &amp;owner);</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_window.html#a9766b18edbb89086949cfd4735741583">ShowDialog</a>();</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_window.html#a9046c167eb2a1572f420ecd5bd8aef1c">SetIcon</a>(HICON hIcon);</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_window.html#a3daeab5c99e045449a8a5f086c19877e">DrawMenuBar</a>();</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span></div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_window.html#abff0275ae90d22951d40b769f952d415">SizeToContent</a>();</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span></div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TLayout&gt;</div>
+<div class="foldopen" id="foldopen00267" data-start="{" data-end="}">
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#a4ac5f0cb7ef04a2732e25dc598c12133">  267</a></span>        <span class="keyword">typename</span> std::enable_if&lt;std::is_base_of&lt;LayoutHost, TLayout&gt;::value&gt;::type <a class="code hl_function" href="classsw_1_1_window.html#a4ac5f0cb7ef04a2732e25dc598c12133">SetLayout</a>()</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        {</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>            this-&gt;_layout.reset(<span class="keyword">new</span> TLayout);</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>            this-&gt;_layout-&gt;Associate(<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>            this-&gt;<a class="code hl_function" href="classsw_1_1_u_i_element.html#ab5832ef956cdc4face3e9dbd0c72e66e">NotifyLayoutUpdated</a>();</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        }</div>
+</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span></div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>        <span class="keyword">template</span> &lt;std::<span class="keywordtype">nullptr</span>_t&gt;</div>
+<div class="foldopen" id="foldopen00278" data-start="{" data-end="}">
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno"><a class="line" href="classsw_1_1_window.html#a236c7f298b6bbb432ce7c3c82a5eaacd">  278</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1_window.html#a236c7f298b6bbb432ce7c3c82a5eaacd">SetLayout</a>()</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>        {</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>            this-&gt;_layout.reset(<span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>            this-&gt;<a class="code hl_function" href="classsw_1_1_u_i_element.html#ab5832ef956cdc4face3e9dbd0c72e66e">NotifyLayoutUpdated</a>();</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        }</div>
+</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>    };</div>
+</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>}</div>
+<div class="ttc" id="aclasssw_1_1_layer_html_a61030d006cafc26525bc07bced899b92"><div class="ttname"><a href="classsw_1_1_layer.html#a61030d006cafc26525bc07bced899b92">sw::Layer::Layer</a></div><div class="ttdeci">Layer()</div><div class="ttdoc">初始化Layer</div><div class="ttdef"><b>定义</b> Layer.cpp:4</div></div>
+<div class="ttc" id="aclasssw_1_1_layout_host_html"><div class="ttname"><a href="classsw_1_1_layout_host.html">sw::LayoutHost</a></div><div class="ttdoc">用于托管元素的布局方式的对象类型，是所有布局方式类型的基类</div><div class="ttdef"><b>定义</b> LayoutHost.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1_menu_html"><div class="ttname"><a href="classsw_1_1_menu.html">sw::Menu</a></div><div class="ttdoc">菜单</div><div class="ttdef"><b>定义</b> Menu.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1_property_html"><div class="ttname"><a href="classsw_1_1_property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>定义</b> Property.h:428</div></div>
+<div class="ttc" id="aclasssw_1_1_ptr_property_html"><div class="ttname"><a href="classsw_1_1_ptr_property.html">sw::PtrProperty</a></div><div class="ttdoc">指针属性</div><div class="ttdef"><b>定义</b> Property.h:613</div></div>
+<div class="ttc" id="aclasssw_1_1_read_only_property_html"><div class="ttname"><a href="classsw_1_1_read_only_property.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>定义</b> Property.h:486</div></div>
+<div class="ttc" id="aclasssw_1_1_read_only_ptr_property_html"><div class="ttname"><a href="classsw_1_1_read_only_ptr_property.html">sw::ReadOnlyPtrProperty</a></div><div class="ttdoc">指针只读属性</div><div class="ttdef"><b>定义</b> Property.h:671</div></div>
+<div class="ttc" id="aclasssw_1_1_u_i_element_html_ab5832ef956cdc4face3e9dbd0c72e66e"><div class="ttname"><a href="classsw_1_1_u_i_element.html#ab5832ef956cdc4face3e9dbd0c72e66e">sw::UIElement::NotifyLayoutUpdated</a></div><div class="ttdeci">void NotifyLayoutUpdated()</div><div class="ttdoc">通知顶级窗口布局改变</div><div class="ttdef"><b>定义</b> UIElement.cpp:611</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a0466a3eedc70951777601b86b33af35c"><div class="ttname"><a href="classsw_1_1_window.html#a0466a3eedc70951777601b86b33af35c">sw::Window::OnDestroy</a></div><div class="ttdeci">virtual bool OnDestroy() override</div><div class="ttdoc">接收到WM_DESTROY时调用该函数</div><div class="ttdef"><b>定义</b> Window.cpp:343</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a0536882f1d6e59632bb28c43cbd1314d"><div class="ttname"><a href="classsw_1_1_window.html#a0536882f1d6e59632bb28c43cbd1314d">sw::Window::GetDefaultLayout</a></div><div class="ttdeci">virtual LayoutHost * GetDefaultLayout() override</div><div class="ttdoc">获取默认布局对象</div><div class="ttdef"><b>定义</b> Window.cpp:326</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a1a15faeb81c21aa3327dcd8fefdc5ffd"><div class="ttname"><a href="classsw_1_1_window.html#a1a15faeb81c21aa3327dcd8fefdc5ffd">sw::Window::Topmost</a></div><div class="ttdeci">const Property&lt; bool &gt; Topmost</div><div class="ttdoc">窗口是否置顶</div><div class="ttdef"><b>定义</b> Window.h:115</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a236c7f298b6bbb432ce7c3c82a5eaacd"><div class="ttname"><a href="classsw_1_1_window.html#a236c7f298b6bbb432ce7c3c82a5eaacd">sw::Window::SetLayout</a></div><div class="ttdeci">void SetLayout()</div><div class="ttdoc">取消通过SetLayout设置的布局方式</div><div class="ttdef"><b>定义</b> Window.h:278</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a24eed02d394d13b368f5cf99b2a68c44"><div class="ttname"><a href="classsw_1_1_window.html#a24eed02d394d13b368f5cf99b2a68c44">sw::Window::Window</a></div><div class="ttdeci">Window()</div><div class="ttdoc">初始化窗口</div><div class="ttdef"><b>定义</b> Window.cpp:83</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a257ba940703f41b12990678bb3ff0e0e"><div class="ttname"><a href="classsw_1_1_window.html#a257ba940703f41b12990678bb3ff0e0e">sw::Window::State</a></div><div class="ttdeci">const Property&lt; WindowState &gt; State</div><div class="ttdoc">窗口状态</div><div class="ttdef"><b>定义</b> Window.h:95</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a3cc36beda9f442e39b039d9f6a5b86f4"><div class="ttname"><a href="classsw_1_1_window.html#a3cc36beda9f442e39b039d9f6a5b86f4">sw::Window::OnActived</a></div><div class="ttdeci">virtual void OnActived()</div><div class="ttdoc">窗口成为前台窗口时调用该函数</div><div class="ttdef"><b>定义</b> Window.cpp:423</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a3daeab5c99e045449a8a5f086c19877e"><div class="ttname"><a href="classsw_1_1_window.html#a3daeab5c99e045449a8a5f086c19877e">sw::Window::DrawMenuBar</a></div><div class="ttdeci">void DrawMenuBar()</div><div class="ttdoc">重回窗口的菜单栏</div><div class="ttdef"><b>定义</b> Window.cpp:540</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a4a09a7ec772a2febfcda54b9aa6a8557"><div class="ttname"><a href="classsw_1_1_window.html#a4a09a7ec772a2febfcda54b9aa6a8557">sw::Window::StartupLocation</a></div><div class="ttdeci">const Property&lt; WindowStartupLocation &gt; StartupLocation</div><div class="ttdoc">窗口初次启动的位置</div><div class="ttdef"><b>定义</b> Window.h:90</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a4ac5f0cb7ef04a2732e25dc598c12133"><div class="ttname"><a href="classsw_1_1_window.html#a4ac5f0cb7ef04a2732e25dc598c12133">sw::Window::SetLayout</a></div><div class="ttdeci">std::enable_if&lt; std::is_base_of&lt; LayoutHost, TLayout &gt;::value &gt;::type SetLayout()</div><div class="ttdoc">设置窗口的默认布局方式</div><div class="ttdef"><b>定义</b> Window.h:267</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a518c14e6ddbf171489a86baff4cbb6a3"><div class="ttname"><a href="classsw_1_1_window.html#a518c14e6ddbf171489a86baff4cbb6a3">sw::Window::SizeBox</a></div><div class="ttdeci">const Property&lt; bool &gt; SizeBox</div><div class="ttdoc">窗口是否可调整大小</div><div class="ttdef"><b>定义</b> Window.h:100</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a64ad0c8611945758af32b7681a74a0f7"><div class="ttname"><a href="classsw_1_1_window.html#a64ad0c8611945758af32b7681a74a0f7">sw::Window::MaxHeight</a></div><div class="ttdeci">const Property&lt; double &gt; MaxHeight</div><div class="ttdoc">最大高度，当值不大于0时表示不限制</div><div class="ttdef"><b>定义</b> Window.h:130</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a6852326120a03242ffef09aa3bae9e09"><div class="ttname"><a href="classsw_1_1_window.html#a6852326120a03242ffef09aa3bae9e09">sw::Window::MaximizeBox</a></div><div class="ttdeci">const Property&lt; bool &gt; MaximizeBox</div><div class="ttdoc">最大化按钮是否可用</div><div class="ttdef"><b>定义</b> Window.h:105</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a709b4ecc32fb2dccb7c12dd24078aed8"><div class="ttname"><a href="classsw_1_1_window.html#a709b4ecc32fb2dccb7c12dd24078aed8">sw::Window::IsModal</a></div><div class="ttdeci">const ReadOnlyProperty&lt; bool &gt; IsModal</div><div class="ttdoc">窗口是否显示为模态窗口，当调用ShowDialog时该属性值为true，否则为false</div><div class="ttdef"><b>定义</b> Window.h:150</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a79e61798acf605d23dd8a461c1859c3b"><div class="ttname"><a href="classsw_1_1_window.html#a79e61798acf605d23dd8a461c1859c3b">sw::Window::WindowCount</a></div><div class="ttdeci">static const ReadOnlyProperty&lt; int &gt; WindowCount</div><div class="ttdoc">当前已创建的窗口数</div><div class="ttdef"><b>定义</b> Window.h:85</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a881e11126ef89b4b0badb890c8f7ac21"><div class="ttname"><a href="classsw_1_1_window.html#a881e11126ef89b4b0badb890c8f7ac21">sw::Window::MaxWidth</a></div><div class="ttdeci">const Property&lt; double &gt; MaxWidth</div><div class="ttdoc">最大宽度，当值不大于0时表示不限制</div><div class="ttdef"><b>定义</b> Window.h:125</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a886c8b2204d56e235418525a0df54e40"><div class="ttname"><a href="classsw_1_1_window.html#a886c8b2204d56e235418525a0df54e40">sw::Window::WndProc</a></div><div class="ttdeci">virtual LRESULT WndProc(const ProcMsg &amp;refMsg) override</div><div class="ttdoc">对WndProc的封装</div><div class="ttdef"><b>定义</b> Window.cpp:251</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a8b67e6f3e04fa2ef80a9a2ab8850a9a0"><div class="ttname"><a href="classsw_1_1_window.html#a8b67e6f3e04fa2ef80a9a2ab8850a9a0">sw::Window::OnClose</a></div><div class="ttdeci">virtual bool OnClose() override</div><div class="ttdoc">接收到WM_CLOSE时调用该函数</div><div class="ttdef"><b>定义</b> Window.cpp:331</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a9046c167eb2a1572f420ecd5bd8aef1c"><div class="ttname"><a href="classsw_1_1_window.html#a9046c167eb2a1572f420ecd5bd8aef1c">sw::Window::SetIcon</a></div><div class="ttdeci">void SetIcon(HICON hIcon)</div><div class="ttdoc">设置图标</div><div class="ttdef"><b>定义</b> Window.cpp:534</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a9766b18edbb89086949cfd4735741583"><div class="ttname"><a href="classsw_1_1_window.html#a9766b18edbb89086949cfd4735741583">sw::Window::ShowDialog</a></div><div class="ttdeci">void ShowDialog()</div><div class="ttdoc">将窗口显示为模式对话框</div><div class="ttdef"><b>定义</b> Window.cpp:497</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_a97f714390560b186f28c05b1f6a35cec"><div class="ttname"><a href="classsw_1_1_window.html#a97f714390560b186f28c05b1f6a35cec">sw::Window::Show</a></div><div class="ttdeci">void Show(int nCmdShow=SW_SHOW)</div><div class="ttdoc">显示窗口</div><div class="ttdef"><b>定义</b> Window.cpp:470</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_aa39df901ba7c3d77ac013ccdf6caf161"><div class="ttname"><a href="classsw_1_1_window.html#aa39df901ba7c3d77ac013ccdf6caf161">sw::Window::MinWidth</a></div><div class="ttdeci">const Property&lt; double &gt; MinWidth</div><div class="ttdoc">最小宽度，当值不大于0时表示不限制</div><div class="ttdef"><b>定义</b> Window.h:135</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_aa58b2be6ea7e53016f6a504183b398ca"><div class="ttname"><a href="classsw_1_1_window.html#aa58b2be6ea7e53016f6a504183b398ca">sw::Window::OnFirstShow</a></div><div class="ttdeci">virtual void OnFirstShow()</div><div class="ttdoc">窗口第一次显示时调用该函数</div><div class="ttdef"><b>定义</b> Window.cpp:398</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_aa9476a0b4bff312e523bba76aa82b96b"><div class="ttname"><a href="classsw_1_1_window.html#aa9476a0b4bff312e523bba76aa82b96b">sw::Window::MinimizeBox</a></div><div class="ttdeci">const Property&lt; bool &gt; MinimizeBox</div><div class="ttdoc">最小化按钮是否可用</div><div class="ttdef"><b>定义</b> Window.h:110</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_aa9782debda43bce7438531290aa509ae"><div class="ttname"><a href="classsw_1_1_window.html#aa9782debda43bce7438531290aa509ae">sw::Window::MinHeight</a></div><div class="ttdeci">const Property&lt; double &gt; MinHeight</div><div class="ttdoc">最小高度，当值不大于0时表示不限制</div><div class="ttdef"><b>定义</b> Window.h:140</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_aab8ee867ca5ab5eabb6c41459a19ab45"><div class="ttname"><a href="classsw_1_1_window.html#aab8ee867ca5ab5eabb6c41459a19ab45">sw::Window::OnEraseBackground</a></div><div class="ttdeci">virtual bool OnEraseBackground(HDC hdc, LRESULT &amp;result) override</div><div class="ttdoc">接收到WM_ERASEBKGND时调用该函数</div><div class="ttdef"><b>定义</b> Window.cpp:349</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_ab24f0fa1674e25365bb911b81c8e1f06"><div class="ttname"><a href="classsw_1_1_window.html#ab24f0fa1674e25365bb911b81c8e1f06">sw::Window::OnInactived</a></div><div class="ttdeci">virtual void OnInactived()</div><div class="ttdoc">窗口成为后台窗口时调用该函数</div><div class="ttdef"><b>定义</b> Window.cpp:429</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_ab33d737b3dd652ac407ab2a24344eb95"><div class="ttname"><a href="classsw_1_1_window.html#ab33d737b3dd652ac407ab2a24344eb95">sw::Window::OnDpiChanged</a></div><div class="ttdeci">virtual void OnDpiChanged(int dpiX, int dpiY)</div><div class="ttdoc">接收到WM_DPICHANGED时调用该函数</div><div class="ttdef"><b>定义</b> Window.cpp:435</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_ab46162d73ce63504fb34702aa2686b2e"><div class="ttname"><a href="classsw_1_1_window.html#ab46162d73ce63504fb34702aa2686b2e">sw::Window::Menu</a></div><div class="ttdeci">const PtrProperty&lt; sw::Menu * &gt; Menu</div><div class="ttdoc">窗口顶部的菜单栏</div><div class="ttdef"><b>定义</b> Window.h:145</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_abff0275ae90d22951d40b769f952d415"><div class="ttname"><a href="classsw_1_1_window.html#abff0275ae90d22951d40b769f952d415">sw::Window::SizeToContent</a></div><div class="ttdeci">void SizeToContent()</div><div class="ttdoc">调整窗口尺寸以适应其内容大小，只对设置了布局方式的顶级窗口有效</div><div class="ttdef"><b>定义</b> Window.cpp:545</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_ac61382d82d410403dc2a9bc0afe49f38"><div class="ttname"><a href="classsw_1_1_window.html#ac61382d82d410403dc2a9bc0afe49f38">sw::Window::ToolWindow</a></div><div class="ttdeci">const Property&lt; bool &gt; ToolWindow</div><div class="ttdoc">是否显示为ToolWindow (窄边框)</div><div class="ttdef"><b>定义</b> Window.h:120</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_ad30b0047e41ada26784ab2688b1176fd"><div class="ttname"><a href="classsw_1_1_window.html#ad30b0047e41ada26784ab2688b1176fd">sw::Window::Owner</a></div><div class="ttdeci">const PtrProperty&lt; Window * &gt; Owner</div><div class="ttdoc">拥有者窗口</div><div class="ttdef"><b>定义</b> Window.h:155</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_ae379d4985139db57f67d6aca0c0dbcbd"><div class="ttname"><a href="classsw_1_1_window.html#ae379d4985139db57f67d6aca0c0dbcbd">sw::Window::ActiveWindow</a></div><div class="ttdeci">static const ReadOnlyPtrProperty&lt; Window * &gt; ActiveWindow</div><div class="ttdoc">程序的当前活动窗体</div><div class="ttdef"><b>定义</b> Window.h:80</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_aee39198d0ac1ca93d0cfca888d01a2a0"><div class="ttname"><a href="classsw_1_1_window.html#aee39198d0ac1ca93d0cfca888d01a2a0">sw::Window::OnPaint</a></div><div class="ttdeci">virtual bool OnPaint() override</div><div class="ttdoc">接收到WM_PAINT时调用该函数</div><div class="ttdef"><b>定义</b> Window.cpp:355</div></div>
+<div class="ttc" id="aclasssw_1_1_window_html_afcdffe73517a3f50ad6b27319f9c3905"><div class="ttname"><a href="classsw_1_1_window.html#afcdffe73517a3f50ad6b27319f9c3905">sw::Window::OnMenuCommand</a></div><div class="ttdeci">virtual void OnMenuCommand(int id) override</div><div class="ttdoc">当OnCommand接收到菜单命令时调用该函数</div><div class="ttdef"><b>定义</b> Window.cpp:386</div></div>
+<div class="ttc" id="astructsw_1_1_proc_msg_html"><div class="ttname"><a href="structsw_1_1_proc_msg.html">sw::ProcMsg</a></div><div class="ttdoc">对Windows窗口消息的封装</div><div class="ttdef"><b>定义</b> ProcMsg.h:10</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><b>Window.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>
