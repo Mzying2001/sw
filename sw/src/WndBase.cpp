@@ -247,6 +247,17 @@ sw::WndBase::WndBase()
           // get
           [this]() -> bool {
               return this->_isControl;
+          }),
+
+      Opacity(
+          // get
+          [this]() -> int {
+              return this->_opacity;
+          },
+          // set
+          [this](const int &value) {
+              this->_opacity = value;
+              this->SetOpacity(value);
           })
 {
     this->_font = sw::Font::GetDefaultFont();
@@ -1051,6 +1062,14 @@ DWORD sw::WndBase::GetExtendedStyle()
 void sw::WndBase::SetExtendedStyle(DWORD style)
 {
     SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, LONG_PTR(style));
+}
+
+void sw::WndBase::SetOpacity(int opacity) const
+{
+    // 确保窗口是分层窗口
+    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
+    // 设置窗口透明度
+    SetLayeredWindowAttributes(this->_hwnd, 0, opacity, LWA_ALPHA);
 }
 
 bool sw::WndBase::GetExtendedStyle(DWORD mask)

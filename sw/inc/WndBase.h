@@ -59,6 +59,11 @@ namespace sw
         sw::Rect _rect{};
 
         /**
+         * @brief 窗口的不透明度
+         */
+        int _opacity = 255;
+
+        /**
          * @brief 窗口标题或文本
          */
         std::wstring _text{};
@@ -168,6 +173,11 @@ namespace sw
          * @brief 窗口是否拥有焦点
          */
         const Property<bool> Focused;
+
+        /**
+         * @brief 窗口不透明度
+         */
+        const Property<int> Opacity;
 
         /**
          * @brief 父窗口
@@ -745,6 +755,12 @@ namespace sw
          * @param value 是否启用指定的扩展样式
          */
         void SetExtendedStyle(DWORD mask, bool value);
+
+        /**
+         * @brief 设置窗口的不透明度
+         * @param opacity 不透明度
+         */
+        void SetOpacity(int opacity) const;
 
         /**
          * @brief       获取用户区点在屏幕上点的位置
