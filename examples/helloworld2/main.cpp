@@ -6,10 +6,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
   auto window = std::make_unique<sw::Window>(); // 窗口对象
   auto stackPanel = std::make_unique<
       sw::StackPanel>(); // 堆叠面板，该面板可以将控件从上到下或者从左到右依次排列
-  auto labelTitle = std::make_unique<sw::Label>();   // 显示标题的标签
-  auto labelTips = std::make_unique<sw::Label>();    // 显示提示的标签
-  auto button = std::make_unique<sw::Button>();      // 按钮
-  auto opacityBtn = std::make_unique<sw::Button>();  // 透明度按钮
+  auto labelTitle = std::make_unique<sw::Label>();     // 显示标题的标签
+  auto labelTips = std::make_unique<sw::Label>();      // 显示提示的标签
+  auto button = std::make_unique<sw::Button>();        // 按钮
+  auto opacityBtn = std::make_unique<sw::Button>();    // 透明度按钮
+  auto borderlessBtn = std::make_unique<sw::Button>();  // 边框按钮
 
   // 修改窗口布局方式为拉伸填充，调用SetLayout或者设置Layout属性即可修改窗口的布局方式
   window->SetLayout<sw::FillLayout>();
@@ -23,6 +24,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
   labelTips->Margin = sw::Thickness(0, 20);  // 设置提示信息标签的上下边距为20
   button->Text = L"Click me!";               // 设置按钮文本
   opacityBtn->Text = L"Opacity";
+  borderlessBtn->Text = L"Borderless";
 
   // 使用AddChild函数添加控件
   window->AddChild(*stackPanel);
@@ -30,6 +32,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
   stackPanel->AddChild(*labelTips);
   stackPanel->AddChild(*button);
   stackPanel->AddChild(*opacityBtn);
+  stackPanel->AddChild(*borderlessBtn);
 
   // 注册按钮单击事件，当按钮被单击是调用回调函数，这里传入一个lambda表达式
   button->RegisterRoutedEvent(
@@ -42,14 +45,19 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
   // 注册按钮单击事件，当按钮被单击是调用回调函数，这里传入一个lambda表达式
   opacityBtn->RegisterRoutedEvent(sw::ButtonBase_Clicked,
-                              [&](sw::UIElement &, sw::RoutedEventArgs) {
-                                if (window->Opacity == 180) {
-                                  window->Opacity = 255;
-                                } else {
-                                  window->Opacity = 180;
-                                }
-                              });
+                                  [&](sw::UIElement &, sw::RoutedEventArgs) {
+                                    if (window->Opacity == 180) {
+                                      window->Opacity = 255;
+                                    } else {
+                                      window->Opacity = 180;
+                                    }
+                                  });
 
+  // 注册按钮单击事件，当按钮被单击是调用回调函数，这里传入一个lambda表达式
+  borderlessBtn->RegisterRoutedEvent(sw::ButtonBase_Clicked,
+                                  [&](sw::UIElement &, sw::RoutedEventArgs) {
+                                    window->Borderless = !window->Borderless;
+                                  });
   // 显示窗口
   window->Show();
 
