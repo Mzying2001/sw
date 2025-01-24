@@ -241,6 +241,34 @@ sw::Window::Window()
           // set
           [this](Window *value) {
               SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(value ? value->Handle.Get() : NULL));
+          }),
+
+      Opacity(
+          // get
+          [this]() -> int {
+              return this->_opacity;
+          },
+          // set
+          [this](const int &value) {
+              this->_opacity = value;
+              this->SetExtendedStyle(this->GetExtendedStyle() | WS_EX_LAYERED);
+              SetLayeredWindowAttributes(this->Handle, 0, value, LWA_ALPHA);
+          }),
+      Borderless(
+          // get
+          [this]() -> bool {
+              return this->_isBorderless;
+          },
+          // set
+          [this](const bool &value) {
+              this->_isBorderless = value;
+              auto style          = this->GetStyle();
+              if (value) {
+                  style &= ~(WS_CAPTION | WS_THICKFRAME);
+              } else {
+                  style |= (WS_CAPTION | WS_THICKFRAME);
+              }
+              this->SetStyle(style);
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);

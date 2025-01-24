@@ -247,27 +247,6 @@ sw::WndBase::WndBase()
           // get
           [this]() -> bool {
               return this->_isControl;
-          }),
-
-      Opacity(
-          // get
-          [this]() -> int {
-              return this->_opacity;
-          },
-          // set
-          [this](const int &value) {
-              this->_opacity = value;
-              this->SetOpacity(value);
-          }),
-      Borderless(
-          // get
-          [this]() -> int {
-              return this->_isBorderless;
-          },
-          // set
-          [this](const int &value) {
-              this->_isBorderless = value;
-              this->SetBorderless(value);
           })
 {
     this->_font = sw::Font::GetDefaultFont();
@@ -1072,31 +1051,6 @@ DWORD sw::WndBase::GetExtendedStyle()
 void sw::WndBase::SetExtendedStyle(DWORD style)
 {
     SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, LONG_PTR(style));
-}
-
-void sw::WndBase::SetOpacity(int value) const
-{
-    // 确保窗口是分层窗口
-    SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
-    // 设置窗口透明度
-    SetLayeredWindowAttributes(this->_hwnd, 0, value, LWA_ALPHA);
-}
-
-void sw::WndBase::SetBorderless(bool value)
-{
-    auto style   = GetStyle();
-    auto exStyle = GetExtendedStyle();
-    if (value) {
-        // 移除边框样式
-        style &= ~(WS_CAPTION | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU);
-        exStyle &= ~(WS_EX_DLGMODALFRAME | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE);
-    } else {
-        // 恢复默认样式
-        style |= (WS_CAPTION | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU);
-        exStyle |= (WS_EX_DLGMODALFRAME | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE);
-    }
-    SetStyle(style);
-    SetExtendedStyle(exStyle);
 }
 
 bool sw::WndBase::GetExtendedStyle(DWORD mask)

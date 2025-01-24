@@ -59,16 +59,6 @@ namespace sw
         sw::Rect _rect{};
 
         /**
-         * @brief 窗口的不透明度
-         */
-        int _opacity = 255;
-
-        /**
-         * @brief 窗口无边框
-         */
-        bool _isBorderless = false;
-
-        /**
          * @brief 窗口标题或文本
          */
         std::wstring _text{};
@@ -178,16 +168,6 @@ namespace sw
          * @brief 窗口是否拥有焦点
          */
         const Property<bool> Focused;
-
-        /**
-         * @brief 窗口不透明度
-         */
-        const Property<int> Opacity;
-
-        /**
-         * @brief 窗口无边框
-         */
-        const Property<bool> Borderless;
 
         /**
          * @brief 父窗口
