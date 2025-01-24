@@ -250,9 +250,21 @@ sw::Window::Window()
           },
           // set
           [this](const int &value) {
-              this->_opacity = value;
-              this->SetExtendedStyle(this->GetExtendedStyle() | WS_EX_LAYERED);
-              SetLayeredWindowAttributes(this->Handle, 0, value, LWA_ALPHA);
+              int opacity = value;
+              if (opacity < 0) {
+                  opacity = 0;
+              } else if (opacity > 255) {
+                  opacity = 255;
+              }
+              this->_opacity = opacity;
+              auto exStyle   = this->GetExtendedStyle();
+              if (opacity == 255) {
+                  exStyle &= ~WS_EX_LAYERED;
+              } else {
+                  exStyle |= WS_EX_LAYERED;
+              }
+              this->SetExtendedStyle(exStyle);
+              SetLayeredWindowAttributes(this->Handle, 0, opacity, LWA_ALPHA);
           }),
       Borderless(
           // get
