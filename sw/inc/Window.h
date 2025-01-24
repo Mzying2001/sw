@@ -73,6 +73,16 @@ namespace sw
          */
         HWND _hModalOwner = NULL;
 
+        /**
+         * @brief 窗口的不透明度
+         */
+        int _opacity = 255;
+
+        /**
+         * @brief 窗口无边框
+         */
+        bool _isBorderless = false;
+
     public:
         /**
          * @brief 程序的当前活动窗体
@@ -153,6 +163,16 @@ namespace sw
          * @brief 拥有者窗口
          */
         const PtrProperty<Window *> Owner;
+
+        /**
+         * @brief 窗口不透明度
+         */
+        const Property<int> Opacity;
+
+        /**
+         * @brief 窗口无边框
+         */
+        const Property<bool> Borderless;
 
     public:
         /**
