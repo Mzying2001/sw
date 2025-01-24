@@ -747,18 +747,6 @@ namespace sw
         void SetExtendedStyle(DWORD mask, bool value);
 
         /**
-         * @brief 设置窗口的不透明度
-         * @param value 不透明度
-         */
-        void SetOpacity(int value) const;
-
-        /**
-         * @brief 设置窗口是否无边框
-         * @param value 是否启用无边框
-         */
-        void SetBorderless(bool value);
-
-        /**
          * @brief       获取用户区点在屏幕上点的位置
          * @param point 用户区坐标
          * @return      该点在屏幕上的坐标
