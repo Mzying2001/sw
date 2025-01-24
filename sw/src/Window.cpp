@@ -273,14 +273,10 @@ sw::Window::Window()
           },
           // set
           [this](const bool &value) {
-              this->_isBorderless = value;
-              auto style          = this->GetStyle();
-              if (value) {
-                  style &= ~(WS_CAPTION | WS_THICKFRAME);
-              } else {
-                  style |= (WS_CAPTION | WS_THICKFRAME);
+              if (this->_isBorderless != value) {
+                  this->_isBorderless = value;
+                  this->SetStyle(WS_CAPTION | WS_THICKFRAME, !value);
               }
-              this->SetStyle(style);
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
