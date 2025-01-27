@@ -73,6 +73,11 @@ namespace sw
          */
         HWND _hModalOwner = NULL;
 
+        /**
+         * @brief 窗口无边框
+         */
+        bool _isBorderless = false;
+
     public:
         /**
          * @brief 程序的当前活动窗体
@@ -153,6 +158,22 @@ namespace sw
          * @brief 拥有者窗口
          */
         const PtrProperty<Window *> Owner;
+
+        /**
+         * @brief 窗口是否为分层窗口，即WS_EX_LAYERED样式是否被设置
+         */
+        const Property<bool> IsLayered;
+
+        /**
+         * @brief 窗口的透明度，范围为0.0~1.0
+         * @note  只有将IsLayered设为true该属性才生效，初始值为0.0但需手动设置新值后才会生效
+         */
+        const Property<double> Opacity;
+
+        /**
+         * @brief 窗口无边框
+         */
+        const Property<bool> Borderless;
 
     public:
         /**
