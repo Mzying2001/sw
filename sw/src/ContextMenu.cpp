@@ -1,9 +1,13 @@
 #include "ContextMenu.h"
+#include <limits>
 
-/**
- * @brief 上下文菜单ID的起始位置，用于与普通菜单ID区分
- */
-static constexpr int _ContextMenuIDFirst = 50000;
+namespace
+{
+    /**
+     * @brief 上下文菜单ID的起始位置，用于与普通菜单ID区分
+     */
+    constexpr int _ContextMenuIDFirst = (std::numeric_limits<int>::max)() / 2;
+}
 
 sw::ContextMenu::ContextMenu()
     : MenuBase(CreatePopupMenu())

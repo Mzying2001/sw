@@ -232,9 +232,9 @@ sw::MenuItem *sw::MenuBase::GetParent(MenuItem &item)
         return nullptr;
     }
 
-    for (auto &tuple : this->_popupMenus) {
-        if (std::get<1>(tuple) == dependencyInfo->hParent) {
-            return std::get<0>(tuple).get();
+    for (auto &info : this->_popupMenus) {
+        if (info.hSelf == dependencyInfo->hParent) {
+            return info.pItem.get();
         }
     }
 
@@ -386,8 +386,8 @@ void sw::MenuBase::_ClearAddedItems()
         RemoveMenu(this->_hMenu, 0, MF_BYPOSITION);
     }
 
-    for (auto &tuple : this->_popupMenus) {
-        DestroyMenu(std::get<1>(tuple));
+    for (auto &info : this->_popupMenus) {
+        DestroyMenu(info.hSelf);
     }
 
     this->_dependencyInfoMap.clear();
@@ -400,26 +400,29 @@ void sw::MenuBase::_AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem,
     this->_dependencyInfoMap[pItem.get()] =
         {/*hParent*/ hMenu, /*hSelf*/ NULL, /*index*/ index};
 
+    // 分隔条
     if (pItem->IsSeparator()) {
         AppendMenuW(hMenu, MF_SEPARATOR, 0, NULL);
         return;
     }
 
-    if (pItem->subItems.size() == 0) {
-        int id = this->IndexToID(int(this->_ids.size()));
+    // 菜单项
+    if (pItem->subItems.empty()) {
+        // 无子项，该菜单项没有句柄
+        int id = this->IndexToID((int)this->_ids.size());
         AppendMenuW(hMenu, MF_STRING, id, pItem->text.c_str());
         this->_ids.push_back(pItem);
-        return;
-    }
-
-    HMENU hSubMenu = CreatePopupMenu();
-    this->_popupMenus.push_back(std::make_tuple(pItem, hSubMenu));
-    this->_dependencyInfoMap[pItem.get()].hSelf = hSubMenu;
-    AppendMenuW(hMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(hSubMenu), pItem->text.c_str());
-
-    int i = 0;
-    for (std::shared_ptr<MenuItem> pSubItem : pItem->subItems) {
-        this->_AppendMenuItem(hSubMenu, pSubItem, i++);
+    } else {
+        // 有子项，需创建菜单句柄
+        HMENU hSelf = CreatePopupMenu();
+        this->_popupMenus.push_back({/*pItem*/ pItem, /*hSelf*/ hSelf});
+        this->_dependencyInfoMap[pItem.get()].hSelf = hSelf;
+        AppendMenuW(hMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(hSelf), pItem->text.c_str());
+        // 递归添加子项
+        int i = 0;
+        for (std::shared_ptr<MenuItem> pSubItem : pItem->subItems) {
+            this->_AppendMenuItem(hSelf, pSubItem, i++);
+        }
     }
 }
 

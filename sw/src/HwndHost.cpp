@@ -1,6 +1,15 @@
 #include "HwndHost.h"
 
 sw::HwndHost::HwndHost()
+    : FillContent(
+          // get
+          [this]() -> bool {
+              return this->_fillContent;
+          },
+          // set
+          [this](const bool &value) {
+              this->_fillContent = value;
+          })
 {
     this->Rect = sw::Rect{0, 0, 100, 100};
 }
@@ -13,7 +22,7 @@ void sw::HwndHost::InitHwndHost()
 
 bool sw::HwndHost::OnSize(Size newClientSize)
 {
-    if (this->_hWindowCore != NULL) {
+    if (this->_hWindowCore != NULL && this->_fillContent) {
         SetWindowPos(this->_hWindowCore, NULL, 0, 0,
                      Dip::DipToPxX(newClientSize.width),
                      Dip::DipToPxY(newClientSize.height),
