@@ -243,19 +243,26 @@ sw::Window::Window()
               SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(value ? value->Handle.Get() : NULL));
           }),
 
-      Opacity(
+      IsLayered(
           // get
-          [this]() -> int {
-              return this->_opacity;
+          [this]() -> bool {
+              return this->GetExtendedStyle(WS_EX_LAYERED);
           },
           // set
-          [this](const int &value) {
-              int opacity = Utils::Min(255, Utils::Max(0, value));
-              if (this->_opacity != opacity) {
-                  this->_opacity = opacity;
-                  this->SetExtendedStyle(WS_EX_LAYERED, true);
-                  SetLayeredWindowAttributes(this->Handle, 0, opacity, LWA_ALPHA);
-              }
+          [this](const bool &value) {
+              this->SetExtendedStyle(WS_EX_LAYERED, value);
+          }),
+
+      Opacity(
+          // get
+          [this]() -> double {
+              BYTE result;
+              return GetLayeredWindowAttributes(this->Handle, NULL, &result, NULL) ? (result / 255.0) : 1.0;
+          },
+          // set
+          [this](const double &value) {
+              double opacity = Utils::Min(1.0, Utils::Max(0.0, value));
+              SetLayeredWindowAttributes(this->Handle, 0, (BYTE)std::lround(255 * opacity), LWA_ALPHA);
           }),
 
       Borderless(
