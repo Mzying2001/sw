@@ -541,6 +541,17 @@ const <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty<
 const <a class="el" href="classsw_1_1_ptr_property.html">PtrProperty</a>&lt; <a class="el" href="classsw_1_1_window.html">Window</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Owner</b></td></tr>
 <tr class="memdesc:ad30b0047e41ada26784ab2688b1176fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">拥有者窗口 <br /></td></tr>
 <tr class="separator:ad30b0047e41ada26784ab2688b1176fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab642e68dc2716a7496322be4423f82f4" id="r_ab642e68dc2716a7496322be4423f82f4"><td class="memItemLeft" align="right" valign="top"><a id="ab642e68dc2716a7496322be4423f82f4" name="ab642e68dc2716a7496322be4423f82f4"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsLayered</b></td></tr>
+<tr class="memdesc:ab642e68dc2716a7496322be4423f82f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口是否为分层窗口，即WS_EX_LAYERED样式是否被设置 <br /></td></tr>
+<tr class="separator:ab642e68dc2716a7496322be4423f82f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a789346009936daa99303cf88f9f5bb34" id="r_a789346009936daa99303cf88f9f5bb34"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a789346009936daa99303cf88f9f5bb34">Opacity</a></td></tr>
+<tr class="memdesc:a789346009936daa99303cf88f9f5bb34"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口的透明度，范围为0.0~1.0  <br /></td></tr>
+<tr class="separator:a789346009936daa99303cf88f9f5bb34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21dd383eef41be091277a356820e0608" id="r_a21dd383eef41be091277a356820e0608"><td class="memItemLeft" align="right" valign="top"><a id="a21dd383eef41be091277a356820e0608" name="a21dd383eef41be091277a356820e0608"></a>
+const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Borderless</b></td></tr>
+<tr class="memdesc:a21dd383eef41be091277a356820e0608"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口无边框 <br /></td></tr>
+<tr class="separator:a21dd383eef41be091277a356820e0608"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classsw_1_1_layer"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_classsw_1_1_layer')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1_layer.html">sw::Layer</a></td></tr>
 <tr class="memitem:a3c749a7ed688a040cecfa455be293300 inherit pub_attribs_classsw_1_1_layer" id="r_a3c749a7ed688a040cecfa455be293300"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classsw_1_1_ptr_property.html">PtrProperty</a>&lt; <a class="el" href="classsw_1_1_layout_host.html">LayoutHost</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Layout</b></td></tr>
@@ -1372,6 +1383,24 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 <p>对WndProc的封装 </p>
 
 <p>重载 <a class="el" href="classsw_1_1_wnd_base.html#a863b26226e16cf37f7169c6edc96a3b4">sw::WndBase</a> .</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a789346009936daa99303cf88f9f5bb34" name="a789346009936daa99303cf88f9f5bb34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a789346009936daa99303cf88f9f5bb34">&#9670;&#160;</a></span>Opacity</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsw_1_1_property.html">Property</a>&lt;double&gt; sw::Window::Opacity</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>窗口的透明度，范围为0.0~1.0 </p>
+<dl class="section note"><dt>注解</dt><dd>只有将IsLayered设为true该属性才生效，初始值为0.0但需手动设置新值后才会生效 </dd></dl>
 
 </div>
 </div>

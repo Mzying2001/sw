@@ -5,5 +5,6 @@ var classsw_1_1_hwnd_host =
     [ "DestroyWindowCore", "classsw_1_1_hwnd_host.html#af644778e078302b01faf0ac2f5c7b75c", null ],
     [ "InitHwndHost", "classsw_1_1_hwnd_host.html#aebdcab5949f812ae64ecd79633cacc49", null ],
     [ "OnDestroy", "classsw_1_1_hwnd_host.html#a9535b63e17fbb079ce4f618c288cb9bd", null ],
-    [ "OnSize", "classsw_1_1_hwnd_host.html#a811a6d21dd8534addfc401bb79f829f7", null ]
+    [ "OnSize", "classsw_1_1_hwnd_host.html#a811a6d21dd8534addfc401bb79f829f7", null ],
+    [ "FillContent", "classsw_1_1_hwnd_host.html#a86f6a07189a60e99f6fc451570300710", null ]
 ];
