@@ -1,5 +1,6 @@
 #include "sw_all.h"
 #include <cmath>
+#include <limits>
 #include <strsafe.h>
 #include <climits>
 #include <deque>
@@ -817,10 +818,13 @@ void sw::ComboBox::CloseDropDown()
 
 // ContextMenu.cpp
 
-/**
- * @brief 上下文菜单ID的起始位置，用于与普通菜单ID区分
- */
-static constexpr int _ContextMenuIDFirst = 50000;
+namespace
+{
+    /**
+     * @brief 上下文菜单ID的起始位置，用于与普通菜单ID区分
+     */
+    constexpr int _ContextMenuIDFirst = (std::numeric_limits<int>::max)() / 2;
+}
 
 sw::ContextMenu::ContextMenu()
     : MenuBase(CreatePopupMenu())
@@ -2716,6 +2720,15 @@ void sw::HotKeyControl::_UpdateValue()
 // HwndHost.cpp
 
 sw::HwndHost::HwndHost()
+    : FillContent(
+          // get
+          [this]() -> bool {
+              return this->_fillContent;
+          },
+          // set
+          [this](const bool &value) {
+              this->_fillContent = value;
+          })
 {
     this->Rect = sw::Rect{0, 0, 100, 100};
 }
@@ -2728,7 +2741,7 @@ void sw::HwndHost::InitHwndHost()
 
 bool sw::HwndHost::OnSize(Size newClientSize)
 {
-    if (this->_hWindowCore != NULL) {
+    if (this->_hWindowCore != NULL && this->_fillContent) {
         SetWindowPos(this->_hWindowCore, NULL, 0, 0,
                      Dip::DipToPxX(newClientSize.width),
                      Dip::DipToPxY(newClientSize.height),
@@ -3474,6 +3487,14 @@ void sw::Label::Measure(const Size &availableSize)
 
 // Layer.cpp
 
+namespace
+{
+    /**
+     * @brief 滚动条滚动一行的距离
+     */
+    constexpr int _LayerScrollBarLineInterval = 20;
+}
+
 sw::Layer::Layer()
     : Layout(
           // get
@@ -3715,11 +3736,11 @@ void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double 
                 break;
             }
             case ScrollEvent::LineLeft: {
-                this->ScrollHorizontal(-20);
+                this->ScrollHorizontal(-_LayerScrollBarLineInterval);
                 break;
             }
             case ScrollEvent::LineRight: {
-                this->ScrollHorizontal(20);
+                this->ScrollHorizontal(_LayerScrollBarLineInterval);
                 break;
             }
             default: {
@@ -3750,11 +3771,11 @@ void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double 
                 break;
             }
             case ScrollEvent::LineUp: {
-                this->ScrollVertical(-20);
+                this->ScrollVertical(-_LayerScrollBarLineInterval);
                 break;
             }
             case ScrollEvent::LineDown: {
-                this->ScrollVertical(20);
+                this->ScrollVertical(_LayerScrollBarLineInterval);
                 break;
             }
             default: {
@@ -3995,12 +4016,12 @@ void sw::Layer::ScrollToRight()
 
 void sw::Layer::ScrollHorizontal(double offset)
 {
-    this->HorizontalScrollPos = this->HorizontalScrollPos + offset;
+    this->HorizontalScrollPos += offset;
 }
 
 void sw::Layer::ScrollVertical(double offset)
 {
-    this->VerticalScrollPos = this->VerticalScrollPos + offset;
+    this->VerticalScrollPos += offset;
 }
 
 // LayoutHost.cpp
@@ -5042,9 +5063,9 @@ sw::MenuItem *sw::MenuBase::GetParent(MenuItem &item)
         return nullptr;
     }
 
-    for (auto &tuple : this->_popupMenus) {
-        if (std::get<1>(tuple) == dependencyInfo->hParent) {
-            return std::get<0>(tuple).get();
+    for (auto &info : this->_popupMenus) {
+        if (info.hSelf == dependencyInfo->hParent) {
+            return info.pItem.get();
         }
     }
 
@@ -5196,8 +5217,8 @@ void sw::MenuBase::_ClearAddedItems()
         RemoveMenu(this->_hMenu, 0, MF_BYPOSITION);
     }
 
-    for (auto &tuple : this->_popupMenus) {
-        DestroyMenu(std::get<1>(tuple));
+    for (auto &info : this->_popupMenus) {
+        DestroyMenu(info.hSelf);
     }
 
     this->_dependencyInfoMap.clear();
@@ -5210,26 +5231,29 @@ void sw::MenuBase::_AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem,
     this->_dependencyInfoMap[pItem.get()] =
         {/*hParent*/ hMenu, /*hSelf*/ NULL, /*index*/ index};
 
+    // 分隔条
     if (pItem->IsSeparator()) {
         AppendMenuW(hMenu, MF_SEPARATOR, 0, NULL);
         return;
     }
 
-    if (pItem->subItems.size() == 0) {
-        int id = this->IndexToID(int(this->_ids.size()));
+    // 菜单项
+    if (pItem->subItems.empty()) {
+        // 无子项，该菜单项没有句柄
+        int id = this->IndexToID((int)this->_ids.size());
         AppendMenuW(hMenu, MF_STRING, id, pItem->text.c_str());
         this->_ids.push_back(pItem);
-        return;
-    }
-
-    HMENU hSubMenu = CreatePopupMenu();
-    this->_popupMenus.push_back(std::make_tuple(pItem, hSubMenu));
-    this->_dependencyInfoMap[pItem.get()].hSelf = hSubMenu;
-    AppendMenuW(hMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(hSubMenu), pItem->text.c_str());
-
-    int i = 0;
-    for (std::shared_ptr<MenuItem> pSubItem : pItem->subItems) {
-        this->_AppendMenuItem(hSubMenu, pSubItem, i++);
+    } else {
+        // 有子项，需创建菜单句柄
+        HMENU hSelf = CreatePopupMenu();
+        this->_popupMenus.push_back({/*pItem*/ pItem, /*hSelf*/ hSelf});
+        this->_dependencyInfoMap[pItem.get()].hSelf = hSelf;
+        AppendMenuW(hMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(hSelf), pItem->text.c_str());
+        // 递归添加子项
+        int i = 0;
+        for (std::shared_ptr<MenuItem> pSubItem : pItem->subItems) {
+            this->_AppendMenuItem(hSelf, pSubItem, i++);
+        }
     }
 }
 
@@ -8669,6 +8693,41 @@ sw::Window::Window()
           // set
           [this](Window *value) {
               SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(value ? value->Handle.Get() : NULL));
+          }),
+
+      IsLayered(
+          // get
+          [this]() -> bool {
+              return this->GetExtendedStyle(WS_EX_LAYERED);
+          },
+          // set
+          [this](const bool &value) {
+              this->SetExtendedStyle(WS_EX_LAYERED, value);
+          }),
+
+      Opacity(
+          // get
+          [this]() -> double {
+              BYTE result;
+              return GetLayeredWindowAttributes(this->Handle, NULL, &result, NULL) ? (result / 255.0) : 1.0;
+          },
+          // set
+          [this](const double &value) {
+              double opacity = Utils::Min(1.0, Utils::Max(0.0, value));
+              SetLayeredWindowAttributes(this->Handle, 0, (BYTE)std::lround(255 * opacity), LWA_ALPHA);
+          }),
+
+      Borderless(
+          // get
+          [this]() -> bool {
+              return this->_isBorderless;
+          },
+          // set
+          [this](const bool &value) {
+              if (this->_isBorderless != value) {
+                  this->_isBorderless = value;
+                  this->SetStyle(WS_CAPTION | WS_THICKFRAME, !value);
+              }
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);

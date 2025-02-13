@@ -3656,6 +3656,14 @@ namespace sw
     {
     private:
         /**
+         * @brief 包含子项的菜单项的句柄信息
+         */
+        struct _PopupMenuInfo {
+            std::shared_ptr<MenuItem> pItem; // 菜单项
+            HMENU hSelf;                     // 菜单句柄
+        };
+
+        /**
          * @brief 记录菜单项的依赖关系
          */
         struct _MenuItemDependencyInfo {
@@ -3671,22 +3679,22 @@ namespace sw
         HMENU _hMenu = NULL;
 
         /**
-         * @brief 菜单项集合
+         * @brief 菜单所直接包含的菜单项集合（即第一级菜单项）
          */
         std::vector<std::shared_ptr<MenuItem>> _items;
 
         /**
-         * @brief 记录所有包含子项的菜单的句柄
+         * @brief 记录包含子项的菜单项的句柄信息
          */
-        std::vector<std::tuple<std::shared_ptr<MenuItem>, HMENU>> _popupMenus;
+        std::vector<_PopupMenuInfo> _popupMenus;
 
         /**
-         * @brief 记录菜单项的ID，可通过菜单项所在索引获取ID（调用IndexToID）
+         * @brief 记录每个菜单项的ID，可通过菜单项所在索引获取ID（调用IndexToID）
          */
         std::vector<std::shared_ptr<MenuItem>> _ids;
 
         /**
-         * @brief 记录菜单项直接依赖关系的map
+         * @brief 记录每个菜单项直接依赖关系的map
          */
         std::map<MenuItem *, _MenuItemDependencyInfo> _dependencyInfoMap;
 
@@ -3737,7 +3745,7 @@ namespace sw
         void AddItem(const MenuItem &item);
 
         /**
-         * @brief         像当前菜单中的某个菜单项添加新的子项
+         * @brief         向当前菜单中的某个菜单项添加新的子项
          * @param item    要添加子项的菜单项，当该项原本不含有子项时将会调用Update更新整个菜单
          * @param subItem 要添加的子菜单项
          * @return        返回一个bool值，表示操作是否成功
@@ -8486,6 +8494,11 @@ namespace sw
          */
         HWND _hModalOwner = NULL;
 
+        /**
+         * @brief 窗口无边框
+         */
+        bool _isBorderless = false;
+
     public:
         /**
          * @brief 程序的当前活动窗体
@@ -8566,6 +8579,22 @@ namespace sw
          * @brief 拥有者窗口
          */
         const PtrProperty<Window *> Owner;
+
+        /**
+         * @brief 窗口是否为分层窗口，即WS_EX_LAYERED样式是否被设置
+         */
+        const Property<bool> IsLayered;
+
+        /**
+         * @brief 窗口的透明度，范围为0.0~1.0
+         * @note  只有将IsLayered设为true该属性才生效，初始值为0.0但需手动设置新值后才会生效
+         */
+        const Property<double> Opacity;
+
+        /**
+         * @brief 窗口无边框
+         */
+        const Property<bool> Borderless;
 
     public:
         /**
@@ -9716,7 +9745,17 @@ namespace sw
          */
         HWND _hWindowCore{NULL};
 
+        /**
+         * @brief 是否自动填充托管的内容
+         */
+        bool _fillContent = true;
+
     public:
+        /**
+         * @brief 是否自动填充托管的内容
+         */
+        const Property<bool> FillContent;
+
         /**
          * @brief 创建HwndHost对象
          */
@@ -9741,6 +9780,7 @@ namespace sw
          */
         virtual bool OnDestroy() override;
 
+    protected:
         /**
          * @brief         初始化HwndHost时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄
          * @param hParent 需要给被托管窗口句柄设置的父窗口句柄
