@@ -85,7 +85,7 @@ bool sw::DateTimePicker::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     if (pNMHDR->code == DTN_DATETIMECHANGE) {
         this->OnTimeChanged(reinterpret_cast<NMDATETIMECHANGE *>(pNMHDR));
     }
-    return false;
+    return this->Control::OnNotified(pNMHDR, result);
 }
 
 void sw::DateTimePicker::OnTimeChanged(NMDATETIMECHANGE *pInfo)

@@ -128,7 +128,7 @@ bool sw::TextBoxBase::OnKeyDown(VirtualKey key, KeyFlags flags)
     return e.handledMsg;
 }
 
-void sw::TextBoxBase::OnDrawFocusRect()
+void sw::TextBoxBase::OnDrawFocusRect(HDC hdc)
 {
     // 不绘制虚线框
 }

@@ -63,6 +63,49 @@ void sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
     this->HandleChenged();
 }
 
+bool sw::Control::OnNotified(NMHDR *pNMHDR, LRESULT &result)
+{
+    switch (pNMHDR->code) {
+        case NM_CUSTOMDRAW: {
+            return this->OnCustomDraw(reinterpret_cast<NMCUSTOMDRAW *>(pNMHDR), result);
+        }
+        default: {
+            return this->UIElement::OnNotified(pNMHDR, result);
+        }
+    }
+}
+
+bool sw::Control::OnKillFocus(HWND hNextFocus)
+{
+    this->_drawFocusRect = false;
+    return this->UIElement::OnKillFocus(hNextFocus);
+}
+
+void sw::Control::OnTabStop()
+{
+    this->_drawFocusRect = true;
+    this->UIElement::OnTabStop();
+}
+
+bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
+{
+    if (pNMCD->dwDrawStage == CDDS_PREPAINT) {
+        if (this->_drawFocusRect) {
+            ProcMsg msg(pNMCD->hdr.hwndFrom, WM_NOTIFY, 0, reinterpret_cast<LPARAM>(pNMCD));
+            result = this->DefaultWndProc(msg);
+            this->OnDrawFocusRect(pNMCD->hdc);
+            return true;
+        }
+    }
+    return false;
+}
+
+void sw::Control::OnDrawFocusRect(HDC hdc)
+{
+    RECT rect = this->ClientRect.Get();
+    DrawFocusRect(hdc, &rect);
+}
+
 void sw::Control::HandleChenged()
 {
 }

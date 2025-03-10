@@ -217,11 +217,8 @@ bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
             result = (LRESULT)this->OnEndEdit(reinterpret_cast<NMLVDISPINFOW *>(pNMHDR));
             return true;
         }
-        case NM_CUSTOMDRAW: {
-            return this->OnCustomDraw(reinterpret_cast<NMLVCUSTOMDRAW *>(pNMHDR), result);
-        }
     }
-    return false;
+    return this->Control::OnNotified(pNMHDR, result);
 }
 
 void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
@@ -282,11 +279,6 @@ bool sw::ListView::OnEndEdit(NMLVDISPINFOW *pNMInfo)
     this->RaiseRoutedEvent(args);
     pNMInfo->item.pszText = args.newText;
     return !args.cancel;
-}
-
-bool sw::ListView::OnCustomDraw(NMLVCUSTOMDRAW *pNMCD, LRESULT &result)
-{
-    return false;
 }
 
 void sw::ListView::Clear()

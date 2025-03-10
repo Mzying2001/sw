@@ -18,6 +18,21 @@ bool sw::PanelBase::OnHorizontalScroll(int event, int pos)
     return this->Layer::OnHorizontalScroll(event, pos);
 }
 
+bool sw::PanelBase::OnNotified(NMHDR *pNMHDR, LRESULT &result)
+{
+    return this->Control::OnNotified(pNMHDR, result);
+}
+
+bool sw::PanelBase::OnKillFocus(HWND hNextFocus)
+{
+    return this->Control::OnKillFocus(hNextFocus);
+}
+
+void sw::PanelBase::OnTabStop()
+{
+    this->Control::OnTabStop();
+}
+
 void sw::PanelBase::Measure(const Size &availableSize)
 {
     this->Layer::Measure(availableSize);
