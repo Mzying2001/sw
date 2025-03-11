@@ -22,7 +22,6 @@ var classsw_1_1_list_view =
     [ "InsertColumn", "classsw_1_1_list_view.html#a0abf70d4eee217e060b84686f30b8a09", null ],
     [ "InsertItem", "classsw_1_1_list_view.html#a34425690bf39e914861b2211004c2ce1", null ],
     [ "OnCheckStateChanged", "classsw_1_1_list_view.html#a5b4b18df705396deeb3a2dc2fb0048cc", null ],
-    [ "OnCustomDraw", "classsw_1_1_list_view.html#a657ee95bc5ae71e66b2f05b7e4cba79d", null ],
     [ "OnEndEdit", "classsw_1_1_list_view.html#ad9e879d4c14b0d12382eb6c005c1340b", null ],
     [ "OnGetDispInfo", "classsw_1_1_list_view.html#a685d431b998be4b714fd51c0eeccfe1f", null ],
     [ "OnHeaderItemClicked", "classsw_1_1_list_view.html#aebad3b5c7fafae2aa71f811beecfaeb8", null ],
