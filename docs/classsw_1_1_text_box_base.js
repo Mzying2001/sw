@@ -7,7 +7,7 @@ var classsw_1_1_text_box_base =
     [ "InitTextBoxBase", "classsw_1_1_text_box_base.html#a3a6843f34013ed31f3828263f0984233", null ],
     [ "OnChar", "classsw_1_1_text_box_base.html#aa88527cddd82fc158e0ac3ca662604c1", null ],
     [ "OnCommand", "classsw_1_1_text_box_base.html#a1e7210993dcbf6cfdaff3dcc3246dfd5", null ],
-    [ "OnDrawFocusRect", "classsw_1_1_text_box_base.html#a89b507ceef32d379c93a60b5989b74fe", null ],
+    [ "OnDrawFocusRect", "classsw_1_1_text_box_base.html#a7001a2c96dffe9ebd76a3736c0e47803", null ],
     [ "OnKeyDown", "classsw_1_1_text_box_base.html#a83561e8ffe232f84c13dc14c941600f6", null ],
     [ "ScrollToCaret", "classsw_1_1_text_box_base.html#a221765241d6ca76156d3564440306d51", null ],
     [ "Select", "classsw_1_1_text_box_base.html#aa22188dc026379eb3e76a2415b8bf0c9", null ],

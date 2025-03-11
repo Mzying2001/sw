@@ -92,7 +92,7 @@ bool sw::SysLink::OnNotified(NMHDR *pNMHDR, LRESULT &result)
             break;
         }
     }
-    return false;
+    return this->Control::OnNotified(pNMHDR, result);
 }
 
 void sw::SysLink::OnClicked(NMLINK *pNMLink)

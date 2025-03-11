@@ -1,5 +1,12 @@
 var NAVTREEINDEX5 =
 {
+"structsw_1_1_color.html#a79499715b083e1ae124e9e1c644608f9":[1,0,0,22,6],
+"structsw_1_1_color.html#a87eeb778e75e071a79b507b9a51656ae":[1,0,0,22,7],
+"structsw_1_1_color.html#aa0d9276e270e57dc0320dce6274106ba":[1,0,0,22,0],
+"structsw_1_1_color.html#aa42552f373fab2b4132c73de6febad58":[1,0,0,22,3],
+"structsw_1_1_color.html#ab334150d36ae29d3db72843e072994c9":[1,0,0,22,11],
+"structsw_1_1_color.html#abb6da0ffa872c60d0a9f578b7a785bde":[1,0,0,22,4],
+"structsw_1_1_color.html#ad432609396ec72641f339a89ce78d64f":[1,0,0,22,8],
 "structsw_1_1_color.html#aeeb136eece447ed3f36a6767a807bb4d":[1,0,0,22,9],
 "structsw_1_1_date_time_picker_time_changed_event_args.html":[1,0,0,28],
 "structsw_1_1_drop_files_event_args.html":[1,0,0,34],

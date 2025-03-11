@@ -9,10 +9,9 @@ sw::Button::Button()
     this->Rect = sw::Rect(0, 0, 70, 30);
 }
 
-void sw::Button::OnDrawFocusRect()
+void sw::Button::OnDrawFocusRect(HDC hdc)
 {
     HWND hwnd = this->Handle;
-    HDC hdc   = GetDC(hwnd);
 
     RECT rect;
     GetClientRect(hwnd, &rect);
@@ -23,7 +22,6 @@ void sw::Button::OnDrawFocusRect()
     rect.bottom -= 3;
 
     DrawFocusRect(hdc, &rect);
-    ReleaseDC(hwnd, hdc);
 }
 
 bool sw::Button::OnSetFocus(HWND hPreFocus)

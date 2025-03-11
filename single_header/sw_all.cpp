@@ -396,10 +396,9 @@ sw::Button::Button()
     this->Rect = sw::Rect(0, 0, 70, 30);
 }
 
-void sw::Button::OnDrawFocusRect()
+void sw::Button::OnDrawFocusRect(HDC hdc)
 {
     HWND hwnd = this->Handle;
-    HDC hdc   = GetDC(hwnd);
 
     RECT rect;
     GetClientRect(hwnd, &rect);
@@ -410,7 +409,6 @@ void sw::Button::OnDrawFocusRect()
     rect.bottom -= 3;
 
     DrawFocusRect(hdc, &rect);
-    ReleaseDC(hwnd, hdc);
 }
 
 bool sw::Button::OnSetFocus(HWND hPreFocus)
@@ -917,6 +915,62 @@ void sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
     this->HandleChenged();
 }
 
+bool sw::Control::OnNotified(NMHDR *pNMHDR, LRESULT &result)
+{
+    switch (pNMHDR->code) {
+        case NM_CUSTOMDRAW: {
+            return this->OnCustomDraw(reinterpret_cast<NMCUSTOMDRAW *>(pNMHDR), result);
+        }
+        default: {
+            return this->UIElement::OnNotified(pNMHDR, result);
+        }
+    }
+}
+
+bool sw::Control::OnKillFocus(HWND hNextFocus)
+{
+    this->_drawFocusRect = false;
+    return this->UIElement::OnKillFocus(hNextFocus);
+}
+
+void sw::Control::OnTabStop()
+{
+    this->_drawFocusRect = true;
+    this->UIElement::OnTabStop();
+}
+
+bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
+{
+    if (pNMCD->dwDrawStage == CDDS_PREPAINT) {
+        if (!this->OnPrePaint(pNMCD->hdc, result)) {
+            ProcMsg msg(this->_hwnd, WM_NOTIFY,
+                        reinterpret_cast<WPARAM>(pNMCD->hdr.hwndFrom), reinterpret_cast<LPARAM>(pNMCD));
+            result = this->DefaultWndProc(msg);
+        }
+        this->OnPostPaint(pNMCD->hdc);
+        return true;
+    }
+    return false;
+}
+
+bool sw::Control::OnPrePaint(HDC hdc, LRESULT &result)
+{
+    return false;
+}
+
+void sw::Control::OnPostPaint(HDC hdc)
+{
+    if (this->_drawFocusRect) {
+        this->OnDrawFocusRect(hdc);
+    }
+}
+
+void sw::Control::OnDrawFocusRect(HDC hdc)
+{
+    RECT rect = this->ClientRect.Get();
+    DrawFocusRect(hdc, &rect);
+}
+
 void sw::Control::HandleChenged()
 {
 }
@@ -1025,7 +1079,7 @@ bool sw::DateTimePicker::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     if (pNMHDR->code == DTN_DATETIMECHANGE) {
         this->OnTimeChanged(reinterpret_cast<NMDATETIMECHANGE *>(pNMHDR));
     }
-    return false;
+    return this->Control::OnNotified(pNMHDR, result);
 }
 
 void sw::DateTimePicker::OnTimeChanged(NMDATETIMECHANGE *pInfo)
@@ -4459,11 +4513,8 @@ bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
             result = (LRESULT)this->OnEndEdit(reinterpret_cast<NMLVDISPINFOW *>(pNMHDR));
             return true;
         }
-        case NM_CUSTOMDRAW: {
-            return this->OnCustomDraw(reinterpret_cast<NMLVCUSTOMDRAW *>(pNMHDR), result);
-        }
     }
-    return false;
+    return this->Control::OnNotified(pNMHDR, result);
 }
 
 void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
@@ -4524,11 +4575,6 @@ bool sw::ListView::OnEndEdit(NMLVDISPINFOW *pNMInfo)
     this->RaiseRoutedEvent(args);
     pNMInfo->item.pszText = args.newText;
     return !args.cancel;
-}
-
-bool sw::ListView::OnCustomDraw(NMLVCUSTOMDRAW *pNMCD, LRESULT &result)
-{
-    return false;
 }
 
 void sw::ListView::Clear()
@@ -5384,7 +5430,7 @@ bool sw::MonthCalendar::SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &ma
     return this->SendMessageW(MCM_SETRANGE, GDTR_MIN | GDTR_MAX, reinterpret_cast<LPARAM>(range));
 }
 
-void sw::MonthCalendar::OnDrawFocusRect()
+void sw::MonthCalendar::OnDrawFocusRect(HDC hdc)
 {
     // 不绘制虚线框
 }
@@ -5406,7 +5452,7 @@ bool sw::MonthCalendar::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     if (pNMHDR->code == MCN_SELCHANGE) {
         this->OnTimeChanged(reinterpret_cast<NMSELCHANGE *>(pNMHDR));
     }
-    return false;
+    return this->Control::OnNotified(pNMHDR, result);
 }
 
 void sw::MonthCalendar::OnTimeChanged(NMSELCHANGE *pInfo)
@@ -5610,6 +5656,21 @@ bool sw::PanelBase::OnVerticalScroll(int event, int pos)
 bool sw::PanelBase::OnHorizontalScroll(int event, int pos)
 {
     return this->Layer::OnHorizontalScroll(event, pos);
+}
+
+bool sw::PanelBase::OnNotified(NMHDR *pNMHDR, LRESULT &result)
+{
+    return this->Control::OnNotified(pNMHDR, result);
+}
+
+bool sw::PanelBase::OnKillFocus(HWND hNextFocus)
+{
+    return this->Control::OnKillFocus(hNextFocus);
+}
+
+void sw::PanelBase::OnTabStop()
+{
+    this->Control::OnTabStop();
 }
 
 void sw::PanelBase::Measure(const Size &availableSize)
@@ -6519,7 +6580,7 @@ bool sw::SysLink::OnNotified(NMHDR *pNMHDR, LRESULT &result)
             break;
         }
     }
-    return false;
+    return this->Control::OnNotified(pNMHDR, result);
 }
 
 void sw::SysLink::OnClicked(NMLINK *pNMLink)
@@ -6746,7 +6807,7 @@ bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     if (pNMHDR->code == TCN_SELCHANGE) {
         this->OnSelectedIndexChanged();
     }
-    return false;
+    return this->Control::OnNotified(pNMHDR, result);
 }
 
 void sw::TabControl::OnSelectedIndexChanged()
@@ -6988,7 +7049,7 @@ bool sw::TextBoxBase::OnKeyDown(VirtualKey key, KeyFlags flags)
     return e.handledMsg;
 }
 
-void sw::TextBoxBase::OnDrawFocusRect()
+void sw::TextBoxBase::OnDrawFocusRect(HDC hdc)
 {
     // 不绘制虚线框
 }
@@ -7940,18 +8001,7 @@ void sw::UIElement::OnRemovedChild(UIElement &element)
 
 void sw::UIElement::OnTabStop()
 {
-    this->_drawFocusRect = true;
-    this->Focused        = true;
-}
-
-void sw::UIElement::OnDrawFocusRect()
-{
-    HWND hwnd = this->Handle;
-    RECT rect = this->ClientRect.Get();
-    HDC hdc   = GetDC(hwnd);
-
-    DrawFocusRect(hdc, &rect);
-    ReleaseDC(hwnd, hdc);
+    this->Focused = true;
 }
 
 bool sw::UIElement::SetParent(WndBase *parent)
@@ -7997,12 +8047,6 @@ bool sw::UIElement::SetParent(WndBase *parent)
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
     this->_parent = newParent ? newParent->ToUIElement() : nullptr;
-}
-
-void sw::UIElement::OnEndPaint()
-{
-    if (this->_drawFocusRect)
-        this->OnDrawFocusRect();
 }
 
 bool sw::UIElement::OnClose()
@@ -8055,8 +8099,6 @@ bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
-    this->_drawFocusRect = false;
-
     RoutedEventArgsOfType<UIElement_LostFocus> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;

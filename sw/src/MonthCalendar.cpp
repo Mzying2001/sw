@@ -49,7 +49,7 @@ bool sw::MonthCalendar::SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &ma
     return this->SendMessageW(MCM_SETRANGE, GDTR_MIN | GDTR_MAX, reinterpret_cast<LPARAM>(range));
 }
 
-void sw::MonthCalendar::OnDrawFocusRect()
+void sw::MonthCalendar::OnDrawFocusRect(HDC hdc)
 {
     // 不绘制虚线框
 }
@@ -71,7 +71,7 @@ bool sw::MonthCalendar::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     if (pNMHDR->code == MCN_SELCHANGE) {
         this->OnTimeChanged(reinterpret_cast<NMSELCHANGE *>(pNMHDR));
     }
-    return false;
+    return this->Control::OnNotified(pNMHDR, result);
 }
 
 void sw::MonthCalendar::OnTimeChanged(NMSELCHANGE *pInfo)

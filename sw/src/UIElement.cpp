@@ -707,18 +707,7 @@ void sw::UIElement::OnRemovedChild(UIElement &element)
 
 void sw::UIElement::OnTabStop()
 {
-    this->_drawFocusRect = true;
-    this->Focused        = true;
-}
-
-void sw::UIElement::OnDrawFocusRect()
-{
-    HWND hwnd = this->Handle;
-    RECT rect = this->ClientRect.Get();
-    HDC hdc   = GetDC(hwnd);
-
-    DrawFocusRect(hdc, &rect);
-    ReleaseDC(hwnd, hdc);
+    this->Focused = true;
 }
 
 bool sw::UIElement::SetParent(WndBase *parent)
@@ -764,12 +753,6 @@ bool sw::UIElement::SetParent(WndBase *parent)
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
     this->_parent = newParent ? newParent->ToUIElement() : nullptr;
-}
-
-void sw::UIElement::OnEndPaint()
-{
-    if (this->_drawFocusRect)
-        this->OnDrawFocusRect();
 }
 
 bool sw::UIElement::OnClose()
@@ -822,8 +805,6 @@ bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
-    this->_drawFocusRect = false;
-
     RoutedEventArgsOfType<UIElement_LostFocus> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;

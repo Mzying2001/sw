@@ -124,11 +124,6 @@ namespace sw
         bool _tabStop = false;
 
         /**
-         * @brief 是否绘制虚线框
-         */
-        bool _drawFocusRect = false;
-
-        /**
          * @brief 背景颜色
          */
         Color _backColor{KnownColor::White};
@@ -613,11 +608,6 @@ namespace sw
         virtual void OnTabStop();
 
         /**
-         * @brief 绘制虚线框时调用该函数
-         */
-        virtual void OnDrawFocusRect();
-
-        /**
          * @brief  设置父窗口
          * @return 设置是否成功
          */
@@ -628,11 +618,6 @@ namespace sw
          * @param newParent 新的父窗口
          */
         virtual void ParentChanged(WndBase *newParent) override;
-
-        /**
-         * @brief 在OnPaint函数完成之后调用该函数
-         */
-        virtual void OnEndPaint() override;
 
         /**
          * @brief  接收到WM_CLOSE时调用该函数
