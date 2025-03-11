@@ -90,15 +90,27 @@ void sw::Control::OnTabStop()
 bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
 {
     if (pNMCD->dwDrawStage == CDDS_PREPAINT) {
-        if (this->_drawFocusRect) {
+        if (!this->OnPrePaint(pNMCD->hdc, result)) {
             ProcMsg msg(this->_hwnd, WM_NOTIFY,
                         reinterpret_cast<WPARAM>(pNMCD->hdr.hwndFrom), reinterpret_cast<LPARAM>(pNMCD));
             result = this->DefaultWndProc(msg);
-            this->OnDrawFocusRect(pNMCD->hdc);
-            return true;
         }
+        this->OnPostPaint(pNMCD->hdc);
+        return true;
     }
     return false;
+}
+
+bool sw::Control::OnPrePaint(HDC hdc, LRESULT &result)
+{
+    return false;
+}
+
+void sw::Control::OnPostPaint(HDC hdc)
+{
+    if (this->_drawFocusRect) {
+        this->OnDrawFocusRect(hdc);
+    }
 }
 
 void sw::Control::OnDrawFocusRect(HDC hdc)
