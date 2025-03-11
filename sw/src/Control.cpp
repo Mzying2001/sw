@@ -91,7 +91,8 @@ bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
 {
     if (pNMCD->dwDrawStage == CDDS_PREPAINT) {
         if (this->_drawFocusRect) {
-            ProcMsg msg(pNMCD->hdr.hwndFrom, WM_NOTIFY, 0, reinterpret_cast<LPARAM>(pNMCD));
+            ProcMsg msg(this->_hwnd, WM_NOTIFY,
+                        reinterpret_cast<WPARAM>(pNMCD->hdr.hwndFrom), reinterpret_cast<LPARAM>(pNMCD));
             result = this->DefaultWndProc(msg);
             this->OnDrawFocusRect(pNMCD->hdc);
             return true;
