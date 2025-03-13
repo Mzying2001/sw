@@ -130,6 +130,9 @@ Public 成员函数</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Window</b> ()</td></tr>
 <tr class="memdesc:a24eed02d394d13b368f5cf99b2a68c44"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化窗口 <br /></td></tr>
 <tr class="separator:a24eed02d394d13b368f5cf99b2a68c44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51125c103064904cf3bcb578ccf85e5a" id="r_a51125c103064904cf3bcb578ccf85e5a"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1_window.html">Window</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51125c103064904cf3bcb578ccf85e5a">ToWindow</a> () override</td></tr>
+<tr class="memdesc:a51125c103064904cf3bcb578ccf85e5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成Window  <br /></td></tr>
+<tr class="separator:a51125c103064904cf3bcb578ccf85e5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97f714390560b186f28c05b1f6a35cec" id="r_a97f714390560b186f28c05b1f6a35cec"><td class="memItemLeft" align="right" valign="top"><a id="a97f714390560b186f28c05b1f6a35cec" name="a97f714390560b186f28c05b1f6a35cec"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Show</b> (int nCmdShow=SW_SHOW)</td></tr>
 <tr class="memdesc:a97f714390560b186f28c05b1f6a35cec"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示窗口 <br /></td></tr>
@@ -392,6 +395,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classsw_1_1_wnd_base.html">WndBase</a> &amp;other) const</td></tr>
 <tr class="memdesc:ab7cf435cbf25ab105badc19ec8f82128 inherit pub_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断两个WndBase是否为不同实例 <br /></td></tr>
 <tr class="separator:ab7cf435cbf25ab105badc19ec8f82128 inherit pub_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4acb69dc4a05fa89dfe8ad9b081eb95 inherit pub_methods_classsw_1_1_wnd_base" id="r_ae4acb69dc4a05fa89dfe8ad9b081eb95"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1_control.html">Control</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_wnd_base.html#ae4acb69dc4a05fa89dfe8ad9b081eb95">ToControl</a> ()</td></tr>
+<tr class="memdesc:ae4acb69dc4a05fa89dfe8ad9b081eb95 inherit pub_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成Control  <br /></td></tr>
+<tr class="separator:ae4acb69dc4a05fa89dfe8ad9b081eb95 inherit pub_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2f1b78dd8165c8bca0313180a9f4b81 inherit pub_methods_classsw_1_1_wnd_base" id="r_ae2f1b78dd8165c8bca0313180a9f4b81"><td class="memItemLeft" align="right" valign="top">
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Show</b> (int nCmdShow)</td></tr>
 <tr class="memdesc:ae2f1b78dd8165c8bca0313180a9f4b81 inherit pub_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">该函数调用ShowWindow <br /></td></tr>
@@ -969,9 +975,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 <tr class="memitem:a7dd30ab5e8700832140c329739b4b671 inherit pro_methods_classsw_1_1_wnd_base" id="r_a7dd30ab5e8700832140c329739b4b671"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_wnd_base.html#a7dd30ab5e8700832140c329739b4b671">OnCreate</a> ()</td></tr>
 <tr class="memdesc:a7dd30ab5e8700832140c329739b4b671 inherit pro_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CREATE时调用该函数  <br /></td></tr>
 <tr class="separator:a7dd30ab5e8700832140c329739b4b671 inherit pro_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad90b0eebbaa959949cae5b736e2104aa inherit pro_methods_classsw_1_1_wnd_base" id="r_ad90b0eebbaa959949cae5b736e2104aa"><td class="memItemLeft" align="right" valign="top">
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnEndPaint</b> ()</td></tr>
-<tr class="memdesc:ad90b0eebbaa959949cae5b736e2104aa inherit pro_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnPaint函数完成之后调用该函数 <br /></td></tr>
+<tr class="memitem:ad90b0eebbaa959949cae5b736e2104aa inherit pro_methods_classsw_1_1_wnd_base" id="r_ad90b0eebbaa959949cae5b736e2104aa"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_wnd_base.html#ad90b0eebbaa959949cae5b736e2104aa">OnEndPaint</a> ()</td></tr>
+<tr class="memdesc:ad90b0eebbaa959949cae5b736e2104aa inherit pro_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnPaint函数完成之后调用该函数  <br /></td></tr>
 <tr class="separator:ad90b0eebbaa959949cae5b736e2104aa inherit pro_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a8952400bee12db2117fbf76312d373 inherit pro_methods_classsw_1_1_wnd_base" id="r_a5a8952400bee12db2117fbf76312d373"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_wnd_base.html#a5a8952400bee12db2117fbf76312d373">OnMouseLeftButtonDoubleClick</a> (<a class="el" href="structsw_1_1_point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
 <tr class="memdesc:a5a8952400bee12db2117fbf76312d373 inherit pro_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_LBUTTONDBLCLK时调用该函数  <br /></td></tr>
@@ -1351,6 +1356,36 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnEndPaint</b
   </dd>
 </dl>
 <dl class="section note"><dt>注解</dt><dd>该函数会创建一个新的消息循环并在窗口销毁时退出 </dd></dl>
+
+</div>
+</div>
+<a id="a51125c103064904cf3bcb578ccf85e5a" name="a51125c103064904cf3bcb578ccf85e5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51125c103064904cf3bcb578ccf85e5a">&#9670;&#160;</a></span>ToWindow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classsw_1_1_window.html">Window</a> * sw::Window::ToWindow </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>尝试将对象转换成Window </p>
+<dl class="section return"><dt>返回</dt><dd>若函数成功则返回Window指针，否则返回nullptr </dd></dl>
+
+<p>重载 <a class="el" href="classsw_1_1_wnd_base.html#a2dd7d531ffe1e0219d4d1762180a990d">sw::WndBase</a> .</p>
 
 </div>
 </div>

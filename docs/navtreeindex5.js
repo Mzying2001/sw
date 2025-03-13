@@ -1,5 +1,12 @@
 var NAVTREEINDEX5 =
 {
+"structsw_1_1_canvas_layout_tag.html#ae9def609feb263d19aa829b29010184c":[1,0,0,19,1],
+"structsw_1_1_canvas_layout_tag.html#aebee142b9a9c5838c3fc2cb7a62374af":[1,0,0,19,5],
+"structsw_1_1_color.html":[1,0,0,22],
+"structsw_1_1_color.html#a29d2604b27aa307de90e942e48e0c00a":[1,0,0,22,2],
+"structsw_1_1_color.html#a377fdd6222c311557980e216d7fb4a73":[1,0,0,22,1],
+"structsw_1_1_color.html#a482aca61979b22093a7347503a853230":[1,0,0,22,5],
+"structsw_1_1_color.html#a5bf136539d077e375ba6f481ad8a8b25":[1,0,0,22,10],
 "structsw_1_1_color.html#a79499715b083e1ae124e9e1c644608f9":[1,0,0,22,6],
 "structsw_1_1_color.html#a87eeb778e75e071a79b507b9a51656ae":[1,0,0,22,7],
 "structsw_1_1_color.html#aa0d9276e270e57dc0320dce6274106ba":[1,0,0,22,0],
