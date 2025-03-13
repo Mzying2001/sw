@@ -502,6 +502,11 @@ void sw::Window::OnDpiChanged(int dpiX, int dpiY)
     }
 }
 
+sw::Window *sw::Window::ToWindow()
+{
+    return this;
+}
+
 void sw::Window::Show(int nCmdShow)
 {
     this->WndBase::Show(nCmdShow);

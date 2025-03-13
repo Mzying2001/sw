@@ -248,6 +248,12 @@ namespace sw
 
     public:
         /**
+         * @brief  尝试将对象转换成Window
+         * @return 若函数成功则返回Window指针，否则返回nullptr
+         */
+        virtual Window *ToWindow() override;
+
+        /**
          * @brief 显示窗口
          */
         void Show(int nCmdShow = SW_SHOW);
