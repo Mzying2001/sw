@@ -13,6 +13,11 @@ sw::Control::~Control()
 {
 }
 
+sw::Control *sw::Control::ToControl()
+{
+    return this;
+}
+
 void sw::Control::ResetHandle(LPVOID lpParam)
 {
     DWORD style   = this->GetStyle();

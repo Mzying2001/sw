@@ -38,6 +38,11 @@ void sw::PanelBase::OnEndPaint()
     this->Control::OnEndPaint();
 }
 
+sw::Control *sw::PanelBase::ToControl()
+{
+    return this->Control::ToControl();
+}
+
 void sw::PanelBase::Measure(const Size &availableSize)
 {
     this->Layer::Measure(availableSize);

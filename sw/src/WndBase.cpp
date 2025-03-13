@@ -277,6 +277,11 @@ sw::UIElement *sw::WndBase::ToUIElement()
     return nullptr;
 }
 
+sw::Control *sw::WndBase::ToControl()
+{
+    return nullptr;
+}
+
 sw::Window *sw::WndBase::ToWindow()
 {
     return nullptr;

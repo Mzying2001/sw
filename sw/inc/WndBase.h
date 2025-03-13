@@ -20,6 +20,7 @@
 namespace sw
 {
     class UIElement; // UIElement.h
+    class Control;   // Control.h
     class Window;    // Window.h
 
     /**
@@ -222,6 +223,12 @@ namespace sw
          * @return 若函数成功则返回UIElement指针，否则返回nullptr
          */
         virtual UIElement *ToUIElement();
+
+        /**
+         * @brief  尝试将对象转换成Control
+         * @return 若函数成功则返回Control指针，否则返回nullptr
+         */
+        virtual Control *ToControl();
 
         /**
          * @brief  尝试将对象转换成Window
