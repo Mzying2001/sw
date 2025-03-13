@@ -87,9 +87,19 @@ void sw::Control::OnTabStop()
     this->UIElement::OnTabStop();
 }
 
+void sw::Control::OnEndPaint()
+{
+    if (!this->_hasCustomDraw && this->_drawFocusRect) {
+        HDC hdc = GetDC(this->_hwnd);
+        this->OnDrawFocusRect(hdc);
+        ReleaseDC(this->_hwnd, hdc);
+    }
+}
+
 bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
 {
     if (pNMCD->dwDrawStage == CDDS_PREPAINT) {
+        this->_hasCustomDraw = true;
         if (!this->OnPrePaint(pNMCD->hdc, result)) {
             ProcMsg msg(this->_hwnd, WM_NOTIFY,
                         reinterpret_cast<WPARAM>(pNMCD->hdr.hwndFrom), reinterpret_cast<LPARAM>(pNMCD));

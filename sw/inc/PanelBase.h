@@ -10,13 +10,12 @@ namespace sw
      */
     class PanelBase : public Control, public Layer
     {
-    protected:
+    public:
         /**
          * @brief 初始化PanelBase
          */
         PanelBase();
 
-    public:
         /**
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
          */
@@ -58,6 +57,11 @@ namespace sw
          * @brief 通过tab键将焦点移动到当前元素时调用该函数
          */
         virtual void OnTabStop() override;
+
+        /**
+         * @brief 在OnPaint函数完成之后调用该函数
+         */
+        virtual void OnEndPaint() override;
 
     public:
         /**

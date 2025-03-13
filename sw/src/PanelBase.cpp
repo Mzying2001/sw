@@ -33,6 +33,11 @@ void sw::PanelBase::OnTabStop()
     this->Control::OnTabStop();
 }
 
+void sw::PanelBase::OnEndPaint()
+{
+    this->Control::OnEndPaint();
+}
+
 void sw::PanelBase::Measure(const Size &availableSize)
 {
     this->Layer::Measure(availableSize);

@@ -16,6 +16,11 @@ namespace sw
          */
         bool _drawFocusRect = false;
 
+        /**
+         * @brief 标记当前控件是否响应了NM_CUSTOMDRAW消息
+         */
+        bool _hasCustomDraw = false;
+
     public:
         /**
          * @brief 控件的标识符
@@ -68,6 +73,11 @@ namespace sw
          * @brief 通过tab键将焦点移动到当前元素时调用该函数
          */
         virtual void OnTabStop() override;
+
+        /**
+         * @brief 在OnPaint函数完成之后调用该函数
+         */
+        virtual void OnEndPaint() override;
 
         /**
          * @brief        接收到NM_CUSTOMDRAW后调用该函数
