@@ -16,6 +16,11 @@ namespace sw
          */
         bool _drawFocusRect = false;
 
+        /**
+         * @brief 标记当前控件是否响应了NM_CUSTOMDRAW消息
+         */
+        bool _hasCustomDraw = false;
+
     public:
         /**
          * @brief 控件的标识符
@@ -32,6 +37,12 @@ namespace sw
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
          */
         virtual ~Control() = 0;
+
+        /**
+         * @brief  尝试将对象转换成Control
+         * @return 若函数成功则返回Control指针，否则返回nullptr
+         */
+        virtual Control *ToControl() override;
 
     protected:
         /**
@@ -70,6 +81,11 @@ namespace sw
         virtual void OnTabStop() override;
 
         /**
+         * @brief 在OnPaint函数完成之后调用该函数
+         */
+        virtual void OnEndPaint() override;
+
+        /**
          * @brief        接收到NM_CUSTOMDRAW后调用该函数
          * @param pNMCD  包含有关自定义绘制的信息
          * @param result 函数返回值为true时将该值作为消息的返回值
@@ -98,8 +114,9 @@ namespace sw
         virtual void OnDrawFocusRect(HDC hdc);
 
         /**
-         * @brief 控件句柄发生改变时调用该函数
+         * @brief      控件句柄发生改变时调用该函数
+         * @param hwnd 新的控件句柄
          */
-        virtual void HandleChenged();
+        virtual void OnHandleChenged(HWND hwnd);
     };
 }

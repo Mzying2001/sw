@@ -10,13 +10,12 @@ namespace sw
      */
     class PanelBase : public Control, public Layer
     {
-    protected:
+    public:
         /**
          * @brief 初始化PanelBase
          */
         PanelBase();
 
-    public:
         /**
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
          */
@@ -59,7 +58,18 @@ namespace sw
          */
         virtual void OnTabStop() override;
 
+        /**
+         * @brief 在OnPaint函数完成之后调用该函数
+         */
+        virtual void OnEndPaint() override;
+
     public:
+        /**
+         * @brief  尝试将对象转换成Control
+         * @return 若函数成功则返回Control指针，否则返回nullptr
+         */
+        virtual Control *ToControl() override;
+
         /**
          * @brief               测量控件所需尺寸
          * @param availableSize 可用的尺寸

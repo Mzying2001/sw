@@ -161,6 +161,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const
 <tr class="memitem:ac04608233daebea10a3f0aa37c02b36d" id="r_ac04608233daebea10a3f0aa37c02b36d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac04608233daebea10a3f0aa37c02b36d">ToUIElement</a> ()</td></tr>
 <tr class="memdesc:ac04608233daebea10a3f0aa37c02b36d"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成UIElement  <br /></td></tr>
 <tr class="separator:ac04608233daebea10a3f0aa37c02b36d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4acb69dc4a05fa89dfe8ad9b081eb95" id="r_ae4acb69dc4a05fa89dfe8ad9b081eb95"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1_control.html">Control</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4acb69dc4a05fa89dfe8ad9b081eb95">ToControl</a> ()</td></tr>
+<tr class="memdesc:ae4acb69dc4a05fa89dfe8ad9b081eb95"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成Control  <br /></td></tr>
+<tr class="separator:ae4acb69dc4a05fa89dfe8ad9b081eb95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2dd7d531ffe1e0219d4d1762180a990d" id="r_a2dd7d531ffe1e0219d4d1762180a990d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1_window.html">Window</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2dd7d531ffe1e0219d4d1762180a990d">ToWindow</a> ()</td></tr>
+<tr class="memdesc:a2dd7d531ffe1e0219d4d1762180a990d"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成Window  <br /></td></tr>
+<tr class="separator:a2dd7d531ffe1e0219d4d1762180a990d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2f1b78dd8165c8bca0313180a9f4b81" id="r_ae2f1b78dd8165c8bca0313180a9f4b81"><td class="memItemLeft" align="right" valign="top"><a id="ae2f1b78dd8165c8bca0313180a9f4b81" name="ae2f1b78dd8165c8bca0313180a9f4b81"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Show</b> (int nCmdShow)</td></tr>
 <tr class="memdesc:ae2f1b78dd8165c8bca0313180a9f4b81"><td class="mdescLeft">&#160;</td><td class="mdescRight">该函数调用ShowWindow <br /></td></tr>
@@ -390,9 +396,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 <tr class="memitem:a029ba4be0e492f8383f2b5fe22125acb" id="r_a029ba4be0e492f8383f2b5fe22125acb"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a029ba4be0e492f8383f2b5fe22125acb">OnPaint</a> ()</td></tr>
 <tr class="memdesc:a029ba4be0e492f8383f2b5fe22125acb"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_PAINT时调用该函数  <br /></td></tr>
 <tr class="separator:a029ba4be0e492f8383f2b5fe22125acb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad90b0eebbaa959949cae5b736e2104aa" id="r_ad90b0eebbaa959949cae5b736e2104aa"><td class="memItemLeft" align="right" valign="top"><a id="ad90b0eebbaa959949cae5b736e2104aa" name="ad90b0eebbaa959949cae5b736e2104aa"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnEndPaint</b> ()</td></tr>
-<tr class="memdesc:ad90b0eebbaa959949cae5b736e2104aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnPaint函数完成之后调用该函数 <br /></td></tr>
+<tr class="memitem:ad90b0eebbaa959949cae5b736e2104aa" id="r_ad90b0eebbaa959949cae5b736e2104aa"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad90b0eebbaa959949cae5b736e2104aa">OnEndPaint</a> ()</td></tr>
+<tr class="memdesc:ad90b0eebbaa959949cae5b736e2104aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnPaint函数完成之后调用该函数  <br /></td></tr>
 <tr class="separator:ad90b0eebbaa959949cae5b736e2104aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17769747f602f2f7c18a0a49ce97a125" id="r_a17769747f602f2f7c18a0a49ce97a125"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17769747f602f2f7c18a0a49ce97a125">OnMove</a> (<a class="el" href="structsw_1_1_point.html">Point</a> newClientPosition)</td></tr>
 <tr class="memdesc:a17769747f602f2f7c18a0a49ce97a125"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MOVE时调用该函数  <br /></td></tr>
@@ -1311,6 +1316,35 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="ad90b0eebbaa959949cae5b736e2104aa" name="ad90b0eebbaa959949cae5b736e2104aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad90b0eebbaa959949cae5b736e2104aa">&#9670;&#160;</a></span>OnEndPaint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sw::WndBase::OnEndPaint </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在OnPaint函数完成之后调用该函数 </p>
+
+<p>被 <a class="el" href="classsw_1_1_control.html#a60458de49b16eebbd3dccf20388c8d6c">sw::Control</a> , 以及 <a class="el" href="classsw_1_1_panel_base.html#a2f3ccd1e0d137c83f1afd1170c87217c">sw::PanelBase</a> 重载.</p>
 
 </div>
 </div>
@@ -2882,6 +2916,36 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 
 </div>
 </div>
+<a id="ae4acb69dc4a05fa89dfe8ad9b081eb95" name="ae4acb69dc4a05fa89dfe8ad9b081eb95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4acb69dc4a05fa89dfe8ad9b081eb95">&#9670;&#160;</a></span>ToControl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classsw_1_1_control.html">Control</a> * sw::WndBase::ToControl </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>尝试将对象转换成Control </p>
+<dl class="section return"><dt>返回</dt><dd>若函数成功则返回Control指针，否则返回nullptr </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_control.html#ab9213f0b57eec7e79e57570b64d493c6">sw::Control</a> , 以及 <a class="el" href="classsw_1_1_panel_base.html#aa421e88289d76fe514a3ffd791a6b233">sw::PanelBase</a> 重载.</p>
+
+</div>
+</div>
 <a id="ac04608233daebea10a3f0aa37c02b36d" name="ac04608233daebea10a3f0aa37c02b36d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac04608233daebea10a3f0aa37c02b36d">&#9670;&#160;</a></span>ToUIElement()</h2>
 
@@ -2909,6 +2973,36 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 <dl class="section return"><dt>返回</dt><dd>若函数成功则返回UIElement指针，否则返回nullptr </dd></dl>
 
 <p>被 <a class="el" href="classsw_1_1_u_i_element.html#a56ab87f8a258e25ae429dab03771b5b4">sw::UIElement</a> 重载.</p>
+
+</div>
+</div>
+<a id="a2dd7d531ffe1e0219d4d1762180a990d" name="a2dd7d531ffe1e0219d4d1762180a990d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2dd7d531ffe1e0219d4d1762180a990d">&#9670;&#160;</a></span>ToWindow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classsw_1_1_window.html">Window</a> * sw::WndBase::ToWindow </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>尝试将对象转换成Window </p>
+<dl class="section return"><dt>返回</dt><dd>若函数成功则返回Window指针，否则返回nullptr </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1_window.html#a51125c103064904cf3bcb578ccf85e5a">sw::Window</a> 重载.</p>
 
 </div>
 </div>
