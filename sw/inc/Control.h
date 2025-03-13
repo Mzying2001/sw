@@ -114,8 +114,9 @@ namespace sw
         virtual void OnDrawFocusRect(HDC hdc);
 
         /**
-         * @brief 控件句柄发生改变时调用该函数
+         * @brief      控件句柄发生改变时调用该函数
+         * @param hwnd 新的控件句柄
          */
-        virtual void HandleChenged();
+        virtual void OnHandleChenged(HWND hwnd);
     };
 }

@@ -65,7 +65,7 @@ void sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
 
     this->SendMessageW(WM_SETFONT, (WPARAM)this->GetFontHandle(), TRUE);
     this->UpdateSiblingsZOrder();
-    this->HandleChenged();
+    this->OnHandleChenged(this->_hwnd);
 }
 
 bool sw::Control::OnNotified(NMHDR *pNMHDR, LRESULT &result)
@@ -134,6 +134,6 @@ void sw::Control::OnDrawFocusRect(HDC hdc)
     DrawFocusRect(hdc, &rect);
 }
 
-void sw::Control::HandleChenged()
+void sw::Control::OnHandleChenged(HWND hwnd)
 {
 }
