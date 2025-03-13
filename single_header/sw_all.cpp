@@ -865,6 +865,11 @@ sw::Control::~Control()
 {
 }
 
+sw::Control *sw::Control::ToControl()
+{
+    return this;
+}
+
 void sw::Control::ResetHandle(LPVOID lpParam)
 {
     DWORD style   = this->GetStyle();
@@ -912,7 +917,7 @@ void sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
 
     this->SendMessageW(WM_SETFONT, (WPARAM)this->GetFontHandle(), TRUE);
     this->UpdateSiblingsZOrder();
-    this->HandleChenged();
+    this->OnHandleChenged(this->_hwnd);
 }
 
 bool sw::Control::OnNotified(NMHDR *pNMHDR, LRESULT &result)
@@ -939,9 +944,19 @@ void sw::Control::OnTabStop()
     this->UIElement::OnTabStop();
 }
 
+void sw::Control::OnEndPaint()
+{
+    if (!this->_hasCustomDraw && this->_drawFocusRect) {
+        HDC hdc = GetDC(this->_hwnd);
+        this->OnDrawFocusRect(hdc);
+        ReleaseDC(this->_hwnd, hdc);
+    }
+}
+
 bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
 {
     if (pNMCD->dwDrawStage == CDDS_PREPAINT) {
+        this->_hasCustomDraw = true;
         if (!this->OnPrePaint(pNMCD->hdc, result)) {
             ProcMsg msg(this->_hwnd, WM_NOTIFY,
                         reinterpret_cast<WPARAM>(pNMCD->hdr.hwndFrom), reinterpret_cast<LPARAM>(pNMCD));
@@ -971,7 +986,7 @@ void sw::Control::OnDrawFocusRect(HDC hdc)
     DrawFocusRect(hdc, &rect);
 }
 
-void sw::Control::HandleChenged()
+void sw::Control::OnHandleChenged(HWND hwnd)
 {
 }
 
@@ -5673,6 +5688,16 @@ void sw::PanelBase::OnTabStop()
     this->Control::OnTabStop();
 }
 
+void sw::PanelBase::OnEndPaint()
+{
+    this->Control::OnEndPaint();
+}
+
+sw::Control *sw::PanelBase::ToControl()
+{
+    return this->Control::ToControl();
+}
+
 void sw::PanelBase::Measure(const Size &availableSize)
 {
     this->Layer::Measure(availableSize);
@@ -8996,6 +9021,11 @@ void sw::Window::OnDpiChanged(int dpiX, int dpiY)
     }
 }
 
+sw::Window *sw::Window::ToWindow()
+{
+    return this;
+}
+
 void sw::Window::Show(int nCmdShow)
 {
     this->WndBase::Show(nCmdShow);
@@ -9370,6 +9400,16 @@ bool sw::WndBase::operator!=(const WndBase &other) const
 }
 
 sw::UIElement *sw::WndBase::ToUIElement()
+{
+    return nullptr;
+}
+
+sw::Control *sw::WndBase::ToControl()
+{
+    return nullptr;
+}
+
+sw::Window *sw::WndBase::ToWindow()
 {
     return nullptr;
 }
