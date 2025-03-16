@@ -105,7 +105,7 @@ namespace sw
          * @brief     绘制控件后调用该函数
          * @param hdc 绘制设备句柄
          */
-        virtual void OnPostPaint(HDC hdc);
+        virtual bool OnPostPaint(HDC hdc, LRESULT &result);
 
         /**
          * @brief     绘制虚线框时调用该函数
