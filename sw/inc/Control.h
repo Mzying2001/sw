@@ -94,6 +94,22 @@ namespace sw
         virtual bool OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result);
 
         /**
+         * @brief        擦除背景前调用该函数
+         * @param hdc    绘制设备句柄
+         * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
+         * @return       若已完成绘制则返回true，否则返回false以使用默认绘制
+         */
+        virtual bool OnPreErase(HDC hdc, LRESULT &result);
+
+        /**
+         * @brief        擦除背景后调用该函数
+         * @param hdc    绘制设备句柄
+         * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
+         * @return       若已完成绘制则返回true，否则返回false以使用默认绘制
+         */
+        virtual bool OnPostErase(HDC hdc, LRESULT &result);
+
+        /**
          * @brief        绘制控件前调用该函数
          * @param hdc    绘制设备句柄
          * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
@@ -102,8 +118,10 @@ namespace sw
         virtual bool OnPrePaint(HDC hdc, LRESULT &result);
 
         /**
-         * @brief     绘制控件后调用该函数
-         * @param hdc 绘制设备句柄
+         * @brief        绘制控件后调用该函数
+         * @param hdc    绘制设备句柄
+         * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
+         * @return       若已完成绘制则返回true，否则返回false以使用默认绘制
          */
         virtual bool OnPostPaint(HDC hdc, LRESULT &result);
 

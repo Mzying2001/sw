@@ -106,6 +106,12 @@ bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
     this->_hasCustomDraw = true;
 
     switch (pNMCD->dwDrawStage) {
+        case CDDS_PREERASE: {
+            return this->OnPreErase(pNMCD->hdc, result);
+        }
+        case CDDS_POSTERASE: {
+            return this->OnPostErase(pNMCD->hdc, result);
+        }
         case CDDS_PREPAINT: {
             return this->OnPrePaint(pNMCD->hdc, result);
         }
@@ -116,6 +122,17 @@ bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
             return false;
         }
     }
+}
+
+bool sw::Control::OnPreErase(HDC hdc, LRESULT &result)
+{
+    result = CDRF_NOTIFYPOSTERASE;
+    return true;
+}
+
+bool sw::Control::OnPostErase(HDC hdc, LRESULT &result)
+{
+    return false;
 }
 
 bool sw::Control::OnPrePaint(HDC hdc, LRESULT &result)
