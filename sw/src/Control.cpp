@@ -103,29 +103,50 @@ void sw::Control::OnEndPaint()
 
 bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
 {
-    if (pNMCD->dwDrawStage == CDDS_PREPAINT) {
-        this->_hasCustomDraw = true;
-        if (!this->OnPrePaint(pNMCD->hdc, result)) {
-            ProcMsg msg(this->_hwnd, WM_NOTIFY,
-                        reinterpret_cast<WPARAM>(pNMCD->hdr.hwndFrom), reinterpret_cast<LPARAM>(pNMCD));
-            result = this->DefaultWndProc(msg);
+    this->_hasCustomDraw = true;
+
+    switch (pNMCD->dwDrawStage) {
+        case CDDS_PREERASE: {
+            return this->OnPreErase(pNMCD->hdc, result);
         }
-        this->OnPostPaint(pNMCD->hdc);
-        return true;
+        case CDDS_POSTERASE: {
+            return this->OnPostErase(pNMCD->hdc, result);
+        }
+        case CDDS_PREPAINT: {
+            return this->OnPrePaint(pNMCD->hdc, result);
+        }
+        case CDDS_POSTPAINT: {
+            return this->OnPostPaint(pNMCD->hdc, result);
+        }
+        default: {
+            return false;
+        }
     }
+}
+
+bool sw::Control::OnPreErase(HDC hdc, LRESULT &result)
+{
+    result = CDRF_NOTIFYPOSTERASE;
+    return true;
+}
+
+bool sw::Control::OnPostErase(HDC hdc, LRESULT &result)
+{
     return false;
 }
 
 bool sw::Control::OnPrePaint(HDC hdc, LRESULT &result)
 {
-    return false;
+    result = CDRF_NOTIFYPOSTPAINT;
+    return true;
 }
 
-void sw::Control::OnPostPaint(HDC hdc)
+bool sw::Control::OnPostPaint(HDC hdc, LRESULT &result)
 {
     if (this->_drawFocusRect) {
         this->OnDrawFocusRect(hdc);
     }
+    return false;
 }
 
 void sw::Control::OnDrawFocusRect(HDC hdc)

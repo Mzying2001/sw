@@ -580,12 +580,18 @@ Protected 成员函数</h2></td></tr>
 <tr class="memitem:a954de4df5b1b822f9a86409bc21b6ba0" id="r_a954de4df5b1b822f9a86409bc21b6ba0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a954de4df5b1b822f9a86409bc21b6ba0">OnCustomDraw</a> (NMCUSTOMDRAW *pNMCD, LRESULT &amp;result)</td></tr>
 <tr class="memdesc:a954de4df5b1b822f9a86409bc21b6ba0"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到NM_CUSTOMDRAW后调用该函数  <br /></td></tr>
 <tr class="separator:a954de4df5b1b822f9a86409bc21b6ba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa51513c4ea585f5d70b4d597eb2984b" id="r_aaa51513c4ea585f5d70b4d597eb2984b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa51513c4ea585f5d70b4d597eb2984b">OnPreErase</a> (HDC hdc, LRESULT &amp;result)</td></tr>
+<tr class="memdesc:aaa51513c4ea585f5d70b4d597eb2984b"><td class="mdescLeft">&#160;</td><td class="mdescRight">擦除背景前调用该函数  <br /></td></tr>
+<tr class="separator:aaa51513c4ea585f5d70b4d597eb2984b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2020d632dce2fc56e977c676c9f0ffd8" id="r_a2020d632dce2fc56e977c676c9f0ffd8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2020d632dce2fc56e977c676c9f0ffd8">OnPostErase</a> (HDC hdc, LRESULT &amp;result)</td></tr>
+<tr class="memdesc:a2020d632dce2fc56e977c676c9f0ffd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">擦除背景后调用该函数  <br /></td></tr>
+<tr class="separator:a2020d632dce2fc56e977c676c9f0ffd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae986d0e20a48c2d39f89032d257f0737" id="r_ae986d0e20a48c2d39f89032d257f0737"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae986d0e20a48c2d39f89032d257f0737">OnPrePaint</a> (HDC hdc, LRESULT &amp;result)</td></tr>
 <tr class="memdesc:ae986d0e20a48c2d39f89032d257f0737"><td class="mdescLeft">&#160;</td><td class="mdescRight">绘制控件前调用该函数  <br /></td></tr>
 <tr class="separator:ae986d0e20a48c2d39f89032d257f0737"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae44d572c8c4b82daa943f75b86801b5a" id="r_ae44d572c8c4b82daa943f75b86801b5a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae44d572c8c4b82daa943f75b86801b5a">OnPostPaint</a> (HDC hdc)</td></tr>
-<tr class="memdesc:ae44d572c8c4b82daa943f75b86801b5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">绘制控件后调用该函数  <br /></td></tr>
-<tr class="separator:ae44d572c8c4b82daa943f75b86801b5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0497676d9b8f5175a60bbede2eb8e41" id="r_ae0497676d9b8f5175a60bbede2eb8e41"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0497676d9b8f5175a60bbede2eb8e41">OnPostPaint</a> (HDC hdc, LRESULT &amp;result)</td></tr>
+<tr class="memdesc:ae0497676d9b8f5175a60bbede2eb8e41"><td class="mdescLeft">&#160;</td><td class="mdescRight">绘制控件后调用该函数  <br /></td></tr>
+<tr class="separator:ae0497676d9b8f5175a60bbede2eb8e41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0451f011a344efa6b628d006980c6ed8" id="r_a0451f011a344efa6b628d006980c6ed8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0451f011a344efa6b628d006980c6ed8">OnDrawFocusRect</a> (HDC hdc)</td></tr>
 <tr class="memdesc:a0451f011a344efa6b628d006980c6ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">绘制虚线框时调用该函数  <br /></td></tr>
 <tr class="separator:a0451f011a344efa6b628d006980c6ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1073,8 +1079,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 
 </div>
 </div>
-<a id="ae44d572c8c4b82daa943f75b86801b5a" name="ae44d572c8c4b82daa943f75b86801b5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae44d572c8c4b82daa943f75b86801b5a">&#9670;&#160;</a></span>OnPostPaint()</h2>
+<a id="a2020d632dce2fc56e977c676c9f0ffd8" name="a2020d632dce2fc56e977c676c9f0ffd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2020d632dce2fc56e977c676c9f0ffd8">&#9670;&#160;</a></span>OnPostErase()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1083,10 +1089,53 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void sw::Control::OnPostPaint </td>
+          <td class="memname">virtual bool sw::Control::OnPostErase </td>
           <td>(</td>
-          <td class="paramtype">HDC</td>          <td class="paramname"><span class="paramname"><em>hdc</em></span></td><td>)</td>
+          <td class="paramtype">HDC</td>          <td class="paramname"><span class="paramname"><em>hdc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">LRESULT &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>擦除背景后调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hdc</td><td>绘制设备句柄 </td></tr>
+    <tr><td class="paramname">result</td><td>函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已完成绘制则返回true，否则返回false以使用默认绘制 </dd></dl>
+
+</div>
+</div>
+<a id="ae0497676d9b8f5175a60bbede2eb8e41" name="ae0497676d9b8f5175a60bbede2eb8e41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0497676d9b8f5175a60bbede2eb8e41">&#9670;&#160;</a></span>OnPostPaint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool sw::Control::OnPostPaint </td>
+          <td>(</td>
+          <td class="paramtype">HDC</td>          <td class="paramname"><span class="paramname"><em>hdc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1100,9 +1149,50 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">hdc</td><td>绘制设备句柄 </td></tr>
+    <tr><td class="paramname">result</td><td>函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值 </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>返回</dt><dd>若已完成绘制则返回true，否则返回false以使用默认绘制 </dd></dl>
+
+</div>
+</div>
+<a id="aaa51513c4ea585f5d70b4d597eb2984b" name="aaa51513c4ea585f5d70b4d597eb2984b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa51513c4ea585f5d70b4d597eb2984b">&#9670;&#160;</a></span>OnPreErase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool sw::Control::OnPreErase </td>
+          <td>(</td>
+          <td class="paramtype">HDC</td>          <td class="paramname"><span class="paramname"><em>hdc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>擦除背景前调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hdc</td><td>绘制设备句柄 </td></tr>
+    <tr><td class="paramname">result</td><td>函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已完成绘制则返回true，否则返回false以使用默认绘制 </dd></dl>
 
 </div>
 </div>
