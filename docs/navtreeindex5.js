@@ -1,5 +1,7 @@
 var NAVTREEINDEX5 =
 {
+"structsw_1_1_canvas_layout_tag.html#a54ca60a93c85b0c06ad1d848fed9af42":[1,0,0,19,3],
+"structsw_1_1_canvas_layout_tag.html#a5fcb2062d7a1239c4bd0f9fbf971718c":[1,0,0,19,2],
 "structsw_1_1_canvas_layout_tag.html#a66e509ca8ce039a228ccb15cba5aa509":[1,0,0,19,4],
 "structsw_1_1_canvas_layout_tag.html#ad3e70c4391d2f7835676e5aae48a4377":[1,0,0,19,0],
 "structsw_1_1_canvas_layout_tag.html#ae9def609feb263d19aa829b29010184c":[1,0,0,19,1],

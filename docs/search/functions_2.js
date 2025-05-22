@@ -15,7 +15,7 @@ var searchData=
   ['close_12',['Close',['../classsw_1_1_wnd_base.html#a436818f8ad91446f86b42081dd1a7358',1,'sw::WndBase']]],
   ['closedropdown_13',['CloseDropDown',['../classsw_1_1_combo_box.html#a347c5bf1646ae709ec6a4585dea20dae',1,'sw::ComboBox']]],
   ['color_14',['Color',['../structsw_1_1_color.html#aa0d9276e270e57dc0320dce6274106ba',1,'sw::Color::Color()'],['../structsw_1_1_color.html#a377fdd6222c311557980e216d7fb4a73',1,'sw::Color::Color(uint8_t r, uint8_t g, uint8_t b)'],['../structsw_1_1_color.html#a29d2604b27aa307de90e942e48e0c00a',1,'sw::Color::Color(KnownColor knownColor)'],['../structsw_1_1_color.html#aa42552f373fab2b4132c73de6febad58',1,'sw::Color::Color(COLORREF color)']]],
-  ['combine_15',['Combine',['../classsw_1_1_path.html#aaa1b4b0e392fed266c3ca9eeabd5200d',1,'sw::Path']]],
+  ['combine_15',['Combine',['../classsw_1_1_path.html#aaa1b4b0e392fed266c3ca9eeabd5200d',1,'sw::Path::Combine(std::initializer_list&lt; std::wstring &gt; paths)'],['../classsw_1_1_path.html#a5f2750ce63273757c4e74f37c30e8f64',1,'sw::Path::Combine(const std::wstring &amp;first, const Args &amp;...rest)']]],
   ['combobox_16',['ComboBox',['../classsw_1_1_combo_box.html#ab7952615f64988796a72df3027170e8b',1,'sw::ComboBox']]],
   ['contains_17',['Contains',['../classsw_1_1_list.html#a459de7b71327cf474c1ac24909b49773',1,'sw::List']]],
   ['containskey_18',['ContainsKey',['../classsw_1_1_dictionary.html#a726bccc37022c21d7864673c69138acc',1,'sw::Dictionary']]],

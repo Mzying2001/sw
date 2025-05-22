@@ -125,6 +125,10 @@ $(function(){initNavTree('classsw_1_1_path.html',''); initResizable(true); });
 <tr class="memitem:aaa1b4b0e392fed266c3ca9eeabd5200d" id="r_aaa1b4b0e392fed266c3ca9eeabd5200d"><td class="memItemLeft" align="right" valign="top">static std::wstring&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa1b4b0e392fed266c3ca9eeabd5200d">Combine</a> (std::initializer_list&lt; std::wstring &gt; paths)</td></tr>
 <tr class="memdesc:aaa1b4b0e392fed266c3ca9eeabd5200d"><td class="mdescLeft">&#160;</td><td class="mdescRight">对路径进行拼接  <br /></td></tr>
 <tr class="separator:aaa1b4b0e392fed266c3ca9eeabd5200d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f2750ce63273757c4e74f37c30e8f64" id="r_a5f2750ce63273757c4e74f37c30e8f64"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:a5f2750ce63273757c4e74f37c30e8f64"><td class="memTemplItemLeft" align="right" valign="top">static std::wstring&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a5f2750ce63273757c4e74f37c30e8f64">Combine</a> (const std::wstring &amp;first, const Args &amp;...rest)</td></tr>
+<tr class="memdesc:a5f2750ce63273757c4e74f37c30e8f64"><td class="mdescLeft">&#160;</td><td class="mdescRight">对路径进行拼接  <br /></td></tr>
+<tr class="separator:a5f2750ce63273757c4e74f37c30e8f64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a398068d8b8a1c6a74016dedf0aedafb3" id="r_a398068d8b8a1c6a74016dedf0aedafb3"><td class="memItemLeft" align="right" valign="top">static std::wstring&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a398068d8b8a1c6a74016dedf0aedafb3">GetAbsolutePath</a> (const std::wstring &amp;path)</td></tr>
 <tr class="memdesc:a398068d8b8a1c6a74016dedf0aedafb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取路径所对应的绝对路径  <br /></td></tr>
 <tr class="separator:a398068d8b8a1c6a74016dedf0aedafb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,8 +136,49 @@ $(function(){initNavTree('classsw_1_1_path.html',''); initResizable(true); });
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>用于处理文件路径的工具类 </p>
 </div><h2 class="groupheader">成员函数说明</h2>
+<a id="a5f2750ce63273757c4e74f37c30e8f64" name="a5f2750ce63273757c4e74f37c30e8f64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f2750ce63273757c4e74f37c30e8f64">&#9670;&#160;</a></span>Combine() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static std::wstring sw::Path::Combine </td>
+          <td>(</td>
+          <td class="paramtype">const std::wstring &amp;</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Args &amp;...</td>          <td class="paramname"><span class="paramname"><em>rest</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>对路径进行拼接 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>第一个路径 </td></tr>
+    <tr><td class="paramname">rest</td><td>要拼接的路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>完整的路径 </dd></dl>
+
+</div>
+</div>
 <a id="aaa1b4b0e392fed266c3ca9eeabd5200d" name="aaa1b4b0e392fed266c3ca9eeabd5200d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa1b4b0e392fed266c3ca9eeabd5200d">&#9670;&#160;</a></span>Combine()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa1b4b0e392fed266c3ca9eeabd5200d">&#9670;&#160;</a></span>Combine() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

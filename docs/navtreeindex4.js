@@ -1,5 +1,7 @@
 var NAVTREEINDEX4 =
 {
+"classsw_1_1_window.html#a97f714390560b186f28c05b1f6a35cec":[1,0,0,135,15],
+"classsw_1_1_window.html#a9f8bea034629f087944e9b33af60d9ec":[1,0,0,135,9],
 "classsw_1_1_window.html#aa39df901ba7c3d77ac013ccdf6caf161":[1,0,0,135,30],
 "classsw_1_1_window.html#aa9476a0b4bff312e523bba76aa82b96b":[1,0,0,135,29],
 "classsw_1_1_window.html#aa9782debda43bce7438531290aa509ae":[1,0,0,135,28],
@@ -247,7 +249,5 @@ var NAVTREEINDEX4 =
 "structsw_1_1_auto_size_grid_column.html#a6dd90239ba99030b22c7354dd9ef1fc9":[1,0,0,11,0],
 "structsw_1_1_auto_size_grid_row.html":[1,0,0,12],
 "structsw_1_1_auto_size_grid_row.html#a2bdf1d29e1b15c59580fd5592afade9a":[1,0,0,12,0],
-"structsw_1_1_canvas_layout_tag.html":[1,0,0,19],
-"structsw_1_1_canvas_layout_tag.html#a54ca60a93c85b0c06ad1d848fed9af42":[1,0,0,19,3],
-"structsw_1_1_canvas_layout_tag.html#a5fcb2062d7a1239c4bd0f9fbf971718c":[1,0,0,19,2]
+"structsw_1_1_canvas_layout_tag.html":[1,0,0,19]
 };
