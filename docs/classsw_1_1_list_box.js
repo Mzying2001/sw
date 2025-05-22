@@ -14,6 +14,7 @@ var classsw_1_1_list_box =
     [ "InsertItem", "classsw_1_1_list_box.html#abaa05ef08a38822976373307156029b2", null ],
     [ "OnCommand", "classsw_1_1_list_box.html#a018949ce98442934f04da456de5c6db1", null ],
     [ "OnContextMenu", "classsw_1_1_list_box.html#a1708816955c247ec4b7e0a1291486088", null ],
+    [ "OnDrawFocusRect", "classsw_1_1_list_box.html#a00e9e05bf4f6c740d23a64081d3e42a5", null ],
     [ "RemoveItemAt", "classsw_1_1_list_box.html#a7bc0ff18482d6a90f643e9b4d796c9ed", null ],
     [ "SetItemSelectionState", "classsw_1_1_list_box.html#a1b4104d35b0bbe19239fdaa4f43dd956", null ],
     [ "SetSelectedIndex", "classsw_1_1_list_box.html#aaea8164e80a16084fb2fa47c894a16db", null ],

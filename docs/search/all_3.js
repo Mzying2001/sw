@@ -32,7 +32,7 @@ var searchData=
   ['columns_29',['columns',['../classsw_1_1_grid_layout.html#a31dc19020481d77169ecad187bad886e',1,'sw::GridLayout::columns'],['../classsw_1_1_uniform_grid_layout.html#a73d71cc8e99540d40ab1f4fd528b9492',1,'sw::UniformGridLayout::columns']]],
   ['columnscount_30',['ColumnsCount',['../classsw_1_1_list_view.html#a0b84ba1066f16317e48629059b94ded8',1,'sw::ListView']]],
   ['columnspan_31',['columnSpan',['../structsw_1_1_grid_layout_tag.html#ad6949937cb3becc28cee7f7c79604fd8',1,'sw::GridLayoutTag']]],
-  ['combine_32',['Combine',['../classsw_1_1_path.html#aaa1b4b0e392fed266c3ca9eeabd5200d',1,'sw::Path']]],
+  ['combine_32',['Combine',['../classsw_1_1_path.html#aaa1b4b0e392fed266c3ca9eeabd5200d',1,'sw::Path::Combine(std::initializer_list&lt; std::wstring &gt; paths)'],['../classsw_1_1_path.html#a5f2750ce63273757c4e74f37c30e8f64',1,'sw::Path::Combine(const std::wstring &amp;first, const Args &amp;...rest)']]],
   ['combobox_33',['ComboBox',['../classsw_1_1_combo_box.html',1,'sw::ComboBox'],['../classsw_1_1_combo_box.html#ab7952615f64988796a72df3027170e8b',1,'sw::ComboBox::ComboBox()']]],
   ['command_34',['command',['../classsw_1_1_menu_item.html#a2a89a577f6cc2eafe9b6d55eb3c9c8ee',1,'sw::MenuItem']]],
   ['contains_35',['Contains',['../classsw_1_1_list.html#a459de7b71327cf474c1ac24909b49773',1,'sw::List']]],

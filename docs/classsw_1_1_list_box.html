@@ -635,6 +635,9 @@ Protected 成员函数</h2></td></tr>
 <tr class="memitem:a018949ce98442934f04da456de5c6db1" id="r_a018949ce98442934f04da456de5c6db1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a018949ce98442934f04da456de5c6db1">OnCommand</a> (int code) override</td></tr>
 <tr class="memdesc:a018949ce98442934f04da456de5c6db1"><td class="mdescLeft">&#160;</td><td class="mdescRight">当父窗口接收到控件的WM_COMMAND时调用该函数  <br /></td></tr>
 <tr class="separator:a018949ce98442934f04da456de5c6db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00e9e05bf4f6c740d23a64081d3e42a5" id="r_a00e9e05bf4f6c740d23a64081d3e42a5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00e9e05bf4f6c740d23a64081d3e42a5">OnDrawFocusRect</a> (HDC hdc) override</td></tr>
+<tr class="memdesc:a00e9e05bf4f6c740d23a64081d3e42a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">绘制虚线框时调用该函数  <br /></td></tr>
+<tr class="separator:a00e9e05bf4f6c740d23a64081d3e42a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classsw_1_1_items_control"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classsw_1_1_items_control')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classsw_1_1_items_control.html">sw::ItemsControl&lt; TItem &gt;</a></td></tr>
 <tr class="memitem:aaf5eb0f69c26b57da81fe8a22f962ec6 inherit pro_methods_classsw_1_1_items_control" id="r_aaf5eb0f69c26b57da81fe8a22f962ec6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_items_control.html#aaf5eb0f69c26b57da81fe8a22f962ec6">OnSelectionChanged</a> ()</td></tr>
 <tr class="memdesc:aaf5eb0f69c26b57da81fe8a22f962ec6 inherit pro_methods_classsw_1_1_items_control"><td class="mdescLeft">&#160;</td><td class="mdescRight">选中项改变时调用该函数  <br /></td></tr>
@@ -673,9 +676,6 @@ Protected 成员函数</h2></td></tr>
 <tr class="memitem:ae0497676d9b8f5175a60bbede2eb8e41 inherit pro_methods_classsw_1_1_control" id="r_ae0497676d9b8f5175a60bbede2eb8e41"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_control.html#ae0497676d9b8f5175a60bbede2eb8e41">OnPostPaint</a> (HDC hdc, LRESULT &amp;result)</td></tr>
 <tr class="memdesc:ae0497676d9b8f5175a60bbede2eb8e41 inherit pro_methods_classsw_1_1_control"><td class="mdescLeft">&#160;</td><td class="mdescRight">绘制控件后调用该函数  <br /></td></tr>
 <tr class="separator:ae0497676d9b8f5175a60bbede2eb8e41 inherit pro_methods_classsw_1_1_control"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0451f011a344efa6b628d006980c6ed8 inherit pro_methods_classsw_1_1_control" id="r_a0451f011a344efa6b628d006980c6ed8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_control.html#a0451f011a344efa6b628d006980c6ed8">OnDrawFocusRect</a> (HDC hdc)</td></tr>
-<tr class="memdesc:a0451f011a344efa6b628d006980c6ed8 inherit pro_methods_classsw_1_1_control"><td class="mdescLeft">&#160;</td><td class="mdescRight">绘制虚线框时调用该函数  <br /></td></tr>
-<tr class="separator:a0451f011a344efa6b628d006980c6ed8 inherit pro_methods_classsw_1_1_control"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1eed0fc1e59e8502692e87f15c47c8ea inherit pro_methods_classsw_1_1_control" id="r_a1eed0fc1e59e8502692e87f15c47c8ea"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_control.html#a1eed0fc1e59e8502692e87f15c47c8ea">OnHandleChenged</a> (HWND hwnd)</td></tr>
 <tr class="memdesc:a1eed0fc1e59e8502692e87f15c47c8ea inherit pro_methods_classsw_1_1_control"><td class="mdescLeft">&#160;</td><td class="mdescRight">控件句柄发生改变时调用该函数  <br /></td></tr>
 <tr class="separator:a1eed0fc1e59e8502692e87f15c47c8ea inherit pro_methods_classsw_1_1_control"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1323,6 +1323,41 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
 <p>重载 <a class="el" href="classsw_1_1_u_i_element.html#a656bb4995529a018d8c823fc45abf233">sw::UIElement</a> .</p>
+
+</div>
+</div>
+<a id="a00e9e05bf4f6c740d23a64081d3e42a5" name="a00e9e05bf4f6c740d23a64081d3e42a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00e9e05bf4f6c740d23a64081d3e42a5">&#9670;&#160;</a></span>OnDrawFocusRect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sw::ListBox::OnDrawFocusRect </td>
+          <td>(</td>
+          <td class="paramtype">HDC</td>          <td class="paramname"><span class="paramname"><em>hdc</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>绘制虚线框时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hdc</td><td>绘制设备句柄 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>重载 <a class="el" href="classsw_1_1_control.html#a0451f011a344efa6b628d006980c6ed8">sw::Control</a> .</p>
 
 </div>
 </div>
