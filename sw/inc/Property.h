@@ -219,6 +219,26 @@ namespace sw
         }
 
         /**
+         * @brief 加赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_AddOperationHelper<T, U>::value, TDerived &>::type operator+=(const PropertyBase<U, D> &prop)
+        {
+            this->Set(this->Get() + prop.Get());
+            return *static_cast<TDerived *>(this);
+        }
+
+        /**
+         * @brief 加赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_AddOperationHelper<T, U>::value, const TDerived &>::type operator+=(const PropertyBase<U, D> &prop) const
+        {
+            this->Set(this->Get() + prop.Get());
+            return *static_cast<const TDerived *>(this);
+        }
+
+        /**
          * @brief 减赋值运算
          */
         template <typename U = T>
@@ -235,6 +255,26 @@ namespace sw
         typename std::enable_if<_SubOperationHelper<T, U>::value, const TDerived &>::type operator-=(const U &value) const
         {
             this->Set(this->Get() - value);
+            return *static_cast<const TDerived *>(this);
+        }
+
+        /**
+         * @brief 减赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_SubOperationHelper<T, U>::value, TDerived &>::type operator-=(const PropertyBase<U, D> &prop)
+        {
+            this->Set(this->Get() - prop.Get());
+            return *static_cast<TDerived *>(this);
+        }
+
+        /**
+         * @brief 减赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_SubOperationHelper<T, U>::value, const TDerived &>::type operator-=(const PropertyBase<U, D> &prop) const
+        {
+            this->Set(this->Get() - prop.Get());
             return *static_cast<const TDerived *>(this);
         }
 
@@ -259,6 +299,26 @@ namespace sw
         }
 
         /**
+         * @brief 乘赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_MulOperationHelper<T, U>::value, TDerived &>::type operator*=(const PropertyBase<U, D> &prop)
+        {
+            this->Set(this->Get() * prop.Get());
+            return *static_cast<TDerived *>(this);
+        }
+
+        /**
+         * @brief 乘赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_MulOperationHelper<T, U>::value, const TDerived &>::type operator*=(const PropertyBase<U, D> &prop) const
+        {
+            this->Set(this->Get() * prop.Get());
+            return *static_cast<const TDerived *>(this);
+        }
+
+        /**
          * @brief 除赋值运算
          */
         template <typename U = T>
@@ -275,6 +335,26 @@ namespace sw
         typename std::enable_if<_DivOperationHelper<T, U>::value, const TDerived &>::type operator/=(const U &value) const
         {
             this->Set(this->Get() / value);
+            return *static_cast<const TDerived *>(this);
+        }
+
+        /**
+         * @brief 除赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_DivOperationHelper<T, U>::value, TDerived &>::type operator/=(const PropertyBase<U, D> &prop)
+        {
+            this->Set(this->Get() / prop.Get());
+            return *static_cast<TDerived *>(this);
+        }
+
+        /**
+         * @brief 除赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_DivOperationHelper<T, U>::value, const TDerived &>::type operator/=(const PropertyBase<U, D> &prop) const
+        {
+            this->Set(this->Get() / prop.Get());
             return *static_cast<const TDerived *>(this);
         }
 
@@ -361,6 +441,26 @@ namespace sw
         }
 
         /**
+         * @brief 按位与赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_BitAndOperationHelper<T, U>::value, TDerived &>::type operator&=(const PropertyBase<U, D> &prop)
+        {
+            this->Set(this->Get() & prop.Get());
+            return *static_cast<TDerived *>(this);
+        }
+
+        /**
+         * @brief 按位与赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_BitAndOperationHelper<T, U>::value, const TDerived &>::type operator&=(const PropertyBase<U, D> &prop) const
+        {
+            this->Set(this->Get() & prop.Get());
+            return *static_cast<const TDerived *>(this);
+        }
+
+        /**
          * @brief 按位或赋值运算
          */
         template <typename U = T>
@@ -377,6 +477,26 @@ namespace sw
         typename std::enable_if<_BitOrOperationHelper<T, U>::value, const TDerived &>::type operator|=(const U &value) const
         {
             this->Set(this->Get() | value);
+            return *static_cast<const TDerived *>(this);
+        }
+
+        /**
+         * @brief 按位或赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_BitOrOperationHelper<T, U>::value, TDerived &>::type operator|=(const PropertyBase<U, D> &prop)
+        {
+            this->Set(this->Get() | prop.Get());
+            return *static_cast<TDerived *>(this);
+        }
+
+        /**
+         * @brief 按位或赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_BitOrOperationHelper<T, U>::value, const TDerived &>::type operator|=(const PropertyBase<U, D> &prop) const
+        {
+            this->Set(this->Get() | prop.Get());
             return *static_cast<const TDerived *>(this);
         }
 
@@ -401,6 +521,26 @@ namespace sw
         }
 
         /**
+         * @brief 按位异或赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_BitXorOperationHelper<T, U>::value, TDerived &>::type operator^=(const PropertyBase<U, D> &prop)
+        {
+            this->Set(this->Get() ^ prop.Get());
+            return *static_cast<TDerived *>(this);
+        }
+
+        /**
+         * @brief 按位异或赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_BitXorOperationHelper<T, U>::value, const TDerived &>::type operator^=(const PropertyBase<U, D> &prop) const
+        {
+            this->Set(this->Get() ^ prop.Get());
+            return *static_cast<const TDerived *>(this);
+        }
+
+        /**
          * @brief 左移赋值运算
          */
         template <typename U = T>
@@ -421,6 +561,26 @@ namespace sw
         }
 
         /**
+         * @brief 左移赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_ShlOperationHelper<T, U>::value, TDerived &>::type operator<<=(const PropertyBase<U, D> &prop)
+        {
+            this->Set(this->Get() << prop.Get());
+            return *static_cast<TDerived *>(this);
+        }
+
+        /**
+         * @brief 左移赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_ShlOperationHelper<T, U>::value, const TDerived &>::type operator<<=(const PropertyBase<U, D> &prop) const
+        {
+            this->Set(this->Get() << prop.Get());
+            return *static_cast<const TDerived *>(this);
+        }
+
+        /**
          * @brief 右移赋值运算
          */
         template <typename U = T>
@@ -437,6 +597,26 @@ namespace sw
         typename std::enable_if<_ShrOperationHelper<T, U>::value, const TDerived &>::type operator>>=(const U &value) const
         {
             this->Set(this->Get() >> value);
+            return *static_cast<const TDerived *>(this);
+        }
+
+        /**
+         * @brief 右移赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_ShrOperationHelper<T, U>::value, TDerived &>::type operator>>=(const PropertyBase<U, D> &prop)
+        {
+            this->Set(this->Get() >> prop.Get());
+            return *static_cast<TDerived *>(this);
+        }
+
+        /**
+         * @brief 右移赋值运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_ShrOperationHelper<T, U>::value, const TDerived &>::type operator>>=(const PropertyBase<U, D> &prop) const
+        {
+            this->Set(this->Get() >> prop.Get());
             return *static_cast<const TDerived *>(this);
         }
 
