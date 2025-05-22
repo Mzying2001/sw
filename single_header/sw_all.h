@@ -811,6 +811,18 @@ namespace sw
         static std::wstring Combine(std::initializer_list<std::wstring> paths);
 
         /**
+         * @brief       对路径进行拼接
+         * @param first 第一个路径
+         * @param rest  要拼接的路径
+         * @return      完整的路径
+         */
+        template <typename... Args>
+        static inline std::wstring Combine(const std::wstring &first, const Args &...rest)
+        {
+            return Path::Combine({first, rest...});
+        }
+
+        /**
          * @brief       获取路径所对应的绝对路径
          * @param paths 要转换的路径
          * @return      若函数成功则返回绝对路径，否则返回空字符串
@@ -919,8 +931,39 @@ namespace sw
 // Property.h
 
 
+#define _SW_DEFINE_OPERATION_HELPER(NAME, OP)                                                                                   \
+    template <typename T, typename U, typename = void>                                                                          \
+    struct NAME : std::false_type {                                                                                             \
+    };                                                                                                                          \
+    template <typename T, typename U>                                                                                           \
+    struct NAME<T,                                                                                                              \
+                U,                                                                                                              \
+                typename std::enable_if<true, decltype(void(std::declval<T>() OP std::declval<U>()))>::type> : std::true_type { \
+        using type = decltype(std::declval<T>() OP std::declval<U>());                                                          \
+    }
+
 namespace sw
 {
+    // SFINAE template
+    _SW_DEFINE_OPERATION_HELPER(_AddOperationHelper, +);
+    _SW_DEFINE_OPERATION_HELPER(_SubOperationHelper, -);
+    _SW_DEFINE_OPERATION_HELPER(_MulOperationHelper, *);
+    _SW_DEFINE_OPERATION_HELPER(_DivOperationHelper, /);
+    _SW_DEFINE_OPERATION_HELPER(_ModOperationHelper, %);
+    _SW_DEFINE_OPERATION_HELPER(_EqOperationHelper, ==);
+    _SW_DEFINE_OPERATION_HELPER(_NeOperationHelper, !=);
+    _SW_DEFINE_OPERATION_HELPER(_LtOperationHelper, <);
+    _SW_DEFINE_OPERATION_HELPER(_LeOperationHelper, <=);
+    _SW_DEFINE_OPERATION_HELPER(_GtOperationHelper, >);
+    _SW_DEFINE_OPERATION_HELPER(_GeOperationHelper, >=);
+    _SW_DEFINE_OPERATION_HELPER(_BitAndOperationHelper, &);
+    _SW_DEFINE_OPERATION_HELPER(_BitOrOperationHelper, |);
+    _SW_DEFINE_OPERATION_HELPER(_BitXorOperationHelper, ^);
+    _SW_DEFINE_OPERATION_HELPER(_ShlOperationHelper, <<);
+    _SW_DEFINE_OPERATION_HELPER(_ShrOperationHelper, >>);
+    _SW_DEFINE_OPERATION_HELPER(_LogicAndOperationHelper, &&);
+    _SW_DEFINE_OPERATION_HELPER(_LogicOrOperationHelper, ||);
+
     /**
      * @brief 伪指针，用于实现使用operator->取属性字段
      */
@@ -1086,7 +1129,7 @@ namespace sw
          * @brief 加赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, TDerived &>::type operator+=(T value)
+        typename std::enable_if<_AddOperationHelper<T, U>::value, TDerived &>::type operator+=(const U &value)
         {
             this->Set(this->Get() + value);
             return *static_cast<TDerived *>(this);
@@ -1096,7 +1139,7 @@ namespace sw
          * @brief 加赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, const TDerived &>::type operator+=(T value) const
+        typename std::enable_if<_AddOperationHelper<T, U>::value, const TDerived &>::type operator+=(const U &value) const
         {
             this->Set(this->Get() + value);
             return *static_cast<const TDerived *>(this);
@@ -1106,7 +1149,7 @@ namespace sw
          * @brief 减赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, TDerived &>::type operator-=(T value)
+        typename std::enable_if<_SubOperationHelper<T, U>::value, TDerived &>::type operator-=(const U &value)
         {
             this->Set(this->Get() - value);
             return *static_cast<TDerived *>(this);
@@ -1116,7 +1159,7 @@ namespace sw
          * @brief 减赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, const TDerived &>::type operator-=(T value) const
+        typename std::enable_if<_SubOperationHelper<T, U>::value, const TDerived &>::type operator-=(const U &value) const
         {
             this->Set(this->Get() - value);
             return *static_cast<const TDerived *>(this);
@@ -1126,7 +1169,7 @@ namespace sw
          * @brief 乘赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, TDerived &>::type operator*=(T value)
+        typename std::enable_if<_MulOperationHelper<T, U>::value, TDerived &>::type operator*=(const U &value)
         {
             this->Set(this->Get() * value);
             return *static_cast<TDerived *>(this);
@@ -1136,7 +1179,7 @@ namespace sw
          * @brief 乘赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, const TDerived &>::type operator*=(T value) const
+        typename std::enable_if<_MulOperationHelper<T, U>::value, const TDerived &>::type operator*=(const U &value) const
         {
             this->Set(this->Get() * value);
             return *static_cast<const TDerived *>(this);
@@ -1146,7 +1189,7 @@ namespace sw
          * @brief 除赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, TDerived &>::type operator/=(T value)
+        typename std::enable_if<_DivOperationHelper<T, U>::value, TDerived &>::type operator/=(const U &value)
         {
             this->Set(this->Get() / value);
             return *static_cast<TDerived *>(this);
@@ -1156,7 +1199,7 @@ namespace sw
          * @brief 除赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, const TDerived &>::type operator/=(T value) const
+        typename std::enable_if<_DivOperationHelper<T, U>::value, const TDerived &>::type operator/=(const U &value) const
         {
             this->Set(this->Get() / value);
             return *static_cast<const TDerived *>(this);
@@ -1166,7 +1209,7 @@ namespace sw
          * @brief 前置自增运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, TDerived &>::type operator++()
+        typename std::enable_if<_AddOperationHelper<U, int>::value, TDerived &>::type operator++()
         {
             this->Set(this->Get() + 1);
             return *static_cast<TDerived *>(this);
@@ -1176,7 +1219,7 @@ namespace sw
          * @brief 前置自增运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, const TDerived &>::type operator++() const
+        typename std::enable_if<_AddOperationHelper<U, int>::value, const TDerived &>::type operator++() const
         {
             this->Set(this->Get() + 1);
             return *static_cast<const TDerived *>(this);
@@ -1186,7 +1229,7 @@ namespace sw
          * @brief 前置自减运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, TDerived &>::type operator--()
+        typename std::enable_if<_SubOperationHelper<U, int>::value, TDerived &>::type operator--()
         {
             this->Set(this->Get() - 1);
             return *static_cast<TDerived *>(this);
@@ -1196,7 +1239,7 @@ namespace sw
          * @brief 前置自减运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, const TDerived &>::type operator--() const
+        typename std::enable_if<_SubOperationHelper<U, int>::value, const TDerived &>::type operator--() const
         {
             this->Set(this->Get() - 1);
             return *static_cast<const TDerived *>(this);
@@ -1206,7 +1249,7 @@ namespace sw
          * @brief 后置自增运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, T>::type operator++(int) const
+        typename std::enable_if<_AddOperationHelper<U, int>::value, T>::type operator++(int) const
         {
             T oldval = this->Get();
             this->Set(oldval + 1);
@@ -1217,7 +1260,7 @@ namespace sw
          * @brief 后置自减运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_arithmetic<U>::value, T>::type operator--(int) const
+        typename std::enable_if<_SubOperationHelper<U, int>::value::value, T>::type operator--(int) const
         {
             T oldval = this->Get();
             this->Set(oldval - 1);
@@ -1228,7 +1271,7 @@ namespace sw
          * @brief 按位与赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, TDerived &>::type operator&=(T value)
+        typename std::enable_if<_BitAndOperationHelper<T, U>::value, TDerived &>::type operator&=(const U &value)
         {
             this->Set(this->Get() & value);
             return *static_cast<TDerived *>(this);
@@ -1238,7 +1281,7 @@ namespace sw
          * @brief 按位与赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, const TDerived &>::type operator&=(T value) const
+        typename std::enable_if<_BitAndOperationHelper<T, U>::value, const TDerived &>::type operator&=(const U &value) const
         {
             this->Set(this->Get() & value);
             return *static_cast<const TDerived *>(this);
@@ -1248,7 +1291,7 @@ namespace sw
          * @brief 按位或赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, TDerived &>::type operator|=(T value)
+        typename std::enable_if<_BitOrOperationHelper<T, U>::value, TDerived &>::type operator|=(const U &value)
         {
             this->Set(this->Get() | value);
             return *static_cast<TDerived *>(this);
@@ -1258,7 +1301,7 @@ namespace sw
          * @brief 按位或赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, const TDerived &>::type operator|=(T value) const
+        typename std::enable_if<_BitOrOperationHelper<T, U>::value, const TDerived &>::type operator|=(const U &value) const
         {
             this->Set(this->Get() | value);
             return *static_cast<const TDerived *>(this);
@@ -1268,7 +1311,7 @@ namespace sw
          * @brief 按位异或赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, TDerived &>::type operator^=(T value)
+        typename std::enable_if<_BitXorOperationHelper<T, U>::value, TDerived &>::type operator^=(const U &value)
         {
             this->Set(this->Get() ^ value);
             return *static_cast<TDerived *>(this);
@@ -1278,7 +1321,7 @@ namespace sw
          * @brief 按位异或赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, const TDerived &>::type operator^=(T value) const
+        typename std::enable_if<_BitXorOperationHelper<T, U>::value, const TDerived &>::type operator^=(const U &value) const
         {
             this->Set(this->Get() ^ value);
             return *static_cast<const TDerived *>(this);
@@ -1288,7 +1331,7 @@ namespace sw
          * @brief 左移赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, TDerived &>::type operator<<=(T value)
+        typename std::enable_if<_ShlOperationHelper<T, U>::value, TDerived &>::type operator<<=(const U &value)
         {
             this->Set(this->Get() << value);
             return *static_cast<TDerived *>(this);
@@ -1298,7 +1341,7 @@ namespace sw
          * @brief 左移赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, const TDerived &>::type operator<<=(T value) const
+        typename std::enable_if<_ShlOperationHelper<T, U>::value, const TDerived &>::type operator<<=(const U &value) const
         {
             this->Set(this->Get() << value);
             return *static_cast<const TDerived *>(this);
@@ -1308,7 +1351,7 @@ namespace sw
          * @brief 右移赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, TDerived &>::type operator>>=(T value)
+        typename std::enable_if<_ShrOperationHelper<T, U>::value, TDerived &>::type operator>>=(const U &value)
         {
             this->Set(this->Get() >> value);
             return *static_cast<TDerived *>(this);
@@ -1318,7 +1361,7 @@ namespace sw
          * @brief 右移赋值运算
          */
         template <typename U = T>
-        typename std::enable_if<std::is_integral<U>::value, const TDerived &>::type operator>>=(T value) const
+        typename std::enable_if<_ShrOperationHelper<T, U>::value, const TDerived &>::type operator>>=(const U &value) const
         {
             this->Set(this->Get() >> value);
             return *static_cast<const TDerived *>(this);
@@ -10185,6 +10228,12 @@ namespace sw
          */
         virtual void OnCommand(int code) override;
 
+        /**
+         * @brief     绘制虚线框时调用该函数
+         * @param hdc 绘制设备句柄
+         */
+        virtual void OnDrawFocusRect(HDC hdc) override;
+
     public:
         /**
          * @brief 清空所有子项
@@ -10427,6 +10476,12 @@ namespace sw
          * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
+
+        /**
+         * @brief     绘制虚线框时调用该函数
+         * @param hdc 绘制设备句柄
+         */
+        virtual void OnDrawFocusRect(HDC hdc) override;
 
         /**
          * @brief 列表项某些属性发生变化时调用该函数

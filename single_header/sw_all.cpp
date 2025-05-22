@@ -4234,6 +4234,11 @@ void sw::ListBox::OnCommand(int code)
     }
 }
 
+void sw::ListBox::OnDrawFocusRect(HDC hdc)
+{
+    // 不绘制虚线框
+}
+
 void sw::ListBox::Clear()
 {
     this->SendMessageW(LB_RESETCONTENT, 0, 0);
@@ -4551,6 +4556,11 @@ bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
         }
     }
     return this->Control::OnNotified(pNMHDR, result);
+}
+
+void sw::ListView::OnDrawFocusRect(HDC hdc)
+{
+    // 不绘制虚线框
 }
 
 void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
