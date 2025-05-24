@@ -6,6 +6,5 @@ var searchData=
   ['wrap_3',['Wrap',['../classsw_1_1_image_list.html#a05c15ad4b9d0dff17f2513d8fe40260a',1,'sw::ImageList']]],
   ['wrappanel_4',['WrapPanel',['../classsw_1_1_wrap_panel.html#a7dfc71028a9f60941ff4387ae175b078',1,'sw::WrapPanel']]],
   ['write_5',['Write',['../classsw_1_1_image_list.html#a978978d6bc38f32b85e8cdcaafd08664',1,'sw::ImageList']]],
-  ['writeonlyproperty_6',['WriteOnlyProperty',['../classsw_1_1_write_only_property.html#a2bbd0b0aa69d3659db3cf8978a86465a',1,'sw::WriteOnlyProperty']]],
-  ['writeonlyptrproperty_7',['WriteOnlyPtrProperty',['../classsw_1_1_write_only_ptr_property.html#a6b6b6770de3c476fedae53c1f29e73e1',1,'sw::WriteOnlyPtrProperty']]]
+  ['writeonlyproperty_6',['WriteOnlyProperty',['../classsw_1_1_write_only_property.html#a2bbd0b0aa69d3659db3cf8978a86465a',1,'sw::WriteOnlyProperty']]]
 ];

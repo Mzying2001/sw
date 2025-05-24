@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['fakeptr_0',['FakePtr',['../structsw_1_1_fake_ptr.html#a68b8add8e09006a29646fa2170e1362f',1,'sw::FakePtr']]],
+  ['fieldsaccessor_0',['FieldsAccessor',['../structsw_1_1_fields_accessor.html#aabb44e2be920e142b4c2d9c1a95c7fe8',1,'sw::FieldsAccessor']]],
   ['filedialog_1',['FileDialog',['../classsw_1_1_file_dialog.html#a0990ac4f5f33abef6003418c602980a7',1,'sw::FileDialog']]],
   ['filefilter_2',['FileFilter',['../classsw_1_1_file_filter.html#a249a6d83a8b704406429fcee9c5d71d0',1,'sw::FileFilter::FileFilter()=default'],['../classsw_1_1_file_filter.html#a7c6c97230a10cab5ef5538564adfaeb6',1,'sw::FileFilter::FileFilter(std::initializer_list&lt; FileFilterItem &gt; filters)']]],
   ['fillremaingridcolumn_3',['FillRemainGridColumn',['../structsw_1_1_fill_remain_grid_column.html#a0835e5144c6f0246c6d7cf2c8dfd18a1',1,'sw::FillRemainGridColumn']]],

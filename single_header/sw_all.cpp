@@ -8614,7 +8614,7 @@ namespace
 /**
  * @brief 程序的当前活动窗体
  */
-const sw::ReadOnlyPtrProperty<sw::Window *> sw::Window::ActiveWindow(
+const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
     []() -> sw::Window * {
         HWND hwnd = GetActiveWindow();
         return _GetWindowPtr(hwnd);

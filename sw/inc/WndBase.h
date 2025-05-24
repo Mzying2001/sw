@@ -174,7 +174,7 @@ namespace sw
         /**
          * @brief 父窗口
          */
-        const ReadOnlyPtrProperty<WndBase *> Parent;
+        const ReadOnlyProperty<WndBase *> Parent;
 
         /**
          * @brief 是否已销毁，当该值为true时不应该继续使用当前对象

@@ -6,7 +6,7 @@ var searchData=
   ['maximum_3',['Maximum',['../classsw_1_1_progress_bar.html#a23e176b3cc807b9e0e403e214421179c',1,'sw::ProgressBar::Maximum'],['../classsw_1_1_slider.html#ab44222d9c4bacb9294a6578778b56256',1,'sw::Slider::Maximum']]],
   ['maxtipwidth_4',['MaxTipWidth',['../classsw_1_1_tool_tip.html#ad88b0e4d9cb3858196a5ead05ecb342a',1,'sw::ToolTip']]],
   ['maxwidth_5',['MaxWidth',['../classsw_1_1_window.html#a881e11126ef89b4b0badb890c8f7ac21',1,'sw::Window']]],
-  ['menu_6',['Menu',['../classsw_1_1_window.html#ab46162d73ce63504fb34702aa2686b2e',1,'sw::Window']]],
+  ['menu_6',['Menu',['../classsw_1_1_window.html#a27de84e46eda2bccca6f5b2f30fb3117',1,'sw::Window']]],
   ['minheight_7',['MinHeight',['../classsw_1_1_window.html#aa9782debda43bce7438531290aa509ae',1,'sw::Window']]],
   ['minimizebox_8',['MinimizeBox',['../classsw_1_1_window.html#aa9476a0b4bff312e523bba76aa82b96b',1,'sw::Window']]],
   ['minimum_9',['Minimum',['../classsw_1_1_progress_bar.html#ad6ae6e88db8560fb7574e22c87a72ce5',1,'sw::ProgressBar::Minimum'],['../classsw_1_1_slider.html#ae3a7b7c831318c34341bfdf363daf4c2',1,'sw::Slider::Minimum']]],

@@ -298,7 +298,7 @@ namespace sw
         /**
          * @brief 筛选器
          */
-        const ReadOnlyPtrProperty<FileFilter *> Filter;
+        const ReadOnlyProperty<FileFilter *> Filter;
 
         /**
          * @brief 当前筛选器的索引，索引值从0开始

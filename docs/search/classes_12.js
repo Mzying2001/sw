@@ -7,6 +7,5 @@ var searchData=
   ['wraplayouth_4',['WrapLayoutH',['../classsw_1_1_wrap_layout_h.html',1,'sw']]],
   ['wraplayoutv_5',['WrapLayoutV',['../classsw_1_1_wrap_layout_v.html',1,'sw']]],
   ['wrappanel_6',['WrapPanel',['../classsw_1_1_wrap_panel.html',1,'sw']]],
-  ['writeonlyproperty_7',['WriteOnlyProperty',['../classsw_1_1_write_only_property.html',1,'sw']]],
-  ['writeonlyptrproperty_8',['WriteOnlyPtrProperty',['../classsw_1_1_write_only_ptr_property.html',1,'sw']]]
+  ['writeonlyproperty_7',['WriteOnlyProperty',['../classsw_1_1_write_only_property.html',1,'sw']]]
 ];
