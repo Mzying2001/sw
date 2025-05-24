@@ -182,7 +182,7 @@ namespace sw
         /**
          * @brief 指向父元素的指针，当前元素为顶级窗口时该值为nullptr
          */
-        const ReadOnlyPtrProperty<UIElement *> Parent;
+        const ReadOnlyProperty<UIElement *> Parent;
 
         /**
          * @brief 储存用户自定义信息的标记
@@ -197,7 +197,7 @@ namespace sw
         /**
          * @brief 右键按下时弹出的菜单
          */
-        const PtrProperty<sw::ContextMenu *> ContextMenu;
+        const Property<sw::ContextMenu *> ContextMenu;
 
         /**
          * @brief 元素是否悬浮，若元素悬浮则该元素不会随滚动条滚动而改变位置
