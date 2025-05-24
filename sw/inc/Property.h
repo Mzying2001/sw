@@ -500,7 +500,7 @@ namespace sw
          * @brief 后置自减运算
          */
         template <typename U = T>
-        typename std::enable_if<_SubOperationHelper<U, int>::value::value, T>::type operator--(int) const
+        typename std::enable_if<_SubOperationHelper<U, int>::value, T>::type operator--(int) const
         {
             T oldval = this->Get();
             this->Set(oldval - 1);
