@@ -56,6 +56,23 @@ namespace sw
     // _SW_DEFINE_UNARY_OPERATION_HELPER(_PreDecOperationHelper, --);
 
     /**
+     * @brief 判断类型是否可以使用[]操作符的辅助模板
+     */
+    template <typename T, typename U, typename = void>
+    struct _BracketOperationHelper : std::false_type {
+    };
+
+    /**
+     * @brief _BracketOperationHelper模板特化
+     */
+    template <typename T, typename U>
+    struct _BracketOperationHelper<
+        T, U,
+        typename std::enable_if<true, decltype(void(std::declval<T>()[std::declval<U>()]))>::type> : std::true_type {
+        using type = decltype(std::declval<T>()[std::declval<U>()]);
+    };
+
+    /**
      * @brief 判断类型是否可以显式转换的辅助模板
      */
     template <typename TFrom, typename TTo, typename = void>
@@ -1066,6 +1083,24 @@ namespace sw
         typename std::enable_if<_LogicOrOperationHelper<T, U>::value, typename _LogicOrOperationHelper<T, U>::type>::type operator||(const PropertyBase<U, D> &prop) const
         {
             return this->Get() || prop.Get();
+        }
+
+        /**
+         * @brief 下标运算
+         */
+        template <typename U>
+        typename std::enable_if<_BracketOperationHelper<T, U>::value, typename _BracketOperationHelper<T, U>::type>::type operator[](const U &value) const
+        {
+            return this->Get()[value];
+        }
+
+        /**
+         * @brief 下标运算
+         */
+        template <typename D, typename U>
+        typename std::enable_if<_BracketOperationHelper<T, U>::value, typename _BracketOperationHelper<T, U>::type>::type operator[](const PropertyBase<U, D> &prop) const
+        {
+            return this->Get()[prop.Get()];
         }
 
         /**
