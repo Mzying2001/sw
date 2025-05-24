@@ -15,9 +15,19 @@
         using type = decltype(std::declval<T>() OP std::declval<U>());                                                          \
     }
 
+#define _SW_DEFINE_UNARY_OPERATION_HELPER(NAME, OP)                                                           \
+    template <typename T, typename = void>                                                                    \
+    struct NAME : std::false_type {                                                                           \
+    };                                                                                                        \
+    template <typename T>                                                                                     \
+    struct NAME<T,                                                                                            \
+                typename std::enable_if<true, decltype(void(OP std::declval<T>()))>::type> : std::true_type { \
+        using type = decltype(OP std::declval<T>());                                                          \
+    }
+
 namespace sw
 {
-    // SFINAE template
+    // SFINAE templates
     _SW_DEFINE_OPERATION_HELPER(_AddOperationHelper, +);
     _SW_DEFINE_OPERATION_HELPER(_SubOperationHelper, -);
     _SW_DEFINE_OPERATION_HELPER(_MulOperationHelper, *);
@@ -36,6 +46,14 @@ namespace sw
     _SW_DEFINE_OPERATION_HELPER(_ShrOperationHelper, >>);
     _SW_DEFINE_OPERATION_HELPER(_LogicAndOperationHelper, &&);
     _SW_DEFINE_OPERATION_HELPER(_LogicOrOperationHelper, ||);
+    _SW_DEFINE_UNARY_OPERATION_HELPER(_LogicNotOperationHelper, !);
+    _SW_DEFINE_UNARY_OPERATION_HELPER(_BitNotOperationHelper, ~);
+    _SW_DEFINE_UNARY_OPERATION_HELPER(_DerefOperationHelper, *);
+    _SW_DEFINE_UNARY_OPERATION_HELPER(_AddrOperationHelper, &);
+    _SW_DEFINE_UNARY_OPERATION_HELPER(_UnaryPlusOperationHelper, +);
+    _SW_DEFINE_UNARY_OPERATION_HELPER(_UnaryMinusOperationHelper, -);
+    // _SW_DEFINE_UNARY_OPERATION_HELPER(_PreIncOperationHelper, ++);
+    // _SW_DEFINE_UNARY_OPERATION_HELPER(_PreDecOperationHelper, --);
 
     /**
      * @brief 判断类型是否可以显式转换的辅助模板
@@ -670,6 +688,60 @@ namespace sw
         {
             this->Set(this->Get() >> prop.Get());
             return *static_cast<const TDerived *>(this);
+        }
+
+        /**
+         * @brief 逻辑非运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_LogicNotOperationHelper<U>::value, typename _LogicNotOperationHelper<U>::type>::type operator!() const
+        {
+            return !this->Get();
+        }
+
+        /**
+         * @brief 按位非运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_BitNotOperationHelper<U>::value, typename _BitNotOperationHelper<U>::type>::type operator~() const
+        {
+            return ~this->Get();
+        }
+
+        /**
+         * @brief 解引用运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_DerefOperationHelper<U>::value, typename _DerefOperationHelper<U>::type>::type operator*() const
+        {
+            return *this->Get();
+        }
+
+        /**
+         * @brief 地址运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_AddrOperationHelper<U>::value, typename _AddrOperationHelper<U>::type>::type operator&() const
+        {
+            return &this->Get();
+        }
+
+        /**
+         * @brief 一元加运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_UnaryPlusOperationHelper<U>::value, typename _UnaryPlusOperationHelper<U>::type>::type operator+() const
+        {
+            return +this->Get();
+        }
+
+        /**
+         * @brief 一元减运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_UnaryMinusOperationHelper<U>::value, typename _UnaryMinusOperationHelper<U>::type>::type operator-() const
+        {
+            return -this->Get();
         }
 
         /**
