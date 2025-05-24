@@ -942,9 +942,19 @@ namespace sw
         using type = decltype(std::declval<T>() OP std::declval<U>());                                                          \
     }
 
+#define _SW_DEFINE_UNARY_OPERATION_HELPER(NAME, OP)                                                           \
+    template <typename T, typename = void>                                                                    \
+    struct NAME : std::false_type {                                                                           \
+    };                                                                                                        \
+    template <typename T>                                                                                     \
+    struct NAME<T,                                                                                            \
+                typename std::enable_if<true, decltype(void(OP std::declval<T>()))>::type> : std::true_type { \
+        using type = decltype(OP std::declval<T>());                                                          \
+    }
+
 namespace sw
 {
-    // SFINAE template
+    // SFINAE templates
     _SW_DEFINE_OPERATION_HELPER(_AddOperationHelper, +);
     _SW_DEFINE_OPERATION_HELPER(_SubOperationHelper, -);
     _SW_DEFINE_OPERATION_HELPER(_MulOperationHelper, *);
@@ -963,40 +973,110 @@ namespace sw
     _SW_DEFINE_OPERATION_HELPER(_ShrOperationHelper, >>);
     _SW_DEFINE_OPERATION_HELPER(_LogicAndOperationHelper, &&);
     _SW_DEFINE_OPERATION_HELPER(_LogicOrOperationHelper, ||);
+    _SW_DEFINE_UNARY_OPERATION_HELPER(_LogicNotOperationHelper, !);
+    _SW_DEFINE_UNARY_OPERATION_HELPER(_BitNotOperationHelper, ~);
+    _SW_DEFINE_UNARY_OPERATION_HELPER(_DerefOperationHelper, *);
+    _SW_DEFINE_UNARY_OPERATION_HELPER(_AddrOperationHelper, &);
+    _SW_DEFINE_UNARY_OPERATION_HELPER(_UnaryPlusOperationHelper, +);
+    _SW_DEFINE_UNARY_OPERATION_HELPER(_UnaryMinusOperationHelper, -);
+    // _SW_DEFINE_UNARY_OPERATION_HELPER(_PreIncOperationHelper, ++);
+    // _SW_DEFINE_UNARY_OPERATION_HELPER(_PreDecOperationHelper, --);
 
     /**
-     * @brief 伪指针，用于实现使用operator->取属性字段
+     * @brief 判断类型是否可以使用[]操作符的辅助模板
+     */
+    template <typename T, typename U, typename = void>
+    struct _BracketOperationHelper : std::false_type {
+    };
+
+    /**
+     * @brief _BracketOperationHelper模板特化
+     */
+    template <typename T, typename U>
+    struct _BracketOperationHelper<
+        T, U,
+        typename std::enable_if<true, decltype(void(std::declval<T>()[std::declval<U>()]))>::type> : std::true_type {
+        using type = decltype(std::declval<T>()[std::declval<U>()]);
+    };
+
+    /**
+     * @brief 判断类型是否可以显式转换的辅助模板
+     */
+    template <typename TFrom, typename TTo, typename = void>
+    struct _IsExplicitlyConvertable : std::false_type {
+    };
+
+    /**
+     * @brief _IsExplicitlyConvertable模板特化
+     */
+    template <typename TFrom, typename TTo>
+    struct _IsExplicitlyConvertable<
+        TFrom, TTo,
+        typename std::enable_if<true, decltype(void(static_cast<TTo>(std::declval<TFrom>())))>::type> : std::true_type {
+    };
+
+    /**
+     * @brief 判断类型是否有operator->的辅助模板
+     */
+    template <typename T, typename = void>
+    struct _HasArrowOperator : std::false_type {
+    };
+
+    /**
+     * @brief _HasArrowOperator模板特化
      */
     template <typename T>
-    struct FakePtr {
+    struct _HasArrowOperator<
+        T, typename std::enable_if<true, decltype(void(std::declval<T>().operator->()))>::type> : std::true_type {
+        using type = decltype(std::declval<T>().operator->());
+    };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 字段访问器，用于实现使用operator->取属性字段
+     */
+    template <typename T>
+    struct FieldsAccessor {
         /**
-         * @brief 伪指针所维护的值
+         * @brief 字段访问器所维护的值
          */
         T value;
 
         /**
-         * @brief 构造伪指针
+         * @brief 构造字段访问器
          */
         template <typename... Args>
-        FakePtr(Args &&...args)
+        FieldsAccessor(Args &&...args)
             : value(std::forward<Args>(args)...)
         {
         }
 
         /**
-         * @brief 取字段
+         * @brief 指针类型，直接返回值
          */
-        T *operator->()
+        template <typename U = T>
+        typename std::enable_if<std::is_pointer<U>::value, U>::type operator->()
+        {
+            return value;
+        }
+
+        /**
+         * @brief 非指针类型，且无operator->，返回值的地址
+         */
+        template <typename U = T>
+        typename std::enable_if<!std::is_pointer<U>::value && !_HasArrowOperator<U>::value, U *>::type operator->()
         {
             return &value;
         }
 
         /**
-         * @brief 取字段
+         * @brief 非指针类型，且有operator->，转发operator->
          */
-        const T *operator->() const
+        template <typename U = T>
+        typename std::enable_if<!std::is_pointer<U>::value && _HasArrowOperator<U>::value, typename _HasArrowOperator<U>::type>::type operator->()
         {
-            return &value;
+            return value.operator->();
         }
     };
 
@@ -1031,30 +1111,12 @@ namespace sw
         //  */
         // void SetterImpl(const T &value) const;
 
-        // /**
-        //  * @brief 获取字段，可由子类重写
-        //  */
-        // FakePtr<T> ListFieldsImpl() const
-        // {
-        //     return FakePtr<T>(this->Get());
-        // }
-
         /**
-         * @brief 获取字段，可由子类重写
+         * @brief 访问属性字段，可由子类重写
          */
-        template <typename U = T>
-        typename std::enable_if<!std::is_pointer<U>::value, FakePtr<T>>::type ListFieldsImpl() const
+        FieldsAccessor<T> AccessFields() const
         {
-            return FakePtr<T>(this->Get());
-        }
-
-        /**
-         * @brief 获取字段，可由子类重写
-         */
-        template <typename U = T>
-        typename std::enable_if<std::is_pointer<U>::value, T>::type ListFieldsImpl() const
-        {
-            return this->Get();
+            return FieldsAccessor<T>(this->Get());
         }
 
         /**
@@ -1078,15 +1140,40 @@ namespace sw
          */
         auto operator->() const
         {
-            return static_cast<const TDerived *>(this)->ListFieldsImpl();
+            return static_cast<const TDerived *>(this)->AccessFields();
         }
 
         /**
-         * @brief 获取属性值
+         * @brief 隐式转换
          */
         operator T() const
         {
             return this->Get();
+        }
+
+        /**
+         * @brief 隐式转换
+         */
+        template <
+            typename U = T,
+            typename   = typename std::enable_if<!std::is_same<T, bool>::value && std::is_convertible<T, U>::value, U>::type>
+        operator U() const
+        {
+            // why T should not be bool: just shut up the msvc compiler warning
+            // if T is bool, it will be converted to int, which is not expected
+            return static_cast<U>(this->Get());
+        }
+
+        /**
+         * @brief 显式转换
+         */
+        template <
+            typename U = T,
+            typename   = typename std::enable_if<!std::is_same<T, bool>::value && !std::is_convertible<T, U>::value, U>::type,
+            typename   = typename std::enable_if<!std::is_same<T, bool>::value && _IsExplicitlyConvertable<T, U>::value, U>::type>
+        explicit operator U() const
+        {
+            return static_cast<U>(this->Get());
         }
 
         /**
@@ -1340,7 +1427,7 @@ namespace sw
          * @brief 后置自减运算
          */
         template <typename U = T>
-        typename std::enable_if<_SubOperationHelper<U, int>::value::value, T>::type operator--(int) const
+        typename std::enable_if<_SubOperationHelper<U, int>::value, T>::type operator--(int) const
         {
             T oldval = this->Get();
             this->Set(oldval - 1);
@@ -1548,6 +1635,402 @@ namespace sw
         }
 
         /**
+         * @brief 逻辑非运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_LogicNotOperationHelper<U>::value, typename _LogicNotOperationHelper<U>::type>::type operator!() const
+        {
+            return !this->Get();
+        }
+
+        /**
+         * @brief 按位非运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_BitNotOperationHelper<U>::value, typename _BitNotOperationHelper<U>::type>::type operator~() const
+        {
+            return ~this->Get();
+        }
+
+        /**
+         * @brief 解引用运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_DerefOperationHelper<U>::value, typename _DerefOperationHelper<U>::type>::type operator*() const
+        {
+            return *this->Get();
+        }
+
+        /**
+         * @brief 地址运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_AddrOperationHelper<U>::value, typename _AddrOperationHelper<U>::type>::type operator&() const
+        {
+            return &this->Get();
+        }
+
+        /**
+         * @brief 一元加运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_UnaryPlusOperationHelper<U>::value, typename _UnaryPlusOperationHelper<U>::type>::type operator+() const
+        {
+            return +this->Get();
+        }
+
+        /**
+         * @brief 一元减运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_UnaryMinusOperationHelper<U>::value, typename _UnaryMinusOperationHelper<U>::type>::type operator-() const
+        {
+            return -this->Get();
+        }
+
+        /**
+         * @brief 加法运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_AddOperationHelper<T, U>::value, typename _AddOperationHelper<T, U>::type>::type operator+(const U &value) const
+        {
+            return this->Get() + value;
+        }
+
+        /**
+         * @brief 加法运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_AddOperationHelper<T, U>::value, typename _AddOperationHelper<T, U>::type>::type operator+(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() + prop.Get();
+        }
+
+        /**
+         * @brief 减法运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_SubOperationHelper<T, U>::value, typename _SubOperationHelper<T, U>::type>::type operator-(const U &value) const
+        {
+            return this->Get() - value;
+        }
+
+        /**
+         * @brief 减法运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_SubOperationHelper<T, U>::value, typename _SubOperationHelper<T, U>::type>::type operator-(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() - prop.Get();
+        }
+
+        /**
+         * @brief 乘法运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_MulOperationHelper<T, U>::value, typename _MulOperationHelper<T, U>::type>::type operator*(const U &value) const
+        {
+            return this->Get() * value;
+        }
+
+        /**
+         * @brief 乘法运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_MulOperationHelper<T, U>::value, typename _MulOperationHelper<T, U>::type>::type operator*(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() * prop.Get();
+        }
+
+        /**
+         * @brief 除法运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_DivOperationHelper<T, U>::value, typename _DivOperationHelper<T, U>::type>::type operator/(const U &value) const
+        {
+            return this->Get() / value;
+        }
+
+        /**
+         * @brief 除法运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_DivOperationHelper<T, U>::value, typename _DivOperationHelper<T, U>::type>::type operator/(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() / prop.Get();
+        }
+
+        /**
+         * @brief 取模运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_ModOperationHelper<T, U>::value, typename _ModOperationHelper<T, U>::type>::type operator%(const U &value) const
+        {
+            return this->Get() % value;
+        }
+
+        /**
+         * @brief 取模运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_ModOperationHelper<T, U>::value, typename _ModOperationHelper<T, U>::type>::type operator%(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() % prop.Get();
+        }
+
+        /**
+         * @brief 等于运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type operator==(const U &value) const
+        {
+            return this->Get() == value;
+        }
+
+        /**
+         * @brief 等于运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type operator==(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() == prop.Get();
+        }
+
+        /**
+         * @brief 不等于运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_NeOperationHelper<T, U>::value, typename _NeOperationHelper<T, U>::type>::type operator!=(const U &value) const
+        {
+            return this->Get() != value;
+        }
+
+        /**
+         * @brief 不等于运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_NeOperationHelper<T, U>::value, typename _NeOperationHelper<T, U>::type>::type operator!=(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() != prop.Get();
+        }
+
+        /**
+         * @brief 小于运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_LtOperationHelper<T, U>::value, typename _LtOperationHelper<T, U>::type>::type operator<(const U &value) const
+        {
+            return this->Get() < value;
+        }
+
+        /**
+         * @brief 小于运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_LtOperationHelper<T, U>::value, typename _LtOperationHelper<T, U>::type>::type operator<(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() < prop.Get();
+        }
+
+        /**
+         * @brief 小于等于运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_LeOperationHelper<T, U>::value, typename _LeOperationHelper<T, U>::type>::type operator<=(const U &value) const
+        {
+            return this->Get() <= value;
+        }
+
+        /**
+         * @brief 小于等于运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_LeOperationHelper<T, U>::value, typename _LeOperationHelper<T, U>::type>::type operator<=(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() <= prop.Get();
+        }
+
+        /**
+         * @brief 大于运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_GtOperationHelper<T, U>::value, typename _GtOperationHelper<T, U>::type>::type operator>(const U &value) const
+        {
+            return this->Get() > value;
+        }
+
+        /**
+         * @brief 大于运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_GtOperationHelper<T, U>::value, typename _GtOperationHelper<T, U>::type>::type operator>(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() > prop.Get();
+        }
+
+        /**
+         * @brief 大于等于运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_GeOperationHelper<T, U>::value, typename _GeOperationHelper<T, U>::type>::type operator>=(const U &value) const
+        {
+            return this->Get() >= value;
+        }
+
+        /**
+         * @brief 大于等于运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_GeOperationHelper<T, U>::value, typename _GeOperationHelper<T, U>::type>::type operator>=(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() >= prop.Get();
+        }
+
+        /**
+         * @brief 按位与运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_BitAndOperationHelper<T, U>::value, typename _BitAndOperationHelper<T, U>::type>::type operator&(const U &value) const
+        {
+            return this->Get() & value;
+        }
+
+        /**
+         * @brief 按位与运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_BitAndOperationHelper<T, U>::value, typename _BitAndOperationHelper<T, U>::type>::type operator&(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() & prop.Get();
+        }
+
+        /**
+         * @brief 按位或运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_BitOrOperationHelper<T, U>::value, typename _BitOrOperationHelper<T, U>::type>::type operator|(const U &value) const
+        {
+            return this->Get() | value;
+        }
+
+        /**
+         * @brief 按位或运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_BitOrOperationHelper<T, U>::value, typename _BitOrOperationHelper<T, U>::type>::type operator|(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() | prop.Get();
+        }
+
+        /**
+         * @brief 按位异或运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_BitXorOperationHelper<T, U>::value, typename _BitXorOperationHelper<T, U>::type>::type operator^(const U &value) const
+        {
+            return this->Get() ^ value;
+        }
+
+        /**
+         * @brief 按位异或运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_BitXorOperationHelper<T, U>::value, typename _BitXorOperationHelper<T, U>::type>::type operator^(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() ^ prop.Get();
+        }
+
+        /**
+         * @brief 左移运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_ShlOperationHelper<T, U>::value, typename _ShlOperationHelper<T, U>::type>::type operator<<(const U &value) const
+        {
+            return this->Get() << value;
+        }
+
+        /**
+         * @brief 左移运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_ShlOperationHelper<T, U>::value, typename _ShlOperationHelper<T, U>::type>::type operator<<(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() << prop.Get();
+        }
+
+        /**
+         * @brief 右移运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_ShrOperationHelper<T, U>::value, typename _ShrOperationHelper<T, U>::type>::type operator>>(const U &value) const
+        {
+            return this->Get() >> value;
+        }
+
+        /**
+         * @brief 右移运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_ShrOperationHelper<T, U>::value, typename _ShrOperationHelper<T, U>::type>::type operator>>(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() >> prop.Get();
+        }
+
+        /**
+         * @brief 逻辑与运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_LogicAndOperationHelper<T, U>::value, typename _LogicAndOperationHelper<T, U>::type>::type operator&&(const U &value) const
+        {
+            return this->Get() && value;
+        }
+
+        /**
+         * @brief 逻辑与运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_LogicAndOperationHelper<T, U>::value, typename _LogicAndOperationHelper<T, U>::type>::type operator&&(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() && prop.Get();
+        }
+
+        /**
+         * @brief 逻辑或运算
+         */
+        template <typename U = T>
+        typename std::enable_if<_LogicOrOperationHelper<T, U>::value, typename _LogicOrOperationHelper<T, U>::type>::type operator||(const U &value) const
+        {
+            return this->Get() || value;
+        }
+
+        /**
+         * @brief 逻辑或运算
+         */
+        template <typename D, typename U = T>
+        typename std::enable_if<_LogicOrOperationHelper<T, U>::value, typename _LogicOrOperationHelper<T, U>::type>::type operator||(const PropertyBase<U, D> &prop) const
+        {
+            return this->Get() || prop.Get();
+        }
+
+        /**
+         * @brief 下标运算
+         */
+        template <typename U>
+        typename std::enable_if<_BracketOperationHelper<T, U>::value, typename _BracketOperationHelper<T, U>::type>::type operator[](const U &value) const
+        {
+            return this->Get()[value];
+        }
+
+        /**
+         * @brief 下标运算
+         */
+        template <typename D, typename U>
+        typename std::enable_if<_BracketOperationHelper<T, U>::value, typename _BracketOperationHelper<T, U>::type>::type operator[](const PropertyBase<U, D> &prop) const
+        {
+            return this->Get()[prop.Get()];
+        }
+
+        /**
          * @brief 支持Utils::BuildStr
          */
         friend std::wostream &operator<<(std::wostream &wos, const PropertyBase &prop)
@@ -1682,191 +2165,6 @@ namespace sw
          * @brief 设置属性值
          */
         void SetterImpl(const T &value) const
-        {
-            this->_setter(value);
-        }
-
-        /**
-         * @brief 重设Setter
-         */
-        void ResetSetter(const FnSet &setter)
-        {
-            this->_setter = setter;
-        }
-    };
-
-    /*================================================================================*/
-
-    /**
-     * @brief 指针属性基类模板
-     */
-    template <typename T, typename TDerived>
-    class PtrPropertyBase : public PropertyBase<T, TDerived>
-    {
-        static_assert(std::is_pointer<T>::value, "T should be pointer type");
-
-    public:
-        using TBase = PropertyBase<T, TDerived>;
-        using TBase::PropertyBase;
-        using TBase::operator=;
-
-        /**
-         * @brief 获取字段
-         */
-        T ListFieldsImpl() const
-        {
-            return this->Get();
-        }
-
-        /**
-         * @brief 属性值是否为nullptr
-         */
-        bool IsNull() const
-        {
-            return this->Get() == nullptr;
-        }
-
-        /**
-         * @brief 解引用
-         */
-        auto &operator*() const
-        {
-            return *this->Get();
-        }
-
-        /**
-         * @brief 解引用
-         */
-        auto &operator[](int index) const
-        {
-            return this->Get()[index];
-        }
-    };
-
-    /**
-     * @brief 指针属性
-     */
-    template <typename T>
-    class PtrProperty : public PtrPropertyBase<T, PtrProperty<T>>
-    {
-    public:
-        using TBase = PtrPropertyBase<T, PtrProperty<T>>;
-        using FnGet = std::function<T()>;
-        using FnSet = std::function<void(T)>;
-        using TBase::operator=;
-
-    private:
-        FnGet _getter;
-        FnSet _setter;
-
-    public:
-        /**
-         * @brief 构造属性
-         */
-        PtrProperty(const FnGet &getter, const FnSet &setter)
-            : _getter(getter), _setter(setter)
-        {
-        }
-
-        /**
-         * @brief 获取属性值
-         */
-        T GetterImpl() const
-        {
-            return this->_getter();
-        }
-
-        /**
-         * @brief 设置属性值
-         */
-        void SetterImpl(T value) const
-        {
-            this->_setter(value);
-        }
-
-        /**
-         * @brief 重设Getter
-         */
-        void ResetGetter(const FnGet &getter)
-        {
-            this->_getter = getter;
-        }
-
-        /**
-         * @brief 重设Setter
-         */
-        void ResetSetter(const FnSet &setter)
-        {
-            this->_setter = setter;
-        }
-    };
-
-    /**
-     * @brief 指针只读属性
-     */
-    template <typename T>
-    class ReadOnlyPtrProperty : public PtrPropertyBase<T, ReadOnlyPtrProperty<T>>
-    {
-    public:
-        using TBase = PtrPropertyBase<T, ReadOnlyPtrProperty<T>>;
-        using FnGet = std::function<T()>;
-
-    private:
-        FnGet _getter;
-
-    public:
-        /**
-         * @brief 构造属性
-         */
-        ReadOnlyPtrProperty(const FnGet &getter)
-            : _getter(getter)
-        {
-        }
-
-        /**
-         * @brief 获取属性值
-         */
-        T GetterImpl() const
-        {
-            return this->_getter();
-        }
-
-        /**
-         * @brief 重设Getter
-         */
-        void ResetGetter(const FnGet &getter)
-        {
-            this->_getter = getter;
-        }
-    };
-
-    /**
-     * @brief 指针只写属性
-     */
-    template <typename T>
-    class WriteOnlyPtrProperty : public PtrPropertyBase<T, WriteOnlyPtrProperty<T>>
-    {
-    public:
-        using TBase = PtrPropertyBase<T, WriteOnlyPtrProperty<T>>;
-        using FnSet = std::function<void(T)>;
-        using TBase::operator=;
-
-    private:
-        FnSet _setter;
-
-    public:
-        /**
-         * @brief 构造属性
-         */
-        WriteOnlyPtrProperty(const FnSet &setter)
-            : _setter(setter)
-        {
-        }
-
-        /**
-         * @brief 设置属性值
-         */
-        void SetterImpl(T value) const
         {
             this->_setter(value);
         }
@@ -4573,7 +4871,7 @@ namespace sw
         /**
          * @brief 父窗口
          */
-        const ReadOnlyPtrProperty<WndBase *> Parent;
+        const ReadOnlyProperty<WndBase *> Parent;
 
         /**
          * @brief 是否已销毁，当该值为true时不应该继续使用当前对象
@@ -6402,7 +6700,7 @@ namespace sw
         /**
          * @brief 指向父元素的指针，当前元素为顶级窗口时该值为nullptr
          */
-        const ReadOnlyPtrProperty<UIElement *> Parent;
+        const ReadOnlyProperty<UIElement *> Parent;
 
         /**
          * @brief 储存用户自定义信息的标记
@@ -6417,7 +6715,7 @@ namespace sw
         /**
          * @brief 右键按下时弹出的菜单
          */
-        const PtrProperty<sw::ContextMenu *> ContextMenu;
+        const Property<sw::ContextMenu *> ContextMenu;
 
         /**
          * @brief 元素是否悬浮，若元素悬浮则该元素不会随滚动条滚动而改变位置
@@ -7329,7 +7627,7 @@ namespace sw
         /**
          * @brief 自定义的布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设为nullptr可恢复默认布局
          */
-        const PtrProperty<LayoutHost *> Layout;
+        const Property<LayoutHost *> Layout;
 
         /**
          * @brief 是否按照布局方式与子元素自动调整尺寸，该属性仅在当前元素已设置布局方式并且非顶级元素时有效
@@ -8846,7 +9144,7 @@ namespace sw
         /**
          * @brief 程序的当前活动窗体
          */
-        static const ReadOnlyPtrProperty<Window *> ActiveWindow;
+        static const ReadOnlyProperty<Window *> ActiveWindow;
 
         /**
          * @brief 当前已创建的窗口数
@@ -8911,7 +9209,7 @@ namespace sw
         /**
          * @brief 窗口顶部的菜单栏
          */
-        const PtrProperty<sw::Menu *> Menu;
+        const Property<sw::Menu *> Menu;
 
         /**
          * @brief  窗口是否显示为模态窗口，当调用ShowDialog时该属性值为true，否则为false
@@ -8921,7 +9219,7 @@ namespace sw
         /**
          * @brief 拥有者窗口
          */
-        const PtrProperty<Window *> Owner;
+        const Property<Window *> Owner;
 
         /**
          * @brief 窗口是否为分层窗口，即WS_EX_LAYERED样式是否被设置
@@ -9721,7 +10019,7 @@ namespace sw
         /**
          * @brief 筛选器
          */
-        const ReadOnlyPtrProperty<FileFilter *> Filter;
+        const ReadOnlyProperty<FileFilter *> Filter;
 
         /**
          * @brief 当前筛选器的索引，索引值从0开始

@@ -106,7 +106,7 @@ var classsw_1_1_wnd_base =
     [ "IsControl", "classsw_1_1_wnd_base.html#a4b72c64e192b49d1ace945e96c2368ab", null ],
     [ "IsDestroyed", "classsw_1_1_wnd_base.html#a54aa973b24b4bc4b681ac2c21a50d204", null ],
     [ "Left", "classsw_1_1_wnd_base.html#a4f0b57de9babc053c655872ed91468dd", null ],
-    [ "Parent", "classsw_1_1_wnd_base.html#abf231660a654d2f3182753794fa505ac", null ],
+    [ "Parent", "classsw_1_1_wnd_base.html#a7bda583e7535a89b8b5bd327c1f32ccd", null ],
     [ "Rect", "classsw_1_1_wnd_base.html#a7598603457217f09aae0deaad59ef063", null ],
     [ "Text", "classsw_1_1_wnd_base.html#a9afff86d32e9b54cccc204ef29a85891", null ],
     [ "Top", "classsw_1_1_wnd_base.html#a6dbe3776aeb038659f0a290fbe1dc6d7", null ],

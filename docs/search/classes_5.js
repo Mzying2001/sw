@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['fakeptr_0',['FakePtr',['../structsw_1_1_fake_ptr.html',1,'sw']]],
+  ['fieldsaccessor_0',['FieldsAccessor',['../structsw_1_1_fields_accessor.html',1,'sw']]],
   ['filedialog_1',['FileDialog',['../classsw_1_1_file_dialog.html',1,'sw']]],
   ['filefilter_2',['FileFilter',['../classsw_1_1_file_filter.html',1,'sw']]],
   ['filefilteritem_3',['FileFilterItem',['../structsw_1_1_file_filter_item.html',1,'sw']]],

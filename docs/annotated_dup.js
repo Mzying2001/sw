@@ -1,14 +1,20 @@
 var annotated_dup =
 [
     [ "sw", null, [
+      [ "_BracketOperationHelper", "structsw_1_1___bracket_operation_helper.html", null ],
+      [ "_BracketOperationHelper< T, U, typename std::enable_if< true, decltype(void(std::declval< T >()[std::declval< U >()]))>::type >", "structsw_1_1___bracket_operation_helper_3_01_t_00_01_u_00_01typename_01std_1_1enable__if_3_01trudcf294b86a55473bb1e2d26854ed1552.html", null ],
       [ "_EnumSupportBitOperations", "structsw_1_1___enum_support_bit_operations.html", null ],
       [ "_EnumSupportBitOperations< FileDialogFlags >", "structsw_1_1___enum_support_bit_operations_3_01_file_dialog_flags_01_4.html", null ],
       [ "_EnumSupportBitOperations< FolderDialogFlags >", "structsw_1_1___enum_support_bit_operations_3_01_folder_dialog_flags_01_4.html", null ],
       [ "_EnumSupportBitOperations< HotKeyCombination >", "structsw_1_1___enum_support_bit_operations_3_01_hot_key_combination_01_4.html", null ],
       [ "_EnumSupportBitOperations< HotKeyModifier >", "structsw_1_1___enum_support_bit_operations_3_01_hot_key_modifier_01_4.html", null ],
       [ "_EnumSupportBitOperations< MouseKey >", "structsw_1_1___enum_support_bit_operations_3_01_mouse_key_01_4.html", null ],
+      [ "_HasArrowOperator", "structsw_1_1___has_arrow_operator.html", null ],
+      [ "_HasArrowOperator< T, typename std::enable_if< true, decltype(void(std::declval< T >().operator->()))>::type >", "structsw_1_1___has_arrow_operator_3_01_t_00_01typename_01std_1_1enable__if_3_01true_00_01decltyp91a677ed0adfc6dad4ebb8d484aa4173.html", null ],
       [ "_HasEventType", "structsw_1_1___has_event_type.html", null ],
       [ "_HasEventType< T, decltype(void(std::declval< T >().EventType))>", "structsw_1_1___has_event_type_3_01_t_00_01decltype_07void_07std_1_1declval_3_01_t_01_4_07_08_8_event_type_08_08_4.html", null ],
+      [ "_IsExplicitlyConvertable", "structsw_1_1___is_explicitly_convertable.html", null ],
+      [ "_IsExplicitlyConvertable< TFrom, TTo, typename std::enable_if< true, decltype(void(static_cast< TTo >(std::declval< TFrom >())))>::type >", "structsw_1_1___is_explicitly_convertable_3_01_t_from_00_01_t_to_00_01typename_01std_1_1enable__i5ffe610d7baa57359817c895ba0960ba.html", null ],
       [ "_IsTypedRoutedEventArgs", "structsw_1_1___is_typed_routed_event_args.html", null ],
       [ "Animation", "classsw_1_1_animation.html", "classsw_1_1_animation" ],
       [ "App", "classsw_1_1_app.html", null ],
@@ -36,7 +42,7 @@ var annotated_dup =
       [ "DockLayoutTag", "classsw_1_1_dock_layout_tag.html", "classsw_1_1_dock_layout_tag" ],
       [ "DockPanel", "classsw_1_1_dock_panel.html", "classsw_1_1_dock_panel" ],
       [ "DropFilesEventArgs", "structsw_1_1_drop_files_event_args.html", null ],
-      [ "FakePtr", "structsw_1_1_fake_ptr.html", "structsw_1_1_fake_ptr" ],
+      [ "FieldsAccessor", "structsw_1_1_fields_accessor.html", "structsw_1_1_fields_accessor" ],
       [ "FileDialog", "classsw_1_1_file_dialog.html", "classsw_1_1_file_dialog" ],
       [ "FileFilter", "classsw_1_1_file_filter.html", "classsw_1_1_file_filter" ],
       [ "FileFilterItem", "structsw_1_1_file_filter_item.html", "structsw_1_1_file_filter_item" ],
@@ -102,11 +108,8 @@ var annotated_dup =
       [ "ProgressBar", "classsw_1_1_progress_bar.html", "classsw_1_1_progress_bar" ],
       [ "Property", "classsw_1_1_property.html", "classsw_1_1_property" ],
       [ "PropertyBase", "classsw_1_1_property_base.html", "classsw_1_1_property_base" ],
-      [ "PtrProperty", "classsw_1_1_ptr_property.html", "classsw_1_1_ptr_property" ],
-      [ "PtrPropertyBase", "classsw_1_1_ptr_property_base.html", "classsw_1_1_ptr_property_base" ],
       [ "RadioButton", "classsw_1_1_radio_button.html", "classsw_1_1_radio_button" ],
       [ "ReadOnlyProperty", "classsw_1_1_read_only_property.html", "classsw_1_1_read_only_property" ],
-      [ "ReadOnlyPtrProperty", "classsw_1_1_read_only_ptr_property.html", "classsw_1_1_read_only_ptr_property" ],
       [ "Rect", "structsw_1_1_rect.html", "structsw_1_1_rect" ],
       [ "RoutedEventArgs", "structsw_1_1_routed_event_args.html", "structsw_1_1_routed_event_args" ],
       [ "RoutedEventArgsOfType", "structsw_1_1_routed_event_args_of_type.html", null ],
@@ -143,7 +146,6 @@ var annotated_dup =
       [ "WrapLayoutH", "classsw_1_1_wrap_layout_h.html", "classsw_1_1_wrap_layout_h" ],
       [ "WrapLayoutV", "classsw_1_1_wrap_layout_v.html", "classsw_1_1_wrap_layout_v" ],
       [ "WrapPanel", "classsw_1_1_wrap_panel.html", "classsw_1_1_wrap_panel" ],
-      [ "WriteOnlyProperty", "classsw_1_1_write_only_property.html", "classsw_1_1_write_only_property" ],
-      [ "WriteOnlyPtrProperty", "classsw_1_1_write_only_ptr_property.html", "classsw_1_1_write_only_ptr_property" ]
+      [ "WriteOnlyProperty", "classsw_1_1_write_only_property.html", "classsw_1_1_write_only_property" ]
     ] ]
 ];
