@@ -38,6 +38,22 @@ namespace sw
     _SW_DEFINE_OPERATION_HELPER(_LogicOrOperationHelper, ||);
 
     /**
+     * @brief 判断类型是否可以显式转换的辅助模板
+     */
+    template <typename TFrom, typename TTo, typename = void>
+    struct _IsExplicitlyConvertable : std::false_type {
+    };
+
+    /**
+     * @brief _IsExplicitlyConvertable模板特化
+     */
+    template <typename TFrom, typename TTo>
+    struct _IsExplicitlyConvertable<
+        TFrom, TTo,
+        typename std::enable_if<true, decltype(void(static_cast<TTo>(std::declval<TFrom>())))>::type> : std::true_type {
+    };
+
+    /**
      * @brief 伪指针，用于实现使用operator->取属性字段
      */
     template <typename T>
@@ -160,6 +176,31 @@ namespace sw
         operator T() const
         {
             return this->Get();
+        }
+
+        /**
+         * @brief 隐式转换
+         */
+        template <
+            typename U = T,
+            typename   = typename std::enable_if<!std::is_same<T, bool>::value && std::is_convertible<T, U>::value, U>::type>
+        operator U() const
+        {
+            // why T should not be bool: just shut up the msvc compiler warning
+            // if T is bool, it will be converted to int, which is not expected
+            return static_cast<U>(this->Get());
+        }
+
+        /**
+         * @brief 显式转换
+         */
+        template <
+            typename U = T,
+            typename   = typename std::enable_if<!std::is_same<T, bool>::value && !std::is_convertible<T, U>::value, U>::type,
+            typename   = typename std::enable_if<!std::is_same<T, bool>::value && _IsExplicitlyConvertable<T, U>::value, U>::type>
+        explicit operator U() const
+        {
+            return static_cast<U>(this->Get());
         }
 
         /**
