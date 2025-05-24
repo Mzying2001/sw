@@ -54,38 +54,67 @@ namespace sw
     };
 
     /**
-     * @brief 伪指针，用于实现使用operator->取属性字段
+     * @brief 判断类型是否有operator->的辅助模板
+     */
+    template <typename T, typename = void>
+    struct _HasArrowOperator : std::false_type {
+    };
+
+    /**
+     * @brief _HasArrowOperator模板特化
      */
     template <typename T>
-    struct FakePtr {
+    struct _HasArrowOperator<
+        T, typename std::enable_if<true, decltype(void(std::declval<T>().operator->()))>::type> : std::true_type {
+        using type = decltype(std::declval<T>().operator->());
+    };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 字段访问器，用于实现使用operator->取属性字段
+     */
+    template <typename T>
+    struct FieldsAccessor {
         /**
-         * @brief 伪指针所维护的值
+         * @brief 字段访问器所维护的值
          */
         T value;
 
         /**
-         * @brief 构造伪指针
+         * @brief 构造字段访问器
          */
         template <typename... Args>
-        FakePtr(Args &&...args)
+        FieldsAccessor(Args &&...args)
             : value(std::forward<Args>(args)...)
         {
         }
 
         /**
-         * @brief 取字段
+         * @brief 指针类型，直接返回值
          */
-        T *operator->()
+        template <typename U = T>
+        typename std::enable_if<std::is_pointer<U>::value, U>::type operator->()
+        {
+            return value;
+        }
+
+        /**
+         * @brief 非指针类型，且无operator->，返回值的地址
+         */
+        template <typename U = T>
+        typename std::enable_if<!std::is_pointer<U>::value && !_HasArrowOperator<U>::value, U *>::type operator->()
         {
             return &value;
         }
 
         /**
-         * @brief 取字段
+         * @brief 非指针类型，且有operator->，转发operator->
          */
-        const T *operator->() const
+        template <typename U = T>
+        typename std::enable_if<!std::is_pointer<U>::value && _HasArrowOperator<U>::value, typename _HasArrowOperator<U>::type>::type operator->()
         {
-            return &value;
+            return value.operator->();
         }
     };
 
@@ -120,30 +149,12 @@ namespace sw
         //  */
         // void SetterImpl(const T &value) const;
 
-        // /**
-        //  * @brief 获取字段，可由子类重写
-        //  */
-        // FakePtr<T> ListFieldsImpl() const
-        // {
-        //     return FakePtr<T>(this->Get());
-        // }
-
         /**
-         * @brief 获取字段，可由子类重写
+         * @brief 访问属性字段，可由子类重写
          */
-        template <typename U = T>
-        typename std::enable_if<!std::is_pointer<U>::value, FakePtr<T>>::type ListFieldsImpl() const
+        FieldsAccessor<T> AccessFields() const
         {
-            return FakePtr<T>(this->Get());
-        }
-
-        /**
-         * @brief 获取字段，可由子类重写
-         */
-        template <typename U = T>
-        typename std::enable_if<std::is_pointer<U>::value, T>::type ListFieldsImpl() const
-        {
-            return this->Get();
+            return FieldsAccessor<T>(this->Get());
         }
 
         /**
@@ -167,11 +178,11 @@ namespace sw
          */
         auto operator->() const
         {
-            return static_cast<const TDerived *>(this)->ListFieldsImpl();
+            return static_cast<const TDerived *>(this)->AccessFields();
         }
 
         /**
-         * @brief 获取属性值
+         * @brief 隐式转换
          */
         operator T() const
         {
@@ -825,9 +836,9 @@ namespace sw
         using TBase::operator=;
 
         /**
-         * @brief 获取字段
+         * @brief 访问属性字段
          */
-        T ListFieldsImpl() const
+        T AccessFields() const
         {
             return this->Get();
         }
