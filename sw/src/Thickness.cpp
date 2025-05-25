@@ -1,4 +1,5 @@
 #include "Thickness.h"
+#include "Utils.h"
 
 sw::Thickness::Thickness()
     : Thickness(0, 0, 0, 0)
@@ -36,10 +37,7 @@ bool sw::Thickness::operator!=(const Thickness &other) const
            (this->bottom != other.bottom);
 }
 
-namespace sw
+std::wstring sw::Thickness::ToString() const
 {
-    std::wostream &operator<<(std::wostream &wos, const Thickness &thickness)
-    {
-        return wos << L"Thickness{left=" << thickness.left << L", top=" << thickness.top << L", right=" << thickness.right << L", bottom=" << thickness.bottom << L"}";
-    }
+    return Utils::FormatStr(L"Thickness{left=%g, top=%g, right=%g, bottom=%g}", this->left, this->top, this->right, this->bottom);
 }

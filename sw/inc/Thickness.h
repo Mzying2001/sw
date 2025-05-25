@@ -1,6 +1,6 @@
 #pragma once
 
-#include <iostream>
+#include <string>
 
 namespace sw
 {
@@ -59,8 +59,8 @@ namespace sw
         bool operator!=(const Thickness &other) const;
 
         /**
-         * @brief 支持Utils::BuildStr
+         * @brief 获取描述当前对象的字符串
          */
-        friend std::wostream &operator<<(std::wostream &wos, const Thickness &thickness);
+        std::wstring ToString() const;
     };
 }

@@ -1,5 +1,6 @@
 #include "Point.h"
 #include "Dip.h"
+#include "Utils.h"
 
 sw::Point::Point()
     : Point(0, 0)
@@ -31,10 +32,7 @@ bool sw::Point::operator!=(const Point &other) const
     return (this->x != other.x) || (this->y != other.y);
 }
 
-namespace sw
+std::wstring sw::Point::ToString() const
 {
-    std::wostream &operator<<(std::wostream &wos, const Point &point)
-    {
-        return wos << L"(" << point.x << L", " << point.y << L")";
-    }
+    return Utils::FormatStr(L"(%g, %g)", this->x, this->y);
 }

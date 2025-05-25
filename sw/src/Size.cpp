@@ -1,5 +1,6 @@
 #include "Size.h"
 #include "Dip.h"
+#include "Utils.h"
 
 sw::Size::Size()
     : Size(0, 0)
@@ -31,10 +32,7 @@ bool sw::Size::operator!=(const Size &other) const
     return (this->width != other.width) || (this->height != other.height);
 }
 
-namespace sw
+std::wstring sw::Size::ToString() const
 {
-    std::wostream &operator<<(std::wostream &wos, const Size &size)
-    {
-        return wos << L"Size{width=" << size.width << L", height=" << size.height << L"}";
-    }
+    return Utils::FormatStr(L"Size{width=%g, height=%g}", this->width, this->height);
 }

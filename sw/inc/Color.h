@@ -2,7 +2,7 @@
 
 #include "KnownColor.h"
 #include <cstdint>
-#include <iostream>
+#include <string>
 
 namespace sw
 {
@@ -66,8 +66,8 @@ namespace sw
         bool operator!=(const Color &other) const;
 
         /**
-         * @brief 支持Utils::BuildStr
+         * @brief 获取描述当前对象的字符串
          */
-        friend std::wostream &operator<<(std::wostream &wos, const Color &color);
+        std::wstring ToString() const;
     };
 }

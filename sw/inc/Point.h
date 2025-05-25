@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Windows.h>
-#include <iostream>
+#include <string>
 
 namespace sw
 {
@@ -50,8 +50,8 @@ namespace sw
         bool operator!=(const Point &other) const;
 
         /**
-         * @brief 支持Utils::BuildStr
+         * @brief 获取描述当前对象的字符串
          */
-        friend std::wostream &operator<<(std::wostream &wos, const Point &point);
+        std::wstring ToString() const;
     };
 }
