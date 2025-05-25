@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Property.h"
 #include <map>
 #include <sstream>
 #include <string>
@@ -120,7 +121,7 @@ namespace sw
          * @brief BuildStr函数内部实现
          */
         template <typename T>
-        static inline typename std::enable_if<!_HasToString<T>::value>::type
+        static inline typename std::enable_if<!_IsProperty<T>::value && !_HasToString<T>::value, void>::type
         _BuildStr(std::wostream &wos, const T &arg)
         {
             wos << arg;
@@ -130,10 +131,20 @@ namespace sw
          * @brief 让BuildStr函数支持自定义类型
          */
         template <typename T>
-        static inline typename std::enable_if<_HasToString<T>::value>::type
+        static inline typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value, void>::type
         _BuildStr(std::wostream &wos, const T &arg)
         {
             Utils::_BuildStr(wos, arg.ToString());
+        }
+
+        /**
+         * @brief 让BuildStr函数支持属性
+         */
+        template <typename T>
+        static inline typename std::enable_if<_IsProperty<T>::value, void>::type
+        _BuildStr(std::wostream &wos, const T &prop)
+        {
+            Utils::_BuildStr(wos, prop.Get());
         }
 
         /**
