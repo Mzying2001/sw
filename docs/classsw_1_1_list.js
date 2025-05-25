@@ -24,5 +24,5 @@ var classsw_1_1_list =
     [ "Remove", "classsw_1_1_list.html#ae0f77fc0d146ee739725da4cc337bbe4", null ],
     [ "RemoveAt", "classsw_1_1_list.html#a61b8b974966080702d94323ef0e46f85", null ],
     [ "rend", "classsw_1_1_list.html#a926521f6a537069d6e398306b9f870fb", null ],
-    [ "operator<<", "classsw_1_1_list.html#ab50f6f7c37c3c4649e332d596d5bda2f", null ]
+    [ "ToString", "classsw_1_1_list.html#a90312cc68b94ae231cde185708d5f849", null ]
 ];

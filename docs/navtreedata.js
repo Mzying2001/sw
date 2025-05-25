@@ -33,8 +33,7 @@ var NAVTREE =
       [ "类成员", "functions.html", [
         [ "全部", "functions.html", "functions_dup" ],
         [ "函数", "functions_func.html", "functions_func" ],
-        [ "变量", "functions_vars.html", "functions_vars" ],
-        [ "相关符号", "functions_rela.html", null ]
+        [ "变量", "functions_vars.html", "functions_vars" ]
       ] ]
     ] ],
     [ "文件", "files.html", [
@@ -50,7 +49,7 @@ var NAVTREEINDEX =
 "classsw_1_1_list.html#abfff18bc7387d154bc89481259f847a0",
 "classsw_1_1_property_base.html#aa42271e2b997d0ba097e1d926f1331f1",
 "classsw_1_1_u_i_element.html#aef217f2655c4a746606bf302edc16cf4",
-"functions_vars_o.html"
+"functions_vars_p.html"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

@@ -1,5 +1,6 @@
 #include "Rect.h"
 #include "Dip.h"
+#include "Utils.h"
 
 sw::Rect::Rect()
     : Rect(0, 0, 0, 0)
@@ -53,10 +54,7 @@ bool sw::Rect::operator!=(const Rect &other) const
            (this->height != other.height);
 }
 
-namespace sw
+std::wstring sw::Rect::ToString() const
 {
-    std::wostream &operator<<(std::wostream &wos, const Rect &rect)
-    {
-        return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
-    }
+    return Utils::FormatStr(L"Rect{left=%g, top=%g, width=%g, height=%g}", this->left, this->top, this->width, this->height);
 }

@@ -1,4 +1,5 @@
 #include "Color.h"
+#include "Utils.h"
 
 sw::Color::Color()
     : Color(0, 0, 0)
@@ -35,10 +36,7 @@ bool sw::Color::operator!=(const Color &other) const
     return (this->r != other.r) || (this->g != other.g) || (this->b != other.b);
 }
 
-namespace sw
+std::wstring sw::Color::ToString() const
 {
-    std::wostream &operator<<(std::wostream &wos, const Color &color)
-    {
-        return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
-    }
+    return Utils::FormatStr(L"Color{r=%u, g=%u, b=%u}", this->r, this->g, this->b);
 }

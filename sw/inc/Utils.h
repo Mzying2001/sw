@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Property.h"
 #include <map>
 #include <sstream>
 #include <string>
@@ -7,6 +8,22 @@
 
 namespace sw
 {
+    /**
+     * @brief 判断一个类型是否有ToString方法
+     */
+    template <typename T>
+    struct _HasToString {
+    private:
+        template <typename U>
+        static auto test(int) -> decltype(std::declval<U>().ToString(), std::true_type());
+
+        template <typename U>
+        static auto test(...) -> std::false_type;
+
+    public:
+        static constexpr bool value = decltype(test<T>(0))::value;
+    };
+
     /**
      * @brief 工具类
      */
@@ -104,9 +121,30 @@ namespace sw
          * @brief BuildStr函数内部实现
          */
         template <typename T>
-        static inline void _BuildStr(std::wostream &wos, const T &arg)
+        static inline typename std::enable_if<!_IsProperty<T>::value && !_HasToString<T>::value, void>::type
+        _BuildStr(std::wostream &wos, const T &arg)
         {
             wos << arg;
+        }
+
+        /**
+         * @brief 让BuildStr函数支持自定义类型
+         */
+        template <typename T>
+        static inline typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value, void>::type
+        _BuildStr(std::wostream &wos, const T &arg)
+        {
+            Utils::_BuildStr(wos, arg.ToString());
+        }
+
+        /**
+         * @brief 让BuildStr函数支持属性
+         */
+        template <typename T>
+        static inline typename std::enable_if<_IsProperty<T>::value, void>::type
+        _BuildStr(std::wostream &wos, const T &prop)
+        {
+            Utils::_BuildStr(wos, prop.Get());
         }
 
         /**

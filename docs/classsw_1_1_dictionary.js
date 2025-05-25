@@ -18,5 +18,5 @@ var classsw_1_1_dictionary =
     [ "rbegin", "classsw_1_1_dictionary.html#aad835fe48c0fccba0e7e99001c7f3de6", null ],
     [ "Remove", "classsw_1_1_dictionary.html#afc07e417b7ccc36dc5a7dab5018b6186", null ],
     [ "rend", "classsw_1_1_dictionary.html#ab46b8829980f88dd6fe703d4d2961773", null ],
-    [ "operator<<", "classsw_1_1_dictionary.html#a09fce0167bbe5ff0e080de8b1a52e286", null ]
+    [ "ToString", "classsw_1_1_dictionary.html#a7c0672626f8ccf5b865fde34ed7353e8", null ]
 ];

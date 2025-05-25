@@ -187,12 +187,11 @@ namespace sw
         }
 
         /**
-         * @brief 支持Utils::BuildStr
+         * @brief 获取描述当前对象的字符串
          */
-        friend std::wostream &operator<<(std::wostream &wos, const Dictionary &dic)
+        std::wstring ToString() const
         {
-            wos << Utils::BuildStr(*dic._pMap);
-            return wos;
+            return Utils::BuildStr(*this->_pMap);
         }
     };
 }
