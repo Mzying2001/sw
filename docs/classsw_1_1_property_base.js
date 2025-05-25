@@ -96,6 +96,5 @@ var classsw_1_1_property_base =
     [ "operator||", "classsw_1_1_property_base.html#a5bb1b36f9f71849559e4fe3ed550b29a", null ],
     [ "operator||", "classsw_1_1_property_base.html#a35caa51f02178884575563cd1a162454", null ],
     [ "operator~", "classsw_1_1_property_base.html#a30df46a1a8d0811c4925c3124b437f54", null ],
-    [ "Set", "classsw_1_1_property_base.html#a42e3a9f3255c614c210f3db6d38c664b", null ],
-    [ "operator<<", "classsw_1_1_property_base.html#abee6b6fe3f5de41f6fb962fee7ba20bb", null ]
+    [ "Set", "classsw_1_1_property_base.html#a42e3a9f3255c614c210f3db6d38c664b", null ]
 ];
