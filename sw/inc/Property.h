@@ -27,6 +27,18 @@
 
 namespace sw
 {
+    // 向前声明
+    template <typename T>
+    class Property;
+
+    // 向前声明
+    template <typename T>
+    class ReadOnlyProperty;
+
+    // 向前声明
+    template <typename T>
+    class WriteOnlyProperty;
+
     // SFINAE templates
     _SW_DEFINE_OPERATION_HELPER(_AddOperationHelper, +);
     _SW_DEFINE_OPERATION_HELPER(_SubOperationHelper, -);
@@ -54,6 +66,41 @@ namespace sw
     _SW_DEFINE_UNARY_OPERATION_HELPER(_UnaryMinusOperationHelper, -);
     // _SW_DEFINE_UNARY_OPERATION_HELPER(_PreIncOperationHelper, ++);
     // _SW_DEFINE_UNARY_OPERATION_HELPER(_PreDecOperationHelper, --);
+
+    /**
+     * @brief _IsProperty的实现
+     */
+    template <typename>
+    struct _IsPropertyImpl : std::false_type {
+    };
+
+    /**
+     * @brief _IsPropertyImpl模板特化
+     */
+    template <typename T>
+    struct _IsPropertyImpl<Property<T>> : std::true_type {
+    };
+
+    /**
+     * @brief _IsPropertyImpl模板特化
+     */
+    template <typename T>
+    struct _IsPropertyImpl<ReadOnlyProperty<T>> : std::true_type {
+    };
+
+    /**
+     * @brief _IsPropertyImpl模板特化
+     */
+    template <typename T>
+    struct _IsPropertyImpl<WriteOnlyProperty<T>> : std::true_type {
+    };
+
+    /**
+     * @brief 判断类型是否为属性的辅助模板
+     */
+    template <typename T>
+    struct _IsProperty : _IsPropertyImpl<typename std::decay<T>::type> {
+    };
 
     /**
      * @brief 判断类型是否可以使用[]操作符的辅助模板
@@ -1100,15 +1147,369 @@ namespace sw
         {
             return this->Get()[prop.Get()];
         }
-
-        /**
-         * @brief 支持Utils::BuildStr
-         */
-        friend std::wostream &operator<<(std::wostream &wos, const PropertyBase &prop)
-        {
-            return wos << prop.Get();
-        }
     };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 加法运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _AddOperationHelper<T &, U>::value, typename _AddOperationHelper<T &, U>::type>::type
+    operator+(T &left, const PropertyBase<U, D> &right)
+    {
+        return left + right.Get();
+    }
+
+    /**
+     * @brief 加法运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _AddOperationHelper<const T &, U>::value, typename _AddOperationHelper<const T &, U>::type>::type
+    operator+(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left + right.Get();
+    }
+
+    /**
+     * @brief 减法运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _SubOperationHelper<T &, U>::value, typename _SubOperationHelper<T &, U>::type>::type
+    operator-(T &left, const PropertyBase<U, D> &right)
+    {
+        return left - right.Get();
+    }
+
+    /**
+     * @brief 减法运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _SubOperationHelper<const T &, U>::value, typename _SubOperationHelper<const T &, U>::type>::type
+    operator-(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left - right.Get();
+    }
+
+    /**
+     * @brief 乘法运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _MulOperationHelper<T &, U>::value, typename _MulOperationHelper<T &, U>::type>::type
+    operator*(T &left, const PropertyBase<U, D> &right)
+    {
+        return left * right.Get();
+    }
+
+    /**
+     * @brief 乘法运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _MulOperationHelper<const T &, U>::value, typename _MulOperationHelper<const T &, U>::type>::type
+    operator*(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left * right.Get();
+    }
+
+    /**
+     * @brief 除法运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _DivOperationHelper<T &, U>::value, typename _DivOperationHelper<T &, U>::type>::type
+    operator/(T &left, const PropertyBase<U, D> &right)
+    {
+        return left / right.Get();
+    }
+
+    /**
+     * @brief 除法运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _DivOperationHelper<const T &, U>::value, typename _DivOperationHelper<const T &, U>::type>::type
+    operator/(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left / right.Get();
+    }
+
+    /**
+     * @brief 取模运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _ModOperationHelper<T &, U>::value, typename _ModOperationHelper<T &, U>::type>::type
+    operator%(T &left, const PropertyBase<U, D> &right)
+    {
+        return left % right.Get();
+    }
+
+    /**
+     * @brief 取模运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _ModOperationHelper<const T &, U>::value, typename _ModOperationHelper<const T &, U>::type>::type
+    operator%(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left % right.Get();
+    }
+
+    /**
+     * @brief 等于运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _EqOperationHelper<T &, U>::value, typename _EqOperationHelper<T &, U>::type>::type
+    operator==(T &left, const PropertyBase<U, D> &right)
+    {
+        return left == right.Get();
+    }
+
+    /**
+     * @brief 等于运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _EqOperationHelper<const T &, U>::value, typename _EqOperationHelper<const T &, U>::type>::type
+    operator==(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left == right.Get();
+    }
+
+    /**
+     * @brief 不等于运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _NeOperationHelper<T &, U>::value, typename _NeOperationHelper<T &, U>::type>::type
+    operator!=(T &left, const PropertyBase<U, D> &right)
+    {
+        return left != right.Get();
+    }
+
+    /**
+     * @brief 不等于运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _NeOperationHelper<const T &, U>::value, typename _NeOperationHelper<const T &, U>::type>::type
+    operator!=(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left != right.Get();
+    }
+
+    /**
+     * @brief 小于运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _LtOperationHelper<T &, U>::value, typename _LtOperationHelper<T &, U>::type>::type
+    operator<(T &left, const PropertyBase<U, D> &right)
+    {
+        return left < right.Get();
+    }
+
+    /**
+     * @brief 小于运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _LtOperationHelper<const T &, U>::value, typename _LtOperationHelper<const T &, U>::type>::type
+    operator<(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left < right.Get();
+    }
+
+    /**
+     * @brief 小于等于运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _LeOperationHelper<T &, U>::value, typename _LeOperationHelper<T &, U>::type>::type
+    operator<=(T &left, const PropertyBase<U, D> &right)
+    {
+        return left <= right.Get();
+    }
+
+    /**
+     * @brief 小于等于运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _LeOperationHelper<const T &, U>::value, typename _LeOperationHelper<const T &, U>::type>::type
+    operator<=(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left <= right.Get();
+    }
+
+    /**
+     * @brief 大于运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _GtOperationHelper<T &, U>::value, typename _GtOperationHelper<T &, U>::type>::type
+    operator>(T &left, const PropertyBase<U, D> &right)
+    {
+        return left > right.Get();
+    }
+
+    /**
+     * @brief 大于运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _GtOperationHelper<const T &, U>::value, typename _GtOperationHelper<const T &, U>::type>::type
+    operator>(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left > right.Get();
+    }
+
+    /**
+     * @brief 大于等于运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _GeOperationHelper<T &, U>::value, typename _GeOperationHelper<T &, U>::type>::type
+    operator>=(T &left, const PropertyBase<U, D> &right)
+    {
+        return left >= right.Get();
+    }
+
+    /**
+     * @brief 大于等于运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _GeOperationHelper<const T &, U>::value, typename _GeOperationHelper<const T &, U>::type>::type
+    operator>=(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left >= right.Get();
+    }
+
+    /**
+     * @brief 按位与运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _BitAndOperationHelper<T &, U>::value, typename _BitAndOperationHelper<T &, U>::type>::type
+    operator&(T &left, const PropertyBase<U, D> &right)
+    {
+        return left & right.Get();
+    }
+
+    /**
+     * @brief 按位与运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _BitAndOperationHelper<const T &, U>::value, typename _BitAndOperationHelper<const T &, U>::type>::type
+    operator&(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left & right.Get();
+    }
+
+    /**
+     * @brief 按位或运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _BitOrOperationHelper<T &, U>::value, typename _BitOrOperationHelper<T &, U>::type>::type
+    operator|(T &left, const PropertyBase<U, D> &right)
+    {
+        return left | right.Get();
+    }
+
+    /**
+     * @brief 按位或运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _BitOrOperationHelper<const T &, U>::value, typename _BitOrOperationHelper<const T &, U>::type>::type
+    operator|(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left | right.Get();
+    }
+
+    /**
+     * @brief 按位异或运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _BitXorOperationHelper<T &, U>::value, typename _BitXorOperationHelper<T &, U>::type>::type
+    operator^(T &left, const PropertyBase<U, D> &right)
+    {
+        return left ^ right.Get();
+    }
+
+    /**
+     * @brief 按位异或运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _BitXorOperationHelper<const T &, U>::value, typename _BitXorOperationHelper<const T &, U>::type>::type
+    operator^(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left ^ right.Get();
+    }
+
+    /**
+     * @brief 左移运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _ShlOperationHelper<T &, U>::value, typename _ShlOperationHelper<T &, U>::type>::type
+    operator<<(T &left, const PropertyBase<U, D> &right)
+    {
+        return left << right.Get();
+    }
+
+    /**
+     * @brief 左移运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _ShlOperationHelper<const T &, U>::value, typename _ShlOperationHelper<const T &, U>::type>::type
+    operator<<(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left << right.Get();
+    }
+
+    /**
+     * @brief 右移运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _ShrOperationHelper<T &, U>::value, typename _ShrOperationHelper<T &, U>::type>::type
+    operator>>(T &left, const PropertyBase<U, D> &right)
+    {
+        return left >> right.Get();
+    }
+
+    /**
+     * @brief 右移运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _ShrOperationHelper<const T &, U>::value, typename _ShrOperationHelper<const T &, U>::type>::type
+    operator>>(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left >> right.Get();
+    }
+
+    /**
+     * @brief 逻辑与运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _LogicAndOperationHelper<T &, U>::value, typename _LogicAndOperationHelper<T &, U>::type>::type
+    operator&&(T &left, const PropertyBase<U, D> &right)
+    {
+        return left && right.Get();
+    }
+
+    /**
+     * @brief 逻辑与运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _LogicAndOperationHelper<const T &, U>::value, typename _LogicAndOperationHelper<const T &, U>::type>::type
+    operator&&(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left && right.Get();
+    }
+
+    /**
+     * @brief 逻辑或运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _LogicOrOperationHelper<T &, U>::value, typename _LogicOrOperationHelper<T &, U>::type>::type
+    operator||(T &left, const PropertyBase<U, D> &right)
+    {
+        return left || right.Get();
+    }
+
+    /**
+     * @brief 逻辑或运算
+     */
+    template <typename D, typename T, typename U = T>
+    typename std::enable_if<!_IsProperty<T>::value && _LogicOrOperationHelper<const T &, U>::value, typename _LogicOrOperationHelper<const T &, U>::type>::type
+    operator||(const T &left, const PropertyBase<U, D> &right)
+    {
+        return left || right.Get();
+    }
 
     /*================================================================================*/
 
