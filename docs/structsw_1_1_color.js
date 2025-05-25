@@ -7,7 +7,7 @@ var structsw_1_1_color =
     [ "operator COLORREF", "structsw_1_1_color.html#abb6da0ffa872c60d0a9f578b7a785bde", null ],
     [ "operator!=", "structsw_1_1_color.html#a482aca61979b22093a7347503a853230", null ],
     [ "operator==", "structsw_1_1_color.html#a79499715b083e1ae124e9e1c644608f9", null ],
-    [ "operator<<", "structsw_1_1_color.html#a87eeb778e75e071a79b507b9a51656ae", null ],
+    [ "ToString", "structsw_1_1_color.html#a75a897bd4043455bbc1d9e1f7abbc28d", null ],
     [ "_reserved", "structsw_1_1_color.html#ad432609396ec72641f339a89ce78d64f", null ],
     [ "b", "structsw_1_1_color.html#aeeb136eece447ed3f36a6767a807bb4d", null ],
     [ "g", "structsw_1_1_color.html#a5bf136539d077e375ba6f481ad8a8b25", null ],

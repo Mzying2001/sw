@@ -881,9 +881,9 @@ namespace sw
         bool operator!=(const Point &other) const;
 
         /**
-         * @brief 支持Utils::BuildStr
+         * @brief 获取描述当前对象的字符串
          */
-        friend std::wostream &operator<<(std::wostream &wos, const Point &point);
+        std::wstring ToString() const;
     };
 }
 
@@ -2828,9 +2828,9 @@ namespace sw
         bool operator!=(const Size &other) const;
 
         /**
-         * @brief 支持Utils::BuildStr
+         * @brief 获取描述当前对象的字符串
          */
-        friend std::wostream &operator<<(std::wostream &wos, const Size &size);
+        std::wstring ToString() const;
     };
 }
 
@@ -2894,178 +2894,9 @@ namespace sw
         bool operator!=(const Thickness &other) const;
 
         /**
-         * @brief 支持Utils::BuildStr
+         * @brief 获取描述当前对象的字符串
          */
-        friend std::wostream &operator<<(std::wostream &wos, const Thickness &thickness);
-    };
-}
-
-// Utils.h
-
-
-namespace sw
-{
-    /**
-     * @brief 工具类
-     */
-    class Utils
-    {
-    private:
-        Utils() = delete; // 删除构造函数
-
-    public:
-        /**
-         * @brief      将窄字符串转为宽字符串
-         * @param str  要转换的字符串
-         * @param utf8 是否使用utf8编码
-         * @return     转换后的字符串
-         */
-        static std::wstring ToWideStr(const std::string &str, bool utf8 = false);
-
-        /**
-         * @brief      将宽字符串转为窄字符串
-         * @param wstr 要转换的字符串
-         * @param utf8 是否使用utf8编码
-         * @return     转换后的字符串
-         */
-        static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8 = false);
-
-        /**
-         * @brief     删除首尾空白字符
-         * @param str 输入的字符串
-         * @return    删除首位空白字符后的字符串
-         */
-        static std::wstring Trim(const std::wstring &str);
-
-        /**
-         * @brief     删除串首空白字符
-         * @param str 输入的字符串
-         * @return    删除串首空白字符后的字符串
-         */
-        static std::wstring TrimStart(const std::wstring &str);
-
-        /**
-         * @brief     删除串尾空白字符
-         * @param str 输入的字符串
-         * @return    删除串尾空白字符后的字符串
-         */
-        static std::wstring TrimEnd(const std::wstring &str);
-
-        /**
-         * @brief           对字符串按照指定分隔符进行拆分
-         * @param str       输入的字符串
-         * @param delimiter 分隔符
-         * @result          包含字串的vector
-         */
-        static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
-
-        /**
-         * @brief     格式化字符串，类似于 `swprintf`，但返回一个动态分配的 `std::wstring`
-         * @param fmt 格式化字符串
-         * @param ... 可变参数，符合 `fmt` 格式的输入
-         * @return    返回一个包含格式化结果的字符串
-         */
-        static std::wstring FormatStr(const wchar_t *fmt, ...);
-
-    public:
-        /**
-         * @brief 取两值中的较大值
-         */
-        template <typename T>
-        static constexpr inline T Max(const T &a, const T &b)
-        {
-            return a > b ? a : b;
-        }
-
-        /**
-         * @brief 取两值中的较小值
-         */
-        template <typename T>
-        static constexpr inline T Min(const T &a, const T &b)
-        {
-            return a < b ? a : b;
-        }
-
-        /**
-         * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
-         */
-        template <typename... Args>
-        static inline std::wstring BuildStr(const Args &...args)
-        {
-            std::wstringstream wss;
-            int _[]{(Utils::_BuildStr(wss, args), 0)...};
-            return wss.str();
-        }
-
-    private:
-        /**
-         * @brief BuildStr函数内部实现
-         */
-        template <typename T>
-        static inline void _BuildStr(std::wostream &wos, const T &arg)
-        {
-            wos << arg;
-        }
-
-        /**
-         * @brief 让BuildStr函数将bool类型转化为"true"或"false"而不是数字1或0
-         */
-        static inline void _BuildStr(std::wostream &wos, bool b)
-        {
-            wos << (b ? L"true" : L"false");
-        }
-
-        /**
-         * @brief 让BuildStr函数支持窄字符串
-         */
-        static inline void _BuildStr(std::wostream &wos, const char *str)
-        {
-            wos << Utils::ToWideStr(str);
-        }
-
-        /**
-         * @brief 让BuildStr函数支持窄字符串
-         */
-        static inline void _BuildStr(std::wostream &wos, const std::string &str)
-        {
-            wos << Utils::ToWideStr(str);
-        }
-
-        /**
-         * @brief 让BuildStr函数支持std::vector
-         */
-        template <typename T>
-        static inline void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
-        {
-            auto beg = vec.begin();
-            auto end = vec.end();
-            wos << L"[";
-            for (auto it = beg; it != end; ++it) {
-                if (it != beg)
-                    wos << L", ";
-                Utils::_BuildStr(wos, *it);
-            }
-            wos << L"]";
-        }
-
-        /**
-         * @brief 让BildStr函数支持std::map
-         */
-        template <typename TKey, typename TVal>
-        static inline void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
-        {
-            auto beg = map.begin();
-            auto end = map.end();
-            wos << L"{";
-            for (auto it = beg; it != end; ++it) {
-                if (it != beg)
-                    wos << L", ";
-                Utils::_BuildStr(wos, it->first);
-                wos << L":";
-                Utils::_BuildStr(wos, it->second);
-            }
-            wos << L"}";
-        }
+        std::wstring ToString() const;
     };
 }
 
@@ -3221,204 +3052,9 @@ namespace sw
         bool operator!=(const Color &other) const;
 
         /**
-         * @brief 支持Utils::BuildStr
+         * @brief 获取描述当前对象的字符串
          */
-        friend std::wostream &operator<<(std::wostream &wos, const Color &color);
-    };
-}
-
-// Dictionary.h
-
-
-namespace sw
-{
-    template <typename TKey, typename TVal>
-    class Dictionary; // 向前声明
-
-    /**
-     * @brief 以字符串为键值的字典
-     */
-    template <typename TVal>
-    using StrDictionary = Dictionary<std::wstring, TVal>;
-
-    /**
-     * @brief 字典类，内部维护了一个指向std::map的智能指针
-     */
-    template <typename TKey, typename TVal>
-    class Dictionary
-    {
-    private:
-        /**
-         * @brief 指向std::map的智能指针
-         */
-        std::shared_ptr<std::map<TKey, TVal>> _pMap;
-
-    public:
-        /**
-         * @brief 初始化字典
-         */
-        Dictionary()
-            : _pMap(std::make_shared<std::map<TKey, TVal>>())
-        {
-        }
-
-        /**
-         * @brief 使用初始化列表
-         */
-        Dictionary(std::initializer_list<std::pair<const TKey, TVal>> list)
-            : _pMap(std::make_shared<std::map<TKey, TVal>>(list))
-        {
-        }
-
-        /**
-         * @brief 正向迭代器开始
-         */
-        auto begin() const
-        {
-            return this->_pMap->begin();
-        }
-
-        /**
-         * @brief 正向迭代器结束
-         */
-        auto end() const
-        {
-            return this->_pMap->end();
-        }
-
-        /**
-         * @brief 反向迭代器开始
-         */
-        auto rbegin() const
-        {
-            return this->_pMap->rbegin();
-        }
-
-        /**
-         * @brief 反向迭代器结束
-         */
-        auto rend() const
-        {
-            return this->_pMap->rend();
-        }
-
-        /**
-         * @brief     获取或设置值
-         * @param key 键值
-         */
-        auto &operator[](const TKey &key) const
-        {
-            return this->_pMap->at(key);
-        }
-
-        /**
-         * @brief 判断是否为同一个字典
-         */
-        bool operator==(const Dictionary &other) const
-        {
-            return this->_pMap == other._pMap;
-        }
-
-        /**
-         * @brief 判断是否不是同一个字典
-         */
-        bool operator!=(const Dictionary &other) const
-        {
-            return this->_pMap != other._pMap;
-        }
-
-        /**
-         * @brief 获取键值对个数
-         */
-        int Count() const
-        {
-            return (int)this->_pMap->size();
-        }
-
-        /**
-         * @brief 字典是否为空
-         */
-        bool IsEmpty() const
-        {
-            return this->_pMap->empty();
-        }
-
-        /**
-         * @brief  添加键值对到字典
-         * @return 当前字典
-         */
-        auto Add(const TKey &key, const TVal &value) const
-        {
-            this->_pMap->insert(std::make_pair(key, value));
-            return *this;
-        }
-
-        /**
-         * @brief     是否存在某个键值
-         * @param key 要查询的键值
-         */
-        bool ContainsKey(const TKey &key) const
-        {
-            return this->_pMap->count(key);
-        }
-
-        /**
-         * @brief       遍历字典，查询是否存在某个值
-         * @param value 要查询的值
-         */
-        bool ContainsValue(const TVal &value) const
-        {
-            for (const auto &pair : *this->_pMap) {
-                if (pair.second == value) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /**
-         * @brief     移除指定键值对
-         * @param key 要删除的键值
-         */
-        void Remove(const TKey &key) const
-        {
-            this->_pMap->erase(key);
-        }
-
-        /**
-         * @brief 清空字典
-         */
-        void Clear() const
-        {
-            this->_pMap->clear();
-        }
-
-        /**
-         * @brief 复制当前字典
-         */
-        Dictionary Copy() const
-        {
-            Dictionary dic;
-            dic._pMap->insert(this->_pMap->begin(), this->_pMap->end());
-            return dic;
-        }
-
-        /**
-         * @brief 获取字典内部维护的std::map
-         */
-        std::map<TKey, TVal> &GetStdMap() const
-        {
-            return *this->_pMap;
-        }
-
-        /**
-         * @brief 支持Utils::BuildStr
-         */
-        friend std::wostream &operator<<(std::wostream &wos, const Dictionary &dic)
-        {
-            wos << Utils::BuildStr(*dic._pMap);
-            return wos;
-        }
+        std::wstring ToString() const;
     };
 }
 
@@ -3756,257 +3392,6 @@ namespace sw
     };
 }
 
-// List.h
-
-
-namespace sw
-{
-    template <typename T>
-    class List; // 向前声明
-
-    /**
-     * @brief 字符串列表
-     */
-    using StrList = List<std::wstring>;
-
-    /**
-     * @brief 列表类，内部维护了一个指向std::vector的智能指针
-     */
-    template <typename T>
-    class List
-    {
-    private:
-        /**
-         * @brief 指向std::vector的智能指针
-         */
-        std::shared_ptr<std::vector<T>> _pVec;
-
-    public:
-        /**
-         * @brief 初始化列表
-         */
-        List()
-            : _pVec(std::make_shared<std::vector<T>>())
-        {
-        }
-
-        /**
-         * @brief 使用初始化列表
-         */
-        List(std::initializer_list<T> list)
-            : _pVec(std::make_shared<std::vector<T>>(list))
-        {
-        }
-
-        /**
-         * @brief 初始化列表并指定容量
-         */
-        explicit List(int capacity)
-            : List()
-        {
-            this->_pVec->reserve(capacity);
-        }
-
-        /**
-         * @brief 正向迭代器开始
-         */
-        auto begin() const
-        {
-            return this->_pVec->begin();
-        }
-
-        /**
-         * @brief 正向迭代器结束
-         */
-        auto end() const
-        {
-            return this->_pVec->end();
-        }
-
-        /**
-         * @brief 反向迭代器开始
-         */
-        auto rbegin() const
-        {
-            return this->_pVec->rbegin();
-        }
-
-        /**
-         * @brief 反向迭代器结束
-         */
-        auto rend() const
-        {
-            return this->_pVec->rend();
-        }
-
-        /**
-         * @brief 获取或设置列表中指定位置的值
-         */
-        auto &operator[](int index) const
-        {
-            return this->_pVec->at(index);
-        }
-
-        /**
-         * @brief 判断是否为同一个列表
-         */
-        bool operator==(const List &other) const
-        {
-            return this->_pVec == other._pVec;
-        }
-
-        /**
-         * @brief 判断是否不是同一个列表
-         */
-        bool operator!=(const List &other) const
-        {
-            return this->_pVec != other._pVec;
-        }
-
-        /**
-         * @brief 列表当前的容量
-         */
-        int Capacity() const
-        {
-            return (int)this->_pVec->capacity();
-        }
-
-        /**
-         * @brief 获取元素个数
-         */
-        int Count() const
-        {
-            return (int)this->_pVec->size();
-        }
-
-        /**
-         * @brief 列表是否为空
-         */
-        bool IsEmpty() const
-        {
-            return this->_pVec->empty();
-        }
-
-        /**
-         * @brief  添加一个值到列表末尾
-         * @return 当前列表
-         */
-        auto Append(const T &value) const
-        {
-            this->_pVec->push_back(value);
-            return *this;
-        }
-
-        /**
-         * @brief  添加一个值到列表末尾
-         * @return 当前列表
-         */
-        auto Append(T &&value) const
-        {
-            this->_pVec->push_back(std::forward<T>(value));
-            return *this;
-        }
-
-        /**
-         * @brief  在指定位置插入值
-         * @return 当前列表
-         */
-        auto Insert(int index, const T &value) const
-        {
-            this->_pVec->insert(this->_pVec->begin() + index, value);
-            return *this;
-        }
-
-        /**
-         * @brief  在指定位置插入值
-         * @return 当前列表
-         */
-        auto Insert(int index, T &&value) const
-        {
-            this->_pVec->insert(this->_pVec->begin() + index, std::forward<T>(value));
-            return *this;
-        }
-
-        /**
-         * @brief       列表是否包含某个值
-         * @param value 要查找的值
-         */
-        bool Contains(const T &value) const
-        {
-            return std::find(this->_pVec->begin(), this->_pVec->end(), value) != this->_pVec->end();
-        }
-
-        /**
-         * @brief       查找值在列表中的索引
-         * @param value 要查找的值
-         * @return      若列表中包含该值则返回其索引，否则返回-1
-         */
-        int IndexOf(const T &value) const
-        {
-            auto it = std::find(this->_pVec->begin(), this->_pVec->end(), value);
-            return it == this->_pVec->end() ? -1 : int(it - this->_pVec->begin());
-        }
-
-        /**
-         * @brief       移除列表中第一个指定的值
-         * @param value 要移除的值
-         * @return      是否成功移除
-         */
-        bool Remove(const T &value) const
-        {
-            auto it = std::find(this->_pVec->begin(), this->_pVec->end(), value);
-            if (it == this->_pVec->end())
-                return false;
-            this->_pVec->erase(it);
-            return true;
-        }
-
-        /**
-         * @brief       移除指定索引处的值
-         * @param index 要移除元素的索引
-         */
-        void RemoveAt(int index) const
-        {
-            this->_pVec->erase(this->_pVec->begin() + index);
-        }
-
-        /**
-         * @brief 清空列表
-         */
-        void Clear() const
-        {
-            this->_pVec->clear();
-        }
-
-        /**
-         * @brief 复制当前列表
-         */
-        List Copy() const
-        {
-            List list((int)this->_pVec->capacity());
-            list._pVec->assign(this->_pVec->begin(), this->_pVec->end());
-            return list;
-        }
-
-        /**
-         * @brief 获取列表内部维护的std::vector
-         */
-        std::vector<T> &GetStdVector() const
-        {
-            return *this->_pVec;
-        }
-
-        /**
-         * @brief 支持Utils::BuildStr
-         */
-        friend std::wostream &operator<<(std::wostream &wos, const List &list)
-        {
-            wos << Utils::BuildStr(*list._pVec);
-            return wos;
-        }
-    };
-}
-
 // MenuItem.h
 
 
@@ -4198,9 +3583,9 @@ namespace sw
         bool operator!=(const Rect &other) const;
 
         /**
-         * @brief 支持Utils::BuildStr
+         * @brief 获取描述当前对象的字符串
          */
-        friend std::wostream &operator<<(std::wostream &wos, const Rect &rect);
+        std::wstring ToString() const;
     };
 }
 
@@ -4232,6 +3617,406 @@ namespace sw
          * @brief 鼠标在屏幕中的位置
          */
         static const ReadOnlyProperty<Point> CursorPosition;
+    };
+}
+
+// Utils.h
+
+
+namespace sw
+{
+    /**
+     * @brief 判断一个类型是否有ToString方法
+     */
+    template <typename T>
+    struct _HasToString {
+    private:
+        template <typename U>
+        static auto test(int) -> decltype(std::declval<U>().ToString(), std::true_type());
+
+        template <typename U>
+        static auto test(...) -> std::false_type;
+
+    public:
+        static constexpr bool value = decltype(test<T>(0))::value;
+    };
+
+    /**
+     * @brief 工具类
+     */
+    class Utils
+    {
+    private:
+        Utils() = delete; // 删除构造函数
+
+    public:
+        /**
+         * @brief      将窄字符串转为宽字符串
+         * @param str  要转换的字符串
+         * @param utf8 是否使用utf8编码
+         * @return     转换后的字符串
+         */
+        static std::wstring ToWideStr(const std::string &str, bool utf8 = false);
+
+        /**
+         * @brief      将宽字符串转为窄字符串
+         * @param wstr 要转换的字符串
+         * @param utf8 是否使用utf8编码
+         * @return     转换后的字符串
+         */
+        static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8 = false);
+
+        /**
+         * @brief     删除首尾空白字符
+         * @param str 输入的字符串
+         * @return    删除首位空白字符后的字符串
+         */
+        static std::wstring Trim(const std::wstring &str);
+
+        /**
+         * @brief     删除串首空白字符
+         * @param str 输入的字符串
+         * @return    删除串首空白字符后的字符串
+         */
+        static std::wstring TrimStart(const std::wstring &str);
+
+        /**
+         * @brief     删除串尾空白字符
+         * @param str 输入的字符串
+         * @return    删除串尾空白字符后的字符串
+         */
+        static std::wstring TrimEnd(const std::wstring &str);
+
+        /**
+         * @brief           对字符串按照指定分隔符进行拆分
+         * @param str       输入的字符串
+         * @param delimiter 分隔符
+         * @result          包含字串的vector
+         */
+        static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
+
+        /**
+         * @brief     格式化字符串，类似于 `swprintf`，但返回一个动态分配的 `std::wstring`
+         * @param fmt 格式化字符串
+         * @param ... 可变参数，符合 `fmt` 格式的输入
+         * @return    返回一个包含格式化结果的字符串
+         */
+        static std::wstring FormatStr(const wchar_t *fmt, ...);
+
+    public:
+        /**
+         * @brief 取两值中的较大值
+         */
+        template <typename T>
+        static constexpr inline T Max(const T &a, const T &b)
+        {
+            return a > b ? a : b;
+        }
+
+        /**
+         * @brief 取两值中的较小值
+         */
+        template <typename T>
+        static constexpr inline T Min(const T &a, const T &b)
+        {
+            return a < b ? a : b;
+        }
+
+        /**
+         * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
+         */
+        template <typename... Args>
+        static inline std::wstring BuildStr(const Args &...args)
+        {
+            std::wstringstream wss;
+            int _[]{(Utils::_BuildStr(wss, args), 0)...};
+            return wss.str();
+        }
+
+    private:
+        /**
+         * @brief BuildStr函数内部实现
+         */
+        template <typename T>
+        static inline typename std::enable_if<!_IsProperty<T>::value && !_HasToString<T>::value, void>::type
+        _BuildStr(std::wostream &wos, const T &arg)
+        {
+            wos << arg;
+        }
+
+        /**
+         * @brief 让BuildStr函数支持自定义类型
+         */
+        template <typename T>
+        static inline typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value, void>::type
+        _BuildStr(std::wostream &wos, const T &arg)
+        {
+            Utils::_BuildStr(wos, arg.ToString());
+        }
+
+        /**
+         * @brief 让BuildStr函数支持属性
+         */
+        template <typename T>
+        static inline typename std::enable_if<_IsProperty<T>::value, void>::type
+        _BuildStr(std::wostream &wos, const T &prop)
+        {
+            Utils::_BuildStr(wos, prop.Get());
+        }
+
+        /**
+         * @brief 让BuildStr函数将bool类型转化为"true"或"false"而不是数字1或0
+         */
+        static inline void _BuildStr(std::wostream &wos, bool b)
+        {
+            wos << (b ? L"true" : L"false");
+        }
+
+        /**
+         * @brief 让BuildStr函数支持窄字符串
+         */
+        static inline void _BuildStr(std::wostream &wos, const char *str)
+        {
+            wos << Utils::ToWideStr(str);
+        }
+
+        /**
+         * @brief 让BuildStr函数支持窄字符串
+         */
+        static inline void _BuildStr(std::wostream &wos, const std::string &str)
+        {
+            wos << Utils::ToWideStr(str);
+        }
+
+        /**
+         * @brief 让BuildStr函数支持std::vector
+         */
+        template <typename T>
+        static inline void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
+        {
+            auto beg = vec.begin();
+            auto end = vec.end();
+            wos << L"[";
+            for (auto it = beg; it != end; ++it) {
+                if (it != beg)
+                    wos << L", ";
+                Utils::_BuildStr(wos, *it);
+            }
+            wos << L"]";
+        }
+
+        /**
+         * @brief 让BildStr函数支持std::map
+         */
+        template <typename TKey, typename TVal>
+        static inline void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
+        {
+            auto beg = map.begin();
+            auto end = map.end();
+            wos << L"{";
+            for (auto it = beg; it != end; ++it) {
+                if (it != beg)
+                    wos << L", ";
+                Utils::_BuildStr(wos, it->first);
+                wos << L":";
+                Utils::_BuildStr(wos, it->second);
+            }
+            wos << L"}";
+        }
+    };
+}
+
+// Dictionary.h
+
+
+namespace sw
+{
+    template <typename TKey, typename TVal>
+    class Dictionary; // 向前声明
+
+    /**
+     * @brief 以字符串为键值的字典
+     */
+    template <typename TVal>
+    using StrDictionary = Dictionary<std::wstring, TVal>;
+
+    /**
+     * @brief 字典类，内部维护了一个指向std::map的智能指针
+     */
+    template <typename TKey, typename TVal>
+    class Dictionary
+    {
+    private:
+        /**
+         * @brief 指向std::map的智能指针
+         */
+        std::shared_ptr<std::map<TKey, TVal>> _pMap;
+
+    public:
+        /**
+         * @brief 初始化字典
+         */
+        Dictionary()
+            : _pMap(std::make_shared<std::map<TKey, TVal>>())
+        {
+        }
+
+        /**
+         * @brief 使用初始化列表
+         */
+        Dictionary(std::initializer_list<std::pair<const TKey, TVal>> list)
+            : _pMap(std::make_shared<std::map<TKey, TVal>>(list))
+        {
+        }
+
+        /**
+         * @brief 正向迭代器开始
+         */
+        auto begin() const
+        {
+            return this->_pMap->begin();
+        }
+
+        /**
+         * @brief 正向迭代器结束
+         */
+        auto end() const
+        {
+            return this->_pMap->end();
+        }
+
+        /**
+         * @brief 反向迭代器开始
+         */
+        auto rbegin() const
+        {
+            return this->_pMap->rbegin();
+        }
+
+        /**
+         * @brief 反向迭代器结束
+         */
+        auto rend() const
+        {
+            return this->_pMap->rend();
+        }
+
+        /**
+         * @brief     获取或设置值
+         * @param key 键值
+         */
+        auto &operator[](const TKey &key) const
+        {
+            return this->_pMap->at(key);
+        }
+
+        /**
+         * @brief 判断是否为同一个字典
+         */
+        bool operator==(const Dictionary &other) const
+        {
+            return this->_pMap == other._pMap;
+        }
+
+        /**
+         * @brief 判断是否不是同一个字典
+         */
+        bool operator!=(const Dictionary &other) const
+        {
+            return this->_pMap != other._pMap;
+        }
+
+        /**
+         * @brief 获取键值对个数
+         */
+        int Count() const
+        {
+            return (int)this->_pMap->size();
+        }
+
+        /**
+         * @brief 字典是否为空
+         */
+        bool IsEmpty() const
+        {
+            return this->_pMap->empty();
+        }
+
+        /**
+         * @brief  添加键值对到字典
+         * @return 当前字典
+         */
+        auto Add(const TKey &key, const TVal &value) const
+        {
+            this->_pMap->insert(std::make_pair(key, value));
+            return *this;
+        }
+
+        /**
+         * @brief     是否存在某个键值
+         * @param key 要查询的键值
+         */
+        bool ContainsKey(const TKey &key) const
+        {
+            return this->_pMap->count(key);
+        }
+
+        /**
+         * @brief       遍历字典，查询是否存在某个值
+         * @param value 要查询的值
+         */
+        bool ContainsValue(const TVal &value) const
+        {
+            for (const auto &pair : *this->_pMap) {
+                if (pair.second == value) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * @brief     移除指定键值对
+         * @param key 要删除的键值
+         */
+        void Remove(const TKey &key) const
+        {
+            this->_pMap->erase(key);
+        }
+
+        /**
+         * @brief 清空字典
+         */
+        void Clear() const
+        {
+            this->_pMap->clear();
+        }
+
+        /**
+         * @brief 复制当前字典
+         */
+        Dictionary Copy() const
+        {
+            Dictionary dic;
+            dic._pMap->insert(this->_pMap->begin(), this->_pMap->end());
+            return dic;
+        }
+
+        /**
+         * @brief 获取字典内部维护的std::map
+         */
+        std::map<TKey, TVal> &GetStdMap() const
+        {
+            return *this->_pMap;
+        }
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const
+        {
+            return Utils::BuildStr(*this->_pMap);
+        }
     };
 }
 
@@ -4561,6 +4346,256 @@ namespace sw
          * @brief 若_isWrap为false时调用ImageList_Destroy
          */
         void _DestroyIfNotWrap();
+    };
+}
+
+// List.h
+
+
+namespace sw
+{
+    template <typename T>
+    class List; // 向前声明
+
+    /**
+     * @brief 字符串列表
+     */
+    using StrList = List<std::wstring>;
+
+    /**
+     * @brief 列表类，内部维护了一个指向std::vector的智能指针
+     */
+    template <typename T>
+    class List
+    {
+    private:
+        /**
+         * @brief 指向std::vector的智能指针
+         */
+        std::shared_ptr<std::vector<T>> _pVec;
+
+    public:
+        /**
+         * @brief 初始化列表
+         */
+        List()
+            : _pVec(std::make_shared<std::vector<T>>())
+        {
+        }
+
+        /**
+         * @brief 使用初始化列表
+         */
+        List(std::initializer_list<T> list)
+            : _pVec(std::make_shared<std::vector<T>>(list))
+        {
+        }
+
+        /**
+         * @brief 初始化列表并指定容量
+         */
+        explicit List(int capacity)
+            : List()
+        {
+            this->_pVec->reserve(capacity);
+        }
+
+        /**
+         * @brief 正向迭代器开始
+         */
+        auto begin() const
+        {
+            return this->_pVec->begin();
+        }
+
+        /**
+         * @brief 正向迭代器结束
+         */
+        auto end() const
+        {
+            return this->_pVec->end();
+        }
+
+        /**
+         * @brief 反向迭代器开始
+         */
+        auto rbegin() const
+        {
+            return this->_pVec->rbegin();
+        }
+
+        /**
+         * @brief 反向迭代器结束
+         */
+        auto rend() const
+        {
+            return this->_pVec->rend();
+        }
+
+        /**
+         * @brief 获取或设置列表中指定位置的值
+         */
+        auto &operator[](int index) const
+        {
+            return this->_pVec->at(index);
+        }
+
+        /**
+         * @brief 判断是否为同一个列表
+         */
+        bool operator==(const List &other) const
+        {
+            return this->_pVec == other._pVec;
+        }
+
+        /**
+         * @brief 判断是否不是同一个列表
+         */
+        bool operator!=(const List &other) const
+        {
+            return this->_pVec != other._pVec;
+        }
+
+        /**
+         * @brief 列表当前的容量
+         */
+        int Capacity() const
+        {
+            return (int)this->_pVec->capacity();
+        }
+
+        /**
+         * @brief 获取元素个数
+         */
+        int Count() const
+        {
+            return (int)this->_pVec->size();
+        }
+
+        /**
+         * @brief 列表是否为空
+         */
+        bool IsEmpty() const
+        {
+            return this->_pVec->empty();
+        }
+
+        /**
+         * @brief  添加一个值到列表末尾
+         * @return 当前列表
+         */
+        auto Append(const T &value) const
+        {
+            this->_pVec->push_back(value);
+            return *this;
+        }
+
+        /**
+         * @brief  添加一个值到列表末尾
+         * @return 当前列表
+         */
+        auto Append(T &&value) const
+        {
+            this->_pVec->push_back(std::forward<T>(value));
+            return *this;
+        }
+
+        /**
+         * @brief  在指定位置插入值
+         * @return 当前列表
+         */
+        auto Insert(int index, const T &value) const
+        {
+            this->_pVec->insert(this->_pVec->begin() + index, value);
+            return *this;
+        }
+
+        /**
+         * @brief  在指定位置插入值
+         * @return 当前列表
+         */
+        auto Insert(int index, T &&value) const
+        {
+            this->_pVec->insert(this->_pVec->begin() + index, std::forward<T>(value));
+            return *this;
+        }
+
+        /**
+         * @brief       列表是否包含某个值
+         * @param value 要查找的值
+         */
+        bool Contains(const T &value) const
+        {
+            return std::find(this->_pVec->begin(), this->_pVec->end(), value) != this->_pVec->end();
+        }
+
+        /**
+         * @brief       查找值在列表中的索引
+         * @param value 要查找的值
+         * @return      若列表中包含该值则返回其索引，否则返回-1
+         */
+        int IndexOf(const T &value) const
+        {
+            auto it = std::find(this->_pVec->begin(), this->_pVec->end(), value);
+            return it == this->_pVec->end() ? -1 : int(it - this->_pVec->begin());
+        }
+
+        /**
+         * @brief       移除列表中第一个指定的值
+         * @param value 要移除的值
+         * @return      是否成功移除
+         */
+        bool Remove(const T &value) const
+        {
+            auto it = std::find(this->_pVec->begin(), this->_pVec->end(), value);
+            if (it == this->_pVec->end())
+                return false;
+            this->_pVec->erase(it);
+            return true;
+        }
+
+        /**
+         * @brief       移除指定索引处的值
+         * @param index 要移除元素的索引
+         */
+        void RemoveAt(int index) const
+        {
+            this->_pVec->erase(this->_pVec->begin() + index);
+        }
+
+        /**
+         * @brief 清空列表
+         */
+        void Clear() const
+        {
+            this->_pVec->clear();
+        }
+
+        /**
+         * @brief 复制当前列表
+         */
+        List Copy() const
+        {
+            List list((int)this->_pVec->capacity());
+            list._pVec->assign(this->_pVec->begin(), this->_pVec->end());
+            return list;
+        }
+
+        /**
+         * @brief 获取列表内部维护的std::vector
+         */
+        std::vector<T> &GetStdVector() const
+        {
+            return *this->_pVec;
+        }
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const
+        {
+            return Utils::BuildStr(*this->_pVec);
+        }
     };
 }
 

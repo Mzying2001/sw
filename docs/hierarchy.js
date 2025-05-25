@@ -1,5 +1,6 @@
 var hierarchy =
 [
+    [ "sw::_HasToString< T >", "structsw_1_1___has_to_string.html", null ],
     [ "sw::App", "classsw_1_1_app.html", null ],
     [ "sw::CanvasLayoutTag", "structsw_1_1_canvas_layout_tag.html", null ],
     [ "sw::Color", "structsw_1_1_color.html", null ],

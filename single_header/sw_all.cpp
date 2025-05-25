@@ -645,12 +645,9 @@ bool sw::Color::operator!=(const Color &other) const
     return (this->r != other.r) || (this->g != other.g) || (this->b != other.b);
 }
 
-namespace sw
+std::wstring sw::Color::ToString() const
 {
-    std::wostream &operator<<(std::wostream &wos, const Color &color)
-    {
-        return wos << L"Color{r=" << (int)color.r << L", g=" << (int)color.g << L", b=" << (int)color.b << L"}";
-    }
+    return Utils::FormatStr(L"Color{r=%u, g=%u, b=%u}", this->r, this->g, this->b);
 }
 
 // ComboBox.cpp
@@ -5913,12 +5910,9 @@ bool sw::Point::operator!=(const Point &other) const
     return (this->x != other.x) || (this->y != other.y);
 }
 
-namespace sw
+std::wstring sw::Point::ToString() const
 {
-    std::wostream &operator<<(std::wostream &wos, const Point &point)
-    {
-        return wos << L"(" << point.x << L", " << point.y << L")";
-    }
+    return Utils::FormatStr(L"(%g, %g)", this->x, this->y);
 }
 
 // ProcMsg.cpp
@@ -6068,12 +6062,9 @@ bool sw::Rect::operator!=(const Rect &other) const
            (this->height != other.height);
 }
 
-namespace sw
+std::wstring sw::Rect::ToString() const
 {
-    std::wostream &operator<<(std::wostream &wos, const Rect &rect)
-    {
-        return wos << L"Rect{left=" << rect.left << L", top=" << rect.top << L", width=" << rect.width << L", height=" << rect.height << L"}";
-    }
+    return Utils::FormatStr(L"Rect{left=%g, top=%g, width=%g, height=%g}", this->left, this->top, this->width, this->height);
 }
 
 // RoutedEvent.cpp
@@ -6137,12 +6128,9 @@ bool sw::Size::operator!=(const Size &other) const
     return (this->width != other.width) || (this->height != other.height);
 }
 
-namespace sw
+std::wstring sw::Size::ToString() const
 {
-    std::wostream &operator<<(std::wostream &wos, const Size &size)
-    {
-        return wos << L"Size{width=" << size.width << L", height=" << size.height << L"}";
-    }
+    return Utils::FormatStr(L"Size{width=%g, height=%g}", this->width, this->height);
 }
 
 // Slider.cpp
@@ -7173,12 +7161,9 @@ bool sw::Thickness::operator!=(const Thickness &other) const
            (this->bottom != other.bottom);
 }
 
-namespace sw
+std::wstring sw::Thickness::ToString() const
 {
-    std::wostream &operator<<(std::wostream &wos, const Thickness &thickness)
-    {
-        return wos << L"Thickness{left=" << thickness.left << L", top=" << thickness.top << L", right=" << thickness.right << L", bottom=" << thickness.bottom << L"}";
-    }
+    return Utils::FormatStr(L"Thickness{left=%g, top=%g, right=%g, bottom=%g}", this->left, this->top, this->right, this->bottom);
 }
 
 // Timer.cpp
