@@ -98,7 +98,6 @@ $(function(){initNavTree('classsw_1_1_property_base.html',''); initResizable(tru
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public 成员函数</a> &#124;
-<a href="#friends">友元</a> &#124;
 <a href="classsw_1_1_property_base-members.html">所有成员列表</a>  </div>
   <div class="headertitle"><div class="title">sw::PropertyBase&lt; T, TDerived &gt; 模板类 参考</div></div>
 </div><!--header-->
@@ -140,12 +139,12 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>operator-&gt;</b> () 
 <tr class="memdesc:a56fd0e6ae8d4e922810ebb705f09bf33"><td class="mdescLeft">&#160;</td><td class="mdescRight">隐式转换 <br /></td></tr>
 <tr class="separator:a56fd0e6ae8d4e922810ebb705f09bf33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a967bc47fd924b62369e84c7d7ee6b761" id="r_a967bc47fd924b62369e84c7d7ee6b761"><td class="memTemplParams" colspan="2"><a id="a967bc47fd924b62369e84c7d7ee6b761" name="a967bc47fd924b62369e84c7d7ee6b761"></a>
-template&lt;typename U  = T, typename  = typename std::enable_if&lt;!std::is_same&lt;T, bool&gt;::value &amp;&amp; std::is_convertible&lt;T, U&gt;::value, U&gt;::type&gt; </td></tr>
+template&lt;typename U  = T, typename  = typename std::enable_if&lt;!std::is_arithmetic&lt;T&gt;::value &amp;&amp; std::is_convertible&lt;T, U&gt;::value, U&gt;::type&gt; </td></tr>
 <tr class="memitem:a967bc47fd924b62369e84c7d7ee6b761"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator U</b> () const</td></tr>
 <tr class="memdesc:a967bc47fd924b62369e84c7d7ee6b761"><td class="mdescLeft">&#160;</td><td class="mdescRight">隐式转换 <br /></td></tr>
 <tr class="separator:a967bc47fd924b62369e84c7d7ee6b761"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49d08e36e9f72ff6cd0db97cdc953c62" id="r_a49d08e36e9f72ff6cd0db97cdc953c62"><td class="memTemplParams" colspan="2"><a id="a49d08e36e9f72ff6cd0db97cdc953c62" name="a49d08e36e9f72ff6cd0db97cdc953c62"></a>
-template&lt;typename U  = T, typename  = typename std::enable_if&lt;!std::is_same&lt;T, bool&gt;::value &amp;&amp; !std::is_convertible&lt;T, U&gt;::value, U&gt;::type, typename  = typename std::enable_if&lt;!std::is_same&lt;T, bool&gt;::value &amp;&amp; _IsExplicitlyConvertable&lt;T, U&gt;::value, U&gt;::type&gt; </td></tr>
+template&lt;typename U  = T, typename  = typename std::enable_if&lt;!std::is_arithmetic&lt;T&gt;::value &amp;&amp; !std::is_convertible&lt;T, U&gt;::value, U&gt;::type, typename  = typename std::enable_if&lt;!std::is_arithmetic&lt;T&gt;::value &amp;&amp; _IsExplicitlyConvertable&lt;T, U&gt;::value, U&gt;::type&gt; </td></tr>
 <tr class="memitem:a49d08e36e9f72ff6cd0db97cdc953c62"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator U</b> () const</td></tr>
 <tr class="memdesc:a49d08e36e9f72ff6cd0db97cdc953c62"><td class="mdescLeft">&#160;</td><td class="mdescRight">显式转换 <br /></td></tr>
 <tr class="separator:a49d08e36e9f72ff6cd0db97cdc953c62"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -595,13 +594,6 @@ template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:abb84c41fbcc422cd6e75fbcc0da2b8cf"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structsw_1_1___bracket_operation_helper.html">_BracketOperationHelper</a>&lt; T, U &gt;::value, typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator[]</b> (const <a class="el" href="classsw_1_1_property_base.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:abb84c41fbcc422cd6e75fbcc0da2b8cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">下标运算 <br /></td></tr>
 <tr class="separator:abb84c41fbcc422cd6e75fbcc0da2b8cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
-友元</h2></td></tr>
-<tr class="memitem:abee6b6fe3f5de41f6fb962fee7ba20bb" id="r_abee6b6fe3f5de41f6fb962fee7ba20bb"><td class="memItemLeft" align="right" valign="top"><a id="abee6b6fe3f5de41f6fb962fee7ba20bb" name="abee6b6fe3f5de41f6fb962fee7ba20bb"></a>
-std::wostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::wostream &amp;wos, const <a class="el" href="classsw_1_1_property_base.html">PropertyBase</a> &amp;prop)</td></tr>
-<tr class="memdesc:abee6b6fe3f5de41f6fb962fee7ba20bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">支持Utils::BuildStr <br /></td></tr>
-<tr class="separator:abee6b6fe3f5de41f6fb962fee7ba20bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T, typename TDerived&gt;<br />

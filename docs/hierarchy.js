@@ -8,13 +8,17 @@ var hierarchy =
     [ "sw::Dip", "classsw_1_1_dip.html", null ],
     [ "sw::DockLayoutTag", "classsw_1_1_dock_layout_tag.html", null ],
     [ "std::false_type", null, [
+      [ "sw::_IsPropertyImpl< std::decay< T >::type >", "structsw_1_1___is_property_impl.html", [
+        [ "sw::_IsProperty< T >", "structsw_1_1___is_property.html", null ]
+      ] ],
       [ "sw::_BracketOperationHelper< T, U, typename >", "structsw_1_1___bracket_operation_helper.html", null ],
       [ "sw::_EnumSupportBitOperations< T >", "structsw_1_1___enum_support_bit_operations.html", null ],
       [ "sw::_HasArrowOperator< T, typename >", "structsw_1_1___has_arrow_operator.html", null ],
       [ "sw::_HasEventType< T, typename >", "structsw_1_1___has_event_type.html", [
         [ "sw::_IsTypedRoutedEventArgs< T >", "structsw_1_1___is_typed_routed_event_args.html", null ]
       ] ],
-      [ "sw::_IsExplicitlyConvertable< TFrom, TTo, typename >", "structsw_1_1___is_explicitly_convertable.html", null ]
+      [ "sw::_IsExplicitlyConvertable< TFrom, TTo, typename >", "structsw_1_1___is_explicitly_convertable.html", null ],
+      [ "sw::_IsPropertyImpl< typename >", "structsw_1_1___is_property_impl.html", null ]
     ] ],
     [ "sw::FieldsAccessor< T >", "structsw_1_1_fields_accessor.html", null ],
     [ "sw::FileDialog", "classsw_1_1_file_dialog.html", [
@@ -384,7 +388,10 @@ var hierarchy =
       [ "sw::_EnumSupportBitOperations< MouseKey >", "structsw_1_1___enum_support_bit_operations_3_01_mouse_key_01_4.html", null ],
       [ "sw::_HasArrowOperator< T, typename std::enable_if< true, decltype(void(std::declval< T >().operator->()))>::type >", "structsw_1_1___has_arrow_operator_3_01_t_00_01typename_01std_1_1enable__if_3_01true_00_01decltyp91a677ed0adfc6dad4ebb8d484aa4173.html", null ],
       [ "sw::_HasEventType< T, decltype(void(std::declval< T >().EventType))>", "structsw_1_1___has_event_type_3_01_t_00_01decltype_07void_07std_1_1declval_3_01_t_01_4_07_08_8_event_type_08_08_4.html", null ],
-      [ "sw::_IsExplicitlyConvertable< TFrom, TTo, typename std::enable_if< true, decltype(void(static_cast< TTo >(std::declval< TFrom >())))>::type >", "structsw_1_1___is_explicitly_convertable_3_01_t_from_00_01_t_to_00_01typename_01std_1_1enable__i5ffe610d7baa57359817c895ba0960ba.html", null ]
+      [ "sw::_IsExplicitlyConvertable< TFrom, TTo, typename std::enable_if< true, decltype(void(static_cast< TTo >(std::declval< TFrom >())))>::type >", "structsw_1_1___is_explicitly_convertable_3_01_t_from_00_01_t_to_00_01typename_01std_1_1enable__i5ffe610d7baa57359817c895ba0960ba.html", null ],
+      [ "sw::_IsPropertyImpl< Property< T > >", "structsw_1_1___is_property_impl_3_01_property_3_01_t_01_4_01_4.html", null ],
+      [ "sw::_IsPropertyImpl< ReadOnlyProperty< T > >", "structsw_1_1___is_property_impl_3_01_read_only_property_3_01_t_01_4_01_4.html", null ],
+      [ "sw::_IsPropertyImpl< WriteOnlyProperty< T > >", "structsw_1_1___is_property_impl_3_01_write_only_property_3_01_t_01_4_01_4.html", null ]
     ] ],
     [ "sw::Utils", "classsw_1_1_utils.html", null ],
     [ "sw::WndBase", "classsw_1_1_wnd_base.html", [
