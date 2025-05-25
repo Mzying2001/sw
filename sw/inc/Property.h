@@ -229,11 +229,9 @@ namespace sw
          */
         template <
             typename U = T,
-            typename   = typename std::enable_if<!std::is_same<T, bool>::value && std::is_convertible<T, U>::value, U>::type>
+            typename   = typename std::enable_if<!std::is_arithmetic<T>::value && std::is_convertible<T, U>::value, U>::type>
         operator U() const
         {
-            // why T should not be bool: just shut up the msvc compiler warning
-            // if T is bool, it will be converted to int, which is not expected
             return static_cast<U>(this->Get());
         }
 
@@ -242,8 +240,8 @@ namespace sw
          */
         template <
             typename U = T,
-            typename   = typename std::enable_if<!std::is_same<T, bool>::value && !std::is_convertible<T, U>::value, U>::type,
-            typename   = typename std::enable_if<!std::is_same<T, bool>::value && _IsExplicitlyConvertable<T, U>::value, U>::type>
+            typename   = typename std::enable_if<!std::is_arithmetic<T>::value && !std::is_convertible<T, U>::value, U>::type,
+            typename   = typename std::enable_if<!std::is_arithmetic<T>::value && _IsExplicitlyConvertable<T, U>::value, U>::type>
         explicit operator U() const
         {
             return static_cast<U>(this->Get());
