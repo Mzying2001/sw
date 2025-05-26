@@ -10,11 +10,11 @@ namespace sw
      */
     enum RoutedEventType : uint32_t {
 
-        // 从该值开始到UserEventEnd结束表示用户可以自定义路由事件的值范围
-        UserEventBegin = 0,
+        // 从该值开始到RoutedEventType_UserEnd结束表示用户可以自定义路由事件的值范围
+        RoutedEventType_User = 0,
 
         // 用户自定义路由事件的值的最大值
-        UserEventEnd = 0x80000000,
+        RoutedEventType_UserEnd = 0x80000000,
 
         // 尺寸改变，参数类型为sw::SizeChangedEventArgs
         UIElement_SizeChanged,
@@ -130,6 +130,8 @@ namespace sw
 
     /*================================================================================*/
 
+    class UIElement; // UIElement.h
+
     /**
      * @brief 路由事件的参数
      */
@@ -150,17 +152,24 @@ namespace sw
         bool handledMsg = false;
 
         /**
+         * @brief 事件源，指向触发当前事件的UIElement
+         */
+        UIElement *source = nullptr;
+
+        /**
+         * @brief 原始事件源，指向最初触发事件的UIElement
+         */
+        UIElement *originalSource = nullptr;
+
+        /**
          * @brief RoutedEventArgs构造函数
          */
         RoutedEventArgs(RoutedEventType eventType);
     };
 
-    /*================================================================================*/
-
-    class UIElement; // UIElement.h
-
     /**
      * @brief 路由事件类型
+     * @note  第一个参数为注册事件监听器的元素，第二个参数为具体的事件参数
      */
     using RoutedEvent = std::function<void(UIElement &, RoutedEventArgs &)>;
 }
