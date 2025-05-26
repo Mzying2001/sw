@@ -7930,10 +7930,16 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)
 
 void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
 {
+    eventArgs.originalSource = this;
+
+    if (eventArgs.source == nullptr) {
+        eventArgs.source = this;
+    }
+
     UIElement *element = this;
     do {
         if (element->IsRoutedEventRegistered(eventArgs.eventType)) {
-            element->_eventMap[eventArgs.eventType](*this, eventArgs);
+            element->_eventMap[eventArgs.eventType](*element, eventArgs);
         }
         if (eventArgs.handled) {
             break;
