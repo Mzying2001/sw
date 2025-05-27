@@ -189,12 +189,15 @@ void sw::TabControl::OnAddedChild(UIElement &element)
     int index = this->IndexOf(element);
     this->_InsertItem(index, item);
     ShowWindow(element.Handle, index == this->SelectedIndex ? SW_SHOW : SW_HIDE);
+
+    this->UIElement::OnAddedChild(element);
 }
 
 void sw::TabControl::OnRemovedChild(UIElement &element)
 {
     this->UpdateTab();
     this->_UpdateChildVisible();
+    this->UIElement::OnRemovedChild(element);
 }
 
 bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
