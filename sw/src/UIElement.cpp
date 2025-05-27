@@ -804,14 +804,14 @@ void sw::UIElement::VisibleChanged(bool newVisible)
 
 bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 {
-    RoutedEventArgsOfType<UIElement_GotFocus> args;
+    TypedRoutedEventArgs<UIElement_GotFocus> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
-    RoutedEventArgsOfType<UIElement_LostFocus> args;
+    TypedRoutedEventArgs<UIElement_LostFocus> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
@@ -852,7 +852,7 @@ bool sw::UIElement::OnMouseMove(Point mousePosition, MouseKey keyState)
 
 bool sw::UIElement::OnMouseLeave()
 {
-    RoutedEventArgsOfType<UIElement_MouseLeave> args;
+    TypedRoutedEventArgs<UIElement_MouseLeave> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
