@@ -371,8 +371,11 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
 
 LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
 {
-    WNDPROC wndproc = this->_originalWndProc ? this->_originalWndProc : DefWindowProcW;
-    return wndproc(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+    if (this->_originalWndProc == nullptr) {
+        return DefWindowProcW(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+    } else {
+        return CallWindowProcW(this->_originalWndProc, refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+    }
 }
 
 LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
