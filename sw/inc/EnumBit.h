@@ -2,6 +2,11 @@
 
 #include <type_traits>
 
+#define _SW_ENUM_ENABLE_BIT_OPERATIONS(T)                  \
+    template <>                                            \
+    struct _EnumSupportBitOperations<T> : std::true_type { \
+    }
+
 namespace sw
 {
     /**

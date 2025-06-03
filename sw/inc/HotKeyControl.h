@@ -31,9 +31,7 @@ namespace sw
     /**
      * @brief 标记HotKeyCombination枚举类型支持位运算
      */
-    template <>
-    struct _EnumSupportBitOperations<HotKeyCombination> : std::true_type {
-    };
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(HotKeyCombination);
 
     /**
      * @brief 热键框
