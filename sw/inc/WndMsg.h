@@ -15,6 +15,9 @@ namespace sw
         // 控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用
         WM_UpdateLayout,
 
+        // 在窗口线程上执行指定回调函数，lParam为指向std::function<void()>的指针，wParam表示是否对函数对象指针执行delete
+        WM_InvokeFunction,
+
         // SimpleWindow所用消息的结束位置
         WM_SimpleWindowEnd,
     };
