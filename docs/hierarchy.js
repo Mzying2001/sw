@@ -316,77 +316,72 @@ var hierarchy =
     ] ],
     [ "sw::Rect", "structsw_1_1_rect.html", null ],
     [ "sw::RoutedEventArgs", "structsw_1_1_routed_event_args.html", [
-      [ "sw::RoutedEventArgsOfType< DateTimePicker_TimeChanged >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< DateTimePicker_TimeChanged >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::DateTimePickerTimeChangedEventArgs", "structsw_1_1_date_time_picker_time_changed_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< UIElement_DropFiles >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< UIElement_DropFiles >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::DropFilesEventArgs", "structsw_1_1_drop_files_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< UIElement_GotChar >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< UIElement_GotChar >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::GotCharEventArgs", "structsw_1_1_got_char_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< HotKeyControl_ValueChanged >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< HotKeyControl_ValueChanged >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::HotKeyValueChangedEventArgs", "structsw_1_1_hot_key_value_changed_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< UIElement_KeyDown >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< UIElement_KeyDown >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::KeyDownEventArgs", "structsw_1_1_key_down_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< UIElement_KeyUp >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< UIElement_KeyUp >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::KeyUpEventArgs", "structsw_1_1_key_up_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< ListView_CheckStateChanged >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< ListView_CheckStateChanged >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::ListViewCheckStateChangedEventArgs", "structsw_1_1_list_view_check_state_changed_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< ListView_EndEdit >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< ListView_EndEdit >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::ListViewEndEditEventArgs", "structsw_1_1_list_view_end_edit_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< MonthCalendar_TimeChanged >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< MonthCalendar_TimeChanged >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::MonthCalendarTimeChangedEventArgs", "structsw_1_1_month_calendar_time_changed_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< UIElement_MouseButtonDown >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< UIElement_MouseButtonDown >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::MouseButtonDownEventArgs", "structsw_1_1_mouse_button_down_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< UIElement_MouseButtonUp >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< UIElement_MouseButtonUp >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::MouseButtonUpEventArgs", "structsw_1_1_mouse_button_up_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< UIElement_MouseMove >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< UIElement_MouseMove >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::MouseMoveEventArgs", "structsw_1_1_mouse_move_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< UIElement_MouseWheel >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< UIElement_MouseWheel >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::MouseWheelEventArgs", "structsw_1_1_mouse_wheel_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< UIElement_PositionChanged >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< UIElement_PositionChanged >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::PositionChangedEventArgs", "structsw_1_1_position_changed_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< Layer_Scrolling >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< Layer_Scrolling >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::ScrollingEventArgs", "structsw_1_1_scrolling_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< UIElement_ShowContextMenu >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< UIElement_ShowContextMenu >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::ShowContextMenuEventArgs", "structsw_1_1_show_context_menu_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< UIElement_SizeChanged >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< UIElement_SizeChanged >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::SizeChangedEventArgs", "structsw_1_1_size_changed_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< SysLink_Clicked >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< SysLink_Clicked >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::SysLinkClickedEventArgs", "structsw_1_1_sys_link_clicked_event_args.html", null ]
       ] ],
-      [ "sw::RoutedEventArgsOfType< Window_Closing >", "structsw_1_1_routed_event_args_of_type.html", [
+      [ "sw::TypedRoutedEventArgs< Window_Closing >", "structsw_1_1_typed_routed_event_args.html", [
         [ "sw::WindowClosingEventArgs", "structsw_1_1_window_closing_event_args.html", null ]
       ] ],
       [ "sw::ListViewHeaderClickedEventArgs", "structsw_1_1_list_view_header_clicked_event_args.html", null ],
       [ "sw::ListViewItemClickedEventArgs", "structsw_1_1_list_view_item_clicked_event_args.html", null ],
-      [ "sw::RoutedEventArgsOfType< TYPE >", "structsw_1_1_routed_event_args_of_type.html", null ]
+      [ "sw::TypedRoutedEventArgs< TYPE >", "structsw_1_1_typed_routed_event_args.html", null ]
     ] ],
     [ "sw::Screen", "classsw_1_1_screen.html", null ],
     [ "sw::Size", "structsw_1_1_size.html", null ],
     [ "sw::Thickness", "structsw_1_1_thickness.html", null ],
     [ "std::true_type", null, [
       [ "sw::_BracketOperationHelper< T, U, typename std::enable_if< true, decltype(void(std::declval< T >()[std::declval< U >()]))>::type >", "structsw_1_1___bracket_operation_helper_3_01_t_00_01_u_00_01typename_01std_1_1enable__if_3_01trudcf294b86a55473bb1e2d26854ed1552.html", null ],
-      [ "sw::_EnumSupportBitOperations< FileDialogFlags >", "structsw_1_1___enum_support_bit_operations_3_01_file_dialog_flags_01_4.html", null ],
-      [ "sw::_EnumSupportBitOperations< FolderDialogFlags >", "structsw_1_1___enum_support_bit_operations_3_01_folder_dialog_flags_01_4.html", null ],
-      [ "sw::_EnumSupportBitOperations< HotKeyCombination >", "structsw_1_1___enum_support_bit_operations_3_01_hot_key_combination_01_4.html", null ],
-      [ "sw::_EnumSupportBitOperations< HotKeyModifier >", "structsw_1_1___enum_support_bit_operations_3_01_hot_key_modifier_01_4.html", null ],
-      [ "sw::_EnumSupportBitOperations< MouseKey >", "structsw_1_1___enum_support_bit_operations_3_01_mouse_key_01_4.html", null ],
       [ "sw::_HasArrowOperator< T, typename std::enable_if< true, decltype(void(std::declval< T >().operator->()))>::type >", "structsw_1_1___has_arrow_operator_3_01_t_00_01typename_01std_1_1enable__if_3_01true_00_01decltyp91a677ed0adfc6dad4ebb8d484aa4173.html", null ],
       [ "sw::_HasEventType< T, decltype(void(std::declval< T >().EventType))>", "structsw_1_1___has_event_type_3_01_t_00_01decltype_07void_07std_1_1declval_3_01_t_01_4_07_08_8_event_type_08_08_4.html", null ],
       [ "sw::_IsExplicitlyConvertable< TFrom, TTo, typename std::enable_if< true, decltype(void(static_cast< TTo >(std::declval< TFrom >())))>::type >", "structsw_1_1___is_explicitly_convertable_3_01_t_from_00_01_t_to_00_01typename_01std_1_1enable__i5ffe610d7baa57359817c895ba0960ba.html", null ],

@@ -352,27 +352,18 @@ $(function(){initNavTree('_keys_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>        MouseX2     = MK_XBUTTON2, <span class="comment">// The second X button is down.</span></div>
 <div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>    };</div>
 <div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span> </div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    <span class="keyword">template</span> &lt;&gt;</div>
-<div class="foldopen" id="foldopen00265" data-start="{" data-end="};">
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno"><a class="line" href="structsw_1_1___enum_support_bit_operations_3_01_mouse_key_01_4.html">  265</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1___enum_support_bit_operations.html">_EnumSupportBitOperations</a>&lt;MouseKey&gt; : std::true_type {</div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    };</div>
-</div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span> </div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    <span class="keyword">enum class</span> HotKeyModifier {</div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        None  = 0,                       <span class="comment">// 无按键</span></div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        Shift = <span class="comment">/*HOTKEYF_SHIFT*/</span> 0x1,   <span class="comment">// Alt键</span></div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>        Ctrl  = <span class="comment">/*HOTKEYF_CONTROL*/</span> 0x2, <span class="comment">// Ctrl键</span></div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>        Alt   = <span class="comment">/*HOTKEYF_ALT*/</span> 0x4,     <span class="comment">// 扩展键</span></div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>        Ext   = <span class="comment">/*HOTKEYF_EXT*/</span> 0x8,     <span class="comment">// Shift键</span></div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    };</div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    <span class="keyword">template</span> &lt;&gt;</div>
-<div class="foldopen" id="foldopen00283" data-start="{" data-end="};">
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno"><a class="line" href="structsw_1_1___enum_support_bit_operations_3_01_hot_key_modifier_01_4.html">  283</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1___enum_support_bit_operations.html">_EnumSupportBitOperations</a>&lt;HotKeyModifier&gt; : std::true_type {</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    };</div>
-</div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>}</div>
-<div class="ttc" id="astructsw_1_1___enum_support_bit_operations_html"><div class="ttname"><a href="structsw_1_1___enum_support_bit_operations.html">sw::_EnumSupportBitOperations</a></div><div class="ttdoc">用于标记枚举是否支持位运算</div><div class="ttdef"><b>定义</b> EnumBit.h:11</div></div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    _SW_ENUM_ENABLE_BIT_OPERATIONS(MouseKey);</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    <span class="keyword">enum class</span> HotKeyModifier {</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>        None  = 0,                       <span class="comment">// 无按键</span></div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>        Shift = <span class="comment">/*HOTKEYF_SHIFT*/</span> 0x1,   <span class="comment">// Alt键</span></div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        Ctrl  = <span class="comment">/*HOTKEYF_CONTROL*/</span> 0x2, <span class="comment">// Ctrl键</span></div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        Alt   = <span class="comment">/*HOTKEYF_ALT*/</span> 0x4,     <span class="comment">// 扩展键</span></div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>        Ext   = <span class="comment">/*HOTKEYF_EXT*/</span> 0x8,     <span class="comment">// Shift键</span></div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    };</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    _SW_ENUM_ENABLE_BIT_OPERATIONS(HotKeyModifier);</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>}</div>
 <div class="ttc" id="astructsw_1_1_key_flags_html"><div class="ttname"><a href="structsw_1_1_key_flags.html">sw::KeyFlags</a></div><div class="ttdoc">https://learn.microsoft.com/en-us/windows/win32/inputdev/about-keyboard-input#keystroke-message-flags</div><div class="ttdef"><b>定义</b> Keys.h:12</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
