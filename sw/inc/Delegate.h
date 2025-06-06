@@ -11,11 +11,11 @@
 
 namespace sw
 {
-    // 向前声明
+    // ICallable接口声明
     template <typename>
     struct ICallable;
 
-    // 向前声明
+    // Delegate类声明
     template <typename>
     class Delegate;
 
