@@ -261,9 +261,7 @@ namespace sw
     /**
      * @brief 标记MouseKey枚举类型支持位运算
      */
-    template <>
-    struct _EnumSupportBitOperations<MouseKey> : std::true_type {
-    };
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(MouseKey);
 
     /**
      * @brief 表示热键框控件中的辅助按键，可以是一个或多个按键
@@ -279,7 +277,5 @@ namespace sw
     /**
      * @brief 标记HotKeyModifier枚举类型支持位运算
      */
-    template <>
-    struct _EnumSupportBitOperations<HotKeyModifier> : std::true_type {
-    };
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(HotKeyModifier);
 }

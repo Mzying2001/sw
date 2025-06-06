@@ -6838,12 +6838,15 @@ void sw::TabControl::OnAddedChild(UIElement &element)
     int index = this->IndexOf(element);
     this->_InsertItem(index, item);
     ShowWindow(element.Handle, index == this->SelectedIndex ? SW_SHOW : SW_HIDE);
+
+    this->UIElement::OnAddedChild(element);
 }
 
 void sw::TabControl::OnRemovedChild(UIElement &element)
 {
     this->UpdateTab();
     this->_UpdateChildVisible();
+    this->UIElement::OnRemovedChild(element);
 }
 
 bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
@@ -7549,9 +7552,6 @@ bool sw::UIElement::AddChild(UIElement *element)
         return false;
     }
 
-    this->_children.push_back(element);
-    this->OnAddedChild(*element);
-
     // 处理z轴顺序，确保悬浮的元素在最前
     if (!element->_float) {
         for (UIElement *child : this->_children) {
@@ -7560,7 +7560,8 @@ bool sw::UIElement::AddChild(UIElement *element)
         }
     }
 
-    this->NotifyLayoutUpdated();
+    this->_children.push_back(element);
+    this->OnAddedChild(*element);
     return true;
 }
 
@@ -7601,7 +7602,6 @@ bool sw::UIElement::RemoveChildAt(int index)
     this->_children.erase(it);
 
     this->OnRemovedChild(*element);
-    this->NotifyLayoutUpdated();
     return true;
 }
 
@@ -7625,7 +7625,6 @@ bool sw::UIElement::RemoveChild(UIElement *element)
     this->_children.erase(it);
 
     this->OnRemovedChild(*element);
-    this->NotifyLayoutUpdated();
     return true;
 }
 
@@ -8040,10 +8039,12 @@ void sw::UIElement::SetTextColor(Color color, bool redraw)
 
 void sw::UIElement::OnAddedChild(UIElement &element)
 {
+    this->NotifyLayoutUpdated();
 }
 
 void sw::UIElement::OnRemovedChild(UIElement &element)
 {
+    this->NotifyLayoutUpdated();
 }
 
 void sw::UIElement::OnTabStop()
@@ -8139,14 +8140,14 @@ void sw::UIElement::VisibleChanged(bool newVisible)
 
 bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 {
-    RoutedEventArgsOfType<UIElement_GotFocus> args;
+    TypedRoutedEventArgs<UIElement_GotFocus> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
-    RoutedEventArgsOfType<UIElement_LostFocus> args;
+    TypedRoutedEventArgs<UIElement_LostFocus> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
@@ -8187,7 +8188,7 @@ bool sw::UIElement::OnMouseMove(Point mousePosition, MouseKey keyState)
 
 bool sw::UIElement::OnMouseLeave()
 {
-    RoutedEventArgsOfType<UIElement_MouseLeave> args;
+    TypedRoutedEventArgs<UIElement_MouseLeave> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
@@ -9520,8 +9521,11 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
 
 LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
 {
-    WNDPROC wndproc = this->_originalWndProc ? this->_originalWndProc : DefWindowProcW;
-    return wndproc(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+    if (this->_originalWndProc == nullptr) {
+        return DefWindowProcW(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+    } else {
+        return CallWindowProcW(this->_originalWndProc, refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+    }
 }
 
 LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
@@ -9820,6 +9824,13 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 
         case WM_DROPFILES: {
             return this->OnDropFiles(reinterpret_cast<HDROP>(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_InvokeFunction: {
+            auto pFunc = reinterpret_cast<std::function<void()> *>(refMsg.lParam);
+            if (pFunc) (*pFunc)();
+            if (refMsg.wParam) delete pFunc;
+            return 0;
         }
 
         default: {
@@ -10263,6 +10274,18 @@ sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
 {
     POINT point = testPoint;
     return (HitTestResult)this->SendMessageW(WM_NCHITTEST, 0, MAKELPARAM(point.x, point.y));
+}
+
+void sw::WndBase::Invoke(const std::function<void()> &func)
+{
+    auto f = func;
+    this->SendMessageW(WM_InvokeFunction, false, reinterpret_cast<LPARAM>(&f));
+}
+
+void sw::WndBase::InvokeAsync(const std::function<void()> &func)
+{
+    auto *pf = new std::function<void()>(func);
+    this->PostMessageW(WM_InvokeFunction, true, reinterpret_cast<LPARAM>(pf));
 }
 
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

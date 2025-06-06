@@ -97,9 +97,7 @@ namespace sw
     /**
      * @brief 标记FolderDialogFlags枚举支持位运算
      */
-    template <>
-    struct _EnumSupportBitOperations<FolderDialogFlags> : std::true_type {
-    };
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(FolderDialogFlags);
 
     /**
      * @brief 选择文件夹对话框

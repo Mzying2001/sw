@@ -14,6 +14,8 @@ var classsw_1_1_wnd_base =
     [ "HandleInitialized", "classsw_1_1_wnd_base.html#a4b368860fef40406c091880fc72f9cbb", null ],
     [ "InitControl", "classsw_1_1_wnd_base.html#aecb12507b6a8137427841d3bc4181fc6", null ],
     [ "InitWindow", "classsw_1_1_wnd_base.html#a4889c45dfad820c103dd7f74f2cd0661", null ],
+    [ "Invoke", "classsw_1_1_wnd_base.html#ae1100e4e04e416d6e59d3e9b234e26d1", null ],
+    [ "InvokeAsync", "classsw_1_1_wnd_base.html#acaf186b7eac4f17b4040399afbf481b8", null ],
     [ "IsVisible", "classsw_1_1_wnd_base.html#a6ee668e7a5261f96df0bd69a1fb868d3", null ],
     [ "NcHitTest", "classsw_1_1_wnd_base.html#a87c9d860ba24487f2b61b72987a4bd63", null ],
     [ "OnAcceleratorCommand", "classsw_1_1_wnd_base.html#a935f2bb51b99929ac5166ad52396971a", null ],

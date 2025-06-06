@@ -800,6 +800,18 @@ namespace sw
          */
         HitTestResult NcHitTest(const Point &testPoint);
 
+        /**
+         * @brief      在窗口线程上执行指定函数
+         * @param func 要执行的函数
+         */
+        void Invoke(const std::function<void()> &func);
+
+        /**
+         * @brief      在窗口线程上执行指定函数，并立即返回
+         * @param func 要执行的函数
+         */
+        void InvokeAsync(const std::function<void()> &func);
+
     private:
         /**
          * @brief 窗口过程函数，调用对象的WndProc

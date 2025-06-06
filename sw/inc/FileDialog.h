@@ -161,9 +161,7 @@ namespace sw
     /**
      * @brief 标记FileDialogFlags枚举支持位运算
      */
-    template <>
-    struct _EnumSupportBitOperations<FileDialogFlags> : std::true_type {
-    };
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(FileDialogFlags);
 
     /**
      * @brief 文件筛选器信息

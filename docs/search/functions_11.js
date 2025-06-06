@@ -14,5 +14,6 @@ var searchData=
   ['towindow_11',['ToWindow',['../classsw_1_1_window.html#a51125c103064904cf3bcb578ccf85e5a',1,'sw::Window::ToWindow()'],['../classsw_1_1_wnd_base.html#a2dd7d531ffe1e0219d4d1762180a990d',1,'sw::WndBase::ToWindow()']]],
   ['trim_12',['Trim',['../classsw_1_1_utils.html#ac1a4b590a8f330ca9af3ec557f3c0eac',1,'sw::Utils']]],
   ['trimend_13',['TrimEnd',['../classsw_1_1_utils.html#ab2e47287405f057170c24ba15d9ebe48',1,'sw::Utils']]],
-  ['trimstart_14',['TrimStart',['../classsw_1_1_utils.html#ad19ab16d87c5c8f6ee319b593bf21fc7',1,'sw::Utils']]]
+  ['trimstart_14',['TrimStart',['../classsw_1_1_utils.html#ad19ab16d87c5c8f6ee319b593bf21fc7',1,'sw::Utils']]],
+  ['typedroutedeventargs_15',['TypedRoutedEventArgs',['../structsw_1_1_typed_routed_event_args.html#a9b772f24814714a985b69634ee435919',1,'sw::TypedRoutedEventArgs']]]
 ];

@@ -371,8 +371,11 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
 
 LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
 {
-    WNDPROC wndproc = this->_originalWndProc ? this->_originalWndProc : DefWindowProcW;
-    return wndproc(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+    if (this->_originalWndProc == nullptr) {
+        return DefWindowProcW(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+    } else {
+        return CallWindowProcW(this->_originalWndProc, refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+    }
 }
 
 LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
@@ -671,6 +674,13 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 
         case WM_DROPFILES: {
             return this->OnDropFiles(reinterpret_cast<HDROP>(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_InvokeFunction: {
+            auto pFunc = reinterpret_cast<std::function<void()> *>(refMsg.lParam);
+            if (pFunc) (*pFunc)();
+            if (refMsg.wParam) delete pFunc;
+            return 0;
         }
 
         default: {
@@ -1114,6 +1124,18 @@ sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
 {
     POINT point = testPoint;
     return (HitTestResult)this->SendMessageW(WM_NCHITTEST, 0, MAKELPARAM(point.x, point.y));
+}
+
+void sw::WndBase::Invoke(const std::function<void()> &func)
+{
+    auto f = func;
+    this->SendMessageW(WM_InvokeFunction, false, reinterpret_cast<LPARAM>(&f));
+}
+
+void sw::WndBase::InvokeAsync(const std::function<void()> &func)
+{
+    auto *pf = new std::function<void()>(func);
+    this->PostMessageW(WM_InvokeFunction, true, reinterpret_cast<LPARAM>(pf));
 }
 
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

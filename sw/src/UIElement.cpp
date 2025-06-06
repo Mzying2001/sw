@@ -214,9 +214,6 @@ bool sw::UIElement::AddChild(UIElement *element)
         return false;
     }
 
-    this->_children.push_back(element);
-    this->OnAddedChild(*element);
-
     // 处理z轴顺序，确保悬浮的元素在最前
     if (!element->_float) {
         for (UIElement *child : this->_children) {
@@ -225,7 +222,8 @@ bool sw::UIElement::AddChild(UIElement *element)
         }
     }
 
-    this->NotifyLayoutUpdated();
+    this->_children.push_back(element);
+    this->OnAddedChild(*element);
     return true;
 }
 
@@ -266,7 +264,6 @@ bool sw::UIElement::RemoveChildAt(int index)
     this->_children.erase(it);
 
     this->OnRemovedChild(*element);
-    this->NotifyLayoutUpdated();
     return true;
 }
 
@@ -290,7 +287,6 @@ bool sw::UIElement::RemoveChild(UIElement *element)
     this->_children.erase(it);
 
     this->OnRemovedChild(*element);
-    this->NotifyLayoutUpdated();
     return true;
 }
 
@@ -705,10 +701,12 @@ void sw::UIElement::SetTextColor(Color color, bool redraw)
 
 void sw::UIElement::OnAddedChild(UIElement &element)
 {
+    this->NotifyLayoutUpdated();
 }
 
 void sw::UIElement::OnRemovedChild(UIElement &element)
 {
+    this->NotifyLayoutUpdated();
 }
 
 void sw::UIElement::OnTabStop()
@@ -804,14 +802,14 @@ void sw::UIElement::VisibleChanged(bool newVisible)
 
 bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 {
-    RoutedEventArgsOfType<UIElement_GotFocus> args;
+    TypedRoutedEventArgs<UIElement_GotFocus> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
-    RoutedEventArgsOfType<UIElement_LostFocus> args;
+    TypedRoutedEventArgs<UIElement_LostFocus> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
@@ -852,7 +850,7 @@ bool sw::UIElement::OnMouseMove(Point mousePosition, MouseKey keyState)
 
 bool sw::UIElement::OnMouseLeave()
 {
-    RoutedEventArgsOfType<UIElement_MouseLeave> args;
+    TypedRoutedEventArgs<UIElement_MouseLeave> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
