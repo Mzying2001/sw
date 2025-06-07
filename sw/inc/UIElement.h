@@ -3,6 +3,7 @@
 #include "Alignment.h"
 #include "Color.h"
 #include "ContextMenu.h"
+#include "EventHandlerWrapper.h"
 #include "ILayout.h"
 #include "ITag.h"
 #include "RoutedEvent.h"
@@ -76,7 +77,7 @@ namespace sw
         /**
          * @brief 记录路由事件的map
          */
-        std::map<RoutedEventType, RoutedEvent> _eventMap{};
+        std::map<RoutedEventType, RoutedEventHandler> _eventMap{};
 
         /**
          * @brief 储存用户自定义信息
@@ -246,7 +247,7 @@ namespace sw
          * @param eventType 路由事件类型
          * @param handler   处理函数，当值为nullptr时可取消注册
          */
-        void RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &handler);
+        void RegisterRoutedEvent(RoutedEventType eventType, const RoutedEventHandler &handler);
 
         /**
          * @brief           注册成员函数作为路由事件处理函数，当事件已注册时会覆盖已注册的函数
@@ -260,35 +261,30 @@ namespace sw
         {
             if (handler == nullptr) {
                 this->UnregisterRoutedEvent(eventType);
-                return;
+            } else {
+                this->RegisterRoutedEvent(eventType, RoutedEventHandler(obj, handler));
             }
-            T *p = &obj;
-            this->RegisterRoutedEvent(eventType, [p, handler](UIElement &sender, RoutedEventArgs &e) {
-                (p->*handler)(sender, e);
-            });
         }
 
         /**
-         * @brief             根据事件参数类型注册路由事件
-         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventOfType<...>
+         * @brief             根据事件参数类型注册路由事件，当事件已注册时会覆盖已注册的函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
          * @param handler     事件的处理函数，当值为nullptr时可取消注册
          */
         template <typename TEventArgs>
         typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
-        RegisterRoutedEvent(std::function<void(UIElement &, TEventArgs &)> handler)
+        RegisterRoutedEvent(const Action<UIElement &, TEventArgs &> &handler)
         {
             if (!handler) {
                 this->UnregisterRoutedEvent(TEventArgs::EventType);
-                return;
+            } else {
+                this->RegisterRoutedEvent(TEventArgs::EventType, RoutedEventHandlerWrapper<TEventArgs>(handler));
             }
-            this->RegisterRoutedEvent(TEventArgs::EventType, [handler](UIElement &sender, RoutedEventArgs &e) {
-                handler(sender, static_cast<TEventArgs &>(e));
-            });
         }
 
         /**
-         * @brief             根据事件参数类型注册成员函数作为路由事件
-         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventOfType<...>
+         * @brief             根据事件参数类型注册成员函数作为路由事件，当事件已注册时会覆盖已注册的函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
          * @tparam THandleObj 成员函数所在的类
          * @param obj         注册的成员函数所在的对象
          * @param handler     事件的处理函数，当值为nullptr时可取消注册
@@ -299,12 +295,9 @@ namespace sw
         {
             if (handler == nullptr) {
                 this->UnregisterRoutedEvent(TEventArgs::EventType);
-                return;
+            } else {
+                this->RegisterRoutedEvent(TEventArgs::EventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
             }
-            THandleObj *p = &obj;
-            this->RegisterRoutedEvent(TEventArgs::EventType, [p, handler](UIElement &sender, RoutedEventArgs &e) {
-                (p->*handler)(sender, static_cast<TEventArgs &>(e));
-            });
         }
 
         /**

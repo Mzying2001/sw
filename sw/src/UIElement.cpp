@@ -166,7 +166,7 @@ sw::UIElement::~UIElement()
     this->SetParent(nullptr);
 }
 
-void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &handler)
+void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEventHandler &handler)
 {
     this->_eventMap[eventType] = handler;
 }

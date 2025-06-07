@@ -23,6 +23,7 @@
 #include "DockLayout.h"
 #include "DockPanel.h"
 #include "EnumBit.h"
+#include "EventHandlerWrapper.h"
 #include "FileDialog.h"
 #include "FillLayout.h"
 #include "FolderDialog.h"
