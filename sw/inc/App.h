@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Delegate.h"
 #include "Property.h"
 #include <Windows.h>
 #include <memory>
@@ -52,7 +53,7 @@ namespace sw
         /**
          * @brief 消息循环中处理空句柄消息的回调函数
          */
-        static const Property<void (*)(const MSG &)> NullHwndMsgHandler;
+        static Action<MSG &> NullHwndMsgHandler;
 
         /**
          * @brief  消息循环
