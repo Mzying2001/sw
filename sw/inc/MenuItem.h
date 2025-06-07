@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Delegate.h"
 #include "ITag.h"
 #include <Windows.h>
-#include <functional>
 #include <initializer_list>
 #include <memory>
 #include <string>
@@ -15,7 +15,7 @@ namespace sw
     /**
      * @brief 菜单项关联的回调函数类型
      */
-    using MenuItemCommand = std::function<void(MenuItem &)>;
+    using MenuItemCommand = Action<MenuItem &>;
 
     /**
      * @brief 菜单项
@@ -97,10 +97,8 @@ namespace sw
          */
         template <typename T>
         MenuItem(uint64_t tag, const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
-            : MenuItem(tag, text)
+            : MenuItem(tag, text, MenuItemCommand(obj, handler))
         {
-            T *pObj       = &obj;
-            this->command = [pObj, handler](MenuItem &item) { (pObj->*handler)(item); };
         }
 
     public:

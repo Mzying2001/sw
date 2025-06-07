@@ -9,7 +9,7 @@ namespace sw
     /**
      * @brief 计时器触发事件类型
      */
-    using TimerTickHandler = std::function<void(Timer &)>;
+    using TimerTickHandler = Action<Timer &>;
 
     /**
      * @brief 计时器
@@ -27,16 +27,16 @@ namespace sw
          */
         uint32_t _interval = 1000;
 
-        /**
-         * @brief 处理函数
-         */
-        TimerTickHandler _handler{nullptr};
-
     public:
         /**
          * @brief 相对于上一次触发的Tick事件引发下一次Tick事件之间的时间（以毫秒为单位）
          */
         Property<uint32_t> Interval;
+
+        /**
+         * @brief 计时器触发事件
+         */
+        TimerTickHandler Tick;
 
     public:
         /**
@@ -53,25 +53,6 @@ namespace sw
          * @brief 停止计时器
          */
         void Stop();
-
-        /**
-         * @brief         设置计时器事件处理函数
-         * @param handler 处理函数
-         */
-        void SetTickHandler(const TimerTickHandler &handler);
-
-        /**
-         * @brief           设置成员函数为计时器事件处理函数
-         * @tparam T        成员函数所在的类
-         * @param obj       成员函数所在的对象
-         * @param handler   处理函数
-         */
-        template <typename T>
-        void SetTickHandler(T &obj, void (T::*handler)(Timer &))
-        {
-            T *p = &obj;
-            this->SetTickHandler([p, handler](Timer &timer) { (p->*handler)(timer); });
-        }
 
     protected:
         /**
