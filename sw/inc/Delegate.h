@@ -264,10 +264,28 @@ namespace sw
         /**
          * @brief 构造函数，接受一个可调用对象
          */
-        template <typename T>
+        template <typename T, typename std::enable_if<!std::is_base_of<_ICallable, T>::value, int>::type = 0>
         Delegate(const T &callable)
         {
             Add(callable);
+        }
+
+        /**
+         * @brief 构造函数，接受一个成员函数指针
+         */
+        template <typename T>
+        Delegate(T &obj, TRet (T::*func)(Args...))
+        {
+            Add(obj, func);
+        }
+
+        /**
+         * @brief 构造函数，接受一个常量成员函数指针
+         */
+        template <typename T>
+        Delegate(const T &obj, TRet (T::*func)(Args...) const)
+        {
+            Add(obj, func);
         }
 
         /**
