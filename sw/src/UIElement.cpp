@@ -168,22 +168,17 @@ sw::UIElement::~UIElement()
 
 void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &handler)
 {
-    if (handler) {
-        this->_eventMap[eventType] = handler;
-    } else {
-        this->UnregisterRoutedEvent(eventType);
-    }
+    this->_eventMap[eventType] = handler;
 }
 
 void sw::UIElement::UnregisterRoutedEvent(RoutedEventType eventType)
 {
-    if (this->IsRoutedEventRegistered(eventType))
-        this->_eventMap.erase(eventType);
+    this->_eventMap[eventType] = nullptr;
 }
 
 bool sw::UIElement::IsRoutedEventRegistered(RoutedEventType eventType)
 {
-    return this->_eventMap.count(eventType);
+    return this->_eventMap[eventType] != nullptr;
 }
 
 sw::UIElement &sw::UIElement::operator[](int index) const
