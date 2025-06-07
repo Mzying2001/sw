@@ -2,6 +2,7 @@
 
 #include "App.h"
 #include "Cursor.h"
+#include "Delegate.h"
 #include "Dip.h"
 #include "Font.h"
 #include "HitTestResult.h"
@@ -801,16 +802,16 @@ namespace sw
         HitTestResult NcHitTest(const Point &testPoint);
 
         /**
-         * @brief      在窗口线程上执行指定函数
-         * @param func 要执行的函数
+         * @brief        在窗口线程上执行指定委托
+         * @param action 要执行的委托
          */
-        void Invoke(const std::function<void()> &func);
+        void Invoke(const Action<> &action);
 
         /**
-         * @brief      在窗口线程上执行指定函数，并立即返回
-         * @param func 要执行的函数
+         * @brief        在窗口线程上执行指定委托，并立即返回
+         * @param action 要执行的委托
          */
-        void InvokeAsync(const std::function<void()> &func);
+        void InvokeAsync(const Action<> &action);
 
     private:
         /**
