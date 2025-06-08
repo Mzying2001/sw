@@ -1133,15 +1133,15 @@ sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
     return (HitTestResult)this->SendMessageW(WM_NCHITTEST, 0, MAKELPARAM(point.x, point.y));
 }
 
-void sw::WndBase::Invoke(const Action<> &action)
+void sw::WndBase::Invoke(const SimpleAction &action)
 {
-    auto a = action;
+    Action<> a = action;
     this->SendMessageW(WM_InvokeAction, false, reinterpret_cast<LPARAM>(&a));
 }
 
-void sw::WndBase::InvokeAsync(const Action<> &action)
+void sw::WndBase::InvokeAsync(const SimpleAction &action)
 {
-    auto *p = new Action<>(action);
+    Action<> *p = new Action<>(action);
     this->PostMessageW(WM_InvokeAction, true, reinterpret_cast<LPARAM>(p));
 }
 
