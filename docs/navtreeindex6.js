@@ -1,5 +1,8 @@
 var NAVTREEINDEX6 =
 {
+"structsw_1_1_routed_event_args.html#ac299c564c53fa039f47a06d08272d969":[2,0,0,115,3],
+"structsw_1_1_routed_event_args.html#ad6e6da62f114abfabb682afd38b6f7a3":[2,0,0,115,0],
+"structsw_1_1_scrolling_event_args.html":[2,0,0,119],
 "structsw_1_1_show_context_menu_event_args.html":[2,0,0,120],
 "structsw_1_1_size.html":[2,0,0,121],
 "structsw_1_1_size.html#a03d6188dc93cf8b77136dc1ea925de1b":[2,0,0,121,6],

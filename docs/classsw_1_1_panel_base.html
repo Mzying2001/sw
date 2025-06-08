@@ -297,10 +297,18 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsRootElement</b> ()<
 <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetNextElement</b> ()</td></tr>
 <tr class="memdesc:a06a50134522985f88bb0db352b2be689 inherit pub_methods_classsw_1_1_u_i_element"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素在界面树上的下一个节点，若已是最后一个节点则返回根节点 <br /></td></tr>
 <tr class="separator:a06a50134522985f88bb0db352b2be689 inherit pub_methods_classsw_1_1_u_i_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18842f570bdc6f9cebc1a981eb9fe34d inherit pub_methods_classsw_1_1_u_i_element" id="r_a18842f570bdc6f9cebc1a981eb9fe34d"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetPreviousElement</b> ()</td></tr>
+<tr class="memdesc:a18842f570bdc6f9cebc1a981eb9fe34d inherit pub_methods_classsw_1_1_u_i_element"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素在界面树上的上一个节点，若元素为第一个节点则返回最后一个节点 <br /></td></tr>
+<tr class="separator:a18842f570bdc6f9cebc1a981eb9fe34d inherit pub_methods_classsw_1_1_u_i_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6968c7b711722677fb0b9dd7f5f80442 inherit pub_methods_classsw_1_1_u_i_element" id="r_a6968c7b711722677fb0b9dd7f5f80442"><td class="memItemLeft" align="right" valign="top">
 <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetNextTabStopElement</b> ()</td></tr>
 <tr class="memdesc:a6968c7b711722677fb0b9dd7f5f80442 inherit pub_methods_classsw_1_1_u_i_element"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取下一个TabStop属性为true的元素 <br /></td></tr>
 <tr class="separator:a6968c7b711722677fb0b9dd7f5f80442 inherit pub_methods_classsw_1_1_u_i_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab11fdaeaf941a3ba35fcc38d3f1d173a inherit pub_methods_classsw_1_1_u_i_element" id="r_ab11fdaeaf941a3ba35fcc38d3f1d173a"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetPreviousTabStopElement</b> ()</td></tr>
+<tr class="memdesc:ab11fdaeaf941a3ba35fcc38d3f1d173a inherit pub_methods_classsw_1_1_u_i_element"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取上一个TabStop属性为true的元素 <br /></td></tr>
+<tr class="separator:ab11fdaeaf941a3ba35fcc38d3f1d173a inherit pub_methods_classsw_1_1_u_i_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82ef0065e6b21ce989852862bc1a0e21 inherit pub_methods_classsw_1_1_u_i_element" id="r_a82ef0065e6b21ce989852862bc1a0e21"><td class="memItemLeft" align="right" valign="top">
 <a class="el" href="structsw_1_1_color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetRealBackColor</b> ()</td></tr>
 <tr class="memdesc:a82ef0065e6b21ce989852862bc1a0e21 inherit pub_methods_classsw_1_1_u_i_element"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前要显示的背景颜色：当Transparent为true时获取到祖先节点中首个Transparent为false的背景颜色，否则返回当前元素的背景颜色 <br /></td></tr>
@@ -627,6 +635,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateSiblingsZOrder<
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SetNextTabStopFocus</b> ()</td></tr>
 <tr class="memdesc:a0d9db652043bc5c5cd3483d82b35dcbe inherit pro_methods_classsw_1_1_u_i_element"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置下一个TabStop属性为true的元素为焦点元素 <br /></td></tr>
 <tr class="separator:a0d9db652043bc5c5cd3483d82b35dcbe inherit pro_methods_classsw_1_1_u_i_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70509d26b933d53dc2af7e2f70dbbce0 inherit pro_methods_classsw_1_1_u_i_element" id="r_a70509d26b933d53dc2af7e2f70dbbce0"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetPreviousTabStopFocus</b> ()</td></tr>
+<tr class="memdesc:a70509d26b933d53dc2af7e2f70dbbce0 inherit pro_methods_classsw_1_1_u_i_element"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置上一个TabStop属性为true的元素为焦点元素 <br /></td></tr>
+<tr class="separator:a70509d26b933d53dc2af7e2f70dbbce0 inherit pro_methods_classsw_1_1_u_i_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af60b45de9f894f4fb152491413f1fa73 inherit pro_methods_classsw_1_1_u_i_element" id="r_af60b45de9f894f4fb152491413f1fa73"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_u_i_element.html#af60b45de9f894f4fb152491413f1fa73">SetBackColor</a> (<a class="el" href="structsw_1_1_color.html">Color</a> color, bool redraw)</td></tr>
 <tr class="memdesc:af60b45de9f894f4fb152491413f1fa73 inherit pro_methods_classsw_1_1_u_i_element"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置背景颜色  <br /></td></tr>
 <tr class="separator:af60b45de9f894f4fb152491413f1fa73 inherit pro_methods_classsw_1_1_u_i_element"><td class="memSeparator" colspan="2">&#160;</td></tr>

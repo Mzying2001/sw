@@ -8360,9 +8360,19 @@ namespace sw
         UIElement *GetNextElement();
 
         /**
+         * @brief 获取当前元素在界面树上的上一个节点，若元素为第一个节点则返回最后一个节点
+         */
+        UIElement *GetPreviousElement();
+
+        /**
          * @brief 获取下一个TabStop属性为true的元素
          */
         UIElement *GetNextTabStopElement();
+
+        /**
+         * @brief 获取上一个TabStop属性为true的元素
+         */
+        UIElement *GetPreviousTabStopElement();
 
         /**
          * @brief 获取当前要显示的背景颜色：当Transparent为true时获取到祖先节点中首个Transparent为false的背景颜色，否则返回当前元素的背景颜色
@@ -8517,6 +8527,11 @@ namespace sw
          * @brief 设置下一个TabStop属性为true的元素为焦点元素
          */
         void SetNextTabStopFocus();
+
+        /**
+         * @brief 设置上一个TabStop属性为true的元素为焦点元素
+         */
+        void SetPreviousTabStopFocus();
 
         /**
          * @brief        设置背景颜色
@@ -8764,6 +8779,16 @@ namespace sw
          * @brief 循环获取界面树上的下一个节点
          */
         static UIElement *_GetNextElement(UIElement *element, bool searchChildren = true);
+
+        /**
+         * @brief 获取界面树上最深的最后一个节点
+         */
+        static UIElement *_GetDeepestLastElement(UIElement *element);
+
+        /**
+         * @brief 循环获取界面树上的上一个节点
+         */
+        static UIElement *_GetPreviousElement(UIElement *element);
     };
 }
 
