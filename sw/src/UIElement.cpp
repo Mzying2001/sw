@@ -156,6 +156,16 @@ sw::UIElement::UIElement()
           [this](const bool &value) {
               this->_inheritTextColor = value;
               this->Redraw();
+          }),
+
+      LayoutUpdateCondition(
+          // get
+          [this]() -> sw::LayoutUpdateCondition {
+              return this->_layoutUpdateCondition;
+          },
+          // set
+          [this](const sw::LayoutUpdateCondition &value) {
+              this->_layoutUpdateCondition = value;
           })
 {
 }
@@ -302,11 +312,23 @@ bool sw::UIElement::RemoveChild(UIElement &element)
 
 void sw::UIElement::ClearChildren()
 {
+    if (this->_children.empty()) {
+        return;
+    }
+
+    this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
+
     while (!this->_children.empty()) {
         UIElement *item = this->_children.back();
         item->WndBase::SetParent(nullptr);
         this->_children.pop_back();
         this->OnRemovedChild(*item);
+    }
+
+    this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
+
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
+        this->NotifyLayoutUpdated();
     }
 }
 
@@ -459,6 +481,11 @@ void sw::UIElement::Resize(const Size &size)
                  SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
 }
 
+bool sw::UIElement::IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition condition)
+{
+    return (this->_layoutUpdateCondition & condition) == condition;
+}
+
 uint64_t sw::UIElement::GetTag()
 {
     return this->_tag;
@@ -518,7 +545,7 @@ void sw::UIElement::Measure(const Size &availableSize)
 
 void sw::UIElement::Arrange(const sw::Rect &finalPosition)
 {
-    this->_arranging = true;
+    this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
 
     Size &desireSize  = this->_desireSize;
     Thickness &margin = this->_margin;
@@ -580,7 +607,7 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
                  Dip::DipToPxX(rect.width), Dip::DipToPxY(rect.height),
                  SWP_NOACTIVATE | SWP_NOZORDER);
 
-    this->_arranging = false;
+    this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
 }
 
 sw::UIElement *sw::UIElement::ToUIElement()
@@ -618,7 +645,7 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
 
 void sw::UIElement::NotifyLayoutUpdated()
 {
-    if (!this->_arranging) {
+    if (!this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::Supressed)) {
         UIElement *root = this->GetRootElement();
         if (root) root->SendMessageW(WM_UpdateLayout, 0, 0);
     }
@@ -707,12 +734,16 @@ void sw::UIElement::SetTextColor(Color color, bool redraw)
 
 void sw::UIElement::OnAddedChild(UIElement &element)
 {
-    this->NotifyLayoutUpdated();
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildAdded)) {
+        this->NotifyLayoutUpdated();
+    }
 }
 
 void sw::UIElement::OnRemovedChild(UIElement &element)
 {
-    this->NotifyLayoutUpdated();
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
+        this->NotifyLayoutUpdated();
+    }
 }
 
 void sw::UIElement::OnTabStop()
@@ -790,7 +821,9 @@ bool sw::UIElement::OnSize(Size newClientSize)
     SizeChangedEventArgs args(newClientSize);
     this->RaiseRoutedEvent(args);
 
-    this->NotifyLayoutUpdated();
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::SizeChanged)) {
+        this->NotifyLayoutUpdated();
+    }
     return args.handledMsg;
 }
 

@@ -3,6 +3,7 @@
 #include "Alignment.h"
 #include "Color.h"
 #include "ContextMenu.h"
+#include "EnumBit.h"
 #include "EventHandlerWrapper.h"
 #include "ILayout.h"
 #include "ITag.h"
@@ -19,15 +20,50 @@
 namespace sw
 {
     /**
+     * @brief 通知布局更新的条件
+     */
+    enum class LayoutUpdateCondition : uint32_t {
+        /**
+         * @brief 表示不需要更新布局
+         * @note  一旦设置了该标记，NotifyLayoutUpdated函数将不会触发WM_UpdateLayout消息
+         * @note  框架内部使用该标记来抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
+         */
+        Supressed = 1,
+
+        /**
+         * @brief 尺寸改变时更新布局
+         */
+        SizeChanged = 2,
+
+        /**
+         * @brief 添加子元素时更新布局
+         */
+        ChildAdded = 4,
+
+        /**
+         * @brief 移除子元素时更新布局
+         */
+        ChildRemoved = 8,
+    };
+
+    /**
+     * @brief 标记LayoutUpdateCondition支持位操作
+     */
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(LayoutUpdateCondition);
+
+    /**
      * @brief 表示界面中的元素
      */
     class UIElement : public WndBase, public ILayout, public ITag
     {
     private:
         /**
-         * @brief 是否正在Arrange，当该字段为true时调用NotifyLayoutUpdated函数不会触发WM_UpdateLayout消息
+         * @brief 布局更新条件
          */
-        bool _arranging = false;
+        sw::LayoutUpdateCondition _layoutUpdateCondition =
+            sw::LayoutUpdateCondition::SizeChanged |
+            sw::LayoutUpdateCondition::ChildAdded |
+            sw::LayoutUpdateCondition::ChildRemoved;
 
         /**
          * @brief 是否在不可见时不参与布局
@@ -229,6 +265,12 @@ namespace sw
          * @brief 是否继承父元素的文本颜色
          */
         const Property<bool> InheritTextColor;
+
+        /**
+         * @brief 触发布局更新的条件
+         * @note  修改该属性不会立即触发布局更新
+         */
+        const Property<sw::LayoutUpdateCondition> LayoutUpdateCondition;
 
     protected:
         /**
@@ -646,6 +688,11 @@ namespace sw
          * @brief 调整当前元素的尺寸，也可以用该函数更改默认Measure函数在当前横向或纵向对齐方式为拉伸时的DesireSize
          */
         void Resize(const Size &size);
+
+        /**
+         * @brief 判断指定的布局更新条件是否已设置
+         */
+        bool IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition condition);
 
         /**
          * @brief 获取Tag
