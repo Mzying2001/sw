@@ -36,14 +36,19 @@ namespace sw
         SizeChanged = 2,
 
         /**
+         * @brief 位置改变时更新布局
+         */
+        PositionChanged = 4,
+
+        /**
          * @brief 添加子元素时更新布局
          */
-        ChildAdded = 4,
+        ChildAdded = 8,
 
         /**
          * @brief 移除子元素时更新布局
          */
-        ChildRemoved = 8,
+        ChildRemoved = 16,
     };
 
     /**

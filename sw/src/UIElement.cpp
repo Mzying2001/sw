@@ -806,6 +806,10 @@ bool sw::UIElement::OnMove(Point newClientPosition)
 {
     PositionChangedEventArgs args(newClientPosition);
     this->RaiseRoutedEvent(args);
+
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::PositionChanged)) {
+        this->NotifyLayoutUpdated();
+    }
     return args.handledMsg;
 }
 
