@@ -50,8 +50,7 @@ sw::UIElement::UIElement()
           [this](const bool &value) {
               if (this->_collapseWhenHide != value) {
                   this->_collapseWhenHide = value;
-                  if (!this->Visible)
-                      this->NotifyLayoutUpdated();
+                  if (!this->Visible) this->NotifyLayoutUpdated();
               }
           }),
 
@@ -99,9 +98,11 @@ sw::UIElement::UIElement()
           },
           // set
           [this](const bool &value) {
-              this->_float = value;
-              this->UpdateSiblingsZOrder();
-              this->NotifyLayoutUpdated();
+              if (this->_float != value) {
+                  this->_float = value;
+                  this->UpdateSiblingsZOrder();
+                  this->NotifyLayoutUpdated();
+              }
           }),
 
       TabStop(
