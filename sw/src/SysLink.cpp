@@ -26,11 +26,11 @@ sw::SysLink::SysLink()
           [this](const bool &value) {
               if (value) {
                   this->_autoSize = true;
-                  this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged;
+                  this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
                   this->NotifyLayoutUpdated();
               } else {
                   this->_autoSize = false;
-                  this->LayoutUpdateCondition &= ~sw::LayoutUpdateCondition::TextChanged;
+                  this->LayoutUpdateCondition &= ~(sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged);
               }
           })
 {
@@ -39,7 +39,7 @@ sw::SysLink::SysLink()
     this->_ResizeToTextSize();
     this->Transparent      = true;
     this->InheritTextColor = true;
-    this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged;
+    this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
 }
 
 void sw::SysLink::OnTextChanged()
@@ -51,9 +51,7 @@ void sw::SysLink::OnTextChanged()
 void sw::SysLink::FontChanged(HFONT hfont)
 {
     this->_UpdateTextSize();
-    if (this->_autoSize) {
-        this->NotifyLayoutUpdated();
-    }
+    this->Control::FontChanged(hfont);
 }
 
 void sw::SysLink::Measure(const Size &availableSize)

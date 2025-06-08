@@ -54,6 +54,11 @@ namespace sw
          * @brief 文本改变时更新布局
          */
         TextChanged = 32,
+
+        /**
+         * @brief 字体改变时更新布局
+         */
+        FontChanged = 64,
     };
 
     /**
@@ -881,6 +886,12 @@ namespace sw
          * @brief Text属性更改时调用此函数
          */
         virtual void OnTextChanged() override;
+
+        /**
+         * @brief       字体改变时调用该函数
+         * @param hfont 字体句柄
+         */
+        virtual void FontChanged(HFONT hfont) override;
 
         /**
          * @brief Visible属性改变时调用此函数

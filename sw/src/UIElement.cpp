@@ -841,6 +841,13 @@ void sw::UIElement::OnTextChanged()
     }
 }
 
+void sw::UIElement::FontChanged(HFONT hfont)
+{
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::FontChanged)) {
+        this->NotifyLayoutUpdated();
+    }
+}
+
 void sw::UIElement::VisibleChanged(bool newVisible)
 {
     if (newVisible || this->_collapseWhenHide) {
