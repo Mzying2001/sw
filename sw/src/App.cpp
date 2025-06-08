@@ -9,11 +9,6 @@ namespace
     sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
 
     /**
-     * @brief 消息循环中处理空句柄消息的回调函数
-     */
-    void (*_nullHwndMsgHandler)(const MSG &) = nullptr;
-
-    /**
      * @brief  获取当前exe文件路径
      */
     std::wstring _GetExePath()
@@ -51,6 +46,11 @@ namespace
         return curdir;
     }
 }
+
+/**
+ * @brief 消息循环中处理空句柄消息的回调函数
+ */
+sw::Action<MSG &> sw::App::NullHwndMsgHandler;
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     []() -> HINSTANCE {
@@ -95,24 +95,13 @@ const sw::Property<sw::AppQuitMode> sw::App::QuitMode(
     } //
 );
 
-const sw::Property<void (*)(const MSG &)> sw::App::NullHwndMsgHandler(
-    // get
-    []() -> void (*)(const MSG &) {
-        return _nullHwndMsgHandler;
-    },
-    // set
-    [](void (*const &value)(const MSG &)) {
-        _nullHwndMsgHandler = value;
-    } //
-);
-
 int sw::App::MsgLoop()
 {
     MSG msg;
     while (GetMessageW(&msg, NULL, 0, 0) > 0) {
         if (msg.hwnd == NULL) {
-            if (_nullHwndMsgHandler)
-                _nullHwndMsgHandler(msg);
+            if (NullHwndMsgHandler)
+                NullHwndMsgHandler(msg);
         } else {
             TranslateMessage(&msg);
             DispatchMessageW(&msg);

@@ -147,26 +147,72 @@ Public 成员函数</h2></td></tr>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~UIElement</b> ()=0</td></tr>
 <tr class="memdesc:acbe28513919da89bf3f9a5102d6353c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数，这里用纯虚函数使该类成为抽象类 <br /></td></tr>
 <tr class="separator:acbe28513919da89bf3f9a5102d6353c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62c0e59790735abb3f0a9f002e651c16" id="r_a62c0e59790735abb3f0a9f002e651c16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62c0e59790735abb3f0a9f002e651c16">RegisterRoutedEvent</a> (RoutedEventType eventType, const RoutedEvent &amp;handler)</td></tr>
-<tr class="memdesc:a62c0e59790735abb3f0a9f002e651c16"><td class="mdescLeft">&#160;</td><td class="mdescRight">注册路由事件处理函数，当事件已注册时会覆盖已注册的函数  <br /></td></tr>
-<tr class="separator:a62c0e59790735abb3f0a9f002e651c16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cfb72d4ea1966ec455e7805f0931205" id="r_a2cfb72d4ea1966ec455e7805f0931205"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2cfb72d4ea1966ec455e7805f0931205">RegisterRoutedEvent</a> (RoutedEventType eventType, const <a class="el" href="classsw_1_1_delegate.html">RoutedEventHandler</a> &amp;handler)</td></tr>
+<tr class="memdesc:a2cfb72d4ea1966ec455e7805f0931205"><td class="mdescLeft">&#160;</td><td class="mdescRight">注册路由事件处理函数，当事件已注册时会覆盖已注册的函数  <br /></td></tr>
+<tr class="separator:a2cfb72d4ea1966ec455e7805f0931205"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09946400c66a4bfd34cfb8918652a34a" id="r_a09946400c66a4bfd34cfb8918652a34a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a09946400c66a4bfd34cfb8918652a34a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a09946400c66a4bfd34cfb8918652a34a">RegisterRoutedEvent</a> (RoutedEventType eventType, T &amp;obj, void(T::*handler)(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> &amp;))</td></tr>
 <tr class="memdesc:a09946400c66a4bfd34cfb8918652a34a"><td class="mdescLeft">&#160;</td><td class="mdescRight">注册成员函数作为路由事件处理函数，当事件已注册时会覆盖已注册的函数  <br /></td></tr>
 <tr class="separator:a09946400c66a4bfd34cfb8918652a34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af482c895a4e9e3a8685d2473517ed019" id="r_af482c895a4e9e3a8685d2473517ed019"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs &gt; </td></tr>
-<tr class="memitem:af482c895a4e9e3a8685d2473517ed019"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af482c895a4e9e3a8685d2473517ed019">RegisterRoutedEvent</a> (std::function&lt; void(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp;)&gt; handler)</td></tr>
-<tr class="memdesc:af482c895a4e9e3a8685d2473517ed019"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据事件参数类型注册路由事件  <br /></td></tr>
-<tr class="separator:af482c895a4e9e3a8685d2473517ed019"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b9301a84ed462c3c1968b0bc95ed4c9" id="r_a2b9301a84ed462c3c1968b0bc95ed4c9"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs &gt; </td></tr>
+<tr class="memitem:a2b9301a84ed462c3c1968b0bc95ed4c9"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2b9301a84ed462c3c1968b0bc95ed4c9">RegisterRoutedEvent</a> (const <a class="el" href="classsw_1_1_delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;handler)</td></tr>
+<tr class="memdesc:a2b9301a84ed462c3c1968b0bc95ed4c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据事件参数类型注册路由事件，当事件已注册时会覆盖已注册的函数  <br /></td></tr>
+<tr class="separator:a2b9301a84ed462c3c1968b0bc95ed4c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2da85633be22eec70448cf110914e7de" id="r_a2da85633be22eec70448cf110914e7de"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs , typename THandleObj &gt; </td></tr>
 <tr class="memitem:a2da85633be22eec70448cf110914e7de"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2da85633be22eec70448cf110914e7de">RegisterRoutedEvent</a> (THandleObj &amp;obj, void(THandleObj::*handler)(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp;))</td></tr>
-<tr class="memdesc:a2da85633be22eec70448cf110914e7de"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据事件参数类型注册成员函数作为路由事件  <br /></td></tr>
+<tr class="memdesc:a2da85633be22eec70448cf110914e7de"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据事件参数类型注册成员函数作为路由事件，当事件已注册时会覆盖已注册的函数  <br /></td></tr>
 <tr class="separator:a2da85633be22eec70448cf110914e7de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c1fb1c05dee9d36a8ecc170aa9ab1be" id="r_a7c1fb1c05dee9d36a8ecc170aa9ab1be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c1fb1c05dee9d36a8ecc170aa9ab1be">AddHandler</a> (RoutedEventType eventType, const <a class="el" href="classsw_1_1_delegate.html">RoutedEventHandler</a> &amp;handler)</td></tr>
+<tr class="memdesc:a7c1fb1c05dee9d36a8ecc170aa9ab1be"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加路由事件处理函数  <br /></td></tr>
+<tr class="separator:a7c1fb1c05dee9d36a8ecc170aa9ab1be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa714d3978c945ead3d364f719075cd61" id="r_aa714d3978c945ead3d364f719075cd61"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aa714d3978c945ead3d364f719075cd61"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aa714d3978c945ead3d364f719075cd61">AddHandler</a> (RoutedEventType eventType, T &amp;obj, void(T::*handler)(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> &amp;))</td></tr>
+<tr class="memdesc:aa714d3978c945ead3d364f719075cd61"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加成员函数作为路由事件处理函数  <br /></td></tr>
+<tr class="separator:aa714d3978c945ead3d364f719075cd61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acab825c8749c5bec592e00724f1aa83b" id="r_acab825c8749c5bec592e00724f1aa83b"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs &gt; </td></tr>
+<tr class="memitem:acab825c8749c5bec592e00724f1aa83b"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#acab825c8749c5bec592e00724f1aa83b">AddHandler</a> (const <a class="el" href="classsw_1_1_delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;handler)</td></tr>
+<tr class="memdesc:acab825c8749c5bec592e00724f1aa83b"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据事件参数类型添加路由事件处理函数  <br /></td></tr>
+<tr class="separator:acab825c8749c5bec592e00724f1aa83b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab3a2c5888b9e0ef3b45d5f1672d692d" id="r_aab3a2c5888b9e0ef3b45d5f1672d692d"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs , typename THandleObj &gt; </td></tr>
+<tr class="memitem:aab3a2c5888b9e0ef3b45d5f1672d692d"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aab3a2c5888b9e0ef3b45d5f1672d692d">AddHandler</a> (THandleObj &amp;obj, void(THandleObj::*handler)(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp;))</td></tr>
+<tr class="memdesc:aab3a2c5888b9e0ef3b45d5f1672d692d"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据事件参数类型添加成员函数作为路由事件处理函数  <br /></td></tr>
+<tr class="separator:aab3a2c5888b9e0ef3b45d5f1672d692d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ab5957c173050c3e1d9ac1df9e27e7e" id="r_a9ab5957c173050c3e1d9ac1df9e27e7e"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs &gt; </td></tr>
+<tr class="memitem:a9ab5957c173050c3e1d9ac1df9e27e7e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;!std::is_same&lt; TEventArgs, <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9ab5957c173050c3e1d9ac1df9e27e7e">AddHandler</a> (RoutedEventType eventType, const <a class="el" href="classsw_1_1_delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;handler)</td></tr>
+<tr class="memdesc:a9ab5957c173050c3e1d9ac1df9e27e7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加路由事件处理函数  <br /></td></tr>
+<tr class="separator:a9ab5957c173050c3e1d9ac1df9e27e7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef2a5e3ad5ef7969547d7d3024ff9ddc" id="r_aef2a5e3ad5ef7969547d7d3024ff9ddc"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs , typename THandleObj &gt; </td></tr>
+<tr class="memitem:aef2a5e3ad5ef7969547d7d3024ff9ddc"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;!std::is_same&lt; TEventArgs, <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aef2a5e3ad5ef7969547d7d3024ff9ddc">AddHandler</a> (RoutedEventType eventType, THandleObj &amp;obj, void(THandleObj::*handler)(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp;))</td></tr>
+<tr class="memdesc:aef2a5e3ad5ef7969547d7d3024ff9ddc"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加成员函数作为路由事件处理函数  <br /></td></tr>
+<tr class="separator:aef2a5e3ad5ef7969547d7d3024ff9ddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a923d78e615a08c39522cbc3655080cd1" id="r_a923d78e615a08c39522cbc3655080cd1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a923d78e615a08c39522cbc3655080cd1">RemoveHandler</a> (RoutedEventType eventType, const <a class="el" href="classsw_1_1_delegate.html">RoutedEventHandler</a> &amp;handler)</td></tr>
+<tr class="memdesc:a923d78e615a08c39522cbc3655080cd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除已添加的路由事件处理函数  <br /></td></tr>
+<tr class="separator:a923d78e615a08c39522cbc3655080cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bea1478f7f4ddbccf55b7a046b87d7e" id="r_a6bea1478f7f4ddbccf55b7a046b87d7e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a6bea1478f7f4ddbccf55b7a046b87d7e"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a6bea1478f7f4ddbccf55b7a046b87d7e">RemoveHandler</a> (RoutedEventType eventType, T &amp;obj, void(T::*handler)(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> &amp;))</td></tr>
+<tr class="memdesc:a6bea1478f7f4ddbccf55b7a046b87d7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除已添加的类型为成员函数的路由事件处理函数  <br /></td></tr>
+<tr class="separator:a6bea1478f7f4ddbccf55b7a046b87d7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afff721cb3127445c11f63e9b92ca3b56" id="r_afff721cb3127445c11f63e9b92ca3b56"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs &gt; </td></tr>
+<tr class="memitem:afff721cb3127445c11f63e9b92ca3b56"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#afff721cb3127445c11f63e9b92ca3b56">RemoveHandler</a> (const <a class="el" href="classsw_1_1_delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;handler)</td></tr>
+<tr class="memdesc:afff721cb3127445c11f63e9b92ca3b56"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除已添加的路由事件处理函数  <br /></td></tr>
+<tr class="separator:afff721cb3127445c11f63e9b92ca3b56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f207de6bae76e8a95c6cc28adef5063" id="r_a6f207de6bae76e8a95c6cc28adef5063"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs , typename THandleObj &gt; </td></tr>
+<tr class="memitem:a6f207de6bae76e8a95c6cc28adef5063"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a6f207de6bae76e8a95c6cc28adef5063">RemoveHandler</a> (THandleObj &amp;obj, void(THandleObj::*handler)(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp;))</td></tr>
+<tr class="memdesc:a6f207de6bae76e8a95c6cc28adef5063"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除已添加的类型为成员函数的路由事件处理函数  <br /></td></tr>
+<tr class="separator:a6f207de6bae76e8a95c6cc28adef5063"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affa7e59d71b6371dba12676c4d273025" id="r_affa7e59d71b6371dba12676c4d273025"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs &gt; </td></tr>
+<tr class="memitem:affa7e59d71b6371dba12676c4d273025"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;!std::is_same&lt; TEventArgs, <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#affa7e59d71b6371dba12676c4d273025">RemoveHandler</a> (RoutedEventType eventType, const <a class="el" href="classsw_1_1_delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;handler)</td></tr>
+<tr class="memdesc:affa7e59d71b6371dba12676c4d273025"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除已添加的路由事件处理函数  <br /></td></tr>
+<tr class="separator:affa7e59d71b6371dba12676c4d273025"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21adb2c61d1f22cd67ea99c025e1be4b" id="r_a21adb2c61d1f22cd67ea99c025e1be4b"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs , typename THandleObj &gt; </td></tr>
+<tr class="memitem:a21adb2c61d1f22cd67ea99c025e1be4b"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;!std::is_same&lt; TEventArgs, <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a21adb2c61d1f22cd67ea99c025e1be4b">RemoveHandler</a> (RoutedEventType eventType, THandleObj &amp;obj, void(THandleObj::*handler)(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp;))</td></tr>
+<tr class="memdesc:a21adb2c61d1f22cd67ea99c025e1be4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除已添加的类型为成员函数的路由事件处理函数  <br /></td></tr>
+<tr class="separator:a21adb2c61d1f22cd67ea99c025e1be4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cbfb44f8280a3e5e01b71906e588d69" id="r_a0cbfb44f8280a3e5e01b71906e588d69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0cbfb44f8280a3e5e01b71906e588d69">UnregisterRoutedEvent</a> (RoutedEventType eventType)</td></tr>
-<tr class="memdesc:a0cbfb44f8280a3e5e01b71906e588d69"><td class="mdescLeft">&#160;</td><td class="mdescRight">取消对应类型路由事件的注册  <br /></td></tr>
+<tr class="memdesc:a0cbfb44f8280a3e5e01b71906e588d69"><td class="mdescLeft">&#160;</td><td class="mdescRight">取消对应类型路由事件的注册，该函数会移除对应事件所有的处理函数  <br /></td></tr>
 <tr class="separator:a0cbfb44f8280a3e5e01b71906e588d69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf8152f31c5e109ba016316182bcec47" id="r_adf8152f31c5e109ba016316182bcec47"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf8152f31c5e109ba016316182bcec47">IsRoutedEventRegistered</a> (RoutedEventType eventType)</td></tr>
-<tr class="memdesc:adf8152f31c5e109ba016316182bcec47"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断路由事件是否已被注册  <br /></td></tr>
+<tr class="memdesc:adf8152f31c5e109ba016316182bcec47"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断路由事件是否已存在事件处理函数  <br /></td></tr>
 <tr class="separator:adf8152f31c5e109ba016316182bcec47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3dee0000f9edfdce128c7ca3c95ec4ab" id="r_a3dee0000f9edfdce128c7ca3c95ec4ab"><td class="memItemLeft" align="right" valign="top"><a id="a3dee0000f9edfdce128c7ca3c95ec4ab" name="a3dee0000f9edfdce128c7ca3c95ec4ab"></a>
 <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (int index) const</td></tr>
@@ -259,6 +305,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ResetCursor</b> ()</t
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Resize</b> (const <a class="el" href="structsw_1_1_size.html">Size</a> &amp;size)</td></tr>
 <tr class="memdesc:aa6442acf30572cc5708fad45d227d130"><td class="mdescLeft">&#160;</td><td class="mdescRight">调整当前元素的尺寸，也可以用该函数更改默认Measure函数在当前横向或纵向对齐方式为拉伸时的DesireSize <br /></td></tr>
 <tr class="separator:aa6442acf30572cc5708fad45d227d130"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c1ce767cc687fa9b9864640cc0237c5" id="r_a9c1ce767cc687fa9b9864640cc0237c5"><td class="memItemLeft" align="right" valign="top"><a id="a9c1ce767cc687fa9b9864640cc0237c5" name="a9c1ce767cc687fa9b9864640cc0237c5"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsLayoutUpdateConditionSet</b> (sw::LayoutUpdateCondition condition)</td></tr>
+<tr class="memdesc:a9c1ce767cc687fa9b9864640cc0237c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断指定的布局更新条件是否已设置 <br /></td></tr>
+<tr class="separator:a9c1ce767cc687fa9b9864640cc0237c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78f1c406d3faac2afcb956e9375f65ec" id="r_a78f1c406d3faac2afcb956e9375f65ec"><td class="memItemLeft" align="right" valign="top">virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78f1c406d3faac2afcb956e9375f65ec">GetTag</a> () override</td></tr>
 <tr class="memdesc:a78f1c406d3faac2afcb956e9375f65ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取Tag  <br /></td></tr>
 <tr class="separator:a78f1c406d3faac2afcb956e9375f65ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -388,12 +438,12 @@ BOOL&#160;</td><td class="memItemRight" valign="bottom"><b>PostMessageW</b> (UIN
 <tr class="memitem:a87c9d860ba24487f2b61b72987a4bd63 inherit pub_methods_classsw_1_1_wnd_base" id="r_a87c9d860ba24487f2b61b72987a4bd63"><td class="memItemLeft" align="right" valign="top">HitTestResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_wnd_base.html#a87c9d860ba24487f2b61b72987a4bd63">NcHitTest</a> (const <a class="el" href="structsw_1_1_point.html">Point</a> &amp;testPoint)</td></tr>
 <tr class="memdesc:a87c9d860ba24487f2b61b72987a4bd63 inherit pub_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">测试指定点在窗口的哪一部分  <br /></td></tr>
 <tr class="separator:a87c9d860ba24487f2b61b72987a4bd63 inherit pub_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1100e4e04e416d6e59d3e9b234e26d1 inherit pub_methods_classsw_1_1_wnd_base" id="r_ae1100e4e04e416d6e59d3e9b234e26d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_wnd_base.html#ae1100e4e04e416d6e59d3e9b234e26d1">Invoke</a> (const std::function&lt; void()&gt; &amp;func)</td></tr>
-<tr class="memdesc:ae1100e4e04e416d6e59d3e9b234e26d1 inherit pub_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">在窗口线程上执行指定函数  <br /></td></tr>
-<tr class="separator:ae1100e4e04e416d6e59d3e9b234e26d1 inherit pub_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acaf186b7eac4f17b4040399afbf481b8 inherit pub_methods_classsw_1_1_wnd_base" id="r_acaf186b7eac4f17b4040399afbf481b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_wnd_base.html#acaf186b7eac4f17b4040399afbf481b8">InvokeAsync</a> (const std::function&lt; void()&gt; &amp;func)</td></tr>
-<tr class="memdesc:acaf186b7eac4f17b4040399afbf481b8 inherit pub_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">在窗口线程上执行指定函数，并立即返回  <br /></td></tr>
-<tr class="separator:acaf186b7eac4f17b4040399afbf481b8 inherit pub_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38b34f2680d2d0d12eb8cc72d99a9f15 inherit pub_methods_classsw_1_1_wnd_base" id="r_a38b34f2680d2d0d12eb8cc72d99a9f15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_wnd_base.html#a38b34f2680d2d0d12eb8cc72d99a9f15">Invoke</a> (const <a class="el" href="classsw_1_1_delegate.html">SimpleAction</a> &amp;action)</td></tr>
+<tr class="memdesc:a38b34f2680d2d0d12eb8cc72d99a9f15 inherit pub_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">在窗口线程上执行指定委托  <br /></td></tr>
+<tr class="separator:a38b34f2680d2d0d12eb8cc72d99a9f15 inherit pub_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98fc26366fd25748226d0d01f7ed9411 inherit pub_methods_classsw_1_1_wnd_base" id="r_a98fc26366fd25748226d0d01f7ed9411"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_wnd_base.html#a98fc26366fd25748226d0d01f7ed9411">InvokeAsync</a> (const <a class="el" href="classsw_1_1_delegate.html">SimpleAction</a> &amp;action)</td></tr>
+<tr class="memdesc:a98fc26366fd25748226d0d01f7ed9411 inherit pub_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">在窗口线程上执行指定委托，并立即返回  <br /></td></tr>
+<tr class="separator:a98fc26366fd25748226d0d01f7ed9411 inherit pub_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classsw_1_1_i_layout"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classsw_1_1_i_layout')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1_i_layout.html">sw::ILayout</a></td></tr>
 <tr class="memitem:a42941ab943edee8c07a7b1da6c7ea226 inherit pub_methods_classsw_1_1_i_layout" id="r_a42941ab943edee8c07a7b1da6c7ea226"><td class="memItemLeft" align="right" valign="top">
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ILayout</b> ()=default</td></tr>
@@ -467,6 +517,9 @@ const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; bool &gt;&
 const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>InheritTextColor</b></td></tr>
 <tr class="memdesc:a7da2f416b1ed5038d8a3a59d6e44fcf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否继承父元素的文本颜色 <br /></td></tr>
 <tr class="separator:a7da2f416b1ed5038d8a3a59d6e44fcf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1ae9ea6fdb1c1ecde418bffdb2287cc" id="r_ab1ae9ea6fdb1c1ecde418bffdb2287cc"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1_property.html">Property</a>&lt; sw::LayoutUpdateCondition &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1ae9ea6fdb1c1ecde418bffdb2287cc">LayoutUpdateCondition</a></td></tr>
+<tr class="memdesc:ab1ae9ea6fdb1c1ecde418bffdb2287cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发布局更新的条件  <br /></td></tr>
+<tr class="separator:ab1ae9ea6fdb1c1ecde418bffdb2287cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classsw_1_1_wnd_base"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_classsw_1_1_wnd_base')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1_wnd_base.html">sw::WndBase</a></td></tr>
 <tr class="memitem:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1_wnd_base" id="r_abc0b653ccc071c2cfcba42fa8eef738f"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classsw_1_1_read_only_property.html">ReadOnlyProperty</a>&lt; HWND &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Handle</b></td></tr>
@@ -628,6 +681,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetNextTabStopFocus</
 <tr class="memitem:a7e1fbc142c7cfe4a4a60959daf0753bc" id="r_a7e1fbc142c7cfe4a4a60959daf0753bc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e1fbc142c7cfe4a4a60959daf0753bc">OnTextChanged</a> () override</td></tr>
 <tr class="memdesc:a7e1fbc142c7cfe4a4a60959daf0753bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Text属性更改时调用此函数  <br /></td></tr>
 <tr class="separator:a7e1fbc142c7cfe4a4a60959daf0753bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89f7d92c47cd4ec2049f7b669db30ed9" id="r_a89f7d92c47cd4ec2049f7b669db30ed9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89f7d92c47cd4ec2049f7b669db30ed9">FontChanged</a> (HFONT hfont) override</td></tr>
+<tr class="memdesc:a89f7d92c47cd4ec2049f7b669db30ed9"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体改变时调用该函数  <br /></td></tr>
+<tr class="separator:a89f7d92c47cd4ec2049f7b669db30ed9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98812949329f77e400f7e0e381c56c3d" id="r_a98812949329f77e400f7e0e381c56c3d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98812949329f77e400f7e0e381c56c3d">VisibleChanged</a> (bool newVisible) override</td></tr>
 <tr class="memdesc:a98812949329f77e400f7e0e381c56c3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visible属性改变时调用此函数  <br /></td></tr>
 <tr class="separator:a98812949329f77e400f7e0e381c56c3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -778,9 +834,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 <tr class="memitem:a4b368860fef40406c091880fc72f9cbb inherit pro_methods_classsw_1_1_wnd_base" id="r_a4b368860fef40406c091880fc72f9cbb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_wnd_base.html#a4b368860fef40406c091880fc72f9cbb">HandleInitialized</a> (HWND hwnd)</td></tr>
 <tr class="memdesc:a4b368860fef40406c091880fc72f9cbb inherit pro_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口句柄初始化完成  <br /></td></tr>
 <tr class="separator:a4b368860fef40406c091880fc72f9cbb inherit pro_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac34494921eed0f67a053a9393d78bcf9 inherit pro_methods_classsw_1_1_wnd_base" id="r_ac34494921eed0f67a053a9393d78bcf9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_wnd_base.html#ac34494921eed0f67a053a9393d78bcf9">FontChanged</a> (HFONT hfont)</td></tr>
-<tr class="memdesc:ac34494921eed0f67a053a9393d78bcf9 inherit pro_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体改变时调用该函数  <br /></td></tr>
-<tr class="separator:ac34494921eed0f67a053a9393d78bcf9 inherit pro_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeca7ed6a3a6f07933c3412f392893970 inherit pro_methods_classsw_1_1_wnd_base" id="r_aeca7ed6a3a6f07933c3412f392893970"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1_wnd_base.html#aeca7ed6a3a6f07933c3412f392893970">OnNotify</a> (NMHDR *pNMHDR, LRESULT &amp;result)</td></tr>
 <tr class="memdesc:aeca7ed6a3a6f07933c3412f392893970 inherit pro_methods_classsw_1_1_wnd_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NOTIFY后调用该函数  <br /></td></tr>
 <tr class="separator:aeca7ed6a3a6f07933c3412f392893970 inherit pro_methods_classsw_1_1_wnd_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -916,6 +969,275 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 
 </div>
 </div>
+<a id="acab825c8749c5bec592e00724f1aa83b" name="acab825c8749c5bec592e00724f1aa83b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acab825c8749c5bec592e00724f1aa83b">&#9670;&#160;</a></span>AddHandler() <span class="overload">[1/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TEventArgs &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type sw::UIElement::AddHandler </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsw_1_1_delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>handler</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>根据事件参数类型添加路由事件处理函数 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TEventArgs</td><td>路由事件的参数类型，必须继承自TypedRoutedEventArgs&lt;...&gt; </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handler</td><td>事件的处理函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9ab5957c173050c3e1d9ac1df9e27e7e" name="a9ab5957c173050c3e1d9ac1df9e27e7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ab5957c173050c3e1d9ac1df9e27e7e">&#9670;&#160;</a></span>AddHandler() <span class="overload">[2/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TEventArgs &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;!std::is_same&lt; TEventArgs, <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type sw::UIElement::AddHandler </td>
+          <td>(</td>
+          <td class="paramtype">RoutedEventType</td>          <td class="paramname"><span class="paramname"><em>eventType</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsw_1_1_delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>handler</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>添加路由事件处理函数 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TEventArgs</td><td>路由事件的参数类型，必须继承自RoutedEventArgs </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eventType</td><td>路由事件类型 </td></tr>
+    <tr><td class="paramname">handler</td><td>处理函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7c1fb1c05dee9d36a8ecc170aa9ab1be" name="a7c1fb1c05dee9d36a8ecc170aa9ab1be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c1fb1c05dee9d36a8ecc170aa9ab1be">&#9670;&#160;</a></span>AddHandler() <span class="overload">[3/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::UIElement::AddHandler </td>
+          <td>(</td>
+          <td class="paramtype">RoutedEventType</td>          <td class="paramname"><span class="paramname"><em>eventType</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsw_1_1_delegate.html">RoutedEventHandler</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>handler</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>添加路由事件处理函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eventType</td><td>路由事件类型 </td></tr>
+    <tr><td class="paramname">handler</td><td>处理函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa714d3978c945ead3d364f719075cd61" name="aa714d3978c945ead3d364f719075cd61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa714d3978c945ead3d364f719075cd61">&#9670;&#160;</a></span>AddHandler() <span class="overload">[4/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::UIElement::AddHandler </td>
+          <td>(</td>
+          <td class="paramtype">RoutedEventType</td>          <td class="paramname"><span class="paramname"><em>eventType</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T &amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(T::*</td>          <td class="paramname"><span class="paramname"><em>handler&#160;</em></span>)(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> &amp;)&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>添加成员函数作为路由事件处理函数 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>成员函数所在的类 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eventType</td><td>路由事件类型 </td></tr>
+    <tr><td class="paramname">obj</td><td>注册的成员函数所在的对象 </td></tr>
+    <tr><td class="paramname">handler</td><td>处理函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aef2a5e3ad5ef7969547d7d3024ff9ddc" name="aef2a5e3ad5ef7969547d7d3024ff9ddc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef2a5e3ad5ef7969547d7d3024ff9ddc">&#9670;&#160;</a></span>AddHandler() <span class="overload">[5/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TEventArgs , typename THandleObj &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;!std::is_same&lt; TEventArgs, <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type sw::UIElement::AddHandler </td>
+          <td>(</td>
+          <td class="paramtype">RoutedEventType</td>          <td class="paramname"><span class="paramname"><em>eventType</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">THandleObj &amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(THandleObj::*</td>          <td class="paramname"><span class="paramname"><em>handler&#160;</em></span>)(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp;)&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>添加成员函数作为路由事件处理函数 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TEventArgs</td><td>路由事件的参数类型，必须继承自RoutedEventArgs </td></tr>
+    <tr><td class="paramname">THandleObj</td><td>成员函数所在的类 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eventType</td><td>路由事件类型 </td></tr>
+    <tr><td class="paramname">obj</td><td>注册的成员函数所在的对象 </td></tr>
+    <tr><td class="paramname">handler</td><td>处理函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aab3a2c5888b9e0ef3b45d5f1672d692d" name="aab3a2c5888b9e0ef3b45d5f1672d692d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab3a2c5888b9e0ef3b45d5f1672d692d">&#9670;&#160;</a></span>AddHandler() <span class="overload">[6/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TEventArgs , typename THandleObj &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type sw::UIElement::AddHandler </td>
+          <td>(</td>
+          <td class="paramtype">THandleObj &amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(THandleObj::*</td>          <td class="paramname"><span class="paramname"><em>handler&#160;</em></span>)(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp;)&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>根据事件参数类型添加成员函数作为路由事件处理函数 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TEventArgs</td><td>路由事件的参数类型，必须继承自TypedRoutedEventArgs&lt;...&gt; </td></tr>
+    <tr><td class="paramname">THandleObj</td><td>成员函数所在的类 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">obj</td><td>注册的成员函数所在的对象 </td></tr>
+    <tr><td class="paramname">handler</td><td>事件的处理函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ac8088cf88b28c6b4a5f93cd7a66a769e" name="ac8088cf88b28c6b4a5f93cd7a66a769e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac8088cf88b28c6b4a5f93cd7a66a769e">&#9670;&#160;</a></span>Arrange()</h2>
 
@@ -950,6 +1272,43 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 <p>实现了 <a class="el" href="classsw_1_1_i_layout.html#a5616892d25adc2666e83211036db7d80">sw::ILayout</a>.</p>
 
 <p>被 <a class="el" href="classsw_1_1_layer.html#a418f1f936414fd657ad11a0c0f437cdb">sw::Layer</a>, <a class="el" href="classsw_1_1_panel_base.html#ab7630a76728d4d464b0bee1bfdbdca9b">sw::PanelBase</a> , 以及 <a class="el" href="classsw_1_1_tab_control.html#a2826913f7180e01ec24542dd87ea8676">sw::TabControl</a> 重载.</p>
+
+</div>
+</div>
+<a id="a89f7d92c47cd4ec2049f7b669db30ed9" name="a89f7d92c47cd4ec2049f7b669db30ed9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89f7d92c47cd4ec2049f7b669db30ed9">&#9670;&#160;</a></span>FontChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sw::UIElement::FontChanged </td>
+          <td>(</td>
+          <td class="paramtype">HFONT</td>          <td class="paramname"><span class="paramname"><em>hfont</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>字体改变时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hfont</td><td>字体句柄 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>重载 <a class="el" href="classsw_1_1_wnd_base.html#ac34494921eed0f67a053a9393d78bcf9">sw::WndBase</a> .</p>
+
+<p>被 <a class="el" href="classsw_1_1_i_p_address_control.html#a1c09fb32eb13a13a4d6b6bc31354ad58">sw::IPAddressControl</a>, <a class="el" href="classsw_1_1_label.html#af5e6d5d4530ee12b52ce2ab16f180aac">sw::Label</a> , 以及 <a class="el" href="classsw_1_1_sys_link.html#a6429fa1b1fc327bdbb958d695d4943cc">sw::SysLink</a> 重载.</p>
 
 </div>
 </div>
@@ -1233,7 +1592,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
       </table>
 </div><div class="memdoc">
 
-<p>判断路由事件是否已被注册 </p>
+<p>判断路由事件是否已存在事件处理函数 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">eventType</td><td>路由事件类型 </td></tr>
@@ -2394,8 +2753,50 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 
 </div>
 </div>
-<a id="a62c0e59790735abb3f0a9f002e651c16" name="a62c0e59790735abb3f0a9f002e651c16"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62c0e59790735abb3f0a9f002e651c16">&#9670;&#160;</a></span>RegisterRoutedEvent() <span class="overload">[1/4]</span></h2>
+<a id="a2b9301a84ed462c3c1968b0bc95ed4c9" name="a2b9301a84ed462c3c1968b0bc95ed4c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b9301a84ed462c3c1968b0bc95ed4c9">&#9670;&#160;</a></span>RegisterRoutedEvent() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TEventArgs &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type sw::UIElement::RegisterRoutedEvent </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsw_1_1_delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>handler</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>根据事件参数类型注册路由事件，当事件已注册时会覆盖已注册的函数 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TEventArgs</td><td>路由事件的参数类型，必须继承自TypedRoutedEventArgs&lt;...&gt; </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handler</td><td>事件的处理函数，当值为nullptr时可取消注册 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000003">弃用</a></b></dt><dd>建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数 </dd></dl>
+
+</div>
+</div>
+<a id="a2cfb72d4ea1966ec455e7805f0931205" name="a2cfb72d4ea1966ec455e7805f0931205"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cfb72d4ea1966ec455e7805f0931205">&#9670;&#160;</a></span>RegisterRoutedEvent() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2408,7 +2809,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const RoutedEvent &amp;</td>          <td class="paramname"><span class="paramname"><em>handler</em></span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="classsw_1_1_delegate.html">RoutedEventHandler</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>handler</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -2421,11 +2822,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
   </table>
   </dd>
 </dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">弃用</a></b></dt><dd>建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数 </dd></dl>
 
 </div>
 </div>
 <a id="a09946400c66a4bfd34cfb8918652a34a" name="a09946400c66a4bfd34cfb8918652a34a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09946400c66a4bfd34cfb8918652a34a">&#9670;&#160;</a></span>RegisterRoutedEvent() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a09946400c66a4bfd34cfb8918652a34a">&#9670;&#160;</a></span>RegisterRoutedEvent() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2473,47 +2875,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="af482c895a4e9e3a8685d2473517ed019" name="af482c895a4e9e3a8685d2473517ed019"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af482c895a4e9e3a8685d2473517ed019">&#9670;&#160;</a></span>RegisterRoutedEvent() <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename TEventArgs &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type sw::UIElement::RegisterRoutedEvent </td>
-          <td>(</td>
-          <td class="paramtype">std::function&lt; void(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp;)&gt;</td>          <td class="paramname"><span class="paramname"><em>handler</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>根据事件参数类型注册路由事件 </p>
-<dl class="tparams"><dt>模板参数</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">TEventArgs</td><td>路由事件的参数类型，必须继承自RoutedEventOfType&lt;...&gt; </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">handler</td><td>事件的处理函数，当值为nullptr时可取消注册 </td></tr>
-  </table>
-  </dd>
-</dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">弃用</a></b></dt><dd>建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数 </dd></dl>
 
 </div>
 </div>
@@ -2546,10 +2908,10 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>根据事件参数类型注册成员函数作为路由事件 </p>
+<p>根据事件参数类型注册成员函数作为路由事件，当事件已注册时会覆盖已注册的函数 </p>
 <dl class="tparams"><dt>模板参数</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">TEventArgs</td><td>路由事件的参数类型，必须继承自RoutedEventOfType&lt;...&gt; </td></tr>
+    <tr><td class="paramname">TEventArgs</td><td>路由事件的参数类型，必须继承自TypedRoutedEventArgs&lt;...&gt; </td></tr>
     <tr><td class="paramname">THandleObj</td><td>成员函数所在的类 </td></tr>
   </table>
   </dd>
@@ -2561,6 +2923,7 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
   </table>
   </dd>
 </dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000004">弃用</a></b></dt><dd>建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数 </dd></dl>
 
 </div>
 </div>
@@ -2627,6 +2990,281 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>移除是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="afff721cb3127445c11f63e9b92ca3b56" name="afff721cb3127445c11f63e9b92ca3b56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afff721cb3127445c11f63e9b92ca3b56">&#9670;&#160;</a></span>RemoveHandler() <span class="overload">[1/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TEventArgs &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value, bool &gt;::type sw::UIElement::RemoveHandler </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsw_1_1_delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>handler</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移除已添加的路由事件处理函数 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TEventArgs</td><td>路由事件的参数类型，必须继承自TypedRoutedEventArgs&lt;...&gt; </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handler</td><td>事件的处理函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功移除 </dd></dl>
+
+</div>
+</div>
+<a id="affa7e59d71b6371dba12676c4d273025" name="affa7e59d71b6371dba12676c4d273025"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affa7e59d71b6371dba12676c4d273025">&#9670;&#160;</a></span>RemoveHandler() <span class="overload">[2/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TEventArgs &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;!std::is_same&lt; TEventArgs, <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value, bool &gt;::type sw::UIElement::RemoveHandler </td>
+          <td>(</td>
+          <td class="paramtype">RoutedEventType</td>          <td class="paramname"><span class="paramname"><em>eventType</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsw_1_1_delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>handler</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移除已添加的路由事件处理函数 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TEventArgs</td><td>路由事件的参数类型，必须继承自RoutedEventArgs </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eventType</td><td>路由事件类型 </td></tr>
+    <tr><td class="paramname">handler</td><td>处理函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功移除 </dd></dl>
+
+</div>
+</div>
+<a id="a923d78e615a08c39522cbc3655080cd1" name="a923d78e615a08c39522cbc3655080cd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a923d78e615a08c39522cbc3655080cd1">&#9670;&#160;</a></span>RemoveHandler() <span class="overload">[3/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::UIElement::RemoveHandler </td>
+          <td>(</td>
+          <td class="paramtype">RoutedEventType</td>          <td class="paramname"><span class="paramname"><em>eventType</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsw_1_1_delegate.html">RoutedEventHandler</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>handler</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>移除已添加的路由事件处理函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eventType</td><td>路由事件类型 </td></tr>
+    <tr><td class="paramname">handler</td><td>处理函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功移除 </dd></dl>
+
+</div>
+</div>
+<a id="a6bea1478f7f4ddbccf55b7a046b87d7e" name="a6bea1478f7f4ddbccf55b7a046b87d7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bea1478f7f4ddbccf55b7a046b87d7e">&#9670;&#160;</a></span>RemoveHandler() <span class="overload">[4/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::UIElement::RemoveHandler </td>
+          <td>(</td>
+          <td class="paramtype">RoutedEventType</td>          <td class="paramname"><span class="paramname"><em>eventType</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T &amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(T::*</td>          <td class="paramname"><span class="paramname"><em>handler&#160;</em></span>)(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> &amp;)&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移除已添加的类型为成员函数的路由事件处理函数 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>成员函数所在的类 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eventType</td><td>路由事件类型 </td></tr>
+    <tr><td class="paramname">obj</td><td>注册的成员函数所在的对象 </td></tr>
+    <tr><td class="paramname">handler</td><td>处理函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功移除 </dd></dl>
+
+</div>
+</div>
+<a id="a21adb2c61d1f22cd67ea99c025e1be4b" name="a21adb2c61d1f22cd67ea99c025e1be4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21adb2c61d1f22cd67ea99c025e1be4b">&#9670;&#160;</a></span>RemoveHandler() <span class="overload">[5/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TEventArgs , typename THandleObj &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;!std::is_same&lt; TEventArgs, <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a> &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value, bool &gt;::type sw::UIElement::RemoveHandler </td>
+          <td>(</td>
+          <td class="paramtype">RoutedEventType</td>          <td class="paramname"><span class="paramname"><em>eventType</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">THandleObj &amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(THandleObj::*</td>          <td class="paramname"><span class="paramname"><em>handler&#160;</em></span>)(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp;)&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移除已添加的类型为成员函数的路由事件处理函数 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TEventArgs</td><td>路由事件的参数类型，必须继承自RoutedEventArgs </td></tr>
+    <tr><td class="paramname">THandleObj</td><td>成员函数所在的类 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eventType</td><td>路由事件类型 </td></tr>
+    <tr><td class="paramname">obj</td><td>注册的成员函数所在的对象 </td></tr>
+    <tr><td class="paramname">handler</td><td>处理函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功移除 </dd></dl>
+
+</div>
+</div>
+<a id="a6f207de6bae76e8a95c6cc28adef5063" name="a6f207de6bae76e8a95c6cc28adef5063"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f207de6bae76e8a95c6cc28adef5063">&#9670;&#160;</a></span>RemoveHandler() <span class="overload">[6/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TEventArgs , typename THandleObj &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1_routed_event_args.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1___is_typed_routed_event_args.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value, bool &gt;::type sw::UIElement::RemoveHandler </td>
+          <td>(</td>
+          <td class="paramtype">THandleObj &amp;</td>          <td class="paramname"><span class="paramname"><em>obj</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(THandleObj::*</td>          <td class="paramname"><span class="paramname"><em>handler&#160;</em></span>)(<a class="el" href="classsw_1_1_u_i_element.html">UIElement</a> &amp;, TEventArgs &amp;)&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移除已添加的类型为成员函数的路由事件处理函数 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TEventArgs</td><td>路由事件的参数类型，必须继承自TypedRoutedEventArgs&lt;...&gt; </td></tr>
+    <tr><td class="paramname">THandleObj</td><td>成员函数所在的类 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">obj</td><td>注册的成员函数所在的对象 </td></tr>
+    <tr><td class="paramname">handler</td><td>事件的处理函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功移除 </dd></dl>
 
 </div>
 </div>
@@ -2948,7 +3586,7 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>取消对应类型路由事件的注册 </p>
+<p>取消对应类型路由事件的注册，该函数会移除对应事件所有的处理函数 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">eventType</td><td>路由事件类型 </td></tr>
@@ -2984,6 +3622,24 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
 <p>Visible属性改变时调用此函数 </p>
 
 <p>重载 <a class="el" href="classsw_1_1_wnd_base.html#aef02bbac8ef450e5f3f478b41031a3ab">sw::WndBase</a> .</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ab1ae9ea6fdb1c1ecde418bffdb2287cc" name="ab1ae9ea6fdb1c1ecde418bffdb2287cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1ae9ea6fdb1c1ecde418bffdb2287cc">&#9670;&#160;</a></span>LayoutUpdateCondition</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsw_1_1_property.html">Property</a>&lt;sw::LayoutUpdateCondition&gt; sw::UIElement::LayoutUpdateCondition</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>触发布局更新的条件 </p>
+<dl class="section note"><dt>注解</dt><dd>修改该属性不会立即触发布局更新 </dd></dl>
 
 </div>
 </div>

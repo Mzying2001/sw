@@ -305,11 +305,13 @@
     <ClInclude Include="..\sw\inc\Control.h" />
     <ClInclude Include="..\sw\inc\Cursor.h" />
     <ClInclude Include="..\sw\inc\DateTimePicker.h" />
+    <ClInclude Include="..\sw\inc\Delegate.h" />
     <ClInclude Include="..\sw\inc\Dictionary.h" />
     <ClInclude Include="..\sw\inc\Dip.h" />
     <ClInclude Include="..\sw\inc\DockLayout.h" />
     <ClInclude Include="..\sw\inc\DockPanel.h" />
     <ClInclude Include="..\sw\inc\EnumBit.h" />
+    <ClInclude Include="..\sw\inc\EventHandlerWrapper.h" />
     <ClInclude Include="..\sw\inc\FileDialog.h" />
     <ClInclude Include="..\sw\inc\FillLayout.h" />
     <ClInclude Include="..\sw\inc\FolderDialog.h" />

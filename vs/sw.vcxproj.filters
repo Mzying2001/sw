@@ -291,6 +291,12 @@
     <ClInclude Include="..\sw\inc\HwndWrapper.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\Delegate.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\EventHandlerWrapper.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\Animation.cpp">

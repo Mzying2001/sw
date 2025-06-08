@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Delegate.h"
 #include "WndBase.h"
 #include <Windows.h>
-#include <functional>
 #include <string>
 
 namespace sw
@@ -10,7 +10,7 @@ namespace sw
     /**
      * @brief 消息框回调
      */
-    using MsgBoxCallback = std::function<void()>;
+    using MsgBoxCallback = Action<>;
 
     /**
      * @brief 消息框按钮类型
@@ -77,8 +77,8 @@ namespace sw
         template <MsgBoxResult RES>
         MsgBoxResultHelper &On(const MsgBoxCallback &callback)
         {
-            if (this->result == RES && callback) {
-                callback();
+            if (this->result == RES) {
+                if (callback) callback();
             }
             return *this;
         }

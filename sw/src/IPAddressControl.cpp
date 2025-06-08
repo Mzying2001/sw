@@ -62,8 +62,10 @@ void sw::IPAddressControl::DestroyWindowCore(HWND hwnd)
 
 void sw::IPAddressControl::FontChanged(HFONT hfont)
 {
-    if (this->_hIPAddrCtrl != NULL)
+    if (this->_hIPAddrCtrl != NULL) {
         ::SendMessageW(this->_hIPAddrCtrl, WM_SETFONT, reinterpret_cast<WPARAM>(hfont), TRUE);
+    }
+    this->HwndHost::FontChanged(hfont);
 }
 
 bool sw::IPAddressControl::OnSetFocus(HWND hPrevFocus)

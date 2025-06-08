@@ -6,15 +6,19 @@
 #include <Shlobj.h>
 #include <algorithm>
 #include <cstdint>
+#include <cstdlib>
+#include <cstring>
 #include <functional>
 #include <initializer_list>
 #include <iostream>
 #include <map>
 #include <memory>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <tuple>
 #include <type_traits>
+#include <typeinfo>
 #include <vector>
 #include <windowsx.h>
 
@@ -111,6 +115,719 @@ namespace sw
          */
         static HCURSOR GetCursorHandle(const std::wstring &fileName);
     };
+}
+
+// Delegate.h
+
+
+namespace sw
+{
+    // ICallable接口声明
+    template <typename>
+    struct ICallable;
+
+    // Delegate类声明
+    template <typename>
+    class Delegate;
+
+    /**
+     * @brief ICallable接口，用于表示可调用对象的接口
+     */
+    template <typename TRet, typename... Args>
+    struct ICallable<TRet(Args...)> {
+        /**
+         * @brief 析构函数
+         */
+        virtual ~ICallable() = default;
+
+        /**
+         * @brief      调用函数
+         * @param args 函数参数
+         * @return     函数返回值
+         */
+        virtual TRet Invoke(Args... args) const = 0;
+
+        /**
+         * @brief 克隆当前可调用对象
+         */
+        virtual ICallable *Clone() const = 0;
+
+        /**
+         * @brief 获取当前可调用对象的类型信息
+         */
+        virtual const std::type_info &GetTypeInfo() const = 0;
+
+        /**
+         * @brief       判断当前可调用对象是否与另一个可调用对象相等
+         * @param other 另一个可调用对象
+         * @return      如果相等则返回true，否则返回false
+         */
+        virtual bool Equals(const ICallable &other) const = 0;
+    };
+
+    /**
+     * @brief 委托类，类似于C#中的委托，支持存储和调用任意可调用对象
+     */
+    template <typename TRet, typename... Args>
+    class Delegate<TRet(Args...)> final : public ICallable<TRet(Args...)>
+    {
+    private:
+        using _ICallable = ICallable<TRet(Args...)>;
+
+        template <typename T, typename = void>
+        struct _IsEqualityComparable : std::false_type {
+        };
+
+        template <typename T>
+        struct _IsEqualityComparable<
+            T,
+            typename std::enable_if<true, decltype(void(std::declval<T>() == std::declval<T>()))>::type> : std::true_type {
+        };
+
+        template <typename T, typename = void>
+        struct _IsMemcmpSafe : std::false_type {
+        };
+
+        template <typename T>
+        struct _IsMemcmpSafe<
+            T,
+            typename std::enable_if</*std::is_trivial<T>::value &&*/ std::is_standard_layout<T>::value, void>::type> : std::true_type {
+        };
+
+        template <typename T>
+        class _CallableWrapperImpl : public _ICallable
+        {
+            alignas(T) mutable uint8_t _storage[sizeof(T)];
+
+        public:
+            _CallableWrapperImpl(const T &value)
+            {
+                memset(_storage, 0, sizeof(_storage));
+                new (_storage) T(value);
+            }
+            _CallableWrapperImpl(T &&value)
+            {
+                memset(_storage, 0, sizeof(_storage));
+                new (_storage) T(std::move(value));
+            }
+            virtual ~_CallableWrapperImpl()
+            {
+                GetValue().~T();
+                // memset(_storage, 0, sizeof(_storage));
+            }
+            T &GetValue() const noexcept
+            {
+                return *reinterpret_cast<T *>(_storage);
+            }
+            TRet Invoke(Args... args) const override
+            {
+                return GetValue()(std::forward<Args>(args)...);
+            }
+            _ICallable *Clone() const override
+            {
+                return new _CallableWrapperImpl(GetValue());
+            }
+            const std::type_info &GetTypeInfo() const override
+            {
+                return typeid(T);
+            }
+            bool Equals(const _ICallable &other) const override
+            {
+                return EqualsImpl(other);
+            }
+            template <typename U = T>
+            typename std::enable_if<_IsEqualityComparable<U>::value, bool>::type
+            EqualsImpl(const _ICallable &other) const
+            {
+                if (this == &other) {
+                    return true;
+                }
+                if (GetTypeInfo() != other.GetTypeInfo()) {
+                    return false;
+                }
+                const auto &otherWrapper = static_cast<const _CallableWrapperImpl &>(other);
+                return GetValue() == otherWrapper.GetValue();
+            }
+            template <typename U = T>
+            typename std::enable_if<!_IsEqualityComparable<U>::value && _IsMemcmpSafe<U>::value, bool>::type
+            EqualsImpl(const _ICallable &other) const
+            {
+                if (this == &other) {
+                    return true;
+                }
+                if (GetTypeInfo() != other.GetTypeInfo()) {
+                    return false;
+                }
+                const auto &otherWrapper = static_cast<const _CallableWrapperImpl &>(other);
+                return memcmp(_storage, otherWrapper._storage, sizeof(_storage)) == 0;
+            }
+            template <typename U = T>
+            typename std::enable_if<!_IsEqualityComparable<U>::value && !_IsMemcmpSafe<U>::value, bool>::type
+            EqualsImpl(const _ICallable &other) const
+            {
+                return this == &other;
+            }
+        };
+
+        template <typename T>
+        using _CallableWrapper = _CallableWrapperImpl<typename std::decay<T>::type>;
+
+        template <typename T>
+        class _MemberFuncWrapper : public _ICallable
+        {
+            T *obj;
+            TRet (T::*func)(Args...);
+
+        public:
+            _MemberFuncWrapper(T &obj, TRet (T::*func)(Args...)) : obj(&obj), func(func)
+            {
+            }
+            TRet Invoke(Args... args) const override
+            {
+                return (obj->*func)(std::forward<Args>(args)...);
+            }
+            _ICallable *Clone() const override
+            {
+                return new _MemberFuncWrapper(*obj, func);
+            }
+            const std::type_info &GetTypeInfo() const override
+            {
+                return typeid(func);
+            }
+            bool Equals(const _ICallable &other) const override
+            {
+                if (this == &other) {
+                    return true;
+                }
+                if (GetTypeInfo() != other.GetTypeInfo()) {
+                    return false;
+                }
+                const auto &otherWrapper = static_cast<const _MemberFuncWrapper &>(other);
+                return obj == otherWrapper.obj && func == otherWrapper.func;
+            }
+        };
+
+        template <typename T>
+        class _ConstMemberFuncWrapper : public _ICallable
+        {
+            const T *obj;
+            TRet (T::*func)(Args...) const;
+
+        public:
+            _ConstMemberFuncWrapper(const T &obj, TRet (T::*func)(Args...) const) : obj(&obj), func(func)
+            {
+            }
+            TRet Invoke(Args... args) const override
+            {
+                return (obj->*func)(std::forward<Args>(args)...);
+            }
+            _ICallable *Clone() const override
+            {
+                return new _ConstMemberFuncWrapper(*obj, func);
+            }
+            const std::type_info &GetTypeInfo() const override
+            {
+                return typeid(func);
+            }
+            bool Equals(const _ICallable &other) const override
+            {
+                if (this == &other) {
+                    return true;
+                }
+                if (GetTypeInfo() != other.GetTypeInfo()) {
+                    return false;
+                }
+                const auto &otherWrapper = static_cast<const _ConstMemberFuncWrapper &>(other);
+                return obj == otherWrapper.obj && func == otherWrapper.func;
+            }
+        };
+
+    private:
+        /**
+         * @brief 内部存储可调用对象的容器
+         */
+        std::vector<std::unique_ptr<_ICallable>> _data;
+
+    public:
+        /**
+         * @brief 默认构造函数
+         */
+        Delegate(std::nullptr_t = nullptr)
+        {
+        }
+
+        /**
+         * @brief 构造函数，接受一个可调用对象
+         */
+        Delegate(const ICallable<TRet(Args...)> &callable)
+        {
+            Add(callable);
+        }
+
+        /**
+         * @brief 构造函数，接受一个函数指针
+         */
+        Delegate(TRet (*func)(Args...))
+        {
+            Add(func);
+        }
+
+        /**
+         * @brief 构造函数，接受一个可调用对象
+         */
+        template <typename T, typename std::enable_if<!std::is_base_of<_ICallable, T>::value, int>::type = 0>
+        Delegate(const T &callable)
+        {
+            Add(callable);
+        }
+
+        /**
+         * @brief 构造函数，接受一个成员函数指针
+         */
+        template <typename T>
+        Delegate(T &obj, TRet (T::*func)(Args...))
+        {
+            Add(obj, func);
+        }
+
+        /**
+         * @brief 构造函数，接受一个常量成员函数指针
+         */
+        template <typename T>
+        Delegate(const T &obj, TRet (T::*func)(Args...) const)
+        {
+            Add(obj, func);
+        }
+
+        /**
+         * @brief 拷贝构造函数
+         */
+        Delegate(const Delegate &other)
+        {
+            _data.reserve(other._data.size());
+            for (const auto &item : other._data) {
+                _data.emplace_back(item->Clone());
+            }
+        }
+
+        /**
+         * @brief 移动构造函数
+         */
+        Delegate(Delegate &&other) : _data(std::move(other._data))
+        {
+        }
+
+        /**
+         * @brief 拷贝赋值运算符
+         */
+        Delegate &operator=(const Delegate &other)
+        {
+            if (this != &other) {
+                _data.clear();
+                _data.reserve(other._data.size());
+                for (const auto &item : other._data) {
+                    _data.emplace_back(item->Clone());
+                }
+            }
+            return *this;
+        }
+
+        /**
+         * @brief 移动赋值运算符
+         */
+        Delegate &operator=(Delegate &&other)
+        {
+            if (this != &other) {
+                _data = std::move(other._data);
+            }
+            return *this;
+        }
+
+        /**
+         * @brief 添加一个可调用对象到委托中
+         */
+        void Add(const ICallable<TRet(Args...)> &callable)
+        {
+            // 当添加的可调用对象与当前委托类型相同时（针对单播委托进行优化）：
+            // - 若委托内容为空，则直接返回
+            // - 若委托内容只有一个元素，则克隆该元素并添加到当前委托中
+            // - 否则，直接添加该可调用对象的克隆
+            if (callable.GetTypeInfo() == GetTypeInfo()) {
+                auto &delegate = static_cast<const Delegate &>(callable);
+                if (delegate._data.empty()) {
+                    return;
+                } else if (delegate._data.size() == 1) {
+                    _data.emplace_back(delegate._data.front()->Clone());
+                    return;
+                }
+            }
+            _data.emplace_back(callable.Clone());
+        }
+
+        /**
+         * @brief 添加一个函数指针到委托中
+         */
+        void Add(TRet (*func)(Args...))
+        {
+            if (func != nullptr) {
+                _data.emplace_back(std::make_unique<_CallableWrapper<decltype(func)>>(func));
+            }
+        }
+
+        /**
+         * @brief 添加一个可调用对象到委托中
+         */
+        template <typename T>
+        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, void>::type
+        Add(const T &callable)
+        {
+            _data.emplace_back(std::make_unique<_CallableWrapper<T>>(callable));
+        }
+
+        /**
+         * @brief 添加一个成员函数指针到委托中
+         */
+        template <typename T>
+        void Add(T &obj, TRet (T::*func)(Args...))
+        {
+            _data.emplace_back(std::make_unique<_MemberFuncWrapper<T>>(obj, func));
+        }
+
+        /**
+         * @brief 添加一个常量成员函数指针到委托中
+         */
+        template <typename T>
+        void Add(const T &obj, TRet (T::*func)(Args...) const)
+        {
+            _data.emplace_back(std::make_unique<_ConstMemberFuncWrapper<T>>(obj, func));
+        }
+
+        /**
+         * @brief 清空委托中的所有可调用对象
+         */
+        void Clear()
+        {
+            _data.clear();
+        }
+
+        /**
+         * @brief  移除一个可调用对象
+         * @return 如果成功移除则返回true，否则返回false
+         * @note   按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
+         */
+        bool Remove(const ICallable<TRet(Args...)> &callable)
+        {
+            // 当移除的可调用对象与当前委托类型相同时（与Add逻辑相对应）：
+            // - 若委托内容为空，则直接返回false
+            // - 若委托内容只有一个元素，则尝试移除该元素
+            // - 否则，直接调用_Remove函数进行移除
+            if (callable.GetTypeInfo() == GetTypeInfo()) {
+                auto &delegate = static_cast<const Delegate &>(callable);
+                if (delegate._data.empty()) {
+                    return false;
+                } else if (delegate._data.size() == 1) {
+                    return _Remove(*delegate._data.front());
+                }
+            }
+            return _Remove(callable);
+        }
+
+        /**
+         * @brief  移除一个函数指针
+         * @return 如果成功移除则返回true，否则返回false
+         * @note   按照添加顺序从后向前查找，找到第一个匹配的函数指针并移除
+         */
+        bool Remove(TRet (*func)(Args...))
+        {
+            if (func == nullptr) {
+                return false;
+            }
+            return _Remove(_CallableWrapper<decltype(func)>(func));
+        }
+
+        /**
+         * @brief  移除一个可调用对象
+         * @return 如果成功移除则返回true，否则返回false
+         * @note   按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
+         */
+        template <typename T>
+        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, bool>::type
+        Remove(const T &callable)
+        {
+            return _Remove(_CallableWrapper<T>(callable));
+        }
+
+        /**
+         * @brief  移除一个成员函数指针
+         * @return 如果成功移除则返回true，否则返回false
+         * @note   按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
+         */
+        template <typename T>
+        bool Remove(T &obj, TRet (T::*func)(Args...))
+        {
+            return _Remove(_MemberFuncWrapper<T>(obj, func));
+        }
+
+        /**
+         * @brief  移除一个常量成员函数指针
+         * @return 如果成功移除则返回true，否则返回false
+         * @note   按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
+         */
+        template <typename T>
+        bool Remove(const T &obj, TRet (T::*func)(Args...) const)
+        {
+            return _Remove(_ConstMemberFuncWrapper<T>(obj, func));
+        }
+
+        /**
+         * @brief      调用委托，执行所有存储的可调用对象
+         * @param args 函数参数
+         * @return     最后一个可调用对象的返回值
+         * @throw      std::runtime_error 如果委托为空
+         */
+        TRet operator()(Args... args) const
+        {
+            return Invoke(std::forward<Args>(args)...);
+        }
+
+        /**
+         * @brief       判断当前委托是否等于另一个委托
+         * @param other 另一个委托
+         * @return      如果相等则返回true，否则返回false
+         */
+        bool operator==(const Delegate &other) const
+        {
+            return Equals(other);
+        }
+
+        /**
+         * @brief       判断当前委托是否不等于另一个委托
+         * @param other 另一个委托
+         * @return      如果不相等则返回true，否则返回false
+         */
+        bool operator!=(const Delegate &other) const
+        {
+            return !Equals(other);
+        }
+
+        /**
+         * @brief  判断当前委托是否等于nullptr
+         * @return 如果委托为空则返回true，否则返回false
+         */
+        bool operator==(std::nullptr_t) const
+        {
+            return _data.empty();
+        }
+
+        /**
+         * @brief  判断当前委托是否不等于nullptr
+         * @return 如果委托不为空则返回true，否则返回false
+         */
+        bool operator!=(std::nullptr_t) const
+        {
+            return !_data.empty();
+        }
+
+        /**
+         * @brief  判断当前委托是否有效
+         * @return 如果委托不为空则返回true，否则返回false
+         */
+        operator bool() const
+        {
+            return !_data.empty();
+        }
+
+        /**
+         * @brief 添加一个可调用对象到委托中
+         * @note  该函数调用Add函数
+         */
+        Delegate &operator+=(const ICallable<TRet(Args...)> &callable)
+        {
+            Add(callable);
+            return *this;
+        }
+
+        /**
+         * @brief 添加一个函数指针到委托中
+         * @note  该函数调用Add函数
+         */
+        Delegate &operator+=(TRet (*func)(Args...))
+        {
+            Add(func);
+            return *this;
+        }
+
+        /**
+         * @brief 添加一个可调用对象到委托中
+         * @note  该函数调用Add函数
+         */
+        template <typename T>
+        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, Delegate &>::type
+        operator+=(const T &callable)
+        {
+            Add(callable);
+            return *this;
+        }
+
+        /**
+         * @brief 移除一个可调用对象
+         * @note  该函数调用Remove函数
+         */
+        Delegate &operator-=(const ICallable<TRet(Args...)> &callable)
+        {
+            Remove(callable);
+            return *this;
+        }
+
+        /**
+         * @brief 移除一个函数指针
+         * @note  该函数调用Remove函数
+         */
+        Delegate &operator-=(TRet (*func)(Args...))
+        {
+            Remove(func);
+            return *this;
+        }
+
+        /**
+         * @brief 移除一个可调用对象
+         * @note  该函数调用Remove函数
+         */
+        template <typename T>
+        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, Delegate &>::type
+        operator-=(const T &callable)
+        {
+            Remove(callable);
+            return *this;
+        }
+
+        /**
+         * @brief      调用委托，执行所有存储的可调用对象
+         * @param args 函数参数
+         * @return     最后一个可调用对象的返回值
+         * @throw      std::runtime_error 如果委托为空
+         */
+        virtual TRet Invoke(Args... args) const override
+        {
+            if (_data.empty()) {
+                throw std::runtime_error("Delegate is empty");
+            }
+            for (size_t i = 0; i < _data.size() - 1; ++i) {
+                _data[i]->Invoke(std::forward<Args>(args)...);
+            }
+            return _data.back()->Invoke(std::forward<Args>(args)...);
+        }
+
+        /**
+         * @brief  克隆当前委托
+         * @return 返回一个新的Delegate对象，包含相同的可调用对象
+         */
+        virtual ICallable<TRet(Args...)> *Clone() const override
+        {
+            return new Delegate(*this);
+        }
+
+        /**
+         * @brief  获取当前委托的类型信息
+         * @return 返回typeid(Delegate<TRet(Args...)>)
+         */
+        virtual const std::type_info &GetTypeInfo() const override
+        {
+            return typeid(Delegate<TRet(Args...)>);
+        }
+
+        /**
+         * @brief       判断当前委托是否与另一个可调用对象相等
+         * @param other 另一个可调用对象
+         * @return      如果相等则返回true，否则返回false
+         */
+        virtual bool Equals(const ICallable<TRet(Args...)> &other) const override
+        {
+            if (this == &other) {
+                return true;
+            }
+            if (GetTypeInfo() != other.GetTypeInfo()) {
+                return false;
+            }
+            const auto &otherDelegate = static_cast<const Delegate<TRet(Args...)> &>(other);
+            if (_data.size() != otherDelegate._data.size()) {
+                return false;
+            }
+            for (size_t i = 0; i < _data.size(); ++i) {
+                if (!_data[i]->Equals(*otherDelegate._data[i])) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /**
+         * @brief      调用所有存储的可调用对象，并返回它们的结果
+         * @param args 函数参数
+         * @return     返回一个包含所有可调用对象返回值的vector
+         */
+        template <typename U = TRet>
+        typename std::enable_if<!std::is_void<U>::value, std::vector<U>>::type
+        InvokeAll(Args... args) const
+        {
+            std::vector<U> results;
+            results.reserve(_data.size());
+            for (const auto &callable : _data) {
+                results.emplace_back(callable->Invoke(std::forward<Args>(args)...));
+            }
+            return results;
+        }
+
+    private:
+        /**
+         * @brief 内部函数，用于从后向前查找并移除一个可调用对象
+         */
+        bool _Remove(const _ICallable &callable)
+        {
+            auto it  = _data.rbegin();
+            auto end = _data.rend();
+            while (it != end) {
+                if ((*it)->Equals(callable)) {
+                    _data.erase(std::next(it).base());
+                    return true;
+                }
+                ++it;
+            }
+            return false;
+        }
+    };
+
+    /**
+     * @brief 比较委托和nullptr
+     * @note  如果委托为空则返回true，否则返回false
+     */
+    template <typename TRet, typename... Args>
+    inline bool operator==(std::nullptr_t, const Delegate<TRet(Args...)> &d)
+    {
+        return d == nullptr;
+    }
+
+    /**
+     * @brief 比较委托和nullptr
+     * @note  如果委托不为空则返回true，否则返回false
+     */
+    template <typename TRet, typename... Args>
+    inline bool operator!=(std::nullptr_t, const Delegate<TRet(Args...)> &d)
+    {
+        return d != nullptr;
+    }
+
+    /**
+     * @brief Func类型别名，与Delegate<T>等价
+     */
+    template <typename T>
+    using Func = Delegate<T>;
+
+    /**
+     * @brief Action类型别名，表示无返回值的委托
+     */
+    template <typename... Args>
+    using Action = Delegate<void(Args...)>;
 }
 
 // EnumBit.h
@@ -2583,180 +3300,6 @@ namespace sw
     };
 }
 
-// RoutedEvent.h
-
-
-namespace sw
-{
-    /**
-     * @brief 路由事件类型枚举
-     */
-    enum RoutedEventType : uint32_t {
-
-        // 从该值开始到RoutedEventType_UserEnd结束表示用户可以自定义路由事件的值范围
-        RoutedEventType_User = 0,
-
-        // 用户自定义路由事件的值的最大值
-        RoutedEventType_UserEnd = 0x80000000,
-
-        // 尺寸改变，参数类型为sw::SizeChangedEventArgs
-        UIElement_SizeChanged,
-
-        // 位置改变，参数类型为sw::PositionChangedEventArgs
-        UIElement_PositionChanged,
-
-        // Text属性发生变化，参数类型为sw::RoutedEventArgs
-        UIElement_TextChanged,
-
-        // 获取到焦点，参数类型为sw::RoutedEventArgs
-        UIElement_GotFocus,
-
-        // 失去焦点，参数类型为sw::RoutedEventArgs
-        UIElement_LostFocus,
-
-        // 输入字符，参数类型为sw::GotCharEventArgs
-        UIElement_GotChar,
-
-        // 键盘按键按下，参数类型为sw::KeyDownEventArgs
-        UIElement_KeyDown,
-
-        // 键盘按键抬起，参数类型为sw::KeyUpEventArgs
-        UIElement_KeyUp,
-
-        // 鼠标移动，参数类型为sw::MouseMoveEventArgs
-        UIElement_MouseMove,
-
-        // 鼠标离开，参数类型为sw::RoutedEventArgs
-        UIElement_MouseLeave,
-
-        // 鼠标滚轮滚动，参数类型为sw::MouseWheelEventArgs
-        UIElement_MouseWheel,
-
-        // 鼠标按键按下，参数类型为sw::MouseButtonDownEventArgs
-        UIElement_MouseButtonDown,
-
-        // 鼠标按键抬起，参数类型为sw::MouseButtonUpEventArgs
-        UIElement_MouseButtonUp,
-
-        // 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
-        UIElement_ShowContextMenu,
-
-        // 接收到文件拖放，参数类型为sw::DropFilesEventArgs
-        UIElement_DropFiles,
-
-        // 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
-        Window_Closing,
-
-        // 窗口已关闭，参数类型为sw::RoutedEventArgs
-        Window_Closed,
-
-        // 窗口成为前台窗口，参数类型为sw::RoutedEventArgs
-        Window_Actived,
-
-        // 窗口成为后台窗口，参数类型为sw::RoutedEventArgs
-        Window_Inactived,
-
-        // 按钮被单击，参数类型为sw::RoutedEventArgs
-        ButtonBase_Clicked,
-
-        // 按钮被双击，参数类型为sw::RoutedEventArgs
-        ButtonBase_DoubleClicked,
-
-        // 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
-        ItemsControl_SelectionChanged,
-
-        // 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
-        ListView_CheckStateChanged,
-
-        // 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
-        ListView_HeaderClicked,
-
-        // 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
-        ListView_HeaderDoubleClicked,
-
-        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
-        ListView_ItemClicked,
-
-        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
-        ListView_ItemDoubleClicked,
-
-        // 编辑状态结束，参数类型为sw::ListViewEndEditEventArgs
-        ListView_EndEdit,
-
-        // 滑块的值被改变，参数类型为sw::RoutedEventArgs
-        Slider_ValueChanged,
-
-        // 滑块被释放，参数类型为sw::RoutedEventArgs
-        Slider_EndTrack,
-
-        // 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
-        Layer_Scrolling,
-
-        // SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
-        TabControl_SelectedIndexChanged,
-
-        // DateTimePicker控件的时间改变，参数类型为sw::DateTimePickerTimeChangedEventArgs
-        DateTimePicker_TimeChanged,
-
-        // 月历控件的时间改变，参数类型为sw::MonthCalendarTimeChangedEventArgs
-        MonthCalendar_TimeChanged,
-
-        // IP地址框地址被改变，参数类型为sw::RoutedEventArgs
-        IPAddressControl_AddressChanged,
-
-        // SysLink控件链接被单击，参数类型为sw::SysLinkClickedEventArgs
-        SysLink_Clicked,
-
-        // 热键框的值被改变，参数类型为sw::HotKeyValueChangedEventArgs
-        HotKeyControl_ValueChanged,
-    };
-
-    /*================================================================================*/
-
-    class UIElement; // UIElement.h
-
-    /**
-     * @brief 路由事件的参数
-     */
-    struct RoutedEventArgs {
-        /**
-         * @brief 事件类型
-         */
-        RoutedEventType eventType;
-
-        /**
-         * @brief 事件是否已被处理，若将此字段设为true，则事件不会继续往上传递
-         */
-        bool handled = false;
-
-        /**
-         * @brief 表示是否已处理事件所对应的Windows消息，对于部分消息将字段设为true可取消对DefaultWndProc的调用，若当前事件无对应消息则该字段无意义
-         */
-        bool handledMsg = false;
-
-        /**
-         * @brief 事件源，指向触发当前事件的UIElement
-         */
-        UIElement *source = nullptr;
-
-        /**
-         * @brief 原始事件源，指向最初触发事件的UIElement
-         */
-        UIElement *originalSource = nullptr;
-
-        /**
-         * @brief RoutedEventArgs构造函数
-         */
-        RoutedEventArgs(RoutedEventType eventType);
-    };
-
-    /**
-     * @brief 路由事件类型
-     * @note  第一个参数为注册事件监听器的元素，第二个参数为具体的事件参数
-     */
-    using RoutedEvent = std::function<void(UIElement &, RoutedEventArgs &)>;
-}
-
 // ScrollEnums.h
 
 
@@ -2933,6 +3476,9 @@ namespace sw
         // 在窗口线程上执行指定回调函数，lParam为指向std::function<void()>的指针，wParam表示是否对函数对象指针执行delete
         WM_InvokeFunction,
 
+        // 在窗口线程上执行指定委托，lParam为指向sw::Action<>的指针，wParam表示是否对委托指针执行delete
+        WM_InvokeAction,
+
         // SimpleWindow所用消息的结束位置
         WM_SimpleWindowEnd,
     };
@@ -2988,7 +3534,7 @@ namespace sw
         /**
          * @brief 消息循环中处理空句柄消息的回调函数
          */
-        static const Property<void (*)(const MSG &)> NullHwndMsgHandler;
+        static Action<MSG &> NullHwndMsgHandler;
 
         /**
          * @brief  消息循环
@@ -3415,7 +3961,7 @@ namespace sw
     /**
      * @brief 菜单项关联的回调函数类型
      */
-    using MenuItemCommand = std::function<void(MenuItem &)>;
+    using MenuItemCommand = Action<MenuItem &>;
 
     /**
      * @brief 菜单项
@@ -3497,10 +4043,8 @@ namespace sw
          */
         template <typename T>
         MenuItem(uint64_t tag, const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
-            : MenuItem(tag, text)
+            : MenuItem(tag, text, MenuItemCommand(obj, handler))
         {
-            T *pObj       = &obj;
-            this->command = [pObj, handler](MenuItem &item) { (pObj->*handler)(item); };
         }
 
     public:
@@ -3600,6 +4144,180 @@ namespace sw
          */
         std::wstring ToString() const;
     };
+}
+
+// RoutedEvent.h
+
+
+namespace sw
+{
+    /**
+     * @brief 路由事件类型枚举
+     */
+    enum RoutedEventType : uint32_t {
+
+        // 从该值开始到RoutedEventType_UserEnd结束表示用户可以自定义路由事件的值范围
+        RoutedEventType_User = 0,
+
+        // 用户自定义路由事件的值的最大值
+        RoutedEventType_UserEnd = 0x80000000,
+
+        // 尺寸改变，参数类型为sw::SizeChangedEventArgs
+        UIElement_SizeChanged,
+
+        // 位置改变，参数类型为sw::PositionChangedEventArgs
+        UIElement_PositionChanged,
+
+        // Text属性发生变化，参数类型为sw::RoutedEventArgs
+        UIElement_TextChanged,
+
+        // 获取到焦点，参数类型为sw::RoutedEventArgs
+        UIElement_GotFocus,
+
+        // 失去焦点，参数类型为sw::RoutedEventArgs
+        UIElement_LostFocus,
+
+        // 输入字符，参数类型为sw::GotCharEventArgs
+        UIElement_GotChar,
+
+        // 键盘按键按下，参数类型为sw::KeyDownEventArgs
+        UIElement_KeyDown,
+
+        // 键盘按键抬起，参数类型为sw::KeyUpEventArgs
+        UIElement_KeyUp,
+
+        // 鼠标移动，参数类型为sw::MouseMoveEventArgs
+        UIElement_MouseMove,
+
+        // 鼠标离开，参数类型为sw::RoutedEventArgs
+        UIElement_MouseLeave,
+
+        // 鼠标滚轮滚动，参数类型为sw::MouseWheelEventArgs
+        UIElement_MouseWheel,
+
+        // 鼠标按键按下，参数类型为sw::MouseButtonDownEventArgs
+        UIElement_MouseButtonDown,
+
+        // 鼠标按键抬起，参数类型为sw::MouseButtonUpEventArgs
+        UIElement_MouseButtonUp,
+
+        // 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
+        UIElement_ShowContextMenu,
+
+        // 接收到文件拖放，参数类型为sw::DropFilesEventArgs
+        UIElement_DropFiles,
+
+        // 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
+        Window_Closing,
+
+        // 窗口已关闭，参数类型为sw::RoutedEventArgs
+        Window_Closed,
+
+        // 窗口成为前台窗口，参数类型为sw::RoutedEventArgs
+        Window_Actived,
+
+        // 窗口成为后台窗口，参数类型为sw::RoutedEventArgs
+        Window_Inactived,
+
+        // 按钮被单击，参数类型为sw::RoutedEventArgs
+        ButtonBase_Clicked,
+
+        // 按钮被双击，参数类型为sw::RoutedEventArgs
+        ButtonBase_DoubleClicked,
+
+        // 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
+        ItemsControl_SelectionChanged,
+
+        // 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
+        ListView_CheckStateChanged,
+
+        // 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
+        ListView_HeaderClicked,
+
+        // 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
+        ListView_HeaderDoubleClicked,
+
+        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
+        ListView_ItemClicked,
+
+        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
+        ListView_ItemDoubleClicked,
+
+        // 编辑状态结束，参数类型为sw::ListViewEndEditEventArgs
+        ListView_EndEdit,
+
+        // 滑块的值被改变，参数类型为sw::RoutedEventArgs
+        Slider_ValueChanged,
+
+        // 滑块被释放，参数类型为sw::RoutedEventArgs
+        Slider_EndTrack,
+
+        // 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
+        Layer_Scrolling,
+
+        // SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
+        TabControl_SelectedIndexChanged,
+
+        // DateTimePicker控件的时间改变，参数类型为sw::DateTimePickerTimeChangedEventArgs
+        DateTimePicker_TimeChanged,
+
+        // 月历控件的时间改变，参数类型为sw::MonthCalendarTimeChangedEventArgs
+        MonthCalendar_TimeChanged,
+
+        // IP地址框地址被改变，参数类型为sw::RoutedEventArgs
+        IPAddressControl_AddressChanged,
+
+        // SysLink控件链接被单击，参数类型为sw::SysLinkClickedEventArgs
+        SysLink_Clicked,
+
+        // 热键框的值被改变，参数类型为sw::HotKeyValueChangedEventArgs
+        HotKeyControl_ValueChanged,
+    };
+
+    /*================================================================================*/
+
+    class UIElement; // UIElement.h
+
+    /**
+     * @brief 路由事件的参数
+     */
+    struct RoutedEventArgs {
+        /**
+         * @brief 事件类型
+         */
+        RoutedEventType eventType;
+
+        /**
+         * @brief 事件是否已被处理，若将此字段设为true，则事件不会继续往上传递
+         */
+        bool handled = false;
+
+        /**
+         * @brief 表示是否已处理事件所对应的Windows消息，对于部分消息将字段设为true可取消对DefaultWndProc的调用，若当前事件无对应消息则该字段无意义
+         */
+        bool handledMsg = false;
+
+        /**
+         * @brief 事件源，指向触发当前事件的UIElement
+         */
+        UIElement *source = nullptr;
+
+        /**
+         * @brief 原始事件源，指向最初触发事件的UIElement
+         */
+        UIElement *originalSource = nullptr;
+
+        /**
+         * @brief RoutedEventArgs构造函数
+         */
+        RoutedEventArgs(RoutedEventType eventType);
+    };
+
+    /**
+     * @brief 路由事件类型
+     * @note  第一个参数为注册事件监听器的元素，第二个参数为具体的事件参数
+     */
+    using RoutedEventHandler = Action<UIElement &, RoutedEventArgs &>;
 }
 
 // Screen.h
@@ -4029,6 +4747,78 @@ namespace sw
         std::wstring ToString() const
         {
             return Utils::BuildStr(*this->_pMap);
+        }
+    };
+}
+
+// EventHandlerWrapper.h
+
+
+namespace sw
+{
+    /**
+     * @brief 路由事件处理函数包装类，用于需要转换RoutedEventArgs为特定事件参数类型的情况
+     */
+    template <
+        typename TEventArgs,
+        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0>
+    class RoutedEventHandlerWrapper : public ICallable<void(UIElement &, RoutedEventArgs &)>
+    {
+    private:
+        /**
+         * @brief 事件处理函数
+         */
+        Action<UIElement &, TEventArgs &> _handler;
+
+    public:
+        /**
+         * @brief         构造函数
+         * @param handler 事件处理函数
+         */
+        RoutedEventHandlerWrapper(const Action<UIElement &, TEventArgs &> &handler)
+            : _handler(handler)
+        {
+        }
+
+        /**
+         * @brief 调用事件处理函数
+         */
+        virtual void Invoke(UIElement &sender, RoutedEventArgs &args) const override
+        {
+            if (_handler) _handler(sender, static_cast<TEventArgs &>(args));
+        }
+
+        /**
+         * @brief 克隆当前可调用对象
+         */
+        virtual ICallable<void(UIElement &, RoutedEventArgs &)> *Clone() const override
+        {
+            return new RoutedEventHandlerWrapper(_handler);
+        }
+
+        /**
+         * @brief 获取当前可调用对象的类型信息
+         */
+        virtual const std::type_info &GetTypeInfo() const override
+        {
+            return typeid(RoutedEventHandlerWrapper);
+        }
+
+        /**
+         * @brief       判断当前可调用对象是否与另一个可调用对象相等
+         * @param other 另一个可调用对象
+         * @return      如果相等则返回true，否则返回false
+         */
+        virtual bool Equals(const ICallable<void(UIElement &, RoutedEventArgs &)> &other) const override
+        {
+            if (this == &other) {
+                return true;
+            }
+            if (GetTypeInfo() != other.GetTypeInfo()) {
+                return false;
+            }
+            const auto &otherWrapper = static_cast<const RoutedEventHandlerWrapper &>(other);
+            return _handler.Equals(otherWrapper._handler);
         }
     };
 }
@@ -5116,6 +5906,11 @@ namespace sw
     class Window;    // Window.h
 
     /**
+     * @brief Action<>的别名，表示无参数、无返回值的委托
+     */
+    using SimpleAction = Action<>;
+
+    /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
     class WndBase
@@ -5893,16 +6688,16 @@ namespace sw
         HitTestResult NcHitTest(const Point &testPoint);
 
         /**
-         * @brief      在窗口线程上执行指定函数
-         * @param func 要执行的函数
+         * @brief        在窗口线程上执行指定委托
+         * @param action 要执行的委托
          */
-        void Invoke(const std::function<void()> &func);
+        void Invoke(const SimpleAction &action);
 
         /**
-         * @brief      在窗口线程上执行指定函数，并立即返回
-         * @param func 要执行的函数
+         * @brief        在窗口线程上执行指定委托，并立即返回
+         * @param action 要执行的委托
          */
-        void InvokeAsync(const std::function<void()> &func);
+        void InvokeAsync(const SimpleAction &action);
 
     private:
         /**
@@ -6101,7 +6896,7 @@ namespace sw
     /**
      * @brief 消息框回调
      */
-    using MsgBoxCallback = std::function<void()>;
+    using MsgBoxCallback = Action<>;
 
     /**
      * @brief 消息框按钮类型
@@ -6168,8 +6963,8 @@ namespace sw
         template <MsgBoxResult RES>
         MsgBoxResultHelper &On(const MsgBoxCallback &callback)
         {
-            if (this->result == RES && callback) {
-                callback();
+            if (this->result == RES) {
+                if (callback) callback();
             }
             return *this;
         }
@@ -6271,7 +7066,7 @@ namespace sw
     /**
      * @brief 计时器触发事件类型
      */
-    using TimerTickHandler = std::function<void(Timer &)>;
+    using TimerTickHandler = Action<Timer &>;
 
     /**
      * @brief 计时器
@@ -6289,16 +7084,16 @@ namespace sw
          */
         uint32_t _interval = 1000;
 
-        /**
-         * @brief 处理函数
-         */
-        TimerTickHandler _handler{nullptr};
-
     public:
         /**
          * @brief 相对于上一次触发的Tick事件引发下一次Tick事件之间的时间（以毫秒为单位）
          */
         Property<uint32_t> Interval;
+
+        /**
+         * @brief 计时器触发事件
+         */
+        TimerTickHandler Tick;
 
     public:
         /**
@@ -6315,25 +7110,6 @@ namespace sw
          * @brief 停止计时器
          */
         void Stop();
-
-        /**
-         * @brief         设置计时器事件处理函数
-         * @param handler 处理函数
-         */
-        void SetTickHandler(const TimerTickHandler &handler);
-
-        /**
-         * @brief           设置成员函数为计时器事件处理函数
-         * @tparam T        成员函数所在的类
-         * @param obj       成员函数所在的对象
-         * @param handler   处理函数
-         */
-        template <typename T>
-        void SetTickHandler(T &obj, void (T::*handler)(Timer &))
-        {
-            T *p = &obj;
-            this->SetTickHandler([p, handler](Timer &timer) { (p->*handler)(timer); });
-        }
 
     protected:
         /**
@@ -6943,15 +7719,65 @@ namespace sw
 namespace sw
 {
     /**
+     * @brief 通知布局更新的条件
+     */
+    enum class LayoutUpdateCondition : uint32_t {
+        /**
+         * @brief 表示不需要更新布局
+         * @note  一旦设置了该标记，NotifyLayoutUpdated函数将不会触发WM_UpdateLayout消息
+         * @note  框架内部使用该标记来抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
+         */
+        Supressed = 1,
+
+        /**
+         * @brief 尺寸改变时更新布局
+         */
+        SizeChanged = 2,
+
+        /**
+         * @brief 位置改变时更新布局
+         */
+        PositionChanged = 4,
+
+        /**
+         * @brief 添加子元素时更新布局
+         */
+        ChildAdded = 8,
+
+        /**
+         * @brief 移除子元素时更新布局
+         */
+        ChildRemoved = 16,
+
+        /**
+         * @brief 文本改变时更新布局
+         */
+        TextChanged = 32,
+
+        /**
+         * @brief 字体改变时更新布局
+         */
+        FontChanged = 64,
+    };
+
+    /**
+     * @brief 标记LayoutUpdateCondition支持位操作
+     */
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(LayoutUpdateCondition);
+
+    /**
      * @brief 表示界面中的元素
      */
     class UIElement : public WndBase, public ILayout, public ITag
     {
     private:
         /**
-         * @brief 是否正在Arrange，当该字段为true时调用NotifyLayoutUpdated函数不会触发WM_UpdateLayout消息
+         * @brief 布局更新条件
          */
-        bool _arranging = false;
+        sw::LayoutUpdateCondition _layoutUpdateCondition =
+            sw::LayoutUpdateCondition::SizeChanged |
+            sw::LayoutUpdateCondition::ChildAdded |
+            sw::LayoutUpdateCondition::ChildRemoved;
 
         /**
          * @brief 是否在不可见时不参与布局
@@ -7001,7 +7827,7 @@ namespace sw
         /**
          * @brief 记录路由事件的map
          */
-        std::map<RoutedEventType, RoutedEvent> _eventMap{};
+        std::map<RoutedEventType, RoutedEventHandler> _eventMap{};
 
         /**
          * @brief 储存用户自定义信息
@@ -7154,6 +7980,12 @@ namespace sw
          */
         const Property<bool> InheritTextColor;
 
+        /**
+         * @brief 触发布局更新的条件
+         * @note  修改该属性不会立即触发布局更新
+         */
+        const Property<sw::LayoutUpdateCondition> LayoutUpdateCondition;
+
     protected:
         /**
          * @brief 初始化UIElement
@@ -7170,8 +8002,9 @@ namespace sw
          * @brief           注册路由事件处理函数，当事件已注册时会覆盖已注册的函数
          * @param eventType 路由事件类型
          * @param handler   处理函数，当值为nullptr时可取消注册
+         * @deprecated      建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
-        void RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &handler);
+        void RegisterRoutedEvent(RoutedEventType eventType, const RoutedEventHandler &handler);
 
         /**
          * @brief           注册成员函数作为路由事件处理函数，当事件已注册时会覆盖已注册的函数
@@ -7179,44 +8012,42 @@ namespace sw
          * @param eventType 路由事件类型
          * @param obj       注册的成员函数所在的对象
          * @param handler   处理函数，当值为nullptr时可取消注册
+         * @deprecated      建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         template <typename T>
         void RegisterRoutedEvent(RoutedEventType eventType, T &obj, void (T::*handler)(UIElement &, RoutedEventArgs &))
         {
             if (handler == nullptr) {
                 this->UnregisterRoutedEvent(eventType);
-                return;
+            } else {
+                this->RegisterRoutedEvent(eventType, RoutedEventHandler(obj, handler));
             }
-            T *p = &obj;
-            this->RegisterRoutedEvent(eventType, [p, handler](UIElement &sender, RoutedEventArgs &e) {
-                (p->*handler)(sender, e);
-            });
         }
 
         /**
-         * @brief             根据事件参数类型注册路由事件
-         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventOfType<...>
+         * @brief             根据事件参数类型注册路由事件，当事件已注册时会覆盖已注册的函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
          * @param handler     事件的处理函数，当值为nullptr时可取消注册
+         * @deprecated        建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         template <typename TEventArgs>
         typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
-        RegisterRoutedEvent(std::function<void(UIElement &, TEventArgs &)> handler)
+        RegisterRoutedEvent(const Action<UIElement &, TEventArgs &> &handler)
         {
             if (!handler) {
                 this->UnregisterRoutedEvent(TEventArgs::EventType);
-                return;
+            } else {
+                this->RegisterRoutedEvent(TEventArgs::EventType, RoutedEventHandlerWrapper<TEventArgs>(handler));
             }
-            this->RegisterRoutedEvent(TEventArgs::EventType, [handler](UIElement &sender, RoutedEventArgs &e) {
-                handler(sender, static_cast<TEventArgs &>(e));
-            });
         }
 
         /**
-         * @brief             根据事件参数类型注册成员函数作为路由事件
-         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventOfType<...>
+         * @brief             根据事件参数类型注册成员函数作为路由事件，当事件已注册时会覆盖已注册的函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
          * @tparam THandleObj 成员函数所在的类
          * @param obj         注册的成员函数所在的对象
          * @param handler     事件的处理函数，当值为nullptr时可取消注册
+         * @deprecated        建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         template <typename TEventArgs, typename THandleObj>
         typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
@@ -7224,22 +8055,203 @@ namespace sw
         {
             if (handler == nullptr) {
                 this->UnregisterRoutedEvent(TEventArgs::EventType);
-                return;
+            } else {
+                this->RegisterRoutedEvent(TEventArgs::EventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
             }
-            THandleObj *p = &obj;
-            this->RegisterRoutedEvent(TEventArgs::EventType, [p, handler](UIElement &sender, RoutedEventArgs &e) {
-                (p->*handler)(sender, static_cast<TEventArgs &>(e));
-            });
         }
 
         /**
-         * @brief           取消对应类型路由事件的注册
+         * @brief           添加路由事件处理函数
+         * @param eventType 路由事件类型
+         * @param handler   处理函数
+         */
+        void AddHandler(RoutedEventType eventType, const RoutedEventHandler &handler);
+
+        /**
+         * @brief           添加成员函数作为路由事件处理函数
+         * @tparam T        成员函数所在的类
+         * @param eventType 路由事件类型
+         * @param obj       注册的成员函数所在的对象
+         * @param handler   处理函数
+         */
+        template <typename T>
+        void AddHandler(RoutedEventType eventType, T &obj, void (T::*handler)(UIElement &, RoutedEventArgs &))
+        {
+            if (handler) this->_eventMap[eventType].Add(obj, handler);
+        }
+
+        /**
+         * @brief             根据事件参数类型添加路由事件处理函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
+         * @param handler     事件的处理函数
+         */
+        template <typename TEventArgs>
+        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
+        AddHandler(const Action<UIElement &, TEventArgs &> &handler)
+        {
+            if (handler) this->AddHandler(TEventArgs::EventType, RoutedEventHandlerWrapper<TEventArgs>(handler));
+        }
+
+        /**
+         * @brief             根据事件参数类型添加成员函数作为路由事件处理函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
+         * @tparam THandleObj 成员函数所在的类
+         * @param obj         注册的成员函数所在的对象
+         * @param handler     事件的处理函数
+         */
+        template <typename TEventArgs, typename THandleObj>
+        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
+        AddHandler(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        {
+            if (handler) this->AddHandler(TEventArgs::EventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
+        }
+
+        /**
+         * @brief             添加路由事件处理函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventArgs
+         * @param eventType   路由事件类型
+         * @param handler     处理函数
+         */
+        template <typename TEventArgs>
+        typename std::enable_if<
+            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+            !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+            !sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
+        AddHandler(RoutedEventType eventType, const Action<UIElement &, TEventArgs &> &handler)
+        {
+            if (handler) this->AddHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(handler));
+        }
+
+        /**
+         * @brief             添加成员函数作为路由事件处理函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventArgs
+         * @tparam THandleObj 成员函数所在的类
+         * @param eventType   路由事件类型
+         * @param obj         注册的成员函数所在的对象
+         * @param handler     处理函数
+         */
+        template <typename TEventArgs, typename THandleObj>
+        typename std::enable_if<
+            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+            !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+            !sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
+        AddHandler(RoutedEventType eventType, THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        {
+            if (handler) this->AddHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
+        }
+
+        /**
+         * @brief           移除已添加的路由事件处理函数
+         * @param eventType 路由事件类型
+         * @param handler   处理函数
+         * @return          是否成功移除
+         */
+        bool RemoveHandler(RoutedEventType eventType, const RoutedEventHandler &handler);
+
+        /**
+         * @brief           移除已添加的类型为成员函数的路由事件处理函数
+         * @tparam T        成员函数所在的类
+         * @param eventType 路由事件类型
+         * @param obj       注册的成员函数所在的对象
+         * @param handler   处理函数
+         * @return          是否成功移除
+         */
+        template <typename T>
+        bool RemoveHandler(RoutedEventType eventType, T &obj, void (T::*handler)(UIElement &, RoutedEventArgs &))
+        {
+            return handler == nullptr ? false : this->_eventMap[eventType].Remove(obj, handler);
+        }
+
+        /**
+         * @brief             移除已添加的路由事件处理函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
+         * @param handler     事件的处理函数
+         * @return            是否成功移除
+         */
+        template <typename TEventArgs>
+        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value, bool>::type
+        RemoveHandler(const Action<UIElement &, TEventArgs &> &handler)
+        {
+            if (handler == nullptr) {
+                return false;
+            } else {
+                return this->RemoveHandler(TEventArgs::EventType, RoutedEventHandlerWrapper<TEventArgs>(handler));
+            }
+        }
+
+        /**
+         * @brief             移除已添加的类型为成员函数的路由事件处理函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
+         * @tparam THandleObj 成员函数所在的类
+         * @param obj         注册的成员函数所在的对象
+         * @param handler     事件的处理函数
+         * @return            是否成功移除
+         */
+        template <typename TEventArgs, typename THandleObj>
+        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value, bool>::type
+        RemoveHandler(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        {
+            if (handler == nullptr) {
+                return false;
+            } else {
+                return this->RemoveHandler(TEventArgs::EventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
+            }
+        }
+
+        /**
+         * @brief             移除已添加的路由事件处理函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventArgs
+         * @param eventType   路由事件类型
+         * @param handler     处理函数
+         * @return            是否成功移除
+         */
+        template <typename TEventArgs>
+        typename std::enable_if<
+            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+                !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+                !sw::_IsTypedRoutedEventArgs<TEventArgs>::value,
+            bool>::type
+        RemoveHandler(RoutedEventType eventType, const Action<UIElement &, TEventArgs &> &handler)
+        {
+            if (handler == nullptr) {
+                return false;
+            } else {
+                return this->RemoveHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(handler));
+            }
+        }
+
+        /**
+         * @brief             移除已添加的类型为成员函数的路由事件处理函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventArgs
+         * @tparam THandleObj 成员函数所在的类
+         * @param eventType   路由事件类型
+         * @param obj         注册的成员函数所在的对象
+         * @param handler     处理函数
+         * @return            是否成功移除
+         */
+        template <typename TEventArgs, typename THandleObj>
+        typename std::enable_if<
+            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+                !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+                !sw::_IsTypedRoutedEventArgs<TEventArgs>::value,
+            bool>::type
+        RemoveHandler(RoutedEventType eventType, THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        {
+            if (handler == nullptr) {
+                return false;
+            } else {
+                return this->RemoveHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
+            }
+        }
+
+        /**
+         * @brief           取消对应类型路由事件的注册，该函数会移除对应事件所有的处理函数
          * @param eventType 路由事件类型
          */
         void UnregisterRoutedEvent(RoutedEventType eventType);
 
         /**
-         * @brief           判断路由事件是否已被注册
+         * @brief           判断路由事件是否已存在事件处理函数
          * @param eventType 路由事件类型
          */
         bool IsRoutedEventRegistered(RoutedEventType eventType);
@@ -7390,6 +8402,11 @@ namespace sw
          * @brief 调整当前元素的尺寸，也可以用该函数更改默认Measure函数在当前横向或纵向对齐方式为拉伸时的DesireSize
          */
         void Resize(const Size &size);
+
+        /**
+         * @brief 判断指定的布局更新条件是否已设置
+         */
+        bool IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition condition);
 
         /**
          * @brief 获取Tag
@@ -7568,6 +8585,12 @@ namespace sw
          * @brief Text属性更改时调用此函数
          */
         virtual void OnTextChanged() override;
+
+        /**
+         * @brief       字体改变时调用该函数
+         * @param hfont 字体句柄
+         */
+        virtual void FontChanged(HFONT hfont) override;
 
         /**
          * @brief Visible属性改变时调用此函数

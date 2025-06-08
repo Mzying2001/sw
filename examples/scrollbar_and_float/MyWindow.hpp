@@ -55,8 +55,8 @@ class MyWindow : public sw::Window
         // 注：仅在设置了布局方式时可自动调整滚动条参数可控件位置，若未设置则需要自行调整
         this->VerticalScrollBar = true;
 
-        // 注册鼠标滚轮事件实现页面随鼠标滚动而滚动
-        this->RegisterRoutedEvent<sw::MouseWheelEventArgs>(*this, &MyWindow::MouseWheelHandler);
+        // 添加鼠标滚轮事件实现页面随鼠标滚动而滚动
+        this->AddHandler<sw::MouseWheelEventArgs>(*this, &MyWindow::MouseWheelHandler);
     }
 
 

@@ -19,7 +19,7 @@
 
 ## Quick Start
 
-Here is a SimpleWindow HelloWorld program. For more examples, see [here](./examples).
+Here is a SimpleWindow HelloWorld program. For more examples, see [here](https://github.com/Mzying2001/sw/tree/main/examples).
 
 ```c++
 #include "SimpleWindow.h"
@@ -38,8 +38,8 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT n
     // Modify the button text by assigning a value to the Text property
     button.Text = L"Click Me";
 
-    // Register a button click event handler to show a message box when the button is clicked
-    button.RegisterRoutedEvent(sw::ButtonBase_Clicked,
+    // Add a button click event handler to show a message box when the button is clicked
+    button.AddHandler(sw::ButtonBase_Clicked,
         [](sw::UIElement& sender, sw::RoutedEventArgs& e) {
             sw::MsgBox::Show(L"Hello, SimpleWindow!");
         });
@@ -66,4 +66,4 @@ Contributors are welcome to participate in the development and improvement of Si
 
 ## Stargazers over time
 
-[![Stargazers over time](https://starchart.cc/Mzying2001/sw.svg)](https://starchart.cc/Mzying2001/sw)
+[![Stargazers over time](https://starchart.cc/Mzying2001/sw.svg?variant=adaptive)](https://starchart.cc/Mzying2001/sw)

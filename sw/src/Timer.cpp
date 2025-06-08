@@ -43,15 +43,10 @@ void sw::Timer::Stop()
     }
 }
 
-void sw::Timer::SetTickHandler(const TimerTickHandler &handler)
-{
-    this->_handler = handler;
-}
-
 void sw::Timer::OnTick()
 {
-    if (this->_handler)
-        this->_handler(*this);
+    if (this->Tick)
+        this->Tick(*this);
 }
 
 sw::Timer *sw::Timer::_GetTimerPtr(HWND hwnd)

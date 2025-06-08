@@ -11,11 +11,11 @@
 
 namespace sw
 {
-    // 向前声明
+    // ICallable接口声明
     template <typename>
     struct ICallable;
 
-    // 向前声明
+    // Delegate类声明
     template <typename>
     class Delegate;
 
@@ -264,10 +264,28 @@ namespace sw
         /**
          * @brief 构造函数，接受一个可调用对象
          */
-        template <typename T>
+        template <typename T, typename std::enable_if<!std::is_base_of<_ICallable, T>::value, int>::type = 0>
         Delegate(const T &callable)
         {
             Add(callable);
+        }
+
+        /**
+         * @brief 构造函数，接受一个成员函数指针
+         */
+        template <typename T>
+        Delegate(T &obj, TRet (T::*func)(Args...))
+        {
+            Add(obj, func);
+        }
+
+        /**
+         * @brief 构造函数，接受一个常量成员函数指针
+         */
+        template <typename T>
+        Delegate(const T &obj, TRet (T::*func)(Args...) const)
+        {
+            Add(obj, func);
         }
 
         /**
@@ -319,6 +337,19 @@ namespace sw
          */
         void Add(const ICallable<TRet(Args...)> &callable)
         {
+            // 当添加的可调用对象与当前委托类型相同时（针对单播委托进行优化）：
+            // - 若委托内容为空，则直接返回
+            // - 若委托内容只有一个元素，则克隆该元素并添加到当前委托中
+            // - 否则，直接添加该可调用对象的克隆
+            if (callable.GetTypeInfo() == GetTypeInfo()) {
+                auto &delegate = static_cast<const Delegate &>(callable);
+                if (delegate._data.empty()) {
+                    return;
+                } else if (delegate._data.size() == 1) {
+                    _data.emplace_back(delegate._data.front()->Clone());
+                    return;
+                }
+            }
             _data.emplace_back(callable.Clone());
         }
 
@@ -336,7 +367,8 @@ namespace sw
          * @brief 添加一个可调用对象到委托中
          */
         template <typename T>
-        void Add(const T &callable)
+        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, void>::type
+        Add(const T &callable)
         {
             _data.emplace_back(std::make_unique<_CallableWrapper<T>>(callable));
         }
@@ -374,6 +406,18 @@ namespace sw
          */
         bool Remove(const ICallable<TRet(Args...)> &callable)
         {
+            // 当移除的可调用对象与当前委托类型相同时（与Add逻辑相对应）：
+            // - 若委托内容为空，则直接返回false
+            // - 若委托内容只有一个元素，则尝试移除该元素
+            // - 否则，直接调用_Remove函数进行移除
+            if (callable.GetTypeInfo() == GetTypeInfo()) {
+                auto &delegate = static_cast<const Delegate &>(callable);
+                if (delegate._data.empty()) {
+                    return false;
+                } else if (delegate._data.size() == 1) {
+                    return _Remove(*delegate._data.front());
+                }
+            }
             return _Remove(callable);
         }
 
@@ -396,7 +440,8 @@ namespace sw
          * @note   按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
          */
         template <typename T>
-        bool Remove(const T &callable)
+        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, bool>::type
+        Remove(const T &callable)
         {
             return _Remove(_CallableWrapper<T>(callable));
         }
@@ -506,7 +551,8 @@ namespace sw
          * @note  该函数调用Add函数
          */
         template <typename T>
-        Delegate &operator+=(const T &callable)
+        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, Delegate &>::type
+        operator+=(const T &callable)
         {
             Add(callable);
             return *this;
@@ -537,7 +583,8 @@ namespace sw
          * @note  该函数调用Remove函数
          */
         template <typename T>
-        Delegate &operator-=(const T &callable)
+        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, Delegate &>::type
+        operator-=(const T &callable)
         {
             Remove(callable);
             return *this;

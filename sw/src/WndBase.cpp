@@ -678,8 +678,15 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 
         case WM_InvokeFunction: {
             auto pFunc = reinterpret_cast<std::function<void()> *>(refMsg.lParam);
-            if (pFunc) (*pFunc)();
+            if (pFunc && *pFunc) (*pFunc)();
             if (refMsg.wParam) delete pFunc;
+            return 0;
+        }
+
+        case WM_InvokeAction: {
+            auto pAction = reinterpret_cast<Action<> *>(refMsg.lParam);
+            if (pAction && *pAction) pAction->Invoke();
+            if (refMsg.wParam) delete pAction;
             return 0;
         }
 
@@ -1126,16 +1133,16 @@ sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
     return (HitTestResult)this->SendMessageW(WM_NCHITTEST, 0, MAKELPARAM(point.x, point.y));
 }
 
-void sw::WndBase::Invoke(const std::function<void()> &func)
+void sw::WndBase::Invoke(const SimpleAction &action)
 {
-    auto f = func;
-    this->SendMessageW(WM_InvokeFunction, false, reinterpret_cast<LPARAM>(&f));
+    Action<> a = action;
+    this->SendMessageW(WM_InvokeAction, false, reinterpret_cast<LPARAM>(&a));
 }
 
-void sw::WndBase::InvokeAsync(const std::function<void()> &func)
+void sw::WndBase::InvokeAsync(const SimpleAction &action)
 {
-    auto *pf = new std::function<void()>(func);
-    this->PostMessageW(WM_InvokeFunction, true, reinterpret_cast<LPARAM>(pf));
+    Action<> *p = new Action<>(action);
+    this->PostMessageW(WM_InvokeAction, true, reinterpret_cast<LPARAM>(p));
 }
 
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

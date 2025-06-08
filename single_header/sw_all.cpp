@@ -79,11 +79,6 @@ namespace
     sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
 
     /**
-     * @brief 消息循环中处理空句柄消息的回调函数
-     */
-    void (*_nullHwndMsgHandler)(const MSG &) = nullptr;
-
-    /**
      * @brief  获取当前exe文件路径
      */
     std::wstring _GetExePath()
@@ -121,6 +116,11 @@ namespace
         return curdir;
     }
 }
+
+/**
+ * @brief 消息循环中处理空句柄消息的回调函数
+ */
+sw::Action<MSG &> sw::App::NullHwndMsgHandler;
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     []() -> HINSTANCE {
@@ -165,24 +165,13 @@ const sw::Property<sw::AppQuitMode> sw::App::QuitMode(
     } //
 );
 
-const sw::Property<void (*)(const MSG &)> sw::App::NullHwndMsgHandler(
-    // get
-    []() -> void (*)(const MSG &) {
-        return _nullHwndMsgHandler;
-    },
-    // set
-    [](void (*const &value)(const MSG &)) {
-        _nullHwndMsgHandler = value;
-    } //
-);
-
 int sw::App::MsgLoop()
 {
     MSG msg;
     while (GetMessageW(&msg, NULL, 0, 0) > 0) {
         if (msg.hwnd == NULL) {
-            if (_nullHwndMsgHandler)
-                _nullHwndMsgHandler(msg);
+            if (NullHwndMsgHandler)
+                NullHwndMsgHandler(msg);
         } else {
             TranslateMessage(&msg);
             DispatchMessageW(&msg);
@@ -3332,8 +3321,10 @@ void sw::IPAddressControl::DestroyWindowCore(HWND hwnd)
 
 void sw::IPAddressControl::FontChanged(HFONT hfont)
 {
-    if (this->_hIPAddrCtrl != NULL)
+    if (this->_hIPAddrCtrl != NULL) {
         ::SendMessageW(this->_hIPAddrCtrl, WM_SETFONT, reinterpret_cast<WPARAM>(hfont), TRUE);
+    }
+    this->HwndHost::FontChanged(hfont);
 }
 
 bool sw::IPAddressControl::OnSetFocus(HWND hPrevFocus)
@@ -3472,9 +3463,13 @@ sw::Label::Label()
           },
           // set
           [this](const bool &value) {
-              this->_autoSize = value;
               if (value) {
+                  this->_autoSize = true;
+                  this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
                   this->NotifyLayoutUpdated();
+              } else {
+                  this->_autoSize = false;
+                  this->LayoutUpdateCondition &= ~(sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged);
               }
           })
 {
@@ -3483,6 +3478,7 @@ sw::Label::Label()
     this->_ResizeToTextSize();
     this->Transparent      = true;
     this->InheritTextColor = true;
+    this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
 }
 
 void sw::Label::_UpdateTextSize()
@@ -3518,20 +3514,14 @@ bool sw::Label::OnSize(Size newClientSize)
 
 void sw::Label::OnTextChanged()
 {
-    this->UIElement::OnTextChanged();
     this->_UpdateTextSize();
-
-    if (this->_autoSize) {
-        this->NotifyLayoutUpdated();
-    }
+    this->Control::OnTextChanged();
 }
 
 void sw::Label::FontChanged(HFONT hfont)
 {
     this->_UpdateTextSize();
-    if (this->_autoSize) {
-        this->NotifyLayoutUpdated();
-    }
+    this->Control::FontChanged(hfont);
 }
 
 void sw::Label::Measure(const Size &availableSize)
@@ -6556,9 +6546,13 @@ sw::SysLink::SysLink()
           },
           // set
           [this](const bool &value) {
-              this->_autoSize = value;
               if (value) {
+                  this->_autoSize = true;
+                  this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
                   this->NotifyLayoutUpdated();
+              } else {
+                  this->_autoSize = false;
+                  this->LayoutUpdateCondition &= ~(sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged);
               }
           })
 {
@@ -6567,23 +6561,19 @@ sw::SysLink::SysLink()
     this->_ResizeToTextSize();
     this->Transparent      = true;
     this->InheritTextColor = true;
+    this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
 }
 
 void sw::SysLink::OnTextChanged()
 {
-    this->Control::OnTextChanged();
     this->_UpdateTextSize();
-    if (this->_autoSize) {
-        this->NotifyLayoutUpdated();
-    }
+    this->Control::OnTextChanged();
 }
 
 void sw::SysLink::FontChanged(HFONT hfont)
 {
     this->_UpdateTextSize();
-    if (this->_autoSize) {
-        this->NotifyLayoutUpdated();
-    }
+    this->Control::FontChanged(hfont);
 }
 
 void sw::SysLink::Measure(const Size &availableSize)
@@ -7214,15 +7204,10 @@ void sw::Timer::Stop()
     }
 }
 
-void sw::Timer::SetTickHandler(const TimerTickHandler &handler)
-{
-    this->_handler = handler;
-}
-
 void sw::Timer::OnTick()
 {
-    if (this->_handler)
-        this->_handler(*this);
+    if (this->Tick)
+        this->Tick(*this);
 }
 
 sw::Timer *sw::Timer::_GetTimerPtr(HWND hwnd)
@@ -7388,8 +7373,7 @@ sw::UIElement::UIElement()
           [this](const bool &value) {
               if (this->_collapseWhenHide != value) {
                   this->_collapseWhenHide = value;
-                  if (!this->Visible)
-                      this->NotifyLayoutUpdated();
+                  if (!this->Visible) this->NotifyLayoutUpdated();
               }
           }),
 
@@ -7437,9 +7421,11 @@ sw::UIElement::UIElement()
           },
           // set
           [this](const bool &value) {
-              this->_float = value;
-              this->UpdateSiblingsZOrder();
-              this->NotifyLayoutUpdated();
+              if (this->_float != value) {
+                  this->_float = value;
+                  this->UpdateSiblingsZOrder();
+                  this->NotifyLayoutUpdated();
+              }
           }),
 
       TabStop(
@@ -7494,6 +7480,16 @@ sw::UIElement::UIElement()
           [this](const bool &value) {
               this->_inheritTextColor = value;
               this->Redraw();
+          }),
+
+      LayoutUpdateCondition(
+          // get
+          [this]() -> sw::LayoutUpdateCondition {
+              return this->_layoutUpdateCondition;
+          },
+          // set
+          [this](const sw::LayoutUpdateCondition &value) {
+              this->_layoutUpdateCondition = value;
           })
 {
 }
@@ -7504,24 +7500,29 @@ sw::UIElement::~UIElement()
     this->SetParent(nullptr);
 }
 
-void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEvent &handler)
+void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEventHandler &handler)
 {
-    if (handler) {
-        this->_eventMap[eventType] = handler;
-    } else {
-        this->UnregisterRoutedEvent(eventType);
-    }
+    this->_eventMap[eventType] = handler;
+}
+
+void sw::UIElement::AddHandler(RoutedEventType eventType, const RoutedEventHandler &handler)
+{
+    if (handler) this->_eventMap[eventType] += handler;
+}
+
+bool sw::UIElement::RemoveHandler(RoutedEventType eventType, const RoutedEventHandler &handler)
+{
+    return handler == nullptr ? false : this->_eventMap[eventType].Remove(handler);
 }
 
 void sw::UIElement::UnregisterRoutedEvent(RoutedEventType eventType)
 {
-    if (this->IsRoutedEventRegistered(eventType))
-        this->_eventMap.erase(eventType);
+    this->_eventMap[eventType] = nullptr;
 }
 
 bool sw::UIElement::IsRoutedEventRegistered(RoutedEventType eventType)
 {
-    return this->_eventMap.count(eventType);
+    return this->_eventMap[eventType] != nullptr;
 }
 
 sw::UIElement &sw::UIElement::operator[](int index) const
@@ -7635,11 +7636,23 @@ bool sw::UIElement::RemoveChild(UIElement &element)
 
 void sw::UIElement::ClearChildren()
 {
+    if (this->_children.empty()) {
+        return;
+    }
+
+    this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
+
     while (!this->_children.empty()) {
         UIElement *item = this->_children.back();
         item->WndBase::SetParent(nullptr);
         this->_children.pop_back();
         this->OnRemovedChild(*item);
+    }
+
+    this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
+
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
+        this->NotifyLayoutUpdated();
     }
 }
 
@@ -7792,6 +7805,11 @@ void sw::UIElement::Resize(const Size &size)
                  SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
 }
 
+bool sw::UIElement::IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition condition)
+{
+    return (this->_layoutUpdateCondition & condition) == condition;
+}
+
 uint64_t sw::UIElement::GetTag()
 {
     return this->_tag;
@@ -7851,7 +7869,7 @@ void sw::UIElement::Measure(const Size &availableSize)
 
 void sw::UIElement::Arrange(const sw::Rect &finalPosition)
 {
-    this->_arranging = true;
+    this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
 
     Size &desireSize  = this->_desireSize;
     Thickness &margin = this->_margin;
@@ -7913,7 +7931,7 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
                  Dip::DipToPxX(rect.width), Dip::DipToPxY(rect.height),
                  SWP_NOACTIVATE | SWP_NOZORDER);
 
-    this->_arranging = false;
+    this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
 }
 
 sw::UIElement *sw::UIElement::ToUIElement()
@@ -7937,8 +7955,9 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
 
     UIElement *element = this;
     do {
-        if (element->IsRoutedEventRegistered(eventArgs.eventType)) {
-            element->_eventMap[eventArgs.eventType](*element, eventArgs);
+        auto &handler = element->_eventMap[eventArgs.eventType];
+        if (handler) {
+            handler(*element, eventArgs);
         }
         if (eventArgs.handled) {
             break;
@@ -7950,7 +7969,7 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
 
 void sw::UIElement::NotifyLayoutUpdated()
 {
-    if (!this->_arranging) {
+    if (!this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::Supressed)) {
         UIElement *root = this->GetRootElement();
         if (root) root->SendMessageW(WM_UpdateLayout, 0, 0);
     }
@@ -8039,12 +8058,16 @@ void sw::UIElement::SetTextColor(Color color, bool redraw)
 
 void sw::UIElement::OnAddedChild(UIElement &element)
 {
-    this->NotifyLayoutUpdated();
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildAdded)) {
+        this->NotifyLayoutUpdated();
+    }
 }
 
 void sw::UIElement::OnRemovedChild(UIElement &element)
 {
-    this->NotifyLayoutUpdated();
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
+        this->NotifyLayoutUpdated();
+    }
 }
 
 void sw::UIElement::OnTabStop()
@@ -8107,6 +8130,10 @@ bool sw::UIElement::OnMove(Point newClientPosition)
 {
     PositionChangedEventArgs args(newClientPosition);
     this->RaiseRoutedEvent(args);
+
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::PositionChanged)) {
+        this->NotifyLayoutUpdated();
+    }
     return args.handledMsg;
 }
 
@@ -8122,13 +8149,26 @@ bool sw::UIElement::OnSize(Size newClientSize)
     SizeChangedEventArgs args(newClientSize);
     this->RaiseRoutedEvent(args);
 
-    this->NotifyLayoutUpdated();
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::SizeChanged)) {
+        this->NotifyLayoutUpdated();
+    }
     return args.handledMsg;
 }
 
 void sw::UIElement::OnTextChanged()
 {
     this->RaiseRoutedEvent(UIElement_TextChanged);
+
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::TextChanged)) {
+        this->NotifyLayoutUpdated();
+    }
+}
+
+void sw::UIElement::FontChanged(HFONT hfont)
+{
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::FontChanged)) {
+        this->NotifyLayoutUpdated();
+    }
 }
 
 void sw::UIElement::VisibleChanged(bool newVisible)
@@ -9828,8 +9868,15 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 
         case WM_InvokeFunction: {
             auto pFunc = reinterpret_cast<std::function<void()> *>(refMsg.lParam);
-            if (pFunc) (*pFunc)();
+            if (pFunc && *pFunc) (*pFunc)();
             if (refMsg.wParam) delete pFunc;
+            return 0;
+        }
+
+        case WM_InvokeAction: {
+            auto pAction = reinterpret_cast<Action<> *>(refMsg.lParam);
+            if (pAction && *pAction) pAction->Invoke();
+            if (refMsg.wParam) delete pAction;
             return 0;
         }
 
@@ -10276,16 +10323,16 @@ sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
     return (HitTestResult)this->SendMessageW(WM_NCHITTEST, 0, MAKELPARAM(point.x, point.y));
 }
 
-void sw::WndBase::Invoke(const std::function<void()> &func)
+void sw::WndBase::Invoke(const SimpleAction &action)
 {
-    auto f = func;
-    this->SendMessageW(WM_InvokeFunction, false, reinterpret_cast<LPARAM>(&f));
+    Action<> a = action;
+    this->SendMessageW(WM_InvokeAction, false, reinterpret_cast<LPARAM>(&a));
 }
 
-void sw::WndBase::InvokeAsync(const std::function<void()> &func)
+void sw::WndBase::InvokeAsync(const SimpleAction &action)
 {
-    auto *pf = new std::function<void()>(func);
-    this->PostMessageW(WM_InvokeFunction, true, reinterpret_cast<LPARAM>(pf));
+    Action<> *p = new Action<>(action);
+    this->PostMessageW(WM_InvokeAction, true, reinterpret_cast<LPARAM>(p));
 }
 
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
