@@ -19,7 +19,7 @@
 
 ## 快速入门
 
-以下是一个 SimpleWindow 的 HelloWorld 程序，更多示例详见[这里](./examples)。
+以下是一个 SimpleWindow 的 HelloWorld 程序，更多示例详见[这里](https://github.com/Mzying2001/sw/tree/main/examples)。
 
 ```c++
 #include "SimpleWindow.h"
@@ -38,8 +38,8 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT n
     // 对Text属性赋值即可修改按钮文本
     button.Text = L"Click Me";
 
-    // 注册按钮单击事件处理函数，实现单击按钮弹出消息框
-    button.RegisterRoutedEvent(sw::ButtonBase_Clicked,
+    // 添加按钮单击事件处理函数，实现单击按钮弹出消息框
+    button.AddHandler(sw::ButtonBase_Clicked,
         [](sw::UIElement& sender, sw::RoutedEventArgs& e) {
             sw::MsgBox::Show(L"Hello, SimpleWindow!");
         });
@@ -66,4 +66,4 @@ SimpleWindow 框架是基于 MIT 许可证发布的，允许您在自己的项�
 
 ## Star 趋势
 
-[![Stargazers over time](https://starchart.cc/Mzying2001/sw.svg)](https://starchart.cc/Mzying2001/sw)
+[![Stargazers over time](https://starchart.cc/Mzying2001/sw.svg?variant=adaptive)](https://starchart.cc/Mzying2001/sw)
