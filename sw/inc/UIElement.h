@@ -351,6 +351,40 @@ namespace sw
         }
 
         /**
+         * @brief             添加路由事件处理函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventArgs
+         * @param eventType   路由事件类型
+         * @param handler     处理函数
+         */
+        template <typename TEventArgs>
+        typename std::enable_if<
+            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+            !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+            !sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
+        AddHandler(RoutedEventType eventType, const Action<UIElement &, TEventArgs &> &handler)
+        {
+            if (handler) this->AddHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(handler));
+        }
+
+        /**
+         * @brief             添加成员函数作为路由事件处理函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventArgs
+         * @tparam THandleObj 成员函数所在的类
+         * @param eventType   路由事件类型
+         * @param obj         注册的成员函数所在的对象
+         * @param handler     处理函数
+         */
+        template <typename TEventArgs, typename THandleObj>
+        typename std::enable_if<
+            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+            !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+            !sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
+        AddHandler(RoutedEventType eventType, THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        {
+            if (handler) this->AddHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
+        }
+
+        /**
          * @brief           移除已添加的路由事件处理函数
          * @param eventType 路由事件类型
          * @param handler   处理函数
@@ -379,7 +413,7 @@ namespace sw
          * @return            是否成功移除
          */
         template <typename TEventArgs>
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
+        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value, bool>::type
         RemoveHandler(const Action<UIElement &, TEventArgs &> &handler)
         {
             if (handler == nullptr) {
@@ -398,13 +432,59 @@ namespace sw
          * @return            是否成功移除
          */
         template <typename TEventArgs, typename THandleObj>
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
+        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value, bool>::type
         RemoveHandler(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
         {
             if (handler == nullptr) {
                 return false;
             } else {
                 return this->RemoveHandler(TEventArgs::EventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
+            }
+        }
+
+        /**
+         * @brief             移除已添加的路由事件处理函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventArgs
+         * @param eventType   路由事件类型
+         * @param handler     处理函数
+         * @return            是否成功移除
+         */
+        template <typename TEventArgs>
+        typename std::enable_if<
+            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+                !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+                !sw::_IsTypedRoutedEventArgs<TEventArgs>::value,
+            bool>::type
+        RemoveHandler(RoutedEventType eventType, const Action<UIElement &, TEventArgs &> &handler)
+        {
+            if (handler == nullptr) {
+                return false;
+            } else {
+                return this->RemoveHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(handler));
+            }
+        }
+
+        /**
+         * @brief             移除已添加的类型为成员函数的路由事件处理函数
+         * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventArgs
+         * @tparam THandleObj 成员函数所在的类
+         * @param eventType   路由事件类型
+         * @param obj         注册的成员函数所在的对象
+         * @param handler     处理函数
+         * @return            是否成功移除
+         */
+        template <typename TEventArgs, typename THandleObj>
+        typename std::enable_if<
+            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+                !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+                !sw::_IsTypedRoutedEventArgs<TEventArgs>::value,
+            bool>::type
+        RemoveHandler(RoutedEventType eventType, THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        {
+            if (handler == nullptr) {
+                return false;
+            } else {
+                return this->RemoveHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
             }
         }
 
