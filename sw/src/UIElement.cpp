@@ -835,6 +835,10 @@ bool sw::UIElement::OnSize(Size newClientSize)
 void sw::UIElement::OnTextChanged()
 {
     this->RaiseRoutedEvent(UIElement_TextChanged);
+
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::TextChanged)) {
+        this->NotifyLayoutUpdated();
+    }
 }
 
 void sw::UIElement::VisibleChanged(bool newVisible)

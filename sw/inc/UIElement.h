@@ -49,6 +49,11 @@ namespace sw
          * @brief 移除子元素时更新布局
          */
         ChildRemoved = 16,
+
+        /**
+         * @brief 文本改变时更新布局
+         */
+        TextChanged = 32,
     };
 
     /**
