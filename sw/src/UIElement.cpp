@@ -171,6 +171,16 @@ void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedE
     this->_eventMap[eventType] = handler;
 }
 
+void sw::UIElement::AddHandler(RoutedEventType eventType, const RoutedEventHandler &handler)
+{
+    if (handler) this->_eventMap[eventType] += handler;
+}
+
+bool sw::UIElement::RemoveHandler(RoutedEventType eventType, const RoutedEventHandler &handler)
+{
+    return handler == nullptr ? false : this->_eventMap[eventType].Remove(handler);
+}
+
 void sw::UIElement::UnregisterRoutedEvent(RoutedEventType eventType)
 {
     this->_eventMap[eventType] = nullptr;
@@ -594,8 +604,9 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
 
     UIElement *element = this;
     do {
-        if (element->IsRoutedEventRegistered(eventArgs.eventType)) {
-            element->_eventMap[eventArgs.eventType](*element, eventArgs);
+        auto &handler = element->_eventMap[eventArgs.eventType];
+        if (handler) {
+            handler(*element, eventArgs);
         }
         if (eventArgs.handled) {
             break;
