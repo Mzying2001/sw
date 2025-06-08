@@ -4,13 +4,14 @@ var searchData=
   ['_7echeckablebutton_1',['~CheckableButton',['../classsw_1_1_checkable_button.html#a5219cae8ff29ce51fc384b1916debb7a',1,'sw::CheckableButton']]],
   ['_7econtrol_2',['~Control',['../classsw_1_1_control.html#ab2c00cbb6c776111096e9711c19735e7',1,'sw::Control']]],
   ['_7efiledialog_3',['~FileDialog',['../classsw_1_1_file_dialog.html#a8db9fc8df65ed42fb79eac1f377e7975',1,'sw::FileDialog']]],
-  ['_7eilayout_4',['~ILayout',['../classsw_1_1_i_layout.html#a42941ab943edee8c07a7b1da6c7ea226',1,'sw::ILayout']]],
-  ['_7eimagelist_5',['~ImageList',['../classsw_1_1_image_list.html#ac39110050fa5810d799d79322624a220',1,'sw::ImageList']]],
-  ['_7eitag_6',['~ITag',['../classsw_1_1_i_tag.html#a34c7ead6ffeda8323221f5b85529a771',1,'sw::ITag']]],
-  ['_7elayer_7',['~Layer',['../classsw_1_1_layer.html#a9704f14ac77a0e0902b79058a2d29c8d',1,'sw::Layer']]],
-  ['_7emenubase_8',['~MenuBase',['../classsw_1_1_menu_base.html#a5e53085e7078b090cabf8998d6146831',1,'sw::MenuBase']]],
-  ['_7epanelbase_9',['~PanelBase',['../classsw_1_1_panel_base.html#a7acc50ef3ccea1f4efa8d1d3fdf18fa9',1,'sw::PanelBase']]],
-  ['_7etextboxbase_10',['~TextBoxBase',['../classsw_1_1_text_box_base.html#a2fb455bb1ed2c1b3f3c12a82a5a4b720',1,'sw::TextBoxBase']]],
-  ['_7euielement_11',['~UIElement',['../classsw_1_1_u_i_element.html#acbe28513919da89bf3f9a5102d6353c3',1,'sw::UIElement']]],
-  ['_7ewndbase_12',['~WndBase',['../classsw_1_1_wnd_base.html#a6c99714fa3f313e7535936585f63b9cb',1,'sw::WndBase']]]
+  ['_7eicallable_4',['~ICallable',['../structsw_1_1_i_callable_3_01_t_ret_07_args_8_8_8_08_4.html#ad7a434bdc72100e2a0ac1da2dce77032',1,'sw::ICallable&lt; TRet(Args...)&gt;']]],
+  ['_7eilayout_5',['~ILayout',['../classsw_1_1_i_layout.html#a42941ab943edee8c07a7b1da6c7ea226',1,'sw::ILayout']]],
+  ['_7eimagelist_6',['~ImageList',['../classsw_1_1_image_list.html#ac39110050fa5810d799d79322624a220',1,'sw::ImageList']]],
+  ['_7eitag_7',['~ITag',['../classsw_1_1_i_tag.html#a34c7ead6ffeda8323221f5b85529a771',1,'sw::ITag']]],
+  ['_7elayer_8',['~Layer',['../classsw_1_1_layer.html#a9704f14ac77a0e0902b79058a2d29c8d',1,'sw::Layer']]],
+  ['_7emenubase_9',['~MenuBase',['../classsw_1_1_menu_base.html#a5e53085e7078b090cabf8998d6146831',1,'sw::MenuBase']]],
+  ['_7epanelbase_10',['~PanelBase',['../classsw_1_1_panel_base.html#a7acc50ef3ccea1f4efa8d1d3fdf18fa9',1,'sw::PanelBase']]],
+  ['_7etextboxbase_11',['~TextBoxBase',['../classsw_1_1_text_box_base.html#a2fb455bb1ed2c1b3f3c12a82a5a4b720',1,'sw::TextBoxBase']]],
+  ['_7euielement_12',['~UIElement',['../classsw_1_1_u_i_element.html#acbe28513919da89bf3f9a5102d6353c3',1,'sw::UIElement']]],
+  ['_7ewndbase_13',['~WndBase',['../classsw_1_1_wnd_base.html#a6c99714fa3f313e7535936585f63b9cb',1,'sw::WndBase']]]
 ];

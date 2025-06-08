@@ -5,6 +5,11 @@ var hierarchy =
     [ "sw::CanvasLayoutTag", "structsw_1_1_canvas_layout_tag.html", null ],
     [ "sw::Color", "structsw_1_1_color.html", null ],
     [ "sw::CursorHelper", "classsw_1_1_cursor_helper.html", null ],
+    [ "sw::Delegate< typename >", "classsw_1_1_delegate.html", null ],
+    [ "sw::Delegate< MenuItem & >", "classsw_1_1_delegate.html", null ],
+    [ "sw::Delegate< MSG & >", "classsw_1_1_delegate.html", null ],
+    [ "sw::Delegate< sw::UIElement &, TEventArgs & >", "classsw_1_1_delegate.html", null ],
+    [ "sw::Delegate< Timer & >", "classsw_1_1_delegate.html", null ],
     [ "sw::Dictionary< TKey, TVal >", "classsw_1_1_dictionary.html", null ],
     [ "sw::Dip", "classsw_1_1_dip.html", null ],
     [ "sw::DockLayoutTag", "classsw_1_1_dock_layout_tag.html", null ],
@@ -42,6 +47,13 @@ var hierarchy =
       [ "sw::FixSizeGridRow", "structsw_1_1_fix_size_grid_row.html", null ]
     ] ],
     [ "sw::HotKey", "structsw_1_1_hot_key.html", null ],
+    [ "sw::ICallable< typename >", "structsw_1_1_i_callable.html", null ],
+    [ "sw::ICallable< TRet(Args...)>", "structsw_1_1_i_callable_3_01_t_ret_07_args_8_8_8_08_4.html", [
+      [ "sw::Delegate< TRet(Args...)>", "classsw_1_1_delegate_3_01_t_ret_07_args_8_8_8_08_4.html", null ]
+    ] ],
+    [ "sw::ICallable< void(UIElement &, RoutedEventArgs &)>", "structsw_1_1_i_callable.html", [
+      [ "sw::RoutedEventHandlerWrapper< TEventArgs, type >", "classsw_1_1_routed_event_handler_wrapper.html", null ]
+    ] ],
     [ "sw::IconHelper", "classsw_1_1_icon_helper.html", null ],
     [ "sw::ILayout", "classsw_1_1_i_layout.html", [
       [ "sw::LayoutHost", "classsw_1_1_layout_host.html", [
@@ -233,6 +245,9 @@ var hierarchy =
     [ "sw::PropertyBase< sw::LayoutHost *, Property< sw::LayoutHost * > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< sw::LayoutHost * >", "classsw_1_1_property.html", null ]
     ] ],
+    [ "sw::PropertyBase< sw::LayoutUpdateCondition, Property< sw::LayoutUpdateCondition > >", "classsw_1_1_property_base.html", [
+      [ "sw::Property< sw::LayoutUpdateCondition >", "classsw_1_1_property.html", null ]
+    ] ],
     [ "sw::PropertyBase< sw::List< std::wstring >, ReadOnlyProperty< sw::List< std::wstring > > >", "classsw_1_1_property_base.html", [
       [ "sw::ReadOnlyProperty< sw::List< std::wstring > >", "classsw_1_1_read_only_property.html", null ]
     ] ],
@@ -301,9 +316,6 @@ var hierarchy =
     ] ],
     [ "sw::PropertyBase< VerticalAlignment, Property< VerticalAlignment > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< VerticalAlignment >", "classsw_1_1_property.html", null ]
-    ] ],
-    [ "sw::PropertyBase< void(*)(const MSG &), Property< void(*)(const MSG &) > >", "classsw_1_1_property_base.html", [
-      [ "sw::Property< void(*)(const MSG &)>", "classsw_1_1_property.html", null ]
     ] ],
     [ "sw::PropertyBase< wchar_t, Property< wchar_t > >", "classsw_1_1_property_base.html", [
       [ "sw::Property< wchar_t >", "classsw_1_1_property.html", null ]

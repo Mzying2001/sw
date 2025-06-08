@@ -20,5 +20,6 @@ var searchData=
   ['readonlyproperty_3c_20sw_3a_3awndbase_20_2a_20_3e_17',['ReadOnlyProperty&lt; sw::WndBase * &gt;',['../classsw_1_1_read_only_property.html',1,'sw']]],
   ['readonlyproperty_3c_20titem_20_3e_18',['ReadOnlyProperty&lt; TItem &gt;',['../classsw_1_1_read_only_property.html',1,'sw']]],
   ['rect_19',['Rect',['../structsw_1_1_rect.html',1,'sw']]],
-  ['routedeventargs_20',['RoutedEventArgs',['../structsw_1_1_routed_event_args.html',1,'sw']]]
+  ['routedeventargs_20',['RoutedEventArgs',['../structsw_1_1_routed_event_args.html',1,'sw']]],
+  ['routedeventhandlerwrapper_21',['RoutedEventHandlerWrapper',['../classsw_1_1_routed_event_handler_wrapper.html',1,'sw']]]
 ];

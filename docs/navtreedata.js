@@ -26,6 +26,7 @@ var NAVTREE =
 [
   [ "SimpleWindow", "index.html", [
     [ "<tt>sw</tt>", "index.html", "index" ],
+    [ "弃用列表", "deprecated.html", null ],
     [ "类", "annotated.html", [
       [ "类列表", "annotated.html", "annotated_dup" ],
       [ "类索引", "classes.html", null ],
@@ -45,11 +46,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_alignment_8h_source.html",
-"classsw_1_1_file_dialog.html#a7bd7e540fa7f066eaf19f2744d506321",
-"classsw_1_1_list.html#abfff18bc7387d154bc89481259f847a0",
-"classsw_1_1_property_base.html#aa42271e2b997d0ba097e1d926f1331f1",
-"classsw_1_1_u_i_element.html#aef217f2655c4a746606bf302edc16cf4",
-"functions_vars_n.html"
+"classsw_1_1_dictionary.html#a346b637e419b23fecb11ff446825012a",
+"classsw_1_1_layer.html#ab199e8fc6b90975b7dcb5fdb4e5f2853",
+"classsw_1_1_property_base.html#a3ad59ad84ba150f4fb08d689fbd4135a",
+"classsw_1_1_u_i_element.html#a78f1c406d3faac2afcb956e9375f65ec",
+"classsw_1_1_write_only_property.html#a606fb1917232b1fa7c693faf58f0eef7",
+"structsw_1_1_show_context_menu_event_args.html"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

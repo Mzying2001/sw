@@ -1,10 +1,10 @@
 var indexSectionsWithContent =
 {
-  0: "_abcdefghiklmnopqrstuvwxy~开快特许贡趋",
+  0: "_abcdefghiklmnopqrstuvwxy~开弃快特许贡趋",
   1: "_abcdfghiklmoprstuw",
   2: "abcdefghilmnopqrstuvw~",
   3: "_abcdefghilmnopqrstuvwxy",
-  4: "st"
+  4: "st弃"
 };
 
 var indexSectionNames =
