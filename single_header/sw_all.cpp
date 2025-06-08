@@ -7080,7 +7080,8 @@ bool sw::TextBoxBase::OnKeyDown(VirtualKey key, KeyFlags flags)
     this->RaiseRoutedEvent(e);
 
     if (!e.handledMsg && key == VirtualKey::Tab && (!this->_acceptTab || this->ReadOnly)) {
-        this->SetNextTabStopFocus();
+        bool shiftDown = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+        shiftDown ? this->SetPreviousTabStopFocus() : this->SetNextTabStopFocus();
     }
 
     return e.handledMsg;
@@ -7740,12 +7741,26 @@ sw::UIElement *sw::UIElement::GetNextElement()
     return _GetNextElement(this);
 }
 
+sw::UIElement *sw::UIElement::GetPreviousElement()
+{
+    return _GetPreviousElement(this);
+}
+
 sw::UIElement *sw::UIElement::GetNextTabStopElement()
 {
     UIElement *element = this;
     do {
         element = element->GetNextElement();
-    } while (element != nullptr && element != this && (!element->_tabStop || !element->IsVisible()));
+    } while (element != nullptr && element != this && !(element->_tabStop && element->IsVisible()));
+    return element;
+}
+
+sw::UIElement *sw::UIElement::GetPreviousTabStopElement()
+{
+    UIElement *element = this;
+    do {
+        element = element->GetPreviousElement();
+    } while (element != nullptr && element != this && !(element->_tabStop && element->IsVisible()));
     return element;
 }
 
@@ -8044,6 +8059,12 @@ void sw::UIElement::SetNextTabStopFocus()
     if (next && next != this) next->OnTabStop();
 }
 
+void sw::UIElement::SetPreviousTabStopFocus()
+{
+    UIElement *previous = this->GetPreviousTabStopElement();
+    if (previous && previous != this) previous->OnTabStop();
+}
+
 void sw::UIElement::SetBackColor(Color color, bool redraw)
 {
     this->_backColor = color;
@@ -8206,7 +8227,8 @@ bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
 
     // 实现按下Tab键转移焦点
     if (!args.handledMsg && key == VirtualKey::Tab) {
-        this->SetNextTabStopFocus();
+        bool shiftDown = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+        shiftDown ? this->SetPreviousTabStopFocus() : this->SetNextTabStopFocus();
     }
 
     return args.handledMsg;
@@ -8392,6 +8414,26 @@ sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element, bool searchChi
     }
 
     return parent->_children[index + 1];
+}
+
+sw::UIElement *sw::UIElement::_GetDeepestLastElement(UIElement *element)
+{
+    while (!element->_children.empty()) {
+        element = element->_children.back();
+    }
+    return element;
+}
+
+sw::UIElement *sw::UIElement::_GetPreviousElement(UIElement *element)
+{
+    UIElement *parent = element->_parent;
+
+    if (parent == nullptr) {
+        return _GetDeepestLastElement(element);
+    }
+
+    int index = parent->IndexOf(element);
+    return index <= 0 ? parent : _GetDeepestLastElement(parent->_children[index - 1]);
 }
 
 // UniformGrid.cpp
