@@ -33,8 +33,8 @@ int APIENTRY wWinMain(
 
 
 
-    // 注册按钮单击事件，当按钮被单击是调用回调函数，这里传入一个lambda表达式
-    button->RegisterRoutedEvent(sw::ButtonBase_Clicked, [&](sw::UIElement&, sw::RoutedEventArgs) {
+    // 处理按钮单击事件，当按钮被单击时调用回调函数，这里传入一个lambda表达式
+    button->AddHandler(sw::ButtonBase_Clicked, [&](sw::UIElement&, sw::RoutedEventArgs) {
         static int counter = 0;
         // 直接修改Text属性即可更新标签的文本，使用Utils::BuildStr函数可以方便地构建字符串
         labelTips->Text = sw::Utils::BuildStr(L"You have clicked the button ", ++counter, L" times.");

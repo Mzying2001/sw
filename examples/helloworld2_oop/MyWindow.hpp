@@ -34,8 +34,8 @@ class MyWindow : public sw::Window
         // 设置按钮文本
         button.Text = L"Click me!";
 
-        // 注册成员函数用于响应按钮单击事件
-        button.RegisterRoutedEvent(sw::ButtonBase_Clicked, *this, &MyWindow::ButtonClickedHandler);
+        // 添加成员函数响应按钮单击事件
+        button.AddHandler(sw::ButtonBase_Clicked, *this, &MyWindow::ButtonClickedHandler);
 
         // 使用AddChild函数添加控件
         this->AddChild(stackPanel);
