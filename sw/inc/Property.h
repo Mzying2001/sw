@@ -1,7 +1,6 @@
 #pragma once
 
-#include <functional>
-#include <iostream>
+#include "Delegate.h"
 #include <type_traits>
 
 #define _SW_DEFINE_OPERATION_HELPER(NAME, OP)                                                                                   \
@@ -1521,8 +1520,8 @@ namespace sw
     {
     public:
         using TBase = PropertyBase<T, Property<T>>;
-        using FnGet = std::function<T()>;
-        using FnSet = std::function<void(const T &)>;
+        using FnGet = Func<T()>;
+        using FnSet = Action<const T &>;
         using TBase::operator=;
 
     private:
@@ -1563,7 +1562,7 @@ namespace sw
     {
     public:
         using TBase = PropertyBase<T, ReadOnlyProperty<T>>;
-        using FnGet = std::function<T()>;
+        using FnGet = Func<T()>;
 
     private:
         FnGet _getter;
@@ -1594,7 +1593,7 @@ namespace sw
     {
     public:
         using TBase = PropertyBase<T, WriteOnlyProperty<T>>;
-        using FnSet = std::function<void(const T &)>;
+        using FnSet = Action<const T &>;
         using TBase::operator=;
 
     private:

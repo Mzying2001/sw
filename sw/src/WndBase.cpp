@@ -1,4 +1,5 @@
 #include "WndBase.h"
+#include <functional>
 
 namespace
 {
