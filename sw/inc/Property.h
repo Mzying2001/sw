@@ -1553,22 +1553,6 @@ namespace sw
         {
             this->_setter(value);
         }
-
-        /**
-         * @brief 重设Getter
-         */
-        void ResetGetter(const FnGet &getter)
-        {
-            this->_getter = getter;
-        }
-
-        /**
-         * @brief 重设Setter
-         */
-        void ResetSetter(const FnSet &setter)
-        {
-            this->_setter = setter;
-        }
     };
 
     /**
@@ -1599,14 +1583,6 @@ namespace sw
         T GetterImpl() const
         {
             return this->_getter();
-        }
-
-        /**
-         * @brief 重设Getter
-         */
-        void ResetGetter(const FnGet &getter)
-        {
-            this->_getter = getter;
         }
     };
 
@@ -1639,14 +1615,6 @@ namespace sw
         void SetterImpl(const T &value) const
         {
             this->_setter(value);
-        }
-
-        /**
-         * @brief 重设Setter
-         */
-        void ResetSetter(const FnSet &setter)
-        {
-            this->_setter = setter;
         }
     };
 }
