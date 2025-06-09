@@ -16,9 +16,11 @@ sw::UIElement::UIElement()
           }),
 
       HorizontalAlignment(
+          // get
           [this]() -> sw::HorizontalAlignment {
               return this->_horizontalAlignment;
           },
+          // set
           [this](const sw::HorizontalAlignment &value) {
               if (this->_SetHorzAlignment(value)) {
                   this->NotifyLayoutUpdated();
@@ -26,9 +28,11 @@ sw::UIElement::UIElement()
           }),
 
       VerticalAlignment(
+          // get
           [this]() -> sw::VerticalAlignment {
               return this->_verticalAlignment;
           },
+          // set
           [this](const sw::VerticalAlignment &value) {
               if (this->_SetVertAlignment(value)) {
                   this->NotifyLayoutUpdated();
