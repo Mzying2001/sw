@@ -8,9 +8,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
-#include <functional>
 #include <initializer_list>
-#include <iostream>
 #include <map>
 #include <memory>
 #include <sstream>
@@ -166,6 +164,346 @@ namespace sw
     };
 
     /**
+     * @brief 用于存储和管理多个可调用对象的列表，针对单个可调用对象的情况进行优化
+     */
+    template <typename T>
+    class CallableList
+    {
+    public:
+        /**
+         * @brief 可调用对象类型别名
+         */
+        using TCallable = ICallable<T>;
+
+        /**
+         * @brief 智能指针类型别名，用于存储可调用对象的唯一指针
+         */
+        using TPtr = std::unique_ptr<TCallable>;
+
+        /**
+         * @brief 列表类型别名，用于存储多个可调用对象的智能指针
+         */
+        using TList = std::vector<TPtr>;
+
+    private:
+        /**
+         * @brief 内部存储可调用对象的联合体
+         */
+        mutable union {
+            alignas(TPtr) uint8_t _single[sizeof(TPtr)];
+            alignas(TList) uint8_t _list[sizeof(TList)];
+        } _data = {};
+
+        /**
+         * @brief 当前状态枚举
+         */
+        enum : uint8_t {
+            STATE_NONE,   // 未存储任何可调用对象
+            STATE_SINGLE, // 储存了一个可调用对象
+            STATE_LIST    // 储存了多个可调用对象
+        } _state = STATE_NONE;
+
+    public:
+        /**
+         * @brief 默认构造函数
+         */
+        CallableList()
+        {
+        }
+
+        /**
+         * @brief 拷贝构造函数
+         */
+        CallableList(const CallableList &other)
+        {
+            *this = other;
+        }
+
+        /**
+         * @brief 移动构造函数
+         */
+        CallableList(CallableList &&other) noexcept
+        {
+            *this = std::move(other);
+        }
+
+        /**
+         * @brief 拷贝赋值运算
+         */
+        CallableList &operator=(const CallableList &other)
+        {
+            if (this == &other) {
+                return *this;
+            }
+
+            _Reset(other._state);
+
+            switch (other._state) {
+                case STATE_SINGLE: {
+                    _GetSingle().reset(other._GetSingle()->Clone());
+                    break;
+                }
+                case STATE_LIST: {
+                    for (const auto &item : other._GetList()) {
+                        _GetList().emplace_back(item->Clone());
+                    }
+                    break;
+                }
+            }
+            return *this;
+        }
+
+        /**
+         * @brief 移动赋值运算
+         */
+        CallableList &operator=(CallableList &&other) noexcept
+        {
+            if (this == &other) {
+                return *this;
+            }
+
+            _Reset(other._state);
+
+            switch (other._state) {
+                case STATE_SINGLE: {
+                    _GetSingle() = std::move(other._GetSingle());
+                    other._Reset();
+                    break;
+                }
+                case STATE_LIST: {
+                    _GetList() = std::move(other._GetList());
+                    other._Reset();
+                    break;
+                }
+            }
+            return *this;
+        }
+
+        /**
+         * @brief 析构函数
+         */
+        ~CallableList()
+        {
+            _Reset();
+        }
+
+        /**
+         * @brief  获取当前存储的可调用对象数量
+         * @return 可调用对象的数量
+         */
+        size_t Count() const noexcept
+        {
+            switch (_state) {
+                case STATE_SINGLE: {
+                    return 1;
+                }
+                case STATE_LIST: {
+                    return _GetList().size();
+                }
+                default: {
+                    return 0;
+                }
+            }
+        }
+
+        /**
+         * @brief  判断当前存储的可调用对象是否为空
+         * @return 如果没有存储任何可调用对象则返回true，否则返回false
+         */
+        bool IsEmpty() const noexcept
+        {
+            return _state == STATE_NONE;
+        }
+
+        /**
+         * @brief 清空当前存储的可调用对象
+         */
+        void Clear() noexcept
+        {
+            _Reset();
+        }
+
+        // /**
+        //  * @brief 添加一个可调用对象到列表中
+        //  */
+        // void Add(const TCallable &callable)
+        // {
+        //     switch (_state) {
+        //         case STATE_NONE: {
+        //             _Reset(STATE_SINGLE);
+        //             _GetSingle().reset(callable.Clone());
+        //             break;
+        //         }
+        //         case STATE_SINGLE: {
+        //             TList list;
+        //             list.emplace_back(std::move(_GetSingle()));
+        //             list.emplace_back(callable.Clone());
+        //             _Reset(STATE_LIST);
+        //             _GetList() = std::move(list);
+        //             break;
+        //         }
+        //         case STATE_LIST: {
+        //             _GetList().emplace_back(callable.Clone());
+        //             break;
+        //         }
+        //     }
+        // }
+
+        /**
+         * @brief 添加一个可调用对象到列表中
+         * @note  传入对象的生命周期将由CallableList管理
+         */
+        void Add(TCallable *callable)
+        {
+            if (callable == nullptr) {
+                return;
+            }
+
+            switch (_state) {
+                case STATE_NONE: {
+                    _Reset(STATE_SINGLE);
+                    _GetSingle().reset(callable);
+                    break;
+                }
+                case STATE_SINGLE: {
+                    TList list;
+                    list.emplace_back(std::move(_GetSingle()));
+                    list.emplace_back(callable);
+                    _Reset(STATE_LIST);
+                    _GetList() = std::move(list);
+                    break;
+                }
+                case STATE_LIST: {
+                    _GetList().emplace_back(callable);
+                    break;
+                }
+            }
+        }
+
+        /**
+         * @brief  移除指定索引处的可调用对象
+         * @return 如果成功移除则返回true，否则返回false
+         */
+        bool RemoveAt(size_t index) noexcept
+        {
+            switch (_state) {
+                case STATE_SINGLE: {
+                    if (index != 0) {
+                        return false;
+                    } else {
+                        _Reset();
+                        return true;
+                    }
+                }
+                case STATE_LIST: {
+                    auto &list = _GetList();
+                    if (index >= list.size()) {
+                        return false;
+                    }
+                    list.erase(list.begin() + index);
+                    if (list.empty()) {
+                        _Reset();
+                    } else if (list.size() == 1) {
+                        auto singlePtr = std::move(list.front());
+                        _Reset(STATE_SINGLE);
+                        _GetSingle() = std::move(singlePtr);
+                    }
+                    return true;
+                }
+                default: {
+                    return false;
+                }
+            }
+        }
+
+        /**
+         * @brief  获取指定索引处的可调用对象
+         * @return 如果索引有效则返回对应的可调用对象，否则返回nullptr
+         */
+        TCallable *GetAt(size_t index) const noexcept
+        {
+            switch (_state) {
+                case STATE_SINGLE: {
+                    return index == 0 ? _GetSingle().get() : nullptr;
+                }
+                case STATE_LIST: {
+                    auto &list = _GetList();
+                    return (index < list.size()) ? list[index].get() : nullptr;
+                }
+                default: {
+                    return nullptr;
+                }
+            }
+        }
+
+        /**
+         * @brief  获取指定索引处的可调用对象
+         * @return 如果索引有效则返回对应的可调用对象，否则返回nullptr
+         */
+        TCallable *operator[](size_t index) const noexcept
+        {
+            return GetAt(index);
+        }
+
+    private:
+        /**
+         * @brief 内部函数，当状态为STATE_SINGLE时返回单个可调用对象的引用，
+         */
+        constexpr TPtr &_GetSingle() const noexcept
+        {
+            return *reinterpret_cast<TPtr *>(_data._single);
+        }
+
+        /**
+         * @brief 内部函数，当状态为STATE_LIST时返回可调用对象列表的引用
+         */
+        constexpr TList &_GetList() const noexcept
+        {
+            return *reinterpret_cast<TList *>(_data._list);
+        }
+
+        /**
+         * @brief 重置当前状态，释放存储的可调用对象
+         */
+        void _Reset() noexcept
+        {
+            switch (_state) {
+                case STATE_SINGLE: {
+                    _GetSingle().~TPtr();
+                    _state = STATE_NONE;
+                    break;
+                }
+                case STATE_LIST: {
+                    _GetList().~TList();
+                    _state = STATE_NONE;
+                    break;
+                }
+            }
+        }
+
+        /**
+         * @brief 重置当前状态并根据给定状态进行初始化
+         */
+        void _Reset(uint8_t state) noexcept
+        {
+            _Reset();
+
+            switch (state) {
+                case STATE_SINGLE: {
+                    new (_data._single) TPtr();
+                    _state = STATE_SINGLE;
+                    break;
+                }
+                case STATE_LIST: {
+                    new (_data._list) TList();
+                    _state = STATE_LIST;
+                    break;
+                }
+            }
+        }
+    };
+
+    /**
      * @brief 委托类，类似于C#中的委托，支持存储和调用任意可调用对象
      */
     template <typename TRet, typename... Args>
@@ -279,7 +617,8 @@ namespace sw
             TRet (T::*func)(Args...);
 
         public:
-            _MemberFuncWrapper(T &obj, TRet (T::*func)(Args...)) : obj(&obj), func(func)
+            _MemberFuncWrapper(T &obj, TRet (T::*func)(Args...))
+                : obj(&obj), func(func)
             {
             }
             TRet Invoke(Args... args) const override
@@ -314,7 +653,8 @@ namespace sw
             TRet (T::*func)(Args...) const;
 
         public:
-            _ConstMemberFuncWrapper(const T &obj, TRet (T::*func)(Args...) const) : obj(&obj), func(func)
+            _ConstMemberFuncWrapper(const T &obj, TRet (T::*func)(Args...) const)
+                : obj(&obj), func(func)
             {
             }
             TRet Invoke(Args... args) const override
@@ -346,7 +686,7 @@ namespace sw
         /**
          * @brief 内部存储可调用对象的容器
          */
-        std::vector<std::unique_ptr<_ICallable>> _data;
+        CallableList<TRet(Args...)> _data;
 
     public:
         /**
@@ -403,17 +743,15 @@ namespace sw
          * @brief 拷贝构造函数
          */
         Delegate(const Delegate &other)
+            : _data(other._data)
         {
-            _data.reserve(other._data.size());
-            for (const auto &item : other._data) {
-                _data.emplace_back(item->Clone());
-            }
         }
 
         /**
          * @brief 移动构造函数
          */
-        Delegate(Delegate &&other) : _data(std::move(other._data))
+        Delegate(Delegate &&other)
+            : _data(std::move(other._data))
         {
         }
 
@@ -423,11 +761,7 @@ namespace sw
         Delegate &operator=(const Delegate &other)
         {
             if (this != &other) {
-                _data.clear();
-                _data.reserve(other._data.size());
-                for (const auto &item : other._data) {
-                    _data.emplace_back(item->Clone());
-                }
+                _data = other._data;
             }
             return *this;
         }
@@ -454,14 +788,14 @@ namespace sw
             // - 否则，直接添加该可调用对象的克隆
             if (callable.GetTypeInfo() == GetTypeInfo()) {
                 auto &delegate = static_cast<const Delegate &>(callable);
-                if (delegate._data.empty()) {
+                if (delegate._data.IsEmpty()) {
                     return;
-                } else if (delegate._data.size() == 1) {
-                    _data.emplace_back(delegate._data.front()->Clone());
+                } else if (delegate._data.Count() == 1) {
+                    _data.Add(delegate._data[0]->Clone());
                     return;
                 }
             }
-            _data.emplace_back(callable.Clone());
+            _data.Add(callable.Clone());
         }
 
         /**
@@ -470,7 +804,7 @@ namespace sw
         void Add(TRet (*func)(Args...))
         {
             if (func != nullptr) {
-                _data.emplace_back(std::make_unique<_CallableWrapper<decltype(func)>>(func));
+                _data.Add(new _CallableWrapper<decltype(func)>(func));
             }
         }
 
@@ -481,7 +815,7 @@ namespace sw
         typename std::enable_if<!std::is_base_of<_ICallable, T>::value, void>::type
         Add(const T &callable)
         {
-            _data.emplace_back(std::make_unique<_CallableWrapper<T>>(callable));
+            _data.Add(new _CallableWrapper<T>(callable));
         }
 
         /**
@@ -490,7 +824,7 @@ namespace sw
         template <typename T>
         void Add(T &obj, TRet (T::*func)(Args...))
         {
-            _data.emplace_back(std::make_unique<_MemberFuncWrapper<T>>(obj, func));
+            _data.Add(new _MemberFuncWrapper<T>(obj, func));
         }
 
         /**
@@ -499,7 +833,7 @@ namespace sw
         template <typename T>
         void Add(const T &obj, TRet (T::*func)(Args...) const)
         {
-            _data.emplace_back(std::make_unique<_ConstMemberFuncWrapper<T>>(obj, func));
+            _data.Add(new _ConstMemberFuncWrapper<T>(obj, func));
         }
 
         /**
@@ -507,7 +841,7 @@ namespace sw
          */
         void Clear()
         {
-            _data.clear();
+            _data.Clear();
         }
 
         /**
@@ -523,10 +857,10 @@ namespace sw
             // - 否则，直接调用_Remove函数进行移除
             if (callable.GetTypeInfo() == GetTypeInfo()) {
                 auto &delegate = static_cast<const Delegate &>(callable);
-                if (delegate._data.empty()) {
+                if (delegate._data.IsEmpty()) {
                     return false;
-                } else if (delegate._data.size() == 1) {
-                    return _Remove(*delegate._data.front());
+                } else if (delegate._data.Count() == 1) {
+                    return _Remove(*delegate._data[0]);
                 }
             }
             return _Remove(callable);
@@ -616,7 +950,7 @@ namespace sw
          */
         bool operator==(std::nullptr_t) const
         {
-            return _data.empty();
+            return _data.IsEmpty();
         }
 
         /**
@@ -625,7 +959,7 @@ namespace sw
          */
         bool operator!=(std::nullptr_t) const
         {
-            return !_data.empty();
+            return !_data.IsEmpty();
         }
 
         /**
@@ -634,7 +968,7 @@ namespace sw
          */
         operator bool() const
         {
-            return !_data.empty();
+            return !_data.IsEmpty();
         }
 
         /**
@@ -709,13 +1043,16 @@ namespace sw
          */
         virtual TRet Invoke(Args... args) const override
         {
-            if (_data.empty()) {
+            size_t count = _data.Count();
+            if (count == 0) {
                 throw std::runtime_error("Delegate is empty");
+            } else if (count == 1) {
+                return _data[0]->Invoke(std::forward<Args>(args)...);
+            } else {
+                for (size_t i = 0; i < _data.Count() - 1; ++i)
+                    _data[i]->Invoke(std::forward<Args>(args)...);
+                return _data[_data.Count() - 1]->Invoke(std::forward<Args>(args)...);
             }
-            for (size_t i = 0; i < _data.size() - 1; ++i) {
-                _data[i]->Invoke(std::forward<Args>(args)...);
-            }
-            return _data.back()->Invoke(std::forward<Args>(args)...);
         }
 
         /**
@@ -749,12 +1086,12 @@ namespace sw
             if (GetTypeInfo() != other.GetTypeInfo()) {
                 return false;
             }
-            const auto &otherDelegate = static_cast<const Delegate<TRet(Args...)> &>(other);
-            if (_data.size() != otherDelegate._data.size()) {
+            const auto &otherDelegate = static_cast<const Delegate &>(other);
+            if (_data.Count() != otherDelegate._data.Count()) {
                 return false;
             }
-            for (size_t i = 0; i < _data.size(); ++i) {
-                if (!_data[i]->Equals(*otherDelegate._data[i])) {
+            for (size_t i = _data.Count(); i > 0; --i) {
+                if (!_data[i - 1]->Equals(*otherDelegate._data[i - 1])) {
                     return false;
                 }
             }
@@ -771,10 +1108,9 @@ namespace sw
         InvokeAll(Args... args) const
         {
             std::vector<U> results;
-            results.reserve(_data.size());
-            for (const auto &callable : _data) {
-                results.emplace_back(callable->Invoke(std::forward<Args>(args)...));
-            }
+            results.reserve(_data.Count());
+            for (size_t i = 0; i < _data.Count(); ++i)
+                results.emplace_back(_data[i]->Invoke(std::forward<Args>(args)...));
             return results;
         }
 
@@ -784,14 +1120,10 @@ namespace sw
          */
         bool _Remove(const _ICallable &callable)
         {
-            auto it  = _data.rbegin();
-            auto end = _data.rend();
-            while (it != end) {
-                if ((*it)->Equals(callable)) {
-                    _data.erase(std::next(it).base());
-                    return true;
+            for (size_t i = _data.Count(); i > 0; --i) {
+                if (_data[i - 1]->Equals(callable)) {
+                    return _data.RemoveAt(i - 1);
                 }
-                ++it;
             }
             return false;
         }
@@ -1647,6 +1979,656 @@ namespace sw
          * @brief 构造ProcMsg
          */
         ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    };
+}
+
+// ScrollEnums.h
+
+
+namespace sw
+{
+    /**
+     * @brief 滚动条方向
+     */
+    enum class ScrollOrientation {
+        Horizontal, // 水平滚动条
+        Vertical,   // 垂直滚动条
+    };
+
+    /**
+     * @brief 滚动条事件
+     */
+    enum class ScrollEvent {
+        LineUp        = SB_LINEUP,        // Scrolls one line up.
+        LineLeft      = SB_LINELEFT,      // Scrolls left by one unit.
+        LineDown      = SB_LINEDOWN,      // Scrolls one line down.
+        LineRight     = SB_LINERIGHT,     // Scrolls right by one unit.
+        PageUp        = SB_PAGEUP,        // Scrolls one page up.
+        PageLeft      = SB_PAGELEFT,      // Scrolls left by the width of the window.
+        PageDown      = SB_PAGEDOWN,      // Scrolls one page down.
+        PageRight     = SB_PAGERIGHT,     // Scrolls right by the width of the window.
+        ThumbPosition = SB_THUMBPOSITION, // The user has dragged the scroll box (thumb) and released the mouse button. The HIWORD indicates the position of the scroll box at the end of the drag operation.
+        ThubmTrack    = SB_THUMBTRACK,    // The user is dragging the scroll box. This message is sent repeatedly until the user releases the mouse button. The HIWORD indicates the position that the scroll box has been dragged to.
+        Top           = SB_TOP,           // Scrolls to the upper left.
+        Left          = SB_LEFT,          // Scrolls to the upper left.
+        Bottom        = SB_BOTTOM,        // Scrolls to the lower right.
+        Right         = SB_RIGHT,         // Scrolls to the lower right.
+        EndScroll     = SB_ENDSCROLL,     // Ends scroll.
+    };
+}
+
+// Size.h
+
+
+namespace sw
+{
+    /**
+     * @brief 尺寸
+     */
+    struct Size {
+        /**
+         * @brief 宽度
+         */
+        double width;
+
+        /**
+         * @brief 高度
+         */
+        double height;
+
+        /**
+         * @brief 构造宽高均为0的Size结构体
+         */
+        Size();
+
+        /**
+         * @brief 构造指定宽高的Size结构体
+         */
+        Size(double width, double height);
+
+        /**
+         * @brief 从SIZE构造Size结构体
+         */
+        Size(const SIZE &size);
+
+        /**
+         * @brief 隐式转换SIZE
+         */
+        operator SIZE() const;
+
+        /**
+         * @brief 判断两个Size是否相等
+         */
+        bool operator==(const Size &other) const;
+
+        /**
+         * @brief 判断两个Size是否不相等
+         */
+        bool operator!=(const Size &other) const;
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const;
+    };
+}
+
+// Thickness.h
+
+
+namespace sw
+{
+    /**
+     * @brief 表示矩形区域周围边框的厚度
+     */
+    struct Thickness {
+        /**
+         * @brief 左边
+         */
+        double left;
+
+        /**
+         * @brief 顶边
+         */
+        double top;
+
+        /**
+         * @brief 右边
+         */
+        double right;
+
+        /**
+         * @brief 底边
+         */
+        double bottom;
+
+        /**
+         * @brief 构造一个四边都为0的Thickness结构体
+         */
+        Thickness();
+
+        /**
+         * @brief 构造一个四边都相同的Thickness结构体
+         */
+        Thickness(double thickness);
+
+        /**
+         * @brief 指定横向和纵向值构造Thickness结构体
+         */
+        Thickness(double horizontal, double vertical);
+
+        /**
+         * @brief 指定四边的值构造Thickness结构体
+         */
+        Thickness(double left, double top, double right, double bottom);
+
+        /**
+         * @brief 判断两个Thickness是否相同
+         */
+        bool operator==(const Thickness &other) const;
+
+        /**
+         * @brief 判断两个Thickness是否相同
+         */
+        bool operator!=(const Thickness &other) const;
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const;
+    };
+}
+
+// WndMsg.h
+
+
+namespace sw
+{
+    /**
+     * @brief 包含SimpleWindow用到的一些窗口消息
+     */
+    enum WndMsg : UINT {
+
+        // SimpleWindow所用消息的起始位置
+        WM_SimpleWindowBegin = WM_USER + 0x3000,
+
+        // 控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用
+        WM_UpdateLayout,
+
+        // 在窗口线程上执行指定委托，lParam为指向sw::Action<>的指针，wParam表示是否对委托指针执行delete
+        WM_InvokeAction,
+
+        // SimpleWindow所用消息的结束位置
+        WM_SimpleWindowEnd,
+    };
+}
+
+// Color.h
+
+
+namespace sw
+{
+    /**
+     * @brief 颜色
+     */
+    struct Color {
+        /**
+         * @brief R分量
+         */
+        uint8_t r;
+
+        /**
+         * @brief G分量
+         */
+        uint8_t g;
+
+        /**
+         * @brief B分量
+         */
+        uint8_t b;
+
+        /**
+         * @brief 保留字段
+         */
+        uint8_t _reserved{0};
+
+        /**
+         * @brief 构造一个rgb分量均为0的Color结构体
+         */
+        Color();
+
+        /**
+         * @brief 通过rgb构造Color结构体
+         */
+        Color(uint8_t r, uint8_t g, uint8_t b);
+
+        /**
+         * @brief 通过KnownColor构造Color结构体
+         */
+        Color(KnownColor knownColor);
+
+        /**
+         * @brief 通过COLORREF构造Color结构体
+         */
+        Color(COLORREF color);
+
+        /**
+         * @brief 隐式转换COLORREF
+         */
+        operator COLORREF() const;
+
+        /**
+         * @brief 判断两个Color是否相等
+         */
+        bool operator==(const Color &other) const;
+
+        /**
+         * @brief 判断两个Color是否不相等
+         */
+        bool operator!=(const Color &other) const;
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const;
+    };
+}
+
+// Keys.h
+
+
+namespace sw
+{
+    /**
+     * @brief https://learn.microsoft.com/en-us/windows/win32/inputdev/about-keyboard-input#keystroke-message-flags
+     */
+    struct KeyFlags {
+        uint16_t repeatCount;  // repeat count, > 0 if several keydown messages was combined into one message
+        uint8_t scanCode;      // scan code
+        bool isExtendedKey;    // extended-key flag, 1 if scancode has 0xE0 prefix
+        bool contextCode;      // indicates whether the ALT key was down
+        bool previousKeyState; // indicates whether the key that generated the keystroke message was previously up or down
+        bool transitionState;  // transition-state flag, 1 on keyup
+        KeyFlags(LPARAM lParam);
+    };
+
+    /**
+     * @brief 虚拟按键
+     */
+    enum class VirtualKey {
+        MouseLeft   = 0x01, // Left mouse button
+        MouseRight  = 0x02, // Right mouse button
+        Cancel      = 0x03, // Control-break processing
+        MouseMiddle = 0x04, // Middle mouse button (three-button mouse)
+        MouseX1     = 0x05, // X1 mouse button
+        MouseX2     = 0x06, // X2 mouse button
+
+        //- 0x07 Undefined
+
+        Backspace = 0x08, // BACKSPACE key
+        Tab       = 0x09, // TAB key
+
+        //- 0x0A-0B Reserved
+
+        Clear = 0x0C, // CLEAR key
+        Enter = 0x0D, // ENTER key
+
+        //- 0x0E-0F Undefined
+
+        Shift      = 0x10, // SHIFT key
+        Ctrl       = 0x11, // CTRL key
+        Alt        = 0x12, // ALT key
+        Pause      = 0x13, // PAUSE key
+        CapsLock   = 0x14, // CAPS LOCK key
+        Kana       = 0x15, // IME Kana mode
+        Hanguel    = 0x15, // IME Hanguel mode (maintained for compatibility; use VK_HANGUL)
+        Hangul     = 0x15, // IME Hangul mode
+        IME_On     = 0x16, // IME On
+        Junja      = 0x17, // IME Junja mode
+        Final      = 0x18, // IME final mode
+        Hanja      = 0x19, // IME Hanja mode
+        KANJI      = 0x19, // IME Kanji mode
+        IME_Off    = 0x1A, // IME Off
+        Esc        = 0x1B, // ESC key
+        Convert    = 0x1C, // IME convert
+        Nonconvert = 0x1D, // IME nonconvert
+        Accept     = 0x1E, // IME accept
+        ModeChange = 0x1F, // IME mode change request
+        Space      = 0x20, // SPACEBAR
+        PageUp     = 0x21, // PAGE UP key
+        PageDown   = 0x22, // PAGE DOWN key
+        End        = 0x23, // END key
+        Home       = 0x24, // HOME key
+        Left       = 0x25, // LEFT ARROW key
+        Up         = 0x26, // UP ARROW key
+        Right      = 0x27, // RIGHT ARROW key
+        Down       = 0x28, // DOWN ARROW key
+        Select     = 0x29, // SELECT key
+        Print      = 0x2A, // PRINT key
+        Execute    = 0x2B, // EXECUTE key
+        Snapshot   = 0x2C, // PRINT SCREEN key
+        Insert     = 0x2D, // INS key
+        Delete     = 0x2E, // DEL key
+        Help       = 0x2F, // HELP key
+
+        Zero  = 0x30, // 0 key
+        One   = 0x31, // 1 key
+        Two   = 0x32, // 2 key
+        Three = 0x33, // 3 key
+        Four  = 0x34, // 4 key
+        Five  = 0x35, // 5 key
+        Six   = 0x36, // 6 key
+        Seven = 0x37, // 7 key
+        Eight = 0x38, // 8 key
+        Nine  = 0x39, // 9 key
+
+        //- 0x3A-40 Undefined
+
+        A = 0x41, // A key
+        B = 0x42, // B key
+        C = 0x43, // C key
+        D = 0x44, // D key
+        E = 0x45, // E key
+        F = 0x46, // F key
+        G = 0x47, // G key
+        H = 0x48, // H key
+        I = 0x49, // I key
+        J = 0x4A, // J key
+        K = 0x4B, // K key
+        L = 0x4C, // L key
+        M = 0x4D, // M key
+        N = 0x4E, // N key
+        O = 0x4F, // O key
+        P = 0x50, // P key
+        Q = 0x51, // Q key
+        R = 0x52, // R key
+        S = 0x53, // S key
+        T = 0x54, // T key
+        U = 0x55, // U key
+        V = 0x56, // V key
+        W = 0x57, // W key
+        X = 0x58, // X key
+        Y = 0x59, // Y key
+        Z = 0x5A, // Z key
+
+        LeftWindows  = 0x5B, // Left Windows key (Natural keyboard)
+        RightWindows = 0x5C, // Right Windows key (Natural keyboard)
+        Applications = 0x5D, // Applications key (Natural keyboard)
+
+        //- 0x5E Reserved
+
+        Sleep     = 0x5F, // Computer Sleep key
+        NumPad0   = 0x60, // Numeric keypad 0 key
+        NumPad1   = 0x61, // Numeric keypad 1 key
+        NumPad2   = 0x62, // Numeric keypad 2 key
+        NumPad3   = 0x63, // Numeric keypad 3 key
+        NumPad4   = 0x64, // Numeric keypad 4 key
+        NumPad5   = 0x65, // Numeric keypad 5 key
+        NumPad6   = 0x66, // Numeric keypad 6 key
+        NumPad7   = 0x67, // Numeric keypad 7 key
+        NumPad8   = 0x68, // Numeric keypad 8 key
+        NumPad9   = 0x69, // Numeric keypad 9 key
+        Multipy   = 0x6A, // Multiply key
+        Add       = 0x6B, // Add key
+        Separator = 0x6C, // Separator key
+        Subtract  = 0x6D, // Subtract key
+        Decimal   = 0x6E, // Decimal key
+        Divide    = 0x6F, // Divide key
+        F1        = 0x70, // F1 key
+        F2        = 0x71, // F2 key
+        F3        = 0x72, // F3 key
+        F4        = 0x73, // F4 key
+        F5        = 0x74, // F5 key
+        F6        = 0x75, // F6 key
+        F7        = 0x76, // F7 key
+        F8        = 0x77, // F8 key
+        F9        = 0x78, // F9 key
+        F10       = 0x79, // F10 key
+        F11       = 0x7A, // F11 key
+        F12       = 0x7B, // F12 key
+        F13       = 0x7C, // F13 key
+        F14       = 0x7D, // F14 key
+        F15       = 0x7E, // F15 key
+        F16       = 0x7F, // F16 key
+        F17       = 0x80, // F17 key
+        F18       = 0x81, // F18 key
+        F19       = 0x82, // F19 key
+        F20       = 0x83, // F20 key
+        F21       = 0x84, // F21 key
+        F22       = 0x85, // F22 key
+        F23       = 0x86, // F23 key
+        F24       = 0x87, // F24 key
+
+        //- 0x88-8F Unassigned
+
+        NumLock    = 0x90, // NUM LOCK key
+        ScrollLock = 0x91, // SCROLL LOCK key
+
+        // 0x92-96 OEM specific
+        //- 0x97-9F Unassigned
+
+        LeftShift          = 0xA0, // Left SHIFT key
+        RightShift         = 0xA1, // Right SHIFT key
+        LeftCtrl           = 0xA2, // Left CONTROL key
+        RightCtrl          = 0xA3, // Right CONTROL key
+        LeftAlt            = 0xA4, // Left ALT key
+        RightAlt           = 0xA5, // Right ALT key
+        BrowserBack        = 0xA6, // Browser Back key
+        BrowserForward     = 0xA7, // Browser Forward key
+        BrowserRefresh     = 0xA8, // Browser Refresh key
+        BrowserStop        = 0xA9, // Browser Stop key
+        BrowserSearch      = 0xAA, // Browser Search key
+        BrowserFavorites   = 0xAB, // Browser Favorites key
+        BrowserHome        = 0xAC, // Browser Start and Home key
+        VolumeMute         = 0xAD, // Volume Mute key
+        VolumeDown         = 0xAE, // Volume Down key
+        VolumeUp           = 0xAF, // Volume Up key
+        MediaNextTrack     = 0xB0, // Next Track key
+        MediaPreviousTrack = 0xB1, // Previous Track key
+        MediaStop          = 0xB2, // Stop Media key
+        MediaPlayPause     = 0xB3, // Play/Pause Media key
+        LaunchMail         = 0xB4, // Start Mail key
+        LaunchMediaSelect  = 0xB5, // Select Media key
+        LaunchApplication1 = 0xB6, // Start Application 1 key
+        LaunchApplication2 = 0xB7, // Start Application 2 key
+
+        //- 0xB8-B9 Reserved
+
+        OEM_1      = 0xBA, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ';:' key
+        OEM_Plus   = 0xBB, // For any country/region, the '+' key
+        OEM_Comma  = 0xBC, // For any country/region, the ',' key
+        OEM_Minus  = 0xBD, // For any country/region, the '-' key
+        OEM_Period = 0xBE, // For any country/region, the '.' key
+        OEM_2      = 0xBF, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '/?' key
+        OEM_3      = 0xC0, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '`~' key
+
+        //- 0xC1-D7 Reserved
+        //- 0xD8-DA Unassigned
+
+        OEM_4 = 0xDB, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '[{' key
+        OEM_5 = 0xDC, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '\|' key
+        OEM_6 = 0xDD, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ']}' key
+        OEM_7 = 0xDE, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the 'single-quote/double-quote' key
+        OEM_8 = 0xDF, // Used for miscellaneous characters; it can vary by keyboard.
+
+        //- 0xE0 Reserved
+        // 0xE1 OEM specific
+
+        OEM_102 = 0xE2, // The <> keys on the US standard keyboard, or the \\| key on the non-US 102-key keyboard
+
+        // 0xE3-E4 OEM specific
+
+        ProcessKey = 0xE5, // IME PROCESS key
+
+        // 0xE6 OEM specific
+
+        Packet = 0xE7, // Used to pass Unicode characters as if they were keystrokes. The VK_PACKET key is the low word of a 32-bit Virtual Key value used for non-keyboard input methods. For more information, see Remark in KEYBDINPUT, SendInput, WM_KEYDOWN, and WM_KEYUP
+
+        //- 0xE8 Unassigned
+        // 0xE9-F5 OEM specific
+
+        Attn      = 0xF6, // Attn key
+        CrSel     = 0xF7, // CrSel key
+        ExSel     = 0xF8, // ExSel key
+        EraseEOF  = 0xF9, // Erase EOF key
+        Play      = 0xFA, // Play key
+        Zoom      = 0xFB, // Zoom key
+        NONAME    = 0xFC, // Reserved
+        PA1       = 0xFD, // PA1 key
+        OEM_Clear = 0xFE, // Clear key
+    };
+
+    /**
+     * @brief 鼠标事件时用于判断按键状态
+     */
+    enum class MouseKey {
+        Ctrl        = MK_CONTROL,  // The CTRL key is down.
+        MouseLeft   = MK_LBUTTON,  // The left mouse button is down.
+        MouseMiddle = MK_MBUTTON,  // The middle mouse button is down.
+        MouseRight  = MK_RBUTTON,  // The right mouse button is down.
+        Shift       = MK_SHIFT,    // The SHIFT key is down.
+        MouseX1     = MK_XBUTTON1, // The first X button is down.
+        MouseX2     = MK_XBUTTON2, // The second X button is down.
+    };
+
+    /**
+     * @brief 标记MouseKey枚举类型支持位运算
+     */
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(MouseKey);
+
+    /**
+     * @brief 表示热键框控件中的辅助按键，可以是一个或多个按键
+     */
+    enum class HotKeyModifier {
+        None  = 0,                       // 无按键
+        Shift = /*HOTKEYF_SHIFT*/ 0x1,   // Alt键
+        Ctrl  = /*HOTKEYF_CONTROL*/ 0x2, // Ctrl键
+        Alt   = /*HOTKEYF_ALT*/ 0x4,     // 扩展键
+        Ext   = /*HOTKEYF_EXT*/ 0x8,     // Shift键
+    };
+
+    /**
+     * @brief 标记HotKeyModifier枚举类型支持位运算
+     */
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(HotKeyModifier);
+}
+
+// MenuItem.h
+
+
+namespace sw
+{
+    class MenuItem; // 向前声明
+
+    /**
+     * @brief 菜单项关联的回调函数类型
+     */
+    using MenuItemCommand = Action<MenuItem &>;
+
+    /**
+     * @brief 菜单项
+     */
+    class MenuItem : public ITag
+    {
+    public:
+        /**
+         * @brief 储存用户自定义信息
+         */
+        uint64_t tag;
+
+        /**
+         * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
+         */
+        std::wstring text;
+
+        /**
+         * @brief 菜单项被单击时调用的函数
+         */
+        MenuItemCommand command;
+
+        /**
+         * @brief 子项
+         */
+        std::vector<std::shared_ptr<MenuItem>> subItems{};
+
+    public:
+        /**
+         * @brief      构造一个MenuItem，并设置文本
+         * @param text 菜单项的文本
+         */
+        MenuItem(const std::wstring &text);
+
+        /**
+         * @brief         构造一个MenuItem，并设置其回调函数
+         * @param text    菜单项的文本
+         * @param command 被单击时调用的函数
+         */
+        MenuItem(const std::wstring &text, const MenuItemCommand &command);
+
+        /**
+         * @brief          构造一个MenuItem，并设置其子项
+         * @param text     菜单下的文本
+         * @param subItems 子项列表
+         */
+        MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
+
+        /**
+         * @brief      构造一个MenuItem，并设置tag及文本
+         * @param text 菜单项的文本
+         */
+        MenuItem(uint64_t tag, const std::wstring &text);
+
+        /**
+         * @brief         构造一个MenuItem，并设置tag及回调函数
+         * @param text    菜单项的文本
+         * @param command 被单击时调用的函数
+         */
+        MenuItem(uint64_t tag, const std::wstring &text, const MenuItemCommand &command);
+
+        /**
+         * @brief         构造一个MenuItem，设置成员函数为回调函数
+         * @tparam T      成员函数所在的类
+         * @param obj     成员函数所在的对象
+         * @param handler 处理函数
+         */
+        template <typename T>
+        MenuItem(const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
+            : MenuItem(0, text, obj, handler)
+        {
+        }
+
+        /**
+         * @brief         构造一个MenuItem，设置成员函数为回调函数
+         * @tparam T      成员函数所在的类
+         * @param obj     成员函数所在的对象
+         * @param handler 处理函数
+         */
+        template <typename T>
+        MenuItem(uint64_t tag, const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
+            : MenuItem(tag, text, MenuItemCommand(obj, handler))
+        {
+        }
+
+    public:
+        /**
+         * @brief 获取一个值，表示当前菜单项是否为分隔条
+         */
+        bool IsSeparator() const;
+
+        /**
+         * @brief 调用command
+         */
+        void CallCommand();
+
+        /**
+         * @brief 获取Tag
+         */
+        virtual uint64_t GetTag() override;
+
+        /**
+         * @brief 设置Tag
+         */
+        virtual void SetTag(uint64_t tag) override;
     };
 }
 
@@ -3170,8 +4152,8 @@ namespace sw
     {
     public:
         using TBase = PropertyBase<T, Property<T>>;
-        using FnGet = std::function<T()>;
-        using FnSet = std::function<void(const T &)>;
+        using FnGet = Func<T()>;
+        using FnSet = Action<const T &>;
         using TBase::operator=;
 
     private:
@@ -3202,22 +4184,6 @@ namespace sw
         {
             this->_setter(value);
         }
-
-        /**
-         * @brief 重设Getter
-         */
-        void ResetGetter(const FnGet &getter)
-        {
-            this->_getter = getter;
-        }
-
-        /**
-         * @brief 重设Setter
-         */
-        void ResetSetter(const FnSet &setter)
-        {
-            this->_setter = setter;
-        }
     };
 
     /**
@@ -3228,7 +4194,7 @@ namespace sw
     {
     public:
         using TBase = PropertyBase<T, ReadOnlyProperty<T>>;
-        using FnGet = std::function<T()>;
+        using FnGet = Func<T()>;
 
     private:
         FnGet _getter;
@@ -3249,14 +4215,6 @@ namespace sw
         {
             return this->_getter();
         }
-
-        /**
-         * @brief 重设Getter
-         */
-        void ResetGetter(const FnGet &getter)
-        {
-            this->_getter = getter;
-        }
     };
 
     /**
@@ -3267,7 +4225,7 @@ namespace sw
     {
     public:
         using TBase = PropertyBase<T, WriteOnlyProperty<T>>;
-        using FnSet = std::function<void(const T &)>;
+        using FnSet = Action<const T &>;
         using TBase::operator=;
 
     private:
@@ -3289,784 +4247,6 @@ namespace sw
         {
             this->_setter(value);
         }
-
-        /**
-         * @brief 重设Setter
-         */
-        void ResetSetter(const FnSet &setter)
-        {
-            this->_setter = setter;
-        }
-    };
-}
-
-// ScrollEnums.h
-
-
-namespace sw
-{
-    /**
-     * @brief 滚动条方向
-     */
-    enum class ScrollOrientation {
-        Horizontal, // 水平滚动条
-        Vertical,   // 垂直滚动条
-    };
-
-    /**
-     * @brief 滚动条事件
-     */
-    enum class ScrollEvent {
-        LineUp        = SB_LINEUP,        // Scrolls one line up.
-        LineLeft      = SB_LINELEFT,      // Scrolls left by one unit.
-        LineDown      = SB_LINEDOWN,      // Scrolls one line down.
-        LineRight     = SB_LINERIGHT,     // Scrolls right by one unit.
-        PageUp        = SB_PAGEUP,        // Scrolls one page up.
-        PageLeft      = SB_PAGELEFT,      // Scrolls left by the width of the window.
-        PageDown      = SB_PAGEDOWN,      // Scrolls one page down.
-        PageRight     = SB_PAGERIGHT,     // Scrolls right by the width of the window.
-        ThumbPosition = SB_THUMBPOSITION, // The user has dragged the scroll box (thumb) and released the mouse button. The HIWORD indicates the position of the scroll box at the end of the drag operation.
-        ThubmTrack    = SB_THUMBTRACK,    // The user is dragging the scroll box. This message is sent repeatedly until the user releases the mouse button. The HIWORD indicates the position that the scroll box has been dragged to.
-        Top           = SB_TOP,           // Scrolls to the upper left.
-        Left          = SB_LEFT,          // Scrolls to the upper left.
-        Bottom        = SB_BOTTOM,        // Scrolls to the lower right.
-        Right         = SB_RIGHT,         // Scrolls to the lower right.
-        EndScroll     = SB_ENDSCROLL,     // Ends scroll.
-    };
-}
-
-// Size.h
-
-
-namespace sw
-{
-    /**
-     * @brief 尺寸
-     */
-    struct Size {
-        /**
-         * @brief 宽度
-         */
-        double width;
-
-        /**
-         * @brief 高度
-         */
-        double height;
-
-        /**
-         * @brief 构造宽高均为0的Size结构体
-         */
-        Size();
-
-        /**
-         * @brief 构造指定宽高的Size结构体
-         */
-        Size(double width, double height);
-
-        /**
-         * @brief 从SIZE构造Size结构体
-         */
-        Size(const SIZE &size);
-
-        /**
-         * @brief 隐式转换SIZE
-         */
-        operator SIZE() const;
-
-        /**
-         * @brief 判断两个Size是否相等
-         */
-        bool operator==(const Size &other) const;
-
-        /**
-         * @brief 判断两个Size是否不相等
-         */
-        bool operator!=(const Size &other) const;
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const;
-    };
-}
-
-// Thickness.h
-
-
-namespace sw
-{
-    /**
-     * @brief 表示矩形区域周围边框的厚度
-     */
-    struct Thickness {
-        /**
-         * @brief 左边
-         */
-        double left;
-
-        /**
-         * @brief 顶边
-         */
-        double top;
-
-        /**
-         * @brief 右边
-         */
-        double right;
-
-        /**
-         * @brief 底边
-         */
-        double bottom;
-
-        /**
-         * @brief 构造一个四边都为0的Thickness结构体
-         */
-        Thickness();
-
-        /**
-         * @brief 构造一个四边都相同的Thickness结构体
-         */
-        Thickness(double thickness);
-
-        /**
-         * @brief 指定横向和纵向值构造Thickness结构体
-         */
-        Thickness(double horizontal, double vertical);
-
-        /**
-         * @brief 指定四边的值构造Thickness结构体
-         */
-        Thickness(double left, double top, double right, double bottom);
-
-        /**
-         * @brief 判断两个Thickness是否相同
-         */
-        bool operator==(const Thickness &other) const;
-
-        /**
-         * @brief 判断两个Thickness是否相同
-         */
-        bool operator!=(const Thickness &other) const;
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const;
-    };
-}
-
-// WndMsg.h
-
-
-namespace sw
-{
-    /**
-     * @brief 包含SimpleWindow用到的一些窗口消息
-     */
-    enum WndMsg : UINT {
-
-        // SimpleWindow所用消息的起始位置
-        WM_SimpleWindowBegin = WM_USER + 0x3000,
-
-        // 控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用
-        WM_UpdateLayout,
-
-        // 在窗口线程上执行指定回调函数，lParam为指向std::function<void()>的指针，wParam表示是否对函数对象指针执行delete
-        WM_InvokeFunction,
-
-        // 在窗口线程上执行指定委托，lParam为指向sw::Action<>的指针，wParam表示是否对委托指针执行delete
-        WM_InvokeAction,
-
-        // SimpleWindow所用消息的结束位置
-        WM_SimpleWindowEnd,
-    };
-}
-
-// App.h
-
-
-namespace sw
-{
-    /**
-     * @brief 程序退出消息循环的方式
-     */
-    enum class AppQuitMode {
-        Auto,   // 当所有窗口都销毁时自动退出消息循环
-        Manual, // 需手动调用QuitMsgLoop以退出消息循环
-    };
-
-    /**
-     * @brief App类
-     */
-    class App
-    {
-    private:
-        App() = delete;
-
-    public:
-        /**
-         * @brief 应用程序的当前实例的句柄
-         */
-        static const ReadOnlyProperty<HINSTANCE> Instance;
-
-        /**
-         * @brief 当前exe的文件路径
-         */
-        static const ReadOnlyProperty<std::wstring> ExePath;
-
-        /**
-         * @brief 当前exe所在的文件夹路径
-         */
-        static const ReadOnlyProperty<std::wstring> ExeDirectory;
-
-        /**
-         * @brief 当前工作路径
-         */
-        static const Property<std::wstring> CurrentDirectory;
-
-        /**
-         * @brief 程序退出消息循环的方式
-         */
-        static const Property<AppQuitMode> QuitMode;
-
-        /**
-         * @brief 消息循环中处理空句柄消息的回调函数
-         */
-        static Action<MSG &> NullHwndMsgHandler;
-
-        /**
-         * @brief  消息循环
-         * @return 退出代码
-         */
-        static int MsgLoop();
-
-        /**
-         * @brief          退出当前消息循环
-         * @param exitCode 退出代码
-         */
-        static void QuitMsgLoop(int exitCode = 0);
-    };
-}
-
-// Color.h
-
-
-namespace sw
-{
-    /**
-     * @brief 颜色
-     */
-    struct Color {
-        /**
-         * @brief R分量
-         */
-        uint8_t r;
-
-        /**
-         * @brief G分量
-         */
-        uint8_t g;
-
-        /**
-         * @brief B分量
-         */
-        uint8_t b;
-
-        /**
-         * @brief 保留字段
-         */
-        uint8_t _reserved{0};
-
-        /**
-         * @brief 构造一个rgb分量均为0的Color结构体
-         */
-        Color();
-
-        /**
-         * @brief 通过rgb构造Color结构体
-         */
-        Color(uint8_t r, uint8_t g, uint8_t b);
-
-        /**
-         * @brief 通过KnownColor构造Color结构体
-         */
-        Color(KnownColor knownColor);
-
-        /**
-         * @brief 通过COLORREF构造Color结构体
-         */
-        Color(COLORREF color);
-
-        /**
-         * @brief 隐式转换COLORREF
-         */
-        operator COLORREF() const;
-
-        /**
-         * @brief 判断两个Color是否相等
-         */
-        bool operator==(const Color &other) const;
-
-        /**
-         * @brief 判断两个Color是否不相等
-         */
-        bool operator!=(const Color &other) const;
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const;
-    };
-}
-
-// Dip.h
-
-
-namespace sw
-{
-    /**
-     * @brief 用于处理设备独立像素（dip）与屏幕像素之间的转换
-     */
-    class Dip
-    {
-    private:
-        Dip() = delete;
-
-    public:
-        /**
-         * @brief 水平缩放比例
-         */
-        static const ReadOnlyProperty<double> ScaleX;
-
-        /**
-         * @brief 垂直缩放比例
-         */
-        static const ReadOnlyProperty<double> ScaleY;
-
-        /**
-         * @brief dpi改变时调用该函数更新缩放比例
-         */
-        static void Update(int dpiX, int dpiY);
-
-        /**
-         * @brief 像素转dip（水平方向）
-         */
-        static double PxToDipX(int px);
-
-        /**
-         * @brief 像素转dip（垂直方向）
-         */
-        static double PxToDipY(int px);
-
-        /**
-         * @brief dip转像素（水平方向）
-         */
-        static int DipToPxX(double dip);
-
-        /**
-         * @brief dip转像素（垂直方向）
-         */
-        static int DipToPxY(double dip);
-    };
-}
-
-// Keys.h
-
-
-namespace sw
-{
-    /**
-     * @brief https://learn.microsoft.com/en-us/windows/win32/inputdev/about-keyboard-input#keystroke-message-flags
-     */
-    struct KeyFlags {
-        uint16_t repeatCount;  // repeat count, > 0 if several keydown messages was combined into one message
-        uint8_t scanCode;      // scan code
-        bool isExtendedKey;    // extended-key flag, 1 if scancode has 0xE0 prefix
-        bool contextCode;      // indicates whether the ALT key was down
-        bool previousKeyState; // indicates whether the key that generated the keystroke message was previously up or down
-        bool transitionState;  // transition-state flag, 1 on keyup
-        KeyFlags(LPARAM lParam);
-    };
-
-    /**
-     * @brief 虚拟按键
-     */
-    enum class VirtualKey {
-        MouseLeft   = 0x01, // Left mouse button
-        MouseRight  = 0x02, // Right mouse button
-        Cancel      = 0x03, // Control-break processing
-        MouseMiddle = 0x04, // Middle mouse button (three-button mouse)
-        MouseX1     = 0x05, // X1 mouse button
-        MouseX2     = 0x06, // X2 mouse button
-
-        //- 0x07 Undefined
-
-        Backspace = 0x08, // BACKSPACE key
-        Tab       = 0x09, // TAB key
-
-        //- 0x0A-0B Reserved
-
-        Clear = 0x0C, // CLEAR key
-        Enter = 0x0D, // ENTER key
-
-        //- 0x0E-0F Undefined
-
-        Shift      = 0x10, // SHIFT key
-        Ctrl       = 0x11, // CTRL key
-        Alt        = 0x12, // ALT key
-        Pause      = 0x13, // PAUSE key
-        CapsLock   = 0x14, // CAPS LOCK key
-        Kana       = 0x15, // IME Kana mode
-        Hanguel    = 0x15, // IME Hanguel mode (maintained for compatibility; use VK_HANGUL)
-        Hangul     = 0x15, // IME Hangul mode
-        IME_On     = 0x16, // IME On
-        Junja      = 0x17, // IME Junja mode
-        Final      = 0x18, // IME final mode
-        Hanja      = 0x19, // IME Hanja mode
-        KANJI      = 0x19, // IME Kanji mode
-        IME_Off    = 0x1A, // IME Off
-        Esc        = 0x1B, // ESC key
-        Convert    = 0x1C, // IME convert
-        Nonconvert = 0x1D, // IME nonconvert
-        Accept     = 0x1E, // IME accept
-        ModeChange = 0x1F, // IME mode change request
-        Space      = 0x20, // SPACEBAR
-        PageUp     = 0x21, // PAGE UP key
-        PageDown   = 0x22, // PAGE DOWN key
-        End        = 0x23, // END key
-        Home       = 0x24, // HOME key
-        Left       = 0x25, // LEFT ARROW key
-        Up         = 0x26, // UP ARROW key
-        Right      = 0x27, // RIGHT ARROW key
-        Down       = 0x28, // DOWN ARROW key
-        Select     = 0x29, // SELECT key
-        Print      = 0x2A, // PRINT key
-        Execute    = 0x2B, // EXECUTE key
-        Snapshot   = 0x2C, // PRINT SCREEN key
-        Insert     = 0x2D, // INS key
-        Delete     = 0x2E, // DEL key
-        Help       = 0x2F, // HELP key
-
-        Zero  = 0x30, // 0 key
-        One   = 0x31, // 1 key
-        Two   = 0x32, // 2 key
-        Three = 0x33, // 3 key
-        Four  = 0x34, // 4 key
-        Five  = 0x35, // 5 key
-        Six   = 0x36, // 6 key
-        Seven = 0x37, // 7 key
-        Eight = 0x38, // 8 key
-        Nine  = 0x39, // 9 key
-
-        //- 0x3A-40 Undefined
-
-        A = 0x41, // A key
-        B = 0x42, // B key
-        C = 0x43, // C key
-        D = 0x44, // D key
-        E = 0x45, // E key
-        F = 0x46, // F key
-        G = 0x47, // G key
-        H = 0x48, // H key
-        I = 0x49, // I key
-        J = 0x4A, // J key
-        K = 0x4B, // K key
-        L = 0x4C, // L key
-        M = 0x4D, // M key
-        N = 0x4E, // N key
-        O = 0x4F, // O key
-        P = 0x50, // P key
-        Q = 0x51, // Q key
-        R = 0x52, // R key
-        S = 0x53, // S key
-        T = 0x54, // T key
-        U = 0x55, // U key
-        V = 0x56, // V key
-        W = 0x57, // W key
-        X = 0x58, // X key
-        Y = 0x59, // Y key
-        Z = 0x5A, // Z key
-
-        LeftWindows  = 0x5B, // Left Windows key (Natural keyboard)
-        RightWindows = 0x5C, // Right Windows key (Natural keyboard)
-        Applications = 0x5D, // Applications key (Natural keyboard)
-
-        //- 0x5E Reserved
-
-        Sleep     = 0x5F, // Computer Sleep key
-        NumPad0   = 0x60, // Numeric keypad 0 key
-        NumPad1   = 0x61, // Numeric keypad 1 key
-        NumPad2   = 0x62, // Numeric keypad 2 key
-        NumPad3   = 0x63, // Numeric keypad 3 key
-        NumPad4   = 0x64, // Numeric keypad 4 key
-        NumPad5   = 0x65, // Numeric keypad 5 key
-        NumPad6   = 0x66, // Numeric keypad 6 key
-        NumPad7   = 0x67, // Numeric keypad 7 key
-        NumPad8   = 0x68, // Numeric keypad 8 key
-        NumPad9   = 0x69, // Numeric keypad 9 key
-        Multipy   = 0x6A, // Multiply key
-        Add       = 0x6B, // Add key
-        Separator = 0x6C, // Separator key
-        Subtract  = 0x6D, // Subtract key
-        Decimal   = 0x6E, // Decimal key
-        Divide    = 0x6F, // Divide key
-        F1        = 0x70, // F1 key
-        F2        = 0x71, // F2 key
-        F3        = 0x72, // F3 key
-        F4        = 0x73, // F4 key
-        F5        = 0x74, // F5 key
-        F6        = 0x75, // F6 key
-        F7        = 0x76, // F7 key
-        F8        = 0x77, // F8 key
-        F9        = 0x78, // F9 key
-        F10       = 0x79, // F10 key
-        F11       = 0x7A, // F11 key
-        F12       = 0x7B, // F12 key
-        F13       = 0x7C, // F13 key
-        F14       = 0x7D, // F14 key
-        F15       = 0x7E, // F15 key
-        F16       = 0x7F, // F16 key
-        F17       = 0x80, // F17 key
-        F18       = 0x81, // F18 key
-        F19       = 0x82, // F19 key
-        F20       = 0x83, // F20 key
-        F21       = 0x84, // F21 key
-        F22       = 0x85, // F22 key
-        F23       = 0x86, // F23 key
-        F24       = 0x87, // F24 key
-
-        //- 0x88-8F Unassigned
-
-        NumLock    = 0x90, // NUM LOCK key
-        ScrollLock = 0x91, // SCROLL LOCK key
-
-        // 0x92-96 OEM specific
-        //- 0x97-9F Unassigned
-
-        LeftShift          = 0xA0, // Left SHIFT key
-        RightShift         = 0xA1, // Right SHIFT key
-        LeftCtrl           = 0xA2, // Left CONTROL key
-        RightCtrl          = 0xA3, // Right CONTROL key
-        LeftAlt            = 0xA4, // Left ALT key
-        RightAlt           = 0xA5, // Right ALT key
-        BrowserBack        = 0xA6, // Browser Back key
-        BrowserForward     = 0xA7, // Browser Forward key
-        BrowserRefresh     = 0xA8, // Browser Refresh key
-        BrowserStop        = 0xA9, // Browser Stop key
-        BrowserSearch      = 0xAA, // Browser Search key
-        BrowserFavorites   = 0xAB, // Browser Favorites key
-        BrowserHome        = 0xAC, // Browser Start and Home key
-        VolumeMute         = 0xAD, // Volume Mute key
-        VolumeDown         = 0xAE, // Volume Down key
-        VolumeUp           = 0xAF, // Volume Up key
-        MediaNextTrack     = 0xB0, // Next Track key
-        MediaPreviousTrack = 0xB1, // Previous Track key
-        MediaStop          = 0xB2, // Stop Media key
-        MediaPlayPause     = 0xB3, // Play/Pause Media key
-        LaunchMail         = 0xB4, // Start Mail key
-        LaunchMediaSelect  = 0xB5, // Select Media key
-        LaunchApplication1 = 0xB6, // Start Application 1 key
-        LaunchApplication2 = 0xB7, // Start Application 2 key
-
-        //- 0xB8-B9 Reserved
-
-        OEM_1      = 0xBA, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ';:' key
-        OEM_Plus   = 0xBB, // For any country/region, the '+' key
-        OEM_Comma  = 0xBC, // For any country/region, the ',' key
-        OEM_Minus  = 0xBD, // For any country/region, the '-' key
-        OEM_Period = 0xBE, // For any country/region, the '.' key
-        OEM_2      = 0xBF, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '/?' key
-        OEM_3      = 0xC0, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '`~' key
-
-        //- 0xC1-D7 Reserved
-        //- 0xD8-DA Unassigned
-
-        OEM_4 = 0xDB, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '[{' key
-        OEM_5 = 0xDC, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '\|' key
-        OEM_6 = 0xDD, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ']}' key
-        OEM_7 = 0xDE, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the 'single-quote/double-quote' key
-        OEM_8 = 0xDF, // Used for miscellaneous characters; it can vary by keyboard.
-
-        //- 0xE0 Reserved
-        // 0xE1 OEM specific
-
-        OEM_102 = 0xE2, // The <> keys on the US standard keyboard, or the \\| key on the non-US 102-key keyboard
-
-        // 0xE3-E4 OEM specific
-
-        ProcessKey = 0xE5, // IME PROCESS key
-
-        // 0xE6 OEM specific
-
-        Packet = 0xE7, // Used to pass Unicode characters as if they were keystrokes. The VK_PACKET key is the low word of a 32-bit Virtual Key value used for non-keyboard input methods. For more information, see Remark in KEYBDINPUT, SendInput, WM_KEYDOWN, and WM_KEYUP
-
-        //- 0xE8 Unassigned
-        // 0xE9-F5 OEM specific
-
-        Attn      = 0xF6, // Attn key
-        CrSel     = 0xF7, // CrSel key
-        ExSel     = 0xF8, // ExSel key
-        EraseEOF  = 0xF9, // Erase EOF key
-        Play      = 0xFA, // Play key
-        Zoom      = 0xFB, // Zoom key
-        NONAME    = 0xFC, // Reserved
-        PA1       = 0xFD, // PA1 key
-        OEM_Clear = 0xFE, // Clear key
-    };
-
-    /**
-     * @brief 鼠标事件时用于判断按键状态
-     */
-    enum class MouseKey {
-        Ctrl        = MK_CONTROL,  // The CTRL key is down.
-        MouseLeft   = MK_LBUTTON,  // The left mouse button is down.
-        MouseMiddle = MK_MBUTTON,  // The middle mouse button is down.
-        MouseRight  = MK_RBUTTON,  // The right mouse button is down.
-        Shift       = MK_SHIFT,    // The SHIFT key is down.
-        MouseX1     = MK_XBUTTON1, // The first X button is down.
-        MouseX2     = MK_XBUTTON2, // The second X button is down.
-    };
-
-    /**
-     * @brief 标记MouseKey枚举类型支持位运算
-     */
-    _SW_ENUM_ENABLE_BIT_OPERATIONS(MouseKey);
-
-    /**
-     * @brief 表示热键框控件中的辅助按键，可以是一个或多个按键
-     */
-    enum class HotKeyModifier {
-        None  = 0,                       // 无按键
-        Shift = /*HOTKEYF_SHIFT*/ 0x1,   // Alt键
-        Ctrl  = /*HOTKEYF_CONTROL*/ 0x2, // Ctrl键
-        Alt   = /*HOTKEYF_ALT*/ 0x4,     // 扩展键
-        Ext   = /*HOTKEYF_EXT*/ 0x8,     // Shift键
-    };
-
-    /**
-     * @brief 标记HotKeyModifier枚举类型支持位运算
-     */
-    _SW_ENUM_ENABLE_BIT_OPERATIONS(HotKeyModifier);
-}
-
-// MenuItem.h
-
-
-namespace sw
-{
-    class MenuItem; // 向前声明
-
-    /**
-     * @brief 菜单项关联的回调函数类型
-     */
-    using MenuItemCommand = Action<MenuItem &>;
-
-    /**
-     * @brief 菜单项
-     */
-    class MenuItem : public ITag
-    {
-    public:
-        /**
-         * @brief 储存用户自定义信息
-         */
-        uint64_t tag;
-
-        /**
-         * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
-         */
-        std::wstring text;
-
-        /**
-         * @brief 菜单项被单击时调用的函数
-         */
-        MenuItemCommand command;
-
-        /**
-         * @brief 子项
-         */
-        std::vector<std::shared_ptr<MenuItem>> subItems{};
-
-    public:
-        /**
-         * @brief      构造一个MenuItem，并设置文本
-         * @param text 菜单项的文本
-         */
-        MenuItem(const std::wstring &text);
-
-        /**
-         * @brief         构造一个MenuItem，并设置其回调函数
-         * @param text    菜单项的文本
-         * @param command 被单击时调用的函数
-         */
-        MenuItem(const std::wstring &text, const MenuItemCommand &command);
-
-        /**
-         * @brief          构造一个MenuItem，并设置其子项
-         * @param text     菜单下的文本
-         * @param subItems 子项列表
-         */
-        MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
-
-        /**
-         * @brief      构造一个MenuItem，并设置tag及文本
-         * @param text 菜单项的文本
-         */
-        MenuItem(uint64_t tag, const std::wstring &text);
-
-        /**
-         * @brief         构造一个MenuItem，并设置tag及回调函数
-         * @param text    菜单项的文本
-         * @param command 被单击时调用的函数
-         */
-        MenuItem(uint64_t tag, const std::wstring &text, const MenuItemCommand &command);
-
-        /**
-         * @brief         构造一个MenuItem，设置成员函数为回调函数
-         * @tparam T      成员函数所在的类
-         * @param obj     成员函数所在的对象
-         * @param handler 处理函数
-         */
-        template <typename T>
-        MenuItem(const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
-            : MenuItem(0, text, obj, handler)
-        {
-        }
-
-        /**
-         * @brief         构造一个MenuItem，设置成员函数为回调函数
-         * @tparam T      成员函数所在的类
-         * @param obj     成员函数所在的对象
-         * @param handler 处理函数
-         */
-        template <typename T>
-        MenuItem(uint64_t tag, const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
-            : MenuItem(tag, text, MenuItemCommand(obj, handler))
-        {
-        }
-
-    public:
-        /**
-         * @brief 获取一个值，表示当前菜单项是否为分隔条
-         */
-        bool IsSeparator() const;
-
-        /**
-         * @brief 调用command
-         */
-        void CallCommand();
-
-        /**
-         * @brief 获取Tag
-         */
-        virtual uint64_t GetTag() override;
-
-        /**
-         * @brief 设置Tag
-         */
-        virtual void SetTag(uint64_t tag) override;
     };
 }
 
@@ -4320,434 +4500,120 @@ namespace sw
     using RoutedEventHandler = Action<UIElement &, RoutedEventArgs &>;
 }
 
-// Screen.h
+// App.h
 
 
 namespace sw
 {
     /**
-     * @brief 屏幕相关
+     * @brief 程序退出消息循环的方式
      */
-    class Screen
+    enum class AppQuitMode {
+        Auto,   // 当所有窗口都销毁时自动退出消息循环
+        Manual, // 需手动调用QuitMsgLoop以退出消息循环
+    };
+
+    /**
+     * @brief App类
+     */
+    class App
     {
     private:
-        Screen() = delete;
+        App() = delete;
 
     public:
         /**
-         * @brief 屏幕宽度
+         * @brief 应用程序的当前实例的句柄
          */
-        static const ReadOnlyProperty<double> Width;
+        static const ReadOnlyProperty<HINSTANCE> Instance;
 
         /**
-         * @brief 屏幕高度
+         * @brief 当前exe的文件路径
          */
-        static const ReadOnlyProperty<double> Height;
+        static const ReadOnlyProperty<std::wstring> ExePath;
 
         /**
-         * @brief 鼠标在屏幕中的位置
+         * @brief 当前exe所在的文件夹路径
          */
-        static const ReadOnlyProperty<Point> CursorPosition;
+        static const ReadOnlyProperty<std::wstring> ExeDirectory;
+
+        /**
+         * @brief 当前工作路径
+         */
+        static const Property<std::wstring> CurrentDirectory;
+
+        /**
+         * @brief 程序退出消息循环的方式
+         */
+        static const Property<AppQuitMode> QuitMode;
+
+        /**
+         * @brief 消息循环中处理空句柄消息的回调函数
+         */
+        static Action<MSG &> NullHwndMsgHandler;
+
+        /**
+         * @brief  消息循环
+         * @return 退出代码
+         */
+        static int MsgLoop();
+
+        /**
+         * @brief          退出当前消息循环
+         * @param exitCode 退出代码
+         */
+        static void QuitMsgLoop(int exitCode = 0);
     };
 }
 
-// Utils.h
+// Dip.h
 
 
 namespace sw
 {
     /**
-     * @brief 判断一个类型是否有ToString方法
+     * @brief 用于处理设备独立像素（dip）与屏幕像素之间的转换
      */
-    template <typename T>
-    struct _HasToString {
-    private:
-        template <typename U>
-        static auto test(int) -> decltype(std::declval<U>().ToString(), std::true_type());
-
-        template <typename U>
-        static auto test(...) -> std::false_type;
-
-    public:
-        static constexpr bool value = decltype(test<T>(0))::value;
-    };
-
-    /**
-     * @brief 工具类
-     */
-    class Utils
+    class Dip
     {
     private:
-        Utils() = delete; // 删除构造函数
+        Dip() = delete;
 
     public:
         /**
-         * @brief      将窄字符串转为宽字符串
-         * @param str  要转换的字符串
-         * @param utf8 是否使用utf8编码
-         * @return     转换后的字符串
+         * @brief 水平缩放比例
          */
-        static std::wstring ToWideStr(const std::string &str, bool utf8 = false);
+        static const ReadOnlyProperty<double> ScaleX;
 
         /**
-         * @brief      将宽字符串转为窄字符串
-         * @param wstr 要转换的字符串
-         * @param utf8 是否使用utf8编码
-         * @return     转换后的字符串
+         * @brief 垂直缩放比例
          */
-        static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8 = false);
+        static const ReadOnlyProperty<double> ScaleY;
 
         /**
-         * @brief     删除首尾空白字符
-         * @param str 输入的字符串
-         * @return    删除首位空白字符后的字符串
+         * @brief dpi改变时调用该函数更新缩放比例
          */
-        static std::wstring Trim(const std::wstring &str);
+        static void Update(int dpiX, int dpiY);
 
         /**
-         * @brief     删除串首空白字符
-         * @param str 输入的字符串
-         * @return    删除串首空白字符后的字符串
+         * @brief 像素转dip（水平方向）
          */
-        static std::wstring TrimStart(const std::wstring &str);
+        static double PxToDipX(int px);
 
         /**
-         * @brief     删除串尾空白字符
-         * @param str 输入的字符串
-         * @return    删除串尾空白字符后的字符串
+         * @brief 像素转dip（垂直方向）
          */
-        static std::wstring TrimEnd(const std::wstring &str);
+        static double PxToDipY(int px);
 
         /**
-         * @brief           对字符串按照指定分隔符进行拆分
-         * @param str       输入的字符串
-         * @param delimiter 分隔符
-         * @result          包含字串的vector
+         * @brief dip转像素（水平方向）
          */
-        static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
+        static int DipToPxX(double dip);
 
         /**
-         * @brief     格式化字符串，类似于 `swprintf`，但返回一个动态分配的 `std::wstring`
-         * @param fmt 格式化字符串
-         * @param ... 可变参数，符合 `fmt` 格式的输入
-         * @return    返回一个包含格式化结果的字符串
+         * @brief dip转像素（垂直方向）
          */
-        static std::wstring FormatStr(const wchar_t *fmt, ...);
-
-    public:
-        /**
-         * @brief 取两值中的较大值
-         */
-        template <typename T>
-        static constexpr inline T Max(const T &a, const T &b)
-        {
-            return a > b ? a : b;
-        }
-
-        /**
-         * @brief 取两值中的较小值
-         */
-        template <typename T>
-        static constexpr inline T Min(const T &a, const T &b)
-        {
-            return a < b ? a : b;
-        }
-
-        /**
-         * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
-         */
-        template <typename... Args>
-        static inline std::wstring BuildStr(const Args &...args)
-        {
-            std::wstringstream wss;
-            int _[]{(Utils::_BuildStr(wss, args), 0)...};
-            return wss.str();
-        }
-
-    private:
-        /**
-         * @brief BuildStr函数内部实现
-         */
-        template <typename T>
-        static inline typename std::enable_if<!_IsProperty<T>::value && !_HasToString<T>::value, void>::type
-        _BuildStr(std::wostream &wos, const T &arg)
-        {
-            wos << arg;
-        }
-
-        /**
-         * @brief 让BuildStr函数支持自定义类型
-         */
-        template <typename T>
-        static inline typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value, void>::type
-        _BuildStr(std::wostream &wos, const T &arg)
-        {
-            Utils::_BuildStr(wos, arg.ToString());
-        }
-
-        /**
-         * @brief 让BuildStr函数支持属性
-         */
-        template <typename T>
-        static inline typename std::enable_if<_IsProperty<T>::value, void>::type
-        _BuildStr(std::wostream &wos, const T &prop)
-        {
-            Utils::_BuildStr(wos, prop.Get());
-        }
-
-        /**
-         * @brief 让BuildStr函数将bool类型转化为"true"或"false"而不是数字1或0
-         */
-        static inline void _BuildStr(std::wostream &wos, bool b)
-        {
-            wos << (b ? L"true" : L"false");
-        }
-
-        /**
-         * @brief 让BuildStr函数支持窄字符串
-         */
-        static inline void _BuildStr(std::wostream &wos, const char *str)
-        {
-            wos << Utils::ToWideStr(str);
-        }
-
-        /**
-         * @brief 让BuildStr函数支持窄字符串
-         */
-        static inline void _BuildStr(std::wostream &wos, const std::string &str)
-        {
-            wos << Utils::ToWideStr(str);
-        }
-
-        /**
-         * @brief 让BuildStr函数支持std::vector
-         */
-        template <typename T>
-        static inline void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
-        {
-            auto beg = vec.begin();
-            auto end = vec.end();
-            wos << L"[";
-            for (auto it = beg; it != end; ++it) {
-                if (it != beg)
-                    wos << L", ";
-                Utils::_BuildStr(wos, *it);
-            }
-            wos << L"]";
-        }
-
-        /**
-         * @brief 让BildStr函数支持std::map
-         */
-        template <typename TKey, typename TVal>
-        static inline void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
-        {
-            auto beg = map.begin();
-            auto end = map.end();
-            wos << L"{";
-            for (auto it = beg; it != end; ++it) {
-                if (it != beg)
-                    wos << L", ";
-                Utils::_BuildStr(wos, it->first);
-                wos << L":";
-                Utils::_BuildStr(wos, it->second);
-            }
-            wos << L"}";
-        }
-    };
-}
-
-// Dictionary.h
-
-
-namespace sw
-{
-    template <typename TKey, typename TVal>
-    class Dictionary; // 向前声明
-
-    /**
-     * @brief 以字符串为键值的字典
-     */
-    template <typename TVal>
-    using StrDictionary = Dictionary<std::wstring, TVal>;
-
-    /**
-     * @brief 字典类，内部维护了一个指向std::map的智能指针
-     */
-    template <typename TKey, typename TVal>
-    class Dictionary
-    {
-    private:
-        /**
-         * @brief 指向std::map的智能指针
-         */
-        std::shared_ptr<std::map<TKey, TVal>> _pMap;
-
-    public:
-        /**
-         * @brief 初始化字典
-         */
-        Dictionary()
-            : _pMap(std::make_shared<std::map<TKey, TVal>>())
-        {
-        }
-
-        /**
-         * @brief 使用初始化列表
-         */
-        Dictionary(std::initializer_list<std::pair<const TKey, TVal>> list)
-            : _pMap(std::make_shared<std::map<TKey, TVal>>(list))
-        {
-        }
-
-        /**
-         * @brief 正向迭代器开始
-         */
-        auto begin() const
-        {
-            return this->_pMap->begin();
-        }
-
-        /**
-         * @brief 正向迭代器结束
-         */
-        auto end() const
-        {
-            return this->_pMap->end();
-        }
-
-        /**
-         * @brief 反向迭代器开始
-         */
-        auto rbegin() const
-        {
-            return this->_pMap->rbegin();
-        }
-
-        /**
-         * @brief 反向迭代器结束
-         */
-        auto rend() const
-        {
-            return this->_pMap->rend();
-        }
-
-        /**
-         * @brief     获取或设置值
-         * @param key 键值
-         */
-        auto &operator[](const TKey &key) const
-        {
-            return this->_pMap->at(key);
-        }
-
-        /**
-         * @brief 判断是否为同一个字典
-         */
-        bool operator==(const Dictionary &other) const
-        {
-            return this->_pMap == other._pMap;
-        }
-
-        /**
-         * @brief 判断是否不是同一个字典
-         */
-        bool operator!=(const Dictionary &other) const
-        {
-            return this->_pMap != other._pMap;
-        }
-
-        /**
-         * @brief 获取键值对个数
-         */
-        int Count() const
-        {
-            return (int)this->_pMap->size();
-        }
-
-        /**
-         * @brief 字典是否为空
-         */
-        bool IsEmpty() const
-        {
-            return this->_pMap->empty();
-        }
-
-        /**
-         * @brief  添加键值对到字典
-         * @return 当前字典
-         */
-        auto Add(const TKey &key, const TVal &value) const
-        {
-            this->_pMap->insert(std::make_pair(key, value));
-            return *this;
-        }
-
-        /**
-         * @brief     是否存在某个键值
-         * @param key 要查询的键值
-         */
-        bool ContainsKey(const TKey &key) const
-        {
-            return this->_pMap->count(key);
-        }
-
-        /**
-         * @brief       遍历字典，查询是否存在某个值
-         * @param value 要查询的值
-         */
-        bool ContainsValue(const TVal &value) const
-        {
-            for (const auto &pair : *this->_pMap) {
-                if (pair.second == value) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /**
-         * @brief     移除指定键值对
-         * @param key 要删除的键值
-         */
-        void Remove(const TKey &key) const
-        {
-            this->_pMap->erase(key);
-        }
-
-        /**
-         * @brief 清空字典
-         */
-        void Clear() const
-        {
-            this->_pMap->clear();
-        }
-
-        /**
-         * @brief 复制当前字典
-         */
-        Dictionary Copy() const
-        {
-            Dictionary dic;
-            dic._pMap->insert(this->_pMap->begin(), this->_pMap->end());
-            return dic;
-        }
-
-        /**
-         * @brief 获取字典内部维护的std::map
-         */
-        std::map<TKey, TVal> &GetStdMap() const
-        {
-            return *this->_pMap;
-        }
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const
-        {
-            return Utils::BuildStr(*this->_pMap);
-        }
+        static int DipToPxY(double dip);
     };
 }
 
@@ -4876,529 +4742,6 @@ namespace sw
          * @param finalPosition 最终控件所安排的位置
          */
         virtual void Arrange(const Rect &finalPosition) = 0;
-    };
-}
-
-// ImageList.h
-
-
-namespace sw
-{
-    /**
-     * @brief 图像列表
-     */
-    class ImageList
-    {
-    private:
-        /**
-         * @brief 图像列表的句柄
-         */
-        HIMAGELIST _hImageList;
-
-        /**
-         * @brief 记录是否为包装对象
-         */
-        bool _isWrap;
-
-    protected:
-        /**
-         * @brief            初始化图像列表
-         * @param hImageList 图像列表的句柄
-         * @param isWrap     是否为包装对象
-         */
-        ImageList(HIMAGELIST hImageList, bool isWrap);
-
-    public:
-        /**
-         * @brief 创建图像列表，参数与ImageList_Create相同
-         */
-        ImageList(int cx, int cy, UINT flags, int cInitial, int cGrow);
-
-        /**
-         * @brief 拷贝构造
-         */
-        ImageList(const ImageList &value);
-
-        /**
-         * @brief 移动构造
-         */
-        ImageList(ImageList &&rvalue);
-
-        /**
-         * @brief 析构函数
-         */
-        virtual ~ImageList();
-
-        /**
-         * @brief 拷贝赋值
-         */
-        ImageList &operator=(const ImageList &value);
-
-        /**
-         * @brief 移动赋值
-         */
-        ImageList &operator=(ImageList &&rvalue);
-
-        /**
-         * @brief  创建一个图像列表，该函数调用ImageList_Create
-         * @return 图像列表对象
-         */
-        static ImageList Create(int cx, int cy, UINT flags, int cInitial, int cGrow);
-
-        /**
-         * @brief            包装一个图像列表句柄为ImageList对象，通过该函数创建的对象析构时不会销毁句柄
-         * @param hImageList 要包装的句柄
-         * @return           包装原有句柄的对象
-         */
-        static ImageList Wrap(HIMAGELIST hImageList);
-
-        /**
-         * @brief 复制图像，该函数调用ImageList_Copy
-         */
-        static bool Copy(const ImageList &dst, int iDst, const ImageList &src, int iSrc, UINT uFlags);
-
-        /**
-         * @brief 锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter
-         */
-        static bool DragEnter(HWND hwndLock, double x, double y);
-
-        /**
-         * @brief 解除窗口锁定并隐藏显示的拖拽图像，该函数调用ImageList_DragLeave
-         */
-        static bool DragLeave(HWND hwndLock);
-
-        /**
-         * @brief 拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove
-         */
-        static bool DragMove(double x, double y);
-
-        /**
-         * @brief 拖拽时显示或隐藏图像，该函数调用ImageList_DragShowNolock
-         */
-        static bool DragShowNolock(bool fShow);
-
-        /**
-         * @brief 结束拖拽，该函数调用ImageList_EndDrag
-         */
-        static void EndDrag();
-
-        /**
-         * @brief 获取拖拽中图像的列表，该函数调用ImageList_GetDragImage
-         */
-        static ImageList GetDragImage(POINT *ppt, POINT *pptHotspot);
-
-        /**
-         * @brief 加载图像列表，该函数调用ImageList_LoadImageA
-         */
-        static ImageList LoadImageA(HINSTANCE hi, LPCSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags);
-
-        /**
-         * @brief 加载图像列表，该函数调用ImageList_LoadImageW
-         */
-        static ImageList LoadImageW(HINSTANCE hi, LPCWSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags);
-
-        /**
-         * @brief 合并两个图像列表，该函数调用ImageList_Merge
-         */
-        static ImageList Merge(const ImageList &iml1, int i1, const ImageList &iml2, int i2, int dx, int dy);
-
-        /**
-         * @brief 读取图像列表，该函数调用ImageList_Read
-         */
-        static ImageList Read(IStream *pstm);
-
-    public:
-        /**
-         * @brief 获取图像列表的句柄
-         */
-        HIMAGELIST GetHandle() const;
-
-        /**
-         * @brief 判断当前对象是否为包装对象
-         */
-        bool IsWrap() const;
-
-        /**
-         * @brief  获取图像列表句柄并取消对句柄的托管，调用该函数后当前对象将不可用，析构时也不会销毁句柄
-         * @return 当前对象的图像列表句柄
-         */
-        HIMAGELIST ReleaseHandle();
-
-        /**
-         * @brief 添加图像，该函数调用ImageList_Add
-         */
-        int Add(HBITMAP hbmImage, HBITMAP hbmMask);
-
-        /**
-         * @brief 添加图标，该函数调用ImageList_AddIcon
-         */
-        int AddIcon(HICON hIcon);
-
-        /**
-         * @brief 添加图像，指定颜色为mask，该函数调用ImageList_AddMasked
-         */
-        int AddMasked(HBITMAP hbmImage, COLORREF crMask);
-
-        /**
-         * @brief 开始拖拽图像，该函数调用ImageList_BeginDrag
-         */
-        bool BeginDrag(int iTrack, int dxHotspot, int dyHotspot);
-
-        /**
-         * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_Draw
-         */
-        bool Draw(int i, HDC hdcDst, double x, double y, UINT fStyle);
-
-        /**
-         * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx
-         */
-        bool Draw(int i, HDC hdcDst, double x, double y, double dx, double dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle);
-
-        /**
-         * @brief 以像素为单位，在指定上下文DC下绘制图像，该函数调用ImageList_Draw
-         */
-        bool DrawPx(int i, HDC hdcDst, int x, int y, UINT fStyle);
-
-        /**
-         * @brief 以像素为单位，在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx
-         */
-        bool DrawPx(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle);
-
-        /**
-         * @brief 复制当前图像列表，该函数调用ImageList_Duplicate
-         */
-        ImageList Duplicate();
-
-        /**
-         * @brief 获取背景颜色，该函数调用ImageList_GetBkColor
-         */
-        COLORREF GetBkColor();
-
-        /**
-         * @brief 通过指定位置的图像创建图标句柄，该函数调用ImageList_GetIcon
-         */
-        HICON GetIcon(int i, UINT flags);
-
-        /**
-         * @brief 获取图标大小，该函数调用ImageList_GetIconSize
-         */
-        bool GetIconSize(int &cx, int &cy);
-
-        /**
-         * @brief 获取图像个数，该函数调用ImageList_GetImageCount
-         */
-        int GetImageCount();
-
-        /**
-         * @brief 获取图像信息，该函数调用ImageList_GetImageInfo
-         */
-        bool GetImageInfo(int i, IMAGEINFO *pImageInfo);
-
-        /**
-         * @brief 移除指定图像，该函数调用ImageList_Remove
-         */
-        bool Remove(int i);
-
-        /**
-         * @brief 移除所有图像，该函数调用ImageList_Remove
-         */
-        bool RemoveAll();
-
-        /**
-         * @brief 更换指定位置的图像，该函数调用ImageList_Replace
-         */
-        bool Replace(int i, HBITMAP hbmImage, HBITMAP hbmMask);
-
-        /**
-         * @brief 更换图标，该函数调用ImageList_ReplaceIcon
-         */
-        int ReplaceIcon(int i, HICON hicon);
-
-        /**
-         * @brief 设置背景颜色，该函数调用ImageList_SetBkColor
-         */
-        COLORREF SetBkColor(COLORREF clrBk);
-
-        /**
-         * @brief 设置拖拽图标为指定图标与当前拖拽图标的结合，该函数调用ImageList_SetDragCursorImage
-         */
-        bool SetDragCursorImage(int iDrag, int dxHotspot, int dyHotspot);
-
-        /**
-         * @brief 设置图像大小并移除所有图像，该函数调用ImageList_SetIconSize
-         */
-        bool SetIconSize(int cx, int cy);
-
-        /**
-         * @brief 设置图像个数，该函数调用ImageList_SetImageCount
-         */
-        bool SetImageCount(UINT uNewCount);
-
-        /**
-         * @brief 将指定的图像添加到要用作覆盖遮罩的图像列表中，该函数调用ImageList_SetOverlayImage
-         */
-        bool SetOverlayImage(int iImage, int iOverlay);
-
-        /**
-         * @brief 写图像列表，该函数调用ImageList_Write
-         */
-        bool Write(IStream *pstm);
-
-    private:
-        /**
-         * @brief 若_isWrap为false时调用ImageList_Destroy
-         */
-        void _DestroyIfNotWrap();
-    };
-}
-
-// List.h
-
-
-namespace sw
-{
-    template <typename T>
-    class List; // 向前声明
-
-    /**
-     * @brief 字符串列表
-     */
-    using StrList = List<std::wstring>;
-
-    /**
-     * @brief 列表类，内部维护了一个指向std::vector的智能指针
-     */
-    template <typename T>
-    class List
-    {
-    private:
-        /**
-         * @brief 指向std::vector的智能指针
-         */
-        std::shared_ptr<std::vector<T>> _pVec;
-
-    public:
-        /**
-         * @brief 初始化列表
-         */
-        List()
-            : _pVec(std::make_shared<std::vector<T>>())
-        {
-        }
-
-        /**
-         * @brief 使用初始化列表
-         */
-        List(std::initializer_list<T> list)
-            : _pVec(std::make_shared<std::vector<T>>(list))
-        {
-        }
-
-        /**
-         * @brief 初始化列表并指定容量
-         */
-        explicit List(int capacity)
-            : List()
-        {
-            this->_pVec->reserve(capacity);
-        }
-
-        /**
-         * @brief 正向迭代器开始
-         */
-        auto begin() const
-        {
-            return this->_pVec->begin();
-        }
-
-        /**
-         * @brief 正向迭代器结束
-         */
-        auto end() const
-        {
-            return this->_pVec->end();
-        }
-
-        /**
-         * @brief 反向迭代器开始
-         */
-        auto rbegin() const
-        {
-            return this->_pVec->rbegin();
-        }
-
-        /**
-         * @brief 反向迭代器结束
-         */
-        auto rend() const
-        {
-            return this->_pVec->rend();
-        }
-
-        /**
-         * @brief 获取或设置列表中指定位置的值
-         */
-        auto &operator[](int index) const
-        {
-            return this->_pVec->at(index);
-        }
-
-        /**
-         * @brief 判断是否为同一个列表
-         */
-        bool operator==(const List &other) const
-        {
-            return this->_pVec == other._pVec;
-        }
-
-        /**
-         * @brief 判断是否不是同一个列表
-         */
-        bool operator!=(const List &other) const
-        {
-            return this->_pVec != other._pVec;
-        }
-
-        /**
-         * @brief 列表当前的容量
-         */
-        int Capacity() const
-        {
-            return (int)this->_pVec->capacity();
-        }
-
-        /**
-         * @brief 获取元素个数
-         */
-        int Count() const
-        {
-            return (int)this->_pVec->size();
-        }
-
-        /**
-         * @brief 列表是否为空
-         */
-        bool IsEmpty() const
-        {
-            return this->_pVec->empty();
-        }
-
-        /**
-         * @brief  添加一个值到列表末尾
-         * @return 当前列表
-         */
-        auto Append(const T &value) const
-        {
-            this->_pVec->push_back(value);
-            return *this;
-        }
-
-        /**
-         * @brief  添加一个值到列表末尾
-         * @return 当前列表
-         */
-        auto Append(T &&value) const
-        {
-            this->_pVec->push_back(std::forward<T>(value));
-            return *this;
-        }
-
-        /**
-         * @brief  在指定位置插入值
-         * @return 当前列表
-         */
-        auto Insert(int index, const T &value) const
-        {
-            this->_pVec->insert(this->_pVec->begin() + index, value);
-            return *this;
-        }
-
-        /**
-         * @brief  在指定位置插入值
-         * @return 当前列表
-         */
-        auto Insert(int index, T &&value) const
-        {
-            this->_pVec->insert(this->_pVec->begin() + index, std::forward<T>(value));
-            return *this;
-        }
-
-        /**
-         * @brief       列表是否包含某个值
-         * @param value 要查找的值
-         */
-        bool Contains(const T &value) const
-        {
-            return std::find(this->_pVec->begin(), this->_pVec->end(), value) != this->_pVec->end();
-        }
-
-        /**
-         * @brief       查找值在列表中的索引
-         * @param value 要查找的值
-         * @return      若列表中包含该值则返回其索引，否则返回-1
-         */
-        int IndexOf(const T &value) const
-        {
-            auto it = std::find(this->_pVec->begin(), this->_pVec->end(), value);
-            return it == this->_pVec->end() ? -1 : int(it - this->_pVec->begin());
-        }
-
-        /**
-         * @brief       移除列表中第一个指定的值
-         * @param value 要移除的值
-         * @return      是否成功移除
-         */
-        bool Remove(const T &value) const
-        {
-            auto it = std::find(this->_pVec->begin(), this->_pVec->end(), value);
-            if (it == this->_pVec->end())
-                return false;
-            this->_pVec->erase(it);
-            return true;
-        }
-
-        /**
-         * @brief       移除指定索引处的值
-         * @param index 要移除元素的索引
-         */
-        void RemoveAt(int index) const
-        {
-            this->_pVec->erase(this->_pVec->begin() + index);
-        }
-
-        /**
-         * @brief 清空列表
-         */
-        void Clear() const
-        {
-            this->_pVec->clear();
-        }
-
-        /**
-         * @brief 复制当前列表
-         */
-        List Copy() const
-        {
-            List list((int)this->_pVec->capacity());
-            list._pVec->assign(this->_pVec->begin(), this->_pVec->end());
-            return list;
-        }
-
-        /**
-         * @brief 获取列表内部维护的std::vector
-         */
-        std::vector<T> &GetStdVector() const
-        {
-            return *this->_pVec;
-        }
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const
-        {
-            return Utils::BuildStr(*this->_pVec);
-        }
     };
 }
 
@@ -5893,6 +5236,1116 @@ namespace sw
         VirtualKey key;          // 按键
         HotKeyModifier modifier; // 辅助按键
         HotKeyValueChangedEventArgs(VirtualKey key, HotKeyModifier modifier) : key(key), modifier(modifier) {}
+    };
+}
+
+// Screen.h
+
+
+namespace sw
+{
+    /**
+     * @brief 屏幕相关
+     */
+    class Screen
+    {
+    private:
+        Screen() = delete;
+
+    public:
+        /**
+         * @brief 屏幕宽度
+         */
+        static const ReadOnlyProperty<double> Width;
+
+        /**
+         * @brief 屏幕高度
+         */
+        static const ReadOnlyProperty<double> Height;
+
+        /**
+         * @brief 鼠标在屏幕中的位置
+         */
+        static const ReadOnlyProperty<Point> CursorPosition;
+    };
+}
+
+// Utils.h
+
+
+namespace sw
+{
+    /**
+     * @brief 判断一个类型是否有ToString方法
+     */
+    template <typename T>
+    struct _HasToString {
+    private:
+        template <typename U>
+        static auto test(int) -> decltype(std::declval<U>().ToString(), std::true_type());
+
+        template <typename U>
+        static auto test(...) -> std::false_type;
+
+    public:
+        static constexpr bool value = decltype(test<T>(0))::value;
+    };
+
+    /**
+     * @brief 工具类
+     */
+    class Utils
+    {
+    private:
+        Utils() = delete; // 删除构造函数
+
+    public:
+        /**
+         * @brief      将窄字符串转为宽字符串
+         * @param str  要转换的字符串
+         * @param utf8 是否使用utf8编码
+         * @return     转换后的字符串
+         */
+        static std::wstring ToWideStr(const std::string &str, bool utf8 = false);
+
+        /**
+         * @brief      将宽字符串转为窄字符串
+         * @param wstr 要转换的字符串
+         * @param utf8 是否使用utf8编码
+         * @return     转换后的字符串
+         */
+        static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8 = false);
+
+        /**
+         * @brief     删除首尾空白字符
+         * @param str 输入的字符串
+         * @return    删除首位空白字符后的字符串
+         */
+        static std::wstring Trim(const std::wstring &str);
+
+        /**
+         * @brief     删除串首空白字符
+         * @param str 输入的字符串
+         * @return    删除串首空白字符后的字符串
+         */
+        static std::wstring TrimStart(const std::wstring &str);
+
+        /**
+         * @brief     删除串尾空白字符
+         * @param str 输入的字符串
+         * @return    删除串尾空白字符后的字符串
+         */
+        static std::wstring TrimEnd(const std::wstring &str);
+
+        /**
+         * @brief           对字符串按照指定分隔符进行拆分
+         * @param str       输入的字符串
+         * @param delimiter 分隔符
+         * @result          包含字串的vector
+         */
+        static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
+
+        /**
+         * @brief     格式化字符串，类似于 `swprintf`，但返回一个动态分配的 `std::wstring`
+         * @param fmt 格式化字符串
+         * @param ... 可变参数，符合 `fmt` 格式的输入
+         * @return    返回一个包含格式化结果的字符串
+         */
+        static std::wstring FormatStr(const wchar_t *fmt, ...);
+
+    public:
+        /**
+         * @brief 取两值中的较大值
+         */
+        template <typename T>
+        static constexpr inline T Max(const T &a, const T &b)
+        {
+            return a > b ? a : b;
+        }
+
+        /**
+         * @brief 取两值中的较小值
+         */
+        template <typename T>
+        static constexpr inline T Min(const T &a, const T &b)
+        {
+            return a < b ? a : b;
+        }
+
+        /**
+         * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
+         */
+        template <typename... Args>
+        static inline std::wstring BuildStr(const Args &...args)
+        {
+            std::wstringstream wss;
+            int _[]{(Utils::_BuildStr(wss, args), 0)...};
+            return wss.str();
+        }
+
+    private:
+        /**
+         * @brief BuildStr函数内部实现
+         */
+        template <typename T>
+        static inline typename std::enable_if<!_IsProperty<T>::value && !_HasToString<T>::value, void>::type
+        _BuildStr(std::wostream &wos, const T &arg)
+        {
+            wos << arg;
+        }
+
+        /**
+         * @brief 让BuildStr函数支持自定义类型
+         */
+        template <typename T>
+        static inline typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value, void>::type
+        _BuildStr(std::wostream &wos, const T &arg)
+        {
+            Utils::_BuildStr(wos, arg.ToString());
+        }
+
+        /**
+         * @brief 让BuildStr函数支持属性
+         */
+        template <typename T>
+        static inline typename std::enable_if<_IsProperty<T>::value, void>::type
+        _BuildStr(std::wostream &wos, const T &prop)
+        {
+            Utils::_BuildStr(wos, prop.Get());
+        }
+
+        /**
+         * @brief 让BuildStr函数将bool类型转化为"true"或"false"而不是数字1或0
+         */
+        static inline void _BuildStr(std::wostream &wos, bool b)
+        {
+            wos << (b ? L"true" : L"false");
+        }
+
+        /**
+         * @brief 让BuildStr函数支持窄字符串
+         */
+        static inline void _BuildStr(std::wostream &wos, const char *str)
+        {
+            wos << Utils::ToWideStr(str);
+        }
+
+        /**
+         * @brief 让BuildStr函数支持窄字符串
+         */
+        static inline void _BuildStr(std::wostream &wos, const std::string &str)
+        {
+            wos << Utils::ToWideStr(str);
+        }
+
+        /**
+         * @brief 让BuildStr函数支持std::vector
+         */
+        template <typename T>
+        static inline void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
+        {
+            auto beg = vec.begin();
+            auto end = vec.end();
+            wos << L"[";
+            for (auto it = beg; it != end; ++it) {
+                if (it != beg)
+                    wos << L", ";
+                Utils::_BuildStr(wos, *it);
+            }
+            wos << L"]";
+        }
+
+        /**
+         * @brief 让BildStr函数支持std::map
+         */
+        template <typename TKey, typename TVal>
+        static inline void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
+        {
+            auto beg = map.begin();
+            auto end = map.end();
+            wos << L"{";
+            for (auto it = beg; it != end; ++it) {
+                if (it != beg)
+                    wos << L", ";
+                Utils::_BuildStr(wos, it->first);
+                wos << L":";
+                Utils::_BuildStr(wos, it->second);
+            }
+            wos << L"}";
+        }
+    };
+}
+
+// ContextMenu.h
+
+
+namespace sw
+{
+    /**
+     * @brief 上下文菜单
+     */
+    class ContextMenu : public MenuBase
+    {
+    public:
+        /**
+         * @brief 初始化上下文菜单
+         */
+        ContextMenu();
+
+        /**
+         * @brief 初始化上下文菜单并设置菜单项
+         */
+        ContextMenu(std::initializer_list<MenuItem> items);
+
+        /**
+         * @brief    判断ID是否为上下文菜单项的ID
+         * @param id 要判断的ID
+         * @return   ID是否为上下文菜单项的ID
+         */
+        static bool IsContextMenuID(int id);
+
+    protected:
+        /**
+         * @brief       根据索引获取ID
+         * @param index 索引
+         * @return      菜单项的ID
+         */
+        virtual int IndexToID(int index) override;
+
+        /**
+         * @brief    根据ID获取索引
+         * @param id 菜单项的ID
+         * @return   索引
+         */
+        virtual int IDToIndex(int id) override;
+    };
+}
+
+// Dictionary.h
+
+
+namespace sw
+{
+    template <typename TKey, typename TVal>
+    class Dictionary; // 向前声明
+
+    /**
+     * @brief 以字符串为键值的字典
+     */
+    template <typename TVal>
+    using StrDictionary = Dictionary<std::wstring, TVal>;
+
+    /**
+     * @brief 字典类，内部维护了一个指向std::map的智能指针
+     */
+    template <typename TKey, typename TVal>
+    class Dictionary
+    {
+    private:
+        /**
+         * @brief 指向std::map的智能指针
+         */
+        std::shared_ptr<std::map<TKey, TVal>> _pMap;
+
+    public:
+        /**
+         * @brief 初始化字典
+         */
+        Dictionary()
+            : _pMap(std::make_shared<std::map<TKey, TVal>>())
+        {
+        }
+
+        /**
+         * @brief 使用初始化列表
+         */
+        Dictionary(std::initializer_list<std::pair<const TKey, TVal>> list)
+            : _pMap(std::make_shared<std::map<TKey, TVal>>(list))
+        {
+        }
+
+        /**
+         * @brief 正向迭代器开始
+         */
+        auto begin() const
+        {
+            return this->_pMap->begin();
+        }
+
+        /**
+         * @brief 正向迭代器结束
+         */
+        auto end() const
+        {
+            return this->_pMap->end();
+        }
+
+        /**
+         * @brief 反向迭代器开始
+         */
+        auto rbegin() const
+        {
+            return this->_pMap->rbegin();
+        }
+
+        /**
+         * @brief 反向迭代器结束
+         */
+        auto rend() const
+        {
+            return this->_pMap->rend();
+        }
+
+        /**
+         * @brief     获取或设置值
+         * @param key 键值
+         */
+        auto &operator[](const TKey &key) const
+        {
+            return this->_pMap->at(key);
+        }
+
+        /**
+         * @brief 判断是否为同一个字典
+         */
+        bool operator==(const Dictionary &other) const
+        {
+            return this->_pMap == other._pMap;
+        }
+
+        /**
+         * @brief 判断是否不是同一个字典
+         */
+        bool operator!=(const Dictionary &other) const
+        {
+            return this->_pMap != other._pMap;
+        }
+
+        /**
+         * @brief 获取键值对个数
+         */
+        int Count() const
+        {
+            return (int)this->_pMap->size();
+        }
+
+        /**
+         * @brief 字典是否为空
+         */
+        bool IsEmpty() const
+        {
+            return this->_pMap->empty();
+        }
+
+        /**
+         * @brief  添加键值对到字典
+         * @return 当前字典
+         */
+        auto Add(const TKey &key, const TVal &value) const
+        {
+            this->_pMap->insert(std::make_pair(key, value));
+            return *this;
+        }
+
+        /**
+         * @brief     是否存在某个键值
+         * @param key 要查询的键值
+         */
+        bool ContainsKey(const TKey &key) const
+        {
+            return this->_pMap->count(key);
+        }
+
+        /**
+         * @brief       遍历字典，查询是否存在某个值
+         * @param value 要查询的值
+         */
+        bool ContainsValue(const TVal &value) const
+        {
+            for (const auto &pair : *this->_pMap) {
+                if (pair.second == value) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * @brief     移除指定键值对
+         * @param key 要删除的键值
+         */
+        void Remove(const TKey &key) const
+        {
+            this->_pMap->erase(key);
+        }
+
+        /**
+         * @brief 清空字典
+         */
+        void Clear() const
+        {
+            this->_pMap->clear();
+        }
+
+        /**
+         * @brief 复制当前字典
+         */
+        Dictionary Copy() const
+        {
+            Dictionary dic;
+            dic._pMap->insert(this->_pMap->begin(), this->_pMap->end());
+            return dic;
+        }
+
+        /**
+         * @brief 获取字典内部维护的std::map
+         */
+        std::map<TKey, TVal> &GetStdMap() const
+        {
+            return *this->_pMap;
+        }
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const
+        {
+            return Utils::BuildStr(*this->_pMap);
+        }
+    };
+}
+
+// ImageList.h
+
+
+namespace sw
+{
+    /**
+     * @brief 图像列表
+     */
+    class ImageList
+    {
+    private:
+        /**
+         * @brief 图像列表的句柄
+         */
+        HIMAGELIST _hImageList;
+
+        /**
+         * @brief 记录是否为包装对象
+         */
+        bool _isWrap;
+
+    protected:
+        /**
+         * @brief            初始化图像列表
+         * @param hImageList 图像列表的句柄
+         * @param isWrap     是否为包装对象
+         */
+        ImageList(HIMAGELIST hImageList, bool isWrap);
+
+    public:
+        /**
+         * @brief 创建图像列表，参数与ImageList_Create相同
+         */
+        ImageList(int cx, int cy, UINT flags, int cInitial, int cGrow);
+
+        /**
+         * @brief 拷贝构造
+         */
+        ImageList(const ImageList &value);
+
+        /**
+         * @brief 移动构造
+         */
+        ImageList(ImageList &&rvalue);
+
+        /**
+         * @brief 析构函数
+         */
+        virtual ~ImageList();
+
+        /**
+         * @brief 拷贝赋值
+         */
+        ImageList &operator=(const ImageList &value);
+
+        /**
+         * @brief 移动赋值
+         */
+        ImageList &operator=(ImageList &&rvalue);
+
+        /**
+         * @brief  创建一个图像列表，该函数调用ImageList_Create
+         * @return 图像列表对象
+         */
+        static ImageList Create(int cx, int cy, UINT flags, int cInitial, int cGrow);
+
+        /**
+         * @brief            包装一个图像列表句柄为ImageList对象，通过该函数创建的对象析构时不会销毁句柄
+         * @param hImageList 要包装的句柄
+         * @return           包装原有句柄的对象
+         */
+        static ImageList Wrap(HIMAGELIST hImageList);
+
+        /**
+         * @brief 复制图像，该函数调用ImageList_Copy
+         */
+        static bool Copy(const ImageList &dst, int iDst, const ImageList &src, int iSrc, UINT uFlags);
+
+        /**
+         * @brief 锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter
+         */
+        static bool DragEnter(HWND hwndLock, double x, double y);
+
+        /**
+         * @brief 解除窗口锁定并隐藏显示的拖拽图像，该函数调用ImageList_DragLeave
+         */
+        static bool DragLeave(HWND hwndLock);
+
+        /**
+         * @brief 拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove
+         */
+        static bool DragMove(double x, double y);
+
+        /**
+         * @brief 拖拽时显示或隐藏图像，该函数调用ImageList_DragShowNolock
+         */
+        static bool DragShowNolock(bool fShow);
+
+        /**
+         * @brief 结束拖拽，该函数调用ImageList_EndDrag
+         */
+        static void EndDrag();
+
+        /**
+         * @brief 获取拖拽中图像的列表，该函数调用ImageList_GetDragImage
+         */
+        static ImageList GetDragImage(POINT *ppt, POINT *pptHotspot);
+
+        /**
+         * @brief 加载图像列表，该函数调用ImageList_LoadImageA
+         */
+        static ImageList LoadImageA(HINSTANCE hi, LPCSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags);
+
+        /**
+         * @brief 加载图像列表，该函数调用ImageList_LoadImageW
+         */
+        static ImageList LoadImageW(HINSTANCE hi, LPCWSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags);
+
+        /**
+         * @brief 合并两个图像列表，该函数调用ImageList_Merge
+         */
+        static ImageList Merge(const ImageList &iml1, int i1, const ImageList &iml2, int i2, int dx, int dy);
+
+        /**
+         * @brief 读取图像列表，该函数调用ImageList_Read
+         */
+        static ImageList Read(IStream *pstm);
+
+    public:
+        /**
+         * @brief 获取图像列表的句柄
+         */
+        HIMAGELIST GetHandle() const;
+
+        /**
+         * @brief 判断当前对象是否为包装对象
+         */
+        bool IsWrap() const;
+
+        /**
+         * @brief  获取图像列表句柄并取消对句柄的托管，调用该函数后当前对象将不可用，析构时也不会销毁句柄
+         * @return 当前对象的图像列表句柄
+         */
+        HIMAGELIST ReleaseHandle();
+
+        /**
+         * @brief 添加图像，该函数调用ImageList_Add
+         */
+        int Add(HBITMAP hbmImage, HBITMAP hbmMask);
+
+        /**
+         * @brief 添加图标，该函数调用ImageList_AddIcon
+         */
+        int AddIcon(HICON hIcon);
+
+        /**
+         * @brief 添加图像，指定颜色为mask，该函数调用ImageList_AddMasked
+         */
+        int AddMasked(HBITMAP hbmImage, COLORREF crMask);
+
+        /**
+         * @brief 开始拖拽图像，该函数调用ImageList_BeginDrag
+         */
+        bool BeginDrag(int iTrack, int dxHotspot, int dyHotspot);
+
+        /**
+         * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_Draw
+         */
+        bool Draw(int i, HDC hdcDst, double x, double y, UINT fStyle);
+
+        /**
+         * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx
+         */
+        bool Draw(int i, HDC hdcDst, double x, double y, double dx, double dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle);
+
+        /**
+         * @brief 以像素为单位，在指定上下文DC下绘制图像，该函数调用ImageList_Draw
+         */
+        bool DrawPx(int i, HDC hdcDst, int x, int y, UINT fStyle);
+
+        /**
+         * @brief 以像素为单位，在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx
+         */
+        bool DrawPx(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle);
+
+        /**
+         * @brief 复制当前图像列表，该函数调用ImageList_Duplicate
+         */
+        ImageList Duplicate();
+
+        /**
+         * @brief 获取背景颜色，该函数调用ImageList_GetBkColor
+         */
+        COLORREF GetBkColor();
+
+        /**
+         * @brief 通过指定位置的图像创建图标句柄，该函数调用ImageList_GetIcon
+         */
+        HICON GetIcon(int i, UINT flags);
+
+        /**
+         * @brief 获取图标大小，该函数调用ImageList_GetIconSize
+         */
+        bool GetIconSize(int &cx, int &cy);
+
+        /**
+         * @brief 获取图像个数，该函数调用ImageList_GetImageCount
+         */
+        int GetImageCount();
+
+        /**
+         * @brief 获取图像信息，该函数调用ImageList_GetImageInfo
+         */
+        bool GetImageInfo(int i, IMAGEINFO *pImageInfo);
+
+        /**
+         * @brief 移除指定图像，该函数调用ImageList_Remove
+         */
+        bool Remove(int i);
+
+        /**
+         * @brief 移除所有图像，该函数调用ImageList_Remove
+         */
+        bool RemoveAll();
+
+        /**
+         * @brief 更换指定位置的图像，该函数调用ImageList_Replace
+         */
+        bool Replace(int i, HBITMAP hbmImage, HBITMAP hbmMask);
+
+        /**
+         * @brief 更换图标，该函数调用ImageList_ReplaceIcon
+         */
+        int ReplaceIcon(int i, HICON hicon);
+
+        /**
+         * @brief 设置背景颜色，该函数调用ImageList_SetBkColor
+         */
+        COLORREF SetBkColor(COLORREF clrBk);
+
+        /**
+         * @brief 设置拖拽图标为指定图标与当前拖拽图标的结合，该函数调用ImageList_SetDragCursorImage
+         */
+        bool SetDragCursorImage(int iDrag, int dxHotspot, int dyHotspot);
+
+        /**
+         * @brief 设置图像大小并移除所有图像，该函数调用ImageList_SetIconSize
+         */
+        bool SetIconSize(int cx, int cy);
+
+        /**
+         * @brief 设置图像个数，该函数调用ImageList_SetImageCount
+         */
+        bool SetImageCount(UINT uNewCount);
+
+        /**
+         * @brief 将指定的图像添加到要用作覆盖遮罩的图像列表中，该函数调用ImageList_SetOverlayImage
+         */
+        bool SetOverlayImage(int iImage, int iOverlay);
+
+        /**
+         * @brief 写图像列表，该函数调用ImageList_Write
+         */
+        bool Write(IStream *pstm);
+
+    private:
+        /**
+         * @brief 若_isWrap为false时调用ImageList_Destroy
+         */
+        void _DestroyIfNotWrap();
+    };
+}
+
+// LayoutHost.h
+
+
+namespace sw
+{
+    /**
+     * @brief 用于托管元素的布局方式的对象类型，是所有布局方式类型的基类
+     */
+    class LayoutHost : public ILayout
+    {
+    private:
+        /**
+         * @brief 关联的对象
+         */
+        ILayout *_associatedObj = nullptr;
+
+    public:
+        /**
+         * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
+         * @param obj 要关联的对象
+         */
+        void Associate(ILayout *obj);
+
+    public:
+        /**
+         * @brief 获取布局标记
+         */
+        virtual uint64_t GetLayoutTag() override;
+
+        /**
+         * @brief 获取关联对象子控件的数量
+         */
+        virtual int GetChildLayoutCount() override;
+
+        /**
+         * @brief 获取关联对象对应索引处的子控件
+         */
+        virtual ILayout &GetChildLayoutAt(int index) override;
+
+        /**
+         * @brief 获取关联对象所需尺寸
+         */
+        virtual Size GetDesireSize() override;
+
+        /**
+         * @brief 设置关联对象所需的尺寸
+         */
+        virtual void SetDesireSize(const Size &size) override;
+
+        /**
+         * @brief               测量控件所需尺寸
+         * @param availableSize 可用的尺寸
+         */
+        virtual void Measure(const Size &availableSize) override;
+
+        /**
+         * @brief               安排控件位置
+         * @param finalPosition 最终控件所安排的位置
+         */
+        virtual void Arrange(const Rect &finalPosition) override;
+
+        /**
+         * @brief 重写此函数计算所需尺寸
+         */
+        virtual void MeasureOverride(Size &availableSize) = 0;
+
+        /**
+         * @brief 重写此函数安排控件
+         */
+        virtual void ArrangeOverride(Size &finalSize) = 0;
+    };
+}
+
+// List.h
+
+
+namespace sw
+{
+    template <typename T>
+    class List; // 向前声明
+
+    /**
+     * @brief 字符串列表
+     */
+    using StrList = List<std::wstring>;
+
+    /**
+     * @brief 列表类，内部维护了一个指向std::vector的智能指针
+     */
+    template <typename T>
+    class List
+    {
+    private:
+        /**
+         * @brief 指向std::vector的智能指针
+         */
+        std::shared_ptr<std::vector<T>> _pVec;
+
+    public:
+        /**
+         * @brief 初始化列表
+         */
+        List()
+            : _pVec(std::make_shared<std::vector<T>>())
+        {
+        }
+
+        /**
+         * @brief 使用初始化列表
+         */
+        List(std::initializer_list<T> list)
+            : _pVec(std::make_shared<std::vector<T>>(list))
+        {
+        }
+
+        /**
+         * @brief 初始化列表并指定容量
+         */
+        explicit List(int capacity)
+            : List()
+        {
+            this->_pVec->reserve(capacity);
+        }
+
+        /**
+         * @brief 正向迭代器开始
+         */
+        auto begin() const
+        {
+            return this->_pVec->begin();
+        }
+
+        /**
+         * @brief 正向迭代器结束
+         */
+        auto end() const
+        {
+            return this->_pVec->end();
+        }
+
+        /**
+         * @brief 反向迭代器开始
+         */
+        auto rbegin() const
+        {
+            return this->_pVec->rbegin();
+        }
+
+        /**
+         * @brief 反向迭代器结束
+         */
+        auto rend() const
+        {
+            return this->_pVec->rend();
+        }
+
+        /**
+         * @brief 获取或设置列表中指定位置的值
+         */
+        auto &operator[](int index) const
+        {
+            return this->_pVec->at(index);
+        }
+
+        /**
+         * @brief 判断是否为同一个列表
+         */
+        bool operator==(const List &other) const
+        {
+            return this->_pVec == other._pVec;
+        }
+
+        /**
+         * @brief 判断是否不是同一个列表
+         */
+        bool operator!=(const List &other) const
+        {
+            return this->_pVec != other._pVec;
+        }
+
+        /**
+         * @brief 列表当前的容量
+         */
+        int Capacity() const
+        {
+            return (int)this->_pVec->capacity();
+        }
+
+        /**
+         * @brief 获取元素个数
+         */
+        int Count() const
+        {
+            return (int)this->_pVec->size();
+        }
+
+        /**
+         * @brief 列表是否为空
+         */
+        bool IsEmpty() const
+        {
+            return this->_pVec->empty();
+        }
+
+        /**
+         * @brief  添加一个值到列表末尾
+         * @return 当前列表
+         */
+        auto Append(const T &value) const
+        {
+            this->_pVec->push_back(value);
+            return *this;
+        }
+
+        /**
+         * @brief  添加一个值到列表末尾
+         * @return 当前列表
+         */
+        auto Append(T &&value) const
+        {
+            this->_pVec->push_back(std::forward<T>(value));
+            return *this;
+        }
+
+        /**
+         * @brief  在指定位置插入值
+         * @return 当前列表
+         */
+        auto Insert(int index, const T &value) const
+        {
+            this->_pVec->insert(this->_pVec->begin() + index, value);
+            return *this;
+        }
+
+        /**
+         * @brief  在指定位置插入值
+         * @return 当前列表
+         */
+        auto Insert(int index, T &&value) const
+        {
+            this->_pVec->insert(this->_pVec->begin() + index, std::forward<T>(value));
+            return *this;
+        }
+
+        /**
+         * @brief       列表是否包含某个值
+         * @param value 要查找的值
+         */
+        bool Contains(const T &value) const
+        {
+            return std::find(this->_pVec->begin(), this->_pVec->end(), value) != this->_pVec->end();
+        }
+
+        /**
+         * @brief       查找值在列表中的索引
+         * @param value 要查找的值
+         * @return      若列表中包含该值则返回其索引，否则返回-1
+         */
+        int IndexOf(const T &value) const
+        {
+            auto it = std::find(this->_pVec->begin(), this->_pVec->end(), value);
+            return it == this->_pVec->end() ? -1 : int(it - this->_pVec->begin());
+        }
+
+        /**
+         * @brief       移除列表中第一个指定的值
+         * @param value 要移除的值
+         * @return      是否成功移除
+         */
+        bool Remove(const T &value) const
+        {
+            auto it = std::find(this->_pVec->begin(), this->_pVec->end(), value);
+            if (it == this->_pVec->end())
+                return false;
+            this->_pVec->erase(it);
+            return true;
+        }
+
+        /**
+         * @brief       移除指定索引处的值
+         * @param index 要移除元素的索引
+         */
+        void RemoveAt(int index) const
+        {
+            this->_pVec->erase(this->_pVec->begin() + index);
+        }
+
+        /**
+         * @brief 清空列表
+         */
+        void Clear() const
+        {
+            this->_pVec->clear();
+        }
+
+        /**
+         * @brief 复制当前列表
+         */
+        List Copy() const
+        {
+            List list((int)this->_pVec->capacity());
+            list._pVec->assign(this->_pVec->begin(), this->_pVec->end());
+            return list;
+        }
+
+        /**
+         * @brief 获取列表内部维护的std::vector
+         */
+        std::vector<T> &GetStdVector() const
+        {
+            return *this->_pVec;
+        }
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const
+        {
+            return Utils::BuildStr(*this->_pVec);
+        }
+    };
+}
+
+// Menu.h
+
+
+namespace sw
+{
+    /**
+     * @brief 菜单
+     */
+    class Menu : public MenuBase
+    {
+    public:
+        /**
+         * @brief 初始化菜单
+         */
+        Menu();
+
+        /**
+         * @brief 初始化菜单并设置菜单项
+         */
+        Menu(std::initializer_list<MenuItem> items);
+
+    protected:
+        /**
+         * @brief       根据索引获取ID
+         * @param index 索引
+         * @return      菜单项的ID
+         */
+        virtual int IndexToID(int index) override;
+
+        /**
+         * @brief    根据ID获取索引
+         * @param id 菜单项的ID
+         * @return   索引
+         */
+        virtual int IDToIndex(int id) override;
     };
 }
 
@@ -6732,519 +7185,6 @@ namespace sw
     };
 }
 
-// ContextMenu.h
-
-
-namespace sw
-{
-    /**
-     * @brief 上下文菜单
-     */
-    class ContextMenu : public MenuBase
-    {
-    public:
-        /**
-         * @brief 初始化上下文菜单
-         */
-        ContextMenu();
-
-        /**
-         * @brief 初始化上下文菜单并设置菜单项
-         */
-        ContextMenu(std::initializer_list<MenuItem> items);
-
-        /**
-         * @brief    判断ID是否为上下文菜单项的ID
-         * @param id 要判断的ID
-         * @return   ID是否为上下文菜单项的ID
-         */
-        static bool IsContextMenuID(int id);
-
-    protected:
-        /**
-         * @brief       根据索引获取ID
-         * @param index 索引
-         * @return      菜单项的ID
-         */
-        virtual int IndexToID(int index) override;
-
-        /**
-         * @brief    根据ID获取索引
-         * @param id 菜单项的ID
-         * @return   索引
-         */
-        virtual int IDToIndex(int id) override;
-    };
-}
-
-// LayoutHost.h
-
-
-namespace sw
-{
-    /**
-     * @brief 用于托管元素的布局方式的对象类型，是所有布局方式类型的基类
-     */
-    class LayoutHost : public ILayout
-    {
-    private:
-        /**
-         * @brief 关联的对象
-         */
-        ILayout *_associatedObj = nullptr;
-
-    public:
-        /**
-         * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
-         * @param obj 要关联的对象
-         */
-        void Associate(ILayout *obj);
-
-    public:
-        /**
-         * @brief 获取布局标记
-         */
-        virtual uint64_t GetLayoutTag() override;
-
-        /**
-         * @brief 获取关联对象子控件的数量
-         */
-        virtual int GetChildLayoutCount() override;
-
-        /**
-         * @brief 获取关联对象对应索引处的子控件
-         */
-        virtual ILayout &GetChildLayoutAt(int index) override;
-
-        /**
-         * @brief 获取关联对象所需尺寸
-         */
-        virtual Size GetDesireSize() override;
-
-        /**
-         * @brief 设置关联对象所需的尺寸
-         */
-        virtual void SetDesireSize(const Size &size) override;
-
-        /**
-         * @brief               测量控件所需尺寸
-         * @param availableSize 可用的尺寸
-         */
-        virtual void Measure(const Size &availableSize) override;
-
-        /**
-         * @brief               安排控件位置
-         * @param finalPosition 最终控件所安排的位置
-         */
-        virtual void Arrange(const Rect &finalPosition) override;
-
-        /**
-         * @brief 重写此函数计算所需尺寸
-         */
-        virtual void MeasureOverride(Size &availableSize) = 0;
-
-        /**
-         * @brief 重写此函数安排控件
-         */
-        virtual void ArrangeOverride(Size &finalSize) = 0;
-    };
-}
-
-// Menu.h
-
-
-namespace sw
-{
-    /**
-     * @brief 菜单
-     */
-    class Menu : public MenuBase
-    {
-    public:
-        /**
-         * @brief 初始化菜单
-         */
-        Menu();
-
-        /**
-         * @brief 初始化菜单并设置菜单项
-         */
-        Menu(std::initializer_list<MenuItem> items);
-
-    protected:
-        /**
-         * @brief       根据索引获取ID
-         * @param index 索引
-         * @return      菜单项的ID
-         */
-        virtual int IndexToID(int index) override;
-
-        /**
-         * @brief    根据ID获取索引
-         * @param id 菜单项的ID
-         * @return   索引
-         */
-        virtual int IDToIndex(int id) override;
-    };
-}
-
-// MsgBox.h
-
-
-namespace sw
-{
-    /**
-     * @brief 消息框回调
-     */
-    using MsgBoxCallback = Action<>;
-
-    /**
-     * @brief 消息框按钮类型
-     */
-    enum class MsgBoxButton {
-        Ok          = MB_OK,
-        OkCancel    = MB_OKCANCEL,
-        YesNoCancel = MB_YESNOCANCEL,
-        YesNo       = MB_YESNO,
-    };
-
-    /**
-     * @brief 消息框结果
-     */
-    enum class MsgBoxResult {
-        Ok     = IDOK,
-        Cancel = IDCANCEL,
-        Yes    = IDYES,
-        No     = IDNO,
-    };
-
-    /**
-     * @brief 处理消息框消息的帮助类
-     */
-    struct MsgBoxResultHelper {
-        /**
-         * @brief 消息框的结果
-         */
-        MsgBoxResult result;
-
-        /**
-         * @brief 构造MsgBoxResultHelper
-         */
-        MsgBoxResultHelper(MsgBoxResult result);
-
-        /**
-         * @brief 隐式转换MsgBoxResult
-         */
-        operator sw::MsgBoxResult() const;
-
-        /**
-         * @brief 指定按下“确定”按钮时的处理函数
-         */
-        MsgBoxResultHelper &OnOk(const MsgBoxCallback &callback);
-
-        /**
-         * @brief 指定按下“是”按钮时的处理函数
-         */
-        MsgBoxResultHelper &OnYes(const MsgBoxCallback &callback);
-
-        /**
-         * @brief 指定按下“否”按钮时的处理函数
-         */
-        MsgBoxResultHelper &OnNo(const MsgBoxCallback &callback);
-
-        /**
-         * @brief 指定按下“取消”按钮时的处理函数
-         */
-        MsgBoxResultHelper &OnCancel(const MsgBoxCallback &callback);
-
-        /**
-         * @brief 指定消息框结果的处理函数
-         */
-        template <MsgBoxResult RES>
-        MsgBoxResultHelper &On(const MsgBoxCallback &callback)
-        {
-            if (this->result == RES) {
-                if (callback) callback();
-            }
-            return *this;
-        }
-    };
-
-    /**
-     * @brief 消息框类
-     */
-    class MsgBox
-    {
-    private:
-        MsgBox() = delete;
-
-    public:
-        /**
-         * @brief 显示一个不含图标的消息框
-         */
-        static MsgBoxResultHelper Show(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
-
-        /**
-         * @brief 显示一个不含图标的消息框
-         */
-        static MsgBoxResultHelper Show(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
-
-        /**
-         * @brief 显示一个不含图标的消息框，将当前活动窗体作为Owner
-         */
-        static MsgBoxResultHelper Show(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
-
-        /**
-         * @brief 显示一个含“消息”图标的消息框
-         */
-        static MsgBoxResultHelper ShowInfo(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
-
-        /**
-         * @brief 显示一个含“消息”图标的消息框
-         */
-        static MsgBoxResultHelper ShowInfo(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
-
-        /**
-         * @brief 显示一个含“消息”图标的消息框，将当前活动窗体作为Owner
-         */
-        static MsgBoxResultHelper ShowInfo(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
-
-        /**
-         * @brief 显示一个含“错误”图标的消息框
-         */
-        static MsgBoxResultHelper ShowError(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
-
-        /**
-         * @brief 显示一个含“错误”图标的消息框
-         */
-        static MsgBoxResultHelper ShowError(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
-
-        /**
-         * @brief 显示一个含“错误”图标的消息框，将当前活动窗体作为Owner
-         */
-        static MsgBoxResultHelper ShowError(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
-
-        /**
-         * @brief 显示一个含“警告”图标的消息框
-         */
-        static MsgBoxResultHelper ShowWarning(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
-
-        /**
-         * @brief 显示一个含“警告”图标的消息框
-         */
-        static MsgBoxResultHelper ShowWarning(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
-
-        /**
-         * @brief 显示一个含“警告”图标的消息框，将当前活动窗体作为Owner
-         */
-        static MsgBoxResultHelper ShowWarning(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
-
-        /**
-         * @brief 显示一个含“问题”图标的消息框
-         */
-        static MsgBoxResultHelper ShowQuestion(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
-
-        /**
-         * @brief 显示一个含“问题”图标的消息框
-         */
-        static MsgBoxResultHelper ShowQuestion(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
-
-        /**
-         * @brief 显示一个含“问题”图标的消息框，将当前活动窗体作为Owner
-         */
-        static MsgBoxResultHelper ShowQuestion(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
-    };
-}
-
-// Timer.h
-
-
-namespace sw
-{
-    class Timer; // 向前声明
-
-    /**
-     * @brief 计时器触发事件类型
-     */
-    using TimerTickHandler = Action<Timer &>;
-
-    /**
-     * @brief 计时器
-     */
-    class Timer : public WndBase
-    {
-    private:
-        /**
-         * @brief 是否已启动
-         */
-        bool _started = false;
-
-        /**
-         * @brief 触发间隔
-         */
-        uint32_t _interval = 1000;
-
-    public:
-        /**
-         * @brief 相对于上一次触发的Tick事件引发下一次Tick事件之间的时间（以毫秒为单位）
-         */
-        Property<uint32_t> Interval;
-
-        /**
-         * @brief 计时器触发事件
-         */
-        TimerTickHandler Tick;
-
-    public:
-        /**
-         * @brief 初始化计时器
-         */
-        Timer();
-
-        /**
-         * @brief 开始计时器
-         */
-        void Start();
-
-        /**
-         * @brief 停止计时器
-         */
-        void Stop();
-
-    protected:
-        /**
-         * @brief 计时器已启动并且达到间隔时间时调用该函数
-         */
-        virtual void OnTick();
-
-    private:
-        /**
-         * @brief      通过窗口句柄获取Timer指针
-         * @param hwnd 窗口句柄
-         * @return     若函数成功则返回对象的指针，否则返回nullptr
-         */
-        static Timer *_GetTimerPtr(HWND hwnd);
-
-        /**
-         * @brief       关联窗口句柄与Timer对象
-         * @param hwnd  窗口句柄
-         * @param timer 与句柄关联的对象
-         */
-        static void _SetTimerPtr(HWND hwnd, Timer &timer);
-
-        /**
-         * @brief TimerProc回调函数
-         */
-        static void CALLBACK _TimerProc(HWND hwnd, UINT msg, UINT_PTR idTimer, DWORD time);
-    };
-}
-
-// ToolTip.h
-
-
-namespace sw
-{
-    /**
-     * @brief 提示信息图标类型
-     */
-    enum class ToolTipIcon {
-        None         = TTI_NONE,                // 无图标
-        Info         = TTI_INFO,                // 信息图标
-        Warning      = TTI_WARNING,             // 警告图标
-        Error        = TTI_ERROR,               // 错误图标
-        LargeInfo    = 4 /*TTI_INFO_LARGE*/,    // 大错误图标
-        LargeWarning = 5 /*TTI_WARNING_LARGE*/, // 大错误图标
-        LargeError   = 6 /*TTI_ERROR_LARGE*/,   // 大错误图标
-    };
-
-    /**
-     * @brief 信息提示，用于用户将指针移过关联控件时显示信息
-     */
-    class ToolTip : public WndBase
-    {
-    private:
-        /**
-         * @brief 图标
-         */
-        ToolTipIcon _icon{ToolTipIcon::None};
-
-        /**
-         * @brief 标题
-         */
-        std::wstring _title{};
-
-    public:
-        /**
-         * @brief 触发提示信息的时间，以毫秒为单位，设置负数可恢复默认值
-         */
-        const Property<int> InitialDelay;
-
-        /**
-         * @brief 提示框中显示的图标，标题不为空时图标才会显示
-         */
-        const Property<ToolTipIcon> ToolTipIcon;
-
-        /**
-         * @brief 提示框中显示的标题
-         */
-        const Property<std::wstring> ToolTipTitle;
-
-        /**
-         * @brief 提示框的最大宽度，若未设置则为-1，设置负值可取消限制
-         */
-        const Property<double> MaxTipWidth;
-
-    public:
-        /**
-         * @brief 初始化ToolTip
-         */
-        ToolTip();
-
-        /**
-         * @brief 初始化ToolTip，指定窗口样式
-         */
-        explicit ToolTip(DWORD style);
-
-    public:
-        /**
-         * @brief         给指定句柄设置提示信息
-         * @param hwnd    要设置提示信息的句柄
-         * @param tooltip 提示信息
-         */
-        bool SetToolTip(HWND hwnd, const std::wstring &tooltip);
-
-        /**
-         * @brief         给指定窗口或控件设置提示信息
-         * @param wnd     要设置提示信息的窗口或控件
-         * @param tooltip 提示信息
-         */
-        bool SetToolTip(const WndBase &wnd, const std::wstring &tooltip);
-
-        /**
-         * @brief 移除所有关联的提示信息
-         */
-        void RemoveAll();
-
-    private:
-        /**
-         * @brief 更新图标和标题
-         */
-        void _UpdateIconAndTitle();
-    };
-
-    /**
-     * @brief 气泡样式的信息提示
-     */
-    class BallonToolTip : public ToolTip
-    {
-    public:
-        /**
-         * @brief 初始化BallonToolTip
-         */
-        BallonToolTip();
-    };
-}
-
 // CanvasLayout.h
 
 
@@ -7667,6 +7607,174 @@ namespace sw
     };
 }
 
+// MsgBox.h
+
+
+namespace sw
+{
+    /**
+     * @brief 消息框回调
+     */
+    using MsgBoxCallback = Action<>;
+
+    /**
+     * @brief 消息框按钮类型
+     */
+    enum class MsgBoxButton {
+        Ok          = MB_OK,
+        OkCancel    = MB_OKCANCEL,
+        YesNoCancel = MB_YESNOCANCEL,
+        YesNo       = MB_YESNO,
+    };
+
+    /**
+     * @brief 消息框结果
+     */
+    enum class MsgBoxResult {
+        Ok     = IDOK,
+        Cancel = IDCANCEL,
+        Yes    = IDYES,
+        No     = IDNO,
+    };
+
+    /**
+     * @brief 处理消息框消息的帮助类
+     */
+    struct MsgBoxResultHelper {
+        /**
+         * @brief 消息框的结果
+         */
+        MsgBoxResult result;
+
+        /**
+         * @brief 构造MsgBoxResultHelper
+         */
+        MsgBoxResultHelper(MsgBoxResult result);
+
+        /**
+         * @brief 隐式转换MsgBoxResult
+         */
+        operator sw::MsgBoxResult() const;
+
+        /**
+         * @brief 指定按下“确定”按钮时的处理函数
+         */
+        MsgBoxResultHelper &OnOk(const MsgBoxCallback &callback);
+
+        /**
+         * @brief 指定按下“是”按钮时的处理函数
+         */
+        MsgBoxResultHelper &OnYes(const MsgBoxCallback &callback);
+
+        /**
+         * @brief 指定按下“否”按钮时的处理函数
+         */
+        MsgBoxResultHelper &OnNo(const MsgBoxCallback &callback);
+
+        /**
+         * @brief 指定按下“取消”按钮时的处理函数
+         */
+        MsgBoxResultHelper &OnCancel(const MsgBoxCallback &callback);
+
+        /**
+         * @brief 指定消息框结果的处理函数
+         */
+        template <MsgBoxResult RES>
+        MsgBoxResultHelper &On(const MsgBoxCallback &callback)
+        {
+            if (this->result == RES) {
+                if (callback) callback();
+            }
+            return *this;
+        }
+    };
+
+    /**
+     * @brief 消息框类
+     */
+    class MsgBox
+    {
+    private:
+        MsgBox() = delete;
+
+    public:
+        /**
+         * @brief 显示一个不含图标的消息框
+         */
+        static MsgBoxResultHelper Show(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
+         * @brief 显示一个不含图标的消息框
+         */
+        static MsgBoxResultHelper Show(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
+         * @brief 显示一个不含图标的消息框，将当前活动窗体作为Owner
+         */
+        static MsgBoxResultHelper Show(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
+         * @brief 显示一个含“消息”图标的消息框
+         */
+        static MsgBoxResultHelper ShowInfo(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
+         * @brief 显示一个含“消息”图标的消息框
+         */
+        static MsgBoxResultHelper ShowInfo(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
+         * @brief 显示一个含“消息”图标的消息框，将当前活动窗体作为Owner
+         */
+        static MsgBoxResultHelper ShowInfo(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
+         * @brief 显示一个含“错误”图标的消息框
+         */
+        static MsgBoxResultHelper ShowError(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
+         * @brief 显示一个含“错误”图标的消息框
+         */
+        static MsgBoxResultHelper ShowError(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
+         * @brief 显示一个含“错误”图标的消息框，将当前活动窗体作为Owner
+         */
+        static MsgBoxResultHelper ShowError(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
+         * @brief 显示一个含“警告”图标的消息框
+         */
+        static MsgBoxResultHelper ShowWarning(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
+         * @brief 显示一个含“警告”图标的消息框
+         */
+        static MsgBoxResultHelper ShowWarning(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
+         * @brief 显示一个含“警告”图标的消息框，将当前活动窗体作为Owner
+         */
+        static MsgBoxResultHelper ShowWarning(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+
+        /**
+         * @brief 显示一个含“问题”图标的消息框
+         */
+        static MsgBoxResultHelper ShowQuestion(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
+
+        /**
+         * @brief 显示一个含“问题”图标的消息框
+         */
+        static MsgBoxResultHelper ShowQuestion(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
+
+        /**
+         * @brief 显示一个含“问题”图标的消息框，将当前活动窗体作为Owner
+         */
+        static MsgBoxResultHelper ShowQuestion(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
+    };
+}
+
 // StackLayoutH.h
 
 
@@ -7710,6 +7818,195 @@ namespace sw
          * @brief 安排控件
          */
         virtual void ArrangeOverride(Size &finalSize) override;
+    };
+}
+
+// Timer.h
+
+
+namespace sw
+{
+    class Timer; // 向前声明
+
+    /**
+     * @brief 计时器触发事件类型
+     */
+    using TimerTickHandler = Action<Timer &>;
+
+    /**
+     * @brief 计时器
+     */
+    class Timer : public WndBase
+    {
+    private:
+        /**
+         * @brief 是否已启动
+         */
+        bool _started = false;
+
+        /**
+         * @brief 触发间隔
+         */
+        uint32_t _interval = 1000;
+
+    public:
+        /**
+         * @brief 相对于上一次触发的Tick事件引发下一次Tick事件之间的时间（以毫秒为单位）
+         */
+        Property<uint32_t> Interval;
+
+        /**
+         * @brief 计时器触发事件
+         */
+        TimerTickHandler Tick;
+
+    public:
+        /**
+         * @brief 初始化计时器
+         */
+        Timer();
+
+        /**
+         * @brief 开始计时器
+         */
+        void Start();
+
+        /**
+         * @brief 停止计时器
+         */
+        void Stop();
+
+    protected:
+        /**
+         * @brief 计时器已启动并且达到间隔时间时调用该函数
+         */
+        virtual void OnTick();
+
+    private:
+        /**
+         * @brief      通过窗口句柄获取Timer指针
+         * @param hwnd 窗口句柄
+         * @return     若函数成功则返回对象的指针，否则返回nullptr
+         */
+        static Timer *_GetTimerPtr(HWND hwnd);
+
+        /**
+         * @brief       关联窗口句柄与Timer对象
+         * @param hwnd  窗口句柄
+         * @param timer 与句柄关联的对象
+         */
+        static void _SetTimerPtr(HWND hwnd, Timer &timer);
+
+        /**
+         * @brief TimerProc回调函数
+         */
+        static void CALLBACK _TimerProc(HWND hwnd, UINT msg, UINT_PTR idTimer, DWORD time);
+    };
+}
+
+// ToolTip.h
+
+
+namespace sw
+{
+    /**
+     * @brief 提示信息图标类型
+     */
+    enum class ToolTipIcon {
+        None         = TTI_NONE,                // 无图标
+        Info         = TTI_INFO,                // 信息图标
+        Warning      = TTI_WARNING,             // 警告图标
+        Error        = TTI_ERROR,               // 错误图标
+        LargeInfo    = 4 /*TTI_INFO_LARGE*/,    // 大错误图标
+        LargeWarning = 5 /*TTI_WARNING_LARGE*/, // 大错误图标
+        LargeError   = 6 /*TTI_ERROR_LARGE*/,   // 大错误图标
+    };
+
+    /**
+     * @brief 信息提示，用于用户将指针移过关联控件时显示信息
+     */
+    class ToolTip : public WndBase
+    {
+    private:
+        /**
+         * @brief 图标
+         */
+        ToolTipIcon _icon{ToolTipIcon::None};
+
+        /**
+         * @brief 标题
+         */
+        std::wstring _title{};
+
+    public:
+        /**
+         * @brief 触发提示信息的时间，以毫秒为单位，设置负数可恢复默认值
+         */
+        const Property<int> InitialDelay;
+
+        /**
+         * @brief 提示框中显示的图标，标题不为空时图标才会显示
+         */
+        const Property<ToolTipIcon> ToolTipIcon;
+
+        /**
+         * @brief 提示框中显示的标题
+         */
+        const Property<std::wstring> ToolTipTitle;
+
+        /**
+         * @brief 提示框的最大宽度，若未设置则为-1，设置负值可取消限制
+         */
+        const Property<double> MaxTipWidth;
+
+    public:
+        /**
+         * @brief 初始化ToolTip
+         */
+        ToolTip();
+
+        /**
+         * @brief 初始化ToolTip，指定窗口样式
+         */
+        explicit ToolTip(DWORD style);
+
+    public:
+        /**
+         * @brief         给指定句柄设置提示信息
+         * @param hwnd    要设置提示信息的句柄
+         * @param tooltip 提示信息
+         */
+        bool SetToolTip(HWND hwnd, const std::wstring &tooltip);
+
+        /**
+         * @brief         给指定窗口或控件设置提示信息
+         * @param wnd     要设置提示信息的窗口或控件
+         * @param tooltip 提示信息
+         */
+        bool SetToolTip(const WndBase &wnd, const std::wstring &tooltip);
+
+        /**
+         * @brief 移除所有关联的提示信息
+         */
+        void RemoveAll();
+
+    private:
+        /**
+         * @brief 更新图标和标题
+         */
+        void _UpdateIconAndTitle();
+    };
+
+    /**
+     * @brief 气泡样式的信息提示
+     */
+    class BallonToolTip : public ToolTip
+    {
+    public:
+        /**
+         * @brief 初始化BallonToolTip
+         */
+        BallonToolTip();
     };
 }
 

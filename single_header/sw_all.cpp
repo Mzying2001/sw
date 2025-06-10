@@ -418,7 +418,7 @@ bool sw::Button::OnKeyDown(VirtualKey key, KeyFlags flags)
 {
     bool result = this->UIElement::OnKeyDown(key, flags);
 
-    if (key == VirtualKey::Enter) {
+    if (!result && key == VirtualKey::Enter) {
         this->OnClicked();
     }
 
@@ -7340,9 +7340,11 @@ sw::UIElement::UIElement()
           }),
 
       HorizontalAlignment(
+          // get
           [this]() -> sw::HorizontalAlignment {
               return this->_horizontalAlignment;
           },
+          // set
           [this](const sw::HorizontalAlignment &value) {
               if (this->_SetHorzAlignment(value)) {
                   this->NotifyLayoutUpdated();
@@ -7350,9 +7352,11 @@ sw::UIElement::UIElement()
           }),
 
       VerticalAlignment(
+          // get
           [this]() -> sw::VerticalAlignment {
               return this->_verticalAlignment;
           },
+          // set
           [this](const sw::VerticalAlignment &value) {
               if (this->_SetVertAlignment(value)) {
                   this->NotifyLayoutUpdated();
@@ -9906,13 +9910,6 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 
         case WM_DROPFILES: {
             return this->OnDropFiles(reinterpret_cast<HDROP>(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
-        }
-
-        case WM_InvokeFunction: {
-            auto pFunc = reinterpret_cast<std::function<void()> *>(refMsg.lParam);
-            if (pFunc && *pFunc) (*pFunc)();
-            if (refMsg.wParam) delete pFunc;
-            return 0;
         }
 
         case WM_InvokeAction: {
