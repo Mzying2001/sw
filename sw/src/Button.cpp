@@ -42,7 +42,7 @@ bool sw::Button::OnKeyDown(VirtualKey key, KeyFlags flags)
 {
     bool result = this->UIElement::OnKeyDown(key, flags);
 
-    if (key == VirtualKey::Enter) {
+    if (!result && key == VirtualKey::Enter) {
         this->OnClicked();
     }
 

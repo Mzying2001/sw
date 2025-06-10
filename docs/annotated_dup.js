@@ -25,6 +25,7 @@ var annotated_dup =
       [ "BmpBox", "classsw_1_1_bmp_box.html", "classsw_1_1_bmp_box" ],
       [ "Button", "classsw_1_1_button.html", "classsw_1_1_button" ],
       [ "ButtonBase", "classsw_1_1_button_base.html", "classsw_1_1_button_base" ],
+      [ "CallableList", "classsw_1_1_callable_list.html", "classsw_1_1_callable_list" ],
       [ "Canvas", "classsw_1_1_canvas.html", "classsw_1_1_canvas" ],
       [ "CanvasLayout", "classsw_1_1_canvas_layout.html", "classsw_1_1_canvas_layout" ],
       [ "CanvasLayoutTag", "structsw_1_1_canvas_layout_tag.html", "structsw_1_1_canvas_layout_tag" ],

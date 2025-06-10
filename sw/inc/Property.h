@@ -1,7 +1,6 @@
 #pragma once
 
-#include <functional>
-#include <iostream>
+#include "Delegate.h"
 #include <type_traits>
 
 #define _SW_DEFINE_OPERATION_HELPER(NAME, OP)                                                                                   \
@@ -1521,8 +1520,8 @@ namespace sw
     {
     public:
         using TBase = PropertyBase<T, Property<T>>;
-        using FnGet = std::function<T()>;
-        using FnSet = std::function<void(const T &)>;
+        using FnGet = Func<T()>;
+        using FnSet = Action<const T &>;
         using TBase::operator=;
 
     private:
@@ -1553,22 +1552,6 @@ namespace sw
         {
             this->_setter(value);
         }
-
-        /**
-         * @brief 重设Getter
-         */
-        void ResetGetter(const FnGet &getter)
-        {
-            this->_getter = getter;
-        }
-
-        /**
-         * @brief 重设Setter
-         */
-        void ResetSetter(const FnSet &setter)
-        {
-            this->_setter = setter;
-        }
     };
 
     /**
@@ -1579,7 +1562,7 @@ namespace sw
     {
     public:
         using TBase = PropertyBase<T, ReadOnlyProperty<T>>;
-        using FnGet = std::function<T()>;
+        using FnGet = Func<T()>;
 
     private:
         FnGet _getter;
@@ -1600,14 +1583,6 @@ namespace sw
         {
             return this->_getter();
         }
-
-        /**
-         * @brief 重设Getter
-         */
-        void ResetGetter(const FnGet &getter)
-        {
-            this->_getter = getter;
-        }
     };
 
     /**
@@ -1618,7 +1593,7 @@ namespace sw
     {
     public:
         using TBase = PropertyBase<T, WriteOnlyProperty<T>>;
-        using FnSet = std::function<void(const T &)>;
+        using FnSet = Action<const T &>;
         using TBase::operator=;
 
     private:
@@ -1639,14 +1614,6 @@ namespace sw
         void SetterImpl(const T &value) const
         {
             this->_setter(value);
-        }
-
-        /**
-         * @brief 重设Setter
-         */
-        void ResetSetter(const FnSet &setter)
-        {
-            this->_setter = setter;
         }
     };
 }

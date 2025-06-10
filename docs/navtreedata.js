@@ -34,7 +34,8 @@ var NAVTREE =
       [ "类成员", "functions.html", [
         [ "全部", "functions.html", "functions_dup" ],
         [ "函数", "functions_func.html", "functions_func" ],
-        [ "变量", "functions_vars.html", "functions_vars" ]
+        [ "变量", "functions_vars.html", "functions_vars" ],
+        [ "类型定义", "functions_type.html", null ]
       ] ]
     ] ],
     [ "文件", "files.html", [
@@ -46,12 +47,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_alignment_8h_source.html",
-"classsw_1_1_dictionary.html#a346b637e419b23fecb11ff446825012a",
-"classsw_1_1_layer.html#ab199e8fc6b90975b7dcb5fdb4e5f2853",
-"classsw_1_1_property_base.html#a3ad59ad84ba150f4fb08d689fbd4135a",
-"classsw_1_1_u_i_element.html#a70509d26b933d53dc2af7e2f70dbbce0",
-"classsw_1_1_write_only_property.html",
-"structsw_1_1_routed_event_args.html#ac299c564c53fa039f47a06d08272d969"
+"classsw_1_1_delegate_3_01_t_ret_07_args_8_8_8_08_4.html#acd4c86a7a6e46fc8d507032fc0eb2424",
+"classsw_1_1_layer.html#a4bb56843061a3db9497703f16e58f4ba",
+"classsw_1_1_property_base.html#a15f5fc3411b450894423bd96cfbb15c3",
+"classsw_1_1_u_i_element.html#a5c452519bad920ad9b91f9610ea202e0",
+"classsw_1_1_wrap_layout.html",
+"structsw_1_1_rect.html#a40124cfc53b1900ce79466c6e0f8a7e5"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';
