@@ -277,19 +277,20 @@ namespace sw
          */
         bool RemoveAt(size_t index) noexcept
         {
-            size_t count = Count();
-
-            if (index >= count) {
-                return false;
-            }
-
             switch (_state) {
                 case STATE_SINGLE: {
-                    _Reset();
-                    return true;
+                    if (index != 0) {
+                        return false;
+                    } else {
+                        _Reset();
+                        return true;
+                    }
                 }
                 case STATE_LIST: {
                     auto &list = _GetList();
+                    if (index >= list.size()) {
+                        return false;
+                    }
                     list.erase(list.begin() + index);
                     if (list.empty()) {
                         _Reset();
