@@ -55,6 +55,350 @@ namespace sw
     };
 
     /**
+     * @brief 用于存储和管理多个可调用对象的列表，针对单个可调用对象的情况进行优化
+     */
+    template <typename T>
+    class CallableList
+    {
+    public:
+        /**
+         * @brief 可调用对象类型别名
+         */
+        using TCallable = ICallable<T>;
+
+        /**
+         * @brief 智能指针类型别名，用于存储可调用对象的唯一指针
+         */
+        using TPtr = std::unique_ptr<TCallable>;
+
+        /**
+         * @brief 列表类型别名，用于存储多个可调用对象的智能指针
+         */
+        using TList = std::vector<TPtr>;
+
+    private:
+        /**
+         * @brief 内部存储可调用对象的联合体
+         */
+        mutable union {
+            alignas(TPtr) uint8_t _single[sizeof(TPtr)];
+            alignas(TList) uint8_t _list[sizeof(TList)];
+        } _data = {};
+
+        /**
+         * @brief 当前状态枚举
+         */
+        enum : uint8_t {
+            STATE_NONE,   // 未存储任何可调用对象
+            STATE_SINGLE, // 储存了一个可调用对象
+            STATE_LIST    // 储存了多个可调用对象
+        } _state = STATE_NONE;
+
+    public:
+        /**
+         * @brief 默认构造函数
+         */
+        CallableList()
+        {
+        }
+
+        /**
+         * @brief 拷贝构造函数
+         */
+        CallableList(const CallableList &other)
+        {
+            *this = other;
+        }
+
+        /**
+         * @brief 移动构造函数
+         */
+        CallableList(CallableList &&other) noexcept
+        {
+            *this = std::move(other);
+        }
+
+        /**
+         * @brief 拷贝赋值运算
+         */
+        CallableList &operator=(const CallableList &other)
+        {
+            if (this == &other) {
+                return *this;
+            }
+
+            _Reset(other._state);
+
+            switch (other._state) {
+                case STATE_SINGLE: {
+                    _GetSingle().reset(other._GetSingle()->Clone());
+                    break;
+                }
+                case STATE_LIST: {
+                    for (const auto &item : other._GetList()) {
+                        _GetList().emplace_back(item->Clone());
+                    }
+                    break;
+                }
+            }
+            return *this;
+        }
+
+        /**
+         * @brief 移动赋值运算
+         */
+        CallableList &operator=(CallableList &&other) noexcept
+        {
+            if (this == &other) {
+                return *this;
+            }
+
+            _Reset(other._state);
+
+            switch (other._state) {
+                case STATE_SINGLE: {
+                    _GetSingle() = std::move(other._GetSingle());
+                    other._Reset();
+                    break;
+                }
+                case STATE_LIST: {
+                    _GetList() = std::move(other._GetList());
+                    other._Reset();
+                    break;
+                }
+            }
+            return *this;
+        }
+
+        /**
+         * @brief 析构函数
+         */
+        ~CallableList()
+        {
+            _Reset();
+        }
+
+        /**
+         * @brief  获取当前存储的可调用对象数量
+         * @return 可调用对象的数量
+         */
+        size_t Count() const noexcept
+        {
+            switch (_state) {
+                case STATE_SINGLE: {
+                    return 1;
+                }
+                case STATE_LIST: {
+                    return _GetList().size();
+                }
+                default: {
+                    return 0;
+                }
+            }
+        }
+
+        /**
+         * @brief  判断当前存储的可调用对象是否为空
+         * @return 如果没有存储任何可调用对象则返回true，否则返回false
+         */
+        bool IsEmpty() const noexcept
+        {
+            return _state == STATE_NONE;
+        }
+
+        /**
+         * @brief 清空当前存储的可调用对象
+         */
+        void Clear() noexcept
+        {
+            _Reset();
+        }
+
+        // /**
+        //  * @brief 添加一个可调用对象到列表中
+        //  */
+        // void Add(const TCallable &callable)
+        // {
+        //     switch (_state) {
+        //         case STATE_NONE: {
+        //             _Reset(STATE_SINGLE);
+        //             _GetSingle().reset(callable.Clone());
+        //             break;
+        //         }
+        //         case STATE_SINGLE: {
+        //             TList list;
+        //             list.emplace_back(std::move(_GetSingle()));
+        //             list.emplace_back(callable.Clone());
+        //             _Reset(STATE_LIST);
+        //             _GetList() = std::move(list);
+        //             break;
+        //         }
+        //         case STATE_LIST: {
+        //             _GetList().emplace_back(callable.Clone());
+        //             break;
+        //         }
+        //     }
+        // }
+
+        /**
+         * @brief 添加一个可调用对象到列表中
+         * @note  传入对象的生命周期将由CallableList管理
+         */
+        void Add(TCallable *callable)
+        {
+            if (callable == nullptr) {
+                return;
+            }
+
+            switch (_state) {
+                case STATE_NONE: {
+                    _Reset(STATE_SINGLE);
+                    _GetSingle().reset(callable);
+                    break;
+                }
+                case STATE_SINGLE: {
+                    TList list;
+                    list.emplace_back(std::move(_GetSingle()));
+                    list.emplace_back(callable);
+                    _Reset(STATE_LIST);
+                    _GetList() = std::move(list);
+                    break;
+                }
+                case STATE_LIST: {
+                    _GetList().emplace_back(callable);
+                    break;
+                }
+            }
+        }
+
+        /**
+         * @brief  移除指定索引处的可调用对象
+         * @return 如果成功移除则返回true，否则返回false
+         */
+        bool RemoveAt(size_t index) noexcept
+        {
+            size_t count = Count();
+
+            if (index >= count) {
+                return false;
+            }
+
+            switch (_state) {
+                case STATE_SINGLE: {
+                    _Reset();
+                    return true;
+                }
+                case STATE_LIST: {
+                    auto &list = _GetList();
+                    list.erase(list.begin() + index);
+                    if (list.empty()) {
+                        _Reset();
+                    } else if (list.size() == 1) {
+                        auto singlePtr = std::move(list.front());
+                        _Reset(STATE_SINGLE);
+                        _GetSingle() = std::move(singlePtr);
+                    }
+                    return true;
+                }
+                default: {
+                    return false;
+                }
+            }
+        }
+
+        /**
+         * @brief  获取指定索引处的可调用对象
+         * @return 如果索引有效则返回对应的可调用对象，否则返回nullptr
+         */
+        TCallable *GetAt(size_t index) const noexcept
+        {
+            size_t count = Count();
+
+            if (index >= count) {
+                return nullptr;
+            }
+
+            switch (_state) {
+                case STATE_SINGLE: {
+                    return _GetSingle().get();
+                }
+                case STATE_LIST: {
+                    return _GetList()[index].get();
+                }
+                default: {
+                    return nullptr;
+                }
+            }
+        }
+
+        /**
+         * @brief  获取指定索引处的可调用对象
+         * @return 如果索引有效则返回对应的可调用对象，否则返回nullptr
+         */
+        TCallable *operator[](size_t index) const noexcept
+        {
+            return GetAt(index);
+        }
+
+    private:
+        /**
+         * @brief 内部函数，当状态为STATE_SINGLE时返回单个可调用对象的引用，
+         */
+        constexpr TPtr &_GetSingle() const noexcept
+        {
+            return *reinterpret_cast<TPtr *>(_data._single);
+        }
+
+        /**
+         * @brief 内部函数，当状态为STATE_LIST时返回可调用对象列表的引用
+         */
+        constexpr TList &_GetList() const noexcept
+        {
+            return *reinterpret_cast<TList *>(_data._list);
+        }
+
+        /**
+         * @brief 重置当前状态，释放存储的可调用对象
+         */
+        void _Reset() noexcept
+        {
+            switch (_state) {
+                case STATE_SINGLE: {
+                    _GetSingle().~TPtr();
+                    _state = STATE_NONE;
+                    break;
+                }
+                case STATE_LIST: {
+                    _GetList().~TList();
+                    _state = STATE_NONE;
+                    break;
+                }
+            }
+        }
+
+        /**
+         * @brief 重置当前状态并根据给定状态进行初始化
+         */
+        void _Reset(uint8_t state) noexcept
+        {
+            _Reset();
+
+            switch (state) {
+                case STATE_SINGLE: {
+                    new (_data._single) TPtr();
+                    _state = STATE_SINGLE;
+                    break;
+                }
+                case STATE_LIST: {
+                    new (_data._list) TList();
+                    _state = STATE_LIST;
+                    break;
+                }
+            }
+        }
+    };
+
+    /**
      * @brief 委托类，类似于C#中的委托，支持存储和调用任意可调用对象
      */
     template <typename TRet, typename... Args>
@@ -168,7 +512,8 @@ namespace sw
             TRet (T::*func)(Args...);
 
         public:
-            _MemberFuncWrapper(T &obj, TRet (T::*func)(Args...)) : obj(&obj), func(func)
+            _MemberFuncWrapper(T &obj, TRet (T::*func)(Args...))
+                : obj(&obj), func(func)
             {
             }
             TRet Invoke(Args... args) const override
@@ -203,7 +548,8 @@ namespace sw
             TRet (T::*func)(Args...) const;
 
         public:
-            _ConstMemberFuncWrapper(const T &obj, TRet (T::*func)(Args...) const) : obj(&obj), func(func)
+            _ConstMemberFuncWrapper(const T &obj, TRet (T::*func)(Args...) const)
+                : obj(&obj), func(func)
             {
             }
             TRet Invoke(Args... args) const override
@@ -235,7 +581,7 @@ namespace sw
         /**
          * @brief 内部存储可调用对象的容器
          */
-        std::vector<std::unique_ptr<_ICallable>> _data;
+        CallableList<TRet(Args...)> _data;
 
     public:
         /**
@@ -292,17 +638,15 @@ namespace sw
          * @brief 拷贝构造函数
          */
         Delegate(const Delegate &other)
+            : _data(other._data)
         {
-            _data.reserve(other._data.size());
-            for (const auto &item : other._data) {
-                _data.emplace_back(item->Clone());
-            }
         }
 
         /**
          * @brief 移动构造函数
          */
-        Delegate(Delegate &&other) : _data(std::move(other._data))
+        Delegate(Delegate &&other)
+            : _data(std::move(other._data))
         {
         }
 
@@ -312,11 +656,7 @@ namespace sw
         Delegate &operator=(const Delegate &other)
         {
             if (this != &other) {
-                _data.clear();
-                _data.reserve(other._data.size());
-                for (const auto &item : other._data) {
-                    _data.emplace_back(item->Clone());
-                }
+                _data = other._data;
             }
             return *this;
         }
@@ -343,14 +683,14 @@ namespace sw
             // - 否则，直接添加该可调用对象的克隆
             if (callable.GetTypeInfo() == GetTypeInfo()) {
                 auto &delegate = static_cast<const Delegate &>(callable);
-                if (delegate._data.empty()) {
+                if (delegate._data.IsEmpty()) {
                     return;
-                } else if (delegate._data.size() == 1) {
-                    _data.emplace_back(delegate._data.front()->Clone());
+                } else if (delegate._data.Count() == 1) {
+                    _data.Add(delegate._data[0]->Clone());
                     return;
                 }
             }
-            _data.emplace_back(callable.Clone());
+            _data.Add(callable.Clone());
         }
 
         /**
@@ -359,7 +699,7 @@ namespace sw
         void Add(TRet (*func)(Args...))
         {
             if (func != nullptr) {
-                _data.emplace_back(std::make_unique<_CallableWrapper<decltype(func)>>(func));
+                _data.Add(new _CallableWrapper<decltype(func)>(func));
             }
         }
 
@@ -370,7 +710,7 @@ namespace sw
         typename std::enable_if<!std::is_base_of<_ICallable, T>::value, void>::type
         Add(const T &callable)
         {
-            _data.emplace_back(std::make_unique<_CallableWrapper<T>>(callable));
+            _data.Add(new _CallableWrapper<T>(callable));
         }
 
         /**
@@ -379,7 +719,7 @@ namespace sw
         template <typename T>
         void Add(T &obj, TRet (T::*func)(Args...))
         {
-            _data.emplace_back(std::make_unique<_MemberFuncWrapper<T>>(obj, func));
+            _data.Add(new _MemberFuncWrapper<T>(obj, func));
         }
 
         /**
@@ -388,7 +728,7 @@ namespace sw
         template <typename T>
         void Add(const T &obj, TRet (T::*func)(Args...) const)
         {
-            _data.emplace_back(std::make_unique<_ConstMemberFuncWrapper<T>>(obj, func));
+            _data.Add(new _ConstMemberFuncWrapper<T>(obj, func));
         }
 
         /**
@@ -396,7 +736,7 @@ namespace sw
          */
         void Clear()
         {
-            _data.clear();
+            _data.Clear();
         }
 
         /**
@@ -412,10 +752,10 @@ namespace sw
             // - 否则，直接调用_Remove函数进行移除
             if (callable.GetTypeInfo() == GetTypeInfo()) {
                 auto &delegate = static_cast<const Delegate &>(callable);
-                if (delegate._data.empty()) {
+                if (delegate._data.IsEmpty()) {
                     return false;
-                } else if (delegate._data.size() == 1) {
-                    return _Remove(*delegate._data.front());
+                } else if (delegate._data.Count() == 1) {
+                    return _Remove(*delegate._data[0]);
                 }
             }
             return _Remove(callable);
@@ -505,7 +845,7 @@ namespace sw
          */
         bool operator==(std::nullptr_t) const
         {
-            return _data.empty();
+            return _data.IsEmpty();
         }
 
         /**
@@ -514,7 +854,7 @@ namespace sw
          */
         bool operator!=(std::nullptr_t) const
         {
-            return !_data.empty();
+            return !_data.IsEmpty();
         }
 
         /**
@@ -523,7 +863,7 @@ namespace sw
          */
         operator bool() const
         {
-            return !_data.empty();
+            return !_data.IsEmpty();
         }
 
         /**
@@ -598,13 +938,16 @@ namespace sw
          */
         virtual TRet Invoke(Args... args) const override
         {
-            if (_data.empty()) {
+            size_t count = _data.Count();
+            if (count == 0) {
                 throw std::runtime_error("Delegate is empty");
+            } else if (count == 1) {
+                return _data[0]->Invoke(std::forward<Args>(args)...);
+            } else {
+                for (size_t i = 0; i < _data.Count() - 1; ++i)
+                    _data[i]->Invoke(std::forward<Args>(args)...);
+                return _data[_data.Count() - 1]->Invoke(std::forward<Args>(args)...);
             }
-            for (size_t i = 0; i < _data.size() - 1; ++i) {
-                _data[i]->Invoke(std::forward<Args>(args)...);
-            }
-            return _data.back()->Invoke(std::forward<Args>(args)...);
         }
 
         /**
@@ -638,12 +981,12 @@ namespace sw
             if (GetTypeInfo() != other.GetTypeInfo()) {
                 return false;
             }
-            const auto &otherDelegate = static_cast<const Delegate<TRet(Args...)> &>(other);
-            if (_data.size() != otherDelegate._data.size()) {
+            const auto &otherDelegate = static_cast<const Delegate &>(other);
+            if (_data.Count() != otherDelegate._data.Count()) {
                 return false;
             }
-            for (size_t i = 0; i < _data.size(); ++i) {
-                if (!_data[i]->Equals(*otherDelegate._data[i])) {
+            for (size_t i = _data.Count(); i > 0; --i) {
+                if (!_data[i - 1]->Equals(*otherDelegate._data[i - 1])) {
                     return false;
                 }
             }
@@ -660,10 +1003,9 @@ namespace sw
         InvokeAll(Args... args) const
         {
             std::vector<U> results;
-            results.reserve(_data.size());
-            for (const auto &callable : _data) {
-                results.emplace_back(callable->Invoke(std::forward<Args>(args)...));
-            }
+            results.reserve(_data.Count());
+            for (size_t i = 0; i < _data.Count(); ++i)
+                results.emplace_back(_data[i]->Invoke(std::forward<Args>(args)...));
             return results;
         }
 
@@ -673,14 +1015,10 @@ namespace sw
          */
         bool _Remove(const _ICallable &callable)
         {
-            auto it  = _data.rbegin();
-            auto end = _data.rend();
-            while (it != end) {
-                if ((*it)->Equals(callable)) {
-                    _data.erase(std::next(it).base());
-                    return true;
+            for (size_t i = _data.Count(); i > 0; --i) {
+                if (_data[i - 1]->Equals(callable)) {
+                    return _data.RemoveAt(i - 1);
                 }
-                ++it;
             }
             return false;
         }
