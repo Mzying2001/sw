@@ -1,5 +1,4 @@
 #include "WndBase.h"
-#include <functional>
 
 namespace
 {
@@ -675,13 +674,6 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
 
         case WM_DROPFILES: {
             return this->OnDropFiles(reinterpret_cast<HDROP>(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
-        }
-
-        case WM_InvokeFunction: {
-            auto pFunc = reinterpret_cast<std::function<void()> *>(refMsg.lParam);
-            if (pFunc && *pFunc) (*pFunc)();
-            if (refMsg.wParam) delete pFunc;
-            return 0;
         }
 
         case WM_InvokeAction: {
