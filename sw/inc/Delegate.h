@@ -312,18 +312,13 @@ namespace sw
          */
         TCallable *GetAt(size_t index) const noexcept
         {
-            size_t count = Count();
-
-            if (index >= count) {
-                return nullptr;
-            }
-
             switch (_state) {
                 case STATE_SINGLE: {
-                    return _GetSingle().get();
+                    return index == 0 ? _GetSingle().get() : nullptr;
                 }
                 case STATE_LIST: {
-                    return _GetList()[index].get();
+                    auto &list = _GetList();
+                    return (index < list.size()) ? list[index].get() : nullptr;
                 }
                 default: {
                     return nullptr;
