@@ -115,14 +115,14 @@ Public 类型</h2></td></tr>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>TCallable</b> = <a class="el" href="structsw_1_1_i_callable.html">ICallable</a>&lt;T&gt;</td></tr>
 <tr class="memdesc:a2a852c7aa6b4637bbad845d97c746ad4"><td class="mdescLeft">&#160;</td><td class="mdescRight">可调用对象类型别名 <br /></td></tr>
 <tr class="separator:a2a852c7aa6b4637bbad845d97c746ad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4696d7306e80c69cef39fa14195e0a2f" id="r_a4696d7306e80c69cef39fa14195e0a2f"><td class="memItemLeft" align="right" valign="top"><a id="a4696d7306e80c69cef39fa14195e0a2f" name="a4696d7306e80c69cef39fa14195e0a2f"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>TPtr</b> = std::unique_ptr&lt;<a class="el" href="#a2a852c7aa6b4637bbad845d97c746ad4">TCallable</a>&gt;</td></tr>
-<tr class="memdesc:a4696d7306e80c69cef39fa14195e0a2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">智能指针类型别名，用于存储可调用对象的唯一指针 <br /></td></tr>
-<tr class="separator:a4696d7306e80c69cef39fa14195e0a2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26d57b2b0a4a0f025c11c6db18c2c691" id="r_a26d57b2b0a4a0f025c11c6db18c2c691"><td class="memItemLeft" align="right" valign="top"><a id="a26d57b2b0a4a0f025c11c6db18c2c691" name="a26d57b2b0a4a0f025c11c6db18c2c691"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>TList</b> = std::vector&lt;<a class="el" href="#a4696d7306e80c69cef39fa14195e0a2f">TPtr</a>&gt;</td></tr>
-<tr class="memdesc:a26d57b2b0a4a0f025c11c6db18c2c691"><td class="mdescLeft">&#160;</td><td class="mdescRight">列表类型别名，用于存储多个可调用对象的智能指针 <br /></td></tr>
-<tr class="separator:a26d57b2b0a4a0f025c11c6db18c2c691"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65046366d6567d3dcb6446db1be4f580" id="r_a65046366d6567d3dcb6446db1be4f580"><td class="memItemLeft" align="right" valign="top"><a id="a65046366d6567d3dcb6446db1be4f580" name="a65046366d6567d3dcb6446db1be4f580"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>TSinglePtr</b> = std::unique_ptr&lt;<a class="el" href="#a2a852c7aa6b4637bbad845d97c746ad4">TCallable</a>&gt;</td></tr>
+<tr class="memdesc:a65046366d6567d3dcb6446db1be4f580"><td class="mdescLeft">&#160;</td><td class="mdescRight">智能指针类型别名，用于存储可调用对象的唯一指针 <br /></td></tr>
+<tr class="separator:a65046366d6567d3dcb6446db1be4f580"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac83c29c7021a79ad217c8bf2b4faae57" id="r_ac83c29c7021a79ad217c8bf2b4faae57"><td class="memItemLeft" align="right" valign="top"><a id="ac83c29c7021a79ad217c8bf2b4faae57" name="ac83c29c7021a79ad217c8bf2b4faae57"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>TSharedList</b> = std::vector&lt;std::shared_ptr&lt;<a class="el" href="#a2a852c7aa6b4637bbad845d97c746ad4">TCallable</a>&gt;&gt;</td></tr>
+<tr class="memdesc:ac83c29c7021a79ad217c8bf2b4faae57"><td class="mdescLeft">&#160;</td><td class="mdescRight">列表类型别名，用于存储多个可调用对象的智能指针 <br /></td></tr>
+<tr class="separator:ac83c29c7021a79ad217c8bf2b4faae57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
@@ -203,7 +203,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>添加一个可调用对象到列表中 </p>
-<p>添加一个可调用对象到列表中 </p><dl class="section note"><dt>注解</dt><dd>传入对象的生命周期将由CallableList管理 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>传入对象的生命周期将由CallableList管理 </dd></dl>
 
 </div>
 </div>

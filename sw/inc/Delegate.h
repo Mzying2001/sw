@@ -69,20 +69,20 @@ namespace sw
         /**
          * @brief 智能指针类型别名，用于存储可调用对象的唯一指针
          */
-        using TPtr = std::unique_ptr<TCallable>;
+        using TSinglePtr = std::unique_ptr<TCallable>;
 
         /**
          * @brief 列表类型别名，用于存储多个可调用对象的智能指针
          */
-        using TList = std::vector<TPtr>;
+        using TSharedList = std::vector<std::shared_ptr<TCallable>>;
 
     private:
         /**
          * @brief 内部存储可调用对象的联合体
          */
         mutable union {
-            alignas(TPtr) uint8_t _single[sizeof(TPtr)];
-            alignas(TList) uint8_t _list[sizeof(TList)];
+            alignas(TSinglePtr) uint8_t _single[sizeof(TSinglePtr)];
+            alignas(TSharedList) uint8_t _list[sizeof(TSharedList)];
         } _data = {};
 
         /**
@@ -91,7 +91,7 @@ namespace sw
         enum : uint8_t {
             STATE_NONE,   // 未存储任何可调用对象
             STATE_SINGLE, // 储存了一个可调用对象
-            STATE_LIST    // 储存了多个可调用对象
+            STATE_LIST,   // 储存了多个可调用对象
         } _state = STATE_NONE;
 
     public:
@@ -135,9 +135,7 @@ namespace sw
                     break;
                 }
                 case STATE_LIST: {
-                    for (const auto &item : other._GetList()) {
-                        _GetList().emplace_back(item->Clone());
-                    }
+                    _GetList() = other._GetList();
                     break;
                 }
             }
@@ -214,32 +212,6 @@ namespace sw
             _Reset();
         }
 
-        // /**
-        //  * @brief 添加一个可调用对象到列表中
-        //  */
-        // void Add(const TCallable &callable)
-        // {
-        //     switch (_state) {
-        //         case STATE_NONE: {
-        //             _Reset(STATE_SINGLE);
-        //             _GetSingle().reset(callable.Clone());
-        //             break;
-        //         }
-        //         case STATE_SINGLE: {
-        //             TList list;
-        //             list.emplace_back(std::move(_GetSingle()));
-        //             list.emplace_back(callable.Clone());
-        //             _Reset(STATE_LIST);
-        //             _GetList() = std::move(list);
-        //             break;
-        //         }
-        //         case STATE_LIST: {
-        //             _GetList().emplace_back(callable.Clone());
-        //             break;
-        //         }
-        //     }
-        // }
-
         /**
          * @brief 添加一个可调用对象到列表中
          * @note  传入对象的生命周期将由CallableList管理
@@ -257,8 +229,8 @@ namespace sw
                     break;
                 }
                 case STATE_SINGLE: {
-                    TList list;
-                    list.emplace_back(std::move(_GetSingle()));
+                    TSharedList list;
+                    list.emplace_back(_GetSingle().release());
                     list.emplace_back(callable);
                     _Reset(STATE_LIST);
                     _GetList() = std::move(list);
@@ -295,9 +267,9 @@ namespace sw
                     if (list.empty()) {
                         _Reset();
                     } else if (list.size() == 1) {
-                        auto singlePtr = std::move(list.front());
+                        auto ptr = list.front()->Clone();
                         _Reset(STATE_SINGLE);
-                        _GetSingle() = std::move(singlePtr);
+                        _GetSingle().reset(ptr);
                     }
                     return true;
                 }
@@ -340,17 +312,17 @@ namespace sw
         /**
          * @brief 内部函数，当状态为STATE_SINGLE时返回单个可调用对象的引用，
          */
-        constexpr TPtr &_GetSingle() const noexcept
+        constexpr TSinglePtr &_GetSingle() const noexcept
         {
-            return *reinterpret_cast<TPtr *>(_data._single);
+            return *reinterpret_cast<TSinglePtr *>(_data._single);
         }
 
         /**
          * @brief 内部函数，当状态为STATE_LIST时返回可调用对象列表的引用
          */
-        constexpr TList &_GetList() const noexcept
+        constexpr TSharedList &_GetList() const noexcept
         {
-            return *reinterpret_cast<TList *>(_data._list);
+            return *reinterpret_cast<TSharedList *>(_data._list);
         }
 
         /**
@@ -360,12 +332,12 @@ namespace sw
         {
             switch (_state) {
                 case STATE_SINGLE: {
-                    _GetSingle().~TPtr();
+                    _GetSingle().~TSinglePtr();
                     _state = STATE_NONE;
                     break;
                 }
                 case STATE_LIST: {
-                    _GetList().~TList();
+                    _GetList().~TSharedList();
                     _state = STATE_NONE;
                     break;
                 }
@@ -381,12 +353,12 @@ namespace sw
 
             switch (state) {
                 case STATE_SINGLE: {
-                    new (_data._single) TPtr();
+                    new (_data._single) TSinglePtr();
                     _state = STATE_SINGLE;
                     break;
                 }
                 case STATE_LIST: {
-                    new (_data._list) TList();
+                    new (_data._list) TSharedList();
                     _state = STATE_LIST;
                     break;
                 }
@@ -940,9 +912,10 @@ namespace sw
             } else if (count == 1) {
                 return _data[0]->Invoke(std::forward<Args>(args)...);
             } else {
-                for (size_t i = 0; i < _data.Count() - 1; ++i)
-                    _data[i]->Invoke(std::forward<Args>(args)...);
-                return _data[_data.Count() - 1]->Invoke(std::forward<Args>(args)...);
+                auto list = _data;
+                for (size_t i = 0; i < count - 1; ++i)
+                    list[i]->Invoke(std::forward<Args>(args)...);
+                return list[count - 1]->Invoke(std::forward<Args>(args)...);
             }
         }
 
@@ -952,7 +925,10 @@ namespace sw
          */
         virtual ICallable<TRet(Args...)> *Clone() const override
         {
-            return new Delegate(*this);
+            auto delegate = new Delegate();
+            for (size_t i = 0; i < _data.Count(); ++i)
+                delegate->_data.Add(_data[i]->Clone());
+            return delegate;
         }
 
         /**
@@ -998,10 +974,12 @@ namespace sw
         typename std::enable_if<!std::is_void<U>::value, std::vector<U>>::type
         InvokeAll(Args... args) const
         {
+            auto list  = _data;
+            auto count = list.Count();
             std::vector<U> results;
-            results.reserve(_data.Count());
-            for (size_t i = 0; i < _data.Count(); ++i)
-                results.emplace_back(_data[i]->Invoke(std::forward<Args>(args)...));
+            results.reserve(count);
+            for (size_t i = 0; i < count; ++i)
+                results.emplace_back(list[i]->Invoke(std::forward<Args>(args)...));
             return results;
         }
 
