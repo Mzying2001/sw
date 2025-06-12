@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <tuple>
 #include <type_traits>
-#include <typeinfo>
+#include <typeindex>
 #include <vector>
 
 namespace sw
@@ -47,7 +47,7 @@ namespace sw
         /**
          * @brief 获取当前可调用对象的类型信息
          */
-        virtual const std::type_info &GetTypeInfo() const = 0;
+        virtual std::type_index GetType() const = 0;
 
         /**
          * @brief       判断当前可调用对象是否与另一个可调用对象相等
@@ -371,6 +371,8 @@ namespace sw
         }
     };
 
+    /*================================================================================*/
+
     /**
      * @brief 委托类，类似于C#中的委托，支持存储和调用任意可调用对象
      */
@@ -433,7 +435,7 @@ namespace sw
             {
                 return new _CallableWrapperImpl(GetValue());
             }
-            const std::type_info &GetTypeInfo() const override
+            virtual std::type_index GetType() const override
             {
                 return typeid(T);
             }
@@ -448,7 +450,7 @@ namespace sw
                 if (this == &other) {
                     return true;
                 }
-                if (GetTypeInfo() != other.GetTypeInfo()) {
+                if (GetType() != other.GetType()) {
                     return false;
                 }
                 const auto &otherWrapper = static_cast<const _CallableWrapperImpl &>(other);
@@ -461,7 +463,7 @@ namespace sw
                 if (this == &other) {
                     return true;
                 }
-                if (GetTypeInfo() != other.GetTypeInfo()) {
+                if (GetType() != other.GetType()) {
                     return false;
                 }
                 const auto &otherWrapper = static_cast<const _CallableWrapperImpl &>(other);
@@ -497,7 +499,7 @@ namespace sw
             {
                 return new _MemberFuncWrapper(*obj, func);
             }
-            const std::type_info &GetTypeInfo() const override
+            virtual std::type_index GetType() const override
             {
                 return typeid(func);
             }
@@ -506,7 +508,7 @@ namespace sw
                 if (this == &other) {
                     return true;
                 }
-                if (GetTypeInfo() != other.GetTypeInfo()) {
+                if (GetType() != other.GetType()) {
                     return false;
                 }
                 const auto &otherWrapper = static_cast<const _MemberFuncWrapper &>(other);
@@ -533,7 +535,7 @@ namespace sw
             {
                 return new _ConstMemberFuncWrapper(*obj, func);
             }
-            const std::type_info &GetTypeInfo() const override
+            virtual std::type_index GetType() const override
             {
                 return typeid(func);
             }
@@ -542,7 +544,7 @@ namespace sw
                 if (this == &other) {
                     return true;
                 }
-                if (GetTypeInfo() != other.GetTypeInfo()) {
+                if (GetType() != other.GetType()) {
                     return false;
                 }
                 const auto &otherWrapper = static_cast<const _ConstMemberFuncWrapper &>(other);
@@ -654,7 +656,7 @@ namespace sw
             // - 若委托内容为空，则直接返回
             // - 若委托内容只有一个元素，则克隆该元素并添加到当前委托中
             // - 否则，直接添加该可调用对象的克隆
-            if (callable.GetTypeInfo() == GetTypeInfo()) {
+            if (callable.GetType() == GetType()) {
                 auto &delegate = static_cast<const Delegate &>(callable);
                 if (delegate._data.IsEmpty()) {
                     return;
@@ -723,7 +725,7 @@ namespace sw
             // - 若委托内容为空，则直接返回false
             // - 若委托内容只有一个元素，则尝试移除该元素
             // - 否则，直接调用_Remove函数进行移除
-            if (callable.GetTypeInfo() == GetTypeInfo()) {
+            if (callable.GetType() == GetType()) {
                 auto &delegate = static_cast<const Delegate &>(callable);
                 if (delegate._data.IsEmpty()) {
                     return false;
@@ -940,7 +942,7 @@ namespace sw
          * @brief  获取当前委托的类型信息
          * @return 返回typeid(Delegate<TRet(Args...)>)
          */
-        virtual const std::type_info &GetTypeInfo() const override
+        virtual std::type_index GetType() const override
         {
             return typeid(Delegate<TRet(Args...)>);
         }
@@ -955,7 +957,7 @@ namespace sw
             if (this == &other) {
                 return true;
             }
-            if (GetTypeInfo() != other.GetTypeInfo()) {
+            if (GetType() != other.GetType()) {
                 return false;
             }
             const auto &otherDelegate = static_cast<const Delegate &>(other);
