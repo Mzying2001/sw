@@ -5,6 +5,7 @@
 #include <cstring>
 #include <memory>
 #include <stdexcept>
+#include <tuple>
 #include <type_traits>
 #include <typeinfo>
 #include <vector>
@@ -18,6 +19,8 @@ namespace sw
     // Delegate类声明
     template <typename>
     class Delegate;
+
+    /*================================================================================*/
 
     /**
      * @brief ICallable接口，用于表示可调用对象的接口
@@ -53,6 +56,8 @@ namespace sw
          */
         virtual bool Equals(const ICallable &other) const = 0;
     };
+
+    /*================================================================================*/
 
     /**
      * @brief 用于存储和管理多个可调用对象的列表，针对单个可调用对象的情况进行优化
@@ -998,6 +1003,8 @@ namespace sw
         }
     };
 
+    /*================================================================================*/
+
     /**
      * @brief 比较委托和nullptr
      * @note  如果委托为空则返回true，否则返回false
@@ -1018,15 +1025,58 @@ namespace sw
         return d != nullptr;
     }
 
-    /**
-     * @brief Func类型别名，与Delegate<T>等价
-     */
-    template <typename T>
-    using Func = Delegate<T>;
+    /*================================================================================*/
 
     /**
      * @brief Action类型别名，表示无返回值的委托
      */
     template <typename... Args>
     using Action = Delegate<void(Args...)>;
+
+    /*================================================================================*/
+
+    /**
+     * @brief _FuncTraits模板，用于提取函数类型的返回值和参数类型
+     */
+    template <typename...>
+    struct _FuncTraits;
+
+    /**
+     * @brief _FuncTraits特化
+     */
+    template <typename Last>
+    struct _FuncTraits<Last> {
+        using TRet       = Last;
+        using TArgsTuple = std::tuple<>;
+    };
+
+    /**
+     * @brief _FuncTraits特化
+     */
+    template <typename First, typename... Rest>
+    struct _FuncTraits<First, Rest...> {
+        using TRet       = typename _FuncTraits<Rest...>::TRet;
+        using TArgsTuple = decltype(std::tuple_cat(std::declval<std::tuple<First>>(), std::declval<typename _FuncTraits<Rest...>::TArgsTuple>()));
+    };
+
+    /**
+     * @brief _FuncTypeHelper模板，用于根据参数元组生成对应的Func类型
+     */
+    template <typename TArgsTuple>
+    struct _FuncTypeHelper;
+
+    /**
+     * @brief _FuncTypeHelper特化
+     */
+    template <typename... Args>
+    struct _FuncTypeHelper<std::tuple<Args...>> {
+        template <typename TRet>
+        using TFunc = Delegate<TRet(Args...)>;
+    };
+
+    /**
+     * @brief Func类型别名，类似C#中的Func<T1, T2, ..., TResult>
+     */
+    template <typename... Types>
+    using Func = typename _FuncTypeHelper<typename _FuncTraits<Types...>::TArgsTuple>::template TFunc<typename _FuncTraits<Types...>::TRet>;
 }
