@@ -16,7 +16,7 @@ var classsw_1_1_delegate_3_01_t_ret_07_args_8_8_8_08_4 =
     [ "Clear", "classsw_1_1_delegate_3_01_t_ret_07_args_8_8_8_08_4.html#a8679024728a06bfadc31b7fc7bf29c65", null ],
     [ "Clone", "classsw_1_1_delegate_3_01_t_ret_07_args_8_8_8_08_4.html#a7a2aa83eeda7280dd0ae3c99e610f176", null ],
     [ "Equals", "classsw_1_1_delegate_3_01_t_ret_07_args_8_8_8_08_4.html#ad3b54f338334f5528c8e0a216535cb27", null ],
-    [ "GetTypeInfo", "classsw_1_1_delegate_3_01_t_ret_07_args_8_8_8_08_4.html#aef958da4b90efc6d26a5458aacec8f26", null ],
+    [ "GetType", "classsw_1_1_delegate_3_01_t_ret_07_args_8_8_8_08_4.html#a3d89b064c3f97d52223b07f6311709fd", null ],
     [ "Invoke", "classsw_1_1_delegate_3_01_t_ret_07_args_8_8_8_08_4.html#abee846da9629ebe5d7a13f748dce1b07", null ],
     [ "InvokeAll", "classsw_1_1_delegate_3_01_t_ret_07_args_8_8_8_08_4.html#a5761d9d29a3cf3356c04bf4a2bde57d5", null ],
     [ "operator bool", "classsw_1_1_delegate_3_01_t_ret_07_args_8_8_8_08_4.html#a7fbff3679f3974204902490e67da328c", null ],

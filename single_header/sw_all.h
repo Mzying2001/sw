@@ -16,7 +16,7 @@
 #include <string>
 #include <tuple>
 #include <type_traits>
-#include <typeinfo>
+#include <typeindex>
 #include <vector>
 #include <windowsx.h>
 
@@ -128,6 +128,8 @@ namespace sw
     template <typename>
     class Delegate;
 
+    /*================================================================================*/
+
     /**
      * @brief ICallable接口，用于表示可调用对象的接口
      */
@@ -153,7 +155,7 @@ namespace sw
         /**
          * @brief 获取当前可调用对象的类型信息
          */
-        virtual const std::type_info &GetTypeInfo() const = 0;
+        virtual std::type_index GetType() const = 0;
 
         /**
          * @brief       判断当前可调用对象是否与另一个可调用对象相等
@@ -162,6 +164,8 @@ namespace sw
          */
         virtual bool Equals(const ICallable &other) const = 0;
     };
+
+    /*================================================================================*/
 
     /**
      * @brief 用于存储和管理多个可调用对象的列表，针对单个可调用对象的情况进行优化
@@ -475,6 +479,8 @@ namespace sw
         }
     };
 
+    /*================================================================================*/
+
     /**
      * @brief 委托类，类似于C#中的委托，支持存储和调用任意可调用对象
      */
@@ -537,7 +543,7 @@ namespace sw
             {
                 return new _CallableWrapperImpl(GetValue());
             }
-            const std::type_info &GetTypeInfo() const override
+            virtual std::type_index GetType() const override
             {
                 return typeid(T);
             }
@@ -552,7 +558,7 @@ namespace sw
                 if (this == &other) {
                     return true;
                 }
-                if (GetTypeInfo() != other.GetTypeInfo()) {
+                if (GetType() != other.GetType()) {
                     return false;
                 }
                 const auto &otherWrapper = static_cast<const _CallableWrapperImpl &>(other);
@@ -565,7 +571,7 @@ namespace sw
                 if (this == &other) {
                     return true;
                 }
-                if (GetTypeInfo() != other.GetTypeInfo()) {
+                if (GetType() != other.GetType()) {
                     return false;
                 }
                 const auto &otherWrapper = static_cast<const _CallableWrapperImpl &>(other);
@@ -601,7 +607,7 @@ namespace sw
             {
                 return new _MemberFuncWrapper(*obj, func);
             }
-            const std::type_info &GetTypeInfo() const override
+            virtual std::type_index GetType() const override
             {
                 return typeid(func);
             }
@@ -610,7 +616,7 @@ namespace sw
                 if (this == &other) {
                     return true;
                 }
-                if (GetTypeInfo() != other.GetTypeInfo()) {
+                if (GetType() != other.GetType()) {
                     return false;
                 }
                 const auto &otherWrapper = static_cast<const _MemberFuncWrapper &>(other);
@@ -637,7 +643,7 @@ namespace sw
             {
                 return new _ConstMemberFuncWrapper(*obj, func);
             }
-            const std::type_info &GetTypeInfo() const override
+            virtual std::type_index GetType() const override
             {
                 return typeid(func);
             }
@@ -646,7 +652,7 @@ namespace sw
                 if (this == &other) {
                     return true;
                 }
-                if (GetTypeInfo() != other.GetTypeInfo()) {
+                if (GetType() != other.GetType()) {
                     return false;
                 }
                 const auto &otherWrapper = static_cast<const _ConstMemberFuncWrapper &>(other);
@@ -758,7 +764,7 @@ namespace sw
             // - 若委托内容为空，则直接返回
             // - 若委托内容只有一个元素，则克隆该元素并添加到当前委托中
             // - 否则，直接添加该可调用对象的克隆
-            if (callable.GetTypeInfo() == GetTypeInfo()) {
+            if (callable.GetType() == GetType()) {
                 auto &delegate = static_cast<const Delegate &>(callable);
                 if (delegate._data.IsEmpty()) {
                     return;
@@ -827,7 +833,7 @@ namespace sw
             // - 若委托内容为空，则直接返回false
             // - 若委托内容只有一个元素，则尝试移除该元素
             // - 否则，直接调用_Remove函数进行移除
-            if (callable.GetTypeInfo() == GetTypeInfo()) {
+            if (callable.GetType() == GetType()) {
                 auto &delegate = static_cast<const Delegate &>(callable);
                 if (delegate._data.IsEmpty()) {
                     return false;
@@ -1044,7 +1050,7 @@ namespace sw
          * @brief  获取当前委托的类型信息
          * @return 返回typeid(Delegate<TRet(Args...)>)
          */
-        virtual const std::type_info &GetTypeInfo() const override
+        virtual std::type_index GetType() const override
         {
             return typeid(Delegate<TRet(Args...)>);
         }
@@ -1059,7 +1065,7 @@ namespace sw
             if (this == &other) {
                 return true;
             }
-            if (GetTypeInfo() != other.GetTypeInfo()) {
+            if (GetType() != other.GetType()) {
                 return false;
             }
             const auto &otherDelegate = static_cast<const Delegate &>(other);
@@ -1107,6 +1113,8 @@ namespace sw
         }
     };
 
+    /*================================================================================*/
+
     /**
      * @brief 比较委托和nullptr
      * @note  如果委托为空则返回true，否则返回false
@@ -1127,17 +1135,60 @@ namespace sw
         return d != nullptr;
     }
 
-    /**
-     * @brief Func类型别名，与Delegate<T>等价
-     */
-    template <typename T>
-    using Func = Delegate<T>;
+    /*================================================================================*/
 
     /**
      * @brief Action类型别名，表示无返回值的委托
      */
     template <typename... Args>
     using Action = Delegate<void(Args...)>;
+
+    /*================================================================================*/
+
+    /**
+     * @brief _FuncTraits模板，用于提取函数类型的返回值和参数类型
+     */
+    template <typename...>
+    struct _FuncTraits;
+
+    /**
+     * @brief _FuncTraits特化
+     */
+    template <typename Last>
+    struct _FuncTraits<Last> {
+        using TRet       = Last;
+        using TArgsTuple = std::tuple<>;
+    };
+
+    /**
+     * @brief _FuncTraits特化
+     */
+    template <typename First, typename... Rest>
+    struct _FuncTraits<First, Rest...> {
+        using TRet       = typename _FuncTraits<Rest...>::TRet;
+        using TArgsTuple = decltype(std::tuple_cat(std::declval<std::tuple<First>>(), std::declval<typename _FuncTraits<Rest...>::TArgsTuple>()));
+    };
+
+    /**
+     * @brief _FuncTypeHelper模板，用于根据参数元组生成对应的Func类型
+     */
+    template <typename TArgsTuple>
+    struct _FuncTypeHelper;
+
+    /**
+     * @brief _FuncTypeHelper特化
+     */
+    template <typename... Args>
+    struct _FuncTypeHelper<std::tuple<Args...>> {
+        template <typename TRet>
+        using TFunc = Delegate<TRet(Args...)>;
+    };
+
+    /**
+     * @brief Func类型别名，类似C#中的Func<T1, T2, ..., TResult>
+     */
+    template <typename... Types>
+    using Func = typename _FuncTypeHelper<typename _FuncTraits<Types...>::TArgsTuple>::template TFunc<typename _FuncTraits<Types...>::TRet>;
 }
 
 // EnumBit.h
@@ -4130,7 +4181,7 @@ namespace sw
     {
     public:
         using TBase = PropertyBase<T, Property<T>>;
-        using FnGet = Func<T()>;
+        using FnGet = Func<T>;
         using FnSet = Action<const T &>;
         using TBase::operator=;
 
@@ -4172,7 +4223,7 @@ namespace sw
     {
     public:
         using TBase = PropertyBase<T, ReadOnlyProperty<T>>;
-        using FnGet = Func<T()>;
+        using FnGet = Func<T>;
 
     private:
         FnGet _getter;
@@ -4643,9 +4694,9 @@ namespace sw
         /**
          * @brief 获取当前可调用对象的类型信息
          */
-        virtual const std::type_info &GetTypeInfo() const override
+        virtual std::type_index GetType() const override
         {
-            return typeid(RoutedEventHandlerWrapper);
+            return typeid(RoutedEventHandlerWrapper<TEventArgs>);
         }
 
         /**
@@ -4658,7 +4709,7 @@ namespace sw
             if (this == &other) {
                 return true;
             }
-            if (GetTypeInfo() != other.GetTypeInfo()) {
+            if (GetType() != other.GetType()) {
                 return false;
             }
             const auto &otherWrapper = static_cast<const RoutedEventHandlerWrapper &>(other);

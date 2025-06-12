@@ -1520,7 +1520,7 @@ namespace sw
     {
     public:
         using TBase = PropertyBase<T, Property<T>>;
-        using FnGet = Func<T()>;
+        using FnGet = Func<T>;
         using FnSet = Action<const T &>;
         using TBase::operator=;
 
@@ -1562,7 +1562,7 @@ namespace sw
     {
     public:
         using TBase = PropertyBase<T, ReadOnlyProperty<T>>;
-        using FnGet = Func<T()>;
+        using FnGet = Func<T>;
 
     private:
         FnGet _getter;

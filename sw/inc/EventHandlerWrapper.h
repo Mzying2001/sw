@@ -47,9 +47,9 @@ namespace sw
         /**
          * @brief 获取当前可调用对象的类型信息
          */
-        virtual const std::type_info &GetTypeInfo() const override
+        virtual std::type_index GetType() const override
         {
-            return typeid(RoutedEventHandlerWrapper);
+            return typeid(RoutedEventHandlerWrapper<TEventArgs>);
         }
 
         /**
@@ -62,7 +62,7 @@ namespace sw
             if (this == &other) {
                 return true;
             }
-            if (GetTypeInfo() != other.GetTypeInfo()) {
+            if (GetType() != other.GetType()) {
                 return false;
             }
             const auto &otherWrapper = static_cast<const RoutedEventHandlerWrapper &>(other);
