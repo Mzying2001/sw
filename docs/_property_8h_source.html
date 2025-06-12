@@ -1394,17 +1394,17 @@ $(function(){initNavTree('_property_8h_source.html',''); initResizable(true); })
 <div class="line"><a id="l01520" name="l01520"></a><span class="lineno"> 1520</span>    {</div>
 <div class="line"><a id="l01521" name="l01521"></a><span class="lineno"> 1521</span>    <span class="keyword">public</span>:</div>
 <div class="line"><a id="l01522" name="l01522"></a><span class="lineno"> 1522</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1_property_base.html">TBase</a> = <a class="code hl_class" href="classsw_1_1_property_base.html">PropertyBase&lt;T, Property&lt;T&gt;</a>&gt;;</div>
-<div class="line"><a id="l01523" name="l01523"></a><span class="lineno"> 1523</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1_delegate.html">FnGet</a> = <a class="code hl_class" href="classsw_1_1_delegate.html">Func</a>&lt;T()&gt;;</div>
+<div class="line"><a id="l01523" name="l01523"></a><span class="lineno"> 1523</span>        <span class="keyword">using </span>FnGet = Func&lt;T&gt;;</div>
 <div class="line"><a id="l01524" name="l01524"></a><span class="lineno"> 1524</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1_delegate.html">FnSet</a> = <a class="code hl_class" href="classsw_1_1_delegate.html">Action&lt;const T &amp;&gt;</a>;</div>
 <div class="line"><a id="l01525" name="l01525"></a><span class="lineno"> 1525</span>        <span class="keyword">using </span>TBase::operator=;</div>
 <div class="line"><a id="l01526" name="l01526"></a><span class="lineno"> 1526</span> </div>
 <div class="line"><a id="l01527" name="l01527"></a><span class="lineno"> 1527</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l01528" name="l01528"></a><span class="lineno"> 1528</span>        <a class="code hl_class" href="classsw_1_1_delegate.html">FnGet</a> _getter;</div>
+<div class="line"><a id="l01528" name="l01528"></a><span class="lineno"> 1528</span>        FnGet _getter;</div>
 <div class="line"><a id="l01529" name="l01529"></a><span class="lineno"> 1529</span>        <a class="code hl_class" href="classsw_1_1_delegate.html">FnSet</a> _setter;</div>
 <div class="line"><a id="l01530" name="l01530"></a><span class="lineno"> 1530</span> </div>
 <div class="line"><a id="l01531" name="l01531"></a><span class="lineno"> 1531</span>    <span class="keyword">public</span>:</div>
 <div class="foldopen" id="foldopen01535" data-start="{" data-end="}">
-<div class="line"><a id="l01535" name="l01535"></a><span class="lineno"><a class="line" href="classsw_1_1_property.html#aed49183e5aff7da2c6a8afcfdfafe24c"> 1535</a></span>        <a class="code hl_function" href="classsw_1_1_property.html#aed49183e5aff7da2c6a8afcfdfafe24c">Property</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_delegate.html">FnGet</a> &amp;getter, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_delegate.html">FnSet</a> &amp;setter)</div>
+<div class="line"><a id="l01535" name="l01535"></a><span class="lineno"><a class="line" href="classsw_1_1_property.html#aed49183e5aff7da2c6a8afcfdfafe24c"> 1535</a></span>        <a class="code hl_function" href="classsw_1_1_property.html#aed49183e5aff7da2c6a8afcfdfafe24c">Property</a>(<span class="keyword">const</span> FnGet &amp;getter, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_delegate.html">FnSet</a> &amp;setter)</div>
 <div class="line"><a id="l01536" name="l01536"></a><span class="lineno"> 1536</span>            : _getter(getter), _setter(setter)</div>
 <div class="line"><a id="l01537" name="l01537"></a><span class="lineno"> 1537</span>        {</div>
 <div class="line"><a id="l01538" name="l01538"></a><span class="lineno"> 1538</span>        }</div>
@@ -1432,14 +1432,14 @@ $(function(){initNavTree('_property_8h_source.html',''); initResizable(true); })
 <div class="line"><a id="l01562" name="l01562"></a><span class="lineno"> 1562</span>    {</div>
 <div class="line"><a id="l01563" name="l01563"></a><span class="lineno"> 1563</span>    <span class="keyword">public</span>:</div>
 <div class="line"><a id="l01564" name="l01564"></a><span class="lineno"> 1564</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1_property_base.html">TBase</a> = <a class="code hl_class" href="classsw_1_1_property_base.html">PropertyBase&lt;T, ReadOnlyProperty&lt;T&gt;</a>&gt;;</div>
-<div class="line"><a id="l01565" name="l01565"></a><span class="lineno"> 1565</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1_delegate.html">FnGet</a> = <a class="code hl_class" href="classsw_1_1_delegate.html">Func</a>&lt;T()&gt;;</div>
+<div class="line"><a id="l01565" name="l01565"></a><span class="lineno"> 1565</span>        <span class="keyword">using </span>FnGet = Func&lt;T&gt;;</div>
 <div class="line"><a id="l01566" name="l01566"></a><span class="lineno"> 1566</span> </div>
 <div class="line"><a id="l01567" name="l01567"></a><span class="lineno"> 1567</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l01568" name="l01568"></a><span class="lineno"> 1568</span>        <a class="code hl_class" href="classsw_1_1_delegate.html">FnGet</a> _getter;</div>
+<div class="line"><a id="l01568" name="l01568"></a><span class="lineno"> 1568</span>        FnGet _getter;</div>
 <div class="line"><a id="l01569" name="l01569"></a><span class="lineno"> 1569</span> </div>
 <div class="line"><a id="l01570" name="l01570"></a><span class="lineno"> 1570</span>    <span class="keyword">public</span>:</div>
 <div class="foldopen" id="foldopen01574" data-start="{" data-end="}">
-<div class="line"><a id="l01574" name="l01574"></a><span class="lineno"><a class="line" href="classsw_1_1_read_only_property.html#a013364e671493f55bd244b6f008db052"> 1574</a></span>        <a class="code hl_function" href="classsw_1_1_read_only_property.html#a013364e671493f55bd244b6f008db052">ReadOnlyProperty</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1_delegate.html">FnGet</a> &amp;getter)</div>
+<div class="line"><a id="l01574" name="l01574"></a><span class="lineno"><a class="line" href="classsw_1_1_read_only_property.html#a013364e671493f55bd244b6f008db052"> 1574</a></span>        <a class="code hl_function" href="classsw_1_1_read_only_property.html#a013364e671493f55bd244b6f008db052">ReadOnlyProperty</a>(<span class="keyword">const</span> FnGet &amp;getter)</div>
 <div class="line"><a id="l01575" name="l01575"></a><span class="lineno"> 1575</span>            : _getter(getter)</div>
 <div class="line"><a id="l01576" name="l01576"></a><span class="lineno"> 1576</span>        {</div>
 <div class="line"><a id="l01577" name="l01577"></a><span class="lineno"> 1577</span>        }</div>
@@ -1483,7 +1483,7 @@ $(function(){initNavTree('_property_8h_source.html',''); initResizable(true); })
 <div class="line"><a id="l01618" name="l01618"></a><span class="lineno"> 1618</span>    };</div>
 </div>
 <div class="line"><a id="l01619" name="l01619"></a><span class="lineno"> 1619</span>}</div>
-<div class="ttc" id="aclasssw_1_1_delegate_html"><div class="ttname"><a href="classsw_1_1_delegate.html">sw::Delegate</a></div><div class="ttdef"><b>定义</b> Delegate.h:20</div></div>
+<div class="ttc" id="aclasssw_1_1_delegate_html"><div class="ttname"><a href="classsw_1_1_delegate.html">sw::Delegate</a></div><div class="ttdef"><b>定义</b> Delegate.h:21</div></div>
 <div class="ttc" id="aclasssw_1_1_property_base_html"><div class="ttname"><a href="classsw_1_1_property_base.html">sw::PropertyBase</a></div><div class="ttdoc">属性基类模板</div><div class="ttdef"><b>定义</b> Property.h:209</div></div>
 <div class="ttc" id="aclasssw_1_1_property_base_html_a01b1e7e2f08c21ec6d4e30546aaa79b7"><div class="ttname"><a href="classsw_1_1_property_base.html#a01b1e7e2f08c21ec6d4e30546aaa79b7">sw::PropertyBase::operator&lt;&lt;=</a></div><div class="ttdeci">std::enable_if&lt; _ShlOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type operator&lt;&lt;=(const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">左移赋值运算</div><div class="ttdef"><b>定义</b> Property.h:708</div></div>
 <div class="ttc" id="aclasssw_1_1_property_base_html_a03f91a0020eccc3b1f01509aa71f31e7"><div class="ttname"><a href="classsw_1_1_property_base.html#a03f91a0020eccc3b1f01509aa71f31e7">sw::PropertyBase::operator^</a></div><div class="ttdeci">std::enable_if&lt; _BitXorOperationHelper&lt; T, U &gt;::value, typename_BitXorOperationHelper&lt; T, U &gt;::type &gt;::type operator^(const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">按位异或运算</div><div class="ttdef"><b>定义</b> Property.h:1055</div></div>

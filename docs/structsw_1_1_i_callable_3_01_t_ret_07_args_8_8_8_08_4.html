@@ -129,9 +129,9 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ICallable</b> ()=
 <tr class="memitem:a9d12823f9f4ef1b0a7fa6e3cd16449ae" id="r_a9d12823f9f4ef1b0a7fa6e3cd16449ae"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1_i_callable.html">ICallable</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d12823f9f4ef1b0a7fa6e3cd16449ae">Clone</a> () const =0</td></tr>
 <tr class="memdesc:a9d12823f9f4ef1b0a7fa6e3cd16449ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">克隆当前可调用对象  <br /></td></tr>
 <tr class="separator:a9d12823f9f4ef1b0a7fa6e3cd16449ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbec66ed149b4e6815520fa7d581e1c6" id="r_abbec66ed149b4e6815520fa7d581e1c6"><td class="memItemLeft" align="right" valign="top">virtual const std::type_info &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abbec66ed149b4e6815520fa7d581e1c6">GetTypeInfo</a> () const =0</td></tr>
-<tr class="memdesc:abbec66ed149b4e6815520fa7d581e1c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前可调用对象的类型信息  <br /></td></tr>
-<tr class="separator:abbec66ed149b4e6815520fa7d581e1c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e833c4765dc3001b306729ca9e8ffbc" id="r_a0e833c4765dc3001b306729ca9e8ffbc"><td class="memItemLeft" align="right" valign="top">virtual std::type_index&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e833c4765dc3001b306729ca9e8ffbc">GetType</a> () const =0</td></tr>
+<tr class="memdesc:a0e833c4765dc3001b306729ca9e8ffbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前可调用对象的类型信息  <br /></td></tr>
+<tr class="separator:a0e833c4765dc3001b306729ca9e8ffbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa880590ea2c4c3edeae0d589b850e754" id="r_aa880590ea2c4c3edeae0d589b850e754"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa880590ea2c4c3edeae0d589b850e754">Equals</a> (const <a class="el" href="structsw_1_1_i_callable.html">ICallable</a> &amp;other) const =0</td></tr>
 <tr class="memdesc:aa880590ea2c4c3edeae0d589b850e754"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前可调用对象是否与另一个可调用对象相等  <br /></td></tr>
 <tr class="separator:aa880590ea2c4c3edeae0d589b850e754"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -207,8 +207,8 @@ template&lt;typename TRet , typename... Args&gt; </div>
 
 </div>
 </div>
-<a id="abbec66ed149b4e6815520fa7d581e1c6" name="abbec66ed149b4e6815520fa7d581e1c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abbec66ed149b4e6815520fa7d581e1c6">&#9670;&#160;</a></span>GetTypeInfo()</h2>
+<a id="a0e833c4765dc3001b306729ca9e8ffbc" name="a0e833c4765dc3001b306729ca9e8ffbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e833c4765dc3001b306729ca9e8ffbc">&#9670;&#160;</a></span>GetType()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -219,7 +219,7 @@ template&lt;typename TRet , typename... Args&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const std::type_info &amp; <a class="el" href="structsw_1_1_i_callable.html">sw::ICallable</a>&lt; TRet(Args...)&gt;::GetTypeInfo </td>
+          <td class="memname">virtual std::type_index <a class="el" href="structsw_1_1_i_callable.html">sw::ICallable</a>&lt; TRet(Args...)&gt;::GetType </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -234,7 +234,7 @@ template&lt;typename TRet , typename... Args&gt; </div>
 
 <p>获取当前可调用对象的类型信息 </p>
 
-<p>在 <a class="el" href="classsw_1_1_delegate_3_01_t_ret_07_args_8_8_8_08_4.html#aef958da4b90efc6d26a5458aacec8f26">sw::Delegate&lt; TRet(Args...)&gt;</a> 内被实现.</p>
+<p>在 <a class="el" href="classsw_1_1_delegate_3_01_t_ret_07_args_8_8_8_08_4.html#a3d89b064c3f97d52223b07f6311709fd">sw::Delegate&lt; TRet(Args...)&gt;</a> 内被实现.</p>
 
 </div>
 </div>

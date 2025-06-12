@@ -251,9 +251,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Clear</b> ()</td></tr
 <tr class="memitem:a7a2aa83eeda7280dd0ae3c99e610f176" id="r_a7a2aa83eeda7280dd0ae3c99e610f176"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1_i_callable.html">ICallable</a>&lt; TRet(Args...)&gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a2aa83eeda7280dd0ae3c99e610f176">Clone</a> () const override</td></tr>
 <tr class="memdesc:a7a2aa83eeda7280dd0ae3c99e610f176"><td class="mdescLeft">&#160;</td><td class="mdescRight">克隆当前委托  <br /></td></tr>
 <tr class="separator:a7a2aa83eeda7280dd0ae3c99e610f176"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef958da4b90efc6d26a5458aacec8f26" id="r_aef958da4b90efc6d26a5458aacec8f26"><td class="memItemLeft" align="right" valign="top">virtual const std::type_info &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aef958da4b90efc6d26a5458aacec8f26">GetTypeInfo</a> () const override</td></tr>
-<tr class="memdesc:aef958da4b90efc6d26a5458aacec8f26"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前委托的类型信息  <br /></td></tr>
-<tr class="separator:aef958da4b90efc6d26a5458aacec8f26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d89b064c3f97d52223b07f6311709fd" id="r_a3d89b064c3f97d52223b07f6311709fd"><td class="memItemLeft" align="right" valign="top">virtual std::type_index&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d89b064c3f97d52223b07f6311709fd">GetType</a> () const override</td></tr>
+<tr class="memdesc:a3d89b064c3f97d52223b07f6311709fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前委托的类型信息  <br /></td></tr>
+<tr class="separator:a3d89b064c3f97d52223b07f6311709fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3b54f338334f5528c8e0a216535cb27" id="r_ad3b54f338334f5528c8e0a216535cb27"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3b54f338334f5528c8e0a216535cb27">Equals</a> (const <a class="el" href="structsw_1_1_i_callable.html">ICallable</a>&lt; TRet(Args...)&gt; &amp;other) const override</td></tr>
 <tr class="memdesc:ad3b54f338334f5528c8e0a216535cb27"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前委托是否与另一个可调用对象相等  <br /></td></tr>
 <tr class="separator:ad3b54f338334f5528c8e0a216535cb27"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -342,8 +342,8 @@ template&lt;typename TRet , typename... Args&gt; </div>
 
 </div>
 </div>
-<a id="aef958da4b90efc6d26a5458aacec8f26" name="aef958da4b90efc6d26a5458aacec8f26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef958da4b90efc6d26a5458aacec8f26">&#9670;&#160;</a></span>GetTypeInfo()</h2>
+<a id="a3d89b064c3f97d52223b07f6311709fd" name="a3d89b064c3f97d52223b07f6311709fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d89b064c3f97d52223b07f6311709fd">&#9670;&#160;</a></span>GetType()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -354,7 +354,7 @@ template&lt;typename TRet , typename... Args&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const std::type_info &amp; <a class="el" href="classsw_1_1_delegate.html">sw::Delegate</a>&lt; TRet(Args...)&gt;::GetTypeInfo </td>
+          <td class="memname">virtual std::type_index <a class="el" href="classsw_1_1_delegate.html">sw::Delegate</a>&lt; TRet(Args...)&gt;::GetType </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -370,7 +370,7 @@ template&lt;typename TRet , typename... Args&gt; </div>
 <p>获取当前委托的类型信息 </p>
 <dl class="section return"><dt>返回</dt><dd>返回typeid(Delegate&lt;TRet(Args...)&gt;) </dd></dl>
 
-<p>实现了 <a class="el" href="structsw_1_1_i_callable_3_01_t_ret_07_args_8_8_8_08_4.html#abbec66ed149b4e6815520fa7d581e1c6">sw::ICallable&lt; TRet(Args...)&gt;</a>.</p>
+<p>实现了 <a class="el" href="structsw_1_1_i_callable_3_01_t_ret_07_args_8_8_8_08_4.html#a0e833c4765dc3001b306729ca9e8ffbc">sw::ICallable&lt; TRet(Args...)&gt;</a>.</p>
 
 </div>
 </div>
