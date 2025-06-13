@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Exclude generated files from language statistics
+docs/           linguist-generated=true
+single_header/  linguist-generated=true
