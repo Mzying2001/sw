@@ -1,0 +1,389 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: sw::ILayout类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classsw_1_1ILayout.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="classsw_1_1ILayout-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sw::ILayout类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>布局接口  
+ <a href="classsw_1_1ILayout.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ILayout_8h_source.html">ILayout.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sw::ILayout 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classsw_1_1ILayout.png" usemap="#sw::ILayout_map" alt=""/>
+  <map id="sw::ILayout_map" name="sw::ILayout_map">
+<area href="classsw_1_1LayoutHost.html" title="用于托管元素的布局方式的对象类型，是所有布局方式类型的基类" alt="sw::LayoutHost" shape="rect" coords="0,56,138,80"/>
+<area href="classsw_1_1UIElement.html" title="表示界面中的元素" alt="sw::UIElement" shape="rect" coords="296,56,434,80"/>
+<area href="classsw_1_1CanvasLayout.html" title="绝对位置布局方式" alt="sw::CanvasLayout" shape="rect" coords="148,112,286,136"/>
+<area href="classsw_1_1DockLayout.html" title="停靠布局" alt="sw::DockLayout" shape="rect" coords="148,168,286,192"/>
+<area href="classsw_1_1FillLayout.html" title="一种将全部元素都铺满的布局，一般用于在只有一个子元素的时候将该元素铺满整个可用区域" alt="sw::FillLayout" shape="rect" coords="148,224,286,248"/>
+<area href="classsw_1_1GridLayout.html" title="网格布局方式" alt="sw::GridLayout" shape="rect" coords="148,280,286,304"/>
+<area href="classsw_1_1StackLayoutH.html" title="横向堆叠布局" alt="sw::StackLayoutH" shape="rect" coords="148,336,286,360"/>
+<area href="classsw_1_1StackLayoutV.html" title="纵向堆叠布局" alt="sw::StackLayoutV" shape="rect" coords="148,392,286,416"/>
+<area href="classsw_1_1UniformGridLayout.html" title="均匀大小网格布局" alt="sw::UniformGridLayout" shape="rect" coords="148,448,286,472"/>
+<area href="classsw_1_1WrapLayoutH.html" title="横向自动换行布局" alt="sw::WrapLayoutH" shape="rect" coords="148,504,286,528"/>
+<area href="classsw_1_1WrapLayoutV.html" title="纵向自动换行布局" alt="sw::WrapLayoutV" shape="rect" coords="148,560,286,584"/>
+<area href="classsw_1_1Control.html" title="控件" alt="sw::Control" shape="rect" coords="444,112,582,136"/>
+<area href="classsw_1_1HwndWrapper.html" title="将Win32 window包装为SimpleWindow对象" alt="sw::HwndWrapper" shape="rect" coords="444,168,582,192"/>
+<area href="classsw_1_1Layer.html" title="表示可以设置布局方式的元素类型，如窗口、面板等" alt="sw::Layer" shape="rect" coords="444,224,582,248"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a42941ab943edee8c07a7b1da6c7ea226" id="r_a42941ab943edee8c07a7b1da6c7ea226"><td class="memItemLeft" align="right" valign="top"><a id="a42941ab943edee8c07a7b1da6c7ea226" name="a42941ab943edee8c07a7b1da6c7ea226"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ILayout</b> ()=default</td></tr>
+<tr class="memdesc:a42941ab943edee8c07a7b1da6c7ea226"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认虚析构函数 <br /></td></tr>
+<tr class="separator:a42941ab943edee8c07a7b1da6c7ea226"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b95a9aba620f4f42447869f5e7f75c3" id="r_a5b95a9aba620f4f42447869f5e7f75c3"><td class="memItemLeft" align="right" valign="top">virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ILayout.html#a5b95a9aba620f4f42447869f5e7f75c3">GetLayoutTag</a> ()=0</td></tr>
+<tr class="memdesc:a5b95a9aba620f4f42447869f5e7f75c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取布局标记  <br /></td></tr>
+<tr class="separator:a5b95a9aba620f4f42447869f5e7f75c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa07f4408aab5c6b088b69ede010fccd9" id="r_aa07f4408aab5c6b088b69ede010fccd9"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ILayout.html#aa07f4408aab5c6b088b69ede010fccd9">GetChildLayoutCount</a> ()=0</td></tr>
+<tr class="memdesc:aa07f4408aab5c6b088b69ede010fccd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取子控件的数量  <br /></td></tr>
+<tr class="separator:aa07f4408aab5c6b088b69ede010fccd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6a7ef612525020012594123732d24d4" id="r_ab6a7ef612525020012594123732d24d4"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1ILayout.html">ILayout</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ILayout.html#ab6a7ef612525020012594123732d24d4">GetChildLayoutAt</a> (int index)=0</td></tr>
+<tr class="memdesc:ab6a7ef612525020012594123732d24d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取对应索引处的子控件  <br /></td></tr>
+<tr class="separator:ab6a7ef612525020012594123732d24d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a081e12b24d148735bfeeb5cc97b230f1" id="r_a081e12b24d148735bfeeb5cc97b230f1"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1Size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ILayout.html#a081e12b24d148735bfeeb5cc97b230f1">GetDesireSize</a> ()=0</td></tr>
+<tr class="memdesc:a081e12b24d148735bfeeb5cc97b230f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取控件所需尺寸  <br /></td></tr>
+<tr class="separator:a081e12b24d148735bfeeb5cc97b230f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5c5df73b4a3e76840c5d16ab1dfb7fc" id="r_ab5c5df73b4a3e76840c5d16ab1dfb7fc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ILayout.html#ab5c5df73b4a3e76840c5d16ab1dfb7fc">SetDesireSize</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;size)=0</td></tr>
+<tr class="memdesc:ab5c5df73b4a3e76840c5d16ab1dfb7fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置当前控件所需的尺寸  <br /></td></tr>
+<tr class="separator:ab5c5df73b4a3e76840c5d16ab1dfb7fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcdbdecd5f99cdb25b891c7dc3093fdb" id="r_afcdbdecd5f99cdb25b891c7dc3093fdb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ILayout.html#afcdbdecd5f99cdb25b891c7dc3093fdb">Measure</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;availableSize)=0</td></tr>
+<tr class="memdesc:afcdbdecd5f99cdb25b891c7dc3093fdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量控件所需尺寸  <br /></td></tr>
+<tr class="separator:afcdbdecd5f99cdb25b891c7dc3093fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5616892d25adc2666e83211036db7d80" id="r_a5616892d25adc2666e83211036db7d80"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ILayout.html#a5616892d25adc2666e83211036db7d80">Arrange</a> (const <a class="el" href="structsw_1_1Rect.html">Rect</a> &amp;finalPosition)=0</td></tr>
+<tr class="memdesc:a5616892d25adc2666e83211036db7d80"><td class="mdescLeft">&#160;</td><td class="mdescRight">安排控件位置  <br /></td></tr>
+<tr class="separator:a5616892d25adc2666e83211036db7d80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>布局接口 </p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="a5616892d25adc2666e83211036db7d80" name="a5616892d25adc2666e83211036db7d80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5616892d25adc2666e83211036db7d80">&#9670;&#160;</a></span>Arrange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sw::ILayout::Arrange </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1Rect.html">Rect</a> &amp;&#160;</td>
+          <td class="paramname"><em>finalPosition</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>安排控件位置 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">finalPosition</td><td>最终控件所安排的位置 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>在 <a class="el" href="classsw_1_1LayoutHost.html#a52f5e12df00e032fd424db409fd73951">sw::LayoutHost</a>, <a class="el" href="classsw_1_1Layer.html#a418f1f936414fd657ad11a0c0f437cdb">sw::Layer</a>, <a class="el" href="classsw_1_1PanelBase.html#ab7630a76728d4d464b0bee1bfdbdca9b">sw::PanelBase</a>, <a class="el" href="classsw_1_1TabControl.html#a2826913f7180e01ec24542dd87ea8676">sw::TabControl</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#ac8088cf88b28c6b4a5f93cd7a66a769e">sw::UIElement</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ab6a7ef612525020012594123732d24d4" name="ab6a7ef612525020012594123732d24d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6a7ef612525020012594123732d24d4">&#9670;&#160;</a></span>GetChildLayoutAt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classsw_1_1ILayout.html">ILayout</a> &amp; sw::ILayout::GetChildLayoutAt </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取对应索引处的子控件 </p>
+
+<p>在 <a class="el" href="classsw_1_1LayoutHost.html#abd04747a5d0395d5f95f06185e28b964">sw::LayoutHost</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a3683672f3c2fc8f80e4f808aac78d262">sw::UIElement</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="aa07f4408aab5c6b088b69ede010fccd9" name="aa07f4408aab5c6b088b69ede010fccd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa07f4408aab5c6b088b69ede010fccd9">&#9670;&#160;</a></span>GetChildLayoutCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int sw::ILayout::GetChildLayoutCount </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取子控件的数量 </p>
+
+<p>在 <a class="el" href="classsw_1_1LayoutHost.html#a0c6c9750b12c5816608d78d72225b872">sw::LayoutHost</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a994aad366bc1f62ef7d53defa9456e64">sw::UIElement</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a081e12b24d148735bfeeb5cc97b230f1" name="a081e12b24d148735bfeeb5cc97b230f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a081e12b24d148735bfeeb5cc97b230f1">&#9670;&#160;</a></span>GetDesireSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="structsw_1_1Size.html">Size</a> sw::ILayout::GetDesireSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取控件所需尺寸 </p>
+
+<p>在 <a class="el" href="classsw_1_1LayoutHost.html#a7099b15d8916a42f58de10d0266e89f6">sw::LayoutHost</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a633ace3fad478f1cc6480fa5512288fb">sw::UIElement</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a5b95a9aba620f4f42447869f5e7f75c3" name="a5b95a9aba620f4f42447869f5e7f75c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b95a9aba620f4f42447869f5e7f75c3">&#9670;&#160;</a></span>GetLayoutTag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual uint64_t sw::ILayout::GetLayoutTag </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取布局标记 </p>
+
+<p>在 <a class="el" href="classsw_1_1LayoutHost.html#ab89962ec32dec364e4e18ea0afe44d52">sw::LayoutHost</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#aa89a8c272d1a9016d2586c6eeab64dce">sw::UIElement</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="afcdbdecd5f99cdb25b891c7dc3093fdb" name="afcdbdecd5f99cdb25b891c7dc3093fdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcdbdecd5f99cdb25b891c7dc3093fdb">&#9670;&#160;</a></span>Measure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sw::ILayout::Measure </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;&#160;</td>
+          <td class="paramname"><em>availableSize</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>测量控件所需尺寸 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">availableSize</td><td>可用的尺寸 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>在 <a class="el" href="classsw_1_1BmpBox.html#adf6357c58fba6f846f136bb2956368d9">sw::BmpBox</a>, <a class="el" href="classsw_1_1Label.html#aa7fe8e679f9d35eaf5691403ed5c9a96">sw::Label</a>, <a class="el" href="classsw_1_1Layer.html#a3ac4fcba5970f01d5c944c0376a354c7">sw::Layer</a>, <a class="el" href="classsw_1_1LayoutHost.html#aa520181822f89994362a010237687b3f">sw::LayoutHost</a>, <a class="el" href="classsw_1_1PanelBase.html#a8ac6001fdc5c32131b3d33678bd376b3">sw::PanelBase</a>, <a class="el" href="classsw_1_1SysLink.html#ae5751ea373927d6248ca3bb7cdb65ef3">sw::SysLink</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#aef217f2655c4a746606bf302edc16cf4">sw::UIElement</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ab5c5df73b4a3e76840c5d16ab1dfb7fc" name="ab5c5df73b4a3e76840c5d16ab1dfb7fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5c5df73b4a3e76840c5d16ab1dfb7fc">&#9670;&#160;</a></span>SetDesireSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sw::ILayout::SetDesireSize </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;&#160;</td>
+          <td class="paramname"><em>size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置当前控件所需的尺寸 </p>
+
+<p>在 <a class="el" href="classsw_1_1LayoutHost.html#a035aefcab7040b1ac1503e4f25501e48">sw::LayoutHost</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a3370e535f462680d66063e45b92807f6">sw::UIElement</a> 内被实现.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="ILayout_8h_source.html">ILayout.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>sw</b></li><li class="navelem"><a class="el" href="classsw_1_1ILayout.html">ILayout</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

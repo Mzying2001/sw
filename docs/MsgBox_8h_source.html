@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: MsgBox.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('MsgBox_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">MsgBox.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Delegate.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;WndBase.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;Windows.h&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>{</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keyword">using </span>MsgBoxCallback = Action&lt;&gt;;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keyword">enum class</span> MsgBoxButton {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        Ok          = MB_OK,</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        OkCancel    = MB_OKCANCEL,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        YesNoCancel = MB_YESNOCANCEL,</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        YesNo       = MB_YESNO,</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    };</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">enum class</span> MsgBoxResult {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        Ok     = IDOK,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        Cancel = IDCANCEL,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        Yes    = IDYES,</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        No     = IDNO,</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    };</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="foldopen" id="foldopen00038" data-start="{" data-end="};">
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="structsw_1_1MsgBoxResultHelper.html">   38</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="structsw_1_1MsgBoxResultHelper.html#a5fc47647c81c0a11be8113559250de14">   42</a></span>        MsgBoxResult <a class="code hl_variable" href="structsw_1_1MsgBoxResultHelper.html#a5fc47647c81c0a11be8113559250de14">result</a>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="structsw_1_1MsgBoxResultHelper.html#ac75e4774f3a663cdd014aa8b4a97e2af">   47</a></span>        <a class="code hl_function" href="structsw_1_1MsgBoxResultHelper.html#ac75e4774f3a663cdd014aa8b4a97e2af">MsgBoxResultHelper</a>(MsgBoxResult <a class="code hl_variable" href="structsw_1_1MsgBoxResultHelper.html#a5fc47647c81c0a11be8113559250de14">result</a>);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="structsw_1_1MsgBoxResultHelper.html#a44da8d915876e3206d617a353797ca60">   52</a></span>        <span class="keyword">operator</span> sw::MsgBoxResult() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="structsw_1_1MsgBoxResultHelper.html#ac028b46bd9290be9b6fb67051ceea74f">   57</a></span>        <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> &amp;<a class="code hl_function" href="structsw_1_1MsgBoxResultHelper.html#ac028b46bd9290be9b6fb67051ceea74f">OnOk</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Delegate.html">MsgBoxCallback</a> &amp;callback);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="structsw_1_1MsgBoxResultHelper.html#a568e6f0ab102d318a1c98df8f7d77b4b">   62</a></span>        <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> &amp;<a class="code hl_function" href="structsw_1_1MsgBoxResultHelper.html#a568e6f0ab102d318a1c98df8f7d77b4b">OnYes</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Delegate.html">MsgBoxCallback</a> &amp;callback);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="structsw_1_1MsgBoxResultHelper.html#a00c7e7bc4c45de179117704bda25fa4b">   67</a></span>        <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> &amp;<a class="code hl_function" href="structsw_1_1MsgBoxResultHelper.html#a00c7e7bc4c45de179117704bda25fa4b">OnNo</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Delegate.html">MsgBoxCallback</a> &amp;callback);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="structsw_1_1MsgBoxResultHelper.html#ab9901de53278658a4a1cfdf3a1545222">   72</a></span>        <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> &amp;<a class="code hl_function" href="structsw_1_1MsgBoxResultHelper.html#ab9901de53278658a4a1cfdf3a1545222">OnCancel</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Delegate.html">MsgBoxCallback</a> &amp;callback);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keyword">template</span> &lt;MsgBoxResult RES&gt;</div>
+<div class="foldopen" id="foldopen00078" data-start="{" data-end="}">
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="structsw_1_1MsgBoxResultHelper.html#ac07a15b1afc9db579d0e5736377ebc29">   78</a></span>        <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> &amp;<a class="code hl_function" href="structsw_1_1MsgBoxResultHelper.html#ac07a15b1afc9db579d0e5736377ebc29">On</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Delegate.html">MsgBoxCallback</a> &amp;callback)</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            <span class="keywordflow">if</span> (this-&gt;result == RES) {</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>                <span class="keywordflow">if</span> (callback) callback();</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            }</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        }</div>
+</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    };</div>
+</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="foldopen" id="foldopen00090" data-start="{" data-end="};">
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html">   90</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1MsgBox.html">MsgBox</a></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <a class="code hl_class" href="classsw_1_1MsgBox.html">MsgBox</a>() = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#aec7bbcd177c3e37c4e5b59a7a9adc693">   99</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#aec7bbcd177c3e37c4e5b59a7a9adc693">Show</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1WndBase.html">WndBase</a> *owner, <span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::Ok);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#ad43e95d39a9808999448132007dc470a">  104</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#ad43e95d39a9808999448132007dc470a">Show</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1WndBase.html">WndBase</a> &amp;owner, <span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::Ok);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#a6d284439a88dd2e830a9bbb370bbab90">  109</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#a6d284439a88dd2e830a9bbb370bbab90">Show</a>(<span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::Ok);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#a1d4a28ec2e3c55182eb74988b92323a0">  114</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#a1d4a28ec2e3c55182eb74988b92323a0">ShowInfo</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1WndBase.html">WndBase</a> *owner, <span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::Ok);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#a289ba9e536f3f7df504a4d580d05d079">  119</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#a289ba9e536f3f7df504a4d580d05d079">ShowInfo</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1WndBase.html">WndBase</a> &amp;owner, <span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::Ok);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#a86c0e3d4652a506591e897d348062645">  124</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#a86c0e3d4652a506591e897d348062645">ShowInfo</a>(<span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::Ok);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#a89cec2973882b15eb2cd7552e313646b">  129</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#a89cec2973882b15eb2cd7552e313646b">ShowError</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1WndBase.html">WndBase</a> *owner, <span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::Ok);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#afef0cbf4eccb554547e664b258c5e1a0">  134</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#afef0cbf4eccb554547e664b258c5e1a0">ShowError</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1WndBase.html">WndBase</a> &amp;owner, <span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::Ok);</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#acb39ad254df5b02ecd6f65592fbbe94c">  139</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#acb39ad254df5b02ecd6f65592fbbe94c">ShowError</a>(<span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::Ok);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#a0315d6b65ce0ef9cbb43cdda00cfb10c">  144</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#a0315d6b65ce0ef9cbb43cdda00cfb10c">ShowWarning</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1WndBase.html">WndBase</a> *owner, <span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::Ok);</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#a0b9205153ef5307cdb12738c7c5d61cc">  149</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#a0b9205153ef5307cdb12738c7c5d61cc">ShowWarning</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1WndBase.html">WndBase</a> &amp;owner, <span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::Ok);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#ac1e3e78c8de1b32fb0b57b26bf3548c7">  154</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#ac1e3e78c8de1b32fb0b57b26bf3548c7">ShowWarning</a>(<span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::Ok);</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#a812fadce9a48bf9102b3177c0f990dfe">  159</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#a812fadce9a48bf9102b3177c0f990dfe">ShowQuestion</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1WndBase.html">WndBase</a> *owner, <span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::YesNo);</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#a9ab3423d223e34c559d1cb4608ef0b4e">  164</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#a9ab3423d223e34c559d1cb4608ef0b4e">ShowQuestion</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1WndBase.html">WndBase</a> &amp;owner, <span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::YesNo);</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="classsw_1_1MsgBox.html#a02dd265623aa714a23ed403fccda2d9c">  169</a></span>        <span class="keyword">static</span> <a class="code hl_struct" href="structsw_1_1MsgBoxResultHelper.html">MsgBoxResultHelper</a> <a class="code hl_function" href="classsw_1_1MsgBox.html#a02dd265623aa714a23ed403fccda2d9c">ShowQuestion</a>(<span class="keyword">const</span> std::wstring &amp;text = L<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::wstring &amp;caption = L<span class="stringliteral">&quot;&quot;</span>, MsgBoxButton button = MsgBoxButton::YesNo);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    };</div>
+</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>}</div>
+<div class="ttc" id="aclasssw_1_1Delegate_html"><div class="ttname"><a href="classsw_1_1Delegate.html">sw::Delegate</a></div><div class="ttdef"><b>Definition</b> Delegate.h:21</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html"><div class="ttname"><a href="classsw_1_1MsgBox.html">sw::MsgBox</a></div><div class="ttdoc">消息框类</div><div class="ttdef"><b>Definition</b> MsgBox.h:91</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_a02dd265623aa714a23ed403fccda2d9c"><div class="ttname"><a href="classsw_1_1MsgBox.html#a02dd265623aa714a23ed403fccda2d9c">sw::MsgBox::ShowQuestion</a></div><div class="ttdeci">static MsgBoxResultHelper ShowQuestion(const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::YesNo)</div><div class="ttdoc">显示一个含“问题”图标的消息框，将当前活动窗体作为Owner</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_a0315d6b65ce0ef9cbb43cdda00cfb10c"><div class="ttname"><a href="classsw_1_1MsgBox.html#a0315d6b65ce0ef9cbb43cdda00cfb10c">sw::MsgBox::ShowWarning</a></div><div class="ttdeci">static MsgBoxResultHelper ShowWarning(const WndBase *owner, const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok)</div><div class="ttdoc">显示一个含“警告”图标的消息框</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_a0b9205153ef5307cdb12738c7c5d61cc"><div class="ttname"><a href="classsw_1_1MsgBox.html#a0b9205153ef5307cdb12738c7c5d61cc">sw::MsgBox::ShowWarning</a></div><div class="ttdeci">static MsgBoxResultHelper ShowWarning(const WndBase &amp;owner, const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok)</div><div class="ttdoc">显示一个含“警告”图标的消息框</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_a1d4a28ec2e3c55182eb74988b92323a0"><div class="ttname"><a href="classsw_1_1MsgBox.html#a1d4a28ec2e3c55182eb74988b92323a0">sw::MsgBox::ShowInfo</a></div><div class="ttdeci">static MsgBoxResultHelper ShowInfo(const WndBase *owner, const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok)</div><div class="ttdoc">显示一个含“消息”图标的消息框</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_a289ba9e536f3f7df504a4d580d05d079"><div class="ttname"><a href="classsw_1_1MsgBox.html#a289ba9e536f3f7df504a4d580d05d079">sw::MsgBox::ShowInfo</a></div><div class="ttdeci">static MsgBoxResultHelper ShowInfo(const WndBase &amp;owner, const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok)</div><div class="ttdoc">显示一个含“消息”图标的消息框</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_a6d284439a88dd2e830a9bbb370bbab90"><div class="ttname"><a href="classsw_1_1MsgBox.html#a6d284439a88dd2e830a9bbb370bbab90">sw::MsgBox::Show</a></div><div class="ttdeci">static MsgBoxResultHelper Show(const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok)</div><div class="ttdoc">显示一个不含图标的消息框，将当前活动窗体作为Owner</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_a812fadce9a48bf9102b3177c0f990dfe"><div class="ttname"><a href="classsw_1_1MsgBox.html#a812fadce9a48bf9102b3177c0f990dfe">sw::MsgBox::ShowQuestion</a></div><div class="ttdeci">static MsgBoxResultHelper ShowQuestion(const WndBase *owner, const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::YesNo)</div><div class="ttdoc">显示一个含“问题”图标的消息框</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_a86c0e3d4652a506591e897d348062645"><div class="ttname"><a href="classsw_1_1MsgBox.html#a86c0e3d4652a506591e897d348062645">sw::MsgBox::ShowInfo</a></div><div class="ttdeci">static MsgBoxResultHelper ShowInfo(const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok)</div><div class="ttdoc">显示一个含“消息”图标的消息框，将当前活动窗体作为Owner</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_a89cec2973882b15eb2cd7552e313646b"><div class="ttname"><a href="classsw_1_1MsgBox.html#a89cec2973882b15eb2cd7552e313646b">sw::MsgBox::ShowError</a></div><div class="ttdeci">static MsgBoxResultHelper ShowError(const WndBase *owner, const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok)</div><div class="ttdoc">显示一个含“错误”图标的消息框</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_a9ab3423d223e34c559d1cb4608ef0b4e"><div class="ttname"><a href="classsw_1_1MsgBox.html#a9ab3423d223e34c559d1cb4608ef0b4e">sw::MsgBox::ShowQuestion</a></div><div class="ttdeci">static MsgBoxResultHelper ShowQuestion(const WndBase &amp;owner, const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::YesNo)</div><div class="ttdoc">显示一个含“问题”图标的消息框</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_ac1e3e78c8de1b32fb0b57b26bf3548c7"><div class="ttname"><a href="classsw_1_1MsgBox.html#ac1e3e78c8de1b32fb0b57b26bf3548c7">sw::MsgBox::ShowWarning</a></div><div class="ttdeci">static MsgBoxResultHelper ShowWarning(const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok)</div><div class="ttdoc">显示一个含“警告”图标的消息框，将当前活动窗体作为Owner</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_acb39ad254df5b02ecd6f65592fbbe94c"><div class="ttname"><a href="classsw_1_1MsgBox.html#acb39ad254df5b02ecd6f65592fbbe94c">sw::MsgBox::ShowError</a></div><div class="ttdeci">static MsgBoxResultHelper ShowError(const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok)</div><div class="ttdoc">显示一个含“错误”图标的消息框，将当前活动窗体作为Owner</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_ad43e95d39a9808999448132007dc470a"><div class="ttname"><a href="classsw_1_1MsgBox.html#ad43e95d39a9808999448132007dc470a">sw::MsgBox::Show</a></div><div class="ttdeci">static MsgBoxResultHelper Show(const WndBase &amp;owner, const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok)</div><div class="ttdoc">显示一个不含图标的消息框</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_aec7bbcd177c3e37c4e5b59a7a9adc693"><div class="ttname"><a href="classsw_1_1MsgBox.html#aec7bbcd177c3e37c4e5b59a7a9adc693">sw::MsgBox::Show</a></div><div class="ttdeci">static MsgBoxResultHelper Show(const WndBase *owner, const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok)</div><div class="ttdoc">显示一个不含图标的消息框</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_afef0cbf4eccb554547e664b258c5e1a0"><div class="ttname"><a href="classsw_1_1MsgBox.html#afef0cbf4eccb554547e664b258c5e1a0">sw::MsgBox::ShowError</a></div><div class="ttdeci">static MsgBoxResultHelper ShowError(const WndBase &amp;owner, const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok)</div><div class="ttdoc">显示一个含“错误”图标的消息框</div></div>
+<div class="ttc" id="aclasssw_1_1WndBase_html"><div class="ttname"><a href="classsw_1_1WndBase.html">sw::WndBase</a></div><div class="ttdoc">表示一个Windows窗口，是所有窗口和控件的基类</div><div class="ttdef"><b>Definition</b> WndBase.h:36</div></div>
+<div class="ttc" id="astructsw_1_1MsgBoxResultHelper_html"><div class="ttname"><a href="structsw_1_1MsgBoxResultHelper.html">sw::MsgBoxResultHelper</a></div><div class="ttdoc">处理消息框消息的帮助类</div><div class="ttdef"><b>Definition</b> MsgBox.h:38</div></div>
+<div class="ttc" id="astructsw_1_1MsgBoxResultHelper_html_a00c7e7bc4c45de179117704bda25fa4b"><div class="ttname"><a href="structsw_1_1MsgBoxResultHelper.html#a00c7e7bc4c45de179117704bda25fa4b">sw::MsgBoxResultHelper::OnNo</a></div><div class="ttdeci">MsgBoxResultHelper &amp; OnNo(const MsgBoxCallback &amp;callback)</div><div class="ttdoc">指定按下“否”按钮时的处理函数</div></div>
+<div class="ttc" id="astructsw_1_1MsgBoxResultHelper_html_a568e6f0ab102d318a1c98df8f7d77b4b"><div class="ttname"><a href="structsw_1_1MsgBoxResultHelper.html#a568e6f0ab102d318a1c98df8f7d77b4b">sw::MsgBoxResultHelper::OnYes</a></div><div class="ttdeci">MsgBoxResultHelper &amp; OnYes(const MsgBoxCallback &amp;callback)</div><div class="ttdoc">指定按下“是”按钮时的处理函数</div></div>
+<div class="ttc" id="astructsw_1_1MsgBoxResultHelper_html_a5fc47647c81c0a11be8113559250de14"><div class="ttname"><a href="structsw_1_1MsgBoxResultHelper.html#a5fc47647c81c0a11be8113559250de14">sw::MsgBoxResultHelper::result</a></div><div class="ttdeci">MsgBoxResult result</div><div class="ttdoc">消息框的结果</div><div class="ttdef"><b>Definition</b> MsgBox.h:42</div></div>
+<div class="ttc" id="astructsw_1_1MsgBoxResultHelper_html_ab9901de53278658a4a1cfdf3a1545222"><div class="ttname"><a href="structsw_1_1MsgBoxResultHelper.html#ab9901de53278658a4a1cfdf3a1545222">sw::MsgBoxResultHelper::OnCancel</a></div><div class="ttdeci">MsgBoxResultHelper &amp; OnCancel(const MsgBoxCallback &amp;callback)</div><div class="ttdoc">指定按下“取消”按钮时的处理函数</div></div>
+<div class="ttc" id="astructsw_1_1MsgBoxResultHelper_html_ac028b46bd9290be9b6fb67051ceea74f"><div class="ttname"><a href="structsw_1_1MsgBoxResultHelper.html#ac028b46bd9290be9b6fb67051ceea74f">sw::MsgBoxResultHelper::OnOk</a></div><div class="ttdeci">MsgBoxResultHelper &amp; OnOk(const MsgBoxCallback &amp;callback)</div><div class="ttdoc">指定按下“确定”按钮时的处理函数</div></div>
+<div class="ttc" id="astructsw_1_1MsgBoxResultHelper_html_ac07a15b1afc9db579d0e5736377ebc29"><div class="ttname"><a href="structsw_1_1MsgBoxResultHelper.html#ac07a15b1afc9db579d0e5736377ebc29">sw::MsgBoxResultHelper::On</a></div><div class="ttdeci">MsgBoxResultHelper &amp; On(const MsgBoxCallback &amp;callback)</div><div class="ttdoc">指定消息框结果的处理函数</div><div class="ttdef"><b>Definition</b> MsgBox.h:78</div></div>
+<div class="ttc" id="astructsw_1_1MsgBoxResultHelper_html_ac75e4774f3a663cdd014aa8b4a97e2af"><div class="ttname"><a href="structsw_1_1MsgBoxResultHelper.html#ac75e4774f3a663cdd014aa8b4a97e2af">sw::MsgBoxResultHelper::MsgBoxResultHelper</a></div><div class="ttdeci">MsgBoxResultHelper(MsgBoxResult result)</div><div class="ttdoc">构造MsgBoxResultHelper</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>MsgBox.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>
