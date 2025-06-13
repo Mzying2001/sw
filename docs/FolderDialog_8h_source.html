@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: FolderDialog.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('FolderDialog_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">FolderDialog.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;EnumBit.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;Window.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;Shlobj.h&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>{</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keyword">enum class</span> FolderDialogFlags : UINT {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <span class="comment">// Only return file system directories. If the user selects folders that are not part of the</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="comment">// file system, the OK button is grayed.</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <span class="comment">// Note  The OK button remains enabled for &quot;\\server&quot; items, as well as &quot;\\server\share&quot; and</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="comment">// directory items. However, if the user selects a &quot;\\server&quot; item, passing the PIDL returned</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="comment">// by SHBrowseForFolder to SHGetPathFromIDList fails.</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        ReturnOnlyFileSystemDirs = 0x00000001,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="comment">// Do not include network folders below the domain level in the dialog box&#39;s tree view control.</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        DontGoBelowDomain = 0x00000002,</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="comment">// Include a status area in the dialog box. The callback function can set the status text by</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="comment">// sending messages to the dialog box. This flag is not supported when BIF_NEWDIALOGSTYLE is</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="comment">// specified.</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        StatusText = 0x00000004,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="comment">// Only return file system ancestors. An ancestor is a subfolder that is beneath the root folder</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="comment">// in the namespace hierarchy. If the user selects an ancestor of the root folder that is not</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="comment">// part of the file system, the OK button is grayed.</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        ReturnFileSystemAncestors = 0x00000008,</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="comment">// Version 4.71. Include an edit control in the browse dialog box that allows the user to type</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="comment">// the name of an item.</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        EditBox = 0x00000010,</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="comment">// Version 4.71. If the user types an invalid name into the edit box, the browse dialog box calls</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="comment">// the application&#39;s BrowseCallbackProc with the BFFM_VALIDATEFAILED message. This flag is ignored</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="comment">// if BIF_EDITBOX is not specified.</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        Validate = 0x00000020,</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="comment">// Version 5.0. Use the new user interface. Setting this flag provides the user with a larger</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="comment">// dialog box that can be resized. The dialog box has several new capabilities, including:</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="comment">// drag-and-drop capability within the dialog box, reordering, shortcut menus, new folders,</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="comment">// delete, and other shortcut menu commands.</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="comment">// Note  If COM is initialized through CoInitializeEx with the COINIT_MULTITHREADED flag set,</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="comment">// SHBrowseForFolder fails if BIF_NEWDIALOGSTYLE is passed.</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        NewDialogStyle = 0x00000040,</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="comment">// Version 5.0. The browse dialog box can display URLs. The BIF_USENEWUI and BIF_BROWSEINCLUDEFILES</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="comment">// flags must also be set. If any of these three flags are not set, the browser dialog box rejects</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <span class="comment">// URLs. Even when these flags are set, the browse dialog box displays URLs only if the folder that</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="comment">// contains the selected item supports URLs. When the folder&#39;s IShellFolder::GetAttributesOf method</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="comment">// is called to request the selected item&#39;s attributes, the folder must set the SFGAO_FOLDER attribute</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="comment">// flag. Otherwise, the browse dialog box will not display the URL.</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        BrowseIncludeUrls = 0x00000080,</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="comment">// Version 5.0. Use the new user interface, including an edit box. This flag is equivalent to</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="comment">// BIF_EDITBOX | BIF_NEWDIALOGSTYLE.</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="comment">// Note  If COM is initialized through CoInitializeEx with the COINIT_MULTITHREADED flag set,</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="comment">// SHBrowseForFolder fails if BIF_USENEWUI is passed.</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        UseNewUI = 0x00000010 | 0x00000040,</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="comment">// Version 6.0. When combined with BIF_NEWDIALOGSTYLE, adds a usage hint to the dialog box, in place</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="comment">// of the edit box. BIF_EDITBOX overrides this flag.</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        UsageHint = 0x00000100,</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="comment">// Version 6.0. Do not include the New Folder button in the browse dialog box.</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        NoNewFolderButton = 0x00000200,</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="comment">// Version 6.0. When the selected item is a shortcut, return the PIDL of the shortcut itself rather</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="comment">// than its target.</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        NoTranslateTargets = 0x00000400,</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="comment">// Only return computers. If the user selects anything other than a computer, the OK button is grayed.</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        BrowseForComputer = 0x00001000,</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="comment">// Only allow the selection of printers. If the user selects anything other than a printer, the OK</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="comment">// button is grayed.</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="comment">// In Windows XP and later systems, the best practice is to use a Windows XP-style dialog, setting</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="comment">// the root of the dialog to the Printers and Faxes folder (CSIDL_PRINTERS).</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        BrowseForPrinter = 0x00002000,</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="comment">// Version 4.71. The browse dialog box displays files as well as folders.</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        BrowseIncludeFiles = 0x00004000,</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="comment">// Version 5.0. The browse dialog box can display sharable resources on remote systems. This is intended</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="comment">// for applications that want to expose remote shares on a local system. The BIF_NEWDIALOGSTYLE flag must</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="comment">// also be set.</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        Sharable = 0x00008000,</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="comment">// Windows 7 and later. Allow folder junctions such as a library or a compressed file with a .zip file</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="comment">// name extension to be browsed.</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        BrowseFileJunctions = 0x00010000,</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    };</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    _SW_ENUM_ENABLE_BIT_OPERATIONS(FolderDialogFlags);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="foldopen" id="foldopen00105" data-start="{" data-end="};">
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="classsw_1_1FolderBrowserDialog.html">  105</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1FolderBrowserDialog.html">FolderBrowserDialog</a></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    {</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        BROWSEINFOW _bi{};</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        std::vector&lt;wchar_t&gt; _buffer;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        std::wstring _description;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="classsw_1_1FolderBrowserDialog.html#ae516c8b298cb378a4f159babfc09692a">  127</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;int&gt;</a> <a class="code hl_variable" href="classsw_1_1FolderBrowserDialog.html#ae516c8b298cb378a4f159babfc09692a">BufferSize</a>;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="classsw_1_1FolderBrowserDialog.html#a27a3c0c5d11c3af828b00f8e0f255ccd">  132</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;FolderDialogFlags&gt;</a> <a class="code hl_variable" href="classsw_1_1FolderBrowserDialog.html#a27a3c0c5d11c3af828b00f8e0f255ccd">Flags</a>;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="classsw_1_1FolderBrowserDialog.html#a33ef5a9cefa0ae371a6834a5f7c4e1fb">  137</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;std::wstring&gt;</a> <a class="code hl_variable" href="classsw_1_1FolderBrowserDialog.html#a33ef5a9cefa0ae371a6834a5f7c4e1fb">Description</a>;</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="classsw_1_1FolderBrowserDialog.html#a23e01f7f30858e02a46722fcedfc2d2a">  142</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty&lt;std::wstring&gt;</a> <a class="code hl_variable" href="classsw_1_1FolderBrowserDialog.html#a23e01f7f30858e02a46722fcedfc2d2a">SelectedPath</a>;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno"><a class="line" href="classsw_1_1FolderBrowserDialog.html#a1146b36190727f370f2071b7cd7c25a7">  147</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1FolderBrowserDialog.html#a1146b36190727f370f2071b7cd7c25a7">NewFolderButton</a>;</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno"><a class="line" href="classsw_1_1FolderBrowserDialog.html#ade5cc293cda794d5c65eb6321b2c85df">  153</a></span>        <a class="code hl_function" href="classsw_1_1FolderBrowserDialog.html#ade5cc293cda794d5c65eb6321b2c85df">FolderBrowserDialog</a>();</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="classsw_1_1FolderBrowserDialog.html#adc964f528b5fd704f970e576d5f61a3f">  159</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1FolderBrowserDialog.html#adc964f528b5fd704f970e576d5f61a3f">ShowDialog</a>();</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="classsw_1_1FolderBrowserDialog.html#ad4be5362db52705dce1d7f6127875971">  165</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1FolderBrowserDialog.html#ad4be5362db52705dce1d7f6127875971">ShowDialog</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Window.html">Window</a> &amp;owner);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="classsw_1_1FolderBrowserDialog.html#a4f31f538b9235b0147248997e857b2bf">  171</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1FolderBrowserDialog.html#a4f31f538b9235b0147248997e857b2bf">ShowDialog</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Window.html">Window</a> *owner);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="classsw_1_1FolderBrowserDialog.html#a51967b98823a22f65d89a2d16e48210d">  177</a></span>        BROWSEINFOW *<a class="code hl_function" href="classsw_1_1FolderBrowserDialog.html#a51967b98823a22f65d89a2d16e48210d">GetBI</a>();</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="classsw_1_1FolderBrowserDialog.html#a6354d4184b3d89a1de0be8b248dde513">  182</a></span>        <span class="keywordtype">wchar_t</span> *<a class="code hl_function" href="classsw_1_1FolderBrowserDialog.html#a6354d4184b3d89a1de0be8b248dde513">GetBuffer</a>();</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno"><a class="line" href="classsw_1_1FolderBrowserDialog.html#adb6d445369625faca17fcb70c18ff4b1">  187</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1FolderBrowserDialog.html#adb6d445369625faca17fcb70c18ff4b1">ClearBuffer</a>();</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    };</div>
+</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>}</div>
+<div class="ttc" id="aclasssw_1_1FolderBrowserDialog_html"><div class="ttname"><a href="classsw_1_1FolderBrowserDialog.html">sw::FolderBrowserDialog</a></div><div class="ttdoc">选择文件夹对话框</div><div class="ttdef"><b>Definition</b> FolderDialog.h:106</div></div>
+<div class="ttc" id="aclasssw_1_1FolderBrowserDialog_html_a1146b36190727f370f2071b7cd7c25a7"><div class="ttname"><a href="classsw_1_1FolderBrowserDialog.html#a1146b36190727f370f2071b7cd7c25a7">sw::FolderBrowserDialog::NewFolderButton</a></div><div class="ttdeci">const Property&lt; bool &gt; NewFolderButton</div><div class="ttdoc">是否显示“新建文件夹”按钮</div><div class="ttdef"><b>Definition</b> FolderDialog.h:147</div></div>
+<div class="ttc" id="aclasssw_1_1FolderBrowserDialog_html_a23e01f7f30858e02a46722fcedfc2d2a"><div class="ttname"><a href="classsw_1_1FolderBrowserDialog.html#a23e01f7f30858e02a46722fcedfc2d2a">sw::FolderBrowserDialog::SelectedPath</a></div><div class="ttdeci">const ReadOnlyProperty&lt; std::wstring &gt; SelectedPath</div><div class="ttdoc">选中文件夹的路径</div><div class="ttdef"><b>Definition</b> FolderDialog.h:142</div></div>
+<div class="ttc" id="aclasssw_1_1FolderBrowserDialog_html_a27a3c0c5d11c3af828b00f8e0f255ccd"><div class="ttname"><a href="classsw_1_1FolderBrowserDialog.html#a27a3c0c5d11c3af828b00f8e0f255ccd">sw::FolderBrowserDialog::Flags</a></div><div class="ttdeci">const Property&lt; FolderDialogFlags &gt; Flags</div><div class="ttdoc">对话框标志</div><div class="ttdef"><b>Definition</b> FolderDialog.h:132</div></div>
+<div class="ttc" id="aclasssw_1_1FolderBrowserDialog_html_a33ef5a9cefa0ae371a6834a5f7c4e1fb"><div class="ttname"><a href="classsw_1_1FolderBrowserDialog.html#a33ef5a9cefa0ae371a6834a5f7c4e1fb">sw::FolderBrowserDialog::Description</a></div><div class="ttdeci">const Property&lt; std::wstring &gt; Description</div><div class="ttdoc">对话框上方显示的描述性文本</div><div class="ttdef"><b>Definition</b> FolderDialog.h:137</div></div>
+<div class="ttc" id="aclasssw_1_1FolderBrowserDialog_html_a4f31f538b9235b0147248997e857b2bf"><div class="ttname"><a href="classsw_1_1FolderBrowserDialog.html#a4f31f538b9235b0147248997e857b2bf">sw::FolderBrowserDialog::ShowDialog</a></div><div class="ttdeci">bool ShowDialog(const Window *owner)</div><div class="ttdoc">显示对话框，并指定所有者窗口</div></div>
+<div class="ttc" id="aclasssw_1_1FolderBrowserDialog_html_a51967b98823a22f65d89a2d16e48210d"><div class="ttname"><a href="classsw_1_1FolderBrowserDialog.html#a51967b98823a22f65d89a2d16e48210d">sw::FolderBrowserDialog::GetBI</a></div><div class="ttdeci">BROWSEINFOW * GetBI()</div><div class="ttdoc">获取BROWSEINFOW指针</div></div>
+<div class="ttc" id="aclasssw_1_1FolderBrowserDialog_html_a6354d4184b3d89a1de0be8b248dde513"><div class="ttname"><a href="classsw_1_1FolderBrowserDialog.html#a6354d4184b3d89a1de0be8b248dde513">sw::FolderBrowserDialog::GetBuffer</a></div><div class="ttdeci">wchar_t * GetBuffer()</div><div class="ttdoc">获取指向缓冲区的指针</div></div>
+<div class="ttc" id="aclasssw_1_1FolderBrowserDialog_html_ad4be5362db52705dce1d7f6127875971"><div class="ttname"><a href="classsw_1_1FolderBrowserDialog.html#ad4be5362db52705dce1d7f6127875971">sw::FolderBrowserDialog::ShowDialog</a></div><div class="ttdeci">bool ShowDialog(const Window &amp;owner)</div><div class="ttdoc">显示对话框，并指定所有者窗口</div></div>
+<div class="ttc" id="aclasssw_1_1FolderBrowserDialog_html_adb6d445369625faca17fcb70c18ff4b1"><div class="ttname"><a href="classsw_1_1FolderBrowserDialog.html#adb6d445369625faca17fcb70c18ff4b1">sw::FolderBrowserDialog::ClearBuffer</a></div><div class="ttdeci">void ClearBuffer()</div><div class="ttdoc">清空缓冲区</div></div>
+<div class="ttc" id="aclasssw_1_1FolderBrowserDialog_html_adc964f528b5fd704f970e576d5f61a3f"><div class="ttname"><a href="classsw_1_1FolderBrowserDialog.html#adc964f528b5fd704f970e576d5f61a3f">sw::FolderBrowserDialog::ShowDialog</a></div><div class="ttdeci">bool ShowDialog()</div><div class="ttdoc">显示对话框，并指定当前活动窗口作为所有者窗口</div></div>
+<div class="ttc" id="aclasssw_1_1FolderBrowserDialog_html_ade5cc293cda794d5c65eb6321b2c85df"><div class="ttname"><a href="classsw_1_1FolderBrowserDialog.html#ade5cc293cda794d5c65eb6321b2c85df">sw::FolderBrowserDialog::FolderBrowserDialog</a></div><div class="ttdeci">FolderBrowserDialog()</div><div class="ttdoc">初始化FolderBrowserDialog</div></div>
+<div class="ttc" id="aclasssw_1_1FolderBrowserDialog_html_ae516c8b298cb378a4f159babfc09692a"><div class="ttname"><a href="classsw_1_1FolderBrowserDialog.html#ae516c8b298cb378a4f159babfc09692a">sw::FolderBrowserDialog::BufferSize</a></div><div class="ttdeci">const Property&lt; int &gt; BufferSize</div><div class="ttdoc">储存文件名的缓冲区大小，值不能小于MAX_PATH</div><div class="ttdef"><b>Definition</b> FolderDialog.h:127</div></div>
+<div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1520</div></div>
+<div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>Definition</b> Property.h:1562</div></div>
+<div class="ttc" id="aclasssw_1_1Window_html"><div class="ttname"><a href="classsw_1_1Window.html">sw::Window</a></div><div class="ttdoc">窗口</div><div class="ttdef"><b>Definition</b> Window.h:34</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>FolderDialog.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

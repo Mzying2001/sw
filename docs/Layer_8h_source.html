@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: Layer.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('Layer_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Layer.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;LayoutHost.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;ScrollEnums.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;UIElement.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>{</div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="};">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html">   12</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1Layer.html">Layer</a> : <span class="keyword">virtual</span> <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1UIElement.html">UIElement</a></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="keywordtype">bool</span> _layoutDisabled = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keywordtype">bool</span> _autoSize = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <a class="code hl_class" href="classsw_1_1LayoutHost.html">LayoutHost</a> *_customLayout = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordtype">bool</span> _horizontalScrollDisabled = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="keywordtype">bool</span> _verticalScrollDisabled = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#accb80d7a016d5a56b1c744db4ef96059">   44</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;LayoutHost *&gt;</a> <a class="code hl_variable" href="classsw_1_1Layer.html#accb80d7a016d5a56b1c744db4ef96059">Layout</a>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#ad4a741e4ddddbd9886cefb88efd9e3e0">   49</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1Layer.html#ad4a741e4ddddbd9886cefb88efd9e3e0">AutoSize</a>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a4bb56843061a3db9497703f16e58f4ba">   54</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1Layer.html#a4bb56843061a3db9497703f16e58f4ba">HorizontalScrollBar</a>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#aecfdee30e69119db86f0824d35a50ea4">   59</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1Layer.html#aecfdee30e69119db86f0824d35a50ea4">VerticalScrollBar</a>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#ae738d7ede2ba0d5547553df25f8d8ed8">   64</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;double&gt;</a> <a class="code hl_variable" href="classsw_1_1Layer.html#ae738d7ede2ba0d5547553df25f8d8ed8">HorizontalScrollPos</a>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#adac6ce15772ba5e2dcf2bfeed126e9d7">   69</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;double&gt;</a> <a class="code hl_variable" href="classsw_1_1Layer.html#adac6ce15772ba5e2dcf2bfeed126e9d7">VerticalScrollPos</a>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a5af8ff318d2438eab8f8b325cf8e66da">   74</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty&lt;double&gt;</a> <a class="code hl_variable" href="classsw_1_1Layer.html#a5af8ff318d2438eab8f8b325cf8e66da">HorizontalScrollLimit</a>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#ae79ad98e8d7f2fe5f66132ce797e9f70">   79</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty&lt;double&gt;</a> <a class="code hl_variable" href="classsw_1_1Layer.html#ae79ad98e8d7f2fe5f66132ce797e9f70">VerticalScrollLimit</a>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a61030d006cafc26525bc07bced899b92">   85</a></span>        <a class="code hl_function" href="classsw_1_1Layer.html#a61030d006cafc26525bc07bced899b92">Layer</a>();</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a9704f14ac77a0e0902b79058a2d29c8d">   91</a></span>        <span class="keyword">virtual</span> <a class="code hl_function" href="classsw_1_1Layer.html#a9704f14ac77a0e0902b79058a2d29c8d">~Layer</a>() = 0;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <a class="code hl_class" href="classsw_1_1LayoutHost.html">LayoutHost</a> *_GetLayout();</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <span class="keywordtype">void</span> _MeasureAndArrangeWithoutLayout();</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keywordtype">void</span> _MeasureAndArrangeWithoutResize();</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a76769d6a5eb98783dfe42b1473560996">  113</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#a76769d6a5eb98783dfe42b1473560996">UpdateLayout</a>();</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a57498353e1b1b74f708ec8da81b48605">  118</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classsw_1_1LayoutHost.html">LayoutHost</a> *<a class="code hl_function" href="classsw_1_1Layer.html#a57498353e1b1b74f708ec8da81b48605">GetDefaultLayout</a>();</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#af21620044342125a8e59671a6fb222e8">  126</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#af21620044342125a8e59671a6fb222e8">OnScroll</a>(ScrollOrientation scrollbar, ScrollEvent event, <span class="keywordtype">double</span> pos);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#ac06c5746cd104b7f8f9ab4d9ea9c5833">  134</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Layer.html#ac06c5746cd104b7f8f9ab4d9ea9c5833">OnVerticalScroll</a>(<span class="keywordtype">int</span> event, <span class="keywordtype">int</span> pos) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#ab199e8fc6b90975b7dcb5fdb4e5f2853">  142</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Layer.html#ab199e8fc6b90975b7dcb5fdb4e5f2853">OnHorizontalScroll</a>(<span class="keywordtype">int</span> event, <span class="keywordtype">int</span> pos) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a3ac4fcba5970f01d5c944c0376a354c7">  149</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#a3ac4fcba5970f01d5c944c0376a354c7">Measure</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Size.html">Size</a> &amp;availableSize) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a418f1f936414fd657ad11a0c0f437cdb">  155</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#a418f1f936414fd657ad11a0c0f437cdb">Arrange</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Rect.html">sw::Rect</a> &amp;finalPosition) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a4c9e94621cab7abd5ca2e10f5691c3c1">  160</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#a4c9e94621cab7abd5ca2e10f5691c3c1">DisableLayout</a>();</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a5965bfa865e07371ad9e2e773f720653">  165</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#a5965bfa865e07371ad9e2e773f720653">EnableLayout</a>();</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#aad286771872cc835570d7f6508772a20">  170</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Layer.html#aad286771872cc835570d7f6508772a20">IsLayoutDisabled</a>();</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a61a3007c7519de5b677dcc61b723034a">  177</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#a61a3007c7519de5b677dcc61b723034a">GetHorizontalScrollRange</a>(<span class="keywordtype">double</span> &amp;refMin, <span class="keywordtype">double</span> &amp;refMax);</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a3f5248e4483b277a2f99c9b3cde086b7">  184</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#a3f5248e4483b277a2f99c9b3cde086b7">GetVerticalScrollRange</a>(<span class="keywordtype">double</span> &amp;refMin, <span class="keywordtype">double</span> &amp;refMax);</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#aac08647d3f15d95e874a2c84c6237dde">  191</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#aac08647d3f15d95e874a2c84c6237dde">SetHorizontalScrollRange</a>(<span class="keywordtype">double</span> min, <span class="keywordtype">double</span> max);</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a53bc897b0a8c50761ccc6c2daf4e2e02">  198</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#a53bc897b0a8c50761ccc6c2daf4e2e02">SetVerticalScrollRange</a>(<span class="keywordtype">double</span> min, <span class="keywordtype">double</span> max);</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a465cbfd99c23c60b746529372a071274">  203</a></span>        <span class="keywordtype">double</span> <a class="code hl_function" href="classsw_1_1Layer.html#a465cbfd99c23c60b746529372a071274">GetHorizontalScrollPageSize</a>();</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#af373e47fda965795550b31e622839a7f">  208</a></span>        <span class="keywordtype">double</span> <a class="code hl_function" href="classsw_1_1Layer.html#af373e47fda965795550b31e622839a7f">GetVerticalScrollPageSize</a>();</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#aead2fa34ba3641781a849d3abd7f5839">  213</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#aead2fa34ba3641781a849d3abd7f5839">SetHorizontalScrollPageSize</a>(<span class="keywordtype">double</span> pageSize);</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a764863242261f4373f2ec3da99ef0310">  218</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#a764863242261f4373f2ec3da99ef0310">SetVerticalScrollPageSize</a>(<span class="keywordtype">double</span> pageSize);</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#ab71b81212d598db06271a1338b42ff1e">  223</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#ab71b81212d598db06271a1338b42ff1e">UpdateScrollRange</a>();</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span> </div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#ac2826d1b12341d63b5b6be854dffd419">  228</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#ac2826d1b12341d63b5b6be854dffd419">ScrollToTop</a>();</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a6a371d0a4688e0ec05ad508572df3866">  233</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#a6a371d0a4688e0ec05ad508572df3866">ScrollToBottom</a>();</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span> </div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#aa86cca7662b17b6a03467d0e7d1975da">  238</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#aa86cca7662b17b6a03467d0e7d1975da">ScrollToLeft</a>();</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#aed843519d2ebd313ff0fb598548414aa">  243</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#aed843519d2ebd313ff0fb598548414aa">ScrollToRight</a>();</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span> </div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a8c9c171806dc6021ea15c6a444a74efa">  249</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#a8c9c171806dc6021ea15c6a444a74efa">ScrollHorizontal</a>(<span class="keywordtype">double</span> offset);</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno"><a class="line" href="classsw_1_1Layer.html#a64d09c3003a00ede215ebf5b52efd328">  255</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Layer.html#a64d09c3003a00ede215ebf5b52efd328">ScrollVertical</a>(<span class="keywordtype">double</span> offset);</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>    };</div>
+</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>}</div>
+<div class="ttc" id="aclasssw_1_1Layer_html"><div class="ttname"><a href="classsw_1_1Layer.html">sw::Layer</a></div><div class="ttdoc">表示可以设置布局方式的元素类型，如窗口、面板等</div><div class="ttdef"><b>Definition</b> Layer.h:13</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a3ac4fcba5970f01d5c944c0376a354c7"><div class="ttname"><a href="classsw_1_1Layer.html#a3ac4fcba5970f01d5c944c0376a354c7">sw::Layer::Measure</a></div><div class="ttdeci">virtual void Measure(const Size &amp;availableSize) override</div><div class="ttdoc">测量控件所需尺寸</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a3f5248e4483b277a2f99c9b3cde086b7"><div class="ttname"><a href="classsw_1_1Layer.html#a3f5248e4483b277a2f99c9b3cde086b7">sw::Layer::GetVerticalScrollRange</a></div><div class="ttdeci">void GetVerticalScrollRange(double &amp;refMin, double &amp;refMax)</div><div class="ttdoc">获取纵向滚动条的范围</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a418f1f936414fd657ad11a0c0f437cdb"><div class="ttname"><a href="classsw_1_1Layer.html#a418f1f936414fd657ad11a0c0f437cdb">sw::Layer::Arrange</a></div><div class="ttdeci">virtual void Arrange(const sw::Rect &amp;finalPosition) override</div><div class="ttdoc">安排控件位置</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a465cbfd99c23c60b746529372a071274"><div class="ttname"><a href="classsw_1_1Layer.html#a465cbfd99c23c60b746529372a071274">sw::Layer::GetHorizontalScrollPageSize</a></div><div class="ttdeci">double GetHorizontalScrollPageSize()</div><div class="ttdoc">获取水平滚动条滚动页面大小</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a4bb56843061a3db9497703f16e58f4ba"><div class="ttname"><a href="classsw_1_1Layer.html#a4bb56843061a3db9497703f16e58f4ba">sw::Layer::HorizontalScrollBar</a></div><div class="ttdeci">const Property&lt; bool &gt; HorizontalScrollBar</div><div class="ttdoc">是否显示横向滚动条</div><div class="ttdef"><b>Definition</b> Layer.h:54</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a4c9e94621cab7abd5ca2e10f5691c3c1"><div class="ttname"><a href="classsw_1_1Layer.html#a4c9e94621cab7abd5ca2e10f5691c3c1">sw::Layer::DisableLayout</a></div><div class="ttdeci">void DisableLayout()</div><div class="ttdoc">禁用布局，禁用布局后调用UpdateLayout不会更新布局</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a53bc897b0a8c50761ccc6c2daf4e2e02"><div class="ttname"><a href="classsw_1_1Layer.html#a53bc897b0a8c50761ccc6c2daf4e2e02">sw::Layer::SetVerticalScrollRange</a></div><div class="ttdeci">void SetVerticalScrollRange(double min, double max)</div><div class="ttdoc">设置纵向滚动条的范围</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a57498353e1b1b74f708ec8da81b48605"><div class="ttname"><a href="classsw_1_1Layer.html#a57498353e1b1b74f708ec8da81b48605">sw::Layer::GetDefaultLayout</a></div><div class="ttdeci">virtual LayoutHost * GetDefaultLayout()</div><div class="ttdoc">获取默认布局对象</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a5965bfa865e07371ad9e2e773f720653"><div class="ttname"><a href="classsw_1_1Layer.html#a5965bfa865e07371ad9e2e773f720653">sw::Layer::EnableLayout</a></div><div class="ttdeci">void EnableLayout()</div><div class="ttdoc">启用布局，并立即更新布局</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a5af8ff318d2438eab8f8b325cf8e66da"><div class="ttname"><a href="classsw_1_1Layer.html#a5af8ff318d2438eab8f8b325cf8e66da">sw::Layer::HorizontalScrollLimit</a></div><div class="ttdeci">const ReadOnlyProperty&lt; double &gt; HorizontalScrollLimit</div><div class="ttdoc">横向滚动条可设置的最大位置</div><div class="ttdef"><b>Definition</b> Layer.h:74</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a61030d006cafc26525bc07bced899b92"><div class="ttname"><a href="classsw_1_1Layer.html#a61030d006cafc26525bc07bced899b92">sw::Layer::Layer</a></div><div class="ttdeci">Layer()</div><div class="ttdoc">初始化Layer</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a61a3007c7519de5b677dcc61b723034a"><div class="ttname"><a href="classsw_1_1Layer.html#a61a3007c7519de5b677dcc61b723034a">sw::Layer::GetHorizontalScrollRange</a></div><div class="ttdeci">void GetHorizontalScrollRange(double &amp;refMin, double &amp;refMax)</div><div class="ttdoc">获取横向滚动条的范围</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a64d09c3003a00ede215ebf5b52efd328"><div class="ttname"><a href="classsw_1_1Layer.html#a64d09c3003a00ede215ebf5b52efd328">sw::Layer::ScrollVertical</a></div><div class="ttdeci">void ScrollVertical(double offset)</div><div class="ttdoc">垂直滚动</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a6a371d0a4688e0ec05ad508572df3866"><div class="ttname"><a href="classsw_1_1Layer.html#a6a371d0a4688e0ec05ad508572df3866">sw::Layer::ScrollToBottom</a></div><div class="ttdeci">void ScrollToBottom()</div><div class="ttdoc">将垂直滚动条移动到底部</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a764863242261f4373f2ec3da99ef0310"><div class="ttname"><a href="classsw_1_1Layer.html#a764863242261f4373f2ec3da99ef0310">sw::Layer::SetVerticalScrollPageSize</a></div><div class="ttdeci">void SetVerticalScrollPageSize(double pageSize)</div><div class="ttdoc">设置垂直滚动条滚动页面大小</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a76769d6a5eb98783dfe42b1473560996"><div class="ttname"><a href="classsw_1_1Layer.html#a76769d6a5eb98783dfe42b1473560996">sw::Layer::UpdateLayout</a></div><div class="ttdeci">void UpdateLayout()</div><div class="ttdoc">更新布局</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a8c9c171806dc6021ea15c6a444a74efa"><div class="ttname"><a href="classsw_1_1Layer.html#a8c9c171806dc6021ea15c6a444a74efa">sw::Layer::ScrollHorizontal</a></div><div class="ttdeci">void ScrollHorizontal(double offset)</div><div class="ttdoc">水平滚动</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_a9704f14ac77a0e0902b79058a2d29c8d"><div class="ttname"><a href="classsw_1_1Layer.html#a9704f14ac77a0e0902b79058a2d29c8d">sw::Layer::~Layer</a></div><div class="ttdeci">virtual ~Layer()=0</div><div class="ttdoc">析构函数，这里用纯虚函数使该类成为抽象类</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_aa86cca7662b17b6a03467d0e7d1975da"><div class="ttname"><a href="classsw_1_1Layer.html#aa86cca7662b17b6a03467d0e7d1975da">sw::Layer::ScrollToLeft</a></div><div class="ttdeci">void ScrollToLeft()</div><div class="ttdoc">将水平滚动条移动到最左</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_aac08647d3f15d95e874a2c84c6237dde"><div class="ttname"><a href="classsw_1_1Layer.html#aac08647d3f15d95e874a2c84c6237dde">sw::Layer::SetHorizontalScrollRange</a></div><div class="ttdeci">void SetHorizontalScrollRange(double min, double max)</div><div class="ttdoc">设置横向滚动条的范围</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_aad286771872cc835570d7f6508772a20"><div class="ttname"><a href="classsw_1_1Layer.html#aad286771872cc835570d7f6508772a20">sw::Layer::IsLayoutDisabled</a></div><div class="ttdeci">bool IsLayoutDisabled()</div><div class="ttdoc">获取一个值，表示当前控件是否已禁用布局</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_ab199e8fc6b90975b7dcb5fdb4e5f2853"><div class="ttname"><a href="classsw_1_1Layer.html#ab199e8fc6b90975b7dcb5fdb4e5f2853">sw::Layer::OnHorizontalScroll</a></div><div class="ttdeci">virtual bool OnHorizontalScroll(int event, int pos) override</div><div class="ttdoc">接收到WM_HSCROLL时调用目标控件的该函数</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_ab71b81212d598db06271a1338b42ff1e"><div class="ttname"><a href="classsw_1_1Layer.html#ab71b81212d598db06271a1338b42ff1e">sw::Layer::UpdateScrollRange</a></div><div class="ttdeci">void UpdateScrollRange()</div><div class="ttdoc">根据子元素更新滚动条范围，未设定布局方式时该函数无效</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_ac06c5746cd104b7f8f9ab4d9ea9c5833"><div class="ttname"><a href="classsw_1_1Layer.html#ac06c5746cd104b7f8f9ab4d9ea9c5833">sw::Layer::OnVerticalScroll</a></div><div class="ttdeci">virtual bool OnVerticalScroll(int event, int pos) override</div><div class="ttdoc">接收到WM_VSCROLL时调用目标控件的该函数</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_ac2826d1b12341d63b5b6be854dffd419"><div class="ttname"><a href="classsw_1_1Layer.html#ac2826d1b12341d63b5b6be854dffd419">sw::Layer::ScrollToTop</a></div><div class="ttdeci">void ScrollToTop()</div><div class="ttdoc">将垂直滚动条移动到顶部</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_accb80d7a016d5a56b1c744db4ef96059"><div class="ttname"><a href="classsw_1_1Layer.html#accb80d7a016d5a56b1c744db4ef96059">sw::Layer::Layout</a></div><div class="ttdeci">const Property&lt; LayoutHost * &gt; Layout</div><div class="ttdoc">自定义的布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设为nullptr可恢复默认布局</div><div class="ttdef"><b>Definition</b> Layer.h:44</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_ad4a741e4ddddbd9886cefb88efd9e3e0"><div class="ttname"><a href="classsw_1_1Layer.html#ad4a741e4ddddbd9886cefb88efd9e3e0">sw::Layer::AutoSize</a></div><div class="ttdeci">const Property&lt; bool &gt; AutoSize</div><div class="ttdoc">是否按照布局方式与子元素自动调整尺寸，该属性仅在当前元素已设置布局方式并且非顶级元素时有效</div><div class="ttdef"><b>Definition</b> Layer.h:49</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_adac6ce15772ba5e2dcf2bfeed126e9d7"><div class="ttname"><a href="classsw_1_1Layer.html#adac6ce15772ba5e2dcf2bfeed126e9d7">sw::Layer::VerticalScrollPos</a></div><div class="ttdeci">const Property&lt; double &gt; VerticalScrollPos</div><div class="ttdoc">纵向滚动条位置</div><div class="ttdef"><b>Definition</b> Layer.h:69</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_ae738d7ede2ba0d5547553df25f8d8ed8"><div class="ttname"><a href="classsw_1_1Layer.html#ae738d7ede2ba0d5547553df25f8d8ed8">sw::Layer::HorizontalScrollPos</a></div><div class="ttdeci">const Property&lt; double &gt; HorizontalScrollPos</div><div class="ttdoc">横向滚动条位置</div><div class="ttdef"><b>Definition</b> Layer.h:64</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_ae79ad98e8d7f2fe5f66132ce797e9f70"><div class="ttname"><a href="classsw_1_1Layer.html#ae79ad98e8d7f2fe5f66132ce797e9f70">sw::Layer::VerticalScrollLimit</a></div><div class="ttdeci">const ReadOnlyProperty&lt; double &gt; VerticalScrollLimit</div><div class="ttdoc">纵向滚动条可设置的最大位置</div><div class="ttdef"><b>Definition</b> Layer.h:79</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_aead2fa34ba3641781a849d3abd7f5839"><div class="ttname"><a href="classsw_1_1Layer.html#aead2fa34ba3641781a849d3abd7f5839">sw::Layer::SetHorizontalScrollPageSize</a></div><div class="ttdeci">void SetHorizontalScrollPageSize(double pageSize)</div><div class="ttdoc">设置水平滚动条滚动页面大小</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_aecfdee30e69119db86f0824d35a50ea4"><div class="ttname"><a href="classsw_1_1Layer.html#aecfdee30e69119db86f0824d35a50ea4">sw::Layer::VerticalScrollBar</a></div><div class="ttdeci">const Property&lt; bool &gt; VerticalScrollBar</div><div class="ttdoc">是否显示纵向滚动条</div><div class="ttdef"><b>Definition</b> Layer.h:59</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_aed843519d2ebd313ff0fb598548414aa"><div class="ttname"><a href="classsw_1_1Layer.html#aed843519d2ebd313ff0fb598548414aa">sw::Layer::ScrollToRight</a></div><div class="ttdeci">void ScrollToRight()</div><div class="ttdoc">将水平滚动条移动到最右</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_af21620044342125a8e59671a6fb222e8"><div class="ttname"><a href="classsw_1_1Layer.html#af21620044342125a8e59671a6fb222e8">sw::Layer::OnScroll</a></div><div class="ttdeci">virtual void OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double pos)</div><div class="ttdoc">触发滚动条相关事件时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html_af373e47fda965795550b31e622839a7f"><div class="ttname"><a href="classsw_1_1Layer.html#af373e47fda965795550b31e622839a7f">sw::Layer::GetVerticalScrollPageSize</a></div><div class="ttdeci">double GetVerticalScrollPageSize()</div><div class="ttdoc">获取垂直滚动条滚动页面大小</div></div>
+<div class="ttc" id="aclasssw_1_1LayoutHost_html"><div class="ttname"><a href="classsw_1_1LayoutHost.html">sw::LayoutHost</a></div><div class="ttdoc">用于托管元素的布局方式的对象类型，是所有布局方式类型的基类</div><div class="ttdef"><b>Definition</b> LayoutHost.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1520</div></div>
+<div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>Definition</b> Property.h:1562</div></div>
+<div class="ttc" id="aclasssw_1_1UIElement_html"><div class="ttname"><a href="classsw_1_1UIElement.html">sw::UIElement</a></div><div class="ttdoc">表示界面中的元素</div><div class="ttdef"><b>Definition</b> UIElement.h:73</div></div>
+<div class="ttc" id="astructsw_1_1Rect_html"><div class="ttname"><a href="structsw_1_1Rect.html">sw::Rect</a></div><div class="ttdoc">表示一个矩形区域</div><div class="ttdef"><b>Definition</b> Rect.h:13</div></div>
+<div class="ttc" id="astructsw_1_1Size_html"><div class="ttname"><a href="structsw_1_1Size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>Definition</b> Size.h:11</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>Layer.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

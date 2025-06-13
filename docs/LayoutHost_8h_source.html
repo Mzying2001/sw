@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: LayoutHost.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('LayoutHost_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">LayoutHost.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;ILayout.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
+<div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classsw_1_1LayoutHost.html">   10</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1LayoutHost.html">LayoutHost</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1ILayout.html">ILayout</a></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <a class="code hl_class" href="classsw_1_1ILayout.html">ILayout</a> *_associatedObj = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classsw_1_1LayoutHost.html#ace58d1aefa8427892f71bfa8b91e9281">   23</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1LayoutHost.html#ace58d1aefa8427892f71bfa8b91e9281">Associate</a>(<a class="code hl_class" href="classsw_1_1ILayout.html">ILayout</a> *obj);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classsw_1_1LayoutHost.html#ab89962ec32dec364e4e18ea0afe44d52">   29</a></span>        <span class="keyword">virtual</span> uint64_t <a class="code hl_function" href="classsw_1_1LayoutHost.html#ab89962ec32dec364e4e18ea0afe44d52">GetLayoutTag</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classsw_1_1LayoutHost.html#a0c6c9750b12c5816608d78d72225b872">   34</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1LayoutHost.html#a0c6c9750b12c5816608d78d72225b872">GetChildLayoutCount</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classsw_1_1LayoutHost.html#abd04747a5d0395d5f95f06185e28b964">   39</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classsw_1_1ILayout.html">ILayout</a> &amp;<a class="code hl_function" href="classsw_1_1LayoutHost.html#abd04747a5d0395d5f95f06185e28b964">GetChildLayoutAt</a>(<span class="keywordtype">int</span> index) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classsw_1_1LayoutHost.html#a7099b15d8916a42f58de10d0266e89f6">   44</a></span>        <span class="keyword">virtual</span> <a class="code hl_struct" href="structsw_1_1Size.html">Size</a> <a class="code hl_function" href="classsw_1_1LayoutHost.html#a7099b15d8916a42f58de10d0266e89f6">GetDesireSize</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classsw_1_1LayoutHost.html#a035aefcab7040b1ac1503e4f25501e48">   49</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1LayoutHost.html#a035aefcab7040b1ac1503e4f25501e48">SetDesireSize</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Size.html">Size</a> &amp;size) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="classsw_1_1LayoutHost.html#aa520181822f89994362a010237687b3f">   55</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1LayoutHost.html#aa520181822f89994362a010237687b3f">Measure</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Size.html">Size</a> &amp;availableSize) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classsw_1_1LayoutHost.html#a52f5e12df00e032fd424db409fd73951">   61</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1LayoutHost.html#a52f5e12df00e032fd424db409fd73951">Arrange</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Rect.html">Rect</a> &amp;finalPosition) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classsw_1_1LayoutHost.html#a4206d0a20d92581d33a4510fb2ba1871">   66</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1LayoutHost.html#a4206d0a20d92581d33a4510fb2ba1871">MeasureOverride</a>(<a class="code hl_struct" href="structsw_1_1Size.html">Size</a> &amp;availableSize) = 0;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="classsw_1_1LayoutHost.html#ac28cdcd081c105a2acedfddce436897d">   71</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1LayoutHost.html#ac28cdcd081c105a2acedfddce436897d">ArrangeOverride</a>(<a class="code hl_struct" href="structsw_1_1Size.html">Size</a> &amp;finalSize) = 0;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    };</div>
+</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>}</div>
+<div class="ttc" id="aclasssw_1_1ILayout_html"><div class="ttname"><a href="classsw_1_1ILayout.html">sw::ILayout</a></div><div class="ttdoc">布局接口</div><div class="ttdef"><b>Definition</b> ILayout.h:13</div></div>
+<div class="ttc" id="aclasssw_1_1LayoutHost_html"><div class="ttname"><a href="classsw_1_1LayoutHost.html">sw::LayoutHost</a></div><div class="ttdoc">用于托管元素的布局方式的对象类型，是所有布局方式类型的基类</div><div class="ttdef"><b>Definition</b> LayoutHost.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1LayoutHost_html_a035aefcab7040b1ac1503e4f25501e48"><div class="ttname"><a href="classsw_1_1LayoutHost.html#a035aefcab7040b1ac1503e4f25501e48">sw::LayoutHost::SetDesireSize</a></div><div class="ttdeci">virtual void SetDesireSize(const Size &amp;size) override</div><div class="ttdoc">设置关联对象所需的尺寸</div></div>
+<div class="ttc" id="aclasssw_1_1LayoutHost_html_a0c6c9750b12c5816608d78d72225b872"><div class="ttname"><a href="classsw_1_1LayoutHost.html#a0c6c9750b12c5816608d78d72225b872">sw::LayoutHost::GetChildLayoutCount</a></div><div class="ttdeci">virtual int GetChildLayoutCount() override</div><div class="ttdoc">获取关联对象子控件的数量</div></div>
+<div class="ttc" id="aclasssw_1_1LayoutHost_html_a4206d0a20d92581d33a4510fb2ba1871"><div class="ttname"><a href="classsw_1_1LayoutHost.html#a4206d0a20d92581d33a4510fb2ba1871">sw::LayoutHost::MeasureOverride</a></div><div class="ttdeci">virtual void MeasureOverride(Size &amp;availableSize)=0</div><div class="ttdoc">重写此函数计算所需尺寸</div></div>
+<div class="ttc" id="aclasssw_1_1LayoutHost_html_a52f5e12df00e032fd424db409fd73951"><div class="ttname"><a href="classsw_1_1LayoutHost.html#a52f5e12df00e032fd424db409fd73951">sw::LayoutHost::Arrange</a></div><div class="ttdeci">virtual void Arrange(const Rect &amp;finalPosition) override</div><div class="ttdoc">安排控件位置</div></div>
+<div class="ttc" id="aclasssw_1_1LayoutHost_html_a7099b15d8916a42f58de10d0266e89f6"><div class="ttname"><a href="classsw_1_1LayoutHost.html#a7099b15d8916a42f58de10d0266e89f6">sw::LayoutHost::GetDesireSize</a></div><div class="ttdeci">virtual Size GetDesireSize() override</div><div class="ttdoc">获取关联对象所需尺寸</div></div>
+<div class="ttc" id="aclasssw_1_1LayoutHost_html_aa520181822f89994362a010237687b3f"><div class="ttname"><a href="classsw_1_1LayoutHost.html#aa520181822f89994362a010237687b3f">sw::LayoutHost::Measure</a></div><div class="ttdeci">virtual void Measure(const Size &amp;availableSize) override</div><div class="ttdoc">测量控件所需尺寸</div></div>
+<div class="ttc" id="aclasssw_1_1LayoutHost_html_ab89962ec32dec364e4e18ea0afe44d52"><div class="ttname"><a href="classsw_1_1LayoutHost.html#ab89962ec32dec364e4e18ea0afe44d52">sw::LayoutHost::GetLayoutTag</a></div><div class="ttdeci">virtual uint64_t GetLayoutTag() override</div><div class="ttdoc">获取布局标记</div></div>
+<div class="ttc" id="aclasssw_1_1LayoutHost_html_abd04747a5d0395d5f95f06185e28b964"><div class="ttname"><a href="classsw_1_1LayoutHost.html#abd04747a5d0395d5f95f06185e28b964">sw::LayoutHost::GetChildLayoutAt</a></div><div class="ttdeci">virtual ILayout &amp; GetChildLayoutAt(int index) override</div><div class="ttdoc">获取关联对象对应索引处的子控件</div></div>
+<div class="ttc" id="aclasssw_1_1LayoutHost_html_ac28cdcd081c105a2acedfddce436897d"><div class="ttname"><a href="classsw_1_1LayoutHost.html#ac28cdcd081c105a2acedfddce436897d">sw::LayoutHost::ArrangeOverride</a></div><div class="ttdeci">virtual void ArrangeOverride(Size &amp;finalSize)=0</div><div class="ttdoc">重写此函数安排控件</div></div>
+<div class="ttc" id="aclasssw_1_1LayoutHost_html_ace58d1aefa8427892f71bfa8b91e9281"><div class="ttname"><a href="classsw_1_1LayoutHost.html#ace58d1aefa8427892f71bfa8b91e9281">sw::LayoutHost::Associate</a></div><div class="ttdeci">void Associate(ILayout *obj)</div><div class="ttdoc">设置关联的对象，每个LayoutHost只能关联一个对象</div></div>
+<div class="ttc" id="astructsw_1_1Rect_html"><div class="ttname"><a href="structsw_1_1Rect.html">sw::Rect</a></div><div class="ttdoc">表示一个矩形区域</div><div class="ttdef"><b>Definition</b> Rect.h:13</div></div>
+<div class="ttc" id="astructsw_1_1Size_html"><div class="ttname"><a href="structsw_1_1Size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>Definition</b> Size.h:11</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>LayoutHost.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

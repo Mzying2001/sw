@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: Control.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('Control_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Control.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;UIElement.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;CommCtrl.h&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
+<div class="foldopen" id="foldopen00011" data-start="{" data-end="};">
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html">   11</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1Control.html">Control</a> : <span class="keyword">virtual</span> <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1UIElement.html">UIElement</a></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keywordtype">bool</span> _drawFocusRect = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keywordtype">bool</span> _hasCustomDraw = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#aa5875535fe04ce79df6fb8719b64c0dc">   28</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty&lt;int&gt;</a> <a class="code hl_variable" href="classsw_1_1Control.html#aa5875535fe04ce79df6fb8719b64c0dc">ControlId</a>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#aec7b384d013e9d25c507cf9ded87bff1">   34</a></span>        <a class="code hl_function" href="classsw_1_1Control.html#aec7b384d013e9d25c507cf9ded87bff1">Control</a>();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#ab2c00cbb6c776111096e9711c19735e7">   39</a></span>        <span class="keyword">virtual</span> <a class="code hl_function" href="classsw_1_1Control.html#ab2c00cbb6c776111096e9711c19735e7">~Control</a>() = 0;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#ab9213f0b57eec7e79e57570b64d493c6">   45</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classsw_1_1Control.html">Control</a> *<a class="code hl_function" href="classsw_1_1Control.html#ab9213f0b57eec7e79e57570b64d493c6">ToControl</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#a28d0732184b1631d1c3b2f84dec4c6e6">   52</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Control.html#a28d0732184b1631d1c3b2f84dec4c6e6">ResetHandle</a>(LPVOID lpParam = NULL);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#a04520bfdfd153b04fce7d65f937ff2b8">   60</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Control.html#a04520bfdfd153b04fce7d65f937ff2b8">ResetHandle</a>(DWORD style, DWORD exStyle, LPVOID lpParam = NULL);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#ad01d684de2b5060771fc74baa6b0f519">   69</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Control.html#ad01d684de2b5060771fc74baa6b0f519">OnNotified</a>(NMHDR *pNMHDR, LRESULT &amp;result) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#a18296053d3a7b8476cda377664434232">   76</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Control.html#a18296053d3a7b8476cda377664434232">OnKillFocus</a>(HWND hNextFocus) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#af631c5302a637b35a2a7de01214cf4fa">   81</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Control.html#af631c5302a637b35a2a7de01214cf4fa">OnTabStop</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#a60458de49b16eebbd3dccf20388c8d6c">   86</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Control.html#a60458de49b16eebbd3dccf20388c8d6c">OnEndPaint</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#a954de4df5b1b822f9a86409bc21b6ba0">   94</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Control.html#a954de4df5b1b822f9a86409bc21b6ba0">OnCustomDraw</a>(NMCUSTOMDRAW *pNMCD, LRESULT &amp;result);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#aaa51513c4ea585f5d70b4d597eb2984b">  102</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Control.html#aaa51513c4ea585f5d70b4d597eb2984b">OnPreErase</a>(HDC hdc, LRESULT &amp;result);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#a2020d632dce2fc56e977c676c9f0ffd8">  110</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Control.html#a2020d632dce2fc56e977c676c9f0ffd8">OnPostErase</a>(HDC hdc, LRESULT &amp;result);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#ae986d0e20a48c2d39f89032d257f0737">  118</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Control.html#ae986d0e20a48c2d39f89032d257f0737">OnPrePaint</a>(HDC hdc, LRESULT &amp;result);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#ae0497676d9b8f5175a60bbede2eb8e41">  126</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Control.html#ae0497676d9b8f5175a60bbede2eb8e41">OnPostPaint</a>(HDC hdc, LRESULT &amp;result);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#a0451f011a344efa6b628d006980c6ed8">  132</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Control.html#a0451f011a344efa6b628d006980c6ed8">OnDrawFocusRect</a>(HDC hdc);</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="classsw_1_1Control.html#a1eed0fc1e59e8502692e87f15c47c8ea">  138</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Control.html#a1eed0fc1e59e8502692e87f15c47c8ea">OnHandleChenged</a>(HWND hwnd);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    };</div>
+</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>}</div>
+<div class="ttc" id="aclasssw_1_1Control_html"><div class="ttname"><a href="classsw_1_1Control.html">sw::Control</a></div><div class="ttdoc">控件</div><div class="ttdef"><b>Definition</b> Control.h:12</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_a0451f011a344efa6b628d006980c6ed8"><div class="ttname"><a href="classsw_1_1Control.html#a0451f011a344efa6b628d006980c6ed8">sw::Control::OnDrawFocusRect</a></div><div class="ttdeci">virtual void OnDrawFocusRect(HDC hdc)</div><div class="ttdoc">绘制虚线框时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_a04520bfdfd153b04fce7d65f937ff2b8"><div class="ttname"><a href="classsw_1_1Control.html#a04520bfdfd153b04fce7d65f937ff2b8">sw::Control::ResetHandle</a></div><div class="ttdeci">void ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam=NULL)</div><div class="ttdoc">销毁控件句柄并重新初始化，并修改样式，该操作会创建新的句柄并设置样式、文本、字体等</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_a18296053d3a7b8476cda377664434232"><div class="ttname"><a href="classsw_1_1Control.html#a18296053d3a7b8476cda377664434232">sw::Control::OnKillFocus</a></div><div class="ttdeci">virtual bool OnKillFocus(HWND hNextFocus) override</div><div class="ttdoc">接收到WM_KILLFOCUS时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_a1eed0fc1e59e8502692e87f15c47c8ea"><div class="ttname"><a href="classsw_1_1Control.html#a1eed0fc1e59e8502692e87f15c47c8ea">sw::Control::OnHandleChenged</a></div><div class="ttdeci">virtual void OnHandleChenged(HWND hwnd)</div><div class="ttdoc">控件句柄发生改变时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_a2020d632dce2fc56e977c676c9f0ffd8"><div class="ttname"><a href="classsw_1_1Control.html#a2020d632dce2fc56e977c676c9f0ffd8">sw::Control::OnPostErase</a></div><div class="ttdeci">virtual bool OnPostErase(HDC hdc, LRESULT &amp;result)</div><div class="ttdoc">擦除背景后调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_a28d0732184b1631d1c3b2f84dec4c6e6"><div class="ttname"><a href="classsw_1_1Control.html#a28d0732184b1631d1c3b2f84dec4c6e6">sw::Control::ResetHandle</a></div><div class="ttdeci">void ResetHandle(LPVOID lpParam=NULL)</div><div class="ttdoc">销毁控件句柄并重新初始化，该操作会创建新的句柄并设置样式、文本、字体等</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_a60458de49b16eebbd3dccf20388c8d6c"><div class="ttname"><a href="classsw_1_1Control.html#a60458de49b16eebbd3dccf20388c8d6c">sw::Control::OnEndPaint</a></div><div class="ttdeci">virtual void OnEndPaint() override</div><div class="ttdoc">在OnPaint函数完成之后调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_a954de4df5b1b822f9a86409bc21b6ba0"><div class="ttname"><a href="classsw_1_1Control.html#a954de4df5b1b822f9a86409bc21b6ba0">sw::Control::OnCustomDraw</a></div><div class="ttdeci">virtual bool OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &amp;result)</div><div class="ttdoc">接收到NM_CUSTOMDRAW后调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_aa5875535fe04ce79df6fb8719b64c0dc"><div class="ttname"><a href="classsw_1_1Control.html#aa5875535fe04ce79df6fb8719b64c0dc">sw::Control::ControlId</a></div><div class="ttdeci">const ReadOnlyProperty&lt; int &gt; ControlId</div><div class="ttdoc">控件的标识符</div><div class="ttdef"><b>Definition</b> Control.h:28</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_aaa51513c4ea585f5d70b4d597eb2984b"><div class="ttname"><a href="classsw_1_1Control.html#aaa51513c4ea585f5d70b4d597eb2984b">sw::Control::OnPreErase</a></div><div class="ttdeci">virtual bool OnPreErase(HDC hdc, LRESULT &amp;result)</div><div class="ttdoc">擦除背景前调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_ab2c00cbb6c776111096e9711c19735e7"><div class="ttname"><a href="classsw_1_1Control.html#ab2c00cbb6c776111096e9711c19735e7">sw::Control::~Control</a></div><div class="ttdeci">virtual ~Control()=0</div><div class="ttdoc">析构函数，这里用纯虚函数使该类成为抽象类</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_ab9213f0b57eec7e79e57570b64d493c6"><div class="ttname"><a href="classsw_1_1Control.html#ab9213f0b57eec7e79e57570b64d493c6">sw::Control::ToControl</a></div><div class="ttdeci">virtual Control * ToControl() override</div><div class="ttdoc">尝试将对象转换成Control</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_ad01d684de2b5060771fc74baa6b0f519"><div class="ttname"><a href="classsw_1_1Control.html#ad01d684de2b5060771fc74baa6b0f519">sw::Control::OnNotified</a></div><div class="ttdeci">virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &amp;result) override</div><div class="ttdoc">父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_ae0497676d9b8f5175a60bbede2eb8e41"><div class="ttname"><a href="classsw_1_1Control.html#ae0497676d9b8f5175a60bbede2eb8e41">sw::Control::OnPostPaint</a></div><div class="ttdeci">virtual bool OnPostPaint(HDC hdc, LRESULT &amp;result)</div><div class="ttdoc">绘制控件后调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_ae986d0e20a48c2d39f89032d257f0737"><div class="ttname"><a href="classsw_1_1Control.html#ae986d0e20a48c2d39f89032d257f0737">sw::Control::OnPrePaint</a></div><div class="ttdeci">virtual bool OnPrePaint(HDC hdc, LRESULT &amp;result)</div><div class="ttdoc">绘制控件前调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_aec7b384d013e9d25c507cf9ded87bff1"><div class="ttname"><a href="classsw_1_1Control.html#aec7b384d013e9d25c507cf9ded87bff1">sw::Control::Control</a></div><div class="ttdeci">Control()</div><div class="ttdoc">初始化控件</div></div>
+<div class="ttc" id="aclasssw_1_1Control_html_af631c5302a637b35a2a7de01214cf4fa"><div class="ttname"><a href="classsw_1_1Control.html#af631c5302a637b35a2a7de01214cf4fa">sw::Control::OnTabStop</a></div><div class="ttdeci">virtual void OnTabStop() override</div><div class="ttdoc">通过tab键将焦点移动到当前元素时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>Definition</b> Property.h:1562</div></div>
+<div class="ttc" id="aclasssw_1_1UIElement_html"><div class="ttname"><a href="classsw_1_1UIElement.html">sw::UIElement</a></div><div class="ttdoc">表示界面中的元素</div><div class="ttdef"><b>Definition</b> UIElement.h:73</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>Control.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>
