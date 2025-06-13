@@ -37,5 +37,6 @@ jobs:
             echo "No changes in docs to commit."
           else
             git commit -m "docs: auto-update generated docs by Doxygen"
-            git push
+            git pull --rebase origin main
+            git push origin HEAD:main
           fi
