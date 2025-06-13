@@ -23,14 +23,18 @@ jobs:
       - name: Run build script
         run: python single_header/build.py
 
-      - name: Check for changes
+      - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and push if changed
+        run: |
           git add single_header/
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
             git commit -m "chore: auto-update single_header after push"
-            git push
+            git pull --rebase origin main
+            git push origin HEAD:main
           fi
