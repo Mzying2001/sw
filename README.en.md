@@ -21,7 +21,7 @@
 
 Here is a SimpleWindow HelloWorld program. For more examples, see [here](https://github.com/Mzying2001/sw/tree/main/examples).
 
-```c++
+```cpp
 #include "SimpleWindow.h"
 
 int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT nCmdShow)
