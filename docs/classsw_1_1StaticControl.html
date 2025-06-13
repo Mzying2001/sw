@@ -1,0 +1,938 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: sw::StaticControl类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classsw_1_1StaticControl.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-attribs">Public 属性</a> &#124;
+<a href="classsw_1_1StaticControl-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sw::StaticControl类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>静态控件  
+ <a href="classsw_1_1StaticControl.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="StaticControl_8h_source.html">StaticControl.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sw::StaticControl 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classsw_1_1StaticControl.png" usemap="#sw::StaticControl_map" alt=""/>
+  <map id="sw::StaticControl_map" name="sw::StaticControl_map">
+<area href="classsw_1_1Control.html" title="控件" alt="sw::Control" shape="rect" coords="284,112,416,136"/>
+<area href="classsw_1_1UIElement.html" title="表示界面中的元素" alt="sw::UIElement" shape="rect" coords="284,56,416,80"/>
+<area href="classsw_1_1WndBase.html" title="表示一个Windows窗口，是所有窗口和控件的基类" alt="sw::WndBase" shape="rect" coords="142,0,274,24"/>
+<area href="classsw_1_1ILayout.html" title="布局接口" alt="sw::ILayout" shape="rect" coords="284,0,416,24"/>
+<area href="classsw_1_1ITag.html" title="Tag接口" alt="sw::ITag" shape="rect" coords="426,0,558,24"/>
+<area href="classsw_1_1BmpBox.html" title="用于显示一个位图的控件" alt="sw::BmpBox" shape="rect" coords="0,224,132,248"/>
+<area href="classsw_1_1HwndHost.html" title="将Win32 window托管为SimpleWindow控件" alt="sw::HwndHost" shape="rect" coords="142,224,274,248"/>
+<area href="classsw_1_1IconBox.html" title="用于显示一个图标的控件" alt="sw::IconBox" shape="rect" coords="284,224,416,248"/>
+<area href="classsw_1_1Label.html" title="标签" alt="sw::Label" shape="rect" coords="426,224,558,248"/>
+<area href="classsw_1_1Splitter.html" title="分隔条" alt="sw::Splitter" shape="rect" coords="568,224,700,248"/>
+<area href="classsw_1_1IPAddressControl.html" title="IP地址框" alt="sw::IPAddressControl" shape="rect" coords="142,280,274,304"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a88dea3db611c5cc94df004cdae9c74ef" id="r_a88dea3db611c5cc94df004cdae9c74ef"><td class="memItemLeft" align="right" valign="top"><a id="a88dea3db611c5cc94df004cdae9c74ef" name="a88dea3db611c5cc94df004cdae9c74ef"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>StaticControl</b> ()</td></tr>
+<tr class="memdesc:a88dea3db611c5cc94df004cdae9c74ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化静态控件 <br /></td></tr>
+<tr class="separator:a88dea3db611c5cc94df004cdae9c74ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsw_1_1Control"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1Control')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1Control.html">sw::Control</a></td></tr>
+<tr class="memitem:aec7b384d013e9d25c507cf9ded87bff1 inherit pub_methods_classsw_1_1Control" id="r_aec7b384d013e9d25c507cf9ded87bff1"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>Control</b> ()</td></tr>
+<tr class="memdesc:aec7b384d013e9d25c507cf9ded87bff1 inherit pub_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化控件 <br /></td></tr>
+<tr class="separator:aec7b384d013e9d25c507cf9ded87bff1 inherit pub_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2c00cbb6c776111096e9711c19735e7 inherit pub_methods_classsw_1_1Control" id="r_ab2c00cbb6c776111096e9711c19735e7"><td class="memItemLeft" align="right" valign="top">
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Control</b> ()=0</td></tr>
+<tr class="memdesc:ab2c00cbb6c776111096e9711c19735e7 inherit pub_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数，这里用纯虚函数使该类成为抽象类 <br /></td></tr>
+<tr class="separator:ab2c00cbb6c776111096e9711c19735e7 inherit pub_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9213f0b57eec7e79e57570b64d493c6 inherit pub_methods_classsw_1_1Control" id="r_ab9213f0b57eec7e79e57570b64d493c6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1Control.html">Control</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#ab9213f0b57eec7e79e57570b64d493c6">ToControl</a> () override</td></tr>
+<tr class="memdesc:ab9213f0b57eec7e79e57570b64d493c6 inherit pub_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成Control  <br /></td></tr>
+<tr class="separator:ab9213f0b57eec7e79e57570b64d493c6 inherit pub_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsw_1_1UIElement"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1UIElement')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1UIElement.html">sw::UIElement</a></td></tr>
+<tr class="memitem:acbe28513919da89bf3f9a5102d6353c3 inherit pub_methods_classsw_1_1UIElement" id="r_acbe28513919da89bf3f9a5102d6353c3"><td class="memItemLeft" align="right" valign="top">
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~UIElement</b> ()=0</td></tr>
+<tr class="memdesc:acbe28513919da89bf3f9a5102d6353c3 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数，这里用纯虚函数使该类成为抽象类 <br /></td></tr>
+<tr class="separator:acbe28513919da89bf3f9a5102d6353c3 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cfb72d4ea1966ec455e7805f0931205 inherit pub_methods_classsw_1_1UIElement" id="r_a2cfb72d4ea1966ec455e7805f0931205"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a2cfb72d4ea1966ec455e7805f0931205">RegisterRoutedEvent</a> (RoutedEventType eventType, const <a class="el" href="classsw_1_1Delegate.html">RoutedEventHandler</a> &amp;handler)</td></tr>
+<tr class="memdesc:a2cfb72d4ea1966ec455e7805f0931205 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">注册路由事件处理函数，当事件已注册时会覆盖已注册的函数  <br /></td></tr>
+<tr class="separator:a2cfb72d4ea1966ec455e7805f0931205 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09946400c66a4bfd34cfb8918652a34a inherit pub_methods_classsw_1_1UIElement" id="r_a09946400c66a4bfd34cfb8918652a34a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a09946400c66a4bfd34cfb8918652a34a inherit pub_methods_classsw_1_1UIElement"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a09946400c66a4bfd34cfb8918652a34a">RegisterRoutedEvent</a> (RoutedEventType eventType, T &amp;obj, void(T::*handler)(<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;, <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> &amp;))</td></tr>
+<tr class="memdesc:a09946400c66a4bfd34cfb8918652a34a inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">注册成员函数作为路由事件处理函数，当事件已注册时会覆盖已注册的函数  <br /></td></tr>
+<tr class="separator:a09946400c66a4bfd34cfb8918652a34a inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b9301a84ed462c3c1968b0bc95ed4c9 inherit pub_methods_classsw_1_1UIElement" id="r_a2b9301a84ed462c3c1968b0bc95ed4c9"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs &gt; </td></tr>
+<tr class="memitem:a2b9301a84ed462c3c1968b0bc95ed4c9 inherit pub_methods_classsw_1_1UIElement"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsTypedRoutedEventArgs.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a2b9301a84ed462c3c1968b0bc95ed4c9">RegisterRoutedEvent</a> (const <a class="el" href="classsw_1_1Delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;handler)</td></tr>
+<tr class="memdesc:a2b9301a84ed462c3c1968b0bc95ed4c9 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据事件参数类型注册路由事件，当事件已注册时会覆盖已注册的函数  <br /></td></tr>
+<tr class="separator:a2b9301a84ed462c3c1968b0bc95ed4c9 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2da85633be22eec70448cf110914e7de inherit pub_methods_classsw_1_1UIElement" id="r_a2da85633be22eec70448cf110914e7de"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs , typename THandleObj &gt; </td></tr>
+<tr class="memitem:a2da85633be22eec70448cf110914e7de inherit pub_methods_classsw_1_1UIElement"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsTypedRoutedEventArgs.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a2da85633be22eec70448cf110914e7de">RegisterRoutedEvent</a> (THandleObj &amp;obj, void(THandleObj::*handler)(<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;, TEventArgs &amp;))</td></tr>
+<tr class="memdesc:a2da85633be22eec70448cf110914e7de inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据事件参数类型注册成员函数作为路由事件，当事件已注册时会覆盖已注册的函数  <br /></td></tr>
+<tr class="separator:a2da85633be22eec70448cf110914e7de inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c1fb1c05dee9d36a8ecc170aa9ab1be inherit pub_methods_classsw_1_1UIElement" id="r_a7c1fb1c05dee9d36a8ecc170aa9ab1be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a7c1fb1c05dee9d36a8ecc170aa9ab1be">AddHandler</a> (RoutedEventType eventType, const <a class="el" href="classsw_1_1Delegate.html">RoutedEventHandler</a> &amp;handler)</td></tr>
+<tr class="memdesc:a7c1fb1c05dee9d36a8ecc170aa9ab1be inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加路由事件处理函数  <br /></td></tr>
+<tr class="separator:a7c1fb1c05dee9d36a8ecc170aa9ab1be inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa714d3978c945ead3d364f719075cd61 inherit pub_methods_classsw_1_1UIElement" id="r_aa714d3978c945ead3d364f719075cd61"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aa714d3978c945ead3d364f719075cd61 inherit pub_methods_classsw_1_1UIElement"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#aa714d3978c945ead3d364f719075cd61">AddHandler</a> (RoutedEventType eventType, T &amp;obj, void(T::*handler)(<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;, <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> &amp;))</td></tr>
+<tr class="memdesc:aa714d3978c945ead3d364f719075cd61 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加成员函数作为路由事件处理函数  <br /></td></tr>
+<tr class="separator:aa714d3978c945ead3d364f719075cd61 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acab825c8749c5bec592e00724f1aa83b inherit pub_methods_classsw_1_1UIElement" id="r_acab825c8749c5bec592e00724f1aa83b"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs &gt; </td></tr>
+<tr class="memitem:acab825c8749c5bec592e00724f1aa83b inherit pub_methods_classsw_1_1UIElement"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsTypedRoutedEventArgs.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#acab825c8749c5bec592e00724f1aa83b">AddHandler</a> (const <a class="el" href="classsw_1_1Delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;handler)</td></tr>
+<tr class="memdesc:acab825c8749c5bec592e00724f1aa83b inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据事件参数类型添加路由事件处理函数  <br /></td></tr>
+<tr class="separator:acab825c8749c5bec592e00724f1aa83b inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab3a2c5888b9e0ef3b45d5f1672d692d inherit pub_methods_classsw_1_1UIElement" id="r_aab3a2c5888b9e0ef3b45d5f1672d692d"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs , typename THandleObj &gt; </td></tr>
+<tr class="memitem:aab3a2c5888b9e0ef3b45d5f1672d692d inherit pub_methods_classsw_1_1UIElement"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsTypedRoutedEventArgs.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#aab3a2c5888b9e0ef3b45d5f1672d692d">AddHandler</a> (THandleObj &amp;obj, void(THandleObj::*handler)(<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;, TEventArgs &amp;))</td></tr>
+<tr class="memdesc:aab3a2c5888b9e0ef3b45d5f1672d692d inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据事件参数类型添加成员函数作为路由事件处理函数  <br /></td></tr>
+<tr class="separator:aab3a2c5888b9e0ef3b45d5f1672d692d inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ab5957c173050c3e1d9ac1df9e27e7e inherit pub_methods_classsw_1_1UIElement" id="r_a9ab5957c173050c3e1d9ac1df9e27e7e"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs &gt; </td></tr>
+<tr class="memitem:a9ab5957c173050c3e1d9ac1df9e27e7e inherit pub_methods_classsw_1_1UIElement"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;!std::is_same&lt; TEventArgs, <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1__IsTypedRoutedEventArgs.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a9ab5957c173050c3e1d9ac1df9e27e7e">AddHandler</a> (RoutedEventType eventType, const <a class="el" href="classsw_1_1Delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;handler)</td></tr>
+<tr class="memdesc:a9ab5957c173050c3e1d9ac1df9e27e7e inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加路由事件处理函数  <br /></td></tr>
+<tr class="separator:a9ab5957c173050c3e1d9ac1df9e27e7e inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef2a5e3ad5ef7969547d7d3024ff9ddc inherit pub_methods_classsw_1_1UIElement" id="r_aef2a5e3ad5ef7969547d7d3024ff9ddc"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs , typename THandleObj &gt; </td></tr>
+<tr class="memitem:aef2a5e3ad5ef7969547d7d3024ff9ddc inherit pub_methods_classsw_1_1UIElement"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;!std::is_same&lt; TEventArgs, <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1__IsTypedRoutedEventArgs.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#aef2a5e3ad5ef7969547d7d3024ff9ddc">AddHandler</a> (RoutedEventType eventType, THandleObj &amp;obj, void(THandleObj::*handler)(<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;, TEventArgs &amp;))</td></tr>
+<tr class="memdesc:aef2a5e3ad5ef7969547d7d3024ff9ddc inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加成员函数作为路由事件处理函数  <br /></td></tr>
+<tr class="separator:aef2a5e3ad5ef7969547d7d3024ff9ddc inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a923d78e615a08c39522cbc3655080cd1 inherit pub_methods_classsw_1_1UIElement" id="r_a923d78e615a08c39522cbc3655080cd1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a923d78e615a08c39522cbc3655080cd1">RemoveHandler</a> (RoutedEventType eventType, const <a class="el" href="classsw_1_1Delegate.html">RoutedEventHandler</a> &amp;handler)</td></tr>
+<tr class="memdesc:a923d78e615a08c39522cbc3655080cd1 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除已添加的路由事件处理函数  <br /></td></tr>
+<tr class="separator:a923d78e615a08c39522cbc3655080cd1 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bea1478f7f4ddbccf55b7a046b87d7e inherit pub_methods_classsw_1_1UIElement" id="r_a6bea1478f7f4ddbccf55b7a046b87d7e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a6bea1478f7f4ddbccf55b7a046b87d7e inherit pub_methods_classsw_1_1UIElement"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a6bea1478f7f4ddbccf55b7a046b87d7e">RemoveHandler</a> (RoutedEventType eventType, T &amp;obj, void(T::*handler)(<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;, <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> &amp;))</td></tr>
+<tr class="memdesc:a6bea1478f7f4ddbccf55b7a046b87d7e inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除已添加的类型为成员函数的路由事件处理函数  <br /></td></tr>
+<tr class="separator:a6bea1478f7f4ddbccf55b7a046b87d7e inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afff721cb3127445c11f63e9b92ca3b56 inherit pub_methods_classsw_1_1UIElement" id="r_afff721cb3127445c11f63e9b92ca3b56"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs &gt; </td></tr>
+<tr class="memitem:afff721cb3127445c11f63e9b92ca3b56 inherit pub_methods_classsw_1_1UIElement"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsTypedRoutedEventArgs.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#afff721cb3127445c11f63e9b92ca3b56">RemoveHandler</a> (const <a class="el" href="classsw_1_1Delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;handler)</td></tr>
+<tr class="memdesc:afff721cb3127445c11f63e9b92ca3b56 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除已添加的路由事件处理函数  <br /></td></tr>
+<tr class="separator:afff721cb3127445c11f63e9b92ca3b56 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f207de6bae76e8a95c6cc28adef5063 inherit pub_methods_classsw_1_1UIElement" id="r_a6f207de6bae76e8a95c6cc28adef5063"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs , typename THandleObj &gt; </td></tr>
+<tr class="memitem:a6f207de6bae76e8a95c6cc28adef5063 inherit pub_methods_classsw_1_1UIElement"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsTypedRoutedEventArgs.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a6f207de6bae76e8a95c6cc28adef5063">RemoveHandler</a> (THandleObj &amp;obj, void(THandleObj::*handler)(<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;, TEventArgs &amp;))</td></tr>
+<tr class="memdesc:a6f207de6bae76e8a95c6cc28adef5063 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除已添加的类型为成员函数的路由事件处理函数  <br /></td></tr>
+<tr class="separator:a6f207de6bae76e8a95c6cc28adef5063 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affa7e59d71b6371dba12676c4d273025 inherit pub_methods_classsw_1_1UIElement" id="r_affa7e59d71b6371dba12676c4d273025"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs &gt; </td></tr>
+<tr class="memitem:affa7e59d71b6371dba12676c4d273025 inherit pub_methods_classsw_1_1UIElement"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;!std::is_same&lt; TEventArgs, <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1__IsTypedRoutedEventArgs.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#affa7e59d71b6371dba12676c4d273025">RemoveHandler</a> (RoutedEventType eventType, const <a class="el" href="classsw_1_1Delegate.html">Action</a>&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;, TEventArgs &amp; &gt; &amp;handler)</td></tr>
+<tr class="memdesc:affa7e59d71b6371dba12676c4d273025 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除已添加的路由事件处理函数  <br /></td></tr>
+<tr class="separator:affa7e59d71b6371dba12676c4d273025 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21adb2c61d1f22cd67ea99c025e1be4b inherit pub_methods_classsw_1_1UIElement" id="r_a21adb2c61d1f22cd67ea99c025e1be4b"><td class="memTemplParams" colspan="2">template&lt;typename TEventArgs , typename THandleObj &gt; </td></tr>
+<tr class="memitem:a21adb2c61d1f22cd67ea99c025e1be4b inherit pub_methods_classsw_1_1UIElement"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a>, TEventArgs &gt;::value &amp;&amp;!std::is_same&lt; TEventArgs, <a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1__IsTypedRoutedEventArgs.html">sw::_IsTypedRoutedEventArgs</a>&lt; TEventArgs &gt;::value, bool &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a21adb2c61d1f22cd67ea99c025e1be4b">RemoveHandler</a> (RoutedEventType eventType, THandleObj &amp;obj, void(THandleObj::*handler)(<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;, TEventArgs &amp;))</td></tr>
+<tr class="memdesc:a21adb2c61d1f22cd67ea99c025e1be4b inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除已添加的类型为成员函数的路由事件处理函数  <br /></td></tr>
+<tr class="separator:a21adb2c61d1f22cd67ea99c025e1be4b inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cbfb44f8280a3e5e01b71906e588d69 inherit pub_methods_classsw_1_1UIElement" id="r_a0cbfb44f8280a3e5e01b71906e588d69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a0cbfb44f8280a3e5e01b71906e588d69">UnregisterRoutedEvent</a> (RoutedEventType eventType)</td></tr>
+<tr class="memdesc:a0cbfb44f8280a3e5e01b71906e588d69 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">取消对应类型路由事件的注册，该函数会移除对应事件所有的处理函数  <br /></td></tr>
+<tr class="separator:a0cbfb44f8280a3e5e01b71906e588d69 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf8152f31c5e109ba016316182bcec47 inherit pub_methods_classsw_1_1UIElement" id="r_adf8152f31c5e109ba016316182bcec47"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#adf8152f31c5e109ba016316182bcec47">IsRoutedEventRegistered</a> (RoutedEventType eventType)</td></tr>
+<tr class="memdesc:adf8152f31c5e109ba016316182bcec47 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断路由事件是否已存在事件处理函数  <br /></td></tr>
+<tr class="separator:adf8152f31c5e109ba016316182bcec47 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dee0000f9edfdce128c7ca3c95ec4ab inherit pub_methods_classsw_1_1UIElement" id="r_a3dee0000f9edfdce128c7ca3c95ec4ab"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (int index) const</td></tr>
+<tr class="memdesc:a3dee0000f9edfdce128c7ca3c95ec4ab inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过索引获取子元素 <br /></td></tr>
+<tr class="separator:a3dee0000f9edfdce128c7ca3c95ec4ab inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4228f4002d366297ece2eb81875f667d inherit pub_methods_classsw_1_1UIElement" id="r_a4228f4002d366297ece2eb81875f667d"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetChildAt</b> (int index) const</td></tr>
+<tr class="memdesc:a4228f4002d366297ece2eb81875f667d inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取子元素 <br /></td></tr>
+<tr class="separator:a4228f4002d366297ece2eb81875f667d inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32893339be348aa964441954f3a31101 inherit pub_methods_classsw_1_1UIElement" id="r_a32893339be348aa964441954f3a31101"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a32893339be348aa964441954f3a31101">AddChild</a> (<a class="el" href="classsw_1_1UIElement.html">UIElement</a> *element)</td></tr>
+<tr class="memdesc:a32893339be348aa964441954f3a31101 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加子元素  <br /></td></tr>
+<tr class="separator:a32893339be348aa964441954f3a31101 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1576ecfeec8347256a1c43a33169e1dc inherit pub_methods_classsw_1_1UIElement" id="r_a1576ecfeec8347256a1c43a33169e1dc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a1576ecfeec8347256a1c43a33169e1dc">AddChild</a> (<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;element)</td></tr>
+<tr class="memdesc:a1576ecfeec8347256a1c43a33169e1dc inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加子元素  <br /></td></tr>
+<tr class="separator:a1576ecfeec8347256a1c43a33169e1dc inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac020bc2d263e0dcffa59e0f474ea6e95 inherit pub_methods_classsw_1_1UIElement" id="r_ac020bc2d263e0dcffa59e0f474ea6e95"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ac020bc2d263e0dcffa59e0f474ea6e95">AddChild</a> (<a class="el" href="classsw_1_1UIElement.html">UIElement</a> *element, uint64_t layoutTag)</td></tr>
+<tr class="memdesc:ac020bc2d263e0dcffa59e0f474ea6e95 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加子元素并设置布局标记  <br /></td></tr>
+<tr class="separator:ac020bc2d263e0dcffa59e0f474ea6e95 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e08b05c1a3ac1d95fd54a3ffaab81a0 inherit pub_methods_classsw_1_1UIElement" id="r_a3e08b05c1a3ac1d95fd54a3ffaab81a0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a3e08b05c1a3ac1d95fd54a3ffaab81a0">AddChild</a> (<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;element, uint64_t layoutTag)</td></tr>
+<tr class="memdesc:a3e08b05c1a3ac1d95fd54a3ffaab81a0 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加子元素并设置布局标记  <br /></td></tr>
+<tr class="separator:a3e08b05c1a3ac1d95fd54a3ffaab81a0 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a622a68f74b9122c0de9c57e547b0a62b inherit pub_methods_classsw_1_1UIElement" id="r_a622a68f74b9122c0de9c57e547b0a62b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a622a68f74b9122c0de9c57e547b0a62b">RemoveChildAt</a> (int index)</td></tr>
+<tr class="memdesc:a622a68f74b9122c0de9c57e547b0a62b inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除指定索引处的子元素  <br /></td></tr>
+<tr class="separator:a622a68f74b9122c0de9c57e547b0a62b inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a925353891b62cb6989410d788a8a4e90 inherit pub_methods_classsw_1_1UIElement" id="r_a925353891b62cb6989410d788a8a4e90"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a925353891b62cb6989410d788a8a4e90">RemoveChild</a> (<a class="el" href="classsw_1_1UIElement.html">UIElement</a> *element)</td></tr>
+<tr class="memdesc:a925353891b62cb6989410d788a8a4e90 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除子元素  <br /></td></tr>
+<tr class="separator:a925353891b62cb6989410d788a8a4e90 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e825715639370ad2dd1f1276e6cb97f inherit pub_methods_classsw_1_1UIElement" id="r_a9e825715639370ad2dd1f1276e6cb97f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a9e825715639370ad2dd1f1276e6cb97f">RemoveChild</a> (<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;element)</td></tr>
+<tr class="memdesc:a9e825715639370ad2dd1f1276e6cb97f inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除子元素  <br /></td></tr>
+<tr class="separator:a9e825715639370ad2dd1f1276e6cb97f inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9585aee58045291cdca577e64f4a56e3 inherit pub_methods_classsw_1_1UIElement" id="r_a9585aee58045291cdca577e64f4a56e3"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>ClearChildren</b> ()</td></tr>
+<tr class="memdesc:a9585aee58045291cdca577e64f4a56e3 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除所有子元素 <br /></td></tr>
+<tr class="separator:a9585aee58045291cdca577e64f4a56e3 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45cf2817669c10b59535acf8406a1a09 inherit pub_methods_classsw_1_1UIElement" id="r_a45cf2817669c10b59535acf8406a1a09"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a45cf2817669c10b59535acf8406a1a09">IndexOf</a> (<a class="el" href="classsw_1_1UIElement.html">UIElement</a> *element)</td></tr>
+<tr class="memdesc:a45cf2817669c10b59535acf8406a1a09 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指定元素的索引  <br /></td></tr>
+<tr class="separator:a45cf2817669c10b59535acf8406a1a09 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ff6722c909efcb10fbbc63476ab64d6 inherit pub_methods_classsw_1_1UIElement" id="r_a8ff6722c909efcb10fbbc63476ab64d6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a8ff6722c909efcb10fbbc63476ab64d6">IndexOf</a> (<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;element)</td></tr>
+<tr class="memdesc:a8ff6722c909efcb10fbbc63476ab64d6 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指定元素的索引  <br /></td></tr>
+<tr class="separator:a8ff6722c909efcb10fbbc63476ab64d6 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae513a79247f76498e8f586d4ced1ff6e inherit pub_methods_classsw_1_1UIElement" id="r_ae513a79247f76498e8f586d4ced1ff6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ae513a79247f76498e8f586d4ced1ff6e">ShowContextMenu</a> (const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;point)</td></tr>
+<tr class="memdesc:ae513a79247f76498e8f586d4ced1ff6e inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">弹出当前元素的上下文菜单  <br /></td></tr>
+<tr class="separator:ae513a79247f76498e8f586d4ced1ff6e inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abce4a26101de27550375c300b121d95d inherit pub_methods_classsw_1_1UIElement" id="r_abce4a26101de27550375c300b121d95d"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>MoveToTop</b> ()</td></tr>
+<tr class="memdesc:abce4a26101de27550375c300b121d95d inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">移动到界面顶部 <br /></td></tr>
+<tr class="separator:abce4a26101de27550375c300b121d95d inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a793adc7d50d0373d099b26b0a511b95d inherit pub_methods_classsw_1_1UIElement" id="r_a793adc7d50d0373d099b26b0a511b95d"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>MoveToBottom</b> ()</td></tr>
+<tr class="memdesc:a793adc7d50d0373d099b26b0a511b95d inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">移动到界面底部 <br /></td></tr>
+<tr class="separator:a793adc7d50d0373d099b26b0a511b95d inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67bd7d81e6091118e4c97cc24c68543d inherit pub_methods_classsw_1_1UIElement" id="r_a67bd7d81e6091118e4c97cc24c68543d"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsRootElement</b> ()</td></tr>
+<tr class="memdesc:a67bd7d81e6091118e4c97cc24c68543d inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前元素是否为根节点 <br /></td></tr>
+<tr class="separator:a67bd7d81e6091118e4c97cc24c68543d inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a560ae73ce93ab62df8d04170b11a1f39 inherit pub_methods_classsw_1_1UIElement" id="r_a560ae73ce93ab62df8d04170b11a1f39"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classsw_1_1UIElement.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetRootElement</b> ()</td></tr>
+<tr class="memdesc:a560ae73ce93ab62df8d04170b11a1f39 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素所在界面树的根节点 <br /></td></tr>
+<tr class="separator:a560ae73ce93ab62df8d04170b11a1f39 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06a50134522985f88bb0db352b2be689 inherit pub_methods_classsw_1_1UIElement" id="r_a06a50134522985f88bb0db352b2be689"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classsw_1_1UIElement.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetNextElement</b> ()</td></tr>
+<tr class="memdesc:a06a50134522985f88bb0db352b2be689 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素在界面树上的下一个节点，若已是最后一个节点则返回根节点 <br /></td></tr>
+<tr class="separator:a06a50134522985f88bb0db352b2be689 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18842f570bdc6f9cebc1a981eb9fe34d inherit pub_methods_classsw_1_1UIElement" id="r_a18842f570bdc6f9cebc1a981eb9fe34d"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classsw_1_1UIElement.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetPreviousElement</b> ()</td></tr>
+<tr class="memdesc:a18842f570bdc6f9cebc1a981eb9fe34d inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素在界面树上的上一个节点，若元素为第一个节点则返回最后一个节点 <br /></td></tr>
+<tr class="separator:a18842f570bdc6f9cebc1a981eb9fe34d inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6968c7b711722677fb0b9dd7f5f80442 inherit pub_methods_classsw_1_1UIElement" id="r_a6968c7b711722677fb0b9dd7f5f80442"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classsw_1_1UIElement.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetNextTabStopElement</b> ()</td></tr>
+<tr class="memdesc:a6968c7b711722677fb0b9dd7f5f80442 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取下一个TabStop属性为true的元素 <br /></td></tr>
+<tr class="separator:a6968c7b711722677fb0b9dd7f5f80442 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab11fdaeaf941a3ba35fcc38d3f1d173a inherit pub_methods_classsw_1_1UIElement" id="r_ab11fdaeaf941a3ba35fcc38d3f1d173a"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classsw_1_1UIElement.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetPreviousTabStopElement</b> ()</td></tr>
+<tr class="memdesc:ab11fdaeaf941a3ba35fcc38d3f1d173a inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取上一个TabStop属性为true的元素 <br /></td></tr>
+<tr class="separator:ab11fdaeaf941a3ba35fcc38d3f1d173a inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82ef0065e6b21ce989852862bc1a0e21 inherit pub_methods_classsw_1_1UIElement" id="r_a82ef0065e6b21ce989852862bc1a0e21"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="structsw_1_1Color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetRealBackColor</b> ()</td></tr>
+<tr class="memdesc:a82ef0065e6b21ce989852862bc1a0e21 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前要显示的背景颜色：当Transparent为true时获取到祖先节点中首个Transparent为false的背景颜色，否则返回当前元素的背景颜色 <br /></td></tr>
+<tr class="separator:a82ef0065e6b21ce989852862bc1a0e21 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18dde4a75ac25ae0458ae616eb9bca85 inherit pub_methods_classsw_1_1UIElement" id="r_a18dde4a75ac25ae0458ae616eb9bca85"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="structsw_1_1Color.html">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetRealTextColor</b> ()</td></tr>
+<tr class="memdesc:a18dde4a75ac25ae0458ae616eb9bca85 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前要显示的文本颜色：当InheritTextColor为true时获取到祖先节点中首个InheritTextColor为false的文本颜色，否则返回当前元素的文本颜色 <br /></td></tr>
+<tr class="separator:a18dde4a75ac25ae0458ae616eb9bca85 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ce7edc8a920e950a9a75cf1a84ea627 inherit pub_methods_classsw_1_1UIElement" id="r_a0ce7edc8a920e950a9a75cf1a84ea627"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a0ce7edc8a920e950a9a75cf1a84ea627">SetCursor</a> (HCURSOR hCursor)</td></tr>
+<tr class="memdesc:a0ce7edc8a920e950a9a75cf1a84ea627 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置鼠标样式  <br /></td></tr>
+<tr class="separator:a0ce7edc8a920e950a9a75cf1a84ea627 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a848d8b2ee3267758e9a784be75b65e46 inherit pub_methods_classsw_1_1UIElement" id="r_a848d8b2ee3267758e9a784be75b65e46"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a848d8b2ee3267758e9a784be75b65e46">SetCursor</a> (StandardCursor cursor)</td></tr>
+<tr class="memdesc:a848d8b2ee3267758e9a784be75b65e46 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置鼠标样式  <br /></td></tr>
+<tr class="separator:a848d8b2ee3267758e9a784be75b65e46 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a421400e98ae700b0593cda2ceec5c1f7 inherit pub_methods_classsw_1_1UIElement" id="r_a421400e98ae700b0593cda2ceec5c1f7"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>ResetCursor</b> ()</td></tr>
+<tr class="memdesc:a421400e98ae700b0593cda2ceec5c1f7 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">将鼠标样式设置为默认样式 <br /></td></tr>
+<tr class="separator:a421400e98ae700b0593cda2ceec5c1f7 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b2f0c77c7ec5d6d68bc3c772a72201a inherit pub_methods_classsw_1_1UIElement" id="r_a7b2f0c77c7ec5d6d68bc3c772a72201a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a7b2f0c77c7ec5d6d68bc3c772a72201a">SetAlignment</a> (sw::HorizontalAlignment horz, sw::VerticalAlignment vert)</td></tr>
+<tr class="memdesc:a7b2f0c77c7ec5d6d68bc3c772a72201a inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置对齐方式  <br /></td></tr>
+<tr class="separator:a7b2f0c77c7ec5d6d68bc3c772a72201a inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6442acf30572cc5708fad45d227d130 inherit pub_methods_classsw_1_1UIElement" id="r_aa6442acf30572cc5708fad45d227d130"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Resize</b> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;size)</td></tr>
+<tr class="memdesc:aa6442acf30572cc5708fad45d227d130 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">调整当前元素的尺寸，也可以用该函数更改默认Measure函数在当前横向或纵向对齐方式为拉伸时的DesireSize <br /></td></tr>
+<tr class="separator:aa6442acf30572cc5708fad45d227d130 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c1ce767cc687fa9b9864640cc0237c5 inherit pub_methods_classsw_1_1UIElement" id="r_a9c1ce767cc687fa9b9864640cc0237c5"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsLayoutUpdateConditionSet</b> (sw::LayoutUpdateCondition condition)</td></tr>
+<tr class="memdesc:a9c1ce767cc687fa9b9864640cc0237c5 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断指定的布局更新条件是否已设置 <br /></td></tr>
+<tr class="separator:a9c1ce767cc687fa9b9864640cc0237c5 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78f1c406d3faac2afcb956e9375f65ec inherit pub_methods_classsw_1_1UIElement" id="r_a78f1c406d3faac2afcb956e9375f65ec"><td class="memItemLeft" align="right" valign="top">virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a78f1c406d3faac2afcb956e9375f65ec">GetTag</a> () override</td></tr>
+<tr class="memdesc:a78f1c406d3faac2afcb956e9375f65ec inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取Tag  <br /></td></tr>
+<tr class="separator:a78f1c406d3faac2afcb956e9375f65ec inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09acdba6221e69b6ecb17b49975a1414 inherit pub_methods_classsw_1_1UIElement" id="r_a09acdba6221e69b6ecb17b49975a1414"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a09acdba6221e69b6ecb17b49975a1414">SetTag</a> (uint64_t tag) override</td></tr>
+<tr class="memdesc:a09acdba6221e69b6ecb17b49975a1414 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置Tag  <br /></td></tr>
+<tr class="separator:a09acdba6221e69b6ecb17b49975a1414 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa89a8c272d1a9016d2586c6eeab64dce inherit pub_methods_classsw_1_1UIElement" id="r_aa89a8c272d1a9016d2586c6eeab64dce"><td class="memItemLeft" align="right" valign="top">virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#aa89a8c272d1a9016d2586c6eeab64dce">GetLayoutTag</a> () override</td></tr>
+<tr class="memdesc:aa89a8c272d1a9016d2586c6eeab64dce inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取布局标记  <br /></td></tr>
+<tr class="separator:aa89a8c272d1a9016d2586c6eeab64dce inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a994aad366bc1f62ef7d53defa9456e64 inherit pub_methods_classsw_1_1UIElement" id="r_a994aad366bc1f62ef7d53defa9456e64"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a994aad366bc1f62ef7d53defa9456e64">GetChildLayoutCount</a> () override</td></tr>
+<tr class="memdesc:a994aad366bc1f62ef7d53defa9456e64 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取参与布局的子控件数量  <br /></td></tr>
+<tr class="separator:a994aad366bc1f62ef7d53defa9456e64 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3683672f3c2fc8f80e4f808aac78d262 inherit pub_methods_classsw_1_1UIElement" id="r_a3683672f3c2fc8f80e4f808aac78d262"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1ILayout.html">ILayout</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a3683672f3c2fc8f80e4f808aac78d262">GetChildLayoutAt</a> (int index) override</td></tr>
+<tr class="memdesc:a3683672f3c2fc8f80e4f808aac78d262 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取对应索引处的子控件，使用此函数前必须先调用GetChildLayoutCount  <br /></td></tr>
+<tr class="separator:a3683672f3c2fc8f80e4f808aac78d262 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a633ace3fad478f1cc6480fa5512288fb inherit pub_methods_classsw_1_1UIElement" id="r_a633ace3fad478f1cc6480fa5512288fb"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1Size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a633ace3fad478f1cc6480fa5512288fb">GetDesireSize</a> () override</td></tr>
+<tr class="memdesc:a633ace3fad478f1cc6480fa5512288fb inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取控件所需尺寸  <br /></td></tr>
+<tr class="separator:a633ace3fad478f1cc6480fa5512288fb inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3370e535f462680d66063e45b92807f6 inherit pub_methods_classsw_1_1UIElement" id="r_a3370e535f462680d66063e45b92807f6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a3370e535f462680d66063e45b92807f6">SetDesireSize</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;size) override</td></tr>
+<tr class="memdesc:a3370e535f462680d66063e45b92807f6 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置当前控件所需的尺寸  <br /></td></tr>
+<tr class="separator:a3370e535f462680d66063e45b92807f6 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef217f2655c4a746606bf302edc16cf4 inherit pub_methods_classsw_1_1UIElement" id="r_aef217f2655c4a746606bf302edc16cf4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#aef217f2655c4a746606bf302edc16cf4">Measure</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;availableSize) override</td></tr>
+<tr class="memdesc:aef217f2655c4a746606bf302edc16cf4 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量控件所需尺寸  <br /></td></tr>
+<tr class="separator:aef217f2655c4a746606bf302edc16cf4 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8088cf88b28c6b4a5f93cd7a66a769e inherit pub_methods_classsw_1_1UIElement" id="r_ac8088cf88b28c6b4a5f93cd7a66a769e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ac8088cf88b28c6b4a5f93cd7a66a769e">Arrange</a> (const <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &amp;finalPosition) override</td></tr>
+<tr class="memdesc:ac8088cf88b28c6b4a5f93cd7a66a769e inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">安排控件位置  <br /></td></tr>
+<tr class="separator:ac8088cf88b28c6b4a5f93cd7a66a769e inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56ab87f8a258e25ae429dab03771b5b4 inherit pub_methods_classsw_1_1UIElement" id="r_a56ab87f8a258e25ae429dab03771b5b4"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1UIElement.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a56ab87f8a258e25ae429dab03771b5b4">ToUIElement</a> () override</td></tr>
+<tr class="memdesc:a56ab87f8a258e25ae429dab03771b5b4 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成UIElement  <br /></td></tr>
+<tr class="separator:a56ab87f8a258e25ae429dab03771b5b4 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
+<tr class="memitem:a6c99714fa3f313e7535936585f63b9cb inherit pub_methods_classsw_1_1WndBase" id="r_a6c99714fa3f313e7535936585f63b9cb"><td class="memItemLeft" align="right" valign="top">
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~WndBase</b> ()=0</td></tr>
+<tr class="memdesc:a6c99714fa3f313e7535936585f63b9cb inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数，这里用纯虚函数使该类成为抽象类 <br /></td></tr>
+<tr class="separator:a6c99714fa3f313e7535936585f63b9cb inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72d371a06c4595e2cd7f9d6c8922732f inherit pub_methods_classsw_1_1WndBase" id="r_a72d371a06c4595e2cd7f9d6c8922732f"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp;other) const</td></tr>
+<tr class="memdesc:a72d371a06c4595e2cd7f9d6c8922732f inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断两个WndBase是否为同一实例 <br /></td></tr>
+<tr class="separator:a72d371a06c4595e2cd7f9d6c8922732f inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7cf435cbf25ab105badc19ec8f82128 inherit pub_methods_classsw_1_1WndBase" id="r_ab7cf435cbf25ab105badc19ec8f82128"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp;other) const</td></tr>
+<tr class="memdesc:ab7cf435cbf25ab105badc19ec8f82128 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断两个WndBase是否为不同实例 <br /></td></tr>
+<tr class="separator:ab7cf435cbf25ab105badc19ec8f82128 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2dd7d531ffe1e0219d4d1762180a990d inherit pub_methods_classsw_1_1WndBase" id="r_a2dd7d531ffe1e0219d4d1762180a990d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1Window.html">Window</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a2dd7d531ffe1e0219d4d1762180a990d">ToWindow</a> ()</td></tr>
+<tr class="memdesc:a2dd7d531ffe1e0219d4d1762180a990d inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成Window  <br /></td></tr>
+<tr class="separator:a2dd7d531ffe1e0219d4d1762180a990d inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2f1b78dd8165c8bca0313180a9f4b81 inherit pub_methods_classsw_1_1WndBase" id="r_ae2f1b78dd8165c8bca0313180a9f4b81"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Show</b> (int nCmdShow)</td></tr>
+<tr class="memdesc:ae2f1b78dd8165c8bca0313180a9f4b81 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">该函数调用ShowWindow <br /></td></tr>
+<tr class="separator:ae2f1b78dd8165c8bca0313180a9f4b81 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a436818f8ad91446f86b42081dd1a7358 inherit pub_methods_classsw_1_1WndBase" id="r_a436818f8ad91446f86b42081dd1a7358"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Close</b> ()</td></tr>
+<tr class="memdesc:a436818f8ad91446f86b42081dd1a7358 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送关闭消息 <br /></td></tr>
+<tr class="separator:a436818f8ad91446f86b42081dd1a7358 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7ac81f0ed48a5093fd3170c7c756963 inherit pub_methods_classsw_1_1WndBase" id="r_ab7ac81f0ed48a5093fd3170c7c756963"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Update</b> ()</td></tr>
+<tr class="memdesc:ab7ac81f0ed48a5093fd3170c7c756963 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">该函数调用UpdateWindow <br /></td></tr>
+<tr class="separator:ab7ac81f0ed48a5093fd3170c7c756963 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8df0384e2be0569e0da1f51985204c8 inherit pub_methods_classsw_1_1WndBase" id="r_af8df0384e2be0569e0da1f51985204c8"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateFont</b> ()</td></tr>
+<tr class="memdesc:af8df0384e2be0569e0da1f51985204c8 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新字体 <br /></td></tr>
+<tr class="separator:af8df0384e2be0569e0da1f51985204c8 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2eec178adddff9e44d83238f19d57b1b inherit pub_methods_classsw_1_1WndBase" id="r_a2eec178adddff9e44d83238f19d57b1b"><td class="memItemLeft" align="right" valign="top">
+HFONT&#160;</td><td class="memItemRight" valign="bottom"><b>GetFontHandle</b> ()</td></tr>
+<tr class="memdesc:a2eec178adddff9e44d83238f19d57b1b inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取字体句柄 <br /></td></tr>
+<tr class="separator:a2eec178adddff9e44d83238f19d57b1b inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c0e2c8a2900eff9e5a390e251ada042 inherit pub_methods_classsw_1_1WndBase" id="r_a6c0e2c8a2900eff9e5a390e251ada042"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a6c0e2c8a2900eff9e5a390e251ada042">Redraw</a> (bool erase=false, bool updateWindow=false)</td></tr>
+<tr class="memdesc:a6c0e2c8a2900eff9e5a390e251ada042 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">重画  <br /></td></tr>
+<tr class="separator:a6c0e2c8a2900eff9e5a390e251ada042 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ee668e7a5261f96df0bd69a1fb868d3 inherit pub_methods_classsw_1_1WndBase" id="r_a6ee668e7a5261f96df0bd69a1fb868d3"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsVisible</b> ()</td></tr>
+<tr class="memdesc:a6ee668e7a5261f96df0bd69a1fb868d3 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象在界面中是否可视，与Visible属性不同的是该函数返回值会受父窗口的影响 <br /></td></tr>
+<tr class="separator:a6ee668e7a5261f96df0bd69a1fb868d3 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a975bcf1d7c27e7d482aa18f7faaf23d0 inherit pub_methods_classsw_1_1WndBase" id="r_a975bcf1d7c27e7d482aa18f7faaf23d0"><td class="memItemLeft" align="right" valign="top">
+DWORD&#160;</td><td class="memItemRight" valign="bottom"><b>GetStyle</b> ()</td></tr>
+<tr class="memdesc:a975bcf1d7c27e7d482aa18f7faaf23d0 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取窗口样式 <br /></td></tr>
+<tr class="separator:a975bcf1d7c27e7d482aa18f7faaf23d0 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc6dbe392704320ef2e6896eff55dd4f inherit pub_methods_classsw_1_1WndBase" id="r_afc6dbe392704320ef2e6896eff55dd4f"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetStyle</b> (DWORD style)</td></tr>
+<tr class="memdesc:afc6dbe392704320ef2e6896eff55dd4f inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置窗口样式 <br /></td></tr>
+<tr class="separator:afc6dbe392704320ef2e6896eff55dd4f inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae545de230ba94e3263f3197e98308079 inherit pub_methods_classsw_1_1WndBase" id="r_ae545de230ba94e3263f3197e98308079"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#ae545de230ba94e3263f3197e98308079">GetStyle</a> (DWORD mask)</td></tr>
+<tr class="memdesc:ae545de230ba94e3263f3197e98308079 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断窗口是否设有指定样式  <br /></td></tr>
+<tr class="separator:ae545de230ba94e3263f3197e98308079 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34a1c2216b75bd9cd45d4a2e042b55c5 inherit pub_methods_classsw_1_1WndBase" id="r_a34a1c2216b75bd9cd45d4a2e042b55c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a34a1c2216b75bd9cd45d4a2e042b55c5">SetStyle</a> (DWORD mask, bool value)</td></tr>
+<tr class="memdesc:a34a1c2216b75bd9cd45d4a2e042b55c5 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">打开或关闭指定的样式  <br /></td></tr>
+<tr class="separator:a34a1c2216b75bd9cd45d4a2e042b55c5 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af536e23ad45de7e0d0a48c156671e331 inherit pub_methods_classsw_1_1WndBase" id="r_af536e23ad45de7e0d0a48c156671e331"><td class="memItemLeft" align="right" valign="top">
+DWORD&#160;</td><td class="memItemRight" valign="bottom"><b>GetExtendedStyle</b> ()</td></tr>
+<tr class="memdesc:af536e23ad45de7e0d0a48c156671e331 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取扩展窗口样式 <br /></td></tr>
+<tr class="separator:af536e23ad45de7e0d0a48c156671e331 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a074171e62cdb3e20f53b9262164852ca inherit pub_methods_classsw_1_1WndBase" id="r_a074171e62cdb3e20f53b9262164852ca"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetExtendedStyle</b> (DWORD style)</td></tr>
+<tr class="memdesc:a074171e62cdb3e20f53b9262164852ca inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置扩展窗口样式 <br /></td></tr>
+<tr class="separator:a074171e62cdb3e20f53b9262164852ca inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d3e7d32b7cdcfd3489c0d890a2910ab inherit pub_methods_classsw_1_1WndBase" id="r_a2d3e7d32b7cdcfd3489c0d890a2910ab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a2d3e7d32b7cdcfd3489c0d890a2910ab">GetExtendedStyle</a> (DWORD mask)</td></tr>
+<tr class="memdesc:a2d3e7d32b7cdcfd3489c0d890a2910ab inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断窗口是否设有指定扩展样式  <br /></td></tr>
+<tr class="separator:a2d3e7d32b7cdcfd3489c0d890a2910ab inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05caaf7da3138fe9063f7a3e1088f9ac inherit pub_methods_classsw_1_1WndBase" id="r_a05caaf7da3138fe9063f7a3e1088f9ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a05caaf7da3138fe9063f7a3e1088f9ac">SetExtendedStyle</a> (DWORD mask, bool value)</td></tr>
+<tr class="memdesc:a05caaf7da3138fe9063f7a3e1088f9ac inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">打开或关闭指定的扩展样式  <br /></td></tr>
+<tr class="separator:a05caaf7da3138fe9063f7a3e1088f9ac inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a292d93c230f5534cdf68ac5d685dd487 inherit pub_methods_classsw_1_1WndBase" id="r_a292d93c230f5534cdf68ac5d685dd487"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsw_1_1Point.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a292d93c230f5534cdf68ac5d685dd487">PointToScreen</a> (const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;point)</td></tr>
+<tr class="memdesc:a292d93c230f5534cdf68ac5d685dd487 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取用户区点在屏幕上点的位置  <br /></td></tr>
+<tr class="separator:a292d93c230f5534cdf68ac5d685dd487 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f1b33e5930fc14467f65ad89c2c35c3 inherit pub_methods_classsw_1_1WndBase" id="r_a6f1b33e5930fc14467f65ad89c2c35c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsw_1_1Point.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a6f1b33e5930fc14467f65ad89c2c35c3">PointFromScreen</a> (const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;screenPoint)</td></tr>
+<tr class="memdesc:a6f1b33e5930fc14467f65ad89c2c35c3 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取屏幕上点在当前用户区点的位置  <br /></td></tr>
+<tr class="separator:a6f1b33e5930fc14467f65ad89c2c35c3 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33d23326907c603a24385f81e179e174 inherit pub_methods_classsw_1_1WndBase" id="r_a33d23326907c603a24385f81e179e174"><td class="memItemLeft" align="right" valign="top">
+LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>SendMessageA</b> (UINT uMsg, WPARAM wParam, LPARAM lParam)</td></tr>
+<tr class="memdesc:a33d23326907c603a24385f81e179e174 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送消息（ASCII） <br /></td></tr>
+<tr class="separator:a33d23326907c603a24385f81e179e174 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad50166a8ade9a7eaf0088f13fd708e2f inherit pub_methods_classsw_1_1WndBase" id="r_ad50166a8ade9a7eaf0088f13fd708e2f"><td class="memItemLeft" align="right" valign="top">
+LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>SendMessageW</b> (UINT uMsg, WPARAM wParam, LPARAM lParam)</td></tr>
+<tr class="memdesc:ad50166a8ade9a7eaf0088f13fd708e2f inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送消息（UNICODE） <br /></td></tr>
+<tr class="separator:ad50166a8ade9a7eaf0088f13fd708e2f inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a37ba388e9d85339ffc749d427c541f inherit pub_methods_classsw_1_1WndBase" id="r_a4a37ba388e9d85339ffc749d427c541f"><td class="memItemLeft" align="right" valign="top">
+BOOL&#160;</td><td class="memItemRight" valign="bottom"><b>PostMessageA</b> (UINT uMsg, WPARAM wParam, LPARAM lParam)</td></tr>
+<tr class="memdesc:a4a37ba388e9d85339ffc749d427c541f inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送消息（ASCII）并立即返回 <br /></td></tr>
+<tr class="separator:a4a37ba388e9d85339ffc749d427c541f inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae73c2839e2380db3c59a3dbe068937d5 inherit pub_methods_classsw_1_1WndBase" id="r_ae73c2839e2380db3c59a3dbe068937d5"><td class="memItemLeft" align="right" valign="top">
+BOOL&#160;</td><td class="memItemRight" valign="bottom"><b>PostMessageW</b> (UINT uMsg, WPARAM wParam, LPARAM lParam)</td></tr>
+<tr class="memdesc:ae73c2839e2380db3c59a3dbe068937d5 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送消息（UNICODE）并立即返回 <br /></td></tr>
+<tr class="separator:ae73c2839e2380db3c59a3dbe068937d5 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87c9d860ba24487f2b61b72987a4bd63 inherit pub_methods_classsw_1_1WndBase" id="r_a87c9d860ba24487f2b61b72987a4bd63"><td class="memItemLeft" align="right" valign="top">HitTestResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a87c9d860ba24487f2b61b72987a4bd63">NcHitTest</a> (const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;testPoint)</td></tr>
+<tr class="memdesc:a87c9d860ba24487f2b61b72987a4bd63 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">测试指定点在窗口的哪一部分  <br /></td></tr>
+<tr class="separator:a87c9d860ba24487f2b61b72987a4bd63 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38b34f2680d2d0d12eb8cc72d99a9f15 inherit pub_methods_classsw_1_1WndBase" id="r_a38b34f2680d2d0d12eb8cc72d99a9f15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a38b34f2680d2d0d12eb8cc72d99a9f15">Invoke</a> (const <a class="el" href="classsw_1_1Delegate.html">SimpleAction</a> &amp;action)</td></tr>
+<tr class="memdesc:a38b34f2680d2d0d12eb8cc72d99a9f15 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">在窗口线程上执行指定委托  <br /></td></tr>
+<tr class="separator:a38b34f2680d2d0d12eb8cc72d99a9f15 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98fc26366fd25748226d0d01f7ed9411 inherit pub_methods_classsw_1_1WndBase" id="r_a98fc26366fd25748226d0d01f7ed9411"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a98fc26366fd25748226d0d01f7ed9411">InvokeAsync</a> (const <a class="el" href="classsw_1_1Delegate.html">SimpleAction</a> &amp;action)</td></tr>
+<tr class="memdesc:a98fc26366fd25748226d0d01f7ed9411 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">在窗口线程上执行指定委托，并立即返回  <br /></td></tr>
+<tr class="separator:a98fc26366fd25748226d0d01f7ed9411 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsw_1_1ILayout"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1ILayout')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1ILayout.html">sw::ILayout</a></td></tr>
+<tr class="memitem:a42941ab943edee8c07a7b1da6c7ea226 inherit pub_methods_classsw_1_1ILayout" id="r_a42941ab943edee8c07a7b1da6c7ea226"><td class="memItemLeft" align="right" valign="top">
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ILayout</b> ()=default</td></tr>
+<tr class="memdesc:a42941ab943edee8c07a7b1da6c7ea226 inherit pub_methods_classsw_1_1ILayout"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认虚析构函数 <br /></td></tr>
+<tr class="separator:a42941ab943edee8c07a7b1da6c7ea226 inherit pub_methods_classsw_1_1ILayout"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsw_1_1ITag"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1ITag')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1ITag.html">sw::ITag</a></td></tr>
+<tr class="memitem:a34c7ead6ffeda8323221f5b85529a771 inherit pub_methods_classsw_1_1ITag" id="r_a34c7ead6ffeda8323221f5b85529a771"><td class="memItemLeft" align="right" valign="top">
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ITag</b> ()=default</td></tr>
+<tr class="memdesc:a34c7ead6ffeda8323221f5b85529a771 inherit pub_methods_classsw_1_1ITag"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认虚析构函数 <br /></td></tr>
+<tr class="separator:a34c7ead6ffeda8323221f5b85529a771 inherit pub_methods_classsw_1_1ITag"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public 属性</h2></td></tr>
+<tr class="memitem:a1aa16699f8b60dd9fb6cd3c6b6c129e4" id="r_a1aa16699f8b60dd9fb6cd3c6b6c129e4"><td class="memItemLeft" align="right" valign="top"><a id="a1aa16699f8b60dd9fb6cd3c6b6c129e4" name="a1aa16699f8b60dd9fb6cd3c6b6c129e4"></a>
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Notify</b></td></tr>
+<tr class="memdesc:a1aa16699f8b60dd9fb6cd3c6b6c129e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取或设置控件的SS_NOTIFY样式 <br /></td></tr>
+<tr class="separator:a1aa16699f8b60dd9fb6cd3c6b6c129e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_classsw_1_1Control"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1Control')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1Control.html">sw::Control</a></td></tr>
+<tr class="memitem:aa5875535fe04ce79df6fb8719b64c0dc inherit pub_attribs_classsw_1_1Control" id="r_aa5875535fe04ce79df6fb8719b64c0dc"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ControlId</b></td></tr>
+<tr class="memdesc:aa5875535fe04ce79df6fb8719b64c0dc inherit pub_attribs_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">控件的标识符 <br /></td></tr>
+<tr class="separator:aa5875535fe04ce79df6fb8719b64c0dc inherit pub_attribs_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_classsw_1_1UIElement"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1UIElement')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1UIElement.html">sw::UIElement</a></td></tr>
+<tr class="memitem:a8fe2c0aebc77409d3fbdefbd79d45a1e inherit pub_attribs_classsw_1_1UIElement" id="r_a8fe2c0aebc77409d3fbdefbd79d45a1e"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="structsw_1_1Thickness.html">Thickness</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Margin</b></td></tr>
+<tr class="memdesc:a8fe2c0aebc77409d3fbdefbd79d45a1e inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">边距 <br /></td></tr>
+<tr class="separator:a8fe2c0aebc77409d3fbdefbd79d45a1e inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05b569383791dce14d9d6789e3a43d85 inherit pub_attribs_classsw_1_1UIElement" id="r_a05b569383791dce14d9d6789e3a43d85"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; HorizontalAlignment &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>HorizontalAlignment</b></td></tr>
+<tr class="memdesc:a05b569383791dce14d9d6789e3a43d85 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">水平对齐方式 <br /></td></tr>
+<tr class="separator:a05b569383791dce14d9d6789e3a43d85 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9f49244beb6b854b436e8bbd18f4e21 inherit pub_attribs_classsw_1_1UIElement" id="r_ad9f49244beb6b854b436e8bbd18f4e21"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; VerticalAlignment &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>VerticalAlignment</b></td></tr>
+<tr class="memdesc:ad9f49244beb6b854b436e8bbd18f4e21 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">垂直对齐方式 <br /></td></tr>
+<tr class="separator:ad9f49244beb6b854b436e8bbd18f4e21 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c452519bad920ad9b91f9610ea202e0 inherit pub_attribs_classsw_1_1UIElement" id="r_a5c452519bad920ad9b91f9610ea202e0"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ChildCount</b></td></tr>
+<tr class="memdesc:a5c452519bad920ad9b91f9610ea202e0 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">子元素数量 <br /></td></tr>
+<tr class="separator:a5c452519bad920ad9b91f9610ea202e0 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a952e87aef0f2dfdec6bd98e944b6d891 inherit pub_attribs_classsw_1_1UIElement" id="r_a952e87aef0f2dfdec6bd98e944b6d891"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>CollapseWhenHide</b></td></tr>
+<tr class="memdesc:a952e87aef0f2dfdec6bd98e944b6d891 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否在不可见时不参与布局 <br /></td></tr>
+<tr class="separator:a952e87aef0f2dfdec6bd98e944b6d891 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad825a0e12b75238b13f422f47ddf292b inherit pub_attribs_classsw_1_1UIElement" id="r_ad825a0e12b75238b13f422f47ddf292b"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Parent</b></td></tr>
+<tr class="memdesc:ad825a0e12b75238b13f422f47ddf292b inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">指向父元素的指针，当前元素为顶级窗口时该值为nullptr <br /></td></tr>
+<tr class="separator:ad825a0e12b75238b13f422f47ddf292b inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a895d79a2fa53382a43b3d02dee195360 inherit pub_attribs_classsw_1_1UIElement" id="r_a895d79a2fa53382a43b3d02dee195360"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Tag</b></td></tr>
+<tr class="memdesc:a895d79a2fa53382a43b3d02dee195360 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">储存用户自定义信息的标记 <br /></td></tr>
+<tr class="separator:a895d79a2fa53382a43b3d02dee195360 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70e870fcabb76b1d74c06d50637f4f92 inherit pub_attribs_classsw_1_1UIElement" id="r_a70e870fcabb76b1d74c06d50637f4f92"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>LayoutTag</b></td></tr>
+<tr class="memdesc:a70e870fcabb76b1d74c06d50637f4f92 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">布局标记，对于不同的布局有不同含义 <br /></td></tr>
+<tr class="separator:a70e870fcabb76b1d74c06d50637f4f92 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5706cc9d6ef3fab9176ccded231b99e inherit pub_attribs_classsw_1_1UIElement" id="r_ae5706cc9d6ef3fab9176ccded231b99e"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1ContextMenu.html">sw::ContextMenu</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ContextMenu</b></td></tr>
+<tr class="memdesc:ae5706cc9d6ef3fab9176ccded231b99e inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">右键按下时弹出的菜单 <br /></td></tr>
+<tr class="separator:ae5706cc9d6ef3fab9176ccded231b99e inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0d66604bc2dd555c37688135878a7f0 inherit pub_attribs_classsw_1_1UIElement" id="r_ac0d66604bc2dd555c37688135878a7f0"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Float</b></td></tr>
+<tr class="memdesc:ac0d66604bc2dd555c37688135878a7f0 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">元素是否悬浮，若元素悬浮则该元素不会随滚动条滚动而改变位置 <br /></td></tr>
+<tr class="separator:ac0d66604bc2dd555c37688135878a7f0 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b54e00e1e41af2a634ad694da3ffa98 inherit pub_attribs_classsw_1_1UIElement" id="r_a2b54e00e1e41af2a634ad694da3ffa98"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>TabStop</b></td></tr>
+<tr class="memdesc:a2b54e00e1e41af2a634ad694da3ffa98 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">表示用户是否可以通过按下Tab键将焦点移动到当前元素 <br /></td></tr>
+<tr class="separator:a2b54e00e1e41af2a634ad694da3ffa98 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf6897b58dc2899c37a3b395bfe124b9 inherit pub_attribs_classsw_1_1UIElement" id="r_aaf6897b58dc2899c37a3b395bfe124b9"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="structsw_1_1Color.html">Color</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>BackColor</b></td></tr>
+<tr class="memdesc:aaf6897b58dc2899c37a3b395bfe124b9 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">背景颜色，修改该属性会同时将Transparent属性设为false，对于部分控件该属性可能不生效 <br /></td></tr>
+<tr class="separator:aaf6897b58dc2899c37a3b395bfe124b9 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaf2381fdffd82bd41e90c1a2cf69022 inherit pub_attribs_classsw_1_1UIElement" id="r_aeaf2381fdffd82bd41e90c1a2cf69022"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="structsw_1_1Color.html">Color</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>TextColor</b></td></tr>
+<tr class="memdesc:aeaf2381fdffd82bd41e90c1a2cf69022 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">文本颜色，修改该属性会同时将InheritTextColor属性设为false，对于部分控件该属性可能不生效 <br /></td></tr>
+<tr class="separator:aeaf2381fdffd82bd41e90c1a2cf69022 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9d544a538ca2cfa3d022da61e7637e5 inherit pub_attribs_classsw_1_1UIElement" id="r_aa9d544a538ca2cfa3d022da61e7637e5"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Transparent</b></td></tr>
+<tr class="memdesc:aa9d544a538ca2cfa3d022da61e7637e5 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否使用透明背景（此属性并非真正意义上的透明，将该属性设为true可继承父元素的背景颜色） <br /></td></tr>
+<tr class="separator:aa9d544a538ca2cfa3d022da61e7637e5 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7da2f416b1ed5038d8a3a59d6e44fcf5 inherit pub_attribs_classsw_1_1UIElement" id="r_a7da2f416b1ed5038d8a3a59d6e44fcf5"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>InheritTextColor</b></td></tr>
+<tr class="memdesc:a7da2f416b1ed5038d8a3a59d6e44fcf5 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否继承父元素的文本颜色 <br /></td></tr>
+<tr class="separator:a7da2f416b1ed5038d8a3a59d6e44fcf5 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1ae9ea6fdb1c1ecde418bffdb2287cc inherit pub_attribs_classsw_1_1UIElement" id="r_ab1ae9ea6fdb1c1ecde418bffdb2287cc"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; sw::LayoutUpdateCondition &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ab1ae9ea6fdb1c1ecde418bffdb2287cc">LayoutUpdateCondition</a></td></tr>
+<tr class="memdesc:ab1ae9ea6fdb1c1ecde418bffdb2287cc inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发布局更新的条件  <br /></td></tr>
+<tr class="separator:ab1ae9ea6fdb1c1ecde418bffdb2287cc inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
+<tr class="memitem:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase" id="r_abc0b653ccc071c2cfcba42fa8eef738f"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; HWND &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Handle</b></td></tr>
+<tr class="memdesc:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口句柄 <br /></td></tr>
+<tr class="separator:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a529436cd730fc39ad2875728cdfe4a51 inherit pub_attribs_classsw_1_1WndBase" id="r_a529436cd730fc39ad2875728cdfe4a51"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1Font.html">sw::Font</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Font</b></td></tr>
+<tr class="memdesc:a529436cd730fc39ad2875728cdfe4a51 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体 <br /></td></tr>
+<tr class="separator:a529436cd730fc39ad2875728cdfe4a51 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72a604f374bba1e6c34b5d5e56cd26f0 inherit pub_attribs_classsw_1_1WndBase" id="r_a72a604f374bba1e6c34b5d5e56cd26f0"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FontName</b></td></tr>
+<tr class="memdesc:a72a604f374bba1e6c34b5d5e56cd26f0 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体名称 <br /></td></tr>
+<tr class="separator:a72a604f374bba1e6c34b5d5e56cd26f0 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac49c6452ceb4950dd581189615753b0c inherit pub_attribs_classsw_1_1WndBase" id="r_ac49c6452ceb4950dd581189615753b0c"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FontSize</b></td></tr>
+<tr class="memdesc:ac49c6452ceb4950dd581189615753b0c inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体大小 <br /></td></tr>
+<tr class="separator:ac49c6452ceb4950dd581189615753b0c inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50e006e69f07abb4e6ba381121abcd22 inherit pub_attribs_classsw_1_1WndBase" id="r_a50e006e69f07abb4e6ba381121abcd22"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; sw::FontWeight &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FontWeight</b></td></tr>
+<tr class="memdesc:a50e006e69f07abb4e6ba381121abcd22 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体粗细 <br /></td></tr>
+<tr class="separator:a50e006e69f07abb4e6ba381121abcd22 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7598603457217f09aae0deaad59ef063 inherit pub_attribs_classsw_1_1WndBase" id="r_a7598603457217f09aae0deaad59ef063"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Rect</b></td></tr>
+<tr class="memdesc:a7598603457217f09aae0deaad59ef063 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">位置和尺寸 <br /></td></tr>
+<tr class="separator:a7598603457217f09aae0deaad59ef063 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f0b57de9babc053c655872ed91468dd inherit pub_attribs_classsw_1_1WndBase" id="r_a4f0b57de9babc053c655872ed91468dd"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Left</b></td></tr>
+<tr class="memdesc:a4f0b57de9babc053c655872ed91468dd inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">左边 <br /></td></tr>
+<tr class="separator:a4f0b57de9babc053c655872ed91468dd inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dbe3776aeb038659f0a290fbe1dc6d7 inherit pub_attribs_classsw_1_1WndBase" id="r_a6dbe3776aeb038659f0a290fbe1dc6d7"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Top</b></td></tr>
+<tr class="memdesc:a6dbe3776aeb038659f0a290fbe1dc6d7 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">顶边 <br /></td></tr>
+<tr class="separator:a6dbe3776aeb038659f0a290fbe1dc6d7 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a445edbe5db50a5a4486ddff98e8ffbae inherit pub_attribs_classsw_1_1WndBase" id="r_a445edbe5db50a5a4486ddff98e8ffbae"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Width</b></td></tr>
+<tr class="memdesc:a445edbe5db50a5a4486ddff98e8ffbae inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">宽度 <br /></td></tr>
+<tr class="separator:a445edbe5db50a5a4486ddff98e8ffbae inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51fdc4b943e62bd67ffbff4a6e65de2a inherit pub_attribs_classsw_1_1WndBase" id="r_a51fdc4b943e62bd67ffbff4a6e65de2a"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Height</b></td></tr>
+<tr class="memdesc:a51fdc4b943e62bd67ffbff4a6e65de2a inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">高度 <br /></td></tr>
+<tr class="separator:a51fdc4b943e62bd67ffbff4a6e65de2a inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0126115c0626d137ba3e7b0a5c8d793b inherit pub_attribs_classsw_1_1WndBase" id="r_a0126115c0626d137ba3e7b0a5c8d793b"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClientRect</b></td></tr>
+<tr class="memdesc:a0126115c0626d137ba3e7b0a5c8d793b inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户区尺寸 <br /></td></tr>
+<tr class="separator:a0126115c0626d137ba3e7b0a5c8d793b inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97898f967c916e67c152c69f4c7c6cd6 inherit pub_attribs_classsw_1_1WndBase" id="r_a97898f967c916e67c152c69f4c7c6cd6"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClientWidth</b></td></tr>
+<tr class="memdesc:a97898f967c916e67c152c69f4c7c6cd6 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户区宽度 <br /></td></tr>
+<tr class="separator:a97898f967c916e67c152c69f4c7c6cd6 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4030b80afd9e81e3046ccd5ec94ec83f inherit pub_attribs_classsw_1_1WndBase" id="r_a4030b80afd9e81e3046ccd5ec94ec83f"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClientHeight</b></td></tr>
+<tr class="memdesc:a4030b80afd9e81e3046ccd5ec94ec83f inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户区高度 <br /></td></tr>
+<tr class="separator:a4030b80afd9e81e3046ccd5ec94ec83f inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5e7d8d1a548315b3e709151f71766b3 inherit pub_attribs_classsw_1_1WndBase" id="r_ad5e7d8d1a548315b3e709151f71766b3"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Enabled</b></td></tr>
+<tr class="memdesc:ad5e7d8d1a548315b3e709151f71766b3 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口或控件是否可用 <br /></td></tr>
+<tr class="separator:ad5e7d8d1a548315b3e709151f71766b3 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a808f5d6fd407e3b65cff88f1873bd754 inherit pub_attribs_classsw_1_1WndBase" id="r_a808f5d6fd407e3b65cff88f1873bd754"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Visible</b></td></tr>
+<tr class="memdesc:a808f5d6fd407e3b65cff88f1873bd754 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口或控件是否可见 <br /></td></tr>
+<tr class="separator:a808f5d6fd407e3b65cff88f1873bd754 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9afff86d32e9b54cccc204ef29a85891 inherit pub_attribs_classsw_1_1WndBase" id="r_a9afff86d32e9b54cccc204ef29a85891"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Text</b></td></tr>
+<tr class="memdesc:a9afff86d32e9b54cccc204ef29a85891 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口标题或控件文本 <br /></td></tr>
+<tr class="separator:a9afff86d32e9b54cccc204ef29a85891 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71498b3ad8ae548fd7f4a531a6b70982 inherit pub_attribs_classsw_1_1WndBase" id="r_a71498b3ad8ae548fd7f4a531a6b70982"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Focused</b></td></tr>
+<tr class="memdesc:a71498b3ad8ae548fd7f4a531a6b70982 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口是否拥有焦点 <br /></td></tr>
+<tr class="separator:a71498b3ad8ae548fd7f4a531a6b70982 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bda583e7535a89b8b5bd327c1f32ccd inherit pub_attribs_classsw_1_1WndBase" id="r_a7bda583e7535a89b8b5bd327c1f32ccd"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1WndBase.html">WndBase</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Parent</b></td></tr>
+<tr class="memdesc:a7bda583e7535a89b8b5bd327c1f32ccd inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">父窗口 <br /></td></tr>
+<tr class="separator:a7bda583e7535a89b8b5bd327c1f32ccd inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54aa973b24b4bc4b681ac2c21a50d204 inherit pub_attribs_classsw_1_1WndBase" id="r_a54aa973b24b4bc4b681ac2c21a50d204"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsDestroyed</b></td></tr>
+<tr class="memdesc:a54aa973b24b4bc4b681ac2c21a50d204 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否已销毁，当该值为true时不应该继续使用当前对象 <br /></td></tr>
+<tr class="separator:a54aa973b24b4bc4b681ac2c21a50d204 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43b324f78290554d0c08bf6f33cdb5fd inherit pub_attribs_classsw_1_1WndBase" id="r_a43b324f78290554d0c08bf6f33cdb5fd"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>AcceptFiles</b></td></tr>
+<tr class="memdesc:a43b324f78290554d0c08bf6f33cdb5fd inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否接受拖放文件 <br /></td></tr>
+<tr class="separator:a43b324f78290554d0c08bf6f33cdb5fd inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b72c64e192b49d1ace945e96c2368ab inherit pub_attribs_classsw_1_1WndBase" id="r_a4b72c64e192b49d1ace945e96c2368ab"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsControl</b></td></tr>
+<tr class="memdesc:a4b72c64e192b49d1ace945e96c2368ab inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前对象是否是控件 <br /></td></tr>
+<tr class="separator:a4b72c64e192b49d1ace945e96c2368ab inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+额外继承的成员函数</h2></td></tr>
+<tr class="inherit_header pub_static_methods_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;静态 Public 成员函数 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
+<tr class="memitem:a9a3b21d4e5d8c49130deb57695294add inherit pub_static_methods_classsw_1_1WndBase" id="r_a9a3b21d4e5d8c49130deb57695294add"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsw_1_1WndBase.html">WndBase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a9a3b21d4e5d8c49130deb57695294add">GetWndBase</a> (HWND hwnd)</td></tr>
+<tr class="memdesc:a9a3b21d4e5d8c49130deb57695294add inherit pub_static_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过窗口句柄获取WndBase  <br /></td></tr>
+<tr class="separator:a9a3b21d4e5d8c49130deb57695294add inherit pub_static_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classsw_1_1Control"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsw_1_1Control')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classsw_1_1Control.html">sw::Control</a></td></tr>
+<tr class="memitem:a28d0732184b1631d1c3b2f84dec4c6e6 inherit pro_methods_classsw_1_1Control" id="r_a28d0732184b1631d1c3b2f84dec4c6e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#a28d0732184b1631d1c3b2f84dec4c6e6">ResetHandle</a> (LPVOID lpParam=NULL)</td></tr>
+<tr class="memdesc:a28d0732184b1631d1c3b2f84dec4c6e6 inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">销毁控件句柄并重新初始化，该操作会创建新的句柄并设置样式、文本、字体等  <br /></td></tr>
+<tr class="separator:a28d0732184b1631d1c3b2f84dec4c6e6 inherit pro_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04520bfdfd153b04fce7d65f937ff2b8 inherit pro_methods_classsw_1_1Control" id="r_a04520bfdfd153b04fce7d65f937ff2b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#a04520bfdfd153b04fce7d65f937ff2b8">ResetHandle</a> (DWORD style, DWORD exStyle, LPVOID lpParam=NULL)</td></tr>
+<tr class="memdesc:a04520bfdfd153b04fce7d65f937ff2b8 inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">销毁控件句柄并重新初始化，并修改样式，该操作会创建新的句柄并设置样式、文本、字体等  <br /></td></tr>
+<tr class="separator:a04520bfdfd153b04fce7d65f937ff2b8 inherit pro_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad01d684de2b5060771fc74baa6b0f519 inherit pro_methods_classsw_1_1Control" id="r_ad01d684de2b5060771fc74baa6b0f519"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#ad01d684de2b5060771fc74baa6b0f519">OnNotified</a> (NMHDR *pNMHDR, LRESULT &amp;result) override</td></tr>
+<tr class="memdesc:ad01d684de2b5060771fc74baa6b0f519 inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数  <br /></td></tr>
+<tr class="separator:ad01d684de2b5060771fc74baa6b0f519 inherit pro_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18296053d3a7b8476cda377664434232 inherit pro_methods_classsw_1_1Control" id="r_a18296053d3a7b8476cda377664434232"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#a18296053d3a7b8476cda377664434232">OnKillFocus</a> (HWND hNextFocus) override</td></tr>
+<tr class="memdesc:a18296053d3a7b8476cda377664434232 inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_KILLFOCUS时调用该函数  <br /></td></tr>
+<tr class="separator:a18296053d3a7b8476cda377664434232 inherit pro_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af631c5302a637b35a2a7de01214cf4fa inherit pro_methods_classsw_1_1Control" id="r_af631c5302a637b35a2a7de01214cf4fa"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#af631c5302a637b35a2a7de01214cf4fa">OnTabStop</a> () override</td></tr>
+<tr class="memdesc:af631c5302a637b35a2a7de01214cf4fa inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过tab键将焦点移动到当前元素时调用该函数  <br /></td></tr>
+<tr class="separator:af631c5302a637b35a2a7de01214cf4fa inherit pro_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60458de49b16eebbd3dccf20388c8d6c inherit pro_methods_classsw_1_1Control" id="r_a60458de49b16eebbd3dccf20388c8d6c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#a60458de49b16eebbd3dccf20388c8d6c">OnEndPaint</a> () override</td></tr>
+<tr class="memdesc:a60458de49b16eebbd3dccf20388c8d6c inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnPaint函数完成之后调用该函数  <br /></td></tr>
+<tr class="separator:a60458de49b16eebbd3dccf20388c8d6c inherit pro_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a954de4df5b1b822f9a86409bc21b6ba0 inherit pro_methods_classsw_1_1Control" id="r_a954de4df5b1b822f9a86409bc21b6ba0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#a954de4df5b1b822f9a86409bc21b6ba0">OnCustomDraw</a> (NMCUSTOMDRAW *pNMCD, LRESULT &amp;result)</td></tr>
+<tr class="memdesc:a954de4df5b1b822f9a86409bc21b6ba0 inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到NM_CUSTOMDRAW后调用该函数  <br /></td></tr>
+<tr class="separator:a954de4df5b1b822f9a86409bc21b6ba0 inherit pro_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa51513c4ea585f5d70b4d597eb2984b inherit pro_methods_classsw_1_1Control" id="r_aaa51513c4ea585f5d70b4d597eb2984b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#aaa51513c4ea585f5d70b4d597eb2984b">OnPreErase</a> (HDC hdc, LRESULT &amp;result)</td></tr>
+<tr class="memdesc:aaa51513c4ea585f5d70b4d597eb2984b inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">擦除背景前调用该函数  <br /></td></tr>
+<tr class="separator:aaa51513c4ea585f5d70b4d597eb2984b inherit pro_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2020d632dce2fc56e977c676c9f0ffd8 inherit pro_methods_classsw_1_1Control" id="r_a2020d632dce2fc56e977c676c9f0ffd8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#a2020d632dce2fc56e977c676c9f0ffd8">OnPostErase</a> (HDC hdc, LRESULT &amp;result)</td></tr>
+<tr class="memdesc:a2020d632dce2fc56e977c676c9f0ffd8 inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">擦除背景后调用该函数  <br /></td></tr>
+<tr class="separator:a2020d632dce2fc56e977c676c9f0ffd8 inherit pro_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae986d0e20a48c2d39f89032d257f0737 inherit pro_methods_classsw_1_1Control" id="r_ae986d0e20a48c2d39f89032d257f0737"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#ae986d0e20a48c2d39f89032d257f0737">OnPrePaint</a> (HDC hdc, LRESULT &amp;result)</td></tr>
+<tr class="memdesc:ae986d0e20a48c2d39f89032d257f0737 inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">绘制控件前调用该函数  <br /></td></tr>
+<tr class="separator:ae986d0e20a48c2d39f89032d257f0737 inherit pro_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0497676d9b8f5175a60bbede2eb8e41 inherit pro_methods_classsw_1_1Control" id="r_ae0497676d9b8f5175a60bbede2eb8e41"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#ae0497676d9b8f5175a60bbede2eb8e41">OnPostPaint</a> (HDC hdc, LRESULT &amp;result)</td></tr>
+<tr class="memdesc:ae0497676d9b8f5175a60bbede2eb8e41 inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">绘制控件后调用该函数  <br /></td></tr>
+<tr class="separator:ae0497676d9b8f5175a60bbede2eb8e41 inherit pro_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0451f011a344efa6b628d006980c6ed8 inherit pro_methods_classsw_1_1Control" id="r_a0451f011a344efa6b628d006980c6ed8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#a0451f011a344efa6b628d006980c6ed8">OnDrawFocusRect</a> (HDC hdc)</td></tr>
+<tr class="memdesc:a0451f011a344efa6b628d006980c6ed8 inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">绘制虚线框时调用该函数  <br /></td></tr>
+<tr class="separator:a0451f011a344efa6b628d006980c6ed8 inherit pro_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1eed0fc1e59e8502692e87f15c47c8ea inherit pro_methods_classsw_1_1Control" id="r_a1eed0fc1e59e8502692e87f15c47c8ea"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#a1eed0fc1e59e8502692e87f15c47c8ea">OnHandleChenged</a> (HWND hwnd)</td></tr>
+<tr class="memdesc:a1eed0fc1e59e8502692e87f15c47c8ea inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">控件句柄发生改变时调用该函数  <br /></td></tr>
+<tr class="separator:a1eed0fc1e59e8502692e87f15c47c8ea inherit pro_methods_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classsw_1_1UIElement"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsw_1_1UIElement')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classsw_1_1UIElement.html">sw::UIElement</a></td></tr>
+<tr class="memitem:aeebf42b059a9962fd9c2ba64dcc309ca inherit pro_methods_classsw_1_1UIElement" id="r_aeebf42b059a9962fd9c2ba64dcc309ca"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>UIElement</b> ()</td></tr>
+<tr class="memdesc:aeebf42b059a9962fd9c2ba64dcc309ca inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化UIElement <br /></td></tr>
+<tr class="separator:aeebf42b059a9962fd9c2ba64dcc309ca inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0635558e1928f1144566a30b884303aa inherit pro_methods_classsw_1_1UIElement" id="r_a0635558e1928f1144566a30b884303aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a0635558e1928f1144566a30b884303aa">RaiseRoutedEvent</a> (RoutedEventType eventType)</td></tr>
+<tr class="memdesc:a0635558e1928f1144566a30b884303aa inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发路由事件  <br /></td></tr>
+<tr class="separator:a0635558e1928f1144566a30b884303aa inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a135d4fc74c3bf7a434271620944b9f9b inherit pro_methods_classsw_1_1UIElement" id="r_a135d4fc74c3bf7a434271620944b9f9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a135d4fc74c3bf7a434271620944b9f9b">RaiseRoutedEvent</a> (<a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> &amp;eventArgs)</td></tr>
+<tr class="memdesc:a135d4fc74c3bf7a434271620944b9f9b inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发路由事件  <br /></td></tr>
+<tr class="separator:a135d4fc74c3bf7a434271620944b9f9b inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5832ef956cdc4face3e9dbd0c72e66e inherit pro_methods_classsw_1_1UIElement" id="r_ab5832ef956cdc4face3e9dbd0c72e66e"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>NotifyLayoutUpdated</b> ()</td></tr>
+<tr class="memdesc:ab5832ef956cdc4face3e9dbd0c72e66e inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">通知顶级窗口布局改变 <br /></td></tr>
+<tr class="separator:ab5832ef956cdc4face3e9dbd0c72e66e inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae43f4f3c5a5c723d29f20e5590641388 inherit pro_methods_classsw_1_1UIElement" id="r_ae43f4f3c5a5c723d29f20e5590641388"><td class="memItemLeft" align="right" valign="top">
+double &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetArrangeOffsetX</b> ()</td></tr>
+<tr class="memdesc:ae43f4f3c5a5c723d29f20e5590641388 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取Arrange时子元素的水平偏移量 <br /></td></tr>
+<tr class="separator:ae43f4f3c5a5c723d29f20e5590641388 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab48faeb3dde62fbbe944a28dce2f3133 inherit pro_methods_classsw_1_1UIElement" id="r_ab48faeb3dde62fbbe944a28dce2f3133"><td class="memItemLeft" align="right" valign="top">
+double &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetArrangeOffsetY</b> ()</td></tr>
+<tr class="memdesc:ab48faeb3dde62fbbe944a28dce2f3133 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取Arrange时子元素的垂直偏移量 <br /></td></tr>
+<tr class="separator:ab48faeb3dde62fbbe944a28dce2f3133 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f0bde7d9646b68dfe7251eba908cc08 inherit pro_methods_classsw_1_1UIElement" id="r_a1f0bde7d9646b68dfe7251eba908cc08"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a1f0bde7d9646b68dfe7251eba908cc08">GetChildRightmost</a> (bool update)</td></tr>
+<tr class="memdesc:a1f0bde7d9646b68dfe7251eba908cc08 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取所有子元素在当前元素中最右边的位置（只考虑参与布局的子窗口且忽略悬浮的元素）  <br /></td></tr>
+<tr class="separator:a1f0bde7d9646b68dfe7251eba908cc08 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bda5652549fe9909e3b6b1383754b30 inherit pro_methods_classsw_1_1UIElement" id="r_a7bda5652549fe9909e3b6b1383754b30"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a7bda5652549fe9909e3b6b1383754b30">GetChildBottommost</a> (bool update)</td></tr>
+<tr class="memdesc:a7bda5652549fe9909e3b6b1383754b30 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取所有子元素在当前元素中最底边的位置（只考虑参与布局的子窗口且忽略悬浮的元素）  <br /></td></tr>
+<tr class="separator:a7bda5652549fe9909e3b6b1383754b30 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf5b0f1e5c2e24390b7f267db28c595a inherit pro_methods_classsw_1_1UIElement" id="r_acf5b0f1e5c2e24390b7f267db28c595a"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateChildrenZOrder</b> ()</td></tr>
+<tr class="memdesc:acf5b0f1e5c2e24390b7f267db28c595a inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新子元素的Z轴位置 <br /></td></tr>
+<tr class="separator:acf5b0f1e5c2e24390b7f267db28c595a inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7e788c5e662363d6244414c5250a39d inherit pro_methods_classsw_1_1UIElement" id="r_ae7e788c5e662363d6244414c5250a39d"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateSiblingsZOrder</b> ()</td></tr>
+<tr class="memdesc:ae7e788c5e662363d6244414c5250a39d inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新兄弟元素的Z轴位置 <br /></td></tr>
+<tr class="separator:ae7e788c5e662363d6244414c5250a39d inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d9db652043bc5c5cd3483d82b35dcbe inherit pro_methods_classsw_1_1UIElement" id="r_a0d9db652043bc5c5cd3483d82b35dcbe"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetNextTabStopFocus</b> ()</td></tr>
+<tr class="memdesc:a0d9db652043bc5c5cd3483d82b35dcbe inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置下一个TabStop属性为true的元素为焦点元素 <br /></td></tr>
+<tr class="separator:a0d9db652043bc5c5cd3483d82b35dcbe inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70509d26b933d53dc2af7e2f70dbbce0 inherit pro_methods_classsw_1_1UIElement" id="r_a70509d26b933d53dc2af7e2f70dbbce0"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetPreviousTabStopFocus</b> ()</td></tr>
+<tr class="memdesc:a70509d26b933d53dc2af7e2f70dbbce0 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置上一个TabStop属性为true的元素为焦点元素 <br /></td></tr>
+<tr class="separator:a70509d26b933d53dc2af7e2f70dbbce0 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af60b45de9f894f4fb152491413f1fa73 inherit pro_methods_classsw_1_1UIElement" id="r_af60b45de9f894f4fb152491413f1fa73"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#af60b45de9f894f4fb152491413f1fa73">SetBackColor</a> (<a class="el" href="structsw_1_1Color.html">Color</a> color, bool redraw)</td></tr>
+<tr class="memdesc:af60b45de9f894f4fb152491413f1fa73 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置背景颜色  <br /></td></tr>
+<tr class="separator:af60b45de9f894f4fb152491413f1fa73 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8557638ba9975346d62f5339de55664 inherit pro_methods_classsw_1_1UIElement" id="r_ab8557638ba9975346d62f5339de55664"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ab8557638ba9975346d62f5339de55664">SetTextColor</a> (<a class="el" href="structsw_1_1Color.html">Color</a> color, bool redraw)</td></tr>
+<tr class="memdesc:ab8557638ba9975346d62f5339de55664 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置文本颜色  <br /></td></tr>
+<tr class="separator:ab8557638ba9975346d62f5339de55664 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3e134d807af7614e1cc812abb860762 inherit pro_methods_classsw_1_1UIElement" id="r_ae3e134d807af7614e1cc812abb860762"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ae3e134d807af7614e1cc812abb860762">OnAddedChild</a> (<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;element)</td></tr>
+<tr class="memdesc:ae3e134d807af7614e1cc812abb860762 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加子元素后调用该函数  <br /></td></tr>
+<tr class="separator:ae3e134d807af7614e1cc812abb860762 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadedba1a9bca85555b70bc247b8ef835 inherit pro_methods_classsw_1_1UIElement" id="r_aadedba1a9bca85555b70bc247b8ef835"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#aadedba1a9bca85555b70bc247b8ef835">OnRemovedChild</a> (<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;element)</td></tr>
+<tr class="memdesc:aadedba1a9bca85555b70bc247b8ef835 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除子元素后调用该函数  <br /></td></tr>
+<tr class="separator:aadedba1a9bca85555b70bc247b8ef835 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad685138138402ddd8a5fde67bbb85a45 inherit pro_methods_classsw_1_1UIElement" id="r_ad685138138402ddd8a5fde67bbb85a45"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ad685138138402ddd8a5fde67bbb85a45">SetParent</a> (<a class="el" href="classsw_1_1WndBase.html">WndBase</a> *parent) override</td></tr>
+<tr class="memdesc:ad685138138402ddd8a5fde67bbb85a45 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置父窗口  <br /></td></tr>
+<tr class="separator:ad685138138402ddd8a5fde67bbb85a45 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87b86762809c8e4a0ace610a977caa78 inherit pro_methods_classsw_1_1UIElement" id="r_a87b86762809c8e4a0ace610a977caa78"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a87b86762809c8e4a0ace610a977caa78">ParentChanged</a> (<a class="el" href="classsw_1_1WndBase.html">WndBase</a> *newParent) override</td></tr>
+<tr class="memdesc:a87b86762809c8e4a0ace610a977caa78 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">父窗口改变时调用此函数  <br /></td></tr>
+<tr class="separator:a87b86762809c8e4a0ace610a977caa78 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c1f0b6a491e639c76e46a29bff00d65 inherit pro_methods_classsw_1_1UIElement" id="r_a1c1f0b6a491e639c76e46a29bff00d65"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a1c1f0b6a491e639c76e46a29bff00d65">OnClose</a> () override</td></tr>
+<tr class="memdesc:a1c1f0b6a491e639c76e46a29bff00d65 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CLOSE时调用该函数  <br /></td></tr>
+<tr class="separator:a1c1f0b6a491e639c76e46a29bff00d65 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6482d770b94d6b40da944d64730e8237 inherit pro_methods_classsw_1_1UIElement" id="r_a6482d770b94d6b40da944d64730e8237"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a6482d770b94d6b40da944d64730e8237">OnMove</a> (<a class="el" href="structsw_1_1Point.html">Point</a> newClientPosition) override</td></tr>
+<tr class="memdesc:a6482d770b94d6b40da944d64730e8237 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MOVE时调用该函数  <br /></td></tr>
+<tr class="separator:a6482d770b94d6b40da944d64730e8237 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4f4d3a0d23a886c0257c439821f5809 inherit pro_methods_classsw_1_1UIElement" id="r_af4f4d3a0d23a886c0257c439821f5809"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#af4f4d3a0d23a886c0257c439821f5809">OnSize</a> (<a class="el" href="structsw_1_1Size.html">Size</a> newClientSize) override</td></tr>
+<tr class="memdesc:af4f4d3a0d23a886c0257c439821f5809 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SIZE时调用该函数  <br /></td></tr>
+<tr class="separator:af4f4d3a0d23a886c0257c439821f5809 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e1fbc142c7cfe4a4a60959daf0753bc inherit pro_methods_classsw_1_1UIElement" id="r_a7e1fbc142c7cfe4a4a60959daf0753bc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a7e1fbc142c7cfe4a4a60959daf0753bc">OnTextChanged</a> () override</td></tr>
+<tr class="memdesc:a7e1fbc142c7cfe4a4a60959daf0753bc inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Text属性更改时调用此函数  <br /></td></tr>
+<tr class="separator:a7e1fbc142c7cfe4a4a60959daf0753bc inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89f7d92c47cd4ec2049f7b669db30ed9 inherit pro_methods_classsw_1_1UIElement" id="r_a89f7d92c47cd4ec2049f7b669db30ed9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a89f7d92c47cd4ec2049f7b669db30ed9">FontChanged</a> (HFONT hfont) override</td></tr>
+<tr class="memdesc:a89f7d92c47cd4ec2049f7b669db30ed9 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体改变时调用该函数  <br /></td></tr>
+<tr class="separator:a89f7d92c47cd4ec2049f7b669db30ed9 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98812949329f77e400f7e0e381c56c3d inherit pro_methods_classsw_1_1UIElement" id="r_a98812949329f77e400f7e0e381c56c3d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a98812949329f77e400f7e0e381c56c3d">VisibleChanged</a> (bool newVisible) override</td></tr>
+<tr class="memdesc:a98812949329f77e400f7e0e381c56c3d inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visible属性改变时调用此函数  <br /></td></tr>
+<tr class="separator:a98812949329f77e400f7e0e381c56c3d inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95c6eb88c9f93bb135da9ee303ada3be inherit pro_methods_classsw_1_1UIElement" id="r_a95c6eb88c9f93bb135da9ee303ada3be"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a95c6eb88c9f93bb135da9ee303ada3be">OnSetFocus</a> (HWND hPrevFocus) override</td></tr>
+<tr class="memdesc:a95c6eb88c9f93bb135da9ee303ada3be inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SETFOCUS时调用该函数  <br /></td></tr>
+<tr class="separator:a95c6eb88c9f93bb135da9ee303ada3be inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a92f96787dd7981f0c1934ff618b36e inherit pro_methods_classsw_1_1UIElement" id="r_a3a92f96787dd7981f0c1934ff618b36e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a3a92f96787dd7981f0c1934ff618b36e">OnChar</a> (wchar_t ch, <a class="el" href="structsw_1_1KeyFlags.html">KeyFlags</a> flags) override</td></tr>
+<tr class="memdesc:a3a92f96787dd7981f0c1934ff618b36e inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CHAR时调用该函数  <br /></td></tr>
+<tr class="separator:a3a92f96787dd7981f0c1934ff618b36e inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7adb46425947c0b14b3bc5b60f6fdac inherit pro_methods_classsw_1_1UIElement" id="r_ab7adb46425947c0b14b3bc5b60f6fdac"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ab7adb46425947c0b14b3bc5b60f6fdac">OnKeyDown</a> (VirtualKey key, <a class="el" href="structsw_1_1KeyFlags.html">KeyFlags</a> flags) override</td></tr>
+<tr class="memdesc:ab7adb46425947c0b14b3bc5b60f6fdac inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_KEYDOWN时调用该函数  <br /></td></tr>
+<tr class="separator:ab7adb46425947c0b14b3bc5b60f6fdac inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2be8df1de363a180ef2c32606e2fc74 inherit pro_methods_classsw_1_1UIElement" id="r_ad2be8df1de363a180ef2c32606e2fc74"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ad2be8df1de363a180ef2c32606e2fc74">OnKeyUp</a> (VirtualKey key, <a class="el" href="structsw_1_1KeyFlags.html">KeyFlags</a> flags) override</td></tr>
+<tr class="memdesc:ad2be8df1de363a180ef2c32606e2fc74 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_KEYUP时调用该函数  <br /></td></tr>
+<tr class="separator:ad2be8df1de363a180ef2c32606e2fc74 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2589db7fdbba4423307e64f6289a4650 inherit pro_methods_classsw_1_1UIElement" id="r_a2589db7fdbba4423307e64f6289a4650"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a2589db7fdbba4423307e64f6289a4650">OnMouseMove</a> (<a class="el" href="structsw_1_1Point.html">Point</a> mousePosition, MouseKey keyState) override</td></tr>
+<tr class="memdesc:a2589db7fdbba4423307e64f6289a4650 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MOUSEMOVE时调用该函数  <br /></td></tr>
+<tr class="separator:a2589db7fdbba4423307e64f6289a4650 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac65b1a6485b454004801a296c788db6a inherit pro_methods_classsw_1_1UIElement" id="r_ac65b1a6485b454004801a296c788db6a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ac65b1a6485b454004801a296c788db6a">OnMouseLeave</a> () override</td></tr>
+<tr class="memdesc:ac65b1a6485b454004801a296c788db6a inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MOUSELEAVE时调用该函数  <br /></td></tr>
+<tr class="separator:ac65b1a6485b454004801a296c788db6a inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d8e08dc4281b7bf67bb60c9f92fbde0 inherit pro_methods_classsw_1_1UIElement" id="r_a4d8e08dc4281b7bf67bb60c9f92fbde0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a4d8e08dc4281b7bf67bb60c9f92fbde0">OnMouseWheel</a> (int wheelDelta, <a class="el" href="structsw_1_1Point.html">Point</a> mousePosition, MouseKey keyState) override</td></tr>
+<tr class="memdesc:a4d8e08dc4281b7bf67bb60c9f92fbde0 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MOUSEWHEEL时调用该函数  <br /></td></tr>
+<tr class="separator:a4d8e08dc4281b7bf67bb60c9f92fbde0 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a307e0afb1a83b8a31a54844089483f76 inherit pro_methods_classsw_1_1UIElement" id="r_a307e0afb1a83b8a31a54844089483f76"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a307e0afb1a83b8a31a54844089483f76">OnMouseLeftButtonDown</a> (<a class="el" href="structsw_1_1Point.html">Point</a> mousePosition, MouseKey keyState) override</td></tr>
+<tr class="memdesc:a307e0afb1a83b8a31a54844089483f76 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_LBUTTONDOWN时调用该函数  <br /></td></tr>
+<tr class="separator:a307e0afb1a83b8a31a54844089483f76 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3360842adfd2298d4d505305250a6eb inherit pro_methods_classsw_1_1UIElement" id="r_ad3360842adfd2298d4d505305250a6eb"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ad3360842adfd2298d4d505305250a6eb">OnMouseLeftButtonUp</a> (<a class="el" href="structsw_1_1Point.html">Point</a> mousePosition, MouseKey keyState) override</td></tr>
+<tr class="memdesc:ad3360842adfd2298d4d505305250a6eb inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_LBUTTONUP时调用该函数  <br /></td></tr>
+<tr class="separator:ad3360842adfd2298d4d505305250a6eb inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d1a3049967256fa8306f1364ba209c9 inherit pro_methods_classsw_1_1UIElement" id="r_a8d1a3049967256fa8306f1364ba209c9"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a8d1a3049967256fa8306f1364ba209c9">OnMouseRightButtonDown</a> (<a class="el" href="structsw_1_1Point.html">Point</a> mousePosition, MouseKey keyState) override</td></tr>
+<tr class="memdesc:a8d1a3049967256fa8306f1364ba209c9 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_RBUTTONDOWN时调用该函数  <br /></td></tr>
+<tr class="separator:a8d1a3049967256fa8306f1364ba209c9 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42ce311746de9bace84a221efeed7e1f inherit pro_methods_classsw_1_1UIElement" id="r_a42ce311746de9bace84a221efeed7e1f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a42ce311746de9bace84a221efeed7e1f">OnMouseRightButtonUp</a> (<a class="el" href="structsw_1_1Point.html">Point</a> mousePosition, MouseKey keyState) override</td></tr>
+<tr class="memdesc:a42ce311746de9bace84a221efeed7e1f inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_RBUTTONUP时调用该函数  <br /></td></tr>
+<tr class="separator:a42ce311746de9bace84a221efeed7e1f inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabbfe747a3396f5cb08e952cd583c825 inherit pro_methods_classsw_1_1UIElement" id="r_aabbfe747a3396f5cb08e952cd583c825"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#aabbfe747a3396f5cb08e952cd583c825">OnMouseMiddleButtonDown</a> (<a class="el" href="structsw_1_1Point.html">Point</a> mousePosition, MouseKey keyState) override</td></tr>
+<tr class="memdesc:aabbfe747a3396f5cb08e952cd583c825 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MBUTTONDOWN时调用该函数  <br /></td></tr>
+<tr class="separator:aabbfe747a3396f5cb08e952cd583c825 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62da7e785db521278afb58d28e30f4fa inherit pro_methods_classsw_1_1UIElement" id="r_a62da7e785db521278afb58d28e30f4fa"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a62da7e785db521278afb58d28e30f4fa">OnMouseMiddleButtonUp</a> (<a class="el" href="structsw_1_1Point.html">Point</a> mousePosition, MouseKey keyState) override</td></tr>
+<tr class="memdesc:a62da7e785db521278afb58d28e30f4fa inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MBUTTONUP时调用该函数  <br /></td></tr>
+<tr class="separator:a62da7e785db521278afb58d28e30f4fa inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a656bb4995529a018d8c823fc45abf233 inherit pro_methods_classsw_1_1UIElement" id="r_a656bb4995529a018d8c823fc45abf233"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a656bb4995529a018d8c823fc45abf233">OnContextMenu</a> (bool isKeyboardMsg, <a class="el" href="structsw_1_1Point.html">Point</a> mousePosition) override</td></tr>
+<tr class="memdesc:a656bb4995529a018d8c823fc45abf233 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CONTEXTMENU后调用目标控件的该函数  <br /></td></tr>
+<tr class="separator:a656bb4995529a018d8c823fc45abf233 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca1d15ee60f06d11aeccadfc92ed23d2 inherit pro_methods_classsw_1_1UIElement" id="r_aca1d15ee60f06d11aeccadfc92ed23d2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#aca1d15ee60f06d11aeccadfc92ed23d2">OnMenuCommand</a> (int id) override</td></tr>
+<tr class="memdesc:aca1d15ee60f06d11aeccadfc92ed23d2 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">当WM_COMMAND接收到菜单命令时调用该函数  <br /></td></tr>
+<tr class="separator:aca1d15ee60f06d11aeccadfc92ed23d2 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e16c574d3fc57a9da8ac8d9c2bf1a24 inherit pro_methods_classsw_1_1UIElement" id="r_a5e16c574d3fc57a9da8ac8d9c2bf1a24"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a5e16c574d3fc57a9da8ac8d9c2bf1a24">OnColor</a> (HDC hdc, HBRUSH &amp;hRetBrush) override</td></tr>
+<tr class="memdesc:a5e16c574d3fc57a9da8ac8d9c2bf1a24 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">父窗口接收到WM_CTLCOLORxxx时调用对应控件的该函数  <br /></td></tr>
+<tr class="separator:a5e16c574d3fc57a9da8ac8d9c2bf1a24 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6175e146290ecff80407d4c8afa1cf05 inherit pro_methods_classsw_1_1UIElement" id="r_a6175e146290ecff80407d4c8afa1cf05"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a6175e146290ecff80407d4c8afa1cf05">OnSetCursor</a> (HWND hwnd, HitTestResult hitTest, int message, bool &amp;result) override</td></tr>
+<tr class="memdesc:a6175e146290ecff80407d4c8afa1cf05 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SETCURSOR消息时调用该函数  <br /></td></tr>
+<tr class="separator:a6175e146290ecff80407d4c8afa1cf05 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a331869736475e10e2f861b5a242565 inherit pro_methods_classsw_1_1UIElement" id="r_a6a331869736475e10e2f861b5a242565"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a6a331869736475e10e2f861b5a242565">OnDropFiles</a> (HDROP hDrop) override</td></tr>
+<tr class="memdesc:a6a331869736475e10e2f861b5a242565 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DROPFILES时调用该函数  <br /></td></tr>
+<tr class="separator:a6a331869736475e10e2f861b5a242565 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
+<tr class="memitem:aab509b68c9c0b612862cf41d8ef685a3 inherit pro_methods_classsw_1_1WndBase" id="r_aab509b68c9c0b612862cf41d8ef685a3"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>WndBase</b> ()</td></tr>
+<tr class="memdesc:aab509b68c9c0b612862cf41d8ef685a3 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化WndBase <br /></td></tr>
+<tr class="separator:aab509b68c9c0b612862cf41d8ef685a3 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39726d256f8a2ba0d3d0f8bc79c1ab96 inherit pro_methods_classsw_1_1WndBase" id="r_a39726d256f8a2ba0d3d0f8bc79c1ab96"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>WndBase</b> (const <a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp;)=delete</td></tr>
+<tr class="separator:a39726d256f8a2ba0d3d0f8bc79c1ab96 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98bfb3adbc06758e172fe3698151446e inherit pro_methods_classsw_1_1WndBase" id="r_a98bfb3adbc06758e172fe3698151446e"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>WndBase</b> (<a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp;&amp;)=delete</td></tr>
+<tr class="separator:a98bfb3adbc06758e172fe3698151446e inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69ec401ebcb3c062630d8cb4521cb2dc inherit pro_methods_classsw_1_1WndBase" id="r_a69ec401ebcb3c062630d8cb4521cb2dc"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp;)=delete</td></tr>
+<tr class="separator:a69ec401ebcb3c062630d8cb4521cb2dc inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbd4824ac4898f164a0df2f53986aa86 inherit pro_methods_classsw_1_1WndBase" id="r_abbd4824ac4898f164a0df2f53986aa86"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp;&amp;)=delete</td></tr>
+<tr class="separator:abbd4824ac4898f164a0df2f53986aa86 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4889c45dfad820c103dd7f74f2cd0661 inherit pro_methods_classsw_1_1WndBase" id="r_a4889c45dfad820c103dd7f74f2cd0661"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>InitWindow</b> (LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)</td></tr>
+<tr class="memdesc:a4889c45dfad820c103dd7f74f2cd0661 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化为窗口，该函数会调用CreateWindowExW <br /></td></tr>
+<tr class="separator:a4889c45dfad820c103dd7f74f2cd0661 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecb12507b6a8137427841d3bc4181fc6 inherit pro_methods_classsw_1_1WndBase" id="r_aecb12507b6a8137427841d3bc4181fc6"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>InitControl</b> (LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam=NULL)</td></tr>
+<tr class="memdesc:aecb12507b6a8137427841d3bc4181fc6 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化为控件，该函数会调用CreateWindowExW <br /></td></tr>
+<tr class="separator:aecb12507b6a8137427841d3bc4181fc6 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a585967d861673ea0477f25c1a5c0fb30 inherit pro_methods_classsw_1_1WndBase" id="r_a585967d861673ea0477f25c1a5c0fb30"><td class="memItemLeft" align="right" valign="top">
+LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>DefaultWndProc</b> (const <a class="el" href="structsw_1_1ProcMsg.html">ProcMsg</a> &amp;refMsg)</td></tr>
+<tr class="memdesc:a585967d861673ea0477f25c1a5c0fb30 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc <br /></td></tr>
+<tr class="separator:a585967d861673ea0477f25c1a5c0fb30 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a863b26226e16cf37f7169c6edc96a3b4 inherit pro_methods_classsw_1_1WndBase" id="r_a863b26226e16cf37f7169c6edc96a3b4"><td class="memItemLeft" align="right" valign="top">virtual LRESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a863b26226e16cf37f7169c6edc96a3b4">WndProc</a> (const <a class="el" href="structsw_1_1ProcMsg.html">ProcMsg</a> &amp;refMsg)</td></tr>
+<tr class="memdesc:a863b26226e16cf37f7169c6edc96a3b4 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">对WndProc的封装  <br /></td></tr>
+<tr class="separator:a863b26226e16cf37f7169c6edc96a3b4 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a292bd97b5820a1b4e7a38d65e2b609e8 inherit pro_methods_classsw_1_1WndBase" id="r_a292bd97b5820a1b4e7a38d65e2b609e8"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td></tr>
+<tr class="memdesc:a292bd97b5820a1b4e7a38d65e2b609e8 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新_text字段 <br /></td></tr>
+<tr class="separator:a292bd97b5820a1b4e7a38d65e2b609e8 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a888df1f6b89e8da1ba8c7cc8f4671370 inherit pro_methods_classsw_1_1WndBase" id="r_a888df1f6b89e8da1ba8c7cc8f4671370"><td class="memItemLeft" align="right" valign="top">virtual std::wstring &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a888df1f6b89e8da1ba8c7cc8f4671370">GetText</a> ()</td></tr>
+<tr class="memdesc:a888df1f6b89e8da1ba8c7cc8f4671370 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取窗口文本  <br /></td></tr>
+<tr class="separator:a888df1f6b89e8da1ba8c7cc8f4671370 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba0ab3734c3d4c07f3b9bbb029b98edb inherit pro_methods_classsw_1_1WndBase" id="r_aba0ab3734c3d4c07f3b9bbb029b98edb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#aba0ab3734c3d4c07f3b9bbb029b98edb">SetText</a> (const std::wstring &amp;value)</td></tr>
+<tr class="memdesc:aba0ab3734c3d4c07f3b9bbb029b98edb inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">调用SetWindowTextW设置窗口文本  <br /></td></tr>
+<tr class="separator:aba0ab3734c3d4c07f3b9bbb029b98edb inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dd30ab5e8700832140c329739b4b671 inherit pro_methods_classsw_1_1WndBase" id="r_a7dd30ab5e8700832140c329739b4b671"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a7dd30ab5e8700832140c329739b4b671">OnCreate</a> ()</td></tr>
+<tr class="memdesc:a7dd30ab5e8700832140c329739b4b671 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CREATE时调用该函数  <br /></td></tr>
+<tr class="separator:a7dd30ab5e8700832140c329739b4b671 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98d960679d1889998ba548af6a3c8fc4 inherit pro_methods_classsw_1_1WndBase" id="r_a98d960679d1889998ba548af6a3c8fc4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a98d960679d1889998ba548af6a3c8fc4">OnDestroy</a> ()</td></tr>
+<tr class="memdesc:a98d960679d1889998ba548af6a3c8fc4 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DESTROY时调用该函数  <br /></td></tr>
+<tr class="separator:a98d960679d1889998ba548af6a3c8fc4 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a029ba4be0e492f8383f2b5fe22125acb inherit pro_methods_classsw_1_1WndBase" id="r_a029ba4be0e492f8383f2b5fe22125acb"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a029ba4be0e492f8383f2b5fe22125acb">OnPaint</a> ()</td></tr>
+<tr class="memdesc:a029ba4be0e492f8383f2b5fe22125acb inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_PAINT时调用该函数  <br /></td></tr>
+<tr class="separator:a029ba4be0e492f8383f2b5fe22125acb inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a8952400bee12db2117fbf76312d373 inherit pro_methods_classsw_1_1WndBase" id="r_a5a8952400bee12db2117fbf76312d373"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a5a8952400bee12db2117fbf76312d373">OnMouseLeftButtonDoubleClick</a> (<a class="el" href="structsw_1_1Point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
+<tr class="memdesc:a5a8952400bee12db2117fbf76312d373 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_LBUTTONDBLCLK时调用该函数  <br /></td></tr>
+<tr class="separator:a5a8952400bee12db2117fbf76312d373 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b90855aaaa4556e5ef5fe68e8149669 inherit pro_methods_classsw_1_1WndBase" id="r_a5b90855aaaa4556e5ef5fe68e8149669"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a5b90855aaaa4556e5ef5fe68e8149669">OnMouseRightButtonDoubleClick</a> (<a class="el" href="structsw_1_1Point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
+<tr class="memdesc:a5b90855aaaa4556e5ef5fe68e8149669 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_RBUTTONDBLCLK时调用该函数  <br /></td></tr>
+<tr class="separator:a5b90855aaaa4556e5ef5fe68e8149669 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4aa14c2130ef0fbb656d28c287e401f5 inherit pro_methods_classsw_1_1WndBase" id="r_a4aa14c2130ef0fbb656d28c287e401f5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a4aa14c2130ef0fbb656d28c287e401f5">OnMouseMiddleButtonDoubleClick</a> (<a class="el" href="structsw_1_1Point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
+<tr class="memdesc:a4aa14c2130ef0fbb656d28c287e401f5 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MBUTTONDBLCLK时调用该函数  <br /></td></tr>
+<tr class="separator:a4aa14c2130ef0fbb656d28c287e401f5 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c72db003eeb8a29565576ad26cc89b8 inherit pro_methods_classsw_1_1WndBase" id="r_a4c72db003eeb8a29565576ad26cc89b8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a4c72db003eeb8a29565576ad26cc89b8">OnDeadChar</a> (wchar_t ch, <a class="el" href="structsw_1_1KeyFlags.html">KeyFlags</a> flags)</td></tr>
+<tr class="memdesc:a4c72db003eeb8a29565576ad26cc89b8 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DEADCHAR时调用该函数  <br /></td></tr>
+<tr class="separator:a4c72db003eeb8a29565576ad26cc89b8 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a515de5eb7bc6dbc8314c447a99154c6c inherit pro_methods_classsw_1_1WndBase" id="r_a515de5eb7bc6dbc8314c447a99154c6c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a515de5eb7bc6dbc8314c447a99154c6c">OnSysChar</a> (wchar_t ch, <a class="el" href="structsw_1_1KeyFlags.html">KeyFlags</a> flags)</td></tr>
+<tr class="memdesc:a515de5eb7bc6dbc8314c447a99154c6c inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SYSCHAR时调用该函数  <br /></td></tr>
+<tr class="separator:a515de5eb7bc6dbc8314c447a99154c6c inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf4e6c0bbc8fddc9e790864e403c5c91 inherit pro_methods_classsw_1_1WndBase" id="r_acf4e6c0bbc8fddc9e790864e403c5c91"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#acf4e6c0bbc8fddc9e790864e403c5c91">OnSysDeadChar</a> (wchar_t ch, <a class="el" href="structsw_1_1KeyFlags.html">KeyFlags</a> flags)</td></tr>
+<tr class="memdesc:acf4e6c0bbc8fddc9e790864e403c5c91 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SYSDEADCHAR时调用该函数  <br /></td></tr>
+<tr class="separator:acf4e6c0bbc8fddc9e790864e403c5c91 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad63e584926b894913ee1ef4c039a2f98 inherit pro_methods_classsw_1_1WndBase" id="r_ad63e584926b894913ee1ef4c039a2f98"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#ad63e584926b894913ee1ef4c039a2f98">OnSysKeyDown</a> (VirtualKey key, <a class="el" href="structsw_1_1KeyFlags.html">KeyFlags</a> flags)</td></tr>
+<tr class="memdesc:ad63e584926b894913ee1ef4c039a2f98 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SYSKEYDOWN时调用该函数  <br /></td></tr>
+<tr class="separator:ad63e584926b894913ee1ef4c039a2f98 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46dafa7371fbef198ee7a38c4aabc632 inherit pro_methods_classsw_1_1WndBase" id="r_a46dafa7371fbef198ee7a38c4aabc632"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a46dafa7371fbef198ee7a38c4aabc632">OnSysKeyUp</a> (VirtualKey key, <a class="el" href="structsw_1_1KeyFlags.html">KeyFlags</a> flags)</td></tr>
+<tr class="memdesc:a46dafa7371fbef198ee7a38c4aabc632 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SYSKEYUP时调用该函数  <br /></td></tr>
+<tr class="separator:a46dafa7371fbef198ee7a38c4aabc632 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60e633e3cfea36b186c4a210925e865a inherit pro_methods_classsw_1_1WndBase" id="r_a60e633e3cfea36b186c4a210925e865a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a60e633e3cfea36b186c4a210925e865a">OnCommand</a> (int code)</td></tr>
+<tr class="memdesc:a60e633e3cfea36b186c4a210925e865a inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">当父窗口接收到控件的WM_COMMAND时调用该函数  <br /></td></tr>
+<tr class="separator:a60e633e3cfea36b186c4a210925e865a inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69256166096bb51cde45f101c4e9ae95 inherit pro_methods_classsw_1_1WndBase" id="r_a69256166096bb51cde45f101c4e9ae95"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a69256166096bb51cde45f101c4e9ae95">OnControlCommand</a> (<a class="el" href="classsw_1_1WndBase.html">WndBase</a> *pControl, int code, int id)</td></tr>
+<tr class="memdesc:a69256166096bb51cde45f101c4e9ae95 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">当WM_COMMAND接收到控件命令时调用该函数  <br /></td></tr>
+<tr class="separator:a69256166096bb51cde45f101c4e9ae95 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a935f2bb51b99929ac5166ad52396971a inherit pro_methods_classsw_1_1WndBase" id="r_a935f2bb51b99929ac5166ad52396971a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a935f2bb51b99929ac5166ad52396971a">OnAcceleratorCommand</a> (int id)</td></tr>
+<tr class="memdesc:a935f2bb51b99929ac5166ad52396971a inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">当WM_COMMAND接收到快捷键命令时调用该函数  <br /></td></tr>
+<tr class="separator:a935f2bb51b99929ac5166ad52396971a inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b368860fef40406c091880fc72f9cbb inherit pro_methods_classsw_1_1WndBase" id="r_a4b368860fef40406c091880fc72f9cbb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a4b368860fef40406c091880fc72f9cbb">HandleInitialized</a> (HWND hwnd)</td></tr>
+<tr class="memdesc:a4b368860fef40406c091880fc72f9cbb inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口句柄初始化完成  <br /></td></tr>
+<tr class="separator:a4b368860fef40406c091880fc72f9cbb inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeca7ed6a3a6f07933c3412f392893970 inherit pro_methods_classsw_1_1WndBase" id="r_aeca7ed6a3a6f07933c3412f392893970"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#aeca7ed6a3a6f07933c3412f392893970">OnNotify</a> (NMHDR *pNMHDR, LRESULT &amp;result)</td></tr>
+<tr class="memdesc:aeca7ed6a3a6f07933c3412f392893970 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NOTIFY后调用该函数  <br /></td></tr>
+<tr class="separator:aeca7ed6a3a6f07933c3412f392893970 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72a4024b2096ecef4248b1c254b674e2 inherit pro_methods_classsw_1_1WndBase" id="r_a72a4024b2096ecef4248b1c254b674e2"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a72a4024b2096ecef4248b1c254b674e2">OnVerticalScroll</a> (int event, int pos)</td></tr>
+<tr class="memdesc:a72a4024b2096ecef4248b1c254b674e2 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_VSCROLL时调用目标控件的该函数  <br /></td></tr>
+<tr class="separator:a72a4024b2096ecef4248b1c254b674e2 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6773148b0a9a1fdd3c8a0d8cd54a2fd inherit pro_methods_classsw_1_1WndBase" id="r_af6773148b0a9a1fdd3c8a0d8cd54a2fd"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#af6773148b0a9a1fdd3c8a0d8cd54a2fd">OnHorizontalScroll</a> (int event, int pos)</td></tr>
+<tr class="memdesc:af6773148b0a9a1fdd3c8a0d8cd54a2fd inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_HSCROLL时调用目标控件的该函数  <br /></td></tr>
+<tr class="separator:af6773148b0a9a1fdd3c8a0d8cd54a2fd inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a755bd826227232fd30ba5fda47bfb060 inherit pro_methods_classsw_1_1WndBase" id="r_a755bd826227232fd30ba5fda47bfb060"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a755bd826227232fd30ba5fda47bfb060">OnEnabledChanged</a> (bool newValue)</td></tr>
+<tr class="memdesc:a755bd826227232fd30ba5fda47bfb060 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_ENABLE时调用该函数  <br /></td></tr>
+<tr class="separator:a755bd826227232fd30ba5fda47bfb060 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa04cd83e79c42d21127799e573d9f299 inherit pro_methods_classsw_1_1WndBase" id="r_aa04cd83e79c42d21127799e573d9f299"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#aa04cd83e79c42d21127799e573d9f299">OnCtlColor</a> (<a class="el" href="classsw_1_1WndBase.html">WndBase</a> *pControl, HDC hdc, HBRUSH &amp;hRetBrush)</td></tr>
+<tr class="memdesc:aa04cd83e79c42d21127799e573d9f299 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CTLCOLORxxx时调用该函数  <br /></td></tr>
+<tr class="separator:aa04cd83e79c42d21127799e573d9f299 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1445af2018a8e840a25a7487da22c51b inherit pro_methods_classsw_1_1WndBase" id="r_a1445af2018a8e840a25a7487da22c51b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a1445af2018a8e840a25a7487da22c51b">OnNcHitTest</a> (const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;testPoint, HitTestResult &amp;result)</td></tr>
+<tr class="memdesc:a1445af2018a8e840a25a7487da22c51b inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NCHITTEST后调用该函数  <br /></td></tr>
+<tr class="separator:a1445af2018a8e840a25a7487da22c51b inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd6fa4ee7f0a89966f165292c6be1e4c inherit pro_methods_classsw_1_1WndBase" id="r_afd6fa4ee7f0a89966f165292c6be1e4c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#afd6fa4ee7f0a89966f165292c6be1e4c">OnEraseBackground</a> (HDC hdc, LRESULT &amp;result)</td></tr>
+<tr class="memdesc:afd6fa4ee7f0a89966f165292c6be1e4c inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_ERASEBKGND时调用该函数  <br /></td></tr>
+<tr class="separator:afd6fa4ee7f0a89966f165292c6be1e4c inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e9cac4e02b3a420c42968cbf061fd02 inherit pro_methods_classsw_1_1WndBase" id="r_a6e9cac4e02b3a420c42968cbf061fd02"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a6e9cac4e02b3a420c42968cbf061fd02">OnDrawItem</a> (int id, DRAWITEMSTRUCT *pDrawItem)</td></tr>
+<tr class="memdesc:a6e9cac4e02b3a420c42968cbf061fd02 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DRAWITEM时调用该函数  <br /></td></tr>
+<tr class="separator:a6e9cac4e02b3a420c42968cbf061fd02 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78b15a9d31f1cd1c455a36fd4f4cefe7 inherit pro_methods_classsw_1_1WndBase" id="r_a78b15a9d31f1cd1c455a36fd4f4cefe7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a78b15a9d31f1cd1c455a36fd4f4cefe7">OnDrawItemSelf</a> (DRAWITEMSTRUCT *pDrawItem)</td></tr>
+<tr class="memdesc:a78b15a9d31f1cd1c455a36fd4f4cefe7 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">父窗口接收到WM_DRAWITEM后且父窗口OnDrawItem函数返回false时调用发出通知控件的该函数  <br /></td></tr>
+<tr class="separator:a78b15a9d31f1cd1c455a36fd4f4cefe7 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e2840d620305548116446aaf0cf99ac inherit pro_methods_classsw_1_1WndBase" id="r_a4e2840d620305548116446aaf0cf99ac"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a4e2840d620305548116446aaf0cf99ac">OnMeasureItem</a> (int id, MEASUREITEMSTRUCT *pMeasure)</td></tr>
+<tr class="memdesc:a4e2840d620305548116446aaf0cf99ac inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MEASUREITEM时调用该函数  <br /></td></tr>
+<tr class="separator:a4e2840d620305548116446aaf0cf99ac inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1241102f758c80bc7a5a85122f273ca1 inherit pro_methods_classsw_1_1WndBase" id="r_a1241102f758c80bc7a5a85122f273ca1"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a1241102f758c80bc7a5a85122f273ca1">OnMeasureItemSelf</a> (MEASUREITEMSTRUCT *pMeasure)</td></tr>
+<tr class="memdesc:a1241102f758c80bc7a5a85122f273ca1 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">父窗口接收到WM_MEASUREITEM后且父窗口OnMeasureItem函数返回false时调用发出通知控件的该函数  <br /></td></tr>
+<tr class="separator:a1241102f758c80bc7a5a85122f273ca1 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>静态控件 </p>
+</div><hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="StaticControl_8h_source.html">StaticControl.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>sw</b></li><li class="navelem"><a class="el" href="classsw_1_1StaticControl.html">StaticControl</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

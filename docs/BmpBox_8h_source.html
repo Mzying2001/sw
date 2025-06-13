@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: BmpBox.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('BmpBox_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">BmpBox.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;StaticControl.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">enum class</span> BmpBoxSizeMode {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        Normal,       <span class="comment">// 位图置于BmpBox左上角</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        StretchImage, <span class="comment">// 拉伸位图填充BmpBox</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        AutoSize,     <span class="comment">// 调整BmpBox大小，使其等于所包含位图的大小</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        CenterImage,  <span class="comment">// 将位图居中显示</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        Zoom,         <span class="comment">// 图像按照原来的比例缩放</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    };</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classsw_1_1BmpBox.html">   21</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1BmpBox.html">BmpBox</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1StaticControl.html">StaticControl</a></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        HBITMAP _hBitmap{NULL};</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        SIZE _bmpSize{0, 0};</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        BmpBoxSizeMode _sizeMode{BmpBoxSizeMode::Normal};</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classsw_1_1BmpBox.html#af7ec573fbf6a7dcf2eec165f02edef41">   43</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty&lt;HBITMAP&gt;</a> <a class="code hl_variable" href="classsw_1_1BmpBox.html#af7ec573fbf6a7dcf2eec165f02edef41">BmpHandle</a>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classsw_1_1BmpBox.html#a95fbd6a72c3a54987b3fc7df107a4edd">   48</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;BmpBoxSizeMode&gt;</a> <a class="code hl_variable" href="classsw_1_1BmpBox.html#a95fbd6a72c3a54987b3fc7df107a4edd">SizeMode</a>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classsw_1_1BmpBox.html#a28f8a39285fc7e6c6359f9b87db6953f">   54</a></span>        <a class="code hl_function" href="classsw_1_1BmpBox.html#a28f8a39285fc7e6c6359f9b87db6953f">BmpBox</a>();</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classsw_1_1BmpBox.html#a7ec9a45e8ce8eb49376c2ea2771ceb31">   61</a></span>        HBITMAP <a class="code hl_function" href="classsw_1_1BmpBox.html#a7ec9a45e8ce8eb49376c2ea2771ceb31">Load</a>(HBITMAP hBitmap);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classsw_1_1BmpBox.html#a3f5b0e93b3b5b391e210f7441256d860">   69</a></span>        HBITMAP <a class="code hl_function" href="classsw_1_1BmpBox.html#a3f5b0e93b3b5b391e210f7441256d860">Load</a>(HINSTANCE hInstance, <span class="keywordtype">int</span> resourceId);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classsw_1_1BmpBox.html#a5c1cd1e0f949c017d3d620bac1e5404a">   76</a></span>        HBITMAP <a class="code hl_function" href="classsw_1_1BmpBox.html#a5c1cd1e0f949c017d3d620bac1e5404a">Load</a>(<span class="keyword">const</span> std::wstring &amp;fileName);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="classsw_1_1BmpBox.html#ad26478ac46d40880851a221a2d90ba68">   81</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1BmpBox.html#ad26478ac46d40880851a221a2d90ba68">Clear</a>();</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="classsw_1_1BmpBox.html#a2c5616dbf6f3fadc1af535cdec92f3f7">   86</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1BmpBox.html#a2c5616dbf6f3fadc1af535cdec92f3f7">SizeToImage</a>();</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="classsw_1_1BmpBox.html#a332642f5bef5d54589d5c1d322fd6ded">   93</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1BmpBox.html#a332642f5bef5d54589d5c1d322fd6ded">OnDestroy</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classsw_1_1BmpBox.html#aa3b5703631e66331b23cc3397d51f305">   99</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1BmpBox.html#aa3b5703631e66331b23cc3397d51f305">OnPaint</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="classsw_1_1BmpBox.html#a6cb7446ef4d2308b971af9fe28b11bae">  106</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1BmpBox.html#a6cb7446ef4d2308b971af9fe28b11bae">OnSize</a>(<a class="code hl_struct" href="structsw_1_1Size.html">Size</a> newClientSize) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="classsw_1_1BmpBox.html#adf6357c58fba6f846f136bb2956368d9">  112</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1BmpBox.html#adf6357c58fba6f846f136bb2956368d9">Measure</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Size.html">Size</a> &amp;availableSize) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="keywordtype">void</span> _UpdateBmpSize();</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="keywordtype">void</span> _SetBmp(HBITMAP hBitmap);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        HBITMAP _SetBmpIfNotNull(HBITMAP hBitmap);</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    };</div>
+</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>}</div>
+<div class="ttc" id="aclasssw_1_1BmpBox_html"><div class="ttname"><a href="classsw_1_1BmpBox.html">sw::BmpBox</a></div><div class="ttdoc">用于显示一个位图的控件</div><div class="ttdef"><b>Definition</b> BmpBox.h:22</div></div>
+<div class="ttc" id="aclasssw_1_1BmpBox_html_a28f8a39285fc7e6c6359f9b87db6953f"><div class="ttname"><a href="classsw_1_1BmpBox.html#a28f8a39285fc7e6c6359f9b87db6953f">sw::BmpBox::BmpBox</a></div><div class="ttdeci">BmpBox()</div><div class="ttdoc">初始化BmpBox</div></div>
+<div class="ttc" id="aclasssw_1_1BmpBox_html_a2c5616dbf6f3fadc1af535cdec92f3f7"><div class="ttname"><a href="classsw_1_1BmpBox.html#a2c5616dbf6f3fadc1af535cdec92f3f7">sw::BmpBox::SizeToImage</a></div><div class="ttdeci">void SizeToImage()</div><div class="ttdoc">调整控件尺寸为位图尺寸，未加载位图时该函数不生效</div></div>
+<div class="ttc" id="aclasssw_1_1BmpBox_html_a332642f5bef5d54589d5c1d322fd6ded"><div class="ttname"><a href="classsw_1_1BmpBox.html#a332642f5bef5d54589d5c1d322fd6ded">sw::BmpBox::OnDestroy</a></div><div class="ttdeci">virtual bool OnDestroy() override</div><div class="ttdoc">接收到WM_DESTROY时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1BmpBox_html_a3f5b0e93b3b5b391e210f7441256d860"><div class="ttname"><a href="classsw_1_1BmpBox.html#a3f5b0e93b3b5b391e210f7441256d860">sw::BmpBox::Load</a></div><div class="ttdeci">HBITMAP Load(HINSTANCE hInstance, int resourceId)</div><div class="ttdoc">从指定模块中加载位图</div></div>
+<div class="ttc" id="aclasssw_1_1BmpBox_html_a5c1cd1e0f949c017d3d620bac1e5404a"><div class="ttname"><a href="classsw_1_1BmpBox.html#a5c1cd1e0f949c017d3d620bac1e5404a">sw::BmpBox::Load</a></div><div class="ttdeci">HBITMAP Load(const std::wstring &amp;fileName)</div><div class="ttdoc">从文件加载位图</div></div>
+<div class="ttc" id="aclasssw_1_1BmpBox_html_a6cb7446ef4d2308b971af9fe28b11bae"><div class="ttname"><a href="classsw_1_1BmpBox.html#a6cb7446ef4d2308b971af9fe28b11bae">sw::BmpBox::OnSize</a></div><div class="ttdeci">virtual bool OnSize(Size newClientSize) override</div><div class="ttdoc">接收到WM_SIZE时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1BmpBox_html_a7ec9a45e8ce8eb49376c2ea2771ceb31"><div class="ttname"><a href="classsw_1_1BmpBox.html#a7ec9a45e8ce8eb49376c2ea2771ceb31">sw::BmpBox::Load</a></div><div class="ttdeci">HBITMAP Load(HBITMAP hBitmap)</div><div class="ttdoc">加载位图，该函数会复制一个位图句柄作为显示的位图</div></div>
+<div class="ttc" id="aclasssw_1_1BmpBox_html_a95fbd6a72c3a54987b3fc7df107a4edd"><div class="ttname"><a href="classsw_1_1BmpBox.html#a95fbd6a72c3a54987b3fc7df107a4edd">sw::BmpBox::SizeMode</a></div><div class="ttdeci">const Property&lt; BmpBoxSizeMode &gt; SizeMode</div><div class="ttdoc">位图在BmpBox中的定位方式</div><div class="ttdef"><b>Definition</b> BmpBox.h:48</div></div>
+<div class="ttc" id="aclasssw_1_1BmpBox_html_aa3b5703631e66331b23cc3397d51f305"><div class="ttname"><a href="classsw_1_1BmpBox.html#aa3b5703631e66331b23cc3397d51f305">sw::BmpBox::OnPaint</a></div><div class="ttdeci">virtual bool OnPaint() override</div><div class="ttdoc">接收到WM_PAINT时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1BmpBox_html_ad26478ac46d40880851a221a2d90ba68"><div class="ttname"><a href="classsw_1_1BmpBox.html#ad26478ac46d40880851a221a2d90ba68">sw::BmpBox::Clear</a></div><div class="ttdeci">void Clear()</div><div class="ttdoc">清除加载的位图</div></div>
+<div class="ttc" id="aclasssw_1_1BmpBox_html_adf6357c58fba6f846f136bb2956368d9"><div class="ttname"><a href="classsw_1_1BmpBox.html#adf6357c58fba6f846f136bb2956368d9">sw::BmpBox::Measure</a></div><div class="ttdeci">virtual void Measure(const Size &amp;availableSize) override</div><div class="ttdoc">测量控件所需尺寸</div></div>
+<div class="ttc" id="aclasssw_1_1BmpBox_html_af7ec573fbf6a7dcf2eec165f02edef41"><div class="ttname"><a href="classsw_1_1BmpBox.html#af7ec573fbf6a7dcf2eec165f02edef41">sw::BmpBox::BmpHandle</a></div><div class="ttdeci">const ReadOnlyProperty&lt; HBITMAP &gt; BmpHandle</div><div class="ttdoc">当前控件显示的位图句柄，使用Load函数可以加载位图</div><div class="ttdef"><b>Definition</b> BmpBox.h:43</div></div>
+<div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1520</div></div>
+<div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>Definition</b> Property.h:1562</div></div>
+<div class="ttc" id="aclasssw_1_1StaticControl_html"><div class="ttname"><a href="classsw_1_1StaticControl.html">sw::StaticControl</a></div><div class="ttdoc">静态控件</div><div class="ttdef"><b>Definition</b> StaticControl.h:11</div></div>
+<div class="ttc" id="astructsw_1_1Size_html"><div class="ttname"><a href="structsw_1_1Size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>Definition</b> Size.h:11</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>BmpBox.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

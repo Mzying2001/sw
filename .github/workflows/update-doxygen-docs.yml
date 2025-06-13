@@ -1,0 +1,41 @@
+name: Update Doxygen Docs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  doxygen:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Doxygen
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+
+      - name: Generate docs with Doxygen
+        run:  |
+          cd doxygen
+          doxygen Doxyfile
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and push docs if changed
+        run: |
+          git add docs/
+          if git diff --cached --quiet; then
+            echo "No changes in docs to commit."
+          else
+            git commit -m "docs: auto-update generated docs by Doxygen"
+            git push
+          fi
