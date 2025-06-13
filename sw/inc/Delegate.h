@@ -613,8 +613,10 @@ namespace sw
          * @brief 拷贝构造函数
          */
         Delegate(const Delegate &other)
-            : _data(other._data)
         {
+            for (size_t i = 0; i < other._data.Count(); ++i) {
+                _data.Add(other._data[i]->Clone());
+            }
         }
 
         /**
@@ -630,8 +632,12 @@ namespace sw
          */
         Delegate &operator=(const Delegate &other)
         {
-            if (this != &other) {
-                _data = other._data;
+            if (this == &other) {
+                return *this;
+            }
+            _data.Clear();
+            for (size_t i = 0; i < other._data.Count(); ++i) {
+                _data.Add(other._data[i]->Clone());
             }
             return *this;
         }
@@ -932,10 +938,7 @@ namespace sw
          */
         virtual ICallable<TRet(Args...)> *Clone() const override
         {
-            auto delegate = new Delegate();
-            for (size_t i = 0; i < _data.Count(); ++i)
-                delegate->_data.Add(_data[i]->Clone());
-            return delegate;
+            return new Delegate(*this);
         }
 
         /**
