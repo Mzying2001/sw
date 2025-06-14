@@ -46,3 +46,27 @@ install(EXPORT swTargets
     NAMESPACE sw::
     DESTINATION share/sw
 )
+
+# 用于生成配置文件
+include(CMakePackageConfigHelpers)
+
+# 生成swConfig.cmake
+configure_package_config_file(
+    ${PROJECT_SOURCE_DIR}/swConfig.cmake.in
+    ${PROJECT_BINARY_DIR}/swConfig.cmake
+    INSTALL_DESTINATION share/sw
+)
+
+# 生成版本文件
+write_basic_package_version_file(
+    ${PROJECT_BINARY_DIR}/swConfigVersion.cmake
+    VERSION 0.0.1
+    COMPATIBILITY AnyNewerVersion
+)
+
+# 安装配置文件
+install(FILES
+    ${PROJECT_BINARY_DIR}/swConfig.cmake
+    ${PROJECT_BINARY_DIR}/swConfigVersion.cmake
+    DESTINATION share/sw
+)
