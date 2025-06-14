@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SimpleWindow.h"
+#include <cmath>
 
 /**
  * @brief 自定义窗口类，继承自sw::Window
