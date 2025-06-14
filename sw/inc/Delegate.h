@@ -135,6 +135,9 @@ namespace sw
             _Reset(other._state);
 
             switch (other._state) {
+                case STATE_NONE: {
+                    break;
+                }
                 case STATE_SINGLE: {
                     _GetSingle().reset(other._GetSingle()->Clone());
                     break;
@@ -159,6 +162,9 @@ namespace sw
             _Reset(other._state);
 
             switch (other._state) {
+                case STATE_NONE: {
+                    break;
+                }
                 case STATE_SINGLE: {
                     _GetSingle() = std::move(other._GetSingle());
                     other._Reset();
@@ -336,6 +342,9 @@ namespace sw
         void _Reset() noexcept
         {
             switch (_state) {
+                case STATE_NONE: {
+                    break;
+                }
                 case STATE_SINGLE: {
                     _GetSingle().~TSinglePtr();
                     _state = STATE_NONE;
