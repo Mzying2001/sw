@@ -17,6 +17,35 @@
 + **路由事件**：  
   采用路由事件机制，即事件可以冒泡，从源控件向上传播，可以在不同层次的控件上注册事件处理程序。
 
+## 使用说明
+
+### 克隆项目
+
+首先，将本项目克隆到本地：
+
+```bash
+git clone https://github.com/Mzying2001/sw.git
+```
+
+#### 方式一：使用 Visual Studio
+
+1. 在解决方案中添加 `vs/sw.vcxproj` 项目的引用；
+2. 在项目属性中，将路径 `sw/inc` 添加到附加包含目录（Additional Include Directories）。
+
+#### 方式二：使用 CMake
+
+1. 在 `CMakeLists.txt` 中添加：
+
+    ```cmake
+    add_subdirectory(path/to/sw)
+    ```
+
+2. 链接 `sw` 库，例如：
+
+   ```cmake
+   target_link_libraries(your_target PRIVATE sw)
+   ```
+
 ## 快速入门
 
 以下是一个 SimpleWindow 的 HelloWorld 程序，更多示例详见[这里](https://github.com/Mzying2001/sw/tree/main/examples)。

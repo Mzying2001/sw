@@ -17,6 +17,35 @@
 + **Routed Events**:  
   Adopts a routed event mechanism, where events can bubble up from the source control to propagate upwards. Event handlers can be registered on controls at different levels.
 
+## Usage
+
+### Clone the Repository
+
+First, clone this repository to your local machine:
+
+```bash
+git clone https://github.com/Mzying2001/sw.git
+```
+
+#### Method 1: Using Visual Studio
+
+1. Add a reference to the `vs/sw.vcxproj` project in your solution.
+2. In your project properties, add the path `sw/inc` to the **Additional Include Directories**.
+
+#### Method 2: Using CMake
+
+1. Add the following to your `CMakeLists.txt`:
+
+    ```cmake
+    add_subdirectory(path/to/sw)
+    ```
+
+2. Link the `sw` library, for example:
+
+   ```cmake
+   target_link_libraries(your_target PRIVATE sw)
+   ```
+
 ## Quick Start
 
 Here is a SimpleWindow HelloWorld program. For more examples, see [here](https://github.com/Mzying2001/sw/tree/main/examples).
