@@ -38,7 +38,7 @@ install(TARGETS sw EXPORT swTargets
 )
 
 # 安装头文件
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/inc/ DESTINATION include)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/inc/ DESTINATION include/sw)
 
 # 安装CMake配置文件
 install(EXPORT swTargets
