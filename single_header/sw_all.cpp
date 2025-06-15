@@ -986,7 +986,7 @@ void sw::Window::ShowDialog()
     }
 
     if (hOwner == NULL) {
-        if (hOwner = GetActiveWindow()) {
+        if ((hOwner = GetActiveWindow()) != NULL) {
             SetWindowLongPtrW(hwnd, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
         }
     }
