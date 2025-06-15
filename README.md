@@ -8,14 +8,47 @@
 
 + **基于 Windows API**：  
   SimpleWindow 是一个基于 Windows API 的框架，无其他依赖项。
+
 + **支持属性**：  
   实现了类似于 C# 的属性语法，可以直观地获取和修改对象属性。
+
 + **高 DPI 支持**：  
   原生支持高 DPI，使用 DIP（设备独立像素）作为默认长度单位。
+
 + **灵活的布局**：  
   实现了一套类似于 WPF 的布局系统，支持诸如 `GridLayout`、`StackLayout`、`DockLayout` 等各种布局。
+
 + **路由事件**：  
   采用路由事件机制，即事件可以冒泡，从源控件向上传播，可以在不同层次的控件上注册事件处理程序。
+
+## 使用说明
+
+### 克隆项目
+
+首先，将本项目克隆到本地：
+
+```bash
+git clone https://github.com/Mzying2001/sw.git
+```
+
+#### 方式一：使用 Visual Studio
+
+1. 在解决方案中添加 `vs/sw.vcxproj` 项目的引用；
+2. 在项目属性中，将路径 `sw/inc` 添加到附加包含目录（Additional Include Directories）。
+
+#### 方式二：使用 CMake
+
+1. 在 `CMakeLists.txt` 中添加：
+
+    ```cmake
+    add_subdirectory(path/to/sw)
+    ```
+
+2. 链接 `sw` 库，例如：
+
+   ```cmake
+   target_link_libraries(your_target PRIVATE sw)
+   ```
 
 ## 快速入门
 

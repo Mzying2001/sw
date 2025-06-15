@@ -31,20 +31,45 @@ sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnCancel(const MsgBoxCallback &c
     return this->On<MsgBoxResult::Cancel>(callback);
 }
 
-sw::MsgBoxResultHelper sw::MsgBox::Show(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnAbort(const MsgBoxCallback &callback)
+{
+    return this->On<MsgBoxResult::Abort>(callback);
+}
+
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnContinue(const MsgBoxCallback &callback)
+{
+    return this->On<MsgBoxResult::Continue>(callback);
+}
+
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnIgnore(const MsgBoxCallback &callback)
+{
+    return this->On<MsgBoxResult::Ignore>(callback);
+}
+
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnRetry(const MsgBoxCallback &callback)
+{
+    return this->On<MsgBoxResult::Retry>(callback);
+}
+
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnTryAgain(const MsgBoxCallback &callback)
+{
+    return this->On<MsgBoxResult::TryAgain>(callback);
+}
+
+sw::MsgBoxResultHelper sw::MsgBox::Show(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button, MsgBoxIcon icon)
 {
     HWND hwnd = (owner == nullptr) ? reinterpret_cast<HWND>(NULL) : owner->Handle;
-    return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button);
+    return (MsgBoxResult)MessageBoxW(hwnd, text.c_str(), caption.c_str(), (UINT)button | (UINT)icon);
 }
 
-sw::MsgBoxResultHelper sw::MsgBox::Show(const WndBase &owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
+sw::MsgBoxResultHelper sw::MsgBox::Show(const WndBase &owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button, MsgBoxIcon icon)
 {
-    return MsgBox::Show(&owner, text, caption, button);
+    return MsgBox::Show(&owner, text, caption, button, icon);
 }
 
-sw::MsgBoxResultHelper sw::MsgBox::Show(const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
+sw::MsgBoxResultHelper sw::MsgBox::Show(const std::wstring &text, const std::wstring &caption, MsgBoxButton button, MsgBoxIcon icon)
 {
-    return MsgBox::Show(Window::ActiveWindow, text, caption, button);
+    return MsgBox::Show(Window::ActiveWindow, text, caption, button, icon);
 }
 
 sw::MsgBoxResultHelper sw::MsgBox::ShowInfo(const WndBase *owner, const std::wstring &text, const std::wstring &caption, MsgBoxButton button)
