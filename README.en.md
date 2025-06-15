@@ -8,12 +8,16 @@
 
 + **Based on Windows API**:  
   SimpleWindow is a framework based on the Windows API with no additional dependencies.
+
 + **Supports Properties**:  
   It implements property syntax similar to C#, allowing for intuitive access and modification of object properties.
+
 + **High DPI Support**:  
   Native support for high DPI using DIP (Device Independent Pixels) as the default unit of measurement.
+
 + **Flexible Layout**:  
   Implements a layout system similar to WPF, supporting various layouts such as `GridLayout`, `StackLayout`, `DockLayout`, and more.
+
 + **Routed Events**:  
   Adopts a routed event mechanism, where events can bubble up from the source control to propagate upwards. Event handlers can be registered on controls at different levels.
 
