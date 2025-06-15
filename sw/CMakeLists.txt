@@ -44,7 +44,7 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/inc/ DESTINATION include/sw)
 install(EXPORT swTargets
     FILE swTargets.cmake
     NAMESPACE sw::
-    DESTINATION share/sw
+    DESTINATION share/sw-gui
 )
 
 # 用于生成配置文件
@@ -54,7 +54,7 @@ include(CMakePackageConfigHelpers)
 configure_package_config_file(
     ${PROJECT_SOURCE_DIR}/swConfig.cmake.in
     ${PROJECT_BINARY_DIR}/swConfig.cmake
-    INSTALL_DESTINATION share/sw
+    INSTALL_DESTINATION share/sw-gui
 )
 
 # 生成版本文件
@@ -68,5 +68,5 @@ write_basic_package_version_file(
 install(FILES
     ${PROJECT_BINARY_DIR}/swConfig.cmake
     ${PROJECT_BINARY_DIR}/swConfigVersion.cmake
-    DESTINATION share/sw
+    DESTINATION share/sw-gui
 )
