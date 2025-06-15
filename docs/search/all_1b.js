@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['弃用列表_0',['弃用列表',['../deprecated.html',1,'']]]
+  ['克隆项目_0',['克隆项目',['../index.html#autotoc_md3',1,'']]]
 ];

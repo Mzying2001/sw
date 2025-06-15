@@ -1,5 +1,14 @@
 var NAVTREEINDEX6 =
 {
+"structsw_1_1Rect.html#ada69154ab3d734587ef9695b10144b01":[2,0,0,120,12],
+"structsw_1_1Rect.html#adeb78de2f6a13f22d475605eb0e0e074":[2,0,0,120,11],
+"structsw_1_1Rect.html#af6c8b62aa73047637c58d8cdf6c05aff":[2,0,0,120,10],
+"structsw_1_1Rect.html#afb7a0a9a12dad7756f46b2e1abdafa7c":[2,0,0,120,9],
+"structsw_1_1RoutedEventArgs.html":[2,0,0,121],
+"structsw_1_1RoutedEventArgs.html#a46df8118b89dcc6c494cdbded901b082":[2,0,0,121,1],
+"structsw_1_1RoutedEventArgs.html#a57576085d942ca3748d48482b08d8d44":[2,0,0,121,4],
+"structsw_1_1RoutedEventArgs.html#a9fb971eec1e6ba4aee1366c3f9c20bfd":[2,0,0,121,2],
+"structsw_1_1RoutedEventArgs.html#abfb9cf4b493d4cf7f6dc6c2d2a803fad":[2,0,0,121,5],
 "structsw_1_1RoutedEventArgs.html#ac299c564c53fa039f47a06d08272d969":[2,0,0,121,3],
 "structsw_1_1RoutedEventArgs.html#ad6e6da62f114abfabb682afd38b6f7a3":[2,0,0,121,0],
 "structsw_1_1ScrollingEventArgs.html":[2,0,0,125],

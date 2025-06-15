@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['特点_0',['特点',['../index.html#autotoc_md1',1,'']]]
+  ['弃用列表_0',['弃用列表',['../deprecated.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['快速入门_0',['快速入门',['../index.html#autotoc_md2',1,'']]]
+  ['开发文档_0',['开发文档',['../index.html#autotoc_md7',1,'']]]
 ];

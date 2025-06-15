@@ -109,6 +109,28 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
  采用路由事件机制，即事件可以冒泡，从源控件向上传播，可以在不同层次的控件上注册事件处理程序。</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md2"></a>
+使用说明</h1>
+<h2><a class="anchor" id="autotoc_md3"></a>
+克隆项目</h2>
+<p>首先，将本项目克隆到本地：</p>
+<div class="fragment"><div class="line">git clone https://github.com/Mzying2001/sw.git</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md4"></a>
+方式一：使用 Visual Studio</h3>
+<ol type="1">
+<li>在解决方案中添加 <code>vs/sw.vcxproj</code> 项目的引用；</li>
+<li>在项目属性中，将路径 <code>sw/inc</code> 添加到附加包含目录（Additional Include Directories）。</li>
+</ol>
+<h3><a class="anchor" id="autotoc_md5"></a>
+方式二：使用 CMake</h3>
+<ol type="1">
+<li><p class="startli">在 <code>CMakeLists.txt</code> 中添加：</p>
+<div class="fragment"><div class="line">add_subdirectory(path/to/sw)</div>
+</div><!-- fragment --></li>
+<li><p class="startli">链接 <code>sw</code> 库，例如：</p>
+<div class="fragment"><div class="line">target_link_libraries(your_target PRIVATE sw)</div>
+</div><!-- fragment --></li>
+</ol>
+<h1><a class="anchor" id="autotoc_md6"></a>
 快速入门</h1>
 <p>以下是一个 SimpleWindow 的 HelloWorld 程序，更多示例详见<a href="https://github.com/Mzying2001/sw/tree/main/examples">这里</a>。</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;SimpleWindow.h&quot;</span></div>
@@ -130,7 +152,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="line">    <span class="comment">// 添加按钮单击事件处理函数，实现单击按钮弹出消息框</span></div>
 <div class="line">    button.<a class="code hl_function" href="classsw_1_1UIElement.html#a7c1fb1c05dee9d36a8ecc170aa9ab1be">AddHandler</a>(sw::ButtonBase_Clicked,</div>
 <div class="line">        [](<a class="code hl_class" href="classsw_1_1UIElement.html">sw::UIElement</a>&amp; sender, <a class="code hl_struct" href="structsw_1_1RoutedEventArgs.html">sw::RoutedEventArgs</a>&amp; e) {</div>
-<div class="line">            <a class="code hl_function" href="classsw_1_1MsgBox.html#aec7bbcd177c3e37c4e5b59a7a9adc693">sw::MsgBox::Show</a>(L<span class="stringliteral">&quot;Hello, SimpleWindow!&quot;</span>);</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1MsgBox.html#adbddcbfdd06d9eb6adcdf5e86d2f6146">sw::MsgBox::Show</a>(L<span class="stringliteral">&quot;Hello, SimpleWindow!&quot;</span>);</div>
 <div class="line">        });</div>
 <div class="line"> </div>
 <div class="line">    mainWindow.<a class="code hl_function" href="classsw_1_1UIElement.html#a32893339be348aa964441954f3a31101">AddChild</a>(button);</div>
@@ -142,7 +164,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="ttc" id="aclasssw_1_1App_html_a05192f9abf49cc0a698024855dde22de"><div class="ttname"><a href="classsw_1_1App.html#a05192f9abf49cc0a698024855dde22de">sw::App::MsgLoop</a></div><div class="ttdeci">static int MsgLoop()</div><div class="ttdoc">消息循环</div></div>
 <div class="ttc" id="aclasssw_1_1Button_html"><div class="ttname"><a href="classsw_1_1Button.html">sw::Button</a></div><div class="ttdoc">按钮</div><div class="ttdef"><b>Definition</b> Button.h:11</div></div>
 <div class="ttc" id="aclasssw_1_1FillLayout_html"><div class="ttname"><a href="classsw_1_1FillLayout.html">sw::FillLayout</a></div><div class="ttdoc">一种将全部元素都铺满的布局，一般用于在只有一个子元素的时候将该元素铺满整个可用区域</div><div class="ttdef"><b>Definition</b> FillLayout.h:11</div></div>
-<div class="ttc" id="aclasssw_1_1MsgBox_html_aec7bbcd177c3e37c4e5b59a7a9adc693"><div class="ttname"><a href="classsw_1_1MsgBox.html#aec7bbcd177c3e37c4e5b59a7a9adc693">sw::MsgBox::Show</a></div><div class="ttdeci">static MsgBoxResultHelper Show(const WndBase *owner, const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok)</div><div class="ttdoc">显示一个不含图标的消息框</div></div>
+<div class="ttc" id="aclasssw_1_1MsgBox_html_adbddcbfdd06d9eb6adcdf5e86d2f6146"><div class="ttname"><a href="classsw_1_1MsgBox.html#adbddcbfdd06d9eb6adcdf5e86d2f6146">sw::MsgBox::Show</a></div><div class="ttdeci">static MsgBoxResultHelper Show(const WndBase *owner, const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok, MsgBoxIcon icon=MsgBoxIcon::None)</div><div class="ttdoc">显示消息框</div></div>
 <div class="ttc" id="aclasssw_1_1UIElement_html"><div class="ttname"><a href="classsw_1_1UIElement.html">sw::UIElement</a></div><div class="ttdoc">表示界面中的元素</div><div class="ttdef"><b>Definition</b> UIElement.h:73</div></div>
 <div class="ttc" id="aclasssw_1_1UIElement_html_a32893339be348aa964441954f3a31101"><div class="ttname"><a href="classsw_1_1UIElement.html#a32893339be348aa964441954f3a31101">sw::UIElement::AddChild</a></div><div class="ttdeci">bool AddChild(UIElement *element)</div><div class="ttdoc">添加子元素</div></div>
 <div class="ttc" id="aclasssw_1_1UIElement_html_a7c1fb1c05dee9d36a8ecc170aa9ab1be"><div class="ttname"><a href="classsw_1_1UIElement.html#a7c1fb1c05dee9d36a8ecc170aa9ab1be">sw::UIElement::AddHandler</a></div><div class="ttdeci">void AddHandler(RoutedEventType eventType, const RoutedEventHandler &amp;handler)</div><div class="ttdoc">添加路由事件处理函数</div></div>
@@ -151,16 +173,16 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="ttc" id="aclasssw_1_1Window_html_a97f714390560b186f28c05b1f6a35cec"><div class="ttname"><a href="classsw_1_1Window.html#a97f714390560b186f28c05b1f6a35cec">sw::Window::Show</a></div><div class="ttdeci">void Show(int nCmdShow=SW_SHOW)</div><div class="ttdoc">显示窗口</div></div>
 <div class="ttc" id="aclasssw_1_1WndBase_html_a9afff86d32e9b54cccc204ef29a85891"><div class="ttname"><a href="classsw_1_1WndBase.html#a9afff86d32e9b54cccc204ef29a85891">sw::WndBase::Text</a></div><div class="ttdeci">const Property&lt; std::wstring &gt; Text</div><div class="ttdoc">窗口标题或控件文本</div><div class="ttdef"><b>Definition</b> WndBase.h:173</div></div>
 <div class="ttc" id="astructsw_1_1RoutedEventArgs_html"><div class="ttname"><a href="structsw_1_1RoutedEventArgs.html">sw::RoutedEventArgs</a></div><div class="ttdoc">路由事件的参数</div><div class="ttdef"><b>Definition</b> RoutedEvent.h:138</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md3"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md7"></a>
 开发文档</h1>
 <p>有关 SimpleWindow 的详细开发文档，请访问 <a href="https://mzying2001.github.io/sw">mzying2001.github.io/sw</a>。</p>
-<h1><a class="anchor" id="autotoc_md4"></a>
+<h1><a class="anchor" id="autotoc_md8"></a>
 许可证</h1>
 <p>SimpleWindow 框架是基于 MIT 许可证发布的，允许您在自己的项目中自由使用和修改它。</p>
-<h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md9"></a>
 贡献</h1>
 <p>欢迎贡献者参与 SimpleWindow 的开发和改进。如果您发现 Bug 或有改进建议，请提出 Issue 或发送 Pull Request。</p>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h1><a class="anchor" id="autotoc_md10"></a>
 Star 趋势</h1>
 <p><a href="https://starchart.cc/Mzying2001/sw"><img src="https://starchart.cc/Mzying2001/sw.svg?variant=adaptive" alt="Stargazers over time" style="pointer-events: none;" class="inline"/></a> </p>
 </div></div><!-- PageDoc -->

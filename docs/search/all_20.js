@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['趋势_0',['Star 趋势',['../index.html#autotoc_md6',1,'']]]
+  ['特点_0',['特点',['../index.html#autotoc_md1',1,'']]]
 ];
