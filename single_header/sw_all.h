@@ -7342,20 +7342,39 @@ namespace sw
      * @brief 消息框按钮类型
      */
     enum class MsgBoxButton {
-        Ok          = MB_OK,
-        OkCancel    = MB_OKCANCEL,
-        YesNoCancel = MB_YESNOCANCEL,
-        YesNo       = MB_YESNO,
+        AbortRetryIgnore    = MB_ABORTRETRYIGNORE,
+        CancelRetryContinue = MB_CANCELTRYCONTINUE,
+        Ok                  = MB_OK,
+        OkCancel            = MB_OKCANCEL,
+        RetryCancel         = MB_RETRYCANCEL,
+        YesNo               = MB_YESNO,
+        YesNoCancel         = MB_YESNOCANCEL,
+    };
+
+    /**
+     * @brief 消息框图标类型
+     */
+    enum class MsgBoxIcon {
+        None        = 0,
+        Warning     = MB_ICONWARNING,
+        Information = MB_ICONINFORMATION,
+        Question    = MB_ICONQUESTION,
+        Error       = MB_ICONERROR,
     };
 
     /**
      * @brief 消息框结果
      */
     enum class MsgBoxResult {
-        Ok     = IDOK,
-        Cancel = IDCANCEL,
-        Yes    = IDYES,
-        No     = IDNO,
+        Abort    = IDABORT,
+        Cancel   = IDCANCEL,
+        Continue = IDCONTINUE,
+        Ignore   = IDIGNORE,
+        No       = IDNO,
+        Ok       = IDOK,
+        Retry    = IDRETRY,
+        TryAgain = IDTRYAGAIN,
+        Yes      = IDYES,
     };
 
     /**
@@ -7398,6 +7417,32 @@ namespace sw
         MsgBoxResultHelper &OnCancel(const MsgBoxCallback &callback);
 
         /**
+         * @brief 指定按下“中止”按钮时的处理函数
+         */
+        MsgBoxResultHelper &OnAbort(const MsgBoxCallback &callback);
+
+        /**
+         * @brief 指定按下“继续”按钮时的处理函数
+         */
+        MsgBoxResultHelper &OnContinue(const MsgBoxCallback &callback);
+
+        /**
+         * @brief 指定按下“忽略”按钮时的处理函数
+         */
+        MsgBoxResultHelper &OnIgnore(const MsgBoxCallback &callback);
+
+        /**
+         * @brief 指定按下“重试”按钮时的处理函数
+         */
+        MsgBoxResultHelper &OnRetry(const MsgBoxCallback &callback);
+
+        /**
+         * @brief 指定按下“重试”按钮时的处理函数
+         * @note  只有在按钮类型为CancelRetryContinue并按下“重试”时才触发
+         */
+        MsgBoxResultHelper &OnTryAgain(const MsgBoxCallback &callback);
+
+        /**
          * @brief 指定消息框结果的处理函数
          */
         template <MsgBoxResult RES>
@@ -7420,19 +7465,19 @@ namespace sw
 
     public:
         /**
-         * @brief 显示一个不含图标的消息框
+         * @brief 显示消息框
          */
-        static MsgBoxResultHelper Show(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+        static MsgBoxResultHelper Show(const WndBase *owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok, MsgBoxIcon icon = MsgBoxIcon::None);
 
         /**
-         * @brief 显示一个不含图标的消息框
+         * @brief 显示消息框
          */
-        static MsgBoxResultHelper Show(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+        static MsgBoxResultHelper Show(const WndBase &owner, const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok, MsgBoxIcon icon = MsgBoxIcon::None);
 
         /**
-         * @brief 显示一个不含图标的消息框，将当前活动窗体作为Owner
+         * @brief 显示消息框，将当前活动窗体作为Owner
          */
-        static MsgBoxResultHelper Show(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok);
+        static MsgBoxResultHelper Show(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::Ok, MsgBoxIcon icon = MsgBoxIcon::None);
 
         /**
          * @brief 显示一个含“消息”图标的消息框
