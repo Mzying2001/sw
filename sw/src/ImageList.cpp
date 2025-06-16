@@ -10,22 +10,22 @@ sw::ImageList::ImageList(int cx, int cy, UINT flags, int cInitial, int cGrow)
 {
 }
 
-sw::ImageList::ImageList(const ImageList &value)
+sw::ImageList::ImageList(const ImageList &other)
 {
-    if (value._isWrap) {
+    if (other._isWrap) {
         this->_isWrap     = true;
-        this->_hImageList = value._hImageList;
+        this->_hImageList = other._hImageList;
     } else {
         this->_isWrap     = false;
-        this->_hImageList = ImageList_Duplicate(value._hImageList);
+        this->_hImageList = ImageList_Duplicate(other._hImageList);
     }
 }
 
-sw::ImageList::ImageList(ImageList &&rvalue)
+sw::ImageList::ImageList(ImageList &&other)
 {
-    this->_isWrap      = rvalue._isWrap;
-    this->_hImageList  = rvalue._hImageList;
-    rvalue._hImageList = NULL;
+    this->_isWrap     = other._isWrap;
+    this->_hImageList = other._hImageList;
+    other._hImageList = NULL;
 }
 
 sw::ImageList::~ImageList()
@@ -33,36 +33,36 @@ sw::ImageList::~ImageList()
     this->_DestroyIfNotWrap();
 }
 
-sw::ImageList &sw::ImageList::operator=(const ImageList &value)
+sw::ImageList &sw::ImageList::operator=(const ImageList &other)
 {
-    if (this == &value) {
+    if (this == &other) {
         return *this;
     }
 
     this->_DestroyIfNotWrap();
 
-    if (value._isWrap) {
+    if (other._isWrap) {
         this->_isWrap     = true;
-        this->_hImageList = value._hImageList;
+        this->_hImageList = other._hImageList;
     } else {
         this->_isWrap     = false;
-        this->_hImageList = ImageList_Duplicate(value._hImageList);
+        this->_hImageList = ImageList_Duplicate(other._hImageList);
     }
 
     return *this;
 }
 
-sw::ImageList &sw::ImageList::operator=(ImageList &&rvalue)
+sw::ImageList &sw::ImageList::operator=(ImageList &&other)
 {
-    if (this == &rvalue) {
+    if (this == &other) {
         return *this;
     }
 
     this->_DestroyIfNotWrap();
 
-    this->_isWrap      = rvalue._isWrap;
-    this->_hImageList  = rvalue._hImageList;
-    rvalue._hImageList = NULL;
+    this->_isWrap     = other._isWrap;
+    this->_hImageList = other._hImageList;
+    other._hImageList = NULL;
 
     return *this;
 }

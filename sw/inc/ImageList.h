@@ -38,12 +38,12 @@ namespace sw
         /**
          * @brief 拷贝构造
          */
-        ImageList(const ImageList &value);
+        ImageList(const ImageList &other);
 
         /**
          * @brief 移动构造
          */
-        ImageList(ImageList &&rvalue);
+        ImageList(ImageList &&other);
 
         /**
          * @brief 析构函数
@@ -53,12 +53,12 @@ namespace sw
         /**
          * @brief 拷贝赋值
          */
-        ImageList &operator=(const ImageList &value);
+        ImageList &operator=(const ImageList &other);
 
         /**
          * @brief 移动赋值
          */
-        ImageList &operator=(ImageList &&rvalue);
+        ImageList &operator=(ImageList &&other);
 
         /**
          * @brief  创建一个图像列表，该函数调用ImageList_Create
