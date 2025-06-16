@@ -87,6 +87,11 @@ bool sw::ImageList::DragEnter(HWND hwndLock, double x, double y)
     return ImageList_DragEnter(hwndLock, Dip::DipToPxX(x), Dip::DipToPxY(y));
 }
 
+bool sw::ImageList::DragEnterPx(HWND hwndLock, int x, int y)
+{
+    return ImageList_DragEnter(hwndLock, x, y);
+}
+
 bool sw::ImageList::DragLeave(HWND hwndLock)
 {
     return ImageList_DragLeave(hwndLock);
@@ -95,6 +100,11 @@ bool sw::ImageList::DragLeave(HWND hwndLock)
 bool sw::ImageList::DragMove(double x, double y)
 {
     return ImageList_DragMove(Dip::DipToPxX(x), Dip::DipToPxY(y));
+}
+
+bool sw::ImageList::DragMovePx(int x, int y)
+{
+    return ImageList_DragMove(x, y);
 }
 
 bool sw::ImageList::DragShowNolock(bool fShow)
