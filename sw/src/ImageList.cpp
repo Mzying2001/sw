@@ -35,6 +35,10 @@ sw::ImageList::~ImageList()
 
 sw::ImageList &sw::ImageList::operator=(const ImageList &value)
 {
+    if (this == &value) {
+        return *this;
+    }
+
     this->_DestroyIfNotWrap();
 
     if (value._isWrap) {
@@ -50,6 +54,10 @@ sw::ImageList &sw::ImageList::operator=(const ImageList &value)
 
 sw::ImageList &sw::ImageList::operator=(ImageList &&rvalue)
 {
+    if (this == &rvalue) {
+        return *this;
+    }
+
     this->_DestroyIfNotWrap();
 
     this->_isWrap      = rvalue._isWrap;
