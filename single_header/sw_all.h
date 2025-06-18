@@ -5805,12 +5805,12 @@ namespace sw
         /**
          * @brief 拷贝构造
          */
-        ImageList(const ImageList &value);
+        ImageList(const ImageList &other);
 
         /**
          * @brief 移动构造
          */
-        ImageList(ImageList &&rvalue);
+        ImageList(ImageList &&other);
 
         /**
          * @brief 析构函数
@@ -5820,12 +5820,12 @@ namespace sw
         /**
          * @brief 拷贝赋值
          */
-        ImageList &operator=(const ImageList &value);
+        ImageList &operator=(const ImageList &other);
 
         /**
          * @brief 移动赋值
          */
-        ImageList &operator=(ImageList &&rvalue);
+        ImageList &operator=(ImageList &&other);
 
         /**
          * @brief  创建一个图像列表，该函数调用ImageList_Create
@@ -5851,6 +5851,12 @@ namespace sw
         static bool DragEnter(HWND hwndLock, double x, double y);
 
         /**
+         * @brief 锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter
+         * @note  该函数参数以像素为单位
+         */
+        static bool DragEnterPx(HWND hwndLock, int x, int y);
+
+        /**
          * @brief 解除窗口锁定并隐藏显示的拖拽图像，该函数调用ImageList_DragLeave
          */
         static bool DragLeave(HWND hwndLock);
@@ -5859,6 +5865,12 @@ namespace sw
          * @brief 拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove
          */
         static bool DragMove(double x, double y);
+
+        /**
+         * @brief 拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove
+         * @note  该函数参数以像素为单位
+         */
+        static bool DragMovePx(int x, int y);
 
         /**
          * @brief 拖拽时显示或隐藏图像，该函数调用ImageList_DragShowNolock
