@@ -10,22 +10,22 @@ sw::ImageList::ImageList(int cx, int cy, UINT flags, int cInitial, int cGrow)
 {
 }
 
-sw::ImageList::ImageList(const ImageList &value)
+sw::ImageList::ImageList(const ImageList &other)
 {
-    if (value._isWrap) {
+    if (other._isWrap) {
         this->_isWrap     = true;
-        this->_hImageList = value._hImageList;
+        this->_hImageList = other._hImageList;
     } else {
         this->_isWrap     = false;
-        this->_hImageList = ImageList_Duplicate(value._hImageList);
+        this->_hImageList = ImageList_Duplicate(other._hImageList);
     }
 }
 
-sw::ImageList::ImageList(ImageList &&rvalue)
+sw::ImageList::ImageList(ImageList &&other)
 {
-    this->_isWrap      = rvalue._isWrap;
-    this->_hImageList  = rvalue._hImageList;
-    rvalue._hImageList = NULL;
+    this->_isWrap     = other._isWrap;
+    this->_hImageList = other._hImageList;
+    other._hImageList = NULL;
 }
 
 sw::ImageList::~ImageList()
@@ -33,28 +33,36 @@ sw::ImageList::~ImageList()
     this->_DestroyIfNotWrap();
 }
 
-sw::ImageList &sw::ImageList::operator=(const ImageList &value)
+sw::ImageList &sw::ImageList::operator=(const ImageList &other)
 {
+    if (this == &other) {
+        return *this;
+    }
+
     this->_DestroyIfNotWrap();
 
-    if (value._isWrap) {
+    if (other._isWrap) {
         this->_isWrap     = true;
-        this->_hImageList = value._hImageList;
+        this->_hImageList = other._hImageList;
     } else {
         this->_isWrap     = false;
-        this->_hImageList = ImageList_Duplicate(value._hImageList);
+        this->_hImageList = ImageList_Duplicate(other._hImageList);
     }
 
     return *this;
 }
 
-sw::ImageList &sw::ImageList::operator=(ImageList &&rvalue)
+sw::ImageList &sw::ImageList::operator=(ImageList &&other)
 {
+    if (this == &other) {
+        return *this;
+    }
+
     this->_DestroyIfNotWrap();
 
-    this->_isWrap      = rvalue._isWrap;
-    this->_hImageList  = rvalue._hImageList;
-    rvalue._hImageList = NULL;
+    this->_isWrap     = other._isWrap;
+    this->_hImageList = other._hImageList;
+    other._hImageList = NULL;
 
     return *this;
 }
@@ -79,6 +87,11 @@ bool sw::ImageList::DragEnter(HWND hwndLock, double x, double y)
     return ImageList_DragEnter(hwndLock, Dip::DipToPxX(x), Dip::DipToPxY(y));
 }
 
+bool sw::ImageList::DragEnterPx(HWND hwndLock, int x, int y)
+{
+    return ImageList_DragEnter(hwndLock, x, y);
+}
+
 bool sw::ImageList::DragLeave(HWND hwndLock)
 {
     return ImageList_DragLeave(hwndLock);
@@ -87,6 +100,11 @@ bool sw::ImageList::DragLeave(HWND hwndLock)
 bool sw::ImageList::DragMove(double x, double y)
 {
     return ImageList_DragMove(Dip::DipToPxX(x), Dip::DipToPxY(y));
+}
+
+bool sw::ImageList::DragMovePx(int x, int y)
+{
+    return ImageList_DragMove(x, y);
 }
 
 bool sw::ImageList::DragShowNolock(bool fShow)
