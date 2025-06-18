@@ -11,11 +11,13 @@ var searchData=
   ['docklayouttag_8',['DockLayoutTag',['../classsw_1_1DockLayoutTag.html#aae2e7ab3530f1f93e29828264e62b42b',1,'sw::DockLayoutTag']]],
   ['dockpanel_9',['DockPanel',['../classsw_1_1DockPanel.html#a8c9ce34641a342dc14c8bae2d49e3c08',1,'sw::DockPanel']]],
   ['dragenter_10',['DragEnter',['../classsw_1_1ImageList.html#a6663c89b5ad3ae965ec4871d73560d01',1,'sw::ImageList']]],
-  ['dragleave_11',['DragLeave',['../classsw_1_1ImageList.html#ad2bfeeb41dbd1c7e720c99834acb59ac',1,'sw::ImageList']]],
-  ['dragmove_12',['DragMove',['../classsw_1_1ImageList.html#ad7c173d2524fec0403df9cec068c7f61',1,'sw::ImageList']]],
-  ['dragshownolock_13',['DragShowNolock',['../classsw_1_1ImageList.html#aa0d44a25ff0352d05b34228d675c69c0',1,'sw::ImageList']]],
-  ['draw_14',['draw',['../classsw_1_1ImageList.html#a55b79373d96af59d74a3c9bfe3965d3c',1,'sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, UINT fStyle)'],['../classsw_1_1ImageList.html#aa78e37dc1f35ea0feab07a371d976284',1,'sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, double dx, double dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle)']]],
-  ['drawmenubar_15',['DrawMenuBar',['../classsw_1_1Window.html#a3daeab5c99e045449a8a5f086c19877e',1,'sw::Window']]],
-  ['drawpx_16',['drawpx',['../classsw_1_1ImageList.html#af1a861fe7edfb350de315fcc94064165',1,'sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, UINT fStyle)'],['../classsw_1_1ImageList.html#a84b971450d4e751bfe517219869289ae',1,'sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle)']]],
-  ['duplicate_17',['Duplicate',['../classsw_1_1ImageList.html#a65d9d17f68f44ab3c23531c7e9fe8d4b',1,'sw::ImageList']]]
+  ['dragenterpx_11',['DragEnterPx',['../classsw_1_1ImageList.html#a603e959c40cbe65d0e27606911d74358',1,'sw::ImageList']]],
+  ['dragleave_12',['DragLeave',['../classsw_1_1ImageList.html#ad2bfeeb41dbd1c7e720c99834acb59ac',1,'sw::ImageList']]],
+  ['dragmove_13',['DragMove',['../classsw_1_1ImageList.html#ad7c173d2524fec0403df9cec068c7f61',1,'sw::ImageList']]],
+  ['dragmovepx_14',['DragMovePx',['../classsw_1_1ImageList.html#ac722e503dd8ac7110bb565ba57174a01',1,'sw::ImageList']]],
+  ['dragshownolock_15',['DragShowNolock',['../classsw_1_1ImageList.html#aa0d44a25ff0352d05b34228d675c69c0',1,'sw::ImageList']]],
+  ['draw_16',['draw',['../classsw_1_1ImageList.html#a55b79373d96af59d74a3c9bfe3965d3c',1,'sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, UINT fStyle)'],['../classsw_1_1ImageList.html#aa78e37dc1f35ea0feab07a371d976284',1,'sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, double dx, double dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle)']]],
+  ['drawmenubar_17',['DrawMenuBar',['../classsw_1_1Window.html#a3daeab5c99e045449a8a5f086c19877e',1,'sw::Window']]],
+  ['drawpx_18',['drawpx',['../classsw_1_1ImageList.html#af1a861fe7edfb350de315fcc94064165',1,'sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, UINT fStyle)'],['../classsw_1_1ImageList.html#a84b971450d4e751bfe517219869289ae',1,'sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle)']]],
+  ['duplicate_19',['Duplicate',['../classsw_1_1ImageList.html#a65d9d17f68f44ab3c23531c7e9fe8d4b',1,'sw::ImageList']]]
 ];
