@@ -247,6 +247,11 @@ namespace sw
          */
         virtual Window *ToWindow();
 
+        /**
+         * @brief 获取当前对象的描述字符串
+         */
+        virtual std::wstring ToString() const;
+
     protected:
         /**
          * @brief 初始化为窗口，该函数会调用CreateWindowExW

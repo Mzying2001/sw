@@ -295,6 +295,11 @@ sw::Window *sw::WndBase::ToWindow()
     return nullptr;
 }
 
+std::wstring sw::WndBase::ToString() const
+{
+    return L"WndBase{ClassName=" + this->ClassName + L", Handle=" + std::to_wstring(reinterpret_cast<uintptr_t>(this->_hwnd)) + L"}";
+}
+
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
     if (this->_hwnd != NULL) {
