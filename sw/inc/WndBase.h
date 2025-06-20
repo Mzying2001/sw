@@ -197,6 +197,11 @@ namespace sw
          */
         const ReadOnlyProperty<bool> IsControl;
 
+        /**
+         * @brief 窗口类名
+         */
+        const ReadOnlyProperty<std::wstring> ClassName;
+
     protected:
         /**
          * @brief 初始化WndBase

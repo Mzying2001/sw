@@ -247,6 +247,14 @@ sw::WndBase::WndBase()
           // get
           [this]() -> bool {
               return this->_isControl;
+          }),
+
+      ClassName(
+          // get
+          [this]() -> std::wstring {
+              std::wstring result(256, L'\0');
+              result.resize(GetClassNameW(this->_hwnd, &result[0], (int)result.size()));
+              return result;
           })
 {
     this->_font = sw::Font::GetDefaultFont();
