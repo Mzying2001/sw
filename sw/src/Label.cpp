@@ -141,10 +141,7 @@ void sw::Label::_UpdateTextSize()
 
 void sw::Label::_ResizeToTextSize()
 {
-    sw::Rect rect = this->Rect;
-    rect.width    = this->_textSize.width;
-    rect.height   = this->_textSize.height;
-    this->Rect    = rect;
+    this->Resize(this->_textSize);
 }
 
 bool sw::Label::OnSize(Size newClientSize)
