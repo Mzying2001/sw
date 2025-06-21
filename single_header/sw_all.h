@@ -6317,6 +6317,11 @@ namespace sw
          */
         const ReadOnlyProperty<bool> IsControl;
 
+        /**
+         * @brief 窗口类名
+         */
+        const ReadOnlyProperty<std::wstring> ClassName;
+
     protected:
         /**
          * @brief 初始化WndBase
@@ -6361,6 +6366,11 @@ namespace sw
          * @return 若函数成功则返回Window指针，否则返回nullptr
          */
         virtual Window *ToWindow();
+
+        /**
+         * @brief 获取当前对象的描述字符串
+         */
+        virtual std::wstring ToString() const;
 
     protected:
         /**
@@ -6428,6 +6438,18 @@ namespace sw
          * @brief 在OnPaint函数完成之后调用该函数
          */
         virtual void OnEndPaint();
+
+        /**
+         * @brief      接收到WM_NCPAINT时调用该函数
+         * @param hRgn 窗口更新区域的句柄，可能为NULL
+         * @return     若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnNcPaint(HRGN hRgn);
+
+        /**
+         * @brief 在OnNcPaint函数完成之后调用该函数
+         */
+        virtual void OnEndNcPaint();
 
         /**
          * @brief                   接收到WM_MOVE时调用该函数
@@ -11780,11 +11802,21 @@ namespace sw
          */
         BorderStyle _borderStyle = sw::BorderStyle::None;
 
+        /**
+         * @brief 内边距
+         */
+        Thickness _padding;
+
     public:
         /**
          * @brief 边框样式
          */
         const Property<sw::BorderStyle> BorderStyle;
+
+        /**
+         * @brief 面板的内边距
+         */
+        const Property<sw::Thickness> Padding;
 
     public:
         /**
@@ -11794,17 +11826,38 @@ namespace sw
 
     protected:
         /**
+         * @brief 对WndProc的封装
+         */
+        virtual LRESULT WndProc(const ProcMsg &refMsg) override;
+
+        /**
          * @brief  接收到WM_PAINT时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnPaint() override;
 
         /**
-         * @brief               接收到WM_SIZE时调用该函数
-         * @param newClientSize 改变后的用户区尺寸
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @brief 在OnNcPaint函数完成之后调用该函数
          */
-        virtual bool OnSize(Size newClientSize) override;
+        virtual void OnEndNcPaint() override;
+
+    private:
+        /**
+         * @brief 更新边框
+         */
+        void _UpdateBorder();
+
+        /**
+         * @brief      减去边框厚度
+         * @param rect 要减去边框厚度的矩形
+         */
+        void _MinusBorderThickness(RECT &rect);
+
+        /**
+         * @brief      减去内边距
+         * @param rect 要减去内边距的矩形
+         */
+        void _MinusPadding(RECT &rect);
     };
 }
 
