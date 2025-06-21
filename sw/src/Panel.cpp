@@ -147,10 +147,12 @@ void sw::Panel::_MinusBorderThickness(RECT &rect)
             break;
         }
         default: {
-            rect.left += 2;
-            rect.top += 2;
-            rect.right -= 2;
-            rect.bottom -= 2;
+            int cx = GetSystemMetrics(SM_CXEDGE);
+            int cy = GetSystemMetrics(SM_CYEDGE);
+            rect.left += cx;
+            rect.top += cy;
+            rect.right -= cx;
+            rect.bottom -= cy;
             break;
         }
     }
