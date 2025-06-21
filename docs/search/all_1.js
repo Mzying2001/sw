@@ -15,7 +15,7 @@ var searchData=
   ['address_12',['Address',['../classsw_1_1IPAddressControl.html#a31e32ebdf9edf44f27213ba1fd0add8a',1,'sw::IPAddressControl']]],
   ['addrow_13',['AddRow',['../classsw_1_1Grid.html#a4878fb93660714d7f0a70a6a131852a1',1,'sw::Grid']]],
   ['addsubitem_14',['AddSubItem',['../classsw_1_1MenuBase.html#aa48a89a167974e8a7397ffe6058c475f',1,'sw::MenuBase']]],
-  ['alignment_15',['alignment',['../structsw_1_1ListViewColumn.html#a073e675567add518aa85b5356d472cf9',1,'sw::ListViewColumn::alignment'],['../classsw_1_1TabControl.html#a09a693f18956f7629fab2377ab1a1dda',1,'sw::TabControl::Alignment']]],
+  ['alignment_15',['alignment',['../classsw_1_1TabControl.html#a09a693f18956f7629fab2377ab1a1dda',1,'sw::TabControl::Alignment'],['../structsw_1_1ListViewColumn.html#a073e675567add518aa85b5356d472cf9',1,'sw::ListViewColumn::alignment']]],
   ['animation_16',['animation',['../classsw_1_1Animation.html#a68db7dd5ef40dbc22e937688635cf23d',1,'sw::Animation::Animation()'],['../classsw_1_1Animation.html',1,'sw::Animation']]],
   ['app_17',['App',['../classsw_1_1App.html',1,'sw']]],
   ['append_18',['append',['../classsw_1_1List.html#ad3d55e6505de2977068fdc4e32e063e4',1,'sw::List::Append(const T &amp;value) const'],['../classsw_1_1List.html#a40d8c240bd015328383c8bc8d6a3b2d8',1,'sw::List::Append(T &amp;&amp;value) const']]],

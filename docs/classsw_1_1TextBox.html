@@ -378,6 +378,10 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const
 <tr class="memitem:a2dd7d531ffe1e0219d4d1762180a990d inherit pub_methods_classsw_1_1WndBase" id="r_a2dd7d531ffe1e0219d4d1762180a990d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1Window.html">Window</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a2dd7d531ffe1e0219d4d1762180a990d">ToWindow</a> ()</td></tr>
 <tr class="memdesc:a2dd7d531ffe1e0219d4d1762180a990d inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成Window  <br /></td></tr>
 <tr class="separator:a2dd7d531ffe1e0219d4d1762180a990d inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4d54d90e20aadd93924df6dc9760fc3 inherit pub_methods_classsw_1_1WndBase" id="r_af4d54d90e20aadd93924df6dc9760fc3"><td class="memItemLeft" align="right" valign="top">
+virtual std::wstring&#160;</td><td class="memItemRight" valign="bottom"><b>ToString</b> () const</td></tr>
+<tr class="memdesc:af4d54d90e20aadd93924df6dc9760fc3 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前对象的描述字符串 <br /></td></tr>
+<tr class="separator:af4d54d90e20aadd93924df6dc9760fc3 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2f1b78dd8165c8bca0313180a9f4b81 inherit pub_methods_classsw_1_1WndBase" id="r_ae2f1b78dd8165c8bca0313180a9f4b81"><td class="memItemLeft" align="right" valign="top">
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Show</b> (int nCmdShow)</td></tr>
 <tr class="memdesc:ae2f1b78dd8165c8bca0313180a9f4b81 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">该函数调用ShowWindow <br /></td></tr>
@@ -664,6 +668,10 @@ const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsControl</b></td></tr>
 <tr class="memdesc:a4b72c64e192b49d1ace945e96c2368ab inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前对象是否是控件 <br /></td></tr>
 <tr class="separator:a4b72c64e192b49d1ace945e96c2368ab inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39da72806797078fa2ea1a62ada465fc inherit pub_attribs_classsw_1_1WndBase" id="r_a39da72806797078fa2ea1a62ada465fc"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClassName</b></td></tr>
+<tr class="memdesc:a39da72806797078fa2ea1a62ada465fc inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口类名 <br /></td></tr>
+<tr class="separator:a39da72806797078fa2ea1a62ada465fc inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 额外继承的成员函数</h2></td></tr>
@@ -909,6 +917,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 <tr class="memitem:a029ba4be0e492f8383f2b5fe22125acb inherit pro_methods_classsw_1_1WndBase" id="r_a029ba4be0e492f8383f2b5fe22125acb"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a029ba4be0e492f8383f2b5fe22125acb">OnPaint</a> ()</td></tr>
 <tr class="memdesc:a029ba4be0e492f8383f2b5fe22125acb inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_PAINT时调用该函数  <br /></td></tr>
 <tr class="separator:a029ba4be0e492f8383f2b5fe22125acb inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a531ea2dabbaedcce1f71075a68d88961 inherit pro_methods_classsw_1_1WndBase" id="r_a531ea2dabbaedcce1f71075a68d88961"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a531ea2dabbaedcce1f71075a68d88961">OnNcPaint</a> (HRGN hRgn)</td></tr>
+<tr class="memdesc:a531ea2dabbaedcce1f71075a68d88961 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NCPAINT时调用该函数  <br /></td></tr>
+<tr class="separator:a531ea2dabbaedcce1f71075a68d88961 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e057ec7002cd6e782e7ae2e235c13b6 inherit pro_methods_classsw_1_1WndBase" id="r_a4e057ec7002cd6e782e7ae2e235c13b6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a4e057ec7002cd6e782e7ae2e235c13b6">OnEndNcPaint</a> ()</td></tr>
+<tr class="memdesc:a4e057ec7002cd6e782e7ae2e235c13b6 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnNcPaint函数完成之后调用该函数  <br /></td></tr>
+<tr class="separator:a4e057ec7002cd6e782e7ae2e235c13b6 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a8952400bee12db2117fbf76312d373 inherit pro_methods_classsw_1_1WndBase" id="r_a5a8952400bee12db2117fbf76312d373"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a5a8952400bee12db2117fbf76312d373">OnMouseLeftButtonDoubleClick</a> (<a class="el" href="structsw_1_1Point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
 <tr class="memdesc:a5a8952400bee12db2117fbf76312d373 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_LBUTTONDBLCLK时调用该函数  <br /></td></tr>
 <tr class="separator:a5a8952400bee12db2117fbf76312d373 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
