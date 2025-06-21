@@ -26,11 +26,21 @@ namespace sw
          */
         BorderStyle _borderStyle = sw::BorderStyle::None;
 
+        /**
+         * @brief 内边距
+         */
+        Thickness _padding;
+
     public:
         /**
          * @brief 边框样式
          */
         const Property<sw::BorderStyle> BorderStyle;
+
+        /**
+         * @brief 面板的内边距
+         */
+        const Property<sw::Thickness> Padding;
 
     public:
         /**
@@ -66,5 +76,11 @@ namespace sw
          * @param rect 要减去边框厚度的矩形
          */
         void _MinusBorderThickness(RECT &rect);
+
+        /**
+         * @brief      减去内边距
+         * @param rect 要减去内边距的矩形
+         */
+        void _MinusPadding(RECT &rect);
     };
 }

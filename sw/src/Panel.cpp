@@ -21,6 +21,19 @@ sw::Panel::Panel()
                   this->_borderStyle = value;
                   this->_UpdateBorder();
               }
+          }),
+
+      Padding(
+          // get
+          [this]() -> sw::Thickness {
+              return this->_padding;
+          },
+          // set
+          [this](const sw::Thickness &value) {
+              if (this->_padding != value) {
+                  this->_padding = value;
+                  this->_UpdateBorder();
+              }
           })
 {
     static WNDCLASSEXW wc = {0};
@@ -48,13 +61,15 @@ LRESULT sw::Panel::WndProc(const ProcMsg &refMsg)
 
     auto result = this->DefaultWndProc(refMsg);
 
-    if (refMsg.wParam == FALSE) {
-        auto pRect = reinterpret_cast<RECT *>(refMsg.lParam);
-        this->_MinusBorderThickness(*pRect);
-    } else {
-        auto pNCCSP = reinterpret_cast<NCCALCSIZE_PARAMS *>(refMsg.lParam);
-        this->_MinusBorderThickness(pNCCSP->rgrc[0]);
-    }
+    RECT *pRect = refMsg.wParam == FALSE
+                      ? reinterpret_cast<RECT *>(refMsg.lParam)
+                      : reinterpret_cast<NCCALCSIZE_PARAMS *>(refMsg.lParam)->rgrc;
+
+    this->_MinusBorderThickness(*pRect);
+    this->_MinusPadding(*pRect);
+
+    pRect->right  = Utils::Max(pRect->left, pRect->right);
+    pRect->bottom = Utils::Max(pRect->top, pRect->bottom);
     return result;
 }
 
@@ -117,6 +132,12 @@ void sw::Panel::_MinusBorderThickness(RECT &rect)
             break;
         }
     }
-    rect.right  = Utils::Max(rect.left, rect.right);
-    rect.bottom = Utils::Max(rect.top, rect.bottom);
+}
+
+void sw::Panel::_MinusPadding(RECT &rect)
+{
+    rect.left += Dip::DipToPxX(this->_padding.left);
+    rect.top += Dip::DipToPxY(this->_padding.top);
+    rect.right -= Dip::DipToPxX(this->_padding.right);
+    rect.bottom -= Dip::DipToPxY(this->_padding.bottom);
 }
