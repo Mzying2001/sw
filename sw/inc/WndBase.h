@@ -852,6 +852,11 @@ namespace sw
         static void _InitControlContainer();
 
         /**
+         * @brief 获取控件创建时所在的容器
+         */
+        static WndBase *_GetControlInitContainer();
+
+        /**
          * @brief 获取一个新的控件id
          */
         static int _NextControlId();

@@ -1197,6 +1197,11 @@ void sw::WndBase::_InitControlContainer()
     }
 }
 
+sw::WndBase *sw::WndBase::_GetControlInitContainer()
+{
+    return _controlInitContainer;
+}
+
 int sw::WndBase::_NextControlId()
 {
     return _controlIdCounter++;
