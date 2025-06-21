@@ -160,6 +160,10 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const
 <tr class="memitem:a2dd7d531ffe1e0219d4d1762180a990d" id="r_a2dd7d531ffe1e0219d4d1762180a990d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1Window.html">Window</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a2dd7d531ffe1e0219d4d1762180a990d">ToWindow</a> ()</td></tr>
 <tr class="memdesc:a2dd7d531ffe1e0219d4d1762180a990d"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成Window  <br /></td></tr>
 <tr class="separator:a2dd7d531ffe1e0219d4d1762180a990d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4d54d90e20aadd93924df6dc9760fc3" id="r_af4d54d90e20aadd93924df6dc9760fc3"><td class="memItemLeft" align="right" valign="top"><a id="af4d54d90e20aadd93924df6dc9760fc3" name="af4d54d90e20aadd93924df6dc9760fc3"></a>
+virtual std::wstring&#160;</td><td class="memItemRight" valign="bottom"><b>ToString</b> () const</td></tr>
+<tr class="memdesc:af4d54d90e20aadd93924df6dc9760fc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前对象的描述字符串 <br /></td></tr>
+<tr class="separator:af4d54d90e20aadd93924df6dc9760fc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2f1b78dd8165c8bca0313180a9f4b81" id="r_ae2f1b78dd8165c8bca0313180a9f4b81"><td class="memItemLeft" align="right" valign="top"><a id="ae2f1b78dd8165c8bca0313180a9f4b81" name="ae2f1b78dd8165c8bca0313180a9f4b81"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Show</b> (int nCmdShow)</td></tr>
 <tr class="memdesc:ae2f1b78dd8165c8bca0313180a9f4b81"><td class="mdescLeft">&#160;</td><td class="mdescRight">该函数调用ShowWindow <br /></td></tr>
@@ -339,6 +343,10 @@ const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsControl</b></td></tr>
 <tr class="memdesc:a4b72c64e192b49d1ace945e96c2368ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前对象是否是控件 <br /></td></tr>
 <tr class="separator:a4b72c64e192b49d1ace945e96c2368ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39da72806797078fa2ea1a62ada465fc" id="r_a39da72806797078fa2ea1a62ada465fc"><td class="memItemLeft" align="right" valign="top"><a id="a39da72806797078fa2ea1a62ada465fc" name="a39da72806797078fa2ea1a62ada465fc"></a>
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClassName</b></td></tr>
+<tr class="memdesc:a39da72806797078fa2ea1a62ada465fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口类名 <br /></td></tr>
+<tr class="separator:a39da72806797078fa2ea1a62ada465fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
@@ -398,6 +406,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateText</b> ()</td
 <tr class="memitem:ad90b0eebbaa959949cae5b736e2104aa" id="r_ad90b0eebbaa959949cae5b736e2104aa"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#ad90b0eebbaa959949cae5b736e2104aa">OnEndPaint</a> ()</td></tr>
 <tr class="memdesc:ad90b0eebbaa959949cae5b736e2104aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnPaint函数完成之后调用该函数  <br /></td></tr>
 <tr class="separator:ad90b0eebbaa959949cae5b736e2104aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a531ea2dabbaedcce1f71075a68d88961" id="r_a531ea2dabbaedcce1f71075a68d88961"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a531ea2dabbaedcce1f71075a68d88961">OnNcPaint</a> (HRGN hRgn)</td></tr>
+<tr class="memdesc:a531ea2dabbaedcce1f71075a68d88961"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NCPAINT时调用该函数  <br /></td></tr>
+<tr class="separator:a531ea2dabbaedcce1f71075a68d88961"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e057ec7002cd6e782e7ae2e235c13b6" id="r_a4e057ec7002cd6e782e7ae2e235c13b6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a4e057ec7002cd6e782e7ae2e235c13b6">OnEndNcPaint</a> ()</td></tr>
+<tr class="memdesc:a4e057ec7002cd6e782e7ae2e235c13b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnNcPaint函数完成之后调用该函数  <br /></td></tr>
+<tr class="separator:a4e057ec7002cd6e782e7ae2e235c13b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17769747f602f2f7c18a0a49ce97a125" id="r_a17769747f602f2f7c18a0a49ce97a125"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a17769747f602f2f7c18a0a49ce97a125">OnMove</a> (<a class="el" href="structsw_1_1Point.html">Point</a> newClientPosition)</td></tr>
 <tr class="memdesc:a17769747f602f2f7c18a0a49ce97a125"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MOVE时调用该函数  <br /></td></tr>
 <tr class="separator:a17769747f602f2f7c18a0a49ce97a125"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1432,6 +1446,35 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 
 </div>
 </div>
+<a id="a4e057ec7002cd6e782e7ae2e235c13b6" name="a4e057ec7002cd6e782e7ae2e235c13b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e057ec7002cd6e782e7ae2e235c13b6">&#9670;&#160;</a></span>OnEndNcPaint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sw::WndBase::OnEndNcPaint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在OnNcPaint函数完成之后调用该函数 </p>
+
+<p>被 <a class="el" href="classsw_1_1Panel.html#a866dd09c5613b6018369afbab40963d6">sw::Panel</a> 重载.</p>
+
+</div>
+</div>
 <a id="ad90b0eebbaa959949cae5b736e2104aa" name="ad90b0eebbaa959949cae5b736e2104aa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad90b0eebbaa959949cae5b736e2104aa">&#9670;&#160;</a></span>OnEndPaint()</h2>
 
@@ -2448,6 +2491,41 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 
 </div>
 </div>
+<a id="a531ea2dabbaedcce1f71075a68d88961" name="a531ea2dabbaedcce1f71075a68d88961"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a531ea2dabbaedcce1f71075a68d88961">&#9670;&#160;</a></span>OnNcPaint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool sw::WndBase::OnNcPaint </td>
+          <td>(</td>
+          <td class="paramtype">HRGN&#160;</td>
+          <td class="paramname"><em>hRgn</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_NCPAINT时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hRgn</td><td>窗口更新区域的句柄，可能为NULL </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
 <a id="a5ffaecd17dc15509a81024cc522b07b0" name="a5ffaecd17dc15509a81024cc522b07b0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5ffaecd17dc15509a81024cc522b07b0">&#9670;&#160;</a></span>OnNotified()</h2>
 
@@ -2706,7 +2784,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1BmpBox.html#a6cb7446ef4d2308b971af9fe28b11bae">sw::BmpBox</a>, <a class="el" href="classsw_1_1HwndHost.html#a811a6d21dd8534addfc401bb79f829f7">sw::HwndHost</a>, <a class="el" href="classsw_1_1Label.html#a9476581e1a9460e3de3c0822e927f7ec">sw::Label</a>, <a class="el" href="classsw_1_1Panel.html#a655497d6bdbf760e34df1d799d89b009">sw::Panel</a>, <a class="el" href="classsw_1_1Splitter.html#a961677b3a6e12fc522bdb4e7b22690c2">sw::Splitter</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#af4f4d3a0d23a886c0257c439821f5809">sw::UIElement</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1BmpBox.html#a6cb7446ef4d2308b971af9fe28b11bae">sw::BmpBox</a>, <a class="el" href="classsw_1_1HwndHost.html#a811a6d21dd8534addfc401bb79f829f7">sw::HwndHost</a>, <a class="el" href="classsw_1_1Label.html#a9476581e1a9460e3de3c0822e927f7ec">sw::Label</a>, <a class="el" href="classsw_1_1Splitter.html#a961677b3a6e12fc522bdb4e7b22690c2">sw::Splitter</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#af4f4d3a0d23a886c0257c439821f5809">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>
@@ -3385,7 +3463,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 
 <p>对WndProc的封装 </p>
 
-<p>被 <a class="el" href="classsw_1_1Window.html#a5c4a30ad5dd71cba0de201846867de25">sw::Window</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1Panel.html#a13d598be9a594f73b0fbdbb35ea69bad">sw::Panel</a> , 以及 <a class="el" href="classsw_1_1Window.html#a5c4a30ad5dd71cba0de201846867de25">sw::Window</a> 重载.</p>
 
 </div>
 </div>

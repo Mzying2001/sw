@@ -330,10 +330,7 @@ void sw::SysLink::_UpdateTextSize()
 
 void sw::SysLink::_ResizeToTextSize()
 {
-    sw::Rect rect = this->Rect;
-    rect.width    = this->_textSize.width;
-    rect.height   = this->_textSize.height;
-    this->Rect    = rect;
+    this->Resize(this->_textSize);
 }
 
 // Font.cpp
@@ -5464,10 +5461,7 @@ void sw::Label::_UpdateTextSize()
 
 void sw::Label::_ResizeToTextSize()
 {
-    sw::Rect rect = this->Rect;
-    rect.width    = this->_textSize.width;
-    rect.height   = this->_textSize.height;
-    this->Rect    = rect;
+    this->Resize(this->_textSize);
 }
 
 bool sw::Label::OnSize(Size newClientSize)
@@ -8442,6 +8436,14 @@ sw::WndBase::WndBase()
           // get
           [this]() -> bool {
               return this->_isControl;
+          }),
+
+      ClassName(
+          // get
+          [this]() -> std::wstring {
+              std::wstring result(256, L'\0');
+              result.resize(GetClassNameW(this->_hwnd, &result[0], (int)result.size()));
+              return result;
           })
 {
     this->_font = sw::Font::GetDefaultFont();
@@ -8480,6 +8482,11 @@ sw::Control *sw::WndBase::ToControl()
 sw::Window *sw::WndBase::ToWindow()
 {
     return nullptr;
+}
+
+std::wstring sw::WndBase::ToString() const
+{
+    return L"WndBase{ClassName=" + this->ClassName + L", Handle=" + std::to_wstring(reinterpret_cast<uintptr_t>(this->_hwnd)) + L"}";
 }
 
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
@@ -8592,6 +8599,12 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         case WM_PAINT: {
             LRESULT result = this->OnPaint() ? 0 : this->DefaultWndProc(refMsg);
             this->OnEndPaint();
+            return result;
+        }
+
+        case WM_NCPAINT: {
+            LRESULT result = this->OnNcPaint(reinterpret_cast<HRGN>(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+            this->OnEndNcPaint();
             return result;
         }
 
@@ -8935,6 +8948,15 @@ bool sw::WndBase::OnPaint()
 }
 
 void sw::WndBase::OnEndPaint()
+{
+}
+
+bool sw::WndBase::OnNcPaint(HRGN hRgn)
+{
+    return false;
+}
+
+void sw::WndBase::OnEndNcPaint()
 {
 }
 
@@ -10312,10 +10334,13 @@ void sw::IPAddressControl::OnAddressChanged()
 
 // Panel.cpp
 
-/**
- * @brief 面板的窗口类名
- */
-static constexpr wchar_t _PanelClassName[] = L"sw::Panel";
+namespace
+{
+    /**
+     * @brief 面板的窗口类名
+     */
+    constexpr wchar_t _PanelClassName[] = L"sw::Panel";
+}
 
 sw::Panel::Panel()
     : BorderStyle(
@@ -10327,7 +10352,20 @@ sw::Panel::Panel()
           [this](const sw::BorderStyle &value) {
               if (this->_borderStyle != value) {
                   this->_borderStyle = value;
-                  this->Redraw();
+                  this->_UpdateBorder();
+              }
+          }),
+
+      Padding(
+          // get
+          [this]() -> sw::Thickness {
+              return this->_padding;
+          },
+          // set
+          [this](const sw::Thickness &value) {
+              if (this->_padding != value) {
+                  this->_padding = value;
+                  this->_UpdateBorder();
               }
           })
 {
@@ -10348,6 +10386,26 @@ sw::Panel::Panel()
     this->InheritTextColor = true;
 }
 
+LRESULT sw::Panel::WndProc(const ProcMsg &refMsg)
+{
+    if (refMsg.uMsg != WM_NCCALCSIZE) {
+        return this->WndBase::WndProc(refMsg);
+    }
+
+    auto result = this->DefaultWndProc(refMsg);
+
+    RECT *pRect = refMsg.wParam == FALSE
+                      ? reinterpret_cast<RECT *>(refMsg.lParam)
+                      : reinterpret_cast<NCCALCSIZE_PARAMS *>(refMsg.lParam)->rgrc;
+
+    this->_MinusBorderThickness(*pRect);
+    this->_MinusPadding(*pRect);
+
+    pRect->right  = Utils::Max(pRect->left, pRect->right);
+    pRect->bottom = Utils::Max(pRect->top, pRect->bottom);
+    return result;
+}
+
 bool sw::Panel::OnPaint()
 {
     PAINTSTRUCT ps;
@@ -10360,19 +10418,61 @@ bool sw::Panel::OnPaint()
     HBRUSH hBrush = CreateSolidBrush(this->GetRealBackColor());
     FillRect(hdc, &clientRect, hBrush);
 
-    if (this->_borderStyle != sw::BorderStyle::None)
-        DrawEdge(hdc, &clientRect, (UINT)this->_borderStyle, BF_RECT);
-
     DeleteObject(hBrush);
     EndPaint(hwnd, &ps);
     return true;
 }
 
-bool sw::Panel::OnSize(Size newClientSize)
+void sw::Panel::OnEndNcPaint()
 {
-    if (this->_borderStyle != sw::BorderStyle::None)
-        InvalidateRect(this->Handle, NULL, FALSE);
-    return UIElement::OnSize(newClientSize);
+    if (this->_borderStyle == sw::BorderStyle::None) {
+        return;
+    }
+
+    HWND hwnd = this->Handle;
+    HDC hdc   = GetWindowDC(hwnd);
+
+    RECT rect;
+    GetWindowRect(hwnd, &rect);
+
+    rect.right -= rect.left;
+    rect.bottom -= rect.top;
+    rect.left = 0;
+    rect.top  = 0;
+
+    DrawEdge(hdc, &rect, (UINT)this->_borderStyle, BF_RECT);
+    ReleaseDC(hwnd, hdc);
+    return;
+}
+
+void sw::Panel::_UpdateBorder()
+{
+    SetWindowPos(this->Handle, nullptr, 0, 0, 0, 0,
+                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+}
+
+void sw::Panel::_MinusBorderThickness(RECT &rect)
+{
+    switch (this->_borderStyle) {
+        case sw::BorderStyle::None: {
+            break;
+        }
+        default: {
+            rect.left += 2;
+            rect.top += 2;
+            rect.right -= 2;
+            rect.bottom -= 2;
+            break;
+        }
+    }
+}
+
+void sw::Panel::_MinusPadding(RECT &rect)
+{
+    rect.left += Dip::DipToPxX(this->_padding.left);
+    rect.top += Dip::DipToPxY(this->_padding.top);
+    rect.right -= Dip::DipToPxX(this->_padding.right);
+    rect.bottom -= Dip::DipToPxY(this->_padding.bottom);
 }
 
 // TextBox.cpp
