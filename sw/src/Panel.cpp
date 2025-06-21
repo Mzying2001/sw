@@ -67,7 +67,8 @@ LRESULT sw::Panel::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_UpdateLayout: {
-            this->UpdateLayout();
+            if (this->IsInHierarchy)
+                this->UpdateLayout();
             return 0;
         }
 
