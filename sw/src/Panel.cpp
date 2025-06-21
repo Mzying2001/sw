@@ -55,19 +55,26 @@ sw::Panel::Panel()
 
 LRESULT sw::Panel::WndProc(const ProcMsg &refMsg)
 {
-    if (refMsg.uMsg != WM_NCCALCSIZE) {
-        return this->WndBase::WndProc(refMsg);
+    switch (refMsg.uMsg) {
+        case WM_NCCALCSIZE: {
+            auto result = this->DefaultWndProc(refMsg);
+            RECT *pRect = refMsg.wParam == FALSE
+                              ? reinterpret_cast<RECT *>(refMsg.lParam)
+                              : reinterpret_cast<NCCALCSIZE_PARAMS *>(refMsg.lParam)->rgrc;
+            this->_MinusBorderThickness(*pRect);
+            this->_MinusPadding(*pRect);
+            return result;
+        }
+
+        case WM_UpdateLayout: {
+            this->UpdateLayout();
+            return 0;
+        }
+
+        default: {
+            return this->WndBase::WndProc(refMsg);
+        }
     }
-
-    auto result = this->DefaultWndProc(refMsg);
-
-    RECT *pRect = refMsg.wParam == FALSE
-                      ? reinterpret_cast<RECT *>(refMsg.lParam)
-                      : reinterpret_cast<NCCALCSIZE_PARAMS *>(refMsg.lParam)->rgrc;
-
-    this->_MinusBorderThickness(*pRect);
-    this->_MinusPadding(*pRect);
-    return result;
 }
 
 bool sw::Panel::OnPaint()
