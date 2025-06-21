@@ -27,6 +27,12 @@ namespace sw
          */
         const ReadOnlyProperty<int> ControlId;
 
+        /**
+         * @brief 控件是否在窗口的控件层次结构中
+         * @note  当控件已创建并且被添加到任意父窗口（可以是其他框架窗口）时该值为true
+         */
+        const ReadOnlyProperty<bool> IsInHierarchy;
+
     public:
         /**
          * @brief 初始化控件
