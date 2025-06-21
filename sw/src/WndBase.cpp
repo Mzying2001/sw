@@ -413,6 +413,10 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             return result;
         }
 
+        case WM_NCPAINT: {
+            return this->OnNcPaint(reinterpret_cast<HRGN>(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
         case WM_WINDOWPOSCHANGED: {
             auto pWndPos = reinterpret_cast<PWINDOWPOS>(refMsg.lParam);
             if ((pWndPos->flags & SWP_NOMOVE) == 0) {
@@ -754,6 +758,11 @@ bool sw::WndBase::OnPaint()
 
 void sw::WndBase::OnEndPaint()
 {
+}
+
+bool sw::WndBase::OnNcPaint(HRGN hRgn)
+{
+    return false;
 }
 
 bool sw::WndBase::OnMove(Point newClientPosition)
