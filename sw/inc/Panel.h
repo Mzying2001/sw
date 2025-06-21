@@ -40,16 +40,31 @@ namespace sw
 
     protected:
         /**
+         * @brief 对WndProc的封装
+         */
+        virtual LRESULT WndProc(const ProcMsg &refMsg) override;
+
+        /**
          * @brief  接收到WM_PAINT时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnPaint() override;
 
         /**
-         * @brief               接收到WM_SIZE时调用该函数
-         * @param newClientSize 改变后的用户区尺寸
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @brief 在OnNcPaint函数完成之后调用该函数
          */
-        virtual bool OnSize(Size newClientSize) override;
+        virtual void OnEndNcPaint() override;
+
+    private:
+        /**
+         * @brief 更新边框
+         */
+        void _UpdateBorder();
+
+        /**
+         * @brief      减去边框厚度
+         * @param rect 要减去边框厚度的矩形
+         */
+        void _MinusBorderThickness(RECT &rect);
     };
 }
