@@ -67,9 +67,6 @@ LRESULT sw::Panel::WndProc(const ProcMsg &refMsg)
 
     this->_MinusBorderThickness(*pRect);
     this->_MinusPadding(*pRect);
-
-    pRect->right  = Utils::Max(pRect->left, pRect->right);
-    pRect->bottom = Utils::Max(pRect->top, pRect->bottom);
     return result;
 }
 
@@ -92,10 +89,6 @@ bool sw::Panel::OnPaint()
 
 void sw::Panel::OnEndNcPaint()
 {
-    if (this->_borderStyle == sw::BorderStyle::None) {
-        return;
-    }
-
     HWND hwnd = this->Handle;
     HDC hdc   = GetWindowDC(hwnd);
 
@@ -107,7 +100,28 @@ void sw::Panel::OnEndNcPaint()
     rect.left = 0;
     rect.top  = 0;
 
-    DrawEdge(hdc, &rect, (UINT)this->_borderStyle, BF_RECT);
+    if (this->_borderStyle != sw::BorderStyle::None) {
+        DrawEdge(hdc, &rect, (UINT)this->_borderStyle, BF_RECT);
+    }
+
+    RECT rtPaddingOuter = rect;
+    this->_MinusBorderThickness(rtPaddingOuter);
+
+    RECT rtPaddingInner = rtPaddingOuter;
+    this->_MinusPadding(rtPaddingInner);
+
+    HRGN hRgnOuter = CreateRectRgnIndirect(&rtPaddingOuter);
+    HRGN hRgnInner = CreateRectRgnIndirect(&rtPaddingInner);
+    HRGN hRgnDiff  = CreateRectRgn(0, 0, 0, 0);
+    CombineRgn(hRgnDiff, hRgnOuter, hRgnInner, RGN_DIFF);
+
+    HBRUSH hBrush = CreateSolidBrush(this->GetRealBackColor());
+    FillRgn(hdc, hRgnDiff, hBrush);
+
+    DeleteObject(hRgnOuter);
+    DeleteObject(hRgnInner);
+    DeleteObject(hRgnDiff);
+    DeleteObject(hBrush);
     ReleaseDC(hwnd, hdc);
     return;
 }
@@ -115,7 +129,7 @@ void sw::Panel::OnEndNcPaint()
 void sw::Panel::_UpdateBorder()
 {
     SetWindowPos(this->Handle, nullptr, 0, 0, 0, 0,
-                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
 }
 
 void sw::Panel::_MinusBorderThickness(RECT &rect)
@@ -132,6 +146,8 @@ void sw::Panel::_MinusBorderThickness(RECT &rect)
             break;
         }
     }
+    rect.right  = Utils::Max(rect.left, rect.right);
+    rect.bottom = Utils::Max(rect.top, rect.bottom);
 }
 
 void sw::Panel::_MinusPadding(RECT &rect)
@@ -140,4 +156,7 @@ void sw::Panel::_MinusPadding(RECT &rect)
     rect.top += Dip::DipToPxY(this->_padding.top);
     rect.right -= Dip::DipToPxX(this->_padding.right);
     rect.bottom -= Dip::DipToPxY(this->_padding.bottom);
+
+    rect.right  = Utils::Max(rect.left, rect.right);
+    rect.bottom = Utils::Max(rect.top, rect.bottom);
 }
