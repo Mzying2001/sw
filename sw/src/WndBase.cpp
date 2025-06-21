@@ -247,6 +247,14 @@ sw::WndBase::WndBase()
           // get
           [this]() -> bool {
               return this->_isControl;
+          }),
+
+      ClassName(
+          // get
+          [this]() -> std::wstring {
+              std::wstring result(256, L'\0');
+              result.resize(GetClassNameW(this->_hwnd, &result[0], (int)result.size()));
+              return result;
           })
 {
     this->_font = sw::Font::GetDefaultFont();
@@ -285,6 +293,11 @@ sw::Control *sw::WndBase::ToControl()
 sw::Window *sw::WndBase::ToWindow()
 {
     return nullptr;
+}
+
+std::wstring sw::WndBase::ToString() const
+{
+    return L"WndBase{ClassName=" + this->ClassName + L", Handle=" + std::to_wstring(reinterpret_cast<uintptr_t>(this->_hwnd)) + L"}";
 }
 
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
@@ -397,6 +410,12 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         case WM_PAINT: {
             LRESULT result = this->OnPaint() ? 0 : this->DefaultWndProc(refMsg);
             this->OnEndPaint();
+            return result;
+        }
+
+        case WM_NCPAINT: {
+            LRESULT result = this->OnNcPaint(reinterpret_cast<HRGN>(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
+            this->OnEndNcPaint();
             return result;
         }
 
@@ -740,6 +759,15 @@ bool sw::WndBase::OnPaint()
 }
 
 void sw::WndBase::OnEndPaint()
+{
+}
+
+bool sw::WndBase::OnNcPaint(HRGN hRgn)
+{
+    return false;
+}
+
+void sw::WndBase::OnEndNcPaint()
 {
 }
 

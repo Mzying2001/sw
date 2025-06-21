@@ -110,8 +110,5 @@ void sw::SysLink::_UpdateTextSize()
 
 void sw::SysLink::_ResizeToTextSize()
 {
-    sw::Rect rect = this->Rect;
-    rect.width    = this->_textSize.width;
-    rect.height   = this->_textSize.height;
-    this->Rect    = rect;
+    this->Resize(this->_textSize);
 }

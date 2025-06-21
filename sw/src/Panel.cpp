@@ -1,9 +1,13 @@
 #include "Panel.h"
+#include "Utils.h"
 
-/**
- * @brief 面板的窗口类名
- */
-static constexpr wchar_t _PanelClassName[] = L"sw::Panel";
+namespace
+{
+    /**
+     * @brief 面板的窗口类名
+     */
+    constexpr wchar_t _PanelClassName[] = L"sw::Panel";
+}
 
 sw::Panel::Panel()
     : BorderStyle(
@@ -15,7 +19,20 @@ sw::Panel::Panel()
           [this](const sw::BorderStyle &value) {
               if (this->_borderStyle != value) {
                   this->_borderStyle = value;
-                  this->Redraw();
+                  this->_UpdateBorder();
+              }
+          }),
+
+      Padding(
+          // get
+          [this]() -> sw::Thickness {
+              return this->_padding;
+          },
+          // set
+          [this](const sw::Thickness &value) {
+              if (this->_padding != value) {
+                  this->_padding = value;
+                  this->_UpdateBorder();
               }
           })
 {
@@ -36,6 +53,26 @@ sw::Panel::Panel()
     this->InheritTextColor = true;
 }
 
+LRESULT sw::Panel::WndProc(const ProcMsg &refMsg)
+{
+    if (refMsg.uMsg != WM_NCCALCSIZE) {
+        return this->WndBase::WndProc(refMsg);
+    }
+
+    auto result = this->DefaultWndProc(refMsg);
+
+    RECT *pRect = refMsg.wParam == FALSE
+                      ? reinterpret_cast<RECT *>(refMsg.lParam)
+                      : reinterpret_cast<NCCALCSIZE_PARAMS *>(refMsg.lParam)->rgrc;
+
+    this->_MinusBorderThickness(*pRect);
+    this->_MinusPadding(*pRect);
+
+    pRect->right  = Utils::Max(pRect->left, pRect->right);
+    pRect->bottom = Utils::Max(pRect->top, pRect->bottom);
+    return result;
+}
+
 bool sw::Panel::OnPaint()
 {
     PAINTSTRUCT ps;
@@ -48,17 +85,59 @@ bool sw::Panel::OnPaint()
     HBRUSH hBrush = CreateSolidBrush(this->GetRealBackColor());
     FillRect(hdc, &clientRect, hBrush);
 
-    if (this->_borderStyle != sw::BorderStyle::None)
-        DrawEdge(hdc, &clientRect, (UINT)this->_borderStyle, BF_RECT);
-
     DeleteObject(hBrush);
     EndPaint(hwnd, &ps);
     return true;
 }
 
-bool sw::Panel::OnSize(Size newClientSize)
+void sw::Panel::OnEndNcPaint()
 {
-    if (this->_borderStyle != sw::BorderStyle::None)
-        InvalidateRect(this->Handle, NULL, FALSE);
-    return UIElement::OnSize(newClientSize);
+    if (this->_borderStyle == sw::BorderStyle::None) {
+        return;
+    }
+
+    HWND hwnd = this->Handle;
+    HDC hdc   = GetWindowDC(hwnd);
+
+    RECT rect;
+    GetWindowRect(hwnd, &rect);
+
+    rect.right -= rect.left;
+    rect.bottom -= rect.top;
+    rect.left = 0;
+    rect.top  = 0;
+
+    DrawEdge(hdc, &rect, (UINT)this->_borderStyle, BF_RECT);
+    ReleaseDC(hwnd, hdc);
+    return;
+}
+
+void sw::Panel::_UpdateBorder()
+{
+    SetWindowPos(this->Handle, nullptr, 0, 0, 0, 0,
+                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+}
+
+void sw::Panel::_MinusBorderThickness(RECT &rect)
+{
+    switch (this->_borderStyle) {
+        case sw::BorderStyle::None: {
+            break;
+        }
+        default: {
+            rect.left += 2;
+            rect.top += 2;
+            rect.right -= 2;
+            rect.bottom -= 2;
+            break;
+        }
+    }
+}
+
+void sw::Panel::_MinusPadding(RECT &rect)
+{
+    rect.left += Dip::DipToPxX(this->_padding.left);
+    rect.top += Dip::DipToPxY(this->_padding.top);
+    rect.right -= Dip::DipToPxX(this->_padding.right);
+    rect.bottom -= Dip::DipToPxY(this->_padding.bottom);
 }

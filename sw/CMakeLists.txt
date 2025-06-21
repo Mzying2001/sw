@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # 定义项目
-project(sw)
+project(sw VERSION 0.0.3)
 
 # 静态库sw
 add_library(sw STATIC)
@@ -60,7 +60,7 @@ configure_package_config_file(
 # 生成版本文件
 write_basic_package_version_file(
     ${PROJECT_BINARY_DIR}/swConfigVersion.cmake
-    VERSION 0.0.1
+    VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
 )
 
