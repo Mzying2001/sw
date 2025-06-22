@@ -19,7 +19,7 @@ sw::Panel::Panel()
           [this](const sw::BorderStyle &value) {
               if (this->_borderStyle != value) {
                   this->_borderStyle = value;
-                  this->_UpdateBorder();
+                  this->UpdateBorder();
               }
           }),
 
@@ -32,7 +32,7 @@ sw::Panel::Panel()
           [this](const sw::Thickness &value) {
               if (this->_padding != value) {
                   this->_padding = value;
-                  this->_UpdateBorder();
+                  this->UpdateBorder();
               }
           })
 {
@@ -53,24 +53,35 @@ sw::Panel::Panel()
     this->InheritTextColor = true;
 }
 
+void sw::Panel::UpdateBorder()
+{
+    SetWindowPos(this->Handle, nullptr, 0, 0, 0, 0,
+                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+}
+
 LRESULT sw::Panel::WndProc(const ProcMsg &refMsg)
 {
-    if (refMsg.uMsg != WM_NCCALCSIZE) {
-        return this->WndBase::WndProc(refMsg);
+    switch (refMsg.uMsg) {
+        case WM_NCCALCSIZE: {
+            auto result = this->DefaultWndProc(refMsg);
+            RECT *pRect = refMsg.wParam == FALSE
+                              ? reinterpret_cast<RECT *>(refMsg.lParam)
+                              : reinterpret_cast<NCCALCSIZE_PARAMS *>(refMsg.lParam)->rgrc;
+            this->OnDrawBorder(NULL, *pRect);
+            this->OnDrawPadding(NULL, *pRect);
+            return result;
+        }
+
+        case WM_UpdateLayout: {
+            if (this->IsInHierarchy)
+                this->UpdateLayout();
+            return 0;
+        }
+
+        default: {
+            return this->WndBase::WndProc(refMsg);
+        }
     }
-
-    auto result = this->DefaultWndProc(refMsg);
-
-    RECT *pRect = refMsg.wParam == FALSE
-                      ? reinterpret_cast<RECT *>(refMsg.lParam)
-                      : reinterpret_cast<NCCALCSIZE_PARAMS *>(refMsg.lParam)->rgrc;
-
-    this->_MinusBorderThickness(*pRect);
-    this->_MinusPadding(*pRect);
-
-    pRect->right  = Utils::Max(pRect->left, pRect->right);
-    pRect->bottom = Utils::Max(pRect->top, pRect->bottom);
-    return result;
 }
 
 bool sw::Panel::OnPaint()
@@ -92,10 +103,6 @@ bool sw::Panel::OnPaint()
 
 void sw::Panel::OnEndNcPaint()
 {
-    if (this->_borderStyle == sw::BorderStyle::None) {
-        return;
-    }
-
     HWND hwnd = this->Handle;
     HDC hdc   = GetWindowDC(hwnd);
 
@@ -107,37 +114,60 @@ void sw::Panel::OnEndNcPaint()
     rect.left = 0;
     rect.top  = 0;
 
-    DrawEdge(hdc, &rect, (UINT)this->_borderStyle, BF_RECT);
+    this->OnDrawBorder(hdc, rect);
+    this->OnDrawPadding(hdc, rect);
+
     ReleaseDC(hwnd, hdc);
     return;
 }
 
-void sw::Panel::_UpdateBorder()
+void sw::Panel::OnDrawBorder(HDC hdc, RECT &rect)
 {
-    SetWindowPos(this->Handle, nullptr, 0, 0, 0, 0,
-                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
-}
-
-void sw::Panel::_MinusBorderThickness(RECT &rect)
-{
-    switch (this->_borderStyle) {
-        case sw::BorderStyle::None: {
-            break;
-        }
-        default: {
-            rect.left += 2;
-            rect.top += 2;
-            rect.right -= 2;
-            rect.bottom -= 2;
-            break;
-        }
+    if (this->_borderStyle == sw::BorderStyle::None) {
+        return;
     }
+
+    if (hdc != NULL) {
+        DrawEdge(hdc, &rect, (UINT)this->_borderStyle, BF_RECT);
+    }
+
+    int cx = GetSystemMetrics(SM_CXEDGE);
+    int cy = GetSystemMetrics(SM_CYEDGE);
+
+    rect.left += cx;
+    rect.top += cy;
+    rect.right -= cx;
+    rect.bottom -= cy;
+
+    rect.right  = Utils::Max(rect.left, rect.right);
+    rect.bottom = Utils::Max(rect.top, rect.bottom);
 }
 
-void sw::Panel::_MinusPadding(RECT &rect)
+void sw::Panel::OnDrawPadding(HDC hdc, RECT &rect)
 {
-    rect.left += Dip::DipToPxX(this->_padding.left);
-    rect.top += Dip::DipToPxY(this->_padding.top);
-    rect.right -= Dip::DipToPxX(this->_padding.right);
-    rect.bottom -= Dip::DipToPxY(this->_padding.bottom);
+    RECT rtPaddingOuter  = rect;
+    RECT &rtPaddingInner = rect;
+
+    rtPaddingInner.left += Dip::DipToPxX(this->_padding.left);
+    rtPaddingInner.top += Dip::DipToPxY(this->_padding.top);
+    rtPaddingInner.right -= Dip::DipToPxX(this->_padding.right);
+    rtPaddingInner.bottom -= Dip::DipToPxY(this->_padding.bottom);
+
+    rtPaddingInner.right  = Utils::Max(rtPaddingInner.left, rtPaddingInner.right);
+    rtPaddingInner.bottom = Utils::Max(rtPaddingInner.top, rtPaddingInner.bottom);
+
+    if (hdc != NULL) {
+        HRGN hRgnOuter = CreateRectRgnIndirect(&rtPaddingOuter);
+        HRGN hRgnInner = CreateRectRgnIndirect(&rtPaddingInner);
+        HRGN hRgnDiff  = CreateRectRgn(0, 0, 0, 0);
+        CombineRgn(hRgnDiff, hRgnOuter, hRgnInner, RGN_DIFF);
+
+        HBRUSH hBrush = CreateSolidBrush(this->GetRealBackColor());
+        FillRgn(hdc, hRgnDiff, hBrush);
+
+        DeleteObject(hRgnOuter);
+        DeleteObject(hRgnInner);
+        DeleteObject(hRgnDiff);
+        DeleteObject(hBrush);
+    }
 }

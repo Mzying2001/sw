@@ -50,6 +50,11 @@ namespace sw
 
     protected:
         /**
+         * @brief 更新边框
+         */
+        void UpdateBorder();
+
+        /**
          * @brief 对WndProc的封装
          */
         virtual LRESULT WndProc(const ProcMsg &refMsg) override;
@@ -65,22 +70,20 @@ namespace sw
          */
         virtual void OnEndNcPaint() override;
 
-    private:
         /**
-         * @brief 更新边框
+         * @brief      绘制边框
+         * @param hdc  绘制设备句柄，可能为NULL
+         * @param rect 绘制边框的矩形区域，该函数会减去边框厚度
+         * @note       若hdc为NULL则不进行绘制，只更新rect
          */
-        void _UpdateBorder();
+        virtual void OnDrawBorder(HDC hdc, RECT &rect);
 
         /**
-         * @brief      减去边框厚度
-         * @param rect 要减去边框厚度的矩形
+         * @brief      绘制内边距
+         * @param hdc  绘制设备句柄，可能为NULL
+         * @param rect 绘制内边距的矩形区域，该函数会减去内边距
+         * @note       若hdc为NULL则不进行绘制，只更新rect
          */
-        void _MinusBorderThickness(RECT &rect);
-
-        /**
-         * @brief      减去内边距
-         * @param rect 要减去内边距的矩形
-         */
-        void _MinusPadding(RECT &rect);
+        virtual void OnDrawPadding(HDC hdc, RECT &rect);
     };
 }

@@ -1,13 +1,13 @@
 #include "FolderDialog.h"
 #include "Utils.h"
 
-/**
- * @brief FolderBrowserDialog缓冲区默认大小
- */
-static constexpr int _FolderBrowserDialogInitialBufferSize = MAX_PATH;
-
-/**
- */
+namespace
+{
+    /**
+     * @brief FolderBrowserDialog缓冲区默认大小
+     */
+    constexpr int _FolderBrowserDialogInitialBufferSize = MAX_PATH;
+}
 
 sw::FolderBrowserDialog::FolderBrowserDialog()
     : BufferSize(

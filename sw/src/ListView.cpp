@@ -2,8 +2,13 @@
 #include <cmath>
 #include <memory>
 
-// 获取文本时缓冲区的初始大小
-static constexpr int _ListViewTextInitialBufferSize = 256;
+namespace
+{
+    /**
+     * @brief 获取文本时缓冲区的初始大小
+     */
+    constexpr int _ListViewTextInitialBufferSize = 256;
+}
 
 sw::ListViewColumn::ListViewColumn(const std::wstring &header)
     : ListViewColumn(header, 100)

@@ -41,7 +41,7 @@ namespace
     /**
      * @brief 储存缩放信息
      */
-    static _ScaleInfo _scaleInfo;
+    _ScaleInfo _scaleInfo;
 }
 
 /*================================================================================*/

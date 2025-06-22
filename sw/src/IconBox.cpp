@@ -10,9 +10,7 @@ sw::IconBox::IconBox()
       StretchIcon(
           // get
           [this]() -> bool {
-              static bool result;
-              result = !this->GetStyle(SS_CENTERIMAGE);
-              return result;
+              return !this->GetStyle(SS_CENTERIMAGE);
           },
           // set
           [this](const bool &value) {

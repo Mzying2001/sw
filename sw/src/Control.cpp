@@ -5,6 +5,16 @@ sw::Control::Control()
           // get
           [this]() -> int {
               return GetDlgCtrlID(this->_hwnd);
+          }),
+
+      IsInHierarchy(
+          // get
+          [this]() -> bool {
+              if (this->_hwnd == NULL || this->_isDestroyed) {
+                  return false;
+              }
+              auto container = WndBase::_GetControlInitContainer();
+              return container == nullptr || GetParent(this->_hwnd) != container->_hwnd;
           })
 {
 }

@@ -1,12 +1,12 @@
 #include "Timer.h"
 
-/**
- * @brief 窗口句柄保存Timer指针的属性名称
- */
-static constexpr wchar_t _TimerPtrProp[] = L"SWPROP_TimerPtr";
-
-/**
- */
+namespace
+{
+    /**
+     * @brief 窗口句柄保存Timer指针的属性名称
+     */
+    constexpr wchar_t _TimerPtrProp[] = L"SWPROP_TimerPtr";
+}
 
 sw::Timer::Timer()
     : Interval(
