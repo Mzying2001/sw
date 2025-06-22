@@ -16,5 +16,6 @@ var classsw_1_1Control =
     [ "ResetHandle", "classsw_1_1Control.html#a04520bfdfd153b04fce7d65f937ff2b8", null ],
     [ "ResetHandle", "classsw_1_1Control.html#a28d0732184b1631d1c3b2f84dec4c6e6", null ],
     [ "ToControl", "classsw_1_1Control.html#ab9213f0b57eec7e79e57570b64d493c6", null ],
-    [ "ControlId", "classsw_1_1Control.html#aa5875535fe04ce79df6fb8719b64c0dc", null ]
+    [ "ControlId", "classsw_1_1Control.html#aa5875535fe04ce79df6fb8719b64c0dc", null ],
+    [ "IsInHierarchy", "classsw_1_1Control.html#a703a0794e6d8aeb786b1f53c9e987e83", null ]
 ];

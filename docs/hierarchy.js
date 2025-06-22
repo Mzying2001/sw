@@ -142,11 +142,11 @@ var hierarchy =
           ] ],
           [ "sw::MonthCalendar", "classsw_1_1MonthCalendar.html", null ],
           [ "sw::PanelBase", "classsw_1_1PanelBase.html", [
-            [ "sw::GroupBox", "classsw_1_1GroupBox.html", null ],
             [ "sw::Panel", "classsw_1_1Panel.html", [
               [ "sw::Canvas", "classsw_1_1Canvas.html", null ],
               [ "sw::DockPanel", "classsw_1_1DockPanel.html", null ],
               [ "sw::Grid", "classsw_1_1Grid.html", null ],
+              [ "sw::GroupBox", "classsw_1_1GroupBox.html", null ],
               [ "sw::StackPanel", "classsw_1_1StackPanel.html", null ],
               [ "sw::UniformGrid", "classsw_1_1UniformGrid.html", null ],
               [ "sw::WrapPanel", "classsw_1_1WrapPanel.html", null ]

@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"classsw_1_1Delegate_3_01TRet_07Args_8_8_8_08_4.html#ab4a27dd213938119abab2211f28479ed":[2,0,0,43,34],
 "classsw_1_1Delegate_3_01TRet_07Args_8_8_8_08_4.html#abee846da9629ebe5d7a13f748dce1b07":[2,0,0,43,17],
 "classsw_1_1Delegate_3_01TRet_07Args_8_8_8_08_4.html#acd4c86a7a6e46fc8d507032fc0eb2424":[2,0,0,43,8],
 "classsw_1_1Delegate_3_01TRet_07Args_8_8_8_08_4.html#acfd797b81cf61079ba8697d5dfd4af00":[2,0,0,43,2],
@@ -128,7 +129,12 @@ var NAVTREEINDEX1 =
 "classsw_1_1GridLayout.html#a77f696d86389ff0360bd65629a5edab4":[2,0,0,64,0],
 "classsw_1_1GridLayout.html#aac702cbbed9459c559d85c337313d3a9":[2,0,0,64,1],
 "classsw_1_1GroupBox.html":[2,0,0,67],
+"classsw_1_1GroupBox.html#a4d0d1b3d91f4b6ba8657a7a36f66eb9c":[2,0,0,67,3],
 "classsw_1_1GroupBox.html#a6241500d4cd923499613dc0162a38275":[2,0,0,67,0],
+"classsw_1_1GroupBox.html#a6744ce46841a0348494df0ae9f4e56fb":[2,0,0,67,5],
+"classsw_1_1GroupBox.html#a6e799dffb07ae89efdb53428d2602778":[2,0,0,67,4],
+"classsw_1_1GroupBox.html#a8e5915d44a7e354321954b626e1ed236":[2,0,0,67,2],
+"classsw_1_1GroupBox.html#adab6535b853278a6f293939c0bf0cde2":[2,0,0,67,1],
 "classsw_1_1HotKeyControl.html":[2,0,0,69],
 "classsw_1_1HotKeyControl.html#a6dcd0f607bfec758781edbb1132686f2":[2,0,0,69,2],
 "classsw_1_1HotKeyControl.html#abf405cd5167e076e2851adaa617e9a57":[2,0,0,69,3],
@@ -243,11 +249,5 @@ var NAVTREEINDEX1 =
 "classsw_1_1Label.html#ab127ad68d85e658bb2e8cb271df5cedc":[2,0,0,85,9],
 "classsw_1_1Label.html#ae1ee6644b4de352317836eb2a4c00c3c":[2,0,0,85,0],
 "classsw_1_1Label.html#af5e6d5d4530ee12b52ce2ab16f180aac":[2,0,0,85,1],
-"classsw_1_1Label.html#af90d6f76f8d674ae945193f3f4f630e9":[2,0,0,85,4],
-"classsw_1_1Label.html#af94d8f66f1119690c6c2dbca2f794de6":[2,0,0,85,6],
-"classsw_1_1Layer.html":[2,0,0,86],
-"classsw_1_1Layer.html#a3ac4fcba5970f01d5c944c0376a354c7":[2,0,0,86,11],
-"classsw_1_1Layer.html#a3f5248e4483b277a2f99c9b3cde086b7":[2,0,0,86,9],
-"classsw_1_1Layer.html#a418f1f936414fd657ad11a0c0f437cdb":[2,0,0,86,2],
-"classsw_1_1Layer.html#a465cbfd99c23c60b746529372a071274":[2,0,0,86,6]
+"classsw_1_1Label.html#af90d6f76f8d674ae945193f3f4f630e9":[2,0,0,85,4]
 };
