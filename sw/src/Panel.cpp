@@ -19,7 +19,7 @@ sw::Panel::Panel()
           [this](const sw::BorderStyle &value) {
               if (this->_borderStyle != value) {
                   this->_borderStyle = value;
-                  this->_UpdateBorder();
+                  this->UpdateBorder();
               }
           }),
 
@@ -32,7 +32,7 @@ sw::Panel::Panel()
           [this](const sw::Thickness &value) {
               if (this->_padding != value) {
                   this->_padding = value;
-                  this->_UpdateBorder();
+                  this->UpdateBorder();
               }
           })
 {
@@ -51,6 +51,12 @@ sw::Panel::Panel()
     this->Rect             = sw::Rect(0, 0, 200, 200);
     this->Transparent      = true;
     this->InheritTextColor = true;
+}
+
+void sw::Panel::UpdateBorder()
+{
+    SetWindowPos(this->Handle, nullptr, 0, 0, 0, 0,
+                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
 }
 
 LRESULT sw::Panel::WndProc(const ProcMsg &refMsg)
@@ -164,10 +170,4 @@ void sw::Panel::OnDrawPadding(HDC hdc, RECT &rect)
         DeleteObject(hRgnDiff);
         DeleteObject(hBrush);
     }
-}
-
-void sw::Panel::_UpdateBorder()
-{
-    SetWindowPos(this->Handle, nullptr, 0, 0, 0, 0,
-                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
 }

@@ -50,6 +50,11 @@ namespace sw
 
     protected:
         /**
+         * @brief 更新边框
+         */
+        void UpdateBorder();
+
+        /**
          * @brief 对WndProc的封装
          */
         virtual LRESULT WndProc(const ProcMsg &refMsg) override;
@@ -80,11 +85,5 @@ namespace sw
          * @note       若hdc为NULL则不进行绘制，只更新rect
          */
         virtual void OnDrawPadding(HDC hdc, RECT &rect);
-
-    private:
-        /**
-         * @brief 更新边框
-         */
-        void _UpdateBorder();
     };
 }
