@@ -6972,6 +6972,11 @@ namespace sw
         static void _InitControlContainer();
 
         /**
+         * @brief 获取控件创建时所在的容器
+         */
+        static WndBase *_GetControlInitContainer();
+
+        /**
          * @brief 获取一个新的控件id
          */
         static int _NextControlId();
@@ -9602,6 +9607,12 @@ namespace sw
          */
         const ReadOnlyProperty<int> ControlId;
 
+        /**
+         * @brief 控件是否在窗口的控件层次结构中
+         * @note  当控件已创建并且被添加到任意父窗口（可以是其他框架窗口）时该值为true
+         */
+        const ReadOnlyProperty<bool> IsInHierarchy;
+
     public:
         /**
          * @brief 初始化控件
@@ -11826,6 +11837,11 @@ namespace sw
 
     protected:
         /**
+         * @brief 更新边框
+         */
+        void UpdateBorder();
+
+        /**
          * @brief 对WndProc的封装
          */
         virtual LRESULT WndProc(const ProcMsg &refMsg) override;
@@ -11841,23 +11857,21 @@ namespace sw
          */
         virtual void OnEndNcPaint() override;
 
-    private:
         /**
-         * @brief 更新边框
+         * @brief      绘制边框
+         * @param hdc  绘制设备句柄，可能为NULL
+         * @param rect 绘制边框的矩形区域，该函数会减去边框厚度
+         * @note       若hdc为NULL则不进行绘制，只更新rect
          */
-        void _UpdateBorder();
+        virtual void OnDrawBorder(HDC hdc, RECT &rect);
 
         /**
-         * @brief      减去边框厚度
-         * @param rect 要减去边框厚度的矩形
+         * @brief      绘制内边距
+         * @param hdc  绘制设备句柄，可能为NULL
+         * @param rect 绘制内边距的矩形区域，该函数会减去内边距
+         * @note       若hdc为NULL则不进行绘制，只更新rect
          */
-        void _MinusBorderThickness(RECT &rect);
-
-        /**
-         * @brief      减去内边距
-         * @param rect 要减去内边距的矩形
-         */
-        void _MinusPadding(RECT &rect);
+        virtual void OnDrawPadding(HDC hdc, RECT &rect);
     };
 }
 
@@ -13252,24 +13266,6 @@ namespace sw
     };
 }
 
-// GroupBox.h
-
-
-namespace sw
-{
-    /**
-     * @brief 组合框
-     */
-    class GroupBox : public PanelBase
-    {
-    public:
-        /**
-         * @brief 初始化组合框
-         */
-        GroupBox();
-    };
-}
-
 // CheckBox.h
 
 
@@ -13677,6 +13673,70 @@ namespace sw
          * @brief 获取默认布局对象
          */
         virtual LayoutHost *GetDefaultLayout() override;
+    };
+}
+
+// GroupBox.h
+
+
+namespace sw
+{
+    /**
+     * @brief 组合框
+     */
+    class GroupBox : public Panel
+    {
+    private:
+        /**
+         * @brief 标题文本所需大小
+         */
+        SIZE _textSize;
+
+    public:
+        /**
+         * @brief 初始化组合框
+         */
+        GroupBox();
+
+    protected:
+        /**
+         * @brief      绘制边框
+         * @param hdc  绘制设备句柄，可能为NULL
+         * @param rect 绘制边框的矩形区域，该函数会减去边框厚度
+         * @note       若hdc为NULL则不进行绘制，只更新rect
+         */
+        virtual void OnDrawBorder(HDC hdc, RECT &rect) override;
+
+        /**
+         * @brief Text属性更改时调用此函数
+         */
+        virtual void OnTextChanged() override;
+
+        /**
+         * @brief       字体改变时调用该函数
+         * @param hfont 字体句柄
+         */
+        virtual void FontChanged(HFONT hfont) override;
+
+        /**
+         * @brief        设置背景颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetBackColor(Color color, bool redraw) override;
+
+        /**
+         * @brief        设置文本颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetTextColor(Color color, bool redraw) override;
+
+    private:
+        /**
+         * @brief 更新文本大小
+         */
+        void _UpdateTextSize();
     };
 }
 

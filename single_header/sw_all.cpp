@@ -1410,8 +1410,11 @@ void sw::ListBox::SetItemSelectionState(int index, bool value)
 
 // Button.cpp
 
-static constexpr DWORD _ButtonStyle_Default = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_PUSHBUTTON;
-static constexpr DWORD _ButtonStyle_Focused = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_DEFPUSHBUTTON;
+namespace
+{
+    constexpr DWORD _ButtonStyle_Default = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_PUSHBUTTON;
+    constexpr DWORD _ButtonStyle_Focused = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_DEFPUSHBUTTON;
+}
 
 sw::Button::Button()
 {
@@ -2052,8 +2055,11 @@ sw::KeyFlags::KeyFlags(LPARAM lParam)
 
 // ComboBox.cpp
 
-static constexpr DWORD _ComboBoxStyle_Default  = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWNLIST;
-static constexpr DWORD _ComboBoxStyle_Editable = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWN;
+namespace
+{
+    constexpr DWORD _ComboBoxStyle_Default  = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWNLIST;
+    constexpr DWORD _ComboBoxStyle_Editable = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWN;
+}
 
 sw::ComboBox::ComboBox()
     : IsEditable(
@@ -2213,8 +2219,13 @@ void sw::ComboBox::CloseDropDown()
 
 // ListView.cpp
 
-// 获取文本时缓冲区的初始大小
-static constexpr int _ListViewTextInitialBufferSize = 256;
+namespace
+{
+    /**
+     * @brief 获取文本时缓冲区的初始大小
+     */
+    constexpr int _ListViewTextInitialBufferSize = 256;
+}
 
 sw::ListViewColumn::ListViewColumn(const std::wstring &header)
     : ListViewColumn(header, 100)
@@ -4171,9 +4182,7 @@ sw::IconBox::IconBox()
       StretchIcon(
           // get
           [this]() -> bool {
-              static bool result;
-              result = !this->GetStyle(SS_CENTERIMAGE);
-              return result;
+              return !this->GetStyle(SS_CENTERIMAGE);
           },
           // set
           [this](const bool &value) {
@@ -4889,18 +4898,138 @@ void sw::FillLayout::ArrangeOverride(Size &finalSize)
 
 // GroupBox.cpp
 
+namespace
+{
+    /**
+     * @brief 标题文字与标题背景矩形之间的内边距
+     */
+    constexpr int _GroupBoxHeaderPadding = 2;
+
+    /**
+     * @brief 组合框标题区域水平方向与组合框边缘的距离
+     */
+    constexpr int _GroupBoxHeaderHorzMargin = 8;
+}
+
 sw::GroupBox::GroupBox()
 {
-    this->InitControl(L"BUTTON", L"GroupBox", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_GROUPBOX, 0);
-    this->Rect             = sw::Rect(0, 0, 200, 200);
-    this->Transparent      = true;
-    this->InheritTextColor = true;
+    Text        = L"GroupBox";
+    BorderStyle = sw::BorderStyle::Etched;
+    _UpdateTextSize();
+}
+
+void sw::GroupBox::OnDrawBorder(HDC hdc, RECT &rect)
+{
+    auto borderStyle     = BorderStyle.Get();
+    int borderThicknessX = borderStyle == sw::BorderStyle::None ? 0 : GetSystemMetrics(SM_CXEDGE);
+    int borderThicknessY = borderStyle == sw::BorderStyle::None ? 0 : GetSystemMetrics(SM_CYEDGE);
+
+    int availableWidth  = rect.right - rect.left;
+    int availableHeight = rect.bottom - rect.top;
+    int headerWidth     = Utils::Max(0, Utils::Min<int>(_textSize.cx + _GroupBoxHeaderPadding * 2, availableWidth - _GroupBoxHeaderHorzMargin * 2));
+    int headerHeight    = _textSize.cy + _GroupBoxHeaderPadding * 2;
+
+    RECT rtHeader = {
+        rect.left + _GroupBoxHeaderHorzMargin,
+        rect.top,
+        rect.left + _GroupBoxHeaderHorzMargin + headerWidth,
+        rect.top + headerHeight};
+
+    if (hdc != NULL) {
+        HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
+        ::SetBkColor(hdc, GetRealBackColor());
+        ::SetTextColor(hdc, GetRealTextColor());
+        ::SelectObject(hdc, GetFontHandle());
+
+        RECT rtHeaderRow = {
+            rect.left,
+            rect.top,
+            rect.right,
+            rtHeader.bottom};
+
+        FillRect(hdc, &rtHeaderRow, hBrush);
+
+        RECT rtBorder = {
+            rect.left,
+            rect.top + (headerHeight - borderThicknessY) / 2,
+            rect.right,
+            rect.bottom};
+
+        rtBorder.right  = Utils::Max(rtBorder.left, rtBorder.right);
+        rtBorder.bottom = Utils::Max(rtBorder.top, rtBorder.bottom);
+
+        if (borderStyle != sw::BorderStyle::None) {
+            DrawEdge(hdc, &rtBorder, (UINT)borderStyle, BF_RECT);
+        }
+
+        RECT rtHeaderText = {
+            rtHeader.left + _GroupBoxHeaderPadding,
+            rtHeader.top + _GroupBoxHeaderPadding,
+            rtHeader.right - _GroupBoxHeaderPadding,
+            rtHeader.bottom - _GroupBoxHeaderPadding};
+
+        FillRect(hdc, &rtHeader, hBrush);
+        DrawTextW(hdc, GetText().c_str(), (int)GetText().size(), &rtHeaderText, DT_SINGLELINE);
+        DeleteObject(hBrush);
+    }
+
+    rect.left += borderThicknessX;
+    rect.top = rtHeader.bottom;
+    rect.right -= borderThicknessX;
+    rect.bottom -= borderThicknessY;
+
+    rect.right  = Utils::Max(rect.left, rect.right);
+    rect.bottom = Utils::Max(rect.top, rect.bottom);
+}
+
+void sw::GroupBox::OnTextChanged()
+{
+    _UpdateTextSize();
+    UpdateBorder();
+    Panel::OnTextChanged();
+}
+
+void sw::GroupBox::FontChanged(HFONT hfont)
+{
+    _UpdateTextSize();
+    UpdateBorder();
+    Panel::FontChanged(hfont);
+}
+
+void sw::GroupBox::SetBackColor(Color color, bool redraw)
+{
+    UIElement::SetBackColor(color, redraw);
+    if (redraw) UpdateBorder();
+}
+
+void sw::GroupBox::SetTextColor(Color color, bool redraw)
+{
+    UIElement::SetTextColor(color, redraw);
+    if (redraw) UpdateBorder();
+}
+
+void sw::GroupBox::_UpdateTextSize()
+{
+    HWND hwnd = Handle;
+    HDC hdc   = GetDC(hwnd);
+
+    SelectObject(hdc, GetFontHandle());
+
+    RECT rect{};
+    std::wstring &text = GetText();
+    DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_SINGLELINE | DT_CALCRECT);
+
+    _textSize = {rect.right - rect.left, rect.bottom - rect.top};
+    ReleaseDC(hwnd, hdc);
 }
 
 // CheckBox.cpp
 
-static constexpr DWORD _CheckBoxStyle_Normal     = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTOCHECKBOX;
-static constexpr DWORD _CheckBoxStyle_ThreeState = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTO3STATE;
+namespace
+{
+    constexpr DWORD _CheckBoxStyle_Normal     = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTOCHECKBOX;
+    constexpr DWORD _CheckBoxStyle_ThreeState = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTO3STATE;
+}
 
 sw::CheckBox::CheckBox()
     : ThreeState(
@@ -4919,13 +5048,13 @@ sw::CheckBox::CheckBox()
 
 // FolderDialog.cpp
 
-/**
- * @brief FolderBrowserDialog缓冲区默认大小
- */
-static constexpr int _FolderBrowserDialogInitialBufferSize = MAX_PATH;
-
-/**
- */
+namespace
+{
+    /**
+     * @brief FolderBrowserDialog缓冲区默认大小
+     */
+    constexpr int _FolderBrowserDialogInitialBufferSize = MAX_PATH;
+}
 
 sw::FolderBrowserDialog::FolderBrowserDialog()
     : BufferSize(
@@ -6465,7 +6594,7 @@ namespace
     /**
      * @brief 储存缩放信息
      */
-    static _ScaleInfo _scaleInfo;
+    _ScaleInfo _scaleInfo;
 }
 
 /*================================================================================*/
@@ -9386,6 +9515,11 @@ void sw::WndBase::_InitControlContainer()
     }
 }
 
+sw::WndBase *sw::WndBase::_GetControlInitContainer()
+{
+    return _controlInitContainer;
+}
+
 int sw::WndBase::_NextControlId()
 {
     return _controlIdCounter++;
@@ -10090,13 +10224,13 @@ const sw::ReadOnlyProperty<sw::Point> sw::Screen::CursorPosition(
 
 // Timer.cpp
 
-/**
- * @brief 窗口句柄保存Timer指针的属性名称
- */
-static constexpr wchar_t _TimerPtrProp[] = L"SWPROP_TimerPtr";
-
-/**
- */
+namespace
+{
+    /**
+     * @brief 窗口句柄保存Timer指针的属性名称
+     */
+    constexpr wchar_t _TimerPtrProp[] = L"SWPROP_TimerPtr";
+}
 
 sw::Timer::Timer()
     : Interval(
@@ -10352,7 +10486,7 @@ sw::Panel::Panel()
           [this](const sw::BorderStyle &value) {
               if (this->_borderStyle != value) {
                   this->_borderStyle = value;
-                  this->_UpdateBorder();
+                  this->UpdateBorder();
               }
           }),
 
@@ -10365,7 +10499,7 @@ sw::Panel::Panel()
           [this](const sw::Thickness &value) {
               if (this->_padding != value) {
                   this->_padding = value;
-                  this->_UpdateBorder();
+                  this->UpdateBorder();
               }
           })
 {
@@ -10386,24 +10520,35 @@ sw::Panel::Panel()
     this->InheritTextColor = true;
 }
 
+void sw::Panel::UpdateBorder()
+{
+    SetWindowPos(this->Handle, nullptr, 0, 0, 0, 0,
+                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+}
+
 LRESULT sw::Panel::WndProc(const ProcMsg &refMsg)
 {
-    if (refMsg.uMsg != WM_NCCALCSIZE) {
-        return this->WndBase::WndProc(refMsg);
+    switch (refMsg.uMsg) {
+        case WM_NCCALCSIZE: {
+            auto result = this->DefaultWndProc(refMsg);
+            RECT *pRect = refMsg.wParam == FALSE
+                              ? reinterpret_cast<RECT *>(refMsg.lParam)
+                              : reinterpret_cast<NCCALCSIZE_PARAMS *>(refMsg.lParam)->rgrc;
+            this->OnDrawBorder(NULL, *pRect);
+            this->OnDrawPadding(NULL, *pRect);
+            return result;
+        }
+
+        case WM_UpdateLayout: {
+            if (this->IsInHierarchy)
+                this->UpdateLayout();
+            return 0;
+        }
+
+        default: {
+            return this->WndBase::WndProc(refMsg);
+        }
     }
-
-    auto result = this->DefaultWndProc(refMsg);
-
-    RECT *pRect = refMsg.wParam == FALSE
-                      ? reinterpret_cast<RECT *>(refMsg.lParam)
-                      : reinterpret_cast<NCCALCSIZE_PARAMS *>(refMsg.lParam)->rgrc;
-
-    this->_MinusBorderThickness(*pRect);
-    this->_MinusPadding(*pRect);
-
-    pRect->right  = Utils::Max(pRect->left, pRect->right);
-    pRect->bottom = Utils::Max(pRect->top, pRect->bottom);
-    return result;
 }
 
 bool sw::Panel::OnPaint()
@@ -10425,10 +10570,6 @@ bool sw::Panel::OnPaint()
 
 void sw::Panel::OnEndNcPaint()
 {
-    if (this->_borderStyle == sw::BorderStyle::None) {
-        return;
-    }
-
     HWND hwnd = this->Handle;
     HDC hdc   = GetWindowDC(hwnd);
 
@@ -10440,39 +10581,62 @@ void sw::Panel::OnEndNcPaint()
     rect.left = 0;
     rect.top  = 0;
 
-    DrawEdge(hdc, &rect, (UINT)this->_borderStyle, BF_RECT);
+    this->OnDrawBorder(hdc, rect);
+    this->OnDrawPadding(hdc, rect);
+
     ReleaseDC(hwnd, hdc);
     return;
 }
 
-void sw::Panel::_UpdateBorder()
+void sw::Panel::OnDrawBorder(HDC hdc, RECT &rect)
 {
-    SetWindowPos(this->Handle, nullptr, 0, 0, 0, 0,
-                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
-}
-
-void sw::Panel::_MinusBorderThickness(RECT &rect)
-{
-    switch (this->_borderStyle) {
-        case sw::BorderStyle::None: {
-            break;
-        }
-        default: {
-            rect.left += 2;
-            rect.top += 2;
-            rect.right -= 2;
-            rect.bottom -= 2;
-            break;
-        }
+    if (this->_borderStyle == sw::BorderStyle::None) {
+        return;
     }
+
+    if (hdc != NULL) {
+        DrawEdge(hdc, &rect, (UINT)this->_borderStyle, BF_RECT);
+    }
+
+    int cx = GetSystemMetrics(SM_CXEDGE);
+    int cy = GetSystemMetrics(SM_CYEDGE);
+
+    rect.left += cx;
+    rect.top += cy;
+    rect.right -= cx;
+    rect.bottom -= cy;
+
+    rect.right  = Utils::Max(rect.left, rect.right);
+    rect.bottom = Utils::Max(rect.top, rect.bottom);
 }
 
-void sw::Panel::_MinusPadding(RECT &rect)
+void sw::Panel::OnDrawPadding(HDC hdc, RECT &rect)
 {
-    rect.left += Dip::DipToPxX(this->_padding.left);
-    rect.top += Dip::DipToPxY(this->_padding.top);
-    rect.right -= Dip::DipToPxX(this->_padding.right);
-    rect.bottom -= Dip::DipToPxY(this->_padding.bottom);
+    RECT rtPaddingOuter  = rect;
+    RECT &rtPaddingInner = rect;
+
+    rtPaddingInner.left += Dip::DipToPxX(this->_padding.left);
+    rtPaddingInner.top += Dip::DipToPxY(this->_padding.top);
+    rtPaddingInner.right -= Dip::DipToPxX(this->_padding.right);
+    rtPaddingInner.bottom -= Dip::DipToPxY(this->_padding.bottom);
+
+    rtPaddingInner.right  = Utils::Max(rtPaddingInner.left, rtPaddingInner.right);
+    rtPaddingInner.bottom = Utils::Max(rtPaddingInner.top, rtPaddingInner.bottom);
+
+    if (hdc != NULL) {
+        HRGN hRgnOuter = CreateRectRgnIndirect(&rtPaddingOuter);
+        HRGN hRgnInner = CreateRectRgnIndirect(&rtPaddingInner);
+        HRGN hRgnDiff  = CreateRectRgn(0, 0, 0, 0);
+        CombineRgn(hRgnDiff, hRgnOuter, hRgnInner, RGN_DIFF);
+
+        HBRUSH hBrush = CreateSolidBrush(this->GetRealBackColor());
+        FillRgn(hdc, hRgnDiff, hBrush);
+
+        DeleteObject(hRgnOuter);
+        DeleteObject(hRgnInner);
+        DeleteObject(hRgnDiff);
+        DeleteObject(hBrush);
+    }
 }
 
 // TextBox.cpp
@@ -10582,6 +10746,16 @@ sw::Control::Control()
           // get
           [this]() -> int {
               return GetDlgCtrlID(this->_hwnd);
+          }),
+
+      IsInHierarchy(
+          // get
+          [this]() -> bool {
+              if (this->_hwnd == NULL || this->_isDestroyed) {
+                  return false;
+              }
+              auto container = WndBase::_GetControlInitContainer();
+              return container == nullptr || GetParent(this->_hwnd) != container->_hwnd;
           })
 {
 }
