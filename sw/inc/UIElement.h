@@ -783,7 +783,6 @@ namespace sw
         /**
          * @brief           安排子元素的位置，可重写该函数以实现自定义布局
          * @param finalSize 可用于排列子元素的最终尺寸
-         * @return          返回Arrange后的尺寸
          */
         virtual void ArrangeOverride(const Size &finalSize);
 
