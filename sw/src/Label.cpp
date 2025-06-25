@@ -162,19 +162,13 @@ void sw::Label::FontChanged(HFONT hfont)
     this->Control::FontChanged(hfont);
 }
 
-void sw::Label::Measure(const Size &availableSize)
+sw::Size sw::Label::MeasureOverride(const Size &availableSize)
 {
     if (!this->_autoSize) {
-        this->UIElement::Measure(availableSize);
-        return;
+        return this->UIElement::MeasureOverride(availableSize);
     }
 
-    Thickness margin = this->Margin;
-
-    Size desireSize(
-        this->_textSize.width + margin.left + margin.right,
-        this->_textSize.height + margin.top + margin.bottom);
-
+    Size desireSize = this->_textSize;
     if (availableSize.width < desireSize.width) {
 
         if (this->TextTrimming.Get() != sw::TextTrimming::None) {
@@ -187,15 +181,13 @@ void sw::Label::Measure(const Size &availableSize)
             SelectObject(hdc, this->GetFontHandle());
 
             std::wstring &text = this->GetText();
-            RECT rect{0, 0, Utils::Max(0, Dip::DipToPxX(availableSize.width - margin.left - margin.right)), 0};
+            RECT rect{0, 0, Utils::Max(0, Dip::DipToPxX(availableSize.width)), 0};
             DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT | DT_WORDBREAK);
 
             desireSize.width  = availableSize.width;
-            desireSize.height = Dip::PxToDipY(rect.bottom - rect.top) + margin.top + margin.bottom;
-
+            desireSize.height = Dip::PxToDipY(rect.bottom - rect.top);
             ReleaseDC(hwnd, hdc);
         }
     }
-
-    this->SetDesireSize(desireSize);
+    return desireSize;
 }

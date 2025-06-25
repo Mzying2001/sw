@@ -63,12 +63,6 @@ namespace sw
          */
         void UpdateTabText(int index);
 
-        /**
-         * @brief               安排控件位置
-         * @param finalPosition 最终控件所安排的位置
-         */
-        virtual void Arrange(const sw::Rect &finalPosition) override;
-
     protected:
         /**
          * @brief         添加子元素后调用该函数
@@ -81,6 +75,13 @@ namespace sw
          * @param element 移除的子元素
          */
         virtual void OnRemovedChild(UIElement &element) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         * @return          返回Arrange后的尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
 
         /**
          * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数

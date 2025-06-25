@@ -755,14 +755,14 @@ namespace sw
         virtual void SetDesireSize(const Size &size) override;
 
         /**
-         * @brief               测量控件所需尺寸
+         * @brief               测量元素所需尺寸
          * @param availableSize 可用的尺寸
          */
         virtual void Measure(const Size &availableSize) override;
 
         /**
-         * @brief           安排控件位置
-         * @param finalSize 最终控件所安排的位置
+         * @brief           安排元素位置
+         * @param finalSize 最终元素所安排的位置
          */
         virtual void Arrange(const sw::Rect &finalPosition) override;
 
@@ -773,6 +773,20 @@ namespace sw
         virtual UIElement *ToUIElement() override;
 
     protected:
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize);
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         * @return          返回Arrange后的尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize);
+
         /**
          * @brief           触发路由事件
          * @param eventType 事件类型

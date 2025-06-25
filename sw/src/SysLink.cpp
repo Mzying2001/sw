@@ -54,29 +54,21 @@ void sw::SysLink::FontChanged(HFONT hfont)
     this->Control::FontChanged(hfont);
 }
 
-void sw::SysLink::Measure(const Size &availableSize)
+sw::Size sw::SysLink::MeasureOverride(const Size &availableSize)
 {
     if (!this->_autoSize) {
-        this->Control::Measure(availableSize);
-        return;
+        return this->UIElement::MeasureOverride(availableSize);
     }
 
-    sw::Thickness margin = this->Margin;
-
-    sw::Size desireSize{
-        this->_textSize.width + margin.left + margin.right,
-        this->_textSize.height + margin.top + margin.bottom};
+    sw::Size desireSize = this->_textSize;
 
     if (availableSize.width < desireSize.width) {
         SIZE size;
-        this->SendMessageW(LM_GETIDEALSIZE,
-                           Utils::Max(0, Dip::DipToPxX(availableSize.width - margin.left - margin.right)),
-                           reinterpret_cast<LPARAM>(&size));
+        this->SendMessageW(LM_GETIDEALSIZE, Utils::Max(0, Dip::DipToPxX(availableSize.width)), reinterpret_cast<LPARAM>(&size));
         desireSize.width  = availableSize.width;
-        desireSize.height = Dip::PxToDipY(size.cy) + margin.top + margin.bottom;
+        desireSize.height = Dip::PxToDipY(size.cy);
     }
-
-    this->SetDesireSize(desireSize);
+    return desireSize;
 }
 
 bool sw::SysLink::OnNotified(NMHDR *pNMHDR, LRESULT &result)

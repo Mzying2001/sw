@@ -547,19 +547,20 @@ void sw::UIElement::SetDesireSize(const Size &size)
 
 void sw::UIElement::Measure(const Size &availableSize)
 {
-    sw::Rect rect     = this->Rect;
-    Thickness &margin = this->_margin;
+    Size measureSize    = availableSize;
+    Thickness &margin   = this->_margin;
+    sw::Rect windowRect = this->Rect;
+    sw::Rect clientRect = this->ClientRect;
 
-    if (this->_horizontalAlignment == HorizontalAlignment::Stretch) {
-        rect.width = this->_origionalSize.width;
-    }
-    if (this->_verticalAlignment == VerticalAlignment::Stretch) {
-        rect.height = this->_origionalSize.height;
-    }
+    // 考虑边框
+    measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
+    measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
 
-    this->SetDesireSize(Size(
-        rect.width + margin.left + margin.right,
-        rect.height + margin.top + margin.bottom));
+    sw::Size desireSize = this->MeasureOverride(measureSize);
+    desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
+    desireSize.height += (windowRect.height - clientRect.height) + margin.top + margin.bottom;
+
+    this->_desireSize = desireSize;
 }
 
 void sw::UIElement::Arrange(const sw::Rect &finalPosition)
@@ -626,12 +627,32 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
                  Dip::DipToPxX(rect.width), Dip::DipToPxY(rect.height),
                  SWP_NOACTIVATE | SWP_NOZORDER);
 
+    this->ArrangeOverride(this->ClientRect->GetSize());
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
 }
 
 sw::UIElement *sw::UIElement::ToUIElement()
 {
     return this;
+}
+
+sw::Size sw::UIElement::MeasureOverride(const Size &availableSize)
+{
+    // 普通元素测量时，其本身尺寸即为所需尺寸
+    // 当元素的对齐方式为拉伸时，返回原始尺寸
+    sw::Rect rect = this->Rect;
+
+    if (this->_horizontalAlignment == HorizontalAlignment::Stretch) {
+        rect.width = this->_origionalSize.width;
+    }
+    if (this->_verticalAlignment == VerticalAlignment::Stretch) {
+        rect.height = this->_origionalSize.height;
+    }
+    return rect.GetSize();
+}
+
+void sw::UIElement::ArrangeOverride(const Size &finalSize)
+{
 }
 
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)

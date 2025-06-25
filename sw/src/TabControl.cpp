@@ -164,20 +164,6 @@ void sw::TabControl::UpdateTabText(int index)
     this->Redraw();
 }
 
-void sw::TabControl::Arrange(const sw::Rect &finalPosition)
-{
-    this->UIElement::Arrange(finalPosition);
-
-    int selectedIndex = this->SelectedIndex;
-    if (selectedIndex < 0 || selectedIndex >= this->ChildCount) return;
-
-    UIElement &selectedItem = this->GetChildAt(selectedIndex);
-    sw::Rect contentRect    = this->ContentRect;
-
-    selectedItem.Measure({contentRect.width, contentRect.height});
-    selectedItem.Arrange(contentRect);
-}
-
 void sw::TabControl::OnAddedChild(UIElement &element)
 {
     auto text = element.Text.Get();
@@ -198,6 +184,18 @@ void sw::TabControl::OnRemovedChild(UIElement &element)
     this->UpdateTab();
     this->_UpdateChildVisible();
     this->UIElement::OnRemovedChild(element);
+}
+
+void sw::TabControl::ArrangeOverride(const Size &finalSize)
+{
+    int selectedIndex = this->SelectedIndex;
+    if (selectedIndex < 0 || selectedIndex >= this->ChildCount) return;
+
+    UIElement &selectedItem = this->GetChildAt(selectedIndex);
+    sw::Rect contentRect    = this->ContentRect;
+
+    selectedItem.Measure(contentRect.GetSize());
+    selectedItem.Arrange(contentRect);
 }
 
 bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
