@@ -27,10 +27,9 @@ void sw::GroupBox::OnDrawBorder(HDC hdc, RECT &rect)
     int borderThicknessX = borderStyle == sw::BorderStyle::None ? 0 : GetSystemMetrics(SM_CXEDGE);
     int borderThicknessY = borderStyle == sw::BorderStyle::None ? 0 : GetSystemMetrics(SM_CYEDGE);
 
-    int availableWidth  = rect.right - rect.left;
-    int availableHeight = rect.bottom - rect.top;
-    int headerWidth     = Utils::Max(0, Utils::Min<int>(_textSize.cx + _GroupBoxHeaderPadding * 2, availableWidth - _GroupBoxHeaderHorzMargin * 2));
-    int headerHeight    = _textSize.cy + _GroupBoxHeaderPadding * 2;
+    int availableWidth = rect.right - rect.left;
+    int headerWidth    = Utils::Max(0, Utils::Min<int>(_textSize.cx + _GroupBoxHeaderPadding * 2, availableWidth - _GroupBoxHeaderHorzMargin * 2));
+    int headerHeight   = _textSize.cy + _GroupBoxHeaderPadding * 2;
 
     RECT rtHeader = {
         rect.left + _GroupBoxHeaderHorzMargin,
