@@ -38,7 +38,7 @@ bool sw::DockLayoutTag::operator!=(uint64_t value) const
     return this->_value != value;
 }
 
-void sw::DockLayout::MeasureOverride(Size &availableSize)
+sw::Size sw::DockLayout::MeasureOverride(const Size &availableSize)
 {
     Size restSize = availableSize;
     Size desireSize;
@@ -90,10 +90,10 @@ void sw::DockLayout::MeasureOverride(Size &availableSize)
         }
     }
 
-    this->SetDesireSize(desireSize);
+    return desireSize;
 }
 
-void sw::DockLayout::ArrangeOverride(Size &finalSize)
+void sw::DockLayout::ArrangeOverride(const Size &finalSize)
 {
     Rect restArea(0, 0, finalSize.width, finalSize.height);
 

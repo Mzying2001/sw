@@ -176,22 +176,16 @@ void sw::Layer::_MeasureAndArrangeWithoutLayout()
         Size desireSize      = item.GetDesireSize();
         sw::Rect itemRect    = item.Rect;
         Thickness itemMargin = item.Margin;
-        item.Arrange(sw::Rect(itemRect.left - itemMargin.left, itemRect.top - itemMargin.top, desireSize.width, desireSize.height));
+        item.Arrange(sw::Rect{itemRect.left - itemMargin.left, itemRect.top - itemMargin.top, desireSize.width, desireSize.height});
     }
 }
 
 void sw::Layer::_MeasureAndArrangeWithoutResize()
 {
     LayoutHost *layout  = this->_GetLayout();
-    sw::Size desireSize = this->GetDesireSize();
-    sw::Rect clientRect = this->ClientRect;
-
-    // measure
-    layout->Measure(clientRect.GetSize());
-    this->SetDesireSize(desireSize); // 恢复DesireSize
-
-    // arrange
-    layout->Arrange(clientRect);
+    sw::Size clientSize = this->ClientRect->GetSize();
+    layout->MeasureOverride(clientSize);
+    layout->ArrangeOverride(clientSize);
 }
 
 void sw::Layer::UpdateLayout()
@@ -313,38 +307,21 @@ bool sw::Layer::OnHorizontalScroll(int event, int pos)
     return true;
 }
 
-void sw::Layer::Measure(const Size &availableSize)
+sw::Size sw::Layer::MeasureOverride(const Size &availableSize)
 {
     LayoutHost *layout = this->_GetLayout();
 
     // 未设置布局时无法使用自动尺寸
     // 若未使用自动尺寸，则按照普通元素measure
     if (layout == nullptr || !this->_autoSize) {
-        this->UIElement::Measure(availableSize);
-        return;
+        return this->UIElement::MeasureOverride(availableSize);
     }
 
-    Size measureSize    = availableSize;
-    Thickness margin    = this->Margin;
-    sw::Rect windowRect = this->Rect;
-    sw::Rect clientRect = this->ClientRect;
-
-    // 考虑边框
-    measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
-    measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
-
-    layout->Measure(measureSize);
-    Size desireSize = this->GetDesireSize();
-
-    desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
-    desireSize.height += (windowRect.height - clientRect.height) + margin.top + margin.bottom;
-    this->SetDesireSize(desireSize);
+    return layout->MeasureOverride(availableSize);
 }
 
-void sw::Layer::Arrange(const sw::Rect &finalPosition)
+void sw::Layer::ArrangeOverride(const Size &finalSize)
 {
-    this->UIElement::Arrange(finalPosition);
-
     LayoutHost *layout = this->_GetLayout();
 
     if (layout == nullptr) {
@@ -355,7 +332,7 @@ void sw::Layer::Arrange(const sw::Rect &finalPosition)
         this->_MeasureAndArrangeWithoutResize();
     } else {
         // 已设置布局方式且AutoSize为true，此时子元素已Measure，调用Arrange即可
-        layout->Arrange(this->ClientRect);
+        layout->ArrangeOverride(finalSize);
     }
 
     this->UpdateScrollRange();

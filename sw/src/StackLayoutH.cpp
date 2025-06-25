@@ -2,7 +2,7 @@
 #include "Utils.h"
 #include <cmath>
 
-void sw::StackLayoutH::MeasureOverride(Size &availableSize)
+sw::Size sw::StackLayoutH::MeasureOverride(const Size &availableSize)
 {
     Size desireSize;
     int childCount = this->GetChildLayoutCount();
@@ -16,19 +16,18 @@ void sw::StackLayoutH::MeasureOverride(Size &availableSize)
         desireSize.height = Utils::Max(desireSize.height, itemDesireSize.height);
     }
 
-    this->SetDesireSize(desireSize);
+    return desireSize;
 }
 
-void sw::StackLayoutH::ArrangeOverride(Size &finalSize)
+void sw::StackLayoutH::ArrangeOverride(const Size &finalSize)
 {
     double width   = 0;
     int childCount = this->GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
-        ILayout &item = this->GetChildLayoutAt(i);
-
+        ILayout &item       = this->GetChildLayoutAt(i);
         Size itemDesireSize = item.GetDesireSize();
-        item.Arrange(Rect(width, 0, itemDesireSize.width, finalSize.height));
+        item.Arrange(Rect{width, 0, itemDesireSize.width, finalSize.height});
         width += itemDesireSize.width;
     }
 }

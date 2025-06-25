@@ -540,11 +540,6 @@ sw::Size sw::UIElement::GetDesireSize()
     return this->_desireSize;
 }
 
-void sw::UIElement::SetDesireSize(const Size &size)
-{
-    this->_desireSize = size;
-}
-
 void sw::UIElement::Measure(const Size &availableSize)
 {
     Size measureSize    = availableSize;

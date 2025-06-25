@@ -78,13 +78,12 @@ namespace sw
          */
         const ReadOnlyProperty<double> VerticalScrollLimit;
 
-    protected:
+    public:
         /**
          * @brief 初始化Layer
          */
         Layer();
 
-    public:
         /**
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
          */
@@ -141,19 +140,20 @@ namespace sw
          */
         virtual bool OnHorizontalScroll(int event, int pos) override;
 
-    public:
         /**
-         * @brief               测量控件所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void Measure(const Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief           安排控件位置
-         * @param finalSize 最终控件所安排的位置
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void Arrange(const sw::Rect &finalPosition) override;
+        virtual void ArrangeOverride(const Size &finalSize) override;
 
+    public:
         /**
          * @brief 禁用布局，禁用布局后调用UpdateLayout不会更新布局
          */

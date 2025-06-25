@@ -287,13 +287,12 @@ namespace sw
          */
         const Property<sw::LayoutUpdateCondition> LayoutUpdateCondition;
 
-    protected:
+    public:
         /**
          * @brief 初始化UIElement
          */
         UIElement();
 
-    public:
         /**
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
          */
@@ -748,11 +747,6 @@ namespace sw
          * @brief 获取控件所需尺寸
          */
         virtual Size GetDesireSize() override;
-
-        /**
-         * @brief 设置当前控件所需的尺寸
-         */
-        virtual void SetDesireSize(const Size &size) override;
 
         /**
          * @brief               测量元素所需尺寸

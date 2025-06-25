@@ -2,7 +2,7 @@
 #include "Utils.h"
 #include <cmath>
 
-void sw::WrapLayoutH::MeasureOverride(Size &availableSize)
+sw::Size sw::WrapLayoutH::MeasureOverride(const Size &availableSize)
 {
     Size size;
     int count = this->GetChildLayoutCount();
@@ -39,10 +39,10 @@ void sw::WrapLayoutH::MeasureOverride(Size &availableSize)
         size.height = top + rowHeight;
     }
 
-    this->SetDesireSize(size);
+    return size;
 }
 
-void sw::WrapLayoutH::ArrangeOverride(Size &finalSize)
+void sw::WrapLayoutH::ArrangeOverride(const Size &finalSize)
 {
     double top       = 0;
     double rowWidth  = 0;
