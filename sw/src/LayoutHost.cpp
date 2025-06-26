@@ -5,9 +5,11 @@ void sw::LayoutHost::Associate(ILayout *obj)
     this->_associatedObj = obj;
 }
 
-uint64_t sw::LayoutHost::GetLayoutTag()
+bool sw::LayoutHost::IsAssociated(ILayout *obj)
 {
-    return this->_associatedObj->GetLayoutTag();
+    return obj == nullptr
+               ? (this->_associatedObj != nullptr)
+               : (this->_associatedObj == obj);
 }
 
 int sw::LayoutHost::GetChildLayoutCount()
@@ -18,26 +20,4 @@ int sw::LayoutHost::GetChildLayoutCount()
 sw::ILayout &sw::LayoutHost::GetChildLayoutAt(int index)
 {
     return this->_associatedObj->GetChildLayoutAt(index);
-}
-
-sw::Size sw::LayoutHost::GetDesireSize()
-{
-    return this->_associatedObj->GetDesireSize();
-}
-
-void sw::LayoutHost::SetDesireSize(const Size &size)
-{
-    this->_associatedObj->SetDesireSize(size);
-}
-
-void sw::LayoutHost::Measure(const Size &availableSize)
-{
-    Size size = availableSize;
-    this->MeasureOverride(size);
-}
-
-void sw::LayoutHost::Arrange(const Rect &finalPosition)
-{
-    Size size(finalPosition.width, finalPosition.height);
-    this->ArrangeOverride(size);
 }

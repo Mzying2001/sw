@@ -8,6 +8,16 @@ sw::PanelBase::~PanelBase()
 {
 }
 
+sw::Size sw::PanelBase::MeasureOverride(const Size &availableSize)
+{
+    return this->Layer::MeasureOverride(availableSize);
+}
+
+void sw::PanelBase::ArrangeOverride(const Size &finalSize)
+{
+    this->Layer::ArrangeOverride(finalSize);
+}
+
 bool sw::PanelBase::OnVerticalScroll(int event, int pos)
 {
     return this->Layer::OnVerticalScroll(event, pos);
@@ -41,14 +51,4 @@ void sw::PanelBase::OnEndPaint()
 sw::Control *sw::PanelBase::ToControl()
 {
     return this->Control::ToControl();
-}
-
-void sw::PanelBase::Measure(const Size &availableSize)
-{
-    this->Layer::Measure(availableSize);
-}
-
-void sw::PanelBase::Arrange(const sw::Rect &finalPosition)
-{
-    this->Layer::Arrange(finalPosition);
 }

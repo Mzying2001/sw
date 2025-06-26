@@ -92,9 +92,10 @@ namespace sw
         virtual void FontChanged(HFONT hfont) override;
 
         /**
-         * @brief               测量控件所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void Measure(const Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
     };
 }

@@ -24,41 +24,47 @@ namespace sw
      */
     enum class LayoutUpdateCondition : uint32_t {
         /**
-         * @brief 表示不需要更新布局
-         * @note  一旦设置了该标记，NotifyLayoutUpdated函数将不会触发WM_UpdateLayout消息
-         * @note  框架内部使用该标记来抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
-         */
-        Supressed = 1,
-
-        /**
          * @brief 尺寸改变时更新布局
          */
-        SizeChanged = 2,
+        SizeChanged = 1 << 0,
 
         /**
          * @brief 位置改变时更新布局
          */
-        PositionChanged = 4,
+        PositionChanged = 1 << 1,
 
         /**
          * @brief 添加子元素时更新布局
          */
-        ChildAdded = 8,
+        ChildAdded = 1 << 2,
 
         /**
          * @brief 移除子元素时更新布局
          */
-        ChildRemoved = 16,
+        ChildRemoved = 1 << 3,
 
         /**
          * @brief 文本改变时更新布局
          */
-        TextChanged = 32,
+        TextChanged = 1 << 4,
 
         /**
          * @brief 字体改变时更新布局
          */
-        FontChanged = 64,
+        FontChanged = 1 << 5,
+
+        /**
+         * @brief 框架内部使用，表示布局已失效
+         * @note  该标记指示了Measure函数的结果已失效，需要重新调用Measure函数来更新尺寸
+         */
+        MeasureInvalidated = 1 << 29,
+
+        /**
+         * @brief 框架内部使用，表示不需要更新布局
+         * @note  一旦设置了该标记，InvalidateMeasure函数将不会更新状态和触发布局更新
+         * @note  该标记用于抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
+         */
+        Supressed = 1 << 30,
     };
 
     /**
@@ -205,6 +211,16 @@ namespace sw
          */
         HCURSOR _hCursor = NULL;
 
+        /**
+         * @brief 上一次Measure函数调用时的可用大小
+         */
+        Size _lastMeasureAvailableSize{};
+
+        /**
+         * @brief 用于存储批量调整子元素位置时调用DeferWindowPos的句柄
+         */
+        HDWP _hdwpChildren = NULL;
+
     public:
         /**
          * @brief 边距
@@ -287,13 +303,17 @@ namespace sw
          */
         const Property<sw::LayoutUpdateCondition> LayoutUpdateCondition;
 
-    protected:
+        /**
+         * @brief 当前元素的布局状态是否有效
+         */
+        const ReadOnlyProperty<bool> IsMeasureValid;
+
+    public:
         /**
          * @brief 初始化UIElement
          */
         UIElement();
 
-    public:
         /**
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
          */
@@ -720,6 +740,11 @@ namespace sw
         bool IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition condition);
 
         /**
+         * @brief 使元素的布局状态失效，并立即触发布局更新
+         */
+        void InvalidateMeasure();
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;
@@ -750,19 +775,14 @@ namespace sw
         virtual Size GetDesireSize() override;
 
         /**
-         * @brief 设置当前控件所需的尺寸
-         */
-        virtual void SetDesireSize(const Size &size) override;
-
-        /**
-         * @brief               测量控件所需尺寸
+         * @brief               测量元素所需尺寸
          * @param availableSize 可用的尺寸
          */
         virtual void Measure(const Size &availableSize) override;
 
         /**
-         * @brief           安排控件位置
-         * @param finalSize 最终控件所安排的位置
+         * @brief           安排元素位置
+         * @param finalSize 最终元素所安排的位置
          */
         virtual void Arrange(const sw::Rect &finalPosition) override;
 
@@ -774,6 +794,19 @@ namespace sw
 
     protected:
         /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize);
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize);
+
+        /**
          * @brief           触发路由事件
          * @param eventType 事件类型
          */
@@ -784,11 +817,6 @@ namespace sw
          * @param eventArgs 要触发事件的事件参数
          */
         void RaiseRoutedEvent(RoutedEventArgs &eventArgs);
-
-        /**
-         * @brief 通知顶级窗口布局改变
-         */
-        void NotifyLayoutUpdated();
 
         /**
          * @brief 获取Arrange时子元素的水平偏移量

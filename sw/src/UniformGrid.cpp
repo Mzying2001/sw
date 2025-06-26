@@ -9,7 +9,7 @@ sw::UniformGrid::UniformGrid()
           // set
           [this](const int &value) {
               this->_uniformGridLayout.rows = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           }),
 
       Columns(
@@ -20,7 +20,7 @@ sw::UniformGrid::UniformGrid()
           // set
           [this](const int &value) {
               this->_uniformGridLayout.columns = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           }),
 
       FirstColumn(
@@ -31,7 +31,7 @@ sw::UniformGrid::UniformGrid()
           // set
           [this](const int &value) {
               this->_uniformGridLayout.firstColumn = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           })
 {
     this->_uniformGridLayout.Associate(this);

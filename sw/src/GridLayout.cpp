@@ -92,7 +92,7 @@ sw::FillRemainGridColumn::FillRemainGridColumn(double proportion)
 {
 }
 
-void sw::GridLayout::MeasureOverride(Size &availableSize)
+sw::Size sw::GridLayout::MeasureOverride(const Size &availableSize)
 {
     Size desireSize{};
     this->_UpdateInternalData();
@@ -126,8 +126,7 @@ void sw::GridLayout::MeasureOverride(Size &availableSize)
             desireSize.width = Utils::Max(availableSize.width, desireSize.width);
         if (!heightSizeToContent && hasFillRemainRows)
             desireSize.height = Utils::Max(availableSize.height, desireSize.height);
-        this->SetDesireSize(desireSize);
-        return;
+        return desireSize;
     }
 
     // Measure列
@@ -469,10 +468,10 @@ void sw::GridLayout::MeasureOverride(Size &availableSize)
         desireSize.width += colInfo.size;
     for (_RowInfo &rowInfo : this->_internalData.rowsInfo)
         desireSize.height += rowInfo.size;
-    this->SetDesireSize(desireSize);
+    return desireSize;
 }
 
-void sw::GridLayout::ArrangeOverride(Size &finalSize)
+void sw::GridLayout::ArrangeOverride(const Size &finalSize)
 {
     int childCount = (int)this->_internalData.childrenInfo.size();
     if (childCount == 0) return;

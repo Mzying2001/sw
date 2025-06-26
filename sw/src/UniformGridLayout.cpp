@@ -2,7 +2,7 @@
 #include "Utils.h"
 #include <cmath>
 
-void sw::UniformGridLayout::MeasureOverride(Size &availableSize)
+sw::Size sw::UniformGridLayout::MeasureOverride(const Size &availableSize)
 {
     int rowCount = Utils::Max(1, this->rows);
     int colCount = Utils::Max(1, this->columns);
@@ -21,12 +21,12 @@ void sw::UniformGridLayout::MeasureOverride(Size &availableSize)
         itemMaxDesireHeight = Utils::Max(itemDesireSize.height, itemMaxDesireHeight);
     }
 
-    this->SetDesireSize(Size(
+    return Size{
         std::isinf(availableSize.width) ? (itemMaxDesireWidth * colCount) : (availableSize.width),
-        std::isinf(availableSize.height) ? (itemMaxDesireHeight * rowCount) : (availableSize.height)));
+        std::isinf(availableSize.height) ? (itemMaxDesireHeight * rowCount) : (availableSize.height)};
 }
 
-void sw::UniformGridLayout::ArrangeOverride(Size &finalSize)
+void sw::UniformGridLayout::ArrangeOverride(const Size &finalSize)
 {
     int rowCount = Utils::Max(1, this->rows);
     int colCount = Utils::Max(1, this->columns);
@@ -47,6 +47,6 @@ void sw::UniformGridLayout::ArrangeOverride(Size &finalSize)
         }
 
         ILayout &item = this->GetChildLayoutAt(i);
-        item.Arrange(Rect(arrangeCol * arrangeWidth, arrangeRow * arrangeHeight, arrangeWidth, arrangeHeight));
+        item.Arrange(Rect{arrangeCol * arrangeWidth, arrangeRow * arrangeHeight, arrangeWidth, arrangeHeight});
     }
 }

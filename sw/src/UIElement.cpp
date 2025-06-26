@@ -12,7 +12,7 @@ sw::UIElement::UIElement()
           // set
           [this](const Thickness &value) {
               this->_margin = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           }),
 
       HorizontalAlignment(
@@ -23,7 +23,7 @@ sw::UIElement::UIElement()
           // set
           [this](const sw::HorizontalAlignment &value) {
               if (this->_SetHorzAlignment(value)) {
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           }),
 
@@ -35,7 +35,7 @@ sw::UIElement::UIElement()
           // set
           [this](const sw::VerticalAlignment &value) {
               if (this->_SetVertAlignment(value)) {
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           }),
 
@@ -54,7 +54,7 @@ sw::UIElement::UIElement()
           [this](const bool &value) {
               if (this->_collapseWhenHide != value) {
                   this->_collapseWhenHide = value;
-                  if (!this->Visible) this->NotifyLayoutUpdated();
+                  if (!this->Visible) this->InvalidateMeasure();
               }
           }),
 
@@ -82,7 +82,7 @@ sw::UIElement::UIElement()
           // set
           [this](const uint64_t &value) {
               this->_layoutTag = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           }),
 
       ContextMenu(
@@ -105,7 +105,7 @@ sw::UIElement::UIElement()
               if (this->_float != value) {
                   this->_float = value;
                   this->UpdateSiblingsZOrder();
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           }),
 
@@ -171,6 +171,12 @@ sw::UIElement::UIElement()
           // set
           [this](const sw::LayoutUpdateCondition &value) {
               this->_layoutUpdateCondition = value;
+          }),
+
+      IsMeasureValid(
+          // get
+          [this]() -> bool {
+              return !this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::MeasureInvalidated);
           })
 {
 }
@@ -236,10 +242,12 @@ bool sw::UIElement::AddChild(UIElement *element)
 
     // 处理z轴顺序，确保悬浮的元素在最前
     if (!element->_float) {
+        HDWP hdwp = BeginDeferWindowPos((int)this->_children.size());
         for (UIElement *child : this->_children) {
             if (child->_float)
-                SetWindowPos(child->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+                DeferWindowPos(hdwp, child->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
+        EndDeferWindowPos(hdwp);
     }
 
     this->_children.push_back(element);
@@ -333,7 +341,7 @@ void sw::UIElement::ClearChildren()
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
@@ -366,16 +374,19 @@ void sw::UIElement::MoveToTop()
     int index = parent->IndexOf(this);
     if (index == -1 || index == (int)parent->_children.size() - 1) return;
 
+    HDWP hdwp = BeginDeferWindowPos((int)parent->_children.size());
+
     parent->_children.erase(parent->_children.begin() + index);
     parent->_children.push_back(this);
-    SetWindowPos(this->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    DeferWindowPos(hdwp, this->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
     if (!this->_float) {
         for (UIElement *item : parent->_children) {
             if (item->_float)
-                SetWindowPos(item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+                DeferWindowPos(hdwp, item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
     }
+    EndDeferWindowPos(hdwp);
 }
 
 void sw::UIElement::MoveToBottom()
@@ -391,10 +402,12 @@ void sw::UIElement::MoveToBottom()
     parent->_children[0] = this;
 
     if (this->_float) {
+        HDWP hdwp = BeginDeferWindowPos((int)parent->_children.size());
         for (UIElement *item : parent->_children) {
             if (item->_float)
-                SetWindowPos(item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+                DeferWindowPos(hdwp, item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
+        EndDeferWindowPos(hdwp);
     } else {
         SetWindowPos(this->Handle, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     }
@@ -487,7 +500,7 @@ void sw::UIElement::SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlign
     changed |= this->_SetVertAlignment(vert);
 
     if (changed) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
@@ -503,6 +516,23 @@ void sw::UIElement::Resize(const Size &size)
 bool sw::UIElement::IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition condition)
 {
     return (this->_layoutUpdateCondition & condition) == condition;
+}
+
+void sw::UIElement::InvalidateMeasure()
+{
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::Supressed)) {
+        return;
+    }
+
+    UIElement *root;
+    UIElement *element = this;
+    do {
+        root = element;
+        element->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
+        element = element->_parent;
+    } while (element != nullptr);
+
+    root->SendMessageW(WM_UpdateLayout, 0, 0);
 }
 
 uint64_t sw::UIElement::GetTag()
@@ -540,26 +570,28 @@ sw::Size sw::UIElement::GetDesireSize()
     return this->_desireSize;
 }
 
-void sw::UIElement::SetDesireSize(const Size &size)
-{
-    this->_desireSize = size;
-}
-
 void sw::UIElement::Measure(const Size &availableSize)
 {
-    sw::Rect rect     = this->Rect;
-    Thickness &margin = this->_margin;
-
-    if (this->_horizontalAlignment == HorizontalAlignment::Stretch) {
-        rect.width = this->_origionalSize.width;
-    }
-    if (this->_verticalAlignment == VerticalAlignment::Stretch) {
-        rect.height = this->_origionalSize.height;
+    if (!this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::MeasureInvalidated) &&
+        this->_lastMeasureAvailableSize == availableSize) {
+        // 如果Measure没有失效且可用尺寸没有变化，则不需要重新测量
+        return;
     }
 
-    this->SetDesireSize(Size(
-        rect.width + margin.left + margin.right,
-        rect.height + margin.top + margin.bottom));
+    Size measureSize    = availableSize;
+    Thickness &margin   = this->_margin;
+    sw::Rect windowRect = this->Rect;
+    sw::Rect clientRect = this->ClientRect;
+
+    // 考虑边框
+    measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
+    measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
+
+    this->_desireSize = this->MeasureOverride(measureSize);
+    this->_desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
+    this->_desireSize.height += (windowRect.height - clientRect.height) + margin.top + margin.bottom;
+
+    this->_lastMeasureAvailableSize = availableSize;
 }
 
 void sw::UIElement::Arrange(const sw::Rect &finalPosition)
@@ -621,17 +653,66 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     rect.width  = Utils::Max(0.0, rect.width);
     rect.height = Utils::Max(0.0, rect.height);
 
-    SetWindowPos(this->Handle, NULL,
-                 Dip::DipToPxX(rect.left), Dip::DipToPxY(rect.top),
-                 Dip::DipToPxX(rect.width), Dip::DipToPxY(rect.height),
-                 SWP_NOACTIVATE | SWP_NOZORDER);
+    if (_parent != nullptr && _parent->_hdwpChildren != NULL) {
+        DeferWindowPos(_parent->_hdwpChildren, this->Handle, NULL,
+                       Dip::DipToPxX(rect.left), Dip::DipToPxY(rect.top),
+                       Dip::DipToPxX(rect.width), Dip::DipToPxY(rect.height),
+                       SWP_NOACTIVATE | SWP_NOZORDER);
+    } else {
+        SetWindowPos(this->Handle, NULL,
+                     Dip::DipToPxX(rect.left), Dip::DipToPxY(rect.top),
+                     Dip::DipToPxX(rect.width), Dip::DipToPxY(rect.height),
+                     SWP_NOACTIVATE | SWP_NOZORDER);
+    }
 
+    if (!this->_children.empty()) {
+        this->_hdwpChildren = BeginDeferWindowPos((int)this->_children.size());
+    }
+
+    this->ArrangeOverride(this->ClientRect->GetSize());
+
+    if (this->_hdwpChildren != NULL) {
+        EndDeferWindowPos(this->_hdwpChildren);
+        this->_hdwpChildren = NULL;
+    }
+
+    // 为什么需要在Arrange时再清除MeasureInvalidated标记：
+    // 一些复杂的布局可能会在Measure阶段多次调用Measure，
+    // 如Grid会调用两次Measure，若在Measure阶段清除该标记，
+    // 则在第二次调用时会认为Measure没有失效，导致无法更新布局
+    this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::MeasureInvalidated;
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
 }
 
 sw::UIElement *sw::UIElement::ToUIElement()
 {
     return this;
+}
+
+sw::Size sw::UIElement::MeasureOverride(const Size &availableSize)
+{
+    // 普通元素测量时，其本身用户区尺寸即为所需尺寸
+    // 当元素的对齐方式为拉伸时，返回原始用户区尺寸
+    sw::Size desireSize = this->ClientRect->GetSize();
+
+    // 由于Measure中会自动处理边框和Margin而_origionalSize
+    // 记录的是原始的窗口尺寸，因此当使用原始尺寸时需要减去边框
+    if (this->_horizontalAlignment == HorizontalAlignment::Stretch ||
+        this->_verticalAlignment == VerticalAlignment::Stretch) {
+        sw::Rect windowRect = this->Rect;
+        sw::Size clientSize = desireSize;
+        if (this->_horizontalAlignment == HorizontalAlignment::Stretch) {
+            desireSize.width = this->_origionalSize.width - (windowRect.width - clientSize.width);
+        }
+        if (this->_verticalAlignment == VerticalAlignment::Stretch) {
+            desireSize.height = this->_origionalSize.height - (windowRect.height - clientSize.height);
+        }
+    }
+    return desireSize;
+}
+
+void sw::UIElement::ArrangeOverride(const Size &finalSize)
+{
 }
 
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)
@@ -660,14 +741,6 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
             element = element->_parent;
         }
     } while (element != nullptr);
-}
-
-void sw::UIElement::NotifyLayoutUpdated()
-{
-    if (!this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::Supressed)) {
-        UIElement *root = this->GetRootElement();
-        if (root) root->SendMessageW(WM_UpdateLayout, 0, 0);
-    }
 }
 
 double &sw::UIElement::GetArrangeOffsetX()
@@ -710,20 +783,23 @@ void sw::UIElement::UpdateChildrenZOrder()
     if (childCount < 2) return;
 
     std::deque<HWND> floatingElements;
+    HDWP hdwp = BeginDeferWindowPos(childCount);
 
     for (UIElement *child : this->_children) {
         HWND hwnd = child->Handle;
         if (child->_float) {
             floatingElements.push_back(hwnd);
         } else {
-            SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+            DeferWindowPos(hdwp, hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
     }
 
     while (!floatingElements.empty()) {
-        SetWindowPos(floatingElements.front(), HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        DeferWindowPos(hdwp, floatingElements.front(), HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         floatingElements.pop_front();
     }
+
+    EndDeferWindowPos(hdwp);
 }
 
 void sw::UIElement::UpdateSiblingsZOrder()
@@ -760,14 +836,14 @@ void sw::UIElement::SetTextColor(Color color, bool redraw)
 void sw::UIElement::OnAddedChild(UIElement &element)
 {
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildAdded)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
 void sw::UIElement::OnRemovedChild(UIElement &element)
 {
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
@@ -819,6 +895,7 @@ bool sw::UIElement::SetParent(WndBase *parent)
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
     this->_parent = newParent ? newParent->ToUIElement() : nullptr;
+    this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
 }
 
 bool sw::UIElement::OnClose()
@@ -833,7 +910,7 @@ bool sw::UIElement::OnMove(Point newClientPosition)
     this->RaiseRoutedEvent(args);
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::PositionChanged)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
     return args.handledMsg;
 }
@@ -851,7 +928,7 @@ bool sw::UIElement::OnSize(Size newClientSize)
     this->RaiseRoutedEvent(args);
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::SizeChanged)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
     return args.handledMsg;
 }
@@ -861,21 +938,21 @@ void sw::UIElement::OnTextChanged()
     this->RaiseRoutedEvent(UIElement_TextChanged);
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::TextChanged)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
 void sw::UIElement::FontChanged(HFONT hfont)
 {
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::FontChanged)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
 void sw::UIElement::VisibleChanged(bool newVisible)
 {
     if (newVisible || this->_collapseWhenHide) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 

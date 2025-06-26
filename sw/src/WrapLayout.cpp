@@ -1,13 +1,13 @@
 #include "WrapLayout.h"
 
-void sw::WrapLayout::MeasureOverride(Size &availableSize)
+sw::Size sw::WrapLayout::MeasureOverride(const Size &availableSize)
 {
-    this->orientation == Orientation::Horizontal
-        ? this->WrapLayoutH::MeasureOverride(availableSize)
-        : this->WrapLayoutV::MeasureOverride(availableSize);
+    return this->orientation == Orientation::Horizontal
+               ? this->WrapLayoutH::MeasureOverride(availableSize)
+               : this->WrapLayoutV::MeasureOverride(availableSize);
 }
 
-void sw::WrapLayout::ArrangeOverride(Size &finalSize)
+void sw::WrapLayout::ArrangeOverride(const Size &finalSize)
 {
     this->orientation == Orientation::Horizontal
         ? this->WrapLayoutH::ArrangeOverride(finalSize)

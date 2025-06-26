@@ -18,7 +18,7 @@ sw::BmpBox::BmpBox()
               if (this->_sizeMode != value) {
                   this->_sizeMode = value;
                   this->Redraw();
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           })
 {
@@ -141,18 +141,11 @@ bool sw::BmpBox::OnSize(Size newClientSize)
     return this->StaticControl::OnSize(newClientSize);
 }
 
-void sw::BmpBox::Measure(const Size &availableSize)
+sw::Size sw::BmpBox::MeasureOverride(const Size &availableSize)
 {
-    if (this->_sizeMode != BmpBoxSizeMode::AutoSize) {
-        this->StaticControl::Measure(availableSize);
-        return;
-    }
-
-    Thickness margin = this->Margin;
-
-    this->SetDesireSize(sw::Size{
-        Dip::PxToDipX(this->_bmpSize.cx) + margin.left + margin.right,
-        Dip::PxToDipY(this->_bmpSize.cy) + margin.top + margin.bottom});
+    return this->_sizeMode == BmpBoxSizeMode::AutoSize
+               ? static_cast<Size>(this->_bmpSize)
+               : this->StaticControl::MeasureOverride(availableSize);
 }
 
 void sw::BmpBox::_UpdateBmpSize()
@@ -172,7 +165,7 @@ void sw::BmpBox::_SetBmp(HBITMAP hBitmap)
     this->Redraw();
 
     if (this->_sizeMode == BmpBoxSizeMode::AutoSize) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 
     if (hOldBitmap != NULL) {

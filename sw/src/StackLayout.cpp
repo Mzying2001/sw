@@ -1,13 +1,13 @@
 #include "StackLayout.h"
 
-void sw::StackLayout::MeasureOverride(Size &availableSize)
+sw::Size sw::StackLayout::MeasureOverride(const Size &availableSize)
 {
-    this->orientation == Orientation::Horizontal
-        ? this->StackLayoutH::MeasureOverride(availableSize)
-        : this->StackLayoutV::MeasureOverride(availableSize);
+    return this->orientation == Orientation::Horizontal
+               ? this->StackLayoutH::MeasureOverride(availableSize)
+               : this->StackLayoutV::MeasureOverride(availableSize);
 }
 
-void sw::StackLayout::ArrangeOverride(Size &finalSize)
+void sw::StackLayout::ArrangeOverride(const Size &finalSize)
 {
     this->orientation == Orientation::Horizontal
         ? this->StackLayoutH::ArrangeOverride(finalSize)

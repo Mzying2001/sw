@@ -26,7 +26,7 @@ sw::CanvasLayoutTag::operator uint64_t() const
     return result;
 }
 
-void sw::CanvasLayout::MeasureOverride(Size &availableSize)
+sw::Size sw::CanvasLayout::MeasureOverride(const Size &availableSize)
 {
     Size desireSize{};
     Size measureSize{INFINITY, INFINITY};
@@ -42,10 +42,10 @@ void sw::CanvasLayout::MeasureOverride(Size &availableSize)
         desireSize.height    = Utils::Max(tag.top + childDesireSize.height, desireSize.height);
     }
 
-    this->SetDesireSize(desireSize);
+    return desireSize;
 }
 
-void sw::CanvasLayout::ArrangeOverride(Size &finalSize)
+void sw::CanvasLayout::ArrangeOverride(const Size &finalSize)
 {
     int childCount = this->GetChildLayoutCount();
     for (int i = 0; i < childCount; ++i) {

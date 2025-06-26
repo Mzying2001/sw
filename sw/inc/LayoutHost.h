@@ -7,7 +7,7 @@ namespace sw
     /**
      * @brief 用于托管元素的布局方式的对象类型，是所有布局方式类型的基类
      */
-    class LayoutHost : public ILayout
+    class LayoutHost
     {
     private:
         /**
@@ -17,57 +17,44 @@ namespace sw
 
     public:
         /**
+         * @brief 默认虚析构函数
+         */
+        virtual ~LayoutHost() = default;
+
+        /**
          * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
          * @param obj 要关联的对象
          */
         void Associate(ILayout *obj);
 
-    public:
         /**
-         * @brief 获取布局标记
+         * @brief     判断当前LayoutHost是否关联了对象
+         * @param obj 若传入值为nullptr，则判断是否有任何对象关联，否则判断是否关联了指定对象
          */
-        virtual uint64_t GetLayoutTag() override;
+        bool IsAssociated(ILayout *obj = nullptr);
 
         /**
          * @brief 获取关联对象子控件的数量
          */
-        virtual int GetChildLayoutCount() override;
+        int GetChildLayoutCount();
 
         /**
          * @brief 获取关联对象对应索引处的子控件
          */
-        virtual ILayout &GetChildLayoutAt(int index) override;
+        ILayout &GetChildLayoutAt(int index);
 
+    public:
         /**
-         * @brief 获取关联对象所需尺寸
-         */
-        virtual Size GetDesireSize() override;
-
-        /**
-         * @brief 设置关联对象所需的尺寸
-         */
-        virtual void SetDesireSize(const Size &size) override;
-
-        /**
-         * @brief               测量控件所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void Measure(const Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) = 0;
 
         /**
-         * @brief               安排控件位置
-         * @param finalPosition 最终控件所安排的位置
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void Arrange(const Rect &finalPosition) override;
-
-        /**
-         * @brief 重写此函数计算所需尺寸
-         */
-        virtual void MeasureOverride(Size &availableSize) = 0;
-
-        /**
-         * @brief 重写此函数安排控件
-         */
-        virtual void ArrangeOverride(Size &finalSize) = 0;
+        virtual void ArrangeOverride(const Size &finalSize) = 0;
     };
 }

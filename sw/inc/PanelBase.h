@@ -23,6 +23,19 @@ namespace sw
 
     protected:
         /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+
+        /**
          * @brief       接收到WM_VSCROLL时调用目标控件的该函数
          * @param event 事件类型，即消息wParam的低字
          * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
@@ -69,17 +82,5 @@ namespace sw
          * @return 若函数成功则返回Control指针，否则返回nullptr
          */
         virtual Control *ToControl() override;
-
-        /**
-         * @brief               测量控件所需尺寸
-         * @param availableSize 可用的尺寸
-         */
-        virtual void Measure(const Size &availableSize) override;
-
-        /**
-         * @brief           安排控件位置
-         * @param finalSize 最终控件所安排的位置
-         */
-        virtual void Arrange(const sw::Rect &finalPosition) override;
     };
 }
