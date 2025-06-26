@@ -735,6 +735,11 @@ namespace sw
         bool IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition condition);
 
         /**
+         * @brief 使元素的布局状态失效，并立即触发布局更新
+         */
+        void InvalidateMeasure();
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;
@@ -807,11 +812,6 @@ namespace sw
          * @param eventArgs 要触发事件的事件参数
          */
         void RaiseRoutedEvent(RoutedEventArgs &eventArgs);
-
-        /**
-         * @brief 使元素的布局状态失效，并立即触发布局更新
-         */
-        void InvalidateMeasure();
 
         /**
          * @brief 获取Arrange时子元素的水平偏移量

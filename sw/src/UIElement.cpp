@@ -518,6 +518,23 @@ bool sw::UIElement::IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition conditi
     return (this->_layoutUpdateCondition & condition) == condition;
 }
 
+void sw::UIElement::InvalidateMeasure()
+{
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::Supressed)) {
+        return;
+    }
+
+    UIElement *root;
+    UIElement *element = this;
+    do {
+        root = element;
+        element->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
+        element = element->_parent;
+    } while (element != nullptr);
+
+    root->SendMessageW(WM_UpdateLayout, 0, 0);
+}
+
 uint64_t sw::UIElement::GetTag()
 {
     return this->_tag;
@@ -708,23 +725,6 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
             element = element->_parent;
         }
     } while (element != nullptr);
-}
-
-void sw::UIElement::InvalidateMeasure()
-{
-    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::Supressed)) {
-        return;
-    }
-
-    UIElement *root;
-    UIElement *element = this;
-    do {
-        root = element;
-        element->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
-        element = element->_parent;
-    } while (element != nullptr);
-
-    root->SendMessageW(WM_UpdateLayout, 0, 0);
 }
 
 double &sw::UIElement::GetArrangeOffsetX()
