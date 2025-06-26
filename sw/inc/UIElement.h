@@ -216,6 +216,11 @@ namespace sw
          */
         Size _lastMeasureAvailableSize{};
 
+        /**
+         * @brief 用于存储批量调整子元素位置时调用DeferWindowPos的句柄
+         */
+        HDWP _hdwpChildren = NULL;
+
     public:
         /**
          * @brief 边距
