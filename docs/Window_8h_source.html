@@ -228,7 +228,7 @@ $(document).ready(function(){initNavTree('Window_8h_source.html',''); initResiza
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>        {</div>
 <div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>            this-&gt;_layout.reset(<span class="keyword">new</span> TLayout);</div>
 <div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>            this-&gt;_layout-&gt;Associate(<span class="keyword">this</span>);</div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>            this-&gt;<a class="code hl_function" href="classsw_1_1UIElement.html#ab5832ef956cdc4face3e9dbd0c72e66e">NotifyLayoutUpdated</a>();</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>            this-&gt;<a class="code hl_function" href="classsw_1_1UIElement.html#afea960f1d4f8148b4807d2121f32a6c1">InvalidateMeasure</a>();</div>
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>        }</div>
 </div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span> </div>
@@ -237,7 +237,7 @@ $(document).ready(function(){initNavTree('Window_8h_source.html',''); initResiza
 <div class="line"><a id="l00305" name="l00305"></a><span class="lineno"><a class="line" href="classsw_1_1Window.html#a236c7f298b6bbb432ce7c3c82a5eaacd">  305</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Window.html#a236c7f298b6bbb432ce7c3c82a5eaacd">SetLayout</a>()</div>
 <div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>        {</div>
 <div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>            this-&gt;_layout.reset(<span class="keyword">nullptr</span>);</div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>            this-&gt;<a class="code hl_function" href="classsw_1_1UIElement.html#ab5832ef956cdc4face3e9dbd0c72e66e">NotifyLayoutUpdated</a>();</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>            this-&gt;<a class="code hl_function" href="classsw_1_1UIElement.html#afea960f1d4f8148b4807d2121f32a6c1">InvalidateMeasure</a>();</div>
 <div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>        }</div>
 </div>
 <div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>    };</div>
@@ -248,7 +248,7 @@ $(document).ready(function(){initNavTree('Window_8h_source.html',''); initResiza
 <div class="ttc" id="aclasssw_1_1Menu_html"><div class="ttname"><a href="classsw_1_1Menu.html">sw::Menu</a></div><div class="ttdoc">菜单</div><div class="ttdef"><b>Definition</b> Menu.h:11</div></div>
 <div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1520</div></div>
 <div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>Definition</b> Property.h:1562</div></div>
-<div class="ttc" id="aclasssw_1_1UIElement_html_ab5832ef956cdc4face3e9dbd0c72e66e"><div class="ttname"><a href="classsw_1_1UIElement.html#ab5832ef956cdc4face3e9dbd0c72e66e">sw::UIElement::NotifyLayoutUpdated</a></div><div class="ttdeci">void NotifyLayoutUpdated()</div><div class="ttdoc">通知顶级窗口布局改变</div></div>
+<div class="ttc" id="aclasssw_1_1UIElement_html_afea960f1d4f8148b4807d2121f32a6c1"><div class="ttname"><a href="classsw_1_1UIElement.html#afea960f1d4f8148b4807d2121f32a6c1">sw::UIElement::InvalidateMeasure</a></div><div class="ttdeci">void InvalidateMeasure()</div><div class="ttdoc">使元素的布局状态失效，并立即触发布局更新</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html"><div class="ttname"><a href="classsw_1_1Window.html">sw::Window</a></div><div class="ttdoc">窗口</div><div class="ttdef"><b>Definition</b> Window.h:34</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_a09165434040ada6ea3f00a7d79b1f7a2"><div class="ttname"><a href="classsw_1_1Window.html#a09165434040ada6ea3f00a7d79b1f7a2">sw::Window::OnDestroy</a></div><div class="ttdeci">virtual bool OnDestroy() override</div><div class="ttdoc">接收到WM_DESTROY时调用该函数</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_a1a15faeb81c21aa3327dcd8fefdc5ffd"><div class="ttname"><a href="classsw_1_1Window.html#a1a15faeb81c21aa3327dcd8fefdc5ffd">sw::Window::Topmost</a></div><div class="ttdeci">const Property&lt; bool &gt; Topmost</div><div class="ttdoc">窗口是否置顶</div><div class="ttdef"><b>Definition</b> Window.h:120</div></div>

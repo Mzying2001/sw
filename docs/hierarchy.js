@@ -102,25 +102,6 @@ var hierarchy =
     ] ],
     [ "sw::IconHelper", "classsw_1_1IconHelper.html", null ],
     [ "sw::ILayout", "classsw_1_1ILayout.html", [
-      [ "sw::LayoutHost", "classsw_1_1LayoutHost.html", [
-        [ "sw::CanvasLayout", "classsw_1_1CanvasLayout.html", null ],
-        [ "sw::DockLayout", "classsw_1_1DockLayout.html", null ],
-        [ "sw::FillLayout", "classsw_1_1FillLayout.html", null ],
-        [ "sw::GridLayout", "classsw_1_1GridLayout.html", null ],
-        [ "sw::StackLayoutH", "classsw_1_1StackLayoutH.html", [
-          [ "sw::StackLayout", "classsw_1_1StackLayout.html", null ]
-        ] ],
-        [ "sw::StackLayoutV", "classsw_1_1StackLayoutV.html", [
-          [ "sw::StackLayout", "classsw_1_1StackLayout.html", null ]
-        ] ],
-        [ "sw::UniformGridLayout", "classsw_1_1UniformGridLayout.html", null ],
-        [ "sw::WrapLayoutH", "classsw_1_1WrapLayoutH.html", [
-          [ "sw::WrapLayout", "classsw_1_1WrapLayout.html", null ]
-        ] ],
-        [ "sw::WrapLayoutV", "classsw_1_1WrapLayoutV.html", [
-          [ "sw::WrapLayout", "classsw_1_1WrapLayout.html", null ]
-        ] ]
-      ] ],
       [ "sw::UIElement", "classsw_1_1UIElement.html", [
         [ "sw::Control", "classsw_1_1Control.html", [
           [ "sw::ItemsControl< StrList >", "classsw_1_1ItemsControl.html", [
@@ -184,6 +165,25 @@ var hierarchy =
       [ "sw::UIElement", "classsw_1_1UIElement.html", null ]
     ] ],
     [ "sw::KeyFlags", "structsw_1_1KeyFlags.html", null ],
+    [ "sw::LayoutHost", "classsw_1_1LayoutHost.html", [
+      [ "sw::CanvasLayout", "classsw_1_1CanvasLayout.html", null ],
+      [ "sw::DockLayout", "classsw_1_1DockLayout.html", null ],
+      [ "sw::FillLayout", "classsw_1_1FillLayout.html", null ],
+      [ "sw::GridLayout", "classsw_1_1GridLayout.html", null ],
+      [ "sw::StackLayoutH", "classsw_1_1StackLayoutH.html", [
+        [ "sw::StackLayout", "classsw_1_1StackLayout.html", null ]
+      ] ],
+      [ "sw::StackLayoutV", "classsw_1_1StackLayoutV.html", [
+        [ "sw::StackLayout", "classsw_1_1StackLayout.html", null ]
+      ] ],
+      [ "sw::UniformGridLayout", "classsw_1_1UniformGridLayout.html", null ],
+      [ "sw::WrapLayoutH", "classsw_1_1WrapLayoutH.html", [
+        [ "sw::WrapLayout", "classsw_1_1WrapLayout.html", null ]
+      ] ],
+      [ "sw::WrapLayoutV", "classsw_1_1WrapLayoutV.html", [
+        [ "sw::WrapLayout", "classsw_1_1WrapLayout.html", null ]
+      ] ]
+    ] ],
     [ "sw::List< T >", "classsw_1_1List.html", null ],
     [ "sw::List< sw::GridColumn >", "classsw_1_1List.html", null ],
     [ "sw::List< sw::GridRow >", "classsw_1_1List.html", null ],

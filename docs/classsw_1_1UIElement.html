@@ -136,6 +136,10 @@ $(document).ready(function(){initNavTree('classsw_1_1UIElement.html',''); initRe
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
+<tr class="memitem:aeebf42b059a9962fd9c2ba64dcc309ca" id="r_aeebf42b059a9962fd9c2ba64dcc309ca"><td class="memItemLeft" align="right" valign="top"><a id="aeebf42b059a9962fd9c2ba64dcc309ca" name="aeebf42b059a9962fd9c2ba64dcc309ca"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>UIElement</b> ()</td></tr>
+<tr class="memdesc:aeebf42b059a9962fd9c2ba64dcc309ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化UIElement <br /></td></tr>
+<tr class="separator:aeebf42b059a9962fd9c2ba64dcc309ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbe28513919da89bf3f9a5102d6353c3" id="r_acbe28513919da89bf3f9a5102d6353c3"><td class="memItemLeft" align="right" valign="top"><a id="acbe28513919da89bf3f9a5102d6353c3" name="acbe28513919da89bf3f9a5102d6353c3"></a>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~UIElement</b> ()=0</td></tr>
 <tr class="memdesc:acbe28513919da89bf3f9a5102d6353c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数，这里用纯虚函数使该类成为抽象类 <br /></td></tr>
@@ -310,6 +314,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Resize</b> (const <a 
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsLayoutUpdateConditionSet</b> (sw::LayoutUpdateCondition condition)</td></tr>
 <tr class="memdesc:a9c1ce767cc687fa9b9864640cc0237c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断指定的布局更新条件是否已设置 <br /></td></tr>
 <tr class="separator:a9c1ce767cc687fa9b9864640cc0237c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afea960f1d4f8148b4807d2121f32a6c1" id="r_afea960f1d4f8148b4807d2121f32a6c1"><td class="memItemLeft" align="right" valign="top"><a id="afea960f1d4f8148b4807d2121f32a6c1" name="afea960f1d4f8148b4807d2121f32a6c1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>InvalidateMeasure</b> ()</td></tr>
+<tr class="memdesc:afea960f1d4f8148b4807d2121f32a6c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">使元素的布局状态失效，并立即触发布局更新 <br /></td></tr>
+<tr class="separator:afea960f1d4f8148b4807d2121f32a6c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78f1c406d3faac2afcb956e9375f65ec" id="r_a78f1c406d3faac2afcb956e9375f65ec"><td class="memItemLeft" align="right" valign="top">virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a78f1c406d3faac2afcb956e9375f65ec">GetTag</a> () override</td></tr>
 <tr class="memdesc:a78f1c406d3faac2afcb956e9375f65ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取Tag  <br /></td></tr>
 <tr class="separator:a78f1c406d3faac2afcb956e9375f65ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -328,14 +336,11 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsLayoutUpdateConditi
 <tr class="memitem:a633ace3fad478f1cc6480fa5512288fb" id="r_a633ace3fad478f1cc6480fa5512288fb"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1Size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a633ace3fad478f1cc6480fa5512288fb">GetDesireSize</a> () override</td></tr>
 <tr class="memdesc:a633ace3fad478f1cc6480fa5512288fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取控件所需尺寸  <br /></td></tr>
 <tr class="separator:a633ace3fad478f1cc6480fa5512288fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3370e535f462680d66063e45b92807f6" id="r_a3370e535f462680d66063e45b92807f6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a3370e535f462680d66063e45b92807f6">SetDesireSize</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;size) override</td></tr>
-<tr class="memdesc:a3370e535f462680d66063e45b92807f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置当前控件所需的尺寸  <br /></td></tr>
-<tr class="separator:a3370e535f462680d66063e45b92807f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef217f2655c4a746606bf302edc16cf4" id="r_aef217f2655c4a746606bf302edc16cf4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#aef217f2655c4a746606bf302edc16cf4">Measure</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;availableSize) override</td></tr>
-<tr class="memdesc:aef217f2655c4a746606bf302edc16cf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量控件所需尺寸  <br /></td></tr>
+<tr class="memdesc:aef217f2655c4a746606bf302edc16cf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量元素所需尺寸  <br /></td></tr>
 <tr class="separator:aef217f2655c4a746606bf302edc16cf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8088cf88b28c6b4a5f93cd7a66a769e" id="r_ac8088cf88b28c6b4a5f93cd7a66a769e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ac8088cf88b28c6b4a5f93cd7a66a769e">Arrange</a> (const <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &amp;finalPosition) override</td></tr>
-<tr class="memdesc:ac8088cf88b28c6b4a5f93cd7a66a769e"><td class="mdescLeft">&#160;</td><td class="mdescRight">安排控件位置  <br /></td></tr>
+<tr class="memdesc:ac8088cf88b28c6b4a5f93cd7a66a769e"><td class="mdescLeft">&#160;</td><td class="mdescRight">安排元素位置  <br /></td></tr>
 <tr class="separator:ac8088cf88b28c6b4a5f93cd7a66a769e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56ab87f8a258e25ae429dab03771b5b4" id="r_a56ab87f8a258e25ae429dab03771b5b4"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1UIElement.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a56ab87f8a258e25ae429dab03771b5b4">ToUIElement</a> () override</td></tr>
 <tr class="memdesc:a56ab87f8a258e25ae429dab03771b5b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成UIElement  <br /></td></tr>
@@ -525,6 +530,10 @@ const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#
 <tr class="memitem:ab1ae9ea6fdb1c1ecde418bffdb2287cc" id="r_ab1ae9ea6fdb1c1ecde418bffdb2287cc"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; sw::LayoutUpdateCondition &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ab1ae9ea6fdb1c1ecde418bffdb2287cc">LayoutUpdateCondition</a></td></tr>
 <tr class="memdesc:ab1ae9ea6fdb1c1ecde418bffdb2287cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发布局更新的条件  <br /></td></tr>
 <tr class="separator:ab1ae9ea6fdb1c1ecde418bffdb2287cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78ccd020a37a7da25b9df8eab6783f35" id="r_a78ccd020a37a7da25b9df8eab6783f35"><td class="memItemLeft" align="right" valign="top"><a id="a78ccd020a37a7da25b9df8eab6783f35" name="a78ccd020a37a7da25b9df8eab6783f35"></a>
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsMeasureValid</b></td></tr>
+<tr class="memdesc:a78ccd020a37a7da25b9df8eab6783f35"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前元素的布局状态是否有效 <br /></td></tr>
+<tr class="separator:a78ccd020a37a7da25b9df8eab6783f35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
 <tr class="memitem:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase" id="r_abc0b653ccc071c2cfcba42fa8eef738f"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; HWND &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Handle</b></td></tr>
@@ -617,20 +626,18 @@ const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
-<tr class="memitem:aeebf42b059a9962fd9c2ba64dcc309ca" id="r_aeebf42b059a9962fd9c2ba64dcc309ca"><td class="memItemLeft" align="right" valign="top"><a id="aeebf42b059a9962fd9c2ba64dcc309ca" name="aeebf42b059a9962fd9c2ba64dcc309ca"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>UIElement</b> ()</td></tr>
-<tr class="memdesc:aeebf42b059a9962fd9c2ba64dcc309ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化UIElement <br /></td></tr>
-<tr class="separator:aeebf42b059a9962fd9c2ba64dcc309ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cd17e0524115089357b146545510fe8" id="r_a8cd17e0524115089357b146545510fe8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1Size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a8cd17e0524115089357b146545510fe8">MeasureOverride</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;availableSize)</td></tr>
+<tr class="memdesc:a8cd17e0524115089357b146545510fe8"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量元素所需尺寸，无需考虑边框和边距  <br /></td></tr>
+<tr class="separator:a8cd17e0524115089357b146545510fe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3170826168869b60a1876a3598189a65" id="r_a3170826168869b60a1876a3598189a65"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a3170826168869b60a1876a3598189a65">ArrangeOverride</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;finalSize)</td></tr>
+<tr class="memdesc:a3170826168869b60a1876a3598189a65"><td class="mdescLeft">&#160;</td><td class="mdescRight">安排子元素的位置，可重写该函数以实现自定义布局  <br /></td></tr>
+<tr class="separator:a3170826168869b60a1876a3598189a65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0635558e1928f1144566a30b884303aa" id="r_a0635558e1928f1144566a30b884303aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a0635558e1928f1144566a30b884303aa">RaiseRoutedEvent</a> (RoutedEventType eventType)</td></tr>
 <tr class="memdesc:a0635558e1928f1144566a30b884303aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发路由事件  <br /></td></tr>
 <tr class="separator:a0635558e1928f1144566a30b884303aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a135d4fc74c3bf7a434271620944b9f9b" id="r_a135d4fc74c3bf7a434271620944b9f9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a135d4fc74c3bf7a434271620944b9f9b">RaiseRoutedEvent</a> (<a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> &amp;eventArgs)</td></tr>
 <tr class="memdesc:a135d4fc74c3bf7a434271620944b9f9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发路由事件  <br /></td></tr>
 <tr class="separator:a135d4fc74c3bf7a434271620944b9f9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5832ef956cdc4face3e9dbd0c72e66e" id="r_ab5832ef956cdc4face3e9dbd0c72e66e"><td class="memItemLeft" align="right" valign="top"><a id="ab5832ef956cdc4face3e9dbd0c72e66e" name="ab5832ef956cdc4face3e9dbd0c72e66e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>NotifyLayoutUpdated</b> ()</td></tr>
-<tr class="memdesc:ab5832ef956cdc4face3e9dbd0c72e66e"><td class="mdescLeft">&#160;</td><td class="mdescRight">通知顶级窗口布局改变 <br /></td></tr>
-<tr class="separator:ab5832ef956cdc4face3e9dbd0c72e66e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae43f4f3c5a5c723d29f20e5590641388" id="r_ae43f4f3c5a5c723d29f20e5590641388"><td class="memItemLeft" align="right" valign="top"><a id="ae43f4f3c5a5c723d29f20e5590641388" name="ae43f4f3c5a5c723d29f20e5590641388"></a>
 double &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetArrangeOffsetX</b> ()</td></tr>
 <tr class="memdesc:ae43f4f3c5a5c723d29f20e5590641388"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取Arrange时子元素的水平偏移量 <br /></td></tr>
@@ -1335,17 +1342,51 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>安排控件位置 </p>
+<p>安排元素位置 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">finalSize</td><td>最终控件所安排的位置 </td></tr>
+    <tr><td class="paramname">finalSize</td><td>最终元素所安排的位置 </td></tr>
   </table>
   </dd>
 </dl>
 
 <p>实现了 <a class="el" href="classsw_1_1ILayout.html#a5616892d25adc2666e83211036db7d80">sw::ILayout</a>.</p>
 
-<p>被 <a class="el" href="classsw_1_1Layer.html#a418f1f936414fd657ad11a0c0f437cdb">sw::Layer</a>, <a class="el" href="classsw_1_1PanelBase.html#ab7630a76728d4d464b0bee1bfdbdca9b">sw::PanelBase</a> , 以及 <a class="el" href="classsw_1_1TabControl.html#a2826913f7180e01ec24542dd87ea8676">sw::TabControl</a> 重载.</p>
+</div>
+</div>
+<a id="a3170826168869b60a1876a3598189a65" name="a3170826168869b60a1876a3598189a65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3170826168869b60a1876a3598189a65">&#9670;&#160;</a></span>ArrangeOverride()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sw::UIElement::ArrangeOverride </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;&#160;</td>
+          <td class="paramname"><em>finalSize</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>安排子元素的位置，可重写该函数以实现自定义布局 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">finalSize</td><td>可用于排列子元素的最终尺寸 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>被 <a class="el" href="classsw_1_1Layer.html#a80031c421e6f3efe2e085e6991d5535c">sw::Layer</a>, <a class="el" href="classsw_1_1PanelBase.html#a352e8f17b30de80179f4869bf5951b9f">sw::PanelBase</a> , 以及 <a class="el" href="classsw_1_1TabControl.html#afe3911adf115bf45e1ef7156f56a6b9b">sw::TabControl</a> 重载.</p>
 
 </div>
 </div>
@@ -1707,7 +1748,7 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>测量控件所需尺寸 </p>
+<p>测量元素所需尺寸 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">availableSize</td><td>可用的尺寸 </td></tr>
@@ -1717,7 +1758,42 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
 
 <p>实现了 <a class="el" href="classsw_1_1ILayout.html#afcdbdecd5f99cdb25b891c7dc3093fdb">sw::ILayout</a>.</p>
 
-<p>被 <a class="el" href="classsw_1_1BmpBox.html#adf6357c58fba6f846f136bb2956368d9">sw::BmpBox</a>, <a class="el" href="classsw_1_1Label.html#aa7fe8e679f9d35eaf5691403ed5c9a96">sw::Label</a>, <a class="el" href="classsw_1_1Layer.html#a3ac4fcba5970f01d5c944c0376a354c7">sw::Layer</a>, <a class="el" href="classsw_1_1PanelBase.html#a8ac6001fdc5c32131b3d33678bd376b3">sw::PanelBase</a> , 以及 <a class="el" href="classsw_1_1SysLink.html#ae5751ea373927d6248ca3bb7cdb65ef3">sw::SysLink</a> 重载.</p>
+</div>
+</div>
+<a id="a8cd17e0524115089357b146545510fe8" name="a8cd17e0524115089357b146545510fe8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cd17e0524115089357b146545510fe8">&#9670;&#160;</a></span>MeasureOverride()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="structsw_1_1Size.html">Size</a> sw::UIElement::MeasureOverride </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;&#160;</td>
+          <td class="paramname"><em>availableSize</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>测量元素所需尺寸，无需考虑边框和边距 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">availableSize</td><td>可用的尺寸 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>返回元素需要占用的尺寸 </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1BmpBox.html#a2c05d9770b8362641337b9c5cca82047">sw::BmpBox</a>, <a class="el" href="classsw_1_1Label.html#af60011c35117c1dcf0d3e90f78ed4e2c">sw::Label</a>, <a class="el" href="classsw_1_1Layer.html#a5e2f0496063c24957a3cf149a4b707bb">sw::Layer</a>, <a class="el" href="classsw_1_1PanelBase.html#a4a58f2fb05d89a9149b15dfa71c91c0c">sw::PanelBase</a> , 以及 <a class="el" href="classsw_1_1SysLink.html#a83a509b815b4ea0275918c7125020cae">sw::SysLink</a> 重载.</p>
 
 </div>
 </div>
@@ -3659,36 +3735,6 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="a3370e535f462680d66063e45b92807f6" name="a3370e535f462680d66063e45b92807f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3370e535f462680d66063e45b92807f6">&#9670;&#160;</a></span>SetDesireSize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void sw::UIElement::SetDesireSize </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;&#160;</td>
-          <td class="paramname"><em>size</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>设置当前控件所需的尺寸 </p>
-
-<p>实现了 <a class="el" href="classsw_1_1ILayout.html#ab5c5df73b4a3e76840c5d16ab1dfb7fc">sw::ILayout</a>.</p>
 
 </div>
 </div>

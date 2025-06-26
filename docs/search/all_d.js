@@ -4,6 +4,5 @@ var searchData=
   ['nchittest_1',['NcHitTest',['../classsw_1_1WndBase.html#a87c9d860ba24487f2b61b72987a4bd63',1,'sw::WndBase']]],
   ['newfolderbutton_2',['NewFolderButton',['../classsw_1_1FolderBrowserDialog.html#a1146b36190727f370f2071b7cd7c25a7',1,'sw::FolderBrowserDialog']]],
   ['notify_3',['Notify',['../classsw_1_1StaticControl.html#a1aa16699f8b60dd9fb6cd3c6b6c129e4',1,'sw::StaticControl']]],
-  ['notifylayoutupdated_4',['NotifyLayoutUpdated',['../classsw_1_1UIElement.html#ab5832ef956cdc4face3e9dbd0c72e66e',1,'sw::UIElement']]],
-  ['nullhwndmsghandler_5',['NullHwndMsgHandler',['../classsw_1_1App.html#ad6b48c757695289913ede31c8d44243f',1,'sw::App']]]
+  ['nullhwndmsghandler_4',['NullHwndMsgHandler',['../classsw_1_1App.html#ad6b48c757695289913ede31c8d44243f',1,'sw::App']]]
 ];
