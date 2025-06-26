@@ -242,10 +242,12 @@ bool sw::UIElement::AddChild(UIElement *element)
 
     // 处理z轴顺序，确保悬浮的元素在最前
     if (!element->_float) {
+        HDWP hdwp = BeginDeferWindowPos((int)this->_children.size());
         for (UIElement *child : this->_children) {
             if (child->_float)
-                SetWindowPos(child->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+                DeferWindowPos(hdwp, child->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
+        EndDeferWindowPos(hdwp);
     }
 
     this->_children.push_back(element);
@@ -372,16 +374,19 @@ void sw::UIElement::MoveToTop()
     int index = parent->IndexOf(this);
     if (index == -1 || index == (int)parent->_children.size() - 1) return;
 
+    HDWP hdwp = BeginDeferWindowPos((int)parent->_children.size());
+
     parent->_children.erase(parent->_children.begin() + index);
     parent->_children.push_back(this);
-    SetWindowPos(this->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    DeferWindowPos(hdwp, this->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
     if (!this->_float) {
         for (UIElement *item : parent->_children) {
             if (item->_float)
-                SetWindowPos(item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+                DeferWindowPos(hdwp, item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
     }
+    EndDeferWindowPos(hdwp);
 }
 
 void sw::UIElement::MoveToBottom()
@@ -397,10 +402,12 @@ void sw::UIElement::MoveToBottom()
     parent->_children[0] = this;
 
     if (this->_float) {
+        HDWP hdwp = BeginDeferWindowPos((int)parent->_children.size());
         for (UIElement *item : parent->_children) {
             if (item->_float)
-                SetWindowPos(item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+                DeferWindowPos(hdwp, item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
+        EndDeferWindowPos(hdwp);
     } else {
         SetWindowPos(this->Handle, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     }
@@ -760,20 +767,23 @@ void sw::UIElement::UpdateChildrenZOrder()
     if (childCount < 2) return;
 
     std::deque<HWND> floatingElements;
+    HDWP hdwp = BeginDeferWindowPos(childCount);
 
     for (UIElement *child : this->_children) {
         HWND hwnd = child->Handle;
         if (child->_float) {
             floatingElements.push_back(hwnd);
         } else {
-            SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+            DeferWindowPos(hdwp, hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
     }
 
     while (!floatingElements.empty()) {
-        SetWindowPos(floatingElements.front(), HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        DeferWindowPos(hdwp, floatingElements.front(), HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         floatingElements.pop_front();
     }
+
+    EndDeferWindowPos(hdwp);
 }
 
 void sw::UIElement::UpdateSiblingsZOrder()
