@@ -12,7 +12,7 @@ sw::UIElement::UIElement()
           // set
           [this](const Thickness &value) {
               this->_margin = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           }),
 
       HorizontalAlignment(
@@ -23,7 +23,7 @@ sw::UIElement::UIElement()
           // set
           [this](const sw::HorizontalAlignment &value) {
               if (this->_SetHorzAlignment(value)) {
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           }),
 
@@ -35,7 +35,7 @@ sw::UIElement::UIElement()
           // set
           [this](const sw::VerticalAlignment &value) {
               if (this->_SetVertAlignment(value)) {
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           }),
 
@@ -54,7 +54,7 @@ sw::UIElement::UIElement()
           [this](const bool &value) {
               if (this->_collapseWhenHide != value) {
                   this->_collapseWhenHide = value;
-                  if (!this->Visible) this->NotifyLayoutUpdated();
+                  if (!this->Visible) this->InvalidateMeasure();
               }
           }),
 
@@ -82,7 +82,7 @@ sw::UIElement::UIElement()
           // set
           [this](const uint64_t &value) {
               this->_layoutTag = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           }),
 
       ContextMenu(
@@ -105,7 +105,7 @@ sw::UIElement::UIElement()
               if (this->_float != value) {
                   this->_float = value;
                   this->UpdateSiblingsZOrder();
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           }),
 
@@ -171,6 +171,12 @@ sw::UIElement::UIElement()
           // set
           [this](const sw::LayoutUpdateCondition &value) {
               this->_layoutUpdateCondition = value;
+          }),
+
+      IsMeasureValid(
+          // get
+          [this]() -> bool {
+              return !this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::MeasureInvalidated);
           })
 {
 }
@@ -333,7 +339,7 @@ void sw::UIElement::ClearChildren()
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
@@ -487,7 +493,7 @@ void sw::UIElement::SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlign
     changed |= this->_SetVertAlignment(vert);
 
     if (changed) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
@@ -542,6 +548,12 @@ sw::Size sw::UIElement::GetDesireSize()
 
 void sw::UIElement::Measure(const Size &availableSize)
 {
+    if (!this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::MeasureInvalidated) &&
+        this->_lastMeasureAvailableSize == availableSize) {
+        // 如果Measure没有失效且可用尺寸没有变化，则不需要重新测量
+        return;
+    }
+
     Size measureSize    = availableSize;
     Thickness &margin   = this->_margin;
     sw::Rect windowRect = this->Rect;
@@ -551,11 +563,11 @@ void sw::UIElement::Measure(const Size &availableSize)
     measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
     measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
 
-    sw::Size desireSize = this->MeasureOverride(measureSize);
-    desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
-    desireSize.height += (windowRect.height - clientRect.height) + margin.top + margin.bottom;
+    this->_desireSize = this->MeasureOverride(measureSize);
+    this->_desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
+    this->_desireSize.height += (windowRect.height - clientRect.height) + margin.top + margin.bottom;
 
-    this->_desireSize = desireSize;
+    this->_lastMeasureAvailableSize = availableSize;
 }
 
 void sw::UIElement::Arrange(const sw::Rect &finalPosition)
@@ -624,6 +636,12 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
 
     this->ArrangeOverride(this->ClientRect->GetSize());
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
+
+    // 为什么需要在Arrange时再清除MeasureInvalidated标记：
+    // 一些复杂的布局可能会在Measure阶段多次调用Measure，
+    // 如Grid会调用两次Measure，若在Measure阶段清除该标记，
+    // 则在第二次调用时会认为Measure没有失效，导致无法更新布局
+    this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::MeasureInvalidated;
 }
 
 sw::UIElement *sw::UIElement::ToUIElement()
@@ -685,12 +703,21 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
     } while (element != nullptr);
 }
 
-void sw::UIElement::NotifyLayoutUpdated()
+void sw::UIElement::InvalidateMeasure()
 {
-    if (!this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::Supressed)) {
-        UIElement *root = this->GetRootElement();
-        if (root) root->SendMessageW(WM_UpdateLayout, 0, 0);
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::Supressed)) {
+        return;
     }
+
+    UIElement *root;
+    UIElement *element = this;
+    do {
+        root = element;
+        element->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
+        element = element->_parent;
+    } while (element != nullptr);
+
+    root->SendMessageW(WM_UpdateLayout, 0, 0);
 }
 
 double &sw::UIElement::GetArrangeOffsetX()
@@ -783,14 +810,14 @@ void sw::UIElement::SetTextColor(Color color, bool redraw)
 void sw::UIElement::OnAddedChild(UIElement &element)
 {
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildAdded)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
 void sw::UIElement::OnRemovedChild(UIElement &element)
 {
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
@@ -842,6 +869,7 @@ bool sw::UIElement::SetParent(WndBase *parent)
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
     this->_parent = newParent ? newParent->ToUIElement() : nullptr;
+    this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
 }
 
 bool sw::UIElement::OnClose()
@@ -856,7 +884,7 @@ bool sw::UIElement::OnMove(Point newClientPosition)
     this->RaiseRoutedEvent(args);
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::PositionChanged)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
     return args.handledMsg;
 }
@@ -874,7 +902,7 @@ bool sw::UIElement::OnSize(Size newClientSize)
     this->RaiseRoutedEvent(args);
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::SizeChanged)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
     return args.handledMsg;
 }
@@ -884,21 +912,21 @@ void sw::UIElement::OnTextChanged()
     this->RaiseRoutedEvent(UIElement_TextChanged);
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::TextChanged)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
 void sw::UIElement::FontChanged(HFONT hfont)
 {
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::FontChanged)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
 void sw::UIElement::VisibleChanged(bool newVisible)
 {
     if (newVisible || this->_collapseWhenHide) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 

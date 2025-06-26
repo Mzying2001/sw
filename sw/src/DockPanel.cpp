@@ -9,7 +9,7 @@ sw::DockPanel::DockPanel()
           // set
           [this](const bool &value) {
               this->_dockLayout.lastChildFill = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           })
 {
     this->_dockLayout.Associate(this);

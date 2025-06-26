@@ -10,39 +10,39 @@ sw::Grid::Grid()
 void sw::Grid::AddRow(const GridRow &row)
 {
     this->_gridLayout.rows.Append(row);
-    this->NotifyLayoutUpdated();
+    this->InvalidateMeasure();
 }
 
 void sw::Grid::SetRows(std::initializer_list<GridRow> rows)
 {
     List<GridRow> rowsList = rows;
     this->_gridLayout.rows = rowsList;
-    this->NotifyLayoutUpdated();
+    this->InvalidateMeasure();
 }
 
 void sw::Grid::AddColumn(const GridColumn &col)
 {
     this->_gridLayout.columns.Append(col);
-    this->NotifyLayoutUpdated();
+    this->InvalidateMeasure();
 }
 
 void sw::Grid::SetColumns(std::initializer_list<GridColumn> cols)
 {
     List<GridColumn> colsList = cols;
     this->_gridLayout.columns = colsList;
-    this->NotifyLayoutUpdated();
+    this->InvalidateMeasure();
 }
 
 void sw::Grid::ClearRows()
 {
     this->_gridLayout.rows.Clear();
-    this->NotifyLayoutUpdated();
+    this->InvalidateMeasure();
 }
 
 void sw::Grid::ClearColumns()
 {
     this->_gridLayout.columns.Clear();
-    this->NotifyLayoutUpdated();
+    this->InvalidateMeasure();
 }
 
 sw::GridLayoutTag sw::Grid::GetGridLayoutTag(UIElement &element)

@@ -54,9 +54,15 @@ namespace sw
         FontChanged = 1 << 5,
 
         /**
+         * @brief 框架内部使用，表示布局已失效
+         * @note  该标记指示了Measure函数的结果已失效，需要重新调用Measure函数来更新尺寸
+         */
+        MeasureInvalidated = 1 << 29,
+
+        /**
          * @brief 框架内部使用，表示不需要更新布局
-         * @note  一旦设置了该标记，NotifyLayoutUpdated函数将不会触发WM_UpdateLayout消息
-         * @note  该标记用于内部抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
+         * @note  一旦设置了该标记，InvalidateMeasure函数将不会更新状态和触发布局更新
+         * @note  该标记用于抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
          */
         Supressed = 1 << 30,
     };
@@ -205,6 +211,11 @@ namespace sw
          */
         HCURSOR _hCursor = NULL;
 
+        /**
+         * @brief 上一次Measure函数调用时的可用大小
+         */
+        Size _lastMeasureAvailableSize{};
+
     public:
         /**
          * @brief 边距
@@ -286,6 +297,11 @@ namespace sw
          * @note  修改该属性不会立即触发布局更新
          */
         const Property<sw::LayoutUpdateCondition> LayoutUpdateCondition;
+
+        /**
+         * @brief 当前元素的布局状态是否有效
+         */
+        const ReadOnlyProperty<bool> IsMeasureValid;
 
     public:
         /**
@@ -793,9 +809,9 @@ namespace sw
         void RaiseRoutedEvent(RoutedEventArgs &eventArgs);
 
         /**
-         * @brief 通知顶级窗口布局改变
+         * @brief 使元素的布局状态失效，并立即触发布局更新
          */
-        void NotifyLayoutUpdated();
+        void InvalidateMeasure();
 
         /**
          * @brief 获取Arrange时子元素的水平偏移量

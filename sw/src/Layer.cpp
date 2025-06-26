@@ -31,8 +31,7 @@ sw::Layer::Layer()
           [this](const bool &value) {
               if (this->_autoSize != value) {
                   this->_autoSize = value;
-                  if (!this->IsRootElement())
-                      this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           }),
 

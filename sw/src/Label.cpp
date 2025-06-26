@@ -107,7 +107,7 @@ sw::Label::Label()
               if (value) {
                   this->_autoSize = true;
                   this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               } else {
                   this->_autoSize = false;
                   this->LayoutUpdateCondition &= ~(sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged);

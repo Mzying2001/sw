@@ -295,7 +295,7 @@ namespace sw
         {
             this->_layout.reset(new TLayout);
             this->_layout->Associate(this);
-            this->NotifyLayoutUpdated();
+            this->InvalidateMeasure();
         }
 
         /**
@@ -305,7 +305,7 @@ namespace sw
         void SetLayout()
         {
             this->_layout.reset(nullptr);
-            this->NotifyLayoutUpdated();
+            this->InvalidateMeasure();
         }
     };
 }

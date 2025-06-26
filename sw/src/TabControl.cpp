@@ -88,7 +88,7 @@ sw::TabControl::TabControl()
                   this->SelectedIndex = selectedIndex;
 
               } else {
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           }),
 
@@ -100,7 +100,7 @@ sw::TabControl::TabControl()
           // set
           [this](const bool &value) {
               this->SetStyle(TCS_MULTILINE, value);
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           })
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);

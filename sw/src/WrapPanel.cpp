@@ -9,7 +9,7 @@ sw::WrapPanel::WrapPanel()
           // set
           [this](const sw::Orientation &value) {
               this->_wrapLayout.orientation = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           })
 {
     this->_wrapLayout.Associate(this);

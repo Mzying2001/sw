@@ -18,7 +18,7 @@ sw::BmpBox::BmpBox()
               if (this->_sizeMode != value) {
                   this->_sizeMode = value;
                   this->Redraw();
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           })
 {
@@ -165,7 +165,7 @@ void sw::BmpBox::_SetBmp(HBITMAP hBitmap)
     this->Redraw();
 
     if (this->_sizeMode == BmpBoxSizeMode::AutoSize) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 
     if (hOldBitmap != NULL) {

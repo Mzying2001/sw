@@ -9,7 +9,7 @@ sw::StackPanel::StackPanel()
           // set
           [this](const sw::Orientation &value) {
               this->_stackLayout.orientation = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           })
 {
     this->_stackLayout.Associate(this);
