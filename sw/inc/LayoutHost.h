@@ -28,6 +28,12 @@ namespace sw
         void Associate(ILayout *obj);
 
         /**
+         * @brief     判断当前LayoutHost是否关联了对象
+         * @param obj 若传入值为nullptr，则判断是否有任何对象关联，否则判断是否关联了指定对象
+         */
+        bool IsAssociated(ILayout *obj = nullptr);
+
+        /**
          * @brief 获取关联对象子控件的数量
          */
         int GetChildLayoutCount();

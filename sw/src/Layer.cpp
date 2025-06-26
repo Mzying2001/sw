@@ -158,7 +158,8 @@ sw::Layer::~Layer()
 
 sw::LayoutHost *sw::Layer::_GetLayout()
 {
-    return this->_customLayout != nullptr ? this->_customLayout : this->GetDefaultLayout();
+    auto layout = (this->_customLayout != nullptr) ? this->_customLayout : this->GetDefaultLayout();
+    return (layout != nullptr && layout->IsAssociated(this)) ? layout : nullptr;
 }
 
 void sw::Layer::_MeasureAndArrangeWithoutLayout()
