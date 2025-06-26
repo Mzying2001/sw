@@ -185,7 +185,7 @@ sw::UniformGrid::UniformGrid()
           // set
           [this](const int &value) {
               this->_uniformGridLayout.rows = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           }),
 
       Columns(
@@ -196,7 +196,7 @@ sw::UniformGrid::UniformGrid()
           // set
           [this](const int &value) {
               this->_uniformGridLayout.columns = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           }),
 
       FirstColumn(
@@ -207,7 +207,7 @@ sw::UniformGrid::UniformGrid()
           // set
           [this](const int &value) {
               this->_uniformGridLayout.firstColumn = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           })
 {
     this->_uniformGridLayout.Associate(this);
@@ -247,7 +247,7 @@ sw::SysLink::SysLink()
               if (value) {
                   this->_autoSize = true;
                   this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               } else {
                   this->_autoSize = false;
                   this->LayoutUpdateCondition &= ~(sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged);
@@ -274,29 +274,21 @@ void sw::SysLink::FontChanged(HFONT hfont)
     this->Control::FontChanged(hfont);
 }
 
-void sw::SysLink::Measure(const Size &availableSize)
+sw::Size sw::SysLink::MeasureOverride(const Size &availableSize)
 {
     if (!this->_autoSize) {
-        this->Control::Measure(availableSize);
-        return;
+        return this->UIElement::MeasureOverride(availableSize);
     }
 
-    sw::Thickness margin = this->Margin;
-
-    sw::Size desireSize{
-        this->_textSize.width + margin.left + margin.right,
-        this->_textSize.height + margin.top + margin.bottom};
+    sw::Size desireSize = this->_textSize;
 
     if (availableSize.width < desireSize.width) {
         SIZE size;
-        this->SendMessageW(LM_GETIDEALSIZE,
-                           Utils::Max(0, Dip::DipToPxX(availableSize.width - margin.left - margin.right)),
-                           reinterpret_cast<LPARAM>(&size));
+        this->SendMessageW(LM_GETIDEALSIZE, Utils::Max(0, Dip::DipToPxX(availableSize.width)), reinterpret_cast<LPARAM>(&size));
         desireSize.width  = availableSize.width;
-        desireSize.height = Dip::PxToDipY(size.cy) + margin.top + margin.bottom;
+        desireSize.height = Dip::PxToDipY(size.cy);
     }
-
-    this->SetDesireSize(desireSize);
+    return desireSize;
 }
 
 bool sw::SysLink::OnNotified(NMHDR *pNMHDR, LRESULT &result)
@@ -1598,7 +1590,7 @@ sw::DockPanel::DockPanel()
           // set
           [this](const bool &value) {
               this->_dockLayout.lastChildFill = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           })
 {
     this->_dockLayout.Associate(this);
@@ -2793,7 +2785,7 @@ sw::RadioButton::RadioButton()
 
 // WrapLayoutH.cpp
 
-void sw::WrapLayoutH::MeasureOverride(Size &availableSize)
+sw::Size sw::WrapLayoutH::MeasureOverride(const Size &availableSize)
 {
     Size size;
     int count = this->GetChildLayoutCount();
@@ -2830,10 +2822,10 @@ void sw::WrapLayoutH::MeasureOverride(Size &availableSize)
         size.height = top + rowHeight;
     }
 
-    this->SetDesireSize(size);
+    return size;
 }
 
-void sw::WrapLayoutH::ArrangeOverride(Size &finalSize)
+void sw::WrapLayoutH::ArrangeOverride(const Size &finalSize)
 {
     double top       = 0;
     double rowWidth  = 0;
@@ -2868,7 +2860,7 @@ sw::UIElement::UIElement()
           // set
           [this](const Thickness &value) {
               this->_margin = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           }),
 
       HorizontalAlignment(
@@ -2879,7 +2871,7 @@ sw::UIElement::UIElement()
           // set
           [this](const sw::HorizontalAlignment &value) {
               if (this->_SetHorzAlignment(value)) {
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           }),
 
@@ -2891,7 +2883,7 @@ sw::UIElement::UIElement()
           // set
           [this](const sw::VerticalAlignment &value) {
               if (this->_SetVertAlignment(value)) {
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           }),
 
@@ -2910,7 +2902,7 @@ sw::UIElement::UIElement()
           [this](const bool &value) {
               if (this->_collapseWhenHide != value) {
                   this->_collapseWhenHide = value;
-                  if (!this->Visible) this->NotifyLayoutUpdated();
+                  if (!this->Visible) this->InvalidateMeasure();
               }
           }),
 
@@ -2938,7 +2930,7 @@ sw::UIElement::UIElement()
           // set
           [this](const uint64_t &value) {
               this->_layoutTag = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           }),
 
       ContextMenu(
@@ -2961,7 +2953,7 @@ sw::UIElement::UIElement()
               if (this->_float != value) {
                   this->_float = value;
                   this->UpdateSiblingsZOrder();
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           }),
 
@@ -3027,6 +3019,12 @@ sw::UIElement::UIElement()
           // set
           [this](const sw::LayoutUpdateCondition &value) {
               this->_layoutUpdateCondition = value;
+          }),
+
+      IsMeasureValid(
+          // get
+          [this]() -> bool {
+              return !this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::MeasureInvalidated);
           })
 {
 }
@@ -3092,10 +3090,12 @@ bool sw::UIElement::AddChild(UIElement *element)
 
     // 处理z轴顺序，确保悬浮的元素在最前
     if (!element->_float) {
+        HDWP hdwp = BeginDeferWindowPos((int)this->_children.size());
         for (UIElement *child : this->_children) {
             if (child->_float)
-                SetWindowPos(child->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+                DeferWindowPos(hdwp, child->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
+        EndDeferWindowPos(hdwp);
     }
 
     this->_children.push_back(element);
@@ -3189,7 +3189,7 @@ void sw::UIElement::ClearChildren()
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
@@ -3222,16 +3222,19 @@ void sw::UIElement::MoveToTop()
     int index = parent->IndexOf(this);
     if (index == -1 || index == (int)parent->_children.size() - 1) return;
 
+    HDWP hdwp = BeginDeferWindowPos((int)parent->_children.size());
+
     parent->_children.erase(parent->_children.begin() + index);
     parent->_children.push_back(this);
-    SetWindowPos(this->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    DeferWindowPos(hdwp, this->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
     if (!this->_float) {
         for (UIElement *item : parent->_children) {
             if (item->_float)
-                SetWindowPos(item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+                DeferWindowPos(hdwp, item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
     }
+    EndDeferWindowPos(hdwp);
 }
 
 void sw::UIElement::MoveToBottom()
@@ -3247,10 +3250,12 @@ void sw::UIElement::MoveToBottom()
     parent->_children[0] = this;
 
     if (this->_float) {
+        HDWP hdwp = BeginDeferWindowPos((int)parent->_children.size());
         for (UIElement *item : parent->_children) {
             if (item->_float)
-                SetWindowPos(item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+                DeferWindowPos(hdwp, item->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
+        EndDeferWindowPos(hdwp);
     } else {
         SetWindowPos(this->Handle, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     }
@@ -3343,7 +3348,7 @@ void sw::UIElement::SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlign
     changed |= this->_SetVertAlignment(vert);
 
     if (changed) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
@@ -3359,6 +3364,23 @@ void sw::UIElement::Resize(const Size &size)
 bool sw::UIElement::IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition condition)
 {
     return (this->_layoutUpdateCondition & condition) == condition;
+}
+
+void sw::UIElement::InvalidateMeasure()
+{
+    if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::Supressed)) {
+        return;
+    }
+
+    UIElement *root;
+    UIElement *element = this;
+    do {
+        root = element;
+        element->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
+        element = element->_parent;
+    } while (element != nullptr);
+
+    root->SendMessageW(WM_UpdateLayout, 0, 0);
 }
 
 uint64_t sw::UIElement::GetTag()
@@ -3396,26 +3418,28 @@ sw::Size sw::UIElement::GetDesireSize()
     return this->_desireSize;
 }
 
-void sw::UIElement::SetDesireSize(const Size &size)
-{
-    this->_desireSize = size;
-}
-
 void sw::UIElement::Measure(const Size &availableSize)
 {
-    sw::Rect rect     = this->Rect;
-    Thickness &margin = this->_margin;
-
-    if (this->_horizontalAlignment == HorizontalAlignment::Stretch) {
-        rect.width = this->_origionalSize.width;
-    }
-    if (this->_verticalAlignment == VerticalAlignment::Stretch) {
-        rect.height = this->_origionalSize.height;
+    if (!this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::MeasureInvalidated) &&
+        this->_lastMeasureAvailableSize == availableSize) {
+        // 如果Measure没有失效且可用尺寸没有变化，则不需要重新测量
+        return;
     }
 
-    this->SetDesireSize(Size(
-        rect.width + margin.left + margin.right,
-        rect.height + margin.top + margin.bottom));
+    Size measureSize    = availableSize;
+    Thickness &margin   = this->_margin;
+    sw::Rect windowRect = this->Rect;
+    sw::Rect clientRect = this->ClientRect;
+
+    // 考虑边框
+    measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
+    measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
+
+    this->_desireSize = this->MeasureOverride(measureSize);
+    this->_desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
+    this->_desireSize.height += (windowRect.height - clientRect.height) + margin.top + margin.bottom;
+
+    this->_lastMeasureAvailableSize = availableSize;
 }
 
 void sw::UIElement::Arrange(const sw::Rect &finalPosition)
@@ -3477,17 +3501,66 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     rect.width  = Utils::Max(0.0, rect.width);
     rect.height = Utils::Max(0.0, rect.height);
 
-    SetWindowPos(this->Handle, NULL,
-                 Dip::DipToPxX(rect.left), Dip::DipToPxY(rect.top),
-                 Dip::DipToPxX(rect.width), Dip::DipToPxY(rect.height),
-                 SWP_NOACTIVATE | SWP_NOZORDER);
+    if (_parent != nullptr && _parent->_hdwpChildren != NULL) {
+        DeferWindowPos(_parent->_hdwpChildren, this->Handle, NULL,
+                       Dip::DipToPxX(rect.left), Dip::DipToPxY(rect.top),
+                       Dip::DipToPxX(rect.width), Dip::DipToPxY(rect.height),
+                       SWP_NOACTIVATE | SWP_NOZORDER);
+    } else {
+        SetWindowPos(this->Handle, NULL,
+                     Dip::DipToPxX(rect.left), Dip::DipToPxY(rect.top),
+                     Dip::DipToPxX(rect.width), Dip::DipToPxY(rect.height),
+                     SWP_NOACTIVATE | SWP_NOZORDER);
+    }
 
+    if (!this->_children.empty()) {
+        this->_hdwpChildren = BeginDeferWindowPos((int)this->_children.size());
+    }
+
+    this->ArrangeOverride(this->ClientRect->GetSize());
+
+    if (this->_hdwpChildren != NULL) {
+        EndDeferWindowPos(this->_hdwpChildren);
+        this->_hdwpChildren = NULL;
+    }
+
+    // 为什么需要在Arrange时再清除MeasureInvalidated标记：
+    // 一些复杂的布局可能会在Measure阶段多次调用Measure，
+    // 如Grid会调用两次Measure，若在Measure阶段清除该标记，
+    // 则在第二次调用时会认为Measure没有失效，导致无法更新布局
+    this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::MeasureInvalidated;
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
 }
 
 sw::UIElement *sw::UIElement::ToUIElement()
 {
     return this;
+}
+
+sw::Size sw::UIElement::MeasureOverride(const Size &availableSize)
+{
+    // 普通元素测量时，其本身用户区尺寸即为所需尺寸
+    // 当元素的对齐方式为拉伸时，返回原始用户区尺寸
+    sw::Size desireSize = this->ClientRect->GetSize();
+
+    // 由于Measure中会自动处理边框和Margin而_origionalSize
+    // 记录的是原始的窗口尺寸，因此当使用原始尺寸时需要减去边框
+    if (this->_horizontalAlignment == HorizontalAlignment::Stretch ||
+        this->_verticalAlignment == VerticalAlignment::Stretch) {
+        sw::Rect windowRect = this->Rect;
+        sw::Size clientSize = desireSize;
+        if (this->_horizontalAlignment == HorizontalAlignment::Stretch) {
+            desireSize.width = this->_origionalSize.width - (windowRect.width - clientSize.width);
+        }
+        if (this->_verticalAlignment == VerticalAlignment::Stretch) {
+            desireSize.height = this->_origionalSize.height - (windowRect.height - clientSize.height);
+        }
+    }
+    return desireSize;
+}
+
+void sw::UIElement::ArrangeOverride(const Size &finalSize)
+{
 }
 
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)
@@ -3516,14 +3589,6 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
             element = element->_parent;
         }
     } while (element != nullptr);
-}
-
-void sw::UIElement::NotifyLayoutUpdated()
-{
-    if (!this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::Supressed)) {
-        UIElement *root = this->GetRootElement();
-        if (root) root->SendMessageW(WM_UpdateLayout, 0, 0);
-    }
 }
 
 double &sw::UIElement::GetArrangeOffsetX()
@@ -3566,20 +3631,23 @@ void sw::UIElement::UpdateChildrenZOrder()
     if (childCount < 2) return;
 
     std::deque<HWND> floatingElements;
+    HDWP hdwp = BeginDeferWindowPos(childCount);
 
     for (UIElement *child : this->_children) {
         HWND hwnd = child->Handle;
         if (child->_float) {
             floatingElements.push_back(hwnd);
         } else {
-            SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+            DeferWindowPos(hdwp, hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         }
     }
 
     while (!floatingElements.empty()) {
-        SetWindowPos(floatingElements.front(), HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        DeferWindowPos(hdwp, floatingElements.front(), HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         floatingElements.pop_front();
     }
+
+    EndDeferWindowPos(hdwp);
 }
 
 void sw::UIElement::UpdateSiblingsZOrder()
@@ -3616,14 +3684,14 @@ void sw::UIElement::SetTextColor(Color color, bool redraw)
 void sw::UIElement::OnAddedChild(UIElement &element)
 {
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildAdded)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
 void sw::UIElement::OnRemovedChild(UIElement &element)
 {
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
@@ -3675,6 +3743,7 @@ bool sw::UIElement::SetParent(WndBase *parent)
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
     this->_parent = newParent ? newParent->ToUIElement() : nullptr;
+    this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
 }
 
 bool sw::UIElement::OnClose()
@@ -3689,7 +3758,7 @@ bool sw::UIElement::OnMove(Point newClientPosition)
     this->RaiseRoutedEvent(args);
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::PositionChanged)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
     return args.handledMsg;
 }
@@ -3707,7 +3776,7 @@ bool sw::UIElement::OnSize(Size newClientSize)
     this->RaiseRoutedEvent(args);
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::SizeChanged)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
     return args.handledMsg;
 }
@@ -3717,21 +3786,21 @@ void sw::UIElement::OnTextChanged()
     this->RaiseRoutedEvent(UIElement_TextChanged);
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::TextChanged)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
 void sw::UIElement::FontChanged(HFONT hfont)
 {
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::FontChanged)) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
 void sw::UIElement::VisibleChanged(bool newVisible)
 {
     if (newVisible || this->_collapseWhenHide) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 }
 
@@ -4368,7 +4437,7 @@ void sw::StatusBar::SetBackColor(Color color, bool redraw)
 
 // StackLayoutV.cpp
 
-void sw::StackLayoutV::MeasureOverride(Size &availableSize)
+sw::Size sw::StackLayoutV::MeasureOverride(const Size &availableSize)
 {
     Size desireSize;
     int childCount = this->GetChildLayoutCount();
@@ -4382,19 +4451,18 @@ void sw::StackLayoutV::MeasureOverride(Size &availableSize)
         desireSize.width = Utils::Max(desireSize.width, itemDesireSize.width);
     }
 
-    this->SetDesireSize(desireSize);
+    return desireSize;
 }
 
-void sw::StackLayoutV::ArrangeOverride(Size &finalSize)
+void sw::StackLayoutV::ArrangeOverride(const Size &finalSize)
 {
     double top     = 0;
     int childCount = this->GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
-        ILayout &item = this->GetChildLayoutAt(i);
-
+        ILayout &item       = this->GetChildLayoutAt(i);
         Size itemDesireSize = item.GetDesireSize();
-        item.Arrange(Rect(0, top, finalSize.width, itemDesireSize.height));
+        item.Arrange(Rect{0, top, finalSize.width, itemDesireSize.height});
         top += itemDesireSize.height;
     }
 }
@@ -4530,7 +4598,7 @@ sw::TabControl::TabControl()
                   this->SelectedIndex = selectedIndex;
 
               } else {
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           }),
 
@@ -4542,7 +4610,7 @@ sw::TabControl::TabControl()
           // set
           [this](const bool &value) {
               this->SetStyle(TCS_MULTILINE, value);
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           })
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
@@ -4606,20 +4674,6 @@ void sw::TabControl::UpdateTabText(int index)
     this->Redraw();
 }
 
-void sw::TabControl::Arrange(const sw::Rect &finalPosition)
-{
-    this->UIElement::Arrange(finalPosition);
-
-    int selectedIndex = this->SelectedIndex;
-    if (selectedIndex < 0 || selectedIndex >= this->ChildCount) return;
-
-    UIElement &selectedItem = this->GetChildAt(selectedIndex);
-    sw::Rect contentRect    = this->ContentRect;
-
-    selectedItem.Measure({contentRect.width, contentRect.height});
-    selectedItem.Arrange(contentRect);
-}
-
 void sw::TabControl::OnAddedChild(UIElement &element)
 {
     auto text = element.Text.Get();
@@ -4640,6 +4694,18 @@ void sw::TabControl::OnRemovedChild(UIElement &element)
     this->UpdateTab();
     this->_UpdateChildVisible();
     this->UIElement::OnRemovedChild(element);
+}
+
+void sw::TabControl::ArrangeOverride(const Size &finalSize)
+{
+    int selectedIndex = this->SelectedIndex;
+    if (selectedIndex < 0 || selectedIndex >= this->ChildCount) return;
+
+    UIElement &selectedItem = this->GetChildAt(selectedIndex);
+    sw::Rect contentRect    = this->ContentRect;
+
+    selectedItem.Measure(contentRect.GetSize());
+    selectedItem.Arrange(contentRect);
 }
 
 bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
@@ -4873,7 +4939,7 @@ bool sw::Splitter::OnSize(Size newClientSize)
 
 // FillLayout.cpp
 
-void sw::FillLayout::MeasureOverride(Size &availableSize)
+sw::Size sw::FillLayout::MeasureOverride(const Size &availableSize)
 {
     Size desireSize;
     int count = this->GetChildLayoutCount();
@@ -4884,15 +4950,15 @@ void sw::FillLayout::MeasureOverride(Size &availableSize)
         desireSize.width    = Utils::Max(desireSize.width, itemDesireSize.width);
         desireSize.height   = Utils::Max(desireSize.height, itemDesireSize.height);
     }
-    this->SetDesireSize(desireSize);
+    return desireSize;
 }
 
-void sw::FillLayout::ArrangeOverride(Size &finalSize)
+void sw::FillLayout::ArrangeOverride(const Size &finalSize)
 {
     int count = this->GetChildLayoutCount();
     for (int i = 0; i < count; ++i) {
         ILayout &item = this->GetChildLayoutAt(i);
-        item.Arrange(Rect(0, 0, finalSize.width, finalSize.height));
+        item.Arrange(Rect{0, 0, finalSize.width, finalSize.height});
     }
 }
 
@@ -4924,10 +4990,9 @@ void sw::GroupBox::OnDrawBorder(HDC hdc, RECT &rect)
     int borderThicknessX = borderStyle == sw::BorderStyle::None ? 0 : GetSystemMetrics(SM_CXEDGE);
     int borderThicknessY = borderStyle == sw::BorderStyle::None ? 0 : GetSystemMetrics(SM_CYEDGE);
 
-    int availableWidth  = rect.right - rect.left;
-    int availableHeight = rect.bottom - rect.top;
-    int headerWidth     = Utils::Max(0, Utils::Min<int>(_textSize.cx + _GroupBoxHeaderPadding * 2, availableWidth - _GroupBoxHeaderHorzMargin * 2));
-    int headerHeight    = _textSize.cy + _GroupBoxHeaderPadding * 2;
+    int availableWidth = rect.right - rect.left;
+    int headerWidth    = Utils::Max(0, Utils::Min<int>(_textSize.cx + _GroupBoxHeaderPadding * 2, availableWidth - _GroupBoxHeaderHorzMargin * 2));
+    int headerHeight   = _textSize.cy + _GroupBoxHeaderPadding * 2;
 
     RECT rtHeader = {
         rect.left + _GroupBoxHeaderHorzMargin,
@@ -5556,7 +5621,7 @@ sw::Label::Label()
               if (value) {
                   this->_autoSize = true;
                   this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               } else {
                   this->_autoSize = false;
                   this->LayoutUpdateCondition &= ~(sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged);
@@ -5611,19 +5676,13 @@ void sw::Label::FontChanged(HFONT hfont)
     this->Control::FontChanged(hfont);
 }
 
-void sw::Label::Measure(const Size &availableSize)
+sw::Size sw::Label::MeasureOverride(const Size &availableSize)
 {
     if (!this->_autoSize) {
-        this->UIElement::Measure(availableSize);
-        return;
+        return this->UIElement::MeasureOverride(availableSize);
     }
 
-    Thickness margin = this->Margin;
-
-    Size desireSize(
-        this->_textSize.width + margin.left + margin.right,
-        this->_textSize.height + margin.top + margin.bottom);
-
+    Size desireSize = this->_textSize;
     if (availableSize.width < desireSize.width) {
 
         if (this->TextTrimming.Get() != sw::TextTrimming::None) {
@@ -5636,17 +5695,15 @@ void sw::Label::Measure(const Size &availableSize)
             SelectObject(hdc, this->GetFontHandle());
 
             std::wstring &text = this->GetText();
-            RECT rect{0, 0, Utils::Max(0, Dip::DipToPxX(availableSize.width - margin.left - margin.right)), 0};
+            RECT rect{0, 0, Utils::Max(0, Dip::DipToPxX(availableSize.width)), 0};
             DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT | DT_WORDBREAK);
 
             desireSize.width  = availableSize.width;
-            desireSize.height = Dip::PxToDipY(rect.bottom - rect.top) + margin.top + margin.bottom;
-
+            desireSize.height = Dip::PxToDipY(rect.bottom - rect.top);
             ReleaseDC(hwnd, hdc);
         }
     }
-
-    this->SetDesireSize(desireSize);
+    return desireSize;
 }
 
 // DockLayout.cpp
@@ -5687,7 +5744,7 @@ bool sw::DockLayoutTag::operator!=(uint64_t value) const
     return this->_value != value;
 }
 
-void sw::DockLayout::MeasureOverride(Size &availableSize)
+sw::Size sw::DockLayout::MeasureOverride(const Size &availableSize)
 {
     Size restSize = availableSize;
     Size desireSize;
@@ -5739,10 +5796,10 @@ void sw::DockLayout::MeasureOverride(Size &availableSize)
         }
     }
 
-    this->SetDesireSize(desireSize);
+    return desireSize;
 }
 
-void sw::DockLayout::ArrangeOverride(Size &finalSize)
+void sw::DockLayout::ArrangeOverride(const Size &finalSize)
 {
     Rect restArea(0, 0, finalSize.width, finalSize.height);
 
@@ -5845,7 +5902,7 @@ sw::WrapPanel::WrapPanel()
           // set
           [this](const sw::Orientation &value) {
               this->_wrapLayout.orientation = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           })
 {
     this->_wrapLayout.Associate(this);
@@ -5884,7 +5941,7 @@ sw::CanvasLayoutTag::operator uint64_t() const
     return result;
 }
 
-void sw::CanvasLayout::MeasureOverride(Size &availableSize)
+sw::Size sw::CanvasLayout::MeasureOverride(const Size &availableSize)
 {
     Size desireSize{};
     Size measureSize{INFINITY, INFINITY};
@@ -5900,10 +5957,10 @@ void sw::CanvasLayout::MeasureOverride(Size &availableSize)
         desireSize.height    = Utils::Max(tag.top + childDesireSize.height, desireSize.height);
     }
 
-    this->SetDesireSize(desireSize);
+    return desireSize;
 }
 
-void sw::CanvasLayout::ArrangeOverride(Size &finalSize)
+void sw::CanvasLayout::ArrangeOverride(const Size &finalSize)
 {
     int childCount = this->GetChildLayoutCount();
     for (int i = 0; i < childCount; ++i) {
@@ -6045,8 +6102,7 @@ sw::Layer::Layer()
           [this](const bool &value) {
               if (this->_autoSize != value) {
                   this->_autoSize = value;
-                  if (!this->IsRootElement())
-                      this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           }),
 
@@ -6172,7 +6228,8 @@ sw::Layer::~Layer()
 
 sw::LayoutHost *sw::Layer::_GetLayout()
 {
-    return this->_customLayout != nullptr ? this->_customLayout : this->GetDefaultLayout();
+    auto layout = (this->_customLayout != nullptr) ? this->_customLayout : this->GetDefaultLayout();
+    return (layout != nullptr && layout->IsAssociated(this)) ? layout : nullptr;
 }
 
 void sw::Layer::_MeasureAndArrangeWithoutLayout()
@@ -6190,22 +6247,16 @@ void sw::Layer::_MeasureAndArrangeWithoutLayout()
         Size desireSize      = item.GetDesireSize();
         sw::Rect itemRect    = item.Rect;
         Thickness itemMargin = item.Margin;
-        item.Arrange(sw::Rect(itemRect.left - itemMargin.left, itemRect.top - itemMargin.top, desireSize.width, desireSize.height));
+        item.Arrange(sw::Rect{itemRect.left - itemMargin.left, itemRect.top - itemMargin.top, desireSize.width, desireSize.height});
     }
 }
 
 void sw::Layer::_MeasureAndArrangeWithoutResize()
 {
     LayoutHost *layout  = this->_GetLayout();
-    sw::Size desireSize = this->GetDesireSize();
-    sw::Rect clientRect = this->ClientRect;
-
-    // measure
-    layout->Measure(clientRect.GetSize());
-    this->SetDesireSize(desireSize); // 恢复DesireSize
-
-    // arrange
-    layout->Arrange(clientRect);
+    sw::Size clientSize = this->ClientRect->GetSize();
+    layout->MeasureOverride(clientSize);
+    layout->ArrangeOverride(clientSize);
 }
 
 void sw::Layer::UpdateLayout()
@@ -6327,38 +6378,21 @@ bool sw::Layer::OnHorizontalScroll(int event, int pos)
     return true;
 }
 
-void sw::Layer::Measure(const Size &availableSize)
+sw::Size sw::Layer::MeasureOverride(const Size &availableSize)
 {
     LayoutHost *layout = this->_GetLayout();
 
     // 未设置布局时无法使用自动尺寸
     // 若未使用自动尺寸，则按照普通元素measure
     if (layout == nullptr || !this->_autoSize) {
-        this->UIElement::Measure(availableSize);
-        return;
+        return this->UIElement::MeasureOverride(availableSize);
     }
 
-    Size measureSize    = availableSize;
-    Thickness margin    = this->Margin;
-    sw::Rect windowRect = this->Rect;
-    sw::Rect clientRect = this->ClientRect;
-
-    // 考虑边框
-    measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
-    measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
-
-    layout->Measure(measureSize);
-    Size desireSize = this->GetDesireSize();
-
-    desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
-    desireSize.height += (windowRect.height - clientRect.height) + margin.top + margin.bottom;
-    this->SetDesireSize(desireSize);
+    return layout->MeasureOverride(availableSize);
 }
 
-void sw::Layer::Arrange(const sw::Rect &finalPosition)
+void sw::Layer::ArrangeOverride(const Size &finalSize)
 {
-    this->UIElement::Arrange(finalPosition);
-
     LayoutHost *layout = this->_GetLayout();
 
     if (layout == nullptr) {
@@ -6369,7 +6403,7 @@ void sw::Layer::Arrange(const sw::Rect &finalPosition)
         this->_MeasureAndArrangeWithoutResize();
     } else {
         // 已设置布局方式且AutoSize为true，此时子元素已Measure，调用Arrange即可
-        layout->Arrange(this->ClientRect);
+        layout->ArrangeOverride(finalSize);
     }
 
     this->UpdateScrollRange();
@@ -6728,7 +6762,7 @@ sw::FillRemainGridColumn::FillRemainGridColumn(double proportion)
 {
 }
 
-void sw::GridLayout::MeasureOverride(Size &availableSize)
+sw::Size sw::GridLayout::MeasureOverride(const Size &availableSize)
 {
     Size desireSize{};
     this->_UpdateInternalData();
@@ -6762,8 +6796,7 @@ void sw::GridLayout::MeasureOverride(Size &availableSize)
             desireSize.width = Utils::Max(availableSize.width, desireSize.width);
         if (!heightSizeToContent && hasFillRemainRows)
             desireSize.height = Utils::Max(availableSize.height, desireSize.height);
-        this->SetDesireSize(desireSize);
-        return;
+        return desireSize;
     }
 
     // Measure列
@@ -7105,10 +7138,10 @@ void sw::GridLayout::MeasureOverride(Size &availableSize)
         desireSize.width += colInfo.size;
     for (_RowInfo &rowInfo : this->_internalData.rowsInfo)
         desireSize.height += rowInfo.size;
-    this->SetDesireSize(desireSize);
+    return desireSize;
 }
 
-void sw::GridLayout::ArrangeOverride(Size &finalSize)
+void sw::GridLayout::ArrangeOverride(const Size &finalSize)
 {
     int childCount = (int)this->_internalData.childrenInfo.size();
     if (childCount == 0) return;
@@ -7381,14 +7414,14 @@ sw::ProgressBar::ProgressBar()
 
 // StackLayout.cpp
 
-void sw::StackLayout::MeasureOverride(Size &availableSize)
+sw::Size sw::StackLayout::MeasureOverride(const Size &availableSize)
 {
-    this->orientation == Orientation::Horizontal
-        ? this->StackLayoutH::MeasureOverride(availableSize)
-        : this->StackLayoutV::MeasureOverride(availableSize);
+    return this->orientation == Orientation::Horizontal
+               ? this->StackLayoutH::MeasureOverride(availableSize)
+               : this->StackLayoutV::MeasureOverride(availableSize);
 }
 
-void sw::StackLayout::ArrangeOverride(Size &finalSize)
+void sw::StackLayout::ArrangeOverride(const Size &finalSize)
 {
     this->orientation == Orientation::Horizontal
         ? this->StackLayoutH::ArrangeOverride(finalSize)
@@ -8084,7 +8117,7 @@ sw::BmpBox::BmpBox()
               if (this->_sizeMode != value) {
                   this->_sizeMode = value;
                   this->Redraw();
-                  this->NotifyLayoutUpdated();
+                  this->InvalidateMeasure();
               }
           })
 {
@@ -8207,18 +8240,11 @@ bool sw::BmpBox::OnSize(Size newClientSize)
     return this->StaticControl::OnSize(newClientSize);
 }
 
-void sw::BmpBox::Measure(const Size &availableSize)
+sw::Size sw::BmpBox::MeasureOverride(const Size &availableSize)
 {
-    if (this->_sizeMode != BmpBoxSizeMode::AutoSize) {
-        this->StaticControl::Measure(availableSize);
-        return;
-    }
-
-    Thickness margin = this->Margin;
-
-    this->SetDesireSize(sw::Size{
-        Dip::PxToDipX(this->_bmpSize.cx) + margin.left + margin.right,
-        Dip::PxToDipY(this->_bmpSize.cy) + margin.top + margin.bottom});
+    return this->_sizeMode == BmpBoxSizeMode::AutoSize
+               ? static_cast<Size>(this->_bmpSize)
+               : this->StaticControl::MeasureOverride(availableSize);
 }
 
 void sw::BmpBox::_UpdateBmpSize()
@@ -8238,7 +8264,7 @@ void sw::BmpBox::_SetBmp(HBITMAP hBitmap)
     this->Redraw();
 
     if (this->_sizeMode == BmpBoxSizeMode::AutoSize) {
-        this->NotifyLayoutUpdated();
+        this->InvalidateMeasure();
     }
 
     if (hOldBitmap != NULL) {
@@ -8266,39 +8292,39 @@ sw::Grid::Grid()
 void sw::Grid::AddRow(const GridRow &row)
 {
     this->_gridLayout.rows.Append(row);
-    this->NotifyLayoutUpdated();
+    this->InvalidateMeasure();
 }
 
 void sw::Grid::SetRows(std::initializer_list<GridRow> rows)
 {
     List<GridRow> rowsList = rows;
     this->_gridLayout.rows = rowsList;
-    this->NotifyLayoutUpdated();
+    this->InvalidateMeasure();
 }
 
 void sw::Grid::AddColumn(const GridColumn &col)
 {
     this->_gridLayout.columns.Append(col);
-    this->NotifyLayoutUpdated();
+    this->InvalidateMeasure();
 }
 
 void sw::Grid::SetColumns(std::initializer_list<GridColumn> cols)
 {
     List<GridColumn> colsList = cols;
     this->_gridLayout.columns = colsList;
-    this->NotifyLayoutUpdated();
+    this->InvalidateMeasure();
 }
 
 void sw::Grid::ClearRows()
 {
     this->_gridLayout.rows.Clear();
-    this->NotifyLayoutUpdated();
+    this->InvalidateMeasure();
 }
 
 void sw::Grid::ClearColumns()
 {
     this->_gridLayout.columns.Clear();
-    this->NotifyLayoutUpdated();
+    this->InvalidateMeasure();
 }
 
 sw::GridLayoutTag sw::Grid::GetGridLayoutTag(UIElement &element)
@@ -9538,14 +9564,14 @@ sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
 
 // WrapLayout.cpp
 
-void sw::WrapLayout::MeasureOverride(Size &availableSize)
+sw::Size sw::WrapLayout::MeasureOverride(const Size &availableSize)
 {
-    this->orientation == Orientation::Horizontal
-        ? this->WrapLayoutH::MeasureOverride(availableSize)
-        : this->WrapLayoutV::MeasureOverride(availableSize);
+    return this->orientation == Orientation::Horizontal
+               ? this->WrapLayoutH::MeasureOverride(availableSize)
+               : this->WrapLayoutV::MeasureOverride(availableSize);
 }
 
-void sw::WrapLayout::ArrangeOverride(Size &finalSize)
+void sw::WrapLayout::ArrangeOverride(const Size &finalSize)
 {
     this->orientation == Orientation::Horizontal
         ? this->WrapLayoutH::ArrangeOverride(finalSize)
@@ -9559,9 +9585,11 @@ void sw::LayoutHost::Associate(ILayout *obj)
     this->_associatedObj = obj;
 }
 
-uint64_t sw::LayoutHost::GetLayoutTag()
+bool sw::LayoutHost::IsAssociated(ILayout *obj)
 {
-    return this->_associatedObj->GetLayoutTag();
+    return obj == nullptr
+               ? (this->_associatedObj != nullptr)
+               : (this->_associatedObj == obj);
 }
 
 int sw::LayoutHost::GetChildLayoutCount()
@@ -9572,28 +9600,6 @@ int sw::LayoutHost::GetChildLayoutCount()
 sw::ILayout &sw::LayoutHost::GetChildLayoutAt(int index)
 {
     return this->_associatedObj->GetChildLayoutAt(index);
-}
-
-sw::Size sw::LayoutHost::GetDesireSize()
-{
-    return this->_associatedObj->GetDesireSize();
-}
-
-void sw::LayoutHost::SetDesireSize(const Size &size)
-{
-    this->_associatedObj->SetDesireSize(size);
-}
-
-void sw::LayoutHost::Measure(const Size &availableSize)
-{
-    Size size = availableSize;
-    this->MeasureOverride(size);
-}
-
-void sw::LayoutHost::Arrange(const Rect &finalPosition)
-{
-    Size size(finalPosition.width, finalPosition.height);
-    this->ArrangeOverride(size);
 }
 
 // DateTimePicker.cpp
@@ -9727,7 +9733,7 @@ sw::StackPanel::StackPanel()
           // set
           [this](const sw::Orientation &value) {
               this->_stackLayout.orientation = value;
-              this->NotifyLayoutUpdated();
+              this->InvalidateMeasure();
           })
 {
     this->_stackLayout.Associate(this);
@@ -9742,7 +9748,7 @@ sw::LayoutHost *sw::StackPanel::GetDefaultLayout()
 
 // WrapLayoutV.cpp
 
-void sw::WrapLayoutV::MeasureOverride(Size &availableSize)
+sw::Size sw::WrapLayoutV::MeasureOverride(const Size &availableSize)
 {
     Size size;
     int count = this->GetChildLayoutCount();
@@ -9779,10 +9785,10 @@ void sw::WrapLayoutV::MeasureOverride(Size &availableSize)
         size.width = left + colWidth;
     }
 
-    this->SetDesireSize(size);
+    return size;
 }
 
-void sw::WrapLayoutV::ArrangeOverride(Size &finalSize)
+void sw::WrapLayoutV::ArrangeOverride(const Size &finalSize)
 {
     double left      = 0;
     double colHeight = 0;
@@ -10096,7 +10102,7 @@ void sw::ImageList::_DestroyIfNotWrap()
 
 // UniformGridLayout.cpp
 
-void sw::UniformGridLayout::MeasureOverride(Size &availableSize)
+sw::Size sw::UniformGridLayout::MeasureOverride(const Size &availableSize)
 {
     int rowCount = Utils::Max(1, this->rows);
     int colCount = Utils::Max(1, this->columns);
@@ -10115,12 +10121,12 @@ void sw::UniformGridLayout::MeasureOverride(Size &availableSize)
         itemMaxDesireHeight = Utils::Max(itemDesireSize.height, itemMaxDesireHeight);
     }
 
-    this->SetDesireSize(Size(
+    return Size{
         std::isinf(availableSize.width) ? (itemMaxDesireWidth * colCount) : (availableSize.width),
-        std::isinf(availableSize.height) ? (itemMaxDesireHeight * rowCount) : (availableSize.height)));
+        std::isinf(availableSize.height) ? (itemMaxDesireHeight * rowCount) : (availableSize.height)};
 }
 
-void sw::UniformGridLayout::ArrangeOverride(Size &finalSize)
+void sw::UniformGridLayout::ArrangeOverride(const Size &finalSize)
 {
     int rowCount = Utils::Max(1, this->rows);
     int colCount = Utils::Max(1, this->columns);
@@ -10141,7 +10147,7 @@ void sw::UniformGridLayout::ArrangeOverride(Size &finalSize)
         }
 
         ILayout &item = this->GetChildLayoutAt(i);
-        item.Arrange(Rect(arrangeCol * arrangeWidth, arrangeRow * arrangeHeight, arrangeWidth, arrangeHeight));
+        item.Arrange(Rect{arrangeCol * arrangeWidth, arrangeRow * arrangeHeight, arrangeWidth, arrangeHeight});
     }
 }
 
@@ -10153,6 +10159,16 @@ sw::PanelBase::PanelBase()
 
 sw::PanelBase::~PanelBase()
 {
+}
+
+sw::Size sw::PanelBase::MeasureOverride(const Size &availableSize)
+{
+    return this->Layer::MeasureOverride(availableSize);
+}
+
+void sw::PanelBase::ArrangeOverride(const Size &finalSize)
+{
+    this->Layer::ArrangeOverride(finalSize);
 }
 
 bool sw::PanelBase::OnVerticalScroll(int event, int pos)
@@ -10188,16 +10204,6 @@ void sw::PanelBase::OnEndPaint()
 sw::Control *sw::PanelBase::ToControl()
 {
     return this->Control::ToControl();
-}
-
-void sw::PanelBase::Measure(const Size &availableSize)
-{
-    this->Layer::Measure(availableSize);
-}
-
-void sw::PanelBase::Arrange(const sw::Rect &finalPosition)
-{
-    this->Layer::Arrange(finalPosition);
 }
 
 // Screen.cpp
@@ -10345,7 +10351,7 @@ void sw::MenuItem::SetTag(uint64_t tag)
 
 // StackLayoutH.cpp
 
-void sw::StackLayoutH::MeasureOverride(Size &availableSize)
+sw::Size sw::StackLayoutH::MeasureOverride(const Size &availableSize)
 {
     Size desireSize;
     int childCount = this->GetChildLayoutCount();
@@ -10359,19 +10365,18 @@ void sw::StackLayoutH::MeasureOverride(Size &availableSize)
         desireSize.height = Utils::Max(desireSize.height, itemDesireSize.height);
     }
 
-    this->SetDesireSize(desireSize);
+    return desireSize;
 }
 
-void sw::StackLayoutH::ArrangeOverride(Size &finalSize)
+void sw::StackLayoutH::ArrangeOverride(const Size &finalSize)
 {
     double width   = 0;
     int childCount = this->GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
-        ILayout &item = this->GetChildLayoutAt(i);
-
+        ILayout &item       = this->GetChildLayoutAt(i);
         Size itemDesireSize = item.GetDesireSize();
-        item.Arrange(Rect(width, 0, itemDesireSize.width, finalSize.height));
+        item.Arrange(Rect{width, 0, itemDesireSize.width, finalSize.height});
         width += itemDesireSize.width;
     }
 }
