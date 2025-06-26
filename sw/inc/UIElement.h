@@ -24,41 +24,41 @@ namespace sw
      */
     enum class LayoutUpdateCondition : uint32_t {
         /**
-         * @brief 表示不需要更新布局
-         * @note  一旦设置了该标记，NotifyLayoutUpdated函数将不会触发WM_UpdateLayout消息
-         * @note  框架内部使用该标记来抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
-         */
-        Supressed = 1,
-
-        /**
          * @brief 尺寸改变时更新布局
          */
-        SizeChanged = 2,
+        SizeChanged = 1 << 0,
 
         /**
          * @brief 位置改变时更新布局
          */
-        PositionChanged = 4,
+        PositionChanged = 1 << 1,
 
         /**
          * @brief 添加子元素时更新布局
          */
-        ChildAdded = 8,
+        ChildAdded = 1 << 2,
 
         /**
          * @brief 移除子元素时更新布局
          */
-        ChildRemoved = 16,
+        ChildRemoved = 1 << 3,
 
         /**
          * @brief 文本改变时更新布局
          */
-        TextChanged = 32,
+        TextChanged = 1 << 4,
 
         /**
          * @brief 字体改变时更新布局
          */
-        FontChanged = 64,
+        FontChanged = 1 << 5,
+
+        /**
+         * @brief 框架内部使用，表示不需要更新布局
+         * @note  一旦设置了该标记，NotifyLayoutUpdated函数将不会触发WM_UpdateLayout消息
+         * @note  该标记用于内部抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
+         */
+        Supressed = 1 << 30,
     };
 
     /**
