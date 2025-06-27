@@ -105,7 +105,6 @@ sw::UIElement::UIElement()
               if (this->_float != value) {
                   this->_float = value;
                   this->UpdateSiblingsZOrder();
-                  this->InvalidateMeasure();
               }
           }),
 
@@ -778,7 +777,7 @@ double sw::UIElement::GetChildBottommost(bool update)
     return this->_childBottommost;
 }
 
-void sw::UIElement::UpdateChildrenZOrder()
+void sw::UIElement::UpdateChildrenZOrder(bool invalidateMeasure)
 {
     int childCount = (int)this->_children.size();
     if (childCount < 2) return;
@@ -801,12 +800,16 @@ void sw::UIElement::UpdateChildrenZOrder()
     }
 
     EndDeferWindowPos(hdwp);
+
+    if (invalidateMeasure) {
+        this->InvalidateMeasure();
+    }
 }
 
-void sw::UIElement::UpdateSiblingsZOrder()
+void sw::UIElement::UpdateSiblingsZOrder(bool invalidateMeasure)
 {
     if (this->_parent != nullptr) {
-        this->_parent->UpdateChildrenZOrder();
+        this->_parent->UpdateChildrenZOrder(invalidateMeasure);
     }
 }
 

@@ -845,12 +845,12 @@ namespace sw
         /**
          * @brief 更新子元素的Z轴位置
          */
-        void UpdateChildrenZOrder();
+        void UpdateChildrenZOrder(bool invalidateMeasure = true);
 
         /**
          * @brief 更新兄弟元素的Z轴位置
          */
-        void UpdateSiblingsZOrder();
+        void UpdateSiblingsZOrder(bool invalidateMeasure = true);
 
         /**
          * @brief 设置下一个TabStop属性为true的元素为焦点元素
