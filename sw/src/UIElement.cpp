@@ -595,6 +595,11 @@ void sw::UIElement::Measure(const Size &availableSize)
 
 void sw::UIElement::Arrange(const sw::Rect &finalPosition)
 {
+    // 为什么在Arrange阶段清除MeasureInvalidated标记：
+    // 一些复杂的布局可能会在测量阶段多次调用Measure函数，
+    // 比如Grid会调用两次Measure，若在测量阶段清除该标记，
+    // 则在第二次调用时会认为布局没有失效，导致测量被跳过。
+    this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::MeasureInvalidated;
     this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
 
     Size &desireSize  = this->_desireSize;
@@ -652,8 +657,8 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     rect.width  = Utils::Max(0.0, rect.width);
     rect.height = Utils::Max(0.0, rect.height);
 
-    if (_parent != nullptr && _parent->_hdwpChildren != NULL) {
-        DeferWindowPos(_parent->_hdwpChildren, this->Handle, NULL,
+    if (this->_parent && this->_parent->_hdwpChildren != NULL) {
+        DeferWindowPos(this->_parent->_hdwpChildren, this->Handle, NULL,
                        Dip::DipToPxX(rect.left), Dip::DipToPxY(rect.top),
                        Dip::DipToPxX(rect.width), Dip::DipToPxY(rect.height),
                        SWP_NOACTIVATE | SWP_NOZORDER);
@@ -664,7 +669,7 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
                      SWP_NOACTIVATE | SWP_NOZORDER);
     }
 
-    if (!this->_children.empty()) {
+    if (this->_children.size() >= 3) {
         this->_hdwpChildren = BeginDeferWindowPos((int)this->_children.size());
     }
 
@@ -675,11 +680,6 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
         this->_hdwpChildren = NULL;
     }
 
-    // 为什么需要在Arrange时再清除MeasureInvalidated标记：
-    // 一些复杂的布局可能会在Measure阶段多次调用Measure，
-    // 如Grid会调用两次Measure，若在Measure阶段清除该标记，
-    // 则在第二次调用时会认为Measure没有失效，导致无法更新布局
-    this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::MeasureInvalidated;
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
 }
 
