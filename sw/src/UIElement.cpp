@@ -528,7 +528,7 @@ void sw::UIElement::InvalidateMeasure()
     UIElement *element = this;
     do {
         root = element;
-        element->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
+        element->_SetMeasureInvalidated();
         element = element->_parent;
     } while (element != nullptr);
 
@@ -574,8 +574,7 @@ void sw::UIElement::Measure(const Size &availableSize)
 {
     if (!this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::MeasureInvalidated) &&
         this->_lastMeasureAvailableSize == availableSize) {
-        // 如果Measure没有失效且可用尺寸没有变化，则不需要重新测量
-        return;
+        return; // 若布局未失效且可用尺寸没有变化，则无需重新测量
     }
 
     Size measureSize    = availableSize;
@@ -895,7 +894,7 @@ bool sw::UIElement::SetParent(WndBase *parent)
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
     this->_parent = newParent ? newParent->ToUIElement() : nullptr;
-    this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
+    this->_SetMeasureInvalidated();
 }
 
 bool sw::UIElement::OnClose()
@@ -1152,6 +1151,11 @@ bool sw::UIElement::_SetVertAlignment(sw::VerticalAlignment value)
     }
 
     return true;
+}
+
+void sw::UIElement::_SetMeasureInvalidated()
+{
+    this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
 }
 
 sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element, bool searchChildren)

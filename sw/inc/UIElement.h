@@ -1105,6 +1105,11 @@ namespace sw
         bool _SetVertAlignment(sw::VerticalAlignment value);
 
         /**
+         * @brief 添加MeasureInvalidated标记
+         */
+        void _SetMeasureInvalidated();
+
+        /**
          * @brief 循环获取界面树上的下一个节点
          */
         static UIElement *_GetNextElement(UIElement *element, bool searchChildren = true);
