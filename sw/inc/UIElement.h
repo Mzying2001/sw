@@ -122,14 +122,14 @@ namespace sw
         UIElement *_parent = nullptr;
 
         /**
-         * @brief 所有子窗口
+         * @brief 所有子元素
          */
         std::vector<UIElement *> _children{};
 
         /**
-         * @brief 参与布局的子窗口，在调用GetChildLayoutCount后会更新，不可见且CollapseWhenHide为true的控件会被忽略
+         * @brief 参与布局的子元素，即所有非collapsed状态的子元素
          */
-        std::vector<UIElement *> _childrenNotCollapsed{};
+        std::vector<UIElement *> _layoutVisibleChildren{};
 
         /**
          * @brief 记录路由事件的map
@@ -760,17 +760,19 @@ namespace sw
         virtual uint64_t GetLayoutTag() override;
 
         /**
-         * @brief 获取参与布局的子控件数量
+         * @brief 获取参与布局的子元素数量
+         * @note  参与布局的子元素：即非collapsed状态的元素
          */
         virtual int GetChildLayoutCount() override;
 
         /**
-         * @brief 获取对应索引处的子控件，使用此函数前必须先调用GetChildLayoutCount
+         * @brief 获取对应索引处的子元素，只索引参与布局的子元素
+         * @note  参与布局的子元素：即非collapsed状态的元素
          */
         virtual ILayout &GetChildLayoutAt(int index) override;
 
         /**
-         * @brief 获取控件所需尺寸
+         * @brief 获取当前元素所需尺寸
          */
         virtual Size GetDesireSize() override;
 
@@ -845,12 +847,12 @@ namespace sw
         /**
          * @brief 更新子元素的Z轴位置
          */
-        void UpdateChildrenZOrder();
+        void UpdateChildrenZOrder(bool invalidateMeasure = true);
 
         /**
          * @brief 更新兄弟元素的Z轴位置
          */
-        void UpdateSiblingsZOrder();
+        void UpdateSiblingsZOrder(bool invalidateMeasure = true);
 
         /**
          * @brief 设置下一个TabStop属性为true的元素为焦点元素
@@ -1103,6 +1105,16 @@ namespace sw
          * @return      值是否发生改变
          */
         bool _SetVertAlignment(sw::VerticalAlignment value);
+
+        /**
+         * @brief 添加MeasureInvalidated标记
+         */
+        void _SetMeasureInvalidated();
+
+        /**
+         * @brief 更新_layoutVisibleChildren的内容
+         */
+        void _UpdateLayoutVisibleChildren();
 
         /**
          * @brief 循环获取界面树上的下一个节点

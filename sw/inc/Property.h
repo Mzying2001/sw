@@ -135,6 +135,24 @@ namespace sw
     };
 
     /**
+     * @brief 修复_HasArrowOperator模板在VS2015环境下的兼容性问题
+     * @note  VS2015似乎对decltype(void(...))支持不完整，用其判断operator->会导致编译错误，
+     * @note  这个模板通过重载决议来判断类型是否有operator->，以兼容VS2015。
+     */
+    template <typename T>
+    struct _HasArrowOperatorVs2015Fix {
+    private:
+        template <typename U>
+        static auto test(int) -> decltype(std::declval<U>().operator->(), std::true_type{});
+
+        template <typename>
+        static auto test(...) -> std::false_type;
+
+    public:
+        static constexpr bool value = decltype(test<T>(0))::value;
+    };
+
+    /**
      * @brief 判断类型是否有operator->的辅助模板
      */
     template <typename T, typename = void>
@@ -146,7 +164,8 @@ namespace sw
      */
     template <typename T>
     struct _HasArrowOperator<
-        T, typename std::enable_if<true, decltype(void(std::declval<T>().operator->()))>::type> : std::true_type {
+        // T, typename std::enable_if<true, decltype(void(std::declval<T>().operator->()))>::type> : std::true_type {
+        T, typename std::enable_if<_HasArrowOperatorVs2015Fix<T>::value>::type> : std::true_type {
         using type = decltype(std::declval<T>().operator->());
     };
 
