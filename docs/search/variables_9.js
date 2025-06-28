@@ -15,8 +15,9 @@ var searchData=
   ['iseditable_12',['IsEditable',['../classsw_1_1ComboBox.html#aa495a8136f05548a3e26bdf3e0612a8f',1,'sw::ComboBox']]],
   ['isinhierarchy_13',['IsInHierarchy',['../classsw_1_1Control.html#a703a0794e6d8aeb786b1f53c9e987e83',1,'sw::Control']]],
   ['islayered_14',['IsLayered',['../classsw_1_1Window.html#ab642e68dc2716a7496322be4423f82f4',1,'sw::Window']]],
-  ['ismodal_15',['IsModal',['../classsw_1_1Window.html#a709b4ecc32fb2dccb7c12dd24078aed8',1,'sw::Window']]],
-  ['isplaying_16',['IsPlaying',['../classsw_1_1Animation.html#a2b255ea3d4b90630726ecb47b1b08eb1',1,'sw::Animation']]],
-  ['italic_17',['italic',['../classsw_1_1Font.html#aa7ea90de17d56a063c395cf015baf11f',1,'sw::Font']]],
-  ['itemscount_18',['ItemsCount',['../classsw_1_1ItemsControl.html#a765b2e51cb5f439c464abbe031b0db09',1,'sw::ItemsControl']]]
+  ['ismeasurevalid_15',['IsMeasureValid',['../classsw_1_1UIElement.html#a78ccd020a37a7da25b9df8eab6783f35',1,'sw::UIElement']]],
+  ['ismodal_16',['IsModal',['../classsw_1_1Window.html#a709b4ecc32fb2dccb7c12dd24078aed8',1,'sw::Window']]],
+  ['isplaying_17',['IsPlaying',['../classsw_1_1Animation.html#a2b255ea3d4b90630726ecb47b1b08eb1',1,'sw::Animation']]],
+  ['italic_18',['italic',['../classsw_1_1Font.html#aa7ea90de17d56a063c395cf015baf11f',1,'sw::Font']]],
+  ['itemscount_19',['ItemsCount',['../classsw_1_1ItemsControl.html#a765b2e51cb5f439c464abbe031b0db09',1,'sw::ItemsControl']]]
 ];

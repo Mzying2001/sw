@@ -106,20 +106,27 @@ $(document).ready(function(){initNavTree('classsw_1_1ILayout.html',''); initResi
  <div class="center">
   <img src="classsw_1_1ILayout.png" usemap="#sw::ILayout_map" alt=""/>
   <map id="sw::ILayout_map" name="sw::ILayout_map">
-<area href="classsw_1_1LayoutHost.html" title="用于托管元素的布局方式的对象类型，是所有布局方式类型的基类" alt="sw::LayoutHost" shape="rect" coords="0,56,138,80"/>
-<area href="classsw_1_1UIElement.html" title="表示界面中的元素" alt="sw::UIElement" shape="rect" coords="296,56,434,80"/>
-<area href="classsw_1_1CanvasLayout.html" title="绝对位置布局方式" alt="sw::CanvasLayout" shape="rect" coords="148,112,286,136"/>
-<area href="classsw_1_1DockLayout.html" title="停靠布局" alt="sw::DockLayout" shape="rect" coords="148,168,286,192"/>
-<area href="classsw_1_1FillLayout.html" title="一种将全部元素都铺满的布局，一般用于在只有一个子元素的时候将该元素铺满整个可用区域" alt="sw::FillLayout" shape="rect" coords="148,224,286,248"/>
-<area href="classsw_1_1GridLayout.html" title="网格布局方式" alt="sw::GridLayout" shape="rect" coords="148,280,286,304"/>
-<area href="classsw_1_1StackLayoutH.html" title="横向堆叠布局" alt="sw::StackLayoutH" shape="rect" coords="148,336,286,360"/>
-<area href="classsw_1_1StackLayoutV.html" title="纵向堆叠布局" alt="sw::StackLayoutV" shape="rect" coords="148,392,286,416"/>
-<area href="classsw_1_1UniformGridLayout.html" title="均匀大小网格布局" alt="sw::UniformGridLayout" shape="rect" coords="148,448,286,472"/>
-<area href="classsw_1_1WrapLayoutH.html" title="横向自动换行布局" alt="sw::WrapLayoutH" shape="rect" coords="148,504,286,528"/>
-<area href="classsw_1_1WrapLayoutV.html" title="纵向自动换行布局" alt="sw::WrapLayoutV" shape="rect" coords="148,560,286,584"/>
-<area href="classsw_1_1Control.html" title="控件" alt="sw::Control" shape="rect" coords="444,112,582,136"/>
-<area href="classsw_1_1HwndWrapper.html" title="将Win32 window包装为SimpleWindow对象" alt="sw::HwndWrapper" shape="rect" coords="444,168,582,192"/>
-<area href="classsw_1_1Layer.html" title="表示可以设置布局方式的元素类型，如窗口、面板等" alt="sw::Layer" shape="rect" coords="444,224,582,248"/>
+<area href="classsw_1_1UIElement.html" title="表示界面中的元素" alt="sw::UIElement" shape="rect" coords="171,56,332,80"/>
+<area href="classsw_1_1Control.html" title="控件" alt="sw::Control" shape="rect" coords="0,112,161,136"/>
+<area href="classsw_1_1HwndWrapper.html" title="将Win32 window包装为SimpleWindow对象" alt="sw::HwndWrapper" shape="rect" coords="171,112,332,136"/>
+<area href="classsw_1_1Layer.html" title="表示可以设置布局方式的元素类型，如窗口、面板等" alt="sw::Layer" shape="rect" coords="342,112,503,136"/>
+<area href="classsw_1_1ItemsControl.html" alt="sw::ItemsControl&lt; StrList &gt;" shape="rect" coords="171,168,332,192"/>
+<area href="classsw_1_1Animation.html" title="动画控件，仅支持无音频的avi动画" alt="sw::Animation" shape="rect" coords="171,224,332,248"/>
+<area href="classsw_1_1ButtonBase.html" title="窗口类名为BUTTON的控件类型的基类" alt="sw::ButtonBase" shape="rect" coords="171,280,332,304"/>
+<area href="classsw_1_1DateTimePicker.html" title="日期和时间选取器" alt="sw::DateTimePicker" shape="rect" coords="171,336,332,360"/>
+<area href="classsw_1_1HotKeyControl.html" title="热键框" alt="sw::HotKeyControl" shape="rect" coords="171,392,332,416"/>
+<area href="classsw_1_1ItemsControl.html" title="表示可用于呈现一组项的控件" alt="sw::ItemsControl&lt; TItem &gt;" shape="rect" coords="171,448,332,472"/>
+<area href="classsw_1_1MonthCalendar.html" title="月历控件" alt="sw::MonthCalendar" shape="rect" coords="171,504,332,528"/>
+<area href="classsw_1_1PanelBase.html" title="面板类型的基类" alt="sw::PanelBase" shape="rect" coords="171,560,332,584"/>
+<area href="classsw_1_1ProgressBar.html" title="进度条控件" alt="sw::ProgressBar" shape="rect" coords="171,616,332,640"/>
+<area href="classsw_1_1Slider.html" title="滑块控件" alt="sw::Slider" shape="rect" coords="171,672,332,696"/>
+<area href="classsw_1_1StaticControl.html" title="静态控件" alt="sw::StaticControl" shape="rect" coords="171,728,332,752"/>
+<area href="classsw_1_1StatusBar.html" title="状态栏" alt="sw::StatusBar" shape="rect" coords="171,784,332,808"/>
+<area href="classsw_1_1SysLink.html" title="包含链接的文本区域" alt="sw::SysLink" shape="rect" coords="171,840,332,864"/>
+<area href="classsw_1_1TabControl.html" title="标签页控件" alt="sw::TabControl" shape="rect" coords="171,896,332,920"/>
+<area href="classsw_1_1TextBoxBase.html" title="窗口类名为EDIT的控件类型的基类" alt="sw::TextBoxBase" shape="rect" coords="171,952,332,976"/>
+<area href="classsw_1_1PanelBase.html" title="面板类型的基类" alt="sw::PanelBase" shape="rect" coords="513,168,674,192"/>
+<area href="classsw_1_1Window.html" title="窗口" alt="sw::Window" shape="rect" coords="513,224,674,248"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -141,9 +148,6 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ILayout</b> ()=de
 <tr class="memitem:a081e12b24d148735bfeeb5cc97b230f1" id="r_a081e12b24d148735bfeeb5cc97b230f1"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1Size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ILayout.html#a081e12b24d148735bfeeb5cc97b230f1">GetDesireSize</a> ()=0</td></tr>
 <tr class="memdesc:a081e12b24d148735bfeeb5cc97b230f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取控件所需尺寸  <br /></td></tr>
 <tr class="separator:a081e12b24d148735bfeeb5cc97b230f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5c5df73b4a3e76840c5d16ab1dfb7fc" id="r_ab5c5df73b4a3e76840c5d16ab1dfb7fc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ILayout.html#ab5c5df73b4a3e76840c5d16ab1dfb7fc">SetDesireSize</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;size)=0</td></tr>
-<tr class="memdesc:ab5c5df73b4a3e76840c5d16ab1dfb7fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置当前控件所需的尺寸  <br /></td></tr>
-<tr class="separator:ab5c5df73b4a3e76840c5d16ab1dfb7fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcdbdecd5f99cdb25b891c7dc3093fdb" id="r_afcdbdecd5f99cdb25b891c7dc3093fdb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ILayout.html#afcdbdecd5f99cdb25b891c7dc3093fdb">Measure</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;availableSize)=0</td></tr>
 <tr class="memdesc:afcdbdecd5f99cdb25b891c7dc3093fdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量控件所需尺寸  <br /></td></tr>
 <tr class="separator:afcdbdecd5f99cdb25b891c7dc3093fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,7 +190,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ILayout</b> ()=de
   </dd>
 </dl>
 
-<p>在 <a class="el" href="classsw_1_1LayoutHost.html#a52f5e12df00e032fd424db409fd73951">sw::LayoutHost</a>, <a class="el" href="classsw_1_1Layer.html#a418f1f936414fd657ad11a0c0f437cdb">sw::Layer</a>, <a class="el" href="classsw_1_1PanelBase.html#ab7630a76728d4d464b0bee1bfdbdca9b">sw::PanelBase</a>, <a class="el" href="classsw_1_1TabControl.html#a2826913f7180e01ec24542dd87ea8676">sw::TabControl</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#ac8088cf88b28c6b4a5f93cd7a66a769e">sw::UIElement</a> 内被实现.</p>
+<p>在 <a class="el" href="classsw_1_1UIElement.html#ac8088cf88b28c6b4a5f93cd7a66a769e">sw::UIElement</a> 内被实现.</p>
 
 </div>
 </div>
@@ -216,7 +220,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ILayout</b> ()=de
 
 <p>获取对应索引处的子控件 </p>
 
-<p>在 <a class="el" href="classsw_1_1LayoutHost.html#abd04747a5d0395d5f95f06185e28b964">sw::LayoutHost</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a3683672f3c2fc8f80e4f808aac78d262">sw::UIElement</a> 内被实现.</p>
+<p>在 <a class="el" href="classsw_1_1UIElement.html#a3683672f3c2fc8f80e4f808aac78d262">sw::UIElement</a> 内被实现.</p>
 
 </div>
 </div>
@@ -245,7 +249,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ILayout</b> ()=de
 
 <p>获取子控件的数量 </p>
 
-<p>在 <a class="el" href="classsw_1_1LayoutHost.html#a0c6c9750b12c5816608d78d72225b872">sw::LayoutHost</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a994aad366bc1f62ef7d53defa9456e64">sw::UIElement</a> 内被实现.</p>
+<p>在 <a class="el" href="classsw_1_1UIElement.html#a994aad366bc1f62ef7d53defa9456e64">sw::UIElement</a> 内被实现.</p>
 
 </div>
 </div>
@@ -274,7 +278,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ILayout</b> ()=de
 
 <p>获取控件所需尺寸 </p>
 
-<p>在 <a class="el" href="classsw_1_1LayoutHost.html#a7099b15d8916a42f58de10d0266e89f6">sw::LayoutHost</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a633ace3fad478f1cc6480fa5512288fb">sw::UIElement</a> 内被实现.</p>
+<p>在 <a class="el" href="classsw_1_1UIElement.html#a633ace3fad478f1cc6480fa5512288fb">sw::UIElement</a> 内被实现.</p>
 
 </div>
 </div>
@@ -303,7 +307,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ILayout</b> ()=de
 
 <p>获取布局标记 </p>
 
-<p>在 <a class="el" href="classsw_1_1LayoutHost.html#ab89962ec32dec364e4e18ea0afe44d52">sw::LayoutHost</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#aa89a8c272d1a9016d2586c6eeab64dce">sw::UIElement</a> 内被实现.</p>
+<p>在 <a class="el" href="classsw_1_1UIElement.html#aa89a8c272d1a9016d2586c6eeab64dce">sw::UIElement</a> 内被实现.</p>
 
 </div>
 </div>
@@ -339,37 +343,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ILayout</b> ()=de
   </dd>
 </dl>
 
-<p>在 <a class="el" href="classsw_1_1BmpBox.html#adf6357c58fba6f846f136bb2956368d9">sw::BmpBox</a>, <a class="el" href="classsw_1_1Label.html#aa7fe8e679f9d35eaf5691403ed5c9a96">sw::Label</a>, <a class="el" href="classsw_1_1Layer.html#a3ac4fcba5970f01d5c944c0376a354c7">sw::Layer</a>, <a class="el" href="classsw_1_1LayoutHost.html#aa520181822f89994362a010237687b3f">sw::LayoutHost</a>, <a class="el" href="classsw_1_1PanelBase.html#a8ac6001fdc5c32131b3d33678bd376b3">sw::PanelBase</a>, <a class="el" href="classsw_1_1SysLink.html#ae5751ea373927d6248ca3bb7cdb65ef3">sw::SysLink</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#aef217f2655c4a746606bf302edc16cf4">sw::UIElement</a> 内被实现.</p>
-
-</div>
-</div>
-<a id="ab5c5df73b4a3e76840c5d16ab1dfb7fc" name="ab5c5df73b4a3e76840c5d16ab1dfb7fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab5c5df73b4a3e76840c5d16ab1dfb7fc">&#9670;&#160;</a></span>SetDesireSize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void sw::ILayout::SetDesireSize </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;&#160;</td>
-          <td class="paramname"><em>size</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>设置当前控件所需的尺寸 </p>
-
-<p>在 <a class="el" href="classsw_1_1LayoutHost.html#a035aefcab7040b1ac1503e4f25501e48">sw::LayoutHost</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a3370e535f462680d66063e45b92807f6">sw::UIElement</a> 内被实现.</p>
+<p>在 <a class="el" href="classsw_1_1UIElement.html#aef217f2655c4a746606bf302edc16cf4">sw::UIElement</a> 内被实现.</p>
 
 </div>
 </div>

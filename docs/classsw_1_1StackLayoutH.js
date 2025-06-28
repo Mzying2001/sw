@@ -1,5 +1,5 @@
 var classsw_1_1StackLayoutH =
 [
-    [ "ArrangeOverride", "classsw_1_1StackLayoutH.html#a1b527c76303aed32cad3f4a13bd991a2", null ],
-    [ "MeasureOverride", "classsw_1_1StackLayoutH.html#ab5ae73207dfc9020a799c3fd1a4d9231", null ]
+    [ "ArrangeOverride", "classsw_1_1StackLayoutH.html#a6791201d22d0d21e59ea387dfbfd4dd1", null ],
+    [ "MeasureOverride", "classsw_1_1StackLayoutH.html#a7b819ee98cdd615a0c181c83db2443fb", null ]
 ];

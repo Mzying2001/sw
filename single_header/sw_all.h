@@ -5211,11 +5211,6 @@ namespace sw
         virtual Size GetDesireSize() = 0;
 
         /**
-         * @brief 设置当前控件所需的尺寸
-         */
-        virtual void SetDesireSize(const Size &size) = 0;
-
-        /**
          * @brief               测量控件所需尺寸
          * @param availableSize 可用的尺寸
          */
@@ -7006,7 +7001,7 @@ namespace sw
     /**
      * @brief 用于托管元素的布局方式的对象类型，是所有布局方式类型的基类
      */
-    class LayoutHost : public ILayout
+    class LayoutHost
     {
     private:
         /**
@@ -7016,58 +7011,45 @@ namespace sw
 
     public:
         /**
+         * @brief 默认虚析构函数
+         */
+        virtual ~LayoutHost() = default;
+
+        /**
          * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
          * @param obj 要关联的对象
          */
         void Associate(ILayout *obj);
 
-    public:
         /**
-         * @brief 获取布局标记
+         * @brief     判断当前LayoutHost是否关联了对象
+         * @param obj 若传入值为nullptr，则判断是否有任何对象关联，否则判断是否关联了指定对象
          */
-        virtual uint64_t GetLayoutTag() override;
+        bool IsAssociated(ILayout *obj = nullptr);
 
         /**
          * @brief 获取关联对象子控件的数量
          */
-        virtual int GetChildLayoutCount() override;
+        int GetChildLayoutCount();
 
         /**
          * @brief 获取关联对象对应索引处的子控件
          */
-        virtual ILayout &GetChildLayoutAt(int index) override;
+        ILayout &GetChildLayoutAt(int index);
 
+    public:
         /**
-         * @brief 获取关联对象所需尺寸
-         */
-        virtual Size GetDesireSize() override;
-
-        /**
-         * @brief 设置关联对象所需的尺寸
-         */
-        virtual void SetDesireSize(const Size &size) override;
-
-        /**
-         * @brief               测量控件所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void Measure(const Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) = 0;
 
         /**
-         * @brief               安排控件位置
-         * @param finalPosition 最终控件所安排的位置
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void Arrange(const Rect &finalPosition) override;
-
-        /**
-         * @brief 重写此函数计算所需尺寸
-         */
-        virtual void MeasureOverride(Size &availableSize) = 0;
-
-        /**
-         * @brief 重写此函数安排控件
-         */
-        virtual void ArrangeOverride(Size &finalSize) = 0;
+        virtual void ArrangeOverride(const Size &finalSize) = 0;
     };
 }
 
@@ -7333,14 +7315,17 @@ namespace sw
         bool lastChildFill = true;
 
         /**
-         * @brief 计算所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void MeasureOverride(Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief 安排控件
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void ArrangeOverride(Size &finalSize) override;
+        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -7356,14 +7341,17 @@ namespace sw
     {
     public:
         /**
-         * @brief 计算所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void MeasureOverride(Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief 安排控件
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void ArrangeOverride(Size &finalSize) override;
+        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -7696,41 +7684,47 @@ namespace sw
      */
     enum class LayoutUpdateCondition : uint32_t {
         /**
-         * @brief 表示不需要更新布局
-         * @note  一旦设置了该标记，NotifyLayoutUpdated函数将不会触发WM_UpdateLayout消息
-         * @note  框架内部使用该标记来抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
-         */
-        Supressed = 1,
-
-        /**
          * @brief 尺寸改变时更新布局
          */
-        SizeChanged = 2,
+        SizeChanged = 1 << 0,
 
         /**
          * @brief 位置改变时更新布局
          */
-        PositionChanged = 4,
+        PositionChanged = 1 << 1,
 
         /**
          * @brief 添加子元素时更新布局
          */
-        ChildAdded = 8,
+        ChildAdded = 1 << 2,
 
         /**
          * @brief 移除子元素时更新布局
          */
-        ChildRemoved = 16,
+        ChildRemoved = 1 << 3,
 
         /**
          * @brief 文本改变时更新布局
          */
-        TextChanged = 32,
+        TextChanged = 1 << 4,
 
         /**
          * @brief 字体改变时更新布局
          */
-        FontChanged = 64,
+        FontChanged = 1 << 5,
+
+        /**
+         * @brief 框架内部使用，表示布局已失效
+         * @note  该标记指示了Measure函数的结果已失效，需要重新调用Measure函数来更新尺寸
+         */
+        MeasureInvalidated = 1 << 29,
+
+        /**
+         * @brief 框架内部使用，表示不需要更新布局
+         * @note  一旦设置了该标记，InvalidateMeasure函数将不会更新状态和触发布局更新
+         * @note  该标记用于抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
+         */
+        Supressed = 1 << 30,
     };
 
     /**
@@ -7877,6 +7871,16 @@ namespace sw
          */
         HCURSOR _hCursor = NULL;
 
+        /**
+         * @brief 上一次Measure函数调用时的可用大小
+         */
+        Size _lastMeasureAvailableSize{};
+
+        /**
+         * @brief 用于存储批量调整子元素位置时调用DeferWindowPos的句柄
+         */
+        HDWP _hdwpChildren = NULL;
+
     public:
         /**
          * @brief 边距
@@ -7959,13 +7963,17 @@ namespace sw
          */
         const Property<sw::LayoutUpdateCondition> LayoutUpdateCondition;
 
-    protected:
+        /**
+         * @brief 当前元素的布局状态是否有效
+         */
+        const ReadOnlyProperty<bool> IsMeasureValid;
+
+    public:
         /**
          * @brief 初始化UIElement
          */
         UIElement();
 
-    public:
         /**
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
          */
@@ -8392,6 +8400,11 @@ namespace sw
         bool IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition condition);
 
         /**
+         * @brief 使元素的布局状态失效，并立即触发布局更新
+         */
+        void InvalidateMeasure();
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;
@@ -8422,19 +8435,14 @@ namespace sw
         virtual Size GetDesireSize() override;
 
         /**
-         * @brief 设置当前控件所需的尺寸
-         */
-        virtual void SetDesireSize(const Size &size) override;
-
-        /**
-         * @brief               测量控件所需尺寸
+         * @brief               测量元素所需尺寸
          * @param availableSize 可用的尺寸
          */
         virtual void Measure(const Size &availableSize) override;
 
         /**
-         * @brief           安排控件位置
-         * @param finalSize 最终控件所安排的位置
+         * @brief           安排元素位置
+         * @param finalSize 最终元素所安排的位置
          */
         virtual void Arrange(const sw::Rect &finalPosition) override;
 
@@ -8446,6 +8454,19 @@ namespace sw
 
     protected:
         /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize);
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize);
+
+        /**
          * @brief           触发路由事件
          * @param eventType 事件类型
          */
@@ -8456,11 +8477,6 @@ namespace sw
          * @param eventArgs 要触发事件的事件参数
          */
         void RaiseRoutedEvent(RoutedEventArgs &eventArgs);
-
-        /**
-         * @brief 通知顶级窗口布局改变
-         */
-        void NotifyLayoutUpdated();
 
         /**
          * @brief 获取Arrange时子元素的水平偏移量
@@ -8777,14 +8793,17 @@ namespace sw
     {
     public:
         /**
-         * @brief 计算所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void MeasureOverride(Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief 安排控件
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void ArrangeOverride(Size &finalSize) override;
+        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -8835,14 +8854,17 @@ namespace sw
     {
     public:
         /**
-         * @brief 计算所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void MeasureOverride(Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief 安排控件
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void ArrangeOverride(Size &finalSize) override;
+        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -8858,14 +8880,17 @@ namespace sw
     {
     public:
         /**
-         * @brief 计算所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void MeasureOverride(Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief 安排控件
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void ArrangeOverride(Size &finalSize) override;
+        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -8881,14 +8906,17 @@ namespace sw
     {
     public:
         /**
-         * @brief 计算所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void MeasureOverride(Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief 安排控件
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void ArrangeOverride(Size &finalSize) override;
+        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -9002,14 +9030,17 @@ namespace sw
         int firstColumn = 0;
 
         /**
-         * @brief 计算所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void MeasureOverride(Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief 安排控件
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void ArrangeOverride(Size &finalSize) override;
+        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -9025,14 +9056,17 @@ namespace sw
     {
     public:
         /**
-         * @brief 计算所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void MeasureOverride(Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief 安排控件
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void ArrangeOverride(Size &finalSize) override;
+        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -9276,14 +9310,17 @@ namespace sw
         List<GridColumn> columns;
 
         /**
-         * @brief 计算所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void MeasureOverride(Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief 安排控件
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void ArrangeOverride(Size &finalSize) override;
+        virtual void ArrangeOverride(const Size &finalSize) override;
 
     private:
         /**
@@ -9375,13 +9412,12 @@ namespace sw
          */
         const ReadOnlyProperty<double> VerticalScrollLimit;
 
-    protected:
+    public:
         /**
          * @brief 初始化Layer
          */
         Layer();
 
-    public:
         /**
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
          */
@@ -9438,19 +9474,20 @@ namespace sw
          */
         virtual bool OnHorizontalScroll(int event, int pos) override;
 
-    public:
         /**
-         * @brief               测量控件所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void Measure(const Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief           安排控件位置
-         * @param finalSize 最终控件所安排的位置
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void Arrange(const sw::Rect &finalPosition) override;
+        virtual void ArrangeOverride(const Size &finalSize) override;
 
+    public:
         /**
          * @brief 禁用布局，禁用布局后调用UpdateLayout不会更新布局
          */
@@ -9742,14 +9779,17 @@ namespace sw
         Orientation orientation = Orientation::Vertical;
 
         /**
-         * @brief 计算所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void MeasureOverride(Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief 安排控件
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void ArrangeOverride(Size &finalSize) override;
+        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -9770,14 +9810,17 @@ namespace sw
         Orientation orientation = Orientation::Horizontal;
 
         /**
-         * @brief 计算所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void MeasureOverride(Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief 安排控件
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void ArrangeOverride(Size &finalSize) override;
+        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -9882,6 +9925,19 @@ namespace sw
 
     protected:
         /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+
+        /**
          * @brief       接收到WM_VSCROLL时调用目标控件的该函数
          * @param event 事件类型，即消息wParam的低字
          * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
@@ -9928,18 +9984,6 @@ namespace sw
          * @return 若函数成功则返回Control指针，否则返回nullptr
          */
         virtual Control *ToControl() override;
-
-        /**
-         * @brief               测量控件所需尺寸
-         * @param availableSize 可用的尺寸
-         */
-        virtual void Measure(const Size &availableSize) override;
-
-        /**
-         * @brief           安排控件位置
-         * @param finalSize 最终控件所安排的位置
-         */
-        virtual void Arrange(const sw::Rect &finalPosition) override;
     };
 }
 
@@ -10006,12 +10050,6 @@ namespace sw
          */
         void UpdateTabText(int index);
 
-        /**
-         * @brief               安排控件位置
-         * @param finalPosition 最终控件所安排的位置
-         */
-        virtual void Arrange(const sw::Rect &finalPosition) override;
-
     protected:
         /**
          * @brief         添加子元素后调用该函数
@@ -10024,6 +10062,12 @@ namespace sw
          * @param element 移除的子元素
          */
         virtual void OnRemovedChild(UIElement &element) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
 
         /**
          * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
@@ -10170,10 +10214,11 @@ namespace sw
         virtual void FontChanged(HFONT hfont) override;
 
         /**
-         * @brief               测量控件所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void Measure(const Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
          * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
@@ -10743,7 +10788,7 @@ namespace sw
         {
             this->_layout.reset(new TLayout);
             this->_layout->Associate(this);
-            this->NotifyLayoutUpdated();
+            this->InvalidateMeasure();
         }
 
         /**
@@ -10753,7 +10798,7 @@ namespace sw
         void SetLayout()
         {
             this->_layout.reset(nullptr);
-            this->NotifyLayoutUpdated();
+            this->InvalidateMeasure();
         }
     };
 }
@@ -11968,10 +12013,11 @@ namespace sw
         virtual void FontChanged(HFONT hfont) override;
 
         /**
-         * @brief               测量控件所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void Measure(const Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
     };
 }
 
@@ -12362,12 +12408,12 @@ namespace sw
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(Size newClientSize) override;
-
         /**
-         * @brief               测量控件所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void Measure(const Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
     private:
         /**

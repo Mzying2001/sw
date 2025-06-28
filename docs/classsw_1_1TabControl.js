@@ -1,7 +1,7 @@
 var classsw_1_1TabControl =
 [
     [ "TabControl", "classsw_1_1TabControl.html#a402ae0be40a8a236d09b5c8a31c5aca1", null ],
-    [ "Arrange", "classsw_1_1TabControl.html#a2826913f7180e01ec24542dd87ea8676", null ],
+    [ "ArrangeOverride", "classsw_1_1TabControl.html#afe3911adf115bf45e1ef7156f56a6b9b", null ],
     [ "GetTabCount", "classsw_1_1TabControl.html#ac52a5ebc430c68920f8ee7e7755f7f34", null ],
     [ "OnAddedChild", "classsw_1_1TabControl.html#a6a4c0d7c81d279669765feaef0f55ecd", null ],
     [ "OnNotified", "classsw_1_1TabControl.html#a331b4b48881bf2165f392724aa586cc3", null ],
