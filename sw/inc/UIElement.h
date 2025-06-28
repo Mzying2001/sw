@@ -122,14 +122,14 @@ namespace sw
         UIElement *_parent = nullptr;
 
         /**
-         * @brief 所有子窗口
+         * @brief 所有子元素
          */
         std::vector<UIElement *> _children{};
 
         /**
-         * @brief 参与布局的子窗口，在调用GetChildLayoutCount后会更新，不可见且CollapseWhenHide为true的控件会被忽略
+         * @brief 参与布局的子元素，即所有非collapsed状态的子元素
          */
-        std::vector<UIElement *> _childrenNotCollapsed{};
+        std::vector<UIElement *> _layoutVisibleChildren{};
 
         /**
          * @brief 记录路由事件的map
@@ -1108,6 +1108,11 @@ namespace sw
          * @brief 添加MeasureInvalidated标记
          */
         void _SetMeasureInvalidated();
+
+        /**
+         * @brief 更新_layoutVisibleChildren的内容
+         */
+        void _UpdateLayoutVisibleChildren();
 
         /**
          * @brief 循环获取界面树上的下一个节点

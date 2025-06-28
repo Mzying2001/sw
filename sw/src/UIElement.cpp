@@ -553,17 +553,13 @@ uint64_t sw::UIElement::GetLayoutTag()
 
 int sw::UIElement::GetChildLayoutCount()
 {
-    this->_childrenNotCollapsed.clear();
-    for (UIElement *item : this->_children) {
-        if (item->Visible || !item->_collapseWhenHide)
-            this->_childrenNotCollapsed.push_back(item);
-    }
-    return (int)this->_childrenNotCollapsed.size();
+    this->_UpdateLayoutVisibleChildren();
+    return (int)this->_layoutVisibleChildren.size();
 }
 
 sw::ILayout &sw::UIElement::GetChildLayoutAt(int index)
 {
-    return *this->_childrenNotCollapsed[index];
+    return *this->_layoutVisibleChildren[index];
 }
 
 sw::Size sw::UIElement::GetDesireSize()
@@ -757,7 +753,7 @@ double sw::UIElement::GetChildRightmost(bool update)
 {
     if (update) {
         this->_childRightmost = 0;
-        for (UIElement *item : this->_childrenNotCollapsed) {
+        for (UIElement *item : this->_layoutVisibleChildren) {
             if (item->_float) continue;
             this->_childRightmost = Utils::Max(this->_childRightmost, item->Left + item->Width + item->_margin.right - this->_arrangeOffsetX);
         }
@@ -769,7 +765,7 @@ double sw::UIElement::GetChildBottommost(bool update)
 {
     if (update) {
         this->_childBottommost = 0;
-        for (UIElement *item : this->_childrenNotCollapsed) {
+        for (UIElement *item : this->_layoutVisibleChildren) {
             if (item->_float) continue;
             this->_childBottommost = Utils::Max(this->_childBottommost, item->Top + item->Height + item->_margin.bottom - this->_arrangeOffsetY);
         }
@@ -1161,6 +1157,16 @@ bool sw::UIElement::_SetVertAlignment(sw::VerticalAlignment value)
 void sw::UIElement::_SetMeasureInvalidated()
 {
     this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
+}
+
+void sw::UIElement::_UpdateLayoutVisibleChildren()
+{
+    this->_layoutVisibleChildren.clear();
+
+    for (UIElement *item : this->_children) {
+        if (item->Visible || !item->_collapseWhenHide)
+            this->_layoutVisibleChildren.push_back(item);
+    }
 }
 
 sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element, bool searchChildren)
