@@ -760,17 +760,19 @@ namespace sw
         virtual uint64_t GetLayoutTag() override;
 
         /**
-         * @brief 获取参与布局的子控件数量
+         * @brief 获取参与布局的子元素数量
+         * @note  参与布局的子元素：即非collapsed状态的元素
          */
         virtual int GetChildLayoutCount() override;
 
         /**
-         * @brief 获取对应索引处的子控件，使用此函数前必须先调用GetChildLayoutCount
+         * @brief 获取对应索引处的子元素，只索引参与布局的子元素
+         * @note  参与布局的子元素：即非collapsed状态的元素
          */
         virtual ILayout &GetChildLayoutAt(int index) override;
 
         /**
-         * @brief 获取控件所需尺寸
+         * @brief 获取当前元素所需尺寸
          */
         virtual Size GetDesireSize() override;
 

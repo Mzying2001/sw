@@ -54,7 +54,10 @@ sw::UIElement::UIElement()
           [this](const bool &value) {
               if (this->_collapseWhenHide != value) {
                   this->_collapseWhenHide = value;
-                  if (!this->Visible) this->InvalidateMeasure();
+                  if (this->_parent && !this->Visible) {
+                      this->_parent->_UpdateLayoutVisibleChildren();
+                      this->_parent->InvalidateMeasure();
+                  }
               }
           }),
 
@@ -250,6 +253,8 @@ bool sw::UIElement::AddChild(UIElement *element)
     }
 
     this->_children.push_back(element);
+    this->_UpdateLayoutVisibleChildren();
+
     this->OnAddedChild(*element);
     return true;
 }
@@ -289,6 +294,7 @@ bool sw::UIElement::RemoveChildAt(int index)
 
     UIElement *element = *it;
     this->_children.erase(it);
+    this->_UpdateLayoutVisibleChildren();
 
     this->OnRemovedChild(*element);
     return true;
@@ -312,6 +318,7 @@ bool sw::UIElement::RemoveChild(UIElement *element)
     }
 
     this->_children.erase(it);
+    this->_UpdateLayoutVisibleChildren();
 
     this->OnRemovedChild(*element);
     return true;
@@ -338,6 +345,7 @@ void sw::UIElement::ClearChildren()
     }
 
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
+    this->_UpdateLayoutVisibleChildren();
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
         this->InvalidateMeasure();
@@ -553,7 +561,6 @@ uint64_t sw::UIElement::GetLayoutTag()
 
 int sw::UIElement::GetChildLayoutCount()
 {
-    this->_UpdateLayoutVisibleChildren();
     return (int)this->_layoutVisibleChildren.size();
 }
 
@@ -875,6 +882,8 @@ bool sw::UIElement::SetParent(WndBase *parent)
             if (!temp) {
                 auto it = std::find(oldParentElement->_children.begin(), oldParentElement->_children.end(), this);
                 if (it != oldParentElement->_children.end()) oldParentElement->_children.erase(it);
+                // 前面调用RemoveChild失败，当前元素仍在父元素的_layoutVisibleChildren中，此处手动调用更新
+                oldParentElement->_UpdateLayoutVisibleChildren();
             }
             this->_parent = nullptr;
             return true;
@@ -951,8 +960,11 @@ void sw::UIElement::FontChanged(HFONT hfont)
 
 void sw::UIElement::VisibleChanged(bool newVisible)
 {
+    if (this->_parent && this->_collapseWhenHide) {
+        this->_parent->_UpdateLayoutVisibleChildren();
+    }
     if (newVisible || this->_collapseWhenHide) {
-        this->InvalidateMeasure();
+        this->InvalidateMeasure(); // visible变为true，或者需要折叠隐藏时，更新布局
     }
 }
 
@@ -1164,7 +1176,7 @@ void sw::UIElement::_UpdateLayoutVisibleChildren()
     this->_layoutVisibleChildren.clear();
 
     for (UIElement *item : this->_children) {
-        if (item->Visible || !item->_collapseWhenHide)
+        if (!item->_collapseWhenHide || item->Visible)
             this->_layoutVisibleChildren.push_back(item);
     }
 }
