@@ -50,6 +50,36 @@ git clone https://github.com/Mzying2001/sw.git
    target_link_libraries(your_target PRIVATE sw)
    ```
 
+### 使用单文件版本
+
+[single_header](https://github.com/Mzying2001/sw/tree/main/single_header) 中提供了 `sw` 的单文件版本，由脚本自动生成。直接下载 `sw_all.h` 和 `sw_all.cpp` 并添加到项目中即可使用。
+
+### 使用 vcpkg
+
+`sw` 已支持 [vcpkg](https://github.com/microsoft/vcpkg) 包管理器，包名为 `mzying2001-sw`。
+
+1. 安装 vcpkg 包：
+
+   ```bash
+   vcpkg install mzying2001-sw
+   ```
+
+2. 若使用 CMake，添加 `sw` 到项目中：
+
+   ```cmake
+   find_package(sw CONFIG REQUIRED)
+   target_link_libraries(your_target PRIVATE sw::sw)
+   ```
+
+3. 配置完成后，可以在项目中直接包含 `sw` 的头文件，例如：
+
+   ```cpp
+   #include <sw/SimpleWindow.h>
+   ```
+
+> [!NOTE]
+> `sw` 的代码文件均使用 UTF-8 编码，若文件编码与系统不一致可能会出现编译器警告或者错误，建议在使用时添加 `/utf-8`（对于 MSVC）或者 `-finput-charset=UTF-8`（对于 g++/clang）编译选项，或者自行修改文件编码。
+
 ## 快速入门
 
 以下是一个 SimpleWindow 的 HelloWorld 程序，更多示例详见[这里](https://github.com/Mzying2001/sw/tree/main/examples)。
@@ -57,7 +87,7 @@ git clone https://github.com/Mzying2001/sw.git
 ```cpp
 #include "SimpleWindow.h"
 
-int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT nCmdShow)
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdShow)
 {
     // 窗口对象
     sw::Window mainWindow;
