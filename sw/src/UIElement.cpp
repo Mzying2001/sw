@@ -661,8 +661,11 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     rect.width  = Utils::Max(0.0, rect.width);
     rect.height = Utils::Max(0.0, rect.height);
 
-    if (this->_parent && this->_parent->_hdwpChildren != NULL) {
-        DeferWindowPos(this->_parent->_hdwpChildren, this->Handle, NULL,
+    bool hasChildren = !this->_children.empty();
+    HDWP hdwpCurrent = this->_parent ? this->_parent->_hdwpChildren : NULL;
+
+    if (!hasChildren && hdwpCurrent != NULL) {
+        DeferWindowPos(hdwpCurrent, this->Handle, NULL,
                        Dip::DipToPxX(rect.left), Dip::DipToPxY(rect.top),
                        Dip::DipToPxX(rect.width), Dip::DipToPxY(rect.height),
                        SWP_NOACTIVATE | SWP_NOZORDER);
@@ -673,15 +676,17 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
                      SWP_NOACTIVATE | SWP_NOZORDER);
     }
 
-    if (this->_children.size() >= 3) {
-        this->_hdwpChildren = BeginDeferWindowPos((int)this->_children.size());
-    }
+    if (hasChildren) {
+        if (this->_children.size() >= 3) {
+            this->_hdwpChildren = BeginDeferWindowPos((int)this->_children.size());
+        }
 
-    this->ArrangeOverride(this->ClientRect->GetSize());
+        this->ArrangeOverride(this->ClientRect->GetSize());
 
-    if (this->_hdwpChildren != NULL) {
-        EndDeferWindowPos(this->_hdwpChildren);
-        this->_hdwpChildren = NULL;
+        if (this->_hdwpChildren != NULL) {
+            EndDeferWindowPos(this->_hdwpChildren);
+            this->_hdwpChildren = NULL;
+        }
     }
 
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
