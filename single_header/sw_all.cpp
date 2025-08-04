@@ -2902,7 +2902,10 @@ sw::UIElement::UIElement()
           [this](const bool &value) {
               if (this->_collapseWhenHide != value) {
                   this->_collapseWhenHide = value;
-                  if (!this->Visible) this->InvalidateMeasure();
+                  if (this->_parent && !this->Visible) {
+                      this->_parent->_UpdateLayoutVisibleChildren();
+                      this->_parent->InvalidateMeasure();
+                  }
               }
           }),
 
@@ -2953,7 +2956,6 @@ sw::UIElement::UIElement()
               if (this->_float != value) {
                   this->_float = value;
                   this->UpdateSiblingsZOrder();
-                  this->InvalidateMeasure();
               }
           }),
 
@@ -3099,6 +3101,8 @@ bool sw::UIElement::AddChild(UIElement *element)
     }
 
     this->_children.push_back(element);
+    this->_UpdateLayoutVisibleChildren();
+
     this->OnAddedChild(*element);
     return true;
 }
@@ -3138,6 +3142,7 @@ bool sw::UIElement::RemoveChildAt(int index)
 
     UIElement *element = *it;
     this->_children.erase(it);
+    this->_UpdateLayoutVisibleChildren();
 
     this->OnRemovedChild(*element);
     return true;
@@ -3161,6 +3166,7 @@ bool sw::UIElement::RemoveChild(UIElement *element)
     }
 
     this->_children.erase(it);
+    this->_UpdateLayoutVisibleChildren();
 
     this->OnRemovedChild(*element);
     return true;
@@ -3187,6 +3193,7 @@ void sw::UIElement::ClearChildren()
     }
 
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
+    this->_UpdateLayoutVisibleChildren();
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
         this->InvalidateMeasure();
@@ -3235,6 +3242,7 @@ void sw::UIElement::MoveToTop()
         }
     }
     EndDeferWindowPos(hdwp);
+    parent->InvalidateMeasure();
 }
 
 void sw::UIElement::MoveToBottom()
@@ -3259,6 +3267,7 @@ void sw::UIElement::MoveToBottom()
     } else {
         SetWindowPos(this->Handle, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     }
+    parent->InvalidateMeasure();
 }
 
 bool sw::UIElement::IsRootElement()
@@ -3376,7 +3385,7 @@ void sw::UIElement::InvalidateMeasure()
     UIElement *element = this;
     do {
         root = element;
-        element->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
+        element->_SetMeasureInvalidated();
         element = element->_parent;
     } while (element != nullptr);
 
@@ -3400,17 +3409,12 @@ uint64_t sw::UIElement::GetLayoutTag()
 
 int sw::UIElement::GetChildLayoutCount()
 {
-    this->_childrenNotCollapsed.clear();
-    for (UIElement *item : this->_children) {
-        if (item->Visible || !item->_collapseWhenHide)
-            this->_childrenNotCollapsed.push_back(item);
-    }
-    return (int)this->_childrenNotCollapsed.size();
+    return (int)this->_layoutVisibleChildren.size();
 }
 
 sw::ILayout &sw::UIElement::GetChildLayoutAt(int index)
 {
-    return *this->_childrenNotCollapsed[index];
+    return *this->_layoutVisibleChildren[index];
 }
 
 sw::Size sw::UIElement::GetDesireSize()
@@ -3422,8 +3426,7 @@ void sw::UIElement::Measure(const Size &availableSize)
 {
     if (!this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::MeasureInvalidated) &&
         this->_lastMeasureAvailableSize == availableSize) {
-        // 如果Measure没有失效且可用尺寸没有变化，则不需要重新测量
-        return;
+        return; // 若布局未失效且可用尺寸没有变化，则无需重新测量
     }
 
     Size measureSize    = availableSize;
@@ -3444,6 +3447,11 @@ void sw::UIElement::Measure(const Size &availableSize)
 
 void sw::UIElement::Arrange(const sw::Rect &finalPosition)
 {
+    // 为什么在Arrange阶段清除MeasureInvalidated标记：
+    // 一些复杂的布局可能会在测量阶段多次调用Measure函数，
+    // 比如Grid会调用两次Measure，若在测量阶段清除该标记，
+    // 则在第二次调用时会认为布局没有失效，导致测量被跳过。
+    this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::MeasureInvalidated;
     this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
 
     Size &desireSize  = this->_desireSize;
@@ -3501,8 +3509,8 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     rect.width  = Utils::Max(0.0, rect.width);
     rect.height = Utils::Max(0.0, rect.height);
 
-    if (_parent != nullptr && _parent->_hdwpChildren != NULL) {
-        DeferWindowPos(_parent->_hdwpChildren, this->Handle, NULL,
+    if (this->_parent && this->_parent->_hdwpChildren != NULL) {
+        DeferWindowPos(this->_parent->_hdwpChildren, this->Handle, NULL,
                        Dip::DipToPxX(rect.left), Dip::DipToPxY(rect.top),
                        Dip::DipToPxX(rect.width), Dip::DipToPxY(rect.height),
                        SWP_NOACTIVATE | SWP_NOZORDER);
@@ -3513,7 +3521,7 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
                      SWP_NOACTIVATE | SWP_NOZORDER);
     }
 
-    if (!this->_children.empty()) {
+    if (this->_children.size() >= 3) {
         this->_hdwpChildren = BeginDeferWindowPos((int)this->_children.size());
     }
 
@@ -3524,11 +3532,6 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
         this->_hdwpChildren = NULL;
     }
 
-    // 为什么需要在Arrange时再清除MeasureInvalidated标记：
-    // 一些复杂的布局可能会在Measure阶段多次调用Measure，
-    // 如Grid会调用两次Measure，若在Measure阶段清除该标记，
-    // 则在第二次调用时会认为Measure没有失效，导致无法更新布局
-    this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::MeasureInvalidated;
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
 }
 
@@ -3605,7 +3608,7 @@ double sw::UIElement::GetChildRightmost(bool update)
 {
     if (update) {
         this->_childRightmost = 0;
-        for (UIElement *item : this->_childrenNotCollapsed) {
+        for (UIElement *item : this->_layoutVisibleChildren) {
             if (item->_float) continue;
             this->_childRightmost = Utils::Max(this->_childRightmost, item->Left + item->Width + item->_margin.right - this->_arrangeOffsetX);
         }
@@ -3617,7 +3620,7 @@ double sw::UIElement::GetChildBottommost(bool update)
 {
     if (update) {
         this->_childBottommost = 0;
-        for (UIElement *item : this->_childrenNotCollapsed) {
+        for (UIElement *item : this->_layoutVisibleChildren) {
             if (item->_float) continue;
             this->_childBottommost = Utils::Max(this->_childBottommost, item->Top + item->Height + item->_margin.bottom - this->_arrangeOffsetY);
         }
@@ -3625,7 +3628,7 @@ double sw::UIElement::GetChildBottommost(bool update)
     return this->_childBottommost;
 }
 
-void sw::UIElement::UpdateChildrenZOrder()
+void sw::UIElement::UpdateChildrenZOrder(bool invalidateMeasure)
 {
     int childCount = (int)this->_children.size();
     if (childCount < 2) return;
@@ -3648,12 +3651,16 @@ void sw::UIElement::UpdateChildrenZOrder()
     }
 
     EndDeferWindowPos(hdwp);
+
+    if (invalidateMeasure) {
+        this->InvalidateMeasure();
+    }
 }
 
-void sw::UIElement::UpdateSiblingsZOrder()
+void sw::UIElement::UpdateSiblingsZOrder(bool invalidateMeasure)
 {
     if (this->_parent != nullptr) {
-        this->_parent->UpdateChildrenZOrder();
+        this->_parent->UpdateChildrenZOrder(invalidateMeasure);
     }
 }
 
@@ -3723,6 +3730,8 @@ bool sw::UIElement::SetParent(WndBase *parent)
             if (!temp) {
                 auto it = std::find(oldParentElement->_children.begin(), oldParentElement->_children.end(), this);
                 if (it != oldParentElement->_children.end()) oldParentElement->_children.erase(it);
+                // 前面调用RemoveChild失败，当前元素仍在父元素的_layoutVisibleChildren中，此处手动调用更新
+                oldParentElement->_UpdateLayoutVisibleChildren();
             }
             this->_parent = nullptr;
             return true;
@@ -3743,7 +3752,7 @@ bool sw::UIElement::SetParent(WndBase *parent)
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
     this->_parent = newParent ? newParent->ToUIElement() : nullptr;
-    this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
+    this->_SetMeasureInvalidated();
 }
 
 bool sw::UIElement::OnClose()
@@ -3799,8 +3808,11 @@ void sw::UIElement::FontChanged(HFONT hfont)
 
 void sw::UIElement::VisibleChanged(bool newVisible)
 {
+    if (this->_parent && this->_collapseWhenHide) {
+        this->_parent->_UpdateLayoutVisibleChildren();
+    }
     if (newVisible || this->_collapseWhenHide) {
-        this->InvalidateMeasure();
+        this->InvalidateMeasure(); // visible变为true，或者需要折叠隐藏时，更新布局
     }
 }
 
@@ -4000,6 +4012,21 @@ bool sw::UIElement::_SetVertAlignment(sw::VerticalAlignment value)
     }
 
     return true;
+}
+
+void sw::UIElement::_SetMeasureInvalidated()
+{
+    this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::MeasureInvalidated;
+}
+
+void sw::UIElement::_UpdateLayoutVisibleChildren()
+{
+    this->_layoutVisibleChildren.clear();
+
+    for (UIElement *item : this->_children) {
+        if (!item->_collapseWhenHide || item->Visible)
+            this->_layoutVisibleChildren.push_back(item);
+    }
 }
 
 sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element, bool searchChildren)

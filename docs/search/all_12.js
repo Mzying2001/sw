@@ -98,7 +98,7 @@ var searchData=
   ['stacklayouth_95',['StackLayoutH',['../classsw_1_1StackLayoutH.html',1,'sw']]],
   ['stacklayoutv_96',['StackLayoutV',['../classsw_1_1StackLayoutV.html',1,'sw']]],
   ['stackpanel_97',['stackpanel',['../classsw_1_1StackPanel.html',1,'sw::StackPanel'],['../classsw_1_1StackPanel.html#adaf90a1ad8018e5365e22f45a0a0341a',1,'sw::StackPanel::StackPanel()']]],
-  ['star_20趋势_98',['Star 趋势',['../index.html#autotoc_md10',1,'']]],
+  ['star_20趋势_98',['Star 趋势',['../index.html#autotoc_md12',1,'']]],
   ['start_99',['Start',['../classsw_1_1Timer.html#a22a88da239c06516c7bb7b452dbbf0bc',1,'sw::Timer']]],
   ['startuplocation_100',['StartupLocation',['../classsw_1_1Window.html#a4a09a7ec772a2febfcda54b9aa6a8557',1,'sw::Window']]],
   ['state_101',['state',['../classsw_1_1ProgressBar.html#a596e05cda7fcc656dde20354a519cee4',1,'sw::ProgressBar::State'],['../classsw_1_1Window.html#a257ba940703f41b12990678bb3ff0e0e',1,'sw::Window::State']]],

@@ -130,12 +130,33 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="fragment"><div class="line">target_link_libraries(your_target PRIVATE sw)</div>
 </div><!-- fragment --></li>
 </ol>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md6"></a>
+使用单文件版本</h2>
+<p><a href="https://github.com/Mzying2001/sw/tree/main/single_header">single_header</a> 中提供了 <code>sw</code> 的单文件版本，由脚本自动生成。直接下载 <code>sw_all.h</code> 和 <code>sw_all.cpp</code> 并添加到项目中即可使用。</p>
+<h2><a class="anchor" id="autotoc_md7"></a>
+使用 vcpkg</h2>
+<p><code>sw</code> 已支持 <a href="https://github.com/microsoft/vcpkg">vcpkg</a> 包管理器，包名为 <code>mzying2001-sw</code>。</p>
+<ol type="1">
+<li><p class="startli">安装 vcpkg 包：</p>
+<div class="fragment"><div class="line">vcpkg install mzying2001-sw</div>
+</div><!-- fragment --></li>
+<li><p class="startli">若使用 CMake，添加 <code>sw</code> 到项目中：</p>
+<div class="fragment"><div class="line">find_package(sw CONFIG REQUIRED)</div>
+<div class="line">target_link_libraries(your_target PRIVATE sw::sw)</div>
+</div><!-- fragment --></li>
+<li><p class="startli">配置完成后，可以在项目中直接包含 <code>sw</code> 的头文件，例如：</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;sw/SimpleWindow.h&gt;</span></div>
+</div><!-- fragment --></li>
+</ol>
+<blockquote class="doxtable">
+<p>&zwj;[!NOTE] <code>sw</code> 的代码文件均使用 UTF-8 编码，若文件编码与系统不一致可能会出现编译器警告或者错误，建议在使用时添加 <code>/utf-8</code>（对于 MSVC）或者 <code>-finput-charset=UTF-8</code>（对于 g++/clang）编译选项，或者自行修改文件编码。 </p>
+</blockquote>
+<h1><a class="anchor" id="autotoc_md8"></a>
 快速入门</h1>
 <p>以下是一个 SimpleWindow 的 HelloWorld 程序，更多示例详见<a href="https://github.com/Mzying2001/sw/tree/main/examples">这里</a>。</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;SimpleWindow.h&quot;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keywordtype">int</span> wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, INT nCmdShow)</div>
+<div class="line"><span class="keywordtype">int</span> WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdShow)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// 窗口对象</span></div>
 <div class="line">    <a class="code hl_class" href="classsw_1_1Window.html">sw::Window</a> mainWindow;</div>
@@ -173,16 +194,16 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="ttc" id="aclasssw_1_1Window_html_a97f714390560b186f28c05b1f6a35cec"><div class="ttname"><a href="classsw_1_1Window.html#a97f714390560b186f28c05b1f6a35cec">sw::Window::Show</a></div><div class="ttdeci">void Show(int nCmdShow=SW_SHOW)</div><div class="ttdoc">显示窗口</div></div>
 <div class="ttc" id="aclasssw_1_1WndBase_html_a9afff86d32e9b54cccc204ef29a85891"><div class="ttname"><a href="classsw_1_1WndBase.html#a9afff86d32e9b54cccc204ef29a85891">sw::WndBase::Text</a></div><div class="ttdeci">const Property&lt; std::wstring &gt; Text</div><div class="ttdoc">窗口标题或控件文本</div><div class="ttdef"><b>Definition</b> WndBase.h:173</div></div>
 <div class="ttc" id="astructsw_1_1RoutedEventArgs_html"><div class="ttname"><a href="structsw_1_1RoutedEventArgs.html">sw::RoutedEventArgs</a></div><div class="ttdoc">路由事件的参数</div><div class="ttdef"><b>Definition</b> RoutedEvent.h:138</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md7"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md9"></a>
 开发文档</h1>
 <p>有关 SimpleWindow 的详细开发文档，请访问 <a href="https://mzying2001.github.io/sw">mzying2001.github.io/sw</a>。</p>
-<h1><a class="anchor" id="autotoc_md8"></a>
+<h1><a class="anchor" id="autotoc_md10"></a>
 许可证</h1>
 <p>SimpleWindow 框架是基于 MIT 许可证发布的，允许您在自己的项目中自由使用和修改它。</p>
-<h1><a class="anchor" id="autotoc_md9"></a>
+<h1><a class="anchor" id="autotoc_md11"></a>
 贡献</h1>
 <p>欢迎贡献者参与 SimpleWindow 的开发和改进。如果您发现 Bug 或有改进建议，请提出 Issue 或发送 Pull Request。</p>
-<h1><a class="anchor" id="autotoc_md10"></a>
+<h1><a class="anchor" id="autotoc_md12"></a>
 Star 趋势</h1>
 <p><a href="https://starchart.cc/Mzying2001/sw"><img src="https://starchart.cc/Mzying2001/sw.svg?variant=adaptive" alt="Stargazers over time" style="pointer-events: none;" class="inline"/></a> </p>
 </div></div><!-- PageDoc -->

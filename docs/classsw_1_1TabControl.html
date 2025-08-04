@@ -338,13 +338,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>InvalidateMeasure</b>
 <tr class="memdesc:aa89a8c272d1a9016d2586c6eeab64dce inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取布局标记  <br /></td></tr>
 <tr class="separator:aa89a8c272d1a9016d2586c6eeab64dce inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a994aad366bc1f62ef7d53defa9456e64 inherit pub_methods_classsw_1_1UIElement" id="r_a994aad366bc1f62ef7d53defa9456e64"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a994aad366bc1f62ef7d53defa9456e64">GetChildLayoutCount</a> () override</td></tr>
-<tr class="memdesc:a994aad366bc1f62ef7d53defa9456e64 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取参与布局的子控件数量  <br /></td></tr>
+<tr class="memdesc:a994aad366bc1f62ef7d53defa9456e64 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取参与布局的子元素数量  <br /></td></tr>
 <tr class="separator:a994aad366bc1f62ef7d53defa9456e64 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3683672f3c2fc8f80e4f808aac78d262 inherit pub_methods_classsw_1_1UIElement" id="r_a3683672f3c2fc8f80e4f808aac78d262"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1ILayout.html">ILayout</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a3683672f3c2fc8f80e4f808aac78d262">GetChildLayoutAt</a> (int index) override</td></tr>
-<tr class="memdesc:a3683672f3c2fc8f80e4f808aac78d262 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取对应索引处的子控件，使用此函数前必须先调用GetChildLayoutCount  <br /></td></tr>
+<tr class="memdesc:a3683672f3c2fc8f80e4f808aac78d262 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取对应索引处的子元素，只索引参与布局的子元素  <br /></td></tr>
 <tr class="separator:a3683672f3c2fc8f80e4f808aac78d262 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a633ace3fad478f1cc6480fa5512288fb inherit pub_methods_classsw_1_1UIElement" id="r_a633ace3fad478f1cc6480fa5512288fb"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1Size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a633ace3fad478f1cc6480fa5512288fb">GetDesireSize</a> () override</td></tr>
-<tr class="memdesc:a633ace3fad478f1cc6480fa5512288fb inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取控件所需尺寸  <br /></td></tr>
+<tr class="memdesc:a633ace3fad478f1cc6480fa5512288fb inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素所需尺寸  <br /></td></tr>
 <tr class="separator:a633ace3fad478f1cc6480fa5512288fb inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef217f2655c4a746606bf302edc16cf4 inherit pub_methods_classsw_1_1UIElement" id="r_aef217f2655c4a746606bf302edc16cf4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#aef217f2655c4a746606bf302edc16cf4">Measure</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;availableSize) override</td></tr>
 <tr class="memdesc:aef217f2655c4a746606bf302edc16cf4 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量元素所需尺寸  <br /></td></tr>
@@ -735,14 +735,14 @@ double &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetArrangeOff
 <tr class="memitem:a7bda5652549fe9909e3b6b1383754b30 inherit pro_methods_classsw_1_1UIElement" id="r_a7bda5652549fe9909e3b6b1383754b30"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a7bda5652549fe9909e3b6b1383754b30">GetChildBottommost</a> (bool update)</td></tr>
 <tr class="memdesc:a7bda5652549fe9909e3b6b1383754b30 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取所有子元素在当前元素中最底边的位置（只考虑参与布局的子窗口且忽略悬浮的元素）  <br /></td></tr>
 <tr class="separator:a7bda5652549fe9909e3b6b1383754b30 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf5b0f1e5c2e24390b7f267db28c595a inherit pro_methods_classsw_1_1UIElement" id="r_acf5b0f1e5c2e24390b7f267db28c595a"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateChildrenZOrder</b> ()</td></tr>
-<tr class="memdesc:acf5b0f1e5c2e24390b7f267db28c595a inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新子元素的Z轴位置 <br /></td></tr>
-<tr class="separator:acf5b0f1e5c2e24390b7f267db28c595a inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7e788c5e662363d6244414c5250a39d inherit pro_methods_classsw_1_1UIElement" id="r_ae7e788c5e662363d6244414c5250a39d"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateSiblingsZOrder</b> ()</td></tr>
-<tr class="memdesc:ae7e788c5e662363d6244414c5250a39d inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新兄弟元素的Z轴位置 <br /></td></tr>
-<tr class="separator:ae7e788c5e662363d6244414c5250a39d inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa33bc2dbdc45763086f61e649aec008e inherit pro_methods_classsw_1_1UIElement" id="r_aa33bc2dbdc45763086f61e649aec008e"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateChildrenZOrder</b> (bool invalidateMeasure=true)</td></tr>
+<tr class="memdesc:aa33bc2dbdc45763086f61e649aec008e inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新子元素的Z轴位置 <br /></td></tr>
+<tr class="separator:aa33bc2dbdc45763086f61e649aec008e inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c198395a2cd796125b995ea88f968e8 inherit pro_methods_classsw_1_1UIElement" id="r_a1c198395a2cd796125b995ea88f968e8"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateSiblingsZOrder</b> (bool invalidateMeasure=true)</td></tr>
+<tr class="memdesc:a1c198395a2cd796125b995ea88f968e8 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新兄弟元素的Z轴位置 <br /></td></tr>
+<tr class="separator:a1c198395a2cd796125b995ea88f968e8 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d9db652043bc5c5cd3483d82b35dcbe inherit pro_methods_classsw_1_1UIElement" id="r_a0d9db652043bc5c5cd3483d82b35dcbe"><td class="memItemLeft" align="right" valign="top">
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SetNextTabStopFocus</b> ()</td></tr>
 <tr class="memdesc:a0d9db652043bc5c5cd3483d82b35dcbe inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置下一个TabStop属性为true的元素为焦点元素 <br /></td></tr>
