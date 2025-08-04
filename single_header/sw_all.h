@@ -20,41 +20,6 @@
 #include <vector>
 #include <windowsx.h>
 
-// ScrollEnums.h
-
-
-namespace sw
-{
-    /**
-     * @brief 滚动条方向
-     */
-    enum class ScrollOrientation {
-        Horizontal, // 水平滚动条
-        Vertical,   // 垂直滚动条
-    };
-
-    /**
-     * @brief 滚动条事件
-     */
-    enum class ScrollEvent {
-        LineUp        = SB_LINEUP,        // Scrolls one line up.
-        LineLeft      = SB_LINELEFT,      // Scrolls left by one unit.
-        LineDown      = SB_LINEDOWN,      // Scrolls one line down.
-        LineRight     = SB_LINERIGHT,     // Scrolls right by one unit.
-        PageUp        = SB_PAGEUP,        // Scrolls one page up.
-        PageLeft      = SB_PAGELEFT,      // Scrolls left by the width of the window.
-        PageDown      = SB_PAGEDOWN,      // Scrolls one page down.
-        PageRight     = SB_PAGERIGHT,     // Scrolls right by the width of the window.
-        ThumbPosition = SB_THUMBPOSITION, // The user has dragged the scroll box (thumb) and released the mouse button. The HIWORD indicates the position of the scroll box at the end of the drag operation.
-        ThubmTrack    = SB_THUMBTRACK,    // The user is dragging the scroll box. This message is sent repeatedly until the user releases the mouse button. The HIWORD indicates the position that the scroll box has been dragged to.
-        Top           = SB_TOP,           // Scrolls to the upper left.
-        Left          = SB_LEFT,          // Scrolls to the upper left.
-        Bottom        = SB_BOTTOM,        // Scrolls to the lower right.
-        Right         = SB_RIGHT,         // Scrolls to the lower right.
-        EndScroll     = SB_ENDSCROLL,     // Ends scroll.
-    };
-}
-
 // Alignment.h
 
 namespace sw
@@ -88,44 +53,380 @@ namespace sw
     };
 }
 
-// ProcMsg.h
+// Thickness.h
 
 
 namespace sw
 {
     /**
-     * @brief 对Windows窗口消息的封装
+     * @brief 表示矩形区域周围边框的厚度
      */
-    struct ProcMsg {
+    struct Thickness {
         /**
-         * @brief 接收到消息的窗口句柄
+         * @brief 左边
          */
-        HWND hwnd;
+        double left;
 
         /**
-         * @brief 消息类型
+         * @brief 顶边
          */
-        UINT uMsg;
+        double top;
 
         /**
-         * @brief 消息的附加信息
+         * @brief 右边
          */
-        WPARAM wParam;
+        double right;
 
         /**
-         * @brief 消息的附加信息
+         * @brief 底边
          */
-        LPARAM lParam;
+        double bottom;
 
         /**
-         * @brief 构造所有字段均为0的ProcMsg
+         * @brief 构造一个四边都为0的Thickness结构体
          */
-        ProcMsg();
+        Thickness();
 
         /**
-         * @brief 构造ProcMsg
+         * @brief 构造一个四边都相同的Thickness结构体
          */
-        ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+        Thickness(double thickness);
+
+        /**
+         * @brief 指定横向和纵向值构造Thickness结构体
+         */
+        Thickness(double horizontal, double vertical);
+
+        /**
+         * @brief 指定四边的值构造Thickness结构体
+         */
+        Thickness(double left, double top, double right, double bottom);
+
+        /**
+         * @brief 判断两个Thickness是否相同
+         */
+        bool operator==(const Thickness &other) const;
+
+        /**
+         * @brief 判断两个Thickness是否相同
+         */
+        bool operator!=(const Thickness &other) const;
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const;
+    };
+}
+
+// Cursor.h
+
+
+namespace sw
+{
+    /**
+     * @brief 系统标准鼠标样式
+     * @brief https://learn.microsoft.com/en-us/windows/win32/menurc/about-cursors
+     */
+    enum class StandardCursor {
+        Arrow       = 32512, // Normal select
+        IBeam       = 32513, // Text select
+        Wait        = 32514, // Busy
+        Cross       = 32515, // Precision select
+        UpArrow     = 32516, // Alternate select
+        Handwriting = 32631, // Handwriting
+        SizeNWSE    = 32642, // Diagonal resize 1
+        SizeNESW    = 32643, // Diagonal resize 2
+        SizeWE      = 32644, // Horizontal resize
+        SizeNS      = 32645, // Vertical resize
+        SizeAll     = 32646, // Move
+        No          = 32648, // Unavailable
+        Hand        = 32649, // Link select
+        AppStarting = 32650, // Working in background
+        Help        = 32651, // Help select
+        Pin         = 32671, // Location select
+        Person      = 32672, // Person select
+    };
+
+    /**
+     * @brief 用于获取鼠标句柄的工具类
+     */
+    class CursorHelper
+    {
+    private:
+        CursorHelper() = delete;
+
+    public:
+        /**
+         * @brief        获取系统标准鼠标样式句柄
+         * @param cursor 鼠标样式
+         * @return       鼠标句柄
+         */
+        static HCURSOR GetCursorHandle(StandardCursor cursor);
+
+        /**
+         * @brief            从指定模块中获取鼠标句柄
+         * @param hInstance  DLL或EXE的模块句柄
+         * @param resourceId 鼠标的资源序号
+         * @return           成功则返回鼠标句柄，否则返回NULL
+         */
+        static HCURSOR GetCursorHandle(HINSTANCE hInstance, int resourceId);
+
+        /**
+         * @brief          从文件加载鼠标句柄
+         * @param fileName 鼠标文件路径
+         * @return         成功则返回鼠标句柄，否则返回NULL
+         */
+        static HCURSOR GetCursorHandle(const std::wstring &fileName);
+    };
+}
+
+// KnownColor.h
+
+
+namespace sw
+{
+    /**
+     * @brief 已知的颜色
+     */
+    enum class KnownColor {
+        ActiveBorder            = RGB(0xb4, 0xb4, 0xb4), // 活动边框颜色
+        ActiveCaption           = RGB(0x99, 0xb4, 0xd1), // 活动标题栏颜色
+        ActiveCaptionText       = RGB(0x00, 0x00, 0x00), // 活动标题栏文本颜色
+        AppWorkspace            = RGB(0xab, 0xab, 0xab), // 应用程序工作区颜色
+        Control                 = RGB(0xf0, 0xf0, 0xf0), // 控件颜色
+        ControlDark             = RGB(0xa0, 0xa0, 0xa0), // 控件深色颜色
+        ControlDarkDark         = RGB(0x69, 0x69, 0x69), // 控件深深色颜色
+        ControlLight            = RGB(0xe3, 0xe3, 0xe3), // 控件浅色颜色
+        ControlLightLight       = RGB(0xff, 0xff, 0xff), // 控件浅浅色颜色
+        ControlText             = RGB(0x00, 0x00, 0x00), // 控件文本颜色
+        Desktop                 = RGB(0x00, 0x00, 0x00), // 桌面颜色
+        GrayText                = RGB(0x6d, 0x6d, 0x6d), // 灰色文本颜色
+        Highlight               = RGB(0x00, 0x78, 0xd7), // 高亮颜色
+        HighlightText           = RGB(0xff, 0xff, 0xff), // 高亮文本颜色
+        HotTrack                = RGB(0x00, 0x66, 0xcc), // 热跟踪颜色
+        InactiveBorder          = RGB(0xf4, 0xf7, 0xfc), // 非活动边框颜色
+        InactiveCaption         = RGB(0xbf, 0xcd, 0xdb), // 非活动标题栏颜色
+        InactiveCaptionText     = RGB(0x00, 0x00, 0x00), // 非活动标题栏文本颜色
+        Info                    = RGB(0xff, 0xff, 0xe1), // 信息颜色
+        InfoText                = RGB(0x00, 0x00, 0x00), // 信息文本颜色
+        Menu                    = RGB(0xf0, 0xf0, 0xf0), // 菜单颜色
+        MenuText                = RGB(0x00, 0x00, 0x00), // 菜单文本颜色
+        ScrollBar               = RGB(0xc8, 0xc8, 0xc8), // 滚动条颜色
+        Window                  = RGB(0xff, 0xff, 0xff), // 窗口颜色
+        WindowFrame             = RGB(0x64, 0x64, 0x64), // 窗口框架颜色
+        WindowText              = RGB(0x00, 0x00, 0x00), // 窗口文本颜色
+        Transparent             = RGB(0xff, 0xff, 0xff), // 透明色
+        AliceBlue               = RGB(0xf0, 0xf8, 0xff), // 爱丽丝蓝色
+        AntiqueWhite            = RGB(0xfa, 0xeb, 0xd7), // 古董白色
+        Aqua                    = RGB(0x00, 0xff, 0xff), // 青色
+        Aquamarine              = RGB(0x7f, 0xff, 0xd4), // 碧绿色
+        Azure                   = RGB(0xf0, 0xff, 0xff), // 天蓝色
+        Beige                   = RGB(0xf5, 0xf5, 0xdc), // 米色
+        Bisque                  = RGB(0xff, 0xe4, 0xc4), // 橘黄色
+        Black                   = RGB(0x00, 0x00, 0x00), // 黑色
+        BlanchedAlmond          = RGB(0xff, 0xeb, 0xcd), // 白杏色
+        Blue                    = RGB(0x00, 0x00, 0xff), // 蓝色
+        BlueViolet              = RGB(0x8a, 0x2b, 0xe2), // 蓝紫色
+        Brown                   = RGB(0xa5, 0x2a, 0x2a), // 棕色
+        BurlyWood               = RGB(0xde, 0xb8, 0x87), // 硬木色
+        CadetBlue               = RGB(0x5f, 0x9e, 0xa0), // 军装蓝色
+        Chartreuse              = RGB(0x7f, 0xff, 0x00), // 黄绿色
+        Chocolate               = RGB(0xd2, 0x69, 0x1e), // 巧克力色
+        Coral                   = RGB(0xff, 0x7f, 0x50), // 珊瑚色
+        CornflowerBlue          = RGB(0x64, 0x95, 0xed), // 矢车菊蓝色
+        Cornsilk                = RGB(0xff, 0xf8, 0xdc), // 米绸色
+        Crimson                 = RGB(0xdc, 0x14, 0x3c), // 绯红色
+        Cyan                    = RGB(0x00, 0xff, 0xff), // 青色
+        DarkBlue                = RGB(0x00, 0x00, 0x8b), // 深蓝色
+        DarkCyan                = RGB(0x00, 0x8b, 0x8b), // 深青色
+        DarkGoldenrod           = RGB(0xb8, 0x86, 0x0b), // 深金黄色
+        DarkGray                = RGB(0xa9, 0xa9, 0xa9), // 深灰色
+        DarkGreen               = RGB(0x00, 0x64, 0x00), // 深绿色
+        DarkKhaki               = RGB(0xbd, 0xb7, 0x6b), // 深卡其色
+        DarkMagenta             = RGB(0x8b, 0x00, 0x8b), // 深洋红色
+        DarkOliveGreen          = RGB(0x55, 0x6b, 0x2f), // 深橄榄绿色
+        DarkOrange              = RGB(0xff, 0x8c, 0x00), // 深橙色
+        DarkOrchid              = RGB(0x99, 0x32, 0xcc), // 深兰花色
+        DarkRed                 = RGB(0x8b, 0x00, 0x00), // 深红色
+        DarkSalmon              = RGB(0xe9, 0x96, 0x7a), // 深鲑鱼色
+        DarkSeaGreen            = RGB(0x8f, 0xbc, 0x8f), // 深海绿色
+        DarkSlateBlue           = RGB(0x48, 0x3d, 0x8b), // 深青蓝色
+        DarkSlateGray           = RGB(0x2f, 0x4f, 0x4f), // 深青灰色
+        DarkTurquoise           = RGB(0x00, 0xce, 0xd1), // 深青色
+        DarkViolet              = RGB(0x94, 0x00, 0xd3), // 深紫罗兰色
+        DeepPink                = RGB(0xff, 0x14, 0x93), // 深粉色
+        DeepSkyBlue             = RGB(0x00, 0xbf, 0xff), // 深天蓝色
+        DimGray                 = RGB(0x69, 0x69, 0x69), // 暗灰色
+        DodgerBlue              = RGB(0x1e, 0x90, 0xff), // 道奇蓝色
+        Firebrick               = RGB(0xb2, 0x22, 0x22), // 火砖色
+        FloralWhite             = RGB(0xff, 0xfa, 0xf0), // 花白色
+        ForestGreen             = RGB(0x22, 0x8b, 0x22), // 森林绿色
+        Fuchsia                 = RGB(0xff, 0x00, 0xff), // 紫红色
+        Gainsboro               = RGB(0xdc, 0xdc, 0xdc), // 盖茨伯勒色
+        GhostWhite              = RGB(0xf8, 0xf8, 0xff), // 幽灵白色
+        Gold                    = RGB(0xff, 0xd7, 0x00), // 金色
+        Goldenrod               = RGB(0xda, 0xa5, 0x20), // 金菊黄色
+        Gray                    = RGB(0x80, 0x80, 0x80), // 灰色
+        Green                   = RGB(0x00, 0x80, 0x00), // 绿色
+        GreenYellow             = RGB(0xad, 0xff, 0x2f), // 绿黄色
+        Honeydew                = RGB(0xf0, 0xff, 0xf0), // 蜜色
+        HotPink                 = RGB(0xff, 0x69, 0xb4), // 亮粉红色
+        IndianRed               = RGB(0xcd, 0x5c, 0x5c), // 印度红色
+        Indigo                  = RGB(0x4b, 0x00, 0x82), // 靛青色
+        Ivory                   = RGB(0xff, 0xff, 0xf0), // 象牙色
+        Khaki                   = RGB(0xf0, 0xe6, 0x8c), // 卡其色
+        Lavender                = RGB(0xe6, 0xe6, 0xfa), // 熏衣草色
+        LavenderBlush           = RGB(0xff, 0xf0, 0xf5), // 淡紫红色
+        LawnGreen               = RGB(0x7c, 0xfc, 0x00), // 草绿色
+        LemonChiffon            = RGB(0xff, 0xfa, 0xcd), // 柠檬绸色
+        LightBlue               = RGB(0xad, 0xd8, 0xe6), // 淡蓝色
+        LightCoral              = RGB(0xf0, 0x80, 0x80), // 淡珊瑚色
+        LightCyan               = RGB(0xe0, 0xff, 0xff), // 淡青色
+        LightGoldenrodYellow    = RGB(0xfa, 0xfa, 0xd2), // 浅金菊黄色
+        LightGray               = RGB(0xd3, 0xd3, 0xd3), // 浅灰色
+        LightGreen              = RGB(0x90, 0xee, 0x90), // 浅绿色
+        LightPink               = RGB(0xff, 0xb6, 0xc1), // 浅粉色
+        LightSalmon             = RGB(0xff, 0xa0, 0x7a), // 浅鲑鱼色
+        LightSeaGreen           = RGB(0x20, 0xb2, 0xaa), // 浅海绿色
+        LightSkyBlue            = RGB(0x87, 0xce, 0xfa), // 浅天蓝色
+        LightSlateGray          = RGB(0x77, 0x88, 0x99), // 浅青灰色
+        LightSteelBlue          = RGB(0xb0, 0xc4, 0xde), // 浅钢蓝色
+        LightYellow             = RGB(0xff, 0xff, 0xe0), // 浅黄色
+        Lime                    = RGB(0x00, 0xff, 0x00), // 酸橙色
+        LimeGreen               = RGB(0x32, 0xcd, 0x32), // 柠檬绿色
+        Linen                   = RGB(0xfa, 0xf0, 0xe6), // 亚麻色
+        Magenta                 = RGB(0xff, 0x00, 0xff), // 洋红色
+        Maroon                  = RGB(0x80, 0x00, 0x00), // 栗色
+        MediumAquamarine        = RGB(0x66, 0xcd, 0xaa), // 中碧绿色
+        MediumBlue              = RGB(0x00, 0x00, 0xcd), // 中蓝色
+        MediumOrchid            = RGB(0xba, 0x55, 0xd3), // 中兰花紫色
+        MediumPurple            = RGB(0x93, 0x70, 0xdb), // 中紫色
+        MediumSeaGreen          = RGB(0x3c, 0xb3, 0x71), // 中海绿色
+        MediumSlateBlue         = RGB(0x7b, 0x68, 0xee), // 中青蓝色
+        MediumSpringGreen       = RGB(0x00, 0xfa, 0x9a), // 中春绿色
+        MediumTurquoise         = RGB(0x48, 0xd1, 0xcc), // 中青色
+        MediumVioletRed         = RGB(0xc7, 0x15, 0x85), // 中紫罗兰色
+        MidnightBlue            = RGB(0x19, 0x19, 0x70), // 午夜蓝色
+        MintCream               = RGB(0xf5, 0xff, 0xfa), // 薄荷色
+        MistyRose               = RGB(0xff, 0xe4, 0xe1), // 浅玫瑰色
+        Moccasin                = RGB(0xff, 0xe4, 0xb5), // 鹿皮色
+        NavajoWhite             = RGB(0xff, 0xde, 0xad), // 纳瓦白色
+        Navy                    = RGB(0x00, 0x00, 0x80), // 海军蓝色
+        OldLace                 = RGB(0xfd, 0xf5, 0xe6), // 老花色
+        Olive                   = RGB(0x80, 0x80, 0x00), // 橄榄色
+        OliveDrab               = RGB(0x6b, 0x8e, 0x23), // 橄榄褐色
+        Orange                  = RGB(0xff, 0xa5, 0x00), // 橙色
+        OrangeRed               = RGB(0xff, 0x45, 0x00), // 橙红色
+        Orchid                  = RGB(0xda, 0x70, 0xd6), // 兰花紫色
+        PaleGoldenrod           = RGB(0xee, 0xe8, 0xaa), // 苍麒麟色
+        PaleGreen               = RGB(0x98, 0xfb, 0x98), // 苍绿色
+        PaleTurquoise           = RGB(0xaf, 0xee, 0xee), // 苍宝石绿色
+        PaleVioletRed           = RGB(0xdb, 0x70, 0x93), // 苍紫罗兰红色
+        PapayaWhip              = RGB(0xff, 0xef, 0xd5), // 番木瓜色
+        PeachPuff               = RGB(0xff, 0xda, 0xb9), // 桃肉色
+        Peru                    = RGB(0xcd, 0x85, 0x3f), // 秘鲁色
+        Pink                    = RGB(0xff, 0xc0, 0xcb), // 粉红色
+        Plum                    = RGB(0xdd, 0xa0, 0xdd), // 李紫色
+        PowderBlue              = RGB(0xb0, 0xe0, 0xe6), // 粉蓝色
+        Purple                  = RGB(0x80, 0x00, 0x80), // 紫色
+        Red                     = RGB(0xff, 0x00, 0x00), // 红色
+        RosyBrown               = RGB(0xbc, 0x8f, 0x8f), // 玫瑰棕色
+        RoyalBlue               = RGB(0x41, 0x69, 0xe1), // 皇家蓝色
+        SaddleBrown             = RGB(0x8b, 0x45, 0x13), // 马鞍棕色
+        Salmon                  = RGB(0xfa, 0x80, 0x72), // 鲑鱼色
+        SandyBrown              = RGB(0xf4, 0xa4, 0x60), // 沙棕色
+        SeaGreen                = RGB(0x2e, 0x8b, 0x57), // 海绿色
+        SeaShell                = RGB(0xff, 0xf5, 0xee), // 海贝色
+        Sienna                  = RGB(0xa0, 0x52, 0x2d), // 黄土赭色
+        Silver                  = RGB(0xc0, 0xc0, 0xc0), // 银色
+        SkyBlue                 = RGB(0x87, 0xce, 0xeb), // 天蓝色
+        SlateBlue               = RGB(0x6a, 0x5a, 0xcd), // 青蓝色
+        SlateGray               = RGB(0x70, 0x80, 0x90), // 青灰色
+        Snow                    = RGB(0xff, 0xfa, 0xfa), // 雪白色
+        SpringGreen             = RGB(0x00, 0xff, 0x7f), // 春绿色
+        SteelBlue               = RGB(0x46, 0x82, 0xb4), // 钢蓝色
+        Tan                     = RGB(0xd2, 0xb4, 0x8c), // 茶色
+        Teal                    = RGB(0x00, 0x80, 0x80), // 鸭翅绿色
+        Thistle                 = RGB(0xd8, 0xbf, 0xd8), // 蓟色
+        Tomato                  = RGB(0xff, 0x63, 0x47), // 番茄色
+        Turquoise               = RGB(0x40, 0xe0, 0xd0), // 青绿色
+        Violet                  = RGB(0xee, 0x82, 0xee), // 紫罗兰色
+        Wheat                   = RGB(0xf5, 0xde, 0xb3), // 小麦色
+        White                   = RGB(0xff, 0xff, 0xff), // 白色
+        WhiteSmoke              = RGB(0xf5, 0xf5, 0xf5), // 白烟色
+        Yellow                  = RGB(0xff, 0xff, 0x00), // 黄色
+        YellowGreen             = RGB(0x9a, 0xcd, 0x32), // 黄绿色
+        ButtonFace              = RGB(0xf0, 0xf0, 0xf0), // 按钮表面色
+        ButtonHighlight         = RGB(0xff, 0xff, 0xff), // 按钮高亮色
+        ButtonShadow            = RGB(0xa0, 0xa0, 0xa0), // 按钮阴影色
+        GradientActiveCaption   = RGB(0xb9, 0xd1, 0xea), // 渐变激活标题栏色
+        GradientInactiveCaption = RGB(0xd7, 0xe4, 0xf2), // 渐变非激活标题栏色
+        MenuBar                 = RGB(0xf0, 0xf0, 0xf0), // 菜单栏色
+        MenuHighlight           = RGB(0x33, 0x99, 0xff), // 菜单高亮色
+        RebeccaPurple           = RGB(0x66, 0x33, 0x99), // 紫罗兰色
+    };
+}
+
+// WndMsg.h
+
+
+namespace sw
+{
+    /**
+     * @brief 包含SimpleWindow用到的一些窗口消息
+     */
+    enum WndMsg : UINT {
+
+        // SimpleWindow所用消息的起始位置
+        WM_SimpleWindowBegin = WM_USER + 0x3000,
+
+        // 控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用
+        WM_UpdateLayout,
+
+        // 在窗口线程上执行指定委托，lParam为指向sw::Action<>的指针，wParam表示是否对委托指针执行delete
+        WM_InvokeAction,
+
+        // SimpleWindow所用消息的结束位置
+        WM_SimpleWindowEnd,
+    };
+}
+
+// HitTestResult.h
+
+
+namespace sw
+{
+    /**
+     * @brief NcHitTest（WM_NCHITTEST）的返回值
+     */
+    enum class HitTestResult {
+        HitBorder      = HTBORDER,      // 在没有大小边界的窗口边框中。
+        HitBottom      = HTBOTTOM,      // 在可调整大小的窗口的下水平边框中（用户可以单击鼠标以垂直调整窗口大小）。
+        HitBottomLeft  = HTBOTTOMLEFT,  // 在可调整大小的窗口的边框左下角（用户可以单击鼠标以对角线调整窗口大小）。
+        HitBottomRight = HTBOTTOMRIGHT, // 在可调整大小的窗口的边框右下角（用户可以单击鼠标以对角线调整窗口大小）。
+        HitCaption     = HTCAPTION,     // 在标题栏中。
+        HitClient      = HTCLIENT,      // 在客户端区中。
+        HitClose       = HTCLOSE,       // 在关闭按钮中。
+        HitError       = HTERROR,       // 在屏幕背景上或窗口之间的分割线上（与 HTNOWHERE 相同，只是 DefWindowProc 函数会生成系统蜂鸣音以指示错误）。
+        HitGrowBox     = HTGROWBOX,     // 在大小框中（与 HTSIZE 相同）。
+        HitHelp        = HTHELP,        // 在帮助按钮中。
+        HitHScroll     = HTHSCROLL,     // 在水平滚动条中。
+        HitLeft        = HTLEFT,        // 在可调整大小的窗口的左边框中（用户可以单击鼠标以水平调整窗口大小）。
+        HitMenu        = HTMENU,        // 在菜单中。
+        HitMaxButton   = HTMAXBUTTON,   // 在最大化按钮中。
+        HitMinButton   = HTMINBUTTON,   // 在最小化按钮中。
+        HitNoWhere     = HTNOWHERE,     // 在屏幕背景上，或在窗口之间的分隔线上。
+        HitReduce      = HTREDUCE,      // 在最小化按钮中。
+        HitRight       = HTRIGHT,       // 在可调整大小的窗口的右左边框中（用户可以单击鼠标以水平调整窗口大小）。
+        HitSize        = HTSIZE,        // 在大小框中（与 HTGROWBOX 相同）。
+        HitSysMenu     = HTSYSMENU,     // 在窗口菜单或子窗口的关闭按钮中。
+        HitTop         = HTTOP,         // 在窗口的上水平边框中。
+        HitTopLeft     = HTTOPLEFT,     // 在窗口边框的左上角。
+        HitTopRight    = HTTOPRIGHT,    // 在窗口边框的右上角。
+        HitTransparent = HTTRANSPARENT, // 在同一线程当前由另一个窗口覆盖的窗口中（消息将发送到同一线程中的基础窗口，直到其中一个窗口返回不是 HTTRANSPARENT 的代码）。
+        HitVScroll     = HTVSCROLL,     // 在垂直滚动条中。
+        HitZoom        = HTZOOM,        // 在最大化按钮中。
     };
 }
 
@@ -476,27 +777,164 @@ namespace sw
     };
 }
 
-// WndMsg.h
+// Point.h
 
 
 namespace sw
 {
     /**
-     * @brief 包含SimpleWindow用到的一些窗口消息
+     * @brief 表示相对于左上角的点坐标
      */
-    enum WndMsg : UINT {
+    struct Point {
+        /**
+         * @brief 横坐标
+         */
+        double x;
 
-        // SimpleWindow所用消息的起始位置
-        WM_SimpleWindowBegin = WM_USER + 0x3000,
+        /**
+         * @brief 纵坐标
+         */
+        double y;
 
-        // 控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用
-        WM_UpdateLayout,
+        /**
+         * @brief 构造xy均为0的Point结构体
+         */
+        Point();
 
-        // 在窗口线程上执行指定委托，lParam为指向sw::Action<>的指针，wParam表示是否对委托指针执行delete
-        WM_InvokeAction,
+        /**
+         * @brief 构造指定xy值的Point结构体
+         */
+        Point(double x, double y);
 
-        // SimpleWindow所用消息的结束位置
-        WM_SimpleWindowEnd,
+        /**
+         * @brief 从POINT构造Point结构体
+         */
+        Point(const POINT &point);
+
+        /**
+         * @brief 隐式转换POINT
+         */
+        operator POINT() const;
+
+        /**
+         * @brief 判断两个Point是否相等
+         */
+        bool operator==(const Point &other) const;
+
+        /**
+         * @brief 判断两个Point是否不相等
+         */
+        bool operator!=(const Point &other) const;
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const;
+    };
+}
+
+// Path.h
+
+
+namespace sw
+{
+    /**
+     * @brief 用于处理文件路径的工具类
+     */
+    class Path
+    {
+    private:
+        Path() = delete;
+
+    public:
+        /**
+         * @brief      获取文件名
+         * @param path 文件的路径
+         * @return     文件名，包含扩展名
+         */
+        static std::wstring GetFileName(const std::wstring &path);
+
+        /**
+         * @brief      获取文件名
+         * @param path 文件的路径
+         * @return     文件名，不含扩展名
+         */
+        static std::wstring GetFileNameWithoutExt(const std::wstring &path);
+
+        /**
+         * @brief      获取扩展名
+         * @param path 文件的路径
+         * @return     文件的扩展名，不包含前面的点
+         */
+        static std::wstring GetExtension(const std::wstring &path);
+
+        /**
+         * @brief      获取文件所在路径
+         * @param path 文件的路径
+         * @return     文件所在路径
+         */
+        static std::wstring GetDirectory(const std::wstring &path);
+
+        /**
+         * @brief       对路径进行拼接
+         * @param paths 要拼接的路径
+         * @return      完整的路径
+         */
+        static std::wstring Combine(std::initializer_list<std::wstring> paths);
+
+        /**
+         * @brief       对路径进行拼接
+         * @param first 第一个路径
+         * @param rest  要拼接的路径
+         * @return      完整的路径
+         */
+        template <typename... Args>
+        static inline std::wstring Combine(const std::wstring &first, const Args &...rest)
+        {
+            return Path::Combine({first, rest...});
+        }
+
+        /**
+         * @brief       获取路径所对应的绝对路径
+         * @param paths 要转换的路径
+         * @return      若函数成功则返回绝对路径，否则返回空字符串
+         */
+        static std::wstring GetAbsolutePath(const std::wstring &path);
+    };
+}
+
+// ScrollEnums.h
+
+
+namespace sw
+{
+    /**
+     * @brief 滚动条方向
+     */
+    enum class ScrollOrientation {
+        Horizontal, // 水平滚动条
+        Vertical,   // 垂直滚动条
+    };
+
+    /**
+     * @brief 滚动条事件
+     */
+    enum class ScrollEvent {
+        LineUp        = SB_LINEUP,        // Scrolls one line up.
+        LineLeft      = SB_LINELEFT,      // Scrolls left by one unit.
+        LineDown      = SB_LINEDOWN,      // Scrolls one line down.
+        LineRight     = SB_LINERIGHT,     // Scrolls right by one unit.
+        PageUp        = SB_PAGEUP,        // Scrolls one page up.
+        PageLeft      = SB_PAGELEFT,      // Scrolls left by the width of the window.
+        PageDown      = SB_PAGEDOWN,      // Scrolls one page down.
+        PageRight     = SB_PAGERIGHT,     // Scrolls right by the width of the window.
+        ThumbPosition = SB_THUMBPOSITION, // The user has dragged the scroll box (thumb) and released the mouse button. The HIWORD indicates the position of the scroll box at the end of the drag operation.
+        ThubmTrack    = SB_THUMBTRACK,    // The user is dragging the scroll box. This message is sent repeatedly until the user releases the mouse button. The HIWORD indicates the position that the scroll box has been dragged to.
+        Top           = SB_TOP,           // Scrolls to the upper left.
+        Left          = SB_LEFT,          // Scrolls to the upper left.
+        Bottom        = SB_BOTTOM,        // Scrolls to the lower right.
+        Right         = SB_RIGHT,         // Scrolls to the lower right.
+        EndScroll     = SB_ENDSCROLL,     // Ends scroll.
     };
 }
 
@@ -552,32 +990,59 @@ namespace sw
     };
 }
 
-// ITag.h
+// Size.h
 
 
 namespace sw
 {
     /**
-     * @brief Tag接口
+     * @brief 尺寸
      */
-    class ITag
-    {
-    public:
+    struct Size {
         /**
-         * @brief 默认虚析构函数
+         * @brief 宽度
          */
-        virtual ~ITag() = default;
-
-    public:
-        /**
-         * @brief 获取Tag
-         */
-        virtual uint64_t GetTag() = 0;
+        double width;
 
         /**
-         * @brief 设置Tag
+         * @brief 高度
          */
-        virtual void SetTag(uint64_t tag) = 0;
+        double height;
+
+        /**
+         * @brief 构造宽高均为0的Size结构体
+         */
+        Size();
+
+        /**
+         * @brief 构造指定宽高的Size结构体
+         */
+        Size(double width, double height);
+
+        /**
+         * @brief 从SIZE构造Size结构体
+         */
+        Size(const SIZE &size);
+
+        /**
+         * @brief 隐式转换SIZE
+         */
+        operator SIZE() const;
+
+        /**
+         * @brief 判断两个Size是否相等
+         */
+        bool operator==(const Size &other) const;
+
+        /**
+         * @brief 判断两个Size是否不相等
+         */
+        bool operator!=(const Size &other) const;
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const;
     };
 }
 
@@ -1669,539 +2134,472 @@ namespace sw
     using Func = typename _FuncTypeHelper<typename _FuncTraits<Types...>::TArgsTuple>::template TFunc<typename _FuncTraits<Types...>::TRet>;
 }
 
-// Thickness.h
+// ITag.h
 
 
 namespace sw
 {
     /**
-     * @brief 表示矩形区域周围边框的厚度
+     * @brief Tag接口
      */
-    struct Thickness {
-        /**
-         * @brief 左边
-         */
-        double left;
-
-        /**
-         * @brief 顶边
-         */
-        double top;
-
-        /**
-         * @brief 右边
-         */
-        double right;
-
-        /**
-         * @brief 底边
-         */
-        double bottom;
-
-        /**
-         * @brief 构造一个四边都为0的Thickness结构体
-         */
-        Thickness();
-
-        /**
-         * @brief 构造一个四边都相同的Thickness结构体
-         */
-        Thickness(double thickness);
-
-        /**
-         * @brief 指定横向和纵向值构造Thickness结构体
-         */
-        Thickness(double horizontal, double vertical);
-
-        /**
-         * @brief 指定四边的值构造Thickness结构体
-         */
-        Thickness(double left, double top, double right, double bottom);
-
-        /**
-         * @brief 判断两个Thickness是否相同
-         */
-        bool operator==(const Thickness &other) const;
-
-        /**
-         * @brief 判断两个Thickness是否相同
-         */
-        bool operator!=(const Thickness &other) const;
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const;
-    };
-}
-
-// HitTestResult.h
-
-
-namespace sw
-{
-    /**
-     * @brief NcHitTest（WM_NCHITTEST）的返回值
-     */
-    enum class HitTestResult {
-        HitBorder      = HTBORDER,      // 在没有大小边界的窗口边框中。
-        HitBottom      = HTBOTTOM,      // 在可调整大小的窗口的下水平边框中（用户可以单击鼠标以垂直调整窗口大小）。
-        HitBottomLeft  = HTBOTTOMLEFT,  // 在可调整大小的窗口的边框左下角（用户可以单击鼠标以对角线调整窗口大小）。
-        HitBottomRight = HTBOTTOMRIGHT, // 在可调整大小的窗口的边框右下角（用户可以单击鼠标以对角线调整窗口大小）。
-        HitCaption     = HTCAPTION,     // 在标题栏中。
-        HitClient      = HTCLIENT,      // 在客户端区中。
-        HitClose       = HTCLOSE,       // 在关闭按钮中。
-        HitError       = HTERROR,       // 在屏幕背景上或窗口之间的分割线上（与 HTNOWHERE 相同，只是 DefWindowProc 函数会生成系统蜂鸣音以指示错误）。
-        HitGrowBox     = HTGROWBOX,     // 在大小框中（与 HTSIZE 相同）。
-        HitHelp        = HTHELP,        // 在帮助按钮中。
-        HitHScroll     = HTHSCROLL,     // 在水平滚动条中。
-        HitLeft        = HTLEFT,        // 在可调整大小的窗口的左边框中（用户可以单击鼠标以水平调整窗口大小）。
-        HitMenu        = HTMENU,        // 在菜单中。
-        HitMaxButton   = HTMAXBUTTON,   // 在最大化按钮中。
-        HitMinButton   = HTMINBUTTON,   // 在最小化按钮中。
-        HitNoWhere     = HTNOWHERE,     // 在屏幕背景上，或在窗口之间的分隔线上。
-        HitReduce      = HTREDUCE,      // 在最小化按钮中。
-        HitRight       = HTRIGHT,       // 在可调整大小的窗口的右左边框中（用户可以单击鼠标以水平调整窗口大小）。
-        HitSize        = HTSIZE,        // 在大小框中（与 HTGROWBOX 相同）。
-        HitSysMenu     = HTSYSMENU,     // 在窗口菜单或子窗口的关闭按钮中。
-        HitTop         = HTTOP,         // 在窗口的上水平边框中。
-        HitTopLeft     = HTTOPLEFT,     // 在窗口边框的左上角。
-        HitTopRight    = HTTOPRIGHT,    // 在窗口边框的右上角。
-        HitTransparent = HTTRANSPARENT, // 在同一线程当前由另一个窗口覆盖的窗口中（消息将发送到同一线程中的基础窗口，直到其中一个窗口返回不是 HTTRANSPARENT 的代码）。
-        HitVScroll     = HTVSCROLL,     // 在垂直滚动条中。
-        HitZoom        = HTZOOM,        // 在最大化按钮中。
-    };
-}
-
-// KnownColor.h
-
-
-namespace sw
-{
-    /**
-     * @brief 已知的颜色
-     */
-    enum class KnownColor {
-        ActiveBorder            = RGB(0xb4, 0xb4, 0xb4), // 活动边框颜色
-        ActiveCaption           = RGB(0x99, 0xb4, 0xd1), // 活动标题栏颜色
-        ActiveCaptionText       = RGB(0x00, 0x00, 0x00), // 活动标题栏文本颜色
-        AppWorkspace            = RGB(0xab, 0xab, 0xab), // 应用程序工作区颜色
-        Control                 = RGB(0xf0, 0xf0, 0xf0), // 控件颜色
-        ControlDark             = RGB(0xa0, 0xa0, 0xa0), // 控件深色颜色
-        ControlDarkDark         = RGB(0x69, 0x69, 0x69), // 控件深深色颜色
-        ControlLight            = RGB(0xe3, 0xe3, 0xe3), // 控件浅色颜色
-        ControlLightLight       = RGB(0xff, 0xff, 0xff), // 控件浅浅色颜色
-        ControlText             = RGB(0x00, 0x00, 0x00), // 控件文本颜色
-        Desktop                 = RGB(0x00, 0x00, 0x00), // 桌面颜色
-        GrayText                = RGB(0x6d, 0x6d, 0x6d), // 灰色文本颜色
-        Highlight               = RGB(0x00, 0x78, 0xd7), // 高亮颜色
-        HighlightText           = RGB(0xff, 0xff, 0xff), // 高亮文本颜色
-        HotTrack                = RGB(0x00, 0x66, 0xcc), // 热跟踪颜色
-        InactiveBorder          = RGB(0xf4, 0xf7, 0xfc), // 非活动边框颜色
-        InactiveCaption         = RGB(0xbf, 0xcd, 0xdb), // 非活动标题栏颜色
-        InactiveCaptionText     = RGB(0x00, 0x00, 0x00), // 非活动标题栏文本颜色
-        Info                    = RGB(0xff, 0xff, 0xe1), // 信息颜色
-        InfoText                = RGB(0x00, 0x00, 0x00), // 信息文本颜色
-        Menu                    = RGB(0xf0, 0xf0, 0xf0), // 菜单颜色
-        MenuText                = RGB(0x00, 0x00, 0x00), // 菜单文本颜色
-        ScrollBar               = RGB(0xc8, 0xc8, 0xc8), // 滚动条颜色
-        Window                  = RGB(0xff, 0xff, 0xff), // 窗口颜色
-        WindowFrame             = RGB(0x64, 0x64, 0x64), // 窗口框架颜色
-        WindowText              = RGB(0x00, 0x00, 0x00), // 窗口文本颜色
-        Transparent             = RGB(0xff, 0xff, 0xff), // 透明色
-        AliceBlue               = RGB(0xf0, 0xf8, 0xff), // 爱丽丝蓝色
-        AntiqueWhite            = RGB(0xfa, 0xeb, 0xd7), // 古董白色
-        Aqua                    = RGB(0x00, 0xff, 0xff), // 青色
-        Aquamarine              = RGB(0x7f, 0xff, 0xd4), // 碧绿色
-        Azure                   = RGB(0xf0, 0xff, 0xff), // 天蓝色
-        Beige                   = RGB(0xf5, 0xf5, 0xdc), // 米色
-        Bisque                  = RGB(0xff, 0xe4, 0xc4), // 橘黄色
-        Black                   = RGB(0x00, 0x00, 0x00), // 黑色
-        BlanchedAlmond          = RGB(0xff, 0xeb, 0xcd), // 白杏色
-        Blue                    = RGB(0x00, 0x00, 0xff), // 蓝色
-        BlueViolet              = RGB(0x8a, 0x2b, 0xe2), // 蓝紫色
-        Brown                   = RGB(0xa5, 0x2a, 0x2a), // 棕色
-        BurlyWood               = RGB(0xde, 0xb8, 0x87), // 硬木色
-        CadetBlue               = RGB(0x5f, 0x9e, 0xa0), // 军装蓝色
-        Chartreuse              = RGB(0x7f, 0xff, 0x00), // 黄绿色
-        Chocolate               = RGB(0xd2, 0x69, 0x1e), // 巧克力色
-        Coral                   = RGB(0xff, 0x7f, 0x50), // 珊瑚色
-        CornflowerBlue          = RGB(0x64, 0x95, 0xed), // 矢车菊蓝色
-        Cornsilk                = RGB(0xff, 0xf8, 0xdc), // 米绸色
-        Crimson                 = RGB(0xdc, 0x14, 0x3c), // 绯红色
-        Cyan                    = RGB(0x00, 0xff, 0xff), // 青色
-        DarkBlue                = RGB(0x00, 0x00, 0x8b), // 深蓝色
-        DarkCyan                = RGB(0x00, 0x8b, 0x8b), // 深青色
-        DarkGoldenrod           = RGB(0xb8, 0x86, 0x0b), // 深金黄色
-        DarkGray                = RGB(0xa9, 0xa9, 0xa9), // 深灰色
-        DarkGreen               = RGB(0x00, 0x64, 0x00), // 深绿色
-        DarkKhaki               = RGB(0xbd, 0xb7, 0x6b), // 深卡其色
-        DarkMagenta             = RGB(0x8b, 0x00, 0x8b), // 深洋红色
-        DarkOliveGreen          = RGB(0x55, 0x6b, 0x2f), // 深橄榄绿色
-        DarkOrange              = RGB(0xff, 0x8c, 0x00), // 深橙色
-        DarkOrchid              = RGB(0x99, 0x32, 0xcc), // 深兰花色
-        DarkRed                 = RGB(0x8b, 0x00, 0x00), // 深红色
-        DarkSalmon              = RGB(0xe9, 0x96, 0x7a), // 深鲑鱼色
-        DarkSeaGreen            = RGB(0x8f, 0xbc, 0x8f), // 深海绿色
-        DarkSlateBlue           = RGB(0x48, 0x3d, 0x8b), // 深青蓝色
-        DarkSlateGray           = RGB(0x2f, 0x4f, 0x4f), // 深青灰色
-        DarkTurquoise           = RGB(0x00, 0xce, 0xd1), // 深青色
-        DarkViolet              = RGB(0x94, 0x00, 0xd3), // 深紫罗兰色
-        DeepPink                = RGB(0xff, 0x14, 0x93), // 深粉色
-        DeepSkyBlue             = RGB(0x00, 0xbf, 0xff), // 深天蓝色
-        DimGray                 = RGB(0x69, 0x69, 0x69), // 暗灰色
-        DodgerBlue              = RGB(0x1e, 0x90, 0xff), // 道奇蓝色
-        Firebrick               = RGB(0xb2, 0x22, 0x22), // 火砖色
-        FloralWhite             = RGB(0xff, 0xfa, 0xf0), // 花白色
-        ForestGreen             = RGB(0x22, 0x8b, 0x22), // 森林绿色
-        Fuchsia                 = RGB(0xff, 0x00, 0xff), // 紫红色
-        Gainsboro               = RGB(0xdc, 0xdc, 0xdc), // 盖茨伯勒色
-        GhostWhite              = RGB(0xf8, 0xf8, 0xff), // 幽灵白色
-        Gold                    = RGB(0xff, 0xd7, 0x00), // 金色
-        Goldenrod               = RGB(0xda, 0xa5, 0x20), // 金菊黄色
-        Gray                    = RGB(0x80, 0x80, 0x80), // 灰色
-        Green                   = RGB(0x00, 0x80, 0x00), // 绿色
-        GreenYellow             = RGB(0xad, 0xff, 0x2f), // 绿黄色
-        Honeydew                = RGB(0xf0, 0xff, 0xf0), // 蜜色
-        HotPink                 = RGB(0xff, 0x69, 0xb4), // 亮粉红色
-        IndianRed               = RGB(0xcd, 0x5c, 0x5c), // 印度红色
-        Indigo                  = RGB(0x4b, 0x00, 0x82), // 靛青色
-        Ivory                   = RGB(0xff, 0xff, 0xf0), // 象牙色
-        Khaki                   = RGB(0xf0, 0xe6, 0x8c), // 卡其色
-        Lavender                = RGB(0xe6, 0xe6, 0xfa), // 熏衣草色
-        LavenderBlush           = RGB(0xff, 0xf0, 0xf5), // 淡紫红色
-        LawnGreen               = RGB(0x7c, 0xfc, 0x00), // 草绿色
-        LemonChiffon            = RGB(0xff, 0xfa, 0xcd), // 柠檬绸色
-        LightBlue               = RGB(0xad, 0xd8, 0xe6), // 淡蓝色
-        LightCoral              = RGB(0xf0, 0x80, 0x80), // 淡珊瑚色
-        LightCyan               = RGB(0xe0, 0xff, 0xff), // 淡青色
-        LightGoldenrodYellow    = RGB(0xfa, 0xfa, 0xd2), // 浅金菊黄色
-        LightGray               = RGB(0xd3, 0xd3, 0xd3), // 浅灰色
-        LightGreen              = RGB(0x90, 0xee, 0x90), // 浅绿色
-        LightPink               = RGB(0xff, 0xb6, 0xc1), // 浅粉色
-        LightSalmon             = RGB(0xff, 0xa0, 0x7a), // 浅鲑鱼色
-        LightSeaGreen           = RGB(0x20, 0xb2, 0xaa), // 浅海绿色
-        LightSkyBlue            = RGB(0x87, 0xce, 0xfa), // 浅天蓝色
-        LightSlateGray          = RGB(0x77, 0x88, 0x99), // 浅青灰色
-        LightSteelBlue          = RGB(0xb0, 0xc4, 0xde), // 浅钢蓝色
-        LightYellow             = RGB(0xff, 0xff, 0xe0), // 浅黄色
-        Lime                    = RGB(0x00, 0xff, 0x00), // 酸橙色
-        LimeGreen               = RGB(0x32, 0xcd, 0x32), // 柠檬绿色
-        Linen                   = RGB(0xfa, 0xf0, 0xe6), // 亚麻色
-        Magenta                 = RGB(0xff, 0x00, 0xff), // 洋红色
-        Maroon                  = RGB(0x80, 0x00, 0x00), // 栗色
-        MediumAquamarine        = RGB(0x66, 0xcd, 0xaa), // 中碧绿色
-        MediumBlue              = RGB(0x00, 0x00, 0xcd), // 中蓝色
-        MediumOrchid            = RGB(0xba, 0x55, 0xd3), // 中兰花紫色
-        MediumPurple            = RGB(0x93, 0x70, 0xdb), // 中紫色
-        MediumSeaGreen          = RGB(0x3c, 0xb3, 0x71), // 中海绿色
-        MediumSlateBlue         = RGB(0x7b, 0x68, 0xee), // 中青蓝色
-        MediumSpringGreen       = RGB(0x00, 0xfa, 0x9a), // 中春绿色
-        MediumTurquoise         = RGB(0x48, 0xd1, 0xcc), // 中青色
-        MediumVioletRed         = RGB(0xc7, 0x15, 0x85), // 中紫罗兰色
-        MidnightBlue            = RGB(0x19, 0x19, 0x70), // 午夜蓝色
-        MintCream               = RGB(0xf5, 0xff, 0xfa), // 薄荷色
-        MistyRose               = RGB(0xff, 0xe4, 0xe1), // 浅玫瑰色
-        Moccasin                = RGB(0xff, 0xe4, 0xb5), // 鹿皮色
-        NavajoWhite             = RGB(0xff, 0xde, 0xad), // 纳瓦白色
-        Navy                    = RGB(0x00, 0x00, 0x80), // 海军蓝色
-        OldLace                 = RGB(0xfd, 0xf5, 0xe6), // 老花色
-        Olive                   = RGB(0x80, 0x80, 0x00), // 橄榄色
-        OliveDrab               = RGB(0x6b, 0x8e, 0x23), // 橄榄褐色
-        Orange                  = RGB(0xff, 0xa5, 0x00), // 橙色
-        OrangeRed               = RGB(0xff, 0x45, 0x00), // 橙红色
-        Orchid                  = RGB(0xda, 0x70, 0xd6), // 兰花紫色
-        PaleGoldenrod           = RGB(0xee, 0xe8, 0xaa), // 苍麒麟色
-        PaleGreen               = RGB(0x98, 0xfb, 0x98), // 苍绿色
-        PaleTurquoise           = RGB(0xaf, 0xee, 0xee), // 苍宝石绿色
-        PaleVioletRed           = RGB(0xdb, 0x70, 0x93), // 苍紫罗兰红色
-        PapayaWhip              = RGB(0xff, 0xef, 0xd5), // 番木瓜色
-        PeachPuff               = RGB(0xff, 0xda, 0xb9), // 桃肉色
-        Peru                    = RGB(0xcd, 0x85, 0x3f), // 秘鲁色
-        Pink                    = RGB(0xff, 0xc0, 0xcb), // 粉红色
-        Plum                    = RGB(0xdd, 0xa0, 0xdd), // 李紫色
-        PowderBlue              = RGB(0xb0, 0xe0, 0xe6), // 粉蓝色
-        Purple                  = RGB(0x80, 0x00, 0x80), // 紫色
-        Red                     = RGB(0xff, 0x00, 0x00), // 红色
-        RosyBrown               = RGB(0xbc, 0x8f, 0x8f), // 玫瑰棕色
-        RoyalBlue               = RGB(0x41, 0x69, 0xe1), // 皇家蓝色
-        SaddleBrown             = RGB(0x8b, 0x45, 0x13), // 马鞍棕色
-        Salmon                  = RGB(0xfa, 0x80, 0x72), // 鲑鱼色
-        SandyBrown              = RGB(0xf4, 0xa4, 0x60), // 沙棕色
-        SeaGreen                = RGB(0x2e, 0x8b, 0x57), // 海绿色
-        SeaShell                = RGB(0xff, 0xf5, 0xee), // 海贝色
-        Sienna                  = RGB(0xa0, 0x52, 0x2d), // 黄土赭色
-        Silver                  = RGB(0xc0, 0xc0, 0xc0), // 银色
-        SkyBlue                 = RGB(0x87, 0xce, 0xeb), // 天蓝色
-        SlateBlue               = RGB(0x6a, 0x5a, 0xcd), // 青蓝色
-        SlateGray               = RGB(0x70, 0x80, 0x90), // 青灰色
-        Snow                    = RGB(0xff, 0xfa, 0xfa), // 雪白色
-        SpringGreen             = RGB(0x00, 0xff, 0x7f), // 春绿色
-        SteelBlue               = RGB(0x46, 0x82, 0xb4), // 钢蓝色
-        Tan                     = RGB(0xd2, 0xb4, 0x8c), // 茶色
-        Teal                    = RGB(0x00, 0x80, 0x80), // 鸭翅绿色
-        Thistle                 = RGB(0xd8, 0xbf, 0xd8), // 蓟色
-        Tomato                  = RGB(0xff, 0x63, 0x47), // 番茄色
-        Turquoise               = RGB(0x40, 0xe0, 0xd0), // 青绿色
-        Violet                  = RGB(0xee, 0x82, 0xee), // 紫罗兰色
-        Wheat                   = RGB(0xf5, 0xde, 0xb3), // 小麦色
-        White                   = RGB(0xff, 0xff, 0xff), // 白色
-        WhiteSmoke              = RGB(0xf5, 0xf5, 0xf5), // 白烟色
-        Yellow                  = RGB(0xff, 0xff, 0x00), // 黄色
-        YellowGreen             = RGB(0x9a, 0xcd, 0x32), // 黄绿色
-        ButtonFace              = RGB(0xf0, 0xf0, 0xf0), // 按钮表面色
-        ButtonHighlight         = RGB(0xff, 0xff, 0xff), // 按钮高亮色
-        ButtonShadow            = RGB(0xa0, 0xa0, 0xa0), // 按钮阴影色
-        GradientActiveCaption   = RGB(0xb9, 0xd1, 0xea), // 渐变激活标题栏色
-        GradientInactiveCaption = RGB(0xd7, 0xe4, 0xf2), // 渐变非激活标题栏色
-        MenuBar                 = RGB(0xf0, 0xf0, 0xf0), // 菜单栏色
-        MenuHighlight           = RGB(0x33, 0x99, 0xff), // 菜单高亮色
-        RebeccaPurple           = RGB(0x66, 0x33, 0x99), // 紫罗兰色
-    };
-}
-
-// Size.h
-
-
-namespace sw
-{
-    /**
-     * @brief 尺寸
-     */
-    struct Size {
-        /**
-         * @brief 宽度
-         */
-        double width;
-
-        /**
-         * @brief 高度
-         */
-        double height;
-
-        /**
-         * @brief 构造宽高均为0的Size结构体
-         */
-        Size();
-
-        /**
-         * @brief 构造指定宽高的Size结构体
-         */
-        Size(double width, double height);
-
-        /**
-         * @brief 从SIZE构造Size结构体
-         */
-        Size(const SIZE &size);
-
-        /**
-         * @brief 隐式转换SIZE
-         */
-        operator SIZE() const;
-
-        /**
-         * @brief 判断两个Size是否相等
-         */
-        bool operator==(const Size &other) const;
-
-        /**
-         * @brief 判断两个Size是否不相等
-         */
-        bool operator!=(const Size &other) const;
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const;
-    };
-}
-
-// Cursor.h
-
-
-namespace sw
-{
-    /**
-     * @brief 系统标准鼠标样式
-     * @brief https://learn.microsoft.com/en-us/windows/win32/menurc/about-cursors
-     */
-    enum class StandardCursor {
-        Arrow       = 32512, // Normal select
-        IBeam       = 32513, // Text select
-        Wait        = 32514, // Busy
-        Cross       = 32515, // Precision select
-        UpArrow     = 32516, // Alternate select
-        Handwriting = 32631, // Handwriting
-        SizeNWSE    = 32642, // Diagonal resize 1
-        SizeNESW    = 32643, // Diagonal resize 2
-        SizeWE      = 32644, // Horizontal resize
-        SizeNS      = 32645, // Vertical resize
-        SizeAll     = 32646, // Move
-        No          = 32648, // Unavailable
-        Hand        = 32649, // Link select
-        AppStarting = 32650, // Working in background
-        Help        = 32651, // Help select
-        Pin         = 32671, // Location select
-        Person      = 32672, // Person select
-    };
-
-    /**
-     * @brief 用于获取鼠标句柄的工具类
-     */
-    class CursorHelper
+    class ITag
     {
-    private:
-        CursorHelper() = delete;
+    public:
+        /**
+         * @brief 默认虚析构函数
+         */
+        virtual ~ITag() = default;
 
     public:
         /**
-         * @brief        获取系统标准鼠标样式句柄
-         * @param cursor 鼠标样式
-         * @return       鼠标句柄
+         * @brief 获取Tag
          */
-        static HCURSOR GetCursorHandle(StandardCursor cursor);
+        virtual uint64_t GetTag() = 0;
 
         /**
-         * @brief            从指定模块中获取鼠标句柄
-         * @param hInstance  DLL或EXE的模块句柄
-         * @param resourceId 鼠标的资源序号
-         * @return           成功则返回鼠标句柄，否则返回NULL
+         * @brief 设置Tag
          */
-        static HCURSOR GetCursorHandle(HINSTANCE hInstance, int resourceId);
-
-        /**
-         * @brief          从文件加载鼠标句柄
-         * @param fileName 鼠标文件路径
-         * @return         成功则返回鼠标句柄，否则返回NULL
-         */
-        static HCURSOR GetCursorHandle(const std::wstring &fileName);
+        virtual void SetTag(uint64_t tag) = 0;
     };
 }
 
-// Path.h
+// ProcMsg.h
 
 
 namespace sw
 {
     /**
-     * @brief 用于处理文件路径的工具类
+     * @brief 对Windows窗口消息的封装
      */
-    class Path
+    struct ProcMsg {
+        /**
+         * @brief 接收到消息的窗口句柄
+         */
+        HWND hwnd;
+
+        /**
+         * @brief 消息类型
+         */
+        UINT uMsg;
+
+        /**
+         * @brief 消息的附加信息
+         */
+        WPARAM wParam;
+
+        /**
+         * @brief 消息的附加信息
+         */
+        LPARAM lParam;
+
+        /**
+         * @brief 构造所有字段均为0的ProcMsg
+         */
+        ProcMsg();
+
+        /**
+         * @brief 构造ProcMsg
+         */
+        ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    };
+}
+
+// MenuItem.h
+
+
+namespace sw
+{
+    class MenuItem; // 向前声明
+
+    /**
+     * @brief 菜单项关联的回调函数类型
+     */
+    using MenuItemCommand = Action<MenuItem &>;
+
+    /**
+     * @brief 菜单项
+     */
+    class MenuItem : public ITag
     {
-    private:
-        Path() = delete;
+    public:
+        /**
+         * @brief 储存用户自定义信息
+         */
+        uint64_t tag;
+
+        /**
+         * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
+         */
+        std::wstring text;
+
+        /**
+         * @brief 菜单项被单击时调用的函数
+         */
+        MenuItemCommand command;
+
+        /**
+         * @brief 子项
+         */
+        std::vector<std::shared_ptr<MenuItem>> subItems{};
 
     public:
         /**
-         * @brief      获取文件名
-         * @param path 文件的路径
-         * @return     文件名，包含扩展名
+         * @brief      构造一个MenuItem，并设置文本
+         * @param text 菜单项的文本
          */
-        static std::wstring GetFileName(const std::wstring &path);
+        MenuItem(const std::wstring &text);
 
         /**
-         * @brief      获取文件名
-         * @param path 文件的路径
-         * @return     文件名，不含扩展名
+         * @brief         构造一个MenuItem，并设置其回调函数
+         * @param text    菜单项的文本
+         * @param command 被单击时调用的函数
          */
-        static std::wstring GetFileNameWithoutExt(const std::wstring &path);
+        MenuItem(const std::wstring &text, const MenuItemCommand &command);
 
         /**
-         * @brief      获取扩展名
-         * @param path 文件的路径
-         * @return     文件的扩展名，不包含前面的点
+         * @brief          构造一个MenuItem，并设置其子项
+         * @param text     菜单下的文本
+         * @param subItems 子项列表
          */
-        static std::wstring GetExtension(const std::wstring &path);
+        MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
 
         /**
-         * @brief      获取文件所在路径
-         * @param path 文件的路径
-         * @return     文件所在路径
+         * @brief      构造一个MenuItem，并设置tag及文本
+         * @param text 菜单项的文本
          */
-        static std::wstring GetDirectory(const std::wstring &path);
+        MenuItem(uint64_t tag, const std::wstring &text);
 
         /**
-         * @brief       对路径进行拼接
-         * @param paths 要拼接的路径
-         * @return      完整的路径
+         * @brief         构造一个MenuItem，并设置tag及回调函数
+         * @param text    菜单项的文本
+         * @param command 被单击时调用的函数
          */
-        static std::wstring Combine(std::initializer_list<std::wstring> paths);
+        MenuItem(uint64_t tag, const std::wstring &text, const MenuItemCommand &command);
 
         /**
-         * @brief       对路径进行拼接
-         * @param first 第一个路径
-         * @param rest  要拼接的路径
-         * @return      完整的路径
+         * @brief         构造一个MenuItem，设置成员函数为回调函数
+         * @tparam T      成员函数所在的类
+         * @param obj     成员函数所在的对象
+         * @param handler 处理函数
          */
-        template <typename... Args>
-        static inline std::wstring Combine(const std::wstring &first, const Args &...rest)
+        template <typename T>
+        MenuItem(const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
+            : MenuItem(0, text, obj, handler)
         {
-            return Path::Combine({first, rest...});
         }
 
         /**
-         * @brief       获取路径所对应的绝对路径
-         * @param paths 要转换的路径
-         * @return      若函数成功则返回绝对路径，否则返回空字符串
+         * @brief         构造一个MenuItem，设置成员函数为回调函数
+         * @tparam T      成员函数所在的类
+         * @param obj     成员函数所在的对象
+         * @param handler 处理函数
          */
-        static std::wstring GetAbsolutePath(const std::wstring &path);
+        template <typename T>
+        MenuItem(uint64_t tag, const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
+            : MenuItem(tag, text, MenuItemCommand(obj, handler))
+        {
+        }
+
+    public:
+        /**
+         * @brief 获取一个值，表示当前菜单项是否为分隔条
+         */
+        bool IsSeparator() const;
+
+        /**
+         * @brief 调用command
+         */
+        void CallCommand();
+
+        /**
+         * @brief 获取Tag
+         */
+        virtual uint64_t GetTag() override;
+
+        /**
+         * @brief 设置Tag
+         */
+        virtual void SetTag(uint64_t tag) override;
     };
 }
 
-// Point.h
+// Keys.h
 
 
 namespace sw
 {
     /**
-     * @brief 表示相对于左上角的点坐标
+     * @brief https://learn.microsoft.com/en-us/windows/win32/inputdev/about-keyboard-input#keystroke-message-flags
      */
-    struct Point {
-        /**
-         * @brief 横坐标
-         */
-        double x;
-
-        /**
-         * @brief 纵坐标
-         */
-        double y;
-
-        /**
-         * @brief 构造xy均为0的Point结构体
-         */
-        Point();
-
-        /**
-         * @brief 构造指定xy值的Point结构体
-         */
-        Point(double x, double y);
-
-        /**
-         * @brief 从POINT构造Point结构体
-         */
-        Point(const POINT &point);
-
-        /**
-         * @brief 隐式转换POINT
-         */
-        operator POINT() const;
-
-        /**
-         * @brief 判断两个Point是否相等
-         */
-        bool operator==(const Point &other) const;
-
-        /**
-         * @brief 判断两个Point是否不相等
-         */
-        bool operator!=(const Point &other) const;
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const;
+    struct KeyFlags {
+        uint16_t repeatCount;  // repeat count, > 0 if several keydown messages was combined into one message
+        uint8_t scanCode;      // scan code
+        bool isExtendedKey;    // extended-key flag, 1 if scancode has 0xE0 prefix
+        bool contextCode;      // indicates whether the ALT key was down
+        bool previousKeyState; // indicates whether the key that generated the keystroke message was previously up or down
+        bool transitionState;  // transition-state flag, 1 on keyup
+        KeyFlags(LPARAM lParam);
     };
+
+    /**
+     * @brief 虚拟按键
+     */
+    enum class VirtualKey {
+        MouseLeft   = 0x01, // Left mouse button
+        MouseRight  = 0x02, // Right mouse button
+        Cancel      = 0x03, // Control-break processing
+        MouseMiddle = 0x04, // Middle mouse button (three-button mouse)
+        MouseX1     = 0x05, // X1 mouse button
+        MouseX2     = 0x06, // X2 mouse button
+
+        //- 0x07 Undefined
+
+        Backspace = 0x08, // BACKSPACE key
+        Tab       = 0x09, // TAB key
+
+        //- 0x0A-0B Reserved
+
+        Clear = 0x0C, // CLEAR key
+        Enter = 0x0D, // ENTER key
+
+        //- 0x0E-0F Undefined
+
+        Shift      = 0x10, // SHIFT key
+        Ctrl       = 0x11, // CTRL key
+        Alt        = 0x12, // ALT key
+        Pause      = 0x13, // PAUSE key
+        CapsLock   = 0x14, // CAPS LOCK key
+        Kana       = 0x15, // IME Kana mode
+        Hanguel    = 0x15, // IME Hanguel mode (maintained for compatibility; use VK_HANGUL)
+        Hangul     = 0x15, // IME Hangul mode
+        IME_On     = 0x16, // IME On
+        Junja      = 0x17, // IME Junja mode
+        Final      = 0x18, // IME final mode
+        Hanja      = 0x19, // IME Hanja mode
+        KANJI      = 0x19, // IME Kanji mode
+        IME_Off    = 0x1A, // IME Off
+        Esc        = 0x1B, // ESC key
+        Convert    = 0x1C, // IME convert
+        Nonconvert = 0x1D, // IME nonconvert
+        Accept     = 0x1E, // IME accept
+        ModeChange = 0x1F, // IME mode change request
+        Space      = 0x20, // SPACEBAR
+        PageUp     = 0x21, // PAGE UP key
+        PageDown   = 0x22, // PAGE DOWN key
+        End        = 0x23, // END key
+        Home       = 0x24, // HOME key
+        Left       = 0x25, // LEFT ARROW key
+        Up         = 0x26, // UP ARROW key
+        Right      = 0x27, // RIGHT ARROW key
+        Down       = 0x28, // DOWN ARROW key
+        Select     = 0x29, // SELECT key
+        Print      = 0x2A, // PRINT key
+        Execute    = 0x2B, // EXECUTE key
+        Snapshot   = 0x2C, // PRINT SCREEN key
+        Insert     = 0x2D, // INS key
+        Delete     = 0x2E, // DEL key
+        Help       = 0x2F, // HELP key
+
+        Zero  = 0x30, // 0 key
+        One   = 0x31, // 1 key
+        Two   = 0x32, // 2 key
+        Three = 0x33, // 3 key
+        Four  = 0x34, // 4 key
+        Five  = 0x35, // 5 key
+        Six   = 0x36, // 6 key
+        Seven = 0x37, // 7 key
+        Eight = 0x38, // 8 key
+        Nine  = 0x39, // 9 key
+
+        //- 0x3A-40 Undefined
+
+        A = 0x41, // A key
+        B = 0x42, // B key
+        C = 0x43, // C key
+        D = 0x44, // D key
+        E = 0x45, // E key
+        F = 0x46, // F key
+        G = 0x47, // G key
+        H = 0x48, // H key
+        I = 0x49, // I key
+        J = 0x4A, // J key
+        K = 0x4B, // K key
+        L = 0x4C, // L key
+        M = 0x4D, // M key
+        N = 0x4E, // N key
+        O = 0x4F, // O key
+        P = 0x50, // P key
+        Q = 0x51, // Q key
+        R = 0x52, // R key
+        S = 0x53, // S key
+        T = 0x54, // T key
+        U = 0x55, // U key
+        V = 0x56, // V key
+        W = 0x57, // W key
+        X = 0x58, // X key
+        Y = 0x59, // Y key
+        Z = 0x5A, // Z key
+
+        LeftWindows  = 0x5B, // Left Windows key (Natural keyboard)
+        RightWindows = 0x5C, // Right Windows key (Natural keyboard)
+        Applications = 0x5D, // Applications key (Natural keyboard)
+
+        //- 0x5E Reserved
+
+        Sleep     = 0x5F, // Computer Sleep key
+        NumPad0   = 0x60, // Numeric keypad 0 key
+        NumPad1   = 0x61, // Numeric keypad 1 key
+        NumPad2   = 0x62, // Numeric keypad 2 key
+        NumPad3   = 0x63, // Numeric keypad 3 key
+        NumPad4   = 0x64, // Numeric keypad 4 key
+        NumPad5   = 0x65, // Numeric keypad 5 key
+        NumPad6   = 0x66, // Numeric keypad 6 key
+        NumPad7   = 0x67, // Numeric keypad 7 key
+        NumPad8   = 0x68, // Numeric keypad 8 key
+        NumPad9   = 0x69, // Numeric keypad 9 key
+        Multipy   = 0x6A, // Multiply key
+        Add       = 0x6B, // Add key
+        Separator = 0x6C, // Separator key
+        Subtract  = 0x6D, // Subtract key
+        Decimal   = 0x6E, // Decimal key
+        Divide    = 0x6F, // Divide key
+        F1        = 0x70, // F1 key
+        F2        = 0x71, // F2 key
+        F3        = 0x72, // F3 key
+        F4        = 0x73, // F4 key
+        F5        = 0x74, // F5 key
+        F6        = 0x75, // F6 key
+        F7        = 0x76, // F7 key
+        F8        = 0x77, // F8 key
+        F9        = 0x78, // F9 key
+        F10       = 0x79, // F10 key
+        F11       = 0x7A, // F11 key
+        F12       = 0x7B, // F12 key
+        F13       = 0x7C, // F13 key
+        F14       = 0x7D, // F14 key
+        F15       = 0x7E, // F15 key
+        F16       = 0x7F, // F16 key
+        F17       = 0x80, // F17 key
+        F18       = 0x81, // F18 key
+        F19       = 0x82, // F19 key
+        F20       = 0x83, // F20 key
+        F21       = 0x84, // F21 key
+        F22       = 0x85, // F22 key
+        F23       = 0x86, // F23 key
+        F24       = 0x87, // F24 key
+
+        //- 0x88-8F Unassigned
+
+        NumLock    = 0x90, // NUM LOCK key
+        ScrollLock = 0x91, // SCROLL LOCK key
+
+        // 0x92-96 OEM specific
+        //- 0x97-9F Unassigned
+
+        LeftShift          = 0xA0, // Left SHIFT key
+        RightShift         = 0xA1, // Right SHIFT key
+        LeftCtrl           = 0xA2, // Left CONTROL key
+        RightCtrl          = 0xA3, // Right CONTROL key
+        LeftAlt            = 0xA4, // Left ALT key
+        RightAlt           = 0xA5, // Right ALT key
+        BrowserBack        = 0xA6, // Browser Back key
+        BrowserForward     = 0xA7, // Browser Forward key
+        BrowserRefresh     = 0xA8, // Browser Refresh key
+        BrowserStop        = 0xA9, // Browser Stop key
+        BrowserSearch      = 0xAA, // Browser Search key
+        BrowserFavorites   = 0xAB, // Browser Favorites key
+        BrowserHome        = 0xAC, // Browser Start and Home key
+        VolumeMute         = 0xAD, // Volume Mute key
+        VolumeDown         = 0xAE, // Volume Down key
+        VolumeUp           = 0xAF, // Volume Up key
+        MediaNextTrack     = 0xB0, // Next Track key
+        MediaPreviousTrack = 0xB1, // Previous Track key
+        MediaStop          = 0xB2, // Stop Media key
+        MediaPlayPause     = 0xB3, // Play/Pause Media key
+        LaunchMail         = 0xB4, // Start Mail key
+        LaunchMediaSelect  = 0xB5, // Select Media key
+        LaunchApplication1 = 0xB6, // Start Application 1 key
+        LaunchApplication2 = 0xB7, // Start Application 2 key
+
+        //- 0xB8-B9 Reserved
+
+        OEM_1      = 0xBA, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ';:' key
+        OEM_Plus   = 0xBB, // For any country/region, the '+' key
+        OEM_Comma  = 0xBC, // For any country/region, the ',' key
+        OEM_Minus  = 0xBD, // For any country/region, the '-' key
+        OEM_Period = 0xBE, // For any country/region, the '.' key
+        OEM_2      = 0xBF, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '/?' key
+        OEM_3      = 0xC0, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '`~' key
+
+        //- 0xC1-D7 Reserved
+        //- 0xD8-DA Unassigned
+
+        OEM_4 = 0xDB, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '[{' key
+        OEM_5 = 0xDC, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '\|' key
+        OEM_6 = 0xDD, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ']}' key
+        OEM_7 = 0xDE, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the 'single-quote/double-quote' key
+        OEM_8 = 0xDF, // Used for miscellaneous characters; it can vary by keyboard.
+
+        //- 0xE0 Reserved
+        // 0xE1 OEM specific
+
+        OEM_102 = 0xE2, // The <> keys on the US standard keyboard, or the \\| key on the non-US 102-key keyboard
+
+        // 0xE3-E4 OEM specific
+
+        ProcessKey = 0xE5, // IME PROCESS key
+
+        // 0xE6 OEM specific
+
+        Packet = 0xE7, // Used to pass Unicode characters as if they were keystrokes. The VK_PACKET key is the low word of a 32-bit Virtual Key value used for non-keyboard input methods. For more information, see Remark in KEYBDINPUT, SendInput, WM_KEYDOWN, and WM_KEYUP
+
+        //- 0xE8 Unassigned
+        // 0xE9-F5 OEM specific
+
+        Attn      = 0xF6, // Attn key
+        CrSel     = 0xF7, // CrSel key
+        ExSel     = 0xF8, // ExSel key
+        EraseEOF  = 0xF9, // Erase EOF key
+        Play      = 0xFA, // Play key
+        Zoom      = 0xFB, // Zoom key
+        NONAME    = 0xFC, // Reserved
+        PA1       = 0xFD, // PA1 key
+        OEM_Clear = 0xFE, // Clear key
+    };
+
+    /**
+     * @brief 鼠标事件时用于判断按键状态
+     */
+    enum class MouseKey {
+        Ctrl        = MK_CONTROL,  // The CTRL key is down.
+        MouseLeft   = MK_LBUTTON,  // The left mouse button is down.
+        MouseMiddle = MK_MBUTTON,  // The middle mouse button is down.
+        MouseRight  = MK_RBUTTON,  // The right mouse button is down.
+        Shift       = MK_SHIFT,    // The SHIFT key is down.
+        MouseX1     = MK_XBUTTON1, // The first X button is down.
+        MouseX2     = MK_XBUTTON2, // The second X button is down.
+    };
+
+    /**
+     * @brief 标记MouseKey枚举类型支持位运算
+     */
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(MouseKey);
+
+    /**
+     * @brief 表示热键框控件中的辅助按键，可以是一个或多个按键
+     */
+    enum class HotKeyModifier {
+        None  = 0,                       // 无按键
+        Shift = /*HOTKEYF_SHIFT*/ 0x1,   // Alt键
+        Ctrl  = /*HOTKEYF_CONTROL*/ 0x2, // Ctrl键
+        Alt   = /*HOTKEYF_ALT*/ 0x4,     // 扩展键
+        Ext   = /*HOTKEYF_EXT*/ 0x8,     // Shift键
+    };
+
+    /**
+     * @brief 标记HotKeyModifier枚举类型支持位运算
+     */
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(HotKeyModifier);
 }
 
 // Color.h
@@ -2273,180 +2671,6 @@ namespace sw
          */
         std::wstring ToString() const;
     };
-}
-
-// RoutedEvent.h
-
-
-namespace sw
-{
-    /**
-     * @brief 路由事件类型枚举
-     */
-    enum RoutedEventType : uint32_t {
-
-        // 从该值开始到RoutedEventType_UserEnd结束表示用户可以自定义路由事件的值范围
-        RoutedEventType_User = 0,
-
-        // 用户自定义路由事件的值的最大值
-        RoutedEventType_UserEnd = 0x80000000,
-
-        // 尺寸改变，参数类型为sw::SizeChangedEventArgs
-        UIElement_SizeChanged,
-
-        // 位置改变，参数类型为sw::PositionChangedEventArgs
-        UIElement_PositionChanged,
-
-        // Text属性发生变化，参数类型为sw::RoutedEventArgs
-        UIElement_TextChanged,
-
-        // 获取到焦点，参数类型为sw::RoutedEventArgs
-        UIElement_GotFocus,
-
-        // 失去焦点，参数类型为sw::RoutedEventArgs
-        UIElement_LostFocus,
-
-        // 输入字符，参数类型为sw::GotCharEventArgs
-        UIElement_GotChar,
-
-        // 键盘按键按下，参数类型为sw::KeyDownEventArgs
-        UIElement_KeyDown,
-
-        // 键盘按键抬起，参数类型为sw::KeyUpEventArgs
-        UIElement_KeyUp,
-
-        // 鼠标移动，参数类型为sw::MouseMoveEventArgs
-        UIElement_MouseMove,
-
-        // 鼠标离开，参数类型为sw::RoutedEventArgs
-        UIElement_MouseLeave,
-
-        // 鼠标滚轮滚动，参数类型为sw::MouseWheelEventArgs
-        UIElement_MouseWheel,
-
-        // 鼠标按键按下，参数类型为sw::MouseButtonDownEventArgs
-        UIElement_MouseButtonDown,
-
-        // 鼠标按键抬起，参数类型为sw::MouseButtonUpEventArgs
-        UIElement_MouseButtonUp,
-
-        // 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
-        UIElement_ShowContextMenu,
-
-        // 接收到文件拖放，参数类型为sw::DropFilesEventArgs
-        UIElement_DropFiles,
-
-        // 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
-        Window_Closing,
-
-        // 窗口已关闭，参数类型为sw::RoutedEventArgs
-        Window_Closed,
-
-        // 窗口成为前台窗口，参数类型为sw::RoutedEventArgs
-        Window_Actived,
-
-        // 窗口成为后台窗口，参数类型为sw::RoutedEventArgs
-        Window_Inactived,
-
-        // 按钮被单击，参数类型为sw::RoutedEventArgs
-        ButtonBase_Clicked,
-
-        // 按钮被双击，参数类型为sw::RoutedEventArgs
-        ButtonBase_DoubleClicked,
-
-        // 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
-        ItemsControl_SelectionChanged,
-
-        // 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
-        ListView_CheckStateChanged,
-
-        // 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
-        ListView_HeaderClicked,
-
-        // 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
-        ListView_HeaderDoubleClicked,
-
-        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
-        ListView_ItemClicked,
-
-        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
-        ListView_ItemDoubleClicked,
-
-        // 编辑状态结束，参数类型为sw::ListViewEndEditEventArgs
-        ListView_EndEdit,
-
-        // 滑块的值被改变，参数类型为sw::RoutedEventArgs
-        Slider_ValueChanged,
-
-        // 滑块被释放，参数类型为sw::RoutedEventArgs
-        Slider_EndTrack,
-
-        // 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
-        Layer_Scrolling,
-
-        // SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
-        TabControl_SelectedIndexChanged,
-
-        // DateTimePicker控件的时间改变，参数类型为sw::DateTimePickerTimeChangedEventArgs
-        DateTimePicker_TimeChanged,
-
-        // 月历控件的时间改变，参数类型为sw::MonthCalendarTimeChangedEventArgs
-        MonthCalendar_TimeChanged,
-
-        // IP地址框地址被改变，参数类型为sw::RoutedEventArgs
-        IPAddressControl_AddressChanged,
-
-        // SysLink控件链接被单击，参数类型为sw::SysLinkClickedEventArgs
-        SysLink_Clicked,
-
-        // 热键框的值被改变，参数类型为sw::HotKeyValueChangedEventArgs
-        HotKeyControl_ValueChanged,
-    };
-
-    /*================================================================================*/
-
-    class UIElement; // UIElement.h
-
-    /**
-     * @brief 路由事件的参数
-     */
-    struct RoutedEventArgs {
-        /**
-         * @brief 事件类型
-         */
-        RoutedEventType eventType;
-
-        /**
-         * @brief 事件是否已被处理，若将此字段设为true，则事件不会继续往上传递
-         */
-        bool handled = false;
-
-        /**
-         * @brief 表示是否已处理事件所对应的Windows消息，对于部分消息将字段设为true可取消对DefaultWndProc的调用，若当前事件无对应消息则该字段无意义
-         */
-        bool handledMsg = false;
-
-        /**
-         * @brief 事件源，指向触发当前事件的UIElement
-         */
-        UIElement *source = nullptr;
-
-        /**
-         * @brief 原始事件源，指向最初触发事件的UIElement
-         */
-        UIElement *originalSource = nullptr;
-
-        /**
-         * @brief RoutedEventArgs构造函数
-         */
-        RoutedEventArgs(RoutedEventType eventType);
-    };
-
-    /**
-     * @brief 路由事件类型
-     * @note  第一个参数为注册事件监听器的元素，第二个参数为具体的事件参数
-     */
-    using RoutedEventHandler = Action<UIElement &, RoutedEventArgs &>;
 }
 
 // Property.h
@@ -4162,402 +4386,845 @@ namespace sw
     };
 }
 
-// MenuItem.h
+// RoutedEvent.h
 
 
 namespace sw
 {
-    class MenuItem; // 向前声明
+    /**
+     * @brief 路由事件类型枚举
+     */
+    enum RoutedEventType : uint32_t {
+
+        // 从该值开始到RoutedEventType_UserEnd结束表示用户可以自定义路由事件的值范围
+        RoutedEventType_User = 0,
+
+        // 用户自定义路由事件的值的最大值
+        RoutedEventType_UserEnd = 0x80000000,
+
+        // 尺寸改变，参数类型为sw::SizeChangedEventArgs
+        UIElement_SizeChanged,
+
+        // 位置改变，参数类型为sw::PositionChangedEventArgs
+        UIElement_PositionChanged,
+
+        // Text属性发生变化，参数类型为sw::RoutedEventArgs
+        UIElement_TextChanged,
+
+        // 获取到焦点，参数类型为sw::RoutedEventArgs
+        UIElement_GotFocus,
+
+        // 失去焦点，参数类型为sw::RoutedEventArgs
+        UIElement_LostFocus,
+
+        // 输入字符，参数类型为sw::GotCharEventArgs
+        UIElement_GotChar,
+
+        // 键盘按键按下，参数类型为sw::KeyDownEventArgs
+        UIElement_KeyDown,
+
+        // 键盘按键抬起，参数类型为sw::KeyUpEventArgs
+        UIElement_KeyUp,
+
+        // 鼠标移动，参数类型为sw::MouseMoveEventArgs
+        UIElement_MouseMove,
+
+        // 鼠标离开，参数类型为sw::RoutedEventArgs
+        UIElement_MouseLeave,
+
+        // 鼠标滚轮滚动，参数类型为sw::MouseWheelEventArgs
+        UIElement_MouseWheel,
+
+        // 鼠标按键按下，参数类型为sw::MouseButtonDownEventArgs
+        UIElement_MouseButtonDown,
+
+        // 鼠标按键抬起，参数类型为sw::MouseButtonUpEventArgs
+        UIElement_MouseButtonUp,
+
+        // 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
+        UIElement_ShowContextMenu,
+
+        // 接收到文件拖放，参数类型为sw::DropFilesEventArgs
+        UIElement_DropFiles,
+
+        // 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
+        Window_Closing,
+
+        // 窗口已关闭，参数类型为sw::RoutedEventArgs
+        Window_Closed,
+
+        // 窗口成为前台窗口，参数类型为sw::RoutedEventArgs
+        Window_Actived,
+
+        // 窗口成为后台窗口，参数类型为sw::RoutedEventArgs
+        Window_Inactived,
+
+        // 按钮被单击，参数类型为sw::RoutedEventArgs
+        ButtonBase_Clicked,
+
+        // 按钮被双击，参数类型为sw::RoutedEventArgs
+        ButtonBase_DoubleClicked,
+
+        // 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
+        ItemsControl_SelectionChanged,
+
+        // 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
+        ListView_CheckStateChanged,
+
+        // 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
+        ListView_HeaderClicked,
+
+        // 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
+        ListView_HeaderDoubleClicked,
+
+        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
+        ListView_ItemClicked,
+
+        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
+        ListView_ItemDoubleClicked,
+
+        // 编辑状态结束，参数类型为sw::ListViewEndEditEventArgs
+        ListView_EndEdit,
+
+        // 滑块的值被改变，参数类型为sw::RoutedEventArgs
+        Slider_ValueChanged,
+
+        // 滑块被释放，参数类型为sw::RoutedEventArgs
+        Slider_EndTrack,
+
+        // 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
+        Layer_Scrolling,
+
+        // SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
+        TabControl_SelectedIndexChanged,
+
+        // DateTimePicker控件的时间改变，参数类型为sw::DateTimePickerTimeChangedEventArgs
+        DateTimePicker_TimeChanged,
+
+        // 月历控件的时间改变，参数类型为sw::MonthCalendarTimeChangedEventArgs
+        MonthCalendar_TimeChanged,
+
+        // IP地址框地址被改变，参数类型为sw::RoutedEventArgs
+        IPAddressControl_AddressChanged,
+
+        // SysLink控件链接被单击，参数类型为sw::SysLinkClickedEventArgs
+        SysLink_Clicked,
+
+        // 热键框的值被改变，参数类型为sw::HotKeyValueChangedEventArgs
+        HotKeyControl_ValueChanged,
+    };
+
+    /*================================================================================*/
+
+    class UIElement; // UIElement.h
 
     /**
-     * @brief 菜单项关联的回调函数类型
+     * @brief 路由事件的参数
      */
-    using MenuItemCommand = Action<MenuItem &>;
+    struct RoutedEventArgs {
+        /**
+         * @brief 事件类型
+         */
+        RoutedEventType eventType;
+
+        /**
+         * @brief 事件是否已被处理，若将此字段设为true，则事件不会继续往上传递
+         */
+        bool handled = false;
+
+        /**
+         * @brief 表示是否已处理事件所对应的Windows消息，对于部分消息将字段设为true可取消对DefaultWndProc的调用，若当前事件无对应消息则该字段无意义
+         */
+        bool handledMsg = false;
+
+        /**
+         * @brief 事件源，指向触发当前事件的UIElement
+         */
+        UIElement *source = nullptr;
+
+        /**
+         * @brief 原始事件源，指向最初触发事件的UIElement
+         */
+        UIElement *originalSource = nullptr;
+
+        /**
+         * @brief RoutedEventArgs构造函数
+         */
+        RoutedEventArgs(RoutedEventType eventType);
+    };
 
     /**
-     * @brief 菜单项
+     * @brief 路由事件类型
+     * @note  第一个参数为注册事件监听器的元素，第二个参数为具体的事件参数
      */
-    class MenuItem : public ITag
-    {
-    public:
+    using RoutedEventHandler = Action<UIElement &, RoutedEventArgs &>;
+}
+
+// RoutedEventArgs.h
+
+
+namespace sw
+{
+    struct RoutedEventArgs; // RoutedEvent.h
+
+    /**
+     * @brief       表示特定类型路由事件的事件参数类型，继承自该类的类型可以直接作为RegisterRoutedEvent函数的模板参数
+     * @tparam TYPE 一个RoutedEventType枚举值，表示路由事件类型
+     */
+    template <RoutedEventType TYPE>
+    struct TypedRoutedEventArgs : RoutedEventArgs {
         /**
-         * @brief 储存用户自定义信息
+         * @brief 路由事件的类型，RegisterRoutedEvent模板函数使用此字段注册事件
          */
-        uint64_t tag;
+        static constexpr RoutedEventType EventType = TYPE;
 
         /**
-         * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
+         * @brief 构造函数，初始化事件类型为EventType
          */
-        std::wstring text;
+        TypedRoutedEventArgs() : RoutedEventArgs(EventType) {}
+    };
 
-        /**
-         * @brief 菜单项被单击时调用的函数
-         */
-        MenuItemCommand command;
+    /**
+     * @brief 结构体模板，用于检测类型T是否含有名为EventType的静态字段
+     */
+    template <typename T, typename = void>
+    struct _HasEventType : std::false_type {
+    };
 
-        /**
-         * @brief 子项
-         */
-        std::vector<std::shared_ptr<MenuItem>> subItems{};
+    /**
+     * @brief 模板特化：当T包含EventType时，将_IsTypedRoutedEventArgs<T>设为std::true_type
+     */
+    template <typename T>
+    struct _HasEventType<T, decltype(void(std::declval<T>().EventType))> : std::true_type {
+    };
 
-    public:
-        /**
-         * @brief      构造一个MenuItem，并设置文本
-         * @param text 菜单项的文本
-         */
-        MenuItem(const std::wstring &text);
+    /**
+     * @brief 结构体模板，用于检测类型T是否包含事件类型信息
+     */
+    template <typename T>
+    struct _IsTypedRoutedEventArgs : _HasEventType<T> {
+    };
 
-        /**
-         * @brief         构造一个MenuItem，并设置其回调函数
-         * @param text    菜单项的文本
-         * @param command 被单击时调用的函数
-         */
-        MenuItem(const std::wstring &text, const MenuItemCommand &command);
+    /**
+     * @brief 尺寸改变事件参数类型
+     */
+    struct SizeChangedEventArgs : TypedRoutedEventArgs<UIElement_SizeChanged> {
+        Size newClientSize; // 用户区的新尺寸
+        SizeChangedEventArgs(Size newClientSize) : newClientSize(newClientSize) {}
+    };
 
-        /**
-         * @brief          构造一个MenuItem，并设置其子项
-         * @param text     菜单下的文本
-         * @param subItems 子项列表
-         */
-        MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
+    /**
+     * @brief 位置改变事件参数类型
+     */
+    struct PositionChangedEventArgs : TypedRoutedEventArgs<UIElement_PositionChanged> {
+        Point newClientPosition; // 移动后用户区左上角的位置
+        PositionChangedEventArgs(Point newClientPosition) : newClientPosition(newClientPosition) {}
+    };
 
-        /**
-         * @brief      构造一个MenuItem，并设置tag及文本
-         * @param text 菜单项的文本
-         */
-        MenuItem(uint64_t tag, const std::wstring &text);
+    /**
+     * @brief 输入字符事件类型参数
+     */
+    struct GotCharEventArgs : TypedRoutedEventArgs<UIElement_GotChar> {
+        wchar_t ch;     // 输入的字符
+        KeyFlags flags; // 附加信息
+        GotCharEventArgs(wchar_t ch, KeyFlags flags) : ch(ch), flags(flags) {}
+    };
 
-        /**
-         * @brief         构造一个MenuItem，并设置tag及回调函数
-         * @param text    菜单项的文本
-         * @param command 被单击时调用的函数
-         */
-        MenuItem(uint64_t tag, const std::wstring &text, const MenuItemCommand &command);
+    /**
+     * @brief 键盘按键按下事件参数类型
+     */
+    struct KeyDownEventArgs : TypedRoutedEventArgs<UIElement_KeyDown> {
+        VirtualKey key; // 虚拟按键
+        KeyFlags flags; // 附加信息
+        KeyDownEventArgs(VirtualKey key, KeyFlags flags) : key(key), flags(flags) {}
+    };
 
-        /**
-         * @brief         构造一个MenuItem，设置成员函数为回调函数
-         * @tparam T      成员函数所在的类
-         * @param obj     成员函数所在的对象
-         * @param handler 处理函数
-         */
-        template <typename T>
-        MenuItem(const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
-            : MenuItem(0, text, obj, handler)
-        {
-        }
+    /**
+     * @brief 键盘按键抬起事件参数类型
+     */
+    struct KeyUpEventArgs : TypedRoutedEventArgs<UIElement_KeyUp> {
+        VirtualKey key; // 虚拟按键
+        KeyFlags flags; // 附加信息
+        KeyUpEventArgs(VirtualKey key, KeyFlags flags) : key(key), flags(flags) {}
+    };
 
-        /**
-         * @brief         构造一个MenuItem，设置成员函数为回调函数
-         * @tparam T      成员函数所在的类
-         * @param obj     成员函数所在的对象
-         * @param handler 处理函数
-         */
-        template <typename T>
-        MenuItem(uint64_t tag, const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
-            : MenuItem(tag, text, MenuItemCommand(obj, handler))
-        {
-        }
+    /**
+     * @brief 鼠标移动事件参数类型
+     */
+    struct MouseMoveEventArgs : TypedRoutedEventArgs<UIElement_MouseMove> {
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+        MouseMoveEventArgs(Point mousePosition, MouseKey keyState)
+            : mousePosition(mousePosition), keyState(keyState) {}
+    };
 
-    public:
-        /**
-         * @brief 获取一个值，表示当前菜单项是否为分隔条
-         */
-        bool IsSeparator() const;
+    /**
+     * @brief 鼠标滚轮滚动事件参数类型
+     */
+    struct MouseWheelEventArgs : TypedRoutedEventArgs<UIElement_MouseWheel> {
+        int wheelDelta;      // 滚轮滚动的距离，为120的倍数
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+        MouseWheelEventArgs(int wheelDelta, Point mousePosition, MouseKey keyState)
+            : wheelDelta(wheelDelta), mousePosition(mousePosition), keyState(keyState) {}
+    };
 
-        /**
-         * @brief 调用command
-         */
-        void CallCommand();
+    /**
+     * @brief 鼠标按键按下事件参数类型
+     */
+    struct MouseButtonDownEventArgs : TypedRoutedEventArgs<UIElement_MouseButtonDown> {
+        MouseKey key;        // 按下的按键（左键、中间、右键）
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+        MouseButtonDownEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
+            : key(key), mousePosition(mousePosition), keyState(keyState) {}
+    };
 
-        /**
-         * @brief 获取Tag
-         */
-        virtual uint64_t GetTag() override;
+    /**
+     * @brief 鼠标按键抬起事件参数类型
+     */
+    struct MouseButtonUpEventArgs : TypedRoutedEventArgs<UIElement_MouseButtonUp> {
+        MouseKey key;        // 抬起的按键（左键、中间、右键）
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+        MouseButtonUpEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
+            : key(key), mousePosition(mousePosition), keyState(keyState) {}
+    };
 
-        /**
-         * @brief 设置Tag
-         */
-        virtual void SetTag(uint64_t tag) override;
+    /**
+     * @brief 显示用户自定义上下文菜单的事件参数类型
+     */
+    struct ShowContextMenuEventArgs : TypedRoutedEventArgs<UIElement_ShowContextMenu> {
+        bool cancel = false; // 是否取消显示上下文菜单
+        bool isKeyboardMsg;  // 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
+        Point mousePosition; // 鼠标在屏幕中的位置
+        ShowContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition)
+            : isKeyboardMsg(isKeyboardMsg), mousePosition(mousePosition) {}
+    };
+
+    /**
+     * @brief 文件拖放事件参数类型
+     */
+    struct DropFilesEventArgs : TypedRoutedEventArgs<UIElement_DropFiles> {
+        HDROP hDrop; // 描述拖入文件的句柄
+        DropFilesEventArgs(HDROP hDrop) : hDrop(hDrop) {}
+    };
+
+    /**
+     * @brief 窗口正在关闭事件参数类型
+     */
+    struct WindowClosingEventArgs : TypedRoutedEventArgs<Window_Closing> {
+        bool cancel = false; // 是否取消本次关闭
+    };
+
+    /**
+     * @brief 窗口/面板滚动条滚动事件参数类型
+     */
+    struct ScrollingEventArgs : TypedRoutedEventArgs<Layer_Scrolling> {
+        bool cancel = false;         // 是否取消滚动条默认行为
+        ScrollOrientation scrollbar; // 滚动条类型
+        ScrollEvent event;           // 滚动条事件
+        double pos;                  // 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
+        ScrollingEventArgs(ScrollOrientation scrollbar, ScrollEvent event, double pos)
+            : scrollbar(scrollbar), event(event), pos(pos) {}
+    };
+
+    /**
+     * @brief 列表视图某个复选框选中状态改变的事件参数类型
+     */
+    struct ListViewCheckStateChangedEventArgs : TypedRoutedEventArgs<ListView_CheckStateChanged> {
+        int index; // 改变项的索引
+        ListViewCheckStateChangedEventArgs(int index) : index(index) {}
+    };
+
+    /**
+     * @brief 列表视图的列标题单击与双击事件参数类型
+     */
+    struct ListViewHeaderClickedEventArgs : RoutedEventArgs {
+        int index; // 被点击列标题的索引
+        ListViewHeaderClickedEventArgs(RoutedEventType eventType, int index)
+            : RoutedEventArgs(eventType), index(index) {}
+    };
+
+    /**
+     * @brief 列表视图项单击与双击事件参数类型
+     */
+    struct ListViewItemClickedEventArgs : RoutedEventArgs {
+        int row; // 被点击的行
+        int col; // 被点击的列
+        ListViewItemClickedEventArgs(RoutedEventType eventType, int row, int col)
+            : RoutedEventArgs(eventType), row(row), col(col) {}
+    };
+
+    /**
+     * @brief 列表视图编辑状态结束事件参数类型
+     */
+    struct ListViewEndEditEventArgs : TypedRoutedEventArgs<ListView_EndEdit> {
+        bool cancel = false; // 是否取消文本更改，默认为false
+        int index;           // 被编辑项的索引
+        wchar_t *newText;    // 新的文本
+        ListViewEndEditEventArgs(int index, wchar_t *newText) : index(index), newText(newText) {}
+    };
+
+    /**
+     * @brief DateTimePicker控件时间改变事件参数类型
+     */
+    struct DateTimePickerTimeChangedEventArgs : TypedRoutedEventArgs<DateTimePicker_TimeChanged> {
+        SYSTEMTIME time; // 时间的新值
+        DateTimePickerTimeChangedEventArgs(const SYSTEMTIME &time) : time(time) {}
+    };
+
+    /**
+     * @brief 月历控件时间改变事件参数类型
+     */
+    struct MonthCalendarTimeChangedEventArgs : TypedRoutedEventArgs<MonthCalendar_TimeChanged> {
+        SYSTEMTIME time; // 时间的新值
+        MonthCalendarTimeChangedEventArgs(const SYSTEMTIME &time) : time(time) {}
+    };
+
+    /**
+     * @brief SysLink控件链接被单击事件参数类型
+     */
+    struct SysLinkClickedEventArgs : TypedRoutedEventArgs<SysLink_Clicked> {
+        wchar_t *id;  // 被单击链接的id
+        wchar_t *url; // 被单击链接的url（即href）
+        SysLinkClickedEventArgs(wchar_t *id, wchar_t *url) : id(id), url(url) {}
+    };
+
+    /**
+     * @brief 热键框值改变事件参数类型
+     */
+    struct HotKeyValueChangedEventArgs : TypedRoutedEventArgs<HotKeyControl_ValueChanged> {
+        VirtualKey key;          // 按键
+        HotKeyModifier modifier; // 辅助按键
+        HotKeyValueChangedEventArgs(VirtualKey key, HotKeyModifier modifier) : key(key), modifier(modifier) {}
     };
 }
 
-// Keys.h
+// EventHandlerWrapper.h
 
 
 namespace sw
 {
     /**
-     * @brief https://learn.microsoft.com/en-us/windows/win32/inputdev/about-keyboard-input#keystroke-message-flags
+     * @brief 路由事件处理函数包装类，用于需要转换RoutedEventArgs为特定事件参数类型的情况
      */
-    struct KeyFlags {
-        uint16_t repeatCount;  // repeat count, > 0 if several keydown messages was combined into one message
-        uint8_t scanCode;      // scan code
-        bool isExtendedKey;    // extended-key flag, 1 if scancode has 0xE0 prefix
-        bool contextCode;      // indicates whether the ALT key was down
-        bool previousKeyState; // indicates whether the key that generated the keystroke message was previously up or down
-        bool transitionState;  // transition-state flag, 1 on keyup
-        KeyFlags(LPARAM lParam);
+    template <
+        typename TEventArgs,
+        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0>
+    class RoutedEventHandlerWrapper : public ICallable<void(UIElement &, RoutedEventArgs &)>
+    {
+    private:
+        /**
+         * @brief 事件处理函数
+         */
+        Action<UIElement &, TEventArgs &> _handler;
+
+    public:
+        /**
+         * @brief         构造函数
+         * @param handler 事件处理函数
+         */
+        RoutedEventHandlerWrapper(const Action<UIElement &, TEventArgs &> &handler)
+            : _handler(handler)
+        {
+        }
+
+        /**
+         * @brief 调用事件处理函数
+         */
+        virtual void Invoke(UIElement &sender, RoutedEventArgs &args) const override
+        {
+            if (_handler) _handler(sender, static_cast<TEventArgs &>(args));
+        }
+
+        /**
+         * @brief 克隆当前可调用对象
+         */
+        virtual ICallable<void(UIElement &, RoutedEventArgs &)> *Clone() const override
+        {
+            return new RoutedEventHandlerWrapper(_handler);
+        }
+
+        /**
+         * @brief 获取当前可调用对象的类型信息
+         */
+        virtual std::type_index GetType() const override
+        {
+            return typeid(RoutedEventHandlerWrapper<TEventArgs>);
+        }
+
+        /**
+         * @brief       判断当前可调用对象是否与另一个可调用对象相等
+         * @param other 另一个可调用对象
+         * @return      如果相等则返回true，否则返回false
+         */
+        virtual bool Equals(const ICallable<void(UIElement &, RoutedEventArgs &)> &other) const override
+        {
+            if (this == &other) {
+                return true;
+            }
+            if (GetType() != other.GetType()) {
+                return false;
+            }
+            const auto &otherWrapper = static_cast<const RoutedEventHandlerWrapper &>(other);
+            return _handler.Equals(otherWrapper._handler);
+        }
+    };
+}
+
+// Utils.h
+
+
+namespace sw
+{
+    /**
+     * @brief 判断一个类型是否有ToString方法
+     */
+    template <typename T>
+    struct _HasToString {
+    private:
+        template <typename U>
+        static auto test(int) -> decltype(std::declval<U>().ToString(), std::true_type());
+
+        template <typename U>
+        static auto test(...) -> std::false_type;
+
+    public:
+        static constexpr bool value = decltype(test<T>(0))::value;
     };
 
     /**
-     * @brief 虚拟按键
+     * @brief 工具类
      */
-    enum class VirtualKey {
-        MouseLeft   = 0x01, // Left mouse button
-        MouseRight  = 0x02, // Right mouse button
-        Cancel      = 0x03, // Control-break processing
-        MouseMiddle = 0x04, // Middle mouse button (three-button mouse)
-        MouseX1     = 0x05, // X1 mouse button
-        MouseX2     = 0x06, // X2 mouse button
+    class Utils
+    {
+    private:
+        Utils() = delete; // 删除构造函数
 
-        //- 0x07 Undefined
+    public:
+        /**
+         * @brief      将窄字符串转为宽字符串
+         * @param str  要转换的字符串
+         * @param utf8 是否使用utf8编码
+         * @return     转换后的字符串
+         */
+        static std::wstring ToWideStr(const std::string &str, bool utf8 = false);
 
-        Backspace = 0x08, // BACKSPACE key
-        Tab       = 0x09, // TAB key
+        /**
+         * @brief      将宽字符串转为窄字符串
+         * @param wstr 要转换的字符串
+         * @param utf8 是否使用utf8编码
+         * @return     转换后的字符串
+         */
+        static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8 = false);
 
-        //- 0x0A-0B Reserved
+        /**
+         * @brief     删除首尾空白字符
+         * @param str 输入的字符串
+         * @return    删除首位空白字符后的字符串
+         */
+        static std::wstring Trim(const std::wstring &str);
 
-        Clear = 0x0C, // CLEAR key
-        Enter = 0x0D, // ENTER key
+        /**
+         * @brief     删除串首空白字符
+         * @param str 输入的字符串
+         * @return    删除串首空白字符后的字符串
+         */
+        static std::wstring TrimStart(const std::wstring &str);
 
-        //- 0x0E-0F Undefined
+        /**
+         * @brief     删除串尾空白字符
+         * @param str 输入的字符串
+         * @return    删除串尾空白字符后的字符串
+         */
+        static std::wstring TrimEnd(const std::wstring &str);
 
-        Shift      = 0x10, // SHIFT key
-        Ctrl       = 0x11, // CTRL key
-        Alt        = 0x12, // ALT key
-        Pause      = 0x13, // PAUSE key
-        CapsLock   = 0x14, // CAPS LOCK key
-        Kana       = 0x15, // IME Kana mode
-        Hanguel    = 0x15, // IME Hanguel mode (maintained for compatibility; use VK_HANGUL)
-        Hangul     = 0x15, // IME Hangul mode
-        IME_On     = 0x16, // IME On
-        Junja      = 0x17, // IME Junja mode
-        Final      = 0x18, // IME final mode
-        Hanja      = 0x19, // IME Hanja mode
-        KANJI      = 0x19, // IME Kanji mode
-        IME_Off    = 0x1A, // IME Off
-        Esc        = 0x1B, // ESC key
-        Convert    = 0x1C, // IME convert
-        Nonconvert = 0x1D, // IME nonconvert
-        Accept     = 0x1E, // IME accept
-        ModeChange = 0x1F, // IME mode change request
-        Space      = 0x20, // SPACEBAR
-        PageUp     = 0x21, // PAGE UP key
-        PageDown   = 0x22, // PAGE DOWN key
-        End        = 0x23, // END key
-        Home       = 0x24, // HOME key
-        Left       = 0x25, // LEFT ARROW key
-        Up         = 0x26, // UP ARROW key
-        Right      = 0x27, // RIGHT ARROW key
-        Down       = 0x28, // DOWN ARROW key
-        Select     = 0x29, // SELECT key
-        Print      = 0x2A, // PRINT key
-        Execute    = 0x2B, // EXECUTE key
-        Snapshot   = 0x2C, // PRINT SCREEN key
-        Insert     = 0x2D, // INS key
-        Delete     = 0x2E, // DEL key
-        Help       = 0x2F, // HELP key
+        /**
+         * @brief           对字符串按照指定分隔符进行拆分
+         * @param str       输入的字符串
+         * @param delimiter 分隔符
+         * @result          包含字串的vector
+         */
+        static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
 
-        Zero  = 0x30, // 0 key
-        One   = 0x31, // 1 key
-        Two   = 0x32, // 2 key
-        Three = 0x33, // 3 key
-        Four  = 0x34, // 4 key
-        Five  = 0x35, // 5 key
-        Six   = 0x36, // 6 key
-        Seven = 0x37, // 7 key
-        Eight = 0x38, // 8 key
-        Nine  = 0x39, // 9 key
+        /**
+         * @brief     格式化字符串，类似于 `swprintf`，但返回一个动态分配的 `std::wstring`
+         * @param fmt 格式化字符串
+         * @param ... 可变参数，符合 `fmt` 格式的输入
+         * @return    返回一个包含格式化结果的字符串
+         */
+        static std::wstring FormatStr(const wchar_t *fmt, ...);
 
-        //- 0x3A-40 Undefined
+    public:
+        /**
+         * @brief 取两值中的较大值
+         */
+        template <typename T>
+        static constexpr inline T Max(const T &a, const T &b)
+        {
+            return a > b ? a : b;
+        }
 
-        A = 0x41, // A key
-        B = 0x42, // B key
-        C = 0x43, // C key
-        D = 0x44, // D key
-        E = 0x45, // E key
-        F = 0x46, // F key
-        G = 0x47, // G key
-        H = 0x48, // H key
-        I = 0x49, // I key
-        J = 0x4A, // J key
-        K = 0x4B, // K key
-        L = 0x4C, // L key
-        M = 0x4D, // M key
-        N = 0x4E, // N key
-        O = 0x4F, // O key
-        P = 0x50, // P key
-        Q = 0x51, // Q key
-        R = 0x52, // R key
-        S = 0x53, // S key
-        T = 0x54, // T key
-        U = 0x55, // U key
-        V = 0x56, // V key
-        W = 0x57, // W key
-        X = 0x58, // X key
-        Y = 0x59, // Y key
-        Z = 0x5A, // Z key
+        /**
+         * @brief 取两值中的较小值
+         */
+        template <typename T>
+        static constexpr inline T Min(const T &a, const T &b)
+        {
+            return a < b ? a : b;
+        }
 
-        LeftWindows  = 0x5B, // Left Windows key (Natural keyboard)
-        RightWindows = 0x5C, // Right Windows key (Natural keyboard)
-        Applications = 0x5D, // Applications key (Natural keyboard)
+        /**
+         * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
+         */
+        template <typename... Args>
+        static inline std::wstring BuildStr(const Args &...args)
+        {
+            std::wstringstream wss;
+            int _[]{(Utils::_BuildStr(wss, args), 0)...};
+            return wss.str();
+        }
 
-        //- 0x5E Reserved
+    private:
+        /**
+         * @brief BuildStr函数内部实现
+         */
+        template <typename T>
+        static inline typename std::enable_if<!_IsProperty<T>::value && !_HasToString<T>::value, void>::type
+        _BuildStr(std::wostream &wos, const T &arg)
+        {
+            wos << arg;
+        }
 
-        Sleep     = 0x5F, // Computer Sleep key
-        NumPad0   = 0x60, // Numeric keypad 0 key
-        NumPad1   = 0x61, // Numeric keypad 1 key
-        NumPad2   = 0x62, // Numeric keypad 2 key
-        NumPad3   = 0x63, // Numeric keypad 3 key
-        NumPad4   = 0x64, // Numeric keypad 4 key
-        NumPad5   = 0x65, // Numeric keypad 5 key
-        NumPad6   = 0x66, // Numeric keypad 6 key
-        NumPad7   = 0x67, // Numeric keypad 7 key
-        NumPad8   = 0x68, // Numeric keypad 8 key
-        NumPad9   = 0x69, // Numeric keypad 9 key
-        Multipy   = 0x6A, // Multiply key
-        Add       = 0x6B, // Add key
-        Separator = 0x6C, // Separator key
-        Subtract  = 0x6D, // Subtract key
-        Decimal   = 0x6E, // Decimal key
-        Divide    = 0x6F, // Divide key
-        F1        = 0x70, // F1 key
-        F2        = 0x71, // F2 key
-        F3        = 0x72, // F3 key
-        F4        = 0x73, // F4 key
-        F5        = 0x74, // F5 key
-        F6        = 0x75, // F6 key
-        F7        = 0x76, // F7 key
-        F8        = 0x77, // F8 key
-        F9        = 0x78, // F9 key
-        F10       = 0x79, // F10 key
-        F11       = 0x7A, // F11 key
-        F12       = 0x7B, // F12 key
-        F13       = 0x7C, // F13 key
-        F14       = 0x7D, // F14 key
-        F15       = 0x7E, // F15 key
-        F16       = 0x7F, // F16 key
-        F17       = 0x80, // F17 key
-        F18       = 0x81, // F18 key
-        F19       = 0x82, // F19 key
-        F20       = 0x83, // F20 key
-        F21       = 0x84, // F21 key
-        F22       = 0x85, // F22 key
-        F23       = 0x86, // F23 key
-        F24       = 0x87, // F24 key
+        /**
+         * @brief 让BuildStr函数支持自定义类型
+         */
+        template <typename T>
+        static inline typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value, void>::type
+        _BuildStr(std::wostream &wos, const T &arg)
+        {
+            Utils::_BuildStr(wos, arg.ToString());
+        }
 
-        //- 0x88-8F Unassigned
+        /**
+         * @brief 让BuildStr函数支持属性
+         */
+        template <typename T>
+        static inline typename std::enable_if<_IsProperty<T>::value, void>::type
+        _BuildStr(std::wostream &wos, const T &prop)
+        {
+            Utils::_BuildStr(wos, prop.Get());
+        }
 
-        NumLock    = 0x90, // NUM LOCK key
-        ScrollLock = 0x91, // SCROLL LOCK key
+        /**
+         * @brief 让BuildStr函数将bool类型转化为"true"或"false"而不是数字1或0
+         */
+        static inline void _BuildStr(std::wostream &wos, bool b)
+        {
+            wos << (b ? L"true" : L"false");
+        }
 
-        // 0x92-96 OEM specific
-        //- 0x97-9F Unassigned
+        /**
+         * @brief 让BuildStr函数支持窄字符串
+         */
+        static inline void _BuildStr(std::wostream &wos, const char *str)
+        {
+            wos << Utils::ToWideStr(str);
+        }
 
-        LeftShift          = 0xA0, // Left SHIFT key
-        RightShift         = 0xA1, // Right SHIFT key
-        LeftCtrl           = 0xA2, // Left CONTROL key
-        RightCtrl          = 0xA3, // Right CONTROL key
-        LeftAlt            = 0xA4, // Left ALT key
-        RightAlt           = 0xA5, // Right ALT key
-        BrowserBack        = 0xA6, // Browser Back key
-        BrowserForward     = 0xA7, // Browser Forward key
-        BrowserRefresh     = 0xA8, // Browser Refresh key
-        BrowserStop        = 0xA9, // Browser Stop key
-        BrowserSearch      = 0xAA, // Browser Search key
-        BrowserFavorites   = 0xAB, // Browser Favorites key
-        BrowserHome        = 0xAC, // Browser Start and Home key
-        VolumeMute         = 0xAD, // Volume Mute key
-        VolumeDown         = 0xAE, // Volume Down key
-        VolumeUp           = 0xAF, // Volume Up key
-        MediaNextTrack     = 0xB0, // Next Track key
-        MediaPreviousTrack = 0xB1, // Previous Track key
-        MediaStop          = 0xB2, // Stop Media key
-        MediaPlayPause     = 0xB3, // Play/Pause Media key
-        LaunchMail         = 0xB4, // Start Mail key
-        LaunchMediaSelect  = 0xB5, // Select Media key
-        LaunchApplication1 = 0xB6, // Start Application 1 key
-        LaunchApplication2 = 0xB7, // Start Application 2 key
+        /**
+         * @brief 让BuildStr函数支持窄字符串
+         */
+        static inline void _BuildStr(std::wostream &wos, const std::string &str)
+        {
+            wos << Utils::ToWideStr(str);
+        }
 
-        //- 0xB8-B9 Reserved
+        /**
+         * @brief 让BuildStr函数支持std::vector
+         */
+        template <typename T>
+        static inline void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
+        {
+            auto beg = vec.begin();
+            auto end = vec.end();
+            wos << L"[";
+            for (auto it = beg; it != end; ++it) {
+                if (it != beg)
+                    wos << L", ";
+                Utils::_BuildStr(wos, *it);
+            }
+            wos << L"]";
+        }
 
-        OEM_1      = 0xBA, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ';:' key
-        OEM_Plus   = 0xBB, // For any country/region, the '+' key
-        OEM_Comma  = 0xBC, // For any country/region, the ',' key
-        OEM_Minus  = 0xBD, // For any country/region, the '-' key
-        OEM_Period = 0xBE, // For any country/region, the '.' key
-        OEM_2      = 0xBF, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '/?' key
-        OEM_3      = 0xC0, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '`~' key
+        /**
+         * @brief 让BildStr函数支持std::map
+         */
+        template <typename TKey, typename TVal>
+        static inline void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
+        {
+            auto beg = map.begin();
+            auto end = map.end();
+            wos << L"{";
+            for (auto it = beg; it != end; ++it) {
+                if (it != beg)
+                    wos << L", ";
+                Utils::_BuildStr(wos, it->first);
+                wos << L":";
+                Utils::_BuildStr(wos, it->second);
+            }
+            wos << L"}";
+        }
+    };
+}
 
-        //- 0xC1-D7 Reserved
-        //- 0xD8-DA Unassigned
+// Screen.h
 
-        OEM_4 = 0xDB, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '[{' key
-        OEM_5 = 0xDC, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '\|' key
-        OEM_6 = 0xDD, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ']}' key
-        OEM_7 = 0xDE, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the 'single-quote/double-quote' key
-        OEM_8 = 0xDF, // Used for miscellaneous characters; it can vary by keyboard.
 
-        //- 0xE0 Reserved
-        // 0xE1 OEM specific
+namespace sw
+{
+    /**
+     * @brief 屏幕相关
+     */
+    class Screen
+    {
+    private:
+        Screen() = delete;
 
-        OEM_102 = 0xE2, // The <> keys on the US standard keyboard, or the \\| key on the non-US 102-key keyboard
+    public:
+        /**
+         * @brief 屏幕宽度
+         */
+        static const ReadOnlyProperty<double> Width;
 
-        // 0xE3-E4 OEM specific
+        /**
+         * @brief 屏幕高度
+         */
+        static const ReadOnlyProperty<double> Height;
 
-        ProcessKey = 0xE5, // IME PROCESS key
+        /**
+         * @brief 鼠标在屏幕中的位置
+         */
+        static const ReadOnlyProperty<Point> CursorPosition;
+    };
+}
 
-        // 0xE6 OEM specific
+// App.h
 
-        Packet = 0xE7, // Used to pass Unicode characters as if they were keystrokes. The VK_PACKET key is the low word of a 32-bit Virtual Key value used for non-keyboard input methods. For more information, see Remark in KEYBDINPUT, SendInput, WM_KEYDOWN, and WM_KEYUP
 
-        //- 0xE8 Unassigned
-        // 0xE9-F5 OEM specific
-
-        Attn      = 0xF6, // Attn key
-        CrSel     = 0xF7, // CrSel key
-        ExSel     = 0xF8, // ExSel key
-        EraseEOF  = 0xF9, // Erase EOF key
-        Play      = 0xFA, // Play key
-        Zoom      = 0xFB, // Zoom key
-        NONAME    = 0xFC, // Reserved
-        PA1       = 0xFD, // PA1 key
-        OEM_Clear = 0xFE, // Clear key
+namespace sw
+{
+    /**
+     * @brief 程序退出消息循环的方式
+     */
+    enum class AppQuitMode {
+        Auto,   // 当所有窗口都销毁时自动退出消息循环
+        Manual, // 需手动调用QuitMsgLoop以退出消息循环
     };
 
     /**
-     * @brief 鼠标事件时用于判断按键状态
+     * @brief App类
      */
-    enum class MouseKey {
-        Ctrl        = MK_CONTROL,  // The CTRL key is down.
-        MouseLeft   = MK_LBUTTON,  // The left mouse button is down.
-        MouseMiddle = MK_MBUTTON,  // The middle mouse button is down.
-        MouseRight  = MK_RBUTTON,  // The right mouse button is down.
-        Shift       = MK_SHIFT,    // The SHIFT key is down.
-        MouseX1     = MK_XBUTTON1, // The first X button is down.
-        MouseX2     = MK_XBUTTON2, // The second X button is down.
+    class App
+    {
+    private:
+        App() = delete;
+
+    public:
+        /**
+         * @brief 应用程序的当前实例的句柄
+         */
+        static const ReadOnlyProperty<HINSTANCE> Instance;
+
+        /**
+         * @brief 当前exe的文件路径
+         */
+        static const ReadOnlyProperty<std::wstring> ExePath;
+
+        /**
+         * @brief 当前exe所在的文件夹路径
+         */
+        static const ReadOnlyProperty<std::wstring> ExeDirectory;
+
+        /**
+         * @brief 当前工作路径
+         */
+        static const Property<std::wstring> CurrentDirectory;
+
+        /**
+         * @brief 程序退出消息循环的方式
+         */
+        static const Property<AppQuitMode> QuitMode;
+
+        /**
+         * @brief 消息循环中处理空句柄消息的回调函数
+         */
+        static Action<MSG &> NullHwndMsgHandler;
+
+        /**
+         * @brief  消息循环
+         * @return 退出代码
+         */
+        static int MsgLoop();
+
+        /**
+         * @brief          退出当前消息循环
+         * @param exitCode 退出代码
+         */
+        static void QuitMsgLoop(int exitCode = 0);
     };
+}
 
-    /**
-     * @brief 标记MouseKey枚举类型支持位运算
-     */
-    _SW_ENUM_ENABLE_BIT_OPERATIONS(MouseKey);
+// ILayout.h
 
+
+namespace sw
+{
     /**
-     * @brief 表示热键框控件中的辅助按键，可以是一个或多个按键
+     * @brief 布局接口
      */
-    enum class HotKeyModifier {
-        None  = 0,                       // 无按键
-        Shift = /*HOTKEYF_SHIFT*/ 0x1,   // Alt键
-        Ctrl  = /*HOTKEYF_CONTROL*/ 0x2, // Ctrl键
-        Alt   = /*HOTKEYF_ALT*/ 0x4,     // 扩展键
-        Ext   = /*HOTKEYF_EXT*/ 0x8,     // Shift键
+    class ILayout
+    {
+    public:
+        /**
+         * @brief 默认虚析构函数
+         */
+        virtual ~ILayout() = default;
+
+    public:
+        /**
+         * @brief 获取布局标记
+         */
+        virtual uint64_t GetLayoutTag() = 0;
+
+        /**
+         * @brief 获取子控件的数量
+         */
+        virtual int GetChildLayoutCount() = 0;
+
+        /**
+         * @brief 获取对应索引处的子控件
+         */
+        virtual ILayout &GetChildLayoutAt(int index) = 0;
+
+        /**
+         * @brief 获取控件所需尺寸
+         */
+        virtual Size GetDesireSize() = 0;
+
+        /**
+         * @brief               测量控件所需尺寸
+         * @param availableSize 可用的尺寸
+         */
+        virtual void Measure(const Size &availableSize) = 0;
+
+        /**
+         * @brief               安排控件位置
+         * @param finalPosition 最终控件所安排的位置
+         */
+        virtual void Arrange(const Rect &finalPosition) = 0;
     };
-
-    /**
-     * @brief 标记HotKeyModifier枚举类型支持位运算
-     */
-    _SW_ENUM_ENABLE_BIT_OPERATIONS(HotKeyModifier);
 }
 
 // MenuBase.h
@@ -4813,642 +5480,6 @@ namespace sw
     };
 }
 
-// RoutedEventArgs.h
-
-
-namespace sw
-{
-    struct RoutedEventArgs; // RoutedEvent.h
-
-    /**
-     * @brief       表示特定类型路由事件的事件参数类型，继承自该类的类型可以直接作为RegisterRoutedEvent函数的模板参数
-     * @tparam TYPE 一个RoutedEventType枚举值，表示路由事件类型
-     */
-    template <RoutedEventType TYPE>
-    struct TypedRoutedEventArgs : RoutedEventArgs {
-        /**
-         * @brief 路由事件的类型，RegisterRoutedEvent模板函数使用此字段注册事件
-         */
-        static constexpr RoutedEventType EventType = TYPE;
-
-        /**
-         * @brief 构造函数，初始化事件类型为EventType
-         */
-        TypedRoutedEventArgs() : RoutedEventArgs(EventType) {}
-    };
-
-    /**
-     * @brief 结构体模板，用于检测类型T是否含有名为EventType的静态字段
-     */
-    template <typename T, typename = void>
-    struct _HasEventType : std::false_type {
-    };
-
-    /**
-     * @brief 模板特化：当T包含EventType时，将_IsTypedRoutedEventArgs<T>设为std::true_type
-     */
-    template <typename T>
-    struct _HasEventType<T, decltype(void(std::declval<T>().EventType))> : std::true_type {
-    };
-
-    /**
-     * @brief 结构体模板，用于检测类型T是否包含事件类型信息
-     */
-    template <typename T>
-    struct _IsTypedRoutedEventArgs : _HasEventType<T> {
-    };
-
-    /**
-     * @brief 尺寸改变事件参数类型
-     */
-    struct SizeChangedEventArgs : TypedRoutedEventArgs<UIElement_SizeChanged> {
-        Size newClientSize; // 用户区的新尺寸
-        SizeChangedEventArgs(Size newClientSize) : newClientSize(newClientSize) {}
-    };
-
-    /**
-     * @brief 位置改变事件参数类型
-     */
-    struct PositionChangedEventArgs : TypedRoutedEventArgs<UIElement_PositionChanged> {
-        Point newClientPosition; // 移动后用户区左上角的位置
-        PositionChangedEventArgs(Point newClientPosition) : newClientPosition(newClientPosition) {}
-    };
-
-    /**
-     * @brief 输入字符事件类型参数
-     */
-    struct GotCharEventArgs : TypedRoutedEventArgs<UIElement_GotChar> {
-        wchar_t ch;     // 输入的字符
-        KeyFlags flags; // 附加信息
-        GotCharEventArgs(wchar_t ch, KeyFlags flags) : ch(ch), flags(flags) {}
-    };
-
-    /**
-     * @brief 键盘按键按下事件参数类型
-     */
-    struct KeyDownEventArgs : TypedRoutedEventArgs<UIElement_KeyDown> {
-        VirtualKey key; // 虚拟按键
-        KeyFlags flags; // 附加信息
-        KeyDownEventArgs(VirtualKey key, KeyFlags flags) : key(key), flags(flags) {}
-    };
-
-    /**
-     * @brief 键盘按键抬起事件参数类型
-     */
-    struct KeyUpEventArgs : TypedRoutedEventArgs<UIElement_KeyUp> {
-        VirtualKey key; // 虚拟按键
-        KeyFlags flags; // 附加信息
-        KeyUpEventArgs(VirtualKey key, KeyFlags flags) : key(key), flags(flags) {}
-    };
-
-    /**
-     * @brief 鼠标移动事件参数类型
-     */
-    struct MouseMoveEventArgs : TypedRoutedEventArgs<UIElement_MouseMove> {
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-        MouseMoveEventArgs(Point mousePosition, MouseKey keyState)
-            : mousePosition(mousePosition), keyState(keyState) {}
-    };
-
-    /**
-     * @brief 鼠标滚轮滚动事件参数类型
-     */
-    struct MouseWheelEventArgs : TypedRoutedEventArgs<UIElement_MouseWheel> {
-        int wheelDelta;      // 滚轮滚动的距离，为120的倍数
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-        MouseWheelEventArgs(int wheelDelta, Point mousePosition, MouseKey keyState)
-            : wheelDelta(wheelDelta), mousePosition(mousePosition), keyState(keyState) {}
-    };
-
-    /**
-     * @brief 鼠标按键按下事件参数类型
-     */
-    struct MouseButtonDownEventArgs : TypedRoutedEventArgs<UIElement_MouseButtonDown> {
-        MouseKey key;        // 按下的按键（左键、中间、右键）
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-        MouseButtonDownEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
-            : key(key), mousePosition(mousePosition), keyState(keyState) {}
-    };
-
-    /**
-     * @brief 鼠标按键抬起事件参数类型
-     */
-    struct MouseButtonUpEventArgs : TypedRoutedEventArgs<UIElement_MouseButtonUp> {
-        MouseKey key;        // 抬起的按键（左键、中间、右键）
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-        MouseButtonUpEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
-            : key(key), mousePosition(mousePosition), keyState(keyState) {}
-    };
-
-    /**
-     * @brief 显示用户自定义上下文菜单的事件参数类型
-     */
-    struct ShowContextMenuEventArgs : TypedRoutedEventArgs<UIElement_ShowContextMenu> {
-        bool cancel = false; // 是否取消显示上下文菜单
-        bool isKeyboardMsg;  // 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
-        Point mousePosition; // 鼠标在屏幕中的位置
-        ShowContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition)
-            : isKeyboardMsg(isKeyboardMsg), mousePosition(mousePosition) {}
-    };
-
-    /**
-     * @brief 文件拖放事件参数类型
-     */
-    struct DropFilesEventArgs : TypedRoutedEventArgs<UIElement_DropFiles> {
-        HDROP hDrop; // 描述拖入文件的句柄
-        DropFilesEventArgs(HDROP hDrop) : hDrop(hDrop) {}
-    };
-
-    /**
-     * @brief 窗口正在关闭事件参数类型
-     */
-    struct WindowClosingEventArgs : TypedRoutedEventArgs<Window_Closing> {
-        bool cancel = false; // 是否取消本次关闭
-    };
-
-    /**
-     * @brief 窗口/面板滚动条滚动事件参数类型
-     */
-    struct ScrollingEventArgs : TypedRoutedEventArgs<Layer_Scrolling> {
-        bool cancel = false;         // 是否取消滚动条默认行为
-        ScrollOrientation scrollbar; // 滚动条类型
-        ScrollEvent event;           // 滚动条事件
-        double pos;                  // 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
-        ScrollingEventArgs(ScrollOrientation scrollbar, ScrollEvent event, double pos)
-            : scrollbar(scrollbar), event(event), pos(pos) {}
-    };
-
-    /**
-     * @brief 列表视图某个复选框选中状态改变的事件参数类型
-     */
-    struct ListViewCheckStateChangedEventArgs : TypedRoutedEventArgs<ListView_CheckStateChanged> {
-        int index; // 改变项的索引
-        ListViewCheckStateChangedEventArgs(int index) : index(index) {}
-    };
-
-    /**
-     * @brief 列表视图的列标题单击与双击事件参数类型
-     */
-    struct ListViewHeaderClickedEventArgs : RoutedEventArgs {
-        int index; // 被点击列标题的索引
-        ListViewHeaderClickedEventArgs(RoutedEventType eventType, int index)
-            : RoutedEventArgs(eventType), index(index) {}
-    };
-
-    /**
-     * @brief 列表视图项单击与双击事件参数类型
-     */
-    struct ListViewItemClickedEventArgs : RoutedEventArgs {
-        int row; // 被点击的行
-        int col; // 被点击的列
-        ListViewItemClickedEventArgs(RoutedEventType eventType, int row, int col)
-            : RoutedEventArgs(eventType), row(row), col(col) {}
-    };
-
-    /**
-     * @brief 列表视图编辑状态结束事件参数类型
-     */
-    struct ListViewEndEditEventArgs : TypedRoutedEventArgs<ListView_EndEdit> {
-        bool cancel = false; // 是否取消文本更改，默认为false
-        int index;           // 被编辑项的索引
-        wchar_t *newText;    // 新的文本
-        ListViewEndEditEventArgs(int index, wchar_t *newText) : index(index), newText(newText) {}
-    };
-
-    /**
-     * @brief DateTimePicker控件时间改变事件参数类型
-     */
-    struct DateTimePickerTimeChangedEventArgs : TypedRoutedEventArgs<DateTimePicker_TimeChanged> {
-        SYSTEMTIME time; // 时间的新值
-        DateTimePickerTimeChangedEventArgs(const SYSTEMTIME &time) : time(time) {}
-    };
-
-    /**
-     * @brief 月历控件时间改变事件参数类型
-     */
-    struct MonthCalendarTimeChangedEventArgs : TypedRoutedEventArgs<MonthCalendar_TimeChanged> {
-        SYSTEMTIME time; // 时间的新值
-        MonthCalendarTimeChangedEventArgs(const SYSTEMTIME &time) : time(time) {}
-    };
-
-    /**
-     * @brief SysLink控件链接被单击事件参数类型
-     */
-    struct SysLinkClickedEventArgs : TypedRoutedEventArgs<SysLink_Clicked> {
-        wchar_t *id;  // 被单击链接的id
-        wchar_t *url; // 被单击链接的url（即href）
-        SysLinkClickedEventArgs(wchar_t *id, wchar_t *url) : id(id), url(url) {}
-    };
-
-    /**
-     * @brief 热键框值改变事件参数类型
-     */
-    struct HotKeyValueChangedEventArgs : TypedRoutedEventArgs<HotKeyControl_ValueChanged> {
-        VirtualKey key;          // 按键
-        HotKeyModifier modifier; // 辅助按键
-        HotKeyValueChangedEventArgs(VirtualKey key, HotKeyModifier modifier) : key(key), modifier(modifier) {}
-    };
-}
-
-// App.h
-
-
-namespace sw
-{
-    /**
-     * @brief 程序退出消息循环的方式
-     */
-    enum class AppQuitMode {
-        Auto,   // 当所有窗口都销毁时自动退出消息循环
-        Manual, // 需手动调用QuitMsgLoop以退出消息循环
-    };
-
-    /**
-     * @brief App类
-     */
-    class App
-    {
-    private:
-        App() = delete;
-
-    public:
-        /**
-         * @brief 应用程序的当前实例的句柄
-         */
-        static const ReadOnlyProperty<HINSTANCE> Instance;
-
-        /**
-         * @brief 当前exe的文件路径
-         */
-        static const ReadOnlyProperty<std::wstring> ExePath;
-
-        /**
-         * @brief 当前exe所在的文件夹路径
-         */
-        static const ReadOnlyProperty<std::wstring> ExeDirectory;
-
-        /**
-         * @brief 当前工作路径
-         */
-        static const Property<std::wstring> CurrentDirectory;
-
-        /**
-         * @brief 程序退出消息循环的方式
-         */
-        static const Property<AppQuitMode> QuitMode;
-
-        /**
-         * @brief 消息循环中处理空句柄消息的回调函数
-         */
-        static Action<MSG &> NullHwndMsgHandler;
-
-        /**
-         * @brief  消息循环
-         * @return 退出代码
-         */
-        static int MsgLoop();
-
-        /**
-         * @brief          退出当前消息循环
-         * @param exitCode 退出代码
-         */
-        static void QuitMsgLoop(int exitCode = 0);
-    };
-}
-
-// EventHandlerWrapper.h
-
-
-namespace sw
-{
-    /**
-     * @brief 路由事件处理函数包装类，用于需要转换RoutedEventArgs为特定事件参数类型的情况
-     */
-    template <
-        typename TEventArgs,
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0>
-    class RoutedEventHandlerWrapper : public ICallable<void(UIElement &, RoutedEventArgs &)>
-    {
-    private:
-        /**
-         * @brief 事件处理函数
-         */
-        Action<UIElement &, TEventArgs &> _handler;
-
-    public:
-        /**
-         * @brief         构造函数
-         * @param handler 事件处理函数
-         */
-        RoutedEventHandlerWrapper(const Action<UIElement &, TEventArgs &> &handler)
-            : _handler(handler)
-        {
-        }
-
-        /**
-         * @brief 调用事件处理函数
-         */
-        virtual void Invoke(UIElement &sender, RoutedEventArgs &args) const override
-        {
-            if (_handler) _handler(sender, static_cast<TEventArgs &>(args));
-        }
-
-        /**
-         * @brief 克隆当前可调用对象
-         */
-        virtual ICallable<void(UIElement &, RoutedEventArgs &)> *Clone() const override
-        {
-            return new RoutedEventHandlerWrapper(_handler);
-        }
-
-        /**
-         * @brief 获取当前可调用对象的类型信息
-         */
-        virtual std::type_index GetType() const override
-        {
-            return typeid(RoutedEventHandlerWrapper<TEventArgs>);
-        }
-
-        /**
-         * @brief       判断当前可调用对象是否与另一个可调用对象相等
-         * @param other 另一个可调用对象
-         * @return      如果相等则返回true，否则返回false
-         */
-        virtual bool Equals(const ICallable<void(UIElement &, RoutedEventArgs &)> &other) const override
-        {
-            if (this == &other) {
-                return true;
-            }
-            if (GetType() != other.GetType()) {
-                return false;
-            }
-            const auto &otherWrapper = static_cast<const RoutedEventHandlerWrapper &>(other);
-            return _handler.Equals(otherWrapper._handler);
-        }
-    };
-}
-
-// ILayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 布局接口
-     */
-    class ILayout
-    {
-    public:
-        /**
-         * @brief 默认虚析构函数
-         */
-        virtual ~ILayout() = default;
-
-    public:
-        /**
-         * @brief 获取布局标记
-         */
-        virtual uint64_t GetLayoutTag() = 0;
-
-        /**
-         * @brief 获取子控件的数量
-         */
-        virtual int GetChildLayoutCount() = 0;
-
-        /**
-         * @brief 获取对应索引处的子控件
-         */
-        virtual ILayout &GetChildLayoutAt(int index) = 0;
-
-        /**
-         * @brief 获取控件所需尺寸
-         */
-        virtual Size GetDesireSize() = 0;
-
-        /**
-         * @brief               测量控件所需尺寸
-         * @param availableSize 可用的尺寸
-         */
-        virtual void Measure(const Size &availableSize) = 0;
-
-        /**
-         * @brief               安排控件位置
-         * @param finalPosition 最终控件所安排的位置
-         */
-        virtual void Arrange(const Rect &finalPosition) = 0;
-    };
-}
-
-// Utils.h
-
-
-namespace sw
-{
-    /**
-     * @brief 判断一个类型是否有ToString方法
-     */
-    template <typename T>
-    struct _HasToString {
-    private:
-        template <typename U>
-        static auto test(int) -> decltype(std::declval<U>().ToString(), std::true_type());
-
-        template <typename U>
-        static auto test(...) -> std::false_type;
-
-    public:
-        static constexpr bool value = decltype(test<T>(0))::value;
-    };
-
-    /**
-     * @brief 工具类
-     */
-    class Utils
-    {
-    private:
-        Utils() = delete; // 删除构造函数
-
-    public:
-        /**
-         * @brief      将窄字符串转为宽字符串
-         * @param str  要转换的字符串
-         * @param utf8 是否使用utf8编码
-         * @return     转换后的字符串
-         */
-        static std::wstring ToWideStr(const std::string &str, bool utf8 = false);
-
-        /**
-         * @brief      将宽字符串转为窄字符串
-         * @param wstr 要转换的字符串
-         * @param utf8 是否使用utf8编码
-         * @return     转换后的字符串
-         */
-        static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8 = false);
-
-        /**
-         * @brief     删除首尾空白字符
-         * @param str 输入的字符串
-         * @return    删除首位空白字符后的字符串
-         */
-        static std::wstring Trim(const std::wstring &str);
-
-        /**
-         * @brief     删除串首空白字符
-         * @param str 输入的字符串
-         * @return    删除串首空白字符后的字符串
-         */
-        static std::wstring TrimStart(const std::wstring &str);
-
-        /**
-         * @brief     删除串尾空白字符
-         * @param str 输入的字符串
-         * @return    删除串尾空白字符后的字符串
-         */
-        static std::wstring TrimEnd(const std::wstring &str);
-
-        /**
-         * @brief           对字符串按照指定分隔符进行拆分
-         * @param str       输入的字符串
-         * @param delimiter 分隔符
-         * @result          包含字串的vector
-         */
-        static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
-
-        /**
-         * @brief     格式化字符串，类似于 `swprintf`，但返回一个动态分配的 `std::wstring`
-         * @param fmt 格式化字符串
-         * @param ... 可变参数，符合 `fmt` 格式的输入
-         * @return    返回一个包含格式化结果的字符串
-         */
-        static std::wstring FormatStr(const wchar_t *fmt, ...);
-
-    public:
-        /**
-         * @brief 取两值中的较大值
-         */
-        template <typename T>
-        static constexpr inline T Max(const T &a, const T &b)
-        {
-            return a > b ? a : b;
-        }
-
-        /**
-         * @brief 取两值中的较小值
-         */
-        template <typename T>
-        static constexpr inline T Min(const T &a, const T &b)
-        {
-            return a < b ? a : b;
-        }
-
-        /**
-         * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
-         */
-        template <typename... Args>
-        static inline std::wstring BuildStr(const Args &...args)
-        {
-            std::wstringstream wss;
-            int _[]{(Utils::_BuildStr(wss, args), 0)...};
-            return wss.str();
-        }
-
-    private:
-        /**
-         * @brief BuildStr函数内部实现
-         */
-        template <typename T>
-        static inline typename std::enable_if<!_IsProperty<T>::value && !_HasToString<T>::value, void>::type
-        _BuildStr(std::wostream &wos, const T &arg)
-        {
-            wos << arg;
-        }
-
-        /**
-         * @brief 让BuildStr函数支持自定义类型
-         */
-        template <typename T>
-        static inline typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value, void>::type
-        _BuildStr(std::wostream &wos, const T &arg)
-        {
-            Utils::_BuildStr(wos, arg.ToString());
-        }
-
-        /**
-         * @brief 让BuildStr函数支持属性
-         */
-        template <typename T>
-        static inline typename std::enable_if<_IsProperty<T>::value, void>::type
-        _BuildStr(std::wostream &wos, const T &prop)
-        {
-            Utils::_BuildStr(wos, prop.Get());
-        }
-
-        /**
-         * @brief 让BuildStr函数将bool类型转化为"true"或"false"而不是数字1或0
-         */
-        static inline void _BuildStr(std::wostream &wos, bool b)
-        {
-            wos << (b ? L"true" : L"false");
-        }
-
-        /**
-         * @brief 让BuildStr函数支持窄字符串
-         */
-        static inline void _BuildStr(std::wostream &wos, const char *str)
-        {
-            wos << Utils::ToWideStr(str);
-        }
-
-        /**
-         * @brief 让BuildStr函数支持窄字符串
-         */
-        static inline void _BuildStr(std::wostream &wos, const std::string &str)
-        {
-            wos << Utils::ToWideStr(str);
-        }
-
-        /**
-         * @brief 让BuildStr函数支持std::vector
-         */
-        template <typename T>
-        static inline void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
-        {
-            auto beg = vec.begin();
-            auto end = vec.end();
-            wos << L"[";
-            for (auto it = beg; it != end; ++it) {
-                if (it != beg)
-                    wos << L", ";
-                Utils::_BuildStr(wos, *it);
-            }
-            wos << L"]";
-        }
-
-        /**
-         * @brief 让BildStr函数支持std::map
-         */
-        template <typename TKey, typename TVal>
-        static inline void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
-        {
-            auto beg = map.begin();
-            auto end = map.end();
-            wos << L"{";
-            for (auto it = beg; it != end; ++it) {
-                if (it != beg)
-                    wos << L", ";
-                Utils::_BuildStr(wos, it->first);
-                wos << L":";
-                Utils::_BuildStr(wos, it->second);
-            }
-            wos << L"}";
-        }
-    };
-}
-
 // Dip.h
 
 
@@ -5497,37 +5528,6 @@ namespace sw
          * @brief dip转像素（垂直方向）
          */
         static int DipToPxY(double dip);
-    };
-}
-
-// Screen.h
-
-
-namespace sw
-{
-    /**
-     * @brief 屏幕相关
-     */
-    class Screen
-    {
-    private:
-        Screen() = delete;
-
-    public:
-        /**
-         * @brief 屏幕宽度
-         */
-        static const ReadOnlyProperty<double> Width;
-
-        /**
-         * @brief 屏幕高度
-         */
-        static const ReadOnlyProperty<double> Height;
-
-        /**
-         * @brief 鼠标在屏幕中的位置
-         */
-        static const ReadOnlyProperty<Point> CursorPosition;
     };
 }
 
@@ -5778,6 +5778,245 @@ namespace sw
         {
             return Utils::BuildStr(*this->_pVec);
         }
+    };
+}
+
+// Dictionary.h
+
+
+namespace sw
+{
+    template <typename TKey, typename TVal>
+    class Dictionary; // 向前声明
+
+    /**
+     * @brief 以字符串为键值的字典
+     */
+    template <typename TVal>
+    using StrDictionary = Dictionary<std::wstring, TVal>;
+
+    /**
+     * @brief 字典类，内部维护了一个指向std::map的智能指针
+     */
+    template <typename TKey, typename TVal>
+    class Dictionary
+    {
+    private:
+        /**
+         * @brief 指向std::map的智能指针
+         */
+        std::shared_ptr<std::map<TKey, TVal>> _pMap;
+
+    public:
+        /**
+         * @brief 初始化字典
+         */
+        Dictionary()
+            : _pMap(std::make_shared<std::map<TKey, TVal>>())
+        {
+        }
+
+        /**
+         * @brief 使用初始化列表
+         */
+        Dictionary(std::initializer_list<std::pair<const TKey, TVal>> list)
+            : _pMap(std::make_shared<std::map<TKey, TVal>>(list))
+        {
+        }
+
+        /**
+         * @brief 正向迭代器开始
+         */
+        auto begin() const
+        {
+            return this->_pMap->begin();
+        }
+
+        /**
+         * @brief 正向迭代器结束
+         */
+        auto end() const
+        {
+            return this->_pMap->end();
+        }
+
+        /**
+         * @brief 反向迭代器开始
+         */
+        auto rbegin() const
+        {
+            return this->_pMap->rbegin();
+        }
+
+        /**
+         * @brief 反向迭代器结束
+         */
+        auto rend() const
+        {
+            return this->_pMap->rend();
+        }
+
+        /**
+         * @brief     获取或设置值
+         * @param key 键值
+         */
+        auto &operator[](const TKey &key) const
+        {
+            return this->_pMap->at(key);
+        }
+
+        /**
+         * @brief 判断是否为同一个字典
+         */
+        bool operator==(const Dictionary &other) const
+        {
+            return this->_pMap == other._pMap;
+        }
+
+        /**
+         * @brief 判断是否不是同一个字典
+         */
+        bool operator!=(const Dictionary &other) const
+        {
+            return this->_pMap != other._pMap;
+        }
+
+        /**
+         * @brief 获取键值对个数
+         */
+        int Count() const
+        {
+            return (int)this->_pMap->size();
+        }
+
+        /**
+         * @brief 字典是否为空
+         */
+        bool IsEmpty() const
+        {
+            return this->_pMap->empty();
+        }
+
+        /**
+         * @brief  添加键值对到字典
+         * @return 当前字典
+         */
+        auto Add(const TKey &key, const TVal &value) const
+        {
+            this->_pMap->insert(std::make_pair(key, value));
+            return *this;
+        }
+
+        /**
+         * @brief     是否存在某个键值
+         * @param key 要查询的键值
+         */
+        bool ContainsKey(const TKey &key) const
+        {
+            return this->_pMap->count(key);
+        }
+
+        /**
+         * @brief       遍历字典，查询是否存在某个值
+         * @param value 要查询的值
+         */
+        bool ContainsValue(const TVal &value) const
+        {
+            for (const auto &pair : *this->_pMap) {
+                if (pair.second == value) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * @brief     移除指定键值对
+         * @param key 要删除的键值
+         */
+        void Remove(const TKey &key) const
+        {
+            this->_pMap->erase(key);
+        }
+
+        /**
+         * @brief 清空字典
+         */
+        void Clear() const
+        {
+            this->_pMap->clear();
+        }
+
+        /**
+         * @brief 复制当前字典
+         */
+        Dictionary Copy() const
+        {
+            Dictionary dic;
+            dic._pMap->insert(this->_pMap->begin(), this->_pMap->end());
+            return dic;
+        }
+
+        /**
+         * @brief 获取字典内部维护的std::map
+         */
+        std::map<TKey, TVal> &GetStdMap() const
+        {
+            return *this->_pMap;
+        }
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const
+        {
+            return Utils::BuildStr(*this->_pMap);
+        }
+    };
+}
+
+// ContextMenu.h
+
+
+namespace sw
+{
+    /**
+     * @brief 上下文菜单
+     */
+    class ContextMenu : public MenuBase
+    {
+    public:
+        /**
+         * @brief 初始化上下文菜单
+         */
+        ContextMenu();
+
+        /**
+         * @brief 初始化上下文菜单并设置菜单项
+         */
+        ContextMenu(std::initializer_list<MenuItem> items);
+
+        /**
+         * @brief    判断ID是否为上下文菜单项的ID
+         * @param id 要判断的ID
+         * @return   ID是否为上下文菜单项的ID
+         */
+        static bool IsContextMenuID(int id);
+
+    protected:
+        /**
+         * @brief       根据索引获取ID
+         * @param index 索引
+         * @return      菜单项的ID
+         */
+        virtual int IndexToID(int index) override;
+
+        /**
+         * @brief    根据ID获取索引
+         * @param id 菜单项的ID
+         * @return   索引
+         */
+        virtual int IDToIndex(int id) override;
     };
 }
 
@@ -6063,89 +6302,6 @@ namespace sw
          * @brief 若_isWrap为false时调用ImageList_Destroy
          */
         void _DestroyIfNotWrap();
-    };
-}
-
-// ContextMenu.h
-
-
-namespace sw
-{
-    /**
-     * @brief 上下文菜单
-     */
-    class ContextMenu : public MenuBase
-    {
-    public:
-        /**
-         * @brief 初始化上下文菜单
-         */
-        ContextMenu();
-
-        /**
-         * @brief 初始化上下文菜单并设置菜单项
-         */
-        ContextMenu(std::initializer_list<MenuItem> items);
-
-        /**
-         * @brief    判断ID是否为上下文菜单项的ID
-         * @param id 要判断的ID
-         * @return   ID是否为上下文菜单项的ID
-         */
-        static bool IsContextMenuID(int id);
-
-    protected:
-        /**
-         * @brief       根据索引获取ID
-         * @param index 索引
-         * @return      菜单项的ID
-         */
-        virtual int IndexToID(int index) override;
-
-        /**
-         * @brief    根据ID获取索引
-         * @param id 菜单项的ID
-         * @return   索引
-         */
-        virtual int IDToIndex(int id) override;
-    };
-}
-
-// Menu.h
-
-
-namespace sw
-{
-    /**
-     * @brief 菜单
-     */
-    class Menu : public MenuBase
-    {
-    public:
-        /**
-         * @brief 初始化菜单
-         */
-        Menu();
-
-        /**
-         * @brief 初始化菜单并设置菜单项
-         */
-        Menu(std::initializer_list<MenuItem> items);
-
-    protected:
-        /**
-         * @brief       根据索引获取ID
-         * @param index 索引
-         * @return      菜单项的ID
-         */
-        virtual int IndexToID(int index) override;
-
-        /**
-         * @brief    根据ID获取索引
-         * @param id 菜单项的ID
-         * @return   索引
-         */
-        virtual int IDToIndex(int id) override;
     };
 }
 
@@ -7072,267 +7228,55 @@ namespace sw
     };
 }
 
-// Dictionary.h
+// Menu.h
 
 
 namespace sw
 {
-    template <typename TKey, typename TVal>
-    class Dictionary; // 向前声明
-
     /**
-     * @brief 以字符串为键值的字典
+     * @brief 菜单
      */
-    template <typename TVal>
-    using StrDictionary = Dictionary<std::wstring, TVal>;
-
-    /**
-     * @brief 字典类，内部维护了一个指向std::map的智能指针
-     */
-    template <typename TKey, typename TVal>
-    class Dictionary
+    class Menu : public MenuBase
     {
-    private:
-        /**
-         * @brief 指向std::map的智能指针
-         */
-        std::shared_ptr<std::map<TKey, TVal>> _pMap;
-
     public:
         /**
-         * @brief 初始化字典
+         * @brief 初始化菜单
          */
-        Dictionary()
-            : _pMap(std::make_shared<std::map<TKey, TVal>>())
-        {
-        }
+        Menu();
 
         /**
-         * @brief 使用初始化列表
+         * @brief 初始化菜单并设置菜单项
          */
-        Dictionary(std::initializer_list<std::pair<const TKey, TVal>> list)
-            : _pMap(std::make_shared<std::map<TKey, TVal>>(list))
-        {
-        }
+        Menu(std::initializer_list<MenuItem> items);
+
+    protected:
+        /**
+         * @brief       根据索引获取ID
+         * @param index 索引
+         * @return      菜单项的ID
+         */
+        virtual int IndexToID(int index) override;
 
         /**
-         * @brief 正向迭代器开始
+         * @brief    根据ID获取索引
+         * @param id 菜单项的ID
+         * @return   索引
          */
-        auto begin() const
-        {
-            return this->_pMap->begin();
-        }
-
-        /**
-         * @brief 正向迭代器结束
-         */
-        auto end() const
-        {
-            return this->_pMap->end();
-        }
-
-        /**
-         * @brief 反向迭代器开始
-         */
-        auto rbegin() const
-        {
-            return this->_pMap->rbegin();
-        }
-
-        /**
-         * @brief 反向迭代器结束
-         */
-        auto rend() const
-        {
-            return this->_pMap->rend();
-        }
-
-        /**
-         * @brief     获取或设置值
-         * @param key 键值
-         */
-        auto &operator[](const TKey &key) const
-        {
-            return this->_pMap->at(key);
-        }
-
-        /**
-         * @brief 判断是否为同一个字典
-         */
-        bool operator==(const Dictionary &other) const
-        {
-            return this->_pMap == other._pMap;
-        }
-
-        /**
-         * @brief 判断是否不是同一个字典
-         */
-        bool operator!=(const Dictionary &other) const
-        {
-            return this->_pMap != other._pMap;
-        }
-
-        /**
-         * @brief 获取键值对个数
-         */
-        int Count() const
-        {
-            return (int)this->_pMap->size();
-        }
-
-        /**
-         * @brief 字典是否为空
-         */
-        bool IsEmpty() const
-        {
-            return this->_pMap->empty();
-        }
-
-        /**
-         * @brief  添加键值对到字典
-         * @return 当前字典
-         */
-        auto Add(const TKey &key, const TVal &value) const
-        {
-            this->_pMap->insert(std::make_pair(key, value));
-            return *this;
-        }
-
-        /**
-         * @brief     是否存在某个键值
-         * @param key 要查询的键值
-         */
-        bool ContainsKey(const TKey &key) const
-        {
-            return this->_pMap->count(key);
-        }
-
-        /**
-         * @brief       遍历字典，查询是否存在某个值
-         * @param value 要查询的值
-         */
-        bool ContainsValue(const TVal &value) const
-        {
-            for (const auto &pair : *this->_pMap) {
-                if (pair.second == value) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /**
-         * @brief     移除指定键值对
-         * @param key 要删除的键值
-         */
-        void Remove(const TKey &key) const
-        {
-            this->_pMap->erase(key);
-        }
-
-        /**
-         * @brief 清空字典
-         */
-        void Clear() const
-        {
-            this->_pMap->clear();
-        }
-
-        /**
-         * @brief 复制当前字典
-         */
-        Dictionary Copy() const
-        {
-            Dictionary dic;
-            dic._pMap->insert(this->_pMap->begin(), this->_pMap->end());
-            return dic;
-        }
-
-        /**
-         * @brief 获取字典内部维护的std::map
-         */
-        std::map<TKey, TVal> &GetStdMap() const
-        {
-            return *this->_pMap;
-        }
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const
-        {
-            return Utils::BuildStr(*this->_pMap);
-        }
+        virtual int IDToIndex(int id) override;
     };
 }
 
-// DockLayout.h
+// WrapLayoutH.h
 
 
 namespace sw
 {
     /**
-     * @brief 停靠布局标记
+     * @brief 横向自动换行布局
      */
-    class DockLayoutTag
+    class WrapLayoutH : virtual public LayoutHost
     {
     public:
-        enum : uint64_t {
-            Left,   // 左边
-            Top,    // 顶边
-            Right,  // 右边
-            Bottom, // 底边
-        };
-
-    private:
-        /**
-         * @brief Tag值
-         */
-        uint64_t _value;
-
-    public:
-        /**
-         * @brief 创建DockLayoutTag
-         */
-        DockLayoutTag(uint64_t value = Left);
-
-        /**
-         * @brief 隐式转换uint64_t
-         */
-        operator uint64_t() const;
-
-        /**
-         * @brief 判断值是否相等
-         */
-        bool operator==(const DockLayoutTag &other) const;
-
-        /**
-         * @brief 判断值是否不相等
-         */
-        bool operator!=(const DockLayoutTag &other) const;
-
-        /**
-         * @brief 判断值是否相等
-         */
-        bool operator==(uint64_t value) const;
-
-        /**
-         * @brief 判断值是否不相等
-         */
-        bool operator!=(uint64_t value) const;
-    };
-
-    /**
-     * @brief 停靠布局
-     */
-    class DockLayout : public LayoutHost
-    {
-    public:
-        /**
-         * @brief 最后一个子元素是否填充剩余空间
-         */
-        bool lastChildFill = true;
-
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
@@ -7348,15 +7292,50 @@ namespace sw
     };
 }
 
-// WrapLayoutH.h
+// CanvasLayout.h
 
 
 namespace sw
 {
     /**
-     * @brief 横向自动换行布局
+     * @brief 绝对位置布局方式的布局标记
      */
-    class WrapLayoutH : virtual public LayoutHost
+    struct CanvasLayoutTag {
+        /**
+         * @brief 左边
+         */
+        float left;
+
+        /**
+         * @brief 顶边
+         */
+        float top;
+
+        /**
+         * @brief 左边顶边均为0
+         */
+        CanvasLayoutTag();
+
+        /**
+         * @brief 指定左边和顶边
+         */
+        CanvasLayoutTag(float left, float top);
+
+        /**
+         * @brief 从LayoutTag创建
+         */
+        CanvasLayoutTag(uint64_t layoutTag);
+
+        /**
+         * @brief 隐式转换LayoutTag
+         */
+        operator uint64_t() const;
+    };
+
+    /**
+     * @brief 绝对位置布局方式
+     */
+    class CanvasLayout : public LayoutHost
     {
     public:
         /**
@@ -7690,6 +7669,271 @@ namespace sw
          * @brief 初始化BallonToolTip
          */
         BallonToolTip();
+    };
+}
+
+// GridLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 网格布局方式的布局标记
+     */
+    struct GridLayoutTag {
+        /**
+         * @brief 所在行
+         */
+        uint16_t row;
+
+        /**
+         * @brief 所在列
+         */
+        uint16_t column;
+
+        /**
+         * @brief 所跨行数
+         */
+        uint16_t rowSpan;
+
+        /**
+         * @brief 所跨列数
+         */
+        uint16_t columnSpan;
+
+        /**
+         * @brief GridLayoutTag默认值
+         */
+        GridLayoutTag();
+
+        /**
+         * @brief 初始化GridLayoutTag
+         */
+        GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan);
+
+        /**
+         * @brief 初始化GridLayoutTag
+         */
+        GridLayoutTag(uint16_t row, uint16_t column);
+
+        /**
+         * @brief 从LayoutTag创建
+         */
+        GridLayoutTag(uint64_t layoutTag);
+
+        /**
+         * @brief 隐式转换LayoutTag
+         */
+        operator uint64_t() const;
+    };
+
+    /**
+     * @brief GridRow和GridColumn的类型
+     */
+    enum class GridRCType {
+        FixSize,    // 固定大小
+        AutoSize,   // 自动大小
+        FillRemain, // 填充剩余空间
+    };
+
+    /**
+     * @brief 网格中的行信息
+     */
+    struct GridRow {
+        /**
+         * @brief 类型
+         */
+        GridRCType type;
+
+        /**
+         * @brief 高度
+         */
+        double height;
+
+        /**
+         * @brief 创建一个FillRemain的GridRow
+         */
+        GridRow();
+
+        /**
+         * @brief 初始化GridRow
+         */
+        GridRow(GridRCType type, double height);
+
+        /**
+         * @brief 固定大小的行
+         */
+        GridRow(double height);
+    };
+
+    /**
+     * @brief 固定高度的行
+     */
+    struct FixSizeGridRow : public GridRow {
+        /**
+         * @brief 初始化FixSizeGridRow
+         */
+        FixSizeGridRow(double height);
+    };
+
+    /**
+     * @brief 自动高度的行
+     */
+    struct AutoSizeGridRow : public GridRow {
+        /**
+         * @brief 初始化AutoSizeGridRow
+         */
+        AutoSizeGridRow();
+    };
+
+    /**
+     * @brief 填充剩余高度的行
+     */
+    struct FillRemainGridRow : public GridRow {
+        /**
+         * @brief 初始化FillRemainGridRow
+         */
+        FillRemainGridRow(double proportion = 1);
+    };
+
+    /**
+     * @brief 网格中的列信息
+     */
+    struct GridColumn {
+        /**
+         * @brief 类型
+         */
+        GridRCType type;
+
+        /**
+         * @brief 宽度
+         */
+        double width;
+
+        /**
+         * @brief 创建一个FillRemain的GridColumn
+         */
+        GridColumn();
+
+        /**
+         * @brief 初始化GridColumn
+         */
+        GridColumn(GridRCType type, double width);
+
+        /**
+         * @brief 固定大小的列
+         */
+        GridColumn(double width);
+    };
+
+    /**
+     * @brief 固定宽度的列
+     */
+    struct FixSizeGridColumn : public GridColumn {
+        /**
+         * @brief 初始化FixSizeGridColumn
+         */
+        FixSizeGridColumn(double width);
+    };
+
+    /**
+     * @brief 自动宽度的列
+     */
+    struct AutoSizeGridColumn : public GridColumn {
+        /**
+         * @brief 初始化AutoSizeGridColumn
+         */
+        AutoSizeGridColumn();
+    };
+
+    /**
+     * @brief 填充剩余宽度的列
+     */
+    struct FillRemainGridColumn : public GridColumn {
+        /**
+         * @brief 初始化FillRemainGridColumn
+         */
+        FillRemainGridColumn(double proportion = 1);
+    };
+
+    /**
+     * @brief 网格布局方式
+     */
+    class GridLayout : public LayoutHost
+    {
+    private:
+        /**
+         * @brief 子元素的信息
+         */
+        struct _ChildInfo {
+            ILayout *instance;         // 子元素对象
+            GridLayoutTag layoutTag;   // 布局标记
+            GridRCType rowMeasureType; // 元素measure行时的类型
+            GridRCType colMeasureType; // 元素measure列时的类型
+        };
+
+        /**
+         * @brief 行信息
+         */
+        struct _RowInfo {
+            GridRow row;           // 行
+            double size       = 0; // 所需空间大小
+            double proportion = 0; // 类型为FillRemain时该字段保存该行的高度占比，范围为0~1
+        };
+
+        /**
+         * @brief 列信息
+         */
+        struct _ColInfo {
+            GridColumn col;        // 列
+            double size       = 0; // 所需空间大小
+            double proportion = 0; // 类型为FillRemain时该字段保存该列的宽度占比，范围为0~1
+        };
+
+        /**
+         * @brief 一些内部数据
+         */
+        struct {
+            std::vector<_RowInfo> rowsInfo;       // 行信息
+            std::vector<_ColInfo> colsInfo;       // 列信息
+            std::vector<_ChildInfo> childrenInfo; // 子元素信息
+            std::vector<Rect> cells;              // 保存格信息
+        } _internalData;
+
+    public:
+        /**
+         * @brief 行定义
+         */
+        List<GridRow> rows;
+
+        /**
+         * @brief 列定义
+         */
+        List<GridColumn> columns;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+
+    private:
+        /**
+         * @brief 更新内部数据
+         */
+        void _UpdateInternalData();
+
+        /**
+         * @brief 获取指定行列处的网格信息
+         */
+        Rect &_GetCell(int row, int col);
     };
 }
 
@@ -8812,145 +9056,6 @@ namespace sw
     };
 }
 
-// FillLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 一种将全部元素都铺满的布局，一般用于在只有一个子元素的时候将该元素铺满整个可用区域
-     */
-    class FillLayout : public LayoutHost
-    {
-    public:
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// CanvasLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 绝对位置布局方式的布局标记
-     */
-    struct CanvasLayoutTag {
-        /**
-         * @brief 左边
-         */
-        float left;
-
-        /**
-         * @brief 顶边
-         */
-        float top;
-
-        /**
-         * @brief 左边顶边均为0
-         */
-        CanvasLayoutTag();
-
-        /**
-         * @brief 指定左边和顶边
-         */
-        CanvasLayoutTag(float left, float top);
-
-        /**
-         * @brief 从LayoutTag创建
-         */
-        CanvasLayoutTag(uint64_t layoutTag);
-
-        /**
-         * @brief 隐式转换LayoutTag
-         */
-        operator uint64_t() const;
-    };
-
-    /**
-     * @brief 绝对位置布局方式
-     */
-    class CanvasLayout : public LayoutHost
-    {
-    public:
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// StackLayoutH.h
-
-
-namespace sw
-{
-    /**
-     * @brief 横向堆叠布局
-     */
-    class StackLayoutH : virtual public LayoutHost
-    {
-    public:
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// WrapLayoutV.h
-
-
-namespace sw
-{
-    /**
-     * @brief 纵向自动换行布局
-     */
-    class WrapLayoutV : virtual public LayoutHost
-    {
-    public:
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
 // Timer.h
 
 
@@ -9034,6 +9139,140 @@ namespace sw
     };
 }
 
+// WrapLayoutV.h
+
+
+namespace sw
+{
+    /**
+     * @brief 纵向自动换行布局
+     */
+    class WrapLayoutV : virtual public LayoutHost
+    {
+    public:
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// FillLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 一种将全部元素都铺满的布局，一般用于在只有一个子元素的时候将该元素铺满整个可用区域
+     */
+    class FillLayout : public LayoutHost
+    {
+    public:
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// DockLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 停靠布局标记
+     */
+    class DockLayoutTag
+    {
+    public:
+        enum : uint64_t {
+            Left,   // 左边
+            Top,    // 顶边
+            Right,  // 右边
+            Bottom, // 底边
+        };
+
+    private:
+        /**
+         * @brief Tag值
+         */
+        uint64_t _value;
+
+    public:
+        /**
+         * @brief 创建DockLayoutTag
+         */
+        DockLayoutTag(uint64_t value = Left);
+
+        /**
+         * @brief 隐式转换uint64_t
+         */
+        operator uint64_t() const;
+
+        /**
+         * @brief 判断值是否相等
+         */
+        bool operator==(const DockLayoutTag &other) const;
+
+        /**
+         * @brief 判断值是否不相等
+         */
+        bool operator!=(const DockLayoutTag &other) const;
+
+        /**
+         * @brief 判断值是否相等
+         */
+        bool operator==(uint64_t value) const;
+
+        /**
+         * @brief 判断值是否不相等
+         */
+        bool operator!=(uint64_t value) const;
+    };
+
+    /**
+     * @brief 停靠布局
+     */
+    class DockLayout : public LayoutHost
+    {
+    public:
+        /**
+         * @brief 最后一个子元素是否填充剩余空间
+         */
+        bool lastChildFill = true;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
 // UniformGridLayout.h
 
 
@@ -9075,6 +9314,32 @@ namespace sw
     };
 }
 
+// StackLayoutH.h
+
+
+namespace sw
+{
+    /**
+     * @brief 横向堆叠布局
+     */
+    class StackLayoutH : virtual public LayoutHost
+    {
+    public:
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
 // StackLayoutV.h
 
 
@@ -9098,271 +9363,6 @@ namespace sw
          * @param finalSize 可用于排列子元素的最终尺寸
          */
         virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// GridLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 网格布局方式的布局标记
-     */
-    struct GridLayoutTag {
-        /**
-         * @brief 所在行
-         */
-        uint16_t row;
-
-        /**
-         * @brief 所在列
-         */
-        uint16_t column;
-
-        /**
-         * @brief 所跨行数
-         */
-        uint16_t rowSpan;
-
-        /**
-         * @brief 所跨列数
-         */
-        uint16_t columnSpan;
-
-        /**
-         * @brief GridLayoutTag默认值
-         */
-        GridLayoutTag();
-
-        /**
-         * @brief 初始化GridLayoutTag
-         */
-        GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan);
-
-        /**
-         * @brief 初始化GridLayoutTag
-         */
-        GridLayoutTag(uint16_t row, uint16_t column);
-
-        /**
-         * @brief 从LayoutTag创建
-         */
-        GridLayoutTag(uint64_t layoutTag);
-
-        /**
-         * @brief 隐式转换LayoutTag
-         */
-        operator uint64_t() const;
-    };
-
-    /**
-     * @brief GridRow和GridColumn的类型
-     */
-    enum class GridRCType {
-        FixSize,    // 固定大小
-        AutoSize,   // 自动大小
-        FillRemain, // 填充剩余空间
-    };
-
-    /**
-     * @brief 网格中的行信息
-     */
-    struct GridRow {
-        /**
-         * @brief 类型
-         */
-        GridRCType type;
-
-        /**
-         * @brief 高度
-         */
-        double height;
-
-        /**
-         * @brief 创建一个FillRemain的GridRow
-         */
-        GridRow();
-
-        /**
-         * @brief 初始化GridRow
-         */
-        GridRow(GridRCType type, double height);
-
-        /**
-         * @brief 固定大小的行
-         */
-        GridRow(double height);
-    };
-
-    /**
-     * @brief 固定高度的行
-     */
-    struct FixSizeGridRow : public GridRow {
-        /**
-         * @brief 初始化FixSizeGridRow
-         */
-        FixSizeGridRow(double height);
-    };
-
-    /**
-     * @brief 自动高度的行
-     */
-    struct AutoSizeGridRow : public GridRow {
-        /**
-         * @brief 初始化AutoSizeGridRow
-         */
-        AutoSizeGridRow();
-    };
-
-    /**
-     * @brief 填充剩余高度的行
-     */
-    struct FillRemainGridRow : public GridRow {
-        /**
-         * @brief 初始化FillRemainGridRow
-         */
-        FillRemainGridRow(double proportion = 1);
-    };
-
-    /**
-     * @brief 网格中的列信息
-     */
-    struct GridColumn {
-        /**
-         * @brief 类型
-         */
-        GridRCType type;
-
-        /**
-         * @brief 宽度
-         */
-        double width;
-
-        /**
-         * @brief 创建一个FillRemain的GridColumn
-         */
-        GridColumn();
-
-        /**
-         * @brief 初始化GridColumn
-         */
-        GridColumn(GridRCType type, double width);
-
-        /**
-         * @brief 固定大小的列
-         */
-        GridColumn(double width);
-    };
-
-    /**
-     * @brief 固定宽度的列
-     */
-    struct FixSizeGridColumn : public GridColumn {
-        /**
-         * @brief 初始化FixSizeGridColumn
-         */
-        FixSizeGridColumn(double width);
-    };
-
-    /**
-     * @brief 自动宽度的列
-     */
-    struct AutoSizeGridColumn : public GridColumn {
-        /**
-         * @brief 初始化AutoSizeGridColumn
-         */
-        AutoSizeGridColumn();
-    };
-
-    /**
-     * @brief 填充剩余宽度的列
-     */
-    struct FillRemainGridColumn : public GridColumn {
-        /**
-         * @brief 初始化FillRemainGridColumn
-         */
-        FillRemainGridColumn(double proportion = 1);
-    };
-
-    /**
-     * @brief 网格布局方式
-     */
-    class GridLayout : public LayoutHost
-    {
-    private:
-        /**
-         * @brief 子元素的信息
-         */
-        struct _ChildInfo {
-            ILayout *instance;         // 子元素对象
-            GridLayoutTag layoutTag;   // 布局标记
-            GridRCType rowMeasureType; // 元素measure行时的类型
-            GridRCType colMeasureType; // 元素measure列时的类型
-        };
-
-        /**
-         * @brief 行信息
-         */
-        struct _RowInfo {
-            GridRow row;           // 行
-            double size       = 0; // 所需空间大小
-            double proportion = 0; // 类型为FillRemain时该字段保存该行的高度占比，范围为0~1
-        };
-
-        /**
-         * @brief 列信息
-         */
-        struct _ColInfo {
-            GridColumn col;        // 列
-            double size       = 0; // 所需空间大小
-            double proportion = 0; // 类型为FillRemain时该字段保存该列的宽度占比，范围为0~1
-        };
-
-        /**
-         * @brief 一些内部数据
-         */
-        struct {
-            std::vector<_RowInfo> rowsInfo;       // 行信息
-            std::vector<_ColInfo> colsInfo;       // 列信息
-            std::vector<_ChildInfo> childrenInfo; // 子元素信息
-            std::vector<Rect> cells;              // 保存格信息
-        } _internalData;
-
-    public:
-        /**
-         * @brief 行定义
-         */
-        List<GridRow> rows;
-
-        /**
-         * @brief 列定义
-         */
-        List<GridColumn> columns;
-
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-
-    private:
-        /**
-         * @brief 更新内部数据
-         */
-        void _UpdateInternalData();
-
-        /**
-         * @brief 获取指定行列处的网格信息
-         */
-        Rect &_GetCell(int row, int col);
     };
 }
 
@@ -9621,30 +9621,34 @@ namespace sw
     };
 }
 
-// HwndWrapper.h
+// StackLayout.h
 
 
 namespace sw
 {
     /**
-     * @brief 将Win32 window包装为SimpleWindow对象
-     * @note  与HwndHost类似，不同的是HwndWrapper不会创建容器窗口并且会接管句柄的窗口过程函数
+     * @brief 堆叠布局
      */
-    class HwndWrapper : public UIElement
+    class StackLayout : public StackLayoutH, public StackLayoutV
     {
-    protected:
+    public:
         /**
-         * @brief 子类需要调用该函数以初始化HwndWrapper，该函数会调用BuildWindowCore
+         * @brief 排列方式
          */
-        void InitHwndWrapper();
+        Orientation orientation = Orientation::Vertical;
 
         /**
-         * @brief           初始化HwndWrapper时会调用该函数，需在该函数中创建并返回要被托管的窗口句柄
-         * @param isControl 若被托管的窗口句柄是一个控件需要将该值置为true
-         * @param controlId 当isControl被设为true时，该值提供一个可用的控件id，确保不会与其他控件的id相重复
-         * @return          被托管窗口句柄
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual HWND BuildWindowCore(bool &isControl, int controlId) = 0;
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -9793,34 +9797,30 @@ namespace sw
     };
 }
 
-// StackLayout.h
+// HwndWrapper.h
 
 
 namespace sw
 {
     /**
-     * @brief 堆叠布局
+     * @brief 将Win32 window包装为SimpleWindow对象
+     * @note  与HwndHost类似，不同的是HwndWrapper不会创建容器窗口并且会接管句柄的窗口过程函数
      */
-    class StackLayout : public StackLayoutH, public StackLayoutV
+    class HwndWrapper : public UIElement
     {
-    public:
+    protected:
         /**
-         * @brief 排列方式
+         * @brief 子类需要调用该函数以初始化HwndWrapper，该函数会调用BuildWindowCore
          */
-        Orientation orientation = Orientation::Vertical;
+        void InitHwndWrapper();
 
         /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
+         * @brief           初始化HwndWrapper时会调用该函数，需在该函数中创建并返回要被托管的窗口句柄
+         * @param isControl 若被托管的窗口句柄是一个控件需要将该值置为true
+         * @param controlId 当isControl被设为true时，该值提供一个可用的控件id，确保不会与其他控件的id相重复
+         * @return          被托管窗口句柄
          */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
+        virtual HWND BuildWindowCore(bool &isControl, int controlId) = 0;
     };
 }
 
@@ -9855,81 +9855,379 @@ namespace sw
     };
 }
 
-// Animation.h
+// DateTimePicker.h
 
 
 namespace sw
 {
     /**
-     * @brief 动画控件，仅支持无音频的avi动画
+     * @brief 指定DateTimePicker控件显示的日期和时间格式
      */
-    class Animation : public Control
+    enum class DateTimePickerFormat {
+        Short,  // 以短格式显示日期
+        Long,   // 以长格式显示日期
+        Custom, // 自定义格式
+    };
+
+    /**
+     * @brief 日期和时间选取器
+     */
+    class DateTimePicker : public Control
+    {
+    private:
+        /**
+         * @brief 日期和时间格式
+         */
+        DateTimePickerFormat _format{DateTimePickerFormat::Short};
+
+        /**
+         * @brief 自定义格式字符串
+         */
+        std::wstring _customFormat{};
+
+    public:
+        /**
+         * @brief 是否显示上下调整按钮
+         */
+        const Property<bool> ShowUpDownButton;
+
+        /**
+         * @brief 日期和时间格式
+         */
+        const Property<DateTimePickerFormat> Format;
+
+        /**
+         * @brief 自定义日期和时间格式字符串，空字符串表示默认格式
+         */
+        const Property<std::wstring> CustomFormat;
+
+    public:
+        /**
+         * @brief 初始化DateTimePicker
+         */
+        DateTimePicker();
+
+        /**
+         * @brief     获取当前控件表示的时间
+         * @param out 输出的SYSTEMTIME结构体
+         * @return    若获取成功则返回true，否则返回false
+         */
+        bool GetTime(SYSTEMTIME &out);
+
+        /**
+         * @brief      设置当前控件表示的时间
+         * @param time 要设置的时间
+         * @return     若设置成功则返回true，否则返回false
+         */
+        bool SetTime(const SYSTEMTIME &time);
+
+        /**
+         * @brief         设置可选的时间段
+         * @param minTime 最早时间
+         * @param maxTime 最晚时间
+         * @return        若设置成功则返回true，否则返回false
+         */
+        bool SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &maxTime);
+
+    protected:
+        /**
+         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
+
+        /**
+         * @brief       当前控件表示的时间改变时调用该函数
+         * @param pInfo 发生改变的信息
+         */
+        virtual void OnTimeChanged(NMDATETIMECHANGE *pInfo);
+
+    private:
+        /**
+         * @brief       设置格式字符串
+         * @param value 要设置的值
+         */
+        void _SetFormat(const std::wstring &value);
+
+        /**
+         * @brief       修改当前控件的样式，该函数会调用ResetHandle
+         * @param style 新的样式
+         */
+        void _UpdateStyle(DWORD style);
+    };
+}
+
+// MonthCalendar.h
+
+
+namespace sw
+{
+    /**
+     * @brief 月历控件
+     */
+    class MonthCalendar : public Control
     {
     public:
         /**
-         * @brief 是否将动画居中显示
+         * @brief 是否显示当前日期
          */
-        const Property<bool> Center;
-
-        /**
-         * @brief 是否在打开avi文件后自动播放
-         */
-        const Property<bool> AutoPlay;
-
-        /**
-         * @brief 动画是否正在播放
-         */
-        const ReadOnlyProperty<bool> IsPlaying;
+        const Property<bool> ShowToday;
 
     public:
         /**
-         * @brief 初始化动画控件
+         * @brief 初始化月历控件
          */
-        Animation();
+        MonthCalendar();
 
         /**
-         * @brief            从指定模块中打开avi动画
-         * @param hInstance  DLL或EXE的模块句柄
-         * @param resourceId 动画的资源序号
-         * @return           若函数成功则返回true，否则返回false
+         * @brief     获取当前控件的“今天”部分所表示的时间
+         * @param out 输出的SYSTEMTIME结构体
+         * @return    若获取成功则返回true，否则返回false
          */
-        bool Open(HINSTANCE hInstance, int resourceId);
+        bool GetToday(SYSTEMTIME &out);
 
         /**
-         * @brief          从本地文件打开avi动画
-         * @param fileName 动画的文件路径
-         * @return         若函数成功则返回true，否则返回false
+         * @brief       设置当前控件的“今天”部分所表示的时间
+         * @param today 要设置的时间
+         * @return      若设置成功则返回true，否则返回false
          */
-        bool Open(const std::wstring &fileName);
+        bool SetToday(const SYSTEMTIME &today);
 
         /**
-         * @brief          从本地文件打开avi动画，传入nullptr可以关闭打开的动画
-         * @param fileName 动画的文件路径
-         * @return         若函数成功则返回true，否则返回false
+         * @brief     获取当前控件表示的时间
+         * @param out 输出的SYSTEMTIME结构体
+         * @return    若获取成功则返回true，否则返回false
          */
-        bool Open(const wchar_t *fileName);
+        bool GetTime(SYSTEMTIME &out);
 
         /**
-         * @brief            播放动画
-         * @param times      循环播放次数，设为-1表示无限循环播放
-         * @param beginFrame 从第几帧开始播放，值必须小于65536
-         * @param endFrame   播放到第几帧，值必须小于65536，设为-1表示播放到动画结尾
-         * @return           若函数成功则返回true，否则返回false
+         * @brief      设置当前控件表示的时间
+         * @param time 要设置的时间
+         * @return     若设置成功则返回true，否则返回false
          */
-        bool Play(int times, int beginFrame, int endFrame);
+        bool SetTime(const SYSTEMTIME &time);
 
         /**
-         * @brief            播放动画
-         * @param times      循环播放次数，设为-1表示无限循环播放
-         * @return           若函数成功则返回true，否则返回false
+         * @brief         设置可选的时间段
+         * @param minTime 最早时间
+         * @param maxTime 最晚时间
+         * @return        若设置成功则返回true，否则返回false
          */
-        bool Play(int times = -1);
+        bool SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &maxTime);
+
+    protected:
+        /**
+         * @brief     绘制虚线框时调用该函数
+         * @param hdc 绘制设备句柄
+         */
+        virtual void OnDrawFocusRect(HDC hdc) override;
 
         /**
-         * @brief  停止播放
-         * @return 若函数成功则返回true，否则返回false
+         * @brief        设置背景颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
          */
-        bool Stop();
+        virtual void SetBackColor(Color color, bool redraw) override;
+
+        /**
+         * @brief        设置文本颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetTextColor(Color color, bool redraw) override;
+
+        /**
+         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
+
+        /**
+         * @brief       当前控件表示的时间改变时调用该函数
+         * @param pInfo 发生改变的信息
+         */
+        virtual void OnTimeChanged(NMSELCHANGE *pInfo);
+    };
+}
+
+// Slider.h
+
+
+namespace sw
+{
+    /**
+     * @brief 滑块控件
+     */
+    class Slider : public Control
+    {
+    public:
+        /**
+         * @brief 最小值
+         */
+        const Property<int> Minimum;
+
+        /**
+         * @brief 最大值
+         */
+        const Property<int> Maximum;
+
+        /**
+         * @brief 当前滑块的值
+         */
+        const Property<int> Value;
+
+        /**
+         * @brief 是否显示为垂直滑块
+         */
+        const Property<bool> Vertical;
+
+        /**
+         * @brief 是否在滑动时显示数值提示
+         */
+        const Property<bool> ValueTooltips;
+
+    public:
+        /**
+         * @brief 初始化滑块控件
+         */
+        Slider();
+
+    protected:
+        /**
+         * @brief       接收到WM_VSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnVerticalScroll(int event, int pos) override;
+
+        /**
+         * @brief       接收到WM_HSCROLL时调用目标控件的该函数
+         * @param event 事件类型，即消息wParam的低字
+         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnHorizontalScroll(int event, int pos) override;
+
+        /**
+         * @brief 滑块的值改变时调用该函数
+         */
+        virtual void OnValueChanged();
+
+        /**
+         * @brief 释放滑块时调用该函数
+         */
+        virtual void OnEndTrack();
+    };
+}
+
+// HotKeyControl.h
+
+
+namespace sw
+{
+    /**
+     * @brief 表示一个热键
+     */
+    struct HotKey {
+        VirtualKey key;          // 按键
+        HotKeyModifier modifier; // 辅助按键
+    };
+
+    /**
+     * @brief 热键组合
+     */
+    enum class HotKeyCombination {
+        Alt          = HKCOMB_A,    // ALT
+        Ctrl         = HKCOMB_C,    // CTRL
+        CtrlAlt      = HKCOMB_CA,   // CTRL+ALT
+        None         = HKCOMB_NONE, // Unmodified keys
+        Shift        = HKCOMB_S,    // SHIFT
+        ShiftAlt     = HKCOMB_SA,   // SHIFT+ALT
+        ShiftCtrl    = HKCOMB_SC,   // SHIFT+CTRL
+        ShiftCtrlAlt = HKCOMB_SCA,  // SHIFT+CTRL+ALT
+    };
+
+    /**
+     * @brief 标记HotKeyCombination枚举类型支持位运算
+     */
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(HotKeyCombination);
+
+    /**
+     * @brief 热键框
+     */
+    class HotKeyControl : public Control
+    {
+    private:
+        /**
+         * @brief 热键的值
+         */
+        HotKey _value;
+
+    public:
+        /**
+         * @brief 当前控件所表示的热键值
+         */
+        const Property<HotKey> Value;
+
+    public:
+        /**
+         * @brief 初始化热键框
+         */
+        HotKeyControl();
+
+        /**
+         * @brief                 设置无效组合与默认值
+         * @param invalidComb     无效的组合键
+         * @param defaultModifier 用户输入无效组合时使用该组合键替换
+         */
+        void SetRules(HotKeyCombination invalidComb, HotKeyModifier defaultModifier);
+
+    protected:
+        /**
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
+         */
+        virtual void OnCommand(int code) override;
+
+        /**
+         * @brief 控件表示的热键值发生改变时调用该函数
+         */
+        virtual void OnValueChanged(HotKey value);
+
+    private:
+        /**
+         * @brief 更新_value
+         */
+        void _UpdateValue();
+    };
+}
+
+// StaticControl.h
+
+
+namespace sw
+{
+    /**
+     * @brief 静态控件
+     */
+    class StaticControl : public Control
+    {
+    public:
+        /**
+         * @brief 获取或设置控件的SS_NOTIFY样式
+         */
+        const Property<bool> Notify;
+
+    public:
+        /**
+         * @brief 初始化静态控件
+         */
+        StaticControl();
     };
 }
 
@@ -10015,6 +10313,157 @@ namespace sw
          * @return 若函数成功则返回Control指针，否则返回nullptr
          */
         virtual Control *ToControl() override;
+    };
+}
+
+// Animation.h
+
+
+namespace sw
+{
+    /**
+     * @brief 动画控件，仅支持无音频的avi动画
+     */
+    class Animation : public Control
+    {
+    public:
+        /**
+         * @brief 是否将动画居中显示
+         */
+        const Property<bool> Center;
+
+        /**
+         * @brief 是否在打开avi文件后自动播放
+         */
+        const Property<bool> AutoPlay;
+
+        /**
+         * @brief 动画是否正在播放
+         */
+        const ReadOnlyProperty<bool> IsPlaying;
+
+    public:
+        /**
+         * @brief 初始化动画控件
+         */
+        Animation();
+
+        /**
+         * @brief            从指定模块中打开avi动画
+         * @param hInstance  DLL或EXE的模块句柄
+         * @param resourceId 动画的资源序号
+         * @return           若函数成功则返回true，否则返回false
+         */
+        bool Open(HINSTANCE hInstance, int resourceId);
+
+        /**
+         * @brief          从本地文件打开avi动画
+         * @param fileName 动画的文件路径
+         * @return         若函数成功则返回true，否则返回false
+         */
+        bool Open(const std::wstring &fileName);
+
+        /**
+         * @brief          从本地文件打开avi动画，传入nullptr可以关闭打开的动画
+         * @param fileName 动画的文件路径
+         * @return         若函数成功则返回true，否则返回false
+         */
+        bool Open(const wchar_t *fileName);
+
+        /**
+         * @brief            播放动画
+         * @param times      循环播放次数，设为-1表示无限循环播放
+         * @param beginFrame 从第几帧开始播放，值必须小于65536
+         * @param endFrame   播放到第几帧，值必须小于65536，设为-1表示播放到动画结尾
+         * @return           若函数成功则返回true，否则返回false
+         */
+        bool Play(int times, int beginFrame, int endFrame);
+
+        /**
+         * @brief            播放动画
+         * @param times      循环播放次数，设为-1表示无限循环播放
+         * @return           若函数成功则返回true，否则返回false
+         */
+        bool Play(int times = -1);
+
+        /**
+         * @brief  停止播放
+         * @return 若函数成功则返回true，否则返回false
+         */
+        bool Stop();
+    };
+}
+
+// StatusBar.h
+
+
+namespace sw
+{
+    /**
+     * @brief 状态栏
+     */
+    class StatusBar : public Control
+    {
+    public:
+        /**
+         * @brief 是否在控件右下角显示大小调整手柄，修改该属性会重置当前控件
+         */
+        const Property<bool> SizingGrip;
+
+        /**
+         * @brief 获取当前控件中的分区数
+         */
+        const ReadOnlyProperty<int> PartsCount;
+
+        /**
+         * @brief 指定控件是否使用Unicode编码
+         */
+        const Property<bool> UseUnicode;
+
+    public:
+        /**
+         * @brief 初始化状态栏
+         */
+        StatusBar();
+
+        /**
+         * @brief       设置控件中的分区信息
+         * @param parts 每个部分的宽度，用-1表示延伸到最右边，不能多于256个
+         * @return      若函数成功则返回true，否则返回false
+         */
+        bool SetParts(std::initializer_list<double> parts);
+
+        /**
+         * @brief       获取指定部分的文本
+         * @param index 指定部分的索引
+         * @param out   获取到的文本
+         * @return      若函数成功则返回true，否则返回false
+         */
+        bool GetTextAt(uint8_t index, std::wstring &out);
+
+        /**
+         * @brief       设置指定部分的文本
+         * @param index 指定部分的索引
+         * @param text  要设置的文本
+         * @return      若函数成功则返回true，否则返回false
+         */
+        bool SetTextAt(uint8_t index, const std::wstring &text);
+
+        /**
+         * @brief       获取指定部分的位置与尺寸
+         * @param index 指定部分的索引
+         * @param out   获取到的Rect
+         * @return      若函数成功则返回true，否则返回false
+         */
+        bool GetRectAt(uint8_t index, sw::Rect &out);
+
+    protected:
+        /**
+         * @brief        设置背景颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetBackColor(Color color, bool redraw) override;
     };
 }
 
@@ -10138,393 +10587,6 @@ namespace sw
          * @brief 发送TCM_DELETEALLITEMS消息
          */
         bool _DeleteAllItems();
-    };
-}
-
-// ProgressBar.h
-
-
-namespace sw
-{
-    /**
-     * @brief 进度条状态
-     */
-    enum class ProgressBarState {
-        Normal = 0x0001, // 正常（PBST_NORMAL）
-        Error  = 0x0002, // 错误（PBST_ERROR）
-        Paused = 0x0003, // 暂停（PBST_PAUSED）
-    };
-
-    /**
-     * @brief 进度条控件
-     */
-    class ProgressBar : public Control
-    {
-    public:
-        /**
-         * @brief 进度范围的下限
-         */
-        const Property<uint16_t> Minimum;
-
-        /**
-         * @brief 进度范围的上限
-         */
-        const Property<uint16_t> Maximum;
-
-        /**
-         * @brief 当前进度值
-         */
-        const Property<uint16_t> Value;
-
-        /**
-         * @brief 进度条状态
-         */
-        const Property<ProgressBarState> State;
-
-        /**
-         * @brief 是否显示为垂直进度条
-         */
-        const Property<bool> Vertical;
-
-    public:
-        /**
-         * @brief 初始化进度条
-         */
-        ProgressBar();
-    };
-}
-
-// SysLink.h
-
-
-namespace sw
-{
-    /**
-     * @brief 包含链接的文本区域
-     */
-    class SysLink : public Control
-    {
-    private:
-        /**
-         * @brief 文本所需的尺寸
-         */
-        sw::Size _textSize;
-
-        /**
-         * @brief 是否根据文本自动调整尺寸
-         */
-        bool _autoSize = true;
-
-    public:
-        /**
-         * @brief 是否忽略回车按键，当该属性为true时按下回车键不会触发单击事件
-         */
-        const Property<bool> IgnoreReturn;
-
-        /**
-         * @brief 是否根据内容自动调整尺寸
-         */
-        const Property<bool> AutoSize;
-
-    public:
-        /**
-         * @brief 初始化SysLink
-         */
-        SysLink();
-
-    protected:
-        /**
-         * @brief Text属性更改时调用此函数
-         */
-        virtual void OnTextChanged() override;
-
-        /**
-         * @brief       字体改变时调用该函数
-         * @param hfont 字体句柄
-         */
-        virtual void FontChanged(HFONT hfont) override;
-
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
-         * @param pNMHDR 包含有关通知消息的信息
-         * @param result 函数返回值为true时将该值作为消息的返回值
-         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
-
-        /**
-         * @brief         链接被单击时调用该函数
-         * @param pNMLink 包含链接相关信息
-         */
-        virtual void OnClicked(NMLINK *pNMLink);
-
-    private:
-        /**
-         * @brief 更新_textSize
-         */
-        void _UpdateTextSize();
-
-        /**
-         * @brief 调整尺寸为_textSize
-         */
-        void _ResizeToTextSize();
-    };
-}
-
-// MonthCalendar.h
-
-
-namespace sw
-{
-    /**
-     * @brief 月历控件
-     */
-    class MonthCalendar : public Control
-    {
-    public:
-        /**
-         * @brief 是否显示当前日期
-         */
-        const Property<bool> ShowToday;
-
-    public:
-        /**
-         * @brief 初始化月历控件
-         */
-        MonthCalendar();
-
-        /**
-         * @brief     获取当前控件的“今天”部分所表示的时间
-         * @param out 输出的SYSTEMTIME结构体
-         * @return    若获取成功则返回true，否则返回false
-         */
-        bool GetToday(SYSTEMTIME &out);
-
-        /**
-         * @brief       设置当前控件的“今天”部分所表示的时间
-         * @param today 要设置的时间
-         * @return      若设置成功则返回true，否则返回false
-         */
-        bool SetToday(const SYSTEMTIME &today);
-
-        /**
-         * @brief     获取当前控件表示的时间
-         * @param out 输出的SYSTEMTIME结构体
-         * @return    若获取成功则返回true，否则返回false
-         */
-        bool GetTime(SYSTEMTIME &out);
-
-        /**
-         * @brief      设置当前控件表示的时间
-         * @param time 要设置的时间
-         * @return     若设置成功则返回true，否则返回false
-         */
-        bool SetTime(const SYSTEMTIME &time);
-
-        /**
-         * @brief         设置可选的时间段
-         * @param minTime 最早时间
-         * @param maxTime 最晚时间
-         * @return        若设置成功则返回true，否则返回false
-         */
-        bool SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &maxTime);
-
-    protected:
-        /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc) override;
-
-        /**
-         * @brief        设置背景颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetBackColor(Color color, bool redraw) override;
-
-        /**
-         * @brief        设置文本颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetTextColor(Color color, bool redraw) override;
-
-        /**
-         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
-         * @param pNMHDR 包含有关通知消息的信息
-         * @param result 函数返回值为true时将该值作为消息的返回值
-         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
-
-        /**
-         * @brief       当前控件表示的时间改变时调用该函数
-         * @param pInfo 发生改变的信息
-         */
-        virtual void OnTimeChanged(NMSELCHANGE *pInfo);
-    };
-}
-
-// StatusBar.h
-
-
-namespace sw
-{
-    /**
-     * @brief 状态栏
-     */
-    class StatusBar : public Control
-    {
-    public:
-        /**
-         * @brief 是否在控件右下角显示大小调整手柄，修改该属性会重置当前控件
-         */
-        const Property<bool> SizingGrip;
-
-        /**
-         * @brief 获取当前控件中的分区数
-         */
-        const ReadOnlyProperty<int> PartsCount;
-
-        /**
-         * @brief 指定控件是否使用Unicode编码
-         */
-        const Property<bool> UseUnicode;
-
-    public:
-        /**
-         * @brief 初始化状态栏
-         */
-        StatusBar();
-
-        /**
-         * @brief       设置控件中的分区信息
-         * @param parts 每个部分的宽度，用-1表示延伸到最右边，不能多于256个
-         * @return      若函数成功则返回true，否则返回false
-         */
-        bool SetParts(std::initializer_list<double> parts);
-
-        /**
-         * @brief       获取指定部分的文本
-         * @param index 指定部分的索引
-         * @param out   获取到的文本
-         * @return      若函数成功则返回true，否则返回false
-         */
-        bool GetTextAt(uint8_t index, std::wstring &out);
-
-        /**
-         * @brief       设置指定部分的文本
-         * @param index 指定部分的索引
-         * @param text  要设置的文本
-         * @return      若函数成功则返回true，否则返回false
-         */
-        bool SetTextAt(uint8_t index, const std::wstring &text);
-
-        /**
-         * @brief       获取指定部分的位置与尺寸
-         * @param index 指定部分的索引
-         * @param out   获取到的Rect
-         * @return      若函数成功则返回true，否则返回false
-         */
-        bool GetRectAt(uint8_t index, sw::Rect &out);
-
-    protected:
-        /**
-         * @brief        设置背景颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetBackColor(Color color, bool redraw) override;
-    };
-}
-
-// HotKeyControl.h
-
-
-namespace sw
-{
-    /**
-     * @brief 表示一个热键
-     */
-    struct HotKey {
-        VirtualKey key;          // 按键
-        HotKeyModifier modifier; // 辅助按键
-    };
-
-    /**
-     * @brief 热键组合
-     */
-    enum class HotKeyCombination {
-        Alt          = HKCOMB_A,    // ALT
-        Ctrl         = HKCOMB_C,    // CTRL
-        CtrlAlt      = HKCOMB_CA,   // CTRL+ALT
-        None         = HKCOMB_NONE, // Unmodified keys
-        Shift        = HKCOMB_S,    // SHIFT
-        ShiftAlt     = HKCOMB_SA,   // SHIFT+ALT
-        ShiftCtrl    = HKCOMB_SC,   // SHIFT+CTRL
-        ShiftCtrlAlt = HKCOMB_SCA,  // SHIFT+CTRL+ALT
-    };
-
-    /**
-     * @brief 标记HotKeyCombination枚举类型支持位运算
-     */
-    _SW_ENUM_ENABLE_BIT_OPERATIONS(HotKeyCombination);
-
-    /**
-     * @brief 热键框
-     */
-    class HotKeyControl : public Control
-    {
-    private:
-        /**
-         * @brief 热键的值
-         */
-        HotKey _value;
-
-    public:
-        /**
-         * @brief 当前控件所表示的热键值
-         */
-        const Property<HotKey> Value;
-
-    public:
-        /**
-         * @brief 初始化热键框
-         */
-        HotKeyControl();
-
-        /**
-         * @brief                 设置无效组合与默认值
-         * @param invalidComb     无效的组合键
-         * @param defaultModifier 用户输入无效组合时使用该组合键替换
-         */
-        void SetRules(HotKeyCombination invalidComb, HotKeyModifier defaultModifier);
-
-    protected:
-        /**
-         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
-         * @param code 通知代码
-         */
-        virtual void OnCommand(int code) override;
-
-        /**
-         * @brief 控件表示的热键值发生改变时调用该函数
-         */
-        virtual void OnValueChanged(HotKey value);
-
-    private:
-        /**
-         * @brief 更新_value
-         */
-        void _UpdateValue();
     };
 }
 
@@ -10834,373 +10896,56 @@ namespace sw
     };
 }
 
-// StaticControl.h
+// ProgressBar.h
 
 
 namespace sw
 {
     /**
-     * @brief 静态控件
+     * @brief 进度条状态
      */
-    class StaticControl : public Control
-    {
-    public:
-        /**
-         * @brief 获取或设置控件的SS_NOTIFY样式
-         */
-        const Property<bool> Notify;
-
-    public:
-        /**
-         * @brief 初始化静态控件
-         */
-        StaticControl();
+    enum class ProgressBarState {
+        Normal = 0x0001, // 正常（PBST_NORMAL）
+        Error  = 0x0002, // 错误（PBST_ERROR）
+        Paused = 0x0003, // 暂停（PBST_PAUSED）
     };
-}
 
-// Slider.h
-
-
-namespace sw
-{
     /**
-     * @brief 滑块控件
+     * @brief 进度条控件
      */
-    class Slider : public Control
+    class ProgressBar : public Control
     {
     public:
         /**
-         * @brief 最小值
+         * @brief 进度范围的下限
          */
-        const Property<int> Minimum;
+        const Property<uint16_t> Minimum;
 
         /**
-         * @brief 最大值
+         * @brief 进度范围的上限
          */
-        const Property<int> Maximum;
+        const Property<uint16_t> Maximum;
 
         /**
-         * @brief 当前滑块的值
+         * @brief 当前进度值
          */
-        const Property<int> Value;
+        const Property<uint16_t> Value;
 
         /**
-         * @brief 是否显示为垂直滑块
+         * @brief 进度条状态
+         */
+        const Property<ProgressBarState> State;
+
+        /**
+         * @brief 是否显示为垂直进度条
          */
         const Property<bool> Vertical;
 
-        /**
-         * @brief 是否在滑动时显示数值提示
-         */
-        const Property<bool> ValueTooltips;
-
     public:
         /**
-         * @brief 初始化滑块控件
+         * @brief 初始化进度条
          */
-        Slider();
-
-    protected:
-        /**
-         * @brief       接收到WM_VSCROLL时调用目标控件的该函数
-         * @param event 事件类型，即消息wParam的低字
-         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnVerticalScroll(int event, int pos) override;
-
-        /**
-         * @brief       接收到WM_HSCROLL时调用目标控件的该函数
-         * @param event 事件类型，即消息wParam的低字
-         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnHorizontalScroll(int event, int pos) override;
-
-        /**
-         * @brief 滑块的值改变时调用该函数
-         */
-        virtual void OnValueChanged();
-
-        /**
-         * @brief 释放滑块时调用该函数
-         */
-        virtual void OnEndTrack();
-    };
-}
-
-// ButtonBase.h
-
-
-namespace sw
-{
-    /**
-     * @brief 窗口类名为BUTTON的控件类型的基类
-     */
-    class ButtonBase : public Control
-    {
-    protected:
-        /**
-         * @brief 初始化ButtonBase
-         */
-        ButtonBase();
-
-    public:
-        /**
-         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
-         */
-        virtual ~ButtonBase() = 0;
-
-    protected:
-        /**
-         * @brief 初始化控件
-         */
-        void InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
-
-        /**
-         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
-         * @param code 通知代码
-         */
-        virtual void OnCommand(int code) override;
-
-        /**
-         * @brief 被单击时调用该函数
-         */
-        virtual void OnClicked();
-
-        /**
-         * @brief 被双击时调用该函数
-         */
-        virtual void OnDoubleClicked();
-    };
-}
-
-// DateTimePicker.h
-
-
-namespace sw
-{
-    /**
-     * @brief 指定DateTimePicker控件显示的日期和时间格式
-     */
-    enum class DateTimePickerFormat {
-        Short,  // 以短格式显示日期
-        Long,   // 以长格式显示日期
-        Custom, // 自定义格式
-    };
-
-    /**
-     * @brief 日期和时间选取器
-     */
-    class DateTimePicker : public Control
-    {
-    private:
-        /**
-         * @brief 日期和时间格式
-         */
-        DateTimePickerFormat _format{DateTimePickerFormat::Short};
-
-        /**
-         * @brief 自定义格式字符串
-         */
-        std::wstring _customFormat{};
-
-    public:
-        /**
-         * @brief 是否显示上下调整按钮
-         */
-        const Property<bool> ShowUpDownButton;
-
-        /**
-         * @brief 日期和时间格式
-         */
-        const Property<DateTimePickerFormat> Format;
-
-        /**
-         * @brief 自定义日期和时间格式字符串，空字符串表示默认格式
-         */
-        const Property<std::wstring> CustomFormat;
-
-    public:
-        /**
-         * @brief 初始化DateTimePicker
-         */
-        DateTimePicker();
-
-        /**
-         * @brief     获取当前控件表示的时间
-         * @param out 输出的SYSTEMTIME结构体
-         * @return    若获取成功则返回true，否则返回false
-         */
-        bool GetTime(SYSTEMTIME &out);
-
-        /**
-         * @brief      设置当前控件表示的时间
-         * @param time 要设置的时间
-         * @return     若设置成功则返回true，否则返回false
-         */
-        bool SetTime(const SYSTEMTIME &time);
-
-        /**
-         * @brief         设置可选的时间段
-         * @param minTime 最早时间
-         * @param maxTime 最晚时间
-         * @return        若设置成功则返回true，否则返回false
-         */
-        bool SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &maxTime);
-
-    protected:
-        /**
-         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
-         * @param pNMHDR 包含有关通知消息的信息
-         * @param result 函数返回值为true时将该值作为消息的返回值
-         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
-
-        /**
-         * @brief       当前控件表示的时间改变时调用该函数
-         * @param pInfo 发生改变的信息
-         */
-        virtual void OnTimeChanged(NMDATETIMECHANGE *pInfo);
-
-    private:
-        /**
-         * @brief       设置格式字符串
-         * @param value 要设置的值
-         */
-        void _SetFormat(const std::wstring &value);
-
-        /**
-         * @brief       修改当前控件的样式，该函数会调用ResetHandle
-         * @param style 新的样式
-         */
-        void _UpdateStyle(DWORD style);
-    };
-}
-
-// TextBoxBase.h
-
-
-namespace sw
-{
-    /**
-     * @brief 窗口类名为EDIT的控件类型的基类
-     */
-    class TextBoxBase : public Control
-    {
-    private:
-        /**
-         * @brief 在读取Text属性时用于判断是否需要更新储存的文本
-         */
-        bool _isTextChanged = false;
-
-        /**
-         * @brief 是否允许输入制表符
-         */
-        bool _acceptTab = false;
-
-    public:
-        /**
-         * @brief 是否只读
-         */
-        const Property<bool> ReadOnly;
-
-        /**
-         * @brief 文本的水平对齐方式，可设为左对齐、中心对齐、右对齐
-         */
-        const Property<sw::HorizontalAlignment> HorizontalContentAlignment;
-
-        /**
-         * @brief 是否可以撤销
-         */
-        const ReadOnlyProperty<bool> CanUndo;
-
-        /**
-         * @brief 是否允许输入制表符
-         */
-        const Property<bool> AcceptTab;
-
-    protected:
-        /**
-         * @brief 初始化TextBoxBase
-         */
-        TextBoxBase();
-
-    public:
-        /**
-         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
-         */
-        virtual ~TextBoxBase() = 0;
-
-    protected:
-        /**
-         * @brief 初始化控件
-         */
-        void InitTextBoxBase(DWORD dwStyle, DWORD dwExStyle);
-
-        /**
-         * @brief  获取窗口文本
-         * @return 编辑框的文本内容
-         */
-        virtual std::wstring &GetText() override;
-
-        /**
-         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
-         * @param code 通知代码
-         */
-        virtual void OnCommand(int code) override;
-
-        /**
-         * @brief       接收到WM_CHAR时调用该函数
-         * @param ch    按键的字符代码
-         * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnChar(wchar_t ch, KeyFlags flags) override;
-
-        /**
-         * @brief       接收到WM_KEYDOWN时调用该函数
-         * @param key   虚拟按键
-         * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
-
-        /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc) override;
-
-    public:
-        /**
-         * @brief        选择指定文本内容
-         * @param start  起始位置
-         * @param length 选择文本的长度
-         */
-        void Select(int start, int length);
-
-        /**
-         * @brief 选中所有文本
-         */
-        void SelectAll();
-
-        /**
-         * @brief 将控件内容滚动到当前插入符号位置
-         */
-        void ScrollToCaret();
-
-        /**
-         * @brief  撤销
-         * @return 操作是否成功
-         */
-        bool Undo();
-
-        /**
-         * @brief 清空内容
-         */
-        void Clear();
+        ProgressBar();
     };
 }
 
@@ -11329,6 +11074,261 @@ namespace sw
     };
 }
 
+// TextBoxBase.h
+
+
+namespace sw
+{
+    /**
+     * @brief 窗口类名为EDIT的控件类型的基类
+     */
+    class TextBoxBase : public Control
+    {
+    private:
+        /**
+         * @brief 在读取Text属性时用于判断是否需要更新储存的文本
+         */
+        bool _isTextChanged = false;
+
+        /**
+         * @brief 是否允许输入制表符
+         */
+        bool _acceptTab = false;
+
+    public:
+        /**
+         * @brief 是否只读
+         */
+        const Property<bool> ReadOnly;
+
+        /**
+         * @brief 文本的水平对齐方式，可设为左对齐、中心对齐、右对齐
+         */
+        const Property<sw::HorizontalAlignment> HorizontalContentAlignment;
+
+        /**
+         * @brief 是否可以撤销
+         */
+        const ReadOnlyProperty<bool> CanUndo;
+
+        /**
+         * @brief 是否允许输入制表符
+         */
+        const Property<bool> AcceptTab;
+
+    protected:
+        /**
+         * @brief 初始化TextBoxBase
+         */
+        TextBoxBase();
+
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~TextBoxBase() = 0;
+
+    protected:
+        /**
+         * @brief 初始化控件
+         */
+        void InitTextBoxBase(DWORD dwStyle, DWORD dwExStyle);
+
+        /**
+         * @brief  获取窗口文本
+         * @return 编辑框的文本内容
+         */
+        virtual std::wstring &GetText() override;
+
+        /**
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
+         */
+        virtual void OnCommand(int code) override;
+
+        /**
+         * @brief       接收到WM_CHAR时调用该函数
+         * @param ch    按键的字符代码
+         * @param flags 附加信息
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnChar(wchar_t ch, KeyFlags flags) override;
+
+        /**
+         * @brief       接收到WM_KEYDOWN时调用该函数
+         * @param key   虚拟按键
+         * @param flags 附加信息
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
+
+        /**
+         * @brief     绘制虚线框时调用该函数
+         * @param hdc 绘制设备句柄
+         */
+        virtual void OnDrawFocusRect(HDC hdc) override;
+
+    public:
+        /**
+         * @brief        选择指定文本内容
+         * @param start  起始位置
+         * @param length 选择文本的长度
+         */
+        void Select(int start, int length);
+
+        /**
+         * @brief 选中所有文本
+         */
+        void SelectAll();
+
+        /**
+         * @brief 将控件内容滚动到当前插入符号位置
+         */
+        void ScrollToCaret();
+
+        /**
+         * @brief  撤销
+         * @return 操作是否成功
+         */
+        bool Undo();
+
+        /**
+         * @brief 清空内容
+         */
+        void Clear();
+    };
+}
+
+// SysLink.h
+
+
+namespace sw
+{
+    /**
+     * @brief 包含链接的文本区域
+     */
+    class SysLink : public Control
+    {
+    private:
+        /**
+         * @brief 文本所需的尺寸
+         */
+        sw::Size _textSize;
+
+        /**
+         * @brief 是否根据文本自动调整尺寸
+         */
+        bool _autoSize = true;
+
+    public:
+        /**
+         * @brief 是否忽略回车按键，当该属性为true时按下回车键不会触发单击事件
+         */
+        const Property<bool> IgnoreReturn;
+
+        /**
+         * @brief 是否根据内容自动调整尺寸
+         */
+        const Property<bool> AutoSize;
+
+    public:
+        /**
+         * @brief 初始化SysLink
+         */
+        SysLink();
+
+    protected:
+        /**
+         * @brief Text属性更改时调用此函数
+         */
+        virtual void OnTextChanged() override;
+
+        /**
+         * @brief       字体改变时调用该函数
+         * @param hfont 字体句柄
+         */
+        virtual void FontChanged(HFONT hfont) override;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
+
+        /**
+         * @brief         链接被单击时调用该函数
+         * @param pNMLink 包含链接相关信息
+         */
+        virtual void OnClicked(NMLINK *pNMLink);
+
+    private:
+        /**
+         * @brief 更新_textSize
+         */
+        void _UpdateTextSize();
+
+        /**
+         * @brief 调整尺寸为_textSize
+         */
+        void _ResizeToTextSize();
+    };
+}
+
+// ButtonBase.h
+
+
+namespace sw
+{
+    /**
+     * @brief 窗口类名为BUTTON的控件类型的基类
+     */
+    class ButtonBase : public Control
+    {
+    protected:
+        /**
+         * @brief 初始化ButtonBase
+         */
+        ButtonBase();
+
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~ButtonBase() = 0;
+
+    protected:
+        /**
+         * @brief 初始化控件
+         */
+        void InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
+
+        /**
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
+         */
+        virtual void OnCommand(int code) override;
+
+        /**
+         * @brief 被单击时调用该函数
+         */
+        virtual void OnClicked();
+
+        /**
+         * @brief 被双击时调用该函数
+         */
+        virtual void OnDoubleClicked();
+    };
+}
+
 // Button.h
 
 
@@ -11373,6 +11373,463 @@ namespace sw
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
+    };
+}
+
+// Splitter.h
+
+
+namespace sw
+{
+    /**
+     * @brief 分隔条
+     */
+    class Splitter : public StaticControl
+    {
+    private:
+        /**
+         * @brief 记录分隔条方向
+         */
+        Orientation _orientation = Orientation::Horizontal;
+
+    public:
+        /**
+         * @brief 分隔条的方向，给该属性赋值同时会改变HorizontalAlignment和VerticalAlignment属性的值
+         */
+        const Property<Orientation> Orientation;
+
+        /**
+         * @brief 初始化分隔条
+         */
+        Splitter();
+
+    protected:
+        /**
+         * @brief  接收到WM_PAINT时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnPaint() override;
+
+        /**
+         * @brief               接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnSize(Size newClientSize) override;
+    };
+}
+
+// Label.h
+
+
+namespace sw
+{
+    /**
+     * @brief 文本过长时末尾的处理方式
+     */
+    enum class TextTrimming {
+        None,         // 不处理
+        EndEllipsis,  // 按字符截断并显示“...”
+        WordEllipsis, // 按单词截断并显示“...”
+    };
+
+    /**
+     * @brief 标签
+     */
+    class Label : public StaticControl
+    {
+    private:
+        /**
+         * @brief 文本所需的尺寸
+         */
+        Size _textSize;
+
+        /**
+         * @brief 是否根据文本自动调整尺寸
+         */
+        bool _autoSize = true;
+
+    public:
+        /**
+         * @brief 文本的水平对齐方式，可设为左对齐、中心对齐、右对齐
+         */
+        const Property<sw::HorizontalAlignment> HorizontalContentAlignment;
+
+        /**
+         * @brief 文本的垂直对齐方式，仅支持顶部对齐和中心对齐，当使用中心对齐时会使自动换行失效
+         */
+        const Property<sw::VerticalAlignment> VerticalContentAlignment;
+
+        /**
+         * @brief 文本过长时末尾的处理方式，当使用截断时水平对齐和自动换行将失效
+         */
+        const Property<sw::TextTrimming> TextTrimming;
+
+        /**
+         * @brief 是否自动换行
+         */
+        const Property<bool> AutoWrap;
+
+        /**
+         * @brief 是否根据文本自动调整尺寸
+         */
+        const Property<bool> AutoSize;
+
+    public:
+        /**
+         * @brief 初始化标签
+         */
+        Label();
+
+    private:
+        /**
+         * @brief 更新_textSize
+         */
+        void _UpdateTextSize();
+
+        /**
+         * @brief 调整尺寸为_textSize
+         */
+        void _ResizeToTextSize();
+
+    protected:
+        /**
+         * @brief               接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnSize(Size newClientSize) override;
+
+        /**
+         * @brief Text属性更改时调用此函数
+         */
+        virtual void OnTextChanged() override;
+
+        /**
+         * @brief       字体改变时调用该函数
+         * @param hfont 字体句柄
+         */
+        virtual void FontChanged(HFONT hfont) override;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+    };
+}
+
+// PasswordBox.h
+
+
+namespace sw
+{
+    /**
+     * @brief 密码框
+     */
+    class PasswordBox : public TextBoxBase
+    {
+    public:
+        /**
+         * @brief 密码框显示的字符
+         */
+        const Property<wchar_t> PasswordChar;
+
+    public:
+        /**
+         * @brief 初始化密码框
+         */
+        PasswordBox();
+    };
+}
+
+// HwndHost.h
+
+
+namespace sw
+{
+    /**
+     * @brief 将Win32 window托管为SimpleWindow控件
+     */
+    class HwndHost : public StaticControl
+    {
+    private:
+        /**
+         * @brief 托管的句柄
+         */
+        HWND _hWindowCore{NULL};
+
+        /**
+         * @brief 是否自动填充托管的内容
+         */
+        bool _fillContent = true;
+
+    public:
+        /**
+         * @brief 是否自动填充托管的内容
+         */
+        const Property<bool> FillContent;
+
+        /**
+         * @brief 创建HwndHost对象
+         */
+        HwndHost();
+
+    protected:
+        /**
+         * @brief 子类需要调用该函数以初始化HwndHost，该函数会调用BuildWindowCore
+         */
+        void InitHwndHost();
+
+        /**
+         * @brief               接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnSize(Size newClientSize) override;
+
+        /**
+         * @brief  接收到WM_DESTROY时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDestroy() override;
+
+    protected:
+        /**
+         * @brief         初始化HwndHost时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄
+         * @param hParent 需要给被托管窗口句柄设置的父窗口句柄
+         * @return        被托管窗口句柄
+         */
+        virtual HWND BuildWindowCore(HWND hParent) = 0;
+
+        /**
+         * @brief      HwndHost被销毁时会调用该函数来销毁被托管的窗口句柄
+         * @param hwnd 被托管窗口句柄
+         */
+        virtual void DestroyWindowCore(HWND hwnd) = 0;
+    };
+}
+
+// BmpBox.h
+
+
+namespace sw
+{
+    /**
+     * @brief 指定位图在BmpBox中的定位方式
+     */
+    enum class BmpBoxSizeMode {
+        Normal,       // 位图置于BmpBox左上角
+        StretchImage, // 拉伸位图填充BmpBox
+        AutoSize,     // 调整BmpBox大小，使其等于所包含位图的大小
+        CenterImage,  // 将位图居中显示
+        Zoom,         // 图像按照原来的比例缩放
+    };
+
+    /**
+     * @brief 用于显示一个位图的控件
+     */
+    class BmpBox : public StaticControl
+    {
+    private:
+        /**
+         * @brief 位图句柄
+         */
+        HBITMAP _hBitmap{NULL};
+
+        /**
+         * @brief 位图尺寸（以像素为单位），调用_UpdateBmpSize更新
+         */
+        SIZE _bmpSize{0, 0};
+
+        /**
+         * @brief 位图定位方式
+         */
+        BmpBoxSizeMode _sizeMode{BmpBoxSizeMode::Normal};
+
+    public:
+        /**
+         * @brief 当前控件显示的位图句柄，使用Load函数可以加载位图
+         */
+        const ReadOnlyProperty<HBITMAP> BmpHandle;
+
+        /**
+         * @brief 位图在BmpBox中的定位方式
+         */
+        const Property<BmpBoxSizeMode> SizeMode;
+
+    public:
+        /**
+         * @brief 初始化BmpBox
+         */
+        BmpBox();
+
+        /**
+         * @brief         加载位图，该函数会复制一个位图句柄作为显示的位图
+         * @param hBitmap 要加载的位图
+         * @return        加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
+         */
+        HBITMAP Load(HBITMAP hBitmap);
+
+        /**
+         * @brief            从指定模块中加载位图
+         * @param hInstance  DLL或EXE的模块句柄
+         * @param resourceId 位图的资源序号
+         * @return           加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
+         */
+        HBITMAP Load(HINSTANCE hInstance, int resourceId);
+
+        /**
+         * @brief          从文件加载位图
+         * @param fileName 位图文件的路径
+         * @return         加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
+         */
+        HBITMAP Load(const std::wstring &fileName);
+
+        /**
+         * @brief 清除加载的位图
+         */
+        void Clear();
+
+        /**
+         * @brief 调整控件尺寸为位图尺寸，未加载位图时该函数不生效
+         */
+        void SizeToImage();
+
+    protected:
+        /**
+         * @brief  接收到WM_DESTROY时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDestroy() override;
+
+        /**
+         * @brief  接收到WM_PAINT时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnPaint() override;
+
+        /**
+         * @brief               接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnSize(Size newClientSize) override;
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+    private:
+        /**
+         * @brief 更新_bmpSize
+         */
+        void _UpdateBmpSize();
+
+        /**
+         * @brief         设置位图
+         * @param hBitmap 位图句柄
+         */
+        void _SetBmp(HBITMAP hBitmap);
+
+        /**
+         * @brief         传入的位图不为NULL时调用_SetBmp
+         * @param hBitmap 位图句柄
+         * @return        传入的位图
+         */
+        HBITMAP _SetBmpIfNotNull(HBITMAP hBitmap);
+    };
+}
+
+// Panel.h
+
+
+namespace sw
+{
+    /**
+     * @brief 边框类型
+     */
+    enum class BorderStyle {
+        None   = 0,           // 无边框
+        Bump   = EDGE_BUMP,   // 突出的凸起边框
+        Etched = EDGE_ETCHED, // 刻痕式边框
+        Raised = EDGE_RAISED, // 凸起边框
+        Sunked = EDGE_SUNKEN, // 凹陷边框
+    };
+
+    /**
+     * @brief 面板
+     */
+    class Panel : public PanelBase
+    {
+    private:
+        /**
+         * @brief 边框类型，默认为无边框
+         */
+        BorderStyle _borderStyle = sw::BorderStyle::None;
+
+        /**
+         * @brief 内边距
+         */
+        Thickness _padding;
+
+    public:
+        /**
+         * @brief 边框样式
+         */
+        const Property<sw::BorderStyle> BorderStyle;
+
+        /**
+         * @brief 面板的内边距
+         */
+        const Property<sw::Thickness> Padding;
+
+    public:
+        /**
+         * @brief 初始化面板
+         */
+        Panel();
+
+    protected:
+        /**
+         * @brief 更新边框
+         */
+        void UpdateBorder();
+
+        /**
+         * @brief 对WndProc的封装
+         */
+        virtual LRESULT WndProc(const ProcMsg &refMsg) override;
+
+        /**
+         * @brief  接收到WM_PAINT时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnPaint() override;
+
+        /**
+         * @brief 在OnNcPaint函数完成之后调用该函数
+         */
+        virtual void OnEndNcPaint() override;
+
+        /**
+         * @brief      绘制边框
+         * @param hdc  绘制设备句柄，可能为NULL
+         * @param rect 绘制边框的矩形区域，该函数会减去边框厚度
+         * @note       若hdc为NULL则不进行绘制，只更新rect
+         */
+        virtual void OnDrawBorder(HDC hdc, RECT &rect);
+
+        /**
+         * @brief      绘制内边距
+         * @param hdc  绘制设备句柄，可能为NULL
+         * @param rect 绘制内边距的矩形区域，该函数会减去内边距
+         * @note       若hdc为NULL则不进行绘制，只更新rect
+         */
+        virtual void OnDrawPadding(HDC hdc, RECT &rect);
     };
 }
 
@@ -11794,261 +12251,152 @@ namespace sw
     };
 };
 
-// CheckableButton.h
+// ListBox.h
 
 
 namespace sw
 {
     /**
-     * @brief 选中状态枚举类型
+     * @brief 列表框
      */
-    enum class CheckState {
-        Unchecked     = BST_UNCHECKED,     // 未选中
-        Checked       = BST_CHECKED,       // 已选中
-        Indeterminate = BST_INDETERMINATE, // 不确定状态
-    };
-
-    /**
-     * @brief 表示可选中的按钮类型（单选框、复选框等）
-     */
-    class CheckableButton : public ButtonBase
+    class ListBox : public StrItemsControl
     {
     public:
         /**
-         * @brief 选中状态
+         * @brief 当前列表框页面第一个子项的索引
          */
-        const Property<sw::CheckState> CheckState;
+        const Property<int> TopIndex;
 
         /**
-         * @brief 是否选中
+         * @brief 是否允许多选，更新该属性会导致已添加的子项被清空
          */
-        const Property<bool> IsChecked;
+        const Property<bool> MultiSelect;
+
+        /**
+         * @brief 多选状态下可通过该属性获取选中项的个数
+         */
+        const ReadOnlyProperty<int> SelectedCount;
+
+    public:
+        /**
+         * @brief 初始化列表框
+         */
+        ListBox();
 
     protected:
         /**
-         * @brief 初始化CheckableButton
+         * @brief  获取子项数
          */
-        CheckableButton();
-
-    public:
-        /**
-         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
-         */
-        virtual ~CheckableButton() = 0;
-    };
-}
-
-// PasswordBox.h
-
-
-namespace sw
-{
-    /**
-     * @brief 密码框
-     */
-    class PasswordBox : public TextBoxBase
-    {
-    public:
-        /**
-         * @brief 密码框显示的字符
-         */
-        const Property<wchar_t> PasswordChar;
-
-    public:
-        /**
-         * @brief 初始化密码框
-         */
-        PasswordBox();
-    };
-}
-
-// Panel.h
-
-
-namespace sw
-{
-    /**
-     * @brief 边框类型
-     */
-    enum class BorderStyle {
-        None   = 0,           // 无边框
-        Bump   = EDGE_BUMP,   // 突出的凸起边框
-        Etched = EDGE_ETCHED, // 刻痕式边框
-        Raised = EDGE_RAISED, // 凸起边框
-        Sunked = EDGE_SUNKEN, // 凹陷边框
-    };
-
-    /**
-     * @brief 面板
-     */
-    class Panel : public PanelBase
-    {
-    private:
-        /**
-         * @brief 边框类型，默认为无边框
-         */
-        BorderStyle _borderStyle = sw::BorderStyle::None;
+        virtual int GetItemsCount() override;
 
         /**
-         * @brief 内边距
+         * @brief 选中项的索引，当无选中项时为-1
          */
-        Thickness _padding;
-
-    public:
-        /**
-         * @brief 边框样式
-         */
-        const Property<sw::BorderStyle> BorderStyle;
+        virtual int GetSelectedIndex() override;
 
         /**
-         * @brief 面板的内边距
+         * @brief 设置选中项索引
          */
-        const Property<sw::Thickness> Padding;
-
-    public:
-        /**
-         * @brief 初始化面板
-         */
-        Panel();
-
-    protected:
-        /**
-         * @brief 更新边框
-         */
-        void UpdateBorder();
+        virtual void SetSelectedIndex(int index) override;
 
         /**
-         * @brief 对WndProc的封装
+         * @brief 获取选中项
          */
-        virtual LRESULT WndProc(const ProcMsg &refMsg) override;
+        virtual std::wstring GetSelectedItem() override;
 
         /**
-         * @brief  接收到WM_PAINT时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnPaint() override;
-
-        /**
-         * @brief 在OnNcPaint函数完成之后调用该函数
-         */
-        virtual void OnEndNcPaint() override;
-
-        /**
-         * @brief      绘制边框
-         * @param hdc  绘制设备句柄，可能为NULL
-         * @param rect 绘制边框的矩形区域，该函数会减去边框厚度
-         * @note       若hdc为NULL则不进行绘制，只更新rect
-         */
-        virtual void OnDrawBorder(HDC hdc, RECT &rect);
-
-        /**
-         * @brief      绘制内边距
-         * @param hdc  绘制设备句柄，可能为NULL
-         * @param rect 绘制内边距的矩形区域，该函数会减去内边距
-         * @note       若hdc为NULL则不进行绘制，只更新rect
-         */
-        virtual void OnDrawPadding(HDC hdc, RECT &rect);
-    };
-}
-
-// Label.h
-
-
-namespace sw
-{
-    /**
-     * @brief 文本过长时末尾的处理方式
-     */
-    enum class TextTrimming {
-        None,         // 不处理
-        EndEllipsis,  // 按字符截断并显示“...”
-        WordEllipsis, // 按单词截断并显示“...”
-    };
-
-    /**
-     * @brief 标签
-     */
-    class Label : public StaticControl
-    {
-    private:
-        /**
-         * @brief 文本所需的尺寸
-         */
-        Size _textSize;
-
-        /**
-         * @brief 是否根据文本自动调整尺寸
-         */
-        bool _autoSize = true;
-
-    public:
-        /**
-         * @brief 文本的水平对齐方式，可设为左对齐、中心对齐、右对齐
-         */
-        const Property<sw::HorizontalAlignment> HorizontalContentAlignment;
-
-        /**
-         * @brief 文本的垂直对齐方式，仅支持顶部对齐和中心对齐，当使用中心对齐时会使自动换行失效
-         */
-        const Property<sw::VerticalAlignment> VerticalContentAlignment;
-
-        /**
-         * @brief 文本过长时末尾的处理方式，当使用截断时水平对齐和自动换行将失效
-         */
-        const Property<sw::TextTrimming> TextTrimming;
-
-        /**
-         * @brief 是否自动换行
-         */
-        const Property<bool> AutoWrap;
-
-        /**
-         * @brief 是否根据文本自动调整尺寸
-         */
-        const Property<bool> AutoSize;
-
-    public:
-        /**
-         * @brief 初始化标签
-         */
-        Label();
-
-    private:
-        /**
-         * @brief 更新_textSize
-         */
-        void _UpdateTextSize();
-
-        /**
-         * @brief 调整尺寸为_textSize
-         */
-        void _ResizeToTextSize();
-
-    protected:
-        /**
-         * @brief               接收到WM_SIZE时调用该函数
-         * @param newClientSize 改变后的用户区尺寸
+         * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
+         * @param isKeyboardMsg 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
+         * @param mousePosition 鼠标在屏幕中的位置
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSize(Size newClientSize) override;
+        virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override;
 
         /**
-         * @brief Text属性更改时调用此函数
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
          */
-        virtual void OnTextChanged() override;
+        virtual void OnCommand(int code) override;
 
         /**
-         * @brief       字体改变时调用该函数
-         * @param hfont 字体句柄
+         * @brief     绘制虚线框时调用该函数
+         * @param hdc 绘制设备句柄
          */
-        virtual void FontChanged(HFONT hfont) override;
+        virtual void OnDrawFocusRect(HDC hdc) override;
+
+    public:
+        /**
+         * @brief 清空所有子项
+         */
+        virtual void Clear() override;
 
         /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
+         * @brief       获取指定索引处子项的值
+         * @param index 子项的索引
          */
-        virtual Size MeasureOverride(const Size &availableSize) override;
+        virtual std::wstring GetItemAt(int index) override;
+
+        /**
+         * @brief      添加新的子项
+         * @param item 要添加的子项
+         * @return     是否添加成功
+         */
+        virtual bool AddItem(const std::wstring &item) override;
+
+        /**
+         * @brief       添加子项到指定索引
+         * @param index 要插入的位置
+         * @param item  要添加的子项
+         * @return      是否添加成功
+         */
+        virtual bool InsertItem(int index, const std::wstring &item) override;
+
+        /**
+         * @brief          更新指定位置的子项
+         * @param index    要更新子项的位置
+         * @param newValue 子项的新值
+         * @return         操作是否成功
+         */
+        virtual bool UpdateItem(int index, const std::wstring &newValue) override;
+
+        /**
+         * @brief       移除指定索引处的子项
+         * @param index 要移除子项的索引
+         * @return      操作是否成功
+         */
+        virtual bool RemoveItemAt(int index) override;
+
+        /**
+         * @brief       获取指定点处子项的索引
+         * @param point 相对于列表框用户区左上角点的位置
+         */
+        int GetItemIndexFromPoint(const Point &point);
+
+        /**
+         * @brief  多选状态下可通过该函数获取所有选中项的索引
+         * @return 所有选中项的索引
+         */
+        List<int> GetSelectedIndices();
+
+        /**
+         * @brief  多选状态下可通过该函数获取所有选中项的内容
+         * @return 所有选中项的内容
+         */
+        StrList GetSelectedItems();
+
+        /**
+         * @brief       获取指定索引处子项的选中状态
+         * @param index 子项的索引
+         * @return      若子项选中则返回true，否则返回false
+         */
+        bool GetItemSelectionState(int index);
+
+        /**
+         * @brief       多选状态下设置指定索引处子项的选中状态
+         * @param index 子项的索引，输入-1可设置所有子项的选中状态
+         * @param value 要设置的子项状态
+         */
+        void SetItemSelectionState(int index, bool value);
     };
 }
 
@@ -12236,551 +12584,6 @@ namespace sw
          * @brief 清空缓冲区
          */
         void ClearBuffer();
-    };
-}
-
-// IconBox.h
-
-
-namespace sw
-{
-    /**
-     * @brief 用于显示一个图标的控件
-     */
-    class IconBox : public StaticControl
-    {
-    private:
-        /**
-         * @brief 图标句柄
-         */
-        HICON _hIcon{NULL};
-
-    public:
-        /**
-         * @brief 当前控件显示的图标句柄，使用Load函数可以加载图标
-         */
-        const ReadOnlyProperty<HICON> IconHandle;
-
-        /**
-         * @brief 是否拉伸图标以填充整个控件，值为true时成功调用Load函数会自动调整尺寸为图标尺寸，反之则不会调整尺寸
-         */
-        const Property<bool> StretchIcon;
-
-    public:
-        /**
-         * @brief 初始化IconBox
-         */
-        IconBox();
-
-        /**
-         * @brief       加载图标，该函数会复制一个图标句柄作为显示的图标
-         * @param hIcon 要加载的图标
-         * @return      加载到IconBox的图标句柄，若加载失败则返回NULL，该资源由IconBox内部管理，在加载新图标或控件销毁时会自动释放
-         */
-        HICON Load(HICON hIcon);
-
-        /**
-         * @brief      加载系统标准图标
-         * @param icon 图标样式
-         * @return     加载到IconBox的图标句柄，若加载失败则返回NULL，该资源由IconBox内部管理，在加载新图标或控件销毁时会自动释放
-         */
-        HICON Load(StandardIcon icon);
-
-        /**
-         * @brief            从指定模块中加载图标
-         * @param hInstance  DLL或EXE的模块句柄
-         * @param resourceId 图标的资源序号
-         * @return           加载到IconBox的图标句柄，若加载失败则返回NULL，该资源由IconBox内部管理，在加载新图标或控件销毁时会自动释放
-         */
-        HICON Load(HINSTANCE hInstance, int resourceId);
-
-        /**
-         * @brief          从文件加载图标
-         * @param fileName 图标文件的路径
-         * @return         加载到IconBox的图标句柄，若加载失败则返回NULL，该资源由IconBox内部管理，在加载新图标或控件销毁时会自动释放
-         */
-        HICON Load(const std::wstring &fileName);
-
-        /**
-         * @brief 清除加载的图标
-         */
-        void Clear();
-
-        /**
-         * @brief 调整控件尺寸为图标尺寸，未加载图标时该函数不生效
-         */
-        void SizeToIcon();
-
-    protected:
-        /**
-         * @brief  接收到WM_DESTROY时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnDestroy() override;
-
-    private:
-        /**
-         * @brief       设置图标
-         * @param hIcon 图标句柄
-         */
-        void _SetIcon(HICON hIcon);
-
-        /**
-         * @brief       传入的图标不为NULL时调用_SetIcon
-         * @param hIcon 图标句柄
-         * @return      传入的图标
-         */
-        HICON _SetIconIfNotNull(HICON hIcon);
-    };
-}
-
-// BmpBox.h
-
-
-namespace sw
-{
-    /**
-     * @brief 指定位图在BmpBox中的定位方式
-     */
-    enum class BmpBoxSizeMode {
-        Normal,       // 位图置于BmpBox左上角
-        StretchImage, // 拉伸位图填充BmpBox
-        AutoSize,     // 调整BmpBox大小，使其等于所包含位图的大小
-        CenterImage,  // 将位图居中显示
-        Zoom,         // 图像按照原来的比例缩放
-    };
-
-    /**
-     * @brief 用于显示一个位图的控件
-     */
-    class BmpBox : public StaticControl
-    {
-    private:
-        /**
-         * @brief 位图句柄
-         */
-        HBITMAP _hBitmap{NULL};
-
-        /**
-         * @brief 位图尺寸（以像素为单位），调用_UpdateBmpSize更新
-         */
-        SIZE _bmpSize{0, 0};
-
-        /**
-         * @brief 位图定位方式
-         */
-        BmpBoxSizeMode _sizeMode{BmpBoxSizeMode::Normal};
-
-    public:
-        /**
-         * @brief 当前控件显示的位图句柄，使用Load函数可以加载位图
-         */
-        const ReadOnlyProperty<HBITMAP> BmpHandle;
-
-        /**
-         * @brief 位图在BmpBox中的定位方式
-         */
-        const Property<BmpBoxSizeMode> SizeMode;
-
-    public:
-        /**
-         * @brief 初始化BmpBox
-         */
-        BmpBox();
-
-        /**
-         * @brief         加载位图，该函数会复制一个位图句柄作为显示的位图
-         * @param hBitmap 要加载的位图
-         * @return        加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
-         */
-        HBITMAP Load(HBITMAP hBitmap);
-
-        /**
-         * @brief            从指定模块中加载位图
-         * @param hInstance  DLL或EXE的模块句柄
-         * @param resourceId 位图的资源序号
-         * @return           加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
-         */
-        HBITMAP Load(HINSTANCE hInstance, int resourceId);
-
-        /**
-         * @brief          从文件加载位图
-         * @param fileName 位图文件的路径
-         * @return         加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
-         */
-        HBITMAP Load(const std::wstring &fileName);
-
-        /**
-         * @brief 清除加载的位图
-         */
-        void Clear();
-
-        /**
-         * @brief 调整控件尺寸为位图尺寸，未加载位图时该函数不生效
-         */
-        void SizeToImage();
-
-    protected:
-        /**
-         * @brief  接收到WM_DESTROY时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnDestroy() override;
-
-        /**
-         * @brief  接收到WM_PAINT时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnPaint() override;
-
-        /**
-         * @brief               接收到WM_SIZE时调用该函数
-         * @param newClientSize 改变后的用户区尺寸
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnSize(Size newClientSize) override;
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-    private:
-        /**
-         * @brief 更新_bmpSize
-         */
-        void _UpdateBmpSize();
-
-        /**
-         * @brief         设置位图
-         * @param hBitmap 位图句柄
-         */
-        void _SetBmp(HBITMAP hBitmap);
-
-        /**
-         * @brief         传入的位图不为NULL时调用_SetBmp
-         * @param hBitmap 位图句柄
-         * @return        传入的位图
-         */
-        HBITMAP _SetBmpIfNotNull(HBITMAP hBitmap);
-    };
-}
-
-// Splitter.h
-
-
-namespace sw
-{
-    /**
-     * @brief 分隔条
-     */
-    class Splitter : public StaticControl
-    {
-    private:
-        /**
-         * @brief 记录分隔条方向
-         */
-        Orientation _orientation = Orientation::Horizontal;
-
-    public:
-        /**
-         * @brief 分隔条的方向，给该属性赋值同时会改变HorizontalAlignment和VerticalAlignment属性的值
-         */
-        const Property<Orientation> Orientation;
-
-        /**
-         * @brief 初始化分隔条
-         */
-        Splitter();
-
-    protected:
-        /**
-         * @brief  接收到WM_PAINT时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnPaint() override;
-
-        /**
-         * @brief               接收到WM_SIZE时调用该函数
-         * @param newClientSize 改变后的用户区尺寸
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnSize(Size newClientSize) override;
-    };
-}
-
-// ListBox.h
-
-
-namespace sw
-{
-    /**
-     * @brief 列表框
-     */
-    class ListBox : public StrItemsControl
-    {
-    public:
-        /**
-         * @brief 当前列表框页面第一个子项的索引
-         */
-        const Property<int> TopIndex;
-
-        /**
-         * @brief 是否允许多选，更新该属性会导致已添加的子项被清空
-         */
-        const Property<bool> MultiSelect;
-
-        /**
-         * @brief 多选状态下可通过该属性获取选中项的个数
-         */
-        const ReadOnlyProperty<int> SelectedCount;
-
-    public:
-        /**
-         * @brief 初始化列表框
-         */
-        ListBox();
-
-    protected:
-        /**
-         * @brief  获取子项数
-         */
-        virtual int GetItemsCount() override;
-
-        /**
-         * @brief 选中项的索引，当无选中项时为-1
-         */
-        virtual int GetSelectedIndex() override;
-
-        /**
-         * @brief 设置选中项索引
-         */
-        virtual void SetSelectedIndex(int index) override;
-
-        /**
-         * @brief 获取选中项
-         */
-        virtual std::wstring GetSelectedItem() override;
-
-        /**
-         * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
-         * @param isKeyboardMsg 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
-         * @param mousePosition 鼠标在屏幕中的位置
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override;
-
-        /**
-         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
-         * @param code 通知代码
-         */
-        virtual void OnCommand(int code) override;
-
-        /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc) override;
-
-    public:
-        /**
-         * @brief 清空所有子项
-         */
-        virtual void Clear() override;
-
-        /**
-         * @brief       获取指定索引处子项的值
-         * @param index 子项的索引
-         */
-        virtual std::wstring GetItemAt(int index) override;
-
-        /**
-         * @brief      添加新的子项
-         * @param item 要添加的子项
-         * @return     是否添加成功
-         */
-        virtual bool AddItem(const std::wstring &item) override;
-
-        /**
-         * @brief       添加子项到指定索引
-         * @param index 要插入的位置
-         * @param item  要添加的子项
-         * @return      是否添加成功
-         */
-        virtual bool InsertItem(int index, const std::wstring &item) override;
-
-        /**
-         * @brief          更新指定位置的子项
-         * @param index    要更新子项的位置
-         * @param newValue 子项的新值
-         * @return         操作是否成功
-         */
-        virtual bool UpdateItem(int index, const std::wstring &newValue) override;
-
-        /**
-         * @brief       移除指定索引处的子项
-         * @param index 要移除子项的索引
-         * @return      操作是否成功
-         */
-        virtual bool RemoveItemAt(int index) override;
-
-        /**
-         * @brief       获取指定点处子项的索引
-         * @param point 相对于列表框用户区左上角点的位置
-         */
-        int GetItemIndexFromPoint(const Point &point);
-
-        /**
-         * @brief  多选状态下可通过该函数获取所有选中项的索引
-         * @return 所有选中项的索引
-         */
-        List<int> GetSelectedIndices();
-
-        /**
-         * @brief  多选状态下可通过该函数获取所有选中项的内容
-         * @return 所有选中项的内容
-         */
-        StrList GetSelectedItems();
-
-        /**
-         * @brief       获取指定索引处子项的选中状态
-         * @param index 子项的索引
-         * @return      若子项选中则返回true，否则返回false
-         */
-        bool GetItemSelectionState(int index);
-
-        /**
-         * @brief       多选状态下设置指定索引处子项的选中状态
-         * @param index 子项的索引，输入-1可设置所有子项的选中状态
-         * @param value 要设置的子项状态
-         */
-        void SetItemSelectionState(int index, bool value);
-    };
-}
-
-// ComboBox.h
-
-
-namespace sw
-{
-    /**
-     * @brief 组合框
-     */
-    class ComboBox : public StrItemsControl
-    {
-    private:
-        /**
-         * @brief 在读取Text属性时用于判断是否需要更新储存的文本
-         */
-        bool _isTextChanged = false;
-
-    public:
-        /**
-         * @brief 组合框内容是否可编辑，更新该属性会导致已添加的子项被清空
-         */
-        const Property<bool> IsEditable;
-
-    public:
-        /**
-         * @brief 初始化组合框
-         */
-        ComboBox();
-
-    protected:
-        /**
-         * @brief  获取子项数
-         */
-        virtual int GetItemsCount() override;
-
-        /**
-         * @brief 选中项的索引，当无选中项时为-1
-         */
-        virtual int GetSelectedIndex() override;
-
-        /**
-         * @brief 设置选中项索引
-         */
-        virtual void SetSelectedIndex(int index) override;
-
-        /**
-         * @brief 获取选中项
-         */
-        virtual std::wstring GetSelectedItem() override;
-
-        /**
-         * @brief  获取可编辑状态下的编辑框文本内容
-         */
-        virtual std::wstring &GetText() override;
-
-        /**
-         * @brief       设置Text属性时调用该函数
-         * @param value 要设置的文本
-         */
-        virtual void SetText(const std::wstring &value) override;
-
-        /**
-         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
-         * @param code 通知代码
-         */
-        virtual void OnCommand(int code) override;
-
-        /**
-         * @brief 选中项改变时调用该函数
-         */
-        virtual void OnSelectionChanged() override;
-
-    public:
-        /**
-         * @brief 清空所有子项
-         */
-        virtual void Clear() override;
-
-        /**
-         * @brief       获取指定索引处子项的值
-         * @param index 子项的索引
-         */
-        virtual std::wstring GetItemAt(int index) override;
-
-        /**
-         * @brief      添加新的子项
-         * @param item 要添加的子项
-         * @return     是否添加成功
-         */
-        virtual bool AddItem(const std::wstring &item) override;
-
-        /**
-         * @brief       添加子项到指定索引
-         * @param index 要插入的位置
-         * @param item  要添加的子项
-         * @return      是否添加成功
-         */
-        virtual bool InsertItem(int index, const std::wstring &item) override;
-
-        /**
-         * @brief          更新指定位置的子项
-         * @param index    要更新子项的位置
-         * @param newValue 子项的新值
-         * @return         操作是否成功
-         */
-        virtual bool UpdateItem(int index, const std::wstring &newValue) override;
-
-        /**
-         * @brief       移除指定索引处的子项
-         * @param index 要移除子项的索引
-         * @return      操作是否成功
-         */
-        virtual bool RemoveItemAt(int index) override;
-
-        /**
-         * @brief 显示下拉列表
-         */
-        void ShowDropDown();
-
-        /**
-         * @brief 关闭下拉列表
-         */
-        void CloseDropDown();
     };
 }
 
@@ -13231,70 +13034,128 @@ namespace sw
     };
 }
 
-// HwndHost.h
+// ComboBox.h
 
 
 namespace sw
 {
     /**
-     * @brief 将Win32 window托管为SimpleWindow控件
+     * @brief 组合框
      */
-    class HwndHost : public StaticControl
+    class ComboBox : public StrItemsControl
     {
     private:
         /**
-         * @brief 托管的句柄
+         * @brief 在读取Text属性时用于判断是否需要更新储存的文本
          */
-        HWND _hWindowCore{NULL};
-
-        /**
-         * @brief 是否自动填充托管的内容
-         */
-        bool _fillContent = true;
+        bool _isTextChanged = false;
 
     public:
         /**
-         * @brief 是否自动填充托管的内容
+         * @brief 组合框内容是否可编辑，更新该属性会导致已添加的子项被清空
          */
-        const Property<bool> FillContent;
+        const Property<bool> IsEditable;
 
+    public:
         /**
-         * @brief 创建HwndHost对象
+         * @brief 初始化组合框
          */
-        HwndHost();
-
-    protected:
-        /**
-         * @brief 子类需要调用该函数以初始化HwndHost，该函数会调用BuildWindowCore
-         */
-        void InitHwndHost();
-
-        /**
-         * @brief               接收到WM_SIZE时调用该函数
-         * @param newClientSize 改变后的用户区尺寸
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnSize(Size newClientSize) override;
-
-        /**
-         * @brief  接收到WM_DESTROY时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnDestroy() override;
+        ComboBox();
 
     protected:
         /**
-         * @brief         初始化HwndHost时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄
-         * @param hParent 需要给被托管窗口句柄设置的父窗口句柄
-         * @return        被托管窗口句柄
+         * @brief  获取子项数
          */
-        virtual HWND BuildWindowCore(HWND hParent) = 0;
+        virtual int GetItemsCount() override;
 
         /**
-         * @brief      HwndHost被销毁时会调用该函数来销毁被托管的窗口句柄
-         * @param hwnd 被托管窗口句柄
+         * @brief 选中项的索引，当无选中项时为-1
          */
-        virtual void DestroyWindowCore(HWND hwnd) = 0;
+        virtual int GetSelectedIndex() override;
+
+        /**
+         * @brief 设置选中项索引
+         */
+        virtual void SetSelectedIndex(int index) override;
+
+        /**
+         * @brief 获取选中项
+         */
+        virtual std::wstring GetSelectedItem() override;
+
+        /**
+         * @brief  获取可编辑状态下的编辑框文本内容
+         */
+        virtual std::wstring &GetText() override;
+
+        /**
+         * @brief       设置Text属性时调用该函数
+         * @param value 要设置的文本
+         */
+        virtual void SetText(const std::wstring &value) override;
+
+        /**
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
+         */
+        virtual void OnCommand(int code) override;
+
+        /**
+         * @brief 选中项改变时调用该函数
+         */
+        virtual void OnSelectionChanged() override;
+
+    public:
+        /**
+         * @brief 清空所有子项
+         */
+        virtual void Clear() override;
+
+        /**
+         * @brief       获取指定索引处子项的值
+         * @param index 子项的索引
+         */
+        virtual std::wstring GetItemAt(int index) override;
+
+        /**
+         * @brief      添加新的子项
+         * @param item 要添加的子项
+         * @return     是否添加成功
+         */
+        virtual bool AddItem(const std::wstring &item) override;
+
+        /**
+         * @brief       添加子项到指定索引
+         * @param index 要插入的位置
+         * @param item  要添加的子项
+         * @return      是否添加成功
+         */
+        virtual bool InsertItem(int index, const std::wstring &item) override;
+
+        /**
+         * @brief          更新指定位置的子项
+         * @param index    要更新子项的位置
+         * @param newValue 子项的新值
+         * @return         操作是否成功
+         */
+        virtual bool UpdateItem(int index, const std::wstring &newValue) override;
+
+        /**
+         * @brief       移除指定索引处的子项
+         * @param index 要移除子项的索引
+         * @return      操作是否成功
+         */
+        virtual bool RemoveItemAt(int index) override;
+
+        /**
+         * @brief 显示下拉列表
+         */
+        void ShowDropDown();
+
+        /**
+         * @brief 关闭下拉列表
+         */
+        void CloseDropDown();
     };
 }
 
@@ -13343,113 +13204,142 @@ namespace sw
     };
 }
 
-// CheckBox.h
+// IconBox.h
 
 
 namespace sw
 {
     /**
-     * @brief 复选框
+     * @brief 用于显示一个图标的控件
      */
-    class CheckBox : public CheckableButton
-    {
-    public:
-        /**
-         * @brief 是否为三态复选框
-         */
-        const Property<bool> ThreeState;
-
-    public:
-        /**
-         * @brief 初始化复选框
-         */
-        CheckBox();
-    };
-}
-
-// Canvas.h
-
-
-namespace sw
-{
-    /**
-     * @brief 一种可以为子元素设置绝对位置的面板，与普通Panel不同的是Canvas支持自动滚动条
-     */
-    class Canvas : public Panel
+    class IconBox : public StaticControl
     {
     private:
         /**
-         * @brief 默认布局对象
+         * @brief 图标句柄
          */
-        CanvasLayout _canvasLayout = CanvasLayout();
+        HICON _hIcon{NULL};
 
     public:
         /**
-         * @brief 初始化Canvas
+         * @brief 当前控件显示的图标句柄，使用Load函数可以加载图标
          */
-        Canvas();
+        const ReadOnlyProperty<HICON> IconHandle;
 
         /**
-         * @brief 获取指定元素的布局标记
+         * @brief 是否拉伸图标以填充整个控件，值为true时成功调用Load函数会自动调整尺寸为图标尺寸，反之则不会调整尺寸
          */
-        static CanvasLayoutTag GetCanvasLayoutTag(UIElement &element);
+        const Property<bool> StretchIcon;
+
+    public:
+        /**
+         * @brief 初始化IconBox
+         */
+        IconBox();
 
         /**
-         * @brief 给指定元素设置布局标记
+         * @brief       加载图标，该函数会复制一个图标句柄作为显示的图标
+         * @param hIcon 要加载的图标
+         * @return      加载到IconBox的图标句柄，若加载失败则返回NULL，该资源由IconBox内部管理，在加载新图标或控件销毁时会自动释放
          */
-        static void SetCanvasLayoutTag(UIElement &element, const CanvasLayoutTag &tag);
+        HICON Load(HICON hIcon);
+
+        /**
+         * @brief      加载系统标准图标
+         * @param icon 图标样式
+         * @return     加载到IconBox的图标句柄，若加载失败则返回NULL，该资源由IconBox内部管理，在加载新图标或控件销毁时会自动释放
+         */
+        HICON Load(StandardIcon icon);
+
+        /**
+         * @brief            从指定模块中加载图标
+         * @param hInstance  DLL或EXE的模块句柄
+         * @param resourceId 图标的资源序号
+         * @return           加载到IconBox的图标句柄，若加载失败则返回NULL，该资源由IconBox内部管理，在加载新图标或控件销毁时会自动释放
+         */
+        HICON Load(HINSTANCE hInstance, int resourceId);
+
+        /**
+         * @brief          从文件加载图标
+         * @param fileName 图标文件的路径
+         * @return         加载到IconBox的图标句柄，若加载失败则返回NULL，该资源由IconBox内部管理，在加载新图标或控件销毁时会自动释放
+         */
+        HICON Load(const std::wstring &fileName);
+
+        /**
+         * @brief 清除加载的图标
+         */
+        void Clear();
+
+        /**
+         * @brief 调整控件尺寸为图标尺寸，未加载图标时该函数不生效
+         */
+        void SizeToIcon();
 
     protected:
         /**
-         * @brief 获取默认布局对象
+         * @brief  接收到WM_DESTROY时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual LayoutHost *GetDefaultLayout() override;
+        virtual bool OnDestroy() override;
+
+    private:
+        /**
+         * @brief       设置图标
+         * @param hIcon 图标句柄
+         */
+        void _SetIcon(HICON hIcon);
+
+        /**
+         * @brief       传入的图标不为NULL时调用_SetIcon
+         * @param hIcon 图标句柄
+         * @return      传入的图标
+         */
+        HICON _SetIconIfNotNull(HICON hIcon);
     };
 }
 
-// UniformGrid.h
+// CheckableButton.h
 
 
 namespace sw
 {
     /**
-     * @brief 提供一种在网格（网格中的所有单元格都具有相同的大小）中排列内容的方法
+     * @brief 选中状态枚举类型
      */
-    class UniformGrid : public Panel
+    enum class CheckState {
+        Unchecked     = BST_UNCHECKED,     // 未选中
+        Checked       = BST_CHECKED,       // 已选中
+        Indeterminate = BST_INDETERMINATE, // 不确定状态
+    };
+
+    /**
+     * @brief 表示可选中的按钮类型（单选框、复选框等）
+     */
+    class CheckableButton : public ButtonBase
     {
-    private:
-        /**
-         * @brief 默认布局对象
-         */
-        UniformGridLayout _uniformGridLayout = UniformGridLayout();
-
     public:
         /**
-         * @brief 行数
+         * @brief 选中状态
          */
-        const Property<int> Rows;
+        const Property<sw::CheckState> CheckState;
 
         /**
-         * @brief 列数
+         * @brief 是否选中
          */
-        const Property<int> Columns;
-
-        /**
-         * @brief 网格第一行中前导空白单元格的数量
-         */
-        const Property<int> FirstColumn;
-
-    public:
-        /**
-         * @brief 初始化UniformGrid
-         */
-        UniformGrid();
+        const Property<bool> IsChecked;
 
     protected:
         /**
-         * @brief 获取默认布局对象
+         * @brief 初始化CheckableButton
          */
-        virtual LayoutHost *GetDefaultLayout() override;
+        CheckableButton();
+
+    public:
+        /**
+         * @brief 析构函数，这里用纯虚函数使该类成为抽象类
+         */
+        virtual ~CheckableButton() = 0;
     };
 }
 
@@ -13468,6 +13358,106 @@ namespace sw
          * @brief 初始化单选框
          */
         RadioButton();
+    };
+}
+
+// StackPanel.h
+
+
+namespace sw
+{
+    /**
+     * @brief 堆叠面板
+     */
+    class StackPanel : public Panel
+    {
+    private:
+        /**
+         * @brief 默认布局对象
+         */
+        StackLayout _stackLayout = StackLayout();
+
+    public:
+        /**
+         * @brief 排列方式
+         */
+        const Property<sw::Orientation> Orientation;
+
+    public:
+        /**
+         * @brief 初始化StackPanel
+         */
+        StackPanel();
+
+    protected:
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout() override;
+    };
+}
+
+// GroupBox.h
+
+
+namespace sw
+{
+    /**
+     * @brief 组合框
+     */
+    class GroupBox : public Panel
+    {
+    private:
+        /**
+         * @brief 标题文本所需大小
+         */
+        SIZE _textSize;
+
+    public:
+        /**
+         * @brief 初始化组合框
+         */
+        GroupBox();
+
+    protected:
+        /**
+         * @brief      绘制边框
+         * @param hdc  绘制设备句柄，可能为NULL
+         * @param rect 绘制边框的矩形区域，该函数会减去边框厚度
+         * @note       若hdc为NULL则不进行绘制，只更新rect
+         */
+        virtual void OnDrawBorder(HDC hdc, RECT &rect) override;
+
+        /**
+         * @brief Text属性更改时调用此函数
+         */
+        virtual void OnTextChanged() override;
+
+        /**
+         * @brief       字体改变时调用该函数
+         * @param hfont 字体句柄
+         */
+        virtual void FontChanged(HFONT hfont) override;
+
+        /**
+         * @brief        设置背景颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetBackColor(Color color, bool redraw) override;
+
+        /**
+         * @brief        设置文本颜色
+         * @param color  要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetTextColor(Color color, bool redraw) override;
+
+    private:
+        /**
+         * @brief 更新文本大小
+         */
+        void _UpdateTextSize();
     };
 }
 
@@ -13498,6 +13488,122 @@ namespace sw
          * @brief 初始化WrapPanel
          */
         WrapPanel();
+
+    protected:
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout() override;
+    };
+}
+
+// DockPanel.h
+
+
+namespace sw
+{
+    /**
+     * @brief 停靠面板
+     */
+    class DockPanel : public Panel
+    {
+    private:
+        /**
+         * @brief 默认布局对象
+         */
+        DockLayout _dockLayout = DockLayout();
+
+    public:
+        /**
+         * @brief 最后一个子元素是否填充剩余空间
+         */
+        const Property<bool> LastChildFill;
+
+    public:
+        /**
+         * @brief 初始化DockPanel
+         */
+        DockPanel();
+
+        /**
+         * @brief 获取指定元素的Dock
+         */
+        static DockLayoutTag GetDock(UIElement &element);
+
+        /**
+         * @brief 设置指定元素的Dock
+         */
+        static void SetDock(UIElement &element, DockLayoutTag dock);
+
+    protected:
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout() override;
+    };
+}
+
+// Grid.h
+
+
+namespace sw
+{
+    /**
+     * @brief 由列和行组成的灵活的网格区域
+     */
+    class Grid : public Panel
+    {
+    private:
+        /**
+         * @brief 默认布局对象
+         */
+        GridLayout _gridLayout = GridLayout();
+
+    public:
+        /**
+         * @brief 初始化Grid
+         */
+        Grid();
+
+        /**
+         * @brief 添加行
+         */
+        void AddRow(const GridRow &row);
+
+        /**
+         * @brief 设置行信息
+         */
+        void SetRows(std::initializer_list<GridRow> rows);
+
+        /**
+         * @brief 添加列
+         */
+        void AddColumn(const GridColumn &col);
+
+        /**
+         * @brief 设置列信息
+         */
+        void SetColumns(std::initializer_list<GridColumn> cols);
+
+        /**
+         * @brief 清空行
+         */
+        void ClearRows();
+
+        /**
+         * @brief 清空列
+         */
+        void ClearColumns();
+
+        /**
+         * @brief 获取指定元素的网格布局标记
+         */
+        static GridLayoutTag GetGridLayoutTag(UIElement &element);
+
+        /**
+         * @brief 给指定元素设置网格布局标记
+         */
+        static void SetGridLayoutTag(UIElement &element, const GridLayoutTag &tag);
 
     protected:
         /**
@@ -13601,67 +13707,37 @@ namespace sw
     };
 }
 
-// Grid.h
+// Canvas.h
 
 
 namespace sw
 {
     /**
-     * @brief 由列和行组成的灵活的网格区域
+     * @brief 一种可以为子元素设置绝对位置的面板，与普通Panel不同的是Canvas支持自动滚动条
      */
-    class Grid : public Panel
+    class Canvas : public Panel
     {
     private:
         /**
          * @brief 默认布局对象
          */
-        GridLayout _gridLayout = GridLayout();
+        CanvasLayout _canvasLayout = CanvasLayout();
 
     public:
         /**
-         * @brief 初始化Grid
+         * @brief 初始化Canvas
          */
-        Grid();
+        Canvas();
 
         /**
-         * @brief 添加行
+         * @brief 获取指定元素的布局标记
          */
-        void AddRow(const GridRow &row);
+        static CanvasLayoutTag GetCanvasLayoutTag(UIElement &element);
 
         /**
-         * @brief 设置行信息
+         * @brief 给指定元素设置布局标记
          */
-        void SetRows(std::initializer_list<GridRow> rows);
-
-        /**
-         * @brief 添加列
-         */
-        void AddColumn(const GridColumn &col);
-
-        /**
-         * @brief 设置列信息
-         */
-        void SetColumns(std::initializer_list<GridColumn> cols);
-
-        /**
-         * @brief 清空行
-         */
-        void ClearRows();
-
-        /**
-         * @brief 清空列
-         */
-        void ClearColumns();
-
-        /**
-         * @brief 获取指定元素的网格布局标记
-         */
-        static GridLayoutTag GetGridLayoutTag(UIElement &element);
-
-        /**
-         * @brief 给指定元素设置网格布局标记
-         */
-        static void SetGridLayoutTag(UIElement &element, const GridLayoutTag &tag);
+        static void SetCanvasLayoutTag(UIElement &element, const CanvasLayoutTag &tag);
 
     protected:
         /**
@@ -13671,43 +13747,43 @@ namespace sw
     };
 }
 
-// DockPanel.h
+// UniformGrid.h
 
 
 namespace sw
 {
     /**
-     * @brief 停靠面板
+     * @brief 提供一种在网格（网格中的所有单元格都具有相同的大小）中排列内容的方法
      */
-    class DockPanel : public Panel
+    class UniformGrid : public Panel
     {
     private:
         /**
          * @brief 默认布局对象
          */
-        DockLayout _dockLayout = DockLayout();
+        UniformGridLayout _uniformGridLayout = UniformGridLayout();
 
     public:
         /**
-         * @brief 最后一个子元素是否填充剩余空间
+         * @brief 行数
          */
-        const Property<bool> LastChildFill;
+        const Property<int> Rows;
+
+        /**
+         * @brief 列数
+         */
+        const Property<int> Columns;
+
+        /**
+         * @brief 网格第一行中前导空白单元格的数量
+         */
+        const Property<int> FirstColumn;
 
     public:
         /**
-         * @brief 初始化DockPanel
+         * @brief 初始化UniformGrid
          */
-        DockPanel();
-
-        /**
-         * @brief 获取指定元素的Dock
-         */
-        static DockLayoutTag GetDock(UIElement &element);
-
-        /**
-         * @brief 设置指定元素的Dock
-         */
-        static void SetDock(UIElement &element, DockLayoutTag dock);
+        UniformGrid();
 
     protected:
         /**
@@ -13717,103 +13793,27 @@ namespace sw
     };
 }
 
-// StackPanel.h
+// CheckBox.h
 
 
 namespace sw
 {
     /**
-     * @brief 堆叠面板
+     * @brief 复选框
      */
-    class StackPanel : public Panel
+    class CheckBox : public CheckableButton
     {
-    private:
+    public:
         /**
-         * @brief 默认布局对象
+         * @brief 是否为三态复选框
          */
-        StackLayout _stackLayout = StackLayout();
+        const Property<bool> ThreeState;
 
     public:
         /**
-         * @brief 排列方式
+         * @brief 初始化复选框
          */
-        const Property<sw::Orientation> Orientation;
-
-    public:
-        /**
-         * @brief 初始化StackPanel
-         */
-        StackPanel();
-
-    protected:
-        /**
-         * @brief 获取默认布局对象
-         */
-        virtual LayoutHost *GetDefaultLayout() override;
-    };
-}
-
-// GroupBox.h
-
-
-namespace sw
-{
-    /**
-     * @brief 组合框
-     */
-    class GroupBox : public Panel
-    {
-    private:
-        /**
-         * @brief 标题文本所需大小
-         */
-        SIZE _textSize;
-
-    public:
-        /**
-         * @brief 初始化组合框
-         */
-        GroupBox();
-
-    protected:
-        /**
-         * @brief      绘制边框
-         * @param hdc  绘制设备句柄，可能为NULL
-         * @param rect 绘制边框的矩形区域，该函数会减去边框厚度
-         * @note       若hdc为NULL则不进行绘制，只更新rect
-         */
-        virtual void OnDrawBorder(HDC hdc, RECT &rect) override;
-
-        /**
-         * @brief Text属性更改时调用此函数
-         */
-        virtual void OnTextChanged() override;
-
-        /**
-         * @brief       字体改变时调用该函数
-         * @param hfont 字体句柄
-         */
-        virtual void FontChanged(HFONT hfont) override;
-
-        /**
-         * @brief        设置背景颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetBackColor(Color color, bool redraw) override;
-
-        /**
-         * @brief        设置文本颜色
-         * @param color  要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetTextColor(Color color, bool redraw) override;
-
-    private:
-        /**
-         * @brief 更新文本大小
-         */
-        void _UpdateTextSize();
+        CheckBox();
     };
 }
 
