@@ -277,11 +277,12 @@ namespace sw
                     list.erase(list.begin() + index);
                     if (list.empty()) {
                         _Reset();
-                    } else if (list.size() == 1) {
-                        auto ptr = list.front()->Clone();
-                        _Reset(STATE_SINGLE);
-                        _GetSingle().reset(ptr);
                     }
+                    // else if (list.size() == 1) {
+                    //     auto ptr = list.front()->Clone();
+                    //     _Reset(STATE_SINGLE);
+                    //     _GetSingle().reset(ptr);
+                    // }
                     return true;
                 }
                 default: {
