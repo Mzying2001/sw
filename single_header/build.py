@@ -19,7 +19,7 @@ outputfile.write('// https://github.com/Mzying2001/sw\n\n')
 outputfile.write('#pragma once\n')
 
 # 添加文件到列表
-for item in os.listdir(incpath):
+for item in sorted(os.listdir(incpath)):
     if os.path.isfile(os.path.join(incpath, item)) and item.endswith('.h'):
         headers.append(item)
 
@@ -120,7 +120,7 @@ outputfile.write('#include "sw_all.h"\n')
 code = ''
 
 # 添加文件到列表
-for item in os.listdir(srcpath):
+for item in sorted(os.listdir(srcpath)):
     if os.path.isfile(os.path.join(srcpath, item)) and (item.endswith('.cpp') or item.endswith('.c')):
         sources.append(item)
 
