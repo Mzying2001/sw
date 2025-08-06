@@ -394,6 +394,7 @@ void sw::UIElement::MoveToTop()
         }
     }
     EndDeferWindowPos(hdwp);
+    parent->_UpdateLayoutVisibleChildren();
     parent->InvalidateMeasure();
 }
 
@@ -419,6 +420,7 @@ void sw::UIElement::MoveToBottom()
     } else {
         SetWindowPos(this->Handle, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     }
+    parent->_UpdateLayoutVisibleChildren();
     parent->InvalidateMeasure();
 }
 
