@@ -413,7 +413,7 @@ namespace sw
         };
 
         template <typename T>
-        class _CallableWrapperImpl : public _ICallable
+        class _CallableWrapperImpl final : public _ICallable
         {
             alignas(T) mutable uint8_t _storage[sizeof(T)];
 
@@ -491,7 +491,7 @@ namespace sw
         using _CallableWrapper = _CallableWrapperImpl<typename std::decay<T>::type>;
 
         template <typename T>
-        class _MemberFuncWrapper : public _ICallable
+        class _MemberFuncWrapper final : public _ICallable
         {
             T *obj;
             TRet (T::*func)(Args...);
@@ -527,7 +527,7 @@ namespace sw
         };
 
         template <typename T>
-        class _ConstMemberFuncWrapper : public _ICallable
+        class _ConstMemberFuncWrapper final : public _ICallable
         {
             const T *obj;
             TRet (T::*func)(Args...) const;
@@ -807,7 +807,7 @@ namespace sw
          */
         TRet operator()(Args... args) const
         {
-            return Invoke(std::forward<Args>(args)...);
+            return _InvokeImpl(std::forward<Args>(args)...);
         }
 
         /**
@@ -929,17 +929,7 @@ namespace sw
          */
         virtual TRet Invoke(Args... args) const override
         {
-            size_t count = _data.Count();
-            if (count == 0) {
-                throw std::runtime_error("Delegate is empty");
-            } else if (count == 1) {
-                return _data[0]->Invoke(std::forward<Args>(args)...);
-            } else {
-                auto list = _data;
-                for (size_t i = 0; i < count - 1; ++i)
-                    list[i]->Invoke(std::forward<Args>(args)...);
-                return list[count - 1]->Invoke(std::forward<Args>(args)...);
-            }
+            return _InvokeImpl(std::forward<Args>(args)...);
         }
 
         /**
@@ -994,12 +984,19 @@ namespace sw
         typename std::enable_if<!std::is_void<U>::value, std::vector<U>>::type
         InvokeAll(Args... args) const
         {
-            auto list  = _data;
-            auto count = list.Count();
             std::vector<U> results;
-            results.reserve(count);
-            for (size_t i = 0; i < count; ++i)
-                results.emplace_back(list[i]->Invoke(std::forward<Args>(args)...));
+            size_t count = _data.Count();
+            if (count == 0) {
+                _ThrowEmptyDelegateError();
+            } else if (count == 1) {
+                results.emplace_back(_data[0]->Invoke(std::forward<Args>(args)...));
+            } else {
+                auto list = _data;
+                results.reserve(count = list.Count());
+                for (size_t i = 0; i < count; ++i) {
+                    results.emplace_back(list[i]->Invoke(std::forward<Args>(args)...));
+                }
+            }
             return results;
         }
 
@@ -1015,6 +1012,32 @@ namespace sw
                 }
             }
             return false;
+        }
+
+        /**
+         * @brief 内部函数，调用空委托时抛出异常
+         */
+        [[noreturn]] void _ThrowEmptyDelegateError() const
+        {
+            throw std::runtime_error("Delegate is empty");
+        }
+
+        /**
+         * @brief 内部函数，Invoke和operator()的实现
+         */
+        inline TRet _InvokeImpl(Args... args) const
+        {
+            size_t count = _data.Count();
+            if (count == 0) {
+                _ThrowEmptyDelegateError();
+            } else if (count == 1) {
+                return _data[0]->Invoke(std::forward<Args>(args)...);
+            } else {
+                auto list = _data;
+                for (size_t i = 0; i < count - 1; ++i)
+                    list[i]->Invoke(std::forward<Args>(args)...);
+                return list[count - 1]->Invoke(std::forward<Args>(args)...);
+            }
         }
     };
 
