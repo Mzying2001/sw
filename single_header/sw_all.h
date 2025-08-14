@@ -521,7 +521,7 @@ namespace sw
         };
 
         template <typename T>
-        class _CallableWrapperImpl : public _ICallable
+        class _CallableWrapperImpl final : public _ICallable
         {
             alignas(T) mutable uint8_t _storage[sizeof(T)];
 
@@ -599,7 +599,7 @@ namespace sw
         using _CallableWrapper = _CallableWrapperImpl<typename std::decay<T>::type>;
 
         template <typename T>
-        class _MemberFuncWrapper : public _ICallable
+        class _MemberFuncWrapper final : public _ICallable
         {
             T *obj;
             TRet (T::*func)(Args...);
@@ -635,7 +635,7 @@ namespace sw
         };
 
         template <typename T>
-        class _ConstMemberFuncWrapper : public _ICallable
+        class _ConstMemberFuncWrapper final : public _ICallable
         {
             const T *obj;
             TRet (T::*func)(Args...) const;
@@ -740,7 +740,7 @@ namespace sw
         /**
          * @brief 移动构造函数
          */
-        Delegate(Delegate &&other)
+        Delegate(Delegate &&other) noexcept
             : _data(std::move(other._data))
         {
         }
@@ -763,7 +763,7 @@ namespace sw
         /**
          * @brief 移动赋值运算符
          */
-        Delegate &operator=(Delegate &&other)
+        Delegate &operator=(Delegate &&other) noexcept
         {
             if (this != &other) {
                 _data = std::move(other._data);
@@ -915,7 +915,7 @@ namespace sw
          */
         TRet operator()(Args... args) const
         {
-            return Invoke(std::forward<Args>(args)...);
+            return _InvokeImpl(std::forward<Args>(args)...);
         }
 
         /**
@@ -942,7 +942,7 @@ namespace sw
          * @brief  判断当前委托是否等于nullptr
          * @return 如果委托为空则返回true，否则返回false
          */
-        bool operator==(std::nullptr_t) const
+        bool operator==(std::nullptr_t) const noexcept
         {
             return _data.IsEmpty();
         }
@@ -951,7 +951,7 @@ namespace sw
          * @brief  判断当前委托是否不等于nullptr
          * @return 如果委托不为空则返回true，否则返回false
          */
-        bool operator!=(std::nullptr_t) const
+        bool operator!=(std::nullptr_t) const noexcept
         {
             return !_data.IsEmpty();
         }
@@ -960,7 +960,7 @@ namespace sw
          * @brief  判断当前委托是否有效
          * @return 如果委托不为空则返回true，否则返回false
          */
-        operator bool() const
+        operator bool() const noexcept
         {
             return !_data.IsEmpty();
         }
@@ -1037,17 +1037,7 @@ namespace sw
          */
         virtual TRet Invoke(Args... args) const override
         {
-            size_t count = _data.Count();
-            if (count == 0) {
-                throw std::runtime_error("Delegate is empty");
-            } else if (count == 1) {
-                return _data[0]->Invoke(std::forward<Args>(args)...);
-            } else {
-                auto list = _data;
-                for (size_t i = 0; i < count - 1; ++i)
-                    list[i]->Invoke(std::forward<Args>(args)...);
-                return list[count - 1]->Invoke(std::forward<Args>(args)...);
-            }
+            return _InvokeImpl(std::forward<Args>(args)...);
         }
 
         /**
@@ -1102,12 +1092,19 @@ namespace sw
         typename std::enable_if<!std::is_void<U>::value, std::vector<U>>::type
         InvokeAll(Args... args) const
         {
-            auto list  = _data;
-            auto count = list.Count();
             std::vector<U> results;
-            results.reserve(count);
-            for (size_t i = 0; i < count; ++i)
-                results.emplace_back(list[i]->Invoke(std::forward<Args>(args)...));
+            size_t count = _data.Count();
+            if (count == 0) {
+                _ThrowEmptyDelegateError();
+            } else if (count == 1) {
+                results.emplace_back(_data[0]->Invoke(std::forward<Args>(args)...));
+            } else {
+                auto list = _data;
+                results.reserve(count = list.Count());
+                for (size_t i = 0; i < count; ++i) {
+                    results.emplace_back(list[i]->Invoke(std::forward<Args>(args)...));
+                }
+            }
             return results;
         }
 
@@ -1124,6 +1121,32 @@ namespace sw
             }
             return false;
         }
+
+        /**
+         * @brief 内部函数，调用空委托时抛出异常
+         */
+        [[noreturn]] void _ThrowEmptyDelegateError() const
+        {
+            throw std::runtime_error("Delegate is empty");
+        }
+
+        /**
+         * @brief 内部函数，Invoke和operator()的实现
+         */
+        inline TRet _InvokeImpl(Args... args) const
+        {
+            size_t count = _data.Count();
+            if (count == 0) {
+                _ThrowEmptyDelegateError();
+            } else if (count == 1) {
+                return _data[0]->Invoke(std::forward<Args>(args)...);
+            } else {
+                auto list = _data;
+                for (size_t i = 0; i < count - 1; ++i)
+                    list[i]->Invoke(std::forward<Args>(args)...);
+                return list[count - 1]->Invoke(std::forward<Args>(args)...);
+            }
+        }
     };
 
     /*================================================================================*/
@@ -1133,7 +1156,7 @@ namespace sw
      * @note  如果委托为空则返回true，否则返回false
      */
     template <typename TRet, typename... Args>
-    inline bool operator==(std::nullptr_t, const Delegate<TRet(Args...)> &d)
+    inline bool operator==(std::nullptr_t, const Delegate<TRet(Args...)> &d) noexcept
     {
         return d == nullptr;
     }
@@ -1143,7 +1166,7 @@ namespace sw
      * @note  如果委托不为空则返回true，否则返回false
      */
     template <typename TRet, typename... Args>
-    inline bool operator!=(std::nullptr_t, const Delegate<TRet(Args...)> &d)
+    inline bool operator!=(std::nullptr_t, const Delegate<TRet(Args...)> &d) noexcept
     {
         return d != nullptr;
     }
