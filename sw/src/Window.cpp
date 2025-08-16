@@ -171,50 +171,6 @@ sw::Window::Window()
               this->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
           }),
 
-      MaxWidth(
-          // get
-          [this]() -> double {
-              return this->_maxWidth;
-          },
-          // set
-          [this](const double &value) {
-              this->_maxWidth = value;
-              this->Width     = this->Width;
-          }),
-
-      MaxHeight(
-          // get
-          [this]() -> double {
-              return this->_maxHeight;
-          },
-          // set
-          [this](const double &value) {
-              this->_maxHeight = value;
-              this->Height     = this->Height;
-          }),
-
-      MinWidth(
-          // get
-          [this]() -> double {
-              return this->_minWidth;
-          },
-          // set
-          [this](const double &value) {
-              this->_minWidth = value;
-              this->Width     = this->Width;
-          }),
-
-      MinHeight(
-          // get
-          [this]() -> double {
-              return this->_minHeight;
-          },
-          // set
-          [this](const double &value) {
-              this->_minHeight = value;
-              this->Height     = this->Height;
-          }),
-
       Menu(
           // get
           [this]() -> sw::Menu * {
@@ -315,22 +271,20 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 
         case WM_GETMINMAXINFO: {
             auto pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
-            // 按照设置限制窗口大小
-            if (this->_maxWidth > 0) {
-                LONG maxWidth           = Dip::DipToPxX(this->_maxWidth);
-                pInfo->ptMaxTrackSize.x = Utils::Min(pInfo->ptMaxTrackSize.x, maxWidth);
+            Size minSize{this->MinWidth, this->MinHeight};
+            Size maxSize{this->MaxWidth, this->MaxHeight};
+
+            if (minSize.width > 0) {
+                pInfo->ptMinTrackSize.x = Utils::Max<LONG>(pInfo->ptMinTrackSize.x, Dip::DipToPxX(minSize.width));
             }
-            if (this->_maxHeight > 0) {
-                LONG maxHeight          = Dip::DipToPxY(this->_maxHeight);
-                pInfo->ptMaxTrackSize.y = Utils::Min(pInfo->ptMaxTrackSize.y, maxHeight);
+            if (minSize.height > 0) {
+                pInfo->ptMinTrackSize.y = Utils::Max<LONG>(pInfo->ptMinTrackSize.y, Dip::DipToPxY(minSize.height));
             }
-            if (this->_minWidth > 0) {
-                LONG minWidth           = Dip::DipToPxX(this->_minWidth);
-                pInfo->ptMinTrackSize.x = Utils::Max(pInfo->ptMinTrackSize.x, minWidth);
+            if (maxSize.width > 0) {
+                pInfo->ptMaxTrackSize.x = Utils::Min<LONG>(pInfo->ptMaxTrackSize.x, Dip::DipToPxX(maxSize.width));
             }
-            if (this->_minHeight > 0) {
-                LONG minHeight          = Dip::DipToPxY(this->_minHeight);
-                pInfo->ptMinTrackSize.y = Utils::Max(pInfo->ptMinTrackSize.y, minHeight);
+            if (maxSize.height > 0) {
+                pInfo->ptMaxTrackSize.y = Utils::Min<LONG>(pInfo->ptMaxTrackSize.y, Dip::DipToPxY(maxSize.height));
             }
             return 0;
         }
