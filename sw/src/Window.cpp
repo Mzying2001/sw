@@ -384,6 +384,22 @@ void sw::Window::OnMenuCommand(int id)
     }
 }
 
+void sw::Window::OnMinMaxSizeChanged()
+{
+    if (!this->IsRootElement()) {
+        this->UIElement::OnMinMaxSizeChanged();
+    }
+
+    HWND hwnd = this->Handle;
+
+    RECT rect;
+    GetWindowRect(hwnd, &rect);
+
+    SetWindowPos(
+        hwnd, NULL, 0, 0, rect.right - rect.left, rect.bottom - rect.top,
+        SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+}
+
 void sw::Window::OnFirstShow()
 {
     // 若未设置焦点元素则默认第一个元素为焦点元素

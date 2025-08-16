@@ -200,6 +200,11 @@ namespace sw
         virtual void OnMenuCommand(int id) override;
 
         /**
+         * @brief 当MinWidth、MinHeight、MaxWidth或MaxHeight属性更改时调用此函数
+         */
+        virtual void OnMinMaxSizeChanged() override;
+
+        /**
          * @brief 窗口第一次显示时调用该函数
          */
         virtual void OnFirstShow();
