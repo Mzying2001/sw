@@ -1152,7 +1152,11 @@ namespace sw
          * @brief 下标运算
          */
         template <typename U>
-        typename std::enable_if<_BracketOperationHelper<T, U>::value, typename _BracketOperationHelper<T, U>::type>::type operator[](const U &value) const
+        typename std::enable_if<
+            _BracketOperationHelper<T, U>::value &&
+                !std::is_reference<typename _BracketOperationHelper<T, U>::type>::value,
+            typename _BracketOperationHelper<T, U>::type>::type
+        operator[](const U &value) const
         {
             return this->Get()[value];
         }
@@ -1161,7 +1165,11 @@ namespace sw
          * @brief 下标运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_BracketOperationHelper<T, U>::value, typename _BracketOperationHelper<T, U>::type>::type operator[](const PropertyBase<U, D> &prop) const
+        typename std::enable_if<
+            _BracketOperationHelper<T, U>::value &&
+                !std::is_reference<typename _BracketOperationHelper<T, U>::type>::value,
+            typename _BracketOperationHelper<T, U>::type>::type
+        operator[](const PropertyBase<U, D> &prop) const
         {
             return this->Get()[prop.Get()];
         }

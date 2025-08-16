@@ -39,11 +39,6 @@ namespace sw
         bool _isFirstShow = true;
 
         /**
-         * @brief 窗口的尺寸限制，当值不大于0时表示不限制
-         */
-        double _maxWidth = -1, _maxHeight = -1, _minWidth = -1, _minHeight = -1;
-
-        /**
          * @brief 窗口初次启动的位置
          */
         WindowStartupLocation _startupLocation = WindowStartupLocation::Manual;
@@ -125,26 +120,6 @@ namespace sw
         const Property<bool> ToolWindow;
 
         /**
-         * @brief 最大宽度，当值不大于0时表示不限制
-         */
-        const Property<double> MaxWidth;
-
-        /**
-         * @brief 最大高度，当值不大于0时表示不限制
-         */
-        const Property<double> MaxHeight;
-
-        /**
-         * @brief 最小宽度，当值不大于0时表示不限制
-         */
-        const Property<double> MinWidth;
-
-        /**
-         * @brief 最小高度，当值不大于0时表示不限制
-         */
-        const Property<double> MinHeight;
-
-        /**
          * @brief 窗口顶部的菜单栏
          */
         const Property<sw::Menu *> Menu;
@@ -223,6 +198,11 @@ namespace sw
          * @param id 菜单id
          */
         virtual void OnMenuCommand(int id) override;
+
+        /**
+         * @brief 当MinWidth、MinHeight、MaxWidth或MaxHeight属性更改时调用此函数
+         */
+        virtual void OnMinMaxSizeChanged() override;
 
         /**
          * @brief 窗口第一次显示时调用该函数
