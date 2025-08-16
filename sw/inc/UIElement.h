@@ -938,6 +938,11 @@ namespace sw
         virtual void OnTabStop();
 
         /**
+         * @brief 当MinWidth、MinHeight、MaxWidth或MaxHeight属性更改时调用此函数
+         */
+        virtual void OnMinMaxSizeChanged();
+
+        /**
          * @brief  设置父窗口
          * @return 设置是否成功
          */

@@ -190,7 +190,7 @@ sw::UIElement::UIElement()
           [this](const double &value) {
               if (this->_minSize.width != value) {
                   this->_minSize.width = value;
-                  this->InvalidateMeasure();
+                  this->OnMinMaxSizeChanged();
               }
           }),
 
@@ -203,7 +203,7 @@ sw::UIElement::UIElement()
           [this](const double &value) {
               if (this->_minSize.height != value) {
                   this->_minSize.height = value;
-                  this->InvalidateMeasure();
+                  this->OnMinMaxSizeChanged();
               }
           }),
 
@@ -216,7 +216,7 @@ sw::UIElement::UIElement()
           [this](const double &value) {
               if (this->_maxSize.width != value) {
                   this->_maxSize.width = value;
-                  this->InvalidateMeasure();
+                  this->OnMinMaxSizeChanged();
               }
           }),
 
@@ -229,7 +229,7 @@ sw::UIElement::UIElement()
           [this](const double &value) {
               if (this->_maxSize.height != value) {
                   this->_maxSize.height = value;
-                  this->InvalidateMeasure();
+                  this->OnMinMaxSizeChanged();
               }
           })
 {
@@ -949,6 +949,11 @@ void sw::UIElement::OnRemovedChild(UIElement &element)
 void sw::UIElement::OnTabStop()
 {
     this->Focused = true;
+}
+
+void sw::UIElement::OnMinMaxSizeChanged()
+{
+    this->InvalidateMeasure();
 }
 
 bool sw::UIElement::SetParent(WndBase *parent)
