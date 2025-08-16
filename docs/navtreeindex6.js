@@ -1,5 +1,9 @@
 var NAVTREEINDEX6 =
 {
+"structsw_1_1Point.html#afceae691252771cc050e8e4152971ba9":[2,0,0,113,7],
+"structsw_1_1PositionChangedEventArgs.html":[2,0,0,114],
+"structsw_1_1ProcMsg.html":[2,0,0,115],
+"structsw_1_1ProcMsg.html#a114f533462da6db1852ad4aa5485d86b":[2,0,0,115,5],
 "structsw_1_1ProcMsg.html#a4d88d40f2bcdf5cd8548122532c6257d":[2,0,0,115,1],
 "structsw_1_1ProcMsg.html#a583cc039611196e1c9717dcc19966137":[2,0,0,115,0],
 "structsw_1_1ProcMsg.html#a63d6c8d6ebe3bc0621ac4596a487c418":[2,0,0,115,4],
