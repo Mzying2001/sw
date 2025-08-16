@@ -3849,7 +3849,11 @@ namespace sw
          * @brief 下标运算
          */
         template <typename U>
-        typename std::enable_if<_BracketOperationHelper<T, U>::value, typename _BracketOperationHelper<T, U>::type>::type operator[](const U &value) const
+        typename std::enable_if<
+            _BracketOperationHelper<T, U>::value &&
+                !std::is_reference<typename _BracketOperationHelper<T, U>::type>::value,
+            typename _BracketOperationHelper<T, U>::type>::type
+        operator[](const U &value) const
         {
             return this->Get()[value];
         }
@@ -3858,7 +3862,11 @@ namespace sw
          * @brief 下标运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_BracketOperationHelper<T, U>::value, typename _BracketOperationHelper<T, U>::type>::type operator[](const PropertyBase<U, D> &prop) const
+        typename std::enable_if<
+            _BracketOperationHelper<T, U>::value &&
+                !std::is_reference<typename _BracketOperationHelper<T, U>::type>::value,
+            typename _BracketOperationHelper<T, U>::type>::type
+        operator[](const PropertyBase<U, D> &prop) const
         {
             return this->Get()[prop.Get()];
         }
@@ -8266,6 +8274,16 @@ namespace sw
         Size _origionalSize{};
 
         /**
+         * @brief 最小尺寸，若值为负数或0则表示不限制最小尺寸
+         */
+        Size _minSize{-1, -1};
+
+        /**
+         * @brief 最大尺寸，若值为负数或0则表示不限制最大尺寸
+         */
+        Size _maxSize{-1, -1};
+
+        /**
          * @brief 边距
          */
         Thickness _margin{};
@@ -8471,6 +8489,26 @@ namespace sw
          * @brief 当前元素的布局状态是否有效
          */
         const ReadOnlyProperty<bool> IsMeasureValid;
+
+        /**
+         * @brief 最小宽度，当值为负数或0时表示不限制
+         */
+        const Property<double> MinWidth;
+
+        /**
+         * @brief 最小高度，当值为负数或0时表示不限制
+         */
+        const Property<double> MinHeight;
+
+        /**
+         * @brief 最大宽度，当值为负数或0时表示不限制
+         */
+        const Property<double> MaxWidth;
+
+        /**
+         * @brief 最大高度，当值为负数或0时表示不限制
+         */
+        const Property<double> MaxHeight;
 
     public:
         /**
@@ -9029,6 +9067,18 @@ namespace sw
         void SetPreviousTabStopFocus();
 
         /**
+         * @brief      限定指定尺寸在最小和最大尺寸之间
+         * @param size 要限定的尺寸
+         */
+        void ClampDesireSize(sw::Size &size);
+
+        /**
+         * @brief      限定指定矩形的尺寸在最小和最大尺寸之间
+         * @param rect 要限定的矩形
+         */
+        void ClampDesireSize(sw::Rect &rect);
+
+        /**
          * @brief        设置背景颜色
          * @param color  要设置的颜色
          * @param redraw 是否重绘
@@ -9058,6 +9108,11 @@ namespace sw
          * @brief 通过tab键将焦点移动到当前元素时调用该函数
          */
         virtual void OnTabStop();
+
+        /**
+         * @brief 当MinWidth、MinHeight、MaxWidth或MaxHeight属性更改时调用此函数
+         */
+        virtual void OnMinMaxSizeChanged();
 
         /**
          * @brief  设置父窗口
@@ -11082,11 +11137,6 @@ namespace sw
         bool _isFirstShow = true;
 
         /**
-         * @brief 窗口的尺寸限制，当值不大于0时表示不限制
-         */
-        double _maxWidth = -1, _maxHeight = -1, _minWidth = -1, _minHeight = -1;
-
-        /**
          * @brief 窗口初次启动的位置
          */
         WindowStartupLocation _startupLocation = WindowStartupLocation::Manual;
@@ -11168,26 +11218,6 @@ namespace sw
         const Property<bool> ToolWindow;
 
         /**
-         * @brief 最大宽度，当值不大于0时表示不限制
-         */
-        const Property<double> MaxWidth;
-
-        /**
-         * @brief 最大高度，当值不大于0时表示不限制
-         */
-        const Property<double> MaxHeight;
-
-        /**
-         * @brief 最小宽度，当值不大于0时表示不限制
-         */
-        const Property<double> MinWidth;
-
-        /**
-         * @brief 最小高度，当值不大于0时表示不限制
-         */
-        const Property<double> MinHeight;
-
-        /**
          * @brief 窗口顶部的菜单栏
          */
         const Property<sw::Menu *> Menu;
@@ -11266,6 +11296,11 @@ namespace sw
          * @param id 菜单id
          */
         virtual void OnMenuCommand(int id) override;
+
+        /**
+         * @brief 当MinWidth、MinHeight、MaxWidth或MaxHeight属性更改时调用此函数
+         */
+        virtual void OnMinMaxSizeChanged() override;
 
         /**
          * @brief 窗口第一次显示时调用该函数
