@@ -179,6 +179,58 @@ sw::UIElement::UIElement()
           // get
           [this]() -> bool {
               return !this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::MeasureInvalidated);
+          }),
+
+      MinWidth(
+          // get
+          [this]() -> double {
+              return this->_minSize.width;
+          },
+          // set
+          [this](const double &value) {
+              if (this->_minSize.width != value) {
+                  this->_minSize.width = value;
+                  this->InvalidateMeasure();
+              }
+          }),
+
+      MinHeight(
+          // get
+          [this]() -> double {
+              return this->_minSize.height;
+          },
+          // set
+          [this](const double &value) {
+              if (this->_minSize.height != value) {
+                  this->_minSize.height = value;
+                  this->InvalidateMeasure();
+              }
+          }),
+
+      MaxWidth(
+          // get
+          [this]() -> double {
+              return this->_maxSize.width;
+          },
+          // set
+          [this](const double &value) {
+              if (this->_maxSize.width != value) {
+                  this->_maxSize.width = value;
+                  this->InvalidateMeasure();
+              }
+          }),
+
+      MaxHeight(
+          // get
+          [this]() -> double {
+              return this->_maxSize.height;
+          },
+          // set
+          [this](const double &value) {
+              if (this->_maxSize.height != value) {
+                  this->_maxSize.height = value;
+                  this->InvalidateMeasure();
+              }
           })
 {
 }
@@ -592,10 +644,17 @@ void sw::UIElement::Measure(const Size &availableSize)
     measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
     measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
 
+    // 由子类实现MeasureOverride函数来计算内容所需的尺寸
     this->_desireSize = this->MeasureOverride(measureSize);
-    this->_desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
-    this->_desireSize.height += (windowRect.height - clientRect.height) + margin.top + margin.bottom;
+    this->_desireSize.width += windowRect.width - clientRect.width;
+    this->_desireSize.height += windowRect.height - clientRect.height;
 
+    // 限制尺寸在最小和最大尺寸之间
+    this->ClampDesireSize(this->_desireSize);
+    this->_desireSize.width += margin.left + margin.right;
+    this->_desireSize.height += margin.top + margin.bottom;
+
+    // 更新_lastMeasureAvailableSize
     this->_lastMeasureAvailableSize = availableSize;
 }
 
@@ -615,14 +674,20 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     rect.width  = desireSize.width - margin.left - margin.right;
     rect.height = desireSize.height - margin.top - margin.bottom;
 
+    if (this->_horizontalAlignment == HorizontalAlignment::Stretch) {
+        rect.width = finalPosition.width - margin.left - margin.right;
+    }
+
+    if (this->_verticalAlignment == VerticalAlignment::Stretch) {
+        rect.height = finalPosition.height - margin.top - margin.bottom;
+    }
+
+    this->ClampDesireSize(rect);
+
     switch (this->_horizontalAlignment) {
-        case HorizontalAlignment::Center: {
-            rect.left = finalPosition.left + (finalPosition.width - rect.width - margin.left - margin.right) / 2 + margin.left;
-            break;
-        }
+        case HorizontalAlignment::Center:
         case HorizontalAlignment::Stretch: {
-            rect.left  = finalPosition.left + margin.left;
-            rect.width = finalPosition.width - margin.left - margin.right;
+            rect.left = finalPosition.left + (finalPosition.width - rect.width - margin.left - margin.right) / 2 + margin.left;
             break;
         }
         case HorizontalAlignment::Left: {
@@ -636,13 +701,9 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     }
 
     switch (this->_verticalAlignment) {
-        case VerticalAlignment::Center: {
-            rect.top = finalPosition.top + (finalPosition.height - rect.height - margin.top - margin.bottom) / 2 + margin.top;
-            break;
-        }
+        case VerticalAlignment::Center:
         case VerticalAlignment::Stretch: {
-            rect.top    = finalPosition.top + margin.top;
-            rect.height = finalPosition.height - margin.top - margin.bottom;
+            rect.top = finalPosition.top + (finalPosition.height - rect.height - margin.top - margin.bottom) / 2 + margin.top;
             break;
         }
         case VerticalAlignment::Top: {
@@ -833,6 +894,30 @@ void sw::UIElement::SetPreviousTabStopFocus()
 {
     UIElement *previous = this->GetPreviousTabStopElement();
     if (previous && previous != this) previous->OnTabStop();
+}
+
+void sw::UIElement::ClampDesireSize(sw::Size &size)
+{
+    if (this->_minSize.width > 0) {
+        size.width = Utils::Max(size.width, this->_minSize.width);
+    }
+    if (this->_minSize.height > 0) {
+        size.height = Utils::Max(size.height, this->_minSize.height);
+    }
+    if (this->_maxSize.width > 0) {
+        size.width = Utils::Min(size.width, this->_maxSize.width);
+    }
+    if (this->_maxSize.height > 0) {
+        size.height = Utils::Min(size.height, this->_maxSize.height);
+    }
+}
+
+void sw::UIElement::ClampDesireSize(sw::Rect &rect)
+{
+    auto size = rect.GetSize();
+    this->ClampDesireSize(size);
+    rect.width  = size.width;
+    rect.height = size.height;
 }
 
 void sw::UIElement::SetBackColor(Color color, bool redraw)
