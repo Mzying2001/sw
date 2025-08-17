@@ -35,21 +35,6 @@ class MyWindow : public sw::Window
         // 显示滚动条，当用户区大小不足以容纳所有按钮时滚动条会自动启用
         // 注：仅在设置了布局方式时可自动调整滚动条参数可控件位置，若未设置则需要自行调整
         VerticalScrollBar = true;
-
-        // 添加鼠标滚轮事件实现页面随鼠标滚动而滚动
-        AddHandler<sw::MouseWheelEventArgs>(*this, &MyWindow::MouseWheelHandler);
-    }
-
-    /**
-     * @brief 鼠标滚轮事件处理函数
-     */
-    void MouseWheelHandler(sw::UIElement &sender, sw::MouseWheelEventArgs &e)
-    {
-        if (e.wheelDelta != 0)
-        {
-            double offset = -std::copysign(20, e.wheelDelta);
-            ScrollVertical(offset);
-        }
     }
 
 public:
