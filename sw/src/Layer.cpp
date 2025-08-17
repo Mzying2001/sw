@@ -147,6 +147,16 @@ sw::Layer::Layer()
               info.fMask  = SIF_RANGE | SIF_PAGE;
               GetScrollInfo(this->Handle, SB_VERT, &info);
               return Dip::PxToDipY(info.nMax - info.nPage + 1);
+          }),
+
+      MouseWheelScrollEnabled(
+          // get
+          [this]() -> bool {
+              return this->_mouseWheelScrollEnabled;
+          },
+          // set
+          [this](const bool &value) {
+              this->_mouseWheelScrollEnabled = value;
           })
 {
 }
@@ -336,6 +346,74 @@ void sw::Layer::ArrangeOverride(const Size &finalSize)
     }
 
     this->UpdateScrollRange();
+}
+
+bool sw::Layer::RequestBringIntoView(const sw::Rect &screenRect)
+{
+    bool handled = false;
+
+    sw::Point pos = this->PointFromScreen(screenRect.GetPos());
+    sw::Rect rect = {pos.x, pos.y, screenRect.width, screenRect.height};
+
+    sw::Rect clientRect = this->ClientRect;
+
+    if (this->VerticalScrollBar) {
+        double curPos = this->VerticalScrollPos;
+        if (rect.top < curPos) {
+            this->VerticalScrollPos = rect.top;
+        } else if (rect.top + rect.height > curPos + clientRect.height) {
+            if (rect.height >= clientRect.height) {
+                this->VerticalScrollPos = rect.top;
+            } else {
+                this->VerticalScrollPos = rect.top + rect.height - clientRect.height;
+            }
+        }
+        handled = true;
+    }
+
+    if (this->HorizontalScrollBar) {
+        double curPos = this->HorizontalScrollPos;
+        if (rect.left < curPos) {
+            this->HorizontalScrollPos = rect.left;
+        } else if (rect.left + rect.width > curPos + clientRect.width) {
+            if (rect.width >= clientRect.width) {
+                this->HorizontalScrollPos = rect.left;
+            } else {
+                this->HorizontalScrollPos = rect.left + rect.width - clientRect.width;
+            }
+        }
+        handled = true;
+    }
+
+    return handled;
+}
+
+bool sw::Layer::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
+{
+    if (handler) {
+        handler(*this, eventArgs);
+    }
+    if (eventArgs.handled) {
+        return true;
+    }
+
+    if (eventArgs.eventType == UIElement_MouseWheel && this->_mouseWheelScrollEnabled) {
+        auto &wheelArgs = static_cast<MouseWheelEventArgs &>(eventArgs);
+        bool shiftDown  = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+        double offset   = -std::copysign(_LayerScrollBarLineInterval, wheelArgs.wheelDelta);
+        if (shiftDown) {
+            if (this->HorizontalScrollBar) {
+                this->ScrollHorizontal(offset);
+                eventArgs.handled = true;
+            }
+        } else {
+            if (this->VerticalScrollBar) {
+                this->ScrollVertical(offset);
+                eventArgs.handled = true;
+            }
+        }
+    }
+    return true;
 }
 
 void sw::Layer::DisableLayout()

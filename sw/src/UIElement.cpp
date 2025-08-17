@@ -598,6 +598,28 @@ void sw::UIElement::InvalidateMeasure()
     root->SendMessageW(WM_UpdateLayout, 0, 0);
 }
 
+void sw::UIElement::BringIntoView()
+{
+    UIElement *p = this->_parent;
+    if (this->_float || p == nullptr) return;
+
+    sw::Rect rect = this->Rect;
+    sw::Point pos = p->PointToScreen(rect.GetPos());
+
+    rect.left = pos.x - this->_margin.left;
+    rect.top  = pos.y - this->_margin.top;
+    rect.width += this->_margin.left + this->_margin.right;
+    rect.height += this->_margin.top + this->_margin.bottom;
+
+    while (p != nullptr) {
+        rect.left -= p->_arrangeOffsetX;
+        rect.top -= p->_arrangeOffsetY;
+        if (p->RequestBringIntoView(rect))
+            break;
+        p = p->_parent;
+    }
+}
+
 uint64_t sw::UIElement::GetTag()
 {
     return this->_tag;
@@ -760,32 +782,6 @@ sw::UIElement *sw::UIElement::ToUIElement()
     return this;
 }
 
-sw::Size sw::UIElement::MeasureOverride(const Size &availableSize)
-{
-    // 普通元素测量时，其本身用户区尺寸即为所需尺寸
-    // 当元素的对齐方式为拉伸时，返回原始用户区尺寸
-    sw::Size desireSize = this->ClientRect->GetSize();
-
-    // 由于Measure中会自动处理边框和Margin而_origionalSize
-    // 记录的是原始的窗口尺寸，因此当使用原始尺寸时需要减去边框
-    if (this->_horizontalAlignment == HorizontalAlignment::Stretch ||
-        this->_verticalAlignment == VerticalAlignment::Stretch) {
-        sw::Rect windowRect = this->Rect;
-        sw::Size clientSize = desireSize;
-        if (this->_horizontalAlignment == HorizontalAlignment::Stretch) {
-            desireSize.width = this->_origionalSize.width - (windowRect.width - clientSize.width);
-        }
-        if (this->_verticalAlignment == VerticalAlignment::Stretch) {
-            desireSize.height = this->_origionalSize.height - (windowRect.height - clientSize.height);
-        }
-    }
-    return desireSize;
-}
-
-void sw::UIElement::ArrangeOverride(const Size &finalSize)
-{
-}
-
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)
 {
     RoutedEventArgs eventArgs(eventType);
@@ -803,8 +799,8 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
     UIElement *element = this;
     do {
         auto &handler = element->_eventMap[eventArgs.eventType];
-        if (handler) {
-            handler(*element, eventArgs);
+        if (!element->OnRoutedEvent(eventArgs, handler)) {
+            if (handler) handler(*element, eventArgs);
         }
         if (eventArgs.handled) {
             break;
@@ -920,6 +916,32 @@ void sw::UIElement::ClampDesireSize(sw::Rect &rect)
     rect.height = size.height;
 }
 
+sw::Size sw::UIElement::MeasureOverride(const Size &availableSize)
+{
+    // 普通元素测量时，其本身用户区尺寸即为所需尺寸
+    // 当元素的对齐方式为拉伸时，返回原始用户区尺寸
+    sw::Size desireSize = this->ClientRect->GetSize();
+
+    // 由于Measure中会自动处理边框和Margin而_origionalSize
+    // 记录的是原始的窗口尺寸，因此当使用原始尺寸时需要减去边框
+    if (this->_horizontalAlignment == HorizontalAlignment::Stretch ||
+        this->_verticalAlignment == VerticalAlignment::Stretch) {
+        sw::Rect windowRect = this->Rect;
+        sw::Size clientSize = desireSize;
+        if (this->_horizontalAlignment == HorizontalAlignment::Stretch) {
+            desireSize.width = this->_origionalSize.width - (windowRect.width - clientSize.width);
+        }
+        if (this->_verticalAlignment == VerticalAlignment::Stretch) {
+            desireSize.height = this->_origionalSize.height - (windowRect.height - clientSize.height);
+        }
+    }
+    return desireSize;
+}
+
+void sw::UIElement::ArrangeOverride(const Size &finalSize)
+{
+}
+
 void sw::UIElement::SetBackColor(Color color, bool redraw)
 {
     this->_backColor = color;
@@ -930,6 +952,11 @@ void sw::UIElement::SetTextColor(Color color, bool redraw)
 {
     this->_textColor = color;
     if (redraw) this->Redraw();
+}
+
+bool sw::UIElement::RequestBringIntoView(const sw::Rect &screenRect)
+{
+    return false;
 }
 
 void sw::UIElement::OnAddedChild(UIElement &element)
@@ -949,11 +976,17 @@ void sw::UIElement::OnRemovedChild(UIElement &element)
 void sw::UIElement::OnTabStop()
 {
     this->Focused = true;
+    this->BringIntoView();
 }
 
 void sw::UIElement::OnMinMaxSizeChanged()
 {
     this->InvalidateMeasure();
+}
+
+bool sw::UIElement::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
+{
+    return false;
 }
 
 bool sw::UIElement::SetParent(WndBase *parent)
