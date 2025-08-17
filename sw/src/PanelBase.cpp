@@ -48,6 +48,11 @@ void sw::PanelBase::OnEndPaint()
     this->Control::OnEndPaint();
 }
 
+bool sw::PanelBase::RequestBringIntoView(const sw::Rect &screenRect)
+{
+    return this->Layer::RequestBringIntoView(screenRect);
+}
+
 sw::Control *sw::PanelBase::ToControl()
 {
     return this->Control::ToControl();
