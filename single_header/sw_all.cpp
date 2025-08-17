@@ -7715,6 +7715,58 @@ sw::UIElement::UIElement()
           // get
           [this]() -> bool {
               return !this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::MeasureInvalidated);
+          }),
+
+      MinWidth(
+          // get
+          [this]() -> double {
+              return this->_minSize.width;
+          },
+          // set
+          [this](const double &value) {
+              if (this->_minSize.width != value) {
+                  this->_minSize.width = value;
+                  this->OnMinMaxSizeChanged();
+              }
+          }),
+
+      MinHeight(
+          // get
+          [this]() -> double {
+              return this->_minSize.height;
+          },
+          // set
+          [this](const double &value) {
+              if (this->_minSize.height != value) {
+                  this->_minSize.height = value;
+                  this->OnMinMaxSizeChanged();
+              }
+          }),
+
+      MaxWidth(
+          // get
+          [this]() -> double {
+              return this->_maxSize.width;
+          },
+          // set
+          [this](const double &value) {
+              if (this->_maxSize.width != value) {
+                  this->_maxSize.width = value;
+                  this->OnMinMaxSizeChanged();
+              }
+          }),
+
+      MaxHeight(
+          // get
+          [this]() -> double {
+              return this->_maxSize.height;
+          },
+          // set
+          [this](const double &value) {
+              if (this->_maxSize.height != value) {
+                  this->_maxSize.height = value;
+                  this->OnMinMaxSizeChanged();
+              }
           })
 {
 }
@@ -8128,10 +8180,17 @@ void sw::UIElement::Measure(const Size &availableSize)
     measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
     measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
 
+    // 由子类实现MeasureOverride函数来计算内容所需的尺寸
     this->_desireSize = this->MeasureOverride(measureSize);
-    this->_desireSize.width += (windowRect.width - clientRect.width) + margin.left + margin.right;
-    this->_desireSize.height += (windowRect.height - clientRect.height) + margin.top + margin.bottom;
+    this->_desireSize.width += windowRect.width - clientRect.width;
+    this->_desireSize.height += windowRect.height - clientRect.height;
 
+    // 限制尺寸在最小和最大尺寸之间
+    this->ClampDesireSize(this->_desireSize);
+    this->_desireSize.width += margin.left + margin.right;
+    this->_desireSize.height += margin.top + margin.bottom;
+
+    // 更新_lastMeasureAvailableSize
     this->_lastMeasureAvailableSize = availableSize;
 }
 
@@ -8151,14 +8210,20 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     rect.width  = desireSize.width - margin.left - margin.right;
     rect.height = desireSize.height - margin.top - margin.bottom;
 
+    if (this->_horizontalAlignment == HorizontalAlignment::Stretch) {
+        rect.width = finalPosition.width - margin.left - margin.right;
+    }
+
+    if (this->_verticalAlignment == VerticalAlignment::Stretch) {
+        rect.height = finalPosition.height - margin.top - margin.bottom;
+    }
+
+    this->ClampDesireSize(rect);
+
     switch (this->_horizontalAlignment) {
-        case HorizontalAlignment::Center: {
-            rect.left = finalPosition.left + (finalPosition.width - rect.width - margin.left - margin.right) / 2 + margin.left;
-            break;
-        }
+        case HorizontalAlignment::Center:
         case HorizontalAlignment::Stretch: {
-            rect.left  = finalPosition.left + margin.left;
-            rect.width = finalPosition.width - margin.left - margin.right;
+            rect.left = finalPosition.left + (finalPosition.width - rect.width - margin.left - margin.right) / 2 + margin.left;
             break;
         }
         case HorizontalAlignment::Left: {
@@ -8172,13 +8237,9 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     }
 
     switch (this->_verticalAlignment) {
-        case VerticalAlignment::Center: {
-            rect.top = finalPosition.top + (finalPosition.height - rect.height - margin.top - margin.bottom) / 2 + margin.top;
-            break;
-        }
+        case VerticalAlignment::Center:
         case VerticalAlignment::Stretch: {
-            rect.top    = finalPosition.top + margin.top;
-            rect.height = finalPosition.height - margin.top - margin.bottom;
+            rect.top = finalPosition.top + (finalPosition.height - rect.height - margin.top - margin.bottom) / 2 + margin.top;
             break;
         }
         case VerticalAlignment::Top: {
@@ -8371,6 +8432,30 @@ void sw::UIElement::SetPreviousTabStopFocus()
     if (previous && previous != this) previous->OnTabStop();
 }
 
+void sw::UIElement::ClampDesireSize(sw::Size &size)
+{
+    if (this->_minSize.width > 0) {
+        size.width = Utils::Max(size.width, this->_minSize.width);
+    }
+    if (this->_minSize.height > 0) {
+        size.height = Utils::Max(size.height, this->_minSize.height);
+    }
+    if (this->_maxSize.width > 0) {
+        size.width = Utils::Min(size.width, this->_maxSize.width);
+    }
+    if (this->_maxSize.height > 0) {
+        size.height = Utils::Min(size.height, this->_maxSize.height);
+    }
+}
+
+void sw::UIElement::ClampDesireSize(sw::Rect &rect)
+{
+    auto size = rect.GetSize();
+    this->ClampDesireSize(size);
+    rect.width  = size.width;
+    rect.height = size.height;
+}
+
 void sw::UIElement::SetBackColor(Color color, bool redraw)
 {
     this->_backColor = color;
@@ -8400,6 +8485,11 @@ void sw::UIElement::OnRemovedChild(UIElement &element)
 void sw::UIElement::OnTabStop()
 {
     this->Focused = true;
+}
+
+void sw::UIElement::OnMinMaxSizeChanged()
+{
+    this->InvalidateMeasure();
 }
 
 bool sw::UIElement::SetParent(WndBase *parent)
@@ -9122,50 +9212,6 @@ sw::Window::Window()
               this->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
           }),
 
-      MaxWidth(
-          // get
-          [this]() -> double {
-              return this->_maxWidth;
-          },
-          // set
-          [this](const double &value) {
-              this->_maxWidth = value;
-              this->Width     = this->Width;
-          }),
-
-      MaxHeight(
-          // get
-          [this]() -> double {
-              return this->_maxHeight;
-          },
-          // set
-          [this](const double &value) {
-              this->_maxHeight = value;
-              this->Height     = this->Height;
-          }),
-
-      MinWidth(
-          // get
-          [this]() -> double {
-              return this->_minWidth;
-          },
-          // set
-          [this](const double &value) {
-              this->_minWidth = value;
-              this->Width     = this->Width;
-          }),
-
-      MinHeight(
-          // get
-          [this]() -> double {
-              return this->_minHeight;
-          },
-          // set
-          [this](const double &value) {
-              this->_minHeight = value;
-              this->Height     = this->Height;
-          }),
-
       Menu(
           // get
           [this]() -> sw::Menu * {
@@ -9266,22 +9312,20 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 
         case WM_GETMINMAXINFO: {
             auto pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
-            // 按照设置限制窗口大小
-            if (this->_maxWidth > 0) {
-                LONG maxWidth           = Dip::DipToPxX(this->_maxWidth);
-                pInfo->ptMaxTrackSize.x = Utils::Min(pInfo->ptMaxTrackSize.x, maxWidth);
+            Size minSize{this->MinWidth, this->MinHeight};
+            Size maxSize{this->MaxWidth, this->MaxHeight};
+
+            if (minSize.width > 0) {
+                pInfo->ptMinTrackSize.x = Utils::Max<LONG>(pInfo->ptMinTrackSize.x, Dip::DipToPxX(minSize.width));
             }
-            if (this->_maxHeight > 0) {
-                LONG maxHeight          = Dip::DipToPxY(this->_maxHeight);
-                pInfo->ptMaxTrackSize.y = Utils::Min(pInfo->ptMaxTrackSize.y, maxHeight);
+            if (minSize.height > 0) {
+                pInfo->ptMinTrackSize.y = Utils::Max<LONG>(pInfo->ptMinTrackSize.y, Dip::DipToPxY(minSize.height));
             }
-            if (this->_minWidth > 0) {
-                LONG minWidth           = Dip::DipToPxX(this->_minWidth);
-                pInfo->ptMinTrackSize.x = Utils::Max(pInfo->ptMinTrackSize.x, minWidth);
+            if (maxSize.width > 0) {
+                pInfo->ptMaxTrackSize.x = Utils::Min<LONG>(pInfo->ptMaxTrackSize.x, Dip::DipToPxX(maxSize.width));
             }
-            if (this->_minHeight > 0) {
-                LONG minHeight          = Dip::DipToPxY(this->_minHeight);
-                pInfo->ptMinTrackSize.y = Utils::Max(pInfo->ptMinTrackSize.y, minHeight);
+            if (maxSize.height > 0) {
+                pInfo->ptMaxTrackSize.y = Utils::Min<LONG>(pInfo->ptMaxTrackSize.y, Dip::DipToPxY(maxSize.height));
             }
             return 0;
         }
@@ -9379,6 +9423,22 @@ void sw::Window::OnMenuCommand(int id)
         MenuItem *item = this->_menu->GetMenuItem(id);
         if (item) item->CallCommand();
     }
+}
+
+void sw::Window::OnMinMaxSizeChanged()
+{
+    if (!this->IsRootElement()) {
+        this->UIElement::OnMinMaxSizeChanged();
+    }
+
+    HWND hwnd = this->Handle;
+
+    RECT rect;
+    GetWindowRect(hwnd, &rect);
+
+    SetWindowPos(
+        hwnd, NULL, 0, 0, rect.right - rect.left, rect.bottom - rect.top,
+        SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 }
 
 void sw::Window::OnFirstShow()

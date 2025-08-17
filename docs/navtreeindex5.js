@@ -1,5 +1,9 @@
 var NAVTREEINDEX5 =
 {
+"classsw_1_1WndBase.html#adb808283f6ccd5a32834ad25fa2f407b":[2,0,0,153,68],
+"classsw_1_1WndBase.html#adcf94f9017f5589b3027955e48c34b62":[2,0,0,153,54],
+"classsw_1_1WndBase.html#ae2f1b78dd8165c8bca0313180a9f4b81":[2,0,0,153,86],
+"classsw_1_1WndBase.html#ae4acb69dc4a05fa89dfe8ad9b081eb95":[2,0,0,153,87],
 "classsw_1_1WndBase.html#ae545de230ba94e3263f3197e98308079":[2,0,0,153,9],
 "classsw_1_1WndBase.html#ae73c2839e2380db3c59a3dbe068937d5":[2,0,0,153,76],
 "classsw_1_1WndBase.html#aea1d61cd6e108834e498009926ff3ebd":[2,0,0,153,37],
@@ -245,9 +249,5 @@ var NAVTREEINDEX5 =
 "structsw_1_1Point.html#a85e96100b99b6408e986970d21ce5b5d":[2,0,0,113,0],
 "structsw_1_1Point.html#a8aa1588ffbd88a650745648c5406217a":[2,0,0,113,5],
 "structsw_1_1Point.html#a9bc0afd9e0f20595fa06f60b499ac0a3":[2,0,0,113,4],
-"structsw_1_1Point.html#ae6a214a23a7b9128b3938e2bcc820b01":[2,0,0,113,1],
-"structsw_1_1Point.html#afceae691252771cc050e8e4152971ba9":[2,0,0,113,7],
-"structsw_1_1PositionChangedEventArgs.html":[2,0,0,114],
-"structsw_1_1ProcMsg.html":[2,0,0,115],
-"structsw_1_1ProcMsg.html#a114f533462da6db1852ad4aa5485d86b":[2,0,0,115,5]
+"structsw_1_1Point.html#ae6a214a23a7b9128b3938e2bcc820b01":[2,0,0,113,1]
 };
