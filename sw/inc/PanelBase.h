@@ -83,6 +83,14 @@ namespace sw
          */
         virtual bool RequestBringIntoView(const sw::Rect &screenRect) override;
 
+        /**
+         * @brief           路由事件经过当前元素时调用该函数
+         * @param eventArgs 事件参数
+         * @param handler   事件处理函数，值为空时表示当前元素没有注册该事件处理函数
+         * @return          若已处理该事件则返回true，否则返回false以继调用处理函数
+         */
+        virtual bool OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler) override;
+
     public:
         /**
          * @brief  尝试将对象转换成Control

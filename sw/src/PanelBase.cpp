@@ -53,6 +53,11 @@ bool sw::PanelBase::RequestBringIntoView(const sw::Rect &screenRect)
     return this->Layer::RequestBringIntoView(screenRect);
 }
 
+bool sw::PanelBase::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
+{
+    return this->Layer::OnRoutedEvent(eventArgs, handler);
+}
+
 sw::Control *sw::PanelBase::ToControl()
 {
     return this->Control::ToControl();

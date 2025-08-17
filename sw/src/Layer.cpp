@@ -147,6 +147,16 @@ sw::Layer::Layer()
               info.fMask  = SIF_RANGE | SIF_PAGE;
               GetScrollInfo(this->Handle, SB_VERT, &info);
               return Dip::PxToDipY(info.nMax - info.nPage + 1);
+          }),
+
+      MouseWheelScrollEnabled(
+          // get
+          [this]() -> bool {
+              return this->_mouseWheelScrollEnabled;
+          },
+          // set
+          [this](const bool &value) {
+              this->_mouseWheelScrollEnabled = value;
           })
 {
 }
@@ -376,6 +386,34 @@ bool sw::Layer::RequestBringIntoView(const sw::Rect &screenRect)
     }
 
     return handled;
+}
+
+bool sw::Layer::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
+{
+    if (handler) {
+        handler(*this, eventArgs);
+    }
+    if (eventArgs.handled) {
+        return true;
+    }
+
+    if (eventArgs.eventType == UIElement_MouseWheel && this->_mouseWheelScrollEnabled) {
+        auto &wheelArgs = static_cast<MouseWheelEventArgs &>(eventArgs);
+        bool shiftDown  = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+        double offset   = -std::copysign(_LayerScrollBarLineInterval, wheelArgs.wheelDelta);
+        if (shiftDown) {
+            if (this->HorizontalScrollBar) {
+                this->ScrollHorizontal(offset);
+                eventArgs.handled = true;
+            }
+        } else {
+            if (this->VerticalScrollBar) {
+                this->ScrollVertical(offset);
+                eventArgs.handled = true;
+            }
+        }
+    }
+    return true;
 }
 
 void sw::Layer::DisableLayout()

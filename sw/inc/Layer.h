@@ -37,6 +37,11 @@ namespace sw
          */
         bool _verticalScrollDisabled = true;
 
+        /**
+         * @brief 是否在鼠标滚动时滚动内容
+         */
+        bool _mouseWheelScrollEnabled = true;
+
     public:
         /**
          * @brief 自定义的布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设为nullptr可恢复默认布局
@@ -77,6 +82,11 @@ namespace sw
          * @brief 纵向滚动条可设置的最大位置
          */
         const ReadOnlyProperty<double> VerticalScrollLimit;
+
+        /**
+         * @brief 是否在鼠标滚动时滚动内容
+         */
+        const Property<bool> MouseWheelScrollEnabled;
 
     public:
         /**
@@ -159,6 +169,14 @@ namespace sw
          * @return           若已处理该请求则返回true，否则返回false以继续向上冒泡
          */
         virtual bool RequestBringIntoView(const sw::Rect &screenRect) override;
+
+        /**
+         * @brief           路由事件经过当前元素时调用该函数
+         * @param eventArgs 事件参数
+         * @param handler   事件处理函数，值为空时表示当前元素没有注册该事件处理函数
+         * @return          若已处理该事件则返回true，否则返回false以继调用处理函数
+         */
+        virtual bool OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler) override;
 
     public:
         /**
