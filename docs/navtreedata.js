@@ -49,10 +49,10 @@ var NAVTREEINDEX =
 "Alignment_8h_source.html",
 "classsw_1_1Delegate_3_01TRet_07Args_8_8_8_08_4.html#abee846da9629ebe5d7a13f748dce1b07",
 "classsw_1_1Layer.html",
-"classsw_1_1PropertyBase.html#a03f91a0020eccc3b1f01509aa71f31e7",
-"classsw_1_1UIElement.html#a360ea4cc7f6cf85fef3533f425af97d3",
-"classsw_1_1WndBase.html#adb808283f6ccd5a32834ad25fa2f407b",
-"structsw_1_1Point.html#afceae691252771cc050e8e4152971ba9"
+"classsw_1_1Property.html#a08dfff3c7a68de5118e431a91189893f",
+"classsw_1_1UIElement.html#a2b54e00e1e41af2a634ad694da3ffa98",
+"classsw_1_1WndBase.html#ac34494921eed0f67a053a9393d78bcf9",
+"structsw_1_1MsgBoxResultHelper.html#ac75e4774f3a663cdd014aa8b4a97e2af"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

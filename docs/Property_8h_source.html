@@ -1131,380 +1131,404 @@ $(document).ready(function(){initNavTree('Property_8h_source.html',''); initResi
 <div class="line"><a id="l01154" name="l01154"></a><span class="lineno"> 1154</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
 <div class="line"><a id="l01155" name="l01155"></a><span class="lineno"> 1155</span>        <span class="keyword">typename</span> std::enable_if&lt;</div>
 <div class="line"><a id="l01156" name="l01156"></a><span class="lineno"> 1156</span>            <a class="code hl_struct" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper&lt;T, U&gt;::value</a> &amp;&amp;</div>
-<div class="line"><a id="l01157" name="l01157"></a><span class="lineno"> 1157</span>                !std::is_reference&lt;typename _BracketOperationHelper&lt;T, U&gt;::type&gt;::value,</div>
-<div class="line"><a id="l01158" name="l01158"></a><span class="lineno"> 1158</span>            <span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper&lt;T, U&gt;::type</a>&gt;::type</div>
-<div class="foldopen" id="foldopen01159" data-start="{" data-end="}">
-<div class="line"><a id="l01159" name="l01159"></a><span class="lineno"><a class="line" href="classsw_1_1PropertyBase.html#aacac565e63fc2c9f4622cfe21e19ecbf"> 1159</a></span>        <a class="code hl_function" href="classsw_1_1PropertyBase.html#aacac565e63fc2c9f4622cfe21e19ecbf">operator[]</a>(<span class="keyword">const</span> U &amp;value)<span class="keyword"> const</span></div>
-<div class="line"><a id="l01160" name="l01160"></a><span class="lineno"> 1160</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l01161" name="l01161"></a><span class="lineno"> 1161</span>            <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classsw_1_1PropertyBase.html#a2a6eec000ec894f07376cdfe0cb9484c">Get</a>()[value];</div>
-<div class="line"><a id="l01162" name="l01162"></a><span class="lineno"> 1162</span>        }</div>
+<div class="line"><a id="l01157" name="l01157"></a><span class="lineno"> 1157</span>                !std::is_pointer&lt;T&gt;::value &amp;&amp;</div>
+<div class="line"><a id="l01158" name="l01158"></a><span class="lineno"> 1158</span>                !std::is_reference&lt;typename _BracketOperationHelper&lt;T, U&gt;::type&gt;::value,</div>
+<div class="line"><a id="l01159" name="l01159"></a><span class="lineno"> 1159</span>            <span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper&lt;T, U&gt;::type</a>&gt;::type</div>
+<div class="foldopen" id="foldopen01160" data-start="{" data-end="}">
+<div class="line"><a id="l01160" name="l01160"></a><span class="lineno"><a class="line" href="classsw_1_1PropertyBase.html#a6bc78c5a0081a77a81f15619c69ad99a"> 1160</a></span>        <a class="code hl_function" href="classsw_1_1PropertyBase.html#a6bc78c5a0081a77a81f15619c69ad99a">operator[]</a>(<span class="keyword">const</span> U &amp;value)<span class="keyword"> const</span></div>
+<div class="line"><a id="l01161" name="l01161"></a><span class="lineno"> 1161</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l01162" name="l01162"></a><span class="lineno"> 1162</span>            <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classsw_1_1PropertyBase.html#a2a6eec000ec894f07376cdfe0cb9484c">Get</a>()[value];</div>
+<div class="line"><a id="l01163" name="l01163"></a><span class="lineno"> 1163</span>        }</div>
 </div>
-<div class="line"><a id="l01163" name="l01163"></a><span class="lineno"> 1163</span> </div>
-<div class="line"><a id="l01167" name="l01167"></a><span class="lineno"> 1167</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> U&gt;</div>
-<div class="line"><a id="l01168" name="l01168"></a><span class="lineno"> 1168</span>        <span class="keyword">typename</span> std::enable_if&lt;</div>
-<div class="line"><a id="l01169" name="l01169"></a><span class="lineno"> 1169</span>            <a class="code hl_struct" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper&lt;T, U&gt;::value</a> &amp;&amp;</div>
-<div class="line"><a id="l01170" name="l01170"></a><span class="lineno"> 1170</span>                !std::is_reference&lt;typename _BracketOperationHelper&lt;T, U&gt;::type&gt;::value,</div>
-<div class="line"><a id="l01171" name="l01171"></a><span class="lineno"> 1171</span>            <span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper&lt;T, U&gt;::type</a>&gt;::type</div>
-<div class="foldopen" id="foldopen01172" data-start="{" data-end="}">
-<div class="line"><a id="l01172" name="l01172"></a><span class="lineno"><a class="line" href="classsw_1_1PropertyBase.html#a9ff584b00ef495b94ba4b9661f25f573"> 1172</a></span>        <a class="code hl_function" href="classsw_1_1PropertyBase.html#a9ff584b00ef495b94ba4b9661f25f573">operator[]</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase&lt;U, D&gt;</a> &amp;prop)<span class="keyword"> const</span></div>
-<div class="line"><a id="l01173" name="l01173"></a><span class="lineno"> 1173</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l01174" name="l01174"></a><span class="lineno"> 1174</span>            <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classsw_1_1PropertyBase.html#a2a6eec000ec894f07376cdfe0cb9484c">Get</a>()[prop.<a class="code hl_function" href="classsw_1_1PropertyBase.html#a2a6eec000ec894f07376cdfe0cb9484c">Get</a>()];</div>
-<div class="line"><a id="l01175" name="l01175"></a><span class="lineno"> 1175</span>        }</div>
+<div class="line"><a id="l01164" name="l01164"></a><span class="lineno"> 1164</span> </div>
+<div class="line"><a id="l01168" name="l01168"></a><span class="lineno"> 1168</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a id="l01169" name="l01169"></a><span class="lineno"> 1169</span>        <span class="keyword">typename</span> std::enable_if&lt;</div>
+<div class="line"><a id="l01170" name="l01170"></a><span class="lineno"> 1170</span>            <a class="code hl_struct" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper&lt;T, U&gt;::value</a> &amp;&amp;</div>
+<div class="line"><a id="l01171" name="l01171"></a><span class="lineno"> 1171</span>                !std::is_pointer&lt;T&gt;::value &amp;&amp;</div>
+<div class="line"><a id="l01172" name="l01172"></a><span class="lineno"> 1172</span>                !std::is_reference&lt;typename _BracketOperationHelper&lt;T, U&gt;::type&gt;::value,</div>
+<div class="line"><a id="l01173" name="l01173"></a><span class="lineno"> 1173</span>            <span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper&lt;T, U&gt;::type</a>&gt;::type</div>
+<div class="foldopen" id="foldopen01174" data-start="{" data-end="}">
+<div class="line"><a id="l01174" name="l01174"></a><span class="lineno"><a class="line" href="classsw_1_1PropertyBase.html#a6bdb6caaa050d844a6f2544f369eb2be"> 1174</a></span>        <a class="code hl_function" href="classsw_1_1PropertyBase.html#a6bdb6caaa050d844a6f2544f369eb2be">operator[]</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase&lt;U, D&gt;</a> &amp;prop)<span class="keyword"> const</span></div>
+<div class="line"><a id="l01175" name="l01175"></a><span class="lineno"> 1175</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l01176" name="l01176"></a><span class="lineno"> 1176</span>            <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classsw_1_1PropertyBase.html#a2a6eec000ec894f07376cdfe0cb9484c">Get</a>()[prop.<a class="code hl_function" href="classsw_1_1PropertyBase.html#a2a6eec000ec894f07376cdfe0cb9484c">Get</a>()];</div>
+<div class="line"><a id="l01177" name="l01177"></a><span class="lineno"> 1177</span>        }</div>
 </div>
-<div class="line"><a id="l01176" name="l01176"></a><span class="lineno"> 1176</span>    };</div>
+<div class="line"><a id="l01178" name="l01178"></a><span class="lineno"> 1178</span> </div>
+<div class="line"><a id="l01182" name="l01182"></a><span class="lineno"> 1182</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a id="l01183" name="l01183"></a><span class="lineno"> 1183</span>        <span class="keyword">typename</span> std::enable_if&lt;</div>
+<div class="line"><a id="l01184" name="l01184"></a><span class="lineno"> 1184</span>            <a class="code hl_struct" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper&lt;T, U&gt;::value</a> &amp;&amp; std::is_pointer&lt;T&gt;::value,</div>
+<div class="line"><a id="l01185" name="l01185"></a><span class="lineno"> 1185</span>            <span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper&lt;T, U&gt;::type</a>&gt;::type</div>
+<div class="foldopen" id="foldopen01186" data-start="{" data-end="}">
+<div class="line"><a id="l01186" name="l01186"></a><span class="lineno"><a class="line" href="classsw_1_1PropertyBase.html#a27a2dcb9ccf7f3856656f101b7d0ccc0"> 1186</a></span>        <a class="code hl_function" href="classsw_1_1PropertyBase.html#a27a2dcb9ccf7f3856656f101b7d0ccc0">operator[]</a>(<span class="keyword">const</span> U &amp;value)<span class="keyword"> const</span></div>
+<div class="line"><a id="l01187" name="l01187"></a><span class="lineno"> 1187</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l01188" name="l01188"></a><span class="lineno"> 1188</span>            <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classsw_1_1PropertyBase.html#a2a6eec000ec894f07376cdfe0cb9484c">Get</a>()[value];</div>
+<div class="line"><a id="l01189" name="l01189"></a><span class="lineno"> 1189</span>        }</div>
 </div>
-<div class="line"><a id="l01177" name="l01177"></a><span class="lineno"> 1177</span> </div>
-<div class="line"><a id="l01178" name="l01178"></a><span class="lineno"> 1178</span>    <span class="comment">/*================================================================================*/</span></div>
-<div class="line"><a id="l01179" name="l01179"></a><span class="lineno"> 1179</span> </div>
-<div class="line"><a id="l01183" name="l01183"></a><span class="lineno"> 1183</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01184" name="l01184"></a><span class="lineno"> 1184</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _AddOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _AddOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01185" name="l01185"></a><span class="lineno"> 1185</span>    operator+(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01186" name="l01186"></a><span class="lineno"> 1186</span>    {</div>
-<div class="line"><a id="l01187" name="l01187"></a><span class="lineno"> 1187</span>        <span class="keywordflow">return</span> left + right.Get();</div>
-<div class="line"><a id="l01188" name="l01188"></a><span class="lineno"> 1188</span>    }</div>
-<div class="line"><a id="l01189" name="l01189"></a><span class="lineno"> 1189</span> </div>
-<div class="line"><a id="l01193" name="l01193"></a><span class="lineno"> 1193</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01194" name="l01194"></a><span class="lineno"> 1194</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _AddOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _AddOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01195" name="l01195"></a><span class="lineno"> 1195</span>    operator+(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01196" name="l01196"></a><span class="lineno"> 1196</span>    {</div>
-<div class="line"><a id="l01197" name="l01197"></a><span class="lineno"> 1197</span>        <span class="keywordflow">return</span> left + right.Get();</div>
-<div class="line"><a id="l01198" name="l01198"></a><span class="lineno"> 1198</span>    }</div>
-<div class="line"><a id="l01199" name="l01199"></a><span class="lineno"> 1199</span> </div>
-<div class="line"><a id="l01203" name="l01203"></a><span class="lineno"> 1203</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01204" name="l01204"></a><span class="lineno"> 1204</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _SubOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _SubOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01205" name="l01205"></a><span class="lineno"> 1205</span>    operator-(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01206" name="l01206"></a><span class="lineno"> 1206</span>    {</div>
-<div class="line"><a id="l01207" name="l01207"></a><span class="lineno"> 1207</span>        <span class="keywordflow">return</span> left - right.Get();</div>
-<div class="line"><a id="l01208" name="l01208"></a><span class="lineno"> 1208</span>    }</div>
-<div class="line"><a id="l01209" name="l01209"></a><span class="lineno"> 1209</span> </div>
-<div class="line"><a id="l01213" name="l01213"></a><span class="lineno"> 1213</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01214" name="l01214"></a><span class="lineno"> 1214</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _SubOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _SubOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01215" name="l01215"></a><span class="lineno"> 1215</span>    operator-(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01216" name="l01216"></a><span class="lineno"> 1216</span>    {</div>
-<div class="line"><a id="l01217" name="l01217"></a><span class="lineno"> 1217</span>        <span class="keywordflow">return</span> left - right.Get();</div>
-<div class="line"><a id="l01218" name="l01218"></a><span class="lineno"> 1218</span>    }</div>
-<div class="line"><a id="l01219" name="l01219"></a><span class="lineno"> 1219</span> </div>
-<div class="line"><a id="l01223" name="l01223"></a><span class="lineno"> 1223</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01224" name="l01224"></a><span class="lineno"> 1224</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _MulOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _MulOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01225" name="l01225"></a><span class="lineno"> 1225</span>    operator*(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01226" name="l01226"></a><span class="lineno"> 1226</span>    {</div>
-<div class="line"><a id="l01227" name="l01227"></a><span class="lineno"> 1227</span>        <span class="keywordflow">return</span> left * right.Get();</div>
-<div class="line"><a id="l01228" name="l01228"></a><span class="lineno"> 1228</span>    }</div>
-<div class="line"><a id="l01229" name="l01229"></a><span class="lineno"> 1229</span> </div>
-<div class="line"><a id="l01233" name="l01233"></a><span class="lineno"> 1233</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01234" name="l01234"></a><span class="lineno"> 1234</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _MulOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _MulOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01235" name="l01235"></a><span class="lineno"> 1235</span>    operator*(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01236" name="l01236"></a><span class="lineno"> 1236</span>    {</div>
-<div class="line"><a id="l01237" name="l01237"></a><span class="lineno"> 1237</span>        <span class="keywordflow">return</span> left * right.Get();</div>
-<div class="line"><a id="l01238" name="l01238"></a><span class="lineno"> 1238</span>    }</div>
-<div class="line"><a id="l01239" name="l01239"></a><span class="lineno"> 1239</span> </div>
-<div class="line"><a id="l01243" name="l01243"></a><span class="lineno"> 1243</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01244" name="l01244"></a><span class="lineno"> 1244</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _DivOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _DivOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01245" name="l01245"></a><span class="lineno"> 1245</span>    operator/(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01246" name="l01246"></a><span class="lineno"> 1246</span>    {</div>
-<div class="line"><a id="l01247" name="l01247"></a><span class="lineno"> 1247</span>        <span class="keywordflow">return</span> left / right.Get();</div>
-<div class="line"><a id="l01248" name="l01248"></a><span class="lineno"> 1248</span>    }</div>
-<div class="line"><a id="l01249" name="l01249"></a><span class="lineno"> 1249</span> </div>
-<div class="line"><a id="l01253" name="l01253"></a><span class="lineno"> 1253</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01254" name="l01254"></a><span class="lineno"> 1254</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _DivOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _DivOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01255" name="l01255"></a><span class="lineno"> 1255</span>    operator/(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01256" name="l01256"></a><span class="lineno"> 1256</span>    {</div>
-<div class="line"><a id="l01257" name="l01257"></a><span class="lineno"> 1257</span>        <span class="keywordflow">return</span> left / right.Get();</div>
-<div class="line"><a id="l01258" name="l01258"></a><span class="lineno"> 1258</span>    }</div>
-<div class="line"><a id="l01259" name="l01259"></a><span class="lineno"> 1259</span> </div>
-<div class="line"><a id="l01263" name="l01263"></a><span class="lineno"> 1263</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01264" name="l01264"></a><span class="lineno"> 1264</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _ModOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _ModOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01265" name="l01265"></a><span class="lineno"> 1265</span>    operator%(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01266" name="l01266"></a><span class="lineno"> 1266</span>    {</div>
-<div class="line"><a id="l01267" name="l01267"></a><span class="lineno"> 1267</span>        <span class="keywordflow">return</span> left % right.Get();</div>
-<div class="line"><a id="l01268" name="l01268"></a><span class="lineno"> 1268</span>    }</div>
-<div class="line"><a id="l01269" name="l01269"></a><span class="lineno"> 1269</span> </div>
-<div class="line"><a id="l01273" name="l01273"></a><span class="lineno"> 1273</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01274" name="l01274"></a><span class="lineno"> 1274</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _ModOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _ModOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01275" name="l01275"></a><span class="lineno"> 1275</span>    operator%(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01276" name="l01276"></a><span class="lineno"> 1276</span>    {</div>
-<div class="line"><a id="l01277" name="l01277"></a><span class="lineno"> 1277</span>        <span class="keywordflow">return</span> left % right.Get();</div>
-<div class="line"><a id="l01278" name="l01278"></a><span class="lineno"> 1278</span>    }</div>
-<div class="line"><a id="l01279" name="l01279"></a><span class="lineno"> 1279</span> </div>
-<div class="line"><a id="l01283" name="l01283"></a><span class="lineno"> 1283</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01284" name="l01284"></a><span class="lineno"> 1284</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _EqOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _EqOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01285" name="l01285"></a><span class="lineno"> 1285</span>    operator==(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01286" name="l01286"></a><span class="lineno"> 1286</span>    {</div>
-<div class="line"><a id="l01287" name="l01287"></a><span class="lineno"> 1287</span>        <span class="keywordflow">return</span> left == right.Get();</div>
-<div class="line"><a id="l01288" name="l01288"></a><span class="lineno"> 1288</span>    }</div>
-<div class="line"><a id="l01289" name="l01289"></a><span class="lineno"> 1289</span> </div>
-<div class="line"><a id="l01293" name="l01293"></a><span class="lineno"> 1293</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01294" name="l01294"></a><span class="lineno"> 1294</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _EqOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _EqOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01295" name="l01295"></a><span class="lineno"> 1295</span>    operator==(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01296" name="l01296"></a><span class="lineno"> 1296</span>    {</div>
-<div class="line"><a id="l01297" name="l01297"></a><span class="lineno"> 1297</span>        <span class="keywordflow">return</span> left == right.Get();</div>
-<div class="line"><a id="l01298" name="l01298"></a><span class="lineno"> 1298</span>    }</div>
-<div class="line"><a id="l01299" name="l01299"></a><span class="lineno"> 1299</span> </div>
-<div class="line"><a id="l01303" name="l01303"></a><span class="lineno"> 1303</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01304" name="l01304"></a><span class="lineno"> 1304</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _NeOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _NeOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01305" name="l01305"></a><span class="lineno"> 1305</span>    operator!=(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01306" name="l01306"></a><span class="lineno"> 1306</span>    {</div>
-<div class="line"><a id="l01307" name="l01307"></a><span class="lineno"> 1307</span>        <span class="keywordflow">return</span> left != right.Get();</div>
-<div class="line"><a id="l01308" name="l01308"></a><span class="lineno"> 1308</span>    }</div>
-<div class="line"><a id="l01309" name="l01309"></a><span class="lineno"> 1309</span> </div>
-<div class="line"><a id="l01313" name="l01313"></a><span class="lineno"> 1313</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01314" name="l01314"></a><span class="lineno"> 1314</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _NeOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _NeOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01315" name="l01315"></a><span class="lineno"> 1315</span>    operator!=(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01316" name="l01316"></a><span class="lineno"> 1316</span>    {</div>
-<div class="line"><a id="l01317" name="l01317"></a><span class="lineno"> 1317</span>        <span class="keywordflow">return</span> left != right.Get();</div>
-<div class="line"><a id="l01318" name="l01318"></a><span class="lineno"> 1318</span>    }</div>
-<div class="line"><a id="l01319" name="l01319"></a><span class="lineno"> 1319</span> </div>
-<div class="line"><a id="l01323" name="l01323"></a><span class="lineno"> 1323</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01324" name="l01324"></a><span class="lineno"> 1324</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LtOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _LtOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01325" name="l01325"></a><span class="lineno"> 1325</span>    operator&lt;(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01326" name="l01326"></a><span class="lineno"> 1326</span>    {</div>
-<div class="line"><a id="l01327" name="l01327"></a><span class="lineno"> 1327</span>        <span class="keywordflow">return</span> left &lt; right.Get();</div>
-<div class="line"><a id="l01328" name="l01328"></a><span class="lineno"> 1328</span>    }</div>
-<div class="line"><a id="l01329" name="l01329"></a><span class="lineno"> 1329</span> </div>
-<div class="line"><a id="l01333" name="l01333"></a><span class="lineno"> 1333</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01334" name="l01334"></a><span class="lineno"> 1334</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LtOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _LtOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01335" name="l01335"></a><span class="lineno"> 1335</span>    operator&lt;(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01336" name="l01336"></a><span class="lineno"> 1336</span>    {</div>
-<div class="line"><a id="l01337" name="l01337"></a><span class="lineno"> 1337</span>        <span class="keywordflow">return</span> left &lt; right.Get();</div>
-<div class="line"><a id="l01338" name="l01338"></a><span class="lineno"> 1338</span>    }</div>
-<div class="line"><a id="l01339" name="l01339"></a><span class="lineno"> 1339</span> </div>
-<div class="line"><a id="l01343" name="l01343"></a><span class="lineno"> 1343</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01344" name="l01344"></a><span class="lineno"> 1344</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LeOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _LeOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01345" name="l01345"></a><span class="lineno"> 1345</span>    operator&lt;=(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01346" name="l01346"></a><span class="lineno"> 1346</span>    {</div>
-<div class="line"><a id="l01347" name="l01347"></a><span class="lineno"> 1347</span>        <span class="keywordflow">return</span> left &lt;= right.Get();</div>
-<div class="line"><a id="l01348" name="l01348"></a><span class="lineno"> 1348</span>    }</div>
-<div class="line"><a id="l01349" name="l01349"></a><span class="lineno"> 1349</span> </div>
-<div class="line"><a id="l01353" name="l01353"></a><span class="lineno"> 1353</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01354" name="l01354"></a><span class="lineno"> 1354</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LeOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _LeOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01355" name="l01355"></a><span class="lineno"> 1355</span>    operator&lt;=(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01356" name="l01356"></a><span class="lineno"> 1356</span>    {</div>
-<div class="line"><a id="l01357" name="l01357"></a><span class="lineno"> 1357</span>        <span class="keywordflow">return</span> left &lt;= right.Get();</div>
-<div class="line"><a id="l01358" name="l01358"></a><span class="lineno"> 1358</span>    }</div>
-<div class="line"><a id="l01359" name="l01359"></a><span class="lineno"> 1359</span> </div>
-<div class="line"><a id="l01363" name="l01363"></a><span class="lineno"> 1363</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01364" name="l01364"></a><span class="lineno"> 1364</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _GtOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _GtOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01365" name="l01365"></a><span class="lineno"> 1365</span>    operator&gt;(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01366" name="l01366"></a><span class="lineno"> 1366</span>    {</div>
-<div class="line"><a id="l01367" name="l01367"></a><span class="lineno"> 1367</span>        <span class="keywordflow">return</span> left &gt; right.Get();</div>
-<div class="line"><a id="l01368" name="l01368"></a><span class="lineno"> 1368</span>    }</div>
-<div class="line"><a id="l01369" name="l01369"></a><span class="lineno"> 1369</span> </div>
-<div class="line"><a id="l01373" name="l01373"></a><span class="lineno"> 1373</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01374" name="l01374"></a><span class="lineno"> 1374</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _GtOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _GtOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01375" name="l01375"></a><span class="lineno"> 1375</span>    operator&gt;(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01376" name="l01376"></a><span class="lineno"> 1376</span>    {</div>
-<div class="line"><a id="l01377" name="l01377"></a><span class="lineno"> 1377</span>        <span class="keywordflow">return</span> left &gt; right.Get();</div>
-<div class="line"><a id="l01378" name="l01378"></a><span class="lineno"> 1378</span>    }</div>
-<div class="line"><a id="l01379" name="l01379"></a><span class="lineno"> 1379</span> </div>
-<div class="line"><a id="l01383" name="l01383"></a><span class="lineno"> 1383</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01384" name="l01384"></a><span class="lineno"> 1384</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _GeOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _GeOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01385" name="l01385"></a><span class="lineno"> 1385</span>    operator&gt;=(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01386" name="l01386"></a><span class="lineno"> 1386</span>    {</div>
-<div class="line"><a id="l01387" name="l01387"></a><span class="lineno"> 1387</span>        <span class="keywordflow">return</span> left &gt;= right.Get();</div>
-<div class="line"><a id="l01388" name="l01388"></a><span class="lineno"> 1388</span>    }</div>
-<div class="line"><a id="l01389" name="l01389"></a><span class="lineno"> 1389</span> </div>
-<div class="line"><a id="l01393" name="l01393"></a><span class="lineno"> 1393</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01394" name="l01394"></a><span class="lineno"> 1394</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _GeOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _GeOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01395" name="l01395"></a><span class="lineno"> 1395</span>    operator&gt;=(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01396" name="l01396"></a><span class="lineno"> 1396</span>    {</div>
-<div class="line"><a id="l01397" name="l01397"></a><span class="lineno"> 1397</span>        <span class="keywordflow">return</span> left &gt;= right.Get();</div>
-<div class="line"><a id="l01398" name="l01398"></a><span class="lineno"> 1398</span>    }</div>
-<div class="line"><a id="l01399" name="l01399"></a><span class="lineno"> 1399</span> </div>
-<div class="line"><a id="l01403" name="l01403"></a><span class="lineno"> 1403</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01404" name="l01404"></a><span class="lineno"> 1404</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _BitAndOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _BitAndOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01405" name="l01405"></a><span class="lineno"> 1405</span>    operator&amp;(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01406" name="l01406"></a><span class="lineno"> 1406</span>    {</div>
-<div class="line"><a id="l01407" name="l01407"></a><span class="lineno"> 1407</span>        <span class="keywordflow">return</span> left &amp; right.Get();</div>
-<div class="line"><a id="l01408" name="l01408"></a><span class="lineno"> 1408</span>    }</div>
-<div class="line"><a id="l01409" name="l01409"></a><span class="lineno"> 1409</span> </div>
-<div class="line"><a id="l01413" name="l01413"></a><span class="lineno"> 1413</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01414" name="l01414"></a><span class="lineno"> 1414</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _BitAndOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _BitAndOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01415" name="l01415"></a><span class="lineno"> 1415</span>    operator&amp;(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01416" name="l01416"></a><span class="lineno"> 1416</span>    {</div>
-<div class="line"><a id="l01417" name="l01417"></a><span class="lineno"> 1417</span>        <span class="keywordflow">return</span> left &amp; right.Get();</div>
-<div class="line"><a id="l01418" name="l01418"></a><span class="lineno"> 1418</span>    }</div>
-<div class="line"><a id="l01419" name="l01419"></a><span class="lineno"> 1419</span> </div>
-<div class="line"><a id="l01423" name="l01423"></a><span class="lineno"> 1423</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01424" name="l01424"></a><span class="lineno"> 1424</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _BitOrOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _BitOrOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01425" name="l01425"></a><span class="lineno"> 1425</span>    operator|(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01426" name="l01426"></a><span class="lineno"> 1426</span>    {</div>
-<div class="line"><a id="l01427" name="l01427"></a><span class="lineno"> 1427</span>        <span class="keywordflow">return</span> left | right.Get();</div>
-<div class="line"><a id="l01428" name="l01428"></a><span class="lineno"> 1428</span>    }</div>
-<div class="line"><a id="l01429" name="l01429"></a><span class="lineno"> 1429</span> </div>
-<div class="line"><a id="l01433" name="l01433"></a><span class="lineno"> 1433</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01434" name="l01434"></a><span class="lineno"> 1434</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _BitOrOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _BitOrOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01435" name="l01435"></a><span class="lineno"> 1435</span>    operator|(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01436" name="l01436"></a><span class="lineno"> 1436</span>    {</div>
-<div class="line"><a id="l01437" name="l01437"></a><span class="lineno"> 1437</span>        <span class="keywordflow">return</span> left | right.Get();</div>
-<div class="line"><a id="l01438" name="l01438"></a><span class="lineno"> 1438</span>    }</div>
-<div class="line"><a id="l01439" name="l01439"></a><span class="lineno"> 1439</span> </div>
-<div class="line"><a id="l01443" name="l01443"></a><span class="lineno"> 1443</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01444" name="l01444"></a><span class="lineno"> 1444</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _BitXorOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _BitXorOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01445" name="l01445"></a><span class="lineno"> 1445</span>    operator^(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01446" name="l01446"></a><span class="lineno"> 1446</span>    {</div>
-<div class="line"><a id="l01447" name="l01447"></a><span class="lineno"> 1447</span>        <span class="keywordflow">return</span> left ^ right.Get();</div>
-<div class="line"><a id="l01448" name="l01448"></a><span class="lineno"> 1448</span>    }</div>
-<div class="line"><a id="l01449" name="l01449"></a><span class="lineno"> 1449</span> </div>
-<div class="line"><a id="l01453" name="l01453"></a><span class="lineno"> 1453</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01454" name="l01454"></a><span class="lineno"> 1454</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _BitXorOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _BitXorOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01455" name="l01455"></a><span class="lineno"> 1455</span>    operator^(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01456" name="l01456"></a><span class="lineno"> 1456</span>    {</div>
-<div class="line"><a id="l01457" name="l01457"></a><span class="lineno"> 1457</span>        <span class="keywordflow">return</span> left ^ right.Get();</div>
-<div class="line"><a id="l01458" name="l01458"></a><span class="lineno"> 1458</span>    }</div>
-<div class="line"><a id="l01459" name="l01459"></a><span class="lineno"> 1459</span> </div>
-<div class="line"><a id="l01463" name="l01463"></a><span class="lineno"> 1463</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01464" name="l01464"></a><span class="lineno"> 1464</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _ShlOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _ShlOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01465" name="l01465"></a><span class="lineno"> 1465</span>    operator&lt;&lt;(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01466" name="l01466"></a><span class="lineno"> 1466</span>    {</div>
-<div class="line"><a id="l01467" name="l01467"></a><span class="lineno"> 1467</span>        <span class="keywordflow">return</span> left &lt;&lt; right.Get();</div>
-<div class="line"><a id="l01468" name="l01468"></a><span class="lineno"> 1468</span>    }</div>
-<div class="line"><a id="l01469" name="l01469"></a><span class="lineno"> 1469</span> </div>
-<div class="line"><a id="l01473" name="l01473"></a><span class="lineno"> 1473</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01474" name="l01474"></a><span class="lineno"> 1474</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _ShlOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _ShlOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01475" name="l01475"></a><span class="lineno"> 1475</span>    operator&lt;&lt;(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01476" name="l01476"></a><span class="lineno"> 1476</span>    {</div>
-<div class="line"><a id="l01477" name="l01477"></a><span class="lineno"> 1477</span>        <span class="keywordflow">return</span> left &lt;&lt; right.Get();</div>
-<div class="line"><a id="l01478" name="l01478"></a><span class="lineno"> 1478</span>    }</div>
-<div class="line"><a id="l01479" name="l01479"></a><span class="lineno"> 1479</span> </div>
-<div class="line"><a id="l01483" name="l01483"></a><span class="lineno"> 1483</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01484" name="l01484"></a><span class="lineno"> 1484</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _ShrOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _ShrOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01485" name="l01485"></a><span class="lineno"> 1485</span>    operator&gt;&gt;(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01486" name="l01486"></a><span class="lineno"> 1486</span>    {</div>
-<div class="line"><a id="l01487" name="l01487"></a><span class="lineno"> 1487</span>        <span class="keywordflow">return</span> left &gt;&gt; right.Get();</div>
-<div class="line"><a id="l01488" name="l01488"></a><span class="lineno"> 1488</span>    }</div>
-<div class="line"><a id="l01489" name="l01489"></a><span class="lineno"> 1489</span> </div>
-<div class="line"><a id="l01493" name="l01493"></a><span class="lineno"> 1493</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01494" name="l01494"></a><span class="lineno"> 1494</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _ShrOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _ShrOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01495" name="l01495"></a><span class="lineno"> 1495</span>    operator&gt;&gt;(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01496" name="l01496"></a><span class="lineno"> 1496</span>    {</div>
-<div class="line"><a id="l01497" name="l01497"></a><span class="lineno"> 1497</span>        <span class="keywordflow">return</span> left &gt;&gt; right.Get();</div>
-<div class="line"><a id="l01498" name="l01498"></a><span class="lineno"> 1498</span>    }</div>
-<div class="line"><a id="l01499" name="l01499"></a><span class="lineno"> 1499</span> </div>
-<div class="line"><a id="l01503" name="l01503"></a><span class="lineno"> 1503</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01504" name="l01504"></a><span class="lineno"> 1504</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LogicAndOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _LogicAndOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01505" name="l01505"></a><span class="lineno"> 1505</span>    operator&amp;&amp;(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01506" name="l01506"></a><span class="lineno"> 1506</span>    {</div>
-<div class="line"><a id="l01507" name="l01507"></a><span class="lineno"> 1507</span>        <span class="keywordflow">return</span> left &amp;&amp; right.Get();</div>
-<div class="line"><a id="l01508" name="l01508"></a><span class="lineno"> 1508</span>    }</div>
-<div class="line"><a id="l01509" name="l01509"></a><span class="lineno"> 1509</span> </div>
-<div class="line"><a id="l01513" name="l01513"></a><span class="lineno"> 1513</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01514" name="l01514"></a><span class="lineno"> 1514</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LogicAndOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _LogicAndOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01515" name="l01515"></a><span class="lineno"> 1515</span>    operator&amp;&amp;(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01516" name="l01516"></a><span class="lineno"> 1516</span>    {</div>
-<div class="line"><a id="l01517" name="l01517"></a><span class="lineno"> 1517</span>        <span class="keywordflow">return</span> left &amp;&amp; right.Get();</div>
-<div class="line"><a id="l01518" name="l01518"></a><span class="lineno"> 1518</span>    }</div>
-<div class="line"><a id="l01519" name="l01519"></a><span class="lineno"> 1519</span> </div>
-<div class="line"><a id="l01523" name="l01523"></a><span class="lineno"> 1523</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01524" name="l01524"></a><span class="lineno"> 1524</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LogicOrOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _LogicOrOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01525" name="l01525"></a><span class="lineno"> 1525</span>    operator||(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01526" name="l01526"></a><span class="lineno"> 1526</span>    {</div>
-<div class="line"><a id="l01527" name="l01527"></a><span class="lineno"> 1527</span>        <span class="keywordflow">return</span> left || right.Get();</div>
-<div class="line"><a id="l01528" name="l01528"></a><span class="lineno"> 1528</span>    }</div>
-<div class="line"><a id="l01529" name="l01529"></a><span class="lineno"> 1529</span> </div>
-<div class="line"><a id="l01533" name="l01533"></a><span class="lineno"> 1533</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
-<div class="line"><a id="l01534" name="l01534"></a><span class="lineno"> 1534</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LogicOrOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _LogicOrOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
-<div class="line"><a id="l01535" name="l01535"></a><span class="lineno"> 1535</span>    operator||(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
-<div class="line"><a id="l01536" name="l01536"></a><span class="lineno"> 1536</span>    {</div>
-<div class="line"><a id="l01537" name="l01537"></a><span class="lineno"> 1537</span>        <span class="keywordflow">return</span> left || right.Get();</div>
-<div class="line"><a id="l01538" name="l01538"></a><span class="lineno"> 1538</span>    }</div>
-<div class="line"><a id="l01539" name="l01539"></a><span class="lineno"> 1539</span> </div>
-<div class="line"><a id="l01540" name="l01540"></a><span class="lineno"> 1540</span>    <span class="comment">/*================================================================================*/</span></div>
-<div class="line"><a id="l01541" name="l01541"></a><span class="lineno"> 1541</span> </div>
-<div class="line"><a id="l01545" name="l01545"></a><span class="lineno"> 1545</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="foldopen" id="foldopen01546" data-start="{" data-end="};">
-<div class="line"><a id="l01546" name="l01546"></a><span class="lineno"><a class="line" href="classsw_1_1Property.html"> 1546</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1Property.html">Property</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt;T, Property&lt;T&gt;&gt;</div>
-<div class="line"><a id="l01547" name="l01547"></a><span class="lineno"> 1547</span>    {</div>
-<div class="line"><a id="l01548" name="l01548"></a><span class="lineno"> 1548</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l01549" name="l01549"></a><span class="lineno"> 1549</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1PropertyBase.html">TBase</a> = <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase&lt;T, Property&lt;T&gt;</a>&gt;;</div>
-<div class="line"><a id="l01550" name="l01550"></a><span class="lineno"> 1550</span>        <span class="keyword">using </span>FnGet = Func&lt;T&gt;;</div>
-<div class="line"><a id="l01551" name="l01551"></a><span class="lineno"> 1551</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1Delegate.html">FnSet</a> = <a class="code hl_class" href="classsw_1_1Delegate.html">Action&lt;const T &amp;&gt;</a>;</div>
-<div class="line"><a id="l01552" name="l01552"></a><span class="lineno"> 1552</span>        <span class="keyword">using </span>TBase::operator=;</div>
-<div class="line"><a id="l01553" name="l01553"></a><span class="lineno"> 1553</span> </div>
-<div class="line"><a id="l01554" name="l01554"></a><span class="lineno"> 1554</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l01555" name="l01555"></a><span class="lineno"> 1555</span>        FnGet _getter;</div>
-<div class="line"><a id="l01556" name="l01556"></a><span class="lineno"> 1556</span>        <a class="code hl_class" href="classsw_1_1Delegate.html">FnSet</a> _setter;</div>
-<div class="line"><a id="l01557" name="l01557"></a><span class="lineno"> 1557</span> </div>
-<div class="line"><a id="l01558" name="l01558"></a><span class="lineno"> 1558</span>    <span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen01562" data-start="{" data-end="}">
-<div class="line"><a id="l01562" name="l01562"></a><span class="lineno"><a class="line" href="classsw_1_1Property.html#aed49183e5aff7da2c6a8afcfdfafe24c"> 1562</a></span>        <a class="code hl_function" href="classsw_1_1Property.html#aed49183e5aff7da2c6a8afcfdfafe24c">Property</a>(<span class="keyword">const</span> FnGet &amp;getter, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Delegate.html">FnSet</a> &amp;setter)</div>
-<div class="line"><a id="l01563" name="l01563"></a><span class="lineno"> 1563</span>            : _getter(getter), _setter(setter)</div>
-<div class="line"><a id="l01564" name="l01564"></a><span class="lineno"> 1564</span>        {</div>
-<div class="line"><a id="l01565" name="l01565"></a><span class="lineno"> 1565</span>        }</div>
+<div class="line"><a id="l01190" name="l01190"></a><span class="lineno"> 1190</span> </div>
+<div class="line"><a id="l01194" name="l01194"></a><span class="lineno"> 1194</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a id="l01195" name="l01195"></a><span class="lineno"> 1195</span>        <span class="keyword">typename</span> std::enable_if&lt;</div>
+<div class="line"><a id="l01196" name="l01196"></a><span class="lineno"> 1196</span>            <a class="code hl_struct" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper&lt;T, U&gt;::value</a> &amp;&amp; std::is_pointer&lt;T&gt;::value,</div>
+<div class="line"><a id="l01197" name="l01197"></a><span class="lineno"> 1197</span>            <span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper&lt;T, U&gt;::type</a>&gt;::type</div>
+<div class="foldopen" id="foldopen01198" data-start="{" data-end="}">
+<div class="line"><a id="l01198" name="l01198"></a><span class="lineno"><a class="line" href="classsw_1_1PropertyBase.html#aa4f3c9680db301fc9926f9770617603f"> 1198</a></span>        <a class="code hl_function" href="classsw_1_1PropertyBase.html#aa4f3c9680db301fc9926f9770617603f">operator[]</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase&lt;U, D&gt;</a> &amp;prop)<span class="keyword"> const</span></div>
+<div class="line"><a id="l01199" name="l01199"></a><span class="lineno"> 1199</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l01200" name="l01200"></a><span class="lineno"> 1200</span>            <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classsw_1_1PropertyBase.html#a2a6eec000ec894f07376cdfe0cb9484c">Get</a>()[prop.<a class="code hl_function" href="classsw_1_1PropertyBase.html#a2a6eec000ec894f07376cdfe0cb9484c">Get</a>()];</div>
+<div class="line"><a id="l01201" name="l01201"></a><span class="lineno"> 1201</span>        }</div>
 </div>
-<div class="line"><a id="l01566" name="l01566"></a><span class="lineno"> 1566</span> </div>
-<div class="foldopen" id="foldopen01570" data-start="{" data-end="}">
-<div class="line"><a id="l01570" name="l01570"></a><span class="lineno"><a class="line" href="classsw_1_1Property.html#a12c7e14e407d1923d9e37418da3a3e6c"> 1570</a></span>        T <a class="code hl_function" href="classsw_1_1Property.html#a12c7e14e407d1923d9e37418da3a3e6c">GetterImpl</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l01571" name="l01571"></a><span class="lineno"> 1571</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l01572" name="l01572"></a><span class="lineno"> 1572</span>            <span class="keywordflow">return</span> this-&gt;_getter();</div>
-<div class="line"><a id="l01573" name="l01573"></a><span class="lineno"> 1573</span>        }</div>
+<div class="line"><a id="l01202" name="l01202"></a><span class="lineno"> 1202</span>    };</div>
 </div>
-<div class="line"><a id="l01574" name="l01574"></a><span class="lineno"> 1574</span> </div>
-<div class="foldopen" id="foldopen01578" data-start="{" data-end="}">
-<div class="line"><a id="l01578" name="l01578"></a><span class="lineno"><a class="line" href="classsw_1_1Property.html#a08dfff3c7a68de5118e431a91189893f"> 1578</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Property.html#a08dfff3c7a68de5118e431a91189893f">SetterImpl</a>(<span class="keyword">const</span> T &amp;value)<span class="keyword"> const</span></div>
-<div class="line"><a id="l01579" name="l01579"></a><span class="lineno"> 1579</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l01580" name="l01580"></a><span class="lineno"> 1580</span>            this-&gt;_setter(value);</div>
-<div class="line"><a id="l01581" name="l01581"></a><span class="lineno"> 1581</span>        }</div>
-</div>
-<div class="line"><a id="l01582" name="l01582"></a><span class="lineno"> 1582</span>    };</div>
-</div>
+<div class="line"><a id="l01203" name="l01203"></a><span class="lineno"> 1203</span> </div>
+<div class="line"><a id="l01204" name="l01204"></a><span class="lineno"> 1204</span>    <span class="comment">/*================================================================================*/</span></div>
+<div class="line"><a id="l01205" name="l01205"></a><span class="lineno"> 1205</span> </div>
+<div class="line"><a id="l01209" name="l01209"></a><span class="lineno"> 1209</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01210" name="l01210"></a><span class="lineno"> 1210</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _AddOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _AddOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01211" name="l01211"></a><span class="lineno"> 1211</span>    operator+(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01212" name="l01212"></a><span class="lineno"> 1212</span>    {</div>
+<div class="line"><a id="l01213" name="l01213"></a><span class="lineno"> 1213</span>        <span class="keywordflow">return</span> left + right.Get();</div>
+<div class="line"><a id="l01214" name="l01214"></a><span class="lineno"> 1214</span>    }</div>
+<div class="line"><a id="l01215" name="l01215"></a><span class="lineno"> 1215</span> </div>
+<div class="line"><a id="l01219" name="l01219"></a><span class="lineno"> 1219</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01220" name="l01220"></a><span class="lineno"> 1220</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _AddOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _AddOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01221" name="l01221"></a><span class="lineno"> 1221</span>    operator+(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01222" name="l01222"></a><span class="lineno"> 1222</span>    {</div>
+<div class="line"><a id="l01223" name="l01223"></a><span class="lineno"> 1223</span>        <span class="keywordflow">return</span> left + right.Get();</div>
+<div class="line"><a id="l01224" name="l01224"></a><span class="lineno"> 1224</span>    }</div>
+<div class="line"><a id="l01225" name="l01225"></a><span class="lineno"> 1225</span> </div>
+<div class="line"><a id="l01229" name="l01229"></a><span class="lineno"> 1229</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01230" name="l01230"></a><span class="lineno"> 1230</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _SubOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _SubOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01231" name="l01231"></a><span class="lineno"> 1231</span>    operator-(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01232" name="l01232"></a><span class="lineno"> 1232</span>    {</div>
+<div class="line"><a id="l01233" name="l01233"></a><span class="lineno"> 1233</span>        <span class="keywordflow">return</span> left - right.Get();</div>
+<div class="line"><a id="l01234" name="l01234"></a><span class="lineno"> 1234</span>    }</div>
+<div class="line"><a id="l01235" name="l01235"></a><span class="lineno"> 1235</span> </div>
+<div class="line"><a id="l01239" name="l01239"></a><span class="lineno"> 1239</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01240" name="l01240"></a><span class="lineno"> 1240</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _SubOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _SubOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01241" name="l01241"></a><span class="lineno"> 1241</span>    operator-(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01242" name="l01242"></a><span class="lineno"> 1242</span>    {</div>
+<div class="line"><a id="l01243" name="l01243"></a><span class="lineno"> 1243</span>        <span class="keywordflow">return</span> left - right.Get();</div>
+<div class="line"><a id="l01244" name="l01244"></a><span class="lineno"> 1244</span>    }</div>
+<div class="line"><a id="l01245" name="l01245"></a><span class="lineno"> 1245</span> </div>
+<div class="line"><a id="l01249" name="l01249"></a><span class="lineno"> 1249</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01250" name="l01250"></a><span class="lineno"> 1250</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _MulOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _MulOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01251" name="l01251"></a><span class="lineno"> 1251</span>    operator*(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01252" name="l01252"></a><span class="lineno"> 1252</span>    {</div>
+<div class="line"><a id="l01253" name="l01253"></a><span class="lineno"> 1253</span>        <span class="keywordflow">return</span> left * right.Get();</div>
+<div class="line"><a id="l01254" name="l01254"></a><span class="lineno"> 1254</span>    }</div>
+<div class="line"><a id="l01255" name="l01255"></a><span class="lineno"> 1255</span> </div>
+<div class="line"><a id="l01259" name="l01259"></a><span class="lineno"> 1259</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01260" name="l01260"></a><span class="lineno"> 1260</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _MulOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _MulOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01261" name="l01261"></a><span class="lineno"> 1261</span>    operator*(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01262" name="l01262"></a><span class="lineno"> 1262</span>    {</div>
+<div class="line"><a id="l01263" name="l01263"></a><span class="lineno"> 1263</span>        <span class="keywordflow">return</span> left * right.Get();</div>
+<div class="line"><a id="l01264" name="l01264"></a><span class="lineno"> 1264</span>    }</div>
+<div class="line"><a id="l01265" name="l01265"></a><span class="lineno"> 1265</span> </div>
+<div class="line"><a id="l01269" name="l01269"></a><span class="lineno"> 1269</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01270" name="l01270"></a><span class="lineno"> 1270</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _DivOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _DivOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01271" name="l01271"></a><span class="lineno"> 1271</span>    operator/(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01272" name="l01272"></a><span class="lineno"> 1272</span>    {</div>
+<div class="line"><a id="l01273" name="l01273"></a><span class="lineno"> 1273</span>        <span class="keywordflow">return</span> left / right.Get();</div>
+<div class="line"><a id="l01274" name="l01274"></a><span class="lineno"> 1274</span>    }</div>
+<div class="line"><a id="l01275" name="l01275"></a><span class="lineno"> 1275</span> </div>
+<div class="line"><a id="l01279" name="l01279"></a><span class="lineno"> 1279</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01280" name="l01280"></a><span class="lineno"> 1280</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _DivOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _DivOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01281" name="l01281"></a><span class="lineno"> 1281</span>    operator/(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01282" name="l01282"></a><span class="lineno"> 1282</span>    {</div>
+<div class="line"><a id="l01283" name="l01283"></a><span class="lineno"> 1283</span>        <span class="keywordflow">return</span> left / right.Get();</div>
+<div class="line"><a id="l01284" name="l01284"></a><span class="lineno"> 1284</span>    }</div>
+<div class="line"><a id="l01285" name="l01285"></a><span class="lineno"> 1285</span> </div>
+<div class="line"><a id="l01289" name="l01289"></a><span class="lineno"> 1289</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01290" name="l01290"></a><span class="lineno"> 1290</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _ModOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _ModOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01291" name="l01291"></a><span class="lineno"> 1291</span>    operator%(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01292" name="l01292"></a><span class="lineno"> 1292</span>    {</div>
+<div class="line"><a id="l01293" name="l01293"></a><span class="lineno"> 1293</span>        <span class="keywordflow">return</span> left % right.Get();</div>
+<div class="line"><a id="l01294" name="l01294"></a><span class="lineno"> 1294</span>    }</div>
+<div class="line"><a id="l01295" name="l01295"></a><span class="lineno"> 1295</span> </div>
+<div class="line"><a id="l01299" name="l01299"></a><span class="lineno"> 1299</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01300" name="l01300"></a><span class="lineno"> 1300</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _ModOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _ModOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01301" name="l01301"></a><span class="lineno"> 1301</span>    operator%(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01302" name="l01302"></a><span class="lineno"> 1302</span>    {</div>
+<div class="line"><a id="l01303" name="l01303"></a><span class="lineno"> 1303</span>        <span class="keywordflow">return</span> left % right.Get();</div>
+<div class="line"><a id="l01304" name="l01304"></a><span class="lineno"> 1304</span>    }</div>
+<div class="line"><a id="l01305" name="l01305"></a><span class="lineno"> 1305</span> </div>
+<div class="line"><a id="l01309" name="l01309"></a><span class="lineno"> 1309</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01310" name="l01310"></a><span class="lineno"> 1310</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _EqOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _EqOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01311" name="l01311"></a><span class="lineno"> 1311</span>    operator==(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01312" name="l01312"></a><span class="lineno"> 1312</span>    {</div>
+<div class="line"><a id="l01313" name="l01313"></a><span class="lineno"> 1313</span>        <span class="keywordflow">return</span> left == right.Get();</div>
+<div class="line"><a id="l01314" name="l01314"></a><span class="lineno"> 1314</span>    }</div>
+<div class="line"><a id="l01315" name="l01315"></a><span class="lineno"> 1315</span> </div>
+<div class="line"><a id="l01319" name="l01319"></a><span class="lineno"> 1319</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01320" name="l01320"></a><span class="lineno"> 1320</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _EqOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _EqOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01321" name="l01321"></a><span class="lineno"> 1321</span>    operator==(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01322" name="l01322"></a><span class="lineno"> 1322</span>    {</div>
+<div class="line"><a id="l01323" name="l01323"></a><span class="lineno"> 1323</span>        <span class="keywordflow">return</span> left == right.Get();</div>
+<div class="line"><a id="l01324" name="l01324"></a><span class="lineno"> 1324</span>    }</div>
+<div class="line"><a id="l01325" name="l01325"></a><span class="lineno"> 1325</span> </div>
+<div class="line"><a id="l01329" name="l01329"></a><span class="lineno"> 1329</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01330" name="l01330"></a><span class="lineno"> 1330</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _NeOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _NeOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01331" name="l01331"></a><span class="lineno"> 1331</span>    operator!=(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01332" name="l01332"></a><span class="lineno"> 1332</span>    {</div>
+<div class="line"><a id="l01333" name="l01333"></a><span class="lineno"> 1333</span>        <span class="keywordflow">return</span> left != right.Get();</div>
+<div class="line"><a id="l01334" name="l01334"></a><span class="lineno"> 1334</span>    }</div>
+<div class="line"><a id="l01335" name="l01335"></a><span class="lineno"> 1335</span> </div>
+<div class="line"><a id="l01339" name="l01339"></a><span class="lineno"> 1339</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01340" name="l01340"></a><span class="lineno"> 1340</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _NeOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _NeOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01341" name="l01341"></a><span class="lineno"> 1341</span>    operator!=(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01342" name="l01342"></a><span class="lineno"> 1342</span>    {</div>
+<div class="line"><a id="l01343" name="l01343"></a><span class="lineno"> 1343</span>        <span class="keywordflow">return</span> left != right.Get();</div>
+<div class="line"><a id="l01344" name="l01344"></a><span class="lineno"> 1344</span>    }</div>
+<div class="line"><a id="l01345" name="l01345"></a><span class="lineno"> 1345</span> </div>
+<div class="line"><a id="l01349" name="l01349"></a><span class="lineno"> 1349</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01350" name="l01350"></a><span class="lineno"> 1350</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LtOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _LtOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01351" name="l01351"></a><span class="lineno"> 1351</span>    operator&lt;(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01352" name="l01352"></a><span class="lineno"> 1352</span>    {</div>
+<div class="line"><a id="l01353" name="l01353"></a><span class="lineno"> 1353</span>        <span class="keywordflow">return</span> left &lt; right.Get();</div>
+<div class="line"><a id="l01354" name="l01354"></a><span class="lineno"> 1354</span>    }</div>
+<div class="line"><a id="l01355" name="l01355"></a><span class="lineno"> 1355</span> </div>
+<div class="line"><a id="l01359" name="l01359"></a><span class="lineno"> 1359</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01360" name="l01360"></a><span class="lineno"> 1360</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LtOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _LtOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01361" name="l01361"></a><span class="lineno"> 1361</span>    operator&lt;(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01362" name="l01362"></a><span class="lineno"> 1362</span>    {</div>
+<div class="line"><a id="l01363" name="l01363"></a><span class="lineno"> 1363</span>        <span class="keywordflow">return</span> left &lt; right.Get();</div>
+<div class="line"><a id="l01364" name="l01364"></a><span class="lineno"> 1364</span>    }</div>
+<div class="line"><a id="l01365" name="l01365"></a><span class="lineno"> 1365</span> </div>
+<div class="line"><a id="l01369" name="l01369"></a><span class="lineno"> 1369</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01370" name="l01370"></a><span class="lineno"> 1370</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LeOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _LeOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01371" name="l01371"></a><span class="lineno"> 1371</span>    operator&lt;=(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01372" name="l01372"></a><span class="lineno"> 1372</span>    {</div>
+<div class="line"><a id="l01373" name="l01373"></a><span class="lineno"> 1373</span>        <span class="keywordflow">return</span> left &lt;= right.Get();</div>
+<div class="line"><a id="l01374" name="l01374"></a><span class="lineno"> 1374</span>    }</div>
+<div class="line"><a id="l01375" name="l01375"></a><span class="lineno"> 1375</span> </div>
+<div class="line"><a id="l01379" name="l01379"></a><span class="lineno"> 1379</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01380" name="l01380"></a><span class="lineno"> 1380</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LeOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _LeOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01381" name="l01381"></a><span class="lineno"> 1381</span>    operator&lt;=(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01382" name="l01382"></a><span class="lineno"> 1382</span>    {</div>
+<div class="line"><a id="l01383" name="l01383"></a><span class="lineno"> 1383</span>        <span class="keywordflow">return</span> left &lt;= right.Get();</div>
+<div class="line"><a id="l01384" name="l01384"></a><span class="lineno"> 1384</span>    }</div>
+<div class="line"><a id="l01385" name="l01385"></a><span class="lineno"> 1385</span> </div>
+<div class="line"><a id="l01389" name="l01389"></a><span class="lineno"> 1389</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01390" name="l01390"></a><span class="lineno"> 1390</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _GtOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _GtOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01391" name="l01391"></a><span class="lineno"> 1391</span>    operator&gt;(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01392" name="l01392"></a><span class="lineno"> 1392</span>    {</div>
+<div class="line"><a id="l01393" name="l01393"></a><span class="lineno"> 1393</span>        <span class="keywordflow">return</span> left &gt; right.Get();</div>
+<div class="line"><a id="l01394" name="l01394"></a><span class="lineno"> 1394</span>    }</div>
+<div class="line"><a id="l01395" name="l01395"></a><span class="lineno"> 1395</span> </div>
+<div class="line"><a id="l01399" name="l01399"></a><span class="lineno"> 1399</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01400" name="l01400"></a><span class="lineno"> 1400</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _GtOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _GtOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01401" name="l01401"></a><span class="lineno"> 1401</span>    operator&gt;(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01402" name="l01402"></a><span class="lineno"> 1402</span>    {</div>
+<div class="line"><a id="l01403" name="l01403"></a><span class="lineno"> 1403</span>        <span class="keywordflow">return</span> left &gt; right.Get();</div>
+<div class="line"><a id="l01404" name="l01404"></a><span class="lineno"> 1404</span>    }</div>
+<div class="line"><a id="l01405" name="l01405"></a><span class="lineno"> 1405</span> </div>
+<div class="line"><a id="l01409" name="l01409"></a><span class="lineno"> 1409</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01410" name="l01410"></a><span class="lineno"> 1410</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _GeOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _GeOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01411" name="l01411"></a><span class="lineno"> 1411</span>    operator&gt;=(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01412" name="l01412"></a><span class="lineno"> 1412</span>    {</div>
+<div class="line"><a id="l01413" name="l01413"></a><span class="lineno"> 1413</span>        <span class="keywordflow">return</span> left &gt;= right.Get();</div>
+<div class="line"><a id="l01414" name="l01414"></a><span class="lineno"> 1414</span>    }</div>
+<div class="line"><a id="l01415" name="l01415"></a><span class="lineno"> 1415</span> </div>
+<div class="line"><a id="l01419" name="l01419"></a><span class="lineno"> 1419</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01420" name="l01420"></a><span class="lineno"> 1420</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _GeOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _GeOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01421" name="l01421"></a><span class="lineno"> 1421</span>    operator&gt;=(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01422" name="l01422"></a><span class="lineno"> 1422</span>    {</div>
+<div class="line"><a id="l01423" name="l01423"></a><span class="lineno"> 1423</span>        <span class="keywordflow">return</span> left &gt;= right.Get();</div>
+<div class="line"><a id="l01424" name="l01424"></a><span class="lineno"> 1424</span>    }</div>
+<div class="line"><a id="l01425" name="l01425"></a><span class="lineno"> 1425</span> </div>
+<div class="line"><a id="l01429" name="l01429"></a><span class="lineno"> 1429</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01430" name="l01430"></a><span class="lineno"> 1430</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _BitAndOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _BitAndOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01431" name="l01431"></a><span class="lineno"> 1431</span>    operator&amp;(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01432" name="l01432"></a><span class="lineno"> 1432</span>    {</div>
+<div class="line"><a id="l01433" name="l01433"></a><span class="lineno"> 1433</span>        <span class="keywordflow">return</span> left &amp; right.Get();</div>
+<div class="line"><a id="l01434" name="l01434"></a><span class="lineno"> 1434</span>    }</div>
+<div class="line"><a id="l01435" name="l01435"></a><span class="lineno"> 1435</span> </div>
+<div class="line"><a id="l01439" name="l01439"></a><span class="lineno"> 1439</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01440" name="l01440"></a><span class="lineno"> 1440</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _BitAndOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _BitAndOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01441" name="l01441"></a><span class="lineno"> 1441</span>    operator&amp;(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01442" name="l01442"></a><span class="lineno"> 1442</span>    {</div>
+<div class="line"><a id="l01443" name="l01443"></a><span class="lineno"> 1443</span>        <span class="keywordflow">return</span> left &amp; right.Get();</div>
+<div class="line"><a id="l01444" name="l01444"></a><span class="lineno"> 1444</span>    }</div>
+<div class="line"><a id="l01445" name="l01445"></a><span class="lineno"> 1445</span> </div>
+<div class="line"><a id="l01449" name="l01449"></a><span class="lineno"> 1449</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01450" name="l01450"></a><span class="lineno"> 1450</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _BitOrOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _BitOrOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01451" name="l01451"></a><span class="lineno"> 1451</span>    operator|(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01452" name="l01452"></a><span class="lineno"> 1452</span>    {</div>
+<div class="line"><a id="l01453" name="l01453"></a><span class="lineno"> 1453</span>        <span class="keywordflow">return</span> left | right.Get();</div>
+<div class="line"><a id="l01454" name="l01454"></a><span class="lineno"> 1454</span>    }</div>
+<div class="line"><a id="l01455" name="l01455"></a><span class="lineno"> 1455</span> </div>
+<div class="line"><a id="l01459" name="l01459"></a><span class="lineno"> 1459</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01460" name="l01460"></a><span class="lineno"> 1460</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _BitOrOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _BitOrOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01461" name="l01461"></a><span class="lineno"> 1461</span>    operator|(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01462" name="l01462"></a><span class="lineno"> 1462</span>    {</div>
+<div class="line"><a id="l01463" name="l01463"></a><span class="lineno"> 1463</span>        <span class="keywordflow">return</span> left | right.Get();</div>
+<div class="line"><a id="l01464" name="l01464"></a><span class="lineno"> 1464</span>    }</div>
+<div class="line"><a id="l01465" name="l01465"></a><span class="lineno"> 1465</span> </div>
+<div class="line"><a id="l01469" name="l01469"></a><span class="lineno"> 1469</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01470" name="l01470"></a><span class="lineno"> 1470</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _BitXorOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _BitXorOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01471" name="l01471"></a><span class="lineno"> 1471</span>    operator^(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01472" name="l01472"></a><span class="lineno"> 1472</span>    {</div>
+<div class="line"><a id="l01473" name="l01473"></a><span class="lineno"> 1473</span>        <span class="keywordflow">return</span> left ^ right.Get();</div>
+<div class="line"><a id="l01474" name="l01474"></a><span class="lineno"> 1474</span>    }</div>
+<div class="line"><a id="l01475" name="l01475"></a><span class="lineno"> 1475</span> </div>
+<div class="line"><a id="l01479" name="l01479"></a><span class="lineno"> 1479</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01480" name="l01480"></a><span class="lineno"> 1480</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _BitXorOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _BitXorOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01481" name="l01481"></a><span class="lineno"> 1481</span>    operator^(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01482" name="l01482"></a><span class="lineno"> 1482</span>    {</div>
+<div class="line"><a id="l01483" name="l01483"></a><span class="lineno"> 1483</span>        <span class="keywordflow">return</span> left ^ right.Get();</div>
+<div class="line"><a id="l01484" name="l01484"></a><span class="lineno"> 1484</span>    }</div>
+<div class="line"><a id="l01485" name="l01485"></a><span class="lineno"> 1485</span> </div>
+<div class="line"><a id="l01489" name="l01489"></a><span class="lineno"> 1489</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01490" name="l01490"></a><span class="lineno"> 1490</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _ShlOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _ShlOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01491" name="l01491"></a><span class="lineno"> 1491</span>    operator&lt;&lt;(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01492" name="l01492"></a><span class="lineno"> 1492</span>    {</div>
+<div class="line"><a id="l01493" name="l01493"></a><span class="lineno"> 1493</span>        <span class="keywordflow">return</span> left &lt;&lt; right.Get();</div>
+<div class="line"><a id="l01494" name="l01494"></a><span class="lineno"> 1494</span>    }</div>
+<div class="line"><a id="l01495" name="l01495"></a><span class="lineno"> 1495</span> </div>
+<div class="line"><a id="l01499" name="l01499"></a><span class="lineno"> 1499</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01500" name="l01500"></a><span class="lineno"> 1500</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _ShlOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _ShlOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01501" name="l01501"></a><span class="lineno"> 1501</span>    operator&lt;&lt;(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01502" name="l01502"></a><span class="lineno"> 1502</span>    {</div>
+<div class="line"><a id="l01503" name="l01503"></a><span class="lineno"> 1503</span>        <span class="keywordflow">return</span> left &lt;&lt; right.Get();</div>
+<div class="line"><a id="l01504" name="l01504"></a><span class="lineno"> 1504</span>    }</div>
+<div class="line"><a id="l01505" name="l01505"></a><span class="lineno"> 1505</span> </div>
+<div class="line"><a id="l01509" name="l01509"></a><span class="lineno"> 1509</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01510" name="l01510"></a><span class="lineno"> 1510</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _ShrOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _ShrOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01511" name="l01511"></a><span class="lineno"> 1511</span>    operator&gt;&gt;(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01512" name="l01512"></a><span class="lineno"> 1512</span>    {</div>
+<div class="line"><a id="l01513" name="l01513"></a><span class="lineno"> 1513</span>        <span class="keywordflow">return</span> left &gt;&gt; right.Get();</div>
+<div class="line"><a id="l01514" name="l01514"></a><span class="lineno"> 1514</span>    }</div>
+<div class="line"><a id="l01515" name="l01515"></a><span class="lineno"> 1515</span> </div>
+<div class="line"><a id="l01519" name="l01519"></a><span class="lineno"> 1519</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01520" name="l01520"></a><span class="lineno"> 1520</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _ShrOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _ShrOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01521" name="l01521"></a><span class="lineno"> 1521</span>    operator&gt;&gt;(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01522" name="l01522"></a><span class="lineno"> 1522</span>    {</div>
+<div class="line"><a id="l01523" name="l01523"></a><span class="lineno"> 1523</span>        <span class="keywordflow">return</span> left &gt;&gt; right.Get();</div>
+<div class="line"><a id="l01524" name="l01524"></a><span class="lineno"> 1524</span>    }</div>
+<div class="line"><a id="l01525" name="l01525"></a><span class="lineno"> 1525</span> </div>
+<div class="line"><a id="l01529" name="l01529"></a><span class="lineno"> 1529</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01530" name="l01530"></a><span class="lineno"> 1530</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LogicAndOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _LogicAndOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01531" name="l01531"></a><span class="lineno"> 1531</span>    operator&amp;&amp;(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01532" name="l01532"></a><span class="lineno"> 1532</span>    {</div>
+<div class="line"><a id="l01533" name="l01533"></a><span class="lineno"> 1533</span>        <span class="keywordflow">return</span> left &amp;&amp; right.Get();</div>
+<div class="line"><a id="l01534" name="l01534"></a><span class="lineno"> 1534</span>    }</div>
+<div class="line"><a id="l01535" name="l01535"></a><span class="lineno"> 1535</span> </div>
+<div class="line"><a id="l01539" name="l01539"></a><span class="lineno"> 1539</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01540" name="l01540"></a><span class="lineno"> 1540</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LogicAndOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _LogicAndOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01541" name="l01541"></a><span class="lineno"> 1541</span>    operator&amp;&amp;(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01542" name="l01542"></a><span class="lineno"> 1542</span>    {</div>
+<div class="line"><a id="l01543" name="l01543"></a><span class="lineno"> 1543</span>        <span class="keywordflow">return</span> left &amp;&amp; right.Get();</div>
+<div class="line"><a id="l01544" name="l01544"></a><span class="lineno"> 1544</span>    }</div>
+<div class="line"><a id="l01545" name="l01545"></a><span class="lineno"> 1545</span> </div>
+<div class="line"><a id="l01549" name="l01549"></a><span class="lineno"> 1549</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01550" name="l01550"></a><span class="lineno"> 1550</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LogicOrOperationHelper&lt;T &amp;, U&gt;::value, <span class="keyword">typename</span> _LogicOrOperationHelper&lt;T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01551" name="l01551"></a><span class="lineno"> 1551</span>    operator||(T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01552" name="l01552"></a><span class="lineno"> 1552</span>    {</div>
+<div class="line"><a id="l01553" name="l01553"></a><span class="lineno"> 1553</span>        <span class="keywordflow">return</span> left || right.Get();</div>
+<div class="line"><a id="l01554" name="l01554"></a><span class="lineno"> 1554</span>    }</div>
+<div class="line"><a id="l01555" name="l01555"></a><span class="lineno"> 1555</span> </div>
+<div class="line"><a id="l01559" name="l01559"></a><span class="lineno"> 1559</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U = T&gt;</div>
+<div class="line"><a id="l01560" name="l01560"></a><span class="lineno"> 1560</span>    <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; _LogicOrOperationHelper&lt;const T &amp;, U&gt;::value, <span class="keyword">typename</span> _LogicOrOperationHelper&lt;const T &amp;, U&gt;::type&gt;::type</div>
+<div class="line"><a id="l01561" name="l01561"></a><span class="lineno"> 1561</span>    operator||(<span class="keyword">const</span> T &amp;left, <span class="keyword">const</span> PropertyBase&lt;U, D&gt; &amp;right)</div>
+<div class="line"><a id="l01562" name="l01562"></a><span class="lineno"> 1562</span>    {</div>
+<div class="line"><a id="l01563" name="l01563"></a><span class="lineno"> 1563</span>        <span class="keywordflow">return</span> left || right.Get();</div>
+<div class="line"><a id="l01564" name="l01564"></a><span class="lineno"> 1564</span>    }</div>
+<div class="line"><a id="l01565" name="l01565"></a><span class="lineno"> 1565</span> </div>
+<div class="line"><a id="l01566" name="l01566"></a><span class="lineno"> 1566</span>    <span class="comment">/*================================================================================*/</span></div>
+<div class="line"><a id="l01567" name="l01567"></a><span class="lineno"> 1567</span> </div>
+<div class="line"><a id="l01571" name="l01571"></a><span class="lineno"> 1571</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen01572" data-start="{" data-end="};">
+<div class="line"><a id="l01572" name="l01572"></a><span class="lineno"><a class="line" href="classsw_1_1Property.html"> 1572</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1Property.html">Property</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt;T, Property&lt;T&gt;&gt;</div>
+<div class="line"><a id="l01573" name="l01573"></a><span class="lineno"> 1573</span>    {</div>
+<div class="line"><a id="l01574" name="l01574"></a><span class="lineno"> 1574</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l01575" name="l01575"></a><span class="lineno"> 1575</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1PropertyBase.html">TBase</a> = <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase&lt;T, Property&lt;T&gt;</a>&gt;;</div>
+<div class="line"><a id="l01576" name="l01576"></a><span class="lineno"> 1576</span>        <span class="keyword">using </span>FnGet = Func&lt;T&gt;;</div>
+<div class="line"><a id="l01577" name="l01577"></a><span class="lineno"> 1577</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1Delegate.html">FnSet</a> = <a class="code hl_class" href="classsw_1_1Delegate.html">Action&lt;const T &amp;&gt;</a>;</div>
+<div class="line"><a id="l01578" name="l01578"></a><span class="lineno"> 1578</span>        <span class="keyword">using </span>TBase::operator=;</div>
+<div class="line"><a id="l01579" name="l01579"></a><span class="lineno"> 1579</span> </div>
+<div class="line"><a id="l01580" name="l01580"></a><span class="lineno"> 1580</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l01581" name="l01581"></a><span class="lineno"> 1581</span>        FnGet _getter;</div>
+<div class="line"><a id="l01582" name="l01582"></a><span class="lineno"> 1582</span>        <a class="code hl_class" href="classsw_1_1Delegate.html">FnSet</a> _setter;</div>
 <div class="line"><a id="l01583" name="l01583"></a><span class="lineno"> 1583</span> </div>
-<div class="line"><a id="l01587" name="l01587"></a><span class="lineno"> 1587</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="foldopen" id="foldopen01588" data-start="{" data-end="};">
-<div class="line"><a id="l01588" name="l01588"></a><span class="lineno"><a class="line" href="classsw_1_1ReadOnlyProperty.html"> 1588</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt;T, ReadOnlyProperty&lt;T&gt;&gt;</div>
-<div class="line"><a id="l01589" name="l01589"></a><span class="lineno"> 1589</span>    {</div>
-<div class="line"><a id="l01590" name="l01590"></a><span class="lineno"> 1590</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l01591" name="l01591"></a><span class="lineno"> 1591</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1PropertyBase.html">TBase</a> = <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase&lt;T, ReadOnlyProperty&lt;T&gt;</a>&gt;;</div>
-<div class="line"><a id="l01592" name="l01592"></a><span class="lineno"> 1592</span>        <span class="keyword">using </span>FnGet = Func&lt;T&gt;;</div>
-<div class="line"><a id="l01593" name="l01593"></a><span class="lineno"> 1593</span> </div>
-<div class="line"><a id="l01594" name="l01594"></a><span class="lineno"> 1594</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l01595" name="l01595"></a><span class="lineno"> 1595</span>        FnGet _getter;</div>
-<div class="line"><a id="l01596" name="l01596"></a><span class="lineno"> 1596</span> </div>
-<div class="line"><a id="l01597" name="l01597"></a><span class="lineno"> 1597</span>    <span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen01601" data-start="{" data-end="}">
-<div class="line"><a id="l01601" name="l01601"></a><span class="lineno"><a class="line" href="classsw_1_1ReadOnlyProperty.html#a013364e671493f55bd244b6f008db052"> 1601</a></span>        <a class="code hl_function" href="classsw_1_1ReadOnlyProperty.html#a013364e671493f55bd244b6f008db052">ReadOnlyProperty</a>(<span class="keyword">const</span> FnGet &amp;getter)</div>
-<div class="line"><a id="l01602" name="l01602"></a><span class="lineno"> 1602</span>            : _getter(getter)</div>
-<div class="line"><a id="l01603" name="l01603"></a><span class="lineno"> 1603</span>        {</div>
-<div class="line"><a id="l01604" name="l01604"></a><span class="lineno"> 1604</span>        }</div>
+<div class="line"><a id="l01584" name="l01584"></a><span class="lineno"> 1584</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen01588" data-start="{" data-end="}">
+<div class="line"><a id="l01588" name="l01588"></a><span class="lineno"><a class="line" href="classsw_1_1Property.html#aed49183e5aff7da2c6a8afcfdfafe24c"> 1588</a></span>        <a class="code hl_function" href="classsw_1_1Property.html#aed49183e5aff7da2c6a8afcfdfafe24c">Property</a>(<span class="keyword">const</span> FnGet &amp;getter, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Delegate.html">FnSet</a> &amp;setter)</div>
+<div class="line"><a id="l01589" name="l01589"></a><span class="lineno"> 1589</span>            : _getter(getter), _setter(setter)</div>
+<div class="line"><a id="l01590" name="l01590"></a><span class="lineno"> 1590</span>        {</div>
+<div class="line"><a id="l01591" name="l01591"></a><span class="lineno"> 1591</span>        }</div>
 </div>
-<div class="line"><a id="l01605" name="l01605"></a><span class="lineno"> 1605</span> </div>
-<div class="foldopen" id="foldopen01609" data-start="{" data-end="}">
-<div class="line"><a id="l01609" name="l01609"></a><span class="lineno"><a class="line" href="classsw_1_1ReadOnlyProperty.html#afdd6751ca4bac3cb42b8bef6533b2377"> 1609</a></span>        T <a class="code hl_function" href="classsw_1_1ReadOnlyProperty.html#afdd6751ca4bac3cb42b8bef6533b2377">GetterImpl</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l01610" name="l01610"></a><span class="lineno"> 1610</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l01611" name="l01611"></a><span class="lineno"> 1611</span>            <span class="keywordflow">return</span> this-&gt;_getter();</div>
-<div class="line"><a id="l01612" name="l01612"></a><span class="lineno"> 1612</span>        }</div>
+<div class="line"><a id="l01592" name="l01592"></a><span class="lineno"> 1592</span> </div>
+<div class="foldopen" id="foldopen01596" data-start="{" data-end="}">
+<div class="line"><a id="l01596" name="l01596"></a><span class="lineno"><a class="line" href="classsw_1_1Property.html#a12c7e14e407d1923d9e37418da3a3e6c"> 1596</a></span>        T <a class="code hl_function" href="classsw_1_1Property.html#a12c7e14e407d1923d9e37418da3a3e6c">GetterImpl</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l01597" name="l01597"></a><span class="lineno"> 1597</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l01598" name="l01598"></a><span class="lineno"> 1598</span>            <span class="keywordflow">return</span> this-&gt;_getter();</div>
+<div class="line"><a id="l01599" name="l01599"></a><span class="lineno"> 1599</span>        }</div>
 </div>
-<div class="line"><a id="l01613" name="l01613"></a><span class="lineno"> 1613</span>    };</div>
+<div class="line"><a id="l01600" name="l01600"></a><span class="lineno"> 1600</span> </div>
+<div class="foldopen" id="foldopen01604" data-start="{" data-end="}">
+<div class="line"><a id="l01604" name="l01604"></a><span class="lineno"><a class="line" href="classsw_1_1Property.html#a08dfff3c7a68de5118e431a91189893f"> 1604</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Property.html#a08dfff3c7a68de5118e431a91189893f">SetterImpl</a>(<span class="keyword">const</span> T &amp;value)<span class="keyword"> const</span></div>
+<div class="line"><a id="l01605" name="l01605"></a><span class="lineno"> 1605</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l01606" name="l01606"></a><span class="lineno"> 1606</span>            this-&gt;_setter(value);</div>
+<div class="line"><a id="l01607" name="l01607"></a><span class="lineno"> 1607</span>        }</div>
 </div>
-<div class="line"><a id="l01614" name="l01614"></a><span class="lineno"> 1614</span> </div>
-<div class="line"><a id="l01618" name="l01618"></a><span class="lineno"> 1618</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="foldopen" id="foldopen01619" data-start="{" data-end="};">
-<div class="line"><a id="l01619" name="l01619"></a><span class="lineno"><a class="line" href="classsw_1_1WriteOnlyProperty.html"> 1619</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1WriteOnlyProperty.html">WriteOnlyProperty</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt;T, WriteOnlyProperty&lt;T&gt;&gt;</div>
-<div class="line"><a id="l01620" name="l01620"></a><span class="lineno"> 1620</span>    {</div>
-<div class="line"><a id="l01621" name="l01621"></a><span class="lineno"> 1621</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l01622" name="l01622"></a><span class="lineno"> 1622</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1PropertyBase.html">TBase</a> = <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase&lt;T, WriteOnlyProperty&lt;T&gt;</a>&gt;;</div>
-<div class="line"><a id="l01623" name="l01623"></a><span class="lineno"> 1623</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1Delegate.html">FnSet</a> = <a class="code hl_class" href="classsw_1_1Delegate.html">Action&lt;const T &amp;&gt;</a>;</div>
-<div class="line"><a id="l01624" name="l01624"></a><span class="lineno"> 1624</span>        <span class="keyword">using </span>TBase::operator=;</div>
-<div class="line"><a id="l01625" name="l01625"></a><span class="lineno"> 1625</span> </div>
-<div class="line"><a id="l01626" name="l01626"></a><span class="lineno"> 1626</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l01627" name="l01627"></a><span class="lineno"> 1627</span>        <a class="code hl_class" href="classsw_1_1Delegate.html">FnSet</a> _setter;</div>
-<div class="line"><a id="l01628" name="l01628"></a><span class="lineno"> 1628</span> </div>
-<div class="line"><a id="l01629" name="l01629"></a><span class="lineno"> 1629</span>    <span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen01633" data-start="{" data-end="}">
-<div class="line"><a id="l01633" name="l01633"></a><span class="lineno"><a class="line" href="classsw_1_1WriteOnlyProperty.html#a2bbd0b0aa69d3659db3cf8978a86465a"> 1633</a></span>        <a class="code hl_function" href="classsw_1_1WriteOnlyProperty.html#a2bbd0b0aa69d3659db3cf8978a86465a">WriteOnlyProperty</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Delegate.html">FnSet</a> &amp;setter)</div>
-<div class="line"><a id="l01634" name="l01634"></a><span class="lineno"> 1634</span>            : _setter(setter)</div>
-<div class="line"><a id="l01635" name="l01635"></a><span class="lineno"> 1635</span>        {</div>
-<div class="line"><a id="l01636" name="l01636"></a><span class="lineno"> 1636</span>        }</div>
+<div class="line"><a id="l01608" name="l01608"></a><span class="lineno"> 1608</span>    };</div>
 </div>
-<div class="line"><a id="l01637" name="l01637"></a><span class="lineno"> 1637</span> </div>
-<div class="foldopen" id="foldopen01641" data-start="{" data-end="}">
-<div class="line"><a id="l01641" name="l01641"></a><span class="lineno"><a class="line" href="classsw_1_1WriteOnlyProperty.html#a327aa8290f9b398de4fa6f3daf50805b"> 1641</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1WriteOnlyProperty.html#a327aa8290f9b398de4fa6f3daf50805b">SetterImpl</a>(<span class="keyword">const</span> T &amp;value)<span class="keyword"> const</span></div>
-<div class="line"><a id="l01642" name="l01642"></a><span class="lineno"> 1642</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l01643" name="l01643"></a><span class="lineno"> 1643</span>            this-&gt;_setter(value);</div>
-<div class="line"><a id="l01644" name="l01644"></a><span class="lineno"> 1644</span>        }</div>
+<div class="line"><a id="l01609" name="l01609"></a><span class="lineno"> 1609</span> </div>
+<div class="line"><a id="l01613" name="l01613"></a><span class="lineno"> 1613</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen01614" data-start="{" data-end="};">
+<div class="line"><a id="l01614" name="l01614"></a><span class="lineno"><a class="line" href="classsw_1_1ReadOnlyProperty.html"> 1614</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt;T, ReadOnlyProperty&lt;T&gt;&gt;</div>
+<div class="line"><a id="l01615" name="l01615"></a><span class="lineno"> 1615</span>    {</div>
+<div class="line"><a id="l01616" name="l01616"></a><span class="lineno"> 1616</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l01617" name="l01617"></a><span class="lineno"> 1617</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1PropertyBase.html">TBase</a> = <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase&lt;T, ReadOnlyProperty&lt;T&gt;</a>&gt;;</div>
+<div class="line"><a id="l01618" name="l01618"></a><span class="lineno"> 1618</span>        <span class="keyword">using </span>FnGet = Func&lt;T&gt;;</div>
+<div class="line"><a id="l01619" name="l01619"></a><span class="lineno"> 1619</span> </div>
+<div class="line"><a id="l01620" name="l01620"></a><span class="lineno"> 1620</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l01621" name="l01621"></a><span class="lineno"> 1621</span>        FnGet _getter;</div>
+<div class="line"><a id="l01622" name="l01622"></a><span class="lineno"> 1622</span> </div>
+<div class="line"><a id="l01623" name="l01623"></a><span class="lineno"> 1623</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen01627" data-start="{" data-end="}">
+<div class="line"><a id="l01627" name="l01627"></a><span class="lineno"><a class="line" href="classsw_1_1ReadOnlyProperty.html#a013364e671493f55bd244b6f008db052"> 1627</a></span>        <a class="code hl_function" href="classsw_1_1ReadOnlyProperty.html#a013364e671493f55bd244b6f008db052">ReadOnlyProperty</a>(<span class="keyword">const</span> FnGet &amp;getter)</div>
+<div class="line"><a id="l01628" name="l01628"></a><span class="lineno"> 1628</span>            : _getter(getter)</div>
+<div class="line"><a id="l01629" name="l01629"></a><span class="lineno"> 1629</span>        {</div>
+<div class="line"><a id="l01630" name="l01630"></a><span class="lineno"> 1630</span>        }</div>
 </div>
-<div class="line"><a id="l01645" name="l01645"></a><span class="lineno"> 1645</span>    };</div>
+<div class="line"><a id="l01631" name="l01631"></a><span class="lineno"> 1631</span> </div>
+<div class="foldopen" id="foldopen01635" data-start="{" data-end="}">
+<div class="line"><a id="l01635" name="l01635"></a><span class="lineno"><a class="line" href="classsw_1_1ReadOnlyProperty.html#afdd6751ca4bac3cb42b8bef6533b2377"> 1635</a></span>        T <a class="code hl_function" href="classsw_1_1ReadOnlyProperty.html#afdd6751ca4bac3cb42b8bef6533b2377">GetterImpl</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l01636" name="l01636"></a><span class="lineno"> 1636</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l01637" name="l01637"></a><span class="lineno"> 1637</span>            <span class="keywordflow">return</span> this-&gt;_getter();</div>
+<div class="line"><a id="l01638" name="l01638"></a><span class="lineno"> 1638</span>        }</div>
 </div>
-<div class="line"><a id="l01646" name="l01646"></a><span class="lineno"> 1646</span>}</div>
+<div class="line"><a id="l01639" name="l01639"></a><span class="lineno"> 1639</span>    };</div>
+</div>
+<div class="line"><a id="l01640" name="l01640"></a><span class="lineno"> 1640</span> </div>
+<div class="line"><a id="l01644" name="l01644"></a><span class="lineno"> 1644</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen01645" data-start="{" data-end="};">
+<div class="line"><a id="l01645" name="l01645"></a><span class="lineno"><a class="line" href="classsw_1_1WriteOnlyProperty.html"> 1645</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1WriteOnlyProperty.html">WriteOnlyProperty</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt;T, WriteOnlyProperty&lt;T&gt;&gt;</div>
+<div class="line"><a id="l01646" name="l01646"></a><span class="lineno"> 1646</span>    {</div>
+<div class="line"><a id="l01647" name="l01647"></a><span class="lineno"> 1647</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l01648" name="l01648"></a><span class="lineno"> 1648</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1PropertyBase.html">TBase</a> = <a class="code hl_class" href="classsw_1_1PropertyBase.html">PropertyBase&lt;T, WriteOnlyProperty&lt;T&gt;</a>&gt;;</div>
+<div class="line"><a id="l01649" name="l01649"></a><span class="lineno"> 1649</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1Delegate.html">FnSet</a> = <a class="code hl_class" href="classsw_1_1Delegate.html">Action&lt;const T &amp;&gt;</a>;</div>
+<div class="line"><a id="l01650" name="l01650"></a><span class="lineno"> 1650</span>        <span class="keyword">using </span>TBase::operator=;</div>
+<div class="line"><a id="l01651" name="l01651"></a><span class="lineno"> 1651</span> </div>
+<div class="line"><a id="l01652" name="l01652"></a><span class="lineno"> 1652</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l01653" name="l01653"></a><span class="lineno"> 1653</span>        <a class="code hl_class" href="classsw_1_1Delegate.html">FnSet</a> _setter;</div>
+<div class="line"><a id="l01654" name="l01654"></a><span class="lineno"> 1654</span> </div>
+<div class="line"><a id="l01655" name="l01655"></a><span class="lineno"> 1655</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen01659" data-start="{" data-end="}">
+<div class="line"><a id="l01659" name="l01659"></a><span class="lineno"><a class="line" href="classsw_1_1WriteOnlyProperty.html#a2bbd0b0aa69d3659db3cf8978a86465a"> 1659</a></span>        <a class="code hl_function" href="classsw_1_1WriteOnlyProperty.html#a2bbd0b0aa69d3659db3cf8978a86465a">WriteOnlyProperty</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Delegate.html">FnSet</a> &amp;setter)</div>
+<div class="line"><a id="l01660" name="l01660"></a><span class="lineno"> 1660</span>            : _setter(setter)</div>
+<div class="line"><a id="l01661" name="l01661"></a><span class="lineno"> 1661</span>        {</div>
+<div class="line"><a id="l01662" name="l01662"></a><span class="lineno"> 1662</span>        }</div>
+</div>
+<div class="line"><a id="l01663" name="l01663"></a><span class="lineno"> 1663</span> </div>
+<div class="foldopen" id="foldopen01667" data-start="{" data-end="}">
+<div class="line"><a id="l01667" name="l01667"></a><span class="lineno"><a class="line" href="classsw_1_1WriteOnlyProperty.html#a327aa8290f9b398de4fa6f3daf50805b"> 1667</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1WriteOnlyProperty.html#a327aa8290f9b398de4fa6f3daf50805b">SetterImpl</a>(<span class="keyword">const</span> T &amp;value)<span class="keyword"> const</span></div>
+<div class="line"><a id="l01668" name="l01668"></a><span class="lineno"> 1668</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l01669" name="l01669"></a><span class="lineno"> 1669</span>            this-&gt;_setter(value);</div>
+<div class="line"><a id="l01670" name="l01670"></a><span class="lineno"> 1670</span>        }</div>
+</div>
+<div class="line"><a id="l01671" name="l01671"></a><span class="lineno"> 1671</span>    };</div>
+</div>
+<div class="line"><a id="l01672" name="l01672"></a><span class="lineno"> 1672</span>}</div>
 <div class="ttc" id="aclasssw_1_1Delegate_html"><div class="ttname"><a href="classsw_1_1Delegate.html">sw::Delegate</a></div><div class="ttdef"><b>Definition</b> Delegate.h:21</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html"><div class="ttname"><a href="classsw_1_1PropertyBase.html">sw::PropertyBase</a></div><div class="ttdoc">属性基类模板</div><div class="ttdef"><b>Definition</b> Property.h:228</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a01b1e7e2f08c21ec6d4e30546aaa79b7"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a01b1e7e2f08c21ec6d4e30546aaa79b7">sw::PropertyBase::operator&lt;&lt;=</a></div><div class="ttdeci">std::enable_if&lt; _ShlOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type operator&lt;&lt;=(const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">左移赋值运算</div><div class="ttdef"><b>Definition</b> Property.h:727</div></div>
@@ -1525,6 +1549,7 @@ $(document).ready(function(){initNavTree('Property_8h_source.html',''); initResi
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a222a94f823e53ebf0b651ae7196d1133"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a222a94f823e53ebf0b651ae7196d1133">sw::PropertyBase::operator/=</a></div><div class="ttdeci">std::enable_if&lt; _DivOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type operator/=(const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">除赋值运算</div><div class="ttdef"><b>Definition</b> Property.h:505</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a246d4b0798d11c2c55cee2b39a8ca8a8"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a246d4b0798d11c2c55cee2b39a8ca8a8">sw::PropertyBase::operator&lt;</a></div><div class="ttdeci">std::enable_if&lt; _LtOperationHelper&lt; T, U &gt;::value, typename_LtOperationHelper&lt; T, U &gt;::type &gt;::type operator&lt;(const U &amp;value) const</div><div class="ttdoc">小于运算</div><div class="ttdef"><b>Definition</b> Property.h:957</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a25294271e6c612bbfe9e63b552d54f47"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a25294271e6c612bbfe9e63b552d54f47">sw::PropertyBase::operator&amp;</a></div><div class="ttdeci">std::enable_if&lt; _AddrOperationHelper&lt; U &gt;::value, typename_AddrOperationHelper&lt; U &gt;::type &gt;::type operator&amp;() const</div><div class="ttdoc">地址运算</div><div class="ttdef"><b>Definition</b> Property.h:804</div></div>
+<div class="ttc" id="aclasssw_1_1PropertyBase_html_a27a2dcb9ccf7f3856656f101b7d0ccc0"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a27a2dcb9ccf7f3856656f101b7d0ccc0">sw::PropertyBase::operator[]</a></div><div class="ttdeci">std::enable_if&lt; _BracketOperationHelper&lt; T, U &gt;::value &amp;&amp;std::is_pointer&lt; T &gt;::value, typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::type operator[](const U &amp;value) const</div><div class="ttdoc">指针下标运算</div><div class="ttdef"><b>Definition</b> Property.h:1186</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a2a6eec000ec894f07376cdfe0cb9484c"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a2a6eec000ec894f07376cdfe0cb9484c">sw::PropertyBase::Get</a></div><div class="ttdeci">T Get() const</div><div class="ttdoc">获取属性值</div><div class="ttdef"><b>Definition</b> Property.h:263</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a306252d975753ef9d99e3cb2822114c7"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a306252d975753ef9d99e3cb2822114c7">sw::PropertyBase::operator*</a></div><div class="ttdeci">std::enable_if&lt; _MulOperationHelper&lt; T, U &gt;::value, typename_MulOperationHelper&lt; T, U &gt;::type &gt;::type operator*(const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">乘法运算</div><div class="ttdef"><b>Definition</b> Property.h:876</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a308aa55530d509eddaf81c203627b459"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a308aa55530d509eddaf81c203627b459">sw::PropertyBase::operator&gt;=</a></div><div class="ttdeci">std::enable_if&lt; _GeOperationHelper&lt; T, U &gt;::value, typename_GeOperationHelper&lt; T, U &gt;::type &gt;::type operator&gt;=(const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">大于等于运算</div><div class="ttdef"><b>Definition</b> Property.h:1020</div></div>
@@ -1553,6 +1578,8 @@ $(document).ready(function(){initNavTree('Property_8h_source.html',''); initResi
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a5fe681b8126841348f90fdad29f8c1ca"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a5fe681b8126841348f90fdad29f8c1ca">sw::PropertyBase::operator&gt;&gt;=</a></div><div class="ttdeci">std::enable_if&lt; _ShrOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type operator&gt;&gt;=(const U &amp;value)</div><div class="ttdoc">右移赋值运算</div><div class="ttdef"><b>Definition</b> Property.h:737</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a680c00717198a34657f391cb9af4fc1f"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a680c00717198a34657f391cb9af4fc1f">sw::PropertyBase::operator/=</a></div><div class="ttdeci">std::enable_if&lt; _DivOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type operator/=(const U &amp;value)</div><div class="ttdoc">除赋值运算</div><div class="ttdef"><b>Definition</b> Property.h:475</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a69792b46ea2077ae43c48a867a20565f"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a69792b46ea2077ae43c48a867a20565f">sw::PropertyBase::operator--</a></div><div class="ttdeci">std::enable_if&lt; _SubOperationHelper&lt; U, int &gt;::value, T &gt;::type operator--(int) const</div><div class="ttdoc">后置自减运算</div><div class="ttdef"><b>Definition</b> Property.h:566</div></div>
+<div class="ttc" id="aclasssw_1_1PropertyBase_html_a6bc78c5a0081a77a81f15619c69ad99a"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a6bc78c5a0081a77a81f15619c69ad99a">sw::PropertyBase::operator[]</a></div><div class="ttdeci">std::enable_if&lt; _BracketOperationHelper&lt; T, U &gt;::value &amp;&amp;!std::is_pointer&lt; T &gt;::value &amp;&amp;!std::is_reference&lt; typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::value, typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::type operator[](const U &amp;value) const</div><div class="ttdoc">下标运算</div><div class="ttdef"><b>Definition</b> Property.h:1160</div></div>
+<div class="ttc" id="aclasssw_1_1PropertyBase_html_a6bdb6caaa050d844a6f2544f369eb2be"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a6bdb6caaa050d844a6f2544f369eb2be">sw::PropertyBase::operator[]</a></div><div class="ttdeci">std::enable_if&lt; _BracketOperationHelper&lt; T, U &gt;::value &amp;&amp;!std::is_pointer&lt; T &gt;::value &amp;&amp;!std::is_reference&lt; typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::value, typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::type operator[](const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">下标运算</div><div class="ttdef"><b>Definition</b> Property.h:1174</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a6eb7ba2fe5d8b05880906e67f70d5266"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a6eb7ba2fe5d8b05880906e67f70d5266">sw::PropertyBase::operator-=</a></div><div class="ttdeci">std::enable_if&lt; _SubOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type operator-=(const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">减赋值运算</div><div class="ttdef"><b>Definition</b> Property.h:425</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a725ac3bdee018ac18f5b3ef94a8d90e8"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a725ac3bdee018ac18f5b3ef94a8d90e8">sw::PropertyBase::operator-</a></div><div class="ttdeci">std::enable_if&lt; _SubOperationHelper&lt; T, U &gt;::value, typename_SubOperationHelper&lt; T, U &gt;::type &gt;::type operator-(const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">减法运算</div><div class="ttdef"><b>Definition</b> Property.h:858</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a73fdeeacdc484051b83598bf2d85137a"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a73fdeeacdc484051b83598bf2d85137a">sw::PropertyBase::operator-</a></div><div class="ttdeci">std::enable_if&lt; _UnaryMinusOperationHelper&lt; U &gt;::value, typename_UnaryMinusOperationHelper&lt; U &gt;::type &gt;::type operator-() const</div><div class="ttdoc">一元减运算</div><div class="ttdef"><b>Definition</b> Property.h:822</div></div>
@@ -1570,11 +1597,10 @@ $(document).ready(function(){initNavTree('Property_8h_source.html',''); initResi
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a9b34d671369025c3c2e9c1f424eef98d"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a9b34d671369025c3c2e9c1f424eef98d">sw::PropertyBase::operator!</a></div><div class="ttdeci">std::enable_if&lt; _LogicNotOperationHelper&lt; U &gt;::value, typename_LogicNotOperationHelper&lt; U &gt;::type &gt;::type operator!() const</div><div class="ttdoc">逻辑非运算</div><div class="ttdef"><b>Definition</b> Property.h:777</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a9b5b68fa4eb89e203bc798b87297af1e"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a9b5b68fa4eb89e203bc798b87297af1e">sw::PropertyBase::operator|</a></div><div class="ttdeci">std::enable_if&lt; _BitOrOperationHelper&lt; T, U &gt;::value, typename_BitOrOperationHelper&lt; T, U &gt;::type &gt;::type operator|(const U &amp;value) const</div><div class="ttdoc">按位或运算</div><div class="ttdef"><b>Definition</b> Property.h:1047</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a9bd302aa082ee166da13901dc5f454bf"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a9bd302aa082ee166da13901dc5f454bf">sw::PropertyBase::operator&gt;&gt;=</a></div><div class="ttdeci">std::enable_if&lt; _ShrOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type operator&gt;&gt;=(const PropertyBase&lt; U, D &gt; &amp;prop)</div><div class="ttdoc">右移赋值运算</div><div class="ttdef"><b>Definition</b> Property.h:757</div></div>
-<div class="ttc" id="aclasssw_1_1PropertyBase_html_a9ff584b00ef495b94ba4b9661f25f573"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a9ff584b00ef495b94ba4b9661f25f573">sw::PropertyBase::operator[]</a></div><div class="ttdeci">std::enable_if&lt; _BracketOperationHelper&lt; T, U &gt;::value &amp;&amp;!std::is_reference&lt; typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::value, typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::type operator[](const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">下标运算</div><div class="ttdef"><b>Definition</b> Property.h:1172</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_aa42271e2b997d0ba097e1d926f1331f1"><div class="ttname"><a href="classsw_1_1PropertyBase.html#aa42271e2b997d0ba097e1d926f1331f1">sw::PropertyBase::operator&lt;=</a></div><div class="ttdeci">std::enable_if&lt; _LeOperationHelper&lt; T, U &gt;::value, typename_LeOperationHelper&lt; T, U &gt;::type &gt;::type operator&lt;=(const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">小于等于运算</div><div class="ttdef"><b>Definition</b> Property.h:984</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_aa4789ef3bd4121520549916005b7760c"><div class="ttname"><a href="classsw_1_1PropertyBase.html#aa4789ef3bd4121520549916005b7760c">sw::PropertyBase::operator&gt;&gt;</a></div><div class="ttdeci">std::enable_if&lt; _ShrOperationHelper&lt; T, U &gt;::value, typename_ShrOperationHelper&lt; T, U &gt;::type &gt;::type operator&gt;&gt;(const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">右移运算</div><div class="ttdef"><b>Definition</b> Property.h:1110</div></div>
+<div class="ttc" id="aclasssw_1_1PropertyBase_html_aa4f3c9680db301fc9926f9770617603f"><div class="ttname"><a href="classsw_1_1PropertyBase.html#aa4f3c9680db301fc9926f9770617603f">sw::PropertyBase::operator[]</a></div><div class="ttdeci">std::enable_if&lt; _BracketOperationHelper&lt; T, U &gt;::value &amp;&amp;std::is_pointer&lt; T &gt;::value, typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::type operator[](const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">指针下标运算</div><div class="ttdef"><b>Definition</b> Property.h:1198</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_aa7be29d0c451e130dfe744891760e9ef"><div class="ttname"><a href="classsw_1_1PropertyBase.html#aa7be29d0c451e130dfe744891760e9ef">sw::PropertyBase::operator++</a></div><div class="ttdeci">std::enable_if&lt; _AddOperationHelper&lt; U, int &gt;::value, TDerived &amp; &gt;::type operator++()</div><div class="ttdoc">前置自增运算</div><div class="ttdef"><b>Definition</b> Property.h:515</div></div>
-<div class="ttc" id="aclasssw_1_1PropertyBase_html_aacac565e63fc2c9f4622cfe21e19ecbf"><div class="ttname"><a href="classsw_1_1PropertyBase.html#aacac565e63fc2c9f4622cfe21e19ecbf">sw::PropertyBase::operator[]</a></div><div class="ttdeci">std::enable_if&lt; _BracketOperationHelper&lt; T, U &gt;::value &amp;&amp;!std::is_reference&lt; typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::value, typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::type operator[](const U &amp;value) const</div><div class="ttdoc">下标运算</div><div class="ttdef"><b>Definition</b> Property.h:1159</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_aaf481da925e2a96ae035e50af9551b29"><div class="ttname"><a href="classsw_1_1PropertyBase.html#aaf481da925e2a96ae035e50af9551b29">sw::PropertyBase::operator-&gt;</a></div><div class="ttdeci">auto operator-&gt;() const</div><div class="ttdoc">取属性字段</div><div class="ttdef"><b>Definition</b> Property.h:279</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_ab17d3f868f9f42e62dda8b7b9833c454"><div class="ttname"><a href="classsw_1_1PropertyBase.html#ab17d3f868f9f42e62dda8b7b9833c454">sw::PropertyBase::operator&lt;</a></div><div class="ttdeci">std::enable_if&lt; _LtOperationHelper&lt; T, U &gt;::value, typename_LtOperationHelper&lt; T, U &gt;::type &gt;::type operator&lt;(const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">小于运算</div><div class="ttdef"><b>Definition</b> Property.h:966</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_ab75986b9197bdc9c4f52a603e00d41e1"><div class="ttname"><a href="classsw_1_1PropertyBase.html#ab75986b9197bdc9c4f52a603e00d41e1">sw::PropertyBase::operator&gt;&gt;</a></div><div class="ttdeci">std::enable_if&lt; _ShrOperationHelper&lt; T, U &gt;::value, typename_ShrOperationHelper&lt; T, U &gt;::type &gt;::type operator&gt;&gt;(const U &amp;value) const</div><div class="ttdoc">右移运算</div><div class="ttdef"><b>Definition</b> Property.h:1101</div></div>
@@ -1601,16 +1627,16 @@ $(document).ready(function(){initNavTree('Property_8h_source.html',''); initResi
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_aee41644629bd67194ee6d4d02e9cd935"><div class="ttname"><a href="classsw_1_1PropertyBase.html#aee41644629bd67194ee6d4d02e9cd935">sw::PropertyBase::operator&amp;=</a></div><div class="ttdeci">std::enable_if&lt; _BitAndOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type operator&amp;=(const U &amp;value) const</div><div class="ttdoc">按位与赋值运算</div><div class="ttdef"><b>Definition</b> Property.h:587</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_aee737b16b71a60d052b5b5555a7c275f"><div class="ttname"><a href="classsw_1_1PropertyBase.html#aee737b16b71a60d052b5b5555a7c275f">sw::PropertyBase::operator-</a></div><div class="ttdeci">std::enable_if&lt; _SubOperationHelper&lt; T, U &gt;::value, typename_SubOperationHelper&lt; T, U &gt;::type &gt;::type operator-(const U &amp;value) const</div><div class="ttdoc">减法运算</div><div class="ttdef"><b>Definition</b> Property.h:849</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_afade30e8e93f9c0b452446d5435313b1"><div class="ttname"><a href="classsw_1_1PropertyBase.html#afade30e8e93f9c0b452446d5435313b1">sw::PropertyBase::operator=</a></div><div class="ttdeci">TDerived &amp; operator=(const T &amp;value)</div><div class="ttdoc">设置属性值</div><div class="ttdef"><b>Definition</b> Property.h:318</div></div>
-<div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1547</div></div>
-<div class="ttc" id="aclasssw_1_1Property_html_a08dfff3c7a68de5118e431a91189893f"><div class="ttname"><a href="classsw_1_1Property.html#a08dfff3c7a68de5118e431a91189893f">sw::Property::SetterImpl</a></div><div class="ttdeci">void SetterImpl(const T &amp;value) const</div><div class="ttdoc">设置属性值</div><div class="ttdef"><b>Definition</b> Property.h:1578</div></div>
-<div class="ttc" id="aclasssw_1_1Property_html_a12c7e14e407d1923d9e37418da3a3e6c"><div class="ttname"><a href="classsw_1_1Property.html#a12c7e14e407d1923d9e37418da3a3e6c">sw::Property::GetterImpl</a></div><div class="ttdeci">T GetterImpl() const</div><div class="ttdoc">获取属性值</div><div class="ttdef"><b>Definition</b> Property.h:1570</div></div>
-<div class="ttc" id="aclasssw_1_1Property_html_aed49183e5aff7da2c6a8afcfdfafe24c"><div class="ttname"><a href="classsw_1_1Property.html#aed49183e5aff7da2c6a8afcfdfafe24c">sw::Property::Property</a></div><div class="ttdeci">Property(const FnGet &amp;getter, const FnSet &amp;setter)</div><div class="ttdoc">构造属性</div><div class="ttdef"><b>Definition</b> Property.h:1562</div></div>
-<div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>Definition</b> Property.h:1589</div></div>
-<div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html_a013364e671493f55bd244b6f008db052"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html#a013364e671493f55bd244b6f008db052">sw::ReadOnlyProperty::ReadOnlyProperty</a></div><div class="ttdeci">ReadOnlyProperty(const FnGet &amp;getter)</div><div class="ttdoc">构造只读属性</div><div class="ttdef"><b>Definition</b> Property.h:1601</div></div>
-<div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html_afdd6751ca4bac3cb42b8bef6533b2377"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html#afdd6751ca4bac3cb42b8bef6533b2377">sw::ReadOnlyProperty::GetterImpl</a></div><div class="ttdeci">T GetterImpl() const</div><div class="ttdoc">获取属性值</div><div class="ttdef"><b>Definition</b> Property.h:1609</div></div>
-<div class="ttc" id="aclasssw_1_1WriteOnlyProperty_html"><div class="ttname"><a href="classsw_1_1WriteOnlyProperty.html">sw::WriteOnlyProperty</a></div><div class="ttdoc">只写属性</div><div class="ttdef"><b>Definition</b> Property.h:1620</div></div>
-<div class="ttc" id="aclasssw_1_1WriteOnlyProperty_html_a2bbd0b0aa69d3659db3cf8978a86465a"><div class="ttname"><a href="classsw_1_1WriteOnlyProperty.html#a2bbd0b0aa69d3659db3cf8978a86465a">sw::WriteOnlyProperty::WriteOnlyProperty</a></div><div class="ttdeci">WriteOnlyProperty(const FnSet &amp;setter)</div><div class="ttdoc">构造属性</div><div class="ttdef"><b>Definition</b> Property.h:1633</div></div>
-<div class="ttc" id="aclasssw_1_1WriteOnlyProperty_html_a327aa8290f9b398de4fa6f3daf50805b"><div class="ttname"><a href="classsw_1_1WriteOnlyProperty.html#a327aa8290f9b398de4fa6f3daf50805b">sw::WriteOnlyProperty::SetterImpl</a></div><div class="ttdeci">void SetterImpl(const T &amp;value) const</div><div class="ttdoc">设置属性值</div><div class="ttdef"><b>Definition</b> Property.h:1641</div></div>
+<div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1573</div></div>
+<div class="ttc" id="aclasssw_1_1Property_html_a08dfff3c7a68de5118e431a91189893f"><div class="ttname"><a href="classsw_1_1Property.html#a08dfff3c7a68de5118e431a91189893f">sw::Property::SetterImpl</a></div><div class="ttdeci">void SetterImpl(const T &amp;value) const</div><div class="ttdoc">设置属性值</div><div class="ttdef"><b>Definition</b> Property.h:1604</div></div>
+<div class="ttc" id="aclasssw_1_1Property_html_a12c7e14e407d1923d9e37418da3a3e6c"><div class="ttname"><a href="classsw_1_1Property.html#a12c7e14e407d1923d9e37418da3a3e6c">sw::Property::GetterImpl</a></div><div class="ttdeci">T GetterImpl() const</div><div class="ttdoc">获取属性值</div><div class="ttdef"><b>Definition</b> Property.h:1596</div></div>
+<div class="ttc" id="aclasssw_1_1Property_html_aed49183e5aff7da2c6a8afcfdfafe24c"><div class="ttname"><a href="classsw_1_1Property.html#aed49183e5aff7da2c6a8afcfdfafe24c">sw::Property::Property</a></div><div class="ttdeci">Property(const FnGet &amp;getter, const FnSet &amp;setter)</div><div class="ttdoc">构造属性</div><div class="ttdef"><b>Definition</b> Property.h:1588</div></div>
+<div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>Definition</b> Property.h:1615</div></div>
+<div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html_a013364e671493f55bd244b6f008db052"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html#a013364e671493f55bd244b6f008db052">sw::ReadOnlyProperty::ReadOnlyProperty</a></div><div class="ttdeci">ReadOnlyProperty(const FnGet &amp;getter)</div><div class="ttdoc">构造只读属性</div><div class="ttdef"><b>Definition</b> Property.h:1627</div></div>
+<div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html_afdd6751ca4bac3cb42b8bef6533b2377"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html#afdd6751ca4bac3cb42b8bef6533b2377">sw::ReadOnlyProperty::GetterImpl</a></div><div class="ttdeci">T GetterImpl() const</div><div class="ttdoc">获取属性值</div><div class="ttdef"><b>Definition</b> Property.h:1635</div></div>
+<div class="ttc" id="aclasssw_1_1WriteOnlyProperty_html"><div class="ttname"><a href="classsw_1_1WriteOnlyProperty.html">sw::WriteOnlyProperty</a></div><div class="ttdoc">只写属性</div><div class="ttdef"><b>Definition</b> Property.h:1646</div></div>
+<div class="ttc" id="aclasssw_1_1WriteOnlyProperty_html_a2bbd0b0aa69d3659db3cf8978a86465a"><div class="ttname"><a href="classsw_1_1WriteOnlyProperty.html#a2bbd0b0aa69d3659db3cf8978a86465a">sw::WriteOnlyProperty::WriteOnlyProperty</a></div><div class="ttdeci">WriteOnlyProperty(const FnSet &amp;setter)</div><div class="ttdoc">构造属性</div><div class="ttdef"><b>Definition</b> Property.h:1659</div></div>
+<div class="ttc" id="aclasssw_1_1WriteOnlyProperty_html_a327aa8290f9b398de4fa6f3daf50805b"><div class="ttname"><a href="classsw_1_1WriteOnlyProperty.html#a327aa8290f9b398de4fa6f3daf50805b">sw::WriteOnlyProperty::SetterImpl</a></div><div class="ttdeci">void SetterImpl(const T &amp;value) const</div><div class="ttdoc">设置属性值</div><div class="ttdef"><b>Definition</b> Property.h:1667</div></div>
 <div class="ttc" id="astructsw_1_1FieldsAccessor_html"><div class="ttname"><a href="structsw_1_1FieldsAccessor.html">sw::FieldsAccessor</a></div><div class="ttdoc">字段访问器，用于实现使用operator-&gt;取属性字段</div><div class="ttdef"><b>Definition</b> Property.h:178</div></div>
 <div class="ttc" id="astructsw_1_1FieldsAccessor_html_a6edc40fbb70f9afcc49d86a25992a96e"><div class="ttname"><a href="structsw_1_1FieldsAccessor.html#a6edc40fbb70f9afcc49d86a25992a96e">sw::FieldsAccessor::operator-&gt;</a></div><div class="ttdeci">std::enable_if&lt; std::is_pointer&lt; U &gt;::value, U &gt;::type operator-&gt;()</div><div class="ttdoc">指针类型，直接返回值</div><div class="ttdef"><b>Definition</b> Property.h:197</div></div>
 <div class="ttc" id="astructsw_1_1FieldsAccessor_html_a9947db986bc3d127736c0d93eb4bad72"><div class="ttname"><a href="structsw_1_1FieldsAccessor.html#a9947db986bc3d127736c0d93eb4bad72">sw::FieldsAccessor::value</a></div><div class="ttdeci">T value</div><div class="ttdoc">字段访问器所维护的值</div><div class="ttdef"><b>Definition</b> Property.h:182</div></div>

@@ -13,8 +13,10 @@ var classsw_1_1Layer =
     [ "IsLayoutDisabled", "classsw_1_1Layer.html#aad286771872cc835570d7f6508772a20", null ],
     [ "MeasureOverride", "classsw_1_1Layer.html#a5e2f0496063c24957a3cf149a4b707bb", null ],
     [ "OnHorizontalScroll", "classsw_1_1Layer.html#ab199e8fc6b90975b7dcb5fdb4e5f2853", null ],
+    [ "OnRoutedEvent", "classsw_1_1Layer.html#a42acd68b3ac25678fb89feedb4508f9c", null ],
     [ "OnScroll", "classsw_1_1Layer.html#af21620044342125a8e59671a6fb222e8", null ],
     [ "OnVerticalScroll", "classsw_1_1Layer.html#ac06c5746cd104b7f8f9ab4d9ea9c5833", null ],
+    [ "RequestBringIntoView", "classsw_1_1Layer.html#a4d935eb61b4ec814264e24f2bb820789", null ],
     [ "ScrollHorizontal", "classsw_1_1Layer.html#a8c9c171806dc6021ea15c6a444a74efa", null ],
     [ "ScrollToBottom", "classsw_1_1Layer.html#a6a371d0a4688e0ec05ad508572df3866", null ],
     [ "ScrollToLeft", "classsw_1_1Layer.html#aa86cca7662b17b6a03467d0e7d1975da", null ],
@@ -32,6 +34,7 @@ var classsw_1_1Layer =
     [ "HorizontalScrollLimit", "classsw_1_1Layer.html#a5af8ff318d2438eab8f8b325cf8e66da", null ],
     [ "HorizontalScrollPos", "classsw_1_1Layer.html#ae738d7ede2ba0d5547553df25f8d8ed8", null ],
     [ "Layout", "classsw_1_1Layer.html#accb80d7a016d5a56b1c744db4ef96059", null ],
+    [ "MouseWheelScrollEnabled", "classsw_1_1Layer.html#a711df93d3fb62ad35eb1f634e4cbde47", null ],
     [ "VerticalScrollBar", "classsw_1_1Layer.html#aecfdee30e69119db86f0824d35a50ea4", null ],
     [ "VerticalScrollLimit", "classsw_1_1Layer.html#ae79ad98e8d7f2fe5f66132ce797e9f70", null ],
     [ "VerticalScrollPos", "classsw_1_1Layer.html#adac6ce15772ba5e2dcf2bfeed126e9d7", null ]

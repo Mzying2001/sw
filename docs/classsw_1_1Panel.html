@@ -339,6 +339,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsLayoutUpdateConditi
 void&#160;</td><td class="memItemRight" valign="bottom"><b>InvalidateMeasure</b> ()</td></tr>
 <tr class="memdesc:afea960f1d4f8148b4807d2121f32a6c1 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">使元素的布局状态失效，并立即触发布局更新 <br /></td></tr>
 <tr class="separator:afea960f1d4f8148b4807d2121f32a6c1 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ccebdf4ec68dc03c83ee0da1c45f6b4 inherit pub_methods_classsw_1_1UIElement" id="r_a2ccebdf4ec68dc03c83ee0da1c45f6b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a2ccebdf4ec68dc03c83ee0da1c45f6b4">BringIntoView</a> ()</td></tr>
+<tr class="memdesc:a2ccebdf4ec68dc03c83ee0da1c45f6b4 inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将当前元素移动到可视区域内  <br /></td></tr>
+<tr class="separator:a2ccebdf4ec68dc03c83ee0da1c45f6b4 inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78f1c406d3faac2afcb956e9375f65ec inherit pub_methods_classsw_1_1UIElement" id="r_a78f1c406d3faac2afcb956e9375f65ec"><td class="memItemLeft" align="right" valign="top">virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a78f1c406d3faac2afcb956e9375f65ec">GetTag</a> () override</td></tr>
 <tr class="memdesc:a78f1c406d3faac2afcb956e9375f65ec inherit pub_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取Tag  <br /></td></tr>
 <tr class="separator:a78f1c406d3faac2afcb956e9375f65ec inherit pub_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -782,6 +785,10 @@ const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>VerticalScrollLimit</b></td></tr>
 <tr class="memdesc:ae79ad98e8d7f2fe5f66132ce797e9f70 inherit pub_attribs_classsw_1_1Layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">纵向滚动条可设置的最大位置 <br /></td></tr>
 <tr class="separator:ae79ad98e8d7f2fe5f66132ce797e9f70 inherit pub_attribs_classsw_1_1Layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a711df93d3fb62ad35eb1f634e4cbde47 inherit pub_attribs_classsw_1_1Layer" id="r_a711df93d3fb62ad35eb1f634e4cbde47"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>MouseWheelScrollEnabled</b></td></tr>
+<tr class="memdesc:a711df93d3fb62ad35eb1f634e4cbde47 inherit pub_attribs_classsw_1_1Layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否在鼠标滚动时滚动内容 <br /></td></tr>
+<tr class="separator:a711df93d3fb62ad35eb1f634e4cbde47 inherit pub_attribs_classsw_1_1Layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
@@ -829,6 +836,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateBorder</b> ()</
 <tr class="memitem:a2f3ccd1e0d137c83f1afd1170c87217c inherit pro_methods_classsw_1_1PanelBase" id="r_a2f3ccd1e0d137c83f1afd1170c87217c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1PanelBase.html#a2f3ccd1e0d137c83f1afd1170c87217c">OnEndPaint</a> () override</td></tr>
 <tr class="memdesc:a2f3ccd1e0d137c83f1afd1170c87217c inherit pro_methods_classsw_1_1PanelBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnPaint函数完成之后调用该函数  <br /></td></tr>
 <tr class="separator:a2f3ccd1e0d137c83f1afd1170c87217c inherit pro_methods_classsw_1_1PanelBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0267c958f323ec15f3cd01a79cc41727 inherit pro_methods_classsw_1_1PanelBase" id="r_a0267c958f323ec15f3cd01a79cc41727"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1PanelBase.html#a0267c958f323ec15f3cd01a79cc41727">RequestBringIntoView</a> (const <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &amp;screenRect) override</td></tr>
+<tr class="memdesc:a0267c958f323ec15f3cd01a79cc41727 inherit pro_methods_classsw_1_1PanelBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将指定的矩形区域移动到可视区域内  <br /></td></tr>
+<tr class="separator:a0267c958f323ec15f3cd01a79cc41727 inherit pro_methods_classsw_1_1PanelBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae37c8868960f5a50de13a1d13c634bd9 inherit pro_methods_classsw_1_1PanelBase" id="r_ae37c8868960f5a50de13a1d13c634bd9"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1PanelBase.html#ae37c8868960f5a50de13a1d13c634bd9">OnRoutedEvent</a> (<a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> &amp;eventArgs, const <a class="el" href="classsw_1_1Delegate.html">RoutedEventHandler</a> &amp;handler) override</td></tr>
+<tr class="memdesc:ae37c8868960f5a50de13a1d13c634bd9 inherit pro_methods_classsw_1_1PanelBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">路由事件经过当前元素时调用该函数  <br /></td></tr>
+<tr class="separator:ae37c8868960f5a50de13a1d13c634bd9 inherit pro_methods_classsw_1_1PanelBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classsw_1_1Control"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsw_1_1Control')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classsw_1_1Control.html">sw::Control</a></td></tr>
 <tr class="memitem:a28d0732184b1631d1c3b2f84dec4c6e6 inherit pro_methods_classsw_1_1Control" id="r_a28d0732184b1631d1c3b2f84dec4c6e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#a28d0732184b1631d1c3b2f84dec4c6e6">ResetHandle</a> (LPVOID lpParam=NULL)</td></tr>
 <tr class="memdesc:a28d0732184b1631d1c3b2f84dec4c6e6 inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">销毁控件句柄并重新初始化，该操作会创建新的句柄并设置样式、文本、字体等  <br /></td></tr>
