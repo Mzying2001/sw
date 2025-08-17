@@ -606,12 +606,14 @@ void sw::UIElement::BringIntoView()
     sw::Rect rect = this->Rect;
     sw::Point pos = p->PointToScreen(rect.GetPos());
 
-    rect.left = pos.x - p->_arrangeOffsetX - this->_margin.left;
-    rect.top  = pos.y - p->_arrangeOffsetY - this->_margin.top;
+    rect.left = pos.x - this->_margin.left;
+    rect.top  = pos.y - this->_margin.top;
     rect.width += this->_margin.left + this->_margin.right;
     rect.height += this->_margin.top + this->_margin.bottom;
 
     while (p != nullptr) {
+        rect.left -= p->_arrangeOffsetX;
+        rect.top -= p->_arrangeOffsetY;
         if (p->RequestBringIntoView(rect))
             break;
         p = p->_parent;
