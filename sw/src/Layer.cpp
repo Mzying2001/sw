@@ -338,6 +338,46 @@ void sw::Layer::ArrangeOverride(const Size &finalSize)
     this->UpdateScrollRange();
 }
 
+bool sw::Layer::RequestBringIntoView(const sw::Rect &screenRect)
+{
+    bool handled = false;
+
+    sw::Point pos = this->PointFromScreen(screenRect.GetPos());
+    sw::Rect rect = {pos.x, pos.y, screenRect.width, screenRect.height};
+
+    sw::Rect clientRect = this->ClientRect;
+
+    if (this->VerticalScrollBar) {
+        double curPos = this->VerticalScrollPos;
+        if (rect.top < curPos) {
+            this->VerticalScrollPos = rect.top;
+        } else if (rect.top + rect.height > curPos + clientRect.height) {
+            if (rect.height >= clientRect.height) {
+                this->VerticalScrollPos = rect.top;
+            } else {
+                this->VerticalScrollPos = rect.top + rect.height - clientRect.height;
+            }
+        }
+        handled = true;
+    }
+
+    if (this->HorizontalScrollBar) {
+        double curPos = this->HorizontalScrollPos;
+        if (rect.left < curPos) {
+            this->HorizontalScrollPos = rect.left;
+        } else if (rect.left + rect.width > curPos + clientRect.width) {
+            if (rect.width >= clientRect.width) {
+                this->HorizontalScrollPos = rect.left;
+            } else {
+                this->HorizontalScrollPos = rect.left + rect.width - clientRect.width;
+            }
+        }
+        handled = true;
+    }
+
+    return handled;
+}
+
 void sw::Layer::DisableLayout()
 {
     this->_layoutDisabled = true;

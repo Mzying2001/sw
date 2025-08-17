@@ -775,6 +775,12 @@ namespace sw
         void InvalidateMeasure();
 
         /**
+         * @brief 尝试将当前元素移动到可视区域内
+         * @note  对于悬浮元素（Float属性为true），该函数不会起作用
+         */
+        void BringIntoView();
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;
@@ -919,6 +925,13 @@ namespace sw
          * @param redraw 是否重绘
          */
         virtual void SetTextColor(Color color, bool redraw);
+
+        /**
+         * @brief            尝试将指定的矩形区域移动到可视区域内
+         * @param screenRect 要移动到可视区域的矩形在屏幕中的位置
+         * @return           若已处理该请求则返回true，否则返回false以继续向上冒泡
+         */
+        virtual bool RequestBringIntoView(const sw::Rect &screenRect);
 
         /**
          * @brief         添加子元素后调用该函数

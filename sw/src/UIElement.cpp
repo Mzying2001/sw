@@ -598,6 +598,26 @@ void sw::UIElement::InvalidateMeasure()
     root->SendMessageW(WM_UpdateLayout, 0, 0);
 }
 
+void sw::UIElement::BringIntoView()
+{
+    UIElement *p = this->_parent;
+    if (this->_float || p == nullptr) return;
+
+    sw::Rect rect = this->Rect;
+    sw::Point pos = p->PointToScreen(rect.GetPos());
+
+    rect.left = pos.x - p->_arrangeOffsetX - this->_margin.left;
+    rect.top  = pos.y - p->_arrangeOffsetY - this->_margin.top;
+    rect.width += this->_margin.left + this->_margin.right;
+    rect.height += this->_margin.top + this->_margin.bottom;
+
+    while (p != nullptr) {
+        if (p->RequestBringIntoView(rect))
+            break;
+        p = p->_parent;
+    }
+}
+
 uint64_t sw::UIElement::GetTag()
 {
     return this->_tag;
@@ -932,6 +952,11 @@ void sw::UIElement::SetTextColor(Color color, bool redraw)
     if (redraw) this->Redraw();
 }
 
+bool sw::UIElement::RequestBringIntoView(const sw::Rect &screenRect)
+{
+    return false;
+}
+
 void sw::UIElement::OnAddedChild(UIElement &element)
 {
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildAdded)) {
@@ -949,6 +974,7 @@ void sw::UIElement::OnRemovedChild(UIElement &element)
 void sw::UIElement::OnTabStop()
 {
     this->Focused = true;
+    this->BringIntoView();
 }
 
 void sw::UIElement::OnMinMaxSizeChanged()
