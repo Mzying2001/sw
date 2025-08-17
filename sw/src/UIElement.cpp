@@ -777,8 +777,8 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
     UIElement *element = this;
     do {
         auto &handler = element->_eventMap[eventArgs.eventType];
-        if (handler) {
-            handler(*element, eventArgs);
+        if (!element->OnRoutedEvent(eventArgs, handler)) {
+            if (handler) handler(*element, eventArgs);
         }
         if (eventArgs.handled) {
             break;
@@ -954,6 +954,11 @@ void sw::UIElement::OnTabStop()
 void sw::UIElement::OnMinMaxSizeChanged()
 {
     this->InvalidateMeasure();
+}
+
+bool sw::UIElement::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
+{
+    return false;
 }
 
 bool sw::UIElement::SetParent(WndBase *parent)
