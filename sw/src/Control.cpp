@@ -38,7 +38,7 @@ void sw::Control::ResetHandle(LPVOID lpParam)
 void sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
 {
     RECT rect = this->Rect.Get();
-    auto text = this->GetText().c_str();
+    auto text = this->GetInternalText().c_str();
 
     HWND oldHwnd = this->_hwnd;
     HWND hParent = GetParent(oldHwnd);

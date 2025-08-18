@@ -25,7 +25,7 @@ void sw::HwndWrapper::InitHwndWrapper()
     GetWindowRect(this->_hwnd, &rect);
     this->_rect = rect;
 
-    this->UpdateText();
+    this->UpdateInternalText();
     this->HandleInitialized(this->_hwnd);
     this->UpdateFont();
 

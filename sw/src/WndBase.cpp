@@ -203,11 +203,11 @@ sw::WndBase::WndBase()
       Text(
           // get
           [this]() -> std::wstring {
-              return this->GetText();
+              return this->GetInternalText();
           },
           // set
           [this](const std::wstring &value) {
-              this->SetText(value);
+              this->SetInternalText(value);
           }),
 
       Focused(
@@ -708,7 +708,7 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
     }
 }
 
-void sw::WndBase::UpdateText()
+void sw::WndBase::UpdateInternalText()
 {
     int len = GetWindowTextLengthW(this->_hwnd);
 
@@ -727,12 +727,12 @@ void sw::WndBase::UpdateText()
     this->_text.resize(len);
 }
 
-std::wstring &sw::WndBase::GetText()
+std::wstring &sw::WndBase::GetInternalText()
 {
     return this->_text;
 }
 
-void sw::WndBase::SetText(const std::wstring &value)
+void sw::WndBase::SetInternalText(const std::wstring &value)
 {
     SetWindowTextW(this->_hwnd, value.c_str());
 }

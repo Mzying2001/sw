@@ -71,7 +71,10 @@ void sw::GroupBox::OnDrawBorder(HDC hdc, RECT &rect)
             rtHeader.bottom - _GroupBoxHeaderPadding};
 
         FillRect(hdc, &rtHeader, hBrush);
-        DrawTextW(hdc, GetText().c_str(), (int)GetText().size(), &rtHeaderText, DT_SINGLELINE);
+
+        std::wstring &text = GetInternalText();
+        DrawTextW(hdc, text.c_str(), (int)text.size(), &rtHeaderText, DT_SINGLELINE);
+
         DeleteObject(hBrush);
     }
 
@@ -118,7 +121,7 @@ void sw::GroupBox::_UpdateTextSize()
     SelectObject(hdc, GetFontHandle());
 
     RECT rect{};
-    std::wstring &text = GetText();
+    std::wstring &text = GetInternalText();
     DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_SINGLELINE | DT_CALCRECT);
 
     _textSize = {rect.right - rect.left, rect.bottom - rect.top};

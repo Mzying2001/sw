@@ -79,13 +79,13 @@ void sw::TextBoxBase::InitTextBoxBase(DWORD dwStyle, DWORD dwExStyle)
     this->InitControl(L"EDIT", L"", dwStyle, dwExStyle);
 }
 
-std::wstring &sw::TextBoxBase::GetText()
+std::wstring &sw::TextBoxBase::GetInternalText()
 {
     if (this->_isTextChanged) {
-        this->UpdateText();
+        this->UpdateInternalText();
         this->_isTextChanged = false;
     }
-    return this->WndBase::GetText();
+    return this->WndBase::GetInternalText();
 }
 
 void sw::TextBoxBase::OnCommand(int code)
