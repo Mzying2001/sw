@@ -3,7 +3,7 @@ var classsw_1_1TextBoxBase =
     [ "TextBoxBase", "classsw_1_1TextBoxBase.html#a67d628d8d0d746292ef4350ad1a5a84a", null ],
     [ "~TextBoxBase", "classsw_1_1TextBoxBase.html#a2fb455bb1ed2c1b3f3c12a82a5a4b720", null ],
     [ "Clear", "classsw_1_1TextBoxBase.html#a9100aef79b476bac6f50933c7d73d5ee", null ],
-    [ "GetText", "classsw_1_1TextBoxBase.html#a364003a9b7b601f385861108a4e3273e", null ],
+    [ "GetInternalText", "classsw_1_1TextBoxBase.html#ac96a5a27d16422fd449a6415f9bdba22", null ],
     [ "InitTextBoxBase", "classsw_1_1TextBoxBase.html#a3a6843f34013ed31f3828263f0984233", null ],
     [ "OnChar", "classsw_1_1TextBoxBase.html#aa88527cddd82fc158e0ac3ca662604c1", null ],
     [ "OnCommand", "classsw_1_1TextBoxBase.html#a1e7210993dcbf6cfdaff3dcc3246dfd5", null ],

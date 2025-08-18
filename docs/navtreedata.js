@@ -51,7 +51,7 @@ var NAVTREEINDEX =
 "classsw_1_1Layer.html",
 "classsw_1_1Property.html#a08dfff3c7a68de5118e431a91189893f",
 "classsw_1_1UIElement.html#a2b54e00e1e41af2a634ad694da3ffa98",
-"classsw_1_1WndBase.html#ac34494921eed0f67a053a9393d78bcf9",
+"classsw_1_1WndBase.html#ac49c6452ceb4950dd581189615753b0c",
 "structsw_1_1MsgBoxResultHelper.html#ac75e4774f3a663cdd014aa8b4a97e2af"
 ];
 
