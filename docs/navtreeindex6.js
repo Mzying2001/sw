@@ -1,5 +1,15 @@
 var NAVTREEINDEX6 =
 {
+"structsw_1_1MsgBoxResultHelper.html#ac75e4774f3a663cdd014aa8b4a97e2af":[2,0,0,107,0],
+"structsw_1_1Point.html":[2,0,0,113],
+"structsw_1_1Point.html#a03a3ffe0760d027e46f6a5579220c6df":[2,0,0,113,2],
+"structsw_1_1Point.html#a4d0905242fc362a62b21ea6adf2e54e6":[2,0,0,113,8],
+"structsw_1_1Point.html#a56af260ede721ba4801b1a33813620f7":[2,0,0,113,6],
+"structsw_1_1Point.html#a5b0e4208a40f3ed55741d99312276714":[2,0,0,113,3],
+"structsw_1_1Point.html#a85e96100b99b6408e986970d21ce5b5d":[2,0,0,113,0],
+"structsw_1_1Point.html#a8aa1588ffbd88a650745648c5406217a":[2,0,0,113,5],
+"structsw_1_1Point.html#a9bc0afd9e0f20595fa06f60b499ac0a3":[2,0,0,113,4],
+"structsw_1_1Point.html#ae6a214a23a7b9128b3938e2bcc820b01":[2,0,0,113,1],
 "structsw_1_1Point.html#afceae691252771cc050e8e4152971ba9":[2,0,0,113,7],
 "structsw_1_1PositionChangedEventArgs.html":[2,0,0,114],
 "structsw_1_1ProcMsg.html":[2,0,0,115],

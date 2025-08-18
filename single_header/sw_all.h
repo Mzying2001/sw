@@ -3851,6 +3851,7 @@ namespace sw
         template <typename U>
         typename std::enable_if<
             _BracketOperationHelper<T, U>::value &&
+                !std::is_pointer<T>::value &&
                 !std::is_reference<typename _BracketOperationHelper<T, U>::type>::value,
             typename _BracketOperationHelper<T, U>::type>::type
         operator[](const U &value) const
@@ -3864,7 +3865,32 @@ namespace sw
         template <typename D, typename U>
         typename std::enable_if<
             _BracketOperationHelper<T, U>::value &&
+                !std::is_pointer<T>::value &&
                 !std::is_reference<typename _BracketOperationHelper<T, U>::type>::value,
+            typename _BracketOperationHelper<T, U>::type>::type
+        operator[](const PropertyBase<U, D> &prop) const
+        {
+            return this->Get()[prop.Get()];
+        }
+
+        /**
+         * @brief 指针下标运算
+         */
+        template <typename U>
+        typename std::enable_if<
+            _BracketOperationHelper<T, U>::value && std::is_pointer<T>::value,
+            typename _BracketOperationHelper<T, U>::type>::type
+        operator[](const U &value) const
+        {
+            return this->Get()[value];
+        }
+
+        /**
+         * @brief 指针下标运算
+         */
+        template <typename D, typename U>
+        typename std::enable_if<
+            _BracketOperationHelper<T, U>::value && std::is_pointer<T>::value,
             typename _BracketOperationHelper<T, U>::type>::type
         operator[](const PropertyBase<U, D> &prop) const
         {
@@ -8947,6 +8973,12 @@ namespace sw
         void InvalidateMeasure();
 
         /**
+         * @brief 尝试将当前元素移动到可视区域内
+         * @note  对于悬浮元素（Float属性为true），该函数不会起作用
+         */
+        void BringIntoView();
+
+        /**
          * @brief 获取Tag
          */
         virtual uint64_t GetTag() override;
@@ -8997,19 +9029,6 @@ namespace sw
         virtual UIElement *ToUIElement() override;
 
     protected:
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize);
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize);
-
         /**
          * @brief           触发路由事件
          * @param eventType 事件类型
@@ -9079,6 +9098,19 @@ namespace sw
         void ClampDesireSize(sw::Rect &rect);
 
         /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize);
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize);
+
+        /**
          * @brief        设置背景颜色
          * @param color  要设置的颜色
          * @param redraw 是否重绘
@@ -9091,6 +9123,13 @@ namespace sw
          * @param redraw 是否重绘
          */
         virtual void SetTextColor(Color color, bool redraw);
+
+        /**
+         * @brief            尝试将指定的矩形区域移动到可视区域内
+         * @param screenRect 要移动到可视区域的矩形在屏幕中的位置
+         * @return           若已处理该请求则返回true，否则返回false以继续向上冒泡
+         */
+        virtual bool RequestBringIntoView(const sw::Rect &screenRect);
 
         /**
          * @brief         添加子元素后调用该函数
@@ -9113,6 +9152,14 @@ namespace sw
          * @brief 当MinWidth、MinHeight、MaxWidth或MaxHeight属性更改时调用此函数
          */
         virtual void OnMinMaxSizeChanged();
+
+        /**
+         * @brief           路由事件经过当前元素时调用该函数
+         * @param eventArgs 事件参数
+         * @param handler   事件处理函数，值为空时表示当前元素没有注册该事件处理函数
+         * @return          若已处理该事件则返回true，否则返回false以继调用处理函数
+         */
+        virtual bool OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler);
 
         /**
          * @brief  设置父窗口
@@ -9653,6 +9700,11 @@ namespace sw
          */
         bool _verticalScrollDisabled = true;
 
+        /**
+         * @brief 是否在鼠标滚动时滚动内容
+         */
+        bool _mouseWheelScrollEnabled = true;
+
     public:
         /**
          * @brief 自定义的布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设为nullptr可恢复默认布局
@@ -9693,6 +9745,11 @@ namespace sw
          * @brief 纵向滚动条可设置的最大位置
          */
         const ReadOnlyProperty<double> VerticalScrollLimit;
+
+        /**
+         * @brief 是否在鼠标滚动时滚动内容
+         */
+        const Property<bool> MouseWheelScrollEnabled;
 
     public:
         /**
@@ -9768,6 +9825,21 @@ namespace sw
          * @param finalSize 可用于排列子元素的最终尺寸
          */
         virtual void ArrangeOverride(const Size &finalSize) override;
+
+        /**
+         * @brief            尝试将指定的矩形区域移动到可视区域内
+         * @param screenRect 要移动到可视区域的矩形在屏幕中的位置
+         * @return           若已处理该请求则返回true，否则返回false以继续向上冒泡
+         */
+        virtual bool RequestBringIntoView(const sw::Rect &screenRect) override;
+
+        /**
+         * @brief           路由事件经过当前元素时调用该函数
+         * @param eventArgs 事件参数
+         * @param handler   事件处理函数，值为空时表示当前元素没有注册该事件处理函数
+         * @return          若已处理该事件则返回true，否则返回false以继调用处理函数
+         */
+        virtual bool OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler) override;
 
     public:
         /**
@@ -10539,6 +10611,21 @@ namespace sw
          * @brief 在OnPaint函数完成之后调用该函数
          */
         virtual void OnEndPaint() override;
+
+        /**
+         * @brief            尝试将指定的矩形区域移动到可视区域内
+         * @param screenRect 要移动到可视区域的矩形在屏幕中的位置
+         * @return           若已处理该请求则返回true，否则返回false以继续向上冒泡
+         */
+        virtual bool RequestBringIntoView(const sw::Rect &screenRect) override;
+
+        /**
+         * @brief           路由事件经过当前元素时调用该函数
+         * @param eventArgs 事件参数
+         * @param handler   事件处理函数，值为空时表示当前元素没有注册该事件处理函数
+         * @return          若已处理该事件则返回true，否则返回false以继调用处理函数
+         */
+        virtual bool OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler) override;
 
     public:
         /**

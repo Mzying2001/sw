@@ -318,6 +318,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsLayoutUpdateConditi
 void&#160;</td><td class="memItemRight" valign="bottom"><b>InvalidateMeasure</b> ()</td></tr>
 <tr class="memdesc:afea960f1d4f8148b4807d2121f32a6c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">使元素的布局状态失效，并立即触发布局更新 <br /></td></tr>
 <tr class="separator:afea960f1d4f8148b4807d2121f32a6c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ccebdf4ec68dc03c83ee0da1c45f6b4" id="r_a2ccebdf4ec68dc03c83ee0da1c45f6b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a2ccebdf4ec68dc03c83ee0da1c45f6b4">BringIntoView</a> ()</td></tr>
+<tr class="memdesc:a2ccebdf4ec68dc03c83ee0da1c45f6b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将当前元素移动到可视区域内  <br /></td></tr>
+<tr class="separator:a2ccebdf4ec68dc03c83ee0da1c45f6b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78f1c406d3faac2afcb956e9375f65ec" id="r_a78f1c406d3faac2afcb956e9375f65ec"><td class="memItemLeft" align="right" valign="top">virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a78f1c406d3faac2afcb956e9375f65ec">GetTag</a> () override</td></tr>
 <tr class="memdesc:a78f1c406d3faac2afcb956e9375f65ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取Tag  <br /></td></tr>
 <tr class="separator:a78f1c406d3faac2afcb956e9375f65ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -642,12 +645,6 @@ const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
-<tr class="memitem:a8cd17e0524115089357b146545510fe8" id="r_a8cd17e0524115089357b146545510fe8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1Size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a8cd17e0524115089357b146545510fe8">MeasureOverride</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;availableSize)</td></tr>
-<tr class="memdesc:a8cd17e0524115089357b146545510fe8"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量元素所需尺寸，无需考虑边框和边距  <br /></td></tr>
-<tr class="separator:a8cd17e0524115089357b146545510fe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3170826168869b60a1876a3598189a65" id="r_a3170826168869b60a1876a3598189a65"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a3170826168869b60a1876a3598189a65">ArrangeOverride</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;finalSize)</td></tr>
-<tr class="memdesc:a3170826168869b60a1876a3598189a65"><td class="mdescLeft">&#160;</td><td class="mdescRight">安排子元素的位置，可重写该函数以实现自定义布局  <br /></td></tr>
-<tr class="separator:a3170826168869b60a1876a3598189a65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0635558e1928f1144566a30b884303aa" id="r_a0635558e1928f1144566a30b884303aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a0635558e1928f1144566a30b884303aa">RaiseRoutedEvent</a> (RoutedEventType eventType)</td></tr>
 <tr class="memdesc:a0635558e1928f1144566a30b884303aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发路由事件  <br /></td></tr>
 <tr class="separator:a0635558e1928f1144566a30b884303aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -690,12 +687,21 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetPreviousTabStopFoc
 <tr class="memitem:a0fe818005a4ffb99890a9af0ea9f4ed3" id="r_a0fe818005a4ffb99890a9af0ea9f4ed3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a0fe818005a4ffb99890a9af0ea9f4ed3">ClampDesireSize</a> (<a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &amp;rect)</td></tr>
 <tr class="memdesc:a0fe818005a4ffb99890a9af0ea9f4ed3"><td class="mdescLeft">&#160;</td><td class="mdescRight">限定指定矩形的尺寸在最小和最大尺寸之间  <br /></td></tr>
 <tr class="separator:a0fe818005a4ffb99890a9af0ea9f4ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cd17e0524115089357b146545510fe8" id="r_a8cd17e0524115089357b146545510fe8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1Size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a8cd17e0524115089357b146545510fe8">MeasureOverride</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;availableSize)</td></tr>
+<tr class="memdesc:a8cd17e0524115089357b146545510fe8"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量元素所需尺寸，无需考虑边框和边距  <br /></td></tr>
+<tr class="separator:a8cd17e0524115089357b146545510fe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3170826168869b60a1876a3598189a65" id="r_a3170826168869b60a1876a3598189a65"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a3170826168869b60a1876a3598189a65">ArrangeOverride</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;finalSize)</td></tr>
+<tr class="memdesc:a3170826168869b60a1876a3598189a65"><td class="mdescLeft">&#160;</td><td class="mdescRight">安排子元素的位置，可重写该函数以实现自定义布局  <br /></td></tr>
+<tr class="separator:a3170826168869b60a1876a3598189a65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af60b45de9f894f4fb152491413f1fa73" id="r_af60b45de9f894f4fb152491413f1fa73"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#af60b45de9f894f4fb152491413f1fa73">SetBackColor</a> (<a class="el" href="structsw_1_1Color.html">Color</a> color, bool redraw)</td></tr>
 <tr class="memdesc:af60b45de9f894f4fb152491413f1fa73"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置背景颜色  <br /></td></tr>
 <tr class="separator:af60b45de9f894f4fb152491413f1fa73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8557638ba9975346d62f5339de55664" id="r_ab8557638ba9975346d62f5339de55664"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ab8557638ba9975346d62f5339de55664">SetTextColor</a> (<a class="el" href="structsw_1_1Color.html">Color</a> color, bool redraw)</td></tr>
 <tr class="memdesc:ab8557638ba9975346d62f5339de55664"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置文本颜色  <br /></td></tr>
 <tr class="separator:ab8557638ba9975346d62f5339de55664"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5ca4318678de46f4f265f2f98701c1e" id="r_ac5ca4318678de46f4f265f2f98701c1e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ac5ca4318678de46f4f265f2f98701c1e">RequestBringIntoView</a> (const <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &amp;screenRect)</td></tr>
+<tr class="memdesc:ac5ca4318678de46f4f265f2f98701c1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将指定的矩形区域移动到可视区域内  <br /></td></tr>
+<tr class="separator:ac5ca4318678de46f4f265f2f98701c1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3e134d807af7614e1cc812abb860762" id="r_ae3e134d807af7614e1cc812abb860762"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ae3e134d807af7614e1cc812abb860762">OnAddedChild</a> (<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;element)</td></tr>
 <tr class="memdesc:ae3e134d807af7614e1cc812abb860762"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加子元素后调用该函数  <br /></td></tr>
 <tr class="separator:ae3e134d807af7614e1cc812abb860762"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -708,6 +714,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetPreviousTabStopFoc
 <tr class="memitem:ae8a626b2927a2b0ecabfb2dd6d8b47b3" id="r_ae8a626b2927a2b0ecabfb2dd6d8b47b3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ae8a626b2927a2b0ecabfb2dd6d8b47b3">OnMinMaxSizeChanged</a> ()</td></tr>
 <tr class="memdesc:ae8a626b2927a2b0ecabfb2dd6d8b47b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">当MinWidth、MinHeight、MaxWidth或MaxHeight属性更改时调用此函数  <br /></td></tr>
 <tr class="separator:ae8a626b2927a2b0ecabfb2dd6d8b47b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98721f9d3c1069b5afc6188e22145f5d" id="r_a98721f9d3c1069b5afc6188e22145f5d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a98721f9d3c1069b5afc6188e22145f5d">OnRoutedEvent</a> (<a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> &amp;eventArgs, const <a class="el" href="classsw_1_1Delegate.html">RoutedEventHandler</a> &amp;handler)</td></tr>
+<tr class="memdesc:a98721f9d3c1069b5afc6188e22145f5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">路由事件经过当前元素时调用该函数  <br /></td></tr>
+<tr class="separator:a98721f9d3c1069b5afc6188e22145f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad685138138402ddd8a5fde67bbb85a45" id="r_ad685138138402ddd8a5fde67bbb85a45"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ad685138138402ddd8a5fde67bbb85a45">SetParent</a> (<a class="el" href="classsw_1_1WndBase.html">WndBase</a> *parent) override</td></tr>
 <tr class="memdesc:ad685138138402ddd8a5fde67bbb85a45"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置父窗口  <br /></td></tr>
 <tr class="separator:ad685138138402ddd8a5fde67bbb85a45"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1412,6 +1421,26 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
 </dl>
 
 <p>被 <a class="el" href="classsw_1_1Layer.html#a80031c421e6f3efe2e085e6991d5535c">sw::Layer</a>, <a class="el" href="classsw_1_1PanelBase.html#a352e8f17b30de80179f4869bf5951b9f">sw::PanelBase</a> , 以及 <a class="el" href="classsw_1_1TabControl.html#afe3911adf115bf45e1ef7156f56a6b9b">sw::TabControl</a> 重载.</p>
+
+</div>
+</div>
+<a id="a2ccebdf4ec68dc03c83ee0da1c45f6b4" name="a2ccebdf4ec68dc03c83ee0da1c45f6b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ccebdf4ec68dc03c83ee0da1c45f6b4">&#9670;&#160;</a></span>BringIntoView()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sw::UIElement::BringIntoView </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>尝试将当前元素移动到可视区域内 </p>
+<dl class="section note"><dt>注解</dt><dd>对于悬浮元素（Float属性为true），该函数不会起作用 </dd></dl>
 
 </div>
 </div>
@@ -2843,6 +2872,54 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
 
 </div>
 </div>
+<a id="a98721f9d3c1069b5afc6188e22145f5d" name="a98721f9d3c1069b5afc6188e22145f5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98721f9d3c1069b5afc6188e22145f5d">&#9670;&#160;</a></span>OnRoutedEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool sw::UIElement::OnRoutedEvent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> &amp;&#160;</td>
+          <td class="paramname"><em>eventArgs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsw_1_1Delegate.html">RoutedEventHandler</a> &amp;&#160;</td>
+          <td class="paramname"><em>handler</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>路由事件经过当前元素时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eventArgs</td><td>事件参数 </td></tr>
+    <tr><td class="paramname">handler</td><td>事件处理函数，值为空时表示当前元素没有注册该事件处理函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该事件则返回true，否则返回false以继调用处理函数 </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1Layer.html#a42acd68b3ac25678fb89feedb4508f9c">sw::Layer</a> , 以及 <a class="el" href="classsw_1_1PanelBase.html#ae37c8868960f5a50de13a1d13c634bd9">sw::PanelBase</a> 重载.</p>
+
+</div>
+</div>
 <a id="a6175e146290ecff80407d4c8afa1cf05" name="a6175e146290ecff80407d4c8afa1cf05"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6175e146290ecff80407d4c8afa1cf05">&#9670;&#160;</a></span>OnSetCursor()</h2>
 
@@ -3723,6 +3800,43 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>是否成功移除 </dd></dl>
+
+</div>
+</div>
+<a id="ac5ca4318678de46f4f265f2f98701c1e" name="ac5ca4318678de46f4f265f2f98701c1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5ca4318678de46f4f265f2f98701c1e">&#9670;&#160;</a></span>RequestBringIntoView()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool sw::UIElement::RequestBringIntoView </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &amp;&#160;</td>
+          <td class="paramname"><em>screenRect</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>尝试将指定的矩形区域移动到可视区域内 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">screenRect</td><td>要移动到可视区域的矩形在屏幕中的位置 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该请求则返回true，否则返回false以继续向上冒泡 </dd></dl>
+
+<p>被 <a class="el" href="classsw_1_1Layer.html#a4d935eb61b4ec814264e24f2bb820789">sw::Layer</a> , 以及 <a class="el" href="classsw_1_1PanelBase.html#a0267c958f323ec15f3cd01a79cc41727">sw::PanelBase</a> 重载.</p>
 
 </div>
 </div>
