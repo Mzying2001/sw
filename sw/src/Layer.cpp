@@ -93,7 +93,7 @@ sw::Layer::Layer()
               LayoutHost *layout = this->_GetLayout();
 
               if (layout != nullptr && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
-                  this->GetArrangeOffsetX() = -HorizontalScrollPos;
+                  this->GetInternalArrangeOffsetX() = -HorizontalScrollPos;
                   this->_MeasureAndArrangeWithoutResize();
               }
           }),
@@ -118,7 +118,7 @@ sw::Layer::Layer()
               LayoutHost *layout = this->_GetLayout();
 
               if (layout != nullptr && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
-                  this->GetArrangeOffsetY() = -VerticalScrollPos;
+                  this->GetInternalArrangeOffsetY() = -VerticalScrollPos;
                   this->_MeasureAndArrangeWithoutResize();
               }
           }),
@@ -173,8 +173,8 @@ sw::LayoutHost *sw::Layer::_GetLayout()
 
 void sw::Layer::_MeasureAndArrangeWithoutLayout()
 {
-    this->GetArrangeOffsetX() = 0;
-    this->GetArrangeOffsetY() = 0;
+    this->GetInternalArrangeOffsetX() = 0;
+    this->GetInternalArrangeOffsetY() = 0;
 
     int childCount = this->GetChildLayoutCount();
 
@@ -530,7 +530,7 @@ void sw::Layer::UpdateScrollRange()
 
             // 当尺寸改变时确保子元素位置与滚动条同步
             double pos = this->HorizontalScrollPos;
-            if (-this->GetArrangeOffsetX() > pos) {
+            if (-this->GetInternalArrangeOffsetX() > pos) {
                 this->HorizontalScrollPos = pos;
             }
 
@@ -551,7 +551,7 @@ void sw::Layer::UpdateScrollRange()
 
             // 当尺寸改变时确保子元素位置与滚动条同步
             double pos = this->VerticalScrollPos;
-            if (-this->GetArrangeOffsetY() > pos) {
+            if (-this->GetInternalArrangeOffsetY() > pos) {
                 this->VerticalScrollPos = pos;
             }
 

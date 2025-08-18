@@ -810,12 +810,12 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
     } while (element != nullptr);
 }
 
-double &sw::UIElement::GetArrangeOffsetX()
+double &sw::UIElement::GetInternalArrangeOffsetX()
 {
     return this->_arrangeOffsetX;
 }
 
-double &sw::UIElement::GetArrangeOffsetY()
+double &sw::UIElement::GetInternalArrangeOffsetY()
 {
     return this->_arrangeOffsetY;
 }
