@@ -114,7 +114,7 @@ sw::Label::Label()
               }
           })
 {
-    this->SetText(L"Label");
+    this->SetInternalText(L"Label");
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
     this->Transparent      = true;
@@ -130,7 +130,7 @@ void sw::Label::_UpdateTextSize()
     SelectObject(hdc, this->GetFontHandle());
 
     RECT rect{};
-    std::wstring &text = this->GetText();
+    std::wstring &text = this->GetInternalText();
     DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT);
 
     sw::Rect textRect = rect;
@@ -180,7 +180,7 @@ sw::Size sw::Label::MeasureOverride(const Size &availableSize)
 
             SelectObject(hdc, this->GetFontHandle());
 
-            std::wstring &text = this->GetText();
+            std::wstring &text = this->GetInternalText();
             RECT rect{0, 0, Utils::Max(0, Dip::DipToPxX(availableSize.width)), 0};
             DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT | DT_WORDBREAK);
 

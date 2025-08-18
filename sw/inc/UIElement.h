@@ -844,14 +844,16 @@ namespace sw
         void RaiseRoutedEvent(RoutedEventArgs &eventArgs);
 
         /**
-         * @brief 获取Arrange时子元素的水平偏移量
+         * @brief 获取布局时子元素的水平偏移量
+         * @note  内部使用，Layer类中通过修改该值来实现子元素的布局偏移
          */
-        double &GetArrangeOffsetX();
+        double &GetInternalArrangeOffsetX();
 
         /**
-         * @brief 获取Arrange时子元素的垂直偏移量
+         * @brief 获取布局时子元素的垂直偏移量
+         * @note  内部使用，Layer类中通过修改该值来实现子元素的布局偏移
          */
-        double &GetArrangeOffsetY();
+        double &GetInternalArrangeOffsetY();
 
         /**
          * @brief        获取所有子元素在当前元素中最右边的位置（只考虑参与布局的子窗口且忽略悬浮的元素）

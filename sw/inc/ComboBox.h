@@ -51,13 +51,13 @@ namespace sw
         /**
          * @brief  获取可编辑状态下的编辑框文本内容
          */
-        virtual std::wstring &GetText() override;
+        virtual std::wstring &GetInternalText() override;
 
         /**
          * @brief       设置Text属性时调用该函数
          * @param value 要设置的文本
          */
-        virtual void SetText(const std::wstring &value) override;
+        virtual void SetInternalText(const std::wstring &value) override;
 
         /**
          * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数

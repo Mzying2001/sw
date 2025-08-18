@@ -63,7 +63,7 @@ namespace sw
          * @brief  获取窗口文本
          * @return 编辑框的文本内容
          */
-        virtual std::wstring &GetText() override;
+        virtual std::wstring &GetInternalText() override;
 
         /**
          * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数

@@ -274,21 +274,21 @@ namespace sw
         virtual LRESULT WndProc(const ProcMsg &refMsg);
 
         /**
-         * @brief 更新_text字段
+         * @brief 同步窗口文本到内部记录的字符串
          */
-        void UpdateText();
+        void UpdateInternalText();
 
         /**
-         * @brief  获取窗口文本
-         * @return _text字段
+         * @brief 获取内部记录窗口文本的字符串引用
+         * @note  Text属性的Get方法会调用该函数，部分控件如编辑框需要重写该函数以返回正确的文本
          */
-        virtual std::wstring &GetText();
+        virtual std::wstring &GetInternalText();
 
         /**
-         * @brief       调用SetWindowTextW设置窗口文本
-         * @param value 要设置的文本
+         * @brief 修改窗口文本，该函数默认实现为调用SetWindowTextW
+         * @note  Text属性的Set方法会调用该函数，部分控件如下拉框需要重写该函数以正确设置文本
          */
-        virtual void SetText(const std::wstring &value);
+        virtual void SetInternalText(const std::wstring &value);
 
         /**
          * @brief  接收到WM_CREATE时调用该函数
