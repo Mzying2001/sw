@@ -6720,21 +6720,21 @@ namespace sw
         virtual LRESULT WndProc(const ProcMsg &refMsg);
 
         /**
-         * @brief 更新_text字段
+         * @brief 同步窗口文本到内部记录的字符串
          */
-        void UpdateText();
+        void UpdateInternalText();
 
         /**
-         * @brief  获取窗口文本
-         * @return _text字段
+         * @brief 获取内部记录窗口文本的字符串引用
+         * @note  Text属性的Get方法会调用该函数，部分控件如编辑框需要重写该函数以返回正确的文本
          */
-        virtual std::wstring &GetText();
+        virtual std::wstring &GetInternalText();
 
         /**
-         * @brief       调用SetWindowTextW设置窗口文本
-         * @param value 要设置的文本
+         * @brief 修改窗口文本，该函数默认实现为调用SetWindowTextW
+         * @note  Text属性的Set方法会调用该函数，部分控件如下拉框需要重写该函数以正确设置文本
          */
-        virtual void SetText(const std::wstring &value);
+        virtual void SetInternalText(const std::wstring &value);
 
         /**
          * @brief  接收到WM_CREATE时调用该函数
@@ -9042,14 +9042,16 @@ namespace sw
         void RaiseRoutedEvent(RoutedEventArgs &eventArgs);
 
         /**
-         * @brief 获取Arrange时子元素的水平偏移量
+         * @brief 获取布局时子元素的水平偏移量
+         * @note  内部使用，Layer类中通过修改该值来实现子元素的布局偏移
          */
-        double &GetArrangeOffsetX();
+        double &GetInternalArrangeOffsetX();
 
         /**
-         * @brief 获取Arrange时子元素的垂直偏移量
+         * @brief 获取布局时子元素的垂直偏移量
+         * @note  内部使用，Layer类中通过修改该值来实现子元素的布局偏移
          */
-        double &GetArrangeOffsetY();
+        double &GetInternalArrangeOffsetY();
 
         /**
          * @brief        获取所有子元素在当前元素中最右边的位置（只考虑参与布局的子窗口且忽略悬浮的元素）
@@ -11128,7 +11130,7 @@ namespace sw
          * @brief  获取窗口文本
          * @return 编辑框的文本内容
          */
-        virtual std::wstring &GetText() override;
+        virtual std::wstring &GetInternalText() override;
 
         /**
          * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
@@ -11751,13 +11753,13 @@ namespace sw
         /**
          * @brief  获取可编辑状态下的编辑框文本内容
          */
-        virtual std::wstring &GetText() override;
+        virtual std::wstring &GetInternalText() override;
 
         /**
          * @brief       设置Text属性时调用该函数
          * @param value 要设置的文本
          */
-        virtual void SetText(const std::wstring &value) override;
+        virtual void SetInternalText(const std::wstring &value) override;
 
         /**
          * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数

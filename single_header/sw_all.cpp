@@ -657,7 +657,7 @@ sw::ComboBox::ComboBox()
               if (this->IsEditable != value) {
                   this->SetStyle(value ? _ComboBoxStyle_Editable : _ComboBoxStyle_Default);
                   this->ResetHandle();
-                  this->SetText(this->WndBase::GetText()); // 使切换后文本框内容能够保留
+                  this->SetInternalText(this->WndBase::GetInternalText()); // 使切换后文本框内容能够保留
               }
           })
 {
@@ -687,27 +687,27 @@ std::wstring sw::ComboBox::GetSelectedItem()
     return this->GetItemAt(this->GetSelectedIndex());
 }
 
-std::wstring &sw::ComboBox::GetText()
+std::wstring &sw::ComboBox::GetInternalText()
 {
     if (this->_isTextChanged) {
-        this->UpdateText();
+        this->UpdateInternalText();
         this->_isTextChanged = false;
     }
-    return this->WndBase::GetText();
+    return this->WndBase::GetInternalText();
 }
 
-void sw::ComboBox::SetText(const std::wstring &value)
+void sw::ComboBox::SetInternalText(const std::wstring &value)
 {
-    // 当组合框可编辑时，直接调用WndBase::SetText以更新文本框
+    // 当组合框可编辑时，直接调用WndBase::SetInternalText以更新文本框
     // 不可编辑时，直接修改_text字段（WndBase中定义，用于保存窗体文本）
     // 修改IsEditable属性后会重新创建句柄，会直接将_text字段设为新的文本
     // 这里直接修改_text以实现在IsEditable为false时修改的Text能够在IsEditable更改为true时文本框内容能正确显示
 
     if (this->IsEditable) {
-        this->WndBase::SetText(value);
+        this->WndBase::SetInternalText(value);
     } else {
-        this->WndBase::GetText() = value;
-        this->_isTextChanged     = false;
+        this->WndBase::GetInternalText() = value;
+        this->_isTextChanged             = false;
     }
 }
 
@@ -731,8 +731,8 @@ void sw::ComboBox::OnCommand(int code)
 
 void sw::ComboBox::OnSelectionChanged()
 {
-    this->_isTextChanged     = false;
-    this->WndBase::GetText() = this->GetSelectedItem();
+    this->_isTextChanged             = false;
+    this->WndBase::GetInternalText() = this->GetSelectedItem();
 
     this->ItemsControl::OnSelectionChanged();
 }
@@ -747,15 +747,13 @@ std::wstring sw::ComboBox::GetItemAt(int index)
     int len = (int)this->SendMessageW(CB_GETLBTEXTLEN, index, 0);
 
     if (len <= 0) {
-        return L"";
+        return std::wstring{};
     }
 
-    wchar_t *buf = new wchar_t[len + 1];
-    this->SendMessageW(CB_GETLBTEXT, index, reinterpret_cast<LPARAM>(buf));
-
-    std::wstring result = buf;
-
-    delete[] buf;
+    std::wstring result;
+    result.resize(len + 1);
+    this->SendMessageW(CB_GETLBTEXT, index, reinterpret_cast<LPARAM>(&result[0]));
+    result.resize(len);
     return result;
 }
 
@@ -878,7 +876,7 @@ void sw::Control::ResetHandle(LPVOID lpParam)
 void sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
 {
     RECT rect = this->Rect.Get();
-    auto text = this->GetText().c_str();
+    auto text = this->GetInternalText().c_str();
 
     HWND oldHwnd = this->_hwnd;
     HWND hParent = GetParent(oldHwnd);
@@ -1001,7 +999,9 @@ bool sw::Control::OnPostPaint(HDC hdc, LRESULT &result)
 
 void sw::Control::OnDrawFocusRect(HDC hdc)
 {
-    RECT rect = this->ClientRect.Get();
+    // RECT rect = this->ClientRect;
+    RECT rect;
+    GetClientRect(this->_hwnd, &rect);
     DrawFocusRect(hdc, &rect);
 }
 
@@ -2818,7 +2818,10 @@ void sw::GroupBox::OnDrawBorder(HDC hdc, RECT &rect)
             rtHeader.bottom - _GroupBoxHeaderPadding};
 
         FillRect(hdc, &rtHeader, hBrush);
-        DrawTextW(hdc, GetText().c_str(), (int)GetText().size(), &rtHeaderText, DT_SINGLELINE);
+
+        std::wstring &text = GetInternalText();
+        DrawTextW(hdc, text.c_str(), (int)text.size(), &rtHeaderText, DT_SINGLELINE);
+
         DeleteObject(hBrush);
     }
 
@@ -2865,7 +2868,7 @@ void sw::GroupBox::_UpdateTextSize()
     SelectObject(hdc, GetFontHandle());
 
     RECT rect{};
-    std::wstring &text = GetText();
+    std::wstring &text = GetInternalText();
     DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_SINGLELINE | DT_CALCRECT);
 
     _textSize = {rect.right - rect.left, rect.bottom - rect.top};
@@ -2987,7 +2990,7 @@ void sw::HwndWrapper::InitHwndWrapper()
     GetWindowRect(this->_hwnd, &rect);
     this->_rect = rect;
 
-    this->UpdateText();
+    this->UpdateInternalText();
     this->HandleInitialized(this->_hwnd);
     this->UpdateFont();
 
@@ -3616,7 +3619,7 @@ sw::Label::Label()
               }
           })
 {
-    this->SetText(L"Label");
+    this->SetInternalText(L"Label");
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
     this->Transparent      = true;
@@ -3632,7 +3635,7 @@ void sw::Label::_UpdateTextSize()
     SelectObject(hdc, this->GetFontHandle());
 
     RECT rect{};
-    std::wstring &text = this->GetText();
+    std::wstring &text = this->GetInternalText();
     DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT);
 
     sw::Rect textRect = rect;
@@ -3682,7 +3685,7 @@ sw::Size sw::Label::MeasureOverride(const Size &availableSize)
 
             SelectObject(hdc, this->GetFontHandle());
 
-            std::wstring &text = this->GetText();
+            std::wstring &text = this->GetInternalText();
             RECT rect{0, 0, Utils::Max(0, Dip::DipToPxX(availableSize.width)), 0};
             DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT | DT_WORDBREAK);
 
@@ -3788,7 +3791,7 @@ sw::Layer::Layer()
               LayoutHost *layout = this->_GetLayout();
 
               if (layout != nullptr && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
-                  this->GetArrangeOffsetX() = -HorizontalScrollPos;
+                  this->GetInternalArrangeOffsetX() = -HorizontalScrollPos;
                   this->_MeasureAndArrangeWithoutResize();
               }
           }),
@@ -3813,7 +3816,7 @@ sw::Layer::Layer()
               LayoutHost *layout = this->_GetLayout();
 
               if (layout != nullptr && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
-                  this->GetArrangeOffsetY() = -VerticalScrollPos;
+                  this->GetInternalArrangeOffsetY() = -VerticalScrollPos;
                   this->_MeasureAndArrangeWithoutResize();
               }
           }),
@@ -3868,8 +3871,8 @@ sw::LayoutHost *sw::Layer::_GetLayout()
 
 void sw::Layer::_MeasureAndArrangeWithoutLayout()
 {
-    this->GetArrangeOffsetX() = 0;
-    this->GetArrangeOffsetY() = 0;
+    this->GetInternalArrangeOffsetX() = 0;
+    this->GetInternalArrangeOffsetY() = 0;
 
     int childCount = this->GetChildLayoutCount();
 
@@ -4225,7 +4228,7 @@ void sw::Layer::UpdateScrollRange()
 
             // 当尺寸改变时确保子元素位置与滚动条同步
             double pos = this->HorizontalScrollPos;
-            if (-this->GetArrangeOffsetX() > pos) {
+            if (-this->GetInternalArrangeOffsetX() > pos) {
                 this->HorizontalScrollPos = pos;
             }
 
@@ -4246,7 +4249,7 @@ void sw::Layer::UpdateScrollRange()
 
             // 当尺寸改变时确保子元素位置与滚动条同步
             double pos = this->VerticalScrollPos;
-            if (-this->GetArrangeOffsetY() > pos) {
+            if (-this->GetInternalArrangeOffsetY() > pos) {
                 this->VerticalScrollPos = pos;
             }
 
@@ -5949,6 +5952,11 @@ void sw::Panel::OnDrawBorder(HDC hdc, RECT &rect)
 
 void sw::Panel::OnDrawPadding(HDC hdc, RECT &rect)
 {
+    if (this->_padding.left == 0 && this->_padding.top == 0 &&
+        this->_padding.right == 0 && this->_padding.bottom == 0) {
+        return;
+    }
+
     RECT rtPaddingOuter  = rect;
     RECT &rtPaddingInner = rect;
 
@@ -7337,13 +7345,13 @@ void sw::TextBoxBase::InitTextBoxBase(DWORD dwStyle, DWORD dwExStyle)
     this->InitControl(L"EDIT", L"", dwStyle, dwExStyle);
 }
 
-std::wstring &sw::TextBoxBase::GetText()
+std::wstring &sw::TextBoxBase::GetInternalText()
 {
     if (this->_isTextChanged) {
-        this->UpdateText();
+        this->UpdateInternalText();
         this->_isTextChanged = false;
     }
-    return this->WndBase::GetText();
+    return this->WndBase::GetInternalText();
 }
 
 void sw::TextBoxBase::OnCommand(int code)
@@ -8434,12 +8442,12 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
     } while (element != nullptr);
 }
 
-double &sw::UIElement::GetArrangeOffsetX()
+double &sw::UIElement::GetInternalArrangeOffsetX()
 {
     return this->_arrangeOffsetX;
 }
 
-double &sw::UIElement::GetArrangeOffsetY()
+double &sw::UIElement::GetInternalArrangeOffsetY()
 {
     return this->_arrangeOffsetY;
 }
@@ -9943,11 +9951,11 @@ sw::WndBase::WndBase()
       Text(
           // get
           [this]() -> std::wstring {
-              return this->GetText();
+              return this->GetInternalText();
           },
           // set
           [this](const std::wstring &value) {
-              this->SetText(value);
+              this->SetInternalText(value);
           }),
 
       Focused(
@@ -10448,7 +10456,7 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
     }
 }
 
-void sw::WndBase::UpdateText()
+void sw::WndBase::UpdateInternalText()
 {
     int len = GetWindowTextLengthW(this->_hwnd);
 
@@ -10467,12 +10475,12 @@ void sw::WndBase::UpdateText()
     this->_text.resize(len);
 }
 
-std::wstring &sw::WndBase::GetText()
+std::wstring &sw::WndBase::GetInternalText()
 {
     return this->_text;
 }
 
-void sw::WndBase::SetText(const std::wstring &value)
+void sw::WndBase::SetInternalText(const std::wstring &value)
 {
     SetWindowTextW(this->_hwnd, value.c_str());
 }
