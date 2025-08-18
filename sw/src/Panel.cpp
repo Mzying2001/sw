@@ -145,6 +145,11 @@ void sw::Panel::OnDrawBorder(HDC hdc, RECT &rect)
 
 void sw::Panel::OnDrawPadding(HDC hdc, RECT &rect)
 {
+    if (this->_padding.left == 0 && this->_padding.top == 0 &&
+        this->_padding.right == 0 && this->_padding.bottom == 0) {
+        return;
+    }
+
     RECT rtPaddingOuter  = rect;
     RECT &rtPaddingInner = rect;
 
