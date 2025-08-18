@@ -107,15 +107,13 @@ std::wstring sw::ComboBox::GetItemAt(int index)
     int len = (int)this->SendMessageW(CB_GETLBTEXTLEN, index, 0);
 
     if (len <= 0) {
-        return L"";
+        return std::wstring{};
     }
 
-    wchar_t *buf = new wchar_t[len + 1];
-    this->SendMessageW(CB_GETLBTEXT, index, reinterpret_cast<LPARAM>(buf));
-
-    std::wstring result = buf;
-
-    delete[] buf;
+    std::wstring result;
+    result.resize(len + 1);
+    this->SendMessageW(CB_GETLBTEXT, index, reinterpret_cast<LPARAM>(&result[0]));
+    result.resize(len);
     return result;
 }
 
