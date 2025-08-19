@@ -11,6 +11,8 @@ namespace sw
 {
     struct RoutedEventArgs; // RoutedEvent.h
 
+    // clang-format off
+
     /**
      * @brief       表示特定类型路由事件的事件参数类型，继承自该类的类型可以直接作为RegisterRoutedEvent函数的模板参数
      * @tparam TYPE 一个RoutedEventType枚举值，表示路由事件类型
@@ -243,4 +245,6 @@ namespace sw
         HotKeyModifier modifier; // 辅助按键
         HotKeyValueChangedEventArgs(VirtualKey key, HotKeyModifier modifier) : key(key), modifier(modifier) {}
     };
+
+    // clang-format on
 }
