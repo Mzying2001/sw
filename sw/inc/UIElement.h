@@ -775,10 +775,11 @@ namespace sw
         void InvalidateMeasure();
 
         /**
-         * @brief 尝试将当前元素移动到可视区域内
-         * @note  对于悬浮元素（Float属性为true），该函数不会起作用
+         * @brief  尝试将当前元素移动到可视区域内
+         * @return 若函数成功则返回true，否则返回false
+         * @note   对于悬浮元素（Float属性为true）始终返回false
          */
-        void BringIntoView();
+        bool BringIntoView();
 
         /**
          * @brief 获取Tag

@@ -598,10 +598,10 @@ void sw::UIElement::InvalidateMeasure()
     root->SendMessageW(WM_UpdateLayout, 0, 0);
 }
 
-void sw::UIElement::BringIntoView()
+bool sw::UIElement::BringIntoView()
 {
     UIElement *p = this->_parent;
-    if (this->_float || p == nullptr) return;
+    if (this->_float || p == nullptr) return false;
 
     sw::Rect rect = this->Rect;
     sw::Point pos = p->PointToScreen(rect.GetPos());
@@ -611,13 +611,13 @@ void sw::UIElement::BringIntoView()
     rect.width += this->_margin.left + this->_margin.right;
     rect.height += this->_margin.top + this->_margin.bottom;
 
-    while (p != nullptr) {
+    for (; p != nullptr; p = p->_parent) {
         rect.left -= p->_arrangeOffsetX;
         rect.top -= p->_arrangeOffsetY;
-        if (p->RequestBringIntoView(rect))
-            break;
-        p = p->_parent;
+        if (p->RequestBringIntoView(rect)) return true;
+        if (p->_float) return false;
     }
+    return false;
 }
 
 uint64_t sw::UIElement::GetTag()
