@@ -239,6 +239,11 @@ sw::UIElement::~UIElement()
 {
     // 将自己从父窗口的children中移除
     this->SetParent(nullptr);
+
+    // 释放资源
+    if (this->_hCtlColorBrush != NULL) {
+        DeleteObject(this->_hCtlColorBrush);
+    }
 }
 
 void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEventHandler &handler)
@@ -1229,19 +1234,20 @@ void sw::UIElement::OnMenuCommand(int id)
 
 bool sw::UIElement::OnColor(HDC hdc, HBRUSH &hRetBrush)
 {
-    static HBRUSH hBrush = NULL;
-    COLORREF textColor   = this->GetRealTextColor();
-    COLORREF backColor   = this->GetRealBackColor();
+    COLORREF textColor = this->GetRealTextColor();
+    COLORREF backColor = this->GetRealBackColor();
 
     ::SetTextColor(hdc, textColor);
     ::SetBkColor(hdc, backColor);
 
-    if (hBrush != NULL) {
-        DeleteObject(hBrush);
+    if (this->_hCtlColorBrush != NULL) {
+        DeleteObject(this->_hCtlColorBrush);
     }
 
-    hBrush    = CreateSolidBrush(backColor);
-    hRetBrush = hBrush;
+    this->_hCtlColorBrush =
+        CreateSolidBrush(backColor);
+
+    hRetBrush = this->_hCtlColorBrush;
     return true;
 }
 

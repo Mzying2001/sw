@@ -231,6 +231,11 @@ namespace sw
          */
         HDWP _hdwpChildren = NULL;
 
+        /**
+         * @brief OnColor函数中使用的背景画刷句柄
+         */
+        HBRUSH _hCtlColorBrush = NULL;
+
     public:
         /**
          * @brief 边距
