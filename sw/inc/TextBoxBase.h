@@ -41,13 +41,12 @@ namespace sw
          */
         const Property<bool> AcceptTab;
 
-    protected:
+    public:
         /**
          * @brief 初始化TextBoxBase
          */
         TextBoxBase();
 
-    public:
         /**
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
          */

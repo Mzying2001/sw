@@ -156,5 +156,5 @@ bool sw::TextBoxBase::Undo()
 
 void sw::TextBoxBase::Clear()
 {
-    this->Text = L"";
+    this->Text = std::wstring{};
 }
