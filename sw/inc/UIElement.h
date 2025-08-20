@@ -236,6 +236,16 @@ namespace sw
          */
         HBRUSH _hCtlColorBrush = NULL;
 
+        /**
+         * @brief 记录上一次调用OnColor时的文本颜色
+         */
+        COLORREF _lastTextColor = 0;
+
+        /**
+         * @brief 记录上一次调用OnColor时的背景颜色
+         */
+        COLORREF _lastBackColor = 0;
+
     public:
         /**
          * @brief 边距

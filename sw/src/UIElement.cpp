@@ -1240,12 +1240,17 @@ bool sw::UIElement::OnColor(HDC hdc, HBRUSH &hRetBrush)
     ::SetTextColor(hdc, textColor);
     ::SetBkColor(hdc, backColor);
 
-    if (this->_hCtlColorBrush != NULL) {
-        DeleteObject(this->_hCtlColorBrush);
+    if (this->_lastTextColor != textColor ||
+        this->_lastBackColor != backColor) {
+        if (this->_hCtlColorBrush != NULL)
+            DeleteObject(this->_hCtlColorBrush);
+        this->_hCtlColorBrush = NULL;
+        this->_lastTextColor  = textColor;
+        this->_lastBackColor  = backColor;
     }
 
-    this->_hCtlColorBrush =
-        CreateSolidBrush(backColor);
+    if (this->_hCtlColorBrush == NULL)
+        this->_hCtlColorBrush = CreateSolidBrush(backColor);
 
     hRetBrush = this->_hCtlColorBrush;
     return true;
