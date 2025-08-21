@@ -3609,44 +3609,19 @@ sw::Label::Label()
           },
           // set
           [this](const bool &value) {
-              if (value) {
-                  this->_autoSize = true;
-                  this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
+              if (this->_autoSize != value) {
+                  this->_autoSize = value;
+                  this->_UpdateLayoutFlags();
                   this->InvalidateMeasure();
-              } else {
-                  this->_autoSize = false;
-                  this->LayoutUpdateCondition &= ~(sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged);
               }
           })
 {
     this->SetInternalText(L"Label");
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
+    this->_UpdateLayoutFlags();
     this->Transparent      = true;
     this->InheritTextColor = true;
-    this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
-}
-
-void sw::Label::_UpdateTextSize()
-{
-    HWND hwnd = this->Handle;
-    HDC hdc   = GetDC(hwnd);
-
-    SelectObject(hdc, this->GetFontHandle());
-
-    RECT rect{};
-    std::wstring &text = this->GetInternalText();
-    DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT);
-
-    sw::Rect textRect = rect;
-    this->_textSize   = Size(textRect.width, textRect.height);
-
-    ReleaseDC(hwnd, hdc);
-}
-
-void sw::Label::_ResizeToTextSize()
-{
-    this->Resize(this->_textSize);
 }
 
 bool sw::Label::OnSize(Size newClientSize)
@@ -3674,15 +3649,13 @@ sw::Size sw::Label::MeasureOverride(const Size &availableSize)
     }
 
     Size desireSize = this->_textSize;
+
     if (availableSize.width < desireSize.width) {
-
-        if (this->TextTrimming.Get() != sw::TextTrimming::None) {
+        if (this->TextTrimming != sw::TextTrimming::None) {
             desireSize.width = availableSize.width;
-
         } else if (this->AutoWrap) {
             HWND hwnd = this->Handle;
             HDC hdc   = GetDC(hwnd);
-
             SelectObject(hdc, this->GetFontHandle());
 
             std::wstring &text = this->GetInternalText();
@@ -3695,6 +3668,38 @@ sw::Size sw::Label::MeasureOverride(const Size &availableSize)
         }
     }
     return desireSize;
+}
+
+void sw::Label::_UpdateTextSize()
+{
+    HWND hwnd = this->Handle;
+    HDC hdc   = GetDC(hwnd);
+    SelectObject(hdc, this->GetFontHandle());
+
+    RECT rect{};
+    std::wstring &text = this->GetInternalText();
+    DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT);
+
+    this->_textSize = sw::Rect(rect).GetSize();
+    ReleaseDC(hwnd, hdc);
+}
+
+void sw::Label::_ResizeToTextSize()
+{
+    this->Resize(this->_textSize);
+}
+
+void sw::Label::_UpdateLayoutFlags()
+{
+    constexpr auto flags =
+        sw::LayoutUpdateCondition::TextChanged |
+        sw::LayoutUpdateCondition::FontChanged;
+
+    if (this->_autoSize) {
+        this->LayoutUpdateCondition |= flags;
+    } else {
+        this->LayoutUpdateCondition &= ~flags;
+    }
 }
 
 // Layer.cpp
@@ -7422,7 +7427,7 @@ bool sw::TextBoxBase::Undo()
 
 void sw::TextBoxBase::Clear()
 {
-    this->Text = L"";
+    this->Text = std::wstring{};
 }
 
 // Thickness.cpp
@@ -7871,6 +7876,11 @@ sw::UIElement::~UIElement()
 {
     // 将自己从父窗口的children中移除
     this->SetParent(nullptr);
+
+    // 释放资源
+    if (this->_hCtlColorBrush != NULL) {
+        DeleteObject(this->_hCtlColorBrush);
+    }
 }
 
 void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEventHandler &handler)
@@ -8230,10 +8240,10 @@ void sw::UIElement::InvalidateMeasure()
     root->SendMessageW(WM_UpdateLayout, 0, 0);
 }
 
-void sw::UIElement::BringIntoView()
+bool sw::UIElement::BringIntoView()
 {
     UIElement *p = this->_parent;
-    if (this->_float || p == nullptr) return;
+    if (this->_float || p == nullptr) return false;
 
     sw::Rect rect = this->Rect;
     sw::Point pos = p->PointToScreen(rect.GetPos());
@@ -8243,13 +8253,13 @@ void sw::UIElement::BringIntoView()
     rect.width += this->_margin.left + this->_margin.right;
     rect.height += this->_margin.top + this->_margin.bottom;
 
-    while (p != nullptr) {
+    for (; p != nullptr; p = p->_parent) {
         rect.left -= p->_arrangeOffsetX;
         rect.top -= p->_arrangeOffsetY;
-        if (p->RequestBringIntoView(rect))
-            break;
-        p = p->_parent;
+        if (p->RequestBringIntoView(rect)) return true;
+        if (p->_float) return false;
     }
+    return false;
 }
 
 uint64_t sw::UIElement::GetTag()
@@ -8861,19 +8871,25 @@ void sw::UIElement::OnMenuCommand(int id)
 
 bool sw::UIElement::OnColor(HDC hdc, HBRUSH &hRetBrush)
 {
-    static HBRUSH hBrush = NULL;
-    COLORREF textColor   = this->GetRealTextColor();
-    COLORREF backColor   = this->GetRealBackColor();
+    COLORREF textColor = this->GetRealTextColor();
+    COLORREF backColor = this->GetRealBackColor();
 
     ::SetTextColor(hdc, textColor);
     ::SetBkColor(hdc, backColor);
 
-    if (hBrush != NULL) {
-        DeleteObject(hBrush);
+    if (this->_lastTextColor != textColor ||
+        this->_lastBackColor != backColor) {
+        if (this->_hCtlColorBrush != NULL)
+            DeleteObject(this->_hCtlColorBrush);
+        this->_hCtlColorBrush = NULL;
+        this->_lastTextColor  = textColor;
+        this->_lastBackColor  = backColor;
     }
 
-    hBrush    = CreateSolidBrush(backColor);
-    hRetBrush = hBrush;
+    if (this->_hCtlColorBrush == NULL)
+        this->_hCtlColorBrush = CreateSolidBrush(backColor);
+
+    hRetBrush = this->_hCtlColorBrush;
     return true;
 }
 
