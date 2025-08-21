@@ -24,22 +24,19 @@ sw::SysLink::SysLink()
           },
           // set
           [this](const bool &value) {
-              if (value) {
-                  this->_autoSize = true;
-                  this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
+              if (this->_autoSize != value) {
+                  this->_autoSize = value;
+                  this->_UpdateLayoutFlags();
                   this->InvalidateMeasure();
-              } else {
-                  this->_autoSize = false;
-                  this->LayoutUpdateCondition &= ~(sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged);
               }
           })
 {
     this->InitControl(WC_LINK, L"<a>SysLink</a>", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_TABSTOP, 0);
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
+    this->_UpdateLayoutFlags();
     this->Transparent      = true;
     this->InheritTextColor = true;
-    this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
 }
 
 void sw::SysLink::OnTextChanged()
@@ -103,4 +100,17 @@ void sw::SysLink::_UpdateTextSize()
 void sw::SysLink::_ResizeToTextSize()
 {
     this->Resize(this->_textSize);
+}
+
+void sw::SysLink::_UpdateLayoutFlags()
+{
+    constexpr auto flags =
+        sw::LayoutUpdateCondition::TextChanged |
+        sw::LayoutUpdateCondition::FontChanged;
+
+    if (this->_autoSize) {
+        this->LayoutUpdateCondition |= flags;
+    } else {
+        this->LayoutUpdateCondition &= ~flags;
+    }
 }

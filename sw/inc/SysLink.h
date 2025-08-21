@@ -81,5 +81,10 @@ namespace sw
          * @brief 调整尺寸为_textSize
          */
         void _ResizeToTextSize();
+
+        /**
+         * @brief 更新LayoutUpdateCondition属性
+         */
+        void _UpdateLayoutFlags();
     };
 }
