@@ -104,44 +104,19 @@ sw::Label::Label()
           },
           // set
           [this](const bool &value) {
-              if (value) {
-                  this->_autoSize = true;
-                  this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
+              if (this->_autoSize != value) {
+                  this->_autoSize = value;
+                  this->_UpdateLayoutFlags();
                   this->InvalidateMeasure();
-              } else {
-                  this->_autoSize = false;
-                  this->LayoutUpdateCondition &= ~(sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged);
               }
           })
 {
     this->SetInternalText(L"Label");
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
+    this->_UpdateLayoutFlags();
     this->Transparent      = true;
     this->InheritTextColor = true;
-    this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
-}
-
-void sw::Label::_UpdateTextSize()
-{
-    HWND hwnd = this->Handle;
-    HDC hdc   = GetDC(hwnd);
-
-    SelectObject(hdc, this->GetFontHandle());
-
-    RECT rect{};
-    std::wstring &text = this->GetInternalText();
-    DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT);
-
-    sw::Rect textRect = rect;
-    this->_textSize   = Size(textRect.width, textRect.height);
-
-    ReleaseDC(hwnd, hdc);
-}
-
-void sw::Label::_ResizeToTextSize()
-{
-    this->Resize(this->_textSize);
 }
 
 bool sw::Label::OnSize(Size newClientSize)
@@ -169,15 +144,13 @@ sw::Size sw::Label::MeasureOverride(const Size &availableSize)
     }
 
     Size desireSize = this->_textSize;
+
     if (availableSize.width < desireSize.width) {
-
-        if (this->TextTrimming.Get() != sw::TextTrimming::None) {
+        if (this->TextTrimming != sw::TextTrimming::None) {
             desireSize.width = availableSize.width;
-
         } else if (this->AutoWrap) {
             HWND hwnd = this->Handle;
             HDC hdc   = GetDC(hwnd);
-
             SelectObject(hdc, this->GetFontHandle());
 
             std::wstring &text = this->GetInternalText();
@@ -190,4 +163,36 @@ sw::Size sw::Label::MeasureOverride(const Size &availableSize)
         }
     }
     return desireSize;
+}
+
+void sw::Label::_UpdateTextSize()
+{
+    HWND hwnd = this->Handle;
+    HDC hdc   = GetDC(hwnd);
+    SelectObject(hdc, this->GetFontHandle());
+
+    RECT rect{};
+    std::wstring &text = this->GetInternalText();
+    DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_CALCRECT);
+
+    this->_textSize = sw::Rect(rect).GetSize();
+    ReleaseDC(hwnd, hdc);
+}
+
+void sw::Label::_ResizeToTextSize()
+{
+    this->Resize(this->_textSize);
+}
+
+void sw::Label::_UpdateLayoutFlags()
+{
+    constexpr auto flags =
+        sw::LayoutUpdateCondition::TextChanged |
+        sw::LayoutUpdateCondition::FontChanged;
+
+    if (this->_autoSize) {
+        this->LayoutUpdateCondition |= flags;
+    } else {
+        this->LayoutUpdateCondition &= ~flags;
+    }
 }
