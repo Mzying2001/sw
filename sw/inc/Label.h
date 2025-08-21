@@ -61,17 +61,6 @@ namespace sw
          */
         Label();
 
-    private:
-        /**
-         * @brief 更新_textSize
-         */
-        void _UpdateTextSize();
-
-        /**
-         * @brief 调整尺寸为_textSize
-         */
-        void _ResizeToTextSize();
-
     protected:
         /**
          * @brief               接收到WM_SIZE时调用该函数
@@ -97,5 +86,21 @@ namespace sw
          * @return              返回元素需要占用的尺寸
          */
         virtual Size MeasureOverride(const Size &availableSize) override;
+
+    private:
+        /**
+         * @brief 更新_textSize
+         */
+        void _UpdateTextSize();
+
+        /**
+         * @brief 调整尺寸为_textSize
+         */
+        void _ResizeToTextSize();
+
+        /**
+         * @brief 更新LayoutUpdateCondition属性
+         */
+        void _UpdateLayoutFlags();
     };
 }

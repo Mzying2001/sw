@@ -239,6 +239,11 @@ sw::UIElement::~UIElement()
 {
     // 将自己从父窗口的children中移除
     this->SetParent(nullptr);
+
+    // 释放资源
+    if (this->_hCtlColorBrush != NULL) {
+        DeleteObject(this->_hCtlColorBrush);
+    }
 }
 
 void sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEventHandler &handler)
@@ -598,10 +603,10 @@ void sw::UIElement::InvalidateMeasure()
     root->SendMessageW(WM_UpdateLayout, 0, 0);
 }
 
-void sw::UIElement::BringIntoView()
+bool sw::UIElement::BringIntoView()
 {
     UIElement *p = this->_parent;
-    if (this->_float || p == nullptr) return;
+    if (this->_float || p == nullptr) return false;
 
     sw::Rect rect = this->Rect;
     sw::Point pos = p->PointToScreen(rect.GetPos());
@@ -611,13 +616,13 @@ void sw::UIElement::BringIntoView()
     rect.width += this->_margin.left + this->_margin.right;
     rect.height += this->_margin.top + this->_margin.bottom;
 
-    while (p != nullptr) {
+    for (; p != nullptr; p = p->_parent) {
         rect.left -= p->_arrangeOffsetX;
         rect.top -= p->_arrangeOffsetY;
-        if (p->RequestBringIntoView(rect))
-            break;
-        p = p->_parent;
+        if (p->RequestBringIntoView(rect)) return true;
+        if (p->_float) return false;
     }
+    return false;
 }
 
 uint64_t sw::UIElement::GetTag()
@@ -1229,19 +1234,25 @@ void sw::UIElement::OnMenuCommand(int id)
 
 bool sw::UIElement::OnColor(HDC hdc, HBRUSH &hRetBrush)
 {
-    static HBRUSH hBrush = NULL;
-    COLORREF textColor   = this->GetRealTextColor();
-    COLORREF backColor   = this->GetRealBackColor();
+    COLORREF textColor = this->GetRealTextColor();
+    COLORREF backColor = this->GetRealBackColor();
 
     ::SetTextColor(hdc, textColor);
     ::SetBkColor(hdc, backColor);
 
-    if (hBrush != NULL) {
-        DeleteObject(hBrush);
+    if (this->_lastTextColor != textColor ||
+        this->_lastBackColor != backColor) {
+        if (this->_hCtlColorBrush != NULL)
+            DeleteObject(this->_hCtlColorBrush);
+        this->_hCtlColorBrush = NULL;
+        this->_lastTextColor  = textColor;
+        this->_lastBackColor  = backColor;
     }
 
-    hBrush    = CreateSolidBrush(backColor);
-    hRetBrush = hBrush;
+    if (this->_hCtlColorBrush == NULL)
+        this->_hCtlColorBrush = CreateSolidBrush(backColor);
+
+    hRetBrush = this->_hCtlColorBrush;
     return true;
 }
 
