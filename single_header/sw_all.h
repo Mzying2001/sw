@@ -5118,6 +5118,8 @@ namespace sw
 {
     struct RoutedEventArgs; // RoutedEvent.h
 
+    // clang-format off
+
     /**
      * @brief       表示特定类型路由事件的事件参数类型，继承自该类的类型可以直接作为RegisterRoutedEvent函数的模板参数
      * @tparam TYPE 一个RoutedEventType枚举值，表示路由事件类型
@@ -5350,6 +5352,8 @@ namespace sw
         HotKeyModifier modifier; // 辅助按键
         HotKeyValueChangedEventArgs(VirtualKey key, HotKeyModifier modifier) : key(key), modifier(modifier) {}
     };
+
+    // clang-format on
 }
 
 // Screen.h
@@ -8429,6 +8433,21 @@ namespace sw
          */
         HDWP _hdwpChildren = NULL;
 
+        /**
+         * @brief OnColor函数中使用的背景画刷句柄
+         */
+        HBRUSH _hCtlColorBrush = NULL;
+
+        /**
+         * @brief 记录上一次调用OnColor时的文本颜色
+         */
+        COLORREF _lastTextColor = 0;
+
+        /**
+         * @brief 记录上一次调用OnColor时的背景颜色
+         */
+        COLORREF _lastBackColor = 0;
+
     public:
         /**
          * @brief 边距
@@ -8973,10 +8992,11 @@ namespace sw
         void InvalidateMeasure();
 
         /**
-         * @brief 尝试将当前元素移动到可视区域内
-         * @note  对于悬浮元素（Float属性为true），该函数不会起作用
+         * @brief  尝试将当前元素移动到可视区域内
+         * @return 若函数成功则返回true，否则返回false
+         * @note   对于悬浮元素（Float属性为true）始终返回false
          */
-        void BringIntoView();
+        bool BringIntoView();
 
         /**
          * @brief 获取Tag
@@ -11108,13 +11128,12 @@ namespace sw
          */
         const Property<bool> AcceptTab;
 
-    protected:
+    public:
         /**
          * @brief 初始化TextBoxBase
          */
         TextBoxBase();
 
-    public:
         /**
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
          */
@@ -12684,17 +12703,6 @@ namespace sw
          */
         Label();
 
-    private:
-        /**
-         * @brief 更新_textSize
-         */
-        void _UpdateTextSize();
-
-        /**
-         * @brief 调整尺寸为_textSize
-         */
-        void _ResizeToTextSize();
-
     protected:
         /**
          * @brief               接收到WM_SIZE时调用该函数
@@ -12720,6 +12728,22 @@ namespace sw
          * @return              返回元素需要占用的尺寸
          */
         virtual Size MeasureOverride(const Size &availableSize) override;
+
+    private:
+        /**
+         * @brief 更新_textSize
+         */
+        void _UpdateTextSize();
+
+        /**
+         * @brief 调整尺寸为_textSize
+         */
+        void _ResizeToTextSize();
+
+        /**
+         * @brief 更新LayoutUpdateCondition属性
+         */
+        void _UpdateLayoutFlags();
     };
 }
 
