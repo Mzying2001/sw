@@ -10,7 +10,7 @@ var searchData=
   ['borderless_7',['Borderless',['../classsw_1_1Window.html#a21dd383eef41be091277a356820e0608',1,'sw::Window']]],
   ['borderstyle_8',['BorderStyle',['../classsw_1_1Panel.html#aa7b04b11114891c5df7b84932fd3370f',1,'sw::Panel']]],
   ['bottom_9',['bottom',['../structsw_1_1Thickness.html#acea3dd0c6fdcc155ac47ec7c3eab97fa',1,'sw::Thickness']]],
-  ['bringintoview_10',['BringIntoView',['../classsw_1_1UIElement.html#a2ccebdf4ec68dc03c83ee0da1c45f6b4',1,'sw::UIElement']]],
+  ['bringintoview_10',['BringIntoView',['../classsw_1_1UIElement.html#adac916bfc631d0b2a6ff11ceaf624c9e',1,'sw::UIElement']]],
   ['buffersize_11',['buffersize',['../classsw_1_1FileDialog.html#a5e6e2f2ce50e191d4ed8d215778f859b',1,'sw::FileDialog::BufferSize'],['../classsw_1_1FolderBrowserDialog.html#ae516c8b298cb378a4f159babfc09692a',1,'sw::FolderBrowserDialog::BufferSize']]],
   ['buildstr_12',['BuildStr',['../classsw_1_1Utils.html#abb9a32e7b7d1fb83832c9a39a84c3452',1,'sw::Utils']]],
   ['buildwindowcore_13',['buildwindowcore',['../classsw_1_1HwndHost.html#a9ac22adfa9d96348e7f89932d82cf3d3',1,'sw::HwndHost::BuildWindowCore()'],['../classsw_1_1HwndWrapper.html#a6fe8e281590746253fc9fc523fb1c893',1,'sw::HwndWrapper::BuildWindowCore()'],['../classsw_1_1IPAddressControl.html#ad0eddbb54d50cac5eb5475b1424d12f1',1,'sw::IPAddressControl::BuildWindowCore()']]],
