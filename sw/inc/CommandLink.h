@@ -5,7 +5,7 @@
 namespace sw
 {
     /**
-     * @brief 按钮
+     * @brief 命令链接按钮
      */
     class CommandLink : public ButtonBase
     {
