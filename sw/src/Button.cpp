@@ -1,15 +1,14 @@
 #include "Button.h"
 
-namespace
-{
-    constexpr DWORD _ButtonStyle_Default = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_PUSHBUTTON;
-    constexpr DWORD _ButtonStyle_Focused = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_DEFPUSHBUTTON;
-}
-
 sw::Button::Button()
 {
-    this->InitButtonBase(L"Button", _ButtonStyle_Default, 0);
+    this->InitButtonBase(L"Button", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_PUSHBUTTON, 0);
     this->Rect = sw::Rect(0, 0, 70, 30);
+}
+
+void sw::Button::UpdateButtonStyle(bool focused)
+{
+    this->SetStyle(BS_DEFPUSHBUTTON, focused); // BS_PUSHBUTTON == 0
 }
 
 void sw::Button::OnDrawFocusRect(HDC hdc)
@@ -29,14 +28,14 @@ void sw::Button::OnDrawFocusRect(HDC hdc)
 
 bool sw::Button::OnSetFocus(HWND hPreFocus)
 {
-    this->SetStyle(_ButtonStyle_Focused);
+    this->UpdateButtonStyle(true);
     this->Redraw();
     return this->ButtonBase::OnSetFocus(hPreFocus);
 }
 
 bool sw::Button::OnKillFocus(HWND hNextFocus)
 {
-    this->SetStyle(_ButtonStyle_Default);
+    this->UpdateButtonStyle(false);
     this->Redraw();
     return this->ButtonBase::OnKillFocus(hNextFocus);
 }
@@ -48,6 +47,5 @@ bool sw::Button::OnKeyDown(VirtualKey key, KeyFlags flags)
     if (!result && key == VirtualKey::Enter) {
         this->OnClicked();
     }
-
     return result;
 }

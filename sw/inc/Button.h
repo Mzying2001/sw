@@ -17,6 +17,12 @@ namespace sw
 
     protected:
         /**
+         * @brief         更新按钮样式
+         * @param focused 是否处于焦点状态
+         */
+        virtual void UpdateButtonStyle(bool focused);
+
+        /**
          * @brief     绘制虚线框时调用该函数
          * @param hdc 绘制设备句柄
          */
