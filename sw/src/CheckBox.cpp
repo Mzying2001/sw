@@ -13,5 +13,6 @@ sw::CheckBox::CheckBox()
           })
 {
     InitButtonBase(L"CheckBox", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTOCHECKBOX, 0);
-    Rect = sw::Rect(0, 0, 100, 20);
+    Rect     = sw::Rect{0, 0, 100, 20};
+    AutoSize = true;
 }
