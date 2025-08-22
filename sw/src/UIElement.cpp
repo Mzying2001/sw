@@ -512,7 +512,8 @@ sw::UIElement *sw::UIElement::GetNextTabStopElement()
     UIElement *element = this;
     do {
         element = element->GetNextElement();
-    } while (element != nullptr && element != this && !(element->_tabStop && element->IsVisible()));
+    } while (element != nullptr && element != this &&
+             !(element->_tabStop && element->IsVisible() && element->Enabled));
     return element;
 }
 
@@ -521,7 +522,8 @@ sw::UIElement *sw::UIElement::GetPreviousTabStopElement()
     UIElement *element = this;
     do {
         element = element->GetPreviousElement();
-    } while (element != nullptr && element != this && !(element->_tabStop && element->IsVisible()));
+    } while (element != nullptr && element != this &&
+             !(element->_tabStop && element->IsVisible() && element->Enabled));
     return element;
 }
 
