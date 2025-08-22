@@ -39,6 +39,7 @@ var annotated_dup =
       [ "CheckBox", "classsw_1_1CheckBox.html", "classsw_1_1CheckBox" ],
       [ "Color", "structsw_1_1Color.html", "structsw_1_1Color" ],
       [ "ComboBox", "classsw_1_1ComboBox.html", "classsw_1_1ComboBox" ],
+      [ "CommandLink", "classsw_1_1CommandLink.html", "classsw_1_1CommandLink" ],
       [ "ContextMenu", "classsw_1_1ContextMenu.html", "classsw_1_1ContextMenu" ],
       [ "Control", "classsw_1_1Control.html", "classsw_1_1Control" ],
       [ "CursorHelper", "classsw_1_1CursorHelper.html", null ],

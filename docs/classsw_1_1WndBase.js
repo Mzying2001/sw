@@ -107,6 +107,7 @@ var classsw_1_1WndBase =
     [ "FontName", "classsw_1_1WndBase.html#a72a604f374bba1e6c34b5d5e56cd26f0", null ],
     [ "FontSize", "classsw_1_1WndBase.html#ac49c6452ceb4950dd581189615753b0c", null ],
     [ "FontWeight", "classsw_1_1WndBase.html#a50e006e69f07abb4e6ba381121abcd22", null ],
+    [ "GroupStart", "classsw_1_1WndBase.html#ad84646bb792dd189df542aa3b8185def", null ],
     [ "Handle", "classsw_1_1WndBase.html#abc0b653ccc071c2cfcba42fa8eef738f", null ],
     [ "Height", "classsw_1_1WndBase.html#a51fdc4b943e62bd67ffbff4a6e65de2a", null ],
     [ "IsControl", "classsw_1_1WndBase.html#a4b72c64e192b49d1ace945e96c2368ab", null ],

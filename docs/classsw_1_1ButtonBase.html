@@ -91,6 +91,7 @@ $(document).ready(function(){initNavTree('classsw_1_1ButtonBase.html',''); initR
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-attribs">Public 属性</a> &#124;
 <a href="#pro-methods">Protected 成员函数</a> &#124;
 <a href="classsw_1_1ButtonBase-members.html">所有成员列表</a>  </div>
   <div class="headertitle"><div class="title">sw::ButtonBase类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
@@ -112,15 +113,20 @@ $(document).ready(function(){initNavTree('classsw_1_1ButtonBase.html',''); initR
 <area href="classsw_1_1WndBase.html" title="表示一个Windows窗口，是所有窗口和控件的基类" alt="sw::WndBase" shape="rect" coords="0,0,128,24"/>
 <area href="classsw_1_1ILayout.html" title="布局接口" alt="sw::ILayout" shape="rect" coords="138,0,266,24"/>
 <area href="classsw_1_1ITag.html" title="Tag接口" alt="sw::ITag" shape="rect" coords="276,0,404,24"/>
-<area href="classsw_1_1Button.html" title="按钮" alt="sw::Button" shape="rect" coords="69,224,197,248"/>
-<area href="classsw_1_1CheckableButton.html" title="表示可选中的按钮类型（单选框、复选框等）" alt="sw::CheckableButton" shape="rect" coords="207,224,335,248"/>
-<area href="classsw_1_1CheckBox.html" title="复选框" alt="sw::CheckBox" shape="rect" coords="138,280,266,304"/>
-<area href="classsw_1_1RadioButton.html" title="单选框" alt="sw::RadioButton" shape="rect" coords="276,280,404,304"/>
+<area href="classsw_1_1Button.html" title="按钮" alt="sw::Button" shape="rect" coords="0,224,128,248"/>
+<area href="classsw_1_1CheckableButton.html" title="表示可选中的按钮类型（单选框、复选框等）" alt="sw::CheckableButton" shape="rect" coords="138,224,266,248"/>
+<area href="classsw_1_1CommandLink.html" title="按钮" alt="sw::CommandLink" shape="rect" coords="276,224,404,248"/>
+<area href="classsw_1_1CheckBox.html" title="复选框" alt="sw::CheckBox" shape="rect" coords="69,280,197,304"/>
+<area href="classsw_1_1RadioButton.html" title="单选框" alt="sw::RadioButton" shape="rect" coords="207,280,335,304"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
+<tr class="memitem:ae5dad2a65523da878df700fa4aefe3ee" id="r_ae5dad2a65523da878df700fa4aefe3ee"><td class="memItemLeft" align="right" valign="top"><a id="ae5dad2a65523da878df700fa4aefe3ee" name="ae5dad2a65523da878df700fa4aefe3ee"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ButtonBase</b> ()</td></tr>
+<tr class="memdesc:ae5dad2a65523da878df700fa4aefe3ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化ButtonBase <br /></td></tr>
+<tr class="separator:ae5dad2a65523da878df700fa4aefe3ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b521a4eb6233774cf15ece47c0b5d68" id="r_a2b521a4eb6233774cf15ece47c0b5d68"><td class="memItemLeft" align="right" valign="top"><a id="a2b521a4eb6233774cf15ece47c0b5d68" name="a2b521a4eb6233774cf15ece47c0b5d68"></a>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ButtonBase</b> ()=0</td></tr>
 <tr class="memdesc:a2b521a4eb6233774cf15ece47c0b5d68"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数，这里用纯虚函数使该类成为抽象类 <br /></td></tr>
@@ -467,19 +473,211 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ITag</b> ()=defau
 <tr class="memdesc:a34c7ead6ffeda8323221f5b85529a771 inherit pub_methods_classsw_1_1ITag"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认虚析构函数 <br /></td></tr>
 <tr class="separator:a34c7ead6ffeda8323221f5b85529a771 inherit pub_methods_classsw_1_1ITag"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public 属性</h2></td></tr>
+<tr class="memitem:a519a00a3a2e8e777fc0b973c78cb190d" id="r_a519a00a3a2e8e777fc0b973c78cb190d"><td class="memItemLeft" align="right" valign="top"><a id="a519a00a3a2e8e777fc0b973c78cb190d" name="a519a00a3a2e8e777fc0b973c78cb190d"></a>
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>AutoSize</b></td></tr>
+<tr class="memdesc:a519a00a3a2e8e777fc0b973c78cb190d"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否自动调整大小以适应内容 <br /></td></tr>
+<tr class="separator:a519a00a3a2e8e777fc0b973c78cb190d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb03e538225ccc9791324b868ca02693" id="r_aeb03e538225ccc9791324b868ca02693"><td class="memItemLeft" align="right" valign="top"><a id="aeb03e538225ccc9791324b868ca02693" name="aeb03e538225ccc9791324b868ca02693"></a>
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>MultiLine</b></td></tr>
+<tr class="memdesc:aeb03e538225ccc9791324b868ca02693"><td class="mdescLeft">&#160;</td><td class="mdescRight">文本过长时是否自动换行 <br /></td></tr>
+<tr class="separator:aeb03e538225ccc9791324b868ca02693"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51e40f85ed267d67770e845fefb550f5" id="r_a51e40f85ed267d67770e845fefb550f5"><td class="memItemLeft" align="right" valign="top"><a id="a51e40f85ed267d67770e845fefb550f5" name="a51e40f85ed267d67770e845fefb550f5"></a>
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="structsw_1_1Thickness.html">Thickness</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>TextMargin</b></td></tr>
+<tr class="memdesc:a51e40f85ed267d67770e845fefb550f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">文本边距 <br /></td></tr>
+<tr class="separator:a51e40f85ed267d67770e845fefb550f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_classsw_1_1Control"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1Control')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1Control.html">sw::Control</a></td></tr>
+<tr class="memitem:aa5875535fe04ce79df6fb8719b64c0dc inherit pub_attribs_classsw_1_1Control" id="r_aa5875535fe04ce79df6fb8719b64c0dc"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ControlId</b></td></tr>
+<tr class="memdesc:aa5875535fe04ce79df6fb8719b64c0dc inherit pub_attribs_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">控件的标识符 <br /></td></tr>
+<tr class="separator:aa5875535fe04ce79df6fb8719b64c0dc inherit pub_attribs_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a703a0794e6d8aeb786b1f53c9e987e83 inherit pub_attribs_classsw_1_1Control" id="r_a703a0794e6d8aeb786b1f53c9e987e83"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#a703a0794e6d8aeb786b1f53c9e987e83">IsInHierarchy</a></td></tr>
+<tr class="memdesc:a703a0794e6d8aeb786b1f53c9e987e83 inherit pub_attribs_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">控件是否在窗口的控件层次结构中  <br /></td></tr>
+<tr class="separator:a703a0794e6d8aeb786b1f53c9e987e83 inherit pub_attribs_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_classsw_1_1UIElement"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1UIElement')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1UIElement.html">sw::UIElement</a></td></tr>
+<tr class="memitem:a8fe2c0aebc77409d3fbdefbd79d45a1e inherit pub_attribs_classsw_1_1UIElement" id="r_a8fe2c0aebc77409d3fbdefbd79d45a1e"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="structsw_1_1Thickness.html">Thickness</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Margin</b></td></tr>
+<tr class="memdesc:a8fe2c0aebc77409d3fbdefbd79d45a1e inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">边距 <br /></td></tr>
+<tr class="separator:a8fe2c0aebc77409d3fbdefbd79d45a1e inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05b569383791dce14d9d6789e3a43d85 inherit pub_attribs_classsw_1_1UIElement" id="r_a05b569383791dce14d9d6789e3a43d85"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; HorizontalAlignment &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>HorizontalAlignment</b></td></tr>
+<tr class="memdesc:a05b569383791dce14d9d6789e3a43d85 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">水平对齐方式 <br /></td></tr>
+<tr class="separator:a05b569383791dce14d9d6789e3a43d85 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9f49244beb6b854b436e8bbd18f4e21 inherit pub_attribs_classsw_1_1UIElement" id="r_ad9f49244beb6b854b436e8bbd18f4e21"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; VerticalAlignment &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>VerticalAlignment</b></td></tr>
+<tr class="memdesc:ad9f49244beb6b854b436e8bbd18f4e21 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">垂直对齐方式 <br /></td></tr>
+<tr class="separator:ad9f49244beb6b854b436e8bbd18f4e21 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c452519bad920ad9b91f9610ea202e0 inherit pub_attribs_classsw_1_1UIElement" id="r_a5c452519bad920ad9b91f9610ea202e0"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ChildCount</b></td></tr>
+<tr class="memdesc:a5c452519bad920ad9b91f9610ea202e0 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">子元素数量 <br /></td></tr>
+<tr class="separator:a5c452519bad920ad9b91f9610ea202e0 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a952e87aef0f2dfdec6bd98e944b6d891 inherit pub_attribs_classsw_1_1UIElement" id="r_a952e87aef0f2dfdec6bd98e944b6d891"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>CollapseWhenHide</b></td></tr>
+<tr class="memdesc:a952e87aef0f2dfdec6bd98e944b6d891 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否在不可见时不参与布局 <br /></td></tr>
+<tr class="separator:a952e87aef0f2dfdec6bd98e944b6d891 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad825a0e12b75238b13f422f47ddf292b inherit pub_attribs_classsw_1_1UIElement" id="r_ad825a0e12b75238b13f422f47ddf292b"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Parent</b></td></tr>
+<tr class="memdesc:ad825a0e12b75238b13f422f47ddf292b inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">指向父元素的指针，当前元素为顶级窗口时该值为nullptr <br /></td></tr>
+<tr class="separator:ad825a0e12b75238b13f422f47ddf292b inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a895d79a2fa53382a43b3d02dee195360 inherit pub_attribs_classsw_1_1UIElement" id="r_a895d79a2fa53382a43b3d02dee195360"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Tag</b></td></tr>
+<tr class="memdesc:a895d79a2fa53382a43b3d02dee195360 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">储存用户自定义信息的标记 <br /></td></tr>
+<tr class="separator:a895d79a2fa53382a43b3d02dee195360 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70e870fcabb76b1d74c06d50637f4f92 inherit pub_attribs_classsw_1_1UIElement" id="r_a70e870fcabb76b1d74c06d50637f4f92"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>LayoutTag</b></td></tr>
+<tr class="memdesc:a70e870fcabb76b1d74c06d50637f4f92 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">布局标记，对于不同的布局有不同含义 <br /></td></tr>
+<tr class="separator:a70e870fcabb76b1d74c06d50637f4f92 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5706cc9d6ef3fab9176ccded231b99e inherit pub_attribs_classsw_1_1UIElement" id="r_ae5706cc9d6ef3fab9176ccded231b99e"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1ContextMenu.html">sw::ContextMenu</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ContextMenu</b></td></tr>
+<tr class="memdesc:ae5706cc9d6ef3fab9176ccded231b99e inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">右键按下时弹出的菜单 <br /></td></tr>
+<tr class="separator:ae5706cc9d6ef3fab9176ccded231b99e inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0d66604bc2dd555c37688135878a7f0 inherit pub_attribs_classsw_1_1UIElement" id="r_ac0d66604bc2dd555c37688135878a7f0"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Float</b></td></tr>
+<tr class="memdesc:ac0d66604bc2dd555c37688135878a7f0 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">元素是否悬浮，若元素悬浮则该元素不会随滚动条滚动而改变位置 <br /></td></tr>
+<tr class="separator:ac0d66604bc2dd555c37688135878a7f0 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b54e00e1e41af2a634ad694da3ffa98 inherit pub_attribs_classsw_1_1UIElement" id="r_a2b54e00e1e41af2a634ad694da3ffa98"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>TabStop</b></td></tr>
+<tr class="memdesc:a2b54e00e1e41af2a634ad694da3ffa98 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">表示用户是否可以通过按下Tab键将焦点移动到当前元素 <br /></td></tr>
+<tr class="separator:a2b54e00e1e41af2a634ad694da3ffa98 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf6897b58dc2899c37a3b395bfe124b9 inherit pub_attribs_classsw_1_1UIElement" id="r_aaf6897b58dc2899c37a3b395bfe124b9"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="structsw_1_1Color.html">Color</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>BackColor</b></td></tr>
+<tr class="memdesc:aaf6897b58dc2899c37a3b395bfe124b9 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">背景颜色，修改该属性会同时将Transparent属性设为false，对于部分控件该属性可能不生效 <br /></td></tr>
+<tr class="separator:aaf6897b58dc2899c37a3b395bfe124b9 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaf2381fdffd82bd41e90c1a2cf69022 inherit pub_attribs_classsw_1_1UIElement" id="r_aeaf2381fdffd82bd41e90c1a2cf69022"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="structsw_1_1Color.html">Color</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>TextColor</b></td></tr>
+<tr class="memdesc:aeaf2381fdffd82bd41e90c1a2cf69022 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">文本颜色，修改该属性会同时将InheritTextColor属性设为false，对于部分控件该属性可能不生效 <br /></td></tr>
+<tr class="separator:aeaf2381fdffd82bd41e90c1a2cf69022 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9d544a538ca2cfa3d022da61e7637e5 inherit pub_attribs_classsw_1_1UIElement" id="r_aa9d544a538ca2cfa3d022da61e7637e5"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Transparent</b></td></tr>
+<tr class="memdesc:aa9d544a538ca2cfa3d022da61e7637e5 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否使用透明背景（此属性并非真正意义上的透明，将该属性设为true可继承父元素的背景颜色） <br /></td></tr>
+<tr class="separator:aa9d544a538ca2cfa3d022da61e7637e5 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7da2f416b1ed5038d8a3a59d6e44fcf5 inherit pub_attribs_classsw_1_1UIElement" id="r_a7da2f416b1ed5038d8a3a59d6e44fcf5"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>InheritTextColor</b></td></tr>
+<tr class="memdesc:a7da2f416b1ed5038d8a3a59d6e44fcf5 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否继承父元素的文本颜色 <br /></td></tr>
+<tr class="separator:a7da2f416b1ed5038d8a3a59d6e44fcf5 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1ae9ea6fdb1c1ecde418bffdb2287cc inherit pub_attribs_classsw_1_1UIElement" id="r_ab1ae9ea6fdb1c1ecde418bffdb2287cc"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; sw::LayoutUpdateCondition &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ab1ae9ea6fdb1c1ecde418bffdb2287cc">LayoutUpdateCondition</a></td></tr>
+<tr class="memdesc:ab1ae9ea6fdb1c1ecde418bffdb2287cc inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发布局更新的条件  <br /></td></tr>
+<tr class="separator:ab1ae9ea6fdb1c1ecde418bffdb2287cc inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78ccd020a37a7da25b9df8eab6783f35 inherit pub_attribs_classsw_1_1UIElement" id="r_a78ccd020a37a7da25b9df8eab6783f35"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsMeasureValid</b></td></tr>
+<tr class="memdesc:a78ccd020a37a7da25b9df8eab6783f35 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前元素的布局状态是否有效 <br /></td></tr>
+<tr class="separator:a78ccd020a37a7da25b9df8eab6783f35 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99fb629a6497ed371a43572388d0207b inherit pub_attribs_classsw_1_1UIElement" id="r_a99fb629a6497ed371a43572388d0207b"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>MinWidth</b></td></tr>
+<tr class="memdesc:a99fb629a6497ed371a43572388d0207b inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">最小宽度，当值为负数或0时表示不限制 <br /></td></tr>
+<tr class="separator:a99fb629a6497ed371a43572388d0207b inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a360ea4cc7f6cf85fef3533f425af97d3 inherit pub_attribs_classsw_1_1UIElement" id="r_a360ea4cc7f6cf85fef3533f425af97d3"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>MinHeight</b></td></tr>
+<tr class="memdesc:a360ea4cc7f6cf85fef3533f425af97d3 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">最小高度，当值为负数或0时表示不限制 <br /></td></tr>
+<tr class="separator:a360ea4cc7f6cf85fef3533f425af97d3 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad63be2acaa88ddc21df18ad9f3e08b31 inherit pub_attribs_classsw_1_1UIElement" id="r_ad63be2acaa88ddc21df18ad9f3e08b31"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>MaxWidth</b></td></tr>
+<tr class="memdesc:ad63be2acaa88ddc21df18ad9f3e08b31 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">最大宽度，当值为负数或0时表示不限制 <br /></td></tr>
+<tr class="separator:ad63be2acaa88ddc21df18ad9f3e08b31 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa97ce0e4104f8c0d9445bc1b8b556b15 inherit pub_attribs_classsw_1_1UIElement" id="r_aa97ce0e4104f8c0d9445bc1b8b556b15"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>MaxHeight</b></td></tr>
+<tr class="memdesc:aa97ce0e4104f8c0d9445bc1b8b556b15 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">最大高度，当值为负数或0时表示不限制 <br /></td></tr>
+<tr class="separator:aa97ce0e4104f8c0d9445bc1b8b556b15 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
+<tr class="memitem:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase" id="r_abc0b653ccc071c2cfcba42fa8eef738f"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; HWND &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Handle</b></td></tr>
+<tr class="memdesc:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口句柄 <br /></td></tr>
+<tr class="separator:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a529436cd730fc39ad2875728cdfe4a51 inherit pub_attribs_classsw_1_1WndBase" id="r_a529436cd730fc39ad2875728cdfe4a51"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1Font.html">sw::Font</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Font</b></td></tr>
+<tr class="memdesc:a529436cd730fc39ad2875728cdfe4a51 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体 <br /></td></tr>
+<tr class="separator:a529436cd730fc39ad2875728cdfe4a51 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72a604f374bba1e6c34b5d5e56cd26f0 inherit pub_attribs_classsw_1_1WndBase" id="r_a72a604f374bba1e6c34b5d5e56cd26f0"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FontName</b></td></tr>
+<tr class="memdesc:a72a604f374bba1e6c34b5d5e56cd26f0 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体名称 <br /></td></tr>
+<tr class="separator:a72a604f374bba1e6c34b5d5e56cd26f0 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac49c6452ceb4950dd581189615753b0c inherit pub_attribs_classsw_1_1WndBase" id="r_ac49c6452ceb4950dd581189615753b0c"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FontSize</b></td></tr>
+<tr class="memdesc:ac49c6452ceb4950dd581189615753b0c inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体大小 <br /></td></tr>
+<tr class="separator:ac49c6452ceb4950dd581189615753b0c inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50e006e69f07abb4e6ba381121abcd22 inherit pub_attribs_classsw_1_1WndBase" id="r_a50e006e69f07abb4e6ba381121abcd22"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; sw::FontWeight &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FontWeight</b></td></tr>
+<tr class="memdesc:a50e006e69f07abb4e6ba381121abcd22 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体粗细 <br /></td></tr>
+<tr class="separator:a50e006e69f07abb4e6ba381121abcd22 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7598603457217f09aae0deaad59ef063 inherit pub_attribs_classsw_1_1WndBase" id="r_a7598603457217f09aae0deaad59ef063"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Rect</b></td></tr>
+<tr class="memdesc:a7598603457217f09aae0deaad59ef063 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">位置和尺寸 <br /></td></tr>
+<tr class="separator:a7598603457217f09aae0deaad59ef063 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f0b57de9babc053c655872ed91468dd inherit pub_attribs_classsw_1_1WndBase" id="r_a4f0b57de9babc053c655872ed91468dd"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Left</b></td></tr>
+<tr class="memdesc:a4f0b57de9babc053c655872ed91468dd inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">左边 <br /></td></tr>
+<tr class="separator:a4f0b57de9babc053c655872ed91468dd inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dbe3776aeb038659f0a290fbe1dc6d7 inherit pub_attribs_classsw_1_1WndBase" id="r_a6dbe3776aeb038659f0a290fbe1dc6d7"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Top</b></td></tr>
+<tr class="memdesc:a6dbe3776aeb038659f0a290fbe1dc6d7 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">顶边 <br /></td></tr>
+<tr class="separator:a6dbe3776aeb038659f0a290fbe1dc6d7 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a445edbe5db50a5a4486ddff98e8ffbae inherit pub_attribs_classsw_1_1WndBase" id="r_a445edbe5db50a5a4486ddff98e8ffbae"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Width</b></td></tr>
+<tr class="memdesc:a445edbe5db50a5a4486ddff98e8ffbae inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">宽度 <br /></td></tr>
+<tr class="separator:a445edbe5db50a5a4486ddff98e8ffbae inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51fdc4b943e62bd67ffbff4a6e65de2a inherit pub_attribs_classsw_1_1WndBase" id="r_a51fdc4b943e62bd67ffbff4a6e65de2a"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Height</b></td></tr>
+<tr class="memdesc:a51fdc4b943e62bd67ffbff4a6e65de2a inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">高度 <br /></td></tr>
+<tr class="separator:a51fdc4b943e62bd67ffbff4a6e65de2a inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0126115c0626d137ba3e7b0a5c8d793b inherit pub_attribs_classsw_1_1WndBase" id="r_a0126115c0626d137ba3e7b0a5c8d793b"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClientRect</b></td></tr>
+<tr class="memdesc:a0126115c0626d137ba3e7b0a5c8d793b inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户区尺寸 <br /></td></tr>
+<tr class="separator:a0126115c0626d137ba3e7b0a5c8d793b inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97898f967c916e67c152c69f4c7c6cd6 inherit pub_attribs_classsw_1_1WndBase" id="r_a97898f967c916e67c152c69f4c7c6cd6"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClientWidth</b></td></tr>
+<tr class="memdesc:a97898f967c916e67c152c69f4c7c6cd6 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户区宽度 <br /></td></tr>
+<tr class="separator:a97898f967c916e67c152c69f4c7c6cd6 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4030b80afd9e81e3046ccd5ec94ec83f inherit pub_attribs_classsw_1_1WndBase" id="r_a4030b80afd9e81e3046ccd5ec94ec83f"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClientHeight</b></td></tr>
+<tr class="memdesc:a4030b80afd9e81e3046ccd5ec94ec83f inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户区高度 <br /></td></tr>
+<tr class="separator:a4030b80afd9e81e3046ccd5ec94ec83f inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5e7d8d1a548315b3e709151f71766b3 inherit pub_attribs_classsw_1_1WndBase" id="r_ad5e7d8d1a548315b3e709151f71766b3"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Enabled</b></td></tr>
+<tr class="memdesc:ad5e7d8d1a548315b3e709151f71766b3 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口或控件是否可用 <br /></td></tr>
+<tr class="separator:ad5e7d8d1a548315b3e709151f71766b3 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a808f5d6fd407e3b65cff88f1873bd754 inherit pub_attribs_classsw_1_1WndBase" id="r_a808f5d6fd407e3b65cff88f1873bd754"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Visible</b></td></tr>
+<tr class="memdesc:a808f5d6fd407e3b65cff88f1873bd754 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口或控件是否可见 <br /></td></tr>
+<tr class="separator:a808f5d6fd407e3b65cff88f1873bd754 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9afff86d32e9b54cccc204ef29a85891 inherit pub_attribs_classsw_1_1WndBase" id="r_a9afff86d32e9b54cccc204ef29a85891"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Text</b></td></tr>
+<tr class="memdesc:a9afff86d32e9b54cccc204ef29a85891 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口标题或控件文本 <br /></td></tr>
+<tr class="separator:a9afff86d32e9b54cccc204ef29a85891 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71498b3ad8ae548fd7f4a531a6b70982 inherit pub_attribs_classsw_1_1WndBase" id="r_a71498b3ad8ae548fd7f4a531a6b70982"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Focused</b></td></tr>
+<tr class="memdesc:a71498b3ad8ae548fd7f4a531a6b70982 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口是否拥有焦点 <br /></td></tr>
+<tr class="separator:a71498b3ad8ae548fd7f4a531a6b70982 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bda583e7535a89b8b5bd327c1f32ccd inherit pub_attribs_classsw_1_1WndBase" id="r_a7bda583e7535a89b8b5bd327c1f32ccd"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1WndBase.html">WndBase</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Parent</b></td></tr>
+<tr class="memdesc:a7bda583e7535a89b8b5bd327c1f32ccd inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">父窗口 <br /></td></tr>
+<tr class="separator:a7bda583e7535a89b8b5bd327c1f32ccd inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54aa973b24b4bc4b681ac2c21a50d204 inherit pub_attribs_classsw_1_1WndBase" id="r_a54aa973b24b4bc4b681ac2c21a50d204"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsDestroyed</b></td></tr>
+<tr class="memdesc:a54aa973b24b4bc4b681ac2c21a50d204 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否已销毁，当该值为true时不应该继续使用当前对象 <br /></td></tr>
+<tr class="separator:a54aa973b24b4bc4b681ac2c21a50d204 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43b324f78290554d0c08bf6f33cdb5fd inherit pub_attribs_classsw_1_1WndBase" id="r_a43b324f78290554d0c08bf6f33cdb5fd"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>AcceptFiles</b></td></tr>
+<tr class="memdesc:a43b324f78290554d0c08bf6f33cdb5fd inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否接受拖放文件 <br /></td></tr>
+<tr class="separator:a43b324f78290554d0c08bf6f33cdb5fd inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b72c64e192b49d1ace945e96c2368ab inherit pub_attribs_classsw_1_1WndBase" id="r_a4b72c64e192b49d1ace945e96c2368ab"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsControl</b></td></tr>
+<tr class="memdesc:a4b72c64e192b49d1ace945e96c2368ab inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前对象是否是控件 <br /></td></tr>
+<tr class="separator:a4b72c64e192b49d1ace945e96c2368ab inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39da72806797078fa2ea1a62ada465fc inherit pub_attribs_classsw_1_1WndBase" id="r_a39da72806797078fa2ea1a62ada465fc"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClassName</b></td></tr>
+<tr class="memdesc:a39da72806797078fa2ea1a62ada465fc inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口类名 <br /></td></tr>
+<tr class="separator:a39da72806797078fa2ea1a62ada465fc inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad84646bb792dd189df542aa3b8185def inherit pub_attribs_classsw_1_1WndBase" id="r_ad84646bb792dd189df542aa3b8185def"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#ad84646bb792dd189df542aa3b8185def">GroupStart</a></td></tr>
+<tr class="memdesc:ad84646bb792dd189df542aa3b8185def inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口是一组控件中的第一个控件  <br /></td></tr>
+<tr class="separator:ad84646bb792dd189df542aa3b8185def inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
-<tr class="memitem:ae5dad2a65523da878df700fa4aefe3ee" id="r_ae5dad2a65523da878df700fa4aefe3ee"><td class="memItemLeft" align="right" valign="top"><a id="ae5dad2a65523da878df700fa4aefe3ee" name="ae5dad2a65523da878df700fa4aefe3ee"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ButtonBase</b> ()</td></tr>
-<tr class="memdesc:ae5dad2a65523da878df700fa4aefe3ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化ButtonBase <br /></td></tr>
-<tr class="separator:ae5dad2a65523da878df700fa4aefe3ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35200f7e5429767c50c089eb312ff248" id="r_a35200f7e5429767c50c089eb312ff248"><td class="memItemLeft" align="right" valign="top"><a id="a35200f7e5429767c50c089eb312ff248" name="a35200f7e5429767c50c089eb312ff248"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>InitButtonBase</b> (LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)</td></tr>
 <tr class="memdesc:a35200f7e5429767c50c089eb312ff248"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化控件 <br /></td></tr>
 <tr class="separator:a35200f7e5429767c50c089eb312ff248"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad95b3a535345f674c55b7c6287e49a2d" id="r_ad95b3a535345f674c55b7c6287e49a2d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ButtonBase.html#ad95b3a535345f674c55b7c6287e49a2d">OnCommand</a> (int code) override</td></tr>
-<tr class="memdesc:ad95b3a535345f674c55b7c6287e49a2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">当父窗口接收到控件的WM_COMMAND时调用该函数  <br /></td></tr>
-<tr class="separator:ad95b3a535345f674c55b7c6287e49a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2cd07956db48b796257bd1ac238642f6" id="r_a2cd07956db48b796257bd1ac238642f6"><td class="memItemLeft" align="right" valign="top"><a id="a2cd07956db48b796257bd1ac238642f6" name="a2cd07956db48b796257bd1ac238642f6"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnClicked</b> ()</td></tr>
 <tr class="memdesc:a2cd07956db48b796257bd1ac238642f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">被单击时调用该函数 <br /></td></tr>
@@ -488,6 +686,12 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnClicked</b>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnDoubleClicked</b> ()</td></tr>
 <tr class="memdesc:aa0fb82e77ba464863fc609c987d5ff5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">被双击时调用该函数 <br /></td></tr>
 <tr class="separator:aa0fb82e77ba464863fc609c987d5ff5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad95b3a535345f674c55b7c6287e49a2d" id="r_ad95b3a535345f674c55b7c6287e49a2d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ButtonBase.html#ad95b3a535345f674c55b7c6287e49a2d">OnCommand</a> (int code) override</td></tr>
+<tr class="memdesc:ad95b3a535345f674c55b7c6287e49a2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">当父窗口接收到控件的WM_COMMAND时调用该函数  <br /></td></tr>
+<tr class="separator:ad95b3a535345f674c55b7c6287e49a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad324d6627bbed78bedde95c2b2f8c303" id="r_ad324d6627bbed78bedde95c2b2f8c303"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1Size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ButtonBase.html#ad324d6627bbed78bedde95c2b2f8c303">MeasureOverride</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;availableSize) override</td></tr>
+<tr class="memdesc:ad324d6627bbed78bedde95c2b2f8c303"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量元素所需尺寸，无需考虑边框和边距  <br /></td></tr>
+<tr class="separator:ad324d6627bbed78bedde95c2b2f8c303"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classsw_1_1Control"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsw_1_1Control')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classsw_1_1Control.html">sw::Control</a></td></tr>
 <tr class="memitem:a28d0732184b1631d1c3b2f84dec4c6e6 inherit pro_methods_classsw_1_1Control" id="r_a28d0732184b1631d1c3b2f84dec4c6e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#a28d0732184b1631d1c3b2f84dec4c6e6">ResetHandle</a> (LPVOID lpParam=NULL)</td></tr>
 <tr class="memdesc:a28d0732184b1631d1c3b2f84dec4c6e6 inherit pro_methods_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">销毁控件句柄并重新初始化，该操作会创建新的句柄并设置样式、文本、字体等  <br /></td></tr>
@@ -569,9 +773,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetPreviousTabStopFoc
 <tr class="memitem:a0fe818005a4ffb99890a9af0ea9f4ed3 inherit pro_methods_classsw_1_1UIElement" id="r_a0fe818005a4ffb99890a9af0ea9f4ed3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a0fe818005a4ffb99890a9af0ea9f4ed3">ClampDesireSize</a> (<a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &amp;rect)</td></tr>
 <tr class="memdesc:a0fe818005a4ffb99890a9af0ea9f4ed3 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">限定指定矩形的尺寸在最小和最大尺寸之间  <br /></td></tr>
 <tr class="separator:a0fe818005a4ffb99890a9af0ea9f4ed3 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cd17e0524115089357b146545510fe8 inherit pro_methods_classsw_1_1UIElement" id="r_a8cd17e0524115089357b146545510fe8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1Size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a8cd17e0524115089357b146545510fe8">MeasureOverride</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;availableSize)</td></tr>
-<tr class="memdesc:a8cd17e0524115089357b146545510fe8 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量元素所需尺寸，无需考虑边框和边距  <br /></td></tr>
-<tr class="separator:a8cd17e0524115089357b146545510fe8 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3170826168869b60a1876a3598189a65 inherit pro_methods_classsw_1_1UIElement" id="r_a3170826168869b60a1876a3598189a65"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a3170826168869b60a1876a3598189a65">ArrangeOverride</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;finalSize)</td></tr>
 <tr class="memdesc:a3170826168869b60a1876a3598189a65 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">安排子元素的位置，可重写该函数以实现自定义布局  <br /></td></tr>
 <tr class="separator:a3170826168869b60a1876a3598189a65 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -804,191 +1005,47 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b
 <tr class="memitem:a9a3b21d4e5d8c49130deb57695294add inherit pub_static_methods_classsw_1_1WndBase" id="r_a9a3b21d4e5d8c49130deb57695294add"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsw_1_1WndBase.html">WndBase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a9a3b21d4e5d8c49130deb57695294add">GetWndBase</a> (HWND hwnd)</td></tr>
 <tr class="memdesc:a9a3b21d4e5d8c49130deb57695294add inherit pub_static_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过窗口句柄获取WndBase  <br /></td></tr>
 <tr class="separator:a9a3b21d4e5d8c49130deb57695294add inherit pub_static_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_attribs_classsw_1_1Control"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1Control')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1Control.html">sw::Control</a></td></tr>
-<tr class="memitem:aa5875535fe04ce79df6fb8719b64c0dc inherit pub_attribs_classsw_1_1Control" id="r_aa5875535fe04ce79df6fb8719b64c0dc"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ControlId</b></td></tr>
-<tr class="memdesc:aa5875535fe04ce79df6fb8719b64c0dc inherit pub_attribs_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">控件的标识符 <br /></td></tr>
-<tr class="separator:aa5875535fe04ce79df6fb8719b64c0dc inherit pub_attribs_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a703a0794e6d8aeb786b1f53c9e987e83 inherit pub_attribs_classsw_1_1Control" id="r_a703a0794e6d8aeb786b1f53c9e987e83"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Control.html#a703a0794e6d8aeb786b1f53c9e987e83">IsInHierarchy</a></td></tr>
-<tr class="memdesc:a703a0794e6d8aeb786b1f53c9e987e83 inherit pub_attribs_classsw_1_1Control"><td class="mdescLeft">&#160;</td><td class="mdescRight">控件是否在窗口的控件层次结构中  <br /></td></tr>
-<tr class="separator:a703a0794e6d8aeb786b1f53c9e987e83 inherit pub_attribs_classsw_1_1Control"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_attribs_classsw_1_1UIElement"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1UIElement')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1UIElement.html">sw::UIElement</a></td></tr>
-<tr class="memitem:a8fe2c0aebc77409d3fbdefbd79d45a1e inherit pub_attribs_classsw_1_1UIElement" id="r_a8fe2c0aebc77409d3fbdefbd79d45a1e"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="structsw_1_1Thickness.html">Thickness</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Margin</b></td></tr>
-<tr class="memdesc:a8fe2c0aebc77409d3fbdefbd79d45a1e inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">边距 <br /></td></tr>
-<tr class="separator:a8fe2c0aebc77409d3fbdefbd79d45a1e inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05b569383791dce14d9d6789e3a43d85 inherit pub_attribs_classsw_1_1UIElement" id="r_a05b569383791dce14d9d6789e3a43d85"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; HorizontalAlignment &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>HorizontalAlignment</b></td></tr>
-<tr class="memdesc:a05b569383791dce14d9d6789e3a43d85 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">水平对齐方式 <br /></td></tr>
-<tr class="separator:a05b569383791dce14d9d6789e3a43d85 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9f49244beb6b854b436e8bbd18f4e21 inherit pub_attribs_classsw_1_1UIElement" id="r_ad9f49244beb6b854b436e8bbd18f4e21"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; VerticalAlignment &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>VerticalAlignment</b></td></tr>
-<tr class="memdesc:ad9f49244beb6b854b436e8bbd18f4e21 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">垂直对齐方式 <br /></td></tr>
-<tr class="separator:ad9f49244beb6b854b436e8bbd18f4e21 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c452519bad920ad9b91f9610ea202e0 inherit pub_attribs_classsw_1_1UIElement" id="r_a5c452519bad920ad9b91f9610ea202e0"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ChildCount</b></td></tr>
-<tr class="memdesc:a5c452519bad920ad9b91f9610ea202e0 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">子元素数量 <br /></td></tr>
-<tr class="separator:a5c452519bad920ad9b91f9610ea202e0 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a952e87aef0f2dfdec6bd98e944b6d891 inherit pub_attribs_classsw_1_1UIElement" id="r_a952e87aef0f2dfdec6bd98e944b6d891"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>CollapseWhenHide</b></td></tr>
-<tr class="memdesc:a952e87aef0f2dfdec6bd98e944b6d891 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否在不可见时不参与布局 <br /></td></tr>
-<tr class="separator:a952e87aef0f2dfdec6bd98e944b6d891 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad825a0e12b75238b13f422f47ddf292b inherit pub_attribs_classsw_1_1UIElement" id="r_ad825a0e12b75238b13f422f47ddf292b"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Parent</b></td></tr>
-<tr class="memdesc:ad825a0e12b75238b13f422f47ddf292b inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">指向父元素的指针，当前元素为顶级窗口时该值为nullptr <br /></td></tr>
-<tr class="separator:ad825a0e12b75238b13f422f47ddf292b inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a895d79a2fa53382a43b3d02dee195360 inherit pub_attribs_classsw_1_1UIElement" id="r_a895d79a2fa53382a43b3d02dee195360"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Tag</b></td></tr>
-<tr class="memdesc:a895d79a2fa53382a43b3d02dee195360 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">储存用户自定义信息的标记 <br /></td></tr>
-<tr class="separator:a895d79a2fa53382a43b3d02dee195360 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70e870fcabb76b1d74c06d50637f4f92 inherit pub_attribs_classsw_1_1UIElement" id="r_a70e870fcabb76b1d74c06d50637f4f92"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>LayoutTag</b></td></tr>
-<tr class="memdesc:a70e870fcabb76b1d74c06d50637f4f92 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">布局标记，对于不同的布局有不同含义 <br /></td></tr>
-<tr class="separator:a70e870fcabb76b1d74c06d50637f4f92 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5706cc9d6ef3fab9176ccded231b99e inherit pub_attribs_classsw_1_1UIElement" id="r_ae5706cc9d6ef3fab9176ccded231b99e"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1ContextMenu.html">sw::ContextMenu</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ContextMenu</b></td></tr>
-<tr class="memdesc:ae5706cc9d6ef3fab9176ccded231b99e inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">右键按下时弹出的菜单 <br /></td></tr>
-<tr class="separator:ae5706cc9d6ef3fab9176ccded231b99e inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0d66604bc2dd555c37688135878a7f0 inherit pub_attribs_classsw_1_1UIElement" id="r_ac0d66604bc2dd555c37688135878a7f0"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Float</b></td></tr>
-<tr class="memdesc:ac0d66604bc2dd555c37688135878a7f0 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">元素是否悬浮，若元素悬浮则该元素不会随滚动条滚动而改变位置 <br /></td></tr>
-<tr class="separator:ac0d66604bc2dd555c37688135878a7f0 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b54e00e1e41af2a634ad694da3ffa98 inherit pub_attribs_classsw_1_1UIElement" id="r_a2b54e00e1e41af2a634ad694da3ffa98"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>TabStop</b></td></tr>
-<tr class="memdesc:a2b54e00e1e41af2a634ad694da3ffa98 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">表示用户是否可以通过按下Tab键将焦点移动到当前元素 <br /></td></tr>
-<tr class="separator:a2b54e00e1e41af2a634ad694da3ffa98 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf6897b58dc2899c37a3b395bfe124b9 inherit pub_attribs_classsw_1_1UIElement" id="r_aaf6897b58dc2899c37a3b395bfe124b9"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="structsw_1_1Color.html">Color</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>BackColor</b></td></tr>
-<tr class="memdesc:aaf6897b58dc2899c37a3b395bfe124b9 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">背景颜色，修改该属性会同时将Transparent属性设为false，对于部分控件该属性可能不生效 <br /></td></tr>
-<tr class="separator:aaf6897b58dc2899c37a3b395bfe124b9 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeaf2381fdffd82bd41e90c1a2cf69022 inherit pub_attribs_classsw_1_1UIElement" id="r_aeaf2381fdffd82bd41e90c1a2cf69022"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="structsw_1_1Color.html">Color</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>TextColor</b></td></tr>
-<tr class="memdesc:aeaf2381fdffd82bd41e90c1a2cf69022 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">文本颜色，修改该属性会同时将InheritTextColor属性设为false，对于部分控件该属性可能不生效 <br /></td></tr>
-<tr class="separator:aeaf2381fdffd82bd41e90c1a2cf69022 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9d544a538ca2cfa3d022da61e7637e5 inherit pub_attribs_classsw_1_1UIElement" id="r_aa9d544a538ca2cfa3d022da61e7637e5"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Transparent</b></td></tr>
-<tr class="memdesc:aa9d544a538ca2cfa3d022da61e7637e5 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否使用透明背景（此属性并非真正意义上的透明，将该属性设为true可继承父元素的背景颜色） <br /></td></tr>
-<tr class="separator:aa9d544a538ca2cfa3d022da61e7637e5 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7da2f416b1ed5038d8a3a59d6e44fcf5 inherit pub_attribs_classsw_1_1UIElement" id="r_a7da2f416b1ed5038d8a3a59d6e44fcf5"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>InheritTextColor</b></td></tr>
-<tr class="memdesc:a7da2f416b1ed5038d8a3a59d6e44fcf5 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否继承父元素的文本颜色 <br /></td></tr>
-<tr class="separator:a7da2f416b1ed5038d8a3a59d6e44fcf5 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1ae9ea6fdb1c1ecde418bffdb2287cc inherit pub_attribs_classsw_1_1UIElement" id="r_ab1ae9ea6fdb1c1ecde418bffdb2287cc"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; sw::LayoutUpdateCondition &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ab1ae9ea6fdb1c1ecde418bffdb2287cc">LayoutUpdateCondition</a></td></tr>
-<tr class="memdesc:ab1ae9ea6fdb1c1ecde418bffdb2287cc inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发布局更新的条件  <br /></td></tr>
-<tr class="separator:ab1ae9ea6fdb1c1ecde418bffdb2287cc inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78ccd020a37a7da25b9df8eab6783f35 inherit pub_attribs_classsw_1_1UIElement" id="r_a78ccd020a37a7da25b9df8eab6783f35"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsMeasureValid</b></td></tr>
-<tr class="memdesc:a78ccd020a37a7da25b9df8eab6783f35 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前元素的布局状态是否有效 <br /></td></tr>
-<tr class="separator:a78ccd020a37a7da25b9df8eab6783f35 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99fb629a6497ed371a43572388d0207b inherit pub_attribs_classsw_1_1UIElement" id="r_a99fb629a6497ed371a43572388d0207b"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>MinWidth</b></td></tr>
-<tr class="memdesc:a99fb629a6497ed371a43572388d0207b inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">最小宽度，当值为负数或0时表示不限制 <br /></td></tr>
-<tr class="separator:a99fb629a6497ed371a43572388d0207b inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a360ea4cc7f6cf85fef3533f425af97d3 inherit pub_attribs_classsw_1_1UIElement" id="r_a360ea4cc7f6cf85fef3533f425af97d3"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>MinHeight</b></td></tr>
-<tr class="memdesc:a360ea4cc7f6cf85fef3533f425af97d3 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">最小高度，当值为负数或0时表示不限制 <br /></td></tr>
-<tr class="separator:a360ea4cc7f6cf85fef3533f425af97d3 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad63be2acaa88ddc21df18ad9f3e08b31 inherit pub_attribs_classsw_1_1UIElement" id="r_ad63be2acaa88ddc21df18ad9f3e08b31"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>MaxWidth</b></td></tr>
-<tr class="memdesc:ad63be2acaa88ddc21df18ad9f3e08b31 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">最大宽度，当值为负数或0时表示不限制 <br /></td></tr>
-<tr class="separator:ad63be2acaa88ddc21df18ad9f3e08b31 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa97ce0e4104f8c0d9445bc1b8b556b15 inherit pub_attribs_classsw_1_1UIElement" id="r_aa97ce0e4104f8c0d9445bc1b8b556b15"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>MaxHeight</b></td></tr>
-<tr class="memdesc:aa97ce0e4104f8c0d9445bc1b8b556b15 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">最大高度，当值为负数或0时表示不限制 <br /></td></tr>
-<tr class="separator:aa97ce0e4104f8c0d9445bc1b8b556b15 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_attribs_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
-<tr class="memitem:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase" id="r_abc0b653ccc071c2cfcba42fa8eef738f"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; HWND &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Handle</b></td></tr>
-<tr class="memdesc:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口句柄 <br /></td></tr>
-<tr class="separator:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a529436cd730fc39ad2875728cdfe4a51 inherit pub_attribs_classsw_1_1WndBase" id="r_a529436cd730fc39ad2875728cdfe4a51"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1Font.html">sw::Font</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Font</b></td></tr>
-<tr class="memdesc:a529436cd730fc39ad2875728cdfe4a51 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体 <br /></td></tr>
-<tr class="separator:a529436cd730fc39ad2875728cdfe4a51 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72a604f374bba1e6c34b5d5e56cd26f0 inherit pub_attribs_classsw_1_1WndBase" id="r_a72a604f374bba1e6c34b5d5e56cd26f0"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FontName</b></td></tr>
-<tr class="memdesc:a72a604f374bba1e6c34b5d5e56cd26f0 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体名称 <br /></td></tr>
-<tr class="separator:a72a604f374bba1e6c34b5d5e56cd26f0 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac49c6452ceb4950dd581189615753b0c inherit pub_attribs_classsw_1_1WndBase" id="r_ac49c6452ceb4950dd581189615753b0c"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FontSize</b></td></tr>
-<tr class="memdesc:ac49c6452ceb4950dd581189615753b0c inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体大小 <br /></td></tr>
-<tr class="separator:ac49c6452ceb4950dd581189615753b0c inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50e006e69f07abb4e6ba381121abcd22 inherit pub_attribs_classsw_1_1WndBase" id="r_a50e006e69f07abb4e6ba381121abcd22"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; sw::FontWeight &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>FontWeight</b></td></tr>
-<tr class="memdesc:a50e006e69f07abb4e6ba381121abcd22 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体粗细 <br /></td></tr>
-<tr class="separator:a50e006e69f07abb4e6ba381121abcd22 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7598603457217f09aae0deaad59ef063 inherit pub_attribs_classsw_1_1WndBase" id="r_a7598603457217f09aae0deaad59ef063"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Rect</b></td></tr>
-<tr class="memdesc:a7598603457217f09aae0deaad59ef063 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">位置和尺寸 <br /></td></tr>
-<tr class="separator:a7598603457217f09aae0deaad59ef063 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f0b57de9babc053c655872ed91468dd inherit pub_attribs_classsw_1_1WndBase" id="r_a4f0b57de9babc053c655872ed91468dd"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Left</b></td></tr>
-<tr class="memdesc:a4f0b57de9babc053c655872ed91468dd inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">左边 <br /></td></tr>
-<tr class="separator:a4f0b57de9babc053c655872ed91468dd inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6dbe3776aeb038659f0a290fbe1dc6d7 inherit pub_attribs_classsw_1_1WndBase" id="r_a6dbe3776aeb038659f0a290fbe1dc6d7"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Top</b></td></tr>
-<tr class="memdesc:a6dbe3776aeb038659f0a290fbe1dc6d7 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">顶边 <br /></td></tr>
-<tr class="separator:a6dbe3776aeb038659f0a290fbe1dc6d7 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a445edbe5db50a5a4486ddff98e8ffbae inherit pub_attribs_classsw_1_1WndBase" id="r_a445edbe5db50a5a4486ddff98e8ffbae"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Width</b></td></tr>
-<tr class="memdesc:a445edbe5db50a5a4486ddff98e8ffbae inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">宽度 <br /></td></tr>
-<tr class="separator:a445edbe5db50a5a4486ddff98e8ffbae inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51fdc4b943e62bd67ffbff4a6e65de2a inherit pub_attribs_classsw_1_1WndBase" id="r_a51fdc4b943e62bd67ffbff4a6e65de2a"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Height</b></td></tr>
-<tr class="memdesc:a51fdc4b943e62bd67ffbff4a6e65de2a inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">高度 <br /></td></tr>
-<tr class="separator:a51fdc4b943e62bd67ffbff4a6e65de2a inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0126115c0626d137ba3e7b0a5c8d793b inherit pub_attribs_classsw_1_1WndBase" id="r_a0126115c0626d137ba3e7b0a5c8d793b"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClientRect</b></td></tr>
-<tr class="memdesc:a0126115c0626d137ba3e7b0a5c8d793b inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户区尺寸 <br /></td></tr>
-<tr class="separator:a0126115c0626d137ba3e7b0a5c8d793b inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97898f967c916e67c152c69f4c7c6cd6 inherit pub_attribs_classsw_1_1WndBase" id="r_a97898f967c916e67c152c69f4c7c6cd6"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClientWidth</b></td></tr>
-<tr class="memdesc:a97898f967c916e67c152c69f4c7c6cd6 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户区宽度 <br /></td></tr>
-<tr class="separator:a97898f967c916e67c152c69f4c7c6cd6 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4030b80afd9e81e3046ccd5ec94ec83f inherit pub_attribs_classsw_1_1WndBase" id="r_a4030b80afd9e81e3046ccd5ec94ec83f"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClientHeight</b></td></tr>
-<tr class="memdesc:a4030b80afd9e81e3046ccd5ec94ec83f inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户区高度 <br /></td></tr>
-<tr class="separator:a4030b80afd9e81e3046ccd5ec94ec83f inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5e7d8d1a548315b3e709151f71766b3 inherit pub_attribs_classsw_1_1WndBase" id="r_ad5e7d8d1a548315b3e709151f71766b3"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Enabled</b></td></tr>
-<tr class="memdesc:ad5e7d8d1a548315b3e709151f71766b3 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口或控件是否可用 <br /></td></tr>
-<tr class="separator:ad5e7d8d1a548315b3e709151f71766b3 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a808f5d6fd407e3b65cff88f1873bd754 inherit pub_attribs_classsw_1_1WndBase" id="r_a808f5d6fd407e3b65cff88f1873bd754"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Visible</b></td></tr>
-<tr class="memdesc:a808f5d6fd407e3b65cff88f1873bd754 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口或控件是否可见 <br /></td></tr>
-<tr class="separator:a808f5d6fd407e3b65cff88f1873bd754 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9afff86d32e9b54cccc204ef29a85891 inherit pub_attribs_classsw_1_1WndBase" id="r_a9afff86d32e9b54cccc204ef29a85891"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Text</b></td></tr>
-<tr class="memdesc:a9afff86d32e9b54cccc204ef29a85891 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口标题或控件文本 <br /></td></tr>
-<tr class="separator:a9afff86d32e9b54cccc204ef29a85891 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71498b3ad8ae548fd7f4a531a6b70982 inherit pub_attribs_classsw_1_1WndBase" id="r_a71498b3ad8ae548fd7f4a531a6b70982"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Focused</b></td></tr>
-<tr class="memdesc:a71498b3ad8ae548fd7f4a531a6b70982 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口是否拥有焦点 <br /></td></tr>
-<tr class="separator:a71498b3ad8ae548fd7f4a531a6b70982 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bda583e7535a89b8b5bd327c1f32ccd inherit pub_attribs_classsw_1_1WndBase" id="r_a7bda583e7535a89b8b5bd327c1f32ccd"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1WndBase.html">WndBase</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Parent</b></td></tr>
-<tr class="memdesc:a7bda583e7535a89b8b5bd327c1f32ccd inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">父窗口 <br /></td></tr>
-<tr class="separator:a7bda583e7535a89b8b5bd327c1f32ccd inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54aa973b24b4bc4b681ac2c21a50d204 inherit pub_attribs_classsw_1_1WndBase" id="r_a54aa973b24b4bc4b681ac2c21a50d204"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsDestroyed</b></td></tr>
-<tr class="memdesc:a54aa973b24b4bc4b681ac2c21a50d204 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否已销毁，当该值为true时不应该继续使用当前对象 <br /></td></tr>
-<tr class="separator:a54aa973b24b4bc4b681ac2c21a50d204 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43b324f78290554d0c08bf6f33cdb5fd inherit pub_attribs_classsw_1_1WndBase" id="r_a43b324f78290554d0c08bf6f33cdb5fd"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>AcceptFiles</b></td></tr>
-<tr class="memdesc:a43b324f78290554d0c08bf6f33cdb5fd inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否接受拖放文件 <br /></td></tr>
-<tr class="separator:a43b324f78290554d0c08bf6f33cdb5fd inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b72c64e192b49d1ace945e96c2368ab inherit pub_attribs_classsw_1_1WndBase" id="r_a4b72c64e192b49d1ace945e96c2368ab"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsControl</b></td></tr>
-<tr class="memdesc:a4b72c64e192b49d1ace945e96c2368ab inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前对象是否是控件 <br /></td></tr>
-<tr class="separator:a4b72c64e192b49d1ace945e96c2368ab inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39da72806797078fa2ea1a62ada465fc inherit pub_attribs_classsw_1_1WndBase" id="r_a39da72806797078fa2ea1a62ada465fc"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClassName</b></td></tr>
-<tr class="memdesc:a39da72806797078fa2ea1a62ada465fc inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口类名 <br /></td></tr>
-<tr class="separator:a39da72806797078fa2ea1a62ada465fc inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>窗口类名为BUTTON的控件类型的基类 </p>
 </div><h2 class="groupheader">成员函数说明</h2>
+<a id="ad324d6627bbed78bedde95c2b2f8c303" name="ad324d6627bbed78bedde95c2b2f8c303"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad324d6627bbed78bedde95c2b2f8c303">&#9670;&#160;</a></span>MeasureOverride()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="structsw_1_1Size.html">Size</a> sw::ButtonBase::MeasureOverride </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;&#160;</td>
+          <td class="paramname"><em>availableSize</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>测量元素所需尺寸，无需考虑边框和边距 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">availableSize</td><td>可用的尺寸 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>返回元素需要占用的尺寸 </dd></dl>
+
+<p>重载 <a class="el" href="classsw_1_1UIElement.html#a8cd17e0524115089357b146545510fe8">sw::UIElement</a> .</p>
+
+</div>
+</div>
 <a id="ad95b3a535345f674c55b7c6287e49a2d" name="ad95b3a535345f674c55b7c6287e49a2d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad95b3a535345f674c55b7c6287e49a2d">&#9670;&#160;</a></span>OnCommand()</h2>
 

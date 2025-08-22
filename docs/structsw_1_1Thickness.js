@@ -4,6 +4,8 @@ var structsw_1_1Thickness =
     [ "Thickness", "structsw_1_1Thickness.html#a92583f6c2c74f2ccb80c0668c46a3ec1", null ],
     [ "Thickness", "structsw_1_1Thickness.html#adbc2226c0f9e9c9b63b72231312c1ce9", null ],
     [ "Thickness", "structsw_1_1Thickness.html#aa76efc673c41ede9df532cd0a8735315", null ],
+    [ "Thickness", "structsw_1_1Thickness.html#a40088a215903145cee6d13df9a9dc5c5", null ],
+    [ "operator RECT", "structsw_1_1Thickness.html#ade3471e280bb9ecc49f419a3e4f17dc7", null ],
     [ "operator!=", "structsw_1_1Thickness.html#af689a9f21857e412b50d97d85ff78984", null ],
     [ "operator==", "structsw_1_1Thickness.html#a13005ed545348778816fdcdf80d374aa", null ],
     [ "ToString", "structsw_1_1Thickness.html#af4273a93c259ef81cf06aa112cff2241", null ],

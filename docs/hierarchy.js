@@ -114,7 +114,8 @@ var hierarchy =
             [ "sw::CheckableButton", "classsw_1_1CheckableButton.html", [
               [ "sw::CheckBox", "classsw_1_1CheckBox.html", null ],
               [ "sw::RadioButton", "classsw_1_1RadioButton.html", null ]
-            ] ]
+            ] ],
+            [ "sw::CommandLink", "classsw_1_1CommandLink.html", null ]
           ] ],
           [ "sw::DateTimePicker", "classsw_1_1DateTimePicker.html", null ],
           [ "sw::HotKeyControl", "classsw_1_1HotKeyControl.html", null ],
@@ -204,6 +205,7 @@ var hierarchy =
       [ "sw::Property< std::wstring >", "classsw_1_1Property.html", null ],
       [ "sw::Property< AppQuitMode >", "classsw_1_1Property.html", null ],
       [ "sw::Property< BmpBoxSizeMode >", "classsw_1_1Property.html", null ],
+      [ "sw::Property< sw::Thickness >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::CheckState >", "classsw_1_1Property.html", null ],
       [ "sw::Property< DateTimePickerFormat >", "classsw_1_1Property.html", null ],
       [ "sw::Property< FileDialogFlags >", "classsw_1_1Property.html", null ],
@@ -216,7 +218,6 @@ var hierarchy =
       [ "sw::Property< sw::LayoutHost * >", "classsw_1_1Property.html", null ],
       [ "sw::Property< double >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::BorderStyle >", "classsw_1_1Property.html", null ],
-      [ "sw::Property< sw::Thickness >", "classsw_1_1Property.html", null ],
       [ "sw::Property< wchar_t >", "classsw_1_1Property.html", null ],
       [ "sw::Property< uint16_t >", "classsw_1_1Property.html", null ],
       [ "sw::Property< ProgressBarState >", "classsw_1_1Property.html", null ],
