@@ -369,16 +369,15 @@ HBITMAP sw::BmpBox::_SetBmpIfNotNull(HBITMAP hBitmap)
 
 // Button.cpp
 
-namespace
-{
-    constexpr DWORD _ButtonStyle_Default = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_PUSHBUTTON;
-    constexpr DWORD _ButtonStyle_Focused = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_DEFPUSHBUTTON;
-}
-
 sw::Button::Button()
 {
-    this->InitButtonBase(L"Button", _ButtonStyle_Default, 0);
+    this->InitButtonBase(L"Button", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_PUSHBUTTON, 0);
     this->Rect = sw::Rect(0, 0, 70, 30);
+}
+
+void sw::Button::UpdateButtonStyle(bool focused)
+{
+    this->SetStyle(BS_DEFPUSHBUTTON, focused); // BS_PUSHBUTTON == 0
 }
 
 void sw::Button::OnDrawFocusRect(HDC hdc)
@@ -398,14 +397,14 @@ void sw::Button::OnDrawFocusRect(HDC hdc)
 
 bool sw::Button::OnSetFocus(HWND hPreFocus)
 {
-    this->SetStyle(_ButtonStyle_Focused);
+    this->UpdateButtonStyle(true);
     this->Redraw();
     return this->ButtonBase::OnSetFocus(hPreFocus);
 }
 
 bool sw::Button::OnKillFocus(HWND hNextFocus)
 {
-    this->SetStyle(_ButtonStyle_Default);
+    this->UpdateButtonStyle(false);
     this->Redraw();
     return this->ButtonBase::OnKillFocus(hNextFocus);
 }
@@ -417,15 +416,54 @@ bool sw::Button::OnKeyDown(VirtualKey key, KeyFlags flags)
     if (!result && key == VirtualKey::Enter) {
         this->OnClicked();
     }
-
     return result;
 }
 
 // ButtonBase.cpp
 
 sw::ButtonBase::ButtonBase()
+    : AutoSize(
+          // get
+          [this]() -> bool {
+              return _autoSize;
+          },
+          // set
+          [this](const bool &value) {
+              if (_autoSize != value) {
+                  _autoSize = value;
+                  _UpdateLayoutFlags();
+                  InvalidateMeasure();
+              }
+          }),
+
+      MultiLine(
+          // get
+          [this]() -> bool {
+              return GetStyle(BS_MULTILINE);
+          },
+          // set
+          [this](const bool &value) {
+              SetStyle(BS_MULTILINE, value);
+              if (_autoSize) InvalidateMeasure();
+          }),
+
+      TextMargin(
+          // get
+          [this]() -> Thickness {
+              RECT rect{};
+              _GetTextMargin(rect);
+              return rect;
+          },
+          // set
+          [this](const Thickness &value) {
+              RECT rect = value;
+              _SetTextMargin(rect);
+              if (_autoSize) InvalidateMeasure();
+          })
 {
-    this->TabStop = true;
+    TabStop          = true;
+    Transparent      = true;
+    InheritTextColor = true;
 }
 
 sw::ButtonBase::~ButtonBase()
@@ -434,20 +472,28 @@ sw::ButtonBase::~ButtonBase()
 
 void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
-    this->InitControl(L"BUTTON", lpWindowName, dwStyle, dwExStyle);
-    this->Transparent      = true;
-    this->InheritTextColor = true;
+    InitControl(L"BUTTON", lpWindowName, dwStyle, dwExStyle);
+}
+
+void sw::ButtonBase::OnClicked()
+{
+    RaiseRoutedEvent(ButtonBase_Clicked);
+}
+
+void sw::ButtonBase::OnDoubleClicked()
+{
+    RaiseRoutedEvent(ButtonBase_DoubleClicked);
 }
 
 void sw::ButtonBase::OnCommand(int code)
 {
     switch (code) {
         case BN_CLICKED:
-            this->OnClicked();
+            OnClicked();
             break;
 
         case BN_DOUBLECLICKED:
-            this->OnDoubleClicked();
+            OnDoubleClicked();
             break;
 
         default:
@@ -455,14 +501,63 @@ void sw::ButtonBase::OnCommand(int code)
     }
 }
 
-void sw::ButtonBase::OnClicked()
+sw::Size sw::ButtonBase::MeasureOverride(const Size &availableSize)
 {
-    this->RaiseRoutedEvent(ButtonBase_Clicked);
+    if (!_autoSize) {
+        return UIElement::MeasureOverride(availableSize);
+    }
+
+    SIZE szIdeal = {0, 0};
+
+    if (!_GetIdealSize(szIdeal)) {
+        return UIElement::MeasureOverride(availableSize);
+    }
+
+    Size desireSize = szIdeal;
+
+    if (szIdeal.cx == 0 && std::isinf(availableSize.width)) {
+        desireSize = UIElement::MeasureOverride(availableSize);
+        szIdeal.cx = Dip::DipToPxX(desireSize.width);
+        szIdeal.cy = 0;
+        _GetIdealSize(szIdeal);
+        desireSize.height = Dip::PxToDipY(szIdeal.cy);
+    } else if (availableSize.width < desireSize.width ||
+               (szIdeal.cx == 0 && !std::isinf(availableSize.width))) {
+        szIdeal.cx = Dip::DipToPxX(availableSize.width);
+        szIdeal.cy = 0;
+        _GetIdealSize(szIdeal);
+        desireSize.width  = availableSize.width;
+        desireSize.height = Dip::PxToDipY(szIdeal.cy);
+    }
+    return desireSize;
 }
 
-void sw::ButtonBase::OnDoubleClicked()
+void sw::ButtonBase::_UpdateLayoutFlags()
 {
-    this->RaiseRoutedEvent(ButtonBase_DoubleClicked);
+    constexpr auto flags =
+        sw::LayoutUpdateCondition::TextChanged |
+        sw::LayoutUpdateCondition::FontChanged;
+
+    if (_autoSize) {
+        LayoutUpdateCondition |= flags;
+    } else {
+        LayoutUpdateCondition &= ~flags;
+    }
+}
+
+bool sw::ButtonBase::_GetIdealSize(SIZE &size)
+{
+    return SendMessageW(BCM_GETIDEALSIZE, 0, reinterpret_cast<LPARAM>(&size)) == TRUE;
+}
+
+bool sw::ButtonBase::_GetTextMargin(RECT &rect)
+{
+    return SendMessageW(BCM_GETTEXTMARGIN, 0, reinterpret_cast<LPARAM>(&rect)) == TRUE;
+}
+
+bool sw::ButtonBase::_SetTextMargin(RECT &rect)
+{
+    return SendMessageW(BCM_SETTEXTMARGIN, 0, reinterpret_cast<LPARAM>(&rect)) == TRUE;
 }
 
 // Canvas.cpp
@@ -546,25 +641,21 @@ void sw::CanvasLayout::ArrangeOverride(const Size &finalSize)
 
 // CheckBox.cpp
 
-namespace
-{
-    constexpr DWORD _CheckBoxStyle_Normal     = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTOCHECKBOX;
-    constexpr DWORD _CheckBoxStyle_ThreeState = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTO3STATE;
-}
-
 sw::CheckBox::CheckBox()
     : ThreeState(
           // get
           [this]() -> bool {
-              return this->GetStyle() == _CheckBoxStyle_ThreeState;
+              return (GetStyle() & BS_AUTO3STATE) == BS_AUTO3STATE;
           },
           // set
           [this](const bool &value) {
-              this->SetStyle(value ? _CheckBoxStyle_ThreeState : _CheckBoxStyle_Normal);
+              auto style = GetStyle() & ~(BS_AUTOCHECKBOX | BS_AUTO3STATE);
+              SetStyle(value ? (style | BS_AUTO3STATE) : (style | BS_AUTOCHECKBOX));
           })
 {
-    this->InitButtonBase(L"CheckBox", _CheckBoxStyle_Normal, 0);
-    this->Rect = sw::Rect(0, 0, 100, 20);
+    InitButtonBase(L"CheckBox", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTOCHECKBOX, 0);
+    Rect     = sw::Rect{0, 0, 100, 20};
+    AutoSize = true;
 }
 
 // CheckableButton.cpp
@@ -798,6 +889,64 @@ void sw::ComboBox::ShowDropDown()
 void sw::ComboBox::CloseDropDown()
 {
     this->SendMessageW(CB_SHOWDROPDOWN, FALSE, 0);
+}
+
+// CommandLink.cpp
+
+sw::CommandLink::CommandLink()
+    : NoteText(
+          // get
+          [this]() -> std::wstring {
+              int len = (int)SendMessageW(BCM_GETNOTELENGTH, 0, 0);
+              if (len <= 0)
+                  return std::wstring{};
+              else {
+                  std::wstring result;
+                  result.resize(len + 1);
+                  SendMessageW(BCM_GETNOTE, len + 1, reinterpret_cast<LPARAM>(&result[0]));
+                  result.resize(len);
+                  return result;
+              }
+          },
+          // set
+          [this](const std::wstring &value) {
+              SendMessageW(BCM_SETNOTE, 0, reinterpret_cast<LPARAM>(value.c_str()));
+              if (AutoSize) InvalidateMeasure();
+          })
+{
+    InitButtonBase(L"CommandLink", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_COMMANDLINK, 0);
+    Rect     = sw::Rect{0, 0, 180, 60};
+    NoteText = L"Description";
+}
+
+void sw::CommandLink::UpdateButtonStyle(bool focused)
+{
+    auto style = GetStyle() & ~(BS_COMMANDLINK | BS_DEFCOMMANDLINK);
+    SetStyle(focused ? (style | BS_DEFCOMMANDLINK) : (style | BS_COMMANDLINK));
+}
+
+bool sw::CommandLink::OnSetFocus(HWND hPreFocus)
+{
+    UpdateButtonStyle(true);
+    Redraw();
+    return ButtonBase::OnSetFocus(hPreFocus);
+}
+
+bool sw::CommandLink::OnKillFocus(HWND hNextFocus)
+{
+    UpdateButtonStyle(false);
+    Redraw();
+    return ButtonBase::OnKillFocus(hNextFocus);
+}
+
+bool sw::CommandLink::OnKeyDown(VirtualKey key, KeyFlags flags)
+{
+    bool result = UIElement::OnKeyDown(key, flags);
+
+    if (!result && key == VirtualKey::Enter) {
+        OnClicked();
+    }
+    return result;
 }
 
 // ContextMenu.cpp
@@ -6322,8 +6471,9 @@ sw::ProgressBar::ProgressBar()
 
 sw::RadioButton::RadioButton()
 {
-    this->InitButtonBase(L"RadioButton", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTORADIOBUTTON, 0);
-    this->Rect = sw::Rect(0, 0, 100, 20);
+    InitButtonBase(L"RadioButton", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTORADIOBUTTON, 0);
+    Rect     = sw::Rect{0, 0, 100, 20};
+    AutoSize = true;
 }
 
 // Rect.cpp
@@ -6872,22 +7022,19 @@ sw::SysLink::SysLink()
           },
           // set
           [this](const bool &value) {
-              if (value) {
-                  this->_autoSize = true;
-                  this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
+              if (this->_autoSize != value) {
+                  this->_autoSize = value;
+                  this->_UpdateLayoutFlags();
                   this->InvalidateMeasure();
-              } else {
-                  this->_autoSize = false;
-                  this->LayoutUpdateCondition &= ~(sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged);
               }
           })
 {
     this->InitControl(WC_LINK, L"<a>SysLink</a>", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_TABSTOP, 0);
     this->_UpdateTextSize();
     this->_ResizeToTextSize();
+    this->_UpdateLayoutFlags();
     this->Transparent      = true;
     this->InheritTextColor = true;
-    this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::TextChanged | sw::LayoutUpdateCondition::FontChanged;
 }
 
 void sw::SysLink::OnTextChanged()
@@ -6951,6 +7098,19 @@ void sw::SysLink::_UpdateTextSize()
 void sw::SysLink::_ResizeToTextSize()
 {
     this->Resize(this->_textSize);
+}
+
+void sw::SysLink::_UpdateLayoutFlags()
+{
+    constexpr auto flags =
+        sw::LayoutUpdateCondition::TextChanged |
+        sw::LayoutUpdateCondition::FontChanged;
+
+    if (this->_autoSize) {
+        this->LayoutUpdateCondition |= flags;
+    } else {
+        this->LayoutUpdateCondition &= ~flags;
+    }
 }
 
 // TabControl.cpp
@@ -7450,6 +7610,24 @@ sw::Thickness::Thickness(double horizontal, double vertical)
 sw::Thickness::Thickness(double left, double top, double right, double bottom)
     : left(left), top(top), right(right), bottom(bottom)
 {
+}
+
+sw::Thickness::Thickness(const RECT &rect)
+    : Thickness(
+          Dip::PxToDipX(rect.left),
+          Dip::PxToDipY(rect.top),
+          Dip::PxToDipX(rect.right),
+          Dip::PxToDipY(rect.bottom))
+{
+}
+
+sw::Thickness::operator RECT() const
+{
+    return RECT{
+        Dip::DipToPxX(this->left),
+        Dip::DipToPxY(this->top),
+        Dip::DipToPxX(this->right),
+        Dip::DipToPxY(this->bottom)};
 }
 
 bool sw::Thickness::operator==(const Thickness &other) const
@@ -10019,6 +10197,16 @@ sw::WndBase::WndBase()
               std::wstring result(256, L'\0');
               result.resize(GetClassNameW(this->_hwnd, &result[0], (int)result.size()));
               return result;
+          }),
+
+      GroupStart(
+          // get
+          [this]() -> bool {
+              return this->GetStyle(WS_GROUP);
+          },
+          // set
+          [this](const bool &value) {
+              this->SetStyle(WS_GROUP, value);
           })
 {
     this->_font = sw::Font::GetDefaultFont();

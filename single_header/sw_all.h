@@ -2188,6 +2188,16 @@ namespace sw
         Thickness(double left, double top, double right, double bottom);
 
         /**
+         * @brief 从RECT结构体构造Thickness结构体
+         */
+        Thickness(const RECT &rect);
+
+        /**
+         * @brief 隐式转换为RECT
+         */
+        operator RECT() const;
+
+        /**
          * @brief 判断两个Thickness是否相同
          */
         bool operator==(const Thickness &other) const;
@@ -6652,6 +6662,12 @@ namespace sw
          */
         const ReadOnlyProperty<std::wstring> ClassName;
 
+        /**
+         * @brief 窗口是一组控件中的第一个控件
+         * @note  当窗口拥有WS_GROUP样式时该属性值为true，否则为false
+         */
+        const Property<bool> GroupStart;
+
     protected:
         /**
          * @brief 初始化WndBase
@@ -10116,13 +10132,34 @@ namespace sw
      */
     class ButtonBase : public Control
     {
-    protected:
+    private:
+        /**
+         * @brief 是否自动调整大小以适应内容
+         */
+        bool _autoSize = false;
+
+    public:
+        /**
+         * @brief 是否自动调整大小以适应内容
+         */
+        const Property<bool> AutoSize;
+
+        /**
+         * @brief 文本过长时是否自动换行
+         */
+        const Property<bool> MultiLine;
+
+        /**
+         * @brief 文本边距
+         */
+        const Property<Thickness> TextMargin;
+
+    public:
         /**
          * @brief 初始化ButtonBase
          */
         ButtonBase();
 
-    public:
         /**
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
          */
@@ -10135,12 +10172,6 @@ namespace sw
         void InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
 
         /**
-         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
-         * @param code 通知代码
-         */
-        virtual void OnCommand(int code) override;
-
-        /**
          * @brief 被单击时调用该函数
          */
         virtual void OnClicked();
@@ -10149,6 +10180,43 @@ namespace sw
          * @brief 被双击时调用该函数
          */
         virtual void OnDoubleClicked();
+
+        /**
+         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
+         */
+        virtual void OnCommand(int code) override;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+    private:
+        /**
+         * @brief 更新布局标记
+         */
+        void _UpdateLayoutFlags();
+
+        /**
+         * @brief 获取理想尺寸
+         * @note  该函数发送BCM_GETIDEALSIZE消息
+         */
+        bool _GetIdealSize(SIZE &size);
+
+        /**
+         * @brief 获取按钮控件中绘制文本的边距
+         * @note  该函数发送BCM_GETTEXTMARGIN消息
+         */
+        bool _GetTextMargin(RECT &rect);
+
+        /**
+         * @brief 设置按钮控件中绘制文本的边距
+         * @note  该函数发送BCM_SETTEXTMARGIN消息
+         */
+        bool _SetTextMargin(RECT &rect);
     };
 }
 
@@ -10960,6 +11028,11 @@ namespace sw
          * @brief 调整尺寸为_textSize
          */
         void _ResizeToTextSize();
+
+        /**
+         * @brief 更新LayoutUpdateCondition属性
+         */
+        void _UpdateLayoutFlags();
     };
 }
 
@@ -11647,6 +11720,12 @@ namespace sw
 
     protected:
         /**
+         * @brief         更新按钮样式
+         * @param focused 是否处于焦点状态
+         */
+        virtual void UpdateButtonStyle(bool focused);
+
+        /**
          * @brief     绘制虚线框时调用该函数
          * @param hdc 绘制设备句柄
          */
@@ -11842,6 +11921,58 @@ namespace sw
          * @brief 关闭下拉列表
          */
         void CloseDropDown();
+    };
+}
+
+// CommandLink.h
+
+
+namespace sw
+{
+    /**
+     * @brief 按钮
+     */
+    class CommandLink : public ButtonBase
+    {
+    public:
+        /**
+         * @brief 描述文字
+         */
+        const Property<std::wstring> NoteText;
+
+        /**
+         * @brief 初始化按钮
+         */
+        CommandLink();
+
+    protected:
+        /**
+         * @brief         更新按钮样式
+         * @param focused 是否处于焦点状态
+         */
+        virtual void UpdateButtonStyle(bool focused);
+
+        /**
+         * @brief           接收到WM_SETFOCUS时调用该函数
+         * @param hPreFocus 丢失焦点的hwnd，可能为NULL
+         * @return          若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnSetFocus(HWND hPreFocus) override;
+
+        /**
+         * @brief            接收到WM_KILLFOCUS时调用该函数
+         * @param hNextFocus 接收到焦点的hwnd，可能为NULL
+         * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnKillFocus(HWND hNextFocus) override;
+
+        /**
+         * @brief       接收到WM_KEYDOWN时调用该函数
+         * @param key   虚拟按键
+         * @param flags 附加信息
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
     };
 }
 
