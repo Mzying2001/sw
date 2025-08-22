@@ -13,6 +13,17 @@ sw::ButtonBase::ButtonBase()
                   _UpdateLayoutFlags();
                   InvalidateMeasure();
               }
+          }),
+
+      MultiLine(
+          // get
+          [this]() -> bool {
+              return GetStyle(BS_MULTILINE);
+          },
+          // set
+          [this](const bool &value) {
+              SetStyle(BS_MULTILINE, value);
+              if (_autoSize) InvalidateMeasure();
           })
 {
     TabStop = true;

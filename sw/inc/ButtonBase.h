@@ -21,6 +21,11 @@ namespace sw
          */
         const Property<bool> AutoSize;
 
+        /**
+         * @brief 文本过长时是否自动换行
+         */
+        const Property<bool> MultiLine;
+
     public:
         /**
          * @brief 初始化ButtonBase
