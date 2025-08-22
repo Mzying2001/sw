@@ -297,6 +297,9 @@
     <ClInclude Include="..\sw\inc\EventHandlerWrapper.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\CommandLink.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\Animation.cpp">
@@ -537,6 +540,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\HwndWrapper.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\CommandLink.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

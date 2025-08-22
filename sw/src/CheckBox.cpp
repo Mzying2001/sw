@@ -1,22 +1,18 @@
 #include "CheckBox.h"
 
-namespace
-{
-    constexpr DWORD _CheckBoxStyle_Normal     = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTOCHECKBOX;
-    constexpr DWORD _CheckBoxStyle_ThreeState = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTO3STATE;
-}
-
 sw::CheckBox::CheckBox()
     : ThreeState(
           // get
           [this]() -> bool {
-              return this->GetStyle() == _CheckBoxStyle_ThreeState;
+              return (GetStyle() & BS_AUTO3STATE) == BS_AUTO3STATE;
           },
           // set
           [this](const bool &value) {
-              this->SetStyle(value ? _CheckBoxStyle_ThreeState : _CheckBoxStyle_Normal);
+              auto style = GetStyle() & ~(BS_AUTOCHECKBOX | BS_AUTO3STATE);
+              SetStyle(value ? (style | BS_AUTO3STATE) : (style | BS_AUTOCHECKBOX));
           })
 {
-    this->InitButtonBase(L"CheckBox", _CheckBoxStyle_Normal, 0);
-    this->Rect = sw::Rect(0, 0, 100, 20);
+    InitButtonBase(L"CheckBox", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTOCHECKBOX, 0);
+    Rect     = sw::Rect{0, 0, 100, 20};
+    AutoSize = true;
 }

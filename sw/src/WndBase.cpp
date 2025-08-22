@@ -255,6 +255,16 @@ sw::WndBase::WndBase()
               std::wstring result(256, L'\0');
               result.resize(GetClassNameW(this->_hwnd, &result[0], (int)result.size()));
               return result;
+          }),
+
+      GroupStart(
+          // get
+          [this]() -> bool {
+              return this->GetStyle(WS_GROUP);
+          },
+          // set
+          [this](const bool &value) {
+              this->SetStyle(WS_GROUP, value);
           })
 {
     this->_font = sw::Font::GetDefaultFont();

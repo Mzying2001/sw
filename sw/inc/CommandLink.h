@@ -7,13 +7,18 @@ namespace sw
     /**
      * @brief 按钮
      */
-    class Button : public ButtonBase
+    class CommandLink : public ButtonBase
     {
     public:
         /**
+         * @brief 描述文字
+         */
+        const Property<std::wstring> NoteText;
+
+        /**
          * @brief 初始化按钮
          */
-        Button();
+        CommandLink();
 
     protected:
         /**
@@ -21,12 +26,6 @@ namespace sw
          * @param focused 是否处于焦点状态
          */
         virtual void UpdateButtonStyle(bool focused);
-
-        /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc) override;
 
         /**
          * @brief           接收到WM_SETFOCUS时调用该函数
