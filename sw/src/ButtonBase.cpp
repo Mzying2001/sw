@@ -1,4 +1,5 @@
 #include "ButtonBase.h"
+#include <cmath>
 
 sw::ButtonBase::ButtonBase()
     : AutoSize(
@@ -94,7 +95,14 @@ sw::Size sw::ButtonBase::MeasureOverride(const Size &availableSize)
 
     Size desireSize = szIdeal;
 
-    if (availableSize.width < desireSize.width) {
+    if (szIdeal.cx == 0 && std::isinf(availableSize.width)) {
+        desireSize = UIElement::MeasureOverride(availableSize);
+        szIdeal.cx = Dip::DipToPxX(desireSize.width);
+        szIdeal.cy = 0;
+        _GetIdealSize(szIdeal);
+        desireSize.height = Dip::PxToDipY(szIdeal.cy);
+    } else if (availableSize.width < desireSize.width ||
+               (szIdeal.cx == 0 && !std::isinf(availableSize.width))) {
         szIdeal.cx = Dip::DipToPxX(availableSize.width);
         szIdeal.cy = 0;
         _GetIdealSize(szIdeal);
