@@ -40,7 +40,9 @@ sw::ButtonBase::ButtonBase()
               if (_autoSize) InvalidateMeasure();
           })
 {
-    TabStop = true;
+    TabStop          = true;
+    Transparent      = true;
+    InheritTextColor = true;
 }
 
 sw::ButtonBase::~ButtonBase()
@@ -50,8 +52,6 @@ sw::ButtonBase::~ButtonBase()
 void sw::ButtonBase::InitButtonBase(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
     InitControl(L"BUTTON", lpWindowName, dwStyle, dwExStyle);
-    Transparent      = true;
-    InheritTextColor = true;
 }
 
 void sw::ButtonBase::OnClicked()
