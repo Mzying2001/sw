@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Windows.h>
 #include <string>
 
 namespace sw
@@ -47,6 +48,16 @@ namespace sw
          * @brief 指定四边的值构造Thickness结构体
          */
         Thickness(double left, double top, double right, double bottom);
+
+        /**
+         * @brief 从RECT结构体构造Thickness结构体
+         */
+        Thickness(const RECT &rect);
+
+        /**
+         * @brief 隐式转换为RECT
+         */
+        operator RECT() const;
 
         /**
          * @brief 判断两个Thickness是否相同
