@@ -26,6 +26,11 @@ namespace sw
          */
         const Property<bool> MultiLine;
 
+        /**
+         * @brief 文本边距
+         */
+        const Property<Thickness> TextMargin;
+
     public:
         /**
          * @brief 初始化ButtonBase
@@ -73,8 +78,21 @@ namespace sw
         void _UpdateLayoutFlags();
 
         /**
-         * @brief 获取理想尺寸，发送BCM_GETIDEALSIZE消息获取
+         * @brief 获取理想尺寸
+         * @note  该函数发送BCM_GETIDEALSIZE消息
          */
         bool _GetIdealSize(SIZE &size);
+
+        /**
+         * @brief 获取按钮控件中绘制文本的边距
+         * @note  该函数发送BCM_GETTEXTMARGIN消息
+         */
+        bool _GetTextMargin(RECT &rect);
+
+        /**
+         * @brief 设置按钮控件中绘制文本的边距
+         * @note  该函数发送BCM_SETTEXTMARGIN消息
+         */
+        bool _SetTextMargin(RECT &rect);
     };
 }

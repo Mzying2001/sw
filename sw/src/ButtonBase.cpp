@@ -24,6 +24,20 @@ sw::ButtonBase::ButtonBase()
           [this](const bool &value) {
               SetStyle(BS_MULTILINE, value);
               if (_autoSize) InvalidateMeasure();
+          }),
+
+      TextMargin(
+          // get
+          [this]() -> Thickness {
+              RECT rect{};
+              _GetTextMargin(rect);
+              return rect;
+          },
+          // set
+          [this](const Thickness &value) {
+              RECT rect = value;
+              _SetTextMargin(rect);
+              if (_autoSize) InvalidateMeasure();
           })
 {
     TabStop = true;
@@ -106,4 +120,14 @@ void sw::ButtonBase::_UpdateLayoutFlags()
 bool sw::ButtonBase::_GetIdealSize(SIZE &size)
 {
     return SendMessageW(BCM_GETIDEALSIZE, 0, reinterpret_cast<LPARAM>(&size)) == TRUE;
+}
+
+bool sw::ButtonBase::_GetTextMargin(RECT &rect)
+{
+    return SendMessageW(BCM_GETTEXTMARGIN, 0, reinterpret_cast<LPARAM>(&rect)) == TRUE;
+}
+
+bool sw::ButtonBase::_SetTextMargin(RECT &rect)
+{
+    return SendMessageW(BCM_SETTEXTMARGIN, 0, reinterpret_cast<LPARAM>(&rect)) == TRUE;
 }
