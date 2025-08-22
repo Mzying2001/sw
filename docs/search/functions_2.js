@@ -20,13 +20,14 @@ var searchData=
   ['color_17',['color',['../structsw_1_1Color.html#aa0d9276e270e57dc0320dce6274106ba',1,'sw::Color::Color()'],['../structsw_1_1Color.html#a377fdd6222c311557980e216d7fb4a73',1,'sw::Color::Color(uint8_t r, uint8_t g, uint8_t b)'],['../structsw_1_1Color.html#a29d2604b27aa307de90e942e48e0c00a',1,'sw::Color::Color(KnownColor knownColor)'],['../structsw_1_1Color.html#aa42552f373fab2b4132c73de6febad58',1,'sw::Color::Color(COLORREF color)']]],
   ['combine_18',['combine',['../classsw_1_1Path.html#aaa1b4b0e392fed266c3ca9eeabd5200d',1,'sw::Path::Combine(std::initializer_list&lt; std::wstring &gt; paths)'],['../classsw_1_1Path.html#a5f2750ce63273757c4e74f37c30e8f64',1,'sw::Path::Combine(const std::wstring &amp;first, const Args &amp;...rest)']]],
   ['combobox_19',['ComboBox',['../classsw_1_1ComboBox.html#ab7952615f64988796a72df3027170e8b',1,'sw::ComboBox']]],
-  ['contains_20',['Contains',['../classsw_1_1List.html#a459de7b71327cf474c1ac24909b49773',1,'sw::List']]],
-  ['containskey_21',['ContainsKey',['../classsw_1_1Dictionary.html#a726bccc37022c21d7864673c69138acc',1,'sw::Dictionary']]],
-  ['containsvalue_22',['ContainsValue',['../classsw_1_1Dictionary.html#a9fd27b6adac442cbffa3bf41d10c6eac',1,'sw::Dictionary']]],
-  ['contextmenu_23',['contextmenu',['../classsw_1_1ContextMenu.html#ac51b991e84733be50e525147c3cc9d43',1,'sw::ContextMenu::ContextMenu()'],['../classsw_1_1ContextMenu.html#a63c072213d8bfb7cbe4d6974eb44266b',1,'sw::ContextMenu::ContextMenu(std::initializer_list&lt; MenuItem &gt; items)']]],
-  ['control_24',['Control',['../classsw_1_1Control.html#aec7b384d013e9d25c507cf9ded87bff1',1,'sw::Control']]],
-  ['copy_25',['copy',['../classsw_1_1Dictionary.html#afa7a405134901716b4affecc9f01df0f',1,'sw::Dictionary::Copy()'],['../classsw_1_1ImageList.html#a48997d021e3a815ddc3f8a609c801416',1,'sw::ImageList::Copy()'],['../classsw_1_1List.html#a765086d760ea625121500730a2579d28',1,'sw::List::Copy()']]],
-  ['count_26',['count',['../classsw_1_1CallableList.html#ac9b658e17f10ab6b4e8c9c128359c5ce',1,'sw::CallableList::Count()'],['../classsw_1_1Dictionary.html#a7c16eced6a889e97f4a1807697090fd3',1,'sw::Dictionary::Count()'],['../classsw_1_1List.html#ac06d9081e817d6c808453928dd33525a',1,'sw::List::Count()']]],
-  ['create_27',['Create',['../classsw_1_1ImageList.html#a880ac4fd98a4602480ce760fa6a9d332',1,'sw::ImageList']]],
-  ['createhandle_28',['CreateHandle',['../classsw_1_1Font.html#a09a1a6e50ebe2585f78bdd3a5b2940cd',1,'sw::Font']]]
+  ['commandlink_20',['CommandLink',['../classsw_1_1CommandLink.html#ab1988d8a6c963965a31c35589ed7e2a0',1,'sw::CommandLink']]],
+  ['contains_21',['Contains',['../classsw_1_1List.html#a459de7b71327cf474c1ac24909b49773',1,'sw::List']]],
+  ['containskey_22',['ContainsKey',['../classsw_1_1Dictionary.html#a726bccc37022c21d7864673c69138acc',1,'sw::Dictionary']]],
+  ['containsvalue_23',['ContainsValue',['../classsw_1_1Dictionary.html#a9fd27b6adac442cbffa3bf41d10c6eac',1,'sw::Dictionary']]],
+  ['contextmenu_24',['contextmenu',['../classsw_1_1ContextMenu.html#ac51b991e84733be50e525147c3cc9d43',1,'sw::ContextMenu::ContextMenu()'],['../classsw_1_1ContextMenu.html#a63c072213d8bfb7cbe4d6974eb44266b',1,'sw::ContextMenu::ContextMenu(std::initializer_list&lt; MenuItem &gt; items)']]],
+  ['control_25',['Control',['../classsw_1_1Control.html#aec7b384d013e9d25c507cf9ded87bff1',1,'sw::Control']]],
+  ['copy_26',['copy',['../classsw_1_1Dictionary.html#afa7a405134901716b4affecc9f01df0f',1,'sw::Dictionary::Copy()'],['../classsw_1_1ImageList.html#a48997d021e3a815ddc3f8a609c801416',1,'sw::ImageList::Copy()'],['../classsw_1_1List.html#a765086d760ea625121500730a2579d28',1,'sw::List::Copy()']]],
+  ['count_27',['count',['../classsw_1_1CallableList.html#ac9b658e17f10ab6b4e8c9c128359c5ce',1,'sw::CallableList::Count()'],['../classsw_1_1Dictionary.html#a7c16eced6a889e97f4a1807697090fd3',1,'sw::Dictionary::Count()'],['../classsw_1_1List.html#ac06d9081e817d6c808453928dd33525a',1,'sw::List::Count()']]],
+  ['create_28',['Create',['../classsw_1_1ImageList.html#a880ac4fd98a4602480ce760fa6a9d332',1,'sw::ImageList']]],
+  ['createhandle_29',['CreateHandle',['../classsw_1_1Font.html#a09a1a6e50ebe2585f78bdd3a5b2940cd',1,'sw::Font']]]
 ];
