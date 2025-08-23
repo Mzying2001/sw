@@ -12,6 +12,7 @@
 #include "CheckBox.h"
 #include "CheckableButton.h"
 #include "Color.h"
+#include "ColorDialog.h"
 #include "ComboBox.h"
 #include "CommandLink.h"
 #include "ContextMenu.h"
