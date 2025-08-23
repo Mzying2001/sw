@@ -103,9 +103,9 @@ int sw::FontDialog::ShowDialog(Window *owner)
     LOGFONTW logFont = _font;
     pCF->lpLogFont   = &logFont;
 
-    if (result = ChooseFontW(pCF)) {
-        _font = logFont;
-    }
+    result = ChooseFontW(pCF);
+    if (result) _font = logFont;
+
     pCF->lpLogFont = nullptr;
     return result;
 }
