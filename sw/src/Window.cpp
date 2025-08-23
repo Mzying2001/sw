@@ -477,37 +477,26 @@ sw::Window *sw::Window::ToWindow()
     return this;
 }
 
-void sw::Window::Show(int nCmdShow)
+void sw::Window::Close()
 {
-    this->WndBase::Show(nCmdShow);
+    this->WndBase::Close();
 }
 
-void sw::Window::ShowDialog(Window &owner)
+void sw::Window::Show()
 {
-    if (this == &owner || this->_isModal || this->IsDestroyed) {
-        return;
-    }
-
-    this->Owner        = &owner;
-    this->_isModal     = true;
-    this->_hModalOwner = owner.Handle;
-
-    bool oldIsEnabled = owner.Enabled;
-    owner.Enabled     = false;
-
-    this->Show();
-    App::MsgLoop();
-    SetForegroundWindow(owner.Handle);
-
-    if (oldIsEnabled) {
-        owner.Enabled = true;
-    }
+    this->WndBase::Show(SW_SHOW);
 }
 
-void sw::Window::ShowDialog()
+int sw::Window::ShowDialog(Window *owner)
 {
+    if (owner != nullptr) {
+        return this->ShowDialog(*owner);
+    }
+
+    int result = -1;
+
     if (this->_isModal || this->IsDestroyed) {
-        return;
+        return result;
     }
 
     HWND hOwner = NULL;
@@ -530,15 +519,41 @@ void sw::Window::ShowDialog()
 
     if (hOwner == NULL) {
         this->Show();
-        App::MsgLoop();
+        result = App::MsgLoop();
     } else {
         bool oldIsEnabled = IsWindowEnabled(hOwner);
         EnableWindow(hOwner, false);
         this->Show();
-        App::MsgLoop();
+        result = App::MsgLoop();
         SetForegroundWindow(hOwner);
         EnableWindow(hOwner, oldIsEnabled);
     }
+    return result;
+}
+
+int sw::Window::ShowDialog(Window &owner)
+{
+    int result = -1;
+
+    if (this == &owner || this->_isModal || this->IsDestroyed) {
+        return result;
+    }
+
+    this->Owner        = &owner;
+    this->_isModal     = true;
+    this->_hModalOwner = owner.Handle;
+
+    bool oldIsEnabled = owner.Enabled;
+    owner.Enabled     = false;
+
+    this->Show();
+    result = App::MsgLoop();
+    SetForegroundWindow(owner.Handle);
+
+    if (oldIsEnabled) {
+        owner.Enabled = true;
+    }
+    return result;
 }
 
 void sw::Window::SetIcon(HICON hIcon)

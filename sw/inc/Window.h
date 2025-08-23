@@ -2,6 +2,7 @@
 
 #include "Color.h"
 #include "Cursor.h"
+#include "IDialog.h"
 #include "Layer.h"
 #include "Menu.h"
 #include "Screen.h"
@@ -30,7 +31,7 @@ namespace sw
     /**
      * @brief 窗口
      */
-    class Window : public Layer
+    class Window : public Layer, public IDialog
     {
     private:
         /**
@@ -234,22 +235,30 @@ namespace sw
         virtual Window *ToWindow() override;
 
         /**
+         * @brief 关闭窗口
+         */
+        virtual void Close() override;
+
+        /**
          * @brief 显示窗口
          */
-        void Show(int nCmdShow = SW_SHOW);
+        virtual void Show() override;
+
+        /**
+         * @brief       将窗口显示为模式对话框
+         * @param owner 窗体的所有者，若为nullptr则使用当前活动窗口
+         * @return      消息循环的退出代码，若函数失败则返回-1
+         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出
+         */
+        virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
          * @brief       将窗口显示为模式对话框
          * @param owner 窗体的所有者，窗体显示期间该窗体的Enabled属性将被设为false，该参数不能设为自己
+         * @return      消息循环的退出代码，若函数失败则返回-1
          * @note        该函数会创建一个新的消息循环并在窗口销毁时退出
          */
-        void ShowDialog(Window &owner);
-
-        /**
-         * @brief 将窗口显示为模式对话框
-         * @note  该函数会创建一个新的消息循环并在窗口销毁时退出
-         */
-        void ShowDialog();
+        int ShowDialog(Window &owner);
 
         /**
          * @brief       设置图标
