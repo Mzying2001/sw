@@ -30,6 +30,7 @@
 #include "FillLayout.h"
 #include "FolderDialog.h"
 #include "Font.h"
+#include "FontDialog.h"
 #include "Grid.h"
 #include "GridLayout.h"
 #include "GroupBox.h"
