@@ -300,6 +300,7 @@
     <ClInclude Include="..\sw\inc\CheckableButton.h" />
     <ClInclude Include="..\sw\inc\CheckBox.h" />
     <ClInclude Include="..\sw\inc\Color.h" />
+    <ClInclude Include="..\sw\inc\ColorDialog.h" />
     <ClInclude Include="..\sw\inc\ComboBox.h" />
     <ClInclude Include="..\sw\inc\CommandLink.h" />
     <ClInclude Include="..\sw\inc\ContextMenu.h" />
@@ -317,6 +318,7 @@
     <ClInclude Include="..\sw\inc\FillLayout.h" />
     <ClInclude Include="..\sw\inc\FolderDialog.h" />
     <ClInclude Include="..\sw\inc\Font.h" />
+    <ClInclude Include="..\sw\inc\FontDialog.h" />
     <ClInclude Include="..\sw\inc\Grid.h" />
     <ClInclude Include="..\sw\inc\GridLayout.h" />
     <ClInclude Include="..\sw\inc\GroupBox.h" />
@@ -326,6 +328,7 @@
     <ClInclude Include="..\sw\inc\HwndWrapper.h" />
     <ClInclude Include="..\sw\inc\Icon.h" />
     <ClInclude Include="..\sw\inc\IconBox.h" />
+    <ClInclude Include="..\sw\inc\IDialog.h" />
     <ClInclude Include="..\sw\inc\ILayout.h" />
     <ClInclude Include="..\sw\inc\ImageList.h" />
     <ClInclude Include="..\sw\inc\IPAddressControl.h" />
@@ -398,6 +401,7 @@
     <ClCompile Include="..\sw\src\CheckableButton.cpp" />
     <ClCompile Include="..\sw\src\CheckBox.cpp" />
     <ClCompile Include="..\sw\src\Color.cpp" />
+    <ClCompile Include="..\sw\src\ColorDialog.cpp" />
     <ClCompile Include="..\sw\src\ComboBox.cpp" />
     <ClCompile Include="..\sw\src\CommandLink.cpp" />
     <ClCompile Include="..\sw\src\ContextMenu.cpp" />
@@ -411,6 +415,7 @@
     <ClCompile Include="..\sw\src\FillLayout.cpp" />
     <ClCompile Include="..\sw\src\FolderDialog.cpp" />
     <ClCompile Include="..\sw\src\Font.cpp" />
+    <ClCompile Include="..\sw\src\FontDialog.cpp" />
     <ClCompile Include="..\sw\src\Grid.cpp" />
     <ClCompile Include="..\sw\src\GridLayout.cpp" />
     <ClCompile Include="..\sw\src\GroupBox.cpp" />

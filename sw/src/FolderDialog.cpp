@@ -13,101 +13,106 @@ sw::FolderBrowserDialog::FolderBrowserDialog()
     : BufferSize(
           // get
           [this]() -> int {
-              return (int)this->_buffer.size();
+              return (int)_buffer.size();
           },
           // set
           [this](const int &value) {
-              this->_buffer.resize(Utils::Max(MAX_PATH, value));
-              this->ClearBuffer();
+              _buffer.resize(Utils::Max(MAX_PATH, value));
+              ClearBuffer();
           }),
 
       Flags(
           // get
           [this]() -> FolderDialogFlags {
-              return static_cast<FolderDialogFlags>(this->_bi.ulFlags);
+              return static_cast<FolderDialogFlags>(_bi.ulFlags);
           },
           // set
           [this](const FolderDialogFlags &value) {
-              this->_bi.ulFlags = static_cast<UINT>(value);
+              _bi.ulFlags = static_cast<UINT>(value);
           }),
 
       Description(
           // get
           [this]() -> std::wstring {
-              return this->_description;
+              return _description;
           },
           // set
           [this](const std::wstring &value) {
-              this->_description = value;
-              if (this->_description.empty()) {
-                  this->_bi.lpszTitle = nullptr;
+              _description = value;
+              if (_description.empty()) {
+                  _bi.lpszTitle = nullptr;
               } else {
-                  this->_bi.lpszTitle = this->_description.c_str();
+                  _bi.lpszTitle = _description.c_str();
               }
           }),
 
       SelectedPath(
           // get
           [this]() -> std::wstring {
-              return this->GetBuffer();
+              return GetBuffer();
           }),
 
       NewFolderButton(
           // get
           [this]() -> bool {
-              return !((this->Flags.Get() & FolderDialogFlags::NoNewFolderButton) == FolderDialogFlags::NoNewFolderButton);
+              return !((Flags & FolderDialogFlags::NoNewFolderButton) == FolderDialogFlags::NoNewFolderButton);
           },
           // set
           [this](const bool &value) {
               if (value) {
-                  this->Flags = this->Flags.Get() & ~FolderDialogFlags::NoNewFolderButton;
+                  Flags &= ~FolderDialogFlags::NoNewFolderButton;
               } else {
-                  this->Flags = this->Flags.Get() | FolderDialogFlags::NoNewFolderButton;
+                  Flags |= FolderDialogFlags::NoNewFolderButton;
               }
           })
 {
-    this->BufferSize  = _FolderBrowserDialogInitialBufferSize;
-    this->Flags       = FolderDialogFlags::NewDialogStyle | FolderDialogFlags::ReturnOnlyFileSystemDirs;
-    this->Description = L"";
+    BufferSize  = _FolderBrowserDialogInitialBufferSize;
+    Flags       = FolderDialogFlags::NewDialogStyle | FolderDialogFlags::ReturnOnlyFileSystemDirs;
+    Description = L"";
 }
 
-bool sw::FolderBrowserDialog::ShowDialog()
+void sw::FolderBrowserDialog::Close()
 {
-    return this->ShowDialog(Window::ActiveWindow);
 }
 
-bool sw::FolderBrowserDialog::ShowDialog(const Window &owner)
+void sw::FolderBrowserDialog::Show()
 {
-    return this->ShowDialog(&owner);
 }
 
-bool sw::FolderBrowserDialog::ShowDialog(const Window *owner)
+int sw::FolderBrowserDialog::ShowDialog(Window *owner)
 {
+    if (owner == nullptr) {
+        owner = Window::ActiveWindow;
+    }
+
     HWND hOwner    = owner ? owner->Handle.Get() : NULL;
-    auto pBI       = this->GetBI();
+    auto pBI       = GetBI();
     pBI->hwndOwner = hOwner;
 
     auto pidl = SHBrowseForFolderW(pBI);
-    if (pidl == nullptr) {
-        return false;
-    }
+    if (pidl == nullptr) return false;
 
-    bool result = SHGetPathFromIDListW(pidl, this->GetBuffer());
+    bool result = SHGetPathFromIDListW(pidl, GetBuffer());
     CoTaskMemFree(pidl);
     return result;
 }
 
+int sw::FolderBrowserDialog::ShowDialog(Window &owner)
+{
+    return ShowDialog(&owner);
+}
+
 BROWSEINFOW *sw::FolderBrowserDialog::GetBI()
 {
-    return &this->_bi;
+    return &_bi;
 }
 
 wchar_t *sw::FolderBrowserDialog::GetBuffer()
 {
-    return this->_buffer.data();
+    return _buffer.data();
 }
 
 void sw::FolderBrowserDialog::ClearBuffer()
 {
-    this->_buffer.at(0) = 0;
+    _buffer.at(0) = 0;
 }

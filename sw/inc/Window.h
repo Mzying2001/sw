@@ -2,6 +2,7 @@
 
 #include "Color.h"
 #include "Cursor.h"
+#include "IDialog.h"
 #include "Layer.h"
 #include "Menu.h"
 #include "Screen.h"
@@ -30,7 +31,7 @@ namespace sw
     /**
      * @brief 窗口
      */
-    class Window : public Layer
+    class Window : public Layer, public IDialog
     {
     private:
         /**
@@ -72,6 +73,11 @@ namespace sw
          * @brief 窗口无边框
          */
         bool _isBorderless = false;
+
+        /**
+         * @brief 窗口的对话框结果，ShowDialog返回该值
+         */
+        int _dialogResult = 0;
 
     public:
         /**
@@ -149,6 +155,12 @@ namespace sw
          * @brief 窗口无边框
          */
         const Property<bool> Borderless;
+
+        /**
+         * @brief 窗口的对话框结果，ShowDialog返回该值
+         * @note  该属性仅在窗口作为模态对话框显示时有效，默认值为0，该属性一旦被设置则会自动关闭窗口
+         */
+        const Property<int> DialogResult;
 
     public:
         /**
@@ -234,22 +246,30 @@ namespace sw
         virtual Window *ToWindow() override;
 
         /**
+         * @brief 关闭窗口
+         */
+        virtual void Close() override;
+
+        /**
          * @brief 显示窗口
          */
-        void Show(int nCmdShow = SW_SHOW);
+        virtual void Show() override;
+
+        /**
+         * @brief       将窗口显示为模式对话框
+         * @param owner 窗体的所有者，若为nullptr则使用当前活动窗口
+         * @return      DialogResult属性的值，若函数失败则返回-1
+         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出
+         */
+        virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
          * @brief       将窗口显示为模式对话框
          * @param owner 窗体的所有者，窗体显示期间该窗体的Enabled属性将被设为false，该参数不能设为自己
+         * @return      DialogResult属性的值，若函数失败则返回-1
          * @note        该函数会创建一个新的消息循环并在窗口销毁时退出
          */
-        void ShowDialog(Window &owner);
-
-        /**
-         * @brief 将窗口显示为模式对话框
-         * @note  该函数会创建一个新的消息循环并在窗口销毁时退出
-         */
-        void ShowDialog();
+        virtual int ShowDialog(Window &owner);
 
         /**
          * @brief       设置图标
@@ -287,5 +307,31 @@ namespace sw
             this->_layout.reset(nullptr);
             this->InvalidateMeasure();
         }
+
+    private:
+        /**
+         * @brief      通过窗口句柄获取Window指针
+         * @param hwnd 窗口句柄
+         * @return     若函数成功则返回对象的指针，否则返回nullptr
+         */
+        static Window *_GetWindowPtr(HWND hwnd);
+
+        /**
+         * @brief      关联窗口句柄与Window对象
+         * @param hwnd 窗口句柄
+         * @param wnd  与句柄关联的对象
+         */
+        static void _SetWindowPtr(HWND hwnd, Window &wnd);
+
+        /**
+         * @brief DPI更新时调用该函数递归地更新所有子项的字体
+         */
+        static void _UpdateFontForAllChild(UIElement &element);
+
+        /**
+         * @brief  获取窗口默认图标（即当前exe图标）
+         * @return 图标句柄
+         */
+        static HICON _GetWindowDefaultIcon();
     };
 }

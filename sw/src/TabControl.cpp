@@ -105,6 +105,7 @@ sw::TabControl::TabControl()
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
     this->Rect = sw::Rect(0, 0, 200, 200);
+    this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::FontChanged;
 }
 
 int sw::TabControl::GetTabCount()
