@@ -307,5 +307,31 @@ namespace sw
             this->_layout.reset(nullptr);
             this->InvalidateMeasure();
         }
+
+    private:
+        /**
+         * @brief      通过窗口句柄获取Window指针
+         * @param hwnd 窗口句柄
+         * @return     若函数成功则返回对象的指针，否则返回nullptr
+         */
+        static Window *_GetWindowPtr(HWND hwnd);
+
+        /**
+         * @brief      关联窗口句柄与Window对象
+         * @param hwnd 窗口句柄
+         * @param wnd  与句柄关联的对象
+         */
+        static void _SetWindowPtr(HWND hwnd, Window &wnd);
+
+        /**
+         * @brief DPI更新时调用该函数递归地更新所有子项的字体
+         */
+        static void _UpdateFontForAllChild(UIElement &element);
+
+        /**
+         * @brief  获取窗口默认图标（即当前exe图标）
+         * @return 图标句柄
+         */
+        static HICON _GetWindowDefaultIcon();
     };
 }
