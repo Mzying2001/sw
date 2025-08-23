@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: FontDialog.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('FontDialog_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">FontDialog.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Window.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">enum class</span> FontDialogFlags : DWORD {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="comment">// Causes the dialog box to display the Apply button. You should provide a hook procedure to process</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        <span class="comment">// WM_COMMAND messages for the Apply button. The hook procedure can send the WM_CHOOSEFONT_GETLOGFONT</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <span class="comment">// message to the dialog box to retrieve the address of the structure that contains the current selections</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="comment">// for the font.</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        Apply = 0x00000200,</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="comment">// This flag is obsolete. To limit font selections to all scripts except those that use the OEM or Symbol</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="comment">// character sets, use CF_SCRIPTSONLY. To get the original CF_ANSIONLY behavior, use CF_SELECTSCRIPT and</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="comment">// specify ANSI_CHARSET in the lfCharSet member of the LOGFONT structure pointed to by lpLogFont.</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        ANSIOnly = 0x00000400,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="comment">// This flag is ignored for font enumeration.</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="comment">// Windows Vista and Windows XP/2000:  Causes the dialog box to list the available printer and screen fonts.</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="comment">// The hDC member is a handle to the device context or information context associated with the printer. This</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="comment">// flag is a combination of the CF_SCREENFONTS and CF_PRINTERFONTS flags.</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        Both = 0x00000003,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="comment">// Causes the dialog box to display the controls that allow the user to specify strikeout, underline, and</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="comment">// text color options. If this flag is set, you can use the rgbColors member to specify the initial text color.</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="comment">// You can use the lfStrikeOut and lfUnderline members of the structure pointed to by lpLogFont to specify the</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="comment">// initial settings of the strikeout and underline check boxes. ChooseFont can use these members to return the</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="comment">// user&#39;s selections.</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        Effects = 0x00000100,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="comment">// Enables the hook procedure specified in the lpfnHook member of this structure.</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        EnableHook = 0x00000008,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="comment">// Indicates that the hInstance and lpTemplateName members specify a dialog box template to use in place of</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="comment">// the default template.</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        EnableTemplate = 0x00000010,</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="comment">// Indicates that the hInstance member identifies a data block that contains a preloaded dialog box template.</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="comment">// The system ignores the lpTemplateName member if this flag is specified.</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        EnableTemplateHandle = 0x00000020,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="comment">// ChooseFont should enumerate and allow selection of only fixed-pitch fonts.</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        FixedPitchOnly = 0x00004000,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="comment">// ChooseFont should indicate an error condition if the user attempts to select a font or style that is not</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="comment">// listed in the dialog box.</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        ForceFontExist = 0x00010000,</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="comment">// ChooseFont should additionally display fonts that are set to Hide in Fonts Control Panel.</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="comment">// Windows Vista and Windows XP/2000:  This flag is not supported until Windows 7.</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        InavtiveFonts = 0x02000000,</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="comment">// ChooseFont should use the structure pointed to by the lpLogFont member to initialize the dialog box controls.</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        InitToLogFontStruct = 0x00000040,</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="comment">// ChooseFont should select only font sizes within the range specified by the nSizeMin and nSizeMax members.</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        LimitSize = 0x00002000,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="comment">// Same as the CF_NOVECTORFONTS flag.</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        NoOemFonts = 0x00000800,</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="comment">// When using a LOGFONT structure to initialize the dialog box controls, use this flag to prevent the dialog</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="comment">// box from displaying an initial selection for the font name combo box. This is useful when there is no single</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="comment">// font name that applies to the text selection.</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        NoFaceSel = 0x00080000,</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="comment">// Disables the Script combo box. When this flag is set, the lfCharSet member of the LOGFONT structure is set</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="comment">// to DEFAULT_CHARSET when ChooseFont returns. This flag is used only to initialize the dialog box.</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        NoScriptSel = 0x00800000,</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="comment">// ChooseFont should not display or allow selection of font simulations.</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        NoSimulations = 0x00001000,</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="comment">// When using a structure to initialize the dialog box controls, use this flag to prevent the dialog box from</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="comment">// displaying an initial selection for the Font Size combo box. This is useful when there is no single font size</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="comment">// that applies to the text selection.</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        NoSizeSel = 0x00200000,</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="comment">// When using a LOGFONT structure to initialize the dialog box controls, use this flag to prevent the dialog box</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="comment">// from displaying an initial selection for the Font Style combo box. This is useful when there is no single font</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="comment">// style that applies to the text selection.</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        NoStyleSel = 0x00100000,</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="comment">// ChooseFont should not allow vector font selections.</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        NoVectorFonts = 0x00000800,</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="comment">// Causes the Font dialog box to list only horizontally oriented fonts.</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        NoVertFonts = 0x01000000,</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="comment">// This flag is ignored for font enumeration.</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="comment">// Windows Vista and Windows XP/2000:  Causes the dialog box to list only the fonts supported by the printer</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <span class="comment">// associated with the device context or information context identified by the hDC member. It also causes the font</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="comment">// type description label to appear at the bottom of the Font dialog box.</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        PrinterFonts = 0x00000002,</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="comment">// Specifies that ChooseFont should allow only the selection of scalable fonts. Scalable fonts include vector fonts,</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="comment">// scalable printer fonts, TrueType fonts, and fonts scaled by other technologies.</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        ScalableOnly = 0x00020000,</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="comment">// This flag is ignored for font enumeration.</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="comment">// Windows Vista and Windows XP/2000:  Causes the dialog box to list only the screen fonts supported by the system.</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        ScreenFonts = 0x00000001,</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <span class="comment">// ChooseFont should allow selection of fonts for all non-OEM and Symbol character sets, as well as the ANSI character</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="comment">// set. This supersedes the CF_ANSIONLY value.</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        ScriptsOnly = 0x00000400,</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <span class="comment">// When specified on input, only fonts with the character set identified in the lfCharSet member of the LOGFONT structure</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        <span class="comment">// are displayed. The user will not be allowed to change the character set specified in the Scripts combo box.</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        SelectScript = 0x00400000,</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <span class="comment">// Causes the dialog box to display the Help button. The hwndOwner member must specify the window to receive the</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="comment">// HELPMSGSTRING registered messages that the dialog box sends when the user clicks the Help button.</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        ShowHelp = 0x00000004,</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        <span class="comment">// ChooseFont should only enumerate and allow the selection of TrueType fonts.</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        TrueTypeOnly = 0x00040000,</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        <span class="comment">// The lpszStyle member is a pointer to a buffer that contains style data that ChooseFont should use to initialize the</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="comment">// Font Style combo box. When the user closes the dialog box, ChooseFont copies style data for the user&#39;s selection to</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <span class="comment">// this buffer.</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="comment">// [Note] To globalize your application, you should specify the style by using the lfWeight and lfItalic members of the</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="comment">// LOGFONT structure pointed to by lpLogFont. The style name may change depending on the system user interface language.</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        UseStyle = 0x00000080,</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="comment">// Obsolete. ChooseFont ignores this flag.</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <span class="comment">// Windows Vista and Windows XP/2000: ChooseFont should allow only the selection of fonts available on both the printer</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        <span class="comment">// and the display. If this flag is specified, the CF_SCREENSHOTS and CF_PRINTERFONTS, or CF_BOTH flags should also be</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        <span class="comment">// specified.</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        WYSIWYG = 0x00008000,</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    };</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    _SW_ENUM_ENABLE_BIT_OPERATIONS(FontDialogFlags);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="foldopen" id="foldopen00145" data-start="{" data-end="};">
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="classsw_1_1FontDialog.html">  145</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1FontDialog.html">FontDialog</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1IDialog.html">IDialog</a></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    {</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <a class="code hl_class" href="classsw_1_1Font.html">sw::Font</a> _font;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        CHOOSEFONTW _cf{};</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="classsw_1_1FontDialog.html#ad1d06d51f903a3abbb04c1f95026fee9">  162</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;FontDialogFlags&gt;</a> <a class="code hl_variable" href="classsw_1_1FontDialog.html#ad1d06d51f903a3abbb04c1f95026fee9">Flags</a>;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno"><a class="line" href="classsw_1_1FontDialog.html#a5efecdc4ba6886ada0ddd5b81142a04e">  167</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;sw::Font&gt;</a> <a class="code hl_variable" href="classsw_1_1FontDialog.html#a5efecdc4ba6886ada0ddd5b81142a04e">Font</a>;</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="classsw_1_1FontDialog.html#a973b990d5197357e59582d9213e54756">  172</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;std::wstring&gt;</a> <a class="code hl_variable" href="classsw_1_1FontDialog.html#a973b990d5197357e59582d9213e54756">FontName</a>;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="classsw_1_1FontDialog.html#af521cf90921003e45d246ce9fb3c4768">  177</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;double&gt;</a> <a class="code hl_variable" href="classsw_1_1FontDialog.html#af521cf90921003e45d246ce9fb3c4768">FontSize</a>;</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="classsw_1_1FontDialog.html#a6f2c9bff76fe93e0ac40778d8fac5dd7">  182</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;sw::FontWeight&gt;</a> <a class="code hl_variable" href="classsw_1_1FontDialog.html#a6f2c9bff76fe93e0ac40778d8fac5dd7">FontWeight</a>;</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno"><a class="line" href="classsw_1_1FontDialog.html#ad2a8869292450ecff8c7440279859443">  187</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1FontDialog.html#ad2a8869292450ecff8c7440279859443">ShowEffects</a>;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="classsw_1_1FontDialog.html#a3092af0783c73eb68c4e81248f65f5c8">  192</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;Color&gt;</a> <a class="code hl_variable" href="classsw_1_1FontDialog.html#a3092af0783c73eb68c4e81248f65f5c8">SelectedColor</a>;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno"><a class="line" href="classsw_1_1FontDialog.html#ab669e70862fca07db5ddb8b788adc19c">  198</a></span>        <a class="code hl_function" href="classsw_1_1FontDialog.html#ab669e70862fca07db5ddb8b788adc19c">FontDialog</a>();</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno"><a class="line" href="classsw_1_1FontDialog.html#ac3e1a7af48af5646a681e4aa24af9543">  203</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1FontDialog.html#ac3e1a7af48af5646a681e4aa24af9543">Close</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno"><a class="line" href="classsw_1_1FontDialog.html#ae473b5d73556306e12c8523360e0bcaf">  208</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1FontDialog.html#ae473b5d73556306e12c8523360e0bcaf">Show</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno"><a class="line" href="classsw_1_1FontDialog.html#a197c0b3f0c5bc8523ee0c043e9871ddd">  214</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1FontDialog.html#a197c0b3f0c5bc8523ee0c043e9871ddd">ShowDialog</a>(<a class="code hl_class" href="classsw_1_1Window.html">Window</a> *owner = <span class="keyword">nullptr</span>) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno"><a class="line" href="classsw_1_1FontDialog.html#a6836550b62b8c1b3fd8290e64521c3aa">  220</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1FontDialog.html#a6836550b62b8c1b3fd8290e64521c3aa">ShowDialog</a>(<a class="code hl_class" href="classsw_1_1Window.html">Window</a> &amp;owner);</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span> </div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno"><a class="line" href="classsw_1_1FontDialog.html#ae098d3d2fd0f0da8d398da940ee999c8">  226</a></span>        CHOOSEFONTW *<a class="code hl_function" href="classsw_1_1FontDialog.html#ae098d3d2fd0f0da8d398da940ee999c8">GetChooseFontStruct</a>();</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    };</div>
+</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>}</div>
+<div class="ttc" id="aclasssw_1_1FontDialog_html"><div class="ttname"><a href="classsw_1_1FontDialog.html">sw::FontDialog</a></div><div class="ttdoc">字体选择对话框</div><div class="ttdef"><b>Definition</b> FontDialog.h:146</div></div>
+<div class="ttc" id="aclasssw_1_1FontDialog_html_a197c0b3f0c5bc8523ee0c043e9871ddd"><div class="ttname"><a href="classsw_1_1FontDialog.html#a197c0b3f0c5bc8523ee0c043e9871ddd">sw::FontDialog::ShowDialog</a></div><div class="ttdeci">virtual int ShowDialog(Window *owner=nullptr) override</div><div class="ttdoc">显示对话框，并指定所有者窗口</div></div>
+<div class="ttc" id="aclasssw_1_1FontDialog_html_a3092af0783c73eb68c4e81248f65f5c8"><div class="ttname"><a href="classsw_1_1FontDialog.html#a3092af0783c73eb68c4e81248f65f5c8">sw::FontDialog::SelectedColor</a></div><div class="ttdeci">const Property&lt; Color &gt; SelectedColor</div><div class="ttdoc">选择的颜色</div><div class="ttdef"><b>Definition</b> FontDialog.h:192</div></div>
+<div class="ttc" id="aclasssw_1_1FontDialog_html_a5efecdc4ba6886ada0ddd5b81142a04e"><div class="ttname"><a href="classsw_1_1FontDialog.html#a5efecdc4ba6886ada0ddd5b81142a04e">sw::FontDialog::Font</a></div><div class="ttdeci">const Property&lt; sw::Font &gt; Font</div><div class="ttdoc">选择的字体</div><div class="ttdef"><b>Definition</b> FontDialog.h:167</div></div>
+<div class="ttc" id="aclasssw_1_1FontDialog_html_a6836550b62b8c1b3fd8290e64521c3aa"><div class="ttname"><a href="classsw_1_1FontDialog.html#a6836550b62b8c1b3fd8290e64521c3aa">sw::FontDialog::ShowDialog</a></div><div class="ttdeci">virtual int ShowDialog(Window &amp;owner)</div><div class="ttdoc">显示对话框，并指定所有者窗口</div></div>
+<div class="ttc" id="aclasssw_1_1FontDialog_html_a6f2c9bff76fe93e0ac40778d8fac5dd7"><div class="ttname"><a href="classsw_1_1FontDialog.html#a6f2c9bff76fe93e0ac40778d8fac5dd7">sw::FontDialog::FontWeight</a></div><div class="ttdeci">const Property&lt; sw::FontWeight &gt; FontWeight</div><div class="ttdoc">选择的字体粗细</div><div class="ttdef"><b>Definition</b> FontDialog.h:182</div></div>
+<div class="ttc" id="aclasssw_1_1FontDialog_html_a973b990d5197357e59582d9213e54756"><div class="ttname"><a href="classsw_1_1FontDialog.html#a973b990d5197357e59582d9213e54756">sw::FontDialog::FontName</a></div><div class="ttdeci">const Property&lt; std::wstring &gt; FontName</div><div class="ttdoc">选择的字体名称</div><div class="ttdef"><b>Definition</b> FontDialog.h:172</div></div>
+<div class="ttc" id="aclasssw_1_1FontDialog_html_ab669e70862fca07db5ddb8b788adc19c"><div class="ttname"><a href="classsw_1_1FontDialog.html#ab669e70862fca07db5ddb8b788adc19c">sw::FontDialog::FontDialog</a></div><div class="ttdeci">FontDialog()</div><div class="ttdoc">初始化FontDialog</div></div>
+<div class="ttc" id="aclasssw_1_1FontDialog_html_ac3e1a7af48af5646a681e4aa24af9543"><div class="ttname"><a href="classsw_1_1FontDialog.html#ac3e1a7af48af5646a681e4aa24af9543">sw::FontDialog::Close</a></div><div class="ttdeci">virtual void Close() override</div><div class="ttdoc">FontDialog默认不支持该函数，调用该函数不会执行任何操作</div></div>
+<div class="ttc" id="aclasssw_1_1FontDialog_html_ad1d06d51f903a3abbb04c1f95026fee9"><div class="ttname"><a href="classsw_1_1FontDialog.html#ad1d06d51f903a3abbb04c1f95026fee9">sw::FontDialog::Flags</a></div><div class="ttdeci">const Property&lt; FontDialogFlags &gt; Flags</div><div class="ttdoc">对话框的配置标志</div><div class="ttdef"><b>Definition</b> FontDialog.h:162</div></div>
+<div class="ttc" id="aclasssw_1_1FontDialog_html_ad2a8869292450ecff8c7440279859443"><div class="ttname"><a href="classsw_1_1FontDialog.html#ad2a8869292450ecff8c7440279859443">sw::FontDialog::ShowEffects</a></div><div class="ttdeci">const Property&lt; bool &gt; ShowEffects</div><div class="ttdoc">是否显示效果选项（下划线、删除线、颜色）</div><div class="ttdef"><b>Definition</b> FontDialog.h:187</div></div>
+<div class="ttc" id="aclasssw_1_1FontDialog_html_ae098d3d2fd0f0da8d398da940ee999c8"><div class="ttname"><a href="classsw_1_1FontDialog.html#ae098d3d2fd0f0da8d398da940ee999c8">sw::FontDialog::GetChooseFontStruct</a></div><div class="ttdeci">CHOOSEFONTW * GetChooseFontStruct()</div><div class="ttdoc">获取选择字体对话框的配置结构体</div></div>
+<div class="ttc" id="aclasssw_1_1FontDialog_html_ae473b5d73556306e12c8523360e0bcaf"><div class="ttname"><a href="classsw_1_1FontDialog.html#ae473b5d73556306e12c8523360e0bcaf">sw::FontDialog::Show</a></div><div class="ttdeci">virtual void Show() override</div><div class="ttdoc">FontDialog默认不支持该函数，调用该函数不会执行任何操作</div></div>
+<div class="ttc" id="aclasssw_1_1FontDialog_html_af521cf90921003e45d246ce9fb3c4768"><div class="ttname"><a href="classsw_1_1FontDialog.html#af521cf90921003e45d246ce9fb3c4768">sw::FontDialog::FontSize</a></div><div class="ttdeci">const Property&lt; double &gt; FontSize</div><div class="ttdoc">选择的字体大小</div><div class="ttdef"><b>Definition</b> FontDialog.h:177</div></div>
+<div class="ttc" id="aclasssw_1_1Font_html"><div class="ttname"><a href="classsw_1_1Font.html">sw::Font</a></div><div class="ttdoc">字体类</div><div class="ttdef"><b>Definition</b> Font.h:137</div></div>
+<div class="ttc" id="aclasssw_1_1IDialog_html"><div class="ttname"><a href="classsw_1_1IDialog.html">sw::IDialog</a></div><div class="ttdoc">对话框接口</div><div class="ttdef"><b>Definition</b> IDialog.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1573</div></div>
+<div class="ttc" id="aclasssw_1_1Window_html"><div class="ttname"><a href="classsw_1_1Window.html">sw::Window</a></div><div class="ttdoc">窗口</div><div class="ttdef"><b>Definition</b> Window.h:35</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>FontDialog.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

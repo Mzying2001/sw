@@ -110,6 +110,7 @@ $(document).ready(function(){initNavTree('classsw_1_1Window.html',''); initResiz
   <img src="classsw_1_1Window.png" usemap="#sw::Window_map" alt=""/>
   <map id="sw::Window_map" name="sw::Window_map">
 <area href="classsw_1_1Layer.html" title="表示可以设置布局方式的元素类型，如窗口、面板等" alt="sw::Layer" shape="rect" coords="98,112,186,136"/>
+<area href="classsw_1_1IDialog.html" title="对话框接口" alt="sw::IDialog" shape="rect" coords="196,112,284,136"/>
 <area href="classsw_1_1UIElement.html" title="表示界面中的元素" alt="sw::UIElement" shape="rect" coords="98,56,186,80"/>
 <area href="classsw_1_1WndBase.html" title="表示一个Windows窗口，是所有窗口和控件的基类" alt="sw::WndBase" shape="rect" coords="0,0,88,24"/>
 <area href="classsw_1_1ILayout.html" title="布局接口" alt="sw::ILayout" shape="rect" coords="98,0,186,24"/>
@@ -126,16 +127,18 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:a51125c103064904cf3bcb578ccf85e5a" id="r_a51125c103064904cf3bcb578ccf85e5a"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1Window.html">Window</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#a51125c103064904cf3bcb578ccf85e5a">ToWindow</a> () override</td></tr>
 <tr class="memdesc:a51125c103064904cf3bcb578ccf85e5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成Window  <br /></td></tr>
 <tr class="separator:a51125c103064904cf3bcb578ccf85e5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97f714390560b186f28c05b1f6a35cec" id="r_a97f714390560b186f28c05b1f6a35cec"><td class="memItemLeft" align="right" valign="top"><a id="a97f714390560b186f28c05b1f6a35cec" name="a97f714390560b186f28c05b1f6a35cec"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Show</b> (int nCmdShow=SW_SHOW)</td></tr>
-<tr class="memdesc:a97f714390560b186f28c05b1f6a35cec"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示窗口 <br /></td></tr>
-<tr class="separator:a97f714390560b186f28c05b1f6a35cec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37bc59a8775b6f39e244cdd6f82d5e51" id="r_a37bc59a8775b6f39e244cdd6f82d5e51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#a37bc59a8775b6f39e244cdd6f82d5e51">ShowDialog</a> (<a class="el" href="classsw_1_1Window.html">Window</a> &amp;owner)</td></tr>
-<tr class="memdesc:a37bc59a8775b6f39e244cdd6f82d5e51"><td class="mdescLeft">&#160;</td><td class="mdescRight">将窗口显示为模式对话框  <br /></td></tr>
-<tr class="separator:a37bc59a8775b6f39e244cdd6f82d5e51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9766b18edbb89086949cfd4735741583" id="r_a9766b18edbb89086949cfd4735741583"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#a9766b18edbb89086949cfd4735741583">ShowDialog</a> ()</td></tr>
-<tr class="memdesc:a9766b18edbb89086949cfd4735741583"><td class="mdescLeft">&#160;</td><td class="mdescRight">将窗口显示为模式对话框  <br /></td></tr>
-<tr class="separator:a9766b18edbb89086949cfd4735741583"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeabad3476a74d23bbd3a6ed877939d16" id="r_aeabad3476a74d23bbd3a6ed877939d16"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#aeabad3476a74d23bbd3a6ed877939d16">Close</a> () override</td></tr>
+<tr class="memdesc:aeabad3476a74d23bbd3a6ed877939d16"><td class="mdescLeft">&#160;</td><td class="mdescRight">关闭窗口  <br /></td></tr>
+<tr class="separator:aeabad3476a74d23bbd3a6ed877939d16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb7b96779684ed80420c45544dfbb73e" id="r_acb7b96779684ed80420c45544dfbb73e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#acb7b96779684ed80420c45544dfbb73e">Show</a> () override</td></tr>
+<tr class="memdesc:acb7b96779684ed80420c45544dfbb73e"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示窗口  <br /></td></tr>
+<tr class="separator:acb7b96779684ed80420c45544dfbb73e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54b6ddf8f7ebbc7b1b64608937cda33b" id="r_a54b6ddf8f7ebbc7b1b64608937cda33b"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#a54b6ddf8f7ebbc7b1b64608937cda33b">ShowDialog</a> (<a class="el" href="classsw_1_1Window.html">Window</a> *owner=nullptr) override</td></tr>
+<tr class="memdesc:a54b6ddf8f7ebbc7b1b64608937cda33b"><td class="mdescLeft">&#160;</td><td class="mdescRight">将窗口显示为模式对话框  <br /></td></tr>
+<tr class="separator:a54b6ddf8f7ebbc7b1b64608937cda33b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4197644efd719230e2f19483ecdcd590" id="r_a4197644efd719230e2f19483ecdcd590"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#a4197644efd719230e2f19483ecdcd590">ShowDialog</a> (<a class="el" href="classsw_1_1Window.html">Window</a> &amp;owner)</td></tr>
+<tr class="memdesc:a4197644efd719230e2f19483ecdcd590"><td class="mdescLeft">&#160;</td><td class="mdescRight">将窗口显示为模式对话框  <br /></td></tr>
+<tr class="separator:a4197644efd719230e2f19483ecdcd590"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9046c167eb2a1572f420ecd5bd8aef1c" id="r_a9046c167eb2a1572f420ecd5bd8aef1c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#a9046c167eb2a1572f420ecd5bd8aef1c">SetIcon</a> (HICON hIcon)</td></tr>
 <tr class="memdesc:a9046c167eb2a1572f420ecd5bd8aef1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置图标  <br /></td></tr>
 <tr class="separator:a9046c167eb2a1572f420ecd5bd8aef1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -561,6 +564,11 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ILayout</b> ()=de
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ITag</b> ()=default</td></tr>
 <tr class="memdesc:a34c7ead6ffeda8323221f5b85529a771 inherit pub_methods_classsw_1_1ITag"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认虚析构函数 <br /></td></tr>
 <tr class="separator:a34c7ead6ffeda8323221f5b85529a771 inherit pub_methods_classsw_1_1ITag"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsw_1_1IDialog"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1IDialog')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1IDialog.html">sw::IDialog</a></td></tr>
+<tr class="memitem:a1aeda769602310f49583fae80aa45c4f inherit pub_methods_classsw_1_1IDialog" id="r_a1aeda769602310f49583fae80aa45c4f"><td class="memItemLeft" align="right" valign="top">
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~IDialog</b> ()=default</td></tr>
+<tr class="memdesc:a1aeda769602310f49583fae80aa45c4f inherit pub_methods_classsw_1_1IDialog"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认虚析构函数 <br /></td></tr>
+<tr class="separator:a1aeda769602310f49583fae80aa45c4f inherit pub_methods_classsw_1_1IDialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public 属性</h2></td></tr>
@@ -615,6 +623,9 @@ const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#
 const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Borderless</b></td></tr>
 <tr class="memdesc:a21dd383eef41be091277a356820e0608"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口无边框 <br /></td></tr>
 <tr class="separator:a21dd383eef41be091277a356820e0608"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5442548ee8a1cbb459d9ae4e35e965a" id="r_ad5442548ee8a1cbb459d9ae4e35e965a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#ad5442548ee8a1cbb459d9ae4e35e965a">DialogResult</a></td></tr>
+<tr class="memdesc:ad5442548ee8a1cbb459d9ae4e35e965a"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口的对话框结果，ShowDialog返回该值  <br /></td></tr>
+<tr class="separator:ad5442548ee8a1cbb459d9ae4e35e965a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classsw_1_1Layer"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1Layer')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1Layer.html">sw::Layer</a></td></tr>
 <tr class="memitem:accb80d7a016d5a56b1c744db4ef96059 inherit pub_attribs_classsw_1_1Layer" id="r_accb80d7a016d5a56b1c744db4ef96059"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1LayoutHost.html">LayoutHost</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Layout</b></td></tr>
@@ -1163,6 +1174,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>窗口 </p>
 </div><h2 class="groupheader">成员函数说明</h2>
+<a id="aeabad3476a74d23bbd3a6ed877939d16" name="aeabad3476a74d23bbd3a6ed877939d16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeabad3476a74d23bbd3a6ed877939d16">&#9670;&#160;</a></span>Close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sw::Window::Close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>关闭窗口 </p>
+
+<p>实现了 <a class="el" href="classsw_1_1IDialog.html#a2d4ba2aa2893377cde30966587fbe490">sw::IDialog</a>.</p>
+
+</div>
+</div>
 <a id="abafe422b0435aa15ec04ced4300b6b76" name="abafe422b0435aa15ec04ced4300b6b76"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abafe422b0435aa15ec04ced4300b6b76">&#9670;&#160;</a></span>GetDefaultLayout()</h2>
 
@@ -1466,40 +1506,57 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b
 
 </div>
 </div>
-<a id="a9766b18edbb89086949cfd4735741583" name="a9766b18edbb89086949cfd4735741583"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9766b18edbb89086949cfd4735741583">&#9670;&#160;</a></span>ShowDialog() <span class="overload">[1/2]</span></h2>
+<a id="acb7b96779684ed80420c45544dfbb73e" name="acb7b96779684ed80420c45544dfbb73e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb7b96779684ed80420c45544dfbb73e">&#9670;&#160;</a></span>Show()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void sw::Window::ShowDialog </td>
+          <td class="memname">virtual void sw::Window::Show </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>将窗口显示为模式对话框 </p>
-<dl class="section note"><dt>注解</dt><dd>该函数会创建一个新的消息循环并在窗口销毁时退出 </dd></dl>
+<p>显示窗口 </p>
+
+<p>实现了 <a class="el" href="classsw_1_1IDialog.html#a82c4849563a84f243a5e57806dade025">sw::IDialog</a>.</p>
 
 </div>
 </div>
-<a id="a37bc59a8775b6f39e244cdd6f82d5e51" name="a37bc59a8775b6f39e244cdd6f82d5e51"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37bc59a8775b6f39e244cdd6f82d5e51">&#9670;&#160;</a></span>ShowDialog() <span class="overload">[2/2]</span></h2>
+<a id="a4197644efd719230e2f19483ecdcd590" name="a4197644efd719230e2f19483ecdcd590"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4197644efd719230e2f19483ecdcd590">&#9670;&#160;</a></span>ShowDialog() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void sw::Window::ShowDialog </td>
+          <td class="memname">virtual int sw::Window::ShowDialog </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classsw_1_1Window.html">Window</a> &amp;&#160;</td>
           <td class="paramname"><em>owner</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>将窗口显示为模式对话框 </p>
@@ -1509,7 +1566,46 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>返回</dt><dd>DialogResult属性的值，若函数失败则返回-1 </dd></dl>
 <dl class="section note"><dt>注解</dt><dd>该函数会创建一个新的消息循环并在窗口销毁时退出 </dd></dl>
+
+</div>
+</div>
+<a id="a54b6ddf8f7ebbc7b1b64608937cda33b" name="a54b6ddf8f7ebbc7b1b64608937cda33b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54b6ddf8f7ebbc7b1b64608937cda33b">&#9670;&#160;</a></span>ShowDialog() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int sw::Window::ShowDialog </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1Window.html">Window</a> *&#160;</td>
+          <td class="paramname"><em>owner</em> = <code>nullptr</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将窗口显示为模式对话框 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">owner</td><td>窗体的所有者，若为nullptr则使用当前活动窗口 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>DialogResult属性的值，若函数失败则返回-1 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>该函数会创建一个新的消息循环并在窗口销毁时退出 </dd></dl>
+
+<p>实现了 <a class="el" href="classsw_1_1IDialog.html#a12c4076ef928410b8fc605612e763261">sw::IDialog</a>.</p>
 
 </div>
 </div>
@@ -1574,6 +1670,23 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b
 </div>
 </div>
 <h2 class="groupheader">类成员变量说明</h2>
+<a id="ad5442548ee8a1cbb459d9ae4e35e965a" name="ad5442548ee8a1cbb459d9ae4e35e965a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5442548ee8a1cbb459d9ae4e35e965a">&#9670;&#160;</a></span>DialogResult</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsw_1_1Property.html">Property</a>&lt;int&gt; sw::Window::DialogResult</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>窗口的对话框结果，ShowDialog返回该值 </p>
+<dl class="section note"><dt>注解</dt><dd>该属性仅在窗口作为模态对话框显示时有效，默认值为0，该属性一旦被设置则会自动关闭窗口 </dd></dl>
+
+</div>
+</div>
 <a id="a789346009936daa99303cf88f9f5bb34" name="a789346009936daa99303cf88f9f5bb34"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a789346009936daa99303cf88f9f5bb34">&#9670;&#160;</a></span>Opacity</h2>
 

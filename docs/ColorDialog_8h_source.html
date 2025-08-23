@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: ColorDialog.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ColorDialog_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ColorDialog.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Window.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">enum class</span> ColorDialogFlags : DWORD {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="comment">// Causes the dialog box to display all available colors in the set of basic colors.</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        AnyColor = 0x00000100,</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="comment">// Enables the hook procedure specified in the lpfnHook member of this structure.</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <span class="comment">// This flag is used only to initialize the dialog box.</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        EnableHook = 0x00000010,</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="comment">// The hInstance and lpTemplateName members specify a dialog box template to use in</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="comment">// place of the default template. This flag is used only to initialize the dialog box.</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        EnableTemplate = 0x00000020,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="comment">// The hInstance member identifies a data block that contains a preloaded dialog box</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="comment">// template. The system ignores the lpTemplateName member if this flag is specified.</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="comment">// This flag is used only to initialize the dialog box.</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        EnableTemplateHandle = 0x00000040,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="comment">// Causes the dialog box to display the additional controls that allow the user to</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="comment">// create custom colors. If this flag is not set, the user must click the Define Custom</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="comment">// Color button to display the custom color controls.</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        FullOpen = 0x00000002,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="comment">// Disables the Define Custom Color button.</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        PreventFullOpen = 0x00000004,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="comment">// Causes the dialog box to use the color specified in the rgbResult member as the</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="comment">// initial color selection.</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        RgbInit = 0x00000001,</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="comment">// Causes the dialog box to display the Help button. The hwndOwner member must specify</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="comment">// the window to receive the HELPMSGSTRING registered messages that the dialog box sends</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="comment">// when the user clicks the Help button.</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        ShowHelp = 0x00000008,</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="comment">// Causes the dialog box to display only solid colors in the set of basic colors.</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        SolidColor = 0x00000080,</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    };</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    _SW_ENUM_ENABLE_BIT_OPERATIONS(ColorDialogFlags);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="foldopen" id="foldopen00056" data-start="{" data-end="};">
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classsw_1_1ColorDialog.html">   56</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1ColorDialog.html">ColorDialog</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1IDialog.html">IDialog</a></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        CHOOSECOLORW _cc{};</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classsw_1_1ColorDialog.html#ad51651737ebe8ccbbf5dec725703fbd4">   68</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;ColorDialogFlags&gt;</a> <a class="code hl_variable" href="classsw_1_1ColorDialog.html#ad51651737ebe8ccbbf5dec725703fbd4">Flags</a>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classsw_1_1ColorDialog.html#a63667422eddade87f5913e7d23fc9d9c">   73</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;Color&gt;</a> <a class="code hl_variable" href="classsw_1_1ColorDialog.html#a63667422eddade87f5913e7d23fc9d9c">SelectedColor</a>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classsw_1_1ColorDialog.html#a24736db284ab82bd54d2d8e8a9002f0a">   78</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1ColorDialog.html#a24736db284ab82bd54d2d8e8a9002f0a">FullOpen</a>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="classsw_1_1ColorDialog.html#a1b7af9704cee4a96a8bbc813e126fe9a">   84</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;COLORREF *&gt;</a> <a class="code hl_variable" href="classsw_1_1ColorDialog.html#a1b7af9704cee4a96a8bbc813e126fe9a">CustomColors</a>;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classsw_1_1ColorDialog.html#a1ffa51c089511063ce406e2a313bb7f7">   90</a></span>        <a class="code hl_function" href="classsw_1_1ColorDialog.html#a1ffa51c089511063ce406e2a313bb7f7">ColorDialog</a>();</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="classsw_1_1ColorDialog.html#aff4af5ca4663155329e2644d382b7efa">   95</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ColorDialog.html#aff4af5ca4663155329e2644d382b7efa">Close</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classsw_1_1ColorDialog.html#a3a83623464c669835f955b5f13ba870a">  100</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ColorDialog.html#a3a83623464c669835f955b5f13ba870a">Show</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="classsw_1_1ColorDialog.html#a3b7742207074a320864aa4a290c4d84e">  106</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1ColorDialog.html#a3b7742207074a320864aa4a290c4d84e">ShowDialog</a>(<a class="code hl_class" href="classsw_1_1Window.html">Window</a> *owner = <span class="keyword">nullptr</span>) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="classsw_1_1ColorDialog.html#a6676e5ad9859e502196a21cf046ef47b">  112</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1ColorDialog.html#a6676e5ad9859e502196a21cf046ef47b">ShowDialog</a>(<a class="code hl_class" href="classsw_1_1Window.html">Window</a> &amp;owner);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="classsw_1_1ColorDialog.html#a899d7eddbdeee3bfecab45a829843a1f">  118</a></span>        CHOOSECOLORW *<a class="code hl_function" href="classsw_1_1ColorDialog.html#a899d7eddbdeee3bfecab45a829843a1f">GetChooseColorStruct</a>();</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    };</div>
+</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>}</div>
+<div class="ttc" id="aclasssw_1_1ColorDialog_html"><div class="ttname"><a href="classsw_1_1ColorDialog.html">sw::ColorDialog</a></div><div class="ttdoc">颜色选择对话框</div><div class="ttdef"><b>Definition</b> ColorDialog.h:57</div></div>
+<div class="ttc" id="aclasssw_1_1ColorDialog_html_a1b7af9704cee4a96a8bbc813e126fe9a"><div class="ttname"><a href="classsw_1_1ColorDialog.html#a1b7af9704cee4a96a8bbc813e126fe9a">sw::ColorDialog::CustomColors</a></div><div class="ttdeci">const Property&lt; COLORREF * &gt; CustomColors</div><div class="ttdoc">自定义颜色数组，包含16个COLORREF元素</div><div class="ttdef"><b>Definition</b> ColorDialog.h:84</div></div>
+<div class="ttc" id="aclasssw_1_1ColorDialog_html_a1ffa51c089511063ce406e2a313bb7f7"><div class="ttname"><a href="classsw_1_1ColorDialog.html#a1ffa51c089511063ce406e2a313bb7f7">sw::ColorDialog::ColorDialog</a></div><div class="ttdeci">ColorDialog()</div><div class="ttdoc">初始化ColorDialog</div></div>
+<div class="ttc" id="aclasssw_1_1ColorDialog_html_a24736db284ab82bd54d2d8e8a9002f0a"><div class="ttname"><a href="classsw_1_1ColorDialog.html#a24736db284ab82bd54d2d8e8a9002f0a">sw::ColorDialog::FullOpen</a></div><div class="ttdeci">const Property&lt; bool &gt; FullOpen</div><div class="ttdoc">是否显示完整的颜色选择界面</div><div class="ttdef"><b>Definition</b> ColorDialog.h:78</div></div>
+<div class="ttc" id="aclasssw_1_1ColorDialog_html_a3a83623464c669835f955b5f13ba870a"><div class="ttname"><a href="classsw_1_1ColorDialog.html#a3a83623464c669835f955b5f13ba870a">sw::ColorDialog::Show</a></div><div class="ttdeci">virtual void Show() override</div><div class="ttdoc">ColorDialog默认不支持该函数，调用该函数不会执行任何操作</div></div>
+<div class="ttc" id="aclasssw_1_1ColorDialog_html_a3b7742207074a320864aa4a290c4d84e"><div class="ttname"><a href="classsw_1_1ColorDialog.html#a3b7742207074a320864aa4a290c4d84e">sw::ColorDialog::ShowDialog</a></div><div class="ttdeci">virtual int ShowDialog(Window *owner=nullptr) override</div><div class="ttdoc">显示对话框，并指定所有者窗口</div></div>
+<div class="ttc" id="aclasssw_1_1ColorDialog_html_a63667422eddade87f5913e7d23fc9d9c"><div class="ttname"><a href="classsw_1_1ColorDialog.html#a63667422eddade87f5913e7d23fc9d9c">sw::ColorDialog::SelectedColor</a></div><div class="ttdeci">const Property&lt; Color &gt; SelectedColor</div><div class="ttdoc">选择的颜色，默认值为黑色</div><div class="ttdef"><b>Definition</b> ColorDialog.h:73</div></div>
+<div class="ttc" id="aclasssw_1_1ColorDialog_html_a6676e5ad9859e502196a21cf046ef47b"><div class="ttname"><a href="classsw_1_1ColorDialog.html#a6676e5ad9859e502196a21cf046ef47b">sw::ColorDialog::ShowDialog</a></div><div class="ttdeci">virtual int ShowDialog(Window &amp;owner)</div><div class="ttdoc">显示对话框，并指定所有者窗口</div></div>
+<div class="ttc" id="aclasssw_1_1ColorDialog_html_a899d7eddbdeee3bfecab45a829843a1f"><div class="ttname"><a href="classsw_1_1ColorDialog.html#a899d7eddbdeee3bfecab45a829843a1f">sw::ColorDialog::GetChooseColorStruct</a></div><div class="ttdeci">CHOOSECOLORW * GetChooseColorStruct()</div><div class="ttdoc">获取颜色选择对话框的配置结构体指针</div></div>
+<div class="ttc" id="aclasssw_1_1ColorDialog_html_ad51651737ebe8ccbbf5dec725703fbd4"><div class="ttname"><a href="classsw_1_1ColorDialog.html#ad51651737ebe8ccbbf5dec725703fbd4">sw::ColorDialog::Flags</a></div><div class="ttdeci">const Property&lt; ColorDialogFlags &gt; Flags</div><div class="ttdoc">对话框标志</div><div class="ttdef"><b>Definition</b> ColorDialog.h:68</div></div>
+<div class="ttc" id="aclasssw_1_1ColorDialog_html_aff4af5ca4663155329e2644d382b7efa"><div class="ttname"><a href="classsw_1_1ColorDialog.html#aff4af5ca4663155329e2644d382b7efa">sw::ColorDialog::Close</a></div><div class="ttdeci">virtual void Close() override</div><div class="ttdoc">ColorDialog默认不支持该函数，调用该函数不会执行任何操作</div></div>
+<div class="ttc" id="aclasssw_1_1IDialog_html"><div class="ttname"><a href="classsw_1_1IDialog.html">sw::IDialog</a></div><div class="ttdoc">对话框接口</div><div class="ttdef"><b>Definition</b> IDialog.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1573</div></div>
+<div class="ttc" id="aclasssw_1_1Window_html"><div class="ttname"><a href="classsw_1_1Window.html">sw::Window</a></div><div class="ttdoc">窗口</div><div class="ttdef"><b>Definition</b> Window.h:35</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>ColorDialog.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

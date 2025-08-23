@@ -729,6 +729,115 @@ std::wstring sw::Color::ToString() const
     return Utils::FormatStr(L"Color{r=%u, g=%u, b=%u}", this->r, this->g, this->b);
 }
 
+// ColorDialog.cpp
+
+namespace
+{
+    /**
+     * @brief 默认自定义颜色数组
+     */
+    COLORREF _defaultCustomColors[16] = {
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+        RGB(255, 255, 255),
+    };
+}
+
+sw::ColorDialog::ColorDialog()
+    : Flags(
+          // get
+          [this]() -> ColorDialogFlags {
+              return static_cast<ColorDialogFlags>(_cc.Flags);
+          },
+          // set
+          [this](const ColorDialogFlags &value) {
+              _cc.Flags = static_cast<DWORD>(value);
+          }),
+
+      SelectedColor(
+          // get
+          [this]() -> Color {
+              return _cc.rgbResult;
+          },
+          // set
+          [this](const Color &value) {
+              _cc.rgbResult = value;
+          }),
+
+      FullOpen(
+          // get
+          [this]() -> bool {
+              return (Flags & ColorDialogFlags::FullOpen) == ColorDialogFlags::FullOpen;
+          },
+          // set
+          [this](const bool &value) {
+              if (value) {
+                  Flags |= ColorDialogFlags::FullOpen;
+              } else {
+                  Flags &= ~ColorDialogFlags::FullOpen;
+              }
+          }),
+
+      CustomColors(
+          // get
+          [this]() -> COLORREF * {
+              return _cc.lpCustColors;
+          },
+          // set
+          [this](COLORREF *value) {
+              _cc.lpCustColors = value ? value : _defaultCustomColors;
+          })
+{
+    _cc.lStructSize  = sizeof(CHOOSECOLORW);
+    _cc.Flags        = DWORD(ColorDialogFlags::RgbInit);
+    _cc.rgbResult    = Color(KnownColor::Black);
+    _cc.lpCustColors = _defaultCustomColors;
+}
+
+void sw::ColorDialog::Close()
+{
+}
+
+void sw::ColorDialog::Show()
+{
+}
+
+int sw::ColorDialog::ShowDialog(Window *owner)
+{
+    if (owner == nullptr) {
+        owner = Window::ActiveWindow;
+    }
+
+    HWND hOwner    = owner ? owner->Handle.Get() : NULL;
+    auto pCC       = GetChooseColorStruct();
+    pCC->hwndOwner = hOwner;
+
+    return ChooseColorW(pCC);
+}
+
+int sw::ColorDialog::ShowDialog(Window &owner)
+{
+    return ShowDialog(&owner);
+}
+
+CHOOSECOLORW *sw::ColorDialog::GetChooseColorStruct()
+{
+    return &_cc;
+}
+
 // ComboBox.cpp
 
 namespace
@@ -902,8 +1011,9 @@ sw::CommandLink::CommandLink()
                   return std::wstring{};
               else {
                   std::wstring result;
-                  result.resize(len + 1);
-                  SendMessageW(BCM_GETNOTE, len + 1, reinterpret_cast<LPARAM>(&result[0]));
+                  DWORD buflen = len + 1;
+                  result.resize(buflen);
+                  SendMessageW(BCM_GETNOTE, reinterpret_cast<WPARAM>(&buflen), reinterpret_cast<LPARAM>(&result[0]));
                   result.resize(len);
                   return result;
               }
@@ -1594,7 +1704,7 @@ namespace
 
 sw::FileFilter::FileFilter(std::initializer_list<FileFilterItem> filters)
 {
-    this->SetFilter(filters);
+    SetFilter(filters);
 }
 
 bool sw::FileFilter::AddFilter(const std::wstring &name, const std::wstring &filter, const std::wstring &defaultExt)
@@ -1603,44 +1713,44 @@ bool sw::FileFilter::AddFilter(const std::wstring &name, const std::wstring &fil
         return false;
     }
 
-    if (!this->_buffer.empty()) {
-        this->_buffer.pop_back();
+    if (!_buffer.empty()) {
+        _buffer.pop_back();
     }
 
     for (auto c : name) {
-        this->_buffer.push_back(c);
+        _buffer.push_back(c);
     }
-    this->_buffer.push_back(0);
+    _buffer.push_back(0);
 
     for (auto c : filter) {
-        this->_buffer.push_back(c);
+        _buffer.push_back(c);
     }
-    this->_buffer.push_back(0);
-    this->_buffer.push_back(0);
+    _buffer.push_back(0);
+    _buffer.push_back(0);
 
-    this->_defaultExts.emplace_back(defaultExt);
+    _defaultExts.emplace_back(defaultExt);
     return true;
 }
 
 int sw::FileFilter::SetFilter(std::initializer_list<FileFilterItem> filters)
 {
     int result = 0;
-    this->Clear();
+    Clear();
     for (auto &item : filters) {
-        result += this->AddFilter(item.name, item.filter, item.defaultExt);
+        result += AddFilter(item.name, item.filter, item.defaultExt);
     }
     return result;
 }
 
 void sw::FileFilter::Clear()
 {
-    this->_buffer.clear();
-    this->_defaultExts.clear();
+    _buffer.clear();
+    _defaultExts.clear();
 }
 
 wchar_t *sw::FileFilter::GetFilterStr()
 {
-    return this->_buffer.empty() ? nullptr : this->_buffer.data();
+    return _buffer.empty() ? nullptr : _buffer.data();
 }
 
 const wchar_t *sw::FileFilter::GetDefaultExt(int index)
@@ -1652,85 +1762,85 @@ sw::FileDialog::FileDialog()
     : BufferSize(
           // get
           [this]() -> int {
-              return (int)this->_buffer.size();
+              return (int)_buffer.size();
           },
           // set
           [this](const int &value) {
               int size = Utils::Max(MAX_PATH, value);
-              this->_buffer.resize(size);
-              this->_ofn.lpstrFile = this->_buffer.data();
-              this->_ofn.nMaxFile  = (DWORD)this->_buffer.size();
-              this->ClearBuffer(); // 清空缓冲区，防止BufferSize比原来小时获取FileName访问到缓冲区外的内存
+              _buffer.resize(size);
+              _ofn.lpstrFile = _buffer.data();
+              _ofn.nMaxFile  = (DWORD)_buffer.size();
+              ClearBuffer(); // 清空缓冲区，防止BufferSize比原来小时获取FileName访问到缓冲区外的内存
           }),
 
       Flags(
           // get
           [this]() -> FileDialogFlags {
-              return static_cast<FileDialogFlags>(this->_ofn.Flags);
+              return static_cast<FileDialogFlags>(_ofn.Flags);
           },
           // set
           [this](const FileDialogFlags &value) {
-              this->_ofn.Flags = static_cast<DWORD>(value);
+              _ofn.Flags = static_cast<DWORD>(value);
           }),
 
       Title(
           // get
           [this]() -> std::wstring {
-              return this->_title;
+              return _title;
           },
           // set
           [this](const std::wstring &value) {
-              this->_title = value;
-              if (this->_title.empty()) {
-                  this->_ofn.lpstrTitle = nullptr;
+              _title = value;
+              if (_title.empty()) {
+                  _ofn.lpstrTitle = nullptr;
               } else {
-                  this->_ofn.lpstrTitle = this->_title.c_str();
+                  _ofn.lpstrTitle = _title.c_str();
               }
           }),
 
       InitialDir(
           // get
           [this]() -> std::wstring {
-              return this->_initialDir;
+              return _initialDir;
           },
           // set
           [this](const std::wstring &value) {
-              this->_initialDir = value;
-              if (this->_initialDir.empty()) {
-                  this->_ofn.lpstrInitialDir = nullptr;
+              _initialDir = value;
+              if (_initialDir.empty()) {
+                  _ofn.lpstrInitialDir = nullptr;
               } else {
-                  this->_ofn.lpstrInitialDir = this->_initialDir.c_str();
+                  _ofn.lpstrInitialDir = _initialDir.c_str();
               }
           }),
 
       Filter(
           // get
           [this]() -> FileFilter * {
-              return &this->_filter;
+              return &_filter;
           }),
 
       FilterIndex(
           // get
           [this]() -> int {
-              return (int)this->_ofn.nFilterIndex - 1;
+              return (int)_ofn.nFilterIndex - 1;
           },
           // set
           [this](const int &value) {
-              this->_ofn.nFilterIndex = Utils::Max(0, value) + 1;
+              _ofn.nFilterIndex = Utils::Max(0, value) + 1;
           }),
 
       FileName(
           // get
           [this]() -> std::wstring {
-              if (!this->MultiSelect) {
-                  std::wstring result(this->GetBuffer());
-                  this->ProcessFileName(result);
+              if (!MultiSelect) {
+                  std::wstring result(GetBuffer());
+                  ProcessFileName(result);
                   return result;
               } else {
-                  std::wstring path(this->GetBuffer());
-                  wchar_t *pFile = this->GetBuffer() + path.size() + 1;
+                  std::wstring path(GetBuffer());
+                  wchar_t *pFile = GetBuffer() + path.size() + 1;
                   std::wstring result(*pFile ? Path::Combine({path, pFile}) : path);
-                  this->ProcessFileName(result);
+                  ProcessFileName(result);
                   return result;
               }
           }),
@@ -1738,14 +1848,14 @@ sw::FileDialog::FileDialog()
       MultiSelect(
           // get
           [this]() -> bool {
-              return (this->Flags.Get() & FileDialogFlags::AllowMultiSelect) == FileDialogFlags::AllowMultiSelect;
+              return (Flags & FileDialogFlags::AllowMultiSelect) == FileDialogFlags::AllowMultiSelect;
           },
           // set
           [this](const bool &value) {
               if (value) {
-                  this->Flags = this->Flags.Get() | FileDialogFlags::AllowMultiSelect;
+                  Flags |= FileDialogFlags::AllowMultiSelect;
               } else {
-                  this->Flags = this->Flags.Get() & ~FileDialogFlags::AllowMultiSelect;
+                  Flags &= ~FileDialogFlags::AllowMultiSelect;
               }
           }),
 
@@ -1754,20 +1864,20 @@ sw::FileDialog::FileDialog()
           [this]() -> List<std::wstring> {
               List<std::wstring> result;
 
-              if (!this->MultiSelect) {
-                  auto fileName = this->FileName.Get();
+              if (!MultiSelect) {
+                  auto fileName = FileName.Get();
                   if (!fileName.empty())
                       result.Append(fileName);
                   return result;
               }
 
-              std::wstring path(this->GetBuffer());
-              wchar_t *pFile = this->GetBuffer() + path.size() + 1;
+              std::wstring path(GetBuffer());
+              wchar_t *pFile = GetBuffer() + path.size() + 1;
 
               if (*pFile == 0) { // 多选状态下只选中一项时，buffer中存放的就是选择的文件路径
                   if (!path.empty()) {
                       result.Append(path);
-                      this->ProcessFileName(result[result.Count() - 1]);
+                      ProcessFileName(result[result.Count() - 1]);
                   }
                   return result;
               }
@@ -1775,55 +1885,53 @@ sw::FileDialog::FileDialog()
               while (*pFile) {
                   std::wstring file = pFile;
                   result.Append(Path::Combine({path, file}));
-                  this->ProcessFileName(result[result.Count() - 1]);
+                  ProcessFileName(result[result.Count() - 1]);
                   pFile += file.size() + 1;
               }
               return result;
           })
 {
-    this->_ofn.lStructSize       = sizeof(this->_ofn);
-    this->_ofn.lpstrFileTitle    = nullptr;
-    this->_ofn.nMaxFileTitle     = 0;
-    this->_ofn.lpstrCustomFilter = nullptr; // 直接设置Filter即可，不提供CustomFilter支持
-    this->_ofn.nMaxCustFilter    = 0;
+    _ofn.lStructSize       = sizeof(_ofn);
+    _ofn.lpstrFileTitle    = nullptr;
+    _ofn.nMaxFileTitle     = 0;
+    _ofn.lpstrCustomFilter = nullptr; // 直接设置Filter即可，不提供CustomFilter支持
+    _ofn.nMaxCustFilter    = 0;
 
-    this->BufferSize  = _FileDialogInitialBufferSize;
-    this->Flags       = FileDialogFlags::Explorer;
-    this->Title       = L"";
-    this->InitialDir  = L"";
-    this->FilterIndex = 0;
+    BufferSize  = _FileDialogInitialBufferSize;
+    Flags       = FileDialogFlags::Explorer;
+    Title       = L"";
+    InitialDir  = L"";
+    FilterIndex = 0;
 }
 
 void sw::FileDialog::SetFilter(const FileFilter &filter)
 {
-    this->_filter = filter;
+    _filter = filter;
 }
 
-bool sw::FileDialog::ShowDialog()
+void sw::FileDialog::Close()
 {
-    return this->ShowDialog(Window::ActiveWindow);
 }
 
-bool sw::FileDialog::ShowDialog(const Window &owner)
+void sw::FileDialog::Show()
 {
-    return this->ShowDialog(&owner);
 }
 
 OPENFILENAMEW *sw::FileDialog::GetOFN()
 {
-    this->_ofn.lpstrFilter = this->_filter.GetFilterStr();
-    return &this->_ofn;
+    _ofn.lpstrFilter = _filter.GetFilterStr();
+    return &_ofn;
 }
 
 wchar_t *sw::FileDialog::GetBuffer()
 {
-    return this->_buffer.data();
+    return _buffer.data();
 }
 
 void sw::FileDialog::ClearBuffer()
 {
-    this->_buffer.at(0) = 0;
-    this->_buffer.at(1) = 0; // 两个'\0'表示结束，防止多选时FileName的意外拼接
+    _buffer.at(0) = 0;
+    _buffer.at(1) = 0; // 两个'\0'表示结束，防止多选时FileName的意外拼接
 }
 
 void sw::FileDialog::ProcessFileName(std::wstring &fileName)
@@ -1832,76 +1940,92 @@ void sw::FileDialog::ProcessFileName(std::wstring &fileName)
 
 sw::OpenFileDialog::OpenFileDialog()
 {
-    this->Flags = this->Flags.Get() |
-                  FileDialogFlags::PathMustExist |
-                  FileDialogFlags::FileMustExist;
+    Flags |= FileDialogFlags::PathMustExist |
+             FileDialogFlags::FileMustExist;
 }
 
-bool sw::OpenFileDialog::ShowDialog(const Window *owner)
+int sw::OpenFileDialog::ShowDialog(Window *owner)
 {
+    if (owner == nullptr) {
+        owner = Window::ActiveWindow;
+    }
+
     HWND hOwner     = owner ? owner->Handle.Get() : NULL;
-    auto pOFN       = this->GetOFN();
+    auto pOFN       = GetOFN();
     pOFN->hwndOwner = hOwner;
 
     bool result   = false;
     DWORD errcode = 0;
     do {
         if (errcode == FNERR_BUFFERTOOSMALL) {
-            this->BufferSize = *reinterpret_cast<uint16_t *>(this->GetBuffer());
+            BufferSize = *reinterpret_cast<uint16_t *>(GetBuffer());
         }
-        this->ClearBuffer();
+        ClearBuffer();
         result = GetOpenFileNameW(pOFN);
     } while (!result && ((errcode = CommDlgExtendedError()) == FNERR_BUFFERTOOSMALL));
 
     return result;
 }
 
+int sw::OpenFileDialog::ShowDialog(Window &owner)
+{
+    return ShowDialog(&owner);
+}
+
 sw::SaveFileDialog::SaveFileDialog()
     : InitialFileName(
           // get
           [this]() -> std::wstring {
-              return this->_initialFileName;
+              return _initialFileName;
           },
           // set
           [this](const std::wstring &value) {
-              this->_initialFileName = value;
+              _initialFileName = value;
           })
 {
-    this->Flags = this->Flags.Get() |
-                  FileDialogFlags::PathMustExist |
-                  FileDialogFlags::FileMustExist |
-                  FileDialogFlags::OverwritePrompt;
+    Flags |= FileDialogFlags::PathMustExist |
+             FileDialogFlags::FileMustExist |
+             FileDialogFlags::OverwritePrompt;
 }
 
-bool sw::SaveFileDialog::ShowDialog(const Window *owner)
+int sw::SaveFileDialog::ShowDialog(Window *owner)
 {
+    if (owner == nullptr) {
+        owner = Window::ActiveWindow;
+    }
+
     HWND hOwner     = owner ? owner->Handle.Get() : NULL;
-    auto pOFN       = this->GetOFN();
+    auto pOFN       = GetOFN();
     pOFN->hwndOwner = hOwner;
 
     bool result   = false;
     DWORD errcode = 0;
     do {
         if (errcode == FNERR_BUFFERTOOSMALL) {
-            this->BufferSize = *reinterpret_cast<uint16_t *>(this->GetBuffer());
+            BufferSize = *reinterpret_cast<uint16_t *>(GetBuffer());
         }
-        if (this->_initialFileName.empty()) {
-            this->ClearBuffer();
+        if (_initialFileName.empty()) {
+            ClearBuffer();
         } else {
-            this->_SetInitialFileName();
+            _SetInitialFileName();
         }
         result = GetSaveFileNameW(pOFN);
     } while (!result && ((errcode = CommDlgExtendedError()) == FNERR_BUFFERTOOSMALL));
 
     if (!result) {
-        this->ClearBuffer();
+        ClearBuffer();
     }
     return result;
 }
 
+int sw::SaveFileDialog::ShowDialog(Window &owner)
+{
+    return ShowDialog(&owner);
+}
+
 void sw::SaveFileDialog::ProcessFileName(std::wstring &fileName)
 {
-    const wchar_t *ext = this->Filter->GetDefaultExt(this->FilterIndex);
+    const wchar_t *ext = Filter->GetDefaultExt(FilterIndex);
     if (ext == nullptr || ext[0] == L'\0') return;
 
     size_t indexSlash = fileName.find_last_of(L"\\/");
@@ -1915,14 +2039,14 @@ void sw::SaveFileDialog::ProcessFileName(std::wstring &fileName)
 
 void sw::SaveFileDialog::_SetInitialFileName()
 {
-    auto &str = this->_initialFileName;
+    auto &str = _initialFileName;
     int size  = (int)str.size();
 
-    if (this->BufferSize < size + 2) {
-        this->BufferSize = size + 2;
+    if (BufferSize < size + 2) {
+        BufferSize = size + 2;
     }
 
-    wchar_t *buffer = this->GetBuffer();
+    wchar_t *buffer = GetBuffer();
     memcpy(buffer, &str[0], sizeof(wchar_t) * size);
     buffer[size] = buffer[size + 1] = 0;
 }
@@ -1966,103 +2090,108 @@ sw::FolderBrowserDialog::FolderBrowserDialog()
     : BufferSize(
           // get
           [this]() -> int {
-              return (int)this->_buffer.size();
+              return (int)_buffer.size();
           },
           // set
           [this](const int &value) {
-              this->_buffer.resize(Utils::Max(MAX_PATH, value));
-              this->ClearBuffer();
+              _buffer.resize(Utils::Max(MAX_PATH, value));
+              ClearBuffer();
           }),
 
       Flags(
           // get
           [this]() -> FolderDialogFlags {
-              return static_cast<FolderDialogFlags>(this->_bi.ulFlags);
+              return static_cast<FolderDialogFlags>(_bi.ulFlags);
           },
           // set
           [this](const FolderDialogFlags &value) {
-              this->_bi.ulFlags = static_cast<UINT>(value);
+              _bi.ulFlags = static_cast<UINT>(value);
           }),
 
       Description(
           // get
           [this]() -> std::wstring {
-              return this->_description;
+              return _description;
           },
           // set
           [this](const std::wstring &value) {
-              this->_description = value;
-              if (this->_description.empty()) {
-                  this->_bi.lpszTitle = nullptr;
+              _description = value;
+              if (_description.empty()) {
+                  _bi.lpszTitle = nullptr;
               } else {
-                  this->_bi.lpszTitle = this->_description.c_str();
+                  _bi.lpszTitle = _description.c_str();
               }
           }),
 
       SelectedPath(
           // get
           [this]() -> std::wstring {
-              return this->GetBuffer();
+              return GetBuffer();
           }),
 
       NewFolderButton(
           // get
           [this]() -> bool {
-              return !((this->Flags.Get() & FolderDialogFlags::NoNewFolderButton) == FolderDialogFlags::NoNewFolderButton);
+              return !((Flags & FolderDialogFlags::NoNewFolderButton) == FolderDialogFlags::NoNewFolderButton);
           },
           // set
           [this](const bool &value) {
               if (value) {
-                  this->Flags = this->Flags.Get() & ~FolderDialogFlags::NoNewFolderButton;
+                  Flags &= ~FolderDialogFlags::NoNewFolderButton;
               } else {
-                  this->Flags = this->Flags.Get() | FolderDialogFlags::NoNewFolderButton;
+                  Flags |= FolderDialogFlags::NoNewFolderButton;
               }
           })
 {
-    this->BufferSize  = _FolderBrowserDialogInitialBufferSize;
-    this->Flags       = FolderDialogFlags::NewDialogStyle | FolderDialogFlags::ReturnOnlyFileSystemDirs;
-    this->Description = L"";
+    BufferSize  = _FolderBrowserDialogInitialBufferSize;
+    Flags       = FolderDialogFlags::NewDialogStyle | FolderDialogFlags::ReturnOnlyFileSystemDirs;
+    Description = L"";
 }
 
-bool sw::FolderBrowserDialog::ShowDialog()
+void sw::FolderBrowserDialog::Close()
 {
-    return this->ShowDialog(Window::ActiveWindow);
 }
 
-bool sw::FolderBrowserDialog::ShowDialog(const Window &owner)
+void sw::FolderBrowserDialog::Show()
 {
-    return this->ShowDialog(&owner);
 }
 
-bool sw::FolderBrowserDialog::ShowDialog(const Window *owner)
+int sw::FolderBrowserDialog::ShowDialog(Window *owner)
 {
+    if (owner == nullptr) {
+        owner = Window::ActiveWindow;
+    }
+
     HWND hOwner    = owner ? owner->Handle.Get() : NULL;
-    auto pBI       = this->GetBI();
+    auto pBI       = GetBI();
     pBI->hwndOwner = hOwner;
 
     auto pidl = SHBrowseForFolderW(pBI);
-    if (pidl == nullptr) {
-        return false;
-    }
+    if (pidl == nullptr) return false;
 
-    bool result = SHGetPathFromIDListW(pidl, this->GetBuffer());
+    bool result = SHGetPathFromIDListW(pidl, GetBuffer());
     CoTaskMemFree(pidl);
     return result;
 }
 
+int sw::FolderBrowserDialog::ShowDialog(Window &owner)
+{
+    return ShowDialog(&owner);
+}
+
 BROWSEINFOW *sw::FolderBrowserDialog::GetBI()
 {
-    return &this->_bi;
+    return &_bi;
 }
 
 wchar_t *sw::FolderBrowserDialog::GetBuffer()
 {
-    return this->_buffer.data();
+    return _buffer.data();
 }
 
 void sw::FolderBrowserDialog::ClearBuffer()
 {
-    this->_buffer.at(0) = 0;
+    _buffer.at(0) = 0;
 }
 
 // Font.cpp
@@ -2163,6 +2292,127 @@ sw::Font &sw::Font::GetDefaultFont(bool update)
     }
 
     return *pFont;
+}
+
+// FontDialog.cpp
+
+sw::FontDialog::FontDialog()
+    : Flags(
+          // get
+          [this]() -> FontDialogFlags {
+              return static_cast<FontDialogFlags>(_cf.Flags);
+          },
+          // set
+          [this](const FontDialogFlags &value) {
+              _cf.Flags = static_cast<DWORD>(value);
+          }),
+
+      Font(
+          // get
+          [this]() -> sw::Font {
+              return _font;
+          },
+          // set
+          [this](const sw::Font &value) {
+              _font = value;
+          }),
+
+      FontName(
+          // get
+          [this]() -> std::wstring {
+              return _font.name;
+          },
+          // set
+          [this](const std::wstring &value) {
+              _font.name = value;
+          }),
+
+      FontSize(
+          // get
+          [this]() -> double {
+              return _font.size;
+          },
+          // set
+          [this](const double &value) {
+              _font.size = value;
+          }),
+
+      FontWeight(
+          // get
+          [this]() -> sw::FontWeight {
+              return _font.weight;
+          },
+          // set
+          [this](const sw::FontWeight &value) {
+              _font.weight = value;
+          }),
+
+      ShowEffects(
+          // get
+          [this]() -> bool {
+              return (Flags & FontDialogFlags::Effects) == FontDialogFlags::Effects;
+          },
+          // set
+          [this](const bool &value) {
+              if (value) {
+                  Flags |= FontDialogFlags::Effects;
+              } else {
+                  Flags &= ~FontDialogFlags::Effects;
+              }
+          }),
+
+      SelectedColor(
+          // get
+          [this]() -> Color {
+              return _cf.rgbColors;
+          },
+          // set
+          [this](const Color &value) {
+              _cf.rgbColors = value;
+          })
+{
+    _font           = Font::GetDefaultFont();
+    _cf.lStructSize = sizeof(CHOOSEFONTW);
+    _cf.Flags       = DWORD(FontDialogFlags::InitToLogFontStruct | FontDialogFlags::Effects);
+}
+
+void sw::FontDialog::Close()
+{
+}
+
+void sw::FontDialog::Show()
+{
+}
+
+int sw::FontDialog::ShowDialog(Window *owner)
+{
+    int result = 0;
+
+    if (owner == nullptr) {
+        owner = Window::ActiveWindow;
+    }
+
+    HWND hOwner    = owner ? owner->Handle.Get() : NULL;
+    auto pCF       = GetChooseFontStruct();
+    pCF->hwndOwner = hOwner;
+
+    LOGFONTW logFont = _font;
+    pCF->lpLogFont   = &logFont;
+
+    if (result = ChooseFontW(pCF)) {
+        _font = logFont;
+    }
+    return result;
+}
+
+int sw::FontDialog::ShowDialog(Window &owner)
+{
+    return ShowDialog(&owner);
+}
+
+CHOOSEFONTW *sw::FontDialog::GetChooseFontStruct()
+{
+    return &_cf;
 }
 
 // Grid.cpp
@@ -7219,6 +7469,7 @@ sw::TabControl::TabControl()
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
     this->Rect = sw::Rect(0, 0, 200, 200);
+    this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::FontChanged;
 }
 
 int sw::TabControl::GetTabCount()
@@ -8327,7 +8578,8 @@ sw::UIElement *sw::UIElement::GetNextTabStopElement()
     UIElement *element = this;
     do {
         element = element->GetNextElement();
-    } while (element != nullptr && element != this && !(element->_tabStop && element->IsVisible()));
+    } while (element != nullptr && element != this &&
+             !(element->_tabStop && element->IsVisible() && element->Enabled));
     return element;
 }
 
@@ -8336,7 +8588,8 @@ sw::UIElement *sw::UIElement::GetPreviousTabStopElement()
     UIElement *element = this;
     do {
         element = element->GetPreviousElement();
-    } while (element != nullptr && element != this && !(element->_tabStop && element->IsVisible()));
+    } while (element != nullptr && element != this &&
+             !(element->_tabStop && element->IsVisible() && element->Enabled));
     return element;
 }
 
@@ -9381,48 +9634,6 @@ namespace
      * @brief 窗口句柄保存Window指针的属性名称
      */
     constexpr wchar_t _WindowPtrProp[] = L"SWPROP_WindowPtr";
-
-    /**
-     * @brief      通过窗口句柄获取Window指针
-     * @param hwnd 窗口句柄
-     * @return     若函数成功则返回对象的指针，否则返回nullptr
-     */
-    sw::Window *_GetWindowPtr(HWND hwnd)
-    {
-        return reinterpret_cast<sw::Window *>(GetPropW(hwnd, _WindowPtrProp));
-    }
-
-    /**
-     * @brief      关联窗口句柄与Window对象
-     * @param hwnd 窗口句柄
-     * @param wnd  与句柄关联的对象
-     */
-    void _SetWindowPtr(HWND hwnd, sw::Window &wnd)
-    {
-        SetPropW(hwnd, _WindowPtrProp, reinterpret_cast<HANDLE>(&wnd));
-    }
-
-    /**
-     * @brief DPI更新时调用该函数递归地更新所有子项的字体
-     */
-    void _UpdateFontForAllChild(sw::UIElement &element)
-    {
-        element.UpdateFont();
-        int count = element.ChildCount;
-        for (int i = 0; i < count; ++i) {
-            _UpdateFontForAllChild(element[i]);
-        }
-    }
-
-    /**
-     * @brief  获取窗口默认图标（即当前exe图标）
-     * @return 图标句柄
-     */
-    HICON _GetWindowDefaultIcon()
-    {
-        static HICON hIcon = ExtractIconW(sw::App::Instance, sw::App::ExePath->c_str(), 0);
-        return hIcon;
-    }
 }
 
 /**
@@ -9448,17 +9659,17 @@ sw::Window::Window()
     : StartupLocation(
           // get
           [this]() -> WindowStartupLocation {
-              return this->_startupLocation;
+              return _startupLocation;
           },
           // set
           [this](const WindowStartupLocation &value) {
-              this->_startupLocation = value;
+              _startupLocation = value;
           }),
 
       State(
           // get
           [this]() -> WindowState {
-              HWND hwnd = this->Handle;
+              HWND hwnd = Handle;
               if (IsIconic(hwnd)) {
                   return WindowState::Minimized;
               } else if (IsZoomed(hwnd)) {
@@ -9469,7 +9680,7 @@ sw::Window::Window()
           },
           // set
           [this](const WindowState &value) {
-              HWND hwnd = this->Handle;
+              HWND hwnd = Handle;
               switch (value) {
                   case WindowState::Normal:
                       ShowWindow(hwnd, SW_RESTORE);
@@ -9486,121 +9697,132 @@ sw::Window::Window()
       SizeBox(
           // get
           [this]() -> bool {
-              return this->GetStyle(WS_SIZEBOX);
+              return GetStyle(WS_SIZEBOX);
           },
           // set
           [this](const bool &value) {
-              this->SetStyle(WS_SIZEBOX, value);
+              SetStyle(WS_SIZEBOX, value);
           }),
 
       MaximizeBox(
           // get
           [this]() -> bool {
-              return this->GetStyle(WS_MAXIMIZEBOX);
+              return GetStyle(WS_MAXIMIZEBOX);
           },
           // set
           [this](const bool &value) {
-              this->SetStyle(WS_MAXIMIZEBOX, value);
+              SetStyle(WS_MAXIMIZEBOX, value);
           }),
 
       MinimizeBox(
           // get
           [this]() -> bool {
-              return this->GetStyle(WS_MINIMIZEBOX);
+              return GetStyle(WS_MINIMIZEBOX);
           },
           // set
           [this](const bool &value) {
-              this->SetStyle(WS_MINIMIZEBOX, value);
+              SetStyle(WS_MINIMIZEBOX, value);
           }),
 
       Topmost(
           // get
           [this]() -> bool {
-              return this->GetExtendedStyle(WS_EX_TOPMOST);
+              return GetExtendedStyle(WS_EX_TOPMOST);
           },
           // set
           [this](const bool &value) {
-              /*this->SetExtendedStyle(WS_EX_TOPMOST, value);*/
+              /*SetExtendedStyle(WS_EX_TOPMOST, value);*/
               HWND hWndInsertAfter = value ? HWND_TOPMOST : HWND_NOTOPMOST;
-              SetWindowPos(this->Handle, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+              SetWindowPos(Handle, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
           }),
 
       ToolWindow(
           // get
           [this]() -> bool {
-              return this->GetExtendedStyle(WS_EX_TOOLWINDOW);
+              return GetExtendedStyle(WS_EX_TOOLWINDOW);
           },
           // set
           [this](const bool &value) {
-              this->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
+              SetExtendedStyle(WS_EX_TOOLWINDOW, value);
           }),
 
       Menu(
           // get
           [this]() -> sw::Menu * {
-              return this->_menu;
+              return _menu;
           },
           // set
           [this](sw::Menu *value) {
-              this->_menu = value;
-              SetMenu(this->Handle, value != nullptr ? value->GetHandle() : NULL);
+              _menu = value;
+              SetMenu(Handle, value != nullptr ? value->GetHandle() : NULL);
           }),
 
       IsModal(
           // get
           [this]() -> bool {
-              return this->_isModal;
+              return _isModal;
           }),
 
       Owner(
           // get
           [this]() -> Window * {
-              HWND hOwner = reinterpret_cast<HWND>(GetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT));
+              HWND hOwner = reinterpret_cast<HWND>(GetWindowLongPtrW(Handle, GWLP_HWNDPARENT));
               return _GetWindowPtr(hOwner);
           },
           // set
           [this](Window *value) {
-              SetWindowLongPtrW(this->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(value ? value->Handle.Get() : NULL));
+              SetWindowLongPtrW(Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(value ? value->Handle.Get() : NULL));
           }),
 
       IsLayered(
           // get
           [this]() -> bool {
-              return this->GetExtendedStyle(WS_EX_LAYERED);
+              return GetExtendedStyle(WS_EX_LAYERED);
           },
           // set
           [this](const bool &value) {
-              this->SetExtendedStyle(WS_EX_LAYERED, value);
+              SetExtendedStyle(WS_EX_LAYERED, value);
           }),
 
       Opacity(
           // get
           [this]() -> double {
               BYTE result;
-              return GetLayeredWindowAttributes(this->Handle, NULL, &result, NULL) ? (result / 255.0) : 1.0;
+              return GetLayeredWindowAttributes(Handle, NULL, &result, NULL) ? (result / 255.0) : 1.0;
           },
           // set
           [this](const double &value) {
               double opacity = Utils::Min(1.0, Utils::Max(0.0, value));
-              SetLayeredWindowAttributes(this->Handle, 0, (BYTE)std::lround(255 * opacity), LWA_ALPHA);
+              SetLayeredWindowAttributes(Handle, 0, (BYTE)std::lround(255 * opacity), LWA_ALPHA);
           }),
 
       Borderless(
           // get
           [this]() -> bool {
-              return this->_isBorderless;
+              return _isBorderless;
           },
           // set
           [this](const bool &value) {
-              if (this->_isBorderless != value) {
-                  this->_isBorderless = value;
-                  this->SetStyle(WS_CAPTION | WS_THICKFRAME, !value);
+              if (_isBorderless != value) {
+                  _isBorderless = value;
+                  SetStyle(WS_CAPTION | WS_THICKFRAME, !value);
               }
+          }),
+
+      DialogResult(
+          // get
+          [this]() -> int {
+              return _dialogResult;
+          },
+          // set
+          [this](const int &value) {
+              _dialogResult = value;
+              Close();
           })
 {
-    this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
-    _SetWindowPtr(this->Handle, *this);
-    this->SetIcon(_GetWindowDefaultIcon());
+    InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
+    _SetWindowPtr(Handle, *this);
+    SetIcon(_GetWindowDefaultIcon());
 }
 
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
@@ -9608,35 +9830,35 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
     switch (refMsg.uMsg) {
         case WM_CREATE: {
             ++_windowCount;
-            return this->WndBase::WndProc(refMsg);
+            return WndBase::WndProc(refMsg);
         }
 
         case WM_DESTROY: {
             bool quitted = false;
             // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
-            if (this->_isModal) {
-                App::QuitMsgLoop();
+            if (_isModal) {
+                App::QuitMsgLoop(_dialogResult);
                 quitted = true;
             }
             // 所有窗口都关闭时若App::QuitMode为Auto则退出主消息循环
             if (--_windowCount <= 0 && App::QuitMode == AppQuitMode::Auto) {
                 if (!quitted) App::QuitMsgLoop();
             }
-            return this->WndBase::WndProc(refMsg);
+            return WndBase::WndProc(refMsg);
         }
 
         case WM_SHOWWINDOW: {
-            if (this->_isFirstShow) {
-                this->_isFirstShow = false;
-                this->OnFirstShow();
+            if (_isFirstShow) {
+                _isFirstShow = false;
+                OnFirstShow();
             }
-            return this->WndBase::WndProc(refMsg);
+            return WndBase::WndProc(refMsg);
         }
 
         case WM_GETMINMAXINFO: {
             auto pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
-            Size minSize{this->MinWidth, this->MinHeight};
-            Size maxSize{this->MaxWidth, this->MaxHeight};
+            Size minSize{MinWidth, MinHeight};
+            Size maxSize{MaxWidth, MaxHeight};
 
             if (minSize.width > 0) {
                 pInfo->ptMinTrackSize.x = Utils::Max<LONG>(pInfo->ptMinTrackSize.x, Dip::DipToPxX(minSize.width));
@@ -9654,31 +9876,29 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DPICHANGED: {
-            this->OnDpiChanged(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam));
+            OnDpiChanged(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam));
             return 0;
         }
 
         case WM_ACTIVATE: {
-            (refMsg.wParam == WA_INACTIVE)
-                ? this->OnInactived()
-                : this->OnActived();
+            (refMsg.wParam == WA_INACTIVE) ? OnInactived() : OnActived();
             return 0;
         }
 
         case WM_UpdateLayout: {
-            this->UpdateLayout();
+            UpdateLayout();
             return 0;
         }
 
         default: {
-            return this->WndBase::WndProc(refMsg);
+            return WndBase::WndProc(refMsg);
         }
     }
 }
 
 sw::LayoutHost *sw::Window::GetDefaultLayout()
 {
-    return this->_layout.get();
+    return _layout.get();
 }
 
 bool sw::Window::OnClose()
@@ -9687,9 +9907,8 @@ bool sw::Window::OnClose()
     RaiseRoutedEvent(args);
 
     if (!args.cancel) {
-        this->UIElement::OnClose();
+        UIElement::OnClose();
     }
-
     return true;
 }
 
@@ -9708,7 +9927,7 @@ bool sw::Window::OnEraseBackground(HDC hdc, LRESULT &result)
 bool sw::Window::OnPaint()
 {
     PAINTSTRUCT ps;
-    HWND hwnd = this->Handle;
+    HWND hwnd = Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
     RECT rtClient;
@@ -9720,7 +9939,7 @@ bool sw::Window::OnPaint()
     HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
 
     // 在内存 DC 上进行绘制
-    HBRUSH hBrush = CreateSolidBrush(this->GetRealBackColor());
+    HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
     FillRect(hdcMem, &rtClient, hBrush);
 
     // 将内存 DC 的内容绘制到窗口客户区
@@ -9739,22 +9958,22 @@ bool sw::Window::OnPaint()
 void sw::Window::OnMenuCommand(int id)
 {
     if (ContextMenu::IsContextMenuID(id)) {
-        this->UIElement::OnMenuCommand(id);
+        UIElement::OnMenuCommand(id);
         return;
     }
-    if (this->_menu) {
-        MenuItem *item = this->_menu->GetMenuItem(id);
+    if (_menu) {
+        MenuItem *item = _menu->GetMenuItem(id);
         if (item) item->CallCommand();
     }
 }
 
 void sw::Window::OnMinMaxSizeChanged()
 {
-    if (!this->IsRootElement()) {
-        this->UIElement::OnMinMaxSizeChanged();
+    if (!IsRootElement()) {
+        UIElement::OnMinMaxSizeChanged();
     }
 
-    HWND hwnd = this->Handle;
+    HWND hwnd = Handle;
 
     RECT rect;
     GetWindowRect(hwnd, &rect);
@@ -9767,53 +9986,53 @@ void sw::Window::OnMinMaxSizeChanged()
 void sw::Window::OnFirstShow()
 {
     // 若未设置焦点元素则默认第一个元素为焦点元素
-    if (this->ChildCount && GetAncestor(GetFocus(), GA_ROOT) != this->Handle) {
-        this->GetChildAt(0).Focused = true;
+    if (ChildCount && GetAncestor(GetFocus(), GA_ROOT) != Handle) {
+        GetChildAt(0).Focused = true;
     }
 
     // 按照StartupLocation修改位置
-    if (this->_startupLocation == WindowStartupLocation::CenterScreen) {
-        sw::Rect rect = this->Rect;
-        rect.left     = (Screen::Width - rect.width) / 2;
-        rect.top      = (Screen::Height - rect.height) / 2;
-        this->Rect    = rect;
-    } else if (this->_startupLocation == WindowStartupLocation::CenterOwner) {
-        Window *owner = this->Owner;
+    if (_startupLocation == WindowStartupLocation::CenterScreen) {
+        auto rect = Rect.Get();
+        rect.left = (Screen::Width - rect.width) / 2;
+        rect.top  = (Screen::Height - rect.height) / 2;
+        Rect      = rect;
+    } else if (_startupLocation == WindowStartupLocation::CenterOwner) {
+        Window *owner = Owner;
         if (owner) {
-            sw::Rect windowRect = this->Rect;
-            sw::Rect ownerRect  = owner->Rect;
-            windowRect.left     = ownerRect.left + (ownerRect.width - windowRect.width) / 2;
-            windowRect.top      = ownerRect.top + (ownerRect.height - windowRect.height) / 2;
-            this->Rect          = windowRect;
+            auto windowRect = Rect.Get();
+            auto ownerRect  = owner->Rect.Get();
+            windowRect.left = ownerRect.left + (ownerRect.width - windowRect.width) / 2;
+            windowRect.top  = ownerRect.top + (ownerRect.height - windowRect.height) / 2;
+            Rect            = windowRect;
         }
     }
 }
 
 void sw::Window::OnActived()
 {
-    SetFocus(this->_hPrevFocused);
-    this->RaiseRoutedEvent(Window_Actived);
+    SetFocus(_hPrevFocused);
+    RaiseRoutedEvent(Window_Actived);
 }
 
 void sw::Window::OnInactived()
 {
-    this->RaiseRoutedEvent(Window_Inactived);
-    this->_hPrevFocused = GetFocus();
+    RaiseRoutedEvent(Window_Inactived);
+    _hPrevFocused = GetFocus();
 }
 
 void sw::Window::OnDpiChanged(int dpiX, int dpiY)
 {
-    bool layoutDisabled = this->IsLayoutDisabled();
+    bool layoutDisabled = IsLayoutDisabled();
 
     Dip::Update(dpiX, dpiY);
-    this->DisableLayout();
+    DisableLayout();
 
     {
         // Windows在DIP改变时会自动调整窗口大小，此时会先触发WM_WINDOWPOSCHANGED，再触发WM_DPICHANGED
         // 因此在先触发的WM_WINDOWPOSCHANGED消息中，（Dip类中）DPI信息未更新，从而导致窗口的Rect数据错误
         // 此处在更新DPI信息后手动发送一个WM_WINDOWPOSCHANGED以修正窗口的Rect数据
 
-        HWND hwnd = this->Handle;
+        HWND hwnd = Handle;
 
         RECT rect;
         GetWindowRect(hwnd, &rect);
@@ -9826,13 +10045,13 @@ void sw::Window::OnDpiChanged(int dpiX, int dpiY)
         pos.cy    = rect.bottom - rect.top;
         pos.flags = SWP_NOACTIVATE | SWP_NOZORDER;
 
-        this->SendMessageW(WM_WINDOWPOSCHANGED, 0, reinterpret_cast<LPARAM>(&pos));
+        SendMessageW(WM_WINDOWPOSCHANGED, 0, reinterpret_cast<LPARAM>(&pos));
     }
 
     _UpdateFontForAllChild(*this);
 
     if (!layoutDisabled) {
-        this->EnableLayout();
+        EnableLayout();
     }
 }
 
@@ -9841,45 +10060,34 @@ sw::Window *sw::Window::ToWindow()
     return this;
 }
 
-void sw::Window::Show(int nCmdShow)
+void sw::Window::Close()
 {
-    this->WndBase::Show(nCmdShow);
+    WndBase::Close();
 }
 
-void sw::Window::ShowDialog(Window &owner)
+void sw::Window::Show()
 {
-    if (this == &owner || this->_isModal || this->IsDestroyed) {
-        return;
-    }
-
-    this->Owner        = &owner;
-    this->_isModal     = true;
-    this->_hModalOwner = owner.Handle;
-
-    bool oldIsEnabled = owner.Enabled;
-    owner.Enabled     = false;
-
-    this->Show();
-    App::MsgLoop();
-    SetForegroundWindow(owner.Handle);
-
-    if (oldIsEnabled) {
-        owner.Enabled = true;
-    }
+    WndBase::Show(SW_SHOW);
 }
 
-void sw::Window::ShowDialog()
+int sw::Window::ShowDialog(Window *owner)
 {
-    if (this->_isModal || this->IsDestroyed) {
-        return;
+    if (owner != nullptr) {
+        return ShowDialog(*owner);
+    }
+
+    int result = -1;
+
+    if (_isModal || IsDestroyed) {
+        return result;
     }
 
     HWND hOwner = NULL;
-    HWND hwnd   = this->Handle;
+    HWND hwnd   = Handle;
 
     {
         Window *pOwner;
-        pOwner = this->Owner;
+        pOwner = Owner;
         hOwner = pOwner ? pOwner->Handle : reinterpret_cast<HWND>(GetWindowLongPtrW(hwnd, GWLP_HWNDPARENT));
     }
 
@@ -9889,55 +10097,106 @@ void sw::Window::ShowDialog()
         }
     }
 
-    this->_isModal     = true;
-    this->_hModalOwner = hOwner;
+    _isModal     = true;
+    _hModalOwner = hOwner;
 
     if (hOwner == NULL) {
-        this->Show();
-        App::MsgLoop();
+        Show();
+        result = App::MsgLoop();
     } else {
         bool oldIsEnabled = IsWindowEnabled(hOwner);
         EnableWindow(hOwner, false);
-        this->Show();
-        App::MsgLoop();
+        Show();
+        result = App::MsgLoop();
         SetForegroundWindow(hOwner);
         EnableWindow(hOwner, oldIsEnabled);
     }
+    return result;
+}
+
+int sw::Window::ShowDialog(Window &owner)
+{
+    int result = -1;
+
+    if (this == &owner || _isModal || IsDestroyed) {
+        return result;
+    }
+
+    Owner        = &owner;
+    _isModal     = true;
+    _hModalOwner = owner.Handle;
+
+    bool oldIsEnabled = owner.Enabled;
+    owner.Enabled     = false;
+
+    Show();
+    result = App::MsgLoop();
+    SetForegroundWindow(owner.Handle);
+
+    if (oldIsEnabled) {
+        owner.Enabled = true;
+    }
+    return result;
 }
 
 void sw::Window::SetIcon(HICON hIcon)
 {
-    this->SendMessageW(WM_SETICON, ICON_BIG, (LPARAM)hIcon);
-    this->SendMessageW(WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+    SendMessageW(WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+    SendMessageW(WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 }
 
 void sw::Window::DrawMenuBar()
 {
-    ::DrawMenuBar(this->Handle);
+    ::DrawMenuBar(Handle);
 }
 
 void sw::Window::SizeToContent()
 {
-    if (!this->IsRootElement()) {
+    if (!IsRootElement()) {
         return; // 只对顶级窗口有效
     }
 
     // 该函数需要AutoSize为true，这里先备份其值以做后续恢复
-    bool oldAutoSize = this->AutoSize;
-    this->AutoSize   = true;
+    bool oldAutoSize = AutoSize;
+    AutoSize         = true;
 
     // measure
     sw::Size measureSize(INFINITY, INFINITY);
-    this->Measure(measureSize);
+    Measure(measureSize);
 
     // arrange
-    sw::Size desireSize  = this->GetDesireSize();
-    sw::Rect windowRect  = this->Rect;
-    sw::Thickness margin = this->Margin;
-    this->Arrange(sw::Rect(windowRect.left - margin.left, windowRect.top - margin.top, desireSize.width, desireSize.height));
+    sw::Size desireSize  = GetDesireSize();
+    sw::Rect windowRect  = Rect;
+    sw::Thickness margin = Margin;
+    Arrange(sw::Rect{windowRect.left - margin.left, windowRect.top - margin.top, desireSize.width, desireSize.height});
 
     // 恢复AutoSize属性的值
-    this->AutoSize = oldAutoSize;
+    AutoSize = oldAutoSize;
+}
+
+sw::Window *sw::Window::_GetWindowPtr(HWND hwnd)
+{
+    return reinterpret_cast<sw::Window *>(GetPropW(hwnd, _WindowPtrProp));
+}
+
+void sw::Window::_SetWindowPtr(HWND hwnd, Window &wnd)
+{
+    SetPropW(hwnd, _WindowPtrProp, reinterpret_cast<HANDLE>(&wnd));
+}
+
+void sw::Window::_UpdateFontForAllChild(UIElement &element)
+{
+    element.UpdateFont();
+    int count = element.ChildCount;
+    for (int i = 0; i < count; ++i) {
+        _UpdateFontForAllChild(element[i]);
+    }
+}
+
+HICON sw::Window::_GetWindowDefaultIcon()
+{
+    static HICON hIcon = ExtractIconW(App::Instance, App::ExePath->c_str(), 0);
+    return hIcon;
 }
 
 // WndBase.cpp
