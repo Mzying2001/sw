@@ -9,8 +9,9 @@ sw::CommandLink::CommandLink()
                   return std::wstring{};
               else {
                   std::wstring result;
-                  result.resize(len + 1);
-                  SendMessageW(BCM_GETNOTE, len + 1, reinterpret_cast<LPARAM>(&result[0]));
+                  DWORD buflen = len + 1;
+                  result.resize(buflen);
+                  SendMessageW(BCM_GETNOTE, reinterpret_cast<WPARAM>(&buflen), reinterpret_cast<LPARAM>(&result[0]));
                   result.resize(len);
                   return result;
               }
