@@ -1612,6 +1612,42 @@ namespace sw
     };
 }
 
+// IDialog.h
+
+namespace sw
+{
+    class Window; // Window.h
+
+    /**
+     * @brief 对话框接口
+     */
+    class IDialog
+    {
+    public:
+        /**
+         * @brief 默认虚析构函数
+         */
+        virtual ~IDialog() = default;
+
+        /**
+         * @brief 关闭对话框
+         */
+        virtual void Close() = 0;
+
+        /**
+         * @brief 显示对话框
+         */
+        virtual void Show() = 0;
+
+        /**
+         * @brief       显示模态对话框
+         * @param owner 所有者窗口，若为nullptr则使用当前活动窗口
+         * @return      对话框结果，不同对话框有不同的返回值含义
+         */
+        virtual int ShowDialog(Window *owner = nullptr) = 0;
+    };
+}
+
 // ITag.h
 
 
@@ -11309,7 +11345,7 @@ namespace sw
     /**
      * @brief 窗口
      */
-    class Window : public Layer
+    class Window : public Layer, public IDialog
     {
     private:
         /**
@@ -11351,6 +11387,11 @@ namespace sw
          * @brief 窗口无边框
          */
         bool _isBorderless = false;
+
+        /**
+         * @brief 窗口的对话框结果，ShowDialog返回该值
+         */
+        int _dialogResult = 0;
 
     public:
         /**
@@ -11428,6 +11469,12 @@ namespace sw
          * @brief 窗口无边框
          */
         const Property<bool> Borderless;
+
+        /**
+         * @brief 窗口的对话框结果，ShowDialog返回该值
+         * @note  该属性仅在窗口作为模态对话框显示时有效，默认值为0，该属性一旦被设置则会自动关闭窗口
+         */
+        const Property<int> DialogResult;
 
     public:
         /**
@@ -11513,22 +11560,30 @@ namespace sw
         virtual Window *ToWindow() override;
 
         /**
+         * @brief 关闭窗口
+         */
+        virtual void Close() override;
+
+        /**
          * @brief 显示窗口
          */
-        void Show(int nCmdShow = SW_SHOW);
+        virtual void Show() override;
+
+        /**
+         * @brief       将窗口显示为模式对话框
+         * @param owner 窗体的所有者，若为nullptr则使用当前活动窗口
+         * @return      DialogResult属性的值，若函数失败则返回-1
+         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出
+         */
+        virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
          * @brief       将窗口显示为模式对话框
          * @param owner 窗体的所有者，窗体显示期间该窗体的Enabled属性将被设为false，该参数不能设为自己
+         * @return      DialogResult属性的值，若函数失败则返回-1
          * @note        该函数会创建一个新的消息循环并在窗口销毁时退出
          */
-        void ShowDialog(Window &owner);
-
-        /**
-         * @brief 将窗口显示为模式对话框
-         * @note  该函数会创建一个新的消息循环并在窗口销毁时退出
-         */
-        void ShowDialog();
+        virtual int ShowDialog(Window &owner);
 
         /**
          * @brief       设置图标
@@ -11566,6 +11621,32 @@ namespace sw
             this->_layout.reset(nullptr);
             this->InvalidateMeasure();
         }
+
+    private:
+        /**
+         * @brief      通过窗口句柄获取Window指针
+         * @param hwnd 窗口句柄
+         * @return     若函数成功则返回对象的指针，否则返回nullptr
+         */
+        static Window *_GetWindowPtr(HWND hwnd);
+
+        /**
+         * @brief      关联窗口句柄与Window对象
+         * @param hwnd 窗口句柄
+         * @param wnd  与句柄关联的对象
+         */
+        static void _SetWindowPtr(HWND hwnd, Window &wnd);
+
+        /**
+         * @brief DPI更新时调用该函数递归地更新所有子项的字体
+         */
+        static void _UpdateFontForAllChild(UIElement &element);
+
+        /**
+         * @brief  获取窗口默认图标（即当前exe图标）
+         * @return 图标句柄
+         */
+        static HICON _GetWindowDefaultIcon();
     };
 }
 
@@ -11799,6 +11880,126 @@ namespace sw
     };
 }
 
+// ColorDialog.h
+
+
+namespace sw
+{
+    /**
+     * @brief https://learn.microsoft.com/en-us/windows/win32/api/commdlg/ns-commdlg-choosecolora-r1
+     */
+    enum class ColorDialogFlags : DWORD {
+        // Causes the dialog box to display all available colors in the set of basic colors.
+        AnyColor = 0x00000100,
+
+        // Enables the hook procedure specified in the lpfnHook member of this structure.
+        // This flag is used only to initialize the dialog box.
+        EnableHook = 0x00000010,
+
+        // The hInstance and lpTemplateName members specify a dialog box template to use in
+        // place of the default template. This flag is used only to initialize the dialog box.
+        EnableTemplate = 0x00000020,
+
+        // The hInstance member identifies a data block that contains a preloaded dialog box
+        // template. The system ignores the lpTemplateName member if this flag is specified.
+        // This flag is used only to initialize the dialog box.
+        EnableTemplateHandle = 0x00000040,
+
+        // Causes the dialog box to display the additional controls that allow the user to
+        // create custom colors. If this flag is not set, the user must click the Define Custom
+        // Color button to display the custom color controls.
+        FullOpen = 0x00000002,
+
+        // Disables the Define Custom Color button.
+        PreventFullOpen = 0x00000004,
+
+        // Causes the dialog box to use the color specified in the rgbResult member as the
+        // initial color selection.
+        RgbInit = 0x00000001,
+
+        // Causes the dialog box to display the Help button. The hwndOwner member must specify
+        // the window to receive the HELPMSGSTRING registered messages that the dialog box sends
+        // when the user clicks the Help button.
+        ShowHelp = 0x00000008,
+
+        // Causes the dialog box to display only solid colors in the set of basic colors.
+        SolidColor = 0x00000080,
+    };
+
+    /**
+     * @brief 标记ColorDialogFlags枚举支持位运算
+     */
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(ColorDialogFlags);
+
+    /**
+     * @brief 颜色选择对话框
+     */
+    class ColorDialog : public IDialog
+    {
+    private:
+        /**
+         * @brief 颜色选择对话框的配置结构体
+         */
+        CHOOSECOLORW _cc{};
+
+    public:
+        /**
+         * @brief 对话框标志
+         */
+        const Property<ColorDialogFlags> Flags;
+
+        /**
+         * @brief 选择的颜色，默认值为黑色
+         */
+        const Property<Color> SelectedColor;
+
+        /**
+         * @brief 是否显示完整的颜色选择界面
+         */
+        const Property<bool> FullOpen;
+
+        /**
+         * @brief 自定义颜色数组，包含16个COLORREF元素
+         * @note  默认使用一个全局的自定义颜色数组，若需要自定义请在ShowDialog前修改该数组内容
+         */
+        const Property<COLORREF *> CustomColors;
+
+    public:
+        /**
+         * @brief 初始化ColorDialog
+         */
+        ColorDialog();
+
+        /**
+         * @brief ColorDialog默认不支持该函数，调用该函数不会执行任何操作
+         */
+        virtual void Close() override;
+
+        /**
+         * @brief ColorDialog默认不支持该函数，调用该函数不会执行任何操作
+         */
+        virtual void Show() override;
+
+        /**
+         * @brief  显示对话框，并指定所有者窗口
+         * @return 若用户选择了颜色则返回true，否则返回false
+         */
+        virtual int ShowDialog(Window *owner = nullptr) override;
+
+        /**
+         * @brief  显示对话框，并指定所有者窗口
+         * @return 若用户选择了颜色则返回true，否则返回false
+         */
+        virtual int ShowDialog(Window &owner);
+
+    protected:
+        /**
+         * @brief 获取颜色选择对话框的配置结构体指针
+         */
+        CHOOSECOLORW *GetChooseColorStruct();
+    };
+}
+
 // ComboBox.h
 
 
@@ -11930,7 +12131,7 @@ namespace sw
 namespace sw
 {
     /**
-     * @brief 按钮
+     * @brief 命令链接按钮
      */
     class CommandLink : public ButtonBase
     {
@@ -12220,7 +12421,7 @@ namespace sw
     /**
      * @brief “打开文件”对话框与“另存为”对话框的基类
      */
-    class FileDialog
+    class FileDialog : public IDialog
     {
     private:
         /**
@@ -12301,33 +12502,32 @@ namespace sw
         FileDialog();
 
         /**
-         * @brief 默认虚析构函数
-         */
-        virtual ~FileDialog() = default;
-
-        /**
          * @brief        设置筛选器
          * @param filter 筛选器
          */
         void SetFilter(const FileFilter &filter);
 
         /**
-         * @brief  显示对话框，并指定当前活动窗口作为所有者窗口
-         * @return 用户是否选择了文件
+         * @brief FileDialog默认不支持该函数，调用该函数不会执行任何操作
          */
-        bool ShowDialog();
+        virtual void Close() override;
+
+        /**
+         * @brief FileDialog默认不支持该函数，调用该函数不会执行任何操作
+         */
+        virtual void Show() override;
 
         /**
          * @brief  显示对话框，并指定所有者窗口
-         * @return 用户是否选择了文件
+         * @return 若用户选择了文件则返回true，否则返回false
          */
-        bool ShowDialog(const Window &owner);
+        virtual int ShowDialog(Window *owner = nullptr) = 0;
 
         /**
          * @brief  显示对话框，并指定所有者窗口
-         * @return 用户是否选择了文件
+         * @return 若用户选择了文件则返回true，否则返回false
          */
-        virtual bool ShowDialog(const Window *owner) = 0;
+        virtual int ShowDialog(Window &owner) = 0;
 
     protected:
         /**
@@ -12364,15 +12564,16 @@ namespace sw
         OpenFileDialog();
 
         /**
-         * @brief 继承ShowDialog的重载
+         * @brief  显示对话框，并指定所有者窗口
+         * @return 若用户选择了文件则返回true，否则返回false
          */
-        using FileDialog::ShowDialog;
+        virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
          * @brief  显示对话框，并指定所有者窗口
-         * @return 用户是否选择了文件
+         * @return 若用户选择了文件则返回true，否则返回false
          */
-        virtual bool ShowDialog(const Window *owner) override;
+        virtual int ShowDialog(Window &owner) override;
     };
 
     /**
@@ -12398,15 +12599,16 @@ namespace sw
         SaveFileDialog();
 
         /**
-         * @brief 继承ShowDialog的重载
+         * @brief  显示对话框，并指定所有者窗口
+         * @return 若用户选择了文件则返回true，否则返回false
          */
-        using FileDialog::ShowDialog;
+        virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
          * @brief  显示对话框，并指定所有者窗口
-         * @return 用户是否选择了文件
+         * @return 若用户选择了文件则返回true，否则返回false
          */
-        virtual bool ShowDialog(const Window *owner) override;
+        virtual int ShowDialog(Window &owner) override;
 
     protected:
         /**
@@ -12524,7 +12726,7 @@ namespace sw
     /**
      * @brief 选择文件夹对话框
      */
-    class FolderBrowserDialog
+    class FolderBrowserDialog : public IDialog
     {
     private:
         /**
@@ -12575,22 +12777,26 @@ namespace sw
         FolderBrowserDialog();
 
         /**
-         * @brief  显示对话框，并指定当前活动窗口作为所有者窗口
-         * @return 用户是否选择了文件夹
+         * @brief FolderBrowserDialog默认不支持该函数，调用该函数不会执行任何操作
          */
-        bool ShowDialog();
+        virtual void Close() override;
+
+        /**
+         * @brief FolderBrowserDialog默认不支持该函数，调用该函数不会执行任何操作
+         */
+        virtual void Show() override;
 
         /**
          * @brief  显示对话框，并指定所有者窗口
-         * @return 用户是否选择了文件夹
+         * @return 若用户选择了文件夹则返回true，否则返回false
          */
-        bool ShowDialog(const Window &owner);
+        virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
          * @brief  显示对话框，并指定所有者窗口
-         * @return 用户是否选择了文件夹
+         * @return 若用户选择了文件夹则返回true，否则返回false
          */
-        bool ShowDialog(const Window *owner);
+        virtual int ShowDialog(Window &owner);
 
     protected:
         /**
@@ -12607,6 +12813,234 @@ namespace sw
          * @brief 清空缓冲区
          */
         void ClearBuffer();
+    };
+}
+
+// FontDialog.h
+
+
+namespace sw
+{
+    /**
+     * @brief https://learn.microsoft.com/en-us/windows/win32/api/commdlg/ns-commdlg-choosefonta
+     */
+    enum class FontDialogFlags : DWORD {
+        // Causes the dialog box to display the Apply button. You should provide a hook procedure to process
+        // WM_COMMAND messages for the Apply button. The hook procedure can send the WM_CHOOSEFONT_GETLOGFONT
+        // message to the dialog box to retrieve the address of the structure that contains the current selections
+        // for the font.
+        Apply = 0x00000200,
+
+        // This flag is obsolete. To limit font selections to all scripts except those that use the OEM or Symbol
+        // character sets, use CF_SCRIPTSONLY. To get the original CF_ANSIONLY behavior, use CF_SELECTSCRIPT and
+        // specify ANSI_CHARSET in the lfCharSet member of the LOGFONT structure pointed to by lpLogFont.
+        ANSIOnly = 0x00000400,
+
+        // This flag is ignored for font enumeration.
+        // Windows Vista and Windows XP/2000:  Causes the dialog box to list the available printer and screen fonts.
+        // The hDC member is a handle to the device context or information context associated with the printer. This
+        // flag is a combination of the CF_SCREENFONTS and CF_PRINTERFONTS flags.
+        Both = 0x00000003,
+
+        // Causes the dialog box to display the controls that allow the user to specify strikeout, underline, and
+        // text color options. If this flag is set, you can use the rgbColors member to specify the initial text color.
+        // You can use the lfStrikeOut and lfUnderline members of the structure pointed to by lpLogFont to specify the
+        // initial settings of the strikeout and underline check boxes. ChooseFont can use these members to return the
+        // user's selections.
+        Effects = 0x00000100,
+
+        // Enables the hook procedure specified in the lpfnHook member of this structure.
+        EnableHook = 0x00000008,
+
+        // Indicates that the hInstance and lpTemplateName members specify a dialog box template to use in place of
+        // the default template.
+        EnableTemplate = 0x00000010,
+
+        // Indicates that the hInstance member identifies a data block that contains a preloaded dialog box template.
+        // The system ignores the lpTemplateName member if this flag is specified.
+        EnableTemplateHandle = 0x00000020,
+
+        // ChooseFont should enumerate and allow selection of only fixed-pitch fonts.
+        FixedPitchOnly = 0x00004000,
+
+        // ChooseFont should indicate an error condition if the user attempts to select a font or style that is not
+        // listed in the dialog box.
+        ForceFontExist = 0x00010000,
+
+        // ChooseFont should additionally display fonts that are set to Hide in Fonts Control Panel.
+        // Windows Vista and Windows XP/2000:  This flag is not supported until Windows 7.
+        InavtiveFonts = 0x02000000,
+
+        // ChooseFont should use the structure pointed to by the lpLogFont member to initialize the dialog box controls.
+        InitToLogFontStruct = 0x00000040,
+
+        // ChooseFont should select only font sizes within the range specified by the nSizeMin and nSizeMax members.
+        LimitSize = 0x00002000,
+
+        // Same as the CF_NOVECTORFONTS flag.
+        NoOemFonts = 0x00000800,
+
+        // When using a LOGFONT structure to initialize the dialog box controls, use this flag to prevent the dialog
+        // box from displaying an initial selection for the font name combo box. This is useful when there is no single
+        // font name that applies to the text selection.
+        NoFaceSel = 0x00080000,
+
+        // Disables the Script combo box. When this flag is set, the lfCharSet member of the LOGFONT structure is set
+        // to DEFAULT_CHARSET when ChooseFont returns. This flag is used only to initialize the dialog box.
+        NoScriptSel = 0x00800000,
+
+        // ChooseFont should not display or allow selection of font simulations.
+        NoSimulations = 0x00001000,
+
+        // When using a structure to initialize the dialog box controls, use this flag to prevent the dialog box from
+        // displaying an initial selection for the Font Size combo box. This is useful when there is no single font size
+        // that applies to the text selection.
+        NoSizeSel = 0x00200000,
+
+        // When using a LOGFONT structure to initialize the dialog box controls, use this flag to prevent the dialog box
+        // from displaying an initial selection for the Font Style combo box. This is useful when there is no single font
+        // style that applies to the text selection.
+        NoStyleSel = 0x00100000,
+
+        // ChooseFont should not allow vector font selections.
+        NoVectorFonts = 0x00000800,
+
+        // Causes the Font dialog box to list only horizontally oriented fonts.
+        NoVertFonts = 0x01000000,
+
+        // This flag is ignored for font enumeration.
+        // Windows Vista and Windows XP/2000:  Causes the dialog box to list only the fonts supported by the printer
+        // associated with the device context or information context identified by the hDC member. It also causes the font
+        // type description label to appear at the bottom of the Font dialog box.
+        PrinterFonts = 0x00000002,
+
+        // Specifies that ChooseFont should allow only the selection of scalable fonts. Scalable fonts include vector fonts,
+        // scalable printer fonts, TrueType fonts, and fonts scaled by other technologies.
+        ScalableOnly = 0x00020000,
+
+        // This flag is ignored for font enumeration.
+        // Windows Vista and Windows XP/2000:  Causes the dialog box to list only the screen fonts supported by the system.
+        ScreenFonts = 0x00000001,
+
+        // ChooseFont should allow selection of fonts for all non-OEM and Symbol character sets, as well as the ANSI character
+        // set. This supersedes the CF_ANSIONLY value.
+        ScriptsOnly = 0x00000400,
+
+        // When specified on input, only fonts with the character set identified in the lfCharSet member of the LOGFONT structure
+        // are displayed. The user will not be allowed to change the character set specified in the Scripts combo box.
+        SelectScript = 0x00400000,
+
+        // Causes the dialog box to display the Help button. The hwndOwner member must specify the window to receive the
+        // HELPMSGSTRING registered messages that the dialog box sends when the user clicks the Help button.
+        ShowHelp = 0x00000004,
+
+        // ChooseFont should only enumerate and allow the selection of TrueType fonts.
+        TrueTypeOnly = 0x00040000,
+
+        // The lpszStyle member is a pointer to a buffer that contains style data that ChooseFont should use to initialize the
+        // Font Style combo box. When the user closes the dialog box, ChooseFont copies style data for the user's selection to
+        // this buffer.
+        // [Note] To globalize your application, you should specify the style by using the lfWeight and lfItalic members of the
+        // LOGFONT structure pointed to by lpLogFont. The style name may change depending on the system user interface language.
+        UseStyle = 0x00000080,
+
+        // Obsolete. ChooseFont ignores this flag.
+        // Windows Vista and Windows XP/2000: ChooseFont should allow only the selection of fonts available on both the printer
+        // and the display. If this flag is specified, the CF_SCREENSHOTS and CF_PRINTERFONTS, or CF_BOTH flags should also be
+        // specified.
+        WYSIWYG = 0x00008000,
+    };
+
+    /**
+     * @brief 标记FontDialogFlags枚举支持位运算
+     */
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(FontDialogFlags);
+
+    /**
+     * @brief 字体选择对话框
+     */
+    class FontDialog : public IDialog
+    {
+    private:
+        /**
+         * @brief 选择的字体
+         */
+        sw::Font _font;
+
+        /**
+         * @brief 字体选择对话框的配置结构体
+         */
+        CHOOSEFONTW _cf{};
+
+    public:
+        /**
+         * @brief 对话框的配置标志
+         */
+        const Property<FontDialogFlags> Flags;
+
+        /**
+         * @brief 选择的字体
+         */
+        const Property<sw::Font> Font;
+
+        /**
+         * @brief 选择的字体名称
+         */
+        const Property<std::wstring> FontName;
+
+        /**
+         * @brief 选择的字体大小
+         */
+        const Property<double> FontSize;
+
+        /**
+         * @brief 选择的字体粗细
+         */
+        const Property<sw::FontWeight> FontWeight;
+
+        /**
+         * @brief 是否显示效果选项（下划线、删除线、颜色）
+         */
+        const Property<bool> ShowEffects;
+
+        /**
+         * @brief 选择的颜色
+         */
+        const Property<Color> SelectedColor;
+
+    public:
+        /**
+         * @brief 初始化FontDialog
+         */
+        FontDialog();
+
+        /**
+         * @brief FontDialog默认不支持该函数，调用该函数不会执行任何操作
+         */
+        virtual void Close() override;
+
+        /**
+         * @brief FontDialog默认不支持该函数，调用该函数不会执行任何操作
+         */
+        virtual void Show() override;
+
+        /**
+         * @brief  显示对话框，并指定所有者窗口
+         * @return 若用户选择了字体则返回true，否则返回false
+         */
+        virtual int ShowDialog(Window *owner = nullptr) override;
+
+        /**
+         * @brief  显示对话框，并指定所有者窗口
+         * @return 若用户选择了字体则返回true，否则返回false
+         */
+        virtual int ShowDialog(Window &owner);
+
+    protected:
+        /**
+         * @brief 获取选择字体对话框的配置结构体
+         */
+        CHOOSEFONTW *GetChooseFontStruct();
     };
 }
 
