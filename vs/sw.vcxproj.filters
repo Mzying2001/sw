@@ -300,6 +300,15 @@
     <ClInclude Include="..\sw\inc\CommandLink.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\ColorDialog.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\IDialog.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\FontDialog.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\Animation.cpp">
@@ -543,6 +552,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\CommandLink.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\ColorDialog.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\FontDialog.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
