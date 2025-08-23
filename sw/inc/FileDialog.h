@@ -244,7 +244,7 @@ namespace sw
     /**
      * @brief “打开文件”对话框与“另存为”对话框的基类
      */
-    class FileDialog
+    class FileDialog : public IDialog
     {
     private:
         /**
@@ -325,33 +325,32 @@ namespace sw
         FileDialog();
 
         /**
-         * @brief 默认虚析构函数
-         */
-        virtual ~FileDialog() = default;
-
-        /**
          * @brief        设置筛选器
          * @param filter 筛选器
          */
         void SetFilter(const FileFilter &filter);
 
         /**
-         * @brief  显示对话框，并指定当前活动窗口作为所有者窗口
-         * @return 用户是否选择了文件
+         * @brief FileDialog默认不支持该函数，调用该函数不会执行任何操作
          */
-        bool ShowDialog();
+        virtual void Close() override;
+
+        /**
+         * @brief FileDialog默认不支持该函数，调用该函数不会执行任何操作
+         */
+        virtual void Show() override;
 
         /**
          * @brief  显示对话框，并指定所有者窗口
-         * @return 用户是否选择了文件
+         * @return 若用户选择了文件则返回true，否则返回false
          */
-        bool ShowDialog(const Window &owner);
+        virtual int ShowDialog(Window *owner = nullptr) = 0;
 
         /**
          * @brief  显示对话框，并指定所有者窗口
-         * @return 用户是否选择了文件
+         * @return 若用户选择了文件则返回true，否则返回false
          */
-        virtual bool ShowDialog(const Window *owner) = 0;
+        virtual int ShowDialog(Window &owner) = 0;
 
     protected:
         /**
@@ -388,15 +387,16 @@ namespace sw
         OpenFileDialog();
 
         /**
-         * @brief 继承ShowDialog的重载
+         * @brief  显示对话框，并指定所有者窗口
+         * @return 若用户选择了文件则返回true，否则返回false
          */
-        using FileDialog::ShowDialog;
+        virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
          * @brief  显示对话框，并指定所有者窗口
-         * @return 用户是否选择了文件
+         * @return 若用户选择了文件则返回true，否则返回false
          */
-        virtual bool ShowDialog(const Window *owner) override;
+        virtual int ShowDialog(Window &owner) override;
     };
 
     /**
@@ -422,15 +422,16 @@ namespace sw
         SaveFileDialog();
 
         /**
-         * @brief 继承ShowDialog的重载
+         * @brief  显示对话框，并指定所有者窗口
+         * @return 若用户选择了文件则返回true，否则返回false
          */
-        using FileDialog::ShowDialog;
+        virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
          * @brief  显示对话框，并指定所有者窗口
-         * @return 用户是否选择了文件
+         * @return 若用户选择了文件则返回true，否则返回false
          */
-        virtual bool ShowDialog(const Window *owner) override;
+        virtual int ShowDialog(Window &owner) override;
 
     protected:
         /**
