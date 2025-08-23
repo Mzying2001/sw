@@ -232,6 +232,17 @@ sw::Window::Window()
                   this->_isBorderless = value;
                   this->SetStyle(WS_CAPTION | WS_THICKFRAME, !value);
               }
+          }),
+
+      DialogResult(
+          // get
+          [this]() -> int {
+              return this->_dialogResult;
+          },
+          // set
+          [this](const int &value) {
+              this->_dialogResult = value;
+              this->Close();
           })
 {
     this->InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
@@ -251,7 +262,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             bool quitted = false;
             // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
             if (this->_isModal) {
-                App::QuitMsgLoop();
+                App::QuitMsgLoop(this->_dialogResult);
                 quitted = true;
             }
             // 所有窗口都关闭时若App::QuitMode为Auto则退出主消息循环
