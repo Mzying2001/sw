@@ -10,5 +10,6 @@ var searchData=
   ['fixsizegridcolumn_7',['FixSizeGridColumn',['../structsw_1_1FixSizeGridColumn.html',1,'sw']]],
   ['fixsizegridrow_8',['FixSizeGridRow',['../structsw_1_1FixSizeGridRow.html',1,'sw']]],
   ['folderbrowserdialog_9',['FolderBrowserDialog',['../classsw_1_1FolderBrowserDialog.html',1,'sw']]],
-  ['font_10',['Font',['../classsw_1_1Font.html',1,'sw']]]
+  ['font_10',['Font',['../classsw_1_1Font.html',1,'sw']]],
+  ['fontdialog_11',['FontDialog',['../classsw_1_1FontDialog.html',1,'sw']]]
 ];

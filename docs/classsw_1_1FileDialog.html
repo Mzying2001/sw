@@ -108,8 +108,9 @@ $(document).ready(function(){initNavTree('classsw_1_1FileDialog.html',''); initR
  <div class="center">
   <img src="classsw_1_1FileDialog.png" usemap="#sw::FileDialog_map" alt=""/>
   <map id="sw::FileDialog_map" name="sw::FileDialog_map">
-<area href="classsw_1_1OpenFileDialog.html" title="“打开文件”对话框" alt="sw::OpenFileDialog" shape="rect" coords="0,56,121,80"/>
-<area href="classsw_1_1SaveFileDialog.html" title="“另存为”对话框" alt="sw::SaveFileDialog" shape="rect" coords="131,56,252,80"/>
+<area href="classsw_1_1IDialog.html" title="对话框接口" alt="sw::IDialog" shape="rect" coords="65,0,186,24"/>
+<area href="classsw_1_1OpenFileDialog.html" title="“打开文件”对话框" alt="sw::OpenFileDialog" shape="rect" coords="0,112,121,136"/>
+<area href="classsw_1_1SaveFileDialog.html" title="“另存为”对话框" alt="sw::SaveFileDialog" shape="rect" coords="131,112,252,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -119,22 +120,26 @@ Public 成员函数</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>FileDialog</b> ()</td></tr>
 <tr class="memdesc:a0990ac4f5f33abef6003418c602980a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化FileDialog <br /></td></tr>
 <tr class="separator:a0990ac4f5f33abef6003418c602980a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8db9fc8df65ed42fb79eac1f377e7975" id="r_a8db9fc8df65ed42fb79eac1f377e7975"><td class="memItemLeft" align="right" valign="top"><a id="a8db9fc8df65ed42fb79eac1f377e7975" name="a8db9fc8df65ed42fb79eac1f377e7975"></a>
-virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~FileDialog</b> ()=default</td></tr>
-<tr class="memdesc:a8db9fc8df65ed42fb79eac1f377e7975"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认虚析构函数 <br /></td></tr>
-<tr class="separator:a8db9fc8df65ed42fb79eac1f377e7975"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5cc79643efa4ddff5a2f45008608fc00" id="r_a5cc79643efa4ddff5a2f45008608fc00"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1FileDialog.html#a5cc79643efa4ddff5a2f45008608fc00">SetFilter</a> (const <a class="el" href="classsw_1_1FileFilter.html">FileFilter</a> &amp;filter)</td></tr>
 <tr class="memdesc:a5cc79643efa4ddff5a2f45008608fc00"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置筛选器  <br /></td></tr>
 <tr class="separator:a5cc79643efa4ddff5a2f45008608fc00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66f25d80acee110f107a52adb8bfbb92" id="r_a66f25d80acee110f107a52adb8bfbb92"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1FileDialog.html#a66f25d80acee110f107a52adb8bfbb92">ShowDialog</a> ()</td></tr>
-<tr class="memdesc:a66f25d80acee110f107a52adb8bfbb92"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示对话框，并指定当前活动窗口作为所有者窗口  <br /></td></tr>
-<tr class="separator:a66f25d80acee110f107a52adb8bfbb92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6c9ae2f5de6c5e73e2a37e8f9db0a26" id="r_aa6c9ae2f5de6c5e73e2a37e8f9db0a26"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1FileDialog.html#aa6c9ae2f5de6c5e73e2a37e8f9db0a26">ShowDialog</a> (const <a class="el" href="classsw_1_1Window.html">Window</a> &amp;owner)</td></tr>
-<tr class="memdesc:aa6c9ae2f5de6c5e73e2a37e8f9db0a26"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示对话框，并指定所有者窗口  <br /></td></tr>
-<tr class="separator:aa6c9ae2f5de6c5e73e2a37e8f9db0a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2a49944d6c051ee94a3b614d1fa1458" id="r_af2a49944d6c051ee94a3b614d1fa1458"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1FileDialog.html#af2a49944d6c051ee94a3b614d1fa1458">ShowDialog</a> (const <a class="el" href="classsw_1_1Window.html">Window</a> *owner)=0</td></tr>
-<tr class="memdesc:af2a49944d6c051ee94a3b614d1fa1458"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示对话框，并指定所有者窗口  <br /></td></tr>
-<tr class="separator:af2a49944d6c051ee94a3b614d1fa1458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97e08858b6ad6134e1e6493253ea1a4c" id="r_a97e08858b6ad6134e1e6493253ea1a4c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1FileDialog.html#a97e08858b6ad6134e1e6493253ea1a4c">Close</a> () override</td></tr>
+<tr class="memdesc:a97e08858b6ad6134e1e6493253ea1a4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">FileDialog默认不支持该函数，调用该函数不会执行任何操作  <br /></td></tr>
+<tr class="separator:a97e08858b6ad6134e1e6493253ea1a4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96feefcfeb76309fb1afc6b3b6444ff7" id="r_a96feefcfeb76309fb1afc6b3b6444ff7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1FileDialog.html#a96feefcfeb76309fb1afc6b3b6444ff7">Show</a> () override</td></tr>
+<tr class="memdesc:a96feefcfeb76309fb1afc6b3b6444ff7"><td class="mdescLeft">&#160;</td><td class="mdescRight">FileDialog默认不支持该函数，调用该函数不会执行任何操作  <br /></td></tr>
+<tr class="separator:a96feefcfeb76309fb1afc6b3b6444ff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1828bc89e256d49e1555022ff44f2d2" id="r_ac1828bc89e256d49e1555022ff44f2d2"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1FileDialog.html#ac1828bc89e256d49e1555022ff44f2d2">ShowDialog</a> (<a class="el" href="classsw_1_1Window.html">Window</a> *owner=nullptr)=0</td></tr>
+<tr class="memdesc:ac1828bc89e256d49e1555022ff44f2d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示对话框，并指定所有者窗口  <br /></td></tr>
+<tr class="separator:ac1828bc89e256d49e1555022ff44f2d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b46737b4e53a9a979a3338e18cd33aa" id="r_a6b46737b4e53a9a979a3338e18cd33aa"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1FileDialog.html#a6b46737b4e53a9a979a3338e18cd33aa">ShowDialog</a> (<a class="el" href="classsw_1_1Window.html">Window</a> &amp;owner)=0</td></tr>
+<tr class="memdesc:a6b46737b4e53a9a979a3338e18cd33aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示对话框，并指定所有者窗口  <br /></td></tr>
+<tr class="separator:a6b46737b4e53a9a979a3338e18cd33aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsw_1_1IDialog"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1IDialog')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1IDialog.html">sw::IDialog</a></td></tr>
+<tr class="memitem:a1aeda769602310f49583fae80aa45c4f inherit pub_methods_classsw_1_1IDialog" id="r_a1aeda769602310f49583fae80aa45c4f"><td class="memItemLeft" align="right" valign="top">
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~IDialog</b> ()=default</td></tr>
+<tr class="memdesc:a1aeda769602310f49583fae80aa45c4f inherit pub_methods_classsw_1_1IDialog"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认虚析构函数 <br /></td></tr>
+<tr class="separator:a1aeda769602310f49583fae80aa45c4f inherit pub_methods_classsw_1_1IDialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public 属性</h2></td></tr>
@@ -196,6 +201,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ClearBuffer</b> ()</t
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>“打开文件”对话框与“另存为”对话框的基类 </p>
 </div><h2 class="groupheader">成员函数说明</h2>
+<a id="a97e08858b6ad6134e1e6493253ea1a4c" name="a97e08858b6ad6134e1e6493253ea1a4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97e08858b6ad6134e1e6493253ea1a4c">&#9670;&#160;</a></span>Close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sw::FileDialog::Close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>FileDialog默认不支持该函数，调用该函数不会执行任何操作 </p>
+
+<p>实现了 <a class="el" href="classsw_1_1IDialog.html#a2d4ba2aa2893377cde30966587fbe490">sw::IDialog</a>.</p>
+
+</div>
+</div>
 <a id="a7bd7e540fa7f066eaf19f2744d506321" name="a7bd7e540fa7f066eaf19f2744d506321"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7bd7e540fa7f066eaf19f2744d506321">&#9670;&#160;</a></span>ProcessFileName()</h2>
 
@@ -258,49 +292,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ClearBuffer</b> ()</t
 
 </div>
 </div>
-<a id="a66f25d80acee110f107a52adb8bfbb92" name="a66f25d80acee110f107a52adb8bfbb92"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a66f25d80acee110f107a52adb8bfbb92">&#9670;&#160;</a></span>ShowDialog() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool sw::FileDialog::ShowDialog </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>显示对话框，并指定当前活动窗口作为所有者窗口 </p>
-<dl class="section return"><dt>返回</dt><dd>用户是否选择了文件 </dd></dl>
-
-</div>
-</div>
-<a id="aa6c9ae2f5de6c5e73e2a37e8f9db0a26" name="aa6c9ae2f5de6c5e73e2a37e8f9db0a26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6c9ae2f5de6c5e73e2a37e8f9db0a26">&#9670;&#160;</a></span>ShowDialog() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool sw::FileDialog::ShowDialog </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classsw_1_1Window.html">Window</a> &amp;&#160;</td>
-          <td class="paramname"><em>owner</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>显示对话框，并指定所有者窗口 </p>
-<dl class="section return"><dt>返回</dt><dd>用户是否选择了文件 </dd></dl>
-
-</div>
-</div>
-<a id="af2a49944d6c051ee94a3b614d1fa1458" name="af2a49944d6c051ee94a3b614d1fa1458"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2a49944d6c051ee94a3b614d1fa1458">&#9670;&#160;</a></span>ShowDialog() <span class="overload">[3/3]</span></h2>
+<a id="a96feefcfeb76309fb1afc6b3b6444ff7" name="a96feefcfeb76309fb1afc6b3b6444ff7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96feefcfeb76309fb1afc6b3b6444ff7">&#9670;&#160;</a></span>Show()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -309,9 +302,38 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ClearBuffer</b> ()</t
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool sw::FileDialog::ShowDialog </td>
+          <td class="memname">virtual void sw::FileDialog::Show </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classsw_1_1Window.html">Window</a> *&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>FileDialog默认不支持该函数，调用该函数不会执行任何操作 </p>
+
+<p>实现了 <a class="el" href="classsw_1_1IDialog.html#a82c4849563a84f243a5e57806dade025">sw::IDialog</a>.</p>
+
+</div>
+</div>
+<a id="a6b46737b4e53a9a979a3338e18cd33aa" name="a6b46737b4e53a9a979a3338e18cd33aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b46737b4e53a9a979a3338e18cd33aa">&#9670;&#160;</a></span>ShowDialog() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int sw::FileDialog::ShowDialog </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1Window.html">Window</a> &amp;&#160;</td>
           <td class="paramname"><em>owner</em></td><td>)</td>
           <td></td>
         </tr>
@@ -324,9 +346,42 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ClearBuffer</b> ()</t
 </div><div class="memdoc">
 
 <p>显示对话框，并指定所有者窗口 </p>
-<dl class="section return"><dt>返回</dt><dd>用户是否选择了文件 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>若用户选择了文件则返回true，否则返回false </dd></dl>
 
-<p>在 <a class="el" href="classsw_1_1OpenFileDialog.html#a8140a0810c5cf821c8abf7bd02865688">sw::OpenFileDialog</a>, <a class="el" href="classsw_1_1SaveFileDialog.html#a56e74d75f8ed79f4eb7e8a99824423a8">sw::SaveFileDialog</a>, <a class="el" href="classsw_1_1OpenFileDialog.html#af2a49944d6c051ee94a3b614d1fa1458">sw::OpenFileDialog</a> , 以及 <a class="el" href="classsw_1_1SaveFileDialog.html#af2a49944d6c051ee94a3b614d1fa1458">sw::SaveFileDialog</a> 内被实现.</p>
+<p>在 <a class="el" href="classsw_1_1OpenFileDialog.html#aeaad8bb68e886865185e1cda2bd2b468">sw::OpenFileDialog</a> , 以及 <a class="el" href="classsw_1_1SaveFileDialog.html#ab1f7ca4d47611efd180b1e7cd8c1215a">sw::SaveFileDialog</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ac1828bc89e256d49e1555022ff44f2d2" name="ac1828bc89e256d49e1555022ff44f2d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1828bc89e256d49e1555022ff44f2d2">&#9670;&#160;</a></span>ShowDialog() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int sw::FileDialog::ShowDialog </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1Window.html">Window</a> *&#160;</td>
+          <td class="paramname"><em>owner</em> = <code>nullptr</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>显示对话框，并指定所有者窗口 </p>
+<dl class="section return"><dt>返回</dt><dd>若用户选择了文件则返回true，否则返回false </dd></dl>
+
+<p>实现了 <a class="el" href="classsw_1_1IDialog.html#a12c4076ef928410b8fc605612e763261">sw::IDialog</a>.</p>
+
+<p>在 <a class="el" href="classsw_1_1OpenFileDialog.html#ad861b5efc29333c8d3a1b4881e1f499a">sw::OpenFileDialog</a> , 以及 <a class="el" href="classsw_1_1SaveFileDialog.html#a7bb80bcf0b254b23003ea27cb60f17d5">sw::SaveFileDialog</a> 内被实现.</p>
 
 </div>
 </div>

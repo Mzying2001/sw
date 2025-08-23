@@ -8,9 +8,10 @@ var searchData=
   ['checkablebutton_5',['CheckableButton',['../classsw_1_1CheckableButton.html',1,'sw']]],
   ['checkbox_6',['CheckBox',['../classsw_1_1CheckBox.html',1,'sw']]],
   ['color_7',['Color',['../structsw_1_1Color.html',1,'sw']]],
-  ['combobox_8',['ComboBox',['../classsw_1_1ComboBox.html',1,'sw']]],
-  ['commandlink_9',['CommandLink',['../classsw_1_1CommandLink.html',1,'sw']]],
-  ['contextmenu_10',['ContextMenu',['../classsw_1_1ContextMenu.html',1,'sw']]],
-  ['control_11',['Control',['../classsw_1_1Control.html',1,'sw']]],
-  ['cursorhelper_12',['CursorHelper',['../classsw_1_1CursorHelper.html',1,'sw']]]
+  ['colordialog_8',['ColorDialog',['../classsw_1_1ColorDialog.html',1,'sw']]],
+  ['combobox_9',['ComboBox',['../classsw_1_1ComboBox.html',1,'sw']]],
+  ['commandlink_10',['CommandLink',['../classsw_1_1CommandLink.html',1,'sw']]],
+  ['contextmenu_11',['ContextMenu',['../classsw_1_1ContextMenu.html',1,'sw']]],
+  ['control_12',['Control',['../classsw_1_1Control.html',1,'sw']]],
+  ['cursorhelper_13',['CursorHelper',['../classsw_1_1CursorHelper.html',1,'sw']]]
 ];

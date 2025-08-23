@@ -13,7 +13,7 @@ var searchData=
   ['clipprecision_10',['clipPrecision',['../classsw_1_1Font.html#a17830a6ab96c792ea5c31f1dc4eb6b9b',1,'sw::Font']]],
   ['collapsewhenhide_11',['CollapseWhenHide',['../classsw_1_1UIElement.html#a952e87aef0f2dfdec6bd98e944b6d891',1,'sw::UIElement']]],
   ['column_12',['column',['../structsw_1_1GridLayoutTag.html#aa7a46315a36db1adc57e6cd12aa36713',1,'sw::GridLayoutTag']]],
-  ['columns_13',['columns',['../classsw_1_1UniformGrid.html#ac6abb7aaf70869b91207c53cfaf59bca',1,'sw::UniformGrid::Columns'],['../classsw_1_1GridLayout.html#a31dc19020481d77169ecad187bad886e',1,'sw::GridLayout::columns'],['../classsw_1_1UniformGridLayout.html#a73d71cc8e99540d40ab1f4fd528b9492',1,'sw::UniformGridLayout::columns']]],
+  ['columns_13',['columns',['../classsw_1_1GridLayout.html#a31dc19020481d77169ecad187bad886e',1,'sw::GridLayout::columns'],['../classsw_1_1UniformGrid.html#ac6abb7aaf70869b91207c53cfaf59bca',1,'sw::UniformGrid::Columns'],['../classsw_1_1UniformGridLayout.html#a73d71cc8e99540d40ab1f4fd528b9492',1,'sw::UniformGridLayout::columns']]],
   ['columnscount_14',['ColumnsCount',['../classsw_1_1ListView.html#a0b84ba1066f16317e48629059b94ded8',1,'sw::ListView']]],
   ['columnspan_15',['columnSpan',['../structsw_1_1GridLayoutTag.html#ad6949937cb3becc28cee7f7c79604fd8',1,'sw::GridLayoutTag']]],
   ['command_16',['command',['../classsw_1_1MenuItem.html#a2a89a577f6cc2eafe9b6d55eb3c9c8ee',1,'sw::MenuItem']]],
@@ -22,5 +22,6 @@ var searchData=
   ['controlid_19',['ControlId',['../classsw_1_1Control.html#aa5875535fe04ce79df6fb8719b64c0dc',1,'sw::Control']]],
   ['currentdirectory_20',['CurrentDirectory',['../classsw_1_1App.html#a6d37ddbf6c419a02182c325a1dce5575',1,'sw::App']]],
   ['cursorposition_21',['CursorPosition',['../classsw_1_1Screen.html#a0bf87a2c7e6680747d8a77e4daf466a8',1,'sw::Screen']]],
-  ['customformat_22',['CustomFormat',['../classsw_1_1DateTimePicker.html#a02536c45142f088a408d311ef17fde62',1,'sw::DateTimePicker']]]
+  ['customcolors_22',['CustomColors',['../classsw_1_1ColorDialog.html#a1b7af9704cee4a96a8bbc813e126fe9a',1,'sw::ColorDialog']]],
+  ['customformat_23',['CustomFormat',['../classsw_1_1DateTimePicker.html#a02536c45142f088a408d311ef17fde62',1,'sw::DateTimePicker']]]
 ];
