@@ -102,7 +102,7 @@ namespace sw
     /**
      * @brief 选择文件夹对话框
      */
-    class FolderBrowserDialog
+    class FolderBrowserDialog : public IDialog
     {
     private:
         /**
@@ -153,22 +153,26 @@ namespace sw
         FolderBrowserDialog();
 
         /**
-         * @brief  显示对话框，并指定当前活动窗口作为所有者窗口
-         * @return 用户是否选择了文件夹
+         * @brief FolderBrowserDialog默认不支持该函数，调用该函数不会执行任何操作
          */
-        bool ShowDialog();
+        virtual void Close() override;
+
+        /**
+         * @brief FolderBrowserDialog默认不支持该函数，调用该函数不会执行任何操作
+         */
+        virtual void Show() override;
 
         /**
          * @brief  显示对话框，并指定所有者窗口
-         * @return 用户是否选择了文件夹
+         * @return 若用户选择了文件夹则返回true，否则返回false
          */
-        bool ShowDialog(const Window &owner);
+        virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
          * @brief  显示对话框，并指定所有者窗口
-         * @return 用户是否选择了文件夹
+         * @return 若用户选择了文件夹则返回true，否则返回false
          */
-        bool ShowDialog(const Window *owner);
+        virtual int ShowDialog(Window &owner);
 
     protected:
         /**
