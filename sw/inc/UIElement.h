@@ -918,6 +918,13 @@ namespace sw
         void ClampDesireSize(sw::Rect &rect);
 
         /**
+         * @brief           查询所有子元素，直到queryFunc返回false或所有子元素均被查询
+         * @param queryFunc 查询函数，参数为子元素指针，返回值为bool，返回false时停止查询
+         * @return          若queryFunc在某次调用中返回false则返回false，否则返回true
+         */
+        bool QueryAllChildren(const Func<UIElement *, bool> &queryFunc);
+
+        /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
          * @return              返回元素需要占用的尺寸
@@ -1216,5 +1223,10 @@ namespace sw
          * @brief 循环获取界面树上的上一个节点
          */
         static UIElement *_GetPreviousElement(UIElement *element);
+
+        /**
+         * @brief 递归获取所有子元素
+         */
+        static void _GetAllChildren(UIElement *element, std::vector<UIElement *> &children);
     };
 }

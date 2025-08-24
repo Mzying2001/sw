@@ -87,31 +87,27 @@ Here is a SimpleWindow HelloWorld program. For more examples, see [here](https:/
 ```cpp
 #include "SimpleWindow.h"
 
-int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdShow)
+int WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)
 {
-    // Window object
-    sw::Window mainWindow;
-
-    // Button object
-    sw::Button button;
+    // Create window and button objects
+    sw::Window wnd;
+    sw::Button btn;
 
     // Modify the window layout to center the button
-    mainWindow.SetLayout<sw::FillLayout>();
+    wnd.SetLayout<sw::FillLayout>();
 
     // Modify the button text by assigning a value to the Text property
-    button.Text = L"Click Me";
+    btn.Text = L"Click Me";
 
     // Add a button click event handler to show a message box when the button is clicked
-    button.AddHandler(sw::ButtonBase_Clicked,
+    btn.AddHandler(sw::ButtonBase_Clicked,
         [](sw::UIElement& sender, sw::RoutedEventArgs& e) {
             sw::MsgBox::Show(L"Hello, SimpleWindow!");
         });
 
-    mainWindow.AddChild(button);
-    mainWindow.Show();
-
-    // Start the message loop
-    return sw::App::MsgLoop();
+    // Add the control and display the window
+    wnd.AddChild(btn);
+    return wnd.ShowDialog();
 }
 ```
 

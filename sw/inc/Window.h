@@ -324,11 +324,6 @@ namespace sw
         static void _SetWindowPtr(HWND hwnd, Window &wnd);
 
         /**
-         * @brief DPI更新时调用该函数递归地更新所有子项的字体
-         */
-        static void _UpdateFontForAllChild(UIElement &element);
-
-        /**
          * @brief  获取窗口默认图标（即当前exe图标）
          * @return 图标句柄
          */

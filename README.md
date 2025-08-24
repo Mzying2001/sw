@@ -87,31 +87,27 @@ git clone https://github.com/Mzying2001/sw.git
 ```cpp
 #include "SimpleWindow.h"
 
-int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdShow)
+int WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)
 {
-    // 窗口对象
-    sw::Window mainWindow;
-
-    // 按钮对象
-    sw::Button button;
+    // 创建窗口和按钮对象
+    sw::Window wnd;
+    sw::Button btn;
 
     // 修改窗口的布局方式，让按钮居中
-    mainWindow.SetLayout<sw::FillLayout>();
+    wnd.SetLayout<sw::FillLayout>();
 
     // 对Text属性赋值即可修改按钮文本
-    button.Text = L"Click Me";
+    btn.Text = L"Click Me";
 
     // 添加按钮单击事件处理函数，实现单击按钮弹出消息框
-    button.AddHandler(sw::ButtonBase_Clicked,
+    btn.AddHandler(sw::ButtonBase_Clicked,
         [](sw::UIElement& sender, sw::RoutedEventArgs& e) {
             sw::MsgBox::Show(L"Hello, SimpleWindow!");
         });
 
-    mainWindow.AddChild(button);
-    mainWindow.Show();
-
-    // 开始消息循环
-    return sw::App::MsgLoop();
+    // 添加控件并弹出窗口
+    wnd.AddChild(btn);
+    return wnd.ShowDialog();
 }
 ```
 

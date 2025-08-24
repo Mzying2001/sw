@@ -431,7 +431,11 @@ void sw::Window::OnDpiChanged(int dpiX, int dpiY)
         SendMessageW(WM_WINDOWPOSCHANGED, 0, reinterpret_cast<LPARAM>(&pos));
     }
 
-    _UpdateFontForAllChild(*this);
+    UpdateFont();
+
+    QueryAllChildren([](UIElement *item) {
+        return item->UpdateFont(), true;
+    });
 
     if (!layoutDisabled) {
         EnableLayout();
@@ -565,15 +569,6 @@ sw::Window *sw::Window::_GetWindowPtr(HWND hwnd)
 void sw::Window::_SetWindowPtr(HWND hwnd, Window &wnd)
 {
     SetPropW(hwnd, _WindowPtrProp, reinterpret_cast<HANDLE>(&wnd));
-}
-
-void sw::Window::_UpdateFontForAllChild(UIElement &element)
-{
-    element.UpdateFont();
-    int count = element.ChildCount;
-    for (int i = 0; i < count; ++i) {
-        _UpdateFontForAllChild(element[i]);
-    }
 }
 
 HICON sw::Window::_GetWindowDefaultIcon()
