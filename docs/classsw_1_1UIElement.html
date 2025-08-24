@@ -688,6 +688,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetPreviousTabStopFoc
 <tr class="memitem:a0fe818005a4ffb99890a9af0ea9f4ed3" id="r_a0fe818005a4ffb99890a9af0ea9f4ed3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a0fe818005a4ffb99890a9af0ea9f4ed3">ClampDesireSize</a> (<a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &amp;rect)</td></tr>
 <tr class="memdesc:a0fe818005a4ffb99890a9af0ea9f4ed3"><td class="mdescLeft">&#160;</td><td class="mdescRight">限定指定矩形的尺寸在最小和最大尺寸之间  <br /></td></tr>
 <tr class="separator:a0fe818005a4ffb99890a9af0ea9f4ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6121cdf84c8073bae9b3cde98a6a59ea" id="r_a6121cdf84c8073bae9b3cde98a6a59ea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a6121cdf84c8073bae9b3cde98a6a59ea">QueryAllChildren</a> (const Func&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a> *, bool &gt; &amp;queryFunc)</td></tr>
+<tr class="memdesc:a6121cdf84c8073bae9b3cde98a6a59ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">查询所有子元素，直到queryFunc返回false或所有子元素均被查询  <br /></td></tr>
+<tr class="separator:a6121cdf84c8073bae9b3cde98a6a59ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cd17e0524115089357b146545510fe8" id="r_a8cd17e0524115089357b146545510fe8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1Size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a8cd17e0524115089357b146545510fe8">MeasureOverride</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;availableSize)</td></tr>
 <tr class="memdesc:a8cd17e0524115089357b146545510fe8"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量元素所需尺寸，无需考虑边框和边距  <br /></td></tr>
 <tr class="separator:a8cd17e0524115089357b146545510fe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -3211,6 +3214,41 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
 </dl>
 
 <p>重载 <a class="el" href="classsw_1_1WndBase.html#a4d09cfbc382789150798ff6ad3d9f988">sw::WndBase</a> .</p>
+
+</div>
+</div>
+<a id="a6121cdf84c8073bae9b3cde98a6a59ea" name="a6121cdf84c8073bae9b3cde98a6a59ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6121cdf84c8073bae9b3cde98a6a59ea">&#9670;&#160;</a></span>QueryAllChildren()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::UIElement::QueryAllChildren </td>
+          <td>(</td>
+          <td class="paramtype">const Func&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a> *, bool &gt; &amp;&#160;</td>
+          <td class="paramname"><em>queryFunc</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>查询所有子元素，直到queryFunc返回false或所有子元素均被查询 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">queryFunc</td><td>查询函数，参数为子元素指针，返回值为bool，返回false时停止查询 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若queryFunc在某次调用中返回false则返回false，否则返回true </dd></dl>
 
 </div>
 </div>

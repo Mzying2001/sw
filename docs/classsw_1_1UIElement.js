@@ -76,6 +76,7 @@ var classsw_1_1UIElement =
     [ "OnTextChanged", "classsw_1_1UIElement.html#a7e1fbc142c7cfe4a4a60959daf0753bc", null ],
     [ "operator[]", "classsw_1_1UIElement.html#a3dee0000f9edfdce128c7ca3c95ec4ab", null ],
     [ "ParentChanged", "classsw_1_1UIElement.html#a87b86762809c8e4a0ace610a977caa78", null ],
+    [ "QueryAllChildren", "classsw_1_1UIElement.html#a6121cdf84c8073bae9b3cde98a6a59ea", null ],
     [ "RaiseRoutedEvent", "classsw_1_1UIElement.html#a135d4fc74c3bf7a434271620944b9f9b", null ],
     [ "RaiseRoutedEvent", "classsw_1_1UIElement.html#a0635558e1928f1144566a30b884303aa", null ],
     [ "RegisterRoutedEvent", "classsw_1_1UIElement.html#a2b9301a84ed462c3c1968b0bc95ed4c9", null ],
