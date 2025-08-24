@@ -2399,9 +2399,10 @@ int sw::FontDialog::ShowDialog(Window *owner)
     LOGFONTW logFont = _font;
     pCF->lpLogFont   = &logFont;
 
-    if (result = ChooseFontW(pCF)) {
-        _font = logFont;
-    }
+    result = ChooseFontW(pCF);
+    if (result) _font = logFont;
+
+    pCF->lpLogFont = nullptr;
     return result;
 }
 
@@ -8989,6 +8990,21 @@ void sw::UIElement::ClampDesireSize(sw::Rect &rect)
     rect.height = size.height;
 }
 
+bool sw::UIElement::QueryAllChildren(const Func<UIElement *, bool> &queryFunc)
+{
+    if (queryFunc == nullptr) {
+        return true;
+    }
+
+    std::vector<UIElement *> children;
+    _GetAllChildren(this, children);
+
+    for (UIElement *child : children) {
+        if (!queryFunc(child)) return false;
+    }
+    return true;
+}
+
 sw::Size sw::UIElement::MeasureOverride(const Size &availableSize)
 {
     // 普通元素测量时，其本身用户区尺寸即为所需尺寸
@@ -9427,6 +9443,14 @@ sw::UIElement *sw::UIElement::_GetPreviousElement(UIElement *element)
 
     int index = parent->IndexOf(element);
     return index <= 0 ? parent : _GetDeepestLastElement(parent->_children[index - 1]);
+}
+
+void sw::UIElement::_GetAllChildren(UIElement *element, std::vector<UIElement *> &children)
+{
+    for (UIElement *child : element->_children) {
+        children.push_back(child);
+        _GetAllChildren(child, children);
+    }
 }
 
 // UniformGrid.cpp
@@ -10048,7 +10072,11 @@ void sw::Window::OnDpiChanged(int dpiX, int dpiY)
         SendMessageW(WM_WINDOWPOSCHANGED, 0, reinterpret_cast<LPARAM>(&pos));
     }
 
-    _UpdateFontForAllChild(*this);
+    UpdateFont();
+
+    QueryAllChildren([](UIElement *item) {
+        return item->UpdateFont(), true;
+    });
 
     if (!layoutDisabled) {
         EnableLayout();
@@ -10182,15 +10210,6 @@ sw::Window *sw::Window::_GetWindowPtr(HWND hwnd)
 void sw::Window::_SetWindowPtr(HWND hwnd, Window &wnd)
 {
     SetPropW(hwnd, _WindowPtrProp, reinterpret_cast<HANDLE>(&wnd));
-}
-
-void sw::Window::_UpdateFontForAllChild(UIElement &element)
-{
-    element.UpdateFont();
-    int count = element.ChildCount;
-    for (int i = 0; i < count; ++i) {
-        _UpdateFontForAllChild(element[i]);
-    }
 }
 
 HICON sw::Window::_GetWindowDefaultIcon()
