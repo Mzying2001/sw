@@ -9666,7 +9666,8 @@ namespace
 const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
     []() -> sw::Window * {
         HWND hwnd = GetActiveWindow();
-        return _GetWindowPtr(hwnd);
+        // return _GetWindowPtr(hwnd); // vs2015无法识别此处的作用域？
+        return reinterpret_cast<sw::Window *>(GetPropW(hwnd, _WindowPtrProp));
     } //
 );
 
