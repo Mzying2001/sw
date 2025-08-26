@@ -48,9 +48,9 @@ namespace
 }
 
 /**
- * @brief 消息循环中处理空句柄消息的回调函数
+ * @brief 当前线程消息循环中处理空句柄消息的回调函数
  */
-sw::Action<MSG &> sw::App::NullHwndMsgHandler;
+thread_local sw::Action<MSG &> sw::App::NullHwndMsgHandler;
 
 /**
  */

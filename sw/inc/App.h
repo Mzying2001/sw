@@ -52,9 +52,10 @@ namespace sw
         static const Property<AppQuitMode> QuitMode;
 
         /**
-         * @brief 消息循环中处理空句柄消息的回调函数
+         * @brief 当前线程消息循环中处理空句柄消息的回调函数
+         * @note  该委托是线程局部的，每个线程有各自独立的值
          */
-        static Action<MSG &> NullHwndMsgHandler;
+        static thread_local Action<MSG &> NullHwndMsgHandler;
 
         /**
          * @brief  消息循环
