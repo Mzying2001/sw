@@ -6,7 +6,7 @@ namespace
     /**
      * @brief 程序退出消息循环的方式，默认为Auto
      */
-    sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
+    thread_local sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
 
     /**
      * @brief  获取当前exe文件路径
@@ -51,6 +51,9 @@ namespace
  * @brief 消息循环中处理空句柄消息的回调函数
  */
 sw::Action<MSG &> sw::App::NullHwndMsgHandler;
+
+/**
+ */
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     []() -> HINSTANCE {

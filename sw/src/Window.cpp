@@ -11,7 +11,7 @@ namespace
     /**
      * @brief 记录当前创建的窗口数
      */
-    int _windowCount = 0;
+    thread_local int _windowCount = 0;
 
     /**
      * @brief 窗口句柄保存Window指针的属性名称
@@ -20,7 +20,7 @@ namespace
 }
 
 /**
- * @brief 程序的当前活动窗体
+ * @brief 当前线程的活动窗口
  */
 const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
     []() -> sw::Window * {
@@ -31,7 +31,7 @@ const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
 );
 
 /**
- * @brief 当前已创建的窗口数
+ * @brief 当前线程已创建的窗口数
  */
 const sw::ReadOnlyProperty<int> sw::Window::WindowCount(
     []() -> int {

@@ -81,12 +81,13 @@ namespace sw
 
     public:
         /**
-         * @brief 程序的当前活动窗体
+         * @brief 当前线程的活动窗口
          */
         static const ReadOnlyProperty<Window *> ActiveWindow;
 
         /**
-         * @brief 当前已创建的窗口数
+         * @brief 当前线程已创建的窗口数
+         * @note  该属性是线程局部的，每个线程有各自独立的值
          */
         static const ReadOnlyProperty<int> WindowCount;
 

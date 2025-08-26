@@ -46,7 +46,8 @@ namespace sw
         static const Property<std::wstring> CurrentDirectory;
 
         /**
-         * @brief 程序退出消息循环的方式
+         * @brief 当前线程退出消息循环的方式
+         * @note  该属性是线程局部的，每个线程有各自独立的值
          */
         static const Property<AppQuitMode> QuitMode;
 
@@ -62,7 +63,7 @@ namespace sw
         static int MsgLoop();
 
         /**
-         * @brief          退出当前消息循环
+         * @brief          退出当前线程的消息循环
          * @param exitCode 退出代码
          */
         static void QuitMsgLoop(int exitCode = 0);
