@@ -1186,6 +1186,11 @@ bool sw::WndBase::CheckAccess() const
     return this->GetThreadId() == GetCurrentThreadId();
 }
 
+bool sw::WndBase::CheckAccess(const WndBase &other) const
+{
+    return this == &other || this->GetThreadId() == other.GetThreadId();
+}
+
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     WndBase *pWnd = nullptr;

@@ -856,6 +856,11 @@ namespace sw
          */
         bool CheckAccess() const;
 
+        /**
+         * @brief 判断当前对象所属线程是否与另一个WndBase对象所属线程相同
+         */
+        bool CheckAccess(const WndBase &other) const;
+
     private:
         /**
          * @brief 窗口过程函数，调用对象的WndProc
