@@ -1073,12 +1073,12 @@ void sw::WndBase::Redraw(bool erase, bool updateWindow)
     if (updateWindow) UpdateWindow(this->_hwnd);
 }
 
-bool sw::WndBase::IsVisible()
+bool sw::WndBase::IsVisible() const
 {
     return IsWindowVisible(this->_hwnd);
 }
 
-DWORD sw::WndBase::GetStyle()
+DWORD sw::WndBase::GetStyle() const
 {
     return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE));
 }
@@ -1088,7 +1088,7 @@ void sw::WndBase::SetStyle(DWORD style)
     SetWindowLongPtrW(this->_hwnd, GWL_STYLE, LONG_PTR(style));
 }
 
-bool sw::WndBase::GetStyle(DWORD mask)
+bool sw::WndBase::GetStyle(DWORD mask) const
 {
     return (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) & mask) == mask;
 }
@@ -1101,7 +1101,7 @@ void sw::WndBase::SetStyle(DWORD mask, bool value)
     SetWindowLongPtrW(this->_hwnd, GWL_STYLE, LONG_PTR(newstyle));
 }
 
-DWORD sw::WndBase::GetExtendedStyle()
+DWORD sw::WndBase::GetExtendedStyle() const
 {
     return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE));
 }
@@ -1124,14 +1124,14 @@ void sw::WndBase::SetExtendedStyle(DWORD mask, bool value)
     SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, LONG_PTR(newstyle));
 }
 
-sw::Point sw::WndBase::PointToScreen(const Point &point)
+sw::Point sw::WndBase::PointToScreen(const Point &point) const
 {
     POINT p = point;
     ClientToScreen(this->_hwnd, &p);
     return p;
 }
 
-sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint)
+sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint) const
 {
     POINT p = screenPoint;
     ScreenToClient(this->_hwnd, &p);
