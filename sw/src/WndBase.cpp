@@ -312,18 +312,20 @@ std::wstring sw::WndBase::ToString() const
 
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
+    static thread_local ATOM wndClsAtom = 0;
+
     if (this->_hwnd != NULL) {
         return;
     }
 
-    static WNDCLASSEXW wc{};
-    if (wc.cbSize == 0) {
+    if (wndClsAtom == 0) {
+        WNDCLASSEXW wc{};
         wc.cbSize        = sizeof(wc);
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = WndBase::_WndProc;
         wc.lpszClassName = _WindowClassName;
         wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
-        RegisterClassExW(&wc);
+        wndClsAtom       = RegisterClassExW(&wc);
     }
 
     if (lpWindowName) {
