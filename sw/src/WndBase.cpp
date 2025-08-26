@@ -1176,6 +1176,16 @@ void sw::WndBase::InvokeAsync(const SimpleAction &action)
     this->PostMessageW(WM_InvokeAction, true, reinterpret_cast<LPARAM>(p));
 }
 
+DWORD sw::WndBase::GetThreadId() const
+{
+    return GetWindowThreadProcessId(this->_hwnd, NULL);
+}
+
+bool sw::WndBase::CheckAccess() const
+{
+    return this->GetThreadId() == GetCurrentThreadId();
+}
+
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     WndBase *pWnd = nullptr;

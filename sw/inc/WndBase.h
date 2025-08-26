@@ -846,6 +846,16 @@ namespace sw
          */
         void InvokeAsync(const SimpleAction &action);
 
+        /**
+         * @brief 获取当前窗口所属线程的线程id
+         */
+        DWORD GetThreadId() const;
+
+        /**
+         * @brief 判断当前线程是否为窗口所属线程
+         */
+        bool CheckAccess() const;
+
     private:
         /**
          * @brief 窗口过程函数，调用对象的WndProc
