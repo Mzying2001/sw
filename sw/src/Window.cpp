@@ -243,7 +243,6 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             auto pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
             Size minSize{MinWidth, MinHeight};
             Size maxSize{MaxWidth, MaxHeight};
-
             if (minSize.width > 0) {
                 pInfo->ptMinTrackSize.x = Utils::Max<LONG>(pInfo->ptMinTrackSize.x, Dip::DipToPxX(minSize.width));
             }
@@ -466,6 +465,10 @@ int sw::Window::ShowDialog(Window *owner)
 
     int result = -1;
 
+    if (!CheckAccess()) {
+        return result; // 只能在创建窗口的线程调用
+    }
+
     if (_isModal || IsDestroyed) {
         return result;
     }
@@ -505,6 +508,10 @@ int sw::Window::ShowDialog(Window *owner)
 int sw::Window::ShowDialog(Window &owner)
 {
     int result = -1;
+
+    if (!CheckAccess()) {
+        return result; // 只能在创建窗口的线程调用
+    }
 
     if (this == &owner || _isModal || IsDestroyed) {
         return result;
