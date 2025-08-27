@@ -4,17 +4,17 @@ sw::Control::Control()
     : ControlId(
           // get
           [this]() -> int {
-              return GetDlgCtrlID(this->_hwnd);
+              return GetDlgCtrlID(_hwnd);
           }),
 
       IsInHierarchy(
           // get
           [this]() -> bool {
-              if (this->_hwnd == NULL || this->_isDestroyed) {
+              if (_hwnd == NULL || _isDestroyed) {
                   return false;
               }
               auto container = WndBase::_GetControlInitContainer();
-              return container == nullptr || GetParent(this->_hwnd) != container->_hwnd;
+              return container == nullptr || GetParent(_hwnd) != container->_hwnd;
           })
 {
 }
@@ -28,19 +28,23 @@ sw::Control *sw::Control::ToControl()
     return this;
 }
 
-void sw::Control::ResetHandle(LPVOID lpParam)
+bool sw::Control::ResetHandle(LPVOID lpParam)
 {
-    DWORD style   = this->GetStyle();
-    DWORD exStyle = this->GetExtendedStyle();
-    this->ResetHandle(style, exStyle, lpParam);
+    DWORD style   = GetStyle();
+    DWORD exStyle = GetExtendedStyle();
+    return ResetHandle(style, exStyle, lpParam);
 }
 
-void sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
+bool sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
 {
-    RECT rect = this->Rect.Get();
-    auto text = this->GetInternalText().c_str();
+    if (!CheckAccess()) {
+        return false;
+    }
 
-    HWND oldHwnd = this->_hwnd;
+    RECT rect = Rect;
+    auto text = GetInternalText().c_str();
+
+    HWND oldHwnd = _hwnd;
     HWND hParent = GetParent(oldHwnd);
 
     wchar_t className[256];
@@ -70,63 +74,64 @@ void sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
     WndBase::_SetWndBase(newHwnd, *this);
     SetWindowLongPtrW(newHwnd, GWLP_WNDPROC, wndproc);
 
-    this->_hwnd = newHwnd;
+    _hwnd = newHwnd;
     DestroyWindow(oldHwnd);
 
-    this->SendMessageW(WM_SETFONT, (WPARAM)this->GetFontHandle(), TRUE);
-    this->UpdateSiblingsZOrder();
-    this->OnHandleChenged(this->_hwnd);
+    SendMessageW(WM_SETFONT, (WPARAM)GetFontHandle(), TRUE);
+    UpdateSiblingsZOrder();
+    OnHandleChenged(_hwnd);
+    return true;
 }
 
 bool sw::Control::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
     switch (pNMHDR->code) {
         case NM_CUSTOMDRAW: {
-            return this->OnCustomDraw(reinterpret_cast<NMCUSTOMDRAW *>(pNMHDR), result);
+            return OnCustomDraw(reinterpret_cast<NMCUSTOMDRAW *>(pNMHDR), result);
         }
         default: {
-            return this->UIElement::OnNotified(pNMHDR, result);
+            return UIElement::OnNotified(pNMHDR, result);
         }
     }
 }
 
 bool sw::Control::OnKillFocus(HWND hNextFocus)
 {
-    this->_drawFocusRect = false;
-    return this->UIElement::OnKillFocus(hNextFocus);
+    _drawFocusRect = false;
+    return UIElement::OnKillFocus(hNextFocus);
 }
 
 void sw::Control::OnTabStop()
 {
-    this->_drawFocusRect = true;
-    this->UIElement::OnTabStop();
+    _drawFocusRect = true;
+    UIElement::OnTabStop();
 }
 
 void sw::Control::OnEndPaint()
 {
-    if (!this->_hasCustomDraw && this->_drawFocusRect) {
-        HDC hdc = GetDC(this->_hwnd);
-        this->OnDrawFocusRect(hdc);
-        ReleaseDC(this->_hwnd, hdc);
+    if (!_hasCustomDraw && _drawFocusRect) {
+        HDC hdc = GetDC(_hwnd);
+        OnDrawFocusRect(hdc);
+        ReleaseDC(_hwnd, hdc);
     }
 }
 
 bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
 {
-    this->_hasCustomDraw = true;
+    _hasCustomDraw = true;
 
     switch (pNMCD->dwDrawStage) {
         case CDDS_PREERASE: {
-            return this->OnPreErase(pNMCD->hdc, result);
+            return OnPreErase(pNMCD->hdc, result);
         }
         case CDDS_POSTERASE: {
-            return this->OnPostErase(pNMCD->hdc, result);
+            return OnPostErase(pNMCD->hdc, result);
         }
         case CDDS_PREPAINT: {
-            return this->OnPrePaint(pNMCD->hdc, result);
+            return OnPrePaint(pNMCD->hdc, result);
         }
         case CDDS_POSTPAINT: {
-            return this->OnPostPaint(pNMCD->hdc, result);
+            return OnPostPaint(pNMCD->hdc, result);
         }
         default: {
             return false;
@@ -153,17 +158,17 @@ bool sw::Control::OnPrePaint(HDC hdc, LRESULT &result)
 
 bool sw::Control::OnPostPaint(HDC hdc, LRESULT &result)
 {
-    if (this->_drawFocusRect) {
-        this->OnDrawFocusRect(hdc);
+    if (_drawFocusRect) {
+        OnDrawFocusRect(hdc);
     }
     return false;
 }
 
 void sw::Control::OnDrawFocusRect(HDC hdc)
 {
-    // RECT rect = this->ClientRect;
+    // RECT rect = ClientRect;
     RECT rect;
-    GetClientRect(this->_hwnd, &rect);
+    GetClientRect(_hwnd, &rect);
     DrawFocusRect(hdc, &rect);
 }
 
