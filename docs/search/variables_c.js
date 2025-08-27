@@ -4,5 +4,5 @@ var searchData=
   ['newfolderbutton_1',['NewFolderButton',['../classsw_1_1FolderBrowserDialog.html#a1146b36190727f370f2071b7cd7c25a7',1,'sw::FolderBrowserDialog']]],
   ['notetext_2',['NoteText',['../classsw_1_1CommandLink.html#a87b5542fa235d2cd3fb9873d23492082',1,'sw::CommandLink']]],
   ['notify_3',['Notify',['../classsw_1_1StaticControl.html#a1aa16699f8b60dd9fb6cd3c6b6c129e4',1,'sw::StaticControl']]],
-  ['nullhwndmsghandler_4',['NullHwndMsgHandler',['../classsw_1_1App.html#ad6b48c757695289913ede31c8d44243f',1,'sw::App']]]
+  ['nullhwndmsghandler_4',['NullHwndMsgHandler',['../classsw_1_1App.html#ad8c826a9560887b6ca248481b3d3d5ad',1,'sw::App']]]
 ];

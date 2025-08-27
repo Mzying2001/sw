@@ -108,7 +108,7 @@ $(document).ready(function(){initNavTree('classsw_1_1App.html',''); initResizabl
 <tr class="memdesc:a05192f9abf49cc0a698024855dde22de"><td class="mdescLeft">&#160;</td><td class="mdescRight">消息循环  <br /></td></tr>
 <tr class="separator:a05192f9abf49cc0a698024855dde22de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c23858a471e3ad5e9e57ea711a912cb" id="r_a6c23858a471e3ad5e9e57ea711a912cb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1App.html#a6c23858a471e3ad5e9e57ea711a912cb">QuitMsgLoop</a> (int exitCode=0)</td></tr>
-<tr class="memdesc:a6c23858a471e3ad5e9e57ea711a912cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">退出当前消息循环  <br /></td></tr>
+<tr class="memdesc:a6c23858a471e3ad5e9e57ea711a912cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">退出当前线程的消息循环  <br /></td></tr>
 <tr class="separator:a6c23858a471e3ad5e9e57ea711a912cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
@@ -129,14 +129,12 @@ static const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyPrope
 static const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>CurrentDirectory</b></td></tr>
 <tr class="memdesc:a6d37ddbf6c419a02182c325a1dce5575"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前工作路径 <br /></td></tr>
 <tr class="separator:a6d37ddbf6c419a02182c325a1dce5575"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d6cfc05e0a24835e3143c777301059f" id="r_a0d6cfc05e0a24835e3143c777301059f"><td class="memItemLeft" align="right" valign="top"><a id="a0d6cfc05e0a24835e3143c777301059f" name="a0d6cfc05e0a24835e3143c777301059f"></a>
-static const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; AppQuitMode &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>QuitMode</b></td></tr>
-<tr class="memdesc:a0d6cfc05e0a24835e3143c777301059f"><td class="mdescLeft">&#160;</td><td class="mdescRight">程序退出消息循环的方式 <br /></td></tr>
+<tr class="memitem:a0d6cfc05e0a24835e3143c777301059f" id="r_a0d6cfc05e0a24835e3143c777301059f"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; AppQuitMode &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1App.html#a0d6cfc05e0a24835e3143c777301059f">QuitMode</a></td></tr>
+<tr class="memdesc:a0d6cfc05e0a24835e3143c777301059f"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前线程退出消息循环的方式  <br /></td></tr>
 <tr class="separator:a0d6cfc05e0a24835e3143c777301059f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6b48c757695289913ede31c8d44243f" id="r_ad6b48c757695289913ede31c8d44243f"><td class="memItemLeft" align="right" valign="top"><a id="ad6b48c757695289913ede31c8d44243f" name="ad6b48c757695289913ede31c8d44243f"></a>
-static <a class="el" href="classsw_1_1Delegate.html">Action</a>&lt; MSG &amp; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>NullHwndMsgHandler</b></td></tr>
-<tr class="memdesc:ad6b48c757695289913ede31c8d44243f"><td class="mdescLeft">&#160;</td><td class="mdescRight">消息循环中处理空句柄消息的回调函数 <br /></td></tr>
-<tr class="separator:ad6b48c757695289913ede31c8d44243f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8c826a9560887b6ca248481b3d3d5ad" id="r_ad8c826a9560887b6ca248481b3d3d5ad"><td class="memItemLeft" align="right" valign="top">static thread_local <a class="el" href="classsw_1_1Delegate.html">Action</a>&lt; MSG &amp; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1App.html#ad8c826a9560887b6ca248481b3d3d5ad">NullHwndMsgHandler</a></td></tr>
+<tr class="memdesc:ad8c826a9560887b6ca248481b3d3d5ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前线程消息循环中处理空句柄消息的回调函数  <br /></td></tr>
+<tr class="separator:ad8c826a9560887b6ca248481b3d3d5ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>App类 </p>
@@ -193,13 +191,64 @@ static <a class="el" href="classsw_1_1Delegate.html">Action</a>&lt; MSG &amp; &g
 </table>
 </div><div class="memdoc">
 
-<p>退出当前消息循环 </p>
+<p>退出当前线程的消息循环 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">exitCode</td><td>退出代码 </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ad8c826a9560887b6ca248481b3d3d5ad" name="ad8c826a9560887b6ca248481b3d3d5ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8c826a9560887b6ca248481b3d3d5ad">&#9670;&#160;</a></span>NullHwndMsgHandler</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">thread_local <a class="el" href="classsw_1_1Delegate.html">Action</a>&lt;MSG &amp;&gt; sw::App::NullHwndMsgHandler</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前线程消息循环中处理空句柄消息的回调函数 </p>
+<dl class="section note"><dt>注解</dt><dd>该委托是线程局部的，每个线程有各自独立的值 </dd></dl>
+
+</div>
+</div>
+<a id="a0d6cfc05e0a24835e3143c777301059f" name="a0d6cfc05e0a24835e3143c777301059f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d6cfc05e0a24835e3143c777301059f">&#9670;&#160;</a></span>QuitMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsw_1_1Property.html">Property</a>&lt;AppQuitMode&gt; sw::App::QuitMode</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前线程退出消息循环的方式 </p>
+<dl class="section note"><dt>注解</dt><dd>该属性是线程局部的，每个线程有各自独立的值 </dd></dl>
 
 </div>
 </div>

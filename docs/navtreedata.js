@@ -51,8 +51,8 @@ var NAVTREEINDEX =
 "classsw_1_1ImageList.html#a65d9d17f68f44ab3c23531c7e9fe8d4b",
 "classsw_1_1MonthCalendar.html#ab3bffd732b17df29f95a9341473e9717",
 "classsw_1_1TextBoxBase.html#a91bad54640a2bdd486232d3836611608",
-"classsw_1_1WndBase.html#a54aa973b24b4bc4b681ac2c21a50d204",
-"structsw_1_1GridRow.html#a2691d3372a7aab997487e9fa3c115914"
+"classsw_1_1WndBase.html#a529436cd730fc39ad2875728cdfe4a51",
+"structsw_1_1GridLayoutTag.html#af8d1c932b43a046cc10b4a2a6d97dc29"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';
