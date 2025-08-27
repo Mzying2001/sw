@@ -23,7 +23,7 @@ var searchData=
   ['replaceicon_20',['ReplaceIcon',['../classsw_1_1ImageList.html#a3ed6264ffa967f24bdaf547cd8b2129d',1,'sw::ImageList']]],
   ['requestbringintoview_21',['requestbringintoview',['../classsw_1_1Layer.html#a4d935eb61b4ec814264e24f2bb820789',1,'sw::Layer::RequestBringIntoView()'],['../classsw_1_1PanelBase.html#a0267c958f323ec15f3cd01a79cc41727',1,'sw::PanelBase::RequestBringIntoView()'],['../classsw_1_1UIElement.html#ac5ca4318678de46f4f265f2f98701c1e',1,'sw::UIElement::RequestBringIntoView(const sw::Rect &amp;screenRect)']]],
   ['resetcursor_22',['ResetCursor',['../classsw_1_1UIElement.html#a421400e98ae700b0593cda2ceec5c1f7',1,'sw::UIElement']]],
-  ['resethandle_23',['resethandle',['../classsw_1_1Control.html#a28d0732184b1631d1c3b2f84dec4c6e6',1,'sw::Control::ResetHandle(LPVOID lpParam=NULL)'],['../classsw_1_1Control.html#a04520bfdfd153b04fce7d65f937ff2b8',1,'sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam=NULL)']]],
+  ['resethandle_23',['resethandle',['../classsw_1_1Control.html#af8efb61076cb72a2ea7b494edc11b7d2',1,'sw::Control::ResetHandle(LPVOID lpParam=NULL)'],['../classsw_1_1Control.html#a2524492bce622089e2052d6d7872f9bf',1,'sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam=NULL)']]],
   ['resize_24',['Resize',['../classsw_1_1UIElement.html#aa6442acf30572cc5708fad45d227d130',1,'sw::UIElement']]],
   ['routedeventargs_25',['RoutedEventArgs',['../structsw_1_1RoutedEventArgs.html#ad6e6da62f114abfabb682afd38b6f7a3',1,'sw::RoutedEventArgs']]],
   ['routedeventhandlerwrapper_26',['RoutedEventHandlerWrapper',['../classsw_1_1RoutedEventHandlerWrapper.html#a3e26d5a474255c2ef16652e565941a24',1,'sw::RoutedEventHandlerWrapper']]]
