@@ -115,7 +115,7 @@ namespace sw
         /**
          * @brief 获取Tag
          */
-        virtual uint64_t GetTag() override;
+        virtual uint64_t GetTag() const override;
 
         /**
          * @brief 设置Tag

@@ -631,7 +631,7 @@ bool sw::UIElement::BringIntoView()
     return false;
 }
 
-uint64_t sw::UIElement::GetTag()
+uint64_t sw::UIElement::GetTag() const
 {
     return this->_tag;
 }
