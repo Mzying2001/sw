@@ -20,7 +20,7 @@ namespace
     /**
      * @brief 控件初始化时所在的窗口
      */
-    struct : sw::WndBase{} *_controlInitContainer = nullptr;
+    thread_local struct : sw::WndBase{} *_controlInitContainer = nullptr;
 
     /**
      * @brief 控件id计数器
@@ -1237,6 +1237,7 @@ void sw::WndBase::_InitControlContainer()
 
 sw::WndBase *sw::WndBase::_GetControlInitContainer()
 {
+    _InitControlContainer();
     return _controlInitContainer;
 }
 
