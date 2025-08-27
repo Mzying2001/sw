@@ -1566,9 +1566,10 @@ namespace sw
         static Font GetFont(HFONT hFont);
 
         /**
-         * @brief        获取默认字体，可修改返回的引用来更改控件的默认字体，当首次调用或参数update为true时会获取系统默认字体（已创建的控件字体不会因此改变）
+         * @brief        获取默认字体，线程中首次调用或参数update为true时会获取系统默认字体
          * @param update 是否重新获取
-         * @return       返回默认字体
+         * @return       当前线程控件的默认字体
+         * @note         可修改返回的引用来更改默认字体（已创建的控件字体不会因此改变）
          */
         static Font &GetDefaultFont(bool update = false);
     };
@@ -4670,10 +4671,10 @@ namespace sw
 namespace sw
 {
     /**
-     * @brief 程序退出消息循环的方式
+     * @brief 线程退出消息循环的方式
      */
     enum class AppQuitMode {
-        Auto,   // 当所有窗口都销毁时自动退出消息循环
+        Auto,   // 线程中所有窗口都销毁时自动退出消息循环
         Manual, // 需手动调用QuitMsgLoop以退出消息循环
     };
 
@@ -4707,14 +4708,16 @@ namespace sw
         static const Property<std::wstring> CurrentDirectory;
 
         /**
-         * @brief 程序退出消息循环的方式
+         * @brief 当前线程退出消息循环的方式
+         * @note  该属性是线程局部的，每个线程有各自独立的值
          */
         static const Property<AppQuitMode> QuitMode;
 
         /**
-         * @brief 消息循环中处理空句柄消息的回调函数
+         * @brief 当前线程消息循环中处理空句柄消息的回调函数
+         * @note  该委托是线程局部的，每个线程有各自独立的值
          */
-        static Action<MSG &> NullHwndMsgHandler;
+        static thread_local Action<MSG &> NullHwndMsgHandler;
 
         /**
          * @brief  消息循环
@@ -4723,7 +4726,7 @@ namespace sw
         static int MsgLoop();
 
         /**
-         * @brief          退出当前消息循环
+         * @brief          退出当前线程的消息循环
          * @param exitCode 退出代码
          */
         static void QuitMsgLoop(int exitCode = 0);
@@ -7342,6 +7345,21 @@ namespace sw
          */
         void InvokeAsync(const SimpleAction &action);
 
+        /**
+         * @brief 获取当前窗口所属线程的线程id
+         */
+        DWORD GetThreadId() const;
+
+        /**
+         * @brief 判断当前线程是否为窗口所属线程
+         */
+        bool CheckAccess() const;
+
+        /**
+         * @brief 判断当前对象所属线程是否与另一个WndBase对象所属线程相同
+         */
+        bool CheckAccess(const WndBase &other) const;
+
     private:
         /**
          * @brief 窗口过程函数，调用对象的WndProc
@@ -8888,25 +8906,29 @@ namespace sw
 
         /**
          * @brief  添加子元素
-         * @return 添加是否成功
+         * @return 若函数成功则返回true，否则返回false
+         * @note   添加的子元素必须与当前元素在同一线程创建
          */
         bool AddChild(UIElement *element);
 
         /**
          * @brief  添加子元素
-         * @return 添加是否成功
+         * @return 若函数成功则返回true，否则返回false
+         * @note   添加的子元素必须与当前元素在同一线程创建
          */
         bool AddChild(UIElement &element);
 
         /**
          * @brief  添加子元素并设置布局标记
-         * @return 添加是否成功
+         * @return 若函数成功则返回true，否则返回false
+         * @note   添加的子元素必须与当前元素在同一线程创建
          */
         bool AddChild(UIElement *element, uint64_t layoutTag);
 
         /**
          * @brief  添加子元素并设置布局标记
-         * @return 添加是否成功
+         * @return 若函数成功则返回true，否则返回false
+         * @note   添加的子元素必须与当前元素在同一线程创建
          */
         bool AddChild(UIElement &element, uint64_t layoutTag);
 
@@ -11405,14 +11427,20 @@ namespace sw
          */
         int _dialogResult = 0;
 
+        /**
+         * @brief 窗口是否正在销毁
+         */
+        bool _isDestroying = false;
+
     public:
         /**
-         * @brief 程序的当前活动窗体
+         * @brief 当前线程的活动窗口
          */
         static const ReadOnlyProperty<Window *> ActiveWindow;
 
         /**
-         * @brief 当前已创建的窗口数
+         * @brief 当前线程已创建的窗口数
+         * @note  该属性是线程局部的，每个线程有各自独立的值
          */
         static const ReadOnlyProperty<int> WindowCount;
 
@@ -11585,7 +11613,7 @@ namespace sw
          * @brief       将窗口显示为模式对话框
          * @param owner 窗体的所有者，若为nullptr则使用当前活动窗口
          * @return      DialogResult属性的值，若函数失败则返回-1
-         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出
+         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出，只能在创建窗口的线程调用
          */
         virtual int ShowDialog(Window *owner = nullptr) override;
 
@@ -11593,7 +11621,7 @@ namespace sw
          * @brief       将窗口显示为模式对话框
          * @param owner 窗体的所有者，窗体显示期间该窗体的Enabled属性将被设为false，该参数不能设为自己
          * @return      DialogResult属性的值，若函数失败则返回-1
-         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出
+         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出，只能在创建窗口的线程调用
          */
         virtual int ShowDialog(Window &owner);
 
