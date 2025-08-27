@@ -746,12 +746,12 @@ namespace sw
         /**
          * @brief 判断当前对象在界面中是否可视，与Visible属性不同的是该函数返回值会受父窗口的影响
          */
-        bool IsVisible();
+        bool IsVisible() const;
 
         /**
          * @brief 获取窗口样式
          */
-        DWORD GetStyle();
+        DWORD GetStyle() const;
 
         /**
          * @brief 设置窗口样式
@@ -762,7 +762,7 @@ namespace sw
          * @brief      判断窗口是否设有指定样式
          * @param mask 样式的位掩码，可以是多个样式
          */
-        bool GetStyle(DWORD mask);
+        bool GetStyle(DWORD mask) const;
 
         /**
          * @brief       打开或关闭指定的样式
@@ -774,7 +774,7 @@ namespace sw
         /**
          * @brief 获取扩展窗口样式
          */
-        DWORD GetExtendedStyle();
+        DWORD GetExtendedStyle() const;
 
         /**
          * @brief 设置扩展窗口样式
@@ -799,14 +799,14 @@ namespace sw
          * @param point 用户区坐标
          * @return      该点在屏幕上的坐标
          */
-        Point PointToScreen(const Point &point);
+        Point PointToScreen(const Point &point) const;
 
         /**
          * @brief             获取屏幕上点在当前用户区点的位置
          * @param screenPoint 屏幕上点的坐标
          * @return            该点在用户区的坐标
          */
-        Point PointFromScreen(const Point &screenPoint);
+        Point PointFromScreen(const Point &screenPoint) const;
 
         /**
          * @brief 发送消息（ASCII）
