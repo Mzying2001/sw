@@ -631,7 +631,7 @@ bool sw::UIElement::BringIntoView()
     return false;
 }
 
-uint64_t sw::UIElement::GetTag()
+uint64_t sw::UIElement::GetTag() const
 {
     return this->_tag;
 }
@@ -641,12 +641,12 @@ void sw::UIElement::SetTag(uint64_t tag)
     this->_tag = tag;
 }
 
-uint64_t sw::UIElement::GetLayoutTag()
+uint64_t sw::UIElement::GetLayoutTag() const
 {
     return this->_layoutTag;
 }
 
-int sw::UIElement::GetChildLayoutCount()
+int sw::UIElement::GetChildLayoutCount() const
 {
     return (int)this->_layoutVisibleChildren.size();
 }
@@ -656,7 +656,7 @@ sw::ILayout &sw::UIElement::GetChildLayoutAt(int index)
     return *this->_layoutVisibleChildren[index];
 }
 
-sw::Size sw::UIElement::GetDesireSize()
+sw::Size sw::UIElement::GetDesireSize() const
 {
     return this->_desireSize;
 }

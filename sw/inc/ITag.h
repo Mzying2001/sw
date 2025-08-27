@@ -19,7 +19,7 @@ namespace sw
         /**
          * @brief 获取Tag
          */
-        virtual uint64_t GetTag() = 0;
+        virtual uint64_t GetTag() const = 0;
 
         /**
          * @brief 设置Tag
