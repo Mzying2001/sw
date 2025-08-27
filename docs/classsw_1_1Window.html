@@ -554,6 +554,18 @@ BOOL&#160;</td><td class="memItemRight" valign="bottom"><b>PostMessageW</b> (UIN
 <tr class="memitem:a98fc26366fd25748226d0d01f7ed9411 inherit pub_methods_classsw_1_1WndBase" id="r_a98fc26366fd25748226d0d01f7ed9411"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a98fc26366fd25748226d0d01f7ed9411">InvokeAsync</a> (const <a class="el" href="classsw_1_1Delegate.html">SimpleAction</a> &amp;action)</td></tr>
 <tr class="memdesc:a98fc26366fd25748226d0d01f7ed9411 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">在窗口线程上执行指定委托，并立即返回  <br /></td></tr>
 <tr class="separator:a98fc26366fd25748226d0d01f7ed9411 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9277205508916d62cdffb2d861b94ed4 inherit pub_methods_classsw_1_1WndBase" id="r_a9277205508916d62cdffb2d861b94ed4"><td class="memItemLeft" align="right" valign="top">
+DWORD&#160;</td><td class="memItemRight" valign="bottom"><b>GetThreadId</b> () const</td></tr>
+<tr class="memdesc:a9277205508916d62cdffb2d861b94ed4 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前窗口所属线程的线程id <br /></td></tr>
+<tr class="separator:a9277205508916d62cdffb2d861b94ed4 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a381097fff7da9c84e6052889607cec32 inherit pub_methods_classsw_1_1WndBase" id="r_a381097fff7da9c84e6052889607cec32"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>CheckAccess</b> () const</td></tr>
+<tr class="memdesc:a381097fff7da9c84e6052889607cec32 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前线程是否为窗口所属线程 <br /></td></tr>
+<tr class="separator:a381097fff7da9c84e6052889607cec32 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b409a458c45a42afda42e8f0a856be4 inherit pub_methods_classsw_1_1WndBase" id="r_a0b409a458c45a42afda42e8f0a856be4"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>CheckAccess</b> (const <a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp;other) const</td></tr>
+<tr class="memdesc:a0b409a458c45a42afda42e8f0a856be4 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象所属线程是否与另一个WndBase对象所属线程相同 <br /></td></tr>
+<tr class="separator:a0b409a458c45a42afda42e8f0a856be4 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classsw_1_1ILayout"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1ILayout')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1ILayout.html">sw::ILayout</a></td></tr>
 <tr class="memitem:a42941ab943edee8c07a7b1da6c7ea226 inherit pub_methods_classsw_1_1ILayout" id="r_a42941ab943edee8c07a7b1da6c7ea226"><td class="memItemLeft" align="right" valign="top">
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ILayout</b> ()=default</td></tr>
@@ -844,11 +856,10 @@ const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>
 静态 Public 属性</h2></td></tr>
 <tr class="memitem:a53a830719caa870a49934419c6b231a3" id="r_a53a830719caa870a49934419c6b231a3"><td class="memItemLeft" align="right" valign="top"><a id="a53a830719caa870a49934419c6b231a3" name="a53a830719caa870a49934419c6b231a3"></a>
 static const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1Window.html">Window</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ActiveWindow</b></td></tr>
-<tr class="memdesc:a53a830719caa870a49934419c6b231a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">程序的当前活动窗体 <br /></td></tr>
+<tr class="memdesc:a53a830719caa870a49934419c6b231a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前线程的活动窗口 <br /></td></tr>
 <tr class="separator:a53a830719caa870a49934419c6b231a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a317c7f1dea4dd3f29d5d7c865563c310" id="r_a317c7f1dea4dd3f29d5d7c865563c310"><td class="memItemLeft" align="right" valign="top"><a id="a317c7f1dea4dd3f29d5d7c865563c310" name="a317c7f1dea4dd3f29d5d7c865563c310"></a>
-static const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>WindowCount</b></td></tr>
-<tr class="memdesc:a317c7f1dea4dd3f29d5d7c865563c310"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前已创建的窗口数 <br /></td></tr>
+<tr class="memitem:a317c7f1dea4dd3f29d5d7c865563c310" id="r_a317c7f1dea4dd3f29d5d7c865563c310"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#a317c7f1dea4dd3f29d5d7c865563c310">WindowCount</a></td></tr>
+<tr class="memdesc:a317c7f1dea4dd3f29d5d7c865563c310"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前线程已创建的窗口数  <br /></td></tr>
 <tr class="separator:a317c7f1dea4dd3f29d5d7c865563c310"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
@@ -1570,7 +1581,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>DialogResult属性的值，若函数失败则返回-1 </dd></dl>
-<dl class="section note"><dt>注解</dt><dd>该函数会创建一个新的消息循环并在窗口销毁时退出 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>该函数会创建一个新的消息循环并在窗口销毁时退出，只能在创建窗口的线程调用 </dd></dl>
 
 </div>
 </div>
@@ -1606,7 +1617,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>DialogResult属性的值，若函数失败则返回-1 </dd></dl>
-<dl class="section note"><dt>注解</dt><dd>该函数会创建一个新的消息循环并在窗口销毁时退出 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>该函数会创建一个新的消息循环并在窗口销毁时退出，只能在创建窗口的线程调用 </dd></dl>
 
 <p>实现了 <a class="el" href="classsw_1_1IDialog.html#a12c4076ef928410b8fc605612e763261">sw::IDialog</a>.</p>
 
@@ -1704,6 +1715,31 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b
 
 <p>窗口的透明度，范围为0.0~1.0 </p>
 <dl class="section note"><dt>注解</dt><dd>只有将IsLayered设为true该属性才生效，初始值为0.0但需手动设置新值后才会生效 </dd></dl>
+
+</div>
+</div>
+<a id="a317c7f1dea4dd3f29d5d7c865563c310" name="a317c7f1dea4dd3f29d5d7c865563c310"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a317c7f1dea4dd3f29d5d7c865563c310">&#9670;&#160;</a></span>WindowCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt;int&gt; sw::Window::WindowCount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前线程已创建的窗口数 </p>
+<dl class="section note"><dt>注解</dt><dd>该属性是线程局部的，每个线程有各自独立的值 </dd></dl>
 
 </div>
 </div>

@@ -42,13 +42,13 @@ var searchData=
   ['replaceicon_39',['ReplaceIcon',['../classsw_1_1ImageList.html#a3ed6264ffa967f24bdaf547cd8b2129d',1,'sw::ImageList']]],
   ['requestbringintoview_40',['requestbringintoview',['../classsw_1_1Layer.html#a4d935eb61b4ec814264e24f2bb820789',1,'sw::Layer::RequestBringIntoView()'],['../classsw_1_1PanelBase.html#a0267c958f323ec15f3cd01a79cc41727',1,'sw::PanelBase::RequestBringIntoView()'],['../classsw_1_1UIElement.html#ac5ca4318678de46f4f265f2f98701c1e',1,'sw::UIElement::RequestBringIntoView(const sw::Rect &amp;screenRect)']]],
   ['resetcursor_41',['ResetCursor',['../classsw_1_1UIElement.html#a421400e98ae700b0593cda2ceec5c1f7',1,'sw::UIElement']]],
-  ['resethandle_42',['resethandle',['../classsw_1_1Control.html#a28d0732184b1631d1c3b2f84dec4c6e6',1,'sw::Control::ResetHandle(LPVOID lpParam=NULL)'],['../classsw_1_1Control.html#a04520bfdfd153b04fce7d65f937ff2b8',1,'sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam=NULL)']]],
+  ['resethandle_42',['resethandle',['../classsw_1_1Control.html#af8efb61076cb72a2ea7b494edc11b7d2',1,'sw::Control::ResetHandle(LPVOID lpParam=NULL)'],['../classsw_1_1Control.html#a2524492bce622089e2052d6d7872f9bf',1,'sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam=NULL)']]],
   ['resize_43',['Resize',['../classsw_1_1UIElement.html#aa6442acf30572cc5708fad45d227d130',1,'sw::UIElement']]],
   ['result_44',['result',['../structsw_1_1MsgBoxResultHelper.html#a5fc47647c81c0a11be8113559250de14',1,'sw::MsgBoxResultHelper']]],
   ['right_45',['right',['../structsw_1_1Thickness.html#a0efb5b20b89f2d86885a447b36926bd5',1,'sw::Thickness']]],
   ['routedeventargs_46',['routedeventargs',['../structsw_1_1RoutedEventArgs.html',1,'sw::RoutedEventArgs'],['../structsw_1_1RoutedEventArgs.html#ad6e6da62f114abfabb682afd38b6f7a3',1,'sw::RoutedEventArgs::RoutedEventArgs()']]],
   ['routedeventhandlerwrapper_47',['routedeventhandlerwrapper',['../classsw_1_1RoutedEventHandlerWrapper.html',1,'sw::RoutedEventHandlerWrapper&lt; TEventArgs, type &gt;'],['../classsw_1_1RoutedEventHandlerWrapper.html#a3e26d5a474255c2ef16652e565941a24',1,'sw::RoutedEventHandlerWrapper::RoutedEventHandlerWrapper()']]],
   ['row_48',['row',['../structsw_1_1GridLayoutTag.html#a8411afa319d4ad7cf2d95edd5aa3434c',1,'sw::GridLayoutTag']]],
-  ['rows_49',['rows',['../classsw_1_1GridLayout.html#a5ac3f18d6079d89b414a9f0a342670ea',1,'sw::GridLayout::rows'],['../classsw_1_1UniformGridLayout.html#a2cde92e2a61f62efb85761f11c221390',1,'sw::UniformGridLayout::rows'],['../classsw_1_1UniformGrid.html#a65a180db32f61dee181c0ae7e36364a6',1,'sw::UniformGrid::Rows']]],
+  ['rows_49',['rows',['../classsw_1_1UniformGrid.html#a65a180db32f61dee181c0ae7e36364a6',1,'sw::UniformGrid::Rows'],['../classsw_1_1GridLayout.html#a5ac3f18d6079d89b414a9f0a342670ea',1,'sw::GridLayout::rows'],['../classsw_1_1UniformGridLayout.html#a2cde92e2a61f62efb85761f11c221390',1,'sw::UniformGridLayout::rows']]],
   ['rowspan_50',['rowSpan',['../structsw_1_1GridLayoutTag.html#a5caf39bc6aa93afd290f09ee15f2c722',1,'sw::GridLayoutTag']]]
 ];

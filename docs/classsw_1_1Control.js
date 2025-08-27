@@ -13,8 +13,8 @@ var classsw_1_1Control =
     [ "OnPreErase", "classsw_1_1Control.html#aaa51513c4ea585f5d70b4d597eb2984b", null ],
     [ "OnPrePaint", "classsw_1_1Control.html#ae986d0e20a48c2d39f89032d257f0737", null ],
     [ "OnTabStop", "classsw_1_1Control.html#af631c5302a637b35a2a7de01214cf4fa", null ],
-    [ "ResetHandle", "classsw_1_1Control.html#a04520bfdfd153b04fce7d65f937ff2b8", null ],
-    [ "ResetHandle", "classsw_1_1Control.html#a28d0732184b1631d1c3b2f84dec4c6e6", null ],
+    [ "ResetHandle", "classsw_1_1Control.html#a2524492bce622089e2052d6d7872f9bf", null ],
+    [ "ResetHandle", "classsw_1_1Control.html#af8efb61076cb72a2ea7b494edc11b7d2", null ],
     [ "ToControl", "classsw_1_1Control.html#ab9213f0b57eec7e79e57570b64d493c6", null ],
     [ "ControlId", "classsw_1_1Control.html#aa5875535fe04ce79df6fb8719b64c0dc", null ],
     [ "IsInHierarchy", "classsw_1_1Control.html#a703a0794e6d8aeb786b1f53c9e987e83", null ]

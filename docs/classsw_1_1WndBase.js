@@ -2,6 +2,8 @@ var classsw_1_1WndBase =
 [
     [ "WndBase", "classsw_1_1WndBase.html#aab509b68c9c0b612862cf41d8ef685a3", null ],
     [ "~WndBase", "classsw_1_1WndBase.html#a6c99714fa3f313e7535936585f63b9cb", null ],
+    [ "CheckAccess", "classsw_1_1WndBase.html#a381097fff7da9c84e6052889607cec32", null ],
+    [ "CheckAccess", "classsw_1_1WndBase.html#a0b409a458c45a42afda42e8f0a856be4", null ],
     [ "Close", "classsw_1_1WndBase.html#a436818f8ad91446f86b42081dd1a7358", null ],
     [ "DefaultWndProc", "classsw_1_1WndBase.html#a585967d861673ea0477f25c1a5c0fb30", null ],
     [ "FontChanged", "classsw_1_1WndBase.html#ac34494921eed0f67a053a9393d78bcf9", null ],
@@ -11,6 +13,7 @@ var classsw_1_1WndBase =
     [ "GetInternalText", "classsw_1_1WndBase.html#a670d453b91ad91d9dcd642a495df6ec2", null ],
     [ "GetStyle", "classsw_1_1WndBase.html#a975bcf1d7c27e7d482aa18f7faaf23d0", null ],
     [ "GetStyle", "classsw_1_1WndBase.html#ae545de230ba94e3263f3197e98308079", null ],
+    [ "GetThreadId", "classsw_1_1WndBase.html#a9277205508916d62cdffb2d861b94ed4", null ],
     [ "HandleInitialized", "classsw_1_1WndBase.html#a4b368860fef40406c091880fc72f9cbb", null ],
     [ "InitControl", "classsw_1_1WndBase.html#aecb12507b6a8137427841d3bc4181fc6", null ],
     [ "InitWindow", "classsw_1_1WndBase.html#a4889c45dfad820c103dd7f74f2cd0661", null ],

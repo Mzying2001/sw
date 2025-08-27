@@ -137,7 +137,7 @@ static <a class="el" href="classsw_1_1Font.html">Font</a>&#160;</td><td class="m
 <tr class="memdesc:a186de58a843c2c87777e04b84623be81"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过HFONT获取字体信息 <br /></td></tr>
 <tr class="separator:a186de58a843c2c87777e04b84623be81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3868ad33ae605352723ab3ef0b4a728" id="r_ac3868ad33ae605352723ab3ef0b4a728"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsw_1_1Font.html">Font</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Font.html#ac3868ad33ae605352723ab3ef0b4a728">GetDefaultFont</a> (bool update=false)</td></tr>
-<tr class="memdesc:ac3868ad33ae605352723ab3ef0b4a728"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取默认字体，可修改返回的引用来更改控件的默认字体，当首次调用或参数update为true时会获取系统默认字体（已创建的控件字体不会因此改变）  <br /></td></tr>
+<tr class="memdesc:ac3868ad33ae605352723ab3ef0b4a728"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取默认字体，线程中首次调用或参数update为true时会获取系统默认字体  <br /></td></tr>
 <tr class="separator:ac3868ad33ae605352723ab3ef0b4a728"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -225,14 +225,15 @@ FontFamily&#160;</td><td class="memItemRight" valign="bottom"><b>family</b> = Fo
 </table>
 </div><div class="memdoc">
 
-<p>获取默认字体，可修改返回的引用来更改控件的默认字体，当首次调用或参数update为true时会获取系统默认字体（已创建的控件字体不会因此改变） </p>
+<p>获取默认字体，线程中首次调用或参数update为true时会获取系统默认字体 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">update</td><td>是否重新获取 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>返回默认字体 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>当前线程控件的默认字体 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>可修改返回的引用来更改默认字体（已创建的控件字体不会因此改变） </dd></dl>
 
 </div>
 </div>
