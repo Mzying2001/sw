@@ -287,6 +287,10 @@ bool sw::UIElement::AddChild(UIElement *element)
         return false;
     }
 
+    if (!this->CheckAccess(*element)) {
+        return false; // 父子元素必须在同一线程创建
+    }
+
     if (std::find(this->_children.begin(), this->_children.end(), element) != this->_children.end()) {
         return false;
     }

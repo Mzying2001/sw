@@ -634,25 +634,29 @@ namespace sw
 
         /**
          * @brief  添加子元素
-         * @return 添加是否成功
+         * @return 若函数成功则返回true，否则返回false
+         * @note   添加的子元素必须与当前元素在同一线程创建
          */
         bool AddChild(UIElement *element);
 
         /**
          * @brief  添加子元素
-         * @return 添加是否成功
+         * @return 若函数成功则返回true，否则返回false
+         * @note   添加的子元素必须与当前元素在同一线程创建
          */
         bool AddChild(UIElement &element);
 
         /**
          * @brief  添加子元素并设置布局标记
-         * @return 添加是否成功
+         * @return 若函数成功则返回true，否则返回false
+         * @note   添加的子元素必须与当前元素在同一线程创建
          */
         bool AddChild(UIElement *element, uint64_t layoutTag);
 
         /**
          * @brief  添加子元素并设置布局标记
-         * @return 添加是否成功
+         * @return 若函数成功则返回true，否则返回false
+         * @note   添加的子元素必须与当前元素在同一线程创建
          */
         bool AddChild(UIElement &element, uint64_t layoutTag);
 

@@ -86,12 +86,13 @@ namespace sw
 
     public:
         /**
-         * @brief 程序的当前活动窗体
+         * @brief 当前线程的活动窗口
          */
         static const ReadOnlyProperty<Window *> ActiveWindow;
 
         /**
-         * @brief 当前已创建的窗口数
+         * @brief 当前线程已创建的窗口数
+         * @note  该属性是线程局部的，每个线程有各自独立的值
          */
         static const ReadOnlyProperty<int> WindowCount;
 
@@ -264,7 +265,7 @@ namespace sw
          * @brief       将窗口显示为模式对话框
          * @param owner 窗体的所有者，若为nullptr则使用当前活动窗口
          * @return      DialogResult属性的值，若函数失败则返回-1
-         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出
+         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出，只能在创建窗口的线程调用
          */
         virtual int ShowDialog(Window *owner = nullptr) override;
 
@@ -272,7 +273,7 @@ namespace sw
          * @brief       将窗口显示为模式对话框
          * @param owner 窗体的所有者，窗体显示期间该窗体的Enabled属性将被设为false，该参数不能设为自己
          * @return      DialogResult属性的值，若函数失败则返回-1
-         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出
+         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出，只能在创建窗口的线程调用
          */
         virtual int ShowDialog(Window &owner);
 
