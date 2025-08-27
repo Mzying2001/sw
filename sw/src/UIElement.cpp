@@ -283,7 +283,7 @@ sw::UIElement &sw::UIElement::GetChildAt(int index) const
 
 bool sw::UIElement::AddChild(UIElement *element)
 {
-    if (element == nullptr) {
+    if (element == nullptr || element == this) {
         return false;
     }
 
