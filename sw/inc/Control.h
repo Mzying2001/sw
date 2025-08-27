@@ -55,7 +55,7 @@ namespace sw
          * @brief         销毁控件句柄并重新初始化，该操作会创建新的句柄并设置样式、文本、字体等
          * @param lpParam 创建控件句柄时传给CreateWindowExW的参数
          */
-        void ResetHandle(LPVOID lpParam = NULL);
+        bool ResetHandle(LPVOID lpParam = NULL);
 
         /**
          * @brief         销毁控件句柄并重新初始化，并修改样式，该操作会创建新的句柄并设置样式、文本、字体等
@@ -63,7 +63,7 @@ namespace sw
          * @param exStyle 新的扩展样式
          * @param lpParam 创建控件句柄时传给CreateWindowExW的参数
          */
-        void ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam = NULL);
+        bool ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam = NULL);
 
     protected:
         /**
