@@ -1,4 +1,5 @@
 #include "WndBase.h"
+#include <atomic>
 
 namespace
 {
@@ -25,7 +26,7 @@ namespace
     /**
      * @brief 控件id计数器
      */
-    int _controlIdCounter = 1073741827;
+    std::atomic<int> _controlIdCounter = 1073741827;
 }
 
 sw::WndBase::WndBase()
@@ -1243,7 +1244,7 @@ sw::WndBase *sw::WndBase::_GetControlInitContainer()
 
 int sw::WndBase::_NextControlId()
 {
-    return _controlIdCounter++;
+    return _controlIdCounter.fetch_add(1);
 }
 
 void sw::WndBase::_SetWndBase(HWND hwnd, WndBase &wnd)
