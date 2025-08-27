@@ -9654,16 +9654,20 @@ namespace sw
         /**
          * @brief         销毁控件句柄并重新初始化，该操作会创建新的句柄并设置样式、文本、字体等
          * @param lpParam 创建控件句柄时传给CreateWindowExW的参数
+         * @return        若函数成功则返回true，否则返回false
+         * @note          该函数只能在创建控件的线程调用
          */
-        void ResetHandle(LPVOID lpParam = NULL);
+        bool ResetHandle(LPVOID lpParam = NULL);
 
         /**
          * @brief         销毁控件句柄并重新初始化，并修改样式，该操作会创建新的句柄并设置样式、文本、字体等
          * @param style   新的样式
          * @param exStyle 新的扩展样式
          * @param lpParam 创建控件句柄时传给CreateWindowExW的参数
+         * @return        若函数成功则返回true，否则返回false
+         * @note          该函数只能在创建控件的线程调用
          */
-        void ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam = NULL);
+        bool ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam = NULL);
 
     protected:
         /**
