@@ -481,7 +481,7 @@ void sw::UIElement::MoveToBottom()
     parent->InvalidateMeasure();
 }
 
-bool sw::UIElement::IsRootElement()
+bool sw::UIElement::IsRootElement() const
 {
     return this->_parent == nullptr;
 }
@@ -527,18 +527,18 @@ sw::UIElement *sw::UIElement::GetPreviousTabStopElement()
     return element;
 }
 
-sw::Color sw::UIElement::GetRealBackColor()
+sw::Color sw::UIElement::GetRealBackColor() const
 {
-    UIElement *p = this;
+    auto *p = this;
     while (p->_transparent && p->_parent != nullptr) {
         p = p->_parent;
     }
     return p->_backColor;
 }
 
-sw::Color sw::UIElement::GetRealTextColor()
+sw::Color sw::UIElement::GetRealTextColor() const
 {
-    UIElement *p = this;
+    auto *p = this;
     while (p->_inheritTextColor && p->_parent != nullptr) {
         p = p->_parent;
     }
@@ -899,7 +899,7 @@ void sw::UIElement::SetPreviousTabStopFocus()
     if (previous && previous != this) previous->OnTabStop();
 }
 
-void sw::UIElement::ClampDesireSize(sw::Size &size)
+void sw::UIElement::ClampDesireSize(sw::Size &size) const
 {
     if (this->_minSize.width > 0) {
         size.width = Utils::Max(size.width, this->_minSize.width);
@@ -915,7 +915,7 @@ void sw::UIElement::ClampDesireSize(sw::Size &size)
     }
 }
 
-void sw::UIElement::ClampDesireSize(sw::Rect &rect)
+void sw::UIElement::ClampDesireSize(sw::Rect &rect) const
 {
     auto size = rect.GetSize();
     this->ClampDesireSize(size);

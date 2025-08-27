@@ -713,7 +713,7 @@ namespace sw
         /**
          * @brief 判断当前元素是否为根节点
          */
-        bool IsRootElement();
+        bool IsRootElement() const;
 
         /**
          * @brief 获取当前元素所在界面树的根节点
@@ -743,12 +743,12 @@ namespace sw
         /**
          * @brief 获取当前要显示的背景颜色：当Transparent为true时获取到祖先节点中首个Transparent为false的背景颜色，否则返回当前元素的背景颜色
          */
-        Color GetRealBackColor();
+        Color GetRealBackColor() const;
 
         /**
          * @brief 获取当前要显示的文本颜色：当InheritTextColor为true时获取到祖先节点中首个InheritTextColor为false的文本颜色，否则返回当前元素的文本颜色
          */
-        Color GetRealTextColor();
+        Color GetRealTextColor() const;
 
         /**
          * @brief         设置鼠标样式
@@ -909,13 +909,13 @@ namespace sw
          * @brief      限定指定尺寸在最小和最大尺寸之间
          * @param size 要限定的尺寸
          */
-        void ClampDesireSize(sw::Size &size);
+        void ClampDesireSize(sw::Size &size) const;
 
         /**
          * @brief      限定指定矩形的尺寸在最小和最大尺寸之间
          * @param rect 要限定的矩形
          */
-        void ClampDesireSize(sw::Rect &rect);
+        void ClampDesireSize(sw::Rect &rect) const;
 
         /**
          * @brief           查询所有子元素，直到queryFunc返回false或所有子元素均被查询
