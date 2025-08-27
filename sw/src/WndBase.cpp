@@ -1168,14 +1168,25 @@ sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
 
 void sw::WndBase::Invoke(const SimpleAction &action)
 {
-    Action<> a = action;
-    this->SendMessageW(WM_InvokeAction, false, reinterpret_cast<LPARAM>(&a));
+    if (action == nullptr)
+        return;
+
+    if (this->CheckAccess())
+        action();
+    else {
+        Action<> &a = const_cast<Action<> &>(action); // safe here
+        this->SendMessageW(WM_InvokeAction, false, reinterpret_cast<LPARAM>(&a));
+    }
 }
 
 void sw::WndBase::InvokeAsync(const SimpleAction &action)
 {
-    Action<> *p = new Action<>(action);
-    this->PostMessageW(WM_InvokeAction, true, reinterpret_cast<LPARAM>(p));
+    if (action == nullptr)
+        return;
+    else {
+        Action<> *p = new Action<>(action);
+        this->PostMessageW(WM_InvokeAction, true, reinterpret_cast<LPARAM>(p));
+    }
 }
 
 DWORD sw::WndBase::GetThreadId() const
