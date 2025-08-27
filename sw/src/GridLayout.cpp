@@ -621,9 +621,9 @@ void sw::GridLayout::_UpdateInternalData()
             GridRCType colMeasureType = this->_internalData.colsInfo[tag.column].col.type;
 
             // 处理跨多行情况下的rowMeasureType
-            for (int i = 1; i < tag.rowSpan && rowMeasureType != GridRCType::FillRemain; ++i) {
+            for (int j = 1; j < tag.rowSpan && rowMeasureType != GridRCType::FillRemain; ++j) {
                 GridRCType type =
-                    this->_internalData.rowsInfo[tag.row + i].row.type;
+                    this->_internalData.rowsInfo[tag.row + j].row.type;
                 switch (type) {
                     case GridRCType::FixSize: {
                         break; // nothing
@@ -635,9 +635,9 @@ void sw::GridLayout::_UpdateInternalData()
                 }
             }
             // 处理跨多列情况下的colMeasureType
-            for (int i = 1; i < tag.columnSpan && colMeasureType != GridRCType::FillRemain; ++i) {
+            for (int k = 1; k < tag.columnSpan && colMeasureType != GridRCType::FillRemain; ++k) {
                 GridRCType type =
-                    this->_internalData.colsInfo[tag.column + i].col.type;
+                    this->_internalData.colsInfo[tag.column + k].col.type;
                 switch (type) {
                     case GridRCType::FixSize: {
                         break; // nothing
