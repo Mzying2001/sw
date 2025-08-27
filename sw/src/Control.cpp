@@ -37,7 +37,11 @@ bool sw::Control::ResetHandle(LPVOID lpParam)
 
 bool sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
 {
-    RECT rect = Rect.Get();
+    if (!CheckAccess()) {
+        return false;
+    }
+
+    RECT rect = Rect;
     auto text = GetInternalText().c_str();
 
     HWND oldHwnd = _hwnd;
