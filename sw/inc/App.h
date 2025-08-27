@@ -9,10 +9,10 @@
 namespace sw
 {
     /**
-     * @brief 程序退出消息循环的方式
+     * @brief 线程退出消息循环的方式
      */
     enum class AppQuitMode {
-        Auto,   // 当所有窗口都销毁时自动退出消息循环
+        Auto,   // 线程中所有窗口都销毁时自动退出消息循环
         Manual, // 需手动调用QuitMsgLoop以退出消息循环
     };
 
@@ -46,14 +46,16 @@ namespace sw
         static const Property<std::wstring> CurrentDirectory;
 
         /**
-         * @brief 程序退出消息循环的方式
+         * @brief 当前线程退出消息循环的方式
+         * @note  该属性是线程局部的，每个线程有各自独立的值
          */
         static const Property<AppQuitMode> QuitMode;
 
         /**
-         * @brief 消息循环中处理空句柄消息的回调函数
+         * @brief 当前线程消息循环中处理空句柄消息的回调函数
+         * @note  该委托是线程局部的，每个线程有各自独立的值
          */
-        static Action<MSG &> NullHwndMsgHandler;
+        static thread_local Action<MSG &> NullHwndMsgHandler;
 
         /**
          * @brief  消息循环
@@ -62,7 +64,7 @@ namespace sw
         static int MsgLoop();
 
         /**
-         * @brief          退出当前消息循环
+         * @brief          退出当前线程的消息循环
          * @param exitCode 退出代码
          */
         static void QuitMsgLoop(int exitCode = 0);

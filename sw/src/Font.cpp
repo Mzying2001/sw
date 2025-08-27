@@ -77,26 +77,15 @@ sw::Font sw::Font::GetFont(HFONT hFont)
 
 sw::Font &sw::Font::GetDefaultFont(bool update)
 {
-    static Font *pFont = nullptr;
-
-    if (pFont == nullptr) {
-        update = true;
-    }
-
-    if (update) {
+    static auto getter = []() -> Font {
         NONCLIENTMETRICSW ncm{};
-        ncm.cbSize = sizeof(ncm);
+        ncm.cbSize   = sizeof(ncm);
+        bool success = SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0);
+        return success ? static_cast<Font>(ncm.lfMessageFont) : Font{};
+    };
 
-        if (pFont != nullptr) {
-            delete pFont;
-        }
+    static thread_local Font font = getter();
+    if (update) font = getter();
 
-        if (SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0)) {
-            pFont = new Font(ncm.lfMessageFont);
-        } else {
-            pFont = new Font();
-        }
-    }
-
-    return *pFont;
+    return font;
 }

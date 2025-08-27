@@ -11,7 +11,7 @@ namespace
     /**
      * @brief 记录当前创建的窗口数
      */
-    int _windowCount = 0;
+    thread_local int _windowCount = 0;
 
     /**
      * @brief 窗口句柄保存Window指针的属性名称
@@ -20,7 +20,7 @@ namespace
 }
 
 /**
- * @brief 程序的当前活动窗体
+ * @brief 当前线程的活动窗口
  */
 const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
     []() -> sw::Window * {
@@ -31,7 +31,7 @@ const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
 );
 
 /**
- * @brief 当前已创建的窗口数
+ * @brief 当前线程已创建的窗口数
  */
 const sw::ReadOnlyProperty<int> sw::Window::WindowCount(
     []() -> int {
@@ -218,7 +218,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DESTROY: {
-            bool quitted = false;
+            _isDestroying = true;
+            auto result   = WndBase::WndProc(refMsg);
+            bool quitted  = false;
             // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
             if (_isModal) {
                 App::QuitMsgLoop(_dialogResult);
@@ -228,7 +230,8 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             if (--_windowCount <= 0 && App::QuitMode == AppQuitMode::Auto) {
                 if (!quitted) App::QuitMsgLoop();
             }
-            return WndBase::WndProc(refMsg);
+            _isDestroying = false;
+            return result;
         }
 
         case WM_SHOWWINDOW: {
@@ -243,7 +246,6 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             auto pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
             Size minSize{MinWidth, MinHeight};
             Size maxSize{MaxWidth, MaxHeight};
-
             if (minSize.width > 0) {
                 pInfo->ptMinTrackSize.x = Utils::Max<LONG>(pInfo->ptMinTrackSize.x, Dip::DipToPxX(minSize.width));
             }
@@ -270,7 +272,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_UpdateLayout: {
-            UpdateLayout();
+            if (!_isDestroying) {
+                UpdateLayout();
+            }
             return 0;
         }
 
@@ -466,6 +470,10 @@ int sw::Window::ShowDialog(Window *owner)
 
     int result = -1;
 
+    if (!CheckAccess()) {
+        return result; // 只能在创建窗口的线程调用
+    }
+
     if (_isModal || IsDestroyed) {
         return result;
     }
@@ -505,6 +513,10 @@ int sw::Window::ShowDialog(Window *owner)
 int sw::Window::ShowDialog(Window &owner)
 {
     int result = -1;
+
+    if (!CheckAccess()) {
+        return result; // 只能在创建窗口的线程调用
+    }
 
     if (this == &owner || _isModal || IsDestroyed) {
         return result;
