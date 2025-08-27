@@ -218,7 +218,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DESTROY: {
-            bool quitted = false;
+            _isDestroying = true;
+            auto result   = WndBase::WndProc(refMsg);
+            bool quitted  = false;
             // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
             if (_isModal) {
                 App::QuitMsgLoop(_dialogResult);
@@ -228,7 +230,8 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             if (--_windowCount <= 0 && App::QuitMode == AppQuitMode::Auto) {
                 if (!quitted) App::QuitMsgLoop();
             }
-            return WndBase::WndProc(refMsg);
+            _isDestroying = false;
+            return result;
         }
 
         case WM_SHOWWINDOW: {
@@ -270,7 +273,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_UpdateLayout: {
-            UpdateLayout();
+            if (!_isDestroying) {
+                UpdateLayout();
+            }
             return 0;
         }
 

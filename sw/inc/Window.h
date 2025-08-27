@@ -79,6 +79,11 @@ namespace sw
          */
         int _dialogResult = 0;
 
+        /**
+         * @brief 窗口是否正在销毁
+         */
+        bool _isDestroying = false;
+
     public:
         /**
          * @brief 程序的当前活动窗体
