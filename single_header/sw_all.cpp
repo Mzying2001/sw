@@ -5,6 +5,7 @@
 #include <climits>
 #include <deque>
 #include <cstdarg>
+#include <atomic>
 
 // Animation.cpp
 
@@ -76,7 +77,7 @@ namespace
     /**
      * @brief 程序退出消息循环的方式，默认为Auto
      */
-    sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
+    thread_local sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
 
     /**
      * @brief  获取当前exe文件路径
@@ -118,9 +119,12 @@ namespace
 }
 
 /**
- * @brief 消息循环中处理空句柄消息的回调函数
+ * @brief 当前线程消息循环中处理空句柄消息的回调函数
  */
-sw::Action<MSG &> sw::App::NullHwndMsgHandler;
+thread_local sw::Action<MSG &> sw::App::NullHwndMsgHandler;
+
+/**
+ */
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     []() -> HINSTANCE {
@@ -2270,28 +2274,17 @@ sw::Font sw::Font::GetFont(HFONT hFont)
 
 sw::Font &sw::Font::GetDefaultFont(bool update)
 {
-    static Font *pFont = nullptr;
-
-    if (pFont == nullptr) {
-        update = true;
-    }
-
-    if (update) {
+    static auto getter = []() -> Font {
         NONCLIENTMETRICSW ncm{};
-        ncm.cbSize = sizeof(ncm);
+        ncm.cbSize   = sizeof(ncm);
+        bool success = SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0);
+        return success ? static_cast<Font>(ncm.lfMessageFont) : Font{};
+    };
 
-        if (pFont != nullptr) {
-            delete pFont;
-        }
+    static thread_local Font font = getter();
+    if (update) font = getter();
 
-        if (SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0)) {
-            pFont = new Font(ncm.lfMessageFont);
-        } else {
-            pFont = new Font();
-        }
-    }
-
-    return *pFont;
+    return font;
 }
 
 // FontDialog.cpp
@@ -6248,15 +6241,16 @@ sw::Panel::Panel()
               }
           })
 {
-    static WNDCLASSEXW wc = {0};
+    static thread_local ATOM panelClsAtom = 0;
 
-    if (wc.cbSize == 0) {
+    if (panelClsAtom == 0) {
+        WNDCLASSEXW wc{};
         wc.cbSize        = sizeof(wc);
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = DefWindowProcW;
         wc.lpszClassName = _PanelClassName;
         wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
-        RegisterClassExW(&wc);
+        panelClsAtom     = RegisterClassExW(&wc);
     }
 
     this->InitControl(_PanelClassName, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
@@ -8350,8 +8344,12 @@ sw::UIElement &sw::UIElement::GetChildAt(int index) const
 
 bool sw::UIElement::AddChild(UIElement *element)
 {
-    if (element == nullptr) {
+    if (element == nullptr || element == this) {
         return false;
+    }
+
+    if (!this->CheckAccess(*element)) {
+        return false; // 父子元素必须在同一线程创建
     }
 
     if (std::find(this->_children.begin(), this->_children.end(), element) != this->_children.end()) {
@@ -9652,7 +9650,7 @@ namespace
     /**
      * @brief 记录当前创建的窗口数
      */
-    int _windowCount = 0;
+    thread_local int _windowCount = 0;
 
     /**
      * @brief 窗口句柄保存Window指针的属性名称
@@ -9661,7 +9659,7 @@ namespace
 }
 
 /**
- * @brief 程序的当前活动窗体
+ * @brief 当前线程的活动窗口
  */
 const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
     []() -> sw::Window * {
@@ -9672,7 +9670,7 @@ const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
 );
 
 /**
- * @brief 当前已创建的窗口数
+ * @brief 当前线程已创建的窗口数
  */
 const sw::ReadOnlyProperty<int> sw::Window::WindowCount(
     []() -> int {
@@ -9859,7 +9857,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DESTROY: {
-            bool quitted = false;
+            _isDestroying = true;
+            auto result   = WndBase::WndProc(refMsg);
+            bool quitted  = false;
             // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
             if (_isModal) {
                 App::QuitMsgLoop(_dialogResult);
@@ -9869,7 +9869,8 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             if (--_windowCount <= 0 && App::QuitMode == AppQuitMode::Auto) {
                 if (!quitted) App::QuitMsgLoop();
             }
-            return WndBase::WndProc(refMsg);
+            _isDestroying = false;
+            return result;
         }
 
         case WM_SHOWWINDOW: {
@@ -9884,7 +9885,6 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             auto pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
             Size minSize{MinWidth, MinHeight};
             Size maxSize{MaxWidth, MaxHeight};
-
             if (minSize.width > 0) {
                 pInfo->ptMinTrackSize.x = Utils::Max<LONG>(pInfo->ptMinTrackSize.x, Dip::DipToPxX(minSize.width));
             }
@@ -9911,7 +9911,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_UpdateLayout: {
-            UpdateLayout();
+            if (!_isDestroying) {
+                UpdateLayout();
+            }
             return 0;
         }
 
@@ -10107,6 +10109,10 @@ int sw::Window::ShowDialog(Window *owner)
 
     int result = -1;
 
+    if (!CheckAccess()) {
+        return result; // 只能在创建窗口的线程调用
+    }
+
     if (_isModal || IsDestroyed) {
         return result;
     }
@@ -10146,6 +10152,10 @@ int sw::Window::ShowDialog(Window *owner)
 int sw::Window::ShowDialog(Window &owner)
 {
     int result = -1;
+
+    if (!CheckAccess()) {
+        return result; // 只能在创建窗口的线程调用
+    }
 
     if (this == &owner || _isModal || IsDestroyed) {
         return result;
@@ -10241,12 +10251,12 @@ namespace
     /**
      * @brief 控件初始化时所在的窗口
      */
-    struct : sw::WndBase{} *_controlInitContainer = nullptr;
+    thread_local struct : sw::WndBase{} *_controlInitContainer = nullptr;
 
     /**
      * @brief 控件id计数器
      */
-    int _controlIdCounter = 1073741827;
+    std::atomic<int> _controlIdCounter = 1073741827;
 }
 
 sw::WndBase::WndBase()
@@ -10533,18 +10543,20 @@ std::wstring sw::WndBase::ToString() const
 
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
+    static thread_local ATOM wndClsAtom = 0;
+
     if (this->_hwnd != NULL) {
         return;
     }
 
-    static WNDCLASSEXW wc{};
-    if (wc.cbSize == 0) {
+    if (wndClsAtom == 0) {
+        WNDCLASSEXW wc{};
         wc.cbSize        = sizeof(wc);
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = WndBase::_WndProc;
         wc.lpszClassName = _WindowClassName;
         wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
-        RegisterClassExW(&wc);
+        wndClsAtom       = RegisterClassExW(&wc);
     }
 
     if (lpWindowName) {
@@ -10634,8 +10646,9 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DESTROY: {
+            LRESULT result     = this->OnDestroy() ? 0 : this->DefaultWndProc(refMsg);
             this->_isDestroyed = true;
-            return this->OnDestroy() ? 0 : this->DefaultWndProc(refMsg);
+            return result;
         }
 
         case WM_PAINT: {
@@ -11387,14 +11400,40 @@ sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
 
 void sw::WndBase::Invoke(const SimpleAction &action)
 {
-    Action<> a = action;
-    this->SendMessageW(WM_InvokeAction, false, reinterpret_cast<LPARAM>(&a));
+    if (action == nullptr)
+        return;
+
+    if (this->CheckAccess())
+        action();
+    else {
+        Action<> &a = const_cast<Action<> &>(action); // safe here
+        this->SendMessageW(WM_InvokeAction, false, reinterpret_cast<LPARAM>(&a));
+    }
 }
 
 void sw::WndBase::InvokeAsync(const SimpleAction &action)
 {
-    Action<> *p = new Action<>(action);
-    this->PostMessageW(WM_InvokeAction, true, reinterpret_cast<LPARAM>(p));
+    if (action == nullptr)
+        return;
+    else {
+        Action<> *p = new Action<>(action);
+        this->PostMessageW(WM_InvokeAction, true, reinterpret_cast<LPARAM>(p));
+    }
+}
+
+DWORD sw::WndBase::GetThreadId() const
+{
+    return GetWindowThreadProcessId(this->_hwnd, NULL);
+}
+
+bool sw::WndBase::CheckAccess() const
+{
+    return this->GetThreadId() == GetCurrentThreadId();
+}
+
+bool sw::WndBase::CheckAccess(const WndBase &other) const
+{
+    return this == &other || this->GetThreadId() == other.GetThreadId();
 }
 
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -11430,12 +11469,13 @@ void sw::WndBase::_InitControlContainer()
 
 sw::WndBase *sw::WndBase::_GetControlInitContainer()
 {
+    _InitControlContainer();
     return _controlInitContainer;
 }
 
 int sw::WndBase::_NextControlId()
 {
-    return _controlIdCounter++;
+    return _controlIdCounter.fetch_add(1);
 }
 
 void sw::WndBase::_SetWndBase(HWND hwnd, WndBase &wnd)
