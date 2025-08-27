@@ -813,13 +813,13 @@ namespace sw
         /**
          * @brief 获取布局标记
          */
-        virtual uint64_t GetLayoutTag() override;
+        virtual uint64_t GetLayoutTag() const override;
 
         /**
          * @brief 获取参与布局的子元素数量
          * @note  参与布局的子元素：即非collapsed状态的元素
          */
-        virtual int GetChildLayoutCount() override;
+        virtual int GetChildLayoutCount() const override;
 
         /**
          * @brief 获取对应索引处的子元素，只索引参与布局的子元素
@@ -830,7 +830,7 @@ namespace sw
         /**
          * @brief 获取当前元素所需尺寸
          */
-        virtual Size GetDesireSize() override;
+        virtual Size GetDesireSize() const override;
 
         /**
          * @brief               测量元素所需尺寸
