@@ -24,9 +24,9 @@ var searchData=
   ['isempty_21',['isempty',['../classsw_1_1CallableList.html#ae28515b3dc23539d0732866a51836926',1,'sw::CallableList::IsEmpty()'],['../classsw_1_1Dictionary.html#a16703bd325716445121e257ae489dcc4',1,'sw::Dictionary::IsEmpty()'],['../classsw_1_1List.html#aed38231dffce414f40d272aba6e7099c',1,'sw::List::IsEmpty()']]],
   ['islayoutdisabled_22',['IsLayoutDisabled',['../classsw_1_1Layer.html#aad286771872cc835570d7f6508772a20',1,'sw::Layer']]],
   ['islayoutupdateconditionset_23',['IsLayoutUpdateConditionSet',['../classsw_1_1UIElement.html#a9c1ce767cc687fa9b9864640cc0237c5',1,'sw::UIElement']]],
-  ['isrootelement_24',['IsRootElement',['../classsw_1_1UIElement.html#a67bd7d81e6091118e4c97cc24c68543d',1,'sw::UIElement']]],
+  ['isrootelement_24',['IsRootElement',['../classsw_1_1UIElement.html#a89e5c298d836a9b89d750cdacfbacc56',1,'sw::UIElement']]],
   ['isroutedeventregistered_25',['IsRoutedEventRegistered',['../classsw_1_1UIElement.html#adf8152f31c5e109ba016316182bcec47',1,'sw::UIElement']]],
   ['isseparator_26',['IsSeparator',['../classsw_1_1MenuItem.html#a136e71998ffff40e3d165749ba7f7306',1,'sw::MenuItem']]],
-  ['isvisible_27',['IsVisible',['../classsw_1_1WndBase.html#a6ee668e7a5261f96df0bd69a1fb868d3',1,'sw::WndBase']]],
+  ['isvisible_27',['IsVisible',['../classsw_1_1WndBase.html#a93895b2534591c879580a65f2baee1a2',1,'sw::WndBase']]],
   ['iswrap_28',['IsWrap',['../classsw_1_1ImageList.html#a0cf385d15bc51bcd7214f3f5969b494c',1,'sw::ImageList']]]
 ];

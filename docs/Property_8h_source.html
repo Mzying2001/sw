@@ -1529,6 +1529,35 @@ $(document).ready(function(){initNavTree('Property_8h_source.html',''); initResi
 <div class="line"><a id="l01671" name="l01671"></a><span class="lineno"> 1671</span>    };</div>
 </div>
 <div class="line"><a id="l01672" name="l01672"></a><span class="lineno"> 1672</span>}</div>
+<div class="line"><a id="l01673" name="l01673"></a><span class="lineno"> 1673</span> </div>
+<div class="line"><a id="l01674" name="l01674"></a><span class="lineno"> 1674</span><span class="comment">/*================================================================================*/</span></div>
+<div class="line"><a id="l01675" name="l01675"></a><span class="lineno"> 1675</span> </div>
+<div class="line"><a id="l01680" name="l01680"></a><span class="lineno"> 1680</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l01681" name="l01681"></a><span class="lineno"> 1681</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l01682" name="l01682"></a><span class="lineno"> 1682</span> </div>
+<div class="line"><a id="l01683" name="l01683"></a><span class="lineno"> 1683</span><span class="preprocessor">#define _SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(T)    \</span></div>
+<div class="line"><a id="l01684" name="l01684"></a><span class="lineno"> 1684</span><span class="preprocessor">    extern template class sw::Property&lt;T&gt;;         \</span></div>
+<div class="line"><a id="l01685" name="l01685"></a><span class="lineno"> 1685</span><span class="preprocessor">    extern template class sw::ReadOnlyProperty&lt;T&gt;; \</span></div>
+<div class="line"><a id="l01686" name="l01686"></a><span class="lineno"> 1686</span><span class="preprocessor">    extern template class sw::WriteOnlyProperty&lt;T&gt;</span></div>
+<div class="line"><a id="l01687" name="l01687"></a><span class="lineno"> 1687</span> </div>
+<div class="line"><a id="l01688" name="l01688"></a><span class="lineno"> 1688</span><span class="preprocessor">#define _SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(T) \</span></div>
+<div class="line"><a id="l01689" name="l01689"></a><span class="lineno"> 1689</span><span class="preprocessor">    template class sw::Property&lt;T&gt;;            \</span></div>
+<div class="line"><a id="l01690" name="l01690"></a><span class="lineno"> 1690</span><span class="preprocessor">    template class sw::ReadOnlyProperty&lt;T&gt;;    \</span></div>
+<div class="line"><a id="l01691" name="l01691"></a><span class="lineno"> 1691</span><span class="preprocessor">    template class sw::WriteOnlyProperty&lt;T&gt;</span></div>
+<div class="line"><a id="l01692" name="l01692"></a><span class="lineno"> 1692</span> </div>
+<div class="line"><a id="l01693" name="l01693"></a><span class="lineno"> 1693</span>_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(<span class="keywordtype">bool</span>);</div>
+<div class="line"><a id="l01694" name="l01694"></a><span class="lineno"> 1694</span>_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(<span class="keywordtype">float</span>);</div>
+<div class="line"><a id="l01695" name="l01695"></a><span class="lineno"> 1695</span>_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(<span class="keywordtype">double</span>);</div>
+<div class="line"><a id="l01696" name="l01696"></a><span class="lineno"> 1696</span>_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(int8_t);</div>
+<div class="line"><a id="l01697" name="l01697"></a><span class="lineno"> 1697</span>_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(int16_t);</div>
+<div class="line"><a id="l01698" name="l01698"></a><span class="lineno"> 1698</span>_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(int32_t);</div>
+<div class="line"><a id="l01699" name="l01699"></a><span class="lineno"> 1699</span>_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(int64_t);</div>
+<div class="line"><a id="l01700" name="l01700"></a><span class="lineno"> 1700</span>_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(uint8_t);</div>
+<div class="line"><a id="l01701" name="l01701"></a><span class="lineno"> 1701</span>_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(uint16_t);</div>
+<div class="line"><a id="l01702" name="l01702"></a><span class="lineno"> 1702</span>_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(uint32_t);</div>
+<div class="line"><a id="l01703" name="l01703"></a><span class="lineno"> 1703</span>_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(uint64_t);</div>
+<div class="line"><a id="l01704" name="l01704"></a><span class="lineno"> 1704</span>_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(std::string);</div>
+<div class="line"><a id="l01705" name="l01705"></a><span class="lineno"> 1705</span>_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(std::wstring);</div>
 <div class="ttc" id="aclasssw_1_1Delegate_html"><div class="ttname"><a href="classsw_1_1Delegate.html">sw::Delegate</a></div><div class="ttdef"><b>Definition</b> Delegate.h:21</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html"><div class="ttname"><a href="classsw_1_1PropertyBase.html">sw::PropertyBase</a></div><div class="ttdoc">属性基类模板</div><div class="ttdef"><b>Definition</b> Property.h:228</div></div>
 <div class="ttc" id="aclasssw_1_1PropertyBase_html_a01b1e7e2f08c21ec6d4e30546aaa79b7"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a01b1e7e2f08c21ec6d4e30546aaa79b7">sw::PropertyBase::operator&lt;&lt;=</a></div><div class="ttdeci">std::enable_if&lt; _ShlOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type operator&lt;&lt;=(const PropertyBase&lt; U, D &gt; &amp;prop) const</div><div class="ttdoc">左移赋值运算</div><div class="ttdef"><b>Definition</b> Property.h:727</div></div>

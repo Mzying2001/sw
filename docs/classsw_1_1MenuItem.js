@@ -8,7 +8,7 @@ var classsw_1_1MenuItem =
     [ "MenuItem", "classsw_1_1MenuItem.html#a8a140ecb317179de2ed111974666bae1", null ],
     [ "MenuItem", "classsw_1_1MenuItem.html#a89486612b9f4dde7765430494bd9e034", null ],
     [ "CallCommand", "classsw_1_1MenuItem.html#a1b1b34eaed41f83ca8e6072c0db486a0", null ],
-    [ "GetTag", "classsw_1_1MenuItem.html#a1187cb70902ab261b8302e7c0c561da9", null ],
+    [ "GetTag", "classsw_1_1MenuItem.html#a182729c49911f460c4db62135fbd9c86", null ],
     [ "IsSeparator", "classsw_1_1MenuItem.html#a136e71998ffff40e3d165749ba7f7306", null ],
     [ "SetTag", "classsw_1_1MenuItem.html#ab0b1236f09532f993324f76c07c7b8c7", null ],
     [ "command", "classsw_1_1MenuItem.html#a2a89a577f6cc2eafe9b6d55eb3c9c8ee", null ],
