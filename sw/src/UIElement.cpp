@@ -485,7 +485,7 @@ void sw::UIElement::MoveToBottom()
     parent->InvalidateMeasure();
 }
 
-bool sw::UIElement::IsRootElement()
+bool sw::UIElement::IsRootElement() const
 {
     return this->_parent == nullptr;
 }
@@ -531,18 +531,18 @@ sw::UIElement *sw::UIElement::GetPreviousTabStopElement()
     return element;
 }
 
-sw::Color sw::UIElement::GetRealBackColor()
+sw::Color sw::UIElement::GetRealBackColor() const
 {
-    UIElement *p = this;
+    auto *p = this;
     while (p->_transparent && p->_parent != nullptr) {
         p = p->_parent;
     }
     return p->_backColor;
 }
 
-sw::Color sw::UIElement::GetRealTextColor()
+sw::Color sw::UIElement::GetRealTextColor() const
 {
-    UIElement *p = this;
+    auto *p = this;
     while (p->_inheritTextColor && p->_parent != nullptr) {
         p = p->_parent;
     }
@@ -631,7 +631,7 @@ bool sw::UIElement::BringIntoView()
     return false;
 }
 
-uint64_t sw::UIElement::GetTag()
+uint64_t sw::UIElement::GetTag() const
 {
     return this->_tag;
 }
@@ -641,12 +641,12 @@ void sw::UIElement::SetTag(uint64_t tag)
     this->_tag = tag;
 }
 
-uint64_t sw::UIElement::GetLayoutTag()
+uint64_t sw::UIElement::GetLayoutTag() const
 {
     return this->_layoutTag;
 }
 
-int sw::UIElement::GetChildLayoutCount()
+int sw::UIElement::GetChildLayoutCount() const
 {
     return (int)this->_layoutVisibleChildren.size();
 }
@@ -656,7 +656,7 @@ sw::ILayout &sw::UIElement::GetChildLayoutAt(int index)
     return *this->_layoutVisibleChildren[index];
 }
 
-sw::Size sw::UIElement::GetDesireSize()
+sw::Size sw::UIElement::GetDesireSize() const
 {
     return this->_desireSize;
 }
@@ -903,7 +903,7 @@ void sw::UIElement::SetPreviousTabStopFocus()
     if (previous && previous != this) previous->OnTabStop();
 }
 
-void sw::UIElement::ClampDesireSize(sw::Size &size)
+void sw::UIElement::ClampDesireSize(sw::Size &size) const
 {
     if (this->_minSize.width > 0) {
         size.width = Utils::Max(size.width, this->_minSize.width);
@@ -919,7 +919,7 @@ void sw::UIElement::ClampDesireSize(sw::Size &size)
     }
 }
 
-void sw::UIElement::ClampDesireSize(sw::Rect &rect)
+void sw::UIElement::ClampDesireSize(sw::Rect &rect) const
 {
     auto size = rect.GetSize();
     this->ClampDesireSize(size);

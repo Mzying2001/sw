@@ -40,7 +40,7 @@ void sw::MenuItem::CallCommand()
         this->command(*this);
 }
 
-uint64_t sw::MenuItem::GetTag()
+uint64_t sw::MenuItem::GetTag() const
 {
     return this->tag;
 }

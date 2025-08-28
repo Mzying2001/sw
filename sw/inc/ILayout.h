@@ -21,12 +21,12 @@ namespace sw
         /**
          * @brief 获取布局标记
          */
-        virtual uint64_t GetLayoutTag() = 0;
+        virtual uint64_t GetLayoutTag() const = 0;
 
         /**
          * @brief 获取子控件的数量
          */
-        virtual int GetChildLayoutCount() = 0;
+        virtual int GetChildLayoutCount() const = 0;
 
         /**
          * @brief 获取对应索引处的子控件
@@ -36,7 +36,7 @@ namespace sw
         /**
          * @brief 获取控件所需尺寸
          */
-        virtual Size GetDesireSize() = 0;
+        virtual Size GetDesireSize() const = 0;
 
         /**
          * @brief               测量控件所需尺寸
