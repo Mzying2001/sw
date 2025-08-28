@@ -94,7 +94,7 @@ sw::Layer::Layer()
 
               if (layout != nullptr && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
                   this->GetInternalArrangeOffsetX() = -HorizontalScrollPos;
-                  this->_MeasureAndArrangeWithoutResize();
+                  this->_MeasureAndArrangeWithoutResize(*layout);
               }
           }),
 
@@ -119,7 +119,7 @@ sw::Layer::Layer()
 
               if (layout != nullptr && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
                   this->GetInternalArrangeOffsetY() = -VerticalScrollPos;
-                  this->_MeasureAndArrangeWithoutResize();
+                  this->_MeasureAndArrangeWithoutResize(*layout);
               }
           }),
 
@@ -165,39 +165,6 @@ sw::Layer::~Layer()
 {
 }
 
-sw::LayoutHost *sw::Layer::_GetLayout()
-{
-    auto layout = (this->_customLayout != nullptr) ? this->_customLayout : this->GetDefaultLayout();
-    return (layout != nullptr && layout->IsAssociated(this)) ? layout : nullptr;
-}
-
-void sw::Layer::_MeasureAndArrangeWithoutLayout()
-{
-    this->GetInternalArrangeOffsetX() = 0;
-    this->GetInternalArrangeOffsetY() = 0;
-
-    int childCount = this->GetChildLayoutCount();
-
-    for (int i = 0; i < childCount; ++i) {
-        // measure
-        UIElement &item = static_cast<UIElement &>(this->GetChildLayoutAt(i));
-        item.Measure(Size(INFINITY, INFINITY));
-        // arrange
-        Size desireSize      = item.GetDesireSize();
-        sw::Rect itemRect    = item.Rect;
-        Thickness itemMargin = item.Margin;
-        item.Arrange(sw::Rect{itemRect.left - itemMargin.left, itemRect.top - itemMargin.top, desireSize.width, desireSize.height});
-    }
-}
-
-void sw::Layer::_MeasureAndArrangeWithoutResize()
-{
-    LayoutHost *layout  = this->_GetLayout();
-    sw::Size clientSize = this->ClientRect->GetSize();
-    layout->MeasureOverride(clientSize);
-    layout->ArrangeOverride(clientSize);
-}
-
 void sw::Layer::UpdateLayout()
 {
     if (this->_layoutDisabled) {
@@ -209,7 +176,7 @@ void sw::Layer::UpdateLayout()
     if (layout == nullptr) {
         this->_MeasureAndArrangeWithoutLayout();
     } else {
-        this->_MeasureAndArrangeWithoutResize();
+        this->_MeasureAndArrangeWithoutResize(*layout);
     }
 
     this->UpdateScrollRange();
@@ -339,7 +306,7 @@ void sw::Layer::ArrangeOverride(const Size &finalSize)
         this->_MeasureAndArrangeWithoutLayout();
     } else if (!this->_autoSize) {
         // 已设置布局方式，但是AutoSize被取消，此时子元素也未Measure
-        this->_MeasureAndArrangeWithoutResize();
+        this->_MeasureAndArrangeWithoutResize(*layout);
     } else {
         // 已设置布局方式且AutoSize为true，此时子元素已Measure，调用Arrange即可
         layout->ArrangeOverride(finalSize);
@@ -591,4 +558,38 @@ void sw::Layer::ScrollHorizontal(double offset)
 void sw::Layer::ScrollVertical(double offset)
 {
     this->VerticalScrollPos += offset;
+}
+
+sw::LayoutHost *sw::Layer::_GetLayout()
+{
+    auto layout = (this->_customLayout != nullptr) ? this->_customLayout : this->GetDefaultLayout();
+    return (layout != nullptr && layout->IsAssociated(this)) ? layout : nullptr;
+}
+
+void sw::Layer::_MeasureAndArrangeWithoutLayout()
+{
+    this->GetInternalArrangeOffsetX() = 0;
+    this->GetInternalArrangeOffsetY() = 0;
+
+    int childCount = this->GetChildLayoutCount();
+
+    for (int i = 0; i < childCount; ++i) {
+        // measure
+        UIElement &item = static_cast<UIElement &>(this->GetChildLayoutAt(i));
+        item.Measure(Size{INFINITY, INFINITY});
+        // arrange
+        Size desireSize      = item.GetDesireSize();
+        sw::Rect itemRect    = item.Rect;
+        Thickness itemMargin = item.Margin;
+        item.Arrange(sw::Rect{itemRect.left - itemMargin.left, itemRect.top - itemMargin.top, desireSize.width, desireSize.height});
+    }
+}
+
+void sw::Layer::_MeasureAndArrangeWithoutResize(LayoutHost &layout)
+{
+    if (layout.IsAssociated(this)) {
+        auto clientSize = this->ClientRect->GetSize();
+        layout.MeasureOverride(clientSize);
+        layout.ArrangeOverride(clientSize);
+    }
 }
