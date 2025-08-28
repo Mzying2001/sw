@@ -560,5 +560,8 @@
     <ClCompile Include="..\sw\src\FontDialog.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\Property.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
