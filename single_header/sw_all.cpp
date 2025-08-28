@@ -1456,7 +1456,7 @@ namespace
     /**
      * @brief 储存缩放信息
      */
-    _ScaleInfo _scaleInfo;
+    thread_local _ScaleInfo _scaleInfo;
 }
 
 /*================================================================================*/
@@ -5980,7 +5980,7 @@ void sw::MenuItem::CallCommand()
         this->command(*this);
 }
 
-uint64_t sw::MenuItem::GetTag()
+uint64_t sw::MenuItem::GetTag() const
 {
     return this->tag;
 }
@@ -6716,6 +6716,22 @@ sw::ProgressBar::ProgressBar()
     this->InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
     this->Rect = sw::Rect(0, 0, 150, 20);
 }
+
+// Property.cpp
+
+_SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(bool);
+_SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(float);
+_SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(double);
+_SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(int8_t);
+_SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(int16_t);
+_SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(int32_t);
+_SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(int64_t);
+_SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(uint8_t);
+_SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(uint16_t);
+_SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(uint32_t);
+_SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(uint64_t);
+_SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(std::string);
+_SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(std::wstring);
 
 // RadioButton.cpp
 
@@ -8551,7 +8567,7 @@ void sw::UIElement::MoveToBottom()
     parent->InvalidateMeasure();
 }
 
-bool sw::UIElement::IsRootElement()
+bool sw::UIElement::IsRootElement() const
 {
     return this->_parent == nullptr;
 }
@@ -8597,18 +8613,18 @@ sw::UIElement *sw::UIElement::GetPreviousTabStopElement()
     return element;
 }
 
-sw::Color sw::UIElement::GetRealBackColor()
+sw::Color sw::UIElement::GetRealBackColor() const
 {
-    UIElement *p = this;
+    auto *p = this;
     while (p->_transparent && p->_parent != nullptr) {
         p = p->_parent;
     }
     return p->_backColor;
 }
 
-sw::Color sw::UIElement::GetRealTextColor()
+sw::Color sw::UIElement::GetRealTextColor() const
 {
-    UIElement *p = this;
+    auto *p = this;
     while (p->_inheritTextColor && p->_parent != nullptr) {
         p = p->_parent;
     }
@@ -8697,7 +8713,7 @@ bool sw::UIElement::BringIntoView()
     return false;
 }
 
-uint64_t sw::UIElement::GetTag()
+uint64_t sw::UIElement::GetTag() const
 {
     return this->_tag;
 }
@@ -8707,12 +8723,12 @@ void sw::UIElement::SetTag(uint64_t tag)
     this->_tag = tag;
 }
 
-uint64_t sw::UIElement::GetLayoutTag()
+uint64_t sw::UIElement::GetLayoutTag() const
 {
     return this->_layoutTag;
 }
 
-int sw::UIElement::GetChildLayoutCount()
+int sw::UIElement::GetChildLayoutCount() const
 {
     return (int)this->_layoutVisibleChildren.size();
 }
@@ -8722,7 +8738,7 @@ sw::ILayout &sw::UIElement::GetChildLayoutAt(int index)
     return *this->_layoutVisibleChildren[index];
 }
 
-sw::Size sw::UIElement::GetDesireSize()
+sw::Size sw::UIElement::GetDesireSize() const
 {
     return this->_desireSize;
 }
@@ -8969,7 +8985,7 @@ void sw::UIElement::SetPreviousTabStopFocus()
     if (previous && previous != this) previous->OnTabStop();
 }
 
-void sw::UIElement::ClampDesireSize(sw::Size &size)
+void sw::UIElement::ClampDesireSize(sw::Size &size) const
 {
     if (this->_minSize.width > 0) {
         size.width = Utils::Max(size.width, this->_minSize.width);
@@ -8985,7 +9001,7 @@ void sw::UIElement::ClampDesireSize(sw::Size &size)
     }
 }
 
-void sw::UIElement::ClampDesireSize(sw::Rect &rect)
+void sw::UIElement::ClampDesireSize(sw::Rect &rect) const
 {
     auto size = rect.GetSize();
     this->ClampDesireSize(size);
@@ -11312,12 +11328,12 @@ void sw::WndBase::Redraw(bool erase, bool updateWindow)
     if (updateWindow) UpdateWindow(this->_hwnd);
 }
 
-bool sw::WndBase::IsVisible()
+bool sw::WndBase::IsVisible() const
 {
     return IsWindowVisible(this->_hwnd);
 }
 
-DWORD sw::WndBase::GetStyle()
+DWORD sw::WndBase::GetStyle() const
 {
     return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE));
 }
@@ -11327,7 +11343,7 @@ void sw::WndBase::SetStyle(DWORD style)
     SetWindowLongPtrW(this->_hwnd, GWL_STYLE, LONG_PTR(style));
 }
 
-bool sw::WndBase::GetStyle(DWORD mask)
+bool sw::WndBase::GetStyle(DWORD mask) const
 {
     return (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) & mask) == mask;
 }
@@ -11340,7 +11356,7 @@ void sw::WndBase::SetStyle(DWORD mask, bool value)
     SetWindowLongPtrW(this->_hwnd, GWL_STYLE, LONG_PTR(newstyle));
 }
 
-DWORD sw::WndBase::GetExtendedStyle()
+DWORD sw::WndBase::GetExtendedStyle() const
 {
     return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE));
 }
@@ -11363,14 +11379,14 @@ void sw::WndBase::SetExtendedStyle(DWORD mask, bool value)
     SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, LONG_PTR(newstyle));
 }
 
-sw::Point sw::WndBase::PointToScreen(const Point &point)
+sw::Point sw::WndBase::PointToScreen(const Point &point) const
 {
     POINT p = point;
     ClientToScreen(this->_hwnd, &p);
     return p;
 }
 
-sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint)
+sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint) const
 {
     POINT p = screenPoint;
     ScreenToClient(this->_hwnd, &p);

@@ -1669,7 +1669,7 @@ namespace sw
         /**
          * @brief 获取Tag
          */
-        virtual uint64_t GetTag() = 0;
+        virtual uint64_t GetTag() const = 0;
 
         /**
          * @brief 设置Tag
@@ -2735,7 +2735,7 @@ namespace sw
         /**
          * @brief 获取Tag
          */
-        virtual uint64_t GetTag() override;
+        virtual uint64_t GetTag() const override;
 
         /**
          * @brief 设置Tag
@@ -4415,6 +4415,37 @@ namespace sw
     };
 }
 
+/*================================================================================*/
+
+/**
+ * 将常用类型的属性类声明为外部模板实例，以减少编译时间
+ */
+
+
+#define _SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(T)    \
+    extern template class sw::Property<T>;         \
+    extern template class sw::ReadOnlyProperty<T>; \
+    extern template class sw::WriteOnlyProperty<T>
+
+#define _SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(T) \
+    template class sw::Property<T>;            \
+    template class sw::ReadOnlyProperty<T>;    \
+    template class sw::WriteOnlyProperty<T>
+
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(bool);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(float);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(double);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(int8_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(int16_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(int32_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(int64_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(uint8_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(uint16_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(uint32_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(uint64_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(std::string);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(std::wstring);
+
 // Rect.h
 
 
@@ -4740,6 +4771,7 @@ namespace sw
 {
     /**
      * @brief 用于处理设备独立像素（dip）与屏幕像素之间的转换
+     * @note  该类的所有成员均为线程局部的，即缩放比例在每个线程中独立
      */
     class Dip
     {
@@ -4876,12 +4908,12 @@ namespace sw
         /**
          * @brief 获取布局标记
          */
-        virtual uint64_t GetLayoutTag() = 0;
+        virtual uint64_t GetLayoutTag() const = 0;
 
         /**
          * @brief 获取子控件的数量
          */
-        virtual int GetChildLayoutCount() = 0;
+        virtual int GetChildLayoutCount() const = 0;
 
         /**
          * @brief 获取对应索引处的子控件
@@ -4891,7 +4923,7 @@ namespace sw
         /**
          * @brief 获取控件所需尺寸
          */
-        virtual Size GetDesireSize() = 0;
+        virtual Size GetDesireSize() const = 0;
 
         /**
          * @brief               测量控件所需尺寸
@@ -7245,12 +7277,12 @@ namespace sw
         /**
          * @brief 判断当前对象在界面中是否可视，与Visible属性不同的是该函数返回值会受父窗口的影响
          */
-        bool IsVisible();
+        bool IsVisible() const;
 
         /**
          * @brief 获取窗口样式
          */
-        DWORD GetStyle();
+        DWORD GetStyle() const;
 
         /**
          * @brief 设置窗口样式
@@ -7261,7 +7293,7 @@ namespace sw
          * @brief      判断窗口是否设有指定样式
          * @param mask 样式的位掩码，可以是多个样式
          */
-        bool GetStyle(DWORD mask);
+        bool GetStyle(DWORD mask) const;
 
         /**
          * @brief       打开或关闭指定的样式
@@ -7273,7 +7305,7 @@ namespace sw
         /**
          * @brief 获取扩展窗口样式
          */
-        DWORD GetExtendedStyle();
+        DWORD GetExtendedStyle() const;
 
         /**
          * @brief 设置扩展窗口样式
@@ -7298,14 +7330,14 @@ namespace sw
          * @param point 用户区坐标
          * @return      该点在屏幕上的坐标
          */
-        Point PointToScreen(const Point &point);
+        Point PointToScreen(const Point &point) const;
 
         /**
          * @brief             获取屏幕上点在当前用户区点的位置
          * @param screenPoint 屏幕上点的坐标
          * @return            该点在用户区的坐标
          */
-        Point PointFromScreen(const Point &screenPoint);
+        Point PointFromScreen(const Point &screenPoint) const;
 
         /**
          * @brief 发送消息（ASCII）
@@ -8989,7 +9021,7 @@ namespace sw
         /**
          * @brief 判断当前元素是否为根节点
          */
-        bool IsRootElement();
+        bool IsRootElement() const;
 
         /**
          * @brief 获取当前元素所在界面树的根节点
@@ -9019,12 +9051,12 @@ namespace sw
         /**
          * @brief 获取当前要显示的背景颜色：当Transparent为true时获取到祖先节点中首个Transparent为false的背景颜色，否则返回当前元素的背景颜色
          */
-        Color GetRealBackColor();
+        Color GetRealBackColor() const;
 
         /**
          * @brief 获取当前要显示的文本颜色：当InheritTextColor为true时获取到祖先节点中首个InheritTextColor为false的文本颜色，否则返回当前元素的文本颜色
          */
-        Color GetRealTextColor();
+        Color GetRealTextColor() const;
 
         /**
          * @brief         设置鼠标样式
@@ -9075,7 +9107,7 @@ namespace sw
         /**
          * @brief 获取Tag
          */
-        virtual uint64_t GetTag() override;
+        virtual uint64_t GetTag() const override;
 
         /**
          * @brief 设置Tag
@@ -9085,13 +9117,13 @@ namespace sw
         /**
          * @brief 获取布局标记
          */
-        virtual uint64_t GetLayoutTag() override;
+        virtual uint64_t GetLayoutTag() const override;
 
         /**
          * @brief 获取参与布局的子元素数量
          * @note  参与布局的子元素：即非collapsed状态的元素
          */
-        virtual int GetChildLayoutCount() override;
+        virtual int GetChildLayoutCount() const override;
 
         /**
          * @brief 获取对应索引处的子元素，只索引参与布局的子元素
@@ -9102,7 +9134,7 @@ namespace sw
         /**
          * @brief 获取当前元素所需尺寸
          */
-        virtual Size GetDesireSize() override;
+        virtual Size GetDesireSize() const override;
 
         /**
          * @brief               测量元素所需尺寸
@@ -9185,13 +9217,13 @@ namespace sw
          * @brief      限定指定尺寸在最小和最大尺寸之间
          * @param size 要限定的尺寸
          */
-        void ClampDesireSize(sw::Size &size);
+        void ClampDesireSize(sw::Size &size) const;
 
         /**
          * @brief      限定指定矩形的尺寸在最小和最大尺寸之间
          * @param rect 要限定的矩形
          */
-        void ClampDesireSize(sw::Rect &rect);
+        void ClampDesireSize(sw::Rect &rect) const;
 
         /**
          * @brief           查询所有子元素，直到queryFunc返回false或所有子元素均被查询
