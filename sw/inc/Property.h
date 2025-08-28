@@ -1670,3 +1670,36 @@ namespace sw
         }
     };
 }
+
+/*================================================================================*/
+
+/**
+ * 将常用类型的属性类声明为外部模板实例，以减少编译时间
+ */
+
+#include <cstdint>
+#include <string>
+
+#define _SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(T)    \
+    extern template class sw::Property<T>;         \
+    extern template class sw::ReadOnlyProperty<T>; \
+    extern template class sw::WriteOnlyProperty<T>
+
+#define _SW_DEFINE_EXTERN_PROPERTY_TEMPLATE(T) \
+    template class sw::Property<T>;            \
+    template class sw::ReadOnlyProperty<T>;    \
+    template class sw::WriteOnlyProperty<T>
+
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(bool);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(float);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(double);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(int8_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(int16_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(int32_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(int64_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(uint8_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(uint16_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(uint32_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(uint64_t);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(std::string);
+_SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(std::wstring);
