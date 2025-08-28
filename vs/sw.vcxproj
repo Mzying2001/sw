@@ -444,6 +444,7 @@
     <ClCompile Include="..\sw\src\Point.cpp" />
     <ClCompile Include="..\sw\src\ProcMsg.cpp" />
     <ClCompile Include="..\sw\src\ProgressBar.cpp" />
+    <ClCompile Include="..\sw\src\Property.cpp" />
     <ClCompile Include="..\sw\src\RadioButton.cpp" />
     <ClCompile Include="..\sw\src\Rect.cpp" />
     <ClCompile Include="..\sw\src\RoutedEvent.cpp" />
