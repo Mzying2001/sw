@@ -168,6 +168,11 @@ namespace sw
          */
         const Property<int> DialogResult;
 
+        /**
+         * @brief 窗口在最小化或最大化之前的位置和尺寸
+         */
+        const ReadOnlyProperty<sw::Rect> RestoreRect;
+
     public:
         /**
          * @brief 初始化窗口
