@@ -202,6 +202,15 @@ sw::Window::Window()
           [this](const int &value) {
               _dialogResult = value;
               Close();
+          }),
+
+      RestoreRect(
+          // get
+          [this]() -> sw::Rect {
+              WINDOWPLACEMENT wp{};
+              wp.length = sizeof(WINDOWPLACEMENT);
+              GetWindowPlacement(Handle, &wp);
+              return wp.rcNormalPosition;
           })
 {
     InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
