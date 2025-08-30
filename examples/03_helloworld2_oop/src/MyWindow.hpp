@@ -35,11 +35,9 @@ class MyWindow : public sw::Window
         // 添加成员函数响应按钮单击事件
         button.AddHandler(sw::ButtonBase_Clicked, *this, &MyWindow::ButtonClickedHandler);
 
-        // 使用AddChild函数添加控件
+        // 添加控件
         AddChild(stackPanel);
-        stackPanel.AddChild(labelTitle);
-        stackPanel.AddChild(labelTips);
-        stackPanel.AddChild(button);
+        stackPanel.AddChildren(labelTitle, labelTips, button);
     }
 
     /**
