@@ -107,26 +107,21 @@ $(document).ready(function(){initNavTree('Utils_8h_source.html',''); initResizab
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span>sw</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>{</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="structsw_1_1__HasToString.html">   15</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__HasToString.html">_HasToString</a> {</div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="};">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classsw_1_1Utils.html">   14</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1Utils.html">Utils</a></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    {</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="keyword">static</span> <span class="keyword">auto</span> test(<span class="keywordtype">int</span>) -&gt; <span class="keyword">decltype</span>(std::declval&lt;U&gt;().ToString(), std::true_type());</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keyword">static</span> <span class="keyword">auto</span> test(...) -&gt; std::false_type;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> value = <span class="keyword">decltype</span>(test&lt;T&gt;(0))::value;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    };</div>
-</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="foldopen" id="foldopen00030" data-start="{" data-end="};">
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="classsw_1_1Utils.html">   30</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1Utils.html">Utils</a></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    {</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_class" href="classsw_1_1Utils.html">Utils</a>() = <span class="keyword">delete</span>; <span class="comment">// 删除构造函数</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <a class="code hl_class" href="classsw_1_1Utils.html">Utils</a>() = <span class="keyword">delete</span>; <span class="comment">// 删除构造函数</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> = <span class="keywordtype">void</span>&gt;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keyword">struct </span>_HasToString : std::false_type {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        };</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keyword">struct </span>_HasToString&lt;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            T,</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            decltype(void(std::declval&lt;T&gt;().ToString()))&gt; : std::true_type {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        };</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">public</span>:</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="classsw_1_1Utils.html#ae08072c3e4e8796d5ffad7027e41f773">   42</a></span>        <span class="keyword">static</span> std::wstring <a class="code hl_function" href="classsw_1_1Utils.html#ae08072c3e4e8796d5ffad7027e41f773">ToWideStr</a>(<span class="keyword">const</span> std::string &amp;str, <span class="keywordtype">bool</span> utf8 = <span class="keyword">false</span>);</div>
@@ -172,7 +167,7 @@ $(document).ready(function(){initNavTree('Utils_8h_source.html',''); initResizab
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keyword">private</span>:</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; !<a class="code hl_struct" href="structsw_1_1__HasToString.html">_HasToString&lt;T&gt;::value</a>, <span class="keywordtype">void</span>&gt;::type</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">typename</span> std::enable_if&lt;!_IsProperty&lt;T&gt;::value &amp;&amp; !_HasToString&lt;T&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        _BuildStr(std::wostream &amp;wos, <span class="keyword">const</span> T &amp;arg)</div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        {</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>            wos &lt;&lt; arg;</div>
@@ -239,7 +234,7 @@ $(document).ready(function(){initNavTree('Utils_8h_source.html',''); initResizab
 <div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    };</div>
 </div>
 <div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>}</div>
-<div class="ttc" id="aclasssw_1_1Utils_html"><div class="ttname"><a href="classsw_1_1Utils.html">sw::Utils</a></div><div class="ttdoc">工具类</div><div class="ttdef"><b>Definition</b> Utils.h:31</div></div>
+<div class="ttc" id="aclasssw_1_1Utils_html"><div class="ttname"><a href="classsw_1_1Utils.html">sw::Utils</a></div><div class="ttdoc">工具类</div><div class="ttdef"><b>Definition</b> Utils.h:15</div></div>
 <div class="ttc" id="aclasssw_1_1Utils_html_a5c24af34667f813a9ccaa7ed834606d5"><div class="ttname"><a href="classsw_1_1Utils.html#a5c24af34667f813a9ccaa7ed834606d5">sw::Utils::FormatStr</a></div><div class="ttdeci">static std::wstring FormatStr(const wchar_t *fmt,...)</div><div class="ttdoc">格式化字符串，类似于 swprintf，但返回一个动态分配的 std::wstring</div></div>
 <div class="ttc" id="aclasssw_1_1Utils_html_a6cc154f2d595b5624b3aaca8b64fd3dd"><div class="ttname"><a href="classsw_1_1Utils.html#a6cc154f2d595b5624b3aaca8b64fd3dd">sw::Utils::ToMultiByteStr</a></div><div class="ttdeci">static std::string ToMultiByteStr(const std::wstring &amp;wstr, bool utf8=false)</div><div class="ttdoc">将宽字符串转为窄字符串</div></div>
 <div class="ttc" id="aclasssw_1_1Utils_html_a76b3fe0842e62bf943a314afed4d474a"><div class="ttname"><a href="classsw_1_1Utils.html#a76b3fe0842e62bf943a314afed4d474a">sw::Utils::Min</a></div><div class="ttdeci">static constexpr T Min(const T &amp;a, const T &amp;b)</div><div class="ttdoc">取两值中的较小值</div><div class="ttdef"><b>Definition</b> Utils.h:103</div></div>
@@ -250,7 +245,6 @@ $(document).ready(function(){initNavTree('Utils_8h_source.html',''); initResizab
 <div class="ttc" id="aclasssw_1_1Utils_html_ad19ab16d87c5c8f6ee319b593bf21fc7"><div class="ttname"><a href="classsw_1_1Utils.html#ad19ab16d87c5c8f6ee319b593bf21fc7">sw::Utils::TrimStart</a></div><div class="ttdeci">static std::wstring TrimStart(const std::wstring &amp;str)</div><div class="ttdoc">删除串首空白字符</div></div>
 <div class="ttc" id="aclasssw_1_1Utils_html_add73fdd8d714ed80d3741fffcef5fbec"><div class="ttname"><a href="classsw_1_1Utils.html#add73fdd8d714ed80d3741fffcef5fbec">sw::Utils::Max</a></div><div class="ttdeci">static constexpr T Max(const T &amp;a, const T &amp;b)</div><div class="ttdoc">取两值中的较大值</div><div class="ttdef"><b>Definition</b> Utils.h:94</div></div>
 <div class="ttc" id="aclasssw_1_1Utils_html_ae08072c3e4e8796d5ffad7027e41f773"><div class="ttname"><a href="classsw_1_1Utils.html#ae08072c3e4e8796d5ffad7027e41f773">sw::Utils::ToWideStr</a></div><div class="ttdeci">static std::wstring ToWideStr(const std::string &amp;str, bool utf8=false)</div><div class="ttdoc">将窄字符串转为宽字符串</div></div>
-<div class="ttc" id="astructsw_1_1__HasToString_html"><div class="ttname"><a href="structsw_1_1__HasToString.html">sw::_HasToString</a></div><div class="ttdoc">判断一个类型是否有ToString方法</div><div class="ttdef"><b>Definition</b> Utils.h:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

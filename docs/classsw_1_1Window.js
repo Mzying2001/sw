@@ -32,6 +32,7 @@ var classsw_1_1Window =
     [ "MinimizeBox", "classsw_1_1Window.html#aa9476a0b4bff312e523bba76aa82b96b", null ],
     [ "Opacity", "classsw_1_1Window.html#a789346009936daa99303cf88f9f5bb34", null ],
     [ "Owner", "classsw_1_1Window.html#afd4c2d3d94e2a134cb9d82deb2007a58", null ],
+    [ "RestoreRect", "classsw_1_1Window.html#a08b4f948cf6b3a9bdd2379d6a3ff2b80", null ],
     [ "SizeBox", "classsw_1_1Window.html#a518c14e6ddbf171489a86baff4cbb6a3", null ],
     [ "StartupLocation", "classsw_1_1Window.html#a4a09a7ec772a2febfcda54b9aa6a8557", null ],
     [ "State", "classsw_1_1Window.html#a257ba940703f41b12990678bb3ff0e0e", null ],

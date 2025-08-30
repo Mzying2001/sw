@@ -25,11 +25,9 @@ int APIENTRY WinMain(
     labelTips->Margin    = sw::Thickness(0, 20);        // 设置提示信息标签的上下边距为20
     button->Text         = L"Click me!";                // 设置按钮文本
 
-    // 使用AddChild函数添加控件
+    // 添加控件
     window->AddChild(*stackPanel);
-    stackPanel->AddChild(*labelTitle);
-    stackPanel->AddChild(*labelTips);
-    stackPanel->AddChild(*button);
+    stackPanel->AddChildren(*labelTitle, *labelTips, *button);
 
 
 
@@ -43,8 +41,5 @@ int APIENTRY WinMain(
 
 
     // 显示窗口
-    window->Show();
-
-    // 开始消息循环
-    return sw::App::MsgLoop();
+    return window->ShowDialog();
 }

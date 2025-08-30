@@ -6,6 +6,8 @@ var classsw_1_1UIElement =
     [ "AddChild", "classsw_1_1UIElement.html#a3e08b05c1a3ac1d95fd54a3ffaab81a0", null ],
     [ "AddChild", "classsw_1_1UIElement.html#a32893339be348aa964441954f3a31101", null ],
     [ "AddChild", "classsw_1_1UIElement.html#ac020bc2d263e0dcffa59e0f474ea6e95", null ],
+    [ "AddChildren", "classsw_1_1UIElement.html#a08a55e1c8e96f7d3fe927f7721863048", null ],
+    [ "AddChildren", "classsw_1_1UIElement.html#abbef9f628b10717ef28fdad71d382499", null ],
     [ "AddHandler", "classsw_1_1UIElement.html#acab825c8749c5bec592e00724f1aa83b", null ],
     [ "AddHandler", "classsw_1_1UIElement.html#a9ab5957c173050c3e1d9ac1df9e27e7e", null ],
     [ "AddHandler", "classsw_1_1UIElement.html#a7c1fb1c05dee9d36a8ecc170aa9ab1be", null ],
