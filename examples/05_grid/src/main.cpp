@@ -6,12 +6,7 @@ int APIENTRY WinMain(
     _In_     PSTR      pCmdLine,
     _In_     INT       nCmdShow)
 {
-    // 创建自定义的窗口对象
-    auto myWindow = std::make_unique<MyWindow>();
-
-    // 显示窗口
-    myWindow->Show();
-
-    // 开始消息循环
-    return sw::App::MsgLoop();
+    // 创建自定义的窗口对象并显示
+    auto wnd = std::make_unique<MyWindow>();
+    return wnd->ShowDialog();
 }

@@ -13,8 +13,5 @@ int APIENTRY WinMain(
     w.Text = L"Hello, World!";
 
     // 显示窗口
-    w.Show();
-
-    // 开始消息循环
-    return sw::App::MsgLoop();
+    return w.ShowDialog();
 }
