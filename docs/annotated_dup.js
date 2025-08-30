@@ -2,7 +2,7 @@ var annotated_dup =
 [
     [ "sw", null, [
       [ "_BracketOperationHelper", "structsw_1_1__BracketOperationHelper.html", null ],
-      [ "_BracketOperationHelper< T, U, typename std::enable_if< true, decltype(void(std::declval< T >()[std::declval< U >()]))>::type >", "structsw_1_1__BracketOperationHelper_3_01T_00_01U_00_01typename_01std_1_1enable__if_3_01true_00_b2c508b8c47ced79f0d948fa499a2e57.html", null ],
+      [ "_BracketOperationHelper< T, U, decltype(void(std::declval< T >()[std::declval< U >()]))>", "structsw_1_1__BracketOperationHelper_3_01T_00_01U_00_01decltype_07void_07std_1_1declval_3_01T_015d7340010b451efba17696e1bdb8739b.html", null ],
       [ "_EnumSupportBitOperations", "structsw_1_1__EnumSupportBitOperations.html", null ],
       [ "_FuncTraits", "structsw_1_1__FuncTraits.html", null ],
       [ "_FuncTraits< First, Rest... >", "structsw_1_1__FuncTraits_3_01First_00_01Rest_8_8_8_01_4.html", null ],
@@ -14,9 +14,8 @@ var annotated_dup =
       [ "_HasArrowOperatorVs2015Fix", "structsw_1_1__HasArrowOperatorVs2015Fix.html", null ],
       [ "_HasEventType", "structsw_1_1__HasEventType.html", null ],
       [ "_HasEventType< T, decltype(void(std::declval< T >().EventType))>", "structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07std_1_1declval_3_01T_01_4_07_08_8EventType_08_08_4.html", null ],
-      [ "_HasToString", "structsw_1_1__HasToString.html", null ],
       [ "_IsExplicitlyConvertable", "structsw_1_1__IsExplicitlyConvertable.html", null ],
-      [ "_IsExplicitlyConvertable< TFrom, TTo, typename std::enable_if< true, decltype(void(static_cast< TTo >(std::declval< TFrom >())))>::type >", "structsw_1_1__IsExplicitlyConvertable_3_01TFrom_00_01TTo_00_01typename_01std_1_1enable__if_3_01t789f9f12e3682d4fb93b9cea449f7cb9.html", null ],
+      [ "_IsExplicitlyConvertable< TFrom, TTo, decltype(void(static_cast< TTo >(std::declval< TFrom >())))>", "structsw_1_1__IsExplicitlyConvertable_3_01TFrom_00_01TTo_00_01decltype_07void_07static__cast_3_0766a7d13d8d3f2686094df45a1f1184e.html", null ],
       [ "_IsProperty", "structsw_1_1__IsProperty.html", null ],
       [ "_IsPropertyImpl", "structsw_1_1__IsPropertyImpl.html", null ],
       [ "_IsPropertyImpl< Property< T > >", "structsw_1_1__IsPropertyImpl_3_01Property_3_01T_01_4_01_4.html", null ],

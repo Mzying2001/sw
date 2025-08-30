@@ -6,7 +6,6 @@ var hierarchy =
     [ "sw::_FuncTypeHelper< TArgsTuple >", "structsw_1_1__FuncTypeHelper.html", null ],
     [ "sw::_FuncTypeHelper< std::tuple< Args... > >", "structsw_1_1__FuncTypeHelper_3_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4.html", null ],
     [ "sw::_HasArrowOperatorVs2015Fix< T >", "structsw_1_1__HasArrowOperatorVs2015Fix.html", null ],
-    [ "sw::_HasToString< T >", "structsw_1_1__HasToString.html", null ],
     [ "sw::App", "classsw_1_1App.html", null ],
     [ "sw::CallableList< T >", "classsw_1_1CallableList.html", null ],
     [ "sw::CallableList< TRet(Args...)>", "classsw_1_1CallableList.html", null ],
@@ -401,10 +400,10 @@ var hierarchy =
     [ "sw::Size", "structsw_1_1Size.html", null ],
     [ "sw::Thickness", "structsw_1_1Thickness.html", null ],
     [ "std::true_type", null, [
-      [ "sw::_BracketOperationHelper< T, U, typename std::enable_if< true, decltype(void(std::declval< T >()[std::declval< U >()]))>::type >", "structsw_1_1__BracketOperationHelper_3_01T_00_01U_00_01typename_01std_1_1enable__if_3_01true_00_b2c508b8c47ced79f0d948fa499a2e57.html", null ],
+      [ "sw::_BracketOperationHelper< T, U, decltype(void(std::declval< T >()[std::declval< U >()]))>", "structsw_1_1__BracketOperationHelper_3_01T_00_01U_00_01decltype_07void_07std_1_1declval_3_01T_015d7340010b451efba17696e1bdb8739b.html", null ],
       [ "sw::_HasArrowOperator< T, typename std::enable_if< _HasArrowOperatorVs2015Fix< T >::value >::type >", "structsw_1_1__HasArrowOperator_3_01T_00_01typename_01std_1_1enable__if_3_01__HasArrowOperatorVs293feea522a622808e377a95351f242a0.html", null ],
       [ "sw::_HasEventType< T, decltype(void(std::declval< T >().EventType))>", "structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07std_1_1declval_3_01T_01_4_07_08_8EventType_08_08_4.html", null ],
-      [ "sw::_IsExplicitlyConvertable< TFrom, TTo, typename std::enable_if< true, decltype(void(static_cast< TTo >(std::declval< TFrom >())))>::type >", "structsw_1_1__IsExplicitlyConvertable_3_01TFrom_00_01TTo_00_01typename_01std_1_1enable__if_3_01t789f9f12e3682d4fb93b9cea449f7cb9.html", null ],
+      [ "sw::_IsExplicitlyConvertable< TFrom, TTo, decltype(void(static_cast< TTo >(std::declval< TFrom >())))>", "structsw_1_1__IsExplicitlyConvertable_3_01TFrom_00_01TTo_00_01decltype_07void_07static__cast_3_0766a7d13d8d3f2686094df45a1f1184e.html", null ],
       [ "sw::_IsPropertyImpl< Property< T > >", "structsw_1_1__IsPropertyImpl_3_01Property_3_01T_01_4_01_4.html", null ],
       [ "sw::_IsPropertyImpl< ReadOnlyProperty< T > >", "structsw_1_1__IsPropertyImpl_3_01ReadOnlyProperty_3_01T_01_4_01_4.html", null ],
       [ "sw::_IsPropertyImpl< WriteOnlyProperty< T > >", "structsw_1_1__IsPropertyImpl_3_01WriteOnlyProperty_3_01T_01_4_01_4.html", null ]
