@@ -1190,6 +1190,52 @@ namespace sw
 
     private:
         /**
+         * @brief 判断AddChild是否有对应类型的重载
+         */
+        template <typename T, typename = void>
+        struct _CanAddChild : std::false_type {
+        };
+
+        /**
+         * @brief _CanAddChild模板偏特化，当AddChild有对应类型的重载时该偏特化生效
+         */
+        template <typename T>
+        struct _CanAddChild<
+            T, decltype(void(std::declval<UIElement>().AddChild(std::declval<T>())))> : std::true_type {
+        };
+
+    public:
+        /**
+         * @brief  添加多个子元素
+         * @return 返回成功添加的子元素数量
+         * @note   当有一个子元素添加失败时后续的子元素将不会继续添加
+         * @note   添加的子元素必须与当前元素在同一线程创建
+         */
+        template <typename First, typename... Rest>
+        typename std::enable_if<_CanAddChild<First>::value, int>::type
+        AddChildren(First &&first, Rest &&...rest)
+        {
+            int count = 0;
+            if (this->AddChild(std::forward<First>(first)))
+                count = 1 + this->AddChildren(std::forward<Rest>(rest)...);
+            return count;
+        }
+
+        /**
+         * @brief  添加多个子元素
+         * @return 返回成功添加的子元素数量
+         * @note   当有一个子元素添加失败时后续的子元素将不会继续添加
+         * @note   添加的子元素必须与当前元素在同一线程创建
+         */
+        template <typename T>
+        typename std::enable_if<_CanAddChild<T>::value, int>::type
+        AddChildren(T &&child)
+        {
+            return this->AddChild(std::forward<T>(child)) ? 1 : 0;
+        }
+
+    private:
+        /**
          * @brief       设置水平对齐方式
          * @param value 要设置的值
          * @return      值是否发生改变
