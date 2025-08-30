@@ -24,6 +24,7 @@
 #include "Dip.h"
 #include "DockLayout.h"
 #include "DockPanel.h"
+#include "DockSpliter.h"
 #include "EnumBit.h"
 #include "EventHandlerWrapper.h"
 #include "FileDialog.h"
