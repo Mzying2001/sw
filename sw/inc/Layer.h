@@ -99,22 +99,6 @@ namespace sw
          */
         virtual ~Layer() = 0;
 
-    private:
-        /**
-         * @brief 获取布局对象，若Layout属性被赋值则返回设置的对象，否则返回默认布局对象
-         */
-        LayoutHost *_GetLayout();
-
-        /**
-         * @brief 在没有设定布局方式时，使用该函数对子元素Measure和Arrange
-         */
-        void _MeasureAndArrangeWithoutLayout();
-
-        /**
-         * @brief 使用设定的布局方式对子元素进行Measure和Arrange，不改变当前的尺寸和DesireSize
-         */
-        void _MeasureAndArrangeWithoutResize();
-
     protected:
         /**
          * @brief 更新布局
@@ -278,5 +262,21 @@ namespace sw
          * @param offset 滚动的偏移量
          */
         void ScrollVertical(double offset);
+
+    private:
+        /**
+         * @brief 获取布局对象，若Layout属性被赋值则返回设置的对象，否则返回默认布局对象
+         */
+        LayoutHost *_GetLayout();
+
+        /**
+         * @brief 在没有设定布局方式时，使用该函数对子元素Measure和Arrange
+         */
+        void _MeasureAndArrangeWithoutLayout();
+
+        /**
+         * @brief 使用设定的布局方式对子元素进行Measure和Arrange，不改变当前的尺寸和DesireSize
+         */
+        void _MeasureAndArrangeWithoutResize(LayoutHost &layout);
     };
 }

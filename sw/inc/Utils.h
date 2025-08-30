@@ -9,28 +9,28 @@
 namespace sw
 {
     /**
-     * @brief 判断一个类型是否有ToString方法
-     */
-    template <typename T>
-    struct _HasToString {
-    private:
-        template <typename U>
-        static auto test(int) -> decltype(std::declval<U>().ToString(), std::true_type());
-
-        template <typename U>
-        static auto test(...) -> std::false_type;
-
-    public:
-        static constexpr bool value = decltype(test<T>(0))::value;
-    };
-
-    /**
      * @brief 工具类
      */
     class Utils
     {
     private:
         Utils() = delete; // 删除构造函数
+
+        /**
+         * @brief 判断一个类型是否有ToString方法
+         */
+        template <typename T, typename = void>
+        struct _HasToString : std::false_type {
+        };
+
+        /**
+         * @brief _HasToString偏特化版本
+         */
+        template <typename T>
+        struct _HasToString<
+            T,
+            decltype(void(std::declval<T>().ToString()))> : std::true_type {
+        };
 
     public:
         /**

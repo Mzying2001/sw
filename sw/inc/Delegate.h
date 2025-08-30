@@ -398,8 +398,7 @@ namespace sw
 
         template <typename T>
         struct _IsEqualityComparable<
-            T,
-            typename std::enable_if<true, decltype(void(std::declval<T>() == std::declval<T>()))>::type> : std::true_type {
+            T, decltype(void(std::declval<T>() == std::declval<T>()))> : std::true_type {
         };
 
         template <typename T, typename = void>

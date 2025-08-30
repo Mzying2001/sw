@@ -26,7 +26,7 @@ namespace
     /**
      * @brief 控件id计数器
      */
-    std::atomic<int> _controlIdCounter = 1073741827;
+    std::atomic<int> _controlIdCounter{1073741827};
 }
 
 sw::WndBase::WndBase()
