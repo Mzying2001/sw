@@ -581,6 +581,12 @@ void sw::UIElement::SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlign
 void sw::UIElement::Resize(const Size &size)
 {
     this->_origionalSize = size;
+    this->ClampDesireSize(this->_origionalSize);
+
+    if (!this->IsRootElement()) {
+        this->InvalidateMeasure();
+        return;
+    }
 
     SetWindowPos(this->Handle, NULL,
                  0, 0, Dip::DipToPxX(size.width), Dip::DipToPxY(size.height),

@@ -688,13 +688,13 @@ namespace sw
 
         /**
          * @brief      限定指定尺寸在最小和最大尺寸之间
-         * @param size 要限定的尺寸
+         * @param size 要限定的尺寸，不包含边距
          */
         void ClampDesireSize(sw::Size &size) const;
 
         /**
          * @brief      限定指定矩形的尺寸在最小和最大尺寸之间
-         * @param rect 要限定的矩形
+         * @param rect 要限定的矩形，不包含边距
          */
         void ClampDesireSize(sw::Rect &rect) const;
 

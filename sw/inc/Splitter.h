@@ -1,13 +1,13 @@
 #pragma once
 
-#include "StaticControl.h"
+#include "Control.h"
 
 namespace sw
 {
     /**
      * @brief 分隔条
      */
-    class Splitter : public StaticControl
+    class Splitter : public Control
     {
     private:
         /**
@@ -15,12 +15,23 @@ namespace sw
          */
         Orientation _orientation = Orientation::Horizontal;
 
+        /**
+         * @brief 是否绘制分隔条线条
+         */
+        bool _drawSplitterLine = true;
+
     public:
         /**
          * @brief 分隔条的方向，给该属性赋值同时会改变HorizontalAlignment和VerticalAlignment属性的值
          */
         const Property<Orientation> Orientation;
 
+        /**
+         * @brief 是否绘制分隔条线条
+         */
+        const Property<bool> DrawSplitterLine;
+
+    public:
         /**
          * @brief 初始化分隔条
          */

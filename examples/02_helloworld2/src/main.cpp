@@ -41,8 +41,5 @@ int APIENTRY WinMain(
 
 
     // 显示窗口
-    window->Show();
-
-    // 开始消息循环
-    return sw::App::MsgLoop();
+    return window->ShowDialog();
 }
