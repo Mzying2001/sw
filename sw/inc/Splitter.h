@@ -1,13 +1,13 @@
 #pragma once
 
-#include "StaticControl.h"
+#include "Control.h"
 
 namespace sw
 {
     /**
      * @brief 分隔条
      */
-    class Splitter : public StaticControl
+    class Splitter : public Control
     {
     private:
         /**

@@ -1,41 +1,62 @@
 #include "Splitter.h"
 #include "Utils.h"
 
+namespace
+{
+    /**
+     * @brief 分隔条的窗口类名
+     */
+    constexpr wchar_t _SplitterClassName[] = L"sw::Splitter";
+}
+
 sw::Splitter::Splitter()
     : Orientation(
           // get
           [this]() -> sw::Orientation {
-              return this->_orientation;
+              return _orientation;
           },
           // set
           [this](const sw::Orientation &value) {
-              if (this->_orientation != value) {
-                  this->_orientation = value;
+              if (_orientation != value) {
+                  _orientation = value;
                   value == Orientation::Horizontal
-                      ? this->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center)
-                      : this->SetAlignment(HorizontalAlignment::Center, VerticalAlignment::Stretch);
+                      ? SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center)
+                      : SetAlignment(HorizontalAlignment::Center, VerticalAlignment::Stretch);
               }
           })
 {
-    this->Rect        = sw::Rect{0, 0, 10, 10};
-    this->Transparent = true;
-    this->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center);
+    static thread_local ATOM splitterClsAtom = 0;
+
+    if (splitterClsAtom == 0) {
+        WNDCLASSEXW wc{};
+        wc.cbSize        = sizeof(wc);
+        wc.hInstance     = App::Instance;
+        wc.lpfnWndProc   = DefWindowProcW;
+        wc.lpszClassName = _SplitterClassName;
+        wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
+        splitterClsAtom  = RegisterClassExW(&wc);
+    }
+
+    InitControl(_SplitterClassName, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
+    Rect        = sw::Rect{0, 0, 10, 10};
+    Transparent = true;
+    SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center);
 }
 
 bool sw::Splitter::OnPaint()
 {
     PAINTSTRUCT ps;
 
-    HWND hwnd = this->Handle;
+    HWND hwnd = Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
     RECT rect;
     GetClientRect(hwnd, &rect);
 
-    HBRUSH hBrush = CreateSolidBrush(this->GetRealBackColor());
+    HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
     FillRect(hdc, &rect, hBrush);
 
-    if (this->_orientation == sw::Orientation::Horizontal) {
+    if (_orientation == sw::Orientation::Horizontal) {
         // 在中间绘制横向分隔条
         rect.top += Utils::Max(0L, (rect.bottom - rect.top) / 2 - 1);
         DrawEdge(hdc, &rect, EDGE_ETCHED, BF_TOP);
@@ -52,6 +73,6 @@ bool sw::Splitter::OnPaint()
 
 bool sw::Splitter::OnSize(Size newClientSize)
 {
-    InvalidateRect(this->Handle, NULL, FALSE);
-    return this->UIElement::OnSize(newClientSize);
+    InvalidateRect(Handle, NULL, FALSE);
+    return UIElement::OnSize(newClientSize);
 }
