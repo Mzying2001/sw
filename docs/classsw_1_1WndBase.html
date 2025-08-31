@@ -127,11 +127,12 @@ $(document).ready(function(){initNavTree('classsw_1_1WndBase.html',''); initResi
 <area href="classsw_1_1PanelBase.html" title="面板类型的基类" alt="sw::PanelBase" shape="rect" coords="513,560,674,584"/>
 <area href="classsw_1_1ProgressBar.html" title="进度条控件" alt="sw::ProgressBar" shape="rect" coords="513,616,674,640"/>
 <area href="classsw_1_1Slider.html" title="滑块控件" alt="sw::Slider" shape="rect" coords="513,672,674,696"/>
-<area href="classsw_1_1StaticControl.html" title="静态控件" alt="sw::StaticControl" shape="rect" coords="513,728,674,752"/>
-<area href="classsw_1_1StatusBar.html" title="状态栏" alt="sw::StatusBar" shape="rect" coords="513,784,674,808"/>
-<area href="classsw_1_1SysLink.html" title="包含链接的文本区域" alt="sw::SysLink" shape="rect" coords="513,840,674,864"/>
-<area href="classsw_1_1TabControl.html" title="标签页控件" alt="sw::TabControl" shape="rect" coords="513,896,674,920"/>
-<area href="classsw_1_1TextBoxBase.html" title="窗口类名为EDIT的控件类型的基类" alt="sw::TextBoxBase" shape="rect" coords="513,952,674,976"/>
+<area href="classsw_1_1Splitter.html" title="分隔条" alt="sw::Splitter" shape="rect" coords="513,728,674,752"/>
+<area href="classsw_1_1StaticControl.html" title="静态控件" alt="sw::StaticControl" shape="rect" coords="513,784,674,808"/>
+<area href="classsw_1_1StatusBar.html" title="状态栏" alt="sw::StatusBar" shape="rect" coords="513,840,674,864"/>
+<area href="classsw_1_1SysLink.html" title="包含链接的文本区域" alt="sw::SysLink" shape="rect" coords="513,896,674,920"/>
+<area href="classsw_1_1TabControl.html" title="标签页控件" alt="sw::TabControl" shape="rect" coords="513,952,674,976"/>
+<area href="classsw_1_1TextBoxBase.html" title="窗口类名为EDIT的控件类型的基类" alt="sw::TextBoxBase" shape="rect" coords="513,1008,674,1032"/>
 <area href="classsw_1_1PanelBase.html" title="面板类型的基类" alt="sw::PanelBase" shape="rect" coords="855,168,1016,192"/>
 <area href="classsw_1_1Window.html" title="窗口" alt="sw::Window" shape="rect" coords="855,224,1016,248"/>
   </map>
@@ -359,9 +360,13 @@ const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClassName</b></td></tr>
 <tr class="memdesc:a39da72806797078fa2ea1a62ada465fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口类名 <br /></td></tr>
 <tr class="separator:a39da72806797078fa2ea1a62ada465fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad84646bb792dd189df542aa3b8185def" id="r_ad84646bb792dd189df542aa3b8185def"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#ad84646bb792dd189df542aa3b8185def">GroupStart</a></td></tr>
-<tr class="memdesc:ad84646bb792dd189df542aa3b8185def"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口是一组控件中的第一个控件  <br /></td></tr>
-<tr class="separator:ad84646bb792dd189df542aa3b8185def"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e6dcf5b1b40bd1aed39d6db9a58e377" id="r_a5e6dcf5b1b40bd1aed39d6db9a58e377"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a5e6dcf5b1b40bd1aed39d6db9a58e377">IsGroupStart</a></td></tr>
+<tr class="memdesc:a5e6dcf5b1b40bd1aed39d6db9a58e377"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口是否为一组控件中的第一个控件  <br /></td></tr>
+<tr class="separator:a5e6dcf5b1b40bd1aed39d6db9a58e377"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6519a02519ba71182d53eb063b2b01cf" id="r_a6519a02519ba71182d53eb063b2b01cf"><td class="memItemLeft" align="right" valign="top"><a id="a6519a02519ba71182d53eb063b2b01cf" name="a6519a02519ba71182d53eb063b2b01cf"></a>
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsMouseCaptured</b></td></tr>
+<tr class="memdesc:a6519a02519ba71182d53eb063b2b01cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">鼠标是否被当前窗口捕获 <br /></td></tr>
+<tr class="separator:a6519a02519ba71182d53eb063b2b01cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
@@ -1659,7 +1664,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1Button.html#a7c8ac08e29b2b2294047949bfc025891">sw::Button</a>, <a class="el" href="classsw_1_1CommandLink.html#a5b1d643fc7bb8cb9652157032747551b">sw::CommandLink</a>, <a class="el" href="classsw_1_1TextBoxBase.html#a83561e8ffe232f84c13dc14c941600f6">sw::TextBoxBase</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#ab7adb46425947c0b14b3bc5b60f6fdac">sw::UIElement</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1Button.html#a7c8ac08e29b2b2294047949bfc025891">sw::Button</a>, <a class="el" href="classsw_1_1CommandLink.html#a5b1d643fc7bb8cb9652157032747551b">sw::CommandLink</a>, <a class="el" href="classsw_1_1DockSplitter.html#ae263ed8c8113815ab618559b60814c62">sw::DockSplitter</a>, <a class="el" href="classsw_1_1TextBoxBase.html#a83561e8ffe232f84c13dc14c941600f6">sw::TextBoxBase</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#ab7adb46425947c0b14b3bc5b60f6fdac">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>
@@ -1744,7 +1749,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1Button.html#a367d1dfa43e065dbe2a0272d4cfef458">sw::Button</a>, <a class="el" href="classsw_1_1CommandLink.html#afb62004ffbe64b4f930aa146fb577b79">sw::CommandLink</a>, <a class="el" href="classsw_1_1Control.html#a18296053d3a7b8476cda377664434232">sw::Control</a>, <a class="el" href="classsw_1_1PanelBase.html#a452a0bdb18314561e92674982e86c3e4">sw::PanelBase</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a6b8833ac8fe8798edd0480f737aea426">sw::UIElement</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1Button.html#a367d1dfa43e065dbe2a0272d4cfef458">sw::Button</a>, <a class="el" href="classsw_1_1CommandLink.html#afb62004ffbe64b4f930aa146fb577b79">sw::CommandLink</a>, <a class="el" href="classsw_1_1Control.html#a18296053d3a7b8476cda377664434232">sw::Control</a>, <a class="el" href="classsw_1_1DockSplitter.html#aab1db4ae915f5abe6856a2a571f2afdc">sw::DockSplitter</a>, <a class="el" href="classsw_1_1PanelBase.html#a452a0bdb18314561e92674982e86c3e4">sw::PanelBase</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a6b8833ac8fe8798edd0480f737aea426">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>
@@ -1985,7 +1990,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1UIElement.html#a307e0afb1a83b8a31a54844089483f76">sw::UIElement</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1DockSplitter.html#a895e716811762d51b14a5260a59dac26">sw::DockSplitter</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a307e0afb1a83b8a31a54844089483f76">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>
@@ -2033,7 +2038,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1UIElement.html#ad3360842adfd2298d4d505305250a6eb">sw::UIElement</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1DockSplitter.html#a2f38357581e07d1776d2bd80cc8baf9a">sw::DockSplitter</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#ad3360842adfd2298d4d505305250a6eb">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>
@@ -2223,7 +2228,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1UIElement.html#a2589db7fdbba4423307e64f6289a4650">sw::UIElement</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1DockSplitter.html#a200dfb30570c87b26ffa98a28bb70cfe">sw::DockSplitter</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a2589db7fdbba4423307e64f6289a4650">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>
@@ -2725,7 +2730,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值 </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1UIElement.html#a6175e146290ecff80407d4c8afa1cf05">sw::UIElement</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1DockSplitter.html#abdf4fb3e8320ea017e38930eee045688">sw::DockSplitter</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a6175e146290ecff80407d4c8afa1cf05">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>
@@ -3478,19 +3483,19 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 </div>
 </div>
 <h2 class="groupheader">类成员变量说明</h2>
-<a id="ad84646bb792dd189df542aa3b8185def" name="ad84646bb792dd189df542aa3b8185def"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad84646bb792dd189df542aa3b8185def">&#9670;&#160;</a></span>GroupStart</h2>
+<a id="a5e6dcf5b1b40bd1aed39d6db9a58e377" name="a5e6dcf5b1b40bd1aed39d6db9a58e377"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e6dcf5b1b40bd1aed39d6db9a58e377">&#9670;&#160;</a></span>IsGroupStart</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classsw_1_1Property.html">Property</a>&lt;bool&gt; sw::WndBase::GroupStart</td>
+          <td class="memname">const <a class="el" href="classsw_1_1Property.html">Property</a>&lt;bool&gt; sw::WndBase::IsGroupStart</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>窗口是一组控件中的第一个控件 </p>
+<p>窗口是否为一组控件中的第一个控件 </p>
 <dl class="section note"><dt>注解</dt><dd>当窗口拥有WS_GROUP样式时该属性值为true，否则为false </dd></dl>
 
 </div>

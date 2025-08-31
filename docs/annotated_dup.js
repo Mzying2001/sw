@@ -52,6 +52,7 @@ var annotated_dup =
       [ "DockLayout", "classsw_1_1DockLayout.html", "classsw_1_1DockLayout" ],
       [ "DockLayoutTag", "classsw_1_1DockLayoutTag.html", "classsw_1_1DockLayoutTag" ],
       [ "DockPanel", "classsw_1_1DockPanel.html", "classsw_1_1DockPanel" ],
+      [ "DockSplitter", "classsw_1_1DockSplitter.html", "classsw_1_1DockSplitter" ],
       [ "DropFilesEventArgs", "structsw_1_1DropFilesEventArgs.html", null ],
       [ "FieldsAccessor", "structsw_1_1FieldsAccessor.html", "structsw_1_1FieldsAccessor" ],
       [ "FileDialog", "classsw_1_1FileDialog.html", "classsw_1_1FileDialog" ],

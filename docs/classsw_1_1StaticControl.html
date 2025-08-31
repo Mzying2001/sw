@@ -107,16 +107,15 @@ $(document).ready(function(){initNavTree('classsw_1_1StaticControl.html',''); in
  <div class="center">
   <img src="classsw_1_1StaticControl.png" usemap="#sw::StaticControl_map" alt=""/>
   <map id="sw::StaticControl_map" name="sw::StaticControl_map">
-<area href="classsw_1_1Control.html" title="控件" alt="sw::Control" shape="rect" coords="284,112,416,136"/>
-<area href="classsw_1_1UIElement.html" title="表示界面中的元素" alt="sw::UIElement" shape="rect" coords="284,56,416,80"/>
-<area href="classsw_1_1WndBase.html" title="表示一个Windows窗口，是所有窗口和控件的基类" alt="sw::WndBase" shape="rect" coords="142,0,274,24"/>
-<area href="classsw_1_1ILayout.html" title="布局接口" alt="sw::ILayout" shape="rect" coords="284,0,416,24"/>
-<area href="classsw_1_1ITag.html" title="Tag接口" alt="sw::ITag" shape="rect" coords="426,0,558,24"/>
+<area href="classsw_1_1Control.html" title="控件" alt="sw::Control" shape="rect" coords="213,112,345,136"/>
+<area href="classsw_1_1UIElement.html" title="表示界面中的元素" alt="sw::UIElement" shape="rect" coords="213,56,345,80"/>
+<area href="classsw_1_1WndBase.html" title="表示一个Windows窗口，是所有窗口和控件的基类" alt="sw::WndBase" shape="rect" coords="71,0,203,24"/>
+<area href="classsw_1_1ILayout.html" title="布局接口" alt="sw::ILayout" shape="rect" coords="213,0,345,24"/>
+<area href="classsw_1_1ITag.html" title="Tag接口" alt="sw::ITag" shape="rect" coords="355,0,487,24"/>
 <area href="classsw_1_1BmpBox.html" title="用于显示一个位图的控件" alt="sw::BmpBox" shape="rect" coords="0,224,132,248"/>
 <area href="classsw_1_1HwndHost.html" title="将Win32 window托管为SimpleWindow控件" alt="sw::HwndHost" shape="rect" coords="142,224,274,248"/>
 <area href="classsw_1_1IconBox.html" title="用于显示一个图标的控件" alt="sw::IconBox" shape="rect" coords="284,224,416,248"/>
 <area href="classsw_1_1Label.html" title="标签" alt="sw::Label" shape="rect" coords="426,224,558,248"/>
-<area href="classsw_1_1Splitter.html" title="分隔条" alt="sw::Splitter" shape="rect" coords="568,224,700,248"/>
 <area href="classsw_1_1IPAddressControl.html" title="IP地址框" alt="sw::IPAddressControl" shape="rect" coords="142,280,274,304"/>
   </map>
 </div></div>
@@ -676,9 +675,13 @@ const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; std::wstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ClassName</b></td></tr>
 <tr class="memdesc:a39da72806797078fa2ea1a62ada465fc inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口类名 <br /></td></tr>
 <tr class="separator:a39da72806797078fa2ea1a62ada465fc inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad84646bb792dd189df542aa3b8185def inherit pub_attribs_classsw_1_1WndBase" id="r_ad84646bb792dd189df542aa3b8185def"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#ad84646bb792dd189df542aa3b8185def">GroupStart</a></td></tr>
-<tr class="memdesc:ad84646bb792dd189df542aa3b8185def inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口是一组控件中的第一个控件  <br /></td></tr>
-<tr class="separator:ad84646bb792dd189df542aa3b8185def inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e6dcf5b1b40bd1aed39d6db9a58e377 inherit pub_attribs_classsw_1_1WndBase" id="r_a5e6dcf5b1b40bd1aed39d6db9a58e377"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a5e6dcf5b1b40bd1aed39d6db9a58e377">IsGroupStart</a></td></tr>
+<tr class="memdesc:a5e6dcf5b1b40bd1aed39d6db9a58e377 inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口是否为一组控件中的第一个控件  <br /></td></tr>
+<tr class="separator:a5e6dcf5b1b40bd1aed39d6db9a58e377 inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6519a02519ba71182d53eb063b2b01cf inherit pub_attribs_classsw_1_1WndBase" id="r_a6519a02519ba71182d53eb063b2b01cf"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsMouseCaptured</b></td></tr>
+<tr class="memdesc:a6519a02519ba71182d53eb063b2b01cf inherit pub_attribs_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">鼠标是否被当前窗口捕获 <br /></td></tr>
+<tr class="separator:a6519a02519ba71182d53eb063b2b01cf inherit pub_attribs_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 额外继承的成员函数</h2></td></tr>

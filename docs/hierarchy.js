@@ -144,14 +144,16 @@ var hierarchy =
           ] ],
           [ "sw::ProgressBar", "classsw_1_1ProgressBar.html", null ],
           [ "sw::Slider", "classsw_1_1Slider.html", null ],
+          [ "sw::Splitter", "classsw_1_1Splitter.html", [
+            [ "sw::DockSplitter", "classsw_1_1DockSplitter.html", null ]
+          ] ],
           [ "sw::StaticControl", "classsw_1_1StaticControl.html", [
             [ "sw::BmpBox", "classsw_1_1BmpBox.html", null ],
             [ "sw::HwndHost", "classsw_1_1HwndHost.html", [
               [ "sw::IPAddressControl", "classsw_1_1IPAddressControl.html", null ]
             ] ],
             [ "sw::IconBox", "classsw_1_1IconBox.html", null ],
-            [ "sw::Label", "classsw_1_1Label.html", null ],
-            [ "sw::Splitter", "classsw_1_1Splitter.html", null ]
+            [ "sw::Label", "classsw_1_1Label.html", null ]
           ] ],
           [ "sw::StatusBar", "classsw_1_1StatusBar.html", null ],
           [ "sw::SysLink", "classsw_1_1SysLink.html", null ],
