@@ -258,7 +258,7 @@ sw::WndBase::WndBase()
               return result;
           }),
 
-      GroupStart(
+      IsGroupStart(
           // get
           [this]() -> bool {
               return this->GetStyle(WS_GROUP);
@@ -266,6 +266,12 @@ sw::WndBase::WndBase()
           // set
           [this](const bool &value) {
               this->SetStyle(WS_GROUP, value);
+          }),
+
+      IsMouseCaptured(
+          // get
+          [this]() -> bool {
+              return GetCapture() == this->_hwnd;
           })
 {
     this->_font = sw::Font::GetDefaultFont();
