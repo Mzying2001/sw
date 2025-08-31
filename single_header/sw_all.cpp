@@ -1701,6 +1701,180 @@ sw::LayoutHost *sw::DockPanel::GetDefaultLayout()
     return &this->_dockLayout;
 }
 
+// DockSplitter.cpp
+
+sw::DockSplitter::DockSplitter()
+{
+    _hCurHorz = CursorHelper::GetCursorHandle(StandardCursor::SizeNS);
+    _hCurVert = CursorHelper::GetCursorHandle(StandardCursor::SizeWE);
+}
+
+void sw::DockSplitter::CancelDrag(bool restoreSize)
+{
+    if (GetCapture() == Handle) {
+        _OnEndDrag(restoreSize);
+    }
+}
+
+bool sw::DockSplitter::OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState)
+{
+    if (TBase::OnMouseLeftButtonDown(mousePosition, keyState))
+        return true;
+    else {
+        _OnStartDrag();
+        return true;
+    }
+}
+
+bool sw::DockSplitter::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState)
+{
+    if (TBase::OnMouseLeftButtonUp(mousePosition, keyState))
+        return true;
+    else {
+        if (GetCapture() == Handle)
+            _OnEndDrag(false);
+        return true;
+    }
+}
+
+bool sw::DockSplitter::OnMouseMove(Point mousePosition, MouseKey keyState)
+{
+    if (TBase::OnMouseMove(mousePosition, keyState))
+        return true;
+    else {
+        if (GetCapture() == Handle)
+            _OnDragMove();
+        return true;
+    }
+}
+
+bool sw::DockSplitter::OnKillFocus(HWND hNextFocus)
+{
+    if (TBase::OnKillFocus(hNextFocus))
+        return true;
+    else {
+        if (GetCapture() == Handle)
+            _OnEndDrag(false);
+        return false;
+    }
+}
+
+bool sw::DockSplitter::OnKeyDown(VirtualKey key, KeyFlags flags)
+{
+    if (TBase::OnKeyDown(key, flags))
+        return true;
+    else {
+        if (key == VirtualKey::Esc) {
+            if (GetCapture() == Handle)
+                _OnEndDrag(true);
+            return true;
+        }
+        return false;
+    }
+}
+
+bool sw::DockSplitter::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result)
+{
+    ::SetCursor(Orientation == Orientation::Horizontal ? _hCurHorz : _hCurVert);
+    result = true;
+    return true;
+}
+
+void sw::DockSplitter::_OnStartDrag()
+{
+    _UpdateRelatedElement();
+
+    POINT pt;
+    GetCursorPos(&pt);
+    _initialMousePos = Point(pt);
+
+    if (_relatedElement != nullptr) {
+        _initialRelatedElementSize = _relatedElement->Rect->GetSize();
+        SetCapture(Handle);
+        Focused = true;
+    }
+}
+
+void sw::DockSplitter::_OnEndDrag(bool restoreSize)
+{
+    ReleaseCapture();
+
+    if (_relatedElement != nullptr) {
+        if (restoreSize)
+            _relatedElement->Resize(_initialRelatedElementSize);
+        _relatedElement = nullptr;
+    }
+}
+
+void sw::DockSplitter::_OnDragMove()
+{
+    if (_relatedElement == nullptr) return;
+    if (_relatedElement->Parent != Parent) return;
+
+    POINT pt;
+    GetCursorPos(&pt);
+    Point currentMousePos = Point(pt);
+
+    auto newSize = _initialRelatedElementSize;
+    if (Orientation == Orientation::Vertical) {
+        // 水平方向
+        double delta =
+            currentMousePos.x - _initialMousePos.x;
+        switch (LayoutTag.Get()) {
+            case DockLayoutTag::Left: {
+                newSize.width += delta;
+                break;
+            }
+            case DockLayoutTag::Right: {
+                newSize.width -= delta;
+                break;
+            }
+        }
+    } else {
+        // 垂直方向
+        double delta =
+            currentMousePos.y - _initialMousePos.y;
+        switch (LayoutTag.Get()) {
+            case DockLayoutTag::Top: {
+                newSize.height += delta;
+                break;
+            }
+            case DockLayoutTag::Bottom: {
+                newSize.height -= delta;
+                break;
+            }
+        }
+    }
+
+    newSize.width  = Utils::Max(newSize.width, 0.0);
+    newSize.height = Utils::Max(newSize.height, 0.0);
+    _relatedElement->Resize(newSize);
+}
+
+void sw::DockSplitter::_UpdateRelatedElement()
+{
+    _relatedElement = nullptr;
+
+    UIElement *parent = Parent;
+    if (parent == nullptr) return;
+
+    int index       = parent->IndexOf(this);
+    _relatedElement = _FindPreviousElement(parent, index - 1, sw::DockLayoutTag(LayoutTag));
+}
+
+sw::UIElement *sw::DockSplitter::_FindPreviousElement(UIElement *parent, int startIndex, sw::DockLayoutTag tag)
+{
+    for (int i = startIndex; i >= 0; --i) {
+        auto ele = &parent->GetChildAt(i);
+        if (ele->LayoutTag == tag) {
+            if (!ele->Visible && ele->CollapseWhenHide)
+                return nullptr;
+            return ele;
+        }
+    }
+    return nullptr;
+}
+
 // FileDialog.cpp
 
 namespace
@@ -6992,48 +7166,85 @@ void sw::Slider::OnEndTrack()
 
 // Splitter.cpp
 
+namespace
+{
+    /**
+     * @brief 分隔条的窗口类名
+     */
+    constexpr wchar_t _SplitterClassName[] = L"sw::Splitter";
+}
+
 sw::Splitter::Splitter()
     : Orientation(
           // get
           [this]() -> sw::Orientation {
-              return this->_orientation;
+              return _orientation;
           },
           // set
           [this](const sw::Orientation &value) {
-              if (this->_orientation != value) {
-                  this->_orientation = value;
+              if (_orientation != value) {
+                  _orientation = value;
                   value == Orientation::Horizontal
-                      ? this->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center)
-                      : this->SetAlignment(HorizontalAlignment::Center, VerticalAlignment::Stretch);
+                      ? SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center)
+                      : SetAlignment(HorizontalAlignment::Center, VerticalAlignment::Stretch);
+              }
+          }),
+
+      DrawSplitterLine(
+          // get
+          [this]() -> bool {
+              return _drawSplitterLine;
+          },
+          // set
+          [this](const bool &value) {
+              if (_drawSplitterLine != value) {
+                  _drawSplitterLine = value;
+                  Redraw();
               }
           })
 {
-    this->Rect        = sw::Rect{0, 0, 10, 10};
-    this->Transparent = true;
-    this->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center);
+    static thread_local ATOM splitterClsAtom = 0;
+
+    if (splitterClsAtom == 0) {
+        WNDCLASSEXW wc{};
+        wc.cbSize        = sizeof(wc);
+        wc.hInstance     = App::Instance;
+        wc.lpfnWndProc   = DefWindowProcW;
+        wc.lpszClassName = _SplitterClassName;
+        wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
+        splitterClsAtom  = RegisterClassExW(&wc);
+    }
+
+    InitControl(_SplitterClassName, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
+
+    Rect        = sw::Rect{0, 0, 10, 10};
+    Transparent = true;
+    SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center);
 }
 
 bool sw::Splitter::OnPaint()
 {
     PAINTSTRUCT ps;
 
-    HWND hwnd = this->Handle;
+    HWND hwnd = Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
     RECT rect;
     GetClientRect(hwnd, &rect);
 
-    HBRUSH hBrush = CreateSolidBrush(this->GetRealBackColor());
+    HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
     FillRect(hdc, &rect, hBrush);
 
-    if (this->_orientation == sw::Orientation::Horizontal) {
-        // 在中间绘制横向分隔条
-        rect.top += Utils::Max(0L, (rect.bottom - rect.top) / 2 - 1);
-        DrawEdge(hdc, &rect, EDGE_ETCHED, BF_TOP);
-    } else {
-        // 在中间绘制纵向分隔条
-        rect.left += Utils::Max(0L, (rect.right - rect.left) / 2 - 1);
-        DrawEdge(hdc, &rect, EDGE_ETCHED, BF_LEFT);
+    if (_drawSplitterLine) {
+        if (_orientation == sw::Orientation::Horizontal) {
+            // 在中间绘制横向分隔条
+            rect.top += Utils::Max(0L, (rect.bottom - rect.top) / 2 - 1);
+            DrawEdge(hdc, &rect, EDGE_ETCHED, BF_TOP);
+        } else {
+            // 在中间绘制纵向分隔条
+            rect.left += Utils::Max(0L, (rect.right - rect.left) / 2 - 1);
+            DrawEdge(hdc, &rect, EDGE_ETCHED, BF_LEFT);
+        }
     }
 
     DeleteObject(hBrush);
@@ -7043,8 +7254,8 @@ bool sw::Splitter::OnPaint()
 
 bool sw::Splitter::OnSize(Size newClientSize)
 {
-    InvalidateRect(this->Handle, NULL, FALSE);
-    return this->UIElement::OnSize(newClientSize);
+    InvalidateRect(Handle, NULL, FALSE);
+    return UIElement::OnSize(newClientSize);
 }
 
 // StackLayout.cpp
@@ -8664,6 +8875,12 @@ void sw::UIElement::SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlign
 void sw::UIElement::Resize(const Size &size)
 {
     this->_origionalSize = size;
+    this->ClampDesireSize(this->_origionalSize);
+
+    if (!this->IsRootElement()) {
+        this->InvalidateMeasure();
+        return;
+    }
 
     SetWindowPos(this->Handle, NULL,
                  0, 0, Dip::DipToPxX(size.width), Dip::DipToPxY(size.height),
@@ -10519,7 +10736,7 @@ sw::WndBase::WndBase()
               return result;
           }),
 
-      GroupStart(
+      IsGroupStart(
           // get
           [this]() -> bool {
               return this->GetStyle(WS_GROUP);
@@ -10527,6 +10744,12 @@ sw::WndBase::WndBase()
           // set
           [this](const bool &value) {
               this->SetStyle(WS_GROUP, value);
+          }),
+
+      IsMouseCaptured(
+          // get
+          [this]() -> bool {
+              return GetCapture() == this->_hwnd;
           })
 {
     this->_font = sw::Font::GetDefaultFont();

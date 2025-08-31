@@ -6728,10 +6728,15 @@ namespace sw
         const ReadOnlyProperty<std::wstring> ClassName;
 
         /**
-         * @brief 窗口是一组控件中的第一个控件
+         * @brief 窗口是否为一组控件中的第一个控件
          * @note  当窗口拥有WS_GROUP样式时该属性值为true，否则为false
          */
-        const Property<bool> GroupStart;
+        const Property<bool> IsGroupStart;
+
+        /**
+         * @brief 鼠标是否被当前窗口捕获
+         */
+        const ReadOnlyProperty<bool> IsMouseCaptured;
 
     protected:
         /**
@@ -8986,13 +8991,13 @@ namespace sw
 
         /**
          * @brief      限定指定尺寸在最小和最大尺寸之间
-         * @param size 要限定的尺寸
+         * @param size 要限定的尺寸，不包含边距
          */
         void ClampDesireSize(sw::Size &size) const;
 
         /**
          * @brief      限定指定矩形的尺寸在最小和最大尺寸之间
-         * @param rect 要限定的矩形
+         * @param rect 要限定的矩形，不包含边距
          */
         void ClampDesireSize(sw::Rect &rect) const;
 
@@ -10996,6 +11001,60 @@ namespace sw
     };
 }
 
+// Splitter.h
+
+
+namespace sw
+{
+    /**
+     * @brief 分隔条
+     */
+    class Splitter : public Control
+    {
+    private:
+        /**
+         * @brief 记录分隔条方向
+         */
+        Orientation _orientation = Orientation::Horizontal;
+
+        /**
+         * @brief 是否绘制分隔条线条
+         */
+        bool _drawSplitterLine = true;
+
+    public:
+        /**
+         * @brief 分隔条的方向，给该属性赋值同时会改变HorizontalAlignment和VerticalAlignment属性的值
+         */
+        const Property<Orientation> Orientation;
+
+        /**
+         * @brief 是否绘制分隔条线条
+         */
+        const Property<bool> DrawSplitterLine;
+
+    public:
+        /**
+         * @brief 初始化分隔条
+         */
+        Splitter();
+
+    protected:
+        /**
+         * @brief  接收到WM_PAINT时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnPaint() override;
+
+        /**
+         * @brief               接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnSize(Size newClientSize) override;
+    };
+}
+
 // StaticControl.h
 
 
@@ -12290,6 +12349,137 @@ namespace sw
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
+    };
+}
+
+// DockSplitter.h
+
+
+namespace sw
+{
+    /**
+     * @brief 用于在DockLayout布局中调整停靠元素大小的分隔条
+     */
+    class DockSplitter : public Splitter
+    {
+    private:
+        /**
+         * @brief 基类别名，方便调用基类函数实现
+         */
+        using TBase = Splitter;
+
+        /**
+         * @brief 水平分隔条的鼠标样式
+         */
+        HCURSOR _hCurHorz = NULL;
+
+        /**
+         * @brief 垂直分隔条的鼠标样式
+         */
+        HCURSOR _hCurVert = NULL;
+
+        /**
+         * @brief 相关联的停靠元素
+         */
+        UIElement *_relatedElement = nullptr;
+
+        /**
+         * @brief 拖动开始时鼠标的位置
+         */
+        sw::Point _initialMousePos{};
+
+        /**
+         * @brief 拖动开始时相关联的停靠元素的位置和尺寸
+         */
+        sw::Size _initialRelatedElementSize{};
+
+    public:
+        /**
+         * @brief 初始化DockSplitter
+         */
+        DockSplitter();
+
+        /**
+         * @brief             取消拖动分隔条
+         * @param restoreSize 是否将相关联的元素恢复到拖动开始时的大小
+         */
+        void CancelDrag(bool restoreSize = false);
+
+    protected:
+        /**
+         * @brief               接收到WM_LBUTTONDOWN时调用该函数
+         * @param mousePosition 鼠标在用户区中的位置
+         * @param keyState      指示某些按键是否按下
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState) override;
+
+        /**
+         * @brief               接收到WM_LBUTTONUP时调用该函数
+         * @param mousePosition 鼠标在用户区中的位置
+         * @param keyState      指示某些按键是否按下
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState) override;
+
+        /**
+         * @brief               接收到WM_MOUSEMOVE时调用该函数
+         * @param mousePosition 鼠标在用户区中的位置
+         * @param keyState      指示某些按键是否按下
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
+
+        /**
+         * @brief            接收到WM_KILLFOCUS时调用该函数
+         * @param hNextFocus 接收到焦点的hwnd，可能为NULL
+         * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnKillFocus(HWND hNextFocus) override;
+
+        /**
+         * @brief       接收到WM_KEYDOWN时调用该函数
+         * @param key   虚拟按键
+         * @param flags 附加信息
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
+
+        /**
+         * @brief         接收到WM_SETCURSOR消息时调用该函数
+         * @param hwnd    鼠标所在窗口的句柄
+         * @param hitTest hit-test的结果，详见WM_NCHITTEST消息的返回值
+         * @param message 触发该事件的鼠标消息，如WM_MOUSEMOVE
+         * @param result  消息的返回值，默认为false
+         * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result) override;
+
+    private:
+        /**
+         * @brief 当开始拖动分隔条时调用该函数
+         */
+        void _OnStartDrag();
+
+        /**
+         * @brief 当结束拖动分隔条时调用该函数
+         */
+        void _OnEndDrag(bool restoreSize);
+
+        /**
+         * @brief 当拖动分隔条时调用该函数
+         */
+        void _OnDragMove();
+
+        /**
+         * @brief 更新相关联的停靠元素
+         */
+        void _UpdateRelatedElement();
+
+        /**
+         * @brief 在指定父元素中查找指定布局标记的前一个元素
+         */
+        UIElement *_FindPreviousElement(UIElement *parent, int startIndex, sw::DockLayoutTag tag);
     };
 }
 
@@ -14105,49 +14295,6 @@ namespace sw
          * @brief 初始化密码框
          */
         PasswordBox();
-    };
-}
-
-// Splitter.h
-
-
-namespace sw
-{
-    /**
-     * @brief 分隔条
-     */
-    class Splitter : public StaticControl
-    {
-    private:
-        /**
-         * @brief 记录分隔条方向
-         */
-        Orientation _orientation = Orientation::Horizontal;
-
-    public:
-        /**
-         * @brief 分隔条的方向，给该属性赋值同时会改变HorizontalAlignment和VerticalAlignment属性的值
-         */
-        const Property<Orientation> Orientation;
-
-        /**
-         * @brief 初始化分隔条
-         */
-        Splitter();
-
-    protected:
-        /**
-         * @brief  接收到WM_PAINT时调用该函数
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnPaint() override;
-
-        /**
-         * @brief               接收到WM_SIZE时调用该函数
-         * @param newClientSize 改变后的用户区尺寸
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnSize(Size newClientSize) override;
     };
 }
 
