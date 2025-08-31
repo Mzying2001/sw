@@ -258,7 +258,7 @@ sw::WndBase::WndBase()
               return result;
           }),
 
-      GroupStart(
+      IsGroupStart(
           // get
           [this]() -> bool {
               return this->GetStyle(WS_GROUP);

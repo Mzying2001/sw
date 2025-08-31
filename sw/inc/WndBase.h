@@ -203,10 +203,10 @@ namespace sw
         const ReadOnlyProperty<std::wstring> ClassName;
 
         /**
-         * @brief 窗口是一组控件中的第一个控件
+         * @brief 窗口是否为一组控件中的第一个控件
          * @note  当窗口拥有WS_GROUP样式时该属性值为true，否则为false
          */
-        const Property<bool> GroupStart;
+        const Property<bool> IsGroupStart;
 
     protected:
         /**
