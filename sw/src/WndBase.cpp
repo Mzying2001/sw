@@ -266,6 +266,12 @@ sw::WndBase::WndBase()
           // set
           [this](const bool &value) {
               this->SetStyle(WS_GROUP, value);
+          }),
+
+      IsMouseCaptured(
+          // get
+          [this]() -> bool {
+              return GetCapture() == this->_hwnd;
           })
 {
     this->_font = sw::Font::GetDefaultFont();

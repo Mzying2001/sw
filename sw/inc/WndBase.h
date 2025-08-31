@@ -208,6 +208,11 @@ namespace sw
          */
         const Property<bool> IsGroupStart;
 
+        /**
+         * @brief 鼠标是否被当前窗口捕获
+         */
+        const ReadOnlyProperty<bool> IsMouseCaptured;
+
     protected:
         /**
          * @brief 初始化WndBase
