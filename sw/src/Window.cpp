@@ -490,11 +490,8 @@ int sw::Window::ShowDialog(Window *owner)
     HWND hOwner = NULL;
     HWND hwnd   = Handle;
 
-    {
-        Window *pOwner;
-        pOwner = Owner;
-        hOwner = pOwner ? pOwner->Handle : reinterpret_cast<HWND>(GetWindowLongPtrW(hwnd, GWLP_HWNDPARENT));
-    }
+    owner  = this->Owner;
+    hOwner = owner ? owner->Handle : reinterpret_cast<HWND>(GetWindowLongPtrW(hwnd, GWLP_HWNDPARENT));
 
     if (hOwner == NULL) {
         if ((hOwner = GetActiveWindow()) != NULL) {
