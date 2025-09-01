@@ -52,7 +52,7 @@ void sw::BmpBox::Clear()
 void sw::BmpBox::SizeToImage()
 {
     if (this->_hBitmap != NULL) {
-        SetWindowPos(this->Handle, NULL, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER);
+        this->Resize(this->_bmpSize);
     }
 }
 

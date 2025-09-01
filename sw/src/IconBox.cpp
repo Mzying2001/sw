@@ -60,7 +60,7 @@ void sw::IconBox::SizeToIcon()
         return;
 
     if (GetObjectW(info.hbmColor, sizeof(bm), &bm)) {
-        SetWindowPos(this->Handle, NULL, 0, 0, bm.bmWidth, bm.bmHeight, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER);
+        this->Resize(SIZE{bm.bmWidth, bm.bmHeight});
     }
 
     DeleteObject(info.hbmColor);
