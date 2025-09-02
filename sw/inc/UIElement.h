@@ -708,7 +708,8 @@ namespace sw
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
+         * @return              返回元素需要占用的尺寸，若返回Size{NAN,NAN}则使用默认实现
+         * @note                返回值除了Size{NAN,NAN}表示默认尺寸外不应包含NAN、INF、负数等非法值
          */
         virtual Size MeasureOverride(const Size &availableSize);
 
