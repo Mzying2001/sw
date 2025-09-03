@@ -285,6 +285,9 @@ sw::WndBase::~WndBase()
     if (this->_hfont != NULL) {
         DeleteObject(this->_hfont);
     }
+
+    // 将_check字段置零，标记当前对象无效
+    const_cast<uint32_t &>(this->_check) = 0;
 }
 
 bool sw::WndBase::operator==(const WndBase &other) const
