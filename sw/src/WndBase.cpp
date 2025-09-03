@@ -1215,13 +1215,13 @@ bool sw::WndBase::CheckAccess(const WndBase &other) const
     return this == &other || this->GetThreadId() == other.GetThreadId();
 }
 
-sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
+sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd) noexcept
 {
     auto p = reinterpret_cast<WndBase *>(GetPropW(hwnd, _WndBasePtrProp));
     return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
 }
 
-bool sw::WndBase::IsPtrValid(const WndBase *ptr)
+bool sw::WndBase::IsPtrValid(const WndBase *ptr) noexcept
 {
     return ptr != nullptr && ptr->_check == _WndBaseMagicNumber;
 }
