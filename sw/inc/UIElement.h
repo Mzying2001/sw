@@ -353,6 +353,12 @@ namespace sw
          */
         const Property<double> MaxHeight;
 
+        /**
+         * @brief 元素的逻辑位置和尺寸，即去除布局偏移以及拉伸影响的位置和尺寸
+         * @note  当布局未完成时该属性的值可能不准确
+         */
+        const ReadOnlyProperty<sw::Rect> LogicalRect;
+
     public:
         /**
          * @brief 初始化UIElement
@@ -708,7 +714,8 @@ namespace sw
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
+         * @return              返回元素需要占用的尺寸，若返回Size{NAN,NAN}则使用默认实现
+         * @note                返回值除了Size{NAN,NAN}表示默认尺寸外不应包含NAN、INF、负数等非法值
          */
         virtual Size MeasureOverride(const Size &availableSize);
 
@@ -1026,6 +1033,21 @@ namespace sw
             T, decltype(void(std::declval<UIElement>().AddChild(std::declval<T>())))> : std::true_type {
         };
 
+        /**
+         * @brief 判断AddChildren的参数类型是否均可添加
+         */
+        template <typename First, typename... Rest>
+        struct _CanAddChildren
+            : std::integral_constant<bool, _CanAddChild<First>::value && _CanAddChildren<Rest...>::value> {
+        };
+
+        /**
+         * @brief _CanAddChildren模板偏特化，递归终止条件
+         */
+        template <typename T>
+        struct _CanAddChildren<T> : _CanAddChild<T> {
+        };
+
     public:
         /**
          * @brief  添加多个子元素
@@ -1034,7 +1056,7 @@ namespace sw
          * @note   添加的子元素必须与当前元素在同一线程创建
          */
         template <typename First, typename... Rest>
-        typename std::enable_if<_CanAddChild<First>::value, int>::type
+        typename std::enable_if<_CanAddChildren<First, Rest...>::value, int>::type
         AddChildren(First &&first, Rest &&...rest)
         {
             int count = 0;
