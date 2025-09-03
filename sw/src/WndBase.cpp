@@ -1215,6 +1215,17 @@ bool sw::WndBase::CheckAccess(const WndBase &other) const
     return this == &other || this->GetThreadId() == other.GetThreadId();
 }
 
+sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
+{
+    auto p = reinterpret_cast<WndBase *>(GetPropW(hwnd, _WndBasePtrProp));
+    return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
+}
+
+bool sw::WndBase::IsPtrValid(const WndBase *ptr)
+{
+    return ptr != nullptr && ptr->_check == _WndBaseMagicNumber;
+}
+
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     WndBase *pWnd = nullptr;
@@ -1226,7 +1237,7 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     if (pWnd == nullptr && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
         auto temp = reinterpret_cast<WndBase *>(
             reinterpret_cast<LPCREATESTRUCTW>(lParam)->lpCreateParams);
-        if (temp != nullptr && temp->_check == _WndBaseMagicNumber) pWnd = temp;
+        if (IsPtrValid(temp)) pWnd = temp;
     }
 
     if (pWnd != nullptr) {
@@ -1260,10 +1271,4 @@ int sw::WndBase::_NextControlId()
 void sw::WndBase::_SetWndBase(HWND hwnd, WndBase &wnd)
 {
     SetPropW(hwnd, _WndBasePtrProp, reinterpret_cast<HANDLE>(&wnd));
-}
-
-sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
-{
-    auto p = reinterpret_cast<WndBase *>(GetPropW(hwnd, _WndBasePtrProp));
-    return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
 }

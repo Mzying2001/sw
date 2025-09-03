@@ -866,6 +866,19 @@ namespace sw
          */
         bool CheckAccess(const WndBase &other) const;
 
+    public:
+        /**
+         * @brief      通过窗口句柄获取WndBase
+         * @param hwnd 窗口句柄
+         * @return     若函数成功则返回对象的指针，否则返回nullptr
+         */
+        static WndBase *GetWndBase(HWND hwnd);
+
+        /**
+         * @brief 检查指针是否指向有效的WndBase对象
+         */
+        static bool IsPtrValid(const WndBase *ptr);
+
     private:
         /**
          * @brief 窗口过程函数，调用对象的WndProc
@@ -893,13 +906,5 @@ namespace sw
          * @param wnd  与句柄关联的对象
          */
         static void _SetWndBase(HWND hwnd, WndBase &wnd);
-
-    public:
-        /**
-         * @brief      通过窗口句柄获取WndBase
-         * @param hwnd 窗口句柄
-         * @return     若函数成功则返回对象的指针，否则返回nullptr
-         */
-        static WndBase *GetWndBase(HWND hwnd);
     };
 }
