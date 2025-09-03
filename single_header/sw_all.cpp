@@ -242,7 +242,7 @@ void sw::BmpBox::Clear()
 void sw::BmpBox::SizeToImage()
 {
     if (this->_hBitmap != NULL) {
-        SetWindowPos(this->Handle, NULL, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER);
+        this->Resize(this->_bmpSize);
     }
 }
 
@@ -3741,7 +3741,7 @@ void sw::IconBox::SizeToIcon()
         return;
 
     if (GetObjectW(info.hbmColor, sizeof(bm), &bm)) {
-        SetWindowPos(this->Handle, NULL, 0, 0, bm.bmWidth, bm.bmHeight, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER);
+        this->Resize(SIZE{bm.bmWidth, bm.bmHeight});
     }
 
     DeleteObject(info.hbmColor);
@@ -8525,6 +8525,19 @@ sw::UIElement::UIElement()
                   this->_maxSize.height = value;
                   this->OnMinMaxSizeChanged();
               }
+          }),
+
+      LogicalRect(
+          // get
+          [this]() -> sw::Rect {
+              sw::Size size = this->_origionalSize;
+              sw::Point pos = this->Rect->GetPos();
+              if (this->_parent != nullptr) {
+                  pos.x -= this->_parent->_arrangeOffsetX;
+                  pos.y -= this->_parent->_arrangeOffsetY;
+              }
+              return sw::Rect{
+                  pos.x, pos.y, size.width, size.height};
           })
 {
 }
@@ -8979,8 +8992,16 @@ void sw::UIElement::Measure(const Size &availableSize)
 
     // 由子类实现MeasureOverride函数来计算内容所需的尺寸
     this->_desireSize = this->MeasureOverride(measureSize);
-    this->_desireSize.width += windowRect.width - clientRect.width;
-    this->_desireSize.height += windowRect.height - clientRect.height;
+
+    // 若MeasureOverride返回Size{NAN,NAN}则表示使用默认实现，直接使用原始尺寸
+    // 若子类实现了MeasureOverride，则子类应保证返回值合理，此时加上边框大小
+    if (std::isnan(this->_desireSize.width) &&
+        std::isnan(this->_desireSize.height)) {
+        this->_desireSize = this->_origionalSize;
+    } else {
+        this->_desireSize.width += windowRect.width - clientRect.width;
+        this->_desireSize.height += windowRect.height - clientRect.height;
+    }
 
     // 限制尺寸在最小和最大尺寸之间
     this->ClampDesireSize(this->_desireSize);
@@ -9244,24 +9265,8 @@ bool sw::UIElement::QueryAllChildren(const Func<UIElement *, bool> &queryFunc)
 
 sw::Size sw::UIElement::MeasureOverride(const Size &availableSize)
 {
-    // 普通元素测量时，其本身用户区尺寸即为所需尺寸
-    // 当元素的对齐方式为拉伸时，返回原始用户区尺寸
-    sw::Size desireSize = this->ClientRect->GetSize();
-
-    // 由于Measure中会自动处理边框和Margin而_origionalSize
-    // 记录的是原始的窗口尺寸，因此当使用原始尺寸时需要减去边框
-    if (this->_horizontalAlignment == HorizontalAlignment::Stretch ||
-        this->_verticalAlignment == VerticalAlignment::Stretch) {
-        sw::Rect windowRect = this->Rect;
-        sw::Size clientSize = desireSize;
-        if (this->_horizontalAlignment == HorizontalAlignment::Stretch) {
-            desireSize.width = this->_origionalSize.width - (windowRect.width - clientSize.width);
-        }
-        if (this->_verticalAlignment == VerticalAlignment::Stretch) {
-            desireSize.height = this->_origionalSize.height - (windowRect.height - clientSize.height);
-        }
-    }
-    return desireSize;
+    // 返回NAN表示使用默认实现
+    return Size{NAN, NAN};
 }
 
 void sw::UIElement::ArrangeOverride(const Size &finalSize)
@@ -10368,11 +10373,8 @@ int sw::Window::ShowDialog(Window *owner)
     HWND hOwner = NULL;
     HWND hwnd   = Handle;
 
-    {
-        Window *pOwner;
-        pOwner = Owner;
-        hOwner = pOwner ? pOwner->Handle : reinterpret_cast<HWND>(GetWindowLongPtrW(hwnd, GWLP_HWNDPARENT));
-    }
+    owner  = this->Owner;
+    hOwner = owner ? owner->Handle : reinterpret_cast<HWND>(GetWindowLongPtrW(hwnd, GWLP_HWNDPARENT));
 
     if (hOwner == NULL) {
         if ((hOwner = GetActiveWindow()) != NULL) {
@@ -10763,6 +10765,9 @@ sw::WndBase::~WndBase()
     if (this->_hfont != NULL) {
         DeleteObject(this->_hfont);
     }
+
+    // 将_check字段置零，标记当前对象无效
+    const_cast<uint32_t &>(this->_check) = 0;
 }
 
 bool sw::WndBase::operator==(const WndBase &other) const
@@ -11690,6 +11695,25 @@ bool sw::WndBase::CheckAccess(const WndBase &other) const
     return this == &other || this->GetThreadId() == other.GetThreadId();
 }
 
+sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd) noexcept
+{
+    // clang-format off
+    static struct _InternalRaiiAtomHelper {
+        ATOM value;
+        _InternalRaiiAtomHelper() : value(GlobalAddAtomW(_WndBasePtrProp)) {}
+        ~_InternalRaiiAtomHelper()  { GlobalDeleteAtom(value); }
+    } _atom;
+    // clang-format on
+
+    auto p = reinterpret_cast<WndBase *>(GetPropW(hwnd, (LPWSTR)MAKEINTATOM(_atom.value)));
+    return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
+}
+
+bool sw::WndBase::IsPtrValid(const WndBase *ptr) noexcept
+{
+    return ptr != nullptr && ptr->_check == _WndBaseMagicNumber;
+}
+
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     WndBase *pWnd = nullptr;
@@ -11701,7 +11725,7 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     if (pWnd == nullptr && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
         auto temp = reinterpret_cast<WndBase *>(
             reinterpret_cast<LPCREATESTRUCTW>(lParam)->lpCreateParams);
-        if (temp != nullptr && temp->_check == _WndBaseMagicNumber) pWnd = temp;
+        if (IsPtrValid(temp)) pWnd = temp;
     }
 
     if (pWnd != nullptr) {
@@ -11735,12 +11759,6 @@ int sw::WndBase::_NextControlId()
 void sw::WndBase::_SetWndBase(HWND hwnd, WndBase &wnd)
 {
     SetPropW(hwnd, _WndBasePtrProp, reinterpret_cast<HANDLE>(&wnd));
-}
-
-sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd)
-{
-    auto p = reinterpret_cast<WndBase *>(GetPropW(hwnd, _WndBasePtrProp));
-    return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
 }
 
 // WrapLayout.cpp
