@@ -232,6 +232,19 @@ sw::UIElement::UIElement()
                   this->_maxSize.height = value;
                   this->OnMinMaxSizeChanged();
               }
+          }),
+
+      LogicalRect(
+          // get
+          [this]() -> sw::Rect {
+              sw::Size size = this->_origionalSize;
+              sw::Point pos = this->Rect->GetPos();
+              if (this->_parent != nullptr) {
+                  pos.x -= this->_parent->_arrangeOffsetX;
+                  pos.y -= this->_parent->_arrangeOffsetY;
+              }
+              return sw::Rect{
+                  pos.x, pos.y, size.width, size.height};
           })
 {
 }

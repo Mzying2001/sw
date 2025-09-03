@@ -353,6 +353,12 @@ namespace sw
          */
         const Property<double> MaxHeight;
 
+        /**
+         * @brief 元素的逻辑位置和尺寸，即去除布局偏移以及拉伸影响的位置和尺寸
+         * @note  当布局未完成时该属性的值可能不准确
+         */
+        const ReadOnlyProperty<sw::Rect> LogicalRect;
+
     public:
         /**
          * @brief 初始化UIElement
