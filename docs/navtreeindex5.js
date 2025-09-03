@@ -1,5 +1,6 @@
 var NAVTREEINDEX5 =
 {
+"classsw_1_1WndBase.html#a46dafa7371fbef198ee7a38c4aabc632":[2,0,0,157,70],
 "classsw_1_1WndBase.html#a4889c45dfad820c103dd7f74f2cd0661":[2,0,0,157,16],
 "classsw_1_1WndBase.html#a4a37ba388e9d85339ffc749d427c541f":[2,0,0,157,78],
 "classsw_1_1WndBase.html#a4aa14c2130ef0fbb656d28c287e401f5":[2,0,0,157,50],
@@ -123,8 +124,8 @@ var NAVTREEINDEX5 =
 "functions_d.html":[2,3,0,4],
 "functions_e.html":[2,3,0,5],
 "functions_f.html":[2,3,0,6],
-"functions_func.html":[2,3,1,0],
 "functions_func.html":[2,3,1],
+"functions_func.html":[2,3,1,0],
 "functions_func_b.html":[2,3,1,1],
 "functions_func_c.html":[2,3,1,2],
 "functions_func_d.html":[2,3,1,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX5 =
 "structsw_1_1FillRemainGridRow.html#ae4f6bd7474c82f753a03296a972bd308":[2,0,0,59,0],
 "structsw_1_1FixSizeGridColumn.html":[2,0,0,60],
 "structsw_1_1FixSizeGridColumn.html#a2564cacaada11c191704e59dab7d735b":[2,0,0,60,0],
-"structsw_1_1FixSizeGridRow.html":[2,0,0,61],
-"structsw_1_1FixSizeGridRow.html#a196b15d809057c6fc17943da76edcc06":[2,0,0,61,0]
+"structsw_1_1FixSizeGridRow.html":[2,0,0,61]
 };

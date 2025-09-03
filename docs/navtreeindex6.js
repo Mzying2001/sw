@@ -1,5 +1,6 @@
 var NAVTREEINDEX6 =
 {
+"structsw_1_1FixSizeGridRow.html#a196b15d809057c6fc17943da76edcc06":[2,0,0,61,0],
 "structsw_1_1GotCharEventArgs.html":[2,0,0,65],
 "structsw_1_1GridColumn.html":[2,0,0,67],
 "structsw_1_1GridColumn.html#a43365335281efdd5ae44e40d40e6fbe6":[2,0,0,67,2],

@@ -21,5 +21,6 @@ var searchData=
   ['load_18',['load',['../classsw_1_1BmpBox.html#a7ec9a45e8ce8eb49376c2ea2771ceb31',1,'sw::BmpBox::Load(HBITMAP hBitmap)'],['../classsw_1_1BmpBox.html#a3f5b0e93b3b5b391e210f7441256d860',1,'sw::BmpBox::Load(HINSTANCE hInstance, int resourceId)'],['../classsw_1_1BmpBox.html#a5c1cd1e0f949c017d3d620bac1e5404a',1,'sw::BmpBox::Load(const std::wstring &amp;fileName)'],['../classsw_1_1IconBox.html#ae34c7e0ea1078e63d0a134aedfc462f3',1,'sw::IconBox::Load(HICON hIcon)'],['../classsw_1_1IconBox.html#afc568ee65bce84fdba7862b6119597a7',1,'sw::IconBox::Load(StandardIcon icon)'],['../classsw_1_1IconBox.html#a11eda4aff2538aa9ff7fa58530f123da',1,'sw::IconBox::Load(HINSTANCE hInstance, int resourceId)'],['../classsw_1_1IconBox.html#ab1d31f8f05c7c486d9e686414dbbc61d',1,'sw::IconBox::Load(const std::wstring &amp;fileName)']]],
   ['loadimagea_19',['LoadImageA',['../classsw_1_1ImageList.html#a54db92dcaa75f9cf3f5f72d6319af6a4',1,'sw::ImageList']]],
   ['loadimagew_20',['LoadImageW',['../classsw_1_1ImageList.html#a254d64c41c8f5a9ea92889a33a4b5dfa',1,'sw::ImageList']]],
-  ['lparam_21',['lParam',['../structsw_1_1ProcMsg.html#acb7f68d396561c6c4c877255b18b1b5d',1,'sw::ProcMsg']]]
+  ['logicalrect_21',['LogicalRect',['../classsw_1_1UIElement.html#a5fb0d213e16e64b9284bcbad8b038ab8',1,'sw::UIElement']]],
+  ['lparam_22',['lParam',['../structsw_1_1ProcMsg.html#acb7f68d396561c6c4c877255b18b1b5d',1,'sw::ProcMsg']]]
 ];

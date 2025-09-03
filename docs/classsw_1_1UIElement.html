@@ -298,10 +298,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>InvalidateMeasure</b>
 <tr class="memitem:a56ab87f8a258e25ae429dab03771b5b4" id="r_a56ab87f8a258e25ae429dab03771b5b4"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1UIElement.html">UIElement</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a56ab87f8a258e25ae429dab03771b5b4">ToUIElement</a> () override</td></tr>
 <tr class="memdesc:a56ab87f8a258e25ae429dab03771b5b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成UIElement  <br /></td></tr>
 <tr class="separator:a56ab87f8a258e25ae429dab03771b5b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08a55e1c8e96f7d3fe927f7721863048" id="r_a08a55e1c8e96f7d3fe927f7721863048"><td class="memTemplParams" colspan="2">template&lt;typename First , typename... Rest&gt; </td></tr>
-<tr class="memitem:a08a55e1c8e96f7d3fe927f7721863048"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _CanAddChild&lt; First &gt;::value, int &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a08a55e1c8e96f7d3fe927f7721863048">AddChildren</a> (First &amp;&amp;first, Rest &amp;&amp;...rest)</td></tr>
-<tr class="memdesc:a08a55e1c8e96f7d3fe927f7721863048"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加多个子元素  <br /></td></tr>
-<tr class="separator:a08a55e1c8e96f7d3fe927f7721863048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98f2c4d1aac620f266c6420c3310ee19" id="r_a98f2c4d1aac620f266c6420c3310ee19"><td class="memTemplParams" colspan="2">template&lt;typename First , typename... Rest&gt; </td></tr>
+<tr class="memitem:a98f2c4d1aac620f266c6420c3310ee19"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _CanAddChildren&lt; First, Rest... &gt;::value, int &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a98f2c4d1aac620f266c6420c3310ee19">AddChildren</a> (First &amp;&amp;first, Rest &amp;&amp;...rest)</td></tr>
+<tr class="memdesc:a98f2c4d1aac620f266c6420c3310ee19"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加多个子元素  <br /></td></tr>
+<tr class="separator:a98f2c4d1aac620f266c6420c3310ee19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbef9f628b10717ef28fdad71d382499" id="r_abbef9f628b10717ef28fdad71d382499"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:abbef9f628b10717ef28fdad71d382499"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _CanAddChild&lt; T &gt;::value, int &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#abbef9f628b10717ef28fdad71d382499">AddChildren</a> (T &amp;&amp;child)</td></tr>
 <tr class="memdesc:abbef9f628b10717ef28fdad71d382499"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加多个子元素  <br /></td></tr>
@@ -575,6 +575,9 @@ const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;
 const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>MaxHeight</b></td></tr>
 <tr class="memdesc:aa97ce0e4104f8c0d9445bc1b8b556b15"><td class="mdescLeft">&#160;</td><td class="mdescRight">最大高度，当值为负数或0时表示不限制 <br /></td></tr>
 <tr class="separator:aa97ce0e4104f8c0d9445bc1b8b556b15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fb0d213e16e64b9284bcbad8b038ab8" id="r_a5fb0d213e16e64b9284bcbad8b038ab8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a5fb0d213e16e64b9284bcbad8b038ab8">LogicalRect</a></td></tr>
+<tr class="memdesc:a5fb0d213e16e64b9284bcbad8b038ab8"><td class="mdescLeft">&#160;</td><td class="mdescRight">元素的逻辑位置和尺寸，即去除布局偏移以及拉伸影响的位置和尺寸  <br /></td></tr>
+<tr class="separator:a5fb0d213e16e64b9284bcbad8b038ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
 <tr class="memitem:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase" id="r_abc0b653ccc071c2cfcba42fa8eef738f"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; HWND &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Handle</b></td></tr>
@@ -964,9 +967,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 额外继承的成员函数</h2></td></tr>
 <tr class="inherit_header pub_static_methods_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;静态 Public 成员函数 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
-<tr class="memitem:a9a3b21d4e5d8c49130deb57695294add inherit pub_static_methods_classsw_1_1WndBase" id="r_a9a3b21d4e5d8c49130deb57695294add"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsw_1_1WndBase.html">WndBase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a9a3b21d4e5d8c49130deb57695294add">GetWndBase</a> (HWND hwnd)</td></tr>
-<tr class="memdesc:a9a3b21d4e5d8c49130deb57695294add inherit pub_static_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过窗口句柄获取WndBase  <br /></td></tr>
-<tr class="separator:a9a3b21d4e5d8c49130deb57695294add inherit pub_static_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d6495d0991d0329c20fe02dce07acbe inherit pub_static_methods_classsw_1_1WndBase" id="r_a8d6495d0991d0329c20fe02dce07acbe"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsw_1_1WndBase.html">WndBase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a8d6495d0991d0329c20fe02dce07acbe">GetWndBase</a> (HWND hwnd) noexcept</td></tr>
+<tr class="memdesc:a8d6495d0991d0329c20fe02dce07acbe inherit pub_static_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过窗口句柄获取WndBase  <br /></td></tr>
+<tr class="separator:a8d6495d0991d0329c20fe02dce07acbe inherit pub_static_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e7d3e913afb085c2024097a296db704 inherit pub_static_methods_classsw_1_1WndBase" id="r_a1e7d3e913afb085c2024097a296db704"><td class="memItemLeft" align="right" valign="top">
+static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b> (const <a class="el" href="classsw_1_1WndBase.html">WndBase</a> *ptr) noexcept</td></tr>
+<tr class="memdesc:a1e7d3e913afb085c2024097a296db704 inherit pub_static_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查指针是否指向有效的WndBase对象 <br /></td></tr>
+<tr class="separator:a1e7d3e913afb085c2024097a296db704 inherit pub_static_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>表示界面中的元素 </p>
@@ -1079,8 +1086,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b
 
 </div>
 </div>
-<a id="a08a55e1c8e96f7d3fe927f7721863048" name="a08a55e1c8e96f7d3fe927f7721863048"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08a55e1c8e96f7d3fe927f7721863048">&#9670;&#160;</a></span>AddChildren() <span class="overload">[1/2]</span></h2>
+<a id="a98f2c4d1aac620f266c6420c3310ee19" name="a98f2c4d1aac620f266c6420c3310ee19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98f2c4d1aac620f266c6420c3310ee19">&#9670;&#160;</a></span>AddChildren() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1091,7 +1098,7 @@ template&lt;typename First , typename... Rest&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::enable_if&lt; _CanAddChild&lt; First &gt;::value, int &gt;::type sw::UIElement::AddChildren </td>
+          <td class="memname">std::enable_if&lt; _CanAddChildren&lt; First, Rest... &gt;::value, int &gt;::type sw::UIElement::AddChildren </td>
           <td>(</td>
           <td class="paramtype">First &amp;&amp;&#160;</td>
           <td class="paramname"><em>first</em>, </td>
@@ -2084,7 +2091,8 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>返回元素需要占用的尺寸 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>返回元素需要占用的尺寸，若返回Size{NAN,NAN}则使用默认实现 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>返回值除了Size{NAN,NAN}表示默认尺寸外不应包含NAN、INF、负数等非法值 </dd></dl>
 
 <p>被 <a class="el" href="classsw_1_1BmpBox.html#a2c05d9770b8362641337b9c5cca82047">sw::BmpBox</a>, <a class="el" href="classsw_1_1ButtonBase.html#ad324d6627bbed78bedde95c2b2f8c303">sw::ButtonBase</a>, <a class="el" href="classsw_1_1Label.html#af60011c35117c1dcf0d3e90f78ed4e2c">sw::Label</a>, <a class="el" href="classsw_1_1Layer.html#a5e2f0496063c24957a3cf149a4b707bb">sw::Layer</a>, <a class="el" href="classsw_1_1PanelBase.html#a4a58f2fb05d89a9149b15dfa71c91c0c">sw::PanelBase</a> , 以及 <a class="el" href="classsw_1_1SysLink.html#a83a509b815b4ea0275918c7125020cae">sw::SysLink</a> 重载.</p>
 
@@ -4423,6 +4431,23 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
 
 <p>触发布局更新的条件 </p>
 <dl class="section note"><dt>注解</dt><dd>修改该属性不会立即触发布局更新 </dd></dl>
+
+</div>
+</div>
+<a id="a5fb0d213e16e64b9284bcbad8b038ab8" name="a5fb0d213e16e64b9284bcbad8b038ab8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fb0d213e16e64b9284bcbad8b038ab8">&#9670;&#160;</a></span>LogicalRect</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt;<a class="el" href="structsw_1_1Rect.html">sw::Rect</a>&gt; sw::UIElement::LogicalRect</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>元素的逻辑位置和尺寸，即去除布局偏移以及拉伸影响的位置和尺寸 </p>
+<dl class="section note"><dt>注解</dt><dd>当布局未完成时该属性的值可能不准确 </dd></dl>
 
 </div>
 </div>
