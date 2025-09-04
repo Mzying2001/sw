@@ -84,7 +84,7 @@ var searchData=
   ['gettype_81',['gettype',['../structsw_1_1ICallable_3_01TRet_07Args_8_8_8_08_4.html#a0e833c4765dc3001b306729ca9e8ffbc',1,'sw::ICallable&lt; TRet(Args...)&gt;::GetType()'],['../classsw_1_1Delegate_3_01TRet_07Args_8_8_8_08_4.html#a3d89b064c3f97d52223b07f6311709fd',1,'sw::Delegate&lt; TRet(Args...)&gt;::GetType()'],['../classsw_1_1RoutedEventHandlerWrapper.html#a403105d642ef204c2961d603dec68e72',1,'sw::RoutedEventHandlerWrapper::GetType()']]],
   ['getverticalscrollpagesize_82',['GetVerticalScrollPageSize',['../classsw_1_1Layer.html#af373e47fda965795550b31e622839a7f',1,'sw::Layer']]],
   ['getverticalscrollrange_83',['GetVerticalScrollRange',['../classsw_1_1Layer.html#a3f5248e4483b277a2f99c9b3cde086b7',1,'sw::Layer']]],
-  ['getwndbase_84',['GetWndBase',['../classsw_1_1WndBase.html#a9a3b21d4e5d8c49130deb57695294add',1,'sw::WndBase']]],
+  ['getwndbase_84',['GetWndBase',['../classsw_1_1WndBase.html#a8d6495d0991d0329c20fe02dce07acbe',1,'sw::WndBase']]],
   ['gotchareventargs_85',['GotCharEventArgs',['../structsw_1_1GotCharEventArgs.html',1,'sw']]],
   ['grid_86',['grid',['../classsw_1_1Grid.html#afbb7806a3fabedee2c10c0775076f8bb',1,'sw::Grid::Grid()'],['../classsw_1_1Grid.html',1,'sw::Grid']]],
   ['gridcolumn_87',['gridcolumn',['../structsw_1_1GridColumn.html',1,'sw::GridColumn'],['../structsw_1_1GridColumn.html#a743b954088295855d4f09a81928b6614',1,'sw::GridColumn::GridColumn()'],['../structsw_1_1GridColumn.html#a6bf1570d3cbc01f9e342a2a55ec14117',1,'sw::GridColumn::GridColumn(GridRCType type, double width)'],['../structsw_1_1GridColumn.html#a43365335281efdd5ae44e40d40e6fbe6',1,'sw::GridColumn::GridColumn(double width)']]],
