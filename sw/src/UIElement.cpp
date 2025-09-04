@@ -440,12 +440,52 @@ int sw::UIElement::IndexOf(UIElement &element)
     return this->IndexOf(&element);
 }
 
-void sw::UIElement::ShowContextMenu(const Point &point)
+bool sw::UIElement::ShowContextMenu(const Point &point, sw::HorizontalAlignment horz, sw::VerticalAlignment vert)
 {
-    if (this->_contextMenu != nullptr) {
-        POINT p = point;
-        TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, nullptr);
+    UINT uFlags = 0;
+    HMENU hMenu = NULL;
+
+    if (this->_contextMenu) {
+        hMenu = this->_contextMenu->GetHandle();
     }
+    if (hMenu == NULL) {
+        return false;
+    }
+
+    switch (horz) {
+        case sw::HorizontalAlignment::Left: {
+            uFlags |= TPM_LEFTALIGN;
+            break;
+        }
+        case sw::HorizontalAlignment::Right: {
+            uFlags |= TPM_RIGHTALIGN;
+            break;
+        }
+        case sw::HorizontalAlignment::Center:
+        case sw::HorizontalAlignment::Stretch: {
+            uFlags |= TPM_CENTERALIGN;
+            break;
+        }
+    }
+
+    switch (vert) {
+        case sw::VerticalAlignment::Top: {
+            uFlags |= TPM_TOPALIGN;
+            break;
+        }
+        case sw::VerticalAlignment::Bottom: {
+            uFlags |= TPM_BOTTOMALIGN;
+            break;
+        }
+        case sw::VerticalAlignment::Center:
+        case sw::VerticalAlignment::Stretch: {
+            uFlags |= TPM_VCENTERALIGN;
+            break;
+        }
+    }
+
+    POINT p = point;
+    return TrackPopupMenu(hMenu, uFlags, p.x, p.y, 0, this->Handle, nullptr);
 }
 
 void sw::UIElement::MoveToTop()
