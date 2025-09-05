@@ -1076,6 +1076,18 @@ bool sw::UIElement::SetParent(WndBase *parent)
     UIElement *oldParentElement = this->_parent;
     UIElement *newParentElement = parent ? parent->ToUIElement() : nullptr;
 
+    if (newParentElement != nullptr && !newParentElement->CheckAccess(*this)) {
+        return false; // 父子元素必须在同一线程创建
+    }
+
+    if (newParentElement == this) {
+        return false; // 不能将自己设置为自己的父元素
+    }
+
+    if (oldParentElement == newParentElement) {
+        return true; // 父元素没有变化
+    }
+
     if (newParentElement == nullptr) {
         /*
          * 要设置的父元素为nullptr
