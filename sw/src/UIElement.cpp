@@ -1351,15 +1351,10 @@ bool sw::UIElement::_SetHorzAlignment(sw::HorizontalAlignment value)
     if (value == this->_horizontalAlignment) {
         return false;
     }
-
     if (value == sw::HorizontalAlignment::Stretch) {
-        this->_horizontalAlignment = value;
         this->_origionalSize.width = this->Width;
-    } else {
-        this->_horizontalAlignment = value;
-        this->Width                = this->_origionalSize.width;
     }
-
+    this->_horizontalAlignment = value;
     return true;
 }
 
@@ -1368,15 +1363,10 @@ bool sw::UIElement::_SetVertAlignment(sw::VerticalAlignment value)
     if (value == this->_verticalAlignment) {
         return false;
     }
-
     if (value == sw::VerticalAlignment::Stretch) {
-        this->_verticalAlignment    = value;
         this->_origionalSize.height = this->Height;
-    } else {
-        this->_verticalAlignment = value;
-        this->Height             = this->_origionalSize.height;
     }
-
+    this->_verticalAlignment = value;
     return true;
 }
 
