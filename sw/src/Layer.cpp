@@ -20,6 +20,7 @@ sw::Layer::Layer()
               if (value != nullptr)
                   value->Associate(this);
               this->_customLayout = value;
+              this->InvalidateMeasure();
           }),
 
       AutoSize(
