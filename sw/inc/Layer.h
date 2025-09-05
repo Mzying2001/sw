@@ -277,6 +277,6 @@ namespace sw
         /**
          * @brief 使用设定的布局方式对子元素进行Measure和Arrange，不改变当前的尺寸和DesireSize
          */
-        void _MeasureAndArrangeWithoutResize(LayoutHost &layout);
+        void _MeasureAndArrangeWithoutResize(LayoutHost &layout, const Size &clientSize);
     };
 }

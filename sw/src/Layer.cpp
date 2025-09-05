@@ -93,8 +93,8 @@ sw::Layer::Layer()
               LayoutHost *layout = this->_GetLayout();
 
               if (layout != nullptr && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
-                  this->GetInternalArrangeOffsetX() = -HorizontalScrollPos;
-                  this->_MeasureAndArrangeWithoutResize(*layout);
+                  this->GetInternalArrangeOffsetX() = -this->HorizontalScrollPos;
+                  this->_MeasureAndArrangeWithoutResize(*layout, this->ClientRect->GetSize());
               }
           }),
 
@@ -118,8 +118,8 @@ sw::Layer::Layer()
               LayoutHost *layout = this->_GetLayout();
 
               if (layout != nullptr && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
-                  this->GetInternalArrangeOffsetY() = -VerticalScrollPos;
-                  this->_MeasureAndArrangeWithoutResize(*layout);
+                  this->GetInternalArrangeOffsetY() = -this->VerticalScrollPos;
+                  this->_MeasureAndArrangeWithoutResize(*layout, this->ClientRect->GetSize());
               }
           }),
 
@@ -176,7 +176,7 @@ void sw::Layer::UpdateLayout()
     if (layout == nullptr) {
         this->_MeasureAndArrangeWithoutLayout();
     } else {
-        this->_MeasureAndArrangeWithoutResize(*layout);
+        this->_MeasureAndArrangeWithoutResize(*layout, this->ClientRect->GetSize());
     }
 
     this->UpdateScrollRange();
@@ -306,7 +306,7 @@ void sw::Layer::ArrangeOverride(const Size &finalSize)
         this->_MeasureAndArrangeWithoutLayout();
     } else if (!this->_autoSize) {
         // 已设置布局方式，但是AutoSize被取消，此时子元素也未Measure
-        this->_MeasureAndArrangeWithoutResize(*layout);
+        this->_MeasureAndArrangeWithoutResize(*layout, finalSize);
     } else {
         // 已设置布局方式且AutoSize为true，此时子元素已Measure，调用Arrange即可
         layout->ArrangeOverride(finalSize);
@@ -585,10 +585,9 @@ void sw::Layer::_MeasureAndArrangeWithoutLayout()
     }
 }
 
-void sw::Layer::_MeasureAndArrangeWithoutResize(LayoutHost &layout)
+void sw::Layer::_MeasureAndArrangeWithoutResize(LayoutHost &layout, const Size &clientSize)
 {
     if (layout.IsAssociated(this)) {
-        auto clientSize = this->ClientRect->GetSize();
         layout.MeasureOverride(clientSize);
         layout.ArrangeOverride(clientSize);
     }
