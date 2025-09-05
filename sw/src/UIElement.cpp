@@ -12,8 +12,10 @@ sw::UIElement::UIElement()
           },
           // set
           [this](const Thickness &value) {
-              this->_margin = value;
-              this->InvalidateMeasure();
+              if (this->_margin != value) {
+                  this->_margin = value;
+                  this->InvalidateMeasure();
+              }
           }),
 
       HorizontalAlignment(
@@ -85,8 +87,10 @@ sw::UIElement::UIElement()
           },
           // set
           [this](const uint64_t &value) {
-              this->_layoutTag = value;
-              this->InvalidateMeasure();
+              if (this->_layoutTag != value) {
+                  this->_layoutTag = value;
+                  this->InvalidateMeasure();
+              }
           }),
 
       ContextMenu(
