@@ -76,6 +76,7 @@
 #include "ScrollEnums.h"
 #include "Size.h"
 #include "Slider.h"
+#include "SpinBox.h"
 #include "SplitButton.h"
 #include "Splitter.h"
 #include "StackLayout.h"

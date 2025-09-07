@@ -315,6 +315,9 @@
     <ClInclude Include="..\sw\inc\SplitButton.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\SpinBox.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\Animation.cpp">
@@ -573,6 +576,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\SplitButton.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\SpinBox.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
