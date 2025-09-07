@@ -5,7 +5,7 @@ var classsw_1_1Control =
     [ "OnCustomDraw", "classsw_1_1Control.html#a954de4df5b1b822f9a86409bc21b6ba0", null ],
     [ "OnDrawFocusRect", "classsw_1_1Control.html#a0451f011a344efa6b628d006980c6ed8", null ],
     [ "OnEndPaint", "classsw_1_1Control.html#a60458de49b16eebbd3dccf20388c8d6c", null ],
-    [ "OnHandleChenged", "classsw_1_1Control.html#a1eed0fc1e59e8502692e87f15c47c8ea", null ],
+    [ "OnHandleChanged", "classsw_1_1Control.html#afe92409895a37b2b4d86c08d771da873", null ],
     [ "OnKillFocus", "classsw_1_1Control.html#a18296053d3a7b8476cda377664434232", null ],
     [ "OnNotified", "classsw_1_1Control.html#ad01d684de2b5060771fc74baa6b0f519", null ],
     [ "OnPostErase", "classsw_1_1Control.html#a2020d632dce2fc56e977c676c9f0ffd8", null ],

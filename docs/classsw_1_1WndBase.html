@@ -544,6 +544,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b
 <tr class="memitem:a2c436f7819721b3f1a700c39ea538003" id="r_a2c436f7819721b3f1a700c39ea538003"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a2c436f7819721b3f1a700c39ea538003">OnContextMenu</a> (bool isKeyboardMsg, <a class="el" href="structsw_1_1Point.html">Point</a> mousePosition)</td></tr>
 <tr class="memdesc:a2c436f7819721b3f1a700c39ea538003"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CONTEXTMENU后调用目标控件的该函数  <br /></td></tr>
 <tr class="separator:a2c436f7819721b3f1a700c39ea538003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f645592c48b729f1dc9d6a9ed705d48" id="r_a0f645592c48b729f1dc9d6a9ed705d48"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a0f645592c48b729f1dc9d6a9ed705d48">OnMenuSelect</a> (HMENU hMenu, int id, int flags)</td></tr>
+<tr class="memdesc:a0f645592c48b729f1dc9d6a9ed705d48"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MENUSELECT后调用该函数  <br /></td></tr>
+<tr class="separator:a0f645592c48b729f1dc9d6a9ed705d48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeca7ed6a3a6f07933c3412f392893970" id="r_aeca7ed6a3a6f07933c3412f392893970"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#aeca7ed6a3a6f07933c3412f392893970">OnNotify</a> (NMHDR *pNMHDR, LRESULT &amp;result)</td></tr>
 <tr class="memdesc:aeca7ed6a3a6f07933c3412f392893970"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NOTIFY后调用该函数  <br /></td></tr>
 <tr class="separator:aeca7ed6a3a6f07933c3412f392893970"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1104,7 +1107,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1ListBox.html#a1708816955c247ec4b7e0a1291486088">sw::ListBox</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a656bb4995529a018d8c823fc45abf233">sw::UIElement</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1ListBox.html#a1708816955c247ec4b7e0a1291486088">sw::ListBox</a>, <a class="el" href="classsw_1_1SplitButton.html#a86a916212ca162b132f23ccca4698d3f">sw::SplitButton</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a656bb4995529a018d8c823fc45abf233">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>
@@ -1753,7 +1756,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1Button.html#a367d1dfa43e065dbe2a0272d4cfef458">sw::Button</a>, <a class="el" href="classsw_1_1CommandLink.html#afb62004ffbe64b4f930aa146fb577b79">sw::CommandLink</a>, <a class="el" href="classsw_1_1Control.html#a18296053d3a7b8476cda377664434232">sw::Control</a>, <a class="el" href="classsw_1_1DockSplitter.html#aab1db4ae915f5abe6856a2a571f2afdc">sw::DockSplitter</a>, <a class="el" href="classsw_1_1PanelBase.html#a452a0bdb18314561e92674982e86c3e4">sw::PanelBase</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a6b8833ac8fe8798edd0480f737aea426">sw::UIElement</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1Button.html#a367d1dfa43e065dbe2a0272d4cfef458">sw::Button</a>, <a class="el" href="classsw_1_1CommandLink.html#afb62004ffbe64b4f930aa146fb577b79">sw::CommandLink</a>, <a class="el" href="classsw_1_1Control.html#a18296053d3a7b8476cda377664434232">sw::Control</a>, <a class="el" href="classsw_1_1DockSplitter.html#aab1db4ae915f5abe6856a2a571f2afdc">sw::DockSplitter</a>, <a class="el" href="classsw_1_1PanelBase.html#a452a0bdb18314561e92674982e86c3e4">sw::PanelBase</a>, <a class="el" href="classsw_1_1SpinBox.html#ae07d95b786278ee289eb9fdf9ba3aa99">sw::SpinBox</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a6b8833ac8fe8798edd0480f737aea426">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>
@@ -1871,6 +1874,60 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 </dl>
 
 <p>被 <a class="el" href="classsw_1_1UIElement.html#aca1d15ee60f06d11aeccadfc92ed23d2">sw::UIElement</a> , 以及 <a class="el" href="classsw_1_1Window.html#a8ff6176f2fb886593f448b430c21fc90">sw::Window</a> 重载.</p>
+
+</div>
+</div>
+<a id="a0f645592c48b729f1dc9d6a9ed705d48" name="a0f645592c48b729f1dc9d6a9ed705d48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f645592c48b729f1dc9d6a9ed705d48">&#9670;&#160;</a></span>OnMenuSelect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool sw::WndBase::OnMenuSelect </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_MENUSELECT后调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenu</td><td>当前被点击的菜单句柄 </td></tr>
+    <tr><td class="paramname">id</td><td>若选中的菜单项打开了子菜单则该值为菜单项在其父菜单中的索引，否则为菜单项的id </td></tr>
+    <tr><td class="paramname">flags</td><td>菜单项的标志（MF_*） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>若flags为0xFFFF且hMenu为NULL则表示菜单被关闭 </dd></dl>
 
 </div>
 </div>
@@ -2594,7 +2651,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1Control.html#ad01d684de2b5060771fc74baa6b0f519">sw::Control</a>, <a class="el" href="classsw_1_1DateTimePicker.html#a5c8cb68171115f0dc5cbddf40d3a64ae">sw::DateTimePicker</a>, <a class="el" href="classsw_1_1ListView.html#ad6cb1adb485bbf70a18e8bdd491407e5">sw::ListView</a>, <a class="el" href="classsw_1_1MonthCalendar.html#a0dc0d8364da7140abc882d1bbfd9a439">sw::MonthCalendar</a>, <a class="el" href="classsw_1_1PanelBase.html#a40cd333bc09544bce018896a09e6496c">sw::PanelBase</a>, <a class="el" href="classsw_1_1SysLink.html#a81c537482d453b16a7713c8304c35965">sw::SysLink</a> , 以及 <a class="el" href="classsw_1_1TabControl.html#a331b4b48881bf2165f392724aa586cc3">sw::TabControl</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1Control.html#ad01d684de2b5060771fc74baa6b0f519">sw::Control</a>, <a class="el" href="classsw_1_1DateTimePicker.html#a5c8cb68171115f0dc5cbddf40d3a64ae">sw::DateTimePicker</a>, <a class="el" href="classsw_1_1ListView.html#ad6cb1adb485bbf70a18e8bdd491407e5">sw::ListView</a>, <a class="el" href="classsw_1_1MonthCalendar.html#a0dc0d8364da7140abc882d1bbfd9a439">sw::MonthCalendar</a>, <a class="el" href="classsw_1_1PanelBase.html#a40cd333bc09544bce018896a09e6496c">sw::PanelBase</a>, <a class="el" href="classsw_1_1SplitButton.html#a7d6af6e0bbbb77168f767e4c8acbc023">sw::SplitButton</a>, <a class="el" href="classsw_1_1SysLink.html#a81c537482d453b16a7713c8304c35965">sw::SysLink</a> , 以及 <a class="el" href="classsw_1_1TabControl.html#a331b4b48881bf2165f392724aa586cc3">sw::TabControl</a> 重载.</p>
 
 </div>
 </div>
@@ -2808,7 +2865,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1BmpBox.html#a6cb7446ef4d2308b971af9fe28b11bae">sw::BmpBox</a>, <a class="el" href="classsw_1_1HwndHost.html#a811a6d21dd8534addfc401bb79f829f7">sw::HwndHost</a>, <a class="el" href="classsw_1_1Label.html#a9476581e1a9460e3de3c0822e927f7ec">sw::Label</a>, <a class="el" href="classsw_1_1Splitter.html#a961677b3a6e12fc522bdb4e7b22690c2">sw::Splitter</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#af4f4d3a0d23a886c0257c439821f5809">sw::UIElement</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1BmpBox.html#a6cb7446ef4d2308b971af9fe28b11bae">sw::BmpBox</a>, <a class="el" href="classsw_1_1HwndHost.html#a811a6d21dd8534addfc401bb79f829f7">sw::HwndHost</a>, <a class="el" href="classsw_1_1Label.html#a9476581e1a9460e3de3c0822e927f7ec">sw::Label</a>, <a class="el" href="classsw_1_1SpinBox.html#a1ed99a23ef37b8572f48a869d9f064a6">sw::SpinBox</a>, <a class="el" href="classsw_1_1Splitter.html#a961677b3a6e12fc522bdb4e7b22690c2">sw::Splitter</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#af4f4d3a0d23a886c0257c439821f5809">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>

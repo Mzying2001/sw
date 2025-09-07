@@ -1,0 +1,14 @@
+var classsw_1_1SpinBox =
+[
+    [ "SpinBox", "classsw_1_1SpinBox.html#ac133f7489334355323897421ff866d16", null ],
+    [ "AddAccel", "classsw_1_1SpinBox.html#a34b6957d669e144d9abe506860e29afe", null ],
+    [ "ClearAccels", "classsw_1_1SpinBox.html#a2d4aeb328c1b8d10874597e550dfed4b", null ],
+    [ "OnHandleChanged", "classsw_1_1SpinBox.html#a5cf9b7a0f611b756f63575055ff1af34", null ],
+    [ "OnKillFocus", "classsw_1_1SpinBox.html#ae07d95b786278ee289eb9fdf9ba3aa99", null ],
+    [ "OnSize", "classsw_1_1SpinBox.html#a1ed99a23ef37b8572f48a869d9f064a6", null ],
+    [ "Hexadecimal", "classsw_1_1SpinBox.html#a74b9d634e0a747f6fcd3508922806d21", null ],
+    [ "Increment", "classsw_1_1SpinBox.html#a8e8ca4573e2ffd67bb28e9fb60f249b4", null ],
+    [ "Maximum", "classsw_1_1SpinBox.html#a5f528d62bb54c9ee9fa7ab5bf18fc19d", null ],
+    [ "Minimum", "classsw_1_1SpinBox.html#a5395c352984620cac53a33b3bf76e9cb", null ],
+    [ "Value", "classsw_1_1SpinBox.html#a7ecf6ef6e586189d6f0d58007d50c7cf", null ]
+];

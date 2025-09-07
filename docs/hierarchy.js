@@ -117,7 +117,9 @@ var hierarchy =
           ] ],
           [ "sw::Animation", "classsw_1_1Animation.html", null ],
           [ "sw::ButtonBase", "classsw_1_1ButtonBase.html", [
-            [ "sw::Button", "classsw_1_1Button.html", null ],
+            [ "sw::Button", "classsw_1_1Button.html", [
+              [ "sw::SplitButton", "classsw_1_1SplitButton.html", null ]
+            ] ],
             [ "sw::CheckableButton", "classsw_1_1CheckableButton.html", [
               [ "sw::CheckBox", "classsw_1_1CheckBox.html", null ],
               [ "sw::RadioButton", "classsw_1_1RadioButton.html", null ]
@@ -160,6 +162,7 @@ var hierarchy =
           [ "sw::TabControl", "classsw_1_1TabControl.html", null ],
           [ "sw::TextBoxBase", "classsw_1_1TextBoxBase.html", [
             [ "sw::PasswordBox", "classsw_1_1PasswordBox.html", null ],
+            [ "sw::SpinBox", "classsw_1_1SpinBox.html", null ],
             [ "sw::TextBox", "classsw_1_1TextBox.html", null ]
           ] ]
         ] ],
@@ -387,6 +390,9 @@ var hierarchy =
       ] ],
       [ "sw::TypedRoutedEventArgs< UIElement_SizeChanged >", "structsw_1_1TypedRoutedEventArgs.html", [
         [ "sw::SizeChangedEventArgs", "structsw_1_1SizeChangedEventArgs.html", null ]
+      ] ],
+      [ "sw::TypedRoutedEventArgs< SplitButton_DropDown >", "structsw_1_1TypedRoutedEventArgs.html", [
+        [ "sw::SplitButtonDropDownEventArgs", "structsw_1_1SplitButtonDropDownEventArgs.html", null ]
       ] ],
       [ "sw::TypedRoutedEventArgs< SysLink_Clicked >", "structsw_1_1TypedRoutedEventArgs.html", [
         [ "sw::SysLinkClickedEventArgs", "structsw_1_1SysLinkClickedEventArgs.html", null ]

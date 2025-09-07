@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['uielement_0',['uielement',['../classsw_1_1UIElement.html',1,'sw::UIElement'],['../classsw_1_1UIElement.html#aeebf42b059a9962fd9c2ba64dcc309ca',1,'sw::UIElement::UIElement()']]],
+  ['uielement_0',['uielement',['../classsw_1_1UIElement.html#aeebf42b059a9962fd9c2ba64dcc309ca',1,'sw::UIElement::UIElement()'],['../classsw_1_1UIElement.html',1,'sw::UIElement']]],
   ['umsg_1',['uMsg',['../structsw_1_1ProcMsg.html#a63d6c8d6ebe3bc0621ac4596a487c418',1,'sw::ProcMsg']]],
   ['underline_2',['underline',['../classsw_1_1Font.html#a516d900b06bcd74900eccd55b59bdcba',1,'sw::Font']]],
   ['undo_3',['Undo',['../classsw_1_1TextBoxBase.html#a7c7ccda9b5161642d002a88cab7da1c3',1,'sw::TextBoxBase']]],
@@ -9,7 +9,7 @@ var searchData=
   ['unregisterroutedevent_6',['UnregisterRoutedEvent',['../classsw_1_1UIElement.html#a0cbfb44f8280a3e5e01b71906e588d69',1,'sw::UIElement']]],
   ['update_7',['update',['../classsw_1_1Dip.html#a3c299de3610198634e20773878486a4f',1,'sw::Dip::Update()'],['../classsw_1_1MenuBase.html#aa5e31e8a7e3f1744fec35acfdce47b2e',1,'sw::MenuBase::Update()'],['../classsw_1_1WndBase.html#ab7ac81f0ed48a5093fd3170c7c756963',1,'sw::WndBase::Update()']]],
   ['updateborder_8',['UpdateBorder',['../classsw_1_1Panel.html#a1345ff0668b429f672e802305e3671f2',1,'sw::Panel']]],
-  ['updatebuttonstyle_9',['updatebuttonstyle',['../classsw_1_1CommandLink.html#a8dcffa0c4fe83135239b126f9095e75f',1,'sw::CommandLink::UpdateButtonStyle()'],['../classsw_1_1Button.html#a6e16ea311099537357da36d69656e6ba',1,'sw::Button::UpdateButtonStyle()']]],
+  ['updatebuttonstyle_9',['updatebuttonstyle',['../classsw_1_1CommandLink.html#a8dcffa0c4fe83135239b126f9095e75f',1,'sw::CommandLink::UpdateButtonStyle()'],['../classsw_1_1SplitButton.html#a537b2faed75e4bfd5233047c265f1614',1,'sw::SplitButton::UpdateButtonStyle()'],['../classsw_1_1Button.html#a6e16ea311099537357da36d69656e6ba',1,'sw::Button::UpdateButtonStyle()']]],
   ['updatechildrenzorder_10',['UpdateChildrenZOrder',['../classsw_1_1UIElement.html#aa33bc2dbdc45763086f61e649aec008e',1,'sw::UIElement']]],
   ['updatefont_11',['UpdateFont',['../classsw_1_1WndBase.html#af8df0384e2be0569e0da1f51985204c8',1,'sw::WndBase']]],
   ['updateinternaltext_12',['UpdateInternalText',['../classsw_1_1WndBase.html#adf6c13095f64868f94ee846a4ac9abb3',1,'sw::WndBase']]],

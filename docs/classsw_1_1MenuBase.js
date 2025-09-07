@@ -7,6 +7,7 @@ var classsw_1_1MenuBase =
     [ "GetChecked", "classsw_1_1MenuBase.html#a2a631549b5be6a41f8a24342a880826d", null ],
     [ "GetEnabled", "classsw_1_1MenuBase.html#ab610a8a98e4bf6f199fe7706dbb57f4d", null ],
     [ "GetHandle", "classsw_1_1MenuBase.html#a7f18755d0245d1e8c536438b5ec99093", null ],
+    [ "GetMenuItem", "classsw_1_1MenuBase.html#abfdedfa5a056bc6fcecbfd4e8b1c42a7", null ],
     [ "GetMenuItem", "classsw_1_1MenuBase.html#a47fe9d419c9c50459389c46b410849d8", null ],
     [ "GetMenuItem", "classsw_1_1MenuBase.html#a207341719edb495ca22be7090b3a8b37", null ],
     [ "GetMenuItem", "classsw_1_1MenuBase.html#a09259eb19e71878bd77f4d3dece7fed8", null ],

@@ -76,6 +76,8 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "SimpleWindow.h", "SimpleWindow_8h_source.html", null ],
     [ "Size.h", "Size_8h_source.html", null ],
     [ "Slider.h", "Slider_8h_source.html", null ],
+    [ "SpinBox.h", "SpinBox_8h_source.html", null ],
+    [ "SplitButton.h", "SplitButton_8h_source.html", null ],
     [ "Splitter.h", "Splitter_8h_source.html", null ],
     [ "StackLayout.h", "StackLayout_8h_source.html", null ],
     [ "StackLayoutH.h", "StackLayoutH_8h_source.html", null ],

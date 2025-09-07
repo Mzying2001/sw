@@ -146,6 +146,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetItems</b> (std::in
 <tr class="memitem:a47fe9d419c9c50459389c46b410849d8" id="r_a47fe9d419c9c50459389c46b410849d8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a47fe9d419c9c50459389c46b410849d8">GetMenuItem</a> (int id)</td></tr>
 <tr class="memdesc:a47fe9d419c9c50459389c46b410849d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过id获取菜单项  <br /></td></tr>
 <tr class="separator:a47fe9d419c9c50459389c46b410849d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfdedfa5a056bc6fcecbfd4e8b1c42a7" id="r_abfdedfa5a056bc6fcecbfd4e8b1c42a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#abfdedfa5a056bc6fcecbfd4e8b1c42a7">GetMenuItem</a> (HMENU hMenu)</td></tr>
+<tr class="memdesc:abfdedfa5a056bc6fcecbfd4e8b1c42a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过句柄获取菜单项  <br /></td></tr>
+<tr class="separator:abfdedfa5a056bc6fcecbfd4e8b1c42a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a207341719edb495ca22be7090b3a8b37" id="r_a207341719edb495ca22be7090b3a8b37"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a207341719edb495ca22be7090b3a8b37">GetMenuItem</a> (std::initializer_list&lt; int &gt; path)</td></tr>
 <tr class="memdesc:a207341719edb495ca22be7090b3a8b37"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过索引来获取菜单项  <br /></td></tr>
 <tr class="separator:a207341719edb495ca22be7090b3a8b37"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -348,8 +351,35 @@ Protected 成员函数</h2></td></tr>
 
 </div>
 </div>
+<a id="abfdedfa5a056bc6fcecbfd4e8b1c42a7" name="abfdedfa5a056bc6fcecbfd4e8b1c42a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfdedfa5a056bc6fcecbfd4e8b1c42a7">&#9670;&#160;</a></span>GetMenuItem() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> * sw::MenuBase::GetMenuItem </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenu</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>通过句柄获取菜单项 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenu</td><td>要获取菜单项的菜单句柄 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若函数成功则返回菜单项的指针，否则返回nullptr </dd></dl>
+
+</div>
+</div>
 <a id="a47fe9d419c9c50459389c46b410849d8" name="a47fe9d419c9c50459389c46b410849d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47fe9d419c9c50459389c46b410849d8">&#9670;&#160;</a></span>GetMenuItem() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a47fe9d419c9c50459389c46b410849d8">&#9670;&#160;</a></span>GetMenuItem() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -376,7 +406,7 @@ Protected 成员函数</h2></td></tr>
 </div>
 </div>
 <a id="a207341719edb495ca22be7090b3a8b37" name="a207341719edb495ca22be7090b3a8b37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a207341719edb495ca22be7090b3a8b37">&#9670;&#160;</a></span>GetMenuItem() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a207341719edb495ca22be7090b3a8b37">&#9670;&#160;</a></span>GetMenuItem() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -403,7 +433,7 @@ Protected 成员函数</h2></td></tr>
 </div>
 </div>
 <a id="a09259eb19e71878bd77f4d3dece7fed8" name="a09259eb19e71878bd77f4d3dece7fed8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09259eb19e71878bd77f4d3dece7fed8">&#9670;&#160;</a></span>GetMenuItem() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a09259eb19e71878bd77f4d3dece7fed8">&#9670;&#160;</a></span>GetMenuItem() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

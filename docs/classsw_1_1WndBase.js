@@ -46,6 +46,7 @@ var classsw_1_1WndBase =
     [ "OnMeasureItem", "classsw_1_1WndBase.html#a4e2840d620305548116446aaf0cf99ac", null ],
     [ "OnMeasureItemSelf", "classsw_1_1WndBase.html#a1241102f758c80bc7a5a85122f273ca1", null ],
     [ "OnMenuCommand", "classsw_1_1WndBase.html#afffc1d57f289f965bc50d8150c4586e1", null ],
+    [ "OnMenuSelect", "classsw_1_1WndBase.html#a0f645592c48b729f1dc9d6a9ed705d48", null ],
     [ "OnMouseLeave", "classsw_1_1WndBase.html#aaf334072263bea6dddf93a7601979023", null ],
     [ "OnMouseLeftButtonDoubleClick", "classsw_1_1WndBase.html#a5a8952400bee12db2117fbf76312d373", null ],
     [ "OnMouseLeftButtonDown", "classsw_1_1WndBase.html#a118948e07b472d90fce7e9811ea174aa", null ],
