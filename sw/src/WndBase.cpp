@@ -651,6 +651,13 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
             }
         }
 
+        case WM_MENUSELECT: {
+            HMENU hMenu = (HMENU)refMsg.lParam;
+            int id      = LOWORD(refMsg.wParam);
+            int flags   = HIWORD(refMsg.wParam);
+            return this->OnMenuSelect(hMenu, id, flags) ? 0 : this->DefaultWndProc(refMsg);
+        }
+
         case WM_VSCROLL: {
             if (!refMsg.lParam /*refMsg.lParam == NULL*/) {
                 return this->OnVerticalScroll(LOWORD(refMsg.wParam), (int16_t)HIWORD(refMsg.wParam)) ? 0 : this->DefaultWndProc(refMsg);
@@ -979,6 +986,11 @@ bool sw::WndBase::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, boo
 }
 
 bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMenuSelect(HMENU hMenu, int id, int flags)
 {
     return false;
 }

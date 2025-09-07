@@ -608,6 +608,16 @@ namespace sw
         virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition);
 
         /**
+         * @brief       接收到WM_MENUSELECT后调用该函数
+         * @param hMenu 当前被点击的菜单句柄
+         * @param id    若选中的菜单项打开了子菜单则该值为菜单项在其父菜单中的索引，否则为菜单项的id
+         * @param flags 菜单项的标志（MF_*）
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @note        若flags为0xFFFF且hMenu为NULL则表示菜单被关闭
+         */
+        virtual bool OnMenuSelect(HMENU hMenu, int id, int flags);
+
+        /**
          * @brief        接收到WM_NOTIFY后调用该函数
          * @param pNMHDR 包含有关通知消息的信息
          * @param result 函数返回值为true时将该值作为消息的返回值，默认值为0
