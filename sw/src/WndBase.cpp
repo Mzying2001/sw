@@ -933,6 +933,7 @@ bool sw::WndBase::SetParent(WndBase *parent)
         hParent = parent->_hwnd;
     }
 
+    this->SendMessageW(WM_PreSetParent, (WPARAM)hParent, 0);
     success = ::SetParent(this->_hwnd, hParent) != NULL;
 
     if (success) {
