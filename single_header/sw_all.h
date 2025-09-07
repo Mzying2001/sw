@@ -2259,7 +2259,6 @@ namespace sw
      * @brief 包含SimpleWindow用到的一些窗口消息
      */
     enum WndMsg : UINT {
-
         // SimpleWindow所用消息的起始位置
         WM_SimpleWindowBegin = WM_USER + 0x3000,
 
@@ -2268,6 +2267,9 @@ namespace sw
 
         // 在窗口线程上执行指定委托，lParam为指向sw::Action<>的指针，wParam表示是否对委托指针执行delete
         WM_InvokeAction,
+
+        // 在WndBase::SetParent函数中设置父窗口之前发送该消息，wParam为新的父窗口句柄，lParam未使用
+        WM_PreSetParent,
 
         // SimpleWindow所用消息的结束位置
         WM_SimpleWindowEnd,
@@ -4525,7 +4527,6 @@ namespace sw
      * @brief 路由事件类型枚举
      */
     enum RoutedEventType : uint32_t {
-
         // 从该值开始到RoutedEventType_UserEnd结束表示用户可以自定义路由事件的值范围
         RoutedEventType_User = 0,
 
@@ -4594,6 +4595,9 @@ namespace sw
 
         // 按钮被双击，参数类型为sw::RoutedEventArgs
         ButtonBase_DoubleClicked,
+
+        // 分割按钮的下拉箭头被单击，参数类型为sw::SplitButtonDropDownEventArgs
+        SplitButton_DropDown,
 
         // 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
         ItemsControl_SelectionChanged,
@@ -5056,6 +5060,13 @@ namespace sw
         MenuItem *GetMenuItem(int id);
 
         /**
+         * @brief       通过句柄获取菜单项
+         * @param hMenu 要获取菜单项的菜单句柄
+         * @return      若函数成功则返回菜单项的指针，否则返回nullptr
+         */
+        MenuItem *GetMenuItem(HMENU hMenu);
+
+        /**
          * @brief      通过索引来获取菜单项
          * @param path 要找项所在下索引
          * @return     若函数成功则返回菜单项的指针，否则返回nullptr
@@ -5426,6 +5437,13 @@ namespace sw
         VirtualKey key;          // 按键
         HotKeyModifier modifier; // 辅助按键
         HotKeyValueChangedEventArgs(VirtualKey key, HotKeyModifier modifier) : key(key), modifier(modifier) {}
+    };
+
+    /**
+     * @brief 分割按钮的下拉箭头单击事件参数类型
+     */
+    struct SplitButtonDropDownEventArgs : TypedRoutedEventArgs<SplitButton_DropDown> {
+        bool cancel = false; // 是否取消显示下拉菜单
     };
 
     // clang-format on
@@ -7133,6 +7151,16 @@ namespace sw
         virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition);
 
         /**
+         * @brief       接收到WM_MENUSELECT后调用该函数
+         * @param hMenu 当前被点击的菜单句柄
+         * @param id    若选中的菜单项打开了子菜单则该值为菜单项在其父菜单中的索引，否则为菜单项的id
+         * @param flags 菜单项的标志（MF_*）
+         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @note        若flags为0xFFFF且hMenu为NULL则表示菜单被关闭
+         */
+        virtual bool OnMenuSelect(HMENU hMenu, int id, int flags);
+
+        /**
          * @brief        接收到WM_NOTIFY后调用该函数
          * @param pNMHDR 包含有关通知消息的信息
          * @param result 函数返回值为true时将该值作为消息的返回值，默认值为0
@@ -8792,8 +8820,14 @@ namespace sw
         /**
          * @brief       弹出当前元素的上下文菜单
          * @param point 弹出菜单左上角在屏幕中的位置
+         * @param horz  菜单的水平方向对齐方式
+         * @param vert  菜单的垂直方向对齐方式
+         * @return      若函数成功则返回true，否则返回false
          */
-        void ShowContextMenu(const Point &point);
+        bool ShowContextMenu(
+            const Point &point,
+            sw::HorizontalAlignment horz = sw::HorizontalAlignment::Left,
+            sw::VerticalAlignment vert   = sw::VerticalAlignment::Top);
 
         /**
          * @brief 移动到界面顶部
@@ -9849,7 +9883,7 @@ namespace sw
          * @brief      控件句柄发生改变时调用该函数
          * @param hwnd 新的控件句柄
          */
-        virtual void OnHandleChenged(HWND hwnd);
+        virtual void OnHandleChanged(HWND hwnd);
     };
 }
 
@@ -10156,7 +10190,7 @@ namespace sw
         /**
          * @brief 使用设定的布局方式对子元素进行Measure和Arrange，不改变当前的尺寸和DesireSize
          */
-        void _MeasureAndArrangeWithoutResize(LayoutHost &layout);
+        void _MeasureAndArrangeWithoutResize(LayoutHost &layout, const Size &clientSize);
     };
 }
 
@@ -14325,6 +14359,155 @@ namespace sw
     };
 }
 
+// SpinBox.h
+
+
+namespace sw
+{
+    /**
+     * @brief 数值调节框
+     */
+    class SpinBox : public TextBoxBase
+    {
+    private:
+        /**
+         * @brief UpDown控件的句柄
+         */
+        HWND _hUpDown = NULL;
+
+        /**
+         * @brief 记录UpDown控件的宽度
+         */
+        int _upDownWidth = 0;
+
+        /**
+         * @brief 储存加速信息
+         */
+        std::vector<UDACCEL> _accels;
+
+    public:
+        /**
+         * @brief 最小值，默认为0
+         */
+        const Property<int> Minimum;
+
+        /**
+         * @brief 最大值，默认为100
+         */
+        const Property<int> Maximum;
+
+        /**
+         * @brief 当前值，默认为0
+         */
+        const Property<int> Value;
+
+        /**
+         * @brief 是否显示为十六进制，默认为false
+         */
+        const Property<bool> Hexadecimal;
+
+        /**
+         * @brief 每次点击UpDown控件时增量，默认为1
+         */
+        const Property<uint32_t> Increment;
+
+    public:
+        /**
+         * @brief 初始化数值调节框
+         */
+        SpinBox();
+
+        /**
+         * @brief           添加加速信息
+         * @param seconds   按住按钮多少秒后开始加速
+         * @param increment 达到seconds秒后每次增加的值
+         * @return          返回当前对象以支持链式调用
+         */
+        SpinBox &AddAccel(uint32_t seconds, uint32_t increment);
+
+        /**
+         * @brief 清除所有加速信息
+         */
+        void ClearAccels();
+
+    protected:
+        /**
+         * @brief      控件句柄发生改变时调用该函数
+         * @param hwnd 新的控件句柄
+         */
+        virtual void OnHandleChanged(HWND hwnd) override;
+
+        /**
+         * @brief               接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnSize(Size newClientSize) override;
+
+        /**
+         * @brief            接收到WM_KILLFOCUS时调用该函数
+         * @param hNextFocus 接收到焦点的hwnd，可能为NULL
+         * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnKillFocus(HWND hNextFocus) override;
+
+    private:
+        /**
+         * @brief 初始化
+         */
+        void _InitSpinBox();
+
+        /**
+         * @brief 创建UpDown控件
+         */
+        void _InitUpDownControl();
+
+        /**
+         * @brief 初始化加速信息
+         */
+        void _InitAccels();
+
+        /**
+         * @brief  获取当前值
+         * @return 当前值
+         */
+        int _GetPos32();
+
+        /**
+         * @brief     设置当前值
+         * @param pos 新的值
+         */
+        void _SetPos32(int pos);
+
+        /**
+         * @brief     获取最小值和最大值
+         * @param min 用于接收最小值的指针
+         * @param max 用于接收最大值的指针
+         * @note      若不需要获取某个值则传入nullptr
+         */
+        void _GetRange32(int *min, int *max);
+
+        /**
+         * @brief     设置最小值和最大值
+         * @param min 新的最小值
+         * @param max 新的最大值
+         */
+        void _SetRange32(int min, int max);
+
+        /**
+         * @brief         设置加速信息
+         * @param count   加速信息的数量
+         * @param pAccels 指向UDACCEL数组的指针
+         */
+        void _SetAccel(size_t count, UDACCEL *pAccels);
+
+        /**
+         * @brief 更新UpDown控件的位置
+         */
+        void _UpdateUpDownPos();
+    };
+};
+
 // TextBox.h
 
 
@@ -14723,6 +14906,60 @@ namespace sw
          * @brief 初始化单选框
          */
         RadioButton();
+    };
+}
+
+// SplitButton.h
+
+
+namespace sw
+{
+    /**
+     * @brief 分割按钮
+     * @note  下拉箭头部分单击时默认显示ContextMenu
+     */
+    class SplitButton : public Button
+    {
+    public:
+        /**
+         * @brief 初始化分割按钮
+         */
+        SplitButton();
+
+        /**
+         * @brief  显示下拉菜单
+         * @return 若成功显示菜单则返回true，否则返回false
+         */
+        bool ShowDropDownMenu();
+
+    protected:
+        /**
+         * @brief       当下拉箭头被单击时调用该函数
+         * @param pInfo 包含有关下拉事件的信息
+         */
+        virtual void OnDropDown(NMBCDROPDOWN *pInfo);
+
+        /**
+         * @brief         更新按钮样式
+         * @param focused 是否处于焦点状态
+         */
+        virtual void UpdateButtonStyle(bool focused) override;
+
+        /**
+         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
+
+        /**
+         * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
+         * @param isKeyboardMsg 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
+         * @param mousePosition 鼠标在屏幕中的位置
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override;
     };
 }
 

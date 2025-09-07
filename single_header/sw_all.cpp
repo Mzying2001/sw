@@ -1180,7 +1180,7 @@ bool sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
 
     SendMessageW(WM_SETFONT, (WPARAM)GetFontHandle(), TRUE);
     UpdateSiblingsZOrder();
-    OnHandleChenged(_hwnd);
+    OnHandleChanged(_hwnd);
     return true;
 }
 
@@ -1273,7 +1273,7 @@ void sw::Control::OnDrawFocusRect(HDC hdc)
     DrawFocusRect(hdc, &rect);
 }
 
-void sw::Control::OnHandleChenged(HWND hwnd)
+void sw::Control::OnHandleChanged(HWND hwnd)
 {
 }
 
@@ -3554,9 +3554,9 @@ void sw::HwndWrapper::InitHwndWrapper()
     this->_originalWndProc = reinterpret_cast<WNDPROC>(
         SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
 
-    if (this->_originalWndProc == WndBase::_WndProc) {
-        this->_originalWndProc = nullptr; // 防止无限递归
-    }
+    // if (this->_originalWndProc == WndBase::_WndProc) {
+    //     this->_originalWndProc = nullptr; // 防止无限递归
+    // }
 
     RECT rect;
     GetWindowRect(this->_hwnd, &rect);
@@ -4295,6 +4295,7 @@ sw::Layer::Layer()
               if (value != nullptr)
                   value->Associate(this);
               this->_customLayout = value;
+              this->InvalidateMeasure();
           }),
 
       AutoSize(
@@ -4368,8 +4369,8 @@ sw::Layer::Layer()
               LayoutHost *layout = this->_GetLayout();
 
               if (layout != nullptr && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
-                  this->GetInternalArrangeOffsetX() = -HorizontalScrollPos;
-                  this->_MeasureAndArrangeWithoutResize(*layout);
+                  this->GetInternalArrangeOffsetX() = -this->HorizontalScrollPos;
+                  this->_MeasureAndArrangeWithoutResize(*layout, this->ClientRect->GetSize());
               }
           }),
 
@@ -4393,8 +4394,8 @@ sw::Layer::Layer()
               LayoutHost *layout = this->_GetLayout();
 
               if (layout != nullptr && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
-                  this->GetInternalArrangeOffsetY() = -VerticalScrollPos;
-                  this->_MeasureAndArrangeWithoutResize(*layout);
+                  this->GetInternalArrangeOffsetY() = -this->VerticalScrollPos;
+                  this->_MeasureAndArrangeWithoutResize(*layout, this->ClientRect->GetSize());
               }
           }),
 
@@ -4451,7 +4452,7 @@ void sw::Layer::UpdateLayout()
     if (layout == nullptr) {
         this->_MeasureAndArrangeWithoutLayout();
     } else {
-        this->_MeasureAndArrangeWithoutResize(*layout);
+        this->_MeasureAndArrangeWithoutResize(*layout, this->ClientRect->GetSize());
     }
 
     this->UpdateScrollRange();
@@ -4581,7 +4582,7 @@ void sw::Layer::ArrangeOverride(const Size &finalSize)
         this->_MeasureAndArrangeWithoutLayout();
     } else if (!this->_autoSize) {
         // 已设置布局方式，但是AutoSize被取消，此时子元素也未Measure
-        this->_MeasureAndArrangeWithoutResize(*layout);
+        this->_MeasureAndArrangeWithoutResize(*layout, finalSize);
     } else {
         // 已设置布局方式且AutoSize为true，此时子元素已Measure，调用Arrange即可
         layout->ArrangeOverride(finalSize);
@@ -4860,10 +4861,9 @@ void sw::Layer::_MeasureAndArrangeWithoutLayout()
     }
 }
 
-void sw::Layer::_MeasureAndArrangeWithoutResize(LayoutHost &layout)
+void sw::Layer::_MeasureAndArrangeWithoutResize(LayoutHost &layout, const Size &clientSize)
 {
     if (layout.IsAssociated(this)) {
-        auto clientSize = this->ClientRect->GetSize();
         layout.MeasureOverride(clientSize);
         layout.ArrangeOverride(clientSize);
     }
@@ -5806,6 +5806,14 @@ sw::MenuItem *sw::MenuBase::GetMenuItem(int id)
 {
     int index = this->IDToIndex(id);
     return index >= 0 && index < (int)this->_ids.size() ? this->_ids[index].get() : nullptr;
+}
+
+sw::MenuItem *sw::MenuBase::GetMenuItem(HMENU hMenu)
+{
+    for (auto &info : this->_popupMenus) {
+        if (info.hSelf == hMenu) return info.pItem.get();
+    }
+    return nullptr;
 }
 
 sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<int> path)
@@ -7164,6 +7172,249 @@ void sw::Slider::OnEndTrack()
     this->RaiseRoutedEvent(Slider_EndTrack);
 }
 
+// SpinBox.cpp
+
+sw::SpinBox::SpinBox()
+    : Minimum(
+          // get
+          [this]() -> int {
+              int result = 0;
+              _GetRange32(&result, nullptr);
+              return result;
+          },
+          // set
+          [this](const int &value) {
+              int max = 0;
+              _GetRange32(nullptr, &max);
+              _SetRange32(value, max);
+          }),
+
+      Maximum(
+          // get
+          [this]() -> int {
+              int result = 0;
+              _GetRange32(nullptr, &result);
+              return result;
+          },
+          // set
+          [this](const int &value) {
+              int min = 0;
+              _GetRange32(&min, nullptr);
+              _SetRange32(min, value);
+          }),
+
+      Value(
+          // get
+          [this]() -> int {
+              return _GetPos32();
+          },
+          // set
+          [this](const int &value) {
+              _SetPos32(value);
+          }),
+
+      Hexadecimal(
+          // get
+          [this]() -> bool {
+              return ::SendMessageW(_hUpDown, UDM_GETBASE, 0, 0) == 16;
+          },
+          // set
+          [this](const bool &value) {
+              WPARAM base = value ? 16 : 10;
+              ::SendMessageW(_hUpDown, UDM_SETBASE, base, 0);
+          }),
+
+      Increment(
+          // get
+          [this]() -> uint32_t {
+              if (_accels.empty())
+                  _InitAccels();
+              return _accels[0].nInc;
+          },
+          // set
+          [this](const uint32_t &value) {
+              if (_accels.empty()) {
+                  _accels.push_back({0, value});
+              } else {
+                  _accels[0].nInc = value;
+              }
+              _SetAccel(_accels.size(), &_accels[0]);
+          })
+{
+    InitTextBoxBase(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | ES_LEFT | ES_AUTOHSCROLL | ES_AUTOVSCROLL, WS_EX_CLIENTEDGE);
+    Rect = sw::Rect{0, 0, 100, 24};
+    _InitSpinBox();
+}
+
+sw::SpinBox &sw::SpinBox::AddAccel(uint32_t seconds, uint32_t increment)
+{
+    if (seconds <= 0) {
+        Increment = increment;
+    } else {
+        _accels.push_back({seconds, increment});
+        _SetAccel(_accels.size(), &_accels[0]);
+    }
+    return *this;
+}
+
+void sw::SpinBox::ClearAccels()
+{
+    _InitAccels();
+}
+
+void sw::SpinBox::OnHandleChanged(HWND hwnd)
+{
+    _InitSpinBox();
+}
+
+bool sw::SpinBox::OnSize(Size newClientSize)
+{
+    _UpdateUpDownPos();
+    return TextBoxBase::OnSize(newClientSize);
+}
+
+bool sw::SpinBox::OnKillFocus(HWND hNextFocus)
+{
+    _SetPos32(_GetPos32());
+    return TextBoxBase::OnKillFocus(hNextFocus);
+}
+
+void sw::SpinBox::_InitSpinBox()
+{
+    _InitUpDownControl();
+    _SetRange32(0, 100);
+    _SetPos32(0);
+}
+
+void sw::SpinBox::_InitUpDownControl()
+{
+    if (_hUpDown != NULL) {
+        DestroyWindow(_hUpDown);
+        _hUpDown = NULL;
+    }
+
+    HWND hwnd = Handle;
+
+    _hUpDown = CreateWindowExW(
+        0, UPDOWN_CLASSW, L"",
+        WS_CHILD | WS_VISIBLE | UDS_ARROWKEYS | UDS_SETBUDDYINT | UDS_NOTHOUSANDS,
+        0, 0, 20, 0,
+        hwnd, NULL, App::Instance, NULL);
+
+    _InitAccels();
+    _UpdateUpDownPos();
+
+    ::SendMessageW(_hUpDown, UDM_SETBUDDY, reinterpret_cast<WPARAM>(hwnd), 0);
+}
+
+void sw::SpinBox::_InitAccels()
+{
+    _accels.clear();
+    _accels.push_back({0, 1});
+    _SetAccel(_accels.size(), &_accels[0]);
+}
+
+int sw::SpinBox::_GetPos32()
+{
+    return static_cast<int>(::SendMessageW(_hUpDown, UDM_GETPOS32, 0, 0));
+}
+
+void sw::SpinBox::_SetPos32(int pos)
+{
+    ::SendMessageW(_hUpDown, UDM_SETPOS32, 0, static_cast<LPARAM>(pos));
+}
+
+void sw::SpinBox::_GetRange32(int *min, int *max)
+{
+    ::SendMessageW(_hUpDown, UDM_GETRANGE32, reinterpret_cast<WPARAM>(min), reinterpret_cast<LPARAM>(max));
+}
+
+void sw::SpinBox::_SetRange32(int min, int max)
+{
+    ::SendMessageW(_hUpDown, UDM_SETRANGE32, static_cast<WPARAM>(min), static_cast<LPARAM>(max));
+}
+
+void sw::SpinBox::_SetAccel(size_t count, UDACCEL *pAccels)
+{
+    ::SendMessageW(_hUpDown, UDM_SETACCEL, static_cast<WPARAM>(count), reinterpret_cast<LPARAM>(pAccels));
+}
+
+void sw::SpinBox::_UpdateUpDownPos()
+{
+    RECT rtUpDown;
+    GetWindowRect(_hUpDown, &rtUpDown);
+
+    RECT rtClient;
+    GetClientRect(Handle, &rtClient);
+
+    if (_upDownWidth != rtUpDown.right - rtUpDown.left) {
+        _upDownWidth = rtUpDown.right - rtUpDown.left;
+        SendMessageW(EM_SETMARGINS, EC_RIGHTMARGIN, MAKELPARAM(0, _upDownWidth));
+    }
+
+    SetWindowPos(
+        _hUpDown, NULL, rtClient.right - _upDownWidth, 0,
+        _upDownWidth, rtClient.bottom, SWP_NOZORDER | SWP_NOACTIVATE);
+}
+
+// SplitButton.cpp
+
+sw::SplitButton::SplitButton()
+{
+    UpdateButtonStyle(false);
+}
+
+bool sw::SplitButton::ShowDropDownMenu()
+{
+    sw::Rect clientRect = ClientRect;
+
+    return ShowContextMenu(
+        PointToScreen({clientRect.width, clientRect.height}),
+        HorizontalAlignment::Right, VerticalAlignment::Top);
+}
+
+void sw::SplitButton::OnDropDown(NMBCDROPDOWN *pInfo)
+{
+    SplitButtonDropDownEventArgs args;
+    RaiseRoutedEvent(args);
+
+    if (!args.cancel) {
+        ShowDropDownMenu();
+    }
+}
+
+void sw::SplitButton::UpdateButtonStyle(bool focused)
+{
+    auto basestyle = GetStyle() & ~(BS_PUSHBUTTON | BS_DEFPUSHBUTTON | BS_SPLITBUTTON | BS_DEFSPLITBUTTON);
+    SetStyle(focused ? (basestyle | BS_DEFSPLITBUTTON) : (basestyle | BS_SPLITBUTTON));
+}
+
+bool sw::SplitButton::OnNotified(NMHDR *pNMHDR, LRESULT &result)
+{
+    if (pNMHDR->code == BCN_DROPDOWN) {
+        OnDropDown(reinterpret_cast<NMBCDROPDOWN *>(pNMHDR));
+        result = 0;
+        return true;
+    } else {
+        return Button::OnNotified(pNMHDR, result);
+    }
+}
+
+bool sw::SplitButton::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+{
+    if (ContextMenu == nullptr) {
+        return false;
+    }
+
+    ShowContextMenuEventArgs args(isKeyboardMsg, mousePosition);
+    RaiseRoutedEvent(args);
+
+    if (!args.cancel) {
+        ShowDropDownMenu();
+    }
+    return true;
+}
+
 // Splitter.cpp
 
 namespace
@@ -8305,8 +8556,10 @@ sw::UIElement::UIElement()
           },
           // set
           [this](const Thickness &value) {
-              this->_margin = value;
-              this->InvalidateMeasure();
+              if (this->_margin != value) {
+                  this->_margin = value;
+                  this->InvalidateMeasure();
+              }
           }),
 
       HorizontalAlignment(
@@ -8378,8 +8631,10 @@ sw::UIElement::UIElement()
           },
           // set
           [this](const uint64_t &value) {
-              this->_layoutTag = value;
-              this->InvalidateMeasure();
+              if (this->_layoutTag != value) {
+                  this->_layoutTag = value;
+                  this->InvalidateMeasure();
+              }
           }),
 
       ContextMenu(
@@ -8733,12 +8988,52 @@ int sw::UIElement::IndexOf(UIElement &element)
     return this->IndexOf(&element);
 }
 
-void sw::UIElement::ShowContextMenu(const Point &point)
+bool sw::UIElement::ShowContextMenu(const Point &point, sw::HorizontalAlignment horz, sw::VerticalAlignment vert)
 {
-    if (this->_contextMenu != nullptr) {
-        POINT p = point;
-        TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, nullptr);
+    UINT uFlags = 0;
+    HMENU hMenu = NULL;
+
+    if (this->_contextMenu) {
+        hMenu = this->_contextMenu->GetHandle();
     }
+    if (hMenu == NULL) {
+        return false;
+    }
+
+    switch (horz) {
+        case sw::HorizontalAlignment::Left: {
+            uFlags |= TPM_LEFTALIGN;
+            break;
+        }
+        case sw::HorizontalAlignment::Right: {
+            uFlags |= TPM_RIGHTALIGN;
+            break;
+        }
+        case sw::HorizontalAlignment::Center:
+        case sw::HorizontalAlignment::Stretch: {
+            uFlags |= TPM_CENTERALIGN;
+            break;
+        }
+    }
+
+    switch (vert) {
+        case sw::VerticalAlignment::Top: {
+            uFlags |= TPM_TOPALIGN;
+            break;
+        }
+        case sw::VerticalAlignment::Bottom: {
+            uFlags |= TPM_BOTTOMALIGN;
+            break;
+        }
+        case sw::VerticalAlignment::Center:
+        case sw::VerticalAlignment::Stretch: {
+            uFlags |= TPM_VCENTERALIGN;
+            break;
+        }
+    }
+
+    POINT p = point;
+    return TrackPopupMenu(hMenu, uFlags, p.x, p.y, 0, this->Handle, nullptr);
 }
 
 void sw::UIElement::MoveToTop()
@@ -9325,6 +9620,18 @@ bool sw::UIElement::SetParent(WndBase *parent)
     UIElement *oldParentElement = this->_parent;
     UIElement *newParentElement = parent ? parent->ToUIElement() : nullptr;
 
+    if (newParentElement != nullptr && !newParentElement->CheckAccess(*this)) {
+        return false; // 父子元素必须在同一线程创建
+    }
+
+    if (newParentElement == this) {
+        return false; // 不能将自己设置为自己的父元素
+    }
+
+    if (oldParentElement == newParentElement) {
+        return true; // 父元素没有变化
+    }
+
     if (newParentElement == nullptr) {
         /*
          * 要设置的父元素为nullptr
@@ -9604,15 +9911,10 @@ bool sw::UIElement::_SetHorzAlignment(sw::HorizontalAlignment value)
     if (value == this->_horizontalAlignment) {
         return false;
     }
-
     if (value == sw::HorizontalAlignment::Stretch) {
-        this->_horizontalAlignment = value;
         this->_origionalSize.width = this->Width;
-    } else {
-        this->_horizontalAlignment = value;
-        this->Width                = this->_origionalSize.width;
     }
-
+    this->_horizontalAlignment = value;
     return true;
 }
 
@@ -9621,15 +9923,10 @@ bool sw::UIElement::_SetVertAlignment(sw::VerticalAlignment value)
     if (value == this->_verticalAlignment) {
         return false;
     }
-
     if (value == sw::VerticalAlignment::Stretch) {
-        this->_verticalAlignment    = value;
         this->_origionalSize.height = this->Height;
-    } else {
-        this->_verticalAlignment = value;
-        this->Height             = this->_origionalSize.height;
     }
-
+    this->_verticalAlignment = value;
     return true;
 }
 
@@ -10164,9 +10461,14 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_UpdateLayout: {
-            if (!_isDestroying) {
+            if (!_isDestroying)
                 UpdateLayout();
-            }
+            return 0;
+        }
+
+        case WM_PreSetParent: {
+            HWND hParent = reinterpret_cast<HWND>(refMsg.wParam);
+            SetStyle(WS_CHILD, hParent != NULL);
             return 0;
         }
 
@@ -10886,7 +11188,8 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
 
 LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
 {
-    if (this->_originalWndProc == nullptr) {
+    if (this->_originalWndProc == nullptr ||
+        this->_originalWndProc == WndBase::_WndProc) {
         return DefWindowProcW(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
     } else {
         return CallWindowProcW(this->_originalWndProc, refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
@@ -11128,6 +11431,13 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
                 bool res = this->OnContextMenu(xPos == -1 && yPos == -1, POINT{xPos, yPos});
                 return res ? 0 : this->DefaultWndProc(refMsg);
             }
+        }
+
+        case WM_MENUSELECT: {
+            HMENU hMenu = (HMENU)refMsg.lParam;
+            int id      = LOWORD(refMsg.wParam);
+            int flags   = HIWORD(refMsg.wParam);
+            return this->OnMenuSelect(hMenu, id, flags) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_VSCROLL: {
@@ -11413,6 +11723,7 @@ bool sw::WndBase::SetParent(WndBase *parent)
         hParent = parent->_hwnd;
     }
 
+    this->SendMessageW(WM_PreSetParent, (WPARAM)hParent, 0);
     success = ::SetParent(this->_hwnd, hParent) != NULL;
 
     if (success) {
@@ -11457,6 +11768,11 @@ bool sw::WndBase::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, boo
 }
 
 bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMenuSelect(HMENU hMenu, int id, int flags)
 {
     return false;
 }
