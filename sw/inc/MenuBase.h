@@ -128,6 +128,13 @@ namespace sw
         MenuItem *GetMenuItem(int id);
 
         /**
+         * @brief       通过句柄获取菜单项
+         * @param hMenu 要获取菜单项的菜单句柄
+         * @return      若函数成功则返回菜单项的指针，否则返回nullptr
+         */
+        MenuItem *GetMenuItem(HMENU hMenu);
+
+        /**
          * @brief      通过索引来获取菜单项
          * @param path 要找项所在下索引
          * @return     若函数成功则返回菜单项的指针，否则返回nullptr

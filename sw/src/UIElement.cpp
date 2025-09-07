@@ -12,8 +12,10 @@ sw::UIElement::UIElement()
           },
           // set
           [this](const Thickness &value) {
-              this->_margin = value;
-              this->InvalidateMeasure();
+              if (this->_margin != value) {
+                  this->_margin = value;
+                  this->InvalidateMeasure();
+              }
           }),
 
       HorizontalAlignment(
@@ -85,8 +87,10 @@ sw::UIElement::UIElement()
           },
           // set
           [this](const uint64_t &value) {
-              this->_layoutTag = value;
-              this->InvalidateMeasure();
+              if (this->_layoutTag != value) {
+                  this->_layoutTag = value;
+                  this->InvalidateMeasure();
+              }
           }),
 
       ContextMenu(
@@ -440,12 +444,52 @@ int sw::UIElement::IndexOf(UIElement &element)
     return this->IndexOf(&element);
 }
 
-void sw::UIElement::ShowContextMenu(const Point &point)
+bool sw::UIElement::ShowContextMenu(const Point &point, sw::HorizontalAlignment horz, sw::VerticalAlignment vert)
 {
-    if (this->_contextMenu != nullptr) {
-        POINT p = point;
-        TrackPopupMenu(this->_contextMenu->GetHandle(), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, this->Handle, nullptr);
+    UINT uFlags = 0;
+    HMENU hMenu = NULL;
+
+    if (this->_contextMenu) {
+        hMenu = this->_contextMenu->GetHandle();
     }
+    if (hMenu == NULL) {
+        return false;
+    }
+
+    switch (horz) {
+        case sw::HorizontalAlignment::Left: {
+            uFlags |= TPM_LEFTALIGN;
+            break;
+        }
+        case sw::HorizontalAlignment::Right: {
+            uFlags |= TPM_RIGHTALIGN;
+            break;
+        }
+        case sw::HorizontalAlignment::Center:
+        case sw::HorizontalAlignment::Stretch: {
+            uFlags |= TPM_CENTERALIGN;
+            break;
+        }
+    }
+
+    switch (vert) {
+        case sw::VerticalAlignment::Top: {
+            uFlags |= TPM_TOPALIGN;
+            break;
+        }
+        case sw::VerticalAlignment::Bottom: {
+            uFlags |= TPM_BOTTOMALIGN;
+            break;
+        }
+        case sw::VerticalAlignment::Center:
+        case sw::VerticalAlignment::Stretch: {
+            uFlags |= TPM_VCENTERALIGN;
+            break;
+        }
+    }
+
+    POINT p = point;
+    return TrackPopupMenu(hMenu, uFlags, p.x, p.y, 0, this->Handle, nullptr);
 }
 
 void sw::UIElement::MoveToTop()
@@ -1032,6 +1076,18 @@ bool sw::UIElement::SetParent(WndBase *parent)
     UIElement *oldParentElement = this->_parent;
     UIElement *newParentElement = parent ? parent->ToUIElement() : nullptr;
 
+    if (newParentElement != nullptr && !newParentElement->CheckAccess(*this)) {
+        return false; // 父子元素必须在同一线程创建
+    }
+
+    if (newParentElement == this) {
+        return false; // 不能将自己设置为自己的父元素
+    }
+
+    if (oldParentElement == newParentElement) {
+        return true; // 父元素没有变化
+    }
+
     if (newParentElement == nullptr) {
         /*
          * 要设置的父元素为nullptr
@@ -1311,15 +1367,10 @@ bool sw::UIElement::_SetHorzAlignment(sw::HorizontalAlignment value)
     if (value == this->_horizontalAlignment) {
         return false;
     }
-
     if (value == sw::HorizontalAlignment::Stretch) {
-        this->_horizontalAlignment = value;
         this->_origionalSize.width = this->Width;
-    } else {
-        this->_horizontalAlignment = value;
-        this->Width                = this->_origionalSize.width;
     }
-
+    this->_horizontalAlignment = value;
     return true;
 }
 
@@ -1328,15 +1379,10 @@ bool sw::UIElement::_SetVertAlignment(sw::VerticalAlignment value)
     if (value == this->_verticalAlignment) {
         return false;
     }
-
     if (value == sw::VerticalAlignment::Stretch) {
-        this->_verticalAlignment    = value;
         this->_origionalSize.height = this->Height;
-    } else {
-        this->_verticalAlignment = value;
-        this->Height             = this->_origionalSize.height;
     }
-
+    this->_verticalAlignment = value;
     return true;
 }
 

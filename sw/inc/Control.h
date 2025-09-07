@@ -145,6 +145,6 @@ namespace sw
          * @brief      控件句柄发生改变时调用该函数
          * @param hwnd 新的控件句柄
          */
-        virtual void OnHandleChenged(HWND hwnd);
+        virtual void OnHandleChanged(HWND hwnd);
     };
 }

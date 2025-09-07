@@ -246,5 +246,12 @@ namespace sw
         HotKeyValueChangedEventArgs(VirtualKey key, HotKeyModifier modifier) : key(key), modifier(modifier) {}
     };
 
+    /**
+     * @brief 分割按钮的下拉箭头单击事件参数类型
+     */
+    struct SplitButtonDropDownEventArgs : TypedRoutedEventArgs<SplitButton_DropDown> {
+        bool cancel = false; // 是否取消显示下拉菜单
+    };
+
     // clang-format on
 }

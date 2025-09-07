@@ -406,7 +406,8 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
 
 LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
 {
-    if (this->_originalWndProc == nullptr) {
+    if (this->_originalWndProc == nullptr ||
+        this->_originalWndProc == WndBase::_WndProc) {
         return DefWindowProcW(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
     } else {
         return CallWindowProcW(this->_originalWndProc, refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
@@ -648,6 +649,13 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
                 bool res = this->OnContextMenu(xPos == -1 && yPos == -1, POINT{xPos, yPos});
                 return res ? 0 : this->DefaultWndProc(refMsg);
             }
+        }
+
+        case WM_MENUSELECT: {
+            HMENU hMenu = (HMENU)refMsg.lParam;
+            int id      = LOWORD(refMsg.wParam);
+            int flags   = HIWORD(refMsg.wParam);
+            return this->OnMenuSelect(hMenu, id, flags) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_VSCROLL: {
@@ -933,6 +941,7 @@ bool sw::WndBase::SetParent(WndBase *parent)
         hParent = parent->_hwnd;
     }
 
+    this->SendMessageW(WM_PreSetParent, (WPARAM)hParent, 0);
     success = ::SetParent(this->_hwnd, hParent) != NULL;
 
     if (success) {
@@ -977,6 +986,11 @@ bool sw::WndBase::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, boo
 }
 
 bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+{
+    return false;
+}
+
+bool sw::WndBase::OnMenuSelect(HMENU hMenu, int id, int flags)
 {
     return false;
 }

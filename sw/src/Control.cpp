@@ -79,7 +79,7 @@ bool sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
 
     SendMessageW(WM_SETFONT, (WPARAM)GetFontHandle(), TRUE);
     UpdateSiblingsZOrder();
-    OnHandleChenged(_hwnd);
+    OnHandleChanged(_hwnd);
     return true;
 }
 
@@ -172,6 +172,6 @@ void sw::Control::OnDrawFocusRect(HDC hdc)
     DrawFocusRect(hdc, &rect);
 }
 
-void sw::Control::OnHandleChenged(HWND hwnd)
+void sw::Control::OnHandleChanged(HWND hwnd)
 {
 }

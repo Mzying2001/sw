@@ -365,6 +365,8 @@
     <ClInclude Include="..\sw\inc\SimpleWindow.h" />
     <ClInclude Include="..\sw\inc\Size.h" />
     <ClInclude Include="..\sw\inc\Slider.h" />
+    <ClInclude Include="..\sw\inc\SpinBox.h" />
+    <ClInclude Include="..\sw\inc\SplitButton.h" />
     <ClInclude Include="..\sw\inc\Splitter.h" />
     <ClInclude Include="..\sw\inc\StackLayout.h" />
     <ClInclude Include="..\sw\inc\StackLayoutH.h" />
@@ -453,6 +455,8 @@
     <ClCompile Include="..\sw\src\Screen.cpp" />
     <ClCompile Include="..\sw\src\Size.cpp" />
     <ClCompile Include="..\sw\src\Slider.cpp" />
+    <ClCompile Include="..\sw\src\SpinBox.cpp" />
+    <ClCompile Include="..\sw\src\SplitButton.cpp" />
     <ClCompile Include="..\sw\src\Splitter.cpp" />
     <ClCompile Include="..\sw\src\StackLayout.cpp" />
     <ClCompile Include="..\sw\src\StackLayoutH.cpp" />
