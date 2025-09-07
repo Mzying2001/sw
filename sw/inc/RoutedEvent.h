@@ -9,7 +9,6 @@ namespace sw
      * @brief 路由事件类型枚举
      */
     enum RoutedEventType : uint32_t {
-
         // 从该值开始到RoutedEventType_UserEnd结束表示用户可以自定义路由事件的值范围
         RoutedEventType_User = 0,
 
@@ -78,6 +77,9 @@ namespace sw
 
         // 按钮被双击，参数类型为sw::RoutedEventArgs
         ButtonBase_DoubleClicked,
+
+        // 分割按钮的下拉箭头被单击，参数类型为sw::SplitButtonDropDownEventArgs
+        SplitButton_DropDown,
 
         // 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
         ItemsControl_SelectionChanged,
