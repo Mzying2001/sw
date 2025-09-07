@@ -286,6 +286,12 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
             return 0;
         }
 
+        case WM_PreSetParent: {
+            HWND hParent = reinterpret_cast<HWND>(refMsg.wParam);
+            SetStyle(WS_CHILD, hParent != NULL);
+            return 0;
+        }
+
         default: {
             return WndBase::WndProc(refMsg);
         }
