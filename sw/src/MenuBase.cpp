@@ -145,6 +145,14 @@ sw::MenuItem *sw::MenuBase::GetMenuItem(int id)
     return index >= 0 && index < (int)this->_ids.size() ? this->_ids[index].get() : nullptr;
 }
 
+sw::MenuItem *sw::MenuBase::GetMenuItem(HMENU hMenu)
+{
+    for (auto &info : this->_popupMenus) {
+        if (info.hSelf == hMenu) return info.pItem.get();
+    }
+    return nullptr;
+}
+
 sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<int> path)
 {
     MenuItem *result = nullptr;
