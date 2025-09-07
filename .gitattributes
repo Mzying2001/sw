@@ -4,3 +4,6 @@
 # Exclude generated files from language statistics
 docs/           linguist-generated=true
 single_header/  linguist-generated=true
+
+# Do not show diffs for documentation files
+docs/** -diff
