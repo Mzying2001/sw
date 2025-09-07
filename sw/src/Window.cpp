@@ -281,9 +281,8 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_UpdateLayout: {
-            if (!_isDestroying) {
+            if (!_isDestroying)
                 UpdateLayout();
-            }
             return 0;
         }
 
