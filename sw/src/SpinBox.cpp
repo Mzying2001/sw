@@ -181,4 +181,6 @@ void sw::SpinBox::_UpdateUpDownPos()
     SetWindowPos(
         _hUpDown, NULL, rtClient.right - _upDownWidth, 0,
         _upDownWidth, rtClient.bottom, SWP_NOZORDER | SWP_NOACTIVATE);
+
+    InvalidateRect(_hUpDown, NULL, FALSE);
 }
