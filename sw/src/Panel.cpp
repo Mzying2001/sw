@@ -49,7 +49,8 @@ sw::Panel::Panel()
     }
 
     InitControl(_PanelClassName, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
-    Rect             = sw::Rect(0, 0, 200, 200);
+
+    Rect             = sw::Rect{0, 0, 200, 200};
     Transparent      = true;
     InheritTextColor = true;
 }
@@ -89,6 +90,12 @@ LRESULT sw::Panel::WndProc(const ProcMsg &refMsg)
     }
 }
 
+bool sw::Panel::OnEraseBackground(HDC hdc, LRESULT &result)
+{
+    result = 1;
+    return true;
+}
+
 bool sw::Panel::OnPaint()
 {
     PAINTSTRUCT ps;
@@ -106,7 +113,7 @@ bool sw::Panel::OnPaint()
     return true;
 }
 
-void sw::Panel::OnEndNcPaint()
+bool sw::Panel::OnNcPaint(HRGN hRgn)
 {
     HWND hwnd = Handle;
     HDC hdc   = GetWindowDC(hwnd);
@@ -121,9 +128,11 @@ void sw::Panel::OnEndNcPaint()
 
     OnDrawBorder(hdc, rect);
     OnDrawPadding(hdc, rect);
-
     ReleaseDC(hwnd, hdc);
-    return;
+
+    DefaultWndProc(ProcMsg{
+        hwnd, WM_NCPAINT, reinterpret_cast<WPARAM>(hRgn), 0}); // scrollbars
+    return true;
 }
 
 void sw::Panel::OnDrawBorder(HDC hdc, RECT &rect)
