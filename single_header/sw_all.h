@@ -14307,15 +14307,25 @@ namespace sw
         virtual LRESULT WndProc(const ProcMsg &refMsg) override;
 
         /**
+         * @brief        接收到WM_ERASEBKGND时调用该函数
+         * @param hdc    设备上下文句柄
+         * @param result 若已处理该消息则设为非零值，默认值为0
+         * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnEraseBackground(HDC hdc, LRESULT &result) override;
+
+        /**
          * @brief  接收到WM_PAINT时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnPaint() override;
 
         /**
-         * @brief 在OnNcPaint函数完成之后调用该函数
+         * @brief      接收到WM_NCPAINT时调用该函数
+         * @param hRgn 窗口更新区域的句柄，可能为NULL
+         * @return     若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnEndNcPaint() override;
+        virtual bool OnNcPaint(HRGN hRgn) override;
 
         /**
          * @brief      绘制边框
