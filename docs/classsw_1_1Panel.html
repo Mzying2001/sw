@@ -829,12 +829,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateBorder</b> ()</
 <tr class="memitem:a13d598be9a594f73b0fbdbb35ea69bad" id="r_a13d598be9a594f73b0fbdbb35ea69bad"><td class="memItemLeft" align="right" valign="top">virtual LRESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Panel.html#a13d598be9a594f73b0fbdbb35ea69bad">WndProc</a> (const <a class="el" href="structsw_1_1ProcMsg.html">ProcMsg</a> &amp;refMsg) override</td></tr>
 <tr class="memdesc:a13d598be9a594f73b0fbdbb35ea69bad"><td class="mdescLeft">&#160;</td><td class="mdescRight">对WndProc的封装  <br /></td></tr>
 <tr class="separator:a13d598be9a594f73b0fbdbb35ea69bad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1adaa3224b12c40bca2d783e110b1e4e" id="r_a1adaa3224b12c40bca2d783e110b1e4e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Panel.html#a1adaa3224b12c40bca2d783e110b1e4e">OnEraseBackground</a> (HDC hdc, LRESULT &amp;result) override</td></tr>
+<tr class="memdesc:a1adaa3224b12c40bca2d783e110b1e4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_ERASEBKGND时调用该函数  <br /></td></tr>
+<tr class="separator:a1adaa3224b12c40bca2d783e110b1e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab57a6afea25cdefeea622ff364727a8e" id="r_ab57a6afea25cdefeea622ff364727a8e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Panel.html#ab57a6afea25cdefeea622ff364727a8e">OnPaint</a> () override</td></tr>
 <tr class="memdesc:ab57a6afea25cdefeea622ff364727a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_PAINT时调用该函数  <br /></td></tr>
 <tr class="separator:ab57a6afea25cdefeea622ff364727a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a866dd09c5613b6018369afbab40963d6" id="r_a866dd09c5613b6018369afbab40963d6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Panel.html#a866dd09c5613b6018369afbab40963d6">OnEndNcPaint</a> () override</td></tr>
-<tr class="memdesc:a866dd09c5613b6018369afbab40963d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnNcPaint函数完成之后调用该函数  <br /></td></tr>
-<tr class="separator:a866dd09c5613b6018369afbab40963d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73eee35fe66ba0f1fe48c28c35fb20d9" id="r_a73eee35fe66ba0f1fe48c28c35fb20d9"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Panel.html#a73eee35fe66ba0f1fe48c28c35fb20d9">OnNcPaint</a> (HRGN hRgn) override</td></tr>
+<tr class="memdesc:a73eee35fe66ba0f1fe48c28c35fb20d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NCPAINT时调用该函数  <br /></td></tr>
+<tr class="separator:a73eee35fe66ba0f1fe48c28c35fb20d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1f6b84f21cdf07dc38bda482ac8b241" id="r_ad1f6b84f21cdf07dc38bda482ac8b241"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Panel.html#ad1f6b84f21cdf07dc38bda482ac8b241">OnDrawBorder</a> (HDC hdc, RECT &amp;rect)</td></tr>
 <tr class="memdesc:ad1f6b84f21cdf07dc38bda482ac8b241"><td class="mdescLeft">&#160;</td><td class="mdescRight">绘制边框  <br /></td></tr>
 <tr class="separator:ad1f6b84f21cdf07dc38bda482ac8b241"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1082,9 +1085,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b
 <tr class="memitem:a98d960679d1889998ba548af6a3c8fc4 inherit pro_methods_classsw_1_1WndBase" id="r_a98d960679d1889998ba548af6a3c8fc4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a98d960679d1889998ba548af6a3c8fc4">OnDestroy</a> ()</td></tr>
 <tr class="memdesc:a98d960679d1889998ba548af6a3c8fc4 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DESTROY时调用该函数  <br /></td></tr>
 <tr class="separator:a98d960679d1889998ba548af6a3c8fc4 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a531ea2dabbaedcce1f71075a68d88961 inherit pro_methods_classsw_1_1WndBase" id="r_a531ea2dabbaedcce1f71075a68d88961"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a531ea2dabbaedcce1f71075a68d88961">OnNcPaint</a> (HRGN hRgn)</td></tr>
-<tr class="memdesc:a531ea2dabbaedcce1f71075a68d88961 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NCPAINT时调用该函数  <br /></td></tr>
-<tr class="separator:a531ea2dabbaedcce1f71075a68d88961 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e057ec7002cd6e782e7ae2e235c13b6 inherit pro_methods_classsw_1_1WndBase" id="r_a4e057ec7002cd6e782e7ae2e235c13b6"><td class="memItemLeft" align="right" valign="top">
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnEndNcPaint</b> ()</td></tr>
+<tr class="memdesc:a4e057ec7002cd6e782e7ae2e235c13b6 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnNcPaint函数完成之后调用该函数 <br /></td></tr>
+<tr class="separator:a4e057ec7002cd6e782e7ae2e235c13b6 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a8952400bee12db2117fbf76312d373 inherit pro_methods_classsw_1_1WndBase" id="r_a5a8952400bee12db2117fbf76312d373"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a5a8952400bee12db2117fbf76312d373">OnMouseLeftButtonDoubleClick</a> (<a class="el" href="structsw_1_1Point.html">Point</a> mousePosition, MouseKey keyState)</td></tr>
 <tr class="memdesc:a5a8952400bee12db2117fbf76312d373 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_LBUTTONDBLCLK时调用该函数  <br /></td></tr>
 <tr class="separator:a5a8952400bee12db2117fbf76312d373 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1136,9 +1140,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b
 <tr class="memitem:a1445af2018a8e840a25a7487da22c51b inherit pro_methods_classsw_1_1WndBase" id="r_a1445af2018a8e840a25a7487da22c51b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a1445af2018a8e840a25a7487da22c51b">OnNcHitTest</a> (const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;testPoint, HitTestResult &amp;result)</td></tr>
 <tr class="memdesc:a1445af2018a8e840a25a7487da22c51b inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NCHITTEST后调用该函数  <br /></td></tr>
 <tr class="separator:a1445af2018a8e840a25a7487da22c51b inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd6fa4ee7f0a89966f165292c6be1e4c inherit pro_methods_classsw_1_1WndBase" id="r_afd6fa4ee7f0a89966f165292c6be1e4c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#afd6fa4ee7f0a89966f165292c6be1e4c">OnEraseBackground</a> (HDC hdc, LRESULT &amp;result)</td></tr>
-<tr class="memdesc:afd6fa4ee7f0a89966f165292c6be1e4c inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_ERASEBKGND时调用该函数  <br /></td></tr>
-<tr class="separator:afd6fa4ee7f0a89966f165292c6be1e4c inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e9cac4e02b3a420c42968cbf061fd02 inherit pro_methods_classsw_1_1WndBase" id="r_a6e9cac4e02b3a420c42968cbf061fd02"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a6e9cac4e02b3a420c42968cbf061fd02">OnDrawItem</a> (int id, DRAWITEMSTRUCT *pDrawItem)</td></tr>
 <tr class="memdesc:a6e9cac4e02b3a420c42968cbf061fd02 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DRAWITEM时调用该函数  <br /></td></tr>
 <tr class="separator:a6e9cac4e02b3a420c42968cbf061fd02 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1271,8 +1272,8 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
 
 </div>
 </div>
-<a id="a866dd09c5613b6018369afbab40963d6" name="a866dd09c5613b6018369afbab40963d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a866dd09c5613b6018369afbab40963d6">&#9670;&#160;</a></span>OnEndNcPaint()</h2>
+<a id="a1adaa3224b12c40bca2d783e110b1e4e" name="a1adaa3224b12c40bca2d783e110b1e4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1adaa3224b12c40bca2d783e110b1e4e">&#9670;&#160;</a></span>OnEraseBackground()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1281,9 +1282,58 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void sw::Panel::OnEndNcPaint </td>
+          <td class="memname">virtual bool sw::Panel::OnEraseBackground </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">HDC&#160;</td>
+          <td class="paramname"><em>hdc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT &amp;&#160;</td>
+          <td class="paramname"><em>result</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_ERASEBKGND时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hdc</td><td>设备上下文句柄 </td></tr>
+    <tr><td class="paramname">result</td><td>若已处理该消息则设为非零值，默认值为0 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值 </dd></dl>
+
+<p>重载 <a class="el" href="classsw_1_1WndBase.html#afd6fa4ee7f0a89966f165292c6be1e4c">sw::WndBase</a> .</p>
+
+</div>
+</div>
+<a id="a73eee35fe66ba0f1fe48c28c35fb20d9" name="a73eee35fe66ba0f1fe48c28c35fb20d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73eee35fe66ba0f1fe48c28c35fb20d9">&#9670;&#160;</a></span>OnNcPaint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool sw::Panel::OnNcPaint </td>
+          <td>(</td>
+          <td class="paramtype">HRGN&#160;</td>
+          <td class="paramname"><em>hRgn</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1294,9 +1344,16 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
 </table>
 </div><div class="memdoc">
 
-<p>在OnNcPaint函数完成之后调用该函数 </p>
+<p>接收到WM_NCPAINT时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hRgn</td><td>窗口更新区域的句柄，可能为NULL </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>重载 <a class="el" href="classsw_1_1WndBase.html#a4e057ec7002cd6e782e7ae2e235c13b6">sw::WndBase</a> .</p>
+<p>重载 <a class="el" href="classsw_1_1WndBase.html#a531ea2dabbaedcce1f71075a68d88961">sw::WndBase</a> .</p>
 
 </div>
 </div>

@@ -1,5 +1,6 @@
 var NAVTREEINDEX6 =
 {
+"structsw_1_1Color.html#aa42552f373fab2b4132c73de6febad58":[2,0,0,35,3],
 "structsw_1_1Color.html#ab334150d36ae29d3db72843e072994c9":[2,0,0,35,11],
 "structsw_1_1Color.html#abb6da0ffa872c60d0a9f578b7a785bde":[2,0,0,35,4],
 "structsw_1_1Color.html#ad432609396ec72641f339a89ce78d64f":[2,0,0,35,8],
