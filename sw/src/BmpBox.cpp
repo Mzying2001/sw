@@ -71,6 +71,7 @@ bool sw::BmpBox::OnPaint()
 
     PAINTSTRUCT ps;
     HDC hdc = BeginPaint(hwnd, &ps);
+    SetStretchBltMode(hdc, HALFTONE);
 
     RECT clientRect;
     GetClientRect(hwnd, &clientRect);
