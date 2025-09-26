@@ -249,6 +249,16 @@ sw::UIElement::UIElement()
               }
               return sw::Rect{
                   pos.x, pos.y, size.width, size.height};
+          }),
+
+      IsHitTestVisible(
+          // get
+          [this]() -> bool {
+              return this->_isHitTestVisible;
+          },
+          // set
+          [this](const bool &value) {
+              this->_isHitTestVisible = value;
           })
 {
 }
@@ -1360,6 +1370,13 @@ bool sw::UIElement::OnDropFiles(HDROP hDrop)
     DropFilesEventArgs args(hDrop);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
+}
+
+void sw::UIElement::OnNcHitTest(const Point &testPoint, HitTestResult &result)
+{
+    if (!this->_isHitTestVisible) {
+        result = HitTestResult::HitTransparent;
+    }
 }
 
 bool sw::UIElement::_SetHorzAlignment(sw::HorizontalAlignment value)
