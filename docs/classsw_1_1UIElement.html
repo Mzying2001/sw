@@ -578,6 +578,10 @@ const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;
 <tr class="memitem:a5fb0d213e16e64b9284bcbad8b038ab8" id="r_a5fb0d213e16e64b9284bcbad8b038ab8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a5fb0d213e16e64b9284bcbad8b038ab8">LogicalRect</a></td></tr>
 <tr class="memdesc:a5fb0d213e16e64b9284bcbad8b038ab8"><td class="mdescLeft">&#160;</td><td class="mdescRight">元素的逻辑位置和尺寸，即去除布局偏移以及拉伸影响的位置和尺寸  <br /></td></tr>
 <tr class="separator:a5fb0d213e16e64b9284bcbad8b038ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87244c08dabca5b114cc1b7040118bc6" id="r_a87244c08dabca5b114cc1b7040118bc6"><td class="memItemLeft" align="right" valign="top"><a id="a87244c08dabca5b114cc1b7040118bc6" name="a87244c08dabca5b114cc1b7040118bc6"></a>
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsHitTestVisible</b></td></tr>
+<tr class="memdesc:a87244c08dabca5b114cc1b7040118bc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前元素是否响应鼠标事件 <br /></td></tr>
+<tr class="separator:a87244c08dabca5b114cc1b7040118bc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
 <tr class="memitem:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase" id="r_abc0b653ccc071c2cfcba42fa8eef738f"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; HWND &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Handle</b></td></tr>
@@ -831,6 +835,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetPreviousTabStopFoc
 <tr class="memitem:a6a331869736475e10e2f861b5a242565" id="r_a6a331869736475e10e2f861b5a242565"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a6a331869736475e10e2f861b5a242565">OnDropFiles</a> (HDROP hDrop) override</td></tr>
 <tr class="memdesc:a6a331869736475e10e2f861b5a242565"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DROPFILES时调用该函数  <br /></td></tr>
 <tr class="separator:a6a331869736475e10e2f861b5a242565"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b5535a1f79a5adb4a90dfb6a7a534fd" id="r_a7b5535a1f79a5adb4a90dfb6a7a534fd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a7b5535a1f79a5adb4a90dfb6a7a534fd">OnNcHitTest</a> (const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;testPoint, HitTestResult &amp;result) override</td></tr>
+<tr class="memdesc:a7b5535a1f79a5adb4a90dfb6a7a534fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NCHITTEST后调用该函数  <br /></td></tr>
+<tr class="separator:a7b5535a1f79a5adb4a90dfb6a7a534fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
 <tr class="memitem:aab509b68c9c0b612862cf41d8ef685a3 inherit pro_methods_classsw_1_1WndBase" id="r_aab509b68c9c0b612862cf41d8ef685a3"><td class="memItemLeft" align="right" valign="top">
 &#160;</td><td class="memItemRight" valign="bottom"><b>WndBase</b> ()</td></tr>
@@ -949,9 +956,6 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnEndNcPaint<
 <tr class="memitem:aa04cd83e79c42d21127799e573d9f299 inherit pro_methods_classsw_1_1WndBase" id="r_aa04cd83e79c42d21127799e573d9f299"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#aa04cd83e79c42d21127799e573d9f299">OnCtlColor</a> (<a class="el" href="classsw_1_1WndBase.html">WndBase</a> *pControl, HDC hdc, HBRUSH &amp;hRetBrush)</td></tr>
 <tr class="memdesc:aa04cd83e79c42d21127799e573d9f299 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CTLCOLORxxx时调用该函数  <br /></td></tr>
 <tr class="separator:aa04cd83e79c42d21127799e573d9f299 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1445af2018a8e840a25a7487da22c51b inherit pro_methods_classsw_1_1WndBase" id="r_a1445af2018a8e840a25a7487da22c51b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a1445af2018a8e840a25a7487da22c51b">OnNcHitTest</a> (const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;testPoint, HitTestResult &amp;result)</td></tr>
-<tr class="memdesc:a1445af2018a8e840a25a7487da22c51b inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NCHITTEST后调用该函数  <br /></td></tr>
-<tr class="separator:a1445af2018a8e840a25a7487da22c51b inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd6fa4ee7f0a89966f165292c6be1e4c inherit pro_methods_classsw_1_1WndBase" id="r_afd6fa4ee7f0a89966f165292c6be1e4c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#afd6fa4ee7f0a89966f165292c6be1e4c">OnEraseBackground</a> (HDC hdc, LRESULT &amp;result)</td></tr>
 <tr class="memdesc:afd6fa4ee7f0a89966f165292c6be1e4c inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_ERASEBKGND时调用该函数  <br /></td></tr>
 <tr class="separator:afd6fa4ee7f0a89966f165292c6be1e4c inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -3020,6 +3024,53 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
 <p>重载 <a class="el" href="classsw_1_1WndBase.html#a17769747f602f2f7c18a0a49ce97a125">sw::WndBase</a> .</p>
+
+</div>
+</div>
+<a id="a7b5535a1f79a5adb4a90dfb6a7a534fd" name="a7b5535a1f79a5adb4a90dfb6a7a534fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b5535a1f79a5adb4a90dfb6a7a534fd">&#9670;&#160;</a></span>OnNcHitTest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sw::UIElement::OnNcHitTest </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;&#160;</td>
+          <td class="paramname"><em>testPoint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">HitTestResult &amp;&#160;</td>
+          <td class="paramname"><em>result</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_NCHITTEST后调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">testPoint</td><td>要测试的点在屏幕中的位置 </td></tr>
+    <tr><td class="paramname">result</td><td>测试的结果，默认为调用DefaultWndProc的结果 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>重载 <a class="el" href="classsw_1_1WndBase.html#a1445af2018a8e840a25a7487da22c51b">sw::WndBase</a> .</p>
 
 </div>
 </div>

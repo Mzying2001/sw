@@ -51,8 +51,8 @@ var NAVTREEINDEX =
 "classsw_1_1ImageList.html#a0cf385d15bc51bcd7214f3f5969b494c",
 "classsw_1_1MenuItem.html#ab0b1236f09532f993324f76c07c7b8c7",
 "classsw_1_1SysLink.html#a83a509b815b4ea0275918c7125020cae",
-"classsw_1_1WndBase.html#a0e30c4d0b87c473115e7521c5c95703a",
-"structsw_1_1Color.html#aa42552f373fab2b4132c73de6febad58"
+"classsw_1_1WndBase.html#a074171e62cdb3e20f53b9262164852ca",
+"structsw_1_1Color.html#a79499715b083e1ae124e9e1c644608f9"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';
