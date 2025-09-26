@@ -8582,6 +8582,11 @@ namespace sw
          */
         COLORREF _lastBackColor = 0;
 
+        /**
+         * @brief 当前元素是否响应鼠标事件
+         */
+        bool _isHitTestVisible = true;
+
     public:
         /**
          * @brief 边距
@@ -8694,6 +8699,11 @@ namespace sw
          * @note  当布局未完成时该属性的值可能不准确
          */
         const ReadOnlyProperty<sw::Rect> LogicalRect;
+
+        /**
+         * @brief 当前元素是否响应鼠标事件
+         */
+        const Property<bool> IsHitTestVisible;
 
     public:
         /**
@@ -9313,6 +9323,13 @@ namespace sw
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDropFiles(HDROP hDrop) override;
+
+        /**
+         * @brief           接收到WM_NCHITTEST后调用该函数
+         * @param testPoint 要测试的点在屏幕中的位置
+         * @param result    测试的结果，默认为调用DefaultWndProc的结果
+         */
+        virtual void OnNcHitTest(const Point &testPoint, HitTestResult &result) override;
 
     private:
         /**
