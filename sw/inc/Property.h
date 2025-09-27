@@ -927,22 +927,42 @@ namespace sw
             return this->Get() == prop.Get();
         }
 
+        ///**
+        // * @brief 不等于运算
+        // */
+        // template <typename U = T>
+        // typename std::enable_if<_NeOperationHelper<T, U>::value, typename _NeOperationHelper<T, U>::type>::type operator!=(const U &value) const
+        //{
+        //    return this->Get() != value;
+        //}
+
+        ///**
+        // * @brief 不等于运算
+        // */
+        // template <typename D, typename U = T>
+        // typename std::enable_if<_NeOperationHelper<T, U>::value, typename _NeOperationHelper<T, U>::type>::type operator!=(const PropertyBase<U, D> &prop) const
+        //{
+        //    return this->Get() != prop.Get();
+        //}
+
         /**
          * @brief 不等于运算
+         * @note  避免与c++20自动生成的!=冲突，改为通过==取反实现
          */
         template <typename U = T>
-        typename std::enable_if<_NeOperationHelper<T, U>::value, typename _NeOperationHelper<T, U>::type>::type operator!=(const U &value) const
+        typename std::enable_if<_EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type operator!=(const U &value) const
         {
-            return this->Get() != value;
+            return !(*this == value);
         }
 
         /**
          * @brief 不等于运算
+         * @note  避免与c++20自动生成的!=冲突，改为通过==取反实现
          */
         template <typename D, typename U = T>
-        typename std::enable_if<_NeOperationHelper<T, U>::value, typename _NeOperationHelper<T, U>::type>::type operator!=(const PropertyBase<U, D> &prop) const
+        typename std::enable_if<_EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type operator!=(const PropertyBase<U, D> &prop) const
         {
-            return this->Get() != prop.Get();
+            return !(*this == prop);
         }
 
         /**
@@ -1318,24 +1338,46 @@ namespace sw
         return left == right.Get();
     }
 
+    ///**
+    // * @brief 不等于运算
+    // */
+    // template <typename D, typename T, typename U = T>
+    // typename std::enable_if<!_IsProperty<T>::value && _NeOperationHelper<T &, U>::value, typename _NeOperationHelper<T &, U>::type>::type
+    // operator!=(T &left, const PropertyBase<U, D> &right)
+    //{
+    //    return left != right.Get();
+    //}
+
+    ///**
+    // * @brief 不等于运算
+    // */
+    // template <typename D, typename T, typename U = T>
+    // typename std::enable_if<!_IsProperty<T>::value && _NeOperationHelper<const T &, U>::value, typename _NeOperationHelper<const T &, U>::type>::type
+    // operator!=(const T &left, const PropertyBase<U, D> &right)
+    //{
+    //    return left != right.Get();
+    //}
+
     /**
      * @brief 不等于运算
+     * @note  避免与c++20自动生成的!=冲突，改为通过==取反实现
      */
     template <typename D, typename T, typename U = T>
-    typename std::enable_if<!_IsProperty<T>::value && _NeOperationHelper<T &, U>::value, typename _NeOperationHelper<T &, U>::type>::type
+    typename std::enable_if<!_IsProperty<T>::value && _EqOperationHelper<T &, U>::value, typename _EqOperationHelper<T &, U>::type>::type
     operator!=(T &left, const PropertyBase<U, D> &right)
     {
-        return left != right.Get();
+        return !(left == right);
     }
 
     /**
      * @brief 不等于运算
+     * @note  避免与c++20自动生成的!=冲突，改为通过==取反实现
      */
     template <typename D, typename T, typename U = T>
-    typename std::enable_if<!_IsProperty<T>::value && _NeOperationHelper<const T &, U>::value, typename _NeOperationHelper<const T &, U>::type>::type
+    typename std::enable_if<!_IsProperty<T>::value && _EqOperationHelper<const T &, U>::value, typename _EqOperationHelper<const T &, U>::type>::type
     operator!=(const T &left, const PropertyBase<U, D> &right)
     {
-        return left != right.Get();
+        return !(left == right);
     }
 
     /**
