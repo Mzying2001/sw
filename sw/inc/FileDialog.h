@@ -344,7 +344,7 @@ namespace sw
          * @brief  显示对话框，并指定所有者窗口
          * @return 若用户选择了文件则返回true，否则返回false
          */
-        virtual int ShowDialog(Window *owner = nullptr) = 0;
+        virtual int ShowDialog(Window *owner = nullptr) override = 0;
 
         /**
          * @brief  显示对话框，并指定所有者窗口
