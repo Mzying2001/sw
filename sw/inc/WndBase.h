@@ -6,6 +6,7 @@
 #include "Dip.h"
 #include "Font.h"
 #include "HitTestResult.h"
+#include "IToString.h"
 #include "Keys.h"
 #include "Point.h"
 #include "ProcMsg.h"
@@ -32,7 +33,7 @@ namespace sw
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
-    class WndBase
+    class WndBase : public IToString<WndBase>
     {
         // 部分控件可能会改变HWND，设为友元类向Control类暴露_hwnd字段
         friend class Control;

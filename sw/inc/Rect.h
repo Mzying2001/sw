@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IToString.h"
 #include "Point.h"
 #include "Size.h"
 #include <Windows.h>
@@ -10,7 +11,7 @@ namespace sw
     /**
      * @brief 表示一个矩形区域
      */
-    struct Rect {
+    struct Rect : public IToString<Rect> {
         /**
          * @brief 左边
          */

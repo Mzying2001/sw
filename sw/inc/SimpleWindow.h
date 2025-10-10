@@ -43,6 +43,7 @@
 #include "ILayout.h"
 #include "IPAddressControl.h"
 #include "ITag.h"
+#include "IToString.h"
 #include "Icon.h"
 #include "IconBox.h"
 #include "ImageList.h"

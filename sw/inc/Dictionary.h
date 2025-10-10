@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IToString.h"
 #include "Utils.h"
 #include <map>
 #include <memory>
@@ -20,7 +21,7 @@ namespace sw
      * @brief 字典类，内部维护了一个指向std::map的智能指针
      */
     template <typename TKey, typename TVal>
-    class Dictionary
+    class Dictionary : public IToString<Dictionary<TKey, TVal>>
     {
     private:
         /**

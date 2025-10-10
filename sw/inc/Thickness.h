@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IToString.h"
 #include <Windows.h>
 #include <string>
 
@@ -8,7 +9,7 @@ namespace sw
     /**
      * @brief 表示矩形区域周围边框的厚度
      */
-    struct Thickness {
+    struct Thickness : public IToString<Thickness> {
         /**
          * @brief 左边
          */
