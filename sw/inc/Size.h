@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IToString.h"
 #include <Windows.h>
 #include <string>
 
@@ -8,7 +9,7 @@ namespace sw
     /**
      * @brief 尺寸
      */
-    struct Size {
+    struct Size : public IToString<Size> {
         /**
          * @brief 宽度
          */

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IToString.h"
 #include "Utils.h"
 #include <algorithm>
 #include <memory>
@@ -20,7 +21,7 @@ namespace sw
      * @brief 列表类，内部维护了一个指向std::vector的智能指针
      */
     template <typename T>
-    class List
+    class List : public IToString<List<T>>
     {
     private:
         /**

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IToString.h"
 #include <Windows.h>
 #include <string>
 
@@ -8,7 +9,7 @@ namespace sw
     /**
      * @brief 表示相对于左上角的点坐标
      */
-    struct Point {
+    struct Point : public IToString<Point> {
         /**
          * @brief 横坐标
          */

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IToString.h"
 #include "KnownColor.h"
 #include <cstdint>
 #include <string>
@@ -9,7 +10,7 @@ namespace sw
     /**
      * @brief 颜色
      */
-    struct Color {
+    struct Color : public IToString<Color> {
         /**
          * @brief R分量
          */
