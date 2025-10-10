@@ -14,7 +14,7 @@ namespace sw
          */
         bool Equals(const TDerived &other) const
         {
-            static_assert(&IEqualityComparable::Equals != TDerived::Equals,
+            static_assert(&IEqualityComparable::Equals != &TDerived::Equals,
                           "Derived class must implement Equals method.");
             return static_cast<const TDerived *>(this)->Equals(other);
         }
@@ -49,7 +49,7 @@ namespace sw
          */
         int CompareTo(const TDerived &other) const
         {
-            static_assert(&IComparable::CompareTo != TDerived::CompareTo,
+            static_assert(&IComparable::CompareTo != &TDerived::CompareTo,
                           "Derived class must implement CompareTo method.");
             return static_cast<const TDerived *>(this)->CompareTo(other);
         }
