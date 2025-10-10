@@ -39,6 +39,7 @@
 #include "HotKeyControl.h"
 #include "HwndHost.h"
 #include "HwndWrapper.h"
+#include "IComparable.h"
 #include "IDialog.h"
 #include "ILayout.h"
 #include "IPAddressControl.h"
