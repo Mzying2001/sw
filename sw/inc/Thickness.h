@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IComparable.h"
 #include "IToString.h"
 #include <Windows.h>
 #include <string>
@@ -9,7 +10,8 @@ namespace sw
     /**
      * @brief 表示矩形区域周围边框的厚度
      */
-    struct Thickness : public IToString<Thickness> {
+    struct Thickness : public IToString<Thickness>,
+                       public IEqualityComparable<Thickness> {
         /**
          * @brief 左边
          */
@@ -63,12 +65,7 @@ namespace sw
         /**
          * @brief 判断两个Thickness是否相同
          */
-        bool operator==(const Thickness &other) const;
-
-        /**
-         * @brief 判断两个Thickness是否相同
-         */
-        bool operator!=(const Thickness &other) const;
+        bool Equals(const Thickness &other) const;
 
         /**
          * @brief 获取描述当前对象的字符串

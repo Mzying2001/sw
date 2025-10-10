@@ -22,14 +22,9 @@ sw::Point::operator POINT() const
     return {Dip::DipToPxX(this->x), Dip::DipToPxY(this->y)};
 }
 
-bool sw::Point::operator==(const Point &other) const
+bool sw::Point::Equals(const Point &other) const
 {
     return (this->x == other.x) && (this->y == other.y);
-}
-
-bool sw::Point::operator!=(const Point &other) const
-{
-    return (this->x != other.x) || (this->y != other.y);
 }
 
 std::wstring sw::Point::ToString() const

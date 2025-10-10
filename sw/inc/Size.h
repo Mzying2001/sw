@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IComparable.h"
 #include "IToString.h"
 #include <Windows.h>
 #include <string>
@@ -9,7 +10,8 @@ namespace sw
     /**
      * @brief 尺寸
      */
-    struct Size : public IToString<Size> {
+    struct Size : public IToString<Size>,
+                  public IEqualityComparable<Size> {
         /**
          * @brief 宽度
          */
@@ -43,12 +45,7 @@ namespace sw
         /**
          * @brief 判断两个Size是否相等
          */
-        bool operator==(const Size &other) const;
-
-        /**
-         * @brief 判断两个Size是否不相等
-         */
-        bool operator!=(const Size &other) const;
+        bool Equals(const Size &other) const;
 
         /**
          * @brief 获取描述当前对象的字符串

@@ -290,16 +290,6 @@ sw::WndBase::~WndBase()
     const_cast<uint32_t &>(this->_check) = 0;
 }
 
-bool sw::WndBase::operator==(const WndBase &other) const
-{
-    return this == &other;
-}
-
-bool sw::WndBase::operator!=(const WndBase &other) const
-{
-    return this != &other;
-}
-
 sw::UIElement *sw::WndBase::ToUIElement()
 {
     return nullptr;
@@ -313,6 +303,11 @@ sw::Control *sw::WndBase::ToControl()
 sw::Window *sw::WndBase::ToWindow()
 {
     return nullptr;
+}
+
+bool sw::WndBase::Equals(const WndBase &other) const
+{
+    return this == &other;
 }
 
 std::wstring sw::WndBase::ToString() const
