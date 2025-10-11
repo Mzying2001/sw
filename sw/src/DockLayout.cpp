@@ -18,14 +18,9 @@ sw::DockLayoutTag::operator uint64_t() const
     return this->_value;
 }
 
-bool sw::DockLayoutTag::operator==(const DockLayoutTag &other) const
+bool sw::DockLayoutTag::Equals(const DockLayoutTag &other) const
 {
     return this->_value == other._value;
-}
-
-bool sw::DockLayoutTag::operator!=(const DockLayoutTag &other) const
-{
-    return this->_value != other._value;
 }
 
 bool sw::DockLayoutTag::operator==(uint64_t value) const

@@ -24,16 +24,8 @@
 namespace sw
 {
     // 向前声明
-    template <typename T>
-    class Property;
-
-    // 向前声明
-    template <typename T>
-    class ReadOnlyProperty;
-
-    // 向前声明
-    template <typename T>
-    class WriteOnlyProperty;
+    template <typename T, typename TDerived>
+    class PropertyBase;
 
     // SFINAE templates
     _SW_DEFINE_OPERATION_HELPER(_AddOperationHelper, +);
@@ -66,36 +58,22 @@ namespace sw
     /**
      * @brief _IsProperty的实现
      */
-    template <typename>
-    struct _IsPropertyImpl : std::false_type {
-    };
-
-    /**
-     * @brief _IsPropertyImpl模板特化
-     */
     template <typename T>
-    struct _IsPropertyImpl<Property<T>> : std::true_type {
-    };
+    struct _IsPropertyImpl {
+    private:
+        template <typename U, typename V>
+        static std::true_type test(const PropertyBase<U, V> *);
+        static std::false_type test(...);
 
-    /**
-     * @brief _IsPropertyImpl模板特化
-     */
-    template <typename T>
-    struct _IsPropertyImpl<ReadOnlyProperty<T>> : std::true_type {
-    };
-
-    /**
-     * @brief _IsPropertyImpl模板特化
-     */
-    template <typename T>
-    struct _IsPropertyImpl<WriteOnlyProperty<T>> : std::true_type {
+    public:
+        using type = decltype(test(std::declval<T *>()));
     };
 
     /**
      * @brief 判断类型是否为属性的辅助模板
      */
     template <typename T>
-    struct _IsProperty : _IsPropertyImpl<typename std::decay<T>::type> {
+    struct _IsProperty : _IsPropertyImpl<typename std::decay<T>::type>::type {
     };
 
     /**

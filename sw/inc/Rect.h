@@ -1,5 +1,7 @@
 #pragma once
 
+#include "IComparable.h"
+#include "IToString.h"
 #include "Point.h"
 #include "Size.h"
 #include <Windows.h>
@@ -10,7 +12,8 @@ namespace sw
     /**
      * @brief 表示一个矩形区域
      */
-    struct Rect {
+    struct Rect : public IToString<Rect>,
+                  public IEqualityComparable<Rect> {
         /**
          * @brief 左边
          */
@@ -64,12 +67,7 @@ namespace sw
         /**
          * @brief 判断两个Rect是否相等
          */
-        bool operator==(const Rect &other) const;
-
-        /**
-         * @brief 判断两个Rect是否不相等
-         */
-        bool operator!=(const Rect &other) const;
+        bool Equals(const Rect &other) const;
 
         /**
          * @brief 获取描述当前对象的字符串

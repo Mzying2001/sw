@@ -26,14 +26,9 @@ sw::Color::operator COLORREF() const
     return RGB(this->r, this->g, this->b);
 }
 
-bool sw::Color::operator==(const Color &other) const
+bool sw::Color::Equals(const Color &other) const
 {
     return (this->r == other.r) && (this->g == other.g) && (this->b == other.b);
-}
-
-bool sw::Color::operator!=(const Color &other) const
-{
-    return (this->r != other.r) || (this->g != other.g) || (this->b != other.b);
 }
 
 std::wstring sw::Color::ToString() const

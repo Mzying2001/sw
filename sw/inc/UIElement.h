@@ -1048,13 +1048,14 @@ namespace sw
         struct _CanAddChild : std::false_type {
         };
 
-        /**
-         * @brief _CanAddChild模板偏特化，当AddChild有对应类型的重载时该偏特化生效
-         */
-        template <typename T>
-        struct _CanAddChild<
-            T, decltype(void(std::declval<UIElement>().AddChild(std::declval<T>())))> : std::true_type {
-        };
+        // 已移动到类外，防止clang报错不完整的类型
+        // /**
+        //  * @brief _CanAddChild模板偏特化，当AddChild有对应类型的重载时该偏特化生效
+        //  */
+        // template <typename T>
+        // struct _CanAddChild<
+        //     T, decltype(void(std::declval<UIElement>().AddChild(std::declval<T>())))> : std::true_type {
+        // };
 
         /**
          * @brief 判断AddChildren的参数类型是否均可添加
@@ -1323,5 +1324,13 @@ namespace sw
                 return this->RemoveHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
             }
         }
+    };
+
+    /**
+     * @brief _CanAddChild模板偏特化，当AddChild有对应类型的重载时该偏特化生效
+     */
+    template <typename T>
+    struct UIElement::_CanAddChild<
+        T, decltype(void(std::declval<UIElement>().AddChild(std::declval<T>())))> : std::true_type {
     };
 }

@@ -8,7 +8,7 @@ namespace sw
     /**
      * @brief 停靠布局标记
      */
-    class DockLayoutTag
+    class DockLayoutTag : public IEqualityComparable<DockLayoutTag>
     {
     public:
         enum : uint64_t {
@@ -38,12 +38,7 @@ namespace sw
         /**
          * @brief 判断值是否相等
          */
-        bool operator==(const DockLayoutTag &other) const;
-
-        /**
-         * @brief 判断值是否不相等
-         */
-        bool operator!=(const DockLayoutTag &other) const;
+        bool Equals(const DockLayoutTag &other) const;
 
         /**
          * @brief 判断值是否相等

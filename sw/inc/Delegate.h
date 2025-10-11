@@ -1070,6 +1070,12 @@ namespace sw
     template <typename... Args>
     using Action = Delegate<void(Args...)>;
 
+    /**
+     * @brief Predicate类型别名，表示返回bool的单参数委托
+     */
+    template <typename T>
+    using Predicate = Delegate<bool(T)>;
+
     /*================================================================================*/
 
     /**

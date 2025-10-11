@@ -102,11 +102,8 @@ bool sw::Panel::OnPaint()
     HWND hwnd = Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
-    RECT clientRect;
-    GetClientRect(hwnd, &clientRect);
-
     HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
-    FillRect(hdc, &clientRect, hBrush);
+    FillRect(hdc, &ps.rcPaint, hBrush);
 
     DeleteObject(hBrush);
     EndPaint(hwnd, &ps);
