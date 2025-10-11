@@ -71,66 +71,78 @@ bool sw::BmpBox::OnPaint()
 
     PAINTSTRUCT ps;
     HDC hdc = BeginPaint(hwnd, &ps);
-    SetStretchBltMode(hdc, HALFTONE);
 
     RECT clientRect;
     GetClientRect(hwnd, &clientRect);
 
+    int width  = clientRect.right - clientRect.left;
+    int height = clientRect.bottom - clientRect.top;
+
+    HDC hdcMem         = CreateCompatibleDC(hdc);
+    HBITMAP hBitmap    = CreateCompatibleBitmap(hdc, width, height);
+    HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
+
     HBRUSH hBackColorBrush = CreateSolidBrush(this->GetRealBackColor());
-    FillRect(hdc, &clientRect, hBackColorBrush);
+    FillRect(hdcMem, &clientRect, hBackColorBrush);
 
     if (this->_hBitmap != NULL &&
         this->_bmpSize.cx > 0 && this->_bmpSize.cy > 0) {
-        HDC hdcmem = CreateCompatibleDC(hdc);
-        SelectObject(hdcmem, this->_hBitmap);
+        HDC hdcBmp = CreateCompatibleDC(hdc);
+        SelectObject(hdcBmp, this->_hBitmap);
 
         switch (this->_sizeMode) {
             case BmpBoxSizeMode::Normal: {
-                BitBlt(hdc, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, hdcmem, 0, 0, SRCCOPY);
+                BitBlt(hdcMem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, hdcBmp, 0, 0, SRCCOPY);
                 break;
             }
 
             case BmpBoxSizeMode::StretchImage: {
-                StretchBlt(hdc, 0, 0, clientRect.right - clientRect.left, clientRect.bottom - clientRect.top,
-                           hdcmem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
+                SetStretchBltMode(hdcMem, HALFTONE);
+                StretchBlt(hdcMem, 0, 0, width, height,
+                           hdcBmp, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
                 break;
             }
 
             case BmpBoxSizeMode::AutoSize:
             case BmpBoxSizeMode::CenterImage: {
-                int x = ((clientRect.right - clientRect.left) - this->_bmpSize.cx) / 2;
-                int y = ((clientRect.bottom - clientRect.top) - this->_bmpSize.cy) / 2;
-                BitBlt(hdc, x, y, this->_bmpSize.cx, this->_bmpSize.cy, hdcmem, 0, 0, SRCCOPY);
+                int x = (width - this->_bmpSize.cx) / 2;
+                int y = (height - this->_bmpSize.cy) / 2;
+                BitBlt(hdcMem, x, y, this->_bmpSize.cx, this->_bmpSize.cy, hdcBmp, 0, 0, SRCCOPY);
                 break;
             }
 
             case BmpBoxSizeMode::Zoom: {
-                int w = clientRect.right - clientRect.left;
-                int h = clientRect.bottom - clientRect.top;
+                double scale_w = double(width) / this->_bmpSize.cx;
+                double scale_h = double(height) / this->_bmpSize.cy;
 
-                double scale_w = double(w) / this->_bmpSize.cx;
-                double scale_h = double(h) / this->_bmpSize.cy;
+                SetStretchBltMode(hdcMem, HALFTONE);
 
                 if (scale_w < scale_h) {
-                    int draw_w = w;
+                    int draw_w = width;
                     int draw_h = std::lround(scale_w * this->_bmpSize.cy);
-                    StretchBlt(hdc, 0, (h - draw_h) / 2, draw_w, draw_h,
-                               hdcmem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
+                    StretchBlt(hdcMem, 0, (height - draw_h) / 2, draw_w, draw_h,
+                               hdcBmp, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
                 } else {
                     int draw_w = std::lround(scale_h * this->_bmpSize.cx);
-                    int draw_h = h;
-                    StretchBlt(hdc, (w - draw_w) / 2, 0, draw_w, draw_h,
-                               hdcmem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
+                    int draw_h = height;
+                    StretchBlt(hdcMem, (width - draw_w) / 2, 0, draw_w, draw_h,
+                               hdcBmp, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
                 }
                 break;
             }
         }
 
-        DeleteDC(hdcmem);
+        DeleteDC(hdcBmp);
     }
 
-    EndPaint(hwnd, &ps);
+    BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
+
+    SelectObject(hdcMem, hBitmapOld);
+    DeleteObject(hBitmap);
     DeleteObject(hBackColorBrush);
+    DeleteDC(hdcMem);
+
+    EndPaint(hwnd, &ps);
     return true;
 }
 
@@ -140,6 +152,12 @@ bool sw::BmpBox::OnSize(Size newClientSize)
         InvalidateRect(this->Handle, NULL, FALSE);
     }
     return this->StaticControl::OnSize(newClientSize);
+}
+
+bool sw::BmpBox::OnEraseBackground(HDC hdc, LRESULT &result)
+{
+    result = 1;
+    return true;
 }
 
 sw::Size sw::BmpBox::MeasureOverride(const Size &availableSize)
