@@ -6,6 +6,8 @@
 #include "Dip.h"
 #include "Font.h"
 #include "HitTestResult.h"
+#include "IComparable.h"
+#include "IToString.h"
 #include "Keys.h"
 #include "Point.h"
 #include "ProcMsg.h"
@@ -32,7 +34,8 @@ namespace sw
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
-    class WndBase
+    class WndBase : public IToString<WndBase>,
+                    public IEqualityComparable<WndBase>
     {
         // 部分控件可能会改变HWND，设为友元类向Control类暴露_hwnd字段
         friend class Control;
@@ -231,16 +234,6 @@ namespace sw
         virtual ~WndBase() = 0;
 
         /**
-         * @brief 判断两个WndBase是否为同一实例
-         */
-        bool operator==(const WndBase &other) const;
-
-        /**
-         * @brief 判断两个WndBase是否为不同实例
-         */
-        bool operator!=(const WndBase &other) const;
-
-        /**
          * @brief  尝试将对象转换成UIElement
          * @return 若函数成功则返回UIElement指针，否则返回nullptr
          */
@@ -257,6 +250,11 @@ namespace sw
          * @return 若函数成功则返回Window指针，否则返回nullptr
          */
         virtual Window *ToWindow();
+
+        /**
+         * @brief 判断当前对象与另一个WndBase是否相等
+         */
+        bool Equals(const WndBase &other) const;
 
         /**
          * @brief 获取当前对象的描述字符串

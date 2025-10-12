@@ -1,5 +1,7 @@
 #pragma once
 
+#include "IComparable.h"
+#include "IToString.h"
 #include "KnownColor.h"
 #include <cstdint>
 #include <string>
@@ -9,7 +11,8 @@ namespace sw
     /**
      * @brief 颜色
      */
-    struct Color {
+    struct Color : public IToString<Color>,
+                   public IEqualityComparable<Color> {
         /**
          * @brief R分量
          */
@@ -58,12 +61,7 @@ namespace sw
         /**
          * @brief 判断两个Color是否相等
          */
-        bool operator==(const Color &other) const;
-
-        /**
-         * @brief 判断两个Color是否不相等
-         */
-        bool operator!=(const Color &other) const;
+        bool Equals(const Color &other) const;
 
         /**
          * @brief 获取描述当前对象的字符串

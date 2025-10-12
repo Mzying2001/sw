@@ -1,5 +1,7 @@
 #pragma once
 
+#include "IComparable.h"
+#include "IToString.h"
 #include "Utils.h"
 #include <algorithm>
 #include <memory>
@@ -20,7 +22,8 @@ namespace sw
      * @brief 列表类，内部维护了一个指向std::vector的智能指针
      */
     template <typename T>
-    class List
+    class List : public IToString<List<T>>,
+                 public IEqualityComparable<List<T>>
     {
     private:
         /**
@@ -97,17 +100,9 @@ namespace sw
         /**
          * @brief 判断是否为同一个列表
          */
-        bool operator==(const List &other) const
+        bool Equals(const List &other) const
         {
             return this->_pVec == other._pVec;
-        }
-
-        /**
-         * @brief 判断是否不是同一个列表
-         */
-        bool operator!=(const List &other) const
-        {
-            return this->_pVec != other._pVec;
         }
 
         /**

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "IComparable.h"
+#include "IToString.h"
 #include "Utils.h"
 #include <map>
 #include <memory>
@@ -20,7 +22,8 @@ namespace sw
      * @brief 字典类，内部维护了一个指向std::map的智能指针
      */
     template <typename TKey, typename TVal>
-    class Dictionary
+    class Dictionary : public IToString<Dictionary<TKey, TVal>>,
+                       public IEqualityComparable<Dictionary<TKey, TVal>>
     {
     private:
         /**
@@ -89,17 +92,9 @@ namespace sw
         /**
          * @brief 判断是否为同一个字典
          */
-        bool operator==(const Dictionary &other) const
+        bool Equals(const Dictionary &other) const
         {
             return this->_pMap == other._pMap;
-        }
-
-        /**
-         * @brief 判断是否不是同一个字典
-         */
-        bool operator!=(const Dictionary &other) const
-        {
-            return this->_pMap != other._pMap;
         }
 
         /**

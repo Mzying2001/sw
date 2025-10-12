@@ -104,6 +104,15 @@ namespace sw
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(Size newClientSize) override;
+
+        /**
+         * @brief        接收到WM_ERASEBKGND时调用该函数
+         * @param hdc    设备上下文句柄
+         * @param result 若已处理该消息则设为非零值，默认值为0
+         * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnEraseBackground(HDC hdc, LRESULT &result) override;
+        
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸

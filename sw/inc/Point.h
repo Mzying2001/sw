@@ -1,5 +1,7 @@
 #pragma once
 
+#include "IComparable.h"
+#include "IToString.h"
 #include <Windows.h>
 #include <string>
 
@@ -8,7 +10,8 @@ namespace sw
     /**
      * @brief 表示相对于左上角的点坐标
      */
-    struct Point {
+    struct Point : public IToString<Point>,
+                   public IEqualityComparable<Point> {
         /**
          * @brief 横坐标
          */
@@ -42,12 +45,7 @@ namespace sw
         /**
          * @brief 判断两个Point是否相等
          */
-        bool operator==(const Point &other) const;
-
-        /**
-         * @brief 判断两个Point是否不相等
-         */
-        bool operator!=(const Point &other) const;
+        bool Equals(const Point &other) const;
 
         /**
          * @brief 获取描述当前对象的字符串

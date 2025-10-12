@@ -327,6 +327,7 @@
     <ClInclude Include="..\sw\inc\HotKeyControl.h" />
     <ClInclude Include="..\sw\inc\HwndHost.h" />
     <ClInclude Include="..\sw\inc\HwndWrapper.h" />
+    <ClInclude Include="..\sw\inc\IComparable.h" />
     <ClInclude Include="..\sw\inc\Icon.h" />
     <ClInclude Include="..\sw\inc\IconBox.h" />
     <ClInclude Include="..\sw\inc\IDialog.h" />
@@ -335,6 +336,7 @@
     <ClInclude Include="..\sw\inc\IPAddressControl.h" />
     <ClInclude Include="..\sw\inc\ITag.h" />
     <ClInclude Include="..\sw\inc\ItemsControl.h" />
+    <ClInclude Include="..\sw\inc\IToString.h" />
     <ClInclude Include="..\sw\inc\Keys.h" />
     <ClInclude Include="..\sw\inc\KnownColor.h" />
     <ClInclude Include="..\sw\inc\Label.h" />

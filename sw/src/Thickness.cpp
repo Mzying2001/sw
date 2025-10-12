@@ -40,20 +40,12 @@ sw::Thickness::operator RECT() const
         Dip::DipToPxY(this->bottom)};
 }
 
-bool sw::Thickness::operator==(const Thickness &other) const
+bool sw::Thickness::Equals(const Thickness &other) const
 {
     return (this->left == other.left) &&
            (this->top == other.top) &&
            (this->right == other.right) &&
            (this->bottom == other.bottom);
-}
-
-bool sw::Thickness::operator!=(const Thickness &other) const
-{
-    return (this->left != other.left) ||
-           (this->top != other.top) ||
-           (this->right != other.right) ||
-           (this->bottom != other.bottom);
 }
 
 std::wstring sw::Thickness::ToString() const

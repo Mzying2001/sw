@@ -102,11 +102,8 @@ bool sw::Panel::OnPaint()
     HWND hwnd = Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
-    RECT clientRect;
-    GetClientRect(hwnd, &clientRect);
-
     HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
-    FillRect(hdc, &clientRect, hBrush);
+    FillRect(hdc, &ps.rcPaint, hBrush);
 
     DeleteObject(hBrush);
     EndPaint(hwnd, &ps);
@@ -120,11 +117,7 @@ bool sw::Panel::OnNcPaint(HRGN hRgn)
 
     RECT rect;
     GetWindowRect(hwnd, &rect);
-
-    rect.right -= rect.left;
-    rect.bottom -= rect.top;
-    rect.left = 0;
-    rect.top  = 0;
+    OffsetRect(&rect, -rect.left, -rect.top);
 
     OnDrawBorder(hdc, rect);
     OnDrawPadding(hdc, rect);
