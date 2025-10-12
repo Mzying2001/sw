@@ -1178,6 +1178,12 @@ namespace sw
     template <typename... Args>
     using Action = Delegate<void(Args...)>;
 
+    /**
+     * @brief Predicate类型别名，表示返回bool的单参数委托
+     */
+    template <typename T>
+    using Predicate = Delegate<bool(T)>;
+
     /*================================================================================*/
 
     /**
@@ -1612,6 +1618,108 @@ namespace sw
     };
 }
 
+// IComparable.h
+
+namespace sw
+{
+    /**
+     * @brief 相等性比较接口
+     */
+    template <
+        typename TDerived,
+        typename TOther = const TDerived &>
+    class IEqualityComparable
+    {
+    public:
+        /**
+         * @brief 判断当前对象与另一个对象是否相等
+         */
+        bool Equals(TOther other) const
+        {
+            static_assert(&IEqualityComparable::Equals != &TDerived::Equals,
+                          "Derived class must implement Equals method.");
+            return static_cast<const TDerived *>(this)->Equals(other);
+        }
+
+        /**
+         * @brief 判断当前对象是否与另一个对象相等
+         */
+        bool operator==(TOther other) const
+        {
+            return Equals(other);
+        }
+
+        /**
+         * @brief 判断当前对象是否与另一个对象不相等
+         */
+        bool operator!=(TOther other) const
+        {
+            return !Equals(other);
+        }
+    };
+
+    /**
+     * @brief 全序比较接口
+     */
+    template <
+        typename TDerived,
+        typename TOther = const TDerived &>
+    class IComparable : public IEqualityComparable<TDerived, TOther>
+    {
+    public:
+        /**
+         * @brief  比较当前对象与另一个对象的大小关系
+         * @return 若当前对象小于另一个对象，返回负数；若等于，返回0；若大于，返回正数
+         */
+        int CompareTo(TOther other) const
+        {
+            static_assert(&IComparable::CompareTo != &TDerived::CompareTo,
+                          "Derived class must implement CompareTo method.");
+            return static_cast<const TDerived *>(this)->CompareTo(other);
+        }
+
+        /**
+         * @brief 判断当前对象与另一个对象是否相等
+         */
+        bool Equals(TOther other) const
+        {
+            return CompareTo(other) == 0;
+        }
+
+        /**
+         * @brief 判断当前对象是否小于另一个对象
+         */
+        bool operator<(TOther other) const
+        {
+            return CompareTo(other) < 0;
+        }
+
+        /**
+         * @brief 判断当前对象是否小于或等于另一个对象
+         */
+        bool operator<=(TOther other) const
+        {
+            return CompareTo(other) <= 0;
+        }
+
+        /**
+         * @brief 判断当前对象是否大于另一个对象
+         */
+        bool operator>(TOther other) const
+        {
+            return CompareTo(other) > 0;
+        }
+
+        /**
+         * @brief 判断当前对象是否大于或等于另一个对象
+         */
+        bool operator>=(TOther other) const
+        {
+            return CompareTo(other) >= 0;
+        }
+    };
+}
+
 // IDialog.h
 
 namespace sw
@@ -1674,6 +1782,30 @@ namespace sw
          * @brief 设置Tag
          */
         virtual void SetTag(uint64_t tag) = 0;
+    };
+}
+
+// IToString.h
+
+
+namespace sw
+{
+    /**
+     * @brief 为支持ToString方法的类提供统一接口
+     */
+    template <typename TDerived>
+    class IToString
+    {
+    public:
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const
+        {
+            static_assert(&IToString::ToString != &TDerived::ToString,
+                          "Derived class must implement ToString method.");
+            return static_cast<const TDerived *>(this)->ToString();
+        }
     };
 }
 
@@ -1986,62 +2118,6 @@ namespace sw
     };
 }
 
-// Point.h
-
-
-namespace sw
-{
-    /**
-     * @brief 表示相对于左上角的点坐标
-     */
-    struct Point {
-        /**
-         * @brief 横坐标
-         */
-        double x;
-
-        /**
-         * @brief 纵坐标
-         */
-        double y;
-
-        /**
-         * @brief 构造xy均为0的Point结构体
-         */
-        Point();
-
-        /**
-         * @brief 构造指定xy值的Point结构体
-         */
-        Point(double x, double y);
-
-        /**
-         * @brief 从POINT构造Point结构体
-         */
-        Point(const POINT &point);
-
-        /**
-         * @brief 隐式转换POINT
-         */
-        operator POINT() const;
-
-        /**
-         * @brief 判断两个Point是否相等
-         */
-        bool operator==(const Point &other) const;
-
-        /**
-         * @brief 判断两个Point是否不相等
-         */
-        bool operator!=(const Point &other) const;
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const;
-    };
-}
-
 // ProcMsg.h
 
 
@@ -2118,138 +2194,6 @@ namespace sw
     };
 }
 
-// Size.h
-
-
-namespace sw
-{
-    /**
-     * @brief 尺寸
-     */
-    struct Size {
-        /**
-         * @brief 宽度
-         */
-        double width;
-
-        /**
-         * @brief 高度
-         */
-        double height;
-
-        /**
-         * @brief 构造宽高均为0的Size结构体
-         */
-        Size();
-
-        /**
-         * @brief 构造指定宽高的Size结构体
-         */
-        Size(double width, double height);
-
-        /**
-         * @brief 从SIZE构造Size结构体
-         */
-        Size(const SIZE &size);
-
-        /**
-         * @brief 隐式转换SIZE
-         */
-        operator SIZE() const;
-
-        /**
-         * @brief 判断两个Size是否相等
-         */
-        bool operator==(const Size &other) const;
-
-        /**
-         * @brief 判断两个Size是否不相等
-         */
-        bool operator!=(const Size &other) const;
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const;
-    };
-}
-
-// Thickness.h
-
-
-namespace sw
-{
-    /**
-     * @brief 表示矩形区域周围边框的厚度
-     */
-    struct Thickness {
-        /**
-         * @brief 左边
-         */
-        double left;
-
-        /**
-         * @brief 顶边
-         */
-        double top;
-
-        /**
-         * @brief 右边
-         */
-        double right;
-
-        /**
-         * @brief 底边
-         */
-        double bottom;
-
-        /**
-         * @brief 构造一个四边都为0的Thickness结构体
-         */
-        Thickness();
-
-        /**
-         * @brief 构造一个四边都相同的Thickness结构体
-         */
-        Thickness(double thickness);
-
-        /**
-         * @brief 指定横向和纵向值构造Thickness结构体
-         */
-        Thickness(double horizontal, double vertical);
-
-        /**
-         * @brief 指定四边的值构造Thickness结构体
-         */
-        Thickness(double left, double top, double right, double bottom);
-
-        /**
-         * @brief 从RECT结构体构造Thickness结构体
-         */
-        Thickness(const RECT &rect);
-
-        /**
-         * @brief 隐式转换为RECT
-         */
-        operator RECT() const;
-
-        /**
-         * @brief 判断两个Thickness是否相同
-         */
-        bool operator==(const Thickness &other) const;
-
-        /**
-         * @brief 判断两个Thickness是否相同
-         */
-        bool operator!=(const Thickness &other) const;
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const;
-    };
-}
-
 // WndMsg.h
 
 
@@ -2284,7 +2228,8 @@ namespace sw
     /**
      * @brief 颜色
      */
-    struct Color {
+    struct Color : public IToString<Color>,
+                   public IEqualityComparable<Color> {
         /**
          * @brief R分量
          */
@@ -2333,12 +2278,7 @@ namespace sw
         /**
          * @brief 判断两个Color是否相等
          */
-        bool operator==(const Color &other) const;
-
-        /**
-         * @brief 判断两个Color是否不相等
-         */
-        bool operator!=(const Color &other) const;
+        bool Equals(const Color &other) const;
 
         /**
          * @brief 获取描述当前对象的字符串
@@ -2745,6 +2685,58 @@ namespace sw
     };
 }
 
+// Point.h
+
+
+namespace sw
+{
+    /**
+     * @brief 表示相对于左上角的点坐标
+     */
+    struct Point : public IToString<Point>,
+                   public IEqualityComparable<Point> {
+        /**
+         * @brief 横坐标
+         */
+        double x;
+
+        /**
+         * @brief 纵坐标
+         */
+        double y;
+
+        /**
+         * @brief 构造xy均为0的Point结构体
+         */
+        Point();
+
+        /**
+         * @brief 构造指定xy值的Point结构体
+         */
+        Point(double x, double y);
+
+        /**
+         * @brief 从POINT构造Point结构体
+         */
+        Point(const POINT &point);
+
+        /**
+         * @brief 隐式转换POINT
+         */
+        operator POINT() const;
+
+        /**
+         * @brief 判断两个Point是否相等
+         */
+        bool Equals(const Point &other) const;
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const;
+    };
+}
+
 // Property.h
 
 
@@ -2769,16 +2761,8 @@ namespace sw
 namespace sw
 {
     // 向前声明
-    template <typename T>
-    class Property;
-
-    // 向前声明
-    template <typename T>
-    class ReadOnlyProperty;
-
-    // 向前声明
-    template <typename T>
-    class WriteOnlyProperty;
+    template <typename T, typename TDerived>
+    class PropertyBase;
 
     // SFINAE templates
     _SW_DEFINE_OPERATION_HELPER(_AddOperationHelper, +);
@@ -2811,36 +2795,22 @@ namespace sw
     /**
      * @brief _IsProperty的实现
      */
-    template <typename>
-    struct _IsPropertyImpl : std::false_type {
-    };
-
-    /**
-     * @brief _IsPropertyImpl模板特化
-     */
     template <typename T>
-    struct _IsPropertyImpl<Property<T>> : std::true_type {
-    };
+    struct _IsPropertyImpl {
+    private:
+        template <typename U, typename V>
+        static std::true_type test(const PropertyBase<U, V> *);
+        static std::false_type test(...);
 
-    /**
-     * @brief _IsPropertyImpl模板特化
-     */
-    template <typename T>
-    struct _IsPropertyImpl<ReadOnlyProperty<T>> : std::true_type {
-    };
-
-    /**
-     * @brief _IsPropertyImpl模板特化
-     */
-    template <typename T>
-    struct _IsPropertyImpl<WriteOnlyProperty<T>> : std::true_type {
+    public:
+        using type = decltype(test(std::declval<T *>()));
     };
 
     /**
      * @brief 判断类型是否为属性的辅助模板
      */
     template <typename T>
-    struct _IsProperty : _IsPropertyImpl<typename std::decay<T>::type> {
+    struct _IsProperty : _IsPropertyImpl<typename std::decay<T>::type>::type {
     };
 
     /**
@@ -4484,82 +4454,6 @@ _SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(uint64_t);
 _SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(std::string);
 _SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(std::wstring);
 
-// Rect.h
-
-
-namespace sw
-{
-    /**
-     * @brief 表示一个矩形区域
-     */
-    struct Rect {
-        /**
-         * @brief 左边
-         */
-        double left;
-
-        /**
-         * @brief 顶边
-         */
-        double top;
-
-        /**
-         * @brief 宽度
-         */
-        double width;
-
-        /**
-         * @brief 高度
-         */
-        double height;
-
-        /**
-         * @brief 构造Rect
-         */
-        Rect();
-
-        /**
-         * @brief 构造Rect
-         */
-        Rect(double left, double top, double width, double height);
-
-        /**
-         * @brief 从RECT构造Rect
-         */
-        Rect(const RECT &rect);
-
-        /**
-         * @brief 隐式转换RECT
-         */
-        operator RECT() const;
-
-        /**
-         * @brief 获取Rect左上角的位置
-         */
-        Point GetPos() const;
-
-        /**
-         * @brief 获取Rect的尺寸
-         */
-        Size GetSize() const;
-
-        /**
-         * @brief 判断两个Rect是否相等
-         */
-        bool operator==(const Rect &other) const;
-
-        /**
-         * @brief 判断两个Rect是否不相等
-         */
-        bool operator!=(const Rect &other) const;
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const;
-    };
-}
-
 // RoutedEvent.h
 
 
@@ -4734,6 +4628,130 @@ namespace sw
      * @note  第一个参数为注册事件监听器的元素，第二个参数为具体的事件参数
      */
     using RoutedEventHandler = Action<UIElement &, RoutedEventArgs &>;
+}
+
+// Size.h
+
+
+namespace sw
+{
+    /**
+     * @brief 尺寸
+     */
+    struct Size : public IToString<Size>,
+                  public IEqualityComparable<Size> {
+        /**
+         * @brief 宽度
+         */
+        double width;
+
+        /**
+         * @brief 高度
+         */
+        double height;
+
+        /**
+         * @brief 构造宽高均为0的Size结构体
+         */
+        Size();
+
+        /**
+         * @brief 构造指定宽高的Size结构体
+         */
+        Size(double width, double height);
+
+        /**
+         * @brief 从SIZE构造Size结构体
+         */
+        Size(const SIZE &size);
+
+        /**
+         * @brief 隐式转换SIZE
+         */
+        operator SIZE() const;
+
+        /**
+         * @brief 判断两个Size是否相等
+         */
+        bool Equals(const Size &other) const;
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const;
+    };
+}
+
+// Thickness.h
+
+
+namespace sw
+{
+    /**
+     * @brief 表示矩形区域周围边框的厚度
+     */
+    struct Thickness : public IToString<Thickness>,
+                       public IEqualityComparable<Thickness> {
+        /**
+         * @brief 左边
+         */
+        double left;
+
+        /**
+         * @brief 顶边
+         */
+        double top;
+
+        /**
+         * @brief 右边
+         */
+        double right;
+
+        /**
+         * @brief 底边
+         */
+        double bottom;
+
+        /**
+         * @brief 构造一个四边都为0的Thickness结构体
+         */
+        Thickness();
+
+        /**
+         * @brief 构造一个四边都相同的Thickness结构体
+         */
+        Thickness(double thickness);
+
+        /**
+         * @brief 指定横向和纵向值构造Thickness结构体
+         */
+        Thickness(double horizontal, double vertical);
+
+        /**
+         * @brief 指定四边的值构造Thickness结构体
+         */
+        Thickness(double left, double top, double right, double bottom);
+
+        /**
+         * @brief 从RECT结构体构造Thickness结构体
+         */
+        Thickness(const RECT &rect);
+
+        /**
+         * @brief 隐式转换为RECT
+         */
+        operator RECT() const;
+
+        /**
+         * @brief 判断两个Thickness是否相同
+         */
+        bool Equals(const Thickness &other) const;
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const;
+    };
 }
 
 // App.h
@@ -4925,57 +4943,6 @@ namespace sw
             const auto &otherWrapper = static_cast<const RoutedEventHandlerWrapper &>(other);
             return _handler.Equals(otherWrapper._handler);
         }
-    };
-}
-
-// ILayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 布局接口
-     */
-    class ILayout
-    {
-    public:
-        /**
-         * @brief 默认虚析构函数
-         */
-        virtual ~ILayout() = default;
-
-    public:
-        /**
-         * @brief 获取布局标记
-         */
-        virtual uint64_t GetLayoutTag() const = 0;
-
-        /**
-         * @brief 获取子控件的数量
-         */
-        virtual int GetChildLayoutCount() const = 0;
-
-        /**
-         * @brief 获取对应索引处的子控件
-         */
-        virtual ILayout &GetChildLayoutAt(int index) = 0;
-
-        /**
-         * @brief 获取控件所需尺寸
-         */
-        virtual Size GetDesireSize() const = 0;
-
-        /**
-         * @brief               测量控件所需尺寸
-         * @param availableSize 可用的尺寸
-         */
-        virtual void Measure(const Size &availableSize) = 0;
-
-        /**
-         * @brief               安排控件位置
-         * @param finalPosition 最终控件所安排的位置
-         */
-        virtual void Arrange(const Rect &finalPosition) = 0;
     };
 }
 
@@ -5236,6 +5203,78 @@ namespace sw
          * @return   索引
          */
         virtual int IDToIndex(int id) = 0;
+    };
+}
+
+// Rect.h
+
+
+namespace sw
+{
+    /**
+     * @brief 表示一个矩形区域
+     */
+    struct Rect : public IToString<Rect>,
+                  public IEqualityComparable<Rect> {
+        /**
+         * @brief 左边
+         */
+        double left;
+
+        /**
+         * @brief 顶边
+         */
+        double top;
+
+        /**
+         * @brief 宽度
+         */
+        double width;
+
+        /**
+         * @brief 高度
+         */
+        double height;
+
+        /**
+         * @brief 构造Rect
+         */
+        Rect();
+
+        /**
+         * @brief 构造Rect
+         */
+        Rect(double left, double top, double width, double height);
+
+        /**
+         * @brief 从RECT构造Rect
+         */
+        Rect(const RECT &rect);
+
+        /**
+         * @brief 隐式转换RECT
+         */
+        operator RECT() const;
+
+        /**
+         * @brief 获取Rect左上角的位置
+         */
+        Point GetPos() const;
+
+        /**
+         * @brief 获取Rect的尺寸
+         */
+        Size GetSize() const;
+
+        /**
+         * @brief 判断两个Rect是否相等
+         */
+        bool Equals(const Rect &other) const;
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const;
     };
 }
 
@@ -5791,7 +5830,8 @@ namespace sw
      * @brief 字典类，内部维护了一个指向std::map的智能指针
      */
     template <typename TKey, typename TVal>
-    class Dictionary
+    class Dictionary : public IToString<Dictionary<TKey, TVal>>,
+                       public IEqualityComparable<Dictionary<TKey, TVal>>
     {
     private:
         /**
@@ -5860,17 +5900,9 @@ namespace sw
         /**
          * @brief 判断是否为同一个字典
          */
-        bool operator==(const Dictionary &other) const
+        bool Equals(const Dictionary &other) const
         {
             return this->_pMap == other._pMap;
-        }
-
-        /**
-         * @brief 判断是否不是同一个字典
-         */
-        bool operator!=(const Dictionary &other) const
-        {
-            return this->_pMap != other._pMap;
         }
 
         /**
@@ -5964,6 +5996,57 @@ namespace sw
         {
             return Utils::BuildStr(*this->_pMap);
         }
+    };
+}
+
+// ILayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 布局接口
+     */
+    class ILayout
+    {
+    public:
+        /**
+         * @brief 默认虚析构函数
+         */
+        virtual ~ILayout() = default;
+
+    public:
+        /**
+         * @brief 获取布局标记
+         */
+        virtual uint64_t GetLayoutTag() const = 0;
+
+        /**
+         * @brief 获取子控件的数量
+         */
+        virtual int GetChildLayoutCount() const = 0;
+
+        /**
+         * @brief 获取对应索引处的子控件
+         */
+        virtual ILayout &GetChildLayoutAt(int index) = 0;
+
+        /**
+         * @brief 获取控件所需尺寸
+         */
+        virtual Size GetDesireSize() const = 0;
+
+        /**
+         * @brief               测量控件所需尺寸
+         * @param availableSize 可用的尺寸
+         */
+        virtual void Measure(const Size &availableSize) = 0;
+
+        /**
+         * @brief               安排控件位置
+         * @param finalPosition 最终控件所安排的位置
+         */
+        virtual void Arrange(const Rect &finalPosition) = 0;
     };
 }
 
@@ -6252,66 +6335,6 @@ namespace sw
     };
 }
 
-// LayoutHost.h
-
-
-namespace sw
-{
-    /**
-     * @brief 用于托管元素的布局方式的对象类型，是所有布局方式类型的基类
-     */
-    class LayoutHost
-    {
-    private:
-        /**
-         * @brief 关联的对象
-         */
-        ILayout *_associatedObj = nullptr;
-
-    public:
-        /**
-         * @brief 默认虚析构函数
-         */
-        virtual ~LayoutHost() = default;
-
-        /**
-         * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
-         * @param obj 要关联的对象
-         */
-        void Associate(ILayout *obj);
-
-        /**
-         * @brief     判断当前LayoutHost是否关联了对象
-         * @param obj 若传入值为nullptr，则判断是否有任何对象关联，否则判断是否关联了指定对象
-         */
-        bool IsAssociated(ILayout *obj = nullptr);
-
-        /**
-         * @brief 获取关联对象子控件的数量
-         */
-        int GetChildLayoutCount();
-
-        /**
-         * @brief 获取关联对象对应索引处的子控件
-         */
-        ILayout &GetChildLayoutAt(int index);
-
-    public:
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) = 0;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) = 0;
-    };
-}
-
 // List.h
 
 
@@ -6329,7 +6352,8 @@ namespace sw
      * @brief 列表类，内部维护了一个指向std::vector的智能指针
      */
     template <typename T>
-    class List
+    class List : public IToString<List<T>>,
+                 public IEqualityComparable<List<T>>
     {
     private:
         /**
@@ -6406,17 +6430,9 @@ namespace sw
         /**
          * @brief 判断是否为同一个列表
          */
-        bool operator==(const List &other) const
+        bool Equals(const List &other) const
         {
             return this->_pVec == other._pVec;
-        }
-
-        /**
-         * @brief 判断是否不是同一个列表
-         */
-        bool operator!=(const List &other) const
-        {
-            return this->_pVec != other._pVec;
         }
 
         /**
@@ -6617,7 +6633,8 @@ namespace sw
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
-    class WndBase
+    class WndBase : public IToString<WndBase>,
+                    public IEqualityComparable<WndBase>
     {
         // 部分控件可能会改变HWND，设为友元类向Control类暴露_hwnd字段
         friend class Control;
@@ -6816,16 +6833,6 @@ namespace sw
         virtual ~WndBase() = 0;
 
         /**
-         * @brief 判断两个WndBase是否为同一实例
-         */
-        bool operator==(const WndBase &other) const;
-
-        /**
-         * @brief 判断两个WndBase是否为不同实例
-         */
-        bool operator!=(const WndBase &other) const;
-
-        /**
          * @brief  尝试将对象转换成UIElement
          * @return 若函数成功则返回UIElement指针，否则返回nullptr
          */
@@ -6842,6 +6849,11 @@ namespace sw
          * @return 若函数成功则返回Window指针，否则返回nullptr
          */
         virtual Window *ToWindow();
+
+        /**
+         * @brief 判断当前对象与另一个WndBase是否相等
+         */
+        bool Equals(const WndBase &other) const;
 
         /**
          * @brief 获取当前对象的描述字符串
@@ -7504,437 +7516,63 @@ namespace sw
     };
 }
 
-// CanvasLayout.h
+// LayoutHost.h
 
 
 namespace sw
 {
     /**
-     * @brief 绝对位置布局方式的布局标记
+     * @brief 用于托管元素的布局方式的对象类型，是所有布局方式类型的基类
      */
-    struct CanvasLayoutTag {
-        /**
-         * @brief 左边
-         */
-        float left;
-
-        /**
-         * @brief 顶边
-         */
-        float top;
-
-        /**
-         * @brief 左边顶边均为0
-         */
-        CanvasLayoutTag();
-
-        /**
-         * @brief 指定左边和顶边
-         */
-        CanvasLayoutTag(float left, float top);
-
-        /**
-         * @brief 从LayoutTag创建
-         */
-        CanvasLayoutTag(uint64_t layoutTag);
-
-        /**
-         * @brief 隐式转换LayoutTag
-         */
-        operator uint64_t() const;
-    };
-
-    /**
-     * @brief 绝对位置布局方式
-     */
-    class CanvasLayout : public LayoutHost
-    {
-    public:
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// DockLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 停靠布局标记
-     */
-    class DockLayoutTag
-    {
-    public:
-        enum : uint64_t {
-            Left,   // 左边
-            Top,    // 顶边
-            Right,  // 右边
-            Bottom, // 底边
-        };
-
-    private:
-        /**
-         * @brief Tag值
-         */
-        uint64_t _value;
-
-    public:
-        /**
-         * @brief 创建DockLayoutTag
-         */
-        DockLayoutTag(uint64_t value = Left);
-
-        /**
-         * @brief 隐式转换uint64_t
-         */
-        operator uint64_t() const;
-
-        /**
-         * @brief 判断值是否相等
-         */
-        bool operator==(const DockLayoutTag &other) const;
-
-        /**
-         * @brief 判断值是否不相等
-         */
-        bool operator!=(const DockLayoutTag &other) const;
-
-        /**
-         * @brief 判断值是否相等
-         */
-        bool operator==(uint64_t value) const;
-
-        /**
-         * @brief 判断值是否不相等
-         */
-        bool operator!=(uint64_t value) const;
-    };
-
-    /**
-     * @brief 停靠布局
-     */
-    class DockLayout : public LayoutHost
-    {
-    public:
-        /**
-         * @brief 最后一个子元素是否填充剩余空间
-         */
-        bool lastChildFill = true;
-
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// FillLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 一种将全部元素都铺满的布局，一般用于在只有一个子元素的时候将该元素铺满整个可用区域
-     */
-    class FillLayout : public LayoutHost
-    {
-    public:
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// GridLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 网格布局方式的布局标记
-     */
-    struct GridLayoutTag {
-        /**
-         * @brief 所在行
-         */
-        uint16_t row;
-
-        /**
-         * @brief 所在列
-         */
-        uint16_t column;
-
-        /**
-         * @brief 所跨行数
-         */
-        uint16_t rowSpan;
-
-        /**
-         * @brief 所跨列数
-         */
-        uint16_t columnSpan;
-
-        /**
-         * @brief GridLayoutTag默认值
-         */
-        GridLayoutTag();
-
-        /**
-         * @brief 初始化GridLayoutTag
-         */
-        GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan);
-
-        /**
-         * @brief 初始化GridLayoutTag
-         */
-        GridLayoutTag(uint16_t row, uint16_t column);
-
-        /**
-         * @brief 从LayoutTag创建
-         */
-        GridLayoutTag(uint64_t layoutTag);
-
-        /**
-         * @brief 隐式转换LayoutTag
-         */
-        operator uint64_t() const;
-    };
-
-    /**
-     * @brief GridRow和GridColumn的类型
-     */
-    enum class GridRCType {
-        FixSize,    // 固定大小
-        AutoSize,   // 自动大小
-        FillRemain, // 填充剩余空间
-    };
-
-    /**
-     * @brief 网格中的行信息
-     */
-    struct GridRow {
-        /**
-         * @brief 类型
-         */
-        GridRCType type;
-
-        /**
-         * @brief 高度
-         */
-        double height;
-
-        /**
-         * @brief 创建一个FillRemain的GridRow
-         */
-        GridRow();
-
-        /**
-         * @brief 初始化GridRow
-         */
-        GridRow(GridRCType type, double height);
-
-        /**
-         * @brief 固定大小的行
-         */
-        GridRow(double height);
-    };
-
-    /**
-     * @brief 固定高度的行
-     */
-    struct FixSizeGridRow : public GridRow {
-        /**
-         * @brief 初始化FixSizeGridRow
-         */
-        FixSizeGridRow(double height);
-    };
-
-    /**
-     * @brief 自动高度的行
-     */
-    struct AutoSizeGridRow : public GridRow {
-        /**
-         * @brief 初始化AutoSizeGridRow
-         */
-        AutoSizeGridRow();
-    };
-
-    /**
-     * @brief 填充剩余高度的行
-     */
-    struct FillRemainGridRow : public GridRow {
-        /**
-         * @brief 初始化FillRemainGridRow
-         */
-        FillRemainGridRow(double proportion = 1);
-    };
-
-    /**
-     * @brief 网格中的列信息
-     */
-    struct GridColumn {
-        /**
-         * @brief 类型
-         */
-        GridRCType type;
-
-        /**
-         * @brief 宽度
-         */
-        double width;
-
-        /**
-         * @brief 创建一个FillRemain的GridColumn
-         */
-        GridColumn();
-
-        /**
-         * @brief 初始化GridColumn
-         */
-        GridColumn(GridRCType type, double width);
-
-        /**
-         * @brief 固定大小的列
-         */
-        GridColumn(double width);
-    };
-
-    /**
-     * @brief 固定宽度的列
-     */
-    struct FixSizeGridColumn : public GridColumn {
-        /**
-         * @brief 初始化FixSizeGridColumn
-         */
-        FixSizeGridColumn(double width);
-    };
-
-    /**
-     * @brief 自动宽度的列
-     */
-    struct AutoSizeGridColumn : public GridColumn {
-        /**
-         * @brief 初始化AutoSizeGridColumn
-         */
-        AutoSizeGridColumn();
-    };
-
-    /**
-     * @brief 填充剩余宽度的列
-     */
-    struct FillRemainGridColumn : public GridColumn {
-        /**
-         * @brief 初始化FillRemainGridColumn
-         */
-        FillRemainGridColumn(double proportion = 1);
-    };
-
-    /**
-     * @brief 网格布局方式
-     */
-    class GridLayout : public LayoutHost
+    class LayoutHost
     {
     private:
         /**
-         * @brief 子元素的信息
+         * @brief 关联的对象
          */
-        struct _ChildInfo {
-            ILayout *instance;         // 子元素对象
-            GridLayoutTag layoutTag;   // 布局标记
-            GridRCType rowMeasureType; // 元素measure行时的类型
-            GridRCType colMeasureType; // 元素measure列时的类型
-        };
-
-        /**
-         * @brief 行信息
-         */
-        struct _RowInfo {
-            GridRow row;           // 行
-            double size       = 0; // 所需空间大小
-            double proportion = 0; // 类型为FillRemain时该字段保存该行的高度占比，范围为0~1
-        };
-
-        /**
-         * @brief 列信息
-         */
-        struct _ColInfo {
-            GridColumn col;        // 列
-            double size       = 0; // 所需空间大小
-            double proportion = 0; // 类型为FillRemain时该字段保存该列的宽度占比，范围为0~1
-        };
-
-        /**
-         * @brief 一些内部数据
-         */
-        struct {
-            std::vector<_RowInfo> rowsInfo;       // 行信息
-            std::vector<_ColInfo> colsInfo;       // 列信息
-            std::vector<_ChildInfo> childrenInfo; // 子元素信息
-            std::vector<Rect> cells;              // 保存格信息
-        } _internalData;
+        ILayout *_associatedObj = nullptr;
 
     public:
         /**
-         * @brief 行定义
+         * @brief 默认虚析构函数
          */
-        List<GridRow> rows;
+        virtual ~LayoutHost() = default;
 
         /**
-         * @brief 列定义
+         * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
+         * @param obj 要关联的对象
          */
-        List<GridColumn> columns;
+        void Associate(ILayout *obj);
 
+        /**
+         * @brief     判断当前LayoutHost是否关联了对象
+         * @param obj 若传入值为nullptr，则判断是否有任何对象关联，否则判断是否关联了指定对象
+         */
+        bool IsAssociated(ILayout *obj = nullptr);
+
+        /**
+         * @brief 获取关联对象子控件的数量
+         */
+        int GetChildLayoutCount();
+
+        /**
+         * @brief 获取关联对象对应索引处的子控件
+         */
+        ILayout &GetChildLayoutAt(int index);
+
+    public:
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
          * @return              返回元素需要占用的尺寸
          */
-        virtual Size MeasureOverride(const Size &availableSize) override;
+        virtual Size MeasureOverride(const Size &availableSize) = 0;
 
         /**
          * @brief           安排子元素的位置，可重写该函数以实现自定义布局
          * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-
-    private:
-        /**
-         * @brief 更新内部数据
-         */
-        void _UpdateInternalData();
-
-        /**
-         * @brief 获取指定行列处的网格信息
-         */
-        Rect &_GetCell(int row, int col);
+        virtual void ArrangeOverride(const Size &finalSize) = 0;
     };
 }
 
@@ -8148,58 +7786,6 @@ namespace sw
          * @brief 显示一个含“问题”图标的消息框，将当前活动窗体作为Owner
          */
         static MsgBoxResultHelper ShowQuestion(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
-    };
-}
-
-// StackLayoutH.h
-
-
-namespace sw
-{
-    /**
-     * @brief 横向堆叠布局
-     */
-    class StackLayoutH : virtual public LayoutHost
-    {
-    public:
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// StackLayoutV.h
-
-
-namespace sw
-{
-    /**
-     * @brief 纵向堆叠布局
-     */
-    class StackLayoutV : virtual public LayoutHost
-    {
-    public:
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -9426,13 +9012,14 @@ namespace sw
         struct _CanAddChild : std::false_type {
         };
 
-        /**
-         * @brief _CanAddChild模板偏特化，当AddChild有对应类型的重载时该偏特化生效
-         */
-        template <typename T>
-        struct _CanAddChild<
-            T, decltype(void(std::declval<UIElement>().AddChild(std::declval<T>())))> : std::true_type {
-        };
+        // 已移动到类外，防止clang报错不完整的类型
+        // /**
+        //  * @brief _CanAddChild模板偏特化，当AddChild有对应类型的重载时该偏特化生效
+        //  */
+        // template <typename T>
+        // struct _CanAddChild<
+        //     T, decltype(void(std::declval<UIElement>().AddChild(std::declval<T>())))> : std::true_type {
+        // };
 
         /**
          * @brief 判断AddChildren的参数类型是否均可添加
@@ -9702,84 +9289,60 @@ namespace sw
             }
         }
     };
-}
 
-// UniformGridLayout.h
-
-
-namespace sw
-{
     /**
-     * @brief 均匀大小网格布局
+     * @brief _CanAddChild模板偏特化，当AddChild有对应类型的重载时该偏特化生效
      */
-    class UniformGridLayout : public LayoutHost
-    {
-    public:
-        /**
-         * @brief 行数
-         */
-        int rows = 1;
-
-        /**
-         * @brief 列数
-         */
-        int columns = 1;
-
-        /**
-         * @brief 网格第一行中前导空白单元格的数量
-         */
-        int firstColumn = 0;
-
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
+    template <typename T>
+    struct UIElement::_CanAddChild<
+        T, decltype(void(std::declval<UIElement>().AddChild(std::declval<T>())))> : std::true_type {
     };
 }
 
-// WrapLayoutH.h
+// CanvasLayout.h
 
 
 namespace sw
 {
     /**
-     * @brief 横向自动换行布局
+     * @brief 绝对位置布局方式的布局标记
      */
-    class WrapLayoutH : virtual public LayoutHost
-    {
-    public:
+    struct CanvasLayoutTag {
         /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
+         * @brief 左边
          */
-        virtual Size MeasureOverride(const Size &availableSize) override;
+        float left;
 
         /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
+         * @brief 顶边
          */
-        virtual void ArrangeOverride(const Size &finalSize) override;
+        float top;
+
+        /**
+         * @brief 左边顶边均为0
+         */
+        CanvasLayoutTag();
+
+        /**
+         * @brief 指定左边和顶边
+         */
+        CanvasLayoutTag(float left, float top);
+
+        /**
+         * @brief 从LayoutTag创建
+         */
+        CanvasLayoutTag(uint64_t layoutTag);
+
+        /**
+         * @brief 隐式转换LayoutTag
+         */
+        operator uint64_t() const;
     };
-}
 
-// WrapLayoutV.h
-
-
-namespace sw
-{
     /**
-     * @brief 纵向自动换行布局
+     * @brief 绝对位置布局方式
      */
-    class WrapLayoutV : virtual public LayoutHost
+    class CanvasLayout : public LayoutHost
     {
     public:
         /**
@@ -9943,6 +9506,374 @@ namespace sw
          * @param hwnd 新的控件句柄
          */
         virtual void OnHandleChanged(HWND hwnd);
+    };
+}
+
+// DockLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 停靠布局标记
+     */
+    class DockLayoutTag : public IEqualityComparable<DockLayoutTag>
+    {
+    public:
+        enum : uint64_t {
+            Left,   // 左边
+            Top,    // 顶边
+            Right,  // 右边
+            Bottom, // 底边
+        };
+
+    private:
+        /**
+         * @brief Tag值
+         */
+        uint64_t _value;
+
+    public:
+        /**
+         * @brief 创建DockLayoutTag
+         */
+        DockLayoutTag(uint64_t value = Left);
+
+        /**
+         * @brief 隐式转换uint64_t
+         */
+        operator uint64_t() const;
+
+        /**
+         * @brief 判断值是否相等
+         */
+        bool Equals(const DockLayoutTag &other) const;
+
+        /**
+         * @brief 判断值是否相等
+         */
+        bool operator==(uint64_t value) const;
+
+        /**
+         * @brief 判断值是否不相等
+         */
+        bool operator!=(uint64_t value) const;
+    };
+
+    /**
+     * @brief 停靠布局
+     */
+    class DockLayout : public LayoutHost
+    {
+    public:
+        /**
+         * @brief 最后一个子元素是否填充剩余空间
+         */
+        bool lastChildFill = true;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// FillLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 一种将全部元素都铺满的布局，一般用于在只有一个子元素的时候将该元素铺满整个可用区域
+     */
+    class FillLayout : public LayoutHost
+    {
+    public:
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// GridLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 网格布局方式的布局标记
+     */
+    struct GridLayoutTag {
+        /**
+         * @brief 所在行
+         */
+        uint16_t row;
+
+        /**
+         * @brief 所在列
+         */
+        uint16_t column;
+
+        /**
+         * @brief 所跨行数
+         */
+        uint16_t rowSpan;
+
+        /**
+         * @brief 所跨列数
+         */
+        uint16_t columnSpan;
+
+        /**
+         * @brief GridLayoutTag默认值
+         */
+        GridLayoutTag();
+
+        /**
+         * @brief 初始化GridLayoutTag
+         */
+        GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan);
+
+        /**
+         * @brief 初始化GridLayoutTag
+         */
+        GridLayoutTag(uint16_t row, uint16_t column);
+
+        /**
+         * @brief 从LayoutTag创建
+         */
+        GridLayoutTag(uint64_t layoutTag);
+
+        /**
+         * @brief 隐式转换LayoutTag
+         */
+        operator uint64_t() const;
+    };
+
+    /**
+     * @brief GridRow和GridColumn的类型
+     */
+    enum class GridRCType {
+        FixSize,    // 固定大小
+        AutoSize,   // 自动大小
+        FillRemain, // 填充剩余空间
+    };
+
+    /**
+     * @brief 网格中的行信息
+     */
+    struct GridRow {
+        /**
+         * @brief 类型
+         */
+        GridRCType type;
+
+        /**
+         * @brief 高度
+         */
+        double height;
+
+        /**
+         * @brief 创建一个FillRemain的GridRow
+         */
+        GridRow();
+
+        /**
+         * @brief 初始化GridRow
+         */
+        GridRow(GridRCType type, double height);
+
+        /**
+         * @brief 固定大小的行
+         */
+        GridRow(double height);
+    };
+
+    /**
+     * @brief 固定高度的行
+     */
+    struct FixSizeGridRow : public GridRow {
+        /**
+         * @brief 初始化FixSizeGridRow
+         */
+        FixSizeGridRow(double height);
+    };
+
+    /**
+     * @brief 自动高度的行
+     */
+    struct AutoSizeGridRow : public GridRow {
+        /**
+         * @brief 初始化AutoSizeGridRow
+         */
+        AutoSizeGridRow();
+    };
+
+    /**
+     * @brief 填充剩余高度的行
+     */
+    struct FillRemainGridRow : public GridRow {
+        /**
+         * @brief 初始化FillRemainGridRow
+         */
+        FillRemainGridRow(double proportion = 1);
+    };
+
+    /**
+     * @brief 网格中的列信息
+     */
+    struct GridColumn {
+        /**
+         * @brief 类型
+         */
+        GridRCType type;
+
+        /**
+         * @brief 宽度
+         */
+        double width;
+
+        /**
+         * @brief 创建一个FillRemain的GridColumn
+         */
+        GridColumn();
+
+        /**
+         * @brief 初始化GridColumn
+         */
+        GridColumn(GridRCType type, double width);
+
+        /**
+         * @brief 固定大小的列
+         */
+        GridColumn(double width);
+    };
+
+    /**
+     * @brief 固定宽度的列
+     */
+    struct FixSizeGridColumn : public GridColumn {
+        /**
+         * @brief 初始化FixSizeGridColumn
+         */
+        FixSizeGridColumn(double width);
+    };
+
+    /**
+     * @brief 自动宽度的列
+     */
+    struct AutoSizeGridColumn : public GridColumn {
+        /**
+         * @brief 初始化AutoSizeGridColumn
+         */
+        AutoSizeGridColumn();
+    };
+
+    /**
+     * @brief 填充剩余宽度的列
+     */
+    struct FillRemainGridColumn : public GridColumn {
+        /**
+         * @brief 初始化FillRemainGridColumn
+         */
+        FillRemainGridColumn(double proportion = 1);
+    };
+
+    /**
+     * @brief 网格布局方式
+     */
+    class GridLayout : public LayoutHost
+    {
+    private:
+        /**
+         * @brief 子元素的信息
+         */
+        struct _ChildInfo {
+            ILayout *instance;         // 子元素对象
+            GridLayoutTag layoutTag;   // 布局标记
+            GridRCType rowMeasureType; // 元素measure行时的类型
+            GridRCType colMeasureType; // 元素measure列时的类型
+        };
+
+        /**
+         * @brief 行信息
+         */
+        struct _RowInfo {
+            GridRow row;           // 行
+            double size       = 0; // 所需空间大小
+            double proportion = 0; // 类型为FillRemain时该字段保存该行的高度占比，范围为0~1
+        };
+
+        /**
+         * @brief 列信息
+         */
+        struct _ColInfo {
+            GridColumn col;        // 列
+            double size       = 0; // 所需空间大小
+            double proportion = 0; // 类型为FillRemain时该字段保存该列的宽度占比，范围为0~1
+        };
+
+        /**
+         * @brief 一些内部数据
+         */
+        struct {
+            std::vector<_RowInfo> rowsInfo;       // 行信息
+            std::vector<_ColInfo> colsInfo;       // 列信息
+            std::vector<_ChildInfo> childrenInfo; // 子元素信息
+            std::vector<Rect> cells;              // 保存格信息
+        } _internalData;
+
+    public:
+        /**
+         * @brief 行定义
+         */
+        List<GridRow> rows;
+
+        /**
+         * @brief 列定义
+         */
+        List<GridColumn> columns;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+
+    private:
+        /**
+         * @brief 更新内部数据
+         */
+        void _UpdateInternalData();
+
+        /**
+         * @brief 获取指定行列处的网格信息
+         */
+        Rect &_GetCell(int row, int col);
     };
 }
 
@@ -10253,21 +10184,83 @@ namespace sw
     };
 }
 
-// StackLayout.h
+// StackLayoutH.h
 
 
 namespace sw
 {
     /**
-     * @brief 堆叠布局
+     * @brief 横向堆叠布局
      */
-    class StackLayout : public StackLayoutH, public StackLayoutV
+    class StackLayoutH : virtual public LayoutHost
     {
     public:
         /**
-         * @brief 排列方式
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        Orientation orientation = Orientation::Vertical;
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// StackLayoutV.h
+
+
+namespace sw
+{
+    /**
+     * @brief 纵向堆叠布局
+     */
+    class StackLayoutV : virtual public LayoutHost
+    {
+    public:
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// UniformGridLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 均匀大小网格布局
+     */
+    class UniformGridLayout : public LayoutHost
+    {
+    public:
+        /**
+         * @brief 行数
+         */
+        int rows = 1;
+
+        /**
+         * @brief 列数
+         */
+        int columns = 1;
+
+        /**
+         * @brief 网格第一行中前导空白单元格的数量
+         */
+        int firstColumn = 0;
 
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
@@ -10284,22 +10277,43 @@ namespace sw
     };
 }
 
-// WrapLayout.h
+// WrapLayoutH.h
 
 
 namespace sw
 {
     /**
-     * @brief 自动换行布局
+     * @brief 横向自动换行布局
      */
-    class WrapLayout : public WrapLayoutH, public WrapLayoutV
+    class WrapLayoutH : virtual public LayoutHost
     {
     public:
         /**
-         * @brief 排列方式
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        Orientation orientation = Orientation::Horizontal;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// WrapLayoutV.h
+
+
+namespace sw
+{
+    /**
+     * @brief 纵向自动换行布局
+     */
+    class WrapLayoutV : virtual public LayoutHost
+    {
+    public:
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
@@ -11175,6 +11189,37 @@ namespace sw
     };
 }
 
+// StackLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 堆叠布局
+     */
+    class StackLayout : public StackLayoutH, public StackLayoutV
+    {
+    public:
+        /**
+         * @brief 排列方式
+         */
+        Orientation orientation = Orientation::Vertical;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
 // StaticControl.h
 
 
@@ -11945,6 +11990,37 @@ namespace sw
     };
 }
 
+// WrapLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 自动换行布局
+     */
+    class WrapLayout : public WrapLayoutH, public WrapLayoutV
+    {
+    public:
+        /**
+         * @brief 排列方式
+         */
+        Orientation orientation = Orientation::Horizontal;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
 // BmpBox.h
 
 
@@ -12050,6 +12126,15 @@ namespace sw
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(Size newClientSize) override;
+
+        /**
+         * @brief        接收到WM_ERASEBKGND时调用该函数
+         * @param hdc    设备上下文句柄
+         * @param result 若已处理该消息则设为非零值，默认值为0
+         * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         */
+        virtual bool OnEraseBackground(HDC hdc, LRESULT &result) override;
+
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
@@ -12947,7 +13032,7 @@ namespace sw
          * @brief  显示对话框，并指定所有者窗口
          * @return 若用户选择了文件则返回true，否则返回false
          */
-        virtual int ShowDialog(Window *owner = nullptr) = 0;
+        virtual int ShowDialog(Window *owner = nullptr) override = 0;
 
         /**
          * @brief  显示对话框，并指定所有者窗口

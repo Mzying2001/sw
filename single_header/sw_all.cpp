@@ -261,66 +261,78 @@ bool sw::BmpBox::OnPaint()
 
     PAINTSTRUCT ps;
     HDC hdc = BeginPaint(hwnd, &ps);
-    SetStretchBltMode(hdc, HALFTONE);
 
     RECT clientRect;
     GetClientRect(hwnd, &clientRect);
 
+    int width  = clientRect.right - clientRect.left;
+    int height = clientRect.bottom - clientRect.top;
+
+    HDC hdcMem         = CreateCompatibleDC(hdc);
+    HBITMAP hBitmap    = CreateCompatibleBitmap(hdc, width, height);
+    HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
+
     HBRUSH hBackColorBrush = CreateSolidBrush(this->GetRealBackColor());
-    FillRect(hdc, &clientRect, hBackColorBrush);
+    FillRect(hdcMem, &clientRect, hBackColorBrush);
 
     if (this->_hBitmap != NULL &&
         this->_bmpSize.cx > 0 && this->_bmpSize.cy > 0) {
-        HDC hdcmem = CreateCompatibleDC(hdc);
-        SelectObject(hdcmem, this->_hBitmap);
+        HDC hdcBmp = CreateCompatibleDC(hdc);
+        SelectObject(hdcBmp, this->_hBitmap);
 
         switch (this->_sizeMode) {
             case BmpBoxSizeMode::Normal: {
-                BitBlt(hdc, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, hdcmem, 0, 0, SRCCOPY);
+                BitBlt(hdcMem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, hdcBmp, 0, 0, SRCCOPY);
                 break;
             }
 
             case BmpBoxSizeMode::StretchImage: {
-                StretchBlt(hdc, 0, 0, clientRect.right - clientRect.left, clientRect.bottom - clientRect.top,
-                           hdcmem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
+                SetStretchBltMode(hdcMem, HALFTONE);
+                StretchBlt(hdcMem, 0, 0, width, height,
+                           hdcBmp, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
                 break;
             }
 
             case BmpBoxSizeMode::AutoSize:
             case BmpBoxSizeMode::CenterImage: {
-                int x = ((clientRect.right - clientRect.left) - this->_bmpSize.cx) / 2;
-                int y = ((clientRect.bottom - clientRect.top) - this->_bmpSize.cy) / 2;
-                BitBlt(hdc, x, y, this->_bmpSize.cx, this->_bmpSize.cy, hdcmem, 0, 0, SRCCOPY);
+                int x = (width - this->_bmpSize.cx) / 2;
+                int y = (height - this->_bmpSize.cy) / 2;
+                BitBlt(hdcMem, x, y, this->_bmpSize.cx, this->_bmpSize.cy, hdcBmp, 0, 0, SRCCOPY);
                 break;
             }
 
             case BmpBoxSizeMode::Zoom: {
-                int w = clientRect.right - clientRect.left;
-                int h = clientRect.bottom - clientRect.top;
+                double scale_w = double(width) / this->_bmpSize.cx;
+                double scale_h = double(height) / this->_bmpSize.cy;
 
-                double scale_w = double(w) / this->_bmpSize.cx;
-                double scale_h = double(h) / this->_bmpSize.cy;
+                SetStretchBltMode(hdcMem, HALFTONE);
 
                 if (scale_w < scale_h) {
-                    int draw_w = w;
+                    int draw_w = width;
                     int draw_h = std::lround(scale_w * this->_bmpSize.cy);
-                    StretchBlt(hdc, 0, (h - draw_h) / 2, draw_w, draw_h,
-                               hdcmem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
+                    StretchBlt(hdcMem, 0, (height - draw_h) / 2, draw_w, draw_h,
+                               hdcBmp, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
                 } else {
                     int draw_w = std::lround(scale_h * this->_bmpSize.cx);
-                    int draw_h = h;
-                    StretchBlt(hdc, (w - draw_w) / 2, 0, draw_w, draw_h,
-                               hdcmem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
+                    int draw_h = height;
+                    StretchBlt(hdcMem, (width - draw_w) / 2, 0, draw_w, draw_h,
+                               hdcBmp, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
                 }
                 break;
             }
         }
 
-        DeleteDC(hdcmem);
+        DeleteDC(hdcBmp);
     }
 
-    EndPaint(hwnd, &ps);
+    BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
+
+    SelectObject(hdcMem, hBitmapOld);
+    DeleteObject(hBitmap);
     DeleteObject(hBackColorBrush);
+    DeleteDC(hdcMem);
+
+    EndPaint(hwnd, &ps);
     return true;
 }
 
@@ -330,6 +342,12 @@ bool sw::BmpBox::OnSize(Size newClientSize)
         InvalidateRect(this->Handle, NULL, FALSE);
     }
     return this->StaticControl::OnSize(newClientSize);
+}
+
+bool sw::BmpBox::OnEraseBackground(HDC hdc, LRESULT &result)
+{
+    result = 1;
+    return true;
 }
 
 sw::Size sw::BmpBox::MeasureOverride(const Size &availableSize)
@@ -719,14 +737,9 @@ sw::Color::operator COLORREF() const
     return RGB(this->r, this->g, this->b);
 }
 
-bool sw::Color::operator==(const Color &other) const
+bool sw::Color::Equals(const Color &other) const
 {
     return (this->r == other.r) && (this->g == other.g) && (this->b == other.b);
-}
-
-bool sw::Color::operator!=(const Color &other) const
-{
-    return (this->r != other.r) || (this->g != other.g) || (this->b != other.b);
 }
 
 std::wstring sw::Color::ToString() const
@@ -1518,14 +1531,9 @@ sw::DockLayoutTag::operator uint64_t() const
     return this->_value;
 }
 
-bool sw::DockLayoutTag::operator==(const DockLayoutTag &other) const
+bool sw::DockLayoutTag::Equals(const DockLayoutTag &other) const
 {
     return this->_value == other._value;
-}
-
-bool sw::DockLayoutTag::operator!=(const DockLayoutTag &other) const
-{
-    return this->_value != other._value;
 }
 
 bool sw::DockLayoutTag::operator==(uint64_t value) const
@@ -6496,11 +6504,8 @@ bool sw::Panel::OnPaint()
     HWND hwnd = Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
-    RECT clientRect;
-    GetClientRect(hwnd, &clientRect);
-
     HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
-    FillRect(hdc, &clientRect, hBrush);
+    FillRect(hdc, &ps.rcPaint, hBrush);
 
     DeleteObject(hBrush);
     EndPaint(hwnd, &ps);
@@ -6514,11 +6519,7 @@ bool sw::Panel::OnNcPaint(HRGN hRgn)
 
     RECT rect;
     GetWindowRect(hwnd, &rect);
-
-    rect.right -= rect.left;
-    rect.bottom -= rect.top;
-    rect.left = 0;
-    rect.top  = 0;
+    OffsetRect(&rect, -rect.left, -rect.top);
 
     OnDrawBorder(hdc, rect);
     OnDrawPadding(hdc, rect);
@@ -6814,14 +6815,9 @@ sw::Point::operator POINT() const
     return {Dip::DipToPxX(this->x), Dip::DipToPxY(this->y)};
 }
 
-bool sw::Point::operator==(const Point &other) const
+bool sw::Point::Equals(const Point &other) const
 {
     return (this->x == other.x) && (this->y == other.y);
-}
-
-bool sw::Point::operator!=(const Point &other) const
-{
-    return (this->x != other.x) || (this->y != other.y);
 }
 
 std::wstring sw::Point::ToString() const
@@ -6977,20 +6973,12 @@ sw::Size sw::Rect::GetSize() const
     return Size(this->width, this->height);
 }
 
-bool sw::Rect::operator==(const Rect &other) const
+bool sw::Rect::Equals(const Rect &other) const
 {
     return (this->left == other.left) &&
            (this->top == other.top) &&
            (this->width == other.width) &&
            (this->height == other.height);
-}
-
-bool sw::Rect::operator!=(const Rect &other) const
-{
-    return (this->left != other.left) ||
-           (this->top != other.top) ||
-           (this->width != other.width) ||
-           (this->height != other.height);
 }
 
 std::wstring sw::Rect::ToString() const
@@ -7049,14 +7037,9 @@ sw::Size::operator SIZE() const
     return {Dip::DipToPxX(this->width), Dip::DipToPxY(this->height)};
 }
 
-bool sw::Size::operator==(const Size &other) const
+bool sw::Size::Equals(const Size &other) const
 {
     return (this->width == other.width) && (this->height == other.height);
-}
-
-bool sw::Size::operator!=(const Size &other) const
-{
-    return (this->width != other.width) || (this->height != other.height);
 }
 
 std::wstring sw::Size::ToString() const
@@ -8376,20 +8359,12 @@ sw::Thickness::operator RECT() const
         Dip::DipToPxY(this->bottom)};
 }
 
-bool sw::Thickness::operator==(const Thickness &other) const
+bool sw::Thickness::Equals(const Thickness &other) const
 {
     return (this->left == other.left) &&
            (this->top == other.top) &&
            (this->right == other.right) &&
            (this->bottom == other.bottom);
-}
-
-bool sw::Thickness::operator!=(const Thickness &other) const
-{
-    return (this->left != other.left) ||
-           (this->top != other.top) ||
-           (this->right != other.right) ||
-           (this->bottom != other.bottom);
 }
 
 std::wstring sw::Thickness::ToString() const
@@ -11105,16 +11080,6 @@ sw::WndBase::~WndBase()
     const_cast<uint32_t &>(this->_check) = 0;
 }
 
-bool sw::WndBase::operator==(const WndBase &other) const
-{
-    return this == &other;
-}
-
-bool sw::WndBase::operator!=(const WndBase &other) const
-{
-    return this != &other;
-}
-
 sw::UIElement *sw::WndBase::ToUIElement()
 {
     return nullptr;
@@ -11128,6 +11093,11 @@ sw::Control *sw::WndBase::ToControl()
 sw::Window *sw::WndBase::ToWindow()
 {
     return nullptr;
+}
+
+bool sw::WndBase::Equals(const WndBase &other) const
+{
+    return this == &other;
 }
 
 std::wstring sw::WndBase::ToString() const
