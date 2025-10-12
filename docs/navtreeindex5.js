@@ -1,5 +1,7 @@
 var NAVTREEINDEX5 =
 {
+"classsw_1_1Window.html#aa9476a0b4bff312e523bba76aa82b96b":[2,0,0,158,29],
+"classsw_1_1Window.html#ab642e68dc2716a7496322be4423f82f4":[2,0,0,158,25],
 "classsw_1_1Window.html#abafe422b0435aa15ec04ced4300b6b76":[2,0,0,158,3],
 "classsw_1_1Window.html#abff0275ae90d22951d40b769f952d415":[2,0,0,158,20],
 "classsw_1_1Window.html#ac61382d82d410403dc2a9bc0afe49f38":[2,0,0,158,36],
@@ -230,8 +232,8 @@ var NAVTREEINDEX5 =
 "functions_y.html":[2,3,0,23],
 "functions_~.html":[2,3,0,24],
 "hierarchy.html":[2,2],
-"index.html":[],
 "index.html":[0],
+"index.html":[],
 "index.html#autotoc_md1":[0,0],
 "index.html#autotoc_md10":[0,4],
 "index.html#autotoc_md11":[0,5],
@@ -247,7 +249,5 @@ var NAVTREEINDEX5 =
 "pages.html":[],
 "structsw_1_1AutoSizeGridColumn.html":[2,0,0,20],
 "structsw_1_1AutoSizeGridColumn.html#a6dd90239ba99030b22c7354dd9ef1fc9":[2,0,0,20,0],
-"structsw_1_1AutoSizeGridRow.html":[2,0,0,21],
-"structsw_1_1AutoSizeGridRow.html#a2bdf1d29e1b15c59580fd5592afade9a":[2,0,0,21,0],
-"structsw_1_1CanvasLayoutTag.html":[2,0,0,29]
+"structsw_1_1AutoSizeGridRow.html":[2,0,0,21]
 };

@@ -529,6 +529,10 @@ const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; TabAlignmen
 const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>MultiLine</b></td></tr>
 <tr class="memdesc:ae0fc4dead5149c903eb429d0927ec182"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否开启多行标签 <br /></td></tr>
 <tr class="separator:ae0fc4dead5149c903eb429d0927ec182"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a178ace42959bb5ddcbad81cb28151ae0" id="r_a178ace42959bb5ddcbad81cb28151ae0"><td class="memItemLeft" align="right" valign="top"><a id="a178ace42959bb5ddcbad81cb28151ae0" name="a178ace42959bb5ddcbad81cb28151ae0"></a>
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>AutoSize</b></td></tr>
+<tr class="memdesc:a178ace42959bb5ddcbad81cb28151ae0"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否自动调整大小以适应当前页面内容，默认为true <br /></td></tr>
+<tr class="separator:a178ace42959bb5ddcbad81cb28151ae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classsw_1_1Control"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1Control')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1Control.html">sw::Control</a></td></tr>
 <tr class="memitem:aa5875535fe04ce79df6fb8719b64c0dc inherit pub_attribs_classsw_1_1Control" id="r_aa5875535fe04ce79df6fb8719b64c0dc"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ControlId</b></td></tr>
@@ -733,6 +737,9 @@ Protected 成员函数</h2></td></tr>
 <tr class="memitem:a1642e450b1cf606338eb85bd9f93c82c" id="r_a1642e450b1cf606338eb85bd9f93c82c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1TabControl.html#a1642e450b1cf606338eb85bd9f93c82c">OnRemovedChild</a> (<a class="el" href="classsw_1_1UIElement.html">UIElement</a> &amp;element) override</td></tr>
 <tr class="memdesc:a1642e450b1cf606338eb85bd9f93c82c"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除子元素后调用该函数  <br /></td></tr>
 <tr class="separator:a1642e450b1cf606338eb85bd9f93c82c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f7b0136a9bc3a9fbefd49d72ea9706e" id="r_a6f7b0136a9bc3a9fbefd49d72ea9706e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1Size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1TabControl.html#a6f7b0136a9bc3a9fbefd49d72ea9706e">MeasureOverride</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;availableSize) override</td></tr>
+<tr class="memdesc:a6f7b0136a9bc3a9fbefd49d72ea9706e"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量元素所需尺寸，无需考虑边框和边距  <br /></td></tr>
+<tr class="separator:a6f7b0136a9bc3a9fbefd49d72ea9706e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe3911adf115bf45e1ef7156f56a6b9b" id="r_afe3911adf115bf45e1ef7156f56a6b9b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1TabControl.html#afe3911adf115bf45e1ef7156f56a6b9b">ArrangeOverride</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;finalSize) override</td></tr>
 <tr class="memdesc:afe3911adf115bf45e1ef7156f56a6b9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">安排子元素的位置，可重写该函数以实现自定义布局  <br /></td></tr>
 <tr class="separator:afe3911adf115bf45e1ef7156f56a6b9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -824,9 +831,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetPreviousTabStopFoc
 <tr class="memitem:a6121cdf84c8073bae9b3cde98a6a59ea inherit pro_methods_classsw_1_1UIElement" id="r_a6121cdf84c8073bae9b3cde98a6a59ea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a6121cdf84c8073bae9b3cde98a6a59ea">QueryAllChildren</a> (const Func&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a> *, bool &gt; &amp;queryFunc)</td></tr>
 <tr class="memdesc:a6121cdf84c8073bae9b3cde98a6a59ea inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">查询所有子元素，直到queryFunc返回false或所有子元素均被查询  <br /></td></tr>
 <tr class="separator:a6121cdf84c8073bae9b3cde98a6a59ea inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cd17e0524115089357b146545510fe8 inherit pro_methods_classsw_1_1UIElement" id="r_a8cd17e0524115089357b146545510fe8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsw_1_1Size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a8cd17e0524115089357b146545510fe8">MeasureOverride</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;availableSize)</td></tr>
-<tr class="memdesc:a8cd17e0524115089357b146545510fe8 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量元素所需尺寸，无需考虑边框和边距  <br /></td></tr>
-<tr class="separator:a8cd17e0524115089357b146545510fe8 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af60b45de9f894f4fb152491413f1fa73 inherit pro_methods_classsw_1_1UIElement" id="r_af60b45de9f894f4fb152491413f1fa73"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#af60b45de9f894f4fb152491413f1fa73">SetBackColor</a> (<a class="el" href="structsw_1_1Color.html">Color</a> color, bool redraw)</td></tr>
 <tr class="memdesc:af60b45de9f894f4fb152491413f1fa73 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置背景颜色  <br /></td></tr>
 <tr class="separator:af60b45de9f894f4fb152491413f1fa73 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1098,6 +1102,43 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
 </dl>
 
 <p>重载 <a class="el" href="classsw_1_1UIElement.html#a3170826168869b60a1876a3598189a65">sw::UIElement</a> .</p>
+
+</div>
+</div>
+<a id="a6f7b0136a9bc3a9fbefd49d72ea9706e" name="a6f7b0136a9bc3a9fbefd49d72ea9706e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f7b0136a9bc3a9fbefd49d72ea9706e">&#9670;&#160;</a></span>MeasureOverride()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="structsw_1_1Size.html">Size</a> sw::TabControl::MeasureOverride </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;&#160;</td>
+          <td class="paramname"><em>availableSize</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>测量元素所需尺寸，无需考虑边框和边距 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">availableSize</td><td>可用的尺寸 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>返回元素需要占用的尺寸 </dd></dl>
+
+<p>重载 <a class="el" href="classsw_1_1UIElement.html#a8cd17e0524115089357b146545510fe8">sw::UIElement</a> .</p>
 
 </div>
 </div>

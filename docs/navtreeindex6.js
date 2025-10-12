@@ -1,5 +1,7 @@
 var NAVTREEINDEX6 =
 {
+"structsw_1_1AutoSizeGridRow.html#a2bdf1d29e1b15c59580fd5592afade9a":[2,0,0,21,0],
+"structsw_1_1CanvasLayoutTag.html":[2,0,0,29],
 "structsw_1_1CanvasLayoutTag.html#a54ca60a93c85b0c06ad1d848fed9af42":[2,0,0,29,3],
 "structsw_1_1CanvasLayoutTag.html#a5fcb2062d7a1239c4bd0f9fbf971718c":[2,0,0,29,2],
 "structsw_1_1CanvasLayoutTag.html#a66e509ca8ce039a228ccb15cba5aa509":[2,0,0,29,4],
