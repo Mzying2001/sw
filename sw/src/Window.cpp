@@ -335,21 +335,25 @@ bool sw::Window::OnPaint()
     RECT rtClient;
     GetClientRect(hwnd, &rtClient);
 
+    SIZE sizeClient{
+        rtClient.right - rtClient.left,
+        rtClient.bottom - rtClient.top};
+
     // 创建内存 DC 和位图
-    HDC hdcMem         = CreateCompatibleDC(hdc);
-    HBITMAP hBitmap    = CreateCompatibleBitmap(hdc, rtClient.right - rtClient.left, rtClient.bottom - rtClient.top);
-    HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
+    HDC hdcMem      = CreateCompatibleDC(hdc);
+    HBITMAP hBmpWnd = CreateCompatibleBitmap(hdc, sizeClient.cx, sizeClient.cy);
+    HBITMAP hBmpOld = (HBITMAP)SelectObject(hdcMem, hBmpWnd);
 
     // 在内存 DC 上进行绘制
     HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
     FillRect(hdcMem, &rtClient, hBrush);
 
     // 将内存 DC 的内容绘制到窗口客户区
-    BitBlt(hdc, 0, 0, rtClient.right - rtClient.left, rtClient.bottom - rtClient.top, hdcMem, 0, 0, SRCCOPY);
+    BitBlt(hdc, 0, 0, sizeClient.cx, sizeClient.cy, hdcMem, 0, 0, SRCCOPY);
 
     // 清理资源
-    SelectObject(hdcMem, hBitmapOld);
-    DeleteObject(hBitmap);
+    SelectObject(hdcMem, hBmpOld);
+    DeleteObject(hBmpWnd);
     DeleteObject(hBrush);
     DeleteDC(hdcMem);
 
