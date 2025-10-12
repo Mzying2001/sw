@@ -7849,7 +7849,7 @@ sw::TabControl::TabControl()
           [this]() -> sw::Rect {
               RECT rect;
               GetClientRect(this->Handle, &rect);
-              this->SendMessageW(TCM_ADJUSTRECT, FALSE, reinterpret_cast<LPARAM>(&rect));
+              this->_CalcContentRect(rect);
               return rect;
           }),
 
@@ -7943,6 +7943,19 @@ sw::TabControl::TabControl()
           [this](const bool &value) {
               this->SetStyle(TCS_MULTILINE, value);
               this->InvalidateMeasure();
+          }),
+
+      AutoSize(
+          // get
+          [this]() -> bool {
+              return this->_autoSize;
+          },
+          // set
+          [this](const bool &value) {
+              if (this->_autoSize != value) {
+                  this->_autoSize = value;
+                  this->InvalidateMeasure();
+              }
           })
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
@@ -7981,6 +7994,7 @@ void sw::TabControl::UpdateTab()
     }
 
     this->Redraw();
+    this->InvalidateMeasure();
 }
 
 void sw::TabControl::UpdateTabText(int index)
@@ -8005,6 +8019,7 @@ void sw::TabControl::UpdateTabText(int index)
     this->_SetItem(index, item);
 
     this->Redraw();
+    this->InvalidateMeasure();
 }
 
 void sw::TabControl::OnAddedChild(UIElement &element)
@@ -8029,16 +8044,57 @@ void sw::TabControl::OnRemovedChild(UIElement &element)
     this->UIElement::OnRemovedChild(element);
 }
 
+sw::Size sw::TabControl::MeasureOverride(const Size &availableSize)
+{
+    UIElement *selectedItem = this->_GetSelectedItem();
+
+    if (!this->_autoSize || selectedItem == nullptr) {
+        return this->UIElement::MeasureOverride(availableSize);
+    }
+
+    bool isWidthInf  = std::isinf(availableSize.width);
+    bool isHeightInf = std::isinf(availableSize.height);
+
+    if (isWidthInf && isHeightInf) {
+        selectedItem->Measure(availableSize);
+    } else {
+        const int inf = (std::numeric_limits<int>::max)();
+
+        SIZE availableSizePx{
+            isWidthInf ? inf : Dip::DipToPxX(availableSize.width),
+            isHeightInf ? inf : Dip::DipToPxY(availableSize.height)};
+
+        RECT rtContent{0, 0, availableSizePx.cx, availableSizePx.cy};
+        this->_CalcContentRect(rtContent);
+
+        SIZE sizeBorder{
+            availableSizePx.cx - (rtContent.right - rtContent.left),
+            availableSizePx.cy - (rtContent.bottom - rtContent.top)};
+
+        Size measureSize = availableSize;
+        measureSize.width -= Dip::PxToDipX(sizeBorder.cx);
+        measureSize.height -= Dip::PxToDipY(sizeBorder.cy);
+
+        selectedItem->Measure(measureSize);
+    }
+
+    SIZE desireSize = selectedItem->GetDesireSize();
+    this->_CalcIdealSize(desireSize);
+    return desireSize;
+}
+
 void sw::TabControl::ArrangeOverride(const Size &finalSize)
 {
-    int selectedIndex = this->SelectedIndex;
-    if (selectedIndex < 0 || selectedIndex >= this->ChildCount) return;
+    UIElement *selectedItem = this->_GetSelectedItem();
+    if (selectedItem == nullptr) return;
 
-    UIElement &selectedItem = this->GetChildAt(selectedIndex);
-    sw::Rect contentRect    = this->ContentRect;
-
-    selectedItem.Measure(contentRect.GetSize());
-    selectedItem.Arrange(contentRect);
+    if (this->_autoSize) {
+        selectedItem->Arrange(this->ContentRect);
+    } else {
+        sw::Rect contentRect = this->ContentRect;
+        selectedItem->Measure(contentRect.GetSize());
+        selectedItem->Arrange(contentRect);
+    }
 }
 
 bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
@@ -8072,6 +8128,10 @@ void sw::TabControl::_UpdateChildVisible()
             ShowWindow(hwnd, SW_SHOW);
         }
     }
+
+    if (this->_autoSize) {
+        this->InvalidateMeasure();
+    }
 }
 
 int sw::TabControl::_InsertItem(int index, TCITEMW &item)
@@ -8092,6 +8152,28 @@ bool sw::TabControl::_DeleteItem(int index)
 bool sw::TabControl::_DeleteAllItems()
 {
     return this->SendMessageW(TCM_DELETEALLITEMS, 0, 0);
+}
+
+void sw::TabControl::_CalcContentRect(RECT &rect)
+{
+    this->SendMessageW(TCM_ADJUSTRECT, FALSE, reinterpret_cast<LPARAM>(&rect));
+}
+
+void sw::TabControl::_CalcIdealSize(SIZE &size)
+{
+    RECT rect{0, 0, size.cx, size.cy};
+    this->SendMessageW(TCM_ADJUSTRECT, TRUE, reinterpret_cast<LPARAM>(&rect));
+    size = SIZE{rect.right - rect.left, rect.bottom - rect.top};
+}
+
+sw::UIElement *sw::TabControl::_GetSelectedItem()
+{
+    int selectedIndex = this->SelectedIndex;
+    if (selectedIndex < 0 || selectedIndex >= this->ChildCount) {
+        return nullptr;
+    } else {
+        return &this->GetChildAt(selectedIndex);
+    }
 }
 
 // TextBox.cpp
@@ -10523,21 +10605,25 @@ bool sw::Window::OnPaint()
     RECT rtClient;
     GetClientRect(hwnd, &rtClient);
 
+    SIZE sizeClient{
+        rtClient.right - rtClient.left,
+        rtClient.bottom - rtClient.top};
+
     // 创建内存 DC 和位图
-    HDC hdcMem         = CreateCompatibleDC(hdc);
-    HBITMAP hBitmap    = CreateCompatibleBitmap(hdc, rtClient.right - rtClient.left, rtClient.bottom - rtClient.top);
-    HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
+    HDC hdcMem      = CreateCompatibleDC(hdc);
+    HBITMAP hBmpWnd = CreateCompatibleBitmap(hdc, sizeClient.cx, sizeClient.cy);
+    HBITMAP hBmpOld = (HBITMAP)SelectObject(hdcMem, hBmpWnd);
 
     // 在内存 DC 上进行绘制
     HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
     FillRect(hdcMem, &rtClient, hBrush);
 
     // 将内存 DC 的内容绘制到窗口客户区
-    BitBlt(hdc, 0, 0, rtClient.right - rtClient.left, rtClient.bottom - rtClient.top, hdcMem, 0, 0, SRCCOPY);
+    BitBlt(hdc, 0, 0, sizeClient.cx, sizeClient.cy, hdcMem, 0, 0, SRCCOPY);
 
     // 清理资源
-    SelectObject(hdcMem, hBitmapOld);
-    DeleteObject(hBitmap);
+    SelectObject(hdcMem, hBmpOld);
+    DeleteObject(hBmpWnd);
     DeleteObject(hBrush);
     DeleteDC(hdcMem);
 

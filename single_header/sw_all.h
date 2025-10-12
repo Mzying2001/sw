@@ -11426,6 +11426,12 @@ namespace sw
      */
     class TabControl : public Control
     {
+    private:
+        /**
+         * @brief 是否自动调整大小
+         */
+        bool _autoSize = true;
+
     public:
         /**
          * @brief 内容区域位置与尺寸
@@ -11446,6 +11452,11 @@ namespace sw
          * @brief 是否开启多行标签
          */
         const Property<bool> MultiLine;
+
+        /**
+         * @brief 是否自动调整大小以适应当前页面内容，默认为true
+         */
+        const Property<bool> AutoSize;
 
     public:
         /**
@@ -11481,6 +11492,13 @@ namespace sw
          * @param element 移除的子元素
          */
         virtual void OnRemovedChild(UIElement &element) override;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
          * @brief           安排子元素的位置，可重写该函数以实现自定义布局
@@ -11526,6 +11544,21 @@ namespace sw
          * @brief 发送TCM_DELETEALLITEMS消息
          */
         bool _DeleteAllItems();
+
+        /**
+         * @brief 计算内容区域的位置和尺寸
+         */
+        void _CalcContentRect(RECT &rect);
+
+        /**
+         * @brief 计算指定内容大小时控件的理想大小
+         */
+        void _CalcIdealSize(SIZE &size);
+
+        /**
+         * @brief 获取当前选中的子元素，若没有选中任何子元素则返回nullptr
+         */
+        UIElement *_GetSelectedItem();
     };
 }
 
