@@ -7,7 +7,7 @@ sw::TabControl::TabControl()
           [this]() -> sw::Rect {
               RECT rect;
               GetClientRect(this->Handle, &rect);
-              this->SendMessageW(TCM_ADJUSTRECT, FALSE, reinterpret_cast<LPARAM>(&rect));
+              this->_CalcContentRect(rect);
               return rect;
           }),
 
@@ -250,4 +250,16 @@ bool sw::TabControl::_DeleteItem(int index)
 bool sw::TabControl::_DeleteAllItems()
 {
     return this->SendMessageW(TCM_DELETEALLITEMS, 0, 0);
+}
+
+void sw::TabControl::_CalcContentRect(RECT &rect)
+{
+    this->SendMessageW(TCM_ADJUSTRECT, FALSE, reinterpret_cast<LPARAM>(&rect));
+}
+
+void sw::TabControl::_CalcIdealSize(SIZE &size)
+{
+    RECT rect{0, 0, size.cx, size.cy};
+    this->SendMessageW(TCM_ADJUSTRECT, TRUE, reinterpret_cast<LPARAM>(&rect));
+    size = SIZE{rect.right - rect.left, rect.bottom - rect.top};
 }

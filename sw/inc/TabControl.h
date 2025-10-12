@@ -120,5 +120,15 @@ namespace sw
          * @brief 发送TCM_DELETEALLITEMS消息
          */
         bool _DeleteAllItems();
+
+        /**
+         * @brief 计算内容区域的位置和尺寸
+         */
+        void _CalcContentRect(RECT &rect);
+
+        /**
+         * @brief 计算指定内容大小时控件的理想大小
+         */
+        void _CalcIdealSize(SIZE &size);
     };
 }
