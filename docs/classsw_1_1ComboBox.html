@@ -108,12 +108,14 @@ $(document).ready(function(){initNavTree('classsw_1_1ComboBox.html',''); initRes
  <div class="center">
   <img src="classsw_1_1ComboBox.png" usemap="#sw::ComboBox_map" alt=""/>
   <map id="sw::ComboBox_map" name="sw::ComboBox_map">
-<area href="classsw_1_1ItemsControl.html" title="表示可用于呈现一组项的控件" alt="sw::ItemsControl&lt; TItem &gt;" shape="rect" coords="165,168,320,192"/>
-<area href="classsw_1_1Control.html" title="控件" alt="sw::Control" shape="rect" coords="165,112,320,136"/>
-<area href="classsw_1_1UIElement.html" title="表示界面中的元素" alt="sw::UIElement" shape="rect" coords="165,56,320,80"/>
-<area href="classsw_1_1WndBase.html" title="表示一个Windows窗口，是所有窗口和控件的基类" alt="sw::WndBase" shape="rect" coords="0,0,155,24"/>
-<area href="classsw_1_1ILayout.html" title="布局接口" alt="sw::ILayout" shape="rect" coords="165,0,320,24"/>
-<area href="classsw_1_1ITag.html" title="Tag接口" alt="sw::ITag" shape="rect" coords="330,0,485,24"/>
+<area href="classsw_1_1ItemsControl.html" title="表示可用于呈现一组项的控件" alt="sw::ItemsControl&lt; TItem &gt;" shape="rect" coords="352,224,577,248"/>
+<area href="classsw_1_1Control.html" title="控件" alt="sw::Control" shape="rect" coords="352,168,577,192"/>
+<area href="classsw_1_1UIElement.html" title="表示界面中的元素" alt="sw::UIElement" shape="rect" coords="352,112,577,136"/>
+<area href="classsw_1_1WndBase.html" title="表示一个Windows窗口，是所有窗口和控件的基类" alt="sw::WndBase" shape="rect" coords="117,56,342,80"/>
+<area href="classsw_1_1ILayout.html" title="布局接口" alt="sw::ILayout" shape="rect" coords="352,56,577,80"/>
+<area href="classsw_1_1ITag.html" title="Tag接口" alt="sw::ITag" shape="rect" coords="587,56,812,80"/>
+<area href="classsw_1_1IToString.html" alt="sw::IToString&lt; WndBase &gt;" shape="rect" coords="0,0,225,24"/>
+<area href="classsw_1_1IEqualityComparable.html" alt="sw::IEqualityComparable&lt; WndBase &gt;" shape="rect" coords="235,0,460,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -397,17 +399,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>InvalidateMeasure</b>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~WndBase</b> ()=0</td></tr>
 <tr class="memdesc:a6c99714fa3f313e7535936585f63b9cb inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数，这里用纯虚函数使该类成为抽象类 <br /></td></tr>
 <tr class="separator:a6c99714fa3f313e7535936585f63b9cb inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72d371a06c4595e2cd7f9d6c8922732f inherit pub_methods_classsw_1_1WndBase" id="r_a72d371a06c4595e2cd7f9d6c8922732f"><td class="memItemLeft" align="right" valign="top">
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp;other) const</td></tr>
-<tr class="memdesc:a72d371a06c4595e2cd7f9d6c8922732f inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断两个WndBase是否为同一实例 <br /></td></tr>
-<tr class="separator:a72d371a06c4595e2cd7f9d6c8922732f inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7cf435cbf25ab105badc19ec8f82128 inherit pub_methods_classsw_1_1WndBase" id="r_ab7cf435cbf25ab105badc19ec8f82128"><td class="memItemLeft" align="right" valign="top">
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp;other) const</td></tr>
-<tr class="memdesc:ab7cf435cbf25ab105badc19ec8f82128 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断两个WndBase是否为不同实例 <br /></td></tr>
-<tr class="separator:ab7cf435cbf25ab105badc19ec8f82128 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2dd7d531ffe1e0219d4d1762180a990d inherit pub_methods_classsw_1_1WndBase" id="r_a2dd7d531ffe1e0219d4d1762180a990d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classsw_1_1Window.html">Window</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a2dd7d531ffe1e0219d4d1762180a990d">ToWindow</a> ()</td></tr>
 <tr class="memdesc:a2dd7d531ffe1e0219d4d1762180a990d inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将对象转换成Window  <br /></td></tr>
 <tr class="separator:a2dd7d531ffe1e0219d4d1762180a990d inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1113d1e6b686215fb8f7f5aa5361aa45 inherit pub_methods_classsw_1_1WndBase" id="r_a1113d1e6b686215fb8f7f5aa5361aa45"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>Equals</b> (const <a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp;other) const</td></tr>
+<tr class="memdesc:a1113d1e6b686215fb8f7f5aa5361aa45 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象与另一个WndBase是否相等 <br /></td></tr>
+<tr class="separator:a1113d1e6b686215fb8f7f5aa5361aa45 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4d54d90e20aadd93924df6dc9760fc3 inherit pub_methods_classsw_1_1WndBase" id="r_af4d54d90e20aadd93924df6dc9760fc3"><td class="memItemLeft" align="right" valign="top">
 virtual std::wstring&#160;</td><td class="memItemRight" valign="bottom"><b>ToString</b> () const</td></tr>
 <tr class="memdesc:af4d54d90e20aadd93924df6dc9760fc3 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前对象的描述字符串 <br /></td></tr>
@@ -510,6 +508,24 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>CheckAccess</b> () co
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>CheckAccess</b> (const <a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp;other) const</td></tr>
 <tr class="memdesc:a0b409a458c45a42afda42e8f0a856be4 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象所属线程是否与另一个WndBase对象所属线程相同 <br /></td></tr>
 <tr class="separator:a0b409a458c45a42afda42e8f0a856be4 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsw_1_1IToString"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1IToString')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1IToString.html">sw::IToString&lt; WndBase &gt;</a></td></tr>
+<tr class="memitem:a45c3e793bc1ea212ac7721224fb174e1 inherit pub_methods_classsw_1_1IToString" id="r_a45c3e793bc1ea212ac7721224fb174e1"><td class="memItemLeft" align="right" valign="top">
+std::wstring&#160;</td><td class="memItemRight" valign="bottom"><b>ToString</b> () const</td></tr>
+<tr class="memdesc:a45c3e793bc1ea212ac7721224fb174e1 inherit pub_methods_classsw_1_1IToString"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取描述当前对象的字符串 <br /></td></tr>
+<tr class="separator:a45c3e793bc1ea212ac7721224fb174e1 inherit pub_methods_classsw_1_1IToString"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsw_1_1IEqualityComparable"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1IEqualityComparable')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1IEqualityComparable.html">sw::IEqualityComparable&lt; WndBase &gt;</a></td></tr>
+<tr class="memitem:ad5594e770d276411d1213942cb49bb43 inherit pub_methods_classsw_1_1IEqualityComparable" id="r_ad5594e770d276411d1213942cb49bb43"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>Equals</b> (const <a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp; other) const</td></tr>
+<tr class="memdesc:ad5594e770d276411d1213942cb49bb43 inherit pub_methods_classsw_1_1IEqualityComparable"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象与另一个对象是否相等 <br /></td></tr>
+<tr class="separator:ad5594e770d276411d1213942cb49bb43 inherit pub_methods_classsw_1_1IEqualityComparable"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e8a939486c99051632b21e3eafa94fd inherit pub_methods_classsw_1_1IEqualityComparable" id="r_a6e8a939486c99051632b21e3eafa94fd"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp; other) const</td></tr>
+<tr class="memdesc:a6e8a939486c99051632b21e3eafa94fd inherit pub_methods_classsw_1_1IEqualityComparable"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象是否与另一个对象相等 <br /></td></tr>
+<tr class="separator:a6e8a939486c99051632b21e3eafa94fd inherit pub_methods_classsw_1_1IEqualityComparable"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab74a5b44827655cda2d573d2d052cccc inherit pub_methods_classsw_1_1IEqualityComparable" id="r_ab74a5b44827655cda2d573d2d052cccc"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classsw_1_1WndBase.html">WndBase</a> &amp; other) const</td></tr>
+<tr class="memdesc:ab74a5b44827655cda2d573d2d052cccc inherit pub_methods_classsw_1_1IEqualityComparable"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象是否与另一个对象不相等 <br /></td></tr>
+<tr class="separator:ab74a5b44827655cda2d573d2d052cccc inherit pub_methods_classsw_1_1IEqualityComparable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classsw_1_1ILayout"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1ILayout')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1ILayout.html">sw::ILayout</a></td></tr>
 <tr class="memitem:a42941ab943edee8c07a7b1da6c7ea226 inherit pub_methods_classsw_1_1ILayout" id="r_a42941ab943edee8c07a7b1da6c7ea226"><td class="memItemLeft" align="right" valign="top">
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ILayout</b> ()=default</td></tr>

@@ -1,5 +1,6 @@
 var classsw_1_1UIElement =
 [
+    [ "_CanAddChild< T, decltype(void(std::declval< UIElement >().AddChild(std::declval< T >())))>", "structsw_1_1UIElement_1_1__CanAddChild_3_01T_00_01decltype_07void_07std_1_1declval_3_01UIElementc4e59a28561b2f6c76501e41deec6964.html", null ],
     [ "UIElement", "classsw_1_1UIElement.html#aeebf42b059a9962fd9c2ba64dcc309ca", null ],
     [ "~UIElement", "classsw_1_1UIElement.html#acbe28513919da89bf3f9a5102d6353c3", null ],
     [ "AddChild", "classsw_1_1UIElement.html#a1576ecfeec8347256a1c43a33169e1dc", null ],

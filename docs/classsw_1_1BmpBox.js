@@ -7,6 +7,7 @@ var classsw_1_1BmpBox =
     [ "Load", "classsw_1_1BmpBox.html#a3f5b0e93b3b5b391e210f7441256d860", null ],
     [ "MeasureOverride", "classsw_1_1BmpBox.html#a2c05d9770b8362641337b9c5cca82047", null ],
     [ "OnDestroy", "classsw_1_1BmpBox.html#a332642f5bef5d54589d5c1d322fd6ded", null ],
+    [ "OnEraseBackground", "classsw_1_1BmpBox.html#a79f3702878e28cda78e1f20594710783", null ],
     [ "OnPaint", "classsw_1_1BmpBox.html#aa3b5703631e66331b23cc3397d51f305", null ],
     [ "OnSize", "classsw_1_1BmpBox.html#a6cb7446ef4d2308b971af9fe28b11bae", null ],
     [ "SizeToImage", "classsw_1_1BmpBox.html#a2c5616dbf6f3fadc1af535cdec92f3f7", null ],

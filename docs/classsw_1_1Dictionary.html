@@ -100,6 +100,16 @@ $(document).ready(function(){initNavTree('classsw_1_1Dictionary.html',''); initR
  <a href="classsw_1_1Dictionary.html#details">更多...</a></p>
 
 <p><code>#include &lt;<a class="el" href="Dictionary_8h_source.html">Dictionary.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sw::Dictionary&lt; TKey, TVal &gt; 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classsw_1_1Dictionary.png" usemap="#sw::Dictionary_3C_20TKey_2C_20TVal_20_3E_map" alt=""/>
+  <map id="sw::Dictionary_3C_20TKey_2C_20TVal_20_3E_map" name="sw::Dictionary_3C_20TKey_2C_20TVal_20_3E_map">
+<area href="classsw_1_1IToString.html" alt="sw::IToString&lt; Dictionary&lt; TKey, TVal &gt; &gt;" shape="rect" coords="0,0,318,24"/>
+<area href="classsw_1_1IEqualityComparable.html" alt="sw::IEqualityComparable&lt; Dictionary&lt; TKey, TVal &gt; &gt;" shape="rect" coords="328,0,646,24"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
@@ -130,14 +140,10 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>rend</b> () const</td
 <tr class="memitem:a3f2f6938ef081002887f747d74950a30" id="r_a3f2f6938ef081002887f747d74950a30"><td class="memItemLeft" align="right" valign="top">auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Dictionary.html#a3f2f6938ef081002887f747d74950a30">operator[]</a> (const TKey &amp;key) const</td></tr>
 <tr class="memdesc:a3f2f6938ef081002887f747d74950a30"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取或设置值  <br /></td></tr>
 <tr class="separator:a3f2f6938ef081002887f747d74950a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66e49e3de4c336ab16ab112ad92ffdc3" id="r_a66e49e3de4c336ab16ab112ad92ffdc3"><td class="memItemLeft" align="right" valign="top"><a id="a66e49e3de4c336ab16ab112ad92ffdc3" name="a66e49e3de4c336ab16ab112ad92ffdc3"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classsw_1_1Dictionary.html">Dictionary</a> &amp;other) const</td></tr>
-<tr class="memdesc:a66e49e3de4c336ab16ab112ad92ffdc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断是否为同一个字典 <br /></td></tr>
-<tr class="separator:a66e49e3de4c336ab16ab112ad92ffdc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a346b637e419b23fecb11ff446825012a" id="r_a346b637e419b23fecb11ff446825012a"><td class="memItemLeft" align="right" valign="top"><a id="a346b637e419b23fecb11ff446825012a" name="a346b637e419b23fecb11ff446825012a"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classsw_1_1Dictionary.html">Dictionary</a> &amp;other) const</td></tr>
-<tr class="memdesc:a346b637e419b23fecb11ff446825012a"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断是否不是同一个字典 <br /></td></tr>
-<tr class="separator:a346b637e419b23fecb11ff446825012a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a45c711c6eabb1351d52de2876afe39" id="r_a1a45c711c6eabb1351d52de2876afe39"><td class="memItemLeft" align="right" valign="top"><a id="a1a45c711c6eabb1351d52de2876afe39" name="a1a45c711c6eabb1351d52de2876afe39"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>Equals</b> (const <a class="el" href="classsw_1_1Dictionary.html">Dictionary</a> &amp;other) const</td></tr>
+<tr class="memdesc:a1a45c711c6eabb1351d52de2876afe39"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断是否为同一个字典 <br /></td></tr>
+<tr class="separator:a1a45c711c6eabb1351d52de2876afe39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c16eced6a889e97f4a1807697090fd3" id="r_a7c16eced6a889e97f4a1807697090fd3"><td class="memItemLeft" align="right" valign="top"><a id="a7c16eced6a889e97f4a1807697090fd3" name="a7c16eced6a889e97f4a1807697090fd3"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>Count</b> () const</td></tr>
 <tr class="memdesc:a7c16eced6a889e97f4a1807697090fd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取键值对个数 <br /></td></tr>
@@ -174,6 +180,24 @@ std::map&lt; TKey, TVal &gt; &amp;&#160;</td><td class="memItemRight" valign="bo
 std::wstring&#160;</td><td class="memItemRight" valign="bottom"><b>ToString</b> () const</td></tr>
 <tr class="memdesc:a7c0672626f8ccf5b865fde34ed7353e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取描述当前对象的字符串 <br /></td></tr>
 <tr class="separator:a7c0672626f8ccf5b865fde34ed7353e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsw_1_1IToString"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1IToString')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1IToString.html">sw::IToString&lt; Dictionary&lt; TKey, TVal &gt; &gt;</a></td></tr>
+<tr class="memitem:a45c3e793bc1ea212ac7721224fb174e1 inherit pub_methods_classsw_1_1IToString" id="r_a45c3e793bc1ea212ac7721224fb174e1"><td class="memItemLeft" align="right" valign="top">
+std::wstring&#160;</td><td class="memItemRight" valign="bottom"><b>ToString</b> () const</td></tr>
+<tr class="memdesc:a45c3e793bc1ea212ac7721224fb174e1 inherit pub_methods_classsw_1_1IToString"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取描述当前对象的字符串 <br /></td></tr>
+<tr class="separator:a45c3e793bc1ea212ac7721224fb174e1 inherit pub_methods_classsw_1_1IToString"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsw_1_1IEqualityComparable"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1IEqualityComparable')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1IEqualityComparable.html">sw::IEqualityComparable&lt; Dictionary&lt; TKey, TVal &gt; &gt;</a></td></tr>
+<tr class="memitem:ad5594e770d276411d1213942cb49bb43 inherit pub_methods_classsw_1_1IEqualityComparable" id="r_ad5594e770d276411d1213942cb49bb43"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>Equals</b> (const <a class="el" href="classsw_1_1Dictionary.html">Dictionary</a>&lt; TKey, TVal &gt; &amp; other) const</td></tr>
+<tr class="memdesc:ad5594e770d276411d1213942cb49bb43 inherit pub_methods_classsw_1_1IEqualityComparable"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象与另一个对象是否相等 <br /></td></tr>
+<tr class="separator:ad5594e770d276411d1213942cb49bb43 inherit pub_methods_classsw_1_1IEqualityComparable"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e8a939486c99051632b21e3eafa94fd inherit pub_methods_classsw_1_1IEqualityComparable" id="r_a6e8a939486c99051632b21e3eafa94fd"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classsw_1_1Dictionary.html">Dictionary</a>&lt; TKey, TVal &gt; &amp; other) const</td></tr>
+<tr class="memdesc:a6e8a939486c99051632b21e3eafa94fd inherit pub_methods_classsw_1_1IEqualityComparable"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象是否与另一个对象相等 <br /></td></tr>
+<tr class="separator:a6e8a939486c99051632b21e3eafa94fd inherit pub_methods_classsw_1_1IEqualityComparable"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab74a5b44827655cda2d573d2d052cccc inherit pub_methods_classsw_1_1IEqualityComparable" id="r_ab74a5b44827655cda2d573d2d052cccc"><td class="memItemLeft" align="right" valign="top">
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classsw_1_1Dictionary.html">Dictionary</a>&lt; TKey, TVal &gt; &amp; other) const</td></tr>
+<tr class="memdesc:ab74a5b44827655cda2d573d2d052cccc inherit pub_methods_classsw_1_1IEqualityComparable"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象是否与另一个对象不相等 <br /></td></tr>
+<tr class="separator:ab74a5b44827655cda2d573d2d052cccc inherit pub_methods_classsw_1_1IEqualityComparable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename TKey, typename TVal&gt;<br />
