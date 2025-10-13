@@ -15,6 +15,12 @@ sw::Control::Control()
               }
               auto container = WndBase::_GetControlInitContainer();
               return container == nullptr || GetParent(_hwnd) != container->_hwnd;
+          }),
+
+      IsFocusedViaTab(
+          // get
+          [this]() -> bool {
+              return _focusedViaTab;
           })
 {
 }
@@ -97,19 +103,19 @@ bool sw::Control::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 
 bool sw::Control::OnKillFocus(HWND hNextFocus)
 {
-    _drawFocusRect = false;
+    _focusedViaTab = false;
     return UIElement::OnKillFocus(hNextFocus);
 }
 
 void sw::Control::OnTabStop()
 {
-    _drawFocusRect = true;
     UIElement::OnTabStop();
+    _focusedViaTab = true;
 }
 
 void sw::Control::OnEndPaint()
 {
-    if (!_hasCustomDraw && _drawFocusRect) {
+    if (!_hasCustomDraw && _focusedViaTab) {
         HDC hdc = GetDC(_hwnd);
         OnDrawFocusRect(hdc);
         ReleaseDC(_hwnd, hdc);
@@ -158,7 +164,7 @@ bool sw::Control::OnPrePaint(HDC hdc, LRESULT &result)
 
 bool sw::Control::OnPostPaint(HDC hdc, LRESULT &result)
 {
-    if (_drawFocusRect) {
+    if (_focusedViaTab) {
         OnDrawFocusRect(hdc);
     }
     return false;
