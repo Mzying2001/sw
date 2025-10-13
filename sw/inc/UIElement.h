@@ -775,6 +775,12 @@ namespace sw
         virtual void OnRemovedChild(UIElement &element);
 
         /**
+         * @brief         通过tab键将焦点从当前元素移出时调用该函数
+         * @param forward 指示焦点移动的方向，true表示向后移动，false表示向前移动
+         */
+        virtual void OnTabMove(bool forward);
+
+        /**
          * @brief 通过tab键将焦点移动到当前元素时调用该函数
          */
         virtual void OnTabStop();

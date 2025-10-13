@@ -1065,6 +1065,15 @@ void sw::UIElement::OnRemovedChild(UIElement &element)
     }
 }
 
+void sw::UIElement::OnTabMove(bool forward)
+{
+    if (forward) {
+        this->SetNextTabStopFocus();
+    } else {
+        this->SetPreviousTabStopFocus();
+    }
+}
+
 void sw::UIElement::OnTabStop()
 {
     this->Focused = true;
@@ -1231,7 +1240,7 @@ bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
     // 实现按下Tab键转移焦点
     if (!args.handledMsg && key == VirtualKey::Tab) {
         bool shiftDown = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-        shiftDown ? this->SetPreviousTabStopFocus() : this->SetNextTabStopFocus();
+        this->OnTabMove(!shiftDown);
     }
 
     return args.handledMsg;

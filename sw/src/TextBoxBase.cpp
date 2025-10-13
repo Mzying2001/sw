@@ -123,7 +123,7 @@ bool sw::TextBoxBase::OnKeyDown(VirtualKey key, KeyFlags flags)
 
     if (!e.handledMsg && key == VirtualKey::Tab && (!this->_acceptTab || this->ReadOnly)) {
         bool shiftDown = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-        shiftDown ? this->SetPreviousTabStopFocus() : this->SetNextTabStopFocus();
+        this->OnTabMove(!shiftDown);
     }
 
     return e.handledMsg;
