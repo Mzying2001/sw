@@ -118,7 +118,8 @@ sw::TabControl::TabControl()
           })
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
-    this->Rect = sw::Rect(0, 0, 200, 200);
+    this->Rect    = sw::Rect(0, 0, 200, 200);
+    this->TabStop = true;
     this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::FontChanged;
 }
 
@@ -262,6 +263,11 @@ bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
         this->OnSelectedIndexChanged();
     }
     return this->Control::OnNotified(pNMHDR, result);
+}
+
+void sw::TabControl::OnDrawFocusRect(HDC hdc)
+{
+    // 不绘制虚线框
 }
 
 void sw::TabControl::OnSelectedIndexChanged()
