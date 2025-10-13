@@ -199,7 +199,7 @@ void sw::TabControl::OnAddedChild(UIElement &element)
 void sw::TabControl::OnRemovedChild(UIElement &element)
 {
     this->UpdateTab();
-    this->_UpdateChildVisible();
+    this->_UpdateChildVisible(false);
     this->UIElement::OnRemovedChild(element);
 }
 
@@ -270,25 +270,17 @@ void sw::TabControl::OnSelectedIndexChanged()
     this->RaiseRoutedEvent(TabControl_SelectedIndexChanged);
 }
 
-void sw::TabControl::_UpdateChildVisible()
+void sw::TabControl::_UpdateChildVisible(bool invalidMeasure)
 {
     int selectedIndex = this->SelectedIndex;
     int childCount    = this->ChildCount;
 
     for (int i = 0; i < childCount; ++i) {
         auto &item = this->GetChildAt(i);
-        HWND hwnd  = item.Handle;
-        if (i != selectedIndex) {
-            ShowWindow(hwnd, SW_HIDE);
-        } else {
-            sw::Rect contentRect = this->ContentRect;
-            item.Measure(contentRect.GetSize());
-            item.Arrange(contentRect);
-            ShowWindow(hwnd, SW_SHOW);
-        }
+        ShowWindow(item.Handle, i == selectedIndex ? SW_SHOW : SW_HIDE);
     }
 
-    if (this->_autoSize) {
+    if (invalidMeasure) {
         this->InvalidateMeasure();
     }
 }

@@ -117,7 +117,7 @@ namespace sw
         /**
          * @brief 根据选中的tab更新子元素的Visible属性
          */
-        void _UpdateChildVisible();
+        void _UpdateChildVisible(bool invalidMeasure = true);
 
         /**
          * @brief 发送TCM_INSERTITEMW消息
