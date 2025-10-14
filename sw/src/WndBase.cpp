@@ -19,11 +19,6 @@ namespace
     constexpr wchar_t _WindowClassName[] = L"sw::Window";
 
     /**
-     * @brief 控件初始化时所在的窗口
-     */
-    thread_local struct : sw::WndBase{} *_controlInitContainer = nullptr;
-
-    /**
      * @brief 控件id计数器
      */
     std::atomic<int> _controlIdCounter{1073741827};
@@ -364,8 +359,6 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
 
 void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam)
 {
-    WndBase::_InitControlContainer();
-
     if (this->_hwnd != NULL) {
         return;
     }
@@ -374,26 +367,29 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         this->_text = lpWindowName;
     }
 
+    WndBase *container =
+        WndBase::_GetControlInitContainer();
+
     HMENU id = reinterpret_cast<HMENU>(
         static_cast<uintptr_t>(WndBase::_NextControlId()));
 
     this->_hwnd = CreateWindowExW(
-        dwExStyle,                    // Optional window styles
-        lpClassName,                  // Window class
-        this->_text.c_str(),          // Window text
-        dwStyle,                      // Window style
-        0, 0, 0, 0,                   // Size and position
-        _controlInitContainer->_hwnd, // Parent window
-        id,                           // Control id
-        App::Instance,                // Instance handle
-        lpParam                       // Additional application data
+        dwExStyle,           // Optional window styles
+        lpClassName,         // Window class
+        this->_text.c_str(), // Window text
+        dwStyle,             // Window style
+        0, 0, 0, 0,          // Size and position
+        container->_hwnd,    // Parent window
+        id,                  // Control id
+        App::Instance,       // Instance handle
+        lpParam              // Additional application data
     );
 
     this->_isControl = true;
     WndBase::_SetWndBase(this->_hwnd, *this);
 
-    this->_originalWndProc =
-        reinterpret_cast<WNDPROC>(SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
+    this->_originalWndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtrW(
+        this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
 
     this->HandleInitialized(this->_hwnd);
     this->UpdateFont();
@@ -931,7 +927,11 @@ bool sw::WndBase::SetParent(WndBase *parent)
     HWND hParent;
 
     if (parent == nullptr) {
-        hParent = this->_isControl ? _controlInitContainer->_hwnd : NULL;
+        if (!this->_isControl) {
+            hParent = NULL;
+        } else {
+            hParent = WndBase::_GetControlInitContainer()->_hwnd;
+        }
     } else {
         hParent = parent->_hwnd;
     }
@@ -1265,19 +1265,24 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     return DefWindowProcW(hwnd, uMsg, wParam, lParam);
 }
 
-void sw::WndBase::_InitControlContainer()
-{
-    if (_controlInitContainer == nullptr || _controlInitContainer->_isDestroyed) {
-        delete _controlInitContainer;
-        _controlInitContainer = new std::remove_reference<decltype(*_controlInitContainer)>::type;
-        _controlInitContainer->InitWindow(L"", WS_POPUP, 0);
-    }
-}
-
 sw::WndBase *sw::WndBase::_GetControlInitContainer()
 {
-    _InitControlContainer();
-    return _controlInitContainer;
+    static thread_local std::unique_ptr<WndBase> _container;
+
+    class _ControlInitContainer : public WndBase
+    {
+    public:
+        _ControlInitContainer()
+        {
+            this->InitWindow(L"", WS_POPUP, 0);
+        }
+    };
+
+    if (!_container || _container->_isDestroyed) {
+        _container = std::make_unique<_ControlInitContainer>();
+    }
+
+    return _container.get();
 }
 
 int sw::WndBase::_NextControlId()
