@@ -4,6 +4,7 @@
 #include "IToString.h"
 #include <Windows.h>
 #include <string>
+#include <type_traits>
 
 namespace sw
 {
@@ -52,4 +53,9 @@ namespace sw
          */
         std::wstring ToString() const;
     };
+
+    // Point应为POD类型
+    static_assert(
+        std::is_trivial<Point>::value && std::is_standard_layout<Point>::value,
+        "Point should be a POD type.");
 }

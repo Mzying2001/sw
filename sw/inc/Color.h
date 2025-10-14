@@ -5,6 +5,7 @@
 #include "KnownColor.h"
 #include <cstdint>
 #include <string>
+#include <type_traits>
 
 namespace sw
 {
@@ -68,4 +69,9 @@ namespace sw
          */
         std::wstring ToString() const;
     };
+
+    // Color应为POD类型
+    static_assert(
+        std::is_trivial<Color>::value && std::is_standard_layout<Color>::value,
+        "Color should be a POD type.");
 }

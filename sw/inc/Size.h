@@ -4,6 +4,7 @@
 #include "IToString.h"
 #include <Windows.h>
 #include <string>
+#include <type_traits>
 
 namespace sw
 {
@@ -52,4 +53,9 @@ namespace sw
          */
         std::wstring ToString() const;
     };
+
+    // Size应为POD类型
+    static_assert(
+        std::is_trivial<Size>::value && std::is_standard_layout<Size>::value,
+        "Size should be a POD type.");
 }
