@@ -417,7 +417,11 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DESTROY: {
-            LRESULT result     = this->OnDestroy() ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnDestroy() ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_NCDESTROY: {
+            LRESULT result     = this->DefaultWndProc(refMsg);
             this->_isDestroyed = true;
             return result;
         }
