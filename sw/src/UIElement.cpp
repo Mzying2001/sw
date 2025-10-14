@@ -1225,14 +1225,14 @@ bool sw::UIElement::OnKillFocus(HWND hNextFocus)
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnChar(wchar_t ch, KeyFlags flags)
+bool sw::UIElement::OnChar(wchar_t ch, const KeyFlags &flags)
 {
     GotCharEventArgs args(ch, flags);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::UIElement::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     KeyDownEventArgs args(key, flags);
     this->RaiseRoutedEvent(args);
@@ -1246,7 +1246,7 @@ bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnKeyUp(VirtualKey key, KeyFlags flags)
+bool sw::UIElement::OnKeyUp(VirtualKey key, const KeyFlags &flags)
 {
     KeyUpEventArgs args(key, flags);
     this->RaiseRoutedEvent(args);

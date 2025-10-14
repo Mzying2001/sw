@@ -102,7 +102,7 @@ void sw::TextBoxBase::OnCommand(int code)
     }
 }
 
-bool sw::TextBoxBase::OnChar(wchar_t ch, KeyFlags flags)
+bool sw::TextBoxBase::OnChar(wchar_t ch, const KeyFlags &flags)
 {
     GotCharEventArgs e(ch, flags);
     this->RaiseRoutedEvent(e);
@@ -116,7 +116,7 @@ bool sw::TextBoxBase::OnChar(wchar_t ch, KeyFlags flags)
     return e.handledMsg;
 }
 
-bool sw::TextBoxBase::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::TextBoxBase::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     KeyDownEventArgs e(key, flags);
     this->RaiseRoutedEvent(e);

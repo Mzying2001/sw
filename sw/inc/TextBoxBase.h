@@ -76,7 +76,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnChar(wchar_t ch, KeyFlags flags) override;
+        virtual bool OnChar(wchar_t ch, const KeyFlags &flags) override;
 
         /**
          * @brief       接收到WM_KEYDOWN时调用该函数
@@ -84,7 +84,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
+        virtual bool OnKeyDown(VirtualKey key, const KeyFlags &flags) override;
 
         /**
          * @brief     绘制虚线框时调用该函数

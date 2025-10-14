@@ -58,7 +58,7 @@ bool sw::DockSplitter::OnKillFocus(HWND hNextFocus)
     }
 }
 
-bool sw::DockSplitter::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::DockSplitter::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     if (TBase::OnKeyDown(key, flags))
         return true;

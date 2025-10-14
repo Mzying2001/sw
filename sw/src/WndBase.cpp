@@ -881,42 +881,42 @@ bool sw::WndBase::OnMouseMiddleButtonDoubleClick(const Point &mousePos, MouseKey
     return false;
 }
 
-bool sw::WndBase::OnChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnDeadChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnDeadChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnKeyUp(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnKeyUp(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnSysChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysDeadChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnSysDeadChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnSysKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysKeyUp(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnSysKeyUp(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }

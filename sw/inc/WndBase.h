@@ -474,7 +474,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnChar(wchar_t ch, KeyFlags flags);
+        virtual bool OnChar(wchar_t ch, const KeyFlags &flags);
 
         /**
          * @brief       接收到WM_DEADCHAR时调用该函数
@@ -482,7 +482,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnDeadChar(wchar_t ch, KeyFlags flags);
+        virtual bool OnDeadChar(wchar_t ch, const KeyFlags &flags);
 
         /**
          * @brief       接收到WM_KEYDOWN时调用该函数
@@ -490,7 +490,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags);
+        virtual bool OnKeyDown(VirtualKey key, const KeyFlags &flags);
 
         /**
          * @brief       接收到WM_KEYUP时调用该函数
@@ -498,7 +498,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyUp(VirtualKey key, KeyFlags flags);
+        virtual bool OnKeyUp(VirtualKey key, const KeyFlags &flags);
 
         /**
          * @brief       接收到WM_SYSCHAR时调用该函数
@@ -506,7 +506,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSysChar(wchar_t ch, KeyFlags flags);
+        virtual bool OnSysChar(wchar_t ch, const KeyFlags &flags);
 
         /**
          * @brief       接收到WM_SYSDEADCHAR时调用该函数
@@ -514,7 +514,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSysDeadChar(wchar_t ch, KeyFlags flags);
+        virtual bool OnSysDeadChar(wchar_t ch, const KeyFlags &flags);
 
         /**
          * @brief       接收到WM_SYSKEYDOWN时调用该函数
@@ -522,7 +522,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSysKeyDown(VirtualKey key, KeyFlags flags);
+        virtual bool OnSysKeyDown(VirtualKey key, const KeyFlags &flags);
 
         /**
          * @brief       接收到WM_SYSKEYUP时调用该函数
@@ -530,7 +530,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSysKeyUp(VirtualKey key, KeyFlags flags);
+        virtual bool OnSysKeyUp(VirtualKey key, const KeyFlags &flags);
 
         /**
          * @brief Visible属性改变时调用此函数
