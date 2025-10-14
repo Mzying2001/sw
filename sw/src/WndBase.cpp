@@ -1230,11 +1230,11 @@ sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd) noexcept
     static struct _InternalRaiiAtomHelper {
         ATOM value;
         _InternalRaiiAtomHelper() : value(GlobalAddAtomW(_WndBasePtrProp)) {}
-        ~_InternalRaiiAtomHelper()  { GlobalDeleteAtom(value); }
+        ~_InternalRaiiAtomHelper() { GlobalDeleteAtom(value); }
     } _atom;
     // clang-format on
 
-    auto p = reinterpret_cast<WndBase *>(GetPropW(hwnd, (LPWSTR)MAKEINTATOM(_atom.value)));
+    auto p = reinterpret_cast<WndBase *>(GetProp(hwnd, MAKEINTATOM(_atom.value)));
     return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
 }
 
