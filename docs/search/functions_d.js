@@ -5,7 +5,7 @@ var searchData=
   ['parentchanged_2',['parentchanged',['../classsw_1_1UIElement.html#a87b86762809c8e4a0ace610a977caa78',1,'sw::UIElement::ParentChanged()'],['../classsw_1_1WndBase.html#a4d09cfbc382789150798ff6ad3d9f988',1,'sw::WndBase::ParentChanged()']]],
   ['passwordbox_3',['PasswordBox',['../classsw_1_1PasswordBox.html#a5e6b907e4c80b16dc1691eb6271778f5',1,'sw::PasswordBox']]],
   ['play_4',['play',['../classsw_1_1Animation.html#aee480d333fe124e06cf43bc4acf3a1cb',1,'sw::Animation::Play(int times, int beginFrame, int endFrame)'],['../classsw_1_1Animation.html#a041e1a6e6614fdcadd5606a17e29f6b1',1,'sw::Animation::Play(int times=-1)']]],
-  ['point_5',['point',['../structsw_1_1Point.html#a85e96100b99b6408e986970d21ce5b5d',1,'sw::Point::Point()'],['../structsw_1_1Point.html#ae6a214a23a7b9128b3938e2bcc820b01',1,'sw::Point::Point(double x, double y)'],['../structsw_1_1Point.html#a03a3ffe0760d027e46f6a5579220c6df',1,'sw::Point::Point(const POINT &amp;point)']]],
+  ['point_5',['point',['../structsw_1_1Point.html#a9c251e1188e434e09bdb77b964dd177b',1,'sw::Point::Point()=default'],['../structsw_1_1Point.html#ae6a214a23a7b9128b3938e2bcc820b01',1,'sw::Point::Point(double x, double y)'],['../structsw_1_1Point.html#a03a3ffe0760d027e46f6a5579220c6df',1,'sw::Point::Point(const POINT &amp;point)']]],
   ['pointfromscreen_6',['PointFromScreen',['../classsw_1_1WndBase.html#a46d71fb0f2e544ce991e9934d2169dac',1,'sw::WndBase']]],
   ['pointtoscreen_7',['PointToScreen',['../classsw_1_1WndBase.html#a2cb522b29fd021790209ea52e1393042',1,'sw::WndBase']]],
   ['postmessagea_8',['PostMessageA',['../classsw_1_1WndBase.html#a4a37ba388e9d85339ffc749d427c541f',1,'sw::WndBase']]],

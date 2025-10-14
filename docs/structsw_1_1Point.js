@@ -1,6 +1,6 @@
 var structsw_1_1Point =
 [
-    [ "Point", "structsw_1_1Point.html#a85e96100b99b6408e986970d21ce5b5d", null ],
+    [ "Point", "structsw_1_1Point.html#a9c251e1188e434e09bdb77b964dd177b", null ],
     [ "Point", "structsw_1_1Point.html#ae6a214a23a7b9128b3938e2bcc820b01", null ],
     [ "Point", "structsw_1_1Point.html#a03a3ffe0760d027e46f6a5579220c6df", null ],
     [ "Equals", "structsw_1_1Point.html#aa1eb2ca2daf8fa5648fae52a0d41a26f", null ],

@@ -1,6 +1,6 @@
 var structsw_1_1Color =
 [
-    [ "Color", "structsw_1_1Color.html#aa0d9276e270e57dc0320dce6274106ba", null ],
+    [ "Color", "structsw_1_1Color.html#a9583e7f024015250d8ec94d1912c3c89", null ],
     [ "Color", "structsw_1_1Color.html#a377fdd6222c311557980e216d7fb4a73", null ],
     [ "Color", "structsw_1_1Color.html#a29d2604b27aa307de90e942e48e0c00a", null ],
     [ "Color", "structsw_1_1Color.html#aa42552f373fab2b4132c73de6febad58", null ],

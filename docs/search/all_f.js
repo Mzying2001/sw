@@ -11,7 +11,7 @@ var searchData=
   ['path_8',['Path',['../classsw_1_1Path.html',1,'sw']]],
   ['pitch_9',['pitch',['../classsw_1_1Font.html#ae48df531042cb4d94440eadbe61d532b',1,'sw::Font']]],
   ['play_10',['play',['../classsw_1_1Animation.html#a041e1a6e6614fdcadd5606a17e29f6b1',1,'sw::Animation::Play(int times=-1)'],['../classsw_1_1Animation.html#aee480d333fe124e06cf43bc4acf3a1cb',1,'sw::Animation::Play(int times, int beginFrame, int endFrame)']]],
-  ['point_11',['point',['../structsw_1_1Point.html',1,'sw::Point'],['../structsw_1_1Point.html#a03a3ffe0760d027e46f6a5579220c6df',1,'sw::Point::Point(const POINT &amp;point)'],['../structsw_1_1Point.html#ae6a214a23a7b9128b3938e2bcc820b01',1,'sw::Point::Point(double x, double y)'],['../structsw_1_1Point.html#a85e96100b99b6408e986970d21ce5b5d',1,'sw::Point::Point()']]],
+  ['point_11',['point',['../structsw_1_1Point.html',1,'sw::Point'],['../structsw_1_1Point.html#a03a3ffe0760d027e46f6a5579220c6df',1,'sw::Point::Point(const POINT &amp;point)'],['../structsw_1_1Point.html#ae6a214a23a7b9128b3938e2bcc820b01',1,'sw::Point::Point(double x, double y)'],['../structsw_1_1Point.html#a9c251e1188e434e09bdb77b964dd177b',1,'sw::Point::Point()=default']]],
   ['pointfromscreen_12',['PointFromScreen',['../classsw_1_1WndBase.html#a46d71fb0f2e544ce991e9934d2169dac',1,'sw::WndBase']]],
   ['pointtoscreen_13',['PointToScreen',['../classsw_1_1WndBase.html#a2cb522b29fd021790209ea52e1393042',1,'sw::WndBase']]],
   ['positionchangedeventargs_14',['PositionChangedEventArgs',['../structsw_1_1PositionChangedEventArgs.html',1,'sw']]],
