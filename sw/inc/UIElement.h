@@ -821,14 +821,14 @@ namespace sw
          * @param newClientPosition 移动后用户区左上角的位置
          * @return                  若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMove(Point newClientPosition) override;
+        virtual bool OnMove(const Point &newClientPosition) override;
 
         /**
          * @brief               接收到WM_SIZE时调用该函数
          * @param newClientSize 改变后的用户区尺寸
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSize(Size newClientSize) override;
+        virtual bool OnSize(const Size &newClientSize) override;
 
         /**
          * @brief Text属性更改时调用此函数
@@ -890,7 +890,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseMove(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief  接收到WM_MOUSELEAVE时调用该函数
@@ -905,7 +905,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseWheel(int wheelDelta, Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseWheel(int wheelDelta, const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_LBUTTONDOWN时调用该函数
@@ -913,7 +913,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseLeftButtonDown(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_LBUTTONUP时调用该函数
@@ -921,7 +921,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseLeftButtonUp(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_RBUTTONDOWN时调用该函数
@@ -929,7 +929,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseRightButtonDown(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseRightButtonDown(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_RBUTTONUP时调用该函数
@@ -937,7 +937,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseRightButtonUp(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseRightButtonUp(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_MBUTTONDOWN时调用该函数
@@ -945,7 +945,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMiddleButtonDown(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseMiddleButtonDown(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_MBUTTONUP时调用该函数
@@ -953,7 +953,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMiddleButtonUp(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseMiddleButtonUp(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
@@ -961,7 +961,7 @@ namespace sw
          * @param mousePosition 鼠标在屏幕中的位置
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override;
+        virtual bool OnContextMenu(bool isKeyboardMsg, const Point &mousePosition) override;
 
         /**
          * @brief    当WM_COMMAND接收到菜单命令时调用该函数

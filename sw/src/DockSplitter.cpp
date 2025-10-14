@@ -15,7 +15,7 @@ void sw::DockSplitter::CancelDrag(bool restoreSize)
     }
 }
 
-bool sw::DockSplitter::OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState)
+bool sw::DockSplitter::OnMouseLeftButtonDown(const Point &mousePosition, MouseKey keyState)
 {
     if (TBase::OnMouseLeftButtonDown(mousePosition, keyState))
         return true;
@@ -25,7 +25,7 @@ bool sw::DockSplitter::OnMouseLeftButtonDown(Point mousePosition, MouseKey keySt
     }
 }
 
-bool sw::DockSplitter::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState)
+bool sw::DockSplitter::OnMouseLeftButtonUp(const Point &mousePosition, MouseKey keyState)
 {
     if (TBase::OnMouseLeftButtonUp(mousePosition, keyState))
         return true;
@@ -36,7 +36,7 @@ bool sw::DockSplitter::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyStat
     }
 }
 
-bool sw::DockSplitter::OnMouseMove(Point mousePosition, MouseKey keyState)
+bool sw::DockSplitter::OnMouseMove(const Point &mousePosition, MouseKey keyState)
 {
     if (TBase::OnMouseMove(mousePosition, keyState))
         return true;

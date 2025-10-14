@@ -146,7 +146,7 @@ bool sw::BmpBox::OnPaint()
     return true;
 }
 
-bool sw::BmpBox::OnSize(Size newClientSize)
+bool sw::BmpBox::OnSize(const Size &newClientSize)
 {
     if (this->_sizeMode != BmpBoxSizeMode::Normal) {
         InvalidateRect(this->Handle, NULL, FALSE);
