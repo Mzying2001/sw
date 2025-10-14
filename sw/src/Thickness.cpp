@@ -2,18 +2,13 @@
 #include "Dip.h"
 #include "Utils.h"
 
-sw::Thickness::Thickness()
-    : Thickness(0, 0, 0, 0)
-{
-}
-
 sw::Thickness::Thickness(double thickness)
-    : Thickness(thickness, thickness, thickness, thickness)
+    : left(thickness), top(thickness), right(thickness), bottom(thickness)
 {
 }
 
 sw::Thickness::Thickness(double horizontal, double vertical)
-    : Thickness(horizontal, vertical, horizontal, vertical)
+    : left(horizontal), top(vertical), right(horizontal), bottom(vertical)
 {
 }
 

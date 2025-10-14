@@ -2,11 +2,6 @@
 #include "Dip.h"
 #include "Utils.h"
 
-sw::Point::Point()
-    : Point(0, 0)
-{
-}
-
 sw::Point::Point(double x, double y)
     : x(x), y(y)
 {

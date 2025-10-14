@@ -23,9 +23,9 @@ namespace sw
         double y;
 
         /**
-         * @brief 构造xy均为0的Point结构体
+         * @brief 默认构造函数
          */
-        Point();
+        Point() = default;
 
         /**
          * @brief 构造指定xy值的Point结构体

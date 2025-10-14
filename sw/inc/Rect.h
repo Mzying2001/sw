@@ -35,9 +35,9 @@ namespace sw
         double height;
 
         /**
-         * @brief 构造Rect
+         * @brief 默认构造函数
          */
-        Rect();
+        Rect() = default;
 
         /**
          * @brief 构造Rect

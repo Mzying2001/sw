@@ -33,9 +33,9 @@ namespace sw
         double bottom;
 
         /**
-         * @brief 构造一个四边都为0的Thickness结构体
+         * @brief 默认构造函数
          */
-        Thickness();
+        Thickness() = default;
 
         /**
          * @brief 构造一个四边都相同的Thickness结构体

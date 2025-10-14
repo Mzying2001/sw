@@ -23,9 +23,9 @@ namespace sw
         double height;
 
         /**
-         * @brief 构造宽高均为0的Size结构体
+         * @brief 默认构造函数
          */
-        Size();
+        Size() = default;
 
         /**
          * @brief 构造指定宽高的Size结构体

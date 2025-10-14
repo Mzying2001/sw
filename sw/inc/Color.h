@@ -31,12 +31,12 @@ namespace sw
         /**
          * @brief 保留字段
          */
-        uint8_t _reserved{0};
+        uint8_t _reserved;
 
         /**
-         * @brief 构造一个rgb分量均为0的Color结构体
+         * @brief 默认构造函数
          */
-        Color();
+        Color() = default;
 
         /**
          * @brief 通过rgb构造Color结构体

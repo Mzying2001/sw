@@ -1,18 +1,13 @@
 #include "Color.h"
 #include "Utils.h"
 
-sw::Color::Color()
-    : Color(0, 0, 0)
-{
-}
-
 sw::Color::Color(uint8_t r, uint8_t g, uint8_t b)
-    : r(r), g(g), b(b)
+    : r(r), g(g), b(b), _reserved(0)
 {
 }
 
 sw::Color::Color(KnownColor knownColor)
-    : Color(COLORREF(knownColor))
+    : Color(static_cast<COLORREF>(knownColor))
 {
 }
 
