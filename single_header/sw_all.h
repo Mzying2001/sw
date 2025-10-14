@@ -2248,12 +2248,12 @@ namespace sw
         /**
          * @brief 保留字段
          */
-        uint8_t _reserved{0};
+        uint8_t _reserved;
 
         /**
-         * @brief 构造一个rgb分量均为0的Color结构体
+         * @brief 默认构造函数
          */
-        Color();
+        Color() = default;
 
         /**
          * @brief 通过rgb构造Color结构体
@@ -2285,6 +2285,11 @@ namespace sw
          */
         std::wstring ToString() const;
     };
+
+    // Color应为POD类型
+    static_assert(
+        std::is_trivial<Color>::value && std::is_standard_layout<Color>::value,
+        "Color should be a POD type.");
 }
 
 // Keys.h
@@ -2296,12 +2301,28 @@ namespace sw
      * @brief https://learn.microsoft.com/en-us/windows/win32/inputdev/about-keyboard-input#keystroke-message-flags
      */
     struct KeyFlags {
-        uint16_t repeatCount;  // repeat count, > 0 if several keydown messages was combined into one message
-        uint8_t scanCode;      // scan code
-        bool isExtendedKey;    // extended-key flag, 1 if scancode has 0xE0 prefix
-        bool contextCode;      // indicates whether the ALT key was down
-        bool previousKeyState; // indicates whether the key that generated the keystroke message was previously up or down
-        bool transitionState;  // transition-state flag, 1 on keyup
+        // repeat count, > 0 if several keydown messages was combined into one message
+        uint16_t repeatCount;
+
+        // scan code
+        uint8_t scanCode;
+
+        // extended-key flag, 1 if scancode has 0xE0 prefix
+        bool isExtendedKey;
+
+        // indicates whether the ALT key was down
+        bool contextCode;
+
+        // indicates whether the key that generated the keystroke message was previously up or down
+        bool previousKeyState;
+
+        // transition-state flag, 1 on keyup
+        bool transitionState;
+
+        // 默认构造函数
+        KeyFlags() = default;
+
+        // 从lParam解析出各个字段
         KeyFlags(LPARAM lParam);
     };
 
@@ -2706,9 +2727,9 @@ namespace sw
         double y;
 
         /**
-         * @brief 构造xy均为0的Point结构体
+         * @brief 默认构造函数
          */
-        Point();
+        Point() = default;
 
         /**
          * @brief 构造指定xy值的Point结构体
@@ -2735,6 +2756,11 @@ namespace sw
          */
         std::wstring ToString() const;
     };
+
+    // Point应为POD类型
+    static_assert(
+        std::is_trivial<Point>::value && std::is_standard_layout<Point>::value,
+        "Point should be a POD type.");
 }
 
 // Property.h
@@ -4651,9 +4677,9 @@ namespace sw
         double height;
 
         /**
-         * @brief 构造宽高均为0的Size结构体
+         * @brief 默认构造函数
          */
-        Size();
+        Size() = default;
 
         /**
          * @brief 构造指定宽高的Size结构体
@@ -4680,6 +4706,11 @@ namespace sw
          */
         std::wstring ToString() const;
     };
+
+    // Size应为POD类型
+    static_assert(
+        std::is_trivial<Size>::value && std::is_standard_layout<Size>::value,
+        "Size should be a POD type.");
 }
 
 // Thickness.h
@@ -4713,9 +4744,9 @@ namespace sw
         double bottom;
 
         /**
-         * @brief 构造一个四边都为0的Thickness结构体
+         * @brief 默认构造函数
          */
-        Thickness();
+        Thickness() = default;
 
         /**
          * @brief 构造一个四边都相同的Thickness结构体
@@ -4752,6 +4783,11 @@ namespace sw
          */
         std::wstring ToString() const;
     };
+
+    // Thickness应为POD类型
+    static_assert(
+        std::is_trivial<Thickness>::value && std::is_standard_layout<Thickness>::value,
+        "Thickness should be a POD type.");
 }
 
 // App.h
@@ -5237,9 +5273,9 @@ namespace sw
         double height;
 
         /**
-         * @brief 构造Rect
+         * @brief 默认构造函数
          */
-        Rect();
+        Rect() = default;
 
         /**
          * @brief 构造Rect
@@ -5276,6 +5312,11 @@ namespace sw
          */
         std::wstring ToString() const;
     };
+
+    // Rect应为POD类型
+    static_assert(
+        std::is_trivial<Rect>::value && std::is_standard_layout<Rect>::value,
+        "Rect should be a POD type.");
 }
 
 // RoutedEventArgs.h
@@ -6944,14 +6985,14 @@ namespace sw
          * @param newClientPosition 移动后用户区左上角的位置
          * @return                  若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMove(Point newClientPosition);
+        virtual bool OnMove(const Point &newClientPosition);
 
         /**
          * @brief               接收到WM_SIZE时调用该函数
          * @param newClientSize 改变后的用户区尺寸
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSize(Size newClientSize);
+        virtual bool OnSize(const Size &newClientSize);
 
         /**
          * @brief Text属性更改时调用此函数
@@ -6978,7 +7019,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMove(Point mousePosition, MouseKey keyState);
+        virtual bool OnMouseMove(const Point &mousePosition, MouseKey keyState);
 
         /**
          * @brief  接收到WM_MOUSELEAVE时调用该函数
@@ -6993,7 +7034,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseWheel(int wheelDelta, Point mousePosition, MouseKey keyState);
+        virtual bool OnMouseWheel(int wheelDelta, const Point &mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_LBUTTONDOWN时调用该函数
@@ -7001,7 +7042,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState);
+        virtual bool OnMouseLeftButtonDown(const Point &mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_LBUTTONUP时调用该函数
@@ -7009,7 +7050,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState);
+        virtual bool OnMouseLeftButtonUp(const Point &mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_LBUTTONDBLCLK时调用该函数
@@ -7017,7 +7058,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseLeftButtonDoubleClick(Point mousePosition, MouseKey keyState);
+        virtual bool OnMouseLeftButtonDoubleClick(const Point &mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_RBUTTONDOWN时调用该函数
@@ -7025,7 +7066,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseRightButtonDown(Point mousePosition, MouseKey keyState);
+        virtual bool OnMouseRightButtonDown(const Point &mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_RBUTTONUP时调用该函数
@@ -7033,7 +7074,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseRightButtonUp(Point mousePosition, MouseKey keyState);
+        virtual bool OnMouseRightButtonUp(const Point &mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_RBUTTONDBLCLK时调用该函数
@@ -7041,7 +7082,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseRightButtonDoubleClick(Point mousePosition, MouseKey keyState);
+        virtual bool OnMouseRightButtonDoubleClick(const Point &mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_MBUTTONDOWN时调用该函数
@@ -7049,7 +7090,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMiddleButtonDown(Point mousePosition, MouseKey keyState);
+        virtual bool OnMouseMiddleButtonDown(const Point &mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_MBUTTONUP时调用该函数
@@ -7057,7 +7098,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMiddleButtonUp(Point mousePosition, MouseKey keyState);
+        virtual bool OnMouseMiddleButtonUp(const Point &mousePosition, MouseKey keyState);
 
         /**
          * @brief               接收到WM_MBUTTONDBLCLK时调用该函数
@@ -7065,7 +7106,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMiddleButtonDoubleClick(Point mousePosition, MouseKey keyState);
+        virtual bool OnMouseMiddleButtonDoubleClick(const Point &mousePosition, MouseKey keyState);
 
         /**
          * @brief       接收到WM_CHAR时调用该函数
@@ -7073,7 +7114,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnChar(wchar_t ch, KeyFlags flags);
+        virtual bool OnChar(wchar_t ch, const KeyFlags &flags);
 
         /**
          * @brief       接收到WM_DEADCHAR时调用该函数
@@ -7081,7 +7122,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnDeadChar(wchar_t ch, KeyFlags flags);
+        virtual bool OnDeadChar(wchar_t ch, const KeyFlags &flags);
 
         /**
          * @brief       接收到WM_KEYDOWN时调用该函数
@@ -7089,7 +7130,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags);
+        virtual bool OnKeyDown(VirtualKey key, const KeyFlags &flags);
 
         /**
          * @brief       接收到WM_KEYUP时调用该函数
@@ -7097,7 +7138,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyUp(VirtualKey key, KeyFlags flags);
+        virtual bool OnKeyUp(VirtualKey key, const KeyFlags &flags);
 
         /**
          * @brief       接收到WM_SYSCHAR时调用该函数
@@ -7105,7 +7146,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSysChar(wchar_t ch, KeyFlags flags);
+        virtual bool OnSysChar(wchar_t ch, const KeyFlags &flags);
 
         /**
          * @brief       接收到WM_SYSDEADCHAR时调用该函数
@@ -7113,7 +7154,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSysDeadChar(wchar_t ch, KeyFlags flags);
+        virtual bool OnSysDeadChar(wchar_t ch, const KeyFlags &flags);
 
         /**
          * @brief       接收到WM_SYSKEYDOWN时调用该函数
@@ -7121,7 +7162,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSysKeyDown(VirtualKey key, KeyFlags flags);
+        virtual bool OnSysKeyDown(VirtualKey key, const KeyFlags &flags);
 
         /**
          * @brief       接收到WM_SYSKEYUP时调用该函数
@@ -7129,7 +7170,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSysKeyUp(VirtualKey key, KeyFlags flags);
+        virtual bool OnSysKeyUp(VirtualKey key, const KeyFlags &flags);
 
         /**
          * @brief Visible属性改变时调用此函数
@@ -7202,7 +7243,7 @@ namespace sw
          * @param mousePosition 鼠标在屏幕中的位置
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition);
+        virtual bool OnContextMenu(bool isKeyboardMsg, const Point &mousePosition);
 
         /**
          * @brief       接收到WM_MENUSELECT后调用该函数
@@ -8739,6 +8780,12 @@ namespace sw
         virtual void OnRemovedChild(UIElement &element);
 
         /**
+         * @brief         通过tab键将焦点从当前元素移出时调用该函数
+         * @param forward 指示焦点移动的方向，true表示向后移动，false表示向前移动
+         */
+        virtual void OnTabMove(bool forward);
+
+        /**
          * @brief 通过tab键将焦点移动到当前元素时调用该函数
          */
         virtual void OnTabStop();
@@ -8779,14 +8826,14 @@ namespace sw
          * @param newClientPosition 移动后用户区左上角的位置
          * @return                  若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMove(Point newClientPosition) override;
+        virtual bool OnMove(const Point &newClientPosition) override;
 
         /**
          * @brief               接收到WM_SIZE时调用该函数
          * @param newClientSize 改变后的用户区尺寸
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSize(Size newClientSize) override;
+        virtual bool OnSize(const Size &newClientSize) override;
 
         /**
          * @brief Text属性更改时调用此函数
@@ -8824,7 +8871,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnChar(wchar_t ch, KeyFlags flags) override;
+        virtual bool OnChar(wchar_t ch, const KeyFlags &flags) override;
 
         /**
          * @brief       接收到WM_KEYDOWN时调用该函数
@@ -8832,7 +8879,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
+        virtual bool OnKeyDown(VirtualKey key, const KeyFlags &flags) override;
 
         /**
          * @brief       接收到WM_KEYUP时调用该函数
@@ -8840,7 +8887,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyUp(VirtualKey key, KeyFlags flags) override;
+        virtual bool OnKeyUp(VirtualKey key, const KeyFlags &flags) override;
 
         /**
          * @brief               接收到WM_MOUSEMOVE时调用该函数
@@ -8848,7 +8895,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseMove(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief  接收到WM_MOUSELEAVE时调用该函数
@@ -8863,7 +8910,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseWheel(int wheelDelta, Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseWheel(int wheelDelta, const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_LBUTTONDOWN时调用该函数
@@ -8871,7 +8918,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseLeftButtonDown(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_LBUTTONUP时调用该函数
@@ -8879,7 +8926,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseLeftButtonUp(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_RBUTTONDOWN时调用该函数
@@ -8887,7 +8934,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseRightButtonDown(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseRightButtonDown(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_RBUTTONUP时调用该函数
@@ -8895,7 +8942,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseRightButtonUp(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseRightButtonUp(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_MBUTTONDOWN时调用该函数
@@ -8903,7 +8950,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMiddleButtonDown(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseMiddleButtonDown(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_MBUTTONUP时调用该函数
@@ -8911,7 +8958,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMiddleButtonUp(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseMiddleButtonUp(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
@@ -8919,7 +8966,7 @@ namespace sw
          * @param mousePosition 鼠标在屏幕中的位置
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override;
+        virtual bool OnContextMenu(bool isKeyboardMsg, const Point &mousePosition) override;
 
         /**
          * @brief    当WM_COMMAND接收到菜单命令时调用该函数
@@ -9372,9 +9419,9 @@ namespace sw
     {
     private:
         /**
-         * @brief 是否绘制虚线框
+         * @brief 当前控件是否是通过按下Tab键获得的焦点
          */
-        bool _drawFocusRect = false;
+        bool _focusedViaTab = false;
 
         /**
          * @brief 标记当前控件是否响应了NM_CUSTOMDRAW消息
@@ -9392,6 +9439,11 @@ namespace sw
          * @note  当控件已创建并且被添加到任意父窗口（可以是其他框架窗口）时该值为true
          */
         const ReadOnlyProperty<bool> IsInHierarchy;
+
+        /**
+         * @brief 当前控件是否是通过按下Tab键获得的焦点
+         */
+        const ReadOnlyProperty<bool> IsFocusedViaTab;
 
     public:
         /**
@@ -11185,7 +11237,7 @@ namespace sw
          * @param newClientSize 改变后的用户区尺寸
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSize(Size newClientSize) override;
+        virtual bool OnSize(const Size &newClientSize) override;
     };
 }
 
@@ -11515,15 +11567,26 @@ namespace sw
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
+         * @brief     绘制虚线框时调用该函数
+         * @param hdc 绘制设备句柄
+         */
+        virtual void OnDrawFocusRect(HDC hdc) override;
+
+        /**
          * @brief SelectedIndex属性更改时调用该函数
          */
         virtual void OnSelectedIndexChanged();
 
     private:
         /**
+         * @brief 设置标签位置
+         */
+        void _SetTabAlignment(TabAlignment value);
+
+        /**
          * @brief 根据选中的tab更新子元素的Visible属性
          */
-        void _UpdateChildVisible();
+        void _UpdateChildVisible(bool invalidMeasure = true);
 
         /**
          * @brief 发送TCM_INSERTITEMW消息
@@ -11639,7 +11702,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnChar(wchar_t ch, KeyFlags flags) override;
+        virtual bool OnChar(wchar_t ch, const KeyFlags &flags) override;
 
         /**
          * @brief       接收到WM_KEYDOWN时调用该函数
@@ -11647,7 +11710,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
+        virtual bool OnKeyDown(VirtualKey key, const KeyFlags &flags) override;
 
         /**
          * @brief     绘制虚线框时调用该函数
@@ -12158,7 +12221,7 @@ namespace sw
          * @param newClientSize 改变后的用户区尺寸
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSize(Size newClientSize) override;
+        virtual bool OnSize(const Size &newClientSize) override;
 
         /**
          * @brief        接收到WM_ERASEBKGND时调用该函数
@@ -12245,7 +12308,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
+        virtual bool OnKeyDown(VirtualKey key, const KeyFlags &flags) override;
     };
 }
 
@@ -12586,7 +12649,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
+        virtual bool OnKeyDown(VirtualKey key, const KeyFlags &flags) override;
     };
 }
 
@@ -12650,7 +12713,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseLeftButtonDown(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_LBUTTONUP时调用该函数
@@ -12658,7 +12721,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseLeftButtonUp(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_MOUSEMOVE时调用该函数
@@ -12666,7 +12729,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseMove(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief            接收到WM_KILLFOCUS时调用该函数
@@ -12681,7 +12744,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
+        virtual bool OnKeyDown(VirtualKey key, const KeyFlags &flags) override;
 
         /**
          * @brief         接收到WM_SETCURSOR消息时调用该函数
@@ -13631,7 +13694,7 @@ namespace sw
          * @param newClientSize 改变后的用户区尺寸
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSize(Size newClientSize) override;
+        virtual bool OnSize(const Size &newClientSize) override;
 
         /**
          * @brief  接收到WM_DESTROY时调用该函数
@@ -13818,7 +13881,7 @@ namespace sw
          * @param newClientSize 改变后的用户区尺寸
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSize(Size newClientSize) override;
+        virtual bool OnSize(const Size &newClientSize) override;
 
         /**
          * @brief Text属性更改时调用此函数
@@ -13915,7 +13978,7 @@ namespace sw
          * @param mousePosition 鼠标在屏幕中的位置
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override;
+        virtual bool OnContextMenu(bool isKeyboardMsg, const Point &mousePosition) override;
 
         /**
          * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
@@ -14629,7 +14692,7 @@ namespace sw
          * @param newClientSize 改变后的用户区尺寸
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSize(Size newClientSize) override;
+        virtual bool OnSize(const Size &newClientSize) override;
 
         /**
          * @brief            接收到WM_KILLFOCUS时调用该函数
@@ -15146,7 +15209,7 @@ namespace sw
          * @param mousePosition 鼠标在屏幕中的位置
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override;
+        virtual bool OnContextMenu(bool isKeyboardMsg, const Point &mousePosition) override;
     };
 }
 

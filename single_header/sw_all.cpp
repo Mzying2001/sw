@@ -336,7 +336,7 @@ bool sw::BmpBox::OnPaint()
     return true;
 }
 
-bool sw::BmpBox::OnSize(Size newClientSize)
+bool sw::BmpBox::OnSize(const Size &newClientSize)
 {
     if (this->_sizeMode != BmpBoxSizeMode::Normal) {
         InvalidateRect(this->Handle, NULL, FALSE);
@@ -432,7 +432,7 @@ bool sw::Button::OnKillFocus(HWND hNextFocus)
     return this->ButtonBase::OnKillFocus(hNextFocus);
 }
 
-bool sw::Button::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::Button::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     bool result = this->UIElement::OnKeyDown(key, flags);
 
@@ -712,18 +712,13 @@ sw::CheckableButton::~CheckableButton()
 
 // Color.cpp
 
-sw::Color::Color()
-    : Color(0, 0, 0)
-{
-}
-
 sw::Color::Color(uint8_t r, uint8_t g, uint8_t b)
-    : r(r), g(g), b(b)
+    : r(r), g(g), b(b), _reserved(0)
 {
 }
 
 sw::Color::Color(KnownColor knownColor)
-    : Color(COLORREF(knownColor))
+    : Color(static_cast<COLORREF>(knownColor))
 {
 }
 
@@ -1067,7 +1062,7 @@ bool sw::CommandLink::OnKillFocus(HWND hNextFocus)
     return ButtonBase::OnKillFocus(hNextFocus);
 }
 
-bool sw::CommandLink::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::CommandLink::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     bool result = UIElement::OnKeyDown(key, flags);
 
@@ -1130,6 +1125,12 @@ sw::Control::Control()
               }
               auto container = WndBase::_GetControlInitContainer();
               return container == nullptr || GetParent(_hwnd) != container->_hwnd;
+          }),
+
+      IsFocusedViaTab(
+          // get
+          [this]() -> bool {
+              return _focusedViaTab;
           })
 {
 }
@@ -1212,19 +1213,19 @@ bool sw::Control::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 
 bool sw::Control::OnKillFocus(HWND hNextFocus)
 {
-    _drawFocusRect = false;
+    _focusedViaTab = false;
     return UIElement::OnKillFocus(hNextFocus);
 }
 
 void sw::Control::OnTabStop()
 {
-    _drawFocusRect = true;
     UIElement::OnTabStop();
+    _focusedViaTab = true;
 }
 
 void sw::Control::OnEndPaint()
 {
-    if (!_hasCustomDraw && _drawFocusRect) {
+    if (!_hasCustomDraw && _focusedViaTab) {
         HDC hdc = GetDC(_hwnd);
         OnDrawFocusRect(hdc);
         ReleaseDC(_hwnd, hdc);
@@ -1273,7 +1274,7 @@ bool sw::Control::OnPrePaint(HDC hdc, LRESULT &result)
 
 bool sw::Control::OnPostPaint(HDC hdc, LRESULT &result)
 {
-    if (_drawFocusRect) {
+    if (_focusedViaTab) {
         OnDrawFocusRect(hdc);
     }
     return false;
@@ -1725,7 +1726,7 @@ void sw::DockSplitter::CancelDrag(bool restoreSize)
     }
 }
 
-bool sw::DockSplitter::OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState)
+bool sw::DockSplitter::OnMouseLeftButtonDown(const Point &mousePosition, MouseKey keyState)
 {
     if (TBase::OnMouseLeftButtonDown(mousePosition, keyState))
         return true;
@@ -1735,7 +1736,7 @@ bool sw::DockSplitter::OnMouseLeftButtonDown(Point mousePosition, MouseKey keySt
     }
 }
 
-bool sw::DockSplitter::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState)
+bool sw::DockSplitter::OnMouseLeftButtonUp(const Point &mousePosition, MouseKey keyState)
 {
     if (TBase::OnMouseLeftButtonUp(mousePosition, keyState))
         return true;
@@ -1746,7 +1747,7 @@ bool sw::DockSplitter::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyStat
     }
 }
 
-bool sw::DockSplitter::OnMouseMove(Point mousePosition, MouseKey keyState)
+bool sw::DockSplitter::OnMouseMove(const Point &mousePosition, MouseKey keyState)
 {
     if (TBase::OnMouseMove(mousePosition, keyState))
         return true;
@@ -1768,7 +1769,7 @@ bool sw::DockSplitter::OnKillFocus(HWND hNextFocus)
     }
 }
 
-bool sw::DockSplitter::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::DockSplitter::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     if (TBase::OnKeyDown(key, flags))
         return true;
@@ -3526,7 +3527,7 @@ void sw::HwndHost::InitHwndHost()
         this->_hWindowCore = this->BuildWindowCore(this->Handle);
 }
 
-bool sw::HwndHost::OnSize(Size newClientSize)
+bool sw::HwndHost::OnSize(const Size &newClientSize)
 {
     if (this->_hWindowCore != NULL && this->_fillContent) {
         SetWindowPos(this->_hWindowCore, NULL, 0, 0,
@@ -4205,7 +4206,7 @@ sw::Label::Label()
     this->InheritTextColor = true;
 }
 
-bool sw::Label::OnSize(Size newClientSize)
+bool sw::Label::OnSize(const Size &newClientSize)
 {
     this->Redraw();
     return StaticControl::OnSize(newClientSize);
@@ -4960,7 +4961,7 @@ std::wstring sw::ListBox::GetSelectedItem()
     return this->GetItemAt(this->GetSelectedIndex());
 }
 
-bool sw::ListBox::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+bool sw::ListBox::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
 {
     int index = this->GetItemIndexFromPoint(this->PointFromScreen(mousePosition));
 
@@ -6795,11 +6796,6 @@ std::wstring sw::Path::GetAbsolutePath(const std::wstring &path)
 
 // Point.cpp
 
-sw::Point::Point()
-    : Point(0, 0)
-{
-}
-
 sw::Point::Point(double x, double y)
     : x(x), y(y)
 {
@@ -6937,11 +6933,6 @@ sw::RadioButton::RadioButton()
 
 // Rect.cpp
 
-sw::Rect::Rect()
-    : Rect(0, 0, 0, 0)
-{
-}
-
 sw::Rect::Rect(double left, double top, double width, double height)
     : left(left), top(top), width(width), height(height)
 {
@@ -7016,11 +7007,6 @@ const sw::ReadOnlyProperty<sw::Point> sw::Screen::CursorPosition(
 );
 
 // Size.cpp
-
-sw::Size::Size()
-    : Size(0, 0)
-{
-}
 
 sw::Size::Size(double width, double height)
     : width(width), height(height)
@@ -7264,7 +7250,7 @@ void sw::SpinBox::OnHandleChanged(HWND hwnd)
     _InitSpinBox();
 }
 
-bool sw::SpinBox::OnSize(Size newClientSize)
+bool sw::SpinBox::OnSize(const Size &newClientSize)
 {
     _UpdateUpDownPos();
     return TextBoxBase::OnSize(newClientSize);
@@ -7399,7 +7385,7 @@ bool sw::SplitButton::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     }
 }
 
-bool sw::SplitButton::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+bool sw::SplitButton::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
 {
     if (ContextMenu == nullptr) {
         return false;
@@ -7502,7 +7488,7 @@ bool sw::Splitter::OnPaint()
     return true;
 }
 
-bool sw::Splitter::OnSize(Size newClientSize)
+bool sw::Splitter::OnSize(const Size &newClientSize)
 {
     InvalidateRect(Handle, NULL, FALSE);
     return UIElement::OnSize(newClientSize);
@@ -7878,60 +7864,7 @@ sw::TabControl::TabControl()
           },
           // set
           [this](const TabAlignment &value) {
-              auto oldStyle = this->GetStyle();
-              auto style    = oldStyle;
-
-              switch (value) {
-                  case TabAlignment::Top: {
-                      style &= ~(TCS_VERTICAL | TCS_BOTTOM);
-                      break;
-                  }
-                  case TabAlignment::Bottom: {
-                      style &= ~TCS_VERTICAL;
-                      style |= TCS_BOTTOM;
-                      break;
-                  }
-                  case TabAlignment::Left: {
-                      style |= (TCS_VERTICAL | TCS_MULTILINE);
-                      style &= ~TCS_RIGHT;
-                      break;
-                  }
-                  case TabAlignment::Right: {
-                      style |= (TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHT);
-                      break;
-                  }
-              }
-
-              if (style == oldStyle) {
-                  return;
-              } else {
-                  this->SetStyle(style);
-              }
-
-              // 特定情况下需要重新创建控件
-              if ((style & TCS_VERTICAL) ||                               // TCS_VERTICAL位为1
-                  ((style & TCS_VERTICAL) ^ (oldStyle & TCS_VERTICAL))) { // TCS_VERTICAL位改变
-
-                  int selectedIndex = this->SelectedIndex;
-                  int childCount    = this->ChildCount;
-
-                  std::vector<UIElement *> children;
-                  children.reserve(childCount);
-                  for (int i = childCount - 1; i >= 0; --i) {
-                      children.push_back(&this->GetChildAt(i));
-                      this->RemoveChildAt(i);
-                  }
-
-                  this->ResetHandle();
-                  for (int i = childCount - 1; i >= 0; --i) {
-                      this->AddChild(children[i]);
-                  }
-
-                  this->SelectedIndex = selectedIndex;
-
-              } else {
-                  this->InvalidateMeasure();
-              }
+              this->_SetTabAlignment(value);
           }),
 
       MultiLine(
@@ -7959,7 +7892,9 @@ sw::TabControl::TabControl()
           })
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
-    this->Rect = sw::Rect(0, 0, 200, 200);
+
+    this->Rect    = sw::Rect(0, 0, 200, 200);
+    this->TabStop = true;
     this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::FontChanged;
 }
 
@@ -8040,7 +7975,7 @@ void sw::TabControl::OnAddedChild(UIElement &element)
 void sw::TabControl::OnRemovedChild(UIElement &element)
 {
     this->UpdateTab();
-    this->_UpdateChildVisible();
+    this->_UpdateChildVisible(false);
     this->UIElement::OnRemovedChild(element);
 }
 
@@ -8105,31 +8040,91 @@ bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     return this->Control::OnNotified(pNMHDR, result);
 }
 
+void sw::TabControl::OnDrawFocusRect(HDC hdc)
+{
+    // 不绘制虚线框
+}
+
 void sw::TabControl::OnSelectedIndexChanged()
 {
     this->_UpdateChildVisible();
     this->RaiseRoutedEvent(TabControl_SelectedIndexChanged);
 }
 
-void sw::TabControl::_UpdateChildVisible()
+void sw::TabControl::_SetTabAlignment(TabAlignment value)
+{
+    auto oldStyle = this->GetStyle();
+    auto style    = oldStyle;
+
+    switch (value) {
+        case TabAlignment::Top: {
+            style &= ~(TCS_VERTICAL | TCS_BOTTOM);
+            break;
+        }
+        case TabAlignment::Bottom: {
+            style &= ~TCS_VERTICAL;
+            style |= TCS_BOTTOM;
+            break;
+        }
+        case TabAlignment::Left: {
+            style |= (TCS_VERTICAL | TCS_MULTILINE);
+            style &= ~TCS_RIGHT;
+            break;
+        }
+        case TabAlignment::Right: {
+            style |= (TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHT);
+            break;
+        }
+    }
+
+    if (style == oldStyle) {
+        return;
+    } else {
+        this->SetStyle(style);
+    }
+
+    // 特定情况下需要重新创建控件
+    if ((style & TCS_VERTICAL) ||                               // TCS_VERTICAL位为1
+        ((style & TCS_VERTICAL) ^ (oldStyle & TCS_VERTICAL))) { // TCS_VERTICAL位改变
+
+        this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
+
+        int selectedIndex = this->SelectedIndex;
+        int childCount    = this->ChildCount;
+
+        std::vector<UIElement *> children;
+        children.reserve(childCount);
+
+        for (int i = childCount - 1; i >= 0; --i) {
+            children.push_back(&this->GetChildAt(i));
+            this->RemoveChildAt(i);
+        }
+
+        this->ResetHandle();
+
+        while (!children.empty()) {
+            this->AddChild(children.back());
+            children.pop_back();
+        }
+
+        this->SelectedIndex = selectedIndex;
+        this->LayoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
+    }
+
+    this->InvalidateMeasure();
+}
+
+void sw::TabControl::_UpdateChildVisible(bool invalidMeasure)
 {
     int selectedIndex = this->SelectedIndex;
     int childCount    = this->ChildCount;
 
     for (int i = 0; i < childCount; ++i) {
         auto &item = this->GetChildAt(i);
-        HWND hwnd  = item.Handle;
-        if (i != selectedIndex) {
-            ShowWindow(hwnd, SW_HIDE);
-        } else {
-            sw::Rect contentRect = this->ContentRect;
-            item.Measure(contentRect.GetSize());
-            item.Arrange(contentRect);
-            ShowWindow(hwnd, SW_SHOW);
-        }
+        ShowWindow(item.Handle, i == selectedIndex ? SW_SHOW : SW_HIDE);
     }
 
-    if (this->_autoSize) {
+    if (invalidMeasure) {
         this->InvalidateMeasure();
     }
 }
@@ -8344,7 +8339,7 @@ void sw::TextBoxBase::OnCommand(int code)
     }
 }
 
-bool sw::TextBoxBase::OnChar(wchar_t ch, KeyFlags flags)
+bool sw::TextBoxBase::OnChar(wchar_t ch, const KeyFlags &flags)
 {
     GotCharEventArgs e(ch, flags);
     this->RaiseRoutedEvent(e);
@@ -8358,14 +8353,14 @@ bool sw::TextBoxBase::OnChar(wchar_t ch, KeyFlags flags)
     return e.handledMsg;
 }
 
-bool sw::TextBoxBase::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::TextBoxBase::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     KeyDownEventArgs e(key, flags);
     this->RaiseRoutedEvent(e);
 
     if (!e.handledMsg && key == VirtualKey::Tab && (!this->_acceptTab || this->ReadOnly)) {
         bool shiftDown = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-        shiftDown ? this->SetPreviousTabStopFocus() : this->SetNextTabStopFocus();
+        this->OnTabMove(!shiftDown);
     }
 
     return e.handledMsg;
@@ -8403,18 +8398,13 @@ void sw::TextBoxBase::Clear()
 
 // Thickness.cpp
 
-sw::Thickness::Thickness()
-    : Thickness(0, 0, 0, 0)
-{
-}
-
 sw::Thickness::Thickness(double thickness)
-    : Thickness(thickness, thickness, thickness, thickness)
+    : left(thickness), top(thickness), right(thickness), bottom(thickness)
 {
 }
 
 sw::Thickness::Thickness(double horizontal, double vertical)
-    : Thickness(horizontal, vertical, horizontal, vertical)
+    : left(horizontal), top(vertical), right(horizontal), bottom(vertical)
 {
 }
 
@@ -9682,6 +9672,15 @@ void sw::UIElement::OnRemovedChild(UIElement &element)
     }
 }
 
+void sw::UIElement::OnTabMove(bool forward)
+{
+    if (forward) {
+        this->SetNextTabStopFocus();
+    } else {
+        this->SetPreviousTabStopFocus();
+    }
+}
+
 void sw::UIElement::OnTabStop()
 {
     this->Focused = true;
@@ -9764,7 +9763,7 @@ bool sw::UIElement::OnClose()
     return this->WndBase::OnClose();
 }
 
-bool sw::UIElement::OnMove(Point newClientPosition)
+bool sw::UIElement::OnMove(const Point &newClientPosition)
 {
     PositionChangedEventArgs args(newClientPosition);
     this->RaiseRoutedEvent(args);
@@ -9775,7 +9774,7 @@ bool sw::UIElement::OnMove(Point newClientPosition)
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnSize(Size newClientSize)
+bool sw::UIElement::OnSize(const Size &newClientSize)
 {
     if (this->_horizontalAlignment != sw::HorizontalAlignment::Stretch) {
         this->_origionalSize.width = this->Width;
@@ -9833,14 +9832,14 @@ bool sw::UIElement::OnKillFocus(HWND hNextFocus)
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnChar(wchar_t ch, KeyFlags flags)
+bool sw::UIElement::OnChar(wchar_t ch, const KeyFlags &flags)
 {
     GotCharEventArgs args(ch, flags);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::UIElement::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     KeyDownEventArgs args(key, flags);
     this->RaiseRoutedEvent(args);
@@ -9848,20 +9847,20 @@ bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
     // 实现按下Tab键转移焦点
     if (!args.handledMsg && key == VirtualKey::Tab) {
         bool shiftDown = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-        shiftDown ? this->SetPreviousTabStopFocus() : this->SetNextTabStopFocus();
+        this->OnTabMove(!shiftDown);
     }
 
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnKeyUp(VirtualKey key, KeyFlags flags)
+bool sw::UIElement::OnKeyUp(VirtualKey key, const KeyFlags &flags)
 {
     KeyUpEventArgs args(key, flags);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseMove(Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseMove(const Point &mousePosition, MouseKey keyState)
 {
     MouseMoveEventArgs args(mousePosition, keyState);
     this->RaiseRoutedEvent(args);
@@ -9875,56 +9874,56 @@ bool sw::UIElement::OnMouseLeave()
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseWheel(int wheelDelta, Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseWheel(int wheelDelta, const Point &mousePosition, MouseKey keyState)
 {
     MouseWheelEventArgs args(wheelDelta, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseLeftButtonDown(const Point &mousePosition, MouseKey keyState)
 {
     MouseButtonDownEventArgs args(MouseKey::MouseLeft, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseLeftButtonUp(const Point &mousePosition, MouseKey keyState)
 {
     MouseButtonUpEventArgs args(MouseKey::MouseLeft, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseRightButtonDown(Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseRightButtonDown(const Point &mousePosition, MouseKey keyState)
 {
     MouseButtonDownEventArgs args(MouseKey::MouseRight, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseRightButtonUp(Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseRightButtonUp(const Point &mousePosition, MouseKey keyState)
 {
     MouseButtonUpEventArgs args(MouseKey::MouseRight, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseMiddleButtonDown(Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseMiddleButtonDown(const Point &mousePosition, MouseKey keyState)
 {
     MouseButtonDownEventArgs args(MouseKey::MouseMiddle, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseMiddleButtonUp(Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseMiddleButtonUp(const Point &mousePosition, MouseKey keyState)
 {
     MouseButtonUpEventArgs args(MouseKey::MouseMiddle, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
 {
     if (this->_contextMenu == nullptr) {
         return false;
@@ -11673,12 +11672,12 @@ void sw::WndBase::OnEndNcPaint()
 {
 }
 
-bool sw::WndBase::OnMove(Point newClientPosition)
+bool sw::WndBase::OnMove(const Point &newClientPosition)
 {
     return false;
 }
 
-bool sw::WndBase::OnSize(Size newClientSize)
+bool sw::WndBase::OnSize(const Size &newClientSize)
 {
     return false;
 }
@@ -11697,7 +11696,7 @@ bool sw::WndBase::OnKillFocus(HWND hNextFocus)
     return false;
 }
 
-bool sw::WndBase::OnMouseMove(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMove(const Point &mousePosition, MouseKey keyState)
 {
     return false;
 }
@@ -11707,92 +11706,92 @@ bool sw::WndBase::OnMouseLeave()
     return false;
 }
 
-bool sw::WndBase::OnMouseWheel(int wheelDelta, Point mousePosition, MouseKey keyState)
+bool sw::WndBase::OnMouseWheel(int wheelDelta, const Point &mousePosition, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseLeftButtonDown(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseLeftButtonDown(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseLeftButtonUp(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseLeftButtonUp(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseLeftButtonDoubleClick(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseLeftButtonDoubleClick(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseRightButtonDown(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseRightButtonDown(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseRightButtonUp(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseRightButtonUp(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseRightButtonDoubleClick(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseRightButtonDoubleClick(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseMiddleButtonDown(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMiddleButtonDown(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseMiddleButtonUp(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMiddleButtonUp(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseMiddleButtonDoubleClick(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMiddleButtonDoubleClick(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnDeadChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnDeadChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnKeyUp(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnKeyUp(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnSysChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysDeadChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnSysDeadChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnSysKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysKeyUp(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnSysKeyUp(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
@@ -11856,7 +11855,7 @@ bool sw::WndBase::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, boo
     return false;
 }
 
-bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
 {
     return false;
 }
