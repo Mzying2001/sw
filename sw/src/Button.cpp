@@ -40,7 +40,7 @@ bool sw::Button::OnKillFocus(HWND hNextFocus)
     return this->ButtonBase::OnKillFocus(hNextFocus);
 }
 
-bool sw::Button::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::Button::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     bool result = this->UIElement::OnKeyDown(key, flags);
 

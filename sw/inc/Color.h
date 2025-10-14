@@ -5,6 +5,7 @@
 #include "KnownColor.h"
 #include <cstdint>
 #include <string>
+#include <type_traits>
 
 namespace sw
 {
@@ -31,12 +32,12 @@ namespace sw
         /**
          * @brief 保留字段
          */
-        uint8_t _reserved{0};
+        uint8_t _reserved;
 
         /**
-         * @brief 构造一个rgb分量均为0的Color结构体
+         * @brief 默认构造函数
          */
-        Color();
+        Color() = default;
 
         /**
          * @brief 通过rgb构造Color结构体
@@ -68,4 +69,9 @@ namespace sw
          */
         std::wstring ToString() const;
     };
+
+    // Color应为POD类型
+    static_assert(
+        std::is_trivial<Color>::value && std::is_standard_layout<Color>::value,
+        "Color should be a POD type.");
 }

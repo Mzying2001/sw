@@ -87,7 +87,7 @@ bool sw::Splitter::OnPaint()
     return true;
 }
 
-bool sw::Splitter::OnSize(Size newClientSize)
+bool sw::Splitter::OnSize(const Size &newClientSize)
 {
     InvalidateRect(Handle, NULL, FALSE);
     return UIElement::OnSize(newClientSize);

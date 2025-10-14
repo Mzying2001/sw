@@ -103,7 +103,7 @@ namespace sw
          * @param newClientSize 改变后的用户区尺寸
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSize(Size newClientSize) override;
+        virtual bool OnSize(const Size &newClientSize) override;
 
         /**
          * @brief        接收到WM_ERASEBKGND时调用该函数

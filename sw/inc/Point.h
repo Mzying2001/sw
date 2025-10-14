@@ -4,6 +4,7 @@
 #include "IToString.h"
 #include <Windows.h>
 #include <string>
+#include <type_traits>
 
 namespace sw
 {
@@ -23,9 +24,9 @@ namespace sw
         double y;
 
         /**
-         * @brief 构造xy均为0的Point结构体
+         * @brief 默认构造函数
          */
-        Point();
+        Point() = default;
 
         /**
          * @brief 构造指定xy值的Point结构体
@@ -52,4 +53,9 @@ namespace sw
          */
         std::wstring ToString() const;
     };
+
+    // Point应为POD类型
+    static_assert(
+        std::is_trivial<Point>::value && std::is_standard_layout<Point>::value,
+        "Point should be a POD type.");
 }

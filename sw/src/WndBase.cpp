@@ -797,12 +797,12 @@ void sw::WndBase::OnEndNcPaint()
 {
 }
 
-bool sw::WndBase::OnMove(Point newClientPosition)
+bool sw::WndBase::OnMove(const Point &newClientPosition)
 {
     return false;
 }
 
-bool sw::WndBase::OnSize(Size newClientSize)
+bool sw::WndBase::OnSize(const Size &newClientSize)
 {
     return false;
 }
@@ -821,7 +821,7 @@ bool sw::WndBase::OnKillFocus(HWND hNextFocus)
     return false;
 }
 
-bool sw::WndBase::OnMouseMove(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMove(const Point &mousePosition, MouseKey keyState)
 {
     return false;
 }
@@ -831,92 +831,92 @@ bool sw::WndBase::OnMouseLeave()
     return false;
 }
 
-bool sw::WndBase::OnMouseWheel(int wheelDelta, Point mousePosition, MouseKey keyState)
+bool sw::WndBase::OnMouseWheel(int wheelDelta, const Point &mousePosition, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseLeftButtonDown(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseLeftButtonDown(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseLeftButtonUp(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseLeftButtonUp(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseLeftButtonDoubleClick(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseLeftButtonDoubleClick(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseRightButtonDown(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseRightButtonDown(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseRightButtonUp(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseRightButtonUp(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseRightButtonDoubleClick(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseRightButtonDoubleClick(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseMiddleButtonDown(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMiddleButtonDown(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseMiddleButtonUp(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMiddleButtonUp(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseMiddleButtonDoubleClick(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMiddleButtonDoubleClick(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnDeadChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnDeadChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnKeyUp(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnKeyUp(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnSysChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysDeadChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnSysDeadChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnSysKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysKeyUp(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnSysKeyUp(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
@@ -980,7 +980,7 @@ bool sw::WndBase::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, boo
     return false;
 }
 
-bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
 {
     return false;
 }

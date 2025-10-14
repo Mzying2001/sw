@@ -12,9 +12,9 @@ namespace sw
     {
     private:
         /**
-         * @brief 是否绘制虚线框
+         * @brief 当前控件是否是通过按下Tab键获得的焦点
          */
-        bool _drawFocusRect = false;
+        bool _focusedViaTab = false;
 
         /**
          * @brief 标记当前控件是否响应了NM_CUSTOMDRAW消息
@@ -32,6 +32,11 @@ namespace sw
          * @note  当控件已创建并且被添加到任意父窗口（可以是其他框架窗口）时该值为true
          */
         const ReadOnlyProperty<bool> IsInHierarchy;
+
+        /**
+         * @brief 当前控件是否是通过按下Tab键获得的焦点
+         */
+        const ReadOnlyProperty<bool> IsFocusedViaTab;
 
     public:
         /**

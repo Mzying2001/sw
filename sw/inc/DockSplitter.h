@@ -60,7 +60,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseLeftButtonDown(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_LBUTTONUP时调用该函数
@@ -68,7 +68,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseLeftButtonUp(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief               接收到WM_MOUSEMOVE时调用该函数
@@ -76,7 +76,7 @@ namespace sw
          * @param keyState      指示某些按键是否按下
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnMouseMove(Point mousePosition, MouseKey keyState) override;
+        virtual bool OnMouseMove(const Point &mousePosition, MouseKey keyState) override;
 
         /**
          * @brief            接收到WM_KILLFOCUS时调用该函数
@@ -91,7 +91,7 @@ namespace sw
          * @param flags 附加信息
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnKeyDown(VirtualKey key, KeyFlags flags) override;
+        virtual bool OnKeyDown(VirtualKey key, const KeyFlags &flags) override;
 
         /**
          * @brief         接收到WM_SETCURSOR消息时调用该函数

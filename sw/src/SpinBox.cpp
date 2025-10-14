@@ -93,7 +93,7 @@ void sw::SpinBox::OnHandleChanged(HWND hwnd)
     _InitSpinBox();
 }
 
-bool sw::SpinBox::OnSize(Size newClientSize)
+bool sw::SpinBox::OnSize(const Size &newClientSize)
 {
     _UpdateUpDownPos();
     return TextBoxBase::OnSize(newClientSize);
