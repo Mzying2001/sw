@@ -45,13 +45,23 @@ void sw::Timer::Stop()
 
 void sw::Timer::OnTick()
 {
-    if (this->Tick)
+    if (this->Tick) {
         this->Tick(*this);
+    }
 }
 
 sw::Timer *sw::Timer::_GetTimerPtr(HWND hwnd)
 {
-    return reinterpret_cast<Timer *>(GetPropW(hwnd, _TimerPtrProp));
+    // clang-format off
+    static struct _InternalRaiiAtomHelper {
+        ATOM value;
+        _InternalRaiiAtomHelper() : value(GlobalAddAtomW(_TimerPtrProp)) {}
+        ~_InternalRaiiAtomHelper() { GlobalDeleteAtom(value); }
+    } _atom;
+    // clang-format on
+
+    auto ptr = GetProp(hwnd, MAKEINTATOM(_atom.value));
+    return reinterpret_cast<Timer *>(ptr);
 }
 
 void sw::Timer::_SetTimerPtr(HWND hwnd, Timer &timer)
