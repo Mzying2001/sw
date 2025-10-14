@@ -37,60 +37,7 @@ sw::TabControl::TabControl()
           },
           // set
           [this](const TabAlignment &value) {
-              auto oldStyle = this->GetStyle();
-              auto style    = oldStyle;
-
-              switch (value) {
-                  case TabAlignment::Top: {
-                      style &= ~(TCS_VERTICAL | TCS_BOTTOM);
-                      break;
-                  }
-                  case TabAlignment::Bottom: {
-                      style &= ~TCS_VERTICAL;
-                      style |= TCS_BOTTOM;
-                      break;
-                  }
-                  case TabAlignment::Left: {
-                      style |= (TCS_VERTICAL | TCS_MULTILINE);
-                      style &= ~TCS_RIGHT;
-                      break;
-                  }
-                  case TabAlignment::Right: {
-                      style |= (TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHT);
-                      break;
-                  }
-              }
-
-              if (style == oldStyle) {
-                  return;
-              } else {
-                  this->SetStyle(style);
-              }
-
-              // 特定情况下需要重新创建控件
-              if ((style & TCS_VERTICAL) ||                               // TCS_VERTICAL位为1
-                  ((style & TCS_VERTICAL) ^ (oldStyle & TCS_VERTICAL))) { // TCS_VERTICAL位改变
-
-                  int selectedIndex = this->SelectedIndex;
-                  int childCount    = this->ChildCount;
-
-                  std::vector<UIElement *> children;
-                  children.reserve(childCount);
-                  for (int i = childCount - 1; i >= 0; --i) {
-                      children.push_back(&this->GetChildAt(i));
-                      this->RemoveChildAt(i);
-                  }
-
-                  this->ResetHandle();
-                  for (int i = childCount - 1; i >= 0; --i) {
-                      this->AddChild(children[i]);
-                  }
-
-                  this->SelectedIndex = selectedIndex;
-
-              } else {
-                  this->InvalidateMeasure();
-              }
+              this->_SetTabAlignment(value);
           }),
 
       MultiLine(
@@ -118,6 +65,7 @@ sw::TabControl::TabControl()
           })
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
+
     this->Rect    = sw::Rect(0, 0, 200, 200);
     this->TabStop = true;
     this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::FontChanged;
@@ -274,6 +222,69 @@ void sw::TabControl::OnSelectedIndexChanged()
 {
     this->_UpdateChildVisible();
     this->RaiseRoutedEvent(TabControl_SelectedIndexChanged);
+}
+
+void sw::TabControl::_SetTabAlignment(TabAlignment value)
+{
+    auto oldStyle = this->GetStyle();
+    auto style    = oldStyle;
+
+    switch (value) {
+        case TabAlignment::Top: {
+            style &= ~(TCS_VERTICAL | TCS_BOTTOM);
+            break;
+        }
+        case TabAlignment::Bottom: {
+            style &= ~TCS_VERTICAL;
+            style |= TCS_BOTTOM;
+            break;
+        }
+        case TabAlignment::Left: {
+            style |= (TCS_VERTICAL | TCS_MULTILINE);
+            style &= ~TCS_RIGHT;
+            break;
+        }
+        case TabAlignment::Right: {
+            style |= (TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHT);
+            break;
+        }
+    }
+
+    if (style == oldStyle) {
+        return;
+    } else {
+        this->SetStyle(style);
+    }
+
+    // 特定情况下需要重新创建控件
+    if ((style & TCS_VERTICAL) ||                               // TCS_VERTICAL位为1
+        ((style & TCS_VERTICAL) ^ (oldStyle & TCS_VERTICAL))) { // TCS_VERTICAL位改变
+
+        this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
+
+        int selectedIndex = this->SelectedIndex;
+        int childCount    = this->ChildCount;
+
+        std::vector<UIElement *> children;
+        children.reserve(childCount);
+
+        for (int i = childCount - 1; i >= 0; --i) {
+            children.push_back(&this->GetChildAt(i));
+            this->RemoveChildAt(i);
+        }
+
+        this->ResetHandle();
+
+        while (!children.empty()) {
+            this->AddChild(children.back());
+            children.pop_back();
+        }
+
+        this->SelectedIndex = selectedIndex;
+        this->LayoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
+    }
+
+    this->InvalidateMeasure();
 }
 
 void sw::TabControl::_UpdateChildVisible(bool invalidMeasure)

@@ -121,6 +121,11 @@ namespace sw
 
     private:
         /**
+         * @brief 设置标签位置
+         */
+        void _SetTabAlignment(TabAlignment value);
+
+        /**
          * @brief 根据选中的tab更新子元素的Visible属性
          */
         void _UpdateChildVisible(bool invalidMeasure = true);
