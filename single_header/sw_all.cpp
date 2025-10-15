@@ -3577,7 +3577,6 @@ void sw::HwndWrapper::InitHwndWrapper()
     this->UpdateFont();
 
     if (this->_isControl) {
-        WndBase::_InitControlContainer();
         this->WndBase::SetParent(nullptr);
     }
 }
@@ -6823,11 +6822,6 @@ std::wstring sw::Point::ToString() const
 
 // ProcMsg.cpp
 
-sw::ProcMsg::ProcMsg()
-    : ProcMsg(NULL, 0, 0, 0)
-{
-}
-
 sw::ProcMsg::ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     : hwnd(hwnd), uMsg(uMsg), wParam(wParam), lParam(lParam)
 {
@@ -7250,6 +7244,12 @@ void sw::SpinBox::OnHandleChanged(HWND hwnd)
     _InitSpinBox();
 }
 
+bool sw::SpinBox::OnMove(const Point &newClientPosition)
+{
+    _UpdateUpDownPos();
+    return TextBoxBase::OnMove(newClientPosition);
+}
+
 bool sw::SpinBox::OnSize(const Size &newClientSize)
 {
     _UpdateUpDownPos();
@@ -7514,7 +7514,7 @@ void sw::StackLayout::ArrangeOverride(const Size &finalSize)
 
 sw::Size sw::StackLayoutH::MeasureOverride(const Size &availableSize)
 {
-    Size desireSize;
+    Size desireSize{};
     int childCount = this->GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
@@ -7546,7 +7546,7 @@ void sw::StackLayoutH::ArrangeOverride(const Size &finalSize)
 
 sw::Size sw::StackLayoutV::MeasureOverride(const Size &availableSize)
 {
-    Size desireSize;
+    Size desireSize{};
     int childCount = this->GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
@@ -8491,13 +8491,23 @@ void sw::Timer::Stop()
 
 void sw::Timer::OnTick()
 {
-    if (this->Tick)
+    if (this->Tick) {
         this->Tick(*this);
+    }
 }
 
 sw::Timer *sw::Timer::_GetTimerPtr(HWND hwnd)
 {
-    return reinterpret_cast<Timer *>(GetPropW(hwnd, _TimerPtrProp));
+    // clang-format off
+    static struct _InternalRaiiAtomHelper {
+        ATOM value;
+        _InternalRaiiAtomHelper() : value(GlobalAddAtomW(_TimerPtrProp)) {}
+        ~_InternalRaiiAtomHelper() { GlobalDeleteAtom(value); }
+    } _atom;
+    // clang-format on
+
+    auto ptr = GetProp(hwnd, MAKEINTATOM(_atom.value));
+    return reinterpret_cast<Timer *>(ptr);
 }
 
 void sw::Timer::_SetTimerPtr(HWND hwnd, Timer &timer)
@@ -10894,11 +10904,6 @@ namespace
     constexpr wchar_t _WindowClassName[] = L"sw::Window";
 
     /**
-     * @brief 控件初始化时所在的窗口
-     */
-    thread_local struct : sw::WndBase{} *_controlInitContainer = nullptr;
-
-    /**
      * @brief 控件id计数器
      */
     std::atomic<int> _controlIdCounter{1073741827};
@@ -11239,8 +11244,6 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
 
 void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam)
 {
-    WndBase::_InitControlContainer();
-
     if (this->_hwnd != NULL) {
         return;
     }
@@ -11249,26 +11252,29 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         this->_text = lpWindowName;
     }
 
+    WndBase *container =
+        WndBase::_GetControlInitContainer();
+
     HMENU id = reinterpret_cast<HMENU>(
         static_cast<uintptr_t>(WndBase::_NextControlId()));
 
     this->_hwnd = CreateWindowExW(
-        dwExStyle,                    // Optional window styles
-        lpClassName,                  // Window class
-        this->_text.c_str(),          // Window text
-        dwStyle,                      // Window style
-        0, 0, 0, 0,                   // Size and position
-        _controlInitContainer->_hwnd, // Parent window
-        id,                           // Control id
-        App::Instance,                // Instance handle
-        lpParam                       // Additional application data
+        dwExStyle,           // Optional window styles
+        lpClassName,         // Window class
+        this->_text.c_str(), // Window text
+        dwStyle,             // Window style
+        0, 0, 0, 0,          // Size and position
+        container->_hwnd,    // Parent window
+        id,                  // Control id
+        App::Instance,       // Instance handle
+        lpParam              // Additional application data
     );
 
     this->_isControl = true;
     WndBase::_SetWndBase(this->_hwnd, *this);
 
-    this->_originalWndProc =
-        reinterpret_cast<WNDPROC>(SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
+    this->_originalWndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtrW(
+        this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
 
     this->HandleInitialized(this->_hwnd);
     this->UpdateFont();
@@ -11296,7 +11302,11 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DESTROY: {
-            LRESULT result     = this->OnDestroy() ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnDestroy() ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_NCDESTROY: {
+            LRESULT result     = this->DefaultWndProc(refMsg);
             this->_isDestroyed = true;
             return result;
         }
@@ -11806,7 +11816,11 @@ bool sw::WndBase::SetParent(WndBase *parent)
     HWND hParent;
 
     if (parent == nullptr) {
-        hParent = this->_isControl ? _controlInitContainer->_hwnd : NULL;
+        if (!this->_isControl) {
+            hParent = NULL;
+        } else {
+            hParent = WndBase::_GetControlInitContainer()->_hwnd;
+        }
     } else {
         hParent = parent->_hwnd;
     }
@@ -12105,11 +12119,11 @@ sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd) noexcept
     static struct _InternalRaiiAtomHelper {
         ATOM value;
         _InternalRaiiAtomHelper() : value(GlobalAddAtomW(_WndBasePtrProp)) {}
-        ~_InternalRaiiAtomHelper()  { GlobalDeleteAtom(value); }
+        ~_InternalRaiiAtomHelper() { GlobalDeleteAtom(value); }
     } _atom;
     // clang-format on
 
-    auto p = reinterpret_cast<WndBase *>(GetPropW(hwnd, (LPWSTR)MAKEINTATOM(_atom.value)));
+    auto p = reinterpret_cast<WndBase *>(GetProp(hwnd, MAKEINTATOM(_atom.value)));
     return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
 }
 
@@ -12140,19 +12154,24 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     return DefWindowProcW(hwnd, uMsg, wParam, lParam);
 }
 
-void sw::WndBase::_InitControlContainer()
-{
-    if (_controlInitContainer == nullptr || _controlInitContainer->_isDestroyed) {
-        delete _controlInitContainer;
-        _controlInitContainer = new std::remove_reference<decltype(*_controlInitContainer)>::type;
-        _controlInitContainer->InitWindow(L"", WS_POPUP, 0);
-    }
-}
-
 sw::WndBase *sw::WndBase::_GetControlInitContainer()
 {
-    _InitControlContainer();
-    return _controlInitContainer;
+    static thread_local std::unique_ptr<WndBase> _container;
+
+    class _ControlInitContainer : public WndBase
+    {
+    public:
+        _ControlInitContainer()
+        {
+            this->InitWindow(L"", WS_POPUP, 0);
+        }
+    };
+
+    if (!_container || _container->_isDestroyed) {
+        _container = std::make_unique<_ControlInitContainer>();
+    }
+
+    return _container.get();
 }
 
 int sw::WndBase::_NextControlId()
@@ -12185,7 +12204,7 @@ void sw::WrapLayout::ArrangeOverride(const Size &finalSize)
 
 sw::Size sw::WrapLayoutH::MeasureOverride(const Size &availableSize)
 {
-    Size size;
+    Size size{};
     int count = this->GetChildLayoutCount();
 
     if (std::isinf(availableSize.width)) {
@@ -12251,7 +12270,7 @@ void sw::WrapLayoutH::ArrangeOverride(const Size &finalSize)
 
 sw::Size sw::WrapLayoutV::MeasureOverride(const Size &availableSize)
 {
-    Size size;
+    Size size{};
     int count = this->GetChildLayoutCount();
 
     if (std::isinf(availableSize.height)) {

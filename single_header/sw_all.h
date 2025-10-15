@@ -2148,9 +2148,9 @@ namespace sw
         LPARAM lParam;
 
         /**
-         * @brief 构造所有字段均为0的ProcMsg
+         * @brief 默认构造函数
          */
-        ProcMsg();
+        ProcMsg() = default;
 
         /**
          * @brief 构造ProcMsg
@@ -7532,11 +7532,6 @@ namespace sw
          * @brief 窗口过程函数，调用对象的WndProc
          */
         static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-        /**
-         * @brief 初始化控件创建时所在的容器
-         */
-        static void _InitControlContainer();
 
         /**
          * @brief 获取控件创建时所在的容器
@@ -14686,6 +14681,13 @@ namespace sw
          * @param hwnd 新的控件句柄
          */
         virtual void OnHandleChanged(HWND hwnd) override;
+
+        /**
+         * @brief                   接收到WM_MOVE时调用该函数
+         * @param newClientPosition 移动后用户区左上角的位置
+         * @return                  若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnMove(const Point &newClientPosition) override;
 
         /**
          * @brief               接收到WM_SIZE时调用该函数
