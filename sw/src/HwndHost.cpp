@@ -20,7 +20,7 @@ void sw::HwndHost::InitHwndHost()
         this->_hWindowCore = this->BuildWindowCore(this->Handle);
 }
 
-bool sw::HwndHost::OnSize(Size newClientSize)
+bool sw::HwndHost::OnSize(const Size &newClientSize)
 {
     if (this->_hWindowCore != NULL && this->_fillContent) {
         SetWindowPos(this->_hWindowCore, NULL, 0, 0,

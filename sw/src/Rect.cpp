@@ -2,11 +2,6 @@
 #include "Dip.h"
 #include "Utils.h"
 
-sw::Rect::Rect()
-    : Rect(0, 0, 0, 0)
-{
-}
-
 sw::Rect::Rect(double left, double top, double width, double height)
     : left(left), top(top), width(width), height(height)
 {

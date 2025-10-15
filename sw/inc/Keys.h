@@ -10,12 +10,28 @@ namespace sw
      * @brief https://learn.microsoft.com/en-us/windows/win32/inputdev/about-keyboard-input#keystroke-message-flags
      */
     struct KeyFlags {
-        uint16_t repeatCount;  // repeat count, > 0 if several keydown messages was combined into one message
-        uint8_t scanCode;      // scan code
-        bool isExtendedKey;    // extended-key flag, 1 if scancode has 0xE0 prefix
-        bool contextCode;      // indicates whether the ALT key was down
-        bool previousKeyState; // indicates whether the key that generated the keystroke message was previously up or down
-        bool transitionState;  // transition-state flag, 1 on keyup
+        // repeat count, > 0 if several keydown messages was combined into one message
+        uint16_t repeatCount;
+
+        // scan code
+        uint8_t scanCode;
+
+        // extended-key flag, 1 if scancode has 0xE0 prefix
+        bool isExtendedKey;
+
+        // indicates whether the ALT key was down
+        bool contextCode;
+
+        // indicates whether the key that generated the keystroke message was previously up or down
+        bool previousKeyState;
+
+        // transition-state flag, 1 on keyup
+        bool transitionState;
+
+        // 默认构造函数
+        KeyFlags() = default;
+
+        // 从lParam解析出各个字段
         KeyFlags(LPARAM lParam);
     };
 

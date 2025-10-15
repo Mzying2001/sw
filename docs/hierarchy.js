@@ -6,11 +6,11 @@ var hierarchy =
     [ "sw::_FuncTypeHelper< TArgsTuple >", "structsw_1_1__FuncTypeHelper.html", null ],
     [ "sw::_FuncTypeHelper< std::tuple< Args... > >", "structsw_1_1__FuncTypeHelper_3_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4.html", null ],
     [ "sw::_HasArrowOperatorVs2015Fix< T >", "structsw_1_1__HasArrowOperatorVs2015Fix.html", null ],
+    [ "sw::_IsPropertyImpl< T >", "structsw_1_1__IsPropertyImpl.html", null ],
     [ "sw::App", "classsw_1_1App.html", null ],
     [ "sw::CallableList< T >", "classsw_1_1CallableList.html", null ],
     [ "sw::CallableList< TRet(Args...)>", "classsw_1_1CallableList.html", null ],
     [ "sw::CanvasLayoutTag", "structsw_1_1CanvasLayoutTag.html", null ],
-    [ "sw::Color", "structsw_1_1Color.html", null ],
     [ "sw::CursorHelper", "classsw_1_1CursorHelper.html", null ],
     [ "sw::Delegate< typename >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< const AppQuitMode & >", "classsw_1_1Delegate.html", null ],
@@ -59,21 +59,15 @@ var hierarchy =
     [ "sw::Delegate< MSG & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< sw::UIElement &, TEventArgs & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< Timer & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Dictionary< TKey, TVal >", "classsw_1_1Dictionary.html", null ],
     [ "sw::Dip", "classsw_1_1Dip.html", null ],
-    [ "sw::DockLayoutTag", "classsw_1_1DockLayoutTag.html", null ],
     [ "std::false_type", null, [
-      [ "sw::_IsPropertyImpl< std::decay< T >::type >", "structsw_1_1__IsPropertyImpl.html", [
-        [ "sw::_IsProperty< T >", "structsw_1_1__IsProperty.html", null ]
-      ] ],
       [ "sw::_BracketOperationHelper< T, U, typename >", "structsw_1_1__BracketOperationHelper.html", null ],
       [ "sw::_EnumSupportBitOperations< T >", "structsw_1_1__EnumSupportBitOperations.html", null ],
       [ "sw::_HasArrowOperator< T, typename >", "structsw_1_1__HasArrowOperator.html", null ],
       [ "sw::_HasEventType< T, typename >", "structsw_1_1__HasEventType.html", [
         [ "sw::_IsTypedRoutedEventArgs< T >", "structsw_1_1__IsTypedRoutedEventArgs.html", null ]
       ] ],
-      [ "sw::_IsExplicitlyConvertable< TFrom, TTo, typename >", "structsw_1_1__IsExplicitlyConvertable.html", null ],
-      [ "sw::_IsPropertyImpl< typename >", "structsw_1_1__IsPropertyImpl.html", null ]
+      [ "sw::_IsExplicitlyConvertable< TFrom, TTo, typename >", "structsw_1_1__IsExplicitlyConvertable.html", null ]
     ] ],
     [ "sw::FieldsAccessor< T >", "structsw_1_1FieldsAccessor.html", null ],
     [ "sw::FileFilter", "classsw_1_1FileFilter.html", null ],
@@ -109,74 +103,145 @@ var hierarchy =
       [ "sw::FontDialog", "classsw_1_1FontDialog.html", null ],
       [ "sw::Window", "classsw_1_1Window.html", null ]
     ] ],
-    [ "sw::ILayout", "classsw_1_1ILayout.html", [
-      [ "sw::UIElement", "classsw_1_1UIElement.html", [
-        [ "sw::Control", "classsw_1_1Control.html", [
-          [ "sw::ItemsControl< StrList >", "classsw_1_1ItemsControl.html", [
-            [ "sw::ListView", "classsw_1_1ListView.html", null ]
-          ] ],
-          [ "sw::Animation", "classsw_1_1Animation.html", null ],
-          [ "sw::ButtonBase", "classsw_1_1ButtonBase.html", [
-            [ "sw::Button", "classsw_1_1Button.html", [
-              [ "sw::SplitButton", "classsw_1_1SplitButton.html", null ]
+    [ "sw::IEqualityComparable< TDerived, TOther >", "classsw_1_1IEqualityComparable.html", [
+      [ "sw::List< sw::GridRow >", "classsw_1_1List.html", null ],
+      [ "sw::List< sw::GridColumn >", "classsw_1_1List.html", null ],
+      [ "sw::IComparable< TDerived, TOther >", "classsw_1_1IComparable.html", null ]
+    ] ],
+    [ "sw::IEqualityComparable< Color >", "classsw_1_1IEqualityComparable.html", [
+      [ "sw::Color", "structsw_1_1Color.html", null ]
+    ] ],
+    [ "sw::IEqualityComparable< Dictionary< TKey, TVal > >", "classsw_1_1IEqualityComparable.html", [
+      [ "sw::Dictionary< TKey, TVal >", "classsw_1_1Dictionary.html", null ]
+    ] ],
+    [ "sw::IEqualityComparable< DockLayoutTag >", "classsw_1_1IEqualityComparable.html", [
+      [ "sw::DockLayoutTag", "classsw_1_1DockLayoutTag.html", null ]
+    ] ],
+    [ "sw::IEqualityComparable< List< sw::GridColumn > >", "classsw_1_1IEqualityComparable.html", null ],
+    [ "sw::IEqualityComparable< List< sw::GridRow > >", "classsw_1_1IEqualityComparable.html", null ],
+    [ "sw::IEqualityComparable< List< T > >", "classsw_1_1IEqualityComparable.html", [
+      [ "sw::List< T >", "classsw_1_1List.html", null ]
+    ] ],
+    [ "sw::IEqualityComparable< Point >", "classsw_1_1IEqualityComparable.html", [
+      [ "sw::Point", "structsw_1_1Point.html", null ]
+    ] ],
+    [ "sw::IEqualityComparable< Rect >", "classsw_1_1IEqualityComparable.html", [
+      [ "sw::Rect", "structsw_1_1Rect.html", null ]
+    ] ],
+    [ "sw::IEqualityComparable< Size >", "classsw_1_1IEqualityComparable.html", [
+      [ "sw::Size", "structsw_1_1Size.html", null ]
+    ] ],
+    [ "sw::IEqualityComparable< TDerived, const TDerived & >", "classsw_1_1IEqualityComparable.html", null ],
+    [ "sw::IEqualityComparable< Thickness >", "classsw_1_1IEqualityComparable.html", [
+      [ "sw::Thickness", "structsw_1_1Thickness.html", null ]
+    ] ],
+    [ "sw::IEqualityComparable< WndBase >", "classsw_1_1IEqualityComparable.html", [
+      [ "sw::WndBase", "classsw_1_1WndBase.html", [
+        [ "sw::Timer", "classsw_1_1Timer.html", null ],
+        [ "sw::ToolTip", "classsw_1_1ToolTip.html", [
+          [ "sw::BallonToolTip", "classsw_1_1BallonToolTip.html", null ]
+        ] ],
+        [ "sw::UIElement", "classsw_1_1UIElement.html", [
+          [ "sw::Control", "classsw_1_1Control.html", [
+            [ "sw::ItemsControl< StrList >", "classsw_1_1ItemsControl.html", [
+              [ "sw::ListView", "classsw_1_1ListView.html", null ]
             ] ],
-            [ "sw::CheckableButton", "classsw_1_1CheckableButton.html", [
-              [ "sw::CheckBox", "classsw_1_1CheckBox.html", null ],
-              [ "sw::RadioButton", "classsw_1_1RadioButton.html", null ]
+            [ "sw::Animation", "classsw_1_1Animation.html", null ],
+            [ "sw::ButtonBase", "classsw_1_1ButtonBase.html", [
+              [ "sw::Button", "classsw_1_1Button.html", [
+                [ "sw::SplitButton", "classsw_1_1SplitButton.html", null ]
+              ] ],
+              [ "sw::CheckableButton", "classsw_1_1CheckableButton.html", [
+                [ "sw::CheckBox", "classsw_1_1CheckBox.html", null ],
+                [ "sw::RadioButton", "classsw_1_1RadioButton.html", null ]
+              ] ],
+              [ "sw::CommandLink", "classsw_1_1CommandLink.html", null ]
             ] ],
-            [ "sw::CommandLink", "classsw_1_1CommandLink.html", null ]
-          ] ],
-          [ "sw::DateTimePicker", "classsw_1_1DateTimePicker.html", null ],
-          [ "sw::HotKeyControl", "classsw_1_1HotKeyControl.html", null ],
-          [ "sw::ItemsControl< TItem >", "classsw_1_1ItemsControl.html", [
-            [ "sw::ComboBox", "classsw_1_1ComboBox.html", null ],
-            [ "sw::ListBox", "classsw_1_1ListBox.html", null ]
-          ] ],
-          [ "sw::MonthCalendar", "classsw_1_1MonthCalendar.html", null ],
-          [ "sw::PanelBase", "classsw_1_1PanelBase.html", [
-            [ "sw::Panel", "classsw_1_1Panel.html", [
-              [ "sw::Canvas", "classsw_1_1Canvas.html", null ],
-              [ "sw::DockPanel", "classsw_1_1DockPanel.html", null ],
-              [ "sw::Grid", "classsw_1_1Grid.html", null ],
-              [ "sw::GroupBox", "classsw_1_1GroupBox.html", null ],
-              [ "sw::StackPanel", "classsw_1_1StackPanel.html", null ],
-              [ "sw::UniformGrid", "classsw_1_1UniformGrid.html", null ],
-              [ "sw::WrapPanel", "classsw_1_1WrapPanel.html", null ]
+            [ "sw::DateTimePicker", "classsw_1_1DateTimePicker.html", null ],
+            [ "sw::HotKeyControl", "classsw_1_1HotKeyControl.html", null ],
+            [ "sw::ItemsControl< TItem >", "classsw_1_1ItemsControl.html", [
+              [ "sw::ComboBox", "classsw_1_1ComboBox.html", null ],
+              [ "sw::ListBox", "classsw_1_1ListBox.html", null ]
+            ] ],
+            [ "sw::MonthCalendar", "classsw_1_1MonthCalendar.html", null ],
+            [ "sw::PanelBase", "classsw_1_1PanelBase.html", [
+              [ "sw::Panel", "classsw_1_1Panel.html", [
+                [ "sw::Canvas", "classsw_1_1Canvas.html", null ],
+                [ "sw::DockPanel", "classsw_1_1DockPanel.html", null ],
+                [ "sw::Grid", "classsw_1_1Grid.html", null ],
+                [ "sw::GroupBox", "classsw_1_1GroupBox.html", null ],
+                [ "sw::StackPanel", "classsw_1_1StackPanel.html", null ],
+                [ "sw::UniformGrid", "classsw_1_1UniformGrid.html", null ],
+                [ "sw::WrapPanel", "classsw_1_1WrapPanel.html", null ]
+              ] ]
+            ] ],
+            [ "sw::ProgressBar", "classsw_1_1ProgressBar.html", null ],
+            [ "sw::Slider", "classsw_1_1Slider.html", null ],
+            [ "sw::Splitter", "classsw_1_1Splitter.html", [
+              [ "sw::DockSplitter", "classsw_1_1DockSplitter.html", null ]
+            ] ],
+            [ "sw::StaticControl", "classsw_1_1StaticControl.html", [
+              [ "sw::BmpBox", "classsw_1_1BmpBox.html", null ],
+              [ "sw::HwndHost", "classsw_1_1HwndHost.html", [
+                [ "sw::IPAddressControl", "classsw_1_1IPAddressControl.html", null ]
+              ] ],
+              [ "sw::IconBox", "classsw_1_1IconBox.html", null ],
+              [ "sw::Label", "classsw_1_1Label.html", null ]
+            ] ],
+            [ "sw::StatusBar", "classsw_1_1StatusBar.html", null ],
+            [ "sw::SysLink", "classsw_1_1SysLink.html", null ],
+            [ "sw::TabControl", "classsw_1_1TabControl.html", null ],
+            [ "sw::TextBoxBase", "classsw_1_1TextBoxBase.html", [
+              [ "sw::PasswordBox", "classsw_1_1PasswordBox.html", null ],
+              [ "sw::SpinBox", "classsw_1_1SpinBox.html", null ],
+              [ "sw::TextBox", "classsw_1_1TextBox.html", null ]
             ] ]
           ] ],
-          [ "sw::ProgressBar", "classsw_1_1ProgressBar.html", null ],
-          [ "sw::Slider", "classsw_1_1Slider.html", null ],
-          [ "sw::Splitter", "classsw_1_1Splitter.html", [
-            [ "sw::DockSplitter", "classsw_1_1DockSplitter.html", null ]
-          ] ],
-          [ "sw::StaticControl", "classsw_1_1StaticControl.html", [
-            [ "sw::BmpBox", "classsw_1_1BmpBox.html", null ],
-            [ "sw::HwndHost", "classsw_1_1HwndHost.html", [
-              [ "sw::IPAddressControl", "classsw_1_1IPAddressControl.html", null ]
-            ] ],
-            [ "sw::IconBox", "classsw_1_1IconBox.html", null ],
-            [ "sw::Label", "classsw_1_1Label.html", null ]
-          ] ],
-          [ "sw::StatusBar", "classsw_1_1StatusBar.html", null ],
-          [ "sw::SysLink", "classsw_1_1SysLink.html", null ],
-          [ "sw::TabControl", "classsw_1_1TabControl.html", null ],
-          [ "sw::TextBoxBase", "classsw_1_1TextBoxBase.html", [
-            [ "sw::PasswordBox", "classsw_1_1PasswordBox.html", null ],
-            [ "sw::SpinBox", "classsw_1_1SpinBox.html", null ],
-            [ "sw::TextBox", "classsw_1_1TextBox.html", null ]
+          [ "sw::HwndWrapper", "classsw_1_1HwndWrapper.html", null ],
+          [ "sw::Layer", "classsw_1_1Layer.html", [
+            [ "sw::PanelBase", "classsw_1_1PanelBase.html", null ],
+            [ "sw::Window", "classsw_1_1Window.html", null ]
           ] ]
-        ] ],
-        [ "sw::HwndWrapper", "classsw_1_1HwndWrapper.html", null ],
-        [ "sw::Layer", "classsw_1_1Layer.html", [
-          [ "sw::PanelBase", "classsw_1_1PanelBase.html", null ],
-          [ "sw::Window", "classsw_1_1Window.html", null ]
         ] ]
       ] ]
+    ] ],
+    [ "sw::ILayout", "classsw_1_1ILayout.html", [
+      [ "sw::UIElement", "classsw_1_1UIElement.html", null ]
     ] ],
     [ "sw::ImageList", "classsw_1_1ImageList.html", null ],
     [ "sw::ITag", "classsw_1_1ITag.html", [
       [ "sw::MenuItem", "classsw_1_1MenuItem.html", null ],
       [ "sw::UIElement", "classsw_1_1UIElement.html", null ]
+    ] ],
+    [ "sw::IToString< TDerived >", "classsw_1_1IToString.html", [
+      [ "sw::List< sw::GridRow >", "classsw_1_1List.html", null ],
+      [ "sw::List< sw::GridColumn >", "classsw_1_1List.html", null ]
+    ] ],
+    [ "sw::IToString< Color >", "classsw_1_1IToString.html", [
+      [ "sw::Color", "structsw_1_1Color.html", null ]
+    ] ],
+    [ "sw::IToString< Dictionary< TKey, TVal > >", "classsw_1_1IToString.html", [
+      [ "sw::Dictionary< TKey, TVal >", "classsw_1_1Dictionary.html", null ]
+    ] ],
+    [ "sw::IToString< List< sw::GridColumn > >", "classsw_1_1IToString.html", null ],
+    [ "sw::IToString< List< sw::GridRow > >", "classsw_1_1IToString.html", null ],
+    [ "sw::IToString< List< T > >", "classsw_1_1IToString.html", [
+      [ "sw::List< T >", "classsw_1_1List.html", null ]
+    ] ],
+    [ "sw::IToString< Point >", "classsw_1_1IToString.html", [
+      [ "sw::Point", "structsw_1_1Point.html", null ]
+    ] ],
+    [ "sw::IToString< Rect >", "classsw_1_1IToString.html", [
+      [ "sw::Rect", "structsw_1_1Rect.html", null ]
+    ] ],
+    [ "sw::IToString< Size >", "classsw_1_1IToString.html", [
+      [ "sw::Size", "structsw_1_1Size.html", null ]
+    ] ],
+    [ "sw::IToString< Thickness >", "classsw_1_1IToString.html", [
+      [ "sw::Thickness", "structsw_1_1Thickness.html", null ]
+    ] ],
+    [ "sw::IToString< WndBase >", "classsw_1_1IToString.html", [
+      [ "sw::WndBase", "classsw_1_1WndBase.html", null ]
     ] ],
     [ "sw::KeyFlags", "structsw_1_1KeyFlags.html", null ],
     [ "sw::LayoutHost", "classsw_1_1LayoutHost.html", [
@@ -198,9 +263,6 @@ var hierarchy =
         [ "sw::WrapLayout", "classsw_1_1WrapLayout.html", null ]
       ] ]
     ] ],
-    [ "sw::List< T >", "classsw_1_1List.html", null ],
-    [ "sw::List< sw::GridColumn >", "classsw_1_1List.html", null ],
-    [ "sw::List< sw::GridRow >", "classsw_1_1List.html", null ],
     [ "sw::ListViewColumn", "structsw_1_1ListViewColumn.html", null ],
     [ "sw::MenuBase", "classsw_1_1MenuBase.html", [
       [ "sw::ContextMenu", "classsw_1_1ContextMenu.html", null ],
@@ -209,7 +271,6 @@ var hierarchy =
     [ "sw::MsgBox", "classsw_1_1MsgBox.html", null ],
     [ "sw::MsgBoxResultHelper", "structsw_1_1MsgBoxResultHelper.html", null ],
     [ "sw::Path", "classsw_1_1Path.html", null ],
-    [ "sw::Point", "structsw_1_1Point.html", null ],
     [ "sw::ProcMsg", "structsw_1_1ProcMsg.html", null ],
     [ "sw::PropertyBase< T, TDerived >", "classsw_1_1PropertyBase.html", [
       [ "sw::Property< int >", "classsw_1_1Property.html", null ],
@@ -338,7 +399,6 @@ var hierarchy =
     [ "sw::PropertyBase< wchar_t, Property< wchar_t > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< WindowStartupLocation, Property< WindowStartupLocation > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< WindowState, Property< WindowState > >", "classsw_1_1PropertyBase.html", null ],
-    [ "sw::Rect", "structsw_1_1Rect.html", null ],
     [ "sw::RoutedEventArgs", "structsw_1_1RoutedEventArgs.html", [
       [ "sw::TypedRoutedEventArgs< DateTimePicker_TimeChanged >", "structsw_1_1TypedRoutedEventArgs.html", [
         [ "sw::DateTimePickerTimeChangedEventArgs", "structsw_1_1DateTimePickerTimeChangedEventArgs.html", null ]
@@ -405,23 +465,15 @@ var hierarchy =
       [ "sw::TypedRoutedEventArgs< TYPE >", "structsw_1_1TypedRoutedEventArgs.html", null ]
     ] ],
     [ "sw::Screen", "classsw_1_1Screen.html", null ],
-    [ "sw::Size", "structsw_1_1Size.html", null ],
-    [ "sw::Thickness", "structsw_1_1Thickness.html", null ],
     [ "std::true_type", null, [
+      [ "sw::UIElement::_CanAddChild< T, decltype(void(std::declval< UIElement >().AddChild(std::declval< T >())))>", "structsw_1_1UIElement_1_1__CanAddChild_3_01T_00_01decltype_07void_07std_1_1declval_3_01UIElementc4e59a28561b2f6c76501e41deec6964.html", null ],
       [ "sw::_BracketOperationHelper< T, U, decltype(void(std::declval< T >()[std::declval< U >()]))>", "structsw_1_1__BracketOperationHelper_3_01T_00_01U_00_01decltype_07void_07std_1_1declval_3_01T_015d7340010b451efba17696e1bdb8739b.html", null ],
       [ "sw::_HasArrowOperator< T, typename std::enable_if< _HasArrowOperatorVs2015Fix< T >::value >::type >", "structsw_1_1__HasArrowOperator_3_01T_00_01typename_01std_1_1enable__if_3_01__HasArrowOperatorVs293feea522a622808e377a95351f242a0.html", null ],
       [ "sw::_HasEventType< T, decltype(void(std::declval< T >().EventType))>", "structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07std_1_1declval_3_01T_01_4_07_08_8EventType_08_08_4.html", null ],
-      [ "sw::_IsExplicitlyConvertable< TFrom, TTo, decltype(void(static_cast< TTo >(std::declval< TFrom >())))>", "structsw_1_1__IsExplicitlyConvertable_3_01TFrom_00_01TTo_00_01decltype_07void_07static__cast_3_0766a7d13d8d3f2686094df45a1f1184e.html", null ],
-      [ "sw::_IsPropertyImpl< Property< T > >", "structsw_1_1__IsPropertyImpl_3_01Property_3_01T_01_4_01_4.html", null ],
-      [ "sw::_IsPropertyImpl< ReadOnlyProperty< T > >", "structsw_1_1__IsPropertyImpl_3_01ReadOnlyProperty_3_01T_01_4_01_4.html", null ],
-      [ "sw::_IsPropertyImpl< WriteOnlyProperty< T > >", "structsw_1_1__IsPropertyImpl_3_01WriteOnlyProperty_3_01T_01_4_01_4.html", null ]
+      [ "sw::_IsExplicitlyConvertable< TFrom, TTo, decltype(void(static_cast< TTo >(std::declval< TFrom >())))>", "structsw_1_1__IsExplicitlyConvertable_3_01TFrom_00_01TTo_00_01decltype_07void_07static__cast_3_0766a7d13d8d3f2686094df45a1f1184e.html", null ]
     ] ],
-    [ "sw::Utils", "classsw_1_1Utils.html", null ],
-    [ "sw::WndBase", "classsw_1_1WndBase.html", [
-      [ "sw::Timer", "classsw_1_1Timer.html", null ],
-      [ "sw::ToolTip", "classsw_1_1ToolTip.html", [
-        [ "sw::BallonToolTip", "classsw_1_1BallonToolTip.html", null ]
-      ] ],
-      [ "sw::UIElement", "classsw_1_1UIElement.html", null ]
-    ] ]
+    [ "_IsPropertyImpl::type", null, [
+      [ "sw::_IsProperty< T >", "structsw_1_1__IsProperty.html", null ]
+    ] ],
+    [ "sw::Utils", "classsw_1_1Utils.html", null ]
 ];

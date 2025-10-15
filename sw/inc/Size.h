@@ -4,6 +4,7 @@
 #include "IToString.h"
 #include <Windows.h>
 #include <string>
+#include <type_traits>
 
 namespace sw
 {
@@ -23,9 +24,9 @@ namespace sw
         double height;
 
         /**
-         * @brief 构造宽高均为0的Size结构体
+         * @brief 默认构造函数
          */
-        Size();
+        Size() = default;
 
         /**
          * @brief 构造指定宽高的Size结构体
@@ -52,4 +53,9 @@ namespace sw
          */
         std::wstring ToString() const;
     };
+
+    // Size应为POD类型
+    static_assert(
+        std::is_trivial<Size>::value && std::is_standard_layout<Size>::value,
+        "Size should be a POD type.");
 }

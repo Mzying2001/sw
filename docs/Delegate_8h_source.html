@@ -1005,41 +1005,44 @@ $(document).ready(function(){initNavTree('Delegate_8h_source.html',''); initResi
 <div class="line"><a id="l01070" name="l01070"></a><span class="lineno"> 1070</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Args&gt;</div>
 <div class="line"><a id="l01071" name="l01071"></a><span class="lineno"> 1071</span>    <span class="keyword">using </span>Action = Delegate&lt;void(Args...)&gt;;</div>
 <div class="line"><a id="l01072" name="l01072"></a><span class="lineno"> 1072</span> </div>
-<div class="line"><a id="l01073" name="l01073"></a><span class="lineno"> 1073</span>    <span class="comment">/*================================================================================*/</span></div>
-<div class="line"><a id="l01074" name="l01074"></a><span class="lineno"> 1074</span> </div>
-<div class="line"><a id="l01078" name="l01078"></a><span class="lineno"> 1078</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span>...&gt;</div>
-<div class="line"><a id="l01079" name="l01079"></a><span class="lineno"><a class="line" href="structsw_1_1__FuncTraits.html"> 1079</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__FuncTraits.html">_FuncTraits</a>;</div>
+<div class="line"><a id="l01076" name="l01076"></a><span class="lineno"> 1076</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l01077" name="l01077"></a><span class="lineno"> 1077</span>    <span class="keyword">using </span>Predicate = Delegate&lt;bool(T)&gt;;</div>
+<div class="line"><a id="l01078" name="l01078"></a><span class="lineno"> 1078</span> </div>
+<div class="line"><a id="l01079" name="l01079"></a><span class="lineno"> 1079</span>    <span class="comment">/*================================================================================*/</span></div>
 <div class="line"><a id="l01080" name="l01080"></a><span class="lineno"> 1080</span> </div>
-<div class="line"><a id="l01084" name="l01084"></a><span class="lineno"> 1084</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Last&gt;</div>
-<div class="foldopen" id="foldopen01085" data-start="{" data-end="};">
-<div class="line"><a id="l01085" name="l01085"></a><span class="lineno"><a class="line" href="structsw_1_1__FuncTraits_3_01Last_01_4.html"> 1085</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__FuncTraits.html">_FuncTraits&lt;Last&gt;</a> {</div>
-<div class="line"><a id="l01086" name="l01086"></a><span class="lineno"> 1086</span>        <span class="keyword">using </span>TRet       = Last;</div>
-<div class="line"><a id="l01087" name="l01087"></a><span class="lineno"> 1087</span>        <span class="keyword">using </span>TArgsTuple = std::tuple&lt;&gt;;</div>
-<div class="line"><a id="l01088" name="l01088"></a><span class="lineno"> 1088</span>    };</div>
+<div class="line"><a id="l01084" name="l01084"></a><span class="lineno"> 1084</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span>...&gt;</div>
+<div class="line"><a id="l01085" name="l01085"></a><span class="lineno"><a class="line" href="structsw_1_1__FuncTraits.html"> 1085</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__FuncTraits.html">_FuncTraits</a>;</div>
+<div class="line"><a id="l01086" name="l01086"></a><span class="lineno"> 1086</span> </div>
+<div class="line"><a id="l01090" name="l01090"></a><span class="lineno"> 1090</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Last&gt;</div>
+<div class="foldopen" id="foldopen01091" data-start="{" data-end="};">
+<div class="line"><a id="l01091" name="l01091"></a><span class="lineno"><a class="line" href="structsw_1_1__FuncTraits_3_01Last_01_4.html"> 1091</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__FuncTraits.html">_FuncTraits&lt;Last&gt;</a> {</div>
+<div class="line"><a id="l01092" name="l01092"></a><span class="lineno"> 1092</span>        <span class="keyword">using </span>TRet       = Last;</div>
+<div class="line"><a id="l01093" name="l01093"></a><span class="lineno"> 1093</span>        <span class="keyword">using </span>TArgsTuple = std::tuple&lt;&gt;;</div>
+<div class="line"><a id="l01094" name="l01094"></a><span class="lineno"> 1094</span>    };</div>
 </div>
-<div class="line"><a id="l01089" name="l01089"></a><span class="lineno"> 1089</span> </div>
-<div class="line"><a id="l01093" name="l01093"></a><span class="lineno"> 1093</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> First, <span class="keyword">typename</span>... Rest&gt;</div>
-<div class="foldopen" id="foldopen01094" data-start="{" data-end="};">
-<div class="line"><a id="l01094" name="l01094"></a><span class="lineno"><a class="line" href="structsw_1_1__FuncTraits_3_01First_00_01Rest_8_8_8_01_4.html"> 1094</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__FuncTraits.html">_FuncTraits</a>&lt;First, Rest...&gt; {</div>
-<div class="line"><a id="l01095" name="l01095"></a><span class="lineno"> 1095</span>        <span class="keyword">using </span>TRet       = <span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__FuncTraits.html">_FuncTraits</a>&lt;Rest...&gt;::TRet;</div>
-<div class="line"><a id="l01096" name="l01096"></a><span class="lineno"> 1096</span>        <span class="keyword">using </span>TArgsTuple = <span class="keyword">decltype</span>(std::tuple_cat(std::declval&lt;std::tuple&lt;First&gt;&gt;(), std::declval&lt;<span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__FuncTraits.html">_FuncTraits&lt;Rest...&gt;::TArgsTuple</a>&gt;()));</div>
-<div class="line"><a id="l01097" name="l01097"></a><span class="lineno"> 1097</span>    };</div>
+<div class="line"><a id="l01095" name="l01095"></a><span class="lineno"> 1095</span> </div>
+<div class="line"><a id="l01099" name="l01099"></a><span class="lineno"> 1099</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> First, <span class="keyword">typename</span>... Rest&gt;</div>
+<div class="foldopen" id="foldopen01100" data-start="{" data-end="};">
+<div class="line"><a id="l01100" name="l01100"></a><span class="lineno"><a class="line" href="structsw_1_1__FuncTraits_3_01First_00_01Rest_8_8_8_01_4.html"> 1100</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__FuncTraits.html">_FuncTraits</a>&lt;First, Rest...&gt; {</div>
+<div class="line"><a id="l01101" name="l01101"></a><span class="lineno"> 1101</span>        <span class="keyword">using </span>TRet       = <span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__FuncTraits.html">_FuncTraits</a>&lt;Rest...&gt;::TRet;</div>
+<div class="line"><a id="l01102" name="l01102"></a><span class="lineno"> 1102</span>        <span class="keyword">using </span>TArgsTuple = <span class="keyword">decltype</span>(std::tuple_cat(std::declval&lt;std::tuple&lt;First&gt;&gt;(), std::declval&lt;<span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__FuncTraits.html">_FuncTraits&lt;Rest...&gt;::TArgsTuple</a>&gt;()));</div>
+<div class="line"><a id="l01103" name="l01103"></a><span class="lineno"> 1103</span>    };</div>
 </div>
-<div class="line"><a id="l01098" name="l01098"></a><span class="lineno"> 1098</span> </div>
-<div class="line"><a id="l01102" name="l01102"></a><span class="lineno"> 1102</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TArgsTuple&gt;</div>
-<div class="line"><a id="l01103" name="l01103"></a><span class="lineno"><a class="line" href="structsw_1_1__FuncTypeHelper.html"> 1103</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__FuncTypeHelper.html">_FuncTypeHelper</a>;</div>
 <div class="line"><a id="l01104" name="l01104"></a><span class="lineno"> 1104</span> </div>
-<div class="line"><a id="l01108" name="l01108"></a><span class="lineno"> 1108</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Args&gt;</div>
-<div class="foldopen" id="foldopen01109" data-start="{" data-end="};">
-<div class="line"><a id="l01109" name="l01109"></a><span class="lineno"><a class="line" href="structsw_1_1__FuncTypeHelper_3_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4.html"> 1109</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__FuncTypeHelper.html">_FuncTypeHelper</a>&lt;std::tuple&lt;Args...&gt;&gt; {</div>
-<div class="line"><a id="l01110" name="l01110"></a><span class="lineno"> 1110</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TRet&gt;</div>
-<div class="line"><a id="l01111" name="l01111"></a><span class="lineno"> 1111</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1Delegate_3_01TRet_07Args_8_8_8_08_4.html">TFunc</a> = <a class="code hl_class" href="classsw_1_1Delegate.html">Delegate</a>&lt;TRet(Args...)&gt;;</div>
-<div class="line"><a id="l01112" name="l01112"></a><span class="lineno"> 1112</span>    };</div>
+<div class="line"><a id="l01108" name="l01108"></a><span class="lineno"> 1108</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TArgsTuple&gt;</div>
+<div class="line"><a id="l01109" name="l01109"></a><span class="lineno"><a class="line" href="structsw_1_1__FuncTypeHelper.html"> 1109</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__FuncTypeHelper.html">_FuncTypeHelper</a>;</div>
+<div class="line"><a id="l01110" name="l01110"></a><span class="lineno"> 1110</span> </div>
+<div class="line"><a id="l01114" name="l01114"></a><span class="lineno"> 1114</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Args&gt;</div>
+<div class="foldopen" id="foldopen01115" data-start="{" data-end="};">
+<div class="line"><a id="l01115" name="l01115"></a><span class="lineno"><a class="line" href="structsw_1_1__FuncTypeHelper_3_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4.html"> 1115</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__FuncTypeHelper.html">_FuncTypeHelper</a>&lt;std::tuple&lt;Args...&gt;&gt; {</div>
+<div class="line"><a id="l01116" name="l01116"></a><span class="lineno"> 1116</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TRet&gt;</div>
+<div class="line"><a id="l01117" name="l01117"></a><span class="lineno"> 1117</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1Delegate_3_01TRet_07Args_8_8_8_08_4.html">TFunc</a> = <a class="code hl_class" href="classsw_1_1Delegate.html">Delegate</a>&lt;TRet(Args...)&gt;;</div>
+<div class="line"><a id="l01118" name="l01118"></a><span class="lineno"> 1118</span>    };</div>
 </div>
-<div class="line"><a id="l01113" name="l01113"></a><span class="lineno"> 1113</span> </div>
-<div class="line"><a id="l01117" name="l01117"></a><span class="lineno"> 1117</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Types&gt;</div>
-<div class="line"><a id="l01118" name="l01118"></a><span class="lineno"> 1118</span>    <span class="keyword">using </span>Func = <span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__FuncTypeHelper.html">_FuncTypeHelper</a>&lt;<span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__FuncTraits.html">_FuncTraits</a>&lt;Types...&gt;::TArgsTuple&gt;::template TFunc&lt;<span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__FuncTraits.html">_FuncTraits</a>&lt;Types...&gt;::TRet&gt;;</div>
-<div class="line"><a id="l01119" name="l01119"></a><span class="lineno"> 1119</span>}</div>
+<div class="line"><a id="l01119" name="l01119"></a><span class="lineno"> 1119</span> </div>
+<div class="line"><a id="l01123" name="l01123"></a><span class="lineno"> 1123</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Types&gt;</div>
+<div class="line"><a id="l01124" name="l01124"></a><span class="lineno"> 1124</span>    <span class="keyword">using </span>Func = <span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__FuncTypeHelper.html">_FuncTypeHelper</a>&lt;<span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__FuncTraits.html">_FuncTraits</a>&lt;Types...&gt;::TArgsTuple&gt;::template TFunc&lt;<span class="keyword">typename</span> <a class="code hl_struct" href="structsw_1_1__FuncTraits.html">_FuncTraits</a>&lt;Types...&gt;::TRet&gt;;</div>
+<div class="line"><a id="l01125" name="l01125"></a><span class="lineno"> 1125</span>}</div>
 <div class="ttc" id="aclasssw_1_1CallableList_html"><div class="ttname"><a href="classsw_1_1CallableList.html">sw::CallableList</a></div><div class="ttdoc">用于存储和管理多个可调用对象的列表，针对单个可调用对象的情况进行优化</div><div class="ttdef"><b>Definition</b> Delegate.h:67</div></div>
 <div class="ttc" id="aclasssw_1_1CallableList_html_a337d73adf784038508899e699a0c865b"><div class="ttname"><a href="classsw_1_1CallableList.html#a337d73adf784038508899e699a0c865b">sw::CallableList::CallableList</a></div><div class="ttdeci">CallableList(CallableList &amp;&amp;other) noexcept</div><div class="ttdoc">移动构造函数</div><div class="ttdef"><b>Definition</b> Delegate.h:121</div></div>
 <div class="ttc" id="aclasssw_1_1CallableList_html_a3766869619981026aef4530d1c252085"><div class="ttname"><a href="classsw_1_1CallableList.html#a3766869619981026aef4530d1c252085">sw::CallableList::CallableList</a></div><div class="ttdeci">CallableList(const CallableList &amp;other)</div><div class="ttdoc">拷贝构造函数</div><div class="ttdef"><b>Definition</b> Delegate.h:113</div></div>
@@ -1102,8 +1105,8 @@ $(document).ready(function(){initNavTree('Delegate_8h_source.html',''); initResi
 <div class="ttc" id="astructsw_1_1ICallable_3_01TRet_07Args_8_8_8_08_4_html_ad053035a474a79761bb45bc412141363"><div class="ttname"><a href="structsw_1_1ICallable_3_01TRet_07Args_8_8_8_08_4.html#ad053035a474a79761bb45bc412141363">sw::ICallable&lt; TRet(Args...)&gt;::Invoke</a></div><div class="ttdeci">virtual TRet Invoke(Args... args) const =0</div><div class="ttdoc">调用函数</div></div>
 <div class="ttc" id="astructsw_1_1ICallable_3_01TRet_07Args_8_8_8_08_4_html_ad7a434bdc72100e2a0ac1da2dce77032"><div class="ttname"><a href="structsw_1_1ICallable_3_01TRet_07Args_8_8_8_08_4.html#ad7a434bdc72100e2a0ac1da2dce77032">sw::ICallable&lt; TRet(Args...)&gt;::~ICallable</a></div><div class="ttdeci">virtual ~ICallable()=default</div><div class="ttdoc">析构函数</div></div>
 <div class="ttc" id="astructsw_1_1ICallable_html"><div class="ttname"><a href="structsw_1_1ICallable.html">sw::ICallable</a></div><div class="ttdef"><b>Definition</b> Delegate.h:17</div></div>
-<div class="ttc" id="astructsw_1_1__FuncTraits_html"><div class="ttname"><a href="structsw_1_1__FuncTraits.html">sw::_FuncTraits</a></div><div class="ttdoc">_FuncTraits模板，用于提取函数类型的返回值和参数类型</div><div class="ttdef"><b>Definition</b> Delegate.h:1079</div></div>
-<div class="ttc" id="astructsw_1_1__FuncTypeHelper_html"><div class="ttname"><a href="structsw_1_1__FuncTypeHelper.html">sw::_FuncTypeHelper</a></div><div class="ttdoc">_FuncTypeHelper模板，用于根据参数元组生成对应的Func类型</div><div class="ttdef"><b>Definition</b> Delegate.h:1103</div></div>
+<div class="ttc" id="astructsw_1_1__FuncTraits_html"><div class="ttname"><a href="structsw_1_1__FuncTraits.html">sw::_FuncTraits</a></div><div class="ttdoc">_FuncTraits模板，用于提取函数类型的返回值和参数类型</div><div class="ttdef"><b>Definition</b> Delegate.h:1085</div></div>
+<div class="ttc" id="astructsw_1_1__FuncTypeHelper_html"><div class="ttname"><a href="structsw_1_1__FuncTypeHelper.html">sw::_FuncTypeHelper</a></div><div class="ttdoc">_FuncTypeHelper模板，用于根据参数元组生成对应的Func类型</div><div class="ttdef"><b>Definition</b> Delegate.h:1109</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

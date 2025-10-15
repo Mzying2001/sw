@@ -56,7 +56,7 @@ std::wstring sw::ListBox::GetSelectedItem()
     return this->GetItemAt(this->GetSelectedIndex());
 }
 
-bool sw::ListBox::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+bool sw::ListBox::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
 {
     int index = this->GetItemIndexFromPoint(this->PointFromScreen(mousePosition));
 

@@ -2,11 +2,6 @@
 #include "Dip.h"
 #include "Utils.h"
 
-sw::Size::Size()
-    : Size(0, 0)
-{
-}
-
 sw::Size::Size(double width, double height)
     : width(width), height(height)
 {

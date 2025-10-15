@@ -119,7 +119,7 @@ sw::Label::Label()
     this->InheritTextColor = true;
 }
 
-bool sw::Label::OnSize(Size newClientSize)
+bool sw::Label::OnSize(const Size &newClientSize)
 {
     this->Redraw();
     return StaticControl::OnSize(newClientSize);

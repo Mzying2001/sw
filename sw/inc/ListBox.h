@@ -59,7 +59,7 @@ namespace sw
          * @param mousePosition 鼠标在屏幕中的位置
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnContextMenu(bool isKeyboardMsg, Point mousePosition) override;
+        virtual bool OnContextMenu(bool isKeyboardMsg, const Point &mousePosition) override;
 
         /**
          * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数

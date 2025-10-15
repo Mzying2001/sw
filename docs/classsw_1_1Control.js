@@ -17,5 +17,6 @@ var classsw_1_1Control =
     [ "ResetHandle", "classsw_1_1Control.html#af8efb61076cb72a2ea7b494edc11b7d2", null ],
     [ "ToControl", "classsw_1_1Control.html#ab9213f0b57eec7e79e57570b64d493c6", null ],
     [ "ControlId", "classsw_1_1Control.html#aa5875535fe04ce79df6fb8719b64c0dc", null ],
+    [ "IsFocusedViaTab", "classsw_1_1Control.html#afd8fb19081e93d975aeba300583c54a7", null ],
     [ "IsInHierarchy", "classsw_1_1Control.html#a703a0794e6d8aeb786b1f53c9e987e83", null ]
 ];

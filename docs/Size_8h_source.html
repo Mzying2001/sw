@@ -99,42 +99,50 @@ $(document).ready(function(){initNavTree('Size_8h_source.html',''); initResizabl
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;Windows.h&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span>sw</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
-<div class="foldopen" id="foldopen00011" data-start="{" data-end="};">
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html">   11</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1Size.html">Size</a> {</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#a22c3b210b0c48e2812604381f729d5bd">   15</a></span>        <span class="keywordtype">double</span> <a class="code hl_variable" href="structsw_1_1Size.html#a22c3b210b0c48e2812604381f729d5bd">width</a>;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#a084604eba918ac19b2f8402e330d767b">   20</a></span>        <span class="keywordtype">double</span> <a class="code hl_variable" href="structsw_1_1Size.html#a084604eba918ac19b2f8402e330d767b">height</a>;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#ae14647fdcfcb0e8e7038258a0a4c372e">   25</a></span>        <a class="code hl_function" href="structsw_1_1Size.html#ae14647fdcfcb0e8e7038258a0a4c372e">Size</a>();</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#a0dc991a47b28193693397912c2d25492">   30</a></span>        <a class="code hl_function" href="structsw_1_1Size.html#a0dc991a47b28193693397912c2d25492">Size</a>(<span class="keywordtype">double</span> <a class="code hl_variable" href="structsw_1_1Size.html#a22c3b210b0c48e2812604381f729d5bd">width</a>, <span class="keywordtype">double</span> <a class="code hl_variable" href="structsw_1_1Size.html#a084604eba918ac19b2f8402e330d767b">height</a>);</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#ac277d645576f60522f4f28b5eff0b1ad">   35</a></span>        <a class="code hl_function" href="structsw_1_1Size.html#ac277d645576f60522f4f28b5eff0b1ad">Size</a>(<span class="keyword">const</span> SIZE &amp;size);</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#af0b168c3dc2f57b9690977254a771c66">   40</a></span>        <span class="keyword">operator</span> SIZE() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#a57095fb26482f5f5b0ee925be336a821">   45</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="structsw_1_1Size.html#a57095fb26482f5f5b0ee925be336a821">operator==</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Size.html">Size</a> &amp;other) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#a15b7be48be6fcadb518d7b1a33c9379d">   50</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="structsw_1_1Size.html#a15b7be48be6fcadb518d7b1a33c9379d">operator!=</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Size.html">Size</a> &amp;other) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#a03d6188dc93cf8b77136dc1ea925de1b">   55</a></span>        std::wstring <a class="code hl_function" href="structsw_1_1Size.html#a03d6188dc93cf8b77136dc1ea925de1b">ToString</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    };</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;IComparable.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;IToString.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;Windows.h&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>{</div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="};">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html">   14</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1Size.html">Size</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1IToString.html">IToString</a>&lt;Size&gt;,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>                  <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1IEqualityComparable.html">IEqualityComparable</a>&lt;Size&gt; {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#a22c3b210b0c48e2812604381f729d5bd">   19</a></span>        <span class="keywordtype">double</span> <a class="code hl_variable" href="structsw_1_1Size.html#a22c3b210b0c48e2812604381f729d5bd">width</a>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#a084604eba918ac19b2f8402e330d767b">   24</a></span>        <span class="keywordtype">double</span> <a class="code hl_variable" href="structsw_1_1Size.html#a084604eba918ac19b2f8402e330d767b">height</a>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#a269eb3bc9970e238dc1cfd870d5e17b7">   29</a></span>        <a class="code hl_function" href="structsw_1_1Size.html#a269eb3bc9970e238dc1cfd870d5e17b7">Size</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#a0dc991a47b28193693397912c2d25492">   34</a></span>        <a class="code hl_function" href="structsw_1_1Size.html#a0dc991a47b28193693397912c2d25492">Size</a>(<span class="keywordtype">double</span> <a class="code hl_variable" href="structsw_1_1Size.html#a22c3b210b0c48e2812604381f729d5bd">width</a>, <span class="keywordtype">double</span> <a class="code hl_variable" href="structsw_1_1Size.html#a084604eba918ac19b2f8402e330d767b">height</a>);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#ac277d645576f60522f4f28b5eff0b1ad">   39</a></span>        <a class="code hl_function" href="structsw_1_1Size.html#ac277d645576f60522f4f28b5eff0b1ad">Size</a>(<span class="keyword">const</span> SIZE &amp;size);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#af0b168c3dc2f57b9690977254a771c66">   44</a></span>        <span class="keyword">operator</span> SIZE() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#acab61a8f05a24d900803270b94eef084">   49</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="structsw_1_1Size.html#acab61a8f05a24d900803270b94eef084">Equals</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Size.html">Size</a> &amp;other) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="structsw_1_1Size.html#a03d6188dc93cf8b77136dc1ea925de1b">   54</a></span>        std::wstring <a class="code hl_function" href="structsw_1_1Size.html#a03d6188dc93cf8b77136dc1ea925de1b">ToString</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    };</div>
 </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>}</div>
-<div class="ttc" id="astructsw_1_1Size_html"><div class="ttname"><a href="structsw_1_1Size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>Definition</b> Size.h:11</div></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// Size应为POD类型</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keyword">static_assert</span>(</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        std::is_trivial&lt;Size&gt;::value &amp;&amp; std::is_standard_layout&lt;Size&gt;::value,</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="stringliteral">&quot;Size should be a POD type.&quot;</span>);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>}</div>
+<div class="ttc" id="aclasssw_1_1IEqualityComparable_html"><div class="ttname"><a href="classsw_1_1IEqualityComparable.html">sw::IEqualityComparable</a></div><div class="ttdoc">相等性比较接口</div><div class="ttdef"><b>Definition</b> IComparable.h:12</div></div>
+<div class="ttc" id="aclasssw_1_1IToString_html"><div class="ttname"><a href="classsw_1_1IToString.html">sw::IToString</a></div><div class="ttdoc">为支持ToString方法的类提供统一接口</div><div class="ttdef"><b>Definition</b> IToString.h:12</div></div>
+<div class="ttc" id="astructsw_1_1Size_html"><div class="ttname"><a href="structsw_1_1Size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>Definition</b> Size.h:15</div></div>
 <div class="ttc" id="astructsw_1_1Size_html_a03d6188dc93cf8b77136dc1ea925de1b"><div class="ttname"><a href="structsw_1_1Size.html#a03d6188dc93cf8b77136dc1ea925de1b">sw::Size::ToString</a></div><div class="ttdeci">std::wstring ToString() const</div><div class="ttdoc">获取描述当前对象的字符串</div></div>
-<div class="ttc" id="astructsw_1_1Size_html_a084604eba918ac19b2f8402e330d767b"><div class="ttname"><a href="structsw_1_1Size.html#a084604eba918ac19b2f8402e330d767b">sw::Size::height</a></div><div class="ttdeci">double height</div><div class="ttdoc">高度</div><div class="ttdef"><b>Definition</b> Size.h:20</div></div>
+<div class="ttc" id="astructsw_1_1Size_html_a084604eba918ac19b2f8402e330d767b"><div class="ttname"><a href="structsw_1_1Size.html#a084604eba918ac19b2f8402e330d767b">sw::Size::height</a></div><div class="ttdeci">double height</div><div class="ttdoc">高度</div><div class="ttdef"><b>Definition</b> Size.h:24</div></div>
 <div class="ttc" id="astructsw_1_1Size_html_a0dc991a47b28193693397912c2d25492"><div class="ttname"><a href="structsw_1_1Size.html#a0dc991a47b28193693397912c2d25492">sw::Size::Size</a></div><div class="ttdeci">Size(double width, double height)</div><div class="ttdoc">构造指定宽高的Size结构体</div></div>
-<div class="ttc" id="astructsw_1_1Size_html_a15b7be48be6fcadb518d7b1a33c9379d"><div class="ttname"><a href="structsw_1_1Size.html#a15b7be48be6fcadb518d7b1a33c9379d">sw::Size::operator!=</a></div><div class="ttdeci">bool operator!=(const Size &amp;other) const</div><div class="ttdoc">判断两个Size是否不相等</div></div>
-<div class="ttc" id="astructsw_1_1Size_html_a22c3b210b0c48e2812604381f729d5bd"><div class="ttname"><a href="structsw_1_1Size.html#a22c3b210b0c48e2812604381f729d5bd">sw::Size::width</a></div><div class="ttdeci">double width</div><div class="ttdoc">宽度</div><div class="ttdef"><b>Definition</b> Size.h:15</div></div>
-<div class="ttc" id="astructsw_1_1Size_html_a57095fb26482f5f5b0ee925be336a821"><div class="ttname"><a href="structsw_1_1Size.html#a57095fb26482f5f5b0ee925be336a821">sw::Size::operator==</a></div><div class="ttdeci">bool operator==(const Size &amp;other) const</div><div class="ttdoc">判断两个Size是否相等</div></div>
+<div class="ttc" id="astructsw_1_1Size_html_a22c3b210b0c48e2812604381f729d5bd"><div class="ttname"><a href="structsw_1_1Size.html#a22c3b210b0c48e2812604381f729d5bd">sw::Size::width</a></div><div class="ttdeci">double width</div><div class="ttdoc">宽度</div><div class="ttdef"><b>Definition</b> Size.h:19</div></div>
+<div class="ttc" id="astructsw_1_1Size_html_a269eb3bc9970e238dc1cfd870d5e17b7"><div class="ttname"><a href="structsw_1_1Size.html#a269eb3bc9970e238dc1cfd870d5e17b7">sw::Size::Size</a></div><div class="ttdeci">Size()=default</div><div class="ttdoc">默认构造函数</div></div>
 <div class="ttc" id="astructsw_1_1Size_html_ac277d645576f60522f4f28b5eff0b1ad"><div class="ttname"><a href="structsw_1_1Size.html#ac277d645576f60522f4f28b5eff0b1ad">sw::Size::Size</a></div><div class="ttdeci">Size(const SIZE &amp;size)</div><div class="ttdoc">从SIZE构造Size结构体</div></div>
-<div class="ttc" id="astructsw_1_1Size_html_ae14647fdcfcb0e8e7038258a0a4c372e"><div class="ttname"><a href="structsw_1_1Size.html#ae14647fdcfcb0e8e7038258a0a4c372e">sw::Size::Size</a></div><div class="ttdeci">Size()</div><div class="ttdoc">构造宽高均为0的Size结构体</div></div>
+<div class="ttc" id="astructsw_1_1Size_html_acab61a8f05a24d900803270b94eef084"><div class="ttname"><a href="structsw_1_1Size.html#acab61a8f05a24d900803270b94eef084">sw::Size::Equals</a></div><div class="ttdeci">bool Equals(const Size &amp;other) const</div><div class="ttdoc">判断两个Size是否相等</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -41,7 +41,7 @@ bool sw::SplitButton::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     }
 }
 
-bool sw::SplitButton::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+bool sw::SplitButton::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
 {
     if (ContextMenu == nullptr) {
         return false;

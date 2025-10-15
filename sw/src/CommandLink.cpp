@@ -47,7 +47,7 @@ bool sw::CommandLink::OnKillFocus(HWND hNextFocus)
     return ButtonBase::OnKillFocus(hNextFocus);
 }
 
-bool sw::CommandLink::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::CommandLink::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     bool result = UIElement::OnKeyDown(key, flags);
 

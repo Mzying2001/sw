@@ -318,6 +318,12 @@
     <ClInclude Include="..\sw\inc\SpinBox.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\IComparable.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\IToString.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\TreeView.h">
       <Filter>inc</Filter>
     </ClInclude>

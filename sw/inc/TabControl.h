@@ -20,6 +20,12 @@ namespace sw
      */
     class TabControl : public Control
     {
+    private:
+        /**
+         * @brief 是否自动调整大小
+         */
+        bool _autoSize = true;
+
     public:
         /**
          * @brief 内容区域位置与尺寸
@@ -40,6 +46,11 @@ namespace sw
          * @brief 是否开启多行标签
          */
         const Property<bool> MultiLine;
+
+        /**
+         * @brief 是否自动调整大小以适应当前页面内容，默认为true
+         */
+        const Property<bool> AutoSize;
 
     public:
         /**
@@ -77,6 +88,13 @@ namespace sw
         virtual void OnRemovedChild(UIElement &element) override;
 
         /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
          * @brief           安排子元素的位置，可重写该函数以实现自定义布局
          * @param finalSize 可用于排列子元素的最终尺寸
          */
@@ -91,15 +109,26 @@ namespace sw
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
+         * @brief     绘制虚线框时调用该函数
+         * @param hdc 绘制设备句柄
+         */
+        virtual void OnDrawFocusRect(HDC hdc) override;
+
+        /**
          * @brief SelectedIndex属性更改时调用该函数
          */
         virtual void OnSelectedIndexChanged();
 
     private:
         /**
+         * @brief 设置标签位置
+         */
+        void _SetTabAlignment(TabAlignment value);
+
+        /**
          * @brief 根据选中的tab更新子元素的Visible属性
          */
-        void _UpdateChildVisible();
+        void _UpdateChildVisible(bool invalidMeasure = true);
 
         /**
          * @brief 发送TCM_INSERTITEMW消息
@@ -120,5 +149,20 @@ namespace sw
          * @brief 发送TCM_DELETEALLITEMS消息
          */
         bool _DeleteAllItems();
+
+        /**
+         * @brief 计算内容区域的位置和尺寸
+         */
+        void _CalcContentRect(RECT &rect);
+
+        /**
+         * @brief 计算指定内容大小时控件的理想大小
+         */
+        void _CalcIdealSize(SIZE &size);
+
+        /**
+         * @brief 获取当前选中的子元素，若没有选中任何子元素则返回nullptr
+         */
+        UIElement *_GetSelectedItem();
     };
 }

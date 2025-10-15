@@ -261,75 +261,93 @@ bool sw::BmpBox::OnPaint()
 
     PAINTSTRUCT ps;
     HDC hdc = BeginPaint(hwnd, &ps);
-    SetStretchBltMode(hdc, HALFTONE);
 
     RECT clientRect;
     GetClientRect(hwnd, &clientRect);
 
+    int width  = clientRect.right - clientRect.left;
+    int height = clientRect.bottom - clientRect.top;
+
+    HDC hdcMem         = CreateCompatibleDC(hdc);
+    HBITMAP hBitmap    = CreateCompatibleBitmap(hdc, width, height);
+    HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
+
     HBRUSH hBackColorBrush = CreateSolidBrush(this->GetRealBackColor());
-    FillRect(hdc, &clientRect, hBackColorBrush);
+    FillRect(hdcMem, &clientRect, hBackColorBrush);
 
     if (this->_hBitmap != NULL &&
         this->_bmpSize.cx > 0 && this->_bmpSize.cy > 0) {
-        HDC hdcmem = CreateCompatibleDC(hdc);
-        SelectObject(hdcmem, this->_hBitmap);
+        HDC hdcBmp = CreateCompatibleDC(hdc);
+        SelectObject(hdcBmp, this->_hBitmap);
 
         switch (this->_sizeMode) {
             case BmpBoxSizeMode::Normal: {
-                BitBlt(hdc, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, hdcmem, 0, 0, SRCCOPY);
+                BitBlt(hdcMem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, hdcBmp, 0, 0, SRCCOPY);
                 break;
             }
 
             case BmpBoxSizeMode::StretchImage: {
-                StretchBlt(hdc, 0, 0, clientRect.right - clientRect.left, clientRect.bottom - clientRect.top,
-                           hdcmem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
+                SetStretchBltMode(hdcMem, HALFTONE);
+                StretchBlt(hdcMem, 0, 0, width, height,
+                           hdcBmp, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
                 break;
             }
 
             case BmpBoxSizeMode::AutoSize:
             case BmpBoxSizeMode::CenterImage: {
-                int x = ((clientRect.right - clientRect.left) - this->_bmpSize.cx) / 2;
-                int y = ((clientRect.bottom - clientRect.top) - this->_bmpSize.cy) / 2;
-                BitBlt(hdc, x, y, this->_bmpSize.cx, this->_bmpSize.cy, hdcmem, 0, 0, SRCCOPY);
+                int x = (width - this->_bmpSize.cx) / 2;
+                int y = (height - this->_bmpSize.cy) / 2;
+                BitBlt(hdcMem, x, y, this->_bmpSize.cx, this->_bmpSize.cy, hdcBmp, 0, 0, SRCCOPY);
                 break;
             }
 
             case BmpBoxSizeMode::Zoom: {
-                int w = clientRect.right - clientRect.left;
-                int h = clientRect.bottom - clientRect.top;
+                double scale_w = double(width) / this->_bmpSize.cx;
+                double scale_h = double(height) / this->_bmpSize.cy;
 
-                double scale_w = double(w) / this->_bmpSize.cx;
-                double scale_h = double(h) / this->_bmpSize.cy;
+                SetStretchBltMode(hdcMem, HALFTONE);
 
                 if (scale_w < scale_h) {
-                    int draw_w = w;
+                    int draw_w = width;
                     int draw_h = std::lround(scale_w * this->_bmpSize.cy);
-                    StretchBlt(hdc, 0, (h - draw_h) / 2, draw_w, draw_h,
-                               hdcmem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
+                    StretchBlt(hdcMem, 0, (height - draw_h) / 2, draw_w, draw_h,
+                               hdcBmp, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
                 } else {
                     int draw_w = std::lround(scale_h * this->_bmpSize.cx);
-                    int draw_h = h;
-                    StretchBlt(hdc, (w - draw_w) / 2, 0, draw_w, draw_h,
-                               hdcmem, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
+                    int draw_h = height;
+                    StretchBlt(hdcMem, (width - draw_w) / 2, 0, draw_w, draw_h,
+                               hdcBmp, 0, 0, this->_bmpSize.cx, this->_bmpSize.cy, SRCCOPY);
                 }
                 break;
             }
         }
 
-        DeleteDC(hdcmem);
+        DeleteDC(hdcBmp);
     }
 
-    EndPaint(hwnd, &ps);
+    BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
+
+    SelectObject(hdcMem, hBitmapOld);
+    DeleteObject(hBitmap);
     DeleteObject(hBackColorBrush);
+    DeleteDC(hdcMem);
+
+    EndPaint(hwnd, &ps);
     return true;
 }
 
-bool sw::BmpBox::OnSize(Size newClientSize)
+bool sw::BmpBox::OnSize(const Size &newClientSize)
 {
     if (this->_sizeMode != BmpBoxSizeMode::Normal) {
         InvalidateRect(this->Handle, NULL, FALSE);
     }
     return this->StaticControl::OnSize(newClientSize);
+}
+
+bool sw::BmpBox::OnEraseBackground(HDC hdc, LRESULT &result)
+{
+    result = 1;
+    return true;
 }
 
 sw::Size sw::BmpBox::MeasureOverride(const Size &availableSize)
@@ -414,7 +432,7 @@ bool sw::Button::OnKillFocus(HWND hNextFocus)
     return this->ButtonBase::OnKillFocus(hNextFocus);
 }
 
-bool sw::Button::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::Button::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     bool result = this->UIElement::OnKeyDown(key, flags);
 
@@ -694,18 +712,13 @@ sw::CheckableButton::~CheckableButton()
 
 // Color.cpp
 
-sw::Color::Color()
-    : Color(0, 0, 0)
-{
-}
-
 sw::Color::Color(uint8_t r, uint8_t g, uint8_t b)
-    : r(r), g(g), b(b)
+    : r(r), g(g), b(b), _reserved(0)
 {
 }
 
 sw::Color::Color(KnownColor knownColor)
-    : Color(COLORREF(knownColor))
+    : Color(static_cast<COLORREF>(knownColor))
 {
 }
 
@@ -719,14 +732,9 @@ sw::Color::operator COLORREF() const
     return RGB(this->r, this->g, this->b);
 }
 
-bool sw::Color::operator==(const Color &other) const
+bool sw::Color::Equals(const Color &other) const
 {
     return (this->r == other.r) && (this->g == other.g) && (this->b == other.b);
-}
-
-bool sw::Color::operator!=(const Color &other) const
-{
-    return (this->r != other.r) || (this->g != other.g) || (this->b != other.b);
 }
 
 std::wstring sw::Color::ToString() const
@@ -1054,7 +1062,7 @@ bool sw::CommandLink::OnKillFocus(HWND hNextFocus)
     return ButtonBase::OnKillFocus(hNextFocus);
 }
 
-bool sw::CommandLink::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::CommandLink::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     bool result = UIElement::OnKeyDown(key, flags);
 
@@ -1117,6 +1125,12 @@ sw::Control::Control()
               }
               auto container = WndBase::_GetControlInitContainer();
               return container == nullptr || GetParent(_hwnd) != container->_hwnd;
+          }),
+
+      IsFocusedViaTab(
+          // get
+          [this]() -> bool {
+              return _focusedViaTab;
           })
 {
 }
@@ -1199,19 +1213,19 @@ bool sw::Control::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 
 bool sw::Control::OnKillFocus(HWND hNextFocus)
 {
-    _drawFocusRect = false;
+    _focusedViaTab = false;
     return UIElement::OnKillFocus(hNextFocus);
 }
 
 void sw::Control::OnTabStop()
 {
-    _drawFocusRect = true;
     UIElement::OnTabStop();
+    _focusedViaTab = true;
 }
 
 void sw::Control::OnEndPaint()
 {
-    if (!_hasCustomDraw && _drawFocusRect) {
+    if (!_hasCustomDraw && _focusedViaTab) {
         HDC hdc = GetDC(_hwnd);
         OnDrawFocusRect(hdc);
         ReleaseDC(_hwnd, hdc);
@@ -1260,7 +1274,7 @@ bool sw::Control::OnPrePaint(HDC hdc, LRESULT &result)
 
 bool sw::Control::OnPostPaint(HDC hdc, LRESULT &result)
 {
-    if (_drawFocusRect) {
+    if (_focusedViaTab) {
         OnDrawFocusRect(hdc);
     }
     return false;
@@ -1518,14 +1532,9 @@ sw::DockLayoutTag::operator uint64_t() const
     return this->_value;
 }
 
-bool sw::DockLayoutTag::operator==(const DockLayoutTag &other) const
+bool sw::DockLayoutTag::Equals(const DockLayoutTag &other) const
 {
     return this->_value == other._value;
-}
-
-bool sw::DockLayoutTag::operator!=(const DockLayoutTag &other) const
-{
-    return this->_value != other._value;
 }
 
 bool sw::DockLayoutTag::operator==(uint64_t value) const
@@ -1717,7 +1726,7 @@ void sw::DockSplitter::CancelDrag(bool restoreSize)
     }
 }
 
-bool sw::DockSplitter::OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState)
+bool sw::DockSplitter::OnMouseLeftButtonDown(const Point &mousePosition, MouseKey keyState)
 {
     if (TBase::OnMouseLeftButtonDown(mousePosition, keyState))
         return true;
@@ -1727,7 +1736,7 @@ bool sw::DockSplitter::OnMouseLeftButtonDown(Point mousePosition, MouseKey keySt
     }
 }
 
-bool sw::DockSplitter::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState)
+bool sw::DockSplitter::OnMouseLeftButtonUp(const Point &mousePosition, MouseKey keyState)
 {
     if (TBase::OnMouseLeftButtonUp(mousePosition, keyState))
         return true;
@@ -1738,7 +1747,7 @@ bool sw::DockSplitter::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyStat
     }
 }
 
-bool sw::DockSplitter::OnMouseMove(Point mousePosition, MouseKey keyState)
+bool sw::DockSplitter::OnMouseMove(const Point &mousePosition, MouseKey keyState)
 {
     if (TBase::OnMouseMove(mousePosition, keyState))
         return true;
@@ -1760,7 +1769,7 @@ bool sw::DockSplitter::OnKillFocus(HWND hNextFocus)
     }
 }
 
-bool sw::DockSplitter::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::DockSplitter::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     if (TBase::OnKeyDown(key, flags))
         return true;
@@ -3518,7 +3527,7 @@ void sw::HwndHost::InitHwndHost()
         this->_hWindowCore = this->BuildWindowCore(this->Handle);
 }
 
-bool sw::HwndHost::OnSize(Size newClientSize)
+bool sw::HwndHost::OnSize(const Size &newClientSize)
 {
     if (this->_hWindowCore != NULL && this->_fillContent) {
         SetWindowPos(this->_hWindowCore, NULL, 0, 0,
@@ -3568,7 +3577,6 @@ void sw::HwndWrapper::InitHwndWrapper()
     this->UpdateFont();
 
     if (this->_isControl) {
-        WndBase::_InitControlContainer();
         this->WndBase::SetParent(nullptr);
     }
 }
@@ -4197,7 +4205,7 @@ sw::Label::Label()
     this->InheritTextColor = true;
 }
 
-bool sw::Label::OnSize(Size newClientSize)
+bool sw::Label::OnSize(const Size &newClientSize)
 {
     this->Redraw();
     return StaticControl::OnSize(newClientSize);
@@ -4952,7 +4960,7 @@ std::wstring sw::ListBox::GetSelectedItem()
     return this->GetItemAt(this->GetSelectedIndex());
 }
 
-bool sw::ListBox::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+bool sw::ListBox::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
 {
     int index = this->GetItemIndexFromPoint(this->PointFromScreen(mousePosition));
 
@@ -6496,11 +6504,8 @@ bool sw::Panel::OnPaint()
     HWND hwnd = Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
-    RECT clientRect;
-    GetClientRect(hwnd, &clientRect);
-
     HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
-    FillRect(hdc, &clientRect, hBrush);
+    FillRect(hdc, &ps.rcPaint, hBrush);
 
     DeleteObject(hBrush);
     EndPaint(hwnd, &ps);
@@ -6514,11 +6519,7 @@ bool sw::Panel::OnNcPaint(HRGN hRgn)
 
     RECT rect;
     GetWindowRect(hwnd, &rect);
-
-    rect.right -= rect.left;
-    rect.bottom -= rect.top;
-    rect.left = 0;
-    rect.top  = 0;
+    OffsetRect(&rect, -rect.left, -rect.top);
 
     OnDrawBorder(hdc, rect);
     OnDrawPadding(hdc, rect);
@@ -6794,11 +6795,6 @@ std::wstring sw::Path::GetAbsolutePath(const std::wstring &path)
 
 // Point.cpp
 
-sw::Point::Point()
-    : Point(0, 0)
-{
-}
-
 sw::Point::Point(double x, double y)
     : x(x), y(y)
 {
@@ -6814,14 +6810,9 @@ sw::Point::operator POINT() const
     return {Dip::DipToPxX(this->x), Dip::DipToPxY(this->y)};
 }
 
-bool sw::Point::operator==(const Point &other) const
+bool sw::Point::Equals(const Point &other) const
 {
     return (this->x == other.x) && (this->y == other.y);
-}
-
-bool sw::Point::operator!=(const Point &other) const
-{
-    return (this->x != other.x) || (this->y != other.y);
 }
 
 std::wstring sw::Point::ToString() const
@@ -6830,11 +6821,6 @@ std::wstring sw::Point::ToString() const
 }
 
 // ProcMsg.cpp
-
-sw::ProcMsg::ProcMsg()
-    : ProcMsg(NULL, 0, 0, 0)
-{
-}
 
 sw::ProcMsg::ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     : hwnd(hwnd), uMsg(uMsg), wParam(wParam), lParam(lParam)
@@ -6941,11 +6927,6 @@ sw::RadioButton::RadioButton()
 
 // Rect.cpp
 
-sw::Rect::Rect()
-    : Rect(0, 0, 0, 0)
-{
-}
-
 sw::Rect::Rect(double left, double top, double width, double height)
     : left(left), top(top), width(width), height(height)
 {
@@ -6977,20 +6958,12 @@ sw::Size sw::Rect::GetSize() const
     return Size(this->width, this->height);
 }
 
-bool sw::Rect::operator==(const Rect &other) const
+bool sw::Rect::Equals(const Rect &other) const
 {
     return (this->left == other.left) &&
            (this->top == other.top) &&
            (this->width == other.width) &&
            (this->height == other.height);
-}
-
-bool sw::Rect::operator!=(const Rect &other) const
-{
-    return (this->left != other.left) ||
-           (this->top != other.top) ||
-           (this->width != other.width) ||
-           (this->height != other.height);
 }
 
 std::wstring sw::Rect::ToString() const
@@ -7029,11 +7002,6 @@ const sw::ReadOnlyProperty<sw::Point> sw::Screen::CursorPosition(
 
 // Size.cpp
 
-sw::Size::Size()
-    : Size(0, 0)
-{
-}
-
 sw::Size::Size(double width, double height)
     : width(width), height(height)
 {
@@ -7049,14 +7017,9 @@ sw::Size::operator SIZE() const
     return {Dip::DipToPxX(this->width), Dip::DipToPxY(this->height)};
 }
 
-bool sw::Size::operator==(const Size &other) const
+bool sw::Size::Equals(const Size &other) const
 {
     return (this->width == other.width) && (this->height == other.height);
-}
-
-bool sw::Size::operator!=(const Size &other) const
-{
-    return (this->width != other.width) || (this->height != other.height);
 }
 
 std::wstring sw::Size::ToString() const
@@ -7281,7 +7244,13 @@ void sw::SpinBox::OnHandleChanged(HWND hwnd)
     _InitSpinBox();
 }
 
-bool sw::SpinBox::OnSize(Size newClientSize)
+bool sw::SpinBox::OnMove(const Point &newClientPosition)
+{
+    _UpdateUpDownPos();
+    return TextBoxBase::OnMove(newClientPosition);
+}
+
+bool sw::SpinBox::OnSize(const Size &newClientSize)
 {
     _UpdateUpDownPos();
     return TextBoxBase::OnSize(newClientSize);
@@ -7416,7 +7385,7 @@ bool sw::SplitButton::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     }
 }
 
-bool sw::SplitButton::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+bool sw::SplitButton::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
 {
     if (ContextMenu == nullptr) {
         return false;
@@ -7519,7 +7488,7 @@ bool sw::Splitter::OnPaint()
     return true;
 }
 
-bool sw::Splitter::OnSize(Size newClientSize)
+bool sw::Splitter::OnSize(const Size &newClientSize)
 {
     InvalidateRect(Handle, NULL, FALSE);
     return UIElement::OnSize(newClientSize);
@@ -7545,7 +7514,7 @@ void sw::StackLayout::ArrangeOverride(const Size &finalSize)
 
 sw::Size sw::StackLayoutH::MeasureOverride(const Size &availableSize)
 {
-    Size desireSize;
+    Size desireSize{};
     int childCount = this->GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
@@ -7577,7 +7546,7 @@ void sw::StackLayoutH::ArrangeOverride(const Size &finalSize)
 
 sw::Size sw::StackLayoutV::MeasureOverride(const Size &availableSize)
 {
-    Size desireSize;
+    Size desireSize{};
     int childCount = this->GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
@@ -7866,7 +7835,7 @@ sw::TabControl::TabControl()
           [this]() -> sw::Rect {
               RECT rect;
               GetClientRect(this->Handle, &rect);
-              this->SendMessageW(TCM_ADJUSTRECT, FALSE, reinterpret_cast<LPARAM>(&rect));
+              this->_CalcContentRect(rect);
               return rect;
           }),
 
@@ -7895,60 +7864,7 @@ sw::TabControl::TabControl()
           },
           // set
           [this](const TabAlignment &value) {
-              auto oldStyle = this->GetStyle();
-              auto style    = oldStyle;
-
-              switch (value) {
-                  case TabAlignment::Top: {
-                      style &= ~(TCS_VERTICAL | TCS_BOTTOM);
-                      break;
-                  }
-                  case TabAlignment::Bottom: {
-                      style &= ~TCS_VERTICAL;
-                      style |= TCS_BOTTOM;
-                      break;
-                  }
-                  case TabAlignment::Left: {
-                      style |= (TCS_VERTICAL | TCS_MULTILINE);
-                      style &= ~TCS_RIGHT;
-                      break;
-                  }
-                  case TabAlignment::Right: {
-                      style |= (TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHT);
-                      break;
-                  }
-              }
-
-              if (style == oldStyle) {
-                  return;
-              } else {
-                  this->SetStyle(style);
-              }
-
-              // 特定情况下需要重新创建控件
-              if ((style & TCS_VERTICAL) ||                               // TCS_VERTICAL位为1
-                  ((style & TCS_VERTICAL) ^ (oldStyle & TCS_VERTICAL))) { // TCS_VERTICAL位改变
-
-                  int selectedIndex = this->SelectedIndex;
-                  int childCount    = this->ChildCount;
-
-                  std::vector<UIElement *> children;
-                  children.reserve(childCount);
-                  for (int i = childCount - 1; i >= 0; --i) {
-                      children.push_back(&this->GetChildAt(i));
-                      this->RemoveChildAt(i);
-                  }
-
-                  this->ResetHandle();
-                  for (int i = childCount - 1; i >= 0; --i) {
-                      this->AddChild(children[i]);
-                  }
-
-                  this->SelectedIndex = selectedIndex;
-
-              } else {
-                  this->InvalidateMeasure();
-              }
+              this->_SetTabAlignment(value);
           }),
 
       MultiLine(
@@ -7960,10 +7876,25 @@ sw::TabControl::TabControl()
           [this](const bool &value) {
               this->SetStyle(TCS_MULTILINE, value);
               this->InvalidateMeasure();
+          }),
+
+      AutoSize(
+          // get
+          [this]() -> bool {
+              return this->_autoSize;
+          },
+          // set
+          [this](const bool &value) {
+              if (this->_autoSize != value) {
+                  this->_autoSize = value;
+                  this->InvalidateMeasure();
+              }
           })
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
-    this->Rect = sw::Rect(0, 0, 200, 200);
+
+    this->Rect    = sw::Rect(0, 0, 200, 200);
+    this->TabStop = true;
     this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::FontChanged;
 }
 
@@ -7998,6 +7929,7 @@ void sw::TabControl::UpdateTab()
     }
 
     this->Redraw();
+    this->InvalidateMeasure();
 }
 
 void sw::TabControl::UpdateTabText(int index)
@@ -8022,6 +7954,7 @@ void sw::TabControl::UpdateTabText(int index)
     this->_SetItem(index, item);
 
     this->Redraw();
+    this->InvalidateMeasure();
 }
 
 void sw::TabControl::OnAddedChild(UIElement &element)
@@ -8042,20 +7975,61 @@ void sw::TabControl::OnAddedChild(UIElement &element)
 void sw::TabControl::OnRemovedChild(UIElement &element)
 {
     this->UpdateTab();
-    this->_UpdateChildVisible();
+    this->_UpdateChildVisible(false);
     this->UIElement::OnRemovedChild(element);
+}
+
+sw::Size sw::TabControl::MeasureOverride(const Size &availableSize)
+{
+    UIElement *selectedItem = this->_GetSelectedItem();
+
+    if (!this->_autoSize || selectedItem == nullptr) {
+        return this->UIElement::MeasureOverride(availableSize);
+    }
+
+    bool isWidthInf  = std::isinf(availableSize.width);
+    bool isHeightInf = std::isinf(availableSize.height);
+
+    if (isWidthInf && isHeightInf) {
+        selectedItem->Measure(availableSize);
+    } else {
+        const int inf = (std::numeric_limits<int>::max)();
+
+        SIZE availableSizePx{
+            isWidthInf ? inf : Dip::DipToPxX(availableSize.width),
+            isHeightInf ? inf : Dip::DipToPxY(availableSize.height)};
+
+        RECT rtContent{0, 0, availableSizePx.cx, availableSizePx.cy};
+        this->_CalcContentRect(rtContent);
+
+        SIZE sizeBorder{
+            availableSizePx.cx - (rtContent.right - rtContent.left),
+            availableSizePx.cy - (rtContent.bottom - rtContent.top)};
+
+        Size measureSize = availableSize;
+        measureSize.width -= Dip::PxToDipX(sizeBorder.cx);
+        measureSize.height -= Dip::PxToDipY(sizeBorder.cy);
+
+        selectedItem->Measure(measureSize);
+    }
+
+    SIZE desireSize = selectedItem->GetDesireSize();
+    this->_CalcIdealSize(desireSize);
+    return desireSize;
 }
 
 void sw::TabControl::ArrangeOverride(const Size &finalSize)
 {
-    int selectedIndex = this->SelectedIndex;
-    if (selectedIndex < 0 || selectedIndex >= this->ChildCount) return;
+    UIElement *selectedItem = this->_GetSelectedItem();
+    if (selectedItem == nullptr) return;
 
-    UIElement &selectedItem = this->GetChildAt(selectedIndex);
-    sw::Rect contentRect    = this->ContentRect;
-
-    selectedItem.Measure(contentRect.GetSize());
-    selectedItem.Arrange(contentRect);
+    if (this->_autoSize) {
+        selectedItem->Arrange(this->ContentRect);
+    } else {
+        sw::Rect contentRect = this->ContentRect;
+        selectedItem->Measure(contentRect.GetSize());
+        selectedItem->Arrange(contentRect);
+    }
 }
 
 bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
@@ -8066,28 +8040,92 @@ bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     return this->Control::OnNotified(pNMHDR, result);
 }
 
+void sw::TabControl::OnDrawFocusRect(HDC hdc)
+{
+    // 不绘制虚线框
+}
+
 void sw::TabControl::OnSelectedIndexChanged()
 {
     this->_UpdateChildVisible();
     this->RaiseRoutedEvent(TabControl_SelectedIndexChanged);
 }
 
-void sw::TabControl::_UpdateChildVisible()
+void sw::TabControl::_SetTabAlignment(TabAlignment value)
+{
+    auto oldStyle = this->GetStyle();
+    auto style    = oldStyle;
+
+    switch (value) {
+        case TabAlignment::Top: {
+            style &= ~(TCS_VERTICAL | TCS_BOTTOM);
+            break;
+        }
+        case TabAlignment::Bottom: {
+            style &= ~TCS_VERTICAL;
+            style |= TCS_BOTTOM;
+            break;
+        }
+        case TabAlignment::Left: {
+            style |= (TCS_VERTICAL | TCS_MULTILINE);
+            style &= ~TCS_RIGHT;
+            break;
+        }
+        case TabAlignment::Right: {
+            style |= (TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHT);
+            break;
+        }
+    }
+
+    if (style == oldStyle) {
+        return;
+    } else {
+        this->SetStyle(style);
+    }
+
+    // 特定情况下需要重新创建控件
+    if ((style & TCS_VERTICAL) ||                               // TCS_VERTICAL位为1
+        ((style & TCS_VERTICAL) ^ (oldStyle & TCS_VERTICAL))) { // TCS_VERTICAL位改变
+
+        this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
+
+        int selectedIndex = this->SelectedIndex;
+        int childCount    = this->ChildCount;
+
+        std::vector<UIElement *> children;
+        children.reserve(childCount);
+
+        for (int i = childCount - 1; i >= 0; --i) {
+            children.push_back(&this->GetChildAt(i));
+            this->RemoveChildAt(i);
+        }
+
+        this->ResetHandle();
+
+        while (!children.empty()) {
+            this->AddChild(children.back());
+            children.pop_back();
+        }
+
+        this->SelectedIndex = selectedIndex;
+        this->LayoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
+    }
+
+    this->InvalidateMeasure();
+}
+
+void sw::TabControl::_UpdateChildVisible(bool invalidMeasure)
 {
     int selectedIndex = this->SelectedIndex;
     int childCount    = this->ChildCount;
 
     for (int i = 0; i < childCount; ++i) {
         auto &item = this->GetChildAt(i);
-        HWND hwnd  = item.Handle;
-        if (i != selectedIndex) {
-            ShowWindow(hwnd, SW_HIDE);
-        } else {
-            sw::Rect contentRect = this->ContentRect;
-            item.Measure(contentRect.GetSize());
-            item.Arrange(contentRect);
-            ShowWindow(hwnd, SW_SHOW);
-        }
+        ShowWindow(item.Handle, i == selectedIndex ? SW_SHOW : SW_HIDE);
+    }
+
+    if (invalidMeasure) {
+        this->InvalidateMeasure();
     }
 }
 
@@ -8109,6 +8147,28 @@ bool sw::TabControl::_DeleteItem(int index)
 bool sw::TabControl::_DeleteAllItems()
 {
     return this->SendMessageW(TCM_DELETEALLITEMS, 0, 0);
+}
+
+void sw::TabControl::_CalcContentRect(RECT &rect)
+{
+    this->SendMessageW(TCM_ADJUSTRECT, FALSE, reinterpret_cast<LPARAM>(&rect));
+}
+
+void sw::TabControl::_CalcIdealSize(SIZE &size)
+{
+    RECT rect{0, 0, size.cx, size.cy};
+    this->SendMessageW(TCM_ADJUSTRECT, TRUE, reinterpret_cast<LPARAM>(&rect));
+    size = SIZE{rect.right - rect.left, rect.bottom - rect.top};
+}
+
+sw::UIElement *sw::TabControl::_GetSelectedItem()
+{
+    int selectedIndex = this->SelectedIndex;
+    if (selectedIndex < 0 || selectedIndex >= this->ChildCount) {
+        return nullptr;
+    } else {
+        return &this->GetChildAt(selectedIndex);
+    }
 }
 
 // TextBox.cpp
@@ -8279,7 +8339,7 @@ void sw::TextBoxBase::OnCommand(int code)
     }
 }
 
-bool sw::TextBoxBase::OnChar(wchar_t ch, KeyFlags flags)
+bool sw::TextBoxBase::OnChar(wchar_t ch, const KeyFlags &flags)
 {
     GotCharEventArgs e(ch, flags);
     this->RaiseRoutedEvent(e);
@@ -8293,14 +8353,14 @@ bool sw::TextBoxBase::OnChar(wchar_t ch, KeyFlags flags)
     return e.handledMsg;
 }
 
-bool sw::TextBoxBase::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::TextBoxBase::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     KeyDownEventArgs e(key, flags);
     this->RaiseRoutedEvent(e);
 
     if (!e.handledMsg && key == VirtualKey::Tab && (!this->_acceptTab || this->ReadOnly)) {
         bool shiftDown = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-        shiftDown ? this->SetPreviousTabStopFocus() : this->SetNextTabStopFocus();
+        this->OnTabMove(!shiftDown);
     }
 
     return e.handledMsg;
@@ -8338,18 +8398,13 @@ void sw::TextBoxBase::Clear()
 
 // Thickness.cpp
 
-sw::Thickness::Thickness()
-    : Thickness(0, 0, 0, 0)
-{
-}
-
 sw::Thickness::Thickness(double thickness)
-    : Thickness(thickness, thickness, thickness, thickness)
+    : left(thickness), top(thickness), right(thickness), bottom(thickness)
 {
 }
 
 sw::Thickness::Thickness(double horizontal, double vertical)
-    : Thickness(horizontal, vertical, horizontal, vertical)
+    : left(horizontal), top(vertical), right(horizontal), bottom(vertical)
 {
 }
 
@@ -8376,20 +8431,12 @@ sw::Thickness::operator RECT() const
         Dip::DipToPxY(this->bottom)};
 }
 
-bool sw::Thickness::operator==(const Thickness &other) const
+bool sw::Thickness::Equals(const Thickness &other) const
 {
     return (this->left == other.left) &&
            (this->top == other.top) &&
            (this->right == other.right) &&
            (this->bottom == other.bottom);
-}
-
-bool sw::Thickness::operator!=(const Thickness &other) const
-{
-    return (this->left != other.left) ||
-           (this->top != other.top) ||
-           (this->right != other.right) ||
-           (this->bottom != other.bottom);
 }
 
 std::wstring sw::Thickness::ToString() const
@@ -8444,13 +8491,23 @@ void sw::Timer::Stop()
 
 void sw::Timer::OnTick()
 {
-    if (this->Tick)
+    if (this->Tick) {
         this->Tick(*this);
+    }
 }
 
 sw::Timer *sw::Timer::_GetTimerPtr(HWND hwnd)
 {
-    return reinterpret_cast<Timer *>(GetPropW(hwnd, _TimerPtrProp));
+    // clang-format off
+    static struct _InternalRaiiAtomHelper {
+        ATOM value;
+        _InternalRaiiAtomHelper() : value(GlobalAddAtomW(_TimerPtrProp)) {}
+        ~_InternalRaiiAtomHelper() { GlobalDeleteAtom(value); }
+    } _atom;
+    // clang-format on
+
+    auto ptr = GetProp(hwnd, MAKEINTATOM(_atom.value));
+    return reinterpret_cast<Timer *>(ptr);
 }
 
 void sw::Timer::_SetTimerPtr(HWND hwnd, Timer &timer)
@@ -9625,6 +9682,15 @@ void sw::UIElement::OnRemovedChild(UIElement &element)
     }
 }
 
+void sw::UIElement::OnTabMove(bool forward)
+{
+    if (forward) {
+        this->SetNextTabStopFocus();
+    } else {
+        this->SetPreviousTabStopFocus();
+    }
+}
+
 void sw::UIElement::OnTabStop()
 {
     this->Focused = true;
@@ -9707,7 +9773,7 @@ bool sw::UIElement::OnClose()
     return this->WndBase::OnClose();
 }
 
-bool sw::UIElement::OnMove(Point newClientPosition)
+bool sw::UIElement::OnMove(const Point &newClientPosition)
 {
     PositionChangedEventArgs args(newClientPosition);
     this->RaiseRoutedEvent(args);
@@ -9718,7 +9784,7 @@ bool sw::UIElement::OnMove(Point newClientPosition)
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnSize(Size newClientSize)
+bool sw::UIElement::OnSize(const Size &newClientSize)
 {
     if (this->_horizontalAlignment != sw::HorizontalAlignment::Stretch) {
         this->_origionalSize.width = this->Width;
@@ -9776,14 +9842,14 @@ bool sw::UIElement::OnKillFocus(HWND hNextFocus)
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnChar(wchar_t ch, KeyFlags flags)
+bool sw::UIElement::OnChar(wchar_t ch, const KeyFlags &flags)
 {
     GotCharEventArgs args(ch, flags);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::UIElement::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     KeyDownEventArgs args(key, flags);
     this->RaiseRoutedEvent(args);
@@ -9791,20 +9857,20 @@ bool sw::UIElement::OnKeyDown(VirtualKey key, KeyFlags flags)
     // 实现按下Tab键转移焦点
     if (!args.handledMsg && key == VirtualKey::Tab) {
         bool shiftDown = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-        shiftDown ? this->SetPreviousTabStopFocus() : this->SetNextTabStopFocus();
+        this->OnTabMove(!shiftDown);
     }
 
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnKeyUp(VirtualKey key, KeyFlags flags)
+bool sw::UIElement::OnKeyUp(VirtualKey key, const KeyFlags &flags)
 {
     KeyUpEventArgs args(key, flags);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseMove(Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseMove(const Point &mousePosition, MouseKey keyState)
 {
     MouseMoveEventArgs args(mousePosition, keyState);
     this->RaiseRoutedEvent(args);
@@ -9818,56 +9884,56 @@ bool sw::UIElement::OnMouseLeave()
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseWheel(int wheelDelta, Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseWheel(int wheelDelta, const Point &mousePosition, MouseKey keyState)
 {
     MouseWheelEventArgs args(wheelDelta, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseLeftButtonDown(Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseLeftButtonDown(const Point &mousePosition, MouseKey keyState)
 {
     MouseButtonDownEventArgs args(MouseKey::MouseLeft, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseLeftButtonUp(Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseLeftButtonUp(const Point &mousePosition, MouseKey keyState)
 {
     MouseButtonUpEventArgs args(MouseKey::MouseLeft, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseRightButtonDown(Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseRightButtonDown(const Point &mousePosition, MouseKey keyState)
 {
     MouseButtonDownEventArgs args(MouseKey::MouseRight, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseRightButtonUp(Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseRightButtonUp(const Point &mousePosition, MouseKey keyState)
 {
     MouseButtonUpEventArgs args(MouseKey::MouseRight, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseMiddleButtonDown(Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseMiddleButtonDown(const Point &mousePosition, MouseKey keyState)
 {
     MouseButtonDownEventArgs args(MouseKey::MouseMiddle, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnMouseMiddleButtonUp(Point mousePosition, MouseKey keyState)
+bool sw::UIElement::OnMouseMiddleButtonUp(const Point &mousePosition, MouseKey keyState)
 {
     MouseButtonUpEventArgs args(MouseKey::MouseMiddle, mousePosition, keyState);
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
 }
 
-bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
 {
     if (this->_contextMenu == nullptr) {
         return false;
@@ -10548,21 +10614,25 @@ bool sw::Window::OnPaint()
     RECT rtClient;
     GetClientRect(hwnd, &rtClient);
 
+    SIZE sizeClient{
+        rtClient.right - rtClient.left,
+        rtClient.bottom - rtClient.top};
+
     // 创建内存 DC 和位图
-    HDC hdcMem         = CreateCompatibleDC(hdc);
-    HBITMAP hBitmap    = CreateCompatibleBitmap(hdc, rtClient.right - rtClient.left, rtClient.bottom - rtClient.top);
-    HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
+    HDC hdcMem      = CreateCompatibleDC(hdc);
+    HBITMAP hBmpWnd = CreateCompatibleBitmap(hdc, sizeClient.cx, sizeClient.cy);
+    HBITMAP hBmpOld = (HBITMAP)SelectObject(hdcMem, hBmpWnd);
 
     // 在内存 DC 上进行绘制
     HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
     FillRect(hdcMem, &rtClient, hBrush);
 
     // 将内存 DC 的内容绘制到窗口客户区
-    BitBlt(hdc, 0, 0, rtClient.right - rtClient.left, rtClient.bottom - rtClient.top, hdcMem, 0, 0, SRCCOPY);
+    BitBlt(hdc, 0, 0, sizeClient.cx, sizeClient.cy, hdcMem, 0, 0, SRCCOPY);
 
     // 清理资源
-    SelectObject(hdcMem, hBitmapOld);
-    DeleteObject(hBitmap);
+    SelectObject(hdcMem, hBmpOld);
+    DeleteObject(hBmpWnd);
     DeleteObject(hBrush);
     DeleteDC(hdcMem);
 
@@ -10834,11 +10904,6 @@ namespace
     constexpr wchar_t _WindowClassName[] = L"sw::Window";
 
     /**
-     * @brief 控件初始化时所在的窗口
-     */
-    thread_local struct : sw::WndBase{} *_controlInitContainer = nullptr;
-
-    /**
      * @brief 控件id计数器
      */
     std::atomic<int> _controlIdCounter{1073741827};
@@ -11105,16 +11170,6 @@ sw::WndBase::~WndBase()
     const_cast<uint32_t &>(this->_check) = 0;
 }
 
-bool sw::WndBase::operator==(const WndBase &other) const
-{
-    return this == &other;
-}
-
-bool sw::WndBase::operator!=(const WndBase &other) const
-{
-    return this != &other;
-}
-
 sw::UIElement *sw::WndBase::ToUIElement()
 {
     return nullptr;
@@ -11128,6 +11183,11 @@ sw::Control *sw::WndBase::ToControl()
 sw::Window *sw::WndBase::ToWindow()
 {
     return nullptr;
+}
+
+bool sw::WndBase::Equals(const WndBase &other) const
+{
+    return this == &other;
 }
 
 std::wstring sw::WndBase::ToString() const
@@ -11184,8 +11244,6 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
 
 void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam)
 {
-    WndBase::_InitControlContainer();
-
     if (this->_hwnd != NULL) {
         return;
     }
@@ -11194,26 +11252,29 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         this->_text = lpWindowName;
     }
 
+    WndBase *container =
+        WndBase::_GetControlInitContainer();
+
     HMENU id = reinterpret_cast<HMENU>(
         static_cast<uintptr_t>(WndBase::_NextControlId()));
 
     this->_hwnd = CreateWindowExW(
-        dwExStyle,                    // Optional window styles
-        lpClassName,                  // Window class
-        this->_text.c_str(),          // Window text
-        dwStyle,                      // Window style
-        0, 0, 0, 0,                   // Size and position
-        _controlInitContainer->_hwnd, // Parent window
-        id,                           // Control id
-        App::Instance,                // Instance handle
-        lpParam                       // Additional application data
+        dwExStyle,           // Optional window styles
+        lpClassName,         // Window class
+        this->_text.c_str(), // Window text
+        dwStyle,             // Window style
+        0, 0, 0, 0,          // Size and position
+        container->_hwnd,    // Parent window
+        id,                  // Control id
+        App::Instance,       // Instance handle
+        lpParam              // Additional application data
     );
 
     this->_isControl = true;
     WndBase::_SetWndBase(this->_hwnd, *this);
 
-    this->_originalWndProc =
-        reinterpret_cast<WNDPROC>(SetWindowLongPtrW(this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
+    this->_originalWndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtrW(
+        this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
 
     this->HandleInitialized(this->_hwnd);
     this->UpdateFont();
@@ -11241,7 +11302,11 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DESTROY: {
-            LRESULT result     = this->OnDestroy() ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnDestroy() ? 0 : this->DefaultWndProc(refMsg);
+        }
+
+        case WM_NCDESTROY: {
+            LRESULT result     = this->DefaultWndProc(refMsg);
             this->_isDestroyed = true;
             return result;
         }
@@ -11617,12 +11682,12 @@ void sw::WndBase::OnEndNcPaint()
 {
 }
 
-bool sw::WndBase::OnMove(Point newClientPosition)
+bool sw::WndBase::OnMove(const Point &newClientPosition)
 {
     return false;
 }
 
-bool sw::WndBase::OnSize(Size newClientSize)
+bool sw::WndBase::OnSize(const Size &newClientSize)
 {
     return false;
 }
@@ -11641,7 +11706,7 @@ bool sw::WndBase::OnKillFocus(HWND hNextFocus)
     return false;
 }
 
-bool sw::WndBase::OnMouseMove(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMove(const Point &mousePosition, MouseKey keyState)
 {
     return false;
 }
@@ -11651,92 +11716,92 @@ bool sw::WndBase::OnMouseLeave()
     return false;
 }
 
-bool sw::WndBase::OnMouseWheel(int wheelDelta, Point mousePosition, MouseKey keyState)
+bool sw::WndBase::OnMouseWheel(int wheelDelta, const Point &mousePosition, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseLeftButtonDown(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseLeftButtonDown(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseLeftButtonUp(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseLeftButtonUp(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseLeftButtonDoubleClick(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseLeftButtonDoubleClick(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseRightButtonDown(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseRightButtonDown(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseRightButtonUp(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseRightButtonUp(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseRightButtonDoubleClick(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseRightButtonDoubleClick(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseMiddleButtonDown(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMiddleButtonDown(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseMiddleButtonUp(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMiddleButtonUp(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnMouseMiddleButtonDoubleClick(Point mousePos, MouseKey keyState)
+bool sw::WndBase::OnMouseMiddleButtonDoubleClick(const Point &mousePos, MouseKey keyState)
 {
     return false;
 }
 
-bool sw::WndBase::OnChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnDeadChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnDeadChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnKeyUp(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnKeyUp(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnSysChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysDeadChar(wchar_t ch, KeyFlags flags)
+bool sw::WndBase::OnSysDeadChar(wchar_t ch, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysKeyDown(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnSysKeyDown(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
 
-bool sw::WndBase::OnSysKeyUp(VirtualKey key, KeyFlags flags)
+bool sw::WndBase::OnSysKeyUp(VirtualKey key, const KeyFlags &flags)
 {
     return false;
 }
@@ -11751,7 +11816,11 @@ bool sw::WndBase::SetParent(WndBase *parent)
     HWND hParent;
 
     if (parent == nullptr) {
-        hParent = this->_isControl ? _controlInitContainer->_hwnd : NULL;
+        if (!this->_isControl) {
+            hParent = NULL;
+        } else {
+            hParent = WndBase::_GetControlInitContainer()->_hwnd;
+        }
     } else {
         hParent = parent->_hwnd;
     }
@@ -11800,7 +11869,7 @@ bool sw::WndBase::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, boo
     return false;
 }
 
-bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, Point mousePosition)
+bool sw::WndBase::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
 {
     return false;
 }
@@ -12050,11 +12119,11 @@ sw::WndBase *sw::WndBase::GetWndBase(HWND hwnd) noexcept
     static struct _InternalRaiiAtomHelper {
         ATOM value;
         _InternalRaiiAtomHelper() : value(GlobalAddAtomW(_WndBasePtrProp)) {}
-        ~_InternalRaiiAtomHelper()  { GlobalDeleteAtom(value); }
+        ~_InternalRaiiAtomHelper() { GlobalDeleteAtom(value); }
     } _atom;
     // clang-format on
 
-    auto p = reinterpret_cast<WndBase *>(GetPropW(hwnd, (LPWSTR)MAKEINTATOM(_atom.value)));
+    auto p = reinterpret_cast<WndBase *>(GetProp(hwnd, MAKEINTATOM(_atom.value)));
     return (p == nullptr || p->_check != _WndBaseMagicNumber) ? nullptr : p;
 }
 
@@ -12085,19 +12154,24 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
     return DefWindowProcW(hwnd, uMsg, wParam, lParam);
 }
 
-void sw::WndBase::_InitControlContainer()
-{
-    if (_controlInitContainer == nullptr || _controlInitContainer->_isDestroyed) {
-        delete _controlInitContainer;
-        _controlInitContainer = new std::remove_reference<decltype(*_controlInitContainer)>::type;
-        _controlInitContainer->InitWindow(L"", WS_POPUP, 0);
-    }
-}
-
 sw::WndBase *sw::WndBase::_GetControlInitContainer()
 {
-    _InitControlContainer();
-    return _controlInitContainer;
+    static thread_local std::unique_ptr<WndBase> _container;
+
+    class _ControlInitContainer : public WndBase
+    {
+    public:
+        _ControlInitContainer()
+        {
+            this->InitWindow(L"", WS_POPUP, 0);
+        }
+    };
+
+    if (!_container || _container->_isDestroyed) {
+        _container = std::make_unique<_ControlInitContainer>();
+    }
+
+    return _container.get();
 }
 
 int sw::WndBase::_NextControlId()
@@ -12130,7 +12204,7 @@ void sw::WrapLayout::ArrangeOverride(const Size &finalSize)
 
 sw::Size sw::WrapLayoutH::MeasureOverride(const Size &availableSize)
 {
-    Size size;
+    Size size{};
     int count = this->GetChildLayoutCount();
 
     if (std::isinf(availableSize.width)) {
@@ -12196,7 +12270,7 @@ void sw::WrapLayoutH::ArrangeOverride(const Size &finalSize)
 
 sw::Size sw::WrapLayoutV::MeasureOverride(const Size &availableSize)
 {
-    Size size;
+    Size size{};
     int count = this->GetChildLayoutCount();
 
     if (std::isinf(availableSize.height)) {

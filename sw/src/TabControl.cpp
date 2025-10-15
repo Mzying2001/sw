@@ -1,5 +1,6 @@
 #include "TabControl.h"
 #include "Utils.h"
+#include <cmath>
 
 sw::TabControl::TabControl()
     : ContentRect(
@@ -7,7 +8,7 @@ sw::TabControl::TabControl()
           [this]() -> sw::Rect {
               RECT rect;
               GetClientRect(this->Handle, &rect);
-              this->SendMessageW(TCM_ADJUSTRECT, FALSE, reinterpret_cast<LPARAM>(&rect));
+              this->_CalcContentRect(rect);
               return rect;
           }),
 
@@ -36,60 +37,7 @@ sw::TabControl::TabControl()
           },
           // set
           [this](const TabAlignment &value) {
-              auto oldStyle = this->GetStyle();
-              auto style    = oldStyle;
-
-              switch (value) {
-                  case TabAlignment::Top: {
-                      style &= ~(TCS_VERTICAL | TCS_BOTTOM);
-                      break;
-                  }
-                  case TabAlignment::Bottom: {
-                      style &= ~TCS_VERTICAL;
-                      style |= TCS_BOTTOM;
-                      break;
-                  }
-                  case TabAlignment::Left: {
-                      style |= (TCS_VERTICAL | TCS_MULTILINE);
-                      style &= ~TCS_RIGHT;
-                      break;
-                  }
-                  case TabAlignment::Right: {
-                      style |= (TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHT);
-                      break;
-                  }
-              }
-
-              if (style == oldStyle) {
-                  return;
-              } else {
-                  this->SetStyle(style);
-              }
-
-              // 特定情况下需要重新创建控件
-              if ((style & TCS_VERTICAL) ||                               // TCS_VERTICAL位为1
-                  ((style & TCS_VERTICAL) ^ (oldStyle & TCS_VERTICAL))) { // TCS_VERTICAL位改变
-
-                  int selectedIndex = this->SelectedIndex;
-                  int childCount    = this->ChildCount;
-
-                  std::vector<UIElement *> children;
-                  children.reserve(childCount);
-                  for (int i = childCount - 1; i >= 0; --i) {
-                      children.push_back(&this->GetChildAt(i));
-                      this->RemoveChildAt(i);
-                  }
-
-                  this->ResetHandle();
-                  for (int i = childCount - 1; i >= 0; --i) {
-                      this->AddChild(children[i]);
-                  }
-
-                  this->SelectedIndex = selectedIndex;
-
-              } else {
-                  this->InvalidateMeasure();
-              }
+              this->_SetTabAlignment(value);
           }),
 
       MultiLine(
@@ -101,10 +49,25 @@ sw::TabControl::TabControl()
           [this](const bool &value) {
               this->SetStyle(TCS_MULTILINE, value);
               this->InvalidateMeasure();
+          }),
+
+      AutoSize(
+          // get
+          [this]() -> bool {
+              return this->_autoSize;
+          },
+          // set
+          [this](const bool &value) {
+              if (this->_autoSize != value) {
+                  this->_autoSize = value;
+                  this->InvalidateMeasure();
+              }
           })
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
-    this->Rect = sw::Rect(0, 0, 200, 200);
+
+    this->Rect    = sw::Rect(0, 0, 200, 200);
+    this->TabStop = true;
     this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::FontChanged;
 }
 
@@ -139,6 +102,7 @@ void sw::TabControl::UpdateTab()
     }
 
     this->Redraw();
+    this->InvalidateMeasure();
 }
 
 void sw::TabControl::UpdateTabText(int index)
@@ -163,6 +127,7 @@ void sw::TabControl::UpdateTabText(int index)
     this->_SetItem(index, item);
 
     this->Redraw();
+    this->InvalidateMeasure();
 }
 
 void sw::TabControl::OnAddedChild(UIElement &element)
@@ -183,20 +148,61 @@ void sw::TabControl::OnAddedChild(UIElement &element)
 void sw::TabControl::OnRemovedChild(UIElement &element)
 {
     this->UpdateTab();
-    this->_UpdateChildVisible();
+    this->_UpdateChildVisible(false);
     this->UIElement::OnRemovedChild(element);
+}
+
+sw::Size sw::TabControl::MeasureOverride(const Size &availableSize)
+{
+    UIElement *selectedItem = this->_GetSelectedItem();
+
+    if (!this->_autoSize || selectedItem == nullptr) {
+        return this->UIElement::MeasureOverride(availableSize);
+    }
+
+    bool isWidthInf  = std::isinf(availableSize.width);
+    bool isHeightInf = std::isinf(availableSize.height);
+
+    if (isWidthInf && isHeightInf) {
+        selectedItem->Measure(availableSize);
+    } else {
+        const int inf = (std::numeric_limits<int>::max)();
+
+        SIZE availableSizePx{
+            isWidthInf ? inf : Dip::DipToPxX(availableSize.width),
+            isHeightInf ? inf : Dip::DipToPxY(availableSize.height)};
+
+        RECT rtContent{0, 0, availableSizePx.cx, availableSizePx.cy};
+        this->_CalcContentRect(rtContent);
+
+        SIZE sizeBorder{
+            availableSizePx.cx - (rtContent.right - rtContent.left),
+            availableSizePx.cy - (rtContent.bottom - rtContent.top)};
+
+        Size measureSize = availableSize;
+        measureSize.width -= Dip::PxToDipX(sizeBorder.cx);
+        measureSize.height -= Dip::PxToDipY(sizeBorder.cy);
+
+        selectedItem->Measure(measureSize);
+    }
+
+    SIZE desireSize = selectedItem->GetDesireSize();
+    this->_CalcIdealSize(desireSize);
+    return desireSize;
 }
 
 void sw::TabControl::ArrangeOverride(const Size &finalSize)
 {
-    int selectedIndex = this->SelectedIndex;
-    if (selectedIndex < 0 || selectedIndex >= this->ChildCount) return;
+    UIElement *selectedItem = this->_GetSelectedItem();
+    if (selectedItem == nullptr) return;
 
-    UIElement &selectedItem = this->GetChildAt(selectedIndex);
-    sw::Rect contentRect    = this->ContentRect;
-
-    selectedItem.Measure(contentRect.GetSize());
-    selectedItem.Arrange(contentRect);
+    if (this->_autoSize) {
+        selectedItem->Arrange(this->ContentRect);
+    } else {
+        sw::Rect contentRect = this->ContentRect;
+        selectedItem->Measure(contentRect.GetSize());
+        selectedItem->Arrange(contentRect);
+    }
 }
 
 bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
@@ -207,28 +213,92 @@ bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     return this->Control::OnNotified(pNMHDR, result);
 }
 
+void sw::TabControl::OnDrawFocusRect(HDC hdc)
+{
+    // 不绘制虚线框
+}
+
 void sw::TabControl::OnSelectedIndexChanged()
 {
     this->_UpdateChildVisible();
     this->RaiseRoutedEvent(TabControl_SelectedIndexChanged);
 }
 
-void sw::TabControl::_UpdateChildVisible()
+void sw::TabControl::_SetTabAlignment(TabAlignment value)
+{
+    auto oldStyle = this->GetStyle();
+    auto style    = oldStyle;
+
+    switch (value) {
+        case TabAlignment::Top: {
+            style &= ~(TCS_VERTICAL | TCS_BOTTOM);
+            break;
+        }
+        case TabAlignment::Bottom: {
+            style &= ~TCS_VERTICAL;
+            style |= TCS_BOTTOM;
+            break;
+        }
+        case TabAlignment::Left: {
+            style |= (TCS_VERTICAL | TCS_MULTILINE);
+            style &= ~TCS_RIGHT;
+            break;
+        }
+        case TabAlignment::Right: {
+            style |= (TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHT);
+            break;
+        }
+    }
+
+    if (style == oldStyle) {
+        return;
+    } else {
+        this->SetStyle(style);
+    }
+
+    // 特定情况下需要重新创建控件
+    if ((style & TCS_VERTICAL) ||                               // TCS_VERTICAL位为1
+        ((style & TCS_VERTICAL) ^ (oldStyle & TCS_VERTICAL))) { // TCS_VERTICAL位改变
+
+        this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
+
+        int selectedIndex = this->SelectedIndex;
+        int childCount    = this->ChildCount;
+
+        std::vector<UIElement *> children;
+        children.reserve(childCount);
+
+        for (int i = childCount - 1; i >= 0; --i) {
+            children.push_back(&this->GetChildAt(i));
+            this->RemoveChildAt(i);
+        }
+
+        this->ResetHandle();
+
+        while (!children.empty()) {
+            this->AddChild(children.back());
+            children.pop_back();
+        }
+
+        this->SelectedIndex = selectedIndex;
+        this->LayoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
+    }
+
+    this->InvalidateMeasure();
+}
+
+void sw::TabControl::_UpdateChildVisible(bool invalidMeasure)
 {
     int selectedIndex = this->SelectedIndex;
     int childCount    = this->ChildCount;
 
     for (int i = 0; i < childCount; ++i) {
         auto &item = this->GetChildAt(i);
-        HWND hwnd  = item.Handle;
-        if (i != selectedIndex) {
-            ShowWindow(hwnd, SW_HIDE);
-        } else {
-            sw::Rect contentRect = this->ContentRect;
-            item.Measure(contentRect.GetSize());
-            item.Arrange(contentRect);
-            ShowWindow(hwnd, SW_SHOW);
-        }
+        ShowWindow(item.Handle, i == selectedIndex ? SW_SHOW : SW_HIDE);
+    }
+
+    if (invalidMeasure) {
+        this->InvalidateMeasure();
     }
 }
 
@@ -250,4 +320,26 @@ bool sw::TabControl::_DeleteItem(int index)
 bool sw::TabControl::_DeleteAllItems()
 {
     return this->SendMessageW(TCM_DELETEALLITEMS, 0, 0);
+}
+
+void sw::TabControl::_CalcContentRect(RECT &rect)
+{
+    this->SendMessageW(TCM_ADJUSTRECT, FALSE, reinterpret_cast<LPARAM>(&rect));
+}
+
+void sw::TabControl::_CalcIdealSize(SIZE &size)
+{
+    RECT rect{0, 0, size.cx, size.cy};
+    this->SendMessageW(TCM_ADJUSTRECT, TRUE, reinterpret_cast<LPARAM>(&rect));
+    size = SIZE{rect.right - rect.left, rect.bottom - rect.top};
+}
+
+sw::UIElement *sw::TabControl::_GetSelectedItem()
+{
+    int selectedIndex = this->SelectedIndex;
+    if (selectedIndex < 0 || selectedIndex >= this->ChildCount) {
+        return nullptr;
+    } else {
+        return &this->GetChildAt(selectedIndex);
+    }
 }

@@ -4,7 +4,7 @@
 
 sw::Size sw::StackLayoutV::MeasureOverride(const Size &availableSize)
 {
-    Size desireSize;
+    Size desireSize{};
     int childCount = this->GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {

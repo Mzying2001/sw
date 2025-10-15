@@ -78,11 +78,18 @@ namespace sw
         virtual void OnHandleChanged(HWND hwnd) override;
 
         /**
+         * @brief                   接收到WM_MOVE时调用该函数
+         * @param newClientPosition 移动后用户区左上角的位置
+         * @return                  若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnMove(const Point &newClientPosition) override;
+
+        /**
          * @brief               接收到WM_SIZE时调用该函数
          * @param newClientSize 改变后的用户区尺寸
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual bool OnSize(Size newClientSize) override;
+        virtual bool OnSize(const Size &newClientSize) override;
 
         /**
          * @brief            接收到WM_KILLFOCUS时调用该函数
