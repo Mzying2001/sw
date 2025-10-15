@@ -1,5 +1,6 @@
 var NAVTREEINDEX5 =
 {
+"classsw_1_1Window.html#a8ff6176f2fb886593f448b430c21fc90":[2,0,0,158,11],
 "classsw_1_1Window.html#a9046c167eb2a1572f420ecd5bd8aef1c":[2,0,0,158,14],
 "classsw_1_1Window.html#a97bf0daa8e8c902a26628926f2900470":[2,0,0,158,12],
 "classsw_1_1Window.html#a9f8bea034629f087944e9b33af60d9ec":[2,0,0,158,10],
@@ -248,6 +249,5 @@ var NAVTREEINDEX5 =
 "index.html#autotoc_md6":[0,1,1],
 "index.html#autotoc_md7":[0,1,2],
 "index.html#autotoc_md8":[0,2],
-"index.html#autotoc_md9":[0,3],
-"pages.html":[]
+"index.html#autotoc_md9":[0,3]
 };

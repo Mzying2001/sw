@@ -779,6 +779,9 @@ Protected 成员函数</h2></td></tr>
 <tr class="memitem:a5cf9b7a0f611b756f63575055ff1af34" id="r_a5cf9b7a0f611b756f63575055ff1af34"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1SpinBox.html#a5cf9b7a0f611b756f63575055ff1af34">OnHandleChanged</a> (HWND hwnd) override</td></tr>
 <tr class="memdesc:a5cf9b7a0f611b756f63575055ff1af34"><td class="mdescLeft">&#160;</td><td class="mdescRight">控件句柄发生改变时调用该函数  <br /></td></tr>
 <tr class="separator:a5cf9b7a0f611b756f63575055ff1af34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a128141d21929f17c1a605314ce28838d" id="r_a128141d21929f17c1a605314ce28838d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1SpinBox.html#a128141d21929f17c1a605314ce28838d">OnMove</a> (const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;newClientPosition) override</td></tr>
+<tr class="memdesc:a128141d21929f17c1a605314ce28838d"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MOVE时调用该函数  <br /></td></tr>
+<tr class="separator:a128141d21929f17c1a605314ce28838d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9915a229f331976be17720c9b3f8260e" id="r_a9915a229f331976be17720c9b3f8260e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1SpinBox.html#a9915a229f331976be17720c9b3f8260e">OnSize</a> (const <a class="el" href="structsw_1_1Size.html">Size</a> &amp;newClientSize) override</td></tr>
 <tr class="memdesc:a9915a229f331976be17720c9b3f8260e"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SIZE时调用该函数  <br /></td></tr>
 <tr class="separator:a9915a229f331976be17720c9b3f8260e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -919,9 +922,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetPreviousTabStopFoc
 <tr class="memitem:a1c1f0b6a491e639c76e46a29bff00d65 inherit pro_methods_classsw_1_1UIElement" id="r_a1c1f0b6a491e639c76e46a29bff00d65"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a1c1f0b6a491e639c76e46a29bff00d65">OnClose</a> () override</td></tr>
 <tr class="memdesc:a1c1f0b6a491e639c76e46a29bff00d65 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CLOSE时调用该函数  <br /></td></tr>
 <tr class="separator:a1c1f0b6a491e639c76e46a29bff00d65 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1708a7be0d9ffdcc18ee89413a7ca55a inherit pro_methods_classsw_1_1UIElement" id="r_a1708a7be0d9ffdcc18ee89413a7ca55a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a1708a7be0d9ffdcc18ee89413a7ca55a">OnMove</a> (const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;newClientPosition) override</td></tr>
-<tr class="memdesc:a1708a7be0d9ffdcc18ee89413a7ca55a inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MOVE时调用该函数  <br /></td></tr>
-<tr class="separator:a1708a7be0d9ffdcc18ee89413a7ca55a inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e1fbc142c7cfe4a4a60959daf0753bc inherit pro_methods_classsw_1_1UIElement" id="r_a7e1fbc142c7cfe4a4a60959daf0753bc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a7e1fbc142c7cfe4a4a60959daf0753bc">OnTextChanged</a> () override</td></tr>
 <tr class="memdesc:a7e1fbc142c7cfe4a4a60959daf0753bc inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Text属性更改时调用此函数  <br /></td></tr>
 <tr class="separator:a7e1fbc142c7cfe4a4a60959daf0753bc inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1226,6 +1226,43 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
 <p>重载 <a class="el" href="classsw_1_1Control.html#a18296053d3a7b8476cda377664434232">sw::Control</a> .</p>
+
+</div>
+</div>
+<a id="a128141d21929f17c1a605314ce28838d" name="a128141d21929f17c1a605314ce28838d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a128141d21929f17c1a605314ce28838d">&#9670;&#160;</a></span>OnMove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool sw::SpinBox::OnMove </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;&#160;</td>
+          <td class="paramname"><em>newClientPosition</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_MOVE时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newClientPosition</td><td>移动后用户区左上角的位置 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+<p>重载 <a class="el" href="classsw_1_1UIElement.html#a1708a7be0d9ffdcc18ee89413a7ca55a">sw::UIElement</a> .</p>
 
 </div>
 </div>

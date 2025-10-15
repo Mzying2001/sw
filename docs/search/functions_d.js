@@ -11,7 +11,7 @@ var searchData=
   ['postmessagea_8',['PostMessageA',['../classsw_1_1WndBase.html#a4a37ba388e9d85339ffc749d427c541f',1,'sw::WndBase']]],
   ['postmessagew_9',['PostMessageW',['../classsw_1_1WndBase.html#ae73c2839e2380db3c59a3dbe068937d5',1,'sw::WndBase']]],
   ['processfilename_10',['processfilename',['../classsw_1_1FileDialog.html#a7bd7e540fa7f066eaf19f2744d506321',1,'sw::FileDialog::ProcessFileName()'],['../classsw_1_1SaveFileDialog.html#ae7e9e72d0d77337c9489bef40e4bb01c',1,'sw::SaveFileDialog::ProcessFileName()']]],
-  ['procmsg_11',['procmsg',['../structsw_1_1ProcMsg.html#a583cc039611196e1c9717dcc19966137',1,'sw::ProcMsg::ProcMsg()'],['../structsw_1_1ProcMsg.html#a4d88d40f2bcdf5cd8548122532c6257d',1,'sw::ProcMsg::ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)']]],
+  ['procmsg_11',['procmsg',['../structsw_1_1ProcMsg.html#add0c6e4a852463ef11cc33aece3270c9',1,'sw::ProcMsg::ProcMsg()=default'],['../structsw_1_1ProcMsg.html#a4d88d40f2bcdf5cd8548122532c6257d',1,'sw::ProcMsg::ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)']]],
   ['progressbar_12',['ProgressBar',['../classsw_1_1ProgressBar.html#a461cb23f2cc6c276eda9312cb269a403',1,'sw::ProgressBar']]],
   ['property_13',['Property',['../classsw_1_1Property.html#aed49183e5aff7da2c6a8afcfdfafe24c',1,'sw::Property']]],
   ['pxtodipx_14',['PxToDipX',['../classsw_1_1Dip.html#aa0244988630536a31439cdfde27ec209',1,'sw::Dip']]],

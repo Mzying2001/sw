@@ -134,33 +134,36 @@ $(document).ready(function(){initNavTree('SpinBox_8h_source.html',''); initResiz
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keyword">protected</span>:</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classsw_1_1SpinBox.html#a5cf9b7a0f611b756f63575055ff1af34">   78</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1SpinBox.html#a5cf9b7a0f611b756f63575055ff1af34">OnHandleChanged</a>(HWND hwnd) <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classsw_1_1SpinBox.html#a9915a229f331976be17720c9b3f8260e">   85</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1SpinBox.html#a9915a229f331976be17720c9b3f8260e">OnSize</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Size.html">Size</a> &amp;newClientSize) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classsw_1_1SpinBox.html#a128141d21929f17c1a605314ce28838d">   85</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1SpinBox.html#a128141d21929f17c1a605314ce28838d">OnMove</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Point.html">Point</a> &amp;newClientPosition) <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classsw_1_1SpinBox.html#ae07d95b786278ee289eb9fdf9ba3aa99">   92</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1SpinBox.html#ae07d95b786278ee289eb9fdf9ba3aa99">OnKillFocus</a>(HWND hNextFocus) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classsw_1_1SpinBox.html#a9915a229f331976be17720c9b3f8260e">   92</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1SpinBox.html#a9915a229f331976be17720c9b3f8260e">OnSize</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Size.html">Size</a> &amp;newClientSize) <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordtype">void</span> _InitSpinBox();</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordtype">void</span> _InitUpDownControl();</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <span class="keywordtype">void</span> _InitAccels();</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        <span class="keywordtype">int</span> _GetPos32();</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        <span class="keywordtype">void</span> _SetPos32(<span class="keywordtype">int</span> pos);</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        <span class="keywordtype">void</span> _GetRange32(<span class="keywordtype">int</span> *min, <span class="keywordtype">int</span> *max);</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordtype">void</span> _SetRange32(<span class="keywordtype">int</span> min, <span class="keywordtype">int</span> max);</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classsw_1_1SpinBox.html#ae07d95b786278ee289eb9fdf9ba3aa99">   99</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1SpinBox.html#ae07d95b786278ee289eb9fdf9ba3aa99">OnKillFocus</a>(HWND hNextFocus) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keywordtype">void</span> _InitSpinBox();</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        <span class="keywordtype">void</span> _InitUpDownControl();</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="keywordtype">void</span> _InitAccels();</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="keywordtype">int</span> _GetPos32();</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="keywordtype">void</span> _SetPos32(<span class="keywordtype">int</span> pos);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordtype">void</span> _GetRange32(<span class="keywordtype">int</span> *min, <span class="keywordtype">int</span> *max);</div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        <span class="keywordtype">void</span> _SetAccel(<span class="keywordtype">size_t</span> count, UDACCEL *pAccels);</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        <span class="keywordtype">void</span> _SetRange32(<span class="keywordtype">int</span> min, <span class="keywordtype">int</span> max);</div>
 <div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        <span class="keywordtype">void</span> _UpdateUpDownPos();</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    };</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        <span class="keywordtype">void</span> _SetAccel(<span class="keywordtype">size_t</span> count, UDACCEL *pAccels);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        <span class="keywordtype">void</span> _UpdateUpDownPos();</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    };</div>
 </div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>};</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>};</div>
 <div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1588</div></div>
 <div class="ttc" id="aclasssw_1_1SpinBox_html"><div class="ttname"><a href="classsw_1_1SpinBox.html">sw::SpinBox</a></div><div class="ttdoc">数值调节框</div><div class="ttdef"><b>Definition</b> SpinBox.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1SpinBox_html_a128141d21929f17c1a605314ce28838d"><div class="ttname"><a href="classsw_1_1SpinBox.html#a128141d21929f17c1a605314ce28838d">sw::SpinBox::OnMove</a></div><div class="ttdeci">virtual bool OnMove(const Point &amp;newClientPosition) override</div><div class="ttdoc">接收到WM_MOVE时调用该函数</div></div>
 <div class="ttc" id="aclasssw_1_1SpinBox_html_a2d4aeb328c1b8d10874597e550dfed4b"><div class="ttname"><a href="classsw_1_1SpinBox.html#a2d4aeb328c1b8d10874597e550dfed4b">sw::SpinBox::ClearAccels</a></div><div class="ttdeci">void ClearAccels()</div><div class="ttdoc">清除所有加速信息</div></div>
 <div class="ttc" id="aclasssw_1_1SpinBox_html_a34b6957d669e144d9abe506860e29afe"><div class="ttname"><a href="classsw_1_1SpinBox.html#a34b6957d669e144d9abe506860e29afe">sw::SpinBox::AddAccel</a></div><div class="ttdeci">SpinBox &amp; AddAccel(uint32_t seconds, uint32_t increment)</div><div class="ttdoc">添加加速信息</div></div>
 <div class="ttc" id="aclasssw_1_1SpinBox_html_a5395c352984620cac53a33b3bf76e9cb"><div class="ttname"><a href="classsw_1_1SpinBox.html#a5395c352984620cac53a33b3bf76e9cb">sw::SpinBox::Minimum</a></div><div class="ttdeci">const Property&lt; int &gt; Minimum</div><div class="ttdoc">最小值，默认为0</div><div class="ttdef"><b>Definition</b> SpinBox.h:32</div></div>
@@ -173,6 +176,7 @@ $(document).ready(function(){initNavTree('SpinBox_8h_source.html',''); initResiz
 <div class="ttc" id="aclasssw_1_1SpinBox_html_ac133f7489334355323897421ff866d16"><div class="ttname"><a href="classsw_1_1SpinBox.html#ac133f7489334355323897421ff866d16">sw::SpinBox::SpinBox</a></div><div class="ttdeci">SpinBox()</div><div class="ttdoc">初始化数值调节框</div></div>
 <div class="ttc" id="aclasssw_1_1SpinBox_html_ae07d95b786278ee289eb9fdf9ba3aa99"><div class="ttname"><a href="classsw_1_1SpinBox.html#ae07d95b786278ee289eb9fdf9ba3aa99">sw::SpinBox::OnKillFocus</a></div><div class="ttdeci">virtual bool OnKillFocus(HWND hNextFocus) override</div><div class="ttdoc">接收到WM_KILLFOCUS时调用该函数</div></div>
 <div class="ttc" id="aclasssw_1_1TextBoxBase_html"><div class="ttname"><a href="classsw_1_1TextBoxBase.html">sw::TextBoxBase</a></div><div class="ttdoc">窗口类名为EDIT的控件类型的基类</div><div class="ttdef"><b>Definition</b> TextBoxBase.h:11</div></div>
+<div class="ttc" id="astructsw_1_1Point_html"><div class="ttname"><a href="structsw_1_1Point.html">sw::Point</a></div><div class="ttdoc">表示相对于左上角的点坐标</div><div class="ttdef"><b>Definition</b> Point.h:15</div></div>
 <div class="ttc" id="astructsw_1_1Size_html"><div class="ttname"><a href="structsw_1_1Size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>Definition</b> Size.h:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

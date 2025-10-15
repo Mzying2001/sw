@@ -18,7 +18,7 @@ var searchData=
   ['postmessagea_15',['PostMessageA',['../classsw_1_1WndBase.html#a4a37ba388e9d85339ffc749d427c541f',1,'sw::WndBase']]],
   ['postmessagew_16',['PostMessageW',['../classsw_1_1WndBase.html#ae73c2839e2380db3c59a3dbe068937d5',1,'sw::WndBase']]],
   ['processfilename_17',['processfilename',['../classsw_1_1SaveFileDialog.html#ae7e9e72d0d77337c9489bef40e4bb01c',1,'sw::SaveFileDialog::ProcessFileName()'],['../classsw_1_1FileDialog.html#a7bd7e540fa7f066eaf19f2744d506321',1,'sw::FileDialog::ProcessFileName()']]],
-  ['procmsg_18',['procmsg',['../structsw_1_1ProcMsg.html#a4d88d40f2bcdf5cd8548122532c6257d',1,'sw::ProcMsg::ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)'],['../structsw_1_1ProcMsg.html#a583cc039611196e1c9717dcc19966137',1,'sw::ProcMsg::ProcMsg()'],['../structsw_1_1ProcMsg.html',1,'sw::ProcMsg']]],
+  ['procmsg_18',['procmsg',['../structsw_1_1ProcMsg.html#a4d88d40f2bcdf5cd8548122532c6257d',1,'sw::ProcMsg::ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)'],['../structsw_1_1ProcMsg.html#add0c6e4a852463ef11cc33aece3270c9',1,'sw::ProcMsg::ProcMsg()=default'],['../structsw_1_1ProcMsg.html',1,'sw::ProcMsg']]],
   ['progressbar_19',['progressbar',['../classsw_1_1ProgressBar.html',1,'sw::ProgressBar'],['../classsw_1_1ProgressBar.html#a461cb23f2cc6c276eda9312cb269a403',1,'sw::ProgressBar::ProgressBar()']]],
   ['property_20',['property',['../classsw_1_1Property.html',1,'sw::Property&lt; T &gt;'],['../classsw_1_1Property.html#aed49183e5aff7da2c6a8afcfdfafe24c',1,'sw::Property::Property()']]],
   ['property_3c_20appquitmode_20_3e_21',['Property&lt; AppQuitMode &gt;',['../classsw_1_1Property.html',1,'sw']]],

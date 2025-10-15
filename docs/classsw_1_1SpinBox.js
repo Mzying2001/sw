@@ -5,6 +5,7 @@ var classsw_1_1SpinBox =
     [ "ClearAccels", "classsw_1_1SpinBox.html#a2d4aeb328c1b8d10874597e550dfed4b", null ],
     [ "OnHandleChanged", "classsw_1_1SpinBox.html#a5cf9b7a0f611b756f63575055ff1af34", null ],
     [ "OnKillFocus", "classsw_1_1SpinBox.html#ae07d95b786278ee289eb9fdf9ba3aa99", null ],
+    [ "OnMove", "classsw_1_1SpinBox.html#a128141d21929f17c1a605314ce28838d", null ],
     [ "OnSize", "classsw_1_1SpinBox.html#a9915a229f331976be17720c9b3f8260e", null ],
     [ "Hexadecimal", "classsw_1_1SpinBox.html#a74b9d634e0a747f6fcd3508922806d21", null ],
     [ "Increment", "classsw_1_1SpinBox.html#a8e8ca4573e2ffd67bb28e9fb60f249b4", null ],
