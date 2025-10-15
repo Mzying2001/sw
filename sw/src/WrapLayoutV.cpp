@@ -4,7 +4,7 @@
 
 sw::Size sw::WrapLayoutV::MeasureOverride(const Size &availableSize)
 {
-    Size size;
+    Size size{};
     int count = this->GetChildLayoutCount();
 
     if (std::isinf(availableSize.height)) {
