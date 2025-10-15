@@ -29,9 +29,9 @@ namespace sw
         LPARAM lParam;
 
         /**
-         * @brief 构造所有字段均为0的ProcMsg
+         * @brief 默认构造函数
          */
-        ProcMsg();
+        ProcMsg() = default;
 
         /**
          * @brief 构造ProcMsg

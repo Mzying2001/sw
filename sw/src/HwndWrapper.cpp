@@ -30,7 +30,6 @@ void sw::HwndWrapper::InitHwndWrapper()
     this->UpdateFont();
 
     if (this->_isControl) {
-        WndBase::_InitControlContainer();
         this->WndBase::SetParent(nullptr);
     }
 }
