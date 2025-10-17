@@ -155,6 +155,29 @@ bool sw::TreeViewNode::Collapse() const
     return SetExpanded(false);
 }
 
+void *sw::TreeViewNode::GetUserData() const
+{
+    TVITEM tvi{};
+    tvi.mask  = TVIF_PARAM;
+    tvi.hItem = _hitem;
+
+    if (TreeView_GetItem(_hwnd, &tvi) == FALSE) {
+        return nullptr;
+    } else {
+        return reinterpret_cast<void *>(tvi.lParam);
+    }
+}
+
+bool sw::TreeViewNode::SetUserData(void *data) const
+{
+    TVITEM tvi{};
+    tvi.mask   = TVIF_PARAM;
+    tvi.hItem  = _hitem;
+    tvi.lParam = reinterpret_cast<LPARAM>(data);
+
+    return TreeView_SetItem(_hwnd, &tvi) != FALSE;
+}
+
 sw::TreeView::TreeView()
     : Root(
           // get

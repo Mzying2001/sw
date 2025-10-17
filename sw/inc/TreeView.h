@@ -149,6 +149,17 @@ namespace sw
          * @return 操作是否成功
          */
         bool Collapse() const;
+
+        /**
+         * @brief 获取与当前节点关联的用户数据
+         */
+        void *GetUserData() const;
+
+        /**
+         * @brief  设置与当前节点关联的用户数据
+         * @return 操作是否成功
+         */
+        bool SetUserData(void *data) const;
     };
 
     /**
