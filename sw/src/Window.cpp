@@ -300,7 +300,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 
 sw::LayoutHost *sw::Window::GetDefaultLayout()
 {
-    return _layout.get();
+    return _defaultLayout.get();
 }
 
 bool sw::Window::OnClose()
