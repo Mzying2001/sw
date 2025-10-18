@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: TreeView.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('TreeView_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">TreeView.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;ImageList.h&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;ItemsControl.h&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;CommCtrl.h&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">enum class</span> TreeViewImageList {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        Normal = TVSIL_NORMAL, <span class="comment">// 普通图像列表</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        State  = TVSIL_STATE,  <span class="comment">// 状态映像列表</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    };</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00018" data-start="{" data-end="};">
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html">   18</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1IToString.html">IToString</a>&lt;TreeViewNode&gt;,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                         <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1IEqualityComparable.html">IEqualityComparable</a>&lt;TreeViewNode&gt;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        HWND _hwnd;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        HTREEITEM _hitem;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a3ed7035dd24510c528deca102e9ea157">   36</a></span>        <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a3ed7035dd24510c528deca102e9ea157">TreeViewNode</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#ace74c83ab27644dddede4fd0a22b1b08">   41</a></span>        <a class="code hl_function" href="classsw_1_1TreeViewNode.html#ace74c83ab27644dddede4fd0a22b1b08">TreeViewNode</a>(HWND hwnd, HTREEITEM hitem);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a51af5bd5d6ec56168e6b89681549d21f">   46</a></span>        HWND <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a51af5bd5d6ec56168e6b89681549d21f">GetOwnerHandle</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a242e36f2cdc99a5e74f27942de213326">   51</a></span>        HTREEITEM <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a242e36f2cdc99a5e74f27942de213326">GetHandle</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a8b720840dfadbdf2bf42f64a4418a841">   56</a></span>        std::wstring <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a8b720840dfadbdf2bf42f64a4418a841">ToString</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#aef662729d9ea996da840b3cdd432ada9">   61</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#aef662729d9ea996da840b3cdd432ada9">Equals</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> &amp;other) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a1523a21a3a969045d9c5d7b0d98bf0fc">   66</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a1523a21a3a969045d9c5d7b0d98bf0fc">IsNull</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a44635dca0312f2279386c738f5f4916b">   71</a></span>        <span class="keyword">operator</span> bool() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#aa49e611237c2abd9750626e2a68610b4">   76</a></span>        std::wstring <a class="code hl_function" href="classsw_1_1TreeViewNode.html#aa49e611237c2abd9750626e2a68610b4">GetText</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a914795cd75d583b63abb54f732243373">   82</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a914795cd75d583b63abb54f732243373">SetText</a>(<span class="keyword">const</span> std::wstring &amp;text) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a50ca35b93c494c4f461e2ee84f948754">   88</a></span>        <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a50ca35b93c494c4f461e2ee84f948754">GetParent</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a6ec3b11117c4804667a884467a47ac28">   94</a></span>        <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a6ec3b11117c4804667a884467a47ac28">GetNextNode</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a70fdc4b673d30169d4e697449f6da704">  100</a></span>        <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a70fdc4b673d30169d4e697449f6da704">GetPreviousNode</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#aab04e502d92b79d51a5f164ce05bf377">  106</a></span>        <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#aab04e502d92b79d51a5f164ce05bf377">GetFirstChildNode</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a0819323020b3345648545c975daf93f7">  112</a></span>        <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a0819323020b3345648545c975daf93f7">InsertAfter</a>(<span class="keyword">const</span> std::wstring &amp;text) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a16a2963ce96e111f66a396336c2358ae">  118</a></span>        <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a16a2963ce96e111f66a396336c2358ae">AddChild</a>(<span class="keyword">const</span> std::wstring &amp;text) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#aca9d27d213d1776e187b9c39c9504efb">  124</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#aca9d27d213d1776e187b9c39c9504efb">IsSelected</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a92a5d83ab7649f819469f3ad860cd189">  130</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a92a5d83ab7649f819469f3ad860cd189">Select</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#acb1b677c44d3ada4e5454b0487f1a9b0">  136</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#acb1b677c44d3ada4e5454b0487f1a9b0">Delete</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a0d9fc377f703b6a0c730caf34ff0dc5e">  142</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a0d9fc377f703b6a0c730caf34ff0dc5e">IsExpanded</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a479978b35c1190f2a6aaf04e0e04e3a1">  148</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a479978b35c1190f2a6aaf04e0e04e3a1">SetExpand</a>(<span class="keywordtype">bool</span> expand) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a56dbf4ac2e2585e144ca2a3339c42561">  154</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a56dbf4ac2e2585e144ca2a3339c42561">Expand</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#ab566cef19fbae70c20ec4f5c6fa2ffaf">  160</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#ab566cef19fbae70c20ec4f5c6fa2ffaf">Collapse</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a96c6932003f8f26487b89866b5571f6f">  165</a></span>        <span class="keywordtype">void</span> *<a class="code hl_function" href="classsw_1_1TreeViewNode.html#a96c6932003f8f26487b89866b5571f6f">GetUserData</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a9585805cdbd3ac0344f9d344baef5e1a">  171</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a9585805cdbd3ac0344f9d344baef5e1a">SetUserData</a>(<span class="keywordtype">void</span> *data) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#aef3988aba257111439d4b7cda14de8e7">  177</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#aef3988aba257111439d4b7cda14de8e7">IsChecked</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a00f48073530c62e36384a2c1ea40d8f3">  182</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a00f48073530c62e36384a2c1ea40d8f3">SetCheck</a>(<span class="keywordtype">bool</span> check) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="classsw_1_1TreeViewNode.html#a245521d27db0a9961c58f0c1d7a9811d">  188</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeViewNode.html#a245521d27db0a9961c58f0c1d7a9811d">SetImages</a>(<span class="keywordtype">int</span> imageIndex, <span class="keywordtype">int</span> selectedImageIndex) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    };</div>
+</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="comment">// clang-format off</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="foldopen" id="foldopen00196" data-start="{" data-end="};">
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno"><a class="line" href="structsw_1_1TreeViewItemExpandingEventArgs.html">  196</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1TreeViewItemExpandingEventArgs.html">TreeViewItemExpandingEventArgs</a> : <a class="code hl_struct" href="structsw_1_1TypedRoutedEventArgs.html">TypedRoutedEventArgs</a>&lt;TreeView_ItemExpanding&gt; {</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        <span class="keywordtype">bool</span> cancel = <span class="keyword">false</span>; <span class="comment">// 是否取消本次展开或折叠操作</span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        <span class="keywordtype">bool</span> action;         <span class="comment">// true表示展开，false表示折叠</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> node;   <span class="comment">// 正在展开或折叠的节点</span></div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        <a class="code hl_struct" href="structsw_1_1TreeViewItemExpandingEventArgs.html">TreeViewItemExpandingEventArgs</a>(<span class="keywordtype">bool</span> action, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> &amp;node): action(action), node(node) {}</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    };</div>
+</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="foldopen" id="foldopen00206" data-start="{" data-end="};">
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno"><a class="line" href="structsw_1_1TreeViewItemExpandedEventArgs.html">  206</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1TreeViewItemExpandedEventArgs.html">TreeViewItemExpandedEventArgs</a> : <a class="code hl_struct" href="structsw_1_1TypedRoutedEventArgs.html">TypedRoutedEventArgs</a>&lt;TreeView_ItemExpanding&gt; {</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        <span class="keywordtype">bool</span> action;       <span class="comment">// true表示展开，false表示折叠</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> node; <span class="comment">// 正在展开或折叠的节点</span></div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        <a class="code hl_struct" href="structsw_1_1TreeViewItemExpandedEventArgs.html">TreeViewItemExpandedEventArgs</a>(<span class="keywordtype">bool</span> action, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> &amp;node): action(action), node(node) {}</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    };</div>
+</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
+<div class="foldopen" id="foldopen00215" data-start="{" data-end="};">
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno"><a class="line" href="structsw_1_1TreeViewCheckStateChangedEventArgs.html">  215</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1TreeViewCheckStateChangedEventArgs.html">TreeViewCheckStateChangedEventArgs</a> : <a class="code hl_struct" href="structsw_1_1TypedRoutedEventArgs.html">TypedRoutedEventArgs</a>&lt;TreeView_CheckStateChanged&gt; {</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        <span class="keywordtype">int</span> checkState;    <span class="comment">// 复选框的新状态，0表示未选中，1表示选中，-1表示无复选框</span></div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>        <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> node; <span class="comment">// 复选框状态改变的节点</span></div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        <a class="code hl_struct" href="structsw_1_1TreeViewCheckStateChangedEventArgs.html">TreeViewCheckStateChangedEventArgs</a>(<span class="keywordtype">int</span> checkState, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> &amp;node): checkState(checkState), node(node) {}</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    };</div>
+</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    <span class="comment">// clang-format on</span></div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="foldopen" id="foldopen00226" data-start="{" data-end="};">
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html">  226</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1TreeView.html">TreeView</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1ItemsControl.html">ItemsControl</a>&lt;TreeViewNode&gt;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    {</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1ItemsControl.html">TBase</a> = <a class="code hl_class" href="classsw_1_1ItemsControl.html">ItemsControl&lt;TreeViewNode&gt;</a>;</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#ae2bc81c3c3ac2cbf81a8975266f466a6">  238</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty&lt;TreeViewNode&gt;</a> <a class="code hl_variable" href="classsw_1_1TreeView.html#ae2bc81c3c3ac2cbf81a8975266f466a6">Root</a>;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#afbb3ced96a966320ad579996e80d4b75">  243</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty&lt;int&gt;</a> <a class="code hl_variable" href="classsw_1_1TreeView.html#afbb3ced96a966320ad579996e80d4b75">AllItemsCount</a>;</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span> </div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a728b3020436311573469a9406c48dade">  248</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1TreeView.html#a728b3020436311573469a9406c48dade">CheckBoxes</a>;</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a5b9ae3dac391b1dcf72ba8e8b3c72269">  253</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;Color&gt;</a> <a class="code hl_variable" href="classsw_1_1TreeView.html#a5b9ae3dac391b1dcf72ba8e8b3c72269">LineColor</a>;</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#ac0cd31d25bb600da01b15c0177a930ac">  259</a></span>        <a class="code hl_function" href="classsw_1_1TreeView.html#ac0cd31d25bb600da01b15c0177a930ac">TreeView</a>();</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span> </div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a94d2fbe09b13d6d3c88a2f34a4bff2dd">  265</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1TreeView.html#a94d2fbe09b13d6d3c88a2f34a4bff2dd">GetItemsCount</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span> </div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a6240f649e6a59bde7fc308983e8ee067">  270</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1TreeView.html#a6240f649e6a59bde7fc308983e8ee067">GetSelectedIndex</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span> </div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a246f11068f629f8871e1f23505ef83ae">  275</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1TreeView.html#a246f11068f629f8871e1f23505ef83ae">SetSelectedIndex</a>(<span class="keywordtype">int</span> index) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a5ed3d92277dbcb61c6e41e81ea9586f5">  280</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> <a class="code hl_function" href="classsw_1_1TreeView.html#a5ed3d92277dbcb61c6e41e81ea9586f5">GetSelectedItem</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#ab9eafa6ba20daf20cfc3642b3513ff43">  286</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1TreeView.html#ab9eafa6ba20daf20cfc3642b3513ff43">OnDrawFocusRect</a>(HDC hdc) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span> </div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a07fb6a7307dd4a059c18e526c4393f61">  293</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1TreeView.html#a07fb6a7307dd4a059c18e526c4393f61">SetBackColor</a>(<a class="code hl_struct" href="structsw_1_1Color.html">Color</a> color, <span class="keywordtype">bool</span> redraw) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span> </div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#aa336eb600d807ec06ca5fd5e335242e4">  300</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1TreeView.html#aa336eb600d807ec06ca5fd5e335242e4">SetTextColor</a>(<a class="code hl_struct" href="structsw_1_1Color.html">Color</a> color, <span class="keywordtype">bool</span> redraw) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span> </div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a188a2dcfa88861b342bee40e5ad33cd9">  308</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeView.html#a188a2dcfa88861b342bee40e5ad33cd9">OnNotified</a>(NMHDR *pNMHDR, LRESULT &amp;result) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span> </div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#af5504a45fb1206d5318cea9d79b10b85">  316</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeView.html#af5504a45fb1206d5318cea9d79b10b85">OnClicked</a>(NMHDR *pNMHDR, LRESULT &amp;result);</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span> </div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a5c2becffacc6646d78cbc46bef0951ff">  324</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeView.html#a5c2becffacc6646d78cbc46bef0951ff">OnDoubleClicked</a>(NMHDR *pNMHDR, LRESULT &amp;result);</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span> </div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a27da553067658a23efde3d06fbce5ab7">  330</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1TreeView.html#a27da553067658a23efde3d06fbce5ab7">OnGetDispInfo</a>(NMTVDISPINFOW *pNMInfo);</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span> </div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a331556e247b59ead5ed5e9462fe9d3f5">  337</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeView.html#a331556e247b59ead5ed5e9462fe9d3f5">OnItemExpanding</a>(NMTREEVIEWW *pNMTV);</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#afcfbc7beb3dab1831fcc22221628b3da">  343</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1TreeView.html#afcfbc7beb3dab1831fcc22221628b3da">OnItemExpanded</a>(NMTREEVIEWW *pNMTV);</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span> </div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#ac0e4469547e13c1605191fe88bb2c6af">  349</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1TreeView.html#ac0e4469547e13c1605191fe88bb2c6af">OnItemChanged</a>(NMTVITEMCHANGE *pNMInfo);</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span> </div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#ac3b89cf2c2a68c4f9a4da496436d84dc">  355</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1TreeView.html#ac3b89cf2c2a68c4f9a4da496436d84dc">Clear</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span> </div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a3301c02d49ab09b49c4709910df0c09b">  361</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> <a class="code hl_function" href="classsw_1_1TreeView.html#a3301c02d49ab09b49c4709910df0c09b">GetItemAt</a>(<span class="keywordtype">int</span> index) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span> </div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a343cc1586ffe5d692673e34a3182ec3a">  369</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeView.html#a343cc1586ffe5d692673e34a3182ec3a">AddItem</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> &amp;item) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span> </div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a8aa12025bdf449edae0aacb2cf6bad7c">  378</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeView.html#a8aa12025bdf449edae0aacb2cf6bad7c">InsertItem</a>(<span class="keywordtype">int</span> index, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> &amp;item) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span> </div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#ac5c192b56976a6c308dcfec190419eb5">  387</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeView.html#ac5c192b56976a6c308dcfec190419eb5">UpdateItem</a>(<span class="keywordtype">int</span> index, <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> &amp;newValue) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span> </div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a83c864c86586e11967fcb0f65a2a6b4c">  394</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TreeView.html#a83c864c86586e11967fcb0f65a2a6b4c">RemoveItemAt</a>(<span class="keywordtype">int</span> index) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span> </div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a99ebefc4f884e2ae799f7eed5955468b">  401</a></span>        <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> <a class="code hl_function" href="classsw_1_1TreeView.html#a99ebefc4f884e2ae799f7eed5955468b">AddItem</a>(<span class="keyword">const</span> std::wstring &amp;text);</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span> </div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a77f1e3864ddc09b6b15be71a5ce18529">  409</a></span>        <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> <a class="code hl_function" href="classsw_1_1TreeView.html#a77f1e3864ddc09b6b15be71a5ce18529">InsertItem</a>(<span class="keywordtype">int</span> index, <span class="keyword">const</span> std::wstring &amp;text);</div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span> </div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#aacaabdc981f7f1ed87aa3abbe9b6b4dd">  415</a></span>        <a class="code hl_class" href="classsw_1_1ImageList.html">ImageList</a> <a class="code hl_function" href="classsw_1_1TreeView.html#aacaabdc981f7f1ed87aa3abbe9b6b4dd">GetImageList</a>(TreeViewImageList imageList);</div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span> </div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno"><a class="line" href="classsw_1_1TreeView.html#a89d197b79f0164ba42db08425b0ca212">  422</a></span>        HIMAGELIST <a class="code hl_function" href="classsw_1_1TreeView.html#a89d197b79f0164ba42db08425b0ca212">SetImageList</a>(TreeViewImageList imageList, HIMAGELIST value);</div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span> </div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>        <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> _GetRoot();</div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span> </div>
+<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>        <a class="code hl_class" href="classsw_1_1TreeViewNode.html">TreeViewNode</a> _InsertItem(HTREEITEM hParent, HTREEITEM hInsertAfter, <span class="keyword">const</span> std::wstring &amp;text);</div>
+<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>    };</div>
+</div>
+<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>}</div>
+<div class="ttc" id="aclasssw_1_1IEqualityComparable_html"><div class="ttname"><a href="classsw_1_1IEqualityComparable.html">sw::IEqualityComparable</a></div><div class="ttdoc">相等性比较接口</div><div class="ttdef"><b>Definition</b> IComparable.h:12</div></div>
+<div class="ttc" id="aclasssw_1_1IToString_html"><div class="ttname"><a href="classsw_1_1IToString.html">sw::IToString</a></div><div class="ttdoc">为支持ToString方法的类提供统一接口</div><div class="ttdef"><b>Definition</b> IToString.h:12</div></div>
+<div class="ttc" id="aclasssw_1_1ImageList_html"><div class="ttname"><a href="classsw_1_1ImageList.html">sw::ImageList</a></div><div class="ttdoc">图像列表</div><div class="ttdef"><b>Definition</b> ImageList.h:12</div></div>
+<div class="ttc" id="aclasssw_1_1ItemsControl_html"><div class="ttname"><a href="classsw_1_1ItemsControl.html">sw::ItemsControl</a></div><div class="ttdoc">表示可用于呈现一组项的控件</div><div class="ttdef"><b>Definition</b> ItemsControl.h:20</div></div>
+<div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1588</div></div>
+<div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>Definition</b> Property.h:1630</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html"><div class="ttname"><a href="classsw_1_1TreeViewNode.html">sw::TreeViewNode</a></div><div class="ttdoc">树视图项</div><div class="ttdef"><b>Definition</b> TreeView.h:20</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a00f48073530c62e36384a2c1ea40d8f3"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a00f48073530c62e36384a2c1ea40d8f3">sw::TreeViewNode::SetCheck</a></div><div class="ttdeci">void SetCheck(bool check) const</div><div class="ttdoc">设置当前节点的复选框选中状态</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a0819323020b3345648545c975daf93f7"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a0819323020b3345648545c975daf93f7">sw::TreeViewNode::InsertAfter</a></div><div class="ttdeci">TreeViewNode InsertAfter(const std::wstring &amp;text) const</div><div class="ttdoc">在当前节点后插入新节点</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a0d9fc377f703b6a0c730caf34ff0dc5e"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a0d9fc377f703b6a0c730caf34ff0dc5e">sw::TreeViewNode::IsExpanded</a></div><div class="ttdeci">bool IsExpanded() const</div><div class="ttdoc">判断当前节点是否展开</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a1523a21a3a969045d9c5d7b0d98bf0fc"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a1523a21a3a969045d9c5d7b0d98bf0fc">sw::TreeViewNode::IsNull</a></div><div class="ttdeci">bool IsNull() const</div><div class="ttdoc">判断当前项是否为空</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a16a2963ce96e111f66a396336c2358ae"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a16a2963ce96e111f66a396336c2358ae">sw::TreeViewNode::AddChild</a></div><div class="ttdeci">TreeViewNode AddChild(const std::wstring &amp;text) const</div><div class="ttdoc">添加子节点到当前节点下</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a242e36f2cdc99a5e74f27942de213326"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a242e36f2cdc99a5e74f27942de213326">sw::TreeViewNode::GetHandle</a></div><div class="ttdeci">HTREEITEM GetHandle() const</div><div class="ttdoc">获取当前项的句柄</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a245521d27db0a9961c58f0c1d7a9811d"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a245521d27db0a9961c58f0c1d7a9811d">sw::TreeViewNode::SetImages</a></div><div class="ttdeci">bool SetImages(int imageIndex, int selectedImageIndex) const</div><div class="ttdoc">设置当前节点的图像</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a3ed7035dd24510c528deca102e9ea157"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a3ed7035dd24510c528deca102e9ea157">sw::TreeViewNode::TreeViewNode</a></div><div class="ttdeci">TreeViewNode()=default</div><div class="ttdoc">默认构造函数</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a479978b35c1190f2a6aaf04e0e04e3a1"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a479978b35c1190f2a6aaf04e0e04e3a1">sw::TreeViewNode::SetExpand</a></div><div class="ttdeci">bool SetExpand(bool expand) const</div><div class="ttdoc">设置当前节点展开或折叠</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a50ca35b93c494c4f461e2ee84f948754"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a50ca35b93c494c4f461e2ee84f948754">sw::TreeViewNode::GetParent</a></div><div class="ttdeci">TreeViewNode GetParent() const</div><div class="ttdoc">获取父节点</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a51af5bd5d6ec56168e6b89681549d21f"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a51af5bd5d6ec56168e6b89681549d21f">sw::TreeViewNode::GetOwnerHandle</a></div><div class="ttdeci">HWND GetOwnerHandle() const</div><div class="ttdoc">获取所属树视图控件的窗口句柄</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a56dbf4ac2e2585e144ca2a3339c42561"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a56dbf4ac2e2585e144ca2a3339c42561">sw::TreeViewNode::Expand</a></div><div class="ttdeci">bool Expand() const</div><div class="ttdoc">展开当前节点</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a6ec3b11117c4804667a884467a47ac28"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a6ec3b11117c4804667a884467a47ac28">sw::TreeViewNode::GetNextNode</a></div><div class="ttdeci">TreeViewNode GetNextNode() const</div><div class="ttdoc">获取下一个节点</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a70fdc4b673d30169d4e697449f6da704"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a70fdc4b673d30169d4e697449f6da704">sw::TreeViewNode::GetPreviousNode</a></div><div class="ttdeci">TreeViewNode GetPreviousNode() const</div><div class="ttdoc">获取上一个节点</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a8b720840dfadbdf2bf42f64a4418a841"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a8b720840dfadbdf2bf42f64a4418a841">sw::TreeViewNode::ToString</a></div><div class="ttdeci">std::wstring ToString() const</div><div class="ttdoc">获取当前项的文本</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a914795cd75d583b63abb54f732243373"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a914795cd75d583b63abb54f732243373">sw::TreeViewNode::SetText</a></div><div class="ttdeci">bool SetText(const std::wstring &amp;text) const</div><div class="ttdoc">设置当前项的文本</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a92a5d83ab7649f819469f3ad860cd189"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a92a5d83ab7649f819469f3ad860cd189">sw::TreeViewNode::Select</a></div><div class="ttdeci">bool Select() const</div><div class="ttdoc">选中当前节点</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a9585805cdbd3ac0344f9d344baef5e1a"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a9585805cdbd3ac0344f9d344baef5e1a">sw::TreeViewNode::SetUserData</a></div><div class="ttdeci">bool SetUserData(void *data) const</div><div class="ttdoc">设置与当前节点关联的用户数据</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_a96c6932003f8f26487b89866b5571f6f"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#a96c6932003f8f26487b89866b5571f6f">sw::TreeViewNode::GetUserData</a></div><div class="ttdeci">void * GetUserData() const</div><div class="ttdoc">获取与当前节点关联的用户数据</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_aa49e611237c2abd9750626e2a68610b4"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#aa49e611237c2abd9750626e2a68610b4">sw::TreeViewNode::GetText</a></div><div class="ttdeci">std::wstring GetText() const</div><div class="ttdoc">获取当前项的文本</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_aab04e502d92b79d51a5f164ce05bf377"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#aab04e502d92b79d51a5f164ce05bf377">sw::TreeViewNode::GetFirstChildNode</a></div><div class="ttdeci">TreeViewNode GetFirstChildNode() const</div><div class="ttdoc">获取第一个子节点</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_ab566cef19fbae70c20ec4f5c6fa2ffaf"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#ab566cef19fbae70c20ec4f5c6fa2ffaf">sw::TreeViewNode::Collapse</a></div><div class="ttdeci">bool Collapse() const</div><div class="ttdoc">折叠当前节点</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_aca9d27d213d1776e187b9c39c9504efb"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#aca9d27d213d1776e187b9c39c9504efb">sw::TreeViewNode::IsSelected</a></div><div class="ttdeci">bool IsSelected() const</div><div class="ttdoc">判断当前节点是否被选中</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_acb1b677c44d3ada4e5454b0487f1a9b0"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#acb1b677c44d3ada4e5454b0487f1a9b0">sw::TreeViewNode::Delete</a></div><div class="ttdeci">bool Delete() const</div><div class="ttdoc">删除当前节点</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_ace74c83ab27644dddede4fd0a22b1b08"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#ace74c83ab27644dddede4fd0a22b1b08">sw::TreeViewNode::TreeViewNode</a></div><div class="ttdeci">TreeViewNode(HWND hwnd, HTREEITEM hitem)</div><div class="ttdoc">创建TreeViewItem</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_aef3988aba257111439d4b7cda14de8e7"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#aef3988aba257111439d4b7cda14de8e7">sw::TreeViewNode::IsChecked</a></div><div class="ttdeci">bool IsChecked() const</div><div class="ttdoc">判断当前节点是否被选中复选框</div></div>
+<div class="ttc" id="aclasssw_1_1TreeViewNode_html_aef662729d9ea996da840b3cdd432ada9"><div class="ttname"><a href="classsw_1_1TreeViewNode.html#aef662729d9ea996da840b3cdd432ada9">sw::TreeViewNode::Equals</a></div><div class="ttdeci">bool Equals(const TreeViewNode &amp;other) const</div><div class="ttdoc">判断当前项与另一个项是否相等</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html"><div class="ttname"><a href="classsw_1_1TreeView.html">sw::TreeView</a></div><div class="ttdoc">树视图控件</div><div class="ttdef"><b>Definition</b> TreeView.h:227</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a07fb6a7307dd4a059c18e526c4393f61"><div class="ttname"><a href="classsw_1_1TreeView.html#a07fb6a7307dd4a059c18e526c4393f61">sw::TreeView::SetBackColor</a></div><div class="ttdeci">virtual void SetBackColor(Color color, bool redraw) override</div><div class="ttdoc">设置背景颜色</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a188a2dcfa88861b342bee40e5ad33cd9"><div class="ttname"><a href="classsw_1_1TreeView.html#a188a2dcfa88861b342bee40e5ad33cd9">sw::TreeView::OnNotified</a></div><div class="ttdeci">virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &amp;result) override</div><div class="ttdoc">父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a246f11068f629f8871e1f23505ef83ae"><div class="ttname"><a href="classsw_1_1TreeView.html#a246f11068f629f8871e1f23505ef83ae">sw::TreeView::SetSelectedIndex</a></div><div class="ttdeci">virtual void SetSelectedIndex(int index) override</div><div class="ttdoc">设置选中项索引</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a27da553067658a23efde3d06fbce5ab7"><div class="ttname"><a href="classsw_1_1TreeView.html#a27da553067658a23efde3d06fbce5ab7">sw::TreeView::OnGetDispInfo</a></div><div class="ttdeci">virtual void OnGetDispInfo(NMTVDISPINFOW *pNMInfo)</div><div class="ttdoc">当OnNotified接收到TVN_GETDISPINFO通知时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a3301c02d49ab09b49c4709910df0c09b"><div class="ttname"><a href="classsw_1_1TreeView.html#a3301c02d49ab09b49c4709910df0c09b">sw::TreeView::GetItemAt</a></div><div class="ttdeci">virtual TreeViewNode GetItemAt(int index) override</div><div class="ttdoc">获取指定索引处子项的值</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a331556e247b59ead5ed5e9462fe9d3f5"><div class="ttname"><a href="classsw_1_1TreeView.html#a331556e247b59ead5ed5e9462fe9d3f5">sw::TreeView::OnItemExpanding</a></div><div class="ttdeci">virtual bool OnItemExpanding(NMTREEVIEWW *pNMTV)</div><div class="ttdoc">节点展开或折叠前调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a343cc1586ffe5d692673e34a3182ec3a"><div class="ttname"><a href="classsw_1_1TreeView.html#a343cc1586ffe5d692673e34a3182ec3a">sw::TreeView::AddItem</a></div><div class="ttdeci">virtual bool AddItem(const TreeViewNode &amp;item) override</div><div class="ttdoc">添加新的子项</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a5b9ae3dac391b1dcf72ba8e8b3c72269"><div class="ttname"><a href="classsw_1_1TreeView.html#a5b9ae3dac391b1dcf72ba8e8b3c72269">sw::TreeView::LineColor</a></div><div class="ttdeci">const Property&lt; Color &gt; LineColor</div><div class="ttdoc">线条颜色</div><div class="ttdef"><b>Definition</b> TreeView.h:253</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a5c2becffacc6646d78cbc46bef0951ff"><div class="ttname"><a href="classsw_1_1TreeView.html#a5c2becffacc6646d78cbc46bef0951ff">sw::TreeView::OnDoubleClicked</a></div><div class="ttdeci">virtual bool OnDoubleClicked(NMHDR *pNMHDR, LRESULT &amp;result)</div><div class="ttdoc">控件被双击时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a5ed3d92277dbcb61c6e41e81ea9586f5"><div class="ttname"><a href="classsw_1_1TreeView.html#a5ed3d92277dbcb61c6e41e81ea9586f5">sw::TreeView::GetSelectedItem</a></div><div class="ttdeci">virtual TreeViewNode GetSelectedItem() override</div><div class="ttdoc">获取选中项</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a6240f649e6a59bde7fc308983e8ee067"><div class="ttname"><a href="classsw_1_1TreeView.html#a6240f649e6a59bde7fc308983e8ee067">sw::TreeView::GetSelectedIndex</a></div><div class="ttdeci">virtual int GetSelectedIndex() override</div><div class="ttdoc">选中项的索引，当无选中项时为-1</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a728b3020436311573469a9406c48dade"><div class="ttname"><a href="classsw_1_1TreeView.html#a728b3020436311573469a9406c48dade">sw::TreeView::CheckBoxes</a></div><div class="ttdeci">const Property&lt; bool &gt; CheckBoxes</div><div class="ttdoc">是否在第一列显示复选框</div><div class="ttdef"><b>Definition</b> TreeView.h:248</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a77f1e3864ddc09b6b15be71a5ce18529"><div class="ttname"><a href="classsw_1_1TreeView.html#a77f1e3864ddc09b6b15be71a5ce18529">sw::TreeView::InsertItem</a></div><div class="ttdeci">TreeViewNode InsertItem(int index, const std::wstring &amp;text)</div><div class="ttdoc">在指定索引处插入新节点</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a83c864c86586e11967fcb0f65a2a6b4c"><div class="ttname"><a href="classsw_1_1TreeView.html#a83c864c86586e11967fcb0f65a2a6b4c">sw::TreeView::RemoveItemAt</a></div><div class="ttdeci">virtual bool RemoveItemAt(int index) override</div><div class="ttdoc">移除指定索引处的子项</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a89d197b79f0164ba42db08425b0ca212"><div class="ttname"><a href="classsw_1_1TreeView.html#a89d197b79f0164ba42db08425b0ca212">sw::TreeView::SetImageList</a></div><div class="ttdeci">HIMAGELIST SetImageList(TreeViewImageList imageList, HIMAGELIST value)</div><div class="ttdoc">设置指定类型的图像列表</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a8aa12025bdf449edae0aacb2cf6bad7c"><div class="ttname"><a href="classsw_1_1TreeView.html#a8aa12025bdf449edae0aacb2cf6bad7c">sw::TreeView::InsertItem</a></div><div class="ttdeci">virtual bool InsertItem(int index, const TreeViewNode &amp;item) override</div><div class="ttdoc">添加子项到指定索引</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a94d2fbe09b13d6d3c88a2f34a4bff2dd"><div class="ttname"><a href="classsw_1_1TreeView.html#a94d2fbe09b13d6d3c88a2f34a4bff2dd">sw::TreeView::GetItemsCount</a></div><div class="ttdeci">virtual int GetItemsCount() override</div><div class="ttdoc">获取子项数</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_a99ebefc4f884e2ae799f7eed5955468b"><div class="ttname"><a href="classsw_1_1TreeView.html#a99ebefc4f884e2ae799f7eed5955468b">sw::TreeView::AddItem</a></div><div class="ttdeci">TreeViewNode AddItem(const std::wstring &amp;text)</div><div class="ttdoc">添加新节点到根节点</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_aa336eb600d807ec06ca5fd5e335242e4"><div class="ttname"><a href="classsw_1_1TreeView.html#aa336eb600d807ec06ca5fd5e335242e4">sw::TreeView::SetTextColor</a></div><div class="ttdeci">virtual void SetTextColor(Color color, bool redraw) override</div><div class="ttdoc">设置文本颜色</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_aacaabdc981f7f1ed87aa3abbe9b6b4dd"><div class="ttname"><a href="classsw_1_1TreeView.html#aacaabdc981f7f1ed87aa3abbe9b6b4dd">sw::TreeView::GetImageList</a></div><div class="ttdeci">ImageList GetImageList(TreeViewImageList imageList)</div><div class="ttdoc">获取指定类型的图像列表</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_ab9eafa6ba20daf20cfc3642b3513ff43"><div class="ttname"><a href="classsw_1_1TreeView.html#ab9eafa6ba20daf20cfc3642b3513ff43">sw::TreeView::OnDrawFocusRect</a></div><div class="ttdeci">virtual void OnDrawFocusRect(HDC hdc) override</div><div class="ttdoc">绘制虚线框时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_ac0cd31d25bb600da01b15c0177a930ac"><div class="ttname"><a href="classsw_1_1TreeView.html#ac0cd31d25bb600da01b15c0177a930ac">sw::TreeView::TreeView</a></div><div class="ttdeci">TreeView()</div><div class="ttdoc">初始化TreeView</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_ac0e4469547e13c1605191fe88bb2c6af"><div class="ttname"><a href="classsw_1_1TreeView.html#ac0e4469547e13c1605191fe88bb2c6af">sw::TreeView::OnItemChanged</a></div><div class="ttdeci">virtual void OnItemChanged(NMTVITEMCHANGE *pNMInfo)</div><div class="ttdoc">节点某些属性发生变化时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_ac3b89cf2c2a68c4f9a4da496436d84dc"><div class="ttname"><a href="classsw_1_1TreeView.html#ac3b89cf2c2a68c4f9a4da496436d84dc">sw::TreeView::Clear</a></div><div class="ttdeci">virtual void Clear() override</div><div class="ttdoc">清空所有子项</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_ac5c192b56976a6c308dcfec190419eb5"><div class="ttname"><a href="classsw_1_1TreeView.html#ac5c192b56976a6c308dcfec190419eb5">sw::TreeView::UpdateItem</a></div><div class="ttdeci">virtual bool UpdateItem(int index, const TreeViewNode &amp;newValue) override</div><div class="ttdoc">更新指定位置的子项</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_ae2bc81c3c3ac2cbf81a8975266f466a6"><div class="ttname"><a href="classsw_1_1TreeView.html#ae2bc81c3c3ac2cbf81a8975266f466a6">sw::TreeView::Root</a></div><div class="ttdeci">const ReadOnlyProperty&lt; TreeViewNode &gt; Root</div><div class="ttdoc">根节点</div><div class="ttdef"><b>Definition</b> TreeView.h:238</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_af5504a45fb1206d5318cea9d79b10b85"><div class="ttname"><a href="classsw_1_1TreeView.html#af5504a45fb1206d5318cea9d79b10b85">sw::TreeView::OnClicked</a></div><div class="ttdeci">virtual bool OnClicked(NMHDR *pNMHDR, LRESULT &amp;result)</div><div class="ttdoc">控件被单机时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_afbb3ced96a966320ad579996e80d4b75"><div class="ttname"><a href="classsw_1_1TreeView.html#afbb3ced96a966320ad579996e80d4b75">sw::TreeView::AllItemsCount</a></div><div class="ttdeci">const ReadOnlyProperty&lt; int &gt; AllItemsCount</div><div class="ttdoc">所有节点数</div><div class="ttdef"><b>Definition</b> TreeView.h:243</div></div>
+<div class="ttc" id="aclasssw_1_1TreeView_html_afcfbc7beb3dab1831fcc22221628b3da"><div class="ttname"><a href="classsw_1_1TreeView.html#afcfbc7beb3dab1831fcc22221628b3da">sw::TreeView::OnItemExpanded</a></div><div class="ttdeci">virtual void OnItemExpanded(NMTREEVIEWW *pNMTV)</div><div class="ttdoc">节点展开或折叠后调用该函数</div></div>
+<div class="ttc" id="astructsw_1_1Color_html"><div class="ttname"><a href="structsw_1_1Color.html">sw::Color</a></div><div class="ttdoc">颜色</div><div class="ttdef"><b>Definition</b> Color.h:16</div></div>
+<div class="ttc" id="astructsw_1_1TreeViewCheckStateChangedEventArgs_html"><div class="ttname"><a href="structsw_1_1TreeViewCheckStateChangedEventArgs.html">sw::TreeViewCheckStateChangedEventArgs</a></div><div class="ttdoc">树视图节点复选框状态改变事件参数类型</div><div class="ttdef"><b>Definition</b> TreeView.h:215</div></div>
+<div class="ttc" id="astructsw_1_1TreeViewItemExpandedEventArgs_html"><div class="ttname"><a href="structsw_1_1TreeViewItemExpandedEventArgs.html">sw::TreeViewItemExpandedEventArgs</a></div><div class="ttdoc">树视图节点已展开或折叠事件参数类型</div><div class="ttdef"><b>Definition</b> TreeView.h:206</div></div>
+<div class="ttc" id="astructsw_1_1TreeViewItemExpandingEventArgs_html"><div class="ttname"><a href="structsw_1_1TreeViewItemExpandingEventArgs.html">sw::TreeViewItemExpandingEventArgs</a></div><div class="ttdoc">树视图节点正在展开或折叠事件参数类型</div><div class="ttdef"><b>Definition</b> TreeView.h:196</div></div>
+<div class="ttc" id="astructsw_1_1TypedRoutedEventArgs_html"><div class="ttname"><a href="structsw_1_1TypedRoutedEventArgs.html">sw::TypedRoutedEventArgs</a></div><div class="ttdoc">表示特定类型路由事件的事件参数类型，继承自该类的类型可以直接作为RegisterRoutedEvent函数的模板参数</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:21</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>TreeView.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"classsw_1_1MenuBase.html#abfdedfa5a056bc6fcecbfd4e8b1c42a7":[2,0,0,102,7],
 "classsw_1_1MenuBase.html#ad43a6100a635a765a80d603d7226d978":[2,0,0,102,0],
 "classsw_1_1MenuBase.html#ad9660cec7666003c520171dc44e85c13":[2,0,0,102,16],
 "classsw_1_1MenuItem.html":[2,0,0,103],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "classsw_1_1StaticControl.html":[2,0,0,143],
 "classsw_1_1StaticControl.html#a1aa16699f8b60dd9fb6cd3c6b6c129e4":[2,0,0,143,1],
 "classsw_1_1StaticControl.html#a88dea3db611c5cc94df004cdae9c74ef":[2,0,0,143,0],
-"classsw_1_1StatusBar.html":[2,0,0,144],
-"classsw_1_1StatusBar.html#a0a97d4bff90e41bcbd6260ee9f9fa66a":[2,0,0,144,8]
+"classsw_1_1StatusBar.html":[2,0,0,144]
 };

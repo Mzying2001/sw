@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"classsw_1_1IToString.html":[2,0,0,86],
 "classsw_1_1IToString.html#a45c3e793bc1ea212ac7721224fb174e1":[2,0,0,86,0],
 "classsw_1_1IconBox.html":[2,0,0,77],
 "classsw_1_1IconBox.html#a11eda4aff2538aa9ff7fa58530f123da":[2,0,0,77,4],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "classsw_1_1MenuBase.html#a9f9fb3eda715d2c71e3e4a1b0562bac8":[2,0,0,102,22],
 "classsw_1_1MenuBase.html#aa48a89a167974e8a7397ffe6058c475f":[2,0,0,102,3],
 "classsw_1_1MenuBase.html#aa5e31e8a7e3f1744fec35acfdce47b2e":[2,0,0,102,23],
-"classsw_1_1MenuBase.html#ab610a8a98e4bf6f199fe7706dbb57f4d":[2,0,0,102,5],
-"classsw_1_1MenuBase.html#abfdedfa5a056bc6fcecbfd4e8b1c42a7":[2,0,0,102,7]
+"classsw_1_1MenuBase.html#ab610a8a98e4bf6f199fe7706dbb57f4d":[2,0,0,102,5]
 };

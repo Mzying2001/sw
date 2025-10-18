@@ -135,6 +135,9 @@ var hierarchy =
     [ "sw::IEqualityComparable< Thickness >", "classsw_1_1IEqualityComparable.html", [
       [ "sw::Thickness", "structsw_1_1Thickness.html", null ]
     ] ],
+    [ "sw::IEqualityComparable< TreeViewNode >", "classsw_1_1IEqualityComparable.html", [
+      [ "sw::TreeViewNode", "classsw_1_1TreeViewNode.html", null ]
+    ] ],
     [ "sw::IEqualityComparable< WndBase >", "classsw_1_1IEqualityComparable.html", [
       [ "sw::WndBase", "classsw_1_1WndBase.html", [
         [ "sw::Timer", "classsw_1_1Timer.html", null ],
@@ -145,6 +148,9 @@ var hierarchy =
           [ "sw::Control", "classsw_1_1Control.html", [
             [ "sw::ItemsControl< StrList >", "classsw_1_1ItemsControl.html", [
               [ "sw::ListView", "classsw_1_1ListView.html", null ]
+            ] ],
+            [ "sw::ItemsControl< TreeViewNode >", "classsw_1_1ItemsControl.html", [
+              [ "sw::TreeView", "classsw_1_1TreeView.html", null ]
             ] ],
             [ "sw::Animation", "classsw_1_1Animation.html", null ],
             [ "sw::ButtonBase", "classsw_1_1ButtonBase.html", [
@@ -240,6 +246,9 @@ var hierarchy =
     [ "sw::IToString< Thickness >", "classsw_1_1IToString.html", [
       [ "sw::Thickness", "structsw_1_1Thickness.html", null ]
     ] ],
+    [ "sw::IToString< TreeViewNode >", "classsw_1_1IToString.html", [
+      [ "sw::TreeViewNode", "classsw_1_1TreeViewNode.html", null ]
+    ] ],
     [ "sw::IToString< WndBase >", "classsw_1_1IToString.html", [
       [ "sw::WndBase", "classsw_1_1WndBase.html", null ]
     ] ],
@@ -316,6 +325,7 @@ var hierarchy =
       [ "sw::Property< sw::Rect >", "classsw_1_1Property.html", null ],
       [ "sw::ReadOnlyProperty< int >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< StrList >", "classsw_1_1ReadOnlyProperty.html", null ],
+      [ "sw::ReadOnlyProperty< TreeViewNode >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< bool >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< HINSTANCE >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< std::wstring >", "classsw_1_1ReadOnlyProperty.html", null ],
@@ -327,6 +337,7 @@ var hierarchy =
       [ "sw::ReadOnlyProperty< TItem >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Point >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Rect >", "classsw_1_1ReadOnlyProperty.html", null ],
+      [ "sw::ReadOnlyProperty< sw::TreeViewNode >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::UIElement * >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Window * >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< HWND >", "classsw_1_1ReadOnlyProperty.html", null ],
@@ -375,6 +386,7 @@ var hierarchy =
     [ "sw::PropertyBase< sw::Rect, ReadOnlyProperty< sw::Rect > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::TextTrimming, Property< sw::TextTrimming > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Thickness, Property< sw::Thickness > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< sw::TreeViewNode, ReadOnlyProperty< sw::TreeViewNode > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::UIElement *, ReadOnlyProperty< sw::UIElement * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::VerticalAlignment, Property< sw::VerticalAlignment > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Window *, Property< sw::Window * > >", "classsw_1_1PropertyBase.html", null ],
@@ -392,6 +404,7 @@ var hierarchy =
     [ "sw::PropertyBase< TabAlignment, Property< TabAlignment > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< TItem, ReadOnlyProperty< TItem > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< ToolTipIcon, Property< ToolTipIcon > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< TreeViewNode, ReadOnlyProperty< TreeViewNode > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< uint16_t, Property< uint16_t > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< uint32_t, Property< uint32_t > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< uint64_t, Property< uint64_t > >", "classsw_1_1PropertyBase.html", null ],
@@ -456,6 +469,13 @@ var hierarchy =
       ] ],
       [ "sw::TypedRoutedEventArgs< SysLink_Clicked >", "structsw_1_1TypedRoutedEventArgs.html", [
         [ "sw::SysLinkClickedEventArgs", "structsw_1_1SysLinkClickedEventArgs.html", null ]
+      ] ],
+      [ "sw::TypedRoutedEventArgs< TreeView_CheckStateChanged >", "structsw_1_1TypedRoutedEventArgs.html", [
+        [ "sw::TreeViewCheckStateChangedEventArgs", "structsw_1_1TreeViewCheckStateChangedEventArgs.html", null ]
+      ] ],
+      [ "sw::TypedRoutedEventArgs< TreeView_ItemExpanding >", "structsw_1_1TypedRoutedEventArgs.html", [
+        [ "sw::TreeViewItemExpandedEventArgs", "structsw_1_1TreeViewItemExpandedEventArgs.html", null ],
+        [ "sw::TreeViewItemExpandingEventArgs", "structsw_1_1TreeViewItemExpandingEventArgs.html", null ]
       ] ],
       [ "sw::TypedRoutedEventArgs< Window_Closing >", "structsw_1_1TypedRoutedEventArgs.html", [
         [ "sw::WindowClosingEventArgs", "structsw_1_1WindowClosingEventArgs.html", null ]
