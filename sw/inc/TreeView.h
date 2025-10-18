@@ -136,7 +136,7 @@ namespace sw
          * @brief  设置当前节点展开或折叠
          * @return 操作是否成功
          */
-        bool SetExpanded(bool expand) const;
+        bool SetExpand(bool expand) const;
 
         /**
          * @brief  展开当前节点

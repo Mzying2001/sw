@@ -139,7 +139,7 @@ bool sw::TreeViewNode::IsExpanded() const
     return (TreeView_GetItemState(_hwnd, _hitem, TVIS_EXPANDED) & TVIS_EXPANDED) != 0;
 }
 
-bool sw::TreeViewNode::SetExpanded(bool expand) const
+bool sw::TreeViewNode::SetExpand(bool expand) const
 {
     UINT action = expand ? TVE_EXPAND : TVE_COLLAPSE;
     return TreeView_Expand(_hwnd, _hitem, action);
@@ -147,12 +147,12 @@ bool sw::TreeViewNode::SetExpanded(bool expand) const
 
 bool sw::TreeViewNode::Expand() const
 {
-    return SetExpanded(true);
+    return SetExpand(true);
 }
 
 bool sw::TreeViewNode::Collapse() const
 {
-    return SetExpanded(false);
+    return SetExpand(false);
 }
 
 void *sw::TreeViewNode::GetUserData() const
