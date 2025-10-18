@@ -259,6 +259,66 @@ void sw::TreeView::SetTextColor(Color color, bool redraw)
     TreeView_SetTextColor(hwnd, static_cast<COLORREF>(color));
 }
 
+bool sw::TreeView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
+{
+    switch (pNMHDR->code) {
+        case TVN_SELCHANGEDW: {
+            OnSelectionChanged();
+            break;
+        }
+        case NM_CLICK:
+        case NM_RCLICK: {
+            return OnClicked(pNMHDR, result);
+        }
+        case NM_DBLCLK:
+        case NM_RDBLCLK: {
+            return OnDoubleClicked(pNMHDR, result);
+        }
+        case TVN_GETDISPINFOW: {
+            OnGetDispInfo(reinterpret_cast<NMTVDISPINFOW *>(pNMHDR));
+            return true;
+        }
+        case TVN_ITEMEXPANDINGW: {
+            result = OnItemExpanding(reinterpret_cast<NMTREEVIEWW *>(pNMHDR)) ? TRUE : FALSE;
+            return true;
+        }
+        case TVN_ITEMEXPANDEDW: {
+            OnItemExpanded(reinterpret_cast<NMTREEVIEWW *>(pNMHDR));
+            return true;
+        }
+    }
+    return TBase::OnNotified(pNMHDR, result);
+}
+
+bool sw::TreeView::OnClicked(NMHDR *pNMHDR, LRESULT &result)
+{
+    return false;
+}
+
+bool sw::TreeView::OnDoubleClicked(NMHDR *pNMHDR, LRESULT &result)
+{
+    return false;
+}
+
+void sw::TreeView::OnGetDispInfo(NMTVDISPINFOW *pNMInfo)
+{
+}
+
+bool sw::TreeView::OnItemExpanding(NMTREEVIEWW *pNMTV)
+{
+    TreeViewNode node{Handle, pNMTV->itemNew.hItem};
+    TreeViewItemExpandingEventArgs args{pNMTV->action == TVE_EXPAND, node};
+    RaiseRoutedEvent(args);
+    return args.cancel;
+}
+
+void sw::TreeView::OnItemExpanded(NMTREEVIEWW *pNMTV)
+{
+    TreeViewNode node{Handle, pNMTV->itemNew.hItem};
+    TreeViewItemExpandedEventArgs args{pNMTV->action == TVE_EXPAND, node};
+    RaiseRoutedEvent(args);
+}
+
 void sw::TreeView::Clear()
 {
     HWND hwnd = Handle;

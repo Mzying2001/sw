@@ -162,11 +162,40 @@ namespace sw
         bool SetUserData(void *data) const;
     };
 
+    // clang-format off
+
+    /**
+     * @brief 树视图节点正在展开或折叠事件参数类型
+     */
+    struct TreeViewItemExpandingEventArgs : TypedRoutedEventArgs<TreeView_ItemExpanding> {
+        bool cancel = false; // 是否取消本次展开或折叠操作
+        bool action;         // true表示展开，false表示折叠
+        TreeViewNode node;   // 正在展开或折叠的节点
+        TreeViewItemExpandingEventArgs(bool action, const TreeViewNode &node): action(action), node(node) {}
+    };
+
+    /**
+     * @brief 树视图节点已展开或折叠事件参数类型
+     */
+    struct TreeViewItemExpandedEventArgs : TypedRoutedEventArgs<TreeView_ItemExpanding> {
+        bool action;       // true表示展开，false表示折叠
+        TreeViewNode node; // 正在展开或折叠的节点
+        TreeViewItemExpandedEventArgs(bool action, const TreeViewNode &node): action(action), node(node) {}
+    };
+
+    // clang-format on
+
     /**
      * @brief 树视图控件
      */
     class TreeView : public ItemsControl<TreeViewNode>
     {
+    private:
+        /**
+         * @brief 基类别名，方便调用基类函数实现
+         */
+        using TBase = ItemsControl<TreeViewNode>;
+
     public:
         /**
          * @brief 根节点
@@ -224,6 +253,49 @@ namespace sw
          * @param redraw 是否重绘
          */
         virtual void SetTextColor(Color color, bool redraw) override;
+
+        /**
+         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
+
+        /**
+         * @brief        控件被单机时调用该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnClicked(NMHDR *pNMHDR, LRESULT &result);
+
+        /**
+         * @brief        控件被双击时调用该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDoubleClicked(NMHDR *pNMHDR, LRESULT &result);
+
+        /**
+         * @brief         当OnNotified接收到TVN_GETDISPINFO通知时调用该函数
+         * @param pNMInfo 包含有关通知消息的信息
+         */
+        virtual void OnGetDispInfo(NMTVDISPINFOW *pNMInfo);
+
+        /**
+         * @brief       节点展开或折叠前调用该函数
+         * @param pNMTV 包含有关通知消息的信息
+         * @return      若返回true则取消展开或折叠操作，否则继续进行
+         */
+        virtual bool OnItemExpanding(NMTREEVIEWW *pNMTV);
+
+        /**
+         * @brief       节点展开或折叠后调用该函数
+         * @param pNMTV 包含有关通知消息的信息
+         */
+        virtual void OnItemExpanded(NMTREEVIEWW *pNMTV);
 
     public:
         /**
