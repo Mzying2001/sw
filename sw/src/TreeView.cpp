@@ -178,6 +178,16 @@ bool sw::TreeViewNode::SetUserData(void *data) const
     return TreeView_SetItem(_hwnd, &tvi) != FALSE;
 }
 
+bool sw::TreeViewNode::IsChecked() const
+{
+    return TreeView_GetCheckState(_hwnd, _hitem) == 1;
+}
+
+void sw::TreeViewNode::SetCheck(bool check) const
+{
+    TreeView_SetCheckState(_hwnd, _hitem, check);
+}
+
 sw::TreeView::TreeView()
     : Root(
           // get
@@ -190,6 +200,16 @@ sw::TreeView::TreeView()
           [this]() -> int {
               HWND hwnd = Handle;
               return TreeView_GetCount(hwnd);
+          }),
+
+      CheckBoxes(
+          // get
+          [this]() -> bool {
+              return GetStyle(TVS_CHECKBOXES);
+          },
+          // set
+          [this](const bool &value) {
+              SetStyle(TVS_CHECKBOXES, value);
           })
 {
     InitControl(WC_TREEVIEWW, NULL, WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS | WS_BORDER | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS, 0);
@@ -286,6 +306,10 @@ bool sw::TreeView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
             OnItemExpanded(reinterpret_cast<NMTREEVIEWW *>(pNMHDR));
             return true;
         }
+        case TVN_ITEMCHANGEDW: {
+            OnItemChanged(reinterpret_cast<NMTVITEMCHANGE *>(pNMHDR));
+            return true;
+        }
     }
     return TBase::OnNotified(pNMHDR, result);
 }
@@ -317,6 +341,22 @@ void sw::TreeView::OnItemExpanded(NMTREEVIEWW *pNMTV)
     TreeViewNode node{Handle, pNMTV->itemNew.hItem};
     TreeViewItemExpandedEventArgs args{pNMTV->action == TVE_EXPAND, node};
     RaiseRoutedEvent(args);
+}
+
+void sw::TreeView::OnItemChanged(NMTVITEMCHANGE *pNMInfo)
+{
+    if ((pNMInfo->uChanged & TVIF_STATE) &&
+        ((pNMInfo->uStateNew ^ pNMInfo->uStateOld) & TVIS_STATEIMAGEMASK)) //
+    {
+        int oldCheck = ((pNMInfo->uStateOld & TVIS_STATEIMAGEMASK) >> 12) - 1;
+        int newCheck = ((pNMInfo->uStateNew & TVIS_STATEIMAGEMASK) >> 12) - 1;
+
+        if (newCheck != oldCheck) {
+            TreeViewNode node{Handle, pNMInfo->hItem};
+            TreeViewCheckStateChangedEventArgs args{newCheck, node};
+            RaiseRoutedEvent(args);
+        }
+    }
 }
 
 void sw::TreeView::Clear()

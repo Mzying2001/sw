@@ -160,6 +160,17 @@ namespace sw
          * @return 操作是否成功
          */
         bool SetUserData(void *data) const;
+
+        /**
+         * @brief  判断当前节点是否被选中复选框
+         * @return 若节点被选中则返回true，否则返回false
+         */
+        bool IsChecked() const;
+
+        /**
+         * @brief 设置当前节点的复选框选中状态
+         */
+        void SetCheck(bool check) const;
     };
 
     // clang-format off
@@ -181,6 +192,15 @@ namespace sw
         bool action;       // true表示展开，false表示折叠
         TreeViewNode node; // 正在展开或折叠的节点
         TreeViewItemExpandedEventArgs(bool action, const TreeViewNode &node): action(action), node(node) {}
+    };
+
+    /**
+     * @brief 树视图节点复选框状态改变事件参数类型
+     */
+    struct TreeViewCheckStateChangedEventArgs : TypedRoutedEventArgs<TreeView_CheckStateChanged> {
+        int checkState;    // 复选框的新状态，0表示未选中，1表示选中，-1表示无复选框
+        TreeViewNode node; // 复选框状态改变的节点
+        TreeViewCheckStateChangedEventArgs(int checkState, const TreeViewNode &node): checkState(checkState), node(node) {}
     };
 
     // clang-format on
@@ -206,6 +226,11 @@ namespace sw
          * @brief 所有节点数
          */
         ReadOnlyProperty<int> AllItemsCount;
+
+        /**
+         * @brief 是否在第一列显示复选框
+         */
+        const Property<bool> CheckBoxes;
 
     public:
         /**
@@ -296,6 +321,12 @@ namespace sw
          * @param pNMTV 包含有关通知消息的信息
          */
         virtual void OnItemExpanded(NMTREEVIEWW *pNMTV);
+
+        /**
+         * @brief         节点某些属性发生变化时调用该函数
+         * @param pNMInfo 包含有关通知消息的信息
+         */
+        virtual void OnItemChanged(NMTVITEMCHANGE *pNMInfo);
 
     public:
         /**

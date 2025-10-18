@@ -134,6 +134,9 @@ namespace sw
 
         // 树视图节点已展开或折叠，参数类型为sw::TreeViewItemExpandedEventArgs
         TreeView_ItemExpanded,
+
+        // 树视图节点的复选框选中状态被改变，参数类型为sw::TreeViewCheckStateChangedEventArgs
+        TreeView_CheckStateChanged,
     };
 
     /*================================================================================*/
