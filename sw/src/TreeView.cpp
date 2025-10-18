@@ -379,6 +379,10 @@ void sw::TreeView::Clear()
 
 sw::TreeViewNode sw::TreeView::GetItemAt(int index)
 {
+    if (index < 0) {
+        return TreeViewNode{};
+    }
+
     int curIndex = 0;
 
     TreeViewNode node = _GetRoot();
