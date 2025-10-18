@@ -21,6 +21,11 @@ sw::GroupBox::GroupBox()
     _UpdateTextSize();
 }
 
+sw::LayoutHost *sw::GroupBox::GetDefaultLayout()
+{
+    return _defaultLayout.get();
+}
+
 void sw::GroupBox::OnDrawBorder(HDC hdc, RECT &rect)
 {
     auto borderStyle     = BorderStyle.Get();

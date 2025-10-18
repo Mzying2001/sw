@@ -15,6 +15,11 @@ namespace sw
          */
         SIZE _textSize;
 
+        /**
+         * @brief 默认布局方式
+         */
+        std::unique_ptr<LayoutHost> _defaultLayout;
+
     public:
         /**
          * @brief 初始化组合框
@@ -22,6 +27,11 @@ namespace sw
         GroupBox();
 
     protected:
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout() override;
+
         /**
          * @brief      绘制边框
          * @param hdc  绘制设备句柄，可能为NULL
@@ -54,6 +64,29 @@ namespace sw
          * @param redraw 是否重绘
          */
         virtual void SetTextColor(Color color, bool redraw) override;
+
+    public:
+        /**
+         * @brief 设置默认布局方式
+         */
+        template <typename TLayout>
+        typename std::enable_if<std::is_base_of<LayoutHost, TLayout>::value>::type SetLayout()
+        {
+            auto layout = std::make_unique<TLayout>();
+            layout->Associate(this);
+            _defaultLayout = std::move(layout);
+            InvalidateMeasure();
+        }
+
+        /**
+         * @brief 取消通过SetLayout设置的布局方式
+         */
+        template <std::nullptr_t>
+        void SetLayout()
+        {
+            _defaultLayout.reset(nullptr);
+            InvalidateMeasure();
+        }
 
     private:
         /**
