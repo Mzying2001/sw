@@ -210,6 +210,18 @@ sw::TreeView::TreeView()
           // set
           [this](const bool &value) {
               SetStyle(TVS_CHECKBOXES, value);
+          }),
+
+      LineColor(
+          // get
+          [this]() -> Color {
+              HWND hwnd = Handle;
+              return static_cast<Color>(TreeView_GetLineColor(hwnd));
+          },
+          // set
+          [this](const Color &value) {
+              HWND hwnd = Handle;
+              TreeView_SetLineColor(hwnd, static_cast<COLORREF>(value));
           })
 {
     InitControl(WC_TREEVIEWW, NULL, WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS | WS_BORDER | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS, 0);

@@ -220,17 +220,22 @@ namespace sw
         /**
          * @brief 根节点
          */
-        ReadOnlyProperty<TreeViewNode> Root;
+        const ReadOnlyProperty<TreeViewNode> Root;
 
         /**
          * @brief 所有节点数
          */
-        ReadOnlyProperty<int> AllItemsCount;
+        const ReadOnlyProperty<int> AllItemsCount;
 
         /**
          * @brief 是否在第一列显示复选框
          */
         const Property<bool> CheckBoxes;
+
+        /**
+         * @brief 线条颜色
+         */
+        const Property<Color> LineColor;
 
     public:
         /**
