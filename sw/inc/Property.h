@@ -77,6 +77,52 @@ namespace sw
     };
 
     /**
+     * @brief 判断类型是否有GetterImpl成员的辅助模板
+     */
+    template <typename, typename = void>
+    struct _HasGetterImpl : std::false_type {
+    };
+
+    /**
+     * @brief _HasGetterImpl模板特化
+     */
+    template <typename T>
+    struct _HasGetterImpl<
+        T, decltype(void(&T::GetterImpl))> : std::true_type {
+    };
+
+    /**
+     * @brief 判断类型是否有SetterImpl成员的辅助模板
+     */
+    template <typename, typename = void>
+    struct _HasSetterImpl : std::false_type {
+    };
+
+    /**
+     * @brief _HasSetterImpl模板特化
+     */
+    template <typename T>
+    struct _HasSetterImpl<
+        T, decltype(void(&T::SetterImpl))> : std::true_type {
+    };
+
+    /**
+     * @brief 判断类型是否为可读属性的辅助模板
+     */
+    template <typename T>
+    struct _IsReadableProperty
+        : std::integral_constant<bool, _IsProperty<T>::value && _HasGetterImpl<T>::value> {
+    };
+
+    /**
+     * @brief 判断类型是否为可写属性的辅助模板
+     */
+    template <typename T>
+    struct _IsWritableProperty
+        : std::integral_constant<bool, _IsProperty<T>::value && _HasSetterImpl<T>::value> {
+    };
+
+    /**
      * @brief 判断类型是否可以使用[]操作符的辅助模板
      */
     template <typename T, typename U, typename = void>
