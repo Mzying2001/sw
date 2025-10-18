@@ -318,7 +318,8 @@ namespace sw
         const Property<Color> TextColor;
 
         /**
-         * @brief 是否使用透明背景（此属性并非真正意义上的透明，将该属性设为true可继承父元素的背景颜色）
+         * @brief 是否使用透明背景
+         * @note  此属性并非真正意义上的透明，将该属性设为true可继承父元素的背景颜色
          */
         const Property<bool> Transparent;
 
