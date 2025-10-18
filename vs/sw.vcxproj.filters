@@ -324,6 +324,9 @@
     <ClInclude Include="..\sw\inc\IToString.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\TreeView.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\Animation.cpp">
@@ -585,6 +588,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\SpinBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\TreeView.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
