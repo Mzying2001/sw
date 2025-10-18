@@ -188,6 +188,17 @@ void sw::TreeViewNode::SetCheck(bool check) const
     TreeView_SetCheckState(_hwnd, _hitem, check);
 }
 
+bool sw::TreeViewNode::SetImages(int imageIndex, int selectedImageIndex) const
+{
+    TVITEM tvi{};
+    tvi.mask           = TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+    tvi.hItem          = _hitem;
+    tvi.iImage         = imageIndex;
+    tvi.iSelectedImage = selectedImageIndex;
+
+    return TreeView_SetItem(_hwnd, &tvi) != FALSE;
+}
+
 sw::TreeView::TreeView()
     : Root(
           // get
@@ -430,6 +441,18 @@ sw::TreeViewNode sw::TreeView::InsertItem(int index, const std::wstring &text)
     }
     TreeViewNode prevNode = GetItemAt(index - 1);
     return prevNode.IsNull() ? TreeViewNode{} : _InsertItem(TVI_ROOT, prevNode.GetHandle(), text);
+}
+
+sw::ImageList sw::TreeView::GetImageList(TreeViewImageList imageList)
+{
+    HWND hwnd = Handle;
+    return ImageList::Wrap(TreeView_GetImageList(hwnd, static_cast<int>(imageList)));
+}
+
+HIMAGELIST sw::TreeView::SetImageList(TreeViewImageList imageList, HIMAGELIST value)
+{
+    HWND hwnd = Handle;
+    return TreeView_SetImageList(hwnd, value, static_cast<int>(imageList));
 }
 
 sw::TreeViewNode sw::TreeView::_GetRoot()

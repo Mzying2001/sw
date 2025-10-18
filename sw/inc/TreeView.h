@@ -1,8 +1,17 @@
+#include "ImageList.h"
 #include "ItemsControl.h"
 #include <CommCtrl.h>
 
 namespace sw
 {
+    /**
+     * @brief 树视图的图像列表枚举
+     */
+    enum class TreeViewImageList {
+        Normal = TVSIL_NORMAL, // 普通图像列表
+        State  = TVSIL_STATE,  // 状态映像列表
+    };
+
     /**
      * @brief 树视图项
      */
@@ -171,6 +180,12 @@ namespace sw
          * @brief 设置当前节点的复选框选中状态
          */
         void SetCheck(bool check) const;
+
+        /**
+         * @brief  设置当前节点的图像
+         * @return 操作是否成功
+         */
+        bool SetImages(int imageIndex, int selectedImageIndex) const;
     };
 
     // clang-format off
@@ -392,6 +407,19 @@ namespace sw
          * @return      新插入的节点
          */
         TreeViewNode InsertItem(int index, const std::wstring &text);
+
+        /**
+         * @brief           获取指定类型的图像列表
+         * @param imageList 图像列表类型
+         */
+        ImageList GetImageList(TreeViewImageList imageList);
+
+        /**
+         * @brief            设置指定类型的图像列表
+         * @param imageList  图像列表类型
+         * @param value      要设置的图像列表
+         */
+        HIMAGELIST SetImageList(TreeViewImageList imageList, HIMAGELIST value);
 
     private:
         /**
