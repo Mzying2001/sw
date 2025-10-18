@@ -200,6 +200,9 @@ namespace sw
     class PropertyBase
     {
     public:
+        // 属性值类型别名
+        using TValue = T;
+
         // 使用默认构造函数
         PropertyBase() = default;
 
