@@ -120,6 +120,10 @@ void sw::NotifyIcon::OnNotyfyIconMessage(WPARAM wParam, LPARAM lParam)
             OnClicked(Screen::CursorPosition);
             break;
         }
+        case WM_LBUTTONDBLCLK: {
+            OnDoubleClicked(Screen::CursorPosition);
+            break;
+        }
         case WM_RBUTTONUP: {
             OnContextMenu(Screen::CursorPosition);
             break;
@@ -131,6 +135,13 @@ void sw::NotifyIcon::OnClicked(const Point &mousePos)
 {
     if (ClickedHandler) {
         ClickedHandler(*this, mousePos);
+    }
+}
+
+void sw::NotifyIcon::OnDoubleClicked(const Point &mousePos)
+{
+    if (DoubleClickedHandler) {
+        DoubleClickedHandler(*this, mousePos);
     }
 }
 

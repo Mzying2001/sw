@@ -64,6 +64,11 @@ namespace sw
         NotifyIconMouseEventHandler ClickedHandler;
 
         /**
+         * @brief 当图标被双击时触发该事件
+         */
+        NotifyIconMouseEventHandler DoubleClickedHandler;
+
+        /**
          * @brief 当图标被右键单击时触发该事件
          */
         NotifyIconMouseEventHandler ContextMenuHandler;
@@ -96,6 +101,12 @@ namespace sw
          * @param mousePos 鼠标位置
          */
         virtual void OnClicked(const Point &mousePos);
+
+        /**
+         * @brief          鼠标双击图标时调用该函数
+         * @param mousePos 鼠标位置
+         */
+        virtual void OnDoubleClicked(const Point &mousePos);
 
         /**
          * @brief          鼠标右键单击图标时调用该函数
