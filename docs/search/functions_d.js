@@ -14,6 +14,8 @@ var searchData=
   ['procmsg_11',['procmsg',['../structsw_1_1ProcMsg.html#add0c6e4a852463ef11cc33aece3270c9',1,'sw::ProcMsg::ProcMsg()=default'],['../structsw_1_1ProcMsg.html#a4d88d40f2bcdf5cd8548122532c6257d',1,'sw::ProcMsg::ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)']]],
   ['progressbar_12',['ProgressBar',['../classsw_1_1ProgressBar.html#a461cb23f2cc6c276eda9312cb269a403',1,'sw::ProgressBar']]],
   ['property_13',['Property',['../classsw_1_1Property.html#aed49183e5aff7da2c6a8afcfdfafe24c',1,'sw::Property']]],
-  ['pxtodipx_14',['PxToDipX',['../classsw_1_1Dip.html#aa0244988630536a31439cdfde27ec209',1,'sw::Dip']]],
-  ['pxtodipy_15',['PxToDipY',['../classsw_1_1Dip.html#a54fd07b8418adcff0ecb8483098ab860',1,'sw::Dip']]]
+  ['propertylite_14',['propertylite',['../classsw_1_1PropertyLite.html#a8b4074eb6f3345890df4d5bd1e245fd0',1,'sw::PropertyLite::PropertyLite(const MemberPropertyLiteInitializer&lt; TOwner, T &gt; &amp;initializer)'],['../classsw_1_1PropertyLite.html#a57d654426802d3bf05b296f56ee6507e',1,'sw::PropertyLite::PropertyLite(const StaticPropertyLiteInitializer&lt; T &gt; &amp;initializer)']]],
+  ['propertylitebase_15',['propertylitebase',['../classsw_1_1PropertyLiteBase.html#a2a1938bb9e432d6b9aa99c109e1498e3',1,'sw::PropertyLiteBase::PropertyLiteBase()=default'],['../classsw_1_1PropertyLiteBase.html#a9c6621c7bb77ba19b5b2bd9cc209b5e7',1,'sw::PropertyLiteBase::PropertyLiteBase(const PropertyLiteBase &amp;other)']]],
+  ['pxtodipx_16',['PxToDipX',['../classsw_1_1Dip.html#aa0244988630536a31439cdfde27ec209',1,'sw::Dip']]],
+  ['pxtodipy_17',['PxToDipY',['../classsw_1_1Dip.html#a54fd07b8418adcff0ecb8483098ab860',1,'sw::Dip']]]
 ];

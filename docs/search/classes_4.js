@@ -58,5 +58,6 @@ var searchData=
   ['docklayouttag_55',['DockLayoutTag',['../classsw_1_1DockLayoutTag.html',1,'sw']]],
   ['dockpanel_56',['DockPanel',['../classsw_1_1DockPanel.html',1,'sw']]],
   ['docksplitter_57',['DockSplitter',['../classsw_1_1DockSplitter.html',1,'sw']]],
-  ['dropfileseventargs_58',['DropFilesEventArgs',['../structsw_1_1DropFilesEventArgs.html',1,'sw']]]
+  ['dropfileseventargs_58',['DropFilesEventArgs',['../structsw_1_1DropFilesEventArgs.html',1,'sw']]],
+  ['dynamicobject_59',['DynamicObject',['../classsw_1_1DynamicObject.html',1,'sw']]]
 ];

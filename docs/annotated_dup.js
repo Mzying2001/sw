@@ -57,6 +57,7 @@ var annotated_dup =
       [ "DockPanel", "classsw_1_1DockPanel.html", "classsw_1_1DockPanel" ],
       [ "DockSplitter", "classsw_1_1DockSplitter.html", "classsw_1_1DockSplitter" ],
       [ "DropFilesEventArgs", "structsw_1_1DropFilesEventArgs.html", null ],
+      [ "DynamicObject", "classsw_1_1DynamicObject.html", "classsw_1_1DynamicObject" ],
       [ "FieldsAccessor", "structsw_1_1FieldsAccessor.html", "structsw_1_1FieldsAccessor" ],
       [ "FileDialog", "classsw_1_1FileDialog.html", "classsw_1_1FileDialog" ],
       [ "FileFilter", "classsw_1_1FileFilter.html", "classsw_1_1FileFilter" ],
@@ -108,6 +109,7 @@ var annotated_dup =
       [ "ListViewEndEditEventArgs", "structsw_1_1ListViewEndEditEventArgs.html", null ],
       [ "ListViewHeaderClickedEventArgs", "structsw_1_1ListViewHeaderClickedEventArgs.html", null ],
       [ "ListViewItemClickedEventArgs", "structsw_1_1ListViewItemClickedEventArgs.html", null ],
+      [ "MemberPropertyLiteInitializer", "classsw_1_1MemberPropertyLiteInitializer.html", "classsw_1_1MemberPropertyLiteInitializer" ],
       [ "Menu", "classsw_1_1Menu.html", "classsw_1_1Menu" ],
       [ "MenuBase", "classsw_1_1MenuBase.html", "classsw_1_1MenuBase" ],
       [ "MenuItem", "classsw_1_1MenuItem.html", "classsw_1_1MenuItem" ],
@@ -131,9 +133,13 @@ var annotated_dup =
       [ "ProgressBar", "classsw_1_1ProgressBar.html", "classsw_1_1ProgressBar" ],
       [ "Property", "classsw_1_1Property.html", "classsw_1_1Property" ],
       [ "PropertyBase", "classsw_1_1PropertyBase.html", "classsw_1_1PropertyBase" ],
+      [ "PropertyLite", "classsw_1_1PropertyLite.html", "classsw_1_1PropertyLite" ],
+      [ "PropertyLiteBase", "classsw_1_1PropertyLiteBase.html", "classsw_1_1PropertyLiteBase" ],
       [ "RadioButton", "classsw_1_1RadioButton.html", "classsw_1_1RadioButton" ],
       [ "ReadOnlyProperty", "classsw_1_1ReadOnlyProperty.html", "classsw_1_1ReadOnlyProperty" ],
+      [ "ReadOnlyPropertyLite", "classsw_1_1ReadOnlyPropertyLite.html", "classsw_1_1ReadOnlyPropertyLite" ],
       [ "Rect", "structsw_1_1Rect.html", "structsw_1_1Rect" ],
+      [ "Reflection", "classsw_1_1Reflection.html", "classsw_1_1Reflection" ],
       [ "RoutedEventArgs", "structsw_1_1RoutedEventArgs.html", "structsw_1_1RoutedEventArgs" ],
       [ "RoutedEventHandlerWrapper", "classsw_1_1RoutedEventHandlerWrapper.html", "classsw_1_1RoutedEventHandlerWrapper" ],
       [ "SaveFileDialog", "classsw_1_1SaveFileDialog.html", "classsw_1_1SaveFileDialog" ],
@@ -152,6 +158,7 @@ var annotated_dup =
       [ "StackLayoutV", "classsw_1_1StackLayoutV.html", "classsw_1_1StackLayoutV" ],
       [ "StackPanel", "classsw_1_1StackPanel.html", "classsw_1_1StackPanel" ],
       [ "StaticControl", "classsw_1_1StaticControl.html", "classsw_1_1StaticControl" ],
+      [ "StaticPropertyLiteInitializer", "classsw_1_1StaticPropertyLiteInitializer.html", "classsw_1_1StaticPropertyLiteInitializer" ],
       [ "StatusBar", "classsw_1_1StatusBar.html", "classsw_1_1StatusBar" ],
       [ "SysLink", "classsw_1_1SysLink.html", "classsw_1_1SysLink" ],
       [ "SysLinkClickedEventArgs", "structsw_1_1SysLinkClickedEventArgs.html", null ],
@@ -178,6 +185,7 @@ var annotated_dup =
       [ "WrapLayoutH", "classsw_1_1WrapLayoutH.html", "classsw_1_1WrapLayoutH" ],
       [ "WrapLayoutV", "classsw_1_1WrapLayoutV.html", "classsw_1_1WrapLayoutV" ],
       [ "WrapPanel", "classsw_1_1WrapPanel.html", "classsw_1_1WrapPanel" ],
-      [ "WriteOnlyProperty", "classsw_1_1WriteOnlyProperty.html", "classsw_1_1WriteOnlyProperty" ]
+      [ "WriteOnlyProperty", "classsw_1_1WriteOnlyProperty.html", "classsw_1_1WriteOnlyProperty" ],
+      [ "WriteOnlyPropertyLite", "classsw_1_1WriteOnlyPropertyLite.html", "classsw_1_1WriteOnlyPropertyLite" ]
     ] ]
 ];

@@ -66,7 +66,7 @@ var searchData=
   ['disablelayout_63',['DisableLayout',['../classsw_1_1Layer.html#a4c9e94621cab7abd5ca2e10f5691c3c1',1,'sw::Layer']]],
   ['docklayout_64',['DockLayout',['../classsw_1_1DockLayout.html',1,'sw']]],
   ['docklayouttag_65',['docklayouttag',['../classsw_1_1DockLayoutTag.html',1,'sw::DockLayoutTag'],['../classsw_1_1DockLayoutTag.html#aae2e7ab3530f1f93e29828264e62b42b',1,'sw::DockLayoutTag::DockLayoutTag()']]],
-  ['dockpanel_66',['dockpanel',['../classsw_1_1DockPanel.html#a8c9ce34641a342dc14c8bae2d49e3c08',1,'sw::DockPanel::DockPanel()'],['../classsw_1_1DockPanel.html',1,'sw::DockPanel']]],
+  ['dockpanel_66',['dockpanel',['../classsw_1_1DockPanel.html',1,'sw::DockPanel'],['../classsw_1_1DockPanel.html#a8c9ce34641a342dc14c8bae2d49e3c08',1,'sw::DockPanel::DockPanel()']]],
   ['docksplitter_67',['docksplitter',['../classsw_1_1DockSplitter.html#a122b7264cde1f901a9da35c57dd7f591',1,'sw::DockSplitter::DockSplitter()'],['../classsw_1_1DockSplitter.html',1,'sw::DockSplitter']]],
   ['doubleclickedhandler_68',['DoubleClickedHandler',['../classsw_1_1NotifyIcon.html#a7dad54cd44d9213fac7bcf73e918656c',1,'sw::NotifyIcon']]],
   ['dragenter_69',['DragEnter',['../classsw_1_1ImageList.html#a6663c89b5ad3ae965ec4871d73560d01',1,'sw::ImageList']]],
@@ -80,5 +80,7 @@ var searchData=
   ['drawpx_77',['drawpx',['../classsw_1_1ImageList.html#af1a861fe7edfb350de315fcc94064165',1,'sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, UINT fStyle)'],['../classsw_1_1ImageList.html#a84b971450d4e751bfe517219869289ae',1,'sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle)']]],
   ['drawsplitterline_78',['DrawSplitterLine',['../classsw_1_1Splitter.html#a2d667696602393d04347f12adaa224e3',1,'sw::Splitter']]],
   ['dropfileseventargs_79',['DropFilesEventArgs',['../structsw_1_1DropFilesEventArgs.html',1,'sw']]],
-  ['duplicate_80',['Duplicate',['../classsw_1_1ImageList.html#a65d9d17f68f44ab3c23531c7e9fe8d4b',1,'sw::ImageList']]]
+  ['duplicate_80',['Duplicate',['../classsw_1_1ImageList.html#a65d9d17f68f44ab3c23531c7e9fe8d4b',1,'sw::ImageList']]],
+  ['dynamiccast_81',['dynamiccast',['../classsw_1_1DynamicObject.html#a4b40c4ae31f19d7e9c9bb37d0356c0a0',1,'sw::DynamicObject::DynamicCast()'],['../classsw_1_1DynamicObject.html#ab8736862ffa02002bd43938b779c13f7',1,'sw::DynamicObject::DynamicCast() const']]],
+  ['dynamicobject_82',['DynamicObject',['../classsw_1_1DynamicObject.html',1,'sw']]]
 ];

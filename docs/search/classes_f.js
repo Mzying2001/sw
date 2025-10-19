@@ -21,7 +21,9 @@ var searchData=
   ['readonlyproperty_3c_20sw_3a_3awndbase_20_2a_20_3e_18',['ReadOnlyProperty&lt; sw::WndBase * &gt;',['../classsw_1_1ReadOnlyProperty.html',1,'sw']]],
   ['readonlyproperty_3c_20titem_20_3e_19',['ReadOnlyProperty&lt; TItem &gt;',['../classsw_1_1ReadOnlyProperty.html',1,'sw']]],
   ['readonlyproperty_3c_20treeviewnode_20_3e_20',['ReadOnlyProperty&lt; TreeViewNode &gt;',['../classsw_1_1ReadOnlyProperty.html',1,'sw']]],
-  ['rect_21',['Rect',['../structsw_1_1Rect.html',1,'sw']]],
-  ['routedeventargs_22',['RoutedEventArgs',['../structsw_1_1RoutedEventArgs.html',1,'sw']]],
-  ['routedeventhandlerwrapper_23',['RoutedEventHandlerWrapper',['../classsw_1_1RoutedEventHandlerWrapper.html',1,'sw']]]
+  ['readonlypropertylite_21',['ReadOnlyPropertyLite',['../classsw_1_1ReadOnlyPropertyLite.html',1,'sw']]],
+  ['rect_22',['Rect',['../structsw_1_1Rect.html',1,'sw']]],
+  ['reflection_23',['Reflection',['../classsw_1_1Reflection.html',1,'sw']]],
+  ['routedeventargs_24',['RoutedEventArgs',['../structsw_1_1RoutedEventArgs.html',1,'sw']]],
+  ['routedeventhandlerwrapper_25',['RoutedEventHandlerWrapper',['../classsw_1_1RoutedEventHandlerWrapper.html',1,'sw']]]
 ];

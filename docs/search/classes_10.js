@@ -16,7 +16,8 @@ var searchData=
   ['stacklayoutv_13',['StackLayoutV',['../classsw_1_1StackLayoutV.html',1,'sw']]],
   ['stackpanel_14',['StackPanel',['../classsw_1_1StackPanel.html',1,'sw']]],
   ['staticcontrol_15',['StaticControl',['../classsw_1_1StaticControl.html',1,'sw']]],
-  ['statusbar_16',['StatusBar',['../classsw_1_1StatusBar.html',1,'sw']]],
-  ['syslink_17',['SysLink',['../classsw_1_1SysLink.html',1,'sw']]],
-  ['syslinkclickedeventargs_18',['SysLinkClickedEventArgs',['../structsw_1_1SysLinkClickedEventArgs.html',1,'sw']]]
+  ['staticpropertyliteinitializer_16',['StaticPropertyLiteInitializer',['../classsw_1_1StaticPropertyLiteInitializer.html',1,'sw']]],
+  ['statusbar_17',['StatusBar',['../classsw_1_1StatusBar.html',1,'sw']]],
+  ['syslink_18',['SysLink',['../classsw_1_1SysLink.html',1,'sw']]],
+  ['syslinkclickedeventargs_19',['SysLinkClickedEventArgs',['../structsw_1_1SysLinkClickedEventArgs.html',1,'sw']]]
 ];
