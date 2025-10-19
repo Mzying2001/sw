@@ -152,7 +152,7 @@ namespace sw
     /*================================================================================*/
 
     /**
-     * @brief 轻量版属性基类
+     * @brief 轻量版属性类型的基类
      * @note  轻量版属性相比普通属性，不再依赖Delegate而是直接使用函数指针实现，更高效且所有者对象可以正常拷贝和移动
      */
     template <typename T, typename TDerived>
@@ -332,7 +332,7 @@ namespace sw
     };
 
     /**
-     * @brief 只读属性（轻量版)
+     * @brief 只读属性（轻量版）
      * @note  轻量版属性相比普通属性，不再依赖Delegate而是直接使用函数指针实现，更高效且所有者对象可以正常拷贝和移动
      */
     template <typename T>
@@ -388,7 +388,7 @@ namespace sw
     };
 
     /**
-     * @brief 只写属性（轻量版)
+     * @brief 只写属性（轻量版）
      * @note  轻量版属性相比普通属性，不再依赖Delegate而是直接使用函数指针实现，更高效且所有者对象可以正常拷贝和移动
      */
     template <typename T>
