@@ -57,7 +57,7 @@ namespace sw
         /**
          * @brief 窗口的默认布局方式
          */
-        std::unique_ptr<LayoutHost> _layout;
+        std::unique_ptr<LayoutHost> _defaultLayout;
 
         /**
          * @brief 当前窗口是否显示为模态窗口
@@ -304,9 +304,10 @@ namespace sw
         template <typename TLayout>
         typename std::enable_if<std::is_base_of<LayoutHost, TLayout>::value>::type SetLayout()
         {
-            this->_layout.reset(new TLayout);
-            this->_layout->Associate(this);
-            this->InvalidateMeasure();
+            auto layout = std::make_unique<TLayout>();
+            layout->Associate(this);
+            _defaultLayout = std::move(layout);
+            InvalidateMeasure();
         }
 
         /**
@@ -315,8 +316,8 @@ namespace sw
         template <std::nullptr_t>
         void SetLayout()
         {
-            this->_layout.reset(nullptr);
-            this->InvalidateMeasure();
+            _defaultLayout.reset(nullptr);
+            InvalidateMeasure();
         }
 
     private:
