@@ -19,6 +19,15 @@ namespace sw
         virtual ~DynamicObject() = default;
 
         /**
+         * @brief  获取对象的类型索引
+         * @return 对象的类型索引
+         */
+        inline std::type_index GetTypeIndex() const
+        {
+            return typeid(*this);
+        }
+
+        /**
          * @brief      判断对象是否为指定类型
          * @tparam T   目标类型
          * @param pout 如果不为 nullptr，则将转换后的指针赋值给该参数
@@ -58,15 +67,6 @@ namespace sw
         {
             return dynamic_cast<const T &>(*this);
         }
-
-        /**
-         * @brief  获取对象的类型索引
-         * @return 对象的类型索引
-         */
-        inline std::type_index GetTypeIndex() const
-        {
-            return typeid(*this);
-        }
     };
 
     /**
@@ -90,7 +90,8 @@ namespace sw
          */
         template <typename T, typename TRet, typename... Args>
         static auto GetMethod(TRet (T::*method)(Args...))
-            -> std::enable_if<std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
         {
             return [method](DynamicObject &obj, Args... args) -> TRet {
                 return (obj.DynamicCast<T>().*method)(std::forward<Args>(args)...);
@@ -107,7 +108,8 @@ namespace sw
          */
         template <typename T, typename TRet, typename... Args>
         static auto GetMethod(TRet (T::*method)(Args...) const)
-            -> std::enable_if<std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
         {
             return [method](DynamicObject &obj, Args... args) -> TRet {
                 return (obj.DynamicCast<T>().*method)(std::forward<Args>(args)...);
@@ -123,7 +125,8 @@ namespace sw
          */
         template <typename T, typename TField>
         static auto GetFieldAccessor(TField T::*field)
-            -> std::enable_if<std::is_base_of<DynamicObject, T>::value, Delegate<TField &(DynamicObject &)>>::type
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value, Delegate<TField &(DynamicObject &)>>::type
         {
             return [field](DynamicObject &obj) -> TField & {
                 return obj.DynamicCast<T>().*field;
@@ -139,8 +142,9 @@ namespace sw
          */
         template <typename T, typename TProperty>
         static auto GetPropertyGetter(TProperty T::*prop)
-            -> std::enable_if<std::is_base_of<DynamicObject, T>::value && _IsReadableProperty<TProperty>::value,
-                              Delegate<typename TProperty::TValue(DynamicObject &)>>::type
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && _IsReadableProperty<TProperty>::value,
+                Delegate<typename TProperty::TValue(DynamicObject &)>>::type
         {
             return [prop](DynamicObject &obj) -> typename TProperty::TValue {
                 return (obj.DynamicCast<T>().*prop).Get();
@@ -156,8 +160,9 @@ namespace sw
          */
         template <typename T, typename TProperty>
         static auto GetPropertySetter(TProperty T::*prop)
-            -> std::enable_if<std::is_base_of<DynamicObject, T>::value && _IsWritableProperty<TProperty>::value,
-                              Delegate<void(DynamicObject &, const typename TProperty::TValue &)>>::type
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && _IsWritableProperty<TProperty>::value,
+                Delegate<void(DynamicObject &, const typename TProperty::TValue &)>>::type
         {
             return [prop](DynamicObject &obj, const typename TProperty::TValue &value) {
                 (obj.DynamicCast<T>().*prop).Set(value);
