@@ -1,4 +1,5 @@
 #include "NotifyIcon.h"
+#include "Screen.h"
 #include <strsafe.h>
 
 namespace
@@ -80,8 +81,8 @@ sw::NotifyIcon::NotifyIcon()
     _AddIcon();
     _nid.uFlags = 0;
 
-    _nid.uVersion = NOTIFYICON_VERSION_4;
-    _ShellNotifyIcon(NIM_SETVERSION);
+    // _nid.uVersion = NOTIFYICON_VERSION_4;
+    // _ShellNotifyIcon(NIM_SETVERSION);
 }
 
 LRESULT sw::NotifyIcon::WndProc(const ProcMsg &refMsg)
@@ -111,17 +112,16 @@ void sw::NotifyIcon::OnMenuCommand(int id)
 
 void sw::NotifyIcon::OnNotyfyIconMessage(WPARAM wParam, LPARAM lParam)
 {
-    int event = LOWORD(lParam);
+    // int event = LOWORD(lParam);
+    int event = static_cast<int>(lParam);
 
     switch (event) {
-        case WM_CONTEXTMENU: {
-            POINT pt{GET_X_LPARAM(wParam), GET_Y_LPARAM(wParam)};
-            OnContextMenu(pt);
+        case WM_LBUTTONUP: {
+            OnClicked(Screen::CursorPosition);
             break;
         }
-        case NIN_SELECT: {
-            POINT pt{GET_X_LPARAM(wParam), GET_Y_LPARAM(wParam)};
-            OnClicked(pt);
+        case WM_RBUTTONUP: {
+            OnContextMenu(Screen::CursorPosition);
             break;
         }
     }

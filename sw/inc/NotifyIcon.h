@@ -92,13 +92,13 @@ namespace sw
         virtual void OnNotyfyIconMessage(WPARAM wParam, LPARAM lParam);
 
         /**
-         * @brief          接收到NIN_SELECT时调用该函数
+         * @brief          鼠标单击图标时调用该函数
          * @param mousePos 鼠标位置
          */
         virtual void OnClicked(const Point &mousePos);
 
         /**
-         * @brief          接收到WM_CONTEXTMENU时调用该函数
+         * @brief          鼠标右键单击图标时调用该函数
          * @param mousePos 鼠标位置
          */
         virtual void OnContextMenu(const Point &mousePos);
