@@ -59,6 +59,11 @@ namespace sw
         const Property<sw::ContextMenu *> ContextMenu;
 
         /**
+         * @brief 图标在屏幕上的位置和尺寸
+         */
+        const ReadOnlyProperty<sw::Rect> Rect;
+
+        /**
          * @brief 当图标被单击时触发该事件
          */
         NotifyIconMouseEventHandler ClickedHandler;

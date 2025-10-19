@@ -65,6 +65,22 @@ sw::NotifyIcon::NotifyIcon()
           // set
           [this](sw::ContextMenu *value) {
               _contextMenu = value;
+          }),
+
+      Rect(
+          // get
+          [this]() -> sw::Rect {
+              NOTIFYICONIDENTIFIER iconId{};
+              iconId.cbSize   = sizeof(NOTIFYICONIDENTIFIER);
+              iconId.hWnd     = _nid.hWnd;
+              iconId.uID      = _nid.uID;
+              iconId.guidItem = GUID_NULL;
+              RECT iconRect{};
+              if (FAILED(Shell_NotifyIconGetRect(&iconId, &iconRect))) {
+                  return sw::Rect{};
+              } else {
+                  return static_cast<sw::Rect>(iconRect);
+              }
           })
 {
     _nid.cbSize           = sizeof(NOTIFYICONDATAW);
