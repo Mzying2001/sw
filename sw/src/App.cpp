@@ -39,11 +39,15 @@ namespace
      */
     std::wstring _GetCurrentDirectory()
     {
-        std::wstring curdir;
-        curdir.resize(GetCurrentDirectoryW(0, NULL));
-        if (curdir.size())
-            curdir.resize(GetCurrentDirectoryW((DWORD)curdir.size(), &curdir[0]));
-        return curdir;
+        int len = (int)GetCurrentDirectoryW(0, NULL);
+        if (len <= 0) {
+            return std::wstring{};
+        } else {
+            std::wstring result;
+            result.resize(len + 1);
+            result.resize(GetCurrentDirectoryW((DWORD)result.size(), &result[0]));
+            return result;
+        }
     }
 }
 
