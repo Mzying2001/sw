@@ -5,10 +5,12 @@
 #include <CommCtrl.h>
 #include <Shlobj.h>
 #include <algorithm>
+#include <cassert>
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
 #include <initializer_list>
+#include <limits>
 #include <map>
 #include <memory>
 #include <shellapi.h>
@@ -5301,6 +5303,454 @@ namespace sw
     };
 }
 
+// PropertyLite.h
+
+
+namespace sw
+{
+    // 向前声明
+
+    template <typename T, typename TDerived>
+    class PropertyLiteBase;
+
+    template <typename T>
+    class PropertyLite;
+
+    template <typename T>
+    class ReadOnlyPropertyLite;
+
+    template <typename T>
+    class WriteOnlyPropertyLite;
+
+    /*================================================================================*/
+
+    /**
+     * @brief 成员属性初始化器
+     */
+    template <typename TOwner, typename TValue>
+    class MemberPropertyLiteInitializer
+    {
+        friend class PropertyLite<TValue>;
+        friend class ReadOnlyPropertyLite<TValue>;
+        friend class WriteOnlyPropertyLite<TValue>;
+
+    private:
+        /**
+         * @brief 属性所有者
+         */
+        TOwner *_owner;
+
+        /**
+         * @brief getter函数指针
+         */
+        TValue (*_getter)(TOwner *);
+
+        /**
+         * @brief setter函数指针
+         */
+        void (*_setter)(TOwner *, const TValue &);
+
+    public:
+        /**
+         * @brief 构造成员属性初始化器
+         */
+        MemberPropertyLiteInitializer(TOwner *owner)
+            : _owner(owner), _getter(nullptr), _setter(nullptr)
+        {
+        }
+
+        /**
+         * @brief 设置getter
+         */
+        MemberPropertyLiteInitializer &Getter(TValue (*getter)(TOwner *))
+        {
+            _getter = getter;
+            return *this;
+        }
+
+        /**
+         * @brief 设置setter
+         */
+        MemberPropertyLiteInitializer &Setter(void (*setter)(TOwner *, const TValue &))
+        {
+            _setter = setter;
+            return *this;
+        }
+
+        /**
+         * @brief 设置成员函数getter
+         */
+        template <TValue (TOwner::*getter)()>
+        MemberPropertyLiteInitializer &Getter()
+        {
+            return Getter(
+                [](TOwner *owner) -> TValue {
+                    return (owner->*getter)();
+                });
+        }
+
+        /**
+         * @brief 设置成员函数setter
+         */
+        template <void (TOwner::*setter)(const TValue &)>
+        MemberPropertyLiteInitializer &Setter()
+        {
+            return Setter(
+                [](TOwner *owner, const TValue &value) {
+                    (owner->*setter)(value);
+                });
+        }
+    };
+
+    /**
+     * @brief 静态属性初始化器
+     */
+    template <typename TValue>
+    class StaticPropertyLiteInitializer
+    {
+        friend class PropertyLite<TValue>;
+        friend class ReadOnlyPropertyLite<TValue>;
+        friend class WriteOnlyPropertyLite<TValue>;
+
+    private:
+        /**
+         * @brief getter函数指针
+         */
+        TValue (*_getter)();
+
+        /**
+         * @brief setter函数指针
+         */
+        void (*_setter)(const TValue &);
+
+    public:
+        /**
+         * @brief 构造静态属性初始化器
+         */
+        StaticPropertyLiteInitializer()
+            : _getter(nullptr), _setter(nullptr)
+        {
+        }
+
+        /**
+         * @brief 设置getter
+         */
+        StaticPropertyLiteInitializer &Getter(TValue (*getter)())
+        {
+            _getter = getter;
+            return *this;
+        }
+
+        /**
+         * @brief 设置setter
+         */
+        StaticPropertyLiteInitializer &Setter(void (*setter)(const TValue &))
+        {
+            _setter = setter;
+            return *this;
+        }
+    };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 轻量版属性类型的基类
+     * @note  轻量版属性相比普通属性，不再依赖Delegate而是直接使用函数指针实现，更高效且所有者对象可以正常拷贝和移动
+     */
+    template <typename T, typename TDerived>
+    class PropertyLiteBase : public PropertyBase<T, TDerived>
+    {
+    public:
+        /**
+         * @brief 基类类型别名
+         */
+        using TBase = PropertyBase<T, TDerived>;
+
+        /**
+         * @brief 继承父类operator=
+         */
+        using TBase::operator=;
+
+        /**
+         * @brief 使用默认构造函数
+         */
+        PropertyLiteBase() = default;
+
+        /**
+         * @brief   恢复被基类删除的拷贝构造函数
+         * @warning 不应使用该函数创建新的属性对象，仅在所有者对象拷贝或移动时隐式调用
+         */
+        PropertyLiteBase(const PropertyLiteBase &other)
+            : TBase()
+        {
+            _offset = other._offset;
+        }
+
+    protected:
+        /**
+         * @brief 无效的偏移量值
+         */
+        static constexpr std::ptrdiff_t _invalidOffset =
+            (std::numeric_limits<std::ptrdiff_t>::max)();
+
+        /**
+         * @brief 所有者对象相对于当前属性对象的偏移量
+         */
+        std::ptrdiff_t _offset{_invalidOffset};
+
+        /**
+         * @brief 判断属性是否为静态属性
+         */
+        bool IsStatic() const noexcept
+        {
+            return _offset == _invalidOffset;
+        }
+
+        /**
+         * @brief 设置属性所有者对象，nullptr表示静态属性
+         */
+        void SetOwner(void *owner) noexcept
+        {
+            if (owner == nullptr) {
+                _offset = _invalidOffset;
+            } else {
+                _offset = reinterpret_cast<uint8_t *>(owner) - reinterpret_cast<uint8_t *>(this);
+            }
+        }
+
+        /**
+         * @brief 获取属性所有者对象，当属性为静态属性时返回nullptr
+         */
+        void *GetOwner() const noexcept
+        {
+            if (IsStatic()) {
+                return nullptr;
+            } else {
+                return const_cast<uint8_t *>(reinterpret_cast<const uint8_t *>(this)) + _offset;
+            }
+        }
+
+    public:
+        /**
+         * @brief 获取成员属性初始化器
+         */
+        template <typename TOwner>
+        static MemberPropertyLiteInitializer<TOwner, T> Init(TOwner *owner)
+        {
+            return MemberPropertyLiteInitializer<TOwner, T>(owner);
+        }
+
+        /**
+         * @brief 获取静态属性初始化器
+         */
+        static StaticPropertyLiteInitializer<T> Init()
+        {
+            return StaticPropertyLiteInitializer<T>();
+        }
+    };
+
+    /**
+     * @brief 属性（轻量版）
+     * @note  轻量版属性相比普通属性，不再依赖Delegate而是直接使用函数指针实现，更高效且所有者对象可以正常拷贝和移动
+     */
+    template <typename T>
+    class PropertyLite : public PropertyLiteBase<T, PropertyLite<T>>
+    {
+    public:
+        using TBase         = PropertyLiteBase<T, PropertyLite<T>>;
+        using TGetter       = T (*)(void *);
+        using TSetter       = void (*)(void *, const T &);
+        using TStaticGetter = T (*)();
+        using TStaticSetter = void (*)(const T &);
+
+    private:
+        /**
+         * @brief getter函数指针
+         */
+        void *_getter;
+
+        /**
+         * @brief setter函数指针
+         */
+        void *_setter;
+
+    public:
+        /**
+         * @brief 继承父类operator=
+         */
+        using TBase::operator=;
+
+        /**
+         * @brief 构造成员属性
+         */
+        template <typename TOwner>
+        explicit PropertyLite(const MemberPropertyLiteInitializer<TOwner, T> &initializer)
+        {
+            assert(initializer._owner != nullptr);
+            assert(initializer._getter != nullptr);
+            assert(initializer._setter != nullptr);
+
+            this->SetOwner(initializer._owner);
+            _getter = reinterpret_cast<void *>(initializer._getter);
+            _setter = reinterpret_cast<void *>(initializer._setter);
+        }
+
+        /**
+         * @brief 构造静态属性
+         */
+        explicit PropertyLite(const StaticPropertyLiteInitializer<T> &initializer)
+        {
+            assert(initializer._getter != nullptr);
+            assert(initializer._setter != nullptr);
+
+            this->SetOwner(nullptr);
+            _getter = reinterpret_cast<void *>(initializer._getter);
+            _setter = reinterpret_cast<void *>(initializer._setter);
+        }
+
+        /**
+         * @brief 获取属性值
+         */
+        T GetterImpl() const
+        {
+            if (this->IsStatic()) {
+                return reinterpret_cast<TStaticGetter>(_getter)();
+            } else {
+                return reinterpret_cast<TGetter>(_getter)(this->GetOwner());
+            }
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        void SetterImpl(const T &value) const
+        {
+            if (this->IsStatic()) {
+                reinterpret_cast<TStaticSetter>(_setter)(value);
+            } else {
+                reinterpret_cast<TSetter>(_setter)(this->GetOwner(), value);
+            }
+        }
+    };
+
+    /**
+     * @brief 只读属性（轻量版）
+     * @note  轻量版属性相比普通属性，不再依赖Delegate而是直接使用函数指针实现，更高效且所有者对象可以正常拷贝和移动
+     */
+    template <typename T>
+    class ReadOnlyPropertyLite : public PropertyLiteBase<T, ReadOnlyPropertyLite<T>>
+    {
+    public:
+        using TBase         = PropertyLiteBase<T, ReadOnlyPropertyLite<T>>;
+        using TGetter       = T (*)(void *);
+        using TStaticGetter = T (*)();
+
+    private:
+        /**
+         * @brief getter函数指针
+         */
+        void *_getter;
+
+    public:
+        /**
+         * @brief 构造成员属性
+         */
+        template <typename TOwner>
+        explicit ReadOnlyPropertyLite(const MemberPropertyLiteInitializer<TOwner, T> &initializer)
+        {
+            assert(initializer._owner != nullptr);
+            assert(initializer._getter != nullptr);
+
+            this->SetOwner(initializer._owner);
+            _getter = reinterpret_cast<void *>(initializer._getter);
+        }
+
+        /**
+         * @brief 构造静态属性
+         */
+        explicit ReadOnlyPropertyLite(const StaticPropertyLiteInitializer<T> &initializer)
+        {
+            assert(initializer._getter != nullptr);
+
+            this->SetOwner(nullptr);
+            _getter = reinterpret_cast<void *>(initializer._getter);
+        }
+
+        /**
+         * @brief 获取属性值
+         */
+        T GetterImpl() const
+        {
+            if (this->IsStatic()) {
+                return reinterpret_cast<TStaticGetter>(_getter)();
+            } else {
+                return reinterpret_cast<TGetter>(_getter)(this->GetOwner());
+            }
+        }
+    };
+
+    /**
+     * @brief 只写属性（轻量版）
+     * @note  轻量版属性相比普通属性，不再依赖Delegate而是直接使用函数指针实现，更高效且所有者对象可以正常拷贝和移动
+     */
+    template <typename T>
+    class WriteOnlyPropertyLite : public PropertyLiteBase<T, WriteOnlyPropertyLite<T>>
+    {
+    public:
+        using TBase         = PropertyLiteBase<T, WriteOnlyPropertyLite<T>>;
+        using TSetter       = void (*)(void *, const T &);
+        using TStaticSetter = void (*)(const T &);
+
+    private:
+        /**
+         * @brief setter函数指针
+         */
+        void *_setter;
+
+    public:
+        /**
+         * @brief 继承父类operator=
+         */
+        using TBase::operator=;
+
+        /**
+         * @brief 构造成员属性
+         */
+        template <typename TOwner>
+        explicit WriteOnlyPropertyLite(const MemberPropertyLiteInitializer<TOwner, T> &initializer)
+        {
+            assert(initializer._owner != nullptr);
+            assert(initializer._setter != nullptr);
+
+            this->SetOwner(initializer._owner);
+            _setter = reinterpret_cast<void *>(initializer._setter);
+        }
+
+        /**
+         * @brief 构造静态属性
+         */
+        explicit WriteOnlyPropertyLite(const StaticPropertyLiteInitializer<T> &initializer)
+        {
+            assert(initializer._setter != nullptr);
+
+            this->SetOwner(nullptr);
+            _setter = reinterpret_cast<void *>(initializer._setter);
+        }
+
+        /**
+         * @brief 设置属性值
+         */
+        void SetterImpl(const T &value) const
+        {
+            if (this->IsStatic()) {
+                reinterpret_cast<TStaticSetter>(_setter)(value);
+            } else {
+                reinterpret_cast<TSetter>(_setter)(this->GetOwner(), value);
+            }
+        }
+    };
+}
+
 // Rect.h
 
 
@@ -5376,6 +5826,175 @@ namespace sw
     static_assert(
         std::is_trivial<Rect>::value && std::is_standard_layout<Rect>::value,
         "Rect should be a POD type.");
+}
+
+// Reflection.h
+
+
+namespace sw
+{
+    /**
+     * @brief 动态对象基类
+     */
+    class DynamicObject
+    {
+    public:
+        /**
+         * @brief 析构函数
+         */
+        virtual ~DynamicObject() = default;
+
+        /**
+         * @brief  获取对象的类型索引
+         * @return 对象的类型索引
+         */
+        inline std::type_index GetTypeIndex() const
+        {
+            return typeid(*this);
+        }
+
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为 nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回 true，否则返回 false
+         */
+        template <typename T>
+        bool IsType(T **pout = nullptr)
+        {
+            if (pout == nullptr) {
+                return dynamic_cast<T *>(this) != nullptr;
+            } else {
+                *pout = dynamic_cast<T *>(this);
+                return *pout != nullptr;
+            }
+        }
+
+        /**
+         * @brief    将对象动态转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @throws   std::bad_cast 如果转换失败
+         */
+        template <typename T>
+        T &DynamicCast()
+        {
+            return dynamic_cast<T &>(*this);
+        }
+
+        /**
+         * @brief    将对象动态转换为指定类型的常量引用
+         * @tparam T 目标类型
+         * @return   指定类型的常量引用
+         * @throws   std::bad_cast 如果转换失败
+         */
+        template <typename T>
+        const T &DynamicCast() const
+        {
+            return dynamic_cast<const T &>(*this);
+        }
+    };
+
+    /**
+     * @brief 提供反射相关功能
+     */
+    class Reflection
+    {
+    public:
+        /**
+         * @brief 静态类，不允许实例化
+         */
+        Reflection() = delete;
+
+        /**
+         * @brief        获取成员函数的委托
+         * @tparam T     成员函数所属类类型
+         * @tparam TRet  成员函数返回值类型
+         * @tparam Args  成员函数参数类型列表
+         * @param method 成员函数指针
+         * @return       对应的委托
+         */
+        template <typename T, typename TRet, typename... Args>
+        static auto GetMethod(TRet (T::*method)(Args...))
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
+        {
+            return [method](DynamicObject &obj, Args... args) -> TRet {
+                return (obj.DynamicCast<T>().*method)(std::forward<Args>(args)...);
+            };
+        }
+
+        /**
+         * @brief        获取常量成员函数的委托
+         * @tparam T     成员函数所属类类型
+         * @tparam TRet  成员函数返回值类型
+         * @tparam Args  成员函数参数类型列表
+         * @param method 成员函数指针
+         * @return       对应的委托
+         */
+        template <typename T, typename TRet, typename... Args>
+        static auto GetMethod(TRet (T::*method)(Args...) const)
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
+        {
+            return [method](DynamicObject &obj, Args... args) -> TRet {
+                return (obj.DynamicCast<T>().*method)(std::forward<Args>(args)...);
+            };
+        }
+
+        /**
+         * @brief         获取成员字段的访问器
+         * @tparam T      成员字段所属类类型
+         * @tparam TField 成员字段类型
+         * @param field   成员字段指针
+         * @return        对应的访问器
+         */
+        template <typename T, typename TField>
+        static auto GetFieldAccessor(TField T::*field)
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value, Delegate<TField &(DynamicObject &)>>::type
+        {
+            return [field](DynamicObject &obj) -> TField & {
+                return obj.DynamicCast<T>().*field;
+            };
+        }
+
+        /**
+         * @brief            获取属性的Getter委托
+         * @tparam T         属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop       属性指针
+         * @return           对应的Getter委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertyGetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && _IsReadableProperty<TProperty>::value,
+                Delegate<typename TProperty::TValue(DynamicObject &)>>::type
+        {
+            return [prop](DynamicObject &obj) -> typename TProperty::TValue {
+                return (obj.DynamicCast<T>().*prop).Get();
+            };
+        }
+
+        /**
+         * @brief            获取属性的Setter委托
+         * @tparam T         属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop       属性指针
+         * @return           对应的Setter委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertySetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && _IsWritableProperty<TProperty>::value,
+                Delegate<void(DynamicObject &, const typename TProperty::TValue &)>>::type
+        {
+            return [prop](DynamicObject &obj, const typename TProperty::TValue &value) {
+                (obj.DynamicCast<T>().*prop).Set(value);
+            };
+        }
+    };
 }
 
 // RoutedEventArgs.h
@@ -6733,7 +7352,8 @@ namespace sw
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
-    class WndBase : public IToString<WndBase>,
+    class WndBase : public DynamicObject,
+                    public IToString<WndBase>,
                     public IEqualityComparable<WndBase>
     {
         // 部分控件可能会改变HWND，设为友元类向Control类暴露_hwnd字段
@@ -7608,6 +8228,36 @@ namespace sw
          * @param wnd  与句柄关联的对象
          */
         static void _SetWndBase(HWND hwnd, WndBase &wnd);
+
+    public:
+        /**
+         * @brief      获取属性值
+         * @param prop 属性成员指针
+         * @return     属性值
+         */
+        template <typename TDerived, typename TProperty>
+        auto GetProperty(TProperty TDerived::*prop)
+            -> typename std::enable_if<
+                std::is_base_of<WndBase, TDerived>::value && _IsReadableProperty<TProperty>::value,
+                typename TProperty::TValue>::type
+        {
+            auto getter = Reflection::GetPropertyGetter(prop);
+            return getter(*this);
+        }
+
+        /**
+         * @brief       设置属性值
+         * @param prop  属性成员指针
+         * @param value 属性值
+         */
+        template <typename TDerived, typename TProperty>
+        auto SetProperty(TProperty TDerived::*prop, const typename TProperty::TValue &value)
+            -> typename std::enable_if<
+                std::is_base_of<WndBase, TDerived>::value && _IsWritableProperty<TProperty>::value>::type
+        {
+            auto setter = Reflection::GetPropertySetter(prop);
+            setter(*this, value);
+        }
     };
 }
 
@@ -8788,12 +9438,14 @@ namespace sw
         UIElement *GetPreviousTabStopElement();
 
         /**
-         * @brief 获取当前要显示的背景颜色：当Transparent为true时获取到祖先节点中首个Transparent为false的背景颜色，否则返回当前元素的背景颜色
+         * @brief  获取当前要显示的背景颜色
+         * @return 当Transparent为true时获取到祖先节点中首个Transparent为false的背景颜色，否则返回当前元素的背景颜色
          */
         Color GetRealBackColor() const;
 
         /**
-         * @brief 获取当前要显示的文本颜色：当InheritTextColor为true时获取到祖先节点中首个InheritTextColor为false的文本颜色，否则返回当前元素的文本颜色
+         * @brief  获取当前要显示的文本颜色
+         * @return 当InheritTextColor为true时获取到祖先节点中首个InheritTextColor为false的文本颜色，否则返回当前元素的文本颜色
          */
         Color GetRealTextColor() const;
 
@@ -8822,7 +9474,8 @@ namespace sw
         void SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlignment vert);
 
         /**
-         * @brief 调整当前元素的尺寸，也可以用该函数更改默认Measure函数在当前横向或纵向对齐方式为拉伸时的DesireSize
+         * @brief 调整当前元素的尺寸
+         * @note  通过该函数可以调整横向或纵向对齐方式为拉伸时的DesireSize
          */
         void Resize(const Size &size);
 

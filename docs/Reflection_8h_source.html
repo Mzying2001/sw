@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: Reflection.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('Reflection_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Reflection.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Delegate.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;Property.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;typeindex&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>{</div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classsw_1_1DynamicObject.html">   13</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classsw_1_1DynamicObject.html#a17fa896bc9ba4196c6301fb6c452122f">   19</a></span>        <span class="keyword">virtual</span> <a class="code hl_function" href="classsw_1_1DynamicObject.html#a17fa896bc9ba4196c6301fb6c452122f">~DynamicObject</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="}">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="classsw_1_1DynamicObject.html#af793982c7d4e7bdec3ddb9c584b0f2ed">   25</a></span>        <span class="keyword">inline</span> std::type_index <a class="code hl_function" href="classsw_1_1DynamicObject.html#af793982c7d4e7bdec3ddb9c584b0f2ed">GetTypeIndex</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            <span class="keywordflow">return</span> <span class="keyword">typeid</span>(*this);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        }</div>
+</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00037" data-start="{" data-end="}">
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classsw_1_1DynamicObject.html#abfdfc0484d420f36515a295690f13c84">   37</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1DynamicObject.html#abfdfc0484d420f36515a295690f13c84">IsType</a>(T **pout = <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            <span class="keywordflow">if</span> (pout == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                <span class="keywordflow">return</span> <span class="keyword">dynamic_cast&lt;</span>T *<span class="keyword">&gt;</span>(<span class="keyword">this</span>) != <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                *pout = <span class="keyword">dynamic_cast&lt;</span>T *<span class="keyword">&gt;</span>(<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                <span class="keywordflow">return</span> *pout != <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            }</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        }</div>
+</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00054" data-start="{" data-end="}">
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classsw_1_1DynamicObject.html#a4b40c4ae31f19d7e9c9bb37d0356c0a0">   54</a></span>        T &amp;<a class="code hl_function" href="classsw_1_1DynamicObject.html#a4b40c4ae31f19d7e9c9bb37d0356c0a0">DynamicCast</a>()</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            <span class="keywordflow">return</span> <span class="keyword">dynamic_cast&lt;</span>T &amp;<span class="keyword">&gt;</span>(*this);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        }</div>
+</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00066" data-start="{" data-end="}">
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classsw_1_1DynamicObject.html#ab8736862ffa02002bd43938b779c13f7">   66</a></span>        <span class="keyword">const</span> T &amp;<a class="code hl_function" href="classsw_1_1DynamicObject.html#ab8736862ffa02002bd43938b779c13f7">DynamicCast</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            <span class="keywordflow">return</span> <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>T &amp;<span class="keyword">&gt;</span>(*this);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        }</div>
+</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    };</div>
+</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="foldopen" id="foldopen00075" data-start="{" data-end="};">
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classsw_1_1Reflection.html">   75</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1Reflection.html">Reflection</a></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="classsw_1_1Reflection.html#aff8f6d869254bb38b96099ddaf477c88">   81</a></span>        <a class="code hl_function" href="classsw_1_1Reflection.html#aff8f6d869254bb38b96099ddaf477c88">Reflection</a>() = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> TRet, <span class="keyword">typename</span>... Args&gt;</div>
+<div class="foldopen" id="foldopen00092" data-start="{" data-end="}">
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classsw_1_1Reflection.html#a426bcce441232e749a4dcbdac134f271">   92</a></span>        <span class="keyword">static</span> <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1Reflection.html#a426bcce441232e749a4dcbdac134f271">GetMethod</a>(TRet (T::*method)(Args...))</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            -&gt; typename std::enable_if&lt;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                std::is_base_of&lt;<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value, <a class="code hl_class" href="classsw_1_1Delegate.html">Delegate</a>&lt;TRet(<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, Args...)&gt;&gt;::type</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        {</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>            <span class="keywordflow">return</span> [method](<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;obj, Args... args) -&gt; TRet {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                <span class="keywordflow">return</span> (obj.<a class="code hl_function" href="classsw_1_1DynamicObject.html#a4b40c4ae31f19d7e9c9bb37d0356c0a0">DynamicCast</a>&lt;T&gt;().*method)(std::forward&lt;Args&gt;(args)...);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            };</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        }</div>
+</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> TRet, <span class="keyword">typename</span>... Args&gt;</div>
+<div class="foldopen" id="foldopen00110" data-start="{" data-end="}">
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="classsw_1_1Reflection.html#a292707b91ff896ca3140287f12043413">  110</a></span>        <span class="keyword">static</span> <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1Reflection.html#a292707b91ff896ca3140287f12043413">GetMethod</a>(TRet (T::*method)(Args...) const)</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>            -&gt; typename std::enable_if&lt;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                std::is_base_of&lt;<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value, <a class="code hl_class" href="classsw_1_1Delegate.html">Delegate</a>&lt;TRet(<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, Args...)&gt;&gt;::type</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        {</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            <span class="keywordflow">return</span> [method](<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;obj, Args... args) -&gt; TRet {</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                <span class="keywordflow">return</span> (obj.<a class="code hl_function" href="classsw_1_1DynamicObject.html#a4b40c4ae31f19d7e9c9bb37d0356c0a0">DynamicCast</a>&lt;T&gt;().*method)(std::forward&lt;Args&gt;(args)...);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            };</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        }</div>
+</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> TField&gt;</div>
+<div class="foldopen" id="foldopen00127" data-start="{" data-end="}">
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="classsw_1_1Reflection.html#a637270f6d20445801f6d3f6742d331f5">  127</a></span>        <span class="keyword">static</span> <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1Reflection.html#a637270f6d20445801f6d3f6742d331f5">GetFieldAccessor</a>(TField T::*field)</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            -&gt; typename std::enable_if&lt;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                std::is_base_of&lt;<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value, <a class="code hl_class" href="classsw_1_1Delegate.html">Delegate</a>&lt;TField &amp;(<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt;&gt;::type</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        {</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            <span class="keywordflow">return</span> [field](<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;obj) -&gt; TField &amp; {</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                <span class="keywordflow">return</span> obj.DynamicCast&lt;T&gt;().*field;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>            };</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        }</div>
+</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> TProperty&gt;</div>
+<div class="foldopen" id="foldopen00144" data-start="{" data-end="}">
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="classsw_1_1Reflection.html#afae7e677ec487c701f7ebba1e0b2e54f">  144</a></span>        <span class="keyword">static</span> <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1Reflection.html#afae7e677ec487c701f7ebba1e0b2e54f">GetPropertyGetter</a>(TProperty T::*prop)</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>            -&gt; typename std::enable_if&lt;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>                std::is_base_of&lt;<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value &amp;&amp; <a class="code hl_struct" href="structsw_1_1__IsReadableProperty.html">_IsReadableProperty</a>&lt;TProperty&gt;::value,</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                <a class="code hl_class" href="classsw_1_1Delegate.html">Delegate</a>&lt;typename TProperty::TValue(<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt;&gt;::type</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        {</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>            <span class="keywordflow">return</span> [prop](<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;obj) -&gt; <span class="keyword">typename</span> TProperty::TValue {</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>                <span class="keywordflow">return</span> (obj.DynamicCast&lt;T&gt;().*prop).Get();</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>            };</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        }</div>
+</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> TProperty&gt;</div>
+<div class="foldopen" id="foldopen00162" data-start="{" data-end="}">
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="classsw_1_1Reflection.html#a2927621859d936732413524447b6acae">  162</a></span>        <span class="keyword">static</span> <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1Reflection.html#a2927621859d936732413524447b6acae">GetPropertySetter</a>(TProperty T::*prop)</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>            -&gt; typename std::enable_if&lt;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>                std::is_base_of&lt;<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value &amp;&amp; <a class="code hl_struct" href="structsw_1_1__IsWritableProperty.html">_IsWritableProperty</a>&lt;TProperty&gt;::value,</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>                <a class="code hl_class" href="classsw_1_1Delegate.html">Delegate</a>&lt;void(<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, const typename TProperty::TValue &amp;)&gt;&gt;::type</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        {</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>            <span class="keywordflow">return</span> [prop](<a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;obj, <span class="keyword">const</span> <span class="keyword">typename</span> TProperty::TValue &amp;value) {</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>                (obj.<a class="code hl_function" href="classsw_1_1DynamicObject.html#a4b40c4ae31f19d7e9c9bb37d0356c0a0">DynamicCast</a>&lt;T&gt;().*prop).Set(value);</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>            };</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        }</div>
+</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    };</div>
+</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>}</div>
+<div class="ttc" id="aclasssw_1_1Delegate_html"><div class="ttname"><a href="classsw_1_1Delegate.html">sw::Delegate</a></div><div class="ttdef"><b>Definition</b> Delegate.h:21</div></div>
+<div class="ttc" id="aclasssw_1_1DynamicObject_html"><div class="ttname"><a href="classsw_1_1DynamicObject.html">sw::DynamicObject</a></div><div class="ttdoc">动态对象基类</div><div class="ttdef"><b>Definition</b> Reflection.h:14</div></div>
+<div class="ttc" id="aclasssw_1_1DynamicObject_html_a17fa896bc9ba4196c6301fb6c452122f"><div class="ttname"><a href="classsw_1_1DynamicObject.html#a17fa896bc9ba4196c6301fb6c452122f">sw::DynamicObject::~DynamicObject</a></div><div class="ttdeci">virtual ~DynamicObject()=default</div><div class="ttdoc">析构函数</div></div>
+<div class="ttc" id="aclasssw_1_1DynamicObject_html_a4b40c4ae31f19d7e9c9bb37d0356c0a0"><div class="ttname"><a href="classsw_1_1DynamicObject.html#a4b40c4ae31f19d7e9c9bb37d0356c0a0">sw::DynamicObject::DynamicCast</a></div><div class="ttdeci">T &amp; DynamicCast()</div><div class="ttdoc">将对象动态转换为指定类型的引用</div><div class="ttdef"><b>Definition</b> Reflection.h:54</div></div>
+<div class="ttc" id="aclasssw_1_1DynamicObject_html_ab8736862ffa02002bd43938b779c13f7"><div class="ttname"><a href="classsw_1_1DynamicObject.html#ab8736862ffa02002bd43938b779c13f7">sw::DynamicObject::DynamicCast</a></div><div class="ttdeci">const T &amp; DynamicCast() const</div><div class="ttdoc">将对象动态转换为指定类型的常量引用</div><div class="ttdef"><b>Definition</b> Reflection.h:66</div></div>
+<div class="ttc" id="aclasssw_1_1DynamicObject_html_abfdfc0484d420f36515a295690f13c84"><div class="ttname"><a href="classsw_1_1DynamicObject.html#abfdfc0484d420f36515a295690f13c84">sw::DynamicObject::IsType</a></div><div class="ttdeci">bool IsType(T **pout=nullptr)</div><div class="ttdoc">判断对象是否为指定类型</div><div class="ttdef"><b>Definition</b> Reflection.h:37</div></div>
+<div class="ttc" id="aclasssw_1_1DynamicObject_html_af793982c7d4e7bdec3ddb9c584b0f2ed"><div class="ttname"><a href="classsw_1_1DynamicObject.html#af793982c7d4e7bdec3ddb9c584b0f2ed">sw::DynamicObject::GetTypeIndex</a></div><div class="ttdeci">std::type_index GetTypeIndex() const</div><div class="ttdoc">获取对象的类型索引</div><div class="ttdef"><b>Definition</b> Reflection.h:25</div></div>
+<div class="ttc" id="aclasssw_1_1Reflection_html"><div class="ttname"><a href="classsw_1_1Reflection.html">sw::Reflection</a></div><div class="ttdoc">提供反射相关功能</div><div class="ttdef"><b>Definition</b> Reflection.h:76</div></div>
+<div class="ttc" id="aclasssw_1_1Reflection_html_a292707b91ff896ca3140287f12043413"><div class="ttname"><a href="classsw_1_1Reflection.html#a292707b91ff896ca3140287f12043413">sw::Reflection::GetMethod</a></div><div class="ttdeci">static auto GetMethod(TRet(T::*method)(Args...) const) -&gt; typename std::enable_if&lt; std::is_base_of&lt; DynamicObject, T &gt;::value, Delegate&lt; TRet(DynamicObject &amp;, Args...)&gt; &gt;::type</div><div class="ttdoc">获取常量成员函数的委托</div><div class="ttdef"><b>Definition</b> Reflection.h:110</div></div>
+<div class="ttc" id="aclasssw_1_1Reflection_html_a2927621859d936732413524447b6acae"><div class="ttname"><a href="classsw_1_1Reflection.html#a2927621859d936732413524447b6acae">sw::Reflection::GetPropertySetter</a></div><div class="ttdeci">static auto GetPropertySetter(TProperty T::*prop) -&gt; typename std::enable_if&lt; std::is_base_of&lt; DynamicObject, T &gt;::value &amp;&amp;_IsWritableProperty&lt; TProperty &gt;::value, Delegate&lt; void(DynamicObject &amp;, const typename TProperty::TValue &amp;)&gt; &gt;::type</div><div class="ttdoc">获取属性的Setter委托</div><div class="ttdef"><b>Definition</b> Reflection.h:162</div></div>
+<div class="ttc" id="aclasssw_1_1Reflection_html_a426bcce441232e749a4dcbdac134f271"><div class="ttname"><a href="classsw_1_1Reflection.html#a426bcce441232e749a4dcbdac134f271">sw::Reflection::GetMethod</a></div><div class="ttdeci">static auto GetMethod(TRet(T::*method)(Args...)) -&gt; typename std::enable_if&lt; std::is_base_of&lt; DynamicObject, T &gt;::value, Delegate&lt; TRet(DynamicObject &amp;, Args...)&gt; &gt;::type</div><div class="ttdoc">获取成员函数的委托</div><div class="ttdef"><b>Definition</b> Reflection.h:92</div></div>
+<div class="ttc" id="aclasssw_1_1Reflection_html_a637270f6d20445801f6d3f6742d331f5"><div class="ttname"><a href="classsw_1_1Reflection.html#a637270f6d20445801f6d3f6742d331f5">sw::Reflection::GetFieldAccessor</a></div><div class="ttdeci">static auto GetFieldAccessor(TField T::*field) -&gt; typename std::enable_if&lt; std::is_base_of&lt; DynamicObject, T &gt;::value, Delegate&lt; TField &amp;(DynamicObject &amp;)&gt; &gt;::type</div><div class="ttdoc">获取成员字段的访问器</div><div class="ttdef"><b>Definition</b> Reflection.h:127</div></div>
+<div class="ttc" id="aclasssw_1_1Reflection_html_afae7e677ec487c701f7ebba1e0b2e54f"><div class="ttname"><a href="classsw_1_1Reflection.html#afae7e677ec487c701f7ebba1e0b2e54f">sw::Reflection::GetPropertyGetter</a></div><div class="ttdeci">static auto GetPropertyGetter(TProperty T::*prop) -&gt; typename std::enable_if&lt; std::is_base_of&lt; DynamicObject, T &gt;::value &amp;&amp;_IsReadableProperty&lt; TProperty &gt;::value, Delegate&lt; typename TProperty::TValue(DynamicObject &amp;)&gt; &gt;::type</div><div class="ttdoc">获取属性的Getter委托</div><div class="ttdef"><b>Definition</b> Reflection.h:144</div></div>
+<div class="ttc" id="aclasssw_1_1Reflection_html_aff8f6d869254bb38b96099ddaf477c88"><div class="ttname"><a href="classsw_1_1Reflection.html#aff8f6d869254bb38b96099ddaf477c88">sw::Reflection::Reflection</a></div><div class="ttdeci">Reflection()=delete</div><div class="ttdoc">静态类，不允许实例化</div></div>
+<div class="ttc" id="astructsw_1_1__IsReadableProperty_html"><div class="ttname"><a href="structsw_1_1__IsReadableProperty.html">sw::_IsReadableProperty</a></div><div class="ttdoc">判断类型是否为可读属性的辅助模板</div><div class="ttdef"><b>Definition</b> Property.h:114</div></div>
+<div class="ttc" id="astructsw_1_1__IsWritableProperty_html"><div class="ttname"><a href="structsw_1_1__IsWritableProperty.html">sw::_IsWritableProperty</a></div><div class="ttdoc">判断类型是否为可写属性的辅助模板</div><div class="ttdef"><b>Definition</b> Property.h:122</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>Reflection.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

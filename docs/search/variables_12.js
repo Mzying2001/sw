@@ -1,7 +1,7 @@
 var searchData=
 [
   ['tabstop_0',['TabStop',['../classsw_1_1UIElement.html#a2b54e00e1e41af2a634ad694da3ffa98',1,'sw::UIElement']]],
-  ['tag_1',['tag',['../classsw_1_1UIElement.html#a895d79a2fa53382a43b3d02dee195360',1,'sw::UIElement::Tag'],['../classsw_1_1MenuItem.html#a71e23c18ace7346f28415ed747d80905',1,'sw::MenuItem::tag']]],
+  ['tag_1',['tag',['../classsw_1_1MenuItem.html#a71e23c18ace7346f28415ed747d80905',1,'sw::MenuItem::tag'],['../classsw_1_1UIElement.html#a895d79a2fa53382a43b3d02dee195360',1,'sw::UIElement::Tag']]],
   ['text_2',['text',['../classsw_1_1WndBase.html#a9afff86d32e9b54cccc204ef29a85891',1,'sw::WndBase::Text'],['../classsw_1_1MenuItem.html#a0f67fc28cb879876a328495035031979',1,'sw::MenuItem::text']]],
   ['textcolor_3',['TextColor',['../classsw_1_1UIElement.html#aeaf2381fdffd82bd41e90c1a2cf69022',1,'sw::UIElement']]],
   ['textmargin_4',['TextMargin',['../classsw_1_1ButtonBase.html#a51e40f85ed267d67770e845fefb550f5',1,'sw::ButtonBase']]],

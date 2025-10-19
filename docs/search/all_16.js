@@ -1,7 +1,7 @@
 var searchData=
 [
   ['weight_0',['weight',['../classsw_1_1Font.html#aa5126e73aad9ba2fd6aab826bac16a5c',1,'sw::Font']]],
-  ['width_1',['width',['../classsw_1_1WndBase.html#a445edbe5db50a5a4486ddff98e8ffbae',1,'sw::WndBase::Width'],['../classsw_1_1Screen.html#a2276c1ff4a907b74517a0e12b3999c92',1,'sw::Screen::Width'],['../structsw_1_1Size.html#a22c3b210b0c48e2812604381f729d5bd',1,'sw::Size::width'],['../structsw_1_1Rect.html#ada69154ab3d734587ef9695b10144b01',1,'sw::Rect::width'],['../structsw_1_1ListViewColumn.html#abd8ec9f51310be92ec1ff113314e5257',1,'sw::ListViewColumn::width'],['../structsw_1_1GridColumn.html#aa07dbbfe79ce8c33ebd7bffa430bf6eb',1,'sw::GridColumn::width']]],
+  ['width_1',['width',['../structsw_1_1Size.html#a22c3b210b0c48e2812604381f729d5bd',1,'sw::Size::width'],['../structsw_1_1Rect.html#ada69154ab3d734587ef9695b10144b01',1,'sw::Rect::width'],['../structsw_1_1ListViewColumn.html#abd8ec9f51310be92ec1ff113314e5257',1,'sw::ListViewColumn::width'],['../structsw_1_1GridColumn.html#aa07dbbfe79ce8c33ebd7bffa430bf6eb',1,'sw::GridColumn::width'],['../classsw_1_1WndBase.html#a445edbe5db50a5a4486ddff98e8ffbae',1,'sw::WndBase::Width'],['../classsw_1_1Screen.html#a2276c1ff4a907b74517a0e12b3999c92',1,'sw::Screen::Width']]],
   ['window_2',['window',['../classsw_1_1Window.html',1,'sw::Window'],['../classsw_1_1Window.html#a24eed02d394d13b368f5cf99b2a68c44',1,'sw::Window::Window()']]],
   ['windowclosingeventargs_3',['WindowClosingEventArgs',['../structsw_1_1WindowClosingEventArgs.html',1,'sw']]],
   ['windowcount_4',['WindowCount',['../classsw_1_1Window.html#a317c7f1dea4dd3f29d5d7c865563c310',1,'sw::Window']]],
@@ -12,7 +12,8 @@ var searchData=
   ['wraplayout_9',['WrapLayout',['../classsw_1_1WrapLayout.html',1,'sw']]],
   ['wraplayouth_10',['WrapLayoutH',['../classsw_1_1WrapLayoutH.html',1,'sw']]],
   ['wraplayoutv_11',['WrapLayoutV',['../classsw_1_1WrapLayoutV.html',1,'sw']]],
-  ['wrappanel_12',['wrappanel',['../classsw_1_1WrapPanel.html',1,'sw::WrapPanel'],['../classsw_1_1WrapPanel.html#a7dfc71028a9f60941ff4387ae175b078',1,'sw::WrapPanel::WrapPanel()']]],
+  ['wrappanel_12',['wrappanel',['../classsw_1_1WrapPanel.html#a7dfc71028a9f60941ff4387ae175b078',1,'sw::WrapPanel::WrapPanel()'],['../classsw_1_1WrapPanel.html',1,'sw::WrapPanel']]],
   ['write_13',['Write',['../classsw_1_1ImageList.html#a978978d6bc38f32b85e8cdcaafd08664',1,'sw::ImageList']]],
-  ['writeonlyproperty_14',['writeonlyproperty',['../classsw_1_1WriteOnlyProperty.html',1,'sw::WriteOnlyProperty&lt; T &gt;'],['../classsw_1_1WriteOnlyProperty.html#a2bbd0b0aa69d3659db3cf8978a86465a',1,'sw::WriteOnlyProperty::WriteOnlyProperty()']]]
+  ['writeonlyproperty_14',['writeonlyproperty',['../classsw_1_1WriteOnlyProperty.html#a2bbd0b0aa69d3659db3cf8978a86465a',1,'sw::WriteOnlyProperty::WriteOnlyProperty()'],['../classsw_1_1WriteOnlyProperty.html',1,'sw::WriteOnlyProperty&lt; T &gt;']]],
+  ['writeonlypropertylite_15',['writeonlypropertylite',['../classsw_1_1WriteOnlyPropertyLite.html',1,'sw::WriteOnlyPropertyLite&lt; T &gt;'],['../classsw_1_1WriteOnlyPropertyLite.html#a4b6a1348fb0fcacd559b9bb6e2e816c2',1,'sw::WriteOnlyPropertyLite::WriteOnlyPropertyLite(const MemberPropertyLiteInitializer&lt; TOwner, T &gt; &amp;initializer)'],['../classsw_1_1WriteOnlyPropertyLite.html#a3581382eae3539e895f72e80ad38f84b',1,'sw::WriteOnlyPropertyLite::WriteOnlyPropertyLite(const StaticPropertyLiteInitializer&lt; T &gt; &amp;initializer)']]]
 ];

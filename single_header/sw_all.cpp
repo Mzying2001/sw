@@ -1,6 +1,5 @@
 #include "sw_all.h"
 #include <cmath>
-#include <limits>
 #include <strsafe.h>
 #include <climits>
 #include <deque>

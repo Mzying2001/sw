@@ -18,12 +18,14 @@ var searchData=
   ['_5fhasgetterimpl_3c_20t_2c_20decltype_28void_28_26t_3a_3agetterimpl_29_29_3e_15',['_HasGetterImpl&lt; T, decltype(void(&amp;T::GetterImpl))&gt;',['../structsw_1_1__HasGetterImpl_3_01T_00_01decltype_07void_07_6T_1_1GetterImpl_08_08_4.html',1,'sw']]],
   ['_5fhassetterimpl_16',['_HasSetterImpl',['../structsw_1_1__HasSetterImpl.html',1,'sw']]],
   ['_5fhassetterimpl_3c_20t_2c_20decltype_28void_28_26t_3a_3asetterimpl_29_29_3e_17',['_HasSetterImpl&lt; T, decltype(void(&amp;T::SetterImpl))&gt;',['../structsw_1_1__HasSetterImpl_3_01T_00_01decltype_07void_07_6T_1_1SetterImpl_08_08_4.html',1,'sw']]],
-  ['_5fisexplicitlyconvertable_18',['_IsExplicitlyConvertable',['../structsw_1_1__IsExplicitlyConvertable.html',1,'sw']]],
-  ['_5fisexplicitlyconvertable_3c_20tfrom_2c_20tto_2c_20decltype_28void_28static_5fcast_3c_20tto_20_3e_28std_3a_3adeclval_3c_20tfrom_20_3e_28_29_29_29_29_3e_19',['_IsExplicitlyConvertable&lt; TFrom, TTo, decltype(void(static_cast&lt; TTo &gt;(std::declval&lt; TFrom &gt;())))&gt;',['../structsw_1_1__IsExplicitlyConvertable_3_01TFrom_00_01TTo_00_01decltype_07void_07static__cast_3_0766a7d13d8d3f2686094df45a1f1184e.html',1,'sw']]],
-  ['_5fisproperty_20',['_IsProperty',['../structsw_1_1__IsProperty.html',1,'sw']]],
-  ['_5fispropertyimpl_21',['_IsPropertyImpl',['../structsw_1_1__IsPropertyImpl.html',1,'sw']]],
-  ['_5fisreadableproperty_22',['_IsReadableProperty',['../structsw_1_1__IsReadableProperty.html',1,'sw']]],
-  ['_5fistypedroutedeventargs_23',['_IsTypedRoutedEventArgs',['../structsw_1_1__IsTypedRoutedEventArgs.html',1,'sw']]],
-  ['_5fiswritableproperty_24',['_IsWritableProperty',['../structsw_1_1__IsWritableProperty.html',1,'sw']]],
-  ['_5freserved_25',['_reserved',['../structsw_1_1Color.html#ad432609396ec72641f339a89ce78d64f',1,'sw::Color']]]
+  ['_5finvalidoffset_18',['_invalidOffset',['../classsw_1_1PropertyLiteBase.html#a5b80e45909c139137096454fe7f20a60',1,'sw::PropertyLiteBase']]],
+  ['_5fisexplicitlyconvertable_19',['_IsExplicitlyConvertable',['../structsw_1_1__IsExplicitlyConvertable.html',1,'sw']]],
+  ['_5fisexplicitlyconvertable_3c_20tfrom_2c_20tto_2c_20decltype_28void_28static_5fcast_3c_20tto_20_3e_28std_3a_3adeclval_3c_20tfrom_20_3e_28_29_29_29_29_3e_20',['_IsExplicitlyConvertable&lt; TFrom, TTo, decltype(void(static_cast&lt; TTo &gt;(std::declval&lt; TFrom &gt;())))&gt;',['../structsw_1_1__IsExplicitlyConvertable_3_01TFrom_00_01TTo_00_01decltype_07void_07static__cast_3_0766a7d13d8d3f2686094df45a1f1184e.html',1,'sw']]],
+  ['_5fisproperty_21',['_IsProperty',['../structsw_1_1__IsProperty.html',1,'sw']]],
+  ['_5fispropertyimpl_22',['_IsPropertyImpl',['../structsw_1_1__IsPropertyImpl.html',1,'sw']]],
+  ['_5fisreadableproperty_23',['_IsReadableProperty',['../structsw_1_1__IsReadableProperty.html',1,'sw']]],
+  ['_5fistypedroutedeventargs_24',['_IsTypedRoutedEventArgs',['../structsw_1_1__IsTypedRoutedEventArgs.html',1,'sw']]],
+  ['_5fiswritableproperty_25',['_IsWritableProperty',['../structsw_1_1__IsWritableProperty.html',1,'sw']]],
+  ['_5foffset_26',['_offset',['../classsw_1_1PropertyLiteBase.html#a2aaaba1a1da5ee1405e418725dd3c420',1,'sw::PropertyLiteBase']]],
+  ['_5freserved_27',['_reserved',['../structsw_1_1Color.html#ad432609396ec72641f339a89ce78d64f',1,'sw::Color']]]
 ];
