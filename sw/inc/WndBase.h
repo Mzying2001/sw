@@ -13,6 +13,7 @@
 #include "ProcMsg.h"
 #include "Property.h"
 #include "Rect.h"
+#include "Reflection.h"
 #include "Size.h"
 #include "WndMsg.h"
 #include <Windows.h>
@@ -34,7 +35,8 @@ namespace sw
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
-    class WndBase : public IToString<WndBase>,
+    class WndBase : public DynamicObject,
+                    public IToString<WndBase>,
                     public IEqualityComparable<WndBase>
     {
         // 部分控件可能会改变HWND，设为友元类向Control类暴露_hwnd字段
@@ -909,5 +911,35 @@ namespace sw
          * @param wnd  与句柄关联的对象
          */
         static void _SetWndBase(HWND hwnd, WndBase &wnd);
+
+    public:
+        /**
+         * @brief      获取属性值
+         * @param prop 属性成员指针
+         * @return     属性值
+         */
+        template <typename TDerived, typename TProperty>
+        auto GetProperty(TProperty TDerived::*prop)
+            -> typename std::enable_if<
+                std::is_base_of<WndBase, TDerived>::value && _IsReadableProperty<TProperty>::value,
+                typename TProperty::TValue>::type
+        {
+            auto getter = Reflection::GetPropertyGetter(prop);
+            return getter(*this);
+        }
+
+        /**
+         * @brief       设置属性值
+         * @param prop  属性成员指针
+         * @param value 属性值
+         */
+        template <typename TDerived, typename TProperty>
+        auto SetProperty(TProperty TDerived::*prop, const typename TProperty::TValue &value)
+            -> typename std::enable_if<
+                std::is_base_of<WndBase, TDerived>::value && _IsWritableProperty<TProperty>::value>::type
+        {
+            auto setter = Reflection::GetPropertySetter(prop);
+            setter(*this, value);
+        }
     };
 }

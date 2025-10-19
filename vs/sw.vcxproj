@@ -359,8 +359,10 @@
     <ClInclude Include="..\sw\inc\ProcMsg.h" />
     <ClInclude Include="..\sw\inc\ProgressBar.h" />
     <ClInclude Include="..\sw\inc\Property.h" />
+    <ClInclude Include="..\sw\inc\PropertyLite.h" />
     <ClInclude Include="..\sw\inc\RadioButton.h" />
     <ClInclude Include="..\sw\inc\Rect.h" />
+    <ClInclude Include="..\sw\inc\Reflection.h" />
     <ClInclude Include="..\sw\inc\RoutedEvent.h" />
     <ClInclude Include="..\sw\inc\RoutedEventArgs.h" />
     <ClInclude Include="..\sw\inc\Screen.h" />

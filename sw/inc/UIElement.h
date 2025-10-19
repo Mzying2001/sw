@@ -545,12 +545,14 @@ namespace sw
         UIElement *GetPreviousTabStopElement();
 
         /**
-         * @brief 获取当前要显示的背景颜色：当Transparent为true时获取到祖先节点中首个Transparent为false的背景颜色，否则返回当前元素的背景颜色
+         * @brief  获取当前要显示的背景颜色
+         * @return 当Transparent为true时获取到祖先节点中首个Transparent为false的背景颜色，否则返回当前元素的背景颜色
          */
         Color GetRealBackColor() const;
 
         /**
-         * @brief 获取当前要显示的文本颜色：当InheritTextColor为true时获取到祖先节点中首个InheritTextColor为false的文本颜色，否则返回当前元素的文本颜色
+         * @brief  获取当前要显示的文本颜色
+         * @return 当InheritTextColor为true时获取到祖先节点中首个InheritTextColor为false的文本颜色，否则返回当前元素的文本颜色
          */
         Color GetRealTextColor() const;
 
@@ -579,7 +581,8 @@ namespace sw
         void SetAlignment(sw::HorizontalAlignment horz, sw::VerticalAlignment vert);
 
         /**
-         * @brief 调整当前元素的尺寸，也可以用该函数更改默认Measure函数在当前横向或纵向对齐方式为拉伸时的DesireSize
+         * @brief 调整当前元素的尺寸
+         * @note  通过该函数可以调整横向或纵向对齐方式为拉伸时的DesireSize
          */
         void Resize(const Size &size);
 
