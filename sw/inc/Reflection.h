@@ -30,8 +30,8 @@ namespace sw
         /**
          * @brief      判断对象是否为指定类型
          * @tparam T   目标类型
-         * @param pout 如果不为 nullptr，则将转换后的指针赋值给该参数
-         * @return     如果对象为指定类型则返回 true，否则返回 false
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
          */
         template <typename T>
         bool IsType(T **pout = nullptr)
@@ -40,6 +40,23 @@ namespace sw
                 return dynamic_cast<T *>(this) != nullptr;
             } else {
                 *pout = dynamic_cast<T *>(this);
+                return *pout != nullptr;
+            }
+        }
+
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        bool IsType(const T **pout = nullptr) const
+        {
+            if (pout == nullptr) {
+                return dynamic_cast<const T *>(this) != nullptr;
+            } else {
+                *pout = dynamic_cast<const T *>(this);
                 return *pout != nullptr;
             }
         }
