@@ -11,6 +11,7 @@
 #include <initializer_list>
 #include <map>
 #include <memory>
+#include <shellapi.h>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -2840,6 +2841,52 @@ namespace sw
     };
 
     /**
+     * @brief 判断类型是否有GetterImpl成员的辅助模板
+     */
+    template <typename, typename = void>
+    struct _HasGetterImpl : std::false_type {
+    };
+
+    /**
+     * @brief _HasGetterImpl模板特化
+     */
+    template <typename T>
+    struct _HasGetterImpl<
+        T, decltype(void(&T::GetterImpl))> : std::true_type {
+    };
+
+    /**
+     * @brief 判断类型是否有SetterImpl成员的辅助模板
+     */
+    template <typename, typename = void>
+    struct _HasSetterImpl : std::false_type {
+    };
+
+    /**
+     * @brief _HasSetterImpl模板特化
+     */
+    template <typename T>
+    struct _HasSetterImpl<
+        T, decltype(void(&T::SetterImpl))> : std::true_type {
+    };
+
+    /**
+     * @brief 判断类型是否为可读属性的辅助模板
+     */
+    template <typename T>
+    struct _IsReadableProperty
+        : std::integral_constant<bool, _IsProperty<T>::value && _HasGetterImpl<T>::value> {
+    };
+
+    /**
+     * @brief 判断类型是否为可写属性的辅助模板
+     */
+    template <typename T>
+    struct _IsWritableProperty
+        : std::integral_constant<bool, _IsProperty<T>::value && _HasSetterImpl<T>::value> {
+    };
+
+    /**
      * @brief 判断类型是否可以使用[]操作符的辅助模板
      */
     template <typename T, typename U, typename = void>
@@ -2963,6 +3010,9 @@ namespace sw
     class PropertyBase
     {
     public:
+        // 属性值类型别名
+        using TValue = T;
+
         // 使用默认构造函数
         PropertyBase() = default;
 
@@ -7834,6 +7884,190 @@ namespace sw
     };
 }
 
+// NotifyIcon.h
+
+
+namespace sw
+{
+    class NotifyIcon; // 前向声明
+
+    /**
+     * @brief 通知图标鼠标事件处理函数类型
+     * @note  第一个参数为触发事件的NotifyIcon对象引用，第二个参数为鼠标位置
+     * @note  返回值表示是否已处理该事件，若返回true则表示事件已被处理，框架将不再执行默认处理逻辑
+     */
+    using NotifyIconMouseEventHandler = Delegate<bool(NotifyIcon &, const Point &)>;
+
+    /**
+     * @brief 系统托盘通知图标
+     */
+    class NotifyIcon : public WndBase
+    {
+    private:
+        /**
+         * @brief 基类
+         */
+        using TBase = WndBase;
+
+        /**
+         * @brief 通知图标数据
+         */
+        NOTIFYICONDATAW _nid{};
+
+        /**
+         * @brief 右键菜单
+         */
+        sw::ContextMenu *_contextMenu = nullptr;
+
+    public:
+        /**
+         * @brief 图标
+         */
+        const Property<HICON> Icon;
+
+        /**
+         * @brief 图标的提示文本
+         */
+        const Property<std::wstring> ToolTip;
+
+        /**
+         * @brief 图标是否可见
+         */
+        const Property<bool> Visible;
+
+        /**
+         * @brief 右键菜单
+         */
+        const Property<sw::ContextMenu *> ContextMenu;
+
+        /**
+         * @brief 图标在屏幕上的位置和尺寸
+         */
+        const ReadOnlyProperty<sw::Rect> Rect;
+
+        /**
+         * @brief 当图标被单击时触发该事件
+         */
+        NotifyIconMouseEventHandler ClickedHandler;
+
+        /**
+         * @brief 当图标被双击时触发该事件
+         */
+        NotifyIconMouseEventHandler DoubleClickedHandler;
+
+        /**
+         * @brief 当图标被右键单击时触发该事件
+         */
+        NotifyIconMouseEventHandler ContextMenuHandler;
+
+    public:
+        /**
+         * @brief 初始化通知图标
+         */
+        NotifyIcon();
+
+    protected:
+        /**
+         * @brief 对WndProc的封装
+         */
+        virtual LRESULT WndProc(const ProcMsg &refMsg) override;
+
+        /**
+         * @brief    当WM_COMMAND接收到菜单命令时调用该函数
+         * @param id 菜单id
+         */
+        virtual void OnMenuCommand(int id) override;
+
+        /**
+         * @brief 处理通知图标消息
+         */
+        virtual void OnNotyfyIconMessage(WPARAM wParam, LPARAM lParam);
+
+        /**
+         * @brief          鼠标单击图标时调用该函数
+         * @param mousePos 鼠标位置
+         */
+        virtual void OnClicked(const Point &mousePos);
+
+        /**
+         * @brief          鼠标双击图标时调用该函数
+         * @param mousePos 鼠标位置
+         */
+        virtual void OnDoubleClicked(const Point &mousePos);
+
+        /**
+         * @brief          鼠标右键单击图标时调用该函数
+         * @param mousePos 鼠标位置
+         */
+        virtual void OnContextMenu(const Point &mousePos);
+
+        /**
+         * @brief 获取通知图标数据
+         */
+        NOTIFYICONDATAW &GetNotifyIconData();
+
+    public:
+        /**
+         * @brief 显示通知图标
+         */
+        bool Show();
+
+        /**
+         * @brief 隐藏通知图标
+         */
+        bool Hide();
+
+        /**
+         * @brief 销毁通知图标
+         * @note  调用该函数后不应继续使用当前对象
+         */
+        void Destroy();
+
+        /**
+         * @brief       弹出上下文菜单
+         * @param point 弹出菜单在屏幕中的位置
+         * @param horz  菜单的水平方向对齐方式
+         * @param vert  菜单的垂直方向对齐方式
+         * @return      若函数成功则返回true，否则返回false
+         */
+        bool ShowContextMenu(
+            const Point &point,
+            sw::HorizontalAlignment horz = sw::HorizontalAlignment::Left,
+            sw::VerticalAlignment vert   = sw::VerticalAlignment::Bottom);
+
+    private:
+        /**
+         * @brief 调用Shell_NotifyIcon函数
+         */
+        bool _ShellNotifyIcon(DWORD dwMessage);
+
+        /**
+         * @brief 添加图标
+         */
+        bool _AddIcon();
+
+        /**
+         * @brief 删除图标
+         */
+        bool _DeleteIcon();
+
+        /**
+         * @brief 修改图标
+         */
+        bool _ModifyIcon();
+
+        /**
+         * @brief 设置图标状态
+         */
+        bool _ModifyState(DWORD dwState, DWORD dwStateMask);
+
+        /**
+         * @brief 获取默认图标
+         */
+        HICON _GetDefaultIcon();
+    };
+}
+
 // Timer.h
 
 
@@ -8503,7 +8737,7 @@ namespace sw
 
         /**
          * @brief       弹出当前元素的上下文菜单
-         * @param point 弹出菜单左上角在屏幕中的位置
+         * @param point 弹出菜单在屏幕中的位置
          * @param horz  菜单的水平方向对齐方式
          * @param vert  菜单的垂直方向对齐方式
          * @return      若函数成功则返回true，否则返回false
@@ -11806,7 +12040,7 @@ namespace sw
         /**
          * @brief 窗口的默认布局方式
          */
-        std::unique_ptr<LayoutHost> _layout;
+        std::unique_ptr<LayoutHost> _defaultLayout;
 
         /**
          * @brief 当前窗口是否显示为模态窗口
@@ -12053,9 +12287,10 @@ namespace sw
         template <typename TLayout>
         typename std::enable_if<std::is_base_of<LayoutHost, TLayout>::value>::type SetLayout()
         {
-            this->_layout.reset(new TLayout);
-            this->_layout->Associate(this);
-            this->InvalidateMeasure();
+            auto layout = std::make_unique<TLayout>();
+            layout->Associate(this);
+            _defaultLayout = std::move(layout);
+            InvalidateMeasure();
         }
 
         /**
@@ -12064,8 +12299,8 @@ namespace sw
         template <std::nullptr_t>
         void SetLayout()
         {
-            this->_layout.reset(nullptr);
-            this->InvalidateMeasure();
+            _defaultLayout.reset(nullptr);
+            InvalidateMeasure();
         }
 
     private:
@@ -15445,6 +15680,11 @@ namespace sw
          */
         SIZE _textSize;
 
+        /**
+         * @brief 默认布局方式
+         */
+        std::unique_ptr<LayoutHost> _defaultLayout;
+
     public:
         /**
          * @brief 初始化组合框
@@ -15452,6 +15692,11 @@ namespace sw
         GroupBox();
 
     protected:
+        /**
+         * @brief 获取默认布局对象
+         */
+        virtual LayoutHost *GetDefaultLayout() override;
+
         /**
          * @brief      绘制边框
          * @param hdc  绘制设备句柄，可能为NULL
@@ -15484,6 +15729,29 @@ namespace sw
          * @param redraw 是否重绘
          */
         virtual void SetTextColor(Color color, bool redraw) override;
+
+    public:
+        /**
+         * @brief 设置默认布局方式
+         */
+        template <typename TLayout>
+        typename std::enable_if<std::is_base_of<LayoutHost, TLayout>::value>::type SetLayout()
+        {
+            auto layout = std::make_unique<TLayout>();
+            layout->Associate(this);
+            _defaultLayout = std::move(layout);
+            InvalidateMeasure();
+        }
+
+        /**
+         * @brief 取消通过SetLayout设置的布局方式
+         */
+        template <std::nullptr_t>
+        void SetLayout()
+        {
+            _defaultLayout.reset(nullptr);
+            InvalidateMeasure();
+        }
 
     private:
         /**
