@@ -73,6 +73,7 @@
 #include "Property.h"
 #include "RadioButton.h"
 #include "Rect.h"
+#include "Reflection.h"
 #include "RoutedEvent.h"
 #include "RoutedEventArgs.h"
 #include "Screen.h"
