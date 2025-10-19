@@ -211,8 +211,10 @@ bool sw::NotifyIcon::ShowContextMenu(const Point &point, sw::HorizontalAlignment
         }
     }
 
-    POINT p = point;
-    return TrackPopupMenu(hMenu, uFlags, p.x, p.y, 0, Handle, nullptr);
+    POINT pos = point;
+    HWND hwnd = Handle;
+    SetForegroundWindow(hwnd); // 没这句的话菜单无法正确关闭
+    return TrackPopupMenu(hMenu, uFlags, pos.x, pos.y, 0, hwnd, nullptr);
 }
 
 bool sw::NotifyIcon::_ShellNotifyIcon(DWORD dwMessage)
