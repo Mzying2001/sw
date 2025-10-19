@@ -176,30 +176,12 @@ namespace sw
 
         /**
          * @brief   恢复被基类删除的拷贝构造函数
-         * @warning 不应使用该函数创建新的属性对象，属性应由所有者对象进行初始化
+         * @warning 不应使用该函数创建新的属性对象，仅在所有者对象拷贝或移动时隐式调用
          */
-        PropertyLiteBase(const PropertyLiteBase &other) : TBase()
+        PropertyLiteBase(const PropertyLiteBase &other)
+            : TBase()
         {
             _offset = other._offset;
-        }
-
-        /**
-         * @brief   恢复被基类删除的移动构造函数
-         * @warning 不应使用该函数创建新的属性对象，属性应由所有者对象进行初始化
-         */
-        PropertyLiteBase(PropertyLiteBase &&other) : TBase()
-        {
-            _offset = other._offset;
-        }
-
-        /**
-         * @brief   恢复被基类删除的拷贝赋值运算符
-         * @warning 该函数在任何情况下都不应被调用，仅用于恢复基类接口完整性
-         */
-        PropertyLiteBase &operator=(PropertyLiteBase &&other)
-        {
-            // _offset = other._offset;
-            return *this;
         }
 
     protected:
