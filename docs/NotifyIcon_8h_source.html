@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: NotifyIcon.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('NotifyIcon_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">NotifyIcon.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Alignment.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;ContextMenu.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;WndBase.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;shellapi.h&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>{</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">class </span>NotifyIcon; <span class="comment">// 前向声明</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keyword">using </span>NotifyIconMouseEventHandler = Delegate&lt;bool(NotifyIcon &amp;, <span class="keyword">const</span> Point &amp;)&gt;;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="};">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html">   22</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1NotifyIcon.html">NotifyIcon</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1WndBase.html">WndBase</a></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1WndBase.html">TBase</a> = <a class="code hl_function" href="classsw_1_1WndBase.html#aab509b68c9c0b612862cf41d8ef685a3">WndBase</a>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        NOTIFYICONDATAW _nid{};</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <a class="code hl_class" href="classsw_1_1ContextMenu.html">sw::ContextMenu</a> *_contextMenu = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#a377bc226da2c591c1e25acd84dc1bf72">   44</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;HICON&gt;</a> <a class="code hl_variable" href="classsw_1_1NotifyIcon.html#a377bc226da2c591c1e25acd84dc1bf72">Icon</a>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#a8562cbf034cf34be552ccbcaa5b7efa8">   49</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;std::wstring&gt;</a> <a class="code hl_variable" href="classsw_1_1NotifyIcon.html#a8562cbf034cf34be552ccbcaa5b7efa8">ToolTip</a>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#a0fd49668122e9cda5d98916050ff701b">   54</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;bool&gt;</a> <a class="code hl_variable" href="classsw_1_1NotifyIcon.html#a0fd49668122e9cda5d98916050ff701b">Visible</a>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#aaddfb8f36febf3e9c5bf155bccdb16af">   59</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Property.html">Property&lt;sw::ContextMenu *&gt;</a> <a class="code hl_variable" href="classsw_1_1NotifyIcon.html#aaddfb8f36febf3e9c5bf155bccdb16af">ContextMenu</a>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#a66d71e8b850dece9830ca205f733160e">   64</a></span>        <span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty&lt;sw::Rect&gt;</a> <a class="code hl_variable" href="classsw_1_1NotifyIcon.html#a66d71e8b850dece9830ca205f733160e">Rect</a>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#a13da0a8545842f1e61f19b0265115efb">   69</a></span>        <a class="code hl_class" href="classsw_1_1Delegate.html">NotifyIconMouseEventHandler</a> <a class="code hl_variable" href="classsw_1_1NotifyIcon.html#a13da0a8545842f1e61f19b0265115efb">ClickedHandler</a>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#a7dad54cd44d9213fac7bcf73e918656c">   74</a></span>        <a class="code hl_class" href="classsw_1_1Delegate.html">NotifyIconMouseEventHandler</a> <a class="code hl_variable" href="classsw_1_1NotifyIcon.html#a7dad54cd44d9213fac7bcf73e918656c">DoubleClickedHandler</a>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#a7775fbf32a74c86de62b9659e9f5a170">   79</a></span>        <a class="code hl_class" href="classsw_1_1Delegate.html">NotifyIconMouseEventHandler</a> <a class="code hl_variable" href="classsw_1_1NotifyIcon.html#a7775fbf32a74c86de62b9659e9f5a170">ContextMenuHandler</a>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#ae45488e447083a07787f5106a799704c">   85</a></span>        <a class="code hl_function" href="classsw_1_1NotifyIcon.html#ae45488e447083a07787f5106a799704c">NotifyIcon</a>();</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#afc15879357f25dc1fb4c3a0c65f1b096">   91</a></span>        <span class="keyword">virtual</span> LRESULT <a class="code hl_function" href="classsw_1_1NotifyIcon.html#afc15879357f25dc1fb4c3a0c65f1b096">WndProc</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1ProcMsg.html">ProcMsg</a> &amp;refMsg) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#a13ed36dbb395e8bc07cd9070903d6417">   97</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1NotifyIcon.html#a13ed36dbb395e8bc07cd9070903d6417">OnMenuCommand</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#acb8576526f6e879f43190445eaad1d9e">  102</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1NotifyIcon.html#acb8576526f6e879f43190445eaad1d9e">OnNotyfyIconMessage</a>(WPARAM wParam, LPARAM lParam);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#aeb5896dfac5de2317cf9522eda92c42b">  108</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1NotifyIcon.html#aeb5896dfac5de2317cf9522eda92c42b">OnClicked</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Point.html">Point</a> &amp;mousePos);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#ad277e4427d259e763640ded3aa9b9922">  114</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1NotifyIcon.html#ad277e4427d259e763640ded3aa9b9922">OnDoubleClicked</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Point.html">Point</a> &amp;mousePos);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#a3eb53712ca1ad2582ea62a12b59f33be">  120</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1NotifyIcon.html#a3eb53712ca1ad2582ea62a12b59f33be">OnContextMenu</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Point.html">Point</a> &amp;mousePos);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#a3237a60c2129e1bbcae3424c94392f8b">  125</a></span>        NOTIFYICONDATAW &amp;<a class="code hl_function" href="classsw_1_1NotifyIcon.html#a3237a60c2129e1bbcae3424c94392f8b">GetNotifyIconData</a>();</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#ab24d6ac75d3c1ba4438098267bdb991f">  131</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1NotifyIcon.html#ab24d6ac75d3c1ba4438098267bdb991f">Show</a>();</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#a977e81485bc08c4ffe2e20818b2ee94a">  136</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1NotifyIcon.html#a977e81485bc08c4ffe2e20818b2ee94a">Hide</a>();</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#a2890e78e92aee3616a02e3a12d6fd00b">  142</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1NotifyIcon.html#a2890e78e92aee3616a02e3a12d6fd00b">Destroy</a>();</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyIcon.html#af5e95e336bf02237e98b9b26ec7099bd">  151</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1NotifyIcon.html#af5e95e336bf02237e98b9b26ec7099bd">ShowContextMenu</a>(</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>            <span class="keyword">const</span> <a class="code hl_struct" href="structsw_1_1Point.html">Point</a> &amp;point,</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>            sw::HorizontalAlignment horz = sw::HorizontalAlignment::Left,</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>            sw::VerticalAlignment vert   = sw::VerticalAlignment::Bottom);</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        <span class="keywordtype">bool</span> _ShellNotifyIcon(DWORD dwMessage);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <span class="keywordtype">bool</span> _AddIcon();</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        <span class="keywordtype">bool</span> _DeleteIcon();</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        <span class="keywordtype">bool</span> _ModifyIcon();</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        <span class="keywordtype">bool</span> _ModifyState(DWORD dwState, DWORD dwStateMask);</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        HICON _GetDefaultIcon();</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    };</div>
+</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>}</div>
+<div class="ttc" id="aclasssw_1_1ContextMenu_html"><div class="ttname"><a href="classsw_1_1ContextMenu.html">sw::ContextMenu</a></div><div class="ttdoc">上下文菜单</div><div class="ttdef"><b>Definition</b> ContextMenu.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1Delegate_html"><div class="ttname"><a href="classsw_1_1Delegate.html">sw::Delegate&lt; bool(NotifyIcon &amp;, const Point &amp;)&gt;</a></div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html"><div class="ttname"><a href="classsw_1_1NotifyIcon.html">sw::NotifyIcon</a></div><div class="ttdoc">系统托盘通知图标</div><div class="ttdef"><b>Definition</b> NotifyIcon.h:23</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_a0fd49668122e9cda5d98916050ff701b"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#a0fd49668122e9cda5d98916050ff701b">sw::NotifyIcon::Visible</a></div><div class="ttdeci">const Property&lt; bool &gt; Visible</div><div class="ttdoc">图标是否可见</div><div class="ttdef"><b>Definition</b> NotifyIcon.h:54</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_a13da0a8545842f1e61f19b0265115efb"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#a13da0a8545842f1e61f19b0265115efb">sw::NotifyIcon::ClickedHandler</a></div><div class="ttdeci">NotifyIconMouseEventHandler ClickedHandler</div><div class="ttdoc">当图标被单击时触发该事件</div><div class="ttdef"><b>Definition</b> NotifyIcon.h:69</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_a13ed36dbb395e8bc07cd9070903d6417"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#a13ed36dbb395e8bc07cd9070903d6417">sw::NotifyIcon::OnMenuCommand</a></div><div class="ttdeci">virtual void OnMenuCommand(int id) override</div><div class="ttdoc">当WM_COMMAND接收到菜单命令时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_a2890e78e92aee3616a02e3a12d6fd00b"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#a2890e78e92aee3616a02e3a12d6fd00b">sw::NotifyIcon::Destroy</a></div><div class="ttdeci">void Destroy()</div><div class="ttdoc">销毁通知图标</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_a3237a60c2129e1bbcae3424c94392f8b"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#a3237a60c2129e1bbcae3424c94392f8b">sw::NotifyIcon::GetNotifyIconData</a></div><div class="ttdeci">NOTIFYICONDATAW &amp; GetNotifyIconData()</div><div class="ttdoc">获取通知图标数据</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_a377bc226da2c591c1e25acd84dc1bf72"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#a377bc226da2c591c1e25acd84dc1bf72">sw::NotifyIcon::Icon</a></div><div class="ttdeci">const Property&lt; HICON &gt; Icon</div><div class="ttdoc">图标</div><div class="ttdef"><b>Definition</b> NotifyIcon.h:44</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_a3eb53712ca1ad2582ea62a12b59f33be"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#a3eb53712ca1ad2582ea62a12b59f33be">sw::NotifyIcon::OnContextMenu</a></div><div class="ttdeci">virtual void OnContextMenu(const Point &amp;mousePos)</div><div class="ttdoc">鼠标右键单击图标时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_a66d71e8b850dece9830ca205f733160e"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#a66d71e8b850dece9830ca205f733160e">sw::NotifyIcon::Rect</a></div><div class="ttdeci">const ReadOnlyProperty&lt; sw::Rect &gt; Rect</div><div class="ttdoc">图标在屏幕上的位置和尺寸</div><div class="ttdef"><b>Definition</b> NotifyIcon.h:64</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_a7775fbf32a74c86de62b9659e9f5a170"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#a7775fbf32a74c86de62b9659e9f5a170">sw::NotifyIcon::ContextMenuHandler</a></div><div class="ttdeci">NotifyIconMouseEventHandler ContextMenuHandler</div><div class="ttdoc">当图标被右键单击时触发该事件</div><div class="ttdef"><b>Definition</b> NotifyIcon.h:79</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_a7dad54cd44d9213fac7bcf73e918656c"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#a7dad54cd44d9213fac7bcf73e918656c">sw::NotifyIcon::DoubleClickedHandler</a></div><div class="ttdeci">NotifyIconMouseEventHandler DoubleClickedHandler</div><div class="ttdoc">当图标被双击时触发该事件</div><div class="ttdef"><b>Definition</b> NotifyIcon.h:74</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_a8562cbf034cf34be552ccbcaa5b7efa8"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#a8562cbf034cf34be552ccbcaa5b7efa8">sw::NotifyIcon::ToolTip</a></div><div class="ttdeci">const Property&lt; std::wstring &gt; ToolTip</div><div class="ttdoc">图标的提示文本</div><div class="ttdef"><b>Definition</b> NotifyIcon.h:49</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_a977e81485bc08c4ffe2e20818b2ee94a"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#a977e81485bc08c4ffe2e20818b2ee94a">sw::NotifyIcon::Hide</a></div><div class="ttdeci">bool Hide()</div><div class="ttdoc">隐藏通知图标</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_aaddfb8f36febf3e9c5bf155bccdb16af"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#aaddfb8f36febf3e9c5bf155bccdb16af">sw::NotifyIcon::ContextMenu</a></div><div class="ttdeci">const Property&lt; sw::ContextMenu * &gt; ContextMenu</div><div class="ttdoc">右键菜单</div><div class="ttdef"><b>Definition</b> NotifyIcon.h:59</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_ab24d6ac75d3c1ba4438098267bdb991f"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#ab24d6ac75d3c1ba4438098267bdb991f">sw::NotifyIcon::Show</a></div><div class="ttdeci">bool Show()</div><div class="ttdoc">显示通知图标</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_acb8576526f6e879f43190445eaad1d9e"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#acb8576526f6e879f43190445eaad1d9e">sw::NotifyIcon::OnNotyfyIconMessage</a></div><div class="ttdeci">virtual void OnNotyfyIconMessage(WPARAM wParam, LPARAM lParam)</div><div class="ttdoc">处理通知图标消息</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_ad277e4427d259e763640ded3aa9b9922"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#ad277e4427d259e763640ded3aa9b9922">sw::NotifyIcon::OnDoubleClicked</a></div><div class="ttdeci">virtual void OnDoubleClicked(const Point &amp;mousePos)</div><div class="ttdoc">鼠标双击图标时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_ae45488e447083a07787f5106a799704c"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#ae45488e447083a07787f5106a799704c">sw::NotifyIcon::NotifyIcon</a></div><div class="ttdeci">NotifyIcon()</div><div class="ttdoc">初始化通知图标</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_aeb5896dfac5de2317cf9522eda92c42b"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#aeb5896dfac5de2317cf9522eda92c42b">sw::NotifyIcon::OnClicked</a></div><div class="ttdeci">virtual void OnClicked(const Point &amp;mousePos)</div><div class="ttdoc">鼠标单击图标时调用该函数</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_af5e95e336bf02237e98b9b26ec7099bd"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#af5e95e336bf02237e98b9b26ec7099bd">sw::NotifyIcon::ShowContextMenu</a></div><div class="ttdeci">bool ShowContextMenu(const Point &amp;point, sw::HorizontalAlignment horz=sw::HorizontalAlignment::Left, sw::VerticalAlignment vert=sw::VerticalAlignment::Bottom)</div><div class="ttdoc">弹出上下文菜单</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyIcon_html_afc15879357f25dc1fb4c3a0c65f1b096"><div class="ttname"><a href="classsw_1_1NotifyIcon.html#afc15879357f25dc1fb4c3a0c65f1b096">sw::NotifyIcon::WndProc</a></div><div class="ttdeci">virtual LRESULT WndProc(const ProcMsg &amp;refMsg) override</div><div class="ttdoc">对WndProc的封装</div></div>
+<div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1637</div></div>
+<div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>Definition</b> Property.h:1679</div></div>
+<div class="ttc" id="aclasssw_1_1WndBase_html"><div class="ttname"><a href="classsw_1_1WndBase.html">sw::WndBase</a></div><div class="ttdoc">表示一个Windows窗口，是所有窗口和控件的基类</div><div class="ttdef"><b>Definition</b> WndBase.h:39</div></div>
+<div class="ttc" id="aclasssw_1_1WndBase_html_aab509b68c9c0b612862cf41d8ef685a3"><div class="ttname"><a href="classsw_1_1WndBase.html#aab509b68c9c0b612862cf41d8ef685a3">sw::WndBase::WndBase</a></div><div class="ttdeci">WndBase()</div><div class="ttdoc">初始化WndBase</div></div>
+<div class="ttc" id="astructsw_1_1Point_html"><div class="ttname"><a href="structsw_1_1Point.html">sw::Point</a></div><div class="ttdoc">表示相对于左上角的点坐标</div><div class="ttdef"><b>Definition</b> Point.h:15</div></div>
+<div class="ttc" id="astructsw_1_1ProcMsg_html"><div class="ttname"><a href="structsw_1_1ProcMsg.html">sw::ProcMsg</a></div><div class="ttdoc">对Windows窗口消息的封装</div><div class="ttdef"><b>Definition</b> ProcMsg.h:10</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>NotifyIcon.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

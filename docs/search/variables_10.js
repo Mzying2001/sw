@@ -2,7 +2,7 @@ var searchData=
 [
   ['r_0',['r',['../structsw_1_1Color.html#ab334150d36ae29d3db72843e072994c9',1,'sw::Color']]],
   ['readonly_1',['ReadOnly',['../classsw_1_1TextBoxBase.html#a77e44c645068eb384a5e77765fdccbae',1,'sw::TextBoxBase']]],
-  ['rect_2',['Rect',['../classsw_1_1WndBase.html#a7598603457217f09aae0deaad59ef063',1,'sw::WndBase']]],
+  ['rect_2',['rect',['../classsw_1_1NotifyIcon.html#a66d71e8b850dece9830ca205f733160e',1,'sw::NotifyIcon::Rect'],['../classsw_1_1WndBase.html#a7598603457217f09aae0deaad59ef063',1,'sw::WndBase::Rect']]],
   ['restorerect_3',['RestoreRect',['../classsw_1_1Window.html#a08b4f948cf6b3a9bdd2379d6a3ff2b80',1,'sw::Window']]],
   ['result_4',['result',['../structsw_1_1MsgBoxResultHelper.html#a5fc47647c81c0a11be8113559250de14',1,'sw::MsgBoxResultHelper']]],
   ['right_5',['right',['../structsw_1_1Thickness.html#a0efb5b20b89f2d86885a447b36926bd5',1,'sw::Thickness']]],

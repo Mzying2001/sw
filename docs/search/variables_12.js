@@ -9,12 +9,13 @@ var searchData=
   ['threestate_6',['ThreeState',['../classsw_1_1CheckBox.html#ac8a52241895124f970ee2878f5d00d11',1,'sw::CheckBox']]],
   ['tick_7',['Tick',['../classsw_1_1Timer.html#a596733502b7c30449bb6aa0f118aa66c',1,'sw::Timer']]],
   ['title_8',['Title',['../classsw_1_1FileDialog.html#a37064ae5c1d6c830f899816922721735',1,'sw::FileDialog']]],
-  ['tooltipicon_9',['ToolTipIcon',['../classsw_1_1ToolTip.html#aef949fdb1311093b15af062904048032',1,'sw::ToolTip']]],
-  ['tooltiptitle_10',['ToolTipTitle',['../classsw_1_1ToolTip.html#a4638d58e227208bd73e2eb4b97311612',1,'sw::ToolTip']]],
-  ['toolwindow_11',['ToolWindow',['../classsw_1_1Window.html#ac61382d82d410403dc2a9bc0afe49f38',1,'sw::Window']]],
-  ['top_12',['top',['../classsw_1_1WndBase.html#a6dbe3776aeb038659f0a290fbe1dc6d7',1,'sw::WndBase::Top'],['../structsw_1_1CanvasLayoutTag.html#aebee142b9a9c5838c3fc2cb7a62374af',1,'sw::CanvasLayoutTag::top'],['../structsw_1_1Rect.html#adeb78de2f6a13f22d475605eb0e0e074',1,'sw::Rect::top'],['../structsw_1_1Thickness.html#a817cf35540e487ad81984daf97b92208',1,'sw::Thickness::top']]],
-  ['topindex_13',['topindex',['../classsw_1_1ListBox.html#a3fa1be9a1a9752e54d61cb6cadd1bc4a',1,'sw::ListBox::TopIndex'],['../classsw_1_1ListView.html#a4158ee431cd207fc45ef4212baf7b37a',1,'sw::ListView::TopIndex']]],
-  ['topmost_14',['Topmost',['../classsw_1_1Window.html#a1a15faeb81c21aa3327dcd8fefdc5ffd',1,'sw::Window']]],
-  ['transparent_15',['Transparent',['../classsw_1_1UIElement.html#aa9d544a538ca2cfa3d022da61e7637e5',1,'sw::UIElement']]],
-  ['type_16',['type',['../structsw_1_1GridRow.html#a6d8ada10faf765f507353052361bfacf',1,'sw::GridRow::type'],['../structsw_1_1GridColumn.html#a6291c41939a7abda14003bf799325d1b',1,'sw::GridColumn::type']]]
+  ['tooltip_9',['ToolTip',['../classsw_1_1NotifyIcon.html#a8562cbf034cf34be552ccbcaa5b7efa8',1,'sw::NotifyIcon']]],
+  ['tooltipicon_10',['ToolTipIcon',['../classsw_1_1ToolTip.html#aef949fdb1311093b15af062904048032',1,'sw::ToolTip']]],
+  ['tooltiptitle_11',['ToolTipTitle',['../classsw_1_1ToolTip.html#a4638d58e227208bd73e2eb4b97311612',1,'sw::ToolTip']]],
+  ['toolwindow_12',['ToolWindow',['../classsw_1_1Window.html#ac61382d82d410403dc2a9bc0afe49f38',1,'sw::Window']]],
+  ['top_13',['top',['../classsw_1_1WndBase.html#a6dbe3776aeb038659f0a290fbe1dc6d7',1,'sw::WndBase::Top'],['../structsw_1_1CanvasLayoutTag.html#aebee142b9a9c5838c3fc2cb7a62374af',1,'sw::CanvasLayoutTag::top'],['../structsw_1_1Rect.html#adeb78de2f6a13f22d475605eb0e0e074',1,'sw::Rect::top'],['../structsw_1_1Thickness.html#a817cf35540e487ad81984daf97b92208',1,'sw::Thickness::top']]],
+  ['topindex_14',['topindex',['../classsw_1_1ListBox.html#a3fa1be9a1a9752e54d61cb6cadd1bc4a',1,'sw::ListBox::TopIndex'],['../classsw_1_1ListView.html#a4158ee431cd207fc45ef4212baf7b37a',1,'sw::ListView::TopIndex']]],
+  ['topmost_15',['Topmost',['../classsw_1_1Window.html#a1a15faeb81c21aa3327dcd8fefdc5ffd',1,'sw::Window']]],
+  ['transparent_16',['Transparent',['../classsw_1_1UIElement.html#aa9d544a538ca2cfa3d022da61e7637e5',1,'sw::UIElement']]],
+  ['type_17',['type',['../structsw_1_1GridRow.html#a6d8ada10faf765f507353052361bfacf',1,'sw::GridRow::type'],['../structsw_1_1GridColumn.html#a6291c41939a7abda14003bf799325d1b',1,'sw::GridColumn::type']]]
 ];

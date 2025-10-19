@@ -5,5 +5,6 @@ var searchData=
   ['newfolderbutton_2',['NewFolderButton',['../classsw_1_1FolderBrowserDialog.html#a1146b36190727f370f2071b7cd7c25a7',1,'sw::FolderBrowserDialog']]],
   ['notetext_3',['NoteText',['../classsw_1_1CommandLink.html#a87b5542fa235d2cd3fb9873d23492082',1,'sw::CommandLink']]],
   ['notify_4',['Notify',['../classsw_1_1StaticControl.html#a1aa16699f8b60dd9fb6cd3c6b6c129e4',1,'sw::StaticControl']]],
-  ['nullhwndmsghandler_5',['NullHwndMsgHandler',['../classsw_1_1App.html#ad8c826a9560887b6ca248481b3d3d5ad',1,'sw::App']]]
+  ['notifyicon_5',['notifyicon',['../classsw_1_1NotifyIcon.html',1,'sw::NotifyIcon'],['../classsw_1_1NotifyIcon.html#ae45488e447083a07787f5106a799704c',1,'sw::NotifyIcon::NotifyIcon()']]],
+  ['nullhwndmsghandler_6',['NullHwndMsgHandler',['../classsw_1_1App.html#ad8c826a9560887b6ca248481b3d3d5ad',1,'sw::App']]]
 ];

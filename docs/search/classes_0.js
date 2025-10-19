@@ -14,9 +14,15 @@ var searchData=
   ['_5fhasarrowoperatorvs2015fix_11',['_HasArrowOperatorVs2015Fix',['../structsw_1_1__HasArrowOperatorVs2015Fix.html',1,'sw']]],
   ['_5fhaseventtype_12',['_HasEventType',['../structsw_1_1__HasEventType.html',1,'sw']]],
   ['_5fhaseventtype_3c_20t_2c_20decltype_28void_28std_3a_3adeclval_3c_20t_20_3e_28_29_2eeventtype_29_29_3e_13',['_HasEventType&lt; T, decltype(void(std::declval&lt; T &gt;().EventType))&gt;',['../structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07std_1_1declval_3_01T_01_4_07_08_8EventType_08_08_4.html',1,'sw']]],
-  ['_5fisexplicitlyconvertable_14',['_IsExplicitlyConvertable',['../structsw_1_1__IsExplicitlyConvertable.html',1,'sw']]],
-  ['_5fisexplicitlyconvertable_3c_20tfrom_2c_20tto_2c_20decltype_28void_28static_5fcast_3c_20tto_20_3e_28std_3a_3adeclval_3c_20tfrom_20_3e_28_29_29_29_29_3e_15',['_IsExplicitlyConvertable&lt; TFrom, TTo, decltype(void(static_cast&lt; TTo &gt;(std::declval&lt; TFrom &gt;())))&gt;',['../structsw_1_1__IsExplicitlyConvertable_3_01TFrom_00_01TTo_00_01decltype_07void_07static__cast_3_0766a7d13d8d3f2686094df45a1f1184e.html',1,'sw']]],
-  ['_5fisproperty_16',['_IsProperty',['../structsw_1_1__IsProperty.html',1,'sw']]],
-  ['_5fispropertyimpl_17',['_IsPropertyImpl',['../structsw_1_1__IsPropertyImpl.html',1,'sw']]],
-  ['_5fistypedroutedeventargs_18',['_IsTypedRoutedEventArgs',['../structsw_1_1__IsTypedRoutedEventArgs.html',1,'sw']]]
+  ['_5fhasgetterimpl_14',['_HasGetterImpl',['../structsw_1_1__HasGetterImpl.html',1,'sw']]],
+  ['_5fhasgetterimpl_3c_20t_2c_20decltype_28void_28_26t_3a_3agetterimpl_29_29_3e_15',['_HasGetterImpl&lt; T, decltype(void(&amp;T::GetterImpl))&gt;',['../structsw_1_1__HasGetterImpl_3_01T_00_01decltype_07void_07_6T_1_1GetterImpl_08_08_4.html',1,'sw']]],
+  ['_5fhassetterimpl_16',['_HasSetterImpl',['../structsw_1_1__HasSetterImpl.html',1,'sw']]],
+  ['_5fhassetterimpl_3c_20t_2c_20decltype_28void_28_26t_3a_3asetterimpl_29_29_3e_17',['_HasSetterImpl&lt; T, decltype(void(&amp;T::SetterImpl))&gt;',['../structsw_1_1__HasSetterImpl_3_01T_00_01decltype_07void_07_6T_1_1SetterImpl_08_08_4.html',1,'sw']]],
+  ['_5fisexplicitlyconvertable_18',['_IsExplicitlyConvertable',['../structsw_1_1__IsExplicitlyConvertable.html',1,'sw']]],
+  ['_5fisexplicitlyconvertable_3c_20tfrom_2c_20tto_2c_20decltype_28void_28static_5fcast_3c_20tto_20_3e_28std_3a_3adeclval_3c_20tfrom_20_3e_28_29_29_29_29_3e_19',['_IsExplicitlyConvertable&lt; TFrom, TTo, decltype(void(static_cast&lt; TTo &gt;(std::declval&lt; TFrom &gt;())))&gt;',['../structsw_1_1__IsExplicitlyConvertable_3_01TFrom_00_01TTo_00_01decltype_07void_07static__cast_3_0766a7d13d8d3f2686094df45a1f1184e.html',1,'sw']]],
+  ['_5fisproperty_20',['_IsProperty',['../structsw_1_1__IsProperty.html',1,'sw']]],
+  ['_5fispropertyimpl_21',['_IsPropertyImpl',['../structsw_1_1__IsPropertyImpl.html',1,'sw']]],
+  ['_5fisreadableproperty_22',['_IsReadableProperty',['../structsw_1_1__IsReadableProperty.html',1,'sw']]],
+  ['_5fistypedroutedeventargs_23',['_IsTypedRoutedEventArgs',['../structsw_1_1__IsTypedRoutedEventArgs.html',1,'sw']]],
+  ['_5fiswritableproperty_24',['_IsWritableProperty',['../structsw_1_1__IsWritableProperty.html',1,'sw']]]
 ];

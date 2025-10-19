@@ -1,0 +1,23 @@
+var classsw_1_1NotifyIcon =
+[
+    [ "NotifyIcon", "classsw_1_1NotifyIcon.html#ae45488e447083a07787f5106a799704c", null ],
+    [ "Destroy", "classsw_1_1NotifyIcon.html#a2890e78e92aee3616a02e3a12d6fd00b", null ],
+    [ "GetNotifyIconData", "classsw_1_1NotifyIcon.html#a3237a60c2129e1bbcae3424c94392f8b", null ],
+    [ "Hide", "classsw_1_1NotifyIcon.html#a977e81485bc08c4ffe2e20818b2ee94a", null ],
+    [ "OnClicked", "classsw_1_1NotifyIcon.html#aeb5896dfac5de2317cf9522eda92c42b", null ],
+    [ "OnContextMenu", "classsw_1_1NotifyIcon.html#a3eb53712ca1ad2582ea62a12b59f33be", null ],
+    [ "OnDoubleClicked", "classsw_1_1NotifyIcon.html#ad277e4427d259e763640ded3aa9b9922", null ],
+    [ "OnMenuCommand", "classsw_1_1NotifyIcon.html#a13ed36dbb395e8bc07cd9070903d6417", null ],
+    [ "OnNotyfyIconMessage", "classsw_1_1NotifyIcon.html#acb8576526f6e879f43190445eaad1d9e", null ],
+    [ "Show", "classsw_1_1NotifyIcon.html#ab24d6ac75d3c1ba4438098267bdb991f", null ],
+    [ "ShowContextMenu", "classsw_1_1NotifyIcon.html#af5e95e336bf02237e98b9b26ec7099bd", null ],
+    [ "WndProc", "classsw_1_1NotifyIcon.html#afc15879357f25dc1fb4c3a0c65f1b096", null ],
+    [ "ClickedHandler", "classsw_1_1NotifyIcon.html#a13da0a8545842f1e61f19b0265115efb", null ],
+    [ "ContextMenu", "classsw_1_1NotifyIcon.html#aaddfb8f36febf3e9c5bf155bccdb16af", null ],
+    [ "ContextMenuHandler", "classsw_1_1NotifyIcon.html#a7775fbf32a74c86de62b9659e9f5a170", null ],
+    [ "DoubleClickedHandler", "classsw_1_1NotifyIcon.html#a7dad54cd44d9213fac7bcf73e918656c", null ],
+    [ "Icon", "classsw_1_1NotifyIcon.html#a377bc226da2c591c1e25acd84dc1bf72", null ],
+    [ "Rect", "classsw_1_1NotifyIcon.html#a66d71e8b850dece9830ca205f733160e", null ],
+    [ "ToolTip", "classsw_1_1NotifyIcon.html#a8562cbf034cf34be552ccbcaa5b7efa8", null ],
+    [ "Visible", "classsw_1_1NotifyIcon.html#a0fd49668122e9cda5d98916050ff701b", null ]
+];

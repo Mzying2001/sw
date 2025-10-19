@@ -13,6 +13,7 @@ var hierarchy =
     [ "sw::CanvasLayoutTag", "structsw_1_1CanvasLayoutTag.html", null ],
     [ "sw::CursorHelper", "classsw_1_1CursorHelper.html", null ],
     [ "sw::Delegate< typename >", "classsw_1_1Delegate.html", null ],
+    [ "sw::Delegate< bool(NotifyIcon &, const Point &)>", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< const AppQuitMode & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< const BmpBoxSizeMode & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< const bool & >", "classsw_1_1Delegate.html", null ],
@@ -23,6 +24,7 @@ var hierarchy =
     [ "sw::Delegate< const FileDialogFlags & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< const FolderDialogFlags & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< const FontDialogFlags & >", "classsw_1_1Delegate.html", null ],
+    [ "sw::Delegate< const HICON & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< const HorizontalAlignment & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< const int & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< const Orientation & >", "classsw_1_1Delegate.html", null ],
@@ -67,6 +69,8 @@ var hierarchy =
       [ "sw::_HasEventType< T, typename >", "structsw_1_1__HasEventType.html", [
         [ "sw::_IsTypedRoutedEventArgs< T >", "structsw_1_1__IsTypedRoutedEventArgs.html", null ]
       ] ],
+      [ "sw::_HasGetterImpl< typename, typename >", "structsw_1_1__HasGetterImpl.html", null ],
+      [ "sw::_HasSetterImpl< typename, typename >", "structsw_1_1__HasSetterImpl.html", null ],
       [ "sw::_IsExplicitlyConvertable< TFrom, TTo, typename >", "structsw_1_1__IsExplicitlyConvertable.html", null ]
     ] ],
     [ "sw::FieldsAccessor< T >", "structsw_1_1FieldsAccessor.html", null ],
@@ -140,6 +144,7 @@ var hierarchy =
     ] ],
     [ "sw::IEqualityComparable< WndBase >", "classsw_1_1IEqualityComparable.html", [
       [ "sw::WndBase", "classsw_1_1WndBase.html", [
+        [ "sw::NotifyIcon", "classsw_1_1NotifyIcon.html", null ],
         [ "sw::Timer", "classsw_1_1Timer.html", null ],
         [ "sw::ToolTip", "classsw_1_1ToolTip.html", [
           [ "sw::BallonToolTip", "classsw_1_1BallonToolTip.html", null ]
@@ -215,6 +220,10 @@ var hierarchy =
       [ "sw::UIElement", "classsw_1_1UIElement.html", null ]
     ] ],
     [ "sw::ImageList", "classsw_1_1ImageList.html", null ],
+    [ "std::integral_constant", null, [
+      [ "sw::_IsReadableProperty< T >", "structsw_1_1__IsReadableProperty.html", null ],
+      [ "sw::_IsWritableProperty< T >", "structsw_1_1__IsWritableProperty.html", null ]
+    ] ],
     [ "sw::ITag", "classsw_1_1ITag.html", [
       [ "sw::MenuItem", "classsw_1_1MenuItem.html", null ],
       [ "sw::UIElement", "classsw_1_1UIElement.html", null ]
@@ -305,6 +314,8 @@ var hierarchy =
       [ "sw::Property< sw::VerticalAlignment >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::TextTrimming >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::LayoutHost * >", "classsw_1_1Property.html", null ],
+      [ "sw::Property< HICON >", "classsw_1_1Property.html", null ],
+      [ "sw::Property< sw::ContextMenu * >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::BorderStyle >", "classsw_1_1Property.html", null ],
       [ "sw::Property< wchar_t >", "classsw_1_1Property.html", null ],
       [ "sw::Property< uint16_t >", "classsw_1_1Property.html", null ],
@@ -316,7 +327,6 @@ var hierarchy =
       [ "sw::Property< HorizontalAlignment >", "classsw_1_1Property.html", null ],
       [ "sw::Property< VerticalAlignment >", "classsw_1_1Property.html", null ],
       [ "sw::Property< uint64_t >", "classsw_1_1Property.html", null ],
-      [ "sw::Property< sw::ContextMenu * >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::LayoutUpdateCondition >", "classsw_1_1Property.html", null ],
       [ "sw::Property< WindowStartupLocation >", "classsw_1_1Property.html", null ],
       [ "sw::Property< WindowState >", "classsw_1_1Property.html", null ],
@@ -335,8 +345,8 @@ var hierarchy =
       [ "sw::ReadOnlyProperty< sw::List< std::wstring > >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< HICON >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< TItem >", "classsw_1_1ReadOnlyProperty.html", null ],
-      [ "sw::ReadOnlyProperty< sw::Point >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Rect >", "classsw_1_1ReadOnlyProperty.html", null ],
+      [ "sw::ReadOnlyProperty< sw::Point >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::TreeViewNode >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::UIElement * >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Window * >", "classsw_1_1ReadOnlyProperty.html", null ],
@@ -356,6 +366,7 @@ var hierarchy =
     [ "sw::PropertyBase< FolderDialogFlags, Property< FolderDialogFlags > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< FontDialogFlags, Property< FontDialogFlags > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< HBITMAP, ReadOnlyProperty< HBITMAP > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< HICON, Property< HICON > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< HICON, ReadOnlyProperty< HICON > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< HINSTANCE, ReadOnlyProperty< HINSTANCE > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< HorizontalAlignment, Property< HorizontalAlignment > >", "classsw_1_1PropertyBase.html", null ],
@@ -490,6 +501,8 @@ var hierarchy =
       [ "sw::_BracketOperationHelper< T, U, decltype(void(std::declval< T >()[std::declval< U >()]))>", "structsw_1_1__BracketOperationHelper_3_01T_00_01U_00_01decltype_07void_07std_1_1declval_3_01T_015d7340010b451efba17696e1bdb8739b.html", null ],
       [ "sw::_HasArrowOperator< T, typename std::enable_if< _HasArrowOperatorVs2015Fix< T >::value >::type >", "structsw_1_1__HasArrowOperator_3_01T_00_01typename_01std_1_1enable__if_3_01__HasArrowOperatorVs293feea522a622808e377a95351f242a0.html", null ],
       [ "sw::_HasEventType< T, decltype(void(std::declval< T >().EventType))>", "structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07std_1_1declval_3_01T_01_4_07_08_8EventType_08_08_4.html", null ],
+      [ "sw::_HasGetterImpl< T, decltype(void(&T::GetterImpl))>", "structsw_1_1__HasGetterImpl_3_01T_00_01decltype_07void_07_6T_1_1GetterImpl_08_08_4.html", null ],
+      [ "sw::_HasSetterImpl< T, decltype(void(&T::SetterImpl))>", "structsw_1_1__HasSetterImpl_3_01T_00_01decltype_07void_07_6T_1_1SetterImpl_08_08_4.html", null ],
       [ "sw::_IsExplicitlyConvertable< TFrom, TTo, decltype(void(static_cast< TTo >(std::declval< TFrom >())))>", "structsw_1_1__IsExplicitlyConvertable_3_01TFrom_00_01TTo_00_01decltype_07void_07static__cast_3_0766a7d13d8d3f2686094df45a1f1184e.html", null ]
     ] ],
     [ "_IsPropertyImpl::type", null, [

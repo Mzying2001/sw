@@ -61,6 +61,7 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "MenuItem.h", "MenuItem_8h_source.html", null ],
     [ "MonthCalendar.h", "MonthCalendar_8h_source.html", null ],
     [ "MsgBox.h", "MsgBox_8h_source.html", null ],
+    [ "NotifyIcon.h", "NotifyIcon_8h_source.html", null ],
     [ "Panel.h", "Panel_8h_source.html", null ],
     [ "PanelBase.h", "PanelBase_8h_source.html", null ],
     [ "PasswordBox.h", "PasswordBox_8h_source.html", null ],

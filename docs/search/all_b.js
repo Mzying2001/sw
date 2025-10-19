@@ -1,13 +1,13 @@
 var searchData=
 [
   ['label_0',['label',['../classsw_1_1Label.html',1,'sw::Label'],['../classsw_1_1Label.html#ae1ee6644b4de352317836eb2a4c00c3c',1,'sw::Label::Label()']]],
-  ['lastchildfill_1',['lastchildfill',['../classsw_1_1DockLayout.html#ae3279e6cc696c453a2f6171ca152fc47',1,'sw::DockLayout::lastChildFill'],['../classsw_1_1DockPanel.html#aa3f8617a879fb8c536799beae2ad2a31',1,'sw::DockPanel::LastChildFill']]],
+  ['lastchildfill_1',['lastchildfill',['../classsw_1_1DockPanel.html#aa3f8617a879fb8c536799beae2ad2a31',1,'sw::DockPanel::LastChildFill'],['../classsw_1_1DockLayout.html#ae3279e6cc696c453a2f6171ca152fc47',1,'sw::DockLayout::lastChildFill']]],
   ['layer_2',['layer',['../classsw_1_1Layer.html',1,'sw::Layer'],['../classsw_1_1Layer.html#a61030d006cafc26525bc07bced899b92',1,'sw::Layer::Layer()']]],
   ['layout_3',['Layout',['../classsw_1_1Layer.html#accb80d7a016d5a56b1c744db4ef96059',1,'sw::Layer']]],
   ['layouthost_4',['LayoutHost',['../classsw_1_1LayoutHost.html',1,'sw']]],
   ['layouttag_5',['LayoutTag',['../classsw_1_1UIElement.html#a70e870fcabb76b1d74c06d50637f4f92',1,'sw::UIElement']]],
   ['layoutupdatecondition_6',['LayoutUpdateCondition',['../classsw_1_1UIElement.html#ab1ae9ea6fdb1c1ecde418bffdb2287cc',1,'sw::UIElement']]],
-  ['left_7',['left',['../structsw_1_1Rect.html#af6c8b62aa73047637c58d8cdf6c05aff',1,'sw::Rect::left'],['../structsw_1_1Thickness.html#ad060a41dfe2453ef882849546eb7980e',1,'sw::Thickness::left'],['../structsw_1_1CanvasLayoutTag.html#a66e509ca8ce039a228ccb15cba5aa509',1,'sw::CanvasLayoutTag::left'],['../classsw_1_1WndBase.html#a4f0b57de9babc053c655872ed91468dd',1,'sw::WndBase::Left']]],
+  ['left_7',['left',['../structsw_1_1Thickness.html#ad060a41dfe2453ef882849546eb7980e',1,'sw::Thickness::left'],['../classsw_1_1WndBase.html#a4f0b57de9babc053c655872ed91468dd',1,'sw::WndBase::Left'],['../structsw_1_1Rect.html#af6c8b62aa73047637c58d8cdf6c05aff',1,'sw::Rect::left'],['../structsw_1_1CanvasLayoutTag.html#a66e509ca8ce039a228ccb15cba5aa509',1,'sw::CanvasLayoutTag::left']]],
   ['linecolor_8',['LineColor',['../classsw_1_1TreeView.html#a5b9ae3dac391b1dcf72ba8e8b3c72269',1,'sw::TreeView']]],
   ['list_9',['list',['../classsw_1_1List.html',1,'sw::List&lt; T &gt;'],['../classsw_1_1List.html#ad84dc17e0d073e18e2f44871c27025de',1,'sw::List::List()'],['../classsw_1_1List.html#abfff18bc7387d154bc89481259f847a0',1,'sw::List::List(std::initializer_list&lt; T &gt; list)'],['../classsw_1_1List.html#a4e4501c96b9e786d67b420312cafb8cc',1,'sw::List::List(int capacity)']]],
   ['list_3c_20sw_3a_3agridcolumn_20_3e_10',['List&lt; sw::GridColumn &gt;',['../classsw_1_1List.html',1,'sw']]],

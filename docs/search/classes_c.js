@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['openfiledialog_0',['OpenFileDialog',['../classsw_1_1OpenFileDialog.html',1,'sw']]]
+  ['notifyicon_0',['NotifyIcon',['../classsw_1_1NotifyIcon.html',1,'sw']]]
 ];
