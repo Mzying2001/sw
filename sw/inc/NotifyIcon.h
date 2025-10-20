@@ -86,6 +86,11 @@ namespace sw
 
     protected:
         /**
+         * @brief 避免隐藏基类的OnContextMenu函数
+         */
+        using TBase::OnContextMenu;
+
+        /**
          * @brief 对WndProc的封装
          */
         virtual LRESULT WndProc(const ProcMsg &refMsg) override;
