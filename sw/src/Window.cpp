@@ -303,6 +303,11 @@ sw::LayoutHost *sw::Window::GetDefaultLayout()
     return _defaultLayout.get();
 }
 
+bool sw::Window::OnCreate()
+{
+    return true;
+}
+
 bool sw::Window::OnClose()
 {
     WindowClosingEventArgs args;
