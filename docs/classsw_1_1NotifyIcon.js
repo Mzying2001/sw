@@ -1,10 +1,12 @@
 var classsw_1_1NotifyIcon =
 [
     [ "NotifyIcon", "classsw_1_1NotifyIcon.html#ae45488e447083a07787f5106a799704c", null ],
+    [ "~NotifyIcon", "classsw_1_1NotifyIcon.html#a13fe1b17367e72802d5f3b5bc2a6b218", null ],
     [ "Destroy", "classsw_1_1NotifyIcon.html#a2890e78e92aee3616a02e3a12d6fd00b", null ],
     [ "GetNotifyIconData", "classsw_1_1NotifyIcon.html#a3237a60c2129e1bbcae3424c94392f8b", null ],
     [ "Hide", "classsw_1_1NotifyIcon.html#a977e81485bc08c4ffe2e20818b2ee94a", null ],
     [ "OnClicked", "classsw_1_1NotifyIcon.html#aeb5896dfac5de2317cf9522eda92c42b", null ],
+    [ "OnContextMenu", "classsw_1_1NotifyIcon.html#acfefd4f96ba2f86a0fe50b018ddff4e9", null ],
     [ "OnContextMenu", "classsw_1_1NotifyIcon.html#a3eb53712ca1ad2582ea62a12b59f33be", null ],
     [ "OnDoubleClicked", "classsw_1_1NotifyIcon.html#ad277e4427d259e763640ded3aa9b9922", null ],
     [ "OnMenuCommand", "classsw_1_1NotifyIcon.html#a13ed36dbb395e8bc07cd9070903d6417", null ],

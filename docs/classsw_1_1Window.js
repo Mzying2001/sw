@@ -1,11 +1,13 @@
 var classsw_1_1Window =
 [
     [ "Window", "classsw_1_1Window.html#a24eed02d394d13b368f5cf99b2a68c44", null ],
+    [ "~Window", "classsw_1_1Window.html#ad41fe170a165828b52d47fc2ee009106", null ],
     [ "Close", "classsw_1_1Window.html#aeabad3476a74d23bbd3a6ed877939d16", null ],
     [ "DrawMenuBar", "classsw_1_1Window.html#a3daeab5c99e045449a8a5f086c19877e", null ],
     [ "GetDefaultLayout", "classsw_1_1Window.html#abafe422b0435aa15ec04ced4300b6b76", null ],
     [ "OnActived", "classsw_1_1Window.html#a2403f422df1271f56f2ef574d91f232d", null ],
     [ "OnClose", "classsw_1_1Window.html#a50969fbd9f30ad27e72f11cb28ee4697", null ],
+    [ "OnCreate", "classsw_1_1Window.html#a40c1878e286d1c9aee9252975f6b498c", null ],
     [ "OnDestroy", "classsw_1_1Window.html#a09165434040ada6ea3f00a7d79b1f7a2", null ],
     [ "OnDpiChanged", "classsw_1_1Window.html#a850c77ff7a3271e6d2bc77258c2ed11d", null ],
     [ "OnEraseBackground", "classsw_1_1Window.html#af798c81f7a3d0b1c72b033b0940d9884", null ],

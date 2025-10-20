@@ -150,6 +150,10 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~DynamicObject</b>
 <tr class="memitem:abfdfc0484d420f36515a295690f13c84"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1DynamicObject.html#abfdfc0484d420f36515a295690f13c84">IsType</a> (T **pout=nullptr)</td></tr>
 <tr class="memdesc:abfdfc0484d420f36515a295690f13c84"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断对象是否为指定类型  <br /></td></tr>
 <tr class="separator:abfdfc0484d420f36515a295690f13c84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98f17eecfd1e8164c7bb19394a3588ae" id="r_a98f17eecfd1e8164c7bb19394a3588ae"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a98f17eecfd1e8164c7bb19394a3588ae"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1DynamicObject.html#a98f17eecfd1e8164c7bb19394a3588ae">IsType</a> (const T **pout=nullptr) const</td></tr>
+<tr class="memdesc:a98f17eecfd1e8164c7bb19394a3588ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断对象是否为指定类型  <br /></td></tr>
+<tr class="separator:a98f17eecfd1e8164c7bb19394a3588ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b40c4ae31f19d7e9c9bb37d0356c0a0" id="r_a4b40c4ae31f19d7e9c9bb37d0356c0a0"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a4b40c4ae31f19d7e9c9bb37d0356c0a0"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1DynamicObject.html#a4b40c4ae31f19d7e9c9bb37d0356c0a0">DynamicCast</a> ()</td></tr>
 <tr class="memdesc:a4b40c4ae31f19d7e9c9bb37d0356c0a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">将对象动态转换为指定类型的引用  <br /></td></tr>
@@ -274,8 +278,51 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a98f17eecfd1e8164c7bb19394a3588ae" name="a98f17eecfd1e8164c7bb19394a3588ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98f17eecfd1e8164c7bb19394a3588ae">&#9670;&#160;</a></span>IsType() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::DynamicObject::IsType </td>
+          <td>(</td>
+          <td class="paramtype">const T **&#160;</td>
+          <td class="paramname"><em>pout</em> = <code>nullptr</code></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断对象是否为指定类型 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>目标类型 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pout</td><td>如果不为nullptr，则将转换后的指针赋值给该参数 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>如果对象为指定类型则返回true，否则返回false </dd></dl>
+
+</div>
+</div>
 <a id="abfdfc0484d420f36515a295690f13c84" name="abfdfc0484d420f36515a295690f13c84"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfdfc0484d420f36515a295690f13c84">&#9670;&#160;</a></span>IsType()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abfdfc0484d420f36515a295690f13c84">&#9670;&#160;</a></span>IsType() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -309,11 +356,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pout</td><td>如果不为 nullptr，则将转换后的指针赋值给该参数 </td></tr>
+    <tr><td class="paramname">pout</td><td>如果不为nullptr，则将转换后的指针赋值给该参数 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>如果对象为指定类型则返回 true，否则返回 false </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>如果对象为指定类型则返回true，否则返回false </dd></dl>
 
 </div>
 </div>

@@ -1,6 +1,7 @@
 var classsw_1_1IconBox =
 [
     [ "IconBox", "classsw_1_1IconBox.html#a6338c94de691c741cc5f1279b0e4f7d7", null ],
+    [ "~IconBox", "classsw_1_1IconBox.html#adc90d8ac40050fe13a5eef9df493362f", null ],
     [ "Clear", "classsw_1_1IconBox.html#ae612888f1c34dc0caa7ed868ff1d2819", null ],
     [ "Load", "classsw_1_1IconBox.html#ab1d31f8f05c7c486d9e686414dbbc61d", null ],
     [ "Load", "classsw_1_1IconBox.html#ae34c7e0ea1078e63d0a134aedfc462f3", null ],

@@ -2,6 +2,7 @@ var classsw_1_1PanelBase =
 [
     [ "PanelBase", "classsw_1_1PanelBase.html#abab2cca25b5d32f8bce01252e9db500e", null ],
     [ "~PanelBase", "classsw_1_1PanelBase.html#a7acc50ef3ccea1f4efa8d1d3fdf18fa9", null ],
+    [ "Arrange", "classsw_1_1PanelBase.html#ab7630a76728d4d464b0bee1bfdbdca9b", null ],
     [ "ArrangeOverride", "classsw_1_1PanelBase.html#a352e8f17b30de80179f4869bf5951b9f", null ],
     [ "MeasureOverride", "classsw_1_1PanelBase.html#a4a58f2fb05d89a9149b15dfa71c91c0c", null ],
     [ "OnEndPaint", "classsw_1_1PanelBase.html#a2f3ccd1e0d137c83f1afd1170c87217c", null ],

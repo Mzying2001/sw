@@ -1,6 +1,7 @@
 var classsw_1_1BmpBox =
 [
     [ "BmpBox", "classsw_1_1BmpBox.html#a28f8a39285fc7e6c6359f9b87db6953f", null ],
+    [ "~BmpBox", "classsw_1_1BmpBox.html#a866ad1d7393ebbdb33b24f1aa522e8fa", null ],
     [ "Clear", "classsw_1_1BmpBox.html#ad26478ac46d40880851a221a2d90ba68", null ],
     [ "Load", "classsw_1_1BmpBox.html#a5c1cd1e0f949c017d3d620bac1e5404a", null ],
     [ "Load", "classsw_1_1BmpBox.html#a7ec9a45e8ce8eb49376c2ea2771ceb31", null ],

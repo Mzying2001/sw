@@ -27,6 +27,7 @@ var classsw_1_1TreeView =
     [ "UpdateItem", "classsw_1_1TreeView.html#ac5c192b56976a6c308dcfec190419eb5", null ],
     [ "AllItemsCount", "classsw_1_1TreeView.html#afbb3ced96a966320ad579996e80d4b75", null ],
     [ "CheckBoxes", "classsw_1_1TreeView.html#a728b3020436311573469a9406c48dade", null ],
+    [ "IndentWidth", "classsw_1_1TreeView.html#a00d5bdbd42a6913be267b8dcfb02c283", null ],
     [ "LineColor", "classsw_1_1TreeView.html#a5b9ae3dac391b1dcf72ba8e8b3c72269", null ],
     [ "Root", "classsw_1_1TreeView.html#ae2bc81c3c3ac2cbf81a8975266f466a6", null ]
 ];

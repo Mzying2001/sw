@@ -1,5 +1,16 @@
 var NAVTREEINDEX7 =
 {
+"structsw_1_1MsgBoxResultHelper.html#abd3fc502f5891ab9339d58d213558107":[2,0,0,119,5],
+"structsw_1_1MsgBoxResultHelper.html#ac028b46bd9290be9b6fb67051ceea74f":[2,0,0,119,7],
+"structsw_1_1MsgBoxResultHelper.html#ac07a15b1afc9db579d0e5736377ebc29":[2,0,0,119,1],
+"structsw_1_1MsgBoxResultHelper.html#ac75e4774f3a663cdd014aa8b4a97e2af":[2,0,0,119,0],
+"structsw_1_1Point.html":[2,0,0,126],
+"structsw_1_1Point.html#a03a3ffe0760d027e46f6a5579220c6df":[2,0,0,126,2],
+"structsw_1_1Point.html#a4d0905242fc362a62b21ea6adf2e54e6":[2,0,0,126,7],
+"structsw_1_1Point.html#a56af260ede721ba4801b1a33813620f7":[2,0,0,126,5],
+"structsw_1_1Point.html#a5b0e4208a40f3ed55741d99312276714":[2,0,0,126,4],
+"structsw_1_1Point.html#a9c251e1188e434e09bdb77b964dd177b":[2,0,0,126,0],
+"structsw_1_1Point.html#aa1eb2ca2daf8fa5648fae52a0d41a26f":[2,0,0,126,3],
 "structsw_1_1Point.html#ae6a214a23a7b9128b3938e2bcc820b01":[2,0,0,126,1],
 "structsw_1_1Point.html#afceae691252771cc050e8e4152971ba9":[2,0,0,126,6],
 "structsw_1_1PositionChangedEventArgs.html":[2,0,0,127],

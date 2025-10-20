@@ -1,6 +1,7 @@
 var classsw_1_1HwndHost =
 [
     [ "HwndHost", "classsw_1_1HwndHost.html#af050f409c9407b9cf5e6670392830688", null ],
+    [ "~HwndHost", "classsw_1_1HwndHost.html#ad4bd1d4d18e06e16a6fd580e22a2c39b", null ],
     [ "BuildWindowCore", "classsw_1_1HwndHost.html#a9ac22adfa9d96348e7f89932d82cf3d3", null ],
     [ "DestroyWindowCore", "classsw_1_1HwndHost.html#af644778e078302b01faf0ac2f5c7b75c", null ],
     [ "InitHwndHost", "classsw_1_1HwndHost.html#aebdcab5949f812ae64ecd79633cacc49", null ],

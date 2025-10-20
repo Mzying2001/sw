@@ -2,6 +2,7 @@ var classsw_1_1Layer =
 [
     [ "Layer", "classsw_1_1Layer.html#a61030d006cafc26525bc07bced899b92", null ],
     [ "~Layer", "classsw_1_1Layer.html#a9704f14ac77a0e0902b79058a2d29c8d", null ],
+    [ "Arrange", "classsw_1_1Layer.html#a418f1f936414fd657ad11a0c0f437cdb", null ],
     [ "ArrangeOverride", "classsw_1_1Layer.html#a80031c421e6f3efe2e085e6991d5535c", null ],
     [ "DisableLayout", "classsw_1_1Layer.html#a4c9e94621cab7abd5ca2e10f5691c3c1", null ],
     [ "EnableLayout", "classsw_1_1Layer.html#a5965bfa865e07371ad9e2e773f720653", null ],
