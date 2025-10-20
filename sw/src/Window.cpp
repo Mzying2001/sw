@@ -310,6 +310,7 @@ bool sw::Window::OnClose()
 
     if (!args.cancel) {
         UIElement::OnClose();
+        DestroyWindow(Handle);
     }
     return true;
 }

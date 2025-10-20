@@ -765,18 +765,17 @@ void sw::WndBase::SetInternalText(const std::wstring &value)
 
 bool sw::WndBase::OnCreate()
 {
-    return true;
+    return false;
 }
 
 bool sw::WndBase::OnClose()
 {
-    DestroyWindow(this->_hwnd);
-    return true;
+    return false;
 }
 
 bool sw::WndBase::OnDestroy()
 {
-    return true;
+    return false;
 }
 
 bool sw::WndBase::OnPaint()
