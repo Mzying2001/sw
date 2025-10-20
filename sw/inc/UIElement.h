@@ -1031,6 +1031,11 @@ namespace sw
         void _UpdateLayoutVisibleChildren();
 
         /**
+         * @brief 从_layoutVisibleChildren中移除指定元素
+         */
+        void _RemoveFromLayoutVisibleChildren(UIElement *element);
+
+        /**
          * @brief 循环获取界面树上的下一个节点
          */
         static UIElement *_GetNextElement(UIElement *element, bool searchChildren = true);
