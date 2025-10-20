@@ -1270,7 +1270,36 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 sw::WndBase *sw::WndBase::_GetControlInitContainer()
 {
-    static thread_local std::unique_ptr<WndBase> _container;
+    static thread_local class _ThreadGuard
+    {
+    public:
+        // 标记线程是否正在退出
+        bool exitflag = false;
+
+        // 控件初始容器
+        std::unique_ptr<WndBase> container;
+
+        // 线程退出时会调用析构函数
+        ~_ThreadGuard()
+        {
+            this->exitflag = true;
+
+            if (this->container != nullptr &&
+                !this->container->_isDestroyed) //
+            {
+                // 线程退出时，容器窗口一般还未被销毁，此时消息循环已经结束，
+                // 直接调用DestroyWindow无法销毁窗口，因此此处需要创建一个
+                // 临时消息循环，发送WM_CLOSE以确保窗口正常销毁。
+                this->container->PostMessageW(WM_CLOSE, 0, 0);
+
+                // 临时消息循环
+                for (MSG msg{}; GetMessageW(&msg, NULL, 0, 0);) {
+                    TranslateMessage(&msg);
+                    DispatchMessageW(&msg);
+                }
+            }
+        }
+    } _guard;
 
     class _ControlInitContainer : public WndBase
     {
@@ -1279,13 +1308,30 @@ sw::WndBase *sw::WndBase::_GetControlInitContainer()
         {
             this->InitWindow(L"", WS_POPUP, 0);
         }
+
+        LRESULT WndProc(const ProcMsg &refMsg) override
+        {
+            switch (refMsg.uMsg) {
+                case WM_CLOSE: {
+                    DestroyWindow(this->_hwnd);
+                    return 0;
+                }
+                case WM_NCDESTROY: {
+                    if (_guard.exitflag) PostQuitMessage(0);
+                    return this->WndBase::WndProc(refMsg);
+                }
+                default: {
+                    return this->WndBase::WndProc(refMsg);
+                }
+            }
+        }
     };
 
-    if (!_container || _container->_isDestroyed) {
-        _container = std::make_unique<_ControlInitContainer>();
+    if (_guard.container == nullptr ||
+        _guard.container->_isDestroyed) {
+        _guard.container = std::make_unique<_ControlInitContainer>();
     }
-
-    return _container.get();
+    return _guard.container.get();
 }
 
 int sw::WndBase::_NextControlId()
