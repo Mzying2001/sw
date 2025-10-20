@@ -252,6 +252,11 @@ namespace sw
          */
         const Property<Color> LineColor;
 
+        /**
+         * @brief 缩进宽度
+         */
+        const Property<double> IndentWidth;
+
     public:
         /**
          * @brief 初始化TreeView

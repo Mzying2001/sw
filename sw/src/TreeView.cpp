@@ -233,6 +233,18 @@ sw::TreeView::TreeView()
           [this](const Color &value) {
               HWND hwnd = Handle;
               TreeView_SetLineColor(hwnd, static_cast<COLORREF>(value));
+          }),
+
+      IndentWidth(
+          // get
+          [this]() -> double {
+              HWND hwnd = Handle;
+              return Dip::PxToDipX(TreeView_GetIndent(hwnd));
+          },
+          // set
+          [this](const double &value) {
+              HWND hwnd = Handle;
+              TreeView_SetIndent(hwnd, Dip::DipToPxX(value));
           })
 {
     InitControl(WC_TREEVIEWW, NULL, WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS | WS_BORDER | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS, 0);
