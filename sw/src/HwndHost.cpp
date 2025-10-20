@@ -14,6 +14,13 @@ sw::HwndHost::HwndHost()
     this->Rect = sw::Rect{0, 0, 100, 100};
 }
 
+sw::HwndHost::~HwndHost()
+{
+    if (!this->IsDestroyed) {
+        DestroyWindow(this->Handle);
+    }
+}
+
 void sw::HwndHost::InitHwndHost()
 {
     if (this->_hWindowCore == NULL && !this->IsDestroyed)

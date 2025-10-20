@@ -35,6 +35,11 @@ namespace sw
     {
     private:
         /**
+         * @brief 基类别名
+         */
+        using TBase = Layer;
+
+        /**
          * @brief 是否为第一次显示，该字段使StartupLocation生效
          */
         bool _isFirstShow = true;
@@ -179,6 +184,11 @@ namespace sw
          */
         Window();
 
+        /**
+         * @brief 析构函数
+         */
+        ~Window();
+
     protected:
         /**
          * @brief 对WndProc的封装
@@ -189,6 +199,12 @@ namespace sw
          * @brief 获取默认布局对象
          */
         virtual LayoutHost *GetDefaultLayout() override;
+
+        /**
+         * @brief  接收到WM_CREATE时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnCreate() override;
 
         /**
          * @brief  接收到WM_CLOSE时调用该函数

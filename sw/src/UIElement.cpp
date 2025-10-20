@@ -383,7 +383,7 @@ bool sw::UIElement::RemoveChildAt(int index)
 
     UIElement *element = *it;
     this->_children.erase(it);
-    this->_UpdateLayoutVisibleChildren();
+    this->_RemoveFromLayoutVisibleChildren(element);
 
     this->OnRemovedChild(*element);
     return true;
@@ -407,7 +407,7 @@ bool sw::UIElement::RemoveChild(UIElement *element)
     }
 
     this->_children.erase(it);
-    this->_UpdateLayoutVisibleChildren();
+    this->_RemoveFromLayoutVisibleChildren(element);
 
     this->OnRemovedChild(*element);
     return true;
@@ -1126,7 +1126,7 @@ bool sw::UIElement::SetParent(WndBase *parent)
                 auto it = std::find(oldParentElement->_children.begin(), oldParentElement->_children.end(), this);
                 if (it != oldParentElement->_children.end()) oldParentElement->_children.erase(it);
                 // 前面调用RemoveChild失败，当前元素仍在父元素的_layoutVisibleChildren中，此处手动调用更新
-                oldParentElement->_UpdateLayoutVisibleChildren();
+                oldParentElement->_RemoveFromLayoutVisibleChildren(this);
             }
             this->_parent = nullptr;
             return true;
@@ -1424,6 +1424,17 @@ void sw::UIElement::_UpdateLayoutVisibleChildren()
     for (UIElement *item : this->_children) {
         if (!item->_collapseWhenHide || item->Visible)
             this->_layoutVisibleChildren.push_back(item);
+    }
+}
+
+void sw::UIElement::_RemoveFromLayoutVisibleChildren(UIElement *element)
+{
+    auto it = std::find(
+        this->_layoutVisibleChildren.begin(),
+        this->_layoutVisibleChildren.end(), element);
+
+    if (it != this->_layoutVisibleChildren.end()) {
+        this->_layoutVisibleChildren.erase(it);
     }
 }
 

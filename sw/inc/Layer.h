@@ -135,6 +135,12 @@ namespace sw
         virtual bool OnHorizontalScroll(int event, int pos) override;
 
         /**
+         * @brief           安排元素位置
+         * @param finalSize 最终元素所安排的位置
+         */
+        virtual void Arrange(const sw::Rect &finalPosition) override;
+
+        /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
          * @return              返回元素需要占用的尺寸

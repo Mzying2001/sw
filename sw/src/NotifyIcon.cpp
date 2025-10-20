@@ -101,6 +101,13 @@ sw::NotifyIcon::NotifyIcon()
     // _ShellNotifyIcon(NIM_SETVERSION);
 }
 
+sw::NotifyIcon::~NotifyIcon()
+{
+    if (!IsDestroyed) {
+        Destroy(); // 确保图标被删除
+    }
+}
+
 LRESULT sw::NotifyIcon::WndProc(const ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {

@@ -54,6 +54,11 @@ namespace sw
         BmpBox();
 
         /**
+         * @brief 析构函数
+         */
+        ~BmpBox();
+
+        /**
          * @brief         加载位图，该函数会复制一个位图句柄作为显示的位图
          * @param hBitmap 要加载的位图
          * @return        加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
@@ -112,7 +117,7 @@ namespace sw
          * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
         virtual bool OnEraseBackground(HDC hdc, LRESULT &result) override;
-        
+
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
