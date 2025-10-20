@@ -184,6 +184,11 @@ namespace sw
          */
         Window();
 
+        /**
+         * @brief 析构函数
+         */
+        ~Window();
+
     protected:
         /**
          * @brief 对WndProc的封装

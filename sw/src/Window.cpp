@@ -218,6 +218,13 @@ sw::Window::Window()
     SetIcon(_GetWindowDefaultIcon());
 }
 
+sw::Window::~Window()
+{
+    if (!IsDestroyed) {
+        DestroyWindow(Handle);
+    }
+}
+
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
