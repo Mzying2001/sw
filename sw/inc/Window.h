@@ -35,6 +35,11 @@ namespace sw
     {
     private:
         /**
+         * @brief 基类别名
+         */
+        using TBase = Layer;
+
+        /**
          * @brief 是否为第一次显示，该字段使StartupLocation生效
          */
         bool _isFirstShow = true;

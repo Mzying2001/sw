@@ -223,12 +223,12 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
     switch (refMsg.uMsg) {
         case WM_CREATE: {
             ++_windowCount;
-            return WndBase::WndProc(refMsg);
+            return TBase::WndProc(refMsg);
         }
 
         case WM_DESTROY: {
             _isDestroying = true;
-            auto result   = WndBase::WndProc(refMsg);
+            auto result   = TBase::WndProc(refMsg);
             bool quitted  = false;
             // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
             if (_isModal) {
@@ -248,7 +248,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
                 _isFirstShow = false;
                 OnFirstShow();
             }
-            return WndBase::WndProc(refMsg);
+            return TBase::WndProc(refMsg);
         }
 
         case WM_GETMINMAXINFO: {
@@ -293,7 +293,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         default: {
-            return WndBase::WndProc(refMsg);
+            return TBase::WndProc(refMsg);
         }
     }
 }
@@ -314,7 +314,7 @@ bool sw::Window::OnClose()
     RaiseRoutedEvent(args);
 
     if (!args.cancel) {
-        UIElement::OnClose();
+        TBase::OnClose();
         DestroyWindow(Handle);
     }
     return true;
@@ -370,7 +370,7 @@ bool sw::Window::OnPaint()
 void sw::Window::OnMenuCommand(int id)
 {
     if (ContextMenu::IsContextMenuID(id)) {
-        UIElement::OnMenuCommand(id);
+        TBase::OnMenuCommand(id);
         return;
     }
     if (_menu) {
@@ -382,7 +382,7 @@ void sw::Window::OnMenuCommand(int id)
 void sw::Window::OnMinMaxSizeChanged()
 {
     if (!IsRootElement()) {
-        UIElement::OnMinMaxSizeChanged();
+        TBase::OnMinMaxSizeChanged();
     }
 
     HWND hwnd = Handle;
@@ -478,12 +478,12 @@ sw::Window *sw::Window::ToWindow()
 
 void sw::Window::Close()
 {
-    WndBase::Close();
+    TBase::Close();
 }
 
 void sw::Window::Show()
 {
-    WndBase::Show(SW_SHOW);
+    TBase::Show(SW_SHOW);
 }
 
 int sw::Window::ShowDialog(Window *owner)
