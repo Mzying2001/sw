@@ -219,6 +219,13 @@ sw::BmpBox::BmpBox()
     this->Transparent = true;
 }
 
+sw::BmpBox::~BmpBox()
+{
+    if (!this->IsDestroyed) {
+        DestroyWindow(this->Handle);
+    }
+}
+
 HBITMAP sw::BmpBox::Load(HBITMAP hBitmap)
 {
     HBITMAP hNewBitmap = (HBITMAP)CopyImage(hBitmap, IMAGE_BITMAP, 0, 0, 0);
@@ -3529,6 +3536,13 @@ sw::HwndHost::HwndHost()
     this->Rect = sw::Rect{0, 0, 100, 100};
 }
 
+sw::HwndHost::~HwndHost()
+{
+    if (!this->IsDestroyed) {
+        DestroyWindow(this->Handle);
+    }
+}
+
 void sw::HwndHost::InitHwndHost()
 {
     if (this->_hWindowCore == NULL && !this->IsDestroyed)
@@ -3718,6 +3732,13 @@ sw::IconBox::IconBox()
     this->Rect = sw::Rect{0, 0, 50, 50};
     this->SetStyle(SS_ICON, true);
     this->Transparent = true;
+}
+
+sw::IconBox::~IconBox()
+{
+    if (!this->IsDestroyed) {
+        DestroyWindow(this->Handle);
+    }
 }
 
 HICON sw::IconBox::Load(HICON hIcon)
@@ -4577,6 +4598,12 @@ bool sw::Layer::OnHorizontalScroll(int event, int pos)
     return true;
 }
 
+void sw::Layer::Arrange(const sw::Rect &finalPosition)
+{
+    this->UIElement::Arrange(finalPosition);
+    this->UpdateScrollRange();
+}
+
 sw::Size sw::Layer::MeasureOverride(const Size &availableSize)
 {
     LayoutHost *layout = this->_GetLayout();
@@ -4604,8 +4631,6 @@ void sw::Layer::ArrangeOverride(const Size &finalSize)
         // 已设置布局方式且AutoSize为true，此时子元素已Measure，调用Arrange即可
         layout->ArrangeOverride(finalSize);
     }
-
-    this->UpdateScrollRange();
 }
 
 bool sw::Layer::RequestBringIntoView(const sw::Rect &screenRect)
@@ -6510,6 +6535,13 @@ sw::NotifyIcon::NotifyIcon()
     // _ShellNotifyIcon(NIM_SETVERSION);
 }
 
+sw::NotifyIcon::~NotifyIcon()
+{
+    if (!IsDestroyed) {
+        Destroy(); // 确保图标被删除
+    }
+}
+
 LRESULT sw::NotifyIcon::WndProc(const ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
@@ -6883,6 +6915,11 @@ sw::PanelBase::PanelBase()
 
 sw::PanelBase::~PanelBase()
 {
+}
+
+void sw::PanelBase::Arrange(const sw::Rect &finalPosition)
+{
+    this->Layer::Arrange(finalPosition);
 }
 
 sw::Size sw::PanelBase::MeasureOverride(const Size &availableSize)
@@ -9143,6 +9180,18 @@ sw::TreeView::TreeView()
           [this](const Color &value) {
               HWND hwnd = Handle;
               TreeView_SetLineColor(hwnd, static_cast<COLORREF>(value));
+          }),
+
+      IndentWidth(
+          // get
+          [this]() -> double {
+              HWND hwnd = Handle;
+              return Dip::PxToDipX(TreeView_GetIndent(hwnd));
+          },
+          // set
+          [this](const double &value) {
+              HWND hwnd = Handle;
+              TreeView_SetIndent(hwnd, Dip::DipToPxX(value));
           })
 {
     InitControl(WC_TREEVIEWW, NULL, WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS | WS_BORDER | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS, 0);
@@ -9766,7 +9815,7 @@ bool sw::UIElement::RemoveChildAt(int index)
 
     UIElement *element = *it;
     this->_children.erase(it);
-    this->_UpdateLayoutVisibleChildren();
+    this->_RemoveFromLayoutVisibleChildren(element);
 
     this->OnRemovedChild(*element);
     return true;
@@ -9790,7 +9839,7 @@ bool sw::UIElement::RemoveChild(UIElement *element)
     }
 
     this->_children.erase(it);
-    this->_UpdateLayoutVisibleChildren();
+    this->_RemoveFromLayoutVisibleChildren(element);
 
     this->OnRemovedChild(*element);
     return true;
@@ -10509,7 +10558,7 @@ bool sw::UIElement::SetParent(WndBase *parent)
                 auto it = std::find(oldParentElement->_children.begin(), oldParentElement->_children.end(), this);
                 if (it != oldParentElement->_children.end()) oldParentElement->_children.erase(it);
                 // 前面调用RemoveChild失败，当前元素仍在父元素的_layoutVisibleChildren中，此处手动调用更新
-                oldParentElement->_UpdateLayoutVisibleChildren();
+                oldParentElement->_RemoveFromLayoutVisibleChildren(this);
             }
             this->_parent = nullptr;
             return true;
@@ -10807,6 +10856,17 @@ void sw::UIElement::_UpdateLayoutVisibleChildren()
     for (UIElement *item : this->_children) {
         if (!item->_collapseWhenHide || item->Visible)
             this->_layoutVisibleChildren.push_back(item);
+    }
+}
+
+void sw::UIElement::_RemoveFromLayoutVisibleChildren(UIElement *element)
+{
+    auto it = std::find(
+        this->_layoutVisibleChildren.begin(),
+        this->_layoutVisibleChildren.end(), element);
+
+    if (it != this->_layoutVisibleChildren.end()) {
+        this->_layoutVisibleChildren.erase(it);
     }
 }
 
@@ -11263,17 +11323,24 @@ sw::Window::Window()
     SetIcon(_GetWindowDefaultIcon());
 }
 
+sw::Window::~Window()
+{
+    if (!IsDestroyed) {
+        DestroyWindow(Handle);
+    }
+}
+
 LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
         case WM_CREATE: {
             ++_windowCount;
-            return WndBase::WndProc(refMsg);
+            return TBase::WndProc(refMsg);
         }
 
         case WM_DESTROY: {
             _isDestroying = true;
-            auto result   = WndBase::WndProc(refMsg);
+            auto result   = TBase::WndProc(refMsg);
             bool quitted  = false;
             // 若当前窗口为模态窗口则在窗口关闭时退出消息循环
             if (_isModal) {
@@ -11293,7 +11360,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
                 _isFirstShow = false;
                 OnFirstShow();
             }
-            return WndBase::WndProc(refMsg);
+            return TBase::WndProc(refMsg);
         }
 
         case WM_GETMINMAXINFO: {
@@ -11338,7 +11405,7 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         default: {
-            return WndBase::WndProc(refMsg);
+            return TBase::WndProc(refMsg);
         }
     }
 }
@@ -11348,13 +11415,19 @@ sw::LayoutHost *sw::Window::GetDefaultLayout()
     return _defaultLayout.get();
 }
 
+bool sw::Window::OnCreate()
+{
+    return true;
+}
+
 bool sw::Window::OnClose()
 {
     WindowClosingEventArgs args;
     RaiseRoutedEvent(args);
 
     if (!args.cancel) {
-        UIElement::OnClose();
+        TBase::OnClose();
+        DestroyWindow(Handle);
     }
     return true;
 }
@@ -11409,7 +11482,7 @@ bool sw::Window::OnPaint()
 void sw::Window::OnMenuCommand(int id)
 {
     if (ContextMenu::IsContextMenuID(id)) {
-        UIElement::OnMenuCommand(id);
+        TBase::OnMenuCommand(id);
         return;
     }
     if (_menu) {
@@ -11421,7 +11494,7 @@ void sw::Window::OnMenuCommand(int id)
 void sw::Window::OnMinMaxSizeChanged()
 {
     if (!IsRootElement()) {
-        UIElement::OnMinMaxSizeChanged();
+        TBase::OnMinMaxSizeChanged();
     }
 
     HWND hwnd = Handle;
@@ -11517,12 +11590,12 @@ sw::Window *sw::Window::ToWindow()
 
 void sw::Window::Close()
 {
-    WndBase::Close();
+    TBase::Close();
 }
 
 void sw::Window::Show()
 {
-    WndBase::Show(SW_SHOW);
+    TBase::Show(SW_SHOW);
 }
 
 int sw::Window::ShowDialog(Window *owner)
@@ -11925,7 +11998,7 @@ sw::WndBase::WndBase()
 
 sw::WndBase::~WndBase()
 {
-    if (this->_hwnd != NULL) {
+    if (this->_hwnd != NULL && !this->_isDestroyed) {
         DestroyWindow(this->_hwnd);
     }
     if (this->_hfont != NULL) {
@@ -12416,18 +12489,17 @@ void sw::WndBase::SetInternalText(const std::wstring &value)
 
 bool sw::WndBase::OnCreate()
 {
-    return true;
+    return false;
 }
 
 bool sw::WndBase::OnClose()
 {
-    DestroyWindow(this->_hwnd);
-    return true;
+    return false;
 }
 
 bool sw::WndBase::OnDestroy()
 {
-    return true;
+    return false;
 }
 
 bool sw::WndBase::OnPaint()
@@ -12922,7 +12994,36 @@ LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 sw::WndBase *sw::WndBase::_GetControlInitContainer()
 {
-    static thread_local std::unique_ptr<WndBase> _container;
+    static thread_local class _ThreadGuard
+    {
+    public:
+        // 标记线程是否正在退出
+        bool exitflag = false;
+
+        // 控件初始容器
+        std::unique_ptr<WndBase> container;
+
+        // 线程退出时会调用析构函数
+        ~_ThreadGuard()
+        {
+            this->exitflag = true;
+
+            if (this->container != nullptr &&
+                !this->container->_isDestroyed) //
+            {
+                // 线程退出时，容器窗口一般还未被销毁，此时消息循环已经结束，
+                // 直接调用DestroyWindow无法销毁窗口，因此此处需要创建一个
+                // 临时消息循环，发送WM_CLOSE以确保窗口正常销毁。
+                this->container->PostMessageW(WM_CLOSE, 0, 0);
+
+                // 临时消息循环
+                for (MSG msg{}; GetMessageW(&msg, NULL, 0, 0);) {
+                    TranslateMessage(&msg);
+                    DispatchMessageW(&msg);
+                }
+            }
+        }
+    } _guard;
 
     class _ControlInitContainer : public WndBase
     {
@@ -12931,13 +13032,30 @@ sw::WndBase *sw::WndBase::_GetControlInitContainer()
         {
             this->InitWindow(L"", WS_POPUP, 0);
         }
+
+        LRESULT WndProc(const ProcMsg &refMsg) override
+        {
+            switch (refMsg.uMsg) {
+                case WM_CLOSE: {
+                    DestroyWindow(this->_hwnd);
+                    return 0;
+                }
+                case WM_NCDESTROY: {
+                    if (_guard.exitflag) PostQuitMessage(0);
+                    return this->WndBase::WndProc(refMsg);
+                }
+                default: {
+                    return this->WndBase::WndProc(refMsg);
+                }
+            }
+        }
     };
 
-    if (!_container || _container->_isDestroyed) {
-        _container = std::make_unique<_ControlInitContainer>();
+    if (_guard.container == nullptr ||
+        _guard.container->_isDestroyed) {
+        _guard.container = std::make_unique<_ControlInitContainer>();
     }
-
-    return _container.get();
+    return _guard.container.get();
 }
 
 int sw::WndBase::_NextControlId()

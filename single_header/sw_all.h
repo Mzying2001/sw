@@ -5856,8 +5856,8 @@ namespace sw
         /**
          * @brief      判断对象是否为指定类型
          * @tparam T   目标类型
-         * @param pout 如果不为 nullptr，则将转换后的指针赋值给该参数
-         * @return     如果对象为指定类型则返回 true，否则返回 false
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
          */
         template <typename T>
         bool IsType(T **pout = nullptr)
@@ -5866,6 +5866,23 @@ namespace sw
                 return dynamic_cast<T *>(this) != nullptr;
             } else {
                 *pout = dynamic_cast<T *>(this);
+                return *pout != nullptr;
+            }
+        }
+
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        bool IsType(const T **pout = nullptr) const
+        {
+            if (pout == nullptr) {
+                return dynamic_cast<const T *>(this) != nullptr;
+            } else {
+                *pout = dynamic_cast<const T *>(this);
                 return *pout != nullptr;
             }
         }
@@ -8616,7 +8633,17 @@ namespace sw
          */
         NotifyIcon();
 
+        /**
+         * @brief 析构函数
+         */
+        ~NotifyIcon();
+
     protected:
+        /**
+         * @brief 避免隐藏基类的OnContextMenu函数
+         */
+        using TBase::OnContextMenu;
+
         /**
          * @brief 对WndProc的封装
          */
@@ -9924,6 +9951,11 @@ namespace sw
         void _UpdateLayoutVisibleChildren();
 
         /**
+         * @brief 从_layoutVisibleChildren中移除指定元素
+         */
+        void _RemoveFromLayoutVisibleChildren(UIElement *element);
+
+        /**
          * @brief 循环获取界面树上的下一个节点
          */
         static UIElement *_GetNextElement(UIElement *element, bool searchChildren = true);
@@ -10982,6 +11014,12 @@ namespace sw
         virtual bool OnHorizontalScroll(int event, int pos) override;
 
         /**
+         * @brief           安排元素位置
+         * @param finalSize 最终元素所安排的位置
+         */
+        virtual void Arrange(const sw::Rect &finalPosition) override;
+
+        /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
          * @return              返回元素需要占用的尺寸
@@ -11878,6 +11916,12 @@ namespace sw
 
     protected:
         /**
+         * @brief           安排元素位置
+         * @param finalSize 最终元素所安排的位置
+         */
+        virtual void Arrange(const sw::Rect &finalPosition) override;
+
+        /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
          * @return              返回元素需要占用的尺寸
@@ -12671,6 +12715,11 @@ namespace sw
     {
     private:
         /**
+         * @brief 基类别名
+         */
+        using TBase = Layer;
+
+        /**
          * @brief 是否为第一次显示，该字段使StartupLocation生效
          */
         bool _isFirstShow = true;
@@ -12815,6 +12864,11 @@ namespace sw
          */
         Window();
 
+        /**
+         * @brief 析构函数
+         */
+        ~Window();
+
     protected:
         /**
          * @brief 对WndProc的封装
@@ -12825,6 +12879,12 @@ namespace sw
          * @brief 获取默认布局对象
          */
         virtual LayoutHost *GetDefaultLayout() override;
+
+        /**
+         * @brief  接收到WM_CREATE时调用该函数
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnCreate() override;
 
         /**
          * @brief  接收到WM_CLOSE时调用该函数
@@ -13063,6 +13123,11 @@ namespace sw
          * @brief 初始化BmpBox
          */
         BmpBox();
+
+        /**
+         * @brief 析构函数
+         */
+        ~BmpBox();
 
         /**
          * @brief         加载位图，该函数会复制一个位图句柄作为显示的位图
@@ -14576,6 +14641,11 @@ namespace sw
          */
         HwndHost();
 
+        /**
+         * @brief 析构函数
+         */
+        ~HwndHost();
+
     protected:
         /**
          * @brief 子类需要调用该函数以初始化HwndHost，该函数会调用BuildWindowCore
@@ -14643,6 +14713,11 @@ namespace sw
          * @brief 初始化IconBox
          */
         IconBox();
+
+        /**
+         * @brief 析构函数
+         */
+        ~IconBox();
 
         /**
          * @brief       加载图标，该函数会复制一个图标句柄作为显示的图标
@@ -15954,6 +16029,11 @@ namespace sw
          * @brief 线条颜色
          */
         const Property<Color> LineColor;
+
+        /**
+         * @brief 缩进宽度
+         */
+        const Property<double> IndentWidth;
 
     public:
         /**
