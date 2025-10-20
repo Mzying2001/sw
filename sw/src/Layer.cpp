@@ -285,6 +285,12 @@ bool sw::Layer::OnHorizontalScroll(int event, int pos)
     return true;
 }
 
+void sw::Layer::Arrange(const sw::Rect &finalPosition)
+{
+    this->UIElement::Arrange(finalPosition);
+    this->UpdateScrollRange();
+}
+
 sw::Size sw::Layer::MeasureOverride(const Size &availableSize)
 {
     LayoutHost *layout = this->_GetLayout();
@@ -312,8 +318,6 @@ void sw::Layer::ArrangeOverride(const Size &finalSize)
         // 已设置布局方式且AutoSize为true，此时子元素已Measure，调用Arrange即可
         layout->ArrangeOverride(finalSize);
     }
-
-    this->UpdateScrollRange();
 }
 
 bool sw::Layer::RequestBringIntoView(const sw::Rect &screenRect)

@@ -8,6 +8,11 @@ sw::PanelBase::~PanelBase()
 {
 }
 
+void sw::PanelBase::Arrange(const sw::Rect &finalPosition)
+{
+    this->Layer::Arrange(finalPosition);
+}
+
 sw::Size sw::PanelBase::MeasureOverride(const Size &availableSize)
 {
     return this->Layer::MeasureOverride(availableSize);
