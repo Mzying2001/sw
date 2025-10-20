@@ -84,6 +84,11 @@ namespace sw
          */
         NotifyIcon();
 
+        /**
+         * @brief 析构函数
+         */
+        ~NotifyIcon();
+
     protected:
         /**
          * @brief 避免隐藏基类的OnContextMenu函数

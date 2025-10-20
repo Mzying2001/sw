@@ -26,6 +26,13 @@ sw::BmpBox::BmpBox()
     this->Transparent = true;
 }
 
+sw::BmpBox::~BmpBox()
+{
+    if (!this->IsDestroyed) {
+        DestroyWindow(this->Handle);
+    }
+}
+
 HBITMAP sw::BmpBox::Load(HBITMAP hBitmap)
 {
     HBITMAP hNewBitmap = (HBITMAP)CopyImage(hBitmap, IMAGE_BITMAP, 0, 0, 0);

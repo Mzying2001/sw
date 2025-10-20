@@ -22,6 +22,13 @@ sw::IconBox::IconBox()
     this->Transparent = true;
 }
 
+sw::IconBox::~IconBox()
+{
+    if (!this->IsDestroyed) {
+        DestroyWindow(this->Handle);
+    }
+}
+
 HICON sw::IconBox::Load(HICON hIcon)
 {
     HICON hNewIcon = CopyIcon(hIcon);

@@ -31,6 +31,11 @@ namespace sw
          */
         HwndHost();
 
+        /**
+         * @brief 析构函数
+         */
+        ~HwndHost();
+
     protected:
         /**
          * @brief 子类需要调用该函数以初始化HwndHost，该函数会调用BuildWindowCore

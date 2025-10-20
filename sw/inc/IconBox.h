@@ -34,6 +34,11 @@ namespace sw
         IconBox();
 
         /**
+         * @brief 析构函数
+         */
+        ~IconBox();
+
+        /**
          * @brief       加载图标，该函数会复制一个图标句柄作为显示的图标
          * @param hIcon 要加载的图标
          * @return      加载到IconBox的图标句柄，若加载失败则返回NULL，该资源由IconBox内部管理，在加载新图标或控件销毁时会自动释放

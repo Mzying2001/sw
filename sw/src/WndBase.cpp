@@ -274,7 +274,7 @@ sw::WndBase::WndBase()
 
 sw::WndBase::~WndBase()
 {
-    if (this->_hwnd != NULL) {
+    if (this->_hwnd != NULL && !this->_isDestroyed) {
         DestroyWindow(this->_hwnd);
     }
     if (this->_hfont != NULL) {
