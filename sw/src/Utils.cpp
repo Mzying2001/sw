@@ -1,6 +1,7 @@
 #include "Utils.h"
 #include <Windows.h>
 #include <cstdarg>
+#include <wchar.h>
 
 std::wstring sw::Utils::ToWideStr(const std::string &str, bool utf8)
 {
@@ -78,15 +79,25 @@ std::vector<std::wstring> sw::Utils::Split(const std::wstring &str, const std::w
 std::wstring sw::Utils::FormatStr(const wchar_t *fmt, ...)
 {
     va_list args;
-
     va_start(args, fmt);
-    size_t len = std::vswprintf(nullptr, 0, fmt, args);
+
+    va_list argsCopy;
+    va_copy(argsCopy, args);
+
+    int len = vswprintf(nullptr, 0, fmt, argsCopy);
+    va_end(argsCopy);
+
+    if (len <= 0) {
+        va_end(args);
+        return std::wstring{};
+    }
+
+    std::wstring result;
+    result.resize(len + 1);
+
+    vswprintf(&result[0], result.size(), fmt, args);
     va_end(args);
 
-    std::wstring result(len + 1, L'\0');
-    va_start(args, fmt);
-    result.resize(std::vswprintf(&result[0], result.size(), fmt, args));
-    va_end(args);
-
+    result.resize(len);
     return result;
 }
