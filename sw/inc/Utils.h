@@ -4,6 +4,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace sw
@@ -193,6 +194,25 @@ namespace sw
          */
         template <typename TKey, typename TVal>
         static inline void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
+        {
+            auto beg = map.begin();
+            auto end = map.end();
+            wos << L"{";
+            for (auto it = beg; it != end; ++it) {
+                if (it != beg)
+                    wos << L", ";
+                Utils::_BuildStr(wos, it->first);
+                wos << L":";
+                Utils::_BuildStr(wos, it->second);
+            }
+            wos << L"}";
+        }
+
+        /**
+         * @brief 让BildStr函数支持std::unordered_map
+         */
+        template <typename TKey, typename TVal>
+        static inline void _BuildStr(std::wostream &wos, const std::unordered_map<TKey, TVal> &map)
         {
             auto beg = map.begin();
             auto end = map.end();
