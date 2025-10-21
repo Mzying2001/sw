@@ -6,6 +6,7 @@
 #include <map>
 #include <memory>
 #include <tuple>
+#include <unordered_map>
 #include <vector>
 
 namespace sw
@@ -57,7 +58,7 @@ namespace sw
         /**
          * @brief 记录每个菜单项直接依赖关系的map
          */
-        std::map<MenuItem *, _MenuItemDependencyInfo> _dependencyInfoMap;
+        std::unordered_map<MenuItem *, _MenuItemDependencyInfo> _dependencyInfoMap;
 
     protected:
         /**
