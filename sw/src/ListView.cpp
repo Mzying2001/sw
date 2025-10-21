@@ -255,25 +255,25 @@ void sw::ListView::OnCheckStateChanged(int index)
 
 void sw::ListView::OnHeaderItemClicked(NMHEADERW *pNMH)
 {
-    ListViewHeaderClickedEventArgs args(ListView_HeaderClicked, pNMH->iItem);
+    ListViewHeaderClickedEventArgs args(pNMH->iItem);
     this->RaiseRoutedEvent(args);
 }
 
 void sw::ListView::OnHeaderItemDoubleClicked(NMHEADERW *pNMH)
 {
-    ListViewHeaderClickedEventArgs args(ListView_HeaderDoubleClicked, pNMH->iItem);
+    ListViewHeaderDoubleClickedEventArgs args(pNMH->iItem);
     this->RaiseRoutedEvent(args);
 }
 
 void sw::ListView::OnItemClicked(NMITEMACTIVATE *pNMIA)
 {
-    ListViewItemClickedEventArgs args(ListView_ItemClicked, pNMIA->iItem, pNMIA->iSubItem);
+    ListViewItemClickedEventArgs args(pNMIA->iItem, pNMIA->iSubItem);
     this->RaiseRoutedEvent(args);
 }
 
 void sw::ListView::OnItemDoubleClicked(NMITEMACTIVATE *pNMIA)
 {
-    ListViewItemClickedEventArgs args(ListView_ItemDoubleClicked, pNMIA->iItem, pNMIA->iSubItem);
+    ListViewItemDoubleClickedEventArgs args(pNMIA->iItem, pNMIA->iSubItem);
     this->RaiseRoutedEvent(args);
 }
 
