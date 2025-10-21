@@ -308,42 +308,45 @@ sw::StrList sw::ListView::GetItemAt(int index)
     int cols = this->_GetColCount();
     if (cols <= 0) return result;
 
-    int bufsize     = _ListViewTextInitialBufferSize;
-    auto &resultVec = result.GetStdVector();
+    // int bufsize     = _ListViewTextInitialBufferSize;
+    // auto &resultVec = result.GetStdVector();
 
-    LVITEMW lvi{};
-    lvi.mask  = LVIF_TEXT;
-    lvi.iItem = index;
+    // LVITEMW lvi{};
+    // lvi.mask  = LVIF_TEXT;
+    // lvi.iItem = index;
+
+    // for (int j = 0; j < cols; ++j) {
+    //     lvi.iSubItem = j;
+    //     resultVec.emplace_back();
+
+    //     auto &str = resultVec.back();
+    //     str.resize(bufsize);
+
+    //     while (true) {
+    //         lvi.pszText    = &str[0];
+    //         lvi.cchTextMax = bufsize;
+
+    //         int len = (int)this->SendMessageW(
+    //             LVM_GETITEMTEXTW, index, reinterpret_cast<LPARAM>(&lvi));
+
+    //         if (len <= 0) {
+    //             str.clear();
+    //             break;
+    //         }
+
+    //         if (len < bufsize - 1 || bufsize >= INT_MAX / 2) {
+    //             str.resize(len);
+    //             break;
+    //         } else {
+    //             bufsize *= 2;
+    //             str.resize(bufsize);
+    //         }
+    //     }
+    // }
 
     for (int j = 0; j < cols; ++j) {
-        lvi.iSubItem = j;
-        resultVec.emplace_back();
-
-        auto &str = resultVec.back();
-        str.resize(bufsize);
-
-        while (true) {
-            lvi.pszText    = &str[0];
-            lvi.cchTextMax = bufsize;
-
-            int len = (int)this->SendMessageW(
-                LVM_GETITEMTEXTW, index, reinterpret_cast<LPARAM>(&lvi));
-
-            if (len <= 0) {
-                str.clear();
-                break;
-            }
-
-            if (len < bufsize - 1 || bufsize >= INT_MAX / 2) {
-                str.resize(len);
-                break;
-            } else {
-                bufsize *= 2;
-                str.resize(bufsize);
-            }
-        }
+        result.Append(this->GetItemAt(index, j));
     }
-
     return result;
 }
 
