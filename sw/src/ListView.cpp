@@ -403,13 +403,15 @@ bool sw::ListView::RemoveItemAt(int index)
 
 std::wstring sw::ListView::GetItemAt(int row, int col)
 {
-    std::wstring result;
     int bufsize = _ListViewTextInitialBufferSize;
 
     LVITEMW lvi{};
     lvi.mask     = LVIF_TEXT;
     lvi.iItem    = row;
     lvi.iSubItem = col;
+
+    std::wstring result;
+    result.resize(bufsize);
 
     while (true) {
         lvi.pszText    = &result[0];
