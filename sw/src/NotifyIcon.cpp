@@ -148,7 +148,7 @@ void sw::NotifyIcon::OnNotyfyIconMessage(WPARAM wParam, LPARAM lParam)
             break;
         }
         case WM_RBUTTONUP: {
-            OnContextMenu(Screen::CursorPosition);
+            OnContextMenuOpening(Screen::CursorPosition);
             break;
         }
     }
@@ -168,7 +168,7 @@ void sw::NotifyIcon::OnDoubleClicked(const Point &mousePos)
     }
 }
 
-void sw::NotifyIcon::OnContextMenu(const Point &mousePos)
+void sw::NotifyIcon::OnContextMenuOpening(const Point &mousePos)
 {
     bool handled = false;
 

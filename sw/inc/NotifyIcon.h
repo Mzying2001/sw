@@ -74,7 +74,7 @@ namespace sw
         NotifyIconMouseEventHandler DoubleClicked;
 
         /**
-         * @brief 当图标被右键单击时触发该事件
+         * @brief 打开上下文菜单前触发该事件
          */
         NotifyIconMouseEventHandler ContextMenuOpening;
 
@@ -90,11 +90,6 @@ namespace sw
         ~NotifyIcon();
 
     protected:
-        /**
-         * @brief 避免隐藏基类的OnContextMenu函数
-         */
-        using TBase::OnContextMenu;
-
         /**
          * @brief 对WndProc的封装
          */
@@ -124,10 +119,10 @@ namespace sw
         virtual void OnDoubleClicked(const Point &mousePos);
 
         /**
-         * @brief          鼠标右键单击图标时调用该函数
+         * @brief          打开上下文菜单前调用该函数
          * @param mousePos 鼠标位置
          */
-        virtual void OnContextMenu(const Point &mousePos);
+        virtual void OnContextMenuOpening(const Point &mousePos);
 
         /**
          * @brief 获取通知图标数据
