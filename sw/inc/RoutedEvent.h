@@ -90,13 +90,13 @@ namespace sw
         // 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
         ListView_HeaderClicked,
 
-        // 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
+        // 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderDoubleClickedEventArgs
         ListView_HeaderDoubleClicked,
 
         // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
         ListView_ItemClicked,
 
-        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
+        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemDoubleClickedEventArgs
         ListView_ItemDoubleClicked,
 
         // 编辑状态结束，参数类型为sw::ListViewEndEditEventArgs

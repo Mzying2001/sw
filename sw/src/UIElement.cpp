@@ -498,8 +498,10 @@ bool sw::UIElement::ShowContextMenu(const Point &point, sw::HorizontalAlignment 
         }
     }
 
-    POINT p = point;
-    return TrackPopupMenu(hMenu, uFlags, p.x, p.y, 0, this->Handle, nullptr);
+    POINT pos = point;
+    HWND hwnd = this->Handle;
+    SetForegroundWindow(hwnd); // 确保菜单能正确关闭
+    return TrackPopupMenu(hMenu, uFlags, pos.x, pos.y, 0, hwnd, nullptr);
 }
 
 void sw::UIElement::MoveToTop()
