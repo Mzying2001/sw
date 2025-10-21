@@ -156,15 +156,15 @@ void sw::NotifyIcon::OnNotyfyIconMessage(WPARAM wParam, LPARAM lParam)
 
 void sw::NotifyIcon::OnClicked(const Point &mousePos)
 {
-    if (ClickedHandler) {
-        ClickedHandler(*this, mousePos);
+    if (Clicked) {
+        Clicked(*this, mousePos);
     }
 }
 
 void sw::NotifyIcon::OnDoubleClicked(const Point &mousePos)
 {
-    if (DoubleClickedHandler) {
-        DoubleClickedHandler(*this, mousePos);
+    if (DoubleClicked) {
+        DoubleClicked(*this, mousePos);
     }
 }
 
@@ -172,8 +172,8 @@ void sw::NotifyIcon::OnContextMenu(const Point &mousePos)
 {
     bool handled = false;
 
-    if (ContextMenuHandler) {
-        handled = ContextMenuHandler(*this, mousePos);
+    if (ContextMenuOpening) {
+        handled = ContextMenuOpening(*this, mousePos);
     }
 
     if (!handled) {

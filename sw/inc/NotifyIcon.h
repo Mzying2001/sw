@@ -66,17 +66,17 @@ namespace sw
         /**
          * @brief 当图标被单击时触发该事件
          */
-        NotifyIconMouseEventHandler ClickedHandler;
+        NotifyIconMouseEventHandler Clicked;
 
         /**
          * @brief 当图标被双击时触发该事件
          */
-        NotifyIconMouseEventHandler DoubleClickedHandler;
+        NotifyIconMouseEventHandler DoubleClicked;
 
         /**
          * @brief 当图标被右键单击时触发该事件
          */
-        NotifyIconMouseEventHandler ContextMenuHandler;
+        NotifyIconMouseEventHandler ContextMenuOpening;
 
     public:
         /**
