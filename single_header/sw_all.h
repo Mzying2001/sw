@@ -4622,13 +4622,13 @@ namespace sw
         // 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
         ListView_HeaderClicked,
 
-        // 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
+        // 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderDoubleClickedEventArgs
         ListView_HeaderDoubleClicked,
 
         // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
         ListView_ItemClicked,
 
-        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
+        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemDoubleClickedEventArgs
         ListView_ItemDoubleClicked,
 
         // 编辑状态结束，参数类型为sw::ListViewEndEditEventArgs
@@ -6051,7 +6051,7 @@ namespace sw
      * @brief 模板特化：当T包含EventType时，将_IsTypedRoutedEventArgs<T>设为std::true_type
      */
     template <typename T>
-    struct _HasEventType<T, decltype(void(std::declval<T>().EventType))> : std::true_type {
+    struct _HasEventType<T, decltype(void(T::EventType))> : std::true_type {
     };
 
     /**
@@ -6194,22 +6194,37 @@ namespace sw
     };
 
     /**
-     * @brief 列表视图的列标题单击与双击事件参数类型
+     * @brief 列表视图的列标题单击事件参数类型
      */
-    struct ListViewHeaderClickedEventArgs : RoutedEventArgs {
+    struct ListViewHeaderClickedEventArgs : TypedRoutedEventArgs<ListView_HeaderClicked> {
         int index; // 被点击列标题的索引
-        ListViewHeaderClickedEventArgs(RoutedEventType eventType, int index)
-            : RoutedEventArgs(eventType), index(index) {}
+        ListViewHeaderClickedEventArgs(int index) : index(index) {}
     };
 
     /**
-     * @brief 列表视图项单击与双击事件参数类型
+     * @brief 列表视图的列标题双击事件参数类型
      */
-    struct ListViewItemClickedEventArgs : RoutedEventArgs {
+    struct ListViewHeaderDoubleClickedEventArgs : TypedRoutedEventArgs<ListView_HeaderDoubleClicked> {
+        int index; // 被点击列标题的索引
+        ListViewHeaderDoubleClickedEventArgs(int index) : index(index) {}
+    };
+
+    /**
+     * @brief 列表视图项单击事件参数类型
+     */
+    struct ListViewItemClickedEventArgs : TypedRoutedEventArgs<ListView_ItemClicked> {
         int row; // 被点击的行
         int col; // 被点击的列
-        ListViewItemClickedEventArgs(RoutedEventType eventType, int row, int col)
-            : RoutedEventArgs(eventType), row(row), col(col) {}
+        ListViewItemClickedEventArgs(int row, int col) : row(row), col(col) {}
+    };
+
+    /**
+     * @brief 列表视图项双击事件参数类型
+     */
+    struct ListViewItemDoubleClickedEventArgs : TypedRoutedEventArgs<ListView_ItemDoubleClicked> {
+        int row; // 被点击的行
+        int col; // 被点击的列
+        ListViewItemDoubleClickedEventArgs(int row, int col) : row(row), col(col) {}
     };
 
     /**
@@ -6281,14 +6296,29 @@ namespace sw
 
     public:
         /**
-         * @brief 屏幕宽度
+         * @brief 主屏幕宽度
          */
         static const ReadOnlyProperty<double> Width;
 
         /**
-         * @brief 屏幕高度
+         * @brief 主屏幕高度
          */
         static const ReadOnlyProperty<double> Height;
+
+        /**
+         * @brief 主屏幕尺寸
+         */
+        static const ReadOnlyProperty<sw::Size> Size;
+
+        /**
+         * @brief 虚拟屏幕尺寸
+         */
+        static const ReadOnlyProperty<sw::Size> VirtualSize;
+
+        /**
+         * @brief 虚拟屏幕原点坐标
+         */
+        static const ReadOnlyProperty<Point> VirtualOrigin;
 
         /**
          * @brief 鼠标在屏幕中的位置

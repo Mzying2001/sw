@@ -4,6 +4,7 @@
 #include <climits>
 #include <deque>
 #include <cstdarg>
+#include <wchar.h>
 #include <atomic>
 
 // Animation.cpp
@@ -5368,25 +5369,25 @@ void sw::ListView::OnCheckStateChanged(int index)
 
 void sw::ListView::OnHeaderItemClicked(NMHEADERW *pNMH)
 {
-    ListViewHeaderClickedEventArgs args(ListView_HeaderClicked, pNMH->iItem);
+    ListViewHeaderClickedEventArgs args(pNMH->iItem);
     this->RaiseRoutedEvent(args);
 }
 
 void sw::ListView::OnHeaderItemDoubleClicked(NMHEADERW *pNMH)
 {
-    ListViewHeaderClickedEventArgs args(ListView_HeaderDoubleClicked, pNMH->iItem);
+    ListViewHeaderDoubleClickedEventArgs args(pNMH->iItem);
     this->RaiseRoutedEvent(args);
 }
 
 void sw::ListView::OnItemClicked(NMITEMACTIVATE *pNMIA)
 {
-    ListViewItemClickedEventArgs args(ListView_ItemClicked, pNMIA->iItem, pNMIA->iSubItem);
+    ListViewItemClickedEventArgs args(pNMIA->iItem, pNMIA->iSubItem);
     this->RaiseRoutedEvent(args);
 }
 
 void sw::ListView::OnItemDoubleClicked(NMITEMACTIVATE *pNMIA)
 {
-    ListViewItemClickedEventArgs args(ListView_ItemDoubleClicked, pNMIA->iItem, pNMIA->iSubItem);
+    ListViewItemDoubleClickedEventArgs args(pNMIA->iItem, pNMIA->iSubItem);
     this->RaiseRoutedEvent(args);
 }
 
@@ -5415,36 +5416,51 @@ sw::StrList sw::ListView::GetItemAt(int index)
     StrList result;
     if (index < 0) return result;
 
-    int row = this->_GetRowCount();
-    if (row <= 0 || index >= row) return result;
+    int rows = this->_GetRowCount();
+    if (rows <= 0 || index >= rows) return result;
 
-    int col = this->_GetColCount();
-    if (col <= 0) return result;
+    int cols = this->_GetColCount();
+    if (cols <= 0) return result;
 
-    int bufsize = _ListViewTextInitialBufferSize;
-    std::unique_ptr<wchar_t[]> buf(new wchar_t[bufsize]);
+    // int bufsize     = _ListViewTextInitialBufferSize;
+    // auto &resultVec = result.GetStdVector();
 
-    LVITEMW lvi;
-    lvi.mask       = LVIF_TEXT;
-    lvi.iItem      = index;
-    lvi.pszText    = buf.get();
-    lvi.cchTextMax = bufsize;
+    // LVITEMW lvi{};
+    // lvi.mask  = LVIF_TEXT;
+    // lvi.iItem = index;
 
-    for (int j = 0; j < col; ++j) {
-        lvi.iSubItem = j;
+    // for (int j = 0; j < cols; ++j) {
+    //     lvi.iSubItem = j;
+    //     resultVec.emplace_back();
 
-        int len = (int)this->SendMessageW(LVM_GETITEMTEXTW, index, reinterpret_cast<LPARAM>(&lvi));
-        while (len == bufsize - 1 && bufsize < INT_MAX / 2) {
-            bufsize *= 2;
-            buf.reset(new wchar_t[bufsize]);
-            lvi.pszText    = buf.get();
-            lvi.cchTextMax = bufsize;
-            len            = (int)this->SendMessageW(LVM_GETITEMTEXTW, index, reinterpret_cast<LPARAM>(&lvi));
-        }
+    //     auto &str = resultVec.back();
+    //     str.resize(bufsize);
 
-        result.Append(buf.get());
+    //     while (true) {
+    //         lvi.pszText    = &str[0];
+    //         lvi.cchTextMax = bufsize;
+
+    //         int len = (int)this->SendMessageW(
+    //             LVM_GETITEMTEXTW, index, reinterpret_cast<LPARAM>(&lvi));
+
+    //         if (len <= 0) {
+    //             str.clear();
+    //             break;
+    //         }
+
+    //         if (len < bufsize - 1 || bufsize >= INT_MAX / 2) {
+    //             str.resize(len);
+    //             break;
+    //         } else {
+    //             bufsize *= 2;
+    //             str.resize(bufsize);
+    //         }
+    //     }
+    // }
+
+    for (int j = 0; j < cols; ++j) {
+        result.Append(this->GetItemAt(index, j));
     }
-
     return result;
 }
 
@@ -5504,28 +5520,37 @@ bool sw::ListView::RemoveItemAt(int index)
 
 std::wstring sw::ListView::GetItemAt(int row, int col)
 {
-    std::wstring result;
-
     int bufsize = _ListViewTextInitialBufferSize;
+
+    LVITEMW lvi{};
+    lvi.mask     = LVIF_TEXT;
+    lvi.iItem    = row;
+    lvi.iSubItem = col;
+
+    std::wstring result;
     result.resize(bufsize);
 
-    LVITEMW lvi;
-    lvi.mask       = LVIF_TEXT;
-    lvi.iItem      = row;
-    lvi.iSubItem   = col;
-    lvi.pszText    = &result[0];
-    lvi.cchTextMax = bufsize;
-
-    int len = (int)this->SendMessageW(LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
-    while (len == bufsize - 1 && bufsize < INT_MAX / 2) {
-        bufsize *= 2;
-        result.resize(bufsize);
+    while (true) {
         lvi.pszText    = &result[0];
         lvi.cchTextMax = bufsize;
-        len            = (int)this->SendMessageW(LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
+
+        int len = (int)this->SendMessageW(
+            LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
+
+        if (len <= 0) {
+            result.clear();
+            break;
+        }
+
+        if (len < bufsize - 1 || bufsize >= INT_MAX / 2) {
+            result.resize(len);
+            break;
+        } else {
+            bufsize *= 2;
+            result.resize(bufsize);
+        }
     }
 
-    result.resize(len);
     return result;
 }
 
@@ -7315,6 +7340,30 @@ const sw::ReadOnlyProperty<double> sw::Screen::Width(
 const sw::ReadOnlyProperty<double> sw::Screen::Height(
     []() -> double {
         return Dip::PxToDipY(GetSystemMetrics(SM_CYSCREEN));
+    } //
+);
+
+const sw::ReadOnlyProperty<sw::Size> sw::Screen::Size(
+    []() -> sw::Size {
+        return sw::Size{
+            Dip::PxToDipX(GetSystemMetrics(SM_CXSCREEN)),
+            Dip::PxToDipY(GetSystemMetrics(SM_CYSCREEN))};
+    } //
+);
+
+const sw::ReadOnlyProperty<sw::Size> sw::Screen::VirtualSize(
+    []() -> sw::Size {
+        return sw::Size{
+            Dip::PxToDipX(GetSystemMetrics(SM_CXVIRTUALSCREEN)),
+            Dip::PxToDipY(GetSystemMetrics(SM_CYVIRTUALSCREEN))};
+    } //
+);
+
+const sw::ReadOnlyProperty<sw::Point> sw::Screen::VirtualOrigin(
+    []() -> sw::Point {
+        return sw::Point{
+            Dip::PxToDipX(GetSystemMetrics(SM_XVIRTUALSCREEN)),
+            Dip::PxToDipY(GetSystemMetrics(SM_YVIRTUALSCREEN))};
     } //
 );
 
@@ -9930,8 +9979,10 @@ bool sw::UIElement::ShowContextMenu(const Point &point, sw::HorizontalAlignment 
         }
     }
 
-    POINT p = point;
-    return TrackPopupMenu(hMenu, uFlags, p.x, p.y, 0, this->Handle, nullptr);
+    POINT pos = point;
+    HWND hwnd = this->Handle;
+    SetForegroundWindow(hwnd); // 确保菜单能正确关闭
+    return TrackPopupMenu(hMenu, uFlags, pos.x, pos.y, 0, hwnd, nullptr);
 }
 
 void sw::UIElement::MoveToTop()
@@ -11092,16 +11143,26 @@ std::vector<std::wstring> sw::Utils::Split(const std::wstring &str, const std::w
 std::wstring sw::Utils::FormatStr(const wchar_t *fmt, ...)
 {
     va_list args;
-
     va_start(args, fmt);
-    size_t len = std::vswprintf(nullptr, 0, fmt, args);
+
+    va_list argsCopy;
+    va_copy(argsCopy, args);
+
+    int len = vswprintf(nullptr, 0, fmt, argsCopy);
+    va_end(argsCopy);
+
+    if (len <= 0) {
+        va_end(args);
+        return std::wstring{};
+    }
+
+    std::wstring result;
+    result.resize(len + 1);
+
+    vswprintf(&result[0], result.size(), fmt, args);
     va_end(args);
 
-    std::wstring result(len + 1, L'\0');
-    va_start(args, fmt);
-    result.resize(std::vswprintf(&result[0], result.size(), fmt, args));
-    va_end(args);
-
+    result.resize(len);
     return result;
 }
 
