@@ -1,4 +1,5 @@
 #include "ListView.h"
+#include <climits>
 #include <cmath>
 #include <memory>
 
@@ -301,34 +302,46 @@ sw::StrList sw::ListView::GetItemAt(int index)
     StrList result;
     if (index < 0) return result;
 
-    int row = this->_GetRowCount();
-    if (row <= 0 || index >= row) return result;
+    int rows = this->_GetRowCount();
+    if (rows <= 0 || index >= rows) return result;
 
-    int col = this->_GetColCount();
-    if (col <= 0) return result;
+    int cols = this->_GetColCount();
+    if (cols <= 0) return result;
 
-    int bufsize = _ListViewTextInitialBufferSize;
-    std::unique_ptr<wchar_t[]> buf(new wchar_t[bufsize]);
+    int bufsize     = _ListViewTextInitialBufferSize;
+    auto &resultVec = result.GetStdVector();
 
-    LVITEMW lvi;
-    lvi.mask       = LVIF_TEXT;
-    lvi.iItem      = index;
-    lvi.pszText    = buf.get();
-    lvi.cchTextMax = bufsize;
+    LVITEMW lvi{};
+    lvi.mask  = LVIF_TEXT;
+    lvi.iItem = index;
 
-    for (int j = 0; j < col; ++j) {
+    for (int j = 0; j < cols; ++j) {
         lvi.iSubItem = j;
+        resultVec.emplace_back();
 
-        int len = (int)this->SendMessageW(LVM_GETITEMTEXTW, index, reinterpret_cast<LPARAM>(&lvi));
-        while (len == bufsize - 1 && bufsize < INT_MAX / 2) {
-            bufsize *= 2;
-            buf.reset(new wchar_t[bufsize]);
-            lvi.pszText    = buf.get();
+        auto &str = resultVec.back();
+        str.resize(bufsize);
+
+        while (true) {
+            lvi.pszText    = &str[0];
             lvi.cchTextMax = bufsize;
-            len            = (int)this->SendMessageW(LVM_GETITEMTEXTW, index, reinterpret_cast<LPARAM>(&lvi));
-        }
 
-        result.Append(buf.get());
+            int len = (int)this->SendMessageW(
+                LVM_GETITEMTEXTW, index, reinterpret_cast<LPARAM>(&lvi));
+
+            if (len <= 0) {
+                str.clear();
+                break;
+            }
+
+            if (len < bufsize - 1 || bufsize >= INT_MAX / 2) {
+                str.resize(len);
+                break;
+            } else {
+                bufsize *= 2;
+                str.resize(bufsize);
+            }
+        }
     }
 
     return result;
@@ -391,27 +404,34 @@ bool sw::ListView::RemoveItemAt(int index)
 std::wstring sw::ListView::GetItemAt(int row, int col)
 {
     std::wstring result;
-
     int bufsize = _ListViewTextInitialBufferSize;
-    result.resize(bufsize);
 
-    LVITEMW lvi;
-    lvi.mask       = LVIF_TEXT;
-    lvi.iItem      = row;
-    lvi.iSubItem   = col;
-    lvi.pszText    = &result[0];
-    lvi.cchTextMax = bufsize;
+    LVITEMW lvi{};
+    lvi.mask     = LVIF_TEXT;
+    lvi.iItem    = row;
+    lvi.iSubItem = col;
 
-    int len = (int)this->SendMessageW(LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
-    while (len == bufsize - 1 && bufsize < INT_MAX / 2) {
-        bufsize *= 2;
-        result.resize(bufsize);
+    while (true) {
         lvi.pszText    = &result[0];
         lvi.cchTextMax = bufsize;
-        len            = (int)this->SendMessageW(LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
+
+        int len = (int)this->SendMessageW(
+            LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
+
+        if (len <= 0) {
+            result.clear();
+            break;
+        }
+
+        if (len < bufsize - 1 || bufsize >= INT_MAX / 2) {
+            result.resize(len);
+            break;
+        } else {
+            bufsize *= 2;
+            result.resize(bufsize);
+        }
     }
 
-    result.resize(len);
     return result;
 }
 
