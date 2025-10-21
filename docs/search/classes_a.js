@@ -12,5 +12,7 @@ var searchData=
   ['listviewcolumn_9',['ListViewColumn',['../structsw_1_1ListViewColumn.html',1,'sw']]],
   ['listviewendediteventargs_10',['ListViewEndEditEventArgs',['../structsw_1_1ListViewEndEditEventArgs.html',1,'sw']]],
   ['listviewheaderclickedeventargs_11',['ListViewHeaderClickedEventArgs',['../structsw_1_1ListViewHeaderClickedEventArgs.html',1,'sw']]],
-  ['listviewitemclickedeventargs_12',['ListViewItemClickedEventArgs',['../structsw_1_1ListViewItemClickedEventArgs.html',1,'sw']]]
+  ['listviewheaderdoubleclickedeventargs_12',['ListViewHeaderDoubleClickedEventArgs',['../structsw_1_1ListViewHeaderDoubleClickedEventArgs.html',1,'sw']]],
+  ['listviewitemclickedeventargs_13',['ListViewItemClickedEventArgs',['../structsw_1_1ListViewItemClickedEventArgs.html',1,'sw']]],
+  ['listviewitemdoubleclickedeventargs_14',['ListViewItemDoubleClickedEventArgs',['../structsw_1_1ListViewItemDoubleClickedEventArgs.html',1,'sw']]]
 ];

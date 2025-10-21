@@ -359,6 +359,7 @@ var hierarchy =
       [ "sw::ReadOnlyProperty< HICON >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< TItem >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Rect >", "classsw_1_1ReadOnlyProperty.html", null ],
+      [ "sw::ReadOnlyProperty< sw::Size >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Point >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::TreeViewNode >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::UIElement * >", "classsw_1_1ReadOnlyProperty.html", null ],
@@ -409,6 +410,7 @@ var hierarchy =
     [ "sw::PropertyBase< sw::Point, ReadOnlyProperty< sw::Point > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Rect, Property< sw::Rect > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Rect, ReadOnlyProperty< sw::Rect > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< sw::Size, ReadOnlyProperty< sw::Size > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::TextTrimming, Property< sw::TextTrimming > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Thickness, Property< sw::Thickness > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::TreeViewNode, ReadOnlyProperty< sw::TreeViewNode > >", "classsw_1_1PropertyBase.html", null ],
@@ -466,6 +468,18 @@ var hierarchy =
       [ "sw::TypedRoutedEventArgs< ListView_EndEdit >", "structsw_1_1TypedRoutedEventArgs.html", [
         [ "sw::ListViewEndEditEventArgs", "structsw_1_1ListViewEndEditEventArgs.html", null ]
       ] ],
+      [ "sw::TypedRoutedEventArgs< ListView_HeaderClicked >", "structsw_1_1TypedRoutedEventArgs.html", [
+        [ "sw::ListViewHeaderClickedEventArgs", "structsw_1_1ListViewHeaderClickedEventArgs.html", null ]
+      ] ],
+      [ "sw::TypedRoutedEventArgs< ListView_HeaderDoubleClicked >", "structsw_1_1TypedRoutedEventArgs.html", [
+        [ "sw::ListViewHeaderDoubleClickedEventArgs", "structsw_1_1ListViewHeaderDoubleClickedEventArgs.html", null ]
+      ] ],
+      [ "sw::TypedRoutedEventArgs< ListView_ItemClicked >", "structsw_1_1TypedRoutedEventArgs.html", [
+        [ "sw::ListViewItemClickedEventArgs", "structsw_1_1ListViewItemClickedEventArgs.html", null ]
+      ] ],
+      [ "sw::TypedRoutedEventArgs< ListView_ItemDoubleClicked >", "structsw_1_1TypedRoutedEventArgs.html", [
+        [ "sw::ListViewItemDoubleClickedEventArgs", "structsw_1_1ListViewItemDoubleClickedEventArgs.html", null ]
+      ] ],
       [ "sw::TypedRoutedEventArgs< MonthCalendar_TimeChanged >", "structsw_1_1TypedRoutedEventArgs.html", [
         [ "sw::MonthCalendarTimeChangedEventArgs", "structsw_1_1MonthCalendarTimeChangedEventArgs.html", null ]
       ] ],
@@ -509,8 +523,6 @@ var hierarchy =
       [ "sw::TypedRoutedEventArgs< Window_Closing >", "structsw_1_1TypedRoutedEventArgs.html", [
         [ "sw::WindowClosingEventArgs", "structsw_1_1WindowClosingEventArgs.html", null ]
       ] ],
-      [ "sw::ListViewHeaderClickedEventArgs", "structsw_1_1ListViewHeaderClickedEventArgs.html", null ],
-      [ "sw::ListViewItemClickedEventArgs", "structsw_1_1ListViewItemClickedEventArgs.html", null ],
       [ "sw::TypedRoutedEventArgs< TYPE >", "structsw_1_1TypedRoutedEventArgs.html", null ]
     ] ],
     [ "sw::Screen", "classsw_1_1Screen.html", null ],
@@ -519,7 +531,7 @@ var hierarchy =
       [ "sw::UIElement::_CanAddChild< T, decltype(void(std::declval< UIElement >().AddChild(std::declval< T >())))>", "structsw_1_1UIElement_1_1__CanAddChild_3_01T_00_01decltype_07void_07std_1_1declval_3_01UIElementc4e59a28561b2f6c76501e41deec6964.html", null ],
       [ "sw::_BracketOperationHelper< T, U, decltype(void(std::declval< T >()[std::declval< U >()]))>", "structsw_1_1__BracketOperationHelper_3_01T_00_01U_00_01decltype_07void_07std_1_1declval_3_01T_015d7340010b451efba17696e1bdb8739b.html", null ],
       [ "sw::_HasArrowOperator< T, typename std::enable_if< _HasArrowOperatorVs2015Fix< T >::value >::type >", "structsw_1_1__HasArrowOperator_3_01T_00_01typename_01std_1_1enable__if_3_01__HasArrowOperatorVs293feea522a622808e377a95351f242a0.html", null ],
-      [ "sw::_HasEventType< T, decltype(void(std::declval< T >().EventType))>", "structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07std_1_1declval_3_01T_01_4_07_08_8EventType_08_08_4.html", null ],
+      [ "sw::_HasEventType< T, decltype(void(T::EventType))>", "structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07T_1_1EventType_08_08_4.html", null ],
       [ "sw::_HasGetterImpl< T, decltype(void(&T::GetterImpl))>", "structsw_1_1__HasGetterImpl_3_01T_00_01decltype_07void_07_6T_1_1GetterImpl_08_08_4.html", null ],
       [ "sw::_HasSetterImpl< T, decltype(void(&T::SetterImpl))>", "structsw_1_1__HasSetterImpl_3_01T_00_01decltype_07void_07_6T_1_1SetterImpl_08_08_4.html", null ],
       [ "sw::_IsExplicitlyConvertable< TFrom, TTo, decltype(void(static_cast< TTo >(std::declval< TFrom >())))>", "structsw_1_1__IsExplicitlyConvertable_3_01TFrom_00_01TTo_00_01decltype_07void_07static__cast_3_0766a7d13d8d3f2686094df45a1f1184e.html", null ]

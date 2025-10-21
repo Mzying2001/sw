@@ -53,7 +53,7 @@ var NAVTREEINDEX =
 "classsw_1_1ReadOnlyPropertyLite.html#a66de2e632fc19588cd73795ed74caec1",
 "classsw_1_1UIElement.html#a5c452519bad920ad9b91f9610ea202e0",
 "classsw_1_1WndBase.html#ac34494921eed0f67a053a9393d78bcf9",
-"structsw_1_1MsgBoxResultHelper.html#abd3fc502f5891ab9339d58d213558107"
+"structsw_1_1MsgBoxResultHelper.html#a6769260aa667afcbd5ae5cc0f3cb4d54"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

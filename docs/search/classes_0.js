@@ -13,7 +13,7 @@ var searchData=
   ['_5fhasarrowoperator_3c_20t_2c_20typename_20std_3a_3aenable_5fif_3c_20_5fhasarrowoperatorvs2015fix_3c_20t_20_3e_3a_3avalue_20_3e_3a_3atype_20_3e_10',['_HasArrowOperator&lt; T, typename std::enable_if&lt; _HasArrowOperatorVs2015Fix&lt; T &gt;::value &gt;::type &gt;',['../structsw_1_1__HasArrowOperator_3_01T_00_01typename_01std_1_1enable__if_3_01__HasArrowOperatorVs293feea522a622808e377a95351f242a0.html',1,'sw']]],
   ['_5fhasarrowoperatorvs2015fix_11',['_HasArrowOperatorVs2015Fix',['../structsw_1_1__HasArrowOperatorVs2015Fix.html',1,'sw']]],
   ['_5fhaseventtype_12',['_HasEventType',['../structsw_1_1__HasEventType.html',1,'sw']]],
-  ['_5fhaseventtype_3c_20t_2c_20decltype_28void_28std_3a_3adeclval_3c_20t_20_3e_28_29_2eeventtype_29_29_3e_13',['_HasEventType&lt; T, decltype(void(std::declval&lt; T &gt;().EventType))&gt;',['../structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07std_1_1declval_3_01T_01_4_07_08_8EventType_08_08_4.html',1,'sw']]],
+  ['_5fhaseventtype_3c_20t_2c_20decltype_28void_28t_3a_3aeventtype_29_29_3e_13',['_HasEventType&lt; T, decltype(void(T::EventType))&gt;',['../structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07T_1_1EventType_08_08_4.html',1,'sw']]],
   ['_5fhasgetterimpl_14',['_HasGetterImpl',['../structsw_1_1__HasGetterImpl.html',1,'sw']]],
   ['_5fhasgetterimpl_3c_20t_2c_20decltype_28void_28_26t_3a_3agetterimpl_29_29_3e_15',['_HasGetterImpl&lt; T, decltype(void(&amp;T::GetterImpl))&gt;',['../structsw_1_1__HasGetterImpl_3_01T_00_01decltype_07void_07_6T_1_1GetterImpl_08_08_4.html',1,'sw']]],
   ['_5fhassetterimpl_16',['_HasSetterImpl',['../structsw_1_1__HasSetterImpl.html',1,'sw']]],
