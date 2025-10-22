@@ -349,10 +349,7 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
 
     WndBase::_SetWndBase(this->_hwnd, *this);
 
-    RECT rect;
-    GetWindowRect(this->_hwnd, &rect);
-    this->_rect = rect;
-
+    this->UpdateInternalRect();
     this->HandleInitialized(this->_hwnd);
     this->UpdateFont();
 }
@@ -734,25 +731,6 @@ LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
     }
 }
 
-void sw::WndBase::UpdateInternalText()
-{
-    int len = GetWindowTextLengthW(this->_hwnd);
-
-    if (len <= 0) {
-        this->_text.clear();
-        return;
-    }
-
-    // wchar_t *buf = new wchar_t[len + 1];
-    // GetWindowTextW(this->_hwnd, buf, len + 1);
-    // this->_text = buf;
-    // delete[] buf;
-
-    this->_text.resize(len + 1);
-    GetWindowTextW(this->_hwnd, &this->_text[0], len + 1);
-    this->_text.resize(len);
-}
-
 std::wstring &sw::WndBase::GetInternalText()
 {
     return this->_text;
@@ -1060,6 +1038,31 @@ bool sw::WndBase::OnMeasureItemSelf(MEASUREITEMSTRUCT *pMeasure)
 bool sw::WndBase::OnDropFiles(HDROP hDrop)
 {
     return false;
+}
+
+void sw::WndBase::UpdateInternalRect()
+{
+    RECT rect;
+    GetWindowRect(this->_hwnd, &rect);
+    this->_rect = rect;
+}
+
+void sw::WndBase::UpdateInternalText()
+{
+    int len = GetWindowTextLengthW(this->_hwnd);
+
+    if (len <= 0) {
+        this->_text.clear();
+        return;
+    }
+
+    // wchar_t *buf = new wchar_t[len + 1];
+    // GetWindowTextW(this->_hwnd, buf, len + 1);
+    // this->_text = buf;
+    // delete[] buf;
+
+    this->_text.resize(len + 1);
+    this->_text.resize(GetWindowTextW(this->_hwnd, &this->_text[0], len + 1));
 }
 
 void sw::WndBase::Show(int nCmdShow)

@@ -448,36 +448,19 @@ void sw::Window::OnInactived()
 
 void sw::Window::OnDpiChanged(int dpiX, int dpiY)
 {
-    Dip::Update(dpiX, dpiY);
     DisableLayout();
-
-    {
-        // Windows在DIP改变时会自动调整窗口大小，此时会先触发WM_WINDOWPOSCHANGED，再触发WM_DPICHANGED
-        // 因此在先触发的WM_WINDOWPOSCHANGED消息中，（Dip类中）DPI信息未更新，从而导致窗口的Rect数据错误
-        // 此处在更新DPI信息后手动发送一个WM_WINDOWPOSCHANGED以修正窗口的Rect数据
-
-        HWND hwnd = Handle;
-
-        RECT rect;
-        GetWindowRect(hwnd, &rect);
-
-        WINDOWPOS pos{};
-        pos.hwnd  = hwnd;
-        pos.x     = rect.left;
-        pos.y     = rect.top;
-        pos.cx    = rect.right - rect.left;
-        pos.cy    = rect.bottom - rect.top;
-        pos.flags = SWP_NOACTIVATE | SWP_NOZORDER;
-
-        SendMessageW(WM_WINDOWPOSCHANGED, 0, reinterpret_cast<LPARAM>(&pos));
-    }
-
-    UpdateFont();
+    Dip::Update(dpiX, dpiY);
 
     QueryAllChildren([](UIElement *item) {
-        return item->UpdateFont(), true;
+        item->LayoutUpdateCondition |= LayoutUpdateCondition::Supressed;
+        item->UpdateInternalRect();
+        item->UpdateFont();
+        item->LayoutUpdateCondition &= ~LayoutUpdateCondition::Supressed;
+        return true;
     });
 
+    UpdateInternalRect();
+    UpdateFont();
     EnableLayout();
 }
 

@@ -285,11 +285,6 @@ namespace sw
         virtual LRESULT WndProc(const ProcMsg &refMsg);
 
         /**
-         * @brief 同步窗口文本到内部记录的字符串
-         */
-        void UpdateInternalText();
-
-        /**
          * @brief 获取内部记录窗口文本的字符串引用
          * @note  Text属性的Get方法会调用该函数，部分控件如编辑框需要重写该函数以返回正确的文本
          */
@@ -726,6 +721,16 @@ namespace sw
         virtual bool OnDropFiles(HDROP hDrop);
 
     public:
+        /**
+         * @brief 同步窗口位置和尺寸到内部记录的Rect
+         */
+        void UpdateInternalRect();
+
+        /**
+         * @brief 同步窗口文本到内部记录的字符串
+         */
+        void UpdateInternalText();
+
         /**
          * @brief 该函数调用ShowWindow
          */
