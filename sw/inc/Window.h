@@ -269,11 +269,12 @@ namespace sw
         virtual void OnInactived();
 
         /**
-         * @brief      接收到WM_DPICHANGED时调用该函数
-         * @param dpiX 横向DPI
-         * @param dpiY 纵向DPI
+         * @brief         接收到WM_DPICHANGED时调用该函数
+         * @param dpiX    横向DPI
+         * @param dpiY    纵向DPI
+         * @param newRect 建议的新窗口位置和尺寸
          */
-        virtual void OnDpiChanged(int dpiX, int dpiY);
+        virtual void OnDpiChanged(int dpiX, int dpiY, RECT &newRect);
 
     public:
         /**

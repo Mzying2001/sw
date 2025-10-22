@@ -284,7 +284,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DPICHANGED: {
-            OnDpiChanged(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam));
+            int dpiX = LOWORD(refMsg.wParam);
+            int dpiY = HIWORD(refMsg.wParam);
+            OnDpiChanged(dpiX, dpiY, *reinterpret_cast<RECT *>(refMsg.lParam));
             return 0;
         }
 
@@ -446,14 +448,13 @@ void sw::Window::OnInactived()
     _hPrevFocused = GetFocus();
 }
 
-void sw::Window::OnDpiChanged(int dpiX, int dpiY)
+void sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
 {
     DisableLayout();
     Dip::Update(dpiX, dpiY);
 
     QueryAllChildren([](UIElement *item) {
         item->LayoutUpdateCondition |= LayoutUpdateCondition::Supressed;
-        item->UpdateInternalRect();
         item->UpdateFont();
         item->LayoutUpdateCondition &= ~LayoutUpdateCondition::Supressed;
         return true;
@@ -461,6 +462,8 @@ void sw::Window::OnDpiChanged(int dpiX, int dpiY)
 
     UpdateInternalRect();
     UpdateFont();
+
+    Rect = newRect;
     EnableLayout();
 }
 
