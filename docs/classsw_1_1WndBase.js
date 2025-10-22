@@ -98,6 +98,7 @@ var classsw_1_1WndBase =
     [ "ToWindow", "classsw_1_1WndBase.html#a2dd7d531ffe1e0219d4d1762180a990d", null ],
     [ "Update", "classsw_1_1WndBase.html#ab7ac81f0ed48a5093fd3170c7c756963", null ],
     [ "UpdateFont", "classsw_1_1WndBase.html#af8df0384e2be0569e0da1f51985204c8", null ],
+    [ "UpdateInternalRect", "classsw_1_1WndBase.html#a8e4c84a1f99dc2bc9ac58821f63b7ccf", null ],
     [ "UpdateInternalText", "classsw_1_1WndBase.html#adf6c13095f64868f94ee846a4ac9abb3", null ],
     [ "VisibleChanged", "classsw_1_1WndBase.html#aef02bbac8ef450e5f3f478b41031a3ab", null ],
     [ "WndProc", "classsw_1_1WndBase.html#a863b26226e16cf37f7169c6edc96a3b4", null ],

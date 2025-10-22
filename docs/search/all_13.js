@@ -2,10 +2,10 @@ var searchData=
 [
   ['tabcontrol_0',['tabcontrol',['../classsw_1_1TabControl.html#a402ae0be40a8a236d09b5c8a31c5aca1',1,'sw::TabControl::TabControl()'],['../classsw_1_1TabControl.html',1,'sw::TabControl']]],
   ['tabstop_1',['TabStop',['../classsw_1_1UIElement.html#a2b54e00e1e41af2a634ad694da3ffa98',1,'sw::UIElement']]],
-  ['tag_2',['tag',['../classsw_1_1UIElement.html#a895d79a2fa53382a43b3d02dee195360',1,'sw::UIElement::Tag'],['../classsw_1_1MenuItem.html#a71e23c18ace7346f28415ed747d80905',1,'sw::MenuItem::tag']]],
+  ['tag_2',['tag',['../classsw_1_1MenuItem.html#a71e23c18ace7346f28415ed747d80905',1,'sw::MenuItem::tag'],['../classsw_1_1UIElement.html#a895d79a2fa53382a43b3d02dee195360',1,'sw::UIElement::Tag']]],
   ['tbase_3',['TBase',['../classsw_1_1PropertyLiteBase.html#afa137054cf78b3ab9c0adf70800586cc',1,'sw::PropertyLiteBase']]],
   ['tcallable_4',['TCallable',['../classsw_1_1CallableList.html#a2a852c7aa6b4637bbad845d97c746ad4',1,'sw::CallableList']]],
-  ['text_5',['text',['../classsw_1_1WndBase.html#a9afff86d32e9b54cccc204ef29a85891',1,'sw::WndBase::Text'],['../classsw_1_1MenuItem.html#a0f67fc28cb879876a328495035031979',1,'sw::MenuItem::text']]],
+  ['text_5',['text',['../classsw_1_1MenuItem.html#a0f67fc28cb879876a328495035031979',1,'sw::MenuItem::text'],['../classsw_1_1WndBase.html#a9afff86d32e9b54cccc204ef29a85891',1,'sw::WndBase::Text']]],
   ['textbox_6',['textbox',['../classsw_1_1TextBox.html',1,'sw::TextBox'],['../classsw_1_1TextBox.html#ae2cffffb2a78119a7094d78109060326',1,'sw::TextBox::TextBox()']]],
   ['textboxbase_7',['textboxbase',['../classsw_1_1TextBoxBase.html#a67d628d8d0d746292ef4350ad1a5a84a',1,'sw::TextBoxBase::TextBoxBase()'],['../classsw_1_1TextBoxBase.html',1,'sw::TextBoxBase']]],
   ['textcolor_8',['TextColor',['../classsw_1_1UIElement.html#aeaf2381fdffd82bd41e90c1a2cf69022',1,'sw::UIElement']]],

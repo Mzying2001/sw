@@ -56,6 +56,6 @@ var searchData=
   ['routedeventargs_53',['routedeventargs',['../structsw_1_1RoutedEventArgs.html',1,'sw::RoutedEventArgs'],['../structsw_1_1RoutedEventArgs.html#ad6e6da62f114abfabb682afd38b6f7a3',1,'sw::RoutedEventArgs::RoutedEventArgs()']]],
   ['routedeventhandlerwrapper_54',['routedeventhandlerwrapper',['../classsw_1_1RoutedEventHandlerWrapper.html',1,'sw::RoutedEventHandlerWrapper&lt; TEventArgs, type &gt;'],['../classsw_1_1RoutedEventHandlerWrapper.html#a3e26d5a474255c2ef16652e565941a24',1,'sw::RoutedEventHandlerWrapper::RoutedEventHandlerWrapper()']]],
   ['row_55',['row',['../structsw_1_1GridLayoutTag.html#a8411afa319d4ad7cf2d95edd5aa3434c',1,'sw::GridLayoutTag']]],
-  ['rows_56',['rows',['../classsw_1_1UniformGrid.html#a65a180db32f61dee181c0ae7e36364a6',1,'sw::UniformGrid::Rows'],['../classsw_1_1GridLayout.html#a5ac3f18d6079d89b414a9f0a342670ea',1,'sw::GridLayout::rows'],['../classsw_1_1UniformGridLayout.html#a2cde92e2a61f62efb85761f11c221390',1,'sw::UniformGridLayout::rows']]],
+  ['rows_56',['rows',['../classsw_1_1GridLayout.html#a5ac3f18d6079d89b414a9f0a342670ea',1,'sw::GridLayout::rows'],['../classsw_1_1UniformGridLayout.html#a2cde92e2a61f62efb85761f11c221390',1,'sw::UniformGridLayout::rows'],['../classsw_1_1UniformGrid.html#a65a180db32f61dee181c0ae7e36364a6',1,'sw::UniformGrid::Rows']]],
   ['rowspan_57',['rowSpan',['../structsw_1_1GridLayoutTag.html#a5caf39bc6aa93afd290f09ee15f2c722',1,'sw::GridLayoutTag']]]
 ];

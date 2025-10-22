@@ -161,6 +161,14 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>Equals</b> (const <a 
 virtual std::wstring&#160;</td><td class="memItemRight" valign="bottom"><b>ToString</b> () const</td></tr>
 <tr class="memdesc:af4d54d90e20aadd93924df6dc9760fc3 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前对象的描述字符串 <br /></td></tr>
 <tr class="separator:af4d54d90e20aadd93924df6dc9760fc3 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e4c84a1f99dc2bc9ac58821f63b7ccf inherit pub_methods_classsw_1_1WndBase" id="r_a8e4c84a1f99dc2bc9ac58821f63b7ccf"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalRect</b> ()</td></tr>
+<tr class="memdesc:a8e4c84a1f99dc2bc9ac58821f63b7ccf inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">同步窗口位置和尺寸到内部记录的Rect <br /></td></tr>
+<tr class="separator:a8e4c84a1f99dc2bc9ac58821f63b7ccf inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf6c13095f64868f94ee846a4ac9abb3 inherit pub_methods_classsw_1_1WndBase" id="r_adf6c13095f64868f94ee846a4ac9abb3"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b> ()</td></tr>
+<tr class="memdesc:adf6c13095f64868f94ee846a4ac9abb3 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">同步窗口文本到内部记录的字符串 <br /></td></tr>
+<tr class="separator:adf6c13095f64868f94ee846a4ac9abb3 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2f1b78dd8165c8bca0313180a9f4b81 inherit pub_methods_classsw_1_1WndBase" id="r_ae2f1b78dd8165c8bca0313180a9f4b81"><td class="memItemLeft" align="right" valign="top">
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Show</b> (int nCmdShow)</td></tr>
 <tr class="memdesc:ae2f1b78dd8165c8bca0313180a9f4b81 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">该函数调用ShowWindow <br /></td></tr>
@@ -332,18 +340,18 @@ const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="e
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Rect</b></td></tr>
 <tr class="memdesc:a66d71e8b850dece9830ca205f733160e"><td class="mdescLeft">&#160;</td><td class="mdescRight">图标在屏幕上的位置和尺寸 <br /></td></tr>
 <tr class="separator:a66d71e8b850dece9830ca205f733160e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13da0a8545842f1e61f19b0265115efb" id="r_a13da0a8545842f1e61f19b0265115efb"><td class="memItemLeft" align="right" valign="top"><a id="a13da0a8545842f1e61f19b0265115efb" name="a13da0a8545842f1e61f19b0265115efb"></a>
-<a class="el" href="classsw_1_1Delegate.html">NotifyIconMouseEventHandler</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ClickedHandler</b></td></tr>
-<tr class="memdesc:a13da0a8545842f1e61f19b0265115efb"><td class="mdescLeft">&#160;</td><td class="mdescRight">当图标被单击时触发该事件 <br /></td></tr>
-<tr class="separator:a13da0a8545842f1e61f19b0265115efb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dad54cd44d9213fac7bcf73e918656c" id="r_a7dad54cd44d9213fac7bcf73e918656c"><td class="memItemLeft" align="right" valign="top"><a id="a7dad54cd44d9213fac7bcf73e918656c" name="a7dad54cd44d9213fac7bcf73e918656c"></a>
-<a class="el" href="classsw_1_1Delegate.html">NotifyIconMouseEventHandler</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DoubleClickedHandler</b></td></tr>
-<tr class="memdesc:a7dad54cd44d9213fac7bcf73e918656c"><td class="mdescLeft">&#160;</td><td class="mdescRight">当图标被双击时触发该事件 <br /></td></tr>
-<tr class="separator:a7dad54cd44d9213fac7bcf73e918656c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7775fbf32a74c86de62b9659e9f5a170" id="r_a7775fbf32a74c86de62b9659e9f5a170"><td class="memItemLeft" align="right" valign="top"><a id="a7775fbf32a74c86de62b9659e9f5a170" name="a7775fbf32a74c86de62b9659e9f5a170"></a>
-<a class="el" href="classsw_1_1Delegate.html">NotifyIconMouseEventHandler</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ContextMenuHandler</b></td></tr>
-<tr class="memdesc:a7775fbf32a74c86de62b9659e9f5a170"><td class="mdescLeft">&#160;</td><td class="mdescRight">当图标被右键单击时触发该事件 <br /></td></tr>
-<tr class="separator:a7775fbf32a74c86de62b9659e9f5a170"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c5356d4c5a22554532557bf5c93785e" id="r_a0c5356d4c5a22554532557bf5c93785e"><td class="memItemLeft" align="right" valign="top"><a id="a0c5356d4c5a22554532557bf5c93785e" name="a0c5356d4c5a22554532557bf5c93785e"></a>
+<a class="el" href="classsw_1_1Delegate.html">NotifyIconMouseEventHandler</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Clicked</b></td></tr>
+<tr class="memdesc:a0c5356d4c5a22554532557bf5c93785e"><td class="mdescLeft">&#160;</td><td class="mdescRight">当图标被单击时触发该事件 <br /></td></tr>
+<tr class="separator:a0c5356d4c5a22554532557bf5c93785e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ec0b3c909ad44be030dc29dba019fe2" id="r_a3ec0b3c909ad44be030dc29dba019fe2"><td class="memItemLeft" align="right" valign="top"><a id="a3ec0b3c909ad44be030dc29dba019fe2" name="a3ec0b3c909ad44be030dc29dba019fe2"></a>
+<a class="el" href="classsw_1_1Delegate.html">NotifyIconMouseEventHandler</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DoubleClicked</b></td></tr>
+<tr class="memdesc:a3ec0b3c909ad44be030dc29dba019fe2"><td class="mdescLeft">&#160;</td><td class="mdescRight">当图标被双击时触发该事件 <br /></td></tr>
+<tr class="separator:a3ec0b3c909ad44be030dc29dba019fe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2af509db639bc4a2e161b60b1794883" id="r_ac2af509db639bc4a2e161b60b1794883"><td class="memItemLeft" align="right" valign="top"><a id="ac2af509db639bc4a2e161b60b1794883" name="ac2af509db639bc4a2e161b60b1794883"></a>
+<a class="el" href="classsw_1_1Delegate.html">NotifyIconMouseEventHandler</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ContextMenuOpening</b></td></tr>
+<tr class="memdesc:ac2af509db639bc4a2e161b60b1794883"><td class="mdescLeft">&#160;</td><td class="mdescRight">打开上下文菜单前触发该事件 <br /></td></tr>
+<tr class="separator:ac2af509db639bc4a2e161b60b1794883"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
 <tr class="memitem:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase" id="r_abc0b653ccc071c2cfcba42fa8eef738f"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; HWND &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Handle</b></td></tr>
@@ -459,16 +467,13 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnNotyfyIconM
 <tr class="memitem:ad277e4427d259e763640ded3aa9b9922" id="r_ad277e4427d259e763640ded3aa9b9922"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1NotifyIcon.html#ad277e4427d259e763640ded3aa9b9922">OnDoubleClicked</a> (const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;mousePos)</td></tr>
 <tr class="memdesc:ad277e4427d259e763640ded3aa9b9922"><td class="mdescLeft">&#160;</td><td class="mdescRight">鼠标双击图标时调用该函数  <br /></td></tr>
 <tr class="separator:ad277e4427d259e763640ded3aa9b9922"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3eb53712ca1ad2582ea62a12b59f33be" id="r_a3eb53712ca1ad2582ea62a12b59f33be"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1NotifyIcon.html#a3eb53712ca1ad2582ea62a12b59f33be">OnContextMenu</a> (const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;mousePos)</td></tr>
-<tr class="memdesc:a3eb53712ca1ad2582ea62a12b59f33be"><td class="mdescLeft">&#160;</td><td class="mdescRight">鼠标右键单击图标时调用该函数  <br /></td></tr>
-<tr class="separator:a3eb53712ca1ad2582ea62a12b59f33be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07936645c24e45af0d762ce5b71d8a6d" id="r_a07936645c24e45af0d762ce5b71d8a6d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1NotifyIcon.html#a07936645c24e45af0d762ce5b71d8a6d">OnContextMenuOpening</a> (const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;mousePos)</td></tr>
+<tr class="memdesc:a07936645c24e45af0d762ce5b71d8a6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">打开上下文菜单前调用该函数  <br /></td></tr>
+<tr class="separator:a07936645c24e45af0d762ce5b71d8a6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3237a60c2129e1bbcae3424c94392f8b" id="r_a3237a60c2129e1bbcae3424c94392f8b"><td class="memItemLeft" align="right" valign="top"><a id="a3237a60c2129e1bbcae3424c94392f8b" name="a3237a60c2129e1bbcae3424c94392f8b"></a>
 NOTIFYICONDATAW &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetNotifyIconData</b> ()</td></tr>
 <tr class="memdesc:a3237a60c2129e1bbcae3424c94392f8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取通知图标数据 <br /></td></tr>
 <tr class="separator:a3237a60c2129e1bbcae3424c94392f8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfefd4f96ba2f86a0fe50b018ddff4e9" id="r_acfefd4f96ba2f86a0fe50b018ddff4e9"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1NotifyIcon.html#acfefd4f96ba2f86a0fe50b018ddff4e9">OnContextMenu</a> (bool isKeyboardMsg, const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;mousePosition)</td></tr>
-<tr class="memdesc:acfefd4f96ba2f86a0fe50b018ddff4e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">避免隐藏基类的OnContextMenu函数  <br /></td></tr>
-<tr class="separator:acfefd4f96ba2f86a0fe50b018ddff4e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
 <tr class="memitem:aab509b68c9c0b612862cf41d8ef685a3 inherit pro_methods_classsw_1_1WndBase" id="r_aab509b68c9c0b612862cf41d8ef685a3"><td class="memItemLeft" align="right" valign="top">
 &#160;</td><td class="memItemRight" valign="bottom"><b>WndBase</b> ()</td></tr>
@@ -498,10 +503,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>InitControl</b> (LPCW
 LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>DefaultWndProc</b> (const <a class="el" href="structsw_1_1ProcMsg.html">ProcMsg</a> &amp;refMsg)</td></tr>
 <tr class="memdesc:a585967d861673ea0477f25c1a5c0fb30 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc <br /></td></tr>
 <tr class="separator:a585967d861673ea0477f25c1a5c0fb30 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf6c13095f64868f94ee846a4ac9abb3 inherit pro_methods_classsw_1_1WndBase" id="r_adf6c13095f64868f94ee846a4ac9abb3"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b> ()</td></tr>
-<tr class="memdesc:adf6c13095f64868f94ee846a4ac9abb3 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">同步窗口文本到内部记录的字符串 <br /></td></tr>
-<tr class="separator:adf6c13095f64868f94ee846a4ac9abb3 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a670d453b91ad91d9dcd642a495df6ec2 inherit pro_methods_classsw_1_1WndBase" id="r_a670d453b91ad91d9dcd642a495df6ec2"><td class="memItemLeft" align="right" valign="top">virtual std::wstring &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a670d453b91ad91d9dcd642a495df6ec2">GetInternalText</a> ()</td></tr>
 <tr class="memdesc:a670d453b91ad91d9dcd642a495df6ec2 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取内部记录窗口文本的字符串引用  <br /></td></tr>
 <tr class="separator:a670d453b91ad91d9dcd642a495df6ec2 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -632,6 +633,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnEndNcPaint<
 <tr class="memitem:ab37c3f3ea7654eb6a0b15405196c4549 inherit pro_methods_classsw_1_1WndBase" id="r_ab37c3f3ea7654eb6a0b15405196c4549"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#ab37c3f3ea7654eb6a0b15405196c4549">OnSetCursor</a> (HWND hwnd, HitTestResult hitTest, int message, bool &amp;result)</td></tr>
 <tr class="memdesc:ab37c3f3ea7654eb6a0b15405196c4549 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SETCURSOR消息时调用该函数  <br /></td></tr>
 <tr class="separator:ab37c3f3ea7654eb6a0b15405196c4549 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfefd4f96ba2f86a0fe50b018ddff4e9 inherit pro_methods_classsw_1_1WndBase" id="r_acfefd4f96ba2f86a0fe50b018ddff4e9"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#acfefd4f96ba2f86a0fe50b018ddff4e9">OnContextMenu</a> (bool isKeyboardMsg, const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;mousePosition)</td></tr>
+<tr class="memdesc:acfefd4f96ba2f86a0fe50b018ddff4e9 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_CONTEXTMENU后调用目标控件的该函数  <br /></td></tr>
+<tr class="separator:acfefd4f96ba2f86a0fe50b018ddff4e9 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f645592c48b729f1dc9d6a9ed705d48 inherit pro_methods_classsw_1_1WndBase" id="r_a0f645592c48b729f1dc9d6a9ed705d48"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a0f645592c48b729f1dc9d6a9ed705d48">OnMenuSelect</a> (HMENU hMenu, int id, int flags)</td></tr>
 <tr class="memdesc:a0f645592c48b729f1dc9d6a9ed705d48 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_MENUSELECT后调用该函数  <br /></td></tr>
 <tr class="separator:a0f645592c48b729f1dc9d6a9ed705d48 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -746,8 +750,8 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
 
 </div>
 </div>
-<a id="acfefd4f96ba2f86a0fe50b018ddff4e9" name="acfefd4f96ba2f86a0fe50b018ddff4e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acfefd4f96ba2f86a0fe50b018ddff4e9">&#9670;&#160;</a></span>OnContextMenu() <span class="overload">[1/2]</span></h2>
+<a id="a07936645c24e45af0d762ce5b71d8a6d" name="a07936645c24e45af0d762ce5b71d8a6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07936645c24e45af0d762ce5b71d8a6d">&#9670;&#160;</a></span>OnContextMenuOpening()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -756,47 +760,7 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool sw::WndBase::OnContextMenu </td>
-          <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>isKeyboardMsg</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;&#160;</td>
-          <td class="paramname"><em>mousePosition</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>避免隐藏基类的OnContextMenu函数 </p>
-
-<p>重载 <a class="el" href="classsw_1_1WndBase.html#acfefd4f96ba2f86a0fe50b018ddff4e9">sw::WndBase</a> .</p>
-
-</div>
-</div>
-<a id="a3eb53712ca1ad2582ea62a12b59f33be" name="a3eb53712ca1ad2582ea62a12b59f33be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3eb53712ca1ad2582ea62a12b59f33be">&#9670;&#160;</a></span>OnContextMenu() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void sw::NotifyIcon::OnContextMenu </td>
+          <td class="memname">virtual void sw::NotifyIcon::OnContextMenuOpening </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structsw_1_1Point.html">Point</a> &amp;&#160;</td>
           <td class="paramname"><em>mousePos</em></td><td>)</td>
@@ -810,7 +774,7 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
 </table>
 </div><div class="memdoc">
 
-<p>鼠标右键单击图标时调用该函数 </p>
+<p>打开上下文菜单前调用该函数 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">mousePos</td><td>鼠标位置 </td></tr>

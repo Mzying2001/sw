@@ -416,6 +416,14 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>Equals</b> (const <a 
 virtual std::wstring&#160;</td><td class="memItemRight" valign="bottom"><b>ToString</b> () const</td></tr>
 <tr class="memdesc:af4d54d90e20aadd93924df6dc9760fc3 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前对象的描述字符串 <br /></td></tr>
 <tr class="separator:af4d54d90e20aadd93924df6dc9760fc3 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e4c84a1f99dc2bc9ac58821f63b7ccf inherit pub_methods_classsw_1_1WndBase" id="r_a8e4c84a1f99dc2bc9ac58821f63b7ccf"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalRect</b> ()</td></tr>
+<tr class="memdesc:a8e4c84a1f99dc2bc9ac58821f63b7ccf inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">同步窗口位置和尺寸到内部记录的Rect <br /></td></tr>
+<tr class="separator:a8e4c84a1f99dc2bc9ac58821f63b7ccf inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf6c13095f64868f94ee846a4ac9abb3 inherit pub_methods_classsw_1_1WndBase" id="r_adf6c13095f64868f94ee846a4ac9abb3"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b> ()</td></tr>
+<tr class="memdesc:adf6c13095f64868f94ee846a4ac9abb3 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">同步窗口文本到内部记录的字符串 <br /></td></tr>
+<tr class="separator:adf6c13095f64868f94ee846a4ac9abb3 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2f1b78dd8165c8bca0313180a9f4b81 inherit pub_methods_classsw_1_1WndBase" id="r_ae2f1b78dd8165c8bca0313180a9f4b81"><td class="memItemLeft" align="right" valign="top">
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Show</b> (int nCmdShow)</td></tr>
 <tr class="memdesc:ae2f1b78dd8165c8bca0313180a9f4b81 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">该函数调用ShowWindow <br /></td></tr>
@@ -583,18 +591,6 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ITag</b> ()=defau
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Layer</b> ()=0</td></tr>
 <tr class="memdesc:a9704f14ac77a0e0902b79058a2d29c8d inherit pub_methods_classsw_1_1Layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数，这里用纯虚函数使该类成为抽象类 <br /></td></tr>
 <tr class="separator:a9704f14ac77a0e0902b79058a2d29c8d inherit pub_methods_classsw_1_1Layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c9e94621cab7abd5ca2e10f5691c3c1 inherit pub_methods_classsw_1_1Layer" id="r_a4c9e94621cab7abd5ca2e10f5691c3c1"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>DisableLayout</b> ()</td></tr>
-<tr class="memdesc:a4c9e94621cab7abd5ca2e10f5691c3c1 inherit pub_methods_classsw_1_1Layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">禁用布局，禁用布局后调用UpdateLayout不会更新布局 <br /></td></tr>
-<tr class="separator:a4c9e94621cab7abd5ca2e10f5691c3c1 inherit pub_methods_classsw_1_1Layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5965bfa865e07371ad9e2e773f720653 inherit pub_methods_classsw_1_1Layer" id="r_a5965bfa865e07371ad9e2e773f720653"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>EnableLayout</b> ()</td></tr>
-<tr class="memdesc:a5965bfa865e07371ad9e2e773f720653 inherit pub_methods_classsw_1_1Layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">启用布局，并立即更新布局 <br /></td></tr>
-<tr class="separator:a5965bfa865e07371ad9e2e773f720653 inherit pub_methods_classsw_1_1Layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad286771872cc835570d7f6508772a20 inherit pub_methods_classsw_1_1Layer" id="r_aad286771872cc835570d7f6508772a20"><td class="memItemLeft" align="right" valign="top">
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsLayoutDisabled</b> ()</td></tr>
-<tr class="memdesc:aad286771872cc835570d7f6508772a20 inherit pub_methods_classsw_1_1Layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取一个值，表示当前控件是否已禁用布局 <br /></td></tr>
-<tr class="separator:aad286771872cc835570d7f6508772a20 inherit pub_methods_classsw_1_1Layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61a3007c7519de5b677dcc61b723034a inherit pub_methods_classsw_1_1Layer" id="r_a61a3007c7519de5b677dcc61b723034a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer.html#a61a3007c7519de5b677dcc61b723034a">GetHorizontalScrollRange</a> (double &amp;refMin, double &amp;refMax)</td></tr>
 <tr class="memdesc:a61a3007c7519de5b677dcc61b723034a inherit pub_methods_classsw_1_1Layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取横向滚动条的范围  <br /></td></tr>
 <tr class="separator:a61a3007c7519de5b677dcc61b723034a inherit pub_methods_classsw_1_1Layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -931,10 +927,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>InitControl</b> (LPCW
 LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>DefaultWndProc</b> (const <a class="el" href="structsw_1_1ProcMsg.html">ProcMsg</a> &amp;refMsg)</td></tr>
 <tr class="memdesc:a585967d861673ea0477f25c1a5c0fb30 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc <br /></td></tr>
 <tr class="separator:a585967d861673ea0477f25c1a5c0fb30 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf6c13095f64868f94ee846a4ac9abb3 inherit pro_methods_classsw_1_1WndBase" id="r_adf6c13095f64868f94ee846a4ac9abb3"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b> ()</td></tr>
-<tr class="memdesc:adf6c13095f64868f94ee846a4ac9abb3 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">同步窗口文本到内部记录的字符串 <br /></td></tr>
-<tr class="separator:adf6c13095f64868f94ee846a4ac9abb3 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a670d453b91ad91d9dcd642a495df6ec2 inherit pro_methods_classsw_1_1WndBase" id="r_a670d453b91ad91d9dcd642a495df6ec2"><td class="memItemLeft" align="right" valign="top">virtual std::wstring &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a670d453b91ad91d9dcd642a495df6ec2">GetInternalText</a> ()</td></tr>
 <tr class="memdesc:a670d453b91ad91d9dcd642a495df6ec2 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取内部记录窗口文本的字符串引用  <br /></td></tr>
 <tr class="separator:a670d453b91ad91d9dcd642a495df6ec2 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>

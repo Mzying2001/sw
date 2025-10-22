@@ -9,7 +9,7 @@ var searchData=
   ['dictionary_6',['dictionary',['../classsw_1_1Dictionary.html#a77cbfe628092b74f1a698e7b5fe56c69',1,'sw::Dictionary::Dictionary()'],['../classsw_1_1Dictionary.html#a178b607824a4eff707914f2eb3aaaa22',1,'sw::Dictionary::Dictionary(std::initializer_list&lt; std::pair&lt; const TKey, TVal &gt; &gt; list)']]],
   ['diptopxx_7',['DipToPxX',['../classsw_1_1Dip.html#a66e3c3a119b77b632ec5f1f37051ee6d',1,'sw::Dip']]],
   ['diptopxy_8',['DipToPxY',['../classsw_1_1Dip.html#ae8986a97dc498280957b4c9e5fa53124',1,'sw::Dip']]],
-  ['disablelayout_9',['DisableLayout',['../classsw_1_1Layer.html#a4c9e94621cab7abd5ca2e10f5691c3c1',1,'sw::Layer']]],
+  ['disablelayout_9',['DisableLayout',['../classsw_1_1Window.html#a09e5b989c8fd2a7b1976c7f364eae1f2',1,'sw::Window']]],
   ['docklayouttag_10',['DockLayoutTag',['../classsw_1_1DockLayoutTag.html#aae2e7ab3530f1f93e29828264e62b42b',1,'sw::DockLayoutTag']]],
   ['dockpanel_11',['DockPanel',['../classsw_1_1DockPanel.html#a8c9ce34641a342dc14c8bae2d49e3c08',1,'sw::DockPanel']]],
   ['docksplitter_12',['DockSplitter',['../classsw_1_1DockSplitter.html#a122b7264cde1f901a9da35c57dd7f591',1,'sw::DockSplitter']]],

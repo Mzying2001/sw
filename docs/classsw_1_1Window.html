@@ -146,6 +146,12 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:a4197644efd719230e2f19483ecdcd590" id="r_a4197644efd719230e2f19483ecdcd590"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#a4197644efd719230e2f19483ecdcd590">ShowDialog</a> (<a class="el" href="classsw_1_1Window.html">Window</a> &amp;owner)</td></tr>
 <tr class="memdesc:a4197644efd719230e2f19483ecdcd590"><td class="mdescLeft">&#160;</td><td class="mdescRight">将窗口显示为模式对话框  <br /></td></tr>
 <tr class="separator:a4197644efd719230e2f19483ecdcd590"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09e5b989c8fd2a7b1976c7f364eae1f2" id="r_a09e5b989c8fd2a7b1976c7f364eae1f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#a09e5b989c8fd2a7b1976c7f364eae1f2">DisableLayout</a> ()</td></tr>
+<tr class="memdesc:a09e5b989c8fd2a7b1976c7f364eae1f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">禁用窗口布局  <br /></td></tr>
+<tr class="separator:a09e5b989c8fd2a7b1976c7f364eae1f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4ae546b2146a44772c9d8a69e798160" id="r_ab4ae546b2146a44772c9d8a69e798160"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#ab4ae546b2146a44772c9d8a69e798160">EnableLayout</a> (bool reset=false)</td></tr>
+<tr class="memdesc:ab4ae546b2146a44772c9d8a69e798160"><td class="mdescLeft">&#160;</td><td class="mdescRight">恢复窗口布局，与DisableLayout配对使用  <br /></td></tr>
+<tr class="separator:ab4ae546b2146a44772c9d8a69e798160"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9046c167eb2a1572f420ecd5bd8aef1c" id="r_a9046c167eb2a1572f420ecd5bd8aef1c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#a9046c167eb2a1572f420ecd5bd8aef1c">SetIcon</a> (HICON hIcon)</td></tr>
 <tr class="memdesc:a9046c167eb2a1572f420ecd5bd8aef1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置图标  <br /></td></tr>
 <tr class="separator:a9046c167eb2a1572f420ecd5bd8aef1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,18 +182,6 @@ template&lt;std::nullptr_t &gt; </td></tr>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Layer</b> ()=0</td></tr>
 <tr class="memdesc:a9704f14ac77a0e0902b79058a2d29c8d inherit pub_methods_classsw_1_1Layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数，这里用纯虚函数使该类成为抽象类 <br /></td></tr>
 <tr class="separator:a9704f14ac77a0e0902b79058a2d29c8d inherit pub_methods_classsw_1_1Layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c9e94621cab7abd5ca2e10f5691c3c1 inherit pub_methods_classsw_1_1Layer" id="r_a4c9e94621cab7abd5ca2e10f5691c3c1"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>DisableLayout</b> ()</td></tr>
-<tr class="memdesc:a4c9e94621cab7abd5ca2e10f5691c3c1 inherit pub_methods_classsw_1_1Layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">禁用布局，禁用布局后调用UpdateLayout不会更新布局 <br /></td></tr>
-<tr class="separator:a4c9e94621cab7abd5ca2e10f5691c3c1 inherit pub_methods_classsw_1_1Layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5965bfa865e07371ad9e2e773f720653 inherit pub_methods_classsw_1_1Layer" id="r_a5965bfa865e07371ad9e2e773f720653"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>EnableLayout</b> ()</td></tr>
-<tr class="memdesc:a5965bfa865e07371ad9e2e773f720653 inherit pub_methods_classsw_1_1Layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">启用布局，并立即更新布局 <br /></td></tr>
-<tr class="separator:a5965bfa865e07371ad9e2e773f720653 inherit pub_methods_classsw_1_1Layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad286771872cc835570d7f6508772a20 inherit pub_methods_classsw_1_1Layer" id="r_aad286771872cc835570d7f6508772a20"><td class="memItemLeft" align="right" valign="top">
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsLayoutDisabled</b> ()</td></tr>
-<tr class="memdesc:aad286771872cc835570d7f6508772a20 inherit pub_methods_classsw_1_1Layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取一个值，表示当前控件是否已禁用布局 <br /></td></tr>
-<tr class="separator:aad286771872cc835570d7f6508772a20 inherit pub_methods_classsw_1_1Layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61a3007c7519de5b677dcc61b723034a inherit pub_methods_classsw_1_1Layer" id="r_a61a3007c7519de5b677dcc61b723034a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer.html#a61a3007c7519de5b677dcc61b723034a">GetHorizontalScrollRange</a> (double &amp;refMin, double &amp;refMax)</td></tr>
 <tr class="memdesc:a61a3007c7519de5b677dcc61b723034a inherit pub_methods_classsw_1_1Layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取横向滚动条的范围  <br /></td></tr>
 <tr class="separator:a61a3007c7519de5b677dcc61b723034a inherit pub_methods_classsw_1_1Layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -473,6 +467,14 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>Equals</b> (const <a 
 virtual std::wstring&#160;</td><td class="memItemRight" valign="bottom"><b>ToString</b> () const</td></tr>
 <tr class="memdesc:af4d54d90e20aadd93924df6dc9760fc3 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前对象的描述字符串 <br /></td></tr>
 <tr class="separator:af4d54d90e20aadd93924df6dc9760fc3 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e4c84a1f99dc2bc9ac58821f63b7ccf inherit pub_methods_classsw_1_1WndBase" id="r_a8e4c84a1f99dc2bc9ac58821f63b7ccf"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalRect</b> ()</td></tr>
+<tr class="memdesc:a8e4c84a1f99dc2bc9ac58821f63b7ccf inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">同步窗口位置和尺寸到内部记录的Rect <br /></td></tr>
+<tr class="separator:a8e4c84a1f99dc2bc9ac58821f63b7ccf inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf6c13095f64868f94ee846a4ac9abb3 inherit pub_methods_classsw_1_1WndBase" id="r_adf6c13095f64868f94ee846a4ac9abb3"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b> ()</td></tr>
+<tr class="memdesc:adf6c13095f64868f94ee846a4ac9abb3 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">同步窗口文本到内部记录的字符串 <br /></td></tr>
+<tr class="separator:adf6c13095f64868f94ee846a4ac9abb3 inherit pub_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2f1b78dd8165c8bca0313180a9f4b81 inherit pub_methods_classsw_1_1WndBase" id="r_ae2f1b78dd8165c8bca0313180a9f4b81"><td class="memItemLeft" align="right" valign="top">
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Show</b> (int nCmdShow)</td></tr>
 <tr class="memdesc:ae2f1b78dd8165c8bca0313180a9f4b81 inherit pub_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">该函数调用ShowWindow <br /></td></tr>
@@ -697,6 +699,10 @@ const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>RestoreRect</b></td></tr>
 <tr class="memdesc:a08b4f948cf6b3a9bdd2379d6a3ff2b80"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口在最小化或最大化之前的位置和尺寸 <br /></td></tr>
 <tr class="separator:a08b4f948cf6b3a9bdd2379d6a3ff2b80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b4bdbab7517e89ff281a3de4eb33143" id="r_a3b4bdbab7517e89ff281a3de4eb33143"><td class="memItemLeft" align="right" valign="top"><a id="a3b4bdbab7517e89ff281a3de4eb33143" name="a3b4bdbab7517e89ff281a3de4eb33143"></a>
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsLayoutDisabled</b></td></tr>
+<tr class="memdesc:a3b4bdbab7517e89ff281a3de4eb33143"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口布局是否被禁用 <br /></td></tr>
+<tr class="separator:a3b4bdbab7517e89ff281a3de4eb33143"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classsw_1_1Layer"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1Layer')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1Layer.html">sw::Layer</a></td></tr>
 <tr class="memitem:accb80d7a016d5a56b1c744db4ef96059 inherit pub_attribs_classsw_1_1Layer" id="r_accb80d7a016d5a56b1c744db4ef96059"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1LayoutHost.html">LayoutHost</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Layout</b></td></tr>
@@ -972,9 +978,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnActived</b>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnInactived</b> ()</td></tr>
 <tr class="memdesc:a9f8bea034629f087944e9b33af60d9ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口成为后台窗口时调用该函数 <br /></td></tr>
 <tr class="separator:a9f8bea034629f087944e9b33af60d9ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a850c77ff7a3271e6d2bc77258c2ed11d" id="r_a850c77ff7a3271e6d2bc77258c2ed11d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#a850c77ff7a3271e6d2bc77258c2ed11d">OnDpiChanged</a> (int dpiX, int dpiY)</td></tr>
-<tr class="memdesc:a850c77ff7a3271e6d2bc77258c2ed11d"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DPICHANGED时调用该函数  <br /></td></tr>
-<tr class="separator:a850c77ff7a3271e6d2bc77258c2ed11d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac907489082ef85bb29c0cd849c36c4a5" id="r_ac907489082ef85bb29c0cd849c36c4a5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#ac907489082ef85bb29c0cd849c36c4a5">OnDpiChanged</a> (int dpiX, int dpiY, RECT &amp;newRect)</td></tr>
+<tr class="memdesc:ac907489082ef85bb29c0cd849c36c4a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_DPICHANGED时调用该函数  <br /></td></tr>
+<tr class="separator:ac907489082ef85bb29c0cd849c36c4a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classsw_1_1Layer"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsw_1_1Layer')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classsw_1_1Layer.html">sw::Layer</a></td></tr>
 <tr class="memitem:a76769d6a5eb98783dfe42b1473560996 inherit pro_methods_classsw_1_1Layer" id="r_a76769d6a5eb98783dfe42b1473560996"><td class="memItemLeft" align="right" valign="top">
 void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateLayout</b> ()</td></tr>
@@ -1173,10 +1179,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>InitControl</b> (LPCW
 LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>DefaultWndProc</b> (const <a class="el" href="structsw_1_1ProcMsg.html">ProcMsg</a> &amp;refMsg)</td></tr>
 <tr class="memdesc:a585967d861673ea0477f25c1a5c0fb30 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc <br /></td></tr>
 <tr class="separator:a585967d861673ea0477f25c1a5c0fb30 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf6c13095f64868f94ee846a4ac9abb3 inherit pro_methods_classsw_1_1WndBase" id="r_adf6c13095f64868f94ee846a4ac9abb3"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateInternalText</b> ()</td></tr>
-<tr class="memdesc:adf6c13095f64868f94ee846a4ac9abb3 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">同步窗口文本到内部记录的字符串 <br /></td></tr>
-<tr class="separator:adf6c13095f64868f94ee846a4ac9abb3 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a670d453b91ad91d9dcd642a495df6ec2 inherit pro_methods_classsw_1_1WndBase" id="r_a670d453b91ad91d9dcd642a495df6ec2"><td class="memItemLeft" align="right" valign="top">virtual std::wstring &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a670d453b91ad91d9dcd642a495df6ec2">GetInternalText</a> ()</td></tr>
 <tr class="memdesc:a670d453b91ad91d9dcd642a495df6ec2 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取内部记录窗口文本的字符串引用  <br /></td></tr>
 <tr class="separator:a670d453b91ad91d9dcd642a495df6ec2 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1300,6 +1302,57 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
 
 </div>
 </div>
+<a id="a09e5b989c8fd2a7b1976c7f364eae1f2" name="a09e5b989c8fd2a7b1976c7f364eae1f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09e5b989c8fd2a7b1976c7f364eae1f2">&#9670;&#160;</a></span>DisableLayout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::Window::DisableLayout </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>禁用窗口布局 </p>
+<dl class="section note"><dt>注解</dt><dd>需与EnableLayout配对使用，内部维护了一个计数器以支持嵌套调用 </dd>
+<dd>
+禁用布局操作只对顶层窗口有效，且只能在窗口所在的线程调用该函数 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>操作是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="ab4ae546b2146a44772c9d8a69e798160" name="ab4ae546b2146a44772c9d8a69e798160"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4ae546b2146a44772c9d8a69e798160">&#9670;&#160;</a></span>EnableLayout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::Window::EnableLayout </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>reset</em> = <code>false</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>恢复窗口布局，与DisableLayout配对使用 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">reset</td><td>若该参数为true则直接将布局禁用计数器重置为0 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>禁用布局操作只对顶层窗口有效，且只能在窗口所在的线程调用该函数 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>操作是否成功 </dd></dl>
+
+</div>
+</div>
 <a id="abafe422b0435aa15ec04ced4300b6b76" name="abafe422b0435aa15ec04ced4300b6b76"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abafe422b0435aa15ec04ced4300b6b76">&#9670;&#160;</a></span>GetDefaultLayout()</h2>
 
@@ -1419,8 +1472,8 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
 
 </div>
 </div>
-<a id="a850c77ff7a3271e6d2bc77258c2ed11d" name="a850c77ff7a3271e6d2bc77258c2ed11d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a850c77ff7a3271e6d2bc77258c2ed11d">&#9670;&#160;</a></span>OnDpiChanged()</h2>
+<a id="ac907489082ef85bb29c0cd849c36c4a5" name="ac907489082ef85bb29c0cd849c36c4a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac907489082ef85bb29c0cd849c36c4a5">&#9670;&#160;</a></span>OnDpiChanged()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1438,7 +1491,13 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>dpiY</em>&#160;</td>
+          <td class="paramname"><em>dpiY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">RECT &amp;&#160;</td>
+          <td class="paramname"><em>newRect</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1458,6 +1517,7 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
   <table class="params">
     <tr><td class="paramname">dpiX</td><td>横向DPI </td></tr>
     <tr><td class="paramname">dpiY</td><td>纵向DPI </td></tr>
+    <tr><td class="paramname">newRect</td><td>建议的新窗口位置和尺寸 </td></tr>
   </table>
   </dd>
 </dl>

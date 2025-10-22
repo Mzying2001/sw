@@ -49,9 +49,9 @@ var NAVTREEINDEX =
 "Alignment_8h_source.html",
 "classsw_1_1Control.html#afe92409895a37b2b4d86c08d771da873",
 "classsw_1_1IPAddressControl.html#a10458a0733ba951af3076861009fe45f",
-"classsw_1_1Menu.html#ac24676f02acaac6350331a49ca2e6f44",
-"classsw_1_1ReadOnlyPropertyLite.html#a66de2e632fc19588cd73795ed74caec1",
-"classsw_1_1UIElement.html#a5c452519bad920ad9b91f9610ea202e0",
+"classsw_1_1MenuBase.html#a114b4fe9eb2cd543c605479198d67517",
+"classsw_1_1RoutedEventHandlerWrapper.html#a06fbe03cfb238d84cd15f6a12c350606",
+"classsw_1_1UIElement.html#a6121cdf84c8073bae9b3cde98a6a59ea",
 "classsw_1_1WndBase.html#ac34494921eed0f67a053a9393d78bcf9",
 "structsw_1_1MsgBoxResultHelper.html#a6769260aa667afcbd5ae5cc0f3cb4d54"
 ];

@@ -67,7 +67,7 @@ var searchData=
   ['ishittestvisible_64',['IsHitTestVisible',['../classsw_1_1UIElement.html#a87244c08dabca5b114cc1b7040118bc6',1,'sw::UIElement']]],
   ['isinhierarchy_65',['IsInHierarchy',['../classsw_1_1Control.html#a703a0794e6d8aeb786b1f53c9e987e83',1,'sw::Control']]],
   ['islayered_66',['IsLayered',['../classsw_1_1Window.html#ab642e68dc2716a7496322be4423f82f4',1,'sw::Window']]],
-  ['islayoutdisabled_67',['IsLayoutDisabled',['../classsw_1_1Layer.html#aad286771872cc835570d7f6508772a20',1,'sw::Layer']]],
+  ['islayoutdisabled_67',['IsLayoutDisabled',['../classsw_1_1Window.html#a3b4bdbab7517e89ff281a3de4eb33143',1,'sw::Window']]],
   ['islayoutupdateconditionset_68',['IsLayoutUpdateConditionSet',['../classsw_1_1UIElement.html#a9c1ce767cc687fa9b9864640cc0237c5',1,'sw::UIElement']]],
   ['ismeasurevalid_69',['IsMeasureValid',['../classsw_1_1UIElement.html#a78ccd020a37a7da25b9df8eab6783f35',1,'sw::UIElement']]],
   ['ismodal_70',['IsModal',['../classsw_1_1Window.html#a709b4ecc32fb2dccb7c12dd24078aed8',1,'sw::Window']]],
