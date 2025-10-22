@@ -15,6 +15,7 @@
 #include <cstdint>
 #include <map>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace sw
@@ -144,7 +145,7 @@ namespace sw
         /**
          * @brief 记录路由事件的map
          */
-        std::map<RoutedEventType, RoutedEventHandler> _eventMap{};
+        std::unordered_map<RoutedEventType, RoutedEventHandler> _eventMap{};
 
         /**
          * @brief 储存用户自定义信息

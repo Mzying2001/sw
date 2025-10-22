@@ -89,6 +89,11 @@ namespace sw
          */
         bool _isDestroying = false;
 
+        /**
+         * @brief 布局禁用计数器
+         */
+        int _disableLayoutCount = 0;
+
     public:
         /**
          * @brief 当前线程的活动窗口
@@ -178,6 +183,11 @@ namespace sw
          */
         const ReadOnlyProperty<sw::Rect> RestoreRect;
 
+        /**
+         * @brief 窗口布局是否被禁用
+         */
+        const ReadOnlyProperty<bool> IsLayoutDisabled;
+
     public:
         /**
          * @brief 初始化窗口
@@ -259,11 +269,12 @@ namespace sw
         virtual void OnInactived();
 
         /**
-         * @brief      接收到WM_DPICHANGED时调用该函数
-         * @param dpiX 横向DPI
-         * @param dpiY 纵向DPI
+         * @brief         接收到WM_DPICHANGED时调用该函数
+         * @param dpiX    横向DPI
+         * @param dpiY    纵向DPI
+         * @param newRect 建议的新窗口位置和尺寸
          */
-        virtual void OnDpiChanged(int dpiX, int dpiY);
+        virtual void OnDpiChanged(int dpiX, int dpiY, RECT &newRect);
 
     public:
         /**
@@ -297,6 +308,22 @@ namespace sw
          * @note        该函数会创建一个新的消息循环并在窗口销毁时退出，只能在创建窗口的线程调用
          */
         virtual int ShowDialog(Window &owner);
+
+        /**
+         * @brief  禁用窗口布局
+         * @note   需与EnableLayout配对使用，内部维护了一个计数器以支持嵌套调用
+         * @note   禁用布局操作只对顶层窗口有效，且只能在窗口所在的线程调用该函数
+         * @return 操作是否成功
+         */
+        bool DisableLayout();
+
+        /**
+         * @brief       恢复窗口布局，与DisableLayout配对使用
+         * @param reset 若该参数为true则直接将布局禁用计数器重置为0
+         * @note        禁用布局操作只对顶层窗口有效，且只能在窗口所在的线程调用该函数
+         * @return      操作是否成功
+         */
+        bool EnableLayout(bool reset = false);
 
         /**
          * @brief       设置图标
@@ -337,6 +364,11 @@ namespace sw
         }
 
     private:
+        /**
+         * @brief 窗口布局是否被禁用
+         */
+        bool _IsLayoutDisabled() const noexcept;
+
         /**
          * @brief      通过窗口句柄获取Window指针
          * @param hwnd 窗口句柄

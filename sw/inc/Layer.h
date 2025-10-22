@@ -13,11 +13,6 @@ namespace sw
     {
     private:
         /**
-         * @brief 是否关闭布局，当该字段为true时调用UpdateLayout不会更新布局，可以用DisableLayout和EnableLayout设置该字段
-         */
-        bool _layoutDisabled = false;
-
-        /**
          * @brief 是否按照布局方式与子元素自动调整尺寸
          */
         bool _autoSize = true;
@@ -169,21 +164,6 @@ namespace sw
         virtual bool OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler) override;
 
     public:
-        /**
-         * @brief 禁用布局，禁用布局后调用UpdateLayout不会更新布局
-         */
-        void DisableLayout();
-
-        /**
-         * @brief 启用布局，并立即更新布局
-         */
-        void EnableLayout();
-
-        /**
-         * @brief 获取一个值，表示当前控件是否已禁用布局
-         */
-        bool IsLayoutDisabled();
-
         /**
          * @brief        获取横向滚动条的范围
          * @param refMin 滚动范围最小值

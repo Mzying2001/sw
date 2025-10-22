@@ -211,6 +211,12 @@ sw::Window::Window()
               wp.length = sizeof(WINDOWPLACEMENT);
               GetWindowPlacement(Handle, &wp);
               return wp.rcNormalPosition;
+          }),
+
+      IsLayoutDisabled(
+          // get
+          [this]() -> bool {
+              return _IsLayoutDisabled();
           })
 {
     InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
@@ -278,7 +284,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DPICHANGED: {
-            OnDpiChanged(LOWORD(refMsg.wParam), HIWORD(refMsg.wParam));
+            int dpiX = LOWORD(refMsg.wParam);
+            int dpiY = HIWORD(refMsg.wParam);
+            OnDpiChanged(dpiX, dpiY, *reinterpret_cast<RECT *>(refMsg.lParam));
             return 0;
         }
 
@@ -288,8 +296,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_UpdateLayout: {
-            if (!_isDestroying)
+            if (!_isDestroying && !_IsLayoutDisabled()) {
                 UpdateLayout();
+            }
             return 0;
         }
 
@@ -439,43 +448,23 @@ void sw::Window::OnInactived()
     _hPrevFocused = GetFocus();
 }
 
-void sw::Window::OnDpiChanged(int dpiX, int dpiY)
+void sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
 {
-    bool layoutDisabled = IsLayoutDisabled();
-
-    Dip::Update(dpiX, dpiY);
     DisableLayout();
-
-    {
-        // Windows在DIP改变时会自动调整窗口大小，此时会先触发WM_WINDOWPOSCHANGED，再触发WM_DPICHANGED
-        // 因此在先触发的WM_WINDOWPOSCHANGED消息中，（Dip类中）DPI信息未更新，从而导致窗口的Rect数据错误
-        // 此处在更新DPI信息后手动发送一个WM_WINDOWPOSCHANGED以修正窗口的Rect数据
-
-        HWND hwnd = Handle;
-
-        RECT rect;
-        GetWindowRect(hwnd, &rect);
-
-        WINDOWPOS pos{};
-        pos.hwnd  = hwnd;
-        pos.x     = rect.left;
-        pos.y     = rect.top;
-        pos.cx    = rect.right - rect.left;
-        pos.cy    = rect.bottom - rect.top;
-        pos.flags = SWP_NOACTIVATE | SWP_NOZORDER;
-
-        SendMessageW(WM_WINDOWPOSCHANGED, 0, reinterpret_cast<LPARAM>(&pos));
-    }
-
-    UpdateFont();
+    Dip::Update(dpiX, dpiY);
 
     QueryAllChildren([](UIElement *item) {
-        return item->UpdateFont(), true;
+        item->LayoutUpdateCondition |= LayoutUpdateCondition::Supressed;
+        item->UpdateFont();
+        item->LayoutUpdateCondition &= ~LayoutUpdateCondition::Supressed;
+        return true;
     });
 
-    if (!layoutDisabled) {
-        EnableLayout();
-    }
+    UpdateInternalRect();
+    UpdateFont();
+
+    Rect = newRect;
+    EnableLayout();
 }
 
 sw::Window *sw::Window::ToWindow()
@@ -567,6 +556,33 @@ int sw::Window::ShowDialog(Window &owner)
     return result;
 }
 
+bool sw::Window::DisableLayout()
+{
+    if (!CheckAccess()) {
+        return false; // 只能在创建窗口的线程调用
+    }
+    ++_disableLayoutCount;
+    return true;
+}
+
+bool sw::Window::EnableLayout(bool reset)
+{
+    if (!CheckAccess()) {
+        return false; // 只能在创建窗口的线程调用
+    }
+
+    if (reset) {
+        _disableLayoutCount = 0;
+    } else {
+        _disableLayoutCount = Utils::Max(0, _disableLayoutCount - 1);
+    }
+
+    if (!_IsLayoutDisabled()) {
+        UpdateLayout();
+    }
+    return true;
+}
+
 void sw::Window::SetIcon(HICON hIcon)
 {
     SendMessageW(WM_SETICON, ICON_BIG, (LPARAM)hIcon);
@@ -600,6 +616,11 @@ void sw::Window::SizeToContent()
 
     // 恢复AutoSize属性的值
     AutoSize = oldAutoSize;
+}
+
+bool sw::Window::_IsLayoutDisabled() const noexcept
+{
+    return _disableLayoutCount > 0;
 }
 
 sw::Window *sw::Window::_GetWindowPtr(HWND hwnd)
