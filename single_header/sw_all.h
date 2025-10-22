@@ -20,6 +20,7 @@
 #include <tuple>
 #include <type_traits>
 #include <typeindex>
+#include <unordered_map>
 #include <vector>
 #include <windowsx.h>
 
@@ -5095,7 +5096,7 @@ namespace sw
         /**
          * @brief 记录每个菜单项直接依赖关系的map
          */
-        std::map<MenuItem *, _MenuItemDependencyInfo> _dependencyInfoMap;
+        std::unordered_map<MenuItem *, _MenuItemDependencyInfo> _dependencyInfoMap;
 
     protected:
         /**
@@ -6530,6 +6531,25 @@ namespace sw
             }
             wos << L"}";
         }
+
+        /**
+         * @brief 让BildStr函数支持std::unordered_map
+         */
+        template <typename TKey, typename TVal>
+        static inline void _BuildStr(std::wostream &wos, const std::unordered_map<TKey, TVal> &map)
+        {
+            auto beg = map.begin();
+            auto end = map.end();
+            wos << L"{";
+            for (auto it = beg; it != end; ++it) {
+                if (it != beg)
+                    wos << L", ";
+                Utils::_BuildStr(wos, it->first);
+                wos << L":";
+                Utils::_BuildStr(wos, it->second);
+            }
+            wos << L"}";
+        }
     };
 }
 
@@ -7649,11 +7669,6 @@ namespace sw
         virtual LRESULT WndProc(const ProcMsg &refMsg);
 
         /**
-         * @brief 同步窗口文本到内部记录的字符串
-         */
-        void UpdateInternalText();
-
-        /**
          * @brief 获取内部记录窗口文本的字符串引用
          * @note  Text属性的Get方法会调用该函数，部分控件如编辑框需要重写该函数以返回正确的文本
          */
@@ -8090,6 +8105,16 @@ namespace sw
         virtual bool OnDropFiles(HDROP hDrop);
 
     public:
+        /**
+         * @brief 同步窗口位置和尺寸到内部记录的Rect
+         */
+        void UpdateInternalRect();
+
+        /**
+         * @brief 同步窗口文本到内部记录的字符串
+         */
+        void UpdateInternalText();
+
         /**
          * @brief 该函数调用ShowWindow
          */
@@ -8645,17 +8670,17 @@ namespace sw
         /**
          * @brief 当图标被单击时触发该事件
          */
-        NotifyIconMouseEventHandler ClickedHandler;
+        NotifyIconMouseEventHandler Clicked;
 
         /**
          * @brief 当图标被双击时触发该事件
          */
-        NotifyIconMouseEventHandler DoubleClickedHandler;
+        NotifyIconMouseEventHandler DoubleClicked;
 
         /**
-         * @brief 当图标被右键单击时触发该事件
+         * @brief 打开上下文菜单前触发该事件
          */
-        NotifyIconMouseEventHandler ContextMenuHandler;
+        NotifyIconMouseEventHandler ContextMenuOpening;
 
     public:
         /**
@@ -8669,11 +8694,6 @@ namespace sw
         ~NotifyIcon();
 
     protected:
-        /**
-         * @brief 避免隐藏基类的OnContextMenu函数
-         */
-        using TBase::OnContextMenu;
-
         /**
          * @brief 对WndProc的封装
          */
@@ -8703,10 +8723,10 @@ namespace sw
         virtual void OnDoubleClicked(const Point &mousePos);
 
         /**
-         * @brief          鼠标右键单击图标时调用该函数
+         * @brief          打开上下文菜单前调用该函数
          * @param mousePos 鼠标位置
          */
-        virtual void OnContextMenu(const Point &mousePos);
+        virtual void OnContextMenuOpening(const Point &mousePos);
 
         /**
          * @brief 获取通知图标数据
@@ -9094,7 +9114,7 @@ namespace sw
         /**
          * @brief 记录路由事件的map
          */
-        std::map<RoutedEventType, RoutedEventHandler> _eventMap{};
+        std::unordered_map<RoutedEventType, RoutedEventHandler> _eventMap{};
 
         /**
          * @brief 储存用户自定义信息
@@ -10922,11 +10942,6 @@ namespace sw
     {
     private:
         /**
-         * @brief 是否关闭布局，当该字段为true时调用UpdateLayout不会更新布局，可以用DisableLayout和EnableLayout设置该字段
-         */
-        bool _layoutDisabled = false;
-
-        /**
          * @brief 是否按照布局方式与子元素自动调整尺寸
          */
         bool _autoSize = true;
@@ -11078,21 +11093,6 @@ namespace sw
         virtual bool OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler) override;
 
     public:
-        /**
-         * @brief 禁用布局，禁用布局后调用UpdateLayout不会更新布局
-         */
-        void DisableLayout();
-
-        /**
-         * @brief 启用布局，并立即更新布局
-         */
-        void EnableLayout();
-
-        /**
-         * @brief 获取一个值，表示当前控件是否已禁用布局
-         */
-        bool IsLayoutDisabled();
-
         /**
          * @brief        获取横向滚动条的范围
          * @param refMin 滚动范围最小值
@@ -12799,6 +12799,11 @@ namespace sw
          */
         bool _isDestroying = false;
 
+        /**
+         * @brief 布局禁用计数器
+         */
+        int _disableLayoutCount = 0;
+
     public:
         /**
          * @brief 当前线程的活动窗口
@@ -12888,6 +12893,11 @@ namespace sw
          */
         const ReadOnlyProperty<sw::Rect> RestoreRect;
 
+        /**
+         * @brief 窗口布局是否被禁用
+         */
+        const ReadOnlyProperty<bool> IsLayoutDisabled;
+
     public:
         /**
          * @brief 初始化窗口
@@ -12969,11 +12979,12 @@ namespace sw
         virtual void OnInactived();
 
         /**
-         * @brief      接收到WM_DPICHANGED时调用该函数
-         * @param dpiX 横向DPI
-         * @param dpiY 纵向DPI
+         * @brief         接收到WM_DPICHANGED时调用该函数
+         * @param dpiX    横向DPI
+         * @param dpiY    纵向DPI
+         * @param newRect 建议的新窗口位置和尺寸
          */
-        virtual void OnDpiChanged(int dpiX, int dpiY);
+        virtual void OnDpiChanged(int dpiX, int dpiY, RECT &newRect);
 
     public:
         /**
@@ -13007,6 +13018,22 @@ namespace sw
          * @note        该函数会创建一个新的消息循环并在窗口销毁时退出，只能在创建窗口的线程调用
          */
         virtual int ShowDialog(Window &owner);
+
+        /**
+         * @brief  禁用窗口布局
+         * @note   需与EnableLayout配对使用，内部维护了一个计数器以支持嵌套调用
+         * @note   禁用布局操作只对顶层窗口有效，且只能在窗口所在的线程调用该函数
+         * @return 操作是否成功
+         */
+        bool DisableLayout();
+
+        /**
+         * @brief       恢复窗口布局，与DisableLayout配对使用
+         * @param reset 若该参数为true则直接将布局禁用计数器重置为0
+         * @note        禁用布局操作只对顶层窗口有效，且只能在窗口所在的线程调用该函数
+         * @return      操作是否成功
+         */
+        bool EnableLayout(bool reset = false);
 
         /**
          * @brief       设置图标
@@ -13047,6 +13074,11 @@ namespace sw
         }
 
     private:
+        /**
+         * @brief 窗口布局是否被禁用
+         */
+        bool _IsLayoutDisabled() const noexcept;
+
         /**
          * @brief      通过窗口句柄获取Window指针
          * @param hwnd 窗口句柄
