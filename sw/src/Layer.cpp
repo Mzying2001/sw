@@ -168,10 +168,6 @@ sw::Layer::~Layer()
 
 void sw::Layer::UpdateLayout()
 {
-    if (this->_layoutDisabled) {
-        return;
-    }
-
     LayoutHost *layout = this->_GetLayout();
 
     if (layout == nullptr) {
@@ -386,22 +382,6 @@ bool sw::Layer::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandl
         }
     }
     return true;
-}
-
-void sw::Layer::DisableLayout()
-{
-    this->_layoutDisabled = true;
-}
-
-void sw::Layer::EnableLayout()
-{
-    this->_layoutDisabled = false;
-    this->UpdateLayout();
-}
-
-bool sw::Layer::IsLayoutDisabled()
-{
-    return this->_layoutDisabled;
 }
 
 void sw::Layer::GetHorizontalScrollRange(double &refMin, double &refMax)

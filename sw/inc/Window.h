@@ -89,6 +89,11 @@ namespace sw
          */
         bool _isDestroying = false;
 
+        /**
+         * @brief 布局禁用计数器
+         */
+        int _disableLayoutCount = 0;
+
     public:
         /**
          * @brief 当前线程的活动窗口
@@ -177,6 +182,11 @@ namespace sw
          * @brief 窗口在最小化或最大化之前的位置和尺寸
          */
         const ReadOnlyProperty<sw::Rect> RestoreRect;
+
+        /**
+         * @brief 窗口布局是否被禁用
+         */
+        const ReadOnlyProperty<bool> IsLayoutDisabled;
 
     public:
         /**
@@ -299,6 +309,22 @@ namespace sw
         virtual int ShowDialog(Window &owner);
 
         /**
+         * @brief  禁用窗口布局
+         * @note   需与EnableLayout配对使用，内部维护了一个计数器以支持嵌套调用
+         * @note   禁用布局操作只对顶层窗口有效，且只能在窗口所在的线程调用该函数
+         * @return 操作是否成功
+         */
+        bool DisableLayout();
+
+        /**
+         * @brief       恢复窗口布局，与DisableLayout配对使用
+         * @param reset 若该参数为true则直接将布局禁用计数器重置为0
+         * @note        禁用布局操作只对顶层窗口有效，且只能在窗口所在的线程调用该函数
+         * @return      操作是否成功
+         */
+        bool EnableLayout(bool reset = false);
+
+        /**
          * @brief       设置图标
          * @param hIcon 图标句柄
          */
@@ -337,6 +363,11 @@ namespace sw
         }
 
     private:
+        /**
+         * @brief 窗口布局是否被禁用
+         */
+        bool _IsLayoutDisabled() const noexcept;
+
         /**
          * @brief      通过窗口句柄获取Window指针
          * @param hwnd 窗口句柄

@@ -211,6 +211,12 @@ sw::Window::Window()
               wp.length = sizeof(WINDOWPLACEMENT);
               GetWindowPlacement(Handle, &wp);
               return wp.rcNormalPosition;
+          }),
+
+      IsLayoutDisabled(
+          // get
+          [this]() -> bool {
+              return _IsLayoutDisabled();
           })
 {
     InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
@@ -288,8 +294,9 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_UpdateLayout: {
-            if (!_isDestroying)
+            if (!_isDestroying && !_IsLayoutDisabled()) {
                 UpdateLayout();
+            }
             return 0;
         }
 
@@ -441,8 +448,6 @@ void sw::Window::OnInactived()
 
 void sw::Window::OnDpiChanged(int dpiX, int dpiY)
 {
-    bool layoutDisabled = IsLayoutDisabled();
-
     Dip::Update(dpiX, dpiY);
     DisableLayout();
 
@@ -473,9 +478,7 @@ void sw::Window::OnDpiChanged(int dpiX, int dpiY)
         return item->UpdateFont(), true;
     });
 
-    if (!layoutDisabled) {
-        EnableLayout();
-    }
+    EnableLayout();
 }
 
 sw::Window *sw::Window::ToWindow()
@@ -567,6 +570,33 @@ int sw::Window::ShowDialog(Window &owner)
     return result;
 }
 
+bool sw::Window::DisableLayout()
+{
+    if (!CheckAccess()) {
+        return false; // 只能在创建窗口的线程调用
+    }
+    ++_disableLayoutCount;
+    return true;
+}
+
+bool sw::Window::EnableLayout(bool reset)
+{
+    if (!CheckAccess()) {
+        return false; // 只能在创建窗口的线程调用
+    }
+
+    if (reset) {
+        _disableLayoutCount = 0;
+    } else {
+        _disableLayoutCount = Utils::Max(0, _disableLayoutCount - 1);
+    }
+
+    if (!_IsLayoutDisabled()) {
+        UpdateLayout();
+    }
+    return true;
+}
+
 void sw::Window::SetIcon(HICON hIcon)
 {
     SendMessageW(WM_SETICON, ICON_BIG, (LPARAM)hIcon);
@@ -600,6 +630,11 @@ void sw::Window::SizeToContent()
 
     // 恢复AutoSize属性的值
     AutoSize = oldAutoSize;
+}
+
+bool sw::Window::_IsLayoutDisabled() const noexcept
+{
+    return _disableLayoutCount > 0;
 }
 
 sw::Window *sw::Window::_GetWindowPtr(HWND hwnd)
