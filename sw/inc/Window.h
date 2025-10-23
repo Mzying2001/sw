@@ -273,8 +273,9 @@ namespace sw
          * @param dpiX    横向DPI
          * @param dpiY    纵向DPI
          * @param newRect 建议的新窗口位置和尺寸
+         * @return        若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnDpiChanged(int dpiX, int dpiY, RECT &newRect);
+        virtual bool OnDpiChanged(int dpiX, int dpiY, RECT &newRect);
 
     public:
         /**

@@ -284,10 +284,10 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DPICHANGED: {
-            int dpiX = LOWORD(refMsg.wParam);
-            int dpiY = HIWORD(refMsg.wParam);
-            OnDpiChanged(dpiX, dpiY, *reinterpret_cast<RECT *>(refMsg.lParam));
-            return 0;
+            int dpiX   = LOWORD(refMsg.wParam);
+            int dpiY   = HIWORD(refMsg.wParam);
+            auto &rect = *reinterpret_cast<RECT *>(refMsg.lParam);
+            return OnDpiChanged(dpiX, dpiY, rect) ? 0 : TBase::WndProc(refMsg);
         }
 
         case WM_ACTIVATE: {
@@ -448,7 +448,7 @@ void sw::Window::OnInactived()
     _hPrevFocused = GetFocus();
 }
 
-void sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
+bool sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
 {
     DisableLayout();
     Dip::Update(dpiX, dpiY);
@@ -465,6 +465,7 @@ void sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
 
     Rect = newRect;
     EnableLayout();
+    return true;
 }
 
 sw::Window *sw::Window::ToWindow()
