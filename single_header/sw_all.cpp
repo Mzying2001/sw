@@ -1561,7 +1561,7 @@ bool sw::DockLayoutTag::operator!=(uint64_t value) const
 sw::Size sw::DockLayout::MeasureOverride(const Size &availableSize)
 {
     Size restSize = availableSize;
-    Size desireSize;
+    Size desireSize{};
 
     int count = this->GetChildLayoutCount();
 
@@ -2259,8 +2259,9 @@ void sw::SaveFileDialog::_SetInitialFileName()
 
 sw::Size sw::FillLayout::MeasureOverride(const Size &availableSize)
 {
-    Size desireSize;
+    Size desireSize{};
     int count = this->GetChildLayoutCount();
+
     for (int i = 0; i < count; ++i) {
         ILayout &item = this->GetChildLayoutAt(i);
         item.Measure(availableSize);
@@ -2274,6 +2275,7 @@ sw::Size sw::FillLayout::MeasureOverride(const Size &availableSize)
 void sw::FillLayout::ArrangeOverride(const Size &finalSize)
 {
     int count = this->GetChildLayoutCount();
+
     for (int i = 0; i < count; ++i) {
         ILayout &item = this->GetChildLayoutAt(i);
         item.Arrange(Rect{0, 0, finalSize.width, finalSize.height});
@@ -6547,7 +6549,7 @@ sw::NotifyIcon::~NotifyIcon()
     }
 }
 
-LRESULT sw::NotifyIcon::WndProc(const ProcMsg &refMsg)
+LRESULT sw::NotifyIcon::WndProc(ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
         case _NotifyIconMsg: {
@@ -6789,7 +6791,7 @@ void sw::Panel::UpdateBorder()
                  SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
 }
 
-LRESULT sw::Panel::WndProc(const ProcMsg &refMsg)
+LRESULT sw::Panel::WndProc(ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
         case WM_NCCALCSIZE: {
@@ -10248,7 +10250,7 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     Size &desireSize  = this->_desireSize;
     Thickness &margin = this->_margin;
 
-    sw::Rect rect;
+    sw::Rect rect{};
     rect.width  = desireSize.width - margin.left - margin.right;
     rect.height = desireSize.height - margin.top - margin.bottom;
 
@@ -11377,7 +11379,7 @@ sw::Window::~Window()
     }
 }
 
-LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
+LRESULT sw::Window::WndProc(ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
         case WM_CREATE: {
@@ -11430,10 +11432,10 @@ LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
         }
 
         case WM_DPICHANGED: {
-            int dpiX = LOWORD(refMsg.wParam);
-            int dpiY = HIWORD(refMsg.wParam);
-            OnDpiChanged(dpiX, dpiY, *reinterpret_cast<RECT *>(refMsg.lParam));
-            return 0;
+            int dpiX   = LOWORD(refMsg.wParam);
+            int dpiY   = HIWORD(refMsg.wParam);
+            auto &rect = *reinterpret_cast<RECT *>(refMsg.lParam);
+            return OnDpiChanged(dpiX, dpiY, rect) ? 0 : TBase::WndProc(refMsg);
         }
 
         case WM_ACTIVATE: {
@@ -11594,7 +11596,7 @@ void sw::Window::OnInactived()
     _hPrevFocused = GetFocus();
 }
 
-void sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
+bool sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
 {
     DisableLayout();
     Dip::Update(dpiX, dpiY);
@@ -11611,6 +11613,7 @@ void sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
 
     Rect = newRect;
     EnableLayout();
+    return true;
 }
 
 sw::Window *sw::Window::ToWindow()
@@ -12178,17 +12181,17 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
     this->UpdateFont();
 }
 
-LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
+LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &msg)
 {
     if (this->_originalWndProc == nullptr ||
         this->_originalWndProc == WndBase::_WndProc) {
-        return DefWindowProcW(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+        return DefWindowProcW(msg.hwnd, msg.uMsg, msg.wParam, msg.lParam);
     } else {
-        return CallWindowProcW(this->_originalWndProc, refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+        return CallWindowProcW(this->_originalWndProc, msg.hwnd, msg.uMsg, msg.wParam, msg.lParam);
     }
 }
 
-LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
+LRESULT sw::WndBase::WndProc(ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
         case WM_CREATE: {
@@ -13098,7 +13101,7 @@ sw::WndBase *sw::WndBase::_GetControlInitContainer()
             this->InitWindow(L"", WS_POPUP, 0);
         }
 
-        LRESULT WndProc(const ProcMsg &refMsg) override
+        LRESULT WndProc(ProcMsg &refMsg) override
         {
             switch (refMsg.uMsg) {
                 case WM_CLOSE: {

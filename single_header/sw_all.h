@@ -7661,12 +7661,12 @@ namespace sw
         /**
          * @brief 调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc
          */
-        LRESULT DefaultWndProc(const ProcMsg &refMsg);
+        LRESULT DefaultWndProc(const ProcMsg &msg);
 
         /**
          * @brief 对WndProc的封装
          */
-        virtual LRESULT WndProc(const ProcMsg &refMsg);
+        virtual LRESULT WndProc(ProcMsg &refMsg);
 
         /**
          * @brief 获取内部记录窗口文本的字符串引用
@@ -8697,7 +8697,7 @@ namespace sw
         /**
          * @brief 对WndProc的封装
          */
-        virtual LRESULT WndProc(const ProcMsg &refMsg) override;
+        virtual LRESULT WndProc(ProcMsg &refMsg) override;
 
         /**
          * @brief    当WM_COMMAND接收到菜单命令时调用该函数
@@ -12913,7 +12913,7 @@ namespace sw
         /**
          * @brief 对WndProc的封装
          */
-        virtual LRESULT WndProc(const ProcMsg &refMsg) override;
+        virtual LRESULT WndProc(ProcMsg &refMsg) override;
 
         /**
          * @brief 获取默认布局对象
@@ -12983,8 +12983,9 @@ namespace sw
          * @param dpiX    横向DPI
          * @param dpiY    纵向DPI
          * @param newRect 建议的新窗口位置和尺寸
+         * @return        若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnDpiChanged(int dpiX, int dpiY, RECT &newRect);
+        virtual bool OnDpiChanged(int dpiX, int dpiY, RECT &newRect);
 
     public:
         /**
@@ -15574,7 +15575,7 @@ namespace sw
         /**
          * @brief 对WndProc的封装
          */
-        virtual LRESULT WndProc(const ProcMsg &refMsg) override;
+        virtual LRESULT WndProc(ProcMsg &refMsg) override;
 
         /**
          * @brief        接收到WM_ERASEBKGND时调用该函数
