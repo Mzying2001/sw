@@ -61,7 +61,7 @@ void sw::Panel::UpdateBorder()
                  SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
 }
 
-LRESULT sw::Panel::WndProc(const ProcMsg &refMsg)
+LRESULT sw::Panel::WndProc(ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
         case WM_NCCALCSIZE: {

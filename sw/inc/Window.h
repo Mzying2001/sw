@@ -203,7 +203,7 @@ namespace sw
         /**
          * @brief 对WndProc的封装
          */
-        virtual LRESULT WndProc(const ProcMsg &refMsg) override;
+        virtual LRESULT WndProc(ProcMsg &refMsg) override;
 
         /**
          * @brief 获取默认布局对象

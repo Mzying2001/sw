@@ -93,7 +93,7 @@ namespace sw
         /**
          * @brief 对WndProc的封装
          */
-        virtual LRESULT WndProc(const ProcMsg &refMsg) override;
+        virtual LRESULT WndProc(ProcMsg &refMsg) override;
 
         /**
          * @brief    当WM_COMMAND接收到菜单命令时调用该函数

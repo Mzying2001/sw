@@ -231,7 +231,7 @@ sw::Window::~Window()
     }
 }
 
-LRESULT sw::Window::WndProc(const ProcMsg &refMsg)
+LRESULT sw::Window::WndProc(ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
         case WM_CREATE: {

@@ -108,7 +108,7 @@ sw::NotifyIcon::~NotifyIcon()
     }
 }
 
-LRESULT sw::NotifyIcon::WndProc(const ProcMsg &refMsg)
+LRESULT sw::NotifyIcon::WndProc(ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
         case _NotifyIconMsg: {

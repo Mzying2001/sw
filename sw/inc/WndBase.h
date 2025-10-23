@@ -277,12 +277,12 @@ namespace sw
         /**
          * @brief 调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc
          */
-        LRESULT DefaultWndProc(const ProcMsg &refMsg);
+        LRESULT DefaultWndProc(const ProcMsg &msg);
 
         /**
          * @brief 对WndProc的封装
          */
-        virtual LRESULT WndProc(const ProcMsg &refMsg);
+        virtual LRESULT WndProc(ProcMsg &refMsg);
 
         /**
          * @brief 获取内部记录窗口文本的字符串引用

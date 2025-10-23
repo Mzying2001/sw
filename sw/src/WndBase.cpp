@@ -392,17 +392,17 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
     this->UpdateFont();
 }
 
-LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &refMsg)
+LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &msg)
 {
     if (this->_originalWndProc == nullptr ||
         this->_originalWndProc == WndBase::_WndProc) {
-        return DefWindowProcW(refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+        return DefWindowProcW(msg.hwnd, msg.uMsg, msg.wParam, msg.lParam);
     } else {
-        return CallWindowProcW(this->_originalWndProc, refMsg.hwnd, refMsg.uMsg, refMsg.wParam, refMsg.lParam);
+        return CallWindowProcW(this->_originalWndProc, msg.hwnd, msg.uMsg, msg.wParam, msg.lParam);
     }
 }
 
-LRESULT sw::WndBase::WndProc(const ProcMsg &refMsg)
+LRESULT sw::WndBase::WndProc(ProcMsg &refMsg)
 {
     switch (refMsg.uMsg) {
         case WM_CREATE: {
@@ -1312,7 +1312,7 @@ sw::WndBase *sw::WndBase::_GetControlInitContainer()
             this->InitWindow(L"", WS_POPUP, 0);
         }
 
-        LRESULT WndProc(const ProcMsg &refMsg) override
+        LRESULT WndProc(ProcMsg &refMsg) override
         {
             switch (refMsg.uMsg) {
                 case WM_CLOSE: {
