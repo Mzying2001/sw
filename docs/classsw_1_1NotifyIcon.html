@@ -451,9 +451,9 @@ const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
-<tr class="memitem:afc15879357f25dc1fb4c3a0c65f1b096" id="r_afc15879357f25dc1fb4c3a0c65f1b096"><td class="memItemLeft" align="right" valign="top">virtual LRESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1NotifyIcon.html#afc15879357f25dc1fb4c3a0c65f1b096">WndProc</a> (const <a class="el" href="structsw_1_1ProcMsg.html">ProcMsg</a> &amp;refMsg) override</td></tr>
-<tr class="memdesc:afc15879357f25dc1fb4c3a0c65f1b096"><td class="mdescLeft">&#160;</td><td class="mdescRight">对WndProc的封装  <br /></td></tr>
-<tr class="separator:afc15879357f25dc1fb4c3a0c65f1b096"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add571486f242e22deb63c84812ded452" id="r_add571486f242e22deb63c84812ded452"><td class="memItemLeft" align="right" valign="top">virtual LRESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1NotifyIcon.html#add571486f242e22deb63c84812ded452">WndProc</a> (<a class="el" href="structsw_1_1ProcMsg.html">ProcMsg</a> &amp;refMsg) override</td></tr>
+<tr class="memdesc:add571486f242e22deb63c84812ded452"><td class="mdescLeft">&#160;</td><td class="mdescRight">对WndProc的封装  <br /></td></tr>
+<tr class="separator:add571486f242e22deb63c84812ded452"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13ed36dbb395e8bc07cd9070903d6417" id="r_a13ed36dbb395e8bc07cd9070903d6417"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1NotifyIcon.html#a13ed36dbb395e8bc07cd9070903d6417">OnMenuCommand</a> (int id) override</td></tr>
 <tr class="memdesc:a13ed36dbb395e8bc07cd9070903d6417"><td class="mdescLeft">&#160;</td><td class="mdescRight">当WM_COMMAND接收到菜单命令时调用该函数  <br /></td></tr>
 <tr class="separator:a13ed36dbb395e8bc07cd9070903d6417"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -499,10 +499,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>InitWindow</b> (LPCWS
 void&#160;</td><td class="memItemRight" valign="bottom"><b>InitControl</b> (LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam=NULL)</td></tr>
 <tr class="memdesc:aecb12507b6a8137427841d3bc4181fc6 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化为控件，该函数会调用CreateWindowExW <br /></td></tr>
 <tr class="separator:aecb12507b6a8137427841d3bc4181fc6 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a585967d861673ea0477f25c1a5c0fb30 inherit pro_methods_classsw_1_1WndBase" id="r_a585967d861673ea0477f25c1a5c0fb30"><td class="memItemLeft" align="right" valign="top">
-LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>DefaultWndProc</b> (const <a class="el" href="structsw_1_1ProcMsg.html">ProcMsg</a> &amp;refMsg)</td></tr>
-<tr class="memdesc:a585967d861673ea0477f25c1a5c0fb30 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc <br /></td></tr>
-<tr class="separator:a585967d861673ea0477f25c1a5c0fb30 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa551d992e7037ada1d07ad9a1504dc82 inherit pro_methods_classsw_1_1WndBase" id="r_aa551d992e7037ada1d07ad9a1504dc82"><td class="memItemLeft" align="right" valign="top">
+LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>DefaultWndProc</b> (const <a class="el" href="structsw_1_1ProcMsg.html">ProcMsg</a> &amp;msg)</td></tr>
+<tr class="memdesc:aa551d992e7037ada1d07ad9a1504dc82 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc <br /></td></tr>
+<tr class="separator:aa551d992e7037ada1d07ad9a1504dc82 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a670d453b91ad91d9dcd642a495df6ec2 inherit pro_methods_classsw_1_1WndBase" id="r_a670d453b91ad91d9dcd642a495df6ec2"><td class="memItemLeft" align="right" valign="top">virtual std::wstring &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a670d453b91ad91d9dcd642a495df6ec2">GetInternalText</a> ()</td></tr>
 <tr class="memdesc:a670d453b91ad91d9dcd642a495df6ec2 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取内部记录窗口文本的字符串引用  <br /></td></tr>
 <tr class="separator:a670d453b91ad91d9dcd642a495df6ec2 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -899,8 +899,8 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
 
 </div>
 </div>
-<a id="afc15879357f25dc1fb4c3a0c65f1b096" name="afc15879357f25dc1fb4c3a0c65f1b096"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc15879357f25dc1fb4c3a0c65f1b096">&#9670;&#160;</a></span>WndProc()</h2>
+<a id="add571486f242e22deb63c84812ded452" name="add571486f242e22deb63c84812ded452"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add571486f242e22deb63c84812ded452">&#9670;&#160;</a></span>WndProc()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -911,7 +911,7 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
         <tr>
           <td class="memname">virtual LRESULT sw::NotifyIcon::WndProc </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structsw_1_1ProcMsg.html">ProcMsg</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1ProcMsg.html">ProcMsg</a> &amp;&#160;</td>
           <td class="paramname"><em>refMsg</em></td><td>)</td>
           <td></td>
         </tr>
@@ -925,7 +925,7 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
 
 <p>对WndProc的封装 </p>
 
-<p>重载 <a class="el" href="classsw_1_1WndBase.html#a863b26226e16cf37f7169c6edc96a3b4">sw::WndBase</a> .</p>
+<p>重载 <a class="el" href="classsw_1_1WndBase.html#a22abfc80e3158636817e7db86d8ea613">sw::WndBase</a> .</p>
 
 </div>
 </div>

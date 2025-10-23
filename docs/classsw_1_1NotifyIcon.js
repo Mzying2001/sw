@@ -12,7 +12,7 @@ var classsw_1_1NotifyIcon =
     [ "OnNotyfyIconMessage", "classsw_1_1NotifyIcon.html#acb8576526f6e879f43190445eaad1d9e", null ],
     [ "Show", "classsw_1_1NotifyIcon.html#ab24d6ac75d3c1ba4438098267bdb991f", null ],
     [ "ShowContextMenu", "classsw_1_1NotifyIcon.html#af5e95e336bf02237e98b9b26ec7099bd", null ],
-    [ "WndProc", "classsw_1_1NotifyIcon.html#afc15879357f25dc1fb4c3a0c65f1b096", null ],
+    [ "WndProc", "classsw_1_1NotifyIcon.html#add571486f242e22deb63c84812ded452", null ],
     [ "Clicked", "classsw_1_1NotifyIcon.html#a0c5356d4c5a22554532557bf5c93785e", null ],
     [ "ContextMenu", "classsw_1_1NotifyIcon.html#aaddfb8f36febf3e9c5bf155bccdb16af", null ],
     [ "ContextMenuOpening", "classsw_1_1NotifyIcon.html#ac2af509db639bc4a2e161b60b1794883", null ],
