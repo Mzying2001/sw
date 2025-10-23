@@ -1296,7 +1296,7 @@ sw::WndBase *sw::WndBase::_GetControlInitContainer()
                 this->container->PostMessageW(WM_CLOSE, 0, 0);
 
                 // 临时消息循环
-                for (MSG msg{}; GetMessageW(&msg, NULL, 0, 0);) {
+                for (MSG msg{}; GetMessageW(&msg, NULL, 0, 0) > 0;) {
                     TranslateMessage(&msg);
                     DispatchMessageW(&msg);
                 }
