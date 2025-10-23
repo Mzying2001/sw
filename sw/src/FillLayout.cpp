@@ -3,8 +3,9 @@
 
 sw::Size sw::FillLayout::MeasureOverride(const Size &availableSize)
 {
-    Size desireSize;
+    Size desireSize{};
     int count = this->GetChildLayoutCount();
+
     for (int i = 0; i < count; ++i) {
         ILayout &item = this->GetChildLayoutAt(i);
         item.Measure(availableSize);
@@ -18,6 +19,7 @@ sw::Size sw::FillLayout::MeasureOverride(const Size &availableSize)
 void sw::FillLayout::ArrangeOverride(const Size &finalSize)
 {
     int count = this->GetChildLayoutCount();
+
     for (int i = 0; i < count; ++i) {
         ILayout &item = this->GetChildLayoutAt(i);
         item.Arrange(Rect{0, 0, finalSize.width, finalSize.height});

@@ -36,7 +36,7 @@ bool sw::DockLayoutTag::operator!=(uint64_t value) const
 sw::Size sw::DockLayout::MeasureOverride(const Size &availableSize)
 {
     Size restSize = availableSize;
-    Size desireSize;
+    Size desireSize{};
 
     int count = this->GetChildLayoutCount();
 
