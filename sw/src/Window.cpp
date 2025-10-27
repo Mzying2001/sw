@@ -287,7 +287,7 @@ LRESULT sw::Window::WndProc(ProcMsg &refMsg)
             int dpiX   = LOWORD(refMsg.wParam);
             int dpiY   = HIWORD(refMsg.wParam);
             auto &rect = *reinterpret_cast<RECT *>(refMsg.lParam);
-            return OnDpiChanged(dpiX, dpiY, rect) ? 0 : TBase::WndProc(refMsg);
+            return OnDpiChanged(dpiX, dpiY, rect) ? 0 : DefaultWndProc(refMsg);
         }
 
         case WM_ACTIVATE: {
