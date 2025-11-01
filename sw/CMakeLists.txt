@@ -12,10 +12,22 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # 针对不同编译器设置特定的编译选项
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    target_compile_options(sw PRIVATE -Wall -finput-charset=UTF-8)
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+if(MSVC)
+    # MSVC编译选项：需处理/utf-8选项冲突问题
+    # 获取当前继承的编译选项
+    get_target_property(_opts sw COMPILE_OPTIONS)
+
+    # 移除可能存在的/utf-8选项
+    if(_opts)
+        list(FILTER _opts EXCLUDE REGEX "/utf-8")
+        set_target_properties(sw PROPERTIES COMPILE_OPTIONS "${_opts}")
+    endif()
+
+    # 添加编译选项
     target_compile_options(sw PRIVATE /W3 /source-charset:utf-8)
+else()
+    # GCC/Clang编译选项
+    target_compile_options(sw PRIVATE -Wall -finput-charset=UTF-8)
 endif()
 
 # 包含头文件目录
