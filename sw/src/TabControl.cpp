@@ -1,6 +1,7 @@
 #include "TabControl.h"
 #include "Utils.h"
 #include <cmath>
+#include <limits>
 
 sw::TabControl::TabControl()
     : ContentRect(
