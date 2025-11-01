@@ -15,7 +15,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(sw PRIVATE -Wall -finput-charset=UTF-8)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    target_compile_options(sw PRIVATE /W3 /utf-8)
+    target_compile_options(sw PRIVATE /W3 /source-charset:utf-8)
 endif()
 
 # 包含头文件目录
