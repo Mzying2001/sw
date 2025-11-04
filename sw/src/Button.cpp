@@ -17,12 +17,7 @@ void sw::Button::OnDrawFocusRect(HDC hdc)
 
     RECT rect;
     GetClientRect(hwnd, &rect);
-
-    rect.left += 3;
-    rect.top += 3;
-    rect.right -= 3;
-    rect.bottom -= 3;
-
+    InflateRect(&rect, -3, -3);
     DrawFocusRect(hdc, &rect);
 }
 
