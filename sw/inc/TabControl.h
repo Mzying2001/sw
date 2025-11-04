@@ -109,12 +109,6 @@ namespace sw
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc) override;
-
-        /**
          * @brief SelectedIndex属性更改时调用该函数
          */
         virtual void OnSelectedIndexChanged();

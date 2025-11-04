@@ -1074,6 +1074,10 @@ void sw::UIElement::OnTabMove(bool forward)
     } else {
         this->SetPreviousTabStopFocus();
     }
+
+    if (this->_parent) {
+        this->_parent->SendMessageW(WM_UPDATEUISTATE, MAKEWPARAM(UIS_CLEAR, UISF_HIDEFOCUS), 0);
+    }
 }
 
 void sw::UIElement::OnTabStop()

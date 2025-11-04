@@ -285,12 +285,6 @@ namespace sw
         virtual TreeViewNode GetSelectedItem() override;
 
         /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc) override;
-
-        /**
          * @brief        设置背景颜色
          * @param color  要设置的颜色
          * @param redraw 是否重绘

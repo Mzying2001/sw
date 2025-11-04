@@ -49,11 +49,6 @@ bool sw::MonthCalendar::SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &ma
     return this->SendMessageW(MCM_SETRANGE, GDTR_MIN | GDTR_MAX, reinterpret_cast<LPARAM>(range));
 }
 
-void sw::MonthCalendar::OnDrawFocusRect(HDC hdc)
-{
-    // 不绘制虚线框
-}
-
 void sw::MonthCalendar::SetBackColor(Color color, bool redraw)
 {
     this->Control::SetBackColor(color, false);
