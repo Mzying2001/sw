@@ -115,11 +115,11 @@ void sw::Control::OnTabStop()
 
 void sw::Control::OnEndPaint()
 {
-    if (!_hasCustomDraw && _focusedViaTab) {
-        HDC hdc = GetDC(_hwnd);
-        OnDrawFocusRect(hdc);
-        ReleaseDC(_hwnd, hdc);
-    }
+    // if (!_hasCustomDraw && _focusedViaTab) {
+    //     HDC hdc = GetDC(_hwnd);
+    //     OnDrawFocusRect(hdc);
+    //     ReleaseDC(_hwnd, hdc);
+    // }
 }
 
 bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
@@ -164,9 +164,9 @@ bool sw::Control::OnPrePaint(HDC hdc, LRESULT &result)
 
 bool sw::Control::OnPostPaint(HDC hdc, LRESULT &result)
 {
-    if (_focusedViaTab) {
-        OnDrawFocusRect(hdc);
-    }
+    // if (_focusedViaTab) {
+    //     OnDrawFocusRect(hdc);
+    // }
     return false;
 }
 
