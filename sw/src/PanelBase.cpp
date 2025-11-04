@@ -48,11 +48,6 @@ void sw::PanelBase::OnTabStop()
     this->Control::OnTabStop();
 }
 
-void sw::PanelBase::OnEndPaint()
-{
-    this->Control::OnEndPaint();
-}
-
 bool sw::PanelBase::RequestBringIntoView(const sw::Rect &screenRect)
 {
     return this->Layer::RequestBringIntoView(screenRect);

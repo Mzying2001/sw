@@ -78,11 +78,6 @@ namespace sw
         virtual void OnTabStop() override;
 
         /**
-         * @brief 在OnPaint函数完成之后调用该函数
-         */
-        virtual void OnEndPaint() override;
-
-        /**
          * @brief            尝试将指定的矩形区域移动到可视区域内
          * @param screenRect 要移动到可视区域的矩形在屏幕中的位置
          * @return           若已处理该请求则返回true，否则返回false以继续向上冒泡
