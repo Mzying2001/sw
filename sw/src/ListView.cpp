@@ -227,11 +227,6 @@ bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     return this->Control::OnNotified(pNMHDR, result);
 }
 
-void sw::ListView::OnDrawFocusRect(HDC hdc)
-{
-    // 不绘制虚线框
-}
-
 void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
 {
     if (pNMLV->uChanged & LVIF_STATE) {

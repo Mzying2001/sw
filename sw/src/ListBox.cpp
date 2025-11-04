@@ -74,11 +74,6 @@ void sw::ListBox::OnCommand(int code)
     }
 }
 
-void sw::ListBox::OnDrawFocusRect(HDC hdc)
-{
-    // 不绘制虚线框
-}
-
 void sw::ListBox::Clear()
 {
     this->SendMessageW(LB_RESETCONTENT, 0, 0);

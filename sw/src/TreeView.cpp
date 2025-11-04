@@ -293,11 +293,6 @@ sw::TreeViewNode sw::TreeView::GetSelectedItem()
     return TreeViewNode{hwnd, TreeView_GetSelection(hwnd)};
 }
 
-void sw::TreeView::OnDrawFocusRect(HDC hdc)
-{
-    // 不绘制虚线框
-}
-
 void sw::TreeView::SetBackColor(Color color, bool redraw)
 {
     Control::SetBackColor(color, false);
