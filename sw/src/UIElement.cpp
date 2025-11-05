@@ -981,18 +981,6 @@ void sw::UIElement::UpdateSiblingsZOrder(bool invalidateMeasure)
     }
 }
 
-void sw::UIElement::SetNextTabStopFocus()
-{
-    UIElement *next = this->GetNextTabStopElement();
-    if (next && next != this) next->OnTabStop();
-}
-
-void sw::UIElement::SetPreviousTabStopFocus()
-{
-    UIElement *previous = this->GetPreviousTabStopElement();
-    if (previous && previous != this) previous->OnTabStop();
-}
-
 void sw::UIElement::ClampDesireSize(sw::Size &size) const
 {
     if (this->_minSize.width > 0) {
@@ -1075,10 +1063,18 @@ void sw::UIElement::OnRemovedChild(UIElement &element)
 
 void sw::UIElement::OnTabMove(bool forward)
 {
+    UIElement *next = nullptr;
+
+    // 获取下一个可Tab停止的元素
     if (forward) {
-        this->SetNextTabStopFocus();
+        next = this->GetNextTabStopElement();
     } else {
-        this->SetPreviousTabStopFocus();
+        next = this->GetPreviousTabStopElement();
+    }
+
+    // 跳转到下一个可Tab停止的元素
+    if (next != nullptr && next != this) {
+        next->OnTabStop();
     }
 }
 

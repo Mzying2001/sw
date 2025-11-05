@@ -714,16 +714,6 @@ namespace sw
         void UpdateSiblingsZOrder(bool invalidateMeasure = true);
 
         /**
-         * @brief 设置下一个TabStop属性为true的元素为焦点元素
-         */
-        void SetNextTabStopFocus();
-
-        /**
-         * @brief 设置上一个TabStop属性为true的元素为焦点元素
-         */
-        void SetPreviousTabStopFocus();
-
-        /**
          * @brief      限定指定尺寸在最小和最大尺寸之间
          * @param size 要限定的尺寸，不包含边距
          */
