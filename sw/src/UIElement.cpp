@@ -1080,10 +1080,6 @@ void sw::UIElement::OnTabMove(bool forward)
     } else {
         this->SetPreviousTabStopFocus();
     }
-
-    if (this->_parent) {
-        this->_parent->SendMessageW(WM_UPDATEUISTATE, MAKEWPARAM(UIS_CLEAR, UISF_HIDEFOCUS), 0);
-    }
 }
 
 void sw::UIElement::OnTabStop()
@@ -1231,6 +1227,11 @@ bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 {
     TypedRoutedEventArgs<UIElement_GotFocus> args;
     this->RaiseRoutedEvent(args);
+
+    if (!args.handledMsg && this->_parent != nullptr) {
+        int action = this->_focusedViaTab ? UIS_CLEAR : UIS_SET;
+        this->_parent->SendMessageW(WM_UPDATEUISTATE, MAKEWPARAM(action, UISF_HIDEFOCUS), 0);
+    }
     return args.handledMsg;
 }
 
