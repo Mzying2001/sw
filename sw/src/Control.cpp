@@ -15,12 +15,6 @@ sw::Control::Control()
               }
               auto container = WndBase::_GetControlInitContainer();
               return container == nullptr || GetParent(_hwnd) != container->_hwnd;
-          }),
-
-      IsFocusedViaTab(
-          // get
-          [this]() -> bool {
-              return _focusedViaTab;
           })
 {
 }
@@ -99,18 +93,6 @@ bool sw::Control::OnNotified(NMHDR *pNMHDR, LRESULT &result)
             return UIElement::OnNotified(pNMHDR, result);
         }
     }
-}
-
-bool sw::Control::OnKillFocus(HWND hNextFocus)
-{
-    _focusedViaTab = false;
-    return UIElement::OnKillFocus(hNextFocus);
-}
-
-void sw::Control::OnTabStop()
-{
-    UIElement::OnTabStop();
-    _focusedViaTab = true;
 }
 
 bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)

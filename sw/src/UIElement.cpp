@@ -259,6 +259,12 @@ sw::UIElement::UIElement()
           // set
           [this](const bool &value) {
               this->_isHitTestVisible = value;
+          }),
+
+      IsFocusedViaTab(
+          // get
+          [this]() -> bool {
+              return this->_focusedViaTab;
           })
 {
 }
@@ -1082,6 +1088,10 @@ void sw::UIElement::OnTabMove(bool forward)
 
 void sw::UIElement::OnTabStop()
 {
+    // 标记为通过Tab键获得焦点
+    this->_focusedViaTab = true;
+
+    // 设置焦点并滚动到可见区域
     this->Focused = true;
     this->BringIntoView();
 }
@@ -1226,6 +1236,8 @@ bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
+    this->_focusedViaTab = false;
+
     TypedRoutedEventArgs<UIElement_LostFocus> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;

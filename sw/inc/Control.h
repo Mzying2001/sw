@@ -10,12 +10,6 @@ namespace sw
      */
     class Control : virtual public UIElement
     {
-    private:
-        /**
-         * @brief 当前控件是否是通过按下Tab键获得的焦点
-         */
-        bool _focusedViaTab = false;
-
     public:
         /**
          * @brief 控件的标识符
@@ -27,11 +21,6 @@ namespace sw
          * @note  当控件已创建并且被添加到任意父窗口（可以是其他框架窗口）时该值为true
          */
         const ReadOnlyProperty<bool> IsInHierarchy;
-
-        /**
-         * @brief 当前控件是否是通过按下Tab键获得的焦点
-         */
-        const ReadOnlyProperty<bool> IsFocusedViaTab;
 
     public:
         /**
@@ -77,18 +66,6 @@ namespace sw
          * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
-
-        /**
-         * @brief            接收到WM_KILLFOCUS时调用该函数
-         * @param hNextFocus 接收到焦点的hwnd，可能为NULL
-         * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnKillFocus(HWND hNextFocus) override;
-
-        /**
-         * @brief 通过tab键将焦点移动到当前元素时调用该函数
-         */
-        virtual void OnTabStop() override;
 
         /**
          * @brief        接收到NM_CUSTOMDRAW后调用该函数

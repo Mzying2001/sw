@@ -252,6 +252,11 @@ namespace sw
          */
         bool _isHitTestVisible = true;
 
+        /**
+         * @brief 当前元素是否是通过按下Tab键获得的焦点
+         */
+        bool _focusedViaTab = false;
+
     public:
         /**
          * @brief 边距
@@ -370,6 +375,11 @@ namespace sw
          * @brief 当前元素是否响应鼠标事件
          */
         const Property<bool> IsHitTestVisible;
+
+        /**
+         * @brief 当前元素是否是通过按下Tab键获得的焦点
+         */
+        const ReadOnlyProperty<bool> IsFocusedViaTab;
 
     public:
         /**
