@@ -22,7 +22,6 @@ var classsw_1_1ListView =
     [ "InsertColumn", "classsw_1_1ListView.html#a0abf70d4eee217e060b84686f30b8a09", null ],
     [ "InsertItem", "classsw_1_1ListView.html#a34425690bf39e914861b2211004c2ce1", null ],
     [ "OnCheckStateChanged", "classsw_1_1ListView.html#a5b4b18df705396deeb3a2dc2fb0048cc", null ],
-    [ "OnDrawFocusRect", "classsw_1_1ListView.html#a5394045d19c2517e843517bcbd465df5", null ],
     [ "OnEndEdit", "classsw_1_1ListView.html#ad9e879d4c14b0d12382eb6c005c1340b", null ],
     [ "OnGetDispInfo", "classsw_1_1ListView.html#a685d431b998be4b714fd51c0eeccfe1f", null ],
     [ "OnHeaderItemClicked", "classsw_1_1ListView.html#aebad3b5c7fafae2aa71f811beecfaeb8", null ],

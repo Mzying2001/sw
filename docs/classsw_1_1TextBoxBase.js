@@ -7,7 +7,6 @@ var classsw_1_1TextBoxBase =
     [ "InitTextBoxBase", "classsw_1_1TextBoxBase.html#a3a6843f34013ed31f3828263f0984233", null ],
     [ "OnChar", "classsw_1_1TextBoxBase.html#a71d8b79ffbb9de3ab8cdbccd359cd174", null ],
     [ "OnCommand", "classsw_1_1TextBoxBase.html#a1e7210993dcbf6cfdaff3dcc3246dfd5", null ],
-    [ "OnDrawFocusRect", "classsw_1_1TextBoxBase.html#a7001a2c96dffe9ebd76a3736c0e47803", null ],
     [ "OnKeyDown", "classsw_1_1TextBoxBase.html#af5e2405bb4f132bbfd496b024e3607a2", null ],
     [ "ScrollToCaret", "classsw_1_1TextBoxBase.html#a221765241d6ca76156d3564440306d51", null ],
     [ "Select", "classsw_1_1TextBoxBase.html#aa22188dc026379eb3e76a2415b8bf0c9", null ],

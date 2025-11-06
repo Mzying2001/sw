@@ -1,11 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"classsw_1_1Control.html#afe92409895a37b2b4d86c08d771da873":[2,0,0,43,5],
-"classsw_1_1CursorHelper.html":[2,0,0,44],
-"classsw_1_1DateTimePicker.html":[2,0,0,45],
-"classsw_1_1DateTimePicker.html#a02536c45142f088a408d311ef17fde62":[2,0,0,45,6],
-"classsw_1_1DateTimePicker.html#a0b98452a4ee032be9fc0718fdae64714":[2,0,0,45,0],
-"classsw_1_1DateTimePicker.html#a1fb48f641a654fbc7a2b95a58be3b69c":[2,0,0,45,5],
 "classsw_1_1DateTimePicker.html#a57a163f99e68b5384b630872f62d1e78":[2,0,0,45,3],
 "classsw_1_1DateTimePicker.html#a5c8cb68171115f0dc5cbddf40d3a64ae":[2,0,0,45,2],
 "classsw_1_1DateTimePicker.html#a70fc742fd8ff3ac06ef9539bc2793980":[2,0,0,45,4],
@@ -213,13 +207,15 @@ var NAVTREEINDEX1 =
 "classsw_1_1HotKeyControl.html#adea9a710792f25863f73ec40b0699ec6":[2,0,0,77,1],
 "classsw_1_1HotKeyControl.html#ae58ad7be2266801faaab1777b443f10c":[2,0,0,77,0],
 "classsw_1_1HwndHost.html":[2,0,0,79],
-"classsw_1_1HwndHost.html#a4c80837686f066a88b11a023215faff0":[2,0,0,79,6],
-"classsw_1_1HwndHost.html#a86f6a07189a60e99f6fc451570300710":[2,0,0,79,7],
-"classsw_1_1HwndHost.html#a9535b63e17fbb079ce4f618c288cb9bd":[2,0,0,79,5],
+"classsw_1_1HwndHost.html#a4c80837686f066a88b11a023215faff0":[2,0,0,79,7],
+"classsw_1_1HwndHost.html#a86f6a07189a60e99f6fc451570300710":[2,0,0,79,8],
+"classsw_1_1HwndHost.html#a9535b63e17fbb079ce4f618c288cb9bd":[2,0,0,79,6],
 "classsw_1_1HwndHost.html#a9ac22adfa9d96348e7f89932d82cf3d3":[2,0,0,79,2],
 "classsw_1_1HwndHost.html#ad4bd1d4d18e06e16a6fd580e22a2c39b":[2,0,0,79,1],
-"classsw_1_1HwndHost.html#aebdcab5949f812ae64ecd79633cacc49":[2,0,0,79,4],
+"classsw_1_1HwndHost.html#aebdcab5949f812ae64ecd79633cacc49":[2,0,0,79,5],
 "classsw_1_1HwndHost.html#af050f409c9407b9cf5e6670392830688":[2,0,0,79,0],
+"classsw_1_1HwndHost.html#af3bc7099b084460532256cb60f91f85b":[2,0,0,79,4],
+"classsw_1_1HwndHost.html#af3ea0920e77a1a6573dac901cf867c2b":[2,0,0,79,9],
 "classsw_1_1HwndHost.html#af644778e078302b01faf0ac2f5c7b75c":[2,0,0,79,3],
 "classsw_1_1HwndWrapper.html":[2,0,0,80],
 "classsw_1_1HwndWrapper.html#a4bc45b2be128c60ea8c9db6548ae858e":[2,0,0,80,1],
@@ -249,5 +245,9 @@ var NAVTREEINDEX1 =
 "classsw_1_1ILayout.html#ae8c5f6a25aa365b1732cda2356ea9596":[2,0,0,88,4],
 "classsw_1_1ILayout.html#afcdbdecd5f99cdb25b891c7dc3093fdb":[2,0,0,88,6],
 "classsw_1_1IPAddressControl.html":[2,0,0,90],
-"classsw_1_1IPAddressControl.html#a015bd651f4bcdf741ab81f16cbaf155c":[2,0,0,90,0]
+"classsw_1_1IPAddressControl.html#a015bd651f4bcdf741ab81f16cbaf155c":[2,0,0,90,0],
+"classsw_1_1IPAddressControl.html#a10458a0733ba951af3076861009fe45f":[2,0,0,90,6],
+"classsw_1_1IPAddressControl.html#a3187c6c8bdf6da11b5c5027b49fc2dd0":[2,0,0,90,3],
+"classsw_1_1IPAddressControl.html#a31e32ebdf9edf44f27213ba1fd0add8a":[2,0,0,90,9],
+"classsw_1_1IPAddressControl.html#a530c0f818533d4347795daa918d3e4e5":[2,0,0,90,2]
 };

@@ -148,31 +148,29 @@ $(document).ready(function(){initNavTree('TabControl_8h_source.html',''); initRe
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="classsw_1_1TabControl.html#a331b4b48881bf2165f392724aa586cc3">  109</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1TabControl.html#a331b4b48881bf2165f392724aa586cc3">OnNotified</a>(NMHDR *pNMHDR, LRESULT &amp;result) <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="classsw_1_1TabControl.html#a2c3e723070d172445054ea1ddc0b3df8">  115</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1TabControl.html#a2c3e723070d172445054ea1ddc0b3df8">OnDrawFocusRect</a>(HDC hdc) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="classsw_1_1TabControl.html#a654688668bdf8331e27cbe4564d6cf63">  120</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1TabControl.html#a654688668bdf8331e27cbe4564d6cf63">OnSelectedIndexChanged</a>();</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="classsw_1_1TabControl.html#a654688668bdf8331e27cbe4564d6cf63">  114</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1TabControl.html#a654688668bdf8331e27cbe4564d6cf63">OnSelectedIndexChanged</a>();</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        <span class="keywordtype">void</span> _SetTabAlignment(TabAlignment value);</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="keywordtype">void</span> _SetTabAlignment(TabAlignment value);</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <span class="keywordtype">void</span> _UpdateChildVisible(<span class="keywordtype">bool</span> invalidMeasure = <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        <span class="keywordtype">int</span> _InsertItem(<span class="keywordtype">int</span> index, TCITEMW &amp;item);</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        <span class="keywordtype">bool</span> _SetItem(<span class="keywordtype">int</span> index, TCITEMW &amp;item);</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keywordtype">bool</span> _DeleteItem(<span class="keywordtype">int</span> index);</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="keywordtype">bool</span> _DeleteAllItems();</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keywordtype">void</span> _CalcContentRect(RECT &amp;rect);</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        <span class="keywordtype">void</span> _CalcIdealSize(SIZE &amp;size);</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        <a class="code hl_class" href="classsw_1_1UIElement.html">UIElement</a> *_GetSelectedItem();</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    };</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <span class="keywordtype">void</span> _UpdateChildVisible(<span class="keywordtype">bool</span> invalidMeasure = <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="keywordtype">int</span> _InsertItem(<span class="keywordtype">int</span> index, TCITEMW &amp;item);</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordtype">bool</span> _SetItem(<span class="keywordtype">int</span> index, TCITEMW &amp;item);</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        <span class="keywordtype">bool</span> _DeleteItem(<span class="keywordtype">int</span> index);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        <span class="keywordtype">bool</span> _DeleteAllItems();</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span> </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        <span class="keywordtype">void</span> _CalcContentRect(RECT &amp;rect);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        <span class="keywordtype">void</span> _CalcIdealSize(SIZE &amp;size);</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        <a class="code hl_class" href="classsw_1_1UIElement.html">UIElement</a> *_GetSelectedItem();</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    };</div>
 </div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>}</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>}</div>
 <div class="ttc" id="aclasssw_1_1Control_html"><div class="ttname"><a href="classsw_1_1Control.html">sw::Control</a></div><div class="ttdoc">控件</div><div class="ttdef"><b>Definition</b> Control.h:12</div></div>
 <div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1637</div></div>
 <div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>Definition</b> Property.h:1679</div></div>
@@ -181,7 +179,6 @@ $(document).ready(function(){initNavTree('TabControl_8h_source.html',''); initRe
 <div class="ttc" id="aclasssw_1_1TabControl_html_a14f5debfc882417906f0d610617f5b05"><div class="ttname"><a href="classsw_1_1TabControl.html#a14f5debfc882417906f0d610617f5b05">sw::TabControl::ContentRect</a></div><div class="ttdeci">const ReadOnlyProperty&lt; sw::Rect &gt; ContentRect</div><div class="ttdoc">内容区域位置与尺寸</div><div class="ttdef"><b>Definition</b> TabControl.h:33</div></div>
 <div class="ttc" id="aclasssw_1_1TabControl_html_a1642e450b1cf606338eb85bd9f93c82c"><div class="ttname"><a href="classsw_1_1TabControl.html#a1642e450b1cf606338eb85bd9f93c82c">sw::TabControl::OnRemovedChild</a></div><div class="ttdeci">virtual void OnRemovedChild(UIElement &amp;element) override</div><div class="ttdoc">移除子元素后调用该函数</div></div>
 <div class="ttc" id="aclasssw_1_1TabControl_html_a178ace42959bb5ddcbad81cb28151ae0"><div class="ttname"><a href="classsw_1_1TabControl.html#a178ace42959bb5ddcbad81cb28151ae0">sw::TabControl::AutoSize</a></div><div class="ttdeci">const Property&lt; bool &gt; AutoSize</div><div class="ttdoc">是否自动调整大小以适应当前页面内容，默认为true</div><div class="ttdef"><b>Definition</b> TabControl.h:53</div></div>
-<div class="ttc" id="aclasssw_1_1TabControl_html_a2c3e723070d172445054ea1ddc0b3df8"><div class="ttname"><a href="classsw_1_1TabControl.html#a2c3e723070d172445054ea1ddc0b3df8">sw::TabControl::OnDrawFocusRect</a></div><div class="ttdeci">virtual void OnDrawFocusRect(HDC hdc) override</div><div class="ttdoc">绘制虚线框时调用该函数</div></div>
 <div class="ttc" id="aclasssw_1_1TabControl_html_a331b4b48881bf2165f392724aa586cc3"><div class="ttname"><a href="classsw_1_1TabControl.html#a331b4b48881bf2165f392724aa586cc3">sw::TabControl::OnNotified</a></div><div class="ttdeci">virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &amp;result) override</div><div class="ttdoc">父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数</div></div>
 <div class="ttc" id="aclasssw_1_1TabControl_html_a402ae0be40a8a236d09b5c8a31c5aca1"><div class="ttname"><a href="classsw_1_1TabControl.html#a402ae0be40a8a236d09b5c8a31c5aca1">sw::TabControl::TabControl</a></div><div class="ttdeci">TabControl()</div><div class="ttdoc">初始化标签页控件</div></div>
 <div class="ttc" id="aclasssw_1_1TabControl_html_a5e70f66a21997157773d149dec3339ce"><div class="ttname"><a href="classsw_1_1TabControl.html#a5e70f66a21997157773d149dec3339ce">sw::TabControl::SelectedIndex</a></div><div class="ttdeci">const Property&lt; int &gt; SelectedIndex</div><div class="ttdoc">当前页面的索引</div><div class="ttdef"><b>Definition</b> TabControl.h:38</div></div>

@@ -3,7 +3,6 @@ var classsw_1_1MonthCalendar =
     [ "MonthCalendar", "classsw_1_1MonthCalendar.html#a0ea779945c5838f27137cdd39894a143", null ],
     [ "GetTime", "classsw_1_1MonthCalendar.html#aeac33bf939d465e37752dce603f926d5", null ],
     [ "GetToday", "classsw_1_1MonthCalendar.html#a27e71bfd28f2ab4da69b73507d8e2133", null ],
-    [ "OnDrawFocusRect", "classsw_1_1MonthCalendar.html#ab3bffd732b17df29f95a9341473e9717", null ],
     [ "OnNotified", "classsw_1_1MonthCalendar.html#a0dc0d8364da7140abc882d1bbfd9a439", null ],
     [ "OnTimeChanged", "classsw_1_1MonthCalendar.html#a4e5c2c34e0e552166fa5bb9a5b17b3df", null ],
     [ "SetBackColor", "classsw_1_1MonthCalendar.html#a2422390122597047226c500dc896f7cb", null ],

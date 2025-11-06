@@ -47,13 +47,13 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "Alignment_8h_source.html",
-"classsw_1_1Control.html#afe92409895a37b2b4d86c08d771da873",
-"classsw_1_1IPAddressControl.html#a10458a0733ba951af3076861009fe45f",
-"classsw_1_1MenuBase.html#a114b4fe9eb2cd543c605479198d67517",
-"classsw_1_1RoutedEventHandlerWrapper.html#a06fbe03cfb238d84cd15f6a12c350606",
-"classsw_1_1UIElement.html#a6121cdf84c8073bae9b3cde98a6a59ea",
-"classsw_1_1WndBase.html#ac34494921eed0f67a053a9393d78bcf9",
-"structsw_1_1MsgBoxResultHelper.html#a6769260aa667afcbd5ae5cc0f3cb4d54"
+"classsw_1_1DateTimePicker.html#a57a163f99e68b5384b630872f62d1e78",
+"classsw_1_1IPAddressControl.html#a55c0f5214b4dd06b9089a19316348939",
+"classsw_1_1MenuBase.html#a300bc76b5be03814cb8fa534a3a74cfe",
+"classsw_1_1Screen.html",
+"classsw_1_1UIElement.html#a773d3d44102b709d8e7871ddd83d218e",
+"classsw_1_1WndBase.html#ae79de6591e42402a1840c8fad551a8fe",
+"structsw_1_1PositionChangedEventArgs.html"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

@@ -237,39 +237,41 @@ $(document).ready(function(){initNavTree('Window_8h_source.html',''); initResiza
 <div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span> </div>
 <div class="line"><a id="l00338" name="l00338"></a><span class="lineno"><a class="line" href="classsw_1_1Window.html#a3daeab5c99e045449a8a5f086c19877e">  338</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Window.html#a3daeab5c99e045449a8a5f086c19877e">DrawMenuBar</a>();</div>
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span> </div>
-<div class="line"><a id="l00343" name="l00343"></a><span class="lineno"><a class="line" href="classsw_1_1Window.html#abff0275ae90d22951d40b769f952d415">  343</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Window.html#abff0275ae90d22951d40b769f952d415">SizeToContent</a>();</div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span> </div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TLayout&gt;</div>
-<div class="foldopen" id="foldopen00349" data-start="{" data-end="}">
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno"><a class="line" href="classsw_1_1Window.html#a4ac5f0cb7ef04a2732e25dc598c12133">  349</a></span>        <span class="keyword">typename</span> std::enable_if&lt;std::is_base_of&lt;LayoutHost, TLayout&gt;::value&gt;::type <a class="code hl_function" href="classsw_1_1Window.html#a4ac5f0cb7ef04a2732e25dc598c12133">SetLayout</a>()</div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>        {</div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>            <span class="keyword">auto</span> layout = std::make_unique&lt;TLayout&gt;();</div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>            layout-&gt;Associate(<span class="keyword">this</span>);</div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>            _defaultLayout = std::move(layout);</div>
-<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>            <a class="code hl_function" href="classsw_1_1UIElement.html#afea960f1d4f8148b4807d2121f32a6c1">InvalidateMeasure</a>();</div>
-<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>        }</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno"><a class="line" href="classsw_1_1Window.html#a4defede94579c304c176b8f8e64c8668">  345</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Window.html#a4defede94579c304c176b8f8e64c8668">SizeToContent</a>();</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span> </div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TLayout&gt;</div>
+<div class="foldopen" id="foldopen00351" data-start="{" data-end="}">
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno"><a class="line" href="classsw_1_1Window.html#a4ac5f0cb7ef04a2732e25dc598c12133">  351</a></span>        <span class="keyword">typename</span> std::enable_if&lt;std::is_base_of&lt;LayoutHost, TLayout&gt;::value&gt;::type <a class="code hl_function" href="classsw_1_1Window.html#a4ac5f0cb7ef04a2732e25dc598c12133">SetLayout</a>()</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>        {</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>            <span class="keyword">auto</span> layout = std::make_unique&lt;TLayout&gt;();</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>            layout-&gt;Associate(<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>            _defaultLayout = std::move(layout);</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>            <a class="code hl_function" href="classsw_1_1UIElement.html#afea960f1d4f8148b4807d2121f32a6c1">InvalidateMeasure</a>();</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>        }</div>
 </div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span> </div>
-<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>        <span class="keyword">template</span> &lt;std::<span class="keywordtype">nullptr</span>_t&gt;</div>
-<div class="foldopen" id="foldopen00361" data-start="{" data-end="}">
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno"><a class="line" href="classsw_1_1Window.html#a236c7f298b6bbb432ce7c3c82a5eaacd">  361</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Window.html#a236c7f298b6bbb432ce7c3c82a5eaacd">SetLayout</a>()</div>
-<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>        {</div>
-<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>            _defaultLayout.reset(<span class="keyword">nullptr</span>);</div>
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>            <a class="code hl_function" href="classsw_1_1UIElement.html#afea960f1d4f8148b4807d2121f32a6c1">InvalidateMeasure</a>();</div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>        }</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span> </div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>        <span class="keyword">template</span> &lt;std::<span class="keywordtype">nullptr</span>_t&gt;</div>
+<div class="foldopen" id="foldopen00363" data-start="{" data-end="}">
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno"><a class="line" href="classsw_1_1Window.html#a236c7f298b6bbb432ce7c3c82a5eaacd">  363</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Window.html#a236c7f298b6bbb432ce7c3c82a5eaacd">SetLayout</a>()</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>        {</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>            _defaultLayout.reset(<span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>            <a class="code hl_function" href="classsw_1_1UIElement.html#afea960f1d4f8148b4807d2121f32a6c1">InvalidateMeasure</a>();</div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>        }</div>
 </div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span> </div>
-<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>        <span class="keywordtype">bool</span> _IsLayoutDisabled() const noexcept;</div>
-<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span> </div>
-<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>        static <a class="code hl_class" href="classsw_1_1Window.html">Window</a> *_GetWindowPtr(HWND hwnd);</div>
-<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span> </div>
-<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>        static <span class="keywordtype">void</span> _SetWindowPtr(HWND hwnd, <a class="code hl_class" href="classsw_1_1Window.html">Window</a> &amp;wnd);</div>
-<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span> </div>
-<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>        static HICON _GetWindowDefaultIcon();</div>
-<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>    };</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span> </div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>        <span class="keywordtype">bool</span> _IsLayoutDisabled() const noexcept;</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span> </div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>        <span class="keywordtype">void</span> _CenterWindow(const sw::<a class="code hl_struct" href="structsw_1_1Rect.html">Rect</a> &amp;rect);</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span> </div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>        static <a class="code hl_class" href="classsw_1_1Window.html">Window</a> *_GetWindowPtr(HWND hwnd);</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span> </div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>        static <span class="keywordtype">void</span> _SetWindowPtr(HWND hwnd, <a class="code hl_class" href="classsw_1_1Window.html">Window</a> &amp;wnd);</div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span> </div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>        static HICON _GetWindowDefaultIcon();</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>    };</div>
 </div>
-<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>}</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>}</div>
 <div class="ttc" id="aclasssw_1_1IDialog_html"><div class="ttname"><a href="classsw_1_1IDialog.html">sw::IDialog</a></div><div class="ttdoc">对话框接口</div><div class="ttdef"><b>Definition</b> IDialog.h:11</div></div>
 <div class="ttc" id="aclasssw_1_1Layer_html"><div class="ttname"><a href="classsw_1_1Layer.html">sw::Layer</a></div><div class="ttdoc">表示可以设置布局方式的元素类型，如窗口、面板等</div><div class="ttdef"><b>Definition</b> Layer.h:13</div></div>
 <div class="ttc" id="aclasssw_1_1Layer_html_a61030d006cafc26525bc07bced899b92"><div class="ttname"><a href="classsw_1_1Layer.html#a61030d006cafc26525bc07bced899b92">sw::Layer::Layer</a></div><div class="ttdeci">Layer()</div><div class="ttdoc">初始化Layer</div></div>
@@ -284,7 +286,7 @@ $(document).ready(function(){initNavTree('Window_8h_source.html',''); initResiza
 <div class="ttc" id="aclasssw_1_1Window_html_a09e5b989c8fd2a7b1976c7f364eae1f2"><div class="ttname"><a href="classsw_1_1Window.html#a09e5b989c8fd2a7b1976c7f364eae1f2">sw::Window::DisableLayout</a></div><div class="ttdeci">bool DisableLayout()</div><div class="ttdoc">禁用窗口布局</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_a1a15faeb81c21aa3327dcd8fefdc5ffd"><div class="ttname"><a href="classsw_1_1Window.html#a1a15faeb81c21aa3327dcd8fefdc5ffd">sw::Window::Topmost</a></div><div class="ttdeci">const Property&lt; bool &gt; Topmost</div><div class="ttdoc">窗口是否置顶</div><div class="ttdef"><b>Definition</b> Window.h:137</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_a21dd383eef41be091277a356820e0608"><div class="ttname"><a href="classsw_1_1Window.html#a21dd383eef41be091277a356820e0608">sw::Window::Borderless</a></div><div class="ttdeci">const Property&lt; bool &gt; Borderless</div><div class="ttdoc">窗口无边框</div><div class="ttdef"><b>Definition</b> Window.h:173</div></div>
-<div class="ttc" id="aclasssw_1_1Window_html_a236c7f298b6bbb432ce7c3c82a5eaacd"><div class="ttname"><a href="classsw_1_1Window.html#a236c7f298b6bbb432ce7c3c82a5eaacd">sw::Window::SetLayout</a></div><div class="ttdeci">void SetLayout()</div><div class="ttdoc">取消通过SetLayout设置的布局方式</div><div class="ttdef"><b>Definition</b> Window.h:361</div></div>
+<div class="ttc" id="aclasssw_1_1Window_html_a236c7f298b6bbb432ce7c3c82a5eaacd"><div class="ttname"><a href="classsw_1_1Window.html#a236c7f298b6bbb432ce7c3c82a5eaacd">sw::Window::SetLayout</a></div><div class="ttdeci">void SetLayout()</div><div class="ttdoc">取消通过SetLayout设置的布局方式</div><div class="ttdef"><b>Definition</b> Window.h:363</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_a2403f422df1271f56f2ef574d91f232d"><div class="ttname"><a href="classsw_1_1Window.html#a2403f422df1271f56f2ef574d91f232d">sw::Window::OnActived</a></div><div class="ttdeci">virtual void OnActived()</div><div class="ttdoc">窗口成为前台窗口时调用该函数</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_a24eed02d394d13b368f5cf99b2a68c44"><div class="ttname"><a href="classsw_1_1Window.html#a24eed02d394d13b368f5cf99b2a68c44">sw::Window::Window</a></div><div class="ttdeci">Window()</div><div class="ttdoc">初始化窗口</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_a257ba940703f41b12990678bb3ff0e0e"><div class="ttname"><a href="classsw_1_1Window.html#a257ba940703f41b12990678bb3ff0e0e">sw::Window::State</a></div><div class="ttdeci">const Property&lt; WindowState &gt; State</div><div class="ttdoc">窗口状态</div><div class="ttdef"><b>Definition</b> Window.h:117</div></div>
@@ -297,7 +299,8 @@ $(document).ready(function(){initNavTree('Window_8h_source.html',''); initResiza
 <div class="ttc" id="aclasssw_1_1Window_html_a4197644efd719230e2f19483ecdcd590"><div class="ttname"><a href="classsw_1_1Window.html#a4197644efd719230e2f19483ecdcd590">sw::Window::ShowDialog</a></div><div class="ttdeci">virtual int ShowDialog(Window &amp;owner)</div><div class="ttdoc">将窗口显示为模式对话框</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_a43108b9e0f1cc7801ca0ec01a31a85a7"><div class="ttname"><a href="classsw_1_1Window.html#a43108b9e0f1cc7801ca0ec01a31a85a7">sw::Window::OnDpiChanged</a></div><div class="ttdeci">virtual bool OnDpiChanged(int dpiX, int dpiY, RECT &amp;newRect)</div><div class="ttdoc">接收到WM_DPICHANGED时调用该函数</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_a4a09a7ec772a2febfcda54b9aa6a8557"><div class="ttname"><a href="classsw_1_1Window.html#a4a09a7ec772a2febfcda54b9aa6a8557">sw::Window::StartupLocation</a></div><div class="ttdeci">const Property&lt; WindowStartupLocation &gt; StartupLocation</div><div class="ttdoc">窗口初次启动的位置</div><div class="ttdef"><b>Definition</b> Window.h:112</div></div>
-<div class="ttc" id="aclasssw_1_1Window_html_a4ac5f0cb7ef04a2732e25dc598c12133"><div class="ttname"><a href="classsw_1_1Window.html#a4ac5f0cb7ef04a2732e25dc598c12133">sw::Window::SetLayout</a></div><div class="ttdeci">std::enable_if&lt; std::is_base_of&lt; LayoutHost, TLayout &gt;::value &gt;::type SetLayout()</div><div class="ttdoc">设置窗口的默认布局方式</div><div class="ttdef"><b>Definition</b> Window.h:349</div></div>
+<div class="ttc" id="aclasssw_1_1Window_html_a4ac5f0cb7ef04a2732e25dc598c12133"><div class="ttname"><a href="classsw_1_1Window.html#a4ac5f0cb7ef04a2732e25dc598c12133">sw::Window::SetLayout</a></div><div class="ttdeci">std::enable_if&lt; std::is_base_of&lt; LayoutHost, TLayout &gt;::value &gt;::type SetLayout()</div><div class="ttdoc">设置窗口的默认布局方式</div><div class="ttdef"><b>Definition</b> Window.h:351</div></div>
+<div class="ttc" id="aclasssw_1_1Window_html_a4defede94579c304c176b8f8e64c8668"><div class="ttname"><a href="classsw_1_1Window.html#a4defede94579c304c176b8f8e64c8668">sw::Window::SizeToContent</a></div><div class="ttdeci">bool SizeToContent()</div><div class="ttdoc">调整窗口尺寸以适应其内容大小</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_a50969fbd9f30ad27e72f11cb28ee4697"><div class="ttname"><a href="classsw_1_1Window.html#a50969fbd9f30ad27e72f11cb28ee4697">sw::Window::OnClose</a></div><div class="ttdeci">virtual bool OnClose() override</div><div class="ttdoc">接收到WM_CLOSE时调用该函数</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_a51125c103064904cf3bcb578ccf85e5a"><div class="ttname"><a href="classsw_1_1Window.html#a51125c103064904cf3bcb578ccf85e5a">sw::Window::ToWindow</a></div><div class="ttdeci">virtual Window * ToWindow() override</div><div class="ttdoc">尝试将对象转换成Window</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_a518c14e6ddbf171489a86baff4cbb6a3"><div class="ttname"><a href="classsw_1_1Window.html#a518c14e6ddbf171489a86baff4cbb6a3">sw::Window::SizeBox</a></div><div class="ttdeci">const Property&lt; bool &gt; SizeBox</div><div class="ttdoc">窗口是否可调整大小</div><div class="ttdef"><b>Definition</b> Window.h:122</div></div>
@@ -314,7 +317,6 @@ $(document).ready(function(){initNavTree('Window_8h_source.html',''); initResiza
 <div class="ttc" id="aclasssw_1_1Window_html_ab4ae546b2146a44772c9d8a69e798160"><div class="ttname"><a href="classsw_1_1Window.html#ab4ae546b2146a44772c9d8a69e798160">sw::Window::EnableLayout</a></div><div class="ttdeci">bool EnableLayout(bool reset=false)</div><div class="ttdoc">恢复窗口布局，与DisableLayout配对使用</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_ab642e68dc2716a7496322be4423f82f4"><div class="ttname"><a href="classsw_1_1Window.html#ab642e68dc2716a7496322be4423f82f4">sw::Window::IsLayered</a></div><div class="ttdeci">const Property&lt; bool &gt; IsLayered</div><div class="ttdoc">窗口是否为分层窗口，即WS_EX_LAYERED样式是否被设置</div><div class="ttdef"><b>Definition</b> Window.h:162</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_abafe422b0435aa15ec04ced4300b6b76"><div class="ttname"><a href="classsw_1_1Window.html#abafe422b0435aa15ec04ced4300b6b76">sw::Window::GetDefaultLayout</a></div><div class="ttdeci">virtual LayoutHost * GetDefaultLayout() override</div><div class="ttdoc">获取默认布局对象</div></div>
-<div class="ttc" id="aclasssw_1_1Window_html_abff0275ae90d22951d40b769f952d415"><div class="ttname"><a href="classsw_1_1Window.html#abff0275ae90d22951d40b769f952d415">sw::Window::SizeToContent</a></div><div class="ttdeci">void SizeToContent()</div><div class="ttdoc">调整窗口尺寸以适应其内容大小，只对设置了布局方式的顶级窗口有效</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_ac61382d82d410403dc2a9bc0afe49f38"><div class="ttname"><a href="classsw_1_1Window.html#ac61382d82d410403dc2a9bc0afe49f38">sw::Window::ToolWindow</a></div><div class="ttdeci">const Property&lt; bool &gt; ToolWindow</div><div class="ttdoc">是否显示为ToolWindow (窄边框)</div><div class="ttdef"><b>Definition</b> Window.h:142</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_acb7b96779684ed80420c45544dfbb73e"><div class="ttname"><a href="classsw_1_1Window.html#acb7b96779684ed80420c45544dfbb73e">sw::Window::Show</a></div><div class="ttdeci">virtual void Show() override</div><div class="ttdoc">显示窗口</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_ad41fe170a165828b52d47fc2ee009106"><div class="ttname"><a href="classsw_1_1Window.html#ad41fe170a165828b52d47fc2ee009106">sw::Window::~Window</a></div><div class="ttdeci">~Window()</div><div class="ttdoc">析构函数</div></div>
@@ -325,6 +327,7 @@ $(document).ready(function(){initNavTree('Window_8h_source.html',''); initResiza
 <div class="ttc" id="aclasssw_1_1Window_html_afa57e21216664a6fa3f9fdf04dad7a7d"><div class="ttname"><a href="classsw_1_1Window.html#afa57e21216664a6fa3f9fdf04dad7a7d">sw::Window::OnPaint</a></div><div class="ttdeci">virtual bool OnPaint() override</div><div class="ttdoc">接收到WM_PAINT时调用该函数</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html_afd4c2d3d94e2a134cb9d82deb2007a58"><div class="ttname"><a href="classsw_1_1Window.html#afd4c2d3d94e2a134cb9d82deb2007a58">sw::Window::Owner</a></div><div class="ttdeci">const Property&lt; Window * &gt; Owner</div><div class="ttdoc">拥有者窗口</div><div class="ttdef"><b>Definition</b> Window.h:157</div></div>
 <div class="ttc" id="astructsw_1_1ProcMsg_html"><div class="ttname"><a href="structsw_1_1ProcMsg.html">sw::ProcMsg</a></div><div class="ttdoc">对Windows窗口消息的封装</div><div class="ttdef"><b>Definition</b> ProcMsg.h:10</div></div>
+<div class="ttc" id="astructsw_1_1Rect_html"><div class="ttname"><a href="structsw_1_1Rect.html">sw::Rect</a></div><div class="ttdoc">表示一个矩形区域</div><div class="ttdef"><b>Definition</b> Rect.h:17</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

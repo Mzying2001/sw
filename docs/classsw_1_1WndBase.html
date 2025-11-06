@@ -482,8 +482,9 @@ LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>DefaultWndProc</b>
 <tr class="memitem:a029ba4be0e492f8383f2b5fe22125acb" id="r_a029ba4be0e492f8383f2b5fe22125acb"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a029ba4be0e492f8383f2b5fe22125acb">OnPaint</a> ()</td></tr>
 <tr class="memdesc:a029ba4be0e492f8383f2b5fe22125acb"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_PAINT时调用该函数  <br /></td></tr>
 <tr class="separator:a029ba4be0e492f8383f2b5fe22125acb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad90b0eebbaa959949cae5b736e2104aa" id="r_ad90b0eebbaa959949cae5b736e2104aa"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#ad90b0eebbaa959949cae5b736e2104aa">OnEndPaint</a> ()</td></tr>
-<tr class="memdesc:ad90b0eebbaa959949cae5b736e2104aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnPaint函数完成之后调用该函数  <br /></td></tr>
+<tr class="memitem:ad90b0eebbaa959949cae5b736e2104aa" id="r_ad90b0eebbaa959949cae5b736e2104aa"><td class="memItemLeft" align="right" valign="top"><a id="ad90b0eebbaa959949cae5b736e2104aa" name="ad90b0eebbaa959949cae5b736e2104aa"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnEndPaint</b> ()</td></tr>
+<tr class="memdesc:ad90b0eebbaa959949cae5b736e2104aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnPaint函数完成之后调用该函数 <br /></td></tr>
 <tr class="separator:ad90b0eebbaa959949cae5b736e2104aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a531ea2dabbaedcce1f71075a68d88961" id="r_a531ea2dabbaedcce1f71075a68d88961"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a531ea2dabbaedcce1f71075a68d88961">OnNcPaint</a> (HRGN hRgn)</td></tr>
 <tr class="memdesc:a531ea2dabbaedcce1f71075a68d88961"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NCPAINT时调用该函数  <br /></td></tr>
@@ -690,7 +691,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>HwndWrapper</b></td>
   </dd>
 </dl>
 
-<p>被 <a class="el" href="classsw_1_1GroupBox.html#adab6535b853278a6f293939c0bf0cde2">sw::GroupBox</a>, <a class="el" href="classsw_1_1IPAddressControl.html#a1c09fb32eb13a13a4d6b6bc31354ad58">sw::IPAddressControl</a>, <a class="el" href="classsw_1_1Label.html#af5e6d5d4530ee12b52ce2ab16f180aac">sw::Label</a>, <a class="el" href="classsw_1_1SysLink.html#a6429fa1b1fc327bdbb958d695d4943cc">sw::SysLink</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a89f7d92c47cd4ec2049f7b669db30ed9">sw::UIElement</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1GroupBox.html#adab6535b853278a6f293939c0bf0cde2">sw::GroupBox</a>, <a class="el" href="classsw_1_1HwndHost.html#af3bc7099b084460532256cb60f91f85b">sw::HwndHost</a>, <a class="el" href="classsw_1_1Label.html#af5e6d5d4530ee12b52ce2ab16f180aac">sw::Label</a>, <a class="el" href="classsw_1_1SysLink.html#a6429fa1b1fc327bdbb958d695d4943cc">sw::SysLink</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a89f7d92c47cd4ec2049f7b669db30ed9">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>
@@ -1571,35 +1572,6 @@ template&lt;typename TDerived , typename TProperty &gt; </div>
 
 </div>
 </div>
-<a id="ad90b0eebbaa959949cae5b736e2104aa" name="ad90b0eebbaa959949cae5b736e2104aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad90b0eebbaa959949cae5b736e2104aa">&#9670;&#160;</a></span>OnEndPaint()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void sw::WndBase::OnEndPaint </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>在OnPaint函数完成之后调用该函数 </p>
-
-<p>被 <a class="el" href="classsw_1_1Control.html#a60458de49b16eebbd3dccf20388c8d6c">sw::Control</a> , 以及 <a class="el" href="classsw_1_1PanelBase.html#a2f3ccd1e0d137c83f1afd1170c87217c">sw::PanelBase</a> 重载.</p>
-
-</div>
-</div>
 <a id="afd6fa4ee7f0a89966f165292c6be1e4c" name="afd6fa4ee7f0a89966f165292c6be1e4c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afd6fa4ee7f0a89966f165292c6be1e4c">&#9670;&#160;</a></span>OnEraseBackground()</h2>
 
@@ -1825,7 +1797,7 @@ template&lt;typename TDerived , typename TProperty &gt; </div>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1Button.html#a367d1dfa43e065dbe2a0272d4cfef458">sw::Button</a>, <a class="el" href="classsw_1_1CommandLink.html#afb62004ffbe64b4f930aa146fb577b79">sw::CommandLink</a>, <a class="el" href="classsw_1_1Control.html#a18296053d3a7b8476cda377664434232">sw::Control</a>, <a class="el" href="classsw_1_1DockSplitter.html#aab1db4ae915f5abe6856a2a571f2afdc">sw::DockSplitter</a>, <a class="el" href="classsw_1_1PanelBase.html#a452a0bdb18314561e92674982e86c3e4">sw::PanelBase</a>, <a class="el" href="classsw_1_1SpinBox.html#ae07d95b786278ee289eb9fdf9ba3aa99">sw::SpinBox</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a6b8833ac8fe8798edd0480f737aea426">sw::UIElement</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1Button.html#a367d1dfa43e065dbe2a0272d4cfef458">sw::Button</a>, <a class="el" href="classsw_1_1CommandLink.html#afb62004ffbe64b4f930aa146fb577b79">sw::CommandLink</a>, <a class="el" href="classsw_1_1DockSplitter.html#aab1db4ae915f5abe6856a2a571f2afdc">sw::DockSplitter</a>, <a class="el" href="classsw_1_1SpinBox.html#ae07d95b786278ee289eb9fdf9ba3aa99">sw::SpinBox</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a6b8833ac8fe8798edd0480f737aea426">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>
@@ -2938,7 +2910,7 @@ template&lt;typename TDerived , typename TProperty &gt; </div>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
-<p>被 <a class="el" href="classsw_1_1BmpBox.html#ae756f70d8eaca4c0cd35a19cb83926f8">sw::BmpBox</a>, <a class="el" href="classsw_1_1HwndHost.html#a4c80837686f066a88b11a023215faff0">sw::HwndHost</a>, <a class="el" href="classsw_1_1Label.html#a206150fe8586a0d5e0883d4c85e81d79">sw::Label</a>, <a class="el" href="classsw_1_1SpinBox.html#a9915a229f331976be17720c9b3f8260e">sw::SpinBox</a>, <a class="el" href="classsw_1_1Splitter.html#aa637112d14f1dd06f4221ea14c1eac95">sw::Splitter</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a6fb5d81280aa50310db09d57145712cd">sw::UIElement</a> 重载.</p>
+<p>被 <a class="el" href="classsw_1_1BmpBox.html#ae756f70d8eaca4c0cd35a19cb83926f8">sw::BmpBox</a>, <a class="el" href="classsw_1_1HwndHost.html#a4c80837686f066a88b11a023215faff0">sw::HwndHost</a>, <a class="el" href="classsw_1_1IPAddressControl.html#a86e32d2f34c187ca14bd6f81e8ec989b">sw::IPAddressControl</a>, <a class="el" href="classsw_1_1Label.html#a206150fe8586a0d5e0883d4c85e81d79">sw::Label</a>, <a class="el" href="classsw_1_1SpinBox.html#a9915a229f331976be17720c9b3f8260e">sw::SpinBox</a>, <a class="el" href="classsw_1_1Splitter.html#aa637112d14f1dd06f4221ea14c1eac95">sw::Splitter</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a6fb5d81280aa50310db09d57145712cd">sw::UIElement</a> 重载.</p>
 
 </div>
 </div>

@@ -16,7 +16,7 @@ var searchData=
   ['iscontrol_13',['IsControl',['../classsw_1_1WndBase.html#a4b72c64e192b49d1ace945e96c2368ab',1,'sw::WndBase']]],
   ['isdestroyed_14',['IsDestroyed',['../classsw_1_1WndBase.html#a54aa973b24b4bc4b681ac2c21a50d204',1,'sw::WndBase']]],
   ['iseditable_15',['IsEditable',['../classsw_1_1ComboBox.html#aa495a8136f05548a3e26bdf3e0612a8f',1,'sw::ComboBox']]],
-  ['isfocusedviatab_16',['IsFocusedViaTab',['../classsw_1_1Control.html#afd8fb19081e93d975aeba300583c54a7',1,'sw::Control']]],
+  ['isfocusedviatab_16',['IsFocusedViaTab',['../classsw_1_1UIElement.html#a1fe46dfe4b73b012c73e57dd8f0ed35c',1,'sw::UIElement']]],
   ['isgroupstart_17',['IsGroupStart',['../classsw_1_1WndBase.html#a5e6dcf5b1b40bd1aed39d6db9a58e377',1,'sw::WndBase']]],
   ['ishittestvisible_18',['IsHitTestVisible',['../classsw_1_1UIElement.html#a87244c08dabca5b114cc1b7040118bc6',1,'sw::UIElement']]],
   ['isinhierarchy_19',['IsInHierarchy',['../classsw_1_1Control.html#a703a0794e6d8aeb786b1f53c9e987e83',1,'sw::Control']]],

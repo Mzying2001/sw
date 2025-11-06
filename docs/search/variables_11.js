@@ -20,5 +20,6 @@ var searchData=
   ['state_17',['state',['../classsw_1_1ProgressBar.html#a596e05cda7fcc656dde20354a519cee4',1,'sw::ProgressBar::State'],['../classsw_1_1Window.html#a257ba940703f41b12990678bb3ff0e0e',1,'sw::Window::State']]],
   ['stretchicon_18',['StretchIcon',['../classsw_1_1IconBox.html#a5d2016c9ce58815053fcaccb7b2ae8a2',1,'sw::IconBox']]],
   ['strikeout_19',['strikeOut',['../classsw_1_1Font.html#a14ae471a9508e23aad832f3060bbcb85',1,'sw::Font']]],
-  ['subitems_20',['subItems',['../classsw_1_1MenuItem.html#ac8e01802bb6cc6f1336025819050f3c4',1,'sw::MenuItem']]]
+  ['subitems_20',['subItems',['../classsw_1_1MenuItem.html#ac8e01802bb6cc6f1336025819050f3c4',1,'sw::MenuItem']]],
+  ['syncfont_21',['SyncFont',['../classsw_1_1HwndHost.html#af3ea0920e77a1a6573dac901cf867c2b',1,'sw::HwndHost']]]
 ];

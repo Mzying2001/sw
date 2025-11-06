@@ -159,10 +159,9 @@ Public 成员函数</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>DrawMenuBar</b> ()</td></tr>
 <tr class="memdesc:a3daeab5c99e045449a8a5f086c19877e"><td class="mdescLeft">&#160;</td><td class="mdescRight">重回窗口的菜单栏 <br /></td></tr>
 <tr class="separator:a3daeab5c99e045449a8a5f086c19877e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abff0275ae90d22951d40b769f952d415" id="r_abff0275ae90d22951d40b769f952d415"><td class="memItemLeft" align="right" valign="top"><a id="abff0275ae90d22951d40b769f952d415" name="abff0275ae90d22951d40b769f952d415"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SizeToContent</b> ()</td></tr>
-<tr class="memdesc:abff0275ae90d22951d40b769f952d415"><td class="mdescLeft">&#160;</td><td class="mdescRight">调整窗口尺寸以适应其内容大小，只对设置了布局方式的顶级窗口有效 <br /></td></tr>
-<tr class="separator:abff0275ae90d22951d40b769f952d415"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4defede94579c304c176b8f8e64c8668" id="r_a4defede94579c304c176b8f8e64c8668"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Window.html#a4defede94579c304c176b8f8e64c8668">SizeToContent</a> ()</td></tr>
+<tr class="memdesc:a4defede94579c304c176b8f8e64c8668"><td class="mdescLeft">&#160;</td><td class="mdescRight">调整窗口尺寸以适应其内容大小  <br /></td></tr>
+<tr class="separator:a4defede94579c304c176b8f8e64c8668"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ac5f0cb7ef04a2732e25dc598c12133" id="r_a4ac5f0cb7ef04a2732e25dc598c12133"><td class="memTemplParams" colspan="2"><a id="a4ac5f0cb7ef04a2732e25dc598c12133" name="a4ac5f0cb7ef04a2732e25dc598c12133"></a>
 template&lt;typename TLayout &gt; </td></tr>
 <tr class="memitem:a4ac5f0cb7ef04a2732e25dc598c12133"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1LayoutHost.html">LayoutHost</a>, TLayout &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>SetLayout</b> ()</td></tr>
@@ -830,6 +829,10 @@ const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; double &gt;
 const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsHitTestVisible</b></td></tr>
 <tr class="memdesc:a87244c08dabca5b114cc1b7040118bc6 inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前元素是否响应鼠标事件 <br /></td></tr>
 <tr class="separator:a87244c08dabca5b114cc1b7040118bc6 inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fe46dfe4b73b012c73e57dd8f0ed35c inherit pub_attribs_classsw_1_1UIElement" id="r_a1fe46dfe4b73b012c73e57dd8f0ed35c"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsFocusedViaTab</b></td></tr>
+<tr class="memdesc:a1fe46dfe4b73b012c73e57dd8f0ed35c inherit pub_attribs_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前元素是否是通过按下Tab键获得的焦点 <br /></td></tr>
+<tr class="separator:a1fe46dfe4b73b012c73e57dd8f0ed35c inherit pub_attribs_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
 <tr class="memitem:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase" id="r_abc0b653ccc071c2cfcba42fa8eef738f"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; HWND &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Handle</b></td></tr>
@@ -1037,14 +1040,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateChildrenZOrder<
 void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateSiblingsZOrder</b> (bool invalidateMeasure=true)</td></tr>
 <tr class="memdesc:a1c198395a2cd796125b995ea88f968e8 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新兄弟元素的Z轴位置 <br /></td></tr>
 <tr class="separator:a1c198395a2cd796125b995ea88f968e8 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d9db652043bc5c5cd3483d82b35dcbe inherit pro_methods_classsw_1_1UIElement" id="r_a0d9db652043bc5c5cd3483d82b35dcbe"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetNextTabStopFocus</b> ()</td></tr>
-<tr class="memdesc:a0d9db652043bc5c5cd3483d82b35dcbe inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置下一个TabStop属性为true的元素为焦点元素 <br /></td></tr>
-<tr class="separator:a0d9db652043bc5c5cd3483d82b35dcbe inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70509d26b933d53dc2af7e2f70dbbce0 inherit pro_methods_classsw_1_1UIElement" id="r_a70509d26b933d53dc2af7e2f70dbbce0"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetPreviousTabStopFocus</b> ()</td></tr>
-<tr class="memdesc:a70509d26b933d53dc2af7e2f70dbbce0 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置上一个TabStop属性为true的元素为焦点元素 <br /></td></tr>
-<tr class="separator:a70509d26b933d53dc2af7e2f70dbbce0 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f1f2e03dc38a06d5d8241028ac7ee92 inherit pro_methods_classsw_1_1UIElement" id="r_a5f1f2e03dc38a06d5d8241028ac7ee92"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a5f1f2e03dc38a06d5d8241028ac7ee92">ClampDesireSize</a> (<a class="el" href="structsw_1_1Size.html">sw::Size</a> &amp;size) const</td></tr>
 <tr class="memdesc:a5f1f2e03dc38a06d5d8241028ac7ee92 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">限定指定尺寸在最小和最大尺寸之间  <br /></td></tr>
 <tr class="separator:a5f1f2e03dc38a06d5d8241028ac7ee92 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1069,8 +1064,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetPreviousTabStopFoc
 <tr class="memitem:a71d4134a17b2953346dc9895cd01ce85 inherit pro_methods_classsw_1_1UIElement" id="r_a71d4134a17b2953346dc9895cd01ce85"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a71d4134a17b2953346dc9895cd01ce85">OnTabMove</a> (bool forward)</td></tr>
 <tr class="memdesc:a71d4134a17b2953346dc9895cd01ce85 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过tab键将焦点从当前元素移出时调用该函数  <br /></td></tr>
 <tr class="separator:a71d4134a17b2953346dc9895cd01ce85 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f0826e68eb96f7b7dd7882c4c0171b9 inherit pro_methods_classsw_1_1UIElement" id="r_a0f0826e68eb96f7b7dd7882c4c0171b9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a0f0826e68eb96f7b7dd7882c4c0171b9">OnTabStop</a> ()</td></tr>
-<tr class="memdesc:a0f0826e68eb96f7b7dd7882c4c0171b9 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过tab键将焦点移动到当前元素时调用该函数  <br /></td></tr>
+<tr class="memitem:a0f0826e68eb96f7b7dd7882c4c0171b9 inherit pro_methods_classsw_1_1UIElement" id="r_a0f0826e68eb96f7b7dd7882c4c0171b9"><td class="memItemLeft" align="right" valign="top">
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnTabStop</b> ()</td></tr>
+<tr class="memdesc:a0f0826e68eb96f7b7dd7882c4c0171b9 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过tab键将焦点移动到当前元素时调用该函数 <br /></td></tr>
 <tr class="separator:a0f0826e68eb96f7b7dd7882c4c0171b9 inherit pro_methods_classsw_1_1UIElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad685138138402ddd8a5fde67bbb85a45 inherit pro_methods_classsw_1_1UIElement" id="r_ad685138138402ddd8a5fde67bbb85a45"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#ad685138138402ddd8a5fde67bbb85a45">SetParent</a> (<a class="el" href="classsw_1_1WndBase.html">WndBase</a> *parent) override</td></tr>
 <tr class="memdesc:ad685138138402ddd8a5fde67bbb85a45 inherit pro_methods_classsw_1_1UIElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置父窗口  <br /></td></tr>
@@ -1185,8 +1181,9 @@ LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>DefaultWndProc</b>
 <tr class="memitem:a1fc9851ddd21521667a73daa950b94e1 inherit pro_methods_classsw_1_1WndBase" id="r_a1fc9851ddd21521667a73daa950b94e1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a1fc9851ddd21521667a73daa950b94e1">SetInternalText</a> (const std::wstring &amp;value)</td></tr>
 <tr class="memdesc:a1fc9851ddd21521667a73daa950b94e1 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">修改窗口文本，该函数默认实现为调用SetWindowTextW  <br /></td></tr>
 <tr class="separator:a1fc9851ddd21521667a73daa950b94e1 inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad90b0eebbaa959949cae5b736e2104aa inherit pro_methods_classsw_1_1WndBase" id="r_ad90b0eebbaa959949cae5b736e2104aa"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#ad90b0eebbaa959949cae5b736e2104aa">OnEndPaint</a> ()</td></tr>
-<tr class="memdesc:ad90b0eebbaa959949cae5b736e2104aa inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnPaint函数完成之后调用该函数  <br /></td></tr>
+<tr class="memitem:ad90b0eebbaa959949cae5b736e2104aa inherit pro_methods_classsw_1_1WndBase" id="r_ad90b0eebbaa959949cae5b736e2104aa"><td class="memItemLeft" align="right" valign="top">
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnEndPaint</b> ()</td></tr>
+<tr class="memdesc:ad90b0eebbaa959949cae5b736e2104aa inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">在OnPaint函数完成之后调用该函数 <br /></td></tr>
 <tr class="separator:ad90b0eebbaa959949cae5b736e2104aa inherit pro_methods_classsw_1_1WndBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a531ea2dabbaedcce1f71075a68d88961 inherit pro_methods_classsw_1_1WndBase" id="r_a531ea2dabbaedcce1f71075a68d88961"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1WndBase.html#a531ea2dabbaedcce1f71075a68d88961">OnNcPaint</a> (HRGN hRgn)</td></tr>
 <tr class="memdesc:a531ea2dabbaedcce1f71075a68d88961 inherit pro_methods_classsw_1_1WndBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_NCPAINT时调用该函数  <br /></td></tr>
@@ -1794,6 +1791,27 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
 <dl class="section note"><dt>注解</dt><dd>该函数会创建一个新的消息循环并在窗口销毁时退出，只能在创建窗口的线程调用 </dd></dl>
 
 <p>实现了 <a class="el" href="classsw_1_1IDialog.html#a12c4076ef928410b8fc605612e763261">sw::IDialog</a>.</p>
+
+</div>
+</div>
+<a id="a4defede94579c304c176b8f8e64c8668" name="a4defede94579c304c176b8f8e64c8668"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4defede94579c304c176b8f8e64c8668">&#9670;&#160;</a></span>SizeToContent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::Window::SizeToContent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>调整窗口尺寸以适应其内容大小 </p>
+<dl class="section note"><dt>注解</dt><dd>该函数仅对设置了布局方式且AutoSize属性为true的顶级窗口有效 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>若窗口尺寸已被调整则返回true，否则返回false </dd></dl>
 
 </div>
 </div>

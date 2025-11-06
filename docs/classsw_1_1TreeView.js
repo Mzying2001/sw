@@ -13,7 +13,6 @@ var classsw_1_1TreeView =
     [ "InsertItem", "classsw_1_1TreeView.html#a8aa12025bdf449edae0aacb2cf6bad7c", null ],
     [ "OnClicked", "classsw_1_1TreeView.html#af5504a45fb1206d5318cea9d79b10b85", null ],
     [ "OnDoubleClicked", "classsw_1_1TreeView.html#a5c2becffacc6646d78cbc46bef0951ff", null ],
-    [ "OnDrawFocusRect", "classsw_1_1TreeView.html#ab9eafa6ba20daf20cfc3642b3513ff43", null ],
     [ "OnGetDispInfo", "classsw_1_1TreeView.html#a27da553067658a23efde3d06fbce5ab7", null ],
     [ "OnItemChanged", "classsw_1_1TreeView.html#ac0e4469547e13c1605191fe88bb2c6af", null ],
     [ "OnItemExpanded", "classsw_1_1TreeView.html#afcfbc7beb3dab1831fcc22221628b3da", null ],

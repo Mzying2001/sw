@@ -17,7 +17,7 @@ var searchData=
   ['address_14',['Address',['../classsw_1_1IPAddressControl.html#a31e32ebdf9edf44f27213ba1fd0add8a',1,'sw::IPAddressControl']]],
   ['addrow_15',['AddRow',['../classsw_1_1Grid.html#a4878fb93660714d7f0a70a6a131852a1',1,'sw::Grid']]],
   ['addsubitem_16',['AddSubItem',['../classsw_1_1MenuBase.html#aa48a89a167974e8a7397ffe6058c475f',1,'sw::MenuBase']]],
-  ['alignment_17',['alignment',['../classsw_1_1TabControl.html#a09a693f18956f7629fab2377ab1a1dda',1,'sw::TabControl::Alignment'],['../structsw_1_1ListViewColumn.html#a073e675567add518aa85b5356d472cf9',1,'sw::ListViewColumn::alignment']]],
+  ['alignment_17',['alignment',['../structsw_1_1ListViewColumn.html#a073e675567add518aa85b5356d472cf9',1,'sw::ListViewColumn::alignment'],['../classsw_1_1TabControl.html#a09a693f18956f7629fab2377ab1a1dda',1,'sw::TabControl::Alignment']]],
   ['allitemscount_18',['AllItemsCount',['../classsw_1_1TreeView.html#afbb3ced96a966320ad579996e80d4b75',1,'sw::TreeView']]],
   ['animation_19',['animation',['../classsw_1_1Animation.html#a68db7dd5ef40dbc22e937688635cf23d',1,'sw::Animation::Animation()'],['../classsw_1_1Animation.html',1,'sw::Animation']]],
   ['app_20',['App',['../classsw_1_1App.html',1,'sw']]],

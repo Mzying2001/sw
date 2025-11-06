@@ -24,7 +24,7 @@ var classsw_1_1Window =
     [ "Show", "classsw_1_1Window.html#acb7b96779684ed80420c45544dfbb73e", null ],
     [ "ShowDialog", "classsw_1_1Window.html#a4197644efd719230e2f19483ecdcd590", null ],
     [ "ShowDialog", "classsw_1_1Window.html#a54b6ddf8f7ebbc7b1b64608937cda33b", null ],
-    [ "SizeToContent", "classsw_1_1Window.html#abff0275ae90d22951d40b769f952d415", null ],
+    [ "SizeToContent", "classsw_1_1Window.html#a4defede94579c304c176b8f8e64c8668", null ],
     [ "ToWindow", "classsw_1_1Window.html#a51125c103064904cf3bcb578ccf85e5a", null ],
     [ "WndProc", "classsw_1_1Window.html#af590a894bdc91d0e11bcc0c0e3bb8a5c", null ],
     [ "Borderless", "classsw_1_1Window.html#a21dd383eef41be091277a356820e0608", null ],
