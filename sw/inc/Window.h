@@ -338,9 +338,11 @@ namespace sw
         void DrawMenuBar();
 
         /**
-         * @brief 调整窗口尺寸以适应其内容大小，只对设置了布局方式的顶级窗口有效
+         * @brief  调整窗口尺寸以适应其内容大小
+         * @note   该函数仅对设置了布局方式且AutoSize属性为true的顶级窗口有效
+         * @return 若窗口尺寸已被调整则返回true，否则返回false
          */
-        void SizeToContent();
+        bool SizeToContent();
 
         /**
          * @brief 设置窗口的默认布局方式

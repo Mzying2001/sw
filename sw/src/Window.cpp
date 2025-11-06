@@ -361,24 +361,18 @@ bool sw::Window::OnPaint()
         rtClient.right - rtClient.left,
         rtClient.bottom - rtClient.top};
 
-    // 创建内存 DC 和位图
     HDC hdcMem      = CreateCompatibleDC(hdc);
     HBITMAP hBmpWnd = CreateCompatibleBitmap(hdc, sizeClient.cx, sizeClient.cy);
     HBITMAP hBmpOld = (HBITMAP)SelectObject(hdcMem, hBmpWnd);
 
-    // 在内存 DC 上进行绘制
     HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
     FillRect(hdcMem, &rtClient, hBrush);
-
-    // 将内存 DC 的内容绘制到窗口客户区
     BitBlt(hdc, 0, 0, sizeClient.cx, sizeClient.cy, hdcMem, 0, 0, SRCCOPY);
 
-    // 清理资源
     SelectObject(hdcMem, hBmpOld);
     DeleteObject(hBmpWnd);
     DeleteObject(hBrush);
     DeleteDC(hdcMem);
-
     EndPaint(hwnd, &ps);
     return true;
 }
@@ -598,28 +592,29 @@ void sw::Window::DrawMenuBar()
     ::DrawMenuBar(Handle);
 }
 
-void sw::Window::SizeToContent()
+bool sw::Window::SizeToContent()
 {
     if (!IsRootElement()) {
-        return; // 只对顶级窗口有效
+        return false; // 只对顶级窗口有效
     }
 
-    // 该函数需要AutoSize为true，这里先备份其值以做后续恢复
-    bool oldAutoSize = AutoSize;
-    AutoSize         = true;
+    if (!AutoSize) {
+        return false; // 依赖AutoSize属性
+    }
 
-    // measure
     sw::Size measureSize(INFINITY, INFINITY);
     Measure(measureSize);
 
-    // arrange
     sw::Size desireSize  = GetDesireSize();
     sw::Rect windowRect  = Rect;
     sw::Thickness margin = Margin;
-    Arrange(sw::Rect{windowRect.left - margin.left, windowRect.top - margin.top, desireSize.width, desireSize.height});
 
-    // 恢复AutoSize属性的值
-    AutoSize = oldAutoSize;
+    Arrange(sw::Rect{
+        windowRect.left - margin.left,
+        windowRect.top - margin.top,
+        desireSize.width, desireSize.height});
+
+    return true;
 }
 
 bool sw::Window::_IsLayoutDisabled() const noexcept
