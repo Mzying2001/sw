@@ -414,21 +414,6 @@ void sw::Button::UpdateButtonStyle(bool focused)
     this->SetStyle(BS_DEFPUSHBUTTON, focused); // BS_PUSHBUTTON == 0
 }
 
-void sw::Button::OnDrawFocusRect(HDC hdc)
-{
-    HWND hwnd = this->Handle;
-
-    RECT rect;
-    GetClientRect(hwnd, &rect);
-
-    rect.left += 3;
-    rect.top += 3;
-    rect.right -= 3;
-    rect.bottom -= 3;
-
-    DrawFocusRect(hdc, &rect);
-}
-
 bool sw::Button::OnSetFocus(HWND hPreFocus)
 {
     this->UpdateButtonStyle(true);
@@ -1136,12 +1121,6 @@ sw::Control::Control()
               }
               auto container = WndBase::_GetControlInitContainer();
               return container == nullptr || GetParent(_hwnd) != container->_hwnd;
-          }),
-
-      IsFocusedViaTab(
-          // get
-          [this]() -> bool {
-              return _focusedViaTab;
           })
 {
 }
@@ -1222,31 +1201,8 @@ bool sw::Control::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     }
 }
 
-bool sw::Control::OnKillFocus(HWND hNextFocus)
-{
-    _focusedViaTab = false;
-    return UIElement::OnKillFocus(hNextFocus);
-}
-
-void sw::Control::OnTabStop()
-{
-    UIElement::OnTabStop();
-    _focusedViaTab = true;
-}
-
-void sw::Control::OnEndPaint()
-{
-    if (!_hasCustomDraw && _focusedViaTab) {
-        HDC hdc = GetDC(_hwnd);
-        OnDrawFocusRect(hdc);
-        ReleaseDC(_hwnd, hdc);
-    }
-}
-
 bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
 {
-    _hasCustomDraw = true;
-
     switch (pNMCD->dwDrawStage) {
         case CDDS_PREERASE: {
             return OnPreErase(pNMCD->hdc, result);
@@ -1285,18 +1241,7 @@ bool sw::Control::OnPrePaint(HDC hdc, LRESULT &result)
 
 bool sw::Control::OnPostPaint(HDC hdc, LRESULT &result)
 {
-    if (_focusedViaTab) {
-        OnDrawFocusRect(hdc);
-    }
     return false;
-}
-
-void sw::Control::OnDrawFocusRect(HDC hdc)
-{
-    // RECT rect = ClientRect;
-    RECT rect;
-    GetClientRect(_hwnd, &rect);
-    DrawFocusRect(hdc, &rect);
 }
 
 void sw::Control::OnHandleChanged(HWND hwnd)
@@ -3534,6 +3479,16 @@ sw::HwndHost::HwndHost()
           // set
           [this](const bool &value) {
               this->_fillContent = value;
+          }),
+
+      SyncFont(
+          // get
+          [this]() -> bool {
+              return this->_syncFont;
+          },
+          // set
+          [this](const bool &value) {
+              this->_syncFont = value;
           })
 {
     this->Rect = sw::Rect{0, 0, 100, 100};
@@ -3548,17 +3503,29 @@ sw::HwndHost::~HwndHost()
 
 void sw::HwndHost::InitHwndHost()
 {
-    if (this->_hWindowCore == NULL && !this->IsDestroyed)
+    if (this->_hWindowCore == NULL && !this->IsDestroyed) //
+    {
         this->_hWindowCore = this->BuildWindowCore(this->Handle);
+
+        if (this->_hWindowCore != NULL) {
+            this->_SyncSize(this->ClientRect->GetSize());
+            this->_SyncFont(this->GetFontHandle());
+        }
+    }
+}
+
+void sw::HwndHost::FontChanged(HFONT hfont)
+{
+    if (this->_hWindowCore != NULL) {
+        this->_SyncFont(hfont);
+    }
+    this->StaticControl::FontChanged(hfont);
 }
 
 bool sw::HwndHost::OnSize(const Size &newClientSize)
 {
-    if (this->_hWindowCore != NULL && this->_fillContent) {
-        SetWindowPos(this->_hWindowCore, NULL, 0, 0,
-                     Dip::DipToPxX(newClientSize.width),
-                     Dip::DipToPxY(newClientSize.height),
-                     SWP_NOACTIVATE | SWP_NOZORDER);
+    if (this->_hWindowCore != NULL) {
+        this->_SyncSize(newClientSize);
     }
     return this->StaticControl::OnSize(newClientSize);
 }
@@ -3568,6 +3535,23 @@ bool sw::HwndHost::OnDestroy()
     this->DestroyWindowCore(this->_hWindowCore);
     this->_hWindowCore = NULL;
     return this->StaticControl::OnDestroy();
+}
+
+void sw::HwndHost::_SyncSize(const SIZE &newSize)
+{
+    if (this->_hWindowCore != NULL && this->_fillContent) {
+        SetWindowPos(
+            this->_hWindowCore, NULL,
+            0, 0, newSize.cx, newSize.cy,
+            SWP_NOACTIVATE | SWP_NOZORDER);
+    }
+}
+
+void sw::HwndHost::_SyncFont(HFONT hfont)
+{
+    if (this->_hWindowCore != NULL && this->_syncFont) {
+        ::SendMessageW(this->_hWindowCore, WM_SETFONT, reinterpret_cast<WPARAM>(hfont), TRUE);
+    }
 }
 
 // HwndWrapper.cpp
@@ -3608,46 +3592,53 @@ void sw::HwndWrapper::InitHwndWrapper()
 
 // IPAddressControl.cpp
 
-sw::IPAddressControl::IPAddressControl()
-    : IPAddressControl(sw::Size{150, 24})
+namespace
 {
+    /**
+     * @brief 内部编辑框子类化时保存原始窗口过程函数的属性名称
+     */
+    constexpr wchar_t _FieldsEditOriginalProc[] = L"SWPROP_FieldsEditOriginalProc";
+
+    /**
+     * @brief 保存IPAddressControl指针的属性名称
+     */
+    constexpr wchar_t _IPAddressControlPtr[] = L"SWPROP_IPAddressControlPtr";
 }
 
-sw::IPAddressControl::IPAddressControl(sw::Size size)
+sw::IPAddressControl::IPAddressControl()
     : IsBlank(
           // get
           [this]() -> bool {
-              return ::SendMessageW(this->_hIPAddrCtrl, IPM_ISBLANK, 0, 0);
+              return ::SendMessageW(_hIPAddrCtrl, IPM_ISBLANK, 0, 0);
           }),
 
       Address(
           // get
           [this]() -> uint32_t {
               uint32_t result;
-              ::SendMessageW(this->_hIPAddrCtrl, IPM_GETADDRESS, 0, reinterpret_cast<LPARAM>(&result));
+              ::SendMessageW(_hIPAddrCtrl, IPM_GETADDRESS, 0, reinterpret_cast<LPARAM>(&result));
               return result;
           },
           // set
           [this](const uint32_t &value) {
-              ::SendMessageW(this->_hIPAddrCtrl, IPM_SETADDRESS, 0, (LPARAM)value);
-              this->OnAddressChanged();
+              ::SendMessageW(_hIPAddrCtrl, IPM_SETADDRESS, 0, (LPARAM)value);
+              OnAddressChanged();
           })
 {
-    this->Rect    = sw::Rect{0, 0, size.width, size.height};
-    this->TabStop = true;
+    Rect    = sw::Rect{0, 0, 150, 24};
+    TabStop = true;
 
-    this->InitHwndHost();
-    ::SendMessageW(this->_hIPAddrCtrl, WM_SETFONT, reinterpret_cast<WPARAM>(this->GetFontHandle()), FALSE);
+    InitHwndHost();
 }
 
 void sw::IPAddressControl::Clear()
 {
-    ::SendMessageW(this->_hIPAddrCtrl, IPM_CLEARADDRESS, 0, 0);
+    ::SendMessageW(_hIPAddrCtrl, IPM_CLEARADDRESS, 0, 0);
 }
 
 bool sw::IPAddressControl::SetRange(int field, uint8_t min, uint8_t max)
 {
-    return ::SendMessageW(this->_hIPAddrCtrl, IPM_SETRANGE, field, MAKEIPRANGE(min, max));
+    return ::SendMessageW(_hIPAddrCtrl, IPM_SETRANGE, field, MAKEIPRANGE(min, max));
 }
 
 HWND sw::IPAddressControl::BuildWindowCore(HWND hParent)
@@ -3655,45 +3646,87 @@ HWND sw::IPAddressControl::BuildWindowCore(HWND hParent)
     RECT rect;
     GetClientRect(hParent, &rect);
 
-    this->_hIPAddrCtrl = CreateWindowExW(0, WC_IPADDRESSW, L"", WS_CHILD | WS_VISIBLE,
-                                         0, 0, rect.right - rect.left, rect.bottom - rect.top,
-                                         hParent, NULL, App::Instance, NULL);
+    _hIPAddrCtrl = CreateWindowExW(
+        0, WC_IPADDRESSW, L"", WS_CHILD | WS_VISIBLE,
+        0, 0, rect.right - rect.left, rect.bottom - rect.top,
+        hParent, NULL, App::Instance, NULL);
 
-    return this->_hIPAddrCtrl;
+    HWND hChild = GetWindow(_hIPAddrCtrl, GW_CHILD);
+
+    while (hChild != NULL) {
+        SetPropW(hChild, _IPAddressControlPtr, reinterpret_cast<HANDLE>(this));
+        SetPropW(hChild, _FieldsEditOriginalProc, reinterpret_cast<HANDLE>(GetWindowLongPtrW(hChild, GWLP_WNDPROC)));
+        SetWindowLongPtrW(hChild, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(_FieldsEditSubclassProc));
+        hChild = GetWindow(hChild, GW_HWNDNEXT);
+    }
+
+    return _hIPAddrCtrl;
 }
 
 void sw::IPAddressControl::DestroyWindowCore(HWND hwnd)
 {
-    DestroyWindow(this->_hIPAddrCtrl);
-    this->_hIPAddrCtrl = NULL;
+    DestroyWindow(_hIPAddrCtrl);
+    _hIPAddrCtrl = NULL;
 }
 
-void sw::IPAddressControl::FontChanged(HFONT hfont)
+bool sw::IPAddressControl::OnSize(const Size &newClientSize)
 {
-    if (this->_hIPAddrCtrl != NULL) {
-        ::SendMessageW(this->_hIPAddrCtrl, WM_SETFONT, reinterpret_cast<WPARAM>(hfont), TRUE);
-    }
-    this->HwndHost::FontChanged(hfont);
+    auto result = TBase::OnSize(newClientSize);
+
+    // SysIPAddress32尺寸改变时不会自动调整内部编辑框的位置和尺寸，
+    // 但在字体改变时会进行调整，因此发送WM_SETFONT以调整内部编辑框
+    ::SendMessageW(_hIPAddrCtrl, WM_SETFONT, reinterpret_cast<WPARAM>(GetFontHandle()), TRUE);
+    return result;
 }
 
 bool sw::IPAddressControl::OnSetFocus(HWND hPrevFocus)
 {
-    // SetFocus(this->_hIPAddrCtrl);
-    ::SendMessageW(this->_hIPAddrCtrl, IPM_SETFOCUS, -1, 0);
-    return this->HwndHost::OnSetFocus(hPrevFocus);
+    ::SendMessageW(_hIPAddrCtrl, IPM_SETFOCUS, -1, 0);
+    return TBase::OnSetFocus(hPrevFocus);
 }
 
 bool sw::IPAddressControl::OnNotify(NMHDR *pNMHDR, LRESULT &result)
 {
     if (pNMHDR->code == IPN_FIELDCHANGED) {
-        this->OnAddressChanged();
+        OnAddressChanged();
     }
-    return this->HwndHost::OnNotify(pNMHDR, result);
+    return TBase::OnNotify(pNMHDR, result);
 }
 
 void sw::IPAddressControl::OnAddressChanged()
 {
-    this->RaiseRoutedEvent(IPAddressControl_AddressChanged);
+    RaiseRoutedEvent(IPAddressControl_AddressChanged);
+}
+
+void sw::IPAddressControl::_OnTabKeyDown()
+{
+    bool shiftDown = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+    OnTabMove(!shiftDown);
+}
+
+LRESULT sw::IPAddressControl::_FieldsEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    auto originalProc = reinterpret_cast<WNDPROC>(GetPropW(hwnd, _FieldsEditOriginalProc));
+    auto pAddressCtrl = reinterpret_cast<IPAddressControl *>(GetPropW(hwnd, _IPAddressControlPtr));
+
+    switch (uMsg) {
+        case WM_CHAR: {
+            if (wParam == L'\t') {
+                if (WndBase::IsPtrValid(pAddressCtrl))
+                    pAddressCtrl->_OnTabKeyDown();
+                return 0;
+            } else {
+                // fallthrough
+            }
+        }
+        default: {
+            if (originalProc == NULL) {
+                return DefWindowProcW(hwnd, uMsg, wParam, lParam);
+            } else {
+                return CallWindowProcW(originalProc, hwnd, uMsg, wParam, lParam);
+            }
+        }
+    }
 }
 
 // Icon.cpp
@@ -4994,11 +5027,6 @@ void sw::ListBox::OnCommand(int code)
     }
 }
 
-void sw::ListBox::OnDrawFocusRect(HDC hdc)
-{
-    // 不绘制虚线框
-}
-
 void sw::ListBox::Clear()
 {
     this->SendMessageW(LB_RESETCONTENT, 0, 0);
@@ -5321,11 +5349,6 @@ bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
         }
     }
     return this->Control::OnNotified(pNMHDR, result);
-}
-
-void sw::ListView::OnDrawFocusRect(HDC hdc)
-{
-    // 不绘制虚线框
 }
 
 void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
@@ -6273,11 +6296,6 @@ bool sw::MonthCalendar::SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &ma
     return this->SendMessageW(MCM_SETRANGE, GDTR_MIN | GDTR_MAX, reinterpret_cast<LPARAM>(range));
 }
 
-void sw::MonthCalendar::OnDrawFocusRect(HDC hdc)
-{
-    // 不绘制虚线框
-}
-
 void sw::MonthCalendar::SetBackColor(Color color, bool redraw)
 {
     this->Control::SetBackColor(color, false);
@@ -6954,21 +6972,6 @@ bool sw::PanelBase::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     return this->Control::OnNotified(pNMHDR, result);
 }
 
-bool sw::PanelBase::OnKillFocus(HWND hNextFocus)
-{
-    return this->Control::OnKillFocus(hNextFocus);
-}
-
-void sw::PanelBase::OnTabStop()
-{
-    this->Control::OnTabStop();
-}
-
-void sw::PanelBase::OnEndPaint()
-{
-    this->Control::OnEndPaint();
-}
-
 bool sw::PanelBase::RequestBringIntoView(const sw::Rect &screenRect)
 {
     return this->Layer::RequestBringIntoView(screenRect);
@@ -6981,7 +6984,7 @@ bool sw::PanelBase::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventH
 
 sw::Control *sw::PanelBase::ToControl()
 {
-    return this->Control::ToControl();
+    return this;
 }
 
 // PasswordBox.cpp
@@ -8397,11 +8400,6 @@ bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     return this->Control::OnNotified(pNMHDR, result);
 }
 
-void sw::TabControl::OnDrawFocusRect(HDC hdc)
-{
-    // 不绘制虚线框
-}
-
 void sw::TabControl::OnSelectedIndexChanged()
 {
     this->_UpdateChildVisible();
@@ -8721,11 +8719,6 @@ bool sw::TextBoxBase::OnKeyDown(VirtualKey key, const KeyFlags &flags)
     }
 
     return e.handledMsg;
-}
-
-void sw::TextBoxBase::OnDrawFocusRect(HDC hdc)
-{
-    // 不绘制虚线框
 }
 
 void sw::TextBoxBase::Select(int start, int length)
@@ -9271,11 +9264,6 @@ sw::TreeViewNode sw::TreeView::GetSelectedItem()
     return TreeViewNode{hwnd, TreeView_GetSelection(hwnd)};
 }
 
-void sw::TreeView::OnDrawFocusRect(HDC hdc)
-{
-    // 不绘制虚线框
-}
-
 void sw::TreeView::SetBackColor(Color color, bool redraw)
 {
     Control::SetBackColor(color, false);
@@ -9722,6 +9710,12 @@ sw::UIElement::UIElement()
           // set
           [this](const bool &value) {
               this->_isHitTestVisible = value;
+          }),
+
+      IsFocusedViaTab(
+          // get
+          [this]() -> bool {
+              return this->_focusedViaTab;
           })
 {
 }
@@ -10438,18 +10432,6 @@ void sw::UIElement::UpdateSiblingsZOrder(bool invalidateMeasure)
     }
 }
 
-void sw::UIElement::SetNextTabStopFocus()
-{
-    UIElement *next = this->GetNextTabStopElement();
-    if (next && next != this) next->OnTabStop();
-}
-
-void sw::UIElement::SetPreviousTabStopFocus()
-{
-    UIElement *previous = this->GetPreviousTabStopElement();
-    if (previous && previous != this) previous->OnTabStop();
-}
-
 void sw::UIElement::ClampDesireSize(sw::Size &size) const
 {
     if (this->_minSize.width > 0) {
@@ -10532,15 +10514,27 @@ void sw::UIElement::OnRemovedChild(UIElement &element)
 
 void sw::UIElement::OnTabMove(bool forward)
 {
+    UIElement *next = nullptr;
+
+    // 获取下一个可Tab停止的元素
     if (forward) {
-        this->SetNextTabStopFocus();
+        next = this->GetNextTabStopElement();
     } else {
-        this->SetPreviousTabStopFocus();
+        next = this->GetPreviousTabStopElement();
+    }
+
+    // 跳转到下一个可Tab停止的元素
+    if (next != nullptr && next != this) {
+        next->OnTabStop();
     }
 }
 
 void sw::UIElement::OnTabStop()
 {
+    // 标记为通过Tab键获得焦点
+    this->_focusedViaTab = true;
+
+    // 设置焦点并滚动到可见区域
     this->Focused = true;
     this->BringIntoView();
 }
@@ -10680,11 +10674,18 @@ bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 {
     TypedRoutedEventArgs<UIElement_GotFocus> args;
     this->RaiseRoutedEvent(args);
+
+    if (!args.handledMsg && this->_parent != nullptr) {
+        int action = this->_focusedViaTab ? UIS_CLEAR : UIS_SET;
+        this->_parent->SendMessageW(WM_UPDATEUISTATE, MAKEWPARAM(action, UISF_HIDEFOCUS), 0);
+    }
     return args.handledMsg;
 }
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
+    this->_focusedViaTab = false;
+
     TypedRoutedEventArgs<UIElement_LostFocus> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;
@@ -11435,7 +11436,7 @@ LRESULT sw::Window::WndProc(ProcMsg &refMsg)
             int dpiX   = LOWORD(refMsg.wParam);
             int dpiY   = HIWORD(refMsg.wParam);
             auto &rect = *reinterpret_cast<RECT *>(refMsg.lParam);
-            return OnDpiChanged(dpiX, dpiY, rect) ? 0 : TBase::WndProc(refMsg);
+            return OnDpiChanged(dpiX, dpiY, rect) ? 0 : DefaultWndProc(refMsg);
         }
 
         case WM_ACTIVATE: {
@@ -11509,24 +11510,18 @@ bool sw::Window::OnPaint()
         rtClient.right - rtClient.left,
         rtClient.bottom - rtClient.top};
 
-    // 创建内存 DC 和位图
     HDC hdcMem      = CreateCompatibleDC(hdc);
     HBITMAP hBmpWnd = CreateCompatibleBitmap(hdc, sizeClient.cx, sizeClient.cy);
     HBITMAP hBmpOld = (HBITMAP)SelectObject(hdcMem, hBmpWnd);
 
-    // 在内存 DC 上进行绘制
     HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
     FillRect(hdcMem, &rtClient, hBrush);
-
-    // 将内存 DC 的内容绘制到窗口客户区
     BitBlt(hdc, 0, 0, sizeClient.cx, sizeClient.cy, hdcMem, 0, 0, SRCCOPY);
 
-    // 清理资源
     SelectObject(hdcMem, hBmpOld);
     DeleteObject(hBmpWnd);
     DeleteObject(hBrush);
     DeleteDC(hdcMem);
-
     EndPaint(hwnd, &ps);
     return true;
 }
@@ -11567,19 +11562,22 @@ void sw::Window::OnFirstShow()
     }
 
     // 按照StartupLocation修改位置
-    if (_startupLocation == WindowStartupLocation::CenterScreen) {
-        auto rect = Rect.Get();
-        rect.left = (Screen::Width - rect.width) / 2;
-        rect.top  = (Screen::Height - rect.height) / 2;
-        Rect      = rect;
-    } else if (_startupLocation == WindowStartupLocation::CenterOwner) {
-        Window *owner = Owner;
-        if (owner) {
-            auto windowRect = Rect.Get();
-            auto ownerRect  = owner->Rect.Get();
-            windowRect.left = ownerRect.left + (ownerRect.width - windowRect.width) / 2;
-            windowRect.top  = ownerRect.top + (ownerRect.height - windowRect.height) / 2;
-            Rect            = windowRect;
+    switch (_startupLocation) {
+        case WindowStartupLocation::Manual: {
+            break;
+        }
+        case WindowStartupLocation::CenterOwner: {
+            auto owner = Owner.Get();
+            if (owner) {
+                _CenterWindow(owner->Rect);
+                break;
+            } else {
+                // fallthrough
+            }
+        }
+        case WindowStartupLocation::CenterScreen: {
+            _CenterWindow(sw::Rect{0, 0, Screen::Width, Screen::Height});
+            break;
         }
     }
 }
@@ -11654,9 +11652,12 @@ int sw::Window::ShowDialog(Window *owner)
     hOwner = owner ? owner->Handle : reinterpret_cast<HWND>(GetWindowLongPtrW(hwnd, GWLP_HWNDPARENT));
 
     if (hOwner == NULL) {
-        if ((hOwner = GetActiveWindow()) != NULL) {
-            SetWindowLongPtrW(hwnd, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
-        }
+        hOwner = GetActiveWindow();
+        hOwner = (hOwner == hwnd) ? NULL : hOwner;
+    }
+
+    if (hOwner != NULL) {
+        SetWindowLongPtrW(hwnd, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
     }
 
     _isModal     = true;
@@ -11743,33 +11744,44 @@ void sw::Window::DrawMenuBar()
     ::DrawMenuBar(Handle);
 }
 
-void sw::Window::SizeToContent()
+bool sw::Window::SizeToContent()
 {
     if (!IsRootElement()) {
-        return; // 只对顶级窗口有效
+        return false; // 只对顶级窗口有效
     }
 
-    // 该函数需要AutoSize为true，这里先备份其值以做后续恢复
-    bool oldAutoSize = AutoSize;
-    AutoSize         = true;
+    if (!AutoSize) {
+        return false; // 依赖AutoSize属性
+    }
 
-    // measure
     sw::Size measureSize(INFINITY, INFINITY);
     Measure(measureSize);
 
-    // arrange
     sw::Size desireSize  = GetDesireSize();
     sw::Rect windowRect  = Rect;
     sw::Thickness margin = Margin;
-    Arrange(sw::Rect{windowRect.left - margin.left, windowRect.top - margin.top, desireSize.width, desireSize.height});
 
-    // 恢复AutoSize属性的值
-    AutoSize = oldAutoSize;
+    Arrange(sw::Rect{
+        windowRect.left - margin.left,
+        windowRect.top - margin.top,
+        desireSize.width, desireSize.height});
+
+    return true;
 }
 
 bool sw::Window::_IsLayoutDisabled() const noexcept
 {
     return _disableLayoutCount > 0;
+}
+
+void sw::Window::_CenterWindow(const sw::Rect &rect)
+{
+    auto windowRect = Rect.Get();
+
+    Rect = sw::Rect{
+        rect.left + (rect.width - windowRect.width) / 2,
+        rect.top + (rect.height - windowRect.height) / 2,
+        windowRect.width, windowRect.height};
 }
 
 sw::Window *sw::Window::_GetWindowPtr(HWND hwnd)
@@ -13082,8 +13094,9 @@ sw::WndBase *sw::WndBase::_GetControlInitContainer()
                 // 线程退出时，容器窗口一般还未被销毁，此时消息循环已经结束，
                 // 直接调用DestroyWindow无法销毁窗口，因此此处需要创建一个
                 // 临时消息循环，发送WM_CLOSE以确保窗口正常销毁。
-                this->container->PostMessageW(WM_CLOSE, 0, 0);
-
+                if (!this->container->PostMessageW(WM_CLOSE, 0, 0)) {
+                    return;
+                }
                 // 临时消息循环
                 for (MSG msg{}; GetMessageW(&msg, NULL, 0, 0) > 0;) {
                     TranslateMessage(&msg);

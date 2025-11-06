@@ -5831,6 +5831,10 @@ namespace sw
 
 // Reflection.h
 
+// 定义_SW_DISABLE_REFLECTION可以禁用反射相关功能
+// 若该宏被定义，则相关功能会抛出runtime_error异常
+// #define _SW_DISABLE_REFLECTION
+
 
 namespace sw
 {
@@ -5851,7 +5855,11 @@ namespace sw
          */
         inline std::type_index GetTypeIndex() const
         {
+#if defined(_SW_DISABLE_REFLECTION)
+            throw std::runtime_error("Reflection is disabled, cannot get type index.");
+#else
             return typeid(*this);
+#endif
         }
 
         /**
@@ -5863,12 +5871,16 @@ namespace sw
         template <typename T>
         bool IsType(T **pout = nullptr)
         {
+#if defined(_SW_DISABLE_REFLECTION)
+            throw std::runtime_error("Reflection is disabled, cannot check type.");
+#else
             if (pout == nullptr) {
                 return dynamic_cast<T *>(this) != nullptr;
             } else {
                 *pout = dynamic_cast<T *>(this);
                 return *pout != nullptr;
             }
+#endif
         }
 
         /**
@@ -5880,12 +5892,16 @@ namespace sw
         template <typename T>
         bool IsType(const T **pout = nullptr) const
         {
+#if defined(_SW_DISABLE_REFLECTION)
+            throw std::runtime_error("Reflection is disabled, cannot check type.");
+#else
             if (pout == nullptr) {
                 return dynamic_cast<const T *>(this) != nullptr;
             } else {
                 *pout = dynamic_cast<const T *>(this);
                 return *pout != nullptr;
             }
+#endif
         }
 
         /**
@@ -5897,7 +5913,11 @@ namespace sw
         template <typename T>
         T &DynamicCast()
         {
+#if defined(_SW_DISABLE_REFLECTION)
+            throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
             return dynamic_cast<T &>(*this);
+#endif
         }
 
         /**
@@ -5909,7 +5929,11 @@ namespace sw
         template <typename T>
         const T &DynamicCast() const
         {
+#if defined(_SW_DISABLE_REFLECTION)
+            throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
             return dynamic_cast<const T &>(*this);
+#endif
         }
     };
 
@@ -9221,6 +9245,11 @@ namespace sw
          */
         bool _isHitTestVisible = true;
 
+        /**
+         * @brief 当前元素是否是通过按下Tab键获得的焦点
+         */
+        bool _focusedViaTab = false;
+
     public:
         /**
          * @brief 边距
@@ -9339,6 +9368,11 @@ namespace sw
          * @brief 当前元素是否响应鼠标事件
          */
         const Property<bool> IsHitTestVisible;
+
+        /**
+         * @brief 当前元素是否是通过按下Tab键获得的焦点
+         */
+        const ReadOnlyProperty<bool> IsFocusedViaTab;
 
     public:
         /**
@@ -9671,16 +9705,6 @@ namespace sw
          * @brief 更新兄弟元素的Z轴位置
          */
         void UpdateSiblingsZOrder(bool invalidateMeasure = true);
-
-        /**
-         * @brief 设置下一个TabStop属性为true的元素为焦点元素
-         */
-        void SetNextTabStopFocus();
-
-        /**
-         * @brief 设置上一个TabStop属性为true的元素为焦点元素
-         */
-        void SetPreviousTabStopFocus();
 
         /**
          * @brief      限定指定尺寸在最小和最大尺寸之间
@@ -10391,17 +10415,6 @@ namespace sw
      */
     class Control : virtual public UIElement
     {
-    private:
-        /**
-         * @brief 当前控件是否是通过按下Tab键获得的焦点
-         */
-        bool _focusedViaTab = false;
-
-        /**
-         * @brief 标记当前控件是否响应了NM_CUSTOMDRAW消息
-         */
-        bool _hasCustomDraw = false;
-
     public:
         /**
          * @brief 控件的标识符
@@ -10413,11 +10426,6 @@ namespace sw
          * @note  当控件已创建并且被添加到任意父窗口（可以是其他框架窗口）时该值为true
          */
         const ReadOnlyProperty<bool> IsInHierarchy;
-
-        /**
-         * @brief 当前控件是否是通过按下Tab键获得的焦点
-         */
-        const ReadOnlyProperty<bool> IsFocusedViaTab;
 
     public:
         /**
@@ -10465,23 +10473,6 @@ namespace sw
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
-         * @brief            接收到WM_KILLFOCUS时调用该函数
-         * @param hNextFocus 接收到焦点的hwnd，可能为NULL
-         * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnKillFocus(HWND hNextFocus) override;
-
-        /**
-         * @brief 通过tab键将焦点移动到当前元素时调用该函数
-         */
-        virtual void OnTabStop() override;
-
-        /**
-         * @brief 在OnPaint函数完成之后调用该函数
-         */
-        virtual void OnEndPaint() override;
-
-        /**
          * @brief        接收到NM_CUSTOMDRAW后调用该函数
          * @param pNMCD  包含有关自定义绘制的信息
          * @param result 函数返回值为true时将该值作为消息的返回值
@@ -10520,12 +10511,6 @@ namespace sw
          * @return       若已完成绘制则返回true，否则返回false以使用默认绘制
          */
         virtual bool OnPostPaint(HDC hdc, LRESULT &result);
-
-        /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc);
 
         /**
          * @brief      控件句柄发生改变时调用该函数
@@ -11888,12 +11873,6 @@ namespace sw
 
     protected:
         /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc) override;
-
-        /**
          * @brief        设置背景颜色
          * @param color  要设置的颜色
          * @param redraw 是否重绘
@@ -11987,23 +11966,6 @@ namespace sw
          * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
-
-        /**
-         * @brief            接收到WM_KILLFOCUS时调用该函数
-         * @param hNextFocus 接收到焦点的hwnd，可能为NULL
-         * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnKillFocus(HWND hNextFocus) override;
-
-        /**
-         * @brief 通过tab键将焦点移动到当前元素时调用该函数
-         */
-        virtual void OnTabStop() override;
-
-        /**
-         * @brief 在OnPaint函数完成之后调用该函数
-         */
-        virtual void OnEndPaint() override;
 
         /**
          * @brief            尝试将指定的矩形区域移动到可视区域内
@@ -12533,12 +12495,6 @@ namespace sw
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc) override;
-
-        /**
          * @brief SelectedIndex属性更改时调用该函数
          */
         virtual void OnSelectedIndexChanged();
@@ -12677,12 +12633,6 @@ namespace sw
          * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnKeyDown(VirtualKey key, const KeyFlags &flags) override;
-
-        /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc) override;
 
     public:
         /**
@@ -13048,9 +12998,11 @@ namespace sw
         void DrawMenuBar();
 
         /**
-         * @brief 调整窗口尺寸以适应其内容大小，只对设置了布局方式的顶级窗口有效
+         * @brief  调整窗口尺寸以适应其内容大小
+         * @note   该函数仅对设置了布局方式且AutoSize属性为true的顶级窗口有效
+         * @return 若窗口尺寸已被调整则返回true，否则返回false
          */
-        void SizeToContent();
+        bool SizeToContent();
 
         /**
          * @brief 设置窗口的默认布局方式
@@ -13079,6 +13031,12 @@ namespace sw
          * @brief 窗口布局是否被禁用
          */
         bool _IsLayoutDisabled() const noexcept;
+
+        /**
+         * @brief      将窗口居中于指定矩形区域
+         * @param rect 目标矩形区域
+         */
+        void _CenterWindow(const sw::Rect &rect);
 
         /**
          * @brief      通过窗口句柄获取Window指针
@@ -13302,12 +13260,6 @@ namespace sw
          * @param focused 是否处于焦点状态
          */
         virtual void UpdateButtonStyle(bool focused);
-
-        /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc) override;
 
         /**
          * @brief           接收到WM_SETFOCUS时调用该函数
@@ -14693,12 +14645,23 @@ namespace sw
          */
         bool _fillContent = true;
 
+        /**
+         * @brief 是否同步字体
+         */
+        bool _syncFont = true;
+
     public:
         /**
          * @brief 是否自动填充托管的内容
          */
         const Property<bool> FillContent;
 
+        /**
+         * @brief 是否发送WM_SETFONT消息以同步字体
+         */
+        const Property<bool> SyncFont;
+
+    public:
         /**
          * @brief 创建HwndHost对象
          */
@@ -14716,6 +14679,12 @@ namespace sw
         void InitHwndHost();
 
         /**
+         * @brief       字体改变时调用该函数
+         * @param hfont 字体句柄
+         */
+        virtual void FontChanged(HFONT hfont) override;
+
+        /**
          * @brief               接收到WM_SIZE时调用该函数
          * @param newClientSize 改变后的用户区尺寸
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
@@ -14727,6 +14696,17 @@ namespace sw
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDestroy() override;
+
+    private:
+        /**
+         * @brief 同步托管窗口尺寸
+         */
+        void _SyncSize(const SIZE &newSize);
+
+        /**
+         * @brief 同步托管窗口字体
+         */
+        void _SyncFont(HFONT hfont);
 
     protected:
         /**
@@ -15017,12 +14997,6 @@ namespace sw
          */
         virtual void OnCommand(int code) override;
 
-        /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc) override;
-
     public:
         /**
          * @brief 清空所有子项
@@ -15265,12 +15239,6 @@ namespace sw
          * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
-
-        /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc) override;
 
         /**
          * @brief 列表项某些属性发生变化时调用该函数
@@ -16126,12 +16094,6 @@ namespace sw
         virtual TreeViewNode GetSelectedItem() override;
 
         /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc) override;
-
-        /**
          * @brief        设置背景颜色
          * @param color  要设置的颜色
          * @param redraw 是否重绘
@@ -16569,6 +16531,11 @@ namespace sw
     {
     private:
         /**
+         * @brief 基类别名
+         */
+        using TBase = HwndHost;
+
+        /**
          * @brief IP地址框的句柄
          */
         HWND _hIPAddrCtrl{NULL};
@@ -16590,11 +16557,7 @@ namespace sw
          */
         IPAddressControl();
 
-        /**
-         * @brief 初始化IP地址框，并设置控件尺寸
-         */
-        explicit IPAddressControl(sw::Size size);
-
+    public:
         /**
          * @brief 清空输入的内容
          */
@@ -16624,10 +16587,11 @@ namespace sw
         virtual void DestroyWindowCore(HWND hwnd) override;
 
         /**
-         * @brief       字体改变时调用该函数
-         * @param hfont 字体句柄
+         * @brief               接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void FontChanged(HFONT hfont) override;
+        virtual bool OnSize(const Size &newClientSize) override;
 
         /**
          * @brief            接收到WM_SETFOCUS时调用该函数
@@ -16648,6 +16612,17 @@ namespace sw
          * @brief 地址改变时调用该函数
          */
         virtual void OnAddressChanged();
+
+    private:
+        /**
+         * @brief 处理Tab键按下事件
+         */
+        void _OnTabKeyDown();
+
+        /**
+         * @brief 子类化内部编辑框的窗口过程函数
+         */
+        static LRESULT CALLBACK _FieldsEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
     };
 }
 
