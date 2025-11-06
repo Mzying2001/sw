@@ -12,6 +12,11 @@ namespace sw
     {
     private:
         /**
+         * @brief 基类别名
+         */
+        using TBase = HwndHost;
+
+        /**
          * @brief IP地址框的句柄
          */
         HWND _hIPAddrCtrl{NULL};
@@ -33,11 +38,7 @@ namespace sw
          */
         IPAddressControl();
 
-        /**
-         * @brief 初始化IP地址框，并设置控件尺寸
-         */
-        explicit IPAddressControl(sw::Size size);
-
+    public:
         /**
          * @brief 清空输入的内容
          */
@@ -65,12 +66,6 @@ namespace sw
          * @param hwnd 被托管窗口句柄
          */
         virtual void DestroyWindowCore(HWND hwnd) override;
-
-        /**
-         * @brief       字体改变时调用该函数
-         * @param hfont 字体句柄
-         */
-        virtual void FontChanged(HFONT hfont) override;
 
         /**
          * @brief            接收到WM_SETFOCUS时调用该函数
