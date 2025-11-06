@@ -55,6 +55,16 @@ void sw::IPAddressControl::DestroyWindowCore(HWND hwnd)
     _hIPAddrCtrl = NULL;
 }
 
+bool sw::IPAddressControl::OnSize(const Size &newClientSize)
+{
+    auto result = TBase::OnSize(newClientSize);
+
+    // SysIPAddress32尺寸改变时不会自动调整内部编辑框的位置和尺寸，
+    // 但在字体改变时会进行调整，因此发送WM_SETFONT以调整内部编辑框
+    ::SendMessageW(_hIPAddrCtrl, WM_SETFONT, reinterpret_cast<WPARAM>(GetFontHandle()), TRUE);
+    return result;
+}
+
 bool sw::IPAddressControl::OnSetFocus(HWND hPrevFocus)
 {
     ::SendMessageW(_hIPAddrCtrl, IPM_SETFOCUS, -1, 0);
