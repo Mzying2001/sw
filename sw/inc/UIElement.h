@@ -252,6 +252,11 @@ namespace sw
          */
         bool _isHitTestVisible = true;
 
+        /**
+         * @brief 当前元素是否是通过按下Tab键获得的焦点
+         */
+        bool _focusedViaTab = false;
+
     public:
         /**
          * @brief 边距
@@ -370,6 +375,11 @@ namespace sw
          * @brief 当前元素是否响应鼠标事件
          */
         const Property<bool> IsHitTestVisible;
+
+        /**
+         * @brief 当前元素是否是通过按下Tab键获得的焦点
+         */
+        const ReadOnlyProperty<bool> IsFocusedViaTab;
 
     public:
         /**
@@ -702,16 +712,6 @@ namespace sw
          * @brief 更新兄弟元素的Z轴位置
          */
         void UpdateSiblingsZOrder(bool invalidateMeasure = true);
-
-        /**
-         * @brief 设置下一个TabStop属性为true的元素为焦点元素
-         */
-        void SetNextTabStopFocus();
-
-        /**
-         * @brief 设置上一个TabStop属性为true的元素为焦点元素
-         */
-        void SetPreviousTabStopFocus();
 
         /**
          * @brief      限定指定尺寸在最小和最大尺寸之间

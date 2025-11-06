@@ -129,11 +129,6 @@ bool sw::TextBoxBase::OnKeyDown(VirtualKey key, const KeyFlags &flags)
     return e.handledMsg;
 }
 
-void sw::TextBoxBase::OnDrawFocusRect(HDC hdc)
-{
-    // 不绘制虚线框
-}
-
 void sw::TextBoxBase::Select(int start, int length)
 {
     this->SendMessageW(EM_SETSEL, start, start + length);

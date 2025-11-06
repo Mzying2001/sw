@@ -287,7 +287,7 @@ LRESULT sw::Window::WndProc(ProcMsg &refMsg)
             int dpiX   = LOWORD(refMsg.wParam);
             int dpiY   = HIWORD(refMsg.wParam);
             auto &rect = *reinterpret_cast<RECT *>(refMsg.lParam);
-            return OnDpiChanged(dpiX, dpiY, rect) ? 0 : TBase::WndProc(refMsg);
+            return OnDpiChanged(dpiX, dpiY, rect) ? 0 : DefaultWndProc(refMsg);
         }
 
         case WM_ACTIVATE: {
@@ -361,24 +361,18 @@ bool sw::Window::OnPaint()
         rtClient.right - rtClient.left,
         rtClient.bottom - rtClient.top};
 
-    // 创建内存 DC 和位图
     HDC hdcMem      = CreateCompatibleDC(hdc);
     HBITMAP hBmpWnd = CreateCompatibleBitmap(hdc, sizeClient.cx, sizeClient.cy);
     HBITMAP hBmpOld = (HBITMAP)SelectObject(hdcMem, hBmpWnd);
 
-    // 在内存 DC 上进行绘制
     HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
     FillRect(hdcMem, &rtClient, hBrush);
-
-    // 将内存 DC 的内容绘制到窗口客户区
     BitBlt(hdc, 0, 0, sizeClient.cx, sizeClient.cy, hdcMem, 0, 0, SRCCOPY);
 
-    // 清理资源
     SelectObject(hdcMem, hBmpOld);
     DeleteObject(hBmpWnd);
     DeleteObject(hBrush);
     DeleteDC(hdcMem);
-
     EndPaint(hwnd, &ps);
     return true;
 }
@@ -419,19 +413,22 @@ void sw::Window::OnFirstShow()
     }
 
     // 按照StartupLocation修改位置
-    if (_startupLocation == WindowStartupLocation::CenterScreen) {
-        auto rect = Rect.Get();
-        rect.left = (Screen::Width - rect.width) / 2;
-        rect.top  = (Screen::Height - rect.height) / 2;
-        Rect      = rect;
-    } else if (_startupLocation == WindowStartupLocation::CenterOwner) {
-        Window *owner = Owner;
-        if (owner) {
-            auto windowRect = Rect.Get();
-            auto ownerRect  = owner->Rect.Get();
-            windowRect.left = ownerRect.left + (ownerRect.width - windowRect.width) / 2;
-            windowRect.top  = ownerRect.top + (ownerRect.height - windowRect.height) / 2;
-            Rect            = windowRect;
+    switch (_startupLocation) {
+        case WindowStartupLocation::Manual: {
+            break;
+        }
+        case WindowStartupLocation::CenterOwner: {
+            auto owner = Owner.Get();
+            if (owner) {
+                _CenterWindow(owner->Rect);
+                break;
+            } else {
+                // fallthrough
+            }
+        }
+        case WindowStartupLocation::CenterScreen: {
+            _CenterWindow(sw::Rect{0, 0, Screen::Width, Screen::Height});
+            break;
         }
     }
 }
@@ -506,9 +503,12 @@ int sw::Window::ShowDialog(Window *owner)
     hOwner = owner ? owner->Handle : reinterpret_cast<HWND>(GetWindowLongPtrW(hwnd, GWLP_HWNDPARENT));
 
     if (hOwner == NULL) {
-        if ((hOwner = GetActiveWindow()) != NULL) {
-            SetWindowLongPtrW(hwnd, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
-        }
+        hOwner = GetActiveWindow();
+        hOwner = (hOwner == hwnd) ? NULL : hOwner;
+    }
+
+    if (hOwner != NULL) {
+        SetWindowLongPtrW(hwnd, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
     }
 
     _isModal     = true;
@@ -595,33 +595,44 @@ void sw::Window::DrawMenuBar()
     ::DrawMenuBar(Handle);
 }
 
-void sw::Window::SizeToContent()
+bool sw::Window::SizeToContent()
 {
     if (!IsRootElement()) {
-        return; // 只对顶级窗口有效
+        return false; // 只对顶级窗口有效
     }
 
-    // 该函数需要AutoSize为true，这里先备份其值以做后续恢复
-    bool oldAutoSize = AutoSize;
-    AutoSize         = true;
+    if (!AutoSize) {
+        return false; // 依赖AutoSize属性
+    }
 
-    // measure
     sw::Size measureSize(INFINITY, INFINITY);
     Measure(measureSize);
 
-    // arrange
     sw::Size desireSize  = GetDesireSize();
     sw::Rect windowRect  = Rect;
     sw::Thickness margin = Margin;
-    Arrange(sw::Rect{windowRect.left - margin.left, windowRect.top - margin.top, desireSize.width, desireSize.height});
 
-    // 恢复AutoSize属性的值
-    AutoSize = oldAutoSize;
+    Arrange(sw::Rect{
+        windowRect.left - margin.left,
+        windowRect.top - margin.top,
+        desireSize.width, desireSize.height});
+
+    return true;
 }
 
 bool sw::Window::_IsLayoutDisabled() const noexcept
 {
     return _disableLayoutCount > 0;
+}
+
+void sw::Window::_CenterWindow(const sw::Rect &rect)
+{
+    auto windowRect = Rect.Get();
+
+    Rect = sw::Rect{
+        rect.left + (rect.width - windowRect.width) / 2,
+        rect.top + (rect.height - windowRect.height) / 2,
+        windowRect.width, windowRect.height};
 }
 
 sw::Window *sw::Window::_GetWindowPtr(HWND hwnd)

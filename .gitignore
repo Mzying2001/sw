@@ -402,3 +402,6 @@ build/
 
 # VSCode
 .vscode/
+
+# CLion
+.idea/

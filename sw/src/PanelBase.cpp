@@ -38,21 +38,6 @@ bool sw::PanelBase::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     return this->Control::OnNotified(pNMHDR, result);
 }
 
-bool sw::PanelBase::OnKillFocus(HWND hNextFocus)
-{
-    return this->Control::OnKillFocus(hNextFocus);
-}
-
-void sw::PanelBase::OnTabStop()
-{
-    this->Control::OnTabStop();
-}
-
-void sw::PanelBase::OnEndPaint()
-{
-    this->Control::OnEndPaint();
-}
-
 bool sw::PanelBase::RequestBringIntoView(const sw::Rect &screenRect)
 {
     return this->Layer::RequestBringIntoView(screenRect);
@@ -65,5 +50,5 @@ bool sw::PanelBase::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventH
 
 sw::Control *sw::PanelBase::ToControl()
 {
-    return this->Control::ToControl();
+    return this;
 }

@@ -20,12 +20,23 @@ namespace sw
          */
         bool _fillContent = true;
 
+        /**
+         * @brief 是否同步字体
+         */
+        bool _syncFont = true;
+
     public:
         /**
          * @brief 是否自动填充托管的内容
          */
         const Property<bool> FillContent;
 
+        /**
+         * @brief 是否发送WM_SETFONT消息以同步字体
+         */
+        const Property<bool> SyncFont;
+
+    public:
         /**
          * @brief 创建HwndHost对象
          */
@@ -43,6 +54,12 @@ namespace sw
         void InitHwndHost();
 
         /**
+         * @brief       字体改变时调用该函数
+         * @param hfont 字体句柄
+         */
+        virtual void FontChanged(HFONT hfont) override;
+
+        /**
          * @brief               接收到WM_SIZE时调用该函数
          * @param newClientSize 改变后的用户区尺寸
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
@@ -54,6 +71,17 @@ namespace sw
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDestroy() override;
+
+    private:
+        /**
+         * @brief 同步托管窗口尺寸
+         */
+        void _SyncSize(const SIZE &newSize);
+
+        /**
+         * @brief 同步托管窗口字体
+         */
+        void _SyncFont(HFONT hfont);
 
     protected:
         /**

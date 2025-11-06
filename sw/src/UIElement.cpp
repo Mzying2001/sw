@@ -259,6 +259,12 @@ sw::UIElement::UIElement()
           // set
           [this](const bool &value) {
               this->_isHitTestVisible = value;
+          }),
+
+      IsFocusedViaTab(
+          // get
+          [this]() -> bool {
+              return this->_focusedViaTab;
           })
 {
 }
@@ -975,18 +981,6 @@ void sw::UIElement::UpdateSiblingsZOrder(bool invalidateMeasure)
     }
 }
 
-void sw::UIElement::SetNextTabStopFocus()
-{
-    UIElement *next = this->GetNextTabStopElement();
-    if (next && next != this) next->OnTabStop();
-}
-
-void sw::UIElement::SetPreviousTabStopFocus()
-{
-    UIElement *previous = this->GetPreviousTabStopElement();
-    if (previous && previous != this) previous->OnTabStop();
-}
-
 void sw::UIElement::ClampDesireSize(sw::Size &size) const
 {
     if (this->_minSize.width > 0) {
@@ -1069,15 +1063,27 @@ void sw::UIElement::OnRemovedChild(UIElement &element)
 
 void sw::UIElement::OnTabMove(bool forward)
 {
+    UIElement *next = nullptr;
+
+    // 获取下一个可Tab停止的元素
     if (forward) {
-        this->SetNextTabStopFocus();
+        next = this->GetNextTabStopElement();
     } else {
-        this->SetPreviousTabStopFocus();
+        next = this->GetPreviousTabStopElement();
+    }
+
+    // 跳转到下一个可Tab停止的元素
+    if (next != nullptr && next != this) {
+        next->OnTabStop();
     }
 }
 
 void sw::UIElement::OnTabStop()
 {
+    // 标记为通过Tab键获得焦点
+    this->_focusedViaTab = true;
+
+    // 设置焦点并滚动到可见区域
     this->Focused = true;
     this->BringIntoView();
 }
@@ -1217,11 +1223,18 @@ bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 {
     TypedRoutedEventArgs<UIElement_GotFocus> args;
     this->RaiseRoutedEvent(args);
+
+    if (!args.handledMsg && this->_parent != nullptr) {
+        int action = this->_focusedViaTab ? UIS_CLEAR : UIS_SET;
+        this->_parent->SendMessageW(WM_UPDATEUISTATE, MAKEWPARAM(action, UISF_HIDEFOCUS), 0);
+    }
     return args.handledMsg;
 }
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
+    this->_focusedViaTab = false;
+
     TypedRoutedEventArgs<UIElement_LostFocus> args;
     this->RaiseRoutedEvent(args);
     return args.handledMsg;

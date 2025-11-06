@@ -10,17 +10,6 @@ namespace sw
      */
     class Control : virtual public UIElement
     {
-    private:
-        /**
-         * @brief 当前控件是否是通过按下Tab键获得的焦点
-         */
-        bool _focusedViaTab = false;
-
-        /**
-         * @brief 标记当前控件是否响应了NM_CUSTOMDRAW消息
-         */
-        bool _hasCustomDraw = false;
-
     public:
         /**
          * @brief 控件的标识符
@@ -32,11 +21,6 @@ namespace sw
          * @note  当控件已创建并且被添加到任意父窗口（可以是其他框架窗口）时该值为true
          */
         const ReadOnlyProperty<bool> IsInHierarchy;
-
-        /**
-         * @brief 当前控件是否是通过按下Tab键获得的焦点
-         */
-        const ReadOnlyProperty<bool> IsFocusedViaTab;
 
     public:
         /**
@@ -84,23 +68,6 @@ namespace sw
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
-         * @brief            接收到WM_KILLFOCUS时调用该函数
-         * @param hNextFocus 接收到焦点的hwnd，可能为NULL
-         * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnKillFocus(HWND hNextFocus) override;
-
-        /**
-         * @brief 通过tab键将焦点移动到当前元素时调用该函数
-         */
-        virtual void OnTabStop() override;
-
-        /**
-         * @brief 在OnPaint函数完成之后调用该函数
-         */
-        virtual void OnEndPaint() override;
-
-        /**
          * @brief        接收到NM_CUSTOMDRAW后调用该函数
          * @param pNMCD  包含有关自定义绘制的信息
          * @param result 函数返回值为true时将该值作为消息的返回值
@@ -139,12 +106,6 @@ namespace sw
          * @return       若已完成绘制则返回true，否则返回false以使用默认绘制
          */
         virtual bool OnPostPaint(HDC hdc, LRESULT &result);
-
-        /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc);
 
         /**
          * @brief      控件句柄发生改变时调用该函数

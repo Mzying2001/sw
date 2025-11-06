@@ -67,12 +67,6 @@ namespace sw
          */
         virtual void OnCommand(int code) override;
 
-        /**
-         * @brief     绘制虚线框时调用该函数
-         * @param hdc 绘制设备句柄
-         */
-        virtual void OnDrawFocusRect(HDC hdc) override;
-
     public:
         /**
          * @brief 清空所有子项

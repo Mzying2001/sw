@@ -1293,8 +1293,9 @@ sw::WndBase *sw::WndBase::_GetControlInitContainer()
                 // 线程退出时，容器窗口一般还未被销毁，此时消息循环已经结束，
                 // 直接调用DestroyWindow无法销毁窗口，因此此处需要创建一个
                 // 临时消息循环，发送WM_CLOSE以确保窗口正常销毁。
-                this->container->PostMessageW(WM_CLOSE, 0, 0);
-
+                if (!this->container->PostMessageW(WM_CLOSE, 0, 0)) {
+                    return;
+                }
                 // 临时消息循环
                 for (MSG msg{}; GetMessageW(&msg, NULL, 0, 0) > 0;) {
                     TranslateMessage(&msg);

@@ -15,12 +15,6 @@ sw::Control::Control()
               }
               auto container = WndBase::_GetControlInitContainer();
               return container == nullptr || GetParent(_hwnd) != container->_hwnd;
-          }),
-
-      IsFocusedViaTab(
-          // get
-          [this]() -> bool {
-              return _focusedViaTab;
           })
 {
 }
@@ -101,31 +95,8 @@ bool sw::Control::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     }
 }
 
-bool sw::Control::OnKillFocus(HWND hNextFocus)
-{
-    _focusedViaTab = false;
-    return UIElement::OnKillFocus(hNextFocus);
-}
-
-void sw::Control::OnTabStop()
-{
-    UIElement::OnTabStop();
-    _focusedViaTab = true;
-}
-
-void sw::Control::OnEndPaint()
-{
-    if (!_hasCustomDraw && _focusedViaTab) {
-        HDC hdc = GetDC(_hwnd);
-        OnDrawFocusRect(hdc);
-        ReleaseDC(_hwnd, hdc);
-    }
-}
-
 bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
 {
-    _hasCustomDraw = true;
-
     switch (pNMCD->dwDrawStage) {
         case CDDS_PREERASE: {
             return OnPreErase(pNMCD->hdc, result);
@@ -164,18 +135,7 @@ bool sw::Control::OnPrePaint(HDC hdc, LRESULT &result)
 
 bool sw::Control::OnPostPaint(HDC hdc, LRESULT &result)
 {
-    if (_focusedViaTab) {
-        OnDrawFocusRect(hdc);
-    }
     return false;
-}
-
-void sw::Control::OnDrawFocusRect(HDC hdc)
-{
-    // RECT rect = ClientRect;
-    RECT rect;
-    GetClientRect(_hwnd, &rect);
-    DrawFocusRect(hdc, &rect);
 }
 
 void sw::Control::OnHandleChanged(HWND hwnd)

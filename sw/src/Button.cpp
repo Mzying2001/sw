@@ -11,21 +11,6 @@ void sw::Button::UpdateButtonStyle(bool focused)
     this->SetStyle(BS_DEFPUSHBUTTON, focused); // BS_PUSHBUTTON == 0
 }
 
-void sw::Button::OnDrawFocusRect(HDC hdc)
-{
-    HWND hwnd = this->Handle;
-
-    RECT rect;
-    GetClientRect(hwnd, &rect);
-
-    rect.left += 3;
-    rect.top += 3;
-    rect.right -= 3;
-    rect.bottom -= 3;
-
-    DrawFocusRect(hdc, &rect);
-}
-
 bool sw::Button::OnSetFocus(HWND hPreFocus)
 {
     this->UpdateButtonStyle(true);

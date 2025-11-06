@@ -12,6 +12,11 @@ namespace sw
     {
     private:
         /**
+         * @brief 基类别名
+         */
+        using TBase = HwndHost;
+
+        /**
          * @brief IP地址框的句柄
          */
         HWND _hIPAddrCtrl{NULL};
@@ -33,11 +38,7 @@ namespace sw
          */
         IPAddressControl();
 
-        /**
-         * @brief 初始化IP地址框，并设置控件尺寸
-         */
-        explicit IPAddressControl(sw::Size size);
-
+    public:
         /**
          * @brief 清空输入的内容
          */
@@ -67,10 +68,11 @@ namespace sw
         virtual void DestroyWindowCore(HWND hwnd) override;
 
         /**
-         * @brief       字体改变时调用该函数
-         * @param hfont 字体句柄
+         * @brief               接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void FontChanged(HFONT hfont) override;
+        virtual bool OnSize(const Size &newClientSize) override;
 
         /**
          * @brief            接收到WM_SETFOCUS时调用该函数
@@ -91,5 +93,16 @@ namespace sw
          * @brief 地址改变时调用该函数
          */
         virtual void OnAddressChanged();
+
+    private:
+        /**
+         * @brief 处理Tab键按下事件
+         */
+        void _OnTabKeyDown();
+
+        /**
+         * @brief 子类化内部编辑框的窗口过程函数
+         */
+        static LRESULT CALLBACK _FieldsEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
     };
 }

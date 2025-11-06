@@ -214,11 +214,6 @@ bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     return this->Control::OnNotified(pNMHDR, result);
 }
 
-void sw::TabControl::OnDrawFocusRect(HDC hdc)
-{
-    // 不绘制虚线框
-}
-
 void sw::TabControl::OnSelectedIndexChanged()
 {
     this->_UpdateChildVisible();
