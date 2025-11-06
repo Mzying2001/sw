@@ -93,5 +93,16 @@ namespace sw
          * @brief 地址改变时调用该函数
          */
         virtual void OnAddressChanged();
+
+    private:
+        /**
+         * @brief 处理Tab键按下事件
+         */
+        void _OnTabKeyDown();
+
+        /**
+         * @brief 子类化内部编辑框的窗口过程函数
+         */
+        static LRESULT CALLBACK _FieldsEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
     };
 }

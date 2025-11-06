@@ -1,5 +1,18 @@
 #include "IPAddressControl.h"
 
+namespace
+{
+    /**
+     * @brief 内部编辑框子类化时保存原始窗口过程函数的属性名称
+     */
+    constexpr wchar_t _FieldsEditOriginalProc[] = L"SWPROP_FieldsEditOriginalProc";
+
+    /**
+     * @brief 保存IPAddressControl指针的属性名称
+     */
+    constexpr wchar_t _IPAddressControlPtr[] = L"SWPROP_IPAddressControlPtr";
+}
+
 sw::IPAddressControl::IPAddressControl()
     : IsBlank(
           // get
@@ -46,6 +59,15 @@ HWND sw::IPAddressControl::BuildWindowCore(HWND hParent)
         0, 0, rect.right - rect.left, rect.bottom - rect.top,
         hParent, NULL, App::Instance, NULL);
 
+    HWND hChild = GetWindow(_hIPAddrCtrl, GW_CHILD);
+
+    while (hChild != NULL) {
+        SetPropW(hChild, _IPAddressControlPtr, reinterpret_cast<HANDLE>(this));
+        SetPropW(hChild, _FieldsEditOriginalProc, reinterpret_cast<HANDLE>(GetWindowLongPtrW(hChild, GWLP_WNDPROC)));
+        SetWindowLongPtrW(hChild, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(_FieldsEditSubclassProc));
+        hChild = GetWindow(hChild, GW_HWNDNEXT);
+    }
+
     return _hIPAddrCtrl;
 }
 
@@ -82,4 +104,35 @@ bool sw::IPAddressControl::OnNotify(NMHDR *pNMHDR, LRESULT &result)
 void sw::IPAddressControl::OnAddressChanged()
 {
     RaiseRoutedEvent(IPAddressControl_AddressChanged);
+}
+
+void sw::IPAddressControl::_OnTabKeyDown()
+{
+    bool shiftDown = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+    OnTabMove(!shiftDown);
+}
+
+LRESULT sw::IPAddressControl::_FieldsEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    auto originalProc = reinterpret_cast<WNDPROC>(GetPropW(hwnd, _FieldsEditOriginalProc));
+    auto pAddressCtrl = reinterpret_cast<IPAddressControl *>(GetPropW(hwnd, _IPAddressControlPtr));
+
+    switch (uMsg) {
+        case WM_CHAR: {
+            if (wParam == L'\t') {
+                if (WndBase::IsPtrValid(pAddressCtrl))
+                    pAddressCtrl->_OnTabKeyDown();
+                return 0;
+            } else {
+                // fallthrough
+            }
+        }
+        default: {
+            if (originalProc == NULL) {
+                return DefWindowProcW(hwnd, uMsg, wParam, lParam);
+            } else {
+                return CallWindowProcW(originalProc, hwnd, uMsg, wParam, lParam);
+            }
+        }
+    }
 }
