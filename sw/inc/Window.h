@@ -373,6 +373,12 @@ namespace sw
         bool _IsLayoutDisabled() const noexcept;
 
         /**
+         * @brief      将窗口居中于指定矩形区域
+         * @param rect 目标矩形区域
+         */
+        void _CenterWindow(const sw::Rect &rect);
+
+        /**
          * @brief      通过窗口句柄获取Window指针
          * @param hwnd 窗口句柄
          * @return     若函数成功则返回对象的指针，否则返回nullptr
