@@ -506,9 +506,12 @@ int sw::Window::ShowDialog(Window *owner)
     hOwner = owner ? owner->Handle : reinterpret_cast<HWND>(GetWindowLongPtrW(hwnd, GWLP_HWNDPARENT));
 
     if (hOwner == NULL) {
-        if ((hOwner = GetActiveWindow()) != NULL) {
-            SetWindowLongPtrW(hwnd, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
-        }
+        hOwner = GetActiveWindow();
+        hOwner = (hOwner == hwnd) ? NULL : hOwner;
+    }
+
+    if (hOwner != NULL) {
+        SetWindowLongPtrW(hwnd, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
     }
 
     _isModal     = true;
