@@ -379,6 +379,12 @@ namespace sw
         void _CenterWindow(const sw::Rect &rect);
 
         /**
+         * @brief       限制窗口的最小和最大尺寸
+         * @param pInfo 指向MINMAXINFO结构的指针
+         */
+        void _ClampMinMaxSize(PMINMAXINFO pInfo);
+
+        /**
          * @brief      通过窗口句柄获取Window指针
          * @param hwnd 窗口句柄
          * @return     若函数成功则返回对象的指针，否则返回nullptr

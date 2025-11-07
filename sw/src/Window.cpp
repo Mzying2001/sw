@@ -155,7 +155,8 @@ sw::Window::Window()
           },
           // set
           [this](Window *value) {
-              SetWindowLongPtrW(Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(value ? value->Handle.Get() : NULL));
+              HWND hOwner = value ? value->Handle.Get() : NULL;
+              SetWindowLongPtrW(Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
           }),
 
       IsLayered(
@@ -265,21 +266,7 @@ LRESULT sw::Window::WndProc(ProcMsg &refMsg)
         }
 
         case WM_GETMINMAXINFO: {
-            auto pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
-            Size minSize{MinWidth, MinHeight};
-            Size maxSize{MaxWidth, MaxHeight};
-            if (minSize.width > 0) {
-                pInfo->ptMinTrackSize.x = Utils::Max<LONG>(pInfo->ptMinTrackSize.x, Dip::DipToPxX(minSize.width));
-            }
-            if (minSize.height > 0) {
-                pInfo->ptMinTrackSize.y = Utils::Max<LONG>(pInfo->ptMinTrackSize.y, Dip::DipToPxY(minSize.height));
-            }
-            if (maxSize.width > 0) {
-                pInfo->ptMaxTrackSize.x = Utils::Min<LONG>(pInfo->ptMaxTrackSize.x, Dip::DipToPxX(maxSize.width));
-            }
-            if (maxSize.height > 0) {
-                pInfo->ptMaxTrackSize.y = Utils::Min<LONG>(pInfo->ptMaxTrackSize.y, Dip::DipToPxY(maxSize.height));
-            }
+            _ClampMinMaxSize(reinterpret_cast<PMINMAXINFO>(refMsg.lParam));
             return 0;
         }
 
@@ -291,7 +278,11 @@ LRESULT sw::Window::WndProc(ProcMsg &refMsg)
         }
 
         case WM_ACTIVATE: {
-            (refMsg.wParam == WA_INACTIVE) ? OnInactived() : OnActived();
+            if (refMsg.wParam != WA_INACTIVE) {
+                OnActived();
+            } else {
+                OnInactived();
+            }
             return 0;
         }
 
@@ -605,7 +596,7 @@ bool sw::Window::SizeToContent()
         return false; // 依赖AutoSize属性
     }
 
-    sw::Size measureSize(INFINITY, INFINITY);
+    sw::Size measureSize{INFINITY, INFINITY};
     Measure(measureSize);
 
     sw::Size desireSize  = GetDesireSize();
@@ -633,6 +624,29 @@ void sw::Window::_CenterWindow(const sw::Rect &rect)
         rect.left + (rect.width - windowRect.width) / 2,
         rect.top + (rect.height - windowRect.height) / 2,
         windowRect.width, windowRect.height};
+}
+
+void sw::Window::_ClampMinMaxSize(PMINMAXINFO pInfo)
+{
+    if (pInfo == nullptr) {
+        return;
+    }
+
+    Size minSize{MinWidth, MinHeight};
+    Size maxSize{MaxWidth, MaxHeight};
+
+    if (minSize.width > 0) {
+        pInfo->ptMinTrackSize.x = Utils::Max<LONG>(pInfo->ptMinTrackSize.x, Dip::DipToPxX(minSize.width));
+    }
+    if (minSize.height > 0) {
+        pInfo->ptMinTrackSize.y = Utils::Max<LONG>(pInfo->ptMinTrackSize.y, Dip::DipToPxY(minSize.height));
+    }
+    if (maxSize.width > 0) {
+        pInfo->ptMaxTrackSize.x = Utils::Min<LONG>(pInfo->ptMaxTrackSize.x, Dip::DipToPxX(maxSize.width));
+    }
+    if (maxSize.height > 0) {
+        pInfo->ptMaxTrackSize.y = Utils::Min<LONG>(pInfo->ptMaxTrackSize.y, Dip::DipToPxY(maxSize.height));
+    }
 }
 
 sw::Window *sw::Window::_GetWindowPtr(HWND hwnd)
