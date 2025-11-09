@@ -294,8 +294,16 @@ LRESULT sw::Window::WndProc(ProcMsg &refMsg)
         }
 
         case WM_PreSetParent: {
-            HWND hParent = reinterpret_cast<HWND>(refMsg.wParam);
-            SetStyle(WS_CHILD, hParent != NULL);
+            auto style   = GetStyle();
+            HWND hParent = (HWND)refMsg.wParam;
+            if (hParent != NULL) {
+                style |= WS_CHILD;
+                style &= ~WS_POPUP;
+            } else {
+                style &= ~WS_CHILD;
+                style |= WS_POPUP;
+            }
+            SetStyle(style);
             return 0;
         }
 
