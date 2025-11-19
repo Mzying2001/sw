@@ -1,5 +1,7 @@
 var NAVTREEINDEX7 =
 {
+"structsw_1_1Point.html#ae6a214a23a7b9128b3938e2bcc820b01":[2,0,0,128,1],
+"structsw_1_1Point.html#afceae691252771cc050e8e4152971ba9":[2,0,0,128,6],
 "structsw_1_1PositionChangedEventArgs.html":[2,0,0,129],
 "structsw_1_1ProcMsg.html":[2,0,0,130],
 "structsw_1_1ProcMsg.html#a114f533462da6db1852ad4aa5485d86b":[2,0,0,130,5],
