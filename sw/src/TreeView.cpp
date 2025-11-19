@@ -65,7 +65,7 @@ std::wstring sw::TreeViewNode::GetText() const
     return text;
 }
 
-bool sw::TreeViewNode::SetText(const std::wstring &text) const
+bool sw::TreeViewNode::SetText(const std::wstring &text)
 {
     TVITEMW tvi{};
     tvi.mask    = TVIF_TEXT;
@@ -95,7 +95,7 @@ sw::TreeViewNode sw::TreeViewNode::GetFirstChildNode() const
     return TreeViewNode{_hwnd, TreeView_GetChild(_hwnd, _hitem)};
 }
 
-sw::TreeViewNode sw::TreeViewNode::InsertAfter(const std::wstring &text) const
+sw::TreeViewNode sw::TreeViewNode::InsertAfter(const std::wstring &text)
 {
     TVINSERTSTRUCTW tvis{};
     tvis.hParent      = TreeView_GetParent(_hwnd, _hitem);
@@ -107,7 +107,7 @@ sw::TreeViewNode sw::TreeViewNode::InsertAfter(const std::wstring &text) const
     return TreeViewNode{_hwnd, hitem};
 }
 
-sw::TreeViewNode sw::TreeViewNode::AddChild(const std::wstring &text) const
+sw::TreeViewNode sw::TreeViewNode::AddChild(const std::wstring &text)
 {
     TVINSERTSTRUCTW tvis{};
     tvis.hParent      = _hitem;
@@ -124,12 +124,12 @@ bool sw::TreeViewNode::IsSelected() const
     return (TreeView_GetItemState(_hwnd, _hitem, TVIS_SELECTED) & TVIS_SELECTED) != 0;
 }
 
-bool sw::TreeViewNode::Select() const
+bool sw::TreeViewNode::Select()
 {
     return TreeView_SelectItem(_hwnd, _hitem);
 }
 
-bool sw::TreeViewNode::Delete() const
+bool sw::TreeViewNode::Delete()
 {
     return TreeView_DeleteItem(_hwnd, _hitem);
 }
@@ -139,18 +139,18 @@ bool sw::TreeViewNode::IsExpanded() const
     return (TreeView_GetItemState(_hwnd, _hitem, TVIS_EXPANDED) & TVIS_EXPANDED) != 0;
 }
 
-bool sw::TreeViewNode::SetExpand(bool expand) const
+bool sw::TreeViewNode::SetExpand(bool expand)
 {
     UINT action = expand ? TVE_EXPAND : TVE_COLLAPSE;
     return TreeView_Expand(_hwnd, _hitem, action);
 }
 
-bool sw::TreeViewNode::Expand() const
+bool sw::TreeViewNode::Expand()
 {
     return SetExpand(true);
 }
 
-bool sw::TreeViewNode::Collapse() const
+bool sw::TreeViewNode::Collapse()
 {
     return SetExpand(false);
 }
@@ -168,7 +168,7 @@ void *sw::TreeViewNode::GetUserData() const
     }
 }
 
-bool sw::TreeViewNode::SetUserData(void *data) const
+bool sw::TreeViewNode::SetUserData(void *data)
 {
     TVITEM tvi{};
     tvi.mask   = TVIF_PARAM;
@@ -183,12 +183,12 @@ bool sw::TreeViewNode::IsChecked() const
     return TreeView_GetCheckState(_hwnd, _hitem) == 1;
 }
 
-void sw::TreeViewNode::SetCheck(bool check) const
+void sw::TreeViewNode::SetCheck(bool check)
 {
     TreeView_SetCheckState(_hwnd, _hitem, check);
 }
 
-bool sw::TreeViewNode::SetImages(int imageIndex, int selectedImageIndex) const
+bool sw::TreeViewNode::SetImages(int imageIndex, int selectedImageIndex)
 {
     TVITEM tvi{};
     tvi.mask           = TVIF_IMAGE | TVIF_SELECTEDIMAGE;
