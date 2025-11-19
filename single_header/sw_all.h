@@ -13039,6 +13039,12 @@ namespace sw
         void _CenterWindow(const sw::Rect &rect);
 
         /**
+         * @brief       限制窗口的最小和最大尺寸
+         * @param pInfo 指向MINMAXINFO结构的指针
+         */
+        void _ClampMinMaxSize(PMINMAXINFO pInfo);
+
+        /**
          * @brief      通过窗口句柄获取Window指针
          * @param hwnd 窗口句柄
          * @return     若函数成功则返回对象的指针，否则返回nullptr
@@ -15888,7 +15894,7 @@ namespace sw
          * @brief  设置当前项的文本
          * @return 操作是否成功
          */
-        bool SetText(const std::wstring &text) const;
+        bool SetText(const std::wstring &text);
 
         /**
          * @brief  获取父节点
@@ -15918,13 +15924,13 @@ namespace sw
          * @brief  在当前节点后插入新节点
          * @return 新插入的节点
          */
-        TreeViewNode InsertAfter(const std::wstring &text) const;
+        TreeViewNode InsertAfter(const std::wstring &text);
 
         /**
          * @brief  添加子节点到当前节点下
          * @return 新插入的节点
          */
-        TreeViewNode AddChild(const std::wstring &text) const;
+        TreeViewNode AddChild(const std::wstring &text);
 
         /**
          * @brief  判断当前节点是否被选中
@@ -15936,13 +15942,13 @@ namespace sw
          * @brief  选中当前节点
          * @return 操作是否成功
          */
-        bool Select() const;
+        bool Select();
 
         /**
          * @brief  删除当前节点
          * @return 操作是否成功
          */
-        bool Delete() const;
+        bool Delete();
 
         /**
          * @brief  判断当前节点是否展开
@@ -15954,19 +15960,19 @@ namespace sw
          * @brief  设置当前节点展开或折叠
          * @return 操作是否成功
          */
-        bool SetExpand(bool expand) const;
+        bool SetExpand(bool expand);
 
         /**
          * @brief  展开当前节点
          * @return 操作是否成功
          */
-        bool Expand() const;
+        bool Expand();
 
         /**
          * @brief  折叠当前节点
          * @return 操作是否成功
          */
-        bool Collapse() const;
+        bool Collapse();
 
         /**
          * @brief 获取与当前节点关联的用户数据
@@ -15977,7 +15983,7 @@ namespace sw
          * @brief  设置与当前节点关联的用户数据
          * @return 操作是否成功
          */
-        bool SetUserData(void *data) const;
+        bool SetUserData(void *data);
 
         /**
          * @brief  判断当前节点是否被选中复选框
@@ -15988,13 +15994,24 @@ namespace sw
         /**
          * @brief 设置当前节点的复选框选中状态
          */
-        void SetCheck(bool check) const;
+        void SetCheck(bool check);
 
         /**
          * @brief  设置当前节点的图像
          * @return 操作是否成功
          */
-        bool SetImages(int imageIndex, int selectedImageIndex) const;
+        bool SetImages(int imageIndex, int selectedImageIndex);
+
+        /**
+         * @brief 获取当前节点的直接子节点数
+         */
+        int GetChildCount() const;
+
+        /**
+         * @brief  删除当前节点的所有子节点
+         * @return 删除直接子节点的个数
+         */
+        int DeleteAllChildren();
     };
 
     // clang-format off

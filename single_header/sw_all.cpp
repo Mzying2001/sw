@@ -3577,10 +3577,7 @@ void sw::HwndWrapper::InitHwndWrapper()
     //     this->_originalWndProc = nullptr; // 防止无限递归
     // }
 
-    RECT rect;
-    GetWindowRect(this->_hwnd, &rect);
-    this->_rect = rect;
-
+    this->UpdateInternalRect();
     this->UpdateInternalText();
     this->HandleInitialized(this->_hwnd);
     this->UpdateFont();
@@ -6743,8 +6740,11 @@ bool sw::NotifyIcon::_ModifyState(DWORD dwState, DWORD dwStateMask)
 
 HICON sw::NotifyIcon::_GetDefaultIcon()
 {
-    static HICON hIcon = ExtractIconW(App::Instance, App::ExePath->c_str(), 0);
-    return hIcon;
+    static HICON hDefIcon = []() -> HICON {
+        HICON hIcon = ExtractIconW(App::Instance, App::ExePath->c_str(), 0);
+        return hIcon != NULL ? hIcon : IconHelper::GetIconHandle(StandardIcon::Application);
+    }();
+    return hDefIcon;
 }
 
 // Panel.cpp
@@ -8253,7 +8253,7 @@ sw::TabControl::TabControl()
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
 
-    this->Rect    = sw::Rect(0, 0, 200, 200);
+    this->Rect    = sw::Rect{0, 0, 200, 200};
     this->TabStop = true;
     this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::FontChanged;
 }
@@ -8439,9 +8439,9 @@ void sw::TabControl::_SetTabAlignment(TabAlignment value)
     }
 
     // 特定情况下需要重新创建控件
-    if ((style & TCS_VERTICAL) ||                               // TCS_VERTICAL位为1
-        ((style & TCS_VERTICAL) ^ (oldStyle & TCS_VERTICAL))) { // TCS_VERTICAL位改变
-
+    if ((style & TCS_VERTICAL) ||                             // TCS_VERTICAL位为1
+        ((style & TCS_VERTICAL) ^ (oldStyle & TCS_VERTICAL))) // TCS_VERTICAL位改变
+    {
         this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
 
         int selectedIndex = this->SelectedIndex;
@@ -8519,6 +8519,7 @@ void sw::TabControl::_CalcIdealSize(SIZE &size)
 sw::UIElement *sw::TabControl::_GetSelectedItem()
 {
     int selectedIndex = this->SelectedIndex;
+
     if (selectedIndex < 0 || selectedIndex >= this->ChildCount) {
         return nullptr;
     } else {
@@ -9036,7 +9037,7 @@ std::wstring sw::TreeViewNode::GetText() const
     return text;
 }
 
-bool sw::TreeViewNode::SetText(const std::wstring &text) const
+bool sw::TreeViewNode::SetText(const std::wstring &text)
 {
     TVITEMW tvi{};
     tvi.mask    = TVIF_TEXT;
@@ -9066,7 +9067,7 @@ sw::TreeViewNode sw::TreeViewNode::GetFirstChildNode() const
     return TreeViewNode{_hwnd, TreeView_GetChild(_hwnd, _hitem)};
 }
 
-sw::TreeViewNode sw::TreeViewNode::InsertAfter(const std::wstring &text) const
+sw::TreeViewNode sw::TreeViewNode::InsertAfter(const std::wstring &text)
 {
     TVINSERTSTRUCTW tvis{};
     tvis.hParent      = TreeView_GetParent(_hwnd, _hitem);
@@ -9078,7 +9079,7 @@ sw::TreeViewNode sw::TreeViewNode::InsertAfter(const std::wstring &text) const
     return TreeViewNode{_hwnd, hitem};
 }
 
-sw::TreeViewNode sw::TreeViewNode::AddChild(const std::wstring &text) const
+sw::TreeViewNode sw::TreeViewNode::AddChild(const std::wstring &text)
 {
     TVINSERTSTRUCTW tvis{};
     tvis.hParent      = _hitem;
@@ -9095,12 +9096,12 @@ bool sw::TreeViewNode::IsSelected() const
     return (TreeView_GetItemState(_hwnd, _hitem, TVIS_SELECTED) & TVIS_SELECTED) != 0;
 }
 
-bool sw::TreeViewNode::Select() const
+bool sw::TreeViewNode::Select()
 {
     return TreeView_SelectItem(_hwnd, _hitem);
 }
 
-bool sw::TreeViewNode::Delete() const
+bool sw::TreeViewNode::Delete()
 {
     return TreeView_DeleteItem(_hwnd, _hitem);
 }
@@ -9110,18 +9111,18 @@ bool sw::TreeViewNode::IsExpanded() const
     return (TreeView_GetItemState(_hwnd, _hitem, TVIS_EXPANDED) & TVIS_EXPANDED) != 0;
 }
 
-bool sw::TreeViewNode::SetExpand(bool expand) const
+bool sw::TreeViewNode::SetExpand(bool expand)
 {
     UINT action = expand ? TVE_EXPAND : TVE_COLLAPSE;
     return TreeView_Expand(_hwnd, _hitem, action);
 }
 
-bool sw::TreeViewNode::Expand() const
+bool sw::TreeViewNode::Expand()
 {
     return SetExpand(true);
 }
 
-bool sw::TreeViewNode::Collapse() const
+bool sw::TreeViewNode::Collapse()
 {
     return SetExpand(false);
 }
@@ -9139,7 +9140,7 @@ void *sw::TreeViewNode::GetUserData() const
     }
 }
 
-bool sw::TreeViewNode::SetUserData(void *data) const
+bool sw::TreeViewNode::SetUserData(void *data)
 {
     TVITEM tvi{};
     tvi.mask   = TVIF_PARAM;
@@ -9154,12 +9155,12 @@ bool sw::TreeViewNode::IsChecked() const
     return TreeView_GetCheckState(_hwnd, _hitem) == 1;
 }
 
-void sw::TreeViewNode::SetCheck(bool check) const
+void sw::TreeViewNode::SetCheck(bool check)
 {
     TreeView_SetCheckState(_hwnd, _hitem, check);
 }
 
-bool sw::TreeViewNode::SetImages(int imageIndex, int selectedImageIndex) const
+bool sw::TreeViewNode::SetImages(int imageIndex, int selectedImageIndex)
 {
     TVITEM tvi{};
     tvi.mask           = TVIF_IMAGE | TVIF_SELECTEDIMAGE;
@@ -9168,6 +9169,37 @@ bool sw::TreeViewNode::SetImages(int imageIndex, int selectedImageIndex) const
     tvi.iSelectedImage = selectedImageIndex;
 
     return TreeView_SetItem(_hwnd, &tvi) != FALSE;
+}
+
+int sw::TreeViewNode::GetChildCount() const
+{
+    int count  = 0;
+    auto child = GetFirstChildNode();
+
+    while (!child.IsNull()) {
+        ++count;
+        child = child.GetNextNode();
+    }
+    return count;
+}
+
+int sw::TreeViewNode::DeleteAllChildren()
+{
+    int count  = 0;
+    auto child = GetFirstChildNode();
+
+    while (!child.IsNull()) //
+    {
+        auto next = child.GetNextNode();
+
+        if (!child.Delete()) {
+            break;
+        } else {
+            ++count;
+            child = next;
+        }
+    }
+    return count;
 }
 
 sw::TreeView::TreeView()
@@ -11304,7 +11336,8 @@ sw::Window::Window()
           },
           // set
           [this](Window *value) {
-              SetWindowLongPtrW(Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(value ? value->Handle.Get() : NULL));
+              HWND hOwner = value ? value->Handle.Get() : NULL;
+              SetWindowLongPtrW(Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
           }),
 
       IsLayered(
@@ -11414,21 +11447,7 @@ LRESULT sw::Window::WndProc(ProcMsg &refMsg)
         }
 
         case WM_GETMINMAXINFO: {
-            auto pInfo = reinterpret_cast<PMINMAXINFO>(refMsg.lParam);
-            Size minSize{MinWidth, MinHeight};
-            Size maxSize{MaxWidth, MaxHeight};
-            if (minSize.width > 0) {
-                pInfo->ptMinTrackSize.x = Utils::Max<LONG>(pInfo->ptMinTrackSize.x, Dip::DipToPxX(minSize.width));
-            }
-            if (minSize.height > 0) {
-                pInfo->ptMinTrackSize.y = Utils::Max<LONG>(pInfo->ptMinTrackSize.y, Dip::DipToPxY(minSize.height));
-            }
-            if (maxSize.width > 0) {
-                pInfo->ptMaxTrackSize.x = Utils::Min<LONG>(pInfo->ptMaxTrackSize.x, Dip::DipToPxX(maxSize.width));
-            }
-            if (maxSize.height > 0) {
-                pInfo->ptMaxTrackSize.y = Utils::Min<LONG>(pInfo->ptMaxTrackSize.y, Dip::DipToPxY(maxSize.height));
-            }
+            _ClampMinMaxSize(reinterpret_cast<PMINMAXINFO>(refMsg.lParam));
             return 0;
         }
 
@@ -11440,7 +11459,11 @@ LRESULT sw::Window::WndProc(ProcMsg &refMsg)
         }
 
         case WM_ACTIVATE: {
-            (refMsg.wParam == WA_INACTIVE) ? OnInactived() : OnActived();
+            if (refMsg.wParam != WA_INACTIVE) {
+                OnActived();
+            } else {
+                OnInactived();
+            }
             return 0;
         }
 
@@ -11452,8 +11475,16 @@ LRESULT sw::Window::WndProc(ProcMsg &refMsg)
         }
 
         case WM_PreSetParent: {
-            HWND hParent = reinterpret_cast<HWND>(refMsg.wParam);
-            SetStyle(WS_CHILD, hParent != NULL);
+            auto style   = GetStyle();
+            HWND hParent = (HWND)refMsg.wParam;
+            if (hParent != NULL) {
+                style |= WS_CHILD;
+                style &= ~WS_POPUP;
+            } else {
+                style &= ~WS_CHILD;
+                style |= WS_POPUP;
+            }
+            SetStyle(style);
             return 0;
         }
 
@@ -11754,7 +11785,7 @@ bool sw::Window::SizeToContent()
         return false; // 依赖AutoSize属性
     }
 
-    sw::Size measureSize(INFINITY, INFINITY);
+    sw::Size measureSize{INFINITY, INFINITY};
     Measure(measureSize);
 
     sw::Size desireSize  = GetDesireSize();
@@ -11782,6 +11813,29 @@ void sw::Window::_CenterWindow(const sw::Rect &rect)
         rect.left + (rect.width - windowRect.width) / 2,
         rect.top + (rect.height - windowRect.height) / 2,
         windowRect.width, windowRect.height};
+}
+
+void sw::Window::_ClampMinMaxSize(PMINMAXINFO pInfo)
+{
+    if (pInfo == nullptr) {
+        return;
+    }
+
+    Size minSize{MinWidth, MinHeight};
+    Size maxSize{MaxWidth, MaxHeight};
+
+    if (minSize.width > 0) {
+        pInfo->ptMinTrackSize.x = Utils::Max<LONG>(pInfo->ptMinTrackSize.x, Dip::DipToPxX(minSize.width));
+    }
+    if (minSize.height > 0) {
+        pInfo->ptMinTrackSize.y = Utils::Max<LONG>(pInfo->ptMinTrackSize.y, Dip::DipToPxY(minSize.height));
+    }
+    if (maxSize.width > 0) {
+        pInfo->ptMaxTrackSize.x = Utils::Min<LONG>(pInfo->ptMaxTrackSize.x, Dip::DipToPxX(maxSize.width));
+    }
+    if (maxSize.height > 0) {
+        pInfo->ptMaxTrackSize.y = Utils::Min<LONG>(pInfo->ptMaxTrackSize.y, Dip::DipToPxY(maxSize.height));
+    }
 }
 
 sw::Window *sw::Window::_GetWindowPtr(HWND hwnd)
