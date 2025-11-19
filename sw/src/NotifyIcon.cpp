@@ -1,4 +1,5 @@
 #include "NotifyIcon.h"
+#include "Icon.h"
 #include "Screen.h"
 #include <strsafe.h>
 
@@ -284,6 +285,9 @@ bool sw::NotifyIcon::_ModifyState(DWORD dwState, DWORD dwStateMask)
 
 HICON sw::NotifyIcon::_GetDefaultIcon()
 {
-    static HICON hIcon = ExtractIconW(App::Instance, App::ExePath->c_str(), 0);
-    return hIcon;
+    static HICON hDefIcon = []() -> HICON {
+        HICON hIcon = ExtractIconW(App::Instance, App::ExePath->c_str(), 0);
+        return hIcon != NULL ? hIcon : IconHelper::GetIconHandle(StandardIcon::Application);
+    }();
+    return hDefIcon;
 }

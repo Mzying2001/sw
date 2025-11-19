@@ -21,10 +21,7 @@ void sw::HwndWrapper::InitHwndWrapper()
     //     this->_originalWndProc = nullptr; // 防止无限递归
     // }
 
-    RECT rect;
-    GetWindowRect(this->_hwnd, &rect);
-    this->_rect = rect;
-
+    this->UpdateInternalRect();
     this->UpdateInternalText();
     this->HandleInitialized(this->_hwnd);
     this->UpdateFont();
