@@ -67,7 +67,7 @@ sw::TabControl::TabControl()
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
 
-    this->Rect    = sw::Rect(0, 0, 200, 200);
+    this->Rect    = sw::Rect{0, 0, 200, 200};
     this->TabStop = true;
     this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::FontChanged;
 }
@@ -253,9 +253,9 @@ void sw::TabControl::_SetTabAlignment(TabAlignment value)
     }
 
     // 特定情况下需要重新创建控件
-    if ((style & TCS_VERTICAL) ||                               // TCS_VERTICAL位为1
-        ((style & TCS_VERTICAL) ^ (oldStyle & TCS_VERTICAL))) { // TCS_VERTICAL位改变
-
+    if ((style & TCS_VERTICAL) ||                             // TCS_VERTICAL位为1
+        ((style & TCS_VERTICAL) ^ (oldStyle & TCS_VERTICAL))) // TCS_VERTICAL位改变
+    {
         this->LayoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
 
         int selectedIndex = this->SelectedIndex;
@@ -333,6 +333,7 @@ void sw::TabControl::_CalcIdealSize(SIZE &size)
 sw::UIElement *sw::TabControl::_GetSelectedItem()
 {
     int selectedIndex = this->SelectedIndex;
+
     if (selectedIndex < 0 || selectedIndex >= this->ChildCount) {
         return nullptr;
     } else {
