@@ -199,6 +199,37 @@ bool sw::TreeViewNode::SetImages(int imageIndex, int selectedImageIndex)
     return TreeView_SetItem(_hwnd, &tvi) != FALSE;
 }
 
+int sw::TreeViewNode::GetChildCount() const
+{
+    int count  = 0;
+    auto child = GetFirstChildNode();
+
+    while (!child.IsNull()) {
+        ++count;
+        child = child.GetNextNode();
+    }
+    return count;
+}
+
+int sw::TreeViewNode::DeleteAllChildren()
+{
+    int count  = 0;
+    auto child = GetFirstChildNode();
+
+    while (!child.IsNull()) //
+    {
+        auto next = child.GetNextNode();
+
+        if (!child.Delete()) {
+            break;
+        } else {
+            ++count;
+            child = next;
+        }
+    }
+    return count;
+}
+
 sw::TreeView::TreeView()
     : Root(
           // get

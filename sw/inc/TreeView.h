@@ -186,6 +186,17 @@ namespace sw
          * @return 操作是否成功
          */
         bool SetImages(int imageIndex, int selectedImageIndex);
+
+        /**
+         * @brief 获取当前节点的直接子节点数
+         */
+        int GetChildCount() const;
+
+        /**
+         * @brief  删除当前节点的所有子节点
+         * @return 删除直接子节点的个数
+         */
+        int DeleteAllChildren();
     };
 
     // clang-format off
