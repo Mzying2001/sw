@@ -5,6 +5,7 @@
 // #define _SW_DISABLE_REFLECTION
 
 #include "Delegate.h"
+#include "IComparable.h"
 #include "Property.h"
 #include <type_traits>
 #include <typeindex>
@@ -111,6 +112,43 @@ namespace sw
     };
 
     /**
+     * @brief 表示字段的唯一标识符
+     */
+    struct FieldId : public IComparable<FieldId> //
+    {
+        /**
+         * @brief 字段ID的数值
+         */
+        uint32_t value;
+
+        /**
+         * @brief 默认构造函数
+         */
+        FieldId() = default;
+
+        /**
+         * @brief 构造指定值的字段ID
+         */
+        FieldId(uint32_t value)
+            : value(value)
+        {
+        }
+
+        /**
+         * @brief  比较字段ID
+         * @return 值相等返回0，小于返回负数，大于返回正数
+         */
+        int CompareTo(const FieldId &other) const
+        {
+            if (value == other.value) {
+                return 0;
+            } else {
+                return value < other.value ? -1 : 1;
+            }
+        }
+    };
+
+    /**
      * @brief 提供反射相关功能
      */
     class Reflection
@@ -120,6 +158,33 @@ namespace sw
          * @brief 静态类，不允许实例化
          */
         Reflection() = delete;
+
+        /**
+         * @brief         获取字段的唯一标识符
+         * @tparam T      字段所属类类型
+         * @tparam TField 字段类型
+         * @param field   字段的成员指针
+         * @return        对应的字段ID
+         */
+        template <typename T, typename TField>
+        static FieldId GetFieldId(TField T::*field)
+        {
+            auto pfunc = &Reflection::GetFieldId<T, TField>;
+
+            uint8_t buffer[sizeof(pfunc) + sizeof(field)];
+            memcpy(buffer, &pfunc, sizeof(pfunc));
+            memcpy(buffer + sizeof(pfunc), &field, sizeof(field));
+
+            uint32_t prime = 16777619u;
+            uint32_t hash  = 2166136261u;
+
+            for (size_t i = 0; i < sizeof(buffer); ++i) {
+                hash ^= static_cast<uint32_t>(buffer[i]);
+                hash *= prime;
+            }
+
+            return FieldId{hash};
+        }
 
         /**
          * @brief        获取成员函数的委托
@@ -158,10 +223,10 @@ namespace sw
         }
 
         /**
-         * @brief         获取成员字段的访问器
-         * @tparam T      成员字段所属类类型
-         * @tparam TField 成员字段类型
-         * @param field   成员字段指针
+         * @brief         获取字段的访问器
+         * @tparam T      字段所属类类型
+         * @tparam TField 字段类型
+         * @param field   字段的成员指针
          * @return        对应的访问器
          */
         template <typename T, typename TField>
