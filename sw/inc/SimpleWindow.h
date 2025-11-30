@@ -4,6 +4,7 @@
 #include "Alignment.h"
 #include "Animation.h"
 #include "App.h"
+#include "Binding.h"
 #include "BmpBox.h"
 #include "Button.h"
 #include "ButtonBase.h"

@@ -292,6 +292,7 @@
     <ClInclude Include="..\sw\inc\Alignment.h" />
     <ClInclude Include="..\sw\inc\Animation.h" />
     <ClInclude Include="..\sw\inc\App.h" />
+    <ClInclude Include="..\sw\inc\Binding.h" />
     <ClInclude Include="..\sw\inc\BmpBox.h" />
     <ClInclude Include="..\sw\inc\Button.h" />
     <ClInclude Include="..\sw\inc\ButtonBase.h" />
