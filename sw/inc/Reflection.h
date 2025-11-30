@@ -245,6 +245,7 @@ namespace sw
          * @tparam TProperty 属性类型
          * @param prop       属性指针
          * @return           对应的Getter委托
+         * @note             若属性不可读则返回空委托
          */
         template <typename T, typename TProperty>
         static auto GetPropertyGetter(TProperty T::*prop)
@@ -258,11 +259,29 @@ namespace sw
         }
 
         /**
+         * @brief            获取属性的Getter委托
+         * @tparam T         属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop       属性指针
+         * @return           对应的Getter委托
+         * @note             若属性不可读则返回空委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertyGetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && !_IsReadableProperty<TProperty>::value,
+                Delegate<typename TProperty::TValue(DynamicObject &)>>::type
+        {
+            return nullptr;
+        }
+
+        /**
          * @brief            获取属性的Setter委托
          * @tparam T         属性所属类类型
          * @tparam TProperty 属性类型
          * @param prop       属性指针
          * @return           对应的Setter委托
+         * @note             若属性不可写则返回空委托
          */
         template <typename T, typename TProperty>
         static auto GetPropertySetter(TProperty T::*prop)
@@ -273,6 +292,23 @@ namespace sw
             return [prop](DynamicObject &obj, const typename TProperty::TValue &value) {
                 (obj.DynamicCast<T>().*prop).Set(value);
             };
+        }
+
+        /**
+         * @brief            获取属性的Setter委托
+         * @tparam T         属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop       属性指针
+         * @return           对应的Setter委托
+         * @note             若属性不可写则返回空委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertySetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && !_IsWritableProperty<TProperty>::value,
+                Delegate<void(DynamicObject &, const typename TProperty::TValue &)>>::type
+        {
+            return nullptr;
         }
     };
 }
