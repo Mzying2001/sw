@@ -114,7 +114,7 @@ namespace sw
     /**
      * @brief 表示字段的唯一标识符
      */
-    struct FieldId : public IComparable<FieldId> //
+    struct FieldId : public IComparable<FieldId, FieldId> //
     {
         /**
          * @brief 字段ID的数值
@@ -138,7 +138,7 @@ namespace sw
          * @brief  比较字段ID
          * @return 值相等返回0，小于返回负数，大于返回正数
          */
-        int CompareTo(const FieldId &other) const
+        int CompareTo(FieldId other) const
         {
             if (value == other.value) {
                 return 0;
