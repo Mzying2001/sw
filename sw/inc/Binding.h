@@ -24,5 +24,15 @@ namespace sw
          * @brief 更新源属性的值
          */
         virtual void UpdateSource() = 0;
+
+        /**
+         * @brief 获取目标属性的字段ID
+         */
+        virtual FieldId GetTargetPropertyId() const = 0;
+
+        /**
+         * @brief 获取源属性的字段ID
+         */
+        virtual FieldId GetSourcePropertyId() const = 0;
     };
 }
