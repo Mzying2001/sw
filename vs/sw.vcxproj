@@ -404,6 +404,7 @@
   <ItemGroup>
     <ClCompile Include="..\sw\src\Animation.cpp" />
     <ClCompile Include="..\sw\src\App.cpp" />
+    <ClCompile Include="..\sw\src\Binding.cpp" />
     <ClCompile Include="..\sw\src\BmpBox.cpp" />
     <ClCompile Include="..\sw\src\Button.cpp" />
     <ClCompile Include="..\sw\src\ButtonBase.cpp" />
