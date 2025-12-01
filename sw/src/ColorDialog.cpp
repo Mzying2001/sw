@@ -27,48 +27,44 @@ namespace
 
 sw::ColorDialog::ColorDialog()
     : Flags(
-          // get
-          [this]() -> ColorDialogFlags {
-              return static_cast<ColorDialogFlags>(_cc.Flags);
-          },
-          // set
-          [this](const ColorDialogFlags &value) {
-              _cc.Flags = static_cast<DWORD>(value);
-          }),
+          Property<ColorDialogFlags>::Init(this)
+              .Getter([](ColorDialog *self) -> ColorDialogFlags {
+                  return static_cast<ColorDialogFlags>(self->_cc.Flags);
+              })
+              .Setter([](ColorDialog *self, ColorDialogFlags value) {
+                  self->_cc.Flags = static_cast<DWORD>(value);
+              })),
 
       SelectedColor(
-          // get
-          [this]() -> Color {
-              return _cc.rgbResult;
-          },
-          // set
-          [this](const Color &value) {
-              _cc.rgbResult = value;
-          }),
+          Property<Color>::Init(this)
+              .Getter([](ColorDialog *self) -> Color {
+                  return self->_cc.rgbResult;
+              })
+              .Setter([](ColorDialog *self, const Color &value) {
+                  self->_cc.rgbResult = value;
+              })),
 
       FullOpen(
-          // get
-          [this]() -> bool {
-              return (Flags & ColorDialogFlags::FullOpen) == ColorDialogFlags::FullOpen;
-          },
-          // set
-          [this](const bool &value) {
-              if (value) {
-                  Flags |= ColorDialogFlags::FullOpen;
-              } else {
-                  Flags &= ~ColorDialogFlags::FullOpen;
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ColorDialog *self) -> bool {
+                  return (self->Flags & ColorDialogFlags::FullOpen) == ColorDialogFlags::FullOpen;
+              })
+              .Setter([](ColorDialog *self, bool value) {
+                  if (value) {
+                      self->Flags |= ColorDialogFlags::FullOpen;
+                  } else {
+                      self->Flags &= ~ColorDialogFlags::FullOpen;
+                  }
+              })),
 
       CustomColors(
-          // get
-          [this]() -> COLORREF * {
-              return _cc.lpCustColors;
-          },
-          // set
-          [this](COLORREF *value) {
-              _cc.lpCustColors = value ? value : _defaultCustomColors;
-          })
+          Property<COLORREF *>::Init(this)
+              .Getter([](ColorDialog *self) -> COLORREF * {
+                  return self->_cc.lpCustColors;
+              })
+              .Setter([](ColorDialog *self, COLORREF *value) {
+                  self->_cc.lpCustColors = value ? value : _defaultCustomColors;
+              }))
 {
     _cc.lStructSize  = sizeof(CHOOSECOLORW);
     _cc.Flags        = DWORD(ColorDialogFlags::RgbInit);

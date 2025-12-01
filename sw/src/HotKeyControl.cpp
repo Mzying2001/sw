@@ -2,19 +2,18 @@
 
 sw::HotKeyControl::HotKeyControl()
     : Value(
-          // get
-          [this]() -> HotKey {
-              return this->_value;
-          },
-          // set
-          [this](const HotKey &value) {
-              if (value.key != this->_value.key && value.modifier != this->_value.modifier) {
-                  WORD val = MAKEWORD(value.key, value.modifier);
-                  this->SendMessageW(HKM_SETHOTKEY, val, 0);
-                  this->_UpdateValue();
-                  this->OnValueChanged(this->_value);
-              }
-          })
+          Property<HotKey>::Init(this)
+              .Getter([](HotKeyControl *self) -> HotKey {
+                  return self->_value;
+              })
+              .Setter([](HotKeyControl *self, const HotKey &value) {
+                  if (value.key != self->_value.key && value.modifier != self->_value.modifier) {
+                      WORD val = MAKEWORD(value.key, value.modifier);
+                      self->SendMessageW(HKM_SETHOTKEY, val, 0);
+                      self->_UpdateValue();
+                      self->OnValueChanged(self->_value);
+                  }
+              }))
 {
     this->InitControl(HOTKEY_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
     this->_UpdateValue();

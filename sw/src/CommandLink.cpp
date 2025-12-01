@@ -2,25 +2,26 @@
 
 sw::CommandLink::CommandLink()
     : NoteText(
-          // get
-          [this]() -> std::wstring {
-              int len = (int)SendMessageW(BCM_GETNOTELENGTH, 0, 0);
-              if (len <= 0)
-                  return std::wstring{};
-              else {
-                  std::wstring result;
-                  DWORD buflen = len + 1;
-                  result.resize(buflen);
-                  SendMessageW(BCM_GETNOTE, reinterpret_cast<WPARAM>(&buflen), reinterpret_cast<LPARAM>(&result[0]));
-                  result.resize(len);
-                  return result;
-              }
-          },
-          // set
-          [this](const std::wstring &value) {
-              SendMessageW(BCM_SETNOTE, 0, reinterpret_cast<LPARAM>(value.c_str()));
-              if (AutoSize) InvalidateMeasure();
-          })
+          Property<std::wstring>::Init(this)
+              .Getter([](CommandLink *self) -> std::wstring {
+                  int len = (int)self->SendMessageW(BCM_GETNOTELENGTH, 0, 0);
+                  if (len <= 0)
+                      return std::wstring{};
+                  else {
+                      std::wstring result;
+                      DWORD buflen = len + 1;
+                      result.resize(buflen);
+                      self->SendMessageW(BCM_GETNOTE, reinterpret_cast<WPARAM>(&buflen), reinterpret_cast<LPARAM>(&result[0]));
+                      result.resize(len);
+                      return result;
+                  }
+              })
+              .Setter([](CommandLink *self, const std::wstring &value) {
+                  self->SendMessageW(BCM_SETNOTE, 0, reinterpret_cast<LPARAM>(value.c_str()));
+                  if (self->AutoSize) {
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     InitButtonBase(L"CommandLink", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_COMMANDLINK, 0);
     Rect     = sw::Rect{0, 0, 180, 60};

@@ -2,24 +2,22 @@
 
 sw::HwndHost::HwndHost()
     : FillContent(
-          // get
-          [this]() -> bool {
-              return this->_fillContent;
-          },
-          // set
-          [this](const bool &value) {
-              this->_fillContent = value;
-          }),
+          Property<bool>::Init(this)
+              .Getter([](HwndHost *self) -> bool {
+                  return self->_fillContent;
+              })
+              .Setter([](HwndHost *self, bool value) {
+                  self->_fillContent = value;
+              })),
 
       SyncFont(
-          // get
-          [this]() -> bool {
-              return this->_syncFont;
-          },
-          // set
-          [this](const bool &value) {
-              this->_syncFont = value;
-          })
+          Property<bool>::Init(this)
+              .Getter([](HwndHost *self) -> bool {
+                  return self->_syncFont;
+              })
+              .Setter([](HwndHost *self, bool value) {
+                  self->_syncFont = value;
+              }))
 {
     this->Rect = sw::Rect{0, 0, 100, 100};
 }

@@ -2,70 +2,67 @@
 
 sw::TextBoxBase::TextBoxBase()
     : ReadOnly(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(ES_READONLY);
-          },
-          // set
-          [this](const bool &value) {
-              this->SendMessageW(EM_SETREADONLY, value, 0);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](TextBoxBase *self) -> bool {
+                  return self->GetStyle(ES_READONLY);
+              })
+              .Setter([](TextBoxBase *self, bool value) {
+                  self->SendMessageW(EM_SETREADONLY, value, 0);
+              })),
 
       HorizontalContentAlignment(
-          // get
-          [this]() -> sw::HorizontalAlignment {
-              LONG_PTR style = this->GetStyle();
-              if (style & ES_CENTER) {
-                  return sw::HorizontalAlignment::Center;
-              } else if (style & ES_RIGHT) {
-                  return sw::HorizontalAlignment::Right;
-              } else {
-                  return sw::HorizontalAlignment::Left;
-              }
-          },
-          // set
-          [this](const sw::HorizontalAlignment &value) {
-              switch (value) {
-                  case sw::HorizontalAlignment::Left: {
-                      this->SetStyle(ES_CENTER | ES_RIGHT, false);
-                      break;
+          Property<sw::HorizontalAlignment>::Init(this)
+              .Getter([](TextBoxBase *self) -> sw::HorizontalAlignment {
+                  LONG_PTR style = self->GetStyle();
+                  if (style & ES_CENTER) {
+                      return sw::HorizontalAlignment::Center;
+                  } else if (style & ES_RIGHT) {
+                      return sw::HorizontalAlignment::Right;
+                  } else {
+                      return sw::HorizontalAlignment::Left;
                   }
-                  case sw::HorizontalAlignment::Center: {
-                      DWORD style = this->GetStyle();
-                      style &= ~(ES_CENTER | ES_RIGHT);
-                      style |= ES_CENTER;
-                      this->SetStyle(style);
-                      break;
+              })
+              .Setter([](TextBoxBase *self, sw::HorizontalAlignment value) {
+                  switch (value) {
+                      case sw::HorizontalAlignment::Left: {
+                          self->SetStyle(ES_CENTER | ES_RIGHT, false);
+                          break;
+                      }
+                      case sw::HorizontalAlignment::Center: {
+                          DWORD style = self->GetStyle();
+                          style &= ~(ES_CENTER | ES_RIGHT);
+                          style |= ES_CENTER;
+                          self->SetStyle(style);
+                          break;
+                      }
+                      case sw::HorizontalAlignment::Right: {
+                          DWORD style = self->GetStyle();
+                          style &= ~(ES_CENTER | ES_RIGHT);
+                          style |= ES_RIGHT;
+                          self->SetStyle(style);
+                          break;
+                      }
+                      default: {
+                          break;
+                      }
                   }
-                  case sw::HorizontalAlignment::Right: {
-                      DWORD style = this->GetStyle();
-                      style &= ~(ES_CENTER | ES_RIGHT);
-                      style |= ES_RIGHT;
-                      this->SetStyle(style);
-                      break;
-                  }
-                  default: {
-                      break;
-                  }
-              }
-              this->Redraw();
-          }),
+                  self->Redraw();
+              })),
 
       CanUndo(
-          // get
-          [this]() -> bool {
-              return this->SendMessageW(EM_CANUNDO, 0, 0);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](TextBoxBase *self) -> bool {
+                  return self->SendMessageW(EM_CANUNDO, 0, 0);
+              })),
 
       AcceptTab(
-          // get
-          [this]() -> bool {
-              return this->_acceptTab;
-          },
-          // set
-          [this](const bool &value) {
-              this->_acceptTab = value;
-          })
+          Property<bool>::Init(this)
+              .Getter([](TextBoxBase *self) -> bool {
+                  return self->_acceptTab;
+              })
+              .Setter([](TextBoxBase *self, bool value) {
+                  self->_acceptTab = value;
+              }))
 {
     this->TabStop = true;
 }

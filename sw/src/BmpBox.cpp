@@ -3,24 +3,23 @@
 
 sw::BmpBox::BmpBox()
     : BmpHandle(
-          // get
-          [this]() -> HBITMAP {
-              return this->_hBitmap;
-          }),
+          Property<HBITMAP>::Init(this)
+              .Getter([](BmpBox *self) -> HBITMAP {
+                  return self->_hBitmap;
+              })),
 
       SizeMode(
-          // get
-          [this]() -> BmpBoxSizeMode {
-              return this->_sizeMode;
-          },
-          // set
-          [this](const BmpBoxSizeMode &value) {
-              if (this->_sizeMode != value) {
-                  this->_sizeMode = value;
-                  this->Redraw();
-                  this->InvalidateMeasure();
-              }
-          })
+          Property<BmpBoxSizeMode>::Init(this)
+              .Getter([](BmpBox *self) -> BmpBoxSizeMode {
+                  return self->_sizeMode;
+              })
+              .Setter([](BmpBox *self, BmpBoxSizeMode value) {
+                  if (self->_sizeMode != value) {
+                      self->_sizeMode = value;
+                      self->Redraw();
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     this->Rect        = sw::Rect{0, 0, 200, 200};
     this->Transparent = true;

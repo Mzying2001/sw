@@ -4,112 +4,107 @@
 
 sw::Label::Label()
     : HorizontalContentAlignment(
-          // get
-          [this]() -> sw::HorizontalAlignment {
-              DWORD style = this->GetStyle();
-              if (style & SS_CENTER) {
-                  return sw::HorizontalAlignment::Center;
-              } else if (style & SS_RIGHT) {
-                  return sw::HorizontalAlignment::Right;
-              } else {
-                  return sw::HorizontalAlignment::Left;
-              }
-          },
-          // set
-          [this](const sw::HorizontalAlignment &value) {
-              switch (value) {
-                  case sw::HorizontalAlignment::Left: {
-                      this->SetStyle(SS_CENTER | SS_RIGHT, false);
-                      break;
+          Property<sw::HorizontalAlignment>::Init(this)
+              .Getter([](Label *self) -> sw::HorizontalAlignment {
+                  DWORD style = self->GetStyle();
+                  if (style & SS_CENTER) {
+                      return sw::HorizontalAlignment::Center;
+                  } else if (style & SS_RIGHT) {
+                      return sw::HorizontalAlignment::Right;
+                  } else {
+                      return sw::HorizontalAlignment::Left;
                   }
-                  case sw::HorizontalAlignment::Center: {
-                      DWORD style = this->GetStyle();
-                      style &= ~(SS_CENTER | SS_RIGHT);
-                      style |= SS_CENTER;
-                      this->SetStyle(style);
-                      break;
+              })
+              .Setter([](Label *self, sw::HorizontalAlignment value) {
+                  switch (value) {
+                      case sw::HorizontalAlignment::Left: {
+                          self->SetStyle(SS_CENTER | SS_RIGHT, false);
+                          break;
+                      }
+                      case sw::HorizontalAlignment::Center: {
+                          DWORD style = self->GetStyle();
+                          style &= ~(SS_CENTER | SS_RIGHT);
+                          style |= SS_CENTER;
+                          self->SetStyle(style);
+                          break;
+                      }
+                      case sw::HorizontalAlignment::Right: {
+                          DWORD style = self->GetStyle();
+                          style &= ~(SS_CENTER | SS_RIGHT);
+                          style |= SS_RIGHT;
+                          self->SetStyle(style);
+                          break;
+                      }
+                      default: {
+                          break;
+                      }
                   }
-                  case sw::HorizontalAlignment::Right: {
-                      DWORD style = this->GetStyle();
-                      style &= ~(SS_CENTER | SS_RIGHT);
-                      style |= SS_RIGHT;
-                      this->SetStyle(style);
-                      break;
-                  }
-                  default: {
-                      break;
-                  }
-              }
-              this->Redraw();
-          }),
+                  self->Redraw();
+              })),
 
       VerticalContentAlignment(
-          // get
-          [this]() -> sw::VerticalAlignment {
-              return this->GetStyle(SS_CENTERIMAGE) ? sw::VerticalAlignment::Center : sw::VerticalAlignment::Top;
-          },
-          // set
-          [this](const sw::VerticalAlignment &value) {
-              this->SetStyle(SS_CENTERIMAGE, value == sw::VerticalAlignment::Center);
-          }),
+          Property<sw::VerticalAlignment>::Init(this)
+              .Getter([](Label *self) -> sw::VerticalAlignment {
+                  return self->GetStyle(SS_CENTERIMAGE) ? sw::VerticalAlignment::Center : sw::VerticalAlignment::Top;
+              })
+              .Setter([](Label *self, sw::VerticalAlignment value) {
+                  self->SetStyle(SS_CENTERIMAGE, value == sw::VerticalAlignment::Center);
+              })),
 
       TextTrimming(
-          // get
-          [this]() -> sw::TextTrimming {
-              DWORD style = this->GetStyle();
-              if ((style & SS_WORDELLIPSIS) == SS_WORDELLIPSIS) {
-                  return sw::TextTrimming::WordEllipsis;
-              } else if (style & SS_ENDELLIPSIS) {
-                  return sw::TextTrimming::EndEllipsis;
-              } else {
-                  return sw::TextTrimming::None;
-              }
-          },
-          // set
-          [this](const sw::TextTrimming &value) {
-              switch (value) {
-                  case sw::TextTrimming::None: {
-                      this->SetStyle(SS_WORDELLIPSIS, false);
-                      break;
+          Property<sw::TextTrimming>::Init(this)
+              .Getter([](Label *self) -> sw::TextTrimming {
+                  DWORD style = self->GetStyle();
+                  if ((style & SS_WORDELLIPSIS) == SS_WORDELLIPSIS) {
+                      return sw::TextTrimming::WordEllipsis;
+                  } else if (style & SS_ENDELLIPSIS) {
+                      return sw::TextTrimming::EndEllipsis;
+                  } else {
+                      return sw::TextTrimming::None;
                   }
-                  case sw::TextTrimming::WordEllipsis: {
-                      this->SetStyle(SS_WORDELLIPSIS, true);
-                      break;
+              })
+              .Setter([](Label *self, sw::TextTrimming value) {
+                  switch (value) {
+                      case sw::TextTrimming::None: {
+                          self->SetStyle(SS_WORDELLIPSIS, false);
+                          break;
+                      }
+                      case sw::TextTrimming::WordEllipsis: {
+                          self->SetStyle(SS_WORDELLIPSIS, true);
+                          break;
+                      }
+                      case sw::TextTrimming::EndEllipsis: {
+                          DWORD style = self->GetStyle();
+                          style &= ~SS_WORDELLIPSIS;
+                          style |= SS_ENDELLIPSIS;
+                          self->SetStyle(style);
+                          break;
+                      }
                   }
-                  case sw::TextTrimming::EndEllipsis: {
-                      DWORD style = this->GetStyle();
-                      style &= ~SS_WORDELLIPSIS;
-                      style |= SS_ENDELLIPSIS;
-                      this->SetStyle(style);
-                      break;
-                  }
-              }
-              this->Redraw();
-          }),
+                  self->Redraw();
+              })),
 
       AutoWrap(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(SS_EDITCONTROL);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(SS_EDITCONTROL, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Label *self) -> bool {
+                  return self->GetStyle(SS_EDITCONTROL);
+              })
+              .Setter([](Label *self, bool value) {
+                  self->SetStyle(SS_EDITCONTROL, value);
+              })),
 
       AutoSize(
-          // get
-          [this]() -> bool {
-              return this->_autoSize;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->_autoSize != value) {
-                  this->_autoSize = value;
-                  this->_UpdateLayoutFlags();
-                  this->InvalidateMeasure();
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](Label *self) -> bool {
+                  return self->_autoSize;
+              })
+              .Setter([](Label *self, bool value) {
+                  if (self->_autoSize != value) {
+                      self->_autoSize = value;
+                      self->_UpdateLayoutFlags();
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     this->SetInternalText(L"Label");
     this->_UpdateTextSize();

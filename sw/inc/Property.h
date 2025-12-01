@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <limits>
 #include <type_traits>
+#include <utility>
 
 #define _SW_DEFINE_OPERATION_HELPER(NAME, OP)                                                    \
     template <typename T, typename U, typename = void>                                           \

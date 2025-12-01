@@ -5,65 +5,61 @@
 
 sw::TabControl::TabControl()
     : ContentRect(
-          // get
-          [this]() -> sw::Rect {
-              RECT rect;
-              GetClientRect(this->Handle, &rect);
-              this->_CalcContentRect(rect);
-              return rect;
-          }),
+          Property<sw::Rect>::Init(this)
+              .Getter([](TabControl *self) -> sw::Rect {
+                  RECT rect;
+                  GetClientRect(self->Handle, &rect);
+                  self->_CalcContentRect(rect);
+                  return rect;
+              })),
 
       SelectedIndex(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(TCM_GETCURSEL, 0, 0);
-          },
-          // set
-          [this](const int &value) {
-              if (this->SelectedIndex != value) {
-                  this->SendMessageW(TCM_SETCURSEL, (WPARAM)value, 0);
-                  this->OnSelectedIndexChanged();
-              }
-          }),
+          Property<int>::Init(this)
+              .Getter([](TabControl *self) -> int {
+                  return (int)self->SendMessageW(TCM_GETCURSEL, 0, 0);
+              })
+              .Setter([](TabControl *self, int value) {
+                  if (self->SelectedIndex != value) {
+                      self->SendMessageW(TCM_SETCURSEL, (WPARAM)value, 0);
+                      self->OnSelectedIndexChanged();
+                  }
+              })),
 
       Alignment(
-          // get
-          [this]() -> TabAlignment {
-              auto style = this->GetStyle();
-              if (style & TCS_VERTICAL) {
-                  return (style & TCS_RIGHT) ? TabAlignment::Right : TabAlignment::Left;
-              } else {
-                  return (style & TCS_BOTTOM) ? TabAlignment::Bottom : TabAlignment::Top;
-              }
-          },
-          // set
-          [this](const TabAlignment &value) {
-              this->_SetTabAlignment(value);
-          }),
+          Property<TabAlignment>::Init(this)
+              .Getter([](TabControl *self) -> TabAlignment {
+                  auto style = self->GetStyle();
+                  if (style & TCS_VERTICAL) {
+                      return (style & TCS_RIGHT) ? TabAlignment::Right : TabAlignment::Left;
+                  } else {
+                      return (style & TCS_BOTTOM) ? TabAlignment::Bottom : TabAlignment::Top;
+                  }
+              })
+              .Setter([](TabControl *self, TabAlignment value) {
+                  self->_SetTabAlignment(value);
+              })),
 
       MultiLine(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(TCS_MULTILINE);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(TCS_MULTILINE, value);
-              this->InvalidateMeasure();
-          }),
+          Property<bool>::Init(this)
+              .Getter([](TabControl *self) -> bool {
+                  return self->GetStyle(TCS_MULTILINE);
+              })
+              .Setter([](TabControl *self, bool value) {
+                  self->SetStyle(TCS_MULTILINE, value);
+                  self->InvalidateMeasure();
+              })),
 
       AutoSize(
-          // get
-          [this]() -> bool {
-              return this->_autoSize;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->_autoSize != value) {
-                  this->_autoSize = value;
-                  this->InvalidateMeasure();
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](TabControl *self) -> bool {
+                  return self->_autoSize;
+              })
+              .Setter([](TabControl *self, bool value) {
+                  if (self->_autoSize != value) {
+                      self->_autoSize = value;
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
 

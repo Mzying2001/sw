@@ -11,32 +11,30 @@ namespace
 
 sw::Splitter::Splitter()
     : Orientation(
-          // get
-          [this]() -> sw::Orientation {
-              return _orientation;
-          },
-          // set
-          [this](const sw::Orientation &value) {
-              if (_orientation != value) {
-                  _orientation = value;
-                  value == Orientation::Horizontal
-                      ? SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center)
-                      : SetAlignment(HorizontalAlignment::Center, VerticalAlignment::Stretch);
-              }
-          }),
+          Property<sw::Orientation>::Init(this)
+              .Getter([](Splitter *self) -> sw::Orientation {
+                  return self->_orientation;
+              })
+              .Setter([](Splitter *self, sw::Orientation value) {
+                  if (self->_orientation != value) {
+                      self->_orientation = value;
+                      value == Orientation::Horizontal
+                          ? self->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center)
+                          : self->SetAlignment(HorizontalAlignment::Center, VerticalAlignment::Stretch);
+                  }
+              })),
 
       DrawSplitterLine(
-          // get
-          [this]() -> bool {
-              return _drawSplitterLine;
-          },
-          // set
-          [this](const bool &value) {
-              if (_drawSplitterLine != value) {
-                  _drawSplitterLine = value;
-                  Redraw();
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](Splitter *self) -> bool {
+                  return self->_drawSplitterLine;
+              })
+              .Setter([](Splitter *self, bool value) {
+                  if (self->_drawSplitterLine != value) {
+                      self->_drawSplitterLine = value;
+                      self->Redraw();
+                  }
+              }))
 {
     static thread_local ATOM splitterClsAtom = 0;
 

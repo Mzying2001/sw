@@ -232,51 +232,46 @@ int sw::TreeViewNode::DeleteAllChildren()
 
 sw::TreeView::TreeView()
     : Root(
-          // get
-          [this]() -> TreeViewNode {
-              return _GetRoot();
-          }),
+          Property<TreeViewNode>::Init(this)
+              .Getter<&TreeView::_GetRoot>()),
 
       AllItemsCount(
-          // get
-          [this]() -> int {
-              HWND hwnd = Handle;
-              return TreeView_GetCount(hwnd);
-          }),
+          Property<int>::Init(this)
+              .Getter([](TreeView *self) -> int {
+                  HWND hwnd = self->Handle;
+                  return TreeView_GetCount(hwnd);
+              })),
 
       CheckBoxes(
-          // get
-          [this]() -> bool {
-              return GetStyle(TVS_CHECKBOXES);
-          },
-          // set
-          [this](const bool &value) {
-              SetStyle(TVS_CHECKBOXES, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](TreeView *self) -> bool {
+                  return self->GetStyle(TVS_CHECKBOXES);
+              })
+              .Setter([](TreeView *self, bool value) {
+                  self->SetStyle(TVS_CHECKBOXES, value);
+              })),
 
       LineColor(
-          // get
-          [this]() -> Color {
-              HWND hwnd = Handle;
-              return static_cast<Color>(TreeView_GetLineColor(hwnd));
-          },
-          // set
-          [this](const Color &value) {
-              HWND hwnd = Handle;
-              TreeView_SetLineColor(hwnd, static_cast<COLORREF>(value));
-          }),
+          Property<Color>::Init(this)
+              .Getter([](TreeView *self) -> Color {
+                  HWND hwnd = self->Handle;
+                  return static_cast<Color>(TreeView_GetLineColor(hwnd));
+              })
+              .Setter([](TreeView *self, const Color &value) {
+                  HWND hwnd = self->Handle;
+                  TreeView_SetLineColor(hwnd, static_cast<COLORREF>(value));
+              })),
 
       IndentWidth(
-          // get
-          [this]() -> double {
-              HWND hwnd = Handle;
-              return Dip::PxToDipX(TreeView_GetIndent(hwnd));
-          },
-          // set
-          [this](const double &value) {
-              HWND hwnd = Handle;
-              TreeView_SetIndent(hwnd, Dip::DipToPxX(value));
-          })
+          Property<double>::Init(this)
+              .Getter([](TreeView *self) -> double {
+                  HWND hwnd = self->Handle;
+                  return Dip::PxToDipX(TreeView_GetIndent(hwnd));
+              })
+              .Setter([](TreeView *self, double value) {
+                  HWND hwnd = self->Handle;
+                  TreeView_SetIndent(hwnd, Dip::DipToPxX(value));
+              }))
 {
     InitControl(WC_TREEVIEWW, NULL, WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS | WS_BORDER | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS, 0);
 

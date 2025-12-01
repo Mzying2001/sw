@@ -8,28 +8,26 @@
 
 sw::SysLink::SysLink()
     : IgnoreReturn(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(LWS_IGNORERETURN);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(LWS_IGNORERETURN, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](SysLink *self) -> bool {
+                  return self->GetStyle(LWS_IGNORERETURN);
+              })
+              .Setter([](SysLink *self, bool value) {
+                  self->SetStyle(LWS_IGNORERETURN, value);
+              })),
 
       AutoSize(
-          // get
-          [this]() -> bool {
-              return this->_autoSize;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->_autoSize != value) {
-                  this->_autoSize = value;
-                  this->_UpdateLayoutFlags();
-                  this->InvalidateMeasure();
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](SysLink *self) -> bool {
+                  return self->_autoSize;
+              })
+              .Setter([](SysLink *self, bool value) {
+                  if (self->_autoSize != value) {
+                      self->_autoSize = value;
+                      self->_UpdateLayoutFlags();
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     this->InitControl(WC_LINK, L"<a>SysLink</a>", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_TABSTOP, 0);
     this->_UpdateTextSize();

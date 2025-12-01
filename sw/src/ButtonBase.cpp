@@ -3,43 +3,44 @@
 
 sw::ButtonBase::ButtonBase()
     : AutoSize(
-          // get
-          [this]() -> bool {
-              return _autoSize;
-          },
-          // set
-          [this](const bool &value) {
-              if (_autoSize != value) {
-                  _autoSize = value;
-                  _UpdateLayoutFlags();
-                  InvalidateMeasure();
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ButtonBase *self) -> bool {
+                  return self->_autoSize;
+              })
+              .Setter([](ButtonBase *self, bool value) {
+                  if (self->_autoSize != value) {
+                      self->_autoSize = value;
+                      self->_UpdateLayoutFlags();
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       MultiLine(
-          // get
-          [this]() -> bool {
-              return GetStyle(BS_MULTILINE);
-          },
-          // set
-          [this](const bool &value) {
-              SetStyle(BS_MULTILINE, value);
-              if (_autoSize) InvalidateMeasure();
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ButtonBase *self) -> bool {
+                  return self->GetStyle(BS_MULTILINE);
+              })
+              .Setter([](ButtonBase *self, bool value) {
+                  self->SetStyle(BS_MULTILINE, value);
+                  if (self->_autoSize) {
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       TextMargin(
-          // get
-          [this]() -> Thickness {
-              RECT rect{};
-              _GetTextMargin(rect);
-              return rect;
-          },
-          // set
-          [this](const Thickness &value) {
-              RECT rect = value;
-              _SetTextMargin(rect);
-              if (_autoSize) InvalidateMeasure();
-          })
+          Property<Thickness>::Init(this)
+              .Getter([](ButtonBase *self) -> Thickness {
+                  RECT rect{};
+                  self->_GetTextMargin(rect);
+                  return rect;
+              })
+              .Setter([](ButtonBase *self, const Thickness &value) {
+                  RECT rect = value;
+                  self->_SetTextMargin(rect);
+                  if (self->_autoSize) {
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     TabStop          = true;
     Transparent      = true;

@@ -6,266 +6,247 @@
 
 sw::UIElement::UIElement()
     : Margin(
-          // get
-          [this]() -> Thickness {
-              return this->_margin;
-          },
-          // set
-          [this](const Thickness &value) {
-              if (this->_margin != value) {
-                  this->_margin = value;
-                  this->InvalidateMeasure();
-              }
-          }),
+          Property<Thickness>::Init(this)
+              .Getter([](UIElement *self) -> Thickness {
+                  return self->_margin;
+              })
+              .Setter([](UIElement *self, const Thickness &value) {
+                  if (self->_margin != value) {
+                      self->_margin = value;
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       HorizontalAlignment(
-          // get
-          [this]() -> sw::HorizontalAlignment {
-              return this->_horizontalAlignment;
-          },
-          // set
-          [this](const sw::HorizontalAlignment &value) {
-              if (this->_SetHorzAlignment(value)) {
-                  this->InvalidateMeasure();
-              }
-          }),
+          Property<sw::HorizontalAlignment>::Init(this)
+              .Getter([](UIElement *self) -> sw::HorizontalAlignment {
+                  return self->_horizontalAlignment;
+              })
+              .Setter([](UIElement *self, sw::HorizontalAlignment value) {
+                  if (self->_SetHorzAlignment(value)) {
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       VerticalAlignment(
-          // get
-          [this]() -> sw::VerticalAlignment {
-              return this->_verticalAlignment;
-          },
-          // set
-          [this](const sw::VerticalAlignment &value) {
-              if (this->_SetVertAlignment(value)) {
-                  this->InvalidateMeasure();
-              }
-          }),
+          Property<sw::VerticalAlignment>::Init(this)
+              .Getter([](UIElement *self) -> sw::VerticalAlignment {
+                  return self->_verticalAlignment;
+              })
+              .Setter([](UIElement *self, sw::VerticalAlignment value) {
+                  if (self->_SetVertAlignment(value)) {
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       ChildCount(
-          // get
-          [this]() -> int {
-              return (int)this->_children.size();
-          }),
+          Property<int>::Init(this)
+              .Getter([](UIElement *self) -> int {
+                  return (int)self->_children.size();
+              })),
 
       CollapseWhenHide(
-          // get
-          [this]() -> bool {
-              return this->_collapseWhenHide;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->_collapseWhenHide != value) {
-                  this->_collapseWhenHide = value;
-                  if (this->_parent && !this->Visible) {
-                      this->_parent->_UpdateLayoutVisibleChildren();
-                      this->_parent->InvalidateMeasure();
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return self->_collapseWhenHide;
+              })
+              .Setter([](UIElement *self, bool value) {
+                  if (self->_collapseWhenHide != value) {
+                      self->_collapseWhenHide = value;
+                      if (self->_parent && !self->Visible) {
+                          self->_parent->_UpdateLayoutVisibleChildren();
+                          self->_parent->InvalidateMeasure();
+                      }
                   }
-              }
-          }),
+              })),
 
       Parent(
-          // get
-          [this]() -> UIElement * {
-              return this->_parent;
-          }),
+          Property<UIElement *>::Init(this)
+              .Getter([](UIElement *self) -> UIElement * {
+                  return self->_parent;
+              })),
 
       Tag(
-          // get
-          [this]() -> uint64_t {
-              return this->_tag;
-          },
-          // set
-          [this](const uint64_t &value) {
-              this->_tag = value;
-          }),
+          Property<uint64_t>::Init(this)
+              .Getter([](UIElement *self) -> uint64_t {
+                  return self->_tag;
+              })
+              .Setter([](UIElement *self, uint64_t value) {
+                  self->_tag = value;
+              })),
 
       LayoutTag(
-          // get
-          [this]() -> uint64_t {
-              return this->_layoutTag;
-          },
-          // set
-          [this](const uint64_t &value) {
-              if (this->_layoutTag != value) {
-                  this->_layoutTag = value;
-                  this->InvalidateMeasure();
-              }
-          }),
+          Property<uint64_t>::Init(this)
+              .Getter([](UIElement *self) -> uint64_t {
+                  return self->_layoutTag;
+              })
+              .Setter([](UIElement *self, uint64_t value) {
+                  if (self->_layoutTag != value) {
+                      self->_layoutTag = value;
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       ContextMenu(
-          // get
-          [this]() -> sw::ContextMenu * {
-              return this->_contextMenu;
-          },
-          // set
-          [this](sw::ContextMenu *value) {
-              this->_contextMenu = value;
-          }),
+          Property<sw::ContextMenu *>::Init(this)
+              .Getter([](UIElement *self) -> sw::ContextMenu * {
+                  return self->_contextMenu;
+              })
+              .Setter([](UIElement *self, sw::ContextMenu *value) {
+                  self->_contextMenu = value;
+              })),
 
       Float(
-          // get
-          [this]() -> bool {
-              return this->_float;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->_float != value) {
-                  this->_float = value;
-                  this->UpdateSiblingsZOrder();
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return self->_float;
+              })
+              .Setter([](UIElement *self, bool value) {
+                  if (self->_float != value) {
+                      self->_float = value;
+                      self->UpdateSiblingsZOrder();
+                  }
+              })),
 
       TabStop(
-          // get
-          [this]() -> bool {
-              return this->_tabStop;
-          },
-          // set
-          [this](const bool &value) {
-              this->_tabStop = value;
-          }),
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return self->_tabStop;
+              })
+              .Setter([](UIElement *self, bool value) {
+                  self->_tabStop = value;
+              })),
 
       BackColor(
-          // get
-          [this]() -> Color {
-              return this->_backColor;
-          },
-          // set
-          [this](const Color &value) {
-              this->_transparent = false;
-              this->SetBackColor(value, true);
-          }),
+          Property<Color>::Init(this)
+              .Getter([](UIElement *self) -> Color {
+                  return self->_backColor;
+              })
+              .Setter([](UIElement *self, const Color &value) {
+                  self->_transparent = false;
+                  self->SetBackColor(value, true);
+              })),
 
       TextColor(
-          // get
-          [this]() -> Color {
-              return this->_textColor;
-          },
-          // set
-          [this](const Color &value) {
-              this->_inheritTextColor = false;
-              this->SetTextColor(value, true);
-          }),
+          Property<Color>::Init(this)
+              .Getter([](UIElement *self) -> Color {
+                  return self->_textColor;
+              })
+              .Setter([](UIElement *self, const Color &value) {
+                  self->_inheritTextColor = false;
+                  self->SetTextColor(value, true);
+              })),
 
       Transparent(
-          // get
-          [this]() -> bool {
-              return this->_transparent;
-          },
-          // set
-          [this](const bool &value) {
-              this->_transparent = value;
-              this->Redraw();
-          }),
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return self->_transparent;
+              })
+              .Setter([](UIElement *self, bool value) {
+                  self->_transparent = value;
+                  self->Redraw();
+              })),
 
       InheritTextColor(
-          // get
-          [this]() -> bool {
-              return this->_inheritTextColor;
-          },
-          // set
-          [this](const bool &value) {
-              this->_inheritTextColor = value;
-              this->Redraw();
-          }),
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return self->_inheritTextColor;
+              })
+              .Setter([](UIElement *self, bool value) {
+                  self->_inheritTextColor = value;
+                  self->Redraw();
+              })),
 
       LayoutUpdateCondition(
-          // get
-          [this]() -> sw::LayoutUpdateCondition {
-              return this->_layoutUpdateCondition;
-          },
-          // set
-          [this](const sw::LayoutUpdateCondition &value) {
-              this->_layoutUpdateCondition = value;
-          }),
+          Property<sw::LayoutUpdateCondition>::Init(this)
+              .Getter([](UIElement *self) -> sw::LayoutUpdateCondition {
+                  return self->_layoutUpdateCondition;
+              })
+              .Setter([](UIElement *self, sw::LayoutUpdateCondition value) {
+                  self->_layoutUpdateCondition = value;
+              })),
 
       IsMeasureValid(
-          // get
-          [this]() -> bool {
-              return !this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::MeasureInvalidated);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return !self->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::MeasureInvalidated);
+              })),
 
       MinWidth(
-          // get
-          [this]() -> double {
-              return this->_minSize.width;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_minSize.width != value) {
-                  this->_minSize.width = value;
-                  this->OnMinMaxSizeChanged();
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](UIElement *self) -> double {
+                  return self->_minSize.width;
+              })
+              .Setter([](UIElement *self, double value) {
+                  if (self->_minSize.width != value) {
+                      self->_minSize.width = value;
+                      self->OnMinMaxSizeChanged();
+                  }
+              })),
 
       MinHeight(
-          // get
-          [this]() -> double {
-              return this->_minSize.height;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_minSize.height != value) {
-                  this->_minSize.height = value;
-                  this->OnMinMaxSizeChanged();
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](UIElement *self) -> double {
+                  return self->_minSize.height;
+              })
+              .Setter([](UIElement *self, double value) {
+                  if (self->_minSize.height != value) {
+                      self->_minSize.height = value;
+                      self->OnMinMaxSizeChanged();
+                  }
+              })),
 
       MaxWidth(
-          // get
-          [this]() -> double {
-              return this->_maxSize.width;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_maxSize.width != value) {
-                  this->_maxSize.width = value;
-                  this->OnMinMaxSizeChanged();
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](UIElement *self) -> double {
+                  return self->_maxSize.width;
+              })
+              .Setter([](UIElement *self, double value) {
+                  if (self->_maxSize.width != value) {
+                      self->_maxSize.width = value;
+                      self->OnMinMaxSizeChanged();
+                  }
+              })),
 
       MaxHeight(
-          // get
-          [this]() -> double {
-              return this->_maxSize.height;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_maxSize.height != value) {
-                  this->_maxSize.height = value;
-                  this->OnMinMaxSizeChanged();
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](UIElement *self) -> double {
+                  return self->_maxSize.height;
+              })
+              .Setter([](UIElement *self, double value) {
+                  if (self->_maxSize.height != value) {
+                      self->_maxSize.height = value;
+                      self->OnMinMaxSizeChanged();
+                  }
+              })),
 
       LogicalRect(
-          // get
-          [this]() -> sw::Rect {
-              sw::Size size = this->_origionalSize;
-              sw::Point pos = this->Rect->GetPos();
-              if (this->_parent != nullptr) {
-                  pos.x -= this->_parent->_arrangeOffsetX;
-                  pos.y -= this->_parent->_arrangeOffsetY;
-              }
-              return sw::Rect{
-                  pos.x, pos.y, size.width, size.height};
-          }),
+          Property<sw::Rect>::Init(this)
+              .Getter([](UIElement *self) -> sw::Rect {
+                  sw::Size size = self->_origionalSize;
+                  sw::Point pos = self->Rect->GetPos();
+                  if (self->_parent != nullptr) {
+                      pos.x -= self->_parent->_arrangeOffsetX;
+                      pos.y -= self->_parent->_arrangeOffsetY;
+                  }
+                  return sw::Rect{
+                      pos.x, pos.y, size.width, size.height};
+              })),
 
       IsHitTestVisible(
-          // get
-          [this]() -> bool {
-              return this->_isHitTestVisible;
-          },
-          // set
-          [this](const bool &value) {
-              this->_isHitTestVisible = value;
-          }),
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return self->_isHitTestVisible;
+              })
+              .Setter([](UIElement *self, bool value) {
+                  self->_isHitTestVisible = value;
+              })),
 
       IsFocusedViaTab(
-          // get
-          [this]() -> bool {
-              return this->_focusedViaTab;
-          })
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return self->_focusedViaTab;
+              }))
 {
 }
 

@@ -2,15 +2,16 @@
 
 sw::DockPanel::DockPanel()
     : LastChildFill(
-          // get
-          [this]() -> bool {
-              return this->_dockLayout.lastChildFill;
-          },
-          // set
-          [this](const bool &value) {
-              this->_dockLayout.lastChildFill = value;
-              this->InvalidateMeasure();
-          })
+          Property<bool>::Init(this)
+              .Getter([](DockPanel *self) -> bool {
+                  return self->_dockLayout.lastChildFill;
+              })
+              .Setter([](DockPanel *self, bool value) {
+                  if (self->_dockLayout.lastChildFill != value) {
+                      self->_dockLayout.lastChildFill = value;
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     this->_dockLayout.Associate(this);
     this->HorizontalAlignment = HorizontalAlignment::Stretch;

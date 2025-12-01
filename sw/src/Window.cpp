@@ -23,202 +23,191 @@ namespace
  * @brief 当前线程的活动窗口
  */
 const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
-    []() -> sw::Window * {
-        HWND hwnd = GetActiveWindow();
-        // return _GetWindowPtr(hwnd); // vs2015无法识别此处的作用域？
-        return reinterpret_cast<sw::Window *>(GetPropW(hwnd, _WindowPtrProp));
-    } //
+    Property<sw::Window *>::Init()
+        .Getter([]() -> sw::Window * {
+            HWND hwnd = GetActiveWindow();
+            // return _GetWindowPtr(hwnd); // vs2015无法识别此处的作用域？
+            return reinterpret_cast<sw::Window *>(GetPropW(hwnd, _WindowPtrProp));
+        }) //
 );
 
 /**
  * @brief 当前线程已创建的窗口数
  */
 const sw::ReadOnlyProperty<int> sw::Window::WindowCount(
-    []() -> int {
-        return _windowCount;
-    } //
+    Property<int>::Init()
+        .Getter([]() -> int {
+            return _windowCount;
+        }) //
 );
 
 sw::Window::Window()
     : StartupLocation(
-          // get
-          [this]() -> WindowStartupLocation {
-              return _startupLocation;
-          },
-          // set
-          [this](const WindowStartupLocation &value) {
-              _startupLocation = value;
-          }),
+          Property<WindowStartupLocation>::Init(this)
+              .Getter([](Window *self) -> WindowStartupLocation {
+                  return self->_startupLocation;
+              })
+              .Setter([](Window *self, WindowStartupLocation value) {
+                  self->_startupLocation = value;
+              })),
 
       State(
-          // get
-          [this]() -> WindowState {
-              HWND hwnd = Handle;
-              if (IsIconic(hwnd)) {
-                  return WindowState::Minimized;
-              } else if (IsZoomed(hwnd)) {
-                  return WindowState::Maximized;
-              } else {
-                  return WindowState::Normal;
-              }
-          },
-          // set
-          [this](const WindowState &value) {
-              HWND hwnd = Handle;
-              switch (value) {
-                  case WindowState::Normal:
-                      ShowWindow(hwnd, SW_RESTORE);
-                      break;
-                  case WindowState::Minimized:
-                      ShowWindow(hwnd, SW_MINIMIZE);
-                      break;
-                  case WindowState::Maximized:
-                      ShowWindow(hwnd, SW_MAXIMIZE);
-                      break;
-              }
-          }),
+          Property<WindowState>::Init(this)
+              .Getter([](Window *self) -> WindowState {
+                  HWND hwnd = self->Handle;
+                  if (IsIconic(hwnd)) {
+                      return WindowState::Minimized;
+                  } else if (IsZoomed(hwnd)) {
+                      return WindowState::Maximized;
+                  } else {
+                      return WindowState::Normal;
+                  }
+              })
+              .Setter([](Window *self, WindowState value) {
+                  HWND hwnd = self->Handle;
+                  switch (value) {
+                      case WindowState::Normal:
+                          ShowWindow(hwnd, SW_RESTORE);
+                          break;
+                      case WindowState::Minimized:
+                          ShowWindow(hwnd, SW_MINIMIZE);
+                          break;
+                      case WindowState::Maximized:
+                          ShowWindow(hwnd, SW_MAXIMIZE);
+                          break;
+                  }
+              })),
 
       SizeBox(
-          // get
-          [this]() -> bool {
-              return GetStyle(WS_SIZEBOX);
-          },
-          // set
-          [this](const bool &value) {
-              SetStyle(WS_SIZEBOX, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->GetStyle(WS_SIZEBOX);
+              })
+              .Setter([](Window *self, bool value) {
+                  self->SetStyle(WS_SIZEBOX, value);
+              })),
 
       MaximizeBox(
-          // get
-          [this]() -> bool {
-              return GetStyle(WS_MAXIMIZEBOX);
-          },
-          // set
-          [this](const bool &value) {
-              SetStyle(WS_MAXIMIZEBOX, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->GetStyle(WS_MAXIMIZEBOX);
+              })
+              .Setter([](Window *self, bool value) {
+                  self->SetStyle(WS_MAXIMIZEBOX, value);
+              })),
 
       MinimizeBox(
-          // get
-          [this]() -> bool {
-              return GetStyle(WS_MINIMIZEBOX);
-          },
-          // set
-          [this](const bool &value) {
-              SetStyle(WS_MINIMIZEBOX, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->GetStyle(WS_MINIMIZEBOX);
+              })
+              .Setter([](Window *self, bool value) {
+                  self->SetStyle(WS_MINIMIZEBOX, value);
+              })),
 
       Topmost(
-          // get
-          [this]() -> bool {
-              return GetExtendedStyle(WS_EX_TOPMOST);
-          },
-          // set
-          [this](const bool &value) {
-              /*SetExtendedStyle(WS_EX_TOPMOST, value);*/
-              HWND hWndInsertAfter = value ? HWND_TOPMOST : HWND_NOTOPMOST;
-              SetWindowPos(Handle, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->GetExtendedStyle(WS_EX_TOPMOST);
+              })
+              .Setter([](Window *self, bool value) {
+                  /*SetExtendedStyle(WS_EX_TOPMOST, value);*/
+                  HWND hWndInsertAfter = value ? HWND_TOPMOST : HWND_NOTOPMOST;
+                  SetWindowPos(self->Handle, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+              })),
 
       ToolWindow(
-          // get
-          [this]() -> bool {
-              return GetExtendedStyle(WS_EX_TOOLWINDOW);
-          },
-          // set
-          [this](const bool &value) {
-              SetExtendedStyle(WS_EX_TOOLWINDOW, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->GetExtendedStyle(WS_EX_TOOLWINDOW);
+              })
+              .Setter([](Window *self, bool value) {
+                  self->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
+              })),
 
       Menu(
-          // get
-          [this]() -> sw::Menu * {
-              return _menu;
-          },
-          // set
-          [this](sw::Menu *value) {
-              _menu = value;
-              SetMenu(Handle, value != nullptr ? value->GetHandle() : NULL);
-          }),
+          Property<sw::Menu *>::Init(this)
+              .Getter([](Window *self) -> sw::Menu * {
+                  return self->_menu;
+              })
+              .Setter([](Window *self, sw::Menu *value) {
+                  self->_menu = value;
+                  SetMenu(self->Handle, value != nullptr ? value->GetHandle() : NULL);
+              })),
 
       IsModal(
-          // get
-          [this]() -> bool {
-              return _isModal;
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->_isModal;
+              })),
 
       Owner(
-          // get
-          [this]() -> Window * {
-              HWND hOwner = reinterpret_cast<HWND>(GetWindowLongPtrW(Handle, GWLP_HWNDPARENT));
-              return _GetWindowPtr(hOwner);
-          },
-          // set
-          [this](Window *value) {
-              HWND hOwner = value ? value->Handle.Get() : NULL;
-              SetWindowLongPtrW(Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
-          }),
+          Property<Window *>::Init(this)
+              .Getter([](Window *self) -> Window * {
+                  HWND hOwner = reinterpret_cast<HWND>(GetWindowLongPtrW(self->Handle, GWLP_HWNDPARENT));
+                  return _GetWindowPtr(hOwner);
+              })
+              .Setter([](Window *self, Window *value) {
+                  HWND hOwner = value ? value->Handle.Get() : NULL;
+                  SetWindowLongPtrW(self->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
+              })),
 
       IsLayered(
-          // get
-          [this]() -> bool {
-              return GetExtendedStyle(WS_EX_LAYERED);
-          },
-          // set
-          [this](const bool &value) {
-              SetExtendedStyle(WS_EX_LAYERED, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->GetExtendedStyle(WS_EX_LAYERED);
+              })
+              .Setter([](Window *self, bool value) {
+                  self->SetExtendedStyle(WS_EX_LAYERED, value);
+              })),
 
       Opacity(
-          // get
-          [this]() -> double {
-              BYTE result;
-              return GetLayeredWindowAttributes(Handle, NULL, &result, NULL) ? (result / 255.0) : 1.0;
-          },
-          // set
-          [this](const double &value) {
-              double opacity = Utils::Min(1.0, Utils::Max(0.0, value));
-              SetLayeredWindowAttributes(Handle, 0, (BYTE)std::lround(255 * opacity), LWA_ALPHA);
-          }),
+          Property<double>::Init(this)
+              .Getter([](Window *self) -> double {
+                  BYTE result;
+                  return GetLayeredWindowAttributes(self->Handle, NULL, &result, NULL) ? (result / 255.0) : 1.0;
+              })
+              .Setter([](Window *self, double value) {
+                  double opacity = Utils::Min(1.0, Utils::Max(0.0, value));
+                  SetLayeredWindowAttributes(self->Handle, 0, (BYTE)std::lround(255 * opacity), LWA_ALPHA);
+              })),
 
       Borderless(
-          // get
-          [this]() -> bool {
-              return _isBorderless;
-          },
-          // set
-          [this](const bool &value) {
-              if (_isBorderless != value) {
-                  _isBorderless = value;
-                  SetStyle(WS_CAPTION | WS_THICKFRAME, !value);
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->_isBorderless;
+              })
+              .Setter([](Window *self, bool value) {
+                  if (self->_isBorderless != value) {
+                      self->_isBorderless = value;
+                      self->SetStyle(WS_CAPTION | WS_THICKFRAME, !value);
+                  }
+              })),
 
       DialogResult(
-          // get
-          [this]() -> int {
-              return _dialogResult;
-          },
-          // set
-          [this](const int &value) {
-              _dialogResult = value;
-              Close();
-          }),
+          Property<int>::Init(this)
+              .Getter([](Window *self) -> int {
+                  return self->_dialogResult;
+              })
+              .Setter([](Window *self, int value) {
+                  self->_dialogResult = value;
+                  self->Close();
+              })),
 
       RestoreRect(
-          // get
-          [this]() -> sw::Rect {
-              WINDOWPLACEMENT wp{};
-              wp.length = sizeof(WINDOWPLACEMENT);
-              GetWindowPlacement(Handle, &wp);
-              return wp.rcNormalPosition;
-          }),
+          Property<sw::Rect>::Init(this)
+              .Getter([](Window *self) -> sw::Rect {
+                  WINDOWPLACEMENT wp{};
+                  wp.length = sizeof(WINDOWPLACEMENT);
+                  GetWindowPlacement(self->Handle, &wp);
+                  return wp.rcNormalPosition;
+              })),
 
       IsLayoutDisabled(
-          // get
-          [this]() -> bool {
-              return _IsLayoutDisabled();
-          })
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->_IsLayoutDisabled();
+              }))
 {
     InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
     _SetWindowPtr(Handle, *this);
@@ -407,7 +396,7 @@ void sw::Window::OnMinMaxSizeChanged()
 void sw::Window::OnFirstShow()
 {
     // 若未设置焦点元素则默认第一个元素为焦点元素
-    if (ChildCount && GetAncestor(GetFocus(), GA_ROOT) != Handle) {
+    if (ChildCount > 0 && (GetAncestor(GetFocus(), GA_ROOT) != Handle)) {
         GetChildAt(0).Focused = true;
     }
 
