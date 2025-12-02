@@ -944,7 +944,7 @@ namespace sw
                 std::is_base_of<WndBase, TDerived>::value && _IsWritableProperty<TProperty>::value>::type
         {
             auto setter = Reflection::GetPropertySetter(prop);
-            setter(*this, value);
+            setter(*this, std::forward<typename TProperty::TSetterParam>(value));
         }
     };
 }

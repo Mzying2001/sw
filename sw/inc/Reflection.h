@@ -290,7 +290,7 @@ namespace sw
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
-                (obj.DynamicCast<T>().*prop).Set(value);
+                (obj.DynamicCast<T>().*prop).Set(std::forward<typename TProperty::TSetterParam>(value));
             };
         }
 
