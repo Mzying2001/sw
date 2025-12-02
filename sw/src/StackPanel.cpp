@@ -2,15 +2,17 @@
 
 sw::StackPanel::StackPanel()
     : Orientation(
-          // get
-          [this]() -> sw::Orientation {
-              return this->_stackLayout.orientation;
-          },
-          // set
-          [this](const sw::Orientation &value) {
-              this->_stackLayout.orientation = value;
-              this->InvalidateMeasure();
-          })
+          Property<sw::Orientation>::Init(this)
+              .Getter([](StackPanel *self) -> sw::Orientation {
+                  return self->_stackLayout.orientation;
+              })
+              .Setter([](StackPanel *self, sw::Orientation value) {
+                  if (self->_stackLayout.orientation != value) {
+                      self->_stackLayout.orientation = value;
+                      self->InvalidateMeasure();
+                  }
+              }))
+
 {
     this->_stackLayout.Associate(this);
     this->HorizontalAlignment = HorizontalAlignment::Stretch;

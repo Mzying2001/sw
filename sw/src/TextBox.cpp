@@ -2,61 +2,57 @@
 
 sw::TextBox::TextBox()
     : AutoWrap(
-          // get
-          [this]() -> bool {
-              return this->_autoWrap;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->_autoWrap == value) {
-                  return;
-              }
-              this->_autoWrap = value;
-              if (this->MultiLine && this->GetStyle(ES_AUTOHSCROLL) == value) {
-                  this->SetStyle(ES_AUTOHSCROLL, !value);
-                  this->ResetHandle();
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](TextBox *self) -> bool {
+                  return self->_autoWrap;
+              })
+              .Setter([](TextBox *self, bool value) {
+                  if (self->_autoWrap == value) {
+                      return;
+                  }
+                  self->_autoWrap = value;
+                  if (self->MultiLine && self->GetStyle(ES_AUTOHSCROLL) == value) {
+                      self->SetStyle(ES_AUTOHSCROLL, !value);
+                      self->ResetHandle();
+                  }
+              })),
 
       MultiLine(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(ES_MULTILINE);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->MultiLine != value) {
-                  this->SetStyle(ES_MULTILINE, value);
-                  this->SetStyle(ES_AUTOHSCROLL, !(value && this->_autoWrap));
-                  this->ResetHandle();
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](TextBox *self) -> bool {
+                  return self->GetStyle(ES_MULTILINE);
+              })
+              .Setter([](TextBox *self, bool value) {
+                  if (self->MultiLine != value) {
+                      self->SetStyle(ES_MULTILINE, value);
+                      self->SetStyle(ES_AUTOHSCROLL, !(value && self->_autoWrap));
+                      self->ResetHandle();
+                  }
+              })),
 
       HorizontalScrollBar(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(WS_HSCROLL);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->HorizontalScrollBar != value) {
-                  this->SetStyle(WS_HSCROLL, value);
-                  this->ResetHandle();
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](TextBox *self) -> bool {
+                  return self->GetStyle(WS_HSCROLL);
+              })
+              .Setter([](TextBox *self, bool value) {
+                  if (self->HorizontalScrollBar != value) {
+                      self->SetStyle(WS_HSCROLL, value);
+                      self->ResetHandle();
+                  }
+              })),
 
       VerticalScrollBar(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(WS_VSCROLL);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->VerticalScrollBar != value) {
-                  this->SetStyle(WS_VSCROLL, value);
-                  this->ResetHandle();
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](TextBox *self) -> bool {
+                  return self->GetStyle(WS_VSCROLL);
+              })
+              .Setter([](TextBox *self, bool value) {
+                  if (self->VerticalScrollBar != value) {
+                      self->SetStyle(WS_VSCROLL, value);
+                      self->ResetHandle();
+                  }
+              }))
 {
     this->InitTextBoxBase(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | ES_LEFT | ES_AUTOHSCROLL | ES_AUTOVSCROLL, WS_EX_CLIENTEDGE);
     this->Rect = sw::Rect(0, 0, 100, 24);

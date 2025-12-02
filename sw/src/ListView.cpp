@@ -65,78 +65,73 @@ sw::ListViewColumn::operator LVCOLUMNW() const
 
 sw::ListView::ListView()
     : ColumnsCount(
-          // get
-          [this]() -> int {
-              return this->_GetColCount();
-          }),
+          Property<int>::Init(this)
+              .Getter([](ListView *self) -> int {
+                  return self->_GetColCount();
+              })),
 
       GridLines(
-          // get
-          [this]() -> bool {
-              return this->_GetExtendedListViewStyle() & LVS_EX_GRIDLINES;
-          },
-          // set
-          [this](const bool &value) {
-              DWORD style;
-              style = this->_GetExtendedListViewStyle();
-              style = value ? (style | LVS_EX_GRIDLINES) : (style & (~LVS_EX_GRIDLINES));
-              this->_SetExtendedListViewStyle(style);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ListView *self) -> bool {
+                  return self->_GetExtendedListViewStyle() & LVS_EX_GRIDLINES;
+              })
+              .Setter([](ListView *self, bool value) {
+                  DWORD style;
+                  style = self->_GetExtendedListViewStyle();
+                  style = value ? (style | LVS_EX_GRIDLINES) : (style & (~LVS_EX_GRIDLINES));
+                  self->_SetExtendedListViewStyle(style);
+              })),
 
       MultiSelect(
-          // get
-          [this]() -> bool {
-              return !(this->GetStyle() & LVS_SINGLESEL);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(LVS_SINGLESEL, !value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ListView *self) -> bool {
+                  return !(self->GetStyle() & LVS_SINGLESEL);
+              })
+              .Setter([](ListView *self, bool value) {
+                  self->SetStyle(LVS_SINGLESEL, !value);
+              })),
 
       SelectedCount(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(LVM_GETSELECTEDCOUNT, 0, 0);
-          }),
+          Property<int>::Init(this)
+              .Getter([](ListView *self) -> int {
+                  return (int)self->SendMessageW(LVM_GETSELECTEDCOUNT, 0, 0);
+              })),
 
       CheckBoxes(
-          // get
-          [this]() -> bool {
-              return this->_GetExtendedListViewStyle() & LVS_EX_CHECKBOXES;
-          },
-          // set
-          [this](const bool &value) {
-              DWORD style;
-              style = this->_GetExtendedListViewStyle();
-              style = value ? (style | LVS_EX_CHECKBOXES) : (style & (~LVS_EX_CHECKBOXES));
-              this->_SetExtendedListViewStyle(style);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ListView *self) -> bool {
+                  return self->_GetExtendedListViewStyle() & LVS_EX_CHECKBOXES;
+              })
+              .Setter([](ListView *self, bool value) {
+                  DWORD style;
+                  style = self->_GetExtendedListViewStyle();
+                  style = value ? (style | LVS_EX_CHECKBOXES) : (style & (~LVS_EX_CHECKBOXES));
+                  self->_SetExtendedListViewStyle(style);
+              })),
 
       TopIndex(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(LVM_GETTOPINDEX, 0, 0);
-          }),
+          Property<int>::Init(this)
+              .Getter([](ListView *self) -> int {
+                  return (int)self->SendMessageW(LVM_GETTOPINDEX, 0, 0);
+              })),
 
       ShareImageLists(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(LVS_SHAREIMAGELISTS);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(LVS_SHAREIMAGELISTS, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ListView *self) -> bool {
+                  return self->GetStyle(LVS_SHAREIMAGELISTS);
+              })
+              .Setter([](ListView *self, bool value) {
+                  self->SetStyle(LVS_SHAREIMAGELISTS, value);
+              })),
 
       Editable(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(LVS_EDITLABELS);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(LVS_EDITLABELS, value);
-          })
+          Property<bool>::Init(this)
+              .Getter([](ListView *self) -> bool {
+                  return self->GetStyle(LVS_EDITLABELS);
+              })
+              .Setter([](ListView *self, bool value) {
+                  self->SetStyle(LVS_EDITLABELS, value);
+              }))
 {
     this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT, 0);
     this->_SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);

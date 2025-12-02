@@ -7,48 +7,44 @@ sw::ToolTip::ToolTip()
 
 sw::ToolTip::ToolTip(DWORD style)
     : InitialDelay(
-          // get
-          [this]() -> int {
-              return int(this->SendMessageW(TTM_GETDELAYTIME, TTDT_INITIAL, 0));
-          },
-          // set
-          [this](const int &value) {
-              this->SendMessageW(TTM_SETDELAYTIME, TTDT_AUTOMATIC, static_cast<LPARAM>(value));
-          }),
+          Property<int>::Init(this)
+              .Getter([](ToolTip *self) -> int {
+                  return int(self->SendMessageW(TTM_GETDELAYTIME, TTDT_INITIAL, 0));
+              })
+              .Setter([](ToolTip *self, int value) {
+                  self->SendMessageW(TTM_SETDELAYTIME, TTDT_AUTOMATIC, static_cast<LPARAM>(value));
+              })),
 
       ToolTipIcon(
-          // get
-          [this]() -> sw::ToolTipIcon {
-              return this->_icon;
-          },
-          // set
-          [this](const sw::ToolTipIcon &value) {
-              this->_icon = value;
-              this->_UpdateIconAndTitle();
-          }),
+          Property<sw::ToolTipIcon>::Init(this)
+              .Getter([](ToolTip *self) -> sw::ToolTipIcon {
+                  return self->_icon;
+              })
+              .Setter([](ToolTip *self, sw::ToolTipIcon value) {
+                  self->_icon = value;
+                  self->_UpdateIconAndTitle();
+              })),
 
       ToolTipTitle(
-          // get
-          [this]() -> std::wstring {
-              return this->_title;
-          },
-          // set
-          [this](const std::wstring &value) {
-              this->_title = value;
-              this->_UpdateIconAndTitle();
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](ToolTip *self) -> std::wstring {
+                  return self->_title;
+              })
+              .Setter([](ToolTip *self, const std::wstring &value) {
+                  self->_title = value;
+                  self->_UpdateIconAndTitle();
+              })),
 
       MaxTipWidth(
-          // get
-          [this]() -> double {
-              int w = int(this->SendMessageW(TTM_GETMAXTIPWIDTH, 0, 0));
-              return (w == -1) ? -1 : Dip::PxToDipX(w);
-          },
-          // set
-          [this](const double &value) {
-              int w = value < 0 ? -1 : Dip::DipToPxX(value);
-              this->SendMessageW(TTM_SETMAXTIPWIDTH, 0, w);
-          })
+          Property<double>::Init(this)
+              .Getter([](ToolTip *self) -> double {
+                  int w = int(self->SendMessageW(TTM_GETMAXTIPWIDTH, 0, 0));
+                  return (w == -1) ? -1 : Dip::PxToDipX(w);
+              })
+              .Setter([](ToolTip *self, double value) {
+                  int w = value < 0 ? -1 : Dip::DipToPxX(value);
+                  self->SendMessageW(TTM_SETMAXTIPWIDTH, 0, w);
+              }))
 {
     this->InitControl(TOOLTIPS_CLASSW, L"", style, 0);
 }

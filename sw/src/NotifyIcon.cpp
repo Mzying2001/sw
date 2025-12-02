@@ -18,71 +18,67 @@ namespace
 
 sw::NotifyIcon::NotifyIcon()
     : Icon(
-          // get
-          [this]() -> HICON {
-              return _nid.hIcon;
-          },
-          // set
-          [this](HICON value) {
-              _nid.hIcon = value;
-              _nid.uFlags |= NIF_ICON;
-              _ModifyIcon();
-              _nid.uFlags &= ~NIF_ICON;
-          }),
+          Property<HICON>::Init(this)
+              .Getter([](NotifyIcon *self) -> HICON {
+                  return self->_nid.hIcon;
+              })
+              .Setter([](NotifyIcon *self, HICON value) {
+                  self->_nid.hIcon = value;
+                  self->_nid.uFlags |= NIF_ICON;
+                  self->_ModifyIcon();
+                  self->_nid.uFlags &= ~NIF_ICON;
+              })),
 
       ToolTip(
-          // get
-          [this]() -> std::wstring {
-              return _nid.szTip;
-          },
-          // set
-          [this](const std::wstring &value) {
-              if (value.empty()) {
-                  _nid.szTip[0] = L'\0';
-              } else {
-                  constexpr size_t bufsize = sizeof(_nid.szTip) / sizeof(*_nid.szTip);
-                  StringCchCopyNW(_nid.szTip, bufsize, value.c_str(), bufsize - 1);
-              }
-              _nid.uFlags |= NIF_TIP;
-              _ModifyIcon();
-              _nid.uFlags &= ~NIF_TIP;
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](NotifyIcon *self) -> std::wstring {
+                  return self->_nid.szTip;
+              })
+              .Setter([](NotifyIcon *self, const std::wstring &value) {
+                  if (value.empty()) {
+                      self->_nid.szTip[0] = L'\0';
+                  } else {
+                      constexpr size_t bufsize = sizeof(_nid.szTip) / sizeof(*_nid.szTip);
+                      StringCchCopyNW(self->_nid.szTip, bufsize, value.c_str(), bufsize - 1);
+                  }
+                  self->_nid.uFlags |= NIF_TIP;
+                  self->_ModifyIcon();
+                  self->_nid.uFlags &= ~NIF_TIP;
+              })),
 
       Visible(
-          // get
-          [this]() -> bool {
-              return (_nid.dwState & NIS_HIDDEN) == 0;
-          },
-          // set
-          [this](bool value) {
-              value ? Show() : Hide();
-          }),
+          Property<bool>::Init(this)
+              .Getter([](NotifyIcon *self) -> bool {
+                  return (self->_nid.dwState & NIS_HIDDEN) == 0;
+              })
+              .Setter([](NotifyIcon *self, bool value) {
+                  value ? self->Show() : self->Hide();
+              })),
 
       ContextMenu(
-          // get
-          [this]() -> sw::ContextMenu * {
-              return _contextMenu;
-          },
-          // set
-          [this](sw::ContextMenu *value) {
-              _contextMenu = value;
-          }),
+          Property<sw::ContextMenu *>::Init(this)
+              .Getter([](NotifyIcon *self) -> sw::ContextMenu * {
+                  return self->_contextMenu;
+              })
+              .Setter([](NotifyIcon *self, sw::ContextMenu *value) {
+                  self->_contextMenu = value;
+              })),
 
       Rect(
-          // get
-          [this]() -> sw::Rect {
-              NOTIFYICONIDENTIFIER iconId{};
-              iconId.cbSize   = sizeof(NOTIFYICONIDENTIFIER);
-              iconId.hWnd     = _nid.hWnd;
-              iconId.uID      = _nid.uID;
-              iconId.guidItem = GUID_NULL;
-              RECT iconRect{};
-              if (FAILED(Shell_NotifyIconGetRect(&iconId, &iconRect))) {
-                  return sw::Rect{};
-              } else {
-                  return static_cast<sw::Rect>(iconRect);
-              }
-          })
+          Property<sw::Rect>::Init(this)
+              .Getter([](NotifyIcon *self) -> sw::Rect {
+                  NOTIFYICONIDENTIFIER iconId{};
+                  iconId.cbSize   = sizeof(NOTIFYICONIDENTIFIER);
+                  iconId.hWnd     = self->_nid.hWnd;
+                  iconId.uID      = self->_nid.uID;
+                  iconId.guidItem = GUID_NULL;
+                  RECT iconRect{};
+                  if (FAILED(Shell_NotifyIconGetRect(&iconId, &iconRect))) {
+                      return sw::Rect{};
+                  } else {
+                      return static_cast<sw::Rect>(iconRect);
+                  }
+              }))
 {
     _nid.cbSize           = sizeof(NOTIFYICONDATAW);
     _nid.uID              = _NotifyIconId;

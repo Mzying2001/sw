@@ -8,18 +8,17 @@ namespace
 
 sw::ComboBox::ComboBox()
     : IsEditable(
-          // get
-          [this]() -> bool {
-              return this->GetStyle() == _ComboBoxStyle_Editable;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->IsEditable != value) {
-                  this->SetStyle(value ? _ComboBoxStyle_Editable : _ComboBoxStyle_Default);
-                  this->ResetHandle();
-                  this->SetInternalText(this->WndBase::GetInternalText()); // 使切换后文本框内容能够保留
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](ComboBox *self) -> bool {
+                  return self->GetStyle() == _ComboBoxStyle_Editable;
+              })
+              .Setter([](ComboBox *self, bool value) {
+                  if (self->IsEditable != value) {
+                      self->SetStyle(value ? _ComboBoxStyle_Editable : _ComboBoxStyle_Default);
+                      self->ResetHandle();
+                      self->SetInternalText(self->WndBase::GetInternalText()); // 使切换后文本框内容能够保留
+                  }
+              }))
 {
     this->InitControl(L"COMBOBOX", L"", _ComboBoxStyle_Default, 0);
     this->Rect    = sw::Rect(0, 0, 100, 24);

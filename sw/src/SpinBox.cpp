@@ -2,70 +2,61 @@
 
 sw::SpinBox::SpinBox()
     : Minimum(
-          // get
-          [this]() -> int {
-              int result = 0;
-              _GetRange32(&result, nullptr);
-              return result;
-          },
-          // set
-          [this](const int &value) {
-              int max = 0;
-              _GetRange32(nullptr, &max);
-              _SetRange32(value, max);
-          }),
+          Property<int>::Init(this)
+              .Getter([](SpinBox *self) -> int {
+                  int result = 0;
+                  self->_GetRange32(&result, nullptr);
+                  return result;
+              })
+              .Setter([](SpinBox *self, int value) {
+                  int max = 0;
+                  self->_GetRange32(nullptr, &max);
+                  self->_SetRange32(value, max);
+              })),
 
       Maximum(
-          // get
-          [this]() -> int {
-              int result = 0;
-              _GetRange32(nullptr, &result);
-              return result;
-          },
-          // set
-          [this](const int &value) {
-              int min = 0;
-              _GetRange32(&min, nullptr);
-              _SetRange32(min, value);
-          }),
+          Property<int>::Init(this)
+              .Getter([](SpinBox *self) -> int {
+                  int result = 0;
+                  self->_GetRange32(nullptr, &result);
+                  return result;
+              })
+              .Setter([](SpinBox *self, int value) {
+                  int min = 0;
+                  self->_GetRange32(&min, nullptr);
+                  self->_SetRange32(min, value);
+              })),
 
       Value(
-          // get
-          [this]() -> int {
-              return _GetPos32();
-          },
-          // set
-          [this](const int &value) {
-              _SetPos32(value);
-          }),
+          Property<int>::Init(this)
+              .Getter<&SpinBox::_GetPos32>()
+              .Setter<&SpinBox::_SetPos32>()),
 
       Hexadecimal(
-          // get
-          [this]() -> bool {
-              return ::SendMessageW(_hUpDown, UDM_GETBASE, 0, 0) == 16;
-          },
-          // set
-          [this](const bool &value) {
-              WPARAM base = value ? 16 : 10;
-              ::SendMessageW(_hUpDown, UDM_SETBASE, base, 0);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](SpinBox *self) -> bool {
+                  return ::SendMessageW(self->_hUpDown, UDM_GETBASE, 0, 0) == 16;
+              })
+              .Setter([](SpinBox *self, bool value) {
+                  WPARAM base = value ? 16 : 10;
+                  ::SendMessageW(self->_hUpDown, UDM_SETBASE, base, 0);
+              })),
 
       Increment(
-          // get
-          [this]() -> uint32_t {
-              if (_accels.empty())
-                  _InitAccels();
-              return _accels[0].nInc;
-          },
-          // set
-          [this](const uint32_t &value) {
-              if (_accels.empty()) {
-                  _accels.push_back({0, value});
-              } else {
-                  _accels[0].nInc = value;
-              }
-              _SetAccel(_accels.size(), &_accels[0]);
-          })
+          Property<uint32_t>::Init(this)
+              .Getter([](SpinBox *self) -> uint32_t {
+                  if (self->_accels.empty())
+                      self->_InitAccels();
+                  return self->_accels[0].nInc;
+              })
+              .Setter([](SpinBox *self, uint32_t value) {
+                  if (self->_accels.empty()) {
+                      self->_accels.push_back({0, value});
+                  } else {
+                      self->_accels[0].nInc = value;
+                  }
+                  self->_SetAccel(self->_accels.size(), &self->_accels[0]);
+              }))
 {
     InitTextBoxBase(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | ES_LEFT | ES_AUTOHSCROLL | ES_AUTOVSCROLL, WS_EX_CLIENTEDGE);
     Rect = sw::Rect{0, 0, 100, 24};

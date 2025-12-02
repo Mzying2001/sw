@@ -71,7 +71,6 @@
 #include "ProcMsg.h"
 #include "ProgressBar.h"
 #include "Property.h"
-#include "PropertyLite.h"
 #include "RadioButton.h"
 #include "Rect.h"
 #include "Reflection.h"

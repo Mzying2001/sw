@@ -2,33 +2,31 @@
 
 sw::ListBox::ListBox()
     : TopIndex(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(LB_GETTOPINDEX, 0, 0);
-          },
-          // set
-          [this](const int &value) {
-              this->SendMessageW(LB_SETTOPINDEX, value, 0);
-          }),
+          Property<int>::Init(this)
+              .Getter([](ListBox *self) -> int {
+                  return (int)self->SendMessageW(LB_GETTOPINDEX, 0, 0);
+              })
+              .Setter([](ListBox *self, int value) {
+                  self->SendMessageW(LB_SETTOPINDEX, value, 0);
+              })),
 
       MultiSelect(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(LBS_MULTIPLESEL);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->GetStyle(LBS_MULTIPLESEL) != value) {
-                  this->SetStyle(LBS_MULTIPLESEL, value);
-                  this->ResetHandle();
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ListBox *self) -> bool {
+                  return self->GetStyle(LBS_MULTIPLESEL);
+              })
+              .Setter([](ListBox *self, bool value) {
+                  if (self->GetStyle(LBS_MULTIPLESEL) != value) {
+                      self->SetStyle(LBS_MULTIPLESEL, value);
+                      self->ResetHandle();
+                  }
+              })),
 
       SelectedCount(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(LB_GETSELCOUNT, 0, 0);
-          })
+          Property<int>::Init(this)
+              .Getter([](ListBox *self) -> int {
+                  return (int)self->SendMessageW(LB_GETSELCOUNT, 0, 0);
+              }))
 {
     this->InitControl(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY, 0);
     this->Rect    = sw::Rect(0, 0, 150, 200);

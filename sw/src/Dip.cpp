@@ -47,15 +47,17 @@ namespace
 /*================================================================================*/
 
 const sw::ReadOnlyProperty<double> sw::Dip::ScaleX(
-    []() -> double {
-        return _scaleInfo.scaleX;
-    } //
+    Property<double>::Init()
+        .Getter([]() -> double {
+            return _scaleInfo.scaleX;
+        }) //
 );
 
 const sw::ReadOnlyProperty<double> sw::Dip::ScaleY(
-    []() -> double {
-        return _scaleInfo.scaleY;
-    } //
+    Property<double>::Init()
+        .Getter([]() -> double {
+            return _scaleInfo.scaleY;
+        }) //
 );
 
 void sw::Dip::Update(int dpiX, int dpiY)

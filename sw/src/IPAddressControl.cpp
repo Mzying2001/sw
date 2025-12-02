@@ -15,23 +15,22 @@ namespace
 
 sw::IPAddressControl::IPAddressControl()
     : IsBlank(
-          // get
-          [this]() -> bool {
-              return ::SendMessageW(_hIPAddrCtrl, IPM_ISBLANK, 0, 0);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](IPAddressControl *self) -> bool {
+                  return ::SendMessageW(self->_hIPAddrCtrl, IPM_ISBLANK, 0, 0);
+              })),
 
       Address(
-          // get
-          [this]() -> uint32_t {
-              uint32_t result;
-              ::SendMessageW(_hIPAddrCtrl, IPM_GETADDRESS, 0, reinterpret_cast<LPARAM>(&result));
-              return result;
-          },
-          // set
-          [this](const uint32_t &value) {
-              ::SendMessageW(_hIPAddrCtrl, IPM_SETADDRESS, 0, (LPARAM)value);
-              OnAddressChanged();
-          })
+          Property<uint32_t>::Init(this)
+              .Getter([](IPAddressControl *self) -> uint32_t {
+                  uint32_t result;
+                  ::SendMessageW(self->_hIPAddrCtrl, IPM_GETADDRESS, 0, reinterpret_cast<LPARAM>(&result));
+                  return result;
+              })
+              .Setter([](IPAddressControl *self, uint32_t value) {
+                  ::SendMessageW(self->_hIPAddrCtrl, IPM_SETADDRESS, 0, (LPARAM)value);
+                  self->OnAddressChanged();
+              }))
 {
     Rect    = sw::Rect{0, 0, 150, 24};
     TabStop = true;

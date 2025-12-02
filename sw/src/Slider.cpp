@@ -2,65 +2,60 @@
 
 sw::Slider::Slider()
     : Minimum(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(TBM_GETRANGEMIN, 0, 0);
-          },
-          // set
-          [this](const int &value) {
-              this->SendMessageW(TBM_SETRANGEMIN, TRUE, value);
-          }),
+          Property<int>::Init(this)
+              .Getter([](Slider *self) -> int {
+                  return (int)self->SendMessageW(TBM_GETRANGEMIN, 0, 0);
+              })
+              .Setter([](Slider *self, int value) {
+                  self->SendMessageW(TBM_SETRANGEMIN, TRUE, value);
+              })),
 
       Maximum(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(TBM_GETRANGEMAX, 0, 0);
-          },
-          // set
-          [this](const int &value) {
-              this->SendMessageW(TBM_SETRANGEMAX, TRUE, value);
-          }),
+          Property<int>::Init(this)
+              .Getter([](Slider *self) -> int {
+                  return (int)self->SendMessageW(TBM_GETRANGEMAX, 0, 0);
+              })
+              .Setter([](Slider *self, int value) {
+                  self->SendMessageW(TBM_SETRANGEMAX, TRUE, value);
+              })),
 
       Value(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(TBM_GETPOS, 0, 0);
-          },
-          // set
-          [this](const int &value) {
-              this->SendMessageW(TBM_SETPOS, TRUE, value);
-              this->OnValueChanged();
-              this->OnEndTrack();
-          }),
+          Property<int>::Init(this)
+              .Getter([](Slider *self) -> int {
+                  return (int)self->SendMessageW(TBM_GETPOS, 0, 0);
+              })
+              .Setter([](Slider *self, int value) {
+                  self->SendMessageW(TBM_SETPOS, TRUE, value);
+                  self->OnValueChanged();
+                  self->OnEndTrack();
+              })),
 
       Vertical(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(TBS_VERT);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(TBS_VERT, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Slider *self) -> bool {
+                  return self->GetStyle(TBS_VERT);
+              })
+              .Setter([](Slider *self, bool value) {
+                  self->SetStyle(TBS_VERT, value);
+              })),
 
       ValueTooltips(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(TBS_TOOLTIPS);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->ValueTooltips != value) {
-                  int maximum  = this->Maximum;
-                  int minimum  = this->Minimum;
-                  int position = this->Value;
-                  this->SetStyle(TBS_TOOLTIPS, value);
-                  this->ResetHandle();
-                  this->SendMessageW(TBM_SETRANGEMIN, FALSE, minimum);
-                  this->SendMessageW(TBM_SETRANGEMAX, FALSE, maximum);
-                  this->SendMessageW(TBM_SETPOS, TRUE, position);
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](Slider *self) -> bool {
+                  return self->GetStyle(TBS_TOOLTIPS);
+              })
+              .Setter([](Slider *self, bool value) {
+                  if (self->ValueTooltips != value) {
+                      int maximum  = self->Maximum;
+                      int minimum  = self->Minimum;
+                      int position = self->Value;
+                      self->SetStyle(TBS_TOOLTIPS, value);
+                      self->ResetHandle();
+                      self->SendMessageW(TBM_SETRANGEMIN, FALSE, minimum);
+                      self->SendMessageW(TBM_SETRANGEMAX, FALSE, maximum);
+                      self->SendMessageW(TBM_SETPOS, TRUE, position);
+                  }
+              }))
 {
     this->InitControl(TRACKBAR_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TBS_NOTIFYBEFOREMOVE | TBS_DOWNISLEFT, 0);
     this->Rect    = sw::Rect(0, 0, 150, 30);

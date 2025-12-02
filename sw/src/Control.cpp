@@ -2,20 +2,20 @@
 
 sw::Control::Control()
     : ControlId(
-          // get
-          [this]() -> int {
-              return GetDlgCtrlID(_hwnd);
-          }),
+          Property<int>::Init(this)
+              .Getter([](Control *self) -> int {
+                  return GetDlgCtrlID(self->_hwnd);
+              })),
 
       IsInHierarchy(
-          // get
-          [this]() -> bool {
-              if (_hwnd == NULL || _isDestroyed) {
-                  return false;
-              }
-              auto container = WndBase::_GetControlInitContainer();
-              return container == nullptr || GetParent(_hwnd) != container->_hwnd;
-          })
+          Property<bool>::Init(this)
+              .Getter([](Control *self) -> bool {
+                  if (self->_hwnd == NULL || self->_isDestroyed) {
+                      return false;
+                  }
+                  auto container = WndBase::_GetControlInitContainer();
+                  return container == nullptr || GetParent(self->_hwnd) != container->_hwnd;
+              }))
 {
 }
 

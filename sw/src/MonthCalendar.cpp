@@ -2,14 +2,13 @@
 
 sw::MonthCalendar::MonthCalendar()
     : ShowToday(
-          // get
-          [this]() -> bool {
-              return !this->GetStyle(MCS_NOTODAY);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(MCS_NOTODAY, !value);
-          })
+          Property<bool>::Init(this)
+              .Getter([](MonthCalendar *self) -> bool {
+                  return !self->GetStyle(MCS_NOTODAY);
+              })
+              .Setter([](MonthCalendar *self, bool value) {
+                  self->SetStyle(MCS_NOTODAY, !value);
+              }))
 {
     this->InitControl(MONTHCAL_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
     this->Rect    = {0, 0, 250, 200};

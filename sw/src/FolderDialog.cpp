@@ -11,60 +11,56 @@ namespace
 
 sw::FolderBrowserDialog::FolderBrowserDialog()
     : BufferSize(
-          // get
-          [this]() -> int {
-              return (int)_buffer.size();
-          },
-          // set
-          [this](const int &value) {
-              _buffer.resize(Utils::Max(MAX_PATH, value));
-              ClearBuffer();
-          }),
+          Property<int>::Init(this)
+              .Getter([](FolderBrowserDialog *self) -> int {
+                  return (int)self->_buffer.size();
+              })
+              .Setter([](FolderBrowserDialog *self, int value) {
+                  self->_buffer.resize(Utils::Max(MAX_PATH, value));
+                  self->ClearBuffer();
+              })),
 
       Flags(
-          // get
-          [this]() -> FolderDialogFlags {
-              return static_cast<FolderDialogFlags>(_bi.ulFlags);
-          },
-          // set
-          [this](const FolderDialogFlags &value) {
-              _bi.ulFlags = static_cast<UINT>(value);
-          }),
+          Property<FolderDialogFlags>::Init(this)
+              .Getter([](FolderBrowserDialog *self) -> FolderDialogFlags {
+                  return static_cast<FolderDialogFlags>(self->_bi.ulFlags);
+              })
+              .Setter([](FolderBrowserDialog *self, FolderDialogFlags value) {
+                  self->_bi.ulFlags = static_cast<UINT>(value);
+              })),
 
       Description(
-          // get
-          [this]() -> std::wstring {
-              return _description;
-          },
-          // set
-          [this](const std::wstring &value) {
-              _description = value;
-              if (_description.empty()) {
-                  _bi.lpszTitle = nullptr;
-              } else {
-                  _bi.lpszTitle = _description.c_str();
-              }
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](FolderBrowserDialog *self) -> std::wstring {
+                  return self->_description;
+              })
+              .Setter([](FolderBrowserDialog *self, const std::wstring &value) {
+                  self->_description = value;
+                  if (self->_description.empty()) {
+                      self->_bi.lpszTitle = nullptr;
+                  } else {
+                      self->_bi.lpszTitle = self->_description.c_str();
+                  }
+              })),
 
       SelectedPath(
-          // get
-          [this]() -> std::wstring {
-              return GetBuffer();
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](FolderBrowserDialog *self) -> std::wstring {
+                  return self->GetBuffer();
+              })),
 
       NewFolderButton(
-          // get
-          [this]() -> bool {
-              return !((Flags & FolderDialogFlags::NoNewFolderButton) == FolderDialogFlags::NoNewFolderButton);
-          },
-          // set
-          [this](const bool &value) {
-              if (value) {
-                  Flags &= ~FolderDialogFlags::NoNewFolderButton;
-              } else {
-                  Flags |= FolderDialogFlags::NoNewFolderButton;
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](FolderBrowserDialog *self) -> bool {
+                  return !((self->Flags & FolderDialogFlags::NoNewFolderButton) == FolderDialogFlags::NoNewFolderButton);
+              })
+              .Setter([](FolderBrowserDialog *self, bool value) {
+                  if (value) {
+                      self->Flags &= ~FolderDialogFlags::NoNewFolderButton;
+                  } else {
+                      self->Flags |= FolderDialogFlags::NoNewFolderButton;
+                  }
+              }))
 {
     BufferSize  = _FolderBrowserDialogInitialBufferSize;
     Flags       = FolderDialogFlags::NewDialogStyle | FolderDialogFlags::ReturnOnlyFileSystemDirs;

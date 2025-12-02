@@ -68,136 +68,130 @@ const wchar_t *sw::FileFilter::GetDefaultExt(int index)
 
 sw::FileDialog::FileDialog()
     : BufferSize(
-          // get
-          [this]() -> int {
-              return (int)_buffer.size();
-          },
-          // set
-          [this](const int &value) {
-              int size = Utils::Max(MAX_PATH, value);
-              _buffer.resize(size);
-              _ofn.lpstrFile = _buffer.data();
-              _ofn.nMaxFile  = (DWORD)_buffer.size();
-              ClearBuffer(); // 清空缓冲区，防止BufferSize比原来小时获取FileName访问到缓冲区外的内存
-          }),
+          Property<int>::Init(this)
+              .Getter([](FileDialog *self) -> int {
+                  return (int)self->_buffer.size();
+              })
+              .Setter([](FileDialog *self, int value) {
+                  int size = Utils::Max(MAX_PATH, value);
+                  self->_buffer.resize(size);
+                  self->_ofn.lpstrFile = self->_buffer.data();
+                  self->_ofn.nMaxFile  = (DWORD)self->_buffer.size();
+                  self->ClearBuffer(); // 清空缓冲区，防止BufferSize比原来小时获取FileName访问到缓冲区外的内存
+              })),
 
       Flags(
-          // get
-          [this]() -> FileDialogFlags {
-              return static_cast<FileDialogFlags>(_ofn.Flags);
-          },
-          // set
-          [this](const FileDialogFlags &value) {
-              _ofn.Flags = static_cast<DWORD>(value);
-          }),
+          Property<FileDialogFlags>::Init(this)
+              .Getter([](FileDialog *self) -> FileDialogFlags {
+                  return static_cast<FileDialogFlags>(self->_ofn.Flags);
+              })
+              .Setter([](FileDialog *self, FileDialogFlags value) {
+                  self->_ofn.Flags = static_cast<DWORD>(value);
+              })),
 
       Title(
-          // get
-          [this]() -> std::wstring {
-              return _title;
-          },
-          // set
-          [this](const std::wstring &value) {
-              _title = value;
-              if (_title.empty()) {
-                  _ofn.lpstrTitle = nullptr;
-              } else {
-                  _ofn.lpstrTitle = _title.c_str();
-              }
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](FileDialog *self) -> std::wstring {
+                  return self->_title;
+              })
+              .Setter([](FileDialog *self, const std::wstring &value) {
+                  self->_title = value;
+                  if (self->_title.empty()) {
+                      self->_ofn.lpstrTitle = nullptr;
+                  } else {
+                      self->_ofn.lpstrTitle = self->_title.c_str();
+                  }
+              })),
 
       InitialDir(
-          // get
-          [this]() -> std::wstring {
-              return _initialDir;
-          },
-          // set
-          [this](const std::wstring &value) {
-              _initialDir = value;
-              if (_initialDir.empty()) {
-                  _ofn.lpstrInitialDir = nullptr;
-              } else {
-                  _ofn.lpstrInitialDir = _initialDir.c_str();
-              }
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](FileDialog *self) -> std::wstring {
+                  return self->_initialDir;
+              })
+              .Setter([](FileDialog *self, const std::wstring &value) {
+                  self->_initialDir = value;
+                  if (self->_initialDir.empty()) {
+                      self->_ofn.lpstrInitialDir = nullptr;
+                  } else {
+                      self->_ofn.lpstrInitialDir = self->_initialDir.c_str();
+                  }
+              })),
 
       Filter(
-          // get
-          [this]() -> FileFilter * {
-              return &_filter;
-          }),
+          Property<FileFilter *>::Init(this)
+              .Getter([](FileDialog *self) -> FileFilter * {
+                  return &self->_filter;
+              })),
 
       FilterIndex(
-          // get
-          [this]() -> int {
-              return (int)_ofn.nFilterIndex - 1;
-          },
-          // set
-          [this](const int &value) {
-              _ofn.nFilterIndex = Utils::Max(0, value) + 1;
-          }),
+          Property<int>::Init(this)
+              .Getter([](FileDialog *self) -> int {
+                  return (int)self->_ofn.nFilterIndex - 1;
+              })
+              .Setter([](FileDialog *self, int value) {
+                  self->_ofn.nFilterIndex = Utils::Max(0, value) + 1;
+              })),
 
       FileName(
-          // get
-          [this]() -> std::wstring {
-              if (!MultiSelect) {
-                  std::wstring result(GetBuffer());
-                  ProcessFileName(result);
-                  return result;
-              } else {
-                  std::wstring path(GetBuffer());
-                  wchar_t *pFile = GetBuffer() + path.size() + 1;
-                  std::wstring result(*pFile ? Path::Combine({path, pFile}) : path);
-                  ProcessFileName(result);
-                  return result;
-              }
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](FileDialog *self) -> std::wstring {
+                  if (!self->MultiSelect) {
+                      std::wstring result(self->GetBuffer());
+                      self->ProcessFileName(result);
+                      return result;
+                  } else {
+                      std::wstring path(self->GetBuffer());
+                      wchar_t *pFile = self->GetBuffer() + path.size() + 1;
+                      std::wstring result(*pFile ? Path::Combine({path, pFile}) : path);
+                      self->ProcessFileName(result);
+                      return result;
+                  }
+              })),
 
       MultiSelect(
-          // get
-          [this]() -> bool {
-              return (Flags & FileDialogFlags::AllowMultiSelect) == FileDialogFlags::AllowMultiSelect;
-          },
-          // set
-          [this](const bool &value) {
-              if (value) {
-                  Flags |= FileDialogFlags::AllowMultiSelect;
-              } else {
-                  Flags &= ~FileDialogFlags::AllowMultiSelect;
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](FileDialog *self) -> bool {
+                  return (self->Flags & FileDialogFlags::AllowMultiSelect) == FileDialogFlags::AllowMultiSelect;
+              })
+              .Setter([](FileDialog *self, bool value) {
+                  if (value) {
+                      self->Flags |= FileDialogFlags::AllowMultiSelect;
+                  } else {
+                      self->Flags &= ~FileDialogFlags::AllowMultiSelect;
+                  }
+              })),
 
       FileNames(
-          // get
-          [this]() -> List<std::wstring> {
-              List<std::wstring> result;
+          ReadOnlyProperty<sw::List<std::wstring>>::Init(this)
+              .Getter([](FileDialog *self) -> List<std::wstring> {
+                  List<std::wstring> result;
 
-              if (!MultiSelect) {
-                  auto fileName = FileName.Get();
-                  if (!fileName.empty())
-                      result.Append(fileName);
-                  return result;
-              }
+                  if (!self->MultiSelect) {
+                      auto fileName = self->FileName.Get();
+                      if (!fileName.empty())
+                          result.Append(fileName);
+                      return result;
+                  }
 
-              std::wstring path(GetBuffer());
-              wchar_t *pFile = GetBuffer() + path.size() + 1;
+                  std::wstring path(self->GetBuffer());
+                  wchar_t *pFile = self->GetBuffer() + path.size() + 1;
 
-              if (*pFile == 0) { // 多选状态下只选中一项时，buffer中存放的就是选择的文件路径
-                  if (!path.empty()) {
-                      result.Append(path);
-                      ProcessFileName(result[result.Count() - 1]);
+                  if (*pFile == 0) { // 多选状态下只选中一项时，buffer中存放的就是选择的文件路径
+                      if (!path.empty()) {
+                          result.Append(path);
+                          self->ProcessFileName(result[result.Count() - 1]);
+                      }
+                      return result;
+                  }
+
+                  while (*pFile) {
+                      std::wstring file = pFile;
+                      result.Append(Path::Combine({path, file}));
+                      self->ProcessFileName(result[result.Count() - 1]);
+                      pFile += file.size() + 1;
                   }
                   return result;
-              }
-
-              while (*pFile) {
-                  std::wstring file = pFile;
-                  result.Append(Path::Combine({path, file}));
-                  ProcessFileName(result[result.Count() - 1]);
-                  pFile += file.size() + 1;
-              }
-              return result;
-          })
+              }))
 {
     _ofn.lStructSize       = sizeof(_ofn);
     _ofn.lpstrFileTitle    = nullptr;
@@ -282,14 +276,15 @@ int sw::OpenFileDialog::ShowDialog(Window &owner)
 
 sw::SaveFileDialog::SaveFileDialog()
     : InitialFileName(
-          // get
-          [this]() -> std::wstring {
-              return _initialFileName;
-          },
-          // set
-          [this](const std::wstring &value) {
-              _initialFileName = value;
-          })
+          Property<std::wstring>::Init(this)
+              .Getter(
+                  [](SaveFileDialog *self) -> std::wstring {
+                      return self->_initialFileName;
+                  })
+              .Setter(
+                  [](SaveFileDialog *self, const std::wstring &value) {
+                      self->_initialFileName = value;
+                  }))
 {
     Flags |= FileDialogFlags::PathMustExist |
              FileDialogFlags::FileMustExist |
