@@ -28,246 +28,231 @@ sw::WndBase::WndBase()
     : _check(_WndBaseMagicNumber),
 
       Handle(
-          // get
-          [this]() -> HWND {
-              return this->_hwnd;
-          }),
+          Property<HWND>::Init(this)
+              .Getter([](WndBase *self) -> HWND {
+                  return self->_hwnd;
+              })),
 
       Font(
-          // get
-          [this]() -> sw::Font {
-              return this->_font;
-          },
-          // set
-          [this](const sw::Font &value) {
-              this->_font = value;
-              this->UpdateFont();
-          }),
+          Property<sw::Font>::Init(this)
+              .Getter([](WndBase *self) -> sw::Font {
+                  return self->_font;
+              })
+              .Setter([](WndBase *self, const sw::Font &value) {
+                  self->_font = value;
+                  self->UpdateFont();
+              })),
 
       FontName(
-          // get
-          [this]() -> std::wstring {
-              return this->_font.name;
-          },
-          // set
-          [this](const std::wstring &value) {
-              if (this->_font.name != value) {
-                  this->_font.name = value;
-                  this->UpdateFont();
-              }
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](WndBase *self) -> std::wstring {
+                  return self->_font.name;
+              })
+              .Setter([](WndBase *self, const std::wstring &value) {
+                  if (self->_font.name != value) {
+                      self->_font.name = value;
+                      self->UpdateFont();
+                  }
+              })),
 
       FontSize(
-          // get
-          [this]() -> double {
-              return this->_font.size;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_font.size != value) {
-                  this->_font.size = value;
-                  this->UpdateFont();
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](WndBase *self) -> double {
+                  return self->_font.size;
+              })
+              .Setter([](WndBase *self, double value) {
+                  if (self->_font.size != value) {
+                      self->_font.size = value;
+                      self->UpdateFont();
+                  }
+              })),
 
       FontWeight(
-          // get
-          [this]() -> sw::FontWeight {
-              return this->_font.weight;
-          },
-          // set
-          [this](const sw::FontWeight &value) {
-              if (this->_font.weight != value) {
-                  this->_font.weight = value;
-                  this->UpdateFont();
-              }
-          }),
+          Property<sw::FontWeight>::Init(this)
+              .Getter([](WndBase *self) -> sw::FontWeight {
+                  return self->_font.weight;
+              })
+              .Setter([](WndBase *self, sw::FontWeight value) {
+                  if (self->_font.weight != value) {
+                      self->_font.weight = value;
+                      self->UpdateFont();
+                  }
+              })),
 
       Rect(
-          // get
-          [this]() -> sw::Rect {
-              return this->_rect;
-          },
-          // set
-          [this](const sw::Rect &value) {
-              if (this->_rect != value) {
-                  int left   = Dip::DipToPxX(value.left);
-                  int top    = Dip::DipToPxY(value.top);
-                  int width  = Dip::DipToPxX(value.width);
-                  int height = Dip::DipToPxY(value.height);
-                  SetWindowPos(this->_hwnd, NULL, left, top, width, height, SWP_NOACTIVATE | SWP_NOZORDER);
-              }
-          }),
+          Property<sw::Rect>::Init(this)
+              .Getter([](WndBase *self) -> sw::Rect {
+                  return self->_rect;
+              })
+              .Setter([](WndBase *self, const sw::Rect &value) {
+                  if (self->_rect != value) {
+                      int left   = Dip::DipToPxX(value.left);
+                      int top    = Dip::DipToPxY(value.top);
+                      int width  = Dip::DipToPxX(value.width);
+                      int height = Dip::DipToPxY(value.height);
+                      SetWindowPos(self->_hwnd, NULL, left, top, width, height, SWP_NOACTIVATE | SWP_NOZORDER);
+                  }
+              })),
 
       Left(
-          // get
-          [this]() -> double {
-              return this->_rect.left;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_rect.left != value) {
-                  int x = Dip::DipToPxX(value);
-                  int y = Dip::DipToPxY(this->_rect.top);
-                  SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](WndBase *self) -> double {
+                  return self->_rect.left;
+              })
+              .Setter([](WndBase *self, double value) {
+                  if (self->_rect.left != value) {
+                      int x = Dip::DipToPxX(value);
+                      int y = Dip::DipToPxY(self->_rect.top);
+                      SetWindowPos(self->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
+                  }
+              })),
 
       Top(
-          // get
-          [this]() -> double {
-              return this->_rect.top;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_rect.top != value) {
-                  int x = Dip::DipToPxX(this->_rect.left);
-                  int y = Dip::DipToPxY(value);
-                  SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](WndBase *self) -> double {
+                  return self->_rect.top;
+              })
+              .Setter([](WndBase *self, double value) {
+                  if (self->_rect.top != value) {
+                      int x = Dip::DipToPxX(self->_rect.left);
+                      int y = Dip::DipToPxY(value);
+                      SetWindowPos(self->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
+                  }
+              })),
 
       Width(
-          // get
-          [this]() -> double {
-              return this->_rect.width;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_rect.width != value) {
-                  int cx = Dip::DipToPxX(value);
-                  int cy = Dip::DipToPxY(this->_rect.height);
-                  SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](WndBase *self) -> double {
+                  return self->_rect.width;
+              })
+              .Setter([](WndBase *self, double value) {
+                  if (self->_rect.width != value) {
+                      int cx = Dip::DipToPxX(value);
+                      int cy = Dip::DipToPxY(self->_rect.height);
+                      SetWindowPos(self->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
+                  }
+              })),
 
       Height(
-          // get
-          [this]() -> double {
-              return this->_rect.height;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_rect.height != value) {
-                  int cx = Dip::DipToPxX(this->_rect.width);
-                  int cy = Dip::DipToPxY(value);
-                  SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](WndBase *self) -> double {
+                  return self->_rect.height;
+              })
+              .Setter([](WndBase *self, double value) {
+                  if (self->_rect.height != value) {
+                      int cx = Dip::DipToPxX(self->_rect.width);
+                      int cy = Dip::DipToPxY(value);
+                      SetWindowPos(self->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
+                  }
+              })),
 
       ClientRect(
-          // get
-          [this]() -> sw::Rect {
-              RECT rect;
-              GetClientRect(this->_hwnd, &rect);
-              return rect;
-          }),
+          Property<sw::Rect>::Init(this)
+              .Getter([](WndBase *self) -> sw::Rect {
+                  RECT rect;
+                  GetClientRect(self->_hwnd, &rect);
+                  return rect;
+              })),
 
       ClientWidth(
-          // get
-          [this]() -> double {
-              return this->ClientRect->width;
-          }),
+          Property<double>::Init(this)
+              .Getter([](WndBase *self) -> double {
+                  return self->ClientRect->width;
+              })),
 
       ClientHeight(
-          // get
-          [this]() -> double {
-              return this->ClientRect->height;
-          }),
+          Property<double>::Init(this)
+              .Getter([](WndBase *self) -> double {
+                  return self->ClientRect->height;
+              })),
 
       Enabled(
-          // get
-          [this]() -> bool {
-              return IsWindowEnabled(this->_hwnd);
-          },
-          // set
-          [this](const bool &value) {
-              EnableWindow(this->_hwnd, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return IsWindowEnabled(self->_hwnd);
+              })
+              .Setter([](WndBase *self, bool value) {
+                  EnableWindow(self->_hwnd, value);
+              })),
 
       Visible(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(WS_VISIBLE);
-          },
-          // set
-          [this](const bool &value) {
-              ShowWindow(this->_hwnd, value ? SW_SHOW : SW_HIDE);
-              this->VisibleChanged(value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return self->GetStyle(WS_VISIBLE);
+              })
+              .Setter([](WndBase *self, bool value) {
+                  ShowWindow(self->_hwnd, value ? SW_SHOW : SW_HIDE);
+                  self->VisibleChanged(value);
+              })),
 
       Text(
-          // get
-          [this]() -> std::wstring {
-              return this->GetInternalText();
-          },
-          // set
-          [this](const std::wstring &value) {
-              this->SetInternalText(value);
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](WndBase *self) -> std::wstring {
+                  return self->GetInternalText();
+              })
+              .Setter([](WndBase *self, const std::wstring &value) {
+                  self->SetInternalText(value);
+              })),
 
       Focused(
-          // get
-          [this]() -> bool {
-              return this->_focused;
-          },
-          // set
-          [this](const bool &value) {
-              SetFocus(value ? this->_hwnd : NULL);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return self->_focused;
+              })
+              .Setter([](WndBase *self, bool value) {
+                  SetFocus(value ? self->_hwnd : NULL);
+              })),
 
       Parent(
-          // get
-          [this]() -> WndBase * {
-              HWND hwnd = GetParent(this->_hwnd);
-              return WndBase::GetWndBase(hwnd);
-          }),
+          Property<WndBase *>::Init(this)
+              .Getter([](WndBase *self) -> WndBase * {
+                  HWND hwnd = GetParent(self->_hwnd);
+                  return WndBase::GetWndBase(hwnd);
+              })),
 
       IsDestroyed(
-          // get
-          [this]() -> bool {
-              return this->_isDestroyed;
-          }),
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return self->_isDestroyed;
+              })),
 
       AcceptFiles(
-          // get
-          [this]() -> bool {
-              return this->GetExtendedStyle(WS_EX_ACCEPTFILES);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return self->GetExtendedStyle(WS_EX_ACCEPTFILES);
+              })
+              .Setter([](WndBase *self, bool value) {
+                  self->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
+              })),
 
       IsControl(
-          // get
-          [this]() -> bool {
-              return this->_isControl;
-          }),
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return self->_isControl;
+              })),
 
       ClassName(
-          // get
-          [this]() -> std::wstring {
-              std::wstring result(256, L'\0');
-              result.resize(GetClassNameW(this->_hwnd, &result[0], (int)result.size()));
-              return result;
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](WndBase *self) -> std::wstring {
+                  std::wstring result(256, L'\0');
+                  result.resize(GetClassNameW(self->_hwnd, &result[0], (int)result.size()));
+                  return result;
+              })),
 
       IsGroupStart(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(WS_GROUP);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(WS_GROUP, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return self->GetStyle(WS_GROUP);
+              })
+              .Setter([](WndBase *self, bool value) {
+                  self->SetStyle(WS_GROUP, value);
+              })),
 
       IsMouseCaptured(
-          // get
-          [this]() -> bool {
-              return GetCapture() == this->_hwnd;
-          })
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return GetCapture() == self->_hwnd;
+              }))
 {
     this->_font = sw::Font::GetDefaultFont();
 }

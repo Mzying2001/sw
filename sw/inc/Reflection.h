@@ -287,9 +287,9 @@ namespace sw
         static auto GetPropertySetter(TProperty T::*prop)
             -> typename std::enable_if<
                 std::is_base_of<DynamicObject, T>::value && _IsWritableProperty<TProperty>::value,
-                Delegate<void(DynamicObject &, const typename TProperty::TValue &)>>::type
+                Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
-            return [prop](DynamicObject &obj, const typename TProperty::TValue &value) {
+            return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
                 (obj.DynamicCast<T>().*prop).Set(value);
             };
         }

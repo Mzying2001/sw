@@ -939,7 +939,7 @@ namespace sw
          * @param value 属性值
          */
         template <typename TDerived, typename TProperty>
-        auto SetProperty(TProperty TDerived::*prop, const typename TProperty::TValue &value)
+        auto SetProperty(TProperty TDerived::*prop, typename TProperty::TSetterParam value)
             -> typename std::enable_if<
                 std::is_base_of<WndBase, TDerived>::value && _IsWritableProperty<TProperty>::value>::type
         {

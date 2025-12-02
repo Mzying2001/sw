@@ -2,15 +2,16 @@
 
 sw::WrapPanel::WrapPanel()
     : Orientation(
-          // get
-          [this]() -> sw::Orientation {
-              return this->_wrapLayout.orientation;
-          },
-          // set
-          [this](const sw::Orientation &value) {
-              this->_wrapLayout.orientation = value;
-              this->InvalidateMeasure();
-          })
+          Property<sw::Orientation>::Init(this)
+              .Getter([](WrapPanel *self) -> sw::Orientation {
+                  return self->_wrapLayout.orientation;
+              })
+              .Setter([](WrapPanel *self, sw::Orientation value) {
+                  if (self->_wrapLayout.orientation != value) {
+                      self->_wrapLayout.orientation = value;
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     this->_wrapLayout.Associate(this);
     this->HorizontalAlignment = HorizontalAlignment::Stretch;

@@ -14,58 +14,53 @@
 
 sw::ProgressBar::ProgressBar()
     : Minimum(
-          // get
-          [this]() -> uint16_t {
-              return (uint16_t)this->SendMessageW(PBM_GETRANGE, TRUE, 0);
-          },
-          // set
-          [this](const uint16_t &value) {
-              uint16_t maximum = this->Maximum;
-              this->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(value, maximum));
-          }),
+          Property<uint16_t>::Init(this)
+              .Getter([](ProgressBar *self) -> uint16_t {
+                  return (uint16_t)self->SendMessageW(PBM_GETRANGE, TRUE, 0);
+              })
+              .Setter([](ProgressBar *self, uint16_t value) {
+                  uint16_t maximum = self->Maximum;
+                  self->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(value, maximum));
+              })),
 
       Maximum(
-          // get
-          [this]() -> uint16_t {
-              return (uint16_t)this->SendMessageW(PBM_GETRANGE, FALSE, 0);
-          },
-          // set
-          [this](const uint16_t &value) {
-              uint16_t minimum = this->Minimum;
-              this->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(minimum, value));
-          }),
+          Property<uint16_t>::Init(this)
+              .Getter([](ProgressBar *self) -> uint16_t {
+                  return (uint16_t)self->SendMessageW(PBM_GETRANGE, FALSE, 0);
+              })
+              .Setter([](ProgressBar *self, uint16_t value) {
+                  uint16_t minimum = self->Minimum;
+                  self->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(minimum, value));
+              })),
 
       Value(
-          // get
-          [this]() -> uint16_t {
-              return (uint16_t)this->SendMessageW(PBM_GETPOS, 0, 0);
-          },
-          // set
-          [this](const uint16_t &value) {
-              this->SendMessageW(PBM_SETPOS, value, 0);
-          }),
+          Property<uint16_t>::Init(this)
+              .Getter([](ProgressBar *self) -> uint16_t {
+                  return (uint16_t)self->SendMessageW(PBM_GETPOS, 0, 0);
+              })
+              .Setter([](ProgressBar *self, uint16_t value) {
+                  self->SendMessageW(PBM_SETPOS, value, 0);
+              })),
 
       State(
-          // get
-          [this]() -> ProgressBarState {
-              return (ProgressBarState)this->SendMessageW(PBM_GETSTATE, 0, 0);
-          },
-          // set
-          [this](const ProgressBarState &value) {
-              this->SendMessageW(PBM_SETSTATE, (WPARAM)value, 0);
-          }),
+          Property<ProgressBarState>::Init(this)
+              .Getter([](ProgressBar *self) -> ProgressBarState {
+                  return (ProgressBarState)self->SendMessageW(PBM_GETSTATE, 0, 0);
+              })
+              .Setter([](ProgressBar *self, ProgressBarState value) {
+                  self->SendMessageW(PBM_SETSTATE, (WPARAM)value, 0);
+              })),
 
       Vertical(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(PBS_VERTICAL);
-          },
-          // set
-          [this](const bool &value) {
-              auto pos = this->Value.Get();
-              this->SetStyle(PBS_VERTICAL, value);
-              this->Value = pos;
-          })
+          Property<bool>::Init(this)
+              .Getter([](ProgressBar *self) -> bool {
+                  return self->GetStyle(PBS_VERTICAL);
+              })
+              .Setter([](ProgressBar *self, bool value) {
+                  auto pos = self->Value.Get();
+                  self->SetStyle(PBS_VERTICAL, value);
+                  self->Value = pos;
+              }))
 {
     this->InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
     this->Rect = sw::Rect(0, 0, 150, 20);

@@ -16,7 +16,7 @@ namespace sw
          */
         std::wstring ToString() const
         {
-            static_assert(&IToString::ToString != &TDerived::ToString,
+            static_assert(&IToString<TDerived>::ToString != &TDerived::ToString,
                           "Derived class must implement ToString method.");
             return static_cast<const TDerived *>(this)->ToString();
         }

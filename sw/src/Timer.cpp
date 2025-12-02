@@ -10,18 +10,17 @@ namespace
 
 sw::Timer::Timer()
     : Interval(
-          // get
-          [this]() -> uint32_t {
-              return this->_interval;
-          },
-          // set
-          [this](const uint32_t &value) {
-              this->_interval = value;
-              if (this->_started) {
-                  this->Stop();
-                  this->Start();
-              }
-          })
+          Property<uint32_t>::Init(this)
+              .Getter([](Timer *self) -> uint32_t {
+                  return self->_interval;
+              })
+              .Setter([](Timer *self, uint32_t value) {
+                  self->_interval = value;
+                  if (self->_started) {
+                      self->Stop();
+                      self->Start();
+                  }
+              }))
 {
     this->InitControl(L"STATIC", L"", WS_CHILD, 0);
     Timer::_SetTimerPtr(this->Handle, *this);

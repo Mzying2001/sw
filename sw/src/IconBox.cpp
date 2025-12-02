@@ -2,20 +2,19 @@
 
 sw::IconBox::IconBox()
     : IconHandle(
-          // get
-          [this]() -> HICON {
-              return this->_hIcon;
-          }),
+          Property<HICON>::Init(this)
+              .Getter([](IconBox *self) -> HICON {
+                  return self->_hIcon;
+              })),
 
       StretchIcon(
-          // get
-          [this]() -> bool {
-              return !this->GetStyle(SS_CENTERIMAGE);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(SS_CENTERIMAGE, !value);
-          })
+          Property<bool>::Init(this)
+              .Getter([](IconBox *self) -> bool {
+                  return !self->GetStyle(SS_CENTERIMAGE);
+              })
+              .Setter([](IconBox *self, bool value) {
+                  self->SetStyle(SS_CENTERIMAGE, !value);
+              }))
 {
     this->Rect = sw::Rect{0, 0, 50, 50};
     this->SetStyle(SS_ICON, true);

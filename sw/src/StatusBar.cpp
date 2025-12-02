@@ -3,34 +3,32 @@
 
 sw::StatusBar::StatusBar()
     : SizingGrip(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(SBARS_SIZEGRIP);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->SizingGrip != value) {
-                  auto style   = this->GetStyle();
-                  auto exstyle = this->GetExtendedStyle();
-                  this->ResetHandle(value ? (style | SBARS_SIZEGRIP) : (style & ~SBARS_SIZEGRIP), exstyle);
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](StatusBar *self) -> bool {
+                  return self->GetStyle(SBARS_SIZEGRIP);
+              })
+              .Setter([](StatusBar *self, bool value) {
+                  if (self->SizingGrip != value) {
+                      auto style   = self->GetStyle();
+                      auto exstyle = self->GetExtendedStyle();
+                      self->ResetHandle(value ? (style | SBARS_SIZEGRIP) : (style & ~SBARS_SIZEGRIP), exstyle);
+                  }
+              })),
 
       PartsCount(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(SB_GETPARTS, 0, 0);
-          }),
+          Property<int>::Init(this)
+              .Getter([](StatusBar *self) -> int {
+                  return (int)self->SendMessageW(SB_GETPARTS, 0, 0);
+              })),
 
       UseUnicode(
-          // get
-          [this]() -> bool {
-              return this->SendMessageW(SB_GETUNICODEFORMAT, 0, 0);
-          },
-          // set
-          [this](const bool &value) {
-              this->SendMessageW(SB_SETUNICODEFORMAT, value, 0);
-          })
+          Property<bool>::Init(this)
+              .Getter([](StatusBar *self) -> bool {
+                  return self->SendMessageW(SB_GETUNICODEFORMAT, 0, 0);
+              })
+              .Setter([](StatusBar *self, bool value) {
+                  self->SendMessageW(SB_SETUNICODEFORMAT, value, 0);
+              }))
 {
     this->InitControl(STATUSCLASSNAMEW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CCS_NORESIZE, 0);
     this->Height = 25;

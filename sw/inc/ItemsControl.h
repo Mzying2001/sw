@@ -23,32 +23,31 @@ namespace sw
          * @brief 项数
          */
         const ReadOnlyProperty<int> ItemsCount{
-            // get
-            [this]() -> int {
-                return this->GetItemsCount();
-            }};
+            Property<int>::Init(this)
+                .Getter([](ItemsControl *self) -> int {
+                    return self->GetItemsCount();
+                })};
 
         /**
          * @brief 选中项的索引，当无选中项时为-1
          */
         const Property<int> SelectedIndex{
-            // get
-            [this]() -> int {
-                return this->GetSelectedIndex();
-            },
-            // set
-            [this](const int &value) {
-                this->SetSelectedIndex(value);
-            }};
+            Property<int>::Init(this)
+                .Getter([](ItemsControl *self) -> int {
+                    return self->GetSelectedIndex();
+                })
+                .Setter([](ItemsControl *self, int value) {
+                    self->SetSelectedIndex(value);
+                })};
 
         /**
          * @brief 选中项
          */
         const ReadOnlyProperty<TItem> SelectedItem{
-            // get
-            [this]() -> TItem {
-                return this->GetSelectedItem();
-            }};
+            Property<TItem>::Init(this)
+                .Getter([](ItemsControl *self) -> TItem {
+                    return self->GetSelectedItem();
+                })};
 
     protected:
         /**

@@ -2,55 +2,52 @@
 
 sw::DateTimePicker::DateTimePicker()
     : ShowUpDownButton(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(DTS_UPDOWN);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->ShowUpDownButton != value) {
-                  this->_UpdateStyle(
-                      value ? (this->GetStyle() | DTS_UPDOWN)
-                            : (this->GetStyle() & ~DTS_UPDOWN));
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](DateTimePicker *self) -> bool {
+                  return self->GetStyle(DTS_UPDOWN);
+              })
+              .Setter([](DateTimePicker *self, bool value) {
+                  if (self->ShowUpDownButton != value) {
+                      self->_UpdateStyle(
+                          value ? (self->GetStyle() | DTS_UPDOWN)
+                                : (self->GetStyle() & ~DTS_UPDOWN));
+                  }
+              })),
 
       Format(
-          // get
-          [this]() -> DateTimePickerFormat {
-              return this->_format;
-          },
-          // set
-          [this](const DateTimePickerFormat &value) {
-              if (this->_format == value) {
-                  return;
-              }
-              DWORD style = this->GetStyle();
-              style &= ~(DTS_SHORTDATEFORMAT | DTS_LONGDATEFORMAT);
-              switch (value) {
-                  case DateTimePickerFormat::Short:
-                  case DateTimePickerFormat::Custom:
-                      style |= DTS_SHORTDATEFORMAT;
-                      break;
-                  case DateTimePickerFormat::Long:
-                      style |= DTS_LONGDATEFORMAT;
-                      break;
-              }
-              this->_format = value;
-              this->_UpdateStyle(style);
-          }),
+          Property<DateTimePickerFormat>::Init(this)
+              .Getter([](DateTimePicker *self) -> DateTimePickerFormat {
+                  return self->_format;
+              })
+              .Setter([](DateTimePicker *self, DateTimePickerFormat value) {
+                  if (self->_format == value) {
+                      return;
+                  }
+                  DWORD style = self->GetStyle();
+                  style &= ~(DTS_SHORTDATEFORMAT | DTS_LONGDATEFORMAT);
+                  switch (value) {
+                      case DateTimePickerFormat::Short:
+                      case DateTimePickerFormat::Custom:
+                          style |= DTS_SHORTDATEFORMAT;
+                          break;
+                      case DateTimePickerFormat::Long:
+                          style |= DTS_LONGDATEFORMAT;
+                          break;
+                  }
+                  self->_format = value;
+                  self->_UpdateStyle(style);
+              })),
 
       CustomFormat(
-          // get
-          [this]() -> std::wstring {
-              return this->_customFormat;
-          },
-          // set
-          [this](const std::wstring &value) {
-              this->_format       = DateTimePickerFormat::Custom;
-              this->_customFormat = value;
-              this->_SetFormat(this->_customFormat);
-          })
+          Property<std::wstring>::Init(this)
+              .Getter([](DateTimePicker *self) -> std::wstring {
+                  return self->_customFormat;
+              })
+              .Setter([](DateTimePicker *self, const std::wstring &value) {
+                  self->_format       = DateTimePickerFormat::Custom;
+                  self->_customFormat = value;
+                  self->_SetFormat(self->_customFormat);
+              }))
 {
     this->InitControl(DATETIMEPICK_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | DTS_SHORTDATEFORMAT, 0);
     this->Rect    = sw::Rect{0, 0, 100, 24};

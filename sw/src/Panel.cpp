@@ -11,30 +11,28 @@ namespace
 
 sw::Panel::Panel()
     : BorderStyle(
-          // get
-          [this]() -> sw::BorderStyle {
-              return _borderStyle;
-          },
-          // set
-          [this](const sw::BorderStyle &value) {
-              if (_borderStyle != value) {
-                  _borderStyle = value;
-                  UpdateBorder();
-              }
-          }),
+          Property<sw::BorderStyle>::Init(this)
+              .Getter([](Panel *self) -> sw::BorderStyle {
+                  return self->_borderStyle;
+              })
+              .Setter([](Panel *self, sw::BorderStyle value) {
+                  if (self->_borderStyle != value) {
+                      self->_borderStyle = value;
+                      self->UpdateBorder();
+                  }
+              })),
 
       Padding(
-          // get
-          [this]() -> sw::Thickness {
-              return _padding;
-          },
-          // set
-          [this](const sw::Thickness &value) {
-              if (_padding != value) {
-                  _padding = value;
-                  UpdateBorder();
-              }
-          })
+          Property<sw::Thickness>::Init(this)
+              .Getter([](Panel *self) -> sw::Thickness {
+                  return self->_padding;
+              })
+              .Setter([](Panel *self, const sw::Thickness &value) {
+                  if (self->_padding != value) {
+                      self->_padding = value;
+                      self->UpdateBorder();
+                  }
+              }))
 {
     static thread_local ATOM panelClsAtom = 0;
 

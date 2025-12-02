@@ -60,46 +60,47 @@ thread_local sw::Action<MSG &> sw::App::NullHwndMsgHandler;
  */
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
-    []() -> HINSTANCE {
-        static HINSTANCE hInstance = GetModuleHandleW(NULL);
-        return hInstance;
-    } //
+    Property<HINSTANCE>::Init()
+        .Getter([]() -> HINSTANCE {
+            static HINSTANCE hInstance = GetModuleHandleW(NULL);
+            return hInstance;
+        }) //
 );
 
 const sw::ReadOnlyProperty<std::wstring> sw::App::ExePath(
-    []() -> std::wstring {
-        static std::wstring exePath = _GetExePath();
-        return exePath;
-    } //
+    Property<std::wstring>::Init()
+        .Getter([]() -> std::wstring {
+            static std::wstring exePath = _GetExePath();
+            return exePath;
+        }) //
 );
 
 const sw::ReadOnlyProperty<std::wstring> sw::App::ExeDirectory(
-    []() -> std::wstring {
-        static std::wstring exeDirectory = Path::GetDirectory(App::ExePath);
-        return exeDirectory;
-    } //
+    Property<std::wstring>::Init()
+        .Getter([]() -> std::wstring {
+            static std::wstring exeDirectory = Path::GetDirectory(App::ExePath);
+            return exeDirectory;
+        }) //
 );
 
 const sw::Property<std::wstring> sw::App::CurrentDirectory(
-    // get
-    []() -> std::wstring {
-        return _GetCurrentDirectory();
-    },
-    // set
-    [](const std::wstring &value) {
-        SetCurrentDirectoryW(value.c_str());
-    } //
+    Property<std::wstring>::Init()
+        .Getter([]() -> std::wstring {
+            return _GetCurrentDirectory();
+        })
+        .Setter([](const std::wstring &value) {
+            SetCurrentDirectoryW(value.c_str());
+        }) //
 );
 
 const sw::Property<sw::AppQuitMode> sw::App::QuitMode(
-    // get
-    []() -> sw::AppQuitMode {
-        return _appQuitMode;
-    },
-    // set
-    [](const sw::AppQuitMode &value) {
-        _appQuitMode = value;
-    } //
+    Property<sw::AppQuitMode>::Init()
+        .Getter([]() -> sw::AppQuitMode {
+            return _appQuitMode;
+        })
+        .Setter([](sw::AppQuitMode value) {
+            _appQuitMode = value;
+        }) //
 );
 
 int sw::App::MsgLoop()

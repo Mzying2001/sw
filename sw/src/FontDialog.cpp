@@ -2,78 +2,71 @@
 
 sw::FontDialog::FontDialog()
     : Flags(
-          // get
-          [this]() -> FontDialogFlags {
-              return static_cast<FontDialogFlags>(_cf.Flags);
-          },
-          // set
-          [this](const FontDialogFlags &value) {
-              _cf.Flags = static_cast<DWORD>(value);
-          }),
+          Property<FontDialogFlags>::Init(this)
+              .Getter([](FontDialog *self) -> FontDialogFlags {
+                  return static_cast<FontDialogFlags>(self->_cf.Flags);
+              })
+              .Setter([](FontDialog *self, FontDialogFlags value) {
+                  self->_cf.Flags = static_cast<DWORD>(value);
+              })),
 
       Font(
-          // get
-          [this]() -> sw::Font {
-              return _font;
-          },
-          // set
-          [this](const sw::Font &value) {
-              _font = value;
-          }),
+          Property<sw::Font>::Init(this)
+              .Getter([](FontDialog *self) -> sw::Font {
+                  return self->_font;
+              })
+              .Setter([](FontDialog *self, const sw::Font &value) {
+                  self->_font = value;
+              })),
 
       FontName(
-          // get
-          [this]() -> std::wstring {
-              return _font.name;
-          },
-          // set
-          [this](const std::wstring &value) {
-              _font.name = value;
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](FontDialog *self) -> std::wstring {
+                  return self->_font.name;
+              })
+              .Setter([](FontDialog *self, const std::wstring &value) {
+                  self->_font.name = value;
+              })),
 
       FontSize(
-          // get
-          [this]() -> double {
-              return _font.size;
-          },
-          // set
-          [this](const double &value) {
-              _font.size = value;
-          }),
+          Property<double>::Init(this)
+              .Getter([](FontDialog *self) -> double {
+                  return self->_font.size;
+              })
+              .Setter([](FontDialog *self, double value) {
+                  self->_font.size = value;
+              })),
 
       FontWeight(
-          // get
-          [this]() -> sw::FontWeight {
-              return _font.weight;
-          },
-          // set
-          [this](const sw::FontWeight &value) {
-              _font.weight = value;
-          }),
+          Property<sw::FontWeight>::Init(this)
+              .Getter([](FontDialog *self) -> sw::FontWeight {
+                  return self->_font.weight;
+              })
+              .Setter([](FontDialog *self, sw::FontWeight value) {
+                  self->_font.weight = value;
+              })),
 
       ShowEffects(
-          // get
-          [this]() -> bool {
-              return (Flags & FontDialogFlags::Effects) == FontDialogFlags::Effects;
-          },
-          // set
-          [this](const bool &value) {
-              if (value) {
-                  Flags |= FontDialogFlags::Effects;
-              } else {
-                  Flags &= ~FontDialogFlags::Effects;
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](FontDialog *self) -> bool {
+                  return (self->Flags & FontDialogFlags::Effects) == FontDialogFlags::Effects;
+              })
+              .Setter([](FontDialog *self, bool value) {
+                  if (value) {
+                      self->Flags |= FontDialogFlags::Effects;
+                  } else {
+                      self->Flags &= ~FontDialogFlags::Effects;
+                  }
+              })),
 
       SelectedColor(
-          // get
-          [this]() -> Color {
-              return _cf.rgbColors;
-          },
-          // set
-          [this](const Color &value) {
-              _cf.rgbColors = value;
-          })
+          Property<Color>::Init(this)
+              .Getter([](FontDialog *self) -> Color {
+                  return self->_cf.rgbColors;
+              })
+              .Setter([](FontDialog *self, const Color &value) {
+                  self->_cf.rgbColors = value;
+              }))
 {
     _font           = Font::GetDefaultFont();
     _cf.lStructSize = sizeof(CHOOSEFONTW);
