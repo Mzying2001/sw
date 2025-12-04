@@ -1,5 +1,7 @@
 #pragma once
 
+#include <type_traits>
+
 namespace sw
 {
     /**
@@ -16,8 +18,12 @@ namespace sw
          */
         bool Equals(TOther other) const
         {
-            static_assert(&IEqualityComparable<TDerived, TOther>::Equals != &TDerived::Equals,
-                          "Derived class must implement Equals method.");
+            static_assert(
+                !std::is_same<
+                    decltype(&IEqualityComparable<TDerived, TOther>::Equals),
+                    decltype(&TDerived::Equals)>::value,
+                "Derived class must implement Equals method.");
+
             return static_cast<const TDerived *>(this)->Equals(other);
         }
 
@@ -53,8 +59,12 @@ namespace sw
          */
         int CompareTo(TOther other) const
         {
-            static_assert(&IComparable<TDerived, TOther>::CompareTo != &TDerived::CompareTo,
-                          "Derived class must implement CompareTo method.");
+            static_assert(
+                !std::is_same<
+                    decltype(&IComparable<TDerived, TOther>::CompareTo),
+                    decltype(&TDerived::CompareTo)>::value,
+                "Derived class must implement CompareTo method.");
+
             return static_cast<const TDerived *>(this)->CompareTo(other);
         }
 

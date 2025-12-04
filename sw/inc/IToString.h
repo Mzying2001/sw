@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <type_traits>
 
 namespace sw
 {
@@ -16,8 +17,12 @@ namespace sw
          */
         std::wstring ToString() const
         {
-            static_assert(&IToString<TDerived>::ToString != &TDerived::ToString,
-                          "Derived class must implement ToString method.");
+            static_assert(
+                !std::is_same<
+                    decltype(&IToString<TDerived>::ToString),
+                    decltype(&TDerived::ToString)>::value,
+                "Derived class must implement ToString method.");
+
             return static_cast<const TDerived *>(this)->ToString();
         }
     };
