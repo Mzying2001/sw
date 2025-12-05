@@ -127,10 +127,10 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:afae7e677ec487c701f7ebba1e0b2e54f"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#afae7e677ec487c701f7ebba1e0b2e54f">GetPropertyGetter</a> (TProperty T::*prop) -&gt; typename std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsReadableProperty.html">_IsReadableProperty</a>&lt; TProperty &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; typename TProperty::TValue(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt; &gt;::type</td></tr>
 <tr class="memdesc:afae7e677ec487c701f7ebba1e0b2e54f"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性的Getter委托  <br /></td></tr>
 <tr class="separator:afae7e677ec487c701f7ebba1e0b2e54f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2927621859d936732413524447b6acae" id="r_a2927621859d936732413524447b6acae"><td class="memTemplParams" colspan="2">template&lt;typename T , typename TProperty &gt; </td></tr>
-<tr class="memitem:a2927621859d936732413524447b6acae"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a2927621859d936732413524447b6acae">GetPropertySetter</a> (TProperty T::*prop) -&gt; typename std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsWritableProperty.html">_IsWritableProperty</a>&lt; TProperty &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; void(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, const typename TProperty::TValue &amp;)&gt; &gt;::type</td></tr>
-<tr class="memdesc:a2927621859d936732413524447b6acae"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性的Setter委托  <br /></td></tr>
-<tr class="separator:a2927621859d936732413524447b6acae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec177b0408f2bc0bae2998fe5b50a61c" id="r_aec177b0408f2bc0bae2998fe5b50a61c"><td class="memTemplParams" colspan="2">template&lt;typename T , typename TProperty &gt; </td></tr>
+<tr class="memitem:aec177b0408f2bc0bae2998fe5b50a61c"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#aec177b0408f2bc0bae2998fe5b50a61c">GetPropertySetter</a> (TProperty T::*prop) -&gt; typename std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsWritableProperty.html">_IsWritableProperty</a>&lt; TProperty &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; void(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, typename TProperty::TSetterParam)&gt; &gt;::type</td></tr>
+<tr class="memdesc:aec177b0408f2bc0bae2998fe5b50a61c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性的Setter委托  <br /></td></tr>
+<tr class="separator:aec177b0408f2bc0bae2998fe5b50a61c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>提供反射相关功能 </p>
@@ -322,8 +322,8 @@ template&lt;typename T , typename TProperty &gt; </div>
 
 </div>
 </div>
-<a id="a2927621859d936732413524447b6acae" name="a2927621859d936732413524447b6acae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2927621859d936732413524447b6acae">&#9670;&#160;</a></span>GetPropertySetter()</h2>
+<a id="aec177b0408f2bc0bae2998fe5b50a61c" name="aec177b0408f2bc0bae2998fe5b50a61c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec177b0408f2bc0bae2998fe5b50a61c">&#9670;&#160;</a></span>GetPropertySetter()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -340,7 +340,7 @@ template&lt;typename T , typename TProperty &gt; </div>
           <td class="paramname"><em>prop</em></td><td>)</td>
           <td> -&gt; typename std::enable_if&lt;
                 std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value &amp;&amp; <a class="el" href="structsw_1_1__IsWritableProperty.html">_IsWritableProperty</a>&lt;TProperty&gt;::value,
-                <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt;void(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, const typename TProperty::TValue &amp;)&gt;&gt;::type
+                <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt;void(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, typename TProperty::TSetterParam)&gt;&gt;::type
         </td>
         </tr>
       </table>

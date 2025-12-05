@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['memberpropertyliteinitializer_0',['MemberPropertyLiteInitializer',['../classsw_1_1MemberPropertyLiteInitializer.html',1,'sw']]],
+  ['memberpropertyinitializer_0',['MemberPropertyInitializer',['../classsw_1_1MemberPropertyInitializer.html',1,'sw']]],
   ['menu_1',['Menu',['../classsw_1_1Menu.html',1,'sw']]],
   ['menubase_2',['MenuBase',['../classsw_1_1MenuBase.html',1,'sw']]],
   ['menuitem_3',['MenuItem',['../classsw_1_1MenuItem.html',1,'sw']]],

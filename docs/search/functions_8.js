@@ -5,7 +5,7 @@ var searchData=
   ['imagelist_2',['imagelist',['../classsw_1_1ImageList.html#aebd5f923b68aed80790b269303a621fa',1,'sw::ImageList::ImageList(HIMAGELIST hImageList, bool isWrap)'],['../classsw_1_1ImageList.html#a91fe4cb95359184c1cfd66b7a55ba862',1,'sw::ImageList::ImageList(int cx, int cy, UINT flags, int cInitial, int cGrow)'],['../classsw_1_1ImageList.html#a47fe3e8f96c176998f66293087baf107',1,'sw::ImageList::ImageList(const ImageList &amp;other)'],['../classsw_1_1ImageList.html#af3c24f10e116601c14ec6e18124c27d1',1,'sw::ImageList::ImageList(ImageList &amp;&amp;other)']]],
   ['indexof_3',['indexof',['../classsw_1_1List.html#a53adb5e4e7172f03bf87113443e9d2b5',1,'sw::List::IndexOf()'],['../classsw_1_1UIElement.html#a45cf2817669c10b59535acf8406a1a09',1,'sw::UIElement::IndexOf(UIElement *element)'],['../classsw_1_1UIElement.html#a8ff6722c909efcb10fbbc63476ab64d6',1,'sw::UIElement::IndexOf(UIElement &amp;element)']]],
   ['indextoid_4',['indextoid',['../classsw_1_1ContextMenu.html#ae27616f20c9f03d7e5b81eaa6e7f3446',1,'sw::ContextMenu::IndexToID()'],['../classsw_1_1Menu.html#a522312cc29234ea9048d94fae7258027',1,'sw::Menu::IndexToID()'],['../classsw_1_1MenuBase.html#a9f94aca19decada231feeed33ab19743',1,'sw::MenuBase::IndexToID()']]],
-  ['init_5',['init',['../classsw_1_1PropertyLiteBase.html#ad8a2be84fa2d26e754ef81cedeec135c',1,'sw::PropertyLiteBase::Init(TOwner *owner)'],['../classsw_1_1PropertyLiteBase.html#a6c4ed6243135ee96201967619704a0a0',1,'sw::PropertyLiteBase::Init()']]],
+  ['init_5',['init',['../classsw_1_1PropertyBase.html#a91ad891bd83f4d82ff10392ef1a071c6',1,'sw::PropertyBase::Init(TOwner *owner)'],['../classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020',1,'sw::PropertyBase::Init()']]],
   ['initbuttonbase_6',['InitButtonBase',['../classsw_1_1ButtonBase.html#a35200f7e5429767c50c089eb312ff248',1,'sw::ButtonBase']]],
   ['initcontrol_7',['InitControl',['../classsw_1_1WndBase.html#aecb12507b6a8137427841d3bc4181fc6',1,'sw::WndBase']]],
   ['inithwndhost_8',['InitHwndHost',['../classsw_1_1HwndHost.html#aebdcab5949f812ae64ecd79633cacc49',1,'sw::HwndHost']]],
@@ -33,7 +33,7 @@ var searchData=
   ['isroutedeventregistered_30',['IsRoutedEventRegistered',['../classsw_1_1UIElement.html#adf8152f31c5e109ba016316182bcec47',1,'sw::UIElement']]],
   ['isselected_31',['IsSelected',['../classsw_1_1TreeViewNode.html#aca9d27d213d1776e187b9c39c9504efb',1,'sw::TreeViewNode']]],
   ['isseparator_32',['IsSeparator',['../classsw_1_1MenuItem.html#a136e71998ffff40e3d165749ba7f7306',1,'sw::MenuItem']]],
-  ['isstatic_33',['IsStatic',['../classsw_1_1PropertyLiteBase.html#a38aad6e3ffa67b0947437795938813cb',1,'sw::PropertyLiteBase']]],
+  ['isstatic_33',['IsStatic',['../classsw_1_1PropertyBase.html#aa040f3a1bf10951a66d89e8b72707dad',1,'sw::PropertyBase']]],
   ['istype_34',['istype',['../classsw_1_1DynamicObject.html#abfdfc0484d420f36515a295690f13c84',1,'sw::DynamicObject::IsType(T **pout=nullptr)'],['../classsw_1_1DynamicObject.html#a98f17eecfd1e8164c7bb19394a3588ae',1,'sw::DynamicObject::IsType(const T **pout=nullptr) const']]],
   ['isvisible_35',['IsVisible',['../classsw_1_1WndBase.html#a93895b2534591c879580a65f2baee1a2',1,'sw::WndBase']]],
   ['iswrap_36',['IsWrap',['../classsw_1_1ImageList.html#a0cf385d15bc51bcd7214f3f5969b494c',1,'sw::ImageList']]]

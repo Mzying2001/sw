@@ -5,8 +5,8 @@ var hierarchy =
     [ "sw::_FuncTraits< Last >", "structsw_1_1__FuncTraits_3_01Last_01_4.html", null ],
     [ "sw::_FuncTypeHelper< TArgsTuple >", "structsw_1_1__FuncTypeHelper.html", null ],
     [ "sw::_FuncTypeHelper< std::tuple< Args... > >", "structsw_1_1__FuncTypeHelper_3_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4.html", null ],
-    [ "sw::_HasArrowOperatorVs2015Fix< T >", "structsw_1_1__HasArrowOperatorVs2015Fix.html", null ],
     [ "sw::_IsPropertyImpl< T >", "structsw_1_1__IsPropertyImpl.html", null ],
+    [ "sw::_PropertySetterParamTypeHelper< T >", "structsw_1_1__PropertySetterParamTypeHelper.html", null ],
     [ "sw::App", "classsw_1_1App.html", null ],
     [ "sw::CallableList< T >", "classsw_1_1CallableList.html", null ],
     [ "sw::CallableList< TRet(Args...)>", "classsw_1_1CallableList.html", null ],
@@ -14,49 +14,6 @@ var hierarchy =
     [ "sw::CursorHelper", "classsw_1_1CursorHelper.html", null ],
     [ "sw::Delegate< typename >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< bool(NotifyIcon &, const Point &)>", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const AppQuitMode & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const BmpBoxSizeMode & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const bool & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const ColorDialogFlags & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const COLORREF *& >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const DateTimePickerFormat & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const double & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const FileDialogFlags & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const FolderDialogFlags & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const FontDialogFlags & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const HICON & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const HorizontalAlignment & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const int & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const Orientation & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const ProgressBarState & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const std::wstring & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::BorderStyle & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::CheckState & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::Color & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::ContextMenu *& >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::Font & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::FontWeight & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::HorizontalAlignment & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::HotKey & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::LayoutHost *& >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::LayoutUpdateCondition & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::Menu *& >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::Orientation & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::Rect & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::TextTrimming & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::Thickness & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::VerticalAlignment & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const sw::Window *& >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const T & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const TabAlignment & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const ToolTipIcon & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const uint16_t & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const uint32_t & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const uint64_t & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const VerticalAlignment & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const wchar_t & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const WindowStartupLocation & >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< const WindowState & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< MenuItem & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< MSG & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< sw::UIElement &, TEventArgs & >", "classsw_1_1Delegate.html", null ],
@@ -285,7 +242,7 @@ var hierarchy =
       ] ]
     ] ],
     [ "sw::ListViewColumn", "structsw_1_1ListViewColumn.html", null ],
-    [ "sw::MemberPropertyLiteInitializer< TOwner, TValue >", "classsw_1_1MemberPropertyLiteInitializer.html", null ],
+    [ "sw::MemberPropertyInitializer< TOwner, TValue >", "classsw_1_1MemberPropertyInitializer.html", null ],
     [ "sw::MenuBase", "classsw_1_1MenuBase.html", [
       [ "sw::ContextMenu", "classsw_1_1ContextMenu.html", null ],
       [ "sw::Menu", "classsw_1_1Menu.html", null ]
@@ -337,15 +294,6 @@ var hierarchy =
       [ "sw::Property< sw::Menu * >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::Window * >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::Rect >", "classsw_1_1Property.html", null ],
-      [ "sw::PropertyLiteBase< T, PropertyLite< T > >", "classsw_1_1PropertyLiteBase.html", [
-        [ "sw::PropertyLite< T >", "classsw_1_1PropertyLite.html", null ]
-      ] ],
-      [ "sw::PropertyLiteBase< T, ReadOnlyPropertyLite< T > >", "classsw_1_1PropertyLiteBase.html", [
-        [ "sw::ReadOnlyPropertyLite< T >", "classsw_1_1ReadOnlyPropertyLite.html", null ]
-      ] ],
-      [ "sw::PropertyLiteBase< T, WriteOnlyPropertyLite< T > >", "classsw_1_1PropertyLiteBase.html", [
-        [ "sw::WriteOnlyPropertyLite< T >", "classsw_1_1WriteOnlyPropertyLite.html", null ]
-      ] ],
       [ "sw::ReadOnlyProperty< int >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< StrList >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< TreeViewNode >", "classsw_1_1ReadOnlyProperty.html", null ],
@@ -365,8 +313,7 @@ var hierarchy =
       [ "sw::ReadOnlyProperty< sw::UIElement * >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Window * >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< HWND >", "classsw_1_1ReadOnlyProperty.html", null ],
-      [ "sw::ReadOnlyProperty< sw::WndBase * >", "classsw_1_1ReadOnlyProperty.html", null ],
-      [ "sw::PropertyLiteBase< T, TDerived >", "classsw_1_1PropertyLiteBase.html", null ]
+      [ "sw::ReadOnlyProperty< sw::WndBase * >", "classsw_1_1ReadOnlyProperty.html", null ]
     ] ],
     [ "sw::PropertyBase< AppQuitMode, Property< AppQuitMode > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< BmpBoxSizeMode, Property< BmpBoxSizeMode > >", "classsw_1_1PropertyBase.html", null ],
@@ -422,15 +369,12 @@ var hierarchy =
     [ "sw::PropertyBase< T, Property< T > >", "classsw_1_1PropertyBase.html", [
       [ "sw::Property< T >", "classsw_1_1Property.html", null ]
     ] ],
-    [ "sw::PropertyBase< T, PropertyLite< T > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< T, ReadOnlyProperty< T > >", "classsw_1_1PropertyBase.html", [
       [ "sw::ReadOnlyProperty< T >", "classsw_1_1ReadOnlyProperty.html", null ]
     ] ],
-    [ "sw::PropertyBase< T, ReadOnlyPropertyLite< T > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< T, WriteOnlyProperty< T > >", "classsw_1_1PropertyBase.html", [
       [ "sw::WriteOnlyProperty< T >", "classsw_1_1WriteOnlyProperty.html", null ]
     ] ],
-    [ "sw::PropertyBase< T, WriteOnlyPropertyLite< T > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< TabAlignment, Property< TabAlignment > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< TItem, ReadOnlyProperty< TItem > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< ToolTipIcon, Property< ToolTipIcon > >", "classsw_1_1PropertyBase.html", null ],
@@ -526,11 +470,11 @@ var hierarchy =
       [ "sw::TypedRoutedEventArgs< TYPE >", "structsw_1_1TypedRoutedEventArgs.html", null ]
     ] ],
     [ "sw::Screen", "classsw_1_1Screen.html", null ],
-    [ "sw::StaticPropertyLiteInitializer< TValue >", "classsw_1_1StaticPropertyLiteInitializer.html", null ],
+    [ "sw::StaticPropertyInitializer< TValue >", "classsw_1_1StaticPropertyInitializer.html", null ],
     [ "std::true_type", null, [
       [ "sw::UIElement::_CanAddChild< T, decltype(void(std::declval< UIElement >().AddChild(std::declval< T >())))>", "structsw_1_1UIElement_1_1__CanAddChild_3_01T_00_01decltype_07void_07std_1_1declval_3_01UIElementc4e59a28561b2f6c76501e41deec6964.html", null ],
       [ "sw::_BracketOperationHelper< T, U, decltype(void(std::declval< T >()[std::declval< U >()]))>", "structsw_1_1__BracketOperationHelper_3_01T_00_01U_00_01decltype_07void_07std_1_1declval_3_01T_015d7340010b451efba17696e1bdb8739b.html", null ],
-      [ "sw::_HasArrowOperator< T, typename std::enable_if< _HasArrowOperatorVs2015Fix< T >::value >::type >", "structsw_1_1__HasArrowOperator_3_01T_00_01typename_01std_1_1enable__if_3_01__HasArrowOperatorVs293feea522a622808e377a95351f242a0.html", null ],
+      [ "sw::_HasArrowOperator< T, decltype(void(std::declval< T >().operator->()))>", "structsw_1_1__HasArrowOperator_3_01T_00_01decltype_07void_07std_1_1declval_3_01T_01_4_07_08_8operator-_4_07_08_08_08_4.html", null ],
       [ "sw::_HasEventType< T, decltype(void(T::EventType))>", "structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07T_1_1EventType_08_08_4.html", null ],
       [ "sw::_HasGetterImpl< T, decltype(void(&T::GetterImpl))>", "structsw_1_1__HasGetterImpl_3_01T_00_01decltype_07void_07_6T_1_1GetterImpl_08_08_4.html", null ],
       [ "sw::_HasSetterImpl< T, decltype(void(&T::SetterImpl))>", "structsw_1_1__HasSetterImpl_3_01T_00_01decltype_07void_07_6T_1_1SetterImpl_08_08_4.html", null ],
