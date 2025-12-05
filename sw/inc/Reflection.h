@@ -6,6 +6,7 @@
 
 #include "Delegate.h"
 #include "IComparable.h"
+#include "IToString.h"
 #include "Property.h"
 #include <type_traits>
 #include <typeindex>
@@ -114,8 +115,8 @@ namespace sw
     /**
      * @brief 表示字段的唯一标识符
      */
-    struct FieldId : public IComparable<FieldId, FieldId> //
-    {
+    struct FieldId : public IToString<FieldId>,
+                     public IComparable<FieldId, FieldId> {
         /**
          * @brief 字段ID的数值
          */
@@ -132,6 +133,14 @@ namespace sw
         FieldId(uint32_t value)
             : value(value)
         {
+        }
+
+        /**
+         * @brief 获取字段ID的字符串表示形式
+         */
+        std::wstring ToString() const
+        {
+            return std::to_wstring(value);
         }
 
         /**
