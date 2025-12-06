@@ -11,7 +11,7 @@ var searchData=
   ['showeffects_8',['ShowEffects',['../classsw_1_1FontDialog.html#ad2a8869292450ecff8c7440279859443',1,'sw::FontDialog']]],
   ['showtoday_9',['ShowToday',['../classsw_1_1MonthCalendar.html#a0882a0fca2d2a8c4b5c719fd896f3576',1,'sw::MonthCalendar']]],
   ['showupdownbutton_10',['ShowUpDownButton',['../classsw_1_1DateTimePicker.html#af44a2e7a26d334ef83404e872c2420b9',1,'sw::DateTimePicker']]],
-  ['size_11',['size',['../classsw_1_1Font.html#aad5569847e5d52c155fe3c1a049324f3',1,'sw::Font::size'],['../classsw_1_1Screen.html#af876d569cb3aacc8174e045400fbbf5a',1,'sw::Screen::Size']]],
+  ['size_11',['size',['../classsw_1_1Screen.html#af876d569cb3aacc8174e045400fbbf5a',1,'sw::Screen::Size'],['../classsw_1_1Font.html#aad5569847e5d52c155fe3c1a049324f3',1,'sw::Font::size']]],
   ['sizebox_12',['SizeBox',['../classsw_1_1Window.html#a518c14e6ddbf171489a86baff4cbb6a3',1,'sw::Window']]],
   ['sizemode_13',['SizeMode',['../classsw_1_1BmpBox.html#a95fbd6a72c3a54987b3fc7df107a4edd',1,'sw::BmpBox']]],
   ['sizinggrip_14',['SizingGrip',['../classsw_1_1StatusBar.html#a4da5dcbe130095ab4e52a67e9f3f9a65',1,'sw::StatusBar']]],

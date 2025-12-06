@@ -88,7 +88,7 @@ var classsw_1_1WndBase =
     [ "SetExtendedStyle", "classsw_1_1WndBase.html#a074171e62cdb3e20f53b9262164852ca", null ],
     [ "SetInternalText", "classsw_1_1WndBase.html#a1fc9851ddd21521667a73daa950b94e1", null ],
     [ "SetParent", "classsw_1_1WndBase.html#a5fd142cef45421381b2e8b89cac67d86", null ],
-    [ "SetProperty", "classsw_1_1WndBase.html#a41601f2d0550bff3c184a0779490f782", null ],
+    [ "SetProperty", "classsw_1_1WndBase.html#aef2510deb60f3f67a349d4701fe76e86", null ],
     [ "SetStyle", "classsw_1_1WndBase.html#a34a1c2216b75bd9cd45d4a2e042b55c5", null ],
     [ "SetStyle", "classsw_1_1WndBase.html#afc6dbe392704320ef2e6896eff55dd4f", null ],
     [ "Show", "classsw_1_1WndBase.html#ae2f1b78dd8165c8bca0313180a9f4b81", null ],

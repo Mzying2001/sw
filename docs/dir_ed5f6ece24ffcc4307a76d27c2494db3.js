@@ -70,7 +70,6 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "ProcMsg.h", "ProcMsg_8h_source.html", null ],
     [ "ProgressBar.h", "ProgressBar_8h_source.html", null ],
     [ "Property.h", "Property_8h_source.html", null ],
-    [ "PropertyLite.h", "PropertyLite_8h_source.html", null ],
     [ "RadioButton.h", "RadioButton_8h_source.html", null ],
     [ "Rect.h", "Rect_8h_source.html", null ],
     [ "Reflection.h", "Reflection_8h_source.html", null ],

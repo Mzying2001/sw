@@ -11,30 +11,28 @@
 
 sw::Animation::Animation()
     : Center(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(ACS_CENTER);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(ACS_CENTER, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Animation *self) -> bool {
+                  return self->GetStyle(ACS_CENTER);
+              })
+              .Setter([](Animation *self, bool value) {
+                  self->SetStyle(ACS_CENTER, value);
+              })),
 
       AutoPlay(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(ACS_AUTOPLAY);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(ACS_AUTOPLAY, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Animation *self) -> bool {
+                  return self->GetStyle(ACS_AUTOPLAY);
+              })
+              .Setter([](Animation *self, bool value) {
+                  self->SetStyle(ACS_AUTOPLAY, value);
+              })),
 
       IsPlaying(
-          // get
-          [this]() -> bool {
-              return this->SendMessageW(ACM_ISPLAYING, 0, 0);
-          })
+          Property<bool>::Init(this)
+              .Getter([](Animation *self) -> bool {
+                  return self->SendMessageW(ACM_ISPLAYING, 0, 0);
+              }))
 {
     this->InitControl(ANIMATE_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
     this->Rect = {0, 0, 200, 200};
@@ -131,46 +129,47 @@ thread_local sw::Action<MSG &> sw::App::NullHwndMsgHandler;
  */
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
-    []() -> HINSTANCE {
-        static HINSTANCE hInstance = GetModuleHandleW(NULL);
-        return hInstance;
-    } //
+    Property<HINSTANCE>::Init()
+        .Getter([]() -> HINSTANCE {
+            static HINSTANCE hInstance = GetModuleHandleW(NULL);
+            return hInstance;
+        }) //
 );
 
 const sw::ReadOnlyProperty<std::wstring> sw::App::ExePath(
-    []() -> std::wstring {
-        static std::wstring exePath = _GetExePath();
-        return exePath;
-    } //
+    Property<std::wstring>::Init()
+        .Getter([]() -> std::wstring {
+            static std::wstring exePath = _GetExePath();
+            return exePath;
+        }) //
 );
 
 const sw::ReadOnlyProperty<std::wstring> sw::App::ExeDirectory(
-    []() -> std::wstring {
-        static std::wstring exeDirectory = Path::GetDirectory(App::ExePath);
-        return exeDirectory;
-    } //
+    Property<std::wstring>::Init()
+        .Getter([]() -> std::wstring {
+            static std::wstring exeDirectory = Path::GetDirectory(App::ExePath);
+            return exeDirectory;
+        }) //
 );
 
 const sw::Property<std::wstring> sw::App::CurrentDirectory(
-    // get
-    []() -> std::wstring {
-        return _GetCurrentDirectory();
-    },
-    // set
-    [](const std::wstring &value) {
-        SetCurrentDirectoryW(value.c_str());
-    } //
+    Property<std::wstring>::Init()
+        .Getter([]() -> std::wstring {
+            return _GetCurrentDirectory();
+        })
+        .Setter([](const std::wstring &value) {
+            SetCurrentDirectoryW(value.c_str());
+        }) //
 );
 
 const sw::Property<sw::AppQuitMode> sw::App::QuitMode(
-    // get
-    []() -> sw::AppQuitMode {
-        return _appQuitMode;
-    },
-    // set
-    [](const sw::AppQuitMode &value) {
-        _appQuitMode = value;
-    } //
+    Property<sw::AppQuitMode>::Init()
+        .Getter([]() -> sw::AppQuitMode {
+            return _appQuitMode;
+        })
+        .Setter([](sw::AppQuitMode value) {
+            _appQuitMode = value;
+        }) //
 );
 
 int sw::App::MsgLoop()
@@ -197,24 +196,23 @@ void sw::App::QuitMsgLoop(int exitCode)
 
 sw::BmpBox::BmpBox()
     : BmpHandle(
-          // get
-          [this]() -> HBITMAP {
-              return this->_hBitmap;
-          }),
+          Property<HBITMAP>::Init(this)
+              .Getter([](BmpBox *self) -> HBITMAP {
+                  return self->_hBitmap;
+              })),
 
       SizeMode(
-          // get
-          [this]() -> BmpBoxSizeMode {
-              return this->_sizeMode;
-          },
-          // set
-          [this](const BmpBoxSizeMode &value) {
-              if (this->_sizeMode != value) {
-                  this->_sizeMode = value;
-                  this->Redraw();
-                  this->InvalidateMeasure();
-              }
-          })
+          Property<BmpBoxSizeMode>::Init(this)
+              .Getter([](BmpBox *self) -> BmpBoxSizeMode {
+                  return self->_sizeMode;
+              })
+              .Setter([](BmpBox *self, BmpBoxSizeMode value) {
+                  if (self->_sizeMode != value) {
+                      self->_sizeMode = value;
+                      self->Redraw();
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     this->Rect        = sw::Rect{0, 0, 200, 200};
     this->Transparent = true;
@@ -442,43 +440,44 @@ bool sw::Button::OnKeyDown(VirtualKey key, const KeyFlags &flags)
 
 sw::ButtonBase::ButtonBase()
     : AutoSize(
-          // get
-          [this]() -> bool {
-              return _autoSize;
-          },
-          // set
-          [this](const bool &value) {
-              if (_autoSize != value) {
-                  _autoSize = value;
-                  _UpdateLayoutFlags();
-                  InvalidateMeasure();
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ButtonBase *self) -> bool {
+                  return self->_autoSize;
+              })
+              .Setter([](ButtonBase *self, bool value) {
+                  if (self->_autoSize != value) {
+                      self->_autoSize = value;
+                      self->_UpdateLayoutFlags();
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       MultiLine(
-          // get
-          [this]() -> bool {
-              return GetStyle(BS_MULTILINE);
-          },
-          // set
-          [this](const bool &value) {
-              SetStyle(BS_MULTILINE, value);
-              if (_autoSize) InvalidateMeasure();
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ButtonBase *self) -> bool {
+                  return self->GetStyle(BS_MULTILINE);
+              })
+              .Setter([](ButtonBase *self, bool value) {
+                  self->SetStyle(BS_MULTILINE, value);
+                  if (self->_autoSize) {
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       TextMargin(
-          // get
-          [this]() -> Thickness {
-              RECT rect{};
-              _GetTextMargin(rect);
-              return rect;
-          },
-          // set
-          [this](const Thickness &value) {
-              RECT rect = value;
-              _SetTextMargin(rect);
-              if (_autoSize) InvalidateMeasure();
-          })
+          Property<Thickness>::Init(this)
+              .Getter([](ButtonBase *self) -> Thickness {
+                  RECT rect{};
+                  self->_GetTextMargin(rect);
+                  return rect;
+              })
+              .Setter([](ButtonBase *self, const Thickness &value) {
+                  RECT rect = value;
+                  self->_SetTextMargin(rect);
+                  if (self->_autoSize) {
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     TabStop          = true;
     Transparent      = true;
@@ -662,15 +661,14 @@ void sw::CanvasLayout::ArrangeOverride(const Size &finalSize)
 
 sw::CheckBox::CheckBox()
     : ThreeState(
-          // get
-          [this]() -> bool {
-              return (GetStyle() & BS_AUTO3STATE) == BS_AUTO3STATE;
-          },
-          // set
-          [this](const bool &value) {
-              auto style = GetStyle() & ~(BS_AUTOCHECKBOX | BS_AUTO3STATE);
-              SetStyle(value ? (style | BS_AUTO3STATE) : (style | BS_AUTOCHECKBOX));
-          })
+          Property<bool>::Init(this)
+              .Getter([](CheckBox *self) -> bool {
+                  return (self->GetStyle() & BS_AUTO3STATE) == BS_AUTO3STATE;
+              })
+              .Setter([](CheckBox *self, bool value) {
+                  auto style = self->GetStyle() & ~(BS_AUTOCHECKBOX | BS_AUTO3STATE);
+                  self->SetStyle(value ? (style | BS_AUTO3STATE) : (style | BS_AUTOCHECKBOX));
+              }))
 {
     InitButtonBase(L"CheckBox", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTOCHECKBOX, 0);
     Rect     = sw::Rect{0, 0, 100, 20};
@@ -681,24 +679,22 @@ sw::CheckBox::CheckBox()
 
 sw::CheckableButton::CheckableButton()
     : CheckState(
-          // get
-          [this]() -> sw::CheckState {
-              return (sw::CheckState)this->SendMessageW(BM_GETCHECK, 0, 0);
-          },
-          // set
-          [this](const sw::CheckState &value) {
-              this->SendMessageW(BM_SETCHECK, (WPARAM)value, 0);
-          }),
+          Property<sw::CheckState>::Init(this)
+              .Getter([](CheckableButton *self) -> sw::CheckState {
+                  return (sw::CheckState)self->SendMessageW(BM_GETCHECK, 0, 0);
+              })
+              .Setter([](CheckableButton *self, sw::CheckState value) {
+                  self->SendMessageW(BM_SETCHECK, (WPARAM)value, 0);
+              })),
 
       IsChecked(
-          // get
-          [this]() -> bool {
-              return this->CheckState.Get() == sw::CheckState::Checked;
-          },
-          // set
-          [this](const bool &value) {
-              this->CheckState = value ? sw::CheckState::Checked : sw::CheckState::Unchecked;
-          })
+          Property<bool>::Init(this)
+              .Getter([](CheckableButton *self) -> bool {
+                  return self->CheckState.Get() == sw::CheckState::Checked;
+              })
+              .Setter([](CheckableButton *self, bool value) {
+                  self->CheckState = value ? sw::CheckState::Checked : sw::CheckState::Unchecked;
+              }))
 {
 }
 
@@ -767,48 +763,44 @@ namespace
 
 sw::ColorDialog::ColorDialog()
     : Flags(
-          // get
-          [this]() -> ColorDialogFlags {
-              return static_cast<ColorDialogFlags>(_cc.Flags);
-          },
-          // set
-          [this](const ColorDialogFlags &value) {
-              _cc.Flags = static_cast<DWORD>(value);
-          }),
+          Property<ColorDialogFlags>::Init(this)
+              .Getter([](ColorDialog *self) -> ColorDialogFlags {
+                  return static_cast<ColorDialogFlags>(self->_cc.Flags);
+              })
+              .Setter([](ColorDialog *self, ColorDialogFlags value) {
+                  self->_cc.Flags = static_cast<DWORD>(value);
+              })),
 
       SelectedColor(
-          // get
-          [this]() -> Color {
-              return _cc.rgbResult;
-          },
-          // set
-          [this](const Color &value) {
-              _cc.rgbResult = value;
-          }),
+          Property<Color>::Init(this)
+              .Getter([](ColorDialog *self) -> Color {
+                  return self->_cc.rgbResult;
+              })
+              .Setter([](ColorDialog *self, const Color &value) {
+                  self->_cc.rgbResult = value;
+              })),
 
       FullOpen(
-          // get
-          [this]() -> bool {
-              return (Flags & ColorDialogFlags::FullOpen) == ColorDialogFlags::FullOpen;
-          },
-          // set
-          [this](const bool &value) {
-              if (value) {
-                  Flags |= ColorDialogFlags::FullOpen;
-              } else {
-                  Flags &= ~ColorDialogFlags::FullOpen;
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ColorDialog *self) -> bool {
+                  return (self->Flags & ColorDialogFlags::FullOpen) == ColorDialogFlags::FullOpen;
+              })
+              .Setter([](ColorDialog *self, bool value) {
+                  if (value) {
+                      self->Flags |= ColorDialogFlags::FullOpen;
+                  } else {
+                      self->Flags &= ~ColorDialogFlags::FullOpen;
+                  }
+              })),
 
       CustomColors(
-          // get
-          [this]() -> COLORREF * {
-              return _cc.lpCustColors;
-          },
-          // set
-          [this](COLORREF *value) {
-              _cc.lpCustColors = value ? value : _defaultCustomColors;
-          })
+          Property<COLORREF *>::Init(this)
+              .Getter([](ColorDialog *self) -> COLORREF * {
+                  return self->_cc.lpCustColors;
+              })
+              .Setter([](ColorDialog *self, COLORREF *value) {
+                  self->_cc.lpCustColors = value ? value : _defaultCustomColors;
+              }))
 {
     _cc.lStructSize  = sizeof(CHOOSECOLORW);
     _cc.Flags        = DWORD(ColorDialogFlags::RgbInit);
@@ -857,18 +849,17 @@ namespace
 
 sw::ComboBox::ComboBox()
     : IsEditable(
-          // get
-          [this]() -> bool {
-              return this->GetStyle() == _ComboBoxStyle_Editable;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->IsEditable != value) {
-                  this->SetStyle(value ? _ComboBoxStyle_Editable : _ComboBoxStyle_Default);
-                  this->ResetHandle();
-                  this->SetInternalText(this->WndBase::GetInternalText()); // 使切换后文本框内容能够保留
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](ComboBox *self) -> bool {
+                  return self->GetStyle() == _ComboBoxStyle_Editable;
+              })
+              .Setter([](ComboBox *self, bool value) {
+                  if (self->IsEditable != value) {
+                      self->SetStyle(value ? _ComboBoxStyle_Editable : _ComboBoxStyle_Default);
+                      self->ResetHandle();
+                      self->SetInternalText(self->WndBase::GetInternalText()); // 使切换后文本框内容能够保留
+                  }
+              }))
 {
     this->InitControl(L"COMBOBOX", L"", _ComboBoxStyle_Default, 0);
     this->Rect    = sw::Rect(0, 0, 100, 24);
@@ -1013,25 +1004,26 @@ void sw::ComboBox::CloseDropDown()
 
 sw::CommandLink::CommandLink()
     : NoteText(
-          // get
-          [this]() -> std::wstring {
-              int len = (int)SendMessageW(BCM_GETNOTELENGTH, 0, 0);
-              if (len <= 0)
-                  return std::wstring{};
-              else {
-                  std::wstring result;
-                  DWORD buflen = len + 1;
-                  result.resize(buflen);
-                  SendMessageW(BCM_GETNOTE, reinterpret_cast<WPARAM>(&buflen), reinterpret_cast<LPARAM>(&result[0]));
-                  result.resize(len);
-                  return result;
-              }
-          },
-          // set
-          [this](const std::wstring &value) {
-              SendMessageW(BCM_SETNOTE, 0, reinterpret_cast<LPARAM>(value.c_str()));
-              if (AutoSize) InvalidateMeasure();
-          })
+          Property<std::wstring>::Init(this)
+              .Getter([](CommandLink *self) -> std::wstring {
+                  int len = (int)self->SendMessageW(BCM_GETNOTELENGTH, 0, 0);
+                  if (len <= 0)
+                      return std::wstring{};
+                  else {
+                      std::wstring result;
+                      DWORD buflen = len + 1;
+                      result.resize(buflen);
+                      self->SendMessageW(BCM_GETNOTE, reinterpret_cast<WPARAM>(&buflen), reinterpret_cast<LPARAM>(&result[0]));
+                      result.resize(len);
+                      return result;
+                  }
+              })
+              .Setter([](CommandLink *self, const std::wstring &value) {
+                  self->SendMessageW(BCM_SETNOTE, 0, reinterpret_cast<LPARAM>(value.c_str()));
+                  if (self->AutoSize) {
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     InitButtonBase(L"CommandLink", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_COMMANDLINK, 0);
     Rect     = sw::Rect{0, 0, 180, 60};
@@ -1108,20 +1100,20 @@ int sw::ContextMenu::IDToIndex(int id)
 
 sw::Control::Control()
     : ControlId(
-          // get
-          [this]() -> int {
-              return GetDlgCtrlID(_hwnd);
-          }),
+          Property<int>::Init(this)
+              .Getter([](Control *self) -> int {
+                  return GetDlgCtrlID(self->_hwnd);
+              })),
 
       IsInHierarchy(
-          // get
-          [this]() -> bool {
-              if (_hwnd == NULL || _isDestroyed) {
-                  return false;
-              }
-              auto container = WndBase::_GetControlInitContainer();
-              return container == nullptr || GetParent(_hwnd) != container->_hwnd;
-          })
+          Property<bool>::Init(this)
+              .Getter([](Control *self) -> bool {
+                  if (self->_hwnd == NULL || self->_isDestroyed) {
+                      return false;
+                  }
+                  auto container = WndBase::_GetControlInitContainer();
+                  return container == nullptr || GetParent(self->_hwnd) != container->_hwnd;
+              }))
 {
 }
 
@@ -1269,55 +1261,52 @@ HCURSOR sw::CursorHelper::GetCursorHandle(const std::wstring &fileName)
 
 sw::DateTimePicker::DateTimePicker()
     : ShowUpDownButton(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(DTS_UPDOWN);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->ShowUpDownButton != value) {
-                  this->_UpdateStyle(
-                      value ? (this->GetStyle() | DTS_UPDOWN)
-                            : (this->GetStyle() & ~DTS_UPDOWN));
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](DateTimePicker *self) -> bool {
+                  return self->GetStyle(DTS_UPDOWN);
+              })
+              .Setter([](DateTimePicker *self, bool value) {
+                  if (self->ShowUpDownButton != value) {
+                      self->_UpdateStyle(
+                          value ? (self->GetStyle() | DTS_UPDOWN)
+                                : (self->GetStyle() & ~DTS_UPDOWN));
+                  }
+              })),
 
       Format(
-          // get
-          [this]() -> DateTimePickerFormat {
-              return this->_format;
-          },
-          // set
-          [this](const DateTimePickerFormat &value) {
-              if (this->_format == value) {
-                  return;
-              }
-              DWORD style = this->GetStyle();
-              style &= ~(DTS_SHORTDATEFORMAT | DTS_LONGDATEFORMAT);
-              switch (value) {
-                  case DateTimePickerFormat::Short:
-                  case DateTimePickerFormat::Custom:
-                      style |= DTS_SHORTDATEFORMAT;
-                      break;
-                  case DateTimePickerFormat::Long:
-                      style |= DTS_LONGDATEFORMAT;
-                      break;
-              }
-              this->_format = value;
-              this->_UpdateStyle(style);
-          }),
+          Property<DateTimePickerFormat>::Init(this)
+              .Getter([](DateTimePicker *self) -> DateTimePickerFormat {
+                  return self->_format;
+              })
+              .Setter([](DateTimePicker *self, DateTimePickerFormat value) {
+                  if (self->_format == value) {
+                      return;
+                  }
+                  DWORD style = self->GetStyle();
+                  style &= ~(DTS_SHORTDATEFORMAT | DTS_LONGDATEFORMAT);
+                  switch (value) {
+                      case DateTimePickerFormat::Short:
+                      case DateTimePickerFormat::Custom:
+                          style |= DTS_SHORTDATEFORMAT;
+                          break;
+                      case DateTimePickerFormat::Long:
+                          style |= DTS_LONGDATEFORMAT;
+                          break;
+                  }
+                  self->_format = value;
+                  self->_UpdateStyle(style);
+              })),
 
       CustomFormat(
-          // get
-          [this]() -> std::wstring {
-              return this->_customFormat;
-          },
-          // set
-          [this](const std::wstring &value) {
-              this->_format       = DateTimePickerFormat::Custom;
-              this->_customFormat = value;
-              this->_SetFormat(this->_customFormat);
-          })
+          Property<std::wstring>::Init(this)
+              .Getter([](DateTimePicker *self) -> std::wstring {
+                  return self->_customFormat;
+              })
+              .Setter([](DateTimePicker *self, const std::wstring &value) {
+                  self->_format       = DateTimePickerFormat::Custom;
+                  self->_customFormat = value;
+                  self->_SetFormat(self->_customFormat);
+              }))
 {
     this->InitControl(DATETIMEPICK_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | DTS_SHORTDATEFORMAT, 0);
     this->Rect    = sw::Rect{0, 0, 100, 24};
@@ -1433,15 +1422,17 @@ namespace
 /*================================================================================*/
 
 const sw::ReadOnlyProperty<double> sw::Dip::ScaleX(
-    []() -> double {
-        return _scaleInfo.scaleX;
-    } //
+    Property<double>::Init()
+        .Getter([]() -> double {
+            return _scaleInfo.scaleX;
+        }) //
 );
 
 const sw::ReadOnlyProperty<double> sw::Dip::ScaleY(
-    []() -> double {
-        return _scaleInfo.scaleY;
-    } //
+    Property<double>::Init()
+        .Getter([]() -> double {
+            return _scaleInfo.scaleY;
+        }) //
 );
 
 void sw::Dip::Update(int dpiX, int dpiY)
@@ -1637,15 +1628,16 @@ void sw::DockLayout::ArrangeOverride(const Size &finalSize)
 
 sw::DockPanel::DockPanel()
     : LastChildFill(
-          // get
-          [this]() -> bool {
-              return this->_dockLayout.lastChildFill;
-          },
-          // set
-          [this](const bool &value) {
-              this->_dockLayout.lastChildFill = value;
-              this->InvalidateMeasure();
-          })
+          Property<bool>::Init(this)
+              .Getter([](DockPanel *self) -> bool {
+                  return self->_dockLayout.lastChildFill;
+              })
+              .Setter([](DockPanel *self, bool value) {
+                  if (self->_dockLayout.lastChildFill != value) {
+                      self->_dockLayout.lastChildFill = value;
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     this->_dockLayout.Associate(this);
     this->HorizontalAlignment = HorizontalAlignment::Stretch;
@@ -1909,136 +1901,130 @@ const wchar_t *sw::FileFilter::GetDefaultExt(int index)
 
 sw::FileDialog::FileDialog()
     : BufferSize(
-          // get
-          [this]() -> int {
-              return (int)_buffer.size();
-          },
-          // set
-          [this](const int &value) {
-              int size = Utils::Max(MAX_PATH, value);
-              _buffer.resize(size);
-              _ofn.lpstrFile = _buffer.data();
-              _ofn.nMaxFile  = (DWORD)_buffer.size();
-              ClearBuffer(); // 清空缓冲区，防止BufferSize比原来小时获取FileName访问到缓冲区外的内存
-          }),
+          Property<int>::Init(this)
+              .Getter([](FileDialog *self) -> int {
+                  return (int)self->_buffer.size();
+              })
+              .Setter([](FileDialog *self, int value) {
+                  int size = Utils::Max(MAX_PATH, value);
+                  self->_buffer.resize(size);
+                  self->_ofn.lpstrFile = self->_buffer.data();
+                  self->_ofn.nMaxFile  = (DWORD)self->_buffer.size();
+                  self->ClearBuffer(); // 清空缓冲区，防止BufferSize比原来小时获取FileName访问到缓冲区外的内存
+              })),
 
       Flags(
-          // get
-          [this]() -> FileDialogFlags {
-              return static_cast<FileDialogFlags>(_ofn.Flags);
-          },
-          // set
-          [this](const FileDialogFlags &value) {
-              _ofn.Flags = static_cast<DWORD>(value);
-          }),
+          Property<FileDialogFlags>::Init(this)
+              .Getter([](FileDialog *self) -> FileDialogFlags {
+                  return static_cast<FileDialogFlags>(self->_ofn.Flags);
+              })
+              .Setter([](FileDialog *self, FileDialogFlags value) {
+                  self->_ofn.Flags = static_cast<DWORD>(value);
+              })),
 
       Title(
-          // get
-          [this]() -> std::wstring {
-              return _title;
-          },
-          // set
-          [this](const std::wstring &value) {
-              _title = value;
-              if (_title.empty()) {
-                  _ofn.lpstrTitle = nullptr;
-              } else {
-                  _ofn.lpstrTitle = _title.c_str();
-              }
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](FileDialog *self) -> std::wstring {
+                  return self->_title;
+              })
+              .Setter([](FileDialog *self, const std::wstring &value) {
+                  self->_title = value;
+                  if (self->_title.empty()) {
+                      self->_ofn.lpstrTitle = nullptr;
+                  } else {
+                      self->_ofn.lpstrTitle = self->_title.c_str();
+                  }
+              })),
 
       InitialDir(
-          // get
-          [this]() -> std::wstring {
-              return _initialDir;
-          },
-          // set
-          [this](const std::wstring &value) {
-              _initialDir = value;
-              if (_initialDir.empty()) {
-                  _ofn.lpstrInitialDir = nullptr;
-              } else {
-                  _ofn.lpstrInitialDir = _initialDir.c_str();
-              }
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](FileDialog *self) -> std::wstring {
+                  return self->_initialDir;
+              })
+              .Setter([](FileDialog *self, const std::wstring &value) {
+                  self->_initialDir = value;
+                  if (self->_initialDir.empty()) {
+                      self->_ofn.lpstrInitialDir = nullptr;
+                  } else {
+                      self->_ofn.lpstrInitialDir = self->_initialDir.c_str();
+                  }
+              })),
 
       Filter(
-          // get
-          [this]() -> FileFilter * {
-              return &_filter;
-          }),
+          Property<FileFilter *>::Init(this)
+              .Getter([](FileDialog *self) -> FileFilter * {
+                  return &self->_filter;
+              })),
 
       FilterIndex(
-          // get
-          [this]() -> int {
-              return (int)_ofn.nFilterIndex - 1;
-          },
-          // set
-          [this](const int &value) {
-              _ofn.nFilterIndex = Utils::Max(0, value) + 1;
-          }),
+          Property<int>::Init(this)
+              .Getter([](FileDialog *self) -> int {
+                  return (int)self->_ofn.nFilterIndex - 1;
+              })
+              .Setter([](FileDialog *self, int value) {
+                  self->_ofn.nFilterIndex = Utils::Max(0, value) + 1;
+              })),
 
       FileName(
-          // get
-          [this]() -> std::wstring {
-              if (!MultiSelect) {
-                  std::wstring result(GetBuffer());
-                  ProcessFileName(result);
-                  return result;
-              } else {
-                  std::wstring path(GetBuffer());
-                  wchar_t *pFile = GetBuffer() + path.size() + 1;
-                  std::wstring result(*pFile ? Path::Combine({path, pFile}) : path);
-                  ProcessFileName(result);
-                  return result;
-              }
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](FileDialog *self) -> std::wstring {
+                  if (!self->MultiSelect) {
+                      std::wstring result(self->GetBuffer());
+                      self->ProcessFileName(result);
+                      return result;
+                  } else {
+                      std::wstring path(self->GetBuffer());
+                      wchar_t *pFile = self->GetBuffer() + path.size() + 1;
+                      std::wstring result(*pFile ? Path::Combine({path, pFile}) : path);
+                      self->ProcessFileName(result);
+                      return result;
+                  }
+              })),
 
       MultiSelect(
-          // get
-          [this]() -> bool {
-              return (Flags & FileDialogFlags::AllowMultiSelect) == FileDialogFlags::AllowMultiSelect;
-          },
-          // set
-          [this](const bool &value) {
-              if (value) {
-                  Flags |= FileDialogFlags::AllowMultiSelect;
-              } else {
-                  Flags &= ~FileDialogFlags::AllowMultiSelect;
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](FileDialog *self) -> bool {
+                  return (self->Flags & FileDialogFlags::AllowMultiSelect) == FileDialogFlags::AllowMultiSelect;
+              })
+              .Setter([](FileDialog *self, bool value) {
+                  if (value) {
+                      self->Flags |= FileDialogFlags::AllowMultiSelect;
+                  } else {
+                      self->Flags &= ~FileDialogFlags::AllowMultiSelect;
+                  }
+              })),
 
       FileNames(
-          // get
-          [this]() -> List<std::wstring> {
-              List<std::wstring> result;
+          ReadOnlyProperty<sw::List<std::wstring>>::Init(this)
+              .Getter([](FileDialog *self) -> List<std::wstring> {
+                  List<std::wstring> result;
 
-              if (!MultiSelect) {
-                  auto fileName = FileName.Get();
-                  if (!fileName.empty())
-                      result.Append(fileName);
-                  return result;
-              }
+                  if (!self->MultiSelect) {
+                      auto fileName = self->FileName.Get();
+                      if (!fileName.empty())
+                          result.Append(fileName);
+                      return result;
+                  }
 
-              std::wstring path(GetBuffer());
-              wchar_t *pFile = GetBuffer() + path.size() + 1;
+                  std::wstring path(self->GetBuffer());
+                  wchar_t *pFile = self->GetBuffer() + path.size() + 1;
 
-              if (*pFile == 0) { // 多选状态下只选中一项时，buffer中存放的就是选择的文件路径
-                  if (!path.empty()) {
-                      result.Append(path);
-                      ProcessFileName(result[result.Count() - 1]);
+                  if (*pFile == 0) { // 多选状态下只选中一项时，buffer中存放的就是选择的文件路径
+                      if (!path.empty()) {
+                          result.Append(path);
+                          self->ProcessFileName(result[result.Count() - 1]);
+                      }
+                      return result;
+                  }
+
+                  while (*pFile) {
+                      std::wstring file = pFile;
+                      result.Append(Path::Combine({path, file}));
+                      self->ProcessFileName(result[result.Count() - 1]);
+                      pFile += file.size() + 1;
                   }
                   return result;
-              }
-
-              while (*pFile) {
-                  std::wstring file = pFile;
-                  result.Append(Path::Combine({path, file}));
-                  ProcessFileName(result[result.Count() - 1]);
-                  pFile += file.size() + 1;
-              }
-              return result;
-          })
+              }))
 {
     _ofn.lStructSize       = sizeof(_ofn);
     _ofn.lpstrFileTitle    = nullptr;
@@ -2123,14 +2109,15 @@ int sw::OpenFileDialog::ShowDialog(Window &owner)
 
 sw::SaveFileDialog::SaveFileDialog()
     : InitialFileName(
-          // get
-          [this]() -> std::wstring {
-              return _initialFileName;
-          },
-          // set
-          [this](const std::wstring &value) {
-              _initialFileName = value;
-          })
+          Property<std::wstring>::Init(this)
+              .Getter(
+                  [](SaveFileDialog *self) -> std::wstring {
+                      return self->_initialFileName;
+                  })
+              .Setter(
+                  [](SaveFileDialog *self, const std::wstring &value) {
+                      self->_initialFileName = value;
+                  }))
 {
     Flags |= FileDialogFlags::PathMustExist |
              FileDialogFlags::FileMustExist |
@@ -2239,60 +2226,56 @@ namespace
 
 sw::FolderBrowserDialog::FolderBrowserDialog()
     : BufferSize(
-          // get
-          [this]() -> int {
-              return (int)_buffer.size();
-          },
-          // set
-          [this](const int &value) {
-              _buffer.resize(Utils::Max(MAX_PATH, value));
-              ClearBuffer();
-          }),
+          Property<int>::Init(this)
+              .Getter([](FolderBrowserDialog *self) -> int {
+                  return (int)self->_buffer.size();
+              })
+              .Setter([](FolderBrowserDialog *self, int value) {
+                  self->_buffer.resize(Utils::Max(MAX_PATH, value));
+                  self->ClearBuffer();
+              })),
 
       Flags(
-          // get
-          [this]() -> FolderDialogFlags {
-              return static_cast<FolderDialogFlags>(_bi.ulFlags);
-          },
-          // set
-          [this](const FolderDialogFlags &value) {
-              _bi.ulFlags = static_cast<UINT>(value);
-          }),
+          Property<FolderDialogFlags>::Init(this)
+              .Getter([](FolderBrowserDialog *self) -> FolderDialogFlags {
+                  return static_cast<FolderDialogFlags>(self->_bi.ulFlags);
+              })
+              .Setter([](FolderBrowserDialog *self, FolderDialogFlags value) {
+                  self->_bi.ulFlags = static_cast<UINT>(value);
+              })),
 
       Description(
-          // get
-          [this]() -> std::wstring {
-              return _description;
-          },
-          // set
-          [this](const std::wstring &value) {
-              _description = value;
-              if (_description.empty()) {
-                  _bi.lpszTitle = nullptr;
-              } else {
-                  _bi.lpszTitle = _description.c_str();
-              }
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](FolderBrowserDialog *self) -> std::wstring {
+                  return self->_description;
+              })
+              .Setter([](FolderBrowserDialog *self, const std::wstring &value) {
+                  self->_description = value;
+                  if (self->_description.empty()) {
+                      self->_bi.lpszTitle = nullptr;
+                  } else {
+                      self->_bi.lpszTitle = self->_description.c_str();
+                  }
+              })),
 
       SelectedPath(
-          // get
-          [this]() -> std::wstring {
-              return GetBuffer();
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](FolderBrowserDialog *self) -> std::wstring {
+                  return self->GetBuffer();
+              })),
 
       NewFolderButton(
-          // get
-          [this]() -> bool {
-              return !((Flags & FolderDialogFlags::NoNewFolderButton) == FolderDialogFlags::NoNewFolderButton);
-          },
-          // set
-          [this](const bool &value) {
-              if (value) {
-                  Flags &= ~FolderDialogFlags::NoNewFolderButton;
-              } else {
-                  Flags |= FolderDialogFlags::NoNewFolderButton;
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](FolderBrowserDialog *self) -> bool {
+                  return !((self->Flags & FolderDialogFlags::NoNewFolderButton) == FolderDialogFlags::NoNewFolderButton);
+              })
+              .Setter([](FolderBrowserDialog *self, bool value) {
+                  if (value) {
+                      self->Flags &= ~FolderDialogFlags::NoNewFolderButton;
+                  } else {
+                      self->Flags |= FolderDialogFlags::NoNewFolderButton;
+                  }
+              }))
 {
     BufferSize  = _FolderBrowserDialogInitialBufferSize;
     Flags       = FolderDialogFlags::NewDialogStyle | FolderDialogFlags::ReturnOnlyFileSystemDirs;
@@ -2438,78 +2421,71 @@ sw::Font &sw::Font::GetDefaultFont(bool update)
 
 sw::FontDialog::FontDialog()
     : Flags(
-          // get
-          [this]() -> FontDialogFlags {
-              return static_cast<FontDialogFlags>(_cf.Flags);
-          },
-          // set
-          [this](const FontDialogFlags &value) {
-              _cf.Flags = static_cast<DWORD>(value);
-          }),
+          Property<FontDialogFlags>::Init(this)
+              .Getter([](FontDialog *self) -> FontDialogFlags {
+                  return static_cast<FontDialogFlags>(self->_cf.Flags);
+              })
+              .Setter([](FontDialog *self, FontDialogFlags value) {
+                  self->_cf.Flags = static_cast<DWORD>(value);
+              })),
 
       Font(
-          // get
-          [this]() -> sw::Font {
-              return _font;
-          },
-          // set
-          [this](const sw::Font &value) {
-              _font = value;
-          }),
+          Property<sw::Font>::Init(this)
+              .Getter([](FontDialog *self) -> sw::Font {
+                  return self->_font;
+              })
+              .Setter([](FontDialog *self, const sw::Font &value) {
+                  self->_font = value;
+              })),
 
       FontName(
-          // get
-          [this]() -> std::wstring {
-              return _font.name;
-          },
-          // set
-          [this](const std::wstring &value) {
-              _font.name = value;
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](FontDialog *self) -> std::wstring {
+                  return self->_font.name;
+              })
+              .Setter([](FontDialog *self, const std::wstring &value) {
+                  self->_font.name = value;
+              })),
 
       FontSize(
-          // get
-          [this]() -> double {
-              return _font.size;
-          },
-          // set
-          [this](const double &value) {
-              _font.size = value;
-          }),
+          Property<double>::Init(this)
+              .Getter([](FontDialog *self) -> double {
+                  return self->_font.size;
+              })
+              .Setter([](FontDialog *self, double value) {
+                  self->_font.size = value;
+              })),
 
       FontWeight(
-          // get
-          [this]() -> sw::FontWeight {
-              return _font.weight;
-          },
-          // set
-          [this](const sw::FontWeight &value) {
-              _font.weight = value;
-          }),
+          Property<sw::FontWeight>::Init(this)
+              .Getter([](FontDialog *self) -> sw::FontWeight {
+                  return self->_font.weight;
+              })
+              .Setter([](FontDialog *self, sw::FontWeight value) {
+                  self->_font.weight = value;
+              })),
 
       ShowEffects(
-          // get
-          [this]() -> bool {
-              return (Flags & FontDialogFlags::Effects) == FontDialogFlags::Effects;
-          },
-          // set
-          [this](const bool &value) {
-              if (value) {
-                  Flags |= FontDialogFlags::Effects;
-              } else {
-                  Flags &= ~FontDialogFlags::Effects;
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](FontDialog *self) -> bool {
+                  return (self->Flags & FontDialogFlags::Effects) == FontDialogFlags::Effects;
+              })
+              .Setter([](FontDialog *self, bool value) {
+                  if (value) {
+                      self->Flags |= FontDialogFlags::Effects;
+                  } else {
+                      self->Flags &= ~FontDialogFlags::Effects;
+                  }
+              })),
 
       SelectedColor(
-          // get
-          [this]() -> Color {
-              return _cf.rgbColors;
-          },
-          // set
-          [this](const Color &value) {
-              _cf.rgbColors = value;
-          })
+          Property<Color>::Init(this)
+              .Getter([](FontDialog *self) -> Color {
+                  return self->_cf.rgbColors;
+              })
+              .Setter([](FontDialog *self, const Color &value) {
+                  self->_cf.rgbColors = value;
+              }))
 {
     _font           = Font::GetDefaultFont();
     _cf.lStructSize = sizeof(CHOOSEFONTW);
@@ -3424,19 +3400,18 @@ void sw::GroupBox::_UpdateTextSize()
 
 sw::HotKeyControl::HotKeyControl()
     : Value(
-          // get
-          [this]() -> HotKey {
-              return this->_value;
-          },
-          // set
-          [this](const HotKey &value) {
-              if (value.key != this->_value.key && value.modifier != this->_value.modifier) {
-                  WORD val = MAKEWORD(value.key, value.modifier);
-                  this->SendMessageW(HKM_SETHOTKEY, val, 0);
-                  this->_UpdateValue();
-                  this->OnValueChanged(this->_value);
-              }
-          })
+          Property<HotKey>::Init(this)
+              .Getter([](HotKeyControl *self) -> HotKey {
+                  return self->_value;
+              })
+              .Setter([](HotKeyControl *self, const HotKey &value) {
+                  if (value.key != self->_value.key && value.modifier != self->_value.modifier) {
+                      WORD val = MAKEWORD(value.key, value.modifier);
+                      self->SendMessageW(HKM_SETHOTKEY, val, 0);
+                      self->_UpdateValue();
+                      self->OnValueChanged(self->_value);
+                  }
+              }))
 {
     this->InitControl(HOTKEY_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
     this->_UpdateValue();
@@ -3472,24 +3447,22 @@ void sw::HotKeyControl::_UpdateValue()
 
 sw::HwndHost::HwndHost()
     : FillContent(
-          // get
-          [this]() -> bool {
-              return this->_fillContent;
-          },
-          // set
-          [this](const bool &value) {
-              this->_fillContent = value;
-          }),
+          Property<bool>::Init(this)
+              .Getter([](HwndHost *self) -> bool {
+                  return self->_fillContent;
+              })
+              .Setter([](HwndHost *self, bool value) {
+                  self->_fillContent = value;
+              })),
 
       SyncFont(
-          // get
-          [this]() -> bool {
-              return this->_syncFont;
-          },
-          // set
-          [this](const bool &value) {
-              this->_syncFont = value;
-          })
+          Property<bool>::Init(this)
+              .Getter([](HwndHost *self) -> bool {
+                  return self->_syncFont;
+              })
+              .Setter([](HwndHost *self, bool value) {
+                  self->_syncFont = value;
+              }))
 {
     this->Rect = sw::Rect{0, 0, 100, 100};
 }
@@ -3604,23 +3577,22 @@ namespace
 
 sw::IPAddressControl::IPAddressControl()
     : IsBlank(
-          // get
-          [this]() -> bool {
-              return ::SendMessageW(_hIPAddrCtrl, IPM_ISBLANK, 0, 0);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](IPAddressControl *self) -> bool {
+                  return ::SendMessageW(self->_hIPAddrCtrl, IPM_ISBLANK, 0, 0);
+              })),
 
       Address(
-          // get
-          [this]() -> uint32_t {
-              uint32_t result;
-              ::SendMessageW(_hIPAddrCtrl, IPM_GETADDRESS, 0, reinterpret_cast<LPARAM>(&result));
-              return result;
-          },
-          // set
-          [this](const uint32_t &value) {
-              ::SendMessageW(_hIPAddrCtrl, IPM_SETADDRESS, 0, (LPARAM)value);
-              OnAddressChanged();
-          })
+          Property<uint32_t>::Init(this)
+              .Getter([](IPAddressControl *self) -> uint32_t {
+                  uint32_t result;
+                  ::SendMessageW(self->_hIPAddrCtrl, IPM_GETADDRESS, 0, reinterpret_cast<LPARAM>(&result));
+                  return result;
+              })
+              .Setter([](IPAddressControl *self, uint32_t value) {
+                  ::SendMessageW(self->_hIPAddrCtrl, IPM_SETADDRESS, 0, (LPARAM)value);
+                  self->OnAddressChanged();
+              }))
 {
     Rect    = sw::Rect{0, 0, 150, 24};
     TabStop = true;
@@ -3747,20 +3719,19 @@ HICON sw::IconHelper::GetIconHandle(const std::wstring &fileName)
 
 sw::IconBox::IconBox()
     : IconHandle(
-          // get
-          [this]() -> HICON {
-              return this->_hIcon;
-          }),
+          Property<HICON>::Init(this)
+              .Getter([](IconBox *self) -> HICON {
+                  return self->_hIcon;
+              })),
 
       StretchIcon(
-          // get
-          [this]() -> bool {
-              return !this->GetStyle(SS_CENTERIMAGE);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(SS_CENTERIMAGE, !value);
-          })
+          Property<bool>::Init(this)
+              .Getter([](IconBox *self) -> bool {
+                  return !self->GetStyle(SS_CENTERIMAGE);
+              })
+              .Setter([](IconBox *self, bool value) {
+                  self->SetStyle(SS_CENTERIMAGE, !value);
+              }))
 {
     this->Rect = sw::Rect{0, 0, 50, 50};
     this->SetStyle(SS_ICON, true);
@@ -4152,112 +4123,107 @@ sw::KeyFlags::KeyFlags(LPARAM lParam)
 
 sw::Label::Label()
     : HorizontalContentAlignment(
-          // get
-          [this]() -> sw::HorizontalAlignment {
-              DWORD style = this->GetStyle();
-              if (style & SS_CENTER) {
-                  return sw::HorizontalAlignment::Center;
-              } else if (style & SS_RIGHT) {
-                  return sw::HorizontalAlignment::Right;
-              } else {
-                  return sw::HorizontalAlignment::Left;
-              }
-          },
-          // set
-          [this](const sw::HorizontalAlignment &value) {
-              switch (value) {
-                  case sw::HorizontalAlignment::Left: {
-                      this->SetStyle(SS_CENTER | SS_RIGHT, false);
-                      break;
+          Property<sw::HorizontalAlignment>::Init(this)
+              .Getter([](Label *self) -> sw::HorizontalAlignment {
+                  DWORD style = self->GetStyle();
+                  if (style & SS_CENTER) {
+                      return sw::HorizontalAlignment::Center;
+                  } else if (style & SS_RIGHT) {
+                      return sw::HorizontalAlignment::Right;
+                  } else {
+                      return sw::HorizontalAlignment::Left;
                   }
-                  case sw::HorizontalAlignment::Center: {
-                      DWORD style = this->GetStyle();
-                      style &= ~(SS_CENTER | SS_RIGHT);
-                      style |= SS_CENTER;
-                      this->SetStyle(style);
-                      break;
+              })
+              .Setter([](Label *self, sw::HorizontalAlignment value) {
+                  switch (value) {
+                      case sw::HorizontalAlignment::Left: {
+                          self->SetStyle(SS_CENTER | SS_RIGHT, false);
+                          break;
+                      }
+                      case sw::HorizontalAlignment::Center: {
+                          DWORD style = self->GetStyle();
+                          style &= ~(SS_CENTER | SS_RIGHT);
+                          style |= SS_CENTER;
+                          self->SetStyle(style);
+                          break;
+                      }
+                      case sw::HorizontalAlignment::Right: {
+                          DWORD style = self->GetStyle();
+                          style &= ~(SS_CENTER | SS_RIGHT);
+                          style |= SS_RIGHT;
+                          self->SetStyle(style);
+                          break;
+                      }
+                      default: {
+                          break;
+                      }
                   }
-                  case sw::HorizontalAlignment::Right: {
-                      DWORD style = this->GetStyle();
-                      style &= ~(SS_CENTER | SS_RIGHT);
-                      style |= SS_RIGHT;
-                      this->SetStyle(style);
-                      break;
-                  }
-                  default: {
-                      break;
-                  }
-              }
-              this->Redraw();
-          }),
+                  self->Redraw();
+              })),
 
       VerticalContentAlignment(
-          // get
-          [this]() -> sw::VerticalAlignment {
-              return this->GetStyle(SS_CENTERIMAGE) ? sw::VerticalAlignment::Center : sw::VerticalAlignment::Top;
-          },
-          // set
-          [this](const sw::VerticalAlignment &value) {
-              this->SetStyle(SS_CENTERIMAGE, value == sw::VerticalAlignment::Center);
-          }),
+          Property<sw::VerticalAlignment>::Init(this)
+              .Getter([](Label *self) -> sw::VerticalAlignment {
+                  return self->GetStyle(SS_CENTERIMAGE) ? sw::VerticalAlignment::Center : sw::VerticalAlignment::Top;
+              })
+              .Setter([](Label *self, sw::VerticalAlignment value) {
+                  self->SetStyle(SS_CENTERIMAGE, value == sw::VerticalAlignment::Center);
+              })),
 
       TextTrimming(
-          // get
-          [this]() -> sw::TextTrimming {
-              DWORD style = this->GetStyle();
-              if ((style & SS_WORDELLIPSIS) == SS_WORDELLIPSIS) {
-                  return sw::TextTrimming::WordEllipsis;
-              } else if (style & SS_ENDELLIPSIS) {
-                  return sw::TextTrimming::EndEllipsis;
-              } else {
-                  return sw::TextTrimming::None;
-              }
-          },
-          // set
-          [this](const sw::TextTrimming &value) {
-              switch (value) {
-                  case sw::TextTrimming::None: {
-                      this->SetStyle(SS_WORDELLIPSIS, false);
-                      break;
+          Property<sw::TextTrimming>::Init(this)
+              .Getter([](Label *self) -> sw::TextTrimming {
+                  DWORD style = self->GetStyle();
+                  if ((style & SS_WORDELLIPSIS) == SS_WORDELLIPSIS) {
+                      return sw::TextTrimming::WordEllipsis;
+                  } else if (style & SS_ENDELLIPSIS) {
+                      return sw::TextTrimming::EndEllipsis;
+                  } else {
+                      return sw::TextTrimming::None;
                   }
-                  case sw::TextTrimming::WordEllipsis: {
-                      this->SetStyle(SS_WORDELLIPSIS, true);
-                      break;
+              })
+              .Setter([](Label *self, sw::TextTrimming value) {
+                  switch (value) {
+                      case sw::TextTrimming::None: {
+                          self->SetStyle(SS_WORDELLIPSIS, false);
+                          break;
+                      }
+                      case sw::TextTrimming::WordEllipsis: {
+                          self->SetStyle(SS_WORDELLIPSIS, true);
+                          break;
+                      }
+                      case sw::TextTrimming::EndEllipsis: {
+                          DWORD style = self->GetStyle();
+                          style &= ~SS_WORDELLIPSIS;
+                          style |= SS_ENDELLIPSIS;
+                          self->SetStyle(style);
+                          break;
+                      }
                   }
-                  case sw::TextTrimming::EndEllipsis: {
-                      DWORD style = this->GetStyle();
-                      style &= ~SS_WORDELLIPSIS;
-                      style |= SS_ENDELLIPSIS;
-                      this->SetStyle(style);
-                      break;
-                  }
-              }
-              this->Redraw();
-          }),
+                  self->Redraw();
+              })),
 
       AutoWrap(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(SS_EDITCONTROL);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(SS_EDITCONTROL, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Label *self) -> bool {
+                  return self->GetStyle(SS_EDITCONTROL);
+              })
+              .Setter([](Label *self, bool value) {
+                  self->SetStyle(SS_EDITCONTROL, value);
+              })),
 
       AutoSize(
-          // get
-          [this]() -> bool {
-              return this->_autoSize;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->_autoSize != value) {
-                  this->_autoSize = value;
-                  this->_UpdateLayoutFlags();
-                  this->InvalidateMeasure();
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](Label *self) -> bool {
+                  return self->_autoSize;
+              })
+              .Setter([](Label *self, bool value) {
+                  if (self->_autoSize != value) {
+                      self->_autoSize = value;
+                      self->_UpdateLayoutFlags();
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     this->SetInternalText(L"Label");
     this->_UpdateTextSize();
@@ -4357,154 +4323,148 @@ namespace
 
 sw::Layer::Layer()
     : Layout(
-          // get
-          [this]() -> LayoutHost * {
-              return this->_customLayout;
-          },
-          // set
-          [this](LayoutHost *value) {
-              if (value != nullptr)
-                  value->Associate(this);
-              this->_customLayout = value;
-              this->InvalidateMeasure();
-          }),
+          Property<LayoutHost *>::Init(this)
+              .Getter([](Layer *self) -> LayoutHost * {
+                  return self->_customLayout;
+              })
+              .Setter([](Layer *self, LayoutHost *value) {
+                  if (value != nullptr)
+                      value->Associate(self);
+                  self->_customLayout = value;
+                  self->InvalidateMeasure();
+              })),
 
       AutoSize(
-          // get
-          [this]() -> bool {
-              return this->_autoSize;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->_autoSize != value) {
-                  this->_autoSize = value;
-                  this->InvalidateMeasure();
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Layer *self) -> bool {
+                  return self->_autoSize;
+              })
+              .Setter([](Layer *self, bool value) {
+                  if (self->_autoSize != value) {
+                      self->_autoSize = value;
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       HorizontalScrollBar(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(WS_HSCROLL);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->HorizontalScrollBar == value) {
-                  return;
-              }
-              if (value) {
-                  ShowScrollBar(this->Handle, SB_HORZ, value);
-                  this->HorizontalScrollPos = this->HorizontalScrollPos;
-              } else {
-                  this->HorizontalScrollPos = 0;
-                  ShowScrollBar(this->Handle, SB_HORZ, value);
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Layer *self) -> bool {
+                  return self->GetStyle(WS_HSCROLL);
+              })
+              .Setter([](Layer *self, bool value) {
+                  if (self->HorizontalScrollBar == value) {
+                      return;
+                  }
+                  if (value) {
+                      ShowScrollBar(self->Handle, SB_HORZ, value);
+                      self->HorizontalScrollPos = self->HorizontalScrollPos;
+                  } else {
+                      self->HorizontalScrollPos = 0;
+                      ShowScrollBar(self->Handle, SB_HORZ, value);
+                  }
+              })),
 
       VerticalScrollBar(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(WS_VSCROLL);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->VerticalScrollBar == value) {
-                  return;
-              }
-              if (value) {
-                  ShowScrollBar(this->Handle, SB_VERT, value);
-                  this->VerticalScrollPos = this->VerticalScrollPos;
-              } else {
-                  this->VerticalScrollPos = 0;
-                  ShowScrollBar(this->Handle, SB_VERT, value);
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Layer *self) -> bool {
+                  return self->GetStyle(WS_VSCROLL);
+              })
+              .Setter([](Layer *self, bool value) {
+                  if (self->VerticalScrollBar == value) {
+                      return;
+                  }
+                  if (value) {
+                      ShowScrollBar(self->Handle, SB_VERT, value);
+                      self->VerticalScrollPos = self->VerticalScrollPos;
+                  } else {
+                      self->VerticalScrollPos = 0;
+                      ShowScrollBar(self->Handle, SB_VERT, value);
+                  }
+              })),
 
       HorizontalScrollPos(
-          // get
-          [this]() -> double {
-              SCROLLINFO info{};
-              info.cbSize = sizeof(info);
-              info.fMask  = SIF_POS;
-              GetScrollInfo(this->Handle, SB_HORZ, &info);
-              return Dip::PxToDipX(info.nPos);
-          },
-          // set
-          [this](const double &value) {
-              SCROLLINFO info{};
-              info.cbSize = sizeof(info);
-              info.fMask  = SIF_POS;
-              info.nPos   = Dip::DipToPxX(value);
-              SetScrollInfo(this->Handle, SB_HORZ, &info, true);
+          Property<double>::Init(this)
+              .Getter([](Layer *self) -> double {
+                  SCROLLINFO info{};
+                  info.cbSize = sizeof(info);
+                  info.fMask  = SIF_POS;
+                  GetScrollInfo(self->Handle, SB_HORZ, &info);
+                  return Dip::PxToDipX(info.nPos);
+              })
+              .Setter([](Layer *self, double value) {
+                  SCROLLINFO info{};
+                  info.cbSize = sizeof(info);
+                  info.fMask  = SIF_POS;
+                  info.nPos   = Dip::DipToPxX(value);
+                  SetScrollInfo(self->Handle, SB_HORZ, &info, true);
 
-              LayoutHost *layout = this->_GetLayout();
+                  LayoutHost *layout = self->_GetLayout();
 
-              if (layout != nullptr && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
-                  this->GetInternalArrangeOffsetX() = -this->HorizontalScrollPos;
-                  this->_MeasureAndArrangeWithoutResize(*layout, this->ClientRect->GetSize());
-              }
-          }),
+                  if (layout != nullptr && !self->_horizontalScrollDisabled && self->HorizontalScrollBar) {
+                      self->GetInternalArrangeOffsetX() = -self->HorizontalScrollPos;
+                      self->_MeasureAndArrangeWithoutResize(*layout, self->ClientRect->GetSize());
+                  }
+              })),
 
       VerticalScrollPos(
-          // get
-          [this]() -> double {
-              SCROLLINFO info{};
-              info.cbSize = sizeof(info);
-              info.fMask  = SIF_POS;
-              GetScrollInfo(this->Handle, SB_VERT, &info);
-              return Dip::PxToDipY(info.nPos);
-          },
-          // set
-          [this](const double &value) {
-              SCROLLINFO info{};
-              info.cbSize = sizeof(info);
-              info.fMask  = SIF_POS;
-              info.nPos   = Dip::DipToPxY(value);
-              SetScrollInfo(this->Handle, SB_VERT, &info, true);
+          Property<double>::Init(this)
+              .Getter([](Layer *self) -> double {
+                  SCROLLINFO info{};
+                  info.cbSize = sizeof(info);
+                  info.fMask  = SIF_POS;
+                  GetScrollInfo(self->Handle, SB_VERT, &info);
+                  return Dip::PxToDipY(info.nPos);
+              })
+              .Setter(
+                  [](Layer *self, double value) {
+                      SCROLLINFO info{};
+                      info.cbSize = sizeof(info);
+                      info.fMask  = SIF_POS;
+                      info.nPos   = Dip::DipToPxY(value);
+                      SetScrollInfo(self->Handle, SB_VERT, &info, true);
 
-              LayoutHost *layout = this->_GetLayout();
+                      LayoutHost *layout = self->_GetLayout();
 
-              if (layout != nullptr && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
-                  this->GetInternalArrangeOffsetY() = -this->VerticalScrollPos;
-                  this->_MeasureAndArrangeWithoutResize(*layout, this->ClientRect->GetSize());
-              }
-          }),
+                      if (layout != nullptr && !self->_verticalScrollDisabled && self->VerticalScrollBar) {
+                          self->GetInternalArrangeOffsetY() = -self->VerticalScrollPos;
+                          self->_MeasureAndArrangeWithoutResize(*layout, self->ClientRect->GetSize());
+                      }
+                  })),
 
       HorizontalScrollLimit(
-          // get
-          [this]() -> double {
-              if (this->_horizontalScrollDisabled) {
-                  return 0;
-              }
-              SCROLLINFO info{};
-              info.cbSize = sizeof(info);
-              info.fMask  = SIF_RANGE | SIF_PAGE;
-              GetScrollInfo(this->Handle, SB_HORZ, &info);
-              return Dip::PxToDipX(info.nMax - info.nPage + 1);
-          }),
+          Property<double>::Init(this)
+              .Getter([](Layer *self) -> double {
+                  if (self->_horizontalScrollDisabled) {
+                      return 0;
+                  }
+                  SCROLLINFO info{};
+                  info.cbSize = sizeof(info);
+                  info.fMask  = SIF_RANGE | SIF_PAGE;
+                  GetScrollInfo(self->Handle, SB_HORZ, &info);
+                  return Dip::PxToDipX(info.nMax - info.nPage + 1);
+              })),
 
       VerticalScrollLimit(
-          // get
-          [this]() -> double {
-              if (this->_verticalScrollDisabled) {
-                  return 0;
-              }
-              SCROLLINFO info{};
-              info.cbSize = sizeof(info);
-              info.fMask  = SIF_RANGE | SIF_PAGE;
-              GetScrollInfo(this->Handle, SB_VERT, &info);
-              return Dip::PxToDipY(info.nMax - info.nPage + 1);
-          }),
+          Property<double>::Init(this)
+              .Getter([](Layer *self) -> double {
+                  if (self->_verticalScrollDisabled) {
+                      return 0;
+                  }
+                  SCROLLINFO info{};
+                  info.cbSize = sizeof(info);
+                  info.fMask  = SIF_RANGE | SIF_PAGE;
+                  GetScrollInfo(self->Handle, SB_VERT, &info);
+                  return Dip::PxToDipY(info.nMax - info.nPage + 1);
+              })),
 
       MouseWheelScrollEnabled(
-          // get
-          [this]() -> bool {
-              return this->_mouseWheelScrollEnabled;
-          },
-          // set
-          [this](const bool &value) {
-              this->_mouseWheelScrollEnabled = value;
-          })
+          Property<bool>::Init(this)
+              .Getter([](Layer *self) -> bool {
+                  return self->_mouseWheelScrollEnabled;
+              })
+              .Setter([](Layer *self, bool value) {
+                  self->_mouseWheelScrollEnabled = value;
+              }))
 {
 }
 
@@ -4952,33 +4912,31 @@ sw::ILayout &sw::LayoutHost::GetChildLayoutAt(int index)
 
 sw::ListBox::ListBox()
     : TopIndex(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(LB_GETTOPINDEX, 0, 0);
-          },
-          // set
-          [this](const int &value) {
-              this->SendMessageW(LB_SETTOPINDEX, value, 0);
-          }),
+          Property<int>::Init(this)
+              .Getter([](ListBox *self) -> int {
+                  return (int)self->SendMessageW(LB_GETTOPINDEX, 0, 0);
+              })
+              .Setter([](ListBox *self, int value) {
+                  self->SendMessageW(LB_SETTOPINDEX, value, 0);
+              })),
 
       MultiSelect(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(LBS_MULTIPLESEL);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->GetStyle(LBS_MULTIPLESEL) != value) {
-                  this->SetStyle(LBS_MULTIPLESEL, value);
-                  this->ResetHandle();
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ListBox *self) -> bool {
+                  return self->GetStyle(LBS_MULTIPLESEL);
+              })
+              .Setter([](ListBox *self, bool value) {
+                  if (self->GetStyle(LBS_MULTIPLESEL) != value) {
+                      self->SetStyle(LBS_MULTIPLESEL, value);
+                      self->ResetHandle();
+                  }
+              })),
 
       SelectedCount(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(LB_GETSELCOUNT, 0, 0);
-          })
+          Property<int>::Init(this)
+              .Getter([](ListBox *self) -> int {
+                  return (int)self->SendMessageW(LB_GETSELCOUNT, 0, 0);
+              }))
 {
     this->InitControl(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY, 0);
     this->Rect    = sw::Rect(0, 0, 150, 200);
@@ -5186,78 +5144,73 @@ sw::ListViewColumn::operator LVCOLUMNW() const
 
 sw::ListView::ListView()
     : ColumnsCount(
-          // get
-          [this]() -> int {
-              return this->_GetColCount();
-          }),
+          Property<int>::Init(this)
+              .Getter([](ListView *self) -> int {
+                  return self->_GetColCount();
+              })),
 
       GridLines(
-          // get
-          [this]() -> bool {
-              return this->_GetExtendedListViewStyle() & LVS_EX_GRIDLINES;
-          },
-          // set
-          [this](const bool &value) {
-              DWORD style;
-              style = this->_GetExtendedListViewStyle();
-              style = value ? (style | LVS_EX_GRIDLINES) : (style & (~LVS_EX_GRIDLINES));
-              this->_SetExtendedListViewStyle(style);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ListView *self) -> bool {
+                  return self->_GetExtendedListViewStyle() & LVS_EX_GRIDLINES;
+              })
+              .Setter([](ListView *self, bool value) {
+                  DWORD style;
+                  style = self->_GetExtendedListViewStyle();
+                  style = value ? (style | LVS_EX_GRIDLINES) : (style & (~LVS_EX_GRIDLINES));
+                  self->_SetExtendedListViewStyle(style);
+              })),
 
       MultiSelect(
-          // get
-          [this]() -> bool {
-              return !(this->GetStyle() & LVS_SINGLESEL);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(LVS_SINGLESEL, !value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ListView *self) -> bool {
+                  return !(self->GetStyle() & LVS_SINGLESEL);
+              })
+              .Setter([](ListView *self, bool value) {
+                  self->SetStyle(LVS_SINGLESEL, !value);
+              })),
 
       SelectedCount(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(LVM_GETSELECTEDCOUNT, 0, 0);
-          }),
+          Property<int>::Init(this)
+              .Getter([](ListView *self) -> int {
+                  return (int)self->SendMessageW(LVM_GETSELECTEDCOUNT, 0, 0);
+              })),
 
       CheckBoxes(
-          // get
-          [this]() -> bool {
-              return this->_GetExtendedListViewStyle() & LVS_EX_CHECKBOXES;
-          },
-          // set
-          [this](const bool &value) {
-              DWORD style;
-              style = this->_GetExtendedListViewStyle();
-              style = value ? (style | LVS_EX_CHECKBOXES) : (style & (~LVS_EX_CHECKBOXES));
-              this->_SetExtendedListViewStyle(style);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ListView *self) -> bool {
+                  return self->_GetExtendedListViewStyle() & LVS_EX_CHECKBOXES;
+              })
+              .Setter([](ListView *self, bool value) {
+                  DWORD style;
+                  style = self->_GetExtendedListViewStyle();
+                  style = value ? (style | LVS_EX_CHECKBOXES) : (style & (~LVS_EX_CHECKBOXES));
+                  self->_SetExtendedListViewStyle(style);
+              })),
 
       TopIndex(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(LVM_GETTOPINDEX, 0, 0);
-          }),
+          Property<int>::Init(this)
+              .Getter([](ListView *self) -> int {
+                  return (int)self->SendMessageW(LVM_GETTOPINDEX, 0, 0);
+              })),
 
       ShareImageLists(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(LVS_SHAREIMAGELISTS);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(LVS_SHAREIMAGELISTS, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](ListView *self) -> bool {
+                  return self->GetStyle(LVS_SHAREIMAGELISTS);
+              })
+              .Setter([](ListView *self, bool value) {
+                  self->SetStyle(LVS_SHAREIMAGELISTS, value);
+              })),
 
       Editable(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(LVS_EDITLABELS);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(LVS_EDITLABELS, value);
-          })
+          Property<bool>::Init(this)
+              .Getter([](ListView *self) -> bool {
+                  return self->GetStyle(LVS_EDITLABELS);
+              })
+              .Setter([](ListView *self, bool value) {
+                  self->SetStyle(LVS_EDITLABELS, value);
+              }))
 {
     this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT, 0);
     this->_SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
@@ -6246,14 +6199,13 @@ void sw::MenuItem::SetTag(uint64_t tag)
 
 sw::MonthCalendar::MonthCalendar()
     : ShowToday(
-          // get
-          [this]() -> bool {
-              return !this->GetStyle(MCS_NOTODAY);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(MCS_NOTODAY, !value);
-          })
+          Property<bool>::Init(this)
+              .Getter([](MonthCalendar *self) -> bool {
+                  return !self->GetStyle(MCS_NOTODAY);
+              })
+              .Setter([](MonthCalendar *self, bool value) {
+                  self->SetStyle(MCS_NOTODAY, !value);
+              }))
 {
     this->InitControl(MONTHCAL_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
     this->Rect    = {0, 0, 250, 200};
@@ -6473,71 +6425,67 @@ namespace
 
 sw::NotifyIcon::NotifyIcon()
     : Icon(
-          // get
-          [this]() -> HICON {
-              return _nid.hIcon;
-          },
-          // set
-          [this](HICON value) {
-              _nid.hIcon = value;
-              _nid.uFlags |= NIF_ICON;
-              _ModifyIcon();
-              _nid.uFlags &= ~NIF_ICON;
-          }),
+          Property<HICON>::Init(this)
+              .Getter([](NotifyIcon *self) -> HICON {
+                  return self->_nid.hIcon;
+              })
+              .Setter([](NotifyIcon *self, HICON value) {
+                  self->_nid.hIcon = value;
+                  self->_nid.uFlags |= NIF_ICON;
+                  self->_ModifyIcon();
+                  self->_nid.uFlags &= ~NIF_ICON;
+              })),
 
       ToolTip(
-          // get
-          [this]() -> std::wstring {
-              return _nid.szTip;
-          },
-          // set
-          [this](const std::wstring &value) {
-              if (value.empty()) {
-                  _nid.szTip[0] = L'\0';
-              } else {
-                  constexpr size_t bufsize = sizeof(_nid.szTip) / sizeof(*_nid.szTip);
-                  StringCchCopyNW(_nid.szTip, bufsize, value.c_str(), bufsize - 1);
-              }
-              _nid.uFlags |= NIF_TIP;
-              _ModifyIcon();
-              _nid.uFlags &= ~NIF_TIP;
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](NotifyIcon *self) -> std::wstring {
+                  return self->_nid.szTip;
+              })
+              .Setter([](NotifyIcon *self, const std::wstring &value) {
+                  if (value.empty()) {
+                      self->_nid.szTip[0] = L'\0';
+                  } else {
+                      constexpr size_t bufsize = sizeof(self->_nid.szTip) / sizeof(*self->_nid.szTip);
+                      StringCchCopyNW(self->_nid.szTip, bufsize, value.c_str(), bufsize - 1);
+                  }
+                  self->_nid.uFlags |= NIF_TIP;
+                  self->_ModifyIcon();
+                  self->_nid.uFlags &= ~NIF_TIP;
+              })),
 
       Visible(
-          // get
-          [this]() -> bool {
-              return (_nid.dwState & NIS_HIDDEN) == 0;
-          },
-          // set
-          [this](bool value) {
-              value ? Show() : Hide();
-          }),
+          Property<bool>::Init(this)
+              .Getter([](NotifyIcon *self) -> bool {
+                  return (self->_nid.dwState & NIS_HIDDEN) == 0;
+              })
+              .Setter([](NotifyIcon *self, bool value) {
+                  value ? self->Show() : self->Hide();
+              })),
 
       ContextMenu(
-          // get
-          [this]() -> sw::ContextMenu * {
-              return _contextMenu;
-          },
-          // set
-          [this](sw::ContextMenu *value) {
-              _contextMenu = value;
-          }),
+          Property<sw::ContextMenu *>::Init(this)
+              .Getter([](NotifyIcon *self) -> sw::ContextMenu * {
+                  return self->_contextMenu;
+              })
+              .Setter([](NotifyIcon *self, sw::ContextMenu *value) {
+                  self->_contextMenu = value;
+              })),
 
       Rect(
-          // get
-          [this]() -> sw::Rect {
-              NOTIFYICONIDENTIFIER iconId{};
-              iconId.cbSize   = sizeof(NOTIFYICONIDENTIFIER);
-              iconId.hWnd     = _nid.hWnd;
-              iconId.uID      = _nid.uID;
-              iconId.guidItem = GUID_NULL;
-              RECT iconRect{};
-              if (FAILED(Shell_NotifyIconGetRect(&iconId, &iconRect))) {
-                  return sw::Rect{};
-              } else {
-                  return static_cast<sw::Rect>(iconRect);
-              }
-          })
+          Property<sw::Rect>::Init(this)
+              .Getter([](NotifyIcon *self) -> sw::Rect {
+                  NOTIFYICONIDENTIFIER iconId{};
+                  iconId.cbSize   = sizeof(NOTIFYICONIDENTIFIER);
+                  iconId.hWnd     = self->_nid.hWnd;
+                  iconId.uID      = self->_nid.uID;
+                  iconId.guidItem = GUID_NULL;
+                  RECT iconRect{};
+                  if (FAILED(Shell_NotifyIconGetRect(&iconId, &iconRect))) {
+                      return sw::Rect{};
+                  } else {
+                      return static_cast<sw::Rect>(iconRect);
+                  }
+              }))
 {
     _nid.cbSize           = sizeof(NOTIFYICONDATAW);
     _nid.uID              = _NotifyIconId;
@@ -6759,30 +6707,28 @@ namespace
 
 sw::Panel::Panel()
     : BorderStyle(
-          // get
-          [this]() -> sw::BorderStyle {
-              return _borderStyle;
-          },
-          // set
-          [this](const sw::BorderStyle &value) {
-              if (_borderStyle != value) {
-                  _borderStyle = value;
-                  UpdateBorder();
-              }
-          }),
+          Property<sw::BorderStyle>::Init(this)
+              .Getter([](Panel *self) -> sw::BorderStyle {
+                  return self->_borderStyle;
+              })
+              .Setter([](Panel *self, sw::BorderStyle value) {
+                  if (self->_borderStyle != value) {
+                      self->_borderStyle = value;
+                      self->UpdateBorder();
+                  }
+              })),
 
       Padding(
-          // get
-          [this]() -> sw::Thickness {
-              return _padding;
-          },
-          // set
-          [this](const sw::Thickness &value) {
-              if (_padding != value) {
-                  _padding = value;
-                  UpdateBorder();
-              }
-          })
+          Property<sw::Thickness>::Init(this)
+              .Getter([](Panel *self) -> sw::Thickness {
+                  return self->_padding;
+              })
+              .Setter([](Panel *self, const sw::Thickness &value) {
+                  if (self->_padding != value) {
+                      self->_padding = value;
+                      self->UpdateBorder();
+                  }
+              }))
 {
     static thread_local ATOM panelClsAtom = 0;
 
@@ -6991,14 +6937,13 @@ sw::Control *sw::PanelBase::ToControl()
 
 sw::PasswordBox::PasswordBox()
     : PasswordChar(
-          // get
-          [this]() -> wchar_t {
-              return (wchar_t)this->SendMessageW(EM_GETPASSWORDCHAR, 0, 0);
-          },
-          // set
-          [this](const wchar_t &value) {
-              this->SendMessageW(EM_SETPASSWORDCHAR, value, 0);
-          })
+          Property<wchar_t>::Init(this)
+              .Getter([](PasswordBox *self) -> wchar_t {
+                  return (wchar_t)self->SendMessageW(EM_GETPASSWORDCHAR, 0, 0);
+              })
+              .Setter([](PasswordBox *self, wchar_t value) {
+                  self->SendMessageW(EM_SETPASSWORDCHAR, value, 0);
+              }))
 {
     this->InitTextBoxBase(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | ES_PASSWORD | ES_LEFT | ES_AUTOHSCROLL, WS_EX_CLIENTEDGE);
     this->Rect = sw::Rect(0, 0, 100, 24);
@@ -7179,58 +7124,53 @@ sw::ProcMsg::ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 sw::ProgressBar::ProgressBar()
     : Minimum(
-          // get
-          [this]() -> uint16_t {
-              return (uint16_t)this->SendMessageW(PBM_GETRANGE, TRUE, 0);
-          },
-          // set
-          [this](const uint16_t &value) {
-              uint16_t maximum = this->Maximum;
-              this->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(value, maximum));
-          }),
+          Property<uint16_t>::Init(this)
+              .Getter([](ProgressBar *self) -> uint16_t {
+                  return (uint16_t)self->SendMessageW(PBM_GETRANGE, TRUE, 0);
+              })
+              .Setter([](ProgressBar *self, uint16_t value) {
+                  uint16_t maximum = self->Maximum;
+                  self->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(value, maximum));
+              })),
 
       Maximum(
-          // get
-          [this]() -> uint16_t {
-              return (uint16_t)this->SendMessageW(PBM_GETRANGE, FALSE, 0);
-          },
-          // set
-          [this](const uint16_t &value) {
-              uint16_t minimum = this->Minimum;
-              this->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(minimum, value));
-          }),
+          Property<uint16_t>::Init(this)
+              .Getter([](ProgressBar *self) -> uint16_t {
+                  return (uint16_t)self->SendMessageW(PBM_GETRANGE, FALSE, 0);
+              })
+              .Setter([](ProgressBar *self, uint16_t value) {
+                  uint16_t minimum = self->Minimum;
+                  self->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(minimum, value));
+              })),
 
       Value(
-          // get
-          [this]() -> uint16_t {
-              return (uint16_t)this->SendMessageW(PBM_GETPOS, 0, 0);
-          },
-          // set
-          [this](const uint16_t &value) {
-              this->SendMessageW(PBM_SETPOS, value, 0);
-          }),
+          Property<uint16_t>::Init(this)
+              .Getter([](ProgressBar *self) -> uint16_t {
+                  return (uint16_t)self->SendMessageW(PBM_GETPOS, 0, 0);
+              })
+              .Setter([](ProgressBar *self, uint16_t value) {
+                  self->SendMessageW(PBM_SETPOS, value, 0);
+              })),
 
       State(
-          // get
-          [this]() -> ProgressBarState {
-              return (ProgressBarState)this->SendMessageW(PBM_GETSTATE, 0, 0);
-          },
-          // set
-          [this](const ProgressBarState &value) {
-              this->SendMessageW(PBM_SETSTATE, (WPARAM)value, 0);
-          }),
+          Property<ProgressBarState>::Init(this)
+              .Getter([](ProgressBar *self) -> ProgressBarState {
+                  return (ProgressBarState)self->SendMessageW(PBM_GETSTATE, 0, 0);
+              })
+              .Setter([](ProgressBar *self, ProgressBarState value) {
+                  self->SendMessageW(PBM_SETSTATE, (WPARAM)value, 0);
+              })),
 
       Vertical(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(PBS_VERTICAL);
-          },
-          // set
-          [this](const bool &value) {
-              auto pos = this->Value.Get();
-              this->SetStyle(PBS_VERTICAL, value);
-              this->Value = pos;
-          })
+          Property<bool>::Init(this)
+              .Getter([](ProgressBar *self) -> bool {
+                  return self->GetStyle(PBS_VERTICAL);
+              })
+              .Setter([](ProgressBar *self, bool value) {
+                  auto pos = self->Value.Get();
+                  self->SetStyle(PBS_VERTICAL, value);
+                  self->Value = pos;
+              }))
 {
     this->InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
     this->Rect = sw::Rect(0, 0, 150, 20);
@@ -7317,47 +7257,53 @@ sw::RoutedEventArgs::RoutedEventArgs(RoutedEventType eventType)
 // Screen.cpp
 
 const sw::ReadOnlyProperty<double> sw::Screen::Width(
-    []() -> double {
-        return Dip::PxToDipX(GetSystemMetrics(SM_CXSCREEN));
-    } //
+    Property<double>::Init()
+        .Getter([]() -> double {
+            return Dip::PxToDipX(GetSystemMetrics(SM_CXSCREEN));
+        }) //
 );
 
 const sw::ReadOnlyProperty<double> sw::Screen::Height(
-    []() -> double {
-        return Dip::PxToDipY(GetSystemMetrics(SM_CYSCREEN));
-    } //
+    Property<double>::Init()
+        .Getter([]() -> double {
+            return Dip::PxToDipY(GetSystemMetrics(SM_CYSCREEN));
+        }) //
 );
 
 const sw::ReadOnlyProperty<sw::Size> sw::Screen::Size(
-    []() -> sw::Size {
-        return sw::Size{
-            Dip::PxToDipX(GetSystemMetrics(SM_CXSCREEN)),
-            Dip::PxToDipY(GetSystemMetrics(SM_CYSCREEN))};
-    } //
+    Property<sw::Size>::Init()
+        .Getter([]() -> sw::Size {
+            return sw::Size{
+                Dip::PxToDipX(GetSystemMetrics(SM_CXSCREEN)),
+                Dip::PxToDipY(GetSystemMetrics(SM_CYSCREEN))};
+        }) //
 );
 
 const sw::ReadOnlyProperty<sw::Size> sw::Screen::VirtualSize(
-    []() -> sw::Size {
-        return sw::Size{
-            Dip::PxToDipX(GetSystemMetrics(SM_CXVIRTUALSCREEN)),
-            Dip::PxToDipY(GetSystemMetrics(SM_CYVIRTUALSCREEN))};
-    } //
+    Property<sw::Size>::Init()
+        .Getter([]() -> sw::Size {
+            return sw::Size{
+                Dip::PxToDipX(GetSystemMetrics(SM_CXVIRTUALSCREEN)),
+                Dip::PxToDipY(GetSystemMetrics(SM_CYVIRTUALSCREEN))};
+        }) //
 );
 
 const sw::ReadOnlyProperty<sw::Point> sw::Screen::VirtualOrigin(
-    []() -> sw::Point {
-        return sw::Point{
-            Dip::PxToDipX(GetSystemMetrics(SM_XVIRTUALSCREEN)),
-            Dip::PxToDipY(GetSystemMetrics(SM_YVIRTUALSCREEN))};
-    } //
+    Property<sw::Point>::Init()
+        .Getter([]() -> sw::Point {
+            return sw::Point{
+                Dip::PxToDipX(GetSystemMetrics(SM_XVIRTUALSCREEN)),
+                Dip::PxToDipY(GetSystemMetrics(SM_YVIRTUALSCREEN))};
+        }) //
 );
 
 const sw::ReadOnlyProperty<sw::Point> sw::Screen::CursorPosition(
-    []() -> sw::Point {
-        POINT p;
-        GetCursorPos(&p);
-        return p;
-    } //
+    Property<sw::Point>::Init()
+        .Getter([]() -> sw::Point {
+            POINT p;
+            GetCursorPos(&p);
+            return p;
+        }) //
 );
 
 // Size.cpp
@@ -7391,65 +7337,60 @@ std::wstring sw::Size::ToString() const
 
 sw::Slider::Slider()
     : Minimum(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(TBM_GETRANGEMIN, 0, 0);
-          },
-          // set
-          [this](const int &value) {
-              this->SendMessageW(TBM_SETRANGEMIN, TRUE, value);
-          }),
+          Property<int>::Init(this)
+              .Getter([](Slider *self) -> int {
+                  return (int)self->SendMessageW(TBM_GETRANGEMIN, 0, 0);
+              })
+              .Setter([](Slider *self, int value) {
+                  self->SendMessageW(TBM_SETRANGEMIN, TRUE, value);
+              })),
 
       Maximum(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(TBM_GETRANGEMAX, 0, 0);
-          },
-          // set
-          [this](const int &value) {
-              this->SendMessageW(TBM_SETRANGEMAX, TRUE, value);
-          }),
+          Property<int>::Init(this)
+              .Getter([](Slider *self) -> int {
+                  return (int)self->SendMessageW(TBM_GETRANGEMAX, 0, 0);
+              })
+              .Setter([](Slider *self, int value) {
+                  self->SendMessageW(TBM_SETRANGEMAX, TRUE, value);
+              })),
 
       Value(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(TBM_GETPOS, 0, 0);
-          },
-          // set
-          [this](const int &value) {
-              this->SendMessageW(TBM_SETPOS, TRUE, value);
-              this->OnValueChanged();
-              this->OnEndTrack();
-          }),
+          Property<int>::Init(this)
+              .Getter([](Slider *self) -> int {
+                  return (int)self->SendMessageW(TBM_GETPOS, 0, 0);
+              })
+              .Setter([](Slider *self, int value) {
+                  self->SendMessageW(TBM_SETPOS, TRUE, value);
+                  self->OnValueChanged();
+                  self->OnEndTrack();
+              })),
 
       Vertical(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(TBS_VERT);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(TBS_VERT, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Slider *self) -> bool {
+                  return self->GetStyle(TBS_VERT);
+              })
+              .Setter([](Slider *self, bool value) {
+                  self->SetStyle(TBS_VERT, value);
+              })),
 
       ValueTooltips(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(TBS_TOOLTIPS);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->ValueTooltips != value) {
-                  int maximum  = this->Maximum;
-                  int minimum  = this->Minimum;
-                  int position = this->Value;
-                  this->SetStyle(TBS_TOOLTIPS, value);
-                  this->ResetHandle();
-                  this->SendMessageW(TBM_SETRANGEMIN, FALSE, minimum);
-                  this->SendMessageW(TBM_SETRANGEMAX, FALSE, maximum);
-                  this->SendMessageW(TBM_SETPOS, TRUE, position);
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](Slider *self) -> bool {
+                  return self->GetStyle(TBS_TOOLTIPS);
+              })
+              .Setter([](Slider *self, bool value) {
+                  if (self->ValueTooltips != value) {
+                      int maximum  = self->Maximum;
+                      int minimum  = self->Minimum;
+                      int position = self->Value;
+                      self->SetStyle(TBS_TOOLTIPS, value);
+                      self->ResetHandle();
+                      self->SendMessageW(TBM_SETRANGEMIN, FALSE, minimum);
+                      self->SendMessageW(TBM_SETRANGEMAX, FALSE, maximum);
+                      self->SendMessageW(TBM_SETPOS, TRUE, position);
+                  }
+              }))
 {
     this->InitControl(TRACKBAR_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TBS_NOTIFYBEFOREMOVE | TBS_DOWNISLEFT, 0);
     this->Rect    = sw::Rect(0, 0, 150, 30);
@@ -7513,70 +7454,61 @@ void sw::Slider::OnEndTrack()
 
 sw::SpinBox::SpinBox()
     : Minimum(
-          // get
-          [this]() -> int {
-              int result = 0;
-              _GetRange32(&result, nullptr);
-              return result;
-          },
-          // set
-          [this](const int &value) {
-              int max = 0;
-              _GetRange32(nullptr, &max);
-              _SetRange32(value, max);
-          }),
+          Property<int>::Init(this)
+              .Getter([](SpinBox *self) -> int {
+                  int result = 0;
+                  self->_GetRange32(&result, nullptr);
+                  return result;
+              })
+              .Setter([](SpinBox *self, int value) {
+                  int max = 0;
+                  self->_GetRange32(nullptr, &max);
+                  self->_SetRange32(value, max);
+              })),
 
       Maximum(
-          // get
-          [this]() -> int {
-              int result = 0;
-              _GetRange32(nullptr, &result);
-              return result;
-          },
-          // set
-          [this](const int &value) {
-              int min = 0;
-              _GetRange32(&min, nullptr);
-              _SetRange32(min, value);
-          }),
+          Property<int>::Init(this)
+              .Getter([](SpinBox *self) -> int {
+                  int result = 0;
+                  self->_GetRange32(nullptr, &result);
+                  return result;
+              })
+              .Setter([](SpinBox *self, int value) {
+                  int min = 0;
+                  self->_GetRange32(&min, nullptr);
+                  self->_SetRange32(min, value);
+              })),
 
       Value(
-          // get
-          [this]() -> int {
-              return _GetPos32();
-          },
-          // set
-          [this](const int &value) {
-              _SetPos32(value);
-          }),
+          Property<int>::Init(this)
+              .Getter<&SpinBox::_GetPos32>()
+              .Setter<&SpinBox::_SetPos32>()),
 
       Hexadecimal(
-          // get
-          [this]() -> bool {
-              return ::SendMessageW(_hUpDown, UDM_GETBASE, 0, 0) == 16;
-          },
-          // set
-          [this](const bool &value) {
-              WPARAM base = value ? 16 : 10;
-              ::SendMessageW(_hUpDown, UDM_SETBASE, base, 0);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](SpinBox *self) -> bool {
+                  return ::SendMessageW(self->_hUpDown, UDM_GETBASE, 0, 0) == 16;
+              })
+              .Setter([](SpinBox *self, bool value) {
+                  WPARAM base = value ? 16 : 10;
+                  ::SendMessageW(self->_hUpDown, UDM_SETBASE, base, 0);
+              })),
 
       Increment(
-          // get
-          [this]() -> uint32_t {
-              if (_accels.empty())
-                  _InitAccels();
-              return _accels[0].nInc;
-          },
-          // set
-          [this](const uint32_t &value) {
-              if (_accels.empty()) {
-                  _accels.push_back({0, value});
-              } else {
-                  _accels[0].nInc = value;
-              }
-              _SetAccel(_accels.size(), &_accels[0]);
-          })
+          Property<uint32_t>::Init(this)
+              .Getter([](SpinBox *self) -> uint32_t {
+                  if (self->_accels.empty())
+                      self->_InitAccels();
+                  return self->_accels[0].nInc;
+              })
+              .Setter([](SpinBox *self, uint32_t value) {
+                  if (self->_accels.empty()) {
+                      self->_accels.push_back({0, value});
+                  } else {
+                      self->_accels[0].nInc = value;
+                  }
+                  self->_SetAccel(self->_accels.size(), &self->_accels[0]);
+              }))
 {
     InitTextBoxBase(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | ES_LEFT | ES_AUTOHSCROLL | ES_AUTOVSCROLL, WS_EX_CLIENTEDGE);
     Rect = sw::Rect{0, 0, 100, 24};
@@ -7772,32 +7704,30 @@ namespace
 
 sw::Splitter::Splitter()
     : Orientation(
-          // get
-          [this]() -> sw::Orientation {
-              return _orientation;
-          },
-          // set
-          [this](const sw::Orientation &value) {
-              if (_orientation != value) {
-                  _orientation = value;
-                  value == Orientation::Horizontal
-                      ? SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center)
-                      : SetAlignment(HorizontalAlignment::Center, VerticalAlignment::Stretch);
-              }
-          }),
+          Property<sw::Orientation>::Init(this)
+              .Getter([](Splitter *self) -> sw::Orientation {
+                  return self->_orientation;
+              })
+              .Setter([](Splitter *self, sw::Orientation value) {
+                  if (self->_orientation != value) {
+                      self->_orientation = value;
+                      value == Orientation::Horizontal
+                          ? self->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center)
+                          : self->SetAlignment(HorizontalAlignment::Center, VerticalAlignment::Stretch);
+                  }
+              })),
 
       DrawSplitterLine(
-          // get
-          [this]() -> bool {
-              return _drawSplitterLine;
-          },
-          // set
-          [this](const bool &value) {
-              if (_drawSplitterLine != value) {
-                  _drawSplitterLine = value;
-                  Redraw();
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](Splitter *self) -> bool {
+                  return self->_drawSplitterLine;
+              })
+              .Setter([](Splitter *self, bool value) {
+                  if (self->_drawSplitterLine != value) {
+                      self->_drawSplitterLine = value;
+                      self->Redraw();
+                  }
+              }))
 {
     static thread_local ATOM splitterClsAtom = 0;
 
@@ -7938,15 +7868,17 @@ void sw::StackLayoutV::ArrangeOverride(const Size &finalSize)
 
 sw::StackPanel::StackPanel()
     : Orientation(
-          // get
-          [this]() -> sw::Orientation {
-              return this->_stackLayout.orientation;
-          },
-          // set
-          [this](const sw::Orientation &value) {
-              this->_stackLayout.orientation = value;
-              this->InvalidateMeasure();
-          })
+          Property<sw::Orientation>::Init(this)
+              .Getter([](StackPanel *self) -> sw::Orientation {
+                  return self->_stackLayout.orientation;
+              })
+              .Setter([](StackPanel *self, sw::Orientation value) {
+                  if (self->_stackLayout.orientation != value) {
+                      self->_stackLayout.orientation = value;
+                      self->InvalidateMeasure();
+                  }
+              }))
+
 {
     this->_stackLayout.Associate(this);
     this->HorizontalAlignment = HorizontalAlignment::Stretch;
@@ -7962,14 +7894,13 @@ sw::LayoutHost *sw::StackPanel::GetDefaultLayout()
 
 sw::StaticControl::StaticControl()
     : Notify(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(SS_NOTIFY);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(SS_NOTIFY, value);
-          })
+          Property<bool>::Init(this)
+              .Getter([](StaticControl *self) -> bool {
+                  return self->GetStyle(SS_NOTIFY);
+              })
+              .Setter([](StaticControl *self, bool value) {
+                  self->SetStyle(SS_NOTIFY, value);
+              }))
 {
     this->InitControl(L"STATIC", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
 }
@@ -7978,34 +7909,32 @@ sw::StaticControl::StaticControl()
 
 sw::StatusBar::StatusBar()
     : SizingGrip(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(SBARS_SIZEGRIP);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->SizingGrip != value) {
-                  auto style   = this->GetStyle();
-                  auto exstyle = this->GetExtendedStyle();
-                  this->ResetHandle(value ? (style | SBARS_SIZEGRIP) : (style & ~SBARS_SIZEGRIP), exstyle);
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](StatusBar *self) -> bool {
+                  return self->GetStyle(SBARS_SIZEGRIP);
+              })
+              .Setter([](StatusBar *self, bool value) {
+                  if (self->SizingGrip != value) {
+                      auto style   = self->GetStyle();
+                      auto exstyle = self->GetExtendedStyle();
+                      self->ResetHandle(value ? (style | SBARS_SIZEGRIP) : (style & ~SBARS_SIZEGRIP), exstyle);
+                  }
+              })),
 
       PartsCount(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(SB_GETPARTS, 0, 0);
-          }),
+          Property<int>::Init(this)
+              .Getter([](StatusBar *self) -> int {
+                  return (int)self->SendMessageW(SB_GETPARTS, 0, 0);
+              })),
 
       UseUnicode(
-          // get
-          [this]() -> bool {
-              return this->SendMessageW(SB_GETUNICODEFORMAT, 0, 0);
-          },
-          // set
-          [this](const bool &value) {
-              this->SendMessageW(SB_SETUNICODEFORMAT, value, 0);
-          })
+          Property<bool>::Init(this)
+              .Getter([](StatusBar *self) -> bool {
+                  return self->SendMessageW(SB_GETUNICODEFORMAT, 0, 0);
+              })
+              .Setter([](StatusBar *self, bool value) {
+                  self->SendMessageW(SB_SETUNICODEFORMAT, value, 0);
+              }))
 {
     this->InitControl(STATUSCLASSNAMEW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CCS_NORESIZE, 0);
     this->Height = 25;
@@ -8080,28 +8009,26 @@ void sw::StatusBar::SetBackColor(Color color, bool redraw)
 
 sw::SysLink::SysLink()
     : IgnoreReturn(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(LWS_IGNORERETURN);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(LWS_IGNORERETURN, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](SysLink *self) -> bool {
+                  return self->GetStyle(LWS_IGNORERETURN);
+              })
+              .Setter([](SysLink *self, bool value) {
+                  self->SetStyle(LWS_IGNORERETURN, value);
+              })),
 
       AutoSize(
-          // get
-          [this]() -> bool {
-              return this->_autoSize;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->_autoSize != value) {
-                  this->_autoSize = value;
-                  this->_UpdateLayoutFlags();
-                  this->InvalidateMeasure();
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](SysLink *self) -> bool {
+                  return self->_autoSize;
+              })
+              .Setter([](SysLink *self, bool value) {
+                  if (self->_autoSize != value) {
+                      self->_autoSize = value;
+                      self->_UpdateLayoutFlags();
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     this->InitControl(WC_LINK, L"<a>SysLink</a>", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_TABSTOP, 0);
     this->_UpdateTextSize();
@@ -8191,65 +8118,61 @@ void sw::SysLink::_UpdateLayoutFlags()
 
 sw::TabControl::TabControl()
     : ContentRect(
-          // get
-          [this]() -> sw::Rect {
-              RECT rect;
-              GetClientRect(this->Handle, &rect);
-              this->_CalcContentRect(rect);
-              return rect;
-          }),
+          Property<sw::Rect>::Init(this)
+              .Getter([](TabControl *self) -> sw::Rect {
+                  RECT rect;
+                  GetClientRect(self->Handle, &rect);
+                  self->_CalcContentRect(rect);
+                  return rect;
+              })),
 
       SelectedIndex(
-          // get
-          [this]() -> int {
-              return (int)this->SendMessageW(TCM_GETCURSEL, 0, 0);
-          },
-          // set
-          [this](const int &value) {
-              if (this->SelectedIndex != value) {
-                  this->SendMessageW(TCM_SETCURSEL, (WPARAM)value, 0);
-                  this->OnSelectedIndexChanged();
-              }
-          }),
+          Property<int>::Init(this)
+              .Getter([](TabControl *self) -> int {
+                  return (int)self->SendMessageW(TCM_GETCURSEL, 0, 0);
+              })
+              .Setter([](TabControl *self, int value) {
+                  if (self->SelectedIndex != value) {
+                      self->SendMessageW(TCM_SETCURSEL, (WPARAM)value, 0);
+                      self->OnSelectedIndexChanged();
+                  }
+              })),
 
       Alignment(
-          // get
-          [this]() -> TabAlignment {
-              auto style = this->GetStyle();
-              if (style & TCS_VERTICAL) {
-                  return (style & TCS_RIGHT) ? TabAlignment::Right : TabAlignment::Left;
-              } else {
-                  return (style & TCS_BOTTOM) ? TabAlignment::Bottom : TabAlignment::Top;
-              }
-          },
-          // set
-          [this](const TabAlignment &value) {
-              this->_SetTabAlignment(value);
-          }),
+          Property<TabAlignment>::Init(this)
+              .Getter([](TabControl *self) -> TabAlignment {
+                  auto style = self->GetStyle();
+                  if (style & TCS_VERTICAL) {
+                      return (style & TCS_RIGHT) ? TabAlignment::Right : TabAlignment::Left;
+                  } else {
+                      return (style & TCS_BOTTOM) ? TabAlignment::Bottom : TabAlignment::Top;
+                  }
+              })
+              .Setter([](TabControl *self, TabAlignment value) {
+                  self->_SetTabAlignment(value);
+              })),
 
       MultiLine(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(TCS_MULTILINE);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(TCS_MULTILINE, value);
-              this->InvalidateMeasure();
-          }),
+          Property<bool>::Init(this)
+              .Getter([](TabControl *self) -> bool {
+                  return self->GetStyle(TCS_MULTILINE);
+              })
+              .Setter([](TabControl *self, bool value) {
+                  self->SetStyle(TCS_MULTILINE, value);
+                  self->InvalidateMeasure();
+              })),
 
       AutoSize(
-          // get
-          [this]() -> bool {
-              return this->_autoSize;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->_autoSize != value) {
-                  this->_autoSize = value;
-                  this->InvalidateMeasure();
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](TabControl *self) -> bool {
+                  return self->_autoSize;
+              })
+              .Setter([](TabControl *self, bool value) {
+                  if (self->_autoSize != value) {
+                      self->_autoSize = value;
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     this->InitControl(WC_TABCONTROLW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, 0);
 
@@ -8531,61 +8454,57 @@ sw::UIElement *sw::TabControl::_GetSelectedItem()
 
 sw::TextBox::TextBox()
     : AutoWrap(
-          // get
-          [this]() -> bool {
-              return this->_autoWrap;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->_autoWrap == value) {
-                  return;
-              }
-              this->_autoWrap = value;
-              if (this->MultiLine && this->GetStyle(ES_AUTOHSCROLL) == value) {
-                  this->SetStyle(ES_AUTOHSCROLL, !value);
-                  this->ResetHandle();
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](TextBox *self) -> bool {
+                  return self->_autoWrap;
+              })
+              .Setter([](TextBox *self, bool value) {
+                  if (self->_autoWrap == value) {
+                      return;
+                  }
+                  self->_autoWrap = value;
+                  if (self->MultiLine && self->GetStyle(ES_AUTOHSCROLL) == value) {
+                      self->SetStyle(ES_AUTOHSCROLL, !value);
+                      self->ResetHandle();
+                  }
+              })),
 
       MultiLine(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(ES_MULTILINE);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->MultiLine != value) {
-                  this->SetStyle(ES_MULTILINE, value);
-                  this->SetStyle(ES_AUTOHSCROLL, !(value && this->_autoWrap));
-                  this->ResetHandle();
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](TextBox *self) -> bool {
+                  return self->GetStyle(ES_MULTILINE);
+              })
+              .Setter([](TextBox *self, bool value) {
+                  if (self->MultiLine != value) {
+                      self->SetStyle(ES_MULTILINE, value);
+                      self->SetStyle(ES_AUTOHSCROLL, !(value && self->_autoWrap));
+                      self->ResetHandle();
+                  }
+              })),
 
       HorizontalScrollBar(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(WS_HSCROLL);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->HorizontalScrollBar != value) {
-                  this->SetStyle(WS_HSCROLL, value);
-                  this->ResetHandle();
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](TextBox *self) -> bool {
+                  return self->GetStyle(WS_HSCROLL);
+              })
+              .Setter([](TextBox *self, bool value) {
+                  if (self->HorizontalScrollBar != value) {
+                      self->SetStyle(WS_HSCROLL, value);
+                      self->ResetHandle();
+                  }
+              })),
 
       VerticalScrollBar(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(WS_VSCROLL);
-          },
-          // set
-          [this](const bool &value) {
-              if (this->VerticalScrollBar != value) {
-                  this->SetStyle(WS_VSCROLL, value);
-                  this->ResetHandle();
-              }
-          })
+          Property<bool>::Init(this)
+              .Getter([](TextBox *self) -> bool {
+                  return self->GetStyle(WS_VSCROLL);
+              })
+              .Setter([](TextBox *self, bool value) {
+                  if (self->VerticalScrollBar != value) {
+                      self->SetStyle(WS_VSCROLL, value);
+                      self->ResetHandle();
+                  }
+              }))
 {
     this->InitTextBoxBase(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | ES_LEFT | ES_AUTOHSCROLL | ES_AUTOVSCROLL, WS_EX_CLIENTEDGE);
     this->Rect = sw::Rect(0, 0, 100, 24);
@@ -8595,70 +8514,67 @@ sw::TextBox::TextBox()
 
 sw::TextBoxBase::TextBoxBase()
     : ReadOnly(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(ES_READONLY);
-          },
-          // set
-          [this](const bool &value) {
-              this->SendMessageW(EM_SETREADONLY, value, 0);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](TextBoxBase *self) -> bool {
+                  return self->GetStyle(ES_READONLY);
+              })
+              .Setter([](TextBoxBase *self, bool value) {
+                  self->SendMessageW(EM_SETREADONLY, value, 0);
+              })),
 
       HorizontalContentAlignment(
-          // get
-          [this]() -> sw::HorizontalAlignment {
-              LONG_PTR style = this->GetStyle();
-              if (style & ES_CENTER) {
-                  return sw::HorizontalAlignment::Center;
-              } else if (style & ES_RIGHT) {
-                  return sw::HorizontalAlignment::Right;
-              } else {
-                  return sw::HorizontalAlignment::Left;
-              }
-          },
-          // set
-          [this](const sw::HorizontalAlignment &value) {
-              switch (value) {
-                  case sw::HorizontalAlignment::Left: {
-                      this->SetStyle(ES_CENTER | ES_RIGHT, false);
-                      break;
+          Property<sw::HorizontalAlignment>::Init(this)
+              .Getter([](TextBoxBase *self) -> sw::HorizontalAlignment {
+                  LONG_PTR style = self->GetStyle();
+                  if (style & ES_CENTER) {
+                      return sw::HorizontalAlignment::Center;
+                  } else if (style & ES_RIGHT) {
+                      return sw::HorizontalAlignment::Right;
+                  } else {
+                      return sw::HorizontalAlignment::Left;
                   }
-                  case sw::HorizontalAlignment::Center: {
-                      DWORD style = this->GetStyle();
-                      style &= ~(ES_CENTER | ES_RIGHT);
-                      style |= ES_CENTER;
-                      this->SetStyle(style);
-                      break;
+              })
+              .Setter([](TextBoxBase *self, sw::HorizontalAlignment value) {
+                  switch (value) {
+                      case sw::HorizontalAlignment::Left: {
+                          self->SetStyle(ES_CENTER | ES_RIGHT, false);
+                          break;
+                      }
+                      case sw::HorizontalAlignment::Center: {
+                          DWORD style = self->GetStyle();
+                          style &= ~(ES_CENTER | ES_RIGHT);
+                          style |= ES_CENTER;
+                          self->SetStyle(style);
+                          break;
+                      }
+                      case sw::HorizontalAlignment::Right: {
+                          DWORD style = self->GetStyle();
+                          style &= ~(ES_CENTER | ES_RIGHT);
+                          style |= ES_RIGHT;
+                          self->SetStyle(style);
+                          break;
+                      }
+                      default: {
+                          break;
+                      }
                   }
-                  case sw::HorizontalAlignment::Right: {
-                      DWORD style = this->GetStyle();
-                      style &= ~(ES_CENTER | ES_RIGHT);
-                      style |= ES_RIGHT;
-                      this->SetStyle(style);
-                      break;
-                  }
-                  default: {
-                      break;
-                  }
-              }
-              this->Redraw();
-          }),
+                  self->Redraw();
+              })),
 
       CanUndo(
-          // get
-          [this]() -> bool {
-              return this->SendMessageW(EM_CANUNDO, 0, 0);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](TextBoxBase *self) -> bool {
+                  return self->SendMessageW(EM_CANUNDO, 0, 0);
+              })),
 
       AcceptTab(
-          // get
-          [this]() -> bool {
-              return this->_acceptTab;
-          },
-          // set
-          [this](const bool &value) {
-              this->_acceptTab = value;
-          })
+          Property<bool>::Init(this)
+              .Getter([](TextBoxBase *self) -> bool {
+                  return self->_acceptTab;
+              })
+              .Setter([](TextBoxBase *self, bool value) {
+                  self->_acceptTab = value;
+              }))
 {
     this->TabStop = true;
 }
@@ -8807,18 +8723,17 @@ namespace
 
 sw::Timer::Timer()
     : Interval(
-          // get
-          [this]() -> uint32_t {
-              return this->_interval;
-          },
-          // set
-          [this](const uint32_t &value) {
-              this->_interval = value;
-              if (this->_started) {
-                  this->Stop();
-                  this->Start();
-              }
-          })
+          Property<uint32_t>::Init(this)
+              .Getter([](Timer *self) -> uint32_t {
+                  return self->_interval;
+              })
+              .Setter([](Timer *self, uint32_t value) {
+                  self->_interval = value;
+                  if (self->_started) {
+                      self->Stop();
+                      self->Start();
+                  }
+              }))
 {
     this->InitControl(L"STATIC", L"", WS_CHILD, 0);
     Timer::_SetTimerPtr(this->Handle, *this);
@@ -8883,48 +8798,44 @@ sw::ToolTip::ToolTip()
 
 sw::ToolTip::ToolTip(DWORD style)
     : InitialDelay(
-          // get
-          [this]() -> int {
-              return int(this->SendMessageW(TTM_GETDELAYTIME, TTDT_INITIAL, 0));
-          },
-          // set
-          [this](const int &value) {
-              this->SendMessageW(TTM_SETDELAYTIME, TTDT_AUTOMATIC, static_cast<LPARAM>(value));
-          }),
+          Property<int>::Init(this)
+              .Getter([](ToolTip *self) -> int {
+                  return int(self->SendMessageW(TTM_GETDELAYTIME, TTDT_INITIAL, 0));
+              })
+              .Setter([](ToolTip *self, int value) {
+                  self->SendMessageW(TTM_SETDELAYTIME, TTDT_AUTOMATIC, static_cast<LPARAM>(value));
+              })),
 
       ToolTipIcon(
-          // get
-          [this]() -> sw::ToolTipIcon {
-              return this->_icon;
-          },
-          // set
-          [this](const sw::ToolTipIcon &value) {
-              this->_icon = value;
-              this->_UpdateIconAndTitle();
-          }),
+          Property<sw::ToolTipIcon>::Init(this)
+              .Getter([](ToolTip *self) -> sw::ToolTipIcon {
+                  return self->_icon;
+              })
+              .Setter([](ToolTip *self, sw::ToolTipIcon value) {
+                  self->_icon = value;
+                  self->_UpdateIconAndTitle();
+              })),
 
       ToolTipTitle(
-          // get
-          [this]() -> std::wstring {
-              return this->_title;
-          },
-          // set
-          [this](const std::wstring &value) {
-              this->_title = value;
-              this->_UpdateIconAndTitle();
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](ToolTip *self) -> std::wstring {
+                  return self->_title;
+              })
+              .Setter([](ToolTip *self, const std::wstring &value) {
+                  self->_title = value;
+                  self->_UpdateIconAndTitle();
+              })),
 
       MaxTipWidth(
-          // get
-          [this]() -> double {
-              int w = int(this->SendMessageW(TTM_GETMAXTIPWIDTH, 0, 0));
-              return (w == -1) ? -1 : Dip::PxToDipX(w);
-          },
-          // set
-          [this](const double &value) {
-              int w = value < 0 ? -1 : Dip::DipToPxX(value);
-              this->SendMessageW(TTM_SETMAXTIPWIDTH, 0, w);
-          })
+          Property<double>::Init(this)
+              .Getter([](ToolTip *self) -> double {
+                  int w = int(self->SendMessageW(TTM_GETMAXTIPWIDTH, 0, 0));
+                  return (w == -1) ? -1 : Dip::PxToDipX(w);
+              })
+              .Setter([](ToolTip *self, double value) {
+                  int w = value < 0 ? -1 : Dip::DipToPxX(value);
+                  self->SendMessageW(TTM_SETMAXTIPWIDTH, 0, w);
+              }))
 {
     this->InitControl(TOOLTIPS_CLASSW, L"", style, 0);
 }
@@ -9204,51 +9115,46 @@ int sw::TreeViewNode::DeleteAllChildren()
 
 sw::TreeView::TreeView()
     : Root(
-          // get
-          [this]() -> TreeViewNode {
-              return _GetRoot();
-          }),
+          Property<TreeViewNode>::Init(this)
+              .Getter<&TreeView::_GetRoot>()),
 
       AllItemsCount(
-          // get
-          [this]() -> int {
-              HWND hwnd = Handle;
-              return TreeView_GetCount(hwnd);
-          }),
+          Property<int>::Init(this)
+              .Getter([](TreeView *self) -> int {
+                  HWND hwnd = self->Handle;
+                  return TreeView_GetCount(hwnd);
+              })),
 
       CheckBoxes(
-          // get
-          [this]() -> bool {
-              return GetStyle(TVS_CHECKBOXES);
-          },
-          // set
-          [this](const bool &value) {
-              SetStyle(TVS_CHECKBOXES, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](TreeView *self) -> bool {
+                  return self->GetStyle(TVS_CHECKBOXES);
+              })
+              .Setter([](TreeView *self, bool value) {
+                  self->SetStyle(TVS_CHECKBOXES, value);
+              })),
 
       LineColor(
-          // get
-          [this]() -> Color {
-              HWND hwnd = Handle;
-              return static_cast<Color>(TreeView_GetLineColor(hwnd));
-          },
-          // set
-          [this](const Color &value) {
-              HWND hwnd = Handle;
-              TreeView_SetLineColor(hwnd, static_cast<COLORREF>(value));
-          }),
+          Property<Color>::Init(this)
+              .Getter([](TreeView *self) -> Color {
+                  HWND hwnd = self->Handle;
+                  return static_cast<Color>(TreeView_GetLineColor(hwnd));
+              })
+              .Setter([](TreeView *self, const Color &value) {
+                  HWND hwnd = self->Handle;
+                  TreeView_SetLineColor(hwnd, static_cast<COLORREF>(value));
+              })),
 
       IndentWidth(
-          // get
-          [this]() -> double {
-              HWND hwnd = Handle;
-              return Dip::PxToDipX(TreeView_GetIndent(hwnd));
-          },
-          // set
-          [this](const double &value) {
-              HWND hwnd = Handle;
-              TreeView_SetIndent(hwnd, Dip::DipToPxX(value));
-          })
+          Property<double>::Init(this)
+              .Getter([](TreeView *self) -> double {
+                  HWND hwnd = self->Handle;
+                  return Dip::PxToDipX(TreeView_GetIndent(hwnd));
+              })
+              .Setter([](TreeView *self, double value) {
+                  HWND hwnd = self->Handle;
+                  TreeView_SetIndent(hwnd, Dip::DipToPxX(value));
+              }))
 {
     InitControl(WC_TREEVIEWW, NULL, WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS | WS_BORDER | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS, 0);
 
@@ -9489,266 +9395,247 @@ sw::TreeViewNode sw::TreeView::_InsertItem(HTREEITEM hParent, HTREEITEM hInsertA
 
 sw::UIElement::UIElement()
     : Margin(
-          // get
-          [this]() -> Thickness {
-              return this->_margin;
-          },
-          // set
-          [this](const Thickness &value) {
-              if (this->_margin != value) {
-                  this->_margin = value;
-                  this->InvalidateMeasure();
-              }
-          }),
+          Property<Thickness>::Init(this)
+              .Getter([](UIElement *self) -> Thickness {
+                  return self->_margin;
+              })
+              .Setter([](UIElement *self, const Thickness &value) {
+                  if (self->_margin != value) {
+                      self->_margin = value;
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       HorizontalAlignment(
-          // get
-          [this]() -> sw::HorizontalAlignment {
-              return this->_horizontalAlignment;
-          },
-          // set
-          [this](const sw::HorizontalAlignment &value) {
-              if (this->_SetHorzAlignment(value)) {
-                  this->InvalidateMeasure();
-              }
-          }),
+          Property<sw::HorizontalAlignment>::Init(this)
+              .Getter([](UIElement *self) -> sw::HorizontalAlignment {
+                  return self->_horizontalAlignment;
+              })
+              .Setter([](UIElement *self, sw::HorizontalAlignment value) {
+                  if (self->_SetHorzAlignment(value)) {
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       VerticalAlignment(
-          // get
-          [this]() -> sw::VerticalAlignment {
-              return this->_verticalAlignment;
-          },
-          // set
-          [this](const sw::VerticalAlignment &value) {
-              if (this->_SetVertAlignment(value)) {
-                  this->InvalidateMeasure();
-              }
-          }),
+          Property<sw::VerticalAlignment>::Init(this)
+              .Getter([](UIElement *self) -> sw::VerticalAlignment {
+                  return self->_verticalAlignment;
+              })
+              .Setter([](UIElement *self, sw::VerticalAlignment value) {
+                  if (self->_SetVertAlignment(value)) {
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       ChildCount(
-          // get
-          [this]() -> int {
-              return (int)this->_children.size();
-          }),
+          Property<int>::Init(this)
+              .Getter([](UIElement *self) -> int {
+                  return (int)self->_children.size();
+              })),
 
       CollapseWhenHide(
-          // get
-          [this]() -> bool {
-              return this->_collapseWhenHide;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->_collapseWhenHide != value) {
-                  this->_collapseWhenHide = value;
-                  if (this->_parent && !this->Visible) {
-                      this->_parent->_UpdateLayoutVisibleChildren();
-                      this->_parent->InvalidateMeasure();
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return self->_collapseWhenHide;
+              })
+              .Setter([](UIElement *self, bool value) {
+                  if (self->_collapseWhenHide != value) {
+                      self->_collapseWhenHide = value;
+                      if (self->_parent && !self->Visible) {
+                          self->_parent->_UpdateLayoutVisibleChildren();
+                          self->_parent->InvalidateMeasure();
+                      }
                   }
-              }
-          }),
+              })),
 
       Parent(
-          // get
-          [this]() -> UIElement * {
-              return this->_parent;
-          }),
+          Property<UIElement *>::Init(this)
+              .Getter([](UIElement *self) -> UIElement * {
+                  return self->_parent;
+              })),
 
       Tag(
-          // get
-          [this]() -> uint64_t {
-              return this->_tag;
-          },
-          // set
-          [this](const uint64_t &value) {
-              this->_tag = value;
-          }),
+          Property<uint64_t>::Init(this)
+              .Getter([](UIElement *self) -> uint64_t {
+                  return self->_tag;
+              })
+              .Setter([](UIElement *self, uint64_t value) {
+                  self->_tag = value;
+              })),
 
       LayoutTag(
-          // get
-          [this]() -> uint64_t {
-              return this->_layoutTag;
-          },
-          // set
-          [this](const uint64_t &value) {
-              if (this->_layoutTag != value) {
-                  this->_layoutTag = value;
-                  this->InvalidateMeasure();
-              }
-          }),
+          Property<uint64_t>::Init(this)
+              .Getter([](UIElement *self) -> uint64_t {
+                  return self->_layoutTag;
+              })
+              .Setter([](UIElement *self, uint64_t value) {
+                  if (self->_layoutTag != value) {
+                      self->_layoutTag = value;
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       ContextMenu(
-          // get
-          [this]() -> sw::ContextMenu * {
-              return this->_contextMenu;
-          },
-          // set
-          [this](sw::ContextMenu *value) {
-              this->_contextMenu = value;
-          }),
+          Property<sw::ContextMenu *>::Init(this)
+              .Getter([](UIElement *self) -> sw::ContextMenu * {
+                  return self->_contextMenu;
+              })
+              .Setter([](UIElement *self, sw::ContextMenu *value) {
+                  self->_contextMenu = value;
+              })),
 
       Float(
-          // get
-          [this]() -> bool {
-              return this->_float;
-          },
-          // set
-          [this](const bool &value) {
-              if (this->_float != value) {
-                  this->_float = value;
-                  this->UpdateSiblingsZOrder();
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return self->_float;
+              })
+              .Setter([](UIElement *self, bool value) {
+                  if (self->_float != value) {
+                      self->_float = value;
+                      self->UpdateSiblingsZOrder();
+                  }
+              })),
 
       TabStop(
-          // get
-          [this]() -> bool {
-              return this->_tabStop;
-          },
-          // set
-          [this](const bool &value) {
-              this->_tabStop = value;
-          }),
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return self->_tabStop;
+              })
+              .Setter([](UIElement *self, bool value) {
+                  self->_tabStop = value;
+              })),
 
       BackColor(
-          // get
-          [this]() -> Color {
-              return this->_backColor;
-          },
-          // set
-          [this](const Color &value) {
-              this->_transparent = false;
-              this->SetBackColor(value, true);
-          }),
+          Property<Color>::Init(this)
+              .Getter([](UIElement *self) -> Color {
+                  return self->_backColor;
+              })
+              .Setter([](UIElement *self, const Color &value) {
+                  self->_transparent = false;
+                  self->SetBackColor(value, true);
+              })),
 
       TextColor(
-          // get
-          [this]() -> Color {
-              return this->_textColor;
-          },
-          // set
-          [this](const Color &value) {
-              this->_inheritTextColor = false;
-              this->SetTextColor(value, true);
-          }),
+          Property<Color>::Init(this)
+              .Getter([](UIElement *self) -> Color {
+                  return self->_textColor;
+              })
+              .Setter([](UIElement *self, const Color &value) {
+                  self->_inheritTextColor = false;
+                  self->SetTextColor(value, true);
+              })),
 
       Transparent(
-          // get
-          [this]() -> bool {
-              return this->_transparent;
-          },
-          // set
-          [this](const bool &value) {
-              this->_transparent = value;
-              this->Redraw();
-          }),
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return self->_transparent;
+              })
+              .Setter([](UIElement *self, bool value) {
+                  self->_transparent = value;
+                  self->Redraw();
+              })),
 
       InheritTextColor(
-          // get
-          [this]() -> bool {
-              return this->_inheritTextColor;
-          },
-          // set
-          [this](const bool &value) {
-              this->_inheritTextColor = value;
-              this->Redraw();
-          }),
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return self->_inheritTextColor;
+              })
+              .Setter([](UIElement *self, bool value) {
+                  self->_inheritTextColor = value;
+                  self->Redraw();
+              })),
 
       LayoutUpdateCondition(
-          // get
-          [this]() -> sw::LayoutUpdateCondition {
-              return this->_layoutUpdateCondition;
-          },
-          // set
-          [this](const sw::LayoutUpdateCondition &value) {
-              this->_layoutUpdateCondition = value;
-          }),
+          Property<sw::LayoutUpdateCondition>::Init(this)
+              .Getter([](UIElement *self) -> sw::LayoutUpdateCondition {
+                  return self->_layoutUpdateCondition;
+              })
+              .Setter([](UIElement *self, sw::LayoutUpdateCondition value) {
+                  self->_layoutUpdateCondition = value;
+              })),
 
       IsMeasureValid(
-          // get
-          [this]() -> bool {
-              return !this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::MeasureInvalidated);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return !self->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::MeasureInvalidated);
+              })),
 
       MinWidth(
-          // get
-          [this]() -> double {
-              return this->_minSize.width;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_minSize.width != value) {
-                  this->_minSize.width = value;
-                  this->OnMinMaxSizeChanged();
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](UIElement *self) -> double {
+                  return self->_minSize.width;
+              })
+              .Setter([](UIElement *self, double value) {
+                  if (self->_minSize.width != value) {
+                      self->_minSize.width = value;
+                      self->OnMinMaxSizeChanged();
+                  }
+              })),
 
       MinHeight(
-          // get
-          [this]() -> double {
-              return this->_minSize.height;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_minSize.height != value) {
-                  this->_minSize.height = value;
-                  this->OnMinMaxSizeChanged();
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](UIElement *self) -> double {
+                  return self->_minSize.height;
+              })
+              .Setter([](UIElement *self, double value) {
+                  if (self->_minSize.height != value) {
+                      self->_minSize.height = value;
+                      self->OnMinMaxSizeChanged();
+                  }
+              })),
 
       MaxWidth(
-          // get
-          [this]() -> double {
-              return this->_maxSize.width;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_maxSize.width != value) {
-                  this->_maxSize.width = value;
-                  this->OnMinMaxSizeChanged();
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](UIElement *self) -> double {
+                  return self->_maxSize.width;
+              })
+              .Setter([](UIElement *self, double value) {
+                  if (self->_maxSize.width != value) {
+                      self->_maxSize.width = value;
+                      self->OnMinMaxSizeChanged();
+                  }
+              })),
 
       MaxHeight(
-          // get
-          [this]() -> double {
-              return this->_maxSize.height;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_maxSize.height != value) {
-                  this->_maxSize.height = value;
-                  this->OnMinMaxSizeChanged();
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](UIElement *self) -> double {
+                  return self->_maxSize.height;
+              })
+              .Setter([](UIElement *self, double value) {
+                  if (self->_maxSize.height != value) {
+                      self->_maxSize.height = value;
+                      self->OnMinMaxSizeChanged();
+                  }
+              })),
 
       LogicalRect(
-          // get
-          [this]() -> sw::Rect {
-              sw::Size size = this->_origionalSize;
-              sw::Point pos = this->Rect->GetPos();
-              if (this->_parent != nullptr) {
-                  pos.x -= this->_parent->_arrangeOffsetX;
-                  pos.y -= this->_parent->_arrangeOffsetY;
-              }
-              return sw::Rect{
-                  pos.x, pos.y, size.width, size.height};
-          }),
+          Property<sw::Rect>::Init(this)
+              .Getter([](UIElement *self) -> sw::Rect {
+                  sw::Size size = self->_origionalSize;
+                  sw::Point pos = self->Rect->GetPos();
+                  if (self->_parent != nullptr) {
+                      pos.x -= self->_parent->_arrangeOffsetX;
+                      pos.y -= self->_parent->_arrangeOffsetY;
+                  }
+                  return sw::Rect{
+                      pos.x, pos.y, size.width, size.height};
+              })),
 
       IsHitTestVisible(
-          // get
-          [this]() -> bool {
-              return this->_isHitTestVisible;
-          },
-          // set
-          [this](const bool &value) {
-              this->_isHitTestVisible = value;
-          }),
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return self->_isHitTestVisible;
+              })
+              .Setter([](UIElement *self, bool value) {
+                  self->_isHitTestVisible = value;
+              })),
 
       IsFocusedViaTab(
-          // get
-          [this]() -> bool {
-              return this->_focusedViaTab;
-          })
+          Property<bool>::Init(this)
+              .Getter([](UIElement *self) -> bool {
+                  return self->_focusedViaTab;
+              }))
 {
 }
 
@@ -10987,37 +10874,40 @@ void sw::UIElement::_GetAllChildren(UIElement *element, std::vector<UIElement *>
 
 sw::UniformGrid::UniformGrid()
     : Rows(
-          // get
-          [this]() -> int {
-              return this->_uniformGridLayout.rows;
-          },
-          // set
-          [this](const int &value) {
-              this->_uniformGridLayout.rows = value;
-              this->InvalidateMeasure();
-          }),
+          Property<int>::Init(this)
+              .Getter([](UniformGrid *self) -> int {
+                  return self->_uniformGridLayout.rows;
+              })
+              .Setter([](UniformGrid *self, int value) {
+                  if (self->_uniformGridLayout.rows != value) {
+                      self->_uniformGridLayout.rows = value;
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       Columns(
-          // get
-          [this]() -> int {
-              return this->_uniformGridLayout.columns;
-          },
-          // set
-          [this](const int &value) {
-              this->_uniformGridLayout.columns = value;
-              this->InvalidateMeasure();
-          }),
+          Property<int>::Init(this)
+              .Getter([](UniformGrid *self) -> int {
+                  return self->_uniformGridLayout.columns;
+              })
+              .Setter([](UniformGrid *self, int value) {
+                  if (self->_uniformGridLayout.columns != value) {
+                      self->_uniformGridLayout.columns = value;
+                      self->InvalidateMeasure();
+                  }
+              })),
 
       FirstColumn(
-          // get
-          [this]() -> int {
-              return this->_uniformGridLayout.firstColumn;
-          },
-          // set
-          [this](const int &value) {
-              this->_uniformGridLayout.firstColumn = value;
-              this->InvalidateMeasure();
-          })
+          Property<int>::Init(this)
+              .Getter([](UniformGrid *self) -> int {
+                  return self->_uniformGridLayout.firstColumn;
+              })
+              .Setter([](UniformGrid *self, int value) {
+                  if (self->_uniformGridLayout.firstColumn != value) {
+                      self->_uniformGridLayout.firstColumn = value;
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     this->_uniformGridLayout.Associate(this);
     this->HorizontalAlignment = HorizontalAlignment::Stretch;
@@ -11204,202 +11094,191 @@ namespace
  * @brief 当前线程的活动窗口
  */
 const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
-    []() -> sw::Window * {
-        HWND hwnd = GetActiveWindow();
-        // return _GetWindowPtr(hwnd); // vs2015无法识别此处的作用域？
-        return reinterpret_cast<sw::Window *>(GetPropW(hwnd, _WindowPtrProp));
-    } //
+    Property<sw::Window *>::Init()
+        .Getter([]() -> sw::Window * {
+            HWND hwnd = GetActiveWindow();
+            // return _GetWindowPtr(hwnd); // vs2015无法识别此处的作用域？
+            return reinterpret_cast<sw::Window *>(GetPropW(hwnd, _WindowPtrProp));
+        }) //
 );
 
 /**
  * @brief 当前线程已创建的窗口数
  */
 const sw::ReadOnlyProperty<int> sw::Window::WindowCount(
-    []() -> int {
-        return _windowCount;
-    } //
+    Property<int>::Init()
+        .Getter([]() -> int {
+            return _windowCount;
+        }) //
 );
 
 sw::Window::Window()
     : StartupLocation(
-          // get
-          [this]() -> WindowStartupLocation {
-              return _startupLocation;
-          },
-          // set
-          [this](const WindowStartupLocation &value) {
-              _startupLocation = value;
-          }),
+          Property<WindowStartupLocation>::Init(this)
+              .Getter([](Window *self) -> WindowStartupLocation {
+                  return self->_startupLocation;
+              })
+              .Setter([](Window *self, WindowStartupLocation value) {
+                  self->_startupLocation = value;
+              })),
 
       State(
-          // get
-          [this]() -> WindowState {
-              HWND hwnd = Handle;
-              if (IsIconic(hwnd)) {
-                  return WindowState::Minimized;
-              } else if (IsZoomed(hwnd)) {
-                  return WindowState::Maximized;
-              } else {
-                  return WindowState::Normal;
-              }
-          },
-          // set
-          [this](const WindowState &value) {
-              HWND hwnd = Handle;
-              switch (value) {
-                  case WindowState::Normal:
-                      ShowWindow(hwnd, SW_RESTORE);
-                      break;
-                  case WindowState::Minimized:
-                      ShowWindow(hwnd, SW_MINIMIZE);
-                      break;
-                  case WindowState::Maximized:
-                      ShowWindow(hwnd, SW_MAXIMIZE);
-                      break;
-              }
-          }),
+          Property<WindowState>::Init(this)
+              .Getter([](Window *self) -> WindowState {
+                  HWND hwnd = self->Handle;
+                  if (IsIconic(hwnd)) {
+                      return WindowState::Minimized;
+                  } else if (IsZoomed(hwnd)) {
+                      return WindowState::Maximized;
+                  } else {
+                      return WindowState::Normal;
+                  }
+              })
+              .Setter([](Window *self, WindowState value) {
+                  HWND hwnd = self->Handle;
+                  switch (value) {
+                      case WindowState::Normal:
+                          ShowWindow(hwnd, SW_RESTORE);
+                          break;
+                      case WindowState::Minimized:
+                          ShowWindow(hwnd, SW_MINIMIZE);
+                          break;
+                      case WindowState::Maximized:
+                          ShowWindow(hwnd, SW_MAXIMIZE);
+                          break;
+                  }
+              })),
 
       SizeBox(
-          // get
-          [this]() -> bool {
-              return GetStyle(WS_SIZEBOX);
-          },
-          // set
-          [this](const bool &value) {
-              SetStyle(WS_SIZEBOX, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->GetStyle(WS_SIZEBOX);
+              })
+              .Setter([](Window *self, bool value) {
+                  self->SetStyle(WS_SIZEBOX, value);
+              })),
 
       MaximizeBox(
-          // get
-          [this]() -> bool {
-              return GetStyle(WS_MAXIMIZEBOX);
-          },
-          // set
-          [this](const bool &value) {
-              SetStyle(WS_MAXIMIZEBOX, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->GetStyle(WS_MAXIMIZEBOX);
+              })
+              .Setter([](Window *self, bool value) {
+                  self->SetStyle(WS_MAXIMIZEBOX, value);
+              })),
 
       MinimizeBox(
-          // get
-          [this]() -> bool {
-              return GetStyle(WS_MINIMIZEBOX);
-          },
-          // set
-          [this](const bool &value) {
-              SetStyle(WS_MINIMIZEBOX, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->GetStyle(WS_MINIMIZEBOX);
+              })
+              .Setter([](Window *self, bool value) {
+                  self->SetStyle(WS_MINIMIZEBOX, value);
+              })),
 
       Topmost(
-          // get
-          [this]() -> bool {
-              return GetExtendedStyle(WS_EX_TOPMOST);
-          },
-          // set
-          [this](const bool &value) {
-              /*SetExtendedStyle(WS_EX_TOPMOST, value);*/
-              HWND hWndInsertAfter = value ? HWND_TOPMOST : HWND_NOTOPMOST;
-              SetWindowPos(Handle, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->GetExtendedStyle(WS_EX_TOPMOST);
+              })
+              .Setter([](Window *self, bool value) {
+                  /*SetExtendedStyle(WS_EX_TOPMOST, value);*/
+                  HWND hWndInsertAfter = value ? HWND_TOPMOST : HWND_NOTOPMOST;
+                  SetWindowPos(self->Handle, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+              })),
 
       ToolWindow(
-          // get
-          [this]() -> bool {
-              return GetExtendedStyle(WS_EX_TOOLWINDOW);
-          },
-          // set
-          [this](const bool &value) {
-              SetExtendedStyle(WS_EX_TOOLWINDOW, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->GetExtendedStyle(WS_EX_TOOLWINDOW);
+              })
+              .Setter([](Window *self, bool value) {
+                  self->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
+              })),
 
       Menu(
-          // get
-          [this]() -> sw::Menu * {
-              return _menu;
-          },
-          // set
-          [this](sw::Menu *value) {
-              _menu = value;
-              SetMenu(Handle, value != nullptr ? value->GetHandle() : NULL);
-          }),
+          Property<sw::Menu *>::Init(this)
+              .Getter([](Window *self) -> sw::Menu * {
+                  return self->_menu;
+              })
+              .Setter([](Window *self, sw::Menu *value) {
+                  self->_menu = value;
+                  SetMenu(self->Handle, value != nullptr ? value->GetHandle() : NULL);
+              })),
 
       IsModal(
-          // get
-          [this]() -> bool {
-              return _isModal;
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->_isModal;
+              })),
 
       Owner(
-          // get
-          [this]() -> Window * {
-              HWND hOwner = reinterpret_cast<HWND>(GetWindowLongPtrW(Handle, GWLP_HWNDPARENT));
-              return _GetWindowPtr(hOwner);
-          },
-          // set
-          [this](Window *value) {
-              HWND hOwner = value ? value->Handle.Get() : NULL;
-              SetWindowLongPtrW(Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
-          }),
+          Property<Window *>::Init(this)
+              .Getter([](Window *self) -> Window * {
+                  HWND hOwner = reinterpret_cast<HWND>(GetWindowLongPtrW(self->Handle, GWLP_HWNDPARENT));
+                  return _GetWindowPtr(hOwner);
+              })
+              .Setter([](Window *self, Window *value) {
+                  HWND hOwner = value ? value->Handle.Get() : NULL;
+                  SetWindowLongPtrW(self->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
+              })),
 
       IsLayered(
-          // get
-          [this]() -> bool {
-              return GetExtendedStyle(WS_EX_LAYERED);
-          },
-          // set
-          [this](const bool &value) {
-              SetExtendedStyle(WS_EX_LAYERED, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->GetExtendedStyle(WS_EX_LAYERED);
+              })
+              .Setter([](Window *self, bool value) {
+                  self->SetExtendedStyle(WS_EX_LAYERED, value);
+              })),
 
       Opacity(
-          // get
-          [this]() -> double {
-              BYTE result;
-              return GetLayeredWindowAttributes(Handle, NULL, &result, NULL) ? (result / 255.0) : 1.0;
-          },
-          // set
-          [this](const double &value) {
-              double opacity = Utils::Min(1.0, Utils::Max(0.0, value));
-              SetLayeredWindowAttributes(Handle, 0, (BYTE)std::lround(255 * opacity), LWA_ALPHA);
-          }),
+          Property<double>::Init(this)
+              .Getter([](Window *self) -> double {
+                  BYTE result;
+                  return GetLayeredWindowAttributes(self->Handle, NULL, &result, NULL) ? (result / 255.0) : 1.0;
+              })
+              .Setter([](Window *self, double value) {
+                  double opacity = Utils::Min(1.0, Utils::Max(0.0, value));
+                  SetLayeredWindowAttributes(self->Handle, 0, (BYTE)std::lround(255 * opacity), LWA_ALPHA);
+              })),
 
       Borderless(
-          // get
-          [this]() -> bool {
-              return _isBorderless;
-          },
-          // set
-          [this](const bool &value) {
-              if (_isBorderless != value) {
-                  _isBorderless = value;
-                  SetStyle(WS_CAPTION | WS_THICKFRAME, !value);
-              }
-          }),
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->_isBorderless;
+              })
+              .Setter([](Window *self, bool value) {
+                  if (self->_isBorderless != value) {
+                      self->_isBorderless = value;
+                      self->SetStyle(WS_CAPTION | WS_THICKFRAME, !value);
+                  }
+              })),
 
       DialogResult(
-          // get
-          [this]() -> int {
-              return _dialogResult;
-          },
-          // set
-          [this](const int &value) {
-              _dialogResult = value;
-              Close();
-          }),
+          Property<int>::Init(this)
+              .Getter([](Window *self) -> int {
+                  return self->_dialogResult;
+              })
+              .Setter([](Window *self, int value) {
+                  self->_dialogResult = value;
+                  self->Close();
+              })),
 
       RestoreRect(
-          // get
-          [this]() -> sw::Rect {
-              WINDOWPLACEMENT wp{};
-              wp.length = sizeof(WINDOWPLACEMENT);
-              GetWindowPlacement(Handle, &wp);
-              return wp.rcNormalPosition;
-          }),
+          Property<sw::Rect>::Init(this)
+              .Getter([](Window *self) -> sw::Rect {
+                  WINDOWPLACEMENT wp{};
+                  wp.length = sizeof(WINDOWPLACEMENT);
+                  GetWindowPlacement(self->Handle, &wp);
+                  return wp.rcNormalPosition;
+              })),
 
       IsLayoutDisabled(
-          // get
-          [this]() -> bool {
-              return _IsLayoutDisabled();
-          })
+          Property<bool>::Init(this)
+              .Getter([](Window *self) -> bool {
+                  return self->_IsLayoutDisabled();
+              }))
 {
     InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
     _SetWindowPtr(Handle, *this);
@@ -11588,7 +11467,7 @@ void sw::Window::OnMinMaxSizeChanged()
 void sw::Window::OnFirstShow()
 {
     // 若未设置焦点元素则默认第一个元素为焦点元素
-    if (ChildCount && GetAncestor(GetFocus(), GA_ROOT) != Handle) {
+    if (ChildCount > 0 && (GetAncestor(GetFocus(), GA_ROOT) != Handle)) {
         GetChildAt(0).Focused = true;
     }
 
@@ -11883,246 +11762,231 @@ sw::WndBase::WndBase()
     : _check(_WndBaseMagicNumber),
 
       Handle(
-          // get
-          [this]() -> HWND {
-              return this->_hwnd;
-          }),
+          Property<HWND>::Init(this)
+              .Getter([](WndBase *self) -> HWND {
+                  return self->_hwnd;
+              })),
 
       Font(
-          // get
-          [this]() -> sw::Font {
-              return this->_font;
-          },
-          // set
-          [this](const sw::Font &value) {
-              this->_font = value;
-              this->UpdateFont();
-          }),
+          Property<sw::Font>::Init(this)
+              .Getter([](WndBase *self) -> sw::Font {
+                  return self->_font;
+              })
+              .Setter([](WndBase *self, const sw::Font &value) {
+                  self->_font = value;
+                  self->UpdateFont();
+              })),
 
       FontName(
-          // get
-          [this]() -> std::wstring {
-              return this->_font.name;
-          },
-          // set
-          [this](const std::wstring &value) {
-              if (this->_font.name != value) {
-                  this->_font.name = value;
-                  this->UpdateFont();
-              }
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](WndBase *self) -> std::wstring {
+                  return self->_font.name;
+              })
+              .Setter([](WndBase *self, const std::wstring &value) {
+                  if (self->_font.name != value) {
+                      self->_font.name = value;
+                      self->UpdateFont();
+                  }
+              })),
 
       FontSize(
-          // get
-          [this]() -> double {
-              return this->_font.size;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_font.size != value) {
-                  this->_font.size = value;
-                  this->UpdateFont();
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](WndBase *self) -> double {
+                  return self->_font.size;
+              })
+              .Setter([](WndBase *self, double value) {
+                  if (self->_font.size != value) {
+                      self->_font.size = value;
+                      self->UpdateFont();
+                  }
+              })),
 
       FontWeight(
-          // get
-          [this]() -> sw::FontWeight {
-              return this->_font.weight;
-          },
-          // set
-          [this](const sw::FontWeight &value) {
-              if (this->_font.weight != value) {
-                  this->_font.weight = value;
-                  this->UpdateFont();
-              }
-          }),
+          Property<sw::FontWeight>::Init(this)
+              .Getter([](WndBase *self) -> sw::FontWeight {
+                  return self->_font.weight;
+              })
+              .Setter([](WndBase *self, sw::FontWeight value) {
+                  if (self->_font.weight != value) {
+                      self->_font.weight = value;
+                      self->UpdateFont();
+                  }
+              })),
 
       Rect(
-          // get
-          [this]() -> sw::Rect {
-              return this->_rect;
-          },
-          // set
-          [this](const sw::Rect &value) {
-              if (this->_rect != value) {
-                  int left   = Dip::DipToPxX(value.left);
-                  int top    = Dip::DipToPxY(value.top);
-                  int width  = Dip::DipToPxX(value.width);
-                  int height = Dip::DipToPxY(value.height);
-                  SetWindowPos(this->_hwnd, NULL, left, top, width, height, SWP_NOACTIVATE | SWP_NOZORDER);
-              }
-          }),
+          Property<sw::Rect>::Init(this)
+              .Getter([](WndBase *self) -> sw::Rect {
+                  return self->_rect;
+              })
+              .Setter([](WndBase *self, const sw::Rect &value) {
+                  if (self->_rect != value) {
+                      int left   = Dip::DipToPxX(value.left);
+                      int top    = Dip::DipToPxY(value.top);
+                      int width  = Dip::DipToPxX(value.width);
+                      int height = Dip::DipToPxY(value.height);
+                      SetWindowPos(self->_hwnd, NULL, left, top, width, height, SWP_NOACTIVATE | SWP_NOZORDER);
+                  }
+              })),
 
       Left(
-          // get
-          [this]() -> double {
-              return this->_rect.left;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_rect.left != value) {
-                  int x = Dip::DipToPxX(value);
-                  int y = Dip::DipToPxY(this->_rect.top);
-                  SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](WndBase *self) -> double {
+                  return self->_rect.left;
+              })
+              .Setter([](WndBase *self, double value) {
+                  if (self->_rect.left != value) {
+                      int x = Dip::DipToPxX(value);
+                      int y = Dip::DipToPxY(self->_rect.top);
+                      SetWindowPos(self->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
+                  }
+              })),
 
       Top(
-          // get
-          [this]() -> double {
-              return this->_rect.top;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_rect.top != value) {
-                  int x = Dip::DipToPxX(this->_rect.left);
-                  int y = Dip::DipToPxY(value);
-                  SetWindowPos(this->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](WndBase *self) -> double {
+                  return self->_rect.top;
+              })
+              .Setter([](WndBase *self, double value) {
+                  if (self->_rect.top != value) {
+                      int x = Dip::DipToPxX(self->_rect.left);
+                      int y = Dip::DipToPxY(value);
+                      SetWindowPos(self->_hwnd, NULL, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
+                  }
+              })),
 
       Width(
-          // get
-          [this]() -> double {
-              return this->_rect.width;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_rect.width != value) {
-                  int cx = Dip::DipToPxX(value);
-                  int cy = Dip::DipToPxY(this->_rect.height);
-                  SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](WndBase *self) -> double {
+                  return self->_rect.width;
+              })
+              .Setter([](WndBase *self, double value) {
+                  if (self->_rect.width != value) {
+                      int cx = Dip::DipToPxX(value);
+                      int cy = Dip::DipToPxY(self->_rect.height);
+                      SetWindowPos(self->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
+                  }
+              })),
 
       Height(
-          // get
-          [this]() -> double {
-              return this->_rect.height;
-          },
-          // set
-          [this](const double &value) {
-              if (this->_rect.height != value) {
-                  int cx = Dip::DipToPxX(this->_rect.width);
-                  int cy = Dip::DipToPxY(value);
-                  SetWindowPos(this->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
-              }
-          }),
+          Property<double>::Init(this)
+              .Getter([](WndBase *self) -> double {
+                  return self->_rect.height;
+              })
+              .Setter([](WndBase *self, double value) {
+                  if (self->_rect.height != value) {
+                      int cx = Dip::DipToPxX(self->_rect.width);
+                      int cy = Dip::DipToPxY(value);
+                      SetWindowPos(self->_hwnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE);
+                  }
+              })),
 
       ClientRect(
-          // get
-          [this]() -> sw::Rect {
-              RECT rect;
-              GetClientRect(this->_hwnd, &rect);
-              return rect;
-          }),
+          Property<sw::Rect>::Init(this)
+              .Getter([](WndBase *self) -> sw::Rect {
+                  RECT rect;
+                  GetClientRect(self->_hwnd, &rect);
+                  return rect;
+              })),
 
       ClientWidth(
-          // get
-          [this]() -> double {
-              return this->ClientRect->width;
-          }),
+          Property<double>::Init(this)
+              .Getter([](WndBase *self) -> double {
+                  return self->ClientRect->width;
+              })),
 
       ClientHeight(
-          // get
-          [this]() -> double {
-              return this->ClientRect->height;
-          }),
+          Property<double>::Init(this)
+              .Getter([](WndBase *self) -> double {
+                  return self->ClientRect->height;
+              })),
 
       Enabled(
-          // get
-          [this]() -> bool {
-              return IsWindowEnabled(this->_hwnd);
-          },
-          // set
-          [this](const bool &value) {
-              EnableWindow(this->_hwnd, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return IsWindowEnabled(self->_hwnd);
+              })
+              .Setter([](WndBase *self, bool value) {
+                  EnableWindow(self->_hwnd, value);
+              })),
 
       Visible(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(WS_VISIBLE);
-          },
-          // set
-          [this](const bool &value) {
-              ShowWindow(this->_hwnd, value ? SW_SHOW : SW_HIDE);
-              this->VisibleChanged(value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return self->GetStyle(WS_VISIBLE);
+              })
+              .Setter([](WndBase *self, bool value) {
+                  ShowWindow(self->_hwnd, value ? SW_SHOW : SW_HIDE);
+                  self->VisibleChanged(value);
+              })),
 
       Text(
-          // get
-          [this]() -> std::wstring {
-              return this->GetInternalText();
-          },
-          // set
-          [this](const std::wstring &value) {
-              this->SetInternalText(value);
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](WndBase *self) -> std::wstring {
+                  return self->GetInternalText();
+              })
+              .Setter([](WndBase *self, const std::wstring &value) {
+                  self->SetInternalText(value);
+              })),
 
       Focused(
-          // get
-          [this]() -> bool {
-              return this->_focused;
-          },
-          // set
-          [this](const bool &value) {
-              SetFocus(value ? this->_hwnd : NULL);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return self->_focused;
+              })
+              .Setter([](WndBase *self, bool value) {
+                  SetFocus(value ? self->_hwnd : NULL);
+              })),
 
       Parent(
-          // get
-          [this]() -> WndBase * {
-              HWND hwnd = GetParent(this->_hwnd);
-              return WndBase::GetWndBase(hwnd);
-          }),
+          Property<WndBase *>::Init(this)
+              .Getter([](WndBase *self) -> WndBase * {
+                  HWND hwnd = GetParent(self->_hwnd);
+                  return WndBase::GetWndBase(hwnd);
+              })),
 
       IsDestroyed(
-          // get
-          [this]() -> bool {
-              return this->_isDestroyed;
-          }),
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return self->_isDestroyed;
+              })),
 
       AcceptFiles(
-          // get
-          [this]() -> bool {
-              return this->GetExtendedStyle(WS_EX_ACCEPTFILES);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return self->GetExtendedStyle(WS_EX_ACCEPTFILES);
+              })
+              .Setter([](WndBase *self, bool value) {
+                  self->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
+              })),
 
       IsControl(
-          // get
-          [this]() -> bool {
-              return this->_isControl;
-          }),
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return self->_isControl;
+              })),
 
       ClassName(
-          // get
-          [this]() -> std::wstring {
-              std::wstring result(256, L'\0');
-              result.resize(GetClassNameW(this->_hwnd, &result[0], (int)result.size()));
-              return result;
-          }),
+          Property<std::wstring>::Init(this)
+              .Getter([](WndBase *self) -> std::wstring {
+                  std::wstring result(256, L'\0');
+                  result.resize(GetClassNameW(self->_hwnd, &result[0], (int)result.size()));
+                  return result;
+              })),
 
       IsGroupStart(
-          // get
-          [this]() -> bool {
-              return this->GetStyle(WS_GROUP);
-          },
-          // set
-          [this](const bool &value) {
-              this->SetStyle(WS_GROUP, value);
-          }),
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return self->GetStyle(WS_GROUP);
+              })
+              .Setter([](WndBase *self, bool value) {
+                  self->SetStyle(WS_GROUP, value);
+              })),
 
       IsMouseCaptured(
-          // get
-          [this]() -> bool {
-              return GetCapture() == this->_hwnd;
-          })
+          Property<bool>::Init(this)
+              .Getter([](WndBase *self) -> bool {
+                  return GetCapture() == self->_hwnd;
+              }))
 {
     this->_font = sw::Font::GetDefaultFont();
 }
@@ -13355,15 +13219,16 @@ void sw::WrapLayoutV::ArrangeOverride(const Size &finalSize)
 
 sw::WrapPanel::WrapPanel()
     : Orientation(
-          // get
-          [this]() -> sw::Orientation {
-              return this->_wrapLayout.orientation;
-          },
-          // set
-          [this](const sw::Orientation &value) {
-              this->_wrapLayout.orientation = value;
-              this->InvalidateMeasure();
-          })
+          Property<sw::Orientation>::Init(this)
+              .Getter([](WrapPanel *self) -> sw::Orientation {
+                  return self->_wrapLayout.orientation;
+              })
+              .Setter([](WrapPanel *self, sw::Orientation value) {
+                  if (self->_wrapLayout.orientation != value) {
+                      self->_wrapLayout.orientation = value;
+                      self->InvalidateMeasure();
+                  }
+              }))
 {
     this->_wrapLayout.Associate(this);
     this->HorizontalAlignment = HorizontalAlignment::Stretch;

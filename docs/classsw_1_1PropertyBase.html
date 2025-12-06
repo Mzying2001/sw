@@ -92,6 +92,10 @@ $(document).ready(function(){initNavTree('classsw_1_1PropertyBase.html',''); ini
   <div class="summary">
 <a href="#pub-types">Public 类型</a> &#124;
 <a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pro-methods">Protected 成员函数</a> &#124;
+<a href="#pro-attribs">Protected 属性</a> &#124;
+<a href="#pro-static-attribs">静态 Protected 属性</a> &#124;
 <a href="classsw_1_1PropertyBase-members.html">所有成员列表</a>  </div>
   <div class="headertitle"><div class="title">sw::PropertyBase&lt; T, TDerived &gt; 模板类 参考</div></div>
 </div><!--header-->
@@ -107,72 +111,68 @@ $(document).ready(function(){initNavTree('classsw_1_1PropertyBase.html',''); ini
  <div class="center">
   <img src="classsw_1_1PropertyBase.png" usemap="#sw::PropertyBase_3C_20T_2C_20TDerived_20_3E_map" alt=""/>
   <map id="sw::PropertyBase_3C_20T_2C_20TDerived_20_3E_map" name="sw::PropertyBase_3C_20T_2C_20TDerived_20_3E_map">
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; int &gt;" shape="rect" coords="336,56,662,80"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; bool &gt;" shape="rect" coords="336,112,662,136"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; std::wstring &gt;" shape="rect" coords="336,168,662,192"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; AppQuitMode &gt;" shape="rect" coords="336,224,662,248"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; BmpBoxSizeMode &gt;" shape="rect" coords="336,280,662,304"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Thickness &gt;" shape="rect" coords="336,336,662,360"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::CheckState &gt;" shape="rect" coords="336,392,662,416"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; ColorDialogFlags &gt;" shape="rect" coords="336,448,662,472"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Color &gt;" shape="rect" coords="336,504,662,528"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; COLORREF * &gt;" shape="rect" coords="336,560,662,584"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; DateTimePickerFormat &gt;" shape="rect" coords="336,616,662,640"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; FileDialogFlags &gt;" shape="rect" coords="336,672,662,696"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; FolderDialogFlags &gt;" shape="rect" coords="336,728,662,752"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; FontDialogFlags &gt;" shape="rect" coords="336,784,662,808"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Font &gt;" shape="rect" coords="336,840,662,864"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; double &gt;" shape="rect" coords="336,896,662,920"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::FontWeight &gt;" shape="rect" coords="336,952,662,976"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::HotKey &gt;" shape="rect" coords="336,1008,662,1032"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; uint32_t &gt;" shape="rect" coords="336,1064,662,1088"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::HorizontalAlignment &gt;" shape="rect" coords="336,1120,662,1144"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::VerticalAlignment &gt;" shape="rect" coords="336,1176,662,1200"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::TextTrimming &gt;" shape="rect" coords="336,1232,662,1256"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::LayoutHost * &gt;" shape="rect" coords="336,1288,662,1312"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; HICON &gt;" shape="rect" coords="336,1344,662,1368"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::ContextMenu * &gt;" shape="rect" coords="336,1400,662,1424"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::BorderStyle &gt;" shape="rect" coords="336,1456,662,1480"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; wchar_t &gt;" shape="rect" coords="336,1512,662,1536"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; uint16_t &gt;" shape="rect" coords="336,1568,662,1592"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; ProgressBarState &gt;" shape="rect" coords="336,1624,662,1648"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; Orientation &gt;" shape="rect" coords="336,1680,662,1704"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Orientation &gt;" shape="rect" coords="336,1736,662,1760"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; TabAlignment &gt;" shape="rect" coords="336,1792,662,1816"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; ToolTipIcon &gt;" shape="rect" coords="336,1848,662,1872"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; HorizontalAlignment &gt;" shape="rect" coords="336,1904,662,1928"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; VerticalAlignment &gt;" shape="rect" coords="336,1960,662,1984"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; uint64_t &gt;" shape="rect" coords="336,2016,662,2040"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::LayoutUpdateCondition &gt;" shape="rect" coords="336,2072,662,2096"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; WindowStartupLocation &gt;" shape="rect" coords="336,2128,662,2152"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; WindowState &gt;" shape="rect" coords="336,2184,662,2208"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Menu * &gt;" shape="rect" coords="336,2240,662,2264"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Window * &gt;" shape="rect" coords="336,2296,662,2320"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Rect &gt;" shape="rect" coords="336,2352,662,2376"/>
-<area href="classsw_1_1PropertyLiteBase.html" alt="sw::PropertyLiteBase&lt; T, PropertyLite&lt; T &gt; &gt;" shape="rect" coords="336,2408,662,2432"/>
-<area href="classsw_1_1PropertyLiteBase.html" alt="sw::PropertyLiteBase&lt; T, ReadOnlyPropertyLite&lt; T &gt; &gt;" shape="rect" coords="336,2464,662,2488"/>
-<area href="classsw_1_1PropertyLiteBase.html" alt="sw::PropertyLiteBase&lt; T, WriteOnlyPropertyLite&lt; T &gt; &gt;" shape="rect" coords="336,2520,662,2544"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; int &gt;" shape="rect" coords="336,2576,662,2600"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; StrList &gt;" shape="rect" coords="336,2632,662,2656"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; TreeViewNode &gt;" shape="rect" coords="336,2688,662,2712"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; bool &gt;" shape="rect" coords="336,2744,662,2768"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; HINSTANCE &gt;" shape="rect" coords="336,2800,662,2824"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; std::wstring &gt;" shape="rect" coords="336,2856,662,2880"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; HBITMAP &gt;" shape="rect" coords="336,2912,662,2936"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; double &gt;" shape="rect" coords="336,2968,662,2992"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::FileFilter * &gt;" shape="rect" coords="336,3024,662,3048"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::List&lt; std::wstring &gt; &gt;" shape="rect" coords="336,3080,662,3104"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; HICON &gt;" shape="rect" coords="336,3136,662,3160"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; TItem &gt;" shape="rect" coords="336,3192,662,3216"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::Rect &gt;" shape="rect" coords="336,3248,662,3272"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::Size &gt;" shape="rect" coords="336,3304,662,3328"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::Point &gt;" shape="rect" coords="336,3360,662,3384"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::TreeViewNode &gt;" shape="rect" coords="336,3416,662,3440"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::UIElement * &gt;" shape="rect" coords="336,3472,662,3496"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::Window * &gt;" shape="rect" coords="336,3528,662,3552"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; HWND &gt;" shape="rect" coords="336,3584,662,3608"/>
-<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::WndBase * &gt;" shape="rect" coords="336,3640,662,3664"/>
-<area href="classsw_1_1PropertyLiteBase.html" title="轻量版属性类型的基类" alt="sw::PropertyLiteBase&lt; T, TDerived &gt;" shape="rect" coords="336,3696,662,3720"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; int &gt;" shape="rect" coords="298,56,586,80"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; bool &gt;" shape="rect" coords="298,112,586,136"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; std::wstring &gt;" shape="rect" coords="298,168,586,192"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; AppQuitMode &gt;" shape="rect" coords="298,224,586,248"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; BmpBoxSizeMode &gt;" shape="rect" coords="298,280,586,304"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Thickness &gt;" shape="rect" coords="298,336,586,360"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::CheckState &gt;" shape="rect" coords="298,392,586,416"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; ColorDialogFlags &gt;" shape="rect" coords="298,448,586,472"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Color &gt;" shape="rect" coords="298,504,586,528"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; COLORREF * &gt;" shape="rect" coords="298,560,586,584"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; DateTimePickerFormat &gt;" shape="rect" coords="298,616,586,640"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; FileDialogFlags &gt;" shape="rect" coords="298,672,586,696"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; FolderDialogFlags &gt;" shape="rect" coords="298,728,586,752"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; FontDialogFlags &gt;" shape="rect" coords="298,784,586,808"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Font &gt;" shape="rect" coords="298,840,586,864"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; double &gt;" shape="rect" coords="298,896,586,920"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::FontWeight &gt;" shape="rect" coords="298,952,586,976"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::HotKey &gt;" shape="rect" coords="298,1008,586,1032"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; uint32_t &gt;" shape="rect" coords="298,1064,586,1088"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::HorizontalAlignment &gt;" shape="rect" coords="298,1120,586,1144"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::VerticalAlignment &gt;" shape="rect" coords="298,1176,586,1200"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::TextTrimming &gt;" shape="rect" coords="298,1232,586,1256"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::LayoutHost * &gt;" shape="rect" coords="298,1288,586,1312"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; HICON &gt;" shape="rect" coords="298,1344,586,1368"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::ContextMenu * &gt;" shape="rect" coords="298,1400,586,1424"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::BorderStyle &gt;" shape="rect" coords="298,1456,586,1480"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; wchar_t &gt;" shape="rect" coords="298,1512,586,1536"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; uint16_t &gt;" shape="rect" coords="298,1568,586,1592"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; ProgressBarState &gt;" shape="rect" coords="298,1624,586,1648"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; Orientation &gt;" shape="rect" coords="298,1680,586,1704"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Orientation &gt;" shape="rect" coords="298,1736,586,1760"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; TabAlignment &gt;" shape="rect" coords="298,1792,586,1816"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; ToolTipIcon &gt;" shape="rect" coords="298,1848,586,1872"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; HorizontalAlignment &gt;" shape="rect" coords="298,1904,586,1928"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; VerticalAlignment &gt;" shape="rect" coords="298,1960,586,1984"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; uint64_t &gt;" shape="rect" coords="298,2016,586,2040"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::LayoutUpdateCondition &gt;" shape="rect" coords="298,2072,586,2096"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; WindowStartupLocation &gt;" shape="rect" coords="298,2128,586,2152"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; WindowState &gt;" shape="rect" coords="298,2184,586,2208"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Menu * &gt;" shape="rect" coords="298,2240,586,2264"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Window * &gt;" shape="rect" coords="298,2296,586,2320"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Rect &gt;" shape="rect" coords="298,2352,586,2376"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; int &gt;" shape="rect" coords="298,2408,586,2432"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; StrList &gt;" shape="rect" coords="298,2464,586,2488"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; TreeViewNode &gt;" shape="rect" coords="298,2520,586,2544"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; bool &gt;" shape="rect" coords="298,2576,586,2600"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; HINSTANCE &gt;" shape="rect" coords="298,2632,586,2656"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; std::wstring &gt;" shape="rect" coords="298,2688,586,2712"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; HBITMAP &gt;" shape="rect" coords="298,2744,586,2768"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; double &gt;" shape="rect" coords="298,2800,586,2824"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::FileFilter * &gt;" shape="rect" coords="298,2856,586,2880"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::List&lt; std::wstring &gt; &gt;" shape="rect" coords="298,2912,586,2936"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; HICON &gt;" shape="rect" coords="298,2968,586,2992"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; TItem &gt;" shape="rect" coords="298,3024,586,3048"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::Rect &gt;" shape="rect" coords="298,3080,586,3104"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::Size &gt;" shape="rect" coords="298,3136,586,3160"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::Point &gt;" shape="rect" coords="298,3192,586,3216"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::TreeViewNode &gt;" shape="rect" coords="298,3248,586,3272"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::UIElement * &gt;" shape="rect" coords="298,3304,586,3328"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::Window * &gt;" shape="rect" coords="298,3360,586,3384"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; HWND &gt;" shape="rect" coords="298,3416,586,3440"/>
+<area href="classsw_1_1ReadOnlyProperty.html" alt="sw::ReadOnlyProperty&lt; sw::WndBase * &gt;" shape="rect" coords="298,3472,586,3496"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -181,18 +181,12 @@ Public 类型</h2></td></tr>
 <tr class="memitem:a0e7618074a1dd700eed31b1974e7ecf2" id="r_a0e7618074a1dd700eed31b1974e7ecf2"><td class="memItemLeft" align="right" valign="top"><a id="a0e7618074a1dd700eed31b1974e7ecf2" name="a0e7618074a1dd700eed31b1974e7ecf2"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>TValue</b> = T</td></tr>
 <tr class="separator:a0e7618074a1dd700eed31b1974e7ecf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae039ad04b77c2a6ba5020a9e5fc0b53e" id="r_ae039ad04b77c2a6ba5020a9e5fc0b53e"><td class="memItemLeft" align="right" valign="top"><a id="ae039ad04b77c2a6ba5020a9e5fc0b53e" name="ae039ad04b77c2a6ba5020a9e5fc0b53e"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>TSetterParam</b> = _PropertySetterParamType&lt; T &gt;</td></tr>
+<tr class="separator:ae039ad04b77c2a6ba5020a9e5fc0b53e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
-<tr class="memitem:a9d5fb64152a5a305c158716a27803106" id="r_a9d5fb64152a5a305c158716a27803106"><td class="memItemLeft" align="right" valign="top"><a id="a9d5fb64152a5a305c158716a27803106" name="a9d5fb64152a5a305c158716a27803106"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>PropertyBase</b> (<a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a> &amp;&amp;)=delete</td></tr>
-<tr class="separator:a9d5fb64152a5a305c158716a27803106"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83de6ab87e3986509cde7c3f05152baa" id="r_a83de6ab87e3986509cde7c3f05152baa"><td class="memItemLeft" align="right" valign="top"><a id="a83de6ab87e3986509cde7c3f05152baa" name="a83de6ab87e3986509cde7c3f05152baa"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>PropertyBase</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a> &amp;)=delete</td></tr>
-<tr class="separator:a83de6ab87e3986509cde7c3f05152baa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5c53fef813cf9f00489c61effd43ed0" id="r_aa5c53fef813cf9f00489c61effd43ed0"><td class="memItemLeft" align="right" valign="top"><a id="aa5c53fef813cf9f00489c61effd43ed0" name="aa5c53fef813cf9f00489c61effd43ed0"></a>
-<a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a> &amp;&amp;)=delete</td></tr>
-<tr class="separator:aa5c53fef813cf9f00489c61effd43ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6fa7ca8f7e64cff8de624f2668cb582" id="r_ad6fa7ca8f7e64cff8de624f2668cb582"><td class="memItemLeft" align="right" valign="top"><a id="ad6fa7ca8f7e64cff8de624f2668cb582" name="ad6fa7ca8f7e64cff8de624f2668cb582"></a>
 <a class="el" href="structsw_1_1FieldsAccessor.html">FieldsAccessor</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>AccessFields</b> () const</td></tr>
 <tr class="memdesc:ad6fa7ca8f7e64cff8de624f2668cb582"><td class="mdescLeft">&#160;</td><td class="mdescRight">访问属性字段，可由子类重写 <br /></td></tr>
@@ -201,10 +195,10 @@ Public 成员函数</h2></td></tr>
 T&#160;</td><td class="memItemRight" valign="bottom"><b>Get</b> () const</td></tr>
 <tr class="memdesc:a2a6eec000ec894f07376cdfe0cb9484c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性值 <br /></td></tr>
 <tr class="separator:a2a6eec000ec894f07376cdfe0cb9484c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42e3a9f3255c614c210f3db6d38c664b" id="r_a42e3a9f3255c614c210f3db6d38c664b"><td class="memItemLeft" align="right" valign="top"><a id="a42e3a9f3255c614c210f3db6d38c664b" name="a42e3a9f3255c614c210f3db6d38c664b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Set</b> (const T &amp;value) const</td></tr>
-<tr class="memdesc:a42e3a9f3255c614c210f3db6d38c664b"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值 <br /></td></tr>
-<tr class="separator:a42e3a9f3255c614c210f3db6d38c664b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97ea6067fa32868f7330ec52d4633be0" id="r_a97ea6067fa32868f7330ec52d4633be0"><td class="memItemLeft" align="right" valign="top"><a id="a97ea6067fa32868f7330ec52d4633be0" name="a97ea6067fa32868f7330ec52d4633be0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Set</b> (TSetterParam value) const</td></tr>
+<tr class="memdesc:a97ea6067fa32868f7330ec52d4633be0"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值 <br /></td></tr>
+<tr class="separator:a97ea6067fa32868f7330ec52d4633be0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf481da925e2a96ae035e50af9551b29" id="r_aaf481da925e2a96ae035e50af9551b29"><td class="memItemLeft" align="right" valign="top"><a id="aaf481da925e2a96ae035e50af9551b29" name="aaf481da925e2a96ae035e50af9551b29"></a>
 auto&#160;</td><td class="memItemRight" valign="bottom"><b>operator-&gt;</b> () const</td></tr>
 <tr class="memdesc:aaf481da925e2a96ae035e50af9551b29"><td class="mdescLeft">&#160;</td><td class="mdescRight">取属性字段 <br /></td></tr>
@@ -223,14 +217,14 @@ template&lt;typename U  = T, typename  = typename std::enable_if&lt;!std::is_ari
 <tr class="memitem:a49d08e36e9f72ff6cd0db97cdc953c62"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator U</b> () const</td></tr>
 <tr class="memdesc:a49d08e36e9f72ff6cd0db97cdc953c62"><td class="mdescLeft">&#160;</td><td class="mdescRight">显式转换 <br /></td></tr>
 <tr class="separator:a49d08e36e9f72ff6cd0db97cdc953c62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afade30e8e93f9c0b452446d5435313b1" id="r_afade30e8e93f9c0b452446d5435313b1"><td class="memItemLeft" align="right" valign="top"><a id="afade30e8e93f9c0b452446d5435313b1" name="afade30e8e93f9c0b452446d5435313b1"></a>
-TDerived &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const T &amp;value)</td></tr>
-<tr class="memdesc:afade30e8e93f9c0b452446d5435313b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值 <br /></td></tr>
-<tr class="separator:afade30e8e93f9c0b452446d5435313b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a537449433e58543ba02c17417e0ef62f" id="r_a537449433e58543ba02c17417e0ef62f"><td class="memItemLeft" align="right" valign="top"><a id="a537449433e58543ba02c17417e0ef62f" name="a537449433e58543ba02c17417e0ef62f"></a>
-const TDerived &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const T &amp;value) const</td></tr>
-<tr class="memdesc:a537449433e58543ba02c17417e0ef62f"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值 <br /></td></tr>
-<tr class="separator:a537449433e58543ba02c17417e0ef62f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebdaef16d99364808af59afed960b163" id="r_aebdaef16d99364808af59afed960b163"><td class="memItemLeft" align="right" valign="top"><a id="aebdaef16d99364808af59afed960b163" name="aebdaef16d99364808af59afed960b163"></a>
+TDerived &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (TSetterParam value)</td></tr>
+<tr class="memdesc:aebdaef16d99364808af59afed960b163"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值 <br /></td></tr>
+<tr class="separator:aebdaef16d99364808af59afed960b163"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4af876d478910909c2be590529c1e259" id="r_a4af876d478910909c2be590529c1e259"><td class="memItemLeft" align="right" valign="top"><a id="a4af876d478910909c2be590529c1e259" name="a4af876d478910909c2be590529c1e259"></a>
+const TDerived &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (TSetterParam value) const</td></tr>
+<tr class="memdesc:a4af876d478910909c2be590529c1e259"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值 <br /></td></tr>
+<tr class="separator:a4af876d478910909c2be590529c1e259"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80b6374c36e5b394b9cedcc3b928cc81" id="r_a80b6374c36e5b394b9cedcc3b928cc81"><td class="memItemLeft" align="right" valign="top"><a id="a80b6374c36e5b394b9cedcc3b928cc81" name="a80b6374c36e5b394b9cedcc3b928cc81"></a>
 TDerived &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a> &amp;prop)</td></tr>
 <tr class="memdesc:a80b6374c36e5b394b9cedcc3b928cc81"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值 <br /></td></tr>
@@ -239,83 +233,83 @@ TDerived &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</
 const TDerived &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a> &amp;prop) const</td></tr>
 <tr class="memdesc:a4c3ca8dbb0be4e6d5a2b85d528692b89"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性值 <br /></td></tr>
 <tr class="separator:a4c3ca8dbb0be4e6d5a2b85d528692b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9805c4575eed9c75cbc7c6b39bde264b" id="r_a9805c4575eed9c75cbc7c6b39bde264b"><td class="memTemplParams" colspan="2"><a id="a9805c4575eed9c75cbc7c6b39bde264b" name="a9805c4575eed9c75cbc7c6b39bde264b"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a9805c4575eed9c75cbc7c6b39bde264b"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _AddOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+=</b> (const U &amp;value)</td></tr>
-<tr class="memdesc:a9805c4575eed9c75cbc7c6b39bde264b"><td class="mdescLeft">&#160;</td><td class="mdescRight">加赋值运算 <br /></td></tr>
-<tr class="separator:a9805c4575eed9c75cbc7c6b39bde264b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7994c93b548407da6c0f62dfddf518aa" id="r_a7994c93b548407da6c0f62dfddf518aa"><td class="memTemplParams" colspan="2"><a id="a7994c93b548407da6c0f62dfddf518aa" name="a7994c93b548407da6c0f62dfddf518aa"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a7994c93b548407da6c0f62dfddf518aa"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _AddOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+=</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a7994c93b548407da6c0f62dfddf518aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">加赋值运算 <br /></td></tr>
-<tr class="separator:a7994c93b548407da6c0f62dfddf518aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0184acaf771e9dbd0c4a327f43f58127" id="r_a0184acaf771e9dbd0c4a327f43f58127"><td class="memTemplParams" colspan="2"><a id="a0184acaf771e9dbd0c4a327f43f58127" name="a0184acaf771e9dbd0c4a327f43f58127"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a0184acaf771e9dbd0c4a327f43f58127"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _AddOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+=</b> (U &amp;&amp;value)</td></tr>
+<tr class="memdesc:a0184acaf771e9dbd0c4a327f43f58127"><td class="mdescLeft">&#160;</td><td class="mdescRight">加赋值运算 <br /></td></tr>
+<tr class="separator:a0184acaf771e9dbd0c4a327f43f58127"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d88431facd9c6b920ff417f75bfc156" id="r_a2d88431facd9c6b920ff417f75bfc156"><td class="memTemplParams" colspan="2"><a id="a2d88431facd9c6b920ff417f75bfc156" name="a2d88431facd9c6b920ff417f75bfc156"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a2d88431facd9c6b920ff417f75bfc156"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _AddOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+=</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a2d88431facd9c6b920ff417f75bfc156"><td class="mdescLeft">&#160;</td><td class="mdescRight">加赋值运算 <br /></td></tr>
+<tr class="separator:a2d88431facd9c6b920ff417f75bfc156"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d44feda8b17dd53d9eb2a693615e940" id="r_a1d44feda8b17dd53d9eb2a693615e940"><td class="memTemplParams" colspan="2"><a id="a1d44feda8b17dd53d9eb2a693615e940" name="a1d44feda8b17dd53d9eb2a693615e940"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a1d44feda8b17dd53d9eb2a693615e940"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _AddOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop)</td></tr>
 <tr class="memdesc:a1d44feda8b17dd53d9eb2a693615e940"><td class="mdescLeft">&#160;</td><td class="mdescRight">加赋值运算 <br /></td></tr>
 <tr class="separator:a1d44feda8b17dd53d9eb2a693615e940"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95b83ccbbc729ec892594015faa64228" id="r_a95b83ccbbc729ec892594015faa64228"><td class="memTemplParams" colspan="2"><a id="a95b83ccbbc729ec892594015faa64228" name="a95b83ccbbc729ec892594015faa64228"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a95b83ccbbc729ec892594015faa64228"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _AddOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a95b83ccbbc729ec892594015faa64228"><td class="mdescLeft">&#160;</td><td class="mdescRight">加赋值运算 <br /></td></tr>
 <tr class="separator:a95b83ccbbc729ec892594015faa64228"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a2addd77ce899a0f6a813bf9a99c382" id="r_a4a2addd77ce899a0f6a813bf9a99c382"><td class="memTemplParams" colspan="2"><a id="a4a2addd77ce899a0f6a813bf9a99c382" name="a4a2addd77ce899a0f6a813bf9a99c382"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a4a2addd77ce899a0f6a813bf9a99c382"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _SubOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-=</b> (const U &amp;value)</td></tr>
-<tr class="memdesc:a4a2addd77ce899a0f6a813bf9a99c382"><td class="mdescLeft">&#160;</td><td class="mdescRight">减赋值运算 <br /></td></tr>
-<tr class="separator:a4a2addd77ce899a0f6a813bf9a99c382"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe48e0af0d007614e152e42faaf86604" id="r_abe48e0af0d007614e152e42faaf86604"><td class="memTemplParams" colspan="2"><a id="abe48e0af0d007614e152e42faaf86604" name="abe48e0af0d007614e152e42faaf86604"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:abe48e0af0d007614e152e42faaf86604"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _SubOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-=</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:abe48e0af0d007614e152e42faaf86604"><td class="mdescLeft">&#160;</td><td class="mdescRight">减赋值运算 <br /></td></tr>
-<tr class="separator:abe48e0af0d007614e152e42faaf86604"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a756a6c5884d95e310d07a453b31837a9" id="r_a756a6c5884d95e310d07a453b31837a9"><td class="memTemplParams" colspan="2"><a id="a756a6c5884d95e310d07a453b31837a9" name="a756a6c5884d95e310d07a453b31837a9"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a756a6c5884d95e310d07a453b31837a9"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _SubOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-=</b> (U &amp;&amp;value)</td></tr>
+<tr class="memdesc:a756a6c5884d95e310d07a453b31837a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">减赋值运算 <br /></td></tr>
+<tr class="separator:a756a6c5884d95e310d07a453b31837a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcf7002dfe62516cfa1603734193bf9b" id="r_abcf7002dfe62516cfa1603734193bf9b"><td class="memTemplParams" colspan="2"><a id="abcf7002dfe62516cfa1603734193bf9b" name="abcf7002dfe62516cfa1603734193bf9b"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:abcf7002dfe62516cfa1603734193bf9b"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _SubOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-=</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:abcf7002dfe62516cfa1603734193bf9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">减赋值运算 <br /></td></tr>
+<tr class="separator:abcf7002dfe62516cfa1603734193bf9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ad8b2a03d81200b04d07131bb851ee2" id="r_a0ad8b2a03d81200b04d07131bb851ee2"><td class="memTemplParams" colspan="2"><a id="a0ad8b2a03d81200b04d07131bb851ee2" name="a0ad8b2a03d81200b04d07131bb851ee2"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a0ad8b2a03d81200b04d07131bb851ee2"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _SubOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop)</td></tr>
 <tr class="memdesc:a0ad8b2a03d81200b04d07131bb851ee2"><td class="mdescLeft">&#160;</td><td class="mdescRight">减赋值运算 <br /></td></tr>
 <tr class="separator:a0ad8b2a03d81200b04d07131bb851ee2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6eb7ba2fe5d8b05880906e67f70d5266" id="r_a6eb7ba2fe5d8b05880906e67f70d5266"><td class="memTemplParams" colspan="2"><a id="a6eb7ba2fe5d8b05880906e67f70d5266" name="a6eb7ba2fe5d8b05880906e67f70d5266"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a6eb7ba2fe5d8b05880906e67f70d5266"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _SubOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a6eb7ba2fe5d8b05880906e67f70d5266"><td class="mdescLeft">&#160;</td><td class="mdescRight">减赋值运算 <br /></td></tr>
 <tr class="separator:a6eb7ba2fe5d8b05880906e67f70d5266"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08b460d6155c41798e2e24c7cc0d2244" id="r_a08b460d6155c41798e2e24c7cc0d2244"><td class="memTemplParams" colspan="2"><a id="a08b460d6155c41798e2e24c7cc0d2244" name="a08b460d6155c41798e2e24c7cc0d2244"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a08b460d6155c41798e2e24c7cc0d2244"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _MulOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator*=</b> (const U &amp;value)</td></tr>
-<tr class="memdesc:a08b460d6155c41798e2e24c7cc0d2244"><td class="mdescLeft">&#160;</td><td class="mdescRight">乘赋值运算 <br /></td></tr>
-<tr class="separator:a08b460d6155c41798e2e24c7cc0d2244"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac90407b5d14eccd5a00075e469b288e4" id="r_ac90407b5d14eccd5a00075e469b288e4"><td class="memTemplParams" colspan="2"><a id="ac90407b5d14eccd5a00075e469b288e4" name="ac90407b5d14eccd5a00075e469b288e4"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:ac90407b5d14eccd5a00075e469b288e4"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _MulOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator*=</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:ac90407b5d14eccd5a00075e469b288e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">乘赋值运算 <br /></td></tr>
-<tr class="separator:ac90407b5d14eccd5a00075e469b288e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb01dd384054a0d32fc2f7f3a9eac9ec" id="r_afb01dd384054a0d32fc2f7f3a9eac9ec"><td class="memTemplParams" colspan="2"><a id="afb01dd384054a0d32fc2f7f3a9eac9ec" name="afb01dd384054a0d32fc2f7f3a9eac9ec"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:afb01dd384054a0d32fc2f7f3a9eac9ec"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _MulOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator*=</b> (U &amp;&amp;value)</td></tr>
+<tr class="memdesc:afb01dd384054a0d32fc2f7f3a9eac9ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">乘赋值运算 <br /></td></tr>
+<tr class="separator:afb01dd384054a0d32fc2f7f3a9eac9ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8aabeeabf84a1ccecfb36994799b6a5" id="r_ab8aabeeabf84a1ccecfb36994799b6a5"><td class="memTemplParams" colspan="2"><a id="ab8aabeeabf84a1ccecfb36994799b6a5" name="ab8aabeeabf84a1ccecfb36994799b6a5"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:ab8aabeeabf84a1ccecfb36994799b6a5"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _MulOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator*=</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:ab8aabeeabf84a1ccecfb36994799b6a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">乘赋值运算 <br /></td></tr>
+<tr class="separator:ab8aabeeabf84a1ccecfb36994799b6a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a482a4738c69fa74bb892d9ef9fa05031" id="r_a482a4738c69fa74bb892d9ef9fa05031"><td class="memTemplParams" colspan="2"><a id="a482a4738c69fa74bb892d9ef9fa05031" name="a482a4738c69fa74bb892d9ef9fa05031"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a482a4738c69fa74bb892d9ef9fa05031"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _MulOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator*=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop)</td></tr>
 <tr class="memdesc:a482a4738c69fa74bb892d9ef9fa05031"><td class="mdescLeft">&#160;</td><td class="mdescRight">乘赋值运算 <br /></td></tr>
 <tr class="separator:a482a4738c69fa74bb892d9ef9fa05031"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06eae18365f93156281eea55f673e800" id="r_a06eae18365f93156281eea55f673e800"><td class="memTemplParams" colspan="2"><a id="a06eae18365f93156281eea55f673e800" name="a06eae18365f93156281eea55f673e800"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a06eae18365f93156281eea55f673e800"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _MulOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator*=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a06eae18365f93156281eea55f673e800"><td class="mdescLeft">&#160;</td><td class="mdescRight">乘赋值运算 <br /></td></tr>
 <tr class="separator:a06eae18365f93156281eea55f673e800"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a680c00717198a34657f391cb9af4fc1f" id="r_a680c00717198a34657f391cb9af4fc1f"><td class="memTemplParams" colspan="2"><a id="a680c00717198a34657f391cb9af4fc1f" name="a680c00717198a34657f391cb9af4fc1f"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a680c00717198a34657f391cb9af4fc1f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _DivOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator/=</b> (const U &amp;value)</td></tr>
-<tr class="memdesc:a680c00717198a34657f391cb9af4fc1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">除赋值运算 <br /></td></tr>
-<tr class="separator:a680c00717198a34657f391cb9af4fc1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7da85fa95f34a9d5fcc6bb3fe2b97fa6" id="r_a7da85fa95f34a9d5fcc6bb3fe2b97fa6"><td class="memTemplParams" colspan="2"><a id="a7da85fa95f34a9d5fcc6bb3fe2b97fa6" name="a7da85fa95f34a9d5fcc6bb3fe2b97fa6"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a7da85fa95f34a9d5fcc6bb3fe2b97fa6"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _DivOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator/=</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a7da85fa95f34a9d5fcc6bb3fe2b97fa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">除赋值运算 <br /></td></tr>
-<tr class="separator:a7da85fa95f34a9d5fcc6bb3fe2b97fa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad03f1c76682f7d6294471f76469bba73" id="r_ad03f1c76682f7d6294471f76469bba73"><td class="memTemplParams" colspan="2"><a id="ad03f1c76682f7d6294471f76469bba73" name="ad03f1c76682f7d6294471f76469bba73"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:ad03f1c76682f7d6294471f76469bba73"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _DivOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator/=</b> (U &amp;&amp;value)</td></tr>
+<tr class="memdesc:ad03f1c76682f7d6294471f76469bba73"><td class="mdescLeft">&#160;</td><td class="mdescRight">除赋值运算 <br /></td></tr>
+<tr class="separator:ad03f1c76682f7d6294471f76469bba73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ebf5346c75d44f8f6fad344c5a29d2d" id="r_a7ebf5346c75d44f8f6fad344c5a29d2d"><td class="memTemplParams" colspan="2"><a id="a7ebf5346c75d44f8f6fad344c5a29d2d" name="a7ebf5346c75d44f8f6fad344c5a29d2d"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a7ebf5346c75d44f8f6fad344c5a29d2d"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _DivOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator/=</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a7ebf5346c75d44f8f6fad344c5a29d2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">除赋值运算 <br /></td></tr>
+<tr class="separator:a7ebf5346c75d44f8f6fad344c5a29d2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1755e028c9be808897b36b3f362b07a" id="r_ac1755e028c9be808897b36b3f362b07a"><td class="memTemplParams" colspan="2"><a id="ac1755e028c9be808897b36b3f362b07a" name="ac1755e028c9be808897b36b3f362b07a"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:ac1755e028c9be808897b36b3f362b07a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _DivOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator/=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop)</td></tr>
 <tr class="memdesc:ac1755e028c9be808897b36b3f362b07a"><td class="mdescLeft">&#160;</td><td class="mdescRight">除赋值运算 <br /></td></tr>
 <tr class="separator:ac1755e028c9be808897b36b3f362b07a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a222a94f823e53ebf0b651ae7196d1133" id="r_a222a94f823e53ebf0b651ae7196d1133"><td class="memTemplParams" colspan="2"><a id="a222a94f823e53ebf0b651ae7196d1133" name="a222a94f823e53ebf0b651ae7196d1133"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a222a94f823e53ebf0b651ae7196d1133"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _DivOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator/=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a222a94f823e53ebf0b651ae7196d1133"><td class="mdescLeft">&#160;</td><td class="mdescRight">除赋值运算 <br /></td></tr>
 <tr class="separator:a222a94f823e53ebf0b651ae7196d1133"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -349,103 +343,103 @@ template&lt;typename U  = T&gt; </td></tr>
 <tr class="memitem:a69792b46ea2077ae43c48a867a20565f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _SubOperationHelper&lt; U, int &gt;::value, T &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator--</b> (int) const</td></tr>
 <tr class="memdesc:a69792b46ea2077ae43c48a867a20565f"><td class="mdescLeft">&#160;</td><td class="mdescRight">后置自减运算 <br /></td></tr>
 <tr class="separator:a69792b46ea2077ae43c48a867a20565f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0678f7dfcbd5460e558f9bc59f1e00bd" id="r_a0678f7dfcbd5460e558f9bc59f1e00bd"><td class="memTemplParams" colspan="2"><a id="a0678f7dfcbd5460e558f9bc59f1e00bd" name="a0678f7dfcbd5460e558f9bc59f1e00bd"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a0678f7dfcbd5460e558f9bc59f1e00bd"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitAndOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;=</b> (const U &amp;value)</td></tr>
-<tr class="memdesc:a0678f7dfcbd5460e558f9bc59f1e00bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位与赋值运算 <br /></td></tr>
-<tr class="separator:a0678f7dfcbd5460e558f9bc59f1e00bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee41644629bd67194ee6d4d02e9cd935" id="r_aee41644629bd67194ee6d4d02e9cd935"><td class="memTemplParams" colspan="2"><a id="aee41644629bd67194ee6d4d02e9cd935" name="aee41644629bd67194ee6d4d02e9cd935"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:aee41644629bd67194ee6d4d02e9cd935"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitAndOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;=</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:aee41644629bd67194ee6d4d02e9cd935"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位与赋值运算 <br /></td></tr>
-<tr class="separator:aee41644629bd67194ee6d4d02e9cd935"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2381afb16be1e16a3ef9e40b0cb6e0a7" id="r_a2381afb16be1e16a3ef9e40b0cb6e0a7"><td class="memTemplParams" colspan="2"><a id="a2381afb16be1e16a3ef9e40b0cb6e0a7" name="a2381afb16be1e16a3ef9e40b0cb6e0a7"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a2381afb16be1e16a3ef9e40b0cb6e0a7"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitAndOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;=</b> (U &amp;&amp;value)</td></tr>
+<tr class="memdesc:a2381afb16be1e16a3ef9e40b0cb6e0a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位与赋值运算 <br /></td></tr>
+<tr class="separator:a2381afb16be1e16a3ef9e40b0cb6e0a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbdf1dddb1cacbe37866772c8c007b41" id="r_afbdf1dddb1cacbe37866772c8c007b41"><td class="memTemplParams" colspan="2"><a id="afbdf1dddb1cacbe37866772c8c007b41" name="afbdf1dddb1cacbe37866772c8c007b41"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:afbdf1dddb1cacbe37866772c8c007b41"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitAndOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;=</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:afbdf1dddb1cacbe37866772c8c007b41"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位与赋值运算 <br /></td></tr>
+<tr class="separator:afbdf1dddb1cacbe37866772c8c007b41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac23b3829259281214565cb245df0c17f" id="r_ac23b3829259281214565cb245df0c17f"><td class="memTemplParams" colspan="2"><a id="ac23b3829259281214565cb245df0c17f" name="ac23b3829259281214565cb245df0c17f"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:ac23b3829259281214565cb245df0c17f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitAndOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop)</td></tr>
 <tr class="memdesc:ac23b3829259281214565cb245df0c17f"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位与赋值运算 <br /></td></tr>
 <tr class="separator:ac23b3829259281214565cb245df0c17f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc54b239bf048f9cf970bf16ac189d58" id="r_abc54b239bf048f9cf970bf16ac189d58"><td class="memTemplParams" colspan="2"><a id="abc54b239bf048f9cf970bf16ac189d58" name="abc54b239bf048f9cf970bf16ac189d58"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:abc54b239bf048f9cf970bf16ac189d58"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitAndOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:abc54b239bf048f9cf970bf16ac189d58"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位与赋值运算 <br /></td></tr>
 <tr class="separator:abc54b239bf048f9cf970bf16ac189d58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a436b12ba60f7d2c18b2d6bce8c8cb603" id="r_a436b12ba60f7d2c18b2d6bce8c8cb603"><td class="memTemplParams" colspan="2"><a id="a436b12ba60f7d2c18b2d6bce8c8cb603" name="a436b12ba60f7d2c18b2d6bce8c8cb603"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a436b12ba60f7d2c18b2d6bce8c8cb603"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitOrOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator|=</b> (const U &amp;value)</td></tr>
-<tr class="memdesc:a436b12ba60f7d2c18b2d6bce8c8cb603"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位或赋值运算 <br /></td></tr>
-<tr class="separator:a436b12ba60f7d2c18b2d6bce8c8cb603"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9508d0b65ffd576c7745f3353313bfc1" id="r_a9508d0b65ffd576c7745f3353313bfc1"><td class="memTemplParams" colspan="2"><a id="a9508d0b65ffd576c7745f3353313bfc1" name="a9508d0b65ffd576c7745f3353313bfc1"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a9508d0b65ffd576c7745f3353313bfc1"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitOrOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator|=</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a9508d0b65ffd576c7745f3353313bfc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位或赋值运算 <br /></td></tr>
-<tr class="separator:a9508d0b65ffd576c7745f3353313bfc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a726e445f50be2af9df5d843af7e3e7c3" id="r_a726e445f50be2af9df5d843af7e3e7c3"><td class="memTemplParams" colspan="2"><a id="a726e445f50be2af9df5d843af7e3e7c3" name="a726e445f50be2af9df5d843af7e3e7c3"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a726e445f50be2af9df5d843af7e3e7c3"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitOrOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator|=</b> (U &amp;&amp;value)</td></tr>
+<tr class="memdesc:a726e445f50be2af9df5d843af7e3e7c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位或赋值运算 <br /></td></tr>
+<tr class="separator:a726e445f50be2af9df5d843af7e3e7c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a020b5d2a372e68cc23d8437d51b83a2a" id="r_a020b5d2a372e68cc23d8437d51b83a2a"><td class="memTemplParams" colspan="2"><a id="a020b5d2a372e68cc23d8437d51b83a2a" name="a020b5d2a372e68cc23d8437d51b83a2a"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a020b5d2a372e68cc23d8437d51b83a2a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitOrOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator|=</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a020b5d2a372e68cc23d8437d51b83a2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位或赋值运算 <br /></td></tr>
+<tr class="separator:a020b5d2a372e68cc23d8437d51b83a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0702a30537f19dbdab6373169ce925a" id="r_ad0702a30537f19dbdab6373169ce925a"><td class="memTemplParams" colspan="2"><a id="ad0702a30537f19dbdab6373169ce925a" name="ad0702a30537f19dbdab6373169ce925a"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:ad0702a30537f19dbdab6373169ce925a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitOrOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator|=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop)</td></tr>
 <tr class="memdesc:ad0702a30537f19dbdab6373169ce925a"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位或赋值运算 <br /></td></tr>
 <tr class="separator:ad0702a30537f19dbdab6373169ce925a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8efb08f7fdde1d838e966d744e82154" id="r_ad8efb08f7fdde1d838e966d744e82154"><td class="memTemplParams" colspan="2"><a id="ad8efb08f7fdde1d838e966d744e82154" name="ad8efb08f7fdde1d838e966d744e82154"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:ad8efb08f7fdde1d838e966d744e82154"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitOrOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator|=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:ad8efb08f7fdde1d838e966d744e82154"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位或赋值运算 <br /></td></tr>
 <tr class="separator:ad8efb08f7fdde1d838e966d744e82154"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ded712ca25938eda2552a4e84f15165" id="r_a8ded712ca25938eda2552a4e84f15165"><td class="memTemplParams" colspan="2"><a id="a8ded712ca25938eda2552a4e84f15165" name="a8ded712ca25938eda2552a4e84f15165"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a8ded712ca25938eda2552a4e84f15165"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitXorOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator^=</b> (const U &amp;value)</td></tr>
-<tr class="memdesc:a8ded712ca25938eda2552a4e84f15165"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位异或赋值运算 <br /></td></tr>
-<tr class="separator:a8ded712ca25938eda2552a4e84f15165"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a778278b3fc3810f83dcdcb3bbb9aa838" id="r_a778278b3fc3810f83dcdcb3bbb9aa838"><td class="memTemplParams" colspan="2"><a id="a778278b3fc3810f83dcdcb3bbb9aa838" name="a778278b3fc3810f83dcdcb3bbb9aa838"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a778278b3fc3810f83dcdcb3bbb9aa838"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitXorOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator^=</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a778278b3fc3810f83dcdcb3bbb9aa838"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位异或赋值运算 <br /></td></tr>
-<tr class="separator:a778278b3fc3810f83dcdcb3bbb9aa838"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09cc089a225e2bc3568e0104853ea105" id="r_a09cc089a225e2bc3568e0104853ea105"><td class="memTemplParams" colspan="2"><a id="a09cc089a225e2bc3568e0104853ea105" name="a09cc089a225e2bc3568e0104853ea105"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a09cc089a225e2bc3568e0104853ea105"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitXorOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator^=</b> (U &amp;&amp;value)</td></tr>
+<tr class="memdesc:a09cc089a225e2bc3568e0104853ea105"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位异或赋值运算 <br /></td></tr>
+<tr class="separator:a09cc089a225e2bc3568e0104853ea105"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90ac15c24b065c3bf05d6aa7b7af35a3" id="r_a90ac15c24b065c3bf05d6aa7b7af35a3"><td class="memTemplParams" colspan="2"><a id="a90ac15c24b065c3bf05d6aa7b7af35a3" name="a90ac15c24b065c3bf05d6aa7b7af35a3"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a90ac15c24b065c3bf05d6aa7b7af35a3"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitXorOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator^=</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a90ac15c24b065c3bf05d6aa7b7af35a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位异或赋值运算 <br /></td></tr>
+<tr class="separator:a90ac15c24b065c3bf05d6aa7b7af35a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51666dd81609d7ded007fb3c6b6ee960" id="r_a51666dd81609d7ded007fb3c6b6ee960"><td class="memTemplParams" colspan="2"><a id="a51666dd81609d7ded007fb3c6b6ee960" name="a51666dd81609d7ded007fb3c6b6ee960"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a51666dd81609d7ded007fb3c6b6ee960"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitXorOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator^=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop)</td></tr>
 <tr class="memdesc:a51666dd81609d7ded007fb3c6b6ee960"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位异或赋值运算 <br /></td></tr>
 <tr class="separator:a51666dd81609d7ded007fb3c6b6ee960"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2e4914f09a7d667835e2b5a5b915eeb" id="r_ac2e4914f09a7d667835e2b5a5b915eeb"><td class="memTemplParams" colspan="2"><a id="ac2e4914f09a7d667835e2b5a5b915eeb" name="ac2e4914f09a7d667835e2b5a5b915eeb"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:ac2e4914f09a7d667835e2b5a5b915eeb"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitXorOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator^=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:ac2e4914f09a7d667835e2b5a5b915eeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位异或赋值运算 <br /></td></tr>
 <tr class="separator:ac2e4914f09a7d667835e2b5a5b915eeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a221d3782cf8caae81bd95ec28576b7f9" id="r_a221d3782cf8caae81bd95ec28576b7f9"><td class="memTemplParams" colspan="2"><a id="a221d3782cf8caae81bd95ec28576b7f9" name="a221d3782cf8caae81bd95ec28576b7f9"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a221d3782cf8caae81bd95ec28576b7f9"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShlOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;=</b> (const U &amp;value)</td></tr>
-<tr class="memdesc:a221d3782cf8caae81bd95ec28576b7f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">左移赋值运算 <br /></td></tr>
-<tr class="separator:a221d3782cf8caae81bd95ec28576b7f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab887c3a41069a7c2186736d3fda2ef8b" id="r_ab887c3a41069a7c2186736d3fda2ef8b"><td class="memTemplParams" colspan="2"><a id="ab887c3a41069a7c2186736d3fda2ef8b" name="ab887c3a41069a7c2186736d3fda2ef8b"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:ab887c3a41069a7c2186736d3fda2ef8b"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShlOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;=</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:ab887c3a41069a7c2186736d3fda2ef8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">左移赋值运算 <br /></td></tr>
-<tr class="separator:ab887c3a41069a7c2186736d3fda2ef8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab32789b2574113a18ceb1943644b4998" id="r_ab32789b2574113a18ceb1943644b4998"><td class="memTemplParams" colspan="2"><a id="ab32789b2574113a18ceb1943644b4998" name="ab32789b2574113a18ceb1943644b4998"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:ab32789b2574113a18ceb1943644b4998"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShlOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;=</b> (U &amp;&amp;value)</td></tr>
+<tr class="memdesc:ab32789b2574113a18ceb1943644b4998"><td class="mdescLeft">&#160;</td><td class="mdescRight">左移赋值运算 <br /></td></tr>
+<tr class="separator:ab32789b2574113a18ceb1943644b4998"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d8c2fc092c7efe571478e9ca6b4be4c" id="r_a4d8c2fc092c7efe571478e9ca6b4be4c"><td class="memTemplParams" colspan="2"><a id="a4d8c2fc092c7efe571478e9ca6b4be4c" name="a4d8c2fc092c7efe571478e9ca6b4be4c"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a4d8c2fc092c7efe571478e9ca6b4be4c"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShlOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;=</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a4d8c2fc092c7efe571478e9ca6b4be4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">左移赋值运算 <br /></td></tr>
+<tr class="separator:a4d8c2fc092c7efe571478e9ca6b4be4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91c8a84f662eac294a268e9d0fa7ff74" id="r_a91c8a84f662eac294a268e9d0fa7ff74"><td class="memTemplParams" colspan="2"><a id="a91c8a84f662eac294a268e9d0fa7ff74" name="a91c8a84f662eac294a268e9d0fa7ff74"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a91c8a84f662eac294a268e9d0fa7ff74"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShlOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop)</td></tr>
 <tr class="memdesc:a91c8a84f662eac294a268e9d0fa7ff74"><td class="mdescLeft">&#160;</td><td class="mdescRight">左移赋值运算 <br /></td></tr>
 <tr class="separator:a91c8a84f662eac294a268e9d0fa7ff74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01b1e7e2f08c21ec6d4e30546aaa79b7" id="r_a01b1e7e2f08c21ec6d4e30546aaa79b7"><td class="memTemplParams" colspan="2"><a id="a01b1e7e2f08c21ec6d4e30546aaa79b7" name="a01b1e7e2f08c21ec6d4e30546aaa79b7"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a01b1e7e2f08c21ec6d4e30546aaa79b7"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShlOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a01b1e7e2f08c21ec6d4e30546aaa79b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">左移赋值运算 <br /></td></tr>
 <tr class="separator:a01b1e7e2f08c21ec6d4e30546aaa79b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fe681b8126841348f90fdad29f8c1ca" id="r_a5fe681b8126841348f90fdad29f8c1ca"><td class="memTemplParams" colspan="2"><a id="a5fe681b8126841348f90fdad29f8c1ca" name="a5fe681b8126841348f90fdad29f8c1ca"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a5fe681b8126841348f90fdad29f8c1ca"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShrOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;&gt;=</b> (const U &amp;value)</td></tr>
-<tr class="memdesc:a5fe681b8126841348f90fdad29f8c1ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">右移赋值运算 <br /></td></tr>
-<tr class="separator:a5fe681b8126841348f90fdad29f8c1ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15f5fc3411b450894423bd96cfbb15c3" id="r_a15f5fc3411b450894423bd96cfbb15c3"><td class="memTemplParams" colspan="2"><a id="a15f5fc3411b450894423bd96cfbb15c3" name="a15f5fc3411b450894423bd96cfbb15c3"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a15f5fc3411b450894423bd96cfbb15c3"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShrOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;&gt;=</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a15f5fc3411b450894423bd96cfbb15c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">右移赋值运算 <br /></td></tr>
-<tr class="separator:a15f5fc3411b450894423bd96cfbb15c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47fafdc066bd1bee015ddc0e37215ebe" id="r_a47fafdc066bd1bee015ddc0e37215ebe"><td class="memTemplParams" colspan="2"><a id="a47fafdc066bd1bee015ddc0e37215ebe" name="a47fafdc066bd1bee015ddc0e37215ebe"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a47fafdc066bd1bee015ddc0e37215ebe"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShrOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;&gt;=</b> (U &amp;&amp;value)</td></tr>
+<tr class="memdesc:a47fafdc066bd1bee015ddc0e37215ebe"><td class="mdescLeft">&#160;</td><td class="mdescRight">右移赋值运算 <br /></td></tr>
+<tr class="separator:a47fafdc066bd1bee015ddc0e37215ebe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b93cd7d920cc8a487b334bb6264c4ed" id="r_a7b93cd7d920cc8a487b334bb6264c4ed"><td class="memTemplParams" colspan="2"><a id="a7b93cd7d920cc8a487b334bb6264c4ed" name="a7b93cd7d920cc8a487b334bb6264c4ed"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a7b93cd7d920cc8a487b334bb6264c4ed"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShrOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;&gt;=</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a7b93cd7d920cc8a487b334bb6264c4ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">右移赋值运算 <br /></td></tr>
+<tr class="separator:a7b93cd7d920cc8a487b334bb6264c4ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bd302aa082ee166da13901dc5f454bf" id="r_a9bd302aa082ee166da13901dc5f454bf"><td class="memTemplParams" colspan="2"><a id="a9bd302aa082ee166da13901dc5f454bf" name="a9bd302aa082ee166da13901dc5f454bf"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a9bd302aa082ee166da13901dc5f454bf"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShrOperationHelper&lt; T, U &gt;::value, TDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;&gt;=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop)</td></tr>
 <tr class="memdesc:a9bd302aa082ee166da13901dc5f454bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">右移赋值运算 <br /></td></tr>
 <tr class="separator:a9bd302aa082ee166da13901dc5f454bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fc60c36e4e42659fdc218f36dd50bb8" id="r_a5fc60c36e4e42659fdc218f36dd50bb8"><td class="memTemplParams" colspan="2"><a id="a5fc60c36e4e42659fdc218f36dd50bb8" name="a5fc60c36e4e42659fdc218f36dd50bb8"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a5fc60c36e4e42659fdc218f36dd50bb8"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShrOperationHelper&lt; T, U &gt;::value, constTDerived &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;&gt;=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a5fc60c36e4e42659fdc218f36dd50bb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">右移赋值运算 <br /></td></tr>
 <tr class="separator:a5fc60c36e4e42659fdc218f36dd50bb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -472,215 +466,257 @@ template&lt;typename U  = T&gt; </td></tr>
 <tr class="memitem:abfae0b07b12121e1b722379319797649" id="r_abfae0b07b12121e1b722379319797649"><td class="memTemplParams" colspan="2"><a id="abfae0b07b12121e1b722379319797649" name="abfae0b07b12121e1b722379319797649"></a>
 template&lt;typename U  = T&gt; </td></tr>
 <tr class="memitem:abfae0b07b12121e1b722379319797649"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _UnaryPlusOperationHelper&lt; U &gt;::value, typename_UnaryPlusOperationHelper&lt; U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+</b> () const</td></tr>
-<tr class="memdesc:abfae0b07b12121e1b722379319797649"><td class="mdescLeft">&#160;</td><td class="mdescRight">一元加运算 <br /></td></tr>
+<tr class="memdesc:abfae0b07b12121e1b722379319797649"><td class="mdescLeft">&#160;</td><td class="mdescRight">正号运算 <br /></td></tr>
 <tr class="separator:abfae0b07b12121e1b722379319797649"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73fdeeacdc484051b83598bf2d85137a" id="r_a73fdeeacdc484051b83598bf2d85137a"><td class="memTemplParams" colspan="2"><a id="a73fdeeacdc484051b83598bf2d85137a" name="a73fdeeacdc484051b83598bf2d85137a"></a>
 template&lt;typename U  = T&gt; </td></tr>
 <tr class="memitem:a73fdeeacdc484051b83598bf2d85137a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _UnaryMinusOperationHelper&lt; U &gt;::value, typename_UnaryMinusOperationHelper&lt; U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-</b> () const</td></tr>
-<tr class="memdesc:a73fdeeacdc484051b83598bf2d85137a"><td class="mdescLeft">&#160;</td><td class="mdescRight">一元减运算 <br /></td></tr>
+<tr class="memdesc:a73fdeeacdc484051b83598bf2d85137a"><td class="mdescLeft">&#160;</td><td class="mdescRight">负号运算 <br /></td></tr>
 <tr class="separator:a73fdeeacdc484051b83598bf2d85137a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a541cc440d50ada6d6b1a216ba5579528" id="r_a541cc440d50ada6d6b1a216ba5579528"><td class="memTemplParams" colspan="2"><a id="a541cc440d50ada6d6b1a216ba5579528" name="a541cc440d50ada6d6b1a216ba5579528"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a541cc440d50ada6d6b1a216ba5579528"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _AddOperationHelper&lt; T, U &gt;::value, typename_AddOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a541cc440d50ada6d6b1a216ba5579528"><td class="mdescLeft">&#160;</td><td class="mdescRight">加法运算 <br /></td></tr>
-<tr class="separator:a541cc440d50ada6d6b1a216ba5579528"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2f9b45c1e0c3a2c764a8b43c8a788a3" id="r_aa2f9b45c1e0c3a2c764a8b43c8a788a3"><td class="memTemplParams" colspan="2"><a id="aa2f9b45c1e0c3a2c764a8b43c8a788a3" name="aa2f9b45c1e0c3a2c764a8b43c8a788a3"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:aa2f9b45c1e0c3a2c764a8b43c8a788a3"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _AddOperationHelper&lt; T, U &gt;::value, typename_AddOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:aa2f9b45c1e0c3a2c764a8b43c8a788a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">加法运算 <br /></td></tr>
+<tr class="separator:aa2f9b45c1e0c3a2c764a8b43c8a788a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1cdad3d7e94f43f21d735bb7d1c05408" id="r_a1cdad3d7e94f43f21d735bb7d1c05408"><td class="memTemplParams" colspan="2"><a id="a1cdad3d7e94f43f21d735bb7d1c05408" name="a1cdad3d7e94f43f21d735bb7d1c05408"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a1cdad3d7e94f43f21d735bb7d1c05408"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _AddOperationHelper&lt; T, U &gt;::value, typename_AddOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a1cdad3d7e94f43f21d735bb7d1c05408"><td class="mdescLeft">&#160;</td><td class="mdescRight">加法运算 <br /></td></tr>
 <tr class="separator:a1cdad3d7e94f43f21d735bb7d1c05408"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee737b16b71a60d052b5b5555a7c275f" id="r_aee737b16b71a60d052b5b5555a7c275f"><td class="memTemplParams" colspan="2"><a id="aee737b16b71a60d052b5b5555a7c275f" name="aee737b16b71a60d052b5b5555a7c275f"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:aee737b16b71a60d052b5b5555a7c275f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _SubOperationHelper&lt; T, U &gt;::value, typename_SubOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:aee737b16b71a60d052b5b5555a7c275f"><td class="mdescLeft">&#160;</td><td class="mdescRight">减法运算 <br /></td></tr>
-<tr class="separator:aee737b16b71a60d052b5b5555a7c275f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a520486514d411541ab5c642d45a82f25" id="r_a520486514d411541ab5c642d45a82f25"><td class="memTemplParams" colspan="2"><a id="a520486514d411541ab5c642d45a82f25" name="a520486514d411541ab5c642d45a82f25"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a520486514d411541ab5c642d45a82f25"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _SubOperationHelper&lt; T, U &gt;::value, typename_SubOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a520486514d411541ab5c642d45a82f25"><td class="mdescLeft">&#160;</td><td class="mdescRight">减法运算 <br /></td></tr>
+<tr class="separator:a520486514d411541ab5c642d45a82f25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a725ac3bdee018ac18f5b3ef94a8d90e8" id="r_a725ac3bdee018ac18f5b3ef94a8d90e8"><td class="memTemplParams" colspan="2"><a id="a725ac3bdee018ac18f5b3ef94a8d90e8" name="a725ac3bdee018ac18f5b3ef94a8d90e8"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a725ac3bdee018ac18f5b3ef94a8d90e8"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _SubOperationHelper&lt; T, U &gt;::value, typename_SubOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a725ac3bdee018ac18f5b3ef94a8d90e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">减法运算 <br /></td></tr>
 <tr class="separator:a725ac3bdee018ac18f5b3ef94a8d90e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1da5f90423526536406d4aeb374b1b9b" id="r_a1da5f90423526536406d4aeb374b1b9b"><td class="memTemplParams" colspan="2"><a id="a1da5f90423526536406d4aeb374b1b9b" name="a1da5f90423526536406d4aeb374b1b9b"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a1da5f90423526536406d4aeb374b1b9b"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _MulOperationHelper&lt; T, U &gt;::value, typename_MulOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator*</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a1da5f90423526536406d4aeb374b1b9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">乘法运算 <br /></td></tr>
-<tr class="separator:a1da5f90423526536406d4aeb374b1b9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69e296b7e776a7dda521490b0937642b" id="r_a69e296b7e776a7dda521490b0937642b"><td class="memTemplParams" colspan="2"><a id="a69e296b7e776a7dda521490b0937642b" name="a69e296b7e776a7dda521490b0937642b"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a69e296b7e776a7dda521490b0937642b"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _MulOperationHelper&lt; T, U &gt;::value, typename_MulOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator*</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a69e296b7e776a7dda521490b0937642b"><td class="mdescLeft">&#160;</td><td class="mdescRight">乘法运算 <br /></td></tr>
+<tr class="separator:a69e296b7e776a7dda521490b0937642b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a306252d975753ef9d99e3cb2822114c7" id="r_a306252d975753ef9d99e3cb2822114c7"><td class="memTemplParams" colspan="2"><a id="a306252d975753ef9d99e3cb2822114c7" name="a306252d975753ef9d99e3cb2822114c7"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a306252d975753ef9d99e3cb2822114c7"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _MulOperationHelper&lt; T, U &gt;::value, typename_MulOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator*</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a306252d975753ef9d99e3cb2822114c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">乘法运算 <br /></td></tr>
 <tr class="separator:a306252d975753ef9d99e3cb2822114c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a565371f86e0c7383252a34d8115d5637" id="r_a565371f86e0c7383252a34d8115d5637"><td class="memTemplParams" colspan="2"><a id="a565371f86e0c7383252a34d8115d5637" name="a565371f86e0c7383252a34d8115d5637"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a565371f86e0c7383252a34d8115d5637"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _DivOperationHelper&lt; T, U &gt;::value, typename_DivOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator/</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a565371f86e0c7383252a34d8115d5637"><td class="mdescLeft">&#160;</td><td class="mdescRight">除法运算 <br /></td></tr>
-<tr class="separator:a565371f86e0c7383252a34d8115d5637"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31bba1eb585d5cf344072133826d8f5d" id="r_a31bba1eb585d5cf344072133826d8f5d"><td class="memTemplParams" colspan="2"><a id="a31bba1eb585d5cf344072133826d8f5d" name="a31bba1eb585d5cf344072133826d8f5d"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a31bba1eb585d5cf344072133826d8f5d"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _DivOperationHelper&lt; T, U &gt;::value, typename_DivOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator/</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a31bba1eb585d5cf344072133826d8f5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">除法运算 <br /></td></tr>
+<tr class="separator:a31bba1eb585d5cf344072133826d8f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0acfc714e5e4724a423b4183e5d0b64c" id="r_a0acfc714e5e4724a423b4183e5d0b64c"><td class="memTemplParams" colspan="2"><a id="a0acfc714e5e4724a423b4183e5d0b64c" name="a0acfc714e5e4724a423b4183e5d0b64c"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a0acfc714e5e4724a423b4183e5d0b64c"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _DivOperationHelper&lt; T, U &gt;::value, typename_DivOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator/</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a0acfc714e5e4724a423b4183e5d0b64c"><td class="mdescLeft">&#160;</td><td class="mdescRight">除法运算 <br /></td></tr>
 <tr class="separator:a0acfc714e5e4724a423b4183e5d0b64c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac408d22f27109d3b68abcdf20a0c2ff1" id="r_ac408d22f27109d3b68abcdf20a0c2ff1"><td class="memTemplParams" colspan="2"><a id="ac408d22f27109d3b68abcdf20a0c2ff1" name="ac408d22f27109d3b68abcdf20a0c2ff1"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:ac408d22f27109d3b68abcdf20a0c2ff1"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ModOperationHelper&lt; T, U &gt;::value, typename_ModOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator%</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:ac408d22f27109d3b68abcdf20a0c2ff1"><td class="mdescLeft">&#160;</td><td class="mdescRight">取模运算 <br /></td></tr>
-<tr class="separator:ac408d22f27109d3b68abcdf20a0c2ff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1713c3ca1297d1618bb67e529c3970c6" id="r_a1713c3ca1297d1618bb67e529c3970c6"><td class="memTemplParams" colspan="2"><a id="a1713c3ca1297d1618bb67e529c3970c6" name="a1713c3ca1297d1618bb67e529c3970c6"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a1713c3ca1297d1618bb67e529c3970c6"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ModOperationHelper&lt; T, U &gt;::value, typename_ModOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator%</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a1713c3ca1297d1618bb67e529c3970c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">取模运算 <br /></td></tr>
+<tr class="separator:a1713c3ca1297d1618bb67e529c3970c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e690a57ee7b0c5f2303c943790c3950" id="r_a0e690a57ee7b0c5f2303c943790c3950"><td class="memTemplParams" colspan="2"><a id="a0e690a57ee7b0c5f2303c943790c3950" name="a0e690a57ee7b0c5f2303c943790c3950"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a0e690a57ee7b0c5f2303c943790c3950"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ModOperationHelper&lt; T, U &gt;::value, typename_ModOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator%</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a0e690a57ee7b0c5f2303c943790c3950"><td class="mdescLeft">&#160;</td><td class="mdescRight">取模运算 <br /></td></tr>
 <tr class="separator:a0e690a57ee7b0c5f2303c943790c3950"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7de3f3c20c927e8acaa75127f1b9c75" id="r_ad7de3f3c20c927e8acaa75127f1b9c75"><td class="memTemplParams" colspan="2"><a id="ad7de3f3c20c927e8acaa75127f1b9c75" name="ad7de3f3c20c927e8acaa75127f1b9c75"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:ad7de3f3c20c927e8acaa75127f1b9c75"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _EqOperationHelper&lt; T, U &gt;::value, typename_EqOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator==</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:ad7de3f3c20c927e8acaa75127f1b9c75"><td class="mdescLeft">&#160;</td><td class="mdescRight">等于运算 <br /></td></tr>
-<tr class="separator:ad7de3f3c20c927e8acaa75127f1b9c75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad88f983ea1f7679ca9846e0667bd8352" id="r_ad88f983ea1f7679ca9846e0667bd8352"><td class="memTemplParams" colspan="2"><a id="ad88f983ea1f7679ca9846e0667bd8352" name="ad88f983ea1f7679ca9846e0667bd8352"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:ad88f983ea1f7679ca9846e0667bd8352"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _EqOperationHelper&lt; T, U &gt;::value, typename_EqOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator==</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:ad88f983ea1f7679ca9846e0667bd8352"><td class="mdescLeft">&#160;</td><td class="mdescRight">等于运算 <br /></td></tr>
+<tr class="separator:ad88f983ea1f7679ca9846e0667bd8352"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a582853b9260a46da51e67fb5484dc595" id="r_a582853b9260a46da51e67fb5484dc595"><td class="memTemplParams" colspan="2"><a id="a582853b9260a46da51e67fb5484dc595" name="a582853b9260a46da51e67fb5484dc595"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a582853b9260a46da51e67fb5484dc595"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _EqOperationHelper&lt; T, U &gt;::value, typename_EqOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a582853b9260a46da51e67fb5484dc595"><td class="mdescLeft">&#160;</td><td class="mdescRight">等于运算 <br /></td></tr>
 <tr class="separator:a582853b9260a46da51e67fb5484dc595"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ee9d9e0993ae331e287c87dcd5ab24a" id="r_a0ee9d9e0993ae331e287c87dcd5ab24a"><td class="memTemplParams" colspan="2">template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a0ee9d9e0993ae331e287c87dcd5ab24a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _EqOperationHelper&lt; T, U &gt;::value, typename_EqOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1PropertyBase.html#a0ee9d9e0993ae331e287c87dcd5ab24a">operator!=</a> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a0ee9d9e0993ae331e287c87dcd5ab24a"><td class="mdescLeft">&#160;</td><td class="mdescRight">&zwj;**  <br /></td></tr>
-<tr class="separator:a0ee9d9e0993ae331e287c87dcd5ab24a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5ae1db7fa2e74bf7bd061749fad473e" id="r_ac5ae1db7fa2e74bf7bd061749fad473e"><td class="memTemplParams" colspan="2">template&lt;typename D , typename U  = T&gt; </td></tr>
+<tr class="memitem:ad99d8d0b1faac20cea490beea04d83ee" id="r_ad99d8d0b1faac20cea490beea04d83ee"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:ad99d8d0b1faac20cea490beea04d83ee"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _EqOperationHelper&lt; T, U &gt;::value, typename_EqOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1PropertyBase.html#ad99d8d0b1faac20cea490beea04d83ee">operator!=</a> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:ad99d8d0b1faac20cea490beea04d83ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">不等于运算  <br /></td></tr>
+<tr class="separator:ad99d8d0b1faac20cea490beea04d83ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5ae1db7fa2e74bf7bd061749fad473e" id="r_ac5ae1db7fa2e74bf7bd061749fad473e"><td class="memTemplParams" colspan="2">template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:ac5ae1db7fa2e74bf7bd061749fad473e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _EqOperationHelper&lt; T, U &gt;::value, typename_EqOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1PropertyBase.html#ac5ae1db7fa2e74bf7bd061749fad473e">operator!=</a> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:ac5ae1db7fa2e74bf7bd061749fad473e"><td class="mdescLeft">&#160;</td><td class="mdescRight">不等于运算  <br /></td></tr>
 <tr class="separator:ac5ae1db7fa2e74bf7bd061749fad473e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a246d4b0798d11c2c55cee2b39a8ca8a8" id="r_a246d4b0798d11c2c55cee2b39a8ca8a8"><td class="memTemplParams" colspan="2"><a id="a246d4b0798d11c2c55cee2b39a8ca8a8" name="a246d4b0798d11c2c55cee2b39a8ca8a8"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a246d4b0798d11c2c55cee2b39a8ca8a8"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _LtOperationHelper&lt; T, U &gt;::value, typename_LtOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a246d4b0798d11c2c55cee2b39a8ca8a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">小于运算 <br /></td></tr>
-<tr class="separator:a246d4b0798d11c2c55cee2b39a8ca8a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76046495f4a4d257fee921087207afae" id="r_a76046495f4a4d257fee921087207afae"><td class="memTemplParams" colspan="2"><a id="a76046495f4a4d257fee921087207afae" name="a76046495f4a4d257fee921087207afae"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a76046495f4a4d257fee921087207afae"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _LtOperationHelper&lt; T, U &gt;::value, typename_LtOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a76046495f4a4d257fee921087207afae"><td class="mdescLeft">&#160;</td><td class="mdescRight">小于运算 <br /></td></tr>
+<tr class="separator:a76046495f4a4d257fee921087207afae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab17d3f868f9f42e62dda8b7b9833c454" id="r_ab17d3f868f9f42e62dda8b7b9833c454"><td class="memTemplParams" colspan="2"><a id="ab17d3f868f9f42e62dda8b7b9833c454" name="ab17d3f868f9f42e62dda8b7b9833c454"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:ab17d3f868f9f42e62dda8b7b9833c454"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _LtOperationHelper&lt; T, U &gt;::value, typename_LtOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:ab17d3f868f9f42e62dda8b7b9833c454"><td class="mdescLeft">&#160;</td><td class="mdescRight">小于运算 <br /></td></tr>
 <tr class="separator:ab17d3f868f9f42e62dda8b7b9833c454"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae148b73ae7a3c0bc9130a031dff0e7f2" id="r_ae148b73ae7a3c0bc9130a031dff0e7f2"><td class="memTemplParams" colspan="2"><a id="ae148b73ae7a3c0bc9130a031dff0e7f2" name="ae148b73ae7a3c0bc9130a031dff0e7f2"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:ae148b73ae7a3c0bc9130a031dff0e7f2"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _LeOperationHelper&lt; T, U &gt;::value, typename_LeOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;=</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:ae148b73ae7a3c0bc9130a031dff0e7f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">小于等于运算 <br /></td></tr>
-<tr class="separator:ae148b73ae7a3c0bc9130a031dff0e7f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfc4b2626961365ce551715f5794e4a2" id="r_adfc4b2626961365ce551715f5794e4a2"><td class="memTemplParams" colspan="2"><a id="adfc4b2626961365ce551715f5794e4a2" name="adfc4b2626961365ce551715f5794e4a2"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:adfc4b2626961365ce551715f5794e4a2"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _LeOperationHelper&lt; T, U &gt;::value, typename_LeOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;=</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:adfc4b2626961365ce551715f5794e4a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">小于等于运算 <br /></td></tr>
+<tr class="separator:adfc4b2626961365ce551715f5794e4a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa42271e2b997d0ba097e1d926f1331f1" id="r_aa42271e2b997d0ba097e1d926f1331f1"><td class="memTemplParams" colspan="2"><a id="aa42271e2b997d0ba097e1d926f1331f1" name="aa42271e2b997d0ba097e1d926f1331f1"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:aa42271e2b997d0ba097e1d926f1331f1"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _LeOperationHelper&lt; T, U &gt;::value, typename_LeOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:aa42271e2b997d0ba097e1d926f1331f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">小于等于运算 <br /></td></tr>
 <tr class="separator:aa42271e2b997d0ba097e1d926f1331f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6834f074fe2912ffc08a2235db9a751" id="r_ad6834f074fe2912ffc08a2235db9a751"><td class="memTemplParams" colspan="2"><a id="ad6834f074fe2912ffc08a2235db9a751" name="ad6834f074fe2912ffc08a2235db9a751"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:ad6834f074fe2912ffc08a2235db9a751"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _GtOperationHelper&lt; T, U &gt;::value, typename_GtOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:ad6834f074fe2912ffc08a2235db9a751"><td class="mdescLeft">&#160;</td><td class="mdescRight">大于运算 <br /></td></tr>
-<tr class="separator:ad6834f074fe2912ffc08a2235db9a751"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada06ed702a4fc154aa461777fb9128d2" id="r_ada06ed702a4fc154aa461777fb9128d2"><td class="memTemplParams" colspan="2"><a id="ada06ed702a4fc154aa461777fb9128d2" name="ada06ed702a4fc154aa461777fb9128d2"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:ada06ed702a4fc154aa461777fb9128d2"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _GtOperationHelper&lt; T, U &gt;::value, typename_GtOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:ada06ed702a4fc154aa461777fb9128d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">大于运算 <br /></td></tr>
+<tr class="separator:ada06ed702a4fc154aa461777fb9128d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ad59ad84ba150f4fb08d689fbd4135a" id="r_a3ad59ad84ba150f4fb08d689fbd4135a"><td class="memTemplParams" colspan="2"><a id="a3ad59ad84ba150f4fb08d689fbd4135a" name="a3ad59ad84ba150f4fb08d689fbd4135a"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a3ad59ad84ba150f4fb08d689fbd4135a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _GtOperationHelper&lt; T, U &gt;::value, typename_GtOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a3ad59ad84ba150f4fb08d689fbd4135a"><td class="mdescLeft">&#160;</td><td class="mdescRight">大于运算 <br /></td></tr>
 <tr class="separator:a3ad59ad84ba150f4fb08d689fbd4135a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6cccb53babc80f88a91d6000c78b748" id="r_ac6cccb53babc80f88a91d6000c78b748"><td class="memTemplParams" colspan="2"><a id="ac6cccb53babc80f88a91d6000c78b748" name="ac6cccb53babc80f88a91d6000c78b748"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:ac6cccb53babc80f88a91d6000c78b748"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _GeOperationHelper&lt; T, U &gt;::value, typename_GeOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;=</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:ac6cccb53babc80f88a91d6000c78b748"><td class="mdescLeft">&#160;</td><td class="mdescRight">大于等于运算 <br /></td></tr>
-<tr class="separator:ac6cccb53babc80f88a91d6000c78b748"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73ab54e2fbd2bb388dba169880335d5a" id="r_a73ab54e2fbd2bb388dba169880335d5a"><td class="memTemplParams" colspan="2"><a id="a73ab54e2fbd2bb388dba169880335d5a" name="a73ab54e2fbd2bb388dba169880335d5a"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a73ab54e2fbd2bb388dba169880335d5a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _GeOperationHelper&lt; T, U &gt;::value, typename_GeOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;=</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a73ab54e2fbd2bb388dba169880335d5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">大于等于运算 <br /></td></tr>
+<tr class="separator:a73ab54e2fbd2bb388dba169880335d5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a308aa55530d509eddaf81c203627b459" id="r_a308aa55530d509eddaf81c203627b459"><td class="memTemplParams" colspan="2"><a id="a308aa55530d509eddaf81c203627b459" name="a308aa55530d509eddaf81c203627b459"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a308aa55530d509eddaf81c203627b459"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _GeOperationHelper&lt; T, U &gt;::value, typename_GeOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;=</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a308aa55530d509eddaf81c203627b459"><td class="mdescLeft">&#160;</td><td class="mdescRight">大于等于运算 <br /></td></tr>
 <tr class="separator:a308aa55530d509eddaf81c203627b459"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3998ddc71cdd08490aca6aa914d83e46" id="r_a3998ddc71cdd08490aca6aa914d83e46"><td class="memTemplParams" colspan="2"><a id="a3998ddc71cdd08490aca6aa914d83e46" name="a3998ddc71cdd08490aca6aa914d83e46"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a3998ddc71cdd08490aca6aa914d83e46"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitAndOperationHelper&lt; T, U &gt;::value, typename_BitAndOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a3998ddc71cdd08490aca6aa914d83e46"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位与运算 <br /></td></tr>
-<tr class="separator:a3998ddc71cdd08490aca6aa914d83e46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b8c4f61bf88678696ffc85ae6e36fa6" id="r_a6b8c4f61bf88678696ffc85ae6e36fa6"><td class="memTemplParams" colspan="2"><a id="a6b8c4f61bf88678696ffc85ae6e36fa6" name="a6b8c4f61bf88678696ffc85ae6e36fa6"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a6b8c4f61bf88678696ffc85ae6e36fa6"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitAndOperationHelper&lt; T, U &gt;::value, typename_BitAndOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a6b8c4f61bf88678696ffc85ae6e36fa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位与运算 <br /></td></tr>
+<tr class="separator:a6b8c4f61bf88678696ffc85ae6e36fa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7388220f81509b1299069804c88030d" id="r_ad7388220f81509b1299069804c88030d"><td class="memTemplParams" colspan="2"><a id="ad7388220f81509b1299069804c88030d" name="ad7388220f81509b1299069804c88030d"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:ad7388220f81509b1299069804c88030d"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitAndOperationHelper&lt; T, U &gt;::value, typename_BitAndOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:ad7388220f81509b1299069804c88030d"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位与运算 <br /></td></tr>
 <tr class="separator:ad7388220f81509b1299069804c88030d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b5b68fa4eb89e203bc798b87297af1e" id="r_a9b5b68fa4eb89e203bc798b87297af1e"><td class="memTemplParams" colspan="2"><a id="a9b5b68fa4eb89e203bc798b87297af1e" name="a9b5b68fa4eb89e203bc798b87297af1e"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a9b5b68fa4eb89e203bc798b87297af1e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitOrOperationHelper&lt; T, U &gt;::value, typename_BitOrOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator|</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a9b5b68fa4eb89e203bc798b87297af1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位或运算 <br /></td></tr>
-<tr class="separator:a9b5b68fa4eb89e203bc798b87297af1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35aad9ddfa47c3ce936fdb500011f720" id="r_a35aad9ddfa47c3ce936fdb500011f720"><td class="memTemplParams" colspan="2"><a id="a35aad9ddfa47c3ce936fdb500011f720" name="a35aad9ddfa47c3ce936fdb500011f720"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a35aad9ddfa47c3ce936fdb500011f720"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitOrOperationHelper&lt; T, U &gt;::value, typename_BitOrOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator|</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a35aad9ddfa47c3ce936fdb500011f720"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位或运算 <br /></td></tr>
+<tr class="separator:a35aad9ddfa47c3ce936fdb500011f720"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ad000e2d0508470d965e7c3f2518fa6" id="r_a1ad000e2d0508470d965e7c3f2518fa6"><td class="memTemplParams" colspan="2"><a id="a1ad000e2d0508470d965e7c3f2518fa6" name="a1ad000e2d0508470d965e7c3f2518fa6"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a1ad000e2d0508470d965e7c3f2518fa6"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitOrOperationHelper&lt; T, U &gt;::value, typename_BitOrOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator|</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a1ad000e2d0508470d965e7c3f2518fa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位或运算 <br /></td></tr>
 <tr class="separator:a1ad000e2d0508470d965e7c3f2518fa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b4be32f60fd3252d79d35eceab68a89" id="r_a3b4be32f60fd3252d79d35eceab68a89"><td class="memTemplParams" colspan="2"><a id="a3b4be32f60fd3252d79d35eceab68a89" name="a3b4be32f60fd3252d79d35eceab68a89"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a3b4be32f60fd3252d79d35eceab68a89"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitXorOperationHelper&lt; T, U &gt;::value, typename_BitXorOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator^</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a3b4be32f60fd3252d79d35eceab68a89"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位异或运算 <br /></td></tr>
-<tr class="separator:a3b4be32f60fd3252d79d35eceab68a89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e59ff434132dfcffe42939f58de4833" id="r_a7e59ff434132dfcffe42939f58de4833"><td class="memTemplParams" colspan="2"><a id="a7e59ff434132dfcffe42939f58de4833" name="a7e59ff434132dfcffe42939f58de4833"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a7e59ff434132dfcffe42939f58de4833"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitXorOperationHelper&lt; T, U &gt;::value, typename_BitXorOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator^</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a7e59ff434132dfcffe42939f58de4833"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位异或运算 <br /></td></tr>
+<tr class="separator:a7e59ff434132dfcffe42939f58de4833"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03f91a0020eccc3b1f01509aa71f31e7" id="r_a03f91a0020eccc3b1f01509aa71f31e7"><td class="memTemplParams" colspan="2"><a id="a03f91a0020eccc3b1f01509aa71f31e7" name="a03f91a0020eccc3b1f01509aa71f31e7"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a03f91a0020eccc3b1f01509aa71f31e7"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _BitXorOperationHelper&lt; T, U &gt;::value, typename_BitXorOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator^</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a03f91a0020eccc3b1f01509aa71f31e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位异或运算 <br /></td></tr>
 <tr class="separator:a03f91a0020eccc3b1f01509aa71f31e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ec86a0e05147c26b40e378a2d9f9d28" id="r_a0ec86a0e05147c26b40e378a2d9f9d28"><td class="memTemplParams" colspan="2"><a id="a0ec86a0e05147c26b40e378a2d9f9d28" name="a0ec86a0e05147c26b40e378a2d9f9d28"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a0ec86a0e05147c26b40e378a2d9f9d28"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShlOperationHelper&lt; T, U &gt;::value, typename_ShlOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a0ec86a0e05147c26b40e378a2d9f9d28"><td class="mdescLeft">&#160;</td><td class="mdescRight">左移运算 <br /></td></tr>
-<tr class="separator:a0ec86a0e05147c26b40e378a2d9f9d28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad12f275d4289c868d883e009fcd33eb4" id="r_ad12f275d4289c868d883e009fcd33eb4"><td class="memTemplParams" colspan="2"><a id="ad12f275d4289c868d883e009fcd33eb4" name="ad12f275d4289c868d883e009fcd33eb4"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:ad12f275d4289c868d883e009fcd33eb4"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShlOperationHelper&lt; T, U &gt;::value, typename_ShlOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:ad12f275d4289c868d883e009fcd33eb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">左移运算 <br /></td></tr>
+<tr class="separator:ad12f275d4289c868d883e009fcd33eb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb5198bc429c755875f3eda77582bcf2" id="r_acb5198bc429c755875f3eda77582bcf2"><td class="memTemplParams" colspan="2"><a id="acb5198bc429c755875f3eda77582bcf2" name="acb5198bc429c755875f3eda77582bcf2"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:acb5198bc429c755875f3eda77582bcf2"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShlOperationHelper&lt; T, U &gt;::value, typename_ShlOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:acb5198bc429c755875f3eda77582bcf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">左移运算 <br /></td></tr>
 <tr class="separator:acb5198bc429c755875f3eda77582bcf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab75986b9197bdc9c4f52a603e00d41e1" id="r_ab75986b9197bdc9c4f52a603e00d41e1"><td class="memTemplParams" colspan="2"><a id="ab75986b9197bdc9c4f52a603e00d41e1" name="ab75986b9197bdc9c4f52a603e00d41e1"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:ab75986b9197bdc9c4f52a603e00d41e1"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShrOperationHelper&lt; T, U &gt;::value, typename_ShrOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;&gt;</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:ab75986b9197bdc9c4f52a603e00d41e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">右移运算 <br /></td></tr>
-<tr class="separator:ab75986b9197bdc9c4f52a603e00d41e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ecb8c7e9dc29990209467c91fcbfd18" id="r_a4ecb8c7e9dc29990209467c91fcbfd18"><td class="memTemplParams" colspan="2"><a id="a4ecb8c7e9dc29990209467c91fcbfd18" name="a4ecb8c7e9dc29990209467c91fcbfd18"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a4ecb8c7e9dc29990209467c91fcbfd18"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShrOperationHelper&lt; T, U &gt;::value, typename_ShrOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;&gt;</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a4ecb8c7e9dc29990209467c91fcbfd18"><td class="mdescLeft">&#160;</td><td class="mdescRight">右移运算 <br /></td></tr>
+<tr class="separator:a4ecb8c7e9dc29990209467c91fcbfd18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4789ef3bd4121520549916005b7760c" id="r_aa4789ef3bd4121520549916005b7760c"><td class="memTemplParams" colspan="2"><a id="aa4789ef3bd4121520549916005b7760c" name="aa4789ef3bd4121520549916005b7760c"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:aa4789ef3bd4121520549916005b7760c"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _ShrOperationHelper&lt; T, U &gt;::value, typename_ShrOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&gt;&gt;</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:aa4789ef3bd4121520549916005b7760c"><td class="mdescLeft">&#160;</td><td class="mdescRight">右移运算 <br /></td></tr>
 <tr class="separator:aa4789ef3bd4121520549916005b7760c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e3d2614463e65da99bb30186a98da2a" id="r_a8e3d2614463e65da99bb30186a98da2a"><td class="memTemplParams" colspan="2"><a id="a8e3d2614463e65da99bb30186a98da2a" name="a8e3d2614463e65da99bb30186a98da2a"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a8e3d2614463e65da99bb30186a98da2a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _LogicAndOperationHelper&lt; T, U &gt;::value, typename_LogicAndOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;&amp;</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a8e3d2614463e65da99bb30186a98da2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">逻辑与运算 <br /></td></tr>
-<tr class="separator:a8e3d2614463e65da99bb30186a98da2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60970b0e4866ba0ac8a6e70a576a5d8f" id="r_a60970b0e4866ba0ac8a6e70a576a5d8f"><td class="memTemplParams" colspan="2"><a id="a60970b0e4866ba0ac8a6e70a576a5d8f" name="a60970b0e4866ba0ac8a6e70a576a5d8f"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a60970b0e4866ba0ac8a6e70a576a5d8f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _LogicAndOperationHelper&lt; T, U &gt;::value, typename_LogicAndOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;&amp;</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a60970b0e4866ba0ac8a6e70a576a5d8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">逻辑与运算 <br /></td></tr>
+<tr class="separator:a60970b0e4866ba0ac8a6e70a576a5d8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe32aeacd7e92de274c139c0d780d65b" id="r_abe32aeacd7e92de274c139c0d780d65b"><td class="memTemplParams" colspan="2"><a id="abe32aeacd7e92de274c139c0d780d65b" name="abe32aeacd7e92de274c139c0d780d65b"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:abe32aeacd7e92de274c139c0d780d65b"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _LogicAndOperationHelper&lt; T, U &gt;::value, typename_LogicAndOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;&amp;</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:abe32aeacd7e92de274c139c0d780d65b"><td class="mdescLeft">&#160;</td><td class="mdescRight">逻辑与运算 <br /></td></tr>
 <tr class="separator:abe32aeacd7e92de274c139c0d780d65b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35caa51f02178884575563cd1a162454" id="r_a35caa51f02178884575563cd1a162454"><td class="memTemplParams" colspan="2"><a id="a35caa51f02178884575563cd1a162454" name="a35caa51f02178884575563cd1a162454"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a35caa51f02178884575563cd1a162454"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _LogicOrOperationHelper&lt; T, U &gt;::value, typename_LogicOrOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator||</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a35caa51f02178884575563cd1a162454"><td class="mdescLeft">&#160;</td><td class="mdescRight">逻辑或运算 <br /></td></tr>
-<tr class="separator:a35caa51f02178884575563cd1a162454"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d3d5a1708be42ff24c3abdcdc59ea94" id="r_a5d3d5a1708be42ff24c3abdcdc59ea94"><td class="memTemplParams" colspan="2"><a id="a5d3d5a1708be42ff24c3abdcdc59ea94" name="a5d3d5a1708be42ff24c3abdcdc59ea94"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a5d3d5a1708be42ff24c3abdcdc59ea94"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _LogicOrOperationHelper&lt; T, U &gt;::value, typename_LogicOrOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator||</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a5d3d5a1708be42ff24c3abdcdc59ea94"><td class="mdescLeft">&#160;</td><td class="mdescRight">逻辑或运算 <br /></td></tr>
+<tr class="separator:a5d3d5a1708be42ff24c3abdcdc59ea94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5bb1b36f9f71849559e4fe3ed550b29a" id="r_a5bb1b36f9f71849559e4fe3ed550b29a"><td class="memTemplParams" colspan="2"><a id="a5bb1b36f9f71849559e4fe3ed550b29a" name="a5bb1b36f9f71849559e4fe3ed550b29a"></a>
-template&lt;typename D , typename U  = T&gt; </td></tr>
+template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:a5bb1b36f9f71849559e4fe3ed550b29a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; _LogicOrOperationHelper&lt; T, U &gt;::value, typename_LogicOrOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator||</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:a5bb1b36f9f71849559e4fe3ed550b29a"><td class="mdescLeft">&#160;</td><td class="mdescRight">逻辑或运算 <br /></td></tr>
 <tr class="separator:a5bb1b36f9f71849559e4fe3ed550b29a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6bc78c5a0081a77a81f15619c69ad99a" id="r_a6bc78c5a0081a77a81f15619c69ad99a"><td class="memTemplParams" colspan="2"><a id="a6bc78c5a0081a77a81f15619c69ad99a" name="a6bc78c5a0081a77a81f15619c69ad99a"></a>
+<tr class="memitem:a09be5833085e75a38ca32b75f48df2f5" id="r_a09be5833085e75a38ca32b75f48df2f5"><td class="memTemplParams" colspan="2"><a id="a09be5833085e75a38ca32b75f48df2f5" name="a09be5833085e75a38ca32b75f48df2f5"></a>
 template&lt;typename U &gt; </td></tr>
-<tr class="memitem:a6bc78c5a0081a77a81f15619c69ad99a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; T, U &gt;::value &amp;&amp;!std::is_pointer&lt; T &gt;::value &amp;&amp;!std::is_reference&lt; typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::value, typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator[]</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a6bc78c5a0081a77a81f15619c69ad99a"><td class="mdescLeft">&#160;</td><td class="mdescRight">下标运算 <br /></td></tr>
-<tr class="separator:a6bc78c5a0081a77a81f15619c69ad99a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6bdb6caaa050d844a6f2544f369eb2be" id="r_a6bdb6caaa050d844a6f2544f369eb2be"><td class="memTemplParams" colspan="2"><a id="a6bdb6caaa050d844a6f2544f369eb2be" name="a6bdb6caaa050d844a6f2544f369eb2be"></a>
+<tr class="memitem:a09be5833085e75a38ca32b75f48df2f5"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; T, U &gt;::value &amp;&amp;!std::is_reference&lt; typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::value, typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator[]</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a09be5833085e75a38ca32b75f48df2f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">下标运算 <br /></td></tr>
+<tr class="separator:a09be5833085e75a38ca32b75f48df2f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ff584b00ef495b94ba4b9661f25f573" id="r_a9ff584b00ef495b94ba4b9661f25f573"><td class="memTemplParams" colspan="2"><a id="a9ff584b00ef495b94ba4b9661f25f573" name="a9ff584b00ef495b94ba4b9661f25f573"></a>
 template&lt;typename D , typename U &gt; </td></tr>
-<tr class="memitem:a6bdb6caaa050d844a6f2544f369eb2be"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; T, U &gt;::value &amp;&amp;!std::is_pointer&lt; T &gt;::value &amp;&amp;!std::is_reference&lt; typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::value, typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator[]</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
-<tr class="memdesc:a6bdb6caaa050d844a6f2544f369eb2be"><td class="mdescLeft">&#160;</td><td class="mdescRight">下标运算 <br /></td></tr>
-<tr class="separator:a6bdb6caaa050d844a6f2544f369eb2be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27a2dcb9ccf7f3856656f101b7d0ccc0" id="r_a27a2dcb9ccf7f3856656f101b7d0ccc0"><td class="memTemplParams" colspan="2"><a id="a27a2dcb9ccf7f3856656f101b7d0ccc0" name="a27a2dcb9ccf7f3856656f101b7d0ccc0"></a>
+<tr class="memitem:a9ff584b00ef495b94ba4b9661f25f573"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; T, U &gt;::value &amp;&amp;!std::is_reference&lt; typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::value, typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator[]</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
+<tr class="memdesc:a9ff584b00ef495b94ba4b9661f25f573"><td class="mdescLeft">&#160;</td><td class="mdescRight">下标运算 <br /></td></tr>
+<tr class="separator:a9ff584b00ef495b94ba4b9661f25f573"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23a07b12b20080fc3fdd72d8210f95d3" id="r_a23a07b12b20080fc3fdd72d8210f95d3"><td class="memTemplParams" colspan="2"><a id="a23a07b12b20080fc3fdd72d8210f95d3" name="a23a07b12b20080fc3fdd72d8210f95d3"></a>
 template&lt;typename U &gt; </td></tr>
-<tr class="memitem:a27a2dcb9ccf7f3856656f101b7d0ccc0"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; T, U &gt;::value &amp;&amp;std::is_pointer&lt; T &gt;::value, typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator[]</b> (const U &amp;value) const</td></tr>
-<tr class="memdesc:a27a2dcb9ccf7f3856656f101b7d0ccc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">指针下标运算 <br /></td></tr>
-<tr class="separator:a27a2dcb9ccf7f3856656f101b7d0ccc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23a07b12b20080fc3fdd72d8210f95d3"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; T, U &gt;::value &amp;&amp;std::is_pointer&lt; T &gt;::value, typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator[]</b> (U &amp;&amp;value) const</td></tr>
+<tr class="memdesc:a23a07b12b20080fc3fdd72d8210f95d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">指针下标运算 <br /></td></tr>
+<tr class="separator:a23a07b12b20080fc3fdd72d8210f95d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4f3c9680db301fc9926f9770617603f" id="r_aa4f3c9680db301fc9926f9770617603f"><td class="memTemplParams" colspan="2"><a id="aa4f3c9680db301fc9926f9770617603f" name="aa4f3c9680db301fc9926f9770617603f"></a>
 template&lt;typename D , typename U &gt; </td></tr>
 <tr class="memitem:aa4f3c9680db301fc9926f9770617603f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; T, U &gt;::value &amp;&amp;std::is_pointer&lt; T &gt;::value, typename_BracketOperationHelper&lt; T, U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator[]</b> (const <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; U, D &gt; &amp;prop) const</td></tr>
 <tr class="memdesc:aa4f3c9680db301fc9926f9770617603f"><td class="mdescLeft">&#160;</td><td class="mdescRight">指针下标运算 <br /></td></tr>
 <tr class="separator:aa4f3c9680db301fc9926f9770617603f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a91ad891bd83f4d82ff10392ef1a071c6" id="r_a91ad891bd83f4d82ff10392ef1a071c6"><td class="memTemplParams" colspan="2"><a id="a91ad891bd83f4d82ff10392ef1a071c6" name="a91ad891bd83f4d82ff10392ef1a071c6"></a>
+template&lt;typename TOwner &gt; </td></tr>
+<tr class="memitem:a91ad891bd83f4d82ff10392ef1a071c6"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="classsw_1_1MemberPropertyInitializer.html">MemberPropertyInitializer</a>&lt; TOwner, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Init</b> (TOwner *owner)</td></tr>
+<tr class="memdesc:a91ad891bd83f4d82ff10392ef1a071c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取成员属性初始化器 <br /></td></tr>
+<tr class="separator:a91ad891bd83f4d82ff10392ef1a071c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04b2576f3c802576a2eb2f0eb1b84020" id="r_a04b2576f3c802576a2eb2f0eb1b84020"><td class="memItemLeft" align="right" valign="top"><a id="a04b2576f3c802576a2eb2f0eb1b84020" name="a04b2576f3c802576a2eb2f0eb1b84020"></a>
+static <a class="el" href="classsw_1_1StaticPropertyInitializer.html">StaticPropertyInitializer</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
+<tr class="memdesc:a04b2576f3c802576a2eb2f0eb1b84020"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取静态属性初始化器 <br /></td></tr>
+<tr class="separator:a04b2576f3c802576a2eb2f0eb1b84020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected 成员函数</h2></td></tr>
+<tr class="memitem:aa040f3a1bf10951a66d89e8b72707dad" id="r_aa040f3a1bf10951a66d89e8b72707dad"><td class="memItemLeft" align="right" valign="top"><a id="aa040f3a1bf10951a66d89e8b72707dad" name="aa040f3a1bf10951a66d89e8b72707dad"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsStatic</b> () const noexcept</td></tr>
+<tr class="memdesc:aa040f3a1bf10951a66d89e8b72707dad"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断属性是否为静态属性 <br /></td></tr>
+<tr class="separator:aa040f3a1bf10951a66d89e8b72707dad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e145eb7be6dfa16b8c7b50974c45c05" id="r_a0e145eb7be6dfa16b8c7b50974c45c05"><td class="memItemLeft" align="right" valign="top"><a id="a0e145eb7be6dfa16b8c7b50974c45c05" name="a0e145eb7be6dfa16b8c7b50974c45c05"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetOwner</b> (void *owner) noexcept</td></tr>
+<tr class="memdesc:a0e145eb7be6dfa16b8c7b50974c45c05"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置属性所有者对象，nullptr表示静态属性 <br /></td></tr>
+<tr class="separator:a0e145eb7be6dfa16b8c7b50974c45c05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3eabe5949f0aecb7dbad964355f4cd0" id="r_ae3eabe5949f0aecb7dbad964355f4cd0"><td class="memItemLeft" align="right" valign="top"><a id="ae3eabe5949f0aecb7dbad964355f4cd0" name="ae3eabe5949f0aecb7dbad964355f4cd0"></a>
+void *&#160;</td><td class="memItemRight" valign="bottom"><b>GetOwner</b> () const noexcept</td></tr>
+<tr class="memdesc:ae3eabe5949f0aecb7dbad964355f4cd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性所有者对象，当属性为静态属性时返回nullptr <br /></td></tr>
+<tr class="separator:ae3eabe5949f0aecb7dbad964355f4cd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
+Protected 属性</h2></td></tr>
+<tr class="memitem:a68267c1e2ca7b65ee30b0ed700ea6e07" id="r_a68267c1e2ca7b65ee30b0ed700ea6e07"><td class="memItemLeft" align="right" valign="top"><a id="a68267c1e2ca7b65ee30b0ed700ea6e07" name="a68267c1e2ca7b65ee30b0ed700ea6e07"></a>
+std::ptrdiff_t&#160;</td><td class="memItemRight" valign="bottom"><b>_offset</b> {<a class="el" href="classsw_1_1PropertyBase.html#a6b5011e4c17ed00810a2d4e788979d90">_STATICOFFSET</a>}</td></tr>
+<tr class="memdesc:a68267c1e2ca7b65ee30b0ed700ea6e07"><td class="mdescLeft">&#160;</td><td class="mdescRight">所有者对象相对于当前属性对象的偏移量 <br /></td></tr>
+<tr class="separator:a68267c1e2ca7b65ee30b0ed700ea6e07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-static-attribs" name="pro-static-attribs"></a>
+静态 Protected 属性</h2></td></tr>
+<tr class="memitem:a6b5011e4c17ed00810a2d4e788979d90" id="r_a6b5011e4c17ed00810a2d4e788979d90"><td class="memItemLeft" align="right" valign="top"><a id="a6b5011e4c17ed00810a2d4e788979d90" name="a6b5011e4c17ed00810a2d4e788979d90"></a>
+static constexpr std::ptrdiff_t&#160;</td><td class="memItemRight" valign="bottom"><b>_STATICOFFSET</b> = (std::numeric_limits&lt;std::ptrdiff_t&gt;::max)()</td></tr>
+<tr class="memdesc:a6b5011e4c17ed00810a2d4e788979d90"><td class="mdescLeft">&#160;</td><td class="mdescRight">静态属性偏移量标记 <br /></td></tr>
+<tr class="separator:a6b5011e4c17ed00810a2d4e788979d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T, typename TDerived&gt;<br />
 class sw::PropertyBase&lt; T, TDerived &gt;</div><p>属性基类模板 </p>
+<p>向前声明 </p>
 </div><h2 class="groupheader">成员函数说明</h2>
 <a id="ac5ae1db7fa2e74bf7bd061749fad473e" name="ac5ae1db7fa2e74bf7bd061749fad473e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac5ae1db7fa2e74bf7bd061749fad473e">&#9670;&#160;</a></span>operator!=() <span class="overload">[1/2]</span></h2>
@@ -690,7 +726,7 @@ class sw::PropertyBase&lt; T, TDerived &gt;</div><p>属性基类模板 </p>
 <div class="memtemplate">
 template&lt;typename T , typename TDerived &gt; </div>
 <div class="memtemplate">
-template&lt;typename D , typename U  = T&gt; </div>
+template&lt;typename D , typename U &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -711,19 +747,19 @@ template&lt;typename D , typename U  = T&gt; </div>
 </div><div class="memdoc">
 
 <p>不等于运算 </p>
-<dl class="section note"><dt>注解</dt><dd>避免与c++20自动生成的!=冲突，改为通过==取反实现 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>避免与c++20自动生成的!=冲突，通过==取反实现 </dd></dl>
 
 </div>
 </div>
-<a id="a0ee9d9e0993ae331e287c87dcd5ab24a" name="a0ee9d9e0993ae331e287c87dcd5ab24a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ee9d9e0993ae331e287c87dcd5ab24a">&#9670;&#160;</a></span>operator!=() <span class="overload">[2/2]</span></h2>
+<a id="ad99d8d0b1faac20cea490beea04d83ee" name="ad99d8d0b1faac20cea490beea04d83ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad99d8d0b1faac20cea490beea04d83ee">&#9670;&#160;</a></span>operator!=() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T , typename TDerived &gt; </div>
 <div class="memtemplate">
-template&lt;typename U  = T&gt; </div>
+template&lt;typename U &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -731,7 +767,7 @@ template&lt;typename U  = T&gt; </div>
         <tr>
           <td class="memname">std::enable_if&lt; _EqOperationHelper&lt; T, U &gt;::value, typename_EqOperationHelper&lt; T, U &gt;::type &gt;::type <a class="el" href="classsw_1_1PropertyBase.html">sw::PropertyBase</a>&lt; T, TDerived &gt;<a class="el" href="classsw_1_1PropertyBase.html#a9b34d671369025c3c2e9c1f424eef98d">::operator!</a>= </td>
           <td>(</td>
-          <td class="paramtype">const U &amp;&#160;</td>
+          <td class="paramtype">U &amp;&amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -743,9 +779,8 @@ template&lt;typename U  = T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>&zwj;** </p>
-<p>&zwj;**</p>
-<p>不等于运算 </p><dl class="section note"><dt>注解</dt><dd>避免与c++20自动生成的!=冲突，改为通过==取反实现 </dd></dl>
+<p>不等于运算 </p>
+<dl class="section note"><dt>注解</dt><dd>避免与c++20自动生成的!=冲突，通过==取反实现 </dd></dl>
 
 </div>
 </div>
