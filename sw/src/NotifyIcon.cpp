@@ -38,7 +38,7 @@ sw::NotifyIcon::NotifyIcon()
                   if (value.empty()) {
                       self->_nid.szTip[0] = L'\0';
                   } else {
-                      constexpr size_t bufsize = sizeof(_nid.szTip) / sizeof(*_nid.szTip);
+                      constexpr size_t bufsize = sizeof(self->_nid.szTip) / sizeof(*self->_nid.szTip);
                       StringCchCopyNW(self->_nid.szTip, bufsize, value.c_str(), bufsize - 1);
                   }
                   self->_nid.uFlags |= NIF_TIP;
