@@ -53,6 +53,16 @@ namespace sw
          * @return 如果更新成功则返回true，否则返回false
          */
         virtual bool UpdateSource() = 0;
+
+        /**
+         * @brief 获取目标属性ID
+         */
+        virtual FieldId GetTargetPropertyId() const = 0;
+
+        /**
+         * @brief 获取源属性ID
+         */
+        virtual FieldId GetSourcePropertyId() const = 0;
     };
 
     /**
@@ -156,6 +166,22 @@ namespace sw
                 result = _updateSourceFunc(this);
             }
             return result;
+        }
+
+        /**
+         * @brief 获取目标属性ID
+         */
+        virtual FieldId GetTargetPropertyId() const override
+        {
+            return _targetPropertyId;
+        }
+
+        /**
+         * @brief 获取源属性ID
+         */
+        virtual FieldId GetSourcePropertyId() const override
+        {
+            return _sourcePropertyId;
         }
 
         /**
