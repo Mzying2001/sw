@@ -611,8 +611,5 @@
     <ClCompile Include="..\sw\src\NotifyIcon.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\sw\src\Binding.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
