@@ -274,12 +274,12 @@ namespace sw
 
             if (_targetObject->IsType<INotifyPropertyChanged>(&targetNotifObj)) {
                 targetNotifObj->PropertyChanged +=
-                    Action<FieldId>(*this, &Binding::OnTargetPropertyChanged);
+                    PropertyChangedEventHandler(*this, &Binding::OnTargetPropertyChanged);
             }
 
             if (_sourceObject->IsType<INotifyPropertyChanged>(&sourceNotifObj)) {
                 sourceNotifObj->PropertyChanged +=
-                    Action<FieldId>(*this, &Binding::OnSourcePropertyChanged);
+                    PropertyChangedEventHandler(*this, &Binding::OnSourcePropertyChanged);
             }
         }
 
@@ -293,19 +293,19 @@ namespace sw
 
             if (_targetObject->IsType<INotifyPropertyChanged>(&targetNotifObj)) {
                 targetNotifObj->PropertyChanged -=
-                    Action<FieldId>(*this, &Binding::OnTargetPropertyChanged);
+                    PropertyChangedEventHandler(*this, &Binding::OnTargetPropertyChanged);
             }
 
             if (_sourceObject->IsType<INotifyPropertyChanged>(&sourceNotifObj)) {
                 sourceNotifObj->PropertyChanged -=
-                    Action<FieldId>(*this, &Binding::OnSourcePropertyChanged);
+                    PropertyChangedEventHandler(*this, &Binding::OnSourcePropertyChanged);
             }
         }
 
         /**
          * @brief 目标属性更改处理函数
          */
-        void OnTargetPropertyChanged(FieldId propertyId)
+        void OnTargetPropertyChanged(INotifyPropertyChanged *sender, FieldId propertyId)
         {
             if (propertyId != _targetPropertyId) {
                 return;
@@ -320,7 +320,7 @@ namespace sw
         /**
          * @brief 源属性更改处理函数
          */
-        void OnSourcePropertyChanged(FieldId propertyId)
+        void OnSourcePropertyChanged(INotifyPropertyChanged *sender, FieldId propertyId)
         {
             if (propertyId != _sourcePropertyId) {
                 return;
