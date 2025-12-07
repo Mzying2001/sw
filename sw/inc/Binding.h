@@ -222,7 +222,7 @@ namespace sw
         static auto Create(DynamicObject *target, TTargetProperty TTargetObject::*targetProperty,
                            DynamicObject *source, TSourceProperty TSourceObject::*sourceProperty,
                            BindingMode mode,
-                           IValueConverter<typename TTargetProperty::TValue, typename TSourceProperty::TValue> *converter = nullptr)
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter = nullptr)
             -> typename std::enable_if<
                 _IsProperty<TTargetProperty>::value &&
                     _IsProperty<TSourceProperty>::value &&
@@ -313,7 +313,7 @@ namespace sw
         static auto Create(DynamicObject *target, TTargetProperty TTargetObject::*targetProperty,
                            DynamicObject *source, TSourceProperty TSourceObject::*sourceProperty,
                            BindingMode mode,
-                           IValueConverter<typename TTargetProperty::TValue, typename TSourceProperty::TValue> *converter)
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter)
             -> typename std::enable_if<
                 _IsProperty<TTargetProperty>::value &&
                     _IsProperty<TSourceProperty>::value &&
