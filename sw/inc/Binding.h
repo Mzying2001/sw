@@ -387,7 +387,10 @@ namespace sw
                 IValueConverter<TSourceValue, TTargetValue> *converter =
                     reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
 
-                if (targetSetter == nullptr || sourceGetter == nullptr) {
+                if (targetSetter == nullptr ||
+                    sourceGetter == nullptr ||
+                    binding->_targetObject == nullptr ||
+                    binding->_sourceObject == nullptr) {
                     return false;
                 }
 
@@ -410,7 +413,10 @@ namespace sw
                 IValueConverter<TSourceValue, TTargetValue> *converter =
                     reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
 
-                if (targetGetter == nullptr || sourceSetter == nullptr) {
+                if (targetGetter == nullptr ||
+                    sourceSetter == nullptr ||
+                    binding->_targetObject == nullptr ||
+                    binding->_sourceObject == nullptr) {
                     return false;
                 }
 
@@ -486,7 +492,11 @@ namespace sw
                 IValueConverter<TSourceValue, TTargetValue> *converter =
                     reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
 
-                if (targetSetter == nullptr || sourceGetter == nullptr || converter == nullptr) {
+                if (targetSetter == nullptr ||
+                    sourceGetter == nullptr ||
+                    converter == nullptr ||
+                    binding->_targetObject == nullptr ||
+                    binding->_sourceObject == nullptr) {
                     return false;
                 }
 
@@ -503,7 +513,11 @@ namespace sw
                 IValueConverter<TSourceValue, TTargetValue> *converter =
                     reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
 
-                if (targetGetter == nullptr || sourceSetter == nullptr || converter == nullptr) {
+                if (targetGetter == nullptr ||
+                    sourceSetter == nullptr ||
+                    converter == nullptr ||
+                    binding->_targetObject == nullptr ||
+                    binding->_sourceObject == nullptr) {
                     return false;
                 }
 
