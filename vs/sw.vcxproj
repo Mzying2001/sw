@@ -292,6 +292,7 @@
     <ClInclude Include="..\sw\inc\Alignment.h" />
     <ClInclude Include="..\sw\inc\Animation.h" />
     <ClInclude Include="..\sw\inc\App.h" />
+    <ClInclude Include="..\sw\inc\Binding.h" />
     <ClInclude Include="..\sw\inc\BmpBox.h" />
     <ClInclude Include="..\sw\inc\Button.h" />
     <ClInclude Include="..\sw\inc\ButtonBase.h" />
@@ -333,10 +334,12 @@
     <ClInclude Include="..\sw\inc\IDialog.h" />
     <ClInclude Include="..\sw\inc\ILayout.h" />
     <ClInclude Include="..\sw\inc\ImageList.h" />
+    <ClInclude Include="..\sw\inc\INotifyPropertyChanged.h" />
     <ClInclude Include="..\sw\inc\IPAddressControl.h" />
     <ClInclude Include="..\sw\inc\ITag.h" />
     <ClInclude Include="..\sw\inc\ItemsControl.h" />
     <ClInclude Include="..\sw\inc\IToString.h" />
+    <ClInclude Include="..\sw\inc\IValueConverter.h" />
     <ClInclude Include="..\sw\inc\Keys.h" />
     <ClInclude Include="..\sw\inc\KnownColor.h" />
     <ClInclude Include="..\sw\inc\Label.h" />
@@ -350,7 +353,9 @@
     <ClInclude Include="..\sw\inc\MenuItem.h" />
     <ClInclude Include="..\sw\inc\MonthCalendar.h" />
     <ClInclude Include="..\sw\inc\MsgBox.h" />
+    <ClInclude Include="..\sw\inc\NotificationObject.h" />
     <ClInclude Include="..\sw\inc\NotifyIcon.h" />
+    <ClInclude Include="..\sw\inc\ObservableObject.h" />
     <ClInclude Include="..\sw\inc\Panel.h" />
     <ClInclude Include="..\sw\inc\PanelBase.h" />
     <ClInclude Include="..\sw\inc\PasswordBox.h" />

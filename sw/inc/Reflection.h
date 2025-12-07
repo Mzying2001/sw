@@ -5,6 +5,8 @@
 // #define _SW_DISABLE_REFLECTION
 
 #include "Delegate.h"
+#include "IComparable.h"
+#include "IToString.h"
 #include "Property.h"
 #include <type_traits>
 #include <typeindex>
@@ -111,6 +113,51 @@ namespace sw
     };
 
     /**
+     * @brief 表示字段的唯一标识符
+     */
+    struct FieldId : public IToString<FieldId>,
+                     public IComparable<FieldId, FieldId> {
+        /**
+         * @brief 字段ID的数值
+         */
+        uint32_t value;
+
+        /**
+         * @brief 默认构造函数
+         */
+        FieldId() = default;
+
+        /**
+         * @brief 构造指定值的字段ID
+         */
+        FieldId(uint32_t value)
+            : value(value)
+        {
+        }
+
+        /**
+         * @brief 获取字段ID的字符串表示形式
+         */
+        std::wstring ToString() const
+        {
+            return std::to_wstring(value);
+        }
+
+        /**
+         * @brief  比较字段ID
+         * @return 值相等返回0，小于返回负数，大于返回正数
+         */
+        int CompareTo(FieldId other) const
+        {
+            if (value == other.value) {
+                return 0;
+            } else {
+                return value < other.value ? -1 : 1;
+            }
+        }
+    };
+
+    /**
      * @brief 提供反射相关功能
      */
     class Reflection
@@ -120,6 +167,33 @@ namespace sw
          * @brief 静态类，不允许实例化
          */
         Reflection() = delete;
+
+        /**
+         * @brief         获取字段的唯一标识符
+         * @tparam T      字段所属类类型
+         * @tparam TField 字段类型
+         * @param field   字段的成员指针
+         * @return        对应的字段ID
+         */
+        template <typename T, typename TField>
+        static FieldId GetFieldId(TField T::*field)
+        {
+            auto pfunc = &Reflection::GetFieldId<T, TField>;
+
+            uint8_t buffer[sizeof(pfunc) + sizeof(field)];
+            memcpy(buffer, &pfunc, sizeof(pfunc));
+            memcpy(buffer + sizeof(pfunc), &field, sizeof(field));
+
+            uint32_t prime = 16777619u;
+            uint32_t hash  = 2166136261u;
+
+            for (size_t i = 0; i < sizeof(buffer); ++i) {
+                hash ^= static_cast<uint32_t>(buffer[i]);
+                hash *= prime;
+            }
+
+            return FieldId{hash};
+        }
 
         /**
          * @brief        获取成员函数的委托
@@ -158,10 +232,10 @@ namespace sw
         }
 
         /**
-         * @brief         获取成员字段的访问器
-         * @tparam T      成员字段所属类类型
-         * @tparam TField 成员字段类型
-         * @param field   成员字段指针
+         * @brief         获取字段的访问器
+         * @tparam T      字段所属类类型
+         * @tparam TField 字段类型
+         * @param field   字段的成员指针
          * @return        对应的访问器
          */
         template <typename T, typename TField>
@@ -180,6 +254,7 @@ namespace sw
          * @tparam TProperty 属性类型
          * @param prop       属性指针
          * @return           对应的Getter委托
+         * @note             若属性不可读则返回空委托
          */
         template <typename T, typename TProperty>
         static auto GetPropertyGetter(TProperty T::*prop)
@@ -193,11 +268,29 @@ namespace sw
         }
 
         /**
+         * @brief            获取属性的Getter委托
+         * @tparam T         属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop       属性指针
+         * @return           对应的Getter委托
+         * @note             若属性不可读则返回空委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertyGetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && !_IsReadableProperty<TProperty>::value,
+                Delegate<typename TProperty::TValue(DynamicObject &)>>::type
+        {
+            return nullptr;
+        }
+
+        /**
          * @brief            获取属性的Setter委托
          * @tparam T         属性所属类类型
          * @tparam TProperty 属性类型
          * @param prop       属性指针
          * @return           对应的Setter委托
+         * @note             若属性不可写则返回空委托
          */
         template <typename T, typename TProperty>
         static auto GetPropertySetter(TProperty T::*prop)
@@ -206,8 +299,25 @@ namespace sw
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
-                (obj.DynamicCast<T>().*prop).Set(value);
+                (obj.DynamicCast<T>().*prop).Set(std::forward<typename TProperty::TSetterParam>(value));
             };
+        }
+
+        /**
+         * @brief            获取属性的Setter委托
+         * @tparam T         属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop       属性指针
+         * @return           对应的Setter委托
+         * @note             若属性不可写则返回空委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertySetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && !_IsWritableProperty<TProperty>::value,
+                Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
+        {
+            return nullptr;
         }
     };
 }
