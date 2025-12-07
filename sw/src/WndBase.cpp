@@ -446,9 +446,10 @@ LRESULT sw::WndBase::WndProc(ProcMsg &refMsg)
         }
 
         case WM_SETTEXT: {
-            LRESULT result = this->DefaultWndProc(refMsg);
-            if (result == TRUE) {
-                this->_text = reinterpret_cast<PCWSTR>(refMsg.lParam);
+            LRESULT result  = this->DefaultWndProc(refMsg);
+            LPCWSTR newText = reinterpret_cast<LPCWSTR>(refMsg.lParam);
+            if (result == TRUE && this->_text != newText) {
+                this->_text = newText;
                 this->OnTextChanged();
             }
             return result;
