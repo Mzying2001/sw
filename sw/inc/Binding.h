@@ -44,13 +44,15 @@ namespace sw
     public:
         /**
          * @brief 更新目标属性的值
+         * @return 如果更新成功则返回true，否则返回false
          */
-        virtual void UpdateTarget() = 0;
+        virtual bool UpdateTarget() = 0;
 
         /**
          * @brief 更新源属性的值
+         * @return 如果更新成功则返回true，否则返回false
          */
-        virtual void UpdateSource() = 0;
+        virtual bool UpdateSource() = 0;
     };
 
     /**
@@ -97,12 +99,12 @@ namespace sw
         /**
          * @brief 更新目标属性值委托
          */
-        Action<Binding *> _updateTargetAction;
+        Func<Binding *, bool> _updateTargetFunc;
 
         /**
          * @brief 更新源属性值委托
          */
-        Action<Binding *> _updateSourceAction;
+        Func<Binding *, bool> _updateSourceFunc;
 
     private:
         /**
@@ -130,22 +132,30 @@ namespace sw
 
         /**
          * @brief 更新目标属性的值
+         * @return 如果更新成功则返回true，否则返回false
          */
-        virtual void UpdateTarget() override
+        virtual bool UpdateTarget() override
         {
-            if (_updateTargetAction) {
-                _updateTargetAction(this);
+            bool result = false;
+
+            if (_updateTargetFunc) {
+                result = _updateTargetFunc(this);
             }
+            return result;
         }
 
         /**
          * @brief 更新源属性的值
+         * @return 如果更新成功则返回true，否则返回false
          */
-        virtual void UpdateSource() override
+        virtual bool UpdateSource() override
         {
-            if (_updateSourceAction) {
-                _updateSourceAction(this);
+            bool result = false;
+
+            if (_updateSourceFunc) {
+                result = _updateSourceFunc(this);
             }
+            return result;
         }
 
         /**
@@ -371,43 +381,49 @@ namespace sw
             };
 
             // update target action
-            binding->_updateTargetAction = [targetSetter = Reflection::GetPropertySetter(targetProperty),
-                                            sourceGetter = Reflection::GetPropertyGetter(sourceProperty)](Binding *binding) //
+            binding->_updateTargetFunc = [targetSetter = Reflection::GetPropertySetter(targetProperty),
+                                          sourceGetter = Reflection::GetPropertyGetter(sourceProperty)](Binding *binding) -> bool //
             {
                 IValueConverter<TSourceValue, TTargetValue> *converter =
                     reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
 
-                if (targetSetter && sourceGetter) {
-                    if (converter) {
-                        targetSetter(
-                            *binding->_targetObject,
-                            converter->Convert(sourceGetter(*binding->_sourceObject)));
-                    } else {
-                        targetSetter(
-                            *binding->_targetObject,
-                            sourceGetter(*binding->_sourceObject));
-                    }
+                if (targetSetter == nullptr || sourceGetter == nullptr) {
+                    return false;
                 }
+
+                if (converter) {
+                    targetSetter(
+                        *binding->_targetObject,
+                        converter->Convert(sourceGetter(*binding->_sourceObject)));
+                } else {
+                    targetSetter(
+                        *binding->_targetObject,
+                        sourceGetter(*binding->_sourceObject));
+                }
+                return true;
             };
 
             // update source action
-            binding->_updateSourceAction = [targetGetter = Reflection::GetPropertyGetter(targetProperty),
-                                            sourceSetter = Reflection::GetPropertySetter(sourceProperty)](Binding *binding) //
+            binding->_updateSourceFunc = [targetGetter = Reflection::GetPropertyGetter(targetProperty),
+                                          sourceSetter = Reflection::GetPropertySetter(sourceProperty)](Binding *binding) -> bool //
             {
                 IValueConverter<TSourceValue, TTargetValue> *converter =
                     reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
 
-                if (targetGetter && sourceSetter) {
-                    if (converter) {
-                        sourceSetter(
-                            *binding->_sourceObject,
-                            converter->ConvertBack(targetGetter(*binding->_targetObject)));
-                    } else {
-                        sourceSetter(
-                            *binding->_sourceObject,
-                            targetGetter(*binding->_targetObject));
-                    }
+                if (targetGetter == nullptr || sourceSetter == nullptr) {
+                    return false;
                 }
+
+                if (converter) {
+                    sourceSetter(
+                        *binding->_sourceObject,
+                        converter->ConvertBack(targetGetter(*binding->_targetObject)));
+                } else {
+                    sourceSetter(
+                        *binding->_sourceObject,
+                        targetGetter(*binding->_targetObject));
+                }
+                return true;
             };
 
             binding->RegisterNotifications();
@@ -464,31 +480,37 @@ namespace sw
             };
 
             // update target action
-            binding->_updateTargetAction = [targetSetter = Reflection::GetPropertySetter(targetProperty),
-                                            sourceGetter = Reflection::GetPropertyGetter(sourceProperty)](Binding *binding) //
+            binding->_updateTargetFunc = [targetSetter = Reflection::GetPropertySetter(targetProperty),
+                                          sourceGetter = Reflection::GetPropertyGetter(sourceProperty)](Binding *binding) -> bool //
             {
                 IValueConverter<TSourceValue, TTargetValue> *converter =
                     reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
 
-                if (targetSetter && sourceGetter) {
-                    targetSetter(
-                        *binding->_targetObject,
-                        converter->Convert(sourceGetter(*binding->_sourceObject)));
+                if (targetSetter == nullptr || sourceGetter == nullptr || converter == nullptr) {
+                    return false;
                 }
+
+                targetSetter(
+                    *binding->_targetObject,
+                    converter->Convert(sourceGetter(*binding->_sourceObject)));
+                return true;
             };
 
             // update source action
-            binding->_updateSourceAction = [targetGetter = Reflection::GetPropertyGetter(targetProperty),
-                                            sourceSetter = Reflection::GetPropertySetter(sourceProperty)](Binding *binding) //
+            binding->_updateSourceFunc = [targetGetter = Reflection::GetPropertyGetter(targetProperty),
+                                          sourceSetter = Reflection::GetPropertySetter(sourceProperty)](Binding *binding) -> bool //
             {
                 IValueConverter<TSourceValue, TTargetValue> *converter =
                     reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
 
-                if (targetGetter && sourceSetter) {
-                    sourceSetter(
-                        *binding->_sourceObject,
-                        converter->ConvertBack(targetGetter(*binding->_targetObject)));
+                if (targetGetter == nullptr || sourceSetter == nullptr || converter == nullptr) {
+                    return false;
                 }
+
+                sourceSetter(
+                    *binding->_sourceObject,
+                    converter->ConvertBack(targetGetter(*binding->_targetObject)));
+                return true;
             };
 
             binding->RegisterNotifications();
