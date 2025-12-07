@@ -881,9 +881,8 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
     UIElement *element = this;
     do {
         auto &handler = element->_eventMap[eventArgs.eventType];
-        if (!element->OnRoutedEvent(eventArgs, handler)) {
-            if (handler) handler(*element, eventArgs);
-        }
+        element->OnRoutedEvent(eventArgs, handler);
+
         if (eventArgs.handled) {
             break;
         } else {
@@ -1074,9 +1073,11 @@ void sw::UIElement::OnMinMaxSizeChanged()
     this->InvalidateMeasure();
 }
 
-bool sw::UIElement::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
+void sw::UIElement::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
 {
-    return false;
+    if (handler) {
+        handler(*this, eventArgs);
+    }
 }
 
 bool sw::UIElement::SetParent(WndBase *parent)
