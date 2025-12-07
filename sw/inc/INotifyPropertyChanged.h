@@ -5,15 +5,20 @@
 namespace sw
 {
     /**
-     * @brief 支持属性更改通知的对象基类
+     * @brief 属性变更通知接口
      */
-    class NotificationObject : public DynamicObject
+    class INotifyPropertyChanged
     {
     public:
         /**
          * @brief 当属性值更改时触发的事件
          */
         Action<FieldId> PropertyChanged;
+
+        /**
+         * @brief 默认析构函数
+         */
+        virtual ~INotifyPropertyChanged() = default;
 
     protected:
         /**

@@ -1,7 +1,7 @@
 #pragma once
 
+#include "INotifyPropertyChanged.h"
 #include "IValueConverter.h"
-#include "NotificationObject.h"
 
 namespace sw
 {
@@ -149,15 +149,15 @@ namespace sw
          */
         void RegisterNotifications()
         {
-            NotificationObject *targetNotifObj = nullptr;
-            NotificationObject *sourceNotifObj = nullptr;
+            INotifyPropertyChanged *targetNotifObj = nullptr;
+            INotifyPropertyChanged *sourceNotifObj = nullptr;
 
-            if (_targetObject->IsType<NotificationObject>(&targetNotifObj)) {
+            if (_targetObject->IsType<INotifyPropertyChanged>(&targetNotifObj)) {
                 targetNotifObj->PropertyChanged +=
                     Action<FieldId>(*this, &Binding::OnTargetPropertyChanged);
             }
 
-            if (_sourceObject->IsType<NotificationObject>(&sourceNotifObj)) {
+            if (_sourceObject->IsType<INotifyPropertyChanged>(&sourceNotifObj)) {
                 sourceNotifObj->PropertyChanged +=
                     Action<FieldId>(*this, &Binding::OnSourcePropertyChanged);
             }
@@ -168,15 +168,15 @@ namespace sw
          */
         void UnregisterNotifications()
         {
-            NotificationObject *targetNotifObj = nullptr;
-            NotificationObject *sourceNotifObj = nullptr;
+            INotifyPropertyChanged *targetNotifObj = nullptr;
+            INotifyPropertyChanged *sourceNotifObj = nullptr;
 
-            if (_targetObject->IsType<NotificationObject>(&targetNotifObj)) {
+            if (_targetObject->IsType<INotifyPropertyChanged>(&targetNotifObj)) {
                 targetNotifObj->PropertyChanged -=
                     Action<FieldId>(*this, &Binding::OnTargetPropertyChanged);
             }
 
-            if (_sourceObject->IsType<NotificationObject>(&sourceNotifObj)) {
+            if (_sourceObject->IsType<INotifyPropertyChanged>(&sourceNotifObj)) {
                 sourceNotifObj->PropertyChanged -=
                     Action<FieldId>(*this, &Binding::OnSourcePropertyChanged);
             }
