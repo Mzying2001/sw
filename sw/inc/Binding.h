@@ -199,8 +199,6 @@ namespace sw
          */
         Binding &SetTargetObject(DynamicObject *target)
         {
-            assert(target != nullptr);
-
             if (_targetObject != target) {
                 UnregisterNotifications();
                 _targetObject = target;
@@ -215,8 +213,6 @@ namespace sw
          */
         Binding &SetSourceObject(DynamicObject *source)
         {
-            assert(source != nullptr);
-
             if (_sourceObject != source) {
                 UnregisterNotifications();
                 _sourceObject = source;
@@ -231,9 +227,6 @@ namespace sw
          */
         Binding &SetBindingObjects(DynamicObject *target, DynamicObject *source)
         {
-            assert(target != nullptr);
-            assert(source != nullptr);
-
             if (_targetObject != target || _sourceObject != source) {
                 UnregisterNotifications();
                 _targetObject = target;
@@ -364,9 +357,6 @@ namespace sw
             using TTargetValue = typename TTargetProperty::TValue;
             using TSourceValue = typename TSourceProperty::TValue;
 
-            assert(target != nullptr);
-            assert(source != nullptr);
-
             auto binding   = new Binding;
             binding->_mode = mode;
 
@@ -467,10 +457,6 @@ namespace sw
         {
             using TTargetValue = typename TTargetProperty::TValue;
             using TSourceValue = typename TSourceProperty::TValue;
-
-            assert(target != nullptr);
-            assert(source != nullptr);
-            assert(converter != nullptr);
 
             auto binding   = new Binding;
             binding->_mode = mode;
