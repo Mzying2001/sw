@@ -18,7 +18,7 @@ namespace sw
         void RaisePropertyChanged(FieldId propertyId)
         {
             if (PropertyChanged) {
-                PropertyChanged(this, propertyId);
+                PropertyChanged(*this, propertyId);
             }
         }
 

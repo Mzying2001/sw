@@ -305,7 +305,7 @@ namespace sw
         /**
          * @brief 目标属性更改处理函数
          */
-        void OnTargetPropertyChanged(INotifyPropertyChanged *sender, FieldId propertyId)
+        void OnTargetPropertyChanged(INotifyPropertyChanged &sender, FieldId propertyId)
         {
             if (propertyId != _targetPropertyId) {
                 return;
@@ -320,7 +320,7 @@ namespace sw
         /**
          * @brief 源属性更改处理函数
          */
-        void OnSourcePropertyChanged(INotifyPropertyChanged *sender, FieldId propertyId)
+        void OnSourcePropertyChanged(INotifyPropertyChanged &sender, FieldId propertyId)
         {
             if (propertyId != _sourcePropertyId) {
                 return;
