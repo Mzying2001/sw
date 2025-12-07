@@ -10,6 +10,11 @@ namespace sw
      */
     enum class BindingMode {
         /**
+         * @brief 一次性绑定，在绑定创建时更新目标属性值
+         */
+        OneTime,
+
+        /**
          * @brief 单向，从源到目标
          */
         OneWay,
@@ -273,7 +278,12 @@ namespace sw
          */
         void OnTargetPropertyChanged(FieldId propertyId)
         {
-            if (propertyId == _targetPropertyId && _mode != BindingMode::OneWay) {
+            if (propertyId != _targetPropertyId) {
+                return;
+            }
+
+            if (_mode == BindingMode::TwoWay ||
+                _mode == BindingMode::OneWayToSource) {
                 UpdateSource();
             }
         }
@@ -283,7 +293,12 @@ namespace sw
          */
         void OnSourcePropertyChanged(FieldId propertyId)
         {
-            if (propertyId == _sourcePropertyId && _mode != BindingMode::OneWayToSource) {
+            if (propertyId != _sourcePropertyId) {
+                return;
+            }
+
+            if (_mode == BindingMode::TwoWay ||
+                _mode == BindingMode::OneWay) {
                 UpdateTarget();
             }
         }
@@ -294,6 +309,7 @@ namespace sw
         void OnBindingChanged()
         {
             switch (_mode) {
+                case BindingMode::OneTime:
                 case BindingMode::OneWay:
                 case BindingMode::TwoWay: {
                     UpdateTarget();
