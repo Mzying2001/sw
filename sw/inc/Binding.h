@@ -202,6 +202,9 @@ namespace sw
             }
         }
 
+        /**
+         * @brief 绑定创建完成后调用该函数
+         */
         void OnBindingCreated()
         {
             switch (_mode) {
