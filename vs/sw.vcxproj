@@ -338,6 +338,7 @@
     <ClInclude Include="..\sw\inc\ITag.h" />
     <ClInclude Include="..\sw\inc\ItemsControl.h" />
     <ClInclude Include="..\sw\inc\IToString.h" />
+    <ClInclude Include="..\sw\inc\IValueConverter.h" />
     <ClInclude Include="..\sw\inc\Keys.h" />
     <ClInclude Include="..\sw\inc\KnownColor.h" />
     <ClInclude Include="..\sw\inc\Label.h" />
