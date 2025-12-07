@@ -143,6 +143,57 @@ namespace sw
             }
         }
 
+        /**
+         * @brief 获取绑定模式
+         */
+        BindingMode GetBindingMode() const
+        {
+            return _mode;
+        }
+
+        /**
+         * @brief 获取目标对象
+         */
+        DynamicObject *GetTargetObject() const
+        {
+            return _targetObject;
+        }
+
+        /**
+         * @brief 获取源对象
+         */
+        DynamicObject *GetSourceObject() const
+        {
+            return _sourceObject;
+        }
+
+        /**
+         * @brief 修改绑定模式
+         */
+        Binding &SetBindingMode(BindingMode mode)
+        {
+            _mode = mode;
+            return *this;
+        }
+
+        /**
+         * @brief 修改目标对象
+         */
+        Binding &SetTargetObject(DynamicObject *target)
+        {
+            _targetObject = target;
+            return *this;
+        }
+
+        /**
+         * @brief 修改源对象
+         */
+        Binding &SetSourceObject(DynamicObject *source)
+        {
+            _sourceObject = source;
+            return *this;
+        }
+
     private:
         /**
          * @brief 注册属性更改通知
