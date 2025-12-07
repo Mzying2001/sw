@@ -202,6 +202,21 @@ namespace sw
             }
         }
 
+        void OnBindingCreated()
+        {
+            switch (_mode) {
+                case BindingMode::OneWay:
+                case BindingMode::TwoWay: {
+                    UpdateTarget();
+                    break;
+                }
+                case BindingMode::OneWayToSource: {
+                    UpdateSource();
+                    break;
+                }
+            }
+        }
+
     public:
         /**
          * @brief 创建绑定对象
@@ -291,6 +306,7 @@ namespace sw
             };
 
             binding->RegisterNotifications();
+            binding->OnBindingCreated();
             return binding;
         }
 
@@ -371,6 +387,7 @@ namespace sw
             };
 
             binding->RegisterNotifications();
+            binding->OnBindingCreated();
             return binding;
         }
     };
