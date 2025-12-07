@@ -184,6 +184,8 @@ namespace sw
          */
         Binding &SetTargetObject(DynamicObject *target)
         {
+            assert(target != nullptr);
+
             if (_targetObject != target) {
                 UnregisterNotifications();
                 _targetObject = target;
@@ -198,8 +200,28 @@ namespace sw
          */
         Binding &SetSourceObject(DynamicObject *source)
         {
+            assert(source != nullptr);
+
             if (_sourceObject != source) {
                 UnregisterNotifications();
+                _sourceObject = source;
+                RegisterNotifications();
+                OnBindingChanged();
+            }
+            return *this;
+        }
+
+        /**
+         * @brief 修改目标对象和源对象
+         */
+        Binding &SetBindingObjects(DynamicObject *target, DynamicObject *source)
+        {
+            assert(target != nullptr);
+            assert(source != nullptr);
+
+            if (_targetObject != target || _sourceObject != source) {
+                UnregisterNotifications();
+                _targetObject = target;
                 _sourceObject = source;
                 RegisterNotifications();
                 OnBindingChanged();
