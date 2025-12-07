@@ -251,12 +251,11 @@ namespace sw
             };
 
             // update target action
-            binding->_updateTargetAction = [targetProperty, sourceProperty](Binding *binding) {
+            binding->_updateTargetAction = [targetSetter = Reflection::GetPropertySetter(targetProperty),
+                                            sourceGetter = Reflection::GetPropertyGetter(sourceProperty)](Binding *binding) //
+            {
                 IValueConverter<TSourceValue, TTargetValue> *converter =
                     reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
-
-                auto targetSetter = Reflection::GetPropertySetter(targetProperty);
-                auto sourceGetter = Reflection::GetPropertyGetter(sourceProperty);
 
                 if (targetSetter && sourceGetter) {
                     if (converter) {
@@ -272,12 +271,11 @@ namespace sw
             };
 
             // update source action
-            binding->_updateSourceAction = [targetProperty, sourceProperty](Binding *binding) {
+            binding->_updateSourceAction = [targetGetter = Reflection::GetPropertyGetter(targetProperty),
+                                            sourceSetter = Reflection::GetPropertySetter(sourceProperty)](Binding *binding) //
+            {
                 IValueConverter<TSourceValue, TTargetValue> *converter =
                     reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
-
-                auto targetGetter = Reflection::GetPropertyGetter(targetProperty);
-                auto sourceSetter = Reflection::GetPropertySetter(sourceProperty);
 
                 if (targetGetter && sourceSetter) {
                     if (converter) {
@@ -345,12 +343,11 @@ namespace sw
             };
 
             // update target action
-            binding->_updateTargetAction = [targetProperty, sourceProperty](Binding *binding) {
+            binding->_updateTargetAction = [targetSetter = Reflection::GetPropertySetter(targetProperty),
+                                            sourceGetter = Reflection::GetPropertyGetter(sourceProperty)](Binding *binding) //
+            {
                 IValueConverter<TSourceValue, TTargetValue> *converter =
                     reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
-
-                auto targetSetter = Reflection::GetPropertySetter(targetProperty);
-                auto sourceGetter = Reflection::GetPropertyGetter(sourceProperty);
 
                 if (targetSetter && sourceGetter) {
                     targetSetter(
@@ -360,12 +357,11 @@ namespace sw
             };
 
             // update source action
-            binding->_updateSourceAction = [targetProperty, sourceProperty](Binding *binding) {
+            binding->_updateSourceAction = [targetGetter = Reflection::GetPropertyGetter(targetProperty),
+                                            sourceSetter = Reflection::GetPropertySetter(sourceProperty)](Binding *binding) //
+            {
                 IValueConverter<TSourceValue, TTargetValue> *converter =
                     reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
-
-                auto targetGetter = Reflection::GetPropertyGetter(targetProperty);
-                auto sourceSetter = Reflection::GetPropertySetter(sourceProperty);
 
                 if (targetGetter && sourceSetter) {
                     sourceSetter(
