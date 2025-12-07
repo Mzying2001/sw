@@ -172,7 +172,10 @@ namespace sw
          */
         Binding &SetBindingMode(BindingMode mode)
         {
-            _mode = mode;
+            if (_mode != mode) {
+                _mode = mode;
+                OnBindingChanged();
+            }
             return *this;
         }
 
@@ -181,7 +184,10 @@ namespace sw
          */
         Binding &SetTargetObject(DynamicObject *target)
         {
-            _targetObject = target;
+            if (_targetObject != target) {
+                _targetObject = target;
+                OnBindingChanged();
+            }
             return *this;
         }
 
@@ -190,7 +196,10 @@ namespace sw
          */
         Binding &SetSourceObject(DynamicObject *source)
         {
-            _sourceObject = source;
+            if (_sourceObject != source) {
+                _sourceObject = source;
+                OnBindingChanged();
+            }
             return *this;
         }
 
@@ -254,9 +263,9 @@ namespace sw
         }
 
         /**
-         * @brief 绑定创建完成后调用该函数
+         * @brief 绑定创建和发生更改时调用
          */
-        void OnBindingCreated()
+        void OnBindingChanged()
         {
             switch (_mode) {
                 case BindingMode::OneWay:
@@ -360,7 +369,7 @@ namespace sw
             };
 
             binding->RegisterNotifications();
-            binding->OnBindingCreated();
+            binding->OnBindingChanged();
             return binding;
         }
 
@@ -441,7 +450,7 @@ namespace sw
             };
 
             binding->RegisterNotifications();
-            binding->OnBindingCreated();
+            binding->OnBindingChanged();
             return binding;
         }
     };
