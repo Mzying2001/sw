@@ -185,7 +185,9 @@ namespace sw
         Binding &SetTargetObject(DynamicObject *target)
         {
             if (_targetObject != target) {
+                UnregisterNotifications();
                 _targetObject = target;
+                RegisterNotifications();
                 OnBindingChanged();
             }
             return *this;
@@ -197,7 +199,9 @@ namespace sw
         Binding &SetSourceObject(DynamicObject *source)
         {
             if (_sourceObject != source) {
+                UnregisterNotifications();
                 _sourceObject = source;
+                RegisterNotifications();
                 OnBindingChanged();
             }
             return *this;
