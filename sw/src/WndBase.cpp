@@ -22,6 +22,30 @@ namespace
      * @brief 控件id计数器
      */
     std::atomic<int> _controlIdCounter{1073741827};
+
+    /**
+     * @brief 属性ID
+     */
+    const sw::FieldId _FieldId_Font         = sw::Reflection::GetFieldId(&sw::WndBase::Font);
+    const sw::FieldId _FieldId_FontName     = sw::Reflection::GetFieldId(&sw::WndBase::FontName);
+    const sw::FieldId _FieldId_FontSize     = sw::Reflection::GetFieldId(&sw::WndBase::FontSize);
+    const sw::FieldId _FieldId_FontWeight   = sw::Reflection::GetFieldId(&sw::WndBase::FontWeight);
+    const sw::FieldId _FieldId_Rect         = sw::Reflection::GetFieldId(&sw::WndBase::Rect);
+    const sw::FieldId _FieldId_Left         = sw::Reflection::GetFieldId(&sw::WndBase::Left);
+    const sw::FieldId _FieldId_Top          = sw::Reflection::GetFieldId(&sw::WndBase::Top);
+    const sw::FieldId _FieldId_Width        = sw::Reflection::GetFieldId(&sw::WndBase::Width);
+    const sw::FieldId _FieldId_Height       = sw::Reflection::GetFieldId(&sw::WndBase::Height);
+    const sw::FieldId _FieldId_ClientRect   = sw::Reflection::GetFieldId(&sw::WndBase::ClientRect);
+    const sw::FieldId _FieldId_ClientWidth  = sw::Reflection::GetFieldId(&sw::WndBase::ClientWidth);
+    const sw::FieldId _FieldId_ClientHeight = sw::Reflection::GetFieldId(&sw::WndBase::ClientHeight);
+    const sw::FieldId _FieldId_Enabled      = sw::Reflection::GetFieldId(&sw::WndBase::Enabled);
+    const sw::FieldId _FieldId_Visible      = sw::Reflection::GetFieldId(&sw::WndBase::Visible);
+    const sw::FieldId _FieldId_Text         = sw::Reflection::GetFieldId(&sw::WndBase::Text);
+    const sw::FieldId _FieldId_Focused      = sw::Reflection::GetFieldId(&sw::WndBase::Focused);
+    const sw::FieldId _FieldId_Parent       = sw::Reflection::GetFieldId(&sw::WndBase::Parent);
+    const sw::FieldId _FieldId_IsDestroyed  = sw::Reflection::GetFieldId(&sw::WndBase::IsDestroyed);
+    const sw::FieldId _FieldId_AcceptFiles  = sw::Reflection::GetFieldId(&sw::WndBase::AcceptFiles);
+    const sw::FieldId _FieldId_IsGroupStart = sw::Reflection::GetFieldId(&sw::WndBase::IsGroupStart);
 }
 
 sw::WndBase::WndBase()
@@ -46,9 +70,9 @@ sw::WndBase::WndBase()
                   self->_font = value;
                   self->UpdateFont();
 
-                  if (nameChanged) self->RaisePropertyChanged(&WndBase::FontName);
-                  if (sizeChanged) self->RaisePropertyChanged(&WndBase::FontSize);
-                  if (weightChanged) self->RaisePropertyChanged(&WndBase::FontWeight);
+                  if (nameChanged) self->RaisePropertyChanged(_FieldId_FontName);
+                  if (sizeChanged) self->RaisePropertyChanged(_FieldId_FontSize);
+                  if (weightChanged) self->RaisePropertyChanged(_FieldId_FontWeight);
               })),
 
       FontName(
@@ -60,7 +84,7 @@ sw::WndBase::WndBase()
                   if (self->_font.name != value) {
                       self->_font.name = value;
                       self->UpdateFont();
-                      self->RaisePropertyChanged(&WndBase::FontName);
+                      self->RaisePropertyChanged(_FieldId_FontName);
                   }
               })),
 
@@ -73,7 +97,7 @@ sw::WndBase::WndBase()
                   if (self->_font.size != value) {
                       self->_font.size = value;
                       self->UpdateFont();
-                      self->RaisePropertyChanged(&WndBase::FontSize);
+                      self->RaisePropertyChanged(_FieldId_FontSize);
                   }
               })),
 
@@ -86,7 +110,7 @@ sw::WndBase::WndBase()
                   if (self->_font.weight != value) {
                       self->_font.weight = value;
                       self->UpdateFont();
-                      self->RaisePropertyChanged(&WndBase::FontWeight);
+                      self->RaisePropertyChanged(_FieldId_FontWeight);
                   }
               })),
 
@@ -235,7 +259,7 @@ sw::WndBase::WndBase()
               .Setter([](WndBase *self, bool value) {
                   if (self->AcceptFiles != value) {
                       self->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
-                      self->RaisePropertyChanged(&WndBase::AcceptFiles);
+                      self->RaisePropertyChanged(_FieldId_AcceptFiles);
                   }
               })),
 
@@ -261,7 +285,7 @@ sw::WndBase::WndBase()
               .Setter([](WndBase *self, bool value) {
                   if (self->IsGroupStart != value) {
                       self->SetStyle(WS_GROUP, value);
-                      self->RaisePropertyChanged(&WndBase::IsGroupStart);
+                      self->RaisePropertyChanged(_FieldId_IsGroupStart);
                   }
               })),
 
@@ -422,7 +446,7 @@ LRESULT sw::WndBase::WndProc(ProcMsg &refMsg)
         case WM_NCDESTROY: {
             LRESULT result     = this->DefaultWndProc(refMsg);
             this->_isDestroyed = true;
-            this->RaisePropertyChanged(&WndBase::IsDestroyed);
+            this->RaisePropertyChanged(_FieldId_IsDestroyed);
             return result;
         }
 
@@ -446,11 +470,11 @@ LRESULT sw::WndBase::WndProc(ProcMsg &refMsg)
                 double top  = Dip::PxToDipY(pWndPos->y);
                 if (this->_rect.left != left) {
                     this->_rect.left = left, changed = true;
-                    this->RaisePropertyChanged(&WndBase::Left);
+                    this->RaisePropertyChanged(_FieldId_Left);
                 }
                 if (this->_rect.top != top) {
                     this->_rect.top = top, changed = true;
-                    this->RaisePropertyChanged(&WndBase::Top);
+                    this->RaisePropertyChanged(_FieldId_Top);
                 }
             }
             if ((pWndPos->flags & SWP_NOSIZE) == 0) {
@@ -458,15 +482,15 @@ LRESULT sw::WndBase::WndProc(ProcMsg &refMsg)
                 double height = Dip::PxToDipY(pWndPos->cy);
                 if (this->_rect.width != width) {
                     this->_rect.width = width, changed = true;
-                    this->RaisePropertyChanged(&WndBase::Width);
+                    this->RaisePropertyChanged(_FieldId_Width);
                 }
                 if (this->_rect.height != height) {
                     this->_rect.height = height, changed = true;
-                    this->RaisePropertyChanged(&WndBase::Height);
+                    this->RaisePropertyChanged(_FieldId_Height);
                 }
             }
             if (changed) {
-                this->RaisePropertyChanged(&WndBase::Rect);
+                this->RaisePropertyChanged(_FieldId_Rect);
             }
             return this->DefaultWndProc(refMsg);
         }
@@ -805,26 +829,26 @@ bool sw::WndBase::OnMove(const Point &newClientPosition)
 
 bool sw::WndBase::OnSize(const Size &newClientSize)
 {
-    this->RaisePropertyChanged(&WndBase::ClientRect);
-    this->RaisePropertyChanged(&WndBase::ClientWidth);
-    this->RaisePropertyChanged(&WndBase::ClientHeight);
+    this->RaisePropertyChanged(_FieldId_ClientRect);
+    this->RaisePropertyChanged(_FieldId_ClientWidth);
+    this->RaisePropertyChanged(_FieldId_ClientHeight);
     return false;
 }
 
 void sw::WndBase::OnTextChanged()
 {
-    this->RaisePropertyChanged(&WndBase::Text);
+    this->RaisePropertyChanged(_FieldId_Text);
 }
 
 bool sw::WndBase::OnSetFocus(HWND hPrevFocus)
 {
-    this->RaisePropertyChanged(&WndBase::Focused);
+    this->RaisePropertyChanged(_FieldId_Focused);
     return false;
 }
 
 bool sw::WndBase::OnKillFocus(HWND hNextFocus)
 {
-    this->RaisePropertyChanged(&WndBase::Focused);
+    this->RaisePropertyChanged(_FieldId_Focused);
     return false;
 }
 
@@ -930,7 +954,7 @@ bool sw::WndBase::OnSysKeyUp(VirtualKey key, const KeyFlags &flags)
 
 void sw::WndBase::VisibleChanged(bool newVisible)
 {
-    this->RaisePropertyChanged(&WndBase::Visible);
+    this->RaisePropertyChanged(_FieldId_Visible);
 }
 
 bool sw::WndBase::SetParent(WndBase *parent)
@@ -960,7 +984,7 @@ bool sw::WndBase::SetParent(WndBase *parent)
 
 void sw::WndBase::ParentChanged(WndBase *newParent)
 {
-    this->RaisePropertyChanged(&WndBase::Parent);
+    this->RaisePropertyChanged(_FieldId_Parent);
 }
 
 void sw::WndBase::OnCommand(int code)
@@ -986,7 +1010,7 @@ void sw::WndBase::HandleInitialized(HWND hwnd)
 
 void sw::WndBase::FontChanged(HFONT hfont)
 {
-    this->RaisePropertyChanged(&WndBase::Font);
+    this->RaisePropertyChanged(_FieldId_Font);
 }
 
 bool sw::WndBase::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result)
@@ -1026,7 +1050,7 @@ bool sw::WndBase::OnHorizontalScroll(int event, int pos)
 
 bool sw::WndBase::OnEnabledChanged(bool newValue)
 {
-    this->RaisePropertyChanged(&WndBase::Enabled);
+    this->RaisePropertyChanged(_FieldId_Enabled);
     return false;
 }
 
