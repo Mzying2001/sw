@@ -39,8 +39,16 @@ sw::WndBase::WndBase()
                   return self->_font;
               })
               .Setter([](WndBase *self, const sw::Font &value) {
+                  bool nameChanged   = self->_font.name != value.name;
+                  bool sizeChanged   = self->_font.size != value.size;
+                  bool weightChanged = self->_font.weight != value.weight;
+
                   self->_font = value;
                   self->UpdateFont();
+
+                  if (nameChanged) self->RaisePropertyChanged(&WndBase::FontName);
+                  if (sizeChanged) self->RaisePropertyChanged(&WndBase::FontSize);
+                  if (weightChanged) self->RaisePropertyChanged(&WndBase::FontWeight);
               })),
 
       FontName(
@@ -52,6 +60,7 @@ sw::WndBase::WndBase()
                   if (self->_font.name != value) {
                       self->_font.name = value;
                       self->UpdateFont();
+                      self->RaisePropertyChanged(&WndBase::FontName);
                   }
               })),
 
@@ -64,6 +73,7 @@ sw::WndBase::WndBase()
                   if (self->_font.size != value) {
                       self->_font.size = value;
                       self->UpdateFont();
+                      self->RaisePropertyChanged(&WndBase::FontSize);
                   }
               })),
 
@@ -76,6 +86,7 @@ sw::WndBase::WndBase()
                   if (self->_font.weight != value) {
                       self->_font.weight = value;
                       self->UpdateFont();
+                      self->RaisePropertyChanged(&WndBase::FontWeight);
                   }
               })),
 
@@ -222,7 +233,10 @@ sw::WndBase::WndBase()
                   return self->GetExtendedStyle(WS_EX_ACCEPTFILES);
               })
               .Setter([](WndBase *self, bool value) {
-                  self->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
+                  if (self->AcceptFiles != value) {
+                      self->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
+                      self->RaisePropertyChanged(&WndBase::AcceptFiles);
+                  }
               })),
 
       IsControl(
@@ -245,7 +259,10 @@ sw::WndBase::WndBase()
                   return self->GetStyle(WS_GROUP);
               })
               .Setter([](WndBase *self, bool value) {
-                  self->SetStyle(WS_GROUP, value);
+                  if (self->IsGroupStart != value) {
+                      self->SetStyle(WS_GROUP, value);
+                      self->RaisePropertyChanged(&WndBase::IsGroupStart);
+                  }
               })),
 
       IsMouseCaptured(
@@ -405,6 +422,7 @@ LRESULT sw::WndBase::WndProc(ProcMsg &refMsg)
         case WM_NCDESTROY: {
             LRESULT result     = this->DefaultWndProc(refMsg);
             this->_isDestroyed = true;
+            this->RaisePropertyChanged(&WndBase::IsDestroyed);
             return result;
         }
 
@@ -421,14 +439,34 @@ LRESULT sw::WndBase::WndProc(ProcMsg &refMsg)
         }
 
         case WM_WINDOWPOSCHANGED: {
+            bool changed = false;
             auto pWndPos = reinterpret_cast<PWINDOWPOS>(refMsg.lParam);
             if ((pWndPos->flags & SWP_NOMOVE) == 0) {
-                this->_rect.left = Dip::PxToDipX(pWndPos->x);
-                this->_rect.top  = Dip::PxToDipY(pWndPos->y);
+                double left = Dip::PxToDipX(pWndPos->x);
+                double top  = Dip::PxToDipY(pWndPos->y);
+                if (this->_rect.left != left) {
+                    this->_rect.left = left, changed = true;
+                    this->RaisePropertyChanged(&WndBase::Left);
+                }
+                if (this->_rect.top != top) {
+                    this->_rect.top = top, changed = true;
+                    this->RaisePropertyChanged(&WndBase::Top);
+                }
             }
             if ((pWndPos->flags & SWP_NOSIZE) == 0) {
-                this->_rect.width  = Dip::PxToDipX(pWndPos->cx);
-                this->_rect.height = Dip::PxToDipY(pWndPos->cy);
+                double width  = Dip::PxToDipX(pWndPos->cx);
+                double height = Dip::PxToDipY(pWndPos->cy);
+                if (this->_rect.width != width) {
+                    this->_rect.width = width, changed = true;
+                    this->RaisePropertyChanged(&WndBase::Width);
+                }
+                if (this->_rect.height != height) {
+                    this->_rect.height = height, changed = true;
+                    this->RaisePropertyChanged(&WndBase::Height);
+                }
+            }
+            if (changed) {
+                this->RaisePropertyChanged(&WndBase::Rect);
             }
             return this->DefaultWndProc(refMsg);
         }
@@ -767,20 +805,26 @@ bool sw::WndBase::OnMove(const Point &newClientPosition)
 
 bool sw::WndBase::OnSize(const Size &newClientSize)
 {
+    this->RaisePropertyChanged(&WndBase::ClientRect);
+    this->RaisePropertyChanged(&WndBase::ClientWidth);
+    this->RaisePropertyChanged(&WndBase::ClientHeight);
     return false;
 }
 
 void sw::WndBase::OnTextChanged()
 {
+    this->RaisePropertyChanged(&WndBase::Text);
 }
 
 bool sw::WndBase::OnSetFocus(HWND hPrevFocus)
 {
+    this->RaisePropertyChanged(&WndBase::Focused);
     return false;
 }
 
 bool sw::WndBase::OnKillFocus(HWND hNextFocus)
 {
+    this->RaisePropertyChanged(&WndBase::Focused);
     return false;
 }
 
@@ -886,6 +930,7 @@ bool sw::WndBase::OnSysKeyUp(VirtualKey key, const KeyFlags &flags)
 
 void sw::WndBase::VisibleChanged(bool newVisible)
 {
+    this->RaisePropertyChanged(&WndBase::Visible);
 }
 
 bool sw::WndBase::SetParent(WndBase *parent)
@@ -915,6 +960,7 @@ bool sw::WndBase::SetParent(WndBase *parent)
 
 void sw::WndBase::ParentChanged(WndBase *newParent)
 {
+    this->RaisePropertyChanged(&WndBase::Parent);
 }
 
 void sw::WndBase::OnCommand(int code)
@@ -940,6 +986,7 @@ void sw::WndBase::HandleInitialized(HWND hwnd)
 
 void sw::WndBase::FontChanged(HFONT hfont)
 {
+    this->RaisePropertyChanged(&WndBase::Font);
 }
 
 bool sw::WndBase::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result)
@@ -979,6 +1026,7 @@ bool sw::WndBase::OnHorizontalScroll(int event, int pos)
 
 bool sw::WndBase::OnEnabledChanged(bool newValue)
 {
+    this->RaisePropertyChanged(&WndBase::Enabled);
     return false;
 }
 

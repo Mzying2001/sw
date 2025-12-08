@@ -1136,6 +1136,8 @@ bool sw::UIElement::SetParent(WndBase *parent)
 
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
+    this->WndBase::ParentChanged(newParent);
+
     this->_parent = newParent ? newParent->ToUIElement() : nullptr;
     this->_SetMeasureInvalidated();
 }
@@ -1159,6 +1161,8 @@ bool sw::UIElement::OnMove(const Point &newClientPosition)
 
 bool sw::UIElement::OnSize(const Size &newClientSize)
 {
+    this->WndBase::OnSize(newClientSize);
+
     if (this->_horizontalAlignment != sw::HorizontalAlignment::Stretch) {
         this->_origionalSize.width = this->Width;
     }
@@ -1177,6 +1181,7 @@ bool sw::UIElement::OnSize(const Size &newClientSize)
 
 void sw::UIElement::OnTextChanged()
 {
+    this->WndBase::OnTextChanged();
     this->RaiseRoutedEvent(UIElement_TextChanged);
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::TextChanged)) {
@@ -1186,6 +1191,8 @@ void sw::UIElement::OnTextChanged()
 
 void sw::UIElement::FontChanged(HFONT hfont)
 {
+    this->WndBase::FontChanged(hfont);
+
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::FontChanged)) {
         this->InvalidateMeasure();
     }
@@ -1193,6 +1200,8 @@ void sw::UIElement::FontChanged(HFONT hfont)
 
 void sw::UIElement::VisibleChanged(bool newVisible)
 {
+    this->WndBase::VisibleChanged(newVisible);
+
     if (this->_parent && this->_collapseWhenHide) {
         this->_parent->_UpdateLayoutVisibleChildren();
     }
@@ -1203,6 +1212,8 @@ void sw::UIElement::VisibleChanged(bool newVisible)
 
 bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 {
+    this->WndBase::OnSetFocus(hPrevFocus);
+
     TypedRoutedEventArgs<UIElement_GotFocus> args;
     this->RaiseRoutedEvent(args);
 
@@ -1215,6 +1226,7 @@ bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
+    this->WndBase::OnKillFocus(hNextFocus);
     this->_focusedViaTab = false;
 
     TypedRoutedEventArgs<UIElement_LostFocus> args;
