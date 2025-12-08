@@ -135,7 +135,7 @@ namespace sw
         {
             UnregisterNotifications();
 
-            if (_converter && _converterDeleter) {
+            if (_converterDeleter && _converter) {
                 _converterDeleter(_converter);
             }
         }
@@ -211,19 +211,18 @@ namespace sw
         /**
          * @brief 修改绑定模式
          */
-        Binding &SetBindingMode(BindingMode mode)
+        void SetBindingMode(BindingMode mode)
         {
             if (_mode != mode) {
                 _mode = mode;
                 OnBindingChanged();
             }
-            return *this;
         }
 
         /**
          * @brief 修改目标对象
          */
-        Binding &SetTargetObject(DynamicObject *target)
+        void SetTargetObject(DynamicObject *target)
         {
             if (_targetObject != target) {
                 UnregisterNotifications();
@@ -231,13 +230,12 @@ namespace sw
                 RegisterNotifications();
                 OnBindingChanged();
             }
-            return *this;
         }
 
         /**
          * @brief 修改源对象
          */
-        Binding &SetSourceObject(DynamicObject *source)
+        void SetSourceObject(DynamicObject *source)
         {
             if (_sourceObject != source) {
                 UnregisterNotifications();
@@ -245,22 +243,22 @@ namespace sw
                 RegisterNotifications();
                 OnBindingChanged();
             }
-            return *this;
         }
 
         /**
          * @brief 修改目标对象和源对象
          */
-        Binding &SetBindingObjects(DynamicObject *target, DynamicObject *source)
+        void SetBindingObjects(DynamicObject *target, DynamicObject *source)
         {
-            if (_targetObject != target || _sourceObject != source) {
+            if (_targetObject != target ||
+                _sourceObject != source) //
+            {
                 UnregisterNotifications();
                 _targetObject = target;
                 _sourceObject = source;
                 RegisterNotifications();
                 OnBindingChanged();
             }
-            return *this;
         }
 
     private:
