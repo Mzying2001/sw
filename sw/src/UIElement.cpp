@@ -9,27 +9,27 @@ namespace
     /**
      * @brief 属性ID
      */
-    const sw::FieldId _FieldId_Margin              = sw::Reflection::GetFieldId(&sw::UIElement::Margin);
-    const sw::FieldId _FieldId_HorizontalAlignment = sw::Reflection::GetFieldId(&sw::UIElement::HorizontalAlignment);
-    const sw::FieldId _FieldId_VerticalAlignment   = sw::Reflection::GetFieldId(&sw::UIElement::VerticalAlignment);
-    const sw::FieldId _FieldId_ChildCount          = sw::Reflection::GetFieldId(&sw::UIElement::ChildCount);
-    const sw::FieldId _FieldId_CollapseWhenHide    = sw::Reflection::GetFieldId(&sw::UIElement::CollapseWhenHide);
-    const sw::FieldId _FieldId_UIElementParent     = sw::Reflection::GetFieldId(&sw::UIElement::Parent);
-    const sw::FieldId _FieldId_Tag                 = sw::Reflection::GetFieldId(&sw::UIElement::Tag);
-    const sw::FieldId _FieldId_LayoutTag           = sw::Reflection::GetFieldId(&sw::UIElement::LayoutTag);
-    const sw::FieldId _FieldId_ContextMenu         = sw::Reflection::GetFieldId(&sw::UIElement::ContextMenu);
-    const sw::FieldId _FieldId_Float               = sw::Reflection::GetFieldId(&sw::UIElement::Float);
-    const sw::FieldId _FieldId_TabStop             = sw::Reflection::GetFieldId(&sw::UIElement::TabStop);
-    const sw::FieldId _FieldId_BackColor           = sw::Reflection::GetFieldId(&sw::UIElement::BackColor);
-    const sw::FieldId _FieldId_TextColor           = sw::Reflection::GetFieldId(&sw::UIElement::TextColor);
-    const sw::FieldId _FieldId_Transparent         = sw::Reflection::GetFieldId(&sw::UIElement::Transparent);
-    const sw::FieldId _FieldId_InheritTextColor    = sw::Reflection::GetFieldId(&sw::UIElement::InheritTextColor);
-    const sw::FieldId _FieldId_MinWidth            = sw::Reflection::GetFieldId(&sw::UIElement::MinWidth);
-    const sw::FieldId _FieldId_MinHeight           = sw::Reflection::GetFieldId(&sw::UIElement::MinHeight);
-    const sw::FieldId _FieldId_MaxWidth            = sw::Reflection::GetFieldId(&sw::UIElement::MaxWidth);
-    const sw::FieldId _FieldId_MaxHeight           = sw::Reflection::GetFieldId(&sw::UIElement::MaxHeight);
-    const sw::FieldId _FieldId_LogicalRect         = sw::Reflection::GetFieldId(&sw::UIElement::LogicalRect);
-    const sw::FieldId _FieldId_IsHitTestVisible    = sw::Reflection::GetFieldId(&sw::UIElement::IsHitTestVisible);
+    const sw::FieldId _PropId_Margin              = sw::Reflection::GetFieldId(&sw::UIElement::Margin);
+    const sw::FieldId _PropId_HorizontalAlignment = sw::Reflection::GetFieldId(&sw::UIElement::HorizontalAlignment);
+    const sw::FieldId _PropId_VerticalAlignment   = sw::Reflection::GetFieldId(&sw::UIElement::VerticalAlignment);
+    const sw::FieldId _PropId_ChildCount          = sw::Reflection::GetFieldId(&sw::UIElement::ChildCount);
+    const sw::FieldId _PropId_CollapseWhenHide    = sw::Reflection::GetFieldId(&sw::UIElement::CollapseWhenHide);
+    const sw::FieldId _PropId_UIElementParent     = sw::Reflection::GetFieldId(&sw::UIElement::Parent);
+    const sw::FieldId _PropId_Tag                 = sw::Reflection::GetFieldId(&sw::UIElement::Tag);
+    const sw::FieldId _PropId_LayoutTag           = sw::Reflection::GetFieldId(&sw::UIElement::LayoutTag);
+    const sw::FieldId _PropId_ContextMenu         = sw::Reflection::GetFieldId(&sw::UIElement::ContextMenu);
+    const sw::FieldId _PropId_Float               = sw::Reflection::GetFieldId(&sw::UIElement::Float);
+    const sw::FieldId _PropId_TabStop             = sw::Reflection::GetFieldId(&sw::UIElement::TabStop);
+    const sw::FieldId _PropId_BackColor           = sw::Reflection::GetFieldId(&sw::UIElement::BackColor);
+    const sw::FieldId _PropId_TextColor           = sw::Reflection::GetFieldId(&sw::UIElement::TextColor);
+    const sw::FieldId _PropId_Transparent         = sw::Reflection::GetFieldId(&sw::UIElement::Transparent);
+    const sw::FieldId _PropId_InheritTextColor    = sw::Reflection::GetFieldId(&sw::UIElement::InheritTextColor);
+    const sw::FieldId _PropId_MinWidth            = sw::Reflection::GetFieldId(&sw::UIElement::MinWidth);
+    const sw::FieldId _PropId_MinHeight           = sw::Reflection::GetFieldId(&sw::UIElement::MinHeight);
+    const sw::FieldId _PropId_MaxWidth            = sw::Reflection::GetFieldId(&sw::UIElement::MaxWidth);
+    const sw::FieldId _PropId_MaxHeight           = sw::Reflection::GetFieldId(&sw::UIElement::MaxHeight);
+    const sw::FieldId _PropId_LogicalRect         = sw::Reflection::GetFieldId(&sw::UIElement::LogicalRect);
+    const sw::FieldId _PropId_IsHitTestVisible    = sw::Reflection::GetFieldId(&sw::UIElement::IsHitTestVisible);
 }
 
 sw::UIElement::UIElement()
@@ -41,7 +41,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, const Thickness &value) {
                   if (self->_margin != value) {
                       self->_margin = value;
-                      self->RaisePropertyChanged(_FieldId_Margin);
+                      self->RaisePropertyChanged(_PropId_Margin);
                       self->InvalidateMeasure();
                   }
               })),
@@ -82,7 +82,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, bool value) {
                   if (self->_collapseWhenHide != value) {
                       self->_collapseWhenHide = value;
-                      self->RaisePropertyChanged(_FieldId_CollapseWhenHide);
+                      self->RaisePropertyChanged(_PropId_CollapseWhenHide);
                       if (self->_parent && !self->Visible) {
                           self->_parent->_UpdateLayoutVisibleChildren();
                           self->_parent->InvalidateMeasure();
@@ -113,7 +113,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, uint64_t value) {
                   if (self->_layoutTag != value) {
                       self->_layoutTag = value;
-                      self->RaisePropertyChanged(_FieldId_LayoutTag);
+                      self->RaisePropertyChanged(_PropId_LayoutTag);
                       self->InvalidateMeasure();
                   }
               })),
@@ -126,7 +126,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, sw::ContextMenu *value) {
                   if (self->_contextMenu != value) {
                       self->_contextMenu = value;
-                      self->RaisePropertyChanged(_FieldId_ContextMenu);
+                      self->RaisePropertyChanged(_PropId_ContextMenu);
                   }
               })),
 
@@ -138,7 +138,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, bool value) {
                   if (self->_float != value) {
                       self->_float = value;
-                      self->RaisePropertyChanged(_FieldId_Float);
+                      self->RaisePropertyChanged(_PropId_Float);
                       self->UpdateSiblingsZOrder();
                   }
               })),
@@ -151,7 +151,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, bool value) {
                   if (self->_tabStop != value) {
                       self->_tabStop = value;
-                      self->RaisePropertyChanged(_FieldId_TabStop);
+                      self->RaisePropertyChanged(_PropId_TabStop);
                   }
               })),
 
@@ -183,7 +183,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, bool value) {
                   if (self->_transparent != value) {
                       self->_transparent = value;
-                      self->RaisePropertyChanged(_FieldId_Transparent);
+                      self->RaisePropertyChanged(_PropId_Transparent);
                       self->Redraw();
                   }
               })),
@@ -196,7 +196,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, bool value) {
                   if (self->_inheritTextColor != value) {
                       self->_inheritTextColor = value;
-                      self->RaisePropertyChanged(_FieldId_InheritTextColor);
+                      self->RaisePropertyChanged(_PropId_InheritTextColor);
                       self->Redraw();
                   }
               })),
@@ -224,7 +224,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, double value) {
                   if (self->_minSize.width != value) {
                       self->_minSize.width = value;
-                      self->RaisePropertyChanged(_FieldId_MinWidth);
+                      self->RaisePropertyChanged(_PropId_MinWidth);
                       self->OnMinMaxSizeChanged();
                   }
               })),
@@ -237,7 +237,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, double value) {
                   if (self->_minSize.height != value) {
                       self->_minSize.height = value;
-                      self->RaisePropertyChanged(_FieldId_MinHeight);
+                      self->RaisePropertyChanged(_PropId_MinHeight);
                       self->OnMinMaxSizeChanged();
                   }
               })),
@@ -250,7 +250,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, double value) {
                   if (self->_maxSize.width != value) {
                       self->_maxSize.width = value;
-                      self->RaisePropertyChanged(_FieldId_MaxWidth);
+                      self->RaisePropertyChanged(_PropId_MaxWidth);
                       self->OnMinMaxSizeChanged();
                   }
               })),
@@ -263,7 +263,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, double value) {
                   if (self->_maxSize.height != value) {
                       self->_maxSize.height = value;
-                      self->RaisePropertyChanged(_FieldId_MaxHeight);
+                      self->RaisePropertyChanged(_PropId_MaxHeight);
                       self->OnMinMaxSizeChanged();
                   }
               })),
@@ -289,7 +289,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, bool value) {
                   if (self->_isHitTestVisible != value) {
                       self->_isHitTestVisible = value;
-                      self->RaisePropertyChanged(_FieldId_IsHitTestVisible);
+                      self->RaisePropertyChanged(_PropId_IsHitTestVisible);
                   }
               })),
 
@@ -754,7 +754,7 @@ void sw::UIElement::SetTag(uint64_t tag)
 {
     if (this->_tag != tag) {
         this->_tag = tag;
-        this->RaisePropertyChanged(_FieldId_Tag);
+        this->RaisePropertyChanged(_PropId_Tag);
     }
 }
 
@@ -1067,7 +1067,7 @@ void sw::UIElement::ArrangeOverride(const Size &finalSize)
 void sw::UIElement::SetBackColor(Color color, bool redraw)
 {
     this->_backColor = color;
-    this->RaisePropertyChanged(_FieldId_BackColor);
+    this->RaisePropertyChanged(_PropId_BackColor);
 
     if (redraw) {
         this->Redraw();
@@ -1077,7 +1077,7 @@ void sw::UIElement::SetBackColor(Color color, bool redraw)
 void sw::UIElement::SetTextColor(Color color, bool redraw)
 {
     this->_textColor = color;
-    this->RaisePropertyChanged(_FieldId_TextColor);
+    this->RaisePropertyChanged(_PropId_TextColor);
 
     if (redraw) {
         this->Redraw();
@@ -1091,7 +1091,7 @@ bool sw::UIElement::RequestBringIntoView(const sw::Rect &screenRect)
 
 void sw::UIElement::OnAddedChild(UIElement &element)
 {
-    this->RaisePropertyChanged(_FieldId_ChildCount);
+    this->RaisePropertyChanged(_PropId_ChildCount);
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildAdded)) {
         this->InvalidateMeasure();
@@ -1100,7 +1100,7 @@ void sw::UIElement::OnAddedChild(UIElement &element)
 
 void sw::UIElement::OnRemovedChild(UIElement &element)
 {
-    this->RaisePropertyChanged(_FieldId_ChildCount);
+    this->RaisePropertyChanged(_PropId_ChildCount);
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
         this->InvalidateMeasure();
@@ -1206,7 +1206,7 @@ void sw::UIElement::ParentChanged(WndBase *newParent)
     this->_SetMeasureInvalidated();
 
     this->WndBase::ParentChanged(newParent); // raise property WndBase::Parent changed event
-    this->RaisePropertyChanged(_FieldId_UIElementParent);
+    this->RaisePropertyChanged(_PropId_UIElementParent);
 }
 
 bool sw::UIElement::OnClose()
@@ -1218,7 +1218,7 @@ bool sw::UIElement::OnClose()
 bool sw::UIElement::OnMove(const Point &newClientPosition)
 {
     this->WndBase::OnMove(newClientPosition);
-    this->RaisePropertyChanged(_FieldId_LogicalRect);
+    this->RaisePropertyChanged(_PropId_LogicalRect);
 
     PositionChangedEventArgs args(newClientPosition);
     this->RaiseRoutedEvent(args);
@@ -1232,7 +1232,7 @@ bool sw::UIElement::OnMove(const Point &newClientPosition)
 bool sw::UIElement::OnSize(const Size &newClientSize)
 {
     this->WndBase::OnSize(newClientSize);
-    this->RaisePropertyChanged(_FieldId_LogicalRect);
+    this->RaisePropertyChanged(_PropId_LogicalRect);
 
     if (this->_horizontalAlignment != sw::HorizontalAlignment::Stretch) {
         this->_origionalSize.width = this->Width;
@@ -1477,7 +1477,7 @@ bool sw::UIElement::_SetHorzAlignment(sw::HorizontalAlignment value)
         this->_origionalSize.width = this->Width;
     }
     this->_horizontalAlignment = value;
-    this->RaisePropertyChanged(_FieldId_HorizontalAlignment);
+    this->RaisePropertyChanged(_PropId_HorizontalAlignment);
     return true;
 }
 
@@ -1490,7 +1490,7 @@ bool sw::UIElement::_SetVertAlignment(sw::VerticalAlignment value)
         this->_origionalSize.height = this->Height;
     }
     this->_verticalAlignment = value;
-    this->RaisePropertyChanged(_FieldId_VerticalAlignment);
+    this->RaisePropertyChanged(_PropId_VerticalAlignment);
     return true;
 }
 
