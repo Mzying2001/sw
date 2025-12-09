@@ -270,12 +270,12 @@ namespace sw
             INotifyPropertyChanged *targetNotifObj = nullptr;
             INotifyPropertyChanged *sourceNotifObj = nullptr;
 
-            if (_targetObject->IsType<INotifyPropertyChanged>(&targetNotifObj)) {
+            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObj)) {
                 targetNotifObj->PropertyChanged +=
                     PropertyChangedEventHandler(*this, &Binding::OnTargetPropertyChanged);
             }
 
-            if (_sourceObject->IsType<INotifyPropertyChanged>(&sourceNotifObj)) {
+            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObj)) {
                 sourceNotifObj->PropertyChanged +=
                     PropertyChangedEventHandler(*this, &Binding::OnSourcePropertyChanged);
             }
@@ -289,12 +289,12 @@ namespace sw
             INotifyPropertyChanged *targetNotifObj = nullptr;
             INotifyPropertyChanged *sourceNotifObj = nullptr;
 
-            if (_targetObject->IsType<INotifyPropertyChanged>(&targetNotifObj)) {
+            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObj)) {
                 targetNotifObj->PropertyChanged -=
                     PropertyChangedEventHandler(*this, &Binding::OnTargetPropertyChanged);
             }
 
-            if (_sourceObject->IsType<INotifyPropertyChanged>(&sourceNotifObj)) {
+            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObj)) {
                 sourceNotifObj->PropertyChanged -=
                     PropertyChangedEventHandler(*this, &Binding::OnSourcePropertyChanged);
             }
