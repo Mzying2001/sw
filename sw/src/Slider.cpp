@@ -7,7 +7,10 @@ sw::Slider::Slider()
                   return (int)self->SendMessageW(TBM_GETRANGEMIN, 0, 0);
               })
               .Setter([](Slider *self, int value) {
-                  self->SendMessageW(TBM_SETRANGEMIN, TRUE, value);
+                  if (self->Minimum != value) {
+                      self->SendMessageW(TBM_SETRANGEMIN, TRUE, value);
+                      self->RaisePropertyChanged(&Slider::Minimum);
+                  }
               })),
 
       Maximum(
@@ -16,7 +19,10 @@ sw::Slider::Slider()
                   return (int)self->SendMessageW(TBM_GETRANGEMAX, 0, 0);
               })
               .Setter([](Slider *self, int value) {
-                  self->SendMessageW(TBM_SETRANGEMAX, TRUE, value);
+                  if (self->Maximum != value) {
+                      self->SendMessageW(TBM_SETRANGEMAX, TRUE, value);
+                      self->RaisePropertyChanged(&Slider::Maximum);
+                  }
               })),
 
       Value(
@@ -25,9 +31,11 @@ sw::Slider::Slider()
                   return (int)self->SendMessageW(TBM_GETPOS, 0, 0);
               })
               .Setter([](Slider *self, int value) {
-                  self->SendMessageW(TBM_SETPOS, TRUE, value);
-                  self->OnValueChanged();
-                  self->OnEndTrack();
+                  if (self->Value != value) {
+                      self->SendMessageW(TBM_SETPOS, TRUE, value);
+                      self->OnValueChanged();
+                      self->OnEndTrack();
+                  }
               })),
 
       Vertical(
@@ -107,6 +115,7 @@ bool sw::Slider::OnHorizontalScroll(int event, int pos)
 
 void sw::Slider::OnValueChanged()
 {
+    this->RaisePropertyChanged(&Slider::Value);
     this->RaiseRoutedEvent(Slider_ValueChanged);
 }
 
