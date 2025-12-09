@@ -19,8 +19,11 @@ sw::ProgressBar::ProgressBar()
                   return (uint16_t)self->SendMessageW(PBM_GETRANGE, TRUE, 0);
               })
               .Setter([](ProgressBar *self, uint16_t value) {
-                  uint16_t maximum = self->Maximum;
-                  self->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(value, maximum));
+                  if (self->Minimum != value) {
+                      uint16_t maximum = self->Maximum;
+                      self->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(value, maximum));
+                      self->RaisePropertyChanged(&ProgressBar::Minimum);
+                  }
               })),
 
       Maximum(
@@ -29,8 +32,11 @@ sw::ProgressBar::ProgressBar()
                   return (uint16_t)self->SendMessageW(PBM_GETRANGE, FALSE, 0);
               })
               .Setter([](ProgressBar *self, uint16_t value) {
-                  uint16_t minimum = self->Minimum;
-                  self->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(minimum, value));
+                  if (self->Maximum != value) {
+                      uint16_t minimum = self->Minimum;
+                      self->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(minimum, value));
+                      self->RaisePropertyChanged(&ProgressBar::Maximum);
+                  }
               })),
 
       Value(
@@ -39,7 +45,10 @@ sw::ProgressBar::ProgressBar()
                   return (uint16_t)self->SendMessageW(PBM_GETPOS, 0, 0);
               })
               .Setter([](ProgressBar *self, uint16_t value) {
-                  self->SendMessageW(PBM_SETPOS, value, 0);
+                  if (self->Value != value) {
+                      self->SendMessageW(PBM_SETPOS, value, 0);
+                      self->RaisePropertyChanged(&ProgressBar::Value);
+                  }
               })),
 
       State(
@@ -59,9 +68,9 @@ sw::ProgressBar::ProgressBar()
               .Setter([](ProgressBar *self, bool value) {
                   auto pos = self->Value.Get();
                   self->SetStyle(PBS_VERTICAL, value);
-                  self->Value = pos;
+                  self->SendMessageW(PBM_SETPOS, pos, 0);
               }))
 {
-    this->InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
-    this->Rect = sw::Rect(0, 0, 150, 20);
+    InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
+    Rect = sw::Rect(0, 0, 150, 20);
 }
