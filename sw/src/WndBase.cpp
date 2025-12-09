@@ -786,7 +786,9 @@ std::wstring &sw::WndBase::GetInternalText()
 
 void sw::WndBase::SetInternalText(const std::wstring &value)
 {
-    SetWindowTextW(this->_hwnd, value.c_str());
+    if (GetInternalText() != value) {
+        SetWindowTextW(this->_hwnd, value.c_str());
+    }
 }
 
 bool sw::WndBase::OnCreate()
