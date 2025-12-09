@@ -99,6 +99,7 @@ void sw::ComboBox::OnSelectionChanged()
 void sw::ComboBox::Clear()
 {
     this->SendMessageW(CB_RESETCONTENT, 0, 0);
+    this->RaisePropertyChanged(&ComboBox::ItemsCount);
 }
 
 std::wstring sw::ComboBox::GetItemAt(int index)
@@ -120,14 +121,25 @@ bool sw::ComboBox::AddItem(const std::wstring &item)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(item.c_str()));
-    return this->GetItemsCount() == count + 1;
+
+    bool success = this->GetItemsCount() == count + 1;
+    if (success) {
+        this->RaisePropertyChanged(&ComboBox::ItemsCount);
+    }
+    return success;
 }
 
 bool sw::ComboBox::InsertItem(int index, const std::wstring &item)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(CB_INSERTSTRING, index, reinterpret_cast<LPARAM>(item.c_str()));
-    return this->GetItemsCount() == count + 1;
+    this->RaisePropertyChanged(&ComboBox::ItemsCount);
+
+    bool success = this->GetItemsCount() == count + 1;
+    if (success) {
+        this->RaisePropertyChanged(&ComboBox::ItemsCount);
+    }
+    return success;
 }
 
 bool sw::ComboBox::UpdateItem(int index, const std::wstring &newValue)
@@ -138,7 +150,6 @@ bool sw::ComboBox::UpdateItem(int index, const std::wstring &newValue)
     if (updated && selected) {
         this->SetSelectedIndex(index);
     }
-
     return updated;
 }
 
@@ -146,7 +157,12 @@ bool sw::ComboBox::RemoveItemAt(int index)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(CB_DELETESTRING, index, 0);
-    return this->GetItemsCount() == count - 1;
+
+    bool success = this->GetItemsCount() == count - 1;
+    if (success) {
+        this->RaisePropertyChanged(&ComboBox::ItemsCount);
+    }
+    return success;
 }
 
 void sw::ComboBox::ShowDropDown()
