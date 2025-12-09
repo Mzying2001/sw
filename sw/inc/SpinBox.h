@@ -72,6 +72,11 @@ namespace sw
 
     protected:
         /**
+         * @brief Text属性更改时调用此函数
+         */
+        virtual void OnTextChanged() override;
+
+        /**
          * @brief      控件句柄发生改变时调用该函数
          * @param hwnd 新的控件句柄
          */

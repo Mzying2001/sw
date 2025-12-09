@@ -7,47 +7,16 @@ sw::TextBoxBase::TextBoxBase()
                   return self->GetStyle(ES_READONLY);
               })
               .Setter([](TextBoxBase *self, bool value) {
-                  self->SendMessageW(EM_SETREADONLY, value, 0);
+                  if (self->ReadOnly != value) {
+                      self->SendMessageW(EM_SETREADONLY, value, 0);
+                      self->RaisePropertyChanged(&TextBoxBase::ReadOnly);
+                  }
               })),
 
       HorizontalContentAlignment(
           Property<sw::HorizontalAlignment>::Init(this)
-              .Getter([](TextBoxBase *self) -> sw::HorizontalAlignment {
-                  LONG_PTR style = self->GetStyle();
-                  if (style & ES_CENTER) {
-                      return sw::HorizontalAlignment::Center;
-                  } else if (style & ES_RIGHT) {
-                      return sw::HorizontalAlignment::Right;
-                  } else {
-                      return sw::HorizontalAlignment::Left;
-                  }
-              })
-              .Setter([](TextBoxBase *self, sw::HorizontalAlignment value) {
-                  switch (value) {
-                      case sw::HorizontalAlignment::Left: {
-                          self->SetStyle(ES_CENTER | ES_RIGHT, false);
-                          break;
-                      }
-                      case sw::HorizontalAlignment::Center: {
-                          DWORD style = self->GetStyle();
-                          style &= ~(ES_CENTER | ES_RIGHT);
-                          style |= ES_CENTER;
-                          self->SetStyle(style);
-                          break;
-                      }
-                      case sw::HorizontalAlignment::Right: {
-                          DWORD style = self->GetStyle();
-                          style &= ~(ES_CENTER | ES_RIGHT);
-                          style |= ES_RIGHT;
-                          self->SetStyle(style);
-                          break;
-                      }
-                      default: {
-                          break;
-                      }
-                  }
-                  self->Redraw();
-              })),
+              .Getter<&TextBoxBase::_GetHorzContentAlignment>()
+              .Setter<&TextBoxBase::_SetHorzContentAlignment>()),
 
       CanUndo(
           Property<bool>::Init(this)
@@ -61,7 +30,10 @@ sw::TextBoxBase::TextBoxBase()
                   return self->_acceptTab;
               })
               .Setter([](TextBoxBase *self, bool value) {
-                  self->_acceptTab = value;
+                  if (self->_acceptTab != value) {
+                      self->_acceptTab = value;
+                      self->RaisePropertyChanged(&TextBoxBase::AcceptTab);
+                  }
               }))
 {
     this->TabStop = true;
@@ -149,4 +121,50 @@ bool sw::TextBoxBase::Undo()
 void sw::TextBoxBase::Clear()
 {
     this->Text = std::wstring{};
+}
+
+sw::HorizontalAlignment sw::TextBoxBase::_GetHorzContentAlignment()
+{
+    LONG_PTR style = this->GetStyle();
+
+    if (style & ES_CENTER) {
+        return sw::HorizontalAlignment::Center;
+    } else if (style & ES_RIGHT) {
+        return sw::HorizontalAlignment::Right;
+    } else {
+        return sw::HorizontalAlignment::Left;
+    }
+}
+
+void sw::TextBoxBase::_SetHorzContentAlignment(sw::HorizontalAlignment value)
+{
+    if (this->_GetHorzContentAlignment() == value) {
+        return;
+    }
+
+    switch (value) {
+        case sw::HorizontalAlignment::Left: {
+            this->SetStyle(ES_CENTER | ES_RIGHT, false);
+            break;
+        }
+        case sw::HorizontalAlignment::Center: {
+            DWORD style = this->GetStyle();
+            style &= ~(ES_CENTER | ES_RIGHT);
+            style |= ES_CENTER;
+            this->SetStyle(style);
+            break;
+        }
+        case sw::HorizontalAlignment::Right: {
+            DWORD style = this->GetStyle();
+            style &= ~(ES_CENTER | ES_RIGHT);
+            style |= ES_RIGHT;
+            this->SetStyle(style);
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+    this->Redraw();
+    this->RaisePropertyChanged(&TextBoxBase::HorizontalContentAlignment);
 }
