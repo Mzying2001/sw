@@ -18,6 +18,7 @@ sw::Panel::Panel()
               .Setter([](Panel *self, sw::BorderStyle value) {
                   if (self->_borderStyle != value) {
                       self->_borderStyle = value;
+                      self->RaisePropertyChanged(&Panel::BorderStyle);
                       self->UpdateBorder();
                   }
               })),
@@ -30,6 +31,7 @@ sw::Panel::Panel()
               .Setter([](Panel *self, const sw::Thickness &value) {
                   if (self->_padding != value) {
                       self->_padding = value;
+                      self->RaisePropertyChanged(&Panel::Padding);
                       self->UpdateBorder();
                   }
               }))
