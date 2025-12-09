@@ -11,6 +11,7 @@ sw::ButtonBase::ButtonBase()
                   if (self->_autoSize != value) {
                       self->_autoSize = value;
                       self->_UpdateLayoutFlags();
+                      self->RaisePropertyChanged(&ButtonBase::AutoSize);
                       self->InvalidateMeasure();
                   }
               })),
@@ -21,9 +22,12 @@ sw::ButtonBase::ButtonBase()
                   return self->GetStyle(BS_MULTILINE);
               })
               .Setter([](ButtonBase *self, bool value) {
-                  self->SetStyle(BS_MULTILINE, value);
-                  if (self->_autoSize) {
-                      self->InvalidateMeasure();
+                  if (self->MultiLine != value) {
+                      self->SetStyle(BS_MULTILINE, value);
+                      self->RaisePropertyChanged(&ButtonBase::MultiLine);
+                      if (self->_autoSize) {
+                          self->InvalidateMeasure();
+                      }
                   }
               })),
 
@@ -35,10 +39,13 @@ sw::ButtonBase::ButtonBase()
                   return rect;
               })
               .Setter([](ButtonBase *self, const Thickness &value) {
-                  RECT rect = value;
-                  self->_SetTextMargin(rect);
-                  if (self->_autoSize) {
-                      self->InvalidateMeasure();
+                  if (self->TextMargin != value) {
+                      RECT rect = value;
+                      self->_SetTextMargin(rect);
+                      self->RaisePropertyChanged(&ButtonBase::TextMargin);
+                      if (self->_autoSize) {
+                          self->InvalidateMeasure();
+                      }
                   }
               }))
 {

@@ -29,16 +29,26 @@ namespace sw
          */
         const Property<bool> IsChecked;
 
-    protected:
+    public:
         /**
          * @brief 初始化CheckableButton
          */
         CheckableButton();
 
-    public:
         /**
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
          */
         virtual ~CheckableButton() = 0;
+
+    protected:
+        /**
+         * @brief 被单击时调用该函数
+         */
+        virtual void OnClicked() override;
+
+        /**
+         * @brief 被双击时调用该函数
+         */
+        virtual void OnDoubleClicked() override;
     };
 }

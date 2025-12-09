@@ -7,8 +7,11 @@ sw::CheckBox::CheckBox()
                   return (self->GetStyle() & BS_AUTO3STATE) == BS_AUTO3STATE;
               })
               .Setter([](CheckBox *self, bool value) {
-                  auto style = self->GetStyle() & ~(BS_AUTOCHECKBOX | BS_AUTO3STATE);
-                  self->SetStyle(value ? (style | BS_AUTO3STATE) : (style | BS_AUTOCHECKBOX));
+                  if (self->ThreeState != value) {
+                      auto baseStyle = self->GetStyle() & ~(BS_AUTOCHECKBOX | BS_AUTO3STATE);
+                      self->SetStyle(baseStyle | (value ? BS_AUTO3STATE : BS_AUTOCHECKBOX));
+                      self->RaisePropertyChanged(&CheckBox::ThreeState);
+                  }
               }))
 {
     InitButtonBase(L"CheckBox", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTOCHECKBOX, 0);
