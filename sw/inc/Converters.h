@@ -1,8 +1,7 @@
 #pragma once
 
 #include "IValueConverter.h"
-#include <string>
-#include <type_traits>
+#include "Utils.h"
 
 namespace sw
 {
@@ -306,6 +305,72 @@ namespace sw
         virtual std::string ConvertBack(double target) override
         {
             return std::to_string(target);
+        }
+    };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 宽字符串与窄字符串转换器
+     */
+    class StringToAnsiStringConverter : public IValueConverter<std::wstring, std::string>
+    {
+    public:
+        virtual std::string Convert(const std::wstring &source) override
+        {
+            return Utils::ToMultiByteStr(source);
+        }
+        virtual std::wstring ConvertBack(const std::string &target) override
+        {
+            return Utils::ToWideStr(target);
+        }
+    };
+
+    /**
+     * @brief 窄字符串与宽字符串转换器
+     */
+    class AnsiStringToStringConverter : public IValueConverter<std::string, std::wstring>
+    {
+    public:
+        virtual std::wstring Convert(const std::string &source) override
+        {
+            return Utils::ToWideStr(source);
+        }
+        virtual std::string ConvertBack(const std::wstring &target) override
+        {
+            return Utils::ToMultiByteStr(target);
+        }
+    };
+
+    /**
+     * @brief 宽字符串与UTF-8编码窄字符串转换器
+     */
+    class StringToUtf8StringConverter : public IValueConverter<std::wstring, std::string>
+    {
+    public:
+        virtual std::string Convert(const std::wstring &source) override
+        {
+            return Utils::ToMultiByteStr(source, true);
+        }
+        virtual std::wstring ConvertBack(const std::string &target) override
+        {
+            return Utils::ToWideStr(target, true);
+        }
+    };
+
+    /**
+     * @brief UTF-8编码窄字符串与宽字符串转换器
+     */
+    class Utf8StringToStringConverter : public IValueConverter<std::string, std::wstring>
+    {
+    public:
+        virtual std::wstring Convert(const std::string &source) override
+        {
+            return Utils::ToWideStr(source, true);
+        }
+        virtual std::string ConvertBack(const std::wstring &target) override
+        {
+            return Utils::ToMultiByteStr(target, true);
         }
     };
 }
