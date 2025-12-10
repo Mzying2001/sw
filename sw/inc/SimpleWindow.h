@@ -43,6 +43,7 @@
 #include "IComparable.h"
 #include "IDialog.h"
 #include "ILayout.h"
+#include "INotifyObjectDead.h"
 #include "INotifyPropertyChanged.h"
 #include "IPAddressControl.h"
 #include "ITag.h"

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "INotifyObjectDead.h"
 #include "INotifyPropertyChanged.h"
 
 namespace sw
@@ -8,6 +9,7 @@ namespace sw
      * @brief 可观察对象基类，实现属性更改通知功能
      */
     class ObservableObject : public DynamicObject,
+                             public INotifyObjectDead,
                              public INotifyPropertyChanged
     {
     protected:

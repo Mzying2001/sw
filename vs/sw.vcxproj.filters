@@ -348,6 +348,9 @@
     <ClInclude Include="..\sw\inc\ObservableObject.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\INotifyObjectDead.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\Animation.cpp">
