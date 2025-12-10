@@ -47,6 +47,21 @@ sw::DateTimePicker::DateTimePicker()
                   self->_format       = DateTimePickerFormat::Custom;
                   self->_customFormat = value;
                   self->_SetFormat(self->_customFormat);
+              })),
+
+      Time(
+          Property<SYSTEMTIME>::Init(this)
+              .Getter([](DateTimePicker *self) -> SYSTEMTIME {
+                  SYSTEMTIME time{};
+                  self->GetTime(time);
+                  return time;
+              })
+              .Setter([](DateTimePicker *self, const SYSTEMTIME &value) {
+                  SYSTEMTIME time{};
+                  if (self->GetTime(time) &&
+                      memcmp(&time, &value, sizeof(SYSTEMTIME)) != 0) {
+                      self->SetTime(value);
+                  }
               }))
 {
     this->InitControl(DATETIMEPICK_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | DTS_SHORTDATEFORMAT, 0);
@@ -87,6 +102,8 @@ bool sw::DateTimePicker::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 
 void sw::DateTimePicker::OnTimeChanged(NMDATETIMECHANGE *pInfo)
 {
+    this->RaisePropertyChanged(&DateTimePicker::Time);
+
     DateTimePickerTimeChangedEventArgs arg{pInfo->st};
     this->RaiseRoutedEvent(arg);
 }

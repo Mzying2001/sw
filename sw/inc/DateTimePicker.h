@@ -46,6 +46,11 @@ namespace sw
          */
         const Property<std::wstring> CustomFormat;
 
+        /**
+         * @brief 当前控件表示的时间
+         */
+        const Property<SYSTEMTIME> Time;
+
     public:
         /**
          * @brief 初始化DateTimePicker
