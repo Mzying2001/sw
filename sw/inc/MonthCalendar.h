@@ -16,6 +16,11 @@ namespace sw
          */
         const Property<bool> ShowToday;
 
+        /**
+         * @brief 当前控件表示的时间
+         */
+        const Property<SYSTEMTIME> Time;
+
     public:
         /**
          * @brief 初始化月历控件

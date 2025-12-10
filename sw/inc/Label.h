@@ -102,5 +102,35 @@ namespace sw
          * @brief 更新LayoutUpdateCondition属性
          */
         void _UpdateLayoutFlags();
+
+        /**
+         * @brief 读取HorizontalContentAlignment属性时调用
+         */
+        sw::HorizontalAlignment _GetHorzContentAlignment();
+
+        /**
+         * @brief 写入HorizontalContentAlignment属性时调用
+         */
+        void _SetHorzContentAlignment(sw::HorizontalAlignment value);
+
+        /**
+         * @brief 读取VerticalContentAlignment属性时调用
+         */
+        sw::VerticalAlignment _GetVertContentAlignment();
+
+        /**
+         * @brief 写入VerticalContentAlignment属性时调用
+         */
+        void _SetVertContentAlignment(sw::VerticalAlignment value);
+
+        /**
+         * @brief 读取TextTrimming属性时调用
+         */
+        sw::TextTrimming _GetTextTrimming();
+
+        /**
+         * @brief 写入TextTrimming属性时调用
+         */
+        void _SetTextTrimming(sw::TextTrimming value);
     };
 }

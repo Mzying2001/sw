@@ -55,6 +55,8 @@ namespace sw
          */
         virtual void OnSelectionChanged()
         {
+            this->RaisePropertyChanged(&ItemsControl<TItem>::SelectedIndex);
+            this->RaisePropertyChanged(&ItemsControl<TItem>::SelectedItem);
             this->RaiseRoutedEvent(ItemsControl_SelectionChanged);
         }
 

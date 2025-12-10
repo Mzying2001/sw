@@ -7,7 +7,9 @@ sw::HotKeyControl::HotKeyControl()
                   return self->_value;
               })
               .Setter([](HotKeyControl *self, const HotKey &value) {
-                  if (value.key != self->_value.key && value.modifier != self->_value.modifier) {
+                  if (value.key != self->_value.key ||
+                      value.modifier != self->_value.modifier) //
+                  {
                       WORD val = MAKEWORD(value.key, value.modifier);
                       self->SendMessageW(HKM_SETHOTKEY, val, 0);
                       self->_UpdateValue();
@@ -35,6 +37,8 @@ void sw::HotKeyControl::OnCommand(int code)
 
 void sw::HotKeyControl::OnValueChanged(HotKey value)
 {
+    this->RaisePropertyChanged(&HotKeyControl::Value);
+
     HotKeyValueChangedEventArgs arg{value.key, value.modifier};
     this->RaiseRoutedEvent(arg);
 }

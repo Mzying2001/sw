@@ -8,6 +8,21 @@ sw::MonthCalendar::MonthCalendar()
               })
               .Setter([](MonthCalendar *self, bool value) {
                   self->SetStyle(MCS_NOTODAY, !value);
+              })),
+
+      Time(
+          Property<SYSTEMTIME>::Init(this)
+              .Getter([](MonthCalendar *self) -> SYSTEMTIME {
+                  SYSTEMTIME time{};
+                  self->GetTime(time);
+                  return time;
+              })
+              .Setter([](MonthCalendar *self, const SYSTEMTIME &value) {
+                  SYSTEMTIME time{};
+                  if (self->GetTime(time) &&
+                      memcmp(&time, &value, sizeof(SYSTEMTIME)) != 0) {
+                      self->SetTime(value);
+                  }
               }))
 {
     this->InitControl(MONTHCAL_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
@@ -70,6 +85,8 @@ bool sw::MonthCalendar::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 
 void sw::MonthCalendar::OnTimeChanged(NMSELCHANGE *pInfo)
 {
+    this->RaisePropertyChanged(&MonthCalendar::Time);
+
     MonthCalendarTimeChangedEventArgs arg{pInfo->stSelStart};
     this->RaiseRoutedEvent(arg);
 }

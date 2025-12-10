@@ -17,9 +17,12 @@ sw::CommandLink::CommandLink()
                   }
               })
               .Setter([](CommandLink *self, const std::wstring &value) {
-                  self->SendMessageW(BCM_SETNOTE, 0, reinterpret_cast<LPARAM>(value.c_str()));
-                  if (self->AutoSize) {
-                      self->InvalidateMeasure();
+                  if (self->NoteText != value) {
+                      self->SendMessageW(BCM_SETNOTE, 0, reinterpret_cast<LPARAM>(value.c_str()));
+                      self->RaisePropertyChanged(&CommandLink::NoteText);
+                      if (self->AutoSize) {
+                          self->InvalidateMeasure();
+                      }
                   }
               }))
 {
