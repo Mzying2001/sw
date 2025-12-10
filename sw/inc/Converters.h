@@ -24,7 +24,7 @@ namespace sw
         }
         virtual TSource ConvertBack(TTarget target) override
         {
-            return static_cast<TTarget>(target);
+            return static_cast<TSource>(target);
         }
     };
 
