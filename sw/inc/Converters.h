@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IValueConverter.h"
-#include <cstdint>
+#include <string>
 #include <type_traits>
 
 namespace sw
@@ -110,6 +110,104 @@ namespace sw
         virtual bool ConvertBack(TTarget target) override
         {
             return target != static_cast<TTarget>(0);
+        }
+    };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 整数与字符串转换器
+     */
+    class IntToStringConverter : public IValueConverter<int, std::wstring>
+    {
+    public:
+        virtual std::wstring Convert(int source) override
+        {
+            return std::to_wstring(source);
+        }
+        virtual int ConvertBack(const std::wstring &target) override
+        {
+            return std::stoi(target);
+        }
+    };
+
+    /**
+     * @brief 浮点数与字符串转换器
+     */
+    class FloatToStringConverter : public IValueConverter<float, std::wstring>
+    {
+    public:
+        virtual std::wstring Convert(float source) override
+        {
+            return std::to_wstring(source);
+        }
+        virtual float ConvertBack(const std::wstring &target) override
+        {
+            return std::stof(target);
+        }
+    };
+
+    /**
+     * @brief 双精度浮点数与字符串转换器
+     */
+    class DoubleToStringConverter : public IValueConverter<double, std::wstring>
+    {
+    public:
+        virtual std::wstring Convert(double source) override
+        {
+            return std::to_wstring(source);
+        }
+        virtual double ConvertBack(const std::wstring &target) override
+        {
+            return std::stod(target);
+        }
+    };
+
+    /**
+     * @brief 字符串与整数转换器
+     */
+    class StringToIntConverter : public IValueConverter<std::wstring, int>
+    {
+    public:
+        virtual int Convert(const std::wstring &source) override
+        {
+            return std::stoi(source);
+        }
+        virtual std::wstring ConvertBack(int target) override
+        {
+            return std::to_wstring(target);
+        }
+    };
+
+    /**
+     * @brief 字符串与浮点数转换器
+     */
+    class StringToFloatConverter : public IValueConverter<std::wstring, float>
+    {
+    public:
+        virtual float Convert(const std::wstring &source) override
+        {
+            return std::stof(source);
+        }
+        virtual std::wstring ConvertBack(float target) override
+        {
+            return std::to_wstring(target);
+        }
+    };
+
+    /**
+     * @brief 字符串与双精度浮点数转换器
+     */
+    class StringToDoubleConverter : public IValueConverter<std::wstring, double>
+    {
+    public:
+        virtual double Convert(const std::wstring &source) override
+        {
+            return std::stod(source);
+        }
+        virtual std::wstring ConvertBack(double target) override
+        {
+            return std::to_wstring(target);
         }
     };
 }
