@@ -18,6 +18,7 @@
 #include "CommandLink.h"
 #include "ContextMenu.h"
 #include "Control.h"
+#include "Converters.h"
 #include "Cursor.h"
 #include "DateTimePicker.h"
 #include "Delegate.h"
