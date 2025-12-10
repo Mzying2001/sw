@@ -68,7 +68,7 @@ namespace sw
     /**
      * @brief 数据绑定类
      */
-    class Binding : public BindingBase
+    class Binding final : public BindingBase
     {
     private:
         /**
