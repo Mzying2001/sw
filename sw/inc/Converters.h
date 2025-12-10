@@ -210,4 +210,102 @@ namespace sw
             return std::to_wstring(target);
         }
     };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 整数与窄字符串转换器
+     */
+    class IntToAnsiStringConverter : public IValueConverter<int, std::string>
+    {
+    public:
+        virtual std::string Convert(int source) override
+        {
+            return std::to_string(source);
+        }
+        virtual int ConvertBack(const std::string &target) override
+        {
+            return std::stoi(target);
+        }
+    };
+
+    /**
+     * @brief 浮点数与窄字符串转换器
+     */
+    class FloatToAnsiStringConverter : public IValueConverter<float, std::string>
+    {
+    public:
+        virtual std::string Convert(float source) override
+        {
+            return std::to_string(source);
+        }
+        virtual float ConvertBack(const std::string &target) override
+        {
+            return std::stof(target);
+        }
+    };
+
+    /**
+     * @brief 双精度浮点数与窄字符串转换器
+     */
+    class DoubleToAnsiStringConverter : public IValueConverter<double, std::string>
+    {
+    public:
+        virtual std::string Convert(double source) override
+        {
+            return std::to_string(source);
+        }
+        virtual double ConvertBack(const std::string &target) override
+        {
+            return std::stod(target);
+        }
+    };
+
+    /**
+     * @brief 窄字符串与整数转换器
+     */
+    class AnsiStringToIntConverter : public IValueConverter<std::string, int>
+    {
+    public:
+        virtual int Convert(const std::string &source) override
+        {
+            return std::stoi(source);
+        }
+        virtual std::string ConvertBack(int target) override
+        {
+            return std::to_string(target);
+        }
+    };
+
+    /**
+     * @brief 窄字符串与浮点数转换器
+     */
+    class AnsiStringToFloatConverter : public IValueConverter<std::string, float>
+    {
+    public:
+        virtual float Convert(const std::string &source) override
+        {
+            return std::stof(source);
+        }
+        virtual std::string ConvertBack(float target) override
+        {
+            return std::to_string(target);
+        }
+    };
+
+    /**
+     * @brief 窄字符串与双精度浮点数转换器
+     */
+    class AnsiStringToDoubleConverter : public IValueConverter<std::string, double>
+    {
+    public:
+        virtual double Convert(const std::string &source) override
+        {
+            return std::stod(source);
+        }
+        virtual std::string ConvertBack(double target) override
+        {
+            return std::to_string(target);
+        }
+    };
 }
