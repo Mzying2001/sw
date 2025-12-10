@@ -93,6 +93,7 @@ void sw::SpinBox::OnTextChanged()
 
 void sw::SpinBox::OnHandleChanged(HWND hwnd)
 {
+    TextBoxBase::OnHandleChanged(hwnd);
     _InitSpinBox();
 }
 
