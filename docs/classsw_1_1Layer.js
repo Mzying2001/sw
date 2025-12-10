@@ -11,7 +11,7 @@ var classsw_1_1Layer =
     [ "GetVerticalScrollRange", "classsw_1_1Layer.html#a3f5248e4483b277a2f99c9b3cde086b7", null ],
     [ "MeasureOverride", "classsw_1_1Layer.html#a5e2f0496063c24957a3cf149a4b707bb", null ],
     [ "OnHorizontalScroll", "classsw_1_1Layer.html#ab199e8fc6b90975b7dcb5fdb4e5f2853", null ],
-    [ "OnRoutedEvent", "classsw_1_1Layer.html#a42acd68b3ac25678fb89feedb4508f9c", null ],
+    [ "OnRoutedEvent", "classsw_1_1Layer.html#a5fa3b2dde3394a225f3389e6ff78ba46", null ],
     [ "OnScroll", "classsw_1_1Layer.html#af21620044342125a8e59671a6fb222e8", null ],
     [ "OnVerticalScroll", "classsw_1_1Layer.html#ac06c5746cd104b7f8f9ab4d9ea9c5833", null ],
     [ "RequestBringIntoView", "classsw_1_1Layer.html#a4d935eb61b4ec814264e24f2bb820789", null ],

@@ -72,7 +72,7 @@ var classsw_1_1UIElement =
     [ "OnMove", "classsw_1_1UIElement.html#a1708a7be0d9ffdcc18ee89413a7ca55a", null ],
     [ "OnNcHitTest", "classsw_1_1UIElement.html#a7b5535a1f79a5adb4a90dfb6a7a534fd", null ],
     [ "OnRemovedChild", "classsw_1_1UIElement.html#aadedba1a9bca85555b70bc247b8ef835", null ],
-    [ "OnRoutedEvent", "classsw_1_1UIElement.html#a98721f9d3c1069b5afc6188e22145f5d", null ],
+    [ "OnRoutedEvent", "classsw_1_1UIElement.html#a4868a3f7f42a03484afa025fefe9e36d", null ],
     [ "OnSetCursor", "classsw_1_1UIElement.html#a6175e146290ecff80407d4c8afa1cf05", null ],
     [ "OnSetFocus", "classsw_1_1UIElement.html#a95c6eb88c9f93bb135da9ee303ada3be", null ],
     [ "OnSize", "classsw_1_1UIElement.html#a6fb5d81280aa50310db09d57145712cd", null ],

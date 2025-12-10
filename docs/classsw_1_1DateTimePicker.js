@@ -8,5 +8,6 @@ var classsw_1_1DateTimePicker =
     [ "SetTime", "classsw_1_1DateTimePicker.html#a1fb48f641a654fbc7a2b95a58be3b69c", null ],
     [ "CustomFormat", "classsw_1_1DateTimePicker.html#a02536c45142f088a408d311ef17fde62", null ],
     [ "Format", "classsw_1_1DateTimePicker.html#afd9a0d466134e5d6ef0238c6ceed1d03", null ],
-    [ "ShowUpDownButton", "classsw_1_1DateTimePicker.html#af44a2e7a26d334ef83404e872c2420b9", null ]
+    [ "ShowUpDownButton", "classsw_1_1DateTimePicker.html#af44a2e7a26d334ef83404e872c2420b9", null ],
+    [ "Time", "classsw_1_1DateTimePicker.html#a30988e5298c810dea8ee41d7d4d4d20f", null ]
 ];

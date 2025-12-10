@@ -10,5 +10,6 @@ var classsw_1_1MonthCalendar =
     [ "SetTextColor", "classsw_1_1MonthCalendar.html#ac735773615992feb4f3394a7d361a8c1", null ],
     [ "SetTime", "classsw_1_1MonthCalendar.html#aaad4d350fd1f66ddbf95f2f9a70024f6", null ],
     [ "SetToday", "classsw_1_1MonthCalendar.html#a529242b38bc049b66b568e09d2a228e0", null ],
-    [ "ShowToday", "classsw_1_1MonthCalendar.html#a0882a0fca2d2a8c4b5c719fd896f3576", null ]
+    [ "ShowToday", "classsw_1_1MonthCalendar.html#a0882a0fca2d2a8c4b5c719fd896f3576", null ],
+    [ "Time", "classsw_1_1MonthCalendar.html#a80fffc7a50aebc28217be5db26055178", null ]
 ];

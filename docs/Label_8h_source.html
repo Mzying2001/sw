@@ -146,9 +146,21 @@ $(document).ready(function(){initNavTree('Label_8h_source.html',''); initResizab
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <span class="keywordtype">void</span> _ResizeToTextSize();</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keywordtype">void</span> _UpdateLayoutFlags();</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    };</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        sw::HorizontalAlignment _GetHorzContentAlignment();</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        <span class="keywordtype">void</span> _SetHorzContentAlignment(sw::HorizontalAlignment value);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        sw::VerticalAlignment _GetVertContentAlignment();</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="keywordtype">void</span> _SetVertContentAlignment(sw::VerticalAlignment value);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        sw::TextTrimming _GetTextTrimming();</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <span class="keywordtype">void</span> _SetTextTrimming(sw::TextTrimming value);</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    };</div>
 </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>}</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>}</div>
 <div class="ttc" id="aclasssw_1_1Label_html"><div class="ttname"><a href="classsw_1_1Label.html">sw::Label</a></div><div class="ttdoc">标签</div><div class="ttdef"><b>Definition</b> Label.h:20</div></div>
 <div class="ttc" id="aclasssw_1_1Label_html_a18a52422a3d9c21f2025a4830533b088"><div class="ttname"><a href="classsw_1_1Label.html#a18a52422a3d9c21f2025a4830533b088">sw::Label::AutoSize</a></div><div class="ttdeci">const Property&lt; bool &gt; AutoSize</div><div class="ttdoc">是否根据文本自动调整尺寸</div><div class="ttdef"><b>Definition</b> Label.h:56</div></div>
 <div class="ttc" id="aclasssw_1_1Label_html_a206150fe8586a0d5e0883d4c85e81d79"><div class="ttname"><a href="classsw_1_1Label.html#a206150fe8586a0d5e0883d4c85e81d79">sw::Label::OnSize</a></div><div class="ttdeci">virtual bool OnSize(const Size &amp;newClientSize) override</div><div class="ttdoc">接收到WM_SIZE时调用该函数</div></div>
@@ -160,7 +172,7 @@ $(document).ready(function(){initNavTree('Label_8h_source.html',''); initResizab
 <div class="ttc" id="aclasssw_1_1Label_html_af60011c35117c1dcf0d3e90f78ed4e2c"><div class="ttname"><a href="classsw_1_1Label.html#af60011c35117c1dcf0d3e90f78ed4e2c">sw::Label::MeasureOverride</a></div><div class="ttdeci">virtual Size MeasureOverride(const Size &amp;availableSize) override</div><div class="ttdoc">测量元素所需尺寸，无需考虑边框和边距</div></div>
 <div class="ttc" id="aclasssw_1_1Label_html_af90d6f76f8d674ae945193f3f4f630e9"><div class="ttname"><a href="classsw_1_1Label.html#af90d6f76f8d674ae945193f3f4f630e9">sw::Label::OnTextChanged</a></div><div class="ttdeci">virtual void OnTextChanged() override</div><div class="ttdoc">Text属性更改时调用此函数</div></div>
 <div class="ttc" id="aclasssw_1_1Label_html_af94d8f66f1119690c6c2dbca2f794de6"><div class="ttname"><a href="classsw_1_1Label.html#af94d8f66f1119690c6c2dbca2f794de6">sw::Label::AutoWrap</a></div><div class="ttdeci">const Property&lt; bool &gt; AutoWrap</div><div class="ttdoc">是否自动换行</div><div class="ttdef"><b>Definition</b> Label.h:51</div></div>
-<div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1614</div></div>
+<div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1610</div></div>
 <div class="ttc" id="aclasssw_1_1StaticControl_html"><div class="ttname"><a href="classsw_1_1StaticControl.html">sw::StaticControl</a></div><div class="ttdoc">静态控件</div><div class="ttdef"><b>Definition</b> StaticControl.h:11</div></div>
 <div class="ttc" id="astructsw_1_1Size_html"><div class="ttname"><a href="structsw_1_1Size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>Definition</b> Size.h:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
