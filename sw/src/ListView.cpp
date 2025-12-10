@@ -285,6 +285,7 @@ bool sw::ListView::OnEndEdit(NMLVDISPINFOW *pNMInfo)
 void sw::ListView::Clear()
 {
     this->SendMessageW(LVM_DELETEALLITEMS, 0, 0);
+    this->RaisePropertyChanged(&ListView::ItemsCount);
 }
 
 sw::StrList sw::ListView::GetItemAt(int index)
@@ -366,6 +367,7 @@ bool sw::ListView::InsertItem(int index, const StrList &item)
         this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
     }
 
+    this->RaisePropertyChanged(&ListView::ItemsCount);
     return true;
 }
 
@@ -391,7 +393,11 @@ bool sw::ListView::UpdateItem(int index, const StrList &newValue)
 
 bool sw::ListView::RemoveItemAt(int index)
 {
-    return this->SendMessageW(LVM_DELETEITEM, index, 0);
+    bool success = this->SendMessageW(LVM_DELETEITEM, index, 0);
+    if (success) {
+        this->RaisePropertyChanged(&ListView::ItemsCount);
+    }
+    return success;
 }
 
 std::wstring sw::ListView::GetItemAt(int row, int col)

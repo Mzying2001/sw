@@ -9,9 +9,12 @@ sw::SpinBox::SpinBox()
                   return result;
               })
               .Setter([](SpinBox *self, int value) {
-                  int max = 0;
-                  self->_GetRange32(nullptr, &max);
-                  self->_SetRange32(value, max);
+                  if (self->Minimum != value) {
+                      int max = 0;
+                      self->_GetRange32(nullptr, &max);
+                      self->_SetRange32(value, max);
+                      self->RaisePropertyChanged(&SpinBox::Minimum);
+                  }
               })),
 
       Maximum(
@@ -22,9 +25,12 @@ sw::SpinBox::SpinBox()
                   return result;
               })
               .Setter([](SpinBox *self, int value) {
-                  int min = 0;
-                  self->_GetRange32(&min, nullptr);
-                  self->_SetRange32(min, value);
+                  if (self->Maximum != value) {
+                      int min = 0;
+                      self->_GetRange32(&min, nullptr);
+                      self->_SetRange32(min, value);
+                      self->RaisePropertyChanged(&SpinBox::Maximum);
+                  }
               })),
 
       Value(
@@ -79,8 +85,15 @@ void sw::SpinBox::ClearAccels()
     _InitAccels();
 }
 
+void sw::SpinBox::OnTextChanged()
+{
+    RaisePropertyChanged(&SpinBox::Value);
+    TextBoxBase::OnTextChanged();
+}
+
 void sw::SpinBox::OnHandleChanged(HWND hwnd)
 {
+    TextBoxBase::OnHandleChanged(hwnd);
     _InitSpinBox();
 }
 

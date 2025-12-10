@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # 定义项目
-project(sw VERSION 0.0.8)
+project(sw VERSION 0.1.0)
 
 # 静态库sw
 add_library(sw STATIC)

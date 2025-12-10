@@ -213,6 +213,7 @@ bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 void sw::TabControl::OnSelectedIndexChanged()
 {
     this->_UpdateChildVisible();
+    this->RaisePropertyChanged(&TabControl::SelectedIndex);
     this->RaiseRoutedEvent(TabControl_SelectedIndexChanged);
 }
 

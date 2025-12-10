@@ -5,84 +5,18 @@
 sw::Label::Label()
     : HorizontalContentAlignment(
           Property<sw::HorizontalAlignment>::Init(this)
-              .Getter([](Label *self) -> sw::HorizontalAlignment {
-                  DWORD style = self->GetStyle();
-                  if (style & SS_CENTER) {
-                      return sw::HorizontalAlignment::Center;
-                  } else if (style & SS_RIGHT) {
-                      return sw::HorizontalAlignment::Right;
-                  } else {
-                      return sw::HorizontalAlignment::Left;
-                  }
-              })
-              .Setter([](Label *self, sw::HorizontalAlignment value) {
-                  switch (value) {
-                      case sw::HorizontalAlignment::Left: {
-                          self->SetStyle(SS_CENTER | SS_RIGHT, false);
-                          break;
-                      }
-                      case sw::HorizontalAlignment::Center: {
-                          DWORD style = self->GetStyle();
-                          style &= ~(SS_CENTER | SS_RIGHT);
-                          style |= SS_CENTER;
-                          self->SetStyle(style);
-                          break;
-                      }
-                      case sw::HorizontalAlignment::Right: {
-                          DWORD style = self->GetStyle();
-                          style &= ~(SS_CENTER | SS_RIGHT);
-                          style |= SS_RIGHT;
-                          self->SetStyle(style);
-                          break;
-                      }
-                      default: {
-                          break;
-                      }
-                  }
-                  self->Redraw();
-              })),
+              .Getter<&Label::_GetHorzContentAlignment>()
+              .Setter<&Label::_SetHorzContentAlignment>()),
 
       VerticalContentAlignment(
           Property<sw::VerticalAlignment>::Init(this)
-              .Getter([](Label *self) -> sw::VerticalAlignment {
-                  return self->GetStyle(SS_CENTERIMAGE) ? sw::VerticalAlignment::Center : sw::VerticalAlignment::Top;
-              })
-              .Setter([](Label *self, sw::VerticalAlignment value) {
-                  self->SetStyle(SS_CENTERIMAGE, value == sw::VerticalAlignment::Center);
-              })),
+              .Getter<&Label::_GetVertContentAlignment>()
+              .Setter<&Label::_SetVertContentAlignment>()),
 
       TextTrimming(
           Property<sw::TextTrimming>::Init(this)
-              .Getter([](Label *self) -> sw::TextTrimming {
-                  DWORD style = self->GetStyle();
-                  if ((style & SS_WORDELLIPSIS) == SS_WORDELLIPSIS) {
-                      return sw::TextTrimming::WordEllipsis;
-                  } else if (style & SS_ENDELLIPSIS) {
-                      return sw::TextTrimming::EndEllipsis;
-                  } else {
-                      return sw::TextTrimming::None;
-                  }
-              })
-              .Setter([](Label *self, sw::TextTrimming value) {
-                  switch (value) {
-                      case sw::TextTrimming::None: {
-                          self->SetStyle(SS_WORDELLIPSIS, false);
-                          break;
-                      }
-                      case sw::TextTrimming::WordEllipsis: {
-                          self->SetStyle(SS_WORDELLIPSIS, true);
-                          break;
-                      }
-                      case sw::TextTrimming::EndEllipsis: {
-                          DWORD style = self->GetStyle();
-                          style &= ~SS_WORDELLIPSIS;
-                          style |= SS_ENDELLIPSIS;
-                          self->SetStyle(style);
-                          break;
-                      }
-                  }
-                  self->Redraw();
-              })),
+              .Getter<&Label::_GetTextTrimming>()
+              .Setter<&Label::_SetTextTrimming>()),
 
       AutoWrap(
           Property<bool>::Init(this)
@@ -90,7 +24,10 @@ sw::Label::Label()
                   return self->GetStyle(SS_EDITCONTROL);
               })
               .Setter([](Label *self, bool value) {
-                  self->SetStyle(SS_EDITCONTROL, value);
+                  if (self->AutoWrap != value) {
+                      self->SetStyle(SS_EDITCONTROL, value);
+                      self->RaisePropertyChanged(&Label::AutoWrap);
+                  }
               })),
 
       AutoSize(
@@ -102,6 +39,7 @@ sw::Label::Label()
                   if (self->_autoSize != value) {
                       self->_autoSize = value;
                       self->_UpdateLayoutFlags();
+                      self->RaisePropertyChanged(&Label::AutoSize);
                       self->InvalidateMeasure();
                   }
               }))
@@ -190,4 +128,103 @@ void sw::Label::_UpdateLayoutFlags()
     } else {
         this->LayoutUpdateCondition &= ~flags;
     }
+}
+
+sw::HorizontalAlignment sw::Label::_GetHorzContentAlignment()
+{
+    DWORD style = this->GetStyle();
+
+    if (style & SS_CENTER) {
+        return sw::HorizontalAlignment::Center;
+    } else if (style & SS_RIGHT) {
+        return sw::HorizontalAlignment::Right;
+    } else {
+        return sw::HorizontalAlignment::Left;
+    }
+}
+
+void sw::Label::_SetHorzContentAlignment(sw::HorizontalAlignment value)
+{
+    if (this->_GetHorzContentAlignment() == value) {
+        return;
+    }
+
+    switch (value) {
+        case sw::HorizontalAlignment::Left: {
+            this->SetStyle(SS_CENTER | SS_RIGHT, false);
+            break;
+        }
+        case sw::HorizontalAlignment::Center: {
+            DWORD style = this->GetStyle();
+            style &= ~(SS_CENTER | SS_RIGHT);
+            style |= SS_CENTER;
+            this->SetStyle(style);
+            break;
+        }
+        case sw::HorizontalAlignment::Right: {
+            DWORD style = this->GetStyle();
+            style &= ~(SS_CENTER | SS_RIGHT);
+            style |= SS_RIGHT;
+            this->SetStyle(style);
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+    this->Redraw();
+    this->RaisePropertyChanged(&Label::HorizontalContentAlignment);
+}
+
+sw::VerticalAlignment sw::Label::_GetVertContentAlignment()
+{
+    return this->GetStyle(SS_CENTERIMAGE) ? sw::VerticalAlignment::Center : sw::VerticalAlignment::Top;
+}
+
+void sw::Label::_SetVertContentAlignment(sw::VerticalAlignment value)
+{
+    if (this->_GetVertContentAlignment() != value) {
+        this->SetStyle(SS_CENTERIMAGE, value == sw::VerticalAlignment::Center);
+        this->RaisePropertyChanged(&Label::VerticalContentAlignment);
+    }
+}
+
+sw::TextTrimming sw::Label::_GetTextTrimming()
+{
+    DWORD style = this->GetStyle();
+
+    if ((style & SS_WORDELLIPSIS) == SS_WORDELLIPSIS) {
+        return sw::TextTrimming::WordEllipsis;
+    } else if (style & SS_ENDELLIPSIS) {
+        return sw::TextTrimming::EndEllipsis;
+    } else {
+        return sw::TextTrimming::None;
+    }
+}
+
+void sw::Label::_SetTextTrimming(sw::TextTrimming value)
+{
+    if (this->_GetTextTrimming() == value) {
+        return;
+    }
+
+    switch (value) {
+        case sw::TextTrimming::None: {
+            this->SetStyle(SS_WORDELLIPSIS, false);
+            break;
+        }
+        case sw::TextTrimming::WordEllipsis: {
+            this->SetStyle(SS_WORDELLIPSIS, true);
+            break;
+        }
+        case sw::TextTrimming::EndEllipsis: {
+            DWORD style = this->GetStyle();
+            style &= ~SS_WORDELLIPSIS;
+            style |= SS_ENDELLIPSIS;
+            this->SetStyle(style);
+            break;
+        }
+    }
+    this->Redraw();
+    this->RaisePropertyChanged(&Label::TextTrimming);
 }

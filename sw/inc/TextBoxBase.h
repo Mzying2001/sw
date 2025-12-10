@@ -114,5 +114,16 @@ namespace sw
          * @brief 清空内容
          */
         void Clear();
+
+    private:
+        /**
+         * @brief 读取HorizontalContentAlignment属性时调用
+         */
+        sw::HorizontalAlignment _GetHorzContentAlignment();
+
+        /**
+         * @brief 写入HorizontalContentAlignment属性时调用
+         */
+        void _SetHorzContentAlignment(sw::HorizontalAlignment value);
     };
 }

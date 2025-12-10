@@ -140,4 +140,5 @@ bool sw::Control::OnPostPaint(HDC hdc, LRESULT &result)
 
 void sw::Control::OnHandleChanged(HWND hwnd)
 {
+    RaisePropertyChanged(&Control::Handle);
 }

@@ -75,6 +75,7 @@ void sw::ListBox::OnCommand(int code)
 void sw::ListBox::Clear()
 {
     this->SendMessageW(LB_RESETCONTENT, 0, 0);
+    this->RaisePropertyChanged(&ListBox::ItemsCount);
 }
 
 std::wstring sw::ListBox::GetItemAt(int index)
@@ -102,14 +103,24 @@ bool sw::ListBox::AddItem(const std::wstring &item)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(item.c_str()));
-    return this->GetItemsCount() == count + 1;
+
+    bool success = this->GetItemsCount() == count + 1;
+    if (success) {
+        this->RaisePropertyChanged(&ListBox::ItemsCount);
+    }
+    return success;
 }
 
 bool sw::ListBox::InsertItem(int index, const std::wstring &item)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(LB_INSERTSTRING, index, reinterpret_cast<LPARAM>(item.c_str()));
-    return this->GetItemsCount() == count + 1;
+
+    bool success = this->GetItemsCount() == count + 1;
+    if (success) {
+        this->RaisePropertyChanged(&ListBox::ItemsCount);
+    }
+    return success;
 }
 
 bool sw::ListBox::UpdateItem(int index, const std::wstring &newValue)
@@ -128,7 +139,12 @@ bool sw::ListBox::RemoveItemAt(int index)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(LB_DELETESTRING, index, 0);
-    return this->GetItemsCount() == count - 1;
+
+    bool success = this->GetItemsCount() == count - 1;
+    if (success) {
+        this->RaisePropertyChanged(&ListBox::ItemsCount);
+    }
+    return success;
 }
 
 int sw::ListBox::GetItemIndexFromPoint(const Point &point)

@@ -12,7 +12,10 @@ sw::ToolTip::ToolTip(DWORD style)
                   return int(self->SendMessageW(TTM_GETDELAYTIME, TTDT_INITIAL, 0));
               })
               .Setter([](ToolTip *self, int value) {
-                  self->SendMessageW(TTM_SETDELAYTIME, TTDT_AUTOMATIC, static_cast<LPARAM>(value));
+                  if (self->InitialDelay != value) {
+                      self->SendMessageW(TTM_SETDELAYTIME, TTDT_AUTOMATIC, static_cast<LPARAM>(value));
+                      self->RaisePropertyChanged(&ToolTip::InitialDelay);
+                  }
               })),
 
       ToolTipIcon(
@@ -21,8 +24,11 @@ sw::ToolTip::ToolTip(DWORD style)
                   return self->_icon;
               })
               .Setter([](ToolTip *self, sw::ToolTipIcon value) {
-                  self->_icon = value;
-                  self->_UpdateIconAndTitle();
+                  if (self->_icon != value) {
+                      self->_icon = value;
+                      self->_UpdateIconAndTitle();
+                      self->RaisePropertyChanged(&ToolTip::ToolTipIcon);
+                  }
               })),
 
       ToolTipTitle(
@@ -31,8 +37,11 @@ sw::ToolTip::ToolTip(DWORD style)
                   return self->_title;
               })
               .Setter([](ToolTip *self, const std::wstring &value) {
-                  self->_title = value;
-                  self->_UpdateIconAndTitle();
+                  if (self->_title != value) {
+                      self->_title = value;
+                      self->_UpdateIconAndTitle();
+                      self->RaisePropertyChanged(&ToolTip::ToolTipTitle);
+                  }
               })),
 
       MaxTipWidth(
@@ -42,8 +51,11 @@ sw::ToolTip::ToolTip(DWORD style)
                   return (w == -1) ? -1 : Dip::PxToDipX(w);
               })
               .Setter([](ToolTip *self, double value) {
-                  int w = value < 0 ? -1 : Dip::DipToPxX(value);
-                  self->SendMessageW(TTM_SETMAXTIPWIDTH, 0, w);
+                  if (self->MaxTipWidth != value) {
+                      int w = value < 0 ? -1 : Dip::DipToPxX(value);
+                      self->SendMessageW(TTM_SETMAXTIPWIDTH, 0, w);
+                      self->RaisePropertyChanged(&ToolTip::MaxTipWidth);
+                  }
               }))
 {
     this->InitControl(TOOLTIPS_CLASSW, L"", style, 0);

@@ -350,16 +350,13 @@ bool sw::Layer::RequestBringIntoView(const sw::Rect &screenRect)
     return handled;
 }
 
-bool sw::Layer::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
+void sw::Layer::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
 {
-    if (handler) {
-        handler(*this, eventArgs);
-    }
-    if (eventArgs.handled) {
-        return true;
-    }
+    this->UIElement::OnRoutedEvent(eventArgs, handler);
 
-    if (eventArgs.eventType == UIElement_MouseWheel && this->_mouseWheelScrollEnabled) {
+    if (!eventArgs.handled &&
+        eventArgs.eventType == UIElement_MouseWheel && this->_mouseWheelScrollEnabled) //
+    {
         auto &wheelArgs = static_cast<MouseWheelEventArgs &>(eventArgs);
         bool shiftDown  = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
         double offset   = -std::copysign(_LayerScrollBarLineInterval, wheelArgs.wheelDelta);
@@ -375,7 +372,6 @@ bool sw::Layer::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandl
             }
         }
     }
-    return true;
 }
 
 void sw::Layer::GetHorizontalScrollRange(double &refMin, double &refMax)

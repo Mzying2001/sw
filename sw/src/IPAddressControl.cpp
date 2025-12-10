@@ -28,8 +28,10 @@ sw::IPAddressControl::IPAddressControl()
                   return result;
               })
               .Setter([](IPAddressControl *self, uint32_t value) {
-                  ::SendMessageW(self->_hIPAddrCtrl, IPM_SETADDRESS, 0, (LPARAM)value);
-                  self->OnAddressChanged();
+                  if (self->Address != value) {
+                      ::SendMessageW(self->_hIPAddrCtrl, IPM_SETADDRESS, 0, (LPARAM)value);
+                      self->OnAddressChanged();
+                  }
               }))
 {
     Rect    = sw::Rect{0, 0, 150, 24};
@@ -102,6 +104,8 @@ bool sw::IPAddressControl::OnNotify(NMHDR *pNMHDR, LRESULT &result)
 
 void sw::IPAddressControl::OnAddressChanged()
 {
+    RaisePropertyChanged(&IPAddressControl::Address);
+    RaisePropertyChanged(&IPAddressControl::IsBlank);
     RaiseRoutedEvent(IPAddressControl_AddressChanged);
 }
 

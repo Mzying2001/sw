@@ -1,26 +1,21 @@
 #include "ComboBox.h"
 
-namespace
-{
-    constexpr DWORD _ComboBoxStyle_Default  = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWNLIST;
-    constexpr DWORD _ComboBoxStyle_Editable = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWN;
-}
-
 sw::ComboBox::ComboBox()
     : IsEditable(
           Property<bool>::Init(this)
               .Getter([](ComboBox *self) -> bool {
-                  return self->GetStyle() == _ComboBoxStyle_Editable;
+                  return (self->GetStyle() & (CBS_DROPDOWN | CBS_DROPDOWNLIST)) == CBS_DROPDOWN;
               })
               .Setter([](ComboBox *self, bool value) {
                   if (self->IsEditable != value) {
-                      self->SetStyle(value ? _ComboBoxStyle_Editable : _ComboBoxStyle_Default);
+                      auto baseStyle = self->GetStyle() & ~(CBS_DROPDOWN | CBS_DROPDOWNLIST);
+                      self->SetStyle(baseStyle | (value ? CBS_DROPDOWN : CBS_DROPDOWNLIST));
                       self->ResetHandle();
                       self->SetInternalText(self->WndBase::GetInternalText()); // 使切换后文本框内容能够保留
                   }
               }))
 {
-    this->InitControl(L"COMBOBOX", L"", _ComboBoxStyle_Default, 0);
+    this->InitControl(L"COMBOBOX", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWNLIST, 0);
     this->Rect    = sw::Rect(0, 0, 100, 24);
     this->TabStop = true;
 }
@@ -99,6 +94,7 @@ void sw::ComboBox::OnSelectionChanged()
 void sw::ComboBox::Clear()
 {
     this->SendMessageW(CB_RESETCONTENT, 0, 0);
+    this->RaisePropertyChanged(&ComboBox::ItemsCount);
 }
 
 std::wstring sw::ComboBox::GetItemAt(int index)
@@ -120,14 +116,25 @@ bool sw::ComboBox::AddItem(const std::wstring &item)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(item.c_str()));
-    return this->GetItemsCount() == count + 1;
+
+    bool success = this->GetItemsCount() == count + 1;
+    if (success) {
+        this->RaisePropertyChanged(&ComboBox::ItemsCount);
+    }
+    return success;
 }
 
 bool sw::ComboBox::InsertItem(int index, const std::wstring &item)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(CB_INSERTSTRING, index, reinterpret_cast<LPARAM>(item.c_str()));
-    return this->GetItemsCount() == count + 1;
+    this->RaisePropertyChanged(&ComboBox::ItemsCount);
+
+    bool success = this->GetItemsCount() == count + 1;
+    if (success) {
+        this->RaisePropertyChanged(&ComboBox::ItemsCount);
+    }
+    return success;
 }
 
 bool sw::ComboBox::UpdateItem(int index, const std::wstring &newValue)
@@ -138,7 +145,6 @@ bool sw::ComboBox::UpdateItem(int index, const std::wstring &newValue)
     if (updated && selected) {
         this->SetSelectedIndex(index);
     }
-
     return updated;
 }
 
@@ -146,7 +152,12 @@ bool sw::ComboBox::RemoveItemAt(int index)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(CB_DELETESTRING, index, 0);
-    return this->GetItemsCount() == count - 1;
+
+    bool success = this->GetItemsCount() == count - 1;
+    if (success) {
+        this->RaisePropertyChanged(&ComboBox::ItemsCount);
+    }
+    return success;
 }
 
 void sw::ComboBox::ShowDropDown()

@@ -9,11 +9,11 @@
 #include "IComparable.h"
 #include "IToString.h"
 #include "Keys.h"
+#include "ObservableObject.h"
 #include "Point.h"
 #include "ProcMsg.h"
 #include "Property.h"
 #include "Rect.h"
-#include "Reflection.h"
 #include "Size.h"
 #include "WndMsg.h"
 #include <Windows.h>
@@ -35,7 +35,7 @@ namespace sw
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
-    class WndBase : public DynamicObject,
+    class WndBase : public ObservableObject,
                     public IToString<WndBase>,
                     public IEqualityComparable<WndBase>
     {
@@ -944,7 +944,7 @@ namespace sw
                 std::is_base_of<WndBase, TDerived>::value && _IsWritableProperty<TProperty>::value>::type
         {
             auto setter = Reflection::GetPropertySetter(prop);
-            setter(*this, value);
+            setter(*this, std::forward<typename TProperty::TSetterParam>(value));
         }
     };
 }
