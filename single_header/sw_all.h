@@ -2367,11 +2367,7 @@ namespace sw
     template <typename T>
     struct _PropertySetterParamTypeHelper {
         using type = typename std::conditional<
-            std::is_arithmetic<T>::value ||
-                std::is_enum<T>::value ||
-                std::is_pointer<T>::value ||
-                std::is_member_pointer<T>::value,
-            T, const T &>::type;
+            std::is_scalar<T>::value, T, const T &>::type;
     };
 
     /**
@@ -4269,6 +4265,93 @@ namespace sw
     };
 }
 
+// INotifyObjectDead.h
+
+
+namespace sw
+{
+    class INotifyObjectDead; // 向前声明
+
+    /**
+     * @brief 对象销毁事件处理程序类型
+     */
+    using ObjectDeadEventHandler = Action<INotifyObjectDead &>;
+
+    /**
+     * @brief 对象销毁通知接口
+     */
+    class INotifyObjectDead
+    {
+    public:
+        /**
+         * @brief 对象销毁时触发该事件
+         */
+        ObjectDeadEventHandler ObjectDead;
+
+        /**
+         * @brief 析构时触发对象销毁事件
+         */
+        virtual ~INotifyObjectDead()
+        {
+            if (ObjectDead) {
+                ObjectDead(*this);
+            }
+        }
+    };
+}
+
+// IValueConverter.h
+
+
+namespace sw
+{
+    /**
+     * @brief 最佳参数类型，标量类型使用值传递，复杂类型使用常量引用传递
+     */
+    template <typename T>
+    using _OptimalParamType = _PropertySetterParamType<T>;
+
+    /**
+     * @brief 值转换器接口
+     * @tparam TSource 源类型
+     * @tparam TTarget 目标类型
+     */
+    template <typename TSource, typename TTarget>
+    class IValueConverter
+    {
+    public:
+        /**
+         * @brief 源数据传参类型
+         */
+        using TSourceParam = _OptimalParamType<TSource>;
+
+        /**
+         * @brief 目标数据传参类型
+         */
+        using TTargetParam = _OptimalParamType<TTarget>;
+
+        /**
+         * @brief 默认析构函数
+         */
+        virtual ~IValueConverter() = default;
+
+    public:
+        /**
+         * @brief 将源类型转换为目标类型
+         * @param source 源值
+         * @return 转换后的目标值
+         */
+        virtual TTarget Convert(TSourceParam source) = 0;
+
+        /**
+         * @brief 将目标类型转换为源类型
+         * @param target 目标值
+         * @return 转换后的源值
+         */
+        virtual TSource ConvertBack(TTargetParam target) = 0;
+    };
+}
+
 // Keys.h
 
 
@@ -4849,6 +4932,51 @@ namespace sw
     };
 
     /**
+     * @brief 表示字段的唯一标识符
+     */
+    struct FieldId : public IToString<FieldId>,
+                     public IComparable<FieldId, FieldId> {
+        /**
+         * @brief 字段ID的数值
+         */
+        uint32_t value;
+
+        /**
+         * @brief 默认构造函数
+         */
+        FieldId() = default;
+
+        /**
+         * @brief 构造指定值的字段ID
+         */
+        FieldId(uint32_t value)
+            : value(value)
+        {
+        }
+
+        /**
+         * @brief 获取字段ID的字符串表示形式
+         */
+        std::wstring ToString() const
+        {
+            return std::to_wstring(value);
+        }
+
+        /**
+         * @brief  比较字段ID
+         * @return 值相等返回0，小于返回负数，大于返回正数
+         */
+        int CompareTo(FieldId other) const
+        {
+            if (value == other.value) {
+                return 0;
+            } else {
+                return value < other.value ? -1 : 1;
+            }
+        }
+    };
+
+    /**
      * @brief 提供反射相关功能
      */
     class Reflection
@@ -4858,6 +4986,33 @@ namespace sw
          * @brief 静态类，不允许实例化
          */
         Reflection() = delete;
+
+        /**
+         * @brief         获取字段的唯一标识符
+         * @tparam T      字段所属类类型
+         * @tparam TField 字段类型
+         * @param field   字段的成员指针
+         * @return        对应的字段ID
+         */
+        template <typename T, typename TField>
+        static FieldId GetFieldId(TField T::*field)
+        {
+            auto pfunc = &Reflection::GetFieldId<T, TField>;
+
+            uint8_t buffer[sizeof(pfunc) + sizeof(field)];
+            memcpy(buffer, &pfunc, sizeof(pfunc));
+            memcpy(buffer + sizeof(pfunc), &field, sizeof(field));
+
+            uint32_t prime = 16777619u;
+            uint32_t hash  = 2166136261u;
+
+            for (size_t i = 0; i < sizeof(buffer); ++i) {
+                hash ^= static_cast<uint32_t>(buffer[i]);
+                hash *= prime;
+            }
+
+            return FieldId{hash};
+        }
 
         /**
          * @brief        获取成员函数的委托
@@ -4896,10 +5051,10 @@ namespace sw
         }
 
         /**
-         * @brief         获取成员字段的访问器
-         * @tparam T      成员字段所属类类型
-         * @tparam TField 成员字段类型
-         * @param field   成员字段指针
+         * @brief         获取字段的访问器
+         * @tparam T      字段所属类类型
+         * @tparam TField 字段类型
+         * @param field   字段的成员指针
          * @return        对应的访问器
          */
         template <typename T, typename TField>
@@ -4918,6 +5073,7 @@ namespace sw
          * @tparam TProperty 属性类型
          * @param prop       属性指针
          * @return           对应的Getter委托
+         * @note             若属性不可读则返回空委托
          */
         template <typename T, typename TProperty>
         static auto GetPropertyGetter(TProperty T::*prop)
@@ -4931,11 +5087,29 @@ namespace sw
         }
 
         /**
+         * @brief            获取属性的Getter委托
+         * @tparam T         属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop       属性指针
+         * @return           对应的Getter委托
+         * @note             若属性不可读则返回空委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertyGetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && !_IsReadableProperty<TProperty>::value,
+                Delegate<typename TProperty::TValue(DynamicObject &)>>::type
+        {
+            return nullptr;
+        }
+
+        /**
          * @brief            获取属性的Setter委托
          * @tparam T         属性所属类类型
          * @tparam TProperty 属性类型
          * @param prop       属性指针
          * @return           对应的Setter委托
+         * @note             若属性不可写则返回空委托
          */
         template <typename T, typename TProperty>
         static auto GetPropertySetter(TProperty T::*prop)
@@ -4944,8 +5118,25 @@ namespace sw
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
-                (obj.DynamicCast<T>().*prop).Set(value);
+                (obj.DynamicCast<T>().*prop).Set(std::forward<typename TProperty::TSetterParam>(value));
             };
+        }
+
+        /**
+         * @brief            获取属性的Setter委托
+         * @tparam T         属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop       属性指针
+         * @return           对应的Setter委托
+         * @note             若属性不可写则返回空委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertySetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && !_IsWritableProperty<TProperty>::value,
+                Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
+        {
+            return nullptr;
         }
     };
 }
@@ -5750,6 +5941,36 @@ namespace sw
             const auto &otherWrapper = static_cast<const RoutedEventHandlerWrapper &>(other);
             return _handler.Equals(otherWrapper._handler);
         }
+    };
+}
+
+// INotifyPropertyChanged.h
+
+
+namespace sw
+{
+    class INotifyPropertyChanged; // 向前声明
+
+    /**
+     * @brief 属性更改事件处理函数类型
+     */
+    using PropertyChangedEventHandler = Action<INotifyPropertyChanged &, FieldId>;
+
+    /**
+     * @brief 属性变更通知接口
+     */
+    class INotifyPropertyChanged
+    {
+    public:
+        /**
+         * @brief 当属性值更改时触发的事件
+         */
+        PropertyChangedEventHandler PropertyChanged;
+
+        /**
+         * @brief 默认析构函数
+         */
+        virtual ~INotifyPropertyChanged() = default;
     };
 }
 
@@ -6931,6 +7152,588 @@ namespace sw
     };
 }
 
+// Binding.h
+
+
+namespace sw
+{
+    /**
+     * @brief 绑定模式枚举
+     */
+    enum class BindingMode {
+        /**
+         * @brief 一次性绑定，在绑定创建时更新目标属性值
+         */
+        OneTime,
+
+        /**
+         * @brief 单向，从源到目标
+         */
+        OneWay,
+
+        /**
+         * @brief 单向，从目标到源
+         */
+        OneWayToSource,
+
+        /**
+         * @brief 双向，源和目标相互更新
+         */
+        TwoWay,
+    };
+
+    /**
+     * @brief 数据绑定基类
+     */
+    class BindingBase
+    {
+    public:
+        /**
+         * @brief 默认析构函数
+         */
+        virtual ~BindingBase() = default;
+
+    public:
+        /**
+         * @brief 更新目标属性的值
+         * @return 如果更新成功则返回true，否则返回false
+         */
+        virtual bool UpdateTarget() = 0;
+
+        /**
+         * @brief 更新源属性的值
+         * @return 如果更新成功则返回true，否则返回false
+         */
+        virtual bool UpdateSource() = 0;
+
+        /**
+         * @brief 获取目标属性ID
+         */
+        virtual FieldId GetTargetPropertyId() const = 0;
+
+        /**
+         * @brief 获取源属性ID
+         */
+        virtual FieldId GetSourcePropertyId() const = 0;
+    };
+
+    /**
+     * @brief 数据绑定类
+     */
+    class Binding final : public BindingBase
+    {
+    private:
+        /**
+         * @brief 绑定模式
+         */
+        BindingMode _mode;
+
+        /**
+         * @brief 目标对象
+         */
+        DynamicObject *_targetObject;
+
+        /**
+         * @brief 源对象
+         */
+        DynamicObject *_sourceObject;
+
+        /**
+         * @brief 目标属性ID
+         */
+        FieldId _targetPropertyId;
+
+        /**
+         * @brief 源属性ID
+         */
+        FieldId _sourcePropertyId;
+
+        /**
+         * @brief 值转换器
+         */
+        void *_converter;
+
+        /**
+         * @brief 值转换器删除函数
+         */
+        void (*_converterDeleter)(void *);
+
+        /**
+         * @brief 更新目标属性值委托
+         */
+        Func<Binding *, bool> _updateTargetFunc;
+
+        /**
+         * @brief 更新源属性值委托
+         */
+        Func<Binding *, bool> _updateSourceFunc;
+
+    private:
+        /**
+         * @brief 默认构造函数
+         */
+        Binding() = default;
+
+        Binding(const Binding &)            = delete; // 删除拷贝构造函数
+        Binding(Binding &&)                 = delete; // 删除移动构造函数
+        Binding &operator=(const Binding &) = delete; // 删除拷贝赋值运算符
+        Binding &operator=(Binding &&)      = delete; // 删除移动赋值运算符
+
+    public:
+        /**
+         * @brief 析构函数
+         */
+        virtual ~Binding()
+        {
+            UnregisterNotifications();
+
+            if (_converterDeleter && _converter) {
+                _converterDeleter(_converter);
+            }
+        }
+
+        /**
+         * @brief 更新目标属性的值
+         * @return 如果更新成功则返回true，否则返回false
+         */
+        virtual bool UpdateTarget() override
+        {
+            bool result = false;
+
+            if (_updateTargetFunc) {
+                result = _updateTargetFunc(this);
+            }
+            return result;
+        }
+
+        /**
+         * @brief 更新源属性的值
+         * @return 如果更新成功则返回true，否则返回false
+         */
+        virtual bool UpdateSource() override
+        {
+            bool result = false;
+
+            if (_updateSourceFunc) {
+                result = _updateSourceFunc(this);
+            }
+            return result;
+        }
+
+        /**
+         * @brief 获取目标属性ID
+         */
+        virtual FieldId GetTargetPropertyId() const override
+        {
+            return _targetPropertyId;
+        }
+
+        /**
+         * @brief 获取源属性ID
+         */
+        virtual FieldId GetSourcePropertyId() const override
+        {
+            return _sourcePropertyId;
+        }
+
+        /**
+         * @brief 获取绑定模式
+         */
+        BindingMode GetBindingMode() const
+        {
+            return _mode;
+        }
+
+        /**
+         * @brief 获取目标对象
+         */
+        DynamicObject *GetTargetObject() const
+        {
+            return _targetObject;
+        }
+
+        /**
+         * @brief 获取源对象
+         */
+        DynamicObject *GetSourceObject() const
+        {
+            return _sourceObject;
+        }
+
+        /**
+         * @brief 修改绑定模式
+         */
+        void SetBindingMode(BindingMode mode)
+        {
+            if (_mode != mode) {
+                _mode = mode;
+                OnBindingChanged();
+            }
+        }
+
+        /**
+         * @brief 修改目标对象
+         */
+        void SetTargetObject(DynamicObject *target)
+        {
+            if (_targetObject != target) {
+                UnregisterNotifications();
+                _targetObject = target;
+                RegisterNotifications();
+                OnBindingChanged();
+            }
+        }
+
+        /**
+         * @brief 修改源对象
+         */
+        void SetSourceObject(DynamicObject *source)
+        {
+            if (_sourceObject != source) {
+                UnregisterNotifications();
+                _sourceObject = source;
+                RegisterNotifications();
+                OnBindingChanged();
+            }
+        }
+
+        /**
+         * @brief 修改目标对象和源对象
+         */
+        void SetBindingObjects(DynamicObject *target, DynamicObject *source)
+        {
+            if (_targetObject != target ||
+                _sourceObject != source) //
+            {
+                UnregisterNotifications();
+                _targetObject = target;
+                _sourceObject = source;
+                RegisterNotifications();
+                OnBindingChanged();
+            }
+        }
+
+    private:
+        /**
+         * @brief 注册属性更改通知
+         */
+        void RegisterNotifications()
+        {
+            INotifyPropertyChanged *targetNotifObj = nullptr;
+            INotifyPropertyChanged *sourceNotifObj = nullptr;
+
+            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObj)) {
+                targetNotifObj->PropertyChanged +=
+                    PropertyChangedEventHandler(*this, &Binding::OnTargetPropertyChanged);
+            }
+            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObj)) {
+                sourceNotifObj->PropertyChanged +=
+                    PropertyChangedEventHandler(*this, &Binding::OnSourcePropertyChanged);
+            }
+
+            INotifyObjectDead *targetNotifObjDead = nullptr;
+            INotifyObjectDead *sourceNotifObjDead = nullptr;
+
+            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObjDead)) {
+                targetNotifObjDead->ObjectDead +=
+                    ObjectDeadEventHandler(*this, &Binding::OnTargetObjectDead);
+            }
+            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObjDead)) {
+                sourceNotifObjDead->ObjectDead +=
+                    ObjectDeadEventHandler(*this, &Binding::OnSourceObjectDead);
+            }
+        }
+
+        /**
+         * @brief 注销属性更改通知
+         */
+        void UnregisterNotifications()
+        {
+            INotifyPropertyChanged *targetNotifObj = nullptr;
+            INotifyPropertyChanged *sourceNotifObj = nullptr;
+
+            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObj)) {
+                targetNotifObj->PropertyChanged -=
+                    PropertyChangedEventHandler(*this, &Binding::OnTargetPropertyChanged);
+            }
+            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObj)) {
+                sourceNotifObj->PropertyChanged -=
+                    PropertyChangedEventHandler(*this, &Binding::OnSourcePropertyChanged);
+            }
+
+            INotifyObjectDead *targetNotifObjDead = nullptr;
+            INotifyObjectDead *sourceNotifObjDead = nullptr;
+
+            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObjDead)) {
+                targetNotifObjDead->ObjectDead -=
+                    ObjectDeadEventHandler(*this, &Binding::OnTargetObjectDead);
+            }
+            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObjDead)) {
+                sourceNotifObjDead->ObjectDead -=
+                    ObjectDeadEventHandler(*this, &Binding::OnSourceObjectDead);
+            }
+        }
+
+        /**
+         * @brief 目标属性更改处理函数
+         */
+        void OnTargetPropertyChanged(INotifyPropertyChanged &sender, FieldId propertyId)
+        {
+            if (propertyId != _targetPropertyId) {
+                return;
+            }
+
+            if (_mode == BindingMode::TwoWay ||
+                _mode == BindingMode::OneWayToSource) {
+                UpdateSource();
+            }
+        }
+
+        /**
+         * @brief 源属性更改处理函数
+         */
+        void OnSourcePropertyChanged(INotifyPropertyChanged &sender, FieldId propertyId)
+        {
+            if (propertyId != _sourcePropertyId) {
+                return;
+            }
+
+            if (_mode == BindingMode::TwoWay ||
+                _mode == BindingMode::OneWay) {
+                UpdateTarget();
+            }
+        }
+
+        /**
+         * @brief 目标对象销毁处理函数
+         */
+        void OnTargetObjectDead(INotifyObjectDead &sender)
+        {
+            SetTargetObject(nullptr);
+        }
+
+        /**
+         * @brief 源对象销毁处理函数
+         */
+        void OnSourceObjectDead(INotifyObjectDead &sender)
+        {
+            SetSourceObject(nullptr);
+        }
+
+        /**
+         * @brief 绑定创建和发生更改时调用
+         */
+        void OnBindingChanged()
+        {
+            switch (_mode) {
+                case BindingMode::OneTime:
+                case BindingMode::OneWay:
+                case BindingMode::TwoWay: {
+                    UpdateTarget();
+                    break;
+                }
+                case BindingMode::OneWayToSource: {
+                    UpdateSource();
+                    break;
+                }
+            }
+        }
+
+    public:
+        /**
+         * @brief 创建绑定对象
+         * @param target 目标对象指针
+         * @param targetProperty 目标属性成员指针
+         * @param source 源对象指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(DynamicObject *target, TTargetProperty TTargetObject::*targetProperty,
+                           DynamicObject *source, TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter = nullptr)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                Binding *>::type
+        {
+            using TTargetValue = typename TTargetProperty::TValue;
+            using TSourceValue = typename TSourceProperty::TValue;
+
+            auto binding   = new Binding;
+            binding->_mode = mode;
+
+            binding->_targetObject     = target;
+            binding->_sourceObject     = source;
+            binding->_targetPropertyId = Reflection::GetFieldId(targetProperty);
+            binding->_sourcePropertyId = Reflection::GetFieldId(sourceProperty);
+
+            binding->_converter        = converter;
+            binding->_converterDeleter = [](void *ptr) {
+                delete reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(ptr);
+            };
+
+            // update target action
+            binding->_updateTargetFunc = [targetSetter = Reflection::GetPropertySetter(targetProperty),
+                                          sourceGetter = Reflection::GetPropertyGetter(sourceProperty)](Binding *binding) -> bool //
+            {
+                IValueConverter<TSourceValue, TTargetValue> *converter =
+                    reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
+
+                if (targetSetter == nullptr ||
+                    sourceGetter == nullptr ||
+                    binding->_targetObject == nullptr ||
+                    binding->_sourceObject == nullptr) {
+                    return false;
+                }
+
+                if (converter) {
+                    targetSetter(
+                        *binding->_targetObject,
+                        converter->Convert(sourceGetter(*binding->_sourceObject)));
+                } else {
+                    targetSetter(
+                        *binding->_targetObject,
+                        sourceGetter(*binding->_sourceObject));
+                }
+                return true;
+            };
+
+            // update source action
+            binding->_updateSourceFunc = [targetGetter = Reflection::GetPropertyGetter(targetProperty),
+                                          sourceSetter = Reflection::GetPropertySetter(sourceProperty)](Binding *binding) -> bool //
+            {
+                IValueConverter<TSourceValue, TTargetValue> *converter =
+                    reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
+
+                if (targetGetter == nullptr ||
+                    sourceSetter == nullptr ||
+                    binding->_targetObject == nullptr ||
+                    binding->_sourceObject == nullptr) {
+                    return false;
+                }
+
+                if (converter) {
+                    sourceSetter(
+                        *binding->_sourceObject,
+                        converter->ConvertBack(targetGetter(*binding->_targetObject)));
+                } else {
+                    sourceSetter(
+                        *binding->_sourceObject,
+                        targetGetter(*binding->_targetObject));
+                }
+                return true;
+            };
+
+            binding->RegisterNotifications();
+            binding->OnBindingChanged();
+            return binding;
+        }
+
+        /**
+         * @brief 创建绑定对象
+         * @param target 目标对象指针
+         * @param targetProperty 目标属性成员指针
+         * @param source 源对象指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(DynamicObject *target, TTargetProperty TTargetObject::*targetProperty,
+                           DynamicObject *source, TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    !std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                Binding *>::type
+        {
+            using TTargetValue = typename TTargetProperty::TValue;
+            using TSourceValue = typename TSourceProperty::TValue;
+
+            auto binding   = new Binding;
+            binding->_mode = mode;
+
+            binding->_targetObject     = target;
+            binding->_sourceObject     = source;
+            binding->_targetPropertyId = Reflection::GetFieldId(targetProperty);
+            binding->_sourcePropertyId = Reflection::GetFieldId(sourceProperty);
+
+            binding->_converter        = converter;
+            binding->_converterDeleter = [](void *ptr) {
+                delete reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(ptr);
+            };
+
+            // update target action
+            binding->_updateTargetFunc = [targetSetter = Reflection::GetPropertySetter(targetProperty),
+                                          sourceGetter = Reflection::GetPropertyGetter(sourceProperty)](Binding *binding) -> bool //
+            {
+                IValueConverter<TSourceValue, TTargetValue> *converter =
+                    reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
+
+                if (targetSetter == nullptr ||
+                    sourceGetter == nullptr ||
+                    converter == nullptr ||
+                    binding->_targetObject == nullptr ||
+                    binding->_sourceObject == nullptr) {
+                    return false;
+                }
+
+                targetSetter(
+                    *binding->_targetObject,
+                    converter->Convert(sourceGetter(*binding->_sourceObject)));
+                return true;
+            };
+
+            // update source action
+            binding->_updateSourceFunc = [targetGetter = Reflection::GetPropertyGetter(targetProperty),
+                                          sourceSetter = Reflection::GetPropertySetter(sourceProperty)](Binding *binding) -> bool //
+            {
+                IValueConverter<TSourceValue, TTargetValue> *converter =
+                    reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
+
+                if (targetGetter == nullptr ||
+                    sourceSetter == nullptr ||
+                    converter == nullptr ||
+                    binding->_targetObject == nullptr ||
+                    binding->_sourceObject == nullptr) {
+                    return false;
+                }
+
+                sourceSetter(
+                    *binding->_sourceObject,
+                    converter->ConvertBack(targetGetter(*binding->_targetObject)));
+                return true;
+            };
+
+            binding->RegisterNotifications();
+            binding->OnBindingChanged();
+            return binding;
+        }
+    };
+}
+
 // ContextMenu.h
 
 
@@ -7065,6 +7868,105 @@ namespace sw
     };
 }
 
+// ObservableObject.h
+
+
+namespace sw
+{
+    /**
+     * @brief 可观察对象基类，实现属性更改通知功能
+     */
+    class ObservableObject : public DynamicObject,
+                             public INotifyObjectDead,
+                             public INotifyPropertyChanged
+    {
+    protected:
+        /**
+         * @brief 触发属性更改通知事件
+         * @param propertyId 更改的属性ID
+         */
+        void RaisePropertyChanged(FieldId propertyId)
+        {
+            if (PropertyChanged) {
+                PropertyChanged(*this, propertyId);
+            }
+        }
+
+        /**
+         * @brief 触发属性更改通知事件
+         * @tparam T 属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param property 更改的属性成员指针
+         */
+        template <typename T, typename TProperty>
+        void RaisePropertyChanged(TProperty T::*property)
+        {
+            FieldId id = Reflection::GetFieldId(property);
+            RaisePropertyChanged(id);
+        }
+    };
+}
+
+// LayoutHost.h
+
+
+namespace sw
+{
+    /**
+     * @brief 用于托管元素的布局方式的对象类型，是所有布局方式类型的基类
+     */
+    class LayoutHost
+    {
+    private:
+        /**
+         * @brief 关联的对象
+         */
+        ILayout *_associatedObj = nullptr;
+
+    public:
+        /**
+         * @brief 默认虚析构函数
+         */
+        virtual ~LayoutHost() = default;
+
+        /**
+         * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
+         * @param obj 要关联的对象
+         */
+        void Associate(ILayout *obj);
+
+        /**
+         * @brief     判断当前LayoutHost是否关联了对象
+         * @param obj 若传入值为nullptr，则判断是否有任何对象关联，否则判断是否关联了指定对象
+         */
+        bool IsAssociated(ILayout *obj = nullptr);
+
+        /**
+         * @brief 获取关联对象子控件的数量
+         */
+        int GetChildLayoutCount();
+
+        /**
+         * @brief 获取关联对象对应索引处的子控件
+         */
+        ILayout &GetChildLayoutAt(int index);
+
+    public:
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) = 0;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) = 0;
+    };
+}
+
 // WndBase.h
 
 
@@ -7082,7 +7984,7 @@ namespace sw
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
-    class WndBase : public DynamicObject,
+    class WndBase : public ObservableObject,
                     public IToString<WndBase>,
                     public IEqualityComparable<WndBase>
     {
@@ -7991,68 +8893,437 @@ namespace sw
                 std::is_base_of<WndBase, TDerived>::value && _IsWritableProperty<TProperty>::value>::type
         {
             auto setter = Reflection::GetPropertySetter(prop);
-            setter(*this, value);
+            setter(*this, std::forward<typename TProperty::TSetterParam>(value));
         }
     };
 }
 
-// LayoutHost.h
+// CanvasLayout.h
 
 
 namespace sw
 {
     /**
-     * @brief 用于托管元素的布局方式的对象类型，是所有布局方式类型的基类
+     * @brief 绝对位置布局方式的布局标记
      */
-    class LayoutHost
+    struct CanvasLayoutTag {
+        /**
+         * @brief 左边
+         */
+        float left;
+
+        /**
+         * @brief 顶边
+         */
+        float top;
+
+        /**
+         * @brief 左边顶边均为0
+         */
+        CanvasLayoutTag();
+
+        /**
+         * @brief 指定左边和顶边
+         */
+        CanvasLayoutTag(float left, float top);
+
+        /**
+         * @brief 从LayoutTag创建
+         */
+        CanvasLayoutTag(uint64_t layoutTag);
+
+        /**
+         * @brief 隐式转换LayoutTag
+         */
+        operator uint64_t() const;
+    };
+
+    /**
+     * @brief 绝对位置布局方式
+     */
+    class CanvasLayout : public LayoutHost
     {
-    private:
-        /**
-         * @brief 关联的对象
-         */
-        ILayout *_associatedObj = nullptr;
-
-    public:
-        /**
-         * @brief 默认虚析构函数
-         */
-        virtual ~LayoutHost() = default;
-
-        /**
-         * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
-         * @param obj 要关联的对象
-         */
-        void Associate(ILayout *obj);
-
-        /**
-         * @brief     判断当前LayoutHost是否关联了对象
-         * @param obj 若传入值为nullptr，则判断是否有任何对象关联，否则判断是否关联了指定对象
-         */
-        bool IsAssociated(ILayout *obj = nullptr);
-
-        /**
-         * @brief 获取关联对象子控件的数量
-         */
-        int GetChildLayoutCount();
-
-        /**
-         * @brief 获取关联对象对应索引处的子控件
-         */
-        ILayout &GetChildLayoutAt(int index);
-
     public:
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
          * @return              返回元素需要占用的尺寸
          */
-        virtual Size MeasureOverride(const Size &availableSize) = 0;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
          * @brief           安排子元素的位置，可重写该函数以实现自定义布局
          * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void ArrangeOverride(const Size &finalSize) = 0;
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// DockLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 停靠布局标记
+     */
+    class DockLayoutTag : public IEqualityComparable<DockLayoutTag>
+    {
+    public:
+        enum : uint64_t {
+            Left,   // 左边
+            Top,    // 顶边
+            Right,  // 右边
+            Bottom, // 底边
+        };
+
+    private:
+        /**
+         * @brief Tag值
+         */
+        uint64_t _value;
+
+    public:
+        /**
+         * @brief 创建DockLayoutTag
+         */
+        DockLayoutTag(uint64_t value = Left);
+
+        /**
+         * @brief 隐式转换uint64_t
+         */
+        operator uint64_t() const;
+
+        /**
+         * @brief 判断值是否相等
+         */
+        bool Equals(const DockLayoutTag &other) const;
+
+        /**
+         * @brief 判断值是否相等
+         */
+        bool operator==(uint64_t value) const;
+
+        /**
+         * @brief 判断值是否不相等
+         */
+        bool operator!=(uint64_t value) const;
+    };
+
+    /**
+     * @brief 停靠布局
+     */
+    class DockLayout : public LayoutHost
+    {
+    public:
+        /**
+         * @brief 最后一个子元素是否填充剩余空间
+         */
+        bool lastChildFill = true;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// FillLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 一种将全部元素都铺满的布局，一般用于在只有一个子元素的时候将该元素铺满整个可用区域
+     */
+    class FillLayout : public LayoutHost
+    {
+    public:
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// GridLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 网格布局方式的布局标记
+     */
+    struct GridLayoutTag {
+        /**
+         * @brief 所在行
+         */
+        uint16_t row;
+
+        /**
+         * @brief 所在列
+         */
+        uint16_t column;
+
+        /**
+         * @brief 所跨行数
+         */
+        uint16_t rowSpan;
+
+        /**
+         * @brief 所跨列数
+         */
+        uint16_t columnSpan;
+
+        /**
+         * @brief GridLayoutTag默认值
+         */
+        GridLayoutTag();
+
+        /**
+         * @brief 初始化GridLayoutTag
+         */
+        GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan);
+
+        /**
+         * @brief 初始化GridLayoutTag
+         */
+        GridLayoutTag(uint16_t row, uint16_t column);
+
+        /**
+         * @brief 从LayoutTag创建
+         */
+        GridLayoutTag(uint64_t layoutTag);
+
+        /**
+         * @brief 隐式转换LayoutTag
+         */
+        operator uint64_t() const;
+    };
+
+    /**
+     * @brief GridRow和GridColumn的类型
+     */
+    enum class GridRCType {
+        FixSize,    // 固定大小
+        AutoSize,   // 自动大小
+        FillRemain, // 填充剩余空间
+    };
+
+    /**
+     * @brief 网格中的行信息
+     */
+    struct GridRow {
+        /**
+         * @brief 类型
+         */
+        GridRCType type;
+
+        /**
+         * @brief 高度
+         */
+        double height;
+
+        /**
+         * @brief 创建一个FillRemain的GridRow
+         */
+        GridRow();
+
+        /**
+         * @brief 初始化GridRow
+         */
+        GridRow(GridRCType type, double height);
+
+        /**
+         * @brief 固定大小的行
+         */
+        GridRow(double height);
+    };
+
+    /**
+     * @brief 固定高度的行
+     */
+    struct FixSizeGridRow : public GridRow {
+        /**
+         * @brief 初始化FixSizeGridRow
+         */
+        FixSizeGridRow(double height);
+    };
+
+    /**
+     * @brief 自动高度的行
+     */
+    struct AutoSizeGridRow : public GridRow {
+        /**
+         * @brief 初始化AutoSizeGridRow
+         */
+        AutoSizeGridRow();
+    };
+
+    /**
+     * @brief 填充剩余高度的行
+     */
+    struct FillRemainGridRow : public GridRow {
+        /**
+         * @brief 初始化FillRemainGridRow
+         */
+        FillRemainGridRow(double proportion = 1);
+    };
+
+    /**
+     * @brief 网格中的列信息
+     */
+    struct GridColumn {
+        /**
+         * @brief 类型
+         */
+        GridRCType type;
+
+        /**
+         * @brief 宽度
+         */
+        double width;
+
+        /**
+         * @brief 创建一个FillRemain的GridColumn
+         */
+        GridColumn();
+
+        /**
+         * @brief 初始化GridColumn
+         */
+        GridColumn(GridRCType type, double width);
+
+        /**
+         * @brief 固定大小的列
+         */
+        GridColumn(double width);
+    };
+
+    /**
+     * @brief 固定宽度的列
+     */
+    struct FixSizeGridColumn : public GridColumn {
+        /**
+         * @brief 初始化FixSizeGridColumn
+         */
+        FixSizeGridColumn(double width);
+    };
+
+    /**
+     * @brief 自动宽度的列
+     */
+    struct AutoSizeGridColumn : public GridColumn {
+        /**
+         * @brief 初始化AutoSizeGridColumn
+         */
+        AutoSizeGridColumn();
+    };
+
+    /**
+     * @brief 填充剩余宽度的列
+     */
+    struct FillRemainGridColumn : public GridColumn {
+        /**
+         * @brief 初始化FillRemainGridColumn
+         */
+        FillRemainGridColumn(double proportion = 1);
+    };
+
+    /**
+     * @brief 网格布局方式
+     */
+    class GridLayout : public LayoutHost
+    {
+    private:
+        /**
+         * @brief 子元素的信息
+         */
+        struct _ChildInfo {
+            ILayout *instance;         // 子元素对象
+            GridLayoutTag layoutTag;   // 布局标记
+            GridRCType rowMeasureType; // 元素measure行时的类型
+            GridRCType colMeasureType; // 元素measure列时的类型
+        };
+
+        /**
+         * @brief 行信息
+         */
+        struct _RowInfo {
+            GridRow row;           // 行
+            double size       = 0; // 所需空间大小
+            double proportion = 0; // 类型为FillRemain时该字段保存该行的高度占比，范围为0~1
+        };
+
+        /**
+         * @brief 列信息
+         */
+        struct _ColInfo {
+            GridColumn col;        // 列
+            double size       = 0; // 所需空间大小
+            double proportion = 0; // 类型为FillRemain时该字段保存该列的宽度占比，范围为0~1
+        };
+
+        /**
+         * @brief 一些内部数据
+         */
+        struct {
+            std::vector<_RowInfo> rowsInfo;       // 行信息
+            std::vector<_ColInfo> colsInfo;       // 列信息
+            std::vector<_ChildInfo> childrenInfo; // 子元素信息
+            std::vector<Rect> cells;              // 保存格信息
+        } _internalData;
+
+    public:
+        /**
+         * @brief 行定义
+         */
+        List<GridRow> rows;
+
+        /**
+         * @brief 列定义
+         */
+        List<GridColumn> columns;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+
+    private:
+        /**
+         * @brief 更新内部数据
+         */
+        void _UpdateInternalData();
+
+        /**
+         * @brief 获取指定行列处的网格信息
+         */
+        Rect &_GetCell(int row, int col);
     };
 }
 
@@ -8455,6 +9726,58 @@ namespace sw
          * @brief 获取默认图标
          */
         HICON _GetDefaultIcon();
+    };
+}
+
+// StackLayoutH.h
+
+
+namespace sw
+{
+    /**
+     * @brief 横向堆叠布局
+     */
+    class StackLayoutH : virtual public LayoutHost
+    {
+    public:
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// StackLayoutV.h
+
+
+namespace sw
+{
+    /**
+     * @brief 纵向堆叠布局
+     */
+    class StackLayoutV : virtual public LayoutHost
+    {
+    public:
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -9431,9 +10754,8 @@ namespace sw
          * @brief           路由事件经过当前元素时调用该函数
          * @param eventArgs 事件参数
          * @param handler   事件处理函数，值为空时表示当前元素没有注册该事件处理函数
-         * @return          若已处理该事件则返回true，否则返回false以继调用处理函数
          */
-        virtual bool OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler);
+        virtual void OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler);
 
         /**
          * @brief  设置父窗口
@@ -9983,50 +11305,82 @@ namespace sw
     };
 }
 
-// CanvasLayout.h
+// UniformGridLayout.h
 
 
 namespace sw
 {
     /**
-     * @brief 绝对位置布局方式的布局标记
+     * @brief 均匀大小网格布局
      */
-    struct CanvasLayoutTag {
+    class UniformGridLayout : public LayoutHost
+    {
+    public:
         /**
-         * @brief 左边
+         * @brief 行数
          */
-        float left;
+        int rows = 1;
 
         /**
-         * @brief 顶边
+         * @brief 列数
          */
-        float top;
+        int columns = 1;
 
         /**
-         * @brief 左边顶边均为0
+         * @brief 网格第一行中前导空白单元格的数量
          */
-        CanvasLayoutTag();
+        int firstColumn = 0;
 
         /**
-         * @brief 指定左边和顶边
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        CanvasLayoutTag(float left, float top);
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief 从LayoutTag创建
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        CanvasLayoutTag(uint64_t layoutTag);
-
-        /**
-         * @brief 隐式转换LayoutTag
-         */
-        operator uint64_t() const;
+        virtual void ArrangeOverride(const Size &finalSize) override;
     };
+}
 
+// WrapLayoutH.h
+
+
+namespace sw
+{
     /**
-     * @brief 绝对位置布局方式
+     * @brief 横向自动换行布局
      */
-    class CanvasLayout : public LayoutHost
+    class WrapLayoutH : virtual public LayoutHost
+    {
+    public:
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// WrapLayoutV.h
+
+
+namespace sw
+{
+    /**
+     * @brief 纵向自动换行布局
+     */
+    class WrapLayoutV : virtual public LayoutHost
     {
     public:
         /**
@@ -10156,374 +11510,6 @@ namespace sw
          * @param hwnd 新的控件句柄
          */
         virtual void OnHandleChanged(HWND hwnd);
-    };
-}
-
-// DockLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 停靠布局标记
-     */
-    class DockLayoutTag : public IEqualityComparable<DockLayoutTag>
-    {
-    public:
-        enum : uint64_t {
-            Left,   // 左边
-            Top,    // 顶边
-            Right,  // 右边
-            Bottom, // 底边
-        };
-
-    private:
-        /**
-         * @brief Tag值
-         */
-        uint64_t _value;
-
-    public:
-        /**
-         * @brief 创建DockLayoutTag
-         */
-        DockLayoutTag(uint64_t value = Left);
-
-        /**
-         * @brief 隐式转换uint64_t
-         */
-        operator uint64_t() const;
-
-        /**
-         * @brief 判断值是否相等
-         */
-        bool Equals(const DockLayoutTag &other) const;
-
-        /**
-         * @brief 判断值是否相等
-         */
-        bool operator==(uint64_t value) const;
-
-        /**
-         * @brief 判断值是否不相等
-         */
-        bool operator!=(uint64_t value) const;
-    };
-
-    /**
-     * @brief 停靠布局
-     */
-    class DockLayout : public LayoutHost
-    {
-    public:
-        /**
-         * @brief 最后一个子元素是否填充剩余空间
-         */
-        bool lastChildFill = true;
-
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// FillLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 一种将全部元素都铺满的布局，一般用于在只有一个子元素的时候将该元素铺满整个可用区域
-     */
-    class FillLayout : public LayoutHost
-    {
-    public:
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// GridLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 网格布局方式的布局标记
-     */
-    struct GridLayoutTag {
-        /**
-         * @brief 所在行
-         */
-        uint16_t row;
-
-        /**
-         * @brief 所在列
-         */
-        uint16_t column;
-
-        /**
-         * @brief 所跨行数
-         */
-        uint16_t rowSpan;
-
-        /**
-         * @brief 所跨列数
-         */
-        uint16_t columnSpan;
-
-        /**
-         * @brief GridLayoutTag默认值
-         */
-        GridLayoutTag();
-
-        /**
-         * @brief 初始化GridLayoutTag
-         */
-        GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan);
-
-        /**
-         * @brief 初始化GridLayoutTag
-         */
-        GridLayoutTag(uint16_t row, uint16_t column);
-
-        /**
-         * @brief 从LayoutTag创建
-         */
-        GridLayoutTag(uint64_t layoutTag);
-
-        /**
-         * @brief 隐式转换LayoutTag
-         */
-        operator uint64_t() const;
-    };
-
-    /**
-     * @brief GridRow和GridColumn的类型
-     */
-    enum class GridRCType {
-        FixSize,    // 固定大小
-        AutoSize,   // 自动大小
-        FillRemain, // 填充剩余空间
-    };
-
-    /**
-     * @brief 网格中的行信息
-     */
-    struct GridRow {
-        /**
-         * @brief 类型
-         */
-        GridRCType type;
-
-        /**
-         * @brief 高度
-         */
-        double height;
-
-        /**
-         * @brief 创建一个FillRemain的GridRow
-         */
-        GridRow();
-
-        /**
-         * @brief 初始化GridRow
-         */
-        GridRow(GridRCType type, double height);
-
-        /**
-         * @brief 固定大小的行
-         */
-        GridRow(double height);
-    };
-
-    /**
-     * @brief 固定高度的行
-     */
-    struct FixSizeGridRow : public GridRow {
-        /**
-         * @brief 初始化FixSizeGridRow
-         */
-        FixSizeGridRow(double height);
-    };
-
-    /**
-     * @brief 自动高度的行
-     */
-    struct AutoSizeGridRow : public GridRow {
-        /**
-         * @brief 初始化AutoSizeGridRow
-         */
-        AutoSizeGridRow();
-    };
-
-    /**
-     * @brief 填充剩余高度的行
-     */
-    struct FillRemainGridRow : public GridRow {
-        /**
-         * @brief 初始化FillRemainGridRow
-         */
-        FillRemainGridRow(double proportion = 1);
-    };
-
-    /**
-     * @brief 网格中的列信息
-     */
-    struct GridColumn {
-        /**
-         * @brief 类型
-         */
-        GridRCType type;
-
-        /**
-         * @brief 宽度
-         */
-        double width;
-
-        /**
-         * @brief 创建一个FillRemain的GridColumn
-         */
-        GridColumn();
-
-        /**
-         * @brief 初始化GridColumn
-         */
-        GridColumn(GridRCType type, double width);
-
-        /**
-         * @brief 固定大小的列
-         */
-        GridColumn(double width);
-    };
-
-    /**
-     * @brief 固定宽度的列
-     */
-    struct FixSizeGridColumn : public GridColumn {
-        /**
-         * @brief 初始化FixSizeGridColumn
-         */
-        FixSizeGridColumn(double width);
-    };
-
-    /**
-     * @brief 自动宽度的列
-     */
-    struct AutoSizeGridColumn : public GridColumn {
-        /**
-         * @brief 初始化AutoSizeGridColumn
-         */
-        AutoSizeGridColumn();
-    };
-
-    /**
-     * @brief 填充剩余宽度的列
-     */
-    struct FillRemainGridColumn : public GridColumn {
-        /**
-         * @brief 初始化FillRemainGridColumn
-         */
-        FillRemainGridColumn(double proportion = 1);
-    };
-
-    /**
-     * @brief 网格布局方式
-     */
-    class GridLayout : public LayoutHost
-    {
-    private:
-        /**
-         * @brief 子元素的信息
-         */
-        struct _ChildInfo {
-            ILayout *instance;         // 子元素对象
-            GridLayoutTag layoutTag;   // 布局标记
-            GridRCType rowMeasureType; // 元素measure行时的类型
-            GridRCType colMeasureType; // 元素measure列时的类型
-        };
-
-        /**
-         * @brief 行信息
-         */
-        struct _RowInfo {
-            GridRow row;           // 行
-            double size       = 0; // 所需空间大小
-            double proportion = 0; // 类型为FillRemain时该字段保存该行的高度占比，范围为0~1
-        };
-
-        /**
-         * @brief 列信息
-         */
-        struct _ColInfo {
-            GridColumn col;        // 列
-            double size       = 0; // 所需空间大小
-            double proportion = 0; // 类型为FillRemain时该字段保存该列的宽度占比，范围为0~1
-        };
-
-        /**
-         * @brief 一些内部数据
-         */
-        struct {
-            std::vector<_RowInfo> rowsInfo;       // 行信息
-            std::vector<_ColInfo> colsInfo;       // 列信息
-            std::vector<_ChildInfo> childrenInfo; // 子元素信息
-            std::vector<Rect> cells;              // 保存格信息
-        } _internalData;
-
-    public:
-        /**
-         * @brief 行定义
-         */
-        List<GridRow> rows;
-
-        /**
-         * @brief 列定义
-         */
-        List<GridColumn> columns;
-
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-
-    private:
-        /**
-         * @brief 更新内部数据
-         */
-        void _UpdateInternalData();
-
-        /**
-         * @brief 获取指定行列处的网格信息
-         */
-        Rect &_GetCell(int row, int col);
     };
 }
 
@@ -10712,9 +11698,8 @@ namespace sw
          * @brief           路由事件经过当前元素时调用该函数
          * @param eventArgs 事件参数
          * @param handler   事件处理函数，值为空时表示当前元素没有注册该事件处理函数
-         * @return          若已处理该事件则返回true，否则返回false以继调用处理函数
          */
-        virtual bool OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler) override;
+        virtual void OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler) override;
 
     public:
         /**
@@ -10820,83 +11805,21 @@ namespace sw
     };
 }
 
-// StackLayoutH.h
+// StackLayout.h
 
 
 namespace sw
 {
     /**
-     * @brief 横向堆叠布局
+     * @brief 堆叠布局
      */
-    class StackLayoutH : virtual public LayoutHost
+    class StackLayout : public StackLayoutH, public StackLayoutV
     {
     public:
         /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
+         * @brief 排列方式
          */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// StackLayoutV.h
-
-
-namespace sw
-{
-    /**
-     * @brief 纵向堆叠布局
-     */
-    class StackLayoutV : virtual public LayoutHost
-    {
-    public:
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// UniformGridLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 均匀大小网格布局
-     */
-    class UniformGridLayout : public LayoutHost
-    {
-    public:
-        /**
-         * @brief 行数
-         */
-        int rows = 1;
-
-        /**
-         * @brief 列数
-         */
-        int columns = 1;
-
-        /**
-         * @brief 网格第一行中前导空白单元格的数量
-         */
-        int firstColumn = 0;
+        Orientation orientation = Orientation::Vertical;
 
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
@@ -10913,43 +11836,22 @@ namespace sw
     };
 }
 
-// WrapLayoutH.h
+// WrapLayout.h
 
 
 namespace sw
 {
     /**
-     * @brief 横向自动换行布局
+     * @brief 自动换行布局
      */
-    class WrapLayoutH : virtual public LayoutHost
+    class WrapLayout : public WrapLayoutH, public WrapLayoutV
     {
     public:
         /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
+         * @brief 排列方式
          */
-        virtual Size MeasureOverride(const Size &availableSize) override;
+        Orientation orientation = Orientation::Horizontal;
 
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// WrapLayoutV.h
-
-
-namespace sw
-{
-    /**
-     * @brief 纵向自动换行布局
-     */
-    class WrapLayoutV : virtual public LayoutHost
-    {
-    public:
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
@@ -11187,6 +12089,11 @@ namespace sw
          */
         const Property<std::wstring> CustomFormat;
 
+        /**
+         * @brief 当前控件表示的时间
+         */
+        const Property<SYSTEMTIME> Time;
+
     public:
         /**
          * @brief 初始化DateTimePicker
@@ -11383,6 +12290,8 @@ namespace sw
          */
         virtual void OnSelectionChanged()
         {
+            this->RaisePropertyChanged(&ItemsControl<TItem>::SelectedIndex);
+            this->RaisePropertyChanged(&ItemsControl<TItem>::SelectedItem);
             this->RaiseRoutedEvent(ItemsControl_SelectionChanged);
         }
 
@@ -11466,6 +12375,11 @@ namespace sw
          * @brief 是否显示当前日期
          */
         const Property<bool> ShowToday;
+
+        /**
+         * @brief 当前控件表示的时间
+         */
+        const Property<SYSTEMTIME> Time;
 
     public:
         /**
@@ -11616,9 +12530,8 @@ namespace sw
          * @brief           路由事件经过当前元素时调用该函数
          * @param eventArgs 事件参数
          * @param handler   事件处理函数，值为空时表示当前元素没有注册该事件处理函数
-         * @return          若已处理该事件则返回true，否则返回false以继调用处理函数
          */
-        virtual bool OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler) override;
+        virtual void OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler) override;
 
     public:
         /**
@@ -11804,37 +12717,6 @@ namespace sw
          * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(const Size &newClientSize) override;
-    };
-}
-
-// StackLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 堆叠布局
-     */
-    class StackLayout : public StackLayoutH, public StackLayoutV
-    {
-    public:
-        /**
-         * @brief 排列方式
-         */
-        Orientation orientation = Orientation::Vertical;
-
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -12300,6 +13182,17 @@ namespace sw
          * @brief 清空内容
          */
         void Clear();
+
+    private:
+        /**
+         * @brief 读取HorizontalContentAlignment属性时调用
+         */
+        sw::HorizontalAlignment _GetHorzContentAlignment();
+
+        /**
+         * @brief 写入HorizontalContentAlignment属性时调用
+         */
+        void _SetHorzContentAlignment(sw::HorizontalAlignment value);
     };
 }
 
@@ -12704,37 +13597,6 @@ namespace sw
     };
 }
 
-// WrapLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 自动换行布局
-     */
-    class WrapLayout : public WrapLayoutH, public WrapLayoutV
-    {
-    public:
-        /**
-         * @brief 排列方式
-         */
-        Orientation orientation = Orientation::Horizontal;
-
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
 // BmpBox.h
 
 
@@ -12959,17 +13821,27 @@ namespace sw
          */
         const Property<bool> IsChecked;
 
-    protected:
+    public:
         /**
          * @brief 初始化CheckableButton
          */
         CheckableButton();
 
-    public:
         /**
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
          */
         virtual ~CheckableButton() = 0;
+
+    protected:
+        /**
+         * @brief 被单击时调用该函数
+         */
+        virtual void OnClicked() override;
+
+        /**
+         * @brief 被双击时调用该函数
+         */
+        virtual void OnDoubleClicked() override;
     };
 }
 
@@ -14571,6 +15443,36 @@ namespace sw
          * @brief 更新LayoutUpdateCondition属性
          */
         void _UpdateLayoutFlags();
+
+        /**
+         * @brief 读取HorizontalContentAlignment属性时调用
+         */
+        sw::HorizontalAlignment _GetHorzContentAlignment();
+
+        /**
+         * @brief 写入HorizontalContentAlignment属性时调用
+         */
+        void _SetHorzContentAlignment(sw::HorizontalAlignment value);
+
+        /**
+         * @brief 读取VerticalContentAlignment属性时调用
+         */
+        sw::VerticalAlignment _GetVertContentAlignment();
+
+        /**
+         * @brief 写入VerticalContentAlignment属性时调用
+         */
+        void _SetVertContentAlignment(sw::VerticalAlignment value);
+
+        /**
+         * @brief 读取TextTrimming属性时调用
+         */
+        sw::TextTrimming _GetTextTrimming();
+
+        /**
+         * @brief 写入TextTrimming属性时调用
+         */
+        void _SetTextTrimming(sw::TextTrimming value);
     };
 }
 
@@ -15324,6 +16226,11 @@ namespace sw
         void ClearAccels();
 
     protected:
+        /**
+         * @brief Text属性更改时调用此函数
+         */
+        virtual void OnTextChanged() override;
+
         /**
          * @brief      控件句柄发生改变时调用该函数
          * @param hwnd 新的控件句柄

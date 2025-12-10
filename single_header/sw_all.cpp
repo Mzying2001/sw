@@ -448,6 +448,7 @@ sw::ButtonBase::ButtonBase()
                   if (self->_autoSize != value) {
                       self->_autoSize = value;
                       self->_UpdateLayoutFlags();
+                      self->RaisePropertyChanged(&ButtonBase::AutoSize);
                       self->InvalidateMeasure();
                   }
               })),
@@ -458,9 +459,12 @@ sw::ButtonBase::ButtonBase()
                   return self->GetStyle(BS_MULTILINE);
               })
               .Setter([](ButtonBase *self, bool value) {
-                  self->SetStyle(BS_MULTILINE, value);
-                  if (self->_autoSize) {
-                      self->InvalidateMeasure();
+                  if (self->MultiLine != value) {
+                      self->SetStyle(BS_MULTILINE, value);
+                      self->RaisePropertyChanged(&ButtonBase::MultiLine);
+                      if (self->_autoSize) {
+                          self->InvalidateMeasure();
+                      }
                   }
               })),
 
@@ -472,10 +476,13 @@ sw::ButtonBase::ButtonBase()
                   return rect;
               })
               .Setter([](ButtonBase *self, const Thickness &value) {
-                  RECT rect = value;
-                  self->_SetTextMargin(rect);
-                  if (self->_autoSize) {
-                      self->InvalidateMeasure();
+                  if (self->TextMargin != value) {
+                      RECT rect = value;
+                      self->_SetTextMargin(rect);
+                      self->RaisePropertyChanged(&ButtonBase::TextMargin);
+                      if (self->_autoSize) {
+                          self->InvalidateMeasure();
+                      }
                   }
               }))
 {
@@ -666,8 +673,11 @@ sw::CheckBox::CheckBox()
                   return (self->GetStyle() & BS_AUTO3STATE) == BS_AUTO3STATE;
               })
               .Setter([](CheckBox *self, bool value) {
-                  auto style = self->GetStyle() & ~(BS_AUTOCHECKBOX | BS_AUTO3STATE);
-                  self->SetStyle(value ? (style | BS_AUTO3STATE) : (style | BS_AUTOCHECKBOX));
+                  if (self->ThreeState != value) {
+                      auto baseStyle = self->GetStyle() & ~(BS_AUTOCHECKBOX | BS_AUTO3STATE);
+                      self->SetStyle(baseStyle | (value ? BS_AUTO3STATE : BS_AUTOCHECKBOX));
+                      self->RaisePropertyChanged(&CheckBox::ThreeState);
+                  }
               }))
 {
     InitButtonBase(L"CheckBox", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_NOTIFY | BS_AUTOCHECKBOX, 0);
@@ -684,13 +694,17 @@ sw::CheckableButton::CheckableButton()
                   return (sw::CheckState)self->SendMessageW(BM_GETCHECK, 0, 0);
               })
               .Setter([](CheckableButton *self, sw::CheckState value) {
-                  self->SendMessageW(BM_SETCHECK, (WPARAM)value, 0);
+                  if (self->CheckState != value) {
+                      self->SendMessageW(BM_SETCHECK, (WPARAM)value, 0);
+                      self->RaisePropertyChanged(&CheckableButton::CheckState);
+                      self->RaisePropertyChanged(&CheckableButton::IsChecked);
+                  }
               })),
 
       IsChecked(
           Property<bool>::Init(this)
               .Getter([](CheckableButton *self) -> bool {
-                  return self->CheckState.Get() == sw::CheckState::Checked;
+                  return self->CheckState == sw::CheckState::Checked;
               })
               .Setter([](CheckableButton *self, bool value) {
                   self->CheckState = value ? sw::CheckState::Checked : sw::CheckState::Unchecked;
@@ -700,6 +714,20 @@ sw::CheckableButton::CheckableButton()
 
 sw::CheckableButton::~CheckableButton()
 {
+}
+
+void sw::CheckableButton::OnClicked()
+{
+    RaisePropertyChanged(&CheckableButton::CheckState);
+    RaisePropertyChanged(&CheckableButton::IsChecked);
+    ButtonBase::OnClicked();
+}
+
+void sw::CheckableButton::OnDoubleClicked()
+{
+    RaisePropertyChanged(&CheckableButton::CheckState);
+    RaisePropertyChanged(&CheckableButton::IsChecked);
+    ButtonBase::OnDoubleClicked();
 }
 
 // Color.cpp
@@ -841,27 +869,22 @@ CHOOSECOLORW *sw::ColorDialog::GetChooseColorStruct()
 
 // ComboBox.cpp
 
-namespace
-{
-    constexpr DWORD _ComboBoxStyle_Default  = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWNLIST;
-    constexpr DWORD _ComboBoxStyle_Editable = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWN;
-}
-
 sw::ComboBox::ComboBox()
     : IsEditable(
           Property<bool>::Init(this)
               .Getter([](ComboBox *self) -> bool {
-                  return self->GetStyle() == _ComboBoxStyle_Editable;
+                  return (self->GetStyle() & (CBS_DROPDOWN | CBS_DROPDOWNLIST)) == CBS_DROPDOWN;
               })
               .Setter([](ComboBox *self, bool value) {
                   if (self->IsEditable != value) {
-                      self->SetStyle(value ? _ComboBoxStyle_Editable : _ComboBoxStyle_Default);
+                      auto baseStyle = self->GetStyle() & ~(CBS_DROPDOWN | CBS_DROPDOWNLIST);
+                      self->SetStyle(baseStyle | (value ? CBS_DROPDOWN : CBS_DROPDOWNLIST));
                       self->ResetHandle();
                       self->SetInternalText(self->WndBase::GetInternalText()); // 使切换后文本框内容能够保留
                   }
               }))
 {
-    this->InitControl(L"COMBOBOX", L"", _ComboBoxStyle_Default, 0);
+    this->InitControl(L"COMBOBOX", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWNLIST, 0);
     this->Rect    = sw::Rect(0, 0, 100, 24);
     this->TabStop = true;
 }
@@ -940,6 +963,7 @@ void sw::ComboBox::OnSelectionChanged()
 void sw::ComboBox::Clear()
 {
     this->SendMessageW(CB_RESETCONTENT, 0, 0);
+    this->RaisePropertyChanged(&ComboBox::ItemsCount);
 }
 
 std::wstring sw::ComboBox::GetItemAt(int index)
@@ -961,14 +985,25 @@ bool sw::ComboBox::AddItem(const std::wstring &item)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(item.c_str()));
-    return this->GetItemsCount() == count + 1;
+
+    bool success = this->GetItemsCount() == count + 1;
+    if (success) {
+        this->RaisePropertyChanged(&ComboBox::ItemsCount);
+    }
+    return success;
 }
 
 bool sw::ComboBox::InsertItem(int index, const std::wstring &item)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(CB_INSERTSTRING, index, reinterpret_cast<LPARAM>(item.c_str()));
-    return this->GetItemsCount() == count + 1;
+    this->RaisePropertyChanged(&ComboBox::ItemsCount);
+
+    bool success = this->GetItemsCount() == count + 1;
+    if (success) {
+        this->RaisePropertyChanged(&ComboBox::ItemsCount);
+    }
+    return success;
 }
 
 bool sw::ComboBox::UpdateItem(int index, const std::wstring &newValue)
@@ -979,7 +1014,6 @@ bool sw::ComboBox::UpdateItem(int index, const std::wstring &newValue)
     if (updated && selected) {
         this->SetSelectedIndex(index);
     }
-
     return updated;
 }
 
@@ -987,7 +1021,12 @@ bool sw::ComboBox::RemoveItemAt(int index)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(CB_DELETESTRING, index, 0);
-    return this->GetItemsCount() == count - 1;
+
+    bool success = this->GetItemsCount() == count - 1;
+    if (success) {
+        this->RaisePropertyChanged(&ComboBox::ItemsCount);
+    }
+    return success;
 }
 
 void sw::ComboBox::ShowDropDown()
@@ -1019,9 +1058,12 @@ sw::CommandLink::CommandLink()
                   }
               })
               .Setter([](CommandLink *self, const std::wstring &value) {
-                  self->SendMessageW(BCM_SETNOTE, 0, reinterpret_cast<LPARAM>(value.c_str()));
-                  if (self->AutoSize) {
-                      self->InvalidateMeasure();
+                  if (self->NoteText != value) {
+                      self->SendMessageW(BCM_SETNOTE, 0, reinterpret_cast<LPARAM>(value.c_str()));
+                      self->RaisePropertyChanged(&CommandLink::NoteText);
+                      if (self->AutoSize) {
+                          self->InvalidateMeasure();
+                      }
                   }
               }))
 {
@@ -1238,6 +1280,7 @@ bool sw::Control::OnPostPaint(HDC hdc, LRESULT &result)
 
 void sw::Control::OnHandleChanged(HWND hwnd)
 {
+    RaisePropertyChanged(&Control::Handle);
 }
 
 // Cursor.cpp
@@ -1306,6 +1349,21 @@ sw::DateTimePicker::DateTimePicker()
                   self->_format       = DateTimePickerFormat::Custom;
                   self->_customFormat = value;
                   self->_SetFormat(self->_customFormat);
+              })),
+
+      Time(
+          Property<SYSTEMTIME>::Init(this)
+              .Getter([](DateTimePicker *self) -> SYSTEMTIME {
+                  SYSTEMTIME time{};
+                  self->GetTime(time);
+                  return time;
+              })
+              .Setter([](DateTimePicker *self, const SYSTEMTIME &value) {
+                  SYSTEMTIME time{};
+                  if (self->GetTime(time) &&
+                      memcmp(&time, &value, sizeof(SYSTEMTIME)) != 0) {
+                      self->SetTime(value);
+                  }
               }))
 {
     this->InitControl(DATETIMEPICK_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | DTS_SHORTDATEFORMAT, 0);
@@ -1346,6 +1404,8 @@ bool sw::DateTimePicker::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 
 void sw::DateTimePicker::OnTimeChanged(NMDATETIMECHANGE *pInfo)
 {
+    this->RaisePropertyChanged(&DateTimePicker::Time);
+
     DateTimePickerTimeChangedEventArgs arg{pInfo->st};
     this->RaiseRoutedEvent(arg);
 }
@@ -3405,7 +3465,9 @@ sw::HotKeyControl::HotKeyControl()
                   return self->_value;
               })
               .Setter([](HotKeyControl *self, const HotKey &value) {
-                  if (value.key != self->_value.key && value.modifier != self->_value.modifier) {
+                  if (value.key != self->_value.key ||
+                      value.modifier != self->_value.modifier) //
+                  {
                       WORD val = MAKEWORD(value.key, value.modifier);
                       self->SendMessageW(HKM_SETHOTKEY, val, 0);
                       self->_UpdateValue();
@@ -3433,6 +3495,8 @@ void sw::HotKeyControl::OnCommand(int code)
 
 void sw::HotKeyControl::OnValueChanged(HotKey value)
 {
+    this->RaisePropertyChanged(&HotKeyControl::Value);
+
     HotKeyValueChangedEventArgs arg{value.key, value.modifier};
     this->RaiseRoutedEvent(arg);
 }
@@ -3590,8 +3654,10 @@ sw::IPAddressControl::IPAddressControl()
                   return result;
               })
               .Setter([](IPAddressControl *self, uint32_t value) {
-                  ::SendMessageW(self->_hIPAddrCtrl, IPM_SETADDRESS, 0, (LPARAM)value);
-                  self->OnAddressChanged();
+                  if (self->Address != value) {
+                      ::SendMessageW(self->_hIPAddrCtrl, IPM_SETADDRESS, 0, (LPARAM)value);
+                      self->OnAddressChanged();
+                  }
               }))
 {
     Rect    = sw::Rect{0, 0, 150, 24};
@@ -3664,6 +3730,8 @@ bool sw::IPAddressControl::OnNotify(NMHDR *pNMHDR, LRESULT &result)
 
 void sw::IPAddressControl::OnAddressChanged()
 {
+    RaisePropertyChanged(&IPAddressControl::Address);
+    RaisePropertyChanged(&IPAddressControl::IsBlank);
     RaiseRoutedEvent(IPAddressControl_AddressChanged);
 }
 
@@ -4124,84 +4192,18 @@ sw::KeyFlags::KeyFlags(LPARAM lParam)
 sw::Label::Label()
     : HorizontalContentAlignment(
           Property<sw::HorizontalAlignment>::Init(this)
-              .Getter([](Label *self) -> sw::HorizontalAlignment {
-                  DWORD style = self->GetStyle();
-                  if (style & SS_CENTER) {
-                      return sw::HorizontalAlignment::Center;
-                  } else if (style & SS_RIGHT) {
-                      return sw::HorizontalAlignment::Right;
-                  } else {
-                      return sw::HorizontalAlignment::Left;
-                  }
-              })
-              .Setter([](Label *self, sw::HorizontalAlignment value) {
-                  switch (value) {
-                      case sw::HorizontalAlignment::Left: {
-                          self->SetStyle(SS_CENTER | SS_RIGHT, false);
-                          break;
-                      }
-                      case sw::HorizontalAlignment::Center: {
-                          DWORD style = self->GetStyle();
-                          style &= ~(SS_CENTER | SS_RIGHT);
-                          style |= SS_CENTER;
-                          self->SetStyle(style);
-                          break;
-                      }
-                      case sw::HorizontalAlignment::Right: {
-                          DWORD style = self->GetStyle();
-                          style &= ~(SS_CENTER | SS_RIGHT);
-                          style |= SS_RIGHT;
-                          self->SetStyle(style);
-                          break;
-                      }
-                      default: {
-                          break;
-                      }
-                  }
-                  self->Redraw();
-              })),
+              .Getter<&Label::_GetHorzContentAlignment>()
+              .Setter<&Label::_SetHorzContentAlignment>()),
 
       VerticalContentAlignment(
           Property<sw::VerticalAlignment>::Init(this)
-              .Getter([](Label *self) -> sw::VerticalAlignment {
-                  return self->GetStyle(SS_CENTERIMAGE) ? sw::VerticalAlignment::Center : sw::VerticalAlignment::Top;
-              })
-              .Setter([](Label *self, sw::VerticalAlignment value) {
-                  self->SetStyle(SS_CENTERIMAGE, value == sw::VerticalAlignment::Center);
-              })),
+              .Getter<&Label::_GetVertContentAlignment>()
+              .Setter<&Label::_SetVertContentAlignment>()),
 
       TextTrimming(
           Property<sw::TextTrimming>::Init(this)
-              .Getter([](Label *self) -> sw::TextTrimming {
-                  DWORD style = self->GetStyle();
-                  if ((style & SS_WORDELLIPSIS) == SS_WORDELLIPSIS) {
-                      return sw::TextTrimming::WordEllipsis;
-                  } else if (style & SS_ENDELLIPSIS) {
-                      return sw::TextTrimming::EndEllipsis;
-                  } else {
-                      return sw::TextTrimming::None;
-                  }
-              })
-              .Setter([](Label *self, sw::TextTrimming value) {
-                  switch (value) {
-                      case sw::TextTrimming::None: {
-                          self->SetStyle(SS_WORDELLIPSIS, false);
-                          break;
-                      }
-                      case sw::TextTrimming::WordEllipsis: {
-                          self->SetStyle(SS_WORDELLIPSIS, true);
-                          break;
-                      }
-                      case sw::TextTrimming::EndEllipsis: {
-                          DWORD style = self->GetStyle();
-                          style &= ~SS_WORDELLIPSIS;
-                          style |= SS_ENDELLIPSIS;
-                          self->SetStyle(style);
-                          break;
-                      }
-                  }
-                  self->Redraw();
-              })),
+              .Getter<&Label::_GetTextTrimming>()
+              .Setter<&Label::_SetTextTrimming>()),
 
       AutoWrap(
           Property<bool>::Init(this)
@@ -4209,7 +4211,10 @@ sw::Label::Label()
                   return self->GetStyle(SS_EDITCONTROL);
               })
               .Setter([](Label *self, bool value) {
-                  self->SetStyle(SS_EDITCONTROL, value);
+                  if (self->AutoWrap != value) {
+                      self->SetStyle(SS_EDITCONTROL, value);
+                      self->RaisePropertyChanged(&Label::AutoWrap);
+                  }
               })),
 
       AutoSize(
@@ -4221,6 +4226,7 @@ sw::Label::Label()
                   if (self->_autoSize != value) {
                       self->_autoSize = value;
                       self->_UpdateLayoutFlags();
+                      self->RaisePropertyChanged(&Label::AutoSize);
                       self->InvalidateMeasure();
                   }
               }))
@@ -4309,6 +4315,105 @@ void sw::Label::_UpdateLayoutFlags()
     } else {
         this->LayoutUpdateCondition &= ~flags;
     }
+}
+
+sw::HorizontalAlignment sw::Label::_GetHorzContentAlignment()
+{
+    DWORD style = this->GetStyle();
+
+    if (style & SS_CENTER) {
+        return sw::HorizontalAlignment::Center;
+    } else if (style & SS_RIGHT) {
+        return sw::HorizontalAlignment::Right;
+    } else {
+        return sw::HorizontalAlignment::Left;
+    }
+}
+
+void sw::Label::_SetHorzContentAlignment(sw::HorizontalAlignment value)
+{
+    if (this->_GetHorzContentAlignment() == value) {
+        return;
+    }
+
+    switch (value) {
+        case sw::HorizontalAlignment::Left: {
+            this->SetStyle(SS_CENTER | SS_RIGHT, false);
+            break;
+        }
+        case sw::HorizontalAlignment::Center: {
+            DWORD style = this->GetStyle();
+            style &= ~(SS_CENTER | SS_RIGHT);
+            style |= SS_CENTER;
+            this->SetStyle(style);
+            break;
+        }
+        case sw::HorizontalAlignment::Right: {
+            DWORD style = this->GetStyle();
+            style &= ~(SS_CENTER | SS_RIGHT);
+            style |= SS_RIGHT;
+            this->SetStyle(style);
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+    this->Redraw();
+    this->RaisePropertyChanged(&Label::HorizontalContentAlignment);
+}
+
+sw::VerticalAlignment sw::Label::_GetVertContentAlignment()
+{
+    return this->GetStyle(SS_CENTERIMAGE) ? sw::VerticalAlignment::Center : sw::VerticalAlignment::Top;
+}
+
+void sw::Label::_SetVertContentAlignment(sw::VerticalAlignment value)
+{
+    if (this->_GetVertContentAlignment() != value) {
+        this->SetStyle(SS_CENTERIMAGE, value == sw::VerticalAlignment::Center);
+        this->RaisePropertyChanged(&Label::VerticalContentAlignment);
+    }
+}
+
+sw::TextTrimming sw::Label::_GetTextTrimming()
+{
+    DWORD style = this->GetStyle();
+
+    if ((style & SS_WORDELLIPSIS) == SS_WORDELLIPSIS) {
+        return sw::TextTrimming::WordEllipsis;
+    } else if (style & SS_ENDELLIPSIS) {
+        return sw::TextTrimming::EndEllipsis;
+    } else {
+        return sw::TextTrimming::None;
+    }
+}
+
+void sw::Label::_SetTextTrimming(sw::TextTrimming value)
+{
+    if (this->_GetTextTrimming() == value) {
+        return;
+    }
+
+    switch (value) {
+        case sw::TextTrimming::None: {
+            this->SetStyle(SS_WORDELLIPSIS, false);
+            break;
+        }
+        case sw::TextTrimming::WordEllipsis: {
+            this->SetStyle(SS_WORDELLIPSIS, true);
+            break;
+        }
+        case sw::TextTrimming::EndEllipsis: {
+            DWORD style = this->GetStyle();
+            style &= ~SS_WORDELLIPSIS;
+            style |= SS_ENDELLIPSIS;
+            this->SetStyle(style);
+            break;
+        }
+    }
+    this->Redraw();
+    this->RaisePropertyChanged(&Label::TextTrimming);
 }
 
 // Layer.cpp
@@ -4662,16 +4767,13 @@ bool sw::Layer::RequestBringIntoView(const sw::Rect &screenRect)
     return handled;
 }
 
-bool sw::Layer::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
+void sw::Layer::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
 {
-    if (handler) {
-        handler(*this, eventArgs);
-    }
-    if (eventArgs.handled) {
-        return true;
-    }
+    this->UIElement::OnRoutedEvent(eventArgs, handler);
 
-    if (eventArgs.eventType == UIElement_MouseWheel && this->_mouseWheelScrollEnabled) {
+    if (!eventArgs.handled &&
+        eventArgs.eventType == UIElement_MouseWheel && this->_mouseWheelScrollEnabled) //
+    {
         auto &wheelArgs = static_cast<MouseWheelEventArgs &>(eventArgs);
         bool shiftDown  = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
         double offset   = -std::copysign(_LayerScrollBarLineInterval, wheelArgs.wheelDelta);
@@ -4687,7 +4789,6 @@ bool sw::Layer::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandl
             }
         }
     }
-    return true;
 }
 
 void sw::Layer::GetHorizontalScrollRange(double &refMin, double &refMax)
@@ -4985,6 +5086,7 @@ void sw::ListBox::OnCommand(int code)
 void sw::ListBox::Clear()
 {
     this->SendMessageW(LB_RESETCONTENT, 0, 0);
+    this->RaisePropertyChanged(&ListBox::ItemsCount);
 }
 
 std::wstring sw::ListBox::GetItemAt(int index)
@@ -5012,14 +5114,24 @@ bool sw::ListBox::AddItem(const std::wstring &item)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(item.c_str()));
-    return this->GetItemsCount() == count + 1;
+
+    bool success = this->GetItemsCount() == count + 1;
+    if (success) {
+        this->RaisePropertyChanged(&ListBox::ItemsCount);
+    }
+    return success;
 }
 
 bool sw::ListBox::InsertItem(int index, const std::wstring &item)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(LB_INSERTSTRING, index, reinterpret_cast<LPARAM>(item.c_str()));
-    return this->GetItemsCount() == count + 1;
+
+    bool success = this->GetItemsCount() == count + 1;
+    if (success) {
+        this->RaisePropertyChanged(&ListBox::ItemsCount);
+    }
+    return success;
 }
 
 bool sw::ListBox::UpdateItem(int index, const std::wstring &newValue)
@@ -5038,7 +5150,12 @@ bool sw::ListBox::RemoveItemAt(int index)
 {
     int count = this->GetItemsCount();
     this->SendMessageW(LB_DELETESTRING, index, 0);
-    return this->GetItemsCount() == count - 1;
+
+    bool success = this->GetItemsCount() == count - 1;
+    if (success) {
+        this->RaisePropertyChanged(&ListBox::ItemsCount);
+    }
+    return success;
 }
 
 int sw::ListBox::GetItemIndexFromPoint(const Point &point)
@@ -5364,6 +5481,7 @@ bool sw::ListView::OnEndEdit(NMLVDISPINFOW *pNMInfo)
 void sw::ListView::Clear()
 {
     this->SendMessageW(LVM_DELETEALLITEMS, 0, 0);
+    this->RaisePropertyChanged(&ListView::ItemsCount);
 }
 
 sw::StrList sw::ListView::GetItemAt(int index)
@@ -5445,6 +5563,7 @@ bool sw::ListView::InsertItem(int index, const StrList &item)
         this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
     }
 
+    this->RaisePropertyChanged(&ListView::ItemsCount);
     return true;
 }
 
@@ -5470,7 +5589,11 @@ bool sw::ListView::UpdateItem(int index, const StrList &newValue)
 
 bool sw::ListView::RemoveItemAt(int index)
 {
-    return this->SendMessageW(LVM_DELETEITEM, index, 0);
+    bool success = this->SendMessageW(LVM_DELETEITEM, index, 0);
+    if (success) {
+        this->RaisePropertyChanged(&ListView::ItemsCount);
+    }
+    return success;
 }
 
 std::wstring sw::ListView::GetItemAt(int row, int col)
@@ -6205,6 +6328,21 @@ sw::MonthCalendar::MonthCalendar()
               })
               .Setter([](MonthCalendar *self, bool value) {
                   self->SetStyle(MCS_NOTODAY, !value);
+              })),
+
+      Time(
+          Property<SYSTEMTIME>::Init(this)
+              .Getter([](MonthCalendar *self) -> SYSTEMTIME {
+                  SYSTEMTIME time{};
+                  self->GetTime(time);
+                  return time;
+              })
+              .Setter([](MonthCalendar *self, const SYSTEMTIME &value) {
+                  SYSTEMTIME time{};
+                  if (self->GetTime(time) &&
+                      memcmp(&time, &value, sizeof(SYSTEMTIME)) != 0) {
+                      self->SetTime(value);
+                  }
               }))
 {
     this->InitControl(MONTHCAL_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
@@ -6267,6 +6405,8 @@ bool sw::MonthCalendar::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 
 void sw::MonthCalendar::OnTimeChanged(NMSELCHANGE *pInfo)
 {
+    this->RaisePropertyChanged(&MonthCalendar::Time);
+
     MonthCalendarTimeChangedEventArgs arg{pInfo->stSelStart};
     this->RaiseRoutedEvent(arg);
 }
@@ -6714,6 +6854,7 @@ sw::Panel::Panel()
               .Setter([](Panel *self, sw::BorderStyle value) {
                   if (self->_borderStyle != value) {
                       self->_borderStyle = value;
+                      self->RaisePropertyChanged(&Panel::BorderStyle);
                       self->UpdateBorder();
                   }
               })),
@@ -6726,6 +6867,7 @@ sw::Panel::Panel()
               .Setter([](Panel *self, const sw::Thickness &value) {
                   if (self->_padding != value) {
                       self->_padding = value;
+                      self->RaisePropertyChanged(&Panel::Padding);
                       self->UpdateBorder();
                   }
               }))
@@ -6923,9 +7065,9 @@ bool sw::PanelBase::RequestBringIntoView(const sw::Rect &screenRect)
     return this->Layer::RequestBringIntoView(screenRect);
 }
 
-bool sw::PanelBase::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
+void sw::PanelBase::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
 {
-    return this->Layer::OnRoutedEvent(eventArgs, handler);
+    this->Layer::OnRoutedEvent(eventArgs, handler);
 }
 
 sw::Control *sw::PanelBase::ToControl()
@@ -6942,11 +7084,14 @@ sw::PasswordBox::PasswordBox()
                   return (wchar_t)self->SendMessageW(EM_GETPASSWORDCHAR, 0, 0);
               })
               .Setter([](PasswordBox *self, wchar_t value) {
-                  self->SendMessageW(EM_SETPASSWORDCHAR, value, 0);
+                  if (self->PasswordChar != value) {
+                      self->SendMessageW(EM_SETPASSWORDCHAR, value, 0);
+                      self->RaisePropertyChanged(&PasswordBox::PasswordChar);
+                  }
               }))
 {
-    this->InitTextBoxBase(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | ES_PASSWORD | ES_LEFT | ES_AUTOHSCROLL, WS_EX_CLIENTEDGE);
-    this->Rect = sw::Rect(0, 0, 100, 24);
+    InitTextBoxBase(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | ES_PASSWORD | ES_LEFT | ES_AUTOHSCROLL, WS_EX_CLIENTEDGE);
+    Rect = sw::Rect(0, 0, 100, 24);
 }
 
 // Path.cpp
@@ -7129,8 +7274,11 @@ sw::ProgressBar::ProgressBar()
                   return (uint16_t)self->SendMessageW(PBM_GETRANGE, TRUE, 0);
               })
               .Setter([](ProgressBar *self, uint16_t value) {
-                  uint16_t maximum = self->Maximum;
-                  self->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(value, maximum));
+                  if (self->Minimum != value) {
+                      uint16_t maximum = self->Maximum;
+                      self->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(value, maximum));
+                      self->RaisePropertyChanged(&ProgressBar::Minimum);
+                  }
               })),
 
       Maximum(
@@ -7139,8 +7287,11 @@ sw::ProgressBar::ProgressBar()
                   return (uint16_t)self->SendMessageW(PBM_GETRANGE, FALSE, 0);
               })
               .Setter([](ProgressBar *self, uint16_t value) {
-                  uint16_t minimum = self->Minimum;
-                  self->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(minimum, value));
+                  if (self->Maximum != value) {
+                      uint16_t minimum = self->Minimum;
+                      self->SendMessageW(PBM_SETRANGE, 0, MAKELPARAM(minimum, value));
+                      self->RaisePropertyChanged(&ProgressBar::Maximum);
+                  }
               })),
 
       Value(
@@ -7149,7 +7300,10 @@ sw::ProgressBar::ProgressBar()
                   return (uint16_t)self->SendMessageW(PBM_GETPOS, 0, 0);
               })
               .Setter([](ProgressBar *self, uint16_t value) {
-                  self->SendMessageW(PBM_SETPOS, value, 0);
+                  if (self->Value != value) {
+                      self->SendMessageW(PBM_SETPOS, value, 0);
+                      self->RaisePropertyChanged(&ProgressBar::Value);
+                  }
               })),
 
       State(
@@ -7169,11 +7323,11 @@ sw::ProgressBar::ProgressBar()
               .Setter([](ProgressBar *self, bool value) {
                   auto pos = self->Value.Get();
                   self->SetStyle(PBS_VERTICAL, value);
-                  self->Value = pos;
+                  self->SendMessageW(PBM_SETPOS, pos, 0);
               }))
 {
-    this->InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
-    this->Rect = sw::Rect(0, 0, 150, 20);
+    InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
+    Rect = sw::Rect(0, 0, 150, 20);
 }
 
 // Property.cpp
@@ -7342,7 +7496,10 @@ sw::Slider::Slider()
                   return (int)self->SendMessageW(TBM_GETRANGEMIN, 0, 0);
               })
               .Setter([](Slider *self, int value) {
-                  self->SendMessageW(TBM_SETRANGEMIN, TRUE, value);
+                  if (self->Minimum != value) {
+                      self->SendMessageW(TBM_SETRANGEMIN, TRUE, value);
+                      self->RaisePropertyChanged(&Slider::Minimum);
+                  }
               })),
 
       Maximum(
@@ -7351,7 +7508,10 @@ sw::Slider::Slider()
                   return (int)self->SendMessageW(TBM_GETRANGEMAX, 0, 0);
               })
               .Setter([](Slider *self, int value) {
-                  self->SendMessageW(TBM_SETRANGEMAX, TRUE, value);
+                  if (self->Maximum != value) {
+                      self->SendMessageW(TBM_SETRANGEMAX, TRUE, value);
+                      self->RaisePropertyChanged(&Slider::Maximum);
+                  }
               })),
 
       Value(
@@ -7360,9 +7520,11 @@ sw::Slider::Slider()
                   return (int)self->SendMessageW(TBM_GETPOS, 0, 0);
               })
               .Setter([](Slider *self, int value) {
-                  self->SendMessageW(TBM_SETPOS, TRUE, value);
-                  self->OnValueChanged();
-                  self->OnEndTrack();
+                  if (self->Value != value) {
+                      self->SendMessageW(TBM_SETPOS, TRUE, value);
+                      self->OnValueChanged();
+                      self->OnEndTrack();
+                  }
               })),
 
       Vertical(
@@ -7442,6 +7604,7 @@ bool sw::Slider::OnHorizontalScroll(int event, int pos)
 
 void sw::Slider::OnValueChanged()
 {
+    this->RaisePropertyChanged(&Slider::Value);
     this->RaiseRoutedEvent(Slider_ValueChanged);
 }
 
@@ -7461,9 +7624,12 @@ sw::SpinBox::SpinBox()
                   return result;
               })
               .Setter([](SpinBox *self, int value) {
-                  int max = 0;
-                  self->_GetRange32(nullptr, &max);
-                  self->_SetRange32(value, max);
+                  if (self->Minimum != value) {
+                      int max = 0;
+                      self->_GetRange32(nullptr, &max);
+                      self->_SetRange32(value, max);
+                      self->RaisePropertyChanged(&SpinBox::Minimum);
+                  }
               })),
 
       Maximum(
@@ -7474,9 +7640,12 @@ sw::SpinBox::SpinBox()
                   return result;
               })
               .Setter([](SpinBox *self, int value) {
-                  int min = 0;
-                  self->_GetRange32(&min, nullptr);
-                  self->_SetRange32(min, value);
+                  if (self->Maximum != value) {
+                      int min = 0;
+                      self->_GetRange32(&min, nullptr);
+                      self->_SetRange32(min, value);
+                      self->RaisePropertyChanged(&SpinBox::Maximum);
+                  }
               })),
 
       Value(
@@ -7531,8 +7700,15 @@ void sw::SpinBox::ClearAccels()
     _InitAccels();
 }
 
+void sw::SpinBox::OnTextChanged()
+{
+    RaisePropertyChanged(&SpinBox::Value);
+    TextBoxBase::OnTextChanged();
+}
+
 void sw::SpinBox::OnHandleChanged(HWND hwnd)
 {
+    TextBoxBase::OnHandleChanged(hwnd);
     _InitSpinBox();
 }
 
@@ -8326,6 +8502,7 @@ bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 void sw::TabControl::OnSelectedIndexChanged()
 {
     this->_UpdateChildVisible();
+    this->RaisePropertyChanged(&TabControl::SelectedIndex);
     this->RaiseRoutedEvent(TabControl_SelectedIndexChanged);
 }
 
@@ -8519,47 +8696,16 @@ sw::TextBoxBase::TextBoxBase()
                   return self->GetStyle(ES_READONLY);
               })
               .Setter([](TextBoxBase *self, bool value) {
-                  self->SendMessageW(EM_SETREADONLY, value, 0);
+                  if (self->ReadOnly != value) {
+                      self->SendMessageW(EM_SETREADONLY, value, 0);
+                      self->RaisePropertyChanged(&TextBoxBase::ReadOnly);
+                  }
               })),
 
       HorizontalContentAlignment(
           Property<sw::HorizontalAlignment>::Init(this)
-              .Getter([](TextBoxBase *self) -> sw::HorizontalAlignment {
-                  LONG_PTR style = self->GetStyle();
-                  if (style & ES_CENTER) {
-                      return sw::HorizontalAlignment::Center;
-                  } else if (style & ES_RIGHT) {
-                      return sw::HorizontalAlignment::Right;
-                  } else {
-                      return sw::HorizontalAlignment::Left;
-                  }
-              })
-              .Setter([](TextBoxBase *self, sw::HorizontalAlignment value) {
-                  switch (value) {
-                      case sw::HorizontalAlignment::Left: {
-                          self->SetStyle(ES_CENTER | ES_RIGHT, false);
-                          break;
-                      }
-                      case sw::HorizontalAlignment::Center: {
-                          DWORD style = self->GetStyle();
-                          style &= ~(ES_CENTER | ES_RIGHT);
-                          style |= ES_CENTER;
-                          self->SetStyle(style);
-                          break;
-                      }
-                      case sw::HorizontalAlignment::Right: {
-                          DWORD style = self->GetStyle();
-                          style &= ~(ES_CENTER | ES_RIGHT);
-                          style |= ES_RIGHT;
-                          self->SetStyle(style);
-                          break;
-                      }
-                      default: {
-                          break;
-                      }
-                  }
-                  self->Redraw();
-              })),
+              .Getter<&TextBoxBase::_GetHorzContentAlignment>()
+              .Setter<&TextBoxBase::_SetHorzContentAlignment>()),
 
       CanUndo(
           Property<bool>::Init(this)
@@ -8573,7 +8719,10 @@ sw::TextBoxBase::TextBoxBase()
                   return self->_acceptTab;
               })
               .Setter([](TextBoxBase *self, bool value) {
-                  self->_acceptTab = value;
+                  if (self->_acceptTab != value) {
+                      self->_acceptTab = value;
+                      self->RaisePropertyChanged(&TextBoxBase::AcceptTab);
+                  }
               }))
 {
     this->TabStop = true;
@@ -8661,6 +8810,52 @@ bool sw::TextBoxBase::Undo()
 void sw::TextBoxBase::Clear()
 {
     this->Text = std::wstring{};
+}
+
+sw::HorizontalAlignment sw::TextBoxBase::_GetHorzContentAlignment()
+{
+    LONG_PTR style = this->GetStyle();
+
+    if (style & ES_CENTER) {
+        return sw::HorizontalAlignment::Center;
+    } else if (style & ES_RIGHT) {
+        return sw::HorizontalAlignment::Right;
+    } else {
+        return sw::HorizontalAlignment::Left;
+    }
+}
+
+void sw::TextBoxBase::_SetHorzContentAlignment(sw::HorizontalAlignment value)
+{
+    if (this->_GetHorzContentAlignment() == value) {
+        return;
+    }
+
+    switch (value) {
+        case sw::HorizontalAlignment::Left: {
+            this->SetStyle(ES_CENTER | ES_RIGHT, false);
+            break;
+        }
+        case sw::HorizontalAlignment::Center: {
+            DWORD style = this->GetStyle();
+            style &= ~(ES_CENTER | ES_RIGHT);
+            style |= ES_CENTER;
+            this->SetStyle(style);
+            break;
+        }
+        case sw::HorizontalAlignment::Right: {
+            DWORD style = this->GetStyle();
+            style &= ~(ES_CENTER | ES_RIGHT);
+            style |= ES_RIGHT;
+            this->SetStyle(style);
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+    this->Redraw();
+    this->RaisePropertyChanged(&TextBoxBase::HorizontalContentAlignment);
 }
 
 // Thickness.cpp
@@ -8803,7 +8998,10 @@ sw::ToolTip::ToolTip(DWORD style)
                   return int(self->SendMessageW(TTM_GETDELAYTIME, TTDT_INITIAL, 0));
               })
               .Setter([](ToolTip *self, int value) {
-                  self->SendMessageW(TTM_SETDELAYTIME, TTDT_AUTOMATIC, static_cast<LPARAM>(value));
+                  if (self->InitialDelay != value) {
+                      self->SendMessageW(TTM_SETDELAYTIME, TTDT_AUTOMATIC, static_cast<LPARAM>(value));
+                      self->RaisePropertyChanged(&ToolTip::InitialDelay);
+                  }
               })),
 
       ToolTipIcon(
@@ -8812,8 +9010,11 @@ sw::ToolTip::ToolTip(DWORD style)
                   return self->_icon;
               })
               .Setter([](ToolTip *self, sw::ToolTipIcon value) {
-                  self->_icon = value;
-                  self->_UpdateIconAndTitle();
+                  if (self->_icon != value) {
+                      self->_icon = value;
+                      self->_UpdateIconAndTitle();
+                      self->RaisePropertyChanged(&ToolTip::ToolTipIcon);
+                  }
               })),
 
       ToolTipTitle(
@@ -8822,8 +9023,11 @@ sw::ToolTip::ToolTip(DWORD style)
                   return self->_title;
               })
               .Setter([](ToolTip *self, const std::wstring &value) {
-                  self->_title = value;
-                  self->_UpdateIconAndTitle();
+                  if (self->_title != value) {
+                      self->_title = value;
+                      self->_UpdateIconAndTitle();
+                      self->RaisePropertyChanged(&ToolTip::ToolTipTitle);
+                  }
               })),
 
       MaxTipWidth(
@@ -8833,8 +9037,11 @@ sw::ToolTip::ToolTip(DWORD style)
                   return (w == -1) ? -1 : Dip::PxToDipX(w);
               })
               .Setter([](ToolTip *self, double value) {
-                  int w = value < 0 ? -1 : Dip::DipToPxX(value);
-                  self->SendMessageW(TTM_SETMAXTIPWIDTH, 0, w);
+                  if (self->MaxTipWidth != value) {
+                      int w = value < 0 ? -1 : Dip::DipToPxX(value);
+                      self->SendMessageW(TTM_SETMAXTIPWIDTH, 0, w);
+                      self->RaisePropertyChanged(&ToolTip::MaxTipWidth);
+                  }
               }))
 {
     this->InitControl(TOOLTIPS_CLASSW, L"", style, 0);
@@ -9393,6 +9600,34 @@ sw::TreeViewNode sw::TreeView::_InsertItem(HTREEITEM hParent, HTREEITEM hInsertA
 
 // UIElement.cpp
 
+namespace
+{
+    /**
+     * @brief 属性ID
+     */
+    const sw::FieldId _PropId_Margin              = sw::Reflection::GetFieldId(&sw::UIElement::Margin);
+    const sw::FieldId _PropId_HorizontalAlignment = sw::Reflection::GetFieldId(&sw::UIElement::HorizontalAlignment);
+    const sw::FieldId _PropId_VerticalAlignment   = sw::Reflection::GetFieldId(&sw::UIElement::VerticalAlignment);
+    const sw::FieldId _PropId_ChildCount          = sw::Reflection::GetFieldId(&sw::UIElement::ChildCount);
+    const sw::FieldId _PropId_CollapseWhenHide    = sw::Reflection::GetFieldId(&sw::UIElement::CollapseWhenHide);
+    const sw::FieldId _PropId_UIElementParent     = sw::Reflection::GetFieldId(&sw::UIElement::Parent);
+    const sw::FieldId _PropId_Tag                 = sw::Reflection::GetFieldId(&sw::UIElement::Tag);
+    const sw::FieldId _PropId_LayoutTag           = sw::Reflection::GetFieldId(&sw::UIElement::LayoutTag);
+    const sw::FieldId _PropId_ContextMenu         = sw::Reflection::GetFieldId(&sw::UIElement::ContextMenu);
+    const sw::FieldId _PropId_Float               = sw::Reflection::GetFieldId(&sw::UIElement::Float);
+    const sw::FieldId _PropId_TabStop             = sw::Reflection::GetFieldId(&sw::UIElement::TabStop);
+    const sw::FieldId _PropId_BackColor           = sw::Reflection::GetFieldId(&sw::UIElement::BackColor);
+    const sw::FieldId _PropId_TextColor           = sw::Reflection::GetFieldId(&sw::UIElement::TextColor);
+    const sw::FieldId _PropId_Transparent         = sw::Reflection::GetFieldId(&sw::UIElement::Transparent);
+    const sw::FieldId _PropId_InheritTextColor    = sw::Reflection::GetFieldId(&sw::UIElement::InheritTextColor);
+    const sw::FieldId _PropId_MinWidth            = sw::Reflection::GetFieldId(&sw::UIElement::MinWidth);
+    const sw::FieldId _PropId_MinHeight           = sw::Reflection::GetFieldId(&sw::UIElement::MinHeight);
+    const sw::FieldId _PropId_MaxWidth            = sw::Reflection::GetFieldId(&sw::UIElement::MaxWidth);
+    const sw::FieldId _PropId_MaxHeight           = sw::Reflection::GetFieldId(&sw::UIElement::MaxHeight);
+    const sw::FieldId _PropId_LogicalRect         = sw::Reflection::GetFieldId(&sw::UIElement::LogicalRect);
+    const sw::FieldId _PropId_IsHitTestVisible    = sw::Reflection::GetFieldId(&sw::UIElement::IsHitTestVisible);
+}
+
 sw::UIElement::UIElement()
     : Margin(
           Property<Thickness>::Init(this)
@@ -9402,6 +9637,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, const Thickness &value) {
                   if (self->_margin != value) {
                       self->_margin = value;
+                      self->RaisePropertyChanged(_PropId_Margin);
                       self->InvalidateMeasure();
                   }
               })),
@@ -9442,6 +9678,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, bool value) {
                   if (self->_collapseWhenHide != value) {
                       self->_collapseWhenHide = value;
+                      self->RaisePropertyChanged(_PropId_CollapseWhenHide);
                       if (self->_parent && !self->Visible) {
                           self->_parent->_UpdateLayoutVisibleChildren();
                           self->_parent->InvalidateMeasure();
@@ -9458,10 +9695,10 @@ sw::UIElement::UIElement()
       Tag(
           Property<uint64_t>::Init(this)
               .Getter([](UIElement *self) -> uint64_t {
-                  return self->_tag;
+                  return self->GetTag();
               })
               .Setter([](UIElement *self, uint64_t value) {
-                  self->_tag = value;
+                  self->SetTag(value);
               })),
 
       LayoutTag(
@@ -9472,6 +9709,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, uint64_t value) {
                   if (self->_layoutTag != value) {
                       self->_layoutTag = value;
+                      self->RaisePropertyChanged(_PropId_LayoutTag);
                       self->InvalidateMeasure();
                   }
               })),
@@ -9482,7 +9720,10 @@ sw::UIElement::UIElement()
                   return self->_contextMenu;
               })
               .Setter([](UIElement *self, sw::ContextMenu *value) {
-                  self->_contextMenu = value;
+                  if (self->_contextMenu != value) {
+                      self->_contextMenu = value;
+                      self->RaisePropertyChanged(_PropId_ContextMenu);
+                  }
               })),
 
       Float(
@@ -9493,6 +9734,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, bool value) {
                   if (self->_float != value) {
                       self->_float = value;
+                      self->RaisePropertyChanged(_PropId_Float);
                       self->UpdateSiblingsZOrder();
                   }
               })),
@@ -9503,7 +9745,10 @@ sw::UIElement::UIElement()
                   return self->_tabStop;
               })
               .Setter([](UIElement *self, bool value) {
-                  self->_tabStop = value;
+                  if (self->_tabStop != value) {
+                      self->_tabStop = value;
+                      self->RaisePropertyChanged(_PropId_TabStop);
+                  }
               })),
 
       BackColor(
@@ -9512,7 +9757,7 @@ sw::UIElement::UIElement()
                   return self->_backColor;
               })
               .Setter([](UIElement *self, const Color &value) {
-                  self->_transparent = false;
+                  self->Transparent = false;
                   self->SetBackColor(value, true);
               })),
 
@@ -9522,7 +9767,7 @@ sw::UIElement::UIElement()
                   return self->_textColor;
               })
               .Setter([](UIElement *self, const Color &value) {
-                  self->_inheritTextColor = false;
+                  self->InheritTextColor = false;
                   self->SetTextColor(value, true);
               })),
 
@@ -9532,8 +9777,11 @@ sw::UIElement::UIElement()
                   return self->_transparent;
               })
               .Setter([](UIElement *self, bool value) {
-                  self->_transparent = value;
-                  self->Redraw();
+                  if (self->_transparent != value) {
+                      self->_transparent = value;
+                      self->RaisePropertyChanged(_PropId_Transparent);
+                      self->Redraw();
+                  }
               })),
 
       InheritTextColor(
@@ -9542,8 +9790,11 @@ sw::UIElement::UIElement()
                   return self->_inheritTextColor;
               })
               .Setter([](UIElement *self, bool value) {
-                  self->_inheritTextColor = value;
-                  self->Redraw();
+                  if (self->_inheritTextColor != value) {
+                      self->_inheritTextColor = value;
+                      self->RaisePropertyChanged(_PropId_InheritTextColor);
+                      self->Redraw();
+                  }
               })),
 
       LayoutUpdateCondition(
@@ -9569,6 +9820,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, double value) {
                   if (self->_minSize.width != value) {
                       self->_minSize.width = value;
+                      self->RaisePropertyChanged(_PropId_MinWidth);
                       self->OnMinMaxSizeChanged();
                   }
               })),
@@ -9581,6 +9833,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, double value) {
                   if (self->_minSize.height != value) {
                       self->_minSize.height = value;
+                      self->RaisePropertyChanged(_PropId_MinHeight);
                       self->OnMinMaxSizeChanged();
                   }
               })),
@@ -9593,6 +9846,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, double value) {
                   if (self->_maxSize.width != value) {
                       self->_maxSize.width = value;
+                      self->RaisePropertyChanged(_PropId_MaxWidth);
                       self->OnMinMaxSizeChanged();
                   }
               })),
@@ -9605,6 +9859,7 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, double value) {
                   if (self->_maxSize.height != value) {
                       self->_maxSize.height = value;
+                      self->RaisePropertyChanged(_PropId_MaxHeight);
                       self->OnMinMaxSizeChanged();
                   }
               })),
@@ -9628,7 +9883,10 @@ sw::UIElement::UIElement()
                   return self->_isHitTestVisible;
               })
               .Setter([](UIElement *self, bool value) {
-                  self->_isHitTestVisible = value;
+                  if (self->_isHitTestVisible != value) {
+                      self->_isHitTestVisible = value;
+                      self->RaisePropertyChanged(_PropId_IsHitTestVisible);
+                  }
               })),
 
       IsFocusedViaTab(
@@ -10090,7 +10348,10 @@ uint64_t sw::UIElement::GetTag() const
 
 void sw::UIElement::SetTag(uint64_t tag)
 {
-    this->_tag = tag;
+    if (this->_tag != tag) {
+        this->_tag = tag;
+        this->RaisePropertyChanged(_PropId_Tag);
+    }
 }
 
 uint64_t sw::UIElement::GetLayoutTag() const
@@ -10270,9 +10531,8 @@ void sw::UIElement::RaiseRoutedEvent(RoutedEventArgs &eventArgs)
     UIElement *element = this;
     do {
         auto &handler = element->_eventMap[eventArgs.eventType];
-        if (!element->OnRoutedEvent(eventArgs, handler)) {
-            if (handler) handler(*element, eventArgs);
-        }
+        element->OnRoutedEvent(eventArgs, handler);
+
         if (eventArgs.handled) {
             break;
         } else {
@@ -10403,13 +10663,21 @@ void sw::UIElement::ArrangeOverride(const Size &finalSize)
 void sw::UIElement::SetBackColor(Color color, bool redraw)
 {
     this->_backColor = color;
-    if (redraw) this->Redraw();
+    this->RaisePropertyChanged(_PropId_BackColor);
+
+    if (redraw) {
+        this->Redraw();
+    }
 }
 
 void sw::UIElement::SetTextColor(Color color, bool redraw)
 {
     this->_textColor = color;
-    if (redraw) this->Redraw();
+    this->RaisePropertyChanged(_PropId_TextColor);
+
+    if (redraw) {
+        this->Redraw();
+    }
 }
 
 bool sw::UIElement::RequestBringIntoView(const sw::Rect &screenRect)
@@ -10419,6 +10687,8 @@ bool sw::UIElement::RequestBringIntoView(const sw::Rect &screenRect)
 
 void sw::UIElement::OnAddedChild(UIElement &element)
 {
+    this->RaisePropertyChanged(_PropId_ChildCount);
+
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildAdded)) {
         this->InvalidateMeasure();
     }
@@ -10426,6 +10696,8 @@ void sw::UIElement::OnAddedChild(UIElement &element)
 
 void sw::UIElement::OnRemovedChild(UIElement &element)
 {
+    this->RaisePropertyChanged(_PropId_ChildCount);
+
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
         this->InvalidateMeasure();
     }
@@ -10463,9 +10735,11 @@ void sw::UIElement::OnMinMaxSizeChanged()
     this->InvalidateMeasure();
 }
 
-bool sw::UIElement::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
+void sw::UIElement::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
 {
-    return false;
+    if (handler) {
+        handler(*this, eventArgs);
+    }
 }
 
 bool sw::UIElement::SetParent(WndBase *parent)
@@ -10526,6 +10800,9 @@ void sw::UIElement::ParentChanged(WndBase *newParent)
 {
     this->_parent = newParent ? newParent->ToUIElement() : nullptr;
     this->_SetMeasureInvalidated();
+
+    this->WndBase::ParentChanged(newParent); // raise property WndBase::Parent changed event
+    this->RaisePropertyChanged(_PropId_UIElementParent);
 }
 
 bool sw::UIElement::OnClose()
@@ -10536,6 +10813,9 @@ bool sw::UIElement::OnClose()
 
 bool sw::UIElement::OnMove(const Point &newClientPosition)
 {
+    this->WndBase::OnMove(newClientPosition);
+    this->RaisePropertyChanged(_PropId_LogicalRect);
+
     PositionChangedEventArgs args(newClientPosition);
     this->RaiseRoutedEvent(args);
 
@@ -10547,6 +10827,9 @@ bool sw::UIElement::OnMove(const Point &newClientPosition)
 
 bool sw::UIElement::OnSize(const Size &newClientSize)
 {
+    this->WndBase::OnSize(newClientSize);
+    this->RaisePropertyChanged(_PropId_LogicalRect);
+
     if (this->_horizontalAlignment != sw::HorizontalAlignment::Stretch) {
         this->_origionalSize.width = this->Width;
     }
@@ -10565,6 +10848,7 @@ bool sw::UIElement::OnSize(const Size &newClientSize)
 
 void sw::UIElement::OnTextChanged()
 {
+    this->WndBase::OnTextChanged();
     this->RaiseRoutedEvent(UIElement_TextChanged);
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::TextChanged)) {
@@ -10574,6 +10858,8 @@ void sw::UIElement::OnTextChanged()
 
 void sw::UIElement::FontChanged(HFONT hfont)
 {
+    this->WndBase::FontChanged(hfont);
+
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::FontChanged)) {
         this->InvalidateMeasure();
     }
@@ -10581,6 +10867,8 @@ void sw::UIElement::FontChanged(HFONT hfont)
 
 void sw::UIElement::VisibleChanged(bool newVisible)
 {
+    this->WndBase::VisibleChanged(newVisible);
+
     if (this->_parent && this->_collapseWhenHide) {
         this->_parent->_UpdateLayoutVisibleChildren();
     }
@@ -10591,6 +10879,8 @@ void sw::UIElement::VisibleChanged(bool newVisible)
 
 bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 {
+    this->WndBase::OnSetFocus(hPrevFocus);
+
     TypedRoutedEventArgs<UIElement_GotFocus> args;
     this->RaiseRoutedEvent(args);
 
@@ -10603,6 +10893,7 @@ bool sw::UIElement::OnSetFocus(HWND hPrevFocus)
 
 bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
+    this->WndBase::OnKillFocus(hNextFocus);
     this->_focusedViaTab = false;
 
     TypedRoutedEventArgs<UIElement_LostFocus> args;
@@ -10782,6 +11073,7 @@ bool sw::UIElement::_SetHorzAlignment(sw::HorizontalAlignment value)
         this->_origionalSize.width = this->Width;
     }
     this->_horizontalAlignment = value;
+    this->RaisePropertyChanged(_PropId_HorizontalAlignment);
     return true;
 }
 
@@ -10794,6 +11086,7 @@ bool sw::UIElement::_SetVertAlignment(sw::VerticalAlignment value)
         this->_origionalSize.height = this->Height;
     }
     this->_verticalAlignment = value;
+    this->RaisePropertyChanged(_PropId_VerticalAlignment);
     return true;
 }
 
@@ -11756,6 +12049,30 @@ namespace
      * @brief 控件id计数器
      */
     std::atomic<int> _controlIdCounter{1073741827};
+
+    /**
+     * @brief 属性ID
+     */
+    const sw::FieldId _PropId_Font         = sw::Reflection::GetFieldId(&sw::WndBase::Font);
+    const sw::FieldId _PropId_FontName     = sw::Reflection::GetFieldId(&sw::WndBase::FontName);
+    const sw::FieldId _PropId_FontSize     = sw::Reflection::GetFieldId(&sw::WndBase::FontSize);
+    const sw::FieldId _PropId_FontWeight   = sw::Reflection::GetFieldId(&sw::WndBase::FontWeight);
+    const sw::FieldId _PropId_Rect         = sw::Reflection::GetFieldId(&sw::WndBase::Rect);
+    const sw::FieldId _PropId_Left         = sw::Reflection::GetFieldId(&sw::WndBase::Left);
+    const sw::FieldId _PropId_Top          = sw::Reflection::GetFieldId(&sw::WndBase::Top);
+    const sw::FieldId _PropId_Width        = sw::Reflection::GetFieldId(&sw::WndBase::Width);
+    const sw::FieldId _PropId_Height       = sw::Reflection::GetFieldId(&sw::WndBase::Height);
+    const sw::FieldId _PropId_ClientRect   = sw::Reflection::GetFieldId(&sw::WndBase::ClientRect);
+    const sw::FieldId _PropId_ClientWidth  = sw::Reflection::GetFieldId(&sw::WndBase::ClientWidth);
+    const sw::FieldId _PropId_ClientHeight = sw::Reflection::GetFieldId(&sw::WndBase::ClientHeight);
+    const sw::FieldId _PropId_Enabled      = sw::Reflection::GetFieldId(&sw::WndBase::Enabled);
+    const sw::FieldId _PropId_Visible      = sw::Reflection::GetFieldId(&sw::WndBase::Visible);
+    const sw::FieldId _PropId_Text         = sw::Reflection::GetFieldId(&sw::WndBase::Text);
+    const sw::FieldId _PropId_Focused      = sw::Reflection::GetFieldId(&sw::WndBase::Focused);
+    const sw::FieldId _PropId_Parent       = sw::Reflection::GetFieldId(&sw::WndBase::Parent);
+    const sw::FieldId _PropId_IsDestroyed  = sw::Reflection::GetFieldId(&sw::WndBase::IsDestroyed);
+    const sw::FieldId _PropId_AcceptFiles  = sw::Reflection::GetFieldId(&sw::WndBase::AcceptFiles);
+    const sw::FieldId _PropId_IsGroupStart = sw::Reflection::GetFieldId(&sw::WndBase::IsGroupStart);
 }
 
 sw::WndBase::WndBase()
@@ -11773,8 +12090,16 @@ sw::WndBase::WndBase()
                   return self->_font;
               })
               .Setter([](WndBase *self, const sw::Font &value) {
+                  bool nameChanged   = self->_font.name != value.name;
+                  bool sizeChanged   = self->_font.size != value.size;
+                  bool weightChanged = self->_font.weight != value.weight;
+
                   self->_font = value;
                   self->UpdateFont();
+
+                  if (nameChanged) self->RaisePropertyChanged(_PropId_FontName);
+                  if (sizeChanged) self->RaisePropertyChanged(_PropId_FontSize);
+                  if (weightChanged) self->RaisePropertyChanged(_PropId_FontWeight);
               })),
 
       FontName(
@@ -11786,6 +12111,7 @@ sw::WndBase::WndBase()
                   if (self->_font.name != value) {
                       self->_font.name = value;
                       self->UpdateFont();
+                      self->RaisePropertyChanged(_PropId_FontName);
                   }
               })),
 
@@ -11798,6 +12124,7 @@ sw::WndBase::WndBase()
                   if (self->_font.size != value) {
                       self->_font.size = value;
                       self->UpdateFont();
+                      self->RaisePropertyChanged(_PropId_FontSize);
                   }
               })),
 
@@ -11810,6 +12137,7 @@ sw::WndBase::WndBase()
                   if (self->_font.weight != value) {
                       self->_font.weight = value;
                       self->UpdateFont();
+                      self->RaisePropertyChanged(_PropId_FontWeight);
                   }
               })),
 
@@ -11956,7 +12284,10 @@ sw::WndBase::WndBase()
                   return self->GetExtendedStyle(WS_EX_ACCEPTFILES);
               })
               .Setter([](WndBase *self, bool value) {
-                  self->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
+                  if (self->AcceptFiles != value) {
+                      self->SetExtendedStyle(WS_EX_ACCEPTFILES, value);
+                      self->RaisePropertyChanged(_PropId_AcceptFiles);
+                  }
               })),
 
       IsControl(
@@ -11979,7 +12310,10 @@ sw::WndBase::WndBase()
                   return self->GetStyle(WS_GROUP);
               })
               .Setter([](WndBase *self, bool value) {
-                  self->SetStyle(WS_GROUP, value);
+                  if (self->IsGroupStart != value) {
+                      self->SetStyle(WS_GROUP, value);
+                      self->RaisePropertyChanged(_PropId_IsGroupStart);
+                  }
               })),
 
       IsMouseCaptured(
@@ -12139,6 +12473,7 @@ LRESULT sw::WndBase::WndProc(ProcMsg &refMsg)
         case WM_NCDESTROY: {
             LRESULT result     = this->DefaultWndProc(refMsg);
             this->_isDestroyed = true;
+            this->RaisePropertyChanged(_PropId_IsDestroyed);
             return result;
         }
 
@@ -12155,14 +12490,34 @@ LRESULT sw::WndBase::WndProc(ProcMsg &refMsg)
         }
 
         case WM_WINDOWPOSCHANGED: {
+            bool changed = false;
             auto pWndPos = reinterpret_cast<PWINDOWPOS>(refMsg.lParam);
             if ((pWndPos->flags & SWP_NOMOVE) == 0) {
-                this->_rect.left = Dip::PxToDipX(pWndPos->x);
-                this->_rect.top  = Dip::PxToDipY(pWndPos->y);
+                double left = Dip::PxToDipX(pWndPos->x);
+                double top  = Dip::PxToDipY(pWndPos->y);
+                if (this->_rect.left != left) {
+                    this->_rect.left = left, changed = true;
+                    this->RaisePropertyChanged(_PropId_Left);
+                }
+                if (this->_rect.top != top) {
+                    this->_rect.top = top, changed = true;
+                    this->RaisePropertyChanged(_PropId_Top);
+                }
             }
             if ((pWndPos->flags & SWP_NOSIZE) == 0) {
-                this->_rect.width  = Dip::PxToDipX(pWndPos->cx);
-                this->_rect.height = Dip::PxToDipY(pWndPos->cy);
+                double width  = Dip::PxToDipX(pWndPos->cx);
+                double height = Dip::PxToDipY(pWndPos->cy);
+                if (this->_rect.width != width) {
+                    this->_rect.width = width, changed = true;
+                    this->RaisePropertyChanged(_PropId_Width);
+                }
+                if (this->_rect.height != height) {
+                    this->_rect.height = height, changed = true;
+                    this->RaisePropertyChanged(_PropId_Height);
+                }
+            }
+            if (changed) {
+                this->RaisePropertyChanged(_PropId_Rect);
             }
             return this->DefaultWndProc(refMsg);
         }
@@ -12180,9 +12535,10 @@ LRESULT sw::WndBase::WndProc(ProcMsg &refMsg)
         }
 
         case WM_SETTEXT: {
-            LRESULT result = this->DefaultWndProc(refMsg);
-            if (result == TRUE) {
-                this->_text = reinterpret_cast<PCWSTR>(refMsg.lParam);
+            LRESULT result  = this->DefaultWndProc(refMsg);
+            LPCWSTR newText = reinterpret_cast<LPCWSTR>(refMsg.lParam);
+            if (result == TRUE && this->_text != newText) {
+                this->_text = newText;
                 this->OnTextChanged();
             }
             return result;
@@ -12457,7 +12813,9 @@ std::wstring &sw::WndBase::GetInternalText()
 
 void sw::WndBase::SetInternalText(const std::wstring &value)
 {
-    SetWindowTextW(this->_hwnd, value.c_str());
+    if (GetInternalText() != value) {
+        SetWindowTextW(this->_hwnd, value.c_str());
+    }
 }
 
 bool sw::WndBase::OnCreate()
@@ -12500,20 +12858,26 @@ bool sw::WndBase::OnMove(const Point &newClientPosition)
 
 bool sw::WndBase::OnSize(const Size &newClientSize)
 {
+    this->RaisePropertyChanged(_PropId_ClientRect);
+    this->RaisePropertyChanged(_PropId_ClientWidth);
+    this->RaisePropertyChanged(_PropId_ClientHeight);
     return false;
 }
 
 void sw::WndBase::OnTextChanged()
 {
+    this->RaisePropertyChanged(_PropId_Text);
 }
 
 bool sw::WndBase::OnSetFocus(HWND hPrevFocus)
 {
+    this->RaisePropertyChanged(_PropId_Focused);
     return false;
 }
 
 bool sw::WndBase::OnKillFocus(HWND hNextFocus)
 {
+    this->RaisePropertyChanged(_PropId_Focused);
     return false;
 }
 
@@ -12619,6 +12983,7 @@ bool sw::WndBase::OnSysKeyUp(VirtualKey key, const KeyFlags &flags)
 
 void sw::WndBase::VisibleChanged(bool newVisible)
 {
+    this->RaisePropertyChanged(_PropId_Visible);
 }
 
 bool sw::WndBase::SetParent(WndBase *parent)
@@ -12648,6 +13013,7 @@ bool sw::WndBase::SetParent(WndBase *parent)
 
 void sw::WndBase::ParentChanged(WndBase *newParent)
 {
+    this->RaisePropertyChanged(_PropId_Parent);
 }
 
 void sw::WndBase::OnCommand(int code)
@@ -12673,6 +13039,7 @@ void sw::WndBase::HandleInitialized(HWND hwnd)
 
 void sw::WndBase::FontChanged(HFONT hfont)
 {
+    this->RaisePropertyChanged(_PropId_Font);
 }
 
 bool sw::WndBase::OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result)
@@ -12712,6 +13079,7 @@ bool sw::WndBase::OnHorizontalScroll(int event, int pos)
 
 bool sw::WndBase::OnEnabledChanged(bool newValue)
 {
+    this->RaisePropertyChanged(_PropId_Enabled);
     return false;
 }
 
