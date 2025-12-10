@@ -1,5 +1,6 @@
 #pragma once
 
+#include "INotifyObjectDead.h"
 #include "INotifyPropertyChanged.h"
 #include "IValueConverter.h"
 
@@ -274,10 +275,21 @@ namespace sw
                 targetNotifObj->PropertyChanged +=
                     PropertyChangedEventHandler(*this, &Binding::OnTargetPropertyChanged);
             }
-
             if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObj)) {
                 sourceNotifObj->PropertyChanged +=
                     PropertyChangedEventHandler(*this, &Binding::OnSourcePropertyChanged);
+            }
+
+            INotifyObjectDead *targetNotifObjDead = nullptr;
+            INotifyObjectDead *sourceNotifObjDead = nullptr;
+
+            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObjDead)) {
+                targetNotifObjDead->ObjectDead +=
+                    ObjectDeadEventHandler(*this, &Binding::OnTargetObjectDead);
+            }
+            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObjDead)) {
+                sourceNotifObjDead->ObjectDead +=
+                    ObjectDeadEventHandler(*this, &Binding::OnSourceObjectDead);
             }
         }
 
@@ -293,10 +305,21 @@ namespace sw
                 targetNotifObj->PropertyChanged -=
                     PropertyChangedEventHandler(*this, &Binding::OnTargetPropertyChanged);
             }
-
             if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObj)) {
                 sourceNotifObj->PropertyChanged -=
                     PropertyChangedEventHandler(*this, &Binding::OnSourcePropertyChanged);
+            }
+
+            INotifyObjectDead *targetNotifObjDead = nullptr;
+            INotifyObjectDead *sourceNotifObjDead = nullptr;
+
+            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObjDead)) {
+                targetNotifObjDead->ObjectDead -=
+                    ObjectDeadEventHandler(*this, &Binding::OnTargetObjectDead);
+            }
+            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObjDead)) {
+                sourceNotifObjDead->ObjectDead -=
+                    ObjectDeadEventHandler(*this, &Binding::OnSourceObjectDead);
             }
         }
 
@@ -328,6 +351,22 @@ namespace sw
                 _mode == BindingMode::OneWay) {
                 UpdateTarget();
             }
+        }
+
+        /**
+         * @brief 目标对象销毁处理函数
+         */
+        void OnTargetObjectDead(INotifyObjectDead &sender)
+        {
+            SetTargetObject(nullptr);
+        }
+
+        /**
+         * @brief 源对象销毁处理函数
+         */
+        void OnSourceObjectDead(INotifyObjectDead &sender)
+        {
+            SetSourceObject(nullptr);
         }
 
         /**
