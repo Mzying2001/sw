@@ -1,7 +1,7 @@
 #include "Utils.h"
 #include <Windows.h>
 #include <cstdarg>
-#include <wchar.h>
+#include <cwchar>
 
 std::wstring sw::Utils::ToWideStr(const std::string &str, bool utf8)
 {
