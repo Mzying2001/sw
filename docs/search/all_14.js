@@ -23,5 +23,6 @@ var searchData=
   ['updatetabtext_20',['UpdateTabText',['../classsw_1_1TabControl.html#ab14ce7faf0e6feb71ba66e7a1029673c',1,'sw::TabControl']]],
   ['updatetarget_21',['updatetarget',['../classsw_1_1BindingBase.html#afd8689b6e1a355a942964b2beab8169e',1,'sw::BindingBase::UpdateTarget()'],['../classsw_1_1Binding.html#a5cc189cdf84757218d47907015021aba',1,'sw::Binding::UpdateTarget()']]],
   ['useunicode_22',['UseUnicode',['../classsw_1_1StatusBar.html#a0a97d4bff90e41bcbd6260ee9f9fa66a',1,'sw::StatusBar']]],
-  ['utils_23',['Utils',['../classsw_1_1Utils.html',1,'sw']]]
+  ['utf8stringtostringconverter_23',['Utf8StringToStringConverter',['../classsw_1_1Utf8StringToStringConverter.html',1,'sw']]],
+  ['utils_24',['Utils',['../classsw_1_1Utils.html',1,'sw']]]
 ];

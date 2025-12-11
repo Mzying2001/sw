@@ -24,6 +24,8 @@ var searchData=
   ['readonlyproperty_3c_20treeviewnode_20_3e_21',['ReadOnlyProperty&lt; TreeViewNode &gt;',['../classsw_1_1ReadOnlyProperty.html',1,'sw']]],
   ['rect_22',['Rect',['../structsw_1_1Rect.html',1,'sw']]],
   ['reflection_23',['Reflection',['../classsw_1_1Reflection.html',1,'sw']]],
-  ['routedeventargs_24',['RoutedEventArgs',['../structsw_1_1RoutedEventArgs.html',1,'sw']]],
-  ['routedeventhandlerwrapper_25',['RoutedEventHandlerWrapper',['../classsw_1_1RoutedEventHandlerWrapper.html',1,'sw']]]
+  ['reverseconverter_24',['ReverseConverter',['../classsw_1_1ReverseConverter.html',1,'sw']]],
+  ['reverseconverter_3c_20tbaseconverter_2c_20typename_20std_3a_3aenable_5fif_3c_20std_3a_3ais_5fbase_5fof_3c_20ivalueconverter_3c_20typename_20std_3a_3adecay_3c_20typename_20tbaseconverter_3a_3atsourceparam_20_3e_3a_3atype_2c_20typename_20std_3a_3adecay_3c_20typename_20tbaseconverter_3a_3attargetparam_20_3e_3a_3atype_20_3e_2c_20tbaseconverter_20_3e_3a_3avalue_20_3e_3a_3atype_20_3e_25',['ReverseConverter&lt; TBaseConverter, typename std::enable_if&lt; std::is_base_of&lt; IValueConverter&lt; typename std::decay&lt; typename TBaseConverter::TSourceParam &gt;::type, typename std::decay&lt; typename TBaseConverter::TTargetParam &gt;::type &gt;, TBaseConverter &gt;::value &gt;::type &gt;',['../classsw_1_1ReverseConverter_3_01TBaseConverter_00_01typename_01std_1_1enable__if_3_01std_1_1is__5d0a148ba9b60e83e8a5a3ea0b1ca5d3.html',1,'sw']]],
+  ['routedeventargs_26',['RoutedEventArgs',['../structsw_1_1RoutedEventArgs.html',1,'sw']]],
+  ['routedeventhandlerwrapper_27',['RoutedEventHandlerWrapper',['../classsw_1_1RoutedEventHandlerWrapper.html',1,'sw']]]
 ];

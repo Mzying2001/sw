@@ -126,6 +126,7 @@ var hierarchy =
       [ "sw::FillRemainGridRow", "structsw_1_1FillRemainGridRow.html", null ],
       [ "sw::FixSizeGridRow", "structsw_1_1FixSizeGridRow.html", null ]
     ] ],
+    [ "std::hash< sw::FieldId >", "structstd_1_1hash_3_01sw_1_1FieldId_01_4.html", null ],
     [ "sw::HotKey", "structsw_1_1HotKey.html", null ],
     [ "sw::ICallable< typename >", "structsw_1_1ICallable.html", null ],
     [ "sw::ICallable< TRet(Args...)>", "structsw_1_1ICallable_3_01TRet_07Args_8_8_8_08_4.html", [
@@ -241,7 +242,68 @@ var hierarchy =
     [ "sw::IToString< WndBase >", "classsw_1_1IToString.html", [
       [ "sw::WndBase", "classsw_1_1WndBase.html", null ]
     ] ],
-    [ "sw::IValueConverter< TSource, TTarget >", "classsw_1_1IValueConverter.html", null ],
+    [ "sw::IValueConverter< TSource, TTarget >", "classsw_1_1IValueConverter.html", [
+      [ "sw::NumericConverter< TSource, TTarget, type >", "classsw_1_1NumericConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< bool, bool >", "classsw_1_1IValueConverter.html", [
+      [ "sw::BoolNegationConverter", "classsw_1_1BoolNegationConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< bool, TTarget >", "classsw_1_1IValueConverter.html", [
+      [ "sw::BoolToNumericConverter< TTarget, type >", "classsw_1_1BoolToNumericConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< double, std::string >", "classsw_1_1IValueConverter.html", [
+      [ "sw::DoubleToAnsiStringConverter", "classsw_1_1DoubleToAnsiStringConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< double, std::wstring >", "classsw_1_1IValueConverter.html", [
+      [ "sw::DoubleToStringConverter", "classsw_1_1DoubleToStringConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< float, std::string >", "classsw_1_1IValueConverter.html", [
+      [ "sw::FloatToAnsiStringConverter", "classsw_1_1FloatToAnsiStringConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< float, std::wstring >", "classsw_1_1IValueConverter.html", [
+      [ "sw::FloatToStringConverter", "classsw_1_1FloatToStringConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< int, std::string >", "classsw_1_1IValueConverter.html", [
+      [ "sw::IntToAnsiStringConverter", "classsw_1_1IntToAnsiStringConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< int, std::wstring >", "classsw_1_1IValueConverter.html", [
+      [ "sw::IntToStringConverter", "classsw_1_1IntToStringConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< std::decay< TBaseConverter::TTargetParam >::type, std::decay< TBaseConverter::TSourceParam >::type >", "classsw_1_1IValueConverter.html", [
+      [ "sw::ReverseConverter< TBaseConverter, typename std::enable_if< std::is_base_of< IValueConverter< typename std::decay< typename TBaseConverter::TSourceParam >::type, typename std::decay< typename TBaseConverter::TTargetParam >::type >, TBaseConverter >::value >::type >", "classsw_1_1ReverseConverter_3_01TBaseConverter_00_01typename_01std_1_1enable__if_3_01std_1_1is__5d0a148ba9b60e83e8a5a3ea0b1ca5d3.html", null ]
+    ] ],
+    [ "sw::IValueConverter< std::string, double >", "classsw_1_1IValueConverter.html", [
+      [ "sw::AnsiStringToDoubleConverter", "classsw_1_1AnsiStringToDoubleConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< std::string, float >", "classsw_1_1IValueConverter.html", [
+      [ "sw::AnsiStringToFloatConverter", "classsw_1_1AnsiStringToFloatConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< std::string, int >", "classsw_1_1IValueConverter.html", [
+      [ "sw::AnsiStringToIntConverter", "classsw_1_1AnsiStringToIntConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< std::string, std::wstring >", "classsw_1_1IValueConverter.html", [
+      [ "sw::AnsiStringToStringConverter", "classsw_1_1AnsiStringToStringConverter.html", null ],
+      [ "sw::Utf8StringToStringConverter", "classsw_1_1Utf8StringToStringConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< std::wstring, double >", "classsw_1_1IValueConverter.html", [
+      [ "sw::StringToDoubleConverter", "classsw_1_1StringToDoubleConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< std::wstring, float >", "classsw_1_1IValueConverter.html", [
+      [ "sw::StringToFloatConverter", "classsw_1_1StringToFloatConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< std::wstring, int >", "classsw_1_1IValueConverter.html", [
+      [ "sw::StringToIntConverter", "classsw_1_1StringToIntConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< std::wstring, std::string >", "classsw_1_1IValueConverter.html", [
+      [ "sw::StringToAnsiStringConverter", "classsw_1_1StringToAnsiStringConverter.html", null ],
+      [ "sw::StringToUtf8StringConverter", "classsw_1_1StringToUtf8StringConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< T, T >", "classsw_1_1IValueConverter.html", [
+      [ "sw::NumericNegationConverter< T, type >", "classsw_1_1NumericNegationConverter.html", null ]
+    ] ],
+    [ "sw::IValueConverter< TSource, bool >", "classsw_1_1IValueConverter.html", [
+      [ "sw::NumericToBoolConverter< TSource, type >", "classsw_1_1NumericToBoolConverter.html", null ]
+    ] ],
     [ "sw::KeyFlags", "structsw_1_1KeyFlags.html", null ],
     [ "sw::LayoutHost", "classsw_1_1LayoutHost.html", [
       [ "sw::CanvasLayout", "classsw_1_1CanvasLayout.html", null ],
@@ -410,6 +472,7 @@ var hierarchy =
     [ "sw::PropertyBase< WindowStartupLocation, Property< WindowStartupLocation > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< WindowState, Property< WindowState > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::Reflection", "classsw_1_1Reflection.html", null ],
+    [ "sw::ReverseConverter< TBaseConverter, typename >", "classsw_1_1ReverseConverter.html", null ],
     [ "sw::RoutedEventArgs", "structsw_1_1RoutedEventArgs.html", [
       [ "sw::TypedRoutedEventArgs< DateTimePicker_TimeChanged >", "structsw_1_1TypedRoutedEventArgs.html", [
         [ "sw::DateTimePickerTimeChangedEventArgs", "structsw_1_1DateTimePickerTimeChangedEventArgs.html", null ]

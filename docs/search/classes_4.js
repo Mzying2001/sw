@@ -17,6 +17,8 @@ var searchData=
   ['docklayouttag_14',['DockLayoutTag',['../classsw_1_1DockLayoutTag.html',1,'sw']]],
   ['dockpanel_15',['DockPanel',['../classsw_1_1DockPanel.html',1,'sw']]],
   ['docksplitter_16',['DockSplitter',['../classsw_1_1DockSplitter.html',1,'sw']]],
-  ['dropfileseventargs_17',['DropFilesEventArgs',['../structsw_1_1DropFilesEventArgs.html',1,'sw']]],
-  ['dynamicobject_18',['DynamicObject',['../classsw_1_1DynamicObject.html',1,'sw']]]
+  ['doubletoansistringconverter_17',['DoubleToAnsiStringConverter',['../classsw_1_1DoubleToAnsiStringConverter.html',1,'sw']]],
+  ['doubletostringconverter_18',['DoubleToStringConverter',['../classsw_1_1DoubleToStringConverter.html',1,'sw']]],
+  ['dropfileseventargs_19',['DropFilesEventArgs',['../structsw_1_1DropFilesEventArgs.html',1,'sw']]],
+  ['dynamicobject_20',['DynamicObject',['../classsw_1_1DynamicObject.html',1,'sw']]]
 ];

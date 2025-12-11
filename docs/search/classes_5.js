@@ -10,7 +10,9 @@ var searchData=
   ['fillremaingridrow_7',['FillRemainGridRow',['../structsw_1_1FillRemainGridRow.html',1,'sw']]],
   ['fixsizegridcolumn_8',['FixSizeGridColumn',['../structsw_1_1FixSizeGridColumn.html',1,'sw']]],
   ['fixsizegridrow_9',['FixSizeGridRow',['../structsw_1_1FixSizeGridRow.html',1,'sw']]],
-  ['folderbrowserdialog_10',['FolderBrowserDialog',['../classsw_1_1FolderBrowserDialog.html',1,'sw']]],
-  ['font_11',['Font',['../classsw_1_1Font.html',1,'sw']]],
-  ['fontdialog_12',['FontDialog',['../classsw_1_1FontDialog.html',1,'sw']]]
+  ['floattoansistringconverter_10',['FloatToAnsiStringConverter',['../classsw_1_1FloatToAnsiStringConverter.html',1,'sw']]],
+  ['floattostringconverter_11',['FloatToStringConverter',['../classsw_1_1FloatToStringConverter.html',1,'sw']]],
+  ['folderbrowserdialog_12',['FolderBrowserDialog',['../classsw_1_1FolderBrowserDialog.html',1,'sw']]],
+  ['font_13',['Font',['../classsw_1_1Font.html',1,'sw']]],
+  ['fontdialog_14',['FontDialog',['../classsw_1_1FontDialog.html',1,'sw']]]
 ];

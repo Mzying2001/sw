@@ -169,16 +169,32 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~BindingBase</b> (
 <tr class="memitem:a108cd33cf96e6275262187ac2e735499"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Binding.html#a108cd33cf96e6275262187ac2e735499">Create</a> (<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> *target, TTargetProperty TTargetObject::*targetProperty, <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> *source, TSourceProperty TSourceObject::*sourceProperty, BindingMode mode, <a class="el" href="classsw_1_1IValueConverter.html">IValueConverter</a>&lt; typename TSourceProperty::TValue, typename TTargetProperty::TValue &gt; *converter=nullptr) -&gt; typename std::enable_if&lt; <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt; TTargetProperty &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt; TSourceProperty &gt;::value &amp;&amp;std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TTargetObject &gt;::value &amp;&amp;std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TSourceObject &gt;::value &amp;&amp;std::is_same&lt; typename TTargetProperty::TValue, typename TSourceProperty::TValue &gt;::value, <a class="el" href="classsw_1_1Binding.html">Binding</a> * &gt;::type</td></tr>
 <tr class="memdesc:a108cd33cf96e6275262187ac2e735499"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建绑定对象  <br /></td></tr>
 <tr class="separator:a108cd33cf96e6275262187ac2e735499"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a989ddd7082bfbee4f77cc84eeed242fb" id="r_a989ddd7082bfbee4f77cc84eeed242fb"><td class="memTemplParams" colspan="2">template&lt;typename TTargetObject , typename TTargetProperty , typename TSourceObject , typename TSourceProperty &gt; </td></tr>
+<tr class="memitem:a989ddd7082bfbee4f77cc84eeed242fb"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Binding.html#a989ddd7082bfbee4f77cc84eeed242fb">Create</a> (TTargetProperty TTargetObject::*targetProperty, <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> *source, TSourceProperty TSourceObject::*sourceProperty, BindingMode mode, <a class="el" href="classsw_1_1IValueConverter.html">IValueConverter</a>&lt; typename TSourceProperty::TValue, typename TTargetProperty::TValue &gt; *converter=nullptr) -&gt; typename std::enable_if&lt; <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt; TTargetProperty &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt; TSourceProperty &gt;::value &amp;&amp;std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TTargetObject &gt;::value &amp;&amp;std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TSourceObject &gt;::value &amp;&amp;std::is_same&lt; typename TTargetProperty::TValue, typename TSourceProperty::TValue &gt;::value, <a class="el" href="classsw_1_1Binding.html">Binding</a> * &gt;::type</td></tr>
+<tr class="memdesc:a989ddd7082bfbee4f77cc84eeed242fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建延迟绑定对象  <br /></td></tr>
+<tr class="separator:a989ddd7082bfbee4f77cc84eeed242fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af10baef78228474a3a02ea048012618f" id="r_af10baef78228474a3a02ea048012618f"><td class="memTemplParams" colspan="2">template&lt;typename TTargetObject , typename TTargetProperty , typename TSourceObject , typename TSourceProperty &gt; </td></tr>
+<tr class="memitem:af10baef78228474a3a02ea048012618f"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Binding.html#af10baef78228474a3a02ea048012618f">Create</a> (TTargetProperty TTargetObject::*targetProperty, TSourceProperty TSourceObject::*sourceProperty, BindingMode mode, <a class="el" href="classsw_1_1IValueConverter.html">IValueConverter</a>&lt; typename TSourceProperty::TValue, typename TTargetProperty::TValue &gt; *converter=nullptr) -&gt; typename std::enable_if&lt; <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt; TTargetProperty &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt; TSourceProperty &gt;::value &amp;&amp;std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TTargetObject &gt;::value &amp;&amp;std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TSourceObject &gt;::value &amp;&amp;std::is_same&lt; typename TTargetProperty::TValue, typename TSourceProperty::TValue &gt;::value, <a class="el" href="classsw_1_1Binding.html">Binding</a> * &gt;::type</td></tr>
+<tr class="memdesc:af10baef78228474a3a02ea048012618f"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建延迟绑定对象  <br /></td></tr>
+<tr class="separator:af10baef78228474a3a02ea048012618f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c99d148c676815752a945deb818244d" id="r_a8c99d148c676815752a945deb818244d"><td class="memTemplParams" colspan="2">template&lt;typename TTargetObject , typename TTargetProperty , typename TSourceObject , typename TSourceProperty &gt; </td></tr>
 <tr class="memitem:a8c99d148c676815752a945deb818244d"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Binding.html#a8c99d148c676815752a945deb818244d">Create</a> (<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> *target, TTargetProperty TTargetObject::*targetProperty, <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> *source, TSourceProperty TSourceObject::*sourceProperty, BindingMode mode, <a class="el" href="classsw_1_1IValueConverter.html">IValueConverter</a>&lt; typename TSourceProperty::TValue, typename TTargetProperty::TValue &gt; *converter) -&gt; typename std::enable_if&lt; <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt; TTargetProperty &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt; TSourceProperty &gt;::value &amp;&amp;std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TTargetObject &gt;::value &amp;&amp;std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TSourceObject &gt;::value &amp;&amp;!std::is_same&lt; typename TTargetProperty::TValue, typename TSourceProperty::TValue &gt;::value, <a class="el" href="classsw_1_1Binding.html">Binding</a> * &gt;::type</td></tr>
 <tr class="memdesc:a8c99d148c676815752a945deb818244d"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建绑定对象  <br /></td></tr>
 <tr class="separator:a8c99d148c676815752a945deb818244d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af99e3698a746f15a887f2bead62d868e" id="r_af99e3698a746f15a887f2bead62d868e"><td class="memTemplParams" colspan="2">template&lt;typename TTargetObject , typename TTargetProperty , typename TSourceObject , typename TSourceProperty &gt; </td></tr>
+<tr class="memitem:af99e3698a746f15a887f2bead62d868e"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Binding.html#af99e3698a746f15a887f2bead62d868e">Create</a> (TTargetProperty TTargetObject::*targetProperty, <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> *source, TSourceProperty TSourceObject::*sourceProperty, BindingMode mode, <a class="el" href="classsw_1_1IValueConverter.html">IValueConverter</a>&lt; typename TSourceProperty::TValue, typename TTargetProperty::TValue &gt; *converter) -&gt; typename std::enable_if&lt; <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt; TTargetProperty &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt; TSourceProperty &gt;::value &amp;&amp;std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TTargetObject &gt;::value &amp;&amp;std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TSourceObject &gt;::value &amp;&amp;!std::is_same&lt; typename TTargetProperty::TValue, typename TSourceProperty::TValue &gt;::value, <a class="el" href="classsw_1_1Binding.html">Binding</a> * &gt;::type</td></tr>
+<tr class="memdesc:af99e3698a746f15a887f2bead62d868e"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建延迟绑定对象  <br /></td></tr>
+<tr class="separator:af99e3698a746f15a887f2bead62d868e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a831141cf93fb699a7f99fcb7aa2c2cdb" id="r_a831141cf93fb699a7f99fcb7aa2c2cdb"><td class="memTemplParams" colspan="2">template&lt;typename TTargetObject , typename TTargetProperty , typename TSourceObject , typename TSourceProperty &gt; </td></tr>
+<tr class="memitem:a831141cf93fb699a7f99fcb7aa2c2cdb"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Binding.html#a831141cf93fb699a7f99fcb7aa2c2cdb">Create</a> (TTargetProperty TTargetObject::*targetProperty, TSourceProperty TSourceObject::*sourceProperty, BindingMode mode, <a class="el" href="classsw_1_1IValueConverter.html">IValueConverter</a>&lt; typename TSourceProperty::TValue, typename TTargetProperty::TValue &gt; *converter) -&gt; typename std::enable_if&lt; <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt; TTargetProperty &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt; TSourceProperty &gt;::value &amp;&amp;std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TTargetObject &gt;::value &amp;&amp;std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TSourceObject &gt;::value &amp;&amp;!std::is_same&lt; typename TTargetProperty::TValue, typename TSourceProperty::TValue &gt;::value, <a class="el" href="classsw_1_1Binding.html">Binding</a> * &gt;::type</td></tr>
+<tr class="memdesc:a831141cf93fb699a7f99fcb7aa2c2cdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建延迟绑定对象  <br /></td></tr>
+<tr class="separator:a831141cf93fb699a7f99fcb7aa2c2cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>数据绑定类 </p>
 </div><h2 class="groupheader">成员函数说明</h2>
 <a id="a8c99d148c676815752a945deb818244d" name="a8c99d148c676815752a945deb818244d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c99d148c676815752a945deb818244d">&#9670;&#160;</a></span>Create() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c99d148c676815752a945deb818244d">&#9670;&#160;</a></span>Create() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -262,7 +278,7 @@ template&lt;typename TTargetObject , typename TTargetProperty , typename TSource
 </div>
 </div>
 <a id="a108cd33cf96e6275262187ac2e735499" name="a108cd33cf96e6275262187ac2e735499"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a108cd33cf96e6275262187ac2e735499">&#9670;&#160;</a></span>Create() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a108cd33cf96e6275262187ac2e735499">&#9670;&#160;</a></span>Create() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -334,6 +350,300 @@ template&lt;typename TTargetObject , typename TTargetProperty , typename TSource
     <tr><td class="paramname">target</td><td>目标对象指针 </td></tr>
     <tr><td class="paramname">targetProperty</td><td>目标属性成员指针 </td></tr>
     <tr><td class="paramname">source</td><td>源对象指针 </td></tr>
+    <tr><td class="paramname">sourceProperty</td><td>源属性成员指针 </td></tr>
+    <tr><td class="paramname">mode</td><td>绑定模式 </td></tr>
+    <tr><td class="paramname">converter</td><td>值转换器指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>绑定对象指针 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>转换器的生命周期将由绑定对象管理，请勿与其他对象共享 </dd></dl>
+
+</div>
+</div>
+<a id="af99e3698a746f15a887f2bead62d868e" name="af99e3698a746f15a887f2bead62d868e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af99e3698a746f15a887f2bead62d868e">&#9670;&#160;</a></span>Create() <span class="overload">[3/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TTargetObject , typename TTargetProperty , typename TSourceObject , typename TSourceProperty &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static auto sw::Binding::Create </td>
+          <td>(</td>
+          <td class="paramtype">TTargetProperty TTargetObject::*&#160;</td>
+          <td class="paramname"><em>targetProperty</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> *&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TSourceProperty TSourceObject::*&#160;</td>
+          <td class="paramname"><em>sourceProperty</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">BindingMode&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">IValueConverter</a>&lt; typename TSourceProperty::TValue, typename TTargetProperty::TValue &gt; *&#160;</td>
+          <td class="paramname"><em>converter</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; typename std::enable_if&lt;
+                <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt;TTargetProperty&gt;::value &amp;&amp;
+                    <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt;TSourceProperty&gt;::value &amp;&amp;
+                    std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TTargetObject&gt;::value &amp;&amp;
+                    std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TSourceObject&gt;::value &amp;&amp;
+                    !std::is_same&lt;typename TTargetProperty::TValue, typename TSourceProperty::TValue&gt;::value,
+                <a class="el" href="classsw_1_1Binding.html">Binding</a> *&gt;::type
+        </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建延迟绑定对象 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">targetProperty</td><td>目标属性成员指针 </td></tr>
+    <tr><td class="paramname">source</td><td>源对象指针 </td></tr>
+    <tr><td class="paramname">sourceProperty</td><td>源属性成员指针 </td></tr>
+    <tr><td class="paramname">mode</td><td>绑定模式 </td></tr>
+    <tr><td class="paramname">converter</td><td>值转换器指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>绑定对象指针 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>转换器的生命周期将由绑定对象管理，请勿与其他对象共享 </dd></dl>
+
+</div>
+</div>
+<a id="a989ddd7082bfbee4f77cc84eeed242fb" name="a989ddd7082bfbee4f77cc84eeed242fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a989ddd7082bfbee4f77cc84eeed242fb">&#9670;&#160;</a></span>Create() <span class="overload">[4/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TTargetObject , typename TTargetProperty , typename TSourceObject , typename TSourceProperty &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static auto sw::Binding::Create </td>
+          <td>(</td>
+          <td class="paramtype">TTargetProperty TTargetObject::*&#160;</td>
+          <td class="paramname"><em>targetProperty</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> *&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TSourceProperty TSourceObject::*&#160;</td>
+          <td class="paramname"><em>sourceProperty</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">BindingMode&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">IValueConverter</a>&lt; typename TSourceProperty::TValue, typename TTargetProperty::TValue &gt; *&#160;</td>
+          <td class="paramname"><em>converter</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; typename std::enable_if&lt;
+                <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt;TTargetProperty&gt;::value &amp;&amp;
+                    <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt;TSourceProperty&gt;::value &amp;&amp;
+                    std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TTargetObject&gt;::value &amp;&amp;
+                    std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TSourceObject&gt;::value &amp;&amp;
+                    std::is_same&lt;typename TTargetProperty::TValue, typename TSourceProperty::TValue&gt;::value,
+                <a class="el" href="classsw_1_1Binding.html">Binding</a> *&gt;::type
+        </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建延迟绑定对象 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">targetProperty</td><td>目标属性成员指针 </td></tr>
+    <tr><td class="paramname">source</td><td>源对象指针 </td></tr>
+    <tr><td class="paramname">sourceProperty</td><td>源属性成员指针 </td></tr>
+    <tr><td class="paramname">mode</td><td>绑定模式 </td></tr>
+    <tr><td class="paramname">converter</td><td>值转换器指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>绑定对象指针 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>转换器的生命周期将由绑定对象管理，请勿与其他对象共享 </dd></dl>
+
+</div>
+</div>
+<a id="a831141cf93fb699a7f99fcb7aa2c2cdb" name="a831141cf93fb699a7f99fcb7aa2c2cdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a831141cf93fb699a7f99fcb7aa2c2cdb">&#9670;&#160;</a></span>Create() <span class="overload">[5/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TTargetObject , typename TTargetProperty , typename TSourceObject , typename TSourceProperty &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static auto sw::Binding::Create </td>
+          <td>(</td>
+          <td class="paramtype">TTargetProperty TTargetObject::*&#160;</td>
+          <td class="paramname"><em>targetProperty</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TSourceProperty TSourceObject::*&#160;</td>
+          <td class="paramname"><em>sourceProperty</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">BindingMode&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">IValueConverter</a>&lt; typename TSourceProperty::TValue, typename TTargetProperty::TValue &gt; *&#160;</td>
+          <td class="paramname"><em>converter</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; typename std::enable_if&lt;
+                <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt;TTargetProperty&gt;::value &amp;&amp;
+                    <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt;TSourceProperty&gt;::value &amp;&amp;
+                    std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TTargetObject&gt;::value &amp;&amp;
+                    std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TSourceObject&gt;::value &amp;&amp;
+                    !std::is_same&lt;typename TTargetProperty::TValue, typename TSourceProperty::TValue&gt;::value,
+                <a class="el" href="classsw_1_1Binding.html">Binding</a> *&gt;::type
+        </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建延迟绑定对象 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">targetProperty</td><td>目标属性成员指针 </td></tr>
+    <tr><td class="paramname">sourceProperty</td><td>源属性成员指针 </td></tr>
+    <tr><td class="paramname">mode</td><td>绑定模式 </td></tr>
+    <tr><td class="paramname">converter</td><td>值转换器指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>绑定对象指针 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>转换器的生命周期将由绑定对象管理，请勿与其他对象共享 </dd></dl>
+
+</div>
+</div>
+<a id="af10baef78228474a3a02ea048012618f" name="af10baef78228474a3a02ea048012618f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af10baef78228474a3a02ea048012618f">&#9670;&#160;</a></span>Create() <span class="overload">[6/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TTargetObject , typename TTargetProperty , typename TSourceObject , typename TSourceProperty &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static auto sw::Binding::Create </td>
+          <td>(</td>
+          <td class="paramtype">TTargetProperty TTargetObject::*&#160;</td>
+          <td class="paramname"><em>targetProperty</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TSourceProperty TSourceObject::*&#160;</td>
+          <td class="paramname"><em>sourceProperty</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">BindingMode&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">IValueConverter</a>&lt; typename TSourceProperty::TValue, typename TTargetProperty::TValue &gt; *&#160;</td>
+          <td class="paramname"><em>converter</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; typename std::enable_if&lt;
+                <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt;TTargetProperty&gt;::value &amp;&amp;
+                    <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt;TSourceProperty&gt;::value &amp;&amp;
+                    std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TTargetObject&gt;::value &amp;&amp;
+                    std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, TSourceObject&gt;::value &amp;&amp;
+                    std::is_same&lt;typename TTargetProperty::TValue, typename TSourceProperty::TValue&gt;::value,
+                <a class="el" href="classsw_1_1Binding.html">Binding</a> *&gt;::type
+        </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建延迟绑定对象 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">targetProperty</td><td>目标属性成员指针 </td></tr>
     <tr><td class="paramname">sourceProperty</td><td>源属性成员指针 </td></tr>
     <tr><td class="paramname">mode</td><td>绑定模式 </td></tr>
     <tr><td class="paramname">converter</td><td>值转换器指针 </td></tr>

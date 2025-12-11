@@ -17,6 +17,7 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "CommandLink.h", "CommandLink_8h_source.html", null ],
     [ "ContextMenu.h", "ContextMenu_8h_source.html", null ],
     [ "Control.h", "Control_8h_source.html", null ],
+    [ "Converters.h", "Converters_8h_source.html", null ],
     [ "Cursor.h", "Cursor_8h_source.html", null ],
     [ "DateTimePicker.h", "DateTimePicker_8h_source.html", null ],
     [ "Delegate.h", "Delegate_8h_source.html", null ],
