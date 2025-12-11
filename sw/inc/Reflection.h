@@ -321,3 +321,16 @@ namespace sw
         }
     };
 }
+
+// 为sw::FieldId特化std::hash以支持在unordered_map中使用
+namespace std
+{
+    template <>
+    struct hash<sw::FieldId> //
+    {
+        size_t operator()(sw::FieldId fieldId) const
+        {
+            return static_cast<size_t>(fieldId.value);
+        }
+    };
+}
