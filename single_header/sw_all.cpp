@@ -4,7 +4,6 @@
 #include <climits>
 #include <deque>
 #include <cstdarg>
-#include <wchar.h>
 #include <atomic>
 
 // Animation.cpp
@@ -10339,6 +10338,37 @@ bool sw::UIElement::BringIntoView()
         if (p->_float) return false;
     }
     return false;
+}
+
+bool sw::UIElement::AddBinding(BindingBase *binding)
+{
+    if (binding == nullptr) {
+        return false;
+    } else {
+        this->_bindings[binding->GetTargetPropertyId()].reset(binding);
+        return true;
+    }
+}
+
+bool sw::UIElement::AddBinding(Binding *binding)
+{
+    if (binding == nullptr) {
+        return false;
+    }
+    if (binding->GetTargetObject() != this) {
+        binding->SetTargetObject(this);
+    }
+    return this->AddBinding(static_cast<BindingBase *>(binding));
+}
+
+bool sw::UIElement::RemoveBinding(FieldId propertyId)
+{
+    if (this->_bindings.count(propertyId) == 0) {
+        return false;
+    } else {
+        this->_bindings.erase(propertyId);
+        return true;
+    }
 }
 
 uint64_t sw::UIElement::GetTag() const
