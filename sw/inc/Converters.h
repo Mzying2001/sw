@@ -7,6 +7,56 @@
 namespace sw
 {
     /**
+     * @brief 反向转换器模板声明
+     * @tparam TBaseConverter 基础转换器类型
+     */
+    template <typename TBaseConverter, typename = void>
+    class ReverseConverter;
+
+    /**
+     * @brief 反向转换器，将已有转换器的转换方向反转
+     * @tparam TBaseConverter 基础转换器类型
+     */
+    template <typename TBaseConverter>
+    class ReverseConverter<
+        TBaseConverter,
+        typename std::enable_if<
+            std::is_base_of<
+                IValueConverter<
+                    typename std::decay<typename TBaseConverter::TSourceParam>::type,
+                    typename std::decay<typename TBaseConverter::TTargetParam>::type>,
+                TBaseConverter>::value>::type>
+        : public IValueConverter<
+              typename std::decay<typename TBaseConverter::TTargetParam>::type,
+              typename std::decay<typename TBaseConverter::TSourceParam>::type>
+    {
+    public:
+        using TSourceParam = typename TBaseConverter::TTargetParam;
+        using TTargetParam = typename TBaseConverter::TSourceParam;
+        using TSource      = typename std::decay<TSourceParam>::type;
+        using TTarget      = typename std::decay<TTargetParam>::type;
+
+        template <typename... Args>
+        ReverseConverter(Args &&...args)
+            : baseConverter(std::forward<Args>(args)...)
+        {
+        }
+        virtual TTarget Convert(TSourceParam source) override
+        {
+            return baseConverter.ConvertBack(source);
+        }
+        virtual TSource ConvertBack(TTargetParam target) override
+        {
+            return baseConverter.Convert(target);
+        }
+
+    private:
+        TBaseConverter baseConverter;
+    };
+
+    /*================================================================================*/
+
+    /**
      * @brief 数值类型转换器，将源数值类型转换为目标数值类型
      * @tparam TSource 源数值类型
      * @tparam TTarget 目标数值类型
