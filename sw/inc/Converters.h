@@ -2,6 +2,7 @@
 
 #include "IValueConverter.h"
 #include "Utils.h"
+#include <cwchar>
 
 namespace sw
 {
@@ -138,7 +139,10 @@ namespace sw
     public:
         virtual std::wstring Convert(float source) override
         {
-            return std::to_wstring(source);
+            std::wstring result(32, L'\0');
+            int len = std::swprintf(&result[0], result.size(), L"%g", source);
+            result.resize(len > 0 ? len : 0);
+            return result;
         }
         virtual float ConvertBack(const std::wstring &target) override
         {
@@ -154,7 +158,10 @@ namespace sw
     public:
         virtual std::wstring Convert(double source) override
         {
-            return std::to_wstring(source);
+            std::wstring result(32, L'\0');
+            int len = std::swprintf(&result[0], result.size(), L"%g", source);
+            result.resize(len > 0 ? len : 0);
+            return result;
         }
         virtual double ConvertBack(const std::wstring &target) override
         {
@@ -190,7 +197,10 @@ namespace sw
         }
         virtual std::wstring ConvertBack(float target) override
         {
-            return std::to_wstring(target);
+            std::wstring result(32, L'\0');
+            int len = std::swprintf(&result[0], result.size(), L"%g", target);
+            result.resize(len > 0 ? len : 0);
+            return result;
         }
     };
 
@@ -206,7 +216,10 @@ namespace sw
         }
         virtual std::wstring ConvertBack(double target) override
         {
-            return std::to_wstring(target);
+            std::wstring result(32, L'\0');
+            int len = std::swprintf(&result[0], result.size(), L"%g", target);
+            result.resize(len > 0 ? len : 0);
+            return result;
         }
     };
 
@@ -236,7 +249,10 @@ namespace sw
     public:
         virtual std::string Convert(float source) override
         {
-            return std::to_string(source);
+            std::string result(32, '\0');
+            int len = std::snprintf(&result[0], result.size(), "%g", source);
+            result.resize(len > 0 ? len : 0);
+            return result;
         }
         virtual float ConvertBack(const std::string &target) override
         {
@@ -252,7 +268,10 @@ namespace sw
     public:
         virtual std::string Convert(double source) override
         {
-            return std::to_string(source);
+            std::string result(32, '\0');
+            int len = std::snprintf(&result[0], result.size(), "%g", source);
+            result.resize(len > 0 ? len : 0);
+            return result;
         }
         virtual double ConvertBack(const std::string &target) override
         {
@@ -288,7 +307,10 @@ namespace sw
         }
         virtual std::string ConvertBack(float target) override
         {
-            return std::to_string(target);
+            std::string result(32, '\0');
+            int len = std::snprintf(&result[0], result.size(), "%g", target);
+            result.resize(len > 0 ? len : 0);
+            return result;
         }
     };
 
@@ -304,7 +326,10 @@ namespace sw
         }
         virtual std::string ConvertBack(double target) override
         {
-            return std::to_string(target);
+            std::string result(32, '\0');
+            int len = std::snprintf(&result[0], result.size(), "%g", target);
+            result.resize(len > 0 ? len : 0);
+            return result;
         }
     };
 
