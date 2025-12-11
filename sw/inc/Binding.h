@@ -491,6 +491,66 @@ namespace sw
         }
 
         /**
+         * @brief 创建延迟绑定对象
+         * @param targetProperty 目标属性成员指针
+         * @param source 源对象指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(TTargetProperty TTargetObject::*targetProperty,
+                           DynamicObject *source,
+                           TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter = nullptr)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                Binding *>::type
+        {
+            return Create(nullptr, targetProperty, source, sourceProperty, mode, converter);
+        }
+
+        /**
+         * @brief 创建延迟绑定对象
+         * @param targetProperty 目标属性成员指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(TTargetProperty TTargetObject::*targetProperty,
+                           TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter = nullptr)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                Binding *>::type
+        {
+            return Create(nullptr, targetProperty, nullptr, sourceProperty, mode, converter);
+        }
+
+        /**
          * @brief 创建绑定对象
          * @param target 目标对象指针
          * @param targetProperty 目标属性成员指针
@@ -579,6 +639,66 @@ namespace sw
             binding->RegisterNotifications();
             binding->OnBindingChanged();
             return binding;
+        }
+
+        /**
+         * @brief 创建延迟绑定对象
+         * @param targetProperty 目标属性成员指针
+         * @param source 源对象指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(TTargetProperty TTargetObject::*targetProperty,
+                           DynamicObject *source,
+                           TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    !std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                Binding *>::type
+        {
+            return Create(nullptr, targetProperty, source, sourceProperty, mode, converter);
+        }
+
+        /**
+         * @brief 创建延迟绑定对象
+         * @param targetProperty 目标属性成员指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(TTargetProperty TTargetObject::*targetProperty,
+                           TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    !std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                Binding *>::type
+        {
+            return Create(nullptr, targetProperty, nullptr, sourceProperty, mode, converter);
         }
     };
 }

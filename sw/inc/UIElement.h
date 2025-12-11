@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Alignment.h"
+#include "Binding.h"
 #include "Color.h"
 #include "ContextMenu.h"
 #include "EnumBit.h"
@@ -256,6 +257,11 @@ namespace sw
          * @brief 当前元素是否是通过按下Tab键获得的焦点
          */
         bool _focusedViaTab = false;
+
+        /**
+         * @brief 属性的绑定信息
+         */
+        std::unordered_map<FieldId, std::unique_ptr<BindingBase>> _bindings{};
 
     public:
         /**
@@ -613,6 +619,30 @@ namespace sw
          * @note   对于悬浮元素（Float属性为true）始终返回false
          */
         bool BringIntoView();
+
+        /**
+         * @brief  添加绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享同
+         * @note   请确保绑定对象的目标属性为当前元素的属性，该函数内部不会对此进行检查
+         * @note   同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         */
+        bool AddBinding(BindingBase *binding);
+
+        /**
+         * @brief  添加绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享同
+         * @note   该函数会将绑定的目标对象设置为当前元素
+         * @note   同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         */
+        bool AddBinding(Binding *binding);
+
+        /**
+         * @brief  移除指定属性的绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         */
+        bool RemoveBinding(FieldId propertyId);
 
         /**
          * @brief 获取Tag
@@ -1338,6 +1368,16 @@ namespace sw
             } else {
                 return this->RemoveHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
             }
+        }
+
+        /**
+         * @brief  移除指定属性的绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         */
+        template <typename T, typename TProperty>
+        bool RemoveBinding(TProperty T::*prop)
+        {
+            return this->RemoveBinding(Reflection::GetFieldId(prop));
         }
     };
 
