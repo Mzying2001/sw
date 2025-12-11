@@ -113,6 +113,9 @@ namespace sw
         }
     };
 
+    using BoolToIntConverter = BoolToNumericConverter<int>;
+    using IntToBoolConverter = NumericToBoolConverter<int>;
+
     /*================================================================================*/
 
     /**
