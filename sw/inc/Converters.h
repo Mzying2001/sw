@@ -64,7 +64,7 @@ namespace sw
     template <
         typename TSource,
         typename TTarget,
-        std::enable_if<std::is_arithmetic<TSource>::value && std::is_arithmetic<TTarget>::value, int>::type = 0>
+        typename std::enable_if<std::is_arithmetic<TSource>::value && std::is_arithmetic<TTarget>::value, int>::type = 0>
     class NumericConverter : public IValueConverter<TSource, TTarget>
     {
     public:
@@ -129,7 +129,7 @@ namespace sw
      */
     template <
         typename TSource,
-        std::enable_if<std::is_arithmetic<TSource>::value, int>::type = 0>
+        typename std::enable_if<std::is_arithmetic<TSource>::value, int>::type = 0>
     class NumericToBoolConverter : public IValueConverter<TSource, bool>
     {
     public:
@@ -149,7 +149,7 @@ namespace sw
      */
     template <
         typename TTarget,
-        std::enable_if<std::is_arithmetic<TTarget>::value, int>::type = 0>
+        typename std::enable_if<std::is_arithmetic<TTarget>::value, int>::type = 0>
     class BoolToNumericConverter : public IValueConverter<bool, TTarget>
     {
     public:
