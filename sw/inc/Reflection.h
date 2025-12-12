@@ -267,7 +267,7 @@ namespace sw
                 std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
         {
             return [method](DynamicObject &obj, Args... args) -> TRet {
-                return (obj.DynamicCast<T>().*method)(std::forward<Args>(args)...);
+                return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
             };
         }
 
@@ -285,7 +285,7 @@ namespace sw
                 std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
         {
             return [method](DynamicObject &obj, Args... args) -> TRet {
-                return (obj.DynamicCast<T>().*method)(std::forward<Args>(args)...);
+                return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
             };
         }
 
@@ -302,7 +302,7 @@ namespace sw
                 std::is_base_of<DynamicObject, T>::value, Delegate<TField &(DynamicObject &)>>::type
         {
             return [field](DynamicObject &obj) -> TField & {
-                return obj.DynamicCast<T>().*field;
+                return obj.UnsafeCast<T>().*field;
             };
         }
 
@@ -321,7 +321,7 @@ namespace sw
                 Delegate<typename TProperty::TValue(DynamicObject &)>>::type
         {
             return [prop](DynamicObject &obj) -> typename TProperty::TValue {
-                return (obj.DynamicCast<T>().*prop).Get();
+                return (obj.UnsafeCast<T>().*prop).Get();
             };
         }
 
@@ -357,7 +357,7 @@ namespace sw
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
-                (obj.DynamicCast<T>().*prop).Set(std::forward<typename TProperty::TSetterParam>(value));
+                (obj.UnsafeCast<T>().*prop).Set(std::forward<typename TProperty::TSetterParam>(value));
             };
         }
 
