@@ -14,6 +14,12 @@
 namespace sw
 {
     /**
+     * @brief 用于判断是否可以通过static_cast进行转换
+     */
+    template <typename TFrom, typename TTo>
+    using _IsStaticCastable = _IsExplicitlyConvertable<TFrom, TTo>;
+
+    /**
      * @brief 动态对象基类
      */
     class DynamicObject
@@ -28,7 +34,7 @@ namespace sw
          * @brief  获取对象的类型索引
          * @return 对象的类型索引
          */
-        inline std::type_index GetTypeIndex() const
+        std::type_index GetTypeIndex() const
         {
 #if defined(_SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot get type index.");
@@ -109,6 +115,58 @@ namespace sw
 #else
             return dynamic_cast<const T &>(*this);
 #endif
+        }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast()
+            -> typename std::enable_if<_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+        {
+            return static_cast<T &>(*this);
+        }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast()
+            -> typename std::enable_if<!_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+        {
+            return DynamicCast<T>();
+        }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast() const
+            -> typename std::enable_if<_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+        {
+            return static_cast<const T &>(*this);
+        }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast() const
+            -> typename std::enable_if<!_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+        {
+            return DynamicCast<T>();
         }
     };
 
