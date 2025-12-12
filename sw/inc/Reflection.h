@@ -176,7 +176,7 @@ namespace sw
          * @return        对应的字段ID
          */
         template <typename T, typename TField>
-        static FieldId GetFieldId(TField T::*field)
+        static FieldId GetFieldId(TField T::*field) noexcept
         {
             auto pfunc = &Reflection::GetFieldId<T, TField>;
 
@@ -322,15 +322,12 @@ namespace sw
     };
 }
 
-// 为sw::FieldId特化std::hash以支持在unordered_map中使用
-namespace std
+// 为sw::FieldId特化std::hash
+template <>
+struct std::hash<sw::FieldId> //
 {
-    template <>
-    struct hash<sw::FieldId> //
+    size_t operator()(sw::FieldId fieldId) const noexcept
     {
-        size_t operator()(sw::FieldId fieldId) const
-        {
-            return static_cast<size_t>(fieldId.value);
-        }
-    };
-}
+        return static_cast<size_t>(fieldId.value);
+    }
+};
