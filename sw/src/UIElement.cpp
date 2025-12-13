@@ -760,9 +760,7 @@ bool sw::UIElement::AddBinding(Binding *binding)
     if (binding == nullptr) {
         return false;
     }
-    if (binding->GetTargetObject() != this) {
-        binding->SetTargetObject(this);
-    }
+    binding->SetTargetObject(this);
     return this->AddBinding(static_cast<BindingBase *>(binding));
 }
 
