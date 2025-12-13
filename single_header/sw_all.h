@@ -2493,6 +2493,18 @@ namespace sw
         }
 
         /**
+         * @brief 设置成员函数getter
+         */
+        template <TValue (TOwner::*getter)() const>
+        MemberPropertyInitializer &Getter()
+        {
+            return this->Getter(
+                [](TOwner *owner) -> TValue {
+                    return (owner->*getter)();
+                });
+        }
+
+        /**
          * @brief 设置成员函数setter
          */
         template <void (TOwner::*setter)(_PropertySetterParamType<TValue>)>
@@ -2501,6 +2513,42 @@ namespace sw
             return this->Setter(
                 [](TOwner *owner, _PropertySetterParamType<TValue> value) {
                     (owner->*setter)(value);
+                });
+        }
+
+        /**
+         * @brief 设置成员函数setter
+         */
+        template <void (TOwner::*setter)(_PropertySetterParamType<TValue>) const>
+        MemberPropertyInitializer &Setter()
+        {
+            return this->Setter(
+                [](TOwner *owner, _PropertySetterParamType<TValue> value) {
+                    (owner->*setter)(value);
+                });
+        }
+
+        /**
+         * @brief 设置简单字段getter
+         */
+        template <TValue TOwner::*field>
+        MemberPropertyInitializer &Getter()
+        {
+            return this->Getter(
+                [](TOwner *owner) -> TValue {
+                    return owner->*field;
+                });
+        }
+
+        /**
+         * @brief 设置简单字段setter
+         */
+        template <TValue TOwner::*field>
+        MemberPropertyInitializer &Setter()
+        {
+            return this->Setter(
+                [](TOwner *owner, _PropertySetterParamType<TValue> value) {
+                    owner->*field = value;
                 });
         }
     };
@@ -4834,6 +4882,12 @@ namespace sw
 namespace sw
 {
     /**
+     * @brief 用于判断是否可以通过static_cast进行转换
+     */
+    template <typename TFrom, typename TTo>
+    using _IsStaticCastable = _IsExplicitlyConvertable<TFrom, TTo>;
+
+    /**
      * @brief 动态对象基类
      */
     class DynamicObject
@@ -4848,7 +4902,7 @@ namespace sw
          * @brief  获取对象的类型索引
          * @return 对象的类型索引
          */
-        inline std::type_index GetTypeIndex() const
+        std::type_index GetTypeIndex() const
         {
 #if defined(_SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot get type index.");
@@ -4930,6 +4984,58 @@ namespace sw
             return dynamic_cast<const T &>(*this);
 #endif
         }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast()
+            -> typename std::enable_if<_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+        {
+            return static_cast<T &>(*this);
+        }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast()
+            -> typename std::enable_if<!_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+        {
+            return DynamicCast<T>();
+        }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast() const
+            -> typename std::enable_if<_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+        {
+            return static_cast<const T &>(*this);
+        }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast() const
+            -> typename std::enable_if<!_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+        {
+            return DynamicCast<T>();
+        }
     };
 
     /**
@@ -4996,7 +5102,7 @@ namespace sw
          * @return        对应的字段ID
          */
         template <typename T, typename TField>
-        static FieldId GetFieldId(TField T::*field)
+        static FieldId GetFieldId(TField T::*field) noexcept
         {
             auto pfunc = &Reflection::GetFieldId<T, TField>;
 
@@ -5029,7 +5135,7 @@ namespace sw
                 std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
         {
             return [method](DynamicObject &obj, Args... args) -> TRet {
-                return (obj.DynamicCast<T>().*method)(std::forward<Args>(args)...);
+                return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
             };
         }
 
@@ -5047,7 +5153,7 @@ namespace sw
                 std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
         {
             return [method](DynamicObject &obj, Args... args) -> TRet {
-                return (obj.DynamicCast<T>().*method)(std::forward<Args>(args)...);
+                return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
             };
         }
 
@@ -5064,7 +5170,7 @@ namespace sw
                 std::is_base_of<DynamicObject, T>::value, Delegate<TField &(DynamicObject &)>>::type
         {
             return [field](DynamicObject &obj) -> TField & {
-                return obj.DynamicCast<T>().*field;
+                return obj.UnsafeCast<T>().*field;
             };
         }
 
@@ -5083,7 +5189,7 @@ namespace sw
                 Delegate<typename TProperty::TValue(DynamicObject &)>>::type
         {
             return [prop](DynamicObject &obj) -> typename TProperty::TValue {
-                return (obj.DynamicCast<T>().*prop).Get();
+                return (obj.UnsafeCast<T>().*prop).Get();
             };
         }
 
@@ -5119,7 +5225,7 @@ namespace sw
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
-                (obj.DynamicCast<T>().*prop).Set(std::forward<typename TProperty::TSetterParam>(value));
+                (obj.UnsafeCast<T>().*prop).Set(std::forward<typename TProperty::TSetterParam>(value));
             };
         }
 
@@ -5142,18 +5248,15 @@ namespace sw
     };
 }
 
-// 为sw::FieldId特化std::hash以支持在unordered_map中使用
-namespace std
+// 为sw::FieldId特化std::hash
+template <>
+struct std::hash<sw::FieldId> //
 {
-    template <>
-    struct hash<sw::FieldId> //
+    size_t operator()(sw::FieldId fieldId) const noexcept
     {
-        size_t operator()(sw::FieldId fieldId) const
-        {
-            return static_cast<size_t>(fieldId.value);
-        }
-    };
-}
+        return static_cast<size_t>(fieldId.value);
+    }
+};
 
 // RoutedEvent.h
 
@@ -5762,7 +5865,7 @@ namespace sw
     template <
         typename TSource,
         typename TTarget,
-        std::enable_if<std::is_arithmetic<TSource>::value && std::is_arithmetic<TTarget>::value, int>::type = 0>
+        typename std::enable_if<std::is_arithmetic<TSource>::value && std::is_arithmetic<TTarget>::value, int>::type = 0>
     class NumericConverter : public IValueConverter<TSource, TTarget>
     {
     public:
@@ -5827,7 +5930,7 @@ namespace sw
      */
     template <
         typename TSource,
-        std::enable_if<std::is_arithmetic<TSource>::value, int>::type = 0>
+        typename std::enable_if<std::is_arithmetic<TSource>::value, int>::type = 0>
     class NumericToBoolConverter : public IValueConverter<TSource, bool>
     {
     public:
@@ -5847,7 +5950,7 @@ namespace sw
      */
     template <
         typename TTarget,
-        std::enable_if<std::is_arithmetic<TTarget>::value, int>::type = 0>
+        typename std::enable_if<std::is_arithmetic<TTarget>::value, int>::type = 0>
     class BoolToNumericConverter : public IValueConverter<bool, TTarget>
     {
     public:
@@ -10561,6 +10664,15 @@ namespace sw
 
 namespace sw
 {
+    // 前向声明
+    class UIElement;
+    class DataBinding;
+
+    /**
+     * @brief 数据上下文更改事件处理函数类型
+     */
+    using DataContextChangedEventHandler = Delegate<void(UIElement &sender, DynamicObject *oldval)>;
+
     /**
      * @brief 通知布局更新的条件
      */
@@ -10803,7 +10915,17 @@ namespace sw
          */
         std::unordered_map<FieldId, std::unique_ptr<BindingBase>> _bindings{};
 
+        /**
+         * @brief 数据上下文
+         */
+        DynamicObject *_dataContext = nullptr;
+
     public:
+        /**
+         * @brief 数据上下问改变时触发该事件
+         */
+        DataContextChangedEventHandler DataContextChanged;
+
         /**
          * @brief 边距
          */
@@ -10926,6 +11048,11 @@ namespace sw
          * @brief 当前元素是否是通过按下Tab键获得的焦点
          */
         const ReadOnlyProperty<bool> IsFocusedViaTab;
+
+        /**
+         * @brief 数据上下文
+         */
+        const Property<DynamicObject *> DataContext;
 
     public:
         /**
@@ -11163,7 +11290,7 @@ namespace sw
         /**
          * @brief  添加绑定对象
          * @return 若函数成功则返回true，否则返回false
-         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享同
+         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
          * @note   请确保绑定对象的目标属性为当前元素的属性，该函数内部不会对此进行检查
          * @note   同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
          */
@@ -11172,11 +11299,19 @@ namespace sw
         /**
          * @brief  添加绑定对象
          * @return 若函数成功则返回true，否则返回false
-         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享同
-         * @note   该函数会将绑定的目标对象设置为当前元素
+         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note   该函数会将绑定的目标对象设置为当前元素，若未指定源对象则会将DataContext作为源对象
          * @note   同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
          */
         bool AddBinding(Binding *binding);
+
+        /**
+         * @brief  添加绑定到DataContext的绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note   同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         */
+        bool AddBinding(DataBinding *binding);
 
         /**
          * @brief  移除指定属性的绑定对象
@@ -12135,6 +12270,235 @@ namespace sw
          * @param hwnd 新的控件句柄
          */
         virtual void OnHandleChanged(HWND hwnd);
+    };
+}
+
+// DataBinding.h
+
+
+namespace sw
+{
+    /**
+     * @brief 数据绑定，用于UI元素与DataContext之间的属性绑定
+     */
+    class DataBinding final : public BindingBase
+    {
+    private:
+        /**
+         * @brief 目标元素
+         */
+        UIElement *_targetElement;
+
+        /**
+         * @brief 内部绑定对象
+         */
+        std::unique_ptr<Binding> _innerBinding;
+
+    private:
+        /**
+         * @brief 构造函数
+         * @param targetElement 目标元素
+         * @param binding 内部绑定对象
+         */
+        DataBinding(UIElement *targetElement, Binding *binding)
+            : _targetElement(targetElement), _innerBinding(binding)
+        {
+            UpdateDataContextBinding();
+            RegisterNotifications();
+        }
+
+    public:
+        /**
+         * @brief 析构函数
+         */
+        virtual ~DataBinding()
+        {
+            UnregisterNotifications();
+        }
+
+        /**
+         * @brief 更新目标属性的值
+         * @return 如果更新成功则返回true，否则返回false
+         */
+        virtual bool UpdateTarget() override
+        {
+            return _innerBinding->UpdateTarget();
+        }
+
+        /**
+         * @brief 更新源属性的值
+         * @return 如果更新成功则返回true，否则返回false
+         */
+        virtual bool UpdateSource() override
+        {
+            return _innerBinding->UpdateSource();
+        }
+
+        /**
+         * @brief 获取目标属性ID
+         */
+        virtual FieldId GetTargetPropertyId() const override
+        {
+            return _innerBinding->GetTargetPropertyId();
+        }
+
+        /**
+         * @brief 获取源属性ID
+         */
+        virtual FieldId GetSourcePropertyId() const override
+        {
+            return _innerBinding->GetSourcePropertyId();
+        }
+
+        /**
+         * @brief 获取目标元素
+         * @return 目标元素指针
+         */
+        UIElement *GetTargetElement() const
+        {
+            return _targetElement;
+        }
+
+        /**
+         * @brief 设置目标元素
+         * @param element 目标元素指针
+         */
+        void SetTargetElement(UIElement *element)
+        {
+            if (_targetElement != element) {
+                UnregisterNotifications();
+                _targetElement = element;
+                UpdateDataContextBinding();
+                RegisterNotifications();
+            }
+        }
+
+    private:
+        /**
+         * @brief 注册事件通知
+         */
+        void RegisterNotifications()
+        {
+            if (_targetElement != nullptr) {
+                _targetElement->ObjectDead +=
+                    ObjectDeadEventHandler(*this, &DataBinding::OnTargetElementDead);
+                _targetElement->DataContextChanged +=
+                    DataContextChangedEventHandler(*this, &DataBinding::OnTargetElementDataContextChanged);
+            }
+        }
+
+        /**
+         * @brief 注销事件通知
+         */
+        void UnregisterNotifications()
+        {
+            if (_targetElement != nullptr) {
+                _targetElement->ObjectDead -=
+                    ObjectDeadEventHandler(*this, &DataBinding::OnTargetElementDead);
+                _targetElement->DataContextChanged -=
+                    DataContextChangedEventHandler(*this, &DataBinding::OnTargetElementDataContextChanged);
+            }
+        }
+
+        /**
+         * @brief 更新数据上下文绑定
+         */
+        void UpdateDataContextBinding()
+        {
+            if (_targetElement == nullptr) {
+                _innerBinding->SetBindingObjects(nullptr, nullptr);
+            } else {
+                _innerBinding->SetBindingObjects(_targetElement, _targetElement->DataContext);
+            }
+        }
+
+        /**
+         * @brief 目标元素销毁事件处理函数
+         */
+        void OnTargetElementDead(INotifyObjectDead &sender)
+        {
+            SetTargetElement(nullptr);
+        }
+
+        /**
+         * @brief 目标元素数据上下文更改事件处理函数
+         */
+        void OnTargetElementDataContextChanged(UIElement &sender, DynamicObject *oldval)
+        {
+            UpdateDataContextBinding();
+        }
+
+    public:
+        /**
+         * @brief 创建数据绑定对象
+         * @param targetElement 目标元素
+         * @param binding 内部绑定对象
+         * @return 绑定对象指针
+         * @note 绑定对象不能为nullptr，其生命周期将由DataBinding管理，请勿与其他对象共享
+         */
+        static DataBinding *Create(UIElement *targetElement, Binding *binding)
+        {
+            assert(binding != nullptr);
+            return new DataBinding(targetElement, binding);
+        }
+
+        /**
+         * @brief 创建数据绑定对象
+         * @param targetProperty 目标属性成员指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(TTargetProperty TTargetObject::*targetProperty,
+                           TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter = nullptr)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                DataBinding *>::type
+        {
+            return new DataBinding(nullptr, Binding::Create(targetProperty, sourceProperty, mode, converter));
+        }
+
+        /**
+         * @brief 创建数据绑定对象
+         * @param targetProperty 目标属性成员指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(TTargetProperty TTargetObject::*targetProperty,
+                           TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    !std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                DataBinding *>::type
+        {
+            return new DataBinding(nullptr, Binding::Create(targetProperty, sourceProperty, mode, converter));
+        }
     };
 }
 

@@ -9625,6 +9625,7 @@ namespace
     const sw::FieldId _PropId_MaxHeight           = sw::Reflection::GetFieldId(&sw::UIElement::MaxHeight);
     const sw::FieldId _PropId_LogicalRect         = sw::Reflection::GetFieldId(&sw::UIElement::LogicalRect);
     const sw::FieldId _PropId_IsHitTestVisible    = sw::Reflection::GetFieldId(&sw::UIElement::IsHitTestVisible);
+    const sw::FieldId _PropId_DataContext         = sw::Reflection::GetFieldId(&sw::UIElement::DataContext);
 }
 
 sw::UIElement::UIElement()
@@ -9892,6 +9893,22 @@ sw::UIElement::UIElement()
           Property<bool>::Init(this)
               .Getter([](UIElement *self) -> bool {
                   return self->_focusedViaTab;
+              })),
+
+      DataContext(
+          Property<DynamicObject *>::Init(this)
+              .Getter([](UIElement *self) -> DynamicObject * {
+                  return self->_dataContext;
+              })
+              .Setter([](UIElement *self, DynamicObject *value) {
+                  if (self->_dataContext != value) {
+                      DynamicObject *oldval = self->_dataContext;
+                      self->_dataContext    = value;
+                      self->RaisePropertyChanged(_PropId_DataContext);
+                      if (self->DataContextChanged) {
+                          self->DataContextChanged(*self, oldval);
+                      }
+                  }
               }))
 {
 }
@@ -10355,9 +10372,21 @@ bool sw::UIElement::AddBinding(Binding *binding)
     if (binding == nullptr) {
         return false;
     }
-    if (binding->GetTargetObject() != this) {
+    if (binding->GetSourceObject() == nullptr) {
+        auto dataBinding = DataBinding::Create(this, binding);
+        return this->AddBinding(static_cast<BindingBase *>(dataBinding));
+    } else {
         binding->SetTargetObject(this);
+        return this->AddBinding(static_cast<BindingBase *>(binding));
     }
+}
+
+bool sw::UIElement::AddBinding(DataBinding *binding)
+{
+    if (binding == nullptr) {
+        return false;
+    }
+    binding->SetTargetElement(this);
     return this->AddBinding(static_cast<BindingBase *>(binding));
 }
 
