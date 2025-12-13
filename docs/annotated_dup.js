@@ -57,6 +57,7 @@ var annotated_dup =
       [ "ContextMenu", "classsw_1_1ContextMenu.html", "classsw_1_1ContextMenu" ],
       [ "Control", "classsw_1_1Control.html", "classsw_1_1Control" ],
       [ "CursorHelper", "classsw_1_1CursorHelper.html", null ],
+      [ "DataBinding", "classsw_1_1DataBinding.html", "classsw_1_1DataBinding" ],
       [ "DateTimePicker", "classsw_1_1DateTimePicker.html", "classsw_1_1DateTimePicker" ],
       [ "DateTimePickerTimeChangedEventArgs", "structsw_1_1DateTimePickerTimeChangedEventArgs.html", null ],
       [ "Delegate", "classsw_1_1Delegate.html", null ],

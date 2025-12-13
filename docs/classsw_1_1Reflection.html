@@ -111,10 +111,10 @@ Public 成员函数</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 静态 Public 成员函数</h2></td></tr>
-<tr class="memitem:abb83e67e3b5e14d682a3b8d60a9a2b35" id="r_abb83e67e3b5e14d682a3b8d60a9a2b35"><td class="memTemplParams" colspan="2">template&lt;typename T , typename TField &gt; </td></tr>
-<tr class="memitem:abb83e67e3b5e14d682a3b8d60a9a2b35"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="structsw_1_1FieldId.html">FieldId</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#abb83e67e3b5e14d682a3b8d60a9a2b35">GetFieldId</a> (TField T::*field)</td></tr>
-<tr class="memdesc:abb83e67e3b5e14d682a3b8d60a9a2b35"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取字段的唯一标识符  <br /></td></tr>
-<tr class="separator:abb83e67e3b5e14d682a3b8d60a9a2b35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a664d24e782958a893f83dd17e87b11a6" id="r_a664d24e782958a893f83dd17e87b11a6"><td class="memTemplParams" colspan="2">template&lt;typename T , typename TField &gt; </td></tr>
+<tr class="memitem:a664d24e782958a893f83dd17e87b11a6"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="structsw_1_1FieldId.html">FieldId</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a664d24e782958a893f83dd17e87b11a6">GetFieldId</a> (TField T::*field) noexcept</td></tr>
+<tr class="memdesc:a664d24e782958a893f83dd17e87b11a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取字段的唯一标识符  <br /></td></tr>
+<tr class="separator:a664d24e782958a893f83dd17e87b11a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a426bcce441232e749a4dcbdac134f271" id="r_a426bcce441232e749a4dcbdac134f271"><td class="memTemplParams" colspan="2">template&lt;typename T , typename TRet , typename... Args&gt; </td></tr>
 <tr class="memitem:a426bcce441232e749a4dcbdac134f271"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a426bcce441232e749a4dcbdac134f271">GetMethod</a> (TRet(T::*method)(Args...)) -&gt; typename std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; TRet(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, Args...)&gt; &gt;::type</td></tr>
 <tr class="memdesc:a426bcce441232e749a4dcbdac134f271"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取成员函数的委托  <br /></td></tr>
@@ -193,8 +193,8 @@ template&lt;typename T , typename TField &gt; </div>
 
 </div>
 </div>
-<a id="abb83e67e3b5e14d682a3b8d60a9a2b35" name="abb83e67e3b5e14d682a3b8d60a9a2b35"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb83e67e3b5e14d682a3b8d60a9a2b35">&#9670;&#160;</a></span>GetFieldId()</h2>
+<a id="a664d24e782958a893f83dd17e87b11a6" name="a664d24e782958a893f83dd17e87b11a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a664d24e782958a893f83dd17e87b11a6">&#9670;&#160;</a></span>GetFieldId()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -214,7 +214,7 @@ template&lt;typename T , typename TField &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

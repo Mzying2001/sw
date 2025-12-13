@@ -287,6 +287,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>InvalidateMeasure</b>
 <tr class="memitem:a37a9438558c20035c26232b55d71b05f" id="r_a37a9438558c20035c26232b55d71b05f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a37a9438558c20035c26232b55d71b05f">AddBinding</a> (<a class="el" href="classsw_1_1Binding.html">Binding</a> *binding)</td></tr>
 <tr class="memdesc:a37a9438558c20035c26232b55d71b05f"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加绑定对象  <br /></td></tr>
 <tr class="separator:a37a9438558c20035c26232b55d71b05f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65804a55aa998d5f28a0c184772d1442" id="r_a65804a55aa998d5f28a0c184772d1442"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a65804a55aa998d5f28a0c184772d1442">AddBinding</a> (<a class="el" href="classsw_1_1DataBinding.html">DataBinding</a> *binding)</td></tr>
+<tr class="memdesc:a65804a55aa998d5f28a0c184772d1442"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加绑定到DataContext的绑定对象  <br /></td></tr>
+<tr class="separator:a65804a55aa998d5f28a0c184772d1442"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52a5ff54c99d3d64e9a837e226b4f95a" id="r_a52a5ff54c99d3d64e9a837e226b4f95a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a52a5ff54c99d3d64e9a837e226b4f95a">RemoveBinding</a> (<a class="el" href="structsw_1_1FieldId.html">FieldId</a> propertyId)</td></tr>
 <tr class="memdesc:a52a5ff54c99d3d64e9a837e226b4f95a"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除指定属性的绑定对象  <br /></td></tr>
 <tr class="separator:a52a5ff54c99d3d64e9a837e226b4f95a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -538,6 +541,22 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~DynamicObject</b>
 <tr class="memitem:ab8736862ffa02002bd43938b779c13f7 inherit pub_methods_classsw_1_1DynamicObject"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1DynamicObject.html#ab8736862ffa02002bd43938b779c13f7">DynamicCast</a> () const</td></tr>
 <tr class="memdesc:ab8736862ffa02002bd43938b779c13f7 inherit pub_methods_classsw_1_1DynamicObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">将对象动态转换为指定类型的常量引用  <br /></td></tr>
 <tr class="separator:ab8736862ffa02002bd43938b779c13f7 inherit pub_methods_classsw_1_1DynamicObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae6fe96680bf6f882b1f37c7460c0dd6 inherit pub_methods_classsw_1_1DynamicObject" id="r_aae6fe96680bf6f882b1f37c7460c0dd6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aae6fe96680bf6f882b1f37c7460c0dd6 inherit pub_methods_classsw_1_1DynamicObject"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1DynamicObject.html#aae6fe96680bf6f882b1f37c7460c0dd6">UnsafeCast</a> () -&gt; typename std::enable_if&lt; <a class="el" href="structsw_1_1__IsExplicitlyConvertable.html">_IsStaticCastable</a>&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> *, T * &gt;::value, T &amp; &gt;::type</td></tr>
+<tr class="memdesc:aae6fe96680bf6f882b1f37c7460c0dd6 inherit pub_methods_classsw_1_1DynamicObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">将对象不安全地转换为指定类型的引用  <br /></td></tr>
+<tr class="separator:aae6fe96680bf6f882b1f37c7460c0dd6 inherit pub_methods_classsw_1_1DynamicObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a176b320dcb590eea0565f6a95741445d inherit pub_methods_classsw_1_1DynamicObject" id="r_a176b320dcb590eea0565f6a95741445d"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a176b320dcb590eea0565f6a95741445d inherit pub_methods_classsw_1_1DynamicObject"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1DynamicObject.html#a176b320dcb590eea0565f6a95741445d">UnsafeCast</a> () -&gt; typename std::enable_if&lt;!<a class="el" href="structsw_1_1__IsExplicitlyConvertable.html">_IsStaticCastable</a>&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> *, T * &gt;::value, T &amp; &gt;::type</td></tr>
+<tr class="memdesc:a176b320dcb590eea0565f6a95741445d inherit pub_methods_classsw_1_1DynamicObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">将对象不安全地转换为指定类型的引用  <br /></td></tr>
+<tr class="separator:a176b320dcb590eea0565f6a95741445d inherit pub_methods_classsw_1_1DynamicObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d26ff97d2ea951d707c88d858170be1 inherit pub_methods_classsw_1_1DynamicObject" id="r_a3d26ff97d2ea951d707c88d858170be1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a3d26ff97d2ea951d707c88d858170be1 inherit pub_methods_classsw_1_1DynamicObject"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1DynamicObject.html#a3d26ff97d2ea951d707c88d858170be1">UnsafeCast</a> () const -&gt; typename std::enable_if&lt; <a class="el" href="structsw_1_1__IsExplicitlyConvertable.html">_IsStaticCastable</a>&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> *, T * &gt;::value, const T &amp; &gt;::type</td></tr>
+<tr class="memdesc:a3d26ff97d2ea951d707c88d858170be1 inherit pub_methods_classsw_1_1DynamicObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">将对象不安全地转换为指定类型的引用  <br /></td></tr>
+<tr class="separator:a3d26ff97d2ea951d707c88d858170be1 inherit pub_methods_classsw_1_1DynamicObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6cadbac4d07f80b1d3307c58b7828da inherit pub_methods_classsw_1_1DynamicObject" id="r_ab6cadbac4d07f80b1d3307c58b7828da"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ab6cadbac4d07f80b1d3307c58b7828da inherit pub_methods_classsw_1_1DynamicObject"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1DynamicObject.html#ab6cadbac4d07f80b1d3307c58b7828da">UnsafeCast</a> () const -&gt; typename std::enable_if&lt;!<a class="el" href="structsw_1_1__IsExplicitlyConvertable.html">_IsStaticCastable</a>&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> *, T * &gt;::value, const T &amp; &gt;::type</td></tr>
+<tr class="memdesc:ab6cadbac4d07f80b1d3307c58b7828da inherit pub_methods_classsw_1_1DynamicObject"><td class="mdescLeft">&#160;</td><td class="mdescRight">将对象不安全地转换为指定类型的引用  <br /></td></tr>
+<tr class="separator:ab6cadbac4d07f80b1d3307c58b7828da inherit pub_methods_classsw_1_1DynamicObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classsw_1_1INotifyObjectDead"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1INotifyObjectDead')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1INotifyObjectDead.html">sw::INotifyObjectDead</a></td></tr>
 <tr class="memitem:a5f65b60ee5ddca23ccce05ca51c82fda inherit pub_methods_classsw_1_1INotifyObjectDead" id="r_a5f65b60ee5ddca23ccce05ca51c82fda"><td class="memItemLeft" align="right" valign="top">
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~INotifyObjectDead</b> ()</td></tr>
@@ -579,6 +598,10 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ITag</b> ()=defau
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public 属性</h2></td></tr>
+<tr class="memitem:abc7c1a519479ce73757c4a1ac657d757" id="r_abc7c1a519479ce73757c4a1ac657d757"><td class="memItemLeft" align="right" valign="top"><a id="abc7c1a519479ce73757c4a1ac657d757" name="abc7c1a519479ce73757c4a1ac657d757"></a>
+<a class="el" href="classsw_1_1Delegate.html">DataContextChangedEventHandler</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DataContextChanged</b></td></tr>
+<tr class="memdesc:abc7c1a519479ce73757c4a1ac657d757"><td class="mdescLeft">&#160;</td><td class="mdescRight">数据上下问改变时触发该事件 <br /></td></tr>
+<tr class="separator:abc7c1a519479ce73757c4a1ac657d757"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8fe2c0aebc77409d3fbdefbd79d45a1e" id="r_a8fe2c0aebc77409d3fbdefbd79d45a1e"><td class="memItemLeft" align="right" valign="top"><a id="a8fe2c0aebc77409d3fbdefbd79d45a1e" name="a8fe2c0aebc77409d3fbdefbd79d45a1e"></a>
 const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="structsw_1_1Thickness.html">Thickness</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Margin</b></td></tr>
 <tr class="memdesc:a8fe2c0aebc77409d3fbdefbd79d45a1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">边距 <br /></td></tr>
@@ -672,6 +695,10 @@ const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; bool &gt;&#
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>IsFocusedViaTab</b></td></tr>
 <tr class="memdesc:a1fe46dfe4b73b012c73e57dd8f0ed35c"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前元素是否是通过按下Tab键获得的焦点 <br /></td></tr>
 <tr class="separator:a1fe46dfe4b73b012c73e57dd8f0ed35c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa11cfe6fd81939a5a39b6c54195dc06a" id="r_aa11cfe6fd81939a5a39b6c54195dc06a"><td class="memItemLeft" align="right" valign="top"><a id="aa11cfe6fd81939a5a39b6c54195dc06a" name="aa11cfe6fd81939a5a39b6c54195dc06a"></a>
+const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>DataContext</b></td></tr>
+<tr class="memdesc:aa11cfe6fd81939a5a39b6c54195dc06a"><td class="mdescLeft">&#160;</td><td class="mdescRight">数据上下文 <br /></td></tr>
+<tr class="separator:aa11cfe6fd81939a5a39b6c54195dc06a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
 <tr class="memitem:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase" id="r_abc0b653ccc071c2cfcba42fa8eef738f"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; HWND &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Handle</b></td></tr>
@@ -1088,7 +1115,7 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
 <div class="textblock"><p>表示界面中的元素 </p>
 </div><h2 class="groupheader">成员函数说明</h2>
 <a id="a37a9438558c20035c26232b55d71b05f" name="a37a9438558c20035c26232b55d71b05f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37a9438558c20035c26232b55d71b05f">&#9670;&#160;</a></span>AddBinding() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a37a9438558c20035c26232b55d71b05f">&#9670;&#160;</a></span>AddBinding() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1105,16 +1132,16 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
 
 <p>添加绑定对象 </p>
 <dl class="section return"><dt>返回</dt><dd>若函数成功则返回true，否则返回false </dd></dl>
-<dl class="section note"><dt>注解</dt><dd>绑定对象的生命周期将由当前元素管理，请勿与其他对象共享同 </dd>
+<dl class="section note"><dt>注解</dt><dd>绑定对象的生命周期将由当前元素管理，请勿与其他对象共享 </dd>
 <dd>
-该函数会将绑定的目标对象设置为当前元素 </dd>
+该函数会将绑定的目标对象设置为当前元素，若未指定源对象则会将DataContext作为源对象 </dd>
 <dd>
 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖 </dd></dl>
 
 </div>
 </div>
 <a id="aef6eac1cfd6139dc19b584307cebad40" name="aef6eac1cfd6139dc19b584307cebad40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef6eac1cfd6139dc19b584307cebad40">&#9670;&#160;</a></span>AddBinding() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aef6eac1cfd6139dc19b584307cebad40">&#9670;&#160;</a></span>AddBinding() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1131,9 +1158,33 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPtrValid</b>
 
 <p>添加绑定对象 </p>
 <dl class="section return"><dt>返回</dt><dd>若函数成功则返回true，否则返回false </dd></dl>
-<dl class="section note"><dt>注解</dt><dd>绑定对象的生命周期将由当前元素管理，请勿与其他对象共享同 </dd>
+<dl class="section note"><dt>注解</dt><dd>绑定对象的生命周期将由当前元素管理，请勿与其他对象共享 </dd>
 <dd>
 请确保绑定对象的目标属性为当前元素的属性，该函数内部不会对此进行检查 </dd>
+<dd>
+同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖 </dd></dl>
+
+</div>
+</div>
+<a id="a65804a55aa998d5f28a0c184772d1442" name="a65804a55aa998d5f28a0c184772d1442"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65804a55aa998d5f28a0c184772d1442">&#9670;&#160;</a></span>AddBinding() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sw::UIElement::AddBinding </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1DataBinding.html">DataBinding</a> *&#160;</td>
+          <td class="paramname"><em>binding</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>添加绑定到DataContext的绑定对象 </p>
+<dl class="section return"><dt>返回</dt><dd>若函数成功则返回true，否则返回false </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>绑定对象的生命周期将由当前元素管理，请勿与其他对象共享 </dd>
 <dd>
 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖 </dd></dl>
 

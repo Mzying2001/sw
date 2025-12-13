@@ -19,6 +19,7 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "Control.h", "Control_8h_source.html", null ],
     [ "Converters.h", "Converters_8h_source.html", null ],
     [ "Cursor.h", "Cursor_8h_source.html", null ],
+    [ "DataBinding.h", "DataBinding_8h_source.html", null ],
     [ "DateTimePicker.h", "DateTimePicker_8h_source.html", null ],
     [ "Delegate.h", "Delegate_8h_source.html", null ],
     [ "Dictionary.h", "Dictionary_8h_source.html", null ],

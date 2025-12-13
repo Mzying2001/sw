@@ -99,14 +99,14 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <ul>
 <li>**基于 Windows API**： <br  />
  SimpleWindow 是一个基于 Windows API 的框架，无其他依赖项。</li>
-<li>**支持属性**： <br  />
- 实现了类似于 C# 的属性语法，可以直观地获取和修改对象属性。</li>
 <li>**高 DPI 支持**： <br  />
  原生支持高 DPI，使用 DIP（设备独立像素）作为默认长度单位。</li>
 <li>**灵活的布局**： <br  />
  实现了一套类似于 WPF 的布局系统，支持诸如 <code>GridLayout</code>、<code>StackLayout</code>、<code>DockLayout</code> 等各种布局。</li>
 <li>**路由事件**： <br  />
  采用路由事件机制，即事件可以冒泡，从源控件向上传播，可以在不同层次的控件上注册事件处理程序。</li>
+<li>**属性绑定**： <br  />
+ 实现了类似 C# 的属性语法，可以直观地获取和修改对象属性；此外还提供了属性绑定支持，可以实现 UI 与数据之间的自动同步。</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md2"></a>
 使用说明</h1>
@@ -158,7 +158,6 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)</div>
 <div class="line">{</div>
-<div class="line">    <span class="comment">// 创建窗口和按钮对象</span></div>
 <div class="line">    <a class="code hl_class" href="classsw_1_1Window.html">sw::Window</a> wnd;</div>
 <div class="line">    <a class="code hl_class" href="classsw_1_1Button.html">sw::Button</a> btn;</div>
 <div class="line"> </div>
@@ -174,14 +173,13 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="line">            <a class="code hl_function" href="classsw_1_1MsgBox.html#adbddcbfdd06d9eb6adcdf5e86d2f6146">sw::MsgBox::Show</a>(L<span class="stringliteral">&quot;Hello, SimpleWindow!&quot;</span>);</div>
 <div class="line">        });</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// 添加控件并弹出窗口</span></div>
 <div class="line">    wnd.<a class="code hl_function" href="classsw_1_1UIElement.html#a32893339be348aa964441954f3a31101">AddChild</a>(btn);</div>
 <div class="line">    <span class="keywordflow">return</span> wnd.<a class="code hl_function" href="classsw_1_1Window.html#a54b6ddf8f7ebbc7b1b64608937cda33b">ShowDialog</a>();</div>
 <div class="line">}</div>
 <div class="ttc" id="aclasssw_1_1Button_html"><div class="ttname"><a href="classsw_1_1Button.html">sw::Button</a></div><div class="ttdoc">按钮</div><div class="ttdef"><b>Definition</b> Button.h:11</div></div>
 <div class="ttc" id="aclasssw_1_1FillLayout_html"><div class="ttname"><a href="classsw_1_1FillLayout.html">sw::FillLayout</a></div><div class="ttdoc">一种将全部元素都铺满的布局，一般用于在只有一个子元素的时候将该元素铺满整个可用区域</div><div class="ttdef"><b>Definition</b> FillLayout.h:11</div></div>
 <div class="ttc" id="aclasssw_1_1MsgBox_html_adbddcbfdd06d9eb6adcdf5e86d2f6146"><div class="ttname"><a href="classsw_1_1MsgBox.html#adbddcbfdd06d9eb6adcdf5e86d2f6146">sw::MsgBox::Show</a></div><div class="ttdeci">static MsgBoxResultHelper Show(const WndBase *owner, const std::wstring &amp;text=L&quot;&quot;, const std::wstring &amp;caption=L&quot;&quot;, MsgBoxButton button=MsgBoxButton::Ok, MsgBoxIcon icon=MsgBoxIcon::None)</div><div class="ttdoc">显示消息框</div></div>
-<div class="ttc" id="aclasssw_1_1UIElement_html"><div class="ttname"><a href="classsw_1_1UIElement.html">sw::UIElement</a></div><div class="ttdoc">表示界面中的元素</div><div class="ttdef"><b>Definition</b> UIElement.h:81</div></div>
+<div class="ttc" id="aclasssw_1_1UIElement_html"><div class="ttname"><a href="classsw_1_1UIElement.html">sw::UIElement</a></div><div class="ttdoc">表示界面中的元素</div><div class="ttdef"><b>Definition</b> UIElement.h:90</div></div>
 <div class="ttc" id="aclasssw_1_1UIElement_html_a32893339be348aa964441954f3a31101"><div class="ttname"><a href="classsw_1_1UIElement.html#a32893339be348aa964441954f3a31101">sw::UIElement::AddChild</a></div><div class="ttdeci">bool AddChild(UIElement *element)</div><div class="ttdoc">添加子元素</div></div>
 <div class="ttc" id="aclasssw_1_1UIElement_html_a7c1fb1c05dee9d36a8ecc170aa9ab1be"><div class="ttname"><a href="classsw_1_1UIElement.html#a7c1fb1c05dee9d36a8ecc170aa9ab1be">sw::UIElement::AddHandler</a></div><div class="ttdeci">void AddHandler(RoutedEventType eventType, const RoutedEventHandler &amp;handler)</div><div class="ttdoc">添加路由事件处理函数</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html"><div class="ttname"><a href="classsw_1_1Window.html">sw::Window</a></div><div class="ttdoc">窗口</div><div class="ttdef"><b>Definition</b> Window.h:35</div></div>

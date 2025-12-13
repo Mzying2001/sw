@@ -9,7 +9,8 @@ var hierarchy =
     [ "sw::_PropertySetterParamTypeHelper< T >", "structsw_1_1__PropertySetterParamTypeHelper.html", null ],
     [ "sw::App", "classsw_1_1App.html", null ],
     [ "sw::BindingBase", "classsw_1_1BindingBase.html", [
-      [ "sw::Binding", "classsw_1_1Binding.html", null ]
+      [ "sw::Binding", "classsw_1_1Binding.html", null ],
+      [ "sw::DataBinding", "classsw_1_1DataBinding.html", null ]
     ] ],
     [ "sw::CallableList< T >", "classsw_1_1CallableList.html", null ],
     [ "sw::CallableList< TRet(Args...)>", "classsw_1_1CallableList.html", null ],
@@ -23,6 +24,7 @@ var hierarchy =
     [ "sw::Delegate< MSG & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< sw::UIElement &, TEventArgs & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< Timer & >", "classsw_1_1Delegate.html", null ],
+    [ "sw::Delegate< void(UIElement &sender, DynamicObject *oldval)>", "classsw_1_1Delegate.html", null ],
     [ "sw::Dip", "classsw_1_1Dip.html", null ],
     [ "sw::DynamicObject", "classsw_1_1DynamicObject.html", [
       [ "sw::ObservableObject", "classsw_1_1ObservableObject.html", [
@@ -373,6 +375,7 @@ var hierarchy =
       [ "sw::Property< VerticalAlignment >", "classsw_1_1Property.html", null ],
       [ "sw::Property< uint64_t >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::LayoutUpdateCondition >", "classsw_1_1Property.html", null ],
+      [ "sw::Property< sw::DynamicObject * >", "classsw_1_1Property.html", null ],
       [ "sw::Property< WindowStartupLocation >", "classsw_1_1Property.html", null ],
       [ "sw::Property< WindowState >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::Menu * >", "classsw_1_1Property.html", null ],
@@ -428,6 +431,7 @@ var hierarchy =
     [ "sw::PropertyBase< sw::CheckState, Property< sw::CheckState > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Color, Property< sw::Color > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::ContextMenu *, Property< sw::ContextMenu * > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< sw::DynamicObject *, Property< sw::DynamicObject * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::FileFilter *, ReadOnlyProperty< sw::FileFilter * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Font, Property< sw::Font > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::FontWeight, Property< sw::FontWeight > >", "classsw_1_1PropertyBase.html", null ],
