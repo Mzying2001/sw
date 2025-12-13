@@ -9626,6 +9626,7 @@ namespace
     const sw::FieldId _PropId_LogicalRect         = sw::Reflection::GetFieldId(&sw::UIElement::LogicalRect);
     const sw::FieldId _PropId_IsHitTestVisible    = sw::Reflection::GetFieldId(&sw::UIElement::IsHitTestVisible);
     const sw::FieldId _PropId_DataContext         = sw::Reflection::GetFieldId(&sw::UIElement::DataContext);
+    const sw::FieldId _PropId_CurrentDataContext  = sw::Reflection::GetFieldId(&sw::UIElement::CurrentDataContext);
 }
 
 sw::UIElement::UIElement()
@@ -9902,13 +9903,19 @@ sw::UIElement::UIElement()
               })
               .Setter([](UIElement *self, DynamicObject *value) {
                   if (self->_dataContext != value) {
-                      DynamicObject *oldval = self->_dataContext;
-                      self->_dataContext    = value;
+                      auto oldDataContext = self->_GetCurrentDataContext();
+                      self->_dataContext  = value;
                       self->RaisePropertyChanged(_PropId_DataContext);
-                      if (self->DataContextChanged) {
-                          self->DataContextChanged(*self, oldval);
+                      if (oldDataContext != value) {
+                          self->_OnCurrentDataContextChanged(oldDataContext);
                       }
                   }
+              })),
+
+      CurrentDataContext(
+          Property<DynamicObject *>::Init(this)
+              .Getter([](UIElement *self) -> DynamicObject * {
+                  return self->_GetCurrentDataContext();
               }))
 {
 }
@@ -11172,6 +11179,40 @@ void sw::UIElement::_RemoveFromLayoutVisibleChildren(UIElement *element)
 
     if (it != this->_layoutVisibleChildren.end()) {
         this->_layoutVisibleChildren.erase(it);
+    }
+}
+
+sw::DynamicObject *sw::UIElement::_GetCurrentDataContext()
+{
+    DynamicObject *result = nullptr;
+    UIElement *element    = this;
+    do {
+        result  = element->_dataContext;
+        element = element->_parent;
+    } while (result == nullptr && element != nullptr);
+    return result;
+}
+
+void sw::UIElement::_OnCurrentDataContextChanged(DynamicObject *oldval)
+{
+    std::vector<UIElement *> stack;
+    stack.push_back(this);
+
+    while (!stack.empty()) {
+        auto current = stack.back();
+        stack.pop_back();
+
+        current->RaisePropertyChanged(_PropId_CurrentDataContext);
+
+        if (current->DataContextChanged) {
+            current->DataContextChanged(*current, oldval);
+        }
+
+        for (UIElement *child : current->_children) {
+            if (child->_dataContext == nullptr) {
+                stack.push_back(child);
+            }
+        }
     }
 }
 

@@ -11175,6 +11175,12 @@ namespace sw
          */
         const Property<DynamicObject *> DataContext;
 
+        /**
+         * @brief 当前元素的有效数据上下文
+         * @note  若当前元素的DataContext不为nullptr则返回该值，否则递归获取父元素的DataContext
+         */
+        const ReadOnlyProperty<DynamicObject *> CurrentDataContext;
+
     public:
         /**
          * @brief 初始化UIElement
@@ -11862,6 +11868,17 @@ namespace sw
         void _RemoveFromLayoutVisibleChildren(UIElement *element);
 
         /**
+         * @brief  获取当前元素的有效数据上下文
+         * @return 若当前元素的DataContext不为nullptr则返回该值，否则递归获取父元素的DataContext
+         */
+        DynamicObject *_GetCurrentDataContext();
+
+        /**
+         * @brief 当CurrentDataContext更改时调用此函数
+         */
+        void _OnCurrentDataContextChanged(DynamicObject *oldval);
+
+        /**
          * @brief 循环获取界面树上的下一个节点
          */
         static UIElement *_GetNextElement(UIElement *element, bool searchChildren = true);
@@ -12529,7 +12546,7 @@ namespace sw
             if (_targetElement == nullptr) {
                 _innerBinding->SetBindingObjects(nullptr, nullptr);
             } else {
-                _innerBinding->SetBindingObjects(_targetElement, _targetElement->DataContext);
+                _innerBinding->SetBindingObjects(_targetElement, _targetElement->CurrentDataContext);
             }
         }
 
