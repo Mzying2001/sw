@@ -1,4 +1,5 @@
 #include "UIElement.h"
+#include "DataBinding.h"
 #include "Utils.h"
 #include <algorithm>
 #include <cmath>
@@ -777,7 +778,21 @@ bool sw::UIElement::AddBinding(Binding *binding)
     if (binding == nullptr) {
         return false;
     }
-    binding->SetTargetObject(this);
+    if (binding->GetSourceObject() == nullptr) {
+        auto dataBinding = DataBinding::Create(this, binding);
+        return this->AddBinding(static_cast<BindingBase *>(dataBinding));
+    } else {
+        binding->SetTargetObject(this);
+        return this->AddBinding(static_cast<BindingBase *>(binding));
+    }
+}
+
+bool sw::UIElement::AddBinding(DataBinding *binding)
+{
+    if (binding == nullptr) {
+        return false;
+    }
+    binding->SetTargetElement(this);
     return this->AddBinding(static_cast<BindingBase *>(binding));
 }
 
