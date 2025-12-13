@@ -134,7 +134,7 @@ namespace sw
             if (_targetElement == nullptr) {
                 _innerBinding->SetBindingObjects(nullptr, nullptr);
             } else {
-                _innerBinding->SetBindingObjects(_targetElement, _targetElement->DataContext);
+                _innerBinding->SetBindingObjects(_targetElement, _targetElement->CurrentDataContext);
             }
         }
 

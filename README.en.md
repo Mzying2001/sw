@@ -111,7 +111,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)
 
 ## Documentation
 
-For detailed documentation on SimpleWindow, please visit [mzying2001.github.io/sw](https://mzying2001.github.io/sw).
+For detailed documentation on SimpleWindow, please visit [mzying2001.github.io/sw](https://mzying2001.github.io/sw/classes.html).
 
 ## License
 

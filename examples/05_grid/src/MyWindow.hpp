@@ -1,7 +1,6 @@
 #pragma once
 
 #include "SimpleWindow.h"
-#include <vector>
 
 /**
  * @brief 自定义窗口类，继承自sw::Window
@@ -76,7 +75,7 @@ class MyWindow : public sw::Window
         // 创建按钮并设置对齐方式
         for (int i = 0; i < 17; ++i)
         {
-            btns.emplace_back(new sw::Button); // 创建对象并加入vector
+            btns.emplace_back(new sw::Button);
             btns.back()->SetAlignment(sw::HorizontalAlignment::Stretch, sw::VerticalAlignment::Stretch);
         }
 
