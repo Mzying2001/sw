@@ -7,6 +7,7 @@
  */
 class MyCustomConverter : public sw::IValueConverter<int, std::wstring>
 {
+public:
     std::wstring Convert(int source) override
     {
         return L"Current Value: " + std::to_wstring(source);
