@@ -318,6 +318,18 @@ namespace sw
         }
 
         /**
+         * @brief 设置成员函数getter
+         */
+        template <TValue (TOwner::*getter)() const>
+        MemberPropertyInitializer &Getter()
+        {
+            return this->Getter(
+                [](TOwner *owner) -> TValue {
+                    return (owner->*getter)();
+                });
+        }
+
+        /**
          * @brief 设置成员函数setter
          */
         template <void (TOwner::*setter)(_PropertySetterParamType<TValue>)>
@@ -326,6 +338,42 @@ namespace sw
             return this->Setter(
                 [](TOwner *owner, _PropertySetterParamType<TValue> value) {
                     (owner->*setter)(value);
+                });
+        }
+
+        /**
+         * @brief 设置成员函数setter
+         */
+        template <void (TOwner::*setter)(_PropertySetterParamType<TValue>) const>
+        MemberPropertyInitializer &Setter()
+        {
+            return this->Setter(
+                [](TOwner *owner, _PropertySetterParamType<TValue> value) {
+                    (owner->*setter)(value);
+                });
+        }
+
+        /**
+         * @brief 设置简单字段getter
+         */
+        template <TValue TOwner::*field>
+        MemberPropertyInitializer &Getter()
+        {
+            return this->Getter(
+                [](TOwner *owner) -> TValue {
+                    return owner->*field;
+                });
+        }
+
+        /**
+         * @brief 设置简单字段setter
+         */
+        template <TValue TOwner::*field>
+        MemberPropertyInitializer &Setter()
+        {
+            return this->Setter(
+                [](TOwner *owner, _PropertySetterParamType<TValue> value) {
+                    owner->*field = value;
                 });
         }
     };

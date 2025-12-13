@@ -14,6 +14,12 @@
 namespace sw
 {
     /**
+     * @brief 用于判断是否可以通过static_cast进行转换
+     */
+    template <typename TFrom, typename TTo>
+    using _IsStaticCastable = _IsExplicitlyConvertable<TFrom, TTo>;
+
+    /**
      * @brief 动态对象基类
      */
     class DynamicObject
@@ -28,7 +34,7 @@ namespace sw
          * @brief  获取对象的类型索引
          * @return 对象的类型索引
          */
-        inline std::type_index GetTypeIndex() const
+        std::type_index GetTypeIndex() const
         {
 #if defined(_SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot get type index.");
@@ -110,6 +116,58 @@ namespace sw
             return dynamic_cast<const T &>(*this);
 #endif
         }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast()
+            -> typename std::enable_if<_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+        {
+            return static_cast<T &>(*this);
+        }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast()
+            -> typename std::enable_if<!_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+        {
+            return DynamicCast<T>();
+        }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast() const
+            -> typename std::enable_if<_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+        {
+            return static_cast<const T &>(*this);
+        }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast() const
+            -> typename std::enable_if<!_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+        {
+            return DynamicCast<T>();
+        }
     };
 
     /**
@@ -176,7 +234,7 @@ namespace sw
          * @return        对应的字段ID
          */
         template <typename T, typename TField>
-        static FieldId GetFieldId(TField T::*field)
+        static FieldId GetFieldId(TField T::*field) noexcept
         {
             auto pfunc = &Reflection::GetFieldId<T, TField>;
 
@@ -209,7 +267,7 @@ namespace sw
                 std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
         {
             return [method](DynamicObject &obj, Args... args) -> TRet {
-                return (obj.DynamicCast<T>().*method)(std::forward<Args>(args)...);
+                return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
             };
         }
 
@@ -227,7 +285,7 @@ namespace sw
                 std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
         {
             return [method](DynamicObject &obj, Args... args) -> TRet {
-                return (obj.DynamicCast<T>().*method)(std::forward<Args>(args)...);
+                return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
             };
         }
 
@@ -244,7 +302,7 @@ namespace sw
                 std::is_base_of<DynamicObject, T>::value, Delegate<TField &(DynamicObject &)>>::type
         {
             return [field](DynamicObject &obj) -> TField & {
-                return obj.DynamicCast<T>().*field;
+                return obj.UnsafeCast<T>().*field;
             };
         }
 
@@ -263,7 +321,7 @@ namespace sw
                 Delegate<typename TProperty::TValue(DynamicObject &)>>::type
         {
             return [prop](DynamicObject &obj) -> typename TProperty::TValue {
-                return (obj.DynamicCast<T>().*prop).Get();
+                return (obj.UnsafeCast<T>().*prop).Get();
             };
         }
 
@@ -299,7 +357,7 @@ namespace sw
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
-                (obj.DynamicCast<T>().*prop).Set(std::forward<typename TProperty::TSetterParam>(value));
+                (obj.UnsafeCast<T>().*prop).Set(std::forward<typename TProperty::TSetterParam>(value));
             };
         }
 
@@ -322,15 +380,12 @@ namespace sw
     };
 }
 
-// 为sw::FieldId特化std::hash以支持在unordered_map中使用
-namespace std
+// 为sw::FieldId特化std::hash
+template <>
+struct std::hash<sw::FieldId> //
 {
-    template <>
-    struct hash<sw::FieldId> //
+    size_t operator()(sw::FieldId fieldId) const noexcept
     {
-        size_t operator()(sw::FieldId fieldId) const
-        {
-            return static_cast<size_t>(fieldId.value);
-        }
-    };
-}
+        return static_cast<size_t>(fieldId.value);
+    }
+};

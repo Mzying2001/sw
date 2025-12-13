@@ -21,6 +21,15 @@
 
 namespace sw
 {
+    // 前向声明
+    class UIElement;
+    class DataBinding;
+
+    /**
+     * @brief 数据上下文更改事件处理函数类型
+     */
+    using DataContextChangedEventHandler = Delegate<void(UIElement &sender, DynamicObject *oldval)>;
+
     /**
      * @brief 通知布局更新的条件
      */
@@ -263,7 +272,17 @@ namespace sw
          */
         std::unordered_map<FieldId, std::unique_ptr<BindingBase>> _bindings{};
 
+        /**
+         * @brief 数据上下文
+         */
+        DynamicObject *_dataContext = nullptr;
+
     public:
+        /**
+         * @brief 数据上下问改变时触发该事件
+         */
+        DataContextChangedEventHandler DataContextChanged;
+
         /**
          * @brief 边距
          */
@@ -386,6 +405,11 @@ namespace sw
          * @brief 当前元素是否是通过按下Tab键获得的焦点
          */
         const ReadOnlyProperty<bool> IsFocusedViaTab;
+
+        /**
+         * @brief 数据上下文
+         */
+        const Property<DynamicObject *> DataContext;
 
     public:
         /**
@@ -623,7 +647,7 @@ namespace sw
         /**
          * @brief  添加绑定对象
          * @return 若函数成功则返回true，否则返回false
-         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享同
+         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
          * @note   请确保绑定对象的目标属性为当前元素的属性，该函数内部不会对此进行检查
          * @note   同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
          */
@@ -632,11 +656,19 @@ namespace sw
         /**
          * @brief  添加绑定对象
          * @return 若函数成功则返回true，否则返回false
-         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享同
-         * @note   该函数会将绑定的目标对象设置为当前元素
+         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note   该函数会将绑定的目标对象设置为当前元素，若未指定源对象则会将DataContext作为源对象
          * @note   同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
          */
         bool AddBinding(Binding *binding);
+
+        /**
+         * @brief  添加绑定到DataContext的绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note   同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         */
+        bool AddBinding(DataBinding *binding);
 
         /**
          * @brief  移除指定属性的绑定对象

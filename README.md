@@ -9,9 +9,6 @@
 + **基于 Windows API**：  
   SimpleWindow 是一个基于 Windows API 的框架，无其他依赖项。
 
-+ **支持属性**：  
-  实现了类似于 C# 的属性语法，可以直观地获取和修改对象属性。
-
 + **高 DPI 支持**：  
   原生支持高 DPI，使用 DIP（设备独立像素）作为默认长度单位。
 
@@ -20,6 +17,9 @@
 
 + **路由事件**：  
   采用路由事件机制，即事件可以冒泡，从源控件向上传播，可以在不同层次的控件上注册事件处理程序。
+
++ **属性绑定**：  
+  实现了类似 C# 的属性语法，可以直观地获取和修改对象属性；此外还提供了属性绑定支持，可以实现 UI 与数据之间的自动同步。
 
 ## 使用说明
 
@@ -89,7 +89,6 @@ git clone https://github.com/Mzying2001/sw.git
 
 int WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)
 {
-    // 创建窗口和按钮对象
     sw::Window wnd;
     sw::Button btn;
 
@@ -105,7 +104,6 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)
             sw::MsgBox::Show(L"Hello, SimpleWindow!");
         });
 
-    // 添加控件并弹出窗口
     wnd.AddChild(btn);
     return wnd.ShowDialog();
 }

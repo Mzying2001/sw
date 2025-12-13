@@ -20,6 +20,7 @@
 #include "Control.h"
 #include "Converters.h"
 #include "Cursor.h"
+#include "DataBinding.h"
 #include "DateTimePicker.h"
 #include "Delegate.h"
 #include "Dictionary.h"

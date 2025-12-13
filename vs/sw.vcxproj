@@ -308,6 +308,7 @@
     <ClInclude Include="..\sw\inc\Control.h" />
     <ClInclude Include="..\sw\inc\Converters.h" />
     <ClInclude Include="..\sw\inc\Cursor.h" />
+    <ClInclude Include="..\sw\inc\DataBinding.h" />
     <ClInclude Include="..\sw\inc\DateTimePicker.h" />
     <ClInclude Include="..\sw\inc\Delegate.h" />
     <ClInclude Include="..\sw\inc\Dictionary.h" />
