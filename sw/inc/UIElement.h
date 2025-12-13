@@ -1174,8 +1174,8 @@ namespace sw
          * @note   添加的子元素必须与当前元素在同一线程创建
          */
         template <typename First, typename... Rest>
-        typename std::enable_if<_CanAddChildren<First, Rest...>::value, int>::type
-        AddChildren(First &&first, Rest &&...rest)
+        auto AddChildren(First &&first, Rest &&...rest)
+            -> typename std::enable_if<_CanAddChildren<First, Rest...>::value, int>::type
         {
             int count = 0;
             if (this->AddChild(std::forward<First>(first)))
@@ -1190,8 +1190,8 @@ namespace sw
          * @note   添加的子元素必须与当前元素在同一线程创建
          */
         template <typename T>
-        typename std::enable_if<_CanAddChild<T>::value, int>::type
-        AddChildren(T &&child)
+        auto AddChildren(T &&child)
+            -> typename std::enable_if<_CanAddChild<T>::value, int>::type
         {
             return this->AddChild(std::forward<T>(child)) ? 1 : 0;
         }
@@ -1221,8 +1221,8 @@ namespace sw
          * @deprecated        建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         template <typename TEventArgs>
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
-        RegisterRoutedEvent(const Action<UIElement &, TEventArgs &> &handler)
+        auto RegisterRoutedEvent(const Action<UIElement &, TEventArgs &> &handler)
+            -> typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
         {
             if (!handler) {
                 this->UnregisterRoutedEvent(TEventArgs::EventType);
@@ -1240,8 +1240,8 @@ namespace sw
          * @deprecated        建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         template <typename TEventArgs, typename THandleObj>
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
-        RegisterRoutedEvent(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        auto RegisterRoutedEvent(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+            -> typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
         {
             if (handler == nullptr) {
                 this->UnregisterRoutedEvent(TEventArgs::EventType);
@@ -1269,8 +1269,8 @@ namespace sw
          * @param handler     事件的处理函数
          */
         template <typename TEventArgs>
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
-        AddHandler(const Action<UIElement &, TEventArgs &> &handler)
+        auto AddHandler(const Action<UIElement &, TEventArgs &> &handler)
+            -> typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
         {
             if (handler) this->AddHandler(TEventArgs::EventType, RoutedEventHandlerWrapper<TEventArgs>(handler));
         }
@@ -1283,8 +1283,8 @@ namespace sw
          * @param handler     事件的处理函数
          */
         template <typename TEventArgs, typename THandleObj>
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
-        AddHandler(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        auto AddHandler(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+            -> typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
         {
             if (handler) this->AddHandler(TEventArgs::EventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
         }
@@ -1296,11 +1296,11 @@ namespace sw
          * @param handler     处理函数
          */
         template <typename TEventArgs>
-        typename std::enable_if<
-            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
-            !std::is_same<TEventArgs, RoutedEventArgs>::value &&
-            !sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
-        AddHandler(RoutedEventType eventType, const Action<UIElement &, TEventArgs &> &handler)
+        auto AddHandler(RoutedEventType eventType, const Action<UIElement &, TEventArgs &> &handler)
+            -> typename std::enable_if<
+                std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+                !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+                !sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
         {
             if (handler) this->AddHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(handler));
         }
@@ -1314,11 +1314,11 @@ namespace sw
          * @param handler     处理函数
          */
         template <typename TEventArgs, typename THandleObj>
-        typename std::enable_if<
-            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
-            !std::is_same<TEventArgs, RoutedEventArgs>::value &&
-            !sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
-        AddHandler(RoutedEventType eventType, THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        auto AddHandler(RoutedEventType eventType, THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+            -> typename std::enable_if<
+                std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+                !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+                !sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
         {
             if (handler) this->AddHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
         }
@@ -1344,8 +1344,8 @@ namespace sw
          * @return            是否成功移除
          */
         template <typename TEventArgs>
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value, bool>::type
-        RemoveHandler(const Action<UIElement &, TEventArgs &> &handler)
+        auto RemoveHandler(const Action<UIElement &, TEventArgs &> &handler)
+            -> typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value, bool>::type
         {
             if (handler == nullptr) {
                 return false;
@@ -1363,8 +1363,8 @@ namespace sw
          * @return            是否成功移除
          */
         template <typename TEventArgs, typename THandleObj>
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value, bool>::type
-        RemoveHandler(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        auto RemoveHandler(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+            -> typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value, bool>::type
         {
             if (handler == nullptr) {
                 return false;
@@ -1381,12 +1381,12 @@ namespace sw
          * @return            是否成功移除
          */
         template <typename TEventArgs>
-        typename std::enable_if<
-            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
-                !std::is_same<TEventArgs, RoutedEventArgs>::value &&
-                !sw::_IsTypedRoutedEventArgs<TEventArgs>::value,
-            bool>::type
-        RemoveHandler(RoutedEventType eventType, const Action<UIElement &, TEventArgs &> &handler)
+        auto RemoveHandler(RoutedEventType eventType, const Action<UIElement &, TEventArgs &> &handler)
+            -> typename std::enable_if<
+                std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+                    !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+                    !sw::_IsTypedRoutedEventArgs<TEventArgs>::value,
+                bool>::type
         {
             if (handler == nullptr) {
                 return false;
@@ -1405,12 +1405,12 @@ namespace sw
          * @return            是否成功移除
          */
         template <typename TEventArgs, typename THandleObj>
-        typename std::enable_if<
-            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
-                !std::is_same<TEventArgs, RoutedEventArgs>::value &&
-                !sw::_IsTypedRoutedEventArgs<TEventArgs>::value,
-            bool>::type
-        RemoveHandler(RoutedEventType eventType, THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        auto RemoveHandler(RoutedEventType eventType, THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+            -> typename std::enable_if<
+                std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+                    !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+                    !sw::_IsTypedRoutedEventArgs<TEventArgs>::value,
+                bool>::type
         {
             if (handler == nullptr) {
                 return false;
