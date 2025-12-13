@@ -21,6 +21,13 @@
 
 namespace sw
 {
+    class UIElement; // 前向声明
+
+    /**
+     * @brief 数据上下文更改事件处理函数类型
+     */
+    using DataContextChangedEventHandler = Delegate<void(UIElement &sender, DynamicObject *oldval)>;
+
     /**
      * @brief 通知布局更新的条件
      */
@@ -263,7 +270,17 @@ namespace sw
          */
         std::unordered_map<FieldId, std::unique_ptr<BindingBase>> _bindings{};
 
+        /**
+         * @brief 数据上下文
+         */
+        DynamicObject *_dataContext = nullptr;
+
     public:
+        /**
+         * @brief 数据上下问改变时触发该事件
+         */
+        DataContextChangedEventHandler DataContextChanged;
+
         /**
          * @brief 边距
          */
@@ -386,6 +403,11 @@ namespace sw
          * @brief 当前元素是否是通过按下Tab键获得的焦点
          */
         const ReadOnlyProperty<bool> IsFocusedViaTab;
+
+        /**
+         * @brief 数据上下文
+         */
+        const Property<DynamicObject *> DataContext;
 
     public:
         /**
