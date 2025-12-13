@@ -5805,6 +5805,15 @@ namespace sw
 // Converters.h
 
 
+// clang-format off
+
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4996) // make sscanf great again
+#endif
+
+// clang-format on
+
 namespace sw
 {
     /**
@@ -5975,14 +5984,23 @@ namespace sw
     class IntToStringConverter : public IValueConverter<int, std::wstring>
     {
     public:
+        explicit IntToStringConverter(int defaultValue = 0)
+            : defaultValue(defaultValue)
+        {
+        }
         virtual std::wstring Convert(int source) override
         {
             return std::to_wstring(source);
         }
         virtual int ConvertBack(const std::wstring &target) override
         {
-            return std::stoi(target);
+            int result;
+            bool success = std::swscanf(target.c_str(), L"%d", &result) == 1;
+            return success ? result : defaultValue;
         }
+
+    private:
+        int defaultValue;
     };
 
     /**
@@ -5991,6 +6009,10 @@ namespace sw
     class FloatToStringConverter : public IValueConverter<float, std::wstring>
     {
     public:
+        explicit FloatToStringConverter(float defaultValue = 0.0f)
+            : defaultValue(defaultValue)
+        {
+        }
         virtual std::wstring Convert(float source) override
         {
             std::wstring result(32, L'\0');
@@ -6000,8 +6022,13 @@ namespace sw
         }
         virtual float ConvertBack(const std::wstring &target) override
         {
-            return std::stof(target);
+            float result;
+            bool success = std::swscanf(target.c_str(), L"%f", &result) == 1;
+            return success ? result : defaultValue;
         }
+
+    private:
+        float defaultValue;
     };
 
     /**
@@ -6010,6 +6037,10 @@ namespace sw
     class DoubleToStringConverter : public IValueConverter<double, std::wstring>
     {
     public:
+        explicit DoubleToStringConverter(double defaultValue = 0.0)
+            : defaultValue(defaultValue)
+        {
+        }
         virtual std::wstring Convert(double source) override
         {
             std::wstring result(32, L'\0');
@@ -6019,8 +6050,13 @@ namespace sw
         }
         virtual double ConvertBack(const std::wstring &target) override
         {
-            return std::stod(target);
+            double result;
+            bool success = std::swscanf(target.c_str(), L"%lf", &result) == 1;
+            return success ? result : defaultValue;
         }
+
+    private:
+        double defaultValue;
     };
 
     /**
@@ -6029,14 +6065,23 @@ namespace sw
     class StringToIntConverter : public IValueConverter<std::wstring, int>
     {
     public:
+        explicit StringToIntConverter(int defaultValue = 0)
+            : defaultValue(defaultValue)
+        {
+        }
         virtual int Convert(const std::wstring &source) override
         {
-            return std::stoi(source);
+            int result;
+            bool success = std::swscanf(source.c_str(), L"%d", &result) == 1;
+            return success ? result : defaultValue;
         }
         virtual std::wstring ConvertBack(int target) override
         {
             return std::to_wstring(target);
         }
+
+    private:
+        int defaultValue;
     };
 
     /**
@@ -6045,9 +6090,15 @@ namespace sw
     class StringToFloatConverter : public IValueConverter<std::wstring, float>
     {
     public:
+        explicit StringToFloatConverter(float defaultValue = 0.0f)
+            : defaultValue(defaultValue)
+        {
+        }
         virtual float Convert(const std::wstring &source) override
         {
-            return std::stof(source);
+            float result;
+            bool success = std::swscanf(source.c_str(), L"%f", &result) == 1;
+            return success ? result : defaultValue;
         }
         virtual std::wstring ConvertBack(float target) override
         {
@@ -6056,6 +6107,9 @@ namespace sw
             result.resize(len > 0 ? len : 0);
             return result;
         }
+
+    private:
+        float defaultValue;
     };
 
     /**
@@ -6064,9 +6118,15 @@ namespace sw
     class StringToDoubleConverter : public IValueConverter<std::wstring, double>
     {
     public:
+        explicit StringToDoubleConverter(double defaultValue = 0.0)
+            : defaultValue(defaultValue)
+        {
+        }
         virtual double Convert(const std::wstring &source) override
         {
-            return std::stod(source);
+            double result;
+            bool success = std::swscanf(source.c_str(), L"%lf", &result) == 1;
+            return success ? result : defaultValue;
         }
         virtual std::wstring ConvertBack(double target) override
         {
@@ -6075,6 +6135,9 @@ namespace sw
             result.resize(len > 0 ? len : 0);
             return result;
         }
+
+    private:
+        double defaultValue;
     };
 
     /*================================================================================*/
@@ -6085,14 +6148,23 @@ namespace sw
     class IntToAnsiStringConverter : public IValueConverter<int, std::string>
     {
     public:
+        explicit IntToAnsiStringConverter(int defaultValue = 0)
+            : defaultValue(defaultValue)
+        {
+        }
         virtual std::string Convert(int source) override
         {
             return std::to_string(source);
         }
         virtual int ConvertBack(const std::string &target) override
         {
-            return std::stoi(target);
+            int result;
+            bool success = std::sscanf(target.c_str(), "%d", &result) == 1;
+            return success ? result : defaultValue;
         }
+
+    private:
+        int defaultValue;
     };
 
     /**
@@ -6101,6 +6173,10 @@ namespace sw
     class FloatToAnsiStringConverter : public IValueConverter<float, std::string>
     {
     public:
+        explicit FloatToAnsiStringConverter(float defaultValue = 0.0f)
+            : defaultValue(defaultValue)
+        {
+        }
         virtual std::string Convert(float source) override
         {
             std::string result(32, '\0');
@@ -6110,8 +6186,13 @@ namespace sw
         }
         virtual float ConvertBack(const std::string &target) override
         {
-            return std::stof(target);
+            float result;
+            bool success = std::sscanf(target.c_str(), "%f", &result) == 1;
+            return success ? result : defaultValue;
         }
+
+    private:
+        float defaultValue;
     };
 
     /**
@@ -6120,6 +6201,10 @@ namespace sw
     class DoubleToAnsiStringConverter : public IValueConverter<double, std::string>
     {
     public:
+        explicit DoubleToAnsiStringConverter(double defaultValue = 0.0)
+            : defaultValue(defaultValue)
+        {
+        }
         virtual std::string Convert(double source) override
         {
             std::string result(32, '\0');
@@ -6129,8 +6214,13 @@ namespace sw
         }
         virtual double ConvertBack(const std::string &target) override
         {
-            return std::stod(target);
+            double result;
+            bool success = std::sscanf(target.c_str(), "%lf", &result) == 1;
+            return success ? result : defaultValue;
         }
+
+    private:
+        double defaultValue;
     };
 
     /**
@@ -6139,14 +6229,23 @@ namespace sw
     class AnsiStringToIntConverter : public IValueConverter<std::string, int>
     {
     public:
+        explicit AnsiStringToIntConverter(int defaultValue = 0)
+            : defaultValue(defaultValue)
+        {
+        }
         virtual int Convert(const std::string &source) override
         {
-            return std::stoi(source);
+            int result;
+            bool success = std::sscanf(source.c_str(), "%d", &result) == 1;
+            return success ? result : defaultValue;
         }
         virtual std::string ConvertBack(int target) override
         {
             return std::to_string(target);
         }
+
+    private:
+        int defaultValue;
     };
 
     /**
@@ -6155,9 +6254,15 @@ namespace sw
     class AnsiStringToFloatConverter : public IValueConverter<std::string, float>
     {
     public:
+        explicit AnsiStringToFloatConverter(float defaultValue = 0.0f)
+            : defaultValue(defaultValue)
+        {
+        }
         virtual float Convert(const std::string &source) override
         {
-            return std::stof(source);
+            float result;
+            bool success = std::sscanf(source.c_str(), "%f", &result) == 1;
+            return success ? result : defaultValue;
         }
         virtual std::string ConvertBack(float target) override
         {
@@ -6166,6 +6271,9 @@ namespace sw
             result.resize(len > 0 ? len : 0);
             return result;
         }
+
+    private:
+        float defaultValue;
     };
 
     /**
@@ -6174,9 +6282,15 @@ namespace sw
     class AnsiStringToDoubleConverter : public IValueConverter<std::string, double>
     {
     public:
+        explicit AnsiStringToDoubleConverter(double defaultValue = 0.0)
+            : defaultValue(defaultValue)
+        {
+        }
         virtual double Convert(const std::string &source) override
         {
-            return std::stod(source);
+            double result;
+            bool success = std::sscanf(source.c_str(), "%lf", &result) == 1;
+            return success ? result : defaultValue;
         }
         virtual std::string ConvertBack(double target) override
         {
@@ -6185,6 +6299,9 @@ namespace sw
             result.resize(len > 0 ? len : 0);
             return result;
         }
+
+    private:
+        double defaultValue;
     };
 
     /*================================================================================*/
@@ -6253,6 +6370,10 @@ namespace sw
         }
     };
 }
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 // Dictionary.h
 
