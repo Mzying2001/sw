@@ -122,6 +122,7 @@ var classsw_1_1UIElement =
     [ "ChildCount", "classsw_1_1UIElement.html#a5c452519bad920ad9b91f9610ea202e0", null ],
     [ "CollapseWhenHide", "classsw_1_1UIElement.html#a952e87aef0f2dfdec6bd98e944b6d891", null ],
     [ "ContextMenu", "classsw_1_1UIElement.html#ae5706cc9d6ef3fab9176ccded231b99e", null ],
+    [ "CurrentDataContext", "classsw_1_1UIElement.html#a35f27c7570d308a114825ae8ecba4e37", null ],
     [ "DataContext", "classsw_1_1UIElement.html#aa11cfe6fd81939a5a39b6c54195dc06a", null ],
     [ "DataContextChanged", "classsw_1_1UIElement.html#abc7c1a519479ce73757c4a1ac657d757", null ],
     [ "Float", "classsw_1_1UIElement.html#ac0d66604bc2dd555c37688135878a7f0", null ],

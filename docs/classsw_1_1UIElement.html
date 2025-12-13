@@ -699,6 +699,9 @@ const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>
 const <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>DataContext</b></td></tr>
 <tr class="memdesc:aa11cfe6fd81939a5a39b6c54195dc06a"><td class="mdescLeft">&#160;</td><td class="mdescRight">数据上下文 <br /></td></tr>
 <tr class="separator:aa11cfe6fd81939a5a39b6c54195dc06a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35f27c7570d308a114825ae8ecba4e37" id="r_a35f27c7570d308a114825ae8ecba4e37"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1UIElement.html#a35f27c7570d308a114825ae8ecba4e37">CurrentDataContext</a></td></tr>
+<tr class="memdesc:a35f27c7570d308a114825ae8ecba4e37"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前元素的有效数据上下文  <br /></td></tr>
+<tr class="separator:a35f27c7570d308a114825ae8ecba4e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classsw_1_1WndBase"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsw_1_1WndBase')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="classsw_1_1WndBase.html">sw::WndBase</a></td></tr>
 <tr class="memitem:abc0b653ccc071c2cfcba42fa8eef738f inherit pub_attribs_classsw_1_1WndBase" id="r_abc0b653ccc071c2cfcba42fa8eef738f"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; HWND &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Handle</b></td></tr>
@@ -4816,6 +4819,23 @@ template&lt;typename TEventArgs , typename THandleObj &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">类成员变量说明</h2>
+<a id="a35f27c7570d308a114825ae8ecba4e37" name="a35f27c7570d308a114825ae8ecba4e37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35f27c7570d308a114825ae8ecba4e37">&#9670;&#160;</a></span>CurrentDataContext</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> *&gt; sw::UIElement::CurrentDataContext</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>当前元素的有效数据上下文 </p>
+<dl class="section note"><dt>注解</dt><dd>若当前元素的DataContext不为nullptr则返回该值，否则递归获取父元素的DataContext </dd></dl>
+
+</div>
+</div>
 <a id="ab1ae9ea6fdb1c1ecde418bffdb2287cc" name="ab1ae9ea6fdb1c1ecde418bffdb2287cc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab1ae9ea6fdb1c1ecde418bffdb2287cc">&#9670;&#160;</a></span>LayoutUpdateCondition</h2>
 

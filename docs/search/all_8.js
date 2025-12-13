@@ -6,7 +6,7 @@ var searchData=
   ['handleinitialized_3',['HandleInitialized',['../classsw_1_1WndBase.html#a4b368860fef40406c091880fc72f9cbb',1,'sw::WndBase']]],
   ['hash_3c_20sw_3a_3afieldid_20_3e_4',['hash&lt; sw::FieldId &gt;',['../structstd_1_1hash_3_01sw_1_1FieldId_01_4.html',1,'std']]],
   ['header_5',['header',['../structsw_1_1ListViewColumn.html#a2fd382151fa269ec5f5042232cfb84f8',1,'sw::ListViewColumn']]],
-  ['height_6',['height',['../structsw_1_1GridRow.html#abe71efc459295a5dbfad7bf7aaff4d4e',1,'sw::GridRow::height'],['../structsw_1_1Rect.html#afb7a0a9a12dad7756f46b2e1abdafa7c',1,'sw::Rect::height'],['../structsw_1_1Size.html#a084604eba918ac19b2f8402e330d767b',1,'sw::Size::height'],['../classsw_1_1Screen.html#a904c5ac3f5dc61d271357f22f734b921',1,'sw::Screen::Height'],['../classsw_1_1WndBase.html#a51fdc4b943e62bd67ffbff4a6e65de2a',1,'sw::WndBase::Height']]],
+  ['height_6',['height',['../classsw_1_1Screen.html#a904c5ac3f5dc61d271357f22f734b921',1,'sw::Screen::Height'],['../classsw_1_1WndBase.html#a51fdc4b943e62bd67ffbff4a6e65de2a',1,'sw::WndBase::Height'],['../structsw_1_1GridRow.html#abe71efc459295a5dbfad7bf7aaff4d4e',1,'sw::GridRow::height'],['../structsw_1_1Rect.html#afb7a0a9a12dad7756f46b2e1abdafa7c',1,'sw::Rect::height'],['../structsw_1_1Size.html#a084604eba918ac19b2f8402e330d767b',1,'sw::Size::height']]],
   ['hexadecimal_7',['Hexadecimal',['../classsw_1_1SpinBox.html#a74b9d634e0a747f6fcd3508922806d21',1,'sw::SpinBox']]],
   ['hide_8',['Hide',['../classsw_1_1NotifyIcon.html#a977e81485bc08c4ffe2e20818b2ee94a',1,'sw::NotifyIcon']]],
   ['horizontalalignment_9',['HorizontalAlignment',['../classsw_1_1UIElement.html#a05b569383791dce14d9d6789e3a43d85',1,'sw::UIElement']]],

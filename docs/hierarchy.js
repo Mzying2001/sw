@@ -398,6 +398,7 @@ var hierarchy =
       [ "sw::ReadOnlyProperty< sw::Point >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::TreeViewNode >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::UIElement * >", "classsw_1_1ReadOnlyProperty.html", null ],
+      [ "sw::ReadOnlyProperty< sw::DynamicObject * >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Window * >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< HWND >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::WndBase * >", "classsw_1_1ReadOnlyProperty.html", null ]
@@ -432,6 +433,7 @@ var hierarchy =
     [ "sw::PropertyBase< sw::Color, Property< sw::Color > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::ContextMenu *, Property< sw::ContextMenu * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::DynamicObject *, Property< sw::DynamicObject * > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< sw::DynamicObject *, ReadOnlyProperty< sw::DynamicObject * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::FileFilter *, ReadOnlyProperty< sw::FileFilter * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Font, Property< sw::Font > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::FontWeight, Property< sw::FontWeight > >", "classsw_1_1PropertyBase.html", null ],

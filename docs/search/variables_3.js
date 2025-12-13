@@ -14,7 +14,7 @@ var searchData=
   ['clipprecision_11',['clipPrecision',['../classsw_1_1Font.html#a17830a6ab96c792ea5c31f1dc4eb6b9b',1,'sw::Font']]],
   ['collapsewhenhide_12',['CollapseWhenHide',['../classsw_1_1UIElement.html#a952e87aef0f2dfdec6bd98e944b6d891',1,'sw::UIElement']]],
   ['column_13',['column',['../structsw_1_1GridLayoutTag.html#aa7a46315a36db1adc57e6cd12aa36713',1,'sw::GridLayoutTag']]],
-  ['columns_14',['columns',['../classsw_1_1UniformGrid.html#ac6abb7aaf70869b91207c53cfaf59bca',1,'sw::UniformGrid::Columns'],['../classsw_1_1UniformGridLayout.html#a73d71cc8e99540d40ab1f4fd528b9492',1,'sw::UniformGridLayout::columns'],['../classsw_1_1GridLayout.html#a31dc19020481d77169ecad187bad886e',1,'sw::GridLayout::columns']]],
+  ['columns_14',['columns',['../classsw_1_1GridLayout.html#a31dc19020481d77169ecad187bad886e',1,'sw::GridLayout::columns'],['../classsw_1_1UniformGrid.html#ac6abb7aaf70869b91207c53cfaf59bca',1,'sw::UniformGrid::Columns'],['../classsw_1_1UniformGridLayout.html#a73d71cc8e99540d40ab1f4fd528b9492',1,'sw::UniformGridLayout::columns']]],
   ['columnscount_15',['ColumnsCount',['../classsw_1_1ListView.html#a0b84ba1066f16317e48629059b94ded8',1,'sw::ListView']]],
   ['columnspan_16',['columnSpan',['../structsw_1_1GridLayoutTag.html#ad6949937cb3becc28cee7f7c79604fd8',1,'sw::GridLayoutTag']]],
   ['command_17',['command',['../classsw_1_1MenuItem.html#a2a89a577f6cc2eafe9b6d55eb3c9c8ee',1,'sw::MenuItem']]],
@@ -22,8 +22,9 @@ var searchData=
   ['contextmenu_19',['contextmenu',['../classsw_1_1NotifyIcon.html#aaddfb8f36febf3e9c5bf155bccdb16af',1,'sw::NotifyIcon::ContextMenu'],['../classsw_1_1UIElement.html#ae5706cc9d6ef3fab9176ccded231b99e',1,'sw::UIElement::ContextMenu']]],
   ['contextmenuopening_20',['ContextMenuOpening',['../classsw_1_1NotifyIcon.html#ac2af509db639bc4a2e161b60b1794883',1,'sw::NotifyIcon']]],
   ['controlid_21',['ControlId',['../classsw_1_1Control.html#aa5875535fe04ce79df6fb8719b64c0dc',1,'sw::Control']]],
-  ['currentdirectory_22',['CurrentDirectory',['../classsw_1_1App.html#a6d37ddbf6c419a02182c325a1dce5575',1,'sw::App']]],
-  ['cursorposition_23',['CursorPosition',['../classsw_1_1Screen.html#a0bf87a2c7e6680747d8a77e4daf466a8',1,'sw::Screen']]],
-  ['customcolors_24',['CustomColors',['../classsw_1_1ColorDialog.html#a1b7af9704cee4a96a8bbc813e126fe9a',1,'sw::ColorDialog']]],
-  ['customformat_25',['CustomFormat',['../classsw_1_1DateTimePicker.html#a02536c45142f088a408d311ef17fde62',1,'sw::DateTimePicker']]]
+  ['currentdatacontext_22',['CurrentDataContext',['../classsw_1_1UIElement.html#a35f27c7570d308a114825ae8ecba4e37',1,'sw::UIElement']]],
+  ['currentdirectory_23',['CurrentDirectory',['../classsw_1_1App.html#a6d37ddbf6c419a02182c325a1dce5575',1,'sw::App']]],
+  ['cursorposition_24',['CursorPosition',['../classsw_1_1Screen.html#a0bf87a2c7e6680747d8a77e4daf466a8',1,'sw::Screen']]],
+  ['customcolors_25',['CustomColors',['../classsw_1_1ColorDialog.html#a1b7af9704cee4a96a8bbc813e126fe9a',1,'sw::ColorDialog']]],
+  ['customformat_26',['CustomFormat',['../classsw_1_1DateTimePicker.html#a02536c45142f088a408d311ef17fde62',1,'sw::DateTimePicker']]]
 ];
