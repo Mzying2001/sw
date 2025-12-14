@@ -17,14 +17,25 @@ if(MSVC)
     # 获取当前继承的编译选项
     get_target_property(_opts sw COMPILE_OPTIONS)
 
-    # 移除可能存在的/utf-8选项
+    # 标记是否存在/utf-8选项
+    set(_has_utf8 FALSE)
+
+    # 检查是否已存在/utf-8
     if(_opts)
-        list(FILTER _opts EXCLUDE REGEX "/utf-8")
-        set_target_properties(sw PROPERTIES COMPILE_OPTIONS "${_opts}")
+        foreach(opt IN LISTS _opts)
+            if(opt MATCHES "(?i)/utf-8")
+                set(_has_utf8 TRUE)
+                break()
+            endif()
+        endforeach()
     endif()
 
     # 添加编译选项
-    target_compile_options(sw PRIVATE /W3 /source-charset:utf-8)
+    if (NOT _has_utf8)
+        target_compile_options(sw PRIVATE /W3 /source-charset:utf-8)
+    else()
+        target_compile_options(sw PRIVATE /W3)
+    endif()
 else()
     # GCC/Clang编译选项
     target_compile_options(sw PRIVATE -Wall -finput-charset=UTF-8)
