@@ -23,7 +23,7 @@ if(MSVC)
     # 检查是否已存在/utf-8
     if(_opts)
         foreach(opt IN LISTS _opts)
-            if(opt MATCHES "(?i)/utf-8")
+            if(opt MATCHES "/[Uu][Tt][Ff]-8")
                 set(_has_utf8 TRUE)
                 break()
             endif()
