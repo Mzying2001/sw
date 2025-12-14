@@ -2730,7 +2730,8 @@ namespace sw
          * @brief 加赋值运算
          */
         template <typename U>
-        typename std::enable_if<_AddOperationHelper<T, U>::value, TDerived &>::type operator+=(U &&value)
+        auto operator+=(U &&value)
+            -> typename std::enable_if<_AddOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() + std::forward<U>(value));
             return *static_cast<TDerived *>(this);
@@ -2740,7 +2741,8 @@ namespace sw
          * @brief 加赋值运算
          */
         template <typename U>
-        typename std::enable_if<_AddOperationHelper<T, U>::value, const TDerived &>::type operator+=(U &&value) const
+        auto operator+=(U &&value) const
+            -> typename std::enable_if<_AddOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() + std::forward<U>(value));
             return *static_cast<const TDerived *>(this);
@@ -2750,7 +2752,8 @@ namespace sw
          * @brief 加赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_AddOperationHelper<T, U>::value, TDerived &>::type operator+=(const PropertyBase<U, D> &prop)
+        auto operator+=(const PropertyBase<U, D> &prop)
+            -> typename std::enable_if<_AddOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() + prop.Get());
             return *static_cast<TDerived *>(this);
@@ -2760,7 +2763,8 @@ namespace sw
          * @brief 加赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_AddOperationHelper<T, U>::value, const TDerived &>::type operator+=(const PropertyBase<U, D> &prop) const
+        auto operator+=(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_AddOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() + prop.Get());
             return *static_cast<const TDerived *>(this);
@@ -2770,7 +2774,8 @@ namespace sw
          * @brief 减赋值运算
          */
         template <typename U>
-        typename std::enable_if<_SubOperationHelper<T, U>::value, TDerived &>::type operator-=(U &&value)
+        auto operator-=(U &&value)
+            -> typename std::enable_if<_SubOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() - std::forward<U>(value));
             return *static_cast<TDerived *>(this);
@@ -2780,7 +2785,8 @@ namespace sw
          * @brief 减赋值运算
          */
         template <typename U>
-        typename std::enable_if<_SubOperationHelper<T, U>::value, const TDerived &>::type operator-=(U &&value) const
+        auto operator-=(U &&value) const
+            -> typename std::enable_if<_SubOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() - std::forward<U>(value));
             return *static_cast<const TDerived *>(this);
@@ -2790,7 +2796,8 @@ namespace sw
          * @brief 减赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_SubOperationHelper<T, U>::value, TDerived &>::type operator-=(const PropertyBase<U, D> &prop)
+        auto operator-=(const PropertyBase<U, D> &prop)
+            -> typename std::enable_if<_SubOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() - prop.Get());
             return *static_cast<TDerived *>(this);
@@ -2800,7 +2807,8 @@ namespace sw
          * @brief 减赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_SubOperationHelper<T, U>::value, const TDerived &>::type operator-=(const PropertyBase<U, D> &prop) const
+        auto operator-=(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_SubOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() - prop.Get());
             return *static_cast<const TDerived *>(this);
@@ -2810,7 +2818,8 @@ namespace sw
          * @brief 乘赋值运算
          */
         template <typename U>
-        typename std::enable_if<_MulOperationHelper<T, U>::value, TDerived &>::type operator*=(U &&value)
+        auto operator*=(U &&value)
+            -> typename std::enable_if<_MulOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() * std::forward<U>(value));
             return *static_cast<TDerived *>(this);
@@ -2820,7 +2829,8 @@ namespace sw
          * @brief 乘赋值运算
          */
         template <typename U>
-        typename std::enable_if<_MulOperationHelper<T, U>::value, const TDerived &>::type operator*=(U &&value) const
+        auto operator*=(U &&value) const
+            -> typename std::enable_if<_MulOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() * std::forward<U>(value));
             return *static_cast<const TDerived *>(this);
@@ -2830,7 +2840,8 @@ namespace sw
          * @brief 乘赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_MulOperationHelper<T, U>::value, TDerived &>::type operator*=(const PropertyBase<U, D> &prop)
+        auto operator*=(const PropertyBase<U, D> &prop)
+            -> typename std::enable_if<_MulOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() * prop.Get());
             return *static_cast<TDerived *>(this);
@@ -2840,7 +2851,8 @@ namespace sw
          * @brief 乘赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_MulOperationHelper<T, U>::value, const TDerived &>::type operator*=(const PropertyBase<U, D> &prop) const
+        auto operator*=(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_MulOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() * prop.Get());
             return *static_cast<const TDerived *>(this);
@@ -2850,7 +2862,8 @@ namespace sw
          * @brief 除赋值运算
          */
         template <typename U>
-        typename std::enable_if<_DivOperationHelper<T, U>::value, TDerived &>::type operator/=(U &&value)
+        auto operator/=(U &&value)
+            -> typename std::enable_if<_DivOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() / std::forward<U>(value));
             return *static_cast<TDerived *>(this);
@@ -2860,7 +2873,8 @@ namespace sw
          * @brief 除赋值运算
          */
         template <typename U>
-        typename std::enable_if<_DivOperationHelper<T, U>::value, const TDerived &>::type operator/=(U &&value) const
+        auto operator/=(U &&value) const
+            -> typename std::enable_if<_DivOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() / std::forward<U>(value));
             return *static_cast<const TDerived *>(this);
@@ -2870,7 +2884,8 @@ namespace sw
          * @brief 除赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_DivOperationHelper<T, U>::value, TDerived &>::type operator/=(const PropertyBase<U, D> &prop)
+        auto operator/=(const PropertyBase<U, D> &prop)
+            -> typename std::enable_if<_DivOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() / prop.Get());
             return *static_cast<TDerived *>(this);
@@ -2880,7 +2895,8 @@ namespace sw
          * @brief 除赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_DivOperationHelper<T, U>::value, const TDerived &>::type operator/=(const PropertyBase<U, D> &prop) const
+        auto operator/=(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_DivOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() / prop.Get());
             return *static_cast<const TDerived *>(this);
@@ -2890,7 +2906,8 @@ namespace sw
          * @brief 前置自增运算
          */
         template <typename U = T>
-        typename std::enable_if<_AddOperationHelper<U, int>::value, TDerived &>::type operator++()
+        auto operator++()
+            -> typename std::enable_if<_AddOperationHelper<U, int>::value, TDerived &>::type
         {
             this->Set(this->Get() + 1);
             return *static_cast<TDerived *>(this);
@@ -2900,7 +2917,8 @@ namespace sw
          * @brief 前置自增运算
          */
         template <typename U = T>
-        typename std::enable_if<_AddOperationHelper<U, int>::value, const TDerived &>::type operator++() const
+        auto operator++() const
+            -> typename std::enable_if<_AddOperationHelper<U, int>::value, const TDerived &>::type
         {
             this->Set(this->Get() + 1);
             return *static_cast<const TDerived *>(this);
@@ -2910,7 +2928,8 @@ namespace sw
          * @brief 前置自减运算
          */
         template <typename U = T>
-        typename std::enable_if<_SubOperationHelper<U, int>::value, TDerived &>::type operator--()
+        auto operator--()
+            -> typename std::enable_if<_SubOperationHelper<U, int>::value, TDerived &>::type
         {
             this->Set(this->Get() - 1);
             return *static_cast<TDerived *>(this);
@@ -2920,7 +2939,8 @@ namespace sw
          * @brief 前置自减运算
          */
         template <typename U = T>
-        typename std::enable_if<_SubOperationHelper<U, int>::value, const TDerived &>::type operator--() const
+        auto operator--() const
+            -> typename std::enable_if<_SubOperationHelper<U, int>::value, const TDerived &>::type
         {
             this->Set(this->Get() - 1);
             return *static_cast<const TDerived *>(this);
@@ -2930,7 +2950,8 @@ namespace sw
          * @brief 后置自增运算
          */
         template <typename U = T>
-        typename std::enable_if<_AddOperationHelper<U, int>::value, T>::type operator++(int) const
+        auto operator++(int) const
+            -> typename std::enable_if<_AddOperationHelper<U, int>::value, T>::type
         {
             T oldval = this->Get();
             this->Set(oldval + 1);
@@ -2941,7 +2962,8 @@ namespace sw
          * @brief 后置自减运算
          */
         template <typename U = T>
-        typename std::enable_if<_SubOperationHelper<U, int>::value, T>::type operator--(int) const
+        auto operator--(int) const
+            -> typename std::enable_if<_SubOperationHelper<U, int>::value, T>::type
         {
             T oldval = this->Get();
             this->Set(oldval - 1);
@@ -2952,7 +2974,8 @@ namespace sw
          * @brief 按位与赋值运算
          */
         template <typename U>
-        typename std::enable_if<_BitAndOperationHelper<T, U>::value, TDerived &>::type operator&=(U &&value)
+        auto operator&=(U &&value)
+            -> typename std::enable_if<_BitAndOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() & std::forward<U>(value));
             return *static_cast<TDerived *>(this);
@@ -2962,7 +2985,8 @@ namespace sw
          * @brief 按位与赋值运算
          */
         template <typename U>
-        typename std::enable_if<_BitAndOperationHelper<T, U>::value, const TDerived &>::type operator&=(U &&value) const
+        auto operator&=(U &&value) const
+            -> typename std::enable_if<_BitAndOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() & std::forward<U>(value));
             return *static_cast<const TDerived *>(this);
@@ -2972,7 +2996,8 @@ namespace sw
          * @brief 按位与赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_BitAndOperationHelper<T, U>::value, TDerived &>::type operator&=(const PropertyBase<U, D> &prop)
+        auto operator&=(const PropertyBase<U, D> &prop)
+            -> typename std::enable_if<_BitAndOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() & prop.Get());
             return *static_cast<TDerived *>(this);
@@ -2982,7 +3007,8 @@ namespace sw
          * @brief 按位与赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_BitAndOperationHelper<T, U>::value, const TDerived &>::type operator&=(const PropertyBase<U, D> &prop) const
+        auto operator&=(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_BitAndOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() & prop.Get());
             return *static_cast<const TDerived *>(this);
@@ -2992,7 +3018,8 @@ namespace sw
          * @brief 按位或赋值运算
          */
         template <typename U>
-        typename std::enable_if<_BitOrOperationHelper<T, U>::value, TDerived &>::type operator|=(U &&value)
+        auto operator|=(U &&value)
+            -> typename std::enable_if<_BitOrOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() | std::forward<U>(value));
             return *static_cast<TDerived *>(this);
@@ -3002,7 +3029,8 @@ namespace sw
          * @brief 按位或赋值运算
          */
         template <typename U>
-        typename std::enable_if<_BitOrOperationHelper<T, U>::value, const TDerived &>::type operator|=(U &&value) const
+        auto operator|=(U &&value) const
+            -> typename std::enable_if<_BitOrOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() | std::forward<U>(value));
             return *static_cast<const TDerived *>(this);
@@ -3012,7 +3040,8 @@ namespace sw
          * @brief 按位或赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_BitOrOperationHelper<T, U>::value, TDerived &>::type operator|=(const PropertyBase<U, D> &prop)
+        auto operator|=(const PropertyBase<U, D> &prop)
+            -> typename std::enable_if<_BitOrOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() | prop.Get());
             return *static_cast<TDerived *>(this);
@@ -3022,7 +3051,8 @@ namespace sw
          * @brief 按位或赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_BitOrOperationHelper<T, U>::value, const TDerived &>::type operator|=(const PropertyBase<U, D> &prop) const
+        auto operator|=(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_BitOrOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() | prop.Get());
             return *static_cast<const TDerived *>(this);
@@ -3032,7 +3062,8 @@ namespace sw
          * @brief 按位异或赋值运算
          */
         template <typename U>
-        typename std::enable_if<_BitXorOperationHelper<T, U>::value, TDerived &>::type operator^=(U &&value)
+        auto operator^=(U &&value)
+            -> typename std::enable_if<_BitXorOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() ^ std::forward<U>(value));
             return *static_cast<TDerived *>(this);
@@ -3042,7 +3073,8 @@ namespace sw
          * @brief 按位异或赋值运算
          */
         template <typename U>
-        typename std::enable_if<_BitXorOperationHelper<T, U>::value, const TDerived &>::type operator^=(U &&value) const
+        auto operator^=(U &&value) const
+            -> typename std::enable_if<_BitXorOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() ^ std::forward<U>(value));
             return *static_cast<const TDerived *>(this);
@@ -3052,7 +3084,8 @@ namespace sw
          * @brief 按位异或赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_BitXorOperationHelper<T, U>::value, TDerived &>::type operator^=(const PropertyBase<U, D> &prop)
+        auto operator^=(const PropertyBase<U, D> &prop)
+            -> typename std::enable_if<_BitXorOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() ^ prop.Get());
             return *static_cast<TDerived *>(this);
@@ -3062,7 +3095,8 @@ namespace sw
          * @brief 按位异或赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_BitXorOperationHelper<T, U>::value, const TDerived &>::type operator^=(const PropertyBase<U, D> &prop) const
+        auto operator^=(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_BitXorOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() ^ prop.Get());
             return *static_cast<const TDerived *>(this);
@@ -3072,7 +3106,8 @@ namespace sw
          * @brief 左移赋值运算
          */
         template <typename U>
-        typename std::enable_if<_ShlOperationHelper<T, U>::value, TDerived &>::type operator<<=(U &&value)
+        auto operator<<=(U &&value)
+            -> typename std::enable_if<_ShlOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() << std::forward<U>(value));
             return *static_cast<TDerived *>(this);
@@ -3082,7 +3117,8 @@ namespace sw
          * @brief 左移赋值运算
          */
         template <typename U>
-        typename std::enable_if<_ShlOperationHelper<T, U>::value, const TDerived &>::type operator<<=(U &&value) const
+        auto operator<<=(U &&value) const
+            -> typename std::enable_if<_ShlOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() << std::forward<U>(value));
             return *static_cast<const TDerived *>(this);
@@ -3092,7 +3128,8 @@ namespace sw
          * @brief 左移赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_ShlOperationHelper<T, U>::value, TDerived &>::type operator<<=(const PropertyBase<U, D> &prop)
+        auto operator<<=(const PropertyBase<U, D> &prop)
+            -> typename std::enable_if<_ShlOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() << prop.Get());
             return *static_cast<TDerived *>(this);
@@ -3102,7 +3139,8 @@ namespace sw
          * @brief 左移赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_ShlOperationHelper<T, U>::value, const TDerived &>::type operator<<=(const PropertyBase<U, D> &prop) const
+        auto operator<<=(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_ShlOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() << prop.Get());
             return *static_cast<const TDerived *>(this);
@@ -3112,7 +3150,8 @@ namespace sw
          * @brief 右移赋值运算
          */
         template <typename U>
-        typename std::enable_if<_ShrOperationHelper<T, U>::value, TDerived &>::type operator>>=(U &&value)
+        auto operator>>=(U &&value)
+            -> typename std::enable_if<_ShrOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() >> std::forward<U>(value));
             return *static_cast<TDerived *>(this);
@@ -3122,7 +3161,8 @@ namespace sw
          * @brief 右移赋值运算
          */
         template <typename U>
-        typename std::enable_if<_ShrOperationHelper<T, U>::value, const TDerived &>::type operator>>=(U &&value) const
+        auto operator>>=(U &&value) const
+            -> typename std::enable_if<_ShrOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() >> std::forward<U>(value));
             return *static_cast<const TDerived *>(this);
@@ -3132,7 +3172,8 @@ namespace sw
          * @brief 右移赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_ShrOperationHelper<T, U>::value, TDerived &>::type operator>>=(const PropertyBase<U, D> &prop)
+        auto operator>>=(const PropertyBase<U, D> &prop)
+            -> typename std::enable_if<_ShrOperationHelper<T, U>::value, TDerived &>::type
         {
             this->Set(this->Get() >> prop.Get());
             return *static_cast<TDerived *>(this);
@@ -3142,7 +3183,8 @@ namespace sw
          * @brief 右移赋值运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_ShrOperationHelper<T, U>::value, const TDerived &>::type operator>>=(const PropertyBase<U, D> &prop) const
+        auto operator>>=(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_ShrOperationHelper<T, U>::value, const TDerived &>::type
         {
             this->Set(this->Get() >> prop.Get());
             return *static_cast<const TDerived *>(this);
@@ -3152,7 +3194,8 @@ namespace sw
          * @brief 逻辑非运算
          */
         template <typename U = T>
-        typename std::enable_if<_LogicNotOperationHelper<U>::value, typename _LogicNotOperationHelper<U>::type>::type operator!() const
+        auto operator!() const
+            -> typename std::enable_if<_LogicNotOperationHelper<U>::value, typename _LogicNotOperationHelper<U>::type>::type
         {
             return !this->Get();
         }
@@ -3161,7 +3204,8 @@ namespace sw
          * @brief 按位非运算
          */
         template <typename U = T>
-        typename std::enable_if<_BitNotOperationHelper<U>::value, typename _BitNotOperationHelper<U>::type>::type operator~() const
+        auto operator~() const
+            -> typename std::enable_if<_BitNotOperationHelper<U>::value, typename _BitNotOperationHelper<U>::type>::type
         {
             return ~this->Get();
         }
@@ -3170,7 +3214,8 @@ namespace sw
          * @brief 解引用运算
          */
         template <typename U = T>
-        typename std::enable_if<_DerefOperationHelper<U>::value, typename _DerefOperationHelper<U>::type>::type operator*() const
+        auto operator*() const
+            -> typename std::enable_if<_DerefOperationHelper<U>::value, typename _DerefOperationHelper<U>::type>::type
         {
             return *this->Get();
         }
@@ -3179,7 +3224,8 @@ namespace sw
          * @brief 地址运算
          */
         template <typename U = T>
-        typename std::enable_if<_AddrOperationHelper<U>::value, typename _AddrOperationHelper<U>::type>::type operator&() const
+        auto operator&() const
+            -> typename std::enable_if<_AddrOperationHelper<U>::value, typename _AddrOperationHelper<U>::type>::type
         {
             return &this->Get();
         }
@@ -3188,7 +3234,8 @@ namespace sw
          * @brief 正号运算
          */
         template <typename U = T>
-        typename std::enable_if<_UnaryPlusOperationHelper<U>::value, typename _UnaryPlusOperationHelper<U>::type>::type operator+() const
+        auto operator+() const
+            -> typename std::enable_if<_UnaryPlusOperationHelper<U>::value, typename _UnaryPlusOperationHelper<U>::type>::type
         {
             return +this->Get();
         }
@@ -3197,7 +3244,8 @@ namespace sw
          * @brief 负号运算
          */
         template <typename U = T>
-        typename std::enable_if<_UnaryMinusOperationHelper<U>::value, typename _UnaryMinusOperationHelper<U>::type>::type operator-() const
+        auto operator-() const
+            -> typename std::enable_if<_UnaryMinusOperationHelper<U>::value, typename _UnaryMinusOperationHelper<U>::type>::type
         {
             return -this->Get();
         }
@@ -3206,7 +3254,8 @@ namespace sw
          * @brief 加法运算
          */
         template <typename U>
-        typename std::enable_if<_AddOperationHelper<T, U>::value, typename _AddOperationHelper<T, U>::type>::type operator+(U &&value) const
+        auto operator+(U &&value) const
+            -> typename std::enable_if<_AddOperationHelper<T, U>::value, typename _AddOperationHelper<T, U>::type>::type
         {
             return this->Get() + std::forward<U>(value);
         }
@@ -3215,7 +3264,8 @@ namespace sw
          * @brief 加法运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_AddOperationHelper<T, U>::value, typename _AddOperationHelper<T, U>::type>::type operator+(const PropertyBase<U, D> &prop) const
+        auto operator+(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_AddOperationHelper<T, U>::value, typename _AddOperationHelper<T, U>::type>::type
         {
             return this->Get() + prop.Get();
         }
@@ -3224,7 +3274,8 @@ namespace sw
          * @brief 减法运算
          */
         template <typename U>
-        typename std::enable_if<_SubOperationHelper<T, U>::value, typename _SubOperationHelper<T, U>::type>::type operator-(U &&value) const
+        auto operator-(U &&value) const
+            -> typename std::enable_if<_SubOperationHelper<T, U>::value, typename _SubOperationHelper<T, U>::type>::type
         {
             return this->Get() - std::forward<U>(value);
         }
@@ -3233,7 +3284,8 @@ namespace sw
          * @brief 减法运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_SubOperationHelper<T, U>::value, typename _SubOperationHelper<T, U>::type>::type operator-(const PropertyBase<U, D> &prop) const
+        auto operator-(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_SubOperationHelper<T, U>::value, typename _SubOperationHelper<T, U>::type>::type
         {
             return this->Get() - prop.Get();
         }
@@ -3242,7 +3294,8 @@ namespace sw
          * @brief 乘法运算
          */
         template <typename U>
-        typename std::enable_if<_MulOperationHelper<T, U>::value, typename _MulOperationHelper<T, U>::type>::type operator*(U &&value) const
+        auto operator*(U &&value) const
+            -> typename std::enable_if<_MulOperationHelper<T, U>::value, typename _MulOperationHelper<T, U>::type>::type
         {
             return this->Get() * std::forward<U>(value);
         }
@@ -3251,7 +3304,8 @@ namespace sw
          * @brief 乘法运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_MulOperationHelper<T, U>::value, typename _MulOperationHelper<T, U>::type>::type operator*(const PropertyBase<U, D> &prop) const
+        auto operator*(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_MulOperationHelper<T, U>::value, typename _MulOperationHelper<T, U>::type>::type
         {
             return this->Get() * prop.Get();
         }
@@ -3260,7 +3314,8 @@ namespace sw
          * @brief 除法运算
          */
         template <typename U>
-        typename std::enable_if<_DivOperationHelper<T, U>::value, typename _DivOperationHelper<T, U>::type>::type operator/(U &&value) const
+        auto operator/(U &&value) const
+            -> typename std::enable_if<_DivOperationHelper<T, U>::value, typename _DivOperationHelper<T, U>::type>::type
         {
             return this->Get() / std::forward<U>(value);
         }
@@ -3269,7 +3324,8 @@ namespace sw
          * @brief 除法运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_DivOperationHelper<T, U>::value, typename _DivOperationHelper<T, U>::type>::type operator/(const PropertyBase<U, D> &prop) const
+        auto operator/(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_DivOperationHelper<T, U>::value, typename _DivOperationHelper<T, U>::type>::type
         {
             return this->Get() / prop.Get();
         }
@@ -3278,7 +3334,8 @@ namespace sw
          * @brief 取模运算
          */
         template <typename U>
-        typename std::enable_if<_ModOperationHelper<T, U>::value, typename _ModOperationHelper<T, U>::type>::type operator%(U &&value) const
+        auto operator%(U &&value) const
+            -> typename std::enable_if<_ModOperationHelper<T, U>::value, typename _ModOperationHelper<T, U>::type>::type
         {
             return this->Get() % std::forward<U>(value);
         }
@@ -3287,7 +3344,8 @@ namespace sw
          * @brief 取模运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_ModOperationHelper<T, U>::value, typename _ModOperationHelper<T, U>::type>::type operator%(const PropertyBase<U, D> &prop) const
+        auto operator%(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_ModOperationHelper<T, U>::value, typename _ModOperationHelper<T, U>::type>::type
         {
             return this->Get() % prop.Get();
         }
@@ -3296,7 +3354,8 @@ namespace sw
          * @brief 等于运算
          */
         template <typename U>
-        typename std::enable_if<_EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type operator==(U &&value) const
+        auto operator==(U &&value) const
+            -> typename std::enable_if<_EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type
         {
             return this->Get() == std::forward<U>(value);
         }
@@ -3305,7 +3364,8 @@ namespace sw
          * @brief 等于运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type operator==(const PropertyBase<U, D> &prop) const
+        auto operator==(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type
         {
             return this->Get() == prop.Get();
         }
@@ -3315,7 +3375,8 @@ namespace sw
          * @note  避免与c++20自动生成的!=冲突，通过==取反实现
          */
         template <typename U>
-        typename std::enable_if<_EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type operator!=(U &&value) const
+        auto operator!=(U &&value) const
+            -> typename std::enable_if<_EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type
         {
             return !(*this == std::forward<U>(value));
         }
@@ -3325,7 +3386,8 @@ namespace sw
          * @note  避免与c++20自动生成的!=冲突，通过==取反实现
          */
         template <typename D, typename U>
-        typename std::enable_if<_EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type operator!=(const PropertyBase<U, D> &prop) const
+        auto operator!=(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type
         {
             return !(*this == prop);
         }
@@ -3334,7 +3396,8 @@ namespace sw
          * @brief 小于运算
          */
         template <typename U>
-        typename std::enable_if<_LtOperationHelper<T, U>::value, typename _LtOperationHelper<T, U>::type>::type operator<(U &&value) const
+        auto operator<(U &&value) const
+            -> typename std::enable_if<_LtOperationHelper<T, U>::value, typename _LtOperationHelper<T, U>::type>::type
         {
             return this->Get() < std::forward<U>(value);
         }
@@ -3343,7 +3406,8 @@ namespace sw
          * @brief 小于运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_LtOperationHelper<T, U>::value, typename _LtOperationHelper<T, U>::type>::type operator<(const PropertyBase<U, D> &prop) const
+        auto operator<(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_LtOperationHelper<T, U>::value, typename _LtOperationHelper<T, U>::type>::type
         {
             return this->Get() < prop.Get();
         }
@@ -3352,7 +3416,8 @@ namespace sw
          * @brief 小于等于运算
          */
         template <typename U>
-        typename std::enable_if<_LeOperationHelper<T, U>::value, typename _LeOperationHelper<T, U>::type>::type operator<=(U &&value) const
+        auto operator<=(U &&value) const
+            -> typename std::enable_if<_LeOperationHelper<T, U>::value, typename _LeOperationHelper<T, U>::type>::type
         {
             return this->Get() <= std::forward<U>(value);
         }
@@ -3361,7 +3426,8 @@ namespace sw
          * @brief 小于等于运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_LeOperationHelper<T, U>::value, typename _LeOperationHelper<T, U>::type>::type operator<=(const PropertyBase<U, D> &prop) const
+        auto operator<=(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_LeOperationHelper<T, U>::value, typename _LeOperationHelper<T, U>::type>::type
         {
             return this->Get() <= prop.Get();
         }
@@ -3370,7 +3436,8 @@ namespace sw
          * @brief 大于运算
          */
         template <typename U>
-        typename std::enable_if<_GtOperationHelper<T, U>::value, typename _GtOperationHelper<T, U>::type>::type operator>(U &&value) const
+        auto operator>(U &&value) const
+            -> typename std::enable_if<_GtOperationHelper<T, U>::value, typename _GtOperationHelper<T, U>::type>::type
         {
             return this->Get() > std::forward<U>(value);
         }
@@ -3379,7 +3446,8 @@ namespace sw
          * @brief 大于运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_GtOperationHelper<T, U>::value, typename _GtOperationHelper<T, U>::type>::type operator>(const PropertyBase<U, D> &prop) const
+        auto operator>(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_GtOperationHelper<T, U>::value, typename _GtOperationHelper<T, U>::type>::type
         {
             return this->Get() > prop.Get();
         }
@@ -3388,7 +3456,8 @@ namespace sw
          * @brief 大于等于运算
          */
         template <typename U>
-        typename std::enable_if<_GeOperationHelper<T, U>::value, typename _GeOperationHelper<T, U>::type>::type operator>=(U &&value) const
+        auto operator>=(U &&value) const
+            -> typename std::enable_if<_GeOperationHelper<T, U>::value, typename _GeOperationHelper<T, U>::type>::type
         {
             return this->Get() >= std::forward<U>(value);
         }
@@ -3397,7 +3466,8 @@ namespace sw
          * @brief 大于等于运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_GeOperationHelper<T, U>::value, typename _GeOperationHelper<T, U>::type>::type operator>=(const PropertyBase<U, D> &prop) const
+        auto operator>=(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_GeOperationHelper<T, U>::value, typename _GeOperationHelper<T, U>::type>::type
         {
             return this->Get() >= prop.Get();
         }
@@ -3406,7 +3476,8 @@ namespace sw
          * @brief 按位与运算
          */
         template <typename U>
-        typename std::enable_if<_BitAndOperationHelper<T, U>::value, typename _BitAndOperationHelper<T, U>::type>::type operator&(U &&value) const
+        auto operator&(U &&value) const
+            -> typename std::enable_if<_BitAndOperationHelper<T, U>::value, typename _BitAndOperationHelper<T, U>::type>::type
         {
             return this->Get() & std::forward<U>(value);
         }
@@ -3415,7 +3486,8 @@ namespace sw
          * @brief 按位与运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_BitAndOperationHelper<T, U>::value, typename _BitAndOperationHelper<T, U>::type>::type operator&(const PropertyBase<U, D> &prop) const
+        auto operator&(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_BitAndOperationHelper<T, U>::value, typename _BitAndOperationHelper<T, U>::type>::type
         {
             return this->Get() & prop.Get();
         }
@@ -3424,7 +3496,8 @@ namespace sw
          * @brief 按位或运算
          */
         template <typename U>
-        typename std::enable_if<_BitOrOperationHelper<T, U>::value, typename _BitOrOperationHelper<T, U>::type>::type operator|(U &&value) const
+        auto operator|(U &&value) const
+            -> typename std::enable_if<_BitOrOperationHelper<T, U>::value, typename _BitOrOperationHelper<T, U>::type>::type
         {
             return this->Get() | std::forward<U>(value);
         }
@@ -3433,7 +3506,8 @@ namespace sw
          * @brief 按位或运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_BitOrOperationHelper<T, U>::value, typename _BitOrOperationHelper<T, U>::type>::type operator|(const PropertyBase<U, D> &prop) const
+        auto operator|(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_BitOrOperationHelper<T, U>::value, typename _BitOrOperationHelper<T, U>::type>::type
         {
             return this->Get() | prop.Get();
         }
@@ -3442,7 +3516,8 @@ namespace sw
          * @brief 按位异或运算
          */
         template <typename U>
-        typename std::enable_if<_BitXorOperationHelper<T, U>::value, typename _BitXorOperationHelper<T, U>::type>::type operator^(U &&value) const
+        auto operator^(U &&value) const
+            -> typename std::enable_if<_BitXorOperationHelper<T, U>::value, typename _BitXorOperationHelper<T, U>::type>::type
         {
             return this->Get() ^ std::forward<U>(value);
         }
@@ -3451,7 +3526,8 @@ namespace sw
          * @brief 按位异或运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_BitXorOperationHelper<T, U>::value, typename _BitXorOperationHelper<T, U>::type>::type operator^(const PropertyBase<U, D> &prop) const
+        auto operator^(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_BitXorOperationHelper<T, U>::value, typename _BitXorOperationHelper<T, U>::type>::type
         {
             return this->Get() ^ prop.Get();
         }
@@ -3460,7 +3536,8 @@ namespace sw
          * @brief 左移运算
          */
         template <typename U>
-        typename std::enable_if<_ShlOperationHelper<T, U>::value, typename _ShlOperationHelper<T, U>::type>::type operator<<(U &&value) const
+        auto operator<<(U &&value) const
+            -> typename std::enable_if<_ShlOperationHelper<T, U>::value, typename _ShlOperationHelper<T, U>::type>::type
         {
             return this->Get() << std::forward<U>(value);
         }
@@ -3469,7 +3546,8 @@ namespace sw
          * @brief 左移运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_ShlOperationHelper<T, U>::value, typename _ShlOperationHelper<T, U>::type>::type operator<<(const PropertyBase<U, D> &prop) const
+        auto operator<<(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_ShlOperationHelper<T, U>::value, typename _ShlOperationHelper<T, U>::type>::type
         {
             return this->Get() << prop.Get();
         }
@@ -3478,7 +3556,8 @@ namespace sw
          * @brief 右移运算
          */
         template <typename U>
-        typename std::enable_if<_ShrOperationHelper<T, U>::value, typename _ShrOperationHelper<T, U>::type>::type operator>>(U &&value) const
+        auto operator>>(U &&value) const
+            -> typename std::enable_if<_ShrOperationHelper<T, U>::value, typename _ShrOperationHelper<T, U>::type>::type
         {
             return this->Get() >> std::forward<U>(value);
         }
@@ -3487,7 +3566,8 @@ namespace sw
          * @brief 右移运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_ShrOperationHelper<T, U>::value, typename _ShrOperationHelper<T, U>::type>::type operator>>(const PropertyBase<U, D> &prop) const
+        auto operator>>(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_ShrOperationHelper<T, U>::value, typename _ShrOperationHelper<T, U>::type>::type
         {
             return this->Get() >> prop.Get();
         }
@@ -3496,7 +3576,8 @@ namespace sw
          * @brief 逻辑与运算
          */
         template <typename U>
-        typename std::enable_if<_LogicAndOperationHelper<T, U>::value, typename _LogicAndOperationHelper<T, U>::type>::type operator&&(U &&value) const
+        auto operator&&(U &&value) const
+            -> typename std::enable_if<_LogicAndOperationHelper<T, U>::value, typename _LogicAndOperationHelper<T, U>::type>::type
         {
             return this->Get() && std::forward<U>(value);
         }
@@ -3505,7 +3586,8 @@ namespace sw
          * @brief 逻辑与运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_LogicAndOperationHelper<T, U>::value, typename _LogicAndOperationHelper<T, U>::type>::type operator&&(const PropertyBase<U, D> &prop) const
+        auto operator&&(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_LogicAndOperationHelper<T, U>::value, typename _LogicAndOperationHelper<T, U>::type>::type
         {
             return this->Get() && prop.Get();
         }
@@ -3514,7 +3596,8 @@ namespace sw
          * @brief 逻辑或运算
          */
         template <typename U>
-        typename std::enable_if<_LogicOrOperationHelper<T, U>::value, typename _LogicOrOperationHelper<T, U>::type>::type operator||(U &&value) const
+        auto operator||(U &&value) const
+            -> typename std::enable_if<_LogicOrOperationHelper<T, U>::value, typename _LogicOrOperationHelper<T, U>::type>::type
         {
             return this->Get() || std::forward<U>(value);
         }
@@ -3523,7 +3606,8 @@ namespace sw
          * @brief 逻辑或运算
          */
         template <typename D, typename U>
-        typename std::enable_if<_LogicOrOperationHelper<T, U>::value, typename _LogicOrOperationHelper<T, U>::type>::type operator||(const PropertyBase<U, D> &prop) const
+        auto operator||(const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<_LogicOrOperationHelper<T, U>::value, typename _LogicOrOperationHelper<T, U>::type>::type
         {
             return this->Get() || prop.Get();
         }
@@ -3532,11 +3616,11 @@ namespace sw
          * @brief 下标运算
          */
         template <typename U>
-        typename std::enable_if<
-            _BracketOperationHelper<T, U>::value &&
-                !std::is_reference<typename _BracketOperationHelper<T, U>::type>::value,
-            typename _BracketOperationHelper<T, U>::type>::type
-        operator[](U &&value) const
+        auto operator[](U &&value) const
+            -> typename std::enable_if<
+                _BracketOperationHelper<T, U>::value &&
+                    !std::is_reference<typename _BracketOperationHelper<T, U>::type>::value,
+                typename _BracketOperationHelper<T, U>::type>::type
         {
             return this->Get()[std::forward<U>(value)];
         }
@@ -3545,11 +3629,11 @@ namespace sw
          * @brief 下标运算
          */
         template <typename D, typename U>
-        typename std::enable_if<
-            _BracketOperationHelper<T, U>::value &&
-                !std::is_reference<typename _BracketOperationHelper<T, U>::type>::value,
-            typename _BracketOperationHelper<T, U>::type>::type
-        operator[](const PropertyBase<U, D> &prop) const
+        auto operator[](const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<
+                _BracketOperationHelper<T, U>::value &&
+                    !std::is_reference<typename _BracketOperationHelper<T, U>::type>::value,
+                typename _BracketOperationHelper<T, U>::type>::type
         {
             return this->Get()[prop.Get()];
         }
@@ -3558,10 +3642,10 @@ namespace sw
          * @brief 指针下标运算
          */
         template <typename U>
-        typename std::enable_if<
-            _BracketOperationHelper<T, U>::value && std::is_pointer<T>::value,
-            typename _BracketOperationHelper<T, U>::type>::type
-        operator[](U &&value) const
+        auto operator[](U &&value) const
+            -> typename std::enable_if<
+                _BracketOperationHelper<T, U>::value && std::is_pointer<T>::value,
+                typename _BracketOperationHelper<T, U>::type>::type
         {
             return this->Get()[std::forward<U>(value)];
         }
@@ -3570,10 +3654,10 @@ namespace sw
          * @brief 指针下标运算
          */
         template <typename D, typename U>
-        typename std::enable_if<
-            _BracketOperationHelper<T, U>::value && std::is_pointer<T>::value,
-            typename _BracketOperationHelper<T, U>::type>::type
-        operator[](const PropertyBase<U, D> &prop) const
+        auto operator[](const PropertyBase<U, D> &prop) const
+            -> typename std::enable_if<
+                _BracketOperationHelper<T, U>::value && std::is_pointer<T>::value,
+                typename _BracketOperationHelper<T, U>::type>::type
         {
             return this->Get()[prop.Get()];
         }
@@ -3582,7 +3666,8 @@ namespace sw
         /**
          * @brief 静态属性偏移量标记
          */
-        static constexpr std::ptrdiff_t _STATICOFFSET = (std::numeric_limits<std::ptrdiff_t>::max)();
+        static constexpr std::ptrdiff_t _STATICOFFSET =
+            (std::numeric_limits<std::ptrdiff_t>::max)();
 
         /**
          * @brief 所有者对象相对于当前属性对象的偏移量
@@ -3646,8 +3731,8 @@ namespace sw
      * @brief 加法运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _AddOperationHelper<T, U>::value, typename _AddOperationHelper<T, U>::type>::type
-    operator+(T &&left, const PropertyBase<U, D> &right)
+    auto operator+(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _AddOperationHelper<T, U>::value, typename _AddOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) + right.Get();
     }
@@ -3656,8 +3741,8 @@ namespace sw
      * @brief 减法运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _SubOperationHelper<T, U>::value, typename _SubOperationHelper<T, U>::type>::type
-    operator-(T &&left, const PropertyBase<U, D> &right)
+    auto operator-(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _SubOperationHelper<T, U>::value, typename _SubOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) - right.Get();
     }
@@ -3666,8 +3751,8 @@ namespace sw
      * @brief 乘法运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _MulOperationHelper<T, U>::value, typename _MulOperationHelper<T, U>::type>::type
-    operator*(T &&left, const PropertyBase<U, D> &right)
+    auto operator*(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _MulOperationHelper<T, U>::value, typename _MulOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) * right.Get();
     }
@@ -3676,8 +3761,8 @@ namespace sw
      * @brief 除法运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _DivOperationHelper<T, U>::value, typename _DivOperationHelper<T, U>::type>::type
-    operator/(T &&left, const PropertyBase<U, D> &right)
+    auto operator/(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _DivOperationHelper<T, U>::value, typename _DivOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) / right.Get();
     }
@@ -3686,8 +3771,8 @@ namespace sw
      * @brief 取模运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _ModOperationHelper<T, U>::value, typename _ModOperationHelper<T, U>::type>::type
-    operator%(T &&left, const PropertyBase<U, D> &right)
+    auto operator%(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _ModOperationHelper<T, U>::value, typename _ModOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) % right.Get();
     }
@@ -3696,8 +3781,8 @@ namespace sw
      * @brief 等于运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type
-    operator==(T &&left, const PropertyBase<U, D> &right)
+    auto operator==(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) == right.Get();
     }
@@ -3707,8 +3792,8 @@ namespace sw
      * @note  避免与c++20自动生成的!=冲突，通过==取反实现
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type
-    operator!=(T &&left, const PropertyBase<U, D> &right)
+    auto operator!=(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _EqOperationHelper<T, U>::value, typename _EqOperationHelper<T, U>::type>::type
     {
         return !(std::forward<T>(left) == right);
     }
@@ -3717,8 +3802,8 @@ namespace sw
      * @brief 小于运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _LtOperationHelper<T, U>::value, typename _LtOperationHelper<T, U>::type>::type
-    operator<(T &&left, const PropertyBase<U, D> &right)
+    auto operator<(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _LtOperationHelper<T, U>::value, typename _LtOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) < right.Get();
     }
@@ -3727,8 +3812,8 @@ namespace sw
      * @brief 小于等于运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _LeOperationHelper<T, U>::value, typename _LeOperationHelper<T, U>::type>::type
-    operator<=(T &&left, const PropertyBase<U, D> &right)
+    auto operator<=(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _LeOperationHelper<T, U>::value, typename _LeOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) <= right.Get();
     }
@@ -3737,8 +3822,8 @@ namespace sw
      * @brief 大于运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _GtOperationHelper<T, U>::value, typename _GtOperationHelper<T, U>::type>::type
-    operator>(T &&left, const PropertyBase<U, D> &right)
+    auto operator>(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _GtOperationHelper<T, U>::value, typename _GtOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) > right.Get();
     }
@@ -3747,8 +3832,8 @@ namespace sw
      * @brief 大于等于运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _GeOperationHelper<T, U>::value, typename _GeOperationHelper<T, U>::type>::type
-    operator>=(T &&left, const PropertyBase<U, D> &right)
+    auto operator>=(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _GeOperationHelper<T, U>::value, typename _GeOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) >= right.Get();
     }
@@ -3757,8 +3842,8 @@ namespace sw
      * @brief 按位与运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _BitAndOperationHelper<T, U>::value, typename _BitAndOperationHelper<T, U>::type>::type
-    operator&(T &&left, const PropertyBase<U, D> &right)
+    auto operator&(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _BitAndOperationHelper<T, U>::value, typename _BitAndOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) & right.Get();
     }
@@ -3767,8 +3852,8 @@ namespace sw
      * @brief 按位或运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _BitOrOperationHelper<T, U>::value, typename _BitOrOperationHelper<T, U>::type>::type
-    operator|(T &&left, const PropertyBase<U, D> &right)
+    auto operator|(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _BitOrOperationHelper<T, U>::value, typename _BitOrOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) | right.Get();
     }
@@ -3777,8 +3862,8 @@ namespace sw
      * @brief 按位异或运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _BitXorOperationHelper<T, U>::value, typename _BitXorOperationHelper<T, U>::type>::type
-    operator^(T &&left, const PropertyBase<U, D> &right)
+    auto operator^(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _BitXorOperationHelper<T, U>::value, typename _BitXorOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) ^ right.Get();
     }
@@ -3787,8 +3872,8 @@ namespace sw
      * @brief 左移运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _ShlOperationHelper<T, U>::value, typename _ShlOperationHelper<T, U>::type>::type
-    operator<<(T &&left, const PropertyBase<U, D> &right)
+    auto operator<<(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _ShlOperationHelper<T, U>::value, typename _ShlOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) << right.Get();
     }
@@ -3797,8 +3882,8 @@ namespace sw
      * @brief 右移运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _ShrOperationHelper<T, U>::value, typename _ShrOperationHelper<T, U>::type>::type
-    operator>>(T &&left, const PropertyBase<U, D> &right)
+    auto operator>>(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _ShrOperationHelper<T, U>::value, typename _ShrOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) >> right.Get();
     }
@@ -3807,8 +3892,8 @@ namespace sw
      * @brief 逻辑与运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _LogicAndOperationHelper<T, U>::value, typename _LogicAndOperationHelper<T, U>::type>::type
-    operator&&(T &&left, const PropertyBase<U, D> &right)
+    auto operator&&(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _LogicAndOperationHelper<T, U>::value, typename _LogicAndOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) && right.Get();
     }
@@ -3817,8 +3902,8 @@ namespace sw
      * @brief 逻辑或运算
      */
     template <typename D, typename T, typename U>
-    typename std::enable_if<!_IsProperty<T>::value && _LogicOrOperationHelper<T, U>::value, typename _LogicOrOperationHelper<T, U>::type>::type
-    operator||(T &&left, const PropertyBase<U, D> &right)
+    auto operator||(T &&left, const PropertyBase<U, D> &right)
+        -> typename std::enable_if<!_IsProperty<T>::value && _LogicOrOperationHelper<T, U>::value, typename _LogicOrOperationHelper<T, U>::type>::type
     {
         return std::forward<T>(left) || right.Get();
     }
@@ -11196,8 +11281,9 @@ namespace sw
          * @brief           注册路由事件处理函数，当事件已注册时会覆盖已注册的函数
          * @param eventType 路由事件类型
          * @param handler   处理函数，当值为nullptr时可取消注册
-         * @deprecated      建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数
+         * @deprecated      使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
+        [[deprecated("Use AddHandler instead to avoid overwriting existing event handlers.")]]
         void RegisterRoutedEvent(RoutedEventType eventType, const RoutedEventHandler &handler);
 
         /**
@@ -11938,8 +12024,8 @@ namespace sw
          * @note   添加的子元素必须与当前元素在同一线程创建
          */
         template <typename First, typename... Rest>
-        typename std::enable_if<_CanAddChildren<First, Rest...>::value, int>::type
-        AddChildren(First &&first, Rest &&...rest)
+        auto AddChildren(First &&first, Rest &&...rest)
+            -> typename std::enable_if<_CanAddChildren<First, Rest...>::value, int>::type
         {
             int count = 0;
             if (this->AddChild(std::forward<First>(first)))
@@ -11954,8 +12040,8 @@ namespace sw
          * @note   添加的子元素必须与当前元素在同一线程创建
          */
         template <typename T>
-        typename std::enable_if<_CanAddChild<T>::value, int>::type
-        AddChildren(T &&child)
+        auto AddChildren(T &&child)
+            -> typename std::enable_if<_CanAddChild<T>::value, int>::type
         {
             return this->AddChild(std::forward<T>(child)) ? 1 : 0;
         }
@@ -11966,9 +12052,10 @@ namespace sw
          * @param eventType 路由事件类型
          * @param obj       注册的成员函数所在的对象
          * @param handler   处理函数，当值为nullptr时可取消注册
-         * @deprecated      建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数
+         * @deprecated      使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         template <typename T>
+        [[deprecated("Use AddHandler instead to avoid overwriting existing event handlers.")]]
         void RegisterRoutedEvent(RoutedEventType eventType, T &obj, void (T::*handler)(UIElement &, RoutedEventArgs &))
         {
             if (handler == nullptr) {
@@ -11982,11 +12069,12 @@ namespace sw
          * @brief             根据事件参数类型注册路由事件，当事件已注册时会覆盖已注册的函数
          * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
          * @param handler     事件的处理函数，当值为nullptr时可取消注册
-         * @deprecated        建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数
+         * @deprecated        使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         template <typename TEventArgs>
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
-        RegisterRoutedEvent(const Action<UIElement &, TEventArgs &> &handler)
+        [[deprecated("Use AddHandler instead to avoid overwriting existing event handlers.")]]
+        auto RegisterRoutedEvent(const Action<UIElement &, TEventArgs &> &handler)
+            -> typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
         {
             if (!handler) {
                 this->UnregisterRoutedEvent(TEventArgs::EventType);
@@ -12001,11 +12089,12 @@ namespace sw
          * @tparam THandleObj 成员函数所在的类
          * @param obj         注册的成员函数所在的对象
          * @param handler     事件的处理函数，当值为nullptr时可取消注册
-         * @deprecated        建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数
+         * @deprecated        使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         template <typename TEventArgs, typename THandleObj>
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
-        RegisterRoutedEvent(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        [[deprecated("Use AddHandler instead to avoid overwriting existing event handlers.")]]
+        auto RegisterRoutedEvent(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+            -> typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
         {
             if (handler == nullptr) {
                 this->UnregisterRoutedEvent(TEventArgs::EventType);
@@ -12033,8 +12122,8 @@ namespace sw
          * @param handler     事件的处理函数
          */
         template <typename TEventArgs>
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
-        AddHandler(const Action<UIElement &, TEventArgs &> &handler)
+        auto AddHandler(const Action<UIElement &, TEventArgs &> &handler)
+            -> typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
         {
             if (handler) this->AddHandler(TEventArgs::EventType, RoutedEventHandlerWrapper<TEventArgs>(handler));
         }
@@ -12047,8 +12136,8 @@ namespace sw
          * @param handler     事件的处理函数
          */
         template <typename TEventArgs, typename THandleObj>
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
-        AddHandler(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        auto AddHandler(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+            -> typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
         {
             if (handler) this->AddHandler(TEventArgs::EventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
         }
@@ -12060,11 +12149,11 @@ namespace sw
          * @param handler     处理函数
          */
         template <typename TEventArgs>
-        typename std::enable_if<
-            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
-            !std::is_same<TEventArgs, RoutedEventArgs>::value &&
-            !sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
-        AddHandler(RoutedEventType eventType, const Action<UIElement &, TEventArgs &> &handler)
+        auto AddHandler(RoutedEventType eventType, const Action<UIElement &, TEventArgs &> &handler)
+            -> typename std::enable_if<
+                std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+                !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+                !sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
         {
             if (handler) this->AddHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(handler));
         }
@@ -12078,11 +12167,11 @@ namespace sw
          * @param handler     处理函数
          */
         template <typename TEventArgs, typename THandleObj>
-        typename std::enable_if<
-            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
-            !std::is_same<TEventArgs, RoutedEventArgs>::value &&
-            !sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
-        AddHandler(RoutedEventType eventType, THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        auto AddHandler(RoutedEventType eventType, THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+            -> typename std::enable_if<
+                std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+                !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+                !sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
         {
             if (handler) this->AddHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
         }
@@ -12108,8 +12197,8 @@ namespace sw
          * @return            是否成功移除
          */
         template <typename TEventArgs>
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value, bool>::type
-        RemoveHandler(const Action<UIElement &, TEventArgs &> &handler)
+        auto RemoveHandler(const Action<UIElement &, TEventArgs &> &handler)
+            -> typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value, bool>::type
         {
             if (handler == nullptr) {
                 return false;
@@ -12127,8 +12216,8 @@ namespace sw
          * @return            是否成功移除
          */
         template <typename TEventArgs, typename THandleObj>
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value, bool>::type
-        RemoveHandler(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        auto RemoveHandler(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+            -> typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value, bool>::type
         {
             if (handler == nullptr) {
                 return false;
@@ -12145,12 +12234,12 @@ namespace sw
          * @return            是否成功移除
          */
         template <typename TEventArgs>
-        typename std::enable_if<
-            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
-                !std::is_same<TEventArgs, RoutedEventArgs>::value &&
-                !sw::_IsTypedRoutedEventArgs<TEventArgs>::value,
-            bool>::type
-        RemoveHandler(RoutedEventType eventType, const Action<UIElement &, TEventArgs &> &handler)
+        auto RemoveHandler(RoutedEventType eventType, const Action<UIElement &, TEventArgs &> &handler)
+            -> typename std::enable_if<
+                std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+                    !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+                    !sw::_IsTypedRoutedEventArgs<TEventArgs>::value,
+                bool>::type
         {
             if (handler == nullptr) {
                 return false;
@@ -12169,12 +12258,12 @@ namespace sw
          * @return            是否成功移除
          */
         template <typename TEventArgs, typename THandleObj>
-        typename std::enable_if<
-            std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
-                !std::is_same<TEventArgs, RoutedEventArgs>::value &&
-                !sw::_IsTypedRoutedEventArgs<TEventArgs>::value,
-            bool>::type
-        RemoveHandler(RoutedEventType eventType, THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+        auto RemoveHandler(RoutedEventType eventType, THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
+            -> typename std::enable_if<
+                std::is_base_of<RoutedEventArgs, TEventArgs>::value &&
+                    !std::is_same<TEventArgs, RoutedEventArgs>::value &&
+                    !sw::_IsTypedRoutedEventArgs<TEventArgs>::value,
+                bool>::type
         {
             if (handler == nullptr) {
                 return false;
@@ -14666,7 +14755,8 @@ namespace sw
          * @brief 设置窗口的默认布局方式
          */
         template <typename TLayout>
-        typename std::enable_if<std::is_base_of<LayoutHost, TLayout>::value>::type SetLayout()
+        auto SetLayout()
+            -> typename std::enable_if<std::is_base_of<LayoutHost, TLayout>::value>::type
         {
             auto layout = std::make_unique<TLayout>();
             layout->Associate(this);
@@ -18182,7 +18272,8 @@ namespace sw
          * @brief 设置默认布局方式
          */
         template <typename TLayout>
-        typename std::enable_if<std::is_base_of<LayoutHost, TLayout>::value>::type SetLayout()
+        auto SetLayout()
+            -> typename std::enable_if<std::is_base_of<LayoutHost, TLayout>::value>::type
         {
             auto layout = std::make_unique<TLayout>();
             layout->Associate(this);
