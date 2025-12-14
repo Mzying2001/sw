@@ -7624,13 +7624,13 @@ namespace sw
     // clang-format off
 
     /**
-     * @brief       表示特定类型路由事件的事件参数类型，继承自该类的类型可以直接作为RegisterRoutedEvent函数的模板参数
+     * @brief 表示特定类型路由事件的事件参数类型，继承自该类的类型可以直接作为AddHandler函数的模板参数
      * @tparam TYPE 一个RoutedEventType枚举值，表示路由事件类型
      */
     template <RoutedEventType TYPE>
     struct TypedRoutedEventArgs : RoutedEventArgs {
         /**
-         * @brief 路由事件的类型，RegisterRoutedEvent模板函数使用此字段注册事件
+         * @brief 路由事件的类型，AddHandler模板函数使用此字段注册事件
          */
         static constexpr RoutedEventType EventType = TYPE;
 
