@@ -130,33 +130,34 @@ $(document).ready(function(){initNavTree('GroupBox_8h_source.html',''); initResi
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keyword">public</span>:</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TLayout&gt;</div>
 <div class="foldopen" id="foldopen00073" data-start="{" data-end="}">
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classsw_1_1GroupBox.html#a4369a8057e0a25ec8ab83876fea94754">   73</a></span>        <span class="keyword">typename</span> std::enable_if&lt;std::is_base_of&lt;LayoutHost, TLayout&gt;::value&gt;::type <a class="code hl_function" href="classsw_1_1GroupBox.html#a4369a8057e0a25ec8ab83876fea94754">SetLayout</a>()</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        {</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <span class="keyword">auto</span> layout = std::make_unique&lt;TLayout&gt;();</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            layout-&gt;Associate(<span class="keyword">this</span>);</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            _defaultLayout = std::move(layout);</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            <a class="code hl_function" href="classsw_1_1UIElement.html#afea960f1d4f8148b4807d2121f32a6c1">InvalidateMeasure</a>();</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        }</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classsw_1_1GroupBox.html#a2cd78a61ada6d6d84283c84d33e8ec13">   73</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1GroupBox.html#a2cd78a61ada6d6d84283c84d33e8ec13">SetLayout</a>()</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            -&gt; <span class="keyword">typename</span> std::enable_if&lt;std::is_base_of&lt;LayoutHost, TLayout&gt;::value&gt;::type</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        {</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            <span class="keyword">auto</span> layout = std::make_unique&lt;TLayout&gt;();</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            layout-&gt;Associate(<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            _defaultLayout = std::move(layout);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            <a class="code hl_function" href="classsw_1_1UIElement.html#afea960f1d4f8148b4807d2121f32a6c1">InvalidateMeasure</a>();</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        }</div>
 </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keyword">template</span> &lt;std::<span class="keywordtype">nullptr</span>_t&gt;</div>
-<div class="foldopen" id="foldopen00085" data-start="{" data-end="}">
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classsw_1_1GroupBox.html#a57d54cae427edb43cb05981b31d4164a">   85</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1GroupBox.html#a57d54cae427edb43cb05981b31d4164a">SetLayout</a>()</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        {</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            _defaultLayout.reset(<span class="keyword">nullptr</span>);</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            <a class="code hl_function" href="classsw_1_1UIElement.html#afea960f1d4f8148b4807d2121f32a6c1">InvalidateMeasure</a>();</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        }</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keyword">template</span> &lt;std::<span class="keywordtype">nullptr</span>_t&gt;</div>
+<div class="foldopen" id="foldopen00086" data-start="{" data-end="}">
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="classsw_1_1GroupBox.html#a57d54cae427edb43cb05981b31d4164a">   86</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1GroupBox.html#a57d54cae427edb43cb05981b31d4164a">SetLayout</a>()</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            _defaultLayout.reset(<span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            <a class="code hl_function" href="classsw_1_1UIElement.html#afea960f1d4f8148b4807d2121f32a6c1">InvalidateMeasure</a>();</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        }</div>
 </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keywordtype">void</span> _UpdateTextSize();</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    };</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <span class="keywordtype">void</span> _UpdateTextSize();</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    };</div>
 </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>}</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>}</div>
 <div class="ttc" id="aclasssw_1_1GroupBox_html"><div class="ttname"><a href="classsw_1_1GroupBox.html">sw::GroupBox</a></div><div class="ttdoc">组合框</div><div class="ttdef"><b>Definition</b> GroupBox.h:11</div></div>
-<div class="ttc" id="aclasssw_1_1GroupBox_html_a4369a8057e0a25ec8ab83876fea94754"><div class="ttname"><a href="classsw_1_1GroupBox.html#a4369a8057e0a25ec8ab83876fea94754">sw::GroupBox::SetLayout</a></div><div class="ttdeci">std::enable_if&lt; std::is_base_of&lt; LayoutHost, TLayout &gt;::value &gt;::type SetLayout()</div><div class="ttdoc">设置默认布局方式</div><div class="ttdef"><b>Definition</b> GroupBox.h:73</div></div>
+<div class="ttc" id="aclasssw_1_1GroupBox_html_a2cd78a61ada6d6d84283c84d33e8ec13"><div class="ttname"><a href="classsw_1_1GroupBox.html#a2cd78a61ada6d6d84283c84d33e8ec13">sw::GroupBox::SetLayout</a></div><div class="ttdeci">auto SetLayout() -&gt; typename std::enable_if&lt; std::is_base_of&lt; LayoutHost, TLayout &gt;::value &gt;::type</div><div class="ttdoc">设置默认布局方式</div><div class="ttdef"><b>Definition</b> GroupBox.h:73</div></div>
 <div class="ttc" id="aclasssw_1_1GroupBox_html_a4d0d1b3d91f4b6ba8657a7a36f66eb9c"><div class="ttname"><a href="classsw_1_1GroupBox.html#a4d0d1b3d91f4b6ba8657a7a36f66eb9c">sw::GroupBox::OnTextChanged</a></div><div class="ttdeci">virtual void OnTextChanged() override</div><div class="ttdoc">Text属性更改时调用此函数</div></div>
-<div class="ttc" id="aclasssw_1_1GroupBox_html_a57d54cae427edb43cb05981b31d4164a"><div class="ttname"><a href="classsw_1_1GroupBox.html#a57d54cae427edb43cb05981b31d4164a">sw::GroupBox::SetLayout</a></div><div class="ttdeci">void SetLayout()</div><div class="ttdoc">取消通过SetLayout设置的布局方式</div><div class="ttdef"><b>Definition</b> GroupBox.h:85</div></div>
+<div class="ttc" id="aclasssw_1_1GroupBox_html_a57d54cae427edb43cb05981b31d4164a"><div class="ttname"><a href="classsw_1_1GroupBox.html#a57d54cae427edb43cb05981b31d4164a">sw::GroupBox::SetLayout</a></div><div class="ttdeci">void SetLayout()</div><div class="ttdoc">取消通过SetLayout设置的布局方式</div><div class="ttdef"><b>Definition</b> GroupBox.h:86</div></div>
 <div class="ttc" id="aclasssw_1_1GroupBox_html_a6241500d4cd923499613dc0162a38275"><div class="ttname"><a href="classsw_1_1GroupBox.html#a6241500d4cd923499613dc0162a38275">sw::GroupBox::GroupBox</a></div><div class="ttdeci">GroupBox()</div><div class="ttdoc">初始化组合框</div></div>
 <div class="ttc" id="aclasssw_1_1GroupBox_html_a6744ce46841a0348494df0ae9f4e56fb"><div class="ttname"><a href="classsw_1_1GroupBox.html#a6744ce46841a0348494df0ae9f4e56fb">sw::GroupBox::SetTextColor</a></div><div class="ttdeci">virtual void SetTextColor(Color color, bool redraw) override</div><div class="ttdoc">设置文本颜色</div></div>
 <div class="ttc" id="aclasssw_1_1GroupBox_html_a6e799dffb07ae89efdb53428d2602778"><div class="ttname"><a href="classsw_1_1GroupBox.html#a6e799dffb07ae89efdb53428d2602778">sw::GroupBox::SetBackColor</a></div><div class="ttdeci">virtual void SetBackColor(Color color, bool redraw) override</div><div class="ttdoc">设置背景颜色</div></div>

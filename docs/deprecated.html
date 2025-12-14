@@ -94,13 +94,13 @@ $(document).ready(function(){initNavTree('deprecated.html',''); initResizable();
 <div class="contents">
 <div class="textblock"><dl class="reflist">
 <dt>成员 <a class="el" href="classsw_1_1UIElement.html#a2cfb72d4ea1966ec455e7805f0931205">sw::UIElement::RegisterRoutedEvent</a>  (RoutedEventType eventType, const RoutedEventHandler &amp;handler)</dt>
-<dd><a class="anchor" id="_deprecated000001"></a>建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数  </dd>
+<dd><a class="anchor" id="_deprecated000001"></a>使用AddHandler函数代替以避免覆盖已注册的事件处理函数  </dd>
 <dt>成员 <a class="el" href="classsw_1_1UIElement.html#a09946400c66a4bfd34cfb8918652a34a">sw::UIElement::RegisterRoutedEvent</a>  (RoutedEventType eventType, T &amp;obj, void(T::*handler)(<a class="el" href="classsw_1_1UIElement.html" title="表示界面中的元素">UIElement</a> &amp;, <a class="el" href="structsw_1_1RoutedEventArgs.html" title="路由事件的参数">RoutedEventArgs</a> &amp;))</dt>
-<dd><a class="anchor" id="_deprecated000002"></a>建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数  </dd>
-<dt>成员 <a class="el" href="classsw_1_1UIElement.html#a2b9301a84ed462c3c1968b0bc95ed4c9">sw::UIElement::RegisterRoutedEvent</a>  (const Action&lt; UIElement &amp;, TEventArgs &amp; &gt; &amp;handler)</dt>
-<dd><a class="anchor" id="_deprecated000003"></a>建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数  </dd>
-<dt>成员 <a class="el" href="classsw_1_1UIElement.html#a2da85633be22eec70448cf110914e7de">sw::UIElement::RegisterRoutedEvent</a>  (THandleObj &amp;obj, void(THandleObj::*handler)(<a class="el" href="classsw_1_1UIElement.html" title="表示界面中的元素">UIElement</a> &amp;, TEventArgs &amp;))</dt>
-<dd><a class="anchor" id="_deprecated000004"></a>建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数 </dd>
+<dd><a class="anchor" id="_deprecated000002"></a>使用AddHandler函数代替以避免覆盖已注册的事件处理函数  </dd>
+<dt>成员 <a class="el" href="classsw_1_1UIElement.html#abf3fa432ed32889bf89e77a6ac687965">sw::UIElement::RegisterRoutedEvent</a>  (const Action&lt; UIElement &amp;, TEventArgs &amp; &gt; &amp;handler) -&gt; typename std::enable_if&lt; std::is_base_of&lt; RoutedEventArgs, TEventArgs &gt;::value &amp;&amp;sw::_IsTypedRoutedEventArgs&lt; TEventArgs &gt;::value &gt;::type</dt>
+<dd><a class="anchor" id="_deprecated000003"></a>使用AddHandler函数代替以避免覆盖已注册的事件处理函数  </dd>
+<dt>成员 <a class="el" href="classsw_1_1UIElement.html#a56003fa15349db87f83afc91b3480bfd">sw::UIElement::RegisterRoutedEvent</a>  (THandleObj &amp;obj, void(THandleObj::*handler)(<a class="el" href="classsw_1_1UIElement.html" title="表示界面中的元素">UIElement</a> &amp;, TEventArgs &amp;)) -&gt; typename std::enable_if&lt; std::is_base_of&lt; RoutedEventArgs, TEventArgs &gt;::value &amp;&amp;sw::_IsTypedRoutedEventArgs&lt; TEventArgs &gt;::value &gt;::type</dt>
+<dd><a class="anchor" id="_deprecated000004"></a>使用AddHandler函数代替以避免覆盖已注册的事件处理函数 </dd>
 </dl>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
