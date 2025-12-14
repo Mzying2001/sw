@@ -1236,23 +1236,23 @@ bool sw::UIElement::SetParent(WndBase *parent)
          * 要设置的父元素为nullptr
          */
         if (oldParentElement == nullptr) {
-            // 在析构函数中会调用SetParent函数以保证自己从父元素的Children中移除
-            // 当当前元素为顶级窗口或者不在界面中的控件（已移除/未加入）时会出现该情况
+            // 前面已排除父元素没有变化的情况，不会执行到这里
             this->_parent = nullptr;
             return true;
         } else {
             // UIElement虚构函数时调用SerParent函数保证从父元素的Children中移除
             // 当当前元素已经添加到界面中但中途对象被销毁时会出现该情况，调用父元素的RemoveChild函数移除引用
-            bool temp = oldParentElement->RemoveChild(this);
+            bool success = oldParentElement->RemoveChild(this);
             // 当程序将要退出时::SetParent函数可能会失败，此时RemoveChild函数返回false
             // 此时直接将其从父元素的Children中移除
-            if (!temp) {
+            if (!success) {
                 auto it = std::find(oldParentElement->_children.begin(), oldParentElement->_children.end(), this);
                 if (it != oldParentElement->_children.end()) oldParentElement->_children.erase(it);
                 // 前面调用RemoveChild失败，当前元素仍在父元素的_layoutVisibleChildren中，此处手动调用更新
                 oldParentElement->_RemoveFromLayoutVisibleChildren(this);
+                // 通知父元素改变以触发属性变更通知以及数据上下文变更
+                this->ParentChanged(nullptr);
             }
-            this->_parent = nullptr;
             return true;
         }
     } else {
