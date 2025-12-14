@@ -70,7 +70,8 @@ namespace sw
          * @brief 设置默认布局方式
          */
         template <typename TLayout>
-        typename std::enable_if<std::is_base_of<LayoutHost, TLayout>::value>::type SetLayout()
+        auto SetLayout()
+            -> typename std::enable_if<std::is_base_of<LayoutHost, TLayout>::value>::type
         {
             auto layout = std::make_unique<TLayout>();
             layout->Associate(this);
