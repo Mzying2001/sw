@@ -1270,11 +1270,17 @@ bool sw::UIElement::SetParent(WndBase *parent)
 
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
+    auto oldDataContext = this->_GetCurrentDataContext();
+
     this->_parent = newParent ? newParent->ToUIElement() : nullptr;
     this->_SetMeasureInvalidated();
 
     this->WndBase::ParentChanged(newParent); // raise property WndBase::Parent changed event
     this->RaisePropertyChanged(_PropId_UIElementParent);
+
+    if (this->_GetCurrentDataContext() != oldDataContext) {
+        this->_OnCurrentDataContextChanged(oldDataContext);
+    }
 }
 
 bool sw::UIElement::OnClose()
