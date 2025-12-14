@@ -30,6 +30,11 @@ if(MSVC)
         endforeach()
     endif()
 
+    # vcpkg环境下默认就有/utf-8选项
+    if (DEFINED VCPKG_TARGET_TRIPLET)
+        set(_has_utf8 TRUE)
+    endif()
+
     # 添加编译选项
     if (NOT _has_utf8)
         target_compile_options(sw PRIVATE /W3 /source-charset:utf-8)
