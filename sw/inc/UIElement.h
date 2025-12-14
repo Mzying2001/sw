@@ -432,8 +432,9 @@ namespace sw
          * @brief           注册路由事件处理函数，当事件已注册时会覆盖已注册的函数
          * @param eventType 路由事件类型
          * @param handler   处理函数，当值为nullptr时可取消注册
-         * @deprecated      建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数
+         * @deprecated      使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
+        [[deprecated("Use AddHandler instead to avoid overwriting existing event handlers.")]]
         void RegisterRoutedEvent(RoutedEventType eventType, const RoutedEventHandler &handler);
 
         /**
@@ -1202,9 +1203,10 @@ namespace sw
          * @param eventType 路由事件类型
          * @param obj       注册的成员函数所在的对象
          * @param handler   处理函数，当值为nullptr时可取消注册
-         * @deprecated      建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数
+         * @deprecated      使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         template <typename T>
+        [[deprecated("Use AddHandler instead to avoid overwriting existing event handlers.")]]
         void RegisterRoutedEvent(RoutedEventType eventType, T &obj, void (T::*handler)(UIElement &, RoutedEventArgs &))
         {
             if (handler == nullptr) {
@@ -1218,9 +1220,10 @@ namespace sw
          * @brief             根据事件参数类型注册路由事件，当事件已注册时会覆盖已注册的函数
          * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
          * @param handler     事件的处理函数，当值为nullptr时可取消注册
-         * @deprecated        建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数
+         * @deprecated        使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         template <typename TEventArgs>
+        [[deprecated("Use AddHandler instead to avoid overwriting existing event handlers.")]]
         auto RegisterRoutedEvent(const Action<UIElement &, TEventArgs &> &handler)
             -> typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
         {
@@ -1237,9 +1240,10 @@ namespace sw
          * @tparam THandleObj 成员函数所在的类
          * @param obj         注册的成员函数所在的对象
          * @param handler     事件的处理函数，当值为nullptr时可取消注册
-         * @deprecated        建议使用AddHandler函数代替以避免覆盖已注册的事件处理函数
+         * @deprecated        使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         template <typename TEventArgs, typename THandleObj>
+        [[deprecated("Use AddHandler instead to avoid overwriting existing event handlers.")]]
         auto RegisterRoutedEvent(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
             -> typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value && sw::_IsTypedRoutedEventArgs<TEventArgs>::value>::type
         {
