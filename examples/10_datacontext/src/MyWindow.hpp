@@ -4,22 +4,6 @@
 #include "ViewModel.hpp"
 
 /**
- * @brief 自定义值转换器，将int转换为std::wstring
- */
-class MyCustomConverter : public sw::IValueConverter<int, std::wstring>
-{
-public:
-    std::wstring Convert(int source) override
-    {
-        return L"Current Value: " + std::to_wstring(source);
-    }
-    int ConvertBack(const std::wstring &target) override
-    {
-        throw std::runtime_error("ConvertBack is not implemented.");
-    }
-};
-
-/**
  * @brief 自定义窗口类，继承自sw::Window
  */
 class MyWindow : public sw::Window
@@ -63,9 +47,9 @@ private:
         spinBox.AddBinding(sw::Binding::Create(
             &sw::SpinBox::Value, &MyViewModel::Value, sw::BindingMode::TwoWay));
 
-        // 绑定label的Text属性到viewModel的Value属性，使用自定义转换器
+        // 绑定文本到DisplayText
         label.AddBinding(sw::Binding::Create(
-            &sw::Label::Text, &MyViewModel::Value, sw::BindingMode::OneWay, new MyCustomConverter()));
+            &sw::Label::Text, &MyViewModel::DisplayText, sw::BindingMode::OneWay));
     }
 
 public:

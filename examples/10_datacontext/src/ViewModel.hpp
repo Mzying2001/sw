@@ -3,7 +3,7 @@
 #include "SimpleWindow.h"
 
 /**
- * @brief 数据模型类，继承自sw::ObservableObject可以实现属性变更通知
+ * @brief 数据模型类
  */
 class MyViewModel : public sw::ObservableObject
 {
@@ -12,7 +12,8 @@ public:
     sw::Property<int> Value{
         sw::Property<int>::Init(this)
             .Getter<&MyViewModel::GetValue>()
-            .Setter<&MyViewModel::SetValue>()};
+            .Setter<&MyViewModel::SetValue>()
+    };
 
     // Value属性的getter方法
     int GetValue() const
@@ -26,8 +27,17 @@ public:
         if (_value != value) {
             _value = value;
             RaisePropertyChanged(&MyViewModel::Value);
+            RaisePropertyChanged(&MyViewModel::DisplayText);
         }
     }
+
+    // 只读属性，标签显示文本
+    sw::ReadOnlyProperty<std::wstring> DisplayText{
+        sw::Property<std::wstring>::Init(this)
+            .Getter([](MyViewModel *self) -> std::wstring {
+                return L"Current Value: " + std::to_wstring(self->_value);
+            })
+    };
 
 private:
     // 存储Value属性的私有成员变量
