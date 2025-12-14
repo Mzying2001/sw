@@ -1070,7 +1070,7 @@ namespace sw
          */
         template <typename U = T>
         auto operator-() const
-            typename std::enable_if<_UnaryMinusOperationHelper<U>::value, typename _UnaryMinusOperationHelper<U>::type>::type
+            -> typename std::enable_if<_UnaryMinusOperationHelper<U>::value, typename _UnaryMinusOperationHelper<U>::type>::type
         {
             return -this->Get();
         }
