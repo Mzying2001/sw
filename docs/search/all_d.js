@@ -9,5 +9,6 @@ var searchData=
   ['nullhwndmsghandler_6',['NullHwndMsgHandler',['../classsw_1_1App.html#ad8c826a9560887b6ca248481b3d3d5ad',1,'sw::App']]],
   ['numericconverter_7',['NumericConverter',['../classsw_1_1NumericConverter.html',1,'sw']]],
   ['numericnegationconverter_8',['NumericNegationConverter',['../classsw_1_1NumericNegationConverter.html',1,'sw']]],
-  ['numerictoboolconverter_9',['NumericToBoolConverter',['../classsw_1_1NumericToBoolConverter.html',1,'sw']]]
+  ['numerictoboolconverter_9',['NumericToBoolConverter',['../classsw_1_1NumericToBoolConverter.html',1,'sw']]],
+  ['numerictoenumconverter_10',['NumericToEnumConverter',['../classsw_1_1NumericToEnumConverter.html',1,'sw']]]
 ];

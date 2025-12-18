@@ -245,7 +245,9 @@ var hierarchy =
       [ "sw::WndBase", "classsw_1_1WndBase.html", null ]
     ] ],
     [ "sw::IValueConverter< TSource, TTarget >", "classsw_1_1IValueConverter.html", [
-      [ "sw::NumericConverter< TSource, TTarget, type >", "classsw_1_1NumericConverter.html", null ]
+      [ "sw::EnumToNumericConverter< TSource, TTarget, type >", "classsw_1_1EnumToNumericConverter.html", null ],
+      [ "sw::NumericConverter< TSource, TTarget, type >", "classsw_1_1NumericConverter.html", null ],
+      [ "sw::NumericToEnumConverter< TSource, TTarget, type >", "classsw_1_1NumericToEnumConverter.html", null ]
     ] ],
     [ "sw::IValueConverter< bool, bool >", "classsw_1_1IValueConverter.html", [
       [ "sw::BoolNegationConverter", "classsw_1_1BoolNegationConverter.html", null ]
