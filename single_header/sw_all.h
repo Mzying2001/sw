@@ -6064,6 +6064,58 @@ namespace sw
     /*================================================================================*/
 
     /**
+     * @brief 枚举类型与数值类型转换器
+     * @tparam TSource 枚举类型
+     * @tparam TTarget 数值类型
+     */
+    template <
+        typename TSource,
+        typename TTarget,
+        typename std::enable_if<std::is_enum<TSource>::value && std::is_arithmetic<TTarget>::value, int>::type = 0>
+    class EnumToNumericConverter : public IValueConverter<TSource, TTarget>
+    {
+    public:
+        virtual TTarget Convert(TSource source) override
+        {
+            return static_cast<TTarget>(source);
+        }
+        virtual TSource ConvertBack(TTarget target) override
+        {
+            return static_cast<TSource>(target);
+        }
+    };
+
+    /**
+     * @brief 数值类型与枚举类型转换器
+     * @tparam TSource 数值类型
+     * @tparam TTarget 枚举类型
+     */
+    template <
+        typename TSource,
+        typename TTarget,
+        typename std::enable_if<std::is_arithmetic<TSource>::value && std::is_enum<TTarget>::value, int>::type = 0>
+    class NumericToEnumConverter : public IValueConverter<TSource, TTarget>
+    {
+    public:
+        virtual TTarget Convert(TSource source) override
+        {
+            return static_cast<TTarget>(source);
+        }
+        virtual TSource ConvertBack(TTarget target) override
+        {
+            return static_cast<TSource>(target);
+        }
+    };
+
+    template <typename TEnum>
+    using EnumToIntConverter = EnumToNumericConverter<TEnum, int>;
+
+    template <typename TEnum>
+    using IntToEnumConverter = NumericToEnumConverter<int, TEnum>;
+
+    /*================================================================================*/
+
+    /**
      * @brief 整数与字符串转换器
      */
     class IntToStringConverter : public IValueConverter<int, std::wstring>
