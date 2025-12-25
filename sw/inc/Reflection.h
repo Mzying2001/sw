@@ -317,7 +317,8 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertyGetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value && _IsReadableProperty<TProperty>::value,
+                std::is_base_of<DynamicObject, T>::value &&
+                    _IsReadableProperty<TProperty>::value,
                 Delegate<typename TProperty::TValue(DynamicObject &)>>::type
         {
             return [prop](DynamicObject &obj) -> typename TProperty::TValue {
@@ -336,7 +337,9 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertyGetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value && !_IsReadableProperty<TProperty>::value,
+                std::is_base_of<DynamicObject, T>::value &&
+                    _IsProperty<TProperty>::value &&
+                    !_IsReadableProperty<TProperty>::value,
                 Delegate<typename TProperty::TValue(DynamicObject &)>>::type
         {
             return nullptr;
@@ -353,7 +356,8 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertySetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value && _IsWritableProperty<TProperty>::value,
+                std::is_base_of<DynamicObject, T>::value &&
+                    _IsWritableProperty<TProperty>::value,
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
@@ -372,7 +376,9 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertySetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value && !_IsWritableProperty<TProperty>::value,
+                std::is_base_of<DynamicObject, T>::value &&
+                    _IsProperty<TProperty>::value &&
+                    !_IsWritableProperty<TProperty>::value,
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return nullptr;
