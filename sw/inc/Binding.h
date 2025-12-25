@@ -388,6 +388,37 @@ namespace sw
             }
         }
 
+        /**
+         * @brief 内部创建绑定对象函数
+         * @param target 目标对象指针
+         * @param targetPropertyId 目标属性ID
+         * @param source 源对象指针
+         * @param sourcePropertyId 源属性ID
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         */
+        template <typename TTargetValue, typename TSourceValue>
+        static Binding *Create(DynamicObject *target, FieldId targetPropertyId,
+                               DynamicObject *source, FieldId sourcePropertyId,
+                               BindingMode mode, IValueConverter<TSourceValue, TTargetValue> *converter)
+        {
+            auto binding = new Binding;
+
+            binding->_targetObject     = target;
+            binding->_sourceObject     = source;
+            binding->_targetPropertyId = targetPropertyId;
+            binding->_sourcePropertyId = sourcePropertyId;
+
+            binding->_mode      = mode;
+            binding->_converter = converter;
+
+            binding->_converterDeleter = [](void *ptr) {
+                delete reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(ptr);
+            };
+            return binding;
+        }
+
     public:
         /**
          * @brief 创建绑定对象
@@ -420,18 +451,9 @@ namespace sw
             using TTargetValue = typename TTargetProperty::TValue;
             using TSourceValue = typename TSourceProperty::TValue;
 
-            auto binding   = new Binding;
-            binding->_mode = mode;
-
-            binding->_targetObject     = target;
-            binding->_sourceObject     = source;
-            binding->_targetPropertyId = Reflection::GetFieldId(targetProperty);
-            binding->_sourcePropertyId = Reflection::GetFieldId(sourceProperty);
-
-            binding->_converter        = converter;
-            binding->_converterDeleter = [](void *ptr) {
-                delete reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(ptr);
-            };
+            auto binding = Create(
+                target, Reflection::GetFieldId(targetProperty),
+                source, Reflection::GetFieldId(sourceProperty), mode, converter);
 
             // update target action
             binding->_updateTargetFunc = [targetSetter = Reflection::GetPropertySetter(targetProperty),
@@ -581,18 +603,9 @@ namespace sw
             using TTargetValue = typename TTargetProperty::TValue;
             using TSourceValue = typename TSourceProperty::TValue;
 
-            auto binding   = new Binding;
-            binding->_mode = mode;
-
-            binding->_targetObject     = target;
-            binding->_sourceObject     = source;
-            binding->_targetPropertyId = Reflection::GetFieldId(targetProperty);
-            binding->_sourcePropertyId = Reflection::GetFieldId(sourceProperty);
-
-            binding->_converter        = converter;
-            binding->_converterDeleter = [](void *ptr) {
-                delete reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(ptr);
-            };
+            auto binding = Create(
+                target, Reflection::GetFieldId(targetProperty),
+                source, Reflection::GetFieldId(sourceProperty), mode, converter);
 
             // update target action
             binding->_updateTargetFunc = [targetSetter = Reflection::GetPropertySetter(targetProperty),
