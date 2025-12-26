@@ -82,7 +82,7 @@
  * 定义基于字段的只写属性，若类中有自定义的Set_{field name}函数，则会调用该函数，否则直接访问字段
  */
 #define SW_DEFINE_WRITEONLY_PROPERTY(name, field) \
-    _SW_DEFINE_STATIC_GETTER(field);              \
+    _SW_DEFINE_STATIC_SETTER(field);              \
     sw::WriteOnlyProperty<decltype(field)> name   \
     {                                             \
         sw::Property<decltype(field)>::Init(this) \
