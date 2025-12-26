@@ -5,24 +5,24 @@
 /**
  * _Get_{field name}: 当前类有自定义的Get_{field name}函数时，调用该函数获取field值，否则直接访问field字段
  */
-#define _SW_DEFINE_STATIC_GETTER(field)                                                         \
-    template <typename T, typename = void>                                                      \
-    struct _HasUserGetter_##field : std::false_type {                                           \
-    };                                                                                          \
-    template <typename T>                                                                       \
-    struct _HasUserGetter_##field<T, decltype(void(&T::Get_##field))> : std::true_type {        \
-    };                                                                                          \
-    template <typename T>                                                                       \
-    static auto _Get_##field(T &self)                                                           \
-        -> typename std::enable_if<_HasUserGetter_##field<T>::value, decltype(T::field)>::type  \
-    {                                                                                           \
-        return self.Get_##field();                                                              \
-    }                                                                                           \
-    template <typename T>                                                                       \
-    static auto _Get_##field(T &self)                                                           \
-        -> typename std::enable_if<!_HasUserGetter_##field<T>::value, decltype(T::field)>::type \
-    {                                                                                           \
-        return self.##field;                                                                    \
+#define _SW_DEFINE_STATIC_GETTER(field)                                                                  \
+    template <typename T, typename = void>                                                               \
+    struct _HasUserGetter_##field : std::false_type {                                                    \
+    };                                                                                                   \
+    template <typename T>                                                                                \
+    struct _HasUserGetter_##field<T, decltype(void(&T::Get_##field))> : std::true_type {                 \
+    };                                                                                                   \
+    template <typename T>                                                                                \
+    static auto _Get_##field(T &self)                                                                    \
+        -> typename std::enable_if<_HasUserGetter_##field<T>::value, decltype(self.Get_##field())>::type \
+    {                                                                                                    \
+        return self.Get_##field();                                                                       \
+    }                                                                                                    \
+    template <typename T>                                                                                \
+    static auto _Get_##field(T &self)                                                                    \
+        -> typename std::enable_if<!_HasUserGetter_##field<T>::value, decltype(T::field) &>::type        \
+    {                                                                                                    \
+        return self.##field;                                                                             \
     }
 
 /**
