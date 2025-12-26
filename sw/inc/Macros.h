@@ -1,5 +1,6 @@
 #pragma once
 
+#include "INotifyPropertyChanged.h"
 #include "Property.h"
 
 /**
@@ -89,4 +90,61 @@
             .Setter([](auto self, auto value) {   \
                 _Set_##field(*self, value);       \
             })                                    \
+    }
+
+/*================================================================================*/
+
+/**
+ * 定义基于字段的通知属性，若类中有自定义的Get_{field name}和Set_{field name}函数，则会调用这些函数，否则直接访问字段
+ * 该宏应在实现了INotifyPropertyChanged接口的类中使用，若字段支持比较则会进行比较，属性更改时会触发PropertyChanged事件
+ */
+#define SW_DEFINE_NOTIFY_PROPERTY(name, field)                                                                      \
+    _SW_DEFINE_STATIC_GETTER(field);                                                                                \
+    template <typename T, typename = void>                                                                          \
+    struct _HasUserSetter_##field : std::false_type {                                                               \
+    };                                                                                                              \
+    template <typename T>                                                                                           \
+    struct _HasUserSetter_##field<T, decltype(void(&T::Set_##field))> : std::true_type {                            \
+    };                                                                                                              \
+    template <typename T, typename U>                                                                               \
+    static auto _Set_##field(T &self, U &&value)                                                                    \
+        -> typename std::enable_if<_HasUserSetter_##field<T>::value && sw::_EqOperationHelper<T, U>::value>::type   \
+    {                                                                                                               \
+        if (!(_Get_##field(self) == value)) {                                                                       \
+            self.Set_##field(std::forward<U>(value));                                                               \
+            if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));           \
+        }                                                                                                           \
+    }                                                                                                               \
+    template <typename T, typename U>                                                                               \
+    static auto _Set_##field(T &self, U &&value)                                                                    \
+        -> typename std::enable_if<_HasUserSetter_##field<T>::value && !sw::_EqOperationHelper<T, U>::value>::type  \
+    {                                                                                                               \
+        self.Set_##field(std::forward<U>(value));                                                                   \
+        if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));               \
+    }                                                                                                               \
+    template <typename T, typename U>                                                                               \
+    static auto _Set_##field(T &self, U &&value)                                                                    \
+        -> typename std::enable_if<!_HasUserSetter_##field<T>::value && sw::_EqOperationHelper<T, U>::value>::type  \
+    {                                                                                                               \
+        if (!(_Get_##field(self) == value)) {                                                                       \
+            self.##field = std::forward<U>(value);                                                                  \
+            if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));           \
+        }                                                                                                           \
+    }                                                                                                               \
+    template <typename T, typename U>                                                                               \
+    static auto _Set_##field(T &self, U &&value)                                                                    \
+        -> typename std::enable_if<!_HasUserSetter_##field<T>::value && !sw::_EqOperationHelper<T, U>::value>::type \
+    {                                                                                                               \
+        self.##field = std::forward<U>(value);                                                                      \
+        if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));               \
+    }                                                                                                               \
+    sw::Property<decltype(field)> name                                                                              \
+    {                                                                                                               \
+        sw::Property<decltype(field)>::Init(this)                                                                   \
+            .Getter([](auto self) {                                                                                 \
+                return _Get_##field(*self);                                                                         \
+            })                                                                                                      \
+            .Setter([](auto self, auto value) {                                                                     \
+                _Set_##field(*self, value);                                                                         \
+            })                                                                                                      \
     }
