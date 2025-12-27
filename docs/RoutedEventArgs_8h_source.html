@@ -115,7 +115,7 @@ $(document).ready(function(){initNavTree('RoutedEventArgs_8h_source.html',''); i
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keyword">template</span> &lt;RoutedEventType TYPE&gt;</div>
 <div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="structsw_1_1TypedRoutedEventArgs.html">   21</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1TypedRoutedEventArgs.html">TypedRoutedEventArgs</a> : <a class="code hl_struct" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> {</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="structsw_1_1TypedRoutedEventArgs.html#ae516e06615fb1b901768840fe159a730">   25</a></span>        <span class="keyword">static</span> <span class="keyword">constexpr</span> RoutedEventType <a class="code hl_variable" href="structsw_1_1TypedRoutedEventArgs.html#ae516e06615fb1b901768840fe159a730">EventType</a> = TYPE;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="structsw_1_1TypedRoutedEventArgs.html#ae516e06615fb1b901768840fe159a730">   25</a></span>        <span class="keyword">static</span> <span class="keyword">constexpr</span> RoutedEventType <a class="code hl_variable" href="structsw_1_1TypedRoutedEventArgs.html#ae516e06615fb1b901768840fe159a730">EventType</a> = <a class="code hl_class" href="classsw_1_1IValueConverter.html">TYPE</a>;</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="structsw_1_1TypedRoutedEventArgs.html#a9b772f24814714a985b69634ee435919">   30</a></span>        <a class="code hl_function" href="structsw_1_1TypedRoutedEventArgs.html#a9b772f24814714a985b69634ee435919">TypedRoutedEventArgs</a>() : <a class="code hl_struct" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a>(<a class="code hl_variable" href="structsw_1_1TypedRoutedEventArgs.html#ae516e06615fb1b901768840fe159a730">EventType</a>) {}</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    };</div>
@@ -129,7 +129,7 @@ $(document).ready(function(){initNavTree('RoutedEventArgs_8h_source.html',''); i
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="foldopen" id="foldopen00044" data-start="{" data-end="};">
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07T_1_1EventType_08_08_4.html">   44</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__HasEventType.html">_HasEventType</a>&lt;T, decltype(void(T::EventType))&gt; : std::true_type {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07T_1_1EventType_08_08_4.html">   44</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__HasEventType.html">_HasEventType</a>&lt;T, <a class="code hl_class" href="classsw_1_1IValueConverter.html">decltype</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">void</a>(T::EventType))&gt; : std::true_type {</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    };</div>
 </div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
@@ -228,8 +228,8 @@ $(document).ready(function(){initNavTree('RoutedEventArgs_8h_source.html',''); i
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
 <div class="foldopen" id="foldopen00154" data-start="{" data-end="};">
 <div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="structsw_1_1DropFilesEventArgs.html">  154</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1DropFilesEventArgs.html">DropFilesEventArgs</a> : <a class="code hl_struct" href="structsw_1_1TypedRoutedEventArgs.html">TypedRoutedEventArgs</a>&lt;UIElement_DropFiles&gt; {</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        HDROP hDrop; <span class="comment">// 描述拖入文件的句柄</span></div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <a class="code hl_struct" href="structsw_1_1DropFilesEventArgs.html">DropFilesEventArgs</a>(HDROP hDrop) : hDrop(hDrop) {}</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        <a class="code hl_class" href="classsw_1_1IValueConverter.html">HDROP</a> hDrop; <span class="comment">// 描述拖入文件的句柄</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <a class="code hl_struct" href="structsw_1_1DropFilesEventArgs.html">DropFilesEventArgs</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">HDROP</a> hDrop) : hDrop(hDrop) {}</div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    };</div>
 </div>
 <div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
@@ -298,15 +298,15 @@ $(document).ready(function(){initNavTree('RoutedEventArgs_8h_source.html',''); i
 <div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
 <div class="foldopen" id="foldopen00233" data-start="{" data-end="};">
 <div class="line"><a id="l00233" name="l00233"></a><span class="lineno"><a class="line" href="structsw_1_1DateTimePickerTimeChangedEventArgs.html">  233</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1DateTimePickerTimeChangedEventArgs.html">DateTimePickerTimeChangedEventArgs</a> : <a class="code hl_struct" href="structsw_1_1TypedRoutedEventArgs.html">TypedRoutedEventArgs</a>&lt;DateTimePicker_TimeChanged&gt; {</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        SYSTEMTIME time; <span class="comment">// 时间的新值</span></div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>        <a class="code hl_struct" href="structsw_1_1DateTimePickerTimeChangedEventArgs.html">DateTimePickerTimeChangedEventArgs</a>(<span class="keyword">const</span> SYSTEMTIME &amp;time) : time(time) {}</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        <a class="code hl_class" href="classsw_1_1IValueConverter.html">SYSTEMTIME</a> time; <span class="comment">// 时间的新值</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>        <a class="code hl_struct" href="structsw_1_1DateTimePickerTimeChangedEventArgs.html">DateTimePickerTimeChangedEventArgs</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">SYSTEMTIME</a> &amp;time) : time(time) {}</div>
 <div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    };</div>
 </div>
 <div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
 <div class="foldopen" id="foldopen00241" data-start="{" data-end="};">
 <div class="line"><a id="l00241" name="l00241"></a><span class="lineno"><a class="line" href="structsw_1_1MonthCalendarTimeChangedEventArgs.html">  241</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1MonthCalendarTimeChangedEventArgs.html">MonthCalendarTimeChangedEventArgs</a> : <a class="code hl_struct" href="structsw_1_1TypedRoutedEventArgs.html">TypedRoutedEventArgs</a>&lt;MonthCalendar_TimeChanged&gt; {</div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        SYSTEMTIME time; <span class="comment">// 时间的新值</span></div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>        <a class="code hl_struct" href="structsw_1_1MonthCalendarTimeChangedEventArgs.html">MonthCalendarTimeChangedEventArgs</a>(<span class="keyword">const</span> SYSTEMTIME &amp;time) : time(time) {}</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        <a class="code hl_class" href="classsw_1_1IValueConverter.html">SYSTEMTIME</a> time; <span class="comment">// 时间的新值</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>        <a class="code hl_struct" href="structsw_1_1MonthCalendarTimeChangedEventArgs.html">MonthCalendarTimeChangedEventArgs</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">SYSTEMTIME</a> &amp;time) : time(time) {}</div>
 <div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    };</div>
 </div>
 <div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
@@ -334,6 +334,7 @@ $(document).ready(function(){initNavTree('RoutedEventArgs_8h_source.html',''); i
 <div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
 <div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    <span class="comment">// clang-format on</span></div>
 <div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>}</div>
+<div class="ttc" id="aclasssw_1_1IValueConverter_html"><div class="ttname"><a href="classsw_1_1IValueConverter.html">sw::IValueConverter</a></div><div class="ttdoc">值转换器接口</div><div class="ttdef"><b>Definition</b> IValueConverter.h:20</div></div>
 <div class="ttc" id="astructsw_1_1DateTimePickerTimeChangedEventArgs_html"><div class="ttname"><a href="structsw_1_1DateTimePickerTimeChangedEventArgs.html">sw::DateTimePickerTimeChangedEventArgs</a></div><div class="ttdoc">DateTimePicker控件时间改变事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:233</div></div>
 <div class="ttc" id="astructsw_1_1DropFilesEventArgs_html"><div class="ttname"><a href="structsw_1_1DropFilesEventArgs.html">sw::DropFilesEventArgs</a></div><div class="ttdoc">文件拖放事件参数类型</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:154</div></div>
 <div class="ttc" id="astructsw_1_1GotCharEventArgs_html"><div class="ttname"><a href="structsw_1_1GotCharEventArgs.html">sw::GotCharEventArgs</a></div><div class="ttdoc">输入字符事件类型参数</div><div class="ttdef"><b>Definition</b> RoutedEventArgs.h:73</div></div>

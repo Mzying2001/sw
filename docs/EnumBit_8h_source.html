@@ -116,10 +116,10 @@ $(document).ready(function(){initNavTree('EnumBit_8h_source.html',''); initResiz
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">inline</span> <span class="keyword">constexpr</span> <span class="keyword">typename</span> std::enable_if&lt;std::is_enum&lt;T&gt;::value &amp;&amp; <a class="code hl_struct" href="structsw_1_1__EnumSupportBitOperations.html">_EnumSupportBitOperations&lt;T&gt;::value</a>, T&gt;::type</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    operator|(T a, T b)</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    operator|(T <a class="code hl_class" href="classsw_1_1IValueConverter.html">a</a>, T b)</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    {</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keyword">using </span>TUnderlying = <span class="keyword">typename</span> std::underlying_type&lt;T&gt;::type;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span>TUnderlying<span class="keyword">&gt;</span>(a) | <span class="keyword">static_cast&lt;</span>TUnderlying<span class="keyword">&gt;</span>(b));</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1IValueConverter.html">TUnderlying</a> = <span class="keyword">typename</span> std::underlying_type&lt;T&gt;::type;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><a class="code hl_class" href="classsw_1_1IValueConverter.html">TUnderlying</a><span class="keyword">&gt;</span>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">a</a>) | <span class="keyword">static_cast&lt;</span><a class="code hl_class" href="classsw_1_1IValueConverter.html">TUnderlying</a><span class="keyword">&gt;</span>(b));</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    }</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
@@ -167,6 +167,7 @@ $(document).ready(function(){initNavTree('EnumBit_8h_source.html',''); initResiz
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(~static_cast&lt;TUnderlying&gt;(a));</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    }</div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>}</div>
+<div class="ttc" id="aclasssw_1_1IValueConverter_html"><div class="ttname"><a href="classsw_1_1IValueConverter.html">sw::IValueConverter</a></div><div class="ttdoc">值转换器接口</div><div class="ttdef"><b>Definition</b> IValueConverter.h:20</div></div>
 <div class="ttc" id="astructsw_1_1__EnumSupportBitOperations_html"><div class="ttname"><a href="structsw_1_1__EnumSupportBitOperations.html">sw::_EnumSupportBitOperations</a></div><div class="ttdoc">用于标记枚举是否支持位运算</div><div class="ttdef"><b>Definition</b> EnumBit.h:16</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

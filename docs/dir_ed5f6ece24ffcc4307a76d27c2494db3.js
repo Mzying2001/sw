@@ -62,6 +62,7 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "List.h", "List_8h_source.html", null ],
     [ "ListBox.h", "ListBox_8h_source.html", null ],
     [ "ListView.h", "ListView_8h_source.html", null ],
+    [ "Macros.h", "Macros_8h_source.html", null ],
     [ "Menu.h", "Menu_8h_source.html", null ],
     [ "MenuBase.h", "MenuBase_8h_source.html", null ],
     [ "MenuItem.h", "MenuItem_8h_source.html", null ],

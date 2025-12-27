@@ -2,7 +2,11 @@ var searchData=
 [
   ['notifyicon_0',['NotifyIcon',['../classsw_1_1NotifyIcon.html',1,'sw']]],
   ['numericconverter_1',['NumericConverter',['../classsw_1_1NumericConverter.html',1,'sw']]],
-  ['numericnegationconverter_2',['NumericNegationConverter',['../classsw_1_1NumericNegationConverter.html',1,'sw']]],
-  ['numerictoboolconverter_3',['NumericToBoolConverter',['../classsw_1_1NumericToBoolConverter.html',1,'sw']]],
-  ['numerictoenumconverter_4',['NumericToEnumConverter',['../classsw_1_1NumericToEnumConverter.html',1,'sw']]]
+  ['numericconverter_3c_20tsource_2c_20ttarget_2c_20typename_20std_3a_3aenable_5fif_3c_20std_3a_3ais_5farithmetic_3c_20tsource_20_3e_3a_3avalue_20_26_26std_3a_3ais_5farithmetic_3c_20ttarget_20_3e_3a_3avalue_20_3e_3a_3atype_20_3e_2',['NumericConverter&lt; TSource, TTarget, typename std::enable_if&lt; std::is_arithmetic&lt; TSource &gt;::value &amp;&amp;std::is_arithmetic&lt; TTarget &gt;::value &gt;::type &gt;',['../classsw_1_1NumericConverter_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_01std_1dc589d54200c669af731c3f8f8f2c491.html',1,'sw']]],
+  ['numericnegationconverter_3',['NumericNegationConverter',['../classsw_1_1NumericNegationConverter.html',1,'sw']]],
+  ['numericnegationconverter_3c_20t_2c_20typename_20std_3a_3aenable_5fif_3c_20std_3a_3ais_5farithmetic_3c_20t_20_3e_3a_3avalue_20_3e_3a_3atype_20_3e_4',['NumericNegationConverter&lt; T, typename std::enable_if&lt; std::is_arithmetic&lt; T &gt;::value &gt;::type &gt;',['../classsw_1_1NumericNegationConverter_3_01T_00_01typename_01std_1_1enable__if_3_01std_1_1is__arithdd62150e3ea23faf0f45bdbcacae7c61.html',1,'sw']]],
+  ['numerictoboolconverter_5',['NumericToBoolConverter',['../classsw_1_1NumericToBoolConverter.html',1,'sw']]],
+  ['numerictoboolconverter_3c_20tsource_2c_20typename_20std_3a_3aenable_5fif_3c_20std_3a_3ais_5farithmetic_3c_20tsource_20_3e_3a_3avalue_20_3e_3a_3atype_20_3e_6',['NumericToBoolConverter&lt; TSource, typename std::enable_if&lt; std::is_arithmetic&lt; TSource &gt;::value &gt;::type &gt;',['../classsw_1_1NumericToBoolConverter_3_01TSource_00_01typename_01std_1_1enable__if_3_01std_1_1is__a849fb0b165e3a9b6189e5935765b4e99.html',1,'sw']]],
+  ['numerictoenumconverter_7',['NumericToEnumConverter',['../classsw_1_1NumericToEnumConverter.html',1,'sw']]],
+  ['numerictoenumconverter_3c_20tsource_2c_20ttarget_2c_20typename_20std_3a_3aenable_5fif_3c_20std_3a_3ais_5farithmetic_3c_20tsource_20_3e_3a_3avalue_20_26_26std_3a_3ais_5fenum_3c_20ttarget_20_3e_3a_3avalue_20_3e_3a_3atype_20_3e_8',['NumericToEnumConverter&lt; TSource, TTarget, typename std::enable_if&lt; std::is_arithmetic&lt; TSource &gt;::value &amp;&amp;std::is_enum&lt; TTarget &gt;::value &gt;::type &gt;',['../classsw_1_1NumericToEnumConverter_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_0bf5e32abf57279b0531b984dfdd92fcc.html',1,'sw']]]
 ];

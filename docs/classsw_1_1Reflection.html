@@ -105,44 +105,44 @@ $(document).ready(function(){initNavTree('classsw_1_1Reflection.html',''); initR
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
 <tr class="memitem:aff8f6d869254bb38b96099ddaf477c88" id="r_aff8f6d869254bb38b96099ddaf477c88"><td class="memItemLeft" align="right" valign="top"><a id="aff8f6d869254bb38b96099ddaf477c88" name="aff8f6d869254bb38b96099ddaf477c88"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Reflection</b> ()=delete</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Reflection</b> ()=<a class="el" href="classsw_1_1IValueConverter.html">delete</a></td></tr>
 <tr class="memdesc:aff8f6d869254bb38b96099ddaf477c88"><td class="mdescLeft">&#160;</td><td class="mdescRight">静态类，不允许实例化 <br /></td></tr>
 <tr class="separator:aff8f6d869254bb38b96099ddaf477c88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 静态 Public 成员函数</h2></td></tr>
-<tr class="memitem:a664d24e782958a893f83dd17e87b11a6" id="r_a664d24e782958a893f83dd17e87b11a6"><td class="memTemplParams" colspan="2">template&lt;typename T , typename TField &gt; </td></tr>
-<tr class="memitem:a664d24e782958a893f83dd17e87b11a6"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="structsw_1_1FieldId.html">FieldId</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a664d24e782958a893f83dd17e87b11a6">GetFieldId</a> (TField T::*field) noexcept</td></tr>
+<tr class="memitem:a664d24e782958a893f83dd17e87b11a6" id="r_a664d24e782958a893f83dd17e87b11a6"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TField</a> &gt; </td></tr>
+<tr class="memitem:a664d24e782958a893f83dd17e87b11a6"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="structsw_1_1FieldId.html">FieldId</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a664d24e782958a893f83dd17e87b11a6">GetFieldId</a> (<a class="el" href="classsw_1_1IValueConverter.html">TField</a> T::*<a class="el" href="classsw_1_1IValueConverter.html">field</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
 <tr class="memdesc:a664d24e782958a893f83dd17e87b11a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取字段的唯一标识符  <br /></td></tr>
 <tr class="separator:a664d24e782958a893f83dd17e87b11a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a426bcce441232e749a4dcbdac134f271" id="r_a426bcce441232e749a4dcbdac134f271"><td class="memTemplParams" colspan="2">template&lt;typename T , typename TRet , typename... Args&gt; </td></tr>
-<tr class="memitem:a426bcce441232e749a4dcbdac134f271"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a426bcce441232e749a4dcbdac134f271">GetMethod</a> (TRet(T::*method)(Args...)) -&gt; typename std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; TRet(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, Args...)&gt; &gt;::type</td></tr>
+<tr class="memitem:a426bcce441232e749a4dcbdac134f271" id="r_a426bcce441232e749a4dcbdac134f271"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TRet , typename... Args&gt; </td></tr>
+<tr class="memitem:a426bcce441232e749a4dcbdac134f271"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a426bcce441232e749a4dcbdac134f271">GetMethod</a> (TRet(T::*<a class="el" href="classsw_1_1IValueConverter.html">method</a>)(Args...)) -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; TRet(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, Args...)&gt; &gt;::type</td></tr>
 <tr class="memdesc:a426bcce441232e749a4dcbdac134f271"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取成员函数的委托  <br /></td></tr>
 <tr class="separator:a426bcce441232e749a4dcbdac134f271"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a292707b91ff896ca3140287f12043413" id="r_a292707b91ff896ca3140287f12043413"><td class="memTemplParams" colspan="2">template&lt;typename T , typename TRet , typename... Args&gt; </td></tr>
-<tr class="memitem:a292707b91ff896ca3140287f12043413"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a292707b91ff896ca3140287f12043413">GetMethod</a> (TRet(T::*method)(Args...) const) -&gt; typename std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; TRet(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, Args...)&gt; &gt;::type</td></tr>
+<tr class="memitem:a292707b91ff896ca3140287f12043413" id="r_a292707b91ff896ca3140287f12043413"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TRet , typename... Args&gt; </td></tr>
+<tr class="memitem:a292707b91ff896ca3140287f12043413"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a292707b91ff896ca3140287f12043413">GetMethod</a> (TRet(T::*<a class="el" href="classsw_1_1IValueConverter.html">method</a>)(Args...) <a class="el" href="classsw_1_1IValueConverter.html">const</a>) -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; TRet(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, Args...)&gt; &gt;::type</td></tr>
 <tr class="memdesc:a292707b91ff896ca3140287f12043413"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取常量成员函数的委托  <br /></td></tr>
 <tr class="separator:a292707b91ff896ca3140287f12043413"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a637270f6d20445801f6d3f6742d331f5" id="r_a637270f6d20445801f6d3f6742d331f5"><td class="memTemplParams" colspan="2">template&lt;typename T , typename TField &gt; </td></tr>
-<tr class="memitem:a637270f6d20445801f6d3f6742d331f5"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a637270f6d20445801f6d3f6742d331f5">GetFieldAccessor</a> (TField T::*field) -&gt; typename std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; TField &amp;(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt; &gt;::type</td></tr>
+<tr class="memitem:a637270f6d20445801f6d3f6742d331f5" id="r_a637270f6d20445801f6d3f6742d331f5"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TField</a> &gt; </td></tr>
+<tr class="memitem:a637270f6d20445801f6d3f6742d331f5"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a637270f6d20445801f6d3f6742d331f5">GetFieldAccessor</a> (<a class="el" href="classsw_1_1IValueConverter.html">TField</a> T::*<a class="el" href="classsw_1_1IValueConverter.html">field</a>) -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">TField</a> &amp;(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt; &gt;::type</td></tr>
 <tr class="memdesc:a637270f6d20445801f6d3f6742d331f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取字段的访问器  <br /></td></tr>
 <tr class="separator:a637270f6d20445801f6d3f6742d331f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afae7e677ec487c701f7ebba1e0b2e54f" id="r_afae7e677ec487c701f7ebba1e0b2e54f"><td class="memTemplParams" colspan="2">template&lt;typename T , typename TProperty &gt; </td></tr>
-<tr class="memitem:afae7e677ec487c701f7ebba1e0b2e54f"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#afae7e677ec487c701f7ebba1e0b2e54f">GetPropertyGetter</a> (TProperty T::*prop) -&gt; typename std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsReadableProperty.html">_IsReadableProperty</a>&lt; TProperty &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; typename TProperty::TValue(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt; &gt;::type</td></tr>
+<tr class="memitem:afae7e677ec487c701f7ebba1e0b2e54f" id="r_afae7e677ec487c701f7ebba1e0b2e54f"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> &gt; </td></tr>
+<tr class="memitem:afae7e677ec487c701f7ebba1e0b2e54f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#afae7e677ec487c701f7ebba1e0b2e54f">GetPropertyGetter</a> (<a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> T::*<a class="el" href="classsw_1_1IValueConverter.html">prop</a>) -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsReadableProperty.html">_IsReadableProperty</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TProperty::TValue(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt; &gt;::type</td></tr>
 <tr class="memdesc:afae7e677ec487c701f7ebba1e0b2e54f"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性的Getter委托  <br /></td></tr>
 <tr class="separator:afae7e677ec487c701f7ebba1e0b2e54f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0839cd5102354817d6fcd92da90f9745" id="r_a0839cd5102354817d6fcd92da90f9745"><td class="memTemplParams" colspan="2">template&lt;typename T , typename TProperty &gt; </td></tr>
-<tr class="memitem:a0839cd5102354817d6fcd92da90f9745"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a0839cd5102354817d6fcd92da90f9745">GetPropertyGetter</a> (TProperty T::*prop) -&gt; typename std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1__IsReadableProperty.html">_IsReadableProperty</a>&lt; TProperty &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; typename TProperty::TValue(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt; &gt;::type</td></tr>
-<tr class="memdesc:a0839cd5102354817d6fcd92da90f9745"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性的Getter委托  <br /></td></tr>
-<tr class="separator:a0839cd5102354817d6fcd92da90f9745"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec177b0408f2bc0bae2998fe5b50a61c" id="r_aec177b0408f2bc0bae2998fe5b50a61c"><td class="memTemplParams" colspan="2">template&lt;typename T , typename TProperty &gt; </td></tr>
-<tr class="memitem:aec177b0408f2bc0bae2998fe5b50a61c"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#aec177b0408f2bc0bae2998fe5b50a61c">GetPropertySetter</a> (TProperty T::*prop) -&gt; typename std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsWritableProperty.html">_IsWritableProperty</a>&lt; TProperty &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; void(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, typename TProperty::TSetterParam)&gt; &gt;::type</td></tr>
+<tr class="memitem:a682d499a045d021ca1d2abe9dcbbff76" id="r_a682d499a045d021ca1d2abe9dcbbff76"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> &gt; </td></tr>
+<tr class="memitem:a682d499a045d021ca1d2abe9dcbbff76"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a682d499a045d021ca1d2abe9dcbbff76">GetPropertyGetter</a> (<a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> T::*<a class="el" href="classsw_1_1IValueConverter.html">prop</a>) -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1__IsReadableProperty.html">_IsReadableProperty</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TProperty::TValue(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt; &gt;::type</td></tr>
+<tr class="memdesc:a682d499a045d021ca1d2abe9dcbbff76"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性的Getter委托  <br /></td></tr>
+<tr class="separator:a682d499a045d021ca1d2abe9dcbbff76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec177b0408f2bc0bae2998fe5b50a61c" id="r_aec177b0408f2bc0bae2998fe5b50a61c"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> &gt; </td></tr>
+<tr class="memitem:aec177b0408f2bc0bae2998fe5b50a61c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#aec177b0408f2bc0bae2998fe5b50a61c">GetPropertySetter</a> (<a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> T::*<a class="el" href="classsw_1_1IValueConverter.html">prop</a>) -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsWritableProperty.html">_IsWritableProperty</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">void</a>(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TProperty::TSetterParam)&gt; &gt;::type</td></tr>
 <tr class="memdesc:aec177b0408f2bc0bae2998fe5b50a61c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性的Setter委托  <br /></td></tr>
 <tr class="separator:aec177b0408f2bc0bae2998fe5b50a61c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c69aaa1459503247ac3be4c32d4260d" id="r_a2c69aaa1459503247ac3be4c32d4260d"><td class="memTemplParams" colspan="2">template&lt;typename T , typename TProperty &gt; </td></tr>
-<tr class="memitem:a2c69aaa1459503247ac3be4c32d4260d"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a2c69aaa1459503247ac3be4c32d4260d">GetPropertySetter</a> (TProperty T::*prop) -&gt; typename std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1__IsWritableProperty.html">_IsWritableProperty</a>&lt; TProperty &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; void(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, typename TProperty::TSetterParam)&gt; &gt;::type</td></tr>
-<tr class="memdesc:a2c69aaa1459503247ac3be4c32d4260d"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性的Setter委托  <br /></td></tr>
-<tr class="separator:a2c69aaa1459503247ac3be4c32d4260d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cd8b4d5a60d0d63c3d5795f3827072c" id="r_a7cd8b4d5a60d0d63c3d5795f3827072c"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> &gt; </td></tr>
+<tr class="memitem:a7cd8b4d5a60d0d63c3d5795f3827072c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1Reflection.html#a7cd8b4d5a60d0d63c3d5795f3827072c">GetPropertySetter</a> (<a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> T::*<a class="el" href="classsw_1_1IValueConverter.html">prop</a>) -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T &gt;::value &amp;&amp;<a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> &gt;::value &amp;&amp;!<a class="el" href="structsw_1_1__IsWritableProperty.html">_IsWritableProperty</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> &gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">void</a>(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TProperty::TSetterParam)&gt; &gt;::type</td></tr>
+<tr class="memdesc:a7cd8b4d5a60d0d63c3d5795f3827072c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性的Setter委托  <br /></td></tr>
+<tr class="separator:a7cd8b4d5a60d0d63c3d5795f3827072c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>提供反射相关功能 </p>
@@ -153,18 +153,18 @@ Public 成员函数</h2></td></tr>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , typename TField &gt; </div>
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TField</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static auto sw::Reflection::GetFieldAccessor </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a> sw::Reflection::GetFieldAccessor </td>
           <td>(</td>
-          <td class="paramtype">TField T::*&#160;</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">TField</a> T::*&#160;</td>
           <td class="paramname"><em>field</em></td><td>)</td>
-          <td> -&gt; typename std::enable_if&lt;
-                std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt;TField &amp;(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt;&gt;::type
+          <td> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt;
+                std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">TField</a> &amp;(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt;&gt;::type
         </td>
         </tr>
       </table>
@@ -199,15 +199,15 @@ template&lt;typename T , typename TField &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , typename TField &gt; </div>
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TField</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="structsw_1_1FieldId.html">FieldId</a> sw::Reflection::GetFieldId </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="structsw_1_1FieldId.html">FieldId</a> sw::Reflection::GetFieldId </td>
           <td>(</td>
-          <td class="paramtype">TField T::*&#160;</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">TField</a> T::*&#160;</td>
           <td class="paramname"><em>field</em></td><td>)</td>
           <td></td>
         </tr>
@@ -243,17 +243,17 @@ template&lt;typename T , typename TField &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , typename TRet , typename... Args&gt; </div>
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TRet , typename... Args&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static auto sw::Reflection::GetMethod </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a> sw::Reflection::GetMethod </td>
           <td>(</td>
-          <td class="paramtype">TRet(T::*)(Args...) const&#160;</td>
+          <td class="paramtype">TRet(T::*)(Args...) <a class="el" href="classsw_1_1IValueConverter.html">const</a>&#160;</td>
           <td class="paramname"><em>method</em></td><td>)</td>
-          <td> -&gt; typename std::enable_if&lt;
+          <td> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt;
                 std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt;TRet(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, Args...)&gt;&gt;::type
         </td>
         </tr>
@@ -290,17 +290,17 @@ template&lt;typename T , typename TRet , typename... Args&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , typename TRet , typename... Args&gt; </div>
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TRet , typename... Args&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static auto sw::Reflection::GetMethod </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a> sw::Reflection::GetMethod </td>
           <td>(</td>
           <td class="paramtype">TRet(T::*)(Args...)&#160;</td>
           <td class="paramname"><em>method</em></td><td>)</td>
-          <td> -&gt; typename std::enable_if&lt;
+          <td> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt;
                 std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value, <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt;TRet(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, Args...)&gt;&gt;::type
         </td>
         </tr>
@@ -331,25 +331,27 @@ template&lt;typename T , typename TRet , typename... Args&gt; </div>
 
 </div>
 </div>
-<a id="a0839cd5102354817d6fcd92da90f9745" name="a0839cd5102354817d6fcd92da90f9745"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0839cd5102354817d6fcd92da90f9745">&#9670;&#160;</a></span>GetPropertyGetter() <span class="overload">[1/2]</span></h2>
+<a id="a682d499a045d021ca1d2abe9dcbbff76" name="a682d499a045d021ca1d2abe9dcbbff76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a682d499a045d021ca1d2abe9dcbbff76">&#9670;&#160;</a></span>GetPropertyGetter() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , typename TProperty &gt; </div>
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static auto sw::Reflection::GetPropertyGetter </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a> sw::Reflection::GetPropertyGetter </td>
           <td>(</td>
-          <td class="paramtype">TProperty T::*&#160;</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> T::*&#160;</td>
           <td class="paramname"><em>prop</em></td><td>)</td>
-          <td> -&gt; typename std::enable_if&lt;
-                std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value &amp;&amp; !<a class="el" href="structsw_1_1__IsReadableProperty.html">_IsReadableProperty</a>&lt;TProperty&gt;::value,
-                <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt;typename TProperty::TValue(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt;&gt;::type
+          <td> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt;
+                std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value &amp;&amp;
+                    <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">TProperty</a>&gt;::value &amp;&amp;
+                    !<a class="el" href="structsw_1_1__IsReadableProperty.html">_IsReadableProperty</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">TProperty</a>&gt;::value,
+                <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TProperty::TValue(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt;&gt;::type
         </td>
         </tr>
       </table>
@@ -385,19 +387,20 @@ template&lt;typename T , typename TProperty &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , typename TProperty &gt; </div>
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static auto sw::Reflection::GetPropertyGetter </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a> sw::Reflection::GetPropertyGetter </td>
           <td>(</td>
-          <td class="paramtype">TProperty T::*&#160;</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> T::*&#160;</td>
           <td class="paramname"><em>prop</em></td><td>)</td>
-          <td> -&gt; typename std::enable_if&lt;
-                std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value &amp;&amp; <a class="el" href="structsw_1_1__IsReadableProperty.html">_IsReadableProperty</a>&lt;TProperty&gt;::value,
-                <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt;typename TProperty::TValue(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt;&gt;::type
+          <td> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt;
+                std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value &amp;&amp;
+                    <a class="el" href="structsw_1_1__IsReadableProperty.html">_IsReadableProperty</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">TProperty</a>&gt;::value,
+                <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TProperty::TValue(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;)&gt;&gt;::type
         </td>
         </tr>
       </table>
@@ -427,25 +430,27 @@ template&lt;typename T , typename TProperty &gt; </div>
 
 </div>
 </div>
-<a id="a2c69aaa1459503247ac3be4c32d4260d" name="a2c69aaa1459503247ac3be4c32d4260d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c69aaa1459503247ac3be4c32d4260d">&#9670;&#160;</a></span>GetPropertySetter() <span class="overload">[1/2]</span></h2>
+<a id="a7cd8b4d5a60d0d63c3d5795f3827072c" name="a7cd8b4d5a60d0d63c3d5795f3827072c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cd8b4d5a60d0d63c3d5795f3827072c">&#9670;&#160;</a></span>GetPropertySetter() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , typename TProperty &gt; </div>
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static auto sw::Reflection::GetPropertySetter </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a> sw::Reflection::GetPropertySetter </td>
           <td>(</td>
-          <td class="paramtype">TProperty T::*&#160;</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> T::*&#160;</td>
           <td class="paramname"><em>prop</em></td><td>)</td>
-          <td> -&gt; typename std::enable_if&lt;
-                std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value &amp;&amp; !<a class="el" href="structsw_1_1__IsWritableProperty.html">_IsWritableProperty</a>&lt;TProperty&gt;::value,
-                <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt;void(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, typename TProperty::TSetterParam)&gt;&gt;::type
+          <td> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt;
+                std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value &amp;&amp;
+                    <a class="el" href="structsw_1_1__IsProperty.html">_IsProperty</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">TProperty</a>&gt;::value &amp;&amp;
+                    !<a class="el" href="structsw_1_1__IsWritableProperty.html">_IsWritableProperty</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">TProperty</a>&gt;::value,
+                <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">void</a>(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TProperty::TSetterParam)&gt;&gt;::type
         </td>
         </tr>
       </table>
@@ -481,19 +486,20 @@ template&lt;typename T , typename TProperty &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , typename TProperty &gt; </div>
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static auto sw::Reflection::GetPropertySetter </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a> sw::Reflection::GetPropertySetter </td>
           <td>(</td>
-          <td class="paramtype">TProperty T::*&#160;</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">TProperty</a> T::*&#160;</td>
           <td class="paramname"><em>prop</em></td><td>)</td>
-          <td> -&gt; typename std::enable_if&lt;
-                std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value &amp;&amp; <a class="el" href="structsw_1_1__IsWritableProperty.html">_IsWritableProperty</a>&lt;TProperty&gt;::value,
-                <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt;void(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, typename TProperty::TSetterParam)&gt;&gt;::type
+          <td> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt;
+                std::is_base_of&lt;<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a>, T&gt;::value &amp;&amp;
+                    <a class="el" href="structsw_1_1__IsWritableProperty.html">_IsWritableProperty</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">TProperty</a>&gt;::value,
+                <a class="el" href="classsw_1_1Delegate.html">Delegate</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">void</a>(<a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TProperty::TSetterParam)&gt;&gt;::type
         </td>
         </tr>
       </table>

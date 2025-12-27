@@ -12,6 +12,7 @@ var hierarchy =
       [ "sw::Binding", "classsw_1_1Binding.html", null ],
       [ "sw::DataBinding", "classsw_1_1DataBinding.html", null ]
     ] ],
+    [ "sw::BoolToNumericConverter< TTarget, typename >", "classsw_1_1BoolToNumericConverter.html", null ],
     [ "sw::CallableList< T >", "classsw_1_1CallableList.html", null ],
     [ "sw::CallableList< TRet(Args...)>", "classsw_1_1CallableList.html", null ],
     [ "sw::CanvasLayoutTag", "structsw_1_1CanvasLayoutTag.html", null ],
@@ -102,6 +103,7 @@ var hierarchy =
         ] ]
       ] ]
     ] ],
+    [ "sw::EnumToNumericConverter< TSource, TTarget, typename >", "classsw_1_1EnumToNumericConverter.html", null ],
     [ "std::false_type", null, [
       [ "sw::_BracketOperationHelper< T, U, typename >", "structsw_1_1__BracketOperationHelper.html", null ],
       [ "sw::_EnumSupportBitOperations< T >", "structsw_1_1__EnumSupportBitOperations.html", null ],
@@ -245,15 +247,15 @@ var hierarchy =
       [ "sw::WndBase", "classsw_1_1WndBase.html", null ]
     ] ],
     [ "sw::IValueConverter< TSource, TTarget >", "classsw_1_1IValueConverter.html", [
-      [ "sw::EnumToNumericConverter< TSource, TTarget, type >", "classsw_1_1EnumToNumericConverter.html", null ],
-      [ "sw::NumericConverter< TSource, TTarget, type >", "classsw_1_1NumericConverter.html", null ],
-      [ "sw::NumericToEnumConverter< TSource, TTarget, type >", "classsw_1_1NumericToEnumConverter.html", null ]
+      [ "sw::EnumToNumericConverter< TSource, TTarget, typename std::enable_if< std::is_enum< TSource >::value &&std::is_arithmetic< TTarget >::value >::type >", "classsw_1_1EnumToNumericConverter_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_0335d346f0b0522082eff2b4274ccd3a1.html", null ],
+      [ "sw::NumericConverter< TSource, TTarget, typename std::enable_if< std::is_arithmetic< TSource >::value &&std::is_arithmetic< TTarget >::value >::type >", "classsw_1_1NumericConverter_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_01std_1dc589d54200c669af731c3f8f8f2c491.html", null ],
+      [ "sw::NumericToEnumConverter< TSource, TTarget, typename std::enable_if< std::is_arithmetic< TSource >::value &&std::is_enum< TTarget >::value >::type >", "classsw_1_1NumericToEnumConverter_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_0bf5e32abf57279b0531b984dfdd92fcc.html", null ]
     ] ],
     [ "sw::IValueConverter< bool, bool >", "classsw_1_1IValueConverter.html", [
       [ "sw::BoolNegationConverter", "classsw_1_1BoolNegationConverter.html", null ]
     ] ],
     [ "sw::IValueConverter< bool, TTarget >", "classsw_1_1IValueConverter.html", [
-      [ "sw::BoolToNumericConverter< TTarget, type >", "classsw_1_1BoolToNumericConverter.html", null ]
+      [ "sw::BoolToNumericConverter< TTarget, typename std::enable_if< std::is_arithmetic< TTarget >::value >::type >", "classsw_1_1BoolToNumericConverter_3_01TTarget_00_01typename_01std_1_1enable__if_3_01std_1_1is__a2bcb6f39dc549026f28ba3477be149f8.html", null ]
     ] ],
     [ "sw::IValueConverter< double, std::string >", "classsw_1_1IValueConverter.html", [
       [ "sw::DoubleToAnsiStringConverter", "classsw_1_1DoubleToAnsiStringConverter.html", null ]
@@ -303,10 +305,10 @@ var hierarchy =
       [ "sw::StringToUtf8StringConverter", "classsw_1_1StringToUtf8StringConverter.html", null ]
     ] ],
     [ "sw::IValueConverter< T, T >", "classsw_1_1IValueConverter.html", [
-      [ "sw::NumericNegationConverter< T, type >", "classsw_1_1NumericNegationConverter.html", null ]
+      [ "sw::NumericNegationConverter< T, typename std::enable_if< std::is_arithmetic< T >::value >::type >", "classsw_1_1NumericNegationConverter_3_01T_00_01typename_01std_1_1enable__if_3_01std_1_1is__arithdd62150e3ea23faf0f45bdbcacae7c61.html", null ]
     ] ],
     [ "sw::IValueConverter< TSource, bool >", "classsw_1_1IValueConverter.html", [
-      [ "sw::NumericToBoolConverter< TSource, type >", "classsw_1_1NumericToBoolConverter.html", null ]
+      [ "sw::NumericToBoolConverter< TSource, typename std::enable_if< std::is_arithmetic< TSource >::value >::type >", "classsw_1_1NumericToBoolConverter_3_01TSource_00_01typename_01std_1_1enable__if_3_01std_1_1is__a849fb0b165e3a9b6189e5935765b4e99.html", null ]
     ] ],
     [ "sw::KeyFlags", "structsw_1_1KeyFlags.html", null ],
     [ "sw::LayoutHost", "classsw_1_1LayoutHost.html", [
@@ -336,6 +338,10 @@ var hierarchy =
     ] ],
     [ "sw::MsgBox", "classsw_1_1MsgBox.html", null ],
     [ "sw::MsgBoxResultHelper", "structsw_1_1MsgBoxResultHelper.html", null ],
+    [ "sw::NumericConverter< TSource, TTarget, typename >", "classsw_1_1NumericConverter.html", null ],
+    [ "sw::NumericNegationConverter< T, typename >", "classsw_1_1NumericNegationConverter.html", null ],
+    [ "sw::NumericToBoolConverter< TSource, typename >", "classsw_1_1NumericToBoolConverter.html", null ],
+    [ "sw::NumericToEnumConverter< TSource, TTarget, typename >", "classsw_1_1NumericToEnumConverter.html", null ],
     [ "sw::Path", "classsw_1_1Path.html", null ],
     [ "sw::ProcMsg", "structsw_1_1ProcMsg.html", null ],
     [ "sw::PropertyBase< T, TDerived >", "classsw_1_1PropertyBase.html", [
