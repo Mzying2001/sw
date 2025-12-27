@@ -146,7 +146,7 @@
 /*================================================================================*/
 
 /**
- * 定义基于表达式属性，直接访问this->{expr}，不支持自定义Getter和Setter
+ * 定义基于表达式的属性，访问this->{expr}，不支持自定义Getter和Setter
  */
 #define SW_DEFINE_EXPR_PROPERTY(name, expr)      \
     sw::Property<decltype(expr)> name            \
@@ -161,7 +161,7 @@
     }
 
 /**
- * 定义基于表达式只读属性，直接访问this->{expr}，不支持自定义Getter
+ * 定义基于表达式的只读属性，访问this->{expr}，不支持自定义Getter
  */
 #define SW_DEFINE_EXPR_READONLY_PROPERTY(name, expr) \
     sw::ReadOnlyProperty<decltype(expr)> name        \
@@ -173,7 +173,7 @@
     }
 
 /**
- * 定义基于表达式只写属性，直接访问this->{expr}，不支持自定义Setter
+ * 定义基于表达式的只写属性，访问this->{expr}，不支持自定义Setter
  */
 #define SW_DEFINE_EXPR_WRITEONLY_PROPERTY(name, expr) \
     sw::WriteOnlyProperty<decltype(expr)> name        \
@@ -185,7 +185,7 @@
     }
 
 /**
- * 定义基于表达式的通知属性，直接访问this->{expr}，不支持自定义Getter和Setter
+ * 定义基于表达式的通知属性，访问this->{expr}，不支持自定义Getter和Setter
  * 该宏应在实现了INotifyPropertyChanged接口的类中使用，Setter会尝试比较并在表达式的值发生变更时触发属性变更通知
  */
 #define SW_DEFINE_EXPR_NOTIFY_PROPERTY(name, expr)                                                        \
