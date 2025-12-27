@@ -144,3 +144,76 @@
     }
 
 /*================================================================================*/
+
+/**
+ * 定义简单属性，直接访问指定路径的字段，不支持自定义Getter和Setter
+ */
+#define SW_DEFINE_SIMPLE_PROPERTY(name, path)    \
+    sw::Property<decltype(path)> name            \
+    {                                            \
+        sw::Property<decltype(path)>::Init(this) \
+            .Getter([](auto self) {              \
+                return self->##path;             \
+            })                                   \
+            .Setter([](auto self, auto value) {  \
+                self->##path = value;            \
+            })                                   \
+    }
+
+/**
+ * 定义简单只读属性，直接访问指定路径的字段，不支持自定义Getter
+ */
+#define SW_DEFINE_SIMPLE_READONLY_PROPERTY(name, path) \
+    sw::ReadOnlyProperty<decltype(path)> name          \
+    {                                                  \
+        sw::Property<decltype(path)>::Init(this)       \
+            .Getter([](auto self) {                    \
+                return self->##path;                   \
+            })                                         \
+    }
+
+/**
+ * 定义简单只写属性，直接访问指定路径的字段，不支持自定义Setter
+ */
+#define SW_DEFINE_SIMPLE_WRITEONLY_PROPERTY(name, path) \
+    sw::WriteOnlyProperty<decltype(path)> name          \
+    {                                                   \
+        sw::Property<decltype(path)>::Init(this)        \
+            .Setter([](auto self, auto value) {         \
+                self->##path = value;                   \
+            })                                          \
+    }
+
+/**
+ * 定义简单通知属性，直接访问指定路径的字段，不支持自定义Getter和Setter
+ * 该宏应在实现了INotifyPropertyChanged接口的类中使用，若未自定义Setter则会尝试比较并在字段发生变更时触发属性变更通知
+ */
+#define SW_DEFINE_SIMPLE_NOTIFY_PROPERTY(name, path)                                                      \
+    template <typename T, typename U>                                                                     \
+    static auto _Set_##name(T &self, U &&value)                                                           \
+        -> typename std::enable_if<sw::_EqOperationHelper<U, U>::value>::type                             \
+    {                                                                                                     \
+        if (!(self.##path == value)) {                                                                    \
+            self.##path = std::forward<U>(value);                                                         \
+            if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name)); \
+        }                                                                                                 \
+    }                                                                                                     \
+    template <typename T, typename U>                                                                     \
+    static auto _Set_##name(T &self, U &&value)                                                           \
+        -> typename std::enable_if<!sw::_EqOperationHelper<U, U>::value>::type                            \
+    {                                                                                                     \
+        self.##path = std::forward<U>(value);                                                             \
+        if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));     \
+    }                                                                                                     \
+    sw::Property<decltype(path)> name                                                                     \
+    {                                                                                                     \
+        sw::Property<decltype(path)>::Init(this)                                                          \
+            .Getter([](auto self) {                                                                       \
+                return self->##path;                                                                      \
+            })                                                                                            \
+            .Setter([](auto self, auto value) {                                                           \
+                _Set_##name(*self, value);                                                                \
+            })                                                                                            \
+    }
+
+/*================================================================================*/
