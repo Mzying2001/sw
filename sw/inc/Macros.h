@@ -118,7 +118,7 @@
     }                                                                                                               \
     template <typename T, typename U>                                                                               \
     static auto _Set_##field(T &self, U &&value)                                                                    \
-        -> typename std::enable_if<!_HasUserSetter_##field<T>::value && sw::_EqOperationHelper<T, U>::value>::type  \
+        -> typename std::enable_if<!_HasUserSetter_##field<T>::value && sw::_EqOperationHelper<U, U>::value>::type  \
     {                                                                                                               \
         if (!(_Get_##field(self) == value)) {                                                                       \
             self.##field = std::forward<U>(value);                                                                  \
@@ -127,7 +127,7 @@
     }                                                                                                               \
     template <typename T, typename U>                                                                               \
     static auto _Set_##field(T &self, U &&value)                                                                    \
-        -> typename std::enable_if<!_HasUserSetter_##field<T>::value && !sw::_EqOperationHelper<T, U>::value>::type \
+        -> typename std::enable_if<!_HasUserSetter_##field<T>::value && !sw::_EqOperationHelper<U, U>::value>::type \
     {                                                                                                               \
         self.##field = std::forward<U>(value);                                                                      \
         if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));               \
