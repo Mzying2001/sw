@@ -4959,9 +4959,9 @@ namespace sw
 
 // Reflection.h
 
-// 定义_SW_DISABLE_REFLECTION可以禁用反射相关功能
+// 定义SW_DISABLE_REFLECTION可以禁用反射相关功能
 // 若该宏被定义，则相关功能会抛出runtime_error异常
-// #define _SW_DISABLE_REFLECTION
+// #define SW_DISABLE_REFLECTION
 
 
 namespace sw
@@ -4989,7 +4989,7 @@ namespace sw
          */
         std::type_index GetTypeIndex() const
         {
-#if defined(_SW_DISABLE_REFLECTION)
+#if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot get type index.");
 #else
             return typeid(*this);
@@ -5005,7 +5005,7 @@ namespace sw
         template <typename T>
         bool IsType(T **pout = nullptr)
         {
-#if defined(_SW_DISABLE_REFLECTION)
+#if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot check type.");
 #else
             if (pout == nullptr) {
@@ -5026,7 +5026,7 @@ namespace sw
         template <typename T>
         bool IsType(const T **pout = nullptr) const
         {
-#if defined(_SW_DISABLE_REFLECTION)
+#if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot check type.");
 #else
             if (pout == nullptr) {
@@ -5047,7 +5047,7 @@ namespace sw
         template <typename T>
         T &DynamicCast()
         {
-#if defined(_SW_DISABLE_REFLECTION)
+#if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
 #else
             return dynamic_cast<T &>(*this);
@@ -5063,7 +5063,7 @@ namespace sw
         template <typename T>
         const T &DynamicCast() const
         {
-#if defined(_SW_DISABLE_REFLECTION)
+#if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
 #else
             return dynamic_cast<const T &>(*this);
@@ -5270,7 +5270,8 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertyGetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value && _IsReadableProperty<TProperty>::value,
+                std::is_base_of<DynamicObject, T>::value &&
+                    _IsReadableProperty<TProperty>::value,
                 Delegate<typename TProperty::TValue(DynamicObject &)>>::type
         {
             return [prop](DynamicObject &obj) -> typename TProperty::TValue {
@@ -5289,7 +5290,9 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertyGetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value && !_IsReadableProperty<TProperty>::value,
+                std::is_base_of<DynamicObject, T>::value &&
+                    _IsProperty<TProperty>::value &&
+                    !_IsReadableProperty<TProperty>::value,
                 Delegate<typename TProperty::TValue(DynamicObject &)>>::type
         {
             return nullptr;
@@ -5306,7 +5309,8 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertySetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value && _IsWritableProperty<TProperty>::value,
+                std::is_base_of<DynamicObject, T>::value &&
+                    _IsWritableProperty<TProperty>::value,
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
@@ -5325,7 +5329,9 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertySetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value && !_IsWritableProperty<TProperty>::value,
+                std::is_base_of<DynamicObject, T>::value &&
+                    _IsProperty<TProperty>::value &&
+                    !_IsWritableProperty<TProperty>::value,
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return nullptr;
@@ -5952,15 +5958,23 @@ namespace sw
     /*================================================================================*/
 
     /**
+     * @brief 数值类型转换器模板声明
+     * @tparam TSource 源数值类型
+     * @tparam TTarget 目标数值类型
+     */
+    template <typename TSource, typename TTarget, typename = void>
+    class NumericConverter;
+
+    /**
      * @brief 数值类型转换器，将源数值类型转换为目标数值类型
      * @tparam TSource 源数值类型
      * @tparam TTarget 目标数值类型
      */
-    template <
-        typename TSource,
-        typename TTarget,
-        typename std::enable_if<std::is_arithmetic<TSource>::value && std::is_arithmetic<TTarget>::value, int>::type = 0>
-    class NumericConverter : public IValueConverter<TSource, TTarget>
+    template <typename TSource, typename TTarget>
+    class NumericConverter<TSource,
+                           TTarget,
+                           typename std::enable_if<std::is_arithmetic<TSource>::value && std::is_arithmetic<TTarget>::value>::type>
+        : public IValueConverter<TSource, TTarget>
     {
     public:
         virtual TTarget Convert(TSource source) override
@@ -5981,13 +5995,19 @@ namespace sw
     /*================================================================================*/
 
     /**
+     * @brief 数值取反转换器模板声明
+     * @tparam T 数值类型
+     */
+    template <typename T, typename = void>
+    class NumericNegationConverter;
+
+    /**
      * @brief 数值取反转换器
      * @tparam T 数值类型
      */
-    template <
-        typename T,
-        typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
-    class NumericNegationConverter : public IValueConverter<T, T>
+    template <typename T>
+    class NumericNegationConverter<T, typename std::enable_if<std::is_arithmetic<T>::value>::type>
+        : public IValueConverter<T, T>
     {
     public:
         virtual T Convert(T source) override
@@ -6019,13 +6039,19 @@ namespace sw
     };
 
     /**
+     * @brief 数值与布尔值转换器模板声明
+     * @tparam TSource 数值类型
+     */
+    template <typename TSource, typename = void>
+    class NumericToBoolConverter;
+
+    /**
      * @brief 数值与布尔值转换器，非零数值转换为true，零数值转换为false
      * @tparam TSource 数值类型
      */
-    template <
-        typename TSource,
-        typename std::enable_if<std::is_arithmetic<TSource>::value, int>::type = 0>
-    class NumericToBoolConverter : public IValueConverter<TSource, bool>
+    template <typename TSource>
+    class NumericToBoolConverter<TSource, typename std::enable_if<std::is_arithmetic<TSource>::value>::type>
+        : public IValueConverter<TSource, bool>
     {
     public:
         virtual bool Convert(TSource source) override
@@ -6039,13 +6065,19 @@ namespace sw
     };
 
     /**
+     * @brief 布尔值与数值转换器模板声明
+     * @tparam TTarget 数值类型
+     */
+    template <typename TTarget, typename = void>
+    class BoolToNumericConverter;
+
+    /**
      * @brief 布尔值与数值转换器，true转换为1，false转换为0
      * @tparam TTarget 数值类型
      */
-    template <
-        typename TTarget,
-        typename std::enable_if<std::is_arithmetic<TTarget>::value, int>::type = 0>
-    class BoolToNumericConverter : public IValueConverter<bool, TTarget>
+    template <typename TTarget>
+    class BoolToNumericConverter<TTarget, typename std::enable_if<std::is_arithmetic<TTarget>::value>::type>
+        : public IValueConverter<bool, TTarget>
     {
     public:
         virtual TTarget Convert(bool source) override
@@ -6064,15 +6096,23 @@ namespace sw
     /*================================================================================*/
 
     /**
+     * @brief 枚举类型与数值类型转换器模板声明
+     * @tparam TSource 枚举类型
+     * @tparam TTarget 数值类型
+     */
+    template <typename TSource, typename TTarget, typename = void>
+    class EnumToNumericConverter;
+
+    /**
      * @brief 枚举类型与数值类型转换器
      * @tparam TSource 枚举类型
      * @tparam TTarget 数值类型
      */
-    template <
-        typename TSource,
-        typename TTarget,
-        typename std::enable_if<std::is_enum<TSource>::value && std::is_arithmetic<TTarget>::value, int>::type = 0>
-    class EnumToNumericConverter : public IValueConverter<TSource, TTarget>
+    template <typename TSource, typename TTarget>
+    class EnumToNumericConverter<TSource,
+                                 TTarget,
+                                 typename std::enable_if<std::is_enum<TSource>::value && std::is_arithmetic<TTarget>::value>::type>
+        : public IValueConverter<TSource, TTarget>
     {
     public:
         virtual TTarget Convert(TSource source) override
@@ -6086,15 +6126,23 @@ namespace sw
     };
 
     /**
+     * @brief 数值类型与枚举类型转换器模板声明
+     * @tparam TSource 数值类型
+     * @tparam TTarget 枚举类型
+     */
+    template <typename TSource, typename TTarget, typename = void>
+    class NumericToEnumConverter;
+
+    /**
      * @brief 数值类型与枚举类型转换器
      * @tparam TSource 数值类型
      * @tparam TTarget 枚举类型
      */
-    template <
-        typename TSource,
-        typename TTarget,
-        typename std::enable_if<std::is_arithmetic<TSource>::value && std::is_enum<TTarget>::value, int>::type = 0>
-    class NumericToEnumConverter : public IValueConverter<TSource, TTarget>
+    template <typename TSource, typename TTarget>
+    class NumericToEnumConverter<TSource,
+                                 TTarget,
+                                 typename std::enable_if<std::is_arithmetic<TSource>::value && std::is_enum<TTarget>::value>::type>
+        : public IValueConverter<TSource, TTarget>
     {
     public:
         virtual TTarget Convert(TSource source) override
@@ -8366,6 +8414,37 @@ namespace sw
             }
         }
 
+        /**
+         * @brief 内部创建绑定对象函数
+         * @param target 目标对象指针
+         * @param targetPropertyId 目标属性ID
+         * @param source 源对象指针
+         * @param sourcePropertyId 源属性ID
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         */
+        template <typename TTargetValue, typename TSourceValue>
+        static Binding *Create(DynamicObject *target, FieldId targetPropertyId,
+                               DynamicObject *source, FieldId sourcePropertyId,
+                               BindingMode mode, IValueConverter<TSourceValue, TTargetValue> *converter)
+        {
+            auto binding = new Binding;
+
+            binding->_targetObject     = target;
+            binding->_sourceObject     = source;
+            binding->_targetPropertyId = targetPropertyId;
+            binding->_sourcePropertyId = sourcePropertyId;
+
+            binding->_mode      = mode;
+            binding->_converter = converter;
+
+            binding->_converterDeleter = [](void *ptr) {
+                delete reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(ptr);
+            };
+            return binding;
+        }
+
     public:
         /**
          * @brief 创建绑定对象
@@ -8398,18 +8477,9 @@ namespace sw
             using TTargetValue = typename TTargetProperty::TValue;
             using TSourceValue = typename TSourceProperty::TValue;
 
-            auto binding   = new Binding;
-            binding->_mode = mode;
-
-            binding->_targetObject     = target;
-            binding->_sourceObject     = source;
-            binding->_targetPropertyId = Reflection::GetFieldId(targetProperty);
-            binding->_sourcePropertyId = Reflection::GetFieldId(sourceProperty);
-
-            binding->_converter        = converter;
-            binding->_converterDeleter = [](void *ptr) {
-                delete reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(ptr);
-            };
+            auto binding = Create(
+                target, Reflection::GetFieldId(targetProperty),
+                source, Reflection::GetFieldId(sourceProperty), mode, converter);
 
             // update target action
             binding->_updateTargetFunc = [targetSetter = Reflection::GetPropertySetter(targetProperty),
@@ -8559,18 +8629,9 @@ namespace sw
             using TTargetValue = typename TTargetProperty::TValue;
             using TSourceValue = typename TSourceProperty::TValue;
 
-            auto binding   = new Binding;
-            binding->_mode = mode;
-
-            binding->_targetObject     = target;
-            binding->_sourceObject     = source;
-            binding->_targetPropertyId = Reflection::GetFieldId(targetProperty);
-            binding->_sourcePropertyId = Reflection::GetFieldId(sourceProperty);
-
-            binding->_converter        = converter;
-            binding->_converterDeleter = [](void *ptr) {
-                delete reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(ptr);
-            };
+            auto binding = Create(
+                target, Reflection::GetFieldId(targetProperty),
+                source, Reflection::GetFieldId(sourceProperty), mode, converter);
 
             // update target action
             binding->_updateTargetFunc = [targetSetter = Reflection::GetPropertySetter(targetProperty),
@@ -8776,6 +8837,151 @@ namespace sw
         virtual void Arrange(const Rect &finalPosition) = 0;
     };
 }
+
+// Macros.h
+
+
+/*================================================================================*/
+
+/**
+ * _Get_{field name}: 当前类有自定义的Get_{field name}函数时，调用该函数获取field值，否则直接访问field字段
+ */
+#define _SW_DEFINE_STATIC_GETTER(field)                                                                  \
+    template <typename T, typename = void>                                                               \
+    struct _HasUserGetter_##field : std::false_type {                                                    \
+    };                                                                                                   \
+    template <typename T>                                                                                \
+    struct _HasUserGetter_##field<T, decltype(void(&T::Get_##field))> : std::true_type {                 \
+    };                                                                                                   \
+    template <typename T>                                                                                \
+    static auto _Get_##field(T &self)                                                                    \
+        -> typename std::enable_if<_HasUserGetter_##field<T>::value, decltype(self.Get_##field())>::type \
+    {                                                                                                    \
+        return self.Get_##field();                                                                       \
+    }                                                                                                    \
+    template <typename T>                                                                                \
+    static auto _Get_##field(T &self)                                                                    \
+        -> typename std::enable_if<!_HasUserGetter_##field<T>::value, decltype(T::field) &>::type        \
+    {                                                                                                    \
+        return self.##field;                                                                             \
+    }
+
+/**
+ * _Set_{field name}: 当前类有自定义的Set_{field name}函数时，调用该函数设置field值，否则直接访问field字段
+ */
+#define _SW_DEFINE_STATIC_SETTER(field)                                                  \
+    template <typename T, typename = void>                                               \
+    struct _HasUserSetter_##field : std::false_type {                                    \
+    };                                                                                   \
+    template <typename T>                                                                \
+    struct _HasUserSetter_##field<T, decltype(void(&T::Set_##field))> : std::true_type { \
+    };                                                                                   \
+    template <typename T, typename U>                                                    \
+    static auto _Set_##field(T &self, U &&value)                                         \
+        -> typename std::enable_if<_HasUserSetter_##field<T>::value>::type               \
+    {                                                                                    \
+        self.Set_##field(std::forward<U>(value));                                        \
+    }                                                                                    \
+    template <typename T, typename U>                                                    \
+    static auto _Set_##field(T &self, U &&value)                                         \
+        -> typename std::enable_if<!_HasUserSetter_##field<T>::value>::type              \
+    {                                                                                    \
+        self.##field = std::forward<U>(value);                                           \
+    }
+
+/*================================================================================*/
+
+/**
+ * 定义基于字段的属性，若类中有自定义的Get_{field name}和Set_{field name}函数，则会调用这些函数，否则直接访问字段
+ */
+#define SW_DEFINE_PROPERTY(name, field)           \
+    _SW_DEFINE_STATIC_GETTER(field);              \
+    _SW_DEFINE_STATIC_SETTER(field);              \
+    sw::Property<decltype(field)> name            \
+    {                                             \
+        sw::Property<decltype(field)>::Init(this) \
+            .Getter([](auto self) {               \
+                return _Get_##field(*self);       \
+            })                                    \
+            .Setter([](auto self, auto value) {   \
+                _Set_##field(*self, value);       \
+            })                                    \
+    }
+
+/**
+ * 定义基于字段的只读属性，若类中有自定义的Get_{field name}函数，则会调用该函数，否则直接访问字段
+ */
+#define SW_DEFINE_READONLY_PROPERTY(name, field)  \
+    _SW_DEFINE_STATIC_GETTER(field);              \
+    sw::ReadOnlyProperty<decltype(field)> name    \
+    {                                             \
+        sw::Property<decltype(field)>::Init(this) \
+            .Getter([](auto self) {               \
+                return _Get_##field(*self);       \
+            })                                    \
+    }
+
+/**
+ * 定义基于字段的只写属性，若类中有自定义的Set_{field name}函数，则会调用该函数，否则直接访问字段
+ */
+#define SW_DEFINE_WRITEONLY_PROPERTY(name, field) \
+    _SW_DEFINE_STATIC_SETTER(field);              \
+    sw::WriteOnlyProperty<decltype(field)> name   \
+    {                                             \
+        sw::Property<decltype(field)>::Init(this) \
+            .Setter([](auto self, auto value) {   \
+                _Set_##field(*self, value);       \
+            })                                    \
+    }
+
+/*================================================================================*/
+
+/**
+ * 定义基于字段的通知属性，若类中有自定义的Get_{field name}和Set_{field name}函数，则会调用这些函数，否则直接访问字段
+ * 该宏应在实现了INotifyPropertyChanged接口的类中使用，若未自定义Setter则会尝试比较并在字段发生变更时触发属性变更通知
+ */
+#define SW_DEFINE_NOTIFY_PROPERTY(name, field)                                                                      \
+    _SW_DEFINE_STATIC_GETTER(field);                                                                                \
+    template <typename T, typename = void>                                                                          \
+    struct _HasUserSetter_##field : std::false_type {                                                               \
+    };                                                                                                              \
+    template <typename T>                                                                                           \
+    struct _HasUserSetter_##field<T, decltype(void(&T::Set_##field))> : std::true_type {                            \
+    };                                                                                                              \
+    template <typename T, typename U>                                                                               \
+    static auto _Set_##field(T &self, U &&value)                                                                    \
+        -> typename std::enable_if<_HasUserSetter_##field<T>::value>::type                                          \
+    {                                                                                                               \
+        self.Set_##field(std::forward<U>(value));                                                                   \
+    }                                                                                                               \
+    template <typename T, typename U>                                                                               \
+    static auto _Set_##field(T &self, U &&value)                                                                    \
+        -> typename std::enable_if<!_HasUserSetter_##field<T>::value && sw::_EqOperationHelper<T, U>::value>::type  \
+    {                                                                                                               \
+        if (!(_Get_##field(self) == value)) {                                                                       \
+            self.##field = std::forward<U>(value);                                                                  \
+            if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));           \
+        }                                                                                                           \
+    }                                                                                                               \
+    template <typename T, typename U>                                                                               \
+    static auto _Set_##field(T &self, U &&value)                                                                    \
+        -> typename std::enable_if<!_HasUserSetter_##field<T>::value && !sw::_EqOperationHelper<T, U>::value>::type \
+    {                                                                                                               \
+        self.##field = std::forward<U>(value);                                                                      \
+        if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));               \
+    }                                                                                                               \
+    sw::Property<decltype(field)> name                                                                              \
+    {                                                                                                               \
+        sw::Property<decltype(field)>::Init(this)                                                                   \
+            .Getter([](auto self) {                                                                                 \
+                return _Get_##field(*self);                                                                         \
+            })                                                                                                      \
+            .Setter([](auto self, auto value) {                                                                     \
+                _Set_##field(*self, value);                                                                         \
+            })                                                                                                      \
+    }
+
+/*================================================================================*/
 
 // Menu.h
 
