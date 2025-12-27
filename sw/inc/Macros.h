@@ -6,6 +6,28 @@
 /*================================================================================*/
 
 /**
+ * SW_DEFINE_*_PROPERTY系列宏：
+ * 用于简化对字段的属性封装，该系列宏均支持自定义Getter和Setter函数，只需在类中定义对应的Get_{field name}和
+ * Set_{field name}函数即可，生成的属性会自动调用这些函数，否则会直接访问字段本身。
+ *
+ * - SW_DEFINE_PROPERTY(name, field)
+ * - SW_DEFINE_READONLY_PROPERTY(name, field)
+ * - SW_DEFINE_WRITEONLY_PROPERTY(name, field)
+ * - SW_DEFINE_NOTIFY_PROPERTY(name, field)
+ *
+ * SW_DEFINE_EXPR_*_PROPERTY系列宏：
+ * 用于简化对表达式的属性封装，表达式可以是字段、属性或更复杂的表达式，该系列宏不支持自定义Getter和Setter函数，
+ * 当表达式为属性时，属性的Getter和Setter会调用该属性的Get和Set函数，否则直接访问表达式本身。
+ *
+ * - SW_DEFINE_EXPR_PROPERTY(name, expr)
+ * - SW_DEFINE_EXPR_READONLY_PROPERTY(name, expr)
+ * - SW_DEFINE_EXPR_WRITEONLY_PROPERTY(name, expr)
+ * - SW_DEFINE_EXPR_NOTIFY_PROPERTY(name, expr)
+ */
+
+/*================================================================================*/
+
+/**
  * _Get_{field name}: 当前类有自定义的Get_{field name}函数时，调用该函数获取field值，否则直接访问field字段
  */
 #define _SW_DEFINE_STATIC_GETTER(field)                                                                  \
@@ -95,8 +117,6 @@
                 _Set_##field(*self, value);       \
             })                                    \
     }
-
-/*================================================================================*/
 
 /**
  * 定义基于字段的通知属性，若类中有自定义的Get_{field name}和Set_{field name}函数，则会调用这些函数，否则直接访问字段
