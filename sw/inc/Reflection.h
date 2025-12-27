@@ -1,8 +1,8 @@
 #pragma once
 
-// 定义_SW_DISABLE_REFLECTION可以禁用反射相关功能
+// 定义SW_DISABLE_REFLECTION可以禁用反射相关功能
 // 若该宏被定义，则相关功能会抛出runtime_error异常
-// #define _SW_DISABLE_REFLECTION
+// #define SW_DISABLE_REFLECTION
 
 #include "Delegate.h"
 #include "IComparable.h"
@@ -36,7 +36,7 @@ namespace sw
          */
         std::type_index GetTypeIndex() const
         {
-#if defined(_SW_DISABLE_REFLECTION)
+#if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot get type index.");
 #else
             return typeid(*this);
@@ -52,7 +52,7 @@ namespace sw
         template <typename T>
         bool IsType(T **pout = nullptr)
         {
-#if defined(_SW_DISABLE_REFLECTION)
+#if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot check type.");
 #else
             if (pout == nullptr) {
@@ -73,7 +73,7 @@ namespace sw
         template <typename T>
         bool IsType(const T **pout = nullptr) const
         {
-#if defined(_SW_DISABLE_REFLECTION)
+#if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot check type.");
 #else
             if (pout == nullptr) {
@@ -94,7 +94,7 @@ namespace sw
         template <typename T>
         T &DynamicCast()
         {
-#if defined(_SW_DISABLE_REFLECTION)
+#if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
 #else
             return dynamic_cast<T &>(*this);
@@ -110,7 +110,7 @@ namespace sw
         template <typename T>
         const T &DynamicCast() const
         {
-#if defined(_SW_DISABLE_REFLECTION)
+#if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
 #else
             return dynamic_cast<const T &>(*this);
@@ -317,7 +317,8 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertyGetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value && _IsReadableProperty<TProperty>::value,
+                std::is_base_of<DynamicObject, T>::value &&
+                    _IsReadableProperty<TProperty>::value,
                 Delegate<typename TProperty::TValue(DynamicObject &)>>::type
         {
             return [prop](DynamicObject &obj) -> typename TProperty::TValue {
@@ -336,7 +337,9 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertyGetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value && !_IsReadableProperty<TProperty>::value,
+                std::is_base_of<DynamicObject, T>::value &&
+                    _IsProperty<TProperty>::value &&
+                    !_IsReadableProperty<TProperty>::value,
                 Delegate<typename TProperty::TValue(DynamicObject &)>>::type
         {
             return nullptr;
@@ -353,7 +356,8 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertySetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value && _IsWritableProperty<TProperty>::value,
+                std::is_base_of<DynamicObject, T>::value &&
+                    _IsWritableProperty<TProperty>::value,
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
@@ -372,7 +376,9 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertySetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value && !_IsWritableProperty<TProperty>::value,
+                std::is_base_of<DynamicObject, T>::value &&
+                    _IsProperty<TProperty>::value &&
+                    !_IsWritableProperty<TProperty>::value,
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return nullptr;

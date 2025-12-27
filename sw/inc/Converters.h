@@ -66,15 +66,23 @@ namespace sw
     /*================================================================================*/
 
     /**
+     * @brief 数值类型转换器模板声明
+     * @tparam TSource 源数值类型
+     * @tparam TTarget 目标数值类型
+     */
+    template <typename TSource, typename TTarget, typename = void>
+    class NumericConverter;
+
+    /**
      * @brief 数值类型转换器，将源数值类型转换为目标数值类型
      * @tparam TSource 源数值类型
      * @tparam TTarget 目标数值类型
      */
-    template <
-        typename TSource,
-        typename TTarget,
-        typename std::enable_if<std::is_arithmetic<TSource>::value && std::is_arithmetic<TTarget>::value, int>::type = 0>
-    class NumericConverter : public IValueConverter<TSource, TTarget>
+    template <typename TSource, typename TTarget>
+    class NumericConverter<TSource,
+                           TTarget,
+                           typename std::enable_if<std::is_arithmetic<TSource>::value && std::is_arithmetic<TTarget>::value>::type>
+        : public IValueConverter<TSource, TTarget>
     {
     public:
         virtual TTarget Convert(TSource source) override
@@ -95,13 +103,19 @@ namespace sw
     /*================================================================================*/
 
     /**
+     * @brief 数值取反转换器模板声明
+     * @tparam T 数值类型
+     */
+    template <typename T, typename = void>
+    class NumericNegationConverter;
+
+    /**
      * @brief 数值取反转换器
      * @tparam T 数值类型
      */
-    template <
-        typename T,
-        typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
-    class NumericNegationConverter : public IValueConverter<T, T>
+    template <typename T>
+    class NumericNegationConverter<T, typename std::enable_if<std::is_arithmetic<T>::value>::type>
+        : public IValueConverter<T, T>
     {
     public:
         virtual T Convert(T source) override
@@ -133,13 +147,19 @@ namespace sw
     };
 
     /**
+     * @brief 数值与布尔值转换器模板声明
+     * @tparam TSource 数值类型
+     */
+    template <typename TSource, typename = void>
+    class NumericToBoolConverter;
+
+    /**
      * @brief 数值与布尔值转换器，非零数值转换为true，零数值转换为false
      * @tparam TSource 数值类型
      */
-    template <
-        typename TSource,
-        typename std::enable_if<std::is_arithmetic<TSource>::value, int>::type = 0>
-    class NumericToBoolConverter : public IValueConverter<TSource, bool>
+    template <typename TSource>
+    class NumericToBoolConverter<TSource, typename std::enable_if<std::is_arithmetic<TSource>::value>::type>
+        : public IValueConverter<TSource, bool>
     {
     public:
         virtual bool Convert(TSource source) override
@@ -153,13 +173,19 @@ namespace sw
     };
 
     /**
+     * @brief 布尔值与数值转换器模板声明
+     * @tparam TTarget 数值类型
+     */
+    template <typename TTarget, typename = void>
+    class BoolToNumericConverter;
+
+    /**
      * @brief 布尔值与数值转换器，true转换为1，false转换为0
      * @tparam TTarget 数值类型
      */
-    template <
-        typename TTarget,
-        typename std::enable_if<std::is_arithmetic<TTarget>::value, int>::type = 0>
-    class BoolToNumericConverter : public IValueConverter<bool, TTarget>
+    template <typename TTarget>
+    class BoolToNumericConverter<TTarget, typename std::enable_if<std::is_arithmetic<TTarget>::value>::type>
+        : public IValueConverter<bool, TTarget>
     {
     public:
         virtual TTarget Convert(bool source) override
@@ -178,15 +204,23 @@ namespace sw
     /*================================================================================*/
 
     /**
+     * @brief 枚举类型与数值类型转换器模板声明
+     * @tparam TSource 枚举类型
+     * @tparam TTarget 数值类型
+     */
+    template <typename TSource, typename TTarget, typename = void>
+    class EnumToNumericConverter;
+
+    /**
      * @brief 枚举类型与数值类型转换器
      * @tparam TSource 枚举类型
      * @tparam TTarget 数值类型
      */
-    template <
-        typename TSource,
-        typename TTarget,
-        typename std::enable_if<std::is_enum<TSource>::value && std::is_arithmetic<TTarget>::value, int>::type = 0>
-    class EnumToNumericConverter : public IValueConverter<TSource, TTarget>
+    template <typename TSource, typename TTarget>
+    class EnumToNumericConverter<TSource,
+                                 TTarget,
+                                 typename std::enable_if<std::is_enum<TSource>::value && std::is_arithmetic<TTarget>::value>::type>
+        : public IValueConverter<TSource, TTarget>
     {
     public:
         virtual TTarget Convert(TSource source) override
@@ -200,15 +234,23 @@ namespace sw
     };
 
     /**
+     * @brief 数值类型与枚举类型转换器模板声明
+     * @tparam TSource 数值类型
+     * @tparam TTarget 枚举类型
+     */
+    template <typename TSource, typename TTarget, typename = void>
+    class NumericToEnumConverter;
+
+    /**
      * @brief 数值类型与枚举类型转换器
      * @tparam TSource 数值类型
      * @tparam TTarget 枚举类型
      */
-    template <
-        typename TSource,
-        typename TTarget,
-        typename std::enable_if<std::is_arithmetic<TSource>::value && std::is_enum<TTarget>::value, int>::type = 0>
-    class NumericToEnumConverter : public IValueConverter<TSource, TTarget>
+    template <typename TSource, typename TTarget>
+    class NumericToEnumConverter<TSource,
+                                 TTarget,
+                                 typename std::enable_if<std::is_arithmetic<TSource>::value && std::is_enum<TTarget>::value>::type>
+        : public IValueConverter<TSource, TTarget>
     {
     public:
         virtual TTarget Convert(TSource source) override
