@@ -16,8 +16,8 @@
  * - SW_DEFINE_NOTIFY_PROPERTY(name, field)
  *
  * SW_DEFINE_EXPR_*_PROPERTY系列宏：
- * 用于简化对表达式的属性封装，表达式可以是字段、属性或更复杂的表达式，该系列宏不支持自定义Getter和Setter函数，
- * 当表达式为属性时，属性的Getter和Setter会调用该属性的Get和Set函数，否则直接访问表达式本身。
+ * 用于简化对this->{expr}表达式的属性封装，当表达式结果是属性时会进行转发调用，否则直接访问表达式本身，该系列宏
+ * 不支持自定义Getter和Setter函数。
  *
  * - SW_DEFINE_EXPR_PROPERTY(name, expr)
  * - SW_DEFINE_EXPR_READONLY_PROPERTY(name, expr)
