@@ -294,6 +294,7 @@
     <ClInclude Include="..\sw\inc\App.h" />
     <ClInclude Include="..\sw\inc\Binding.h" />
     <ClInclude Include="..\sw\inc\BmpBox.h" />
+    <ClInclude Include="..\sw\inc\BoxedObject.h" />
     <ClInclude Include="..\sw\inc\Button.h" />
     <ClInclude Include="..\sw\inc\ButtonBase.h" />
     <ClInclude Include="..\sw\inc\Canvas.h" />
