@@ -378,4 +378,76 @@ namespace sw
     {
         return static_cast<const BoxedObject<T> &>(*this).Unbox();
     }
+
+    /**
+     * @brief 调用成员函数
+     * @tparam T 成员函数所属类类型
+     * @tparam TFunc 成员函数类型
+     * @tparam Args 成员函数参数类型列表
+     * @param method 成员函数的委托
+     * @param obj 对象引用
+     * @param args 成员函数参数列表
+     * @return 成员函数返回值
+     */
+    template <typename T, typename TFunc, typename... Args>
+    static auto Reflection::InvokeMethod(const Delegate<TFunc> &method, T &obj, Args &&...args)
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value,
+                                   decltype(method(std::declval<DynamicObject &>(), std::forward<Args>(args)...))>::type
+    {
+        assert(method != nullptr);
+        auto boxed = BoxedObject<T>::MakeRef(&obj);
+        return method(boxed, std::forward<Args>(args)...);
+    }
+
+    /**
+     * @brief 访问字段
+     * @tparam T 字段所属类类型
+     * @tparam TField 字段类型
+     * @param accessor 字段访问器的委托
+     * @param obj 对象引用
+     * @return 字段引用
+     */
+    template <typename T, typename TField>
+    static auto Reflection::AccessField(const Delegate<TField &(DynamicObject &)> &accessor, T &obj)
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TField &>::type
+    {
+        assert(accessor != nullptr);
+        auto boxed = BoxedObject<T>::MakeRef(&obj);
+        return accessor(boxed);
+    }
+
+    /**
+     * @brief 获取属性值
+     * @tparam T 属性所属类类型
+     * @tparam TValue 属性值类型
+     * @param getter 属性Getter的委托
+     * @param obj 对象引用
+     * @return 属性值
+     */
+    template <typename T, typename TValue>
+    static auto Reflection::GetProperty(const Delegate<TValue(DynamicObject &)> &getter, T &obj)
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TValue>::type
+    {
+        assert(getter != nullptr);
+        auto boxed = BoxedObject<T>::MakeRef(&obj);
+        return getter(boxed);
+    }
+
+    /**
+     * @brief 设置属性值
+     * @tparam T 属性所属类类型
+     * @tparam TParam 属性Setter参数类型
+     * @tparam TValue 属性值类型
+     * @param setter 属性Setter的委托
+     * @param obj 对象引用
+     * @param value 属性值
+     */
+    template <typename T, typename TParam, typename TValue>
+    static auto Reflection::SetProperty(const Delegate<void(DynamicObject &, TParam)> &setter, T &obj, TValue &&value)
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value>::type
+    {
+        assert(setter != nullptr);
+        auto boxed = BoxedObject<T>::MakeRef(&obj);
+        setter(boxed, std::forward<TValue>(value));
+    }
 }
