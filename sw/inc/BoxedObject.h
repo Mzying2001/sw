@@ -260,4 +260,64 @@ namespace sw
             return _isRef ? *_data.refptr : *reinterpret_cast<const T *>(_data.objbuf);
         }
     };
+
+    /**
+     * @brief 将对象动态转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @throws std::bad_cast 如果转换失败
+     */
+    template <typename T>
+    auto DynamicObject::DynamicCast()
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, T &>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
+        return dynamic_cast<BoxedObject<T> &>(*this).Unbox();
+#endif
+    }
+
+    /**
+     * @brief 将对象动态转换为指定类型的常量引用
+     * @tparam T 目标类型
+     * @return 指定类型的常量引用
+     * @throws std::bad_cast 如果转换失败
+     */
+    template <typename T>
+    auto DynamicObject::DynamicCast() const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, const T &>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
+        return dynamic_cast<const BoxedObject<T> &>(*this).Unbox();
+#endif
+    }
+
+    /**
+     * @brief 将对象不安全地转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @note 若目标类型与当前类型不兼容，则行为未定义
+     */
+    template <typename T>
+    auto DynamicObject::UnsafeCast()
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, T &>::type
+    {
+        return static_cast<BoxedObject<T> &>(*this).Unbox();
+    }
+
+    /**
+     * @brief 将对象不安全地转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @note 若目标类型与当前类型不兼容，则行为未定义
+     */
+    template <typename T>
+    auto DynamicObject::UnsafeCast() const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, const T &>::type
+    {
+        return static_cast<const BoxedObject<T> &>(*this).Unbox();
+    }
 }

@@ -92,7 +92,8 @@ namespace sw
          * @throws   std::bad_cast 如果转换失败
          */
         template <typename T>
-        T &DynamicCast()
+        auto DynamicCast()
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, T &>::type
         {
 #if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
@@ -108,7 +109,8 @@ namespace sw
          * @throws   std::bad_cast 如果转换失败
          */
         template <typename T>
-        const T &DynamicCast() const
+        auto DynamicCast() const
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, const T &>::type
         {
 #if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
@@ -125,7 +127,8 @@ namespace sw
          */
         template <typename T>
         auto UnsafeCast()
-            -> typename std::enable_if<_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, T &>::type
         {
             return static_cast<T &>(*this);
         }
@@ -138,7 +141,8 @@ namespace sw
          */
         template <typename T>
         auto UnsafeCast()
-            -> typename std::enable_if<!_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
         {
             return DynamicCast<T>();
         }
@@ -151,7 +155,8 @@ namespace sw
          */
         template <typename T>
         auto UnsafeCast() const
-            -> typename std::enable_if<_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
         {
             return static_cast<const T &>(*this);
         }
@@ -164,10 +169,52 @@ namespace sw
          */
         template <typename T>
         auto UnsafeCast() const
-            -> typename std::enable_if<!_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
         {
             return DynamicCast<T>();
         }
+
+    public:
+        /**
+         * @brief    将对象动态转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @throws   std::bad_cast 如果转换失败
+         */
+        template <typename T>
+        auto DynamicCast()
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, T &>::type;
+
+        /**
+         * @brief    将对象动态转换为指定类型的常量引用
+         * @tparam T 目标类型
+         * @return   指定类型的常量引用
+         * @throws   std::bad_cast 如果转换失败
+         */
+        template <typename T>
+        auto DynamicCast() const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, const T &>::type;
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast()
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, T &>::type;
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast() const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, const T &>::type;
     };
 
     /**
