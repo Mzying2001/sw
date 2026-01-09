@@ -6,6 +6,7 @@
 #include "App.h"
 #include "Binding.h"
 #include "BmpBox.h"
+#include "BoxedObject.h"
 #include "Button.h"
 #include "ButtonBase.h"
 #include "Canvas.h"
