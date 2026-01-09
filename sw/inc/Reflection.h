@@ -295,6 +295,7 @@ namespace sw
          */
         Reflection() = delete;
 
+    public:
         /**
          * @brief         获取字段的唯一标识符
          * @tparam T      字段所属类类型
@@ -331,9 +332,7 @@ namespace sw
          * @return       对应的委托
          */
         template <typename T, typename TRet, typename... Args>
-        static auto GetMethod(TRet (T::*method)(Args...))
-            -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
+        static auto GetMethod(TRet (T::*method)(Args...)) -> Delegate<TRet(DynamicObject &, Args...)>
         {
             return [method](DynamicObject &obj, Args... args) -> TRet {
                 return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
@@ -349,9 +348,7 @@ namespace sw
          * @return       对应的委托
          */
         template <typename T, typename TRet, typename... Args>
-        static auto GetMethod(TRet (T::*method)(Args...) const)
-            -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
+        static auto GetMethod(TRet (T::*method)(Args...) const) -> Delegate<TRet(DynamicObject &, Args...)>
         {
             return [method](DynamicObject &obj, Args... args) -> TRet {
                 return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
@@ -366,9 +363,7 @@ namespace sw
          * @return        对应的访问器
          */
         template <typename T, typename TField>
-        static auto GetFieldAccessor(TField T::*field)
-            -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value, Delegate<TField &(DynamicObject &)>>::type
+        static auto GetFieldAccessor(TField T::*field) -> Delegate<TField &(DynamicObject &)>
         {
             return [field](DynamicObject &obj) -> TField & {
                 return obj.UnsafeCast<T>().*field;
@@ -386,8 +381,7 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertyGetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value &&
-                    _IsReadableProperty<TProperty>::value,
+                _IsReadableProperty<TProperty>::value,
                 Delegate<typename TProperty::TValue(DynamicObject &)>>::type
         {
             return [prop](DynamicObject &obj) -> typename TProperty::TValue {
@@ -406,9 +400,7 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertyGetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value &&
-                    _IsProperty<TProperty>::value &&
-                    !_IsReadableProperty<TProperty>::value,
+                _IsProperty<TProperty>::value && !_IsReadableProperty<TProperty>::value,
                 Delegate<typename TProperty::TValue(DynamicObject &)>>::type
         {
             return nullptr;
@@ -425,8 +417,7 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertySetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value &&
-                    _IsWritableProperty<TProperty>::value,
+                _IsWritableProperty<TProperty>::value,
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
@@ -445,9 +436,7 @@ namespace sw
         template <typename T, typename TProperty>
         static auto GetPropertySetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value &&
-                    _IsProperty<TProperty>::value &&
-                    !_IsWritableProperty<TProperty>::value,
+                _IsProperty<TProperty>::value && !_IsWritableProperty<TProperty>::value,
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return nullptr;
