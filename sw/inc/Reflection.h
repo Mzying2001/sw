@@ -7,18 +7,13 @@
 #include "Delegate.h"
 #include "IComparable.h"
 #include "IToString.h"
+#include "Internal.h"
 #include "Property.h"
 #include <type_traits>
 #include <typeindex>
 
 namespace sw
 {
-    /**
-     * @brief 用于判断是否可以通过static_cast进行转换
-     */
-    template <typename TFrom, typename TTo>
-    using _IsStaticCastable = _IsExplicitlyConvertable<TFrom, TTo>;
-
     /**
      * @brief 动态对象基类
      */

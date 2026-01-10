@@ -11,4 +11,25 @@ namespace sw
     using _OptimalParamType = typename std::conditional<
         std::is_scalar<typename std::decay<T>::type>::value,
         typename std::decay<T>::type, const typename std::decay<T>::type &>::type;
+
+    /**
+     * @brief 判断类型是否可以显式转换的辅助模板
+     */
+    template <typename TFrom, typename TTo, typename = void>
+    struct _IsExplicitlyConvertable : std::false_type {
+    };
+
+    /**
+     * @brief _IsExplicitlyConvertable模板特化
+     */
+    template <typename TFrom, typename TTo>
+    struct _IsExplicitlyConvertable<
+        TFrom, TTo, decltype(void(static_cast<TTo>(std::declval<TFrom>())))> : std::true_type {
+    };
+
+    /**
+     * @brief 用于判断是否可以通过static_cast进行转换
+     */
+    template <typename TFrom, typename TTo>
+    using _IsStaticCastable = _IsExplicitlyConvertable<TFrom, TTo>;
 }

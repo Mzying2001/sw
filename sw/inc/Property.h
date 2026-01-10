@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Internal.h"
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
@@ -157,21 +158,6 @@ namespace sw
     };
 
     /**
-     * @brief 判断类型是否可以显式转换的辅助模板
-     */
-    template <typename TFrom, typename TTo, typename = void>
-    struct _IsExplicitlyConvertable : std::false_type {
-    };
-
-    /**
-     * @brief _IsExplicitlyConvertable模板特化
-     */
-    template <typename TFrom, typename TTo>
-    struct _IsExplicitlyConvertable<
-        TFrom, TTo, decltype(void(static_cast<TTo>(std::declval<TFrom>())))> : std::true_type {
-    };
-
-    /**
      * @brief 判断类型是否有operator->的辅助模板
      */
     template <typename T, typename = void>
@@ -188,20 +174,10 @@ namespace sw
     };
 
     /**
-     * @brief 属性setter参数类型辅助模板
-     */
-    template <typename T>
-    struct _PropertySetterParamTypeHelper {
-        using type = typename std::conditional<
-            std::is_scalar<T>::value, T, const T &>::type;
-    };
-
-    /**
      * @brief 属性setter参数类型
      */
     template <typename T>
-    using _PropertySetterParamType =
-        typename _PropertySetterParamTypeHelper<typename std::decay<T>::type>::type;
+    using _PropertySetterParamType = _OptimalParamType<T>;
 
     /*================================================================================*/
 
