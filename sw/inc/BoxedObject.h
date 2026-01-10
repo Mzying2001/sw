@@ -5,12 +5,6 @@
 namespace sw
 {
     /**
-     * @brief 装箱对象模板类声明
-     */
-    template <typename T, typename = void>
-    class BoxedObject;
-
-    /**
      * @brief 装箱对象，用于将任意类型封装为DynamicObject对象
      */
     template <typename T>
@@ -53,6 +47,7 @@ namespace sw
         explicit BoxedObject(_IsRefParam isRef) noexcept
             : _isRef(isRef.val), _data()
         {
+            _isBoxedObject = true;
         }
 
         /**

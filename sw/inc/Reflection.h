@@ -15,15 +15,52 @@
 namespace sw
 {
     /**
+     * @brief 装箱对象模板类声明
+     */
+    template <typename T, typename = void>
+    class BoxedObject;
+
+    /**
      * @brief 动态对象基类
      */
     class DynamicObject
     {
+    private:
+        /**
+         * @brief 允许BoxedObject访问_isBoxedObject成员
+         */
+        template <typename, typename>
+        friend class BoxedObject;
+
+        /**
+         * @brief 指示当前对象是否为装箱对象
+         */
+        bool _isBoxedObject;
+
     public:
+        /**
+         * @brief 默认构造函数
+         */
+        DynamicObject() noexcept
+            : _isBoxedObject(false)
+        {
+        }
+
         /**
          * @brief 析构函数
          */
-        virtual ~DynamicObject() = default;
+        virtual ~DynamicObject() noexcept
+        {
+        }
+
+        /**
+         * @brief  判断对象是否为装箱对象
+         * @return 如果对象为装箱对象则返回true，否则返回false
+         */
+        bool IsBoxedObject() const noexcept
+        {
+            return _isBoxedObject;
+        }
 
         /**
          * @brief  获取对象的类型索引
