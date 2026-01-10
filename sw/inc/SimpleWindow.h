@@ -55,6 +55,7 @@
 #include "Icon.h"
 #include "IconBox.h"
 #include "ImageList.h"
+#include "Internal.h"
 #include "ItemsControl.h"
 #include "Keys.h"
 #include "KnownColor.h"

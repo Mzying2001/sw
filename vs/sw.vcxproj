@@ -339,6 +339,7 @@
     <ClInclude Include="..\sw\inc\ImageList.h" />
     <ClInclude Include="..\sw\inc\INotifyObjectDead.h" />
     <ClInclude Include="..\sw\inc\INotifyPropertyChanged.h" />
+    <ClInclude Include="..\sw\inc\Internal.h" />
     <ClInclude Include="..\sw\inc\IPAddressControl.h" />
     <ClInclude Include="..\sw\inc\ITag.h" />
     <ClInclude Include="..\sw\inc\ItemsControl.h" />
