@@ -20,7 +20,7 @@ namespace sw
     /**
      * @brief 菜单项
      */
-    class MenuItem : public ITag
+    class MenuItem : public ITag<uint64_t>
     {
     public:
         /**

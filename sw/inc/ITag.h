@@ -1,12 +1,13 @@
 #pragma once
 
-#include <cstdint>
+#include <type_traits>
 
 namespace sw
 {
     /**
      * @brief Tag接口
      */
+    template <typename T>
     class ITag
     {
     public:
@@ -19,11 +20,11 @@ namespace sw
         /**
          * @brief 获取Tag
          */
-        virtual uint64_t GetTag() const = 0;
+        virtual T GetTag() const = 0;
 
         /**
          * @brief 设置Tag
          */
-        virtual void SetTag(uint64_t tag) = 0;
+        virtual void SetTag(typename std::conditional<std::is_scalar<T>::value, T, const T &>::type tag) = 0;
     };
 }
