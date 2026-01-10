@@ -32,4 +32,19 @@ namespace sw
      */
     template <typename TFrom, typename TTo>
     using _IsStaticCastable = _IsExplicitlyConvertable<TFrom, TTo>;
+
+    /**
+     * @brief 判断类型是否可以使用dynamic_cast进行转换的辅助模板
+     */
+    template <typename TFrom, typename TTo, typename = void>
+    struct _IsDynamicCastable : std::false_type {
+    };
+
+    /**
+     * @brief _IsDynamicCastable模板特化
+     */
+    template <typename TFrom, typename TTo>
+    struct _IsDynamicCastable<
+        TFrom, TTo, decltype(void(dynamic_cast<TTo>(std::declval<TFrom>())))> : std::true_type {
+    };
 }

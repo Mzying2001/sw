@@ -342,13 +342,34 @@ namespace sw
      */
     template <typename T>
     auto DynamicObject::DynamicCast()
-        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, T &>::type
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, T &>::type
     {
 #if defined(SW_DISABLE_REFLECTION)
         throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
 #else
         if (!_isBoxedObject) {
             return dynamic_cast<T &>(*this);
+        } else {
+            return dynamic_cast<BoxedObject<T> &>(*this).Unbox();
+        }
+#endif
+    }
+
+    /**
+     * @brief 将对象动态转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @throws std::bad_cast 如果转换失败
+     */
+    template <typename T>
+    auto DynamicObject::DynamicCast()
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, T &>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
+        if (!_isBoxedObject) {
+            throw std::bad_cast();
         } else {
             return dynamic_cast<BoxedObject<T> &>(*this).Unbox();
         }
@@ -363,13 +384,34 @@ namespace sw
      */
     template <typename T>
     auto DynamicObject::DynamicCast() const
-        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, const T &>::type
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, const T &>::type
     {
 #if defined(SW_DISABLE_REFLECTION)
         throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
 #else
         if (!_isBoxedObject) {
             return dynamic_cast<const T &>(*this);
+        } else {
+            return dynamic_cast<const BoxedObject<T> &>(*this).Unbox();
+        }
+#endif
+    }
+
+    /**
+     * @brief 将对象动态转换为指定类型的常量引用
+     * @tparam T 目标类型
+     * @return 指定类型的常量引用
+     * @throws std::bad_cast 如果转换失败
+     */
+    template <typename T>
+    auto DynamicObject::DynamicCast() const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, const T &>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
+        if (!_isBoxedObject) {
+            throw std::bad_cast();
         } else {
             return dynamic_cast<const BoxedObject<T> &>(*this).Unbox();
         }
