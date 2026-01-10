@@ -271,18 +271,27 @@ namespace sw
 #if defined(SW_DISABLE_REFLECTION)
         throw std::runtime_error("Reflection is disabled, cannot check type.");
 #else
-        BoxedObject<T> *obj = nullptr;
-
-        if (!IsType(&obj) || obj->IsNullRef()) {
-            if (pout != nullptr) {
-                *pout = nullptr;
+        if (!_isBoxedObject) {
+            if (pout == nullptr) {
+                return dynamic_cast<T *>(this) != nullptr;
+            } else {
+                *pout = dynamic_cast<T *>(this);
+                return *pout != nullptr;
             }
-            return false;
         } else {
-            if (pout != nullptr) {
-                *pout = &obj->Unbox();
+            BoxedObject<T> *obj = nullptr;
+
+            if (!IsType(&obj) || obj->IsNullRef()) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                if (pout != nullptr) {
+                    *pout = &obj->Unbox();
+                }
+                return true;
             }
-            return true;
         }
 #endif
     }
@@ -300,18 +309,27 @@ namespace sw
 #if defined(SW_DISABLE_REFLECTION)
         throw std::runtime_error("Reflection is disabled, cannot check type.");
 #else
-        const BoxedObject<T> *obj = nullptr;
-
-        if (!IsType(&obj) || obj->IsNullRef()) {
-            if (pout != nullptr) {
-                *pout = nullptr;
+        if (!_isBoxedObject) {
+            if (pout == nullptr) {
+                return dynamic_cast<const T *>(this) != nullptr;
+            } else {
+                *pout = dynamic_cast<const T *>(this);
+                return *pout != nullptr;
             }
-            return false;
         } else {
-            if (pout != nullptr) {
-                *pout = &obj->Unbox();
+            const BoxedObject<T> *obj = nullptr;
+
+            if (!IsType(&obj) || obj->IsNullRef()) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                if (pout != nullptr) {
+                    *pout = &obj->Unbox();
+                }
+                return true;
             }
-            return true;
         }
 #endif
     }
@@ -329,7 +347,11 @@ namespace sw
 #if defined(SW_DISABLE_REFLECTION)
         throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
 #else
-        return dynamic_cast<BoxedObject<T> &>(*this).Unbox();
+        if (!_isBoxedObject) {
+            return dynamic_cast<T &>(*this);
+        } else {
+            return dynamic_cast<BoxedObject<T> &>(*this).Unbox();
+        }
 #endif
     }
 
@@ -346,7 +368,11 @@ namespace sw
 #if defined(SW_DISABLE_REFLECTION)
         throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
 #else
-        return dynamic_cast<const BoxedObject<T> &>(*this).Unbox();
+        if (!_isBoxedObject) {
+            return dynamic_cast<const T &>(*this);
+        } else {
+            return dynamic_cast<const BoxedObject<T> &>(*this).Unbox();
+        }
 #endif
     }
 
@@ -358,9 +384,30 @@ namespace sw
      */
     template <typename T>
     auto DynamicObject::UnsafeCast()
-        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, T &>::type
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, T &>::type
     {
-        return static_cast<BoxedObject<T> &>(*this).Unbox();
+        if (!_isBoxedObject) {
+            return static_cast<T &>(*this);
+        } else {
+            return static_cast<BoxedObject<T> &>(*this).Unbox();
+        }
+    }
+
+    /**
+     * @brief 将对象不安全地转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @note 若目标类型与当前类型不兼容，则行为未定义
+     */
+    template <typename T>
+    auto DynamicObject::UnsafeCast()
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+    {
+        if (!_isBoxedObject) {
+            return DynamicCast<T>();
+        } else {
+            return static_cast<BoxedObject<T> &>(*this).Unbox();
+        }
     }
 
     /**
@@ -371,9 +418,30 @@ namespace sw
      */
     template <typename T>
     auto DynamicObject::UnsafeCast() const
-        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, const T &>::type
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
     {
-        return static_cast<const BoxedObject<T> &>(*this).Unbox();
+        if (!_isBoxedObject) {
+            return static_cast<const T &>(*this);
+        } else {
+            return static_cast<const BoxedObject<T> &>(*this).Unbox();
+        }
+    }
+
+    /**
+     * @brief 将对象不安全地转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @note 若目标类型与当前类型不兼容，则行为未定义
+     */
+    template <typename T>
+    auto DynamicObject::UnsafeCast() const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+    {
+        if (!_isBoxedObject) {
+            return DynamicCast<T>();
+        } else {
+            return static_cast<const BoxedObject<T> &>(*this).Unbox();
+        }
     }
 
     /**
