@@ -91,9 +91,18 @@ namespace sw
         }
 
         /**
+         * @brief 判断Variant对象是否为空
+         * @return 若Variant对象为空则返回true，否则返回false
+         */
+        bool IsNull() const noexcept
+        {
+            return _obj == nullptr;
+        }
+
+        /**
          * @brief 判断两Variant是否为同一对象
          */
-        bool Equals(const Variant &other) const
+        bool Equals(const Variant &other) const noexcept
         {
             return _obj == other._obj;
         }
@@ -178,7 +187,109 @@ namespace sw
             return _obj.get();
         }
 
+        /**
+         * @brief 判断当前Variant存储的对象是否为指定类型
+         * @tparam T 目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return 如果Variant对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        bool IsType(T **pout = nullptr)
+        {
+            if (_obj == nullptr) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                return _obj->IsType<T>(pout);
+            }
+        }
+
+        /**
+         * @brief 判断当前Variant存储的对象是否为指定类型
+         * @tparam T 目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return 如果Variant对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        bool IsType(const T **pout = nullptr) const
+        {
+            if (_obj == nullptr) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                return _obj->IsType<T>(pout);
+            }
+        }
+
+        /**
+         * @brief 将Variant对象动态转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return 指定类型的引用
+         * @throws std::bad_cast 如果转换失败或Variant为空
+         */
+        template <typename T>
+        T &DynamicCast()
+        {
+            ThrowBadCastIfEmpty();
+            return _obj->DynamicCast<T>();
+        }
+
+        /**
+         * @brief 将Variant对象动态转换为指定类型的常量引用
+         * @tparam T 目标类型
+         * @return 指定类型的常量引用
+         * @throws std::bad_cast 如果转换失败或Variant为空
+         */
+        template <typename T>
+        const T &DynamicCast() const
+        {
+            ThrowBadCastIfEmpty();
+            return _obj->DynamicCast<T>();
+        }
+
+        /**
+         * @brief 将Variant对象转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return 指定类型的引用
+         * @throws std::bad_cast 如果Variant为空
+         * @note 若目标类型与存储类型不匹配，则行为未定义
+         */
+        template <typename T>
+        T &UnsafeCast()
+        {
+            ThrowBadCastIfEmpty();
+            return _obj->UnsafeCast<T>();
+        }
+
+        /**
+         * @brief 将Variant对象转换为指定类型的常量引用
+         * @tparam T 目标类型
+         * @return 指定类型的常量引用
+         * @throws std::bad_cast 如果Variant为空
+         * @note 若目标类型与存储类型不匹配，则行为未定义
+         */
+        template <typename T>
+        const T &UnsafeCast() const
+        {
+            ThrowBadCastIfEmpty();
+            return _obj->UnsafeCast<T>();
+        }
+
     private:
+        /**
+         * @brief 抛出Variant为空的异常
+         */
+        void ThrowBadCastIfEmpty() const
+        {
+            if (_obj == nullptr) {
+                throw std::bad_cast();
+            }
+        }
+
         /**
          * @brief 初始化克隆函数指针
          * @tparam T 对象类型
