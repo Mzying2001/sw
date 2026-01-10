@@ -16,14 +16,9 @@ namespace sw
         std::unique_ptr<DynamicObject> _obj;
 
         /**
-         * @brief 内部克隆函数指针类型
+         * @brief 克隆对象函数指针
          */
-        using TCloner = DynamicObject *(*)(const DynamicObject &);
-
-        /**
-         * @brief 内部克隆函数指针
-         */
-        TCloner _cloner = nullptr;
+        DynamicObject *(*_cloner)(const DynamicObject &) = nullptr;
 
     public:
         /**
