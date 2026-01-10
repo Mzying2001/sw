@@ -1,15 +1,9 @@
 #pragma once
 
-#include "Property.h" // For _PropertySetterParamType<T>
+#include "Internal.h"
 
 namespace sw
 {
-    /**
-     * @brief 最佳参数类型，标量类型使用值传递，复杂类型使用常量引用传递
-     */
-    template <typename T>
-    using _OptimalParamType = _PropertySetterParamType<T>;
-
     /**
      * @brief 值转换器接口
      * @tparam TSource 源类型

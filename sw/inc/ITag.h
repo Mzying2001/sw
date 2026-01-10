@@ -1,6 +1,6 @@
 #pragma once
 
-#include <type_traits>
+#include "Internal.h"
 
 namespace sw
 {
@@ -25,6 +25,6 @@ namespace sw
         /**
          * @brief 设置Tag
          */
-        virtual void SetTag(typename std::conditional<std::is_scalar<T>::value, T, const T &>::type tag) = 0;
+        virtual void SetTag(_OptimalParamType<T> tag) = 0;
     };
 }
