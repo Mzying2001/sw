@@ -110,6 +110,7 @@
 #include "UniformGrid.h"
 #include "UniformGridLayout.h"
 #include "Utils.h"
+#include "Variant.h"
 #include "Window.h"
 #include "WndBase.h"
 #include "WndMsg.h"
