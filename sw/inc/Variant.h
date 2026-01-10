@@ -64,6 +64,7 @@ namespace sw
 
         /**
          * @brief 拷贝构造函数
+         * @throws std::runtime_error 如果对象不可拷贝
          */
         Variant &operator=(const Variant &other)
         {
@@ -108,6 +109,7 @@ namespace sw
 
         /**
          * @brief 重置Variant对象为另一个Variant对象的值
+         * @throws std::runtime_error 如果对象不可拷贝
          */
         void Reset(const Variant &other)
         {
