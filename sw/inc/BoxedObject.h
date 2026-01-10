@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Reflection.h"
 
 namespace sw
