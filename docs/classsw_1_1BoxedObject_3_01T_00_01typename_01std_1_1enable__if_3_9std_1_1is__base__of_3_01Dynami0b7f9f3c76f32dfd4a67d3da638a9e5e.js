@@ -1,7 +1,7 @@
 var classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e =
 [
     [ "BoxedObject", "classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html#a431646ac069ff2e969c057cce6ed3952", null ],
-    [ "~BoxedObject", "classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html#aabbded5adcfb75faf26f455cc6de8797", null ],
+    [ "~BoxedObject", "classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html#ad398d5377538aede4236f5fcc602d382", null ],
     [ "BoxedObject", "classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html#a072f73f8546eb3efb3d7c3240fabf7fd", null ],
     [ "BoxedObject", "classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html#a152e38aae0d405deab23ba8a657c461a", null ],
     [ "HasValue", "classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html#a8e8451b7c8c9b9cab8d2784cde08b4a2", null ],
