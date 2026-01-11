@@ -74,9 +74,8 @@ for index in range(0, count):
 outputfile.write('#include <windows.h>\n')
 
 # 输出include部分
-for incfile in sorted(included):
-    if incfile != 'windows.h':
-        outputfile.write(f'#include <{incfile}>\n')
+for incfile in sorted(included - {'windows.h'}):
+    outputfile.write(f'#include <{incfile}>\n')
 
 
 # 记录入度为0点的队列
