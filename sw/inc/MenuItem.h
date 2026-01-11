@@ -2,7 +2,7 @@
 
 #include "Delegate.h"
 #include "ITag.h"
-#include <Windows.h>
+#include <windows.h>
 #include <initializer_list>
 #include <memory>
 #include <string>

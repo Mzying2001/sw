@@ -1,6 +1,6 @@
 #include "ImageList.h"
 #include "ItemsControl.h"
-#include <CommCtrl.h>
+#include <commctrl.h>
 
 namespace sw
 {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "WndBase.h"
-#include <CommCtrl.h>
+#include <commctrl.h>
 
 namespace sw
 {

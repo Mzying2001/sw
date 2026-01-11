@@ -1,7 +1,7 @@
 #pragma once
 
 #include "MenuItem.h"
-#include <Windows.h>
+#include <windows.h>
 #include <initializer_list>
 #include <map>
 #include <memory>

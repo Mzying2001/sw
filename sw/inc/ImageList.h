@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Dip.h"
-#include <CommCtrl.h>
+#include <commctrl.h>
 
 namespace sw
 {

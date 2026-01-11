@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EnumBit.h"
-#include <Windows.h>
+#include <windows.h>
 #include <cstdint>
 
 namespace sw

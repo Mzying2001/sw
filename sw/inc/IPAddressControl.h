@@ -1,7 +1,7 @@
 #pragma once
 
 #include "HwndHost.h"
-#include <CommCtrl.h>
+#include <commctrl.h>
 
 namespace sw
 {

@@ -2,7 +2,7 @@
 
 #include "Control.h"
 #include "EnumBit.h"
-#include <CommCtrl.h>
+#include <commctrl.h>
 
 namespace sw
 {

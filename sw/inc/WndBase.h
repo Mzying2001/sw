@@ -16,7 +16,7 @@
 #include "Rect.h"
 #include "Size.h"
 #include "WndMsg.h"
-#include <Windows.h>
+#include <windows.h>
 #include <string>
 #include <type_traits>
 #include <windowsx.h>

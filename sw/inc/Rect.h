@@ -4,7 +4,7 @@
 #include "IToString.h"
 #include "Point.h"
 #include "Size.h"
-#include <Windows.h>
+#include <windows.h>
 #include <string>
 #include <type_traits>
 

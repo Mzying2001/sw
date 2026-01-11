@@ -1,5 +1,5 @@
 #include "Path.h"
-#include <Windows.h>
+#include <windows.h>
 
 std::wstring sw::Path::GetFileName(const std::wstring &path)
 {

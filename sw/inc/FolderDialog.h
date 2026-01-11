@@ -2,7 +2,7 @@
 
 #include "EnumBit.h"
 #include "Window.h"
-#include <Shlobj.h>
+#include <shlobj.h>
 
 namespace sw
 {

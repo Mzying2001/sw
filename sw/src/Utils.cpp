@@ -1,5 +1,5 @@
 #include "Utils.h"
-#include <Windows.h>
+#include <windows.h>
 #include <cstdarg>
 #include <cwchar>
 

@@ -2,7 +2,7 @@
 
 #include "Delegate.h"
 #include "WndBase.h"
-#include <Windows.h>
+#include <windows.h>
 #include <string>
 
 namespace sw

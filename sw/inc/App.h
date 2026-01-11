@@ -2,7 +2,7 @@
 
 #include "Delegate.h"
 #include "Property.h"
-#include <Windows.h>
+#include <windows.h>
 #include <memory>
 #include <string>
 
