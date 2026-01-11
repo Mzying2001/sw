@@ -99,28 +99,29 @@ $(document).ready(function(){initNavTree('ITag_8h_source.html',''); initResizabl
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Internal.h&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>sw</div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
-<div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classsw_1_1ITag.html">   10</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1ITag.html">ITag</a></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    {</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classsw_1_1ITag.html#a34c7ead6ffeda8323221f5b85529a771">   16</a></span>        <span class="keyword">virtual</span> <a class="code hl_function" href="classsw_1_1ITag.html#a34c7ead6ffeda8323221f5b85529a771">~ITag</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classsw_1_1ITag.html#a81286c4915e9e895fd1b6698f214c18b">   22</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">uint64_t</a> <a class="code hl_function" href="classsw_1_1ITag.html#a81286c4915e9e895fd1b6698f214c18b">GetTag</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classsw_1_1ITag.html#a814b2084a60df545ba5d47e96f7928d3">   27</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ITag.html#a814b2084a60df545ba5d47e96f7928d3">SetTag</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">uint64_t</a> tag) = 0;</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    };</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00011" data-start="{" data-end="};">
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="classsw_1_1ITag.html">   11</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1ITag.html">ITag</a></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="classsw_1_1ITag.html#ab8f9ee5b36bc52c8a667c9d4c26e62f3">   17</a></span>        <span class="keyword">virtual</span> <a class="code hl_function" href="classsw_1_1ITag.html#ab8f9ee5b36bc52c8a667c9d4c26e62f3">~ITag</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classsw_1_1ITag.html#aeac25d84bca733ecaf7b52b3f65c2d0f">   23</a></span>        <span class="keyword">virtual</span> T <a class="code hl_function" href="classsw_1_1ITag.html#aeac25d84bca733ecaf7b52b3f65c2d0f">GetTag</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classsw_1_1ITag.html#ac2df2d067e70874e66acc200c8cb8fc6">   28</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ITag.html#ac2df2d067e70874e66acc200c8cb8fc6">SetTag</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">_OptimalParamType&lt;T&gt;</a> tag) = 0;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    };</div>
 </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>}</div>
-<div class="ttc" id="aclasssw_1_1ITag_html"><div class="ttname"><a href="classsw_1_1ITag.html">sw::ITag</a></div><div class="ttdoc">Tag接口</div><div class="ttdef"><b>Definition</b> ITag.h:11</div></div>
-<div class="ttc" id="aclasssw_1_1ITag_html_a34c7ead6ffeda8323221f5b85529a771"><div class="ttname"><a href="classsw_1_1ITag.html#a34c7ead6ffeda8323221f5b85529a771">sw::ITag::~ITag</a></div><div class="ttdeci">virtual ~ITag()=default</div><div class="ttdoc">默认虚析构函数</div></div>
-<div class="ttc" id="aclasssw_1_1ITag_html_a81286c4915e9e895fd1b6698f214c18b"><div class="ttname"><a href="classsw_1_1ITag.html#a81286c4915e9e895fd1b6698f214c18b">sw::ITag::GetTag</a></div><div class="ttdeci">virtual uint64_t GetTag() const =0</div><div class="ttdoc">获取Tag</div></div>
-<div class="ttc" id="aclasssw_1_1ITag_html_a814b2084a60df545ba5d47e96f7928d3"><div class="ttname"><a href="classsw_1_1ITag.html#a814b2084a60df545ba5d47e96f7928d3">sw::ITag::SetTag</a></div><div class="ttdeci">virtual void SetTag(uint64_t tag)=0</div><div class="ttdoc">设置Tag</div></div>
-<div class="ttc" id="aclasssw_1_1IValueConverter_html"><div class="ttname"><a href="classsw_1_1IValueConverter.html">sw::IValueConverter</a></div><div class="ttdoc">值转换器接口</div><div class="ttdef"><b>Definition</b> IValueConverter.h:20</div></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>}</div>
+<div class="ttc" id="aclasssw_1_1ITag_html"><div class="ttname"><a href="classsw_1_1ITag.html">sw::ITag</a></div><div class="ttdoc">Tag接口</div><div class="ttdef"><b>Definition</b> ITag.h:12</div></div>
+<div class="ttc" id="aclasssw_1_1ITag_html_ab8f9ee5b36bc52c8a667c9d4c26e62f3"><div class="ttname"><a href="classsw_1_1ITag.html#ab8f9ee5b36bc52c8a667c9d4c26e62f3">sw::ITag::~ITag</a></div><div class="ttdeci">virtual ~ITag()=default</div><div class="ttdoc">默认虚析构函数</div></div>
+<div class="ttc" id="aclasssw_1_1ITag_html_ac2df2d067e70874e66acc200c8cb8fc6"><div class="ttname"><a href="classsw_1_1ITag.html#ac2df2d067e70874e66acc200c8cb8fc6">sw::ITag::SetTag</a></div><div class="ttdeci">virtual void SetTag(_OptimalParamType&lt; T &gt; tag)=0</div><div class="ttdoc">设置Tag</div></div>
+<div class="ttc" id="aclasssw_1_1ITag_html_aeac25d84bca733ecaf7b52b3f65c2d0f"><div class="ttname"><a href="classsw_1_1ITag.html#aeac25d84bca733ecaf7b52b3f65c2d0f">sw::ITag::GetTag</a></div><div class="ttdeci">virtual T GetTag() const =0</div><div class="ttdoc">获取Tag</div></div>
+<div class="ttc" id="aclasssw_1_1IValueConverter_html"><div class="ttname"><a href="classsw_1_1IValueConverter.html">sw::IValueConverter</a></div><div class="ttdoc">值转换器接口</div><div class="ttdef"><b>Definition</b> IValueConverter.h:14</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

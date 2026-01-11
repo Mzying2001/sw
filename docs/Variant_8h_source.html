@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: Variant.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('Variant_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Variant.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Reflection.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
+<div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html">   10</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1Variant.html">Variant</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">final</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1IEqualityComparable.html">IEqualityComparable</a>&lt;Variant&gt;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        std::unique_ptr&lt;DynamicObject&gt; _obj;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a> *(*_cloner)(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;) = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#aae7e07e5466546486096283673e36f79">   27</a></span>        <a class="code hl_function" href="classsw_1_1Variant.html#aae7e07e5466546486096283673e36f79">Variant</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keyword">template</span> &lt;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            <span class="keyword">typename</span> T,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            <span class="keyword">typename</span> std::enable_if&lt;!std::is_same&lt;Variant, typename std::decay&lt;T&gt;::type&gt;::value, <span class="keywordtype">int</span>&gt;::type = 0&gt;</div>
+<div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a1c2fdfc43fa43d8eae8c8606f855a85a">   35</a></span>        <a class="code hl_function" href="classsw_1_1Variant.html#a1c2fdfc43fa43d8eae8c8606f855a85a">Variant</a>(T &amp;&amp;obj)</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            <a class="code hl_function" href="classsw_1_1Variant.html#a5e659533df7c6e8eddee7bc7c9037d9c">Reset</a>(std::forward&lt;T&gt;(obj));</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        }</div>
+</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="foldopen" id="foldopen00043" data-start="{" data-end="}">
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#af09d75924a75e37355a3bec789b7cfaf">   43</a></span>        <a class="code hl_function" href="classsw_1_1Variant.html#af09d75924a75e37355a3bec789b7cfaf">Variant</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Variant.html">Variant</a> &amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>)</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            <span class="keywordflow">if</span> (<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._obj != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                _obj.reset(<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._cloner(*<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._obj));</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                _cloner = <a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._cloner;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            }</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        }</div>
+</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="foldopen" id="foldopen00054" data-start="{" data-end="}">
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a5894f31cba54ca1a8f30be8800cde86e">   54</a></span>        <a class="code hl_function" href="classsw_1_1Variant.html#a5894f31cba54ca1a8f30be8800cde86e">Variant</a>(<a class="code hl_class" href="classsw_1_1Variant.html">Variant</a> &amp;&amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>) <a class="code hl_class" href="classsw_1_1IValueConverter.html">noexcept</a></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            : _obj(std::move(<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._obj)), _cloner(<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._cloner)</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._cloner = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        }</div>
+</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="foldopen" id="foldopen00064" data-start="{" data-end="}">
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a91a893405fab2a08deb448ab92b240a1">   64</a></span>        <a class="code hl_class" href="classsw_1_1Variant.html">Variant</a> &amp;<a class="code hl_function" href="classsw_1_1Variant.html#a91a893405fab2a08deb448ab92b240a1">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Variant.html">Variant</a> &amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>)</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            <a class="code hl_function" href="classsw_1_1Variant.html#a5e659533df7c6e8eddee7bc7c9037d9c">Reset</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        }</div>
+</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="foldopen" id="foldopen00073" data-start="{" data-end="}">
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a83ee8cfa0c8ec6a7c62f7e580aa27eeb">   73</a></span>        <a class="code hl_class" href="classsw_1_1Variant.html">Variant</a> &amp;<a class="code hl_function" href="classsw_1_1Variant.html#a83ee8cfa0c8ec6a7c62f7e580aa27eeb">operator=</a>(<a class="code hl_class" href="classsw_1_1Variant.html">Variant</a> &amp;&amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <a class="code hl_function" href="classsw_1_1Variant.html#a5e659533df7c6e8eddee7bc7c9037d9c">Reset</a>(std::move(<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>));</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        }</div>
+</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="foldopen" id="foldopen00083" data-start="{" data-end="}">
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a1a913a8b52145311a44504e4d18f34f5">   83</a></span>        <span class="keyword">operator</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">bool</a>() <a class="code hl_class" href="classsw_1_1IValueConverter.html">const</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">noexcept</a></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        {</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>            <span class="keywordflow">return</span> _obj != <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        }</div>
+</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="foldopen" id="foldopen00092" data-start="{" data-end="}">
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a638fa26868828d61e3ea80141f801237">   92</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Variant.html#a638fa26868828d61e3ea80141f801237">IsNull</a>() <a class="code hl_class" href="classsw_1_1IValueConverter.html">const</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">noexcept</a></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <span class="keywordflow">return</span> _obj == <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        }</div>
+</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="foldopen" id="foldopen00100" data-start="{" data-end="}">
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a5616c3bbb459c9b324277b4f4fe3370b">  100</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Variant.html#a5616c3bbb459c9b324277b4f4fe3370b">Equals</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Variant.html">Variant</a> &amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>) <span class="keyword">const</span> <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        {</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            <span class="keywordflow">return</span> _obj == <a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._obj;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        }</div>
+</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="foldopen" id="foldopen00108" data-start="{" data-end="}">
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a5e659533df7c6e8eddee7bc7c9037d9c">  108</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Variant.html#a5e659533df7c6e8eddee7bc7c9037d9c">Reset</a>()</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        {</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            _obj.reset();</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>            _cloner = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        }</div>
+</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="foldopen" id="foldopen00118" data-start="{" data-end="}">
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#afed9c34c4fdaa689766f30c6c5a0a02f">  118</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Variant.html#afed9c34c4fdaa689766f30c6c5a0a02f">Reset</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1Variant.html">Variant</a> &amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>)</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        {</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            <span class="keywordflow">if</span> (<span class="keyword">this</span> == &amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>) {</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            }</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            <span class="keywordflow">if</span> (<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._obj == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>                <a class="code hl_function" href="classsw_1_1Variant.html#a5e659533df7c6e8eddee7bc7c9037d9c">Reset</a>();</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                _obj.reset(<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._cloner(*<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._obj));</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                _cloner = <a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._cloner;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>            }</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        }</div>
+</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="foldopen" id="foldopen00135" data-start="{" data-end="}">
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a3a76b087cd0e252be4eb1322236b66c1">  135</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1Variant.html#a3a76b087cd0e252be4eb1322236b66c1">Reset</a>(<a class="code hl_class" href="classsw_1_1Variant.html">Variant</a> &amp;&amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        {</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>            <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>) {</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                _obj          = std::move(<a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._obj);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                _cloner       = <a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._cloner;</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>                <a class="code hl_class" href="classsw_1_1IValueConverter.html">other</a>._cloner = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>            }</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        }</div>
+</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00150" data-start="{" data-end="}">
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a590f91a7cd694f32eedf548d935b2260">  150</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1Variant.html#a590f91a7cd694f32eedf548d935b2260">Reset</a>(T &amp;&amp;obj)</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>            -&gt; <span class="keyword">typename</span> std::enable_if&lt;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>                !std::is_same&lt;Variant, typename std::decay&lt;T&gt;::type&gt;::value &amp;&amp;</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>                std::is_base_of&lt;DynamicObject, typename std::decay&lt;T&gt;::type&gt;::value&gt;::type</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        {</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>            <span class="keyword">using </span>U = <span class="keyword">typename</span> std::decay&lt;T&gt;::type;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>            _obj.reset(<span class="keyword">new</span> U(std::forward&lt;T&gt;(obj)));</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">ResetCloner&lt;U&gt;</a>();</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        }</div>
+</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00166" data-start="{" data-end="}">
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#abd95463a5f24f33b6b72f7e5dac84f80">  166</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1Variant.html#abd95463a5f24f33b6b72f7e5dac84f80">Reset</a>(T &amp;&amp;obj)</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>            -&gt; <span class="keyword">typename</span> std::enable_if&lt;</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>                !std::is_same&lt;Variant, typename std::decay&lt;T&gt;::type&gt;::value &amp;&amp;</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>                !std::is_base_of&lt;DynamicObject, typename std::decay&lt;T&gt;::type&gt;::value&gt;::type</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        {</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>            <span class="keyword">using </span>U = <span class="keyword">typename</span> std::decay&lt;T&gt;::type;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>            _obj.reset(<span class="keyword">new</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">BoxedObject&lt;U&gt;</a>(std::forward&lt;T&gt;(obj)));</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">ResetCloner&lt;U&gt;</a>();</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        }</div>
+</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
+<div class="foldopen" id="foldopen00180" data-start="{" data-end="}">
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a33ac6e792e696a230e4305b955cd62d0">  180</a></span>        <a class="code hl_class" href="classsw_1_1DynamicObject.html">DynamicObject</a> *<a class="code hl_function" href="classsw_1_1Variant.html#a33ac6e792e696a230e4305b955cd62d0">Object</a>() <a class="code hl_class" href="classsw_1_1IValueConverter.html">const</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">noexcept</a></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        {</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>            <span class="keywordflow">return</span> _obj.get();</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        }</div>
+</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00192" data-start="{" data-end="}">
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a41e4ff2165d44a59ca7da9d52a55a7bb">  192</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Variant.html#a41e4ff2165d44a59ca7da9d52a55a7bb">IsType</a>(T **<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a> = <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        {</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>            <span class="keywordflow">if</span> (_obj == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>                <span class="keywordflow">if</span> (<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a> != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>                    *<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>                }</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>                <span class="keywordflow">return</span> _obj-&gt;IsType&lt;T&gt;(<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a>);</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>            }</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        }</div>
+</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00211" data-start="{" data-end="}">
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#ab8a09127b05f4654f3c549c62340b73d">  211</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Variant.html#ab8a09127b05f4654f3c549c62340b73d">IsType</a>(<span class="keyword">const</span> T **<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a> = <span class="keyword">nullptr</span>)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>            <span class="keywordflow">if</span> (_obj == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>                <span class="keywordflow">if</span> (<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a> != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>                    *<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>                }</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                <span class="keywordflow">return</span> _obj-&gt;IsType&lt;T&gt;(<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a>);</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>            }</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        }</div>
+</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00230" data-start="{" data-end="}">
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a944b8dc074b40e4b8096faba1f59f5cb">  230</a></span>        T &amp;<a class="code hl_function" href="classsw_1_1Variant.html#a944b8dc074b40e4b8096faba1f59f5cb">DynamicCast</a>()</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>        {</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>            ThrowBadCastIfEmpty();</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>            <span class="keywordflow">return</span> _obj-&gt;DynamicCast&lt;T&gt;();</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        }</div>
+</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00243" data-start="{" data-end="}">
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a6fdf9936e7a7a6f7b7e05f4b6222ae26">  243</a></span>        <span class="keyword">const</span> T &amp;<a class="code hl_function" href="classsw_1_1Variant.html#a6fdf9936e7a7a6f7b7e05f4b6222ae26">DynamicCast</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>            ThrowBadCastIfEmpty();</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>            <span class="keywordflow">return</span> _obj-&gt;DynamicCast&lt;T&gt;();</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>        }</div>
+</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span> </div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00257" data-start="{" data-end="}">
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#add936161cb445712d4c7cfe654e76c61">  257</a></span>        T &amp;<a class="code hl_function" href="classsw_1_1Variant.html#add936161cb445712d4c7cfe654e76c61">UnsafeCast</a>()</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>        {</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>            ThrowBadCastIfEmpty();</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>            <span class="keywordflow">return</span> _obj-&gt;UnsafeCast&lt;T&gt;();</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        }</div>
+</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00271" data-start="{" data-end="}">
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a0dac476f18f19296ade19e8c33cbb8b0">  271</a></span>        <span class="keyword">const</span> T &amp;<a class="code hl_function" href="classsw_1_1Variant.html#a0dac476f18f19296ade19e8c33cbb8b0">UnsafeCast</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>            ThrowBadCastIfEmpty();</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>            <span class="keywordflow">return</span> _obj-&gt;UnsafeCast&lt;T&gt;();</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>        }</div>
+</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>        <span class="keywordtype">void</span> ThrowBadCastIfEmpty()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>            <span class="keywordflow">if</span> (_obj == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>                <span class="keywordflow">throw</span> std::bad_cast();</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>            }</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>        }</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span> </div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>        <span class="keyword">auto</span> ResetCloner()</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>            -&gt; <span class="keyword">typename</span> std::enable_if&lt;std::is_copy_constructible&lt;T&gt;::value &amp;&amp; std::is_base_of&lt;DynamicObject, T&gt;::value&gt;::type</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>        {</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>            _cloner = [](<span class="keyword">const</span> DynamicObject &amp;other) -&gt; DynamicObject * {</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> T(other.UnsafeCast&lt;T&gt;());</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>            };</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>        }</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span> </div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>        <span class="keyword">auto</span> ResetCloner()</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>            -&gt; <span class="keyword">typename</span> std::enable_if&lt;std::is_copy_constructible&lt;T&gt;::value &amp;&amp; !std::is_base_of&lt;DynamicObject, T&gt;::value&gt;::type</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>        {</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>            _cloner = [](<span class="keyword">const</span> DynamicObject &amp;other) -&gt; DynamicObject * {</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> BoxedObject&lt;T&gt;(other.UnsafeCast&lt;BoxedObject&lt;T&gt;&gt;());</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>            };</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>        }</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span> </div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>        <span class="keyword">auto</span> ResetCloner()</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>            -&gt; <span class="keyword">typename</span> std::enable_if&lt;!std::is_copy_constructible&lt;T&gt;::value&gt;::type</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>        {</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>            _cloner = [](<span class="keyword">const</span> DynamicObject &amp;other) -&gt; DynamicObject * {</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>                <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Object is not copy constructible.&quot;</span>);</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>            };</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>        }</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    };</div>
+</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>}</div>
+<div class="ttc" id="aclasssw_1_1DynamicObject_html"><div class="ttname"><a href="classsw_1_1DynamicObject.html">sw::DynamicObject</a></div><div class="ttdoc">动态对象基类</div><div class="ttdef"><b>Definition</b> Reflection.h:27</div></div>
+<div class="ttc" id="aclasssw_1_1IEqualityComparable_html"><div class="ttname"><a href="classsw_1_1IEqualityComparable.html">sw::IEqualityComparable</a></div><div class="ttdoc">相等性比较接口</div><div class="ttdef"><b>Definition</b> IComparable.h:14</div></div>
+<div class="ttc" id="aclasssw_1_1IValueConverter_html"><div class="ttname"><a href="classsw_1_1IValueConverter.html">sw::IValueConverter</a></div><div class="ttdoc">值转换器接口</div><div class="ttdef"><b>Definition</b> IValueConverter.h:14</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html"><div class="ttname"><a href="classsw_1_1Variant.html">sw::Variant</a></div><div class="ttdoc">通用变体类，用于存储任意类型的对象</div><div class="ttdef"><b>Definition</b> Variant.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_a0dac476f18f19296ade19e8c33cbb8b0"><div class="ttname"><a href="classsw_1_1Variant.html#a0dac476f18f19296ade19e8c33cbb8b0">sw::Variant::UnsafeCast</a></div><div class="ttdeci">const T &amp; UnsafeCast() const</div><div class="ttdoc">将Variant对象转换为指定类型的常量引用</div><div class="ttdef"><b>Definition</b> Variant.h:271</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_a1c2fdfc43fa43d8eae8c8606f855a85a"><div class="ttname"><a href="classsw_1_1Variant.html#a1c2fdfc43fa43d8eae8c8606f855a85a">sw::Variant::Variant</a></div><div class="ttdeci">Variant(T &amp;&amp;obj)</div><div class="ttdoc">通用构造函数，接受任意类型的对象</div><div class="ttdef"><b>Definition</b> Variant.h:35</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_a33ac6e792e696a230e4305b955cd62d0"><div class="ttname"><a href="classsw_1_1Variant.html#a33ac6e792e696a230e4305b955cd62d0">sw::Variant::Object</a></div><div class="ttdeci">DynamicObject * Object() const noexcept</div><div class="ttdoc">获取内部动态对象指针</div><div class="ttdef"><b>Definition</b> Variant.h:180</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_a3a76b087cd0e252be4eb1322236b66c1"><div class="ttname"><a href="classsw_1_1Variant.html#a3a76b087cd0e252be4eb1322236b66c1">sw::Variant::Reset</a></div><div class="ttdeci">void Reset(Variant &amp;&amp;other) noexcept</div><div class="ttdoc">重置Variant对象为另一个Variant对象的值</div><div class="ttdef"><b>Definition</b> Variant.h:135</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_a41e4ff2165d44a59ca7da9d52a55a7bb"><div class="ttname"><a href="classsw_1_1Variant.html#a41e4ff2165d44a59ca7da9d52a55a7bb">sw::Variant::IsType</a></div><div class="ttdeci">bool IsType(T **pout=nullptr)</div><div class="ttdoc">判断当前Variant存储的对象是否为指定类型</div><div class="ttdef"><b>Definition</b> Variant.h:192</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_a5616c3bbb459c9b324277b4f4fe3370b"><div class="ttname"><a href="classsw_1_1Variant.html#a5616c3bbb459c9b324277b4f4fe3370b">sw::Variant::Equals</a></div><div class="ttdeci">bool Equals(const Variant &amp;other) const noexcept</div><div class="ttdoc">判断两Variant是否为同一对象</div><div class="ttdef"><b>Definition</b> Variant.h:100</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_a5894f31cba54ca1a8f30be8800cde86e"><div class="ttname"><a href="classsw_1_1Variant.html#a5894f31cba54ca1a8f30be8800cde86e">sw::Variant::Variant</a></div><div class="ttdeci">Variant(Variant &amp;&amp;other) noexcept</div><div class="ttdoc">移动构造函数</div><div class="ttdef"><b>Definition</b> Variant.h:54</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_a590f91a7cd694f32eedf548d935b2260"><div class="ttname"><a href="classsw_1_1Variant.html#a590f91a7cd694f32eedf548d935b2260">sw::Variant::Reset</a></div><div class="ttdeci">auto Reset(T &amp;&amp;obj) -&gt; typename std::enable_if&lt; !std::is_same&lt; Variant, typename std::decay&lt; T &gt;::type &gt;::value &amp;&amp;std::is_base_of&lt; DynamicObject, typename std::decay&lt; T &gt;::type &gt;::value &gt;::type</div><div class="ttdoc">重置Variant对象为指定类型的对象</div><div class="ttdef"><b>Definition</b> Variant.h:150</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_a5e659533df7c6e8eddee7bc7c9037d9c"><div class="ttname"><a href="classsw_1_1Variant.html#a5e659533df7c6e8eddee7bc7c9037d9c">sw::Variant::Reset</a></div><div class="ttdeci">void Reset()</div><div class="ttdoc">重置Variant对象为空</div><div class="ttdef"><b>Definition</b> Variant.h:108</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_a638fa26868828d61e3ea80141f801237"><div class="ttname"><a href="classsw_1_1Variant.html#a638fa26868828d61e3ea80141f801237">sw::Variant::IsNull</a></div><div class="ttdeci">bool IsNull() const noexcept</div><div class="ttdoc">判断Variant对象是否为空</div><div class="ttdef"><b>Definition</b> Variant.h:92</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_a6fdf9936e7a7a6f7b7e05f4b6222ae26"><div class="ttname"><a href="classsw_1_1Variant.html#a6fdf9936e7a7a6f7b7e05f4b6222ae26">sw::Variant::DynamicCast</a></div><div class="ttdeci">const T &amp; DynamicCast() const</div><div class="ttdoc">将Variant对象动态转换为指定类型的常量引用</div><div class="ttdef"><b>Definition</b> Variant.h:243</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_a83ee8cfa0c8ec6a7c62f7e580aa27eeb"><div class="ttname"><a href="classsw_1_1Variant.html#a83ee8cfa0c8ec6a7c62f7e580aa27eeb">sw::Variant::operator=</a></div><div class="ttdeci">Variant &amp; operator=(Variant &amp;&amp;other) noexcept</div><div class="ttdoc">移动构造函数</div><div class="ttdef"><b>Definition</b> Variant.h:73</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_a91a893405fab2a08deb448ab92b240a1"><div class="ttname"><a href="classsw_1_1Variant.html#a91a893405fab2a08deb448ab92b240a1">sw::Variant::operator=</a></div><div class="ttdeci">Variant &amp; operator=(const Variant &amp;other)</div><div class="ttdoc">拷贝构造函数</div><div class="ttdef"><b>Definition</b> Variant.h:64</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_a944b8dc074b40e4b8096faba1f59f5cb"><div class="ttname"><a href="classsw_1_1Variant.html#a944b8dc074b40e4b8096faba1f59f5cb">sw::Variant::DynamicCast</a></div><div class="ttdeci">T &amp; DynamicCast()</div><div class="ttdoc">将Variant对象动态转换为指定类型的引用</div><div class="ttdef"><b>Definition</b> Variant.h:230</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_aae7e07e5466546486096283673e36f79"><div class="ttname"><a href="classsw_1_1Variant.html#aae7e07e5466546486096283673e36f79">sw::Variant::Variant</a></div><div class="ttdeci">Variant()=default</div><div class="ttdoc">默认构造函数，创建一个空的Variant对象</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_ab8a09127b05f4654f3c549c62340b73d"><div class="ttname"><a href="classsw_1_1Variant.html#ab8a09127b05f4654f3c549c62340b73d">sw::Variant::IsType</a></div><div class="ttdeci">bool IsType(const T **pout=nullptr) const</div><div class="ttdoc">判断当前Variant存储的对象是否为指定类型</div><div class="ttdef"><b>Definition</b> Variant.h:211</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_abd95463a5f24f33b6b72f7e5dac84f80"><div class="ttname"><a href="classsw_1_1Variant.html#abd95463a5f24f33b6b72f7e5dac84f80">sw::Variant::Reset</a></div><div class="ttdeci">auto Reset(T &amp;&amp;obj) -&gt; typename std::enable_if&lt; !std::is_same&lt; Variant, typename std::decay&lt; T &gt;::type &gt;::value &amp;&amp;!std::is_base_of&lt; DynamicObject, typename std::decay&lt; T &gt;::type &gt;::value &gt;::type</div><div class="ttdoc">重置Variant对象为指定类型的对象</div><div class="ttdef"><b>Definition</b> Variant.h:166</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_add936161cb445712d4c7cfe654e76c61"><div class="ttname"><a href="classsw_1_1Variant.html#add936161cb445712d4c7cfe654e76c61">sw::Variant::UnsafeCast</a></div><div class="ttdeci">T &amp; UnsafeCast()</div><div class="ttdoc">将Variant对象转换为指定类型的引用</div><div class="ttdef"><b>Definition</b> Variant.h:257</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_af09d75924a75e37355a3bec789b7cfaf"><div class="ttname"><a href="classsw_1_1Variant.html#af09d75924a75e37355a3bec789b7cfaf">sw::Variant::Variant</a></div><div class="ttdeci">Variant(const Variant &amp;other)</div><div class="ttdoc">拷贝构造函数</div><div class="ttdef"><b>Definition</b> Variant.h:43</div></div>
+<div class="ttc" id="aclasssw_1_1Variant_html_afed9c34c4fdaa689766f30c6c5a0a02f"><div class="ttname"><a href="classsw_1_1Variant.html#afed9c34c4fdaa689766f30c6c5a0a02f">sw::Variant::Reset</a></div><div class="ttdeci">void Reset(const Variant &amp;other)</div><div class="ttdoc">重置Variant对象为另一个Variant对象的值</div><div class="ttdef"><b>Definition</b> Variant.h:118</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>Variant.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

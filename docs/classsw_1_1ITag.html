@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>SimpleWindow: sw::ITag类 参考</title>
+<title>SimpleWindow: sw::ITag&lt; T &gt; 模板类 参考</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('classsw_1_1ITag.html',''); initResizab
   <div class="summary">
 <a href="#pub-methods">Public 成员函数</a> &#124;
 <a href="classsw_1_1ITag-members.html">所有成员列表</a>  </div>
-  <div class="headertitle"><div class="title">sw::ITag类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+  <div class="headertitle"><div class="title">sw::ITag&lt; T &gt; 模板类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -100,66 +100,38 @@ $(document).ready(function(){initNavTree('classsw_1_1ITag.html',''); initResizab
  <a href="classsw_1_1ITag.html#details">更多...</a></p>
 
 <p><code>#include &lt;<a class="el" href="ITag_8h_source.html">ITag.h</a>&gt;</code></p>
-<div class="dynheader">
-类 sw::ITag 继承关系图:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="classsw_1_1ITag.png" usemap="#sw::ITag_map" alt=""/>
-  <map id="sw::ITag_map" name="sw::ITag_map">
-<area href="classsw_1_1MenuItem.html" title="菜单项" alt="sw::MenuItem" shape="rect" coords="0,56,210,80"/>
-<area href="classsw_1_1UIElement.html" title="表示界面中的元素" alt="sw::UIElement" shape="rect" coords="220,56,430,80"/>
-<area href="classsw_1_1Control.html" title="控件" alt="sw::Control" shape="rect" coords="0,112,210,136"/>
-<area href="classsw_1_1HwndWrapper.html" title="将Win32 window包装为SimpleWindow对象" alt="sw::HwndWrapper" shape="rect" coords="220,112,430,136"/>
-<area href="classsw_1_1Layer.html" title="表示可以设置布局方式的元素类型，如窗口、面板等" alt="sw::Layer" shape="rect" coords="440,112,650,136"/>
-<area href="classsw_1_1ItemsControl.html" alt="sw::ItemsControl&lt; StrList &gt;" shape="rect" coords="220,168,430,192"/>
-<area href="classsw_1_1ItemsControl.html" alt="sw::ItemsControl&lt; TreeViewNode &gt;" shape="rect" coords="220,224,430,248"/>
-<area href="classsw_1_1Animation.html" title="动画控件，仅支持无音频的avi动画" alt="sw::Animation" shape="rect" coords="220,280,430,304"/>
-<area href="classsw_1_1ButtonBase.html" title="窗口类名为BUTTON的控件类型的基类" alt="sw::ButtonBase" shape="rect" coords="220,336,430,360"/>
-<area href="classsw_1_1DateTimePicker.html" title="日期和时间选取器" alt="sw::DateTimePicker" shape="rect" coords="220,392,430,416"/>
-<area href="classsw_1_1HotKeyControl.html" title="热键框" alt="sw::HotKeyControl" shape="rect" coords="220,448,430,472"/>
-<area href="classsw_1_1ItemsControl.html" title="表示可用于呈现一组项的控件" alt="sw::ItemsControl&lt; TItem &gt;" shape="rect" coords="220,504,430,528"/>
-<area href="classsw_1_1MonthCalendar.html" title="月历控件" alt="sw::MonthCalendar" shape="rect" coords="220,560,430,584"/>
-<area href="classsw_1_1PanelBase.html" title="面板类型的基类" alt="sw::PanelBase" shape="rect" coords="220,616,430,640"/>
-<area href="classsw_1_1ProgressBar.html" title="进度条控件" alt="sw::ProgressBar" shape="rect" coords="220,672,430,696"/>
-<area href="classsw_1_1Slider.html" title="滑块控件" alt="sw::Slider" shape="rect" coords="220,728,430,752"/>
-<area href="classsw_1_1Splitter.html" title="分隔条" alt="sw::Splitter" shape="rect" coords="220,784,430,808"/>
-<area href="classsw_1_1StaticControl.html" title="静态控件" alt="sw::StaticControl" shape="rect" coords="220,840,430,864"/>
-<area href="classsw_1_1StatusBar.html" title="状态栏" alt="sw::StatusBar" shape="rect" coords="220,896,430,920"/>
-<area href="classsw_1_1SysLink.html" title="包含链接的文本区域" alt="sw::SysLink" shape="rect" coords="220,952,430,976"/>
-<area href="classsw_1_1TabControl.html" title="标签页控件" alt="sw::TabControl" shape="rect" coords="220,1008,430,1032"/>
-<area href="classsw_1_1TextBoxBase.html" title="窗口类名为EDIT的控件类型的基类" alt="sw::TextBoxBase" shape="rect" coords="220,1064,430,1088"/>
-<area href="classsw_1_1PanelBase.html" title="面板类型的基类" alt="sw::PanelBase" shape="rect" coords="660,168,870,192"/>
-<area href="classsw_1_1Window.html" title="窗口" alt="sw::Window" shape="rect" coords="660,224,870,248"/>
-  </map>
-</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
-<tr class="memitem:a34c7ead6ffeda8323221f5b85529a771" id="r_a34c7ead6ffeda8323221f5b85529a771"><td class="memItemLeft" align="right" valign="top"><a id="a34c7ead6ffeda8323221f5b85529a771" name="a34c7ead6ffeda8323221f5b85529a771"></a>
+<tr class="memitem:ab8f9ee5b36bc52c8a667c9d4c26e62f3" id="r_ab8f9ee5b36bc52c8a667c9d4c26e62f3"><td class="memItemLeft" align="right" valign="top"><a id="ab8f9ee5b36bc52c8a667c9d4c26e62f3" name="ab8f9ee5b36bc52c8a667c9d4c26e62f3"></a>
 <a class="el" href="classsw_1_1IValueConverter.html">virtual</a>&#160;</td><td class="memItemRight" valign="bottom"><b>~ITag</b> ()=<a class="el" href="classsw_1_1IValueConverter.html">default</a></td></tr>
-<tr class="memdesc:a34c7ead6ffeda8323221f5b85529a771"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认虚析构函数 <br /></td></tr>
-<tr class="separator:a34c7ead6ffeda8323221f5b85529a771"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81286c4915e9e895fd1b6698f214c18b" id="r_a81286c4915e9e895fd1b6698f214c18b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">uint64_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ITag.html#a81286c4915e9e895fd1b6698f214c18b">GetTag</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> =0</td></tr>
-<tr class="memdesc:a81286c4915e9e895fd1b6698f214c18b"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取Tag  <br /></td></tr>
-<tr class="separator:a81286c4915e9e895fd1b6698f214c18b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a814b2084a60df545ba5d47e96f7928d3" id="r_a814b2084a60df545ba5d47e96f7928d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ITag.html#a814b2084a60df545ba5d47e96f7928d3">SetTag</a> (<a class="el" href="classsw_1_1IValueConverter.html">uint64_t</a> tag)=0</td></tr>
-<tr class="memdesc:a814b2084a60df545ba5d47e96f7928d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置Tag  <br /></td></tr>
-<tr class="separator:a814b2084a60df545ba5d47e96f7928d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:ab8f9ee5b36bc52c8a667c9d4c26e62f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认虚析构函数 <br /></td></tr>
+<tr class="separator:ab8f9ee5b36bc52c8a667c9d4c26e62f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeac25d84bca733ecaf7b52b3f65c2d0f" id="r_aeac25d84bca733ecaf7b52b3f65c2d0f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ITag.html#aeac25d84bca733ecaf7b52b3f65c2d0f">GetTag</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> =0</td></tr>
+<tr class="memdesc:aeac25d84bca733ecaf7b52b3f65c2d0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取Tag  <br /></td></tr>
+<tr class="separator:aeac25d84bca733ecaf7b52b3f65c2d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2df2d067e70874e66acc200c8cb8fc6" id="r_ac2df2d067e70874e66acc200c8cb8fc6"><td class="memItemLeft" align="right" valign="top"><a id="ac2df2d067e70874e66acc200c8cb8fc6" name="ac2df2d067e70874e66acc200c8cb8fc6"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SetTag</b> (_OptimalParamType&lt; T &gt; tag)=0</td></tr>
+<tr class="memdesc:ac2df2d067e70874e66acc200c8cb8fc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置Tag <br /></td></tr>
+<tr class="separator:ac2df2d067e70874e66acc200c8cb8fc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>Tag接口 </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T&gt;<br />
+class sw::ITag&lt; T &gt;</div><p>Tag接口 </p>
 </div><h2 class="groupheader">成员函数说明</h2>
-<a id="a81286c4915e9e895fd1b6698f214c18b" name="a81286c4915e9e895fd1b6698f214c18b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81286c4915e9e895fd1b6698f214c18b">&#9670;&#160;</a></span>GetTag()</h2>
+<a id="aeac25d84bca733ecaf7b52b3f65c2d0f" name="aeac25d84bca733ecaf7b52b3f65c2d0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeac25d84bca733ecaf7b52b3f65c2d0f">&#9670;&#160;</a></span>GetTag()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">uint64_t</a> sw::ITag::GetTag </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> T <a class="el" href="classsw_1_1ITag.html">sw::ITag</a>&lt; T &gt;::GetTag </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -175,36 +147,6 @@ Public 成员函数</h2></td></tr>
 <p>获取Tag </p>
 
 <p>在 <a class="el" href="classsw_1_1MenuItem.html#a182729c49911f460c4db62135fbd9c86">sw::MenuItem</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a04f8d1269f1e70d0d8131a92c5752119">sw::UIElement</a> 内被实现.</p>
-
-</div>
-</div>
-<a id="a814b2084a60df545ba5d47e96f7928d3" name="a814b2084a60df545ba5d47e96f7928d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a814b2084a60df545ba5d47e96f7928d3">&#9670;&#160;</a></span>SetTag()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a> sw::ITag::SetTag </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">uint64_t</a>&#160;</td>
-          <td class="paramname"><em>tag</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>设置Tag </p>
-
-<p>在 <a class="el" href="classsw_1_1MenuItem.html#ab0b1236f09532f993324f76c07c7b8c7">sw::MenuItem</a> , 以及 <a class="el" href="classsw_1_1UIElement.html#a09acdba6221e69b6ecb17b49975a1414">sw::UIElement</a> 内被实现.</p>
 
 </div>
 </div>

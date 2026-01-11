@@ -114,7 +114,7 @@ $(document).ready(function(){initNavTree('MenuItem_8h_source.html',''); initResi
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keyword">using </span>MenuItemCommand = Action&lt;MenuItem &amp;&gt;;</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
 <div class="foldopen" id="foldopen00023" data-start="{" data-end="};">
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classsw_1_1MenuItem.html">   23</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1MenuItem.html">MenuItem</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1ITag.html">ITag</a></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classsw_1_1MenuItem.html">   23</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1MenuItem.html">MenuItem</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1ITag.html">ITag</a>&lt;uint64_t&gt;</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    {</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keyword">public</span>:</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classsw_1_1MenuItem.html#a71e23c18ace7346f28415ed747d80905">   29</a></span>        <a class="code hl_class" href="classsw_1_1IValueConverter.html">uint64_t</a> <a class="code hl_variable" href="classsw_1_1MenuItem.html#a71e23c18ace7346f28415ed747d80905">tag</a>;</div>
@@ -163,8 +163,8 @@ $(document).ready(function(){initNavTree('MenuItem_8h_source.html',''); initResi
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    };</div>
 </div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>}</div>
-<div class="ttc" id="aclasssw_1_1ITag_html"><div class="ttname"><a href="classsw_1_1ITag.html">sw::ITag</a></div><div class="ttdoc">Tag接口</div><div class="ttdef"><b>Definition</b> ITag.h:11</div></div>
-<div class="ttc" id="aclasssw_1_1IValueConverter_html"><div class="ttname"><a href="classsw_1_1IValueConverter.html">sw::IValueConverter</a></div><div class="ttdoc">值转换器接口</div><div class="ttdef"><b>Definition</b> IValueConverter.h:20</div></div>
+<div class="ttc" id="aclasssw_1_1ITag_html"><div class="ttname"><a href="classsw_1_1ITag.html">sw::ITag</a></div><div class="ttdoc">Tag接口</div><div class="ttdef"><b>Definition</b> ITag.h:12</div></div>
+<div class="ttc" id="aclasssw_1_1IValueConverter_html"><div class="ttname"><a href="classsw_1_1IValueConverter.html">sw::IValueConverter</a></div><div class="ttdoc">值转换器接口</div><div class="ttdef"><b>Definition</b> IValueConverter.h:14</div></div>
 <div class="ttc" id="aclasssw_1_1MenuItem_html"><div class="ttname"><a href="classsw_1_1MenuItem.html">sw::MenuItem</a></div><div class="ttdoc">菜单项</div><div class="ttdef"><b>Definition</b> MenuItem.h:24</div></div>
 <div class="ttc" id="aclasssw_1_1MenuItem_html_a0f67fc28cb879876a328495035031979"><div class="ttname"><a href="classsw_1_1MenuItem.html#a0f67fc28cb879876a328495035031979">sw::MenuItem::text</a></div><div class="ttdeci">std::wstring text</div><div class="ttdoc">菜单项的文本，当值为“-”时表示当前项为分隔条</div><div class="ttdef"><b>Definition</b> MenuItem.h:34</div></div>
 <div class="ttc" id="aclasssw_1_1MenuItem_html_a136e71998ffff40e3d165749ba7f7306"><div class="ttname"><a href="classsw_1_1MenuItem.html#a136e71998ffff40e3d165749ba7f7306">sw::MenuItem::IsSeparator</a></div><div class="ttdeci">bool IsSeparator() const</div><div class="ttdoc">获取一个值，表示当前菜单项是否为分隔条</div></div>

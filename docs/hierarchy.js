@@ -6,13 +6,14 @@ var hierarchy =
     [ "sw::_FuncTypeHelper< TArgsTuple >", "structsw_1_1__FuncTypeHelper.html", null ],
     [ "sw::_FuncTypeHelper< std::tuple< Args... > >", "structsw_1_1__FuncTypeHelper_3_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4.html", null ],
     [ "sw::_IsPropertyImpl< T >", "structsw_1_1__IsPropertyImpl.html", null ],
-    [ "sw::_PropertySetterParamTypeHelper< T >", "structsw_1_1__PropertySetterParamTypeHelper.html", null ],
     [ "sw::App", "classsw_1_1App.html", null ],
     [ "sw::BindingBase", "classsw_1_1BindingBase.html", [
       [ "sw::Binding", "classsw_1_1Binding.html", null ],
       [ "sw::DataBinding", "classsw_1_1DataBinding.html", null ]
     ] ],
     [ "sw::BoolToNumericConverter< TTarget, typename >", "classsw_1_1BoolToNumericConverter.html", null ],
+    [ "sw::BoxedObject< T, typename >", "classsw_1_1BoxedObject.html", null ],
+    [ "sw::BoxedObject< T, typename std::enable_if<!std::is_base_of< sw::DynamicObject, T >::value >::type >", "classsw_1_1BoxedObject.html", null ],
     [ "sw::CallableList< T >", "classsw_1_1CallableList.html", null ],
     [ "sw::CallableList< TRet(Args...)>", "classsw_1_1CallableList.html", null ],
     [ "sw::CanvasLayoutTag", "structsw_1_1CanvasLayoutTag.html", null ],
@@ -28,6 +29,7 @@ var hierarchy =
     [ "sw::Delegate< void(UIElement &sender, DynamicObject *oldval)>", "classsw_1_1Delegate.html", null ],
     [ "sw::Dip", "classsw_1_1Dip.html", null ],
     [ "sw::DynamicObject", "classsw_1_1DynamicObject.html", [
+      [ "sw::BoxedObject< T, typename std::enable_if<!std::is_base_of< DynamicObject, T >::value >::type >", "classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html", null ],
       [ "sw::ObservableObject", "classsw_1_1ObservableObject.html", [
         [ "sw::WndBase", "classsw_1_1WndBase.html", [
           [ "sw::NotifyIcon", "classsw_1_1NotifyIcon.html", null ],
@@ -113,6 +115,7 @@ var hierarchy =
       ] ],
       [ "sw::_HasGetterImpl< typename, typename >", "structsw_1_1__HasGetterImpl.html", null ],
       [ "sw::_HasSetterImpl< typename, typename >", "structsw_1_1__HasSetterImpl.html", null ],
+      [ "sw::_IsDynamicCastable< TFrom, TTo, typename >", "structsw_1_1__IsDynamicCastable.html", null ],
       [ "sw::_IsExplicitlyConvertable< TFrom, TTo, typename >", "structsw_1_1__IsExplicitlyConvertable.html", null ]
     ] ],
     [ "sw::FieldsAccessor< T >", "structsw_1_1FieldsAccessor.html", null ],
@@ -189,6 +192,9 @@ var hierarchy =
     [ "sw::IEqualityComparable< TreeViewNode >", "classsw_1_1IEqualityComparable.html", [
       [ "sw::TreeViewNode", "classsw_1_1TreeViewNode.html", null ]
     ] ],
+    [ "sw::IEqualityComparable< Variant >", "classsw_1_1IEqualityComparable.html", [
+      [ "sw::Variant", "classsw_1_1Variant.html", null ]
+    ] ],
     [ "sw::IEqualityComparable< WndBase >", "classsw_1_1IEqualityComparable.html", [
       [ "sw::WndBase", "classsw_1_1WndBase.html", null ]
     ] ],
@@ -206,7 +212,8 @@ var hierarchy =
       [ "sw::_IsReadableProperty< T >", "structsw_1_1__IsReadableProperty.html", null ],
       [ "sw::_IsWritableProperty< T >", "structsw_1_1__IsWritableProperty.html", null ]
     ] ],
-    [ "sw::ITag", "classsw_1_1ITag.html", [
+    [ "sw::ITag< T >", "classsw_1_1ITag.html", null ],
+    [ "sw::ITag< uint64_t >", "classsw_1_1ITag.html", [
       [ "sw::MenuItem", "classsw_1_1MenuItem.html", null ],
       [ "sw::UIElement", "classsw_1_1UIElement.html", null ]
     ] ],
@@ -578,6 +585,7 @@ var hierarchy =
       [ "sw::_HasEventType< T, decltype(void(T::EventType))>", "structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07T_1_1EventType_08_08_4.html", null ],
       [ "sw::_HasGetterImpl< T, decltype(void(&T::GetterImpl))>", "structsw_1_1__HasGetterImpl_3_01T_00_01decltype_07void_07_6T_1_1GetterImpl_08_08_4.html", null ],
       [ "sw::_HasSetterImpl< T, decltype(void(&T::SetterImpl))>", "structsw_1_1__HasSetterImpl_3_01T_00_01decltype_07void_07_6T_1_1SetterImpl_08_08_4.html", null ],
+      [ "sw::_IsDynamicCastable< TFrom, TTo, decltype(void(dynamic_cast< TTo >(std::declval< TFrom >())))>", "structsw_1_1__IsDynamicCastable_3_01TFrom_00_01TTo_00_01decltype_07void_07dynamic__cast_3_01TTo_56a64122e378dd9184fd4f9730a2377d.html", null ],
       [ "sw::_IsExplicitlyConvertable< TFrom, TTo, decltype(void(static_cast< TTo >(std::declval< TFrom >())))>", "structsw_1_1__IsExplicitlyConvertable_3_01TFrom_00_01TTo_00_01decltype_07void_07static__cast_3_0766a7d13d8d3f2686094df45a1f1184e.html", null ]
     ] ],
     [ "_IsPropertyImpl::type", null, [

@@ -1,6 +1,6 @@
 var classsw_1_1ITag =
 [
-    [ "~ITag", "classsw_1_1ITag.html#a34c7ead6ffeda8323221f5b85529a771", null ],
-    [ "GetTag", "classsw_1_1ITag.html#a81286c4915e9e895fd1b6698f214c18b", null ],
-    [ "SetTag", "classsw_1_1ITag.html#a814b2084a60df545ba5d47e96f7928d3", null ]
+    [ "~ITag", "classsw_1_1ITag.html#ab8f9ee5b36bc52c8a667c9d4c26e62f3", null ],
+    [ "GetTag", "classsw_1_1ITag.html#aeac25d84bca733ecaf7b52b3f65c2d0f", null ],
+    [ "SetTag", "classsw_1_1ITag.html#ac2df2d067e70874e66acc200c8cb8fc6", null ]
 ];
