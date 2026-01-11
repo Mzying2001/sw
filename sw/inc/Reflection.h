@@ -667,3 +667,6 @@ struct std::hash<sw::FieldId> //
         return static_cast<size_t>(fieldId.value);
     }
 };
+
+// 防止只include此文件时部分函数未定义导致链接错误
+#include "BoxedObject.h"
