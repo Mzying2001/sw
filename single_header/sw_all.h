@@ -1772,35 +1772,6 @@ namespace sw
     };
 }
 
-// ITag.h
-
-
-namespace sw
-{
-    /**
-     * @brief Tag接口
-     */
-    class ITag
-    {
-    public:
-        /**
-         * @brief 默认虚析构函数
-         */
-        virtual ~ITag() = default;
-
-    public:
-        /**
-         * @brief 获取Tag
-         */
-        virtual uint64_t GetTag() const = 0;
-
-        /**
-         * @brief 设置Tag
-         */
-        virtual void SetTag(uint64_t tag) = 0;
-    };
-}
-
 // IToString.h
 
 
@@ -1878,6 +1849,56 @@ namespace sw
          * @return         成功则返回图标句柄，否则返回NULL
          */
         static HICON GetIconHandle(const std::wstring &fileName);
+    };
+}
+
+// Internal.h
+
+
+namespace sw
+{
+    /**
+     * @brief 最佳参数类型，标量类型使用值传递，复杂类型使用常量引用传递
+     */
+    template <typename T>
+    using _OptimalParamType = typename std::conditional<
+        std::is_scalar<typename std::decay<T>::type>::value,
+        typename std::decay<T>::type, const typename std::decay<T>::type &>::type;
+
+    /**
+     * @brief 判断类型是否可以显式转换的辅助模板
+     */
+    template <typename TFrom, typename TTo, typename = void>
+    struct _IsExplicitlyConvertable : std::false_type {
+    };
+
+    /**
+     * @brief _IsExplicitlyConvertable模板特化
+     */
+    template <typename TFrom, typename TTo>
+    struct _IsExplicitlyConvertable<
+        TFrom, TTo, decltype(void(static_cast<TTo>(std::declval<TFrom>())))> : std::true_type {
+    };
+
+    /**
+     * @brief 用于判断是否可以通过static_cast进行转换
+     */
+    template <typename TFrom, typename TTo>
+    using _IsStaticCastable = _IsExplicitlyConvertable<TFrom, TTo>;
+
+    /**
+     * @brief 判断类型是否可以使用dynamic_cast进行转换的辅助模板
+     */
+    template <typename TFrom, typename TTo, typename = void>
+    struct _IsDynamicCastable : std::false_type {
+    };
+
+    /**
+     * @brief _IsDynamicCastable模板特化
+     */
+    template <typename TFrom, typename TTo>
+    struct _IsDynamicCastable<
+        TFrom, TTo, decltype(void(dynamic_cast<TTo>(std::declval<TFrom>())))> : std::true_type {
     };
 }
 
@@ -2179,6 +2200,602 @@ namespace sw
     };
 }
 
+// ScrollEnums.h
+
+
+namespace sw
+{
+    /**
+     * @brief 滚动条方向
+     */
+    enum class ScrollOrientation {
+        Horizontal, // 水平滚动条
+        Vertical,   // 垂直滚动条
+    };
+
+    /**
+     * @brief 滚动条事件
+     */
+    enum class ScrollEvent {
+        LineUp        = SB_LINEUP,        // Scrolls one line up.
+        LineLeft      = SB_LINELEFT,      // Scrolls left by one unit.
+        LineDown      = SB_LINEDOWN,      // Scrolls one line down.
+        LineRight     = SB_LINERIGHT,     // Scrolls right by one unit.
+        PageUp        = SB_PAGEUP,        // Scrolls one page up.
+        PageLeft      = SB_PAGELEFT,      // Scrolls left by the width of the window.
+        PageDown      = SB_PAGEDOWN,      // Scrolls one page down.
+        PageRight     = SB_PAGERIGHT,     // Scrolls right by the width of the window.
+        ThumbPosition = SB_THUMBPOSITION, // The user has dragged the scroll box (thumb) and released the mouse button. The HIWORD indicates the position of the scroll box at the end of the drag operation.
+        ThubmTrack    = SB_THUMBTRACK,    // The user is dragging the scroll box. This message is sent repeatedly until the user releases the mouse button. The HIWORD indicates the position that the scroll box has been dragged to.
+        Top           = SB_TOP,           // Scrolls to the upper left.
+        Left          = SB_LEFT,          // Scrolls to the upper left.
+        Bottom        = SB_BOTTOM,        // Scrolls to the lower right.
+        Right         = SB_RIGHT,         // Scrolls to the lower right.
+        EndScroll     = SB_ENDSCROLL,     // Ends scroll.
+    };
+}
+
+// WndMsg.h
+
+
+namespace sw
+{
+    /**
+     * @brief 包含SimpleWindow用到的一些窗口消息
+     */
+    enum WndMsg : UINT {
+        // SimpleWindow所用消息的起始位置
+        WM_SimpleWindowBegin = WM_USER + 0x3000,
+
+        // 控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用
+        WM_UpdateLayout,
+
+        // 在窗口线程上执行指定委托，lParam为指向sw::Action<>的指针，wParam表示是否对委托指针执行delete
+        WM_InvokeAction,
+
+        // 在WndBase::SetParent函数中设置父窗口之前发送该消息，wParam为新的父窗口句柄，lParam未使用
+        WM_PreSetParent,
+
+        // SimpleWindow所用消息的结束位置
+        WM_SimpleWindowEnd,
+    };
+}
+
+// Color.h
+
+
+namespace sw
+{
+    /**
+     * @brief 颜色
+     */
+    struct Color : public IToString<Color>,
+                   public IEqualityComparable<Color> {
+        /**
+         * @brief R分量
+         */
+        uint8_t r;
+
+        /**
+         * @brief G分量
+         */
+        uint8_t g;
+
+        /**
+         * @brief B分量
+         */
+        uint8_t b;
+
+        /**
+         * @brief 保留字段
+         */
+        uint8_t _reserved;
+
+        /**
+         * @brief 默认构造函数
+         */
+        Color() = default;
+
+        /**
+         * @brief 通过rgb构造Color结构体
+         */
+        Color(uint8_t r, uint8_t g, uint8_t b);
+
+        /**
+         * @brief 通过KnownColor构造Color结构体
+         */
+        Color(KnownColor knownColor);
+
+        /**
+         * @brief 通过COLORREF构造Color结构体
+         */
+        Color(COLORREF color);
+
+        /**
+         * @brief 隐式转换COLORREF
+         */
+        operator COLORREF() const;
+
+        /**
+         * @brief 判断两个Color是否相等
+         */
+        bool Equals(const Color &other) const;
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const;
+    };
+
+    // Color应为POD类型
+    static_assert(
+        std::is_trivial<Color>::value && std::is_standard_layout<Color>::value,
+        "Color should be a POD type.");
+}
+
+// INotifyObjectDead.h
+
+
+namespace sw
+{
+    class INotifyObjectDead; // 向前声明
+
+    /**
+     * @brief 对象销毁事件处理程序类型
+     */
+    using ObjectDeadEventHandler = Action<INotifyObjectDead &>;
+
+    /**
+     * @brief 对象销毁通知接口
+     */
+    class INotifyObjectDead
+    {
+    public:
+        /**
+         * @brief 对象销毁时触发该事件
+         */
+        ObjectDeadEventHandler ObjectDead;
+
+        /**
+         * @brief 析构时触发对象销毁事件
+         */
+        virtual ~INotifyObjectDead()
+        {
+            if (ObjectDead) {
+                ObjectDead(*this);
+            }
+        }
+    };
+}
+
+// ITag.h
+
+
+namespace sw
+{
+    /**
+     * @brief Tag接口
+     */
+    template <typename T>
+    class ITag
+    {
+    public:
+        /**
+         * @brief 默认虚析构函数
+         */
+        virtual ~ITag() = default;
+
+    public:
+        /**
+         * @brief 获取Tag
+         */
+        virtual T GetTag() const = 0;
+
+        /**
+         * @brief 设置Tag
+         */
+        virtual void SetTag(_OptimalParamType<T> tag) = 0;
+    };
+}
+
+// IValueConverter.h
+
+
+namespace sw
+{
+    /**
+     * @brief 值转换器接口
+     * @tparam TSource 源类型
+     * @tparam TTarget 目标类型
+     */
+    template <typename TSource, typename TTarget>
+    class IValueConverter
+    {
+    public:
+        /**
+         * @brief 源数据传参类型
+         */
+        using TSourceParam = _OptimalParamType<TSource>;
+
+        /**
+         * @brief 目标数据传参类型
+         */
+        using TTargetParam = _OptimalParamType<TTarget>;
+
+        /**
+         * @brief 默认析构函数
+         */
+        virtual ~IValueConverter() = default;
+
+    public:
+        /**
+         * @brief 将源类型转换为目标类型
+         * @param source 源值
+         * @return 转换后的目标值
+         */
+        virtual TTarget Convert(TSourceParam source) = 0;
+
+        /**
+         * @brief 将目标类型转换为源类型
+         * @param target 目标值
+         * @return 转换后的源值
+         */
+        virtual TSource ConvertBack(TTargetParam target) = 0;
+    };
+}
+
+// Keys.h
+
+
+namespace sw
+{
+    /**
+     * @brief https://learn.microsoft.com/en-us/windows/win32/inputdev/about-keyboard-input#keystroke-message-flags
+     */
+    struct KeyFlags {
+        // repeat count, > 0 if several keydown messages was combined into one message
+        uint16_t repeatCount;
+
+        // scan code
+        uint8_t scanCode;
+
+        // extended-key flag, 1 if scancode has 0xE0 prefix
+        bool isExtendedKey;
+
+        // indicates whether the ALT key was down
+        bool contextCode;
+
+        // indicates whether the key that generated the keystroke message was previously up or down
+        bool previousKeyState;
+
+        // transition-state flag, 1 on keyup
+        bool transitionState;
+
+        // 默认构造函数
+        KeyFlags() = default;
+
+        // 从lParam解析出各个字段
+        KeyFlags(LPARAM lParam);
+    };
+
+    /**
+     * @brief 虚拟按键
+     */
+    enum class VirtualKey {
+        MouseLeft   = 0x01, // Left mouse button
+        MouseRight  = 0x02, // Right mouse button
+        Cancel      = 0x03, // Control-break processing
+        MouseMiddle = 0x04, // Middle mouse button (three-button mouse)
+        MouseX1     = 0x05, // X1 mouse button
+        MouseX2     = 0x06, // X2 mouse button
+
+        //- 0x07 Undefined
+
+        Backspace = 0x08, // BACKSPACE key
+        Tab       = 0x09, // TAB key
+
+        //- 0x0A-0B Reserved
+
+        Clear = 0x0C, // CLEAR key
+        Enter = 0x0D, // ENTER key
+
+        //- 0x0E-0F Undefined
+
+        Shift      = 0x10, // SHIFT key
+        Ctrl       = 0x11, // CTRL key
+        Alt        = 0x12, // ALT key
+        Pause      = 0x13, // PAUSE key
+        CapsLock   = 0x14, // CAPS LOCK key
+        Kana       = 0x15, // IME Kana mode
+        Hanguel    = 0x15, // IME Hanguel mode (maintained for compatibility; use VK_HANGUL)
+        Hangul     = 0x15, // IME Hangul mode
+        IME_On     = 0x16, // IME On
+        Junja      = 0x17, // IME Junja mode
+        Final      = 0x18, // IME final mode
+        Hanja      = 0x19, // IME Hanja mode
+        KANJI      = 0x19, // IME Kanji mode
+        IME_Off    = 0x1A, // IME Off
+        Esc        = 0x1B, // ESC key
+        Convert    = 0x1C, // IME convert
+        Nonconvert = 0x1D, // IME nonconvert
+        Accept     = 0x1E, // IME accept
+        ModeChange = 0x1F, // IME mode change request
+        Space      = 0x20, // SPACEBAR
+        PageUp     = 0x21, // PAGE UP key
+        PageDown   = 0x22, // PAGE DOWN key
+        End        = 0x23, // END key
+        Home       = 0x24, // HOME key
+        Left       = 0x25, // LEFT ARROW key
+        Up         = 0x26, // UP ARROW key
+        Right      = 0x27, // RIGHT ARROW key
+        Down       = 0x28, // DOWN ARROW key
+        Select     = 0x29, // SELECT key
+        Print      = 0x2A, // PRINT key
+        Execute    = 0x2B, // EXECUTE key
+        Snapshot   = 0x2C, // PRINT SCREEN key
+        Insert     = 0x2D, // INS key
+        Delete     = 0x2E, // DEL key
+        Help       = 0x2F, // HELP key
+
+        Zero  = 0x30, // 0 key
+        One   = 0x31, // 1 key
+        Two   = 0x32, // 2 key
+        Three = 0x33, // 3 key
+        Four  = 0x34, // 4 key
+        Five  = 0x35, // 5 key
+        Six   = 0x36, // 6 key
+        Seven = 0x37, // 7 key
+        Eight = 0x38, // 8 key
+        Nine  = 0x39, // 9 key
+
+        //- 0x3A-40 Undefined
+
+        A = 0x41, // A key
+        B = 0x42, // B key
+        C = 0x43, // C key
+        D = 0x44, // D key
+        E = 0x45, // E key
+        F = 0x46, // F key
+        G = 0x47, // G key
+        H = 0x48, // H key
+        I = 0x49, // I key
+        J = 0x4A, // J key
+        K = 0x4B, // K key
+        L = 0x4C, // L key
+        M = 0x4D, // M key
+        N = 0x4E, // N key
+        O = 0x4F, // O key
+        P = 0x50, // P key
+        Q = 0x51, // Q key
+        R = 0x52, // R key
+        S = 0x53, // S key
+        T = 0x54, // T key
+        U = 0x55, // U key
+        V = 0x56, // V key
+        W = 0x57, // W key
+        X = 0x58, // X key
+        Y = 0x59, // Y key
+        Z = 0x5A, // Z key
+
+        LeftWindows  = 0x5B, // Left Windows key (Natural keyboard)
+        RightWindows = 0x5C, // Right Windows key (Natural keyboard)
+        Applications = 0x5D, // Applications key (Natural keyboard)
+
+        //- 0x5E Reserved
+
+        Sleep     = 0x5F, // Computer Sleep key
+        NumPad0   = 0x60, // Numeric keypad 0 key
+        NumPad1   = 0x61, // Numeric keypad 1 key
+        NumPad2   = 0x62, // Numeric keypad 2 key
+        NumPad3   = 0x63, // Numeric keypad 3 key
+        NumPad4   = 0x64, // Numeric keypad 4 key
+        NumPad5   = 0x65, // Numeric keypad 5 key
+        NumPad6   = 0x66, // Numeric keypad 6 key
+        NumPad7   = 0x67, // Numeric keypad 7 key
+        NumPad8   = 0x68, // Numeric keypad 8 key
+        NumPad9   = 0x69, // Numeric keypad 9 key
+        Multipy   = 0x6A, // Multiply key
+        Add       = 0x6B, // Add key
+        Separator = 0x6C, // Separator key
+        Subtract  = 0x6D, // Subtract key
+        Decimal   = 0x6E, // Decimal key
+        Divide    = 0x6F, // Divide key
+        F1        = 0x70, // F1 key
+        F2        = 0x71, // F2 key
+        F3        = 0x72, // F3 key
+        F4        = 0x73, // F4 key
+        F5        = 0x74, // F5 key
+        F6        = 0x75, // F6 key
+        F7        = 0x76, // F7 key
+        F8        = 0x77, // F8 key
+        F9        = 0x78, // F9 key
+        F10       = 0x79, // F10 key
+        F11       = 0x7A, // F11 key
+        F12       = 0x7B, // F12 key
+        F13       = 0x7C, // F13 key
+        F14       = 0x7D, // F14 key
+        F15       = 0x7E, // F15 key
+        F16       = 0x7F, // F16 key
+        F17       = 0x80, // F17 key
+        F18       = 0x81, // F18 key
+        F19       = 0x82, // F19 key
+        F20       = 0x83, // F20 key
+        F21       = 0x84, // F21 key
+        F22       = 0x85, // F22 key
+        F23       = 0x86, // F23 key
+        F24       = 0x87, // F24 key
+
+        //- 0x88-8F Unassigned
+
+        NumLock    = 0x90, // NUM LOCK key
+        ScrollLock = 0x91, // SCROLL LOCK key
+
+        // 0x92-96 OEM specific
+        //- 0x97-9F Unassigned
+
+        LeftShift          = 0xA0, // Left SHIFT key
+        RightShift         = 0xA1, // Right SHIFT key
+        LeftCtrl           = 0xA2, // Left CONTROL key
+        RightCtrl          = 0xA3, // Right CONTROL key
+        LeftAlt            = 0xA4, // Left ALT key
+        RightAlt           = 0xA5, // Right ALT key
+        BrowserBack        = 0xA6, // Browser Back key
+        BrowserForward     = 0xA7, // Browser Forward key
+        BrowserRefresh     = 0xA8, // Browser Refresh key
+        BrowserStop        = 0xA9, // Browser Stop key
+        BrowserSearch      = 0xAA, // Browser Search key
+        BrowserFavorites   = 0xAB, // Browser Favorites key
+        BrowserHome        = 0xAC, // Browser Start and Home key
+        VolumeMute         = 0xAD, // Volume Mute key
+        VolumeDown         = 0xAE, // Volume Down key
+        VolumeUp           = 0xAF, // Volume Up key
+        MediaNextTrack     = 0xB0, // Next Track key
+        MediaPreviousTrack = 0xB1, // Previous Track key
+        MediaStop          = 0xB2, // Stop Media key
+        MediaPlayPause     = 0xB3, // Play/Pause Media key
+        LaunchMail         = 0xB4, // Start Mail key
+        LaunchMediaSelect  = 0xB5, // Select Media key
+        LaunchApplication1 = 0xB6, // Start Application 1 key
+        LaunchApplication2 = 0xB7, // Start Application 2 key
+
+        //- 0xB8-B9 Reserved
+
+        OEM_1      = 0xBA, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ';:' key
+        OEM_Plus   = 0xBB, // For any country/region, the '+' key
+        OEM_Comma  = 0xBC, // For any country/region, the ',' key
+        OEM_Minus  = 0xBD, // For any country/region, the '-' key
+        OEM_Period = 0xBE, // For any country/region, the '.' key
+        OEM_2      = 0xBF, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '/?' key
+        OEM_3      = 0xC0, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '`~' key
+
+        //- 0xC1-D7 Reserved
+        //- 0xD8-DA Unassigned
+
+        OEM_4 = 0xDB, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '[{' key
+        OEM_5 = 0xDC, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '\|' key
+        OEM_6 = 0xDD, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ']}' key
+        OEM_7 = 0xDE, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the 'single-quote/double-quote' key
+        OEM_8 = 0xDF, // Used for miscellaneous characters; it can vary by keyboard.
+
+        //- 0xE0 Reserved
+        // 0xE1 OEM specific
+
+        OEM_102 = 0xE2, // The <> keys on the US standard keyboard, or the \\| key on the non-US 102-key keyboard
+
+        // 0xE3-E4 OEM specific
+
+        ProcessKey = 0xE5, // IME PROCESS key
+
+        // 0xE6 OEM specific
+
+        Packet = 0xE7, // Used to pass Unicode characters as if they were keystrokes. The VK_PACKET key is the low word of a 32-bit Virtual Key value used for non-keyboard input methods. For more information, see Remark in KEYBDINPUT, SendInput, WM_KEYDOWN, and WM_KEYUP
+
+        //- 0xE8 Unassigned
+        // 0xE9-F5 OEM specific
+
+        Attn      = 0xF6, // Attn key
+        CrSel     = 0xF7, // CrSel key
+        ExSel     = 0xF8, // ExSel key
+        EraseEOF  = 0xF9, // Erase EOF key
+        Play      = 0xFA, // Play key
+        Zoom      = 0xFB, // Zoom key
+        NONAME    = 0xFC, // Reserved
+        PA1       = 0xFD, // PA1 key
+        OEM_Clear = 0xFE, // Clear key
+    };
+
+    /**
+     * @brief 鼠标事件时用于判断按键状态
+     */
+    enum class MouseKey {
+        Ctrl        = MK_CONTROL,  // The CTRL key is down.
+        MouseLeft   = MK_LBUTTON,  // The left mouse button is down.
+        MouseMiddle = MK_MBUTTON,  // The middle mouse button is down.
+        MouseRight  = MK_RBUTTON,  // The right mouse button is down.
+        Shift       = MK_SHIFT,    // The SHIFT key is down.
+        MouseX1     = MK_XBUTTON1, // The first X button is down.
+        MouseX2     = MK_XBUTTON2, // The second X button is down.
+    };
+
+    /**
+     * @brief 标记MouseKey枚举类型支持位运算
+     */
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(MouseKey);
+
+    /**
+     * @brief 表示热键框控件中的辅助按键，可以是一个或多个按键
+     */
+    enum class HotKeyModifier {
+        None  = 0,                       // 无按键
+        Shift = /*HOTKEYF_SHIFT*/ 0x1,   // Alt键
+        Ctrl  = /*HOTKEYF_CONTROL*/ 0x2, // Ctrl键
+        Alt   = /*HOTKEYF_ALT*/ 0x4,     // 扩展键
+        Ext   = /*HOTKEYF_EXT*/ 0x8,     // Shift键
+    };
+
+    /**
+     * @brief 标记HotKeyModifier枚举类型支持位运算
+     */
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(HotKeyModifier);
+}
+
+// Point.h
+
+
+namespace sw
+{
+    /**
+     * @brief 表示相对于左上角的点坐标
+     */
+    struct Point : public IToString<Point>,
+                   public IEqualityComparable<Point> {
+        /**
+         * @brief 横坐标
+         */
+        double x;
+
+        /**
+         * @brief 纵坐标
+         */
+        double y;
+
+        /**
+         * @brief 默认构造函数
+         */
+        Point() = default;
+
+        /**
+         * @brief 构造指定xy值的Point结构体
+         */
+        Point(double x, double y);
+
+        /**
+         * @brief 从POINT构造Point结构体
+         */
+        Point(const POINT &point);
+
+        /**
+         * @brief 隐式转换POINT
+         */
+        operator POINT() const;
+
+        /**
+         * @brief 判断两个Point是否相等
+         */
+        bool Equals(const Point &other) const;
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const;
+    };
+
+    // Point应为POD类型
+    static_assert(
+        std::is_trivial<Point>::value && std::is_standard_layout<Point>::value,
+        "Point should be a POD type.");
+}
+
 // Property.h
 
 
@@ -2332,21 +2949,6 @@ namespace sw
     };
 
     /**
-     * @brief 判断类型是否可以显式转换的辅助模板
-     */
-    template <typename TFrom, typename TTo, typename = void>
-    struct _IsExplicitlyConvertable : std::false_type {
-    };
-
-    /**
-     * @brief _IsExplicitlyConvertable模板特化
-     */
-    template <typename TFrom, typename TTo>
-    struct _IsExplicitlyConvertable<
-        TFrom, TTo, decltype(void(static_cast<TTo>(std::declval<TFrom>())))> : std::true_type {
-    };
-
-    /**
      * @brief 判断类型是否有operator->的辅助模板
      */
     template <typename T, typename = void>
@@ -2363,20 +2965,10 @@ namespace sw
     };
 
     /**
-     * @brief 属性setter参数类型辅助模板
-     */
-    template <typename T>
-    struct _PropertySetterParamTypeHelper {
-        using type = typename std::conditional<
-            std::is_scalar<T>::value, T, const T &>::type;
-    };
-
-    /**
      * @brief 属性setter参数类型
      */
     template <typename T>
-    using _PropertySetterParamType =
-        typename _PropertySetterParamTypeHelper<typename std::decay<T>::type>::type;
+    using _PropertySetterParamType = _OptimalParamType<T>;
 
     /*================================================================================*/
 
@@ -4146,1209 +4738,6 @@ _SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(uint64_t);
 _SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(std::string);
 _SW_DECLARE_EXTERN_PROPERTY_TEMPLATE(std::wstring);
 
-// ScrollEnums.h
-
-
-namespace sw
-{
-    /**
-     * @brief 滚动条方向
-     */
-    enum class ScrollOrientation {
-        Horizontal, // 水平滚动条
-        Vertical,   // 垂直滚动条
-    };
-
-    /**
-     * @brief 滚动条事件
-     */
-    enum class ScrollEvent {
-        LineUp        = SB_LINEUP,        // Scrolls one line up.
-        LineLeft      = SB_LINELEFT,      // Scrolls left by one unit.
-        LineDown      = SB_LINEDOWN,      // Scrolls one line down.
-        LineRight     = SB_LINERIGHT,     // Scrolls right by one unit.
-        PageUp        = SB_PAGEUP,        // Scrolls one page up.
-        PageLeft      = SB_PAGELEFT,      // Scrolls left by the width of the window.
-        PageDown      = SB_PAGEDOWN,      // Scrolls one page down.
-        PageRight     = SB_PAGERIGHT,     // Scrolls right by the width of the window.
-        ThumbPosition = SB_THUMBPOSITION, // The user has dragged the scroll box (thumb) and released the mouse button. The HIWORD indicates the position of the scroll box at the end of the drag operation.
-        ThubmTrack    = SB_THUMBTRACK,    // The user is dragging the scroll box. This message is sent repeatedly until the user releases the mouse button. The HIWORD indicates the position that the scroll box has been dragged to.
-        Top           = SB_TOP,           // Scrolls to the upper left.
-        Left          = SB_LEFT,          // Scrolls to the upper left.
-        Bottom        = SB_BOTTOM,        // Scrolls to the lower right.
-        Right         = SB_RIGHT,         // Scrolls to the lower right.
-        EndScroll     = SB_ENDSCROLL,     // Ends scroll.
-    };
-}
-
-// WndMsg.h
-
-
-namespace sw
-{
-    /**
-     * @brief 包含SimpleWindow用到的一些窗口消息
-     */
-    enum WndMsg : UINT {
-        // SimpleWindow所用消息的起始位置
-        WM_SimpleWindowBegin = WM_USER + 0x3000,
-
-        // 控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用
-        WM_UpdateLayout,
-
-        // 在窗口线程上执行指定委托，lParam为指向sw::Action<>的指针，wParam表示是否对委托指针执行delete
-        WM_InvokeAction,
-
-        // 在WndBase::SetParent函数中设置父窗口之前发送该消息，wParam为新的父窗口句柄，lParam未使用
-        WM_PreSetParent,
-
-        // SimpleWindow所用消息的结束位置
-        WM_SimpleWindowEnd,
-    };
-}
-
-// App.h
-
-
-namespace sw
-{
-    /**
-     * @brief 线程退出消息循环的方式
-     */
-    enum class AppQuitMode {
-        Auto,   // 线程中所有窗口都销毁时自动退出消息循环
-        Manual, // 需手动调用QuitMsgLoop以退出消息循环
-    };
-
-    /**
-     * @brief App类
-     */
-    class App
-    {
-    private:
-        App() = delete;
-
-    public:
-        /**
-         * @brief 应用程序的当前实例的句柄
-         */
-        static const ReadOnlyProperty<HINSTANCE> Instance;
-
-        /**
-         * @brief 当前exe的文件路径
-         */
-        static const ReadOnlyProperty<std::wstring> ExePath;
-
-        /**
-         * @brief 当前exe所在的文件夹路径
-         */
-        static const ReadOnlyProperty<std::wstring> ExeDirectory;
-
-        /**
-         * @brief 当前工作路径
-         */
-        static const Property<std::wstring> CurrentDirectory;
-
-        /**
-         * @brief 当前线程退出消息循环的方式
-         * @note  该属性是线程局部的，每个线程有各自独立的值
-         */
-        static const Property<AppQuitMode> QuitMode;
-
-        /**
-         * @brief 当前线程消息循环中处理空句柄消息的回调函数
-         * @note  该委托是线程局部的，每个线程有各自独立的值
-         */
-        static thread_local Action<MSG &> NullHwndMsgHandler;
-
-        /**
-         * @brief  消息循环
-         * @return 退出代码
-         */
-        static int MsgLoop();
-
-        /**
-         * @brief          退出当前线程的消息循环
-         * @param exitCode 退出代码
-         */
-        static void QuitMsgLoop(int exitCode = 0);
-    };
-}
-
-// Color.h
-
-
-namespace sw
-{
-    /**
-     * @brief 颜色
-     */
-    struct Color : public IToString<Color>,
-                   public IEqualityComparable<Color> {
-        /**
-         * @brief R分量
-         */
-        uint8_t r;
-
-        /**
-         * @brief G分量
-         */
-        uint8_t g;
-
-        /**
-         * @brief B分量
-         */
-        uint8_t b;
-
-        /**
-         * @brief 保留字段
-         */
-        uint8_t _reserved;
-
-        /**
-         * @brief 默认构造函数
-         */
-        Color() = default;
-
-        /**
-         * @brief 通过rgb构造Color结构体
-         */
-        Color(uint8_t r, uint8_t g, uint8_t b);
-
-        /**
-         * @brief 通过KnownColor构造Color结构体
-         */
-        Color(KnownColor knownColor);
-
-        /**
-         * @brief 通过COLORREF构造Color结构体
-         */
-        Color(COLORREF color);
-
-        /**
-         * @brief 隐式转换COLORREF
-         */
-        operator COLORREF() const;
-
-        /**
-         * @brief 判断两个Color是否相等
-         */
-        bool Equals(const Color &other) const;
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const;
-    };
-
-    // Color应为POD类型
-    static_assert(
-        std::is_trivial<Color>::value && std::is_standard_layout<Color>::value,
-        "Color should be a POD type.");
-}
-
-// Dip.h
-
-
-namespace sw
-{
-    /**
-     * @brief 用于处理设备独立像素（dip）与屏幕像素之间的转换
-     * @note  该类的所有成员均为线程局部的，即缩放比例在每个线程中独立
-     */
-    class Dip
-    {
-    private:
-        Dip() = delete;
-
-    public:
-        /**
-         * @brief 水平缩放比例
-         */
-        static const ReadOnlyProperty<double> ScaleX;
-
-        /**
-         * @brief 垂直缩放比例
-         */
-        static const ReadOnlyProperty<double> ScaleY;
-
-        /**
-         * @brief dpi改变时调用该函数更新缩放比例
-         */
-        static void Update(int dpiX, int dpiY);
-
-        /**
-         * @brief 像素转dip（水平方向）
-         */
-        static double PxToDipX(int px);
-
-        /**
-         * @brief 像素转dip（垂直方向）
-         */
-        static double PxToDipY(int px);
-
-        /**
-         * @brief dip转像素（水平方向）
-         */
-        static int DipToPxX(double dip);
-
-        /**
-         * @brief dip转像素（垂直方向）
-         */
-        static int DipToPxY(double dip);
-    };
-}
-
-// INotifyObjectDead.h
-
-
-namespace sw
-{
-    class INotifyObjectDead; // 向前声明
-
-    /**
-     * @brief 对象销毁事件处理程序类型
-     */
-    using ObjectDeadEventHandler = Action<INotifyObjectDead &>;
-
-    /**
-     * @brief 对象销毁通知接口
-     */
-    class INotifyObjectDead
-    {
-    public:
-        /**
-         * @brief 对象销毁时触发该事件
-         */
-        ObjectDeadEventHandler ObjectDead;
-
-        /**
-         * @brief 析构时触发对象销毁事件
-         */
-        virtual ~INotifyObjectDead()
-        {
-            if (ObjectDead) {
-                ObjectDead(*this);
-            }
-        }
-    };
-}
-
-// IValueConverter.h
-
-
-namespace sw
-{
-    /**
-     * @brief 最佳参数类型，标量类型使用值传递，复杂类型使用常量引用传递
-     */
-    template <typename T>
-    using _OptimalParamType = _PropertySetterParamType<T>;
-
-    /**
-     * @brief 值转换器接口
-     * @tparam TSource 源类型
-     * @tparam TTarget 目标类型
-     */
-    template <typename TSource, typename TTarget>
-    class IValueConverter
-    {
-    public:
-        /**
-         * @brief 源数据传参类型
-         */
-        using TSourceParam = _OptimalParamType<TSource>;
-
-        /**
-         * @brief 目标数据传参类型
-         */
-        using TTargetParam = _OptimalParamType<TTarget>;
-
-        /**
-         * @brief 默认析构函数
-         */
-        virtual ~IValueConverter() = default;
-
-    public:
-        /**
-         * @brief 将源类型转换为目标类型
-         * @param source 源值
-         * @return 转换后的目标值
-         */
-        virtual TTarget Convert(TSourceParam source) = 0;
-
-        /**
-         * @brief 将目标类型转换为源类型
-         * @param target 目标值
-         * @return 转换后的源值
-         */
-        virtual TSource ConvertBack(TTargetParam target) = 0;
-    };
-}
-
-// Keys.h
-
-
-namespace sw
-{
-    /**
-     * @brief https://learn.microsoft.com/en-us/windows/win32/inputdev/about-keyboard-input#keystroke-message-flags
-     */
-    struct KeyFlags {
-        // repeat count, > 0 if several keydown messages was combined into one message
-        uint16_t repeatCount;
-
-        // scan code
-        uint8_t scanCode;
-
-        // extended-key flag, 1 if scancode has 0xE0 prefix
-        bool isExtendedKey;
-
-        // indicates whether the ALT key was down
-        bool contextCode;
-
-        // indicates whether the key that generated the keystroke message was previously up or down
-        bool previousKeyState;
-
-        // transition-state flag, 1 on keyup
-        bool transitionState;
-
-        // 默认构造函数
-        KeyFlags() = default;
-
-        // 从lParam解析出各个字段
-        KeyFlags(LPARAM lParam);
-    };
-
-    /**
-     * @brief 虚拟按键
-     */
-    enum class VirtualKey {
-        MouseLeft   = 0x01, // Left mouse button
-        MouseRight  = 0x02, // Right mouse button
-        Cancel      = 0x03, // Control-break processing
-        MouseMiddle = 0x04, // Middle mouse button (three-button mouse)
-        MouseX1     = 0x05, // X1 mouse button
-        MouseX2     = 0x06, // X2 mouse button
-
-        //- 0x07 Undefined
-
-        Backspace = 0x08, // BACKSPACE key
-        Tab       = 0x09, // TAB key
-
-        //- 0x0A-0B Reserved
-
-        Clear = 0x0C, // CLEAR key
-        Enter = 0x0D, // ENTER key
-
-        //- 0x0E-0F Undefined
-
-        Shift      = 0x10, // SHIFT key
-        Ctrl       = 0x11, // CTRL key
-        Alt        = 0x12, // ALT key
-        Pause      = 0x13, // PAUSE key
-        CapsLock   = 0x14, // CAPS LOCK key
-        Kana       = 0x15, // IME Kana mode
-        Hanguel    = 0x15, // IME Hanguel mode (maintained for compatibility; use VK_HANGUL)
-        Hangul     = 0x15, // IME Hangul mode
-        IME_On     = 0x16, // IME On
-        Junja      = 0x17, // IME Junja mode
-        Final      = 0x18, // IME final mode
-        Hanja      = 0x19, // IME Hanja mode
-        KANJI      = 0x19, // IME Kanji mode
-        IME_Off    = 0x1A, // IME Off
-        Esc        = 0x1B, // ESC key
-        Convert    = 0x1C, // IME convert
-        Nonconvert = 0x1D, // IME nonconvert
-        Accept     = 0x1E, // IME accept
-        ModeChange = 0x1F, // IME mode change request
-        Space      = 0x20, // SPACEBAR
-        PageUp     = 0x21, // PAGE UP key
-        PageDown   = 0x22, // PAGE DOWN key
-        End        = 0x23, // END key
-        Home       = 0x24, // HOME key
-        Left       = 0x25, // LEFT ARROW key
-        Up         = 0x26, // UP ARROW key
-        Right      = 0x27, // RIGHT ARROW key
-        Down       = 0x28, // DOWN ARROW key
-        Select     = 0x29, // SELECT key
-        Print      = 0x2A, // PRINT key
-        Execute    = 0x2B, // EXECUTE key
-        Snapshot   = 0x2C, // PRINT SCREEN key
-        Insert     = 0x2D, // INS key
-        Delete     = 0x2E, // DEL key
-        Help       = 0x2F, // HELP key
-
-        Zero  = 0x30, // 0 key
-        One   = 0x31, // 1 key
-        Two   = 0x32, // 2 key
-        Three = 0x33, // 3 key
-        Four  = 0x34, // 4 key
-        Five  = 0x35, // 5 key
-        Six   = 0x36, // 6 key
-        Seven = 0x37, // 7 key
-        Eight = 0x38, // 8 key
-        Nine  = 0x39, // 9 key
-
-        //- 0x3A-40 Undefined
-
-        A = 0x41, // A key
-        B = 0x42, // B key
-        C = 0x43, // C key
-        D = 0x44, // D key
-        E = 0x45, // E key
-        F = 0x46, // F key
-        G = 0x47, // G key
-        H = 0x48, // H key
-        I = 0x49, // I key
-        J = 0x4A, // J key
-        K = 0x4B, // K key
-        L = 0x4C, // L key
-        M = 0x4D, // M key
-        N = 0x4E, // N key
-        O = 0x4F, // O key
-        P = 0x50, // P key
-        Q = 0x51, // Q key
-        R = 0x52, // R key
-        S = 0x53, // S key
-        T = 0x54, // T key
-        U = 0x55, // U key
-        V = 0x56, // V key
-        W = 0x57, // W key
-        X = 0x58, // X key
-        Y = 0x59, // Y key
-        Z = 0x5A, // Z key
-
-        LeftWindows  = 0x5B, // Left Windows key (Natural keyboard)
-        RightWindows = 0x5C, // Right Windows key (Natural keyboard)
-        Applications = 0x5D, // Applications key (Natural keyboard)
-
-        //- 0x5E Reserved
-
-        Sleep     = 0x5F, // Computer Sleep key
-        NumPad0   = 0x60, // Numeric keypad 0 key
-        NumPad1   = 0x61, // Numeric keypad 1 key
-        NumPad2   = 0x62, // Numeric keypad 2 key
-        NumPad3   = 0x63, // Numeric keypad 3 key
-        NumPad4   = 0x64, // Numeric keypad 4 key
-        NumPad5   = 0x65, // Numeric keypad 5 key
-        NumPad6   = 0x66, // Numeric keypad 6 key
-        NumPad7   = 0x67, // Numeric keypad 7 key
-        NumPad8   = 0x68, // Numeric keypad 8 key
-        NumPad9   = 0x69, // Numeric keypad 9 key
-        Multipy   = 0x6A, // Multiply key
-        Add       = 0x6B, // Add key
-        Separator = 0x6C, // Separator key
-        Subtract  = 0x6D, // Subtract key
-        Decimal   = 0x6E, // Decimal key
-        Divide    = 0x6F, // Divide key
-        F1        = 0x70, // F1 key
-        F2        = 0x71, // F2 key
-        F3        = 0x72, // F3 key
-        F4        = 0x73, // F4 key
-        F5        = 0x74, // F5 key
-        F6        = 0x75, // F6 key
-        F7        = 0x76, // F7 key
-        F8        = 0x77, // F8 key
-        F9        = 0x78, // F9 key
-        F10       = 0x79, // F10 key
-        F11       = 0x7A, // F11 key
-        F12       = 0x7B, // F12 key
-        F13       = 0x7C, // F13 key
-        F14       = 0x7D, // F14 key
-        F15       = 0x7E, // F15 key
-        F16       = 0x7F, // F16 key
-        F17       = 0x80, // F17 key
-        F18       = 0x81, // F18 key
-        F19       = 0x82, // F19 key
-        F20       = 0x83, // F20 key
-        F21       = 0x84, // F21 key
-        F22       = 0x85, // F22 key
-        F23       = 0x86, // F23 key
-        F24       = 0x87, // F24 key
-
-        //- 0x88-8F Unassigned
-
-        NumLock    = 0x90, // NUM LOCK key
-        ScrollLock = 0x91, // SCROLL LOCK key
-
-        // 0x92-96 OEM specific
-        //- 0x97-9F Unassigned
-
-        LeftShift          = 0xA0, // Left SHIFT key
-        RightShift         = 0xA1, // Right SHIFT key
-        LeftCtrl           = 0xA2, // Left CONTROL key
-        RightCtrl          = 0xA3, // Right CONTROL key
-        LeftAlt            = 0xA4, // Left ALT key
-        RightAlt           = 0xA5, // Right ALT key
-        BrowserBack        = 0xA6, // Browser Back key
-        BrowserForward     = 0xA7, // Browser Forward key
-        BrowserRefresh     = 0xA8, // Browser Refresh key
-        BrowserStop        = 0xA9, // Browser Stop key
-        BrowserSearch      = 0xAA, // Browser Search key
-        BrowserFavorites   = 0xAB, // Browser Favorites key
-        BrowserHome        = 0xAC, // Browser Start and Home key
-        VolumeMute         = 0xAD, // Volume Mute key
-        VolumeDown         = 0xAE, // Volume Down key
-        VolumeUp           = 0xAF, // Volume Up key
-        MediaNextTrack     = 0xB0, // Next Track key
-        MediaPreviousTrack = 0xB1, // Previous Track key
-        MediaStop          = 0xB2, // Stop Media key
-        MediaPlayPause     = 0xB3, // Play/Pause Media key
-        LaunchMail         = 0xB4, // Start Mail key
-        LaunchMediaSelect  = 0xB5, // Select Media key
-        LaunchApplication1 = 0xB6, // Start Application 1 key
-        LaunchApplication2 = 0xB7, // Start Application 2 key
-
-        //- 0xB8-B9 Reserved
-
-        OEM_1      = 0xBA, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ';:' key
-        OEM_Plus   = 0xBB, // For any country/region, the '+' key
-        OEM_Comma  = 0xBC, // For any country/region, the ',' key
-        OEM_Minus  = 0xBD, // For any country/region, the '-' key
-        OEM_Period = 0xBE, // For any country/region, the '.' key
-        OEM_2      = 0xBF, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '/?' key
-        OEM_3      = 0xC0, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '`~' key
-
-        //- 0xC1-D7 Reserved
-        //- 0xD8-DA Unassigned
-
-        OEM_4 = 0xDB, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '[{' key
-        OEM_5 = 0xDC, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '\|' key
-        OEM_6 = 0xDD, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ']}' key
-        OEM_7 = 0xDE, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the 'single-quote/double-quote' key
-        OEM_8 = 0xDF, // Used for miscellaneous characters; it can vary by keyboard.
-
-        //- 0xE0 Reserved
-        // 0xE1 OEM specific
-
-        OEM_102 = 0xE2, // The <> keys on the US standard keyboard, or the \\| key on the non-US 102-key keyboard
-
-        // 0xE3-E4 OEM specific
-
-        ProcessKey = 0xE5, // IME PROCESS key
-
-        // 0xE6 OEM specific
-
-        Packet = 0xE7, // Used to pass Unicode characters as if they were keystrokes. The VK_PACKET key is the low word of a 32-bit Virtual Key value used for non-keyboard input methods. For more information, see Remark in KEYBDINPUT, SendInput, WM_KEYDOWN, and WM_KEYUP
-
-        //- 0xE8 Unassigned
-        // 0xE9-F5 OEM specific
-
-        Attn      = 0xF6, // Attn key
-        CrSel     = 0xF7, // CrSel key
-        ExSel     = 0xF8, // ExSel key
-        EraseEOF  = 0xF9, // Erase EOF key
-        Play      = 0xFA, // Play key
-        Zoom      = 0xFB, // Zoom key
-        NONAME    = 0xFC, // Reserved
-        PA1       = 0xFD, // PA1 key
-        OEM_Clear = 0xFE, // Clear key
-    };
-
-    /**
-     * @brief 鼠标事件时用于判断按键状态
-     */
-    enum class MouseKey {
-        Ctrl        = MK_CONTROL,  // The CTRL key is down.
-        MouseLeft   = MK_LBUTTON,  // The left mouse button is down.
-        MouseMiddle = MK_MBUTTON,  // The middle mouse button is down.
-        MouseRight  = MK_RBUTTON,  // The right mouse button is down.
-        Shift       = MK_SHIFT,    // The SHIFT key is down.
-        MouseX1     = MK_XBUTTON1, // The first X button is down.
-        MouseX2     = MK_XBUTTON2, // The second X button is down.
-    };
-
-    /**
-     * @brief 标记MouseKey枚举类型支持位运算
-     */
-    _SW_ENUM_ENABLE_BIT_OPERATIONS(MouseKey);
-
-    /**
-     * @brief 表示热键框控件中的辅助按键，可以是一个或多个按键
-     */
-    enum class HotKeyModifier {
-        None  = 0,                       // 无按键
-        Shift = /*HOTKEYF_SHIFT*/ 0x1,   // Alt键
-        Ctrl  = /*HOTKEYF_CONTROL*/ 0x2, // Ctrl键
-        Alt   = /*HOTKEYF_ALT*/ 0x4,     // 扩展键
-        Ext   = /*HOTKEYF_EXT*/ 0x8,     // Shift键
-    };
-
-    /**
-     * @brief 标记HotKeyModifier枚举类型支持位运算
-     */
-    _SW_ENUM_ENABLE_BIT_OPERATIONS(HotKeyModifier);
-}
-
-// MenuItem.h
-
-
-namespace sw
-{
-    class MenuItem; // 向前声明
-
-    /**
-     * @brief 菜单项关联的回调函数类型
-     */
-    using MenuItemCommand = Action<MenuItem &>;
-
-    /**
-     * @brief 菜单项
-     */
-    class MenuItem : public ITag
-    {
-    public:
-        /**
-         * @brief 储存用户自定义信息
-         */
-        uint64_t tag;
-
-        /**
-         * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
-         */
-        std::wstring text;
-
-        /**
-         * @brief 菜单项被单击时调用的函数
-         */
-        MenuItemCommand command;
-
-        /**
-         * @brief 子项
-         */
-        std::vector<std::shared_ptr<MenuItem>> subItems{};
-
-    public:
-        /**
-         * @brief      构造一个MenuItem，并设置文本
-         * @param text 菜单项的文本
-         */
-        MenuItem(const std::wstring &text);
-
-        /**
-         * @brief         构造一个MenuItem，并设置其回调函数
-         * @param text    菜单项的文本
-         * @param command 被单击时调用的函数
-         */
-        MenuItem(const std::wstring &text, const MenuItemCommand &command);
-
-        /**
-         * @brief          构造一个MenuItem，并设置其子项
-         * @param text     菜单下的文本
-         * @param subItems 子项列表
-         */
-        MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
-
-        /**
-         * @brief      构造一个MenuItem，并设置tag及文本
-         * @param text 菜单项的文本
-         */
-        MenuItem(uint64_t tag, const std::wstring &text);
-
-        /**
-         * @brief         构造一个MenuItem，并设置tag及回调函数
-         * @param text    菜单项的文本
-         * @param command 被单击时调用的函数
-         */
-        MenuItem(uint64_t tag, const std::wstring &text, const MenuItemCommand &command);
-
-        /**
-         * @brief         构造一个MenuItem，设置成员函数为回调函数
-         * @tparam T      成员函数所在的类
-         * @param obj     成员函数所在的对象
-         * @param handler 处理函数
-         */
-        template <typename T>
-        MenuItem(const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
-            : MenuItem(0, text, obj, handler)
-        {
-        }
-
-        /**
-         * @brief         构造一个MenuItem，设置成员函数为回调函数
-         * @tparam T      成员函数所在的类
-         * @param obj     成员函数所在的对象
-         * @param handler 处理函数
-         */
-        template <typename T>
-        MenuItem(uint64_t tag, const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
-            : MenuItem(tag, text, MenuItemCommand(obj, handler))
-        {
-        }
-
-    public:
-        /**
-         * @brief 获取一个值，表示当前菜单项是否为分隔条
-         */
-        bool IsSeparator() const;
-
-        /**
-         * @brief 调用command
-         */
-        void CallCommand();
-
-        /**
-         * @brief 获取Tag
-         */
-        virtual uint64_t GetTag() const override;
-
-        /**
-         * @brief 设置Tag
-         */
-        virtual void SetTag(uint64_t tag) override;
-    };
-}
-
-// Point.h
-
-
-namespace sw
-{
-    /**
-     * @brief 表示相对于左上角的点坐标
-     */
-    struct Point : public IToString<Point>,
-                   public IEqualityComparable<Point> {
-        /**
-         * @brief 横坐标
-         */
-        double x;
-
-        /**
-         * @brief 纵坐标
-         */
-        double y;
-
-        /**
-         * @brief 默认构造函数
-         */
-        Point() = default;
-
-        /**
-         * @brief 构造指定xy值的Point结构体
-         */
-        Point(double x, double y);
-
-        /**
-         * @brief 从POINT构造Point结构体
-         */
-        Point(const POINT &point);
-
-        /**
-         * @brief 隐式转换POINT
-         */
-        operator POINT() const;
-
-        /**
-         * @brief 判断两个Point是否相等
-         */
-        bool Equals(const Point &other) const;
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const;
-    };
-
-    // Point应为POD类型
-    static_assert(
-        std::is_trivial<Point>::value && std::is_standard_layout<Point>::value,
-        "Point should be a POD type.");
-}
-
-// Reflection.h
-
-// 定义SW_DISABLE_REFLECTION可以禁用反射相关功能
-// 若该宏被定义，则相关功能会抛出runtime_error异常
-// #define SW_DISABLE_REFLECTION
-
-
-namespace sw
-{
-    /**
-     * @brief 用于判断是否可以通过static_cast进行转换
-     */
-    template <typename TFrom, typename TTo>
-    using _IsStaticCastable = _IsExplicitlyConvertable<TFrom, TTo>;
-
-    /**
-     * @brief 动态对象基类
-     */
-    class DynamicObject
-    {
-    public:
-        /**
-         * @brief 析构函数
-         */
-        virtual ~DynamicObject() = default;
-
-        /**
-         * @brief  获取对象的类型索引
-         * @return 对象的类型索引
-         */
-        std::type_index GetTypeIndex() const
-        {
-#if defined(SW_DISABLE_REFLECTION)
-            throw std::runtime_error("Reflection is disabled, cannot get type index.");
-#else
-            return typeid(*this);
-#endif
-        }
-
-        /**
-         * @brief      判断对象是否为指定类型
-         * @tparam T   目标类型
-         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
-         * @return     如果对象为指定类型则返回true，否则返回false
-         */
-        template <typename T>
-        bool IsType(T **pout = nullptr)
-        {
-#if defined(SW_DISABLE_REFLECTION)
-            throw std::runtime_error("Reflection is disabled, cannot check type.");
-#else
-            if (pout == nullptr) {
-                return dynamic_cast<T *>(this) != nullptr;
-            } else {
-                *pout = dynamic_cast<T *>(this);
-                return *pout != nullptr;
-            }
-#endif
-        }
-
-        /**
-         * @brief      判断对象是否为指定类型
-         * @tparam T   目标类型
-         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
-         * @return     如果对象为指定类型则返回true，否则返回false
-         */
-        template <typename T>
-        bool IsType(const T **pout = nullptr) const
-        {
-#if defined(SW_DISABLE_REFLECTION)
-            throw std::runtime_error("Reflection is disabled, cannot check type.");
-#else
-            if (pout == nullptr) {
-                return dynamic_cast<const T *>(this) != nullptr;
-            } else {
-                *pout = dynamic_cast<const T *>(this);
-                return *pout != nullptr;
-            }
-#endif
-        }
-
-        /**
-         * @brief    将对象动态转换为指定类型的引用
-         * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @throws   std::bad_cast 如果转换失败
-         */
-        template <typename T>
-        T &DynamicCast()
-        {
-#if defined(SW_DISABLE_REFLECTION)
-            throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
-#else
-            return dynamic_cast<T &>(*this);
-#endif
-        }
-
-        /**
-         * @brief    将对象动态转换为指定类型的常量引用
-         * @tparam T 目标类型
-         * @return   指定类型的常量引用
-         * @throws   std::bad_cast 如果转换失败
-         */
-        template <typename T>
-        const T &DynamicCast() const
-        {
-#if defined(SW_DISABLE_REFLECTION)
-            throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
-#else
-            return dynamic_cast<const T &>(*this);
-#endif
-        }
-
-        /**
-         * @brief    将对象不安全地转换为指定类型的引用
-         * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @note     若目标类型与当前类型不兼容，则行为未定义
-         */
-        template <typename T>
-        auto UnsafeCast()
-            -> typename std::enable_if<_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
-        {
-            return static_cast<T &>(*this);
-        }
-
-        /**
-         * @brief    将对象不安全地转换为指定类型的引用
-         * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @note     若目标类型与当前类型不兼容，则行为未定义
-         */
-        template <typename T>
-        auto UnsafeCast()
-            -> typename std::enable_if<!_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
-        {
-            return DynamicCast<T>();
-        }
-
-        /**
-         * @brief    将对象不安全地转换为指定类型的引用
-         * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @note     若目标类型与当前类型不兼容，则行为未定义
-         */
-        template <typename T>
-        auto UnsafeCast() const
-            -> typename std::enable_if<_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
-        {
-            return static_cast<const T &>(*this);
-        }
-
-        /**
-         * @brief    将对象不安全地转换为指定类型的引用
-         * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @note     若目标类型与当前类型不兼容，则行为未定义
-         */
-        template <typename T>
-        auto UnsafeCast() const
-            -> typename std::enable_if<!_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
-        {
-            return DynamicCast<T>();
-        }
-    };
-
-    /**
-     * @brief 表示字段的唯一标识符
-     */
-    struct FieldId : public IToString<FieldId>,
-                     public IComparable<FieldId, FieldId> {
-        /**
-         * @brief 字段ID的数值
-         */
-        uint32_t value;
-
-        /**
-         * @brief 默认构造函数
-         */
-        FieldId() = default;
-
-        /**
-         * @brief 构造指定值的字段ID
-         */
-        FieldId(uint32_t value)
-            : value(value)
-        {
-        }
-
-        /**
-         * @brief 获取字段ID的字符串表示形式
-         */
-        std::wstring ToString() const
-        {
-            return std::to_wstring(value);
-        }
-
-        /**
-         * @brief  比较字段ID
-         * @return 值相等返回0，小于返回负数，大于返回正数
-         */
-        int CompareTo(FieldId other) const
-        {
-            if (value == other.value) {
-                return 0;
-            } else {
-                return value < other.value ? -1 : 1;
-            }
-        }
-    };
-
-    /**
-     * @brief 提供反射相关功能
-     */
-    class Reflection
-    {
-    public:
-        /**
-         * @brief 静态类，不允许实例化
-         */
-        Reflection() = delete;
-
-        /**
-         * @brief         获取字段的唯一标识符
-         * @tparam T      字段所属类类型
-         * @tparam TField 字段类型
-         * @param field   字段的成员指针
-         * @return        对应的字段ID
-         */
-        template <typename T, typename TField>
-        static FieldId GetFieldId(TField T::*field) noexcept
-        {
-            auto pfunc = &Reflection::GetFieldId<T, TField>;
-
-            uint8_t buffer[sizeof(pfunc) + sizeof(field)];
-            memcpy(buffer, &pfunc, sizeof(pfunc));
-            memcpy(buffer + sizeof(pfunc), &field, sizeof(field));
-
-            uint32_t prime = 16777619u;
-            uint32_t hash  = 2166136261u;
-
-            for (size_t i = 0; i < sizeof(buffer); ++i) {
-                hash ^= static_cast<uint32_t>(buffer[i]);
-                hash *= prime;
-            }
-
-            return FieldId{hash};
-        }
-
-        /**
-         * @brief        获取成员函数的委托
-         * @tparam T     成员函数所属类类型
-         * @tparam TRet  成员函数返回值类型
-         * @tparam Args  成员函数参数类型列表
-         * @param method 成员函数指针
-         * @return       对应的委托
-         */
-        template <typename T, typename TRet, typename... Args>
-        static auto GetMethod(TRet (T::*method)(Args...))
-            -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
-        {
-            return [method](DynamicObject &obj, Args... args) -> TRet {
-                return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
-            };
-        }
-
-        /**
-         * @brief        获取常量成员函数的委托
-         * @tparam T     成员函数所属类类型
-         * @tparam TRet  成员函数返回值类型
-         * @tparam Args  成员函数参数类型列表
-         * @param method 成员函数指针
-         * @return       对应的委托
-         */
-        template <typename T, typename TRet, typename... Args>
-        static auto GetMethod(TRet (T::*method)(Args...) const)
-            -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
-        {
-            return [method](DynamicObject &obj, Args... args) -> TRet {
-                return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
-            };
-        }
-
-        /**
-         * @brief         获取字段的访问器
-         * @tparam T      字段所属类类型
-         * @tparam TField 字段类型
-         * @param field   字段的成员指针
-         * @return        对应的访问器
-         */
-        template <typename T, typename TField>
-        static auto GetFieldAccessor(TField T::*field)
-            -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value, Delegate<TField &(DynamicObject &)>>::type
-        {
-            return [field](DynamicObject &obj) -> TField & {
-                return obj.UnsafeCast<T>().*field;
-            };
-        }
-
-        /**
-         * @brief            获取属性的Getter委托
-         * @tparam T         属性所属类类型
-         * @tparam TProperty 属性类型
-         * @param prop       属性指针
-         * @return           对应的Getter委托
-         * @note             若属性不可读则返回空委托
-         */
-        template <typename T, typename TProperty>
-        static auto GetPropertyGetter(TProperty T::*prop)
-            -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value &&
-                    _IsReadableProperty<TProperty>::value,
-                Delegate<typename TProperty::TValue(DynamicObject &)>>::type
-        {
-            return [prop](DynamicObject &obj) -> typename TProperty::TValue {
-                return (obj.UnsafeCast<T>().*prop).Get();
-            };
-        }
-
-        /**
-         * @brief            获取属性的Getter委托
-         * @tparam T         属性所属类类型
-         * @tparam TProperty 属性类型
-         * @param prop       属性指针
-         * @return           对应的Getter委托
-         * @note             若属性不可读则返回空委托
-         */
-        template <typename T, typename TProperty>
-        static auto GetPropertyGetter(TProperty T::*prop)
-            -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value &&
-                    _IsProperty<TProperty>::value &&
-                    !_IsReadableProperty<TProperty>::value,
-                Delegate<typename TProperty::TValue(DynamicObject &)>>::type
-        {
-            return nullptr;
-        }
-
-        /**
-         * @brief            获取属性的Setter委托
-         * @tparam T         属性所属类类型
-         * @tparam TProperty 属性类型
-         * @param prop       属性指针
-         * @return           对应的Setter委托
-         * @note             若属性不可写则返回空委托
-         */
-        template <typename T, typename TProperty>
-        static auto GetPropertySetter(TProperty T::*prop)
-            -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value &&
-                    _IsWritableProperty<TProperty>::value,
-                Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
-        {
-            return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
-                (obj.UnsafeCast<T>().*prop).Set(std::forward<typename TProperty::TSetterParam>(value));
-            };
-        }
-
-        /**
-         * @brief            获取属性的Setter委托
-         * @tparam T         属性所属类类型
-         * @tparam TProperty 属性类型
-         * @param prop       属性指针
-         * @return           对应的Setter委托
-         * @note             若属性不可写则返回空委托
-         */
-        template <typename T, typename TProperty>
-        static auto GetPropertySetter(TProperty T::*prop)
-            -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value &&
-                    _IsProperty<TProperty>::value &&
-                    !_IsWritableProperty<TProperty>::value,
-                Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
-        {
-            return nullptr;
-        }
-    };
-}
-
-// 为sw::FieldId特化std::hash
-template <>
-struct std::hash<sw::FieldId> //
-{
-    size_t operator()(sw::FieldId fieldId) const noexcept
-    {
-        return static_cast<size_t>(fieldId.value);
-    }
-};
-
 // RoutedEvent.h
 
 
@@ -5666,6 +5055,1951 @@ namespace sw
     static_assert(
         std::is_trivial<Thickness>::value && std::is_standard_layout<Thickness>::value,
         "Thickness should be a POD type.");
+}
+
+// App.h
+
+
+namespace sw
+{
+    /**
+     * @brief 线程退出消息循环的方式
+     */
+    enum class AppQuitMode {
+        Auto,   // 线程中所有窗口都销毁时自动退出消息循环
+        Manual, // 需手动调用QuitMsgLoop以退出消息循环
+    };
+
+    /**
+     * @brief App类
+     */
+    class App
+    {
+    private:
+        App() = delete;
+
+    public:
+        /**
+         * @brief 应用程序的当前实例的句柄
+         */
+        static const ReadOnlyProperty<HINSTANCE> Instance;
+
+        /**
+         * @brief 当前exe的文件路径
+         */
+        static const ReadOnlyProperty<std::wstring> ExePath;
+
+        /**
+         * @brief 当前exe所在的文件夹路径
+         */
+        static const ReadOnlyProperty<std::wstring> ExeDirectory;
+
+        /**
+         * @brief 当前工作路径
+         */
+        static const Property<std::wstring> CurrentDirectory;
+
+        /**
+         * @brief 当前线程退出消息循环的方式
+         * @note  该属性是线程局部的，每个线程有各自独立的值
+         */
+        static const Property<AppQuitMode> QuitMode;
+
+        /**
+         * @brief 当前线程消息循环中处理空句柄消息的回调函数
+         * @note  该委托是线程局部的，每个线程有各自独立的值
+         */
+        static thread_local Action<MSG &> NullHwndMsgHandler;
+
+        /**
+         * @brief  消息循环
+         * @return 退出代码
+         */
+        static int MsgLoop();
+
+        /**
+         * @brief          退出当前线程的消息循环
+         * @param exitCode 退出代码
+         */
+        static void QuitMsgLoop(int exitCode = 0);
+    };
+}
+
+// Dip.h
+
+
+namespace sw
+{
+    /**
+     * @brief 用于处理设备独立像素（dip）与屏幕像素之间的转换
+     * @note  该类的所有成员均为线程局部的，即缩放比例在每个线程中独立
+     */
+    class Dip
+    {
+    private:
+        Dip() = delete;
+
+    public:
+        /**
+         * @brief 水平缩放比例
+         */
+        static const ReadOnlyProperty<double> ScaleX;
+
+        /**
+         * @brief 垂直缩放比例
+         */
+        static const ReadOnlyProperty<double> ScaleY;
+
+        /**
+         * @brief dpi改变时调用该函数更新缩放比例
+         */
+        static void Update(int dpiX, int dpiY);
+
+        /**
+         * @brief 像素转dip（水平方向）
+         */
+        static double PxToDipX(int px);
+
+        /**
+         * @brief 像素转dip（垂直方向）
+         */
+        static double PxToDipY(int px);
+
+        /**
+         * @brief dip转像素（水平方向）
+         */
+        static int DipToPxX(double dip);
+
+        /**
+         * @brief dip转像素（垂直方向）
+         */
+        static int DipToPxY(double dip);
+    };
+}
+
+// EventHandlerWrapper.h
+
+
+namespace sw
+{
+    /**
+     * @brief 路由事件处理函数包装类，用于需要转换RoutedEventArgs为特定事件参数类型的情况
+     */
+    template <
+        typename TEventArgs,
+        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0>
+    class RoutedEventHandlerWrapper : public ICallable<void(UIElement &, RoutedEventArgs &)>
+    {
+    private:
+        /**
+         * @brief 事件处理函数
+         */
+        Action<UIElement &, TEventArgs &> _handler;
+
+    public:
+        /**
+         * @brief         构造函数
+         * @param handler 事件处理函数
+         */
+        RoutedEventHandlerWrapper(const Action<UIElement &, TEventArgs &> &handler)
+            : _handler(handler)
+        {
+        }
+
+        /**
+         * @brief 调用事件处理函数
+         */
+        virtual void Invoke(UIElement &sender, RoutedEventArgs &args) const override
+        {
+            if (_handler) _handler(sender, static_cast<TEventArgs &>(args));
+        }
+
+        /**
+         * @brief 克隆当前可调用对象
+         */
+        virtual ICallable<void(UIElement &, RoutedEventArgs &)> *Clone() const override
+        {
+            return new RoutedEventHandlerWrapper(_handler);
+        }
+
+        /**
+         * @brief 获取当前可调用对象的类型信息
+         */
+        virtual std::type_index GetType() const override
+        {
+            return typeid(RoutedEventHandlerWrapper<TEventArgs>);
+        }
+
+        /**
+         * @brief       判断当前可调用对象是否与另一个可调用对象相等
+         * @param other 另一个可调用对象
+         * @return      如果相等则返回true，否则返回false
+         */
+        virtual bool Equals(const ICallable<void(UIElement &, RoutedEventArgs &)> &other) const override
+        {
+            if (this == &other) {
+                return true;
+            }
+            if (GetType() != other.GetType()) {
+                return false;
+            }
+            const auto &otherWrapper = static_cast<const RoutedEventHandlerWrapper &>(other);
+            return _handler.Equals(otherWrapper._handler);
+        }
+    };
+}
+
+// MenuItem.h
+
+
+namespace sw
+{
+    class MenuItem; // 向前声明
+
+    /**
+     * @brief 菜单项关联的回调函数类型
+     */
+    using MenuItemCommand = Action<MenuItem &>;
+
+    /**
+     * @brief 菜单项
+     */
+    class MenuItem : public ITag<uint64_t>
+    {
+    public:
+        /**
+         * @brief 储存用户自定义信息
+         */
+        uint64_t tag;
+
+        /**
+         * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
+         */
+        std::wstring text;
+
+        /**
+         * @brief 菜单项被单击时调用的函数
+         */
+        MenuItemCommand command;
+
+        /**
+         * @brief 子项
+         */
+        std::vector<std::shared_ptr<MenuItem>> subItems{};
+
+    public:
+        /**
+         * @brief      构造一个MenuItem，并设置文本
+         * @param text 菜单项的文本
+         */
+        MenuItem(const std::wstring &text);
+
+        /**
+         * @brief         构造一个MenuItem，并设置其回调函数
+         * @param text    菜单项的文本
+         * @param command 被单击时调用的函数
+         */
+        MenuItem(const std::wstring &text, const MenuItemCommand &command);
+
+        /**
+         * @brief          构造一个MenuItem，并设置其子项
+         * @param text     菜单下的文本
+         * @param subItems 子项列表
+         */
+        MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
+
+        /**
+         * @brief      构造一个MenuItem，并设置tag及文本
+         * @param text 菜单项的文本
+         */
+        MenuItem(uint64_t tag, const std::wstring &text);
+
+        /**
+         * @brief         构造一个MenuItem，并设置tag及回调函数
+         * @param text    菜单项的文本
+         * @param command 被单击时调用的函数
+         */
+        MenuItem(uint64_t tag, const std::wstring &text, const MenuItemCommand &command);
+
+        /**
+         * @brief         构造一个MenuItem，设置成员函数为回调函数
+         * @tparam T      成员函数所在的类
+         * @param obj     成员函数所在的对象
+         * @param handler 处理函数
+         */
+        template <typename T>
+        MenuItem(const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
+            : MenuItem(0, text, obj, handler)
+        {
+        }
+
+        /**
+         * @brief         构造一个MenuItem，设置成员函数为回调函数
+         * @tparam T      成员函数所在的类
+         * @param obj     成员函数所在的对象
+         * @param handler 处理函数
+         */
+        template <typename T>
+        MenuItem(uint64_t tag, const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
+            : MenuItem(tag, text, MenuItemCommand(obj, handler))
+        {
+        }
+
+    public:
+        /**
+         * @brief 获取一个值，表示当前菜单项是否为分隔条
+         */
+        bool IsSeparator() const;
+
+        /**
+         * @brief 调用command
+         */
+        void CallCommand();
+
+        /**
+         * @brief 获取Tag
+         */
+        virtual uint64_t GetTag() const override;
+
+        /**
+         * @brief 设置Tag
+         */
+        virtual void SetTag(uint64_t tag) override;
+    };
+}
+
+// Rect.h
+
+
+namespace sw
+{
+    /**
+     * @brief 表示一个矩形区域
+     */
+    struct Rect : public IToString<Rect>,
+                  public IEqualityComparable<Rect> {
+        /**
+         * @brief 左边
+         */
+        double left;
+
+        /**
+         * @brief 顶边
+         */
+        double top;
+
+        /**
+         * @brief 宽度
+         */
+        double width;
+
+        /**
+         * @brief 高度
+         */
+        double height;
+
+        /**
+         * @brief 默认构造函数
+         */
+        Rect() = default;
+
+        /**
+         * @brief 构造Rect
+         */
+        Rect(double left, double top, double width, double height);
+
+        /**
+         * @brief 从RECT构造Rect
+         */
+        Rect(const RECT &rect);
+
+        /**
+         * @brief 隐式转换RECT
+         */
+        operator RECT() const;
+
+        /**
+         * @brief 获取Rect左上角的位置
+         */
+        Point GetPos() const;
+
+        /**
+         * @brief 获取Rect的尺寸
+         */
+        Size GetSize() const;
+
+        /**
+         * @brief 判断两个Rect是否相等
+         */
+        bool Equals(const Rect &other) const;
+
+        /**
+         * @brief 获取描述当前对象的字符串
+         */
+        std::wstring ToString() const;
+    };
+
+    // Rect应为POD类型
+    static_assert(
+        std::is_trivial<Rect>::value && std::is_standard_layout<Rect>::value,
+        "Rect should be a POD type.");
+}
+
+// Reflection.h
+
+// 定义SW_DISABLE_REFLECTION可以禁用反射相关功能
+// 若该宏被定义，则相关功能会抛出runtime_error异常
+// #define SW_DISABLE_REFLECTION
+
+
+namespace sw
+{
+    /**
+     * @brief 装箱对象模板类声明
+     */
+    template <typename T, typename = void>
+    class BoxedObject;
+
+    /**
+     * @brief 动态对象基类
+     */
+    class DynamicObject
+    {
+    private:
+        /**
+         * @brief 允许BoxedObject访问_isBoxedObject成员
+         */
+        template <typename, typename>
+        friend class BoxedObject;
+
+        /**
+         * @brief 指示当前对象是否为装箱对象
+         */
+        bool _isBoxedObject;
+
+    public:
+        /**
+         * @brief 默认构造函数
+         */
+        DynamicObject() noexcept
+            : _isBoxedObject(false)
+        {
+        }
+
+        /**
+         * @brief 析构函数
+         */
+        virtual ~DynamicObject() noexcept
+        {
+        }
+
+        /**
+         * @brief  判断对象是否为装箱对象
+         * @return 如果对象为装箱对象则返回true，否则返回false
+         */
+        bool IsBoxedObject() const noexcept
+        {
+            return _isBoxedObject;
+        }
+
+        /**
+         * @brief  获取对象的类型索引
+         * @return 对象的类型索引
+         */
+        std::type_index GetTypeIndex() const
+        {
+#if defined(SW_DISABLE_REFLECTION)
+            throw std::runtime_error("Reflection is disabled, cannot get type index.");
+#else
+            return typeid(*this);
+#endif
+        }
+
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(T **pout = nullptr)
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, bool>::type
+        {
+#if defined(SW_DISABLE_REFLECTION)
+            throw std::runtime_error("Reflection is disabled, cannot check type.");
+#else
+            if (pout == nullptr) {
+                return dynamic_cast<T *>(this) != nullptr;
+            } else {
+                *pout = dynamic_cast<T *>(this);
+                return *pout != nullptr;
+            }
+#endif
+        }
+
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(const T **pout = nullptr) const
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, bool>::type
+        {
+#if defined(SW_DISABLE_REFLECTION)
+            throw std::runtime_error("Reflection is disabled, cannot check type.");
+#else
+            if (pout == nullptr) {
+                return dynamic_cast<const T *>(this) != nullptr;
+            } else {
+                *pout = dynamic_cast<const T *>(this);
+                return *pout != nullptr;
+            }
+#endif
+        }
+
+        /**
+         * @brief    将对象动态转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @throws   std::bad_cast 如果转换失败
+         */
+        template <typename T>
+        auto DynamicCast()
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, T &>::type
+        {
+#if defined(SW_DISABLE_REFLECTION)
+            throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
+            return dynamic_cast<T &>(*this);
+#endif
+        }
+
+        /**
+         * @brief    将对象动态转换为指定类型的常量引用
+         * @tparam T 目标类型
+         * @return   指定类型的常量引用
+         * @throws   std::bad_cast 如果转换失败
+         */
+        template <typename T>
+        auto DynamicCast() const
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, const T &>::type
+        {
+#if defined(SW_DISABLE_REFLECTION)
+            throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
+            return dynamic_cast<const T &>(*this);
+#endif
+        }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast()
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+        {
+            return static_cast<T &>(*this);
+        }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast()
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+        {
+            return DynamicCast<T>();
+        }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast() const
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+        {
+            return static_cast<const T &>(*this);
+        }
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast() const
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+        {
+            return DynamicCast<T>();
+        }
+
+    public:
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(T **pout = nullptr)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
+
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(T **pout = nullptr)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
+
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(const T **pout = nullptr) const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
+
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(const T **pout = nullptr) const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
+
+        /**
+         * @brief    将对象动态转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @throws   std::bad_cast 如果转换失败
+         */
+        template <typename T>
+        auto DynamicCast()
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, T &>::type;
+
+        /**
+         * @brief    将对象动态转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @throws   std::bad_cast 如果转换失败
+         */
+        template <typename T>
+        auto DynamicCast()
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, T &>::type;
+
+        /**
+         * @brief    将对象动态转换为指定类型的常量引用
+         * @tparam T 目标类型
+         * @return   指定类型的常量引用
+         * @throws   std::bad_cast 如果转换失败
+         */
+        template <typename T>
+        auto DynamicCast() const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, const T &>::type;
+
+        /**
+         * @brief    将对象动态转换为指定类型的常量引用
+         * @tparam T 目标类型
+         * @return   指定类型的常量引用
+         * @throws   std::bad_cast 如果转换失败
+         */
+        template <typename T>
+        auto DynamicCast() const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, const T &>::type;
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast()
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, T &>::type;
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast()
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, T &>::type;
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast() const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, const T &>::type;
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast() const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type;
+    };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 装箱对象，用于将任意类型封装为DynamicObject对象
+     */
+    template <typename T>
+    class BoxedObject<T, typename std::enable_if<!std::is_base_of<DynamicObject, T>::value>::type> final
+        : public DynamicObject
+    {
+    private:
+        /**
+         * @brief 指示当前对象是否为引用对象
+         */
+        bool _isRef;
+
+        /**
+         * @brief 内部数据联合体
+         */
+        union {
+            /**
+             * @brief 引用指针
+             */
+            T *refptr;
+
+            /**
+             * @brief 对象缓冲区
+             */
+            alignas(T) uint8_t objbuf[sizeof(T)];
+        } _data;
+
+    private:
+        /**
+         * @brief 内部结构体，用于标识是否为引用参数
+         */
+        struct _IsRefParam {
+            bool val;
+        };
+
+        /**
+         * @brief 私有构造函数，根据是否为引用参数初始化对象
+         * @param isRef 指示是否为引用参数
+         */
+        explicit BoxedObject(_IsRefParam isRef) noexcept
+            : _isRef(isRef.val), _data()
+        {
+            _isBoxedObject = true;
+        }
+
+        /**
+         * @brief 释放对象资源
+         */
+        void Release() noexcept(std::is_nothrow_destructible<T>::value)
+        {
+            if (!_isRef) {
+                Unbox().~T();
+            }
+        }
+
+    public:
+        /**
+         * @brief 构造值类型的装箱对象
+         * @param args 构造参数列表
+         */
+        template <typename... Args>
+        BoxedObject(Args &&...args)
+            : BoxedObject(_IsRefParam{false})
+        {
+            new (_data.objbuf) T(std::forward<Args>(args)...);
+        }
+
+        /**
+         * @brief 析构函数
+         */
+        virtual ~BoxedObject() noexcept(std::is_nothrow_destructible<T>::value)
+        {
+            Release();
+        }
+
+        /**
+         * @brief 创建引用类型的装箱对象
+         * @param ptr 指向外部对象的指针
+         * @return 引用类型的装箱对象
+         */
+        static BoxedObject<T> MakeRef(T *ptr) noexcept
+        {
+            BoxedObject<T> result{_IsRefParam{true}};
+            result._data.refptr = ptr;
+            return result;
+        }
+
+        /**
+         * @brief 创建引用类型的装箱对象
+         * @tparam U 目标类型
+         * @param other 另一个装箱对象
+         * @return 引用类型的装箱对象
+         */
+        template <typename U>
+        static auto MakeRef(BoxedObject<U> &other) noexcept
+            -> typename std::enable_if<_IsStaticCastable<U, T>::value, BoxedObject<T>>::type
+        {
+            BoxedObject<T> result{_IsRefParam{true}};
+            result._data.refptr = other.IsNullRef() ? nullptr : static_cast<T *>(&other.Unbox());
+            return result;
+        }
+
+        /**
+         * @brief 拷贝构造函数
+         * @param other 另一个装箱对象
+         */
+        BoxedObject(const BoxedObject &other) noexcept(std::is_nothrow_copy_constructible<T>::value)
+            : BoxedObject(_IsRefParam{other._isRef})
+        {
+            if (_isRef) {
+                _data.refptr = other._data.refptr;
+            } else {
+                new (_data.objbuf) T(other.Unbox());
+            }
+        }
+
+        /**
+         * @brief 移动构造函数
+         * @param other 另一个装箱对象
+         */
+        BoxedObject(BoxedObject &&other) noexcept(std::is_nothrow_move_constructible<T>::value)
+            : BoxedObject(_IsRefParam{other._isRef})
+        {
+            if (_isRef) {
+                _data.refptr       = other._data.refptr;
+                other._data.refptr = nullptr;
+            } else {
+                new (_data.objbuf) T(std::move(other.Unbox()));
+            }
+        }
+
+        /**
+         * @brief 拷贝赋值运算符
+         * @param other 另一个装箱对象
+         * @return 当前装箱对象的引用
+         */
+        BoxedObject &operator=(const BoxedObject &other)
+        {
+            if (this == &other)
+                return *this;
+
+            if (_isRef) {
+                if (other._isRef) {
+                    _data.refptr = other._data.refptr;
+                } else {
+                    auto oldPtr = _data.refptr;
+                    try {
+                        new (_data.objbuf) T(other.Unbox());
+                        _isRef = false;
+                    } catch (...) {
+                        _data.refptr = oldPtr;
+                        throw;
+                    }
+                }
+            } else {
+                if (other._isRef) {
+                    Release();
+                    _data.refptr = other._data.refptr;
+                    _isRef       = true;
+                } else {
+                    Unbox() = other.Unbox();
+                }
+            }
+            return *this;
+        }
+
+        /**
+         * @brief 移动赋值运算符
+         * @param other 另一个装箱对象
+         * @return 当前装箱对象的引用
+         */
+        BoxedObject &operator=(BoxedObject &&other)
+        {
+            if (this == &other)
+                return *this;
+
+            if (_isRef) {
+                if (other._isRef) {
+                    _data.refptr       = other._data.refptr;
+                    other._data.refptr = nullptr;
+                } else {
+                    auto oldPtr = _data.refptr;
+                    try {
+                        new (_data.objbuf) T(std::move(other.Unbox()));
+                        _isRef = false;
+                    } catch (...) {
+                        _data.refptr = oldPtr;
+                        throw;
+                    }
+                }
+            } else {
+                if (other._isRef) {
+                    Release();
+                    _data.refptr       = other._data.refptr;
+                    _isRef             = true;
+                    other._data.refptr = nullptr;
+                } else {
+                    Unbox() = std::move(other.Unbox());
+                }
+            }
+            return *this;
+        }
+
+        /**
+         * @brief 判断当前装箱对象是否为引用类型
+         * @return 若当前对象为引用类型则返回true，否则返回false
+         */
+        bool IsRef() const noexcept
+        {
+            return _isRef;
+        }
+
+        /**
+         * @brief 判断当前装箱对象是否为空引用
+         * @return 若当前对象为引用类型且引用指针为空则返回true，否则返回false
+         */
+        bool IsNullRef() const noexcept
+        {
+            return _isRef && (_data.refptr == nullptr);
+        }
+
+        /**
+         * @brief 判断当前装箱对象是否包含有效值
+         * @return 若当前对象包含有效值则返回true，否则返回false
+         */
+        bool HasValue() const noexcept
+        {
+            return !IsNullRef();
+        }
+
+        /**
+         * @brief 获取装箱对象中的值
+         * @return 装箱对象中的值的引用
+         * @note 仅当装箱对象包含有效值时调用此方法，否则行为未定义
+         */
+        T &Unbox() noexcept
+        {
+            assert(HasValue());
+            return _isRef ? *_data.refptr : *reinterpret_cast<T *>(_data.objbuf);
+        }
+
+        /**
+         * @brief 获取装箱对象中的值
+         * @return 装箱对象中的值的常量引用
+         * @note 仅当装箱对象包含有效值时调用此方法，否则行为未定义
+         */
+        const T &Unbox() const noexcept
+        {
+            assert(HasValue());
+            return _isRef ? *_data.refptr : *reinterpret_cast<const T *>(_data.objbuf);
+        }
+    };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 判断对象是否为指定类型
+     * @tparam T 目标类型
+     * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+     * @return 如果对象为指定类型则返回true，否则返回false
+     */
+    template <typename T>
+    auto DynamicObject::IsType(T **pout)
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot check type.");
+#else
+        if (!_isBoxedObject) {
+            if (pout == nullptr) {
+                return dynamic_cast<T *>(this) != nullptr;
+            } else {
+                *pout = dynamic_cast<T *>(this);
+                return *pout != nullptr;
+            }
+        } else {
+            BoxedObject<T> *obj = nullptr;
+
+            if (!IsType(&obj) || obj->IsNullRef()) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                if (pout != nullptr) {
+                    *pout = &obj->Unbox();
+                }
+                return true;
+            }
+        }
+#endif
+    }
+
+    /**
+     * @brief 判断对象是否为指定类型
+     * @tparam T 目标类型
+     * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+     * @return 如果对象为指定类型则返回true，否则返回false
+     */
+    template <typename T>
+    auto DynamicObject::IsType(T **pout)
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot check type.");
+#else
+        if (!_isBoxedObject) {
+            if (pout != nullptr) {
+                *pout = nullptr;
+            }
+            return false;
+        } else {
+            BoxedObject<T> *obj = nullptr;
+
+            if (!IsType(&obj) || obj->IsNullRef()) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                if (pout != nullptr) {
+                    *pout = &obj->Unbox();
+                }
+                return true;
+            }
+        }
+#endif
+    }
+
+    /**
+     * @brief 判断对象是否为指定类型
+     * @tparam T 目标类型
+     * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+     * @return 如果对象为指定类型则返回true，否则返回false
+     */
+    template <typename T>
+    auto DynamicObject::IsType(const T **pout) const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot check type.");
+#else
+        if (!_isBoxedObject) {
+            if (pout == nullptr) {
+                return dynamic_cast<const T *>(this) != nullptr;
+            } else {
+                *pout = dynamic_cast<const T *>(this);
+                return *pout != nullptr;
+            }
+        } else {
+            const BoxedObject<T> *obj = nullptr;
+
+            if (!IsType(&obj) || obj->IsNullRef()) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                if (pout != nullptr) {
+                    *pout = &obj->Unbox();
+                }
+                return true;
+            }
+        }
+#endif
+    }
+
+    /**
+     * @brief 判断对象是否为指定类型
+     * @tparam T 目标类型
+     * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+     * @return 如果对象为指定类型则返回true，否则返回false
+     */
+    template <typename T>
+    auto DynamicObject::IsType(const T **pout) const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot check type.");
+#else
+        if (!_isBoxedObject) {
+            if (pout != nullptr) {
+                *pout = nullptr;
+            }
+            return false;
+        } else {
+            const BoxedObject<T> *obj = nullptr;
+
+            if (!IsType(&obj) || obj->IsNullRef()) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                if (pout != nullptr) {
+                    *pout = &obj->Unbox();
+                }
+                return true;
+            }
+        }
+#endif
+    }
+
+    /**
+     * @brief 将对象动态转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @throws std::bad_cast 如果转换失败
+     */
+    template <typename T>
+    auto DynamicObject::DynamicCast()
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, T &>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
+        if (!_isBoxedObject) {
+            return dynamic_cast<T &>(*this);
+        } else {
+            return dynamic_cast<BoxedObject<T> &>(*this).Unbox();
+        }
+#endif
+    }
+
+    /**
+     * @brief 将对象动态转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @throws std::bad_cast 如果转换失败
+     */
+    template <typename T>
+    auto DynamicObject::DynamicCast()
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, T &>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
+        if (!_isBoxedObject) {
+            throw std::bad_cast();
+        } else {
+            return dynamic_cast<BoxedObject<T> &>(*this).Unbox();
+        }
+#endif
+    }
+
+    /**
+     * @brief 将对象动态转换为指定类型的常量引用
+     * @tparam T 目标类型
+     * @return 指定类型的常量引用
+     * @throws std::bad_cast 如果转换失败
+     */
+    template <typename T>
+    auto DynamicObject::DynamicCast() const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, const T &>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
+        if (!_isBoxedObject) {
+            return dynamic_cast<const T &>(*this);
+        } else {
+            return dynamic_cast<const BoxedObject<T> &>(*this).Unbox();
+        }
+#endif
+    }
+
+    /**
+     * @brief 将对象动态转换为指定类型的常量引用
+     * @tparam T 目标类型
+     * @return 指定类型的常量引用
+     * @throws std::bad_cast 如果转换失败
+     */
+    template <typename T>
+    auto DynamicObject::DynamicCast() const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, const T &>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
+        if (!_isBoxedObject) {
+            throw std::bad_cast();
+        } else {
+            return dynamic_cast<const BoxedObject<T> &>(*this).Unbox();
+        }
+#endif
+    }
+
+    /**
+     * @brief 将对象不安全地转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @note 若目标类型与当前类型不兼容，则行为未定义
+     */
+    template <typename T>
+    auto DynamicObject::UnsafeCast()
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+    {
+        if (!_isBoxedObject) {
+            return static_cast<T &>(*this);
+        } else {
+            return static_cast<BoxedObject<T> &>(*this).Unbox();
+        }
+    }
+
+    /**
+     * @brief 将对象不安全地转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @note 若目标类型与当前类型不兼容，则行为未定义
+     */
+    template <typename T>
+    auto DynamicObject::UnsafeCast()
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+    {
+        if (!_isBoxedObject) {
+            return DynamicCast<T>();
+        } else {
+            return static_cast<BoxedObject<T> &>(*this).Unbox();
+        }
+    }
+
+    /**
+     * @brief 将对象不安全地转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @note 若目标类型与当前类型不兼容，则行为未定义
+     */
+    template <typename T>
+    auto DynamicObject::UnsafeCast() const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+    {
+        if (!_isBoxedObject) {
+            return static_cast<const T &>(*this);
+        } else {
+            return static_cast<const BoxedObject<T> &>(*this).Unbox();
+        }
+    }
+
+    /**
+     * @brief 将对象不安全地转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @note 若目标类型与当前类型不兼容，则行为未定义
+     */
+    template <typename T>
+    auto DynamicObject::UnsafeCast() const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+    {
+        if (!_isBoxedObject) {
+            return DynamicCast<T>();
+        } else {
+            return static_cast<const BoxedObject<T> &>(*this).Unbox();
+        }
+    }
+
+    /*================================================================================*/
+
+    /**
+     * @brief 表示字段的唯一标识符
+     */
+    struct FieldId : public IToString<FieldId>,
+                     public IComparable<FieldId, FieldId> {
+        /**
+         * @brief 字段ID的数值
+         */
+        uint32_t value;
+
+        /**
+         * @brief 默认构造函数
+         */
+        FieldId() = default;
+
+        /**
+         * @brief 构造指定值的字段ID
+         */
+        FieldId(uint32_t value)
+            : value(value)
+        {
+        }
+
+        /**
+         * @brief 获取字段ID的字符串表示形式
+         */
+        std::wstring ToString() const
+        {
+            return std::to_wstring(value);
+        }
+
+        /**
+         * @brief 比较字段ID
+         * @return 值相等返回0，小于返回负数，大于返回正数
+         */
+        int CompareTo(FieldId other) const
+        {
+            if (value == other.value) {
+                return 0;
+            } else {
+                return value < other.value ? -1 : 1;
+            }
+        }
+    };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 提供反射相关功能
+     */
+    class Reflection
+    {
+    public:
+        /**
+         * @brief 静态类，不允许实例化
+         */
+        Reflection() = delete;
+
+    public:
+        /**
+         * @brief 获取字段的唯一标识符
+         * @tparam T 字段所属类类型
+         * @tparam TField 字段类型
+         * @param field 字段的成员指针
+         * @return 对应的字段ID
+         */
+        template <typename T, typename TField>
+        static FieldId GetFieldId(TField T::*field) noexcept
+        {
+            auto pfunc = &Reflection::GetFieldId<T, TField>;
+
+            uint8_t buffer[sizeof(pfunc) + sizeof(field)];
+            memcpy(buffer, &pfunc, sizeof(pfunc));
+            memcpy(buffer + sizeof(pfunc), &field, sizeof(field));
+
+            uint32_t prime = 16777619u;
+            uint32_t hash  = 2166136261u;
+
+            for (size_t i = 0; i < sizeof(buffer); ++i) {
+                hash ^= static_cast<uint32_t>(buffer[i]);
+                hash *= prime;
+            }
+
+            return FieldId{hash};
+        }
+
+        /**
+         * @brief 获取成员函数的委托
+         * @tparam T 成员函数所属类类型
+         * @tparam TRet 成员函数返回值类型
+         * @tparam Args 成员函数参数类型列表
+         * @param method 成员函数指针
+         * @return 对应的委托
+         */
+        template <typename T, typename TRet, typename... Args>
+        static auto GetMethod(TRet (T::*method)(Args...)) -> Delegate<TRet(DynamicObject &, Args...)>
+        {
+            return [method](DynamicObject &obj, Args... args) -> TRet {
+                return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
+            };
+        }
+
+        /**
+         * @brief 获取常量成员函数的委托
+         * @tparam T 成员函数所属类类型
+         * @tparam TRet 成员函数返回值类型
+         * @tparam Args 成员函数参数类型列表
+         * @param method 成员函数指针
+         * @return 对应的委托
+         */
+        template <typename T, typename TRet, typename... Args>
+        static auto GetMethod(TRet (T::*method)(Args...) const) -> Delegate<TRet(DynamicObject &, Args...)>
+        {
+            return [method](DynamicObject &obj, Args... args) -> TRet {
+                return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
+            };
+        }
+
+        /**
+         * @brief 获取字段的访问器
+         * @tparam T 字段所属类类型
+         * @tparam TField 字段类型
+         * @param field 字段的成员指针
+         * @return 对应的访问器
+         */
+        template <typename T, typename TField>
+        static auto GetFieldAccessor(TField T::*field) -> Delegate<TField &(DynamicObject &)>
+        {
+            return [field](DynamicObject &obj) -> TField & {
+                return obj.UnsafeCast<T>().*field;
+            };
+        }
+
+        /**
+         * @brief 获取属性的Getter委托
+         * @tparam T 属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop 属性指针
+         * @return 对应的Getter委托
+         * @note 若属性不可读则返回空委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertyGetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                _IsReadableProperty<TProperty>::value,
+                Delegate<typename TProperty::TValue(DynamicObject &)>>::type
+        {
+            return [prop](DynamicObject &obj) -> typename TProperty::TValue {
+                return (obj.UnsafeCast<T>().*prop).Get();
+            };
+        }
+
+        /**
+         * @brief 获取属性的Getter委托
+         * @tparam T 属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop 属性指针
+         * @return 对应的Getter委托
+         * @note 若属性不可读则返回空委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertyGetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                _IsProperty<TProperty>::value && !_IsReadableProperty<TProperty>::value,
+                Delegate<typename TProperty::TValue(DynamicObject &)>>::type
+        {
+            return nullptr;
+        }
+
+        /**
+         * @brief 获取属性的Setter委托
+         * @tparam T 属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop 属性指针
+         * @return 对应的Setter委托
+         * @note 若属性不可写则返回空委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertySetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                _IsWritableProperty<TProperty>::value,
+                Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
+        {
+            return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
+                (obj.UnsafeCast<T>().*prop).Set(std::forward<typename TProperty::TSetterParam>(value));
+            };
+        }
+
+        /**
+         * @brief 获取属性的Setter委托
+         * @tparam T 属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop 属性指针
+         * @return 对应的Setter委托
+         * @note 若属性不可写则返回空委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertySetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                _IsProperty<TProperty>::value && !_IsWritableProperty<TProperty>::value,
+                Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
+        {
+            return nullptr;
+        }
+
+    public:
+        /**
+         * @brief 调用成员函数
+         * @tparam T 成员函数所属类类型
+         * @tparam TFunc 成员函数类型
+         * @tparam Args 成员函数参数类型列表
+         * @param method 成员函数的委托
+         * @param obj 对象引用
+         * @param args 成员函数参数列表
+         * @return 成员函数返回值
+         */
+        template <typename T, typename TFunc, typename... Args>
+        static auto InvokeMethod(const Delegate<TFunc> &method, T &obj, Args &&...args)
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value,
+                                       decltype(method(obj, std::forward<Args>(args)...))>::type
+        {
+            assert(method != nullptr);
+            return method(obj, std::forward<Args>(args)...);
+        }
+
+        /**
+         * @brief 调用成员函数
+         * @tparam T 成员函数所属类类型
+         * @tparam TFunc 成员函数类型
+         * @tparam Args 成员函数参数类型列表
+         * @param method 成员函数的委托
+         * @param obj 对象引用
+         * @param args 成员函数参数列表
+         * @return 成员函数返回值
+         */
+        template <typename T, typename TFunc, typename... Args>
+        static auto InvokeMethod(const Delegate<TFunc> &method, T &obj, Args &&...args)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value,
+                                       decltype(method(std::declval<DynamicObject &>(), std::forward<Args>(args)...))>::type
+        {
+            assert(method != nullptr);
+            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            return method(boxed, std::forward<Args>(args)...);
+        }
+
+        /**
+         * @brief 访问字段
+         * @tparam T 字段所属类类型
+         * @tparam TField 字段类型
+         * @param accessor 字段访问器的委托
+         * @param obj 对象引用
+         * @return 字段引用
+         */
+        template <typename T, typename TField>
+        static auto AccessField(const Delegate<TField &(DynamicObject &)> &accessor, T &obj)
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, TField &>::type
+        {
+            assert(accessor != nullptr);
+            return accessor(obj);
+        }
+
+        /**
+         * @brief 访问字段
+         * @tparam T 字段所属类类型
+         * @tparam TField 字段类型
+         * @param accessor 字段访问器的委托
+         * @param obj 对象引用
+         * @return 字段引用
+         */
+        template <typename T, typename TField>
+        static auto AccessField(const Delegate<TField &(DynamicObject &)> &accessor, T &obj)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TField &>::type
+        {
+            assert(accessor != nullptr);
+            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            return accessor(boxed);
+        }
+
+        /**
+         * @brief 获取属性值
+         * @tparam T 属性所属类类型
+         * @tparam TValue 属性值类型
+         * @param getter 属性Getter的委托
+         * @param obj 对象引用
+         * @return 属性值
+         */
+        template <typename T, typename TValue>
+        static auto GetProperty(const Delegate<TValue(DynamicObject &)> &getter, T &obj)
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, TValue>::type
+        {
+            assert(getter != nullptr);
+            return getter(obj);
+        }
+
+        /**
+         * @brief 获取属性值
+         * @tparam T 属性所属类类型
+         * @tparam TValue 属性值类型
+         * @param getter 属性Getter的委托
+         * @param obj 对象引用
+         * @return 属性值
+         */
+        template <typename T, typename TValue>
+        static auto GetProperty(const Delegate<TValue(DynamicObject &)> &getter, T &obj)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TValue>::type
+        {
+            assert(getter != nullptr);
+            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            return getter(boxed);
+        }
+
+        /**
+         * @brief 设置属性值
+         * @tparam T 属性所属类类型
+         * @tparam TParam 属性Setter参数类型
+         * @tparam TValue 属性值类型
+         * @param setter 属性Setter的委托
+         * @param obj 对象引用
+         * @param value 属性值
+         */
+        template <typename T, typename TParam, typename TValue>
+        static auto SetProperty(const Delegate<void(DynamicObject &, TParam)> &setter, T &obj, TValue &&value)
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value>::type
+        {
+            assert(setter != nullptr);
+            setter(obj, std::forward<TValue>(value));
+        }
+
+        /**
+         * @brief 设置属性值
+         * @tparam T 属性所属类类型
+         * @tparam TParam 属性Setter参数类型
+         * @tparam TValue 属性值类型
+         * @param setter 属性Setter的委托
+         * @param obj 对象引用
+         * @param value 属性值
+         */
+        template <typename T, typename TParam, typename TValue>
+        static auto SetProperty(const Delegate<void(DynamicObject &, TParam)> &setter, T &obj, TValue &&value)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value>::type
+        {
+            assert(setter != nullptr);
+            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            setter(boxed, std::forward<TValue>(value));
+        }
+    };
+}
+
+// 为sw::FieldId特化std::hash
+template <>
+struct std::hash<sw::FieldId> //
+{
+    size_t operator()(sw::FieldId fieldId) const noexcept
+    {
+        return static_cast<size_t>(fieldId.value);
+    }
+};
+
+// RoutedEventArgs.h
+
+
+namespace sw
+{
+    struct RoutedEventArgs; // RoutedEvent.h
+
+    // clang-format off
+
+    /**
+     * @brief 表示特定类型路由事件的事件参数类型，继承自该类的类型可以直接作为AddHandler函数的模板参数
+     * @tparam TYPE 一个RoutedEventType枚举值，表示路由事件类型
+     */
+    template <RoutedEventType TYPE>
+    struct TypedRoutedEventArgs : RoutedEventArgs {
+        /**
+         * @brief 路由事件的类型，AddHandler模板函数使用此字段注册事件
+         */
+        static constexpr RoutedEventType EventType = TYPE;
+
+        /**
+         * @brief 构造函数，初始化事件类型为EventType
+         */
+        TypedRoutedEventArgs() : RoutedEventArgs(EventType) {}
+    };
+
+    /**
+     * @brief 结构体模板，用于检测类型T是否含有名为EventType的静态字段
+     */
+    template <typename T, typename = void>
+    struct _HasEventType : std::false_type {
+    };
+
+    /**
+     * @brief 模板特化：当T包含EventType时，将_IsTypedRoutedEventArgs<T>设为std::true_type
+     */
+    template <typename T>
+    struct _HasEventType<T, decltype(void(T::EventType))> : std::true_type {
+    };
+
+    /**
+     * @brief 结构体模板，用于检测类型T是否包含事件类型信息
+     */
+    template <typename T>
+    struct _IsTypedRoutedEventArgs : _HasEventType<T> {
+    };
+
+    /**
+     * @brief 尺寸改变事件参数类型
+     */
+    struct SizeChangedEventArgs : TypedRoutedEventArgs<UIElement_SizeChanged> {
+        Size newClientSize; // 用户区的新尺寸
+        SizeChangedEventArgs(Size newClientSize) : newClientSize(newClientSize) {}
+    };
+
+    /**
+     * @brief 位置改变事件参数类型
+     */
+    struct PositionChangedEventArgs : TypedRoutedEventArgs<UIElement_PositionChanged> {
+        Point newClientPosition; // 移动后用户区左上角的位置
+        PositionChangedEventArgs(Point newClientPosition) : newClientPosition(newClientPosition) {}
+    };
+
+    /**
+     * @brief 输入字符事件类型参数
+     */
+    struct GotCharEventArgs : TypedRoutedEventArgs<UIElement_GotChar> {
+        wchar_t ch;     // 输入的字符
+        KeyFlags flags; // 附加信息
+        GotCharEventArgs(wchar_t ch, KeyFlags flags) : ch(ch), flags(flags) {}
+    };
+
+    /**
+     * @brief 键盘按键按下事件参数类型
+     */
+    struct KeyDownEventArgs : TypedRoutedEventArgs<UIElement_KeyDown> {
+        VirtualKey key; // 虚拟按键
+        KeyFlags flags; // 附加信息
+        KeyDownEventArgs(VirtualKey key, KeyFlags flags) : key(key), flags(flags) {}
+    };
+
+    /**
+     * @brief 键盘按键抬起事件参数类型
+     */
+    struct KeyUpEventArgs : TypedRoutedEventArgs<UIElement_KeyUp> {
+        VirtualKey key; // 虚拟按键
+        KeyFlags flags; // 附加信息
+        KeyUpEventArgs(VirtualKey key, KeyFlags flags) : key(key), flags(flags) {}
+    };
+
+    /**
+     * @brief 鼠标移动事件参数类型
+     */
+    struct MouseMoveEventArgs : TypedRoutedEventArgs<UIElement_MouseMove> {
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+        MouseMoveEventArgs(Point mousePosition, MouseKey keyState)
+            : mousePosition(mousePosition), keyState(keyState) {}
+    };
+
+    /**
+     * @brief 鼠标滚轮滚动事件参数类型
+     */
+    struct MouseWheelEventArgs : TypedRoutedEventArgs<UIElement_MouseWheel> {
+        int wheelDelta;      // 滚轮滚动的距离，为120的倍数
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+        MouseWheelEventArgs(int wheelDelta, Point mousePosition, MouseKey keyState)
+            : wheelDelta(wheelDelta), mousePosition(mousePosition), keyState(keyState) {}
+    };
+
+    /**
+     * @brief 鼠标按键按下事件参数类型
+     */
+    struct MouseButtonDownEventArgs : TypedRoutedEventArgs<UIElement_MouseButtonDown> {
+        MouseKey key;        // 按下的按键（左键、中间、右键）
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+        MouseButtonDownEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
+            : key(key), mousePosition(mousePosition), keyState(keyState) {}
+    };
+
+    /**
+     * @brief 鼠标按键抬起事件参数类型
+     */
+    struct MouseButtonUpEventArgs : TypedRoutedEventArgs<UIElement_MouseButtonUp> {
+        MouseKey key;        // 抬起的按键（左键、中间、右键）
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+        MouseButtonUpEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
+            : key(key), mousePosition(mousePosition), keyState(keyState) {}
+    };
+
+    /**
+     * @brief 显示用户自定义上下文菜单的事件参数类型
+     */
+    struct ShowContextMenuEventArgs : TypedRoutedEventArgs<UIElement_ShowContextMenu> {
+        bool cancel = false; // 是否取消显示上下文菜单
+        bool isKeyboardMsg;  // 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
+        Point mousePosition; // 鼠标在屏幕中的位置
+        ShowContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition)
+            : isKeyboardMsg(isKeyboardMsg), mousePosition(mousePosition) {}
+    };
+
+    /**
+     * @brief 文件拖放事件参数类型
+     */
+    struct DropFilesEventArgs : TypedRoutedEventArgs<UIElement_DropFiles> {
+        HDROP hDrop; // 描述拖入文件的句柄
+        DropFilesEventArgs(HDROP hDrop) : hDrop(hDrop) {}
+    };
+
+    /**
+     * @brief 窗口正在关闭事件参数类型
+     */
+    struct WindowClosingEventArgs : TypedRoutedEventArgs<Window_Closing> {
+        bool cancel = false; // 是否取消本次关闭
+    };
+
+    /**
+     * @brief 窗口/面板滚动条滚动事件参数类型
+     */
+    struct ScrollingEventArgs : TypedRoutedEventArgs<Layer_Scrolling> {
+        bool cancel = false;         // 是否取消滚动条默认行为
+        ScrollOrientation scrollbar; // 滚动条类型
+        ScrollEvent event;           // 滚动条事件
+        double pos;                  // 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
+        ScrollingEventArgs(ScrollOrientation scrollbar, ScrollEvent event, double pos)
+            : scrollbar(scrollbar), event(event), pos(pos) {}
+    };
+
+    /**
+     * @brief 列表视图某个复选框选中状态改变的事件参数类型
+     */
+    struct ListViewCheckStateChangedEventArgs : TypedRoutedEventArgs<ListView_CheckStateChanged> {
+        int index; // 改变项的索引
+        ListViewCheckStateChangedEventArgs(int index) : index(index) {}
+    };
+
+    /**
+     * @brief 列表视图的列标题单击事件参数类型
+     */
+    struct ListViewHeaderClickedEventArgs : TypedRoutedEventArgs<ListView_HeaderClicked> {
+        int index; // 被点击列标题的索引
+        ListViewHeaderClickedEventArgs(int index) : index(index) {}
+    };
+
+    /**
+     * @brief 列表视图的列标题双击事件参数类型
+     */
+    struct ListViewHeaderDoubleClickedEventArgs : TypedRoutedEventArgs<ListView_HeaderDoubleClicked> {
+        int index; // 被点击列标题的索引
+        ListViewHeaderDoubleClickedEventArgs(int index) : index(index) {}
+    };
+
+    /**
+     * @brief 列表视图项单击事件参数类型
+     */
+    struct ListViewItemClickedEventArgs : TypedRoutedEventArgs<ListView_ItemClicked> {
+        int row; // 被点击的行
+        int col; // 被点击的列
+        ListViewItemClickedEventArgs(int row, int col) : row(row), col(col) {}
+    };
+
+    /**
+     * @brief 列表视图项双击事件参数类型
+     */
+    struct ListViewItemDoubleClickedEventArgs : TypedRoutedEventArgs<ListView_ItemDoubleClicked> {
+        int row; // 被点击的行
+        int col; // 被点击的列
+        ListViewItemDoubleClickedEventArgs(int row, int col) : row(row), col(col) {}
+    };
+
+    /**
+     * @brief 列表视图编辑状态结束事件参数类型
+     */
+    struct ListViewEndEditEventArgs : TypedRoutedEventArgs<ListView_EndEdit> {
+        bool cancel = false; // 是否取消文本更改，默认为false
+        int index;           // 被编辑项的索引
+        wchar_t *newText;    // 新的文本
+        ListViewEndEditEventArgs(int index, wchar_t *newText) : index(index), newText(newText) {}
+    };
+
+    /**
+     * @brief DateTimePicker控件时间改变事件参数类型
+     */
+    struct DateTimePickerTimeChangedEventArgs : TypedRoutedEventArgs<DateTimePicker_TimeChanged> {
+        SYSTEMTIME time; // 时间的新值
+        DateTimePickerTimeChangedEventArgs(const SYSTEMTIME &time) : time(time) {}
+    };
+
+    /**
+     * @brief 月历控件时间改变事件参数类型
+     */
+    struct MonthCalendarTimeChangedEventArgs : TypedRoutedEventArgs<MonthCalendar_TimeChanged> {
+        SYSTEMTIME time; // 时间的新值
+        MonthCalendarTimeChangedEventArgs(const SYSTEMTIME &time) : time(time) {}
+    };
+
+    /**
+     * @brief SysLink控件链接被单击事件参数类型
+     */
+    struct SysLinkClickedEventArgs : TypedRoutedEventArgs<SysLink_Clicked> {
+        wchar_t *id;  // 被单击链接的id
+        wchar_t *url; // 被单击链接的url（即href）
+        SysLinkClickedEventArgs(wchar_t *id, wchar_t *url) : id(id), url(url) {}
+    };
+
+    /**
+     * @brief 热键框值改变事件参数类型
+     */
+    struct HotKeyValueChangedEventArgs : TypedRoutedEventArgs<HotKeyControl_ValueChanged> {
+        VirtualKey key;          // 按键
+        HotKeyModifier modifier; // 辅助按键
+        HotKeyValueChangedEventArgs(VirtualKey key, HotKeyModifier modifier) : key(key), modifier(modifier) {}
+    };
+
+    /**
+     * @brief 分割按钮的下拉箭头单击事件参数类型
+     */
+    struct SplitButtonDropDownEventArgs : TypedRoutedEventArgs<SplitButton_DropDown> {
+        bool cancel = false; // 是否取消显示下拉菜单
+    };
+
+    // clang-format on
+}
+
+// Screen.h
+
+
+namespace sw
+{
+    /**
+     * @brief 屏幕相关
+     */
+    class Screen
+    {
+    private:
+        Screen() = delete;
+
+    public:
+        /**
+         * @brief 主屏幕宽度
+         */
+        static const ReadOnlyProperty<double> Width;
+
+        /**
+         * @brief 主屏幕高度
+         */
+        static const ReadOnlyProperty<double> Height;
+
+        /**
+         * @brief 主屏幕尺寸
+         */
+        static const ReadOnlyProperty<sw::Size> Size;
+
+        /**
+         * @brief 虚拟屏幕尺寸
+         */
+        static const ReadOnlyProperty<sw::Size> VirtualSize;
+
+        /**
+         * @brief 虚拟屏幕原点坐标
+         */
+        static const ReadOnlyProperty<Point> VirtualOrigin;
+
+        /**
+         * @brief 鼠标在屏幕中的位置
+         */
+        static const ReadOnlyProperty<Point> CursorPosition;
+    };
 }
 
 // Utils.h
@@ -6747,75 +8081,54 @@ namespace sw
     };
 }
 
-// EventHandlerWrapper.h
+// ILayout.h
 
 
 namespace sw
 {
     /**
-     * @brief 路由事件处理函数包装类，用于需要转换RoutedEventArgs为特定事件参数类型的情况
+     * @brief 布局接口
      */
-    template <
-        typename TEventArgs,
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0>
-    class RoutedEventHandlerWrapper : public ICallable<void(UIElement &, RoutedEventArgs &)>
+    class ILayout
     {
-    private:
+    public:
         /**
-         * @brief 事件处理函数
+         * @brief 默认虚析构函数
          */
-        Action<UIElement &, TEventArgs &> _handler;
+        virtual ~ILayout() = default;
 
     public:
         /**
-         * @brief         构造函数
-         * @param handler 事件处理函数
+         * @brief 获取布局标记
          */
-        RoutedEventHandlerWrapper(const Action<UIElement &, TEventArgs &> &handler)
-            : _handler(handler)
-        {
-        }
+        virtual uint64_t GetLayoutTag() const = 0;
 
         /**
-         * @brief 调用事件处理函数
+         * @brief 获取子控件的数量
          */
-        virtual void Invoke(UIElement &sender, RoutedEventArgs &args) const override
-        {
-            if (_handler) _handler(sender, static_cast<TEventArgs &>(args));
-        }
+        virtual int GetChildLayoutCount() const = 0;
 
         /**
-         * @brief 克隆当前可调用对象
+         * @brief 获取对应索引处的子控件
          */
-        virtual ICallable<void(UIElement &, RoutedEventArgs &)> *Clone() const override
-        {
-            return new RoutedEventHandlerWrapper(_handler);
-        }
+        virtual ILayout &GetChildLayoutAt(int index) = 0;
 
         /**
-         * @brief 获取当前可调用对象的类型信息
+         * @brief 获取控件所需尺寸
          */
-        virtual std::type_index GetType() const override
-        {
-            return typeid(RoutedEventHandlerWrapper<TEventArgs>);
-        }
+        virtual Size GetDesireSize() const = 0;
 
         /**
-         * @brief       判断当前可调用对象是否与另一个可调用对象相等
-         * @param other 另一个可调用对象
-         * @return      如果相等则返回true，否则返回false
+         * @brief               测量控件所需尺寸
+         * @param availableSize 可用的尺寸
          */
-        virtual bool Equals(const ICallable<void(UIElement &, RoutedEventArgs &)> &other) const override
-        {
-            if (this == &other) {
-                return true;
-            }
-            if (GetType() != other.GetType()) {
-                return false;
-            }
-            const auto &otherWrapper = static_cast<const RoutedEventHandlerWrapper &>(other);
-            return _handler.Equals(otherWrapper._handler);
-        }
+        virtual void Measure(const Size &availableSize) = 0;
+
+        /**
+         * @brief               安排控件位置
+         * @param finalPosition 最终控件所安排的位置
+         */
+        virtual void Arrange(const Rect &finalPosition) = 0;
     };
 }
 
@@ -7637,393 +8950,330 @@ namespace sw
     };
 }
 
-// Rect.h
+// Variant.h
 
 
 namespace sw
 {
     /**
-     * @brief 表示一个矩形区域
+     * @brief 通用变体类，用于存储任意类型的对象
      */
-    struct Rect : public IToString<Rect>,
-                  public IEqualityComparable<Rect> {
-        /**
-         * @brief 左边
-         */
-        double left;
-
-        /**
-         * @brief 顶边
-         */
-        double top;
-
-        /**
-         * @brief 宽度
-         */
-        double width;
-
-        /**
-         * @brief 高度
-         */
-        double height;
-
-        /**
-         * @brief 默认构造函数
-         */
-        Rect() = default;
-
-        /**
-         * @brief 构造Rect
-         */
-        Rect(double left, double top, double width, double height);
-
-        /**
-         * @brief 从RECT构造Rect
-         */
-        Rect(const RECT &rect);
-
-        /**
-         * @brief 隐式转换RECT
-         */
-        operator RECT() const;
-
-        /**
-         * @brief 获取Rect左上角的位置
-         */
-        Point GetPos() const;
-
-        /**
-         * @brief 获取Rect的尺寸
-         */
-        Size GetSize() const;
-
-        /**
-         * @brief 判断两个Rect是否相等
-         */
-        bool Equals(const Rect &other) const;
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const;
-    };
-
-    // Rect应为POD类型
-    static_assert(
-        std::is_trivial<Rect>::value && std::is_standard_layout<Rect>::value,
-        "Rect should be a POD type.");
-}
-
-// RoutedEventArgs.h
-
-
-namespace sw
-{
-    struct RoutedEventArgs; // RoutedEvent.h
-
-    // clang-format off
-
-    /**
-     * @brief 表示特定类型路由事件的事件参数类型，继承自该类的类型可以直接作为AddHandler函数的模板参数
-     * @tparam TYPE 一个RoutedEventType枚举值，表示路由事件类型
-     */
-    template <RoutedEventType TYPE>
-    struct TypedRoutedEventArgs : RoutedEventArgs {
-        /**
-         * @brief 路由事件的类型，AddHandler模板函数使用此字段注册事件
-         */
-        static constexpr RoutedEventType EventType = TYPE;
-
-        /**
-         * @brief 构造函数，初始化事件类型为EventType
-         */
-        TypedRoutedEventArgs() : RoutedEventArgs(EventType) {}
-    };
-
-    /**
-     * @brief 结构体模板，用于检测类型T是否含有名为EventType的静态字段
-     */
-    template <typename T, typename = void>
-    struct _HasEventType : std::false_type {
-    };
-
-    /**
-     * @brief 模板特化：当T包含EventType时，将_IsTypedRoutedEventArgs<T>设为std::true_type
-     */
-    template <typename T>
-    struct _HasEventType<T, decltype(void(T::EventType))> : std::true_type {
-    };
-
-    /**
-     * @brief 结构体模板，用于检测类型T是否包含事件类型信息
-     */
-    template <typename T>
-    struct _IsTypedRoutedEventArgs : _HasEventType<T> {
-    };
-
-    /**
-     * @brief 尺寸改变事件参数类型
-     */
-    struct SizeChangedEventArgs : TypedRoutedEventArgs<UIElement_SizeChanged> {
-        Size newClientSize; // 用户区的新尺寸
-        SizeChangedEventArgs(Size newClientSize) : newClientSize(newClientSize) {}
-    };
-
-    /**
-     * @brief 位置改变事件参数类型
-     */
-    struct PositionChangedEventArgs : TypedRoutedEventArgs<UIElement_PositionChanged> {
-        Point newClientPosition; // 移动后用户区左上角的位置
-        PositionChangedEventArgs(Point newClientPosition) : newClientPosition(newClientPosition) {}
-    };
-
-    /**
-     * @brief 输入字符事件类型参数
-     */
-    struct GotCharEventArgs : TypedRoutedEventArgs<UIElement_GotChar> {
-        wchar_t ch;     // 输入的字符
-        KeyFlags flags; // 附加信息
-        GotCharEventArgs(wchar_t ch, KeyFlags flags) : ch(ch), flags(flags) {}
-    };
-
-    /**
-     * @brief 键盘按键按下事件参数类型
-     */
-    struct KeyDownEventArgs : TypedRoutedEventArgs<UIElement_KeyDown> {
-        VirtualKey key; // 虚拟按键
-        KeyFlags flags; // 附加信息
-        KeyDownEventArgs(VirtualKey key, KeyFlags flags) : key(key), flags(flags) {}
-    };
-
-    /**
-     * @brief 键盘按键抬起事件参数类型
-     */
-    struct KeyUpEventArgs : TypedRoutedEventArgs<UIElement_KeyUp> {
-        VirtualKey key; // 虚拟按键
-        KeyFlags flags; // 附加信息
-        KeyUpEventArgs(VirtualKey key, KeyFlags flags) : key(key), flags(flags) {}
-    };
-
-    /**
-     * @brief 鼠标移动事件参数类型
-     */
-    struct MouseMoveEventArgs : TypedRoutedEventArgs<UIElement_MouseMove> {
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-        MouseMoveEventArgs(Point mousePosition, MouseKey keyState)
-            : mousePosition(mousePosition), keyState(keyState) {}
-    };
-
-    /**
-     * @brief 鼠标滚轮滚动事件参数类型
-     */
-    struct MouseWheelEventArgs : TypedRoutedEventArgs<UIElement_MouseWheel> {
-        int wheelDelta;      // 滚轮滚动的距离，为120的倍数
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-        MouseWheelEventArgs(int wheelDelta, Point mousePosition, MouseKey keyState)
-            : wheelDelta(wheelDelta), mousePosition(mousePosition), keyState(keyState) {}
-    };
-
-    /**
-     * @brief 鼠标按键按下事件参数类型
-     */
-    struct MouseButtonDownEventArgs : TypedRoutedEventArgs<UIElement_MouseButtonDown> {
-        MouseKey key;        // 按下的按键（左键、中间、右键）
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-        MouseButtonDownEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
-            : key(key), mousePosition(mousePosition), keyState(keyState) {}
-    };
-
-    /**
-     * @brief 鼠标按键抬起事件参数类型
-     */
-    struct MouseButtonUpEventArgs : TypedRoutedEventArgs<UIElement_MouseButtonUp> {
-        MouseKey key;        // 抬起的按键（左键、中间、右键）
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-        MouseButtonUpEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
-            : key(key), mousePosition(mousePosition), keyState(keyState) {}
-    };
-
-    /**
-     * @brief 显示用户自定义上下文菜单的事件参数类型
-     */
-    struct ShowContextMenuEventArgs : TypedRoutedEventArgs<UIElement_ShowContextMenu> {
-        bool cancel = false; // 是否取消显示上下文菜单
-        bool isKeyboardMsg;  // 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
-        Point mousePosition; // 鼠标在屏幕中的位置
-        ShowContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition)
-            : isKeyboardMsg(isKeyboardMsg), mousePosition(mousePosition) {}
-    };
-
-    /**
-     * @brief 文件拖放事件参数类型
-     */
-    struct DropFilesEventArgs : TypedRoutedEventArgs<UIElement_DropFiles> {
-        HDROP hDrop; // 描述拖入文件的句柄
-        DropFilesEventArgs(HDROP hDrop) : hDrop(hDrop) {}
-    };
-
-    /**
-     * @brief 窗口正在关闭事件参数类型
-     */
-    struct WindowClosingEventArgs : TypedRoutedEventArgs<Window_Closing> {
-        bool cancel = false; // 是否取消本次关闭
-    };
-
-    /**
-     * @brief 窗口/面板滚动条滚动事件参数类型
-     */
-    struct ScrollingEventArgs : TypedRoutedEventArgs<Layer_Scrolling> {
-        bool cancel = false;         // 是否取消滚动条默认行为
-        ScrollOrientation scrollbar; // 滚动条类型
-        ScrollEvent event;           // 滚动条事件
-        double pos;                  // 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
-        ScrollingEventArgs(ScrollOrientation scrollbar, ScrollEvent event, double pos)
-            : scrollbar(scrollbar), event(event), pos(pos) {}
-    };
-
-    /**
-     * @brief 列表视图某个复选框选中状态改变的事件参数类型
-     */
-    struct ListViewCheckStateChangedEventArgs : TypedRoutedEventArgs<ListView_CheckStateChanged> {
-        int index; // 改变项的索引
-        ListViewCheckStateChangedEventArgs(int index) : index(index) {}
-    };
-
-    /**
-     * @brief 列表视图的列标题单击事件参数类型
-     */
-    struct ListViewHeaderClickedEventArgs : TypedRoutedEventArgs<ListView_HeaderClicked> {
-        int index; // 被点击列标题的索引
-        ListViewHeaderClickedEventArgs(int index) : index(index) {}
-    };
-
-    /**
-     * @brief 列表视图的列标题双击事件参数类型
-     */
-    struct ListViewHeaderDoubleClickedEventArgs : TypedRoutedEventArgs<ListView_HeaderDoubleClicked> {
-        int index; // 被点击列标题的索引
-        ListViewHeaderDoubleClickedEventArgs(int index) : index(index) {}
-    };
-
-    /**
-     * @brief 列表视图项单击事件参数类型
-     */
-    struct ListViewItemClickedEventArgs : TypedRoutedEventArgs<ListView_ItemClicked> {
-        int row; // 被点击的行
-        int col; // 被点击的列
-        ListViewItemClickedEventArgs(int row, int col) : row(row), col(col) {}
-    };
-
-    /**
-     * @brief 列表视图项双击事件参数类型
-     */
-    struct ListViewItemDoubleClickedEventArgs : TypedRoutedEventArgs<ListView_ItemDoubleClicked> {
-        int row; // 被点击的行
-        int col; // 被点击的列
-        ListViewItemDoubleClickedEventArgs(int row, int col) : row(row), col(col) {}
-    };
-
-    /**
-     * @brief 列表视图编辑状态结束事件参数类型
-     */
-    struct ListViewEndEditEventArgs : TypedRoutedEventArgs<ListView_EndEdit> {
-        bool cancel = false; // 是否取消文本更改，默认为false
-        int index;           // 被编辑项的索引
-        wchar_t *newText;    // 新的文本
-        ListViewEndEditEventArgs(int index, wchar_t *newText) : index(index), newText(newText) {}
-    };
-
-    /**
-     * @brief DateTimePicker控件时间改变事件参数类型
-     */
-    struct DateTimePickerTimeChangedEventArgs : TypedRoutedEventArgs<DateTimePicker_TimeChanged> {
-        SYSTEMTIME time; // 时间的新值
-        DateTimePickerTimeChangedEventArgs(const SYSTEMTIME &time) : time(time) {}
-    };
-
-    /**
-     * @brief 月历控件时间改变事件参数类型
-     */
-    struct MonthCalendarTimeChangedEventArgs : TypedRoutedEventArgs<MonthCalendar_TimeChanged> {
-        SYSTEMTIME time; // 时间的新值
-        MonthCalendarTimeChangedEventArgs(const SYSTEMTIME &time) : time(time) {}
-    };
-
-    /**
-     * @brief SysLink控件链接被单击事件参数类型
-     */
-    struct SysLinkClickedEventArgs : TypedRoutedEventArgs<SysLink_Clicked> {
-        wchar_t *id;  // 被单击链接的id
-        wchar_t *url; // 被单击链接的url（即href）
-        SysLinkClickedEventArgs(wchar_t *id, wchar_t *url) : id(id), url(url) {}
-    };
-
-    /**
-     * @brief 热键框值改变事件参数类型
-     */
-    struct HotKeyValueChangedEventArgs : TypedRoutedEventArgs<HotKeyControl_ValueChanged> {
-        VirtualKey key;          // 按键
-        HotKeyModifier modifier; // 辅助按键
-        HotKeyValueChangedEventArgs(VirtualKey key, HotKeyModifier modifier) : key(key), modifier(modifier) {}
-    };
-
-    /**
-     * @brief 分割按钮的下拉箭头单击事件参数类型
-     */
-    struct SplitButtonDropDownEventArgs : TypedRoutedEventArgs<SplitButton_DropDown> {
-        bool cancel = false; // 是否取消显示下拉菜单
-    };
-
-    // clang-format on
-}
-
-// Screen.h
-
-
-namespace sw
-{
-    /**
-     * @brief 屏幕相关
-     */
-    class Screen
+    class Variant final : public IEqualityComparable<Variant>
     {
     private:
-        Screen() = delete;
+        /**
+         * @brief 内部动态对象指针
+         */
+        std::unique_ptr<DynamicObject> _obj;
+
+        /**
+         * @brief 克隆对象函数指针
+         */
+        DynamicObject *(*_cloner)(const DynamicObject &) = nullptr;
 
     public:
         /**
-         * @brief 主屏幕宽度
+         * @brief 默认构造函数，创建一个空的Variant对象
          */
-        static const ReadOnlyProperty<double> Width;
+        Variant() = default;
 
         /**
-         * @brief 主屏幕高度
+         * @brief 通用构造函数，接受任意类型的对象
          */
-        static const ReadOnlyProperty<double> Height;
+        template <
+            typename T,
+            typename std::enable_if<!std::is_same<Variant, typename std::decay<T>::type>::value, int>::type = 0>
+        Variant(T &&obj)
+        {
+            Reset(std::forward<T>(obj));
+        }
 
         /**
-         * @brief 主屏幕尺寸
+         * @brief 拷贝构造函数
          */
-        static const ReadOnlyProperty<sw::Size> Size;
+        Variant(const Variant &other)
+        {
+            if (other._obj != nullptr) {
+                _obj.reset(other._cloner(*other._obj));
+                _cloner = other._cloner;
+            }
+        }
 
         /**
-         * @brief 虚拟屏幕尺寸
+         * @brief 移动构造函数
          */
-        static const ReadOnlyProperty<sw::Size> VirtualSize;
+        Variant(Variant &&other) noexcept
+            : _obj(std::move(other._obj)), _cloner(other._cloner)
+        {
+            other._cloner = nullptr;
+        }
 
         /**
-         * @brief 虚拟屏幕原点坐标
+         * @brief 拷贝构造函数
+         * @throws std::runtime_error 如果对象不可拷贝
          */
-        static const ReadOnlyProperty<Point> VirtualOrigin;
+        Variant &operator=(const Variant &other)
+        {
+            Reset(other);
+            return *this;
+        }
 
         /**
-         * @brief 鼠标在屏幕中的位置
+         * @brief 移动构造函数
          */
-        static const ReadOnlyProperty<Point> CursorPosition;
+        Variant &operator=(Variant &&other) noexcept
+        {
+            Reset(std::move(other));
+            return *this;
+        }
+
+        /**
+         * @brief 布尔转换运算符，判断Variant对象是否为空
+         * @return 若Variant对象不为空则返回true，否则返回false
+         */
+        operator bool() const noexcept
+        {
+            return _obj != nullptr;
+        }
+
+        /**
+         * @brief 判断Variant对象是否为空
+         * @return 若Variant对象为空则返回true，否则返回false
+         */
+        bool IsNull() const noexcept
+        {
+            return _obj == nullptr;
+        }
+
+        /**
+         * @brief 判断两Variant是否为同一对象
+         */
+        bool Equals(const Variant &other) const noexcept
+        {
+            return _obj == other._obj;
+        }
+
+        /**
+         * @brief 重置Variant对象为空
+         */
+        void Reset()
+        {
+            _obj.reset();
+            _cloner = nullptr;
+        }
+
+        /**
+         * @brief 重置Variant对象为另一个Variant对象的值
+         * @throws std::runtime_error 如果对象不可拷贝
+         */
+        void Reset(const Variant &other)
+        {
+            if (this == &other) {
+                return;
+            }
+
+            if (other._obj == nullptr) {
+                Reset();
+            } else {
+                _obj.reset(other._cloner(*other._obj));
+                _cloner = other._cloner;
+            }
+        }
+
+        /**
+         * @brief 重置Variant对象为另一个Variant对象的值
+         */
+        void Reset(Variant &&other) noexcept
+        {
+            if (this != &other) {
+                _obj          = std::move(other._obj);
+                _cloner       = other._cloner;
+                other._cloner = nullptr;
+            }
+        }
+
+        /**
+         * @brief 重置Variant对象为指定类型的对象
+         * @tparam T 对象类型
+         * @param obj 对象
+         */
+        template <typename T>
+        auto Reset(T &&obj)
+            -> typename std::enable_if<
+                !std::is_same<Variant, typename std::decay<T>::type>::value &&
+                std::is_base_of<DynamicObject, typename std::decay<T>::type>::value>::type
+        {
+            using U = typename std::decay<T>::type;
+            _obj.reset(new U(std::forward<T>(obj)));
+            ResetCloner<U>();
+        }
+
+        /**
+         * @brief 重置Variant对象为指定类型的对象
+         * @tparam T 对象类型
+         * @param obj 对象
+         */
+        template <typename T>
+        auto Reset(T &&obj)
+            -> typename std::enable_if<
+                !std::is_same<Variant, typename std::decay<T>::type>::value &&
+                !std::is_base_of<DynamicObject, typename std::decay<T>::type>::value>::type
+        {
+            using U = typename std::decay<T>::type;
+            _obj.reset(new BoxedObject<U>(std::forward<T>(obj)));
+            ResetCloner<U>();
+        }
+
+        /**
+         * @brief 获取内部动态对象指针
+         * @return 内部动态对象指针
+         */
+        DynamicObject *Object() const noexcept
+        {
+            return _obj.get();
+        }
+
+        /**
+         * @brief 判断当前Variant存储的对象是否为指定类型
+         * @tparam T 目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return 如果Variant对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        bool IsType(T **pout = nullptr)
+        {
+            if (_obj == nullptr) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                return _obj->IsType<T>(pout);
+            }
+        }
+
+        /**
+         * @brief 判断当前Variant存储的对象是否为指定类型
+         * @tparam T 目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return 如果Variant对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        bool IsType(const T **pout = nullptr) const
+        {
+            if (_obj == nullptr) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                return _obj->IsType<T>(pout);
+            }
+        }
+
+        /**
+         * @brief 将Variant对象动态转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return 指定类型的引用
+         * @throws std::bad_cast 如果转换失败或Variant为空
+         */
+        template <typename T>
+        T &DynamicCast()
+        {
+            ThrowBadCastIfEmpty();
+            return _obj->DynamicCast<T>();
+        }
+
+        /**
+         * @brief 将Variant对象动态转换为指定类型的常量引用
+         * @tparam T 目标类型
+         * @return 指定类型的常量引用
+         * @throws std::bad_cast 如果转换失败或Variant为空
+         */
+        template <typename T>
+        const T &DynamicCast() const
+        {
+            ThrowBadCastIfEmpty();
+            return _obj->DynamicCast<T>();
+        }
+
+        /**
+         * @brief 将Variant对象转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return 指定类型的引用
+         * @throws std::bad_cast 如果Variant为空
+         * @note 若目标类型与存储类型不匹配，则行为未定义
+         */
+        template <typename T>
+        T &UnsafeCast()
+        {
+            ThrowBadCastIfEmpty();
+            return _obj->UnsafeCast<T>();
+        }
+
+        /**
+         * @brief 将Variant对象转换为指定类型的常量引用
+         * @tparam T 目标类型
+         * @return 指定类型的常量引用
+         * @throws std::bad_cast 如果Variant为空
+         * @note 若目标类型与存储类型不匹配，则行为未定义
+         */
+        template <typename T>
+        const T &UnsafeCast() const
+        {
+            ThrowBadCastIfEmpty();
+            return _obj->UnsafeCast<T>();
+        }
+
+    private:
+        /**
+         * @brief 抛出Variant为空的异常
+         */
+        void ThrowBadCastIfEmpty() const
+        {
+            if (_obj == nullptr) {
+                throw std::bad_cast();
+            }
+        }
+
+        /**
+         * @brief 初始化克隆函数指针
+         * @tparam T 对象类型
+         */
+        template <typename T>
+        auto ResetCloner()
+            -> typename std::enable_if<std::is_copy_constructible<T>::value && std::is_base_of<DynamicObject, T>::value>::type
+        {
+            _cloner = [](const DynamicObject &other) -> DynamicObject * {
+                return new T(other.UnsafeCast<T>());
+            };
+        }
+
+        /**
+         * @brief 初始化克隆函数指针
+         * @tparam T 对象类型
+         */
+        template <typename T>
+        auto ResetCloner()
+            -> typename std::enable_if<std::is_copy_constructible<T>::value && !std::is_base_of<DynamicObject, T>::value>::type
+        {
+            _cloner = [](const DynamicObject &other) -> DynamicObject * {
+                return new BoxedObject<T>(other.UnsafeCast<BoxedObject<T>>());
+            };
+        }
+
+        /**
+         * @brief 初始化克隆函数指针
+         * @tparam T 对象类型
+         */
+        template <typename T>
+        auto ResetCloner()
+            -> typename std::enable_if<!std::is_copy_constructible<T>::value>::type
+        {
+            _cloner = [](const DynamicObject &other) -> DynamicObject * {
+                throw std::runtime_error("Object is not copy constructible.");
+            };
+        }
     };
 }
 
@@ -8787,54 +10037,63 @@ namespace sw
     };
 }
 
-// ILayout.h
+// LayoutHost.h
 
 
 namespace sw
 {
     /**
-     * @brief 布局接口
+     * @brief 用于托管元素的布局方式的对象类型，是所有布局方式类型的基类
      */
-    class ILayout
+    class LayoutHost
     {
+    private:
+        /**
+         * @brief 关联的对象
+         */
+        ILayout *_associatedObj = nullptr;
+
     public:
         /**
          * @brief 默认虚析构函数
          */
-        virtual ~ILayout() = default;
+        virtual ~LayoutHost() = default;
+
+        /**
+         * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
+         * @param obj 要关联的对象
+         */
+        void Associate(ILayout *obj);
+
+        /**
+         * @brief     判断当前LayoutHost是否关联了对象
+         * @param obj 若传入值为nullptr，则判断是否有任何对象关联，否则判断是否关联了指定对象
+         */
+        bool IsAssociated(ILayout *obj = nullptr);
+
+        /**
+         * @brief 获取关联对象子控件的数量
+         */
+        int GetChildLayoutCount();
+
+        /**
+         * @brief 获取关联对象对应索引处的子控件
+         */
+        ILayout &GetChildLayoutAt(int index);
 
     public:
         /**
-         * @brief 获取布局标记
-         */
-        virtual uint64_t GetLayoutTag() const = 0;
-
-        /**
-         * @brief 获取子控件的数量
-         */
-        virtual int GetChildLayoutCount() const = 0;
-
-        /**
-         * @brief 获取对应索引处的子控件
-         */
-        virtual ILayout &GetChildLayoutAt(int index) = 0;
-
-        /**
-         * @brief 获取控件所需尺寸
-         */
-        virtual Size GetDesireSize() const = 0;
-
-        /**
-         * @brief               测量控件所需尺寸
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
          */
-        virtual void Measure(const Size &availableSize) = 0;
+        virtual Size MeasureOverride(const Size &availableSize) = 0;
 
         /**
-         * @brief               安排控件位置
-         * @param finalPosition 最终控件所安排的位置
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void Arrange(const Rect &finalPosition) = 0;
+        virtual void ArrangeOverride(const Size &finalSize) = 0;
     };
 }
 
@@ -9031,13 +10290,13 @@ namespace sw
     static auto _Get_##propname(T &self)                                                \
         -> typename std::enable_if<sw::_IsProperty<U>::value, typename U::TValue>::type \
     {                                                                                   \
-        return self.##expr.Get();                                                       \
+        return (self.##expr).Get();                                                     \
     }                                                                                   \
     template <typename T, typename U = decltype(expr)>                                  \
     static auto _Get_##propname(T &self)                                                \
         -> typename std::enable_if<!sw::_IsProperty<U>::value, U>::type                 \
     {                                                                                   \
-        return self.##expr;                                                             \
+        return (self.##expr);                                                           \
     }
 
 /**
@@ -9048,13 +10307,13 @@ namespace sw
     static auto _Set_##propname(T &self, U &&value)                  \
         -> typename std::enable_if<sw::_IsProperty<V>::value>::type  \
     {                                                                \
-        self.##expr.Set(std::forward<U>(value));                     \
+        (self.##expr).Set(std::forward<U>(value));                   \
     }                                                                \
     template <typename T, typename U, typename V = decltype(expr)>   \
     static auto _Set_##propname(T &self, U &&value)                  \
         -> typename std::enable_if<!sw::_IsProperty<V>::value>::type \
     {                                                                \
-        self.##expr = std::forward<U>(value);                        \
+        (self.##expr) = std::forward<U>(value);                      \
     }
 
 /*================================================================================*/
@@ -9120,8 +10379,8 @@ namespace sw
     static auto _Set_##name(T &self, U &&value)                                                              \
         -> typename std::enable_if<sw::_IsProperty<V>::value && sw::_EqOperationHelper<U, U>::value>::type   \
     {                                                                                                        \
-        if (!(self.##expr.Get() == value)) {                                                                 \
-            self.##expr.Set(std::forward<U>(value));                                                         \
+        if (!((self.##expr).Get() == value)) {                                                               \
+            (self.##expr).Set(std::forward<U>(value));                                                       \
             if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));    \
         }                                                                                                    \
     }                                                                                                        \
@@ -9129,15 +10388,15 @@ namespace sw
     static auto _Set_##name(T &self, U &&value)                                                              \
         -> typename std::enable_if<sw::_IsProperty<V>::value && !sw::_EqOperationHelper<U, U>::value>::type  \
     {                                                                                                        \
-        self.##expr.Set(std::forward<U>(value));                                                             \
+        (self.##expr).Set(std::forward<U>(value));                                                           \
         if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));        \
     }                                                                                                        \
     template <typename T, typename U, typename V = decltype(expr)>                                           \
     static auto _Set_##name(T &self, U &&value)                                                              \
         -> typename std::enable_if<!sw::_IsProperty<V>::value && sw::_EqOperationHelper<U, U>::value>::type  \
     {                                                                                                        \
-        if (!(self.##expr == value)) {                                                                       \
-            self.##expr = std::forward<U>(value);                                                            \
+        if (!((self.##expr) == value)) {                                                                     \
+            (self.##expr) = std::forward<U>(value);                                                          \
             if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));    \
         }                                                                                                    \
     }                                                                                                        \
@@ -9145,7 +10404,7 @@ namespace sw
     static auto _Set_##name(T &self, U &&value)                                                              \
         -> typename std::enable_if<!sw::_IsProperty<V>::value && !sw::_EqOperationHelper<U, U>::value>::type \
     {                                                                                                        \
-        self.##expr = std::forward<U>(value);                                                                \
+        (self.##expr) = std::forward<U>(value);                                                              \
         if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));        \
     }                                                                                                        \
     sw::Property<_SW_EXPR_PROPERTY_VALUETYPE(name, expr)> name                                               \
@@ -9238,63 +10497,525 @@ namespace sw
     };
 }
 
-// LayoutHost.h
+// CanvasLayout.h
 
 
 namespace sw
 {
     /**
-     * @brief 用于托管元素的布局方式的对象类型，是所有布局方式类型的基类
+     * @brief 绝对位置布局方式的布局标记
      */
-    class LayoutHost
+    struct CanvasLayoutTag {
+        /**
+         * @brief 左边
+         */
+        float left;
+
+        /**
+         * @brief 顶边
+         */
+        float top;
+
+        /**
+         * @brief 左边顶边均为0
+         */
+        CanvasLayoutTag();
+
+        /**
+         * @brief 指定左边和顶边
+         */
+        CanvasLayoutTag(float left, float top);
+
+        /**
+         * @brief 从LayoutTag创建
+         */
+        CanvasLayoutTag(uint64_t layoutTag);
+
+        /**
+         * @brief 隐式转换LayoutTag
+         */
+        operator uint64_t() const;
+    };
+
+    /**
+     * @brief 绝对位置布局方式
+     */
+    class CanvasLayout : public LayoutHost
     {
-    private:
-        /**
-         * @brief 关联的对象
-         */
-        ILayout *_associatedObj = nullptr;
-
-    public:
-        /**
-         * @brief 默认虚析构函数
-         */
-        virtual ~LayoutHost() = default;
-
-        /**
-         * @brief     设置关联的对象，每个LayoutHost只能关联一个对象
-         * @param obj 要关联的对象
-         */
-        void Associate(ILayout *obj);
-
-        /**
-         * @brief     判断当前LayoutHost是否关联了对象
-         * @param obj 若传入值为nullptr，则判断是否有任何对象关联，否则判断是否关联了指定对象
-         */
-        bool IsAssociated(ILayout *obj = nullptr);
-
-        /**
-         * @brief 获取关联对象子控件的数量
-         */
-        int GetChildLayoutCount();
-
-        /**
-         * @brief 获取关联对象对应索引处的子控件
-         */
-        ILayout &GetChildLayoutAt(int index);
-
     public:
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
          * @return              返回元素需要占用的尺寸
          */
-        virtual Size MeasureOverride(const Size &availableSize) = 0;
+        virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
          * @brief           安排子元素的位置，可重写该函数以实现自定义布局
          * @param finalSize 可用于排列子元素的最终尺寸
          */
-        virtual void ArrangeOverride(const Size &finalSize) = 0;
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// DockLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 停靠布局标记
+     */
+    class DockLayoutTag : public IEqualityComparable<DockLayoutTag>
+    {
+    public:
+        enum : uint64_t {
+            Left,   // 左边
+            Top,    // 顶边
+            Right,  // 右边
+            Bottom, // 底边
+        };
+
+    private:
+        /**
+         * @brief Tag值
+         */
+        uint64_t _value;
+
+    public:
+        /**
+         * @brief 创建DockLayoutTag
+         */
+        DockLayoutTag(uint64_t value = Left);
+
+        /**
+         * @brief 隐式转换uint64_t
+         */
+        operator uint64_t() const;
+
+        /**
+         * @brief 判断值是否相等
+         */
+        bool Equals(const DockLayoutTag &other) const;
+
+        /**
+         * @brief 判断值是否相等
+         */
+        bool operator==(uint64_t value) const;
+
+        /**
+         * @brief 判断值是否不相等
+         */
+        bool operator!=(uint64_t value) const;
+    };
+
+    /**
+     * @brief 停靠布局
+     */
+    class DockLayout : public LayoutHost
+    {
+    public:
+        /**
+         * @brief 最后一个子元素是否填充剩余空间
+         */
+        bool lastChildFill = true;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// FillLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 一种将全部元素都铺满的布局，一般用于在只有一个子元素的时候将该元素铺满整个可用区域
+     */
+    class FillLayout : public LayoutHost
+    {
+    public:
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// GridLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 网格布局方式的布局标记
+     */
+    struct GridLayoutTag {
+        /**
+         * @brief 所在行
+         */
+        uint16_t row;
+
+        /**
+         * @brief 所在列
+         */
+        uint16_t column;
+
+        /**
+         * @brief 所跨行数
+         */
+        uint16_t rowSpan;
+
+        /**
+         * @brief 所跨列数
+         */
+        uint16_t columnSpan;
+
+        /**
+         * @brief GridLayoutTag默认值
+         */
+        GridLayoutTag();
+
+        /**
+         * @brief 初始化GridLayoutTag
+         */
+        GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan);
+
+        /**
+         * @brief 初始化GridLayoutTag
+         */
+        GridLayoutTag(uint16_t row, uint16_t column);
+
+        /**
+         * @brief 从LayoutTag创建
+         */
+        GridLayoutTag(uint64_t layoutTag);
+
+        /**
+         * @brief 隐式转换LayoutTag
+         */
+        operator uint64_t() const;
+    };
+
+    /**
+     * @brief GridRow和GridColumn的类型
+     */
+    enum class GridRCType {
+        FixSize,    // 固定大小
+        AutoSize,   // 自动大小
+        FillRemain, // 填充剩余空间
+    };
+
+    /**
+     * @brief 网格中的行信息
+     */
+    struct GridRow {
+        /**
+         * @brief 类型
+         */
+        GridRCType type;
+
+        /**
+         * @brief 高度
+         */
+        double height;
+
+        /**
+         * @brief 创建一个FillRemain的GridRow
+         */
+        GridRow();
+
+        /**
+         * @brief 初始化GridRow
+         */
+        GridRow(GridRCType type, double height);
+
+        /**
+         * @brief 固定大小的行
+         */
+        GridRow(double height);
+    };
+
+    /**
+     * @brief 固定高度的行
+     */
+    struct FixSizeGridRow : public GridRow {
+        /**
+         * @brief 初始化FixSizeGridRow
+         */
+        FixSizeGridRow(double height);
+    };
+
+    /**
+     * @brief 自动高度的行
+     */
+    struct AutoSizeGridRow : public GridRow {
+        /**
+         * @brief 初始化AutoSizeGridRow
+         */
+        AutoSizeGridRow();
+    };
+
+    /**
+     * @brief 填充剩余高度的行
+     */
+    struct FillRemainGridRow : public GridRow {
+        /**
+         * @brief 初始化FillRemainGridRow
+         */
+        FillRemainGridRow(double proportion = 1);
+    };
+
+    /**
+     * @brief 网格中的列信息
+     */
+    struct GridColumn {
+        /**
+         * @brief 类型
+         */
+        GridRCType type;
+
+        /**
+         * @brief 宽度
+         */
+        double width;
+
+        /**
+         * @brief 创建一个FillRemain的GridColumn
+         */
+        GridColumn();
+
+        /**
+         * @brief 初始化GridColumn
+         */
+        GridColumn(GridRCType type, double width);
+
+        /**
+         * @brief 固定大小的列
+         */
+        GridColumn(double width);
+    };
+
+    /**
+     * @brief 固定宽度的列
+     */
+    struct FixSizeGridColumn : public GridColumn {
+        /**
+         * @brief 初始化FixSizeGridColumn
+         */
+        FixSizeGridColumn(double width);
+    };
+
+    /**
+     * @brief 自动宽度的列
+     */
+    struct AutoSizeGridColumn : public GridColumn {
+        /**
+         * @brief 初始化AutoSizeGridColumn
+         */
+        AutoSizeGridColumn();
+    };
+
+    /**
+     * @brief 填充剩余宽度的列
+     */
+    struct FillRemainGridColumn : public GridColumn {
+        /**
+         * @brief 初始化FillRemainGridColumn
+         */
+        FillRemainGridColumn(double proportion = 1);
+    };
+
+    /**
+     * @brief 网格布局方式
+     */
+    class GridLayout : public LayoutHost
+    {
+    private:
+        /**
+         * @brief 子元素的信息
+         */
+        struct _ChildInfo {
+            ILayout *instance;         // 子元素对象
+            GridLayoutTag layoutTag;   // 布局标记
+            GridRCType rowMeasureType; // 元素measure行时的类型
+            GridRCType colMeasureType; // 元素measure列时的类型
+        };
+
+        /**
+         * @brief 行信息
+         */
+        struct _RowInfo {
+            GridRow row;           // 行
+            double size       = 0; // 所需空间大小
+            double proportion = 0; // 类型为FillRemain时该字段保存该行的高度占比，范围为0~1
+        };
+
+        /**
+         * @brief 列信息
+         */
+        struct _ColInfo {
+            GridColumn col;        // 列
+            double size       = 0; // 所需空间大小
+            double proportion = 0; // 类型为FillRemain时该字段保存该列的宽度占比，范围为0~1
+        };
+
+        /**
+         * @brief 一些内部数据
+         */
+        struct {
+            std::vector<_RowInfo> rowsInfo;       // 行信息
+            std::vector<_ColInfo> colsInfo;       // 列信息
+            std::vector<_ChildInfo> childrenInfo; // 子元素信息
+            std::vector<Rect> cells;              // 保存格信息
+        } _internalData;
+
+    public:
+        /**
+         * @brief 行定义
+         */
+        List<GridRow> rows;
+
+        /**
+         * @brief 列定义
+         */
+        List<GridColumn> columns;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+
+    private:
+        /**
+         * @brief 更新内部数据
+         */
+        void _UpdateInternalData();
+
+        /**
+         * @brief 获取指定行列处的网格信息
+         */
+        Rect &_GetCell(int row, int col);
+    };
+}
+
+// StackLayoutH.h
+
+
+namespace sw
+{
+    /**
+     * @brief 横向堆叠布局
+     */
+    class StackLayoutH : virtual public LayoutHost
+    {
+    public:
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// StackLayoutV.h
+
+
+namespace sw
+{
+    /**
+     * @brief 纵向堆叠布局
+     */
+    class StackLayoutV : virtual public LayoutHost
+    {
+    public:
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// UniformGridLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 均匀大小网格布局
+     */
+    class UniformGridLayout : public LayoutHost
+    {
+    public:
+        /**
+         * @brief 行数
+         */
+        int rows = 1;
+
+        /**
+         * @brief 列数
+         */
+        int columns = 1;
+
+        /**
+         * @brief 网格第一行中前导空白单元格的数量
+         */
+        int firstColumn = 0;
+
+        /**
+         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return              返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -10229,50 +11950,15 @@ namespace sw
     };
 }
 
-// CanvasLayout.h
+// WrapLayoutH.h
 
 
 namespace sw
 {
     /**
-     * @brief 绝对位置布局方式的布局标记
+     * @brief 横向自动换行布局
      */
-    struct CanvasLayoutTag {
-        /**
-         * @brief 左边
-         */
-        float left;
-
-        /**
-         * @brief 顶边
-         */
-        float top;
-
-        /**
-         * @brief 左边顶边均为0
-         */
-        CanvasLayoutTag();
-
-        /**
-         * @brief 指定左边和顶边
-         */
-        CanvasLayoutTag(float left, float top);
-
-        /**
-         * @brief 从LayoutTag创建
-         */
-        CanvasLayoutTag(uint64_t layoutTag);
-
-        /**
-         * @brief 隐式转换LayoutTag
-         */
-        operator uint64_t() const;
-    };
-
-    /**
-     * @brief 绝对位置布局方式
-     */
-    class CanvasLayout : public LayoutHost
+    class WrapLayoutH : virtual public LayoutHost
     {
     public:
         /**
@@ -10290,92 +11976,15 @@ namespace sw
     };
 }
 
-// DockLayout.h
+// WrapLayoutV.h
 
 
 namespace sw
 {
     /**
-     * @brief 停靠布局标记
+     * @brief 纵向自动换行布局
      */
-    class DockLayoutTag : public IEqualityComparable<DockLayoutTag>
-    {
-    public:
-        enum : uint64_t {
-            Left,   // 左边
-            Top,    // 顶边
-            Right,  // 右边
-            Bottom, // 底边
-        };
-
-    private:
-        /**
-         * @brief Tag值
-         */
-        uint64_t _value;
-
-    public:
-        /**
-         * @brief 创建DockLayoutTag
-         */
-        DockLayoutTag(uint64_t value = Left);
-
-        /**
-         * @brief 隐式转换uint64_t
-         */
-        operator uint64_t() const;
-
-        /**
-         * @brief 判断值是否相等
-         */
-        bool Equals(const DockLayoutTag &other) const;
-
-        /**
-         * @brief 判断值是否相等
-         */
-        bool operator==(uint64_t value) const;
-
-        /**
-         * @brief 判断值是否不相等
-         */
-        bool operator!=(uint64_t value) const;
-    };
-
-    /**
-     * @brief 停靠布局
-     */
-    class DockLayout : public LayoutHost
-    {
-    public:
-        /**
-         * @brief 最后一个子元素是否填充剩余空间
-         */
-        bool lastChildFill = true;
-
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// FillLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 一种将全部元素都铺满的布局，一般用于在只有一个子元素的时候将该元素铺满整个可用区域
-     */
-    class FillLayout : public LayoutHost
+    class WrapLayoutV : virtual public LayoutHost
     {
     public:
         /**
@@ -10390,271 +11999,6 @@ namespace sw
          * @param finalSize 可用于排列子元素的最终尺寸
          */
         virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// GridLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 网格布局方式的布局标记
-     */
-    struct GridLayoutTag {
-        /**
-         * @brief 所在行
-         */
-        uint16_t row;
-
-        /**
-         * @brief 所在列
-         */
-        uint16_t column;
-
-        /**
-         * @brief 所跨行数
-         */
-        uint16_t rowSpan;
-
-        /**
-         * @brief 所跨列数
-         */
-        uint16_t columnSpan;
-
-        /**
-         * @brief GridLayoutTag默认值
-         */
-        GridLayoutTag();
-
-        /**
-         * @brief 初始化GridLayoutTag
-         */
-        GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan);
-
-        /**
-         * @brief 初始化GridLayoutTag
-         */
-        GridLayoutTag(uint16_t row, uint16_t column);
-
-        /**
-         * @brief 从LayoutTag创建
-         */
-        GridLayoutTag(uint64_t layoutTag);
-
-        /**
-         * @brief 隐式转换LayoutTag
-         */
-        operator uint64_t() const;
-    };
-
-    /**
-     * @brief GridRow和GridColumn的类型
-     */
-    enum class GridRCType {
-        FixSize,    // 固定大小
-        AutoSize,   // 自动大小
-        FillRemain, // 填充剩余空间
-    };
-
-    /**
-     * @brief 网格中的行信息
-     */
-    struct GridRow {
-        /**
-         * @brief 类型
-         */
-        GridRCType type;
-
-        /**
-         * @brief 高度
-         */
-        double height;
-
-        /**
-         * @brief 创建一个FillRemain的GridRow
-         */
-        GridRow();
-
-        /**
-         * @brief 初始化GridRow
-         */
-        GridRow(GridRCType type, double height);
-
-        /**
-         * @brief 固定大小的行
-         */
-        GridRow(double height);
-    };
-
-    /**
-     * @brief 固定高度的行
-     */
-    struct FixSizeGridRow : public GridRow {
-        /**
-         * @brief 初始化FixSizeGridRow
-         */
-        FixSizeGridRow(double height);
-    };
-
-    /**
-     * @brief 自动高度的行
-     */
-    struct AutoSizeGridRow : public GridRow {
-        /**
-         * @brief 初始化AutoSizeGridRow
-         */
-        AutoSizeGridRow();
-    };
-
-    /**
-     * @brief 填充剩余高度的行
-     */
-    struct FillRemainGridRow : public GridRow {
-        /**
-         * @brief 初始化FillRemainGridRow
-         */
-        FillRemainGridRow(double proportion = 1);
-    };
-
-    /**
-     * @brief 网格中的列信息
-     */
-    struct GridColumn {
-        /**
-         * @brief 类型
-         */
-        GridRCType type;
-
-        /**
-         * @brief 宽度
-         */
-        double width;
-
-        /**
-         * @brief 创建一个FillRemain的GridColumn
-         */
-        GridColumn();
-
-        /**
-         * @brief 初始化GridColumn
-         */
-        GridColumn(GridRCType type, double width);
-
-        /**
-         * @brief 固定大小的列
-         */
-        GridColumn(double width);
-    };
-
-    /**
-     * @brief 固定宽度的列
-     */
-    struct FixSizeGridColumn : public GridColumn {
-        /**
-         * @brief 初始化FixSizeGridColumn
-         */
-        FixSizeGridColumn(double width);
-    };
-
-    /**
-     * @brief 自动宽度的列
-     */
-    struct AutoSizeGridColumn : public GridColumn {
-        /**
-         * @brief 初始化AutoSizeGridColumn
-         */
-        AutoSizeGridColumn();
-    };
-
-    /**
-     * @brief 填充剩余宽度的列
-     */
-    struct FillRemainGridColumn : public GridColumn {
-        /**
-         * @brief 初始化FillRemainGridColumn
-         */
-        FillRemainGridColumn(double proportion = 1);
-    };
-
-    /**
-     * @brief 网格布局方式
-     */
-    class GridLayout : public LayoutHost
-    {
-    private:
-        /**
-         * @brief 子元素的信息
-         */
-        struct _ChildInfo {
-            ILayout *instance;         // 子元素对象
-            GridLayoutTag layoutTag;   // 布局标记
-            GridRCType rowMeasureType; // 元素measure行时的类型
-            GridRCType colMeasureType; // 元素measure列时的类型
-        };
-
-        /**
-         * @brief 行信息
-         */
-        struct _RowInfo {
-            GridRow row;           // 行
-            double size       = 0; // 所需空间大小
-            double proportion = 0; // 类型为FillRemain时该字段保存该行的高度占比，范围为0~1
-        };
-
-        /**
-         * @brief 列信息
-         */
-        struct _ColInfo {
-            GridColumn col;        // 列
-            double size       = 0; // 所需空间大小
-            double proportion = 0; // 类型为FillRemain时该字段保存该列的宽度占比，范围为0~1
-        };
-
-        /**
-         * @brief 一些内部数据
-         */
-        struct {
-            std::vector<_RowInfo> rowsInfo;       // 行信息
-            std::vector<_ColInfo> colsInfo;       // 列信息
-            std::vector<_ChildInfo> childrenInfo; // 子元素信息
-            std::vector<Rect> cells;              // 保存格信息
-        } _internalData;
-
-    public:
-        /**
-         * @brief 行定义
-         */
-        List<GridRow> rows;
-
-        /**
-         * @brief 列定义
-         */
-        List<GridColumn> columns;
-
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-
-    private:
-        /**
-         * @brief 更新内部数据
-         */
-        void _UpdateInternalData();
-
-        /**
-         * @brief 获取指定行列处的网格信息
-         */
-        Rect &_GetCell(int row, int col);
     };
 }
 
@@ -11060,43 +12404,22 @@ namespace sw
     };
 }
 
-// StackLayoutH.h
+// StackLayout.h
 
 
 namespace sw
 {
     /**
-     * @brief 横向堆叠布局
+     * @brief 堆叠布局
      */
-    class StackLayoutH : virtual public LayoutHost
+    class StackLayout : public StackLayoutH, public StackLayoutV
     {
     public:
         /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
+         * @brief 排列方式
          */
-        virtual Size MeasureOverride(const Size &availableSize) override;
+        Orientation orientation = Orientation::Vertical;
 
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// StackLayoutV.h
-
-
-namespace sw
-{
-    /**
-     * @brief 纵向堆叠布局
-     */
-    class StackLayoutV : virtual public LayoutHost
-    {
-    public:
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
@@ -11371,7 +12694,9 @@ namespace sw
     /**
      * @brief 表示界面中的元素
      */
-    class UIElement : public WndBase, public ILayout, public ITag
+    class UIElement : public WndBase,
+                      public ILayout,
+                      public ITag<uint64_t>
     {
     private:
         /**
@@ -12728,84 +14053,22 @@ namespace sw
     };
 }
 
-// UniformGridLayout.h
+// WrapLayout.h
 
 
 namespace sw
 {
     /**
-     * @brief 均匀大小网格布局
+     * @brief 自动换行布局
      */
-    class UniformGridLayout : public LayoutHost
+    class WrapLayout : public WrapLayoutH, public WrapLayoutV
     {
     public:
         /**
-         * @brief 行数
+         * @brief 排列方式
          */
-        int rows = 1;
+        Orientation orientation = Orientation::Horizontal;
 
-        /**
-         * @brief 列数
-         */
-        int columns = 1;
-
-        /**
-         * @brief 网格第一行中前导空白单元格的数量
-         */
-        int firstColumn = 0;
-
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// WrapLayoutH.h
-
-
-namespace sw
-{
-    /**
-     * @brief 横向自动换行布局
-     */
-    class WrapLayoutH : virtual public LayoutHost
-    {
-    public:
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// WrapLayoutV.h
-
-
-namespace sw
-{
-    /**
-     * @brief 纵向自动换行布局
-     */
-    class WrapLayoutV : virtual public LayoutHost
-    {
-    public:
         /**
          * @brief               测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
@@ -13454,68 +14717,6 @@ namespace sw
          * @brief 使用设定的布局方式对子元素进行Measure和Arrange，不改变当前的尺寸和DesireSize
          */
         void _MeasureAndArrangeWithoutResize(LayoutHost &layout, const Size &clientSize);
-    };
-}
-
-// StackLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 堆叠布局
-     */
-    class StackLayout : public StackLayoutH, public StackLayoutV
-    {
-    public:
-        /**
-         * @brief 排列方式
-         */
-        Orientation orientation = Orientation::Vertical;
-
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
-    };
-}
-
-// WrapLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 自动换行布局
-     */
-    class WrapLayout : public WrapLayoutH, public WrapLayoutV
-    {
-    public:
-        /**
-         * @brief 排列方式
-         */
-        Orientation orientation = Orientation::Horizontal;
-
-        /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
