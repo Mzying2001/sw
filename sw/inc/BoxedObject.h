@@ -266,7 +266,7 @@ namespace sw
      */
     template <typename T>
     auto DynamicObject::IsType(T **pout)
-        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, bool>::type
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type
     {
 #if defined(SW_DISABLE_REFLECTION)
         throw std::runtime_error("Reflection is disabled, cannot check type.");
@@ -303,8 +303,44 @@ namespace sw
      * @return 如果对象为指定类型则返回true，否则返回false
      */
     template <typename T>
+    auto DynamicObject::IsType(T **pout)
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot check type.");
+#else
+        if (!_isBoxedObject) {
+            if (pout != nullptr) {
+                *pout = nullptr;
+            }
+            return false;
+        } else {
+            BoxedObject<T> *obj = nullptr;
+
+            if (!IsType(&obj) || obj->IsNullRef()) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                if (pout != nullptr) {
+                    *pout = &obj->Unbox();
+                }
+                return true;
+            }
+        }
+#endif
+    }
+
+    /**
+     * @brief 判断对象是否为指定类型
+     * @tparam T 目标类型
+     * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+     * @return 如果对象为指定类型则返回true，否则返回false
+     */
+    template <typename T>
     auto DynamicObject::IsType(const T **pout) const
-        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, bool>::type
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type
     {
 #if defined(SW_DISABLE_REFLECTION)
         throw std::runtime_error("Reflection is disabled, cannot check type.");
@@ -316,6 +352,42 @@ namespace sw
                 *pout = dynamic_cast<const T *>(this);
                 return *pout != nullptr;
             }
+        } else {
+            const BoxedObject<T> *obj = nullptr;
+
+            if (!IsType(&obj) || obj->IsNullRef()) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                if (pout != nullptr) {
+                    *pout = &obj->Unbox();
+                }
+                return true;
+            }
+        }
+#endif
+    }
+
+    /**
+     * @brief 判断对象是否为指定类型
+     * @tparam T 目标类型
+     * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+     * @return 如果对象为指定类型则返回true，否则返回false
+     */
+    template <typename T>
+    auto DynamicObject::IsType(const T **pout) const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot check type.");
+#else
+        if (!_isBoxedObject) {
+            if (pout != nullptr) {
+                *pout = nullptr;
+            }
+            return false;
         } else {
             const BoxedObject<T> *obj = nullptr;
 

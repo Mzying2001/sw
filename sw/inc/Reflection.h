@@ -218,7 +218,17 @@ namespace sw
          */
         template <typename T>
         auto IsType(T **pout = nullptr)
-            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, bool>::type;
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
+
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(T **pout = nullptr)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
 
         /**
          * @brief      判断对象是否为指定类型
@@ -228,7 +238,17 @@ namespace sw
          */
         template <typename T>
         auto IsType(const T **pout = nullptr) const
-            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, bool>::type;
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
+
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(const T **pout = nullptr) const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
 
         /**
          * @brief    将对象动态转换为指定类型的引用
