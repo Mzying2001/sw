@@ -70,10 +70,12 @@ for index in range(0, count):
             contents[index] += line + '\n'
 
 
-# 输出include部分（将Windows.h提前是因为CommCtrl.h依赖Windows.h）
-outputfile.write('#include <Windows.h>\n')
+# 由于commctrl.h依赖windows.h，将windows.h提前
+outputfile.write('#include <windows.h>\n')
+
+# 输出include部分
 for incfile in sorted(included):
-    if incfile != 'Windows.h':
+    if incfile != 'windows.h':
         outputfile.write(f'#include <{incfile}>\n')
 
 
