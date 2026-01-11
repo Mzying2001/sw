@@ -331,332 +331,6 @@ namespace sw
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type;
     };
 
-    /**
-     * @brief 表示字段的唯一标识符
-     */
-    struct FieldId : public IToString<FieldId>,
-                     public IComparable<FieldId, FieldId> {
-        /**
-         * @brief 字段ID的数值
-         */
-        uint32_t value;
-
-        /**
-         * @brief 默认构造函数
-         */
-        FieldId() = default;
-
-        /**
-         * @brief 构造指定值的字段ID
-         */
-        FieldId(uint32_t value)
-            : value(value)
-        {
-        }
-
-        /**
-         * @brief 获取字段ID的字符串表示形式
-         */
-        std::wstring ToString() const
-        {
-            return std::to_wstring(value);
-        }
-
-        /**
-         * @brief  比较字段ID
-         * @return 值相等返回0，小于返回负数，大于返回正数
-         */
-        int CompareTo(FieldId other) const
-        {
-            if (value == other.value) {
-                return 0;
-            } else {
-                return value < other.value ? -1 : 1;
-            }
-        }
-    };
-
-    /**
-     * @brief 提供反射相关功能
-     */
-    class Reflection
-    {
-    public:
-        /**
-         * @brief 静态类，不允许实例化
-         */
-        Reflection() = delete;
-
-    public:
-        /**
-         * @brief         获取字段的唯一标识符
-         * @tparam T      字段所属类类型
-         * @tparam TField 字段类型
-         * @param field   字段的成员指针
-         * @return        对应的字段ID
-         */
-        template <typename T, typename TField>
-        static FieldId GetFieldId(TField T::*field) noexcept
-        {
-            auto pfunc = &Reflection::GetFieldId<T, TField>;
-
-            uint8_t buffer[sizeof(pfunc) + sizeof(field)];
-            memcpy(buffer, &pfunc, sizeof(pfunc));
-            memcpy(buffer + sizeof(pfunc), &field, sizeof(field));
-
-            uint32_t prime = 16777619u;
-            uint32_t hash  = 2166136261u;
-
-            for (size_t i = 0; i < sizeof(buffer); ++i) {
-                hash ^= static_cast<uint32_t>(buffer[i]);
-                hash *= prime;
-            }
-
-            return FieldId{hash};
-        }
-
-        /**
-         * @brief        获取成员函数的委托
-         * @tparam T     成员函数所属类类型
-         * @tparam TRet  成员函数返回值类型
-         * @tparam Args  成员函数参数类型列表
-         * @param method 成员函数指针
-         * @return       对应的委托
-         */
-        template <typename T, typename TRet, typename... Args>
-        static auto GetMethod(TRet (T::*method)(Args...)) -> Delegate<TRet(DynamicObject &, Args...)>
-        {
-            return [method](DynamicObject &obj, Args... args) -> TRet {
-                return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
-            };
-        }
-
-        /**
-         * @brief        获取常量成员函数的委托
-         * @tparam T     成员函数所属类类型
-         * @tparam TRet  成员函数返回值类型
-         * @tparam Args  成员函数参数类型列表
-         * @param method 成员函数指针
-         * @return       对应的委托
-         */
-        template <typename T, typename TRet, typename... Args>
-        static auto GetMethod(TRet (T::*method)(Args...) const) -> Delegate<TRet(DynamicObject &, Args...)>
-        {
-            return [method](DynamicObject &obj, Args... args) -> TRet {
-                return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
-            };
-        }
-
-        /**
-         * @brief         获取字段的访问器
-         * @tparam T      字段所属类类型
-         * @tparam TField 字段类型
-         * @param field   字段的成员指针
-         * @return        对应的访问器
-         */
-        template <typename T, typename TField>
-        static auto GetFieldAccessor(TField T::*field) -> Delegate<TField &(DynamicObject &)>
-        {
-            return [field](DynamicObject &obj) -> TField & {
-                return obj.UnsafeCast<T>().*field;
-            };
-        }
-
-        /**
-         * @brief            获取属性的Getter委托
-         * @tparam T         属性所属类类型
-         * @tparam TProperty 属性类型
-         * @param prop       属性指针
-         * @return           对应的Getter委托
-         * @note             若属性不可读则返回空委托
-         */
-        template <typename T, typename TProperty>
-        static auto GetPropertyGetter(TProperty T::*prop)
-            -> typename std::enable_if<
-                _IsReadableProperty<TProperty>::value,
-                Delegate<typename TProperty::TValue(DynamicObject &)>>::type
-        {
-            return [prop](DynamicObject &obj) -> typename TProperty::TValue {
-                return (obj.UnsafeCast<T>().*prop).Get();
-            };
-        }
-
-        /**
-         * @brief            获取属性的Getter委托
-         * @tparam T         属性所属类类型
-         * @tparam TProperty 属性类型
-         * @param prop       属性指针
-         * @return           对应的Getter委托
-         * @note             若属性不可读则返回空委托
-         */
-        template <typename T, typename TProperty>
-        static auto GetPropertyGetter(TProperty T::*prop)
-            -> typename std::enable_if<
-                _IsProperty<TProperty>::value && !_IsReadableProperty<TProperty>::value,
-                Delegate<typename TProperty::TValue(DynamicObject &)>>::type
-        {
-            return nullptr;
-        }
-
-        /**
-         * @brief            获取属性的Setter委托
-         * @tparam T         属性所属类类型
-         * @tparam TProperty 属性类型
-         * @param prop       属性指针
-         * @return           对应的Setter委托
-         * @note             若属性不可写则返回空委托
-         */
-        template <typename T, typename TProperty>
-        static auto GetPropertySetter(TProperty T::*prop)
-            -> typename std::enable_if<
-                _IsWritableProperty<TProperty>::value,
-                Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
-        {
-            return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
-                (obj.UnsafeCast<T>().*prop).Set(std::forward<typename TProperty::TSetterParam>(value));
-            };
-        }
-
-        /**
-         * @brief            获取属性的Setter委托
-         * @tparam T         属性所属类类型
-         * @tparam TProperty 属性类型
-         * @param prop       属性指针
-         * @return           对应的Setter委托
-         * @note             若属性不可写则返回空委托
-         */
-        template <typename T, typename TProperty>
-        static auto GetPropertySetter(TProperty T::*prop)
-            -> typename std::enable_if<
-                _IsProperty<TProperty>::value && !_IsWritableProperty<TProperty>::value,
-                Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
-        {
-            return nullptr;
-        }
-
-    public:
-        /**
-         * @brief        调用成员函数
-         * @tparam T     成员函数所属类类型
-         * @tparam TFunc 成员函数类型
-         * @tparam Args  成员函数参数类型列表
-         * @param method 成员函数的委托
-         * @param obj    对象引用
-         * @param args   成员函数参数列表
-         * @return       成员函数返回值
-         */
-        template <typename T, typename TFunc, typename... Args>
-        static auto InvokeMethod(const Delegate<TFunc> &method, T &obj, Args &&...args)
-            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value,
-                                       decltype(method(obj, std::forward<Args>(args)...))>::type
-        {
-            assert(method != nullptr);
-            return method(obj, std::forward<Args>(args)...);
-        }
-
-        /**
-         * @brief          访问字段
-         * @tparam T       字段所属类类型
-         * @tparam TField  字段类型
-         * @param accessor 字段访问器的委托
-         * @param obj      对象引用
-         * @return         字段引用
-         */
-        template <typename T, typename TField>
-        static auto AccessField(const Delegate<TField &(DynamicObject &)> &accessor, T &obj)
-            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, TField &>::type
-        {
-            assert(accessor != nullptr);
-            return accessor(obj);
-        }
-
-        /**
-         * @brief         获取属性值
-         * @tparam T      属性所属类类型
-         * @tparam TValue 属性值类型
-         * @param getter  属性Getter的委托
-         * @param obj     对象引用
-         * @return        属性值
-         */
-        template <typename T, typename TValue>
-        static auto GetProperty(const Delegate<TValue(DynamicObject &)> &getter, T &obj)
-            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, TValue>::type
-        {
-            assert(getter != nullptr);
-            return getter(obj);
-        }
-
-        /**
-         * @brief         设置属性值
-         * @tparam T      属性所属类类型
-         * @tparam TParam 属性Setter参数类型
-         * @tparam TValue 属性值类型
-         * @param setter  属性Setter的委托
-         * @param obj     对象引用
-         * @param value   属性值
-         */
-        template <typename T, typename TParam, typename TValue>
-        static auto SetProperty(const Delegate<void(DynamicObject &, TParam)> &setter, T &obj, TValue &&value)
-            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value>::type
-        {
-            assert(setter != nullptr);
-            setter(obj, std::forward<TValue>(value));
-        }
-
-    public:
-        /**
-         * @brief        调用成员函数
-         * @tparam T     成员函数所属类类型
-         * @tparam TFunc 成员函数类型
-         * @tparam Args  成员函数参数类型列表
-         * @param method 成员函数的委托
-         * @param obj    对象引用
-         * @param args   成员函数参数列表
-         * @return       成员函数返回值
-         */
-        template <typename T, typename TFunc, typename... Args>
-        static auto InvokeMethod(const Delegate<TFunc> &method, T &obj, Args &&...args)
-            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value,
-                                       decltype(method(std::declval<DynamicObject &>(), std::forward<Args>(args)...))>::type;
-
-        /**
-         * @brief          访问字段
-         * @tparam T       字段所属类类型
-         * @tparam TField  字段类型
-         * @param accessor 字段访问器的委托
-         * @param obj      对象引用
-         * @return         字段引用
-         */
-        template <typename T, typename TField>
-        static auto AccessField(const Delegate<TField &(DynamicObject &)> &accessor, T &obj)
-            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TField &>::type;
-
-        /**
-         * @brief         获取属性值
-         * @tparam T      属性所属类类型
-         * @tparam TValue 属性值类型
-         * @param getter  属性Getter的委托
-         * @param obj     对象引用
-         * @return        属性值
-         */
-        template <typename T, typename TValue>
-        static auto GetProperty(const Delegate<TValue(DynamicObject &)> &getter, T &obj)
-            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TValue>::type;
-
-        /**
-         * @brief         设置属性值
-         * @tparam T      属性所属类类型
-         * @tparam TParam 属性Setter参数类型
-         * @tparam TValue 属性值类型
-         * @param setter  属性Setter的委托
-         * @param obj     对象引用
-         * @param value   属性值
-         */
-        template <typename T, typename TParam, typename TValue>
-        static auto SetProperty(const Delegate<void(DynamicObject &, TParam)> &setter, T &obj, TValue &&value)
-            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value>::type;
-    };
-
     /*================================================================================*/
 
     /**
@@ -1215,77 +889,354 @@ namespace sw
         }
     }
 
-    /**
-     * @brief 调用成员函数
-     * @tparam T 成员函数所属类类型
-     * @tparam TFunc 成员函数类型
-     * @tparam Args 成员函数参数类型列表
-     * @param method 成员函数的委托
-     * @param obj 对象引用
-     * @param args 成员函数参数列表
-     * @return 成员函数返回值
-     */
-    template <typename T, typename TFunc, typename... Args>
-    auto Reflection::InvokeMethod(const Delegate<TFunc> &method, T &obj, Args &&...args)
-        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value,
-                                   decltype(method(std::declval<DynamicObject &>(), std::forward<Args>(args)...))>::type
-    {
-        assert(method != nullptr);
-        auto boxed = BoxedObject<T>::MakeRef(&obj);
-        return method(boxed, std::forward<Args>(args)...);
-    }
+    /*================================================================================*/
 
     /**
-     * @brief 访问字段
-     * @tparam T 字段所属类类型
-     * @tparam TField 字段类型
-     * @param accessor 字段访问器的委托
-     * @param obj 对象引用
-     * @return 字段引用
+     * @brief 表示字段的唯一标识符
      */
-    template <typename T, typename TField>
-    auto Reflection::AccessField(const Delegate<TField &(DynamicObject &)> &accessor, T &obj)
-        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TField &>::type
-    {
-        assert(accessor != nullptr);
-        auto boxed = BoxedObject<T>::MakeRef(&obj);
-        return accessor(boxed);
-    }
+    struct FieldId : public IToString<FieldId>,
+                     public IComparable<FieldId, FieldId> {
+        /**
+         * @brief 字段ID的数值
+         */
+        uint32_t value;
+
+        /**
+         * @brief 默认构造函数
+         */
+        FieldId() = default;
+
+        /**
+         * @brief 构造指定值的字段ID
+         */
+        FieldId(uint32_t value)
+            : value(value)
+        {
+        }
+
+        /**
+         * @brief 获取字段ID的字符串表示形式
+         */
+        std::wstring ToString() const
+        {
+            return std::to_wstring(value);
+        }
+
+        /**
+         * @brief 比较字段ID
+         * @return 值相等返回0，小于返回负数，大于返回正数
+         */
+        int CompareTo(FieldId other) const
+        {
+            if (value == other.value) {
+                return 0;
+            } else {
+                return value < other.value ? -1 : 1;
+            }
+        }
+    };
+
+    /*================================================================================*/
 
     /**
-     * @brief 获取属性值
-     * @tparam T 属性所属类类型
-     * @tparam TValue 属性值类型
-     * @param getter 属性Getter的委托
-     * @param obj 对象引用
-     * @return 属性值
+     * @brief 提供反射相关功能
      */
-    template <typename T, typename TValue>
-    auto Reflection::GetProperty(const Delegate<TValue(DynamicObject &)> &getter, T &obj)
-        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TValue>::type
+    class Reflection
     {
-        assert(getter != nullptr);
-        auto boxed = BoxedObject<T>::MakeRef(&obj);
-        return getter(boxed);
-    }
+    public:
+        /**
+         * @brief 静态类，不允许实例化
+         */
+        Reflection() = delete;
 
-    /**
-     * @brief 设置属性值
-     * @tparam T 属性所属类类型
-     * @tparam TParam 属性Setter参数类型
-     * @tparam TValue 属性值类型
-     * @param setter 属性Setter的委托
-     * @param obj 对象引用
-     * @param value 属性值
-     */
-    template <typename T, typename TParam, typename TValue>
-    auto Reflection::SetProperty(const Delegate<void(DynamicObject &, TParam)> &setter, T &obj, TValue &&value)
-        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value>::type
-    {
-        assert(setter != nullptr);
-        auto boxed = BoxedObject<T>::MakeRef(&obj);
-        setter(boxed, std::forward<TValue>(value));
-    }
+    public:
+        /**
+         * @brief 获取字段的唯一标识符
+         * @tparam T 字段所属类类型
+         * @tparam TField 字段类型
+         * @param field 字段的成员指针
+         * @return 对应的字段ID
+         */
+        template <typename T, typename TField>
+        static FieldId GetFieldId(TField T::*field) noexcept
+        {
+            auto pfunc = &Reflection::GetFieldId<T, TField>;
+
+            uint8_t buffer[sizeof(pfunc) + sizeof(field)];
+            memcpy(buffer, &pfunc, sizeof(pfunc));
+            memcpy(buffer + sizeof(pfunc), &field, sizeof(field));
+
+            uint32_t prime = 16777619u;
+            uint32_t hash  = 2166136261u;
+
+            for (size_t i = 0; i < sizeof(buffer); ++i) {
+                hash ^= static_cast<uint32_t>(buffer[i]);
+                hash *= prime;
+            }
+
+            return FieldId{hash};
+        }
+
+        /**
+         * @brief 获取成员函数的委托
+         * @tparam T 成员函数所属类类型
+         * @tparam TRet 成员函数返回值类型
+         * @tparam Args 成员函数参数类型列表
+         * @param method 成员函数指针
+         * @return 对应的委托
+         */
+        template <typename T, typename TRet, typename... Args>
+        static auto GetMethod(TRet (T::*method)(Args...)) -> Delegate<TRet(DynamicObject &, Args...)>
+        {
+            return [method](DynamicObject &obj, Args... args) -> TRet {
+                return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
+            };
+        }
+
+        /**
+         * @brief 获取常量成员函数的委托
+         * @tparam T 成员函数所属类类型
+         * @tparam TRet 成员函数返回值类型
+         * @tparam Args 成员函数参数类型列表
+         * @param method 成员函数指针
+         * @return 对应的委托
+         */
+        template <typename T, typename TRet, typename... Args>
+        static auto GetMethod(TRet (T::*method)(Args...) const) -> Delegate<TRet(DynamicObject &, Args...)>
+        {
+            return [method](DynamicObject &obj, Args... args) -> TRet {
+                return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
+            };
+        }
+
+        /**
+         * @brief 获取字段的访问器
+         * @tparam T 字段所属类类型
+         * @tparam TField 字段类型
+         * @param field 字段的成员指针
+         * @return 对应的访问器
+         */
+        template <typename T, typename TField>
+        static auto GetFieldAccessor(TField T::*field) -> Delegate<TField &(DynamicObject &)>
+        {
+            return [field](DynamicObject &obj) -> TField & {
+                return obj.UnsafeCast<T>().*field;
+            };
+        }
+
+        /**
+         * @brief 获取属性的Getter委托
+         * @tparam T 属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop 属性指针
+         * @return 对应的Getter委托
+         * @note 若属性不可读则返回空委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertyGetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                _IsReadableProperty<TProperty>::value,
+                Delegate<typename TProperty::TValue(DynamicObject &)>>::type
+        {
+            return [prop](DynamicObject &obj) -> typename TProperty::TValue {
+                return (obj.UnsafeCast<T>().*prop).Get();
+            };
+        }
+
+        /**
+         * @brief 获取属性的Getter委托
+         * @tparam T 属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop 属性指针
+         * @return 对应的Getter委托
+         * @note 若属性不可读则返回空委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertyGetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                _IsProperty<TProperty>::value && !_IsReadableProperty<TProperty>::value,
+                Delegate<typename TProperty::TValue(DynamicObject &)>>::type
+        {
+            return nullptr;
+        }
+
+        /**
+         * @brief 获取属性的Setter委托
+         * @tparam T 属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop 属性指针
+         * @return 对应的Setter委托
+         * @note 若属性不可写则返回空委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertySetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                _IsWritableProperty<TProperty>::value,
+                Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
+        {
+            return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
+                (obj.UnsafeCast<T>().*prop).Set(std::forward<typename TProperty::TSetterParam>(value));
+            };
+        }
+
+        /**
+         * @brief 获取属性的Setter委托
+         * @tparam T 属性所属类类型
+         * @tparam TProperty 属性类型
+         * @param prop 属性指针
+         * @return 对应的Setter委托
+         * @note 若属性不可写则返回空委托
+         */
+        template <typename T, typename TProperty>
+        static auto GetPropertySetter(TProperty T::*prop)
+            -> typename std::enable_if<
+                _IsProperty<TProperty>::value && !_IsWritableProperty<TProperty>::value,
+                Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
+        {
+            return nullptr;
+        }
+
+    public:
+        /**
+         * @brief 调用成员函数
+         * @tparam T 成员函数所属类类型
+         * @tparam TFunc 成员函数类型
+         * @tparam Args 成员函数参数类型列表
+         * @param method 成员函数的委托
+         * @param obj 对象引用
+         * @param args 成员函数参数列表
+         * @return 成员函数返回值
+         */
+        template <typename T, typename TFunc, typename... Args>
+        static auto InvokeMethod(const Delegate<TFunc> &method, T &obj, Args &&...args)
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value,
+                                       decltype(method(obj, std::forward<Args>(args)...))>::type
+        {
+            assert(method != nullptr);
+            return method(obj, std::forward<Args>(args)...);
+        }
+
+        /**
+         * @brief 调用成员函数
+         * @tparam T 成员函数所属类类型
+         * @tparam TFunc 成员函数类型
+         * @tparam Args 成员函数参数类型列表
+         * @param method 成员函数的委托
+         * @param obj 对象引用
+         * @param args 成员函数参数列表
+         * @return 成员函数返回值
+         */
+        template <typename T, typename TFunc, typename... Args>
+        static auto InvokeMethod(const Delegate<TFunc> &method, T &obj, Args &&...args)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value,
+                                       decltype(method(std::declval<DynamicObject &>(), std::forward<Args>(args)...))>::type
+        {
+            assert(method != nullptr);
+            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            return method(boxed, std::forward<Args>(args)...);
+        }
+
+        /**
+         * @brief 访问字段
+         * @tparam T 字段所属类类型
+         * @tparam TField 字段类型
+         * @param accessor 字段访问器的委托
+         * @param obj 对象引用
+         * @return 字段引用
+         */
+        template <typename T, typename TField>
+        static auto AccessField(const Delegate<TField &(DynamicObject &)> &accessor, T &obj)
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, TField &>::type
+        {
+            assert(accessor != nullptr);
+            return accessor(obj);
+        }
+
+        /**
+         * @brief 访问字段
+         * @tparam T 字段所属类类型
+         * @tparam TField 字段类型
+         * @param accessor 字段访问器的委托
+         * @param obj 对象引用
+         * @return 字段引用
+         */
+        template <typename T, typename TField>
+        static auto AccessField(const Delegate<TField &(DynamicObject &)> &accessor, T &obj)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TField &>::type
+        {
+            assert(accessor != nullptr);
+            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            return accessor(boxed);
+        }
+
+        /**
+         * @brief 获取属性值
+         * @tparam T 属性所属类类型
+         * @tparam TValue 属性值类型
+         * @param getter 属性Getter的委托
+         * @param obj 对象引用
+         * @return 属性值
+         */
+        template <typename T, typename TValue>
+        static auto GetProperty(const Delegate<TValue(DynamicObject &)> &getter, T &obj)
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, TValue>::type
+        {
+            assert(getter != nullptr);
+            return getter(obj);
+        }
+
+        /**
+         * @brief 获取属性值
+         * @tparam T 属性所属类类型
+         * @tparam TValue 属性值类型
+         * @param getter 属性Getter的委托
+         * @param obj 对象引用
+         * @return 属性值
+         */
+        template <typename T, typename TValue>
+        static auto GetProperty(const Delegate<TValue(DynamicObject &)> &getter, T &obj)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TValue>::type
+        {
+            assert(getter != nullptr);
+            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            return getter(boxed);
+        }
+
+        /**
+         * @brief 设置属性值
+         * @tparam T 属性所属类类型
+         * @tparam TParam 属性Setter参数类型
+         * @tparam TValue 属性值类型
+         * @param setter 属性Setter的委托
+         * @param obj 对象引用
+         * @param value 属性值
+         */
+        template <typename T, typename TParam, typename TValue>
+        static auto SetProperty(const Delegate<void(DynamicObject &, TParam)> &setter, T &obj, TValue &&value)
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value>::type
+        {
+            assert(setter != nullptr);
+            setter(obj, std::forward<TValue>(value));
+        }
+
+        /**
+         * @brief 设置属性值
+         * @tparam T 属性所属类类型
+         * @tparam TParam 属性Setter参数类型
+         * @tparam TValue 属性值类型
+         * @param setter 属性Setter的委托
+         * @param obj 对象引用
+         * @param value 属性值
+         */
+        template <typename T, typename TParam, typename TValue>
+        static auto SetProperty(const Delegate<void(DynamicObject &, TParam)> &setter, T &obj, TValue &&value)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value>::type
+        {
+            assert(setter != nullptr);
+            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            setter(boxed, std::forward<TValue>(value));
+        }
+    };
 }
 
 // 为sw::FieldId特化std::hash
