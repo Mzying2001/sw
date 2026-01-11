@@ -193,13 +193,13 @@
     static auto _Get_##propname(T &self)                                                \
         -> typename std::enable_if<sw::_IsProperty<U>::value, typename U::TValue>::type \
     {                                                                                   \
-        return self.##expr.Get();                                                       \
+        return (self.##expr).Get();                                                     \
     }                                                                                   \
     template <typename T, typename U = decltype(expr)>                                  \
     static auto _Get_##propname(T &self)                                                \
         -> typename std::enable_if<!sw::_IsProperty<U>::value, U>::type                 \
     {                                                                                   \
-        return self.##expr;                                                             \
+        return (self.##expr);                                                           \
     }
 
 /**
@@ -210,13 +210,13 @@
     static auto _Set_##propname(T &self, U &&value)                  \
         -> typename std::enable_if<sw::_IsProperty<V>::value>::type  \
     {                                                                \
-        self.##expr.Set(std::forward<U>(value));                     \
+        (self.##expr).Set(std::forward<U>(value));                   \
     }                                                                \
     template <typename T, typename U, typename V = decltype(expr)>   \
     static auto _Set_##propname(T &self, U &&value)                  \
         -> typename std::enable_if<!sw::_IsProperty<V>::value>::type \
     {                                                                \
-        self.##expr = std::forward<U>(value);                        \
+        (self.##expr) = std::forward<U>(value);                      \
     }
 
 /*================================================================================*/
@@ -282,8 +282,8 @@
     static auto _Set_##name(T &self, U &&value)                                                              \
         -> typename std::enable_if<sw::_IsProperty<V>::value && sw::_EqOperationHelper<U, U>::value>::type   \
     {                                                                                                        \
-        if (!(self.##expr.Get() == value)) {                                                                 \
-            self.##expr.Set(std::forward<U>(value));                                                         \
+        if (!((self.##expr).Get() == value)) {                                                               \
+            (self.##expr).Set(std::forward<U>(value));                                                       \
             if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));    \
         }                                                                                                    \
     }                                                                                                        \
@@ -291,15 +291,15 @@
     static auto _Set_##name(T &self, U &&value)                                                              \
         -> typename std::enable_if<sw::_IsProperty<V>::value && !sw::_EqOperationHelper<U, U>::value>::type  \
     {                                                                                                        \
-        self.##expr.Set(std::forward<U>(value));                                                             \
+        (self.##expr).Set(std::forward<U>(value));                                                           \
         if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));        \
     }                                                                                                        \
     template <typename T, typename U, typename V = decltype(expr)>                                           \
     static auto _Set_##name(T &self, U &&value)                                                              \
         -> typename std::enable_if<!sw::_IsProperty<V>::value && sw::_EqOperationHelper<U, U>::value>::type  \
     {                                                                                                        \
-        if (!(self.##expr == value)) {                                                                       \
-            self.##expr = std::forward<U>(value);                                                            \
+        if (!((self.##expr) == value)) {                                                                     \
+            (self.##expr) = std::forward<U>(value);                                                          \
             if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));    \
         }                                                                                                    \
     }                                                                                                        \
@@ -307,7 +307,7 @@
     static auto _Set_##name(T &self, U &&value)                                                              \
         -> typename std::enable_if<!sw::_IsProperty<V>::value && !sw::_EqOperationHelper<U, U>::value>::type \
     {                                                                                                        \
-        self.##expr = std::forward<U>(value);                                                                \
+        (self.##expr) = std::forward<U>(value);                                                              \
         if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));        \
     }                                                                                                        \
     sw::Property<_SW_EXPR_PROPERTY_VALUETYPE(name, expr)> name                                               \

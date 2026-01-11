@@ -86,7 +86,9 @@ namespace sw
     /**
      * @brief 表示界面中的元素
      */
-    class UIElement : public WndBase, public ILayout, public ITag
+    class UIElement : public WndBase,
+                      public ILayout,
+                      public ITag<uint64_t>
     {
     private:
         /**

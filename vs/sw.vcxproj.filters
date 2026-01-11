@@ -360,6 +360,12 @@
     <ClInclude Include="..\sw\inc\Macros.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\Variant.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\Internal.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sw\src\Animation.cpp">

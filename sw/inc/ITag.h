@@ -1,12 +1,13 @@
 #pragma once
 
-#include <cstdint>
+#include "Internal.h"
 
 namespace sw
 {
     /**
      * @brief Tag接口
      */
+    template <typename T>
     class ITag
     {
     public:
@@ -19,11 +20,11 @@ namespace sw
         /**
          * @brief 获取Tag
          */
-        virtual uint64_t GetTag() const = 0;
+        virtual T GetTag() const = 0;
 
         /**
          * @brief 设置Tag
          */
-        virtual void SetTag(uint64_t tag) = 0;
+        virtual void SetTag(_OptimalParamType<T> tag) = 0;
     };
 }

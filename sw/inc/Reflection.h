@@ -7,6 +7,7 @@
 #include "Delegate.h"
 #include "IComparable.h"
 #include "IToString.h"
+#include "Internal.h"
 #include "Property.h"
 #include <type_traits>
 #include <typeindex>
@@ -14,21 +15,52 @@
 namespace sw
 {
     /**
-     * @brief 用于判断是否可以通过static_cast进行转换
+     * @brief 装箱对象模板类声明
      */
-    template <typename TFrom, typename TTo>
-    using _IsStaticCastable = _IsExplicitlyConvertable<TFrom, TTo>;
+    template <typename T, typename = void>
+    class BoxedObject;
 
     /**
      * @brief 动态对象基类
      */
     class DynamicObject
     {
+    private:
+        /**
+         * @brief 允许BoxedObject访问_isBoxedObject成员
+         */
+        template <typename, typename>
+        friend class BoxedObject;
+
+        /**
+         * @brief 指示当前对象是否为装箱对象
+         */
+        bool _isBoxedObject;
+
     public:
+        /**
+         * @brief 默认构造函数
+         */
+        DynamicObject() noexcept
+            : _isBoxedObject(false)
+        {
+        }
+
         /**
          * @brief 析构函数
          */
-        virtual ~DynamicObject() = default;
+        virtual ~DynamicObject() noexcept
+        {
+        }
+
+        /**
+         * @brief  判断对象是否为装箱对象
+         * @return 如果对象为装箱对象则返回true，否则返回false
+         */
+        bool IsBoxedObject() const noexcept
+        {
+            return _isBoxedObject;
+        }
 
         /**
          * @brief  获取对象的类型索引
@@ -50,7 +82,8 @@ namespace sw
          * @return     如果对象为指定类型则返回true，否则返回false
          */
         template <typename T>
-        bool IsType(T **pout = nullptr)
+        auto IsType(T **pout = nullptr)
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, bool>::type
         {
 #if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot check type.");
@@ -71,7 +104,8 @@ namespace sw
          * @return     如果对象为指定类型则返回true，否则返回false
          */
         template <typename T>
-        bool IsType(const T **pout = nullptr) const
+        auto IsType(const T **pout = nullptr) const
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, bool>::type
         {
 #if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot check type.");
@@ -92,7 +126,8 @@ namespace sw
          * @throws   std::bad_cast 如果转换失败
          */
         template <typename T>
-        T &DynamicCast()
+        auto DynamicCast()
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, T &>::type
         {
 #if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
@@ -108,7 +143,8 @@ namespace sw
          * @throws   std::bad_cast 如果转换失败
          */
         template <typename T>
-        const T &DynamicCast() const
+        auto DynamicCast() const
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, const T &>::type
         {
 #if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
@@ -125,7 +161,8 @@ namespace sw
          */
         template <typename T>
         auto UnsafeCast()
-            -> typename std::enable_if<_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, T &>::type
         {
             return static_cast<T &>(*this);
         }
@@ -138,7 +175,8 @@ namespace sw
          */
         template <typename T>
         auto UnsafeCast()
-            -> typename std::enable_if<!_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
         {
             return DynamicCast<T>();
         }
@@ -151,7 +189,8 @@ namespace sw
          */
         template <typename T>
         auto UnsafeCast() const
-            -> typename std::enable_if<_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
         {
             return static_cast<const T &>(*this);
         }
@@ -164,11 +203,693 @@ namespace sw
          */
         template <typename T>
         auto UnsafeCast() const
-            -> typename std::enable_if<!_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+            -> typename std::enable_if<
+                std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
         {
             return DynamicCast<T>();
         }
+
+    public:
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(T **pout = nullptr)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
+
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(T **pout = nullptr)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
+
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(const T **pout = nullptr) const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
+
+        /**
+         * @brief      判断对象是否为指定类型
+         * @tparam T   目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return     如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(const T **pout = nullptr) const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
+
+        /**
+         * @brief    将对象动态转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @throws   std::bad_cast 如果转换失败
+         */
+        template <typename T>
+        auto DynamicCast()
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, T &>::type;
+
+        /**
+         * @brief    将对象动态转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @throws   std::bad_cast 如果转换失败
+         */
+        template <typename T>
+        auto DynamicCast()
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, T &>::type;
+
+        /**
+         * @brief    将对象动态转换为指定类型的常量引用
+         * @tparam T 目标类型
+         * @return   指定类型的常量引用
+         * @throws   std::bad_cast 如果转换失败
+         */
+        template <typename T>
+        auto DynamicCast() const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, const T &>::type;
+
+        /**
+         * @brief    将对象动态转换为指定类型的常量引用
+         * @tparam T 目标类型
+         * @return   指定类型的常量引用
+         * @throws   std::bad_cast 如果转换失败
+         */
+        template <typename T>
+        auto DynamicCast() const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, const T &>::type;
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast()
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, T &>::type;
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast()
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, T &>::type;
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast() const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, const T &>::type;
+
+        /**
+         * @brief    将对象不安全地转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return   指定类型的引用
+         * @note     若目标类型与当前类型不兼容，则行为未定义
+         */
+        template <typename T>
+        auto UnsafeCast() const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type;
     };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 装箱对象，用于将任意类型封装为DynamicObject对象
+     */
+    template <typename T>
+    class BoxedObject<T, typename std::enable_if<!std::is_base_of<DynamicObject, T>::value>::type> final
+        : public DynamicObject
+    {
+    private:
+        /**
+         * @brief 指示当前对象是否为引用对象
+         */
+        bool _isRef;
+
+        /**
+         * @brief 内部数据联合体
+         */
+        union {
+            /**
+             * @brief 引用指针
+             */
+            T *refptr;
+
+            /**
+             * @brief 对象缓冲区
+             */
+            alignas(T) uint8_t objbuf[sizeof(T)];
+        } _data;
+
+    private:
+        /**
+         * @brief 内部结构体，用于标识是否为引用参数
+         */
+        struct _IsRefParam {
+            bool val;
+        };
+
+        /**
+         * @brief 私有构造函数，根据是否为引用参数初始化对象
+         * @param isRef 指示是否为引用参数
+         */
+        explicit BoxedObject(_IsRefParam isRef) noexcept
+            : _isRef(isRef.val), _data()
+        {
+            _isBoxedObject = true;
+        }
+
+        /**
+         * @brief 释放对象资源
+         */
+        void Release() noexcept(std::is_nothrow_destructible<T>::value)
+        {
+            if (!_isRef) {
+                Unbox().~T();
+            }
+        }
+
+    public:
+        /**
+         * @brief 构造值类型的装箱对象
+         * @param args 构造参数列表
+         */
+        template <typename... Args>
+        BoxedObject(Args &&...args)
+            : BoxedObject(_IsRefParam{false})
+        {
+            new (_data.objbuf) T(std::forward<Args>(args)...);
+        }
+
+        /**
+         * @brief 析构函数
+         */
+        virtual ~BoxedObject() noexcept(std::is_nothrow_destructible<T>::value)
+        {
+            Release();
+        }
+
+        /**
+         * @brief 创建引用类型的装箱对象
+         * @param ptr 指向外部对象的指针
+         * @return 引用类型的装箱对象
+         */
+        static BoxedObject<T> MakeRef(T *ptr) noexcept
+        {
+            BoxedObject<T> result{_IsRefParam{true}};
+            result._data.refptr = ptr;
+            return result;
+        }
+
+        /**
+         * @brief 创建引用类型的装箱对象
+         * @tparam U 目标类型
+         * @param other 另一个装箱对象
+         * @return 引用类型的装箱对象
+         */
+        template <typename U>
+        static auto MakeRef(BoxedObject<U> &other) noexcept
+            -> typename std::enable_if<_IsStaticCastable<U, T>::value, BoxedObject<T>>::type
+        {
+            BoxedObject<T> result{_IsRefParam{true}};
+            result._data.refptr = other.IsNullRef() ? nullptr : static_cast<T *>(&other.Unbox());
+            return result;
+        }
+
+        /**
+         * @brief 拷贝构造函数
+         * @param other 另一个装箱对象
+         */
+        BoxedObject(const BoxedObject &other) noexcept(std::is_nothrow_copy_constructible<T>::value)
+            : BoxedObject(_IsRefParam{other._isRef})
+        {
+            if (_isRef) {
+                _data.refptr = other._data.refptr;
+            } else {
+                new (_data.objbuf) T(other.Unbox());
+            }
+        }
+
+        /**
+         * @brief 移动构造函数
+         * @param other 另一个装箱对象
+         */
+        BoxedObject(BoxedObject &&other) noexcept(std::is_nothrow_move_constructible<T>::value)
+            : BoxedObject(_IsRefParam{other._isRef})
+        {
+            if (_isRef) {
+                _data.refptr       = other._data.refptr;
+                other._data.refptr = nullptr;
+            } else {
+                new (_data.objbuf) T(std::move(other.Unbox()));
+            }
+        }
+
+        /**
+         * @brief 拷贝赋值运算符
+         * @param other 另一个装箱对象
+         * @return 当前装箱对象的引用
+         */
+        BoxedObject &operator=(const BoxedObject &other)
+        {
+            if (this == &other)
+                return *this;
+
+            if (_isRef) {
+                if (other._isRef) {
+                    _data.refptr = other._data.refptr;
+                } else {
+                    auto oldPtr = _data.refptr;
+                    try {
+                        new (_data.objbuf) T(other.Unbox());
+                        _isRef = false;
+                    } catch (...) {
+                        _data.refptr = oldPtr;
+                        throw;
+                    }
+                }
+            } else {
+                if (other._isRef) {
+                    Release();
+                    _data.refptr = other._data.refptr;
+                    _isRef       = true;
+                } else {
+                    Unbox() = other.Unbox();
+                }
+            }
+            return *this;
+        }
+
+        /**
+         * @brief 移动赋值运算符
+         * @param other 另一个装箱对象
+         * @return 当前装箱对象的引用
+         */
+        BoxedObject &operator=(BoxedObject &&other)
+        {
+            if (this == &other)
+                return *this;
+
+            if (_isRef) {
+                if (other._isRef) {
+                    _data.refptr       = other._data.refptr;
+                    other._data.refptr = nullptr;
+                } else {
+                    auto oldPtr = _data.refptr;
+                    try {
+                        new (_data.objbuf) T(std::move(other.Unbox()));
+                        _isRef = false;
+                    } catch (...) {
+                        _data.refptr = oldPtr;
+                        throw;
+                    }
+                }
+            } else {
+                if (other._isRef) {
+                    Release();
+                    _data.refptr       = other._data.refptr;
+                    _isRef             = true;
+                    other._data.refptr = nullptr;
+                } else {
+                    Unbox() = std::move(other.Unbox());
+                }
+            }
+            return *this;
+        }
+
+        /**
+         * @brief 判断当前装箱对象是否为引用类型
+         * @return 若当前对象为引用类型则返回true，否则返回false
+         */
+        bool IsRef() const noexcept
+        {
+            return _isRef;
+        }
+
+        /**
+         * @brief 判断当前装箱对象是否为空引用
+         * @return 若当前对象为引用类型且引用指针为空则返回true，否则返回false
+         */
+        bool IsNullRef() const noexcept
+        {
+            return _isRef && (_data.refptr == nullptr);
+        }
+
+        /**
+         * @brief 判断当前装箱对象是否包含有效值
+         * @return 若当前对象包含有效值则返回true，否则返回false
+         */
+        bool HasValue() const noexcept
+        {
+            return !IsNullRef();
+        }
+
+        /**
+         * @brief 获取装箱对象中的值
+         * @return 装箱对象中的值的引用
+         * @note 仅当装箱对象包含有效值时调用此方法，否则行为未定义
+         */
+        T &Unbox() noexcept
+        {
+            assert(HasValue());
+            return _isRef ? *_data.refptr : *reinterpret_cast<T *>(_data.objbuf);
+        }
+
+        /**
+         * @brief 获取装箱对象中的值
+         * @return 装箱对象中的值的常量引用
+         * @note 仅当装箱对象包含有效值时调用此方法，否则行为未定义
+         */
+        const T &Unbox() const noexcept
+        {
+            assert(HasValue());
+            return _isRef ? *_data.refptr : *reinterpret_cast<const T *>(_data.objbuf);
+        }
+    };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 判断对象是否为指定类型
+     * @tparam T 目标类型
+     * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+     * @return 如果对象为指定类型则返回true，否则返回false
+     */
+    template <typename T>
+    auto DynamicObject::IsType(T **pout)
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot check type.");
+#else
+        if (!_isBoxedObject) {
+            if (pout == nullptr) {
+                return dynamic_cast<T *>(this) != nullptr;
+            } else {
+                *pout = dynamic_cast<T *>(this);
+                return *pout != nullptr;
+            }
+        } else {
+            BoxedObject<T> *obj = nullptr;
+
+            if (!IsType(&obj) || obj->IsNullRef()) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                if (pout != nullptr) {
+                    *pout = &obj->Unbox();
+                }
+                return true;
+            }
+        }
+#endif
+    }
+
+    /**
+     * @brief 判断对象是否为指定类型
+     * @tparam T 目标类型
+     * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+     * @return 如果对象为指定类型则返回true，否则返回false
+     */
+    template <typename T>
+    auto DynamicObject::IsType(T **pout)
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot check type.");
+#else
+        if (!_isBoxedObject) {
+            if (pout != nullptr) {
+                *pout = nullptr;
+            }
+            return false;
+        } else {
+            BoxedObject<T> *obj = nullptr;
+
+            if (!IsType(&obj) || obj->IsNullRef()) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                if (pout != nullptr) {
+                    *pout = &obj->Unbox();
+                }
+                return true;
+            }
+        }
+#endif
+    }
+
+    /**
+     * @brief 判断对象是否为指定类型
+     * @tparam T 目标类型
+     * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+     * @return 如果对象为指定类型则返回true，否则返回false
+     */
+    template <typename T>
+    auto DynamicObject::IsType(const T **pout) const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot check type.");
+#else
+        if (!_isBoxedObject) {
+            if (pout == nullptr) {
+                return dynamic_cast<const T *>(this) != nullptr;
+            } else {
+                *pout = dynamic_cast<const T *>(this);
+                return *pout != nullptr;
+            }
+        } else {
+            const BoxedObject<T> *obj = nullptr;
+
+            if (!IsType(&obj) || obj->IsNullRef()) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                if (pout != nullptr) {
+                    *pout = &obj->Unbox();
+                }
+                return true;
+            }
+        }
+#endif
+    }
+
+    /**
+     * @brief 判断对象是否为指定类型
+     * @tparam T 目标类型
+     * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+     * @return 如果对象为指定类型则返回true，否则返回false
+     */
+    template <typename T>
+    auto DynamicObject::IsType(const T **pout) const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot check type.");
+#else
+        if (!_isBoxedObject) {
+            if (pout != nullptr) {
+                *pout = nullptr;
+            }
+            return false;
+        } else {
+            const BoxedObject<T> *obj = nullptr;
+
+            if (!IsType(&obj) || obj->IsNullRef()) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            } else {
+                if (pout != nullptr) {
+                    *pout = &obj->Unbox();
+                }
+                return true;
+            }
+        }
+#endif
+    }
+
+    /**
+     * @brief 将对象动态转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @throws std::bad_cast 如果转换失败
+     */
+    template <typename T>
+    auto DynamicObject::DynamicCast()
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, T &>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
+        if (!_isBoxedObject) {
+            return dynamic_cast<T &>(*this);
+        } else {
+            return dynamic_cast<BoxedObject<T> &>(*this).Unbox();
+        }
+#endif
+    }
+
+    /**
+     * @brief 将对象动态转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @throws std::bad_cast 如果转换失败
+     */
+    template <typename T>
+    auto DynamicObject::DynamicCast()
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, T &>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
+        if (!_isBoxedObject) {
+            throw std::bad_cast();
+        } else {
+            return dynamic_cast<BoxedObject<T> &>(*this).Unbox();
+        }
+#endif
+    }
+
+    /**
+     * @brief 将对象动态转换为指定类型的常量引用
+     * @tparam T 目标类型
+     * @return 指定类型的常量引用
+     * @throws std::bad_cast 如果转换失败
+     */
+    template <typename T>
+    auto DynamicObject::DynamicCast() const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, const T &>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
+        if (!_isBoxedObject) {
+            return dynamic_cast<const T &>(*this);
+        } else {
+            return dynamic_cast<const BoxedObject<T> &>(*this).Unbox();
+        }
+#endif
+    }
+
+    /**
+     * @brief 将对象动态转换为指定类型的常量引用
+     * @tparam T 目标类型
+     * @return 指定类型的常量引用
+     * @throws std::bad_cast 如果转换失败
+     */
+    template <typename T>
+    auto DynamicObject::DynamicCast() const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, const T &>::type
+    {
+#if defined(SW_DISABLE_REFLECTION)
+        throw std::runtime_error("Reflection is disabled, cannot perform dynamic cast.");
+#else
+        if (!_isBoxedObject) {
+            throw std::bad_cast();
+        } else {
+            return dynamic_cast<const BoxedObject<T> &>(*this).Unbox();
+        }
+#endif
+    }
+
+    /**
+     * @brief 将对象不安全地转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @note 若目标类型与当前类型不兼容，则行为未定义
+     */
+    template <typename T>
+    auto DynamicObject::UnsafeCast()
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+    {
+        if (!_isBoxedObject) {
+            return static_cast<T &>(*this);
+        } else {
+            return static_cast<BoxedObject<T> &>(*this).Unbox();
+        }
+    }
+
+    /**
+     * @brief 将对象不安全地转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @note 若目标类型与当前类型不兼容，则行为未定义
+     */
+    template <typename T>
+    auto DynamicObject::UnsafeCast()
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, T &>::type
+    {
+        if (!_isBoxedObject) {
+            return DynamicCast<T>();
+        } else {
+            return static_cast<BoxedObject<T> &>(*this).Unbox();
+        }
+    }
+
+    /**
+     * @brief 将对象不安全地转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @note 若目标类型与当前类型不兼容，则行为未定义
+     */
+    template <typename T>
+    auto DynamicObject::UnsafeCast() const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+    {
+        if (!_isBoxedObject) {
+            return static_cast<const T &>(*this);
+        } else {
+            return static_cast<const BoxedObject<T> &>(*this).Unbox();
+        }
+    }
+
+    /**
+     * @brief 将对象不安全地转换为指定类型的引用
+     * @tparam T 目标类型
+     * @return 指定类型的引用
+     * @note 若目标类型与当前类型不兼容，则行为未定义
+     */
+    template <typename T>
+    auto DynamicObject::UnsafeCast() const
+        -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type
+    {
+        if (!_isBoxedObject) {
+            return DynamicCast<T>();
+        } else {
+            return static_cast<const BoxedObject<T> &>(*this).Unbox();
+        }
+    }
+
+    /*================================================================================*/
 
     /**
      * @brief 表示字段的唯一标识符
@@ -202,7 +923,7 @@ namespace sw
         }
 
         /**
-         * @brief  比较字段ID
+         * @brief 比较字段ID
          * @return 值相等返回0，小于返回负数，大于返回正数
          */
         int CompareTo(FieldId other) const
@@ -215,6 +936,8 @@ namespace sw
         }
     };
 
+    /*================================================================================*/
+
     /**
      * @brief 提供反射相关功能
      */
@@ -226,12 +949,13 @@ namespace sw
          */
         Reflection() = delete;
 
+    public:
         /**
-         * @brief         获取字段的唯一标识符
-         * @tparam T      字段所属类类型
+         * @brief 获取字段的唯一标识符
+         * @tparam T 字段所属类类型
          * @tparam TField 字段类型
-         * @param field   字段的成员指针
-         * @return        对应的字段ID
+         * @param field 字段的成员指针
+         * @return 对应的字段ID
          */
         template <typename T, typename TField>
         static FieldId GetFieldId(TField T::*field) noexcept
@@ -254,17 +978,15 @@ namespace sw
         }
 
         /**
-         * @brief        获取成员函数的委托
-         * @tparam T     成员函数所属类类型
-         * @tparam TRet  成员函数返回值类型
-         * @tparam Args  成员函数参数类型列表
+         * @brief 获取成员函数的委托
+         * @tparam T 成员函数所属类类型
+         * @tparam TRet 成员函数返回值类型
+         * @tparam Args 成员函数参数类型列表
          * @param method 成员函数指针
-         * @return       对应的委托
+         * @return 对应的委托
          */
         template <typename T, typename TRet, typename... Args>
-        static auto GetMethod(TRet (T::*method)(Args...))
-            -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
+        static auto GetMethod(TRet (T::*method)(Args...)) -> Delegate<TRet(DynamicObject &, Args...)>
         {
             return [method](DynamicObject &obj, Args... args) -> TRet {
                 return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
@@ -272,17 +994,15 @@ namespace sw
         }
 
         /**
-         * @brief        获取常量成员函数的委托
-         * @tparam T     成员函数所属类类型
-         * @tparam TRet  成员函数返回值类型
-         * @tparam Args  成员函数参数类型列表
+         * @brief 获取常量成员函数的委托
+         * @tparam T 成员函数所属类类型
+         * @tparam TRet 成员函数返回值类型
+         * @tparam Args 成员函数参数类型列表
          * @param method 成员函数指针
-         * @return       对应的委托
+         * @return 对应的委托
          */
         template <typename T, typename TRet, typename... Args>
-        static auto GetMethod(TRet (T::*method)(Args...) const)
-            -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value, Delegate<TRet(DynamicObject &, Args...)>>::type
+        static auto GetMethod(TRet (T::*method)(Args...) const) -> Delegate<TRet(DynamicObject &, Args...)>
         {
             return [method](DynamicObject &obj, Args... args) -> TRet {
                 return (obj.UnsafeCast<T>().*method)(std::forward<Args>(args)...);
@@ -290,16 +1010,14 @@ namespace sw
         }
 
         /**
-         * @brief         获取字段的访问器
-         * @tparam T      字段所属类类型
+         * @brief 获取字段的访问器
+         * @tparam T 字段所属类类型
          * @tparam TField 字段类型
-         * @param field   字段的成员指针
-         * @return        对应的访问器
+         * @param field 字段的成员指针
+         * @return 对应的访问器
          */
         template <typename T, typename TField>
-        static auto GetFieldAccessor(TField T::*field)
-            -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value, Delegate<TField &(DynamicObject &)>>::type
+        static auto GetFieldAccessor(TField T::*field) -> Delegate<TField &(DynamicObject &)>
         {
             return [field](DynamicObject &obj) -> TField & {
                 return obj.UnsafeCast<T>().*field;
@@ -307,18 +1025,17 @@ namespace sw
         }
 
         /**
-         * @brief            获取属性的Getter委托
-         * @tparam T         属性所属类类型
+         * @brief 获取属性的Getter委托
+         * @tparam T 属性所属类类型
          * @tparam TProperty 属性类型
-         * @param prop       属性指针
-         * @return           对应的Getter委托
-         * @note             若属性不可读则返回空委托
+         * @param prop 属性指针
+         * @return 对应的Getter委托
+         * @note 若属性不可读则返回空委托
          */
         template <typename T, typename TProperty>
         static auto GetPropertyGetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value &&
-                    _IsReadableProperty<TProperty>::value,
+                _IsReadableProperty<TProperty>::value,
                 Delegate<typename TProperty::TValue(DynamicObject &)>>::type
         {
             return [prop](DynamicObject &obj) -> typename TProperty::TValue {
@@ -327,37 +1044,34 @@ namespace sw
         }
 
         /**
-         * @brief            获取属性的Getter委托
-         * @tparam T         属性所属类类型
+         * @brief 获取属性的Getter委托
+         * @tparam T 属性所属类类型
          * @tparam TProperty 属性类型
-         * @param prop       属性指针
-         * @return           对应的Getter委托
-         * @note             若属性不可读则返回空委托
+         * @param prop 属性指针
+         * @return 对应的Getter委托
+         * @note 若属性不可读则返回空委托
          */
         template <typename T, typename TProperty>
         static auto GetPropertyGetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value &&
-                    _IsProperty<TProperty>::value &&
-                    !_IsReadableProperty<TProperty>::value,
+                _IsProperty<TProperty>::value && !_IsReadableProperty<TProperty>::value,
                 Delegate<typename TProperty::TValue(DynamicObject &)>>::type
         {
             return nullptr;
         }
 
         /**
-         * @brief            获取属性的Setter委托
-         * @tparam T         属性所属类类型
+         * @brief 获取属性的Setter委托
+         * @tparam T 属性所属类类型
          * @tparam TProperty 属性类型
-         * @param prop       属性指针
-         * @return           对应的Setter委托
-         * @note             若属性不可写则返回空委托
+         * @param prop 属性指针
+         * @return 对应的Setter委托
+         * @note 若属性不可写则返回空委托
          */
         template <typename T, typename TProperty>
         static auto GetPropertySetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value &&
-                    _IsWritableProperty<TProperty>::value,
+                _IsWritableProperty<TProperty>::value,
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return [prop](DynamicObject &obj, typename TProperty::TSetterParam value) {
@@ -366,22 +1080,161 @@ namespace sw
         }
 
         /**
-         * @brief            获取属性的Setter委托
-         * @tparam T         属性所属类类型
+         * @brief 获取属性的Setter委托
+         * @tparam T 属性所属类类型
          * @tparam TProperty 属性类型
-         * @param prop       属性指针
-         * @return           对应的Setter委托
-         * @note             若属性不可写则返回空委托
+         * @param prop 属性指针
+         * @return 对应的Setter委托
+         * @note 若属性不可写则返回空委托
          */
         template <typename T, typename TProperty>
         static auto GetPropertySetter(TProperty T::*prop)
             -> typename std::enable_if<
-                std::is_base_of<DynamicObject, T>::value &&
-                    _IsProperty<TProperty>::value &&
-                    !_IsWritableProperty<TProperty>::value,
+                _IsProperty<TProperty>::value && !_IsWritableProperty<TProperty>::value,
                 Delegate<void(DynamicObject &, typename TProperty::TSetterParam)>>::type
         {
             return nullptr;
+        }
+
+    public:
+        /**
+         * @brief 调用成员函数
+         * @tparam T 成员函数所属类类型
+         * @tparam TFunc 成员函数类型
+         * @tparam Args 成员函数参数类型列表
+         * @param method 成员函数的委托
+         * @param obj 对象引用
+         * @param args 成员函数参数列表
+         * @return 成员函数返回值
+         */
+        template <typename T, typename TFunc, typename... Args>
+        static auto InvokeMethod(const Delegate<TFunc> &method, T &obj, Args &&...args)
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value,
+                                       decltype(method(obj, std::forward<Args>(args)...))>::type
+        {
+            assert(method != nullptr);
+            return method(obj, std::forward<Args>(args)...);
+        }
+
+        /**
+         * @brief 调用成员函数
+         * @tparam T 成员函数所属类类型
+         * @tparam TFunc 成员函数类型
+         * @tparam Args 成员函数参数类型列表
+         * @param method 成员函数的委托
+         * @param obj 对象引用
+         * @param args 成员函数参数列表
+         * @return 成员函数返回值
+         */
+        template <typename T, typename TFunc, typename... Args>
+        static auto InvokeMethod(const Delegate<TFunc> &method, T &obj, Args &&...args)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value,
+                                       decltype(method(std::declval<DynamicObject &>(), std::forward<Args>(args)...))>::type
+        {
+            assert(method != nullptr);
+            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            return method(boxed, std::forward<Args>(args)...);
+        }
+
+        /**
+         * @brief 访问字段
+         * @tparam T 字段所属类类型
+         * @tparam TField 字段类型
+         * @param accessor 字段访问器的委托
+         * @param obj 对象引用
+         * @return 字段引用
+         */
+        template <typename T, typename TField>
+        static auto AccessField(const Delegate<TField &(DynamicObject &)> &accessor, T &obj)
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, TField &>::type
+        {
+            assert(accessor != nullptr);
+            return accessor(obj);
+        }
+
+        /**
+         * @brief 访问字段
+         * @tparam T 字段所属类类型
+         * @tparam TField 字段类型
+         * @param accessor 字段访问器的委托
+         * @param obj 对象引用
+         * @return 字段引用
+         */
+        template <typename T, typename TField>
+        static auto AccessField(const Delegate<TField &(DynamicObject &)> &accessor, T &obj)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TField &>::type
+        {
+            assert(accessor != nullptr);
+            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            return accessor(boxed);
+        }
+
+        /**
+         * @brief 获取属性值
+         * @tparam T 属性所属类类型
+         * @tparam TValue 属性值类型
+         * @param getter 属性Getter的委托
+         * @param obj 对象引用
+         * @return 属性值
+         */
+        template <typename T, typename TValue>
+        static auto GetProperty(const Delegate<TValue(DynamicObject &)> &getter, T &obj)
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value, TValue>::type
+        {
+            assert(getter != nullptr);
+            return getter(obj);
+        }
+
+        /**
+         * @brief 获取属性值
+         * @tparam T 属性所属类类型
+         * @tparam TValue 属性值类型
+         * @param getter 属性Getter的委托
+         * @param obj 对象引用
+         * @return 属性值
+         */
+        template <typename T, typename TValue>
+        static auto GetProperty(const Delegate<TValue(DynamicObject &)> &getter, T &obj)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TValue>::type
+        {
+            assert(getter != nullptr);
+            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            return getter(boxed);
+        }
+
+        /**
+         * @brief 设置属性值
+         * @tparam T 属性所属类类型
+         * @tparam TParam 属性Setter参数类型
+         * @tparam TValue 属性值类型
+         * @param setter 属性Setter的委托
+         * @param obj 对象引用
+         * @param value 属性值
+         */
+        template <typename T, typename TParam, typename TValue>
+        static auto SetProperty(const Delegate<void(DynamicObject &, TParam)> &setter, T &obj, TValue &&value)
+            -> typename std::enable_if<std::is_base_of<DynamicObject, T>::value>::type
+        {
+            assert(setter != nullptr);
+            setter(obj, std::forward<TValue>(value));
+        }
+
+        /**
+         * @brief 设置属性值
+         * @tparam T 属性所属类类型
+         * @tparam TParam 属性Setter参数类型
+         * @tparam TValue 属性值类型
+         * @param setter 属性Setter的委托
+         * @param obj 对象引用
+         * @param value 属性值
+         */
+        template <typename T, typename TParam, typename TValue>
+        static auto SetProperty(const Delegate<void(DynamicObject &, TParam)> &setter, T &obj, TValue &&value)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value>::type
+        {
+            assert(setter != nullptr);
+            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            setter(boxed, std::forward<TValue>(value));
         }
     };
 }
