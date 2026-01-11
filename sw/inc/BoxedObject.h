@@ -569,7 +569,7 @@ namespace sw
      * @return 成员函数返回值
      */
     template <typename T, typename TFunc, typename... Args>
-    static auto Reflection::InvokeMethod(const Delegate<TFunc> &method, T &obj, Args &&...args)
+    auto Reflection::InvokeMethod(const Delegate<TFunc> &method, T &obj, Args &&...args)
         -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value,
                                    decltype(method(std::declval<DynamicObject &>(), std::forward<Args>(args)...))>::type
     {
@@ -587,7 +587,7 @@ namespace sw
      * @return 字段引用
      */
     template <typename T, typename TField>
-    static auto Reflection::AccessField(const Delegate<TField &(DynamicObject &)> &accessor, T &obj)
+    auto Reflection::AccessField(const Delegate<TField &(DynamicObject &)> &accessor, T &obj)
         -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TField &>::type
     {
         assert(accessor != nullptr);
@@ -604,7 +604,7 @@ namespace sw
      * @return 属性值
      */
     template <typename T, typename TValue>
-    static auto Reflection::GetProperty(const Delegate<TValue(DynamicObject &)> &getter, T &obj)
+    auto Reflection::GetProperty(const Delegate<TValue(DynamicObject &)> &getter, T &obj)
         -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TValue>::type
     {
         assert(getter != nullptr);
@@ -622,7 +622,7 @@ namespace sw
      * @param value 属性值
      */
     template <typename T, typename TParam, typename TValue>
-    static auto Reflection::SetProperty(const Delegate<void(DynamicObject &, TParam)> &setter, T &obj, TValue &&value)
+    auto Reflection::SetProperty(const Delegate<void(DynamicObject &, TParam)> &setter, T &obj, TValue &&value)
         -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value>::type
     {
         assert(setter != nullptr);
