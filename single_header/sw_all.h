@@ -5489,7 +5489,7 @@ namespace sw
         /**
          * @brief 析构函数
          */
-        virtual ~DynamicObject() noexcept
+        virtual ~DynamicObject()
         {
         }
 
@@ -5844,7 +5844,7 @@ namespace sw
         /**
          * @brief 析构函数
          */
-        virtual ~BoxedObject() noexcept(std::is_nothrow_destructible<T>::value)
+        virtual ~BoxedObject()
         {
             Release();
         }
