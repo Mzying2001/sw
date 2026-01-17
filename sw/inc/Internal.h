@@ -47,4 +47,19 @@ namespace sw
     struct _IsDynamicCastable<
         TFrom, TTo, decltype(void(dynamic_cast<TTo>(std::declval<TFrom>())))> : std::true_type {
     };
+
+    /**
+     * @brief 判断一个类型是否有ToString方法
+     */
+    template <typename T, typename = void>
+    struct _HasToString : std::false_type {
+    };
+
+    /**
+     * @brief _HasToString偏特化版本
+     */
+    template <typename T>
+    struct _HasToString<
+        T, decltype(void(std::declval<T>().ToString()))> : std::true_type {
+    };
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Internal.h"
 #include "Property.h"
 #include <map>
 #include <sstream>
@@ -15,23 +16,10 @@ namespace sw
     class Utils
     {
     private:
-        Utils() = delete; // 删除构造函数
-
         /**
-         * @brief 判断一个类型是否有ToString方法
+         * @brief 静态类，不允许实例化
          */
-        template <typename T, typename = void>
-        struct _HasToString : std::false_type {
-        };
-
-        /**
-         * @brief _HasToString偏特化版本
-         */
-        template <typename T>
-        struct _HasToString<
-            T,
-            decltype(void(std::declval<T>().ToString()))> : std::true_type {
-        };
+        Utils() = delete;
 
     public:
         /**
@@ -110,10 +98,10 @@ namespace sw
          * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
          */
         template <typename... Args>
-        static inline std::wstring BuildStr(const Args &...args)
+        static std::wstring BuildStr(const Args &...args)
         {
             std::wstringstream wss;
-            int _[]{(Utils::_BuildStr(wss, args), 0)...};
+            int _[]{(_BuildStr(wss, args), 0)...};
             return wss.str();
         }
 
@@ -122,8 +110,8 @@ namespace sw
          * @brief BuildStr函数内部实现
          */
         template <typename T>
-        static inline typename std::enable_if<!_IsProperty<T>::value && !_HasToString<T>::value, void>::type
-        _BuildStr(std::wostream &wos, const T &arg)
+        static auto _BuildStr(std::wostream &wos, const T &arg)
+            -> typename std::enable_if<!_IsProperty<T>::value && !_HasToString<T>::value>::type
         {
             wos << arg;
         }
@@ -132,8 +120,8 @@ namespace sw
          * @brief 让BuildStr函数支持自定义类型
          */
         template <typename T>
-        static inline typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value, void>::type
-        _BuildStr(std::wostream &wos, const T &arg)
+        static auto _BuildStr(std::wostream &wos, const T &arg)
+            -> typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value>::type
         {
             Utils::_BuildStr(wos, arg.ToString());
         }
@@ -142,8 +130,8 @@ namespace sw
          * @brief 让BuildStr函数支持属性
          */
         template <typename T>
-        static inline typename std::enable_if<_IsProperty<T>::value, void>::type
-        _BuildStr(std::wostream &wos, const T &prop)
+        static auto _BuildStr(std::wostream &wos, const T &prop)
+            -> typename std::enable_if<_IsProperty<T>::value>::type
         {
             Utils::_BuildStr(wos, prop.Get());
         }
@@ -151,7 +139,7 @@ namespace sw
         /**
          * @brief 让BuildStr函数将bool类型转化为"true"或"false"而不是数字1或0
          */
-        static inline void _BuildStr(std::wostream &wos, bool b)
+        static void _BuildStr(std::wostream &wos, bool b)
         {
             wos << (b ? L"true" : L"false");
         }
@@ -159,24 +147,24 @@ namespace sw
         /**
          * @brief 让BuildStr函数支持窄字符串
          */
-        static inline void _BuildStr(std::wostream &wos, const char *str)
+        static void _BuildStr(std::wostream &wos, const char *str)
         {
-            wos << Utils::ToWideStr(str);
+            wos << ToWideStr(str);
         }
 
         /**
          * @brief 让BuildStr函数支持窄字符串
          */
-        static inline void _BuildStr(std::wostream &wos, const std::string &str)
+        static void _BuildStr(std::wostream &wos, const std::string &str)
         {
-            wos << Utils::ToWideStr(str);
+            wos << ToWideStr(str);
         }
 
         /**
          * @brief 让BuildStr函数支持std::vector
          */
         template <typename T>
-        static inline void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
+        static void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
         {
             auto beg = vec.begin();
             auto end = vec.end();
@@ -184,7 +172,7 @@ namespace sw
             for (auto it = beg; it != end; ++it) {
                 if (it != beg)
                     wos << L", ";
-                Utils::_BuildStr(wos, *it);
+                _BuildStr(wos, *it);
             }
             wos << L"]";
         }
@@ -193,7 +181,7 @@ namespace sw
          * @brief 让BildStr函数支持std::map
          */
         template <typename TKey, typename TVal>
-        static inline void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
+        static void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
         {
             auto beg = map.begin();
             auto end = map.end();
@@ -201,9 +189,9 @@ namespace sw
             for (auto it = beg; it != end; ++it) {
                 if (it != beg)
                     wos << L", ";
-                Utils::_BuildStr(wos, it->first);
+                _BuildStr(wos, it->first);
                 wos << L":";
-                Utils::_BuildStr(wos, it->second);
+                _BuildStr(wos, it->second);
             }
             wos << L"}";
         }
@@ -212,7 +200,7 @@ namespace sw
          * @brief 让BildStr函数支持std::unordered_map
          */
         template <typename TKey, typename TVal>
-        static inline void _BuildStr(std::wostream &wos, const std::unordered_map<TKey, TVal> &map)
+        static void _BuildStr(std::wostream &wos, const std::unordered_map<TKey, TVal> &map)
         {
             auto beg = map.begin();
             auto end = map.end();
@@ -220,9 +208,9 @@ namespace sw
             for (auto it = beg; it != end; ++it) {
                 if (it != beg)
                     wos << L", ";
-                Utils::_BuildStr(wos, it->first);
+                _BuildStr(wos, it->first);
                 wos << L":";
-                Utils::_BuildStr(wos, it->second);
+                _BuildStr(wos, it->second);
             }
             wos << L"}";
         }
