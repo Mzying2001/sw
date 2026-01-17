@@ -16,9 +16,9 @@
 #include "Rect.h"
 #include "Size.h"
 #include "WndMsg.h"
-#include <windows.h>
 #include <string>
 #include <type_traits>
+#include <windows.h>
 #include <windowsx.h>
 
 namespace sw
@@ -916,35 +916,5 @@ namespace sw
          * @param wnd  与句柄关联的对象
          */
         static void _SetWndBase(HWND hwnd, WndBase &wnd);
-
-    public:
-        /**
-         * @brief      获取属性值
-         * @param prop 属性成员指针
-         * @return     属性值
-         */
-        template <typename TDerived, typename TProperty>
-        auto GetProperty(TProperty TDerived::*prop)
-            -> typename std::enable_if<
-                std::is_base_of<WndBase, TDerived>::value && _IsReadableProperty<TProperty>::value,
-                typename TProperty::TValue>::type
-        {
-            auto getter = Reflection::GetPropertyGetter(prop);
-            return getter(*this);
-        }
-
-        /**
-         * @brief       设置属性值
-         * @param prop  属性成员指针
-         * @param value 属性值
-         */
-        template <typename TDerived, typename TProperty>
-        auto SetProperty(TProperty TDerived::*prop, typename TProperty::TSetterParam value)
-            -> typename std::enable_if<
-                std::is_base_of<WndBase, TDerived>::value && _IsWritableProperty<TProperty>::value>::type
-        {
-            auto setter = Reflection::GetPropertySetter(prop);
-            setter(*this, std::forward<typename TProperty::TSetterParam>(value));
-        }
     };
 }
