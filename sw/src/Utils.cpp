@@ -1,7 +1,30 @@
 #include "Utils.h"
-#include <windows.h>
 #include <cstdarg>
 #include <cwchar>
+#include <windows.h>
+
+namespace
+{
+    /**
+     * @brief 指示是否使用UTF-8编码进行字符串转换
+     */
+    bool _usesUtf8 = true;
+}
+
+void sw::Utils::UseUtf8Encoding(bool useUtf8)
+{
+    _usesUtf8 = useUtf8;
+}
+
+std::wstring sw::Utils::ToWideStr(const std::string &str)
+{
+    return ToWideStr(str, _usesUtf8);
+}
+
+std::string sw::Utils::ToMultiByteStr(const std::wstring &wstr)
+{
+    return ToMultiByteStr(wstr, _usesUtf8);
+}
 
 std::wstring sw::Utils::ToWideStr(const std::string &str, bool utf8)
 {

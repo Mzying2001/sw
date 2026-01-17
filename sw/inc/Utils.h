@@ -23,12 +23,32 @@ namespace sw
 
     public:
         /**
+         * @brief         设置Utils类是否使用UTF-8编码进行字符串转换（默认启用）
+         * @param useUtf8 若为true则使用UTF-8编码，否则使用系统默认编码
+         */
+        static void UseUtf8Encoding(bool useUtf8);
+
+        /**
+         * @brief      将窄字符串转为宽字符串
+         * @param str  要转换的字符串
+         * @return     转换后的字符串
+         */
+        static std::wstring ToWideStr(const std::string &str);
+
+        /**
+         * @brief      将宽字符串转为窄字符串
+         * @param wstr 要转换的字符串
+         * @return     转换后的字符串
+         */
+        static std::string ToMultiByteStr(const std::wstring &wstr);
+
+        /**
          * @brief      将窄字符串转为宽字符串
          * @param str  要转换的字符串
          * @param utf8 是否使用utf8编码
          * @return     转换后的字符串
          */
-        static std::wstring ToWideStr(const std::string &str, bool utf8 = false);
+        static std::wstring ToWideStr(const std::string &str, bool utf8);
 
         /**
          * @brief      将宽字符串转为窄字符串
@@ -36,7 +56,7 @@ namespace sw
          * @param utf8 是否使用utf8编码
          * @return     转换后的字符串
          */
-        static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8 = false);
+        static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8);
 
         /**
          * @brief     删除首尾空白字符
