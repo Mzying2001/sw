@@ -105,12 +105,15 @@ namespace sw
          */
         void RegisterNotifications()
         {
-            if (_targetElement != nullptr) {
-                _targetElement->ObjectDead +=
-                    ObjectDeadEventHandler(*this, &DataBinding::OnTargetElementDead);
-                _targetElement->DataContextChanged +=
-                    DataContextChangedEventHandler(*this, &DataBinding::OnTargetElementDataContextChanged);
+            if (_targetElement == nullptr) {
+                return;
             }
+
+            _targetElement->ObjectDead +=
+                ObjectDeadEventHandler(*this, &DataBinding::OnTargetElementDead);
+
+            _targetElement->DataContextChanged +=
+                DataContextChangedEventHandler(*this, &DataBinding::OnTargetElementDataContextChanged);
         }
 
         /**
@@ -118,12 +121,15 @@ namespace sw
          */
         void UnregisterNotifications()
         {
-            if (_targetElement != nullptr) {
-                _targetElement->ObjectDead -=
-                    ObjectDeadEventHandler(*this, &DataBinding::OnTargetElementDead);
-                _targetElement->DataContextChanged -=
-                    DataContextChangedEventHandler(*this, &DataBinding::OnTargetElementDataContextChanged);
+            if (_targetElement == nullptr) {
+                return;
             }
+
+            _targetElement->ObjectDead -=
+                ObjectDeadEventHandler(*this, &DataBinding::OnTargetElementDead);
+
+            _targetElement->DataContextChanged -=
+                DataContextChangedEventHandler(*this, &DataBinding::OnTargetElementDataContextChanged);
         }
 
         /**
