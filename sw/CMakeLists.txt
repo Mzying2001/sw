@@ -72,7 +72,7 @@ install(DIRECTORY "${PROJECT_SOURCE_DIR}/inc/" DESTINATION "include/sw")
 install(EXPORT swTargets
     FILE "swTargets.cmake"
     NAMESPACE sw::
-    DESTINATION "share/mzying2001-sw"
+    DESTINATION "share/sw-mzying2001"
 )
 
 # 用于生成配置文件
@@ -82,7 +82,7 @@ include(CMakePackageConfigHelpers)
 configure_package_config_file(
     "${PROJECT_SOURCE_DIR}/swConfig.cmake.in"
     "${PROJECT_BINARY_DIR}/swConfig.cmake"
-    INSTALL_DESTINATION "share/mzying2001-sw"
+    INSTALL_DESTINATION "share/sw-mzying2001"
 )
 
 # 生成版本文件
@@ -96,5 +96,5 @@ write_basic_package_version_file(
 install(FILES
     "${PROJECT_BINARY_DIR}/swConfig.cmake"
     "${PROJECT_BINARY_DIR}/swConfigVersion.cmake"
-    DESTINATION "share/mzying2001-sw"
+    DESTINATION "share/sw-mzying2001"
 )
