@@ -96,5 +96,5 @@ write_basic_package_version_file(
 install(FILES
     "${PROJECT_BINARY_DIR}/swConfig.cmake"
     "${PROJECT_BINARY_DIR}/swConfigVersion.cmake"
-    DESTINATION "share/sw-mzying2001"
+    DESTINATION "share/sw"
 )
