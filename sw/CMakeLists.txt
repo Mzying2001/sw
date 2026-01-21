@@ -72,7 +72,7 @@ install(DIRECTORY "${PROJECT_SOURCE_DIR}/inc/" DESTINATION "include/sw")
 install(EXPORT swTargets
     FILE "swTargets.cmake"
     NAMESPACE sw::
-    DESTINATION "share/sw-mzying2001"
+    DESTINATION "share/sw"
 )
 
 # 用于生成配置文件
