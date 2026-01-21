@@ -23,8 +23,9 @@ var searchData=
   ['updatesource_20',['updatesource',['../classsw_1_1Binding.html#a511ccec0d5ea0a2f18af3ed4a43ba8f1',1,'sw::Binding::UpdateSource()'],['../classsw_1_1DataBinding.html#a38d951f6c4ec7a382a538e0e2dab9799',1,'sw::DataBinding::UpdateSource()'],['../classsw_1_1BindingBase.html#a9eb8f3e03eff65bf92bc2c7317023814',1,'sw::BindingBase::UpdateSource()']]],
   ['updatetab_21',['UpdateTab',['../classsw_1_1TabControl.html#acbde185af6197161f7b22485ebff02b2',1,'sw::TabControl']]],
   ['updatetabtext_22',['UpdateTabText',['../classsw_1_1TabControl.html#ab14ce7faf0e6feb71ba66e7a1029673c',1,'sw::TabControl']]],
-  ['updatetarget_23',['updatetarget',['../classsw_1_1BindingBase.html#afd8689b6e1a355a942964b2beab8169e',1,'sw::BindingBase::UpdateTarget()'],['../classsw_1_1Binding.html#a5cc189cdf84757218d47907015021aba',1,'sw::Binding::UpdateTarget()'],['../classsw_1_1DataBinding.html#afa089b7f40160cc7ca8547f0ed05ddbe',1,'sw::DataBinding::UpdateTarget()']]],
+  ['updatetarget_23',['updatetarget',['../classsw_1_1Binding.html#a5cc189cdf84757218d47907015021aba',1,'sw::Binding::UpdateTarget()'],['../classsw_1_1DataBinding.html#afa089b7f40160cc7ca8547f0ed05ddbe',1,'sw::DataBinding::UpdateTarget()'],['../classsw_1_1BindingBase.html#afd8689b6e1a355a942964b2beab8169e',1,'sw::BindingBase::UpdateTarget()']]],
   ['useunicode_24',['UseUnicode',['../classsw_1_1StatusBar.html#a0a97d4bff90e41bcbd6260ee9f9fa66a',1,'sw::StatusBar']]],
-  ['utf8stringtostringconverter_25',['Utf8StringToStringConverter',['../classsw_1_1Utf8StringToStringConverter.html',1,'sw']]],
-  ['utils_26',['Utils',['../classsw_1_1Utils.html',1,'sw']]]
+  ['useutf8encoding_25',['UseUtf8Encoding',['../classsw_1_1Utils.html#a189d75b95be6a7cb12c2d903a66365a0',1,'sw::Utils']]],
+  ['utf8stringtostringconverter_26',['Utf8StringToStringConverter',['../classsw_1_1Utf8StringToStringConverter.html',1,'sw']]],
+  ['utils_27',['Utils',['../classsw_1_1Utils.html',1,'sw']]]
 ];

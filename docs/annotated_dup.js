@@ -20,6 +20,8 @@ var annotated_dup =
       [ "_HasGetterImpl< T, decltype(void(&T::GetterImpl))>", "structsw_1_1__HasGetterImpl_3_01T_00_01decltype_07void_07_6T_1_1GetterImpl_08_08_4.html", null ],
       [ "_HasSetterImpl", "structsw_1_1__HasSetterImpl.html", null ],
       [ "_HasSetterImpl< T, decltype(void(&T::SetterImpl))>", "structsw_1_1__HasSetterImpl_3_01T_00_01decltype_07void_07_6T_1_1SetterImpl_08_08_4.html", null ],
+      [ "_HasToString", "structsw_1_1__HasToString.html", null ],
+      [ "_HasToString< T, decltype(void(std::declval< T >().ToString()))>", "structsw_1_1__HasToString_3_01T_00_01decltype_07void_07std_1_1declval_3_01T_01_4_07_08_8ToString_07_08_08_08_4.html", null ],
       [ "_IsDynamicCastable", "structsw_1_1__IsDynamicCastable.html", null ],
       [ "_IsDynamicCastable< TFrom, TTo, decltype(void(dynamic_cast< TTo >(std::declval< TFrom >())))>", "structsw_1_1__IsDynamicCastable_3_01TFrom_00_01TTo_00_01decltype_07void_07dynamic__cast_3_01TTo_56a64122e378dd9184fd4f9730a2377d.html", null ],
       [ "_IsExplicitlyConvertable", "structsw_1_1__IsExplicitlyConvertable.html", null ],

@@ -54,7 +54,7 @@ var NAVTREEINDEX =
 "classsw_1_1PropertyBase.html#a436baaa1ae36622a434d448fa88d3eec",
 "classsw_1_1TreeView.html#a343cc1586ffe5d692673e34a3182ec3a",
 "classsw_1_1Window.html#a4197644efd719230e2f19483ecdcd590",
-"functions_x.html"
+"functions_~.html"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

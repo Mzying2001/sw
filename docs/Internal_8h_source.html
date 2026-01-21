@@ -136,8 +136,22 @@ $(document).ready(function(){initNavTree('Internal_8h_source.html',''); initResi
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <a class="code hl_class" href="classsw_1_1IValueConverter.html">TFrom</a>, <a class="code hl_class" href="classsw_1_1IValueConverter.html">TTo</a>, <a class="code hl_class" href="classsw_1_1IValueConverter.html">decltype</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">void</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">dynamic_cast</a>&lt;<a class="code hl_class" href="classsw_1_1IValueConverter.html">TTo</a>&gt;(std::<a class="code hl_class" href="classsw_1_1IValueConverter.html">declval</a>&lt;TFrom&gt;())))&gt; : std::true_type {</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    };</div>
 </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> = <span class="keywordtype">void</span>&gt;</div>
+<div class="foldopen" id="foldopen00055" data-start="{" data-end="};">
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="structsw_1_1__HasToString.html">   55</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__HasToString.html">_HasToString</a> : std::false_type {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    };</div>
+</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00062" data-start="{" data-end="};">
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="structsw_1_1__HasToString_3_01T_00_01decltype_07void_07std_1_1declval_3_01T_01_4_07_08_8ToString_07_08_08_08_4.html">   62</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsw_1_1__HasToString.html">_HasToString</a>&lt;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        T, <a class="code hl_class" href="classsw_1_1IValueConverter.html">decltype</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">void</a>(std::<a class="code hl_class" href="classsw_1_1IValueConverter.html">declval</a>&lt;T&gt;().ToString()))&gt; : std::true_type {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    };</div>
+</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>}</div>
 <div class="ttc" id="aclasssw_1_1IValueConverter_html"><div class="ttname"><a href="classsw_1_1IValueConverter.html">sw::IValueConverter</a></div><div class="ttdoc">值转换器接口</div><div class="ttdef"><b>Definition</b> IValueConverter.h:14</div></div>
+<div class="ttc" id="astructsw_1_1__HasToString_html"><div class="ttname"><a href="structsw_1_1__HasToString.html">sw::_HasToString</a></div><div class="ttdoc">判断一个类型是否有ToString方法</div><div class="ttdef"><b>Definition</b> Internal.h:55</div></div>
 <div class="ttc" id="astructsw_1_1__IsDynamicCastable_html"><div class="ttname"><a href="structsw_1_1__IsDynamicCastable.html">sw::_IsDynamicCastable</a></div><div class="ttdoc">判断类型是否可以使用dynamic_cast进行转换的辅助模板</div><div class="ttdef"><b>Definition</b> Internal.h:40</div></div>
 <div class="ttc" id="astructsw_1_1__IsExplicitlyConvertable_html"><div class="ttname"><a href="structsw_1_1__IsExplicitlyConvertable.html">sw::_IsExplicitlyConvertable</a></div><div class="ttdoc">判断类型是否可以显式转换的辅助模板</div><div class="ttdef"><b>Definition</b> Internal.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->

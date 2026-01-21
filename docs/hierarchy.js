@@ -115,6 +115,7 @@ var hierarchy =
       ] ],
       [ "sw::_HasGetterImpl< typename, typename >", "structsw_1_1__HasGetterImpl.html", null ],
       [ "sw::_HasSetterImpl< typename, typename >", "structsw_1_1__HasSetterImpl.html", null ],
+      [ "sw::_HasToString< T, typename >", "structsw_1_1__HasToString.html", null ],
       [ "sw::_IsDynamicCastable< TFrom, TTo, typename >", "structsw_1_1__IsDynamicCastable.html", null ],
       [ "sw::_IsExplicitlyConvertable< TFrom, TTo, typename >", "structsw_1_1__IsExplicitlyConvertable.html", null ]
     ] ],
@@ -585,6 +586,7 @@ var hierarchy =
       [ "sw::_HasEventType< T, decltype(void(T::EventType))>", "structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07T_1_1EventType_08_08_4.html", null ],
       [ "sw::_HasGetterImpl< T, decltype(void(&T::GetterImpl))>", "structsw_1_1__HasGetterImpl_3_01T_00_01decltype_07void_07_6T_1_1GetterImpl_08_08_4.html", null ],
       [ "sw::_HasSetterImpl< T, decltype(void(&T::SetterImpl))>", "structsw_1_1__HasSetterImpl_3_01T_00_01decltype_07void_07_6T_1_1SetterImpl_08_08_4.html", null ],
+      [ "sw::_HasToString< T, decltype(void(std::declval< T >().ToString()))>", "structsw_1_1__HasToString_3_01T_00_01decltype_07void_07std_1_1declval_3_01T_01_4_07_08_8ToString_07_08_08_08_4.html", null ],
       [ "sw::_IsDynamicCastable< TFrom, TTo, decltype(void(dynamic_cast< TTo >(std::declval< TFrom >())))>", "structsw_1_1__IsDynamicCastable_3_01TFrom_00_01TTo_00_01decltype_07void_07dynamic__cast_3_01TTo_56a64122e378dd9184fd4f9730a2377d.html", null ],
       [ "sw::_IsExplicitlyConvertable< TFrom, TTo, decltype(void(static_cast< TTo >(std::declval< TFrom >())))>", "structsw_1_1__IsExplicitlyConvertable_3_01TFrom_00_01TTo_00_01decltype_07void_07static__cast_3_0766a7d13d8d3f2686094df45a1f1184e.html", null ]
     ] ],
