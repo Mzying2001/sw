@@ -82,7 +82,7 @@ include(CMakePackageConfigHelpers)
 configure_package_config_file(
     "${PROJECT_SOURCE_DIR}/swConfig.cmake.in"
     "${PROJECT_BINARY_DIR}/swConfig.cmake"
-    INSTALL_DESTINATION "share/sw-mzying2001"
+    INSTALL_DESTINATION "share/sw"
 )
 
 # 生成版本文件
