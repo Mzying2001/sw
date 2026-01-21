@@ -1,11 +1,10 @@
 // https://github.com/Mzying2001/sw
 
 #pragma once
-#include <Windows.h>
-#include <CommCtrl.h>
-#include <Shlobj.h>
+#include <windows.h>
 #include <algorithm>
 #include <cassert>
+#include <commctrl.h>
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
@@ -16,6 +15,7 @@
 #include <map>
 #include <memory>
 #include <shellapi.h>
+#include <shlobj.h>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -1899,6 +1899,21 @@ namespace sw
     template <typename TFrom, typename TTo>
     struct _IsDynamicCastable<
         TFrom, TTo, decltype(void(dynamic_cast<TTo>(std::declval<TFrom>())))> : std::true_type {
+    };
+
+    /**
+     * @brief 判断一个类型是否有ToString方法
+     */
+    template <typename T, typename = void>
+    struct _HasToString : std::false_type {
+    };
+
+    /**
+     * @brief _HasToString偏特化版本
+     */
+    template <typename T>
+    struct _HasToString<
+        T, decltype(void(std::declval<T>().ToString()))> : std::true_type {
     };
 }
 
@@ -7013,32 +7028,39 @@ namespace sw
     class Utils
     {
     private:
-        Utils() = delete; // 删除构造函数
-
         /**
-         * @brief 判断一个类型是否有ToString方法
+         * @brief 静态类，不允许实例化
          */
-        template <typename T, typename = void>
-        struct _HasToString : std::false_type {
-        };
-
-        /**
-         * @brief _HasToString偏特化版本
-         */
-        template <typename T>
-        struct _HasToString<
-            T,
-            decltype(void(std::declval<T>().ToString()))> : std::true_type {
-        };
+        Utils() = delete;
 
     public:
+        /**
+         * @brief         设置Utils类是否使用UTF-8编码进行字符串转换（默认启用）
+         * @param useUtf8 若为true则使用UTF-8编码，否则使用系统默认编码
+         */
+        static void UseUtf8Encoding(bool useUtf8);
+
+        /**
+         * @brief      将窄字符串转为宽字符串
+         * @param str  要转换的字符串
+         * @return     转换后的字符串
+         */
+        static std::wstring ToWideStr(const std::string &str);
+
+        /**
+         * @brief      将宽字符串转为窄字符串
+         * @param wstr 要转换的字符串
+         * @return     转换后的字符串
+         */
+        static std::string ToMultiByteStr(const std::wstring &wstr);
+
         /**
          * @brief      将窄字符串转为宽字符串
          * @param str  要转换的字符串
          * @param utf8 是否使用utf8编码
          * @return     转换后的字符串
          */
-        static std::wstring ToWideStr(const std::string &str, bool utf8 = false);
+        static std::wstring ToWideStr(const std::string &str, bool utf8);
 
         /**
          * @brief      将宽字符串转为窄字符串
@@ -7046,7 +7068,7 @@ namespace sw
          * @param utf8 是否使用utf8编码
          * @return     转换后的字符串
          */
-        static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8 = false);
+        static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8);
 
         /**
          * @brief     删除首尾空白字符
@@ -7108,10 +7130,10 @@ namespace sw
          * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
          */
         template <typename... Args>
-        static inline std::wstring BuildStr(const Args &...args)
+        static std::wstring BuildStr(const Args &...args)
         {
             std::wstringstream wss;
-            int _[]{(Utils::_BuildStr(wss, args), 0)...};
+            int _[]{(_BuildStr(wss, args), 0)...};
             return wss.str();
         }
 
@@ -7120,8 +7142,8 @@ namespace sw
          * @brief BuildStr函数内部实现
          */
         template <typename T>
-        static inline typename std::enable_if<!_IsProperty<T>::value && !_HasToString<T>::value, void>::type
-        _BuildStr(std::wostream &wos, const T &arg)
+        static auto _BuildStr(std::wostream &wos, const T &arg)
+            -> typename std::enable_if<!_IsProperty<T>::value && !_HasToString<T>::value>::type
         {
             wos << arg;
         }
@@ -7130,8 +7152,8 @@ namespace sw
          * @brief 让BuildStr函数支持自定义类型
          */
         template <typename T>
-        static inline typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value, void>::type
-        _BuildStr(std::wostream &wos, const T &arg)
+        static auto _BuildStr(std::wostream &wos, const T &arg)
+            -> typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value>::type
         {
             Utils::_BuildStr(wos, arg.ToString());
         }
@@ -7140,8 +7162,8 @@ namespace sw
          * @brief 让BuildStr函数支持属性
          */
         template <typename T>
-        static inline typename std::enable_if<_IsProperty<T>::value, void>::type
-        _BuildStr(std::wostream &wos, const T &prop)
+        static auto _BuildStr(std::wostream &wos, const T &prop)
+            -> typename std::enable_if<_IsProperty<T>::value>::type
         {
             Utils::_BuildStr(wos, prop.Get());
         }
@@ -7149,7 +7171,7 @@ namespace sw
         /**
          * @brief 让BuildStr函数将bool类型转化为"true"或"false"而不是数字1或0
          */
-        static inline void _BuildStr(std::wostream &wos, bool b)
+        static void _BuildStr(std::wostream &wos, bool b)
         {
             wos << (b ? L"true" : L"false");
         }
@@ -7157,24 +7179,24 @@ namespace sw
         /**
          * @brief 让BuildStr函数支持窄字符串
          */
-        static inline void _BuildStr(std::wostream &wos, const char *str)
+        static void _BuildStr(std::wostream &wos, const char *str)
         {
-            wos << Utils::ToWideStr(str);
+            wos << ToWideStr(str);
         }
 
         /**
          * @brief 让BuildStr函数支持窄字符串
          */
-        static inline void _BuildStr(std::wostream &wos, const std::string &str)
+        static void _BuildStr(std::wostream &wos, const std::string &str)
         {
-            wos << Utils::ToWideStr(str);
+            wos << ToWideStr(str);
         }
 
         /**
          * @brief 让BuildStr函数支持std::vector
          */
         template <typename T>
-        static inline void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
+        static void _BuildStr(std::wostream &wos, const std::vector<T> &vec)
         {
             auto beg = vec.begin();
             auto end = vec.end();
@@ -7182,7 +7204,7 @@ namespace sw
             for (auto it = beg; it != end; ++it) {
                 if (it != beg)
                     wos << L", ";
-                Utils::_BuildStr(wos, *it);
+                _BuildStr(wos, *it);
             }
             wos << L"]";
         }
@@ -7191,7 +7213,7 @@ namespace sw
          * @brief 让BildStr函数支持std::map
          */
         template <typename TKey, typename TVal>
-        static inline void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
+        static void _BuildStr(std::wostream &wos, const std::map<TKey, TVal> &map)
         {
             auto beg = map.begin();
             auto end = map.end();
@@ -7199,9 +7221,9 @@ namespace sw
             for (auto it = beg; it != end; ++it) {
                 if (it != beg)
                     wos << L", ";
-                Utils::_BuildStr(wos, it->first);
+                _BuildStr(wos, it->first);
                 wos << L":";
-                Utils::_BuildStr(wos, it->second);
+                _BuildStr(wos, it->second);
             }
             wos << L"}";
         }
@@ -7210,7 +7232,7 @@ namespace sw
          * @brief 让BildStr函数支持std::unordered_map
          */
         template <typename TKey, typename TVal>
-        static inline void _BuildStr(std::wostream &wos, const std::unordered_map<TKey, TVal> &map)
+        static void _BuildStr(std::wostream &wos, const std::unordered_map<TKey, TVal> &map)
         {
             auto beg = map.begin();
             auto end = map.end();
@@ -7218,9 +7240,9 @@ namespace sw
             for (auto it = beg; it != end; ++it) {
                 if (it != beg)
                     wos << L", ";
-                Utils::_BuildStr(wos, it->first);
+                _BuildStr(wos, it->first);
                 wos << L":";
-                Utils::_BuildStr(wos, it->second);
+                _BuildStr(wos, it->second);
             }
             wos << L"}";
         }
@@ -11917,36 +11939,6 @@ namespace sw
          * @param wnd  与句柄关联的对象
          */
         static void _SetWndBase(HWND hwnd, WndBase &wnd);
-
-    public:
-        /**
-         * @brief      获取属性值
-         * @param prop 属性成员指针
-         * @return     属性值
-         */
-        template <typename TDerived, typename TProperty>
-        auto GetProperty(TProperty TDerived::*prop)
-            -> typename std::enable_if<
-                std::is_base_of<WndBase, TDerived>::value && _IsReadableProperty<TProperty>::value,
-                typename TProperty::TValue>::type
-        {
-            auto getter = Reflection::GetPropertyGetter(prop);
-            return getter(*this);
-        }
-
-        /**
-         * @brief       设置属性值
-         * @param prop  属性成员指针
-         * @param value 属性值
-         */
-        template <typename TDerived, typename TProperty>
-        auto SetProperty(TProperty TDerived::*prop, typename TProperty::TSetterParam value)
-            -> typename std::enable_if<
-                std::is_base_of<WndBase, TDerived>::value && _IsWritableProperty<TProperty>::value>::type
-        {
-            auto setter = Reflection::GetPropertySetter(prop);
-            setter(*this, std::forward<typename TProperty::TSetterParam>(value));
-        }
     };
 }
 
@@ -14305,12 +14297,15 @@ namespace sw
          */
         void RegisterNotifications()
         {
-            if (_targetElement != nullptr) {
-                _targetElement->ObjectDead +=
-                    ObjectDeadEventHandler(*this, &DataBinding::OnTargetElementDead);
-                _targetElement->DataContextChanged +=
-                    DataContextChangedEventHandler(*this, &DataBinding::OnTargetElementDataContextChanged);
+            if (_targetElement == nullptr) {
+                return;
             }
+
+            _targetElement->ObjectDead +=
+                ObjectDeadEventHandler(*this, &DataBinding::OnTargetElementDead);
+
+            _targetElement->DataContextChanged +=
+                DataContextChangedEventHandler(*this, &DataBinding::OnTargetElementDataContextChanged);
         }
 
         /**
@@ -14318,12 +14313,15 @@ namespace sw
          */
         void UnregisterNotifications()
         {
-            if (_targetElement != nullptr) {
-                _targetElement->ObjectDead -=
-                    ObjectDeadEventHandler(*this, &DataBinding::OnTargetElementDead);
-                _targetElement->DataContextChanged -=
-                    DataContextChangedEventHandler(*this, &DataBinding::OnTargetElementDataContextChanged);
+            if (_targetElement == nullptr) {
+                return;
             }
+
+            _targetElement->ObjectDead -=
+                ObjectDeadEventHandler(*this, &DataBinding::OnTargetElementDead);
+
+            _targetElement->DataContextChanged -=
+                DataContextChangedEventHandler(*this, &DataBinding::OnTargetElementDataContextChanged);
         }
 
         /**
