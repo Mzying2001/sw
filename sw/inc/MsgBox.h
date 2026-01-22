@@ -2,16 +2,11 @@
 
 #include "Delegate.h"
 #include "WndBase.h"
-#include <windows.h>
 #include <string>
+#include <windows.h>
 
 namespace sw
 {
-    /**
-     * @brief 消息框回调
-     */
-    using MsgBoxCallback = Action<>;
-
     /**
      * @brief 消息框按钮类型
      */
@@ -54,12 +49,26 @@ namespace sw
     /**
      * @brief 处理消息框消息的帮助类
      */
-    struct MsgBoxResultHelper {
+    class MsgBoxResultHelper
+    {
+    private:
         /**
          * @brief 消息框的结果
          */
-        MsgBoxResult result;
+        MsgBoxResult _result;
 
+    public:
+        /**
+         * @brief 消息框回调
+         */
+        using MsgBoxCallback = Action<>;
+
+        /**
+         * @brief 消息框的结果
+         */
+        ReadOnlyProperty<MsgBoxResult> Result;
+
+    public:
         /**
          * @brief 构造MsgBoxResultHelper
          */
@@ -116,13 +125,14 @@ namespace sw
          */
         MsgBoxResultHelper &OnTryAgain(const MsgBoxCallback &callback);
 
+    public:
         /**
          * @brief 指定消息框结果的处理函数
          */
         template <MsgBoxResult RES>
         MsgBoxResultHelper &On(const MsgBoxCallback &callback)
         {
-            if (this->result == RES) {
+            if (this->_result == RES) {
                 if (callback) callback();
             }
             return *this;
@@ -134,7 +144,10 @@ namespace sw
      */
     class MsgBox
     {
-    private:
+    public:
+        /**
+         * @brief 静态类，不允许实例化
+         */
         MsgBox() = delete;
 
     public:

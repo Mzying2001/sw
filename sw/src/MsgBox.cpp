@@ -2,13 +2,18 @@
 #include "Window.h"
 
 sw::MsgBoxResultHelper::MsgBoxResultHelper(MsgBoxResult result)
-    : result(result)
+    : Result(
+          Property<MsgBoxResult>::Init(this)
+              .Getter([](MsgBoxResultHelper *self) -> MsgBoxResult {
+                  return self->_result;
+              }))
 {
+    this->_result = result;
 }
 
 sw::MsgBoxResultHelper::operator sw::MsgBoxResult() const
 {
-    return this->result;
+    return this->_result;
 }
 
 sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnOk(const MsgBoxCallback &callback)
