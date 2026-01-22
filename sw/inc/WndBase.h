@@ -28,11 +28,6 @@ namespace sw
     class Window;    // Window.h
 
     /**
-     * @brief Action<>的别名，表示无参数、无返回值的委托
-     */
-    using SimpleAction = Action<>;
-
-    /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
     class WndBase : public ObservableObject,
@@ -858,13 +853,13 @@ namespace sw
          * @brief        在窗口线程上执行指定委托
          * @param action 要执行的委托
          */
-        void Invoke(const SimpleAction &action);
+        void Invoke(const Action<> &action);
 
         /**
          * @brief        在窗口线程上执行指定委托，并立即返回
          * @param action 要执行的委托
          */
-        void InvokeAsync(const SimpleAction &action);
+        void InvokeAsync(const Action<> &action);
 
         /**
          * @brief 获取当前窗口所属线程的线程id
