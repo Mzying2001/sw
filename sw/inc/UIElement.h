@@ -1164,6 +1164,29 @@ namespace sw
         struct _CanAddChildren<T> : _CanAddChild<T> {
         };
 
+        /**
+         * @brief  AddChildren的内部实现
+         * @return 返回成功添加的子元素数量
+         */
+        template <typename T>
+        int _AddChildrenImpl(T &&child)
+        {
+            return this->AddChild(std::forward<T>(child)) ? 1 : 0;
+        }
+
+        /**
+         * @brief  AddChildren的内部实现
+         * @return 返回成功添加的子元素数量
+         */
+        template <typename First, typename... Rest>
+        int _AddChildrenImpl(First &&first, Rest &&...rest)
+        {
+            int count = 0;
+            if (this->AddChild(std::forward<First>(first)))
+                count = 1 + this->_AddChildrenImpl(std::forward<Rest>(rest)...);
+            return count;
+        }
+
     public:
         /**
          * @brief  添加多个子元素
@@ -1175,23 +1198,13 @@ namespace sw
         auto AddChildren(First &&first, Rest &&...rest)
             -> typename std::enable_if<_CanAddChildren<First, Rest...>::value, int>::type
         {
-            int count = 0;
-            if (this->AddChild(std::forward<First>(first)))
-                count = 1 + this->AddChildren(std::forward<Rest>(rest)...);
-            return count;
-        }
+            this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
+            int count = this->_AddChildrenImpl(std::forward<First>(first), std::forward<Rest>(rest)...);
+            this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
 
-        /**
-         * @brief  添加多个子元素
-         * @return 返回成功添加的子元素数量
-         * @note   当有一个子元素添加失败时后续的子元素将不会继续添加
-         * @note   添加的子元素必须与当前元素在同一线程创建
-         */
-        template <typename T>
-        auto AddChildren(T &&child)
-            -> typename std::enable_if<_CanAddChild<T>::value, int>::type
-        {
-            return this->AddChild(std::forward<T>(child)) ? 1 : 0;
+            if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildAdded) && count > 0)
+                this->InvalidateMeasure();
+            return count;
         }
 
         /**
