@@ -362,11 +362,6 @@ bool sw::UIElement::IsRoutedEventRegistered(RoutedEventType eventType)
     return this->_eventMap[eventType] != nullptr;
 }
 
-sw::UIElement &sw::UIElement::operator[](int index) const
-{
-    return *this->_children[index];
-}
-
 sw::UIElement &sw::UIElement::GetChildAt(int index) const
 {
     return *this->_children.at(index);

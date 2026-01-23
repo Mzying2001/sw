@@ -467,11 +467,6 @@ namespace sw
         bool IsRoutedEventRegistered(RoutedEventType eventType);
 
         /**
-         * @brief 通过索引获取子元素
-         */
-        UIElement &operator[](int index) const;
-
-        /**
          * @brief 获取子元素
          */
         UIElement &GetChildAt(int index) const;
