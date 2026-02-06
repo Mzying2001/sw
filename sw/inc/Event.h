@@ -166,7 +166,7 @@ namespace sw
          * @param handler 事件处理程序，可以是任意可调用对象
          */
         template <typename T>
-        auto operator+=(T &&handler)
+        auto operator+=(T &&handler) const
             -> typename std::enable_if<_DelegateCanAddSubtract<TDelegate, T>::value>::type
         {
             this->GetDelegate() += std::forward<T>(handler);
@@ -177,7 +177,7 @@ namespace sw
          * @param handler 事件处理程序，可以是任意可调用对象
          */
         template <typename T>
-        auto operator-=(T &&handler)
+        auto operator-=(T &&handler) const
             -> typename std::enable_if<_DelegateCanAddSubtract<TDelegate, T>::value>::type
         {
             this->GetDelegate() -= std::forward<T>(handler);
