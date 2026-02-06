@@ -9,7 +9,12 @@ namespace
 }
 
 sw::Timer::Timer()
-    : Interval(
+    : Tick(Event<TimerTickHandler>::Init(this)
+               .Delegate([](Timer *self) -> TimerTickHandler & {
+                   return self->_tick;
+               })),
+
+      Interval(
           Property<uint32_t>::Init(this)
               .Getter([](Timer *self) -> uint32_t {
                   return self->_interval;
@@ -44,8 +49,8 @@ void sw::Timer::Stop()
 
 void sw::Timer::OnTick()
 {
-    if (this->Tick) {
-        this->Tick(*this);
+    if (this->_tick) {
+        this->_tick(*this);
     }
 }
 
