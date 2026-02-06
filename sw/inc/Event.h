@@ -3,6 +3,7 @@
 #include "Delegate.h"
 #include "Internal.h"
 #include <cassert>
+#include <cstddef>
 
 namespace sw
 {
