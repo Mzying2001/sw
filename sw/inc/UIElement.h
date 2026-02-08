@@ -279,11 +279,16 @@ namespace sw
          */
         DynamicObject *_dataContext = nullptr;
 
+        /**
+         * @brief 数据上下文改变事件委托
+         */
+        DataContextChangedEventHandler _dataContextChanged;
+
     public:
         /**
-         * @brief 数据上下问改变时触发该事件
+         * @brief 数据上下文改变时触发该事件
          */
-        DataContextChangedEventHandler DataContextChanged;
+        const Event<DataContextChangedEventHandler> DataContextChanged;
 
         /**
          * @brief 边距

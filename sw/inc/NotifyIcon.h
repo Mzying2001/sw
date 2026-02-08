@@ -37,7 +37,37 @@ namespace sw
          */
         sw::ContextMenu *_contextMenu = nullptr;
 
+        /**
+         * @brief 图标单击事件委托
+         */
+        NotifyIconMouseEventHandler _clicked;
+
+        /**
+         * @brief 图标双击事件委托
+         */
+        NotifyIconMouseEventHandler _doubleClicked;
+
+        /**
+         * @brief 正在打开上下文菜单事件委托
+         */
+        NotifyIconMouseEventHandler _contextMenuOpening;
+
     public:
+        /**
+         * @brief 当图标被单击时触发该事件
+         */
+        const Event<NotifyIconMouseEventHandler> Clicked;
+
+        /**
+         * @brief 当图标被双击时触发该事件
+         */
+        const Event<NotifyIconMouseEventHandler> DoubleClicked;
+
+        /**
+         * @brief 打开上下文菜单前触发该事件
+         */
+        const Event<NotifyIconMouseEventHandler> ContextMenuOpening;
+
         /**
          * @brief 图标
          */
@@ -62,21 +92,6 @@ namespace sw
          * @brief 图标在屏幕上的位置和尺寸
          */
         const ReadOnlyProperty<sw::Rect> Rect;
-
-        /**
-         * @brief 当图标被单击时触发该事件
-         */
-        NotifyIconMouseEventHandler Clicked;
-
-        /**
-         * @brief 当图标被双击时触发该事件
-         */
-        NotifyIconMouseEventHandler DoubleClicked;
-
-        /**
-         * @brief 打开上下文菜单前触发该事件
-         */
-        NotifyIconMouseEventHandler ContextMenuOpening;
 
     public:
         /**
