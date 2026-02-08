@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Delegate.h"
+#include "Event.h"
 #include <cstdint>
 
 namespace sw
@@ -8,7 +9,8 @@ namespace sw
     /**
      * @brief 路由事件类型枚举
      */
-    enum RoutedEventType : uint32_t {
+    enum RoutedEventType : uint32_t //
+    {
         // 从该值开始到RoutedEventType_UserEnd结束表示用户可以自定义路由事件的值范围
         RoutedEventType_User = 0,
 
@@ -146,7 +148,8 @@ namespace sw
     /**
      * @brief 路由事件的参数
      */
-    struct RoutedEventArgs {
+    struct RoutedEventArgs : public EventArgs //
+    {
         /**
          * @brief 事件类型
          */
@@ -182,5 +185,5 @@ namespace sw
      * @brief 路由事件类型
      * @note  第一个参数为注册事件监听器的元素，第二个参数为具体的事件参数
      */
-    using RoutedEventHandler = Action<UIElement &, RoutedEventArgs &>;
+    using RoutedEventHandler = EventHandler<UIElement, RoutedEventArgs>;
 }

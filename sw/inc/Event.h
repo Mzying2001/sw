@@ -12,6 +12,8 @@ namespace sw
     template <typename>
     class Event;
 
+    /*================================================================================*/
+
     /**
      * @brief 成员事件初始化器
      */
@@ -117,6 +119,8 @@ namespace sw
             return *this;
         }
     };
+
+    /*================================================================================*/
 
     /**
      * @brief 事件类
@@ -273,4 +277,19 @@ namespace sw
             return _extractor(GetOwner(), _accessor);
         }
     };
+
+    /*================================================================================*/
+
+    /**
+     * @brief 事件参数结构体
+     */
+    struct EventArgs //
+    {
+    };
+
+    /**
+     * @brief 事件处理函数类型别名
+     */
+    template <typename TSender, typename TEventArgs = EventArgs>
+    using EventHandler = Delegate<void(TSender &, TEventArgs &)>;
 }
