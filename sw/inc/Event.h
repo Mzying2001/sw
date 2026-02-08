@@ -4,6 +4,7 @@
 #include "Internal.h"
 #include <cassert>
 #include <cstddef>
+#include <limits>
 
 namespace sw
 {
@@ -124,9 +125,17 @@ namespace sw
     class Event<Delegate<TRet(Args...)>> final
     {
     public:
-        // 事件的委托类型
+        /**
+         * @brief 事件的委托类型
+         */
         using TDelegate = Delegate<TRet(Args...)>;
 
+        /**
+         * @brief 当前事件类型的类型别名
+         */
+        using TEvent = Event<TDelegate>;
+
+    public:
         /**
          * @brief 构造成员事件
          * @param initializer 成员事件初始化器
@@ -154,7 +163,7 @@ namespace sw
             assert(initializer._accessor != nullptr);
 
             SetOwner(nullptr);
-            _accessor = initializer._accessor;
+            _accessor = reinterpret_cast<void *>(initializer._accessor);
 
             _extractor = [](void * /*owner*/, void *accessor) -> TDelegate & {
                 return reinterpret_cast<TDelegate &(*)()>(accessor)();
