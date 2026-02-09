@@ -10,11 +10,25 @@ namespace sw
     class NotifyIcon; // 前向声明
 
     /**
-     * @brief 通知图标鼠标事件处理函数类型
-     * @note  第一个参数为触发事件的NotifyIcon对象引用，第二个参数为鼠标位置
-     * @note  返回值表示是否已处理该事件，若返回true则表示事件已被处理，框架将不再执行默认处理逻辑
+     * @brief 通知图标鼠标事件参数
      */
-    using NotifyIconMouseEventHandler = Delegate<bool(NotifyIcon &, const Point &)>;
+    struct NotifyIconMouseEventArgs : EventArgs {
+        /**
+         * @brief 鼠标位置
+         */
+        Point mousePosition;
+
+        /**
+         * @brief 是否已处理该事件，默认为false
+         */
+        bool handled = false;
+    };
+
+    /**
+     * @brief 通知图标鼠标事件处理函数类型
+     */
+    using NotifyIconMouseEventHandler =
+        EventHandler<NotifyIcon, NotifyIconMouseEventArgs>;
 
     /**
      * @brief 系统托盘通知图标

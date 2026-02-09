@@ -1618,7 +1618,9 @@ void sw::UIElement::_OnCurrentDataContextChanged(DynamicObject *oldval)
         current->RaisePropertyChanged(_PropId_CurrentDataContext);
 
         if (current->_dataContextChanged) {
-            current->_dataContextChanged(*current, oldval);
+            DataContextChangedEventArgs args{};
+            args.oldDataContext = oldval;
+            current->_dataContextChanged(*current, args);
         }
 
         for (UIElement *child : current->_children) {

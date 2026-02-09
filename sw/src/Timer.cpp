@@ -50,7 +50,8 @@ void sw::Timer::Stop()
 void sw::Timer::OnTick()
 {
     if (this->_tick) {
-        this->_tick(*this);
+        EventArgs args{};
+        this->_tick(*this, args);
     }
 }
 

@@ -155,7 +155,7 @@ namespace sw
         /**
          * @brief 目标元素数据上下文更改事件处理函数
          */
-        void OnTargetElementDataContextChanged(UIElement &sender, DynamicObject *oldval)
+        void OnTargetElementDataContextChanged(UIElement &sender, DataContextChangedEventArgs &e)
         {
             UpdateDataContextBinding();
         }

@@ -10,7 +10,7 @@ namespace sw
     /**
      * @brief 计时器触发事件类型
      */
-    using TimerTickHandler = Action<Timer &>;
+    using TimerTickHandler = EventHandler<Timer>;
 
     /**
      * @brief 计时器

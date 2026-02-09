@@ -26,9 +26,20 @@ namespace sw
     class DataBinding;
 
     /**
+     * @brief 数据上下文更改事件参数
+     */
+    struct DataContextChangedEventArgs : EventArgs {
+        /**
+         * @brief 旧的数据上下文值
+         */
+        DynamicObject *oldDataContext;
+    };
+
+    /**
      * @brief 数据上下文更改事件处理函数类型
      */
-    using DataContextChangedEventHandler = Delegate<void(UIElement &sender, DynamicObject *oldval)>;
+    using DataContextChangedEventHandler =
+        EventHandler<UIElement, DataContextChangedEventArgs>;
 
     /**
      * @brief 通知布局更新的条件
