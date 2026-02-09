@@ -29,6 +29,7 @@
 #include "DockPanel.h"
 #include "DockSplitter.h"
 #include "EnumBit.h"
+#include "Event.h"
 #include "EventHandlerWrapper.h"
 #include "FileDialog.h"
 #include "FillLayout.h"

@@ -317,6 +317,7 @@
     <ClInclude Include="..\sw\inc\DockPanel.h" />
     <ClInclude Include="..\sw\inc\DockSplitter.h" />
     <ClInclude Include="..\sw\inc\EnumBit.h" />
+    <ClInclude Include="..\sw\inc\Event.h" />
     <ClInclude Include="..\sw\inc\EventHandlerWrapper.h" />
     <ClInclude Include="..\sw\inc\FileDialog.h" />
     <ClInclude Include="..\sw\inc\FillLayout.h" />

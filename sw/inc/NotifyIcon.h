@@ -10,11 +10,25 @@ namespace sw
     class NotifyIcon; // 前向声明
 
     /**
-     * @brief 通知图标鼠标事件处理函数类型
-     * @note  第一个参数为触发事件的NotifyIcon对象引用，第二个参数为鼠标位置
-     * @note  返回值表示是否已处理该事件，若返回true则表示事件已被处理，框架将不再执行默认处理逻辑
+     * @brief 通知图标鼠标事件参数
      */
-    using NotifyIconMouseEventHandler = Delegate<bool(NotifyIcon &, const Point &)>;
+    struct NotifyIconMouseEventArgs : EventArgs {
+        /**
+         * @brief 鼠标位置
+         */
+        Point mousePosition;
+
+        /**
+         * @brief 是否已处理该事件，默认为false
+         */
+        bool handled = false;
+    };
+
+    /**
+     * @brief 通知图标鼠标事件处理函数类型
+     */
+    using NotifyIconMouseEventHandler =
+        EventHandler<NotifyIcon, NotifyIconMouseEventArgs>;
 
     /**
      * @brief 系统托盘通知图标
@@ -37,7 +51,37 @@ namespace sw
          */
         sw::ContextMenu *_contextMenu = nullptr;
 
+        /**
+         * @brief 图标单击事件委托
+         */
+        NotifyIconMouseEventHandler _clicked;
+
+        /**
+         * @brief 图标双击事件委托
+         */
+        NotifyIconMouseEventHandler _doubleClicked;
+
+        /**
+         * @brief 正在打开上下文菜单事件委托
+         */
+        NotifyIconMouseEventHandler _contextMenuOpening;
+
     public:
+        /**
+         * @brief 当图标被单击时触发该事件
+         */
+        const Event<NotifyIconMouseEventHandler> Clicked;
+
+        /**
+         * @brief 当图标被双击时触发该事件
+         */
+        const Event<NotifyIconMouseEventHandler> DoubleClicked;
+
+        /**
+         * @brief 打开上下文菜单前触发该事件
+         */
+        const Event<NotifyIconMouseEventHandler> ContextMenuOpening;
+
         /**
          * @brief 图标
          */
@@ -62,21 +106,6 @@ namespace sw
          * @brief 图标在屏幕上的位置和尺寸
          */
         const ReadOnlyProperty<sw::Rect> Rect;
-
-        /**
-         * @brief 当图标被单击时触发该事件
-         */
-        NotifyIconMouseEventHandler Clicked;
-
-        /**
-         * @brief 当图标被双击时触发该事件
-         */
-        NotifyIconMouseEventHandler DoubleClicked;
-
-        /**
-         * @brief 打开上下文菜单前触发该事件
-         */
-        NotifyIconMouseEventHandler ContextMenuOpening;
 
     public:
         /**

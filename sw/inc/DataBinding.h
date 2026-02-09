@@ -147,7 +147,7 @@ namespace sw
         /**
          * @brief 目标元素销毁事件处理函数
          */
-        void OnTargetElementDead(INotifyObjectDead &sender)
+        void OnTargetElementDead(INotifyObjectDead &sender, EventArgs &e)
         {
             SetTargetElement(nullptr);
         }
@@ -155,7 +155,7 @@ namespace sw
         /**
          * @brief 目标元素数据上下文更改事件处理函数
          */
-        void OnTargetElementDataContextChanged(UIElement &sender, DynamicObject *oldval)
+        void OnTargetElementDataContextChanged(UIElement &sender, DataContextChangedEventArgs &e)
         {
             UpdateDataContextBinding();
         }

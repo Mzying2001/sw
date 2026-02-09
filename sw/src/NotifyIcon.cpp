@@ -17,7 +17,25 @@ namespace
 }
 
 sw::NotifyIcon::NotifyIcon()
-    : Icon(
+    : Clicked(
+          Event<NotifyIconMouseEventHandler>::Init(this)
+              .Delegate([](NotifyIcon *self) -> NotifyIconMouseEventHandler & {
+                  return self->_clicked;
+              })),
+
+      DoubleClicked(
+          Event<NotifyIconMouseEventHandler>::Init(this)
+              .Delegate([](NotifyIcon *self) -> NotifyIconMouseEventHandler & {
+                  return self->_doubleClicked;
+              })),
+
+      ContextMenuOpening(
+          Event<NotifyIconMouseEventHandler>::Init(this)
+              .Delegate([](NotifyIcon *self) -> NotifyIconMouseEventHandler & {
+                  return self->_contextMenuOpening;
+              })),
+
+      Icon(
           Property<HICON>::Init(this)
               .Getter([](NotifyIcon *self) -> HICON {
                   return self->_nid.hIcon;
@@ -153,15 +171,19 @@ void sw::NotifyIcon::OnNotyfyIconMessage(WPARAM wParam, LPARAM lParam)
 
 void sw::NotifyIcon::OnClicked(const Point &mousePos)
 {
-    if (Clicked) {
-        Clicked(*this, mousePos);
+    if (_clicked) {
+        NotifyIconMouseEventArgs args{};
+        args.mousePosition = mousePos;
+        _clicked(*this, args);
     }
 }
 
 void sw::NotifyIcon::OnDoubleClicked(const Point &mousePos)
 {
-    if (DoubleClicked) {
-        DoubleClicked(*this, mousePos);
+    if (_doubleClicked) {
+        NotifyIconMouseEventArgs args{};
+        args.mousePosition = mousePos;
+        _doubleClicked(*this, args);
     }
 }
 
@@ -169,8 +191,11 @@ void sw::NotifyIcon::OnContextMenuOpening(const Point &mousePos)
 {
     bool handled = false;
 
-    if (ContextMenuOpening) {
-        handled = ContextMenuOpening(*this, mousePos);
+    if (_contextMenuOpening) {
+        NotifyIconMouseEventArgs args{};
+        args.mousePosition = mousePos;
+        _contextMenuOpening(*this, args);
+        handled = args.handled;
     }
 
     if (!handled) {

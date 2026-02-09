@@ -36,7 +36,13 @@ namespace
 }
 
 sw::UIElement::UIElement()
-    : Margin(
+    : DataContextChanged(
+          Event<DataContextChangedEventHandler>::Init(this)
+              .Delegate([](UIElement *self) -> DataContextChangedEventHandler & {
+                  return self->_dataContextChanged;
+              })),
+
+      Margin(
           Property<Thickness>::Init(this)
               .Getter([](UIElement *self) -> Thickness {
                   return self->_margin;
@@ -1611,8 +1617,10 @@ void sw::UIElement::_OnCurrentDataContextChanged(DynamicObject *oldval)
 
         current->RaisePropertyChanged(_PropId_CurrentDataContext);
 
-        if (current->DataContextChanged) {
-            current->DataContextChanged(*current, oldval);
+        if (current->_dataContextChanged) {
+            DataContextChangedEventArgs args{};
+            args.oldDataContext = oldval;
+            current->_dataContextChanged(*current, args);
         }
 
         for (UIElement *child : current->_children) {

@@ -326,9 +326,9 @@ namespace sw
         /**
          * @brief 目标属性更改处理函数
          */
-        void OnTargetPropertyChanged(INotifyPropertyChanged &sender, FieldId propertyId)
+        void OnTargetPropertyChanged(INotifyPropertyChanged &sender, PropertyChangedEventArgs &e)
         {
-            if (propertyId != _targetPropertyId) {
+            if (e.propertyId != _targetPropertyId) {
                 return;
             }
 
@@ -341,9 +341,9 @@ namespace sw
         /**
          * @brief 源属性更改处理函数
          */
-        void OnSourcePropertyChanged(INotifyPropertyChanged &sender, FieldId propertyId)
+        void OnSourcePropertyChanged(INotifyPropertyChanged &sender, PropertyChangedEventArgs &e)
         {
-            if (propertyId != _sourcePropertyId) {
+            if (e.propertyId != _sourcePropertyId) {
                 return;
             }
 
@@ -356,7 +356,7 @@ namespace sw
         /**
          * @brief 目标对象销毁处理函数
          */
-        void OnTargetObjectDead(INotifyObjectDead &sender)
+        void OnTargetObjectDead(INotifyObjectDead &sender, EventArgs &e)
         {
             SetTargetObject(nullptr);
         }
@@ -364,7 +364,7 @@ namespace sw
         /**
          * @brief 源对象销毁处理函数
          */
-        void OnSourceObjectDead(INotifyObjectDead &sender)
+        void OnSourceObjectDead(INotifyObjectDead &sender, EventArgs &e)
         {
             SetSourceObject(nullptr);
         }

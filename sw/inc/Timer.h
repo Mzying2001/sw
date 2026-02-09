@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Event.h"
 #include "WndBase.h"
 
 namespace sw
@@ -9,7 +10,7 @@ namespace sw
     /**
      * @brief 计时器触发事件类型
      */
-    using TimerTickHandler = Action<Timer &>;
+    using TimerTickHandler = EventHandler<Timer>;
 
     /**
      * @brief 计时器
@@ -27,16 +28,21 @@ namespace sw
          */
         uint32_t _interval = 1000;
 
-    public:
         /**
-         * @brief 相对于上一次触发的Tick事件引发下一次Tick事件之间的时间（以毫秒为单位）
+         * @brief 计时器触发事件的委托
          */
-        Property<uint32_t> Interval;
+        TimerTickHandler _tick;
 
+    public:
         /**
          * @brief 计时器触发事件
          */
-        TimerTickHandler Tick;
+        const Event<TimerTickHandler> Tick;
+
+        /**
+         * @brief 相对于上一次触发的Tick事件引发下一次Tick事件之间的时间（以毫秒为单位）
+         */
+        const Property<uint32_t> Interval;
 
     public:
         /**

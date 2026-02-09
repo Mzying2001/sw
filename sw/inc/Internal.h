@@ -62,4 +62,22 @@ namespace sw
     struct _HasToString<
         T, decltype(void(std::declval<T>().ToString()))> : std::true_type {
     };
+
+    /**
+     * @brief 判断委托是否可以添加或删除指定类型的函数对象
+     */
+    template <typename TDelegate, typename TFunc, typename = void>
+    struct _DelegateCanAddSubtract : std::false_type {
+    };
+
+    /**
+     * @brief _DelegateCanAddSubtract偏特化版本，检查是否可以使用+=和-=操作符添加或删除函数对象
+     */
+    template <typename TDelegate, typename TFunc>
+    struct _DelegateCanAddSubtract<
+        TDelegate, TFunc,
+        decltype(void(std::declval<TDelegate>() += std::declval<TFunc>()),
+                 void(std::declval<TDelegate>() -= std::declval<TFunc>()))>
+        : std::true_type {
+    };
 }
