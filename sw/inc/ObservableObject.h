@@ -12,15 +12,58 @@ namespace sw
                              public INotifyObjectDead,
                              public INotifyPropertyChanged
     {
+    private:
+        /**
+         * @brief 属性更改事件委托
+         */
+        PropertyChangedEventHandler _propertyChanged;
+
+        /**
+         * @brief 对象销毁事件委托
+         */
+        ObjectDeadEventHandler _objectDead;
+
+    public:
+        /**
+         * @brief 析构时触发对象销毁事件
+         */
+        virtual ~ObservableObject()
+        {
+            if (_objectDead) {
+                EventArgs args{};
+                _objectDead(*this, args);
+            }
+        }
+
     protected:
+        /**
+         * @brief 获取属性更改事件委托的引用
+         * @note PropertyChanged事件使用该函数返回的委托来保存事件处理程序
+         */
+        virtual PropertyChangedEventHandler &GetPropertyChangedEventDelegate() override
+        {
+            return _propertyChanged;
+        }
+
+        /**
+         * @brief 获取对象销毁事件委托的引用
+         * @note ObjectDead事件使用该函数返回的委托来保存事件处理程序
+         */
+        virtual ObjectDeadEventHandler &GetObjectDeadEventDelegate() override
+        {
+            return _objectDead;
+        }
+
         /**
          * @brief 触发属性更改通知事件
          * @param propertyId 更改的属性ID
          */
         void RaisePropertyChanged(FieldId propertyId)
         {
-            if (PropertyChanged) {
-                PropertyChanged(*this, propertyId);
+            if (_propertyChanged) {
+                PropertyChangedEventArgs args{};
+                args.propertyId = propertyId;
+                _propertyChanged(*this, args);
             }
         }
 

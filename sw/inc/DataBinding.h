@@ -147,7 +147,7 @@ namespace sw
         /**
          * @brief 目标元素销毁事件处理函数
          */
-        void OnTargetElementDead(INotifyObjectDead &sender)
+        void OnTargetElementDead(INotifyObjectDead &sender, EventArgs &e)
         {
             SetTargetElement(nullptr);
         }
