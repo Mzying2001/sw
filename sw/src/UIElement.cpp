@@ -1108,7 +1108,7 @@ void sw::UIElement::ClampDesireSize(sw::Rect &rect) const
     rect.height = size.height;
 }
 
-bool sw::UIElement::QueryAllChildren(const Func<UIElement *, bool> &queryFunc)
+bool sw::UIElement::QueryAllChildren(const Predicate<UIElement *> &queryFunc)
 {
     if (queryFunc == nullptr) {
         return true;
@@ -1132,7 +1132,7 @@ bool sw::UIElement::QueryAllChildren(const Func<UIElement *, bool> &queryFunc)
     return true;
 }
 
-bool sw::UIElement::QueryAllElements(const Func<UIElement *, bool> &queryFunc)
+bool sw::UIElement::QueryAllElements(const Predicate<UIElement *> &queryFunc)
 {
     if (queryFunc == nullptr) {
         return true;
