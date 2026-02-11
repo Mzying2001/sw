@@ -1132,6 +1132,19 @@ bool sw::UIElement::QueryAllChildren(const Func<UIElement *, bool> &queryFunc)
     return true;
 }
 
+bool sw::UIElement::QueryAllElements(const Func<UIElement *, bool> &queryFunc)
+{
+    if (queryFunc == nullptr) {
+        return true;
+    }
+
+    if (!queryFunc(this)) {
+        return false;
+    } else {
+        return this->QueryAllChildren(queryFunc);
+    }
+}
+
 sw::Size sw::UIElement::MeasureOverride(const Size &availableSize)
 {
     // 返回NAN表示使用默认实现

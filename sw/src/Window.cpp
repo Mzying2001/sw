@@ -438,7 +438,7 @@ bool sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
     DisableLayout();
     Dip::Update(dpiX, dpiY);
 
-    QueryAllChildren([](UIElement *item) {
+    QueryAllElements([](UIElement *item) {
         item->LayoutUpdateCondition |= LayoutUpdateCondition::Supressed;
         item->UpdateFont();
         item->LayoutUpdateCondition &= ~LayoutUpdateCondition::Supressed;
