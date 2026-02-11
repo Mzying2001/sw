@@ -1143,11 +1143,6 @@ namespace sw
          */
         static UIElement *_GetPreviousElement(UIElement *element);
 
-        /**
-         * @brief 递归获取所有子元素
-         */
-        static void _GetAllChildren(UIElement *element, std::vector<UIElement *> &children);
-
     private:
         /**
          * @brief 判断AddChild是否有对应类型的重载

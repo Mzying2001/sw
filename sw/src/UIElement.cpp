@@ -1114,11 +1114,20 @@ bool sw::UIElement::QueryAllChildren(const Func<UIElement *, bool> &queryFunc)
         return true;
     }
 
-    std::vector<UIElement *> children;
-    _GetAllChildren(this, children);
+    std::vector<UIElement *> stack;
+    stack.push_back(this);
 
-    for (UIElement *child : children) {
-        if (!queryFunc(child)) return false;
+    while (!stack.empty()) {
+        auto current = stack.back();
+        stack.pop_back();
+
+        if (current != this && !queryFunc(current)) {
+            return false;
+        }
+
+        for (UIElement *child : current->_children) {
+            stack.push_back(child);
+        }
     }
     return true;
 }
@@ -1668,12 +1677,4 @@ sw::UIElement *sw::UIElement::_GetPreviousElement(UIElement *element)
 
     int index = parent->IndexOf(element);
     return index <= 0 ? parent : _GetDeepestLastElement(parent->_children[index - 1]);
-}
-
-void sw::UIElement::_GetAllChildren(UIElement *element, std::vector<UIElement *> &children)
-{
-    for (UIElement *child : element->_children) {
-        children.push_back(child);
-        _GetAllChildren(child, children);
-    }
 }
