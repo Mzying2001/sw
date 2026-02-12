@@ -1653,23 +1653,32 @@ void sw::UIElement::_OnCurrentDataContextChanged(DynamicObject *oldval)
     }
 }
 
-sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element, bool searchChildren)
+sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element)
 {
-    if (searchChildren && !element->_children.empty()) {
+    if (!element->_children.empty()) {
         return element->_children.front();
     }
 
-    UIElement *parent = element->_parent;
-    if (parent == nullptr) {
-        return element; // 回到根节点
+    UIElement *current = element;
+
+    while (true) {
+        UIElement *parent = current->_parent;
+
+        if (parent == nullptr) {
+            return current;
+        }
+
+        int index = parent->IndexOf(current);
+
+        if (index + 1 >= (int)parent->_children.size()) {
+            current = parent;
+        } else {
+            return parent->_children[index + 1];
+        }
     }
 
-    int index = parent->IndexOf(element);
-    if (index == (int)parent->_children.size() - 1) {
-        return _GetNextElement(parent, false);
-    }
-
-    return parent->_children[index + 1];
+    // should not happen
+    return nullptr;
 }
 
 sw::UIElement *sw::UIElement::_GetDeepestLastElement(UIElement *element)

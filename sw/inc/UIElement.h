@@ -1138,7 +1138,7 @@ namespace sw
         /**
          * @brief 循环获取界面树上的下一个节点
          */
-        static UIElement *_GetNextElement(UIElement *element, bool searchChildren = true);
+        static UIElement *_GetNextElement(UIElement *element);
 
         /**
          * @brief 获取界面树上最深的最后一个节点
