@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UIElement.h"
+#include "FrameworkElement.h"
 
 namespace sw
 {
@@ -13,7 +13,7 @@ namespace sw
         /**
          * @brief 目标元素
          */
-        UIElement *_targetElement;
+        FrameworkElement *_targetElement;
 
         /**
          * @brief 内部绑定对象
@@ -26,7 +26,7 @@ namespace sw
          * @param targetElement 目标元素
          * @param binding 内部绑定对象
          */
-        DataBinding(UIElement *targetElement, Binding *binding)
+        DataBinding(FrameworkElement *targetElement, Binding *binding)
             : _targetElement(targetElement), _innerBinding(binding)
         {
             UpdateDataContextBinding();
@@ -80,7 +80,7 @@ namespace sw
          * @brief 获取目标元素
          * @return 目标元素指针
          */
-        UIElement *GetTargetElement() const
+        FrameworkElement *GetTargetElement() const
         {
             return _targetElement;
         }
@@ -89,7 +89,7 @@ namespace sw
          * @brief 设置目标元素
          * @param element 目标元素指针
          */
-        void SetTargetElement(UIElement *element)
+        void SetTargetElement(FrameworkElement *element)
         {
             if (_targetElement != element) {
                 UnregisterNotifications();
@@ -155,7 +155,7 @@ namespace sw
         /**
          * @brief 目标元素数据上下文更改事件处理函数
          */
-        void OnTargetElementDataContextChanged(UIElement &sender, DataContextChangedEventArgs &e)
+        void OnTargetElementDataContextChanged(FrameworkElement &sender, DataContextChangedEventArgs &e)
         {
             UpdateDataContextBinding();
         }
@@ -168,7 +168,7 @@ namespace sw
          * @return 绑定对象指针
          * @note 绑定对象不能为nullptr，其生命周期将由DataBinding管理，请勿与其他对象共享
          */
-        static DataBinding *Create(UIElement *targetElement, Binding *binding)
+        static DataBinding *Create(FrameworkElement *targetElement, Binding *binding)
         {
             assert(binding != nullptr);
             return new DataBinding(targetElement, binding);
