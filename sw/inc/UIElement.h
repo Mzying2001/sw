@@ -655,13 +655,13 @@ namespace sw
          * @brief 获取参与布局的子元素数量
          * @note  参与布局的子元素：即非collapsed状态的元素
          */
-        virtual int GetChildLayoutCount() const override;
+        virtual int GetChildLayoutCount() const override final;
 
         /**
          * @brief 获取对应索引处的子元素，只索引参与布局的子元素
          * @note  参与布局的子元素：即非collapsed状态的元素
          */
-        virtual ILayout &GetChildLayoutAt(int index) override;
+        virtual ILayout &GetChildLayoutAt(int index) override final;
 
         /**
          * @brief 获取当前元素所需尺寸
@@ -684,7 +684,7 @@ namespace sw
          * @brief  尝试将对象转换成UIElement
          * @return 若函数成功则返回UIElement指针，否则返回nullptr
          */
-        virtual UIElement *ToUIElement() override;
+        virtual UIElement *ToUIElement() override final;
 
     protected:
         /**

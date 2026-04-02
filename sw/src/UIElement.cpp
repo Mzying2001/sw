@@ -72,7 +72,7 @@ sw::UIElement::UIElement()
       ChildCount(
           Property<int>::Init(this)
               .Getter([](UIElement *self) -> int {
-                  return (int)self->_children.size();
+                  return self->GetChildCount();
               })),
 
       CollapseWhenHide(
@@ -771,12 +771,12 @@ uint64_t sw::UIElement::GetLayoutTag() const
 
 int sw::UIElement::GetChildLayoutCount() const
 {
-    return (int)this->_layoutVisibleChildren.size();
+    return static_cast<int>(this->_layoutVisibleChildren.size());
 }
 
 sw::ILayout &sw::UIElement::GetChildLayoutAt(int index)
 {
-    return *this->_layoutVisibleChildren[index];
+    return *this->_layoutVisibleChildren.at(index);
 }
 
 sw::Size sw::UIElement::GetDesireSize() const
