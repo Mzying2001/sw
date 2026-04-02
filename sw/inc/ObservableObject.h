@@ -40,7 +40,7 @@ namespace sw
          * @brief 获取属性更改事件委托的引用
          * @note PropertyChanged事件使用该函数返回的委托来保存事件处理程序
          */
-        virtual PropertyChangedEventHandler &GetPropertyChangedEventDelegate() override
+        virtual PropertyChangedEventHandler &GetPropertyChangedEventDelegate() override final
         {
             return _propertyChanged;
         }
@@ -49,7 +49,7 @@ namespace sw
          * @brief 获取对象销毁事件委托的引用
          * @note ObjectDead事件使用该函数返回的委托来保存事件处理程序
          */
-        virtual ObjectDeadEventHandler &GetObjectDeadEventDelegate() override
+        virtual ObjectDeadEventHandler &GetObjectDeadEventDelegate() override final
         {
             return _objectDead;
         }
