@@ -39,14 +39,13 @@ The `vs/sw.vcxproj` project has 8 configurations: Debug/Release × MT/default ×
 ### Class Hierarchy
 
 ```
-WndBase              — Win32 HWND wrapper
-  └─ UIElement       — Base UI class (layout, events, properties)
-      ├─ Control     — 30+ standard controls (Button, TextBox, ComboBox, etc.)
-      ├─ PanelBase   — Container base (Grid, StackPanel, DockPanel, Canvas, etc.)
-      ├─ MenuBase    — Menu system
-      ├─ HwndHost    — Hosts external HWNDs
-      └─ Layer
-          └─ Window  — Top-level window
+FrameworkElement         — DataContext, data binding, element tree (GetParent/GetChildCount/GetChildAt)
+  └─ WndBase             — Win32 HWND wrapper
+      └─ UIElement       — Base UI class (layout, routed events, visual properties)
+          ├─ Control (virtual)  — 30+ standard controls (Button, TextBox, ComboBox, etc.)
+          ├─ Layer (virtual)    — Scrollable container base
+          │   └─ Window        — Top-level window
+          └─ PanelBase (: Control, Layer) — Panel base (Grid, StackPanel, DockPanel, Canvas, etc.)
 ```
 
 ### Core Systems
@@ -54,7 +53,7 @@ WndBase              — Win32 HWND wrapper
 - **Property System** (`Property.h`, `Macros.h`): SFINAE-based C#-like properties declared via macros (`SW_DEFINE_PROPERTY`, `SW_DEFINE_READONLY_PROPERTY`, `SW_DEFINE_NOTIFY_PROPERTY`, `SW_DEFINE_EXPR_PROPERTY`)
 - **Delegates** (`Delegate.h`): Type-erased function wrappers supporting lambdas, std::function, member functions
 - **Routed Events** (`Event.h`): WPF-style event bubbling through the control hierarchy
-- **Data Binding** (`Binding.h`, `DataBinding.h`): Two-way property binding with value converters (`Converters.h`)
+- **Data Binding** (`FrameworkElement.h`, `Binding.h`, `DataBinding.h`): DataContext and two-way property binding with value converters (`Converters.h`), defined at `FrameworkElement` level
 - **Reflection** (`Reflection.h`): Runtime type information, `Variant` type, dynamic objects
 - **Layouts** (`ILayout.h`): GridLayout, StackLayout, DockLayout, CanvasLayout, WrapLayout, UniformGridLayout, FillLayout
 
