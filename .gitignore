@@ -405,3 +405,6 @@ build/
 
 # CLion
 .idea/
+
+# Claude Code
+.claude/
