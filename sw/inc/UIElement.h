@@ -659,9 +659,10 @@ namespace sw
 
         /**
          * @brief 获取对应索引处的子元素，只索引参与布局的子元素
+         * @throw std::out_of_range 如果索引超出范围
          * @note  参与布局的子元素：即非collapsed状态的元素
          */
-        virtual ILayout &GetChildLayoutAt(int index) override final;
+        virtual ILayout &GetChildLayoutAt(int index) const override final;
 
         /**
          * @brief 获取当前元素所需尺寸

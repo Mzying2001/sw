@@ -774,7 +774,7 @@ int sw::UIElement::GetChildLayoutCount() const
     return static_cast<int>(this->_layoutVisibleChildren.size());
 }
 
-sw::ILayout &sw::UIElement::GetChildLayoutAt(int index)
+sw::ILayout &sw::UIElement::GetChildLayoutAt(int index) const
 {
     return *this->_layoutVisibleChildren.at(index);
 }

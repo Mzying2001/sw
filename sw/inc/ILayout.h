@@ -30,8 +30,9 @@ namespace sw
 
         /**
          * @brief 获取对应索引处的子控件
+         * @throw std::out_of_range 如果索引超出范围
          */
-        virtual ILayout &GetChildLayoutAt(int index) = 0;
+        virtual ILayout &GetChildLayoutAt(int index) const = 0;
 
         /**
          * @brief 获取控件所需尺寸
@@ -39,13 +40,13 @@ namespace sw
         virtual Size GetDesireSize() const = 0;
 
         /**
-         * @brief               测量控件所需尺寸
+         * @brief 测量控件所需尺寸
          * @param availableSize 可用的尺寸
          */
         virtual void Measure(const Size &availableSize) = 0;
 
         /**
-         * @brief               安排控件位置
+         * @brief 安排控件位置
          * @param finalPosition 最终控件所安排的位置
          */
         virtual void Arrange(const Rect &finalPosition) = 0;
