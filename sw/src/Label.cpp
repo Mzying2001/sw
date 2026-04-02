@@ -1,4 +1,5 @@
 #include "Label.h"
+#include "Dip.h"
 #include "Utils.h"
 #include <cmath>
 

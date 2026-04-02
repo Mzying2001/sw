@@ -1,4 +1,5 @@
 #include "Layer.h"
+#include "Dip.h"
 #include <cmath>
 
 namespace

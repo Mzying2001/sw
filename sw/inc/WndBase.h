@@ -1,9 +1,6 @@
 #pragma once
 
-#include "App.h"
-#include "Cursor.h"
 #include "Delegate.h"
-#include "Dip.h"
 #include "Font.h"
 #include "FrameworkElement.h"
 #include "HitTestResult.h"
@@ -15,7 +12,6 @@
 #include "Property.h"
 #include "Rect.h"
 #include "Size.h"
-#include "WndMsg.h"
 #include <string>
 #include <type_traits>
 #include <windows.h>

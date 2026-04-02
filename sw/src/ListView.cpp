@@ -1,4 +1,5 @@
 #include "ListView.h"
+#include "Dip.h"
 #include <climits>
 #include <cmath>
 #include <memory>

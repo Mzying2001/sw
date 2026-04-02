@@ -3,7 +3,7 @@
 #include "Alignment.h"
 #include "Binding.h"
 #include "Color.h"
-#include "ContextMenu.h"
+#include "Cursor.h"
 #include "EnumBit.h"
 #include "EventHandlerWrapper.h"
 #include "ILayout.h"
@@ -12,7 +12,6 @@
 #include "RoutedEventArgs.h"
 #include "Thickness.h"
 #include "WndBase.h"
-#include "WndMsg.h"
 #include <cstdint>
 #include <map>
 #include <string>
@@ -23,6 +22,7 @@ namespace sw
 {
     // 前向声明
     class UIElement;
+    class ContextMenu;
     class DataBinding;
 
     /**

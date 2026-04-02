@@ -1,15 +1,12 @@
 #pragma once
 
-#include "Color.h"
-#include "Cursor.h"
 #include "IDialog.h"
 #include "Layer.h"
-#include "Menu.h"
-#include "Screen.h"
-#include "UIElement.h"
 
 namespace sw
 {
+    class Menu; // Menu.h
+
     /**
      * @brief 窗口状态
      */

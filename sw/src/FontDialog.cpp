@@ -1,4 +1,5 @@
 #include "FontDialog.h"
+#include "Window.h"
 
 sw::FontDialog::FontDialog()
     : Flags(

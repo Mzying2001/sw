@@ -1,4 +1,5 @@
 #include "IPAddressControl.h"
+#include "App.h"
 
 namespace
 {

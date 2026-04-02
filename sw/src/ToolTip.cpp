@@ -1,4 +1,5 @@
 #include "ToolTip.h"
+#include "Dip.h"
 
 sw::ToolTip::ToolTip()
     : ToolTip(WS_POPUP)

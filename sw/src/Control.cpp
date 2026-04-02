@@ -1,4 +1,5 @@
 #include "Control.h"
+#include "App.h"
 
 sw::Control::Control()
     : ControlId(

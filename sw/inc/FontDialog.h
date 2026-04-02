@@ -1,6 +1,10 @@
 #pragma once
 
-#include "Window.h"
+#include "Color.h"
+#include "EnumBit.h"
+#include "Font.h"
+#include "IDialog.h"
+#include "Property.h"
 
 namespace sw
 {

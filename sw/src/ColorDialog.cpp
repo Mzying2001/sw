@@ -1,4 +1,5 @@
 #include "ColorDialog.h"
+#include "Window.h"
 
 namespace
 {

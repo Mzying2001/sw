@@ -1,4 +1,6 @@
 #include "Splitter.h"
+#include "App.h"
+#include "Cursor.h"
 #include "Utils.h"
 
 namespace

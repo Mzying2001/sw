@@ -1,5 +1,11 @@
 #include "Window.h"
+#include "App.h"
+#include "ContextMenu.h"
+#include "Dip.h"
+#include "Menu.h"
+#include "Screen.h"
 #include "Utils.h"
+#include "WndMsg.h"
 #include <cmath>
 
 #if !defined(WM_DPICHANGED)

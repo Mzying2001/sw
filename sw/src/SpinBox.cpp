@@ -1,4 +1,5 @@
 #include "SpinBox.h"
+#include "App.h"
 
 sw::SpinBox::SpinBox()
     : Minimum(

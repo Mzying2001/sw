@@ -1,4 +1,5 @@
 #include "NotifyIcon.h"
+#include "App.h"
 #include "Icon.h"
 #include "Screen.h"
 #include <strsafe.h>

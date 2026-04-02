@@ -1,4 +1,8 @@
 #include "WndBase.h"
+#include "App.h"
+#include "Cursor.h"
+#include "Dip.h"
+#include "WndMsg.h"
 #include <atomic>
 
 namespace

@@ -1,4 +1,5 @@
 #include "StatusBar.h"
+#include "Dip.h"
 #include "Utils.h"
 
 sw::StatusBar::StatusBar()

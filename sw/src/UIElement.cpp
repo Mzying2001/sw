@@ -1,6 +1,9 @@
 #include "UIElement.h"
+#include "ContextMenu.h"
 #include "DataBinding.h"
+#include "Dip.h"
 #include "Utils.h"
+#include "WndMsg.h"
 #include <algorithm>
 #include <cmath>
 #include <deque>

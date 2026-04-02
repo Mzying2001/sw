@@ -1,8 +1,11 @@
 #pragma once
 
 #include "EnumBit.h"
-#include "Window.h"
+#include "IDialog.h"
+#include "Property.h"
 #include <shlobj.h>
+#include <string>
+#include <vector>
 
 namespace sw
 {

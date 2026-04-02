@@ -1,5 +1,6 @@
 #include "FolderDialog.h"
 #include "Utils.h"
+#include "Window.h"
 
 namespace
 {
