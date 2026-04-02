@@ -1379,16 +1379,6 @@ namespace sw
                 return this->RemoveHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
             }
         }
-
-        /**
-         * @brief  移除指定属性的绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         */
-        template <typename T, typename TProperty>
-        bool RemoveBinding(TProperty T::*prop)
-        {
-            return this->RemoveBinding(Reflection::GetFieldId(prop));
-        }
     };
 
     /**

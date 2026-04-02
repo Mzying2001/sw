@@ -60,7 +60,7 @@ namespace sw
 
         /**
          * @brief 当前元素的有效数据上下文
-         * @note  若当前元素的DataContext不为nullptr则返回该值，否则递归获取父元素的DataContext
+         * @note 若当前元素的DataContext不为nullptr则返回该值，否则递归获取父元素的DataContext
          */
         const ReadOnlyProperty<DynamicObject *> CurrentDataContext;
 
@@ -84,36 +84,44 @@ namespace sw
 
     public:
         /**
-         * @brief  添加绑定对象
+         * @brief 添加绑定对象
          * @return 若函数成功则返回true，否则返回false
-         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
-         * @note   请确保绑定对象的目标属性为当前元素的属性，该函数内部不会对此进行检查
-         * @note   同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note 请确保绑定对象的目标属性为当前元素的属性，该函数内部不会对此进行检查
+         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
          */
         bool AddBinding(BindingBase *binding);
 
         /**
-         * @brief  添加绑定对象
+         * @brief 添加绑定对象
          * @return 若函数成功则返回true，否则返回false
-         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
-         * @note   该函数会将绑定的目标对象设置为当前元素，若未指定源对象则会将DataContext作为源对象
-         * @note   同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note 该函数会将绑定的目标对象设置为当前元素，若未指定源对象则会将DataContext作为源对象
+         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
          */
         bool AddBinding(Binding *binding);
 
         /**
-         * @brief  添加绑定到DataContext的绑定对象
+         * @brief 添加绑定到DataContext的绑定对象
          * @return 若函数成功则返回true，否则返回false
-         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
-         * @note   同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
          */
         bool AddBinding(DataBinding *binding);
+
+        /**
+         * @brief 移除指定属性的绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         */
+        bool RemoveBinding(FieldId propertyId);
 
         /**
          * @brief  移除指定属性的绑定对象
          * @return 若函数成功则返回true，否则返回false
          */
-        bool RemoveBinding(FieldId propertyId);
+        template <typename T, typename TProperty>
+        bool RemoveBinding(TProperty T::*prop)
+        { return RemoveBinding(Reflection::GetFieldId(prop)); }
 
     protected:
         /**
