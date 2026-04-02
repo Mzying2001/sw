@@ -26,22 +26,6 @@ namespace sw
     class DataBinding;
 
     /**
-     * @brief 数据上下文更改事件参数
-     */
-    struct DataContextChangedEventArgs : EventArgs {
-        /**
-         * @brief 旧的数据上下文值
-         */
-        DynamicObject *oldDataContext;
-    };
-
-    /**
-     * @brief 数据上下文更改事件处理函数类型
-     */
-    using DataContextChangedEventHandler =
-        EventHandler<UIElement, DataContextChangedEventArgs>;
-
-    /**
      * @brief 通知布局更新的条件
      */
     enum class LayoutUpdateCondition : uint32_t {
@@ -285,22 +269,7 @@ namespace sw
          */
         std::unordered_map<FieldId, std::unique_ptr<BindingBase>> _bindings{};
 
-        /**
-         * @brief 数据上下文
-         */
-        DynamicObject *_dataContext = nullptr;
-
-        /**
-         * @brief 数据上下文改变事件委托
-         */
-        DataContextChangedEventHandler _dataContextChanged;
-
     public:
-        /**
-         * @brief 数据上下文改变时触发该事件
-         */
-        const Event<DataContextChangedEventHandler> DataContextChanged;
-
         /**
          * @brief 边距
          */
@@ -424,17 +393,6 @@ namespace sw
          */
         const ReadOnlyProperty<bool> IsFocusedViaTab;
 
-        /**
-         * @brief 数据上下文
-         */
-        const Property<DynamicObject *> DataContext;
-
-        /**
-         * @brief 当前元素的有效数据上下文
-         * @note  若当前元素的DataContext不为nullptr则返回该值，否则递归获取父元素的DataContext
-         */
-        const ReadOnlyProperty<DynamicObject *> CurrentDataContext;
-
     public:
         /**
          * @brief 初始化UIElement
@@ -481,11 +439,6 @@ namespace sw
          * @param eventType 路由事件类型
          */
         bool IsRoutedEventRegistered(RoutedEventType eventType);
-
-        /**
-         * @brief 获取子元素
-         */
-        UIElement &GetChildAt(int index) const;
 
         /**
          * @brief  添加子元素
@@ -665,36 +618,23 @@ namespace sw
         bool BringIntoView();
 
         /**
-         * @brief  添加绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
-         * @note   请确保绑定对象的目标属性为当前元素的属性，该函数内部不会对此进行检查
-         * @note   同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         * @brief  获取父元素
+         * @return 父元素指针，如果没有父元素则返回nullptr
          */
-        bool AddBinding(BindingBase *binding);
+        virtual UIElement *GetParent() const override final;
 
         /**
-         * @brief  添加绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
-         * @note   该函数会将绑定的目标对象设置为当前元素，若未指定源对象则会将DataContext作为源对象
-         * @note   同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         * @brief  获取子元素数量
+         * @return 子元素数量
          */
-        bool AddBinding(Binding *binding);
+        virtual int GetChildCount() const override final;
 
         /**
-         * @brief  添加绑定到DataContext的绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         * @note   绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
-         * @note   同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         * @brief       获取指定索引处的子元素
+         * @param index 子元素索引
+         * @throw       std::out_of_range 如果索引超出范围
          */
-        bool AddBinding(DataBinding *binding);
-
-        /**
-         * @brief  移除指定属性的绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         */
-        bool RemoveBinding(FieldId propertyId);
+        virtual UIElement &GetChildAt(int index) const override final;
 
         /**
          * @brief 获取Tag
@@ -715,13 +655,14 @@ namespace sw
          * @brief 获取参与布局的子元素数量
          * @note  参与布局的子元素：即非collapsed状态的元素
          */
-        virtual int GetChildLayoutCount() const override;
+        virtual int GetChildLayoutCount() const override final;
 
         /**
          * @brief 获取对应索引处的子元素，只索引参与布局的子元素
+         * @throw std::out_of_range 如果索引超出范围
          * @note  参与布局的子元素：即非collapsed状态的元素
          */
-        virtual ILayout &GetChildLayoutAt(int index) override;
+        virtual ILayout &GetChildLayoutAt(int index) const override final;
 
         /**
          * @brief 获取当前元素所需尺寸
@@ -744,7 +685,7 @@ namespace sw
          * @brief  尝试将对象转换成UIElement
          * @return 若函数成功则返回UIElement指针，否则返回nullptr
          */
-        virtual UIElement *ToUIElement() override;
+        virtual UIElement *ToUIElement() override final;
 
     protected:
         /**
@@ -1125,17 +1066,6 @@ namespace sw
         void _RemoveFromLayoutVisibleChildren(UIElement *element);
 
         /**
-         * @brief  获取当前元素的有效数据上下文
-         * @return 若当前元素的DataContext不为nullptr则返回该值，否则递归获取父元素的DataContext
-         */
-        DynamicObject *_GetCurrentDataContext();
-
-        /**
-         * @brief 当CurrentDataContext更改时调用此函数
-         */
-        void _OnCurrentDataContextChanged(DynamicObject *oldval);
-
-        /**
          * @brief 循环获取界面树上的下一个节点
          */
         static UIElement *_GetNextElement(UIElement *element);
@@ -1449,16 +1379,6 @@ namespace sw
             } else {
                 return this->RemoveHandler(eventType, RoutedEventHandlerWrapper<TEventArgs>(Action<UIElement &, TEventArgs &>(obj, handler)));
             }
-        }
-
-        /**
-         * @brief  移除指定属性的绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         */
-        template <typename T, typename TProperty>
-        bool RemoveBinding(TProperty T::*prop)
-        {
-            return this->RemoveBinding(Reflection::GetFieldId(prop));
         }
     };
 
