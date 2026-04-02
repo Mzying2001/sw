@@ -15,7 +15,7 @@ namespace
     const sw::FieldId _PropId_VerticalAlignment   = sw::Reflection::GetFieldId(&sw::UIElement::VerticalAlignment);
     const sw::FieldId _PropId_ChildCount          = sw::Reflection::GetFieldId(&sw::UIElement::ChildCount);
     const sw::FieldId _PropId_CollapseWhenHide    = sw::Reflection::GetFieldId(&sw::UIElement::CollapseWhenHide);
-    const sw::FieldId _PropId_UIElementParent     = sw::Reflection::GetFieldId(&sw::UIElement::Parent);
+    const sw::FieldId _PropId_Parent              = sw::Reflection::GetFieldId(&sw::UIElement::Parent);
     const sw::FieldId _PropId_Tag                 = sw::Reflection::GetFieldId(&sw::UIElement::Tag);
     const sw::FieldId _PropId_LayoutTag           = sw::Reflection::GetFieldId(&sw::UIElement::LayoutTag);
     const sw::FieldId _PropId_ContextMenu         = sw::Reflection::GetFieldId(&sw::UIElement::ContextMenu);
@@ -31,18 +31,10 @@ namespace
     const sw::FieldId _PropId_MaxHeight           = sw::Reflection::GetFieldId(&sw::UIElement::MaxHeight);
     const sw::FieldId _PropId_LogicalRect         = sw::Reflection::GetFieldId(&sw::UIElement::LogicalRect);
     const sw::FieldId _PropId_IsHitTestVisible    = sw::Reflection::GetFieldId(&sw::UIElement::IsHitTestVisible);
-    const sw::FieldId _PropId_DataContext         = sw::Reflection::GetFieldId(&sw::UIElement::DataContext);
-    const sw::FieldId _PropId_CurrentDataContext  = sw::Reflection::GetFieldId(&sw::UIElement::CurrentDataContext);
 }
 
 sw::UIElement::UIElement()
-    : DataContextChanged(
-          Event<DataContextChangedEventHandler>::Init(this)
-              .Delegate([](UIElement *self) -> DataContextChangedEventHandler & {
-                  return self->_dataContextChanged;
-              })),
-
-      Margin(
+    : Margin(
           Property<Thickness>::Init(this)
               .Getter([](UIElement *self) -> Thickness {
                   return self->_margin;
@@ -102,7 +94,7 @@ sw::UIElement::UIElement()
       Parent(
           Property<UIElement *>::Init(this)
               .Getter([](UIElement *self) -> UIElement * {
-                  return self->_parent;
+                  return self->GetParent();
               })),
 
       Tag(
@@ -306,28 +298,6 @@ sw::UIElement::UIElement()
           Property<bool>::Init(this)
               .Getter([](UIElement *self) -> bool {
                   return self->_focusedViaTab;
-              })),
-
-      DataContext(
-          Property<DynamicObject *>::Init(this)
-              .Getter([](UIElement *self) -> DynamicObject * {
-                  return self->_dataContext;
-              })
-              .Setter([](UIElement *self, DynamicObject *value) {
-                  if (self->_dataContext != value) {
-                      auto oldDataContext = self->_GetCurrentDataContext();
-                      self->_dataContext  = value;
-                      self->RaisePropertyChanged(_PropId_DataContext);
-                      if (oldDataContext != value) {
-                          self->_OnCurrentDataContextChanged(oldDataContext);
-                      }
-                  }
-              })),
-
-      CurrentDataContext(
-          Property<DynamicObject *>::Init(this)
-              .Getter([](UIElement *self) -> DynamicObject * {
-                  return self->_GetCurrentDataContext();
               }))
 {
 }
@@ -366,11 +336,6 @@ void sw::UIElement::UnregisterRoutedEvent(RoutedEventType eventType)
 bool sw::UIElement::IsRoutedEventRegistered(RoutedEventType eventType)
 {
     return this->_eventMap[eventType] != nullptr;
-}
-
-sw::UIElement &sw::UIElement::GetChildAt(int index) const
-{
-    return *this->_children.at(index);
 }
 
 bool sw::UIElement::AddChild(UIElement *element)
@@ -771,47 +736,19 @@ bool sw::UIElement::BringIntoView()
     return false;
 }
 
-bool sw::UIElement::AddBinding(BindingBase *binding)
+sw::UIElement *sw::UIElement::GetParent() const
 {
-    if (binding == nullptr) {
-        return false;
-    } else {
-        this->_bindings[binding->GetTargetPropertyId()].reset(binding);
-        return true;
-    }
+    return this->_parent;
 }
 
-bool sw::UIElement::AddBinding(Binding *binding)
+int sw::UIElement::GetChildCount() const
 {
-    if (binding == nullptr) {
-        return false;
-    }
-    if (binding->GetSourceObject() == nullptr) {
-        auto dataBinding = DataBinding::Create(this, binding);
-        return this->AddBinding(static_cast<BindingBase *>(dataBinding));
-    } else {
-        binding->SetTargetObject(this);
-        return this->AddBinding(static_cast<BindingBase *>(binding));
-    }
+    return static_cast<int>(this->_children.size());
 }
 
-bool sw::UIElement::AddBinding(DataBinding *binding)
+sw::UIElement &sw::UIElement::GetChildAt(int index) const
 {
-    if (binding == nullptr) {
-        return false;
-    }
-    binding->SetTargetElement(this);
-    return this->AddBinding(static_cast<BindingBase *>(binding));
-}
-
-bool sw::UIElement::RemoveBinding(FieldId propertyId)
-{
-    if (this->_bindings.count(propertyId) == 0) {
-        return false;
-    } else {
-        this->_bindings.erase(propertyId);
-        return true;
-    }
+    return *this->_children.at(index);
 }
 
 uint64_t sw::UIElement::GetTag() const
@@ -1293,16 +1230,16 @@ bool sw::UIElement::SetParent(WndBase *parent)
 
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
-    auto oldDataContext = this->_GetCurrentDataContext();
+    auto oldDataContext = this->CurrentDataContext.Get();
 
     this->_parent = newParent ? newParent->ToUIElement() : nullptr;
     this->_SetMeasureInvalidated();
 
-    this->WndBase::ParentChanged(newParent); // raise property WndBase::Parent changed event
-    this->RaisePropertyChanged(_PropId_UIElementParent);
+    this->WndBase::ParentChanged(newParent);
+    this->RaisePropertyChanged(_PropId_Parent);
 
-    if (this->_GetCurrentDataContext() != oldDataContext) {
-        this->_OnCurrentDataContextChanged(oldDataContext);
+    if (this->CurrentDataContext != oldDataContext) {
+        this->OnCurrentDataContextChanged(oldDataContext);
     }
 }
 
@@ -1614,42 +1551,6 @@ void sw::UIElement::_RemoveFromLayoutVisibleChildren(UIElement *element)
 
     if (it != this->_layoutVisibleChildren.end()) {
         this->_layoutVisibleChildren.erase(it);
-    }
-}
-
-sw::DynamicObject *sw::UIElement::_GetCurrentDataContext()
-{
-    DynamicObject *result = nullptr;
-    UIElement *element    = this;
-    do {
-        result  = element->_dataContext;
-        element = element->_parent;
-    } while (result == nullptr && element != nullptr);
-    return result;
-}
-
-void sw::UIElement::_OnCurrentDataContextChanged(DynamicObject *oldval)
-{
-    std::vector<UIElement *> stack;
-    stack.push_back(this);
-
-    while (!stack.empty()) {
-        auto current = stack.back();
-        stack.pop_back();
-
-        current->RaisePropertyChanged(_PropId_CurrentDataContext);
-
-        if (current->_dataContextChanged) {
-            DataContextChangedEventArgs args{};
-            args.oldDataContext = oldval;
-            current->_dataContextChanged(*current, args);
-        }
-
-        for (UIElement *child : current->_children) {
-            if (child->_dataContext == nullptr) {
-                stack.push_back(child);
-            }
-        }
     }
 }
 

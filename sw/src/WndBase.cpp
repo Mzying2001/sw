@@ -42,7 +42,6 @@ namespace
     const sw::FieldId _PropId_Visible      = sw::Reflection::GetFieldId(&sw::WndBase::Visible);
     const sw::FieldId _PropId_Text         = sw::Reflection::GetFieldId(&sw::WndBase::Text);
     const sw::FieldId _PropId_Focused      = sw::Reflection::GetFieldId(&sw::WndBase::Focused);
-    const sw::FieldId _PropId_Parent       = sw::Reflection::GetFieldId(&sw::WndBase::Parent);
     const sw::FieldId _PropId_IsDestroyed  = sw::Reflection::GetFieldId(&sw::WndBase::IsDestroyed);
     const sw::FieldId _PropId_AcceptFiles  = sw::Reflection::GetFieldId(&sw::WndBase::AcceptFiles);
     const sw::FieldId _PropId_IsGroupStart = sw::Reflection::GetFieldId(&sw::WndBase::IsGroupStart);
@@ -238,13 +237,6 @@ sw::WndBase::WndBase()
                   SetFocus(value ? self->_hwnd : NULL);
               })),
 
-      Parent(
-          Property<WndBase *>::Init(this)
-              .Getter([](WndBase *self) -> WndBase * {
-                  HWND hwnd = GetParent(self->_hwnd);
-                  return WndBase::GetWndBase(hwnd);
-              })),
-
       IsDestroyed(
           Property<bool>::Init(this)
               .Getter([](WndBase *self) -> bool {
@@ -334,6 +326,22 @@ bool sw::WndBase::Equals(const WndBase &other) const
 std::wstring sw::WndBase::ToString() const
 {
     return L"WndBase{ClassName=" + this->ClassName + L", Handle=" + std::to_wstring(reinterpret_cast<uintptr_t>(this->_hwnd)) + L"}";
+}
+
+sw::FrameworkElement *sw::WndBase::GetParent() const
+{
+    HWND hwnd = ::GetParent(this->_hwnd);
+    return WndBase::GetWndBase(hwnd);
+}
+
+int sw::WndBase::GetChildCount() const
+{
+    return 0;
+}
+
+sw::FrameworkElement &sw::WndBase::GetChildAt(int index) const
+{
+    throw std::out_of_range("WndBase does not maintain child elements.");
 }
 
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
@@ -986,7 +994,6 @@ bool sw::WndBase::SetParent(WndBase *parent)
 
 void sw::WndBase::ParentChanged(WndBase *newParent)
 {
-    this->RaisePropertyChanged(_PropId_Parent);
 }
 
 void sw::WndBase::OnCommand(int code)

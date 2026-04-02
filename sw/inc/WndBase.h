@@ -5,11 +5,11 @@
 #include "Delegate.h"
 #include "Dip.h"
 #include "Font.h"
+#include "FrameworkElement.h"
 #include "HitTestResult.h"
 #include "IComparable.h"
 #include "IToString.h"
 #include "Keys.h"
-#include "ObservableObject.h"
 #include "Point.h"
 #include "ProcMsg.h"
 #include "Property.h"
@@ -30,7 +30,7 @@ namespace sw
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
-    class WndBase : public ObservableObject,
+    class WndBase : public FrameworkElement,
                     public IToString<WndBase>,
                     public IEqualityComparable<WndBase>
     {
@@ -178,11 +178,6 @@ namespace sw
         const Property<bool> Focused;
 
         /**
-         * @brief 父窗口
-         */
-        const ReadOnlyProperty<WndBase *> Parent;
-
-        /**
          * @brief 是否已销毁，当该值为true时不应该继续使用当前对象
          */
         const ReadOnlyProperty<bool> IsDestroyed;
@@ -219,11 +214,6 @@ namespace sw
          */
         WndBase();
 
-        WndBase(const WndBase &)            = delete; // 删除拷贝构造函数
-        WndBase(WndBase &&)                 = delete; // 删除移动构造函数
-        WndBase &operator=(const WndBase &) = delete; // 删除拷贝赋值运算符
-        WndBase &operator=(WndBase &&)      = delete; // 删除移动赋值运算符
-
     public:
         /**
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
@@ -257,6 +247,25 @@ namespace sw
          * @brief 获取当前对象的描述字符串
          */
         virtual std::wstring ToString() const;
+
+        /**
+         * @brief  获取父元素
+         * @return 父元素指针，如果没有父元素则返回nullptr
+         */
+        virtual FrameworkElement *GetParent() const override;
+
+        /**
+         * @brief  获取子元素数量
+         * @return 子元素数量
+         */
+        virtual int GetChildCount() const override;
+
+        /**
+         * @brief       获取指定索引处的子元素
+         * @param index 子元素索引
+         * @throw       std::out_of_range 如果索引超出范围
+         */
+        virtual FrameworkElement &GetChildAt(int index) const override;
 
     protected:
         /**
