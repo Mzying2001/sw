@@ -18,7 +18,6 @@ namespace
     const sw::FieldId _PropId_VerticalAlignment   = sw::Reflection::GetFieldId(&sw::UIElement::VerticalAlignment);
     const sw::FieldId _PropId_ChildCount          = sw::Reflection::GetFieldId(&sw::UIElement::ChildCount);
     const sw::FieldId _PropId_CollapseWhenHide    = sw::Reflection::GetFieldId(&sw::UIElement::CollapseWhenHide);
-    const sw::FieldId _PropId_Parent              = sw::Reflection::GetFieldId(&sw::UIElement::Parent);
     const sw::FieldId _PropId_Tag                 = sw::Reflection::GetFieldId(&sw::UIElement::Tag);
     const sw::FieldId _PropId_LayoutTag           = sw::Reflection::GetFieldId(&sw::UIElement::LayoutTag);
     const sw::FieldId _PropId_ContextMenu         = sw::Reflection::GetFieldId(&sw::UIElement::ContextMenu);
@@ -92,12 +91,6 @@ sw::UIElement::UIElement()
                           self->_parent->InvalidateMeasure();
                       }
                   }
-              })),
-
-      Parent(
-          Property<UIElement *>::Init(this)
-              .Getter([](UIElement *self) -> UIElement * {
-                  return self->GetParent();
               })),
 
       Tag(
@@ -1237,9 +1230,7 @@ void sw::UIElement::ParentChanged(WndBase *newParent)
 
     this->_parent = newParent ? newParent->ToUIElement() : nullptr;
     this->_SetMeasureInvalidated();
-
     this->WndBase::ParentChanged(newParent);
-    this->RaisePropertyChanged(_PropId_Parent);
 
     if (this->CurrentDataContext != oldDataContext) {
         this->OnCurrentDataContextChanged(oldDataContext);

@@ -296,11 +296,6 @@ namespace sw
         const Property<bool> CollapseWhenHide;
 
         /**
-         * @brief 指向父元素的指针，当前元素为顶级窗口时该值为nullptr
-         */
-        const ReadOnlyProperty<UIElement *> Parent;
-
-        /**
          * @brief 储存用户自定义信息的标记
          */
         const Property<uint64_t> Tag;
