@@ -332,7 +332,7 @@ std::wstring sw::WndBase::ToString() const
     return L"WndBase{ClassName=" + this->ClassName + L", Handle=" + std::to_wstring(reinterpret_cast<uintptr_t>(this->_hwnd)) + L"}";
 }
 
-sw::FrameworkElement *sw::WndBase::GetParent() const
+sw::WndBase *sw::WndBase::GetParent() const
 {
     HWND hwnd = ::GetParent(this->_hwnd);
     return WndBase::GetWndBase(hwnd);
@@ -343,7 +343,7 @@ int sw::WndBase::GetChildCount() const
     return 0;
 }
 
-sw::FrameworkElement &sw::WndBase::GetChildAt(int index) const
+sw::WndBase &sw::WndBase::GetChildAt(int index) const
 {
     throw std::out_of_range("WndBase does not maintain child elements.");
 }

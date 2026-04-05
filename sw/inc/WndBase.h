@@ -248,7 +248,7 @@ namespace sw
          * @brief  获取父元素
          * @return 父元素指针，如果没有父元素则返回nullptr
          */
-        virtual FrameworkElement *GetParent() const override;
+        virtual WndBase *GetParent() const override;
 
         /**
          * @brief  获取子元素数量
@@ -261,7 +261,7 @@ namespace sw
          * @param index 子元素索引
          * @throw       std::out_of_range 如果索引超出范围
          */
-        virtual FrameworkElement &GetChildAt(int index) const override;
+        virtual WndBase &GetChildAt(int index) const override;
 
     protected:
         /**
