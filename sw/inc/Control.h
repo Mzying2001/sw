@@ -8,7 +8,7 @@ namespace sw
     /**
      * @brief 控件
      */
-    class Control : virtual public UIElement
+    class Control : public UIElement
     {
     public:
         /**

@@ -28,7 +28,7 @@ namespace sw
     /**
      * @brief 窗口
      */
-    class Window : public Layer, public IDialog
+    class Window : public Layer<UIElement>, public IDialog
     {
     private:
         /**
