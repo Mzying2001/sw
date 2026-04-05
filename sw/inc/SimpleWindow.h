@@ -75,7 +75,6 @@
 #include "NotifyIcon.h"
 #include "ObservableObject.h"
 #include "Panel.h"
-#include "PanelBase.h"
 #include "PasswordBox.h"
 #include "Path.h"
 #include "Point.h"
