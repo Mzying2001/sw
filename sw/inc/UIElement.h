@@ -13,8 +13,6 @@
 #include "Thickness.h"
 #include "WndBase.h"
 #include <cstdint>
-#include <map>
-#include <string>
 #include <unordered_map>
 #include <vector>
 

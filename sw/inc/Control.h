@@ -37,7 +37,7 @@ namespace sw
          * @brief  尝试将对象转换成Control
          * @return 若函数成功则返回Control指针，否则返回nullptr
          */
-        virtual Control *ToControl() override;
+        virtual Control *ToControl() override final;
 
     protected:
         /**

@@ -13,7 +13,6 @@
 #include "Rect.h"
 #include "Size.h"
 #include <string>
-#include <type_traits>
 #include <windows.h>
 #include <windowsx.h>
 
