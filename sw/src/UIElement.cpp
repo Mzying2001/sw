@@ -732,6 +732,11 @@ bool sw::UIElement::BringIntoView()
     return false;
 }
 
+sw::UIElement *sw::UIElement::ToUIElement()
+{
+    return this;
+}
+
 sw::UIElement *sw::UIElement::GetParent() const
 {
     return this->_parent;
@@ -913,11 +918,6 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     }
 
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
-}
-
-sw::UIElement *sw::UIElement::ToUIElement()
-{
-    return this;
 }
 
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)

@@ -19,8 +19,6 @@
 namespace sw
 {
     class UIElement; // UIElement.h
-    class Control;   // Control.h
-    class Window;    // Window.h
 
     /**
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
@@ -220,18 +218,6 @@ namespace sw
          * @return 若函数成功则返回UIElement指针，否则返回nullptr
          */
         virtual UIElement *ToUIElement();
-
-        /**
-         * @brief  尝试将对象转换成Control
-         * @return 若函数成功则返回Control指针，否则返回nullptr
-         */
-        virtual Control *ToControl();
-
-        /**
-         * @brief  尝试将对象转换成Window
-         * @return 若函数成功则返回Window指针，否则返回nullptr
-         */
-        virtual Window *ToWindow();
 
         /**
          * @brief 判断当前对象与另一个WndBase是否相等

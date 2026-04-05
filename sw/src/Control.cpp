@@ -24,11 +24,6 @@ sw::Control::~Control()
 {
 }
 
-sw::Control *sw::Control::ToControl()
-{
-    return this;
-}
-
 bool sw::Control::ResetHandle(LPVOID lpParam)
 {
     DWORD style   = GetStyle();

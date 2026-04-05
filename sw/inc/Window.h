@@ -276,12 +276,6 @@ namespace sw
 
     public:
         /**
-         * @brief  尝试将对象转换成Window
-         * @return 若函数成功则返回Window指针，否则返回nullptr
-         */
-        virtual Window *ToWindow() override final;
-
-        /**
          * @brief 关闭窗口
          */
         virtual void Close() override;

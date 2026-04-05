@@ -33,12 +33,6 @@ namespace sw
          */
         virtual ~Control() = 0;
 
-        /**
-         * @brief  尝试将对象转换成Control
-         * @return 若函数成功则返回Control指针，否则返回nullptr
-         */
-        virtual Control *ToControl() override final;
-
     protected:
         /**
          * @brief         销毁控件句柄并重新初始化，该操作会创建新的句柄并设置样式、文本、字体等
