@@ -1,6 +1,5 @@
 #include "DockLayout.h"
 #include "Utils.h"
-#include <cmath>
 
 static int _GetDockLayoutTag(sw::ILayout &item)
 {

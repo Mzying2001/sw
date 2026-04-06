@@ -3,7 +3,6 @@
 #include "Delegate.h"
 #include "Event.h"
 #include "Property.h"
-#include <memory>
 #include <string>
 #include <windows.h>
 
