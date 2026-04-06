@@ -369,7 +369,7 @@ namespace sw
          */
         virtual void Arrange(const sw::Rect &finalPosition) override
         {
-            UIElement::Arrange(finalPosition);
+            TBase::Arrange(finalPosition);
             UpdateScrollRange();
         }
 
@@ -385,7 +385,7 @@ namespace sw
             // 未设置布局时无法使用自动尺寸
             // 若未使用自动尺寸，则按照普通元素measure
             if (layout == nullptr || !_autoSize) {
-                return UIElement::MeasureOverride(availableSize);
+                return TBase::MeasureOverride(availableSize);
             }
 
             return layout->MeasureOverride(availableSize);
@@ -463,7 +463,7 @@ namespace sw
          */
         virtual void OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler) override
         {
-            UIElement::OnRoutedEvent(eventArgs, handler);
+            TBase::OnRoutedEvent(eventArgs, handler);
 
             if (!eventArgs.handled &&
                 eventArgs.eventType == UIElement_MouseWheel && _mouseWheelScrollEnabled) //
