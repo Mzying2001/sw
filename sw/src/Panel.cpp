@@ -1,7 +1,6 @@
 #include "Panel.h"
 #include "App.h"
 #include "Cursor.h"
-#include "Dip.h"
 #include "Utils.h"
 #include "WndMsg.h"
 

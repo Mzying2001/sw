@@ -13,8 +13,6 @@
 #include "Thickness.h"
 #include "WndBase.h"
 #include <cstdint>
-#include <map>
-#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -613,6 +611,12 @@ namespace sw
         bool BringIntoView();
 
         /**
+         * @brief  尝试将对象转换成UIElement
+         * @return 若函数成功则返回UIElement指针，否则返回nullptr
+         */
+        virtual UIElement *ToUIElement() override final;
+
+        /**
          * @brief  获取父元素
          * @return 父元素指针，如果没有父元素则返回nullptr
          */
@@ -675,12 +679,6 @@ namespace sw
          * @param finalSize 最终元素所安排的位置
          */
         virtual void Arrange(const sw::Rect &finalPosition) override;
-
-        /**
-         * @brief  尝试将对象转换成UIElement
-         * @return 若函数成功则返回UIElement指针，否则返回nullptr
-         */
-        virtual UIElement *ToUIElement() override final;
 
     protected:
         /**

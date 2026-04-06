@@ -28,7 +28,7 @@ namespace sw
     /**
      * @brief 窗口
      */
-    class Window : public Layer, public IDialog
+    class Window : public Layer<UIElement>, public IDialog
     {
     private:
         /**
@@ -275,12 +275,6 @@ namespace sw
         virtual bool OnDpiChanged(int dpiX, int dpiY, RECT &newRect);
 
     public:
-        /**
-         * @brief  尝试将对象转换成Window
-         * @return 若函数成功则返回Window指针，否则返回nullptr
-         */
-        virtual Window *ToWindow() override;
-
         /**
          * @brief 关闭窗口
          */

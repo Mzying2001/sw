@@ -8,7 +8,7 @@ namespace sw
     /**
      * @brief 控件
      */
-    class Control : virtual public UIElement
+    class Control : public UIElement
     {
     public:
         /**
@@ -32,12 +32,6 @@ namespace sw
          * @brief 析构函数，这里用纯虚函数使该类成为抽象类
          */
         virtual ~Control() = 0;
-
-        /**
-         * @brief  尝试将对象转换成Control
-         * @return 若函数成功则返回Control指针，否则返回nullptr
-         */
-        virtual Control *ToControl() override;
 
     protected:
         /**

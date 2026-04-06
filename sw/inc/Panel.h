@@ -1,6 +1,7 @@
 #pragma once
 
-#include "PanelBase.h"
+#include "Control.h"
+#include "Layer.h"
 
 namespace sw
 {
@@ -18,7 +19,7 @@ namespace sw
     /**
      * @brief 面板
      */
-    class Panel : public PanelBase
+    class Panel : public Layer<Control>
     {
     private:
         /**

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Delegate.h"
 #include "Event.h"
 #include <cstdint>
 
