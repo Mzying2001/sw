@@ -364,7 +364,6 @@
     <ClInclude Include="..\sw\inc\NotifyIcon.h" />
     <ClInclude Include="..\sw\inc\ObservableObject.h" />
     <ClInclude Include="..\sw\inc\Panel.h" />
-    <ClInclude Include="..\sw\inc\PanelBase.h" />
     <ClInclude Include="..\sw\inc\PasswordBox.h" />
     <ClInclude Include="..\sw\inc\Path.h" />
     <ClInclude Include="..\sw\inc\Point.h" />
@@ -462,7 +461,6 @@
     <ClCompile Include="..\sw\src\MsgBox.cpp" />
     <ClCompile Include="..\sw\src\NotifyIcon.cpp" />
     <ClCompile Include="..\sw\src\Panel.cpp" />
-    <ClCompile Include="..\sw\src\PanelBase.cpp" />
     <ClCompile Include="..\sw\src\PasswordBox.cpp" />
     <ClCompile Include="..\sw\src\Path.cpp" />
     <ClCompile Include="..\sw\src\Point.cpp" />
