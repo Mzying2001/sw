@@ -10,8 +10,11 @@ namespace sw
      */
     enum RoutedEventType : uint32_t //
     {
+        // 无效的路由事件类型，表示未指定事件类型或事件类型无效
+        RoutedEventType_Null = 0,
+
         // 从该值开始到RoutedEventType_UserEnd结束表示用户可以自定义路由事件的值范围
-        RoutedEventType_User = 0,
+        RoutedEventType_User = 1,
 
         // 用户自定义路由事件的值的最大值
         RoutedEventType_UserEnd = 0x80000000,
@@ -175,9 +178,14 @@ namespace sw
         UIElement *originalSource = nullptr;
 
         /**
-         * @brief RoutedEventArgs构造函数
+         * @brief 构造函数，初始化事件类型为RoutedEventType_Null，其他字段使用默认值
          */
-        RoutedEventArgs(RoutedEventType eventType);
+        RoutedEventArgs() : eventType(RoutedEventType_Null) {}
+
+        /**
+         * @brief 构造函数，初始化事件类型为指定值，其他字段使用默认值
+         */
+        RoutedEventArgs(RoutedEventType eventType) : eventType(eventType) {}
     };
 
     /**

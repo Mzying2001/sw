@@ -515,9 +515,6 @@
     <ClCompile Include="..\sw\src\Rect.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\sw\src\RoutedEvent.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\sw\src\Screen.cpp">
       <Filter>src</Filter>
     </ClCompile>
