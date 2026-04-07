@@ -61,39 +61,39 @@ namespace sw
         virtual LRESULT WndProc(ProcMsg &refMsg) override;
 
         /**
-         * @brief        接收到WM_ERASEBKGND时调用该函数
-         * @param hdc    设备上下文句柄
+         * @brief 接收到WM_ERASEBKGND时调用该函数
+         * @param hdc 设备上下文句柄
          * @param result 若已处理该消息则设为非零值，默认值为0
-         * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         * @return 若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
         virtual bool OnEraseBackground(HDC hdc, LRESULT &result) override;
 
         /**
-         * @brief  接收到WM_PAINT时调用该函数
+         * @brief 接收到WM_PAINT时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnPaint() override;
 
         /**
-         * @brief      接收到WM_NCPAINT时调用该函数
+         * @brief 接收到WM_NCPAINT时调用该函数
          * @param hRgn 窗口更新区域的句柄，可能为NULL
-         * @return     若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnNcPaint(HRGN hRgn) override;
 
         /**
-         * @brief      绘制边框
-         * @param hdc  绘制设备句柄，可能为NULL
+         * @brief 绘制边框
+         * @param hdc 绘制设备句柄，可能为NULL
          * @param rect 绘制边框的矩形区域，该函数会减去边框厚度
-         * @note       若hdc为NULL则不进行绘制，只更新rect
+         * @note 若hdc为NULL则不进行绘制，只更新rect
          */
         virtual void OnDrawBorder(HDC hdc, RECT &rect);
 
         /**
-         * @brief      绘制内边距
-         * @param hdc  绘制设备句柄，可能为NULL
+         * @brief 绘制内边距
+         * @param hdc 绘制设备句柄，可能为NULL
          * @param rect 绘制内边距的矩形区域，该函数会减去内边距
-         * @note       若hdc为NULL则不进行绘制，只更新rect
+         * @note 若hdc为NULL则不进行绘制，只更新rect
          */
         virtual void OnDrawPadding(HDC hdc, RECT &rect);
     };

@@ -33,45 +33,45 @@ namespace sw
         Animation();
 
         /**
-         * @brief            从指定模块中打开avi动画
-         * @param hInstance  DLL或EXE的模块句柄
+         * @brief 从指定模块中打开avi动画
+         * @param hInstance DLL或EXE的模块句柄
          * @param resourceId 动画的资源序号
-         * @return           若函数成功则返回true，否则返回false
+         * @return 若函数成功则返回true，否则返回false
          */
         bool Open(HINSTANCE hInstance, int resourceId);
 
         /**
-         * @brief          从本地文件打开avi动画
+         * @brief 从本地文件打开avi动画
          * @param fileName 动画的文件路径
-         * @return         若函数成功则返回true，否则返回false
+         * @return 若函数成功则返回true，否则返回false
          */
         bool Open(const std::wstring &fileName);
 
         /**
-         * @brief          从本地文件打开avi动画，传入nullptr可以关闭打开的动画
+         * @brief 从本地文件打开avi动画，传入nullptr可以关闭打开的动画
          * @param fileName 动画的文件路径
-         * @return         若函数成功则返回true，否则返回false
+         * @return 若函数成功则返回true，否则返回false
          */
         bool Open(const wchar_t *fileName);
 
         /**
-         * @brief            播放动画
-         * @param times      循环播放次数，设为-1表示无限循环播放
+         * @brief 播放动画
+         * @param times 循环播放次数，设为-1表示无限循环播放
          * @param beginFrame 从第几帧开始播放，值必须小于65536
-         * @param endFrame   播放到第几帧，值必须小于65536，设为-1表示播放到动画结尾
-         * @return           若函数成功则返回true，否则返回false
+         * @param endFrame 播放到第几帧，值必须小于65536，设为-1表示播放到动画结尾
+         * @return 若函数成功则返回true，否则返回false
          */
         bool Play(int times, int beginFrame, int endFrame);
 
         /**
-         * @brief            播放动画
-         * @param times      循环播放次数，设为-1表示无限循环播放
-         * @return           若函数成功则返回true，否则返回false
+         * @brief 播放动画
+         * @param times 循环播放次数，设为-1表示无限循环播放
+         * @return 若函数成功则返回true，否则返回false
          */
         bool Play(int times = -1);
 
         /**
-         * @brief  停止播放
+         * @brief 停止播放
          * @return 若函数成功则返回true，否则返回false
          */
         bool Stop();

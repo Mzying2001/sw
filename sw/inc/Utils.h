@@ -23,75 +23,75 @@ namespace sw
 
     public:
         /**
-         * @brief         设置Utils类是否使用UTF-8编码进行字符串转换（默认启用）
+         * @brief 设置Utils类是否使用UTF-8编码进行字符串转换（默认启用）
          * @param useUtf8 若为true则使用UTF-8编码，否则使用系统默认编码
          */
         static void UseUtf8Encoding(bool useUtf8);
 
         /**
-         * @brief      将窄字符串转为宽字符串
-         * @param str  要转换的字符串
-         * @return     转换后的字符串
+         * @brief 将窄字符串转为宽字符串
+         * @param str 要转换的字符串
+         * @return 转换后的字符串
          */
         static std::wstring ToWideStr(const std::string &str);
 
         /**
-         * @brief      将宽字符串转为窄字符串
+         * @brief 将宽字符串转为窄字符串
          * @param wstr 要转换的字符串
-         * @return     转换后的字符串
+         * @return 转换后的字符串
          */
         static std::string ToMultiByteStr(const std::wstring &wstr);
 
         /**
-         * @brief      将窄字符串转为宽字符串
-         * @param str  要转换的字符串
+         * @brief 将窄字符串转为宽字符串
+         * @param str 要转换的字符串
          * @param utf8 是否使用utf8编码
-         * @return     转换后的字符串
+         * @return 转换后的字符串
          */
         static std::wstring ToWideStr(const std::string &str, bool utf8);
 
         /**
-         * @brief      将宽字符串转为窄字符串
+         * @brief 将宽字符串转为窄字符串
          * @param wstr 要转换的字符串
          * @param utf8 是否使用utf8编码
-         * @return     转换后的字符串
+         * @return 转换后的字符串
          */
         static std::string ToMultiByteStr(const std::wstring &wstr, bool utf8);
 
         /**
-         * @brief     删除首尾空白字符
+         * @brief 删除首尾空白字符
          * @param str 输入的字符串
-         * @return    删除首位空白字符后的字符串
+         * @return 删除首位空白字符后的字符串
          */
         static std::wstring Trim(const std::wstring &str);
 
         /**
-         * @brief     删除串首空白字符
+         * @brief 删除串首空白字符
          * @param str 输入的字符串
-         * @return    删除串首空白字符后的字符串
+         * @return 删除串首空白字符后的字符串
          */
         static std::wstring TrimStart(const std::wstring &str);
 
         /**
-         * @brief     删除串尾空白字符
+         * @brief 删除串尾空白字符
          * @param str 输入的字符串
-         * @return    删除串尾空白字符后的字符串
+         * @return 删除串尾空白字符后的字符串
          */
         static std::wstring TrimEnd(const std::wstring &str);
 
         /**
-         * @brief           对字符串按照指定分隔符进行拆分
-         * @param str       输入的字符串
+         * @brief 对字符串按照指定分隔符进行拆分
+         * @param str 输入的字符串
          * @param delimiter 分隔符
-         * @result          包含字串的vector
+         * @result 包含字串的vector
          */
         static std::vector<std::wstring> Split(const std::wstring &str, const std::wstring &delimiter);
 
         /**
-         * @brief     格式化字符串，类似于 `swprintf`，但返回一个动态分配的 `std::wstring`
+         * @brief 格式化字符串，类似于 `swprintf`，但返回一个动态分配的 `std::wstring`
          * @param fmt 格式化字符串
          * @param ... 可变参数，符合 `fmt` 格式的输入
-         * @return    返回一个包含格式化结果的字符串
+         * @return 返回一个包含格式化结果的字符串
          */
         static std::wstring FormatStr(const wchar_t *fmt, ...);
 

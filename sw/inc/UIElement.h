@@ -59,14 +59,14 @@ namespace sw
 
         /**
          * @brief 框架内部使用，表示布局已失效
-         * @note  该标记指示了Measure函数的结果已失效，需要重新调用Measure函数来更新尺寸
+         * @note 该标记指示了Measure函数的结果已失效，需要重新调用Measure函数来更新尺寸
          */
         MeasureInvalidated = 1 << 29,
 
         /**
          * @brief 框架内部使用，表示不需要更新布局
-         * @note  一旦设置了该标记，InvalidateMeasure函数将不会更新状态和触发布局更新
-         * @note  该标记用于抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
+         * @note 一旦设置了该标记，InvalidateMeasure函数将不会更新状态和触发布局更新
+         * @note 该标记用于抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
          */
         Supressed = 1 << 30,
     };
@@ -330,7 +330,7 @@ namespace sw
 
         /**
          * @brief 是否使用透明背景
-         * @note  此属性并非真正意义上的透明，将该属性设为true可继承父元素的背景颜色
+         * @note 此属性并非真正意义上的透明，将该属性设为true可继承父元素的背景颜色
          */
         const Property<bool> Transparent;
 
@@ -341,7 +341,7 @@ namespace sw
 
         /**
          * @brief 触发布局更新的条件
-         * @note  修改该属性不会立即触发布局更新
+         * @note 修改该属性不会立即触发布局更新
          */
         const Property<sw::LayoutUpdateCondition> LayoutUpdateCondition;
 
@@ -372,7 +372,7 @@ namespace sw
 
         /**
          * @brief 元素的逻辑位置和尺寸，即去除布局偏移以及拉伸影响的位置和尺寸
-         * @note  当布局未完成时该属性的值可能不准确
+         * @note 当布局未完成时该属性的值可能不准确
          */
         const ReadOnlyProperty<sw::Rect> LogicalRect;
 
@@ -398,84 +398,84 @@ namespace sw
         virtual ~UIElement() = 0;
 
         /**
-         * @brief           注册路由事件处理函数，当事件已注册时会覆盖已注册的函数
+         * @brief 注册路由事件处理函数，当事件已注册时会覆盖已注册的函数
          * @param eventType 路由事件类型
-         * @param handler   处理函数，当值为nullptr时可取消注册
-         * @deprecated      使用AddHandler函数代替以避免覆盖已注册的事件处理函数
+         * @param handler 处理函数，当值为nullptr时可取消注册
+         * @deprecated 使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         [[deprecated("Use AddHandler instead to avoid overwriting existing event handlers.")]]
         void RegisterRoutedEvent(RoutedEventType eventType, const RoutedEventHandler &handler);
 
         /**
-         * @brief           添加路由事件处理函数
+         * @brief 添加路由事件处理函数
          * @param eventType 路由事件类型
-         * @param handler   处理函数
+         * @param handler 处理函数
          */
         void AddHandler(RoutedEventType eventType, const RoutedEventHandler &handler);
 
         /**
-         * @brief           移除已添加的路由事件处理函数
+         * @brief 移除已添加的路由事件处理函数
          * @param eventType 路由事件类型
-         * @param handler   处理函数
-         * @return          是否成功移除
+         * @param handler 处理函数
+         * @return 是否成功移除
          */
         bool RemoveHandler(RoutedEventType eventType, const RoutedEventHandler &handler);
 
         /**
-         * @brief           取消对应类型路由事件的注册，该函数会移除对应事件所有的处理函数
+         * @brief 取消对应类型路由事件的注册，该函数会移除对应事件所有的处理函数
          * @param eventType 路由事件类型
          */
         void UnregisterRoutedEvent(RoutedEventType eventType);
 
         /**
-         * @brief           判断路由事件是否已存在事件处理函数
+         * @brief 判断路由事件是否已存在事件处理函数
          * @param eventType 路由事件类型
          */
         bool IsRoutedEventRegistered(RoutedEventType eventType);
 
         /**
-         * @brief  添加子元素
+         * @brief 添加子元素
          * @return 若函数成功则返回true，否则返回false
-         * @note   添加的子元素必须与当前元素在同一线程创建
+         * @note 添加的子元素必须与当前元素在同一线程创建
          */
         bool AddChild(UIElement *element);
 
         /**
-         * @brief  添加子元素
+         * @brief 添加子元素
          * @return 若函数成功则返回true，否则返回false
-         * @note   添加的子元素必须与当前元素在同一线程创建
+         * @note 添加的子元素必须与当前元素在同一线程创建
          */
         bool AddChild(UIElement &element);
 
         /**
-         * @brief  添加子元素并设置布局标记
+         * @brief 添加子元素并设置布局标记
          * @return 若函数成功则返回true，否则返回false
-         * @note   添加的子元素必须与当前元素在同一线程创建
+         * @note 添加的子元素必须与当前元素在同一线程创建
          */
         bool AddChild(UIElement *element, uint64_t layoutTag);
 
         /**
-         * @brief  添加子元素并设置布局标记
+         * @brief 添加子元素并设置布局标记
          * @return 若函数成功则返回true，否则返回false
-         * @note   添加的子元素必须与当前元素在同一线程创建
+         * @note 添加的子元素必须与当前元素在同一线程创建
          */
         bool AddChild(UIElement &element, uint64_t layoutTag);
 
         /**
-         * @brief       移除指定索引处的子元素
+         * @brief 移除指定索引处的子元素
          * @param index 要移除的索引
-         * @return      移除是否成功
+         * @return 移除是否成功
          */
         bool RemoveChildAt(int index);
 
         /**
-         * @brief  移除子元素
+         * @brief 移除子元素
          * @return 移除是否成功
          */
         bool RemoveChild(UIElement *element);
 
         /**
-         * @brief  移除子元素
+         * @brief 移除子元素
          * @return 移除是否成功
          */
         bool RemoveChild(UIElement &element);
@@ -486,25 +486,25 @@ namespace sw
         void ClearChildren();
 
         /**
-         * @brief         获取指定元素的索引
+         * @brief 获取指定元素的索引
          * @param element 要查找的元素
-         * @return        若找到指定元素则返回对应的索引，否则返回-1
+         * @return 若找到指定元素则返回对应的索引，否则返回-1
          */
         int IndexOf(UIElement *element);
 
         /**
-         * @brief         获取指定元素的索引
+         * @brief 获取指定元素的索引
          * @param element 要查找的元素
-         * @return        若找到指定元素则返回对应的索引，否则返回-1
+         * @return 若找到指定元素则返回对应的索引，否则返回-1
          */
         int IndexOf(UIElement &element);
 
         /**
-         * @brief       弹出当前元素的上下文菜单
+         * @brief 弹出当前元素的上下文菜单
          * @param point 弹出菜单在屏幕中的位置
-         * @param horz  菜单的水平方向对齐方式
-         * @param vert  菜单的垂直方向对齐方式
-         * @return      若函数成功则返回true，否则返回false
+         * @param horz 菜单的水平方向对齐方式
+         * @param vert 菜单的垂直方向对齐方式
+         * @return 若函数成功则返回true，否则返回false
          */
         bool ShowContextMenu(
             const Point &point,
@@ -552,25 +552,25 @@ namespace sw
         UIElement *GetPreviousTabStopElement();
 
         /**
-         * @brief  获取当前要显示的背景颜色
+         * @brief 获取当前要显示的背景颜色
          * @return 当Transparent为true时获取到祖先节点中首个Transparent为false的背景颜色，否则返回当前元素的背景颜色
          */
         Color GetRealBackColor() const;
 
         /**
-         * @brief  获取当前要显示的文本颜色
+         * @brief 获取当前要显示的文本颜色
          * @return 当InheritTextColor为true时获取到祖先节点中首个InheritTextColor为false的文本颜色，否则返回当前元素的文本颜色
          */
         Color GetRealTextColor() const;
 
         /**
-         * @brief         设置鼠标样式
+         * @brief 设置鼠标样式
          * @param hCursor 鼠标句柄
          */
         void SetCursor(HCURSOR hCursor);
 
         /**
-         * @brief        设置鼠标样式
+         * @brief 设置鼠标样式
          * @param cursor 鼠标样式
          */
         void SetCursor(StandardCursor cursor);
@@ -581,7 +581,7 @@ namespace sw
         void ResetCursor();
 
         /**
-         * @brief      设置对齐方式
+         * @brief 设置对齐方式
          * @param horz 水平对齐方式
          * @param vert 垂直对齐方式
          */
@@ -589,7 +589,7 @@ namespace sw
 
         /**
          * @brief 调整当前元素的尺寸
-         * @note  通过该函数可以调整横向或纵向对齐方式为拉伸时的DesireSize
+         * @note 通过该函数可以调整横向或纵向对齐方式为拉伸时的DesireSize
          */
         void Resize(const Size &size);
 
@@ -604,34 +604,34 @@ namespace sw
         void InvalidateMeasure();
 
         /**
-         * @brief  尝试将当前元素移动到可视区域内
+         * @brief 尝试将当前元素移动到可视区域内
          * @return 若函数成功则返回true，否则返回false
-         * @note   对于悬浮元素（Float属性为true）始终返回false
+         * @note 对于悬浮元素（Float属性为true）始终返回false
          */
         bool BringIntoView();
 
         /**
-         * @brief  尝试将对象转换成UIElement
+         * @brief 尝试将对象转换成UIElement
          * @return 若函数成功则返回UIElement指针，否则返回nullptr
          */
         virtual UIElement *ToUIElement() override final;
 
         /**
-         * @brief  获取父元素
+         * @brief 获取父元素
          * @return 父元素指针，如果没有父元素则返回nullptr
          */
         virtual UIElement *GetParent() const override final;
 
         /**
-         * @brief  获取子元素数量
+         * @brief 获取子元素数量
          * @return 子元素数量
          */
         virtual int GetChildCount() const override final;
 
         /**
-         * @brief       获取指定索引处的子元素
+         * @brief 获取指定索引处的子元素
          * @param index 子元素索引
-         * @throw       std::out_of_range 如果索引超出范围
+         * @throw std::out_of_range 如果索引超出范围
          */
         virtual UIElement &GetChildAt(int index) const override final;
 
@@ -652,14 +652,14 @@ namespace sw
 
         /**
          * @brief 获取参与布局的子元素数量
-         * @note  参与布局的子元素：即非collapsed状态的元素
+         * @note 参与布局的子元素：即非collapsed状态的元素
          */
         virtual int GetChildLayoutCount() const override final;
 
         /**
          * @brief 获取对应索引处的子元素，只索引参与布局的子元素
          * @throw std::out_of_range 如果索引超出范围
-         * @note  参与布局的子元素：即非collapsed状态的元素
+         * @note 参与布局的子元素：即非collapsed状态的元素
          */
         virtual ILayout &GetChildLayoutAt(int index) const override final;
 
@@ -669,53 +669,53 @@ namespace sw
         virtual Size GetDesireSize() const override;
 
         /**
-         * @brief               测量元素所需尺寸
+         * @brief 测量元素所需尺寸
          * @param availableSize 可用的尺寸
          */
         virtual void Measure(const Size &availableSize) override;
 
         /**
-         * @brief           安排元素位置
+         * @brief 安排元素位置
          * @param finalSize 最终元素所安排的位置
          */
         virtual void Arrange(const sw::Rect &finalPosition) override;
 
     protected:
         /**
-         * @brief           触发路由事件
+         * @brief 触发路由事件
          * @param eventType 事件类型
          */
         void RaiseRoutedEvent(RoutedEventType eventType);
 
         /**
-         * @brief           触发路由事件
+         * @brief 触发路由事件
          * @param eventArgs 要触发事件的事件参数
          */
         void RaiseRoutedEvent(RoutedEventArgs &eventArgs);
 
         /**
          * @brief 获取布局时子元素的水平偏移量
-         * @note  内部使用，Layer类中通过修改该值来实现子元素的布局偏移
+         * @note 内部使用，Layer类中通过修改该值来实现子元素的布局偏移
          */
         double &GetInternalArrangeOffsetX();
 
         /**
          * @brief 获取布局时子元素的垂直偏移量
-         * @note  内部使用，Layer类中通过修改该值来实现子元素的布局偏移
+         * @note 内部使用，Layer类中通过修改该值来实现子元素的布局偏移
          */
         double &GetInternalArrangeOffsetY();
 
         /**
-         * @brief        获取所有子元素在当前元素中最右边的位置（只考虑参与布局的子窗口且忽略悬浮的元素）
+         * @brief 获取所有子元素在当前元素中最右边的位置（只考虑参与布局的子窗口且忽略悬浮的元素）
          * @param update 是否更字段
-         * @return       _childRightmost字段
+         * @return _childRightmost字段
          */
         double GetChildRightmost(bool update);
 
         /**
-         * @brief        获取所有子元素在当前元素中最底边的位置（只考虑参与布局的子窗口且忽略悬浮的元素）
+         * @brief 获取所有子元素在当前元素中最底边的位置（只考虑参与布局的子窗口且忽略悬浮的元素）
          * @param update 是否更字段
-         * @return       _childBottommost字段
+         * @return _childBottommost字段
          */
         double GetChildBottommost(bool update);
 
@@ -730,80 +730,80 @@ namespace sw
         void UpdateSiblingsZOrder(bool invalidateMeasure = true);
 
         /**
-         * @brief      限定指定尺寸在最小和最大尺寸之间
+         * @brief 限定指定尺寸在最小和最大尺寸之间
          * @param size 要限定的尺寸，不包含边距
          */
         void ClampDesireSize(sw::Size &size) const;
 
         /**
-         * @brief      限定指定矩形的尺寸在最小和最大尺寸之间
+         * @brief 限定指定矩形的尺寸在最小和最大尺寸之间
          * @param rect 要限定的矩形，不包含边距
          */
         void ClampDesireSize(sw::Rect &rect) const;
 
         /**
-         * @brief           查询所有子元素，直到queryFunc返回false或所有子元素均被查询
+         * @brief 查询所有子元素，直到queryFunc返回false或所有子元素均被查询
          * @param queryFunc 查询函数，参数为子元素指针，返回值为bool，返回false时停止查询
-         * @return          若queryFunc在某次调用中返回false则返回false，否则返回true
+         * @return 若queryFunc在某次调用中返回false则返回false，否则返回true
          */
         bool QueryAllChildren(const Predicate<UIElement *> &queryFunc);
 
         /**
-         * @brief           查询自身和所有子元素，直到queryFunc返回false或所有子元素均被查询
+         * @brief 查询自身和所有子元素，直到queryFunc返回false或所有子元素均被查询
          * @param queryFunc 查询函数，参数为元素指针，返回值为bool，返回false时停止查询
-         * @return          若queryFunc在某次调用中返回false则返回false，否则返回true
+         * @return 若queryFunc在某次调用中返回false则返回false，否则返回true
          */
         bool QueryAllElements(const Predicate<UIElement *> &queryFunc);
 
         /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @brief 测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸，若返回Size{NAN,NAN}则使用默认实现
-         * @note                返回值除了Size{NAN,NAN}表示默认尺寸外不应包含NAN、INF、负数等非法值
+         * @return 返回元素需要占用的尺寸，若返回Size{NAN,NAN}则使用默认实现
+         * @note 返回值除了Size{NAN,NAN}表示默认尺寸外不应包含NAN、INF、负数等非法值
          */
         virtual Size MeasureOverride(const Size &availableSize);
 
         /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @brief 安排子元素的位置，可重写该函数以实现自定义布局
          * @param finalSize 可用于排列子元素的最终尺寸
          */
         virtual void ArrangeOverride(const Size &finalSize);
 
         /**
-         * @brief        设置背景颜色
-         * @param color  要设置的颜色
+         * @brief 设置背景颜色
+         * @param color 要设置的颜色
          * @param redraw 是否重绘
          */
         virtual void SetBackColor(Color color, bool redraw);
 
         /**
-         * @brief        设置文本颜色
-         * @param color  要设置的颜色
+         * @brief 设置文本颜色
+         * @param color 要设置的颜色
          * @param redraw 是否重绘
          */
         virtual void SetTextColor(Color color, bool redraw);
 
         /**
-         * @brief            尝试将指定的矩形区域移动到可视区域内
+         * @brief 尝试将指定的矩形区域移动到可视区域内
          * @param screenRect 要移动到可视区域的矩形在屏幕中的位置
-         * @return           若已处理该请求则返回true，否则返回false以继续向上冒泡
+         * @return 若已处理该请求则返回true，否则返回false以继续向上冒泡
          */
         virtual bool RequestBringIntoView(const sw::Rect &screenRect);
 
         /**
-         * @brief         添加子元素后调用该函数
+         * @brief 添加子元素后调用该函数
          * @param element 添加的子元素
          */
         virtual void OnAddedChild(UIElement &element);
 
         /**
-         * @brief         移除子元素后调用该函数
+         * @brief 移除子元素后调用该函数
          * @param element 移除的子元素
          */
         virtual void OnRemovedChild(UIElement &element);
 
         /**
-         * @brief         通过tab键将焦点从当前元素移出时调用该函数
+         * @brief 通过tab键将焦点从当前元素移出时调用该函数
          * @param forward 指示焦点移动的方向，true表示向后移动，false表示向前移动
          */
         virtual void OnTabMove(bool forward);
@@ -819,41 +819,41 @@ namespace sw
         virtual void OnMinMaxSizeChanged();
 
         /**
-         * @brief           路由事件经过当前元素时调用该函数
+         * @brief 路由事件经过当前元素时调用该函数
          * @param eventArgs 事件参数
-         * @param handler   事件处理函数，值为空时表示当前元素没有注册该事件处理函数
+         * @param handler 事件处理函数，值为空时表示当前元素没有注册该事件处理函数
          */
         virtual void OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler);
 
         /**
-         * @brief  设置父窗口
+         * @brief 设置父窗口
          * @return 设置是否成功
          */
         virtual bool SetParent(WndBase *parent) override;
 
         /**
-         * @brief           父窗口改变时调用此函数
+         * @brief 父窗口改变时调用此函数
          * @param newParent 新的父窗口
          */
         virtual void ParentChanged(WndBase *newParent) override;
 
         /**
-         * @brief  接收到WM_CLOSE时调用该函数
+         * @brief 接收到WM_CLOSE时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnClose() override;
 
         /**
-         * @brief                   接收到WM_MOVE时调用该函数
+         * @brief 接收到WM_MOVE时调用该函数
          * @param newClientPosition 移动后用户区左上角的位置
-         * @return                  若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMove(const Point &newClientPosition) override;
 
         /**
-         * @brief               接收到WM_SIZE时调用该函数
+         * @brief 接收到WM_SIZE时调用该函数
          * @param newClientSize 改变后的用户区尺寸
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(const Size &newClientSize) override;
 
@@ -863,7 +863,7 @@ namespace sw
         virtual void OnTextChanged() override;
 
         /**
-         * @brief       字体改变时调用该函数
+         * @brief 字体改变时调用该函数
          * @param hfont 字体句柄
          */
         virtual void FontChanged(HFONT hfont) override;
@@ -874,172 +874,172 @@ namespace sw
         virtual void VisibleChanged(bool newVisible) override;
 
         /**
-         * @brief            接收到WM_SETFOCUS时调用该函数
+         * @brief 接收到WM_SETFOCUS时调用该函数
          * @param hPrevFocus 丢失焦点的hwnd，可能为NULL
-         * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSetFocus(HWND hPrevFocus) override;
 
         /**
-         * @brief            接收到WM_KILLFOCUS时调用该函数
+         * @brief 接收到WM_KILLFOCUS时调用该函数
          * @param hNextFocus 接收到焦点的hwnd，可能为NULL
-         * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnKillFocus(HWND hNextFocus) override;
 
         /**
-         * @brief       接收到WM_CHAR时调用该函数
-         * @param ch    按键的字符代码
+         * @brief 接收到WM_CHAR时调用该函数
+         * @param ch 按键的字符代码
          * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnChar(wchar_t ch, const KeyFlags &flags) override;
 
         /**
-         * @brief       接收到WM_KEYDOWN时调用该函数
-         * @param key   虚拟按键
+         * @brief 接收到WM_KEYDOWN时调用该函数
+         * @param key 虚拟按键
          * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnKeyDown(VirtualKey key, const KeyFlags &flags) override;
 
         /**
-         * @brief       接收到WM_KEYUP时调用该函数
-         * @param key   虚拟按键
+         * @brief 接收到WM_KEYUP时调用该函数
+         * @param key 虚拟按键
          * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnKeyUp(VirtualKey key, const KeyFlags &flags) override;
 
         /**
-         * @brief               接收到WM_MOUSEMOVE时调用该函数
+         * @brief 接收到WM_MOUSEMOVE时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseMove(const Point &mousePosition, MouseKey keyState) override;
 
         /**
-         * @brief  接收到WM_MOUSELEAVE时调用该函数
+         * @brief 接收到WM_MOUSELEAVE时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseLeave() override;
 
         /**
-         * @brief               接收到WM_MOUSEWHEEL时调用该函数
-         * @param wheelDelta    滚轮滚动的距离，为120的倍数
+         * @brief 接收到WM_MOUSEWHEEL时调用该函数
+         * @param wheelDelta 滚轮滚动的距离，为120的倍数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseWheel(int wheelDelta, const Point &mousePosition, MouseKey keyState) override;
 
         /**
-         * @brief               接收到WM_LBUTTONDOWN时调用该函数
+         * @brief 接收到WM_LBUTTONDOWN时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseLeftButtonDown(const Point &mousePosition, MouseKey keyState) override;
 
         /**
-         * @brief               接收到WM_LBUTTONUP时调用该函数
+         * @brief 接收到WM_LBUTTONUP时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseLeftButtonUp(const Point &mousePosition, MouseKey keyState) override;
 
         /**
-         * @brief               接收到WM_RBUTTONDOWN时调用该函数
+         * @brief 接收到WM_RBUTTONDOWN时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseRightButtonDown(const Point &mousePosition, MouseKey keyState) override;
 
         /**
-         * @brief               接收到WM_RBUTTONUP时调用该函数
+         * @brief 接收到WM_RBUTTONUP时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseRightButtonUp(const Point &mousePosition, MouseKey keyState) override;
 
         /**
-         * @brief               接收到WM_MBUTTONDOWN时调用该函数
+         * @brief 接收到WM_MBUTTONDOWN时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseMiddleButtonDown(const Point &mousePosition, MouseKey keyState) override;
 
         /**
-         * @brief               接收到WM_MBUTTONUP时调用该函数
+         * @brief 接收到WM_MBUTTONUP时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseMiddleButtonUp(const Point &mousePosition, MouseKey keyState) override;
 
         /**
-         * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
+         * @brief 接收到WM_CONTEXTMENU后调用目标控件的该函数
          * @param isKeyboardMsg 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
          * @param mousePosition 鼠标在屏幕中的位置
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnContextMenu(bool isKeyboardMsg, const Point &mousePosition) override;
 
         /**
-         * @brief    当WM_COMMAND接收到菜单命令时调用该函数
+         * @brief 当WM_COMMAND接收到菜单命令时调用该函数
          * @param id 菜单id
          */
         virtual void OnMenuCommand(int id) override;
 
         /**
-         * @brief           父窗口接收到WM_CTLCOLORxxx时调用对应控件的该函数
-         * @param hdc       控件的显示上下文句柄
+         * @brief 父窗口接收到WM_CTLCOLORxxx时调用对应控件的该函数
+         * @param hdc 控件的显示上下文句柄
          * @param hRetBrush 要返回的画笔
-         * @return          若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
+         * @return 若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
          */
         virtual bool OnColor(HDC hdc, HBRUSH &hRetBrush) override;
 
         /**
-         * @brief         接收到WM_SETCURSOR消息时调用该函数
-         * @param hwnd    鼠标所在窗口的句柄
+         * @brief 接收到WM_SETCURSOR消息时调用该函数
+         * @param hwnd 鼠标所在窗口的句柄
          * @param hitTest hit-test的结果，详见WM_NCHITTEST消息的返回值
          * @param message 触发该事件的鼠标消息，如WM_MOUSEMOVE
-         * @param result  消息的返回值，默认为false
-         * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         * @param result 消息的返回值，默认为false
+         * @return 若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
         virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result) override;
 
         /**
-         * @brief       接收到WM_DROPFILES时调用该函数
+         * @brief 接收到WM_DROPFILES时调用该函数
          * @param hDrop 描述拖入文件的句柄
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDropFiles(HDROP hDrop) override;
 
         /**
-         * @brief           接收到WM_NCHITTEST后调用该函数
+         * @brief 接收到WM_NCHITTEST后调用该函数
          * @param testPoint 要测试的点在屏幕中的位置
-         * @param result    测试的结果，默认为调用DefaultWndProc的结果
+         * @param result 测试的结果，默认为调用DefaultWndProc的结果
          */
         virtual void OnNcHitTest(const Point &testPoint, HitTestResult &result) override;
 
     private:
         /**
-         * @brief       设置水平对齐方式
+         * @brief 设置水平对齐方式
          * @param value 要设置的值
-         * @return      值是否发生改变
+         * @return 值是否发生改变
          */
         bool _SetHorzAlignment(sw::HorizontalAlignment value);
 
         /**
-         * @brief       设置垂直对齐方式
+         * @brief 设置垂直对齐方式
          * @param value 要设置的值
-         * @return      值是否发生改变
+         * @return 值是否发生改变
          */
         bool _SetVertAlignment(sw::VerticalAlignment value);
 
@@ -1106,7 +1106,7 @@ namespace sw
         };
 
         /**
-         * @brief  AddChildren的内部实现
+         * @brief AddChildren的内部实现
          * @return 返回成功添加的子元素数量
          */
         template <typename T>
@@ -1116,7 +1116,7 @@ namespace sw
         }
 
         /**
-         * @brief  AddChildren的内部实现
+         * @brief AddChildren的内部实现
          * @return 返回成功添加的子元素数量
          */
         template <typename First, typename... Rest>
@@ -1130,10 +1130,10 @@ namespace sw
 
     public:
         /**
-         * @brief  添加多个子元素
+         * @brief 添加多个子元素
          * @return 返回成功添加的子元素数量
-         * @note   当有一个子元素添加失败时后续的子元素将不会继续添加
-         * @note   添加的子元素必须与当前元素在同一线程创建
+         * @note 当有一个子元素添加失败时后续的子元素将不会继续添加
+         * @note 添加的子元素必须与当前元素在同一线程创建
          */
         template <typename First, typename... Rest>
         auto AddChildren(First &&first, Rest &&...rest)
@@ -1149,12 +1149,12 @@ namespace sw
         }
 
         /**
-         * @brief           注册成员函数作为路由事件处理函数，当事件已注册时会覆盖已注册的函数
-         * @tparam T        成员函数所在的类
+         * @brief 注册成员函数作为路由事件处理函数，当事件已注册时会覆盖已注册的函数
+         * @tparam T 成员函数所在的类
          * @param eventType 路由事件类型
-         * @param obj       注册的成员函数所在的对象
-         * @param handler   处理函数，当值为nullptr时可取消注册
-         * @deprecated      使用AddHandler函数代替以避免覆盖已注册的事件处理函数
+         * @param obj 注册的成员函数所在的对象
+         * @param handler 处理函数，当值为nullptr时可取消注册
+         * @deprecated 使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         template <typename T>
         [[deprecated("Use AddHandler instead to avoid overwriting existing event handlers.")]]
@@ -1168,10 +1168,10 @@ namespace sw
         }
 
         /**
-         * @brief             根据事件参数类型注册路由事件，当事件已注册时会覆盖已注册的函数
+         * @brief 根据事件参数类型注册路由事件，当事件已注册时会覆盖已注册的函数
          * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
-         * @param handler     事件的处理函数，当值为nullptr时可取消注册
-         * @deprecated        使用AddHandler函数代替以避免覆盖已注册的事件处理函数
+         * @param handler 事件的处理函数，当值为nullptr时可取消注册
+         * @deprecated 使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         template <typename TEventArgs>
         [[deprecated("Use AddHandler instead to avoid overwriting existing event handlers.")]]
@@ -1186,12 +1186,12 @@ namespace sw
         }
 
         /**
-         * @brief             根据事件参数类型注册成员函数作为路由事件，当事件已注册时会覆盖已注册的函数
+         * @brief 根据事件参数类型注册成员函数作为路由事件，当事件已注册时会覆盖已注册的函数
          * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
          * @tparam THandleObj 成员函数所在的类
-         * @param obj         注册的成员函数所在的对象
-         * @param handler     事件的处理函数，当值为nullptr时可取消注册
-         * @deprecated        使用AddHandler函数代替以避免覆盖已注册的事件处理函数
+         * @param obj 注册的成员函数所在的对象
+         * @param handler 事件的处理函数，当值为nullptr时可取消注册
+         * @deprecated 使用AddHandler函数代替以避免覆盖已注册的事件处理函数
          */
         template <typename TEventArgs, typename THandleObj>
         [[deprecated("Use AddHandler instead to avoid overwriting existing event handlers.")]]
@@ -1206,11 +1206,11 @@ namespace sw
         }
 
         /**
-         * @brief           添加成员函数作为路由事件处理函数
-         * @tparam T        成员函数所在的类
+         * @brief 添加成员函数作为路由事件处理函数
+         * @tparam T 成员函数所在的类
          * @param eventType 路由事件类型
-         * @param obj       注册的成员函数所在的对象
-         * @param handler   处理函数
+         * @param obj 注册的成员函数所在的对象
+         * @param handler 处理函数
          */
         template <typename T>
         void AddHandler(RoutedEventType eventType, T &obj, void (T::*handler)(UIElement &, RoutedEventArgs &))
@@ -1219,9 +1219,9 @@ namespace sw
         }
 
         /**
-         * @brief             根据事件参数类型添加路由事件处理函数
+         * @brief 根据事件参数类型添加路由事件处理函数
          * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
-         * @param handler     事件的处理函数
+         * @param handler 事件的处理函数
          */
         template <typename TEventArgs>
         auto AddHandler(const Action<UIElement &, TEventArgs &> &handler)
@@ -1231,11 +1231,11 @@ namespace sw
         }
 
         /**
-         * @brief             根据事件参数类型添加成员函数作为路由事件处理函数
+         * @brief 根据事件参数类型添加成员函数作为路由事件处理函数
          * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
          * @tparam THandleObj 成员函数所在的类
-         * @param obj         注册的成员函数所在的对象
-         * @param handler     事件的处理函数
+         * @param obj 注册的成员函数所在的对象
+         * @param handler 事件的处理函数
          */
         template <typename TEventArgs, typename THandleObj>
         auto AddHandler(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
@@ -1245,10 +1245,10 @@ namespace sw
         }
 
         /**
-         * @brief             添加路由事件处理函数
+         * @brief 添加路由事件处理函数
          * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventArgs
-         * @param eventType   路由事件类型
-         * @param handler     处理函数
+         * @param eventType 路由事件类型
+         * @param handler 处理函数
          */
         template <typename TEventArgs>
         auto AddHandler(RoutedEventType eventType, const Action<UIElement &, TEventArgs &> &handler)
@@ -1261,12 +1261,12 @@ namespace sw
         }
 
         /**
-         * @brief             添加成员函数作为路由事件处理函数
+         * @brief 添加成员函数作为路由事件处理函数
          * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventArgs
          * @tparam THandleObj 成员函数所在的类
-         * @param eventType   路由事件类型
-         * @param obj         注册的成员函数所在的对象
-         * @param handler     处理函数
+         * @param eventType 路由事件类型
+         * @param obj 注册的成员函数所在的对象
+         * @param handler 处理函数
          */
         template <typename TEventArgs, typename THandleObj>
         auto AddHandler(RoutedEventType eventType, THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
@@ -1279,12 +1279,12 @@ namespace sw
         }
 
         /**
-         * @brief           移除已添加的类型为成员函数的路由事件处理函数
-         * @tparam T        成员函数所在的类
+         * @brief 移除已添加的类型为成员函数的路由事件处理函数
+         * @tparam T 成员函数所在的类
          * @param eventType 路由事件类型
-         * @param obj       注册的成员函数所在的对象
-         * @param handler   处理函数
-         * @return          是否成功移除
+         * @param obj 注册的成员函数所在的对象
+         * @param handler 处理函数
+         * @return 是否成功移除
          */
         template <typename T>
         bool RemoveHandler(RoutedEventType eventType, T &obj, void (T::*handler)(UIElement &, RoutedEventArgs &))
@@ -1293,10 +1293,10 @@ namespace sw
         }
 
         /**
-         * @brief             移除已添加的路由事件处理函数
+         * @brief 移除已添加的路由事件处理函数
          * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
-         * @param handler     事件的处理函数
-         * @return            是否成功移除
+         * @param handler 事件的处理函数
+         * @return 是否成功移除
          */
         template <typename TEventArgs>
         auto RemoveHandler(const Action<UIElement &, TEventArgs &> &handler)
@@ -1310,12 +1310,12 @@ namespace sw
         }
 
         /**
-         * @brief             移除已添加的类型为成员函数的路由事件处理函数
+         * @brief 移除已添加的类型为成员函数的路由事件处理函数
          * @tparam TEventArgs 路由事件的参数类型，必须继承自TypedRoutedEventArgs<...>
          * @tparam THandleObj 成员函数所在的类
-         * @param obj         注册的成员函数所在的对象
-         * @param handler     事件的处理函数
-         * @return            是否成功移除
+         * @param obj 注册的成员函数所在的对象
+         * @param handler 事件的处理函数
+         * @return 是否成功移除
          */
         template <typename TEventArgs, typename THandleObj>
         auto RemoveHandler(THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))
@@ -1329,11 +1329,11 @@ namespace sw
         }
 
         /**
-         * @brief             移除已添加的路由事件处理函数
+         * @brief 移除已添加的路由事件处理函数
          * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventArgs
-         * @param eventType   路由事件类型
-         * @param handler     处理函数
-         * @return            是否成功移除
+         * @param eventType 路由事件类型
+         * @param handler 处理函数
+         * @return 是否成功移除
          */
         template <typename TEventArgs>
         auto RemoveHandler(RoutedEventType eventType, const Action<UIElement &, TEventArgs &> &handler)
@@ -1351,13 +1351,13 @@ namespace sw
         }
 
         /**
-         * @brief             移除已添加的类型为成员函数的路由事件处理函数
+         * @brief 移除已添加的类型为成员函数的路由事件处理函数
          * @tparam TEventArgs 路由事件的参数类型，必须继承自RoutedEventArgs
          * @tparam THandleObj 成员函数所在的类
-         * @param eventType   路由事件类型
-         * @param obj         注册的成员函数所在的对象
-         * @param handler     处理函数
-         * @return            是否成功移除
+         * @param eventType 路由事件类型
+         * @param obj 注册的成员函数所在的对象
+         * @param handler 处理函数
+         * @return 是否成功移除
          */
         template <typename TEventArgs, typename THandleObj>
         auto RemoveHandler(RoutedEventType eventType, THandleObj &obj, void (THandleObj::*handler)(UIElement &, TEventArgs &))

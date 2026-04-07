@@ -1173,7 +1173,7 @@ namespace sw
 
         /**
          * @brief 不等于运算
-         * @note  避免与c++20自动生成的!=冲突，通过==取反实现
+         * @note 避免与c++20自动生成的!=冲突，通过==取反实现
          */
         template <typename U>
         auto operator!=(U &&value) const
@@ -1184,7 +1184,7 @@ namespace sw
 
         /**
          * @brief 不等于运算
-         * @note  避免与c++20自动生成的!=冲突，通过==取反实现
+         * @note 避免与c++20自动生成的!=冲突，通过==取反实现
          */
         template <typename D, typename U>
         auto operator!=(const PropertyBase<U, D> &prop) const
@@ -1590,7 +1590,7 @@ namespace sw
 
     /**
      * @brief 不等于运算
-     * @note  避免与c++20自动生成的!=冲突，通过==取反实现
+     * @note 避免与c++20自动生成的!=冲突，通过==取反实现
      */
     template <typename D, typename T, typename U>
     auto operator!=(T &&left, const PropertyBase<U, D> &right)

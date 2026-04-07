@@ -59,15 +59,15 @@ namespace sw
         virtual void OnDoubleClicked();
 
         /**
-         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @brief 当父窗口接收到控件的WM_COMMAND时调用该函数
          * @param code 通知代码
          */
         virtual void OnCommand(int code) override;
 
         /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @brief 测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
+         * @return 返回元素需要占用的尺寸
          */
         virtual Size MeasureOverride(const Size &availableSize) override;
 
@@ -79,19 +79,19 @@ namespace sw
 
         /**
          * @brief 获取理想尺寸
-         * @note  该函数发送BCM_GETIDEALSIZE消息
+         * @note 该函数发送BCM_GETIDEALSIZE消息
          */
         bool _GetIdealSize(SIZE &size);
 
         /**
          * @brief 获取按钮控件中绘制文本的边距
-         * @note  该函数发送BCM_GETTEXTMARGIN消息
+         * @note 该函数发送BCM_GETTEXTMARGIN消息
          */
         bool _GetTextMargin(RECT &rect);
 
         /**
          * @brief 设置按钮控件中绘制文本的边距
-         * @note  该函数发送BCM_SETTEXTMARGIN消息
+         * @note 该函数发送BCM_SETTEXTMARGIN消息
          */
         bool _SetTextMargin(RECT &rect);
     };

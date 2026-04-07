@@ -116,7 +116,7 @@ namespace sw
 
         /**
          * @brief 指定按下“重试”按钮时的处理函数
-         * @note  只有在按钮类型为CancelRetryContinue并按下“重试”时才触发
+         * @note 只有在按钮类型为CancelRetryContinue并按下“重试”时才触发
          */
         MsgBoxResultHelper &OnTryAgain(const Action<> &callback);
 

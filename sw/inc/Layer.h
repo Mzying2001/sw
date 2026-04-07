@@ -250,10 +250,10 @@ namespace sw
         }
 
         /**
-         * @brief           触发滚动条相关事件时调用该函数
+         * @brief 触发滚动条相关事件时调用该函数
          * @param scrollbar 滚动条类型
-         * @param event     滚动条事件
-         * @param pos       当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
+         * @param event 滚动条事件
+         * @param pos 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
          */
         virtual void OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double pos)
         {
@@ -338,10 +338,10 @@ namespace sw
         }
 
         /**
-         * @brief       接收到WM_VSCROLL时调用目标控件的该函数
+         * @brief 接收到WM_VSCROLL时调用目标控件的该函数
          * @param event 事件类型，即消息wParam的低字
-         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param pos 当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnVerticalScroll(int event, int pos) override
         {
@@ -351,10 +351,10 @@ namespace sw
         }
 
         /**
-         * @brief       接收到WM_HSCROLL时调用目标控件的该函数
+         * @brief 接收到WM_HSCROLL时调用目标控件的该函数
          * @param event 事件类型，即消息wParam的低字
-         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param pos 当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnHorizontalScroll(int event, int pos) override
         {
@@ -364,7 +364,7 @@ namespace sw
         }
 
         /**
-         * @brief           安排元素位置
+         * @brief 安排元素位置
          * @param finalSize 最终元素所安排的位置
          */
         virtual void Arrange(const sw::Rect &finalPosition) override
@@ -374,9 +374,9 @@ namespace sw
         }
 
         /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @brief 测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
+         * @return 返回元素需要占用的尺寸
          */
         virtual Size MeasureOverride(const Size &availableSize) override
         {
@@ -392,7 +392,7 @@ namespace sw
         }
 
         /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @brief 安排子元素的位置，可重写该函数以实现自定义布局
          * @param finalSize 可用于排列子元素的最终尺寸
          */
         virtual void ArrangeOverride(const Size &finalSize) override
@@ -412,9 +412,9 @@ namespace sw
         }
 
         /**
-         * @brief            尝试将指定的矩形区域移动到可视区域内
+         * @brief 尝试将指定的矩形区域移动到可视区域内
          * @param screenRect 要移动到可视区域的矩形在屏幕中的位置
-         * @return           若已处理该请求则返回true，否则返回false以继续向上冒泡
+         * @return 若已处理该请求则返回true，否则返回false以继续向上冒泡
          */
         virtual bool RequestBringIntoView(const sw::Rect &screenRect) override
         {
@@ -457,9 +457,9 @@ namespace sw
         }
 
         /**
-         * @brief           路由事件经过当前元素时调用该函数
+         * @brief 路由事件经过当前元素时调用该函数
          * @param eventArgs 事件参数
-         * @param handler   事件处理函数，值为空时表示当前元素没有注册该事件处理函数
+         * @param handler 事件处理函数，值为空时表示当前元素没有注册该事件处理函数
          */
         virtual void OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler) override
         {
@@ -487,7 +487,7 @@ namespace sw
 
     public:
         /**
-         * @brief        获取横向滚动条的范围
+         * @brief 获取横向滚动条的范围
          * @param refMin 滚动范围最小值
          * @param refMax 滚动范围最大值
          */
@@ -501,7 +501,7 @@ namespace sw
         }
 
         /**
-         * @brief        获取纵向滚动条的范围
+         * @brief 获取纵向滚动条的范围
          * @param refMin 滚动范围最小值
          * @param refMax 滚动范围最大值
          */
@@ -515,7 +515,7 @@ namespace sw
         }
 
         /**
-         * @brief     设置横向滚动条的范围
+         * @brief 设置横向滚动条的范围
          * @param min 滚动范围最小值
          * @param max 滚动范围最大值
          */
@@ -532,7 +532,7 @@ namespace sw
         }
 
         /**
-         * @brief     设置纵向滚动条的范围
+         * @brief 设置纵向滚动条的范围
          * @param min 滚动范围最小值
          * @param max 滚动范围最大值
          */
@@ -685,7 +685,7 @@ namespace sw
         }
 
         /**
-         * @brief        水平滚动
+         * @brief 水平滚动
          * @param offset 滚动的偏移量
          */
         void ScrollHorizontal(double offset)
@@ -694,7 +694,7 @@ namespace sw
         }
 
         /**
-         * @brief        垂直滚动
+         * @brief 垂直滚动
          * @param offset 滚动的偏移量
          */
         void ScrollVertical(double offset)

@@ -45,42 +45,42 @@ namespace sw
 
     public:
         /**
-         * @brief      构造一个MenuItem，并设置文本
+         * @brief 构造一个MenuItem，并设置文本
          * @param text 菜单项的文本
          */
         MenuItem(const std::wstring &text);
 
         /**
-         * @brief         构造一个MenuItem，并设置其回调函数
-         * @param text    菜单项的文本
+         * @brief 构造一个MenuItem，并设置其回调函数
+         * @param text 菜单项的文本
          * @param command 被单击时调用的函数
          */
         MenuItem(const std::wstring &text, const MenuItemCommand &command);
 
         /**
-         * @brief          构造一个MenuItem，并设置其子项
-         * @param text     菜单下的文本
+         * @brief 构造一个MenuItem，并设置其子项
+         * @param text 菜单下的文本
          * @param subItems 子项列表
          */
         MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
 
         /**
-         * @brief      构造一个MenuItem，并设置tag及文本
+         * @brief 构造一个MenuItem，并设置tag及文本
          * @param text 菜单项的文本
          */
         MenuItem(uint64_t tag, const std::wstring &text);
 
         /**
-         * @brief         构造一个MenuItem，并设置tag及回调函数
-         * @param text    菜单项的文本
+         * @brief 构造一个MenuItem，并设置tag及回调函数
+         * @param text 菜单项的文本
          * @param command 被单击时调用的函数
          */
         MenuItem(uint64_t tag, const std::wstring &text, const MenuItemCommand &command);
 
         /**
-         * @brief         构造一个MenuItem，设置成员函数为回调函数
-         * @tparam T      成员函数所在的类
-         * @param obj     成员函数所在的对象
+         * @brief 构造一个MenuItem，设置成员函数为回调函数
+         * @tparam T 成员函数所在的类
+         * @param obj 成员函数所在的对象
          * @param handler 处理函数
          */
         template <typename T>
@@ -90,9 +90,9 @@ namespace sw
         }
 
         /**
-         * @brief         构造一个MenuItem，设置成员函数为回调函数
-         * @tparam T      成员函数所在的类
-         * @param obj     成员函数所在的对象
+         * @brief 构造一个MenuItem，设置成员函数为回调函数
+         * @tparam T 成员函数所在的类
+         * @param obj 成员函数所在的对象
          * @param handler 处理函数
          */
         template <typename T>

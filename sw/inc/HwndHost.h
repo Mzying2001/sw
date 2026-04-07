@@ -54,20 +54,20 @@ namespace sw
         void InitHwndHost();
 
         /**
-         * @brief       字体改变时调用该函数
+         * @brief 字体改变时调用该函数
          * @param hfont 字体句柄
          */
         virtual void FontChanged(HFONT hfont) override;
 
         /**
-         * @brief               接收到WM_SIZE时调用该函数
+         * @brief 接收到WM_SIZE时调用该函数
          * @param newClientSize 改变后的用户区尺寸
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(const Size &newClientSize) override;
 
         /**
-         * @brief  接收到WM_DESTROY时调用该函数
+         * @brief 接收到WM_DESTROY时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDestroy() override;
@@ -85,14 +85,14 @@ namespace sw
 
     protected:
         /**
-         * @brief         初始化HwndHost时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄
+         * @brief 初始化HwndHost时会调用该函数，需在该函数中创建要被托管的窗口句柄，设置其父窗口并返回被托管的句柄
          * @param hParent 需要给被托管窗口句柄设置的父窗口句柄
-         * @return        被托管窗口句柄
+         * @return 被托管窗口句柄
          */
         virtual HWND BuildWindowCore(HWND hParent) = 0;
 
         /**
-         * @brief      HwndHost被销毁时会调用该函数来销毁被托管的窗口句柄
+         * @brief HwndHost被销毁时会调用该函数来销毁被托管的窗口句柄
          * @param hwnd 被托管窗口句柄
          */
         virtual void DestroyWindowCore(HWND hwnd) = 0;

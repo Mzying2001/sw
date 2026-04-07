@@ -22,16 +22,16 @@ namespace sw
 
     protected:
         /**
-         * @brief       根据索引获取ID
+         * @brief 根据索引获取ID
          * @param index 索引
-         * @return      菜单项的ID
+         * @return 菜单项的ID
          */
         virtual int IndexToID(int index) override;
 
         /**
-         * @brief    根据ID获取索引
+         * @brief 根据ID获取索引
          * @param id 菜单项的ID
-         * @return   索引
+         * @return 索引
          */
         virtual int IDToIndex(int id) override;
     };

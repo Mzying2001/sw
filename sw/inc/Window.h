@@ -99,7 +99,7 @@ namespace sw
 
         /**
          * @brief 当前线程已创建的窗口数
-         * @note  该属性是线程局部的，每个线程有各自独立的值
+         * @note 该属性是线程局部的，每个线程有各自独立的值
          */
         static const ReadOnlyProperty<int> WindowCount;
 
@@ -144,7 +144,7 @@ namespace sw
         const Property<sw::Menu *> Menu;
 
         /**
-         * @brief  窗口是否显示为模态窗口，当调用ShowDialog时该属性值为true，否则为false
+         * @brief 窗口是否显示为模态窗口，当调用ShowDialog时该属性值为true，否则为false
          */
         const ReadOnlyProperty<bool> IsModal;
 
@@ -160,7 +160,7 @@ namespace sw
 
         /**
          * @brief 窗口的透明度，范围为0.0~1.0
-         * @note  只有将IsLayered设为true该属性才生效，初始值为0.0但需手动设置新值后才会生效
+         * @note 只有将IsLayered设为true该属性才生效，初始值为0.0但需手动设置新值后才会生效
          */
         const Property<double> Opacity;
 
@@ -171,7 +171,7 @@ namespace sw
 
         /**
          * @brief 窗口的对话框结果，ShowDialog返回该值
-         * @note  该属性仅在窗口作为模态对话框显示时有效，默认值为0，该属性一旦被设置则会自动关闭窗口
+         * @note 该属性仅在窗口作为模态对话框显示时有效，默认值为0，该属性一旦被设置则会自动关闭窗口
          */
         const Property<int> DialogResult;
 
@@ -208,39 +208,39 @@ namespace sw
         virtual LayoutHost *GetDefaultLayout() override;
 
         /**
-         * @brief  接收到WM_CREATE时调用该函数
+         * @brief 接收到WM_CREATE时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnCreate() override;
 
         /**
-         * @brief  接收到WM_CLOSE时调用该函数
+         * @brief 接收到WM_CLOSE时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnClose() override;
 
         /**
-         * @brief  接收到WM_DESTROY时调用该函数
+         * @brief 接收到WM_DESTROY时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDestroy() override;
 
         /**
-         * @brief        接收到WM_ERASEBKGND时调用该函数
-         * @param hdc    设备上下文句柄
+         * @brief 接收到WM_ERASEBKGND时调用该函数
+         * @param hdc 设备上下文句柄
          * @param result 若已处理该消息则设为非零值，默认值为0
-         * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         * @return 若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
         virtual bool OnEraseBackground(HDC hdc, LRESULT &result) override;
 
         /**
-         * @brief  接收到WM_PAINT时调用该函数
+         * @brief 接收到WM_PAINT时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnPaint() override;
 
         /**
-         * @brief    当OnCommand接收到菜单命令时调用该函数
+         * @brief 当OnCommand接收到菜单命令时调用该函数
          * @param id 菜单id
          */
         virtual void OnMenuCommand(int id) override;
@@ -266,11 +266,11 @@ namespace sw
         virtual void OnInactived();
 
         /**
-         * @brief         接收到WM_DPICHANGED时调用该函数
-         * @param dpiX    横向DPI
-         * @param dpiY    纵向DPI
+         * @brief 接收到WM_DPICHANGED时调用该函数
+         * @param dpiX 横向DPI
+         * @param dpiY 纵向DPI
          * @param newRect 建议的新窗口位置和尺寸
-         * @return        若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDpiChanged(int dpiX, int dpiY, RECT &newRect);
 
@@ -286,39 +286,39 @@ namespace sw
         virtual void Show() override;
 
         /**
-         * @brief       将窗口显示为模式对话框
+         * @brief 将窗口显示为模式对话框
          * @param owner 窗体的所有者，若为nullptr则使用当前活动窗口
-         * @return      DialogResult属性的值，若函数失败则返回-1
-         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出，只能在创建窗口的线程调用
+         * @return DialogResult属性的值，若函数失败则返回-1
+         * @note 该函数会创建一个新的消息循环并在窗口销毁时退出，只能在创建窗口的线程调用
          */
         virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
-         * @brief       将窗口显示为模式对话框
+         * @brief 将窗口显示为模式对话框
          * @param owner 窗体的所有者，窗体显示期间该窗体的Enabled属性将被设为false，该参数不能设为自己
-         * @return      DialogResult属性的值，若函数失败则返回-1
-         * @note        该函数会创建一个新的消息循环并在窗口销毁时退出，只能在创建窗口的线程调用
+         * @return DialogResult属性的值，若函数失败则返回-1
+         * @note 该函数会创建一个新的消息循环并在窗口销毁时退出，只能在创建窗口的线程调用
          */
         virtual int ShowDialog(Window &owner);
 
         /**
-         * @brief  禁用窗口布局
-         * @note   需与EnableLayout配对使用，内部维护了一个计数器以支持嵌套调用
-         * @note   禁用布局操作只对顶层窗口有效，且只能在窗口所在的线程调用该函数
+         * @brief 禁用窗口布局
+         * @note 需与EnableLayout配对使用，内部维护了一个计数器以支持嵌套调用
+         * @note 禁用布局操作只对顶层窗口有效，且只能在窗口所在的线程调用该函数
          * @return 操作是否成功
          */
         bool DisableLayout();
 
         /**
-         * @brief       恢复窗口布局，与DisableLayout配对使用
+         * @brief 恢复窗口布局，与DisableLayout配对使用
          * @param reset 若该参数为true则直接将布局禁用计数器重置为0
-         * @note        禁用布局操作只对顶层窗口有效，且只能在窗口所在的线程调用该函数
-         * @return      操作是否成功
+         * @note 禁用布局操作只对顶层窗口有效，且只能在窗口所在的线程调用该函数
+         * @return 操作是否成功
          */
         bool EnableLayout(bool reset = false);
 
         /**
-         * @brief       设置图标
+         * @brief 设置图标
          * @param hIcon 图标句柄
          */
         void SetIcon(HICON hIcon);
@@ -329,8 +329,8 @@ namespace sw
         void DrawMenuBar();
 
         /**
-         * @brief  调整窗口尺寸以适应其内容大小
-         * @note   该函数仅对设置了布局方式且AutoSize属性为true的顶级窗口有效
+         * @brief 调整窗口尺寸以适应其内容大小
+         * @note 该函数仅对设置了布局方式且AutoSize属性为true的顶级窗口有效
          * @return 若窗口尺寸已被调整则返回true，否则返回false
          */
         bool SizeToContent();
@@ -365,33 +365,33 @@ namespace sw
         bool _IsLayoutDisabled() const noexcept;
 
         /**
-         * @brief      将窗口居中于指定矩形区域
+         * @brief 将窗口居中于指定矩形区域
          * @param rect 目标矩形区域
          */
         void _CenterWindow(const sw::Rect &rect);
 
         /**
-         * @brief       限制窗口的最小和最大尺寸
+         * @brief 限制窗口的最小和最大尺寸
          * @param pInfo 指向MINMAXINFO结构的指针
          */
         void _ClampMinMaxSize(PMINMAXINFO pInfo);
 
         /**
-         * @brief      通过窗口句柄获取Window指针
+         * @brief 通过窗口句柄获取Window指针
          * @param hwnd 窗口句柄
-         * @return     若函数成功则返回对象的指针，否则返回nullptr
+         * @return 若函数成功则返回对象的指针，否则返回nullptr
          */
         static Window *_GetWindowPtr(HWND hwnd);
 
         /**
-         * @brief      关联窗口句柄与Window对象
+         * @brief 关联窗口句柄与Window对象
          * @param hwnd 窗口句柄
-         * @param wnd  与句柄关联的对象
+         * @param wnd 与句柄关联的对象
          */
         static void _SetWindowPtr(HWND hwnd, Window &wnd);
 
         /**
-         * @brief  获取窗口默认图标（即当前exe图标）
+         * @brief 获取窗口默认图标（即当前exe图标）
          * @return 图标句柄
          */
         static HICON _GetWindowDefaultIcon();

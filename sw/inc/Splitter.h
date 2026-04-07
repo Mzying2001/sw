@@ -39,15 +39,15 @@ namespace sw
 
     protected:
         /**
-         * @brief  接收到WM_PAINT时调用该函数
+         * @brief 接收到WM_PAINT时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnPaint() override;
 
         /**
-         * @brief               接收到WM_SIZE时调用该函数
+         * @brief 接收到WM_SIZE时调用该函数
          * @param newClientSize 改变后的用户区尺寸
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(const Size &newClientSize) override;
     };

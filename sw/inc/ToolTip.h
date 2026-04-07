@@ -68,15 +68,15 @@ namespace sw
 
     public:
         /**
-         * @brief         给指定句柄设置提示信息
-         * @param hwnd    要设置提示信息的句柄
+         * @brief 给指定句柄设置提示信息
+         * @param hwnd 要设置提示信息的句柄
          * @param tooltip 提示信息
          */
         bool SetToolTip(HWND hwnd, const std::wstring &tooltip);
 
         /**
-         * @brief         给指定窗口或控件设置提示信息
-         * @param wnd     要设置提示信息的窗口或控件
+         * @brief 给指定窗口或控件设置提示信息
+         * @param wnd 要设置提示信息的窗口或控件
          * @param tooltip 提示信息
          */
         bool SetToolTip(const WndBase &wnd, const std::wstring &tooltip);

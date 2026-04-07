@@ -63,9 +63,9 @@ namespace sw
 
     protected:
         /**
-         * @brief               接收到WM_SIZE时调用该函数
+         * @brief 接收到WM_SIZE时调用该函数
          * @param newClientSize 改变后的用户区尺寸
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(const Size &newClientSize) override;
 
@@ -75,15 +75,15 @@ namespace sw
         virtual void OnTextChanged() override;
 
         /**
-         * @brief       字体改变时调用该函数
+         * @brief 字体改变时调用该函数
          * @param hfont 字体句柄
          */
         virtual void FontChanged(HFONT hfont) override;
 
         /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @brief 测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
+         * @return 返回元素需要占用的尺寸
          */
         virtual Size MeasureOverride(const Size &availableSize) override;
 

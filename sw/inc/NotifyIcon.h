@@ -125,7 +125,7 @@ namespace sw
         virtual LRESULT WndProc(ProcMsg &refMsg) override;
 
         /**
-         * @brief    当WM_COMMAND接收到菜单命令时调用该函数
+         * @brief 当WM_COMMAND接收到菜单命令时调用该函数
          * @param id 菜单id
          */
         virtual void OnMenuCommand(int id) override;
@@ -136,19 +136,19 @@ namespace sw
         virtual void OnNotyfyIconMessage(WPARAM wParam, LPARAM lParam);
 
         /**
-         * @brief          鼠标单击图标时调用该函数
+         * @brief 鼠标单击图标时调用该函数
          * @param mousePos 鼠标位置
          */
         virtual void OnClicked(const Point &mousePos);
 
         /**
-         * @brief          鼠标双击图标时调用该函数
+         * @brief 鼠标双击图标时调用该函数
          * @param mousePos 鼠标位置
          */
         virtual void OnDoubleClicked(const Point &mousePos);
 
         /**
-         * @brief          打开上下文菜单前调用该函数
+         * @brief 打开上下文菜单前调用该函数
          * @param mousePos 鼠标位置
          */
         virtual void OnContextMenuOpening(const Point &mousePos);
@@ -171,16 +171,16 @@ namespace sw
 
         /**
          * @brief 销毁通知图标
-         * @note  调用该函数后不应继续使用当前对象
+         * @note 调用该函数后不应继续使用当前对象
          */
         void Destroy();
 
         /**
-         * @brief       弹出上下文菜单
+         * @brief 弹出上下文菜单
          * @param point 弹出菜单在屏幕中的位置
-         * @param horz  菜单的水平方向对齐方式
-         * @param vert  菜单的垂直方向对齐方式
-         * @return      若函数成功则返回true，否则返回false
+         * @param horz 菜单的水平方向对齐方式
+         * @param vert 菜单的垂直方向对齐方式
+         * @return 若函数成功则返回true，否则返回false
          */
         bool ShowContextMenu(
             const Point &point,

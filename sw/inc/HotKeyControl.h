@@ -57,15 +57,15 @@ namespace sw
         HotKeyControl();
 
         /**
-         * @brief                 设置无效组合与默认值
-         * @param invalidComb     无效的组合键
+         * @brief 设置无效组合与默认值
+         * @param invalidComb 无效的组合键
          * @param defaultModifier 用户输入无效组合时使用该组合键替换
          */
         void SetRules(HotKeyCombination invalidComb, HotKeyModifier defaultModifier);
 
     protected:
         /**
-         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @brief 当父窗口接收到控件的WM_COMMAND时调用该函数
          * @param code 通知代码
          */
         virtual void OnCommand(int code) override;

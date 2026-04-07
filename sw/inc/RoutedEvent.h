@@ -182,7 +182,7 @@ namespace sw
 
     /**
      * @brief 路由事件类型
-     * @note  第一个参数为注册事件监听器的元素，第二个参数为具体的事件参数
+     * @note 第一个参数为注册事件监听器的元素，第二个参数为具体的事件参数
      */
     using RoutedEventHandler = EventHandler<UIElement, RoutedEventArgs>;
 }

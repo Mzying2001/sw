@@ -23,9 +23,9 @@ namespace sw
 
     protected:
         /**
-         * @brief            初始化图像列表
+         * @brief 初始化图像列表
          * @param hImageList 图像列表的句柄
-         * @param isWrap     是否为包装对象
+         * @param isWrap 是否为包装对象
          */
         ImageList(HIMAGELIST hImageList, bool isWrap);
 
@@ -61,15 +61,15 @@ namespace sw
         ImageList &operator=(ImageList &&other);
 
         /**
-         * @brief  创建一个图像列表，该函数调用ImageList_Create
+         * @brief 创建一个图像列表，该函数调用ImageList_Create
          * @return 图像列表对象
          */
         static ImageList Create(int cx, int cy, UINT flags, int cInitial, int cGrow);
 
         /**
-         * @brief            包装一个图像列表句柄为ImageList对象，通过该函数创建的对象析构时不会销毁句柄
+         * @brief 包装一个图像列表句柄为ImageList对象，通过该函数创建的对象析构时不会销毁句柄
          * @param hImageList 要包装的句柄
-         * @return           包装原有句柄的对象
+         * @return 包装原有句柄的对象
          */
         static ImageList Wrap(HIMAGELIST hImageList);
 
@@ -85,7 +85,7 @@ namespace sw
 
         /**
          * @brief 锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter
-         * @note  该函数参数以像素为单位
+         * @note 该函数参数以像素为单位
          */
         static bool DragEnterPx(HWND hwndLock, int x, int y);
 
@@ -101,7 +101,7 @@ namespace sw
 
         /**
          * @brief 拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove
-         * @note  该函数参数以像素为单位
+         * @note 该函数参数以像素为单位
          */
         static bool DragMovePx(int x, int y);
 
@@ -152,7 +152,7 @@ namespace sw
         bool IsWrap() const;
 
         /**
-         * @brief  获取图像列表句柄并取消对句柄的托管，调用该函数后当前对象将不可用，析构时也不会销毁句柄
+         * @brief 获取图像列表句柄并取消对句柄的托管，调用该函数后当前对象将不可用，析构时也不会销毁句柄
          * @return 当前对象的图像列表句柄
          */
         HIMAGELIST ReleaseHandle();

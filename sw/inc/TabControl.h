@@ -69,42 +69,42 @@ namespace sw
         void UpdateTab();
 
         /**
-         * @brief       更新指定索引处页面项的文本
+         * @brief 更新指定索引处页面项的文本
          * @param index 要更新的索引
          */
         void UpdateTabText(int index);
 
     protected:
         /**
-         * @brief         添加子元素后调用该函数
+         * @brief 添加子元素后调用该函数
          * @param element 添加的子元素
          */
         virtual void OnAddedChild(UIElement &element) override;
 
         /**
-         * @brief         移除子元素后调用该函数
+         * @brief 移除子元素后调用该函数
          * @param element 移除的子元素
          */
         virtual void OnRemovedChild(UIElement &element) override;
 
         /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @brief 测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
+         * @return 返回元素需要占用的尺寸
          */
         virtual Size MeasureOverride(const Size &availableSize) override;
 
         /**
-         * @brief           安排子元素的位置，可重写该函数以实现自定义布局
+         * @brief 安排子元素的位置，可重写该函数以实现自定义布局
          * @param finalSize 可用于排列子元素的最终尺寸
          */
         virtual void ArrangeOverride(const Size &finalSize) override;
 
         /**
-         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @brief 父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
          * @param pNMHDR 包含有关通知消息的信息
          * @param result 函数返回值为true时将该值作为消息的返回值
-         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 

@@ -83,7 +83,7 @@ namespace sw
 
         /**
          * @brief 自定义颜色数组，包含16个COLORREF元素
-         * @note  默认使用一个全局的自定义颜色数组，若需要自定义请在ShowDialog前修改该数组内容
+         * @note 默认使用一个全局的自定义颜色数组，若需要自定义请在ShowDialog前修改该数组内容
          */
         const Property<COLORREF *> CustomColors;
 
@@ -104,13 +104,13 @@ namespace sw
         virtual void Show() override;
 
         /**
-         * @brief  显示对话框，并指定所有者窗口
+         * @brief 显示对话框，并指定所有者窗口
          * @return 若用户选择了颜色则返回true，否则返回false
          */
         virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
-         * @brief  显示对话框，并指定所有者窗口
+         * @brief 显示对话框，并指定所有者窗口
          * @return 若用户选择了颜色则返回true，否则返回false
          */
         virtual int ShowDialog(Window &owner);

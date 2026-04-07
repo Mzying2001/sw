@@ -116,7 +116,7 @@ namespace sw
         bool RemoveBinding(FieldId propertyId);
 
         /**
-         * @brief  移除指定属性的绑定对象
+         * @brief 移除指定属性的绑定对象
          * @return 若函数成功则返回true，否则返回false
          */
         template <typename T, typename TProperty>

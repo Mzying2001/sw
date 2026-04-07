@@ -14,7 +14,7 @@ namespace
     thread_local sw::Action<MSG &> _nullHwndMsgHandler;
 
     /**
-     * @brief  获取当前exe文件路径
+     * @brief 获取当前exe文件路径
      */
     std::wstring _GetExePath()
     {

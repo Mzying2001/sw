@@ -130,7 +130,7 @@ namespace sw
         }
 
         /**
-         * @brief  添加一个值到列表末尾
+         * @brief 添加一个值到列表末尾
          * @return 当前列表
          */
         auto Append(const T &value) const
@@ -140,7 +140,7 @@ namespace sw
         }
 
         /**
-         * @brief  添加一个值到列表末尾
+         * @brief 添加一个值到列表末尾
          * @return 当前列表
          */
         auto Append(T &&value) const
@@ -150,7 +150,7 @@ namespace sw
         }
 
         /**
-         * @brief  在指定位置插入值
+         * @brief 在指定位置插入值
          * @return 当前列表
          */
         auto Insert(int index, const T &value) const
@@ -160,7 +160,7 @@ namespace sw
         }
 
         /**
-         * @brief  在指定位置插入值
+         * @brief 在指定位置插入值
          * @return 当前列表
          */
         auto Insert(int index, T &&value) const
@@ -170,7 +170,7 @@ namespace sw
         }
 
         /**
-         * @brief       列表是否包含某个值
+         * @brief 列表是否包含某个值
          * @param value 要查找的值
          */
         bool Contains(const T &value) const
@@ -179,9 +179,9 @@ namespace sw
         }
 
         /**
-         * @brief       查找值在列表中的索引
+         * @brief 查找值在列表中的索引
          * @param value 要查找的值
-         * @return      若列表中包含该值则返回其索引，否则返回-1
+         * @return 若列表中包含该值则返回其索引，否则返回-1
          */
         int IndexOf(const T &value) const
         {
@@ -190,9 +190,9 @@ namespace sw
         }
 
         /**
-         * @brief       移除列表中第一个指定的值
+         * @brief 移除列表中第一个指定的值
          * @param value 要移除的值
-         * @return      是否成功移除
+         * @return 是否成功移除
          */
         bool Remove(const T &value) const
         {
@@ -204,7 +204,7 @@ namespace sw
         }
 
         /**
-         * @brief       移除指定索引处的值
+         * @brief 移除指定索引处的值
          * @param index 要移除元素的索引
          */
         void RemoveAt(int index) const

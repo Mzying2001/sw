@@ -214,17 +214,17 @@ namespace sw
         FileFilter(std::initializer_list<FileFilterItem> filters);
 
         /**
-         * @brief        添加筛选器
-         * @param name   名称，示例：All Files
+         * @brief 添加筛选器
+         * @param name 名称，示例：All Files
          * @param filter 筛选器，示例：*.*
-         * @return       是否成功添加
+         * @return 是否成功添加
          */
         bool AddFilter(const std::wstring &name, const std::wstring &filter, const std::wstring &defaultExt = L"");
 
         /**
-         * @brief         清空现有筛选器并重新设置筛选器
+         * @brief 清空现有筛选器并重新设置筛选器
          * @param filters 筛选器列表
-         * @return        成功添加的筛选器个数
+         * @return 成功添加的筛选器个数
          */
         int SetFilter(std::initializer_list<FileFilterItem> filters);
 
@@ -239,7 +239,7 @@ namespace sw
         wchar_t *GetFilterStr();
 
         /**
-         * @brief  获取指定索引处筛选器的默认扩展名
+         * @brief 获取指定索引处筛选器的默认扩展名
          */
         const wchar_t *GetDefaultExt(int index);
     };
@@ -328,7 +328,7 @@ namespace sw
         FileDialog();
 
         /**
-         * @brief        设置筛选器
+         * @brief 设置筛选器
          * @param filter 筛选器
          */
         void SetFilter(const FileFilter &filter);
@@ -344,13 +344,13 @@ namespace sw
         virtual void Show() override;
 
         /**
-         * @brief  显示对话框，并指定所有者窗口
+         * @brief 显示对话框，并指定所有者窗口
          * @return 若用户选择了文件则返回true，否则返回false
          */
         virtual int ShowDialog(Window *owner = nullptr) override = 0;
 
         /**
-         * @brief  显示对话框，并指定所有者窗口
+         * @brief 显示对话框，并指定所有者窗口
          * @return 若用户选择了文件则返回true，否则返回false
          */
         virtual int ShowDialog(Window &owner) = 0;
@@ -372,7 +372,7 @@ namespace sw
         void ClearBuffer();
 
         /**
-         * @brief          处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理
+         * @brief 处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理
          * @param fileName 获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容
          */
         virtual void ProcessFileName(std::wstring &fileName);
@@ -390,13 +390,13 @@ namespace sw
         OpenFileDialog();
 
         /**
-         * @brief  显示对话框，并指定所有者窗口
+         * @brief 显示对话框，并指定所有者窗口
          * @return 若用户选择了文件则返回true，否则返回false
          */
         virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
-         * @brief  显示对话框，并指定所有者窗口
+         * @brief 显示对话框，并指定所有者窗口
          * @return 若用户选择了文件则返回true，否则返回false
          */
         virtual int ShowDialog(Window &owner) override;
@@ -425,20 +425,20 @@ namespace sw
         SaveFileDialog();
 
         /**
-         * @brief  显示对话框，并指定所有者窗口
+         * @brief 显示对话框，并指定所有者窗口
          * @return 若用户选择了文件则返回true，否则返回false
          */
         virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
-         * @brief  显示对话框，并指定所有者窗口
+         * @brief 显示对话框，并指定所有者窗口
          * @return 若用户选择了文件则返回true，否则返回false
          */
         virtual int ShowDialog(Window &owner) override;
 
     protected:
         /**
-         * @brief          处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理
+         * @brief 处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理
          * @param fileName 获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容
          */
         virtual void ProcessFileName(std::wstring &fileName) override;

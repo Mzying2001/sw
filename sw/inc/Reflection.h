@@ -54,7 +54,7 @@ namespace sw
         }
 
         /**
-         * @brief  判断对象是否为装箱对象
+         * @brief 判断对象是否为装箱对象
          * @return 如果对象为装箱对象则返回true，否则返回false
          */
         bool IsBoxedObject() const noexcept
@@ -63,7 +63,7 @@ namespace sw
         }
 
         /**
-         * @brief  获取对象的类型索引
+         * @brief 获取对象的类型索引
          * @return 对象的类型索引
          */
         std::type_index GetTypeIndex() const
@@ -76,10 +76,10 @@ namespace sw
         }
 
         /**
-         * @brief      判断对象是否为指定类型
-         * @tparam T   目标类型
+         * @brief 判断对象是否为指定类型
+         * @tparam T 目标类型
          * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
-         * @return     如果对象为指定类型则返回true，否则返回false
+         * @return 如果对象为指定类型则返回true，否则返回false
          */
         template <typename T>
         auto IsType(T **pout = nullptr)
@@ -98,10 +98,10 @@ namespace sw
         }
 
         /**
-         * @brief      判断对象是否为指定类型
-         * @tparam T   目标类型
+         * @brief 判断对象是否为指定类型
+         * @tparam T 目标类型
          * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
-         * @return     如果对象为指定类型则返回true，否则返回false
+         * @return 如果对象为指定类型则返回true，否则返回false
          */
         template <typename T>
         auto IsType(const T **pout = nullptr) const
@@ -120,10 +120,10 @@ namespace sw
         }
 
         /**
-         * @brief    将对象动态转换为指定类型的引用
+         * @brief 将对象动态转换为指定类型的引用
          * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @throws   std::bad_cast 如果转换失败
+         * @return 指定类型的引用
+         * @throws std::bad_cast 如果转换失败
          */
         template <typename T>
         auto DynamicCast()
@@ -137,10 +137,10 @@ namespace sw
         }
 
         /**
-         * @brief    将对象动态转换为指定类型的常量引用
+         * @brief 将对象动态转换为指定类型的常量引用
          * @tparam T 目标类型
-         * @return   指定类型的常量引用
-         * @throws   std::bad_cast 如果转换失败
+         * @return 指定类型的常量引用
+         * @throws std::bad_cast 如果转换失败
          */
         template <typename T>
         auto DynamicCast() const
@@ -154,10 +154,10 @@ namespace sw
         }
 
         /**
-         * @brief    将对象不安全地转换为指定类型的引用
+         * @brief 将对象不安全地转换为指定类型的引用
          * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @note     若目标类型与当前类型不兼容，则行为未定义
+         * @return 指定类型的引用
+         * @note 若目标类型与当前类型不兼容，则行为未定义
          */
         template <typename T>
         auto UnsafeCast()
@@ -168,10 +168,10 @@ namespace sw
         }
 
         /**
-         * @brief    将对象不安全地转换为指定类型的引用
+         * @brief 将对象不安全地转换为指定类型的引用
          * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @note     若目标类型与当前类型不兼容，则行为未定义
+         * @return 指定类型的引用
+         * @note 若目标类型与当前类型不兼容，则行为未定义
          */
         template <typename T>
         auto UnsafeCast()
@@ -182,10 +182,10 @@ namespace sw
         }
 
         /**
-         * @brief    将对象不安全地转换为指定类型的引用
+         * @brief 将对象不安全地转换为指定类型的引用
          * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @note     若目标类型与当前类型不兼容，则行为未定义
+         * @return 指定类型的引用
+         * @note 若目标类型与当前类型不兼容，则行为未定义
          */
         template <typename T>
         auto UnsafeCast() const
@@ -196,10 +196,10 @@ namespace sw
         }
 
         /**
-         * @brief    将对象不安全地转换为指定类型的引用
+         * @brief 将对象不安全地转换为指定类型的引用
          * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @note     若目标类型与当前类型不兼容，则行为未定义
+         * @return 指定类型的引用
+         * @note 若目标类型与当前类型不兼容，则行为未定义
          */
         template <typename T>
         auto UnsafeCast() const
@@ -211,120 +211,120 @@ namespace sw
 
     public:
         /**
-         * @brief      判断对象是否为指定类型
-         * @tparam T   目标类型
-         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
-         * @return     如果对象为指定类型则返回true，否则返回false
-         */
-        template <typename T>
-        auto IsType(T **pout = nullptr)
-            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
-
-        /**
-         * @brief      判断对象是否为指定类型
-         * @tparam T   目标类型
-         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
-         * @return     如果对象为指定类型则返回true，否则返回false
-         */
-        template <typename T>
-        auto IsType(T **pout = nullptr)
-            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
-
-        /**
-         * @brief      判断对象是否为指定类型
-         * @tparam T   目标类型
-         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
-         * @return     如果对象为指定类型则返回true，否则返回false
-         */
-        template <typename T>
-        auto IsType(const T **pout = nullptr) const
-            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
-
-        /**
-         * @brief      判断对象是否为指定类型
-         * @tparam T   目标类型
-         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
-         * @return     如果对象为指定类型则返回true，否则返回false
-         */
-        template <typename T>
-        auto IsType(const T **pout = nullptr) const
-            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
-
-        /**
-         * @brief    将对象动态转换为指定类型的引用
+         * @brief 判断对象是否为指定类型
          * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @throws   std::bad_cast 如果转换失败
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return 如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(T **pout = nullptr)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
+
+        /**
+         * @brief 判断对象是否为指定类型
+         * @tparam T 目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return 如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(T **pout = nullptr)
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
+
+        /**
+         * @brief 判断对象是否为指定类型
+         * @tparam T 目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return 如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(const T **pout = nullptr) const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
+
+        /**
+         * @brief 判断对象是否为指定类型
+         * @tparam T 目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return 如果对象为指定类型则返回true，否则返回false
+         */
+        template <typename T>
+        auto IsType(const T **pout = nullptr) const
+            -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, bool>::type;
+
+        /**
+         * @brief 将对象动态转换为指定类型的引用
+         * @tparam T 目标类型
+         * @return 指定类型的引用
+         * @throws std::bad_cast 如果转换失败
          */
         template <typename T>
         auto DynamicCast()
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, T &>::type;
 
         /**
-         * @brief    将对象动态转换为指定类型的引用
+         * @brief 将对象动态转换为指定类型的引用
          * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @throws   std::bad_cast 如果转换失败
+         * @return 指定类型的引用
+         * @throws std::bad_cast 如果转换失败
          */
         template <typename T>
         auto DynamicCast()
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, T &>::type;
 
         /**
-         * @brief    将对象动态转换为指定类型的常量引用
+         * @brief 将对象动态转换为指定类型的常量引用
          * @tparam T 目标类型
-         * @return   指定类型的常量引用
-         * @throws   std::bad_cast 如果转换失败
+         * @return 指定类型的常量引用
+         * @throws std::bad_cast 如果转换失败
          */
         template <typename T>
         auto DynamicCast() const
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsDynamicCastable<DynamicObject *, T *>::value, const T &>::type;
 
         /**
-         * @brief    将对象动态转换为指定类型的常量引用
+         * @brief 将对象动态转换为指定类型的常量引用
          * @tparam T 目标类型
-         * @return   指定类型的常量引用
-         * @throws   std::bad_cast 如果转换失败
+         * @return 指定类型的常量引用
+         * @throws std::bad_cast 如果转换失败
          */
         template <typename T>
         auto DynamicCast() const
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsDynamicCastable<DynamicObject *, T *>::value, const T &>::type;
 
         /**
-         * @brief    将对象不安全地转换为指定类型的引用
+         * @brief 将对象不安全地转换为指定类型的引用
          * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @note     若目标类型与当前类型不兼容，则行为未定义
+         * @return 指定类型的引用
+         * @note 若目标类型与当前类型不兼容，则行为未定义
          */
         template <typename T>
         auto UnsafeCast()
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, T &>::type;
 
         /**
-         * @brief    将对象不安全地转换为指定类型的引用
+         * @brief 将对象不安全地转换为指定类型的引用
          * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @note     若目标类型与当前类型不兼容，则行为未定义
+         * @return 指定类型的引用
+         * @note 若目标类型与当前类型不兼容，则行为未定义
          */
         template <typename T>
         auto UnsafeCast()
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, T &>::type;
 
         /**
-         * @brief    将对象不安全地转换为指定类型的引用
+         * @brief 将对象不安全地转换为指定类型的引用
          * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @note     若目标类型与当前类型不兼容，则行为未定义
+         * @return 指定类型的引用
+         * @note 若目标类型与当前类型不兼容，则行为未定义
          */
         template <typename T>
         auto UnsafeCast() const
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && _IsStaticCastable<DynamicObject *, T *>::value, const T &>::type;
 
         /**
-         * @brief    将对象不安全地转换为指定类型的引用
+         * @brief 将对象不安全地转换为指定类型的引用
          * @tparam T 目标类型
-         * @return   指定类型的引用
-         * @note     若目标类型与当前类型不兼容，则行为未定义
+         * @return 指定类型的引用
+         * @note 若目标类型与当前类型不兼容，则行为未定义
          */
         template <typename T>
         auto UnsafeCast() const

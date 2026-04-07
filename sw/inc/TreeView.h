@@ -76,85 +76,85 @@ namespace sw
         std::wstring GetText() const;
 
         /**
-         * @brief  设置当前项的文本
+         * @brief 设置当前项的文本
          * @return 操作是否成功
          */
         bool SetText(const std::wstring &text);
 
         /**
-         * @brief  获取父节点
+         * @brief 获取父节点
          * @return 父节点，若无父节点则返回空节点
          */
         TreeViewNode GetParent() const;
 
         /**
-         * @brief  获取下一个节点
+         * @brief 获取下一个节点
          * @return 下一个节点，若无下一个节点则返回空节点
          */
         TreeViewNode GetNextNode() const;
 
         /**
-         * @brief  获取上一个节点
+         * @brief 获取上一个节点
          * @return 上一个节点，若无上一个节点则返回空节点
          */
         TreeViewNode GetPreviousNode() const;
 
         /**
-         * @brief  获取第一个子节点
+         * @brief 获取第一个子节点
          * @return 第一个子节点，若无子节点则返回空节点
          */
         TreeViewNode GetFirstChildNode() const;
 
         /**
-         * @brief  在当前节点后插入新节点
+         * @brief 在当前节点后插入新节点
          * @return 新插入的节点
          */
         TreeViewNode InsertAfter(const std::wstring &text);
 
         /**
-         * @brief  添加子节点到当前节点下
+         * @brief 添加子节点到当前节点下
          * @return 新插入的节点
          */
         TreeViewNode AddChild(const std::wstring &text);
 
         /**
-         * @brief  判断当前节点是否被选中
+         * @brief 判断当前节点是否被选中
          * @return 若节点被选中则返回true，否则返回false
          */
         bool IsSelected() const;
 
         /**
-         * @brief  选中当前节点
+         * @brief 选中当前节点
          * @return 操作是否成功
          */
         bool Select();
 
         /**
-         * @brief  删除当前节点
+         * @brief 删除当前节点
          * @return 操作是否成功
          */
         bool Delete();
 
         /**
-         * @brief  判断当前节点是否展开
+         * @brief 判断当前节点是否展开
          * @return 若节点已展开则返回true，否则返回false
          */
         bool IsExpanded() const;
 
         /**
-         * @brief  设置当前节点展开或折叠
+         * @brief 设置当前节点展开或折叠
          * @return 操作是否成功
          */
         bool SetExpand(bool expand);
 
         /**
-         * @brief  展开当前节点
+         * @brief 展开当前节点
          * @return 操作是否成功
          */
         bool Expand();
 
         /**
-         * @brief  折叠当前节点
+         * @brief 折叠当前节点
          * @return 操作是否成功
          */
         bool Collapse();
@@ -165,13 +165,13 @@ namespace sw
         void *GetUserData() const;
 
         /**
-         * @brief  设置与当前节点关联的用户数据
+         * @brief 设置与当前节点关联的用户数据
          * @return 操作是否成功
          */
         bool SetUserData(void *data);
 
         /**
-         * @brief  判断当前节点是否被选中复选框
+         * @brief 判断当前节点是否被选中复选框
          * @return 若节点被选中则返回true，否则返回false
          */
         bool IsChecked() const;
@@ -182,7 +182,7 @@ namespace sw
         void SetCheck(bool check);
 
         /**
-         * @brief  设置当前节点的图像
+         * @brief 设置当前节点的图像
          * @return 操作是否成功
          */
         bool SetImages(int imageIndex, int selectedImageIndex);
@@ -193,7 +193,7 @@ namespace sw
         int GetChildCount() const;
 
         /**
-         * @brief  删除当前节点的所有子节点
+         * @brief 删除当前节点的所有子节点
          * @return 删除直接子节点的个数
          */
         int DeleteAllChildren();
@@ -276,7 +276,7 @@ namespace sw
 
     protected:
         /**
-         * @brief  获取子项数
+         * @brief 获取子项数
          */
         virtual int GetItemsCount() override;
 
@@ -296,64 +296,64 @@ namespace sw
         virtual TreeViewNode GetSelectedItem() override;
 
         /**
-         * @brief        设置背景颜色
-         * @param color  要设置的颜色
+         * @brief 设置背景颜色
+         * @param color 要设置的颜色
          * @param redraw 是否重绘
          */
         virtual void SetBackColor(Color color, bool redraw) override;
 
         /**
-         * @brief        设置文本颜色
-         * @param color  要设置的颜色
+         * @brief 设置文本颜色
+         * @param color 要设置的颜色
          * @param redraw 是否重绘
          */
         virtual void SetTextColor(Color color, bool redraw) override;
 
         /**
-         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @brief 父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
          * @param pNMHDR 包含有关通知消息的信息
          * @param result 函数返回值为true时将该值作为消息的返回值
-         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
-         * @brief        控件被单机时调用该函数
+         * @brief 控件被单机时调用该函数
          * @param pNMHDR 包含有关通知消息的信息
          * @param result 函数返回值为true时将该值作为消息的返回值
-         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnClicked(NMHDR *pNMHDR, LRESULT &result);
 
         /**
-         * @brief        控件被双击时调用该函数
+         * @brief 控件被双击时调用该函数
          * @param pNMHDR 包含有关通知消息的信息
          * @param result 函数返回值为true时将该值作为消息的返回值
-         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDoubleClicked(NMHDR *pNMHDR, LRESULT &result);
 
         /**
-         * @brief         当OnNotified接收到TVN_GETDISPINFO通知时调用该函数
+         * @brief 当OnNotified接收到TVN_GETDISPINFO通知时调用该函数
          * @param pNMInfo 包含有关通知消息的信息
          */
         virtual void OnGetDispInfo(NMTVDISPINFOW *pNMInfo);
 
         /**
-         * @brief       节点展开或折叠前调用该函数
+         * @brief 节点展开或折叠前调用该函数
          * @param pNMTV 包含有关通知消息的信息
-         * @return      若返回true则取消展开或折叠操作，否则继续进行
+         * @return 若返回true则取消展开或折叠操作，否则继续进行
          */
         virtual bool OnItemExpanding(NMTREEVIEWW *pNMTV);
 
         /**
-         * @brief       节点展开或折叠后调用该函数
+         * @brief 节点展开或折叠后调用该函数
          * @param pNMTV 包含有关通知消息的信息
          */
         virtual void OnItemExpanded(NMTREEVIEWW *pNMTV);
 
         /**
-         * @brief         节点某些属性发生变化时调用该函数
+         * @brief 节点某些属性发生变化时调用该函数
          * @param pNMInfo 包含有关通知消息的信息
          */
         virtual void OnItemChanged(NMTVITEMCHANGE *pNMInfo);
@@ -365,69 +365,69 @@ namespace sw
         virtual void Clear() override;
 
         /**
-         * @brief       获取指定索引处子项的值
+         * @brief 获取指定索引处子项的值
          * @param index 子项的索引
          */
         virtual TreeViewNode GetItemAt(int index) override;
 
         /**
-         * @brief      添加新的子项
+         * @brief 添加新的子项
          * @param item 要添加的子项
-         * @return     是否添加成功
-         * @note       TreeView不支持该操作，该函数始终返回false
+         * @return 是否添加成功
+         * @note TreeView不支持该操作，该函数始终返回false
          */
         virtual bool AddItem(const TreeViewNode &item) override;
 
         /**
-         * @brief       添加子项到指定索引
+         * @brief 添加子项到指定索引
          * @param index 要插入的位置
-         * @param item  要添加的子项
-         * @return      是否添加成功
-         * @note        TreeView不支持该操作，该函数始终返回false
+         * @param item 要添加的子项
+         * @return 是否添加成功
+         * @note TreeView不支持该操作，该函数始终返回false
          */
         virtual bool InsertItem(int index, const TreeViewNode &item) override;
 
         /**
-         * @brief          更新指定位置的子项
-         * @param index    要更新子项的位置
+         * @brief 更新指定位置的子项
+         * @param index 要更新子项的位置
          * @param newValue 子项的新值
-         * @return         操作是否成功
-         * @note           TreeView不支持该操作，该函数始终返回false
+         * @return 操作是否成功
+         * @note TreeView不支持该操作，该函数始终返回false
          */
         virtual bool UpdateItem(int index, const TreeViewNode &newValue) override;
 
         /**
-         * @brief       移除指定索引处的子项
+         * @brief 移除指定索引处的子项
          * @param index 要移除子项的索引
-         * @return      操作是否成功
+         * @return 操作是否成功
          */
         virtual bool RemoveItemAt(int index) override;
 
         /**
-         * @brief      添加新节点到根节点
+         * @brief 添加新节点到根节点
          * @param text 节点文本
-         * @return     新插入的节点
+         * @return 新插入的节点
          */
         TreeViewNode AddItem(const std::wstring &text);
 
         /**
-         * @brief       在指定索引处插入新节点
+         * @brief 在指定索引处插入新节点
          * @param index 节点索引
-         * @param text  节点文本
-         * @return      新插入的节点
+         * @param text 节点文本
+         * @return 新插入的节点
          */
         TreeViewNode InsertItem(int index, const std::wstring &text);
 
         /**
-         * @brief           获取指定类型的图像列表
+         * @brief 获取指定类型的图像列表
          * @param imageList 图像列表类型
          */
         ImageList GetImageList(TreeViewImageList imageList);
 
         /**
-         * @brief            设置指定类型的图像列表
-         * @param imageList  图像列表类型
-         * @param value      要设置的图像列表
+         * @brief 设置指定类型的图像列表
+         * @param imageList 图像列表类型
+         * @param value 要设置的图像列表
          */
         HIMAGELIST SetImageList(TreeViewImageList imageList, HIMAGELIST value);
 

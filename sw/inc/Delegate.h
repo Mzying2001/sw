@@ -33,9 +33,9 @@ namespace sw
         virtual ~ICallable() = default;
 
         /**
-         * @brief      调用函数
+         * @brief 调用函数
          * @param args 函数参数
-         * @return     函数返回值
+         * @return 函数返回值
          */
         virtual TRet Invoke(Args... args) const = 0;
 
@@ -50,9 +50,9 @@ namespace sw
         virtual std::type_index GetType() const = 0;
 
         /**
-         * @brief       判断当前可调用对象是否与另一个可调用对象相等
+         * @brief 判断当前可调用对象是否与另一个可调用对象相等
          * @param other 另一个可调用对象
-         * @return      如果相等则返回true，否则返回false
+         * @return 如果相等则返回true，否则返回false
          */
         virtual bool Equals(const ICallable &other) const = 0;
     };
@@ -188,7 +188,7 @@ namespace sw
         }
 
         /**
-         * @brief  获取当前存储的可调用对象数量
+         * @brief 获取当前存储的可调用对象数量
          * @return 可调用对象的数量
          */
         size_t Count() const noexcept
@@ -207,7 +207,7 @@ namespace sw
         }
 
         /**
-         * @brief  判断当前存储的可调用对象是否为空
+         * @brief 判断当前存储的可调用对象是否为空
          * @return 如果没有存储任何可调用对象则返回true，否则返回false
          */
         bool IsEmpty() const noexcept
@@ -225,7 +225,7 @@ namespace sw
 
         /**
          * @brief 添加一个可调用对象到列表中
-         * @note  传入对象的生命周期将由CallableList管理
+         * @note 传入对象的生命周期将由CallableList管理
          */
         void Add(TCallable *callable)
         {
@@ -255,7 +255,7 @@ namespace sw
         }
 
         /**
-         * @brief  移除指定索引处的可调用对象
+         * @brief 移除指定索引处的可调用对象
          * @return 如果成功移除则返回true，否则返回false
          */
         bool RemoveAt(size_t index) noexcept
@@ -292,7 +292,7 @@ namespace sw
         }
 
         /**
-         * @brief  获取指定索引处的可调用对象
+         * @brief 获取指定索引处的可调用对象
          * @return 如果索引有效则返回对应的可调用对象，否则返回nullptr
          */
         TCallable *GetAt(size_t index) const noexcept
@@ -312,7 +312,7 @@ namespace sw
         }
 
         /**
-         * @brief  获取指定索引处的可调用对象
+         * @brief 获取指定索引处的可调用对象
          * @return 如果索引有效则返回对应的可调用对象，否则返回nullptr
          */
         TCallable *operator[](size_t index) const noexcept
@@ -730,9 +730,9 @@ namespace sw
         }
 
         /**
-         * @brief  移除一个可调用对象
+         * @brief 移除一个可调用对象
          * @return 如果成功移除则返回true，否则返回false
-         * @note   按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
+         * @note 按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
          */
         bool Remove(const ICallable<TRet(Args...)> &callable)
         {
@@ -752,9 +752,9 @@ namespace sw
         }
 
         /**
-         * @brief  移除一个函数指针
+         * @brief 移除一个函数指针
          * @return 如果成功移除则返回true，否则返回false
-         * @note   按照添加顺序从后向前查找，找到第一个匹配的函数指针并移除
+         * @note 按照添加顺序从后向前查找，找到第一个匹配的函数指针并移除
          */
         bool Remove(TRet (*func)(Args...))
         {
@@ -765,9 +765,9 @@ namespace sw
         }
 
         /**
-         * @brief  移除一个可调用对象
+         * @brief 移除一个可调用对象
          * @return 如果成功移除则返回true，否则返回false
-         * @note   按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
+         * @note 按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
          */
         template <typename T>
         typename std::enable_if<!std::is_base_of<_ICallable, T>::value, bool>::type
@@ -777,9 +777,9 @@ namespace sw
         }
 
         /**
-         * @brief  移除一个成员函数指针
+         * @brief 移除一个成员函数指针
          * @return 如果成功移除则返回true，否则返回false
-         * @note   按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
+         * @note 按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
          */
         template <typename T>
         bool Remove(T &obj, TRet (T::*func)(Args...))
@@ -788,9 +788,9 @@ namespace sw
         }
 
         /**
-         * @brief  移除一个常量成员函数指针
+         * @brief 移除一个常量成员函数指针
          * @return 如果成功移除则返回true，否则返回false
-         * @note   按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
+         * @note 按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
          */
         template <typename T>
         bool Remove(const T &obj, TRet (T::*func)(Args...) const)
@@ -799,10 +799,10 @@ namespace sw
         }
 
         /**
-         * @brief      调用委托，执行所有存储的可调用对象
+         * @brief 调用委托，执行所有存储的可调用对象
          * @param args 函数参数
-         * @return     最后一个可调用对象的返回值
-         * @throw      std::runtime_error 如果委托为空
+         * @return 最后一个可调用对象的返回值
+         * @throw std::runtime_error 如果委托为空
          */
         TRet operator()(Args... args) const
         {
@@ -810,9 +810,9 @@ namespace sw
         }
 
         /**
-         * @brief       判断当前委托是否等于另一个委托
+         * @brief 判断当前委托是否等于另一个委托
          * @param other 另一个委托
-         * @return      如果相等则返回true，否则返回false
+         * @return 如果相等则返回true，否则返回false
          */
         bool operator==(const Delegate &other) const
         {
@@ -820,9 +820,9 @@ namespace sw
         }
 
         /**
-         * @brief       判断当前委托是否不等于另一个委托
+         * @brief 判断当前委托是否不等于另一个委托
          * @param other 另一个委托
-         * @return      如果不相等则返回true，否则返回false
+         * @return 如果不相等则返回true，否则返回false
          */
         bool operator!=(const Delegate &other) const
         {
@@ -830,7 +830,7 @@ namespace sw
         }
 
         /**
-         * @brief  判断当前委托是否等于nullptr
+         * @brief 判断当前委托是否等于nullptr
          * @return 如果委托为空则返回true，否则返回false
          */
         bool operator==(std::nullptr_t) const noexcept
@@ -839,7 +839,7 @@ namespace sw
         }
 
         /**
-         * @brief  判断当前委托是否不等于nullptr
+         * @brief 判断当前委托是否不等于nullptr
          * @return 如果委托不为空则返回true，否则返回false
          */
         bool operator!=(std::nullptr_t) const noexcept
@@ -848,7 +848,7 @@ namespace sw
         }
 
         /**
-         * @brief  判断当前委托是否有效
+         * @brief 判断当前委托是否有效
          * @return 如果委托不为空则返回true，否则返回false
          */
         operator bool() const noexcept
@@ -858,7 +858,7 @@ namespace sw
 
         /**
          * @brief 添加一个可调用对象到委托中
-         * @note  该函数调用Add函数
+         * @note 该函数调用Add函数
          */
         Delegate &operator+=(const ICallable<TRet(Args...)> &callable)
         {
@@ -868,7 +868,7 @@ namespace sw
 
         /**
          * @brief 添加一个函数指针到委托中
-         * @note  该函数调用Add函数
+         * @note 该函数调用Add函数
          */
         Delegate &operator+=(TRet (*func)(Args...))
         {
@@ -878,7 +878,7 @@ namespace sw
 
         /**
          * @brief 添加一个可调用对象到委托中
-         * @note  该函数调用Add函数
+         * @note 该函数调用Add函数
          */
         template <typename T>
         typename std::enable_if<!std::is_base_of<_ICallable, T>::value, Delegate &>::type
@@ -890,7 +890,7 @@ namespace sw
 
         /**
          * @brief 移除一个可调用对象
-         * @note  该函数调用Remove函数
+         * @note 该函数调用Remove函数
          */
         Delegate &operator-=(const ICallable<TRet(Args...)> &callable)
         {
@@ -900,7 +900,7 @@ namespace sw
 
         /**
          * @brief 移除一个函数指针
-         * @note  该函数调用Remove函数
+         * @note 该函数调用Remove函数
          */
         Delegate &operator-=(TRet (*func)(Args...))
         {
@@ -910,7 +910,7 @@ namespace sw
 
         /**
          * @brief 移除一个可调用对象
-         * @note  该函数调用Remove函数
+         * @note 该函数调用Remove函数
          */
         template <typename T>
         typename std::enable_if<!std::is_base_of<_ICallable, T>::value, Delegate &>::type
@@ -921,10 +921,10 @@ namespace sw
         }
 
         /**
-         * @brief      调用委托，执行所有存储的可调用对象
+         * @brief 调用委托，执行所有存储的可调用对象
          * @param args 函数参数
-         * @return     最后一个可调用对象的返回值
-         * @throw      std::runtime_error 如果委托为空
+         * @return 最后一个可调用对象的返回值
+         * @throw std::runtime_error 如果委托为空
          */
         virtual TRet Invoke(Args... args) const override
         {
@@ -932,7 +932,7 @@ namespace sw
         }
 
         /**
-         * @brief  克隆当前委托
+         * @brief 克隆当前委托
          * @return 返回一个新的Delegate对象，包含相同的可调用对象
          */
         virtual ICallable<TRet(Args...)> *Clone() const override
@@ -941,7 +941,7 @@ namespace sw
         }
 
         /**
-         * @brief  获取当前委托的类型信息
+         * @brief 获取当前委托的类型信息
          * @return 返回typeid(Delegate<TRet(Args...)>)
          */
         virtual std::type_index GetType() const override
@@ -950,9 +950,9 @@ namespace sw
         }
 
         /**
-         * @brief       判断当前委托是否与另一个可调用对象相等
+         * @brief 判断当前委托是否与另一个可调用对象相等
          * @param other 另一个可调用对象
-         * @return      如果相等则返回true，否则返回false
+         * @return 如果相等则返回true，否则返回false
          */
         virtual bool Equals(const ICallable<TRet(Args...)> &other) const override
         {
@@ -975,9 +975,9 @@ namespace sw
         }
 
         /**
-         * @brief      调用所有存储的可调用对象，并返回它们的结果
+         * @brief 调用所有存储的可调用对象，并返回它们的结果
          * @param args 函数参数
-         * @return     返回一个包含所有可调用对象返回值的vector
+         * @return 返回一个包含所有可调用对象返回值的vector
          */
         template <typename U = TRet>
         typename std::enable_if<!std::is_void<U>::value, std::vector<U>>::type
@@ -1044,7 +1044,7 @@ namespace sw
 
     /**
      * @brief 比较委托和nullptr
-     * @note  如果委托为空则返回true，否则返回false
+     * @note 如果委托为空则返回true，否则返回false
      */
     template <typename TRet, typename... Args>
     inline bool operator==(std::nullptr_t, const Delegate<TRet(Args...)> &d) noexcept
@@ -1054,7 +1054,7 @@ namespace sw
 
     /**
      * @brief 比较委托和nullptr
-     * @note  如果委托不为空则返回true，否则返回false
+     * @note 如果委托不为空则返回true，否则返回false
      */
     template <typename TRet, typename... Args>
     inline bool operator!=(std::nullptr_t, const Delegate<TRet(Args...)> &d) noexcept

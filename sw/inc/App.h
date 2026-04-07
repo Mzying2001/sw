@@ -27,7 +27,7 @@ namespace sw
     public:
         /**
          * @brief 当前线程消息循环中处理空句柄消息的事件
-         * @note  该事件是线程局部的，每个线程有独立的处理函数列表
+         * @note 该事件是线程局部的，每个线程有独立的处理函数列表
          */
         static const Event<Action<MSG &>> NullHwndMsgHandler;
 
@@ -53,18 +53,18 @@ namespace sw
 
         /**
          * @brief 当前线程退出消息循环的方式
-         * @note  该属性是线程局部的，每个线程有各自独立的值
+         * @note 该属性是线程局部的，每个线程有各自独立的值
          */
         static const Property<AppQuitMode> QuitMode;
 
         /**
-         * @brief  消息循环
+         * @brief 消息循环
          * @return 退出代码
          */
         static int MsgLoop();
 
         /**
-         * @brief          退出当前线程的消息循环
+         * @brief 退出当前线程的消息循环
          * @param exitCode 退出代码
          */
         static void QuitMsgLoop(int exitCode = 0);

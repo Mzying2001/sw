@@ -192,7 +192,7 @@ namespace sw
 
         /**
          * @brief 窗口是否为一组控件中的第一个控件
-         * @note  当窗口拥有WS_GROUP样式时该属性值为true，否则为false
+         * @note 当窗口拥有WS_GROUP样式时该属性值为true，否则为false
          */
         const Property<bool> IsGroupStart;
 
@@ -214,7 +214,7 @@ namespace sw
         virtual ~WndBase() = 0;
 
         /**
-         * @brief  尝试将对象转换成UIElement
+         * @brief 尝试将对象转换成UIElement
          * @return 若函数成功则返回UIElement指针，否则返回nullptr
          */
         virtual UIElement *ToUIElement();
@@ -230,21 +230,21 @@ namespace sw
         virtual std::wstring ToString() const;
 
         /**
-         * @brief  获取父元素
+         * @brief 获取父元素
          * @return 父元素指针，如果没有父元素则返回nullptr
          */
         virtual WndBase *GetParent() const override;
 
         /**
-         * @brief  获取子元素数量
+         * @brief 获取子元素数量
          * @return 子元素数量
          */
         virtual int GetChildCount() const override;
 
         /**
-         * @brief       获取指定索引处的子元素
+         * @brief 获取指定索引处的子元素
          * @param index 子元素索引
-         * @throw       std::out_of_range 如果索引超出范围
+         * @throw std::out_of_range 如果索引超出范围
          */
         virtual WndBase &GetChildAt(int index) const override;
 
@@ -271,36 +271,36 @@ namespace sw
 
         /**
          * @brief 获取内部记录窗口文本的字符串引用
-         * @note  Text属性的Get方法会调用该函数，部分控件如编辑框需要重写该函数以返回正确的文本
+         * @note Text属性的Get方法会调用该函数，部分控件如编辑框需要重写该函数以返回正确的文本
          */
         virtual std::wstring &GetInternalText();
 
         /**
          * @brief 修改窗口文本，该函数默认实现为调用SetWindowTextW
-         * @note  Text属性的Set方法会调用该函数，部分控件如下拉框需要重写该函数以正确设置文本
+         * @note Text属性的Set方法会调用该函数，部分控件如下拉框需要重写该函数以正确设置文本
          */
         virtual void SetInternalText(const std::wstring &value);
 
         /**
-         * @brief  接收到WM_CREATE时调用该函数
+         * @brief 接收到WM_CREATE时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnCreate();
 
         /**
-         * @brief  接收到WM_CLOSE时调用该函数
+         * @brief 接收到WM_CLOSE时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnClose();
 
         /**
-         * @brief  接收到WM_DESTROY时调用该函数
+         * @brief 接收到WM_DESTROY时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDestroy();
 
         /**
-         * @brief  接收到WM_PAINT时调用该函数
+         * @brief 接收到WM_PAINT时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnPaint();
@@ -311,9 +311,9 @@ namespace sw
         virtual void OnEndPaint();
 
         /**
-         * @brief      接收到WM_NCPAINT时调用该函数
+         * @brief 接收到WM_NCPAINT时调用该函数
          * @param hRgn 窗口更新区域的句柄，可能为NULL
-         * @return     若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnNcPaint(HRGN hRgn);
 
@@ -323,16 +323,16 @@ namespace sw
         virtual void OnEndNcPaint();
 
         /**
-         * @brief                   接收到WM_MOVE时调用该函数
+         * @brief 接收到WM_MOVE时调用该函数
          * @param newClientPosition 移动后用户区左上角的位置
-         * @return                  若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMove(const Point &newClientPosition);
 
         /**
-         * @brief               接收到WM_SIZE时调用该函数
+         * @brief 接收到WM_SIZE时调用该函数
          * @param newClientSize 改变后的用户区尺寸
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(const Size &newClientSize);
 
@@ -342,175 +342,175 @@ namespace sw
         virtual void OnTextChanged();
 
         /**
-         * @brief            接收到WM_SETFOCUS时调用该函数
+         * @brief 接收到WM_SETFOCUS时调用该函数
          * @param hPrevFocus 丢失焦点的hwnd，可能为NULL
-         * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSetFocus(HWND hPrevFocus);
 
         /**
-         * @brief            接收到WM_KILLFOCUS时调用该函数
+         * @brief 接收到WM_KILLFOCUS时调用该函数
          * @param hNextFocus 接收到焦点的hwnd，可能为NULL
-         * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnKillFocus(HWND hNextFocus);
 
         /**
-         * @brief               接收到WM_MOUSEMOVE时调用该函数
+         * @brief 接收到WM_MOUSEMOVE时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseMove(const Point &mousePosition, MouseKey keyState);
 
         /**
-         * @brief  接收到WM_MOUSELEAVE时调用该函数
+         * @brief 接收到WM_MOUSELEAVE时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseLeave();
 
         /**
-         * @brief               接收到WM_MOUSEWHEEL时调用该函数
-         * @param wheelDelta    滚轮滚动的距离，为120的倍数
+         * @brief 接收到WM_MOUSEWHEEL时调用该函数
+         * @param wheelDelta 滚轮滚动的距离，为120的倍数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseWheel(int wheelDelta, const Point &mousePosition, MouseKey keyState);
 
         /**
-         * @brief               接收到WM_LBUTTONDOWN时调用该函数
+         * @brief 接收到WM_LBUTTONDOWN时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseLeftButtonDown(const Point &mousePosition, MouseKey keyState);
 
         /**
-         * @brief               接收到WM_LBUTTONUP时调用该函数
+         * @brief 接收到WM_LBUTTONUP时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseLeftButtonUp(const Point &mousePosition, MouseKey keyState);
 
         /**
-         * @brief               接收到WM_LBUTTONDBLCLK时调用该函数
+         * @brief 接收到WM_LBUTTONDBLCLK时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseLeftButtonDoubleClick(const Point &mousePosition, MouseKey keyState);
 
         /**
-         * @brief               接收到WM_RBUTTONDOWN时调用该函数
+         * @brief 接收到WM_RBUTTONDOWN时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseRightButtonDown(const Point &mousePosition, MouseKey keyState);
 
         /**
-         * @brief               接收到WM_RBUTTONUP时调用该函数
+         * @brief 接收到WM_RBUTTONUP时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseRightButtonUp(const Point &mousePosition, MouseKey keyState);
 
         /**
-         * @brief               接收到WM_RBUTTONDBLCLK时调用该函数
+         * @brief 接收到WM_RBUTTONDBLCLK时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseRightButtonDoubleClick(const Point &mousePosition, MouseKey keyState);
 
         /**
-         * @brief               接收到WM_MBUTTONDOWN时调用该函数
+         * @brief 接收到WM_MBUTTONDOWN时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseMiddleButtonDown(const Point &mousePosition, MouseKey keyState);
 
         /**
-         * @brief               接收到WM_MBUTTONUP时调用该函数
+         * @brief 接收到WM_MBUTTONUP时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseMiddleButtonUp(const Point &mousePosition, MouseKey keyState);
 
         /**
-         * @brief               接收到WM_MBUTTONDBLCLK时调用该函数
+         * @brief 接收到WM_MBUTTONDBLCLK时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseMiddleButtonDoubleClick(const Point &mousePosition, MouseKey keyState);
 
         /**
-         * @brief       接收到WM_CHAR时调用该函数
-         * @param ch    按键的字符代码
+         * @brief 接收到WM_CHAR时调用该函数
+         * @param ch 按键的字符代码
          * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnChar(wchar_t ch, const KeyFlags &flags);
 
         /**
-         * @brief       接收到WM_DEADCHAR时调用该函数
-         * @param ch    按键的字符代码
+         * @brief 接收到WM_DEADCHAR时调用该函数
+         * @param ch 按键的字符代码
          * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDeadChar(wchar_t ch, const KeyFlags &flags);
 
         /**
-         * @brief       接收到WM_KEYDOWN时调用该函数
-         * @param key   虚拟按键
+         * @brief 接收到WM_KEYDOWN时调用该函数
+         * @param key 虚拟按键
          * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnKeyDown(VirtualKey key, const KeyFlags &flags);
 
         /**
-         * @brief       接收到WM_KEYUP时调用该函数
-         * @param key   虚拟按键
+         * @brief 接收到WM_KEYUP时调用该函数
+         * @param key 虚拟按键
          * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnKeyUp(VirtualKey key, const KeyFlags &flags);
 
         /**
-         * @brief       接收到WM_SYSCHAR时调用该函数
-         * @param ch    按键的字符代码
+         * @brief 接收到WM_SYSCHAR时调用该函数
+         * @param ch 按键的字符代码
          * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSysChar(wchar_t ch, const KeyFlags &flags);
 
         /**
-         * @brief       接收到WM_SYSDEADCHAR时调用该函数
-         * @param ch    按键的字符代码
+         * @brief 接收到WM_SYSDEADCHAR时调用该函数
+         * @param ch 按键的字符代码
          * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSysDeadChar(wchar_t ch, const KeyFlags &flags);
 
         /**
-         * @brief       接收到WM_SYSKEYDOWN时调用该函数
-         * @param key   虚拟按键
+         * @brief 接收到WM_SYSKEYDOWN时调用该函数
+         * @param key 虚拟按键
          * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSysKeyDown(VirtualKey key, const KeyFlags &flags);
 
         /**
-         * @brief       接收到WM_SYSKEYUP时调用该函数
-         * @param key   虚拟按键
+         * @brief 接收到WM_SYSKEYUP时调用该函数
+         * @param key 虚拟按键
          * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSysKeyUp(VirtualKey key, const KeyFlags &flags);
 
@@ -520,188 +520,188 @@ namespace sw
         virtual void VisibleChanged(bool newVisible);
 
         /**
-         * @brief  设置父窗口
+         * @brief 设置父窗口
          * @return 设置是否成功
          */
         virtual bool SetParent(WndBase *parent);
 
         /**
-         * @brief           父窗口改变时调用此函数
+         * @brief 父窗口改变时调用此函数
          * @param newParent 新的父窗口
          */
         virtual void ParentChanged(WndBase *newParent);
 
         /**
-         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @brief 当父窗口接收到控件的WM_COMMAND时调用该函数
          * @param code 通知代码
          */
         virtual void OnCommand(int code);
 
         /**
-         * @brief          当WM_COMMAND接收到控件命令时调用该函数
+         * @brief 当WM_COMMAND接收到控件命令时调用该函数
          * @param pControl 控件对象指针
-         * @param code     通知代码
-         * @param id       控件id
+         * @param code 通知代码
+         * @param id 控件id
          */
         virtual void OnControlCommand(WndBase *pControl, int code, int id);
 
         /**
-         * @brief    当WM_COMMAND接收到菜单命令时调用该函数
+         * @brief 当WM_COMMAND接收到菜单命令时调用该函数
          * @param id 菜单id
          */
         virtual void OnMenuCommand(int id);
 
         /**
-         * @brief    当WM_COMMAND接收到快捷键命令时调用该函数
+         * @brief 当WM_COMMAND接收到快捷键命令时调用该函数
          * @param id 快捷键id
          */
         virtual void OnAcceleratorCommand(int id);
 
         /**
-         * @brief      窗口句柄初始化完成
+         * @brief 窗口句柄初始化完成
          * @param hwnd 窗口句柄
          */
         virtual void HandleInitialized(HWND hwnd);
 
         /**
-         * @brief       字体改变时调用该函数
+         * @brief 字体改变时调用该函数
          * @param hfont 字体句柄
          */
         virtual void FontChanged(HFONT hfont);
 
         /**
-         * @brief         接收到WM_SETCURSOR消息时调用该函数
-         * @param hwnd    鼠标所在窗口的句柄
+         * @brief 接收到WM_SETCURSOR消息时调用该函数
+         * @param hwnd 鼠标所在窗口的句柄
          * @param hitTest hit-test的结果，详见WM_NCHITTEST消息的返回值
          * @param message 触发该事件的鼠标消息，如WM_MOUSEMOVE
-         * @param result  消息的返回值，默认为false
-         * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         * @param result 消息的返回值，默认为false
+         * @return 若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
         virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result);
 
         /**
-         * @brief               接收到WM_CONTEXTMENU后调用目标控件的该函数
+         * @brief 接收到WM_CONTEXTMENU后调用目标控件的该函数
          * @param isKeyboardMsg 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
          * @param mousePosition 鼠标在屏幕中的位置
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnContextMenu(bool isKeyboardMsg, const Point &mousePosition);
 
         /**
-         * @brief       接收到WM_MENUSELECT后调用该函数
+         * @brief 接收到WM_MENUSELECT后调用该函数
          * @param hMenu 当前被点击的菜单句柄
-         * @param id    若选中的菜单项打开了子菜单则该值为菜单项在其父菜单中的索引，否则为菜单项的id
+         * @param id 若选中的菜单项打开了子菜单则该值为菜单项在其父菜单中的索引，否则为菜单项的id
          * @param flags 菜单项的标志（MF_*）
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         * @note        若flags为0xFFFF且hMenu为NULL则表示菜单被关闭
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @note 若flags为0xFFFF且hMenu为NULL则表示菜单被关闭
          */
         virtual bool OnMenuSelect(HMENU hMenu, int id, int flags);
 
         /**
-         * @brief        接收到WM_NOTIFY后调用该函数
+         * @brief 接收到WM_NOTIFY后调用该函数
          * @param pNMHDR 包含有关通知消息的信息
          * @param result 函数返回值为true时将该值作为消息的返回值，默认值为0
-         * @return       若已处理该消息则返回true，否则调用发出通知控件的OnNotified函数，依据其返回值判断是否调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则调用发出通知控件的OnNotified函数，依据其返回值判断是否调用DefaultWndProc
          */
         virtual bool OnNotify(NMHDR *pNMHDR, LRESULT &result);
 
         /**
-         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @brief 父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
          * @param pNMHDR 包含有关通知消息的信息
          * @param result 函数返回值为true时将该值作为消息的返回值
-         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result);
 
         /**
-         * @brief       接收到WM_VSCROLL时调用目标控件的该函数
+         * @brief 接收到WM_VSCROLL时调用目标控件的该函数
          * @param event 事件类型，即消息wParam的低字
-         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param pos 当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnVerticalScroll(int event, int pos);
 
         /**
-         * @brief       接收到WM_HSCROLL时调用目标控件的该函数
+         * @brief 接收到WM_HSCROLL时调用目标控件的该函数
          * @param event 事件类型，即消息wParam的低字
-         * @param pos   当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param pos 当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnHorizontalScroll(int event, int pos);
 
         /**
-         * @brief          接收到WM_ENABLE时调用该函数
+         * @brief 接收到WM_ENABLE时调用该函数
          * @param newValue Enabled的新值
-         * @return         若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnEnabledChanged(bool newValue);
 
         /**
-         * @brief           接收到WM_CTLCOLORxxx时调用该函数
-         * @param pControl  消息相关的控件
-         * @param hdc       控件的显示上下文句柄
+         * @brief 接收到WM_CTLCOLORxxx时调用该函数
+         * @param pControl 消息相关的控件
+         * @param hdc 控件的显示上下文句柄
          * @param hRetBrush 要返回的画笔
-         * @return          若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
+         * @return 若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
          */
         virtual bool OnCtlColor(WndBase *pControl, HDC hdc, HBRUSH &hRetBrush);
 
         /**
-         * @brief           父窗口接收到WM_CTLCOLORxxx时调用对应控件的该函数
-         * @param hdc       控件的显示上下文句柄
+         * @brief 父窗口接收到WM_CTLCOLORxxx时调用对应控件的该函数
+         * @param hdc 控件的显示上下文句柄
          * @param hRetBrush 要返回的画笔
-         * @return          若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
+         * @return 若返回true则将hRetBrush作为消息的返回值，否则使用DefaultWndProc的返回值
          */
         virtual bool OnColor(HDC hdc, HBRUSH &hRetBrush);
 
         /**
-         * @brief           接收到WM_NCHITTEST后调用该函数
+         * @brief 接收到WM_NCHITTEST后调用该函数
          * @param testPoint 要测试的点在屏幕中的位置
-         * @param result    测试的结果，默认为调用DefaultWndProc的结果
+         * @param result 测试的结果，默认为调用DefaultWndProc的结果
          */
         virtual void OnNcHitTest(const Point &testPoint, HitTestResult &result);
 
         /**
-         * @brief        接收到WM_ERASEBKGND时调用该函数
-         * @param hdc    设备上下文句柄
+         * @brief 接收到WM_ERASEBKGND时调用该函数
+         * @param hdc 设备上下文句柄
          * @param result 若已处理该消息则设为非零值，默认值为0
-         * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         * @return 若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
         virtual bool OnEraseBackground(HDC hdc, LRESULT &result);
 
         /**
-         * @brief           接收到WM_DRAWITEM时调用该函数
-         * @param id        控件的标识符，若消息是通过菜单发送的则此参数为零
+         * @brief 接收到WM_DRAWITEM时调用该函数
+         * @param id 控件的标识符，若消息是通过菜单发送的则此参数为零
          * @param pDrawItem 包含有关要绘制的项和所需绘图类型的信息的结构体指针
-         * @return          若已处理该消息则返回true，否则调用发出通知控件的OnDrawItemSelf函数，依据其返回值判断是否调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则调用发出通知控件的OnDrawItemSelf函数，依据其返回值判断是否调用DefaultWndProc
          */
         virtual bool OnDrawItem(int id, DRAWITEMSTRUCT *pDrawItem);
 
         /**
-         * @brief           父窗口接收到WM_DRAWITEM后且父窗口OnDrawItem函数返回false时调用发出通知控件的该函数
+         * @brief 父窗口接收到WM_DRAWITEM后且父窗口OnDrawItem函数返回false时调用发出通知控件的该函数
          * @param pDrawItem 包含有关要绘制的项和所需绘图类型的信息的结构体指针
-         * @return          若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem);
 
         /**
-         * @brief          接收到WM_MEASUREITEM时调用该函数
-         * @param id       控件的标识符，若消息是通过菜单发送的则此参数为零
+         * @brief 接收到WM_MEASUREITEM时调用该函数
+         * @param id 控件的标识符，若消息是通过菜单发送的则此参数为零
          * @param pMeasure 包含有关要绘制的项的信息的结构体指针
-         * @return         若已处理该消息则返回true，否则调用发出通知控件的OnMeasureItemSelf函数，依据其返回值判断是否调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则调用发出通知控件的OnMeasureItemSelf函数，依据其返回值判断是否调用DefaultWndProc
          */
         virtual bool OnMeasureItem(int id, MEASUREITEMSTRUCT *pMeasure);
 
         /**
-         * @brief          父窗口接收到WM_MEASUREITEM后且父窗口OnMeasureItem函数返回false时调用发出通知控件的该函数
+         * @brief 父窗口接收到WM_MEASUREITEM后且父窗口OnMeasureItem函数返回false时调用发出通知控件的该函数
          * @param pMeasure 包含有关要绘制的项的信息的结构体指针
-         * @return         若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMeasureItemSelf(MEASUREITEMSTRUCT *pMeasure);
 
         /**
-         * @brief       接收到WM_DROPFILES时调用该函数
+         * @brief 接收到WM_DROPFILES时调用该函数
          * @param hDrop 描述拖入文件的句柄
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDropFiles(HDROP hDrop);
 
@@ -742,8 +742,8 @@ namespace sw
         HFONT GetFontHandle();
 
         /**
-         * @brief              重画
-         * @param erase        是否擦除旧的背景
+         * @brief 重画
+         * @param erase 是否擦除旧的背景
          * @param updateWindow 是否调用UpdateWindow
          */
         void Redraw(bool erase = false, bool updateWindow = false);
@@ -764,14 +764,14 @@ namespace sw
         void SetStyle(DWORD style);
 
         /**
-         * @brief      判断窗口是否设有指定样式
+         * @brief 判断窗口是否设有指定样式
          * @param mask 样式的位掩码，可以是多个样式
          */
         bool GetStyle(DWORD mask) const;
 
         /**
-         * @brief       打开或关闭指定的样式
-         * @param mask  样式的位掩码，可以是多个样式
+         * @brief 打开或关闭指定的样式
+         * @param mask 样式的位掩码，可以是多个样式
          * @param value 是否启用指定的样式
          */
         void SetStyle(DWORD mask, bool value);
@@ -787,29 +787,29 @@ namespace sw
         void SetExtendedStyle(DWORD style);
 
         /**
-         * @brief      判断窗口是否设有指定扩展样式
+         * @brief 判断窗口是否设有指定扩展样式
          * @param mask 扩展样式的位掩码，可以是多个扩展样式
          */
         bool GetExtendedStyle(DWORD mask);
 
         /**
-         * @brief       打开或关闭指定的扩展样式
-         * @param mask  扩展样式的位掩码，可以是多个扩展样式
+         * @brief 打开或关闭指定的扩展样式
+         * @param mask 扩展样式的位掩码，可以是多个扩展样式
          * @param value 是否启用指定的扩展样式
          */
         void SetExtendedStyle(DWORD mask, bool value);
 
         /**
-         * @brief       获取用户区点在屏幕上点的位置
+         * @brief 获取用户区点在屏幕上点的位置
          * @param point 用户区坐标
-         * @return      该点在屏幕上的坐标
+         * @return 该点在屏幕上的坐标
          */
         Point PointToScreen(const Point &point) const;
 
         /**
-         * @brief             获取屏幕上点在当前用户区点的位置
+         * @brief 获取屏幕上点在当前用户区点的位置
          * @param screenPoint 屏幕上点的坐标
-         * @return            该点在用户区的坐标
+         * @return 该点在用户区的坐标
          */
         Point PointFromScreen(const Point &screenPoint) const;
 
@@ -834,19 +834,19 @@ namespace sw
         BOOL PostMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
         /**
-         * @brief           测试指定点在窗口的哪一部分
+         * @brief 测试指定点在窗口的哪一部分
          * @param testPoint 要测试的点在屏幕中的位置
          */
         HitTestResult NcHitTest(const Point &testPoint);
 
         /**
-         * @brief        在窗口线程上执行指定委托
+         * @brief 在窗口线程上执行指定委托
          * @param action 要执行的委托
          */
         void Invoke(const Action<> &action);
 
         /**
-         * @brief        在窗口线程上执行指定委托，并立即返回
+         * @brief 在窗口线程上执行指定委托，并立即返回
          * @param action 要执行的委托
          */
         void InvokeAsync(const Action<> &action);
@@ -868,9 +868,9 @@ namespace sw
 
     public:
         /**
-         * @brief      通过窗口句柄获取WndBase
+         * @brief 通过窗口句柄获取WndBase
          * @param hwnd 窗口句柄
-         * @return     若函数成功则返回对象的指针，否则返回nullptr
+         * @return 若函数成功则返回对象的指针，否则返回nullptr
          */
         static WndBase *GetWndBase(HWND hwnd) noexcept;
 
@@ -896,9 +896,9 @@ namespace sw
         static int _NextControlId();
 
         /**
-         * @brief      关联窗口句柄与WndBase对象
+         * @brief 关联窗口句柄与WndBase对象
          * @param hwnd 窗口句柄
-         * @param wnd  与句柄关联的对象
+         * @param wnd 与句柄关联的对象
          */
         static void _SetWndBase(HWND hwnd, WndBase &wnd);
     };
