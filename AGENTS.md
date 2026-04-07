@@ -39,20 +39,25 @@ The `vs/sw.vcxproj` project has 8 configurations: Debug/Release × MT/default ×
 ### Class Hierarchy
 
 ```
-FrameworkElement         — DataContext, data binding, element tree (GetParent/GetChildCount/GetChildAt)
-  └─ WndBase             — Win32 HWND wrapper
-      └─ UIElement       — Base UI class (layout, routed events, visual properties)
-          ├─ Control (virtual)  — 30+ standard controls (Button, TextBox, ComboBox, etc.)
-          ├─ Layer (virtual)    — Scrollable container base
-          │   └─ Window        — Top-level window
-          └─ PanelBase (: Control, Layer) — Panel base (Grid, StackPanel, DockPanel, Canvas, etc.)
+ObservableObject
+  └─ FrameworkElement          — DataContext, data binding, element tree (GetParent/GetChildCount/GetChildAt)
+      └─ WndBase               — Win32 HWND wrapper (+ IToString, IEqualityComparable)
+          └─ UIElement          — Base UI class (layout, routed events, visual properties) (+ ILayout, ITag)
+              ├─ Control        — Abstract base for 30+ standard controls (Button, TextBox, ComboBox, etc.)
+              │   └─ Layer<Control>
+              │       └─ Panel  — Container base (Grid, StackPanel, DockPanel, Canvas, WrapPanel)
+              └─ Layer<UIElement>
+                  └─ Window     — Top-level window (+ IDialog)
 ```
+
+`Layer<TBase>` is a class template (TBase must derive from UIElement) providing scrollable container and layout management.
 
 ### Core Systems
 
-- **Property System** (`Property.h`, `Macros.h`): SFINAE-based C#-like properties declared via macros (`SW_DEFINE_PROPERTY`, `SW_DEFINE_READONLY_PROPERTY`, `SW_DEFINE_NOTIFY_PROPERTY`, `SW_DEFINE_EXPR_PROPERTY`)
+- **Property System** (`Property.h`, `Macros.h`): SFINAE-based C#-like properties declared via macros (`SW_DEFINE_PROPERTY`, `SW_DEFINE_READONLY_PROPERTY`, `SW_DEFINE_WRITEONLY_PROPERTY`, `SW_DEFINE_NOTIFY_PROPERTY`, `SW_DEFINE_EXPR_PROPERTY`, `SW_DEFINE_EXPR_READONLY_PROPERTY`, `SW_DEFINE_EXPR_WRITEONLY_PROPERTY`, `SW_DEFINE_EXPR_NOTIFY_PROPERTY`)
 - **Delegates** (`Delegate.h`): Type-erased function wrappers supporting lambdas, std::function, member functions
 - **Routed Events** (`Event.h`): WPF-style event bubbling through the control hierarchy
+- **Observable Objects** (`ObservableObject.h`): Base class for property change notifications
 - **Data Binding** (`FrameworkElement.h`, `Binding.h`, `DataBinding.h`): DataContext and two-way property binding with value converters (`Converters.h`), defined at `FrameworkElement` level
 - **Reflection** (`Reflection.h`): Runtime type information, `Variant` type, dynamic objects
 - **Layouts** (`ILayout.h`): GridLayout, StackLayout, DockLayout, CanvasLayout, WrapLayout, UniformGridLayout, FillLayout
