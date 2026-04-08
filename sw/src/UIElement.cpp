@@ -357,12 +357,17 @@ bool sw::UIElement::AddChild(UIElement *element)
 
     // 处理z轴顺序，确保悬浮的元素在最前
     if (!element->_float) {
-        HDWP hdwp = BeginDeferWindowPos((int)this->_children.size());
+        HDWP hdwp = NULL;
         for (UIElement *child : this->_children) {
-            if (child->_float)
+            if (child->_float) {
+                if (hdwp == NULL)
+                    hdwp = BeginDeferWindowPos((int)this->_children.size());
                 DeferWindowPos(hdwp, child->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+            }
         }
-        EndDeferWindowPos(hdwp);
+        if (hdwp != NULL) {
+            EndDeferWindowPos(hdwp);
+        }
     }
 
     this->_children.push_back(element);
