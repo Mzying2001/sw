@@ -1054,6 +1054,12 @@ namespace sw
         void _UpdateLayoutVisibleChildren();
 
         /**
+         * @brief 添加元素到_layoutVisibleChildren中
+         * @return 若元素在布局中不可见则返回false，否则添加元素并返回true
+         */
+        bool _AddToLayoutVisibleChildren(UIElement *element);
+
+        /**
          * @brief 从_layoutVisibleChildren中移除指定元素
          */
         void _RemoveFromLayoutVisibleChildren(UIElement *element);

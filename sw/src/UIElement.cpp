@@ -366,7 +366,7 @@ bool sw::UIElement::AddChild(UIElement *element)
     }
 
     this->_children.push_back(element);
-    this->_UpdateLayoutVisibleChildren();
+    this->_AddToLayoutVisibleChildren(element);
 
     this->OnAddedChild(*element);
     return true;
@@ -1533,6 +1533,16 @@ void sw::UIElement::_UpdateLayoutVisibleChildren()
     for (UIElement *item : this->_children) {
         if (!item->_collapseWhenHide || item->Visible)
             this->_layoutVisibleChildren.push_back(item);
+    }
+}
+
+bool sw::UIElement::_AddToLayoutVisibleChildren(UIElement *element)
+{
+    if (element->_collapseWhenHide && !element->Visible)
+        return false;
+    else {
+        this->_layoutVisibleChildren.push_back(element);
+        return true;
     }
 }
 
