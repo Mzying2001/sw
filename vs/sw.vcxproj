@@ -464,7 +464,6 @@
     <ClCompile Include="..\sw\src\PasswordBox.cpp" />
     <ClCompile Include="..\sw\src\Path.cpp" />
     <ClCompile Include="..\sw\src\Point.cpp" />
-    <ClCompile Include="..\sw\src\ProcMsg.cpp" />
     <ClCompile Include="..\sw\src\ProgressBar.cpp" />
     <ClCompile Include="..\sw\src\Property.cpp" />
     <ClCompile Include="..\sw\src\RadioButton.cpp" />

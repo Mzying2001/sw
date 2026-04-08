@@ -503,9 +503,6 @@
     <ClCompile Include="..\sw\src\Point.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\sw\src\ProcMsg.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\sw\src\ProgressBar.cpp">
       <Filter>src</Filter>
     </ClCompile>
