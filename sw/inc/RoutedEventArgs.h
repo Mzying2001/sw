@@ -165,7 +165,7 @@ namespace sw
     /**
      * @brief 可取消事件参数类型，包含一个cancel字段用于指示是否取消事件
      */
-    struct CancelableEventArgs : public RoutedEventArgs {
+    struct CancelableEventArgs : RoutedEventArgs {
         bool cancel = false; // 是否取消事件，默认为false
     };
 
@@ -216,6 +216,18 @@ namespace sw
     };
 
     /**
+    * @brief 列表视图某个子项事件参数类型模板，适用于单击、双击等事件
+    * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
+    * @tparam TBase 事件参数类型的基类，默认为RoutedEventArgs
+    */
+    template <RoutedEventType Type, typename TBase = RoutedEventArgs>
+    struct ListViewSubItemEventArgs : ListViewItemEventArgs<Type, TBase> {
+        int subIndex; // 发生事件的子项的索引
+        ListViewSubItemEventArgs(int index, int subIndex)
+            : ListViewItemEventArgs<Type, TBase>(index), subIndex(subIndex) {}
+    };
+
+    /**
      * @brief 列表视图某个复选框选中状态改变的事件参数类型
      */
     struct ListViewCheckStateChangedEventArgs : ListViewItemEventArgs<ListView_CheckStateChanged> {
@@ -237,29 +249,17 @@ namespace sw
     };
 
     /**
-    * @brief 列表视图某个单元格事件参数类型模板，适用于单击、双击等事件
-    * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
-    * @tparam TBase 事件参数类型的基类，默认为RoutedEventArgs
-    */
-    template <RoutedEventType Type>
-    struct ListViewCellEventArgs : TypedRoutedEventArgs<Type> {
-        int row; // 触发事件项的行索引
-        int col; // 触发事件项的列索引
-        ListViewCellEventArgs(int row, int col) : row(row), col(col) {}
-    };
-
-    /**
      * @brief 列表视图项单击事件参数类型
      */
-    struct ListViewItemClickedEventArgs : ListViewCellEventArgs<ListView_ItemClicked> {
-        using ListViewCellEventArgs<ListView_ItemClicked>::ListViewCellEventArgs;
+    struct ListViewItemClickedEventArgs : ListViewSubItemEventArgs<ListView_ItemClicked> {
+        using ListViewSubItemEventArgs<ListView_ItemClicked>::ListViewSubItemEventArgs;
     };
 
     /**
      * @brief 列表视图项双击事件参数类型
      */
-    struct ListViewItemDoubleClickedEventArgs : ListViewCellEventArgs<ListView_ItemDoubleClicked> {
-        using ListViewCellEventArgs<ListView_ItemDoubleClicked>::ListViewCellEventArgs;
+    struct ListViewItemDoubleClickedEventArgs : ListViewSubItemEventArgs<ListView_ItemDoubleClicked> {
+        using ListViewSubItemEventArgs<ListView_ItemDoubleClicked>::ListViewSubItemEventArgs;
     };
 
     /**
