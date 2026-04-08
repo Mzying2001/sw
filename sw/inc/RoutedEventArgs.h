@@ -9,26 +9,33 @@
 
 namespace sw
 {
-    struct RoutedEventArgs; // RoutedEvent.h
-
     // clang-format off
 
     /**
      * @brief 表示特定类型路由事件的事件参数类型，继承自该类的类型可以直接作为AddHandler函数的模板参数
-     * @tparam TYPE 一个RoutedEventType枚举值，表示路由事件类型
+     * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
+     * @tparam TBase 事件参数类型的基类，默认为RoutedEventArgs
      */
-    template <RoutedEventType TYPE>
-    struct TypedRoutedEventArgs : RoutedEventArgs {
+    template <RoutedEventType Type, typename TBase = RoutedEventArgs>
+    struct TypedRoutedEventArgs : TBase
+    {
+        // TBase必须派生自RoutedEventArgs
+        static_assert(
+            std::is_base_of<RoutedEventArgs, TBase>::value,
+            "TBase must be derived from RoutedEventArgs.");
+
         /**
          * @brief 路由事件的类型，AddHandler模板函数使用此字段注册事件
          */
-        static constexpr RoutedEventType EventType = TYPE;
+        static constexpr RoutedEventType EventType = Type;
 
         /**
          * @brief 构造函数，初始化事件类型为EventType
          */
-        TypedRoutedEventArgs() : RoutedEventArgs(EventType) {}
+        TypedRoutedEventArgs() { this->eventType = EventType; }
     };
+
+    /*================================================================================*/
 
     /**
      * @brief 结构体模板，用于检测类型T是否含有名为EventType的静态字段
@@ -50,6 +57,8 @@ namespace sw
     template <typename T>
     struct _IsTypedRoutedEventArgs : _HasEventType<T> {
     };
+
+    /*================================================================================*/
 
     /**
      * @brief 尺寸改变事件参数类型
@@ -77,71 +86,93 @@ namespace sw
     };
 
     /**
-     * @brief 键盘按键按下事件参数类型
+     * @brief 键盘事件参数类型模板
+     * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
      */
-    struct KeyDownEventArgs : TypedRoutedEventArgs<UIElement_KeyDown> {
+    template <RoutedEventType Type>
+    struct KeyEventArgs : TypedRoutedEventArgs<Type> {
         VirtualKey key; // 虚拟按键
         KeyFlags flags; // 附加信息
-        KeyDownEventArgs(VirtualKey key, KeyFlags flags) : key(key), flags(flags) {}
+        KeyEventArgs(VirtualKey key, KeyFlags flags) : key(key), flags(flags) {}
+    };
+
+    /**
+     * @brief 键盘按键按下事件参数类型
+     */
+    struct KeyDownEventArgs : KeyEventArgs<UIElement_KeyDown> {
+        using KeyEventArgs<UIElement_KeyDown>::KeyEventArgs;
     };
 
     /**
      * @brief 键盘按键抬起事件参数类型
      */
-    struct KeyUpEventArgs : TypedRoutedEventArgs<UIElement_KeyUp> {
-        VirtualKey key; // 虚拟按键
-        KeyFlags flags; // 附加信息
-        KeyUpEventArgs(VirtualKey key, KeyFlags flags) : key(key), flags(flags) {}
+    struct KeyUpEventArgs : KeyEventArgs<UIElement_KeyUp> {
+        using KeyEventArgs<UIElement_KeyUp>::KeyEventArgs;
+    };
+
+    /**
+     * @brief 鼠标事件参数类型模板
+     * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
+     */
+    template <RoutedEventType Type>
+    struct MouseEventArgs : TypedRoutedEventArgs<Type> {
+        Point mousePosition; // 鼠标位置
+        MouseKey keyState;   // 按键状态
+        MouseEventArgs(Point mousePosition, MouseKey keyState) : mousePosition(mousePosition), keyState(keyState) {}
     };
 
     /**
      * @brief 鼠标移动事件参数类型
      */
-    struct MouseMoveEventArgs : TypedRoutedEventArgs<UIElement_MouseMove> {
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-        MouseMoveEventArgs(Point mousePosition, MouseKey keyState)
-            : mousePosition(mousePosition), keyState(keyState) {}
+    struct MouseMoveEventArgs : MouseEventArgs<UIElement_MouseMove> {
+        using MouseEventArgs<UIElement_MouseMove>::MouseEventArgs;
     };
 
     /**
      * @brief 鼠标滚轮滚动事件参数类型
      */
-    struct MouseWheelEventArgs : TypedRoutedEventArgs<UIElement_MouseWheel> {
-        int wheelDelta;      // 滚轮滚动的距离，为120的倍数
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
+    struct MouseWheelEventArgs : MouseEventArgs<UIElement_MouseWheel> {
+        int wheelDelta; // 滚轮滚动的距离，为120的倍数
         MouseWheelEventArgs(int wheelDelta, Point mousePosition, MouseKey keyState)
-            : wheelDelta(wheelDelta), mousePosition(mousePosition), keyState(keyState) {}
+            : MouseEventArgs<UIElement_MouseWheel>(mousePosition, keyState), wheelDelta(wheelDelta) {}
+    };
+
+    /**
+     * @brief 鼠标按键事件参数类型模板
+     * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
+     */
+    template <RoutedEventType Type>
+    struct MouseButtonEventArgs : MouseEventArgs<Type> {
+        MouseKey key; // 按下/抬起的按键（左键、中间、右键）
+        MouseButtonEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
+            : MouseEventArgs<Type>(mousePosition, keyState), key(key) {}
     };
 
     /**
      * @brief 鼠标按键按下事件参数类型
      */
-    struct MouseButtonDownEventArgs : TypedRoutedEventArgs<UIElement_MouseButtonDown> {
-        MouseKey key;        // 按下的按键（左键、中间、右键）
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-        MouseButtonDownEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
-            : key(key), mousePosition(mousePosition), keyState(keyState) {}
+    struct MouseButtonDownEventArgs : MouseButtonEventArgs<UIElement_MouseButtonDown> {
+        using MouseButtonEventArgs<UIElement_MouseButtonDown>::MouseButtonEventArgs;
     };
 
     /**
      * @brief 鼠标按键抬起事件参数类型
      */
-    struct MouseButtonUpEventArgs : TypedRoutedEventArgs<UIElement_MouseButtonUp> {
-        MouseKey key;        // 抬起的按键（左键、中间、右键）
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-        MouseButtonUpEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
-            : key(key), mousePosition(mousePosition), keyState(keyState) {}
+    struct MouseButtonUpEventArgs : MouseButtonEventArgs<UIElement_MouseButtonUp> {
+        using MouseButtonEventArgs<UIElement_MouseButtonUp>::MouseButtonEventArgs;
+    };
+
+    /**
+     * @brief 可取消事件参数类型，包含一个cancel字段用于指示是否取消事件
+     */
+    struct CancelableEventArgs : public RoutedEventArgs {
+        bool cancel = false; // 是否取消事件，默认为false
     };
 
     /**
      * @brief 显示用户自定义上下文菜单的事件参数类型
      */
-    struct ShowContextMenuEventArgs : TypedRoutedEventArgs<UIElement_ShowContextMenu> {
-        bool cancel = false; // 是否取消显示上下文菜单
+    struct ShowContextMenuEventArgs : TypedRoutedEventArgs<UIElement_ShowContextMenu, CancelableEventArgs> {
         bool isKeyboardMsg;  // 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
         Point mousePosition; // 鼠标在屏幕中的位置
         ShowContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition)
@@ -159,88 +190,109 @@ namespace sw
     /**
      * @brief 窗口正在关闭事件参数类型
      */
-    struct WindowClosingEventArgs : TypedRoutedEventArgs<Window_Closing> {
-        bool cancel = false; // 是否取消本次关闭
+    struct WindowClosingEventArgs : TypedRoutedEventArgs<Window_Closing, CancelableEventArgs> {
     };
 
     /**
      * @brief 窗口/面板滚动条滚动事件参数类型
      */
-    struct ScrollingEventArgs : TypedRoutedEventArgs<Layer_Scrolling> {
-        bool cancel = false;         // 是否取消滚动条默认行为
+    struct ScrollingEventArgs : TypedRoutedEventArgs<Layer_Scrolling, CancelableEventArgs> {
         ScrollOrientation scrollbar; // 滚动条类型
-        ScrollEvent event;           // 滚动条事件
-        double pos;                  // 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
+        ScrollEvent event; // 滚动条事件
+        double pos;        // 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
         ScrollingEventArgs(ScrollOrientation scrollbar, ScrollEvent event, double pos)
             : scrollbar(scrollbar), event(event), pos(pos) {}
     };
 
     /**
+     * @brief 列表视图某个项事件参数类型模板，适用于单击、双击等事件
+     * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
+     * @tparam TBase 事件参数类型的基类，默认为RoutedEventArgs
+     */
+    template <RoutedEventType Type, typename TBase = RoutedEventArgs>
+    struct ListViewItemEventArgs : TypedRoutedEventArgs<Type, TBase> {
+        int index; // 发生事件的项的索引
+        ListViewItemEventArgs(int index) : index(index) {}
+    };
+
+    /**
      * @brief 列表视图某个复选框选中状态改变的事件参数类型
      */
-    struct ListViewCheckStateChangedEventArgs : TypedRoutedEventArgs<ListView_CheckStateChanged> {
-        int index; // 改变项的索引
-        ListViewCheckStateChangedEventArgs(int index) : index(index) {}
+    struct ListViewCheckStateChangedEventArgs : ListViewItemEventArgs<ListView_CheckStateChanged> {
+        using ListViewItemEventArgs<ListView_CheckStateChanged>::ListViewItemEventArgs;
     };
 
     /**
      * @brief 列表视图的列标题单击事件参数类型
      */
-    struct ListViewHeaderClickedEventArgs : TypedRoutedEventArgs<ListView_HeaderClicked> {
-        int index; // 被点击列标题的索引
-        ListViewHeaderClickedEventArgs(int index) : index(index) {}
+    struct ListViewHeaderClickedEventArgs : ListViewItemEventArgs<ListView_HeaderClicked> {
+        using ListViewItemEventArgs<ListView_HeaderClicked>::ListViewItemEventArgs;
     };
 
     /**
      * @brief 列表视图的列标题双击事件参数类型
      */
-    struct ListViewHeaderDoubleClickedEventArgs : TypedRoutedEventArgs<ListView_HeaderDoubleClicked> {
-        int index; // 被点击列标题的索引
-        ListViewHeaderDoubleClickedEventArgs(int index) : index(index) {}
+    struct ListViewHeaderDoubleClickedEventArgs : ListViewItemEventArgs<ListView_HeaderDoubleClicked> {
+        using ListViewItemEventArgs<ListView_HeaderDoubleClicked>::ListViewItemEventArgs;
+    };
+
+    /**
+    * @brief 列表视图某个单元格事件参数类型模板，适用于单击、双击等事件
+    * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
+    * @tparam TBase 事件参数类型的基类，默认为RoutedEventArgs
+    */
+    template <RoutedEventType Type>
+    struct ListViewCellEventArgs : TypedRoutedEventArgs<Type> {
+        int row; // 触发事件项的行索引
+        int col; // 触发事件项的列索引
+        ListViewCellEventArgs(int row, int col) : row(row), col(col) {}
     };
 
     /**
      * @brief 列表视图项单击事件参数类型
      */
-    struct ListViewItemClickedEventArgs : TypedRoutedEventArgs<ListView_ItemClicked> {
-        int row; // 被点击的行
-        int col; // 被点击的列
-        ListViewItemClickedEventArgs(int row, int col) : row(row), col(col) {}
+    struct ListViewItemClickedEventArgs : ListViewCellEventArgs<ListView_ItemClicked> {
+        using ListViewCellEventArgs<ListView_ItemClicked>::ListViewCellEventArgs;
     };
 
     /**
      * @brief 列表视图项双击事件参数类型
      */
-    struct ListViewItemDoubleClickedEventArgs : TypedRoutedEventArgs<ListView_ItemDoubleClicked> {
-        int row; // 被点击的行
-        int col; // 被点击的列
-        ListViewItemDoubleClickedEventArgs(int row, int col) : row(row), col(col) {}
+    struct ListViewItemDoubleClickedEventArgs : ListViewCellEventArgs<ListView_ItemDoubleClicked> {
+        using ListViewCellEventArgs<ListView_ItemDoubleClicked>::ListViewCellEventArgs;
     };
 
     /**
      * @brief 列表视图编辑状态结束事件参数类型
      */
-    struct ListViewEndEditEventArgs : TypedRoutedEventArgs<ListView_EndEdit> {
-        bool cancel = false; // 是否取消文本更改，默认为false
-        int index;           // 被编辑项的索引
-        wchar_t *newText;    // 新的文本
-        ListViewEndEditEventArgs(int index, wchar_t *newText) : index(index), newText(newText) {}
+    struct ListViewEndEditEventArgs : ListViewItemEventArgs<ListView_EndEdit, CancelableEventArgs> {
+        wchar_t *newText; // 新的文本
+        ListViewEndEditEventArgs(int index, wchar_t *newText)
+            : ListViewItemEventArgs<ListView_EndEdit, CancelableEventArgs>(index), newText(newText) {}
+    };
+
+    /**
+     * @brief 时间改变事件参数类型模板，适用于DateTimePicker和MonthCalendar控件
+     * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
+     */
+    template <RoutedEventType Type>
+    struct TimeChangedEventArgs : TypedRoutedEventArgs<Type> {
+        SYSTEMTIME time; // 时间的新值
+        TimeChangedEventArgs(const SYSTEMTIME &time) : time(time) {}
     };
 
     /**
      * @brief DateTimePicker控件时间改变事件参数类型
      */
-    struct DateTimePickerTimeChangedEventArgs : TypedRoutedEventArgs<DateTimePicker_TimeChanged> {
-        SYSTEMTIME time; // 时间的新值
-        DateTimePickerTimeChangedEventArgs(const SYSTEMTIME &time) : time(time) {}
+    struct DateTimePickerTimeChangedEventArgs : TimeChangedEventArgs<DateTimePicker_TimeChanged> {
+        using TimeChangedEventArgs<DateTimePicker_TimeChanged>::TimeChangedEventArgs;
     };
 
     /**
      * @brief 月历控件时间改变事件参数类型
      */
-    struct MonthCalendarTimeChangedEventArgs : TypedRoutedEventArgs<MonthCalendar_TimeChanged> {
-        SYSTEMTIME time; // 时间的新值
-        MonthCalendarTimeChangedEventArgs(const SYSTEMTIME &time) : time(time) {}
+    struct MonthCalendarTimeChangedEventArgs : TimeChangedEventArgs<MonthCalendar_TimeChanged> {
+        using TimeChangedEventArgs<MonthCalendar_TimeChanged>::TimeChangedEventArgs;
     };
 
     /**
@@ -264,8 +316,7 @@ namespace sw
     /**
      * @brief 分割按钮的下拉箭头单击事件参数类型
      */
-    struct SplitButtonDropDownEventArgs : TypedRoutedEventArgs<SplitButton_DropDown> {
-        bool cancel = false; // 是否取消显示下拉菜单
+    struct SplitButtonDropDownEventArgs : TypedRoutedEventArgs<SplitButton_DropDown, CancelableEventArgs> {
     };
 
     // clang-format on

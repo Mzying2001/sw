@@ -185,7 +185,7 @@ namespace sw
         /**
          * @brief 构造函数，初始化事件类型为指定值，其他字段使用默认值
          */
-        RoutedEventArgs(RoutedEventType eventType) : eventType(eventType) {}
+        explicit RoutedEventArgs(RoutedEventType eventType) : eventType(eventType) {}
     };
 
     /**
