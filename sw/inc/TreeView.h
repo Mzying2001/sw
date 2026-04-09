@@ -204,10 +204,9 @@ namespace sw
     /**
      * @brief 树视图节点正在展开或折叠事件参数类型
      */
-    struct TreeViewItemExpandingEventArgs : TypedRoutedEventArgs<TreeView_ItemExpanding> {
-        bool cancel = false; // 是否取消本次展开或折叠操作
-        bool action;         // true表示展开，false表示折叠
-        TreeViewNode node;   // 正在展开或折叠的节点
+    struct TreeViewItemExpandingEventArgs : TypedRoutedEventArgs<TreeView_ItemExpanding, CancelableEventArgs> {
+        bool action;       // true表示展开，false表示折叠
+        TreeViewNode node; // 正在展开或折叠的节点
         TreeViewItemExpandingEventArgs(bool action, const TreeViewNode &node): action(action), node(node) {}
     };
 
@@ -216,7 +215,7 @@ namespace sw
      */
     struct TreeViewItemExpandedEventArgs : TypedRoutedEventArgs<TreeView_ItemExpanding> {
         bool action;       // true表示展开，false表示折叠
-        TreeViewNode node; // 正在展开或折叠的节点
+        TreeViewNode node; // 已展开或折叠的节点
         TreeViewItemExpandedEventArgs(bool action, const TreeViewNode &node): action(action), node(node) {}
     };
 
