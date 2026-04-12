@@ -2,16 +2,11 @@
 
 #include "Delegate.h"
 #include "WndBase.h"
-#include <windows.h>
 #include <string>
+#include <windows.h>
 
 namespace sw
 {
-    /**
-     * @brief 消息框回调
-     */
-    using MsgBoxCallback = Action<>;
-
     /**
      * @brief 消息框按钮类型
      */
@@ -52,14 +47,23 @@ namespace sw
     };
 
     /**
-     * @brief 处理消息框消息的帮助类
+     * @brief 处理消息框消息的辅助类
      */
-    struct MsgBoxResultHelper {
+    class MsgBoxResultHelper
+    {
+    private:
         /**
          * @brief 消息框的结果
          */
-        MsgBoxResult result;
+        MsgBoxResult _result;
 
+    public:
+        /**
+         * @brief 消息框的结果
+         */
+        ReadOnlyProperty<MsgBoxResult> Result;
+
+    public:
         /**
          * @brief 构造MsgBoxResultHelper
          */
@@ -68,63 +72,63 @@ namespace sw
         /**
          * @brief 隐式转换MsgBoxResult
          */
-        operator sw::MsgBoxResult() const;
+        operator sw::MsgBoxResult() const noexcept;
 
         /**
          * @brief 指定按下“确定”按钮时的处理函数
          */
-        MsgBoxResultHelper &OnOk(const MsgBoxCallback &callback);
+        MsgBoxResultHelper &OnOk(const Action<> &callback);
 
         /**
          * @brief 指定按下“是”按钮时的处理函数
          */
-        MsgBoxResultHelper &OnYes(const MsgBoxCallback &callback);
+        MsgBoxResultHelper &OnYes(const Action<> &callback);
 
         /**
          * @brief 指定按下“否”按钮时的处理函数
          */
-        MsgBoxResultHelper &OnNo(const MsgBoxCallback &callback);
+        MsgBoxResultHelper &OnNo(const Action<> &callback);
 
         /**
          * @brief 指定按下“取消”按钮时的处理函数
          */
-        MsgBoxResultHelper &OnCancel(const MsgBoxCallback &callback);
+        MsgBoxResultHelper &OnCancel(const Action<> &callback);
 
         /**
          * @brief 指定按下“中止”按钮时的处理函数
          */
-        MsgBoxResultHelper &OnAbort(const MsgBoxCallback &callback);
+        MsgBoxResultHelper &OnAbort(const Action<> &callback);
 
         /**
          * @brief 指定按下“继续”按钮时的处理函数
          */
-        MsgBoxResultHelper &OnContinue(const MsgBoxCallback &callback);
+        MsgBoxResultHelper &OnContinue(const Action<> &callback);
 
         /**
          * @brief 指定按下“忽略”按钮时的处理函数
          */
-        MsgBoxResultHelper &OnIgnore(const MsgBoxCallback &callback);
+        MsgBoxResultHelper &OnIgnore(const Action<> &callback);
 
         /**
          * @brief 指定按下“重试”按钮时的处理函数
          */
-        MsgBoxResultHelper &OnRetry(const MsgBoxCallback &callback);
+        MsgBoxResultHelper &OnRetry(const Action<> &callback);
 
         /**
          * @brief 指定按下“重试”按钮时的处理函数
-         * @note  只有在按钮类型为CancelRetryContinue并按下“重试”时才触发
+         * @note 只有在按钮类型为CancelRetryContinue并按下“重试”时才触发
          */
-        MsgBoxResultHelper &OnTryAgain(const MsgBoxCallback &callback);
+        MsgBoxResultHelper &OnTryAgain(const Action<> &callback);
 
+    public:
         /**
          * @brief 指定消息框结果的处理函数
          */
         template <MsgBoxResult RES>
-        MsgBoxResultHelper &On(const MsgBoxCallback &callback)
+        MsgBoxResultHelper &On(const Action<> &callback)
         {
-            if (this->result == RES) {
+            if (this->_result == RES)
                 if (callback) callback();
-            }
             return *this;
         }
     };
@@ -134,7 +138,10 @@ namespace sw
      */
     class MsgBox
     {
-    private:
+    public:
+        /**
+         * @brief 静态类，不允许实例化
+         */
         MsgBox() = delete;
 
     public:

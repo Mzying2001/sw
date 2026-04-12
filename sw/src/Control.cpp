@@ -1,4 +1,5 @@
 #include "Control.h"
+#include "App.h"
 
 sw::Control::Control()
     : ControlId(
@@ -14,18 +15,13 @@ sw::Control::Control()
                       return false;
                   }
                   auto container = WndBase::_GetControlInitContainer();
-                  return container == nullptr || GetParent(self->_hwnd) != container->_hwnd;
+                  return container == nullptr || ::GetParent(self->_hwnd) != container->_hwnd;
               }))
 {
 }
 
 sw::Control::~Control()
 {
-}
-
-sw::Control *sw::Control::ToControl()
-{
-    return this;
 }
 
 bool sw::Control::ResetHandle(LPVOID lpParam)
@@ -45,7 +41,7 @@ bool sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
     auto text = GetInternalText().c_str();
 
     HWND oldHwnd = _hwnd;
-    HWND hParent = GetParent(oldHwnd);
+    HWND hParent = ::GetParent(oldHwnd);
 
     wchar_t className[256];
     GetClassNameW(oldHwnd, className, 256);

@@ -108,7 +108,7 @@ void sw::DockSplitter::_OnEndDrag(bool restoreSize)
 void sw::DockSplitter::_OnDragMove()
 {
     if (_relatedElement == nullptr) return;
-    if (_relatedElement->Parent != Parent) return;
+    if (_relatedElement->GetParent() != GetParent()) return;
 
     POINT pt;
     GetCursorPos(&pt);
@@ -154,7 +154,7 @@ void sw::DockSplitter::_UpdateRelatedElement()
 {
     _relatedElement = nullptr;
 
-    UIElement *parent = Parent;
+    UIElement *parent = GetParent();
     if (parent == nullptr) return;
 
     int index       = parent->IndexOf(this);

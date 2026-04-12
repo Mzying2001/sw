@@ -1,6 +1,7 @@
 #include "FileDialog.h"
 #include "Path.h"
 #include "Utils.h"
+#include "Window.h"
 
 namespace
 {

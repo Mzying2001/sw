@@ -1,6 +1,10 @@
 #pragma once
 
-#include "Window.h"
+#include "Color.h"
+#include "EnumBit.h"
+#include "Font.h"
+#include "IDialog.h"
+#include "Property.h"
 
 namespace sw
 {
@@ -208,13 +212,13 @@ namespace sw
         virtual void Show() override;
 
         /**
-         * @brief  显示对话框，并指定所有者窗口
+         * @brief 显示对话框，并指定所有者窗口
          * @return 若用户选择了字体则返回true，否则返回false
          */
         virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
-         * @brief  显示对话框，并指定所有者窗口
+         * @brief 显示对话框，并指定所有者窗口
          * @return 若用户选择了字体则返回true，否则返回false
          */
         virtual int ShowDialog(Window &owner);

@@ -39,24 +39,24 @@ namespace sw
 
     public:
         /**
-         * @brief        获取系统标准鼠标样式句柄
+         * @brief 获取系统标准鼠标样式句柄
          * @param cursor 鼠标样式
-         * @return       鼠标句柄
+         * @return 鼠标句柄
          */
         static HCURSOR GetCursorHandle(StandardCursor cursor);
 
         /**
-         * @brief            从指定模块中获取鼠标句柄
-         * @param hInstance  DLL或EXE的模块句柄
+         * @brief 从指定模块中获取鼠标句柄
+         * @param hInstance DLL或EXE的模块句柄
          * @param resourceId 鼠标的资源序号
-         * @return           成功则返回鼠标句柄，否则返回NULL
+         * @return 成功则返回鼠标句柄，否则返回NULL
          */
         static HCURSOR GetCursorHandle(HINSTANCE hInstance, int resourceId);
 
         /**
-         * @brief          从文件加载鼠标句柄
+         * @brief 从文件加载鼠标句柄
          * @param fileName 鼠标文件路径
-         * @return         成功则返回鼠标句柄，否则返回NULL
+         * @return 成功则返回鼠标句柄，否则返回NULL
          */
         static HCURSOR GetCursorHandle(const std::wstring &fileName);
     };

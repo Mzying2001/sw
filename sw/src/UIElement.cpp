@@ -1,6 +1,8 @@
 #include "UIElement.h"
-#include "DataBinding.h"
+#include "ContextMenu.h"
+#include "Dip.h"
 #include "Utils.h"
+#include "WndMsg.h"
 #include <algorithm>
 #include <cmath>
 #include <deque>
@@ -15,7 +17,6 @@ namespace
     const sw::FieldId _PropId_VerticalAlignment   = sw::Reflection::GetFieldId(&sw::UIElement::VerticalAlignment);
     const sw::FieldId _PropId_ChildCount          = sw::Reflection::GetFieldId(&sw::UIElement::ChildCount);
     const sw::FieldId _PropId_CollapseWhenHide    = sw::Reflection::GetFieldId(&sw::UIElement::CollapseWhenHide);
-    const sw::FieldId _PropId_UIElementParent     = sw::Reflection::GetFieldId(&sw::UIElement::Parent);
     const sw::FieldId _PropId_Tag                 = sw::Reflection::GetFieldId(&sw::UIElement::Tag);
     const sw::FieldId _PropId_LayoutTag           = sw::Reflection::GetFieldId(&sw::UIElement::LayoutTag);
     const sw::FieldId _PropId_ContextMenu         = sw::Reflection::GetFieldId(&sw::UIElement::ContextMenu);
@@ -31,8 +32,6 @@ namespace
     const sw::FieldId _PropId_MaxHeight           = sw::Reflection::GetFieldId(&sw::UIElement::MaxHeight);
     const sw::FieldId _PropId_LogicalRect         = sw::Reflection::GetFieldId(&sw::UIElement::LogicalRect);
     const sw::FieldId _PropId_IsHitTestVisible    = sw::Reflection::GetFieldId(&sw::UIElement::IsHitTestVisible);
-    const sw::FieldId _PropId_DataContext         = sw::Reflection::GetFieldId(&sw::UIElement::DataContext);
-    const sw::FieldId _PropId_CurrentDataContext  = sw::Reflection::GetFieldId(&sw::UIElement::CurrentDataContext);
 }
 
 sw::UIElement::UIElement()
@@ -74,7 +73,7 @@ sw::UIElement::UIElement()
       ChildCount(
           Property<int>::Init(this)
               .Getter([](UIElement *self) -> int {
-                  return (int)self->_children.size();
+                  return self->GetChildCount();
               })),
 
       CollapseWhenHide(
@@ -91,12 +90,6 @@ sw::UIElement::UIElement()
                           self->_parent->InvalidateMeasure();
                       }
                   }
-              })),
-
-      Parent(
-          Property<UIElement *>::Init(this)
-              .Getter([](UIElement *self) -> UIElement * {
-                  return self->_parent;
               })),
 
       Tag(
@@ -300,28 +293,6 @@ sw::UIElement::UIElement()
           Property<bool>::Init(this)
               .Getter([](UIElement *self) -> bool {
                   return self->_focusedViaTab;
-              })),
-
-      DataContext(
-          Property<DynamicObject *>::Init(this)
-              .Getter([](UIElement *self) -> DynamicObject * {
-                  return self->_dataContext;
-              })
-              .Setter([](UIElement *self, DynamicObject *value) {
-                  if (self->_dataContext != value) {
-                      auto oldDataContext = self->_GetCurrentDataContext();
-                      self->_dataContext  = value;
-                      self->RaisePropertyChanged(_PropId_DataContext);
-                      if (oldDataContext != value) {
-                          self->_OnCurrentDataContextChanged(oldDataContext);
-                      }
-                  }
-              })),
-
-      CurrentDataContext(
-          Property<DynamicObject *>::Init(this)
-              .Getter([](UIElement *self) -> DynamicObject * {
-                  return self->_GetCurrentDataContext();
               }))
 {
 }
@@ -362,16 +333,6 @@ bool sw::UIElement::IsRoutedEventRegistered(RoutedEventType eventType)
     return this->_eventMap[eventType] != nullptr;
 }
 
-sw::UIElement &sw::UIElement::operator[](int index) const
-{
-    return *this->_children[index];
-}
-
-sw::UIElement &sw::UIElement::GetChildAt(int index) const
-{
-    return *this->_children.at(index);
-}
-
 bool sw::UIElement::AddChild(UIElement *element)
 {
     if (element == nullptr || element == this) {
@@ -396,16 +357,21 @@ bool sw::UIElement::AddChild(UIElement *element)
 
     // 处理z轴顺序，确保悬浮的元素在最前
     if (!element->_float) {
-        HDWP hdwp = BeginDeferWindowPos((int)this->_children.size());
+        HDWP hdwp = NULL;
         for (UIElement *child : this->_children) {
-            if (child->_float)
+            if (child->_float) {
+                if (hdwp == NULL)
+                    hdwp = BeginDeferWindowPos((int)this->_children.size());
                 DeferWindowPos(hdwp, child->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+            }
         }
-        EndDeferWindowPos(hdwp);
+        if (hdwp != NULL) {
+            EndDeferWindowPos(hdwp);
+        }
     }
 
     this->_children.push_back(element);
-    this->_UpdateLayoutVisibleChildren();
+    this->_AddToLayoutVisibleChildren(element);
 
     this->OnAddedChild(*element);
     return true;
@@ -770,47 +736,24 @@ bool sw::UIElement::BringIntoView()
     return false;
 }
 
-bool sw::UIElement::AddBinding(BindingBase *binding)
+sw::UIElement *sw::UIElement::ToUIElement()
 {
-    if (binding == nullptr) {
-        return false;
-    } else {
-        this->_bindings[binding->GetTargetPropertyId()].reset(binding);
-        return true;
-    }
+    return this;
 }
 
-bool sw::UIElement::AddBinding(Binding *binding)
+sw::UIElement *sw::UIElement::GetParent() const
 {
-    if (binding == nullptr) {
-        return false;
-    }
-    if (binding->GetSourceObject() == nullptr) {
-        auto dataBinding = DataBinding::Create(this, binding);
-        return this->AddBinding(static_cast<BindingBase *>(dataBinding));
-    } else {
-        binding->SetTargetObject(this);
-        return this->AddBinding(static_cast<BindingBase *>(binding));
-    }
+    return this->_parent;
 }
 
-bool sw::UIElement::AddBinding(DataBinding *binding)
+int sw::UIElement::GetChildCount() const
 {
-    if (binding == nullptr) {
-        return false;
-    }
-    binding->SetTargetElement(this);
-    return this->AddBinding(static_cast<BindingBase *>(binding));
+    return static_cast<int>(this->_children.size());
 }
 
-bool sw::UIElement::RemoveBinding(FieldId propertyId)
+sw::UIElement &sw::UIElement::GetChildAt(int index) const
 {
-    if (this->_bindings.count(propertyId) == 0) {
-        return false;
-    } else {
-        this->_bindings.erase(propertyId);
-        return true;
-    }
+    return *this->_children.at(index);
 }
 
 uint64_t sw::UIElement::GetTag() const
@@ -833,12 +776,12 @@ uint64_t sw::UIElement::GetLayoutTag() const
 
 int sw::UIElement::GetChildLayoutCount() const
 {
-    return (int)this->_layoutVisibleChildren.size();
+    return static_cast<int>(this->_layoutVisibleChildren.size());
 }
 
-sw::ILayout &sw::UIElement::GetChildLayoutAt(int index)
+sw::ILayout &sw::UIElement::GetChildLayoutAt(int index) const
 {
-    return *this->_layoutVisibleChildren[index];
+    return *this->_layoutVisibleChildren.at(index);
 }
 
 sw::Size sw::UIElement::GetDesireSize() const
@@ -981,11 +924,6 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
 }
 
-sw::UIElement *sw::UIElement::ToUIElement()
-{
-    return this;
-}
-
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)
 {
     RoutedEventArgs eventArgs(eventType);
@@ -1107,19 +1045,41 @@ void sw::UIElement::ClampDesireSize(sw::Rect &rect) const
     rect.height = size.height;
 }
 
-bool sw::UIElement::QueryAllChildren(const Func<UIElement *, bool> &queryFunc)
+bool sw::UIElement::QueryAllChildren(const Predicate<UIElement *> &queryFunc)
 {
     if (queryFunc == nullptr) {
         return true;
     }
 
-    std::vector<UIElement *> children;
-    _GetAllChildren(this, children);
+    std::vector<UIElement *> stack;
+    stack.push_back(this);
 
-    for (UIElement *child : children) {
-        if (!queryFunc(child)) return false;
+    while (!stack.empty()) {
+        auto current = stack.back();
+        stack.pop_back();
+
+        if (current != this && !queryFunc(current)) {
+            return false;
+        }
+
+        for (UIElement *child : current->_children) {
+            stack.push_back(child);
+        }
     }
     return true;
+}
+
+bool sw::UIElement::QueryAllElements(const Predicate<UIElement *> &queryFunc)
+{
+    if (queryFunc == nullptr) {
+        return true;
+    }
+
+    if (!queryFunc(this)) {
+        return false;
+    } else {
+        return this->QueryAllChildren(queryFunc);
+    }
 }
 
 sw::Size sw::UIElement::MeasureOverride(const Size &availableSize)
@@ -1270,16 +1230,14 @@ bool sw::UIElement::SetParent(WndBase *parent)
 
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
-    auto oldDataContext = this->_GetCurrentDataContext();
+    auto oldDataContext = this->CurrentDataContext.Get();
 
     this->_parent = newParent ? newParent->ToUIElement() : nullptr;
     this->_SetMeasureInvalidated();
+    this->WndBase::ParentChanged(newParent);
 
-    this->WndBase::ParentChanged(newParent); // raise property WndBase::Parent changed event
-    this->RaisePropertyChanged(_PropId_UIElementParent);
-
-    if (this->_GetCurrentDataContext() != oldDataContext) {
-        this->_OnCurrentDataContextChanged(oldDataContext);
+    if (this->CurrentDataContext != oldDataContext) {
+        this->OnCurrentDataContextChanged(oldDataContext);
     }
 }
 
@@ -1583,6 +1541,16 @@ void sw::UIElement::_UpdateLayoutVisibleChildren()
     }
 }
 
+bool sw::UIElement::_AddToLayoutVisibleChildren(UIElement *element)
+{
+    if (element->_collapseWhenHide && !element->Visible)
+        return false;
+    else {
+        this->_layoutVisibleChildren.push_back(element);
+        return true;
+    }
+}
+
 void sw::UIElement::_RemoveFromLayoutVisibleChildren(UIElement *element)
 {
     auto it = std::find(
@@ -1594,57 +1562,32 @@ void sw::UIElement::_RemoveFromLayoutVisibleChildren(UIElement *element)
     }
 }
 
-sw::DynamicObject *sw::UIElement::_GetCurrentDataContext()
+sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element)
 {
-    DynamicObject *result = nullptr;
-    UIElement *element    = this;
-    do {
-        result  = element->_dataContext;
-        element = element->_parent;
-    } while (result == nullptr && element != nullptr);
-    return result;
-}
-
-void sw::UIElement::_OnCurrentDataContextChanged(DynamicObject *oldval)
-{
-    std::vector<UIElement *> stack;
-    stack.push_back(this);
-
-    while (!stack.empty()) {
-        auto current = stack.back();
-        stack.pop_back();
-
-        current->RaisePropertyChanged(_PropId_CurrentDataContext);
-
-        if (current->DataContextChanged) {
-            current->DataContextChanged(*current, oldval);
-        }
-
-        for (UIElement *child : current->_children) {
-            if (child->_dataContext == nullptr) {
-                stack.push_back(child);
-            }
-        }
-    }
-}
-
-sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element, bool searchChildren)
-{
-    if (searchChildren && !element->_children.empty()) {
+    if (!element->_children.empty()) {
         return element->_children.front();
     }
 
-    UIElement *parent = element->_parent;
-    if (parent == nullptr) {
-        return element; // 回到根节点
+    UIElement *current = element;
+
+    while (true) {
+        UIElement *parent = current->_parent;
+
+        if (parent == nullptr) {
+            return current;
+        }
+
+        int index = parent->IndexOf(current);
+
+        if (index + 1 >= (int)parent->_children.size()) {
+            current = parent;
+        } else {
+            return parent->_children[index + 1];
+        }
     }
 
-    int index = parent->IndexOf(element);
-    if (index == (int)parent->_children.size() - 1) {
-        return _GetNextElement(parent, false);
-    }
-
-    return parent->_children[index + 1];
+    // should not happen
+    return nullptr;
 }
 
 sw::UIElement *sw::UIElement::_GetDeepestLastElement(UIElement *element)
@@ -1665,12 +1608,4 @@ sw::UIElement *sw::UIElement::_GetPreviousElement(UIElement *element)
 
     int index = parent->IndexOf(element);
     return index <= 0 ? parent : _GetDeepestLastElement(parent->_children[index - 1]);
-}
-
-void sw::UIElement::_GetAllChildren(UIElement *element, std::vector<UIElement *> &children)
-{
-    for (UIElement *child : element->_children) {
-        children.push_back(child);
-        _GetAllChildren(child, children);
-    }
 }

@@ -120,7 +120,7 @@ namespace sw
 
     protected:
         /**
-         * @brief  获取子项数
+         * @brief 获取子项数
          */
         virtual int GetItemsCount() override;
 
@@ -140,32 +140,32 @@ namespace sw
         virtual StrList GetSelectedItem() override;
 
         /**
-         * @brief        设置背景颜色
-         * @param color  要设置的颜色
+         * @brief 设置背景颜色
+         * @param color 要设置的颜色
          * @param redraw 是否重绘
          */
         virtual void SetBackColor(Color color, bool redraw) override;
 
         /**
-         * @brief        设置文本颜色
-         * @param color  要设置的颜色
+         * @brief 设置文本颜色
+         * @param color 要设置的颜色
          * @param redraw 是否重绘
          */
         virtual void SetTextColor(Color color, bool redraw) override;
 
         /**
-         * @brief        接收到WM_NOTIFY后调用该函数
+         * @brief 接收到WM_NOTIFY后调用该函数
          * @param pNMHDR 包含有关通知消息的信息
          * @param result 函数返回值为true时将该值作为消息的返回值，默认值为0
-         * @return       若已处理该消息则返回true，否则调用发出通知控件的OnNotified函数，依据其返回值判断是否调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则调用发出通知控件的OnNotified函数，依据其返回值判断是否调用DefaultWndProc
          */
         virtual bool OnNotify(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
-         * @brief        父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @brief 父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
          * @param pNMHDR 包含有关通知消息的信息
          * @param result 函数返回值为true时将该值作为消息的返回值
-         * @return       若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 
@@ -175,7 +175,7 @@ namespace sw
         virtual void OnItemChanged(NMLISTVIEW *pNMLV);
 
         /**
-         * @brief       复选框选中状态发生改变
+         * @brief 复选框选中状态发生改变
          * @param index 改变项的索引
          */
         virtual void OnCheckStateChanged(int index);
@@ -201,13 +201,13 @@ namespace sw
         virtual void OnItemDoubleClicked(NMITEMACTIVATE *pNMIA);
 
         /**
-         * @brief         当OnNotified接收到LVN_GETDISPINFOW通知时调用该函数
+         * @brief 当OnNotified接收到LVN_GETDISPINFOW通知时调用该函数
          * @param pNMInfo 包含有关通知消息的信息
          */
         virtual void OnGetDispInfo(NMLVDISPINFOW *pNMInfo);
 
         /**
-         * @brief  编辑状态结束后调用该函数
+         * @brief 编辑状态结束后调用该函数
          * @return 是否应用新文本
          */
         virtual bool OnEndEdit(NMLVDISPINFOW *pNMInfo);
@@ -219,114 +219,114 @@ namespace sw
         virtual void Clear() override;
 
         /**
-         * @brief       获取指定索引处子项的值
+         * @brief 获取指定索引处子项的值
          * @param index 子项的索引
          */
         virtual StrList GetItemAt(int index) override;
 
         /**
-         * @brief      添加新的子项
+         * @brief 添加新的子项
          * @param item 要添加的子项
-         * @return     是否添加成功
+         * @return 是否添加成功
          */
         virtual bool AddItem(const StrList &item) override;
 
         /**
-         * @brief       添加子项到指定索引
+         * @brief 添加子项到指定索引
          * @param index 要插入的位置
-         * @param item  要添加的子项
-         * @return      是否添加成功
+         * @param item 要添加的子项
+         * @return 是否添加成功
          */
         virtual bool InsertItem(int index, const StrList &item) override;
 
         /**
-         * @brief          更新指定位置的子项
-         * @param index    要更新子项的位置
+         * @brief 更新指定位置的子项
+         * @param index 要更新子项的位置
          * @param newValue 子项的新值
-         * @return         操作是否成功
+         * @return 操作是否成功
          */
         virtual bool UpdateItem(int index, const StrList &newValue) override;
 
         /**
-         * @brief       移除指定索引处的子项
+         * @brief 移除指定索引处的子项
          * @param index 要移除子项的索引
-         * @return      操作是否成功
+         * @return 操作是否成功
          */
         virtual bool RemoveItemAt(int index) override;
 
         /**
-         * @brief     获取指定位置处文本
+         * @brief 获取指定位置处文本
          * @param row 所在行
          * @param col 所在列
-         * @return    对应位置的文本，若获取失败则返回空字符串
+         * @return 对应位置的文本，若获取失败则返回空字符串
          */
         virtual std::wstring GetItemAt(int row, int col);
 
         /**
-         * @brief          更新指定位置处文本
-         * @param row      所在行
-         * @param col      所在列
+         * @brief 更新指定位置处文本
+         * @param row 所在行
+         * @param col 所在列
          * @param newValue 要设置的文本
-         * @return         操作是否成功
+         * @return 操作是否成功
          */
         virtual bool UpdateItem(int row, int col, const std::wstring &newValue);
 
         /**
-         * @brief        添加新的列
+         * @brief 添加新的列
          * @param column 要添加的列信息
-         * @return       操作是否成功
+         * @return 操作是否成功
          */
         bool AddColumn(const ListViewColumn &column);
 
         /**
-         * @brief        添加新的列
+         * @brief 添加新的列
          * @param header 要添加列的标题
-         * @return       操作是否成功
+         * @return 操作是否成功
          */
         bool AddColumn(const std::wstring &header);
 
         /**
-         * @brief        添加新的列到指定索引
-         * @param index  要插入的位置
+         * @brief 添加新的列到指定索引
+         * @param index 要插入的位置
          * @param column 要添加的列信息
-         * @return       操作是否成功
+         * @return 操作是否成功
          */
         bool InsertColumn(int index, const ListViewColumn &column);
 
         /**
-         * @brief        添加新的列到指定索引
-         * @param index  要插入的位置
+         * @brief 添加新的列到指定索引
+         * @param index 要插入的位置
          * @param header 要添加列的标题
-         * @return       操作是否成功
+         * @return 操作是否成功
          */
         bool InsertColumn(int index, const std::wstring &header);
 
         /**
-         * @brief       设置指定列的标题
+         * @brief 设置指定列的标题
          * @param index 列的索引
-         * @return      操作是否成功
+         * @return 操作是否成功
          */
         bool SetColumnHeader(int index, const std::wstring &header);
 
         /**
-         * @brief       获取指定列的宽度
+         * @brief 获取指定列的宽度
          * @param index 列的索引
-         * @return      列的宽度，若列不存在则返回-1
+         * @return 列的宽度，若列不存在则返回-1
          */
         double GetColumnWidth(int index);
 
         /**
-         * @brief       设置指定列的宽度
+         * @brief 设置指定列的宽度
          * @param index 列的索引
          * @param width 要设置的宽度
-         * @return      操作是否成功
+         * @return 操作是否成功
          */
         bool SetColumnWidth(int index, double width);
 
         /**
-         * @brief       移除指定列
+         * @brief 移除指定列
          * @param index 列的索引
-         * @return      操作是否成功
+         * @return 操作是否成功
          */
         bool RemoveColumnAt(int index);
 
@@ -351,37 +351,37 @@ namespace sw
         void SetItemCheckState(int index, bool value);
 
         /**
-         * @brief       获取指定点处子项的索引
+         * @brief 获取指定点处子项的索引
          * @param point 相对于用户区左上角点的位置
          */
         int GetItemIndexFromPoint(const Point &point);
 
         /**
-         * @brief           获取列表视图的图像列表
+         * @brief 获取列表视图的图像列表
          * @param imageList 要获取的图像列表类型
          */
         ImageList GetImageList(ListViewImageList imageList);
 
         /**
-         * @brief           设置列表视图的图像列表
+         * @brief 设置列表视图的图像列表
          * @param imageList 要设置的图像列表类型
-         * @param value     要设置的图像列表的句柄
-         * @return          若函数成功则返回之前与控件关联的图像列表，否则返回NULL
+         * @param value 要设置的图像列表的句柄
+         * @return 若函数成功则返回之前与控件关联的图像列表，否则返回NULL
          */
         HIMAGELIST SetImageList(ListViewImageList imageList, HIMAGELIST value);
 
         /**
-         * @brief          设置指定子项的图像
-         * @param index    子项的索引
+         * @brief 设置指定子项的图像
+         * @param index 子项的索引
          * @param imgIndex 图像在图像列表中的索引
-         * @return         操作是否成功
+         * @return 操作是否成功
          */
         bool SetItemImage(int index, int imgIndex);
 
         /**
-         * @brief       进入编辑模式，调用该函数前需要将Editable属性设为true
+         * @brief 进入编辑模式，调用该函数前需要将Editable属性设为true
          * @param index 编辑项的索引
-         * @return      操作是否成功
+         * @return 操作是否成功
          */
         bool EditItem(int index);
 
@@ -407,7 +407,7 @@ namespace sw
         DWORD _GetExtendedListViewStyle();
 
         /**
-         * @brief  设置ListView扩展样式
+         * @brief 设置ListView扩展样式
          * @return 先前的样式
          */
         DWORD _SetExtendedListViewStyle(DWORD style);

@@ -48,58 +48,58 @@ namespace sw
         DockSplitter();
 
         /**
-         * @brief             取消拖动分隔条
+         * @brief 取消拖动分隔条
          * @param restoreSize 是否将相关联的元素恢复到拖动开始时的大小
          */
         void CancelDrag(bool restoreSize = false);
 
     protected:
         /**
-         * @brief               接收到WM_LBUTTONDOWN时调用该函数
+         * @brief 接收到WM_LBUTTONDOWN时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseLeftButtonDown(const Point &mousePosition, MouseKey keyState) override;
 
         /**
-         * @brief               接收到WM_LBUTTONUP时调用该函数
+         * @brief 接收到WM_LBUTTONUP时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseLeftButtonUp(const Point &mousePosition, MouseKey keyState) override;
 
         /**
-         * @brief               接收到WM_MOUSEMOVE时调用该函数
+         * @brief 接收到WM_MOUSEMOVE时调用该函数
          * @param mousePosition 鼠标在用户区中的位置
-         * @param keyState      指示某些按键是否按下
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @param keyState 指示某些按键是否按下
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnMouseMove(const Point &mousePosition, MouseKey keyState) override;
 
         /**
-         * @brief            接收到WM_KILLFOCUS时调用该函数
+         * @brief 接收到WM_KILLFOCUS时调用该函数
          * @param hNextFocus 接收到焦点的hwnd，可能为NULL
-         * @return           若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnKillFocus(HWND hNextFocus) override;
 
         /**
-         * @brief       接收到WM_KEYDOWN时调用该函数
-         * @param key   虚拟按键
+         * @brief 接收到WM_KEYDOWN时调用该函数
+         * @param key 虚拟按键
          * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnKeyDown(VirtualKey key, const KeyFlags &flags) override;
 
         /**
-         * @brief         接收到WM_SETCURSOR消息时调用该函数
-         * @param hwnd    鼠标所在窗口的句柄
+         * @brief 接收到WM_SETCURSOR消息时调用该函数
+         * @param hwnd 鼠标所在窗口的句柄
          * @param hitTest hit-test的结果，详见WM_NCHITTEST消息的返回值
          * @param message 触发该事件的鼠标消息，如WM_MOUSEMOVE
-         * @param result  消息的返回值，默认为false
-         * @return        若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         * @param result 消息的返回值，默认为false
+         * @return 若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
         virtual bool OnSetCursor(HWND hwnd, HitTestResult hitTest, int message, bool &result) override;
 

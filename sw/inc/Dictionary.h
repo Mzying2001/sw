@@ -81,7 +81,7 @@ namespace sw
         }
 
         /**
-         * @brief     获取或设置值
+         * @brief 获取或设置值
          * @param key 键值
          */
         auto &operator[](const TKey &key) const
@@ -114,7 +114,7 @@ namespace sw
         }
 
         /**
-         * @brief  添加键值对到字典
+         * @brief 添加键值对到字典
          * @return 当前字典
          */
         auto Add(const TKey &key, const TVal &value) const
@@ -124,7 +124,7 @@ namespace sw
         }
 
         /**
-         * @brief     是否存在某个键值
+         * @brief 是否存在某个键值
          * @param key 要查询的键值
          */
         bool ContainsKey(const TKey &key) const
@@ -133,7 +133,7 @@ namespace sw
         }
 
         /**
-         * @brief       遍历字典，查询是否存在某个值
+         * @brief 遍历字典，查询是否存在某个值
          * @param value 要查询的值
          */
         bool ContainsValue(const TVal &value) const
@@ -147,7 +147,7 @@ namespace sw
         }
 
         /**
-         * @brief     移除指定键值对
+         * @brief 移除指定键值对
          * @param key 要删除的键值
          */
         void Remove(const TKey &key) const

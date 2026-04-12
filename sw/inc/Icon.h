@@ -29,24 +29,24 @@ namespace sw
 
     public:
         /**
-         * @brief      获取系统标准图标句柄
+         * @brief 获取系统标准图标句柄
          * @param icon 图标样式
-         * @return     图标句柄
+         * @return 图标句柄
          */
         static HICON GetIconHandle(StandardIcon icon);
 
         /**
-         * @brief            从指定模块中获取图标句柄
-         * @param hInstance  DLL或EXE的模块句柄
+         * @brief 从指定模块中获取图标句柄
+         * @param hInstance DLL或EXE的模块句柄
          * @param resourceId 图标的资源序号
-         * @return           成功则返回图标句柄，否则返回NULL
+         * @return 成功则返回图标句柄，否则返回NULL
          */
         static HICON GetIconHandle(HINSTANCE hInstance, int resourceId);
 
         /**
-         * @brief          从文件加载图标句柄
+         * @brief 从文件加载图标句柄
          * @param fileName 图标文件的路径
-         * @return         成功则返回图标句柄，否则返回NULL
+         * @return 成功则返回图标句柄，否则返回NULL
          */
         static HICON GetIconHandle(const std::wstring &fileName);
     };

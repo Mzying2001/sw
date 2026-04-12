@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Delegate.h"
+#include "Event.h"
 #include "Property.h"
-#include <windows.h>
-#include <memory>
 #include <string>
+#include <windows.h>
 
 namespace sw
 {
@@ -25,6 +25,12 @@ namespace sw
         App() = delete;
 
     public:
+        /**
+         * @brief 当前线程消息循环中处理空句柄消息的事件
+         * @note 该事件是线程局部的，每个线程有独立的处理函数列表
+         */
+        static const Event<Action<MSG &>> NullHwndMsgHandler;
+
         /**
          * @brief 应用程序的当前实例的句柄
          */
@@ -47,24 +53,18 @@ namespace sw
 
         /**
          * @brief 当前线程退出消息循环的方式
-         * @note  该属性是线程局部的，每个线程有各自独立的值
+         * @note 该属性是线程局部的，每个线程有各自独立的值
          */
         static const Property<AppQuitMode> QuitMode;
 
         /**
-         * @brief 当前线程消息循环中处理空句柄消息的回调函数
-         * @note  该委托是线程局部的，每个线程有各自独立的值
-         */
-        static thread_local Action<MSG &> NullHwndMsgHandler;
-
-        /**
-         * @brief  消息循环
+         * @brief 消息循环
          * @return 退出代码
          */
         static int MsgLoop();
 
         /**
-         * @brief          退出当前线程的消息循环
+         * @brief 退出当前线程的消息循环
          * @param exitCode 退出代码
          */
         static void QuitMsgLoop(int exitCode = 0);

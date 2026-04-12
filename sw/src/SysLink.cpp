@@ -1,4 +1,5 @@
 #include "SysLink.h"
+#include "Dip.h"
 #include "Utils.h"
 #include <climits>
 

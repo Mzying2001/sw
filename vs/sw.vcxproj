@@ -317,12 +317,14 @@
     <ClInclude Include="..\sw\inc\DockPanel.h" />
     <ClInclude Include="..\sw\inc\DockSplitter.h" />
     <ClInclude Include="..\sw\inc\EnumBit.h" />
+    <ClInclude Include="..\sw\inc\Event.h" />
     <ClInclude Include="..\sw\inc\EventHandlerWrapper.h" />
     <ClInclude Include="..\sw\inc\FileDialog.h" />
     <ClInclude Include="..\sw\inc\FillLayout.h" />
     <ClInclude Include="..\sw\inc\FolderDialog.h" />
     <ClInclude Include="..\sw\inc\Font.h" />
     <ClInclude Include="..\sw\inc\FontDialog.h" />
+    <ClInclude Include="..\sw\inc\FrameworkElement.h" />
     <ClInclude Include="..\sw\inc\Grid.h" />
     <ClInclude Include="..\sw\inc\GridLayout.h" />
     <ClInclude Include="..\sw\inc\GroupBox.h" />
@@ -362,7 +364,6 @@
     <ClInclude Include="..\sw\inc\NotifyIcon.h" />
     <ClInclude Include="..\sw\inc\ObservableObject.h" />
     <ClInclude Include="..\sw\inc\Panel.h" />
-    <ClInclude Include="..\sw\inc\PanelBase.h" />
     <ClInclude Include="..\sw\inc\PasswordBox.h" />
     <ClInclude Include="..\sw\inc\Path.h" />
     <ClInclude Include="..\sw\inc\Point.h" />
@@ -436,6 +437,7 @@
     <ClCompile Include="..\sw\src\FolderDialog.cpp" />
     <ClCompile Include="..\sw\src\Font.cpp" />
     <ClCompile Include="..\sw\src\FontDialog.cpp" />
+    <ClCompile Include="..\sw\src\FrameworkElement.cpp" />
     <ClCompile Include="..\sw\src\Grid.cpp" />
     <ClCompile Include="..\sw\src\GridLayout.cpp" />
     <ClCompile Include="..\sw\src\GroupBox.cpp" />
@@ -459,16 +461,13 @@
     <ClCompile Include="..\sw\src\MsgBox.cpp" />
     <ClCompile Include="..\sw\src\NotifyIcon.cpp" />
     <ClCompile Include="..\sw\src\Panel.cpp" />
-    <ClCompile Include="..\sw\src\PanelBase.cpp" />
     <ClCompile Include="..\sw\src\PasswordBox.cpp" />
     <ClCompile Include="..\sw\src\Path.cpp" />
     <ClCompile Include="..\sw\src\Point.cpp" />
-    <ClCompile Include="..\sw\src\ProcMsg.cpp" />
     <ClCompile Include="..\sw\src\ProgressBar.cpp" />
     <ClCompile Include="..\sw\src\Property.cpp" />
     <ClCompile Include="..\sw\src\RadioButton.cpp" />
     <ClCompile Include="..\sw\src\Rect.cpp" />
-    <ClCompile Include="..\sw\src\RoutedEvent.cpp" />
     <ClCompile Include="..\sw\src\Screen.cpp" />
     <ClCompile Include="..\sw\src\Size.cpp" />
     <ClCompile Include="..\sw\src\Slider.cpp" />

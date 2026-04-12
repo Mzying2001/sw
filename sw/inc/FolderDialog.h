@@ -1,8 +1,11 @@
 #pragma once
 
 #include "EnumBit.h"
-#include "Window.h"
+#include "IDialog.h"
+#include "Property.h"
 #include <shlobj.h>
+#include <string>
+#include <vector>
 
 namespace sw
 {
@@ -163,13 +166,13 @@ namespace sw
         virtual void Show() override;
 
         /**
-         * @brief  显示对话框，并指定所有者窗口
+         * @brief 显示对话框，并指定所有者窗口
          * @return 若用户选择了文件夹则返回true，否则返回false
          */
         virtual int ShowDialog(Window *owner = nullptr) override;
 
         /**
-         * @brief  显示对话框，并指定所有者窗口
+         * @brief 显示对话框，并指定所有者窗口
          * @return 若用户选择了文件夹则返回true，否则返回false
          */
         virtual int ShowDialog(Window &owner);

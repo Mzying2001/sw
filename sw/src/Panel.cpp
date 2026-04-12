@@ -1,5 +1,8 @@
 #include "Panel.h"
+#include "App.h"
+#include "Cursor.h"
 #include "Utils.h"
+#include "WndMsg.h"
 
 namespace
 {

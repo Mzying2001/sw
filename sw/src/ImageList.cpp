@@ -1,4 +1,5 @@
 #include "ImageList.h"
+#include "Dip.h"
 
 sw::ImageList::ImageList(HIMAGELIST hImageList, bool isWrap)
     : _hImageList(hImageList), _isWrap(isWrap)

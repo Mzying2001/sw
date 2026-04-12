@@ -59,37 +59,37 @@ namespace sw
         void InitTextBoxBase(DWORD dwStyle, DWORD dwExStyle);
 
         /**
-         * @brief  获取窗口文本
+         * @brief 获取窗口文本
          * @return 编辑框的文本内容
          */
         virtual std::wstring &GetInternalText() override;
 
         /**
-         * @brief      当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @brief 当父窗口接收到控件的WM_COMMAND时调用该函数
          * @param code 通知代码
          */
         virtual void OnCommand(int code) override;
 
         /**
-         * @brief       接收到WM_CHAR时调用该函数
-         * @param ch    按键的字符代码
+         * @brief 接收到WM_CHAR时调用该函数
+         * @param ch 按键的字符代码
          * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnChar(wchar_t ch, const KeyFlags &flags) override;
 
         /**
-         * @brief       接收到WM_KEYDOWN时调用该函数
-         * @param key   虚拟按键
+         * @brief 接收到WM_KEYDOWN时调用该函数
+         * @param key 虚拟按键
          * @param flags 附加信息
-         * @return      若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnKeyDown(VirtualKey key, const KeyFlags &flags) override;
 
     public:
         /**
-         * @brief        选择指定文本内容
-         * @param start  起始位置
+         * @brief 选择指定文本内容
+         * @param start 起始位置
          * @param length 选择文本的长度
          */
         void Select(int start, int length);
@@ -105,7 +105,7 @@ namespace sw
         void ScrollToCaret();
 
         /**
-         * @brief  撤销
+         * @brief 撤销
          * @return 操作是否成功
          */
         bool Undo();

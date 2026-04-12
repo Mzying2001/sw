@@ -2,56 +2,61 @@
 #include "Window.h"
 
 sw::MsgBoxResultHelper::MsgBoxResultHelper(MsgBoxResult result)
-    : result(result)
+    : Result(
+          Property<MsgBoxResult>::Init(this)
+              .Getter([](MsgBoxResultHelper *self) -> MsgBoxResult {
+                  return self->_result;
+              }))
 {
+    this->_result = result;
 }
 
-sw::MsgBoxResultHelper::operator sw::MsgBoxResult() const
+sw::MsgBoxResultHelper::operator sw::MsgBoxResult() const noexcept
 {
-    return this->result;
+    return this->_result;
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnOk(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnOk(const Action<> &callback)
 {
     return this->On<MsgBoxResult::Ok>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnYes(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnYes(const Action<> &callback)
 {
     return this->On<MsgBoxResult::Yes>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnNo(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnNo(const Action<> &callback)
 {
     return this->On<MsgBoxResult::No>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnCancel(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnCancel(const Action<> &callback)
 {
     return this->On<MsgBoxResult::Cancel>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnAbort(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnAbort(const Action<> &callback)
 {
     return this->On<MsgBoxResult::Abort>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnContinue(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnContinue(const Action<> &callback)
 {
     return this->On<MsgBoxResult::Continue>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnIgnore(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnIgnore(const Action<> &callback)
 {
     return this->On<MsgBoxResult::Ignore>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnRetry(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnRetry(const Action<> &callback)
 {
     return this->On<MsgBoxResult::Retry>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnTryAgain(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnTryAgain(const Action<> &callback)
 {
     return this->On<MsgBoxResult::TryAgain>(callback);
 }

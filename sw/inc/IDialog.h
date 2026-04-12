@@ -26,9 +26,9 @@ namespace sw
         virtual void Show() = 0;
 
         /**
-         * @brief       显示模态对话框
+         * @brief 显示模态对话框
          * @param owner 所有者窗口，若为nullptr则使用当前活动窗口
-         * @return      对话框结果，不同对话框有不同的返回值含义
+         * @return 对话框结果，不同对话框有不同的返回值含义
          */
         virtual int ShowDialog(Window *owner = nullptr) = 0;
     };

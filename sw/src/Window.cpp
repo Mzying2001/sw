@@ -1,6 +1,10 @@
 #include "Window.h"
+#include "App.h"
+#include "ContextMenu.h"
+#include "Menu.h"
+#include "Screen.h"
 #include "Utils.h"
-#include <cmath>
+#include "WndMsg.h"
 
 #if !defined(WM_DPICHANGED)
 #define WM_DPICHANGED 0x02E0
@@ -438,7 +442,7 @@ bool sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
     DisableLayout();
     Dip::Update(dpiX, dpiY);
 
-    QueryAllChildren([](UIElement *item) {
+    QueryAllElements([](UIElement *item) {
         item->LayoutUpdateCondition |= LayoutUpdateCondition::Supressed;
         item->UpdateFont();
         item->LayoutUpdateCondition &= ~LayoutUpdateCondition::Supressed;
@@ -451,11 +455,6 @@ bool sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
     Rect = newRect;
     EnableLayout();
     return true;
-}
-
-sw::Window *sw::Window::ToWindow()
-{
-    return this;
 }
 
 void sw::Window::Close()

@@ -20,7 +20,7 @@ namespace sw
 
     public:
         /**
-         * @brief         构造函数
+         * @brief 构造函数
          * @param handler 事件处理函数
          */
         RoutedEventHandlerWrapper(const Action<UIElement &, TEventArgs &> &handler)
@@ -53,9 +53,9 @@ namespace sw
         }
 
         /**
-         * @brief       判断当前可调用对象是否与另一个可调用对象相等
+         * @brief 判断当前可调用对象是否与另一个可调用对象相等
          * @param other 另一个可调用对象
-         * @return      如果相等则返回true，否则返回false
+         * @return 如果相等则返回true，否则返回false
          */
         virtual bool Equals(const ICallable<void(UIElement &, RoutedEventArgs &)> &other) const override
         {

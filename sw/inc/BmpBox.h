@@ -59,24 +59,24 @@ namespace sw
         ~BmpBox();
 
         /**
-         * @brief         加载位图，该函数会复制一个位图句柄作为显示的位图
+         * @brief 加载位图，该函数会复制一个位图句柄作为显示的位图
          * @param hBitmap 要加载的位图
-         * @return        加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
+         * @return 加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
          */
         HBITMAP Load(HBITMAP hBitmap);
 
         /**
-         * @brief            从指定模块中加载位图
-         * @param hInstance  DLL或EXE的模块句柄
+         * @brief 从指定模块中加载位图
+         * @param hInstance DLL或EXE的模块句柄
          * @param resourceId 位图的资源序号
-         * @return           加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
+         * @return 加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
          */
         HBITMAP Load(HINSTANCE hInstance, int resourceId);
 
         /**
-         * @brief          从文件加载位图
+         * @brief 从文件加载位图
          * @param fileName 位图文件的路径
-         * @return         加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
+         * @return 加载到BmpBox的位图句柄，若加载失败则返回NULL，该资源由BmpBox内部管理，在加载新位图或控件销毁时会自动释放
          */
         HBITMAP Load(const std::wstring &fileName);
 
@@ -92,36 +92,36 @@ namespace sw
 
     protected:
         /**
-         * @brief  接收到WM_DESTROY时调用该函数
+         * @brief 接收到WM_DESTROY时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnDestroy() override;
 
         /**
-         * @brief  接收到WM_PAINT时调用该函数
+         * @brief 接收到WM_PAINT时调用该函数
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnPaint() override;
 
         /**
-         * @brief               接收到WM_SIZE时调用该函数
+         * @brief 接收到WM_SIZE时调用该函数
          * @param newClientSize 改变后的用户区尺寸
-         * @return              若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnSize(const Size &newClientSize) override;
 
         /**
-         * @brief        接收到WM_ERASEBKGND时调用该函数
-         * @param hdc    设备上下文句柄
+         * @brief 接收到WM_ERASEBKGND时调用该函数
+         * @param hdc 设备上下文句柄
          * @param result 若已处理该消息则设为非零值，默认值为0
-         * @return       若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
+         * @return 若返回true则将result作为消息的返回值，否则使用DefaultWndProc的返回值
          */
         virtual bool OnEraseBackground(HDC hdc, LRESULT &result) override;
 
         /**
-         * @brief               测量元素所需尺寸，无需考虑边框和边距
+         * @brief 测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
-         * @return              返回元素需要占用的尺寸
+         * @return 返回元素需要占用的尺寸
          */
         virtual Size MeasureOverride(const Size &availableSize) override;
 
@@ -132,15 +132,15 @@ namespace sw
         void _UpdateBmpSize();
 
         /**
-         * @brief         设置位图
+         * @brief 设置位图
          * @param hBitmap 位图句柄
          */
         void _SetBmp(HBITMAP hBitmap);
 
         /**
-         * @brief         传入的位图不为NULL时调用_SetBmp
+         * @brief 传入的位图不为NULL时调用_SetBmp
          * @param hBitmap 位图句柄
-         * @return        传入的位图
+         * @return 传入的位图
          */
         HBITMAP _SetBmpIfNotNull(HBITMAP hBitmap);
     };

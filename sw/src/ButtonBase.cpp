@@ -1,4 +1,5 @@
 #include "ButtonBase.h"
+#include "Dip.h"
 #include <cmath>
 
 sw::ButtonBase::ButtonBase()

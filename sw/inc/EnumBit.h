@@ -20,8 +20,8 @@ namespace sw
      * @brief 为标记_EnumSupportBitOperations的枚举类型提供按位或运算
      */
     template <typename T>
-    inline constexpr typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T>::type
-    operator|(T a, T b)
+    inline constexpr auto operator|(T a, T b)
+        -> typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T>::type
     {
         using TUnderlying = typename std::underlying_type<T>::type;
         return static_cast<T>(static_cast<TUnderlying>(a) | static_cast<TUnderlying>(b));
@@ -31,8 +31,8 @@ namespace sw
      * @brief 为标记_EnumSupportBitOperations的枚举类型提供按位或赋值运算
      */
     template <typename T>
-    inline constexpr typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T &>::type
-    operator|=(T &a, T b)
+    inline constexpr auto operator|=(T &a, T b)
+        -> typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T &>::type
     {
         return a = a | b;
     }
@@ -41,8 +41,8 @@ namespace sw
      * @brief 为标记_EnumSupportBitOperations的枚举类型提供按位与运算
      */
     template <typename T>
-    inline constexpr typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T>::type
-    operator&(T a, T b)
+    inline constexpr auto operator&(T a, T b)
+        -> typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T>::type
     {
         using TUnderlying = typename std::underlying_type<T>::type;
         return static_cast<T>(static_cast<TUnderlying>(a) & static_cast<TUnderlying>(b));
@@ -52,8 +52,8 @@ namespace sw
      * @brief 为标记_EnumSupportBitOperations的枚举类型提供按位与赋值运算
      */
     template <typename T>
-    inline constexpr typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T &>::type
-    operator&=(T &a, T b)
+    inline constexpr auto operator&=(T &a, T b)
+        -> typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T &>::type
     {
         return a = a & b;
     }
@@ -62,8 +62,8 @@ namespace sw
      * @brief 为标记_EnumSupportBitOperations的枚举类型提供按位异或运算
      */
     template <typename T>
-    inline constexpr typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T>::type
-    operator^(T a, T b)
+    inline constexpr auto operator^(T a, T b)
+        -> typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T>::type
     {
         using TUnderlying = typename std::underlying_type<T>::type;
         return static_cast<T>(static_cast<TUnderlying>(a) ^ static_cast<TUnderlying>(b));
@@ -73,8 +73,8 @@ namespace sw
      * @brief 为标记_EnumSupportBitOperations的枚举类型提供按位异或赋值运算
      */
     template <typename T>
-    inline constexpr typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T &>::type
-    operator^=(T &a, T b)
+    inline constexpr auto operator^=(T &a, T b)
+        -> typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T &>::type
     {
         return a = a ^ b;
     }
@@ -83,8 +83,8 @@ namespace sw
      * @brief 为标记_EnumSupportBitOperations的枚举类型提供按位取反运算
      */
     template <typename T>
-    inline constexpr typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T>::type
-    operator~(T a)
+    inline constexpr auto operator~(T a)
+        -> typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T>::type
     {
         using TUnderlying = typename std::underlying_type<T>::type;
         return static_cast<T>(~static_cast<TUnderlying>(a));

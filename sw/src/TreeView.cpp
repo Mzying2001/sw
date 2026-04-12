@@ -1,4 +1,5 @@
 #include "TreeView.h"
+#include "Dip.h"
 
 sw::TreeViewNode::TreeViewNode(HWND hwnd, HTREEITEM hitem)
     : _hwnd(hwnd), _hitem(hitem)

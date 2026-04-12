@@ -54,7 +54,7 @@ namespace sw
     {
     public:
         /**
-         * @brief  比较当前对象与另一个对象的大小关系
+         * @brief 比较当前对象与另一个对象的大小关系
          * @return 若当前对象小于另一个对象，返回负数；若等于，返回0；若大于，返回正数
          */
         int CompareTo(TOther other) const
