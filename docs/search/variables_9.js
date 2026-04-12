@@ -10,7 +10,7 @@ var searchData=
   ['initialdir_7',['InitialDir',['../classsw_1_1FileDialog.html#aadaaa88d6a65fcf60ceac37e116bd6ee',1,'sw::FileDialog']]],
   ['initialfilename_8',['InitialFileName',['../classsw_1_1SaveFileDialog.html#ae3b6a7c8ec315910e19ee8fb0f4baed3',1,'sw::SaveFileDialog']]],
   ['instance_9',['Instance',['../classsw_1_1App.html#a5a6949cf6702559276151c987a2f5c5c',1,'sw::App']]],
-  ['interval_10',['Interval',['../classsw_1_1Timer.html#a306078a056429c54ec5261bc45fc15d0',1,'sw::Timer']]],
+  ['interval_10',['Interval',['../classsw_1_1Timer.html#a8b54a41bef889018f876615841e87589',1,'sw::Timer']]],
   ['isblank_11',['IsBlank',['../classsw_1_1IPAddressControl.html#a9d66f52a8aba8db5543ee9e09a6711a6',1,'sw::IPAddressControl']]],
   ['ischecked_12',['IsChecked',['../classsw_1_1CheckableButton.html#a52e1547dc73eb7b8f6cd4ecb523e7f56',1,'sw::CheckableButton']]],
   ['iscontrol_13',['IsControl',['../classsw_1_1WndBase.html#a4b72c64e192b49d1ace945e96c2368ab',1,'sw::WndBase']]],

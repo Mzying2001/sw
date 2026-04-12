@@ -1,7 +1,7 @@
 var searchData=
 [
   ['handle_0',['Handle',['../classsw_1_1WndBase.html#abc0b653ccc071c2cfcba42fa8eef738f',1,'sw::WndBase']]],
-  ['handled_1',['handled',['../structsw_1_1RoutedEventArgs.html#a9fb971eec1e6ba4aee1366c3f9c20bfd',1,'sw::RoutedEventArgs']]],
+  ['handled_1',['handled',['../structsw_1_1RoutedEventArgs.html#a9fb971eec1e6ba4aee1366c3f9c20bfd',1,'sw::RoutedEventArgs::handled'],['../structsw_1_1NotifyIconMouseEventArgs.html#ac553c912f62726c007db9072c78041b5',1,'sw::NotifyIconMouseEventArgs::handled']]],
   ['handledmsg_2',['handledMsg',['../structsw_1_1RoutedEventArgs.html#ac299c564c53fa039f47a06d08272d969',1,'sw::RoutedEventArgs']]],
   ['handleinitialized_3',['HandleInitialized',['../classsw_1_1WndBase.html#a4b368860fef40406c091880fc72f9cbb',1,'sw::WndBase']]],
   ['hash_3c_20sw_3a_3afieldid_20_3e_4',['hash&lt; sw::FieldId &gt;',['../structstd_1_1hash_3_01sw_1_1FieldId_01_4.html',1,'std']]],
@@ -12,9 +12,9 @@ var searchData=
   ['hide_9',['Hide',['../classsw_1_1NotifyIcon.html#a977e81485bc08c4ffe2e20818b2ee94a',1,'sw::NotifyIcon']]],
   ['horizontalalignment_10',['HorizontalAlignment',['../classsw_1_1UIElement.html#a05b569383791dce14d9d6789e3a43d85',1,'sw::UIElement']]],
   ['horizontalcontentalignment_11',['horizontalcontentalignment',['../classsw_1_1Label.html#a83b3ae20c61b09a613cc07dddc1c9179',1,'sw::Label::HorizontalContentAlignment'],['../classsw_1_1TextBoxBase.html#abaa4c52632b7a8d2bdb41341fc1ab0e8',1,'sw::TextBoxBase::HorizontalContentAlignment']]],
-  ['horizontalscrollbar_12',['horizontalscrollbar',['../classsw_1_1Layer.html#a4bb56843061a3db9497703f16e58f4ba',1,'sw::Layer::HorizontalScrollBar'],['../classsw_1_1TextBox.html#a4fed0b73690d263fb740f09eda870fdb',1,'sw::TextBox::HorizontalScrollBar']]],
-  ['horizontalscrolllimit_13',['HorizontalScrollLimit',['../classsw_1_1Layer.html#a5af8ff318d2438eab8f8b325cf8e66da',1,'sw::Layer']]],
-  ['horizontalscrollpos_14',['HorizontalScrollPos',['../classsw_1_1Layer.html#ae738d7ede2ba0d5547553df25f8d8ed8',1,'sw::Layer']]],
+  ['horizontalscrollbar_12',['horizontalscrollbar',['../classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#ac7c14be1594567be3ae68541f458e718',1,'sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt;::HorizontalScrollBar'],['../classsw_1_1TextBox.html#a4fed0b73690d263fb740f09eda870fdb',1,'sw::TextBox::HorizontalScrollBar']]],
+  ['horizontalscrolllimit_13',['HorizontalScrollLimit',['../classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#af01202bb5b2736929434c27c5290e3bd',1,'sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt;']]],
+  ['horizontalscrollpos_14',['HorizontalScrollPos',['../classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#aeac3507d6bf7e5021c4f9bfc244857ee',1,'sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt;']]],
   ['hotkey_15',['HotKey',['../structsw_1_1HotKey.html',1,'sw']]],
   ['hotkeycontrol_16',['hotkeycontrol',['../classsw_1_1HotKeyControl.html',1,'sw::HotKeyControl'],['../classsw_1_1HotKeyControl.html#ae58ad7be2266801faaab1777b443f10c',1,'sw::HotKeyControl::HotKeyControl()']]],
   ['hotkeyvaluechangedeventargs_17',['HotKeyValueChangedEventArgs',['../structsw_1_1HotKeyValueChangedEventArgs.html',1,'sw']]],

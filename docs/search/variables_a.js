@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['lastchildfill_0',['lastchildfill',['../classsw_1_1DockPanel.html#aa3f8617a879fb8c536799beae2ad2a31',1,'sw::DockPanel::LastChildFill'],['../classsw_1_1DockLayout.html#ae3279e6cc696c453a2f6171ca152fc47',1,'sw::DockLayout::lastChildFill']]],
-  ['layout_1',['Layout',['../classsw_1_1Layer.html#accb80d7a016d5a56b1c744db4ef96059',1,'sw::Layer']]],
+  ['lastchildfill_0',['lastchildfill',['../classsw_1_1DockLayout.html#ae3279e6cc696c453a2f6171ca152fc47',1,'sw::DockLayout::lastChildFill'],['../classsw_1_1DockPanel.html#aa3f8617a879fb8c536799beae2ad2a31',1,'sw::DockPanel::LastChildFill']]],
+  ['layout_1',['Layout',['../classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#af56b3fff890218b799f79699afe673ef',1,'sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt;']]],
   ['layouttag_2',['LayoutTag',['../classsw_1_1UIElement.html#a70e870fcabb76b1d74c06d50637f4f92',1,'sw::UIElement']]],
   ['layoutupdatecondition_3',['LayoutUpdateCondition',['../classsw_1_1UIElement.html#ab1ae9ea6fdb1c1ecde418bffdb2287cc',1,'sw::UIElement']]],
   ['left_4',['left',['../classsw_1_1WndBase.html#a4f0b57de9babc053c655872ed91468dd',1,'sw::WndBase::Left'],['../structsw_1_1CanvasLayoutTag.html#a66e509ca8ce039a228ccb15cba5aa509',1,'sw::CanvasLayoutTag::left'],['../structsw_1_1Rect.html#af6c8b62aa73047637c58d8cdf6c05aff',1,'sw::Rect::left'],['../structsw_1_1Thickness.html#ad060a41dfe2453ef882849546eb7980e',1,'sw::Thickness::left']]],

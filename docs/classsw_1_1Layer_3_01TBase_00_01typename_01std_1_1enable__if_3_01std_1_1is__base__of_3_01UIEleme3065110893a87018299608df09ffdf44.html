@@ -1,0 +1,1161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt; 模板类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-attribs">Public 属性</a> &#124;
+<a href="#pro-methods">Protected 成员函数</a> &#124;
+<a href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIElemef3e4cb2401ad37ea7f06cd7a5331e30f.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt; 模板类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>表示可以设置布局方式的元素类型，如窗口、面板等  
+ <a href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Layer_8h_source.html">Layer.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt; 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:adce7c520214feb7cc316b33f7e91ed28" id="r_adce7c520214feb7cc316b33f7e91ed28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#adce7c520214feb7cc316b33f7e91ed28">GetHorizontalScrollRange</a> (<a class="el" href="classsw_1_1IValueConverter.html">double</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">refMin</a>, <a class="el" href="classsw_1_1IValueConverter.html">double</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">refMax</a>)</td></tr>
+<tr class="memdesc:adce7c520214feb7cc316b33f7e91ed28"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取横向滚动条的范围  <br /></td></tr>
+<tr class="separator:adce7c520214feb7cc316b33f7e91ed28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa81016e08e15ab4fd39356c226976273" id="r_aa81016e08e15ab4fd39356c226976273"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#aa81016e08e15ab4fd39356c226976273">GetVerticalScrollRange</a> (<a class="el" href="classsw_1_1IValueConverter.html">double</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">refMin</a>, <a class="el" href="classsw_1_1IValueConverter.html">double</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">refMax</a>)</td></tr>
+<tr class="memdesc:aa81016e08e15ab4fd39356c226976273"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取纵向滚动条的范围  <br /></td></tr>
+<tr class="separator:aa81016e08e15ab4fd39356c226976273"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a932e9d753115c955b9ea52aced5f066f" id="r_a932e9d753115c955b9ea52aced5f066f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#a932e9d753115c955b9ea52aced5f066f">SetHorizontalScrollRange</a> (<a class="el" href="classsw_1_1IValueConverter.html">double</a> <a class="el" href="classsw_1_1IValueConverter.html">min</a>, <a class="el" href="classsw_1_1IValueConverter.html">double</a> <a class="el" href="classsw_1_1IValueConverter.html">max</a>)</td></tr>
+<tr class="memdesc:a932e9d753115c955b9ea52aced5f066f"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置横向滚动条的范围  <br /></td></tr>
+<tr class="separator:a932e9d753115c955b9ea52aced5f066f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51c0958e0ff669fed8a0bd6ba46ea934" id="r_a51c0958e0ff669fed8a0bd6ba46ea934"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#a51c0958e0ff669fed8a0bd6ba46ea934">SetVerticalScrollRange</a> (<a class="el" href="classsw_1_1IValueConverter.html">double</a> <a class="el" href="classsw_1_1IValueConverter.html">min</a>, <a class="el" href="classsw_1_1IValueConverter.html">double</a> <a class="el" href="classsw_1_1IValueConverter.html">max</a>)</td></tr>
+<tr class="memdesc:a51c0958e0ff669fed8a0bd6ba46ea934"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置纵向滚动条的范围  <br /></td></tr>
+<tr class="separator:a51c0958e0ff669fed8a0bd6ba46ea934"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af40691d20599418986876f60bb8fbd1b" id="r_af40691d20599418986876f60bb8fbd1b"><td class="memItemLeft" align="right" valign="top"><a id="af40691d20599418986876f60bb8fbd1b" name="af40691d20599418986876f60bb8fbd1b"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">double</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetHorizontalScrollPageSize</b> ()</td></tr>
+<tr class="memdesc:af40691d20599418986876f60bb8fbd1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取水平滚动条滚动页面大小 <br /></td></tr>
+<tr class="separator:af40691d20599418986876f60bb8fbd1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeef622440cfb46e8038a956d9b766e70" id="r_aeef622440cfb46e8038a956d9b766e70"><td class="memItemLeft" align="right" valign="top"><a id="aeef622440cfb46e8038a956d9b766e70" name="aeef622440cfb46e8038a956d9b766e70"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">double</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetVerticalScrollPageSize</b> ()</td></tr>
+<tr class="memdesc:aeef622440cfb46e8038a956d9b766e70"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取垂直滚动条滚动页面大小 <br /></td></tr>
+<tr class="separator:aeef622440cfb46e8038a956d9b766e70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a784f2681d318a5b6b7903609a5b561c2" id="r_a784f2681d318a5b6b7903609a5b561c2"><td class="memItemLeft" align="right" valign="top"><a id="a784f2681d318a5b6b7903609a5b561c2" name="a784f2681d318a5b6b7903609a5b561c2"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SetHorizontalScrollPageSize</b> (<a class="el" href="classsw_1_1IValueConverter.html">double</a> <a class="el" href="classsw_1_1IValueConverter.html">pageSize</a>)</td></tr>
+<tr class="memdesc:a784f2681d318a5b6b7903609a5b561c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置水平滚动条滚动页面大小 <br /></td></tr>
+<tr class="separator:a784f2681d318a5b6b7903609a5b561c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9b1486a4d6b2ae06faa8782a9db1fd0" id="r_ab9b1486a4d6b2ae06faa8782a9db1fd0"><td class="memItemLeft" align="right" valign="top"><a id="ab9b1486a4d6b2ae06faa8782a9db1fd0" name="ab9b1486a4d6b2ae06faa8782a9db1fd0"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SetVerticalScrollPageSize</b> (<a class="el" href="classsw_1_1IValueConverter.html">double</a> <a class="el" href="classsw_1_1IValueConverter.html">pageSize</a>)</td></tr>
+<tr class="memdesc:ab9b1486a4d6b2ae06faa8782a9db1fd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置垂直滚动条滚动页面大小 <br /></td></tr>
+<tr class="separator:ab9b1486a4d6b2ae06faa8782a9db1fd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6227741d4dbfa2b4a965538e004368ff" id="r_a6227741d4dbfa2b4a965538e004368ff"><td class="memItemLeft" align="right" valign="top"><a id="a6227741d4dbfa2b4a965538e004368ff" name="a6227741d4dbfa2b4a965538e004368ff"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateScrollRange</b> ()</td></tr>
+<tr class="memdesc:a6227741d4dbfa2b4a965538e004368ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据子元素更新滚动条范围，未设定布局方式时该函数无效 <br /></td></tr>
+<tr class="separator:a6227741d4dbfa2b4a965538e004368ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac89d3daa2366083e0eeae8472c70fa93" id="r_ac89d3daa2366083e0eeae8472c70fa93"><td class="memItemLeft" align="right" valign="top"><a id="ac89d3daa2366083e0eeae8472c70fa93" name="ac89d3daa2366083e0eeae8472c70fa93"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ScrollToTop</b> ()</td></tr>
+<tr class="memdesc:ac89d3daa2366083e0eeae8472c70fa93"><td class="mdescLeft">&#160;</td><td class="mdescRight">将垂直滚动条移动到顶部 <br /></td></tr>
+<tr class="separator:ac89d3daa2366083e0eeae8472c70fa93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97e7e0d5727a2dc2b3c618c7fa49ba16" id="r_a97e7e0d5727a2dc2b3c618c7fa49ba16"><td class="memItemLeft" align="right" valign="top"><a id="a97e7e0d5727a2dc2b3c618c7fa49ba16" name="a97e7e0d5727a2dc2b3c618c7fa49ba16"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ScrollToBottom</b> ()</td></tr>
+<tr class="memdesc:a97e7e0d5727a2dc2b3c618c7fa49ba16"><td class="mdescLeft">&#160;</td><td class="mdescRight">将垂直滚动条移动到底部 <br /></td></tr>
+<tr class="separator:a97e7e0d5727a2dc2b3c618c7fa49ba16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a829bf28d263873cfb6985e1c49977163" id="r_a829bf28d263873cfb6985e1c49977163"><td class="memItemLeft" align="right" valign="top"><a id="a829bf28d263873cfb6985e1c49977163" name="a829bf28d263873cfb6985e1c49977163"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ScrollToLeft</b> ()</td></tr>
+<tr class="memdesc:a829bf28d263873cfb6985e1c49977163"><td class="mdescLeft">&#160;</td><td class="mdescRight">将水平滚动条移动到最左 <br /></td></tr>
+<tr class="separator:a829bf28d263873cfb6985e1c49977163"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5647af1ef85e69b252095a842fade0c7" id="r_a5647af1ef85e69b252095a842fade0c7"><td class="memItemLeft" align="right" valign="top"><a id="a5647af1ef85e69b252095a842fade0c7" name="a5647af1ef85e69b252095a842fade0c7"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ScrollToRight</b> ()</td></tr>
+<tr class="memdesc:a5647af1ef85e69b252095a842fade0c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">将水平滚动条移动到最右 <br /></td></tr>
+<tr class="separator:a5647af1ef85e69b252095a842fade0c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ad07ccdd95a9a2dc317b3050345d77c" id="r_a7ad07ccdd95a9a2dc317b3050345d77c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#a7ad07ccdd95a9a2dc317b3050345d77c">ScrollHorizontal</a> (<a class="el" href="classsw_1_1IValueConverter.html">double</a> <a class="el" href="classsw_1_1IValueConverter.html">offset</a>)</td></tr>
+<tr class="memdesc:a7ad07ccdd95a9a2dc317b3050345d77c"><td class="mdescLeft">&#160;</td><td class="mdescRight">水平滚动  <br /></td></tr>
+<tr class="separator:a7ad07ccdd95a9a2dc317b3050345d77c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab284e9462f9c2678132e611f3242477a" id="r_ab284e9462f9c2678132e611f3242477a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#ab284e9462f9c2678132e611f3242477a">ScrollVertical</a> (<a class="el" href="classsw_1_1IValueConverter.html">double</a> <a class="el" href="classsw_1_1IValueConverter.html">offset</a>)</td></tr>
+<tr class="memdesc:ab284e9462f9c2678132e611f3242477a"><td class="mdescLeft">&#160;</td><td class="mdescRight">垂直滚动  <br /></td></tr>
+<tr class="separator:ab284e9462f9c2678132e611f3242477a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public 属性</h2></td></tr>
+<tr class="memitem:af56b3fff890218b799f79699afe673ef" id="r_af56b3fff890218b799f79699afe673ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1LayoutHost.html">LayoutHost</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#af56b3fff890218b799f79699afe673ef">Layout</a></td></tr>
+<tr class="memdesc:af56b3fff890218b799f79699afe673ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">自定义的布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设为nullptr可恢复默认布局  <br /></td></tr>
+<tr class="separator:af56b3fff890218b799f79699afe673ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb9dab5f10ab630c59d3883f229b7c57" id="r_acb9dab5f10ab630c59d3883f229b7c57"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#acb9dab5f10ab630c59d3883f229b7c57">AutoSize</a></td></tr>
+<tr class="memdesc:acb9dab5f10ab630c59d3883f229b7c57"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否按照布局方式与子元素自动调整尺寸，该属性仅在当前元素已设置布局方式并且非顶级元素时有效  <br /></td></tr>
+<tr class="separator:acb9dab5f10ab630c59d3883f229b7c57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7c14be1594567be3ae68541f458e718" id="r_ac7c14be1594567be3ae68541f458e718"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#ac7c14be1594567be3ae68541f458e718">HorizontalScrollBar</a></td></tr>
+<tr class="memdesc:ac7c14be1594567be3ae68541f458e718"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否显示横向滚动条  <br /></td></tr>
+<tr class="separator:ac7c14be1594567be3ae68541f458e718"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0c9a1952307358ac597b2f59a44f025" id="r_ad0c9a1952307358ac597b2f59a44f025"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#ad0c9a1952307358ac597b2f59a44f025">VerticalScrollBar</a></td></tr>
+<tr class="memdesc:ad0c9a1952307358ac597b2f59a44f025"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否显示纵向滚动条  <br /></td></tr>
+<tr class="separator:ad0c9a1952307358ac597b2f59a44f025"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeac3507d6bf7e5021c4f9bfc244857ee" id="r_aeac3507d6bf7e5021c4f9bfc244857ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">double</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#aeac3507d6bf7e5021c4f9bfc244857ee">HorizontalScrollPos</a></td></tr>
+<tr class="memdesc:aeac3507d6bf7e5021c4f9bfc244857ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">横向滚动条位置  <br /></td></tr>
+<tr class="separator:aeac3507d6bf7e5021c4f9bfc244857ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f54100ebe5d1e36c40070c6971037dc" id="r_a6f54100ebe5d1e36c40070c6971037dc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">double</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#a6f54100ebe5d1e36c40070c6971037dc">VerticalScrollPos</a></td></tr>
+<tr class="memdesc:a6f54100ebe5d1e36c40070c6971037dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">纵向滚动条位置  <br /></td></tr>
+<tr class="separator:a6f54100ebe5d1e36c40070c6971037dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af01202bb5b2736929434c27c5290e3bd" id="r_af01202bb5b2736929434c27c5290e3bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">double</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#af01202bb5b2736929434c27c5290e3bd">HorizontalScrollLimit</a></td></tr>
+<tr class="memdesc:af01202bb5b2736929434c27c5290e3bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">横向滚动条可设置的最大位置  <br /></td></tr>
+<tr class="separator:af01202bb5b2736929434c27c5290e3bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46b8836f3dd361382bac1343511ac6e0" id="r_a46b8836f3dd361382bac1343511ac6e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">double</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#a46b8836f3dd361382bac1343511ac6e0">VerticalScrollLimit</a></td></tr>
+<tr class="memdesc:a46b8836f3dd361382bac1343511ac6e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">纵向滚动条可设置的最大位置  <br /></td></tr>
+<tr class="separator:a46b8836f3dd361382bac1343511ac6e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97ac92fcc231df4a89b108fdeb43f9d8" id="r_a97ac92fcc231df4a89b108fdeb43f9d8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Property.html">Property</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#a97ac92fcc231df4a89b108fdeb43f9d8">MouseWheelScrollEnabled</a></td></tr>
+<tr class="memdesc:a97ac92fcc231df4a89b108fdeb43f9d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否在鼠标滚动时滚动内容  <br /></td></tr>
+<tr class="separator:a97ac92fcc231df4a89b108fdeb43f9d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected 成员函数</h2></td></tr>
+<tr class="memitem:a430b698476f4dcdaeea93e9d7df40b03" id="r_a430b698476f4dcdaeea93e9d7df40b03"><td class="memItemLeft" align="right" valign="top"><a id="a430b698476f4dcdaeea93e9d7df40b03" name="a430b698476f4dcdaeea93e9d7df40b03"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateLayout</b> ()</td></tr>
+<tr class="memdesc:a430b698476f4dcdaeea93e9d7df40b03"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新布局 <br /></td></tr>
+<tr class="separator:a430b698476f4dcdaeea93e9d7df40b03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fe64c56924d9fe72fe6d4fbc1f2baae" id="r_a4fe64c56924d9fe72fe6d4fbc1f2baae"><td class="memItemLeft" align="right" valign="top"><a id="a4fe64c56924d9fe72fe6d4fbc1f2baae" name="a4fe64c56924d9fe72fe6d4fbc1f2baae"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1LayoutHost.html">LayoutHost</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetDefaultLayout</b> ()</td></tr>
+<tr class="memdesc:a4fe64c56924d9fe72fe6d4fbc1f2baae"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取默认布局对象 <br /></td></tr>
+<tr class="separator:a4fe64c56924d9fe72fe6d4fbc1f2baae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac758b3156f04a3b8e687255b0ee7d476" id="r_ac758b3156f04a3b8e687255b0ee7d476"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#ac758b3156f04a3b8e687255b0ee7d476">OnScroll</a> (ScrollOrientation scrollbar, ScrollEvent event, <a class="el" href="classsw_1_1IValueConverter.html">double</a> pos)</td></tr>
+<tr class="memdesc:ac758b3156f04a3b8e687255b0ee7d476"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发滚动条相关事件时调用该函数  <br /></td></tr>
+<tr class="separator:ac758b3156f04a3b8e687255b0ee7d476"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5c94674a9989c0ec3bb1c740321746a" id="r_ab5c94674a9989c0ec3bb1c740321746a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#ab5c94674a9989c0ec3bb1c740321746a">OnVerticalScroll</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> event, <a class="el" href="classsw_1_1IValueConverter.html">int</a> pos) <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
+<tr class="memdesc:ab5c94674a9989c0ec3bb1c740321746a"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_VSCROLL时调用目标控件的该函数  <br /></td></tr>
+<tr class="separator:ab5c94674a9989c0ec3bb1c740321746a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6fc2139dec7d5dfe638ec0a7da1cbce" id="r_af6fc2139dec7d5dfe638ec0a7da1cbce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#af6fc2139dec7d5dfe638ec0a7da1cbce">OnHorizontalScroll</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> event, <a class="el" href="classsw_1_1IValueConverter.html">int</a> pos) <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
+<tr class="memdesc:af6fc2139dec7d5dfe638ec0a7da1cbce"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_HSCROLL时调用目标控件的该函数  <br /></td></tr>
+<tr class="separator:af6fc2139dec7d5dfe638ec0a7da1cbce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a356d68eb851324e7430656a304b719e1" id="r_a356d68eb851324e7430656a304b719e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#a356d68eb851324e7430656a304b719e1">Arrange</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">finalPosition</a>) <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
+<tr class="memdesc:a356d68eb851324e7430656a304b719e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">安排元素位置  <br /></td></tr>
+<tr class="separator:a356d68eb851324e7430656a304b719e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a147e6a86e42f665dce69e75f3f73e1e6" id="r_a147e6a86e42f665dce69e75f3f73e1e6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="structsw_1_1Size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#a147e6a86e42f665dce69e75f3f73e1e6">MeasureOverride</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="structsw_1_1Size.html">Size</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">availableSize</a>) <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
+<tr class="memdesc:a147e6a86e42f665dce69e75f3f73e1e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">测量元素所需尺寸，无需考虑边框和边距  <br /></td></tr>
+<tr class="separator:a147e6a86e42f665dce69e75f3f73e1e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fed642a4516b8530807e56e419e0963" id="r_a6fed642a4516b8530807e56e419e0963"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#a6fed642a4516b8530807e56e419e0963">ArrangeOverride</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="structsw_1_1Size.html">Size</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">finalSize</a>) <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
+<tr class="memdesc:a6fed642a4516b8530807e56e419e0963"><td class="mdescLeft">&#160;</td><td class="mdescRight">安排子元素的位置，可重写该函数以实现自定义布局  <br /></td></tr>
+<tr class="separator:a6fed642a4516b8530807e56e419e0963"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7e15b23b2a506c2116632d1254d7a29" id="r_ac7e15b23b2a506c2116632d1254d7a29"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#ac7e15b23b2a506c2116632d1254d7a29">RequestBringIntoView</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">screenRect</a>) <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
+<tr class="memdesc:ac7e15b23b2a506c2116632d1254d7a29"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试将指定的矩形区域移动到可视区域内  <br /></td></tr>
+<tr class="separator:ac7e15b23b2a506c2116632d1254d7a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0f7a8872d027cb03928704f75107380" id="r_ac0f7a8872d027cb03928704f75107380"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#ac0f7a8872d027cb03928704f75107380">OnRoutedEvent</a> (<a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">eventArgs</a>, <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1IValueConverter.html">RoutedEventHandler</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">handler</a>) <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
+<tr class="memdesc:ac0f7a8872d027cb03928704f75107380"><td class="mdescLeft">&#160;</td><td class="mdescRight">路由事件经过当前元素时调用该函数  <br /></td></tr>
+<tr class="separator:ac0f7a8872d027cb03928704f75107380"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase&gt;<br />
+class sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt;</div><p>表示可以设置布局方式的元素类型，如窗口、面板等 </p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="a356d68eb851324e7430656a304b719e1" name="a356d68eb851324e7430656a304b719e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a356d68eb851324e7430656a304b719e1">&#9670;&#160;</a></span>Arrange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::Arrange </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &amp;&#160;</td>
+          <td class="paramname"><em>finalPosition</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>安排元素位置 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">finalSize</td><td>最终元素所安排的位置 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6fed642a4516b8530807e56e419e0963" name="a6fed642a4516b8530807e56e419e0963"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fed642a4516b8530807e56e419e0963">&#9670;&#160;</a></span>ArrangeOverride()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::ArrangeOverride </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="structsw_1_1Size.html">Size</a> &amp;&#160;</td>
+          <td class="paramname"><em>finalSize</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>安排子元素的位置，可重写该函数以实现自定义布局 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">finalSize</td><td>可用于排列子元素的最终尺寸 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="adce7c520214feb7cc316b33f7e91ed28" name="adce7c520214feb7cc316b33f7e91ed28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adce7c520214feb7cc316b33f7e91ed28">&#9670;&#160;</a></span>GetHorizontalScrollRange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::GetHorizontalScrollRange </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">double</a> &amp;&#160;</td>
+          <td class="paramname"><em>refMin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">double</a> &amp;&#160;</td>
+          <td class="paramname"><em>refMax</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取横向滚动条的范围 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">refMin</td><td>滚动范围最小值 </td></tr>
+    <tr><td class="paramname">refMax</td><td>滚动范围最大值 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa81016e08e15ab4fd39356c226976273" name="aa81016e08e15ab4fd39356c226976273"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa81016e08e15ab4fd39356c226976273">&#9670;&#160;</a></span>GetVerticalScrollRange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::GetVerticalScrollRange </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">double</a> &amp;&#160;</td>
+          <td class="paramname"><em>refMin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">double</a> &amp;&#160;</td>
+          <td class="paramname"><em>refMax</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取纵向滚动条的范围 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">refMin</td><td>滚动范围最小值 </td></tr>
+    <tr><td class="paramname">refMax</td><td>滚动范围最大值 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a147e6a86e42f665dce69e75f3f73e1e6" name="a147e6a86e42f665dce69e75f3f73e1e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a147e6a86e42f665dce69e75f3f73e1e6">&#9670;&#160;</a></span>MeasureOverride()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="structsw_1_1Size.html">Size</a> <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::MeasureOverride </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="structsw_1_1Size.html">Size</a> &amp;&#160;</td>
+          <td class="paramname"><em>availableSize</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>测量元素所需尺寸，无需考虑边框和边距 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">availableSize</td><td>可用的尺寸 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>返回元素需要占用的尺寸 </dd></dl>
+
+</div>
+</div>
+<a id="af6fc2139dec7d5dfe638ec0a7da1cbce" name="af6fc2139dec7d5dfe638ec0a7da1cbce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6fc2139dec7d5dfe638ec0a7da1cbce">&#9670;&#160;</a></span>OnHorizontalScroll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a> <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::OnHorizontalScroll </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_HSCROLL时调用目标控件的该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>事件类型，即消息wParam的低字 </td></tr>
+    <tr><td class="paramname">pos</td><td>当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="ac0f7a8872d027cb03928704f75107380" name="ac0f7a8872d027cb03928704f75107380"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0f7a8872d027cb03928704f75107380">&#9670;&#160;</a></span>OnRoutedEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::OnRoutedEvent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsw_1_1RoutedEventArgs.html">RoutedEventArgs</a> &amp;&#160;</td>
+          <td class="paramname"><em>eventArgs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1IValueConverter.html">RoutedEventHandler</a> &amp;&#160;</td>
+          <td class="paramname"><em>handler</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>路由事件经过当前元素时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eventArgs</td><td>事件参数 </td></tr>
+    <tr><td class="paramname">handler</td><td>事件处理函数，值为空时表示当前元素没有注册该事件处理函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac758b3156f04a3b8e687255b0ee7d476" name="ac758b3156f04a3b8e687255b0ee7d476"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac758b3156f04a3b8e687255b0ee7d476">&#9670;&#160;</a></span>OnScroll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::OnScroll </td>
+          <td>(</td>
+          <td class="paramtype">ScrollOrientation&#160;</td>
+          <td class="paramname"><em>scrollbar</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ScrollEvent&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">double</a>&#160;</td>
+          <td class="paramname"><em>pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>触发滚动条相关事件时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scrollbar</td><td>滚动条类型 </td></tr>
+    <tr><td class="paramname">event</td><td>滚动条事件 </td></tr>
+    <tr><td class="paramname">pos</td><td>当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab5c94674a9989c0ec3bb1c740321746a" name="ab5c94674a9989c0ec3bb1c740321746a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5c94674a9989c0ec3bb1c740321746a">&#9670;&#160;</a></span>OnVerticalScroll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a> <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::OnVerticalScroll </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_VSCROLL时调用目标控件的该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>事件类型，即消息wParam的低字 </td></tr>
+    <tr><td class="paramname">pos</td><td>当前滚动条的位置，仅当event为SB_THUMBPOSITION或SB_THUMBTRACK时有效 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
+
+</div>
+</div>
+<a id="ac7e15b23b2a506c2116632d1254d7a29" name="ac7e15b23b2a506c2116632d1254d7a29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7e15b23b2a506c2116632d1254d7a29">&#9670;&#160;</a></span>RequestBringIntoView()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a> <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::RequestBringIntoView </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="structsw_1_1Rect.html">sw::Rect</a> &amp;&#160;</td>
+          <td class="paramname"><em>screenRect</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>尝试将指定的矩形区域移动到可视区域内 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">screenRect</td><td>要移动到可视区域的矩形在屏幕中的位置 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该请求则返回true，否则返回false以继续向上冒泡 </dd></dl>
+
+</div>
+</div>
+<a id="a7ad07ccdd95a9a2dc317b3050345d77c" name="a7ad07ccdd95a9a2dc317b3050345d77c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ad07ccdd95a9a2dc317b3050345d77c">&#9670;&#160;</a></span>ScrollHorizontal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::ScrollHorizontal </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">double</a>&#160;</td>
+          <td class="paramname"><em>offset</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>水平滚动 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">offset</td><td>滚动的偏移量 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab284e9462f9c2678132e611f3242477a" name="ab284e9462f9c2678132e611f3242477a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab284e9462f9c2678132e611f3242477a">&#9670;&#160;</a></span>ScrollVertical()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::ScrollVertical </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">double</a>&#160;</td>
+          <td class="paramname"><em>offset</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>垂直滚动 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">offset</td><td>滚动的偏移量 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a932e9d753115c955b9ea52aced5f066f" name="a932e9d753115c955b9ea52aced5f066f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a932e9d753115c955b9ea52aced5f066f">&#9670;&#160;</a></span>SetHorizontalScrollRange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::SetHorizontalScrollRange </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">double</a>&#160;</td>
+          <td class="paramname"><em>min</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">double</a>&#160;</td>
+          <td class="paramname"><em>max</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置横向滚动条的范围 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">min</td><td>滚动范围最小值 </td></tr>
+    <tr><td class="paramname">max</td><td>滚动范围最大值 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a51c0958e0ff669fed8a0bd6ba46ea934" name="a51c0958e0ff669fed8a0bd6ba46ea934"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51c0958e0ff669fed8a0bd6ba46ea934">&#9670;&#160;</a></span>SetVerticalScrollRange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::SetVerticalScrollRange </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">double</a>&#160;</td>
+          <td class="paramname"><em>min</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">double</a>&#160;</td>
+          <td class="paramname"><em>max</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置纵向滚动条的范围 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">min</td><td>滚动范围最小值 </td></tr>
+    <tr><td class="paramname">max</td><td>滚动范围最大值 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="acb9dab5f10ab630c59d3883f229b7c57" name="acb9dab5f10ab630c59d3883f229b7c57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb9dab5f10ab630c59d3883f229b7c57">&#9670;&#160;</a></span>AutoSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Property.html">Property</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&gt; <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::AutoSize</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>初始值:</b><div class="fragment"><div class="line">{</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;bool&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">bool</span> {</div>
+<div class="line">                    <span class="keywordflow">return</span> self-&gt;_autoSize;</div>
+<div class="line">                })</div>
+<div class="line">                .Setter([](<a class="code hl_class" href="classsw_1_1Layer.html">Layer</a> *<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>, <span class="keywordtype">bool</span> value) {</div>
+<div class="line">                    <span class="keywordflow">if</span> (<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;_autoSize != value) {</div>
+<div class="line">                        self-&gt;_autoSize = value;</div>
+<div class="line">                        self-&gt;InvalidateMeasure();</div>
+<div class="line">                    }</div>
+<div class="line">                })}</div>
+<div class="ttc" id="aclasssw_1_1IValueConverter_html"><div class="ttname"><a href="classsw_1_1IValueConverter.html">sw::IValueConverter</a></div><div class="ttdoc">值转换器接口</div><div class="ttdef"><b>Definition</b> IValueConverter.h:14</div></div>
+<div class="ttc" id="aclasssw_1_1Layer_html"><div class="ttname"><a href="classsw_1_1Layer.html">sw::Layer</a></div><div class="ttdef"><b>Definition</b> Layer.h:12</div></div>
+<div class="ttc" id="aclasssw_1_1PropertyBase_html_a04b2576f3c802576a2eb2f0eb1b84020"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">sw::PropertyBase&lt; T, Property&lt; T &gt; &gt;::Init</a></div><div class="ttdeci">static StaticPropertyInitializer&lt; T &gt; Init()</div><div class="ttdoc">获取静态属性初始化器</div><div class="ttdef"><b>Definition</b> Property.h:1523</div></div>
+</div><!-- fragment -->
+<p>是否按照布局方式与子元素自动调整尺寸，该属性仅在当前元素已设置布局方式并且非顶级元素时有效 </p>
+
+</div>
+</div>
+<a id="ac7c14be1594567be3ae68541f458e718" name="ac7c14be1594567be3ae68541f458e718"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7c14be1594567be3ae68541f458e718">&#9670;&#160;</a></span>HorizontalScrollBar</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Property.html">Property</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&gt; <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::HorizontalScrollBar</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>初始值:</b><div class="fragment"><div class="line">{</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;bool&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">bool</span> {</div>
+<div class="line">                    <span class="keywordflow">return</span> self-&gt;GetStyle(WS_HSCROLL);</div>
+<div class="line">                })</div>
+<div class="line">                .Setter([](<a class="code hl_class" href="classsw_1_1Layer.html">Layer</a> *<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>, <span class="keywordtype">bool</span> value) {</div>
+<div class="line">                    <span class="keywordflow">if</span> (<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;HorizontalScrollBar == value) {</div>
+<div class="line">                        return;</div>
+<div class="line">                    }</div>
+<div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">if</a> (value) {</div>
+<div class="line">                        <a class="code hl_class" href="classsw_1_1IValueConverter.html">ShowScrollBar</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;Handle, <a class="code hl_class" href="classsw_1_1IValueConverter.html">SB_HORZ</a>, value);</div>
+<div class="line">                        <a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;HorizontalScrollPos = <a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;HorizontalScrollPos;</div>
+<div class="line">                    } <span class="keywordflow">else</span> {</div>
+<div class="line">                        <a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;HorizontalScrollPos = 0;</div>
+<div class="line">                        <a class="code hl_class" href="classsw_1_1IValueConverter.html">ShowScrollBar</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;Handle, <a class="code hl_class" href="classsw_1_1IValueConverter.html">SB_HORZ</a>, value);</div>
+<div class="line">                    }</div>
+<div class="line">                })}</div>
+</div><!-- fragment -->
+<p>是否显示横向滚动条 </p>
+
+</div>
+</div>
+<a id="af01202bb5b2736929434c27c5290e3bd" name="af01202bb5b2736929434c27c5290e3bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af01202bb5b2736929434c27c5290e3bd">&#9670;&#160;</a></span>HorizontalScrollLimit</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">double</a>&gt; <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::HorizontalScrollLimit</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>初始值:</b><div class="fragment"><div class="line">{</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;double&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">double</span> {</div>
+<div class="line">                    <span class="keywordflow">if</span> (self-&gt;_horizontalScrollDisabled) {</div>
+<div class="line">                        return 0;</div>
+<div class="line">                    }</div>
+<div class="line">                    SCROLLINFO info{};</div>
+<div class="line">                    info.cbSize = <span class="keyword">sizeof</span>(info);</div>
+<div class="line">                    info.fMask  = SIF_RANGE | SIF_PAGE;</div>
+<div class="line">                    GetScrollInfo(self-&gt;Handle, SB_HORZ, &amp;info);</div>
+<div class="line">                    <span class="keywordflow">return</span> <a class="code hl_function" href="classsw_1_1Dip.html#aa0244988630536a31439cdfde27ec209">Dip::PxToDipX</a>(info.nMax - info.nPage + 1);</div>
+<div class="line">                })}</div>
+<div class="ttc" id="aclasssw_1_1Dip_html_aa0244988630536a31439cdfde27ec209"><div class="ttname"><a href="classsw_1_1Dip.html#aa0244988630536a31439cdfde27ec209">sw::Dip::PxToDipX</a></div><div class="ttdeci">static double PxToDipX(int px)</div><div class="ttdoc">像素转dip（水平方向）</div></div>
+</div><!-- fragment -->
+<p>横向滚动条可设置的最大位置 </p>
+
+</div>
+</div>
+<a id="aeac3507d6bf7e5021c4f9bfc244857ee" name="aeac3507d6bf7e5021c4f9bfc244857ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeac3507d6bf7e5021c4f9bfc244857ee">&#9670;&#160;</a></span>HorizontalScrollPos</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Property.html">Property</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">double</a>&gt; <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::HorizontalScrollPos</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>初始值:</b><div class="fragment"><div class="line">{</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;double&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">double</span> {</div>
+<div class="line">                    SCROLLINFO info{};</div>
+<div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.cbSize = <span class="keyword">sizeof</span>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>);</div>
+<div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.fMask  = <a class="code hl_class" href="classsw_1_1IValueConverter.html">SIF_POS</a>;</div>
+<div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">GetScrollInfo</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;Handle, <a class="code hl_class" href="classsw_1_1IValueConverter.html">SB_HORZ</a>, &amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>);</div>
+<div class="line">                    <span class="keywordflow">return</span> <a class="code hl_function" href="classsw_1_1Dip.html#aa0244988630536a31439cdfde27ec209">Dip::PxToDipX</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.nPos);</div>
+<div class="line">                })</div>
+<div class="line">                .Setter([](<a class="code hl_class" href="classsw_1_1Layer.html">Layer</a> *<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>, <span class="keywordtype">double</span> value) {</div>
+<div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">SCROLLINFO</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>{};</div>
+<div class="line">                    info.cbSize = <span class="keyword">sizeof</span>(info);</div>
+<div class="line">                    info.fMask  = SIF_POS;</div>
+<div class="line">                    info.nPos   = <a class="code hl_function" href="classsw_1_1Dip.html#a66e3c3a119b77b632ec5f1f37051ee6d">Dip::DipToPxX</a>(value);</div>
+<div class="line">                    SetScrollInfo(self-&gt;Handle, SB_HORZ, &amp;info, <span class="keyword">true</span>);</div>
+<div class="line"> </div>
+<div class="line">                    LayoutHost *layout = self-&gt;_GetLayout();</div>
+<div class="line"> </div>
+<div class="line">                    <span class="keywordflow">if</span> (layout != <span class="keyword">nullptr</span> &amp;&amp; !self-&gt;_horizontalScrollDisabled &amp;&amp; self-&gt;HorizontalScrollBar) {</div>
+<div class="line">                        self-&gt;GetInternalArrangeOffsetX() = -self-&gt;HorizontalScrollPos;</div>
+<div class="line">                        self-&gt;_MeasureAndArrangeWithoutResize(*layout, self-&gt;ClientRect-&gt;GetSize());</div>
+<div class="line">                    }</div>
+<div class="line">                })}</div>
+<div class="ttc" id="aclasssw_1_1Dip_html_a66e3c3a119b77b632ec5f1f37051ee6d"><div class="ttname"><a href="classsw_1_1Dip.html#a66e3c3a119b77b632ec5f1f37051ee6d">sw::Dip::DipToPxX</a></div><div class="ttdeci">static int DipToPxX(double dip)</div><div class="ttdoc">dip转像素（水平方向）</div></div>
+</div><!-- fragment -->
+<p>横向滚动条位置 </p>
+
+</div>
+</div>
+<a id="af56b3fff890218b799f79699afe673ef" name="af56b3fff890218b799f79699afe673ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af56b3fff890218b799f79699afe673ef">&#9670;&#160;</a></span>Layout</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Property.html">Property</a>&lt;<a class="el" href="classsw_1_1LayoutHost.html">LayoutHost</a> *&gt; <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::Layout</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>初始值:</b><div class="fragment"><div class="line">{</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;LayoutHost *&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">                .Getter([](Layer *self) -&gt; LayoutHost * {</div>
+<div class="line">                    <span class="keywordflow">return</span> self-&gt;_customLayout;</div>
+<div class="line">                })</div>
+<div class="line">                .Setter([](<a class="code hl_class" href="classsw_1_1Layer.html">Layer</a> *<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>, <a class="code hl_class" href="classsw_1_1LayoutHost.html">LayoutHost</a> *value) {</div>
+<div class="line">                    <span class="keywordflow">if</span> (value != <span class="keyword">nullptr</span>)</div>
+<div class="line">                        value-&gt;<a class="code hl_function" href="classsw_1_1LayoutHost.html#ace58d1aefa8427892f71bfa8b91e9281">Associate</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>);</div>
+<div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;_customLayout = value;</div>
+<div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;InvalidateMeasure();</div>
+<div class="line">                })}</div>
+<div class="ttc" id="aclasssw_1_1LayoutHost_html"><div class="ttname"><a href="classsw_1_1LayoutHost.html">sw::LayoutHost</a></div><div class="ttdoc">用于托管元素的布局方式的对象类型，是所有布局方式类型的基类</div><div class="ttdef"><b>Definition</b> LayoutHost.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1LayoutHost_html_ace58d1aefa8427892f71bfa8b91e9281"><div class="ttname"><a href="classsw_1_1LayoutHost.html#ace58d1aefa8427892f71bfa8b91e9281">sw::LayoutHost::Associate</a></div><div class="ttdeci">void Associate(ILayout *obj)</div><div class="ttdoc">设置关联的对象，每个LayoutHost只能关联一个对象</div></div>
+</div><!-- fragment -->
+<p>自定义的布局方式，赋值后将自动与所指向的布局关联，每个布局只能关联一个对象，设为nullptr可恢复默认布局 </p>
+
+</div>
+</div>
+<a id="a97ac92fcc231df4a89b108fdeb43f9d8" name="a97ac92fcc231df4a89b108fdeb43f9d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97ac92fcc231df4a89b108fdeb43f9d8">&#9670;&#160;</a></span>MouseWheelScrollEnabled</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Property.html">Property</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&gt; <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::MouseWheelScrollEnabled</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>初始值:</b><div class="fragment"><div class="line">{</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;bool&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">bool</span> {</div>
+<div class="line">                    <span class="keywordflow">return</span> self-&gt;_mouseWheelScrollEnabled;</div>
+<div class="line">                })</div>
+<div class="line">                .Setter([](<a class="code hl_class" href="classsw_1_1Layer.html">Layer</a> *<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>, <span class="keywordtype">bool</span> value) {</div>
+<div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;_mouseWheelScrollEnabled = value;</div>
+<div class="line">                })}</div>
+</div><!-- fragment -->
+<p>是否在鼠标滚动时滚动内容 </p>
+
+</div>
+</div>
+<a id="ad0c9a1952307358ac597b2f59a44f025" name="ad0c9a1952307358ac597b2f59a44f025"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0c9a1952307358ac597b2f59a44f025">&#9670;&#160;</a></span>VerticalScrollBar</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Property.html">Property</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&gt; <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::VerticalScrollBar</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>初始值:</b><div class="fragment"><div class="line">{</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;bool&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">bool</span> {</div>
+<div class="line">                    <span class="keywordflow">return</span> self-&gt;GetStyle(WS_VSCROLL);</div>
+<div class="line">                })</div>
+<div class="line">                .Setter([](<a class="code hl_class" href="classsw_1_1Layer.html">Layer</a> *<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>, <span class="keywordtype">bool</span> value) {</div>
+<div class="line">                    <span class="keywordflow">if</span> (<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;VerticalScrollBar == value) {</div>
+<div class="line">                        return;</div>
+<div class="line">                    }</div>
+<div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">if</a> (value) {</div>
+<div class="line">                        <a class="code hl_class" href="classsw_1_1IValueConverter.html">ShowScrollBar</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;Handle, <a class="code hl_class" href="classsw_1_1IValueConverter.html">SB_VERT</a>, value);</div>
+<div class="line">                        <a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;VerticalScrollPos = <a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;VerticalScrollPos;</div>
+<div class="line">                    } <span class="keywordflow">else</span> {</div>
+<div class="line">                        <a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;VerticalScrollPos = 0;</div>
+<div class="line">                        <a class="code hl_class" href="classsw_1_1IValueConverter.html">ShowScrollBar</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;Handle, <a class="code hl_class" href="classsw_1_1IValueConverter.html">SB_VERT</a>, value);</div>
+<div class="line">                    }</div>
+<div class="line">                })}</div>
+</div><!-- fragment -->
+<p>是否显示纵向滚动条 </p>
+
+</div>
+</div>
+<a id="a46b8836f3dd361382bac1343511ac6e0" name="a46b8836f3dd361382bac1343511ac6e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46b8836f3dd361382bac1343511ac6e0">&#9670;&#160;</a></span>VerticalScrollLimit</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">double</a>&gt; <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::VerticalScrollLimit</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>初始值:</b><div class="fragment"><div class="line">{</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;double&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">double</span> {</div>
+<div class="line">                    <span class="keywordflow">if</span> (self-&gt;_verticalScrollDisabled) {</div>
+<div class="line">                        return 0;</div>
+<div class="line">                    }</div>
+<div class="line">                    SCROLLINFO info{};</div>
+<div class="line">                    info.cbSize = <span class="keyword">sizeof</span>(info);</div>
+<div class="line">                    info.fMask  = SIF_RANGE | SIF_PAGE;</div>
+<div class="line">                    GetScrollInfo(self-&gt;Handle, SB_VERT, &amp;info);</div>
+<div class="line">                    <span class="keywordflow">return</span> <a class="code hl_function" href="classsw_1_1Dip.html#a54fd07b8418adcff0ecb8483098ab860">Dip::PxToDipY</a>(info.nMax - info.nPage + 1);</div>
+<div class="line">                })}</div>
+<div class="ttc" id="aclasssw_1_1Dip_html_a54fd07b8418adcff0ecb8483098ab860"><div class="ttname"><a href="classsw_1_1Dip.html#a54fd07b8418adcff0ecb8483098ab860">sw::Dip::PxToDipY</a></div><div class="ttdeci">static double PxToDipY(int px)</div><div class="ttdoc">像素转dip（垂直方向）</div></div>
+</div><!-- fragment -->
+<p>纵向滚动条可设置的最大位置 </p>
+
+</div>
+</div>
+<a id="a6f54100ebe5d1e36c40070c6971037dc" name="a6f54100ebe5d1e36c40070c6971037dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f54100ebe5d1e36c40070c6971037dc">&#9670;&#160;</a></span>VerticalScrollPos</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TBase &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Property.html">Property</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">double</a>&gt; <a class="el" href="classsw_1_1Layer.html">sw::Layer</a>&lt; TBase, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; std::is_base_of&lt; <a class="el" href="classsw_1_1UIElement.html">UIElement</a>, TBase &gt;::value &gt;::type &gt;::VerticalScrollPos</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>初始值:</b><div class="fragment"><div class="line">{</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;double&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">double</span> {</div>
+<div class="line">                    SCROLLINFO info{};</div>
+<div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.cbSize = <span class="keyword">sizeof</span>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>);</div>
+<div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.fMask  = <a class="code hl_class" href="classsw_1_1IValueConverter.html">SIF_POS</a>;</div>
+<div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">GetScrollInfo</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;Handle, <a class="code hl_class" href="classsw_1_1IValueConverter.html">SB_VERT</a>, &amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>);</div>
+<div class="line">                    <span class="keywordflow">return</span> <a class="code hl_function" href="classsw_1_1Dip.html#a54fd07b8418adcff0ecb8483098ab860">Dip::PxToDipY</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.nPos);</div>
+<div class="line">                })</div>
+<div class="line">                .Setter(</div>
+<div class="line">                    [](<a class="code hl_class" href="classsw_1_1Layer.html">Layer</a> *<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>, <span class="keywordtype">double</span> value) {</div>
+<div class="line">                        <a class="code hl_class" href="classsw_1_1IValueConverter.html">SCROLLINFO</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>{};</div>
+<div class="line">                        info.cbSize = <span class="keyword">sizeof</span>(info);</div>
+<div class="line">                        info.fMask  = SIF_POS;</div>
+<div class="line">                        info.nPos   = <a class="code hl_function" href="classsw_1_1Dip.html#ae8986a97dc498280957b4c9e5fa53124">Dip::DipToPxY</a>(value);</div>
+<div class="line">                        SetScrollInfo(self-&gt;Handle, SB_VERT, &amp;info, <span class="keyword">true</span>);</div>
+<div class="line"> </div>
+<div class="line">                        LayoutHost *layout = self-&gt;_GetLayout();</div>
+<div class="line"> </div>
+<div class="line">                        <span class="keywordflow">if</span> (layout != <span class="keyword">nullptr</span> &amp;&amp; !self-&gt;_verticalScrollDisabled &amp;&amp; self-&gt;VerticalScrollBar) {</div>
+<div class="line">                            self-&gt;GetInternalArrangeOffsetY() = -self-&gt;VerticalScrollPos;</div>
+<div class="line">                            self-&gt;_MeasureAndArrangeWithoutResize(*layout, self-&gt;ClientRect-&gt;GetSize());</div>
+<div class="line">                        }</div>
+<div class="line">                    })}</div>
+<div class="ttc" id="aclasssw_1_1Dip_html_ae8986a97dc498280957b4c9e5fa53124"><div class="ttname"><a href="classsw_1_1Dip.html#ae8986a97dc498280957b4c9e5fa53124">sw::Dip::DipToPxY</a></div><div class="ttdeci">static int DipToPxY(double dip)</div><div class="ttdoc">dip转像素（垂直方向）</div></div>
+</div><!-- fragment -->
+<p>纵向滚动条位置 </p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="Layer_8h_source.html">Layer.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>sw</b></li><li class="navelem"><a class="el" href="classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html">Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt;</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

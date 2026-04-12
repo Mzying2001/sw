@@ -16,13 +16,14 @@ var searchData=
   ['stacklayoutv_13',['StackLayoutV',['../classsw_1_1StackLayoutV.html',1,'sw']]],
   ['stackpanel_14',['StackPanel',['../classsw_1_1StackPanel.html',1,'sw']]],
   ['staticcontrol_15',['StaticControl',['../classsw_1_1StaticControl.html',1,'sw']]],
-  ['staticpropertyinitializer_16',['StaticPropertyInitializer',['../classsw_1_1StaticPropertyInitializer.html',1,'sw']]],
-  ['statusbar_17',['StatusBar',['../classsw_1_1StatusBar.html',1,'sw']]],
-  ['stringtoansistringconverter_18',['StringToAnsiStringConverter',['../classsw_1_1StringToAnsiStringConverter.html',1,'sw']]],
-  ['stringtodoubleconverter_19',['StringToDoubleConverter',['../classsw_1_1StringToDoubleConverter.html',1,'sw']]],
-  ['stringtofloatconverter_20',['StringToFloatConverter',['../classsw_1_1StringToFloatConverter.html',1,'sw']]],
-  ['stringtointconverter_21',['StringToIntConverter',['../classsw_1_1StringToIntConverter.html',1,'sw']]],
-  ['stringtoutf8stringconverter_22',['StringToUtf8StringConverter',['../classsw_1_1StringToUtf8StringConverter.html',1,'sw']]],
-  ['syslink_23',['SysLink',['../classsw_1_1SysLink.html',1,'sw']]],
-  ['syslinkclickedeventargs_24',['SysLinkClickedEventArgs',['../structsw_1_1SysLinkClickedEventArgs.html',1,'sw']]]
+  ['staticeventinitializer_16',['StaticEventInitializer',['../classsw_1_1StaticEventInitializer.html',1,'sw']]],
+  ['staticpropertyinitializer_17',['StaticPropertyInitializer',['../classsw_1_1StaticPropertyInitializer.html',1,'sw']]],
+  ['statusbar_18',['StatusBar',['../classsw_1_1StatusBar.html',1,'sw']]],
+  ['stringtoansistringconverter_19',['StringToAnsiStringConverter',['../classsw_1_1StringToAnsiStringConverter.html',1,'sw']]],
+  ['stringtodoubleconverter_20',['StringToDoubleConverter',['../classsw_1_1StringToDoubleConverter.html',1,'sw']]],
+  ['stringtofloatconverter_21',['StringToFloatConverter',['../classsw_1_1StringToFloatConverter.html',1,'sw']]],
+  ['stringtointconverter_22',['StringToIntConverter',['../classsw_1_1StringToIntConverter.html',1,'sw']]],
+  ['stringtoutf8stringconverter_23',['StringToUtf8StringConverter',['../classsw_1_1StringToUtf8StringConverter.html',1,'sw']]],
+  ['syslink_24',['SysLink',['../classsw_1_1SysLink.html',1,'sw']]],
+  ['syslinkclickedeventargs_25',['SysLinkClickedEventArgs',['../structsw_1_1SysLinkClickedEventArgs.html',1,'sw']]]
 ];

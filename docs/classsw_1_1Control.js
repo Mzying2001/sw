@@ -11,7 +11,6 @@ var classsw_1_1Control =
     [ "OnPrePaint", "classsw_1_1Control.html#ae986d0e20a48c2d39f89032d257f0737", null ],
     [ "ResetHandle", "classsw_1_1Control.html#a2524492bce622089e2052d6d7872f9bf", null ],
     [ "ResetHandle", "classsw_1_1Control.html#af8efb61076cb72a2ea7b494edc11b7d2", null ],
-    [ "ToControl", "classsw_1_1Control.html#ab9213f0b57eec7e79e57570b64d493c6", null ],
     [ "ControlId", "classsw_1_1Control.html#aa5875535fe04ce79df6fb8719b64c0dc", null ],
     [ "IsInHierarchy", "classsw_1_1Control.html#a703a0794e6d8aeb786b1f53c9e987e83", null ]
 ];

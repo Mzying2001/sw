@@ -1,5 +1,6 @@
 var structsw_1_1RoutedEventArgs =
 [
+    [ "RoutedEventArgs", "structsw_1_1RoutedEventArgs.html#ad605f2e95b557170333c34421b4b5fa6", null ],
     [ "RoutedEventArgs", "structsw_1_1RoutedEventArgs.html#ad6e6da62f114abfabb682afd38b6f7a3", null ],
     [ "eventType", "structsw_1_1RoutedEventArgs.html#a46df8118b89dcc6c494cdbded901b082", null ],
     [ "handled", "structsw_1_1RoutedEventArgs.html#a9fb971eec1e6ba4aee1366c3f9c20bfd", null ],

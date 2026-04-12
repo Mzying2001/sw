@@ -14,5 +14,6 @@ var searchData=
   ['floattostringconverter_11',['FloatToStringConverter',['../classsw_1_1FloatToStringConverter.html',1,'sw']]],
   ['folderbrowserdialog_12',['FolderBrowserDialog',['../classsw_1_1FolderBrowserDialog.html',1,'sw']]],
   ['font_13',['Font',['../classsw_1_1Font.html',1,'sw']]],
-  ['fontdialog_14',['FontDialog',['../classsw_1_1FontDialog.html',1,'sw']]]
+  ['fontdialog_14',['FontDialog',['../classsw_1_1FontDialog.html',1,'sw']]],
+  ['frameworkelement_15',['FrameworkElement',['../classsw_1_1FrameworkElement.html',1,'sw']]]
 ];
