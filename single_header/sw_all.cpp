@@ -1,5 +1,4 @@
 #include "sw_all.h"
-#include <cmath>
 #include <strsafe.h>
 #include <climits>
 #include <deque>
@@ -77,7 +76,12 @@ namespace
     thread_local sw::AppQuitMode _appQuitMode = sw::AppQuitMode::Auto;
 
     /**
-     * @brief  获取当前exe文件路径
+     * @brief 当前线程消息循环中处理空句柄消息的回调函数
+     */
+    thread_local sw::Action<MSG &> _nullHwndMsgHandler;
+
+    /**
+     * @brief 获取当前exe文件路径
      */
     std::wstring _GetExePath()
     {
@@ -120,12 +124,14 @@ namespace
 }
 
 /**
- * @brief 当前线程消息循环中处理空句柄消息的回调函数
  */
-thread_local sw::Action<MSG &> sw::App::NullHwndMsgHandler;
 
-/**
- */
+const sw::Event<sw::Action<MSG &>> sw::App::NullHwndMsgHandler(
+    Event<Action<MSG &>>::Init()
+        .Delegate([]() -> Action<MSG &> & {
+            return _nullHwndMsgHandler;
+        }) //
+);
 
 const sw::ReadOnlyProperty<HINSTANCE> sw::App::Instance(
     Property<HINSTANCE>::Init()
@@ -176,8 +182,8 @@ int sw::App::MsgLoop()
     MSG msg;
     while (GetMessageW(&msg, NULL, 0, 0) > 0) {
         if (msg.hwnd == NULL) {
-            if (NullHwndMsgHandler)
-                NullHwndMsgHandler(msg);
+            if (_nullHwndMsgHandler)
+                _nullHwndMsgHandler(msg);
         } else {
             TranslateMessage(&msg);
             DispatchMessageW(&msg);
@@ -1153,18 +1159,13 @@ sw::Control::Control()
                       return false;
                   }
                   auto container = WndBase::_GetControlInitContainer();
-                  return container == nullptr || GetParent(self->_hwnd) != container->_hwnd;
+                  return container == nullptr || ::GetParent(self->_hwnd) != container->_hwnd;
               }))
 {
 }
 
 sw::Control::~Control()
 {
-}
-
-sw::Control *sw::Control::ToControl()
-{
-    return this;
 }
 
 bool sw::Control::ResetHandle(LPVOID lpParam)
@@ -1184,7 +1185,7 @@ bool sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
     auto text = GetInternalText().c_str();
 
     HWND oldHwnd = _hwnd;
-    HWND hParent = GetParent(oldHwnd);
+    HWND hParent = ::GetParent(oldHwnd);
 
     wchar_t className[256];
     GetClassNameW(oldHwnd, className, 256);
@@ -1826,7 +1827,7 @@ void sw::DockSplitter::_OnEndDrag(bool restoreSize)
 void sw::DockSplitter::_OnDragMove()
 {
     if (_relatedElement == nullptr) return;
-    if (_relatedElement->Parent != Parent) return;
+    if (_relatedElement->GetParent() != GetParent()) return;
 
     POINT pt;
     GetCursorPos(&pt);
@@ -1872,7 +1873,7 @@ void sw::DockSplitter::_UpdateRelatedElement()
 {
     _relatedElement = nullptr;
 
-    UIElement *parent = Parent;
+    UIElement *parent = GetParent();
     if (parent == nullptr) return;
 
     int index       = parent->IndexOf(this);
@@ -2589,6 +2590,118 @@ int sw::FontDialog::ShowDialog(Window &owner)
 CHOOSEFONTW *sw::FontDialog::GetChooseFontStruct()
 {
     return &_cf;
+}
+
+// FrameworkElement.cpp
+
+sw::FrameworkElement::FrameworkElement()
+    : DataContextChanged(
+          Event<DataContextChangedEventHandler>::Init(this)
+              .Delegate([](FrameworkElement *self) -> DataContextChangedEventHandler & {
+                  return self->_dataContextChanged;
+              })),
+
+      DataContext(
+          Property<DynamicObject *>::Init(this)
+              .Getter([](FrameworkElement *self) -> DynamicObject * {
+                  return self->_dataContext;
+              })
+              .Setter([](FrameworkElement *self, DynamicObject *value) {
+                  if (self->_dataContext != value) {
+                      auto oldDataContext = self->CurrentDataContext.Get();
+                      self->_dataContext  = value;
+                      self->RaisePropertyChanged(&FrameworkElement::DataContext);
+                      if (oldDataContext != value) {
+                          self->OnCurrentDataContextChanged(oldDataContext);
+                      }
+                  }
+              })),
+
+      CurrentDataContext(
+          Property<DynamicObject *>::Init(this)
+              .Getter([](FrameworkElement *self) -> DynamicObject * {
+                  DynamicObject *result     = nullptr;
+                  FrameworkElement *element = self;
+                  do {
+                      result  = element->_dataContext;
+                      element = element->GetParent();
+                  } while (result == nullptr && element != nullptr);
+                  return result;
+              }))
+{
+}
+
+bool sw::FrameworkElement::AddBinding(BindingBase *binding)
+{
+    if (binding == nullptr) {
+        return false;
+    } else {
+        this->_bindings[binding->GetTargetPropertyId()].reset(binding);
+        return true;
+    }
+}
+
+bool sw::FrameworkElement::AddBinding(Binding *binding)
+{
+    if (binding == nullptr) {
+        return false;
+    }
+    if (binding->GetSourceObject() == nullptr) {
+        auto dataBinding = DataBinding::Create(this, binding);
+        return this->AddBinding(static_cast<BindingBase *>(dataBinding));
+    } else {
+        binding->SetTargetObject(this);
+        return this->AddBinding(static_cast<BindingBase *>(binding));
+    }
+}
+
+bool sw::FrameworkElement::AddBinding(DataBinding *binding)
+{
+    if (binding == nullptr) {
+        return false;
+    } else {
+        binding->SetTargetElement(this);
+        return this->AddBinding(static_cast<BindingBase *>(binding));
+    }
+}
+
+bool sw::FrameworkElement::RemoveBinding(FieldId propertyId)
+{
+    if (this->_bindings.count(propertyId) == 0) {
+        return false;
+    } else {
+        this->_bindings.erase(propertyId);
+        return true;
+    }
+}
+
+void sw::FrameworkElement::OnCurrentDataContextChanged(DynamicObject *oldDataContext)
+{
+    std::vector<FrameworkElement *> stack;
+    stack.push_back(this);
+
+    while (!stack.empty()) {
+        auto current = stack.back();
+        stack.pop_back();
+
+        current->RaisePropertyChanged(
+            &FrameworkElement::CurrentDataContext);
+
+        if (current->_dataContextChanged) {
+            DataContextChangedEventArgs args{};
+            args.oldDataContext = oldDataContext;
+            current->_dataContextChanged(*current, args);
+        }
+
+        int childCount = current->GetChildCount();
+
+        for (int i = 0; i < childCount; i++) {
+            auto &child = current->GetChildAt(i);
+            if (child._dataContext == nullptr) {
+                stack.push_back(&child);
+            }
+        }
+    }
 }
 
 // Grid.cpp
@@ -4417,571 +4530,9 @@ void sw::Label::_SetTextTrimming(sw::TextTrimming value)
 
 // Layer.cpp
 
-namespace
+namespace sw
 {
-    /**
-     * @brief 滚动条滚动一行的距离
-     */
-    constexpr int _LayerScrollBarLineInterval = 20;
-}
-
-sw::Layer::Layer()
-    : Layout(
-          Property<LayoutHost *>::Init(this)
-              .Getter([](Layer *self) -> LayoutHost * {
-                  return self->_customLayout;
-              })
-              .Setter([](Layer *self, LayoutHost *value) {
-                  if (value != nullptr)
-                      value->Associate(self);
-                  self->_customLayout = value;
-                  self->InvalidateMeasure();
-              })),
-
-      AutoSize(
-          Property<bool>::Init(this)
-              .Getter([](Layer *self) -> bool {
-                  return self->_autoSize;
-              })
-              .Setter([](Layer *self, bool value) {
-                  if (self->_autoSize != value) {
-                      self->_autoSize = value;
-                      self->InvalidateMeasure();
-                  }
-              })),
-
-      HorizontalScrollBar(
-          Property<bool>::Init(this)
-              .Getter([](Layer *self) -> bool {
-                  return self->GetStyle(WS_HSCROLL);
-              })
-              .Setter([](Layer *self, bool value) {
-                  if (self->HorizontalScrollBar == value) {
-                      return;
-                  }
-                  if (value) {
-                      ShowScrollBar(self->Handle, SB_HORZ, value);
-                      self->HorizontalScrollPos = self->HorizontalScrollPos;
-                  } else {
-                      self->HorizontalScrollPos = 0;
-                      ShowScrollBar(self->Handle, SB_HORZ, value);
-                  }
-              })),
-
-      VerticalScrollBar(
-          Property<bool>::Init(this)
-              .Getter([](Layer *self) -> bool {
-                  return self->GetStyle(WS_VSCROLL);
-              })
-              .Setter([](Layer *self, bool value) {
-                  if (self->VerticalScrollBar == value) {
-                      return;
-                  }
-                  if (value) {
-                      ShowScrollBar(self->Handle, SB_VERT, value);
-                      self->VerticalScrollPos = self->VerticalScrollPos;
-                  } else {
-                      self->VerticalScrollPos = 0;
-                      ShowScrollBar(self->Handle, SB_VERT, value);
-                  }
-              })),
-
-      HorizontalScrollPos(
-          Property<double>::Init(this)
-              .Getter([](Layer *self) -> double {
-                  SCROLLINFO info{};
-                  info.cbSize = sizeof(info);
-                  info.fMask  = SIF_POS;
-                  GetScrollInfo(self->Handle, SB_HORZ, &info);
-                  return Dip::PxToDipX(info.nPos);
-              })
-              .Setter([](Layer *self, double value) {
-                  SCROLLINFO info{};
-                  info.cbSize = sizeof(info);
-                  info.fMask  = SIF_POS;
-                  info.nPos   = Dip::DipToPxX(value);
-                  SetScrollInfo(self->Handle, SB_HORZ, &info, true);
-
-                  LayoutHost *layout = self->_GetLayout();
-
-                  if (layout != nullptr && !self->_horizontalScrollDisabled && self->HorizontalScrollBar) {
-                      self->GetInternalArrangeOffsetX() = -self->HorizontalScrollPos;
-                      self->_MeasureAndArrangeWithoutResize(*layout, self->ClientRect->GetSize());
-                  }
-              })),
-
-      VerticalScrollPos(
-          Property<double>::Init(this)
-              .Getter([](Layer *self) -> double {
-                  SCROLLINFO info{};
-                  info.cbSize = sizeof(info);
-                  info.fMask  = SIF_POS;
-                  GetScrollInfo(self->Handle, SB_VERT, &info);
-                  return Dip::PxToDipY(info.nPos);
-              })
-              .Setter(
-                  [](Layer *self, double value) {
-                      SCROLLINFO info{};
-                      info.cbSize = sizeof(info);
-                      info.fMask  = SIF_POS;
-                      info.nPos   = Dip::DipToPxY(value);
-                      SetScrollInfo(self->Handle, SB_VERT, &info, true);
-
-                      LayoutHost *layout = self->_GetLayout();
-
-                      if (layout != nullptr && !self->_verticalScrollDisabled && self->VerticalScrollBar) {
-                          self->GetInternalArrangeOffsetY() = -self->VerticalScrollPos;
-                          self->_MeasureAndArrangeWithoutResize(*layout, self->ClientRect->GetSize());
-                      }
-                  })),
-
-      HorizontalScrollLimit(
-          Property<double>::Init(this)
-              .Getter([](Layer *self) -> double {
-                  if (self->_horizontalScrollDisabled) {
-                      return 0;
-                  }
-                  SCROLLINFO info{};
-                  info.cbSize = sizeof(info);
-                  info.fMask  = SIF_RANGE | SIF_PAGE;
-                  GetScrollInfo(self->Handle, SB_HORZ, &info);
-                  return Dip::PxToDipX(info.nMax - info.nPage + 1);
-              })),
-
-      VerticalScrollLimit(
-          Property<double>::Init(this)
-              .Getter([](Layer *self) -> double {
-                  if (self->_verticalScrollDisabled) {
-                      return 0;
-                  }
-                  SCROLLINFO info{};
-                  info.cbSize = sizeof(info);
-                  info.fMask  = SIF_RANGE | SIF_PAGE;
-                  GetScrollInfo(self->Handle, SB_VERT, &info);
-                  return Dip::PxToDipY(info.nMax - info.nPage + 1);
-              })),
-
-      MouseWheelScrollEnabled(
-          Property<bool>::Init(this)
-              .Getter([](Layer *self) -> bool {
-                  return self->_mouseWheelScrollEnabled;
-              })
-              .Setter([](Layer *self, bool value) {
-                  self->_mouseWheelScrollEnabled = value;
-              }))
-{
-}
-
-sw::Layer::~Layer()
-{
-}
-
-void sw::Layer::UpdateLayout()
-{
-    LayoutHost *layout = this->_GetLayout();
-
-    if (layout == nullptr) {
-        this->_MeasureAndArrangeWithoutLayout();
-    } else {
-        this->_MeasureAndArrangeWithoutResize(*layout, this->ClientRect->GetSize());
-    }
-
-    this->UpdateScrollRange();
-    // this->Redraw();
-}
-
-sw::LayoutHost *sw::Layer::GetDefaultLayout()
-{
-    return nullptr;
-}
-
-void sw::Layer::OnScroll(ScrollOrientation scrollbar, ScrollEvent event, double pos)
-{
-    ScrollingEventArgs args(scrollbar, event, pos);
-    this->RaiseRoutedEvent(args);
-
-    if (args.cancel) {
-        return;
-    }
-
-    if (scrollbar == ScrollOrientation::Horizontal) {
-        // 水平滚动条
-        switch (event) {
-            case ScrollEvent::ThubmTrack: {
-                this->HorizontalScrollPos = pos;
-                break;
-            }
-            case ScrollEvent::Left: {
-                this->ScrollToLeft();
-                break;
-            }
-            case ScrollEvent::Right: {
-                this->ScrollToRight();
-                break;
-            }
-            case ScrollEvent::PageLeft: {
-                this->ScrollHorizontal(-this->GetHorizontalScrollPageSize());
-                break;
-            }
-            case ScrollEvent::PageRight: {
-                this->ScrollHorizontal(this->GetHorizontalScrollPageSize());
-                break;
-            }
-            case ScrollEvent::LineLeft: {
-                this->ScrollHorizontal(-_LayerScrollBarLineInterval);
-                break;
-            }
-            case ScrollEvent::LineRight: {
-                this->ScrollHorizontal(_LayerScrollBarLineInterval);
-                break;
-            }
-            default: {
-                break;
-            }
-        }
-    } else {
-        // 垂直滚动条
-        switch (event) {
-            case ScrollEvent::ThubmTrack: {
-                this->VerticalScrollPos = pos;
-                break;
-            }
-            case ScrollEvent::Bottom: {
-                this->ScrollToBottom();
-                break;
-            }
-            case ScrollEvent::Top: {
-                this->ScrollToTop();
-                break;
-            }
-            case ScrollEvent::PageUp: {
-                this->ScrollVertical(-this->GetVerticalScrollPageSize());
-                break;
-            }
-            case ScrollEvent::PageDown: {
-                this->ScrollVertical(this->GetVerticalScrollPageSize());
-                break;
-            }
-            case ScrollEvent::LineUp: {
-                this->ScrollVertical(-_LayerScrollBarLineInterval);
-                break;
-            }
-            case ScrollEvent::LineDown: {
-                this->ScrollVertical(_LayerScrollBarLineInterval);
-                break;
-            }
-            default: {
-                break;
-            }
-        }
-    }
-}
-
-bool sw::Layer::OnVerticalScroll(int event, int pos)
-{
-    this->OnScroll(ScrollOrientation::Vertical, (ScrollEvent)event,
-                   (event == SB_THUMBTRACK || event == SB_THUMBPOSITION) ? Dip::PxToDipY(pos) : (0.0));
-    return true;
-}
-
-bool sw::Layer::OnHorizontalScroll(int event, int pos)
-{
-    this->OnScroll(ScrollOrientation::Horizontal, (ScrollEvent)event,
-                   (event == SB_THUMBTRACK || event == SB_THUMBPOSITION) ? Dip::PxToDipX(pos) : (0.0));
-    return true;
-}
-
-void sw::Layer::Arrange(const sw::Rect &finalPosition)
-{
-    this->UIElement::Arrange(finalPosition);
-    this->UpdateScrollRange();
-}
-
-sw::Size sw::Layer::MeasureOverride(const Size &availableSize)
-{
-    LayoutHost *layout = this->_GetLayout();
-
-    // 未设置布局时无法使用自动尺寸
-    // 若未使用自动尺寸，则按照普通元素measure
-    if (layout == nullptr || !this->_autoSize) {
-        return this->UIElement::MeasureOverride(availableSize);
-    }
-
-    return layout->MeasureOverride(availableSize);
-}
-
-void sw::Layer::ArrangeOverride(const Size &finalSize)
-{
-    LayoutHost *layout = this->_GetLayout();
-
-    if (layout == nullptr) {
-        // 未设置布局方式，此时需要对子元素进行Measure和Arrange
-        this->_MeasureAndArrangeWithoutLayout();
-    } else if (!this->_autoSize) {
-        // 已设置布局方式，但是AutoSize被取消，此时子元素也未Measure
-        this->_MeasureAndArrangeWithoutResize(*layout, finalSize);
-    } else {
-        // 已设置布局方式且AutoSize为true，此时子元素已Measure，调用Arrange即可
-        layout->ArrangeOverride(finalSize);
-    }
-}
-
-bool sw::Layer::RequestBringIntoView(const sw::Rect &screenRect)
-{
-    bool handled = false;
-
-    sw::Point pos = this->PointFromScreen(screenRect.GetPos());
-    sw::Rect rect = {pos.x, pos.y, screenRect.width, screenRect.height};
-
-    sw::Rect clientRect = this->ClientRect;
-
-    if (this->VerticalScrollBar) {
-        double curPos = this->VerticalScrollPos;
-        if (rect.top < curPos) {
-            this->VerticalScrollPos = rect.top;
-        } else if (rect.top + rect.height > curPos + clientRect.height) {
-            if (rect.height >= clientRect.height) {
-                this->VerticalScrollPos = rect.top;
-            } else {
-                this->VerticalScrollPos = rect.top + rect.height - clientRect.height;
-            }
-        }
-        handled = true;
-    }
-
-    if (this->HorizontalScrollBar) {
-        double curPos = this->HorizontalScrollPos;
-        if (rect.left < curPos) {
-            this->HorizontalScrollPos = rect.left;
-        } else if (rect.left + rect.width > curPos + clientRect.width) {
-            if (rect.width >= clientRect.width) {
-                this->HorizontalScrollPos = rect.left;
-            } else {
-                this->HorizontalScrollPos = rect.left + rect.width - clientRect.width;
-            }
-        }
-        handled = true;
-    }
-
-    return handled;
-}
-
-void sw::Layer::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
-{
-    this->UIElement::OnRoutedEvent(eventArgs, handler);
-
-    if (!eventArgs.handled &&
-        eventArgs.eventType == UIElement_MouseWheel && this->_mouseWheelScrollEnabled) //
-    {
-        auto &wheelArgs = static_cast<MouseWheelEventArgs &>(eventArgs);
-        bool shiftDown  = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-        double offset   = -std::copysign(_LayerScrollBarLineInterval, wheelArgs.wheelDelta);
-        if (shiftDown) {
-            if (this->HorizontalScrollBar) {
-                this->ScrollHorizontal(offset);
-                eventArgs.handled = true;
-            }
-        } else {
-            if (this->VerticalScrollBar) {
-                this->ScrollVertical(offset);
-                eventArgs.handled = true;
-            }
-        }
-    }
-}
-
-void sw::Layer::GetHorizontalScrollRange(double &refMin, double &refMax)
-{
-    INT nMin = 0, nMax = 0;
-    GetScrollRange(this->Handle, SB_HORZ, &nMin, &nMax);
-
-    refMin = Dip::PxToDipX(nMin);
-    refMax = Dip::PxToDipX(nMax);
-}
-
-void sw::Layer::GetVerticalScrollRange(double &refMin, double &refMax)
-{
-    INT nMin = 0, nMax = 0;
-    GetScrollRange(this->Handle, SB_VERT, &nMin, &nMax);
-
-    refMin = Dip::PxToDipY(nMin);
-    refMax = Dip::PxToDipY(nMax);
-}
-
-void sw::Layer::SetHorizontalScrollRange(double min, double max)
-{
-    SCROLLINFO info{};
-    info.cbSize = sizeof(info);
-    info.fMask  = SIF_RANGE | SIF_PAGE;
-    info.nMin   = Dip::DipToPxX(min);
-    info.nMax   = Dip::DipToPxX(max);
-    info.nPage  = Dip::DipToPxX(this->ClientWidth);
-
-    SetScrollInfo(this->Handle, SB_HORZ, &info, true);
-}
-
-void sw::Layer::SetVerticalScrollRange(double min, double max)
-{
-    SCROLLINFO info{};
-    info.cbSize = sizeof(info);
-    info.fMask  = SIF_RANGE | SIF_PAGE;
-    info.nMin   = Dip::DipToPxY(min);
-    info.nMax   = Dip::DipToPxY(max);
-    info.nPage  = Dip::DipToPxY(this->ClientHeight);
-
-    SetScrollInfo(this->Handle, SB_VERT, &info, true);
-}
-
-double sw::Layer::GetHorizontalScrollPageSize()
-{
-    SCROLLINFO info{};
-    info.cbSize = sizeof(info);
-    info.fMask  = SIF_PAGE;
-    GetScrollInfo(this->Handle, SB_HORZ, &info);
-    return Dip::PxToDipX(info.nPage);
-}
-
-double sw::Layer::GetVerticalScrollPageSize()
-{
-    SCROLLINFO info{};
-    info.cbSize = sizeof(info);
-    info.fMask  = SIF_PAGE;
-    GetScrollInfo(this->Handle, SB_VERT, &info);
-    return Dip::PxToDipY(info.nPage);
-}
-
-void sw::Layer::SetHorizontalScrollPageSize(double pageSize)
-{
-    SCROLLINFO info{};
-    info.cbSize = sizeof(info);
-    info.fMask  = SIF_PAGE;
-    info.nPage  = Dip::DipToPxX(pageSize);
-    SetScrollInfo(this->Handle, SB_HORZ, &info, true);
-}
-
-void sw::Layer::SetVerticalScrollPageSize(double pageSize)
-{
-    SCROLLINFO info{};
-    info.cbSize = sizeof(info);
-    info.fMask  = SIF_PAGE;
-    info.nPage  = Dip::DipToPxY(pageSize);
-    SetScrollInfo(this->Handle, SB_VERT, &info, true);
-}
-
-void sw::Layer::UpdateScrollRange()
-{
-    if (this->_GetLayout() == nullptr) {
-        // 当未设置布局方式时滚动条和控件位置需要手动设置
-        // 将以下俩字段设为false确保xxxScrollLimit属性在未设置布局方式时仍可用
-        this->_horizontalScrollDisabled = false;
-        this->_verticalScrollDisabled   = false;
-        return;
-    }
-
-    if (this->HorizontalScrollBar) {
-        double childRightmost = this->GetChildRightmost(true);
-
-        if (int(childRightmost - this->ClientWidth) > 0) {
-            this->_horizontalScrollDisabled = false;
-            EnableScrollBar(this->Handle, SB_HORZ, ESB_ENABLE_BOTH);
-            this->SetHorizontalScrollRange(0, childRightmost);
-
-            // 当尺寸改变时确保子元素位置与滚动条同步
-            double pos = this->HorizontalScrollPos;
-            if (-this->GetInternalArrangeOffsetX() > pos) {
-                this->HorizontalScrollPos = pos;
-            }
-
-        } else {
-            this->HorizontalScrollPos = 0;
-            EnableScrollBar(this->Handle, SB_HORZ, ESB_DISABLE_BOTH);
-            this->_horizontalScrollDisabled = true;
-        }
-    }
-
-    if (this->VerticalScrollBar) {
-        double childBottommost = this->GetChildBottommost(true);
-
-        if (int(childBottommost - this->ClientHeight) > 0) {
-            this->_verticalScrollDisabled = false;
-            EnableScrollBar(this->Handle, SB_VERT, ESB_ENABLE_BOTH);
-            this->SetVerticalScrollRange(0, childBottommost);
-
-            // 当尺寸改变时确保子元素位置与滚动条同步
-            double pos = this->VerticalScrollPos;
-            if (-this->GetInternalArrangeOffsetY() > pos) {
-                this->VerticalScrollPos = pos;
-            }
-
-        } else {
-            this->VerticalScrollPos = 0;
-            EnableScrollBar(this->Handle, SB_VERT, ESB_DISABLE_BOTH);
-            this->_verticalScrollDisabled = true;
-        }
-    }
-}
-
-void sw::Layer::ScrollToTop()
-{
-    this->VerticalScrollPos = 0;
-}
-
-void sw::Layer::ScrollToBottom()
-{
-    this->VerticalScrollPos = this->VerticalScrollLimit;
-}
-
-void sw::Layer::ScrollToLeft()
-{
-    this->HorizontalScrollPos = 0;
-}
-
-void sw::Layer::ScrollToRight()
-{
-    this->HorizontalScrollPos = this->HorizontalScrollLimit;
-}
-
-void sw::Layer::ScrollHorizontal(double offset)
-{
-    this->HorizontalScrollPos += offset;
-}
-
-void sw::Layer::ScrollVertical(double offset)
-{
-    this->VerticalScrollPos += offset;
-}
-
-sw::LayoutHost *sw::Layer::_GetLayout()
-{
-    auto layout = (this->_customLayout != nullptr) ? this->_customLayout : this->GetDefaultLayout();
-    return (layout != nullptr && layout->IsAssociated(this)) ? layout : nullptr;
-}
-
-void sw::Layer::_MeasureAndArrangeWithoutLayout()
-{
-    this->GetInternalArrangeOffsetX() = 0;
-    this->GetInternalArrangeOffsetY() = 0;
-
-    int childCount = this->GetChildLayoutCount();
-
-    for (int i = 0; i < childCount; ++i) {
-        // measure
-        UIElement &item = static_cast<UIElement &>(this->GetChildLayoutAt(i));
-        item.Measure(Size{INFINITY, INFINITY});
-        // arrange
-        Size desireSize      = item.GetDesireSize();
-        sw::Rect itemRect    = item.Rect;
-        Thickness itemMargin = item.Margin;
-        item.Arrange(sw::Rect{itemRect.left - itemMargin.left, itemRect.top - itemMargin.top, desireSize.width, desireSize.height});
-    }
-}
-
-void sw::Layer::_MeasureAndArrangeWithoutResize(LayoutHost &layout, const Size &clientSize)
-{
-    if (layout.IsAssociated(this)) {
-        layout.MeasureOverride(clientSize);
-        layout.ArrangeOverride(clientSize);
-    }
+    template class Layer<UIElement>;
 }
 
 // LayoutHost.cpp
@@ -4991,19 +4542,19 @@ void sw::LayoutHost::Associate(ILayout *obj)
     this->_associatedObj = obj;
 }
 
-bool sw::LayoutHost::IsAssociated(ILayout *obj)
+bool sw::LayoutHost::IsAssociated(ILayout *obj) const
 {
     return obj == nullptr
                ? (this->_associatedObj != nullptr)
                : (this->_associatedObj == obj);
 }
 
-int sw::LayoutHost::GetChildLayoutCount()
+int sw::LayoutHost::GetChildLayoutCount() const
 {
     return this->_associatedObj->GetChildLayoutCount();
 }
 
-sw::ILayout &sw::LayoutHost::GetChildLayoutAt(int index)
+sw::ILayout &sw::LayoutHost::GetChildLayoutAt(int index) const
 {
     return this->_associatedObj->GetChildLayoutAt(index);
 }
@@ -6413,56 +5964,61 @@ void sw::MonthCalendar::OnTimeChanged(NMSELCHANGE *pInfo)
 // MsgBox.cpp
 
 sw::MsgBoxResultHelper::MsgBoxResultHelper(MsgBoxResult result)
-    : result(result)
+    : Result(
+          Property<MsgBoxResult>::Init(this)
+              .Getter([](MsgBoxResultHelper *self) -> MsgBoxResult {
+                  return self->_result;
+              }))
 {
+    this->_result = result;
 }
 
-sw::MsgBoxResultHelper::operator sw::MsgBoxResult() const
+sw::MsgBoxResultHelper::operator sw::MsgBoxResult() const noexcept
 {
-    return this->result;
+    return this->_result;
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnOk(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnOk(const Action<> &callback)
 {
     return this->On<MsgBoxResult::Ok>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnYes(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnYes(const Action<> &callback)
 {
     return this->On<MsgBoxResult::Yes>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnNo(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnNo(const Action<> &callback)
 {
     return this->On<MsgBoxResult::No>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnCancel(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnCancel(const Action<> &callback)
 {
     return this->On<MsgBoxResult::Cancel>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnAbort(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnAbort(const Action<> &callback)
 {
     return this->On<MsgBoxResult::Abort>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnContinue(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnContinue(const Action<> &callback)
 {
     return this->On<MsgBoxResult::Continue>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnIgnore(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnIgnore(const Action<> &callback)
 {
     return this->On<MsgBoxResult::Ignore>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnRetry(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnRetry(const Action<> &callback)
 {
     return this->On<MsgBoxResult::Retry>(callback);
 }
 
-sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnTryAgain(const MsgBoxCallback &callback)
+sw::MsgBoxResultHelper &sw::MsgBoxResultHelper::OnTryAgain(const Action<> &callback)
 {
     return this->On<MsgBoxResult::TryAgain>(callback);
 }
@@ -6563,7 +6119,25 @@ namespace
 }
 
 sw::NotifyIcon::NotifyIcon()
-    : Icon(
+    : Clicked(
+          Event<NotifyIconMouseEventHandler>::Init(this)
+              .Delegate([](NotifyIcon *self) -> NotifyIconMouseEventHandler & {
+                  return self->_clicked;
+              })),
+
+      DoubleClicked(
+          Event<NotifyIconMouseEventHandler>::Init(this)
+              .Delegate([](NotifyIcon *self) -> NotifyIconMouseEventHandler & {
+                  return self->_doubleClicked;
+              })),
+
+      ContextMenuOpening(
+          Event<NotifyIconMouseEventHandler>::Init(this)
+              .Delegate([](NotifyIcon *self) -> NotifyIconMouseEventHandler & {
+                  return self->_contextMenuOpening;
+              })),
+
+      Icon(
           Property<HICON>::Init(this)
               .Getter([](NotifyIcon *self) -> HICON {
                   return self->_nid.hIcon;
@@ -6699,15 +6273,19 @@ void sw::NotifyIcon::OnNotyfyIconMessage(WPARAM wParam, LPARAM lParam)
 
 void sw::NotifyIcon::OnClicked(const Point &mousePos)
 {
-    if (Clicked) {
-        Clicked(*this, mousePos);
+    if (_clicked) {
+        NotifyIconMouseEventArgs args{};
+        args.mousePosition = mousePos;
+        _clicked(*this, args);
     }
 }
 
 void sw::NotifyIcon::OnDoubleClicked(const Point &mousePos)
 {
-    if (DoubleClicked) {
-        DoubleClicked(*this, mousePos);
+    if (_doubleClicked) {
+        NotifyIconMouseEventArgs args{};
+        args.mousePosition = mousePos;
+        _doubleClicked(*this, args);
     }
 }
 
@@ -6715,8 +6293,11 @@ void sw::NotifyIcon::OnContextMenuOpening(const Point &mousePos)
 {
     bool handled = false;
 
-    if (ContextMenuOpening) {
-        handled = ContextMenuOpening(*this, mousePos);
+    if (_contextMenuOpening) {
+        NotifyIconMouseEventArgs args{};
+        args.mousePosition = mousePos;
+        _contextMenuOpening(*this, args);
+        handled = args.handled;
     }
 
     if (!handled) {
@@ -7019,61 +6600,6 @@ void sw::Panel::OnDrawPadding(HDC hdc, RECT &rect)
     }
 }
 
-// PanelBase.cpp
-
-sw::PanelBase::PanelBase()
-{
-}
-
-sw::PanelBase::~PanelBase()
-{
-}
-
-void sw::PanelBase::Arrange(const sw::Rect &finalPosition)
-{
-    this->Layer::Arrange(finalPosition);
-}
-
-sw::Size sw::PanelBase::MeasureOverride(const Size &availableSize)
-{
-    return this->Layer::MeasureOverride(availableSize);
-}
-
-void sw::PanelBase::ArrangeOverride(const Size &finalSize)
-{
-    this->Layer::ArrangeOverride(finalSize);
-}
-
-bool sw::PanelBase::OnVerticalScroll(int event, int pos)
-{
-    return this->Layer::OnVerticalScroll(event, pos);
-}
-
-bool sw::PanelBase::OnHorizontalScroll(int event, int pos)
-{
-    return this->Layer::OnHorizontalScroll(event, pos);
-}
-
-bool sw::PanelBase::OnNotified(NMHDR *pNMHDR, LRESULT &result)
-{
-    return this->Control::OnNotified(pNMHDR, result);
-}
-
-bool sw::PanelBase::RequestBringIntoView(const sw::Rect &screenRect)
-{
-    return this->Layer::RequestBringIntoView(screenRect);
-}
-
-void sw::PanelBase::OnRoutedEvent(RoutedEventArgs &eventArgs, const RoutedEventHandler &handler)
-{
-    this->Layer::OnRoutedEvent(eventArgs, handler);
-}
-
-sw::Control *sw::PanelBase::ToControl()
-{
-    return this;
-}
-
 // PasswordBox.cpp
 
 sw::PasswordBox::PasswordBox()
@@ -7245,13 +6771,6 @@ std::wstring sw::Point::ToString() const
     return Utils::FormatStr(L"(%g, %g)", this->x, this->y);
 }
 
-// ProcMsg.cpp
-
-sw::ProcMsg::ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-    : hwnd(hwnd), uMsg(uMsg), wParam(wParam), lParam(lParam)
-{
-}
-
 // ProgressBar.cpp
 
 #if !defined(PBM_SETSTATE) // g++
@@ -7398,13 +6917,6 @@ bool sw::Rect::Equals(const Rect &other) const
 std::wstring sw::Rect::ToString() const
 {
     return Utils::FormatStr(L"Rect{left=%g, top=%g, width=%g, height=%g}", this->left, this->top, this->width, this->height);
-}
-
-// RoutedEvent.cpp
-
-sw::RoutedEventArgs::RoutedEventArgs(RoutedEventType eventType)
-    : eventType(eventType)
-{
 }
 
 // Screen.cpp
@@ -8916,7 +8428,12 @@ namespace
 }
 
 sw::Timer::Timer()
-    : Interval(
+    : Tick(Event<TimerTickHandler>::Init(this)
+               .Delegate([](Timer *self) -> TimerTickHandler & {
+                   return self->_tick;
+               })),
+
+      Interval(
           Property<uint32_t>::Init(this)
               .Getter([](Timer *self) -> uint32_t {
                   return self->_interval;
@@ -8951,8 +8468,9 @@ void sw::Timer::Stop()
 
 void sw::Timer::OnTick()
 {
-    if (this->Tick) {
-        this->Tick(*this);
+    if (this->_tick) {
+        EventArgs args{};
+        this->_tick(*this, args);
     }
 }
 
@@ -9609,7 +9127,6 @@ namespace
     const sw::FieldId _PropId_VerticalAlignment   = sw::Reflection::GetFieldId(&sw::UIElement::VerticalAlignment);
     const sw::FieldId _PropId_ChildCount          = sw::Reflection::GetFieldId(&sw::UIElement::ChildCount);
     const sw::FieldId _PropId_CollapseWhenHide    = sw::Reflection::GetFieldId(&sw::UIElement::CollapseWhenHide);
-    const sw::FieldId _PropId_UIElementParent     = sw::Reflection::GetFieldId(&sw::UIElement::Parent);
     const sw::FieldId _PropId_Tag                 = sw::Reflection::GetFieldId(&sw::UIElement::Tag);
     const sw::FieldId _PropId_LayoutTag           = sw::Reflection::GetFieldId(&sw::UIElement::LayoutTag);
     const sw::FieldId _PropId_ContextMenu         = sw::Reflection::GetFieldId(&sw::UIElement::ContextMenu);
@@ -9625,8 +9142,6 @@ namespace
     const sw::FieldId _PropId_MaxHeight           = sw::Reflection::GetFieldId(&sw::UIElement::MaxHeight);
     const sw::FieldId _PropId_LogicalRect         = sw::Reflection::GetFieldId(&sw::UIElement::LogicalRect);
     const sw::FieldId _PropId_IsHitTestVisible    = sw::Reflection::GetFieldId(&sw::UIElement::IsHitTestVisible);
-    const sw::FieldId _PropId_DataContext         = sw::Reflection::GetFieldId(&sw::UIElement::DataContext);
-    const sw::FieldId _PropId_CurrentDataContext  = sw::Reflection::GetFieldId(&sw::UIElement::CurrentDataContext);
 }
 
 sw::UIElement::UIElement()
@@ -9668,7 +9183,7 @@ sw::UIElement::UIElement()
       ChildCount(
           Property<int>::Init(this)
               .Getter([](UIElement *self) -> int {
-                  return (int)self->_children.size();
+                  return self->GetChildCount();
               })),
 
       CollapseWhenHide(
@@ -9685,12 +9200,6 @@ sw::UIElement::UIElement()
                           self->_parent->InvalidateMeasure();
                       }
                   }
-              })),
-
-      Parent(
-          Property<UIElement *>::Init(this)
-              .Getter([](UIElement *self) -> UIElement * {
-                  return self->_parent;
               })),
 
       Tag(
@@ -9894,28 +9403,6 @@ sw::UIElement::UIElement()
           Property<bool>::Init(this)
               .Getter([](UIElement *self) -> bool {
                   return self->_focusedViaTab;
-              })),
-
-      DataContext(
-          Property<DynamicObject *>::Init(this)
-              .Getter([](UIElement *self) -> DynamicObject * {
-                  return self->_dataContext;
-              })
-              .Setter([](UIElement *self, DynamicObject *value) {
-                  if (self->_dataContext != value) {
-                      auto oldDataContext = self->_GetCurrentDataContext();
-                      self->_dataContext  = value;
-                      self->RaisePropertyChanged(_PropId_DataContext);
-                      if (oldDataContext != value) {
-                          self->_OnCurrentDataContextChanged(oldDataContext);
-                      }
-                  }
-              })),
-
-      CurrentDataContext(
-          Property<DynamicObject *>::Init(this)
-              .Getter([](UIElement *self) -> DynamicObject * {
-                  return self->_GetCurrentDataContext();
               }))
 {
 }
@@ -9956,16 +9443,6 @@ bool sw::UIElement::IsRoutedEventRegistered(RoutedEventType eventType)
     return this->_eventMap[eventType] != nullptr;
 }
 
-sw::UIElement &sw::UIElement::operator[](int index) const
-{
-    return *this->_children[index];
-}
-
-sw::UIElement &sw::UIElement::GetChildAt(int index) const
-{
-    return *this->_children.at(index);
-}
-
 bool sw::UIElement::AddChild(UIElement *element)
 {
     if (element == nullptr || element == this) {
@@ -9990,16 +9467,21 @@ bool sw::UIElement::AddChild(UIElement *element)
 
     // 处理z轴顺序，确保悬浮的元素在最前
     if (!element->_float) {
-        HDWP hdwp = BeginDeferWindowPos((int)this->_children.size());
+        HDWP hdwp = NULL;
         for (UIElement *child : this->_children) {
-            if (child->_float)
+            if (child->_float) {
+                if (hdwp == NULL)
+                    hdwp = BeginDeferWindowPos((int)this->_children.size());
                 DeferWindowPos(hdwp, child->Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+            }
         }
-        EndDeferWindowPos(hdwp);
+        if (hdwp != NULL) {
+            EndDeferWindowPos(hdwp);
+        }
     }
 
     this->_children.push_back(element);
-    this->_UpdateLayoutVisibleChildren();
+    this->_AddToLayoutVisibleChildren(element);
 
     this->OnAddedChild(*element);
     return true;
@@ -10364,47 +9846,24 @@ bool sw::UIElement::BringIntoView()
     return false;
 }
 
-bool sw::UIElement::AddBinding(BindingBase *binding)
+sw::UIElement *sw::UIElement::ToUIElement()
 {
-    if (binding == nullptr) {
-        return false;
-    } else {
-        this->_bindings[binding->GetTargetPropertyId()].reset(binding);
-        return true;
-    }
+    return this;
 }
 
-bool sw::UIElement::AddBinding(Binding *binding)
+sw::UIElement *sw::UIElement::GetParent() const
 {
-    if (binding == nullptr) {
-        return false;
-    }
-    if (binding->GetSourceObject() == nullptr) {
-        auto dataBinding = DataBinding::Create(this, binding);
-        return this->AddBinding(static_cast<BindingBase *>(dataBinding));
-    } else {
-        binding->SetTargetObject(this);
-        return this->AddBinding(static_cast<BindingBase *>(binding));
-    }
+    return this->_parent;
 }
 
-bool sw::UIElement::AddBinding(DataBinding *binding)
+int sw::UIElement::GetChildCount() const
 {
-    if (binding == nullptr) {
-        return false;
-    }
-    binding->SetTargetElement(this);
-    return this->AddBinding(static_cast<BindingBase *>(binding));
+    return static_cast<int>(this->_children.size());
 }
 
-bool sw::UIElement::RemoveBinding(FieldId propertyId)
+sw::UIElement &sw::UIElement::GetChildAt(int index) const
 {
-    if (this->_bindings.count(propertyId) == 0) {
-        return false;
-    } else {
-        this->_bindings.erase(propertyId);
-        return true;
-    }
+    return *this->_children.at(index);
 }
 
 uint64_t sw::UIElement::GetTag() const
@@ -10427,12 +9886,12 @@ uint64_t sw::UIElement::GetLayoutTag() const
 
 int sw::UIElement::GetChildLayoutCount() const
 {
-    return (int)this->_layoutVisibleChildren.size();
+    return static_cast<int>(this->_layoutVisibleChildren.size());
 }
 
-sw::ILayout &sw::UIElement::GetChildLayoutAt(int index)
+sw::ILayout &sw::UIElement::GetChildLayoutAt(int index) const
 {
-    return *this->_layoutVisibleChildren[index];
+    return *this->_layoutVisibleChildren.at(index);
 }
 
 sw::Size sw::UIElement::GetDesireSize() const
@@ -10575,11 +10034,6 @@ void sw::UIElement::Arrange(const sw::Rect &finalPosition)
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
 }
 
-sw::UIElement *sw::UIElement::ToUIElement()
-{
-    return this;
-}
-
 void sw::UIElement::RaiseRoutedEvent(RoutedEventType eventType)
 {
     RoutedEventArgs eventArgs(eventType);
@@ -10701,19 +10155,41 @@ void sw::UIElement::ClampDesireSize(sw::Rect &rect) const
     rect.height = size.height;
 }
 
-bool sw::UIElement::QueryAllChildren(const Func<UIElement *, bool> &queryFunc)
+bool sw::UIElement::QueryAllChildren(const Predicate<UIElement *> &queryFunc)
 {
     if (queryFunc == nullptr) {
         return true;
     }
 
-    std::vector<UIElement *> children;
-    _GetAllChildren(this, children);
+    std::vector<UIElement *> stack;
+    stack.push_back(this);
 
-    for (UIElement *child : children) {
-        if (!queryFunc(child)) return false;
+    while (!stack.empty()) {
+        auto current = stack.back();
+        stack.pop_back();
+
+        if (current != this && !queryFunc(current)) {
+            return false;
+        }
+
+        for (UIElement *child : current->_children) {
+            stack.push_back(child);
+        }
     }
     return true;
+}
+
+bool sw::UIElement::QueryAllElements(const Predicate<UIElement *> &queryFunc)
+{
+    if (queryFunc == nullptr) {
+        return true;
+    }
+
+    if (!queryFunc(this)) {
+        return false;
+    } else {
+        return this->QueryAllChildren(queryFunc);
+    }
 }
 
 sw::Size sw::UIElement::MeasureOverride(const Size &availableSize)
@@ -10864,16 +10340,14 @@ bool sw::UIElement::SetParent(WndBase *parent)
 
 void sw::UIElement::ParentChanged(WndBase *newParent)
 {
-    auto oldDataContext = this->_GetCurrentDataContext();
+    auto oldDataContext = this->CurrentDataContext.Get();
 
     this->_parent = newParent ? newParent->ToUIElement() : nullptr;
     this->_SetMeasureInvalidated();
+    this->WndBase::ParentChanged(newParent);
 
-    this->WndBase::ParentChanged(newParent); // raise property WndBase::Parent changed event
-    this->RaisePropertyChanged(_PropId_UIElementParent);
-
-    if (this->_GetCurrentDataContext() != oldDataContext) {
-        this->_OnCurrentDataContextChanged(oldDataContext);
+    if (this->CurrentDataContext != oldDataContext) {
+        this->OnCurrentDataContextChanged(oldDataContext);
     }
 }
 
@@ -11177,6 +10651,16 @@ void sw::UIElement::_UpdateLayoutVisibleChildren()
     }
 }
 
+bool sw::UIElement::_AddToLayoutVisibleChildren(UIElement *element)
+{
+    if (element->_collapseWhenHide && !element->Visible)
+        return false;
+    else {
+        this->_layoutVisibleChildren.push_back(element);
+        return true;
+    }
+}
+
 void sw::UIElement::_RemoveFromLayoutVisibleChildren(UIElement *element)
 {
     auto it = std::find(
@@ -11188,57 +10672,32 @@ void sw::UIElement::_RemoveFromLayoutVisibleChildren(UIElement *element)
     }
 }
 
-sw::DynamicObject *sw::UIElement::_GetCurrentDataContext()
+sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element)
 {
-    DynamicObject *result = nullptr;
-    UIElement *element    = this;
-    do {
-        result  = element->_dataContext;
-        element = element->_parent;
-    } while (result == nullptr && element != nullptr);
-    return result;
-}
-
-void sw::UIElement::_OnCurrentDataContextChanged(DynamicObject *oldval)
-{
-    std::vector<UIElement *> stack;
-    stack.push_back(this);
-
-    while (!stack.empty()) {
-        auto current = stack.back();
-        stack.pop_back();
-
-        current->RaisePropertyChanged(_PropId_CurrentDataContext);
-
-        if (current->DataContextChanged) {
-            current->DataContextChanged(*current, oldval);
-        }
-
-        for (UIElement *child : current->_children) {
-            if (child->_dataContext == nullptr) {
-                stack.push_back(child);
-            }
-        }
-    }
-}
-
-sw::UIElement *sw::UIElement::_GetNextElement(UIElement *element, bool searchChildren)
-{
-    if (searchChildren && !element->_children.empty()) {
+    if (!element->_children.empty()) {
         return element->_children.front();
     }
 
-    UIElement *parent = element->_parent;
-    if (parent == nullptr) {
-        return element; // 回到根节点
+    UIElement *current = element;
+
+    while (true) {
+        UIElement *parent = current->_parent;
+
+        if (parent == nullptr) {
+            return current;
+        }
+
+        int index = parent->IndexOf(current);
+
+        if (index + 1 >= (int)parent->_children.size()) {
+            current = parent;
+        } else {
+            return parent->_children[index + 1];
+        }
     }
 
-    int index = parent->IndexOf(element);
-    if (index == (int)parent->_children.size() - 1) {
-        return _GetNextElement(parent, false);
-    }
-
-    return parent->_children[index + 1];
+    // should not happen
+    return nullptr;
 }
 
 sw::UIElement *sw::UIElement::_GetDeepestLastElement(UIElement *element)
@@ -11259,14 +10718,6 @@ sw::UIElement *sw::UIElement::_GetPreviousElement(UIElement *element)
 
     int index = parent->IndexOf(element);
     return index <= 0 ? parent : _GetDeepestLastElement(parent->_children[index - 1]);
-}
-
-void sw::UIElement::_GetAllChildren(UIElement *element, std::vector<UIElement *> &children)
-{
-    for (UIElement *child : element->_children) {
-        children.push_back(child);
-        _GetAllChildren(child, children);
-    }
 }
 
 // UniformGrid.cpp
@@ -11931,7 +11382,7 @@ bool sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
     DisableLayout();
     Dip::Update(dpiX, dpiY);
 
-    QueryAllChildren([](UIElement *item) {
+    QueryAllElements([](UIElement *item) {
         item->LayoutUpdateCondition |= LayoutUpdateCondition::Supressed;
         item->UpdateFont();
         item->LayoutUpdateCondition &= ~LayoutUpdateCondition::Supressed;
@@ -11944,11 +11395,6 @@ bool sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
     Rect = newRect;
     EnableLayout();
     return true;
-}
-
-sw::Window *sw::Window::ToWindow()
-{
-    return this;
 }
 
 void sw::Window::Close()
@@ -12198,7 +11644,6 @@ namespace
     const sw::FieldId _PropId_Visible      = sw::Reflection::GetFieldId(&sw::WndBase::Visible);
     const sw::FieldId _PropId_Text         = sw::Reflection::GetFieldId(&sw::WndBase::Text);
     const sw::FieldId _PropId_Focused      = sw::Reflection::GetFieldId(&sw::WndBase::Focused);
-    const sw::FieldId _PropId_Parent       = sw::Reflection::GetFieldId(&sw::WndBase::Parent);
     const sw::FieldId _PropId_IsDestroyed  = sw::Reflection::GetFieldId(&sw::WndBase::IsDestroyed);
     const sw::FieldId _PropId_AcceptFiles  = sw::Reflection::GetFieldId(&sw::WndBase::AcceptFiles);
     const sw::FieldId _PropId_IsGroupStart = sw::Reflection::GetFieldId(&sw::WndBase::IsGroupStart);
@@ -12394,13 +11839,6 @@ sw::WndBase::WndBase()
                   SetFocus(value ? self->_hwnd : NULL);
               })),
 
-      Parent(
-          Property<WndBase *>::Init(this)
-              .Getter([](WndBase *self) -> WndBase * {
-                  HWND hwnd = GetParent(self->_hwnd);
-                  return WndBase::GetWndBase(hwnd);
-              })),
-
       IsDestroyed(
           Property<bool>::Init(this)
               .Getter([](WndBase *self) -> bool {
@@ -12472,16 +11910,6 @@ sw::UIElement *sw::WndBase::ToUIElement()
     return nullptr;
 }
 
-sw::Control *sw::WndBase::ToControl()
-{
-    return nullptr;
-}
-
-sw::Window *sw::WndBase::ToWindow()
-{
-    return nullptr;
-}
-
 bool sw::WndBase::Equals(const WndBase &other) const
 {
     return this == &other;
@@ -12490,6 +11918,22 @@ bool sw::WndBase::Equals(const WndBase &other) const
 std::wstring sw::WndBase::ToString() const
 {
     return L"WndBase{ClassName=" + this->ClassName + L", Handle=" + std::to_wstring(reinterpret_cast<uintptr_t>(this->_hwnd)) + L"}";
+}
+
+sw::WndBase *sw::WndBase::GetParent() const
+{
+    HWND hwnd = ::GetParent(this->_hwnd);
+    return WndBase::GetWndBase(hwnd);
+}
+
+int sw::WndBase::GetChildCount() const
+{
+    return 0;
+}
+
+sw::WndBase &sw::WndBase::GetChildAt(int index) const
+{
+    throw std::out_of_range("WndBase does not maintain child elements.");
 }
 
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
@@ -13142,7 +12586,6 @@ bool sw::WndBase::SetParent(WndBase *parent)
 
 void sw::WndBase::ParentChanged(WndBase *newParent)
 {
-    this->RaisePropertyChanged(_PropId_Parent);
 }
 
 void sw::WndBase::OnCommand(int code)
@@ -13408,7 +12851,7 @@ sw::HitTestResult sw::WndBase::NcHitTest(const Point &testPoint)
     return (HitTestResult)this->SendMessageW(WM_NCHITTEST, 0, MAKELPARAM(point.x, point.y));
 }
 
-void sw::WndBase::Invoke(const SimpleAction &action)
+void sw::WndBase::Invoke(const Action<> &action)
 {
     if (action == nullptr)
         return;
@@ -13421,7 +12864,7 @@ void sw::WndBase::Invoke(const SimpleAction &action)
     }
 }
 
-void sw::WndBase::InvokeAsync(const SimpleAction &action)
+void sw::WndBase::InvokeAsync(const Action<> &action)
 {
     if (action == nullptr)
         return;
