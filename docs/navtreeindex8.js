@@ -1,7 +1,5 @@
 var NAVTREEINDEX8 =
 {
-"structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07T_1_1EventType_08_08_4.html":[2,0,1,13],
-"structsw_1_1__HasGetterImpl.html":[2,0,1,14],
 "structsw_1_1__HasGetterImpl_3_01T_00_01decltype_07void_07_6T_1_1GetterImpl_08_08_4.html":[2,0,1,15],
 "structsw_1_1__HasSetterImpl.html":[2,0,1,16],
 "structsw_1_1__HasSetterImpl_3_01T_00_01decltype_07void_07_6T_1_1SetterImpl_08_08_4.html":[2,0,1,17],

@@ -1,7 +1,5 @@
 var NAVTREEINDEX4 =
 {
-"classsw_1_1ProgressBar.html#a23e176b3cc807b9e0e403e214421179c":[2,0,1,182,1],
-"classsw_1_1ProgressBar.html#a3a211f4e0318c79bcc4a64720b6f8651":[2,0,1,182,5],
 "classsw_1_1ProgressBar.html#a461cb23f2cc6c276eda9312cb269a403":[2,0,1,182,0],
 "classsw_1_1ProgressBar.html#a596e05cda7fcc656dde20354a519cee4":[2,0,1,182,3],
 "classsw_1_1ProgressBar.html#a6dd5e209fbc7f35a89309f4056ae3d1f":[2,0,1,182,4],
@@ -249,5 +247,7 @@ var NAVTREEINDEX4 =
 "classsw_1_1TextBoxBase.html":[2,0,1,222],
 "classsw_1_1TextBoxBase.html#a1e7210993dcbf6cfdaff3dcc3246dfd5":[2,0,1,222,6],
 "classsw_1_1TextBoxBase.html#a221765241d6ca76156d3564440306d51":[2,0,1,222,8],
-"classsw_1_1TextBoxBase.html#a2fb455bb1ed2c1b3f3c12a82a5a4b720":[2,0,1,222,1]
+"classsw_1_1TextBoxBase.html#a2fb455bb1ed2c1b3f3c12a82a5a4b720":[2,0,1,222,1],
+"classsw_1_1TextBoxBase.html#a3a6843f34013ed31f3828263f0984233":[2,0,1,222,4],
+"classsw_1_1TextBoxBase.html#a63ae3c3e273a7a69d0f7ca07b102f64b":[2,0,1,222,13]
 };

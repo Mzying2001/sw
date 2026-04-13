@@ -1,7 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"classsw_1_1ColorDialog.html#ad51651737ebe8ccbbf5dec725703fbd4":[2,0,1,56,7],
-"classsw_1_1ColorDialog.html#aff4af5ca4663155329e2644d382b7efa":[2,0,1,56,1],
 "classsw_1_1ComboBox.html":[2,0,1,57],
 "classsw_1_1ComboBox.html#a021e4d94ae1b811514523942fe94f7fe":[2,0,1,57,14],
 "classsw_1_1ComboBox.html#a1b7b120c4f55c724f3b9f29038659d81":[2,0,1,57,7],
@@ -249,5 +247,7 @@ var NAVTREEINDEX1 =
 "classsw_1_1Font.html#a756db4f4398e9dfb74ddb402e5067207":[2,0,1,96,3],
 "classsw_1_1Font.html#a9d5fba4ba8cc99801f1a4f714d392e78":[2,0,1,96,2],
 "classsw_1_1Font.html#aa223c3578a59a96149bd4ef989825e08":[2,0,1,96,13],
-"classsw_1_1Font.html#aa5126e73aad9ba2fd6aab826bac16a5c":[2,0,1,96,19]
+"classsw_1_1Font.html#aa5126e73aad9ba2fd6aab826bac16a5c":[2,0,1,96,19],
+"classsw_1_1Font.html#aa7ea90de17d56a063c395cf015baf11f":[2,0,1,96,10],
+"classsw_1_1Font.html#aad5569847e5d52c155fe3c1a049324f3":[2,0,1,96,16]
 };

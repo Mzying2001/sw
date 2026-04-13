@@ -1,7 +1,5 @@
 var NAVTREEINDEX3 =
 {
-"classsw_1_1LayoutHost.html#ad352de26b99175f262823f2bf38fa668":[2,0,1,136,1],
-"classsw_1_1LayoutHost.html#ae10cb29aa036b349c296cee81b442217":[2,0,1,136,6],
 "classsw_1_1LayoutHost.html#af189443e74b7e51f9ec3735658d6a667":[2,0,1,136,0],
 "classsw_1_1LayoutHost.html#afdf4c1292b035ac5a6ceec9b78324d97":[2,0,1,136,5],
 "classsw_1_1List.html":[2,0,1,137],
@@ -107,8 +105,8 @@ var NAVTREEINDEX3 =
 "classsw_1_1MemberEventInitializer.html#a9b0c8aae45f8d5e459204463a138ddfa":[2,0,1,149,4],
 "classsw_1_1MemberEventInitializer.html#aa24e6ac76c9433b22ed51cf874e96897":[2,0,1,149,0],
 "classsw_1_1MemberEventInitializer.html#acf23686952b5dc1d043593c406a12118":[2,0,1,149,1],
-"classsw_1_1MemberEventInitializer.html#acf23686952b5dc1d043593c406a12118":[2,0,1,149,3],
 "classsw_1_1MemberEventInitializer.html#acf23686952b5dc1d043593c406a12118":[2,0,1,149,2],
+"classsw_1_1MemberEventInitializer.html#acf23686952b5dc1d043593c406a12118":[2,0,1,149,3],
 "classsw_1_1MemberPropertyInitializer.html":[2,0,1,150],
 "classsw_1_1MemberPropertyInitializer.html#a33c55f2c7d55afba980bb7bf8dc7c795":[2,0,1,150,7],
 "classsw_1_1MemberPropertyInitializer.html#a33c55f2c7d55afba980bb7bf8dc7c795":[2,0,1,150,6],
@@ -116,9 +114,9 @@ var NAVTREEINDEX3 =
 "classsw_1_1MemberPropertyInitializer.html#a6bc49e351d0a139f82eab9706a1e19f1":[2,0,1,150,4],
 "classsw_1_1MemberPropertyInitializer.html#a9bf84e910e609e4fa491d101daabca28":[2,0,1,150,0],
 "classsw_1_1MemberPropertyInitializer.html#aaf3e50028a91c55465c93182d9d01b6d":[2,0,1,150,8],
+"classsw_1_1MemberPropertyInitializer.html#abf6423039f196256da7053e151e5d1a5":[2,0,1,150,3],
 "classsw_1_1MemberPropertyInitializer.html#abf6423039f196256da7053e151e5d1a5":[2,0,1,150,2],
 "classsw_1_1MemberPropertyInitializer.html#abf6423039f196256da7053e151e5d1a5":[2,0,1,150,1],
-"classsw_1_1MemberPropertyInitializer.html#abf6423039f196256da7053e151e5d1a5":[2,0,1,150,3],
 "classsw_1_1Menu.html":[2,0,1,151],
 "classsw_1_1Menu.html#a522312cc29234ea9048d94fae7258027":[2,0,1,151,3],
 "classsw_1_1Menu.html#a546af91c1b0778610d79ed7e56423dd1":[2,0,1,151,2],
@@ -249,5 +247,7 @@ var NAVTREEINDEX3 =
 "classsw_1_1PasswordBox.html#a5e6b907e4c80b16dc1691eb6271778f5":[2,0,1,177,0],
 "classsw_1_1PasswordBox.html#acb858c64ba690363567d5c73cc49ad7e":[2,0,1,177,1],
 "classsw_1_1Path.html":[2,0,1,178],
-"classsw_1_1ProgressBar.html":[2,0,1,182]
+"classsw_1_1ProgressBar.html":[2,0,1,182],
+"classsw_1_1ProgressBar.html#a23e176b3cc807b9e0e403e214421179c":[2,0,1,182,1],
+"classsw_1_1ProgressBar.html#a3a211f4e0318c79bcc4a64720b6f8651":[2,0,1,182,5]
 };

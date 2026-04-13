@@ -1,7 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"classsw_1_1Font.html#aa7ea90de17d56a063c395cf015baf11f":[2,0,1,96,10],
-"classsw_1_1Font.html#aad5569847e5d52c155fe3c1a049324f3":[2,0,1,96,16],
 "classsw_1_1Font.html#ac2b4f997e58b3dcadcaf95e0452599c6":[2,0,1,96,6],
 "classsw_1_1Font.html#addb3f6d09a71e97a3b0ca0ee0a2bc6a0":[2,0,1,96,1],
 "classsw_1_1Font.html#ae48df531042cb4d94440eadbe61d532b":[2,0,1,96,14],
@@ -249,5 +247,7 @@ var NAVTREEINDEX2 =
 "classsw_1_1LayoutHost.html":[2,0,1,136],
 "classsw_1_1LayoutHost.html#a75ee395dc2d32e272f5e3fbac7c47df7":[2,0,1,136,4],
 "classsw_1_1LayoutHost.html#a93918274b124a54dec771b6c36462997":[2,0,1,136,3],
-"classsw_1_1LayoutHost.html#ace58d1aefa8427892f71bfa8b91e9281":[2,0,1,136,2]
+"classsw_1_1LayoutHost.html#ace58d1aefa8427892f71bfa8b91e9281":[2,0,1,136,2],
+"classsw_1_1LayoutHost.html#ad352de26b99175f262823f2bf38fa668":[2,0,1,136,1],
+"classsw_1_1LayoutHost.html#ae10cb29aa036b349c296cee81b442217":[2,0,1,136,6]
 };

@@ -1,7 +1,5 @@
 var NAVTREEINDEX7 =
 {
-"functions_v.html":[2,3,0,20],
-"functions_vars.html":[2,3,2],
 "functions_vars.html":[2,3,2,0],
 "functions_vars_a.html":[2,3,2,1],
 "functions_vars_b.html":[2,3,2,2],
@@ -249,5 +247,7 @@ var NAVTREEINDEX7 =
 "structsw_1_1__FuncTypeHelper_3_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4.html":[2,0,1,9],
 "structsw_1_1__HasArrowOperator.html":[2,0,1,10],
 "structsw_1_1__HasArrowOperator_3_01T_00_01decltype_07void_07std_1_1declval_3_01T_01_4_07_08_8operator-_4_07_08_08_08_4.html":[2,0,1,11],
-"structsw_1_1__HasEventType.html":[2,0,1,12]
+"structsw_1_1__HasEventType.html":[2,0,1,12],
+"structsw_1_1__HasEventType_3_01T_00_01decltype_07void_07T_1_1EventType_08_08_4.html":[2,0,1,13],
+"structsw_1_1__HasGetterImpl.html":[2,0,1,14]
 };

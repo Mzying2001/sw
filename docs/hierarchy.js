@@ -13,7 +13,6 @@ var hierarchy =
     ] ],
     [ "sw::BoolToNumericConverter< TTarget, typename >", "classsw_1_1BoolToNumericConverter.html", null ],
     [ "sw::BoxedObject< T, typename >", "classsw_1_1BoxedObject.html", null ],
-    [ "sw::BoxedObject< T, typename std::enable_if<!std::is_base_of< sw::DynamicObject, T >::value >::type >", "classsw_1_1BoxedObject.html", null ],
     [ "sw::CallableList< T >", "classsw_1_1CallableList.html", null ],
     [ "sw::CallableList< TRet(Args...)>", "classsw_1_1CallableList.html", null ],
     [ "sw::CanvasLayoutTag", "structsw_1_1CanvasLayoutTag.html", null ],
