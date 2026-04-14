@@ -349,13 +349,23 @@ namespace sw
 
         /**
          * @brief 内部数据联合体
-         * @note 一些旧版编译器对抽象类用alignas(T)会报错无法实例化，所以需要在对于路径避免使用alignas(T)
          */
         template <typename U, typename = void>
-        union _InternalData;
+        union _InternalData {
+            /**
+             * @brief 引用指针
+             */
+            U *refptr;
+
+            /**
+             * @brief 对象缓冲区
+             */
+            alignas(U) uint8_t objbuf[sizeof(U)];
+        };
 
         /**
          * @brief _InternalData模板特化（对于抽象类）
+         * @note 一些旧版编译器对抽象类用alignas(T)会报错无法实例化，所以需要在对应路径避免使用alignas(T)
          */
         template <typename U>
         union _InternalData<U, typename std::enable_if<std::is_abstract<U>::value>::type> {
@@ -369,22 +379,6 @@ namespace sw
              * @note 抽象类无法构造，objbuf作为占位符，不会使用
              */
             uint8_t objbuf[1];
-        };
-
-        /**
-         * @brief _InternalData模板特化（对于普通类）
-         */
-        template <typename U>
-        union _InternalData<U, typename std::enable_if<!std::is_abstract<U>::value>::type> {
-            /**
-             * @brief 引用指针
-             */
-            U *refptr;
-
-            /**
-             * @brief 对象缓冲区
-             */
-            alignas(U) uint8_t objbuf[sizeof(U)];
         };
 
     private:
