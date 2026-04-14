@@ -63,10 +63,10 @@ namespace sw
         }
 
         /**
-         * @brief 获取对象的类型索引
+         * @brief 获取对象的类型信息
          * @return 对象的类型索引
          */
-        std::type_index GetTypeIndex() const
+        std::type_index GetType() const
         {
 #if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot get type index.");
