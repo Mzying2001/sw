@@ -453,8 +453,8 @@ namespace sw
                 return EqualsImpl(other);
             }
             template <typename U = T>
-            typename std::enable_if<_IsEqualityComparable<U>::value, bool>::type
-            EqualsImpl(const _ICallable &other) const
+            auto EqualsImpl(const _ICallable &other) const
+                -> typename std::enable_if<_IsEqualityComparable<U>::value, bool>::type
             {
                 if (this == &other) {
                     return true;
@@ -466,8 +466,8 @@ namespace sw
                 return GetValue() == otherWrapper.GetValue();
             }
             template <typename U = T>
-            typename std::enable_if<!_IsEqualityComparable<U>::value && _IsMemcmpSafe<U>::value, bool>::type
-            EqualsImpl(const _ICallable &other) const
+            auto EqualsImpl(const _ICallable &other) const
+                -> typename std::enable_if<!_IsEqualityComparable<U>::value && _IsMemcmpSafe<U>::value, bool>::type
             {
                 if (this == &other) {
                     return true;
@@ -479,8 +479,8 @@ namespace sw
                 return memcmp(_storage, otherWrapper._storage, sizeof(_storage)) == 0;
             }
             template <typename U = T>
-            typename std::enable_if<!_IsEqualityComparable<U>::value && !_IsMemcmpSafe<U>::value, bool>::type
-            EqualsImpl(const _ICallable &other) const
+            auto EqualsImpl(const _ICallable &other) const
+                -> typename std::enable_if<!_IsEqualityComparable<U>::value && !_IsMemcmpSafe<U>::value, bool>::type
             {
                 return this == &other;
             }
@@ -697,8 +697,8 @@ namespace sw
          * @brief 添加一个可调用对象到委托中
          */
         template <typename T>
-        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, void>::type
-        Add(const T &callable)
+        auto Add(const T &callable)
+            -> typename std::enable_if<!std::is_base_of<_ICallable, T>::value, void>::type
         {
             _data.Add(new _CallableWrapper<T>(callable));
         }
@@ -770,8 +770,8 @@ namespace sw
          * @note 按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
          */
         template <typename T>
-        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, bool>::type
-        Remove(const T &callable)
+        auto Remove(const T &callable)
+            -> typename std::enable_if<!std::is_base_of<_ICallable, T>::value, bool>::type
         {
             return _Remove(_CallableWrapper<T>(callable));
         }
@@ -881,8 +881,8 @@ namespace sw
          * @note 该函数调用Add函数
          */
         template <typename T>
-        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, Delegate &>::type
-        operator+=(const T &callable)
+        auto operator+=(const T &callable)
+            -> typename std::enable_if<!std::is_base_of<_ICallable, T>::value, Delegate &>::type
         {
             Add(callable);
             return *this;
@@ -913,8 +913,8 @@ namespace sw
          * @note 该函数调用Remove函数
          */
         template <typename T>
-        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, Delegate &>::type
-        operator-=(const T &callable)
+        auto operator-=(const T &callable)
+            -> typename std::enable_if<!std::is_base_of<_ICallable, T>::value, Delegate &>::type
         {
             Remove(callable);
             return *this;
@@ -980,8 +980,8 @@ namespace sw
          * @return 返回一个包含所有可调用对象返回值的vector
          */
         template <typename U = TRet>
-        typename std::enable_if<!std::is_void<U>::value, std::vector<U>>::type
-        InvokeAll(Args... args) const
+        auto InvokeAll(Args... args) const
+            -> typename std::enable_if<!std::is_void<U>::value, std::vector<U>>::type
         {
             std::vector<U> results;
             size_t count = _data.Count();
