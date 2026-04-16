@@ -450,9 +450,8 @@ bool sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
     });
 
     UpdateInternalRect();
-    UpdateFont();
-
     Rect = newRect;
+
     EnableLayout();
     return true;
 }
