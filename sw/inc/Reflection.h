@@ -172,6 +172,7 @@ namespace sw
          * @tparam T 目标类型
          * @return 指定类型的引用
          * @note 若目标类型与当前类型不兼容，则行为未定义
+         * @note 由于目标类型无法通过static_cast转换（如虚继承场景），该重载内部回退到DynamicCast实现
          */
         template <typename T>
         auto UnsafeCast()
@@ -200,6 +201,7 @@ namespace sw
          * @tparam T 目标类型
          * @return 指定类型的引用
          * @note 若目标类型与当前类型不兼容，则行为未定义
+         * @note 由于目标类型无法通过static_cast转换（如虚继承场景），该重载内部回退到DynamicCast实现
          */
         template <typename T>
         auto UnsafeCast() const
@@ -961,6 +963,7 @@ namespace sw
      * @tparam T 目标类型
      * @return 指定类型的引用
      * @note 若目标类型与当前类型不兼容，则行为未定义
+     * @note 由于目标类型无法通过static_cast转换（如虚继承场景），当对象为非装箱对象时，内部回退到DynamicCast实现
      */
     template <typename T>
     auto DynamicObject::UnsafeCast()
@@ -995,6 +998,7 @@ namespace sw
      * @tparam T 目标类型
      * @return 指定类型的引用
      * @note 若目标类型与当前类型不兼容，则行为未定义
+     * @note 由于目标类型无法通过static_cast转换（如虚继承场景），当对象为非装箱对象时，内部回退到DynamicCast实现
      */
     template <typename T>
     auto DynamicObject::UnsafeCast() const
