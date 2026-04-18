@@ -329,6 +329,43 @@ namespace sw
         template <typename T>
         auto UnsafeCast() const
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type;
+
+    private:
+        /**
+         * @brief 获取装箱对象的类型信息
+         * @return 装箱对象中值的类型索引
+         */
+        virtual std::type_index GetBoxedType() const noexcept
+        {
+            return typeid(void);
+        }
+
+        /**
+         * @brief 判断对象是否为装箱的多态类型
+         * @return 如果对象为装箱的多态类型则返回true，否则返回false
+         */
+        virtual bool IsBoxedPolymorphic() const noexcept
+        {
+            return false;
+        }
+
+        /**
+         * @brief 获取装箱对象的原始指针
+         * @return 指向装箱对象中值的指针，若当前对象不是装箱对象或为空引用则返回nullptr
+         */
+        virtual void *GetBoxedRawPtr() noexcept
+        {
+            return nullptr;
+        }
+
+        /**
+         * @brief 获取装箱对象的原始指针
+         * @return 指向装箱对象中值的常量指针，若当前对象不是装箱对象或为空引用则返回nullptr
+         */
+        virtual const void *GetBoxedRawPtr() const noexcept
+        {
+            return nullptr;
+        }
     };
 
     /*================================================================================*/
@@ -609,6 +646,43 @@ namespace sw
             assert(HasValue());
             return _isRef ? *_data.refptr : *reinterpret_cast<const T *>(_data.objbuf);
         }
+
+    private:
+        /**
+         * @brief 获取装箱对象的类型信息
+         * @return 装箱对象中值的类型索引
+         */
+        virtual std::type_index GetBoxedType() const noexcept override
+        {
+            return typeid(T);
+        }
+
+        /**
+         * @brief 判断对象是否为装箱的多态类型
+         * @return 如果对象为装箱的多态类型则返回true，否则返回false
+         */
+        virtual bool IsBoxedPolymorphic() const noexcept override
+        {
+            return std::is_polymorphic<T>::value;
+        }
+
+        /**
+         * @brief 获取装箱对象的原始指针
+         * @return 指向装箱对象中值的指针，若当前对象不是装箱对象或为空引用则返回nullptr
+         */
+        virtual void *GetBoxedRawPtr() noexcept override
+        {
+            return _isRef ? static_cast<void *>(_data.refptr) : static_cast<void *>(_data.objbuf);
+        }
+
+        /**
+         * @brief 获取装箱对象的原始指针
+         * @return 指向装箱对象中值的常量指针，若当前对象不是装箱对象或为空引用则返回nullptr
+         */
+        virtual const void *GetBoxedRawPtr() const noexcept override
+        {
+            return _isRef ? static_cast<const void *>(_data.refptr) : static_cast<const void *>(_data.objbuf);
+        }
     };
 
     /*================================================================================*/
@@ -634,18 +708,18 @@ namespace sw
                 return *pout != nullptr;
             }
         } else {
-            BoxedObject<T> *obj = nullptr;
-
-            if (!IsType(&obj) || obj->IsNullRef()) {
+            if (GetBoxedType() == typeid(T)) {
+                if (pout == nullptr) {
+                    return GetBoxedRawPtr() != nullptr;
+                } else {
+                    *pout = static_cast<T *>(GetBoxedRawPtr());
+                    return *pout != nullptr;
+                }
+            } else {
                 if (pout != nullptr) {
                     *pout = nullptr;
                 }
                 return false;
-            } else {
-                if (pout != nullptr) {
-                    *pout = &obj->Unbox();
-                }
-                return true;
             }
         }
 #endif
@@ -670,18 +744,18 @@ namespace sw
             }
             return false;
         } else {
-            BoxedObject<T> *obj = nullptr;
-
-            if (!IsType(&obj) || obj->IsNullRef()) {
+            if (GetBoxedType() == typeid(T)) {
+                if (pout == nullptr) {
+                    return GetBoxedRawPtr() != nullptr;
+                } else {
+                    *pout = static_cast<T *>(GetBoxedRawPtr());
+                    return *pout != nullptr;
+                }
+            } else {
                 if (pout != nullptr) {
                     *pout = nullptr;
                 }
                 return false;
-            } else {
-                if (pout != nullptr) {
-                    *pout = &obj->Unbox();
-                }
-                return true;
             }
         }
 #endif
@@ -708,18 +782,18 @@ namespace sw
                 return *pout != nullptr;
             }
         } else {
-            const BoxedObject<T> *obj = nullptr;
-
-            if (!IsType(&obj) || obj->IsNullRef()) {
+            if (GetBoxedType() == typeid(T)) {
+                if (pout == nullptr) {
+                    return GetBoxedRawPtr() != nullptr;
+                } else {
+                    *pout = static_cast<const T *>(GetBoxedRawPtr());
+                    return *pout != nullptr;
+                }
+            } else {
                 if (pout != nullptr) {
                     *pout = nullptr;
                 }
                 return false;
-            } else {
-                if (pout != nullptr) {
-                    *pout = &obj->Unbox();
-                }
-                return true;
             }
         }
 #endif
@@ -744,18 +818,18 @@ namespace sw
             }
             return false;
         } else {
-            const BoxedObject<T> *obj = nullptr;
-
-            if (!IsType(&obj) || obj->IsNullRef()) {
+            if (GetBoxedType() == typeid(T)) {
+                if (pout == nullptr) {
+                    return GetBoxedRawPtr() != nullptr;
+                } else {
+                    *pout = static_cast<const T *>(GetBoxedRawPtr());
+                    return *pout != nullptr;
+                }
+            } else {
                 if (pout != nullptr) {
                     *pout = nullptr;
                 }
                 return false;
-            } else {
-                if (pout != nullptr) {
-                    *pout = &obj->Unbox();
-                }
-                return true;
             }
         }
 #endif
@@ -777,7 +851,12 @@ namespace sw
         if (!_isBoxedObject) {
             return dynamic_cast<T &>(*this);
         } else {
-            return dynamic_cast<BoxedObject<T> &>(*this).Unbox();
+            void *rawPtr = GetBoxedRawPtr();
+            if (rawPtr == nullptr || GetBoxedType() != typeid(T)) {
+                throw std::bad_cast();
+            } else {
+                return *static_cast<T *>(rawPtr);
+            }
         }
 #endif
     }
@@ -798,7 +877,12 @@ namespace sw
         if (!_isBoxedObject) {
             throw std::bad_cast();
         } else {
-            return dynamic_cast<BoxedObject<T> &>(*this).Unbox();
+            void *rawPtr = GetBoxedRawPtr();
+            if (rawPtr == nullptr || GetBoxedType() != typeid(T)) {
+                throw std::bad_cast();
+            } else {
+                return *static_cast<T *>(rawPtr);
+            }
         }
 #endif
     }
@@ -819,7 +903,12 @@ namespace sw
         if (!_isBoxedObject) {
             return dynamic_cast<const T &>(*this);
         } else {
-            return dynamic_cast<const BoxedObject<T> &>(*this).Unbox();
+            const void *rawPtr = GetBoxedRawPtr();
+            if (rawPtr == nullptr || GetBoxedType() != typeid(T)) {
+                throw std::bad_cast();
+            } else {
+                return *static_cast<const T *>(rawPtr);
+            }
         }
 #endif
     }
@@ -840,7 +929,12 @@ namespace sw
         if (!_isBoxedObject) {
             throw std::bad_cast();
         } else {
-            return dynamic_cast<const BoxedObject<T> &>(*this).Unbox();
+            const void *rawPtr = GetBoxedRawPtr();
+            if (rawPtr == nullptr || GetBoxedType() != typeid(T)) {
+                throw std::bad_cast();
+            } else {
+                return *static_cast<const T *>(rawPtr);
+            }
         }
 #endif
     }
