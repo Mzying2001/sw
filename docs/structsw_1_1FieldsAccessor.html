@@ -110,30 +110,30 @@ template&lt;typename... Args&gt; </td></tr>
 <tr class="memdesc:aabb44e2be920e142b4c2d9c1a95c7fe8"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造字段访问器 <br /></td></tr>
 <tr class="separator:aabb44e2be920e142b4c2d9c1a95c7fe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6edc40fbb70f9afcc49d86a25992a96e" id="r_a6edc40fbb70f9afcc49d86a25992a96e"><td class="memTemplParams" colspan="2"><a id="a6edc40fbb70f9afcc49d86a25992a96e" name="a6edc40fbb70f9afcc49d86a25992a96e"></a>
-template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> U  = T&gt; </td></tr>
-<tr class="memitem:a6edc40fbb70f9afcc49d86a25992a96e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_pointer&lt; U &gt;<a class="el" href="structsw_1_1FieldsAccessor.html#a9947db986bc3d127736c0d93eb4bad72">::value</a>, U &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-&gt;</b> ()</td></tr>
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>  = T&gt; </td></tr>
+<tr class="memitem:a6edc40fbb70f9afcc49d86a25992a96e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_pointer&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;<a class="el" href="structsw_1_1FieldsAccessor.html#a9947db986bc3d127736c0d93eb4bad72">::value</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-&gt;</b> ()</td></tr>
 <tr class="memdesc:a6edc40fbb70f9afcc49d86a25992a96e"><td class="mdescLeft">&#160;</td><td class="mdescRight">指针类型，直接返回值 <br /></td></tr>
 <tr class="separator:a6edc40fbb70f9afcc49d86a25992a96e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3d7869bc4ebb209a0612ffe3048cf3f" id="r_ab3d7869bc4ebb209a0612ffe3048cf3f"><td class="memTemplParams" colspan="2"><a id="ab3d7869bc4ebb209a0612ffe3048cf3f" name="ab3d7869bc4ebb209a0612ffe3048cf3f"></a>
-template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> U  = T&gt; </td></tr>
-<tr class="memitem:ab3d7869bc4ebb209a0612ffe3048cf3f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;!std::is_pointer&lt; U &gt;<a class="el" href="structsw_1_1FieldsAccessor.html#a9947db986bc3d127736c0d93eb4bad72">::value</a> &amp;&amp;!<a class="el" href="structsw_1_1__HasArrowOperator.html">_HasArrowOperator</a>&lt; U &gt;<a class="el" href="structsw_1_1FieldsAccessor.html#a9947db986bc3d127736c0d93eb4bad72">::value</a>, U * &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-&gt;</b> ()</td></tr>
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>  = T&gt; </td></tr>
+<tr class="memitem:ab3d7869bc4ebb209a0612ffe3048cf3f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;!std::is_pointer&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;<a class="el" href="structsw_1_1FieldsAccessor.html#a9947db986bc3d127736c0d93eb4bad72">::value</a> &amp;&amp;!<a class="el" href="structsw_1_1__HasArrowOperator.html">_HasArrowOperator</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;<a class="el" href="structsw_1_1FieldsAccessor.html#a9947db986bc3d127736c0d93eb4bad72">::value</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> * &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-&gt;</b> ()</td></tr>
 <tr class="memdesc:ab3d7869bc4ebb209a0612ffe3048cf3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">非指针类型，且无operator-&gt;，返回值的地址 <br /></td></tr>
 <tr class="separator:ab3d7869bc4ebb209a0612ffe3048cf3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef4f0e78d3096a8044acc581180a2e71" id="r_aef4f0e78d3096a8044acc581180a2e71"><td class="memTemplParams" colspan="2"><a id="aef4f0e78d3096a8044acc581180a2e71" name="aef4f0e78d3096a8044acc581180a2e71"></a>
-template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> U  = T&gt; </td></tr>
-<tr class="memitem:aef4f0e78d3096a8044acc581180a2e71"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;!std::is_pointer&lt; U &gt;<a class="el" href="structsw_1_1FieldsAccessor.html#a9947db986bc3d127736c0d93eb4bad72">::value</a> &amp;&amp;<a class="el" href="structsw_1_1__HasArrowOperator.html">_HasArrowOperator</a>&lt; U &gt;<a class="el" href="structsw_1_1FieldsAccessor.html#a9947db986bc3d127736c0d93eb4bad72">::value</a>, <a class="el" href="classsw_1_1IValueConverter.html">typename_HasArrowOperator</a>&lt; U &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-&gt;</b> ()</td></tr>
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>  = T&gt; </td></tr>
+<tr class="memitem:aef4f0e78d3096a8044acc581180a2e71"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;!std::is_pointer&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;<a class="el" href="structsw_1_1FieldsAccessor.html#a9947db986bc3d127736c0d93eb4bad72">::value</a> &amp;&amp;<a class="el" href="structsw_1_1__HasArrowOperator.html">_HasArrowOperator</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;<a class="el" href="structsw_1_1FieldsAccessor.html#a9947db986bc3d127736c0d93eb4bad72">::value</a>, <a class="el" href="classsw_1_1IValueConverter.html">typename_HasArrowOperator</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator-&gt;</b> ()</td></tr>
 <tr class="memdesc:aef4f0e78d3096a8044acc581180a2e71"><td class="mdescLeft">&#160;</td><td class="mdescRight">非指针类型，且有operator-&gt;，转发operator-&gt; <br /></td></tr>
 <tr class="separator:aef4f0e78d3096a8044acc581180a2e71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public 属性</h2></td></tr>
 <tr class="memitem:a9947db986bc3d127736c0d93eb4bad72" id="r_a9947db986bc3d127736c0d93eb4bad72"><td class="memItemLeft" align="right" valign="top"><a id="a9947db986bc3d127736c0d93eb4bad72" name="a9947db986bc3d127736c0d93eb4bad72"></a>
-T&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
+<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
 <tr class="memdesc:a9947db986bc3d127736c0d93eb4bad72"><td class="mdescLeft">&#160;</td><td class="mdescRight">字段访问器所维护的值 <br /></td></tr>
 <tr class="separator:a9947db986bc3d127736c0d93eb4bad72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> T&gt;<br />
+<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>&gt;<br />
 struct sw::FieldsAccessor&lt; T &gt;</div><p>字段访问器，用于实现使用operator-&gt;取属性字段 </p>
 </div><hr/>该结构体的文档由以下文件生成:<ul>
 <li><a class="el" href="Property_8h_source.html">Property.h</a></li>
@@ -143,7 +143,7 @@ struct sw::FieldsAccessor&lt; T &gt;</div><p>字段访问器，用于实现使�
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>sw</b></li><li class="navelem"><a class="el" href="structsw_1_1FieldsAccessor.html">FieldsAccessor</a></li>
+    <li class="navelem"><a class="el" href="namespacesw.html">sw</a></li><li class="navelem"><a class="el" href="structsw_1_1FieldsAccessor.html">FieldsAccessor</a></li>
     <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

@@ -3,7 +3,7 @@ var annotated_dup =
     [ "std", null, [
       [ "hash< sw::FieldId >", "structstd_1_1hash_3_01sw_1_1FieldId_01_4.html", null ]
     ] ],
-    [ "sw", null, [
+    [ "sw", "namespacesw.html", [
       [ "_BracketOperationHelper", "structsw_1_1__BracketOperationHelper.html", null ],
       [ "_BracketOperationHelper< T, U, decltype(void(std::declval< T >()[std::declval< U >()]))>", "structsw_1_1__BracketOperationHelper_3_01T_00_01U_00_01decltype_07void_07std_1_1declval_3_01T_015d7340010b451efba17696e1bdb8739b.html", null ],
       [ "_DelegateCanAddSubtract", "structsw_1_1__DelegateCanAddSubtract.html", null ],
@@ -135,7 +135,7 @@ var annotated_dup =
       [ "IValueConverter", "classsw_1_1IValueConverter.html", "classsw_1_1IValueConverter" ],
       [ "KeyDownEventArgs", "structsw_1_1KeyDownEventArgs.html", null ],
       [ "KeyEventArgs", "structsw_1_1KeyEventArgs.html", null ],
-      [ "KeyFlags", "structsw_1_1KeyFlags.html", null ],
+      [ "KeyFlags", "structsw_1_1KeyFlags.html", "structsw_1_1KeyFlags" ],
       [ "KeyUpEventArgs", "structsw_1_1KeyUpEventArgs.html", null ],
       [ "Label", "classsw_1_1Label.html", "classsw_1_1Label" ],
       [ "Layer", "classsw_1_1Layer.html", null ],

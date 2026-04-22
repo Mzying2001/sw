@@ -101,25 +101,30 @@ $(document).ready(function(){initNavTree('WndMsg_8h_source.html',''); initResiza
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;windows.h&gt;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesw.html">sw</a></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">enum</span> WndMsg : UINT {</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="comment">// SimpleWindow所用消息的起始位置</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        WM_SimpleWindowBegin = WM_USER + 0x3000,</div>
+<div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759">   10</a></span>    <span class="keyword">enum</span> <a class="code hl_enumeration" href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759">WndMsg</a> : <a class="code hl_class" href="classsw_1_1IValueConverter.html">UINT</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759ac2e96e29e66897e523e372ba162de388">   12</a></span>        <a class="code hl_enumvalue" href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759ac2e96e29e66897e523e372ba162de388">WM_SimpleWindowBegin</a> = <a class="code hl_class" href="classsw_1_1IValueConverter.html">WM_APP</a> + 0x3000,</div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="comment">// 控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        WM_UpdateLayout,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759a5a70171bee2f214342a5008559e5b9d3">   15</a></span>        <a class="code hl_enumvalue" href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759a5a70171bee2f214342a5008559e5b9d3">WM_UpdateLayout</a>,</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="comment">// 在窗口线程上执行指定委托，lParam为指向sw::Action&lt;&gt;的指针，wParam表示是否对委托指针执行delete</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        WM_InvokeAction,</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759a17047849243de0340727b120fcd00cc7">   18</a></span>        <a class="code hl_enumvalue" href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759a17047849243de0340727b120fcd00cc7">WM_InvokeAction</a>,</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="comment">// 在WndBase::SetParent函数中设置父窗口之前发送该消息，wParam为新的父窗口句柄，lParam未使用</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        WM_PreSetParent,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759af27d683197a41d60dc73e5f02073c6d3">   21</a></span>        <a class="code hl_enumvalue" href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759af27d683197a41d60dc73e5f02073c6d3">WM_PreSetParent</a>,</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="comment">// SimpleWindow所用消息的结束位置</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        WM_SimpleWindowEnd,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759a80079cdb65a3fd017b3809051a9c19a4">   24</a></span>        <a class="code hl_enumvalue" href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759a80079cdb65a3fd017b3809051a9c19a4">WM_SimpleWindowEnd</a>,</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    };</div>
+</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>}</div>
+<div class="ttc" id="aclasssw_1_1IValueConverter_html"><div class="ttname"><a href="classsw_1_1IValueConverter.html">sw::IValueConverter</a></div><div class="ttdoc">值转换器接口</div><div class="ttdef"><b>Definition</b> IValueConverter.h:14</div></div>
+<div class="ttc" id="anamespacesw_html"><div class="ttname"><a href="namespacesw.html">sw</a></div><div class="ttdoc">SimpleWindow框架的顶级命名空间，所有公共类型、控件、枚举和工具函数均定义于此。</div><div class="ttdef"><b>Definition</b> Alignment.h:4</div></div>
+<div class="ttc" id="anamespacesw_html_a09acaaad408f1c26b86013c54da4c759"><div class="ttname"><a href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759">sw::WndMsg</a></div><div class="ttdeci">WndMsg</div><div class="ttdoc">包含SimpleWindow用到的一些窗口消息</div><div class="ttdef"><b>Definition</b> WndMsg.h:10</div></div>
+<div class="ttc" id="anamespacesw_html_a09acaaad408f1c26b86013c54da4c759a17047849243de0340727b120fcd00cc7"><div class="ttname"><a href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759a17047849243de0340727b120fcd00cc7">sw::WM_InvokeAction</a></div><div class="ttdeci">@ WM_InvokeAction</div><div class="ttdoc">在窗口线程上执行指定委托，lParam为指向sw::Action&lt;&gt;的指针，wParam表示是否对委托指针执行delete</div><div class="ttdef"><b>Definition</b> WndMsg.h:18</div></div>
+<div class="ttc" id="anamespacesw_html_a09acaaad408f1c26b86013c54da4c759a5a70171bee2f214342a5008559e5b9d3"><div class="ttname"><a href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759a5a70171bee2f214342a5008559e5b9d3">sw::WM_UpdateLayout</a></div><div class="ttdeci">@ WM_UpdateLayout</div><div class="ttdoc">控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用</div><div class="ttdef"><b>Definition</b> WndMsg.h:15</div></div>
+<div class="ttc" id="anamespacesw_html_a09acaaad408f1c26b86013c54da4c759a80079cdb65a3fd017b3809051a9c19a4"><div class="ttname"><a href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759a80079cdb65a3fd017b3809051a9c19a4">sw::WM_SimpleWindowEnd</a></div><div class="ttdeci">@ WM_SimpleWindowEnd</div><div class="ttdoc">SimpleWindow所用消息的结束位置</div><div class="ttdef"><b>Definition</b> WndMsg.h:24</div></div>
+<div class="ttc" id="anamespacesw_html_a09acaaad408f1c26b86013c54da4c759ac2e96e29e66897e523e372ba162de388"><div class="ttname"><a href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759ac2e96e29e66897e523e372ba162de388">sw::WM_SimpleWindowBegin</a></div><div class="ttdeci">@ WM_SimpleWindowBegin</div><div class="ttdoc">SimpleWindow所用消息的起始位置</div><div class="ttdef"><b>Definition</b> WndMsg.h:12</div></div>
+<div class="ttc" id="anamespacesw_html_a09acaaad408f1c26b86013c54da4c759af27d683197a41d60dc73e5f02073c6d3"><div class="ttname"><a href="namespacesw.html#a09acaaad408f1c26b86013c54da4c759af27d683197a41d60dc73e5f02073c6d3">sw::WM_PreSetParent</a></div><div class="ttdeci">@ WM_PreSetParent</div><div class="ttdoc">在WndBase::SetParent函数中设置父窗口之前发送该消息，wParam为新的父窗口句柄，lParam未使用</div><div class="ttdef"><b>Definition</b> WndMsg.h:21</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

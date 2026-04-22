@@ -28,9 +28,13 @@ var searchData=
   ['_5fisproperty_25',['_IsProperty',['../structsw_1_1__IsProperty.html',1,'sw']]],
   ['_5fispropertyimpl_26',['_IsPropertyImpl',['../structsw_1_1__IsPropertyImpl.html',1,'sw']]],
   ['_5fisreadableproperty_27',['_IsReadableProperty',['../structsw_1_1__IsReadableProperty.html',1,'sw']]],
-  ['_5fistypedroutedeventargs_28',['_IsTypedRoutedEventArgs',['../structsw_1_1__IsTypedRoutedEventArgs.html',1,'sw']]],
-  ['_5fiswritableproperty_29',['_IsWritableProperty',['../structsw_1_1__IsWritableProperty.html',1,'sw']]],
-  ['_5foffset_30',['_offset',['../classsw_1_1PropertyBase.html#a68267c1e2ca7b65ee30b0ed700ea6e07',1,'sw::PropertyBase']]],
-  ['_5freserved_31',['_reserved',['../structsw_1_1Color.html#ad432609396ec72641f339a89ce78d64f',1,'sw::Color']]],
-  ['_5fstaticoffset_32',['_STATICOFFSET',['../classsw_1_1PropertyBase.html#a6b5011e4c17ed00810a2d4e788979d90',1,'sw::PropertyBase']]]
+  ['_5fisstaticcastable_28',['_IsStaticCastable',['../namespacesw.html#abb53f1281f10eddcbef2cd0d6f1d0763',1,'sw']]],
+  ['_5fistypedroutedeventargs_29',['_IsTypedRoutedEventArgs',['../structsw_1_1__IsTypedRoutedEventArgs.html',1,'sw']]],
+  ['_5fiswritableproperty_30',['_IsWritableProperty',['../structsw_1_1__IsWritableProperty.html',1,'sw']]],
+  ['_5foffset_31',['_offset',['../classsw_1_1PropertyBase.html#a68267c1e2ca7b65ee30b0ed700ea6e07',1,'sw::PropertyBase']]],
+  ['_5foptimalparamtype_32',['_OptimalParamType',['../namespacesw.html#a03ccfc0b9f5cb19f90310921d6cac0c8',1,'sw']]],
+  ['_5fpropertysetterparamtype_33',['_PropertySetterParamType',['../namespacesw.html#a3cc8c4bd4d4dea7a1f423845f0c8fad3',1,'sw']]],
+  ['_5freserved_34',['_reserved',['../structsw_1_1Color.html#ad432609396ec72641f339a89ce78d64f',1,'sw::Color']]],
+  ['_5fstaticoffset_35',['_STATICOFFSET',['../classsw_1_1PropertyBase.html#a6b5011e4c17ed00810a2d4e788979d90',1,'sw::PropertyBase']]],
+  ['_5fsw_5fenum_5fenable_5fbit_5foperations_36',['_sw_enum_enable_bit_operations',['../namespacesw.html#a9409cdb590d80c4cb0d3bace9afdd51b',1,'sw::_SW_ENUM_ENABLE_BIT_OPERATIONS(ColorDialogFlags)'],['../namespacesw.html#ae92d9cb7c746e72dd6248d3acbf51371',1,'sw::_SW_ENUM_ENABLE_BIT_OPERATIONS(FileDialogFlags)'],['../namespacesw.html#ae84305de834a078ac4ed087dfb4f2f42',1,'sw::_SW_ENUM_ENABLE_BIT_OPERATIONS(FolderDialogFlags)'],['../namespacesw.html#a263f20d8b05394f1b5143134dea5d7f8',1,'sw::_SW_ENUM_ENABLE_BIT_OPERATIONS(FontDialogFlags)'],['../namespacesw.html#a0618082d8b9a0384727b08a6938ae28d',1,'sw::_SW_ENUM_ENABLE_BIT_OPERATIONS(HotKeyCombination)'],['../namespacesw.html#afb8cec5e8036a38ab6c8d09a6a542042',1,'sw::_SW_ENUM_ENABLE_BIT_OPERATIONS(MouseKey)'],['../namespacesw.html#aa76d8fc112278561303a85c980dd30c5',1,'sw::_SW_ENUM_ENABLE_BIT_OPERATIONS(HotKeyModifier)'],['../namespacesw.html#a5c5c00a68db8ff83db5c47c941f14512',1,'sw::_SW_ENUM_ENABLE_BIT_OPERATIONS(LayoutUpdateCondition)']]]
 ];

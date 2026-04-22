@@ -102,14 +102,16 @@ $(document).ready(function(){initNavTree('TabControl_8h_source.html',''); initRe
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Control.h&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;commctrl.h&gt;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesw.html">sw</a></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keyword">enum class</span> TabAlignment {</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        Top,    <span class="comment">// 顶部</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        Bottom, <span class="comment">// 底部</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        Left,   <span class="comment">// 左边</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        Right   <span class="comment">// 右边</span></div>
+<div class="foldopen" id="foldopen00011" data-start="{" data-end="};">
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="namespacesw.html#a1f91715f5f5eef5c58f5b4a4f30e4adb">   11</a></span>    <span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespacesw.html#a1f91715f5f5eef5c58f5b4a4f30e4adb">TabAlignment</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        <a class="code hl_enumvalue" href="namespacesw.html#a1c5529e7c7be1a467dd69c7248070019aa4ffdcf0dc1f31b9acaf295d75b51d00">Top</a>,    </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <a class="code hl_enumvalue" href="namespacesw.html#a1c5529e7c7be1a467dd69c7248070019a2ad9d63b69c4a10a5cc9cad923133bc4">Bottom</a>, </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <a class="code hl_enumvalue" href="namespacesw.html#ac8c4308a6543acd94abbd484cf00589fa945d5e233cf7d6240f6b783b36a374ff">Left</a>,   </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <a class="code hl_enumvalue" href="namespacesw.html#ac8c4308a6543acd94abbd484cf00589fa92b09c7c48c520c3c55e497875da437c">Right</a>   <span class="comment">// 右边</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    };</div>
+</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
 <div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classsw_1_1TabControl.html">   21</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1TabControl.html">TabControl</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1Control.html">Control</a></div>
@@ -151,7 +153,7 @@ $(document).ready(function(){initNavTree('TabControl_8h_source.html',''); initRe
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="classsw_1_1TabControl.html#a654688668bdf8331e27cbe4564d6cf63">  114</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1TabControl.html#a654688668bdf8331e27cbe4564d6cf63">OnSelectedIndexChanged</a>();</div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        <span class="keywordtype">void</span> _SetTabAlignment(TabAlignment value);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        <span class="keywordtype">void</span> _SetTabAlignment(<a class="code hl_enumeration" href="namespacesw.html#a1f91715f5f5eef5c58f5b4a4f30e4adb">TabAlignment</a> value);</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <span class="keywordtype">void</span> _UpdateChildVisible(<span class="keywordtype">bool</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">invalidMeasure</a> = <span class="keyword">true</span>);</div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
@@ -189,7 +191,13 @@ $(document).ready(function(){initNavTree('TabControl_8h_source.html',''); initRe
 <div class="ttc" id="aclasssw_1_1TabControl_html_acbde185af6197161f7b22485ebff02b2"><div class="ttname"><a href="classsw_1_1TabControl.html#acbde185af6197161f7b22485ebff02b2">sw::TabControl::UpdateTab</a></div><div class="ttdeci">void UpdateTab()</div><div class="ttdoc">更新标签项信息</div></div>
 <div class="ttc" id="aclasssw_1_1TabControl_html_ae0fc4dead5149c903eb429d0927ec182"><div class="ttname"><a href="classsw_1_1TabControl.html#ae0fc4dead5149c903eb429d0927ec182">sw::TabControl::MultiLine</a></div><div class="ttdeci">const Property&lt; bool &gt; MultiLine</div><div class="ttdoc">是否开启多行标签</div><div class="ttdef"><b>Definition</b> TabControl.h:48</div></div>
 <div class="ttc" id="aclasssw_1_1TabControl_html_afe3911adf115bf45e1ef7156f56a6b9b"><div class="ttname"><a href="classsw_1_1TabControl.html#afe3911adf115bf45e1ef7156f56a6b9b">sw::TabControl::ArrangeOverride</a></div><div class="ttdeci">virtual void ArrangeOverride(const Size &amp;finalSize) override</div><div class="ttdoc">安排子元素的位置，可重写该函数以实现自定义布局</div></div>
-<div class="ttc" id="aclasssw_1_1UIElement_html"><div class="ttname"><a href="classsw_1_1UIElement.html">sw::UIElement</a></div><div class="ttdoc">表示界面中的元素</div><div class="ttdef"><b>Definition</b> UIElement.h:85</div></div>
+<div class="ttc" id="aclasssw_1_1UIElement_html"><div class="ttname"><a href="classsw_1_1UIElement.html">sw::UIElement</a></div><div class="ttdoc">表示界面中的元素</div><div class="ttdef"><b>Definition</b> UIElement.h:69</div></div>
+<div class="ttc" id="anamespacesw_html"><div class="ttname"><a href="namespacesw.html">sw</a></div><div class="ttdoc">SimpleWindow框架的顶级命名空间，所有公共类型、控件、枚举和工具函数均定义于此。</div><div class="ttdef"><b>Definition</b> Alignment.h:4</div></div>
+<div class="ttc" id="anamespacesw_html_a1c5529e7c7be1a467dd69c7248070019a2ad9d63b69c4a10a5cc9cad923133bc4"><div class="ttname"><a href="namespacesw.html#a1c5529e7c7be1a467dd69c7248070019a2ad9d63b69c4a10a5cc9cad923133bc4">sw::VerticalAlignment::Bottom</a></div><div class="ttdeci">@ Bottom</div><div class="ttdoc">底部对齐</div></div>
+<div class="ttc" id="anamespacesw_html_a1c5529e7c7be1a467dd69c7248070019aa4ffdcf0dc1f31b9acaf295d75b51d00"><div class="ttname"><a href="namespacesw.html#a1c5529e7c7be1a467dd69c7248070019aa4ffdcf0dc1f31b9acaf295d75b51d00">sw::VerticalAlignment::Top</a></div><div class="ttdeci">@ Top</div><div class="ttdoc">顶部对齐</div></div>
+<div class="ttc" id="anamespacesw_html_a1f91715f5f5eef5c58f5b4a4f30e4adb"><div class="ttname"><a href="namespacesw.html#a1f91715f5f5eef5c58f5b4a4f30e4adb">sw::TabAlignment</a></div><div class="ttdeci">TabAlignment</div><div class="ttdoc">TabControl标签的位置</div><div class="ttdef"><b>Definition</b> TabControl.h:11</div></div>
+<div class="ttc" id="anamespacesw_html_ac8c4308a6543acd94abbd484cf00589fa92b09c7c48c520c3c55e497875da437c"><div class="ttname"><a href="namespacesw.html#ac8c4308a6543acd94abbd484cf00589fa92b09c7c48c520c3c55e497875da437c">sw::HorizontalAlignment::Right</a></div><div class="ttdeci">@ Right</div><div class="ttdoc">右对齐</div></div>
+<div class="ttc" id="anamespacesw_html_ac8c4308a6543acd94abbd484cf00589fa945d5e233cf7d6240f6b783b36a374ff"><div class="ttname"><a href="namespacesw.html#ac8c4308a6543acd94abbd484cf00589fa945d5e233cf7d6240f6b783b36a374ff">sw::HorizontalAlignment::Left</a></div><div class="ttdeci">@ Left</div><div class="ttdoc">左对齐</div></div>
 <div class="ttc" id="astructsw_1_1Size_html"><div class="ttname"><a href="structsw_1_1Size.html">sw::Size</a></div><div class="ttdoc">尺寸</div><div class="ttdef"><b>Definition</b> Size.h:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

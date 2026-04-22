@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['r_0',['R',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ae1e1d3d40573127e9ee0480caf1283d6',1,'sw']]],
+  ['raised_1',['Raised',['../namespacesw.html#a718fb8365defde125f8867955a800604ab1f30139cb5d78ab38b46771b0490345',1,'sw']]],
+  ['raster_2',['Raster',['../namespacesw.html#a5be2499bb0599c8050838b662e8e5fa1a7125f394de382b13a7e7a5a4b6d23364',1,'sw']]],
+  ['readonly_3',['ReadOnly',['../namespacesw.html#ac4dcf0d2a487e02ca4fca93d1bbe33fba131fb182a881796e7606ed6da27f1197',1,'sw']]],
+  ['rebeccapurple_4',['RebeccaPurple',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffa2e31f16d0f61e79b46d42f2228ca7bd6',1,'sw']]],
+  ['red_5',['Red',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffaee38e4d5dd68c4e440825018d549cb47',1,'sw']]],
+  ['regular_6',['Regular',['../namespacesw.html#aa339b1447a18854cd65020a0f25543faad2203cb1237cb6460cbad94564e39345',1,'sw']]],
+  ['retry_7',['Retry',['../namespacesw.html#a388b6854a3e8dbe58a2fc7f94b56ed21a6327b4e59f58137083214a1fec358855',1,'sw']]],
+  ['retrycancel_8',['RetryCancel',['../namespacesw.html#a1ef392bdfcdeb24e0fa24c40ca3c451da5d1f937d009d6f924b50b9e742ecc8ac',1,'sw']]],
+  ['returnfilesystemancestors_9',['ReturnFileSystemAncestors',['../namespacesw.html#ae701cae891e27ca058472a7c58e77f2bab1cd642791ca8d038d1e5ec6d4b85904',1,'sw']]],
+  ['returnonlyfilesystemdirs_10',['ReturnOnlyFileSystemDirs',['../namespacesw.html#ae701cae891e27ca058472a7c58e77f2baf0fcac4f1defad495276c2e8ceb2b383',1,'sw']]],
+  ['rgbinit_11',['RgbInit',['../namespacesw.html#a5b962675480d9379e645d8090df52e73a822d3d08922d4ebbc2a890dc6a19b43c',1,'sw']]],
+  ['right_12',['right',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a92b09c7c48c520c3c55e497875da437c',1,'sw::Right'],['../namespacesw.html#ad7852d6fb3ec67184e239e104605a9ffa92b09c7c48c520c3c55e497875da437c',1,'sw::Right'],['../namespacesw.html#a76a78fe1e127fc6a9491fbd3a4d8a7e1a92b09c7c48c520c3c55e497875da437c',1,'sw::Right'],['../classsw_1_1DockLayoutTag.html#aa422b97e6de729e813e11e25374aa91bab92718f9831ac9245cf08a8774cba410',1,'sw::DockLayoutTag::Right'],['../namespacesw.html#ac8c4308a6543acd94abbd484cf00589fa92b09c7c48c520c3c55e497875da437c',1,'sw::Right']]],
+  ['rightalt_13',['RightAlt',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ad88bad98046b623323aa6ca28eefa6d5',1,'sw']]],
+  ['rightctrl_14',['RightCtrl',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0af298b75d2207818c0459c063a21fd172',1,'sw']]],
+  ['rightshift_15',['RightShift',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a317d4a7487ee62605713987d4a037f83',1,'sw']]],
+  ['rightwindows_16',['RightWindows',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a27b8f99931fa7ed354ba428be0dda0cb',1,'sw']]],
+  ['roman_17',['Roman',['../namespacesw.html#a566edd50626539faf757d437dcc2e5e8ab5df36ac79aa6391ffb432b9e5ad7880',1,'sw']]],
+  ['rosybrown_18',['RosyBrown',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffa36b966a66d6bd385bc65c4ea063c841c',1,'sw']]],
+  ['routedeventtype_5fnull_19',['RoutedEventType_Null',['../namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210ada515ce45184547d132610827b6ebe78',1,'sw']]],
+  ['routedeventtype_5fuser_20',['RoutedEventType_User',['../namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210aaca253a9c9a06481d673abd0f922ab5a',1,'sw']]],
+  ['routedeventtype_5fuserend_21',['RoutedEventType_UserEnd',['../namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210ab2e3d74be1d5e9c887cff9b08793b7ba',1,'sw']]],
+  ['royalblue_22',['RoyalBlue',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffa3c6a0f673ebc53ef5e2912c59330c802',1,'sw']]],
+  ['russian_23',['Russian',['../namespacesw.html#ae74d5219af14bfa850d533c3c7c5156eadeba6920e70615401385fe1fb5a379ec',1,'sw']]]
+];

@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('Variant_8h_source.html',''); initResiz
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Reflection.h&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesw.html">sw</a></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
 <div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html">   10</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1Variant.html">Variant</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">final</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1IEqualityComparable.html">IEqualityComparable</a>&lt;Variant&gt;</div>
@@ -115,10 +115,10 @@ $(document).ready(function(){initNavTree('Variant_8h_source.html',''); initResiz
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#aae7e07e5466546486096283673e36f79">   27</a></span>        <a class="code hl_function" href="classsw_1_1Variant.html#aae7e07e5466546486096283673e36f79">Variant</a>() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keyword">template</span> &lt;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            <span class="keyword">typename</span> T,</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            <span class="keyword">typename</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>,</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            <span class="keyword">typename</span> std::enable_if&lt;!std::is_same&lt;Variant, typename std::decay&lt;T&gt;::type&gt;::value, <span class="keywordtype">int</span>&gt;::type = 0&gt;</div>
 <div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a1c2fdfc43fa43d8eae8c8606f855a85a">   35</a></span>        <a class="code hl_function" href="classsw_1_1Variant.html#a1c2fdfc43fa43d8eae8c8606f855a85a">Variant</a>(T &amp;&amp;obj)</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a1c2fdfc43fa43d8eae8c8606f855a85a">   35</a></span>        <a class="code hl_function" href="classsw_1_1Variant.html#a1c2fdfc43fa43d8eae8c8606f855a85a">Variant</a>(<a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&amp;obj)</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        {</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            <a class="code hl_function" href="classsw_1_1Variant.html#a5e659533df7c6e8eddee7bc7c9037d9c">Reset</a>(std::forward&lt;T&gt;(obj));</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        }</div>
@@ -216,25 +216,25 @@ $(document).ready(function(){initNavTree('Variant_8h_source.html',''); initResiz
 <div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="foldopen" id="foldopen00150" data-start="{" data-end="}">
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a590f91a7cd694f32eedf548d935b2260">  150</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1Variant.html#a590f91a7cd694f32eedf548d935b2260">Reset</a>(T &amp;&amp;obj)</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a590f91a7cd694f32eedf548d935b2260">  150</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1Variant.html#a590f91a7cd694f32eedf548d935b2260">Reset</a>(<a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&amp;obj)</div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>            -&gt; <span class="keyword">typename</span> std::enable_if&lt;</div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>                !std::is_same&lt;Variant, typename std::decay&lt;T&gt;::type&gt;::value &amp;&amp;</div>
 <div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>                std::is_base_of&lt;DynamicObject, typename std::decay&lt;T&gt;::type&gt;::value&gt;::type</div>
 <div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        {</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>            <span class="keyword">using </span>U = <span class="keyword">typename</span> std::decay&lt;T&gt;::type;</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>            _obj.reset(<span class="keyword">new</span> U(std::forward&lt;T&gt;(obj)));</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>            <span class="keyword">using </span><a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> = <span class="keyword">typename</span> std::decay&lt;T&gt;::type;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>            _obj.reset(<span class="keyword">new</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>(std::forward&lt;T&gt;(obj)));</div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">ResetCloner&lt;U&gt;</a>();</div>
 <div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        }</div>
 </div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
 <div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="foldopen" id="foldopen00166" data-start="{" data-end="}">
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#abd95463a5f24f33b6b72f7e5dac84f80">  166</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1Variant.html#abd95463a5f24f33b6b72f7e5dac84f80">Reset</a>(T &amp;&amp;obj)</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#abd95463a5f24f33b6b72f7e5dac84f80">  166</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="classsw_1_1Variant.html#abd95463a5f24f33b6b72f7e5dac84f80">Reset</a>(<a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&amp;obj)</div>
 <div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>            -&gt; <span class="keyword">typename</span> std::enable_if&lt;</div>
 <div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>                !std::is_same&lt;Variant, typename std::decay&lt;T&gt;::type&gt;::value &amp;&amp;</div>
 <div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>                !std::is_base_of&lt;DynamicObject, typename std::decay&lt;T&gt;::type&gt;::value&gt;::type</div>
 <div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        {</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>            <span class="keyword">using </span>U = <span class="keyword">typename</span> std::decay&lt;T&gt;::type;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>            <span class="keyword">using </span><a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> = <span class="keyword">typename</span> std::decay&lt;T&gt;::type;</div>
 <div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>            _obj.reset(<span class="keyword">new</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">BoxedObject&lt;U&gt;</a>(std::forward&lt;T&gt;(obj)));</div>
 <div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">ResetCloner&lt;U&gt;</a>();</div>
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        }</div>
@@ -249,7 +249,7 @@ $(document).ready(function(){initNavTree('Variant_8h_source.html',''); initResiz
 <div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="foldopen" id="foldopen00192" data-start="{" data-end="}">
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a41e4ff2165d44a59ca7da9d52a55a7bb">  192</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Variant.html#a41e4ff2165d44a59ca7da9d52a55a7bb">IsType</a>(T **<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a> = <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a41e4ff2165d44a59ca7da9d52a55a7bb">  192</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Variant.html#a41e4ff2165d44a59ca7da9d52a55a7bb">IsType</a>(<a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> **<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a> = <span class="keyword">nullptr</span>)</div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        {</div>
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>            <span class="keywordflow">if</span> (_obj == <span class="keyword">nullptr</span>) {</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>                <span class="keywordflow">if</span> (<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a> != <span class="keyword">nullptr</span>) {</div>
@@ -257,14 +257,14 @@ $(document).ready(function(){initNavTree('Variant_8h_source.html',''); initResiz
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>                }</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>                <span class="keywordflow">return</span> _obj-&gt;IsType&lt;T&gt;(<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a>);</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>                <span class="keywordflow">return</span> _obj-&gt;IsType&lt;<a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>&gt;(<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a>);</div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>            }</div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        }</div>
 </div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
 <div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="foldopen" id="foldopen00211" data-start="{" data-end="}">
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#ab8a09127b05f4654f3c549c62340b73d">  211</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Variant.html#ab8a09127b05f4654f3c549c62340b73d">IsType</a>(<span class="keyword">const</span> T **<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a> = <span class="keyword">nullptr</span>)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#ab8a09127b05f4654f3c549c62340b73d">  211</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1Variant.html#ab8a09127b05f4654f3c549c62340b73d">IsType</a>(<span class="keyword">const</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> **<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a> = <span class="keyword">nullptr</span>)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="keyword">        </span>{</div>
 <div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>            <span class="keywordflow">if</span> (_obj == <span class="keyword">nullptr</span>) {</div>
 <div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>                <span class="keywordflow">if</span> (<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a> != <span class="keyword">nullptr</span>) {</div>
@@ -272,44 +272,44 @@ $(document).ready(function(){initNavTree('Variant_8h_source.html',''); initResiz
 <div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>                }</div>
 <div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                <span class="keywordflow">return</span> _obj-&gt;IsType&lt;T&gt;(<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a>);</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                <span class="keywordflow">return</span> _obj-&gt;IsType&lt;<a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>&gt;(<a class="code hl_class" href="classsw_1_1IValueConverter.html">pout</a>);</div>
 <div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>            }</div>
 <div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        }</div>
 </div>
 <div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
 <div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="foldopen" id="foldopen00230" data-start="{" data-end="}">
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a944b8dc074b40e4b8096faba1f59f5cb">  230</a></span>        T &amp;<a class="code hl_function" href="classsw_1_1Variant.html#a944b8dc074b40e4b8096faba1f59f5cb">DynamicCast</a>()</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a944b8dc074b40e4b8096faba1f59f5cb">  230</a></span>        <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;<a class="code hl_function" href="classsw_1_1Variant.html#a944b8dc074b40e4b8096faba1f59f5cb">DynamicCast</a>()</div>
 <div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>        {</div>
 <div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>            ThrowBadCastIfEmpty();</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>            <span class="keywordflow">return</span> _obj-&gt;DynamicCast&lt;T&gt;();</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>            <span class="keywordflow">return</span> _obj-&gt;DynamicCast&lt;<a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>&gt;();</div>
 <div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        }</div>
 </div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
 <div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="foldopen" id="foldopen00243" data-start="{" data-end="}">
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a6fdf9936e7a7a6f7b7e05f4b6222ae26">  243</a></span>        <span class="keyword">const</span> T &amp;<a class="code hl_function" href="classsw_1_1Variant.html#a6fdf9936e7a7a6f7b7e05f4b6222ae26">DynamicCast</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a6fdf9936e7a7a6f7b7e05f4b6222ae26">  243</a></span>        <span class="keyword">const</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;<a class="code hl_function" href="classsw_1_1Variant.html#a6fdf9936e7a7a6f7b7e05f4b6222ae26">DynamicCast</a>()<span class="keyword"> const</span></div>
 <div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span><span class="keyword">        </span>{</div>
 <div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>            ThrowBadCastIfEmpty();</div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>            <span class="keywordflow">return</span> _obj-&gt;DynamicCast&lt;T&gt;();</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>            <span class="keywordflow">return</span> _obj-&gt;DynamicCast&lt;<a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>&gt;();</div>
 <div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>        }</div>
 </div>
 <div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span> </div>
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="foldopen" id="foldopen00257" data-start="{" data-end="}">
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#add936161cb445712d4c7cfe654e76c61">  257</a></span>        T &amp;<a class="code hl_function" href="classsw_1_1Variant.html#add936161cb445712d4c7cfe654e76c61">UnsafeCast</a>()</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#add936161cb445712d4c7cfe654e76c61">  257</a></span>        <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;<a class="code hl_function" href="classsw_1_1Variant.html#add936161cb445712d4c7cfe654e76c61">UnsafeCast</a>()</div>
 <div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>        {</div>
 <div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>            ThrowBadCastIfEmpty();</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>            <span class="keywordflow">return</span> _obj-&gt;UnsafeCast&lt;T&gt;();</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>            <span class="keywordflow">return</span> _obj-&gt;UnsafeCast&lt;<a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>&gt;();</div>
 <div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        }</div>
 </div>
 <div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
 <div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="foldopen" id="foldopen00271" data-start="{" data-end="}">
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a0dac476f18f19296ade19e8c33cbb8b0">  271</a></span>        <span class="keyword">const</span> T &amp;<a class="code hl_function" href="classsw_1_1Variant.html#a0dac476f18f19296ade19e8c33cbb8b0">UnsafeCast</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno"><a class="line" href="classsw_1_1Variant.html#a0dac476f18f19296ade19e8c33cbb8b0">  271</a></span>        <span class="keyword">const</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;<a class="code hl_function" href="classsw_1_1Variant.html#a0dac476f18f19296ade19e8c33cbb8b0">UnsafeCast</a>()<span class="keyword"> const</span></div>
 <div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span><span class="keyword">        </span>{</div>
 <div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>            ThrowBadCastIfEmpty();</div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>            <span class="keywordflow">return</span> _obj-&gt;UnsafeCast&lt;T&gt;();</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>            <span class="keywordflow">return</span> _obj-&gt;UnsafeCast&lt;<a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>&gt;();</div>
 <div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>        }</div>
 </div>
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
@@ -326,7 +326,7 @@ $(document).ready(function(){initNavTree('Variant_8h_source.html',''); initResiz
 <div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>            -&gt; <span class="keyword">typename</span> std::enable_if&lt;std::is_copy_constructible&lt;T&gt;::value &amp;&amp; std::is_base_of&lt;DynamicObject, T&gt;::value&gt;::type</div>
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>        {</div>
 <div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>            _cloner = [](<span class="keyword">const</span> DynamicObject &amp;other) -&gt; DynamicObject * {</div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> T(other.UnsafeCast&lt;T&gt;());</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>                <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>(other.UnsafeCast&lt;<a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>&gt;());</div>
 <div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>            };</div>
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>        }</div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span> </div>
@@ -374,6 +374,9 @@ $(document).ready(function(){initNavTree('Variant_8h_source.html',''); initResiz
 <div class="ttc" id="aclasssw_1_1Variant_html_add936161cb445712d4c7cfe654e76c61"><div class="ttname"><a href="classsw_1_1Variant.html#add936161cb445712d4c7cfe654e76c61">sw::Variant::UnsafeCast</a></div><div class="ttdeci">T &amp; UnsafeCast()</div><div class="ttdoc">将Variant对象转换为指定类型的引用</div><div class="ttdef"><b>Definition</b> Variant.h:257</div></div>
 <div class="ttc" id="aclasssw_1_1Variant_html_af09d75924a75e37355a3bec789b7cfaf"><div class="ttname"><a href="classsw_1_1Variant.html#af09d75924a75e37355a3bec789b7cfaf">sw::Variant::Variant</a></div><div class="ttdeci">Variant(const Variant &amp;other)</div><div class="ttdoc">拷贝构造函数</div><div class="ttdef"><b>Definition</b> Variant.h:43</div></div>
 <div class="ttc" id="aclasssw_1_1Variant_html_afed9c34c4fdaa689766f30c6c5a0a02f"><div class="ttname"><a href="classsw_1_1Variant.html#afed9c34c4fdaa689766f30c6c5a0a02f">sw::Variant::Reset</a></div><div class="ttdeci">void Reset(const Variant &amp;other)</div><div class="ttdoc">重置Variant对象为另一个Variant对象的值</div><div class="ttdef"><b>Definition</b> Variant.h:118</div></div>
+<div class="ttc" id="anamespacesw_html"><div class="ttname"><a href="namespacesw.html">sw</a></div><div class="ttdoc">SimpleWindow框架的顶级命名空间，所有公共类型、控件、枚举和工具函数均定义于此。</div><div class="ttdef"><b>Definition</b> Alignment.h:4</div></div>
+<div class="ttc" id="anamespacesw_html_a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb"><div class="ttname"><a href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">sw::VirtualKey::U</a></div><div class="ttdeci">@ U</div><div class="ttdoc">U key</div></div>
+<div class="ttc" id="anamespacesw_html_a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3"><div class="ttname"><a href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">sw::VirtualKey::T</a></div><div class="ttdeci">@ T</div><div class="ttdoc">T key</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

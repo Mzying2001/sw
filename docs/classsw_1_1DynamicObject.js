@@ -8,7 +8,7 @@ var classsw_1_1DynamicObject =
     [ "DynamicCast", "classsw_1_1DynamicObject.html#aa95d23195bf431431b373d6d396ef2ce", null ],
     [ "DynamicCast", "classsw_1_1DynamicObject.html#ada69c970de8f21e01ac8542693c2e56e", null ],
     [ "DynamicCast", "classsw_1_1DynamicObject.html#ab9efcf0958219f162363235227ab73a6", null ],
-    [ "GetTypeIndex", "classsw_1_1DynamicObject.html#af793982c7d4e7bdec3ddb9c584b0f2ed", null ],
+    [ "GetType", "classsw_1_1DynamicObject.html#aa99b1fcd3441b733110d06ff6659fd16", null ],
     [ "IsBoxedObject", "classsw_1_1DynamicObject.html#ae60438349991563193cab03dc1af4875", null ],
     [ "IsType", "classsw_1_1DynamicObject.html#a0a2831642c258675e2f1aaca68d917a4", null ],
     [ "IsType", "classsw_1_1DynamicObject.html#a3e0fbc02c81fae81cea6f9158a1e393a", null ],

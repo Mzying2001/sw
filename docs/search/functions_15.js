@@ -1,31 +1,5 @@
 var searchData=
 [
-  ['_7ebinding_0',['~Binding',['../classsw_1_1Binding.html#a7bfbddee5d3857d90cec8aa02d33d040',1,'sw::Binding']]],
-  ['_7ebindingbase_1',['~BindingBase',['../classsw_1_1BindingBase.html#a11dced4fa4ccd3337b7c938c9133eaa4',1,'sw::BindingBase']]],
-  ['_7ebmpbox_2',['~BmpBox',['../classsw_1_1BmpBox.html#a866ad1d7393ebbdb33b24f1aa522e8fa',1,'sw::BmpBox']]],
-  ['_7eboxedobject_3',['~BoxedObject',['../classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html#ad398d5377538aede4236f5fcc602d382',1,'sw::BoxedObject&lt; T, typename std::enable_if&lt;!std::is_base_of&lt; DynamicObject, T &gt;::value &gt;::type &gt;']]],
-  ['_7ebuttonbase_4',['~ButtonBase',['../classsw_1_1ButtonBase.html#a2b521a4eb6233774cf15ece47c0b5d68',1,'sw::ButtonBase']]],
-  ['_7ecallablelist_5',['~CallableList',['../classsw_1_1CallableList.html#ac1aaaa98c73f2d29a5ae29edddf1aa04',1,'sw::CallableList']]],
-  ['_7echeckablebutton_6',['~CheckableButton',['../classsw_1_1CheckableButton.html#a5219cae8ff29ce51fc384b1916debb7a',1,'sw::CheckableButton']]],
-  ['_7econtrol_7',['~Control',['../classsw_1_1Control.html#ab2c00cbb6c776111096e9711c19735e7',1,'sw::Control']]],
-  ['_7edatabinding_8',['~DataBinding',['../classsw_1_1DataBinding.html#a3d7673db5f2a1eacfd6b1c5c7cc9cb75',1,'sw::DataBinding']]],
-  ['_7edynamicobject_9',['~DynamicObject',['../classsw_1_1DynamicObject.html#a90071aaa312791e8fb64c4dd4c601f31',1,'sw::DynamicObject']]],
-  ['_7ehwndhost_10',['~HwndHost',['../classsw_1_1HwndHost.html#ad4bd1d4d18e06e16a6fd580e22a2c39b',1,'sw::HwndHost']]],
-  ['_7eicallable_11',['~ICallable',['../structsw_1_1ICallable_3_01TRet_07Args_8_8_8_08_4.html#ad7a434bdc72100e2a0ac1da2dce77032',1,'sw::ICallable&lt; TRet(Args...)&gt;']]],
-  ['_7eiconbox_12',['~IconBox',['../classsw_1_1IconBox.html#adc90d8ac40050fe13a5eef9df493362f',1,'sw::IconBox']]],
-  ['_7eidialog_13',['~IDialog',['../classsw_1_1IDialog.html#a1aeda769602310f49583fae80aa45c4f',1,'sw::IDialog']]],
-  ['_7eilayout_14',['~ILayout',['../classsw_1_1ILayout.html#a42941ab943edee8c07a7b1da6c7ea226',1,'sw::ILayout']]],
-  ['_7eimagelist_15',['~ImageList',['../classsw_1_1ImageList.html#ac39110050fa5810d799d79322624a220',1,'sw::ImageList']]],
-  ['_7einotifyobjectdead_16',['~INotifyObjectDead',['../classsw_1_1INotifyObjectDead.html#a39b3e619bfa3cd1bcd6b5144406d18fc',1,'sw::INotifyObjectDead']]],
-  ['_7einotifypropertychanged_17',['~INotifyPropertyChanged',['../classsw_1_1INotifyPropertyChanged.html#ab473e52bf8a476c3084e54616df6f70c',1,'sw::INotifyPropertyChanged']]],
-  ['_7eitag_18',['~ITag',['../classsw_1_1ITag.html#ab8f9ee5b36bc52c8a667c9d4c26e62f3',1,'sw::ITag']]],
-  ['_7eivalueconverter_19',['~IValueConverter',['../classsw_1_1IValueConverter.html#a367d7f7f5ce62a15ee90662bd3fe9566',1,'sw::IValueConverter']]],
-  ['_7elayouthost_20',['~LayoutHost',['../classsw_1_1LayoutHost.html#af189443e74b7e51f9ec3735658d6a667',1,'sw::LayoutHost']]],
-  ['_7emenubase_21',['~MenuBase',['../classsw_1_1MenuBase.html#a5e53085e7078b090cabf8998d6146831',1,'sw::MenuBase']]],
-  ['_7enotifyicon_22',['~NotifyIcon',['../classsw_1_1NotifyIcon.html#a13fe1b17367e72802d5f3b5bc2a6b218',1,'sw::NotifyIcon']]],
-  ['_7eobservableobject_23',['~ObservableObject',['../classsw_1_1ObservableObject.html#a1d16c9dddfbb1e69c1904836fb8fbd58',1,'sw::ObservableObject']]],
-  ['_7etextboxbase_24',['~TextBoxBase',['../classsw_1_1TextBoxBase.html#a2fb455bb1ed2c1b3f3c12a82a5a4b720',1,'sw::TextBoxBase']]],
-  ['_7euielement_25',['~UIElement',['../classsw_1_1UIElement.html#acbe28513919da89bf3f9a5102d6353c3',1,'sw::UIElement']]],
-  ['_7ewindow_26',['~Window',['../classsw_1_1Window.html#ad41fe170a165828b52d47fc2ee009106',1,'sw::Window']]],
-  ['_7ewndbase_27',['~WndBase',['../classsw_1_1WndBase.html#a6c99714fa3f313e7535936585f63b9cb',1,'sw::WndBase']]]
+  ['variant_0',['variant',['../classsw_1_1Variant.html#aae7e07e5466546486096283673e36f79',1,'sw::Variant::Variant()=default'],['../classsw_1_1Variant.html#a1c2fdfc43fa43d8eae8c8606f855a85a',1,'sw::Variant::Variant(T &amp;&amp;obj)'],['../classsw_1_1Variant.html#af09d75924a75e37355a3bec789b7cfaf',1,'sw::Variant::Variant(const Variant &amp;other)'],['../classsw_1_1Variant.html#a5894f31cba54ca1a8f30be8800cde86e',1,'sw::Variant::Variant(Variant &amp;&amp;other) noexcept']]],
+  ['visiblechanged_1',['visiblechanged',['../classsw_1_1UIElement.html#a98812949329f77e400f7e0e381c56c3d',1,'sw::UIElement::VisibleChanged()'],['../classsw_1_1WndBase.html#aef02bbac8ef450e5f3f478b41031a3ab',1,'sw::WndBase::VisibleChanged()']]]
 ];

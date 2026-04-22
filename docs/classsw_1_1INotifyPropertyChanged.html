@@ -146,13 +146,13 @@ Public 成员函数</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public 属性</h2></td></tr>
-<tr class="memitem:a08086f8d015d3187fc976e608bde2c25" id="r_a08086f8d015d3187fc976e608bde2c25"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Event.html">Event</a>&lt; <a class="el" href="classsw_1_1Delegate.html">PropertyChangedEventHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1INotifyPropertyChanged.html#a08086f8d015d3187fc976e608bde2c25">PropertyChanged</a></td></tr>
+<tr class="memitem:a08086f8d015d3187fc976e608bde2c25" id="r_a08086f8d015d3187fc976e608bde2c25"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Event.html">Event</a>&lt; <a class="el" href="namespacesw.html#ad123aced35408275985d84d520592099">PropertyChangedEventHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1INotifyPropertyChanged.html#a08086f8d015d3187fc976e608bde2c25">PropertyChanged</a></td></tr>
 <tr class="memdesc:a08086f8d015d3187fc976e608bde2c25"><td class="mdescLeft">&#160;</td><td class="mdescRight">当属性值更改时触发的事件  <br /></td></tr>
 <tr class="separator:a08086f8d015d3187fc976e608bde2c25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
-<tr class="memitem:a795523da6da22c072de415a39127e65c" id="r_a795523da6da22c072de415a39127e65c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1Delegate.html">PropertyChangedEventHandler</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1INotifyPropertyChanged.html#a795523da6da22c072de415a39127e65c">GetPropertyChangedEventDelegate</a> ()=0</td></tr>
+<tr class="memitem:a795523da6da22c072de415a39127e65c" id="r_a795523da6da22c072de415a39127e65c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="namespacesw.html#ad123aced35408275985d84d520592099">PropertyChangedEventHandler</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1INotifyPropertyChanged.html#a795523da6da22c072de415a39127e65c">GetPropertyChangedEventDelegate</a> ()=0</td></tr>
 <tr class="memdesc:a795523da6da22c072de415a39127e65c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取属性更改事件委托的引用  <br /></td></tr>
 <tr class="separator:a795523da6da22c072de415a39127e65c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -169,7 +169,7 @@ Protected 成员函数</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1Delegate.html">PropertyChangedEventHandler</a> &amp; sw::INotifyPropertyChanged::GetPropertyChangedEventDelegate </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="namespacesw.html#ad123aced35408275985d84d520592099">PropertyChangedEventHandler</a> &amp; sw::INotifyPropertyChanged::GetPropertyChangedEventDelegate </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -197,16 +197,17 @@ Protected 成员函数</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Event.html">Event</a>&lt;<a class="el" href="classsw_1_1Delegate.html">PropertyChangedEventHandler</a>&gt; sw::INotifyPropertyChanged::PropertyChanged</td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Event.html">Event</a>&lt;<a class="el" href="namespacesw.html#ad123aced35408275985d84d520592099">PropertyChangedEventHandler</a>&gt; sw::INotifyPropertyChanged::PropertyChanged</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <b>初始值:</b><div class="fragment"><div class="line">{</div>
 <div class="line">            Event&lt;PropertyChangedEventHandler&gt;::Init(<span class="keyword">this</span>)</div>
-<div class="line">                .Delegate([](INotifyPropertyChanged *self) -&gt; PropertyChangedEventHandler &amp; {</div>
+<div class="line">                .Delegate([](INotifyPropertyChanged *self) -&gt; <a class="code hl_typedef" href="namespacesw.html#ad123aced35408275985d84d520592099">PropertyChangedEventHandler</a> &amp; {</div>
 <div class="line">                    <span class="keywordflow">return</span> self-&gt;GetPropertyChangedEventDelegate();</div>
 <div class="line">                }) </div>
 <div class="line">        }</div>
+<div class="ttc" id="anamespacesw_html_ad123aced35408275985d84d520592099"><div class="ttname"><a href="namespacesw.html#ad123aced35408275985d84d520592099">sw::PropertyChangedEventHandler</a></div><div class="ttdeci">EventHandler&lt; INotifyPropertyChanged, PropertyChangedEventArgs &gt; PropertyChangedEventHandler</div><div class="ttdoc">属性更改事件处理函数类型</div><div class="ttdef"><b>Definition</b> INotifyPropertyChanged.h:24</div></div>
 </div><!-- fragment -->
 <p>当属性值更改时触发的事件 </p>
 
@@ -220,7 +221,7 @@ Protected 成员函数</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>sw</b></li><li class="navelem"><a class="el" href="classsw_1_1INotifyPropertyChanged.html">INotifyPropertyChanged</a></li>
+    <li class="navelem"><a class="el" href="namespacesw.html">sw</a></li><li class="navelem"><a class="el" href="classsw_1_1INotifyPropertyChanged.html">INotifyPropertyChanged</a></li>
     <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

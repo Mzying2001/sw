@@ -105,47 +105,31 @@ $(document).ready(function(){initNavTree('ColorDialog_8h_source.html',''); initR
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;Property.h&quot;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;windows.h&gt;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span>sw</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesw.html">sw</a></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>{</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keyword">enum class</span> ColorDialogFlags : DWORD {</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <span class="comment">// Causes the dialog box to display all available colors in the set of basic colors.</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        AnyColor = 0x00000100,</div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="};">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="namespacesw.html#a5b962675480d9379e645d8090df52e73">   14</a></span>    <span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespacesw.html#a5b962675480d9379e645d8090df52e73">ColorDialogFlags</a> : <a class="code hl_class" href="classsw_1_1IValueConverter.html">DWORD</a> {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <a class="code hl_enumvalue" href="namespacesw.html#a5b962675480d9379e645d8090df52e73a73ab7631f10e84341ee9c188762f77b0">AnyColor</a> = 0x00000100,</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="comment">// Enables the hook procedure specified in the lpfnHook member of this structure.</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="comment">// This flag is used only to initialize the dialog box.</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        EnableHook = 0x00000010,</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <a class="code hl_enumvalue" href="namespacesw.html#a5b962675480d9379e645d8090df52e73a936c3952ccd632f87764d04043a8bde7">EnableHook</a> = 0x00000010,</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="comment">// The hInstance and lpTemplateName members specify a dialog box template to use in</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="comment">// place of the default template. This flag is used only to initialize the dialog box.</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        EnableTemplate = 0x00000020,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <a class="code hl_enumvalue" href="namespacesw.html#a5b962675480d9379e645d8090df52e73aa56e11fece290adc4ddb7ee08b5f29a0">EnableTemplate</a> = 0x00000020,</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="comment">// The hInstance member identifies a data block that contains a preloaded dialog box</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="comment">// template. The system ignores the lpTemplateName member if this flag is specified.</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="comment">// This flag is used only to initialize the dialog box.</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        EnableTemplateHandle = 0x00000040,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <a class="code hl_enumvalue" href="namespacesw.html#a5b962675480d9379e645d8090df52e73a8cb7c3f49097e20a96967d114da4bf07">EnableTemplateHandle</a> = 0x00000040,</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="comment">// Causes the dialog box to display the additional controls that allow the user to</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="comment">// create custom colors. If this flag is not set, the user must click the Define Custom</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="comment">// Color button to display the custom color controls.</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        FullOpen = 0x00000002,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <a class="code hl_enumvalue" href="namespacesw.html#a5b962675480d9379e645d8090df52e73ab5ae574b30a2060dd4918d127a7ed1f3">FullOpen</a> = 0x00000002,</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="comment">// Disables the Define Custom Color button.</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        PreventFullOpen = 0x00000004,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <a class="code hl_enumvalue" href="namespacesw.html#a5b962675480d9379e645d8090df52e73a2b78105df6ca81f2674b0a133c147936">PreventFullOpen</a> = 0x00000004,</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="comment">// Causes the dialog box to use the color specified in the rgbResult member as the</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="comment">// initial color selection.</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        RgbInit = 0x00000001,</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <a class="code hl_enumvalue" href="namespacesw.html#a5b962675480d9379e645d8090df52e73a822d3d08922d4ebbc2a890dc6a19b43c">RgbInit</a> = 0x00000001,</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="comment">// Causes the dialog box to display the Help button. The hwndOwner member must specify</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="comment">// the window to receive the HELPMSGSTRING registered messages that the dialog box sends</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="comment">// when the user clicks the Help button.</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        ShowHelp = 0x00000008,</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <a class="code hl_enumvalue" href="namespacesw.html#a5b962675480d9379e645d8090df52e73a6db523af5d0c9fa97e99e9dc72911a0a">ShowHelp</a> = 0x00000008,</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="comment">// Causes the dialog box to display only solid colors in the set of basic colors.</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        SolidColor = 0x00000080,</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <a class="code hl_enumvalue" href="namespacesw.html#a5b962675480d9379e645d8090df52e73a63af9903673bdc27b881a7444b1f9854">SolidColor</a> = 0x00000080,</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    };</div>
+</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    _SW_ENUM_ENABLE_BIT_OPERATIONS(ColorDialogFlags);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="namespacesw.html#a9409cdb590d80c4cb0d3bace9afdd51b">   55</a></span>    _SW_ENUM_ENABLE_BIT_OPERATIONS(<a class="code hl_enumeration" href="namespacesw.html#a5b962675480d9379e645d8090df52e73">ColorDialogFlags</a>);</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
 <div class="foldopen" id="foldopen00060" data-start="{" data-end="};">
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classsw_1_1ColorDialog.html">   60</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1ColorDialog.html">ColorDialog</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1IDialog.html">IDialog</a></div>
@@ -192,6 +176,17 @@ $(document).ready(function(){initNavTree('ColorDialog_8h_source.html',''); initR
 <div class="ttc" id="aclasssw_1_1IDialog_html"><div class="ttname"><a href="classsw_1_1IDialog.html">sw::IDialog</a></div><div class="ttdoc">对话框接口</div><div class="ttdef"><b>Definition</b> IDialog.h:11</div></div>
 <div class="ttc" id="aclasssw_1_1IValueConverter_html"><div class="ttname"><a href="classsw_1_1IValueConverter.html">sw::IValueConverter</a></div><div class="ttdoc">值转换器接口</div><div class="ttdef"><b>Definition</b> IValueConverter.h:14</div></div>
 <div class="ttc" id="aclasssw_1_1Window_html"><div class="ttname"><a href="classsw_1_1Window.html">sw::Window</a></div><div class="ttdoc">窗口</div><div class="ttdef"><b>Definition</b> Window.h:32</div></div>
+<div class="ttc" id="anamespacesw_html"><div class="ttname"><a href="namespacesw.html">sw</a></div><div class="ttdoc">SimpleWindow框架的顶级命名空间，所有公共类型、控件、枚举和工具函数均定义于此。</div><div class="ttdef"><b>Definition</b> Alignment.h:4</div></div>
+<div class="ttc" id="anamespacesw_html_a5b962675480d9379e645d8090df52e73"><div class="ttname"><a href="namespacesw.html#a5b962675480d9379e645d8090df52e73">sw::ColorDialogFlags</a></div><div class="ttdeci">ColorDialogFlags</div><div class="ttdoc">https://learn.microsoft.com/en-us/windows/win32/api/commdlg/ns-commdlg-choosecolora-r1</div><div class="ttdef"><b>Definition</b> ColorDialog.h:14</div></div>
+<div class="ttc" id="anamespacesw_html_a5b962675480d9379e645d8090df52e73a2b78105df6ca81f2674b0a133c147936"><div class="ttname"><a href="namespacesw.html#a5b962675480d9379e645d8090df52e73a2b78105df6ca81f2674b0a133c147936">sw::ColorDialogFlags::PreventFullOpen</a></div><div class="ttdeci">@ PreventFullOpen</div><div class="ttdoc">Disables the Define Custom Color button.</div></div>
+<div class="ttc" id="anamespacesw_html_a5b962675480d9379e645d8090df52e73a63af9903673bdc27b881a7444b1f9854"><div class="ttname"><a href="namespacesw.html#a5b962675480d9379e645d8090df52e73a63af9903673bdc27b881a7444b1f9854">sw::ColorDialogFlags::SolidColor</a></div><div class="ttdeci">@ SolidColor</div><div class="ttdoc">Causes the dialog box to display only solid colors in the set of basic colors.</div></div>
+<div class="ttc" id="anamespacesw_html_a5b962675480d9379e645d8090df52e73a6db523af5d0c9fa97e99e9dc72911a0a"><div class="ttname"><a href="namespacesw.html#a5b962675480d9379e645d8090df52e73a6db523af5d0c9fa97e99e9dc72911a0a">sw::ColorDialogFlags::ShowHelp</a></div><div class="ttdeci">@ ShowHelp</div></div>
+<div class="ttc" id="anamespacesw_html_a5b962675480d9379e645d8090df52e73a73ab7631f10e84341ee9c188762f77b0"><div class="ttname"><a href="namespacesw.html#a5b962675480d9379e645d8090df52e73a73ab7631f10e84341ee9c188762f77b0">sw::ColorDialogFlags::AnyColor</a></div><div class="ttdeci">@ AnyColor</div><div class="ttdoc">Causes the dialog box to display all available colors in the set of basic colors.</div></div>
+<div class="ttc" id="anamespacesw_html_a5b962675480d9379e645d8090df52e73a822d3d08922d4ebbc2a890dc6a19b43c"><div class="ttname"><a href="namespacesw.html#a5b962675480d9379e645d8090df52e73a822d3d08922d4ebbc2a890dc6a19b43c">sw::ColorDialogFlags::RgbInit</a></div><div class="ttdeci">@ RgbInit</div></div>
+<div class="ttc" id="anamespacesw_html_a5b962675480d9379e645d8090df52e73a8cb7c3f49097e20a96967d114da4bf07"><div class="ttname"><a href="namespacesw.html#a5b962675480d9379e645d8090df52e73a8cb7c3f49097e20a96967d114da4bf07">sw::ColorDialogFlags::EnableTemplateHandle</a></div><div class="ttdeci">@ EnableTemplateHandle</div></div>
+<div class="ttc" id="anamespacesw_html_a5b962675480d9379e645d8090df52e73a936c3952ccd632f87764d04043a8bde7"><div class="ttname"><a href="namespacesw.html#a5b962675480d9379e645d8090df52e73a936c3952ccd632f87764d04043a8bde7">sw::ColorDialogFlags::EnableHook</a></div><div class="ttdeci">@ EnableHook</div></div>
+<div class="ttc" id="anamespacesw_html_a5b962675480d9379e645d8090df52e73aa56e11fece290adc4ddb7ee08b5f29a0"><div class="ttname"><a href="namespacesw.html#a5b962675480d9379e645d8090df52e73aa56e11fece290adc4ddb7ee08b5f29a0">sw::ColorDialogFlags::EnableTemplate</a></div><div class="ttdeci">@ EnableTemplate</div></div>
+<div class="ttc" id="anamespacesw_html_a5b962675480d9379e645d8090df52e73ab5ae574b30a2060dd4918d127a7ed1f3"><div class="ttname"><a href="namespacesw.html#a5b962675480d9379e645d8090df52e73ab5ae574b30a2060dd4918d127a7ed1f3">sw::ColorDialogFlags::FullOpen</a></div><div class="ttdeci">@ FullOpen</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

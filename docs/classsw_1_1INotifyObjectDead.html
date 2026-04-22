@@ -146,13 +146,13 @@ Public 成员函数</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public 属性</h2></td></tr>
-<tr class="memitem:a1fc7f2d5ecbba9397b05e05bbccb3f70" id="r_a1fc7f2d5ecbba9397b05e05bbccb3f70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Event.html">Event</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">ObjectDeadEventHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1INotifyObjectDead.html#a1fc7f2d5ecbba9397b05e05bbccb3f70">ObjectDead</a></td></tr>
+<tr class="memitem:a1fc7f2d5ecbba9397b05e05bbccb3f70" id="r_a1fc7f2d5ecbba9397b05e05bbccb3f70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Event.html">Event</a>&lt; <a class="el" href="namespacesw.html#aab92e46942fae40080eb40f4657e029d">ObjectDeadEventHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1INotifyObjectDead.html#a1fc7f2d5ecbba9397b05e05bbccb3f70">ObjectDead</a></td></tr>
 <tr class="memdesc:a1fc7f2d5ecbba9397b05e05bbccb3f70"><td class="mdescLeft">&#160;</td><td class="mdescRight">对象销毁时触发该事件  <br /></td></tr>
 <tr class="separator:a1fc7f2d5ecbba9397b05e05bbccb3f70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
-<tr class="memitem:ac89c507f696fc07c515c320bcff9a212" id="r_ac89c507f696fc07c515c320bcff9a212"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">ObjectDeadEventHandler</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1INotifyObjectDead.html#ac89c507f696fc07c515c320bcff9a212">GetObjectDeadEventDelegate</a> ()=0</td></tr>
+<tr class="memitem:ac89c507f696fc07c515c320bcff9a212" id="r_ac89c507f696fc07c515c320bcff9a212"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="namespacesw.html#aab92e46942fae40080eb40f4657e029d">ObjectDeadEventHandler</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1INotifyObjectDead.html#ac89c507f696fc07c515c320bcff9a212">GetObjectDeadEventDelegate</a> ()=0</td></tr>
 <tr class="memdesc:ac89c507f696fc07c515c320bcff9a212"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取对象销毁事件委托的引用  <br /></td></tr>
 <tr class="separator:ac89c507f696fc07c515c320bcff9a212"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -169,7 +169,7 @@ Protected 成员函数</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">ObjectDeadEventHandler</a> &amp; sw::INotifyObjectDead::GetObjectDeadEventDelegate </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="namespacesw.html#aab92e46942fae40080eb40f4657e029d">ObjectDeadEventHandler</a> &amp; sw::INotifyObjectDead::GetObjectDeadEventDelegate </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -199,16 +199,17 @@ ObjectDead事件使用该函数返回的委托来保存事件处理程序 </dd><
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Event.html">Event</a>&lt;<a class="el" href="classsw_1_1IValueConverter.html">ObjectDeadEventHandler</a>&gt; sw::INotifyObjectDead::ObjectDead</td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Event.html">Event</a>&lt;<a class="el" href="namespacesw.html#aab92e46942fae40080eb40f4657e029d">ObjectDeadEventHandler</a>&gt; sw::INotifyObjectDead::ObjectDead</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <b>初始值:</b><div class="fragment"><div class="line">{</div>
 <div class="line">            Event&lt;ObjectDeadEventHandler&gt;::Init(<span class="keyword">this</span>)</div>
-<div class="line">                .Delegate([](INotifyObjectDead *self) -&gt; ObjectDeadEventHandler &amp; {</div>
+<div class="line">                .Delegate([](INotifyObjectDead *self) -&gt; <a class="code hl_typedef" href="namespacesw.html#aab92e46942fae40080eb40f4657e029d">ObjectDeadEventHandler</a> &amp; {</div>
 <div class="line">                    <span class="keywordflow">return</span> self-&gt;GetObjectDeadEventDelegate();</div>
 <div class="line">                }) </div>
 <div class="line">        }</div>
+<div class="ttc" id="anamespacesw_html_aab92e46942fae40080eb40f4657e029d"><div class="ttname"><a href="namespacesw.html#aab92e46942fae40080eb40f4657e029d">sw::ObjectDeadEventHandler</a></div><div class="ttdeci">EventHandler&lt; INotifyObjectDead &gt; ObjectDeadEventHandler</div><div class="ttdoc">对象销毁事件处理程序类型</div><div class="ttdef"><b>Definition</b> INotifyObjectDead.h:14</div></div>
 </div><!-- fragment -->
 <p>对象销毁时触发该事件 </p>
 
@@ -222,7 +223,7 @@ ObjectDead事件使用该函数返回的委托来保存事件处理程序 </dd><
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>sw</b></li><li class="navelem"><a class="el" href="classsw_1_1INotifyObjectDead.html">INotifyObjectDead</a></li>
+    <li class="navelem"><a class="el" href="namespacesw.html">sw</a></li><li class="navelem"><a class="el" href="classsw_1_1INotifyObjectDead.html">INotifyObjectDead</a></li>
     <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

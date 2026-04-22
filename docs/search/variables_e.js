@@ -4,6 +4,7 @@ var searchData=
   ['partscount_1',['PartsCount',['../classsw_1_1StatusBar.html#a9680d7b905fcc4f06c3ae544a1bf3170',1,'sw::StatusBar']]],
   ['passwordchar_2',['PasswordChar',['../classsw_1_1PasswordBox.html#acb858c64ba690363567d5c73cc49ad7e',1,'sw::PasswordBox']]],
   ['pitch_3',['pitch',['../classsw_1_1Font.html#ae48df531042cb4d94440eadbe61d532b',1,'sw::Font']]],
-  ['propertychanged_4',['PropertyChanged',['../classsw_1_1INotifyPropertyChanged.html#a08086f8d015d3187fc976e608bde2c25',1,'sw::INotifyPropertyChanged']]],
-  ['propertyid_5',['propertyId',['../structsw_1_1PropertyChangedEventArgs.html#add0ea8f9424c8b888fb6efe66cb0cc1f',1,'sw::PropertyChangedEventArgs']]]
+  ['previouskeystate_4',['previousKeyState',['../structsw_1_1KeyFlags.html#aa0f0719d6fc16f9590950bcbe0b2ff5a',1,'sw::KeyFlags']]],
+  ['propertychanged_5',['PropertyChanged',['../classsw_1_1INotifyPropertyChanged.html#a08086f8d015d3187fc976e608bde2c25',1,'sw::INotifyPropertyChanged']]],
+  ['propertyid_6',['propertyId',['../structsw_1_1PropertyChangedEventArgs.html#add0ea8f9424c8b888fb6efe66cb0cc1f',1,'sw::PropertyChangedEventArgs']]]
 ];
