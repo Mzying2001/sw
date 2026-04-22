@@ -2,7 +2,7 @@
 get_filename_component(EXAMPLE_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
 # 添加可执行文件
-add_executable(${EXAMPLE_NAME} WIN32 src/main.cpp)
+add_executable(${EXAMPLE_NAME} WIN32 Main.cpp)
 
 # 应用公共编译选项
 target_compile_options(${EXAMPLE_NAME} PRIVATE ${COMMON_COMPILE_OPTIONS})
