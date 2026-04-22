@@ -1,8 +1,8 @@
 #pragma once
 
 #include "EnumBit.h"
-#include <windows.h>
 #include <cstdint>
+#include <windows.h>
 
 namespace sw
 {
@@ -10,29 +10,53 @@ namespace sw
      * @brief https://learn.microsoft.com/en-us/windows/win32/inputdev/about-keyboard-input#keystroke-message-flags
      */
     struct KeyFlags {
-        // repeat count, > 0 if several keydown messages was combined into one message
+        /**
+         * @brief repeat count, > 0 if several keydown messages was combined into one message
+         */
         uint16_t repeatCount;
 
-        // scan code
+        /**
+         * @brief scan code
+         */
         uint8_t scanCode;
 
-        // extended-key flag, 1 if scancode has 0xE0 prefix
+        /**
+         * @brief extended-key flag, 1 if scancode has 0xE0 prefix
+         */
         bool isExtendedKey;
 
-        // indicates whether the ALT key was down
+        /**
+         * @brief indicates whether the ALT key was down
+         */
         bool contextCode;
 
-        // indicates whether the key that generated the keystroke message was previously up or down
+        /**
+         * @brief indicates whether the key that generated the keystroke message was previously up or down
+         */
         bool previousKeyState;
 
-        // transition-state flag, 1 on keyup
+        /**
+         * @brief transition-state flag, 1 on keyup
+         */
         bool transitionState;
 
-        // 默认构造函数
+        /**
+         * @brief 默认构造函数
+         */
         KeyFlags() = default;
 
-        // 从lParam解析出各个字段
-        KeyFlags(LPARAM lParam);
+        /**
+         * @brief 从lParam解析出各个字段
+         */
+        explicit KeyFlags(LPARAM lParam)
+            : repeatCount((lParam >> 0) & 0xFFFF),
+              scanCode((lParam >> 16) & 0xFF),
+              isExtendedKey((lParam >> 24) & 0x01),
+              contextCode((lParam >> 29) & 0x01),
+              previousKeyState((lParam >> 30) & 0x01),
+              transitionState((lParam >> 31) & 0x01)
+        {
+        }
     };
 
     /**

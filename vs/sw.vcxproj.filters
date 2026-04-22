@@ -458,9 +458,6 @@
     <ClCompile Include="..\sw\src\IPAddressControl.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\sw\src\Keys.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\sw\src\Label.cpp">
       <Filter>src</Filter>
     </ClCompile>
