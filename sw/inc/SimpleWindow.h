@@ -1,5 +1,10 @@
 #pragma once
 
+/**
+ * @namespace sw
+ * @brief SimpleWindow框架的顶级命名空间，所有公共类型、控件、枚举和工具函数均定义于此。
+ */
+
 // 包含SimpleWindow所有头文件
 #include "Alignment.h"
 #include "Animation.h"
