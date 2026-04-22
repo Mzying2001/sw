@@ -10,52 +10,52 @@ namespace sw
      * @brief 字体的粗细
      */
     enum class FontWeight : int {
-        DontCare   = 0,
-        Thin       = 100,
-        ExtraLight = 200,
-        UltraLight = 200,
-        Light      = 300,
-        Normal     = 400,
-        Regular    = 400,
-        Medium     = 500,
-        SemiBold   = 600,
-        DemiBold   = 600,
-        Bold       = 700,
-        ExtraBold  = 800,
-        UltraBold  = 800,
-        Heavy      = 900,
-        Black      = 900,
+        DontCare   = 0,   ///< 不指定（由字体映射器选择默认粗细）
+        Thin       = 100, ///< 极细
+        ExtraLight = 200, ///< 特细，同 UltraLight
+        UltraLight = 200, ///< 超细，同 ExtraLight
+        Light      = 300, ///< 细
+        Normal     = 400, ///< 正常（常规粗细），同 Regular
+        Regular    = 400, ///< 常规，同 Normal
+        Medium     = 500, ///< 中等
+        SemiBold   = 600, ///< 半粗，同 DemiBold
+        DemiBold   = 600, ///< 半粗，同 SemiBold
+        Bold       = 700, ///< 粗体
+        ExtraBold  = 800, ///< 特粗，同 UltraBold
+        UltraBold  = 800, ///< 超粗，同 ExtraBold
+        Heavy      = 900, ///< 重磅，同 Black
+        Black      = 900, ///< 黑体，同 Heavy
     };
 
     /**
      * @brief 字符集
      */
     enum class FontCharSet : uint8_t {
-        ANSI        = ANSI_CHARSET,
-        Baltic      = BALTIC_CHARSET,
-        CheneseBig5 = CHINESEBIG5_CHARSET,
-        Default     = DEFAULT_CHARSET,
-        EastEurope  = EASTEUROPE_CHARSET,
-        GB2312      = GB2312_CHARSET,
-        Greek       = GREEK_CHARSET,
-        Hangul      = HANGUL_CHARSET,
-        Mac         = MAC_CHARSET,
-        Oem         = OEM_CHARSET,
-        Russian     = RUSSIAN_CHARSET,
-        ShiftJIS    = SHIFTJIS_CHARSET,
-        Symbol      = SYMBOL_CHARSET,
-        Turkish     = TURKISH_CHARSET,
-        Vietnamese  = VIETNAMESE_CHARSET,
+        ANSI        = ANSI_CHARSET,        ///< ANSI 字符集（Windows-1252，西欧）
+        Baltic      = BALTIC_CHARSET,      ///< 波罗的海字符集
+        CheneseBig5 = CHINESEBIG5_CHARSET, ///< 繁体中文（Big5）字符集
+        Default     = DEFAULT_CHARSET,     ///< 默认字符集（随系统区域设置而定）
+        EastEurope  = EASTEUROPE_CHARSET,  ///< 东欧字符集
+        GB2312      = GB2312_CHARSET,      ///< 简体中文（GB2312）字符集
+        Greek       = GREEK_CHARSET,       ///< 希腊语字符集
+        Hangul      = HANGUL_CHARSET,      ///< 韩语字符集
+        Mac         = MAC_CHARSET,         ///< Mac 字符集
+        Oem         = OEM_CHARSET,         ///< OEM 字符集（随系统 OEM 代码页）
+        Russian     = RUSSIAN_CHARSET,     ///< 俄语字符集
+        ShiftJIS    = SHIFTJIS_CHARSET,    ///< 日语 Shift-JIS 字符集
+        Symbol      = SYMBOL_CHARSET,      ///< Symbol 符号字符集
+        Turkish     = TURKISH_CHARSET,     ///< 土耳其语字符集
+        Vietnamese  = VIETNAMESE_CHARSET,  ///< 越南语字符集
 
         // Windows 的朝鲜语版本：
-        Johab = JOHAB_CHARSET,
+        Johab = JOHAB_CHARSET, ///< 韩语 Johab 字符集
 
         // Windows 中东语言版本：
-        Arabic = ARABIC_CHARSET,
-        Hebrew = HEBREW_CHARSET,
+        Arabic = ARABIC_CHARSET, ///< 阿拉伯语字符集
+        Hebrew = HEBREW_CHARSET, ///< 希伯来语字符集
 
         // Windows 的泰语版本：
-        Thai = THAI_CHARSET,
+        Thai = THAI_CHARSET, ///< 泰语字符集
     };
 
     /**
@@ -113,9 +113,9 @@ namespace sw
      * @brief 字体的间距
      */
     enum class FontPitch : uint8_t {
-        Default  = DEFAULT_PITCH,
-        Fixed    = FIXED_PITCH,
-        Variable = VARIABLE_PITCH,
+        Default  = DEFAULT_PITCH,  ///< 默认间距（由字体映射器选择）
+        Fixed    = FIXED_PITCH,    ///< 等宽间距（所有字符宽度相同，如 Courier New）
+        Variable = VARIABLE_PITCH, ///< 可变间距（字符宽度随字形变化，如 Arial）
     };
 
     /**
