@@ -67,7 +67,7 @@ ObservableObject
 - `sw/inc/` — Header files (public API). `SimpleWindow.h` is the master include.
 - `sw/src/` — Implementation files
 - `examples/` — 10 example apps demonstrating features
-- `single_header/` — Auto-generated `sw_all.h` + `sw_all.cpp` (via `build.py` topological sort)
+- `single_header/` — Auto-generated `sw_all.h` + `sw_all.cpp` (via `build.py` topological sort). **Do not edit these files manually** when modifying code; they are regenerated from `sw/inc/` and `sw/src/` by `build.py`.
 - `vs/` — Visual Studio project files
 - `docs/` — Doxygen HTML output
 
