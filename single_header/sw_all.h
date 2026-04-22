@@ -36,28 +36,28 @@ namespace sw
      * @brief 水平对齐方式
      */
     enum class HorizontalAlignment {
-        Center,  // 中心
-        Stretch, // 拉伸
-        Left,    // 左对齐
-        Right,   // 右对齐
+        Center,  ///< 中心
+        Stretch, ///< 拉伸
+        Left,    ///< 左对齐
+        Right,   ///< 右对齐
     };
 
     /**
      * @brief 垂直对齐方式
      */
     enum class VerticalAlignment {
-        Center,  // 中心
-        Stretch, // 拉伸
-        Top,     // 顶部对齐
-        Bottom,  // 底部对齐
+        Center,  ///< 中心
+        Stretch, ///< 拉伸
+        Top,     ///< 顶部对齐
+        Bottom,  ///< 底部对齐
     };
 
     /**
      * @brief 排列方式
      */
     enum class Orientation {
-        Horizontal, // 水平排列
-        Vertical,   // 垂直排列
+        Horizontal, ///< 水平排列
+        Vertical,   ///< 垂直排列
     };
 }
 
@@ -71,23 +71,23 @@ namespace sw
      * @brief https://learn.microsoft.com/en-us/windows/win32/menurc/about-cursors
      */
     enum class StandardCursor {
-        Arrow       = 32512, // Normal select
-        IBeam       = 32513, // Text select
-        Wait        = 32514, // Busy
-        Cross       = 32515, // Precision select
-        UpArrow     = 32516, // Alternate select
-        Handwriting = 32631, // Handwriting
-        SizeNWSE    = 32642, // Diagonal resize 1
-        SizeNESW    = 32643, // Diagonal resize 2
-        SizeWE      = 32644, // Horizontal resize
-        SizeNS      = 32645, // Vertical resize
-        SizeAll     = 32646, // Move
-        No          = 32648, // Unavailable
-        Hand        = 32649, // Link select
-        AppStarting = 32650, // Working in background
-        Help        = 32651, // Help select
-        Pin         = 32671, // Location select
-        Person      = 32672, // Person select
+        Arrow       = 32512, ///< Normal select
+        IBeam       = 32513, ///< Text select
+        Wait        = 32514, ///< Busy
+        Cross       = 32515, ///< Precision select
+        UpArrow     = 32516, ///< Alternate select
+        Handwriting = 32631, ///< Handwriting
+        SizeNWSE    = 32642, ///< Diagonal resize 1
+        SizeNESW    = 32643, ///< Diagonal resize 2
+        SizeWE      = 32644, ///< Horizontal resize
+        SizeNS      = 32645, ///< Vertical resize
+        SizeAll     = 32646, ///< Move
+        No          = 32648, ///< Unavailable
+        Hand        = 32649, ///< Link select
+        AppStarting = 32650, ///< Working in background
+        Help        = 32651, ///< Help select
+        Pin         = 32671, ///< Location select
+        Person      = 32672, ///< Person select
     };
 
     /**
@@ -210,9 +210,9 @@ namespace sw
          * @brief 当前状态枚举
          */
         enum : uint8_t {
-            STATE_NONE,   // 未存储任何可调用对象
-            STATE_SINGLE, // 储存了一个可调用对象
-            STATE_LIST,   // 储存了多个可调用对象
+            STATE_NONE,   ///< 未存储任何可调用对象
+            STATE_SINGLE, ///< 储存了一个可调用对象
+            STATE_LIST,   ///< 储存了多个可调用对象
         } _state = STATE_NONE;
 
     public:
@@ -569,8 +569,8 @@ namespace sw
                 return EqualsImpl(other);
             }
             template <typename U = T>
-            typename std::enable_if<_IsEqualityComparable<U>::value, bool>::type
-            EqualsImpl(const _ICallable &other) const
+            auto EqualsImpl(const _ICallable &other) const
+                -> typename std::enable_if<_IsEqualityComparable<U>::value, bool>::type
             {
                 if (this == &other) {
                     return true;
@@ -582,8 +582,8 @@ namespace sw
                 return GetValue() == otherWrapper.GetValue();
             }
             template <typename U = T>
-            typename std::enable_if<!_IsEqualityComparable<U>::value && _IsMemcmpSafe<U>::value, bool>::type
-            EqualsImpl(const _ICallable &other) const
+            auto EqualsImpl(const _ICallable &other) const
+                -> typename std::enable_if<!_IsEqualityComparable<U>::value && _IsMemcmpSafe<U>::value, bool>::type
             {
                 if (this == &other) {
                     return true;
@@ -595,8 +595,8 @@ namespace sw
                 return memcmp(_storage, otherWrapper._storage, sizeof(_storage)) == 0;
             }
             template <typename U = T>
-            typename std::enable_if<!_IsEqualityComparable<U>::value && !_IsMemcmpSafe<U>::value, bool>::type
-            EqualsImpl(const _ICallable &other) const
+            auto EqualsImpl(const _ICallable &other) const
+                -> typename std::enable_if<!_IsEqualityComparable<U>::value && !_IsMemcmpSafe<U>::value, bool>::type
             {
                 return this == &other;
             }
@@ -813,8 +813,8 @@ namespace sw
          * @brief 添加一个可调用对象到委托中
          */
         template <typename T>
-        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, void>::type
-        Add(const T &callable)
+        auto Add(const T &callable)
+            -> typename std::enable_if<!std::is_base_of<_ICallable, T>::value, void>::type
         {
             _data.Add(new _CallableWrapper<T>(callable));
         }
@@ -886,8 +886,8 @@ namespace sw
          * @note 按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
          */
         template <typename T>
-        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, bool>::type
-        Remove(const T &callable)
+        auto Remove(const T &callable)
+            -> typename std::enable_if<!std::is_base_of<_ICallable, T>::value, bool>::type
         {
             return _Remove(_CallableWrapper<T>(callable));
         }
@@ -997,8 +997,8 @@ namespace sw
          * @note 该函数调用Add函数
          */
         template <typename T>
-        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, Delegate &>::type
-        operator+=(const T &callable)
+        auto operator+=(const T &callable)
+            -> typename std::enable_if<!std::is_base_of<_ICallable, T>::value, Delegate &>::type
         {
             Add(callable);
             return *this;
@@ -1029,8 +1029,8 @@ namespace sw
          * @note 该函数调用Remove函数
          */
         template <typename T>
-        typename std::enable_if<!std::is_base_of<_ICallable, T>::value, Delegate &>::type
-        operator-=(const T &callable)
+        auto operator-=(const T &callable)
+            -> typename std::enable_if<!std::is_base_of<_ICallable, T>::value, Delegate &>::type
         {
             Remove(callable);
             return *this;
@@ -1096,8 +1096,8 @@ namespace sw
          * @return 返回一个包含所有可调用对象返回值的vector
          */
         template <typename U = TRet>
-        typename std::enable_if<!std::is_void<U>::value, std::vector<U>>::type
-        InvokeAll(Args... args) const
+        auto InvokeAll(Args... args) const
+            -> typename std::enable_if<!std::is_void<U>::value, std::vector<U>>::type
         {
             std::vector<U> results;
             size_t count = _data.Count();
@@ -1341,124 +1341,124 @@ namespace sw
      * @brief 字体的粗细
      */
     enum class FontWeight : int {
-        DontCare   = 0,
-        Thin       = 100,
-        ExtraLight = 200,
-        UltraLight = 200,
-        Light      = 300,
-        Normal     = 400,
-        Regular    = 400,
-        Medium     = 500,
-        SemiBold   = 600,
-        DemiBold   = 600,
-        Bold       = 700,
-        ExtraBold  = 800,
-        UltraBold  = 800,
-        Heavy      = 900,
-        Black      = 900,
+        DontCare   = 0,   ///< 不指定（由字体映射器选择默认粗细）
+        Thin       = 100, ///< 极细
+        ExtraLight = 200, ///< 特细，同 UltraLight
+        UltraLight = 200, ///< 超细，同 ExtraLight
+        Light      = 300, ///< 细
+        Normal     = 400, ///< 正常（常规粗细），同 Regular
+        Regular    = 400, ///< 常规，同 Normal
+        Medium     = 500, ///< 中等
+        SemiBold   = 600, ///< 半粗，同 DemiBold
+        DemiBold   = 600, ///< 半粗，同 SemiBold
+        Bold       = 700, ///< 粗体
+        ExtraBold  = 800, ///< 特粗，同 UltraBold
+        UltraBold  = 800, ///< 超粗，同 ExtraBold
+        Heavy      = 900, ///< 重磅，同 Black
+        Black      = 900, ///< 黑体，同 Heavy
     };
 
     /**
      * @brief 字符集
      */
     enum class FontCharSet : uint8_t {
-        ANSI        = ANSI_CHARSET,
-        Baltic      = BALTIC_CHARSET,
-        CheneseBig5 = CHINESEBIG5_CHARSET,
-        Default     = DEFAULT_CHARSET,
-        EastEurope  = EASTEUROPE_CHARSET,
-        GB2312      = GB2312_CHARSET,
-        Greek       = GREEK_CHARSET,
-        Hangul      = HANGUL_CHARSET,
-        Mac         = MAC_CHARSET,
-        Oem         = OEM_CHARSET,
-        Russian     = RUSSIAN_CHARSET,
-        ShiftJIS    = SHIFTJIS_CHARSET,
-        Symbol      = SYMBOL_CHARSET,
-        Turkish     = TURKISH_CHARSET,
-        Vietnamese  = VIETNAMESE_CHARSET,
+        ANSI        = ANSI_CHARSET,        ///< ANSI 字符集（Windows-1252，西欧）
+        Baltic      = BALTIC_CHARSET,      ///< 波罗的海字符集
+        CheneseBig5 = CHINESEBIG5_CHARSET, ///< 繁体中文（Big5）字符集
+        Default     = DEFAULT_CHARSET,     ///< 默认字符集（随系统区域设置而定）
+        EastEurope  = EASTEUROPE_CHARSET,  ///< 东欧字符集
+        GB2312      = GB2312_CHARSET,      ///< 简体中文（GB2312）字符集
+        Greek       = GREEK_CHARSET,       ///< 希腊语字符集
+        Hangul      = HANGUL_CHARSET,      ///< 韩语字符集
+        Mac         = MAC_CHARSET,         ///< Mac 字符集
+        Oem         = OEM_CHARSET,         ///< OEM 字符集（随系统 OEM 代码页）
+        Russian     = RUSSIAN_CHARSET,     ///< 俄语字符集
+        ShiftJIS    = SHIFTJIS_CHARSET,    ///< 日语 Shift-JIS 字符集
+        Symbol      = SYMBOL_CHARSET,      ///< Symbol 符号字符集
+        Turkish     = TURKISH_CHARSET,     ///< 土耳其语字符集
+        Vietnamese  = VIETNAMESE_CHARSET,  ///< 越南语字符集
 
         // Windows 的朝鲜语版本：
-        Johab = JOHAB_CHARSET,
+        Johab = JOHAB_CHARSET, ///< 韩语 Johab 字符集
 
         // Windows 中东语言版本：
-        Arabic = ARABIC_CHARSET,
-        Hebrew = HEBREW_CHARSET,
+        Arabic = ARABIC_CHARSET, ///< 阿拉伯语字符集
+        Hebrew = HEBREW_CHARSET, ///< 希伯来语字符集
 
         // Windows 的泰语版本：
-        Thai = THAI_CHARSET,
+        Thai = THAI_CHARSET, ///< 泰语字符集
     };
 
     /**
      * @brief 输出质量
      */
     enum class FontOutPrecision : uint8_t {
-        Character      = OUT_CHARACTER_PRECIS, // 未使用。
-        Default        = OUT_DEFAULT_PRECIS,   // 指定默认字体映射器行为。
-        Device         = OUT_DEVICE_PRECIS,    // 当系统包含多个同名字体时，指示字体映射器选择设备字体。
-        Outline        = OUT_OUTLINE_PRECIS,   // 此值指示字体映射器从 TrueType 和其他基于大纲的字体中进行选择。
-        PostScriptOnly = OUT_PS_ONLY_PRECIS,   // 指示字体映射器仅从 PostScript 字体中进行选择。 如果系统中没有安装 PostScript 字体，字体映射器将返回到默认行为。
-        Raster         = OUT_RASTER_PRECIS,    // 当系统包含多个同名字体时，指示字体映射器选择光栅字体。
-        String         = OUT_STRING_PRECIS,    // 字体映射器不使用此值，但在枚举光栅字体时会返回此值。
-        Stroke         = OUT_STROKE_PRECIS,    // 字体映射器不使用此值，但在枚举 TrueType、其他基于轮廓的字体和矢量字体时返回此值。
-        TrueTypeOnly   = OUT_TT_ONLY_PRECIS,   // 指示字体映射器仅从 TrueType 字体中进行选择。 如果系统中没有安装 TrueType 字体，字体映射器将返回到默认行为。
-        TrueType       = OUT_TT_PRECIS,        // 当系统包含多个同名字体时，指示字体映射器选择 TrueType 字体。
+        Character      = OUT_CHARACTER_PRECIS, ///< 未使用。
+        Default        = OUT_DEFAULT_PRECIS,   ///< 指定默认字体映射器行为。
+        Device         = OUT_DEVICE_PRECIS,    ///< 当系统包含多个同名字体时，指示字体映射器选择设备字体。
+        Outline        = OUT_OUTLINE_PRECIS,   ///< 此值指示字体映射器从 TrueType 和其他基于大纲的字体中进行选择。
+        PostScriptOnly = OUT_PS_ONLY_PRECIS,   ///< 指示字体映射器仅从 PostScript 字体中进行选择。 如果系统中没有安装 PostScript 字体，字体映射器将返回到默认行为。
+        Raster         = OUT_RASTER_PRECIS,    ///< 当系统包含多个同名字体时，指示字体映射器选择光栅字体。
+        String         = OUT_STRING_PRECIS,    ///< 字体映射器不使用此值，但在枚举光栅字体时会返回此值。
+        Stroke         = OUT_STROKE_PRECIS,    ///< 字体映射器不使用此值，但在枚举 TrueType、其他基于轮廓的字体和矢量字体时返回此值。
+        TrueTypeOnly   = OUT_TT_ONLY_PRECIS,   ///< 指示字体映射器仅从 TrueType 字体中进行选择。 如果系统中没有安装 TrueType 字体，字体映射器将返回到默认行为。
+        TrueType       = OUT_TT_PRECIS,        ///< 当系统包含多个同名字体时，指示字体映射器选择 TrueType 字体。
     };
 
     /**
      * @brief 剪裁精度
      */
     enum class FontClipPrecision : uint8_t {
-        CharacterPrecis = CLIP_CHARACTER_PRECIS, // 未使用。
-        DefaultPrecis   = CLIP_DEFAULT_PRECIS,   // 指定默认剪辑行为。
+        CharacterPrecis = CLIP_CHARACTER_PRECIS, ///< 未使用。
+        DefaultPrecis   = CLIP_DEFAULT_PRECIS,   ///< 指定默认剪辑行为。
 
 #if defined(CLIP_DFA_DISABLE)
-        DFA_Disable = CLIP_DFA_DISABLE, // Windows XP SP1： 关闭字体的字体关联。 请注意，此标志不保证在 Windows Server 2003 之后对任何平台产生任何影响。
+        DFA_Disable = CLIP_DFA_DISABLE, ///< Windows XP SP1： 关闭字体的字体关联。 请注意，此标志不保证在 Windows Server 2003 之后对任何平台产生任何影响。
 #endif
 
-        Embedded  = CLIP_EMBEDDED,  // 必须指定此标志才能使用嵌入的只读字体。
-        LH_Angles = CLIP_LH_ANGLES, // 使用此值时，所有字体的旋转取决于坐标系的方向是左手还是右手。如果未使用，设备字体始终逆时针旋转，但其他字体的旋转取决于坐标系的方向。
-        Mask      = CLIP_MASK,      // 未使用。
+        Embedded  = CLIP_EMBEDDED,  ///< 必须指定此标志才能使用嵌入的只读字体。
+        LH_Angles = CLIP_LH_ANGLES, ///< 使用此值时，所有字体的旋转取决于坐标系的方向是左手还是右手。如果未使用，设备字体始终逆时针旋转，但其他字体的旋转取决于坐标系的方向。
+        Mask      = CLIP_MASK,      ///< 未使用。
 
 #if defined(CLIP_DFA_OVERRIDE)
-        DFA_Override = CLIP_DFA_OVERRIDE, // 关闭字体的字体关联。 这与CLIP_DFA_DISABLE相同，但在某些情况下可能会有问题：建议使用的标志是CLIP_DFA_DISABLE。
+        DFA_Override = CLIP_DFA_OVERRIDE, ///< 关闭字体的字体关联。 这与CLIP_DFA_DISABLE相同，但在某些情况下可能会有问题：建议使用的标志是CLIP_DFA_DISABLE。
 #endif
 
-        StrokePrecis = CLIP_STROKE_PRECIS, // 字体映射器不使用，但在枚举光栅、矢量或 TrueType 字体时返回。 为了兼容，枚举字体时始终返回此值。
-        TT_Always    = CLIP_TT_ALWAYS,     // 未使用。
+        StrokePrecis = CLIP_STROKE_PRECIS, ///< 字体映射器不使用，但在枚举光栅、矢量或 TrueType 字体时返回。 为了兼容，枚举字体时始终返回此值。
+        TT_Always    = CLIP_TT_ALWAYS,     ///< 未使用。
     };
 
     /**
      * @brief 输出质量
      */
     enum class FontQuality : uint8_t {
-        AntiAliased   = ANTIALIASED_QUALITY,    // 如果字体支持该字体，并且字体大小不是太小或太大，则字体始终为抗锯齿。
-        ClearType     = CLEARTYPE_QUALITY,      // 如果设置，则尽可能使用 ClearType 抗锯齿方法呈现文本。
-        Default       = DEFAULT_QUALITY,        // 字体的外观并不重要。
-        Draft         = DRAFT_QUALITY,          // 字体的外观不如使用PROOF_QUALITY时重要。 对于 GDI 光栅字体，会启用缩放，这意味着可以使用更多字号，但质量可能较低。 如有必要，将合成粗体、斜体、下划线和删除线字体。
-        NoAntiAliased = NONANTIALIASED_QUALITY, // 字体永远不会抗锯齿。
-        Proof         = PROOF_QUALITY,          // 字体的字符质量比逻辑字体属性的精确匹配更重要。 对于 GDI 光栅字体，将禁用缩放，并选择大小最接近的字体。 虽然在使用PROOF_QUALITY时可能无法精确映射所选字号，但字体质量较高，外观不会失真。 如有必要，将合成粗体、斜体、下划线和删除线字体。
+        AntiAliased   = ANTIALIASED_QUALITY,    ///< 如果字体支持该字体，并且字体大小不是太小或太大，则字体始终为抗锯齿。
+        ClearType     = CLEARTYPE_QUALITY,      ///< 如果设置，则尽可能使用 ClearType 抗锯齿方法呈现文本。
+        Default       = DEFAULT_QUALITY,        ///< 字体的外观并不重要。
+        Draft         = DRAFT_QUALITY,          ///< 字体的外观不如使用PROOF_QUALITY时重要。 对于 GDI 光栅字体，会启用缩放，这意味着可以使用更多字号，但质量可能较低。 如有必要，将合成粗体、斜体、下划线和删除线字体。
+        NoAntiAliased = NONANTIALIASED_QUALITY, ///< 字体永远不会抗锯齿。
+        Proof         = PROOF_QUALITY,          ///< 字体的字符质量比逻辑字体属性的精确匹配更重要。 对于 GDI 光栅字体，将禁用缩放，并选择大小最接近的字体。 虽然在使用PROOF_QUALITY时可能无法精确映射所选字号，但字体质量较高，外观不会失真。 如有必要，将合成粗体、斜体、下划线和删除线字体。
     };
 
     /**
      * @brief 字体的间距
      */
     enum class FontPitch : uint8_t {
-        Default  = DEFAULT_PITCH,
-        Fixed    = FIXED_PITCH,
-        Variable = VARIABLE_PITCH,
+        Default  = DEFAULT_PITCH,  ///< 默认间距（由字体映射器选择）
+        Fixed    = FIXED_PITCH,    ///< 等宽间距（所有字符宽度相同，如 Courier New）
+        Variable = VARIABLE_PITCH, ///< 可变间距（字符宽度随字形变化，如 Arial）
     };
 
     /**
      * @brief 字体系列
      */
     enum class FontFamily : uint8_t {
-        Decorative = FF_DECORATIVE, // 新奇字体。 例如 Old English。
-        DontCare   = FF_DONTCARE,   // 使用默认字体。
-        Modern     = FF_MODERN,     // 具有固定笔划宽度的字体 (带衬线或无衬线) 的空白字体。 Monospace 字体通常是新式字体。 例如，Pica、Elite 和 CourierNew。
-        Roman      = FF_ROMAN,      // 笔划宽度可变的字体 (比例) 和衬线。 例如 MS Serif。
-        Script     = FF_SCRIPT,     // 设计为类似于手写的字体。 例如 Script 和 Cursive。
-        Swiss      = FF_SWISS,      // 笔划宽度可变的字体 (成比例) 且不带衬线。 例如 MS Sans Serif。
+        Decorative = FF_DECORATIVE, ///< 新奇字体。 例如 Old English。
+        DontCare   = FF_DONTCARE,   ///< 使用默认字体。
+        Modern     = FF_MODERN,     ///< 具有固定笔划宽度的字体 (带衬线或无衬线) 的空白字体。 Monospace 字体通常是新式字体。 例如，Pica、Elite 和 CourierNew。
+        Roman      = FF_ROMAN,      ///< 笔划宽度可变的字体 (比例) 和衬线。 例如 MS Serif。
+        Script     = FF_SCRIPT,     ///< 设计为类似于手写的字体。 例如 Script 和 Cursive。
+        Swiss      = FF_SWISS,      ///< 笔划宽度可变的字体 (成比例) 且不带衬线。 例如 MS Sans Serif。
     };
 
     /**
@@ -1597,32 +1597,32 @@ namespace sw
      * @brief NcHitTest（WM_NCHITTEST）的返回值
      */
     enum class HitTestResult {
-        HitBorder      = HTBORDER,      // 在没有大小边界的窗口边框中。
-        HitBottom      = HTBOTTOM,      // 在可调整大小的窗口的下水平边框中（用户可以单击鼠标以垂直调整窗口大小）。
-        HitBottomLeft  = HTBOTTOMLEFT,  // 在可调整大小的窗口的边框左下角（用户可以单击鼠标以对角线调整窗口大小）。
-        HitBottomRight = HTBOTTOMRIGHT, // 在可调整大小的窗口的边框右下角（用户可以单击鼠标以对角线调整窗口大小）。
-        HitCaption     = HTCAPTION,     // 在标题栏中。
-        HitClient      = HTCLIENT,      // 在客户端区中。
-        HitClose       = HTCLOSE,       // 在关闭按钮中。
-        HitError       = HTERROR,       // 在屏幕背景上或窗口之间的分割线上（与 HTNOWHERE 相同，只是 DefWindowProc 函数会生成系统蜂鸣音以指示错误）。
-        HitGrowBox     = HTGROWBOX,     // 在大小框中（与 HTSIZE 相同）。
-        HitHelp        = HTHELP,        // 在帮助按钮中。
-        HitHScroll     = HTHSCROLL,     // 在水平滚动条中。
-        HitLeft        = HTLEFT,        // 在可调整大小的窗口的左边框中（用户可以单击鼠标以水平调整窗口大小）。
-        HitMenu        = HTMENU,        // 在菜单中。
-        HitMaxButton   = HTMAXBUTTON,   // 在最大化按钮中。
-        HitMinButton   = HTMINBUTTON,   // 在最小化按钮中。
-        HitNoWhere     = HTNOWHERE,     // 在屏幕背景上，或在窗口之间的分隔线上。
-        HitReduce      = HTREDUCE,      // 在最小化按钮中。
-        HitRight       = HTRIGHT,       // 在可调整大小的窗口的右左边框中（用户可以单击鼠标以水平调整窗口大小）。
-        HitSize        = HTSIZE,        // 在大小框中（与 HTGROWBOX 相同）。
-        HitSysMenu     = HTSYSMENU,     // 在窗口菜单或子窗口的关闭按钮中。
-        HitTop         = HTTOP,         // 在窗口的上水平边框中。
-        HitTopLeft     = HTTOPLEFT,     // 在窗口边框的左上角。
-        HitTopRight    = HTTOPRIGHT,    // 在窗口边框的右上角。
-        HitTransparent = HTTRANSPARENT, // 在同一线程当前由另一个窗口覆盖的窗口中（消息将发送到同一线程中的基础窗口，直到其中一个窗口返回不是 HTTRANSPARENT 的代码）。
-        HitVScroll     = HTVSCROLL,     // 在垂直滚动条中。
-        HitZoom        = HTZOOM,        // 在最大化按钮中。
+        HitBorder      = HTBORDER,      ///< 在没有大小边界的窗口边框中。
+        HitBottom      = HTBOTTOM,      ///< 在可调整大小的窗口的下水平边框中（用户可以单击鼠标以垂直调整窗口大小）。
+        HitBottomLeft  = HTBOTTOMLEFT,  ///< 在可调整大小的窗口的边框左下角（用户可以单击鼠标以对角线调整窗口大小）。
+        HitBottomRight = HTBOTTOMRIGHT, ///< 在可调整大小的窗口的边框右下角（用户可以单击鼠标以对角线调整窗口大小）。
+        HitCaption     = HTCAPTION,     ///< 在标题栏中。
+        HitClient      = HTCLIENT,      ///< 在客户端区中。
+        HitClose       = HTCLOSE,       ///< 在关闭按钮中。
+        HitError       = HTERROR,       ///< 在屏幕背景上或窗口之间的分割线上（与 HTNOWHERE 相同，只是 DefWindowProc 函数会生成系统蜂鸣音以指示错误）。
+        HitGrowBox     = HTGROWBOX,     ///< 在大小框中（与 HTSIZE 相同）。
+        HitHelp        = HTHELP,        ///< 在帮助按钮中。
+        HitHScroll     = HTHSCROLL,     ///< 在水平滚动条中。
+        HitLeft        = HTLEFT,        ///< 在可调整大小的窗口的左边框中（用户可以单击鼠标以水平调整窗口大小）。
+        HitMenu        = HTMENU,        ///< 在菜单中。
+        HitMaxButton   = HTMAXBUTTON,   ///< 在最大化按钮中。
+        HitMinButton   = HTMINBUTTON,   ///< 在最小化按钮中。
+        HitNoWhere     = HTNOWHERE,     ///< 在屏幕背景上，或在窗口之间的分隔线上。
+        HitReduce      = HTREDUCE,      ///< 在最小化按钮中。
+        HitRight       = HTRIGHT,       ///< 在可调整大小的窗口的右左边框中（用户可以单击鼠标以水平调整窗口大小）。
+        HitSize        = HTSIZE,        ///< 在大小框中（与 HTGROWBOX 相同）。
+        HitSysMenu     = HTSYSMENU,     ///< 在窗口菜单或子窗口的关闭按钮中。
+        HitTop         = HTTOP,         ///< 在窗口的上水平边框中。
+        HitTopLeft     = HTTOPLEFT,     ///< 在窗口边框的左上角。
+        HitTopRight    = HTTOPRIGHT,    ///< 在窗口边框的右上角。
+        HitTransparent = HTTRANSPARENT, ///< 在同一线程当前由另一个窗口覆盖的窗口中（消息将发送到同一线程中的基础窗口，直到其中一个窗口返回不是 HTTRANSPARENT 的代码）。
+        HitVScroll     = HTVSCROLL,     ///< 在垂直滚动条中。
+        HitZoom        = HTZOOM,        ///< 在最大化按钮中。
     };
 }
 
@@ -1811,13 +1811,13 @@ namespace sw
      * @brief https://learn.microsoft.com/en-us/windows/win32/menurc/about-icons
      */
     enum class StandardIcon {
-        Application = 32512, // Default application icon
-        Error       = 32513, // Error icon
-        Question    = 32514, // Question mark icon
-        Warning     = 32515, // Warning icon
-        Information = 32516, // Information icon
-        WinLogo     = 32517, // Windows logo icon
-        Shield      = 32518, // Security shield icon
+        Application = 32512, ///< Default application icon
+        Error       = 32513, ///< Error icon
+        Question    = 32514, ///< Question mark icon
+        Warning     = 32515, ///< Warning icon
+        Information = 32516, ///< Information icon
+        WinLogo     = 32517, ///< Windows logo icon
+        Shield      = 32518, ///< Security shield icon
     };
 
     /**
@@ -1945,181 +1945,181 @@ namespace sw
      * @brief 已知的颜色
      */
     enum class KnownColor {
-        ActiveBorder            = RGB(0xb4, 0xb4, 0xb4), // 活动边框颜色
-        ActiveCaption           = RGB(0x99, 0xb4, 0xd1), // 活动标题栏颜色
-        ActiveCaptionText       = RGB(0x00, 0x00, 0x00), // 活动标题栏文本颜色
-        AppWorkspace            = RGB(0xab, 0xab, 0xab), // 应用程序工作区颜色
-        Control                 = RGB(0xf0, 0xf0, 0xf0), // 控件颜色
-        ControlDark             = RGB(0xa0, 0xa0, 0xa0), // 控件深色颜色
-        ControlDarkDark         = RGB(0x69, 0x69, 0x69), // 控件深深色颜色
-        ControlLight            = RGB(0xe3, 0xe3, 0xe3), // 控件浅色颜色
-        ControlLightLight       = RGB(0xff, 0xff, 0xff), // 控件浅浅色颜色
-        ControlText             = RGB(0x00, 0x00, 0x00), // 控件文本颜色
-        Desktop                 = RGB(0x00, 0x00, 0x00), // 桌面颜色
-        GrayText                = RGB(0x6d, 0x6d, 0x6d), // 灰色文本颜色
-        Highlight               = RGB(0x00, 0x78, 0xd7), // 高亮颜色
-        HighlightText           = RGB(0xff, 0xff, 0xff), // 高亮文本颜色
-        HotTrack                = RGB(0x00, 0x66, 0xcc), // 热跟踪颜色
-        InactiveBorder          = RGB(0xf4, 0xf7, 0xfc), // 非活动边框颜色
-        InactiveCaption         = RGB(0xbf, 0xcd, 0xdb), // 非活动标题栏颜色
-        InactiveCaptionText     = RGB(0x00, 0x00, 0x00), // 非活动标题栏文本颜色
-        Info                    = RGB(0xff, 0xff, 0xe1), // 信息颜色
-        InfoText                = RGB(0x00, 0x00, 0x00), // 信息文本颜色
-        Menu                    = RGB(0xf0, 0xf0, 0xf0), // 菜单颜色
-        MenuText                = RGB(0x00, 0x00, 0x00), // 菜单文本颜色
-        ScrollBar               = RGB(0xc8, 0xc8, 0xc8), // 滚动条颜色
-        Window                  = RGB(0xff, 0xff, 0xff), // 窗口颜色
-        WindowFrame             = RGB(0x64, 0x64, 0x64), // 窗口框架颜色
-        WindowText              = RGB(0x00, 0x00, 0x00), // 窗口文本颜色
-        Transparent             = RGB(0xff, 0xff, 0xff), // 透明色
-        AliceBlue               = RGB(0xf0, 0xf8, 0xff), // 爱丽丝蓝色
-        AntiqueWhite            = RGB(0xfa, 0xeb, 0xd7), // 古董白色
-        Aqua                    = RGB(0x00, 0xff, 0xff), // 青色
-        Aquamarine              = RGB(0x7f, 0xff, 0xd4), // 碧绿色
-        Azure                   = RGB(0xf0, 0xff, 0xff), // 天蓝色
-        Beige                   = RGB(0xf5, 0xf5, 0xdc), // 米色
-        Bisque                  = RGB(0xff, 0xe4, 0xc4), // 橘黄色
-        Black                   = RGB(0x00, 0x00, 0x00), // 黑色
-        BlanchedAlmond          = RGB(0xff, 0xeb, 0xcd), // 白杏色
-        Blue                    = RGB(0x00, 0x00, 0xff), // 蓝色
-        BlueViolet              = RGB(0x8a, 0x2b, 0xe2), // 蓝紫色
-        Brown                   = RGB(0xa5, 0x2a, 0x2a), // 棕色
-        BurlyWood               = RGB(0xde, 0xb8, 0x87), // 硬木色
-        CadetBlue               = RGB(0x5f, 0x9e, 0xa0), // 军装蓝色
-        Chartreuse              = RGB(0x7f, 0xff, 0x00), // 黄绿色
-        Chocolate               = RGB(0xd2, 0x69, 0x1e), // 巧克力色
-        Coral                   = RGB(0xff, 0x7f, 0x50), // 珊瑚色
-        CornflowerBlue          = RGB(0x64, 0x95, 0xed), // 矢车菊蓝色
-        Cornsilk                = RGB(0xff, 0xf8, 0xdc), // 米绸色
-        Crimson                 = RGB(0xdc, 0x14, 0x3c), // 绯红色
-        Cyan                    = RGB(0x00, 0xff, 0xff), // 青色
-        DarkBlue                = RGB(0x00, 0x00, 0x8b), // 深蓝色
-        DarkCyan                = RGB(0x00, 0x8b, 0x8b), // 深青色
-        DarkGoldenrod           = RGB(0xb8, 0x86, 0x0b), // 深金黄色
-        DarkGray                = RGB(0xa9, 0xa9, 0xa9), // 深灰色
-        DarkGreen               = RGB(0x00, 0x64, 0x00), // 深绿色
-        DarkKhaki               = RGB(0xbd, 0xb7, 0x6b), // 深卡其色
-        DarkMagenta             = RGB(0x8b, 0x00, 0x8b), // 深洋红色
-        DarkOliveGreen          = RGB(0x55, 0x6b, 0x2f), // 深橄榄绿色
-        DarkOrange              = RGB(0xff, 0x8c, 0x00), // 深橙色
-        DarkOrchid              = RGB(0x99, 0x32, 0xcc), // 深兰花色
-        DarkRed                 = RGB(0x8b, 0x00, 0x00), // 深红色
-        DarkSalmon              = RGB(0xe9, 0x96, 0x7a), // 深鲑鱼色
-        DarkSeaGreen            = RGB(0x8f, 0xbc, 0x8f), // 深海绿色
-        DarkSlateBlue           = RGB(0x48, 0x3d, 0x8b), // 深青蓝色
-        DarkSlateGray           = RGB(0x2f, 0x4f, 0x4f), // 深青灰色
-        DarkTurquoise           = RGB(0x00, 0xce, 0xd1), // 深青色
-        DarkViolet              = RGB(0x94, 0x00, 0xd3), // 深紫罗兰色
-        DeepPink                = RGB(0xff, 0x14, 0x93), // 深粉色
-        DeepSkyBlue             = RGB(0x00, 0xbf, 0xff), // 深天蓝色
-        DimGray                 = RGB(0x69, 0x69, 0x69), // 暗灰色
-        DodgerBlue              = RGB(0x1e, 0x90, 0xff), // 道奇蓝色
-        Firebrick               = RGB(0xb2, 0x22, 0x22), // 火砖色
-        FloralWhite             = RGB(0xff, 0xfa, 0xf0), // 花白色
-        ForestGreen             = RGB(0x22, 0x8b, 0x22), // 森林绿色
-        Fuchsia                 = RGB(0xff, 0x00, 0xff), // 紫红色
-        Gainsboro               = RGB(0xdc, 0xdc, 0xdc), // 盖茨伯勒色
-        GhostWhite              = RGB(0xf8, 0xf8, 0xff), // 幽灵白色
-        Gold                    = RGB(0xff, 0xd7, 0x00), // 金色
-        Goldenrod               = RGB(0xda, 0xa5, 0x20), // 金菊黄色
-        Gray                    = RGB(0x80, 0x80, 0x80), // 灰色
-        Green                   = RGB(0x00, 0x80, 0x00), // 绿色
-        GreenYellow             = RGB(0xad, 0xff, 0x2f), // 绿黄色
-        Honeydew                = RGB(0xf0, 0xff, 0xf0), // 蜜色
-        HotPink                 = RGB(0xff, 0x69, 0xb4), // 亮粉红色
-        IndianRed               = RGB(0xcd, 0x5c, 0x5c), // 印度红色
-        Indigo                  = RGB(0x4b, 0x00, 0x82), // 靛青色
-        Ivory                   = RGB(0xff, 0xff, 0xf0), // 象牙色
-        Khaki                   = RGB(0xf0, 0xe6, 0x8c), // 卡其色
-        Lavender                = RGB(0xe6, 0xe6, 0xfa), // 熏衣草色
-        LavenderBlush           = RGB(0xff, 0xf0, 0xf5), // 淡紫红色
-        LawnGreen               = RGB(0x7c, 0xfc, 0x00), // 草绿色
-        LemonChiffon            = RGB(0xff, 0xfa, 0xcd), // 柠檬绸色
-        LightBlue               = RGB(0xad, 0xd8, 0xe6), // 淡蓝色
-        LightCoral              = RGB(0xf0, 0x80, 0x80), // 淡珊瑚色
-        LightCyan               = RGB(0xe0, 0xff, 0xff), // 淡青色
-        LightGoldenrodYellow    = RGB(0xfa, 0xfa, 0xd2), // 浅金菊黄色
-        LightGray               = RGB(0xd3, 0xd3, 0xd3), // 浅灰色
-        LightGreen              = RGB(0x90, 0xee, 0x90), // 浅绿色
-        LightPink               = RGB(0xff, 0xb6, 0xc1), // 浅粉色
-        LightSalmon             = RGB(0xff, 0xa0, 0x7a), // 浅鲑鱼色
-        LightSeaGreen           = RGB(0x20, 0xb2, 0xaa), // 浅海绿色
-        LightSkyBlue            = RGB(0x87, 0xce, 0xfa), // 浅天蓝色
-        LightSlateGray          = RGB(0x77, 0x88, 0x99), // 浅青灰色
-        LightSteelBlue          = RGB(0xb0, 0xc4, 0xde), // 浅钢蓝色
-        LightYellow             = RGB(0xff, 0xff, 0xe0), // 浅黄色
-        Lime                    = RGB(0x00, 0xff, 0x00), // 酸橙色
-        LimeGreen               = RGB(0x32, 0xcd, 0x32), // 柠檬绿色
-        Linen                   = RGB(0xfa, 0xf0, 0xe6), // 亚麻色
-        Magenta                 = RGB(0xff, 0x00, 0xff), // 洋红色
-        Maroon                  = RGB(0x80, 0x00, 0x00), // 栗色
-        MediumAquamarine        = RGB(0x66, 0xcd, 0xaa), // 中碧绿色
-        MediumBlue              = RGB(0x00, 0x00, 0xcd), // 中蓝色
-        MediumOrchid            = RGB(0xba, 0x55, 0xd3), // 中兰花紫色
-        MediumPurple            = RGB(0x93, 0x70, 0xdb), // 中紫色
-        MediumSeaGreen          = RGB(0x3c, 0xb3, 0x71), // 中海绿色
-        MediumSlateBlue         = RGB(0x7b, 0x68, 0xee), // 中青蓝色
-        MediumSpringGreen       = RGB(0x00, 0xfa, 0x9a), // 中春绿色
-        MediumTurquoise         = RGB(0x48, 0xd1, 0xcc), // 中青色
-        MediumVioletRed         = RGB(0xc7, 0x15, 0x85), // 中紫罗兰色
-        MidnightBlue            = RGB(0x19, 0x19, 0x70), // 午夜蓝色
-        MintCream               = RGB(0xf5, 0xff, 0xfa), // 薄荷色
-        MistyRose               = RGB(0xff, 0xe4, 0xe1), // 浅玫瑰色
-        Moccasin                = RGB(0xff, 0xe4, 0xb5), // 鹿皮色
-        NavajoWhite             = RGB(0xff, 0xde, 0xad), // 纳瓦白色
-        Navy                    = RGB(0x00, 0x00, 0x80), // 海军蓝色
-        OldLace                 = RGB(0xfd, 0xf5, 0xe6), // 老花色
-        Olive                   = RGB(0x80, 0x80, 0x00), // 橄榄色
-        OliveDrab               = RGB(0x6b, 0x8e, 0x23), // 橄榄褐色
-        Orange                  = RGB(0xff, 0xa5, 0x00), // 橙色
-        OrangeRed               = RGB(0xff, 0x45, 0x00), // 橙红色
-        Orchid                  = RGB(0xda, 0x70, 0xd6), // 兰花紫色
-        PaleGoldenrod           = RGB(0xee, 0xe8, 0xaa), // 苍麒麟色
-        PaleGreen               = RGB(0x98, 0xfb, 0x98), // 苍绿色
-        PaleTurquoise           = RGB(0xaf, 0xee, 0xee), // 苍宝石绿色
-        PaleVioletRed           = RGB(0xdb, 0x70, 0x93), // 苍紫罗兰红色
-        PapayaWhip              = RGB(0xff, 0xef, 0xd5), // 番木瓜色
-        PeachPuff               = RGB(0xff, 0xda, 0xb9), // 桃肉色
-        Peru                    = RGB(0xcd, 0x85, 0x3f), // 秘鲁色
-        Pink                    = RGB(0xff, 0xc0, 0xcb), // 粉红色
-        Plum                    = RGB(0xdd, 0xa0, 0xdd), // 李紫色
-        PowderBlue              = RGB(0xb0, 0xe0, 0xe6), // 粉蓝色
-        Purple                  = RGB(0x80, 0x00, 0x80), // 紫色
-        Red                     = RGB(0xff, 0x00, 0x00), // 红色
-        RosyBrown               = RGB(0xbc, 0x8f, 0x8f), // 玫瑰棕色
-        RoyalBlue               = RGB(0x41, 0x69, 0xe1), // 皇家蓝色
-        SaddleBrown             = RGB(0x8b, 0x45, 0x13), // 马鞍棕色
-        Salmon                  = RGB(0xfa, 0x80, 0x72), // 鲑鱼色
-        SandyBrown              = RGB(0xf4, 0xa4, 0x60), // 沙棕色
-        SeaGreen                = RGB(0x2e, 0x8b, 0x57), // 海绿色
-        SeaShell                = RGB(0xff, 0xf5, 0xee), // 海贝色
-        Sienna                  = RGB(0xa0, 0x52, 0x2d), // 黄土赭色
-        Silver                  = RGB(0xc0, 0xc0, 0xc0), // 银色
-        SkyBlue                 = RGB(0x87, 0xce, 0xeb), // 天蓝色
-        SlateBlue               = RGB(0x6a, 0x5a, 0xcd), // 青蓝色
-        SlateGray               = RGB(0x70, 0x80, 0x90), // 青灰色
-        Snow                    = RGB(0xff, 0xfa, 0xfa), // 雪白色
-        SpringGreen             = RGB(0x00, 0xff, 0x7f), // 春绿色
-        SteelBlue               = RGB(0x46, 0x82, 0xb4), // 钢蓝色
-        Tan                     = RGB(0xd2, 0xb4, 0x8c), // 茶色
-        Teal                    = RGB(0x00, 0x80, 0x80), // 鸭翅绿色
-        Thistle                 = RGB(0xd8, 0xbf, 0xd8), // 蓟色
-        Tomato                  = RGB(0xff, 0x63, 0x47), // 番茄色
-        Turquoise               = RGB(0x40, 0xe0, 0xd0), // 青绿色
-        Violet                  = RGB(0xee, 0x82, 0xee), // 紫罗兰色
-        Wheat                   = RGB(0xf5, 0xde, 0xb3), // 小麦色
-        White                   = RGB(0xff, 0xff, 0xff), // 白色
-        WhiteSmoke              = RGB(0xf5, 0xf5, 0xf5), // 白烟色
-        Yellow                  = RGB(0xff, 0xff, 0x00), // 黄色
-        YellowGreen             = RGB(0x9a, 0xcd, 0x32), // 黄绿色
-        ButtonFace              = RGB(0xf0, 0xf0, 0xf0), // 按钮表面色
-        ButtonHighlight         = RGB(0xff, 0xff, 0xff), // 按钮高亮色
-        ButtonShadow            = RGB(0xa0, 0xa0, 0xa0), // 按钮阴影色
-        GradientActiveCaption   = RGB(0xb9, 0xd1, 0xea), // 渐变激活标题栏色
-        GradientInactiveCaption = RGB(0xd7, 0xe4, 0xf2), // 渐变非激活标题栏色
-        MenuBar                 = RGB(0xf0, 0xf0, 0xf0), // 菜单栏色
-        MenuHighlight           = RGB(0x33, 0x99, 0xff), // 菜单高亮色
-        RebeccaPurple           = RGB(0x66, 0x33, 0x99), // 紫罗兰色
+        ActiveBorder            = RGB(0xb4, 0xb4, 0xb4), ///< 活动边框颜色
+        ActiveCaption           = RGB(0x99, 0xb4, 0xd1), ///< 活动标题栏颜色
+        ActiveCaptionText       = RGB(0x00, 0x00, 0x00), ///< 活动标题栏文本颜色
+        AppWorkspace            = RGB(0xab, 0xab, 0xab), ///< 应用程序工作区颜色
+        Control                 = RGB(0xf0, 0xf0, 0xf0), ///< 控件颜色
+        ControlDark             = RGB(0xa0, 0xa0, 0xa0), ///< 控件深色颜色
+        ControlDarkDark         = RGB(0x69, 0x69, 0x69), ///< 控件深深色颜色
+        ControlLight            = RGB(0xe3, 0xe3, 0xe3), ///< 控件浅色颜色
+        ControlLightLight       = RGB(0xff, 0xff, 0xff), ///< 控件浅浅色颜色
+        ControlText             = RGB(0x00, 0x00, 0x00), ///< 控件文本颜色
+        Desktop                 = RGB(0x00, 0x00, 0x00), ///< 桌面颜色
+        GrayText                = RGB(0x6d, 0x6d, 0x6d), ///< 灰色文本颜色
+        Highlight               = RGB(0x00, 0x78, 0xd7), ///< 高亮颜色
+        HighlightText           = RGB(0xff, 0xff, 0xff), ///< 高亮文本颜色
+        HotTrack                = RGB(0x00, 0x66, 0xcc), ///< 热跟踪颜色
+        InactiveBorder          = RGB(0xf4, 0xf7, 0xfc), ///< 非活动边框颜色
+        InactiveCaption         = RGB(0xbf, 0xcd, 0xdb), ///< 非活动标题栏颜色
+        InactiveCaptionText     = RGB(0x00, 0x00, 0x00), ///< 非活动标题栏文本颜色
+        Info                    = RGB(0xff, 0xff, 0xe1), ///< 信息颜色
+        InfoText                = RGB(0x00, 0x00, 0x00), ///< 信息文本颜色
+        Menu                    = RGB(0xf0, 0xf0, 0xf0), ///< 菜单颜色
+        MenuText                = RGB(0x00, 0x00, 0x00), ///< 菜单文本颜色
+        ScrollBar               = RGB(0xc8, 0xc8, 0xc8), ///< 滚动条颜色
+        Window                  = RGB(0xff, 0xff, 0xff), ///< 窗口颜色
+        WindowFrame             = RGB(0x64, 0x64, 0x64), ///< 窗口框架颜色
+        WindowText              = RGB(0x00, 0x00, 0x00), ///< 窗口文本颜色
+        Transparent             = RGB(0xff, 0xff, 0xff), ///< 透明色
+        AliceBlue               = RGB(0xf0, 0xf8, 0xff), ///< 爱丽丝蓝色
+        AntiqueWhite            = RGB(0xfa, 0xeb, 0xd7), ///< 古董白色
+        Aqua                    = RGB(0x00, 0xff, 0xff), ///< 青色
+        Aquamarine              = RGB(0x7f, 0xff, 0xd4), ///< 碧绿色
+        Azure                   = RGB(0xf0, 0xff, 0xff), ///< 天蓝色
+        Beige                   = RGB(0xf5, 0xf5, 0xdc), ///< 米色
+        Bisque                  = RGB(0xff, 0xe4, 0xc4), ///< 橘黄色
+        Black                   = RGB(0x00, 0x00, 0x00), ///< 黑色
+        BlanchedAlmond          = RGB(0xff, 0xeb, 0xcd), ///< 白杏色
+        Blue                    = RGB(0x00, 0x00, 0xff), ///< 蓝色
+        BlueViolet              = RGB(0x8a, 0x2b, 0xe2), ///< 蓝紫色
+        Brown                   = RGB(0xa5, 0x2a, 0x2a), ///< 棕色
+        BurlyWood               = RGB(0xde, 0xb8, 0x87), ///< 硬木色
+        CadetBlue               = RGB(0x5f, 0x9e, 0xa0), ///< 军装蓝色
+        Chartreuse              = RGB(0x7f, 0xff, 0x00), ///< 黄绿色
+        Chocolate               = RGB(0xd2, 0x69, 0x1e), ///< 巧克力色
+        Coral                   = RGB(0xff, 0x7f, 0x50), ///< 珊瑚色
+        CornflowerBlue          = RGB(0x64, 0x95, 0xed), ///< 矢车菊蓝色
+        Cornsilk                = RGB(0xff, 0xf8, 0xdc), ///< 米绸色
+        Crimson                 = RGB(0xdc, 0x14, 0x3c), ///< 绯红色
+        Cyan                    = RGB(0x00, 0xff, 0xff), ///< 青色
+        DarkBlue                = RGB(0x00, 0x00, 0x8b), ///< 深蓝色
+        DarkCyan                = RGB(0x00, 0x8b, 0x8b), ///< 深青色
+        DarkGoldenrod           = RGB(0xb8, 0x86, 0x0b), ///< 深金黄色
+        DarkGray                = RGB(0xa9, 0xa9, 0xa9), ///< 深灰色
+        DarkGreen               = RGB(0x00, 0x64, 0x00), ///< 深绿色
+        DarkKhaki               = RGB(0xbd, 0xb7, 0x6b), ///< 深卡其色
+        DarkMagenta             = RGB(0x8b, 0x00, 0x8b), ///< 深洋红色
+        DarkOliveGreen          = RGB(0x55, 0x6b, 0x2f), ///< 深橄榄绿色
+        DarkOrange              = RGB(0xff, 0x8c, 0x00), ///< 深橙色
+        DarkOrchid              = RGB(0x99, 0x32, 0xcc), ///< 深兰花色
+        DarkRed                 = RGB(0x8b, 0x00, 0x00), ///< 深红色
+        DarkSalmon              = RGB(0xe9, 0x96, 0x7a), ///< 深鲑鱼色
+        DarkSeaGreen            = RGB(0x8f, 0xbc, 0x8f), ///< 深海绿色
+        DarkSlateBlue           = RGB(0x48, 0x3d, 0x8b), ///< 深青蓝色
+        DarkSlateGray           = RGB(0x2f, 0x4f, 0x4f), ///< 深青灰色
+        DarkTurquoise           = RGB(0x00, 0xce, 0xd1), ///< 深青色
+        DarkViolet              = RGB(0x94, 0x00, 0xd3), ///< 深紫罗兰色
+        DeepPink                = RGB(0xff, 0x14, 0x93), ///< 深粉色
+        DeepSkyBlue             = RGB(0x00, 0xbf, 0xff), ///< 深天蓝色
+        DimGray                 = RGB(0x69, 0x69, 0x69), ///< 暗灰色
+        DodgerBlue              = RGB(0x1e, 0x90, 0xff), ///< 道奇蓝色
+        Firebrick               = RGB(0xb2, 0x22, 0x22), ///< 火砖色
+        FloralWhite             = RGB(0xff, 0xfa, 0xf0), ///< 花白色
+        ForestGreen             = RGB(0x22, 0x8b, 0x22), ///< 森林绿色
+        Fuchsia                 = RGB(0xff, 0x00, 0xff), ///< 紫红色
+        Gainsboro               = RGB(0xdc, 0xdc, 0xdc), ///< 盖茨伯勒色
+        GhostWhite              = RGB(0xf8, 0xf8, 0xff), ///< 幽灵白色
+        Gold                    = RGB(0xff, 0xd7, 0x00), ///< 金色
+        Goldenrod               = RGB(0xda, 0xa5, 0x20), ///< 金菊黄色
+        Gray                    = RGB(0x80, 0x80, 0x80), ///< 灰色
+        Green                   = RGB(0x00, 0x80, 0x00), ///< 绿色
+        GreenYellow             = RGB(0xad, 0xff, 0x2f), ///< 绿黄色
+        Honeydew                = RGB(0xf0, 0xff, 0xf0), ///< 蜜色
+        HotPink                 = RGB(0xff, 0x69, 0xb4), ///< 亮粉红色
+        IndianRed               = RGB(0xcd, 0x5c, 0x5c), ///< 印度红色
+        Indigo                  = RGB(0x4b, 0x00, 0x82), ///< 靛青色
+        Ivory                   = RGB(0xff, 0xff, 0xf0), ///< 象牙色
+        Khaki                   = RGB(0xf0, 0xe6, 0x8c), ///< 卡其色
+        Lavender                = RGB(0xe6, 0xe6, 0xfa), ///< 熏衣草色
+        LavenderBlush           = RGB(0xff, 0xf0, 0xf5), ///< 淡紫红色
+        LawnGreen               = RGB(0x7c, 0xfc, 0x00), ///< 草绿色
+        LemonChiffon            = RGB(0xff, 0xfa, 0xcd), ///< 柠檬绸色
+        LightBlue               = RGB(0xad, 0xd8, 0xe6), ///< 淡蓝色
+        LightCoral              = RGB(0xf0, 0x80, 0x80), ///< 淡珊瑚色
+        LightCyan               = RGB(0xe0, 0xff, 0xff), ///< 淡青色
+        LightGoldenrodYellow    = RGB(0xfa, 0xfa, 0xd2), ///< 浅金菊黄色
+        LightGray               = RGB(0xd3, 0xd3, 0xd3), ///< 浅灰色
+        LightGreen              = RGB(0x90, 0xee, 0x90), ///< 浅绿色
+        LightPink               = RGB(0xff, 0xb6, 0xc1), ///< 浅粉色
+        LightSalmon             = RGB(0xff, 0xa0, 0x7a), ///< 浅鲑鱼色
+        LightSeaGreen           = RGB(0x20, 0xb2, 0xaa), ///< 浅海绿色
+        LightSkyBlue            = RGB(0x87, 0xce, 0xfa), ///< 浅天蓝色
+        LightSlateGray          = RGB(0x77, 0x88, 0x99), ///< 浅青灰色
+        LightSteelBlue          = RGB(0xb0, 0xc4, 0xde), ///< 浅钢蓝色
+        LightYellow             = RGB(0xff, 0xff, 0xe0), ///< 浅黄色
+        Lime                    = RGB(0x00, 0xff, 0x00), ///< 酸橙色
+        LimeGreen               = RGB(0x32, 0xcd, 0x32), ///< 柠檬绿色
+        Linen                   = RGB(0xfa, 0xf0, 0xe6), ///< 亚麻色
+        Magenta                 = RGB(0xff, 0x00, 0xff), ///< 洋红色
+        Maroon                  = RGB(0x80, 0x00, 0x00), ///< 栗色
+        MediumAquamarine        = RGB(0x66, 0xcd, 0xaa), ///< 中碧绿色
+        MediumBlue              = RGB(0x00, 0x00, 0xcd), ///< 中蓝色
+        MediumOrchid            = RGB(0xba, 0x55, 0xd3), ///< 中兰花紫色
+        MediumPurple            = RGB(0x93, 0x70, 0xdb), ///< 中紫色
+        MediumSeaGreen          = RGB(0x3c, 0xb3, 0x71), ///< 中海绿色
+        MediumSlateBlue         = RGB(0x7b, 0x68, 0xee), ///< 中青蓝色
+        MediumSpringGreen       = RGB(0x00, 0xfa, 0x9a), ///< 中春绿色
+        MediumTurquoise         = RGB(0x48, 0xd1, 0xcc), ///< 中青色
+        MediumVioletRed         = RGB(0xc7, 0x15, 0x85), ///< 中紫罗兰色
+        MidnightBlue            = RGB(0x19, 0x19, 0x70), ///< 午夜蓝色
+        MintCream               = RGB(0xf5, 0xff, 0xfa), ///< 薄荷色
+        MistyRose               = RGB(0xff, 0xe4, 0xe1), ///< 浅玫瑰色
+        Moccasin                = RGB(0xff, 0xe4, 0xb5), ///< 鹿皮色
+        NavajoWhite             = RGB(0xff, 0xde, 0xad), ///< 纳瓦白色
+        Navy                    = RGB(0x00, 0x00, 0x80), ///< 海军蓝色
+        OldLace                 = RGB(0xfd, 0xf5, 0xe6), ///< 老花色
+        Olive                   = RGB(0x80, 0x80, 0x00), ///< 橄榄色
+        OliveDrab               = RGB(0x6b, 0x8e, 0x23), ///< 橄榄褐色
+        Orange                  = RGB(0xff, 0xa5, 0x00), ///< 橙色
+        OrangeRed               = RGB(0xff, 0x45, 0x00), ///< 橙红色
+        Orchid                  = RGB(0xda, 0x70, 0xd6), ///< 兰花紫色
+        PaleGoldenrod           = RGB(0xee, 0xe8, 0xaa), ///< 苍麒麟色
+        PaleGreen               = RGB(0x98, 0xfb, 0x98), ///< 苍绿色
+        PaleTurquoise           = RGB(0xaf, 0xee, 0xee), ///< 苍宝石绿色
+        PaleVioletRed           = RGB(0xdb, 0x70, 0x93), ///< 苍紫罗兰红色
+        PapayaWhip              = RGB(0xff, 0xef, 0xd5), ///< 番木瓜色
+        PeachPuff               = RGB(0xff, 0xda, 0xb9), ///< 桃肉色
+        Peru                    = RGB(0xcd, 0x85, 0x3f), ///< 秘鲁色
+        Pink                    = RGB(0xff, 0xc0, 0xcb), ///< 粉红色
+        Plum                    = RGB(0xdd, 0xa0, 0xdd), ///< 李紫色
+        PowderBlue              = RGB(0xb0, 0xe0, 0xe6), ///< 粉蓝色
+        Purple                  = RGB(0x80, 0x00, 0x80), ///< 紫色
+        Red                     = RGB(0xff, 0x00, 0x00), ///< 红色
+        RosyBrown               = RGB(0xbc, 0x8f, 0x8f), ///< 玫瑰棕色
+        RoyalBlue               = RGB(0x41, 0x69, 0xe1), ///< 皇家蓝色
+        SaddleBrown             = RGB(0x8b, 0x45, 0x13), ///< 马鞍棕色
+        Salmon                  = RGB(0xfa, 0x80, 0x72), ///< 鲑鱼色
+        SandyBrown              = RGB(0xf4, 0xa4, 0x60), ///< 沙棕色
+        SeaGreen                = RGB(0x2e, 0x8b, 0x57), ///< 海绿色
+        SeaShell                = RGB(0xff, 0xf5, 0xee), ///< 海贝色
+        Sienna                  = RGB(0xa0, 0x52, 0x2d), ///< 黄土赭色
+        Silver                  = RGB(0xc0, 0xc0, 0xc0), ///< 银色
+        SkyBlue                 = RGB(0x87, 0xce, 0xeb), ///< 天蓝色
+        SlateBlue               = RGB(0x6a, 0x5a, 0xcd), ///< 青蓝色
+        SlateGray               = RGB(0x70, 0x80, 0x90), ///< 青灰色
+        Snow                    = RGB(0xff, 0xfa, 0xfa), ///< 雪白色
+        SpringGreen             = RGB(0x00, 0xff, 0x7f), ///< 春绿色
+        SteelBlue               = RGB(0x46, 0x82, 0xb4), ///< 钢蓝色
+        Tan                     = RGB(0xd2, 0xb4, 0x8c), ///< 茶色
+        Teal                    = RGB(0x00, 0x80, 0x80), ///< 鸭翅绿色
+        Thistle                 = RGB(0xd8, 0xbf, 0xd8), ///< 蓟色
+        Tomato                  = RGB(0xff, 0x63, 0x47), ///< 番茄色
+        Turquoise               = RGB(0x40, 0xe0, 0xd0), ///< 青绿色
+        Violet                  = RGB(0xee, 0x82, 0xee), ///< 紫罗兰色
+        Wheat                   = RGB(0xf5, 0xde, 0xb3), ///< 小麦色
+        White                   = RGB(0xff, 0xff, 0xff), ///< 白色
+        WhiteSmoke              = RGB(0xf5, 0xf5, 0xf5), ///< 白烟色
+        Yellow                  = RGB(0xff, 0xff, 0x00), ///< 黄色
+        YellowGreen             = RGB(0x9a, 0xcd, 0x32), ///< 黄绿色
+        ButtonFace              = RGB(0xf0, 0xf0, 0xf0), ///< 按钮表面色
+        ButtonHighlight         = RGB(0xff, 0xff, 0xff), ///< 按钮高亮色
+        ButtonShadow            = RGB(0xa0, 0xa0, 0xa0), ///< 按钮阴影色
+        GradientActiveCaption   = RGB(0xb9, 0xd1, 0xea), ///< 渐变激活标题栏色
+        GradientInactiveCaption = RGB(0xd7, 0xe4, 0xf2), ///< 渐变非激活标题栏色
+        MenuBar                 = RGB(0xf0, 0xf0, 0xf0), ///< 菜单栏色
+        MenuHighlight           = RGB(0x33, 0x99, 0xff), ///< 菜单高亮色
+        RebeccaPurple           = RGB(0x66, 0x33, 0x99), ///< 紫罗兰色
     };
 }
 
@@ -2244,29 +2244,29 @@ namespace sw
      * @brief 滚动条方向
      */
     enum class ScrollOrientation {
-        Horizontal, // 水平滚动条
-        Vertical,   // 垂直滚动条
+        Horizontal, ///< 水平滚动条
+        Vertical,   ///< 垂直滚动条
     };
 
     /**
      * @brief 滚动条事件
      */
     enum class ScrollEvent {
-        LineUp        = SB_LINEUP,        // Scrolls one line up.
-        LineLeft      = SB_LINELEFT,      // Scrolls left by one unit.
-        LineDown      = SB_LINEDOWN,      // Scrolls one line down.
-        LineRight     = SB_LINERIGHT,     // Scrolls right by one unit.
-        PageUp        = SB_PAGEUP,        // Scrolls one page up.
-        PageLeft      = SB_PAGELEFT,      // Scrolls left by the width of the window.
-        PageDown      = SB_PAGEDOWN,      // Scrolls one page down.
-        PageRight     = SB_PAGERIGHT,     // Scrolls right by the width of the window.
-        ThumbPosition = SB_THUMBPOSITION, // The user has dragged the scroll box (thumb) and released the mouse button. The HIWORD indicates the position of the scroll box at the end of the drag operation.
-        ThubmTrack    = SB_THUMBTRACK,    // The user is dragging the scroll box. This message is sent repeatedly until the user releases the mouse button. The HIWORD indicates the position that the scroll box has been dragged to.
-        Top           = SB_TOP,           // Scrolls to the upper left.
-        Left          = SB_LEFT,          // Scrolls to the upper left.
-        Bottom        = SB_BOTTOM,        // Scrolls to the lower right.
-        Right         = SB_RIGHT,         // Scrolls to the lower right.
-        EndScroll     = SB_ENDSCROLL,     // Ends scroll.
+        LineUp        = SB_LINEUP,        ///< Scrolls one line up.
+        LineLeft      = SB_LINELEFT,      ///< Scrolls left by one unit.
+        LineDown      = SB_LINEDOWN,      ///< Scrolls one line down.
+        LineRight     = SB_LINERIGHT,     ///< Scrolls right by one unit.
+        PageUp        = SB_PAGEUP,        ///< Scrolls one page up.
+        PageLeft      = SB_PAGELEFT,      ///< Scrolls left by the width of the window.
+        PageDown      = SB_PAGEDOWN,      ///< Scrolls one page down.
+        PageRight     = SB_PAGERIGHT,     ///< Scrolls right by the width of the window.
+        ThumbPosition = SB_THUMBPOSITION, ///< The user has dragged the scroll box (thumb) and released the mouse button. The HIWORD indicates the position of the scroll box at the end of the drag operation.
+        ThubmTrack    = SB_THUMBTRACK,    ///< The user is dragging the scroll box. This message is sent repeatedly until the user releases the mouse button. The HIWORD indicates the position that the scroll box has been dragged to.
+        Top           = SB_TOP,           ///< Scrolls to the upper left.
+        Left          = SB_LEFT,          ///< Scrolls to the upper left.
+        Bottom        = SB_BOTTOM,        ///< Scrolls to the lower right.
+        Right         = SB_RIGHT,         ///< Scrolls to the lower right.
+        EndScroll     = SB_ENDSCROLL,     ///< Ends scroll.
     };
 }
 
@@ -2279,19 +2279,19 @@ namespace sw
      * @brief 包含SimpleWindow用到的一些窗口消息
      */
     enum WndMsg : UINT {
-        // SimpleWindow所用消息的起始位置
-        WM_SimpleWindowBegin = WM_USER + 0x3000,
+        /// SimpleWindow所用消息的起始位置
+        WM_SimpleWindowBegin = WM_APP + 0x3000,
 
-        // 控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用
+        /// 控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用
         WM_UpdateLayout,
 
-        // 在窗口线程上执行指定委托，lParam为指向sw::Action<>的指针，wParam表示是否对委托指针执行delete
+        /// 在窗口线程上执行指定委托，lParam为指向sw::Action<>的指针，wParam表示是否对委托指针执行delete
         WM_InvokeAction,
 
-        // 在WndBase::SetParent函数中设置父窗口之前发送该消息，wParam为新的父窗口句柄，lParam未使用
+        /// 在WndBase::SetParent函数中设置父窗口之前发送该消息，wParam为新的父窗口句柄，lParam未使用
         WM_PreSetParent,
 
-        // SimpleWindow所用消息的结束位置
+        /// SimpleWindow所用消息的结束位置
         WM_SimpleWindowEnd,
     };
 }
@@ -2742,268 +2742,292 @@ namespace sw
      * @brief https://learn.microsoft.com/en-us/windows/win32/inputdev/about-keyboard-input#keystroke-message-flags
      */
     struct KeyFlags {
-        // repeat count, > 0 if several keydown messages was combined into one message
+        /**
+         * @brief repeat count, > 0 if several keydown messages was combined into one message
+         */
         uint16_t repeatCount;
 
-        // scan code
+        /**
+         * @brief scan code
+         */
         uint8_t scanCode;
 
-        // extended-key flag, 1 if scancode has 0xE0 prefix
+        /**
+         * @brief extended-key flag, 1 if scancode has 0xE0 prefix
+         */
         bool isExtendedKey;
 
-        // indicates whether the ALT key was down
+        /**
+         * @brief indicates whether the ALT key was down
+         */
         bool contextCode;
 
-        // indicates whether the key that generated the keystroke message was previously up or down
+        /**
+         * @brief indicates whether the key that generated the keystroke message was previously up or down
+         */
         bool previousKeyState;
 
-        // transition-state flag, 1 on keyup
+        /**
+         * @brief transition-state flag, 1 on keyup
+         */
         bool transitionState;
 
-        // 默认构造函数
+        /**
+         * @brief 默认构造函数
+         */
         KeyFlags() = default;
 
-        // 从lParam解析出各个字段
-        KeyFlags(LPARAM lParam);
+        /**
+         * @brief 从lParam解析出各个字段
+         */
+        explicit KeyFlags(LPARAM lParam)
+            : repeatCount((lParam >> 0) & 0xFFFF),
+              scanCode((lParam >> 16) & 0xFF),
+              isExtendedKey((lParam >> 24) & 0x01),
+              contextCode((lParam >> 29) & 0x01),
+              previousKeyState((lParam >> 30) & 0x01),
+              transitionState((lParam >> 31) & 0x01)
+        {
+        }
     };
 
     /**
      * @brief 虚拟按键
      */
     enum class VirtualKey {
-        MouseLeft   = 0x01, // Left mouse button
-        MouseRight  = 0x02, // Right mouse button
-        Cancel      = 0x03, // Control-break processing
-        MouseMiddle = 0x04, // Middle mouse button (three-button mouse)
-        MouseX1     = 0x05, // X1 mouse button
-        MouseX2     = 0x06, // X2 mouse button
+        MouseLeft   = 0x01, ///< Left mouse button
+        MouseRight  = 0x02, ///< Right mouse button
+        Cancel      = 0x03, ///< Control-break processing
+        MouseMiddle = 0x04, ///< Middle mouse button (three-button mouse)
+        MouseX1     = 0x05, ///< X1 mouse button
+        MouseX2     = 0x06, ///< X2 mouse button
 
         //- 0x07 Undefined
 
-        Backspace = 0x08, // BACKSPACE key
-        Tab       = 0x09, // TAB key
+        Backspace = 0x08, ///< BACKSPACE key
+        Tab       = 0x09, ///< TAB key
 
         //- 0x0A-0B Reserved
 
-        Clear = 0x0C, // CLEAR key
-        Enter = 0x0D, // ENTER key
+        Clear = 0x0C, ///< CLEAR key
+        Enter = 0x0D, ///< ENTER key
 
         //- 0x0E-0F Undefined
 
-        Shift      = 0x10, // SHIFT key
-        Ctrl       = 0x11, // CTRL key
-        Alt        = 0x12, // ALT key
-        Pause      = 0x13, // PAUSE key
-        CapsLock   = 0x14, // CAPS LOCK key
-        Kana       = 0x15, // IME Kana mode
-        Hanguel    = 0x15, // IME Hanguel mode (maintained for compatibility; use VK_HANGUL)
-        Hangul     = 0x15, // IME Hangul mode
-        IME_On     = 0x16, // IME On
-        Junja      = 0x17, // IME Junja mode
-        Final      = 0x18, // IME final mode
-        Hanja      = 0x19, // IME Hanja mode
-        KANJI      = 0x19, // IME Kanji mode
-        IME_Off    = 0x1A, // IME Off
-        Esc        = 0x1B, // ESC key
-        Convert    = 0x1C, // IME convert
-        Nonconvert = 0x1D, // IME nonconvert
-        Accept     = 0x1E, // IME accept
-        ModeChange = 0x1F, // IME mode change request
-        Space      = 0x20, // SPACEBAR
-        PageUp     = 0x21, // PAGE UP key
-        PageDown   = 0x22, // PAGE DOWN key
-        End        = 0x23, // END key
-        Home       = 0x24, // HOME key
-        Left       = 0x25, // LEFT ARROW key
-        Up         = 0x26, // UP ARROW key
-        Right      = 0x27, // RIGHT ARROW key
-        Down       = 0x28, // DOWN ARROW key
-        Select     = 0x29, // SELECT key
-        Print      = 0x2A, // PRINT key
-        Execute    = 0x2B, // EXECUTE key
-        Snapshot   = 0x2C, // PRINT SCREEN key
-        Insert     = 0x2D, // INS key
-        Delete     = 0x2E, // DEL key
-        Help       = 0x2F, // HELP key
+        Shift      = 0x10, ///< SHIFT key
+        Ctrl       = 0x11, ///< CTRL key
+        Alt        = 0x12, ///< ALT key
+        Pause      = 0x13, ///< PAUSE key
+        CapsLock   = 0x14, ///< CAPS LOCK key
+        Kana       = 0x15, ///< IME Kana mode
+        Hanguel    = 0x15, ///< IME Hanguel mode (maintained for compatibility; use VK_HANGUL)
+        Hangul     = 0x15, ///< IME Hangul mode
+        IME_On     = 0x16, ///< IME On
+        Junja      = 0x17, ///< IME Junja mode
+        Final      = 0x18, ///< IME final mode
+        Hanja      = 0x19, ///< IME Hanja mode
+        KANJI      = 0x19, ///< IME Kanji mode
+        IME_Off    = 0x1A, ///< IME Off
+        Esc        = 0x1B, ///< ESC key
+        Convert    = 0x1C, ///< IME convert
+        Nonconvert = 0x1D, ///< IME nonconvert
+        Accept     = 0x1E, ///< IME accept
+        ModeChange = 0x1F, ///< IME mode change request
+        Space      = 0x20, ///< SPACEBAR
+        PageUp     = 0x21, ///< PAGE UP key
+        PageDown   = 0x22, ///< PAGE DOWN key
+        End        = 0x23, ///< END key
+        Home       = 0x24, ///< HOME key
+        Left       = 0x25, ///< LEFT ARROW key
+        Up         = 0x26, ///< UP ARROW key
+        Right      = 0x27, ///< RIGHT ARROW key
+        Down       = 0x28, ///< DOWN ARROW key
+        Select     = 0x29, ///< SELECT key
+        Print      = 0x2A, ///< PRINT key
+        Execute    = 0x2B, ///< EXECUTE key
+        Snapshot   = 0x2C, ///< PRINT SCREEN key
+        Insert     = 0x2D, ///< INS key
+        Delete     = 0x2E, ///< DEL key
+        Help       = 0x2F, ///< HELP key
 
-        Zero  = 0x30, // 0 key
-        One   = 0x31, // 1 key
-        Two   = 0x32, // 2 key
-        Three = 0x33, // 3 key
-        Four  = 0x34, // 4 key
-        Five  = 0x35, // 5 key
-        Six   = 0x36, // 6 key
-        Seven = 0x37, // 7 key
-        Eight = 0x38, // 8 key
-        Nine  = 0x39, // 9 key
+        Zero  = 0x30, ///< 0 key
+        One   = 0x31, ///< 1 key
+        Two   = 0x32, ///< 2 key
+        Three = 0x33, ///< 3 key
+        Four  = 0x34, ///< 4 key
+        Five  = 0x35, ///< 5 key
+        Six   = 0x36, ///< 6 key
+        Seven = 0x37, ///< 7 key
+        Eight = 0x38, ///< 8 key
+        Nine  = 0x39, ///< 9 key
 
         //- 0x3A-40 Undefined
 
-        A = 0x41, // A key
-        B = 0x42, // B key
-        C = 0x43, // C key
-        D = 0x44, // D key
-        E = 0x45, // E key
-        F = 0x46, // F key
-        G = 0x47, // G key
-        H = 0x48, // H key
-        I = 0x49, // I key
-        J = 0x4A, // J key
-        K = 0x4B, // K key
-        L = 0x4C, // L key
-        M = 0x4D, // M key
-        N = 0x4E, // N key
-        O = 0x4F, // O key
-        P = 0x50, // P key
-        Q = 0x51, // Q key
-        R = 0x52, // R key
-        S = 0x53, // S key
-        T = 0x54, // T key
-        U = 0x55, // U key
-        V = 0x56, // V key
-        W = 0x57, // W key
-        X = 0x58, // X key
-        Y = 0x59, // Y key
-        Z = 0x5A, // Z key
+        A = 0x41, ///< A key
+        B = 0x42, ///< B key
+        C = 0x43, ///< C key
+        D = 0x44, ///< D key
+        E = 0x45, ///< E key
+        F = 0x46, ///< F key
+        G = 0x47, ///< G key
+        H = 0x48, ///< H key
+        I = 0x49, ///< I key
+        J = 0x4A, ///< J key
+        K = 0x4B, ///< K key
+        L = 0x4C, ///< L key
+        M = 0x4D, ///< M key
+        N = 0x4E, ///< N key
+        O = 0x4F, ///< O key
+        P = 0x50, ///< P key
+        Q = 0x51, ///< Q key
+        R = 0x52, ///< R key
+        S = 0x53, ///< S key
+        T = 0x54, ///< T key
+        U = 0x55, ///< U key
+        V = 0x56, ///< V key
+        W = 0x57, ///< W key
+        X = 0x58, ///< X key
+        Y = 0x59, ///< Y key
+        Z = 0x5A, ///< Z key
 
-        LeftWindows  = 0x5B, // Left Windows key (Natural keyboard)
-        RightWindows = 0x5C, // Right Windows key (Natural keyboard)
-        Applications = 0x5D, // Applications key (Natural keyboard)
+        LeftWindows  = 0x5B, ///< Left Windows key (Natural keyboard)
+        RightWindows = 0x5C, ///< Right Windows key (Natural keyboard)
+        Applications = 0x5D, ///< Applications key (Natural keyboard)
 
         //- 0x5E Reserved
 
-        Sleep     = 0x5F, // Computer Sleep key
-        NumPad0   = 0x60, // Numeric keypad 0 key
-        NumPad1   = 0x61, // Numeric keypad 1 key
-        NumPad2   = 0x62, // Numeric keypad 2 key
-        NumPad3   = 0x63, // Numeric keypad 3 key
-        NumPad4   = 0x64, // Numeric keypad 4 key
-        NumPad5   = 0x65, // Numeric keypad 5 key
-        NumPad6   = 0x66, // Numeric keypad 6 key
-        NumPad7   = 0x67, // Numeric keypad 7 key
-        NumPad8   = 0x68, // Numeric keypad 8 key
-        NumPad9   = 0x69, // Numeric keypad 9 key
-        Multipy   = 0x6A, // Multiply key
-        Add       = 0x6B, // Add key
-        Separator = 0x6C, // Separator key
-        Subtract  = 0x6D, // Subtract key
-        Decimal   = 0x6E, // Decimal key
-        Divide    = 0x6F, // Divide key
-        F1        = 0x70, // F1 key
-        F2        = 0x71, // F2 key
-        F3        = 0x72, // F3 key
-        F4        = 0x73, // F4 key
-        F5        = 0x74, // F5 key
-        F6        = 0x75, // F6 key
-        F7        = 0x76, // F7 key
-        F8        = 0x77, // F8 key
-        F9        = 0x78, // F9 key
-        F10       = 0x79, // F10 key
-        F11       = 0x7A, // F11 key
-        F12       = 0x7B, // F12 key
-        F13       = 0x7C, // F13 key
-        F14       = 0x7D, // F14 key
-        F15       = 0x7E, // F15 key
-        F16       = 0x7F, // F16 key
-        F17       = 0x80, // F17 key
-        F18       = 0x81, // F18 key
-        F19       = 0x82, // F19 key
-        F20       = 0x83, // F20 key
-        F21       = 0x84, // F21 key
-        F22       = 0x85, // F22 key
-        F23       = 0x86, // F23 key
-        F24       = 0x87, // F24 key
+        Sleep     = 0x5F, ///< Computer Sleep key
+        NumPad0   = 0x60, ///< Numeric keypad 0 key
+        NumPad1   = 0x61, ///< Numeric keypad 1 key
+        NumPad2   = 0x62, ///< Numeric keypad 2 key
+        NumPad3   = 0x63, ///< Numeric keypad 3 key
+        NumPad4   = 0x64, ///< Numeric keypad 4 key
+        NumPad5   = 0x65, ///< Numeric keypad 5 key
+        NumPad6   = 0x66, ///< Numeric keypad 6 key
+        NumPad7   = 0x67, ///< Numeric keypad 7 key
+        NumPad8   = 0x68, ///< Numeric keypad 8 key
+        NumPad9   = 0x69, ///< Numeric keypad 9 key
+        Multipy   = 0x6A, ///< Multiply key
+        Add       = 0x6B, ///< Add key
+        Separator = 0x6C, ///< Separator key
+        Subtract  = 0x6D, ///< Subtract key
+        Decimal   = 0x6E, ///< Decimal key
+        Divide    = 0x6F, ///< Divide key
+        F1        = 0x70, ///< F1 key
+        F2        = 0x71, ///< F2 key
+        F3        = 0x72, ///< F3 key
+        F4        = 0x73, ///< F4 key
+        F5        = 0x74, ///< F5 key
+        F6        = 0x75, ///< F6 key
+        F7        = 0x76, ///< F7 key
+        F8        = 0x77, ///< F8 key
+        F9        = 0x78, ///< F9 key
+        F10       = 0x79, ///< F10 key
+        F11       = 0x7A, ///< F11 key
+        F12       = 0x7B, ///< F12 key
+        F13       = 0x7C, ///< F13 key
+        F14       = 0x7D, ///< F14 key
+        F15       = 0x7E, ///< F15 key
+        F16       = 0x7F, ///< F16 key
+        F17       = 0x80, ///< F17 key
+        F18       = 0x81, ///< F18 key
+        F19       = 0x82, ///< F19 key
+        F20       = 0x83, ///< F20 key
+        F21       = 0x84, ///< F21 key
+        F22       = 0x85, ///< F22 key
+        F23       = 0x86, ///< F23 key
+        F24       = 0x87, ///< F24 key
 
         //- 0x88-8F Unassigned
 
-        NumLock    = 0x90, // NUM LOCK key
-        ScrollLock = 0x91, // SCROLL LOCK key
+        NumLock    = 0x90, ///< NUM LOCK key
+        ScrollLock = 0x91, ///< SCROLL LOCK key
 
         // 0x92-96 OEM specific
         //- 0x97-9F Unassigned
 
-        LeftShift          = 0xA0, // Left SHIFT key
-        RightShift         = 0xA1, // Right SHIFT key
-        LeftCtrl           = 0xA2, // Left CONTROL key
-        RightCtrl          = 0xA3, // Right CONTROL key
-        LeftAlt            = 0xA4, // Left ALT key
-        RightAlt           = 0xA5, // Right ALT key
-        BrowserBack        = 0xA6, // Browser Back key
-        BrowserForward     = 0xA7, // Browser Forward key
-        BrowserRefresh     = 0xA8, // Browser Refresh key
-        BrowserStop        = 0xA9, // Browser Stop key
-        BrowserSearch      = 0xAA, // Browser Search key
-        BrowserFavorites   = 0xAB, // Browser Favorites key
-        BrowserHome        = 0xAC, // Browser Start and Home key
-        VolumeMute         = 0xAD, // Volume Mute key
-        VolumeDown         = 0xAE, // Volume Down key
-        VolumeUp           = 0xAF, // Volume Up key
-        MediaNextTrack     = 0xB0, // Next Track key
-        MediaPreviousTrack = 0xB1, // Previous Track key
-        MediaStop          = 0xB2, // Stop Media key
-        MediaPlayPause     = 0xB3, // Play/Pause Media key
-        LaunchMail         = 0xB4, // Start Mail key
-        LaunchMediaSelect  = 0xB5, // Select Media key
-        LaunchApplication1 = 0xB6, // Start Application 1 key
-        LaunchApplication2 = 0xB7, // Start Application 2 key
+        LeftShift          = 0xA0, ///< Left SHIFT key
+        RightShift         = 0xA1, ///< Right SHIFT key
+        LeftCtrl           = 0xA2, ///< Left CONTROL key
+        RightCtrl          = 0xA3, ///< Right CONTROL key
+        LeftAlt            = 0xA4, ///< Left ALT key
+        RightAlt           = 0xA5, ///< Right ALT key
+        BrowserBack        = 0xA6, ///< Browser Back key
+        BrowserForward     = 0xA7, ///< Browser Forward key
+        BrowserRefresh     = 0xA8, ///< Browser Refresh key
+        BrowserStop        = 0xA9, ///< Browser Stop key
+        BrowserSearch      = 0xAA, ///< Browser Search key
+        BrowserFavorites   = 0xAB, ///< Browser Favorites key
+        BrowserHome        = 0xAC, ///< Browser Start and Home key
+        VolumeMute         = 0xAD, ///< Volume Mute key
+        VolumeDown         = 0xAE, ///< Volume Down key
+        VolumeUp           = 0xAF, ///< Volume Up key
+        MediaNextTrack     = 0xB0, ///< Next Track key
+        MediaPreviousTrack = 0xB1, ///< Previous Track key
+        MediaStop          = 0xB2, ///< Stop Media key
+        MediaPlayPause     = 0xB3, ///< Play/Pause Media key
+        LaunchMail         = 0xB4, ///< Start Mail key
+        LaunchMediaSelect  = 0xB5, ///< Select Media key
+        LaunchApplication1 = 0xB6, ///< Start Application 1 key
+        LaunchApplication2 = 0xB7, ///< Start Application 2 key
 
         //- 0xB8-B9 Reserved
 
-        OEM_1      = 0xBA, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ';:' key
-        OEM_Plus   = 0xBB, // For any country/region, the '+' key
-        OEM_Comma  = 0xBC, // For any country/region, the ',' key
-        OEM_Minus  = 0xBD, // For any country/region, the '-' key
-        OEM_Period = 0xBE, // For any country/region, the '.' key
-        OEM_2      = 0xBF, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '/?' key
-        OEM_3      = 0xC0, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '`~' key
+        OEM_1      = 0xBA, ///< Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ';:' key
+        OEM_Plus   = 0xBB, ///< For any country/region, the '+' key
+        OEM_Comma  = 0xBC, ///< For any country/region, the ',' key
+        OEM_Minus  = 0xBD, ///< For any country/region, the '-' key
+        OEM_Period = 0xBE, ///< For any country/region, the '.' key
+        OEM_2      = 0xBF, ///< Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '/?' key
+        OEM_3      = 0xC0, ///< Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '`~' key
 
         //- 0xC1-D7 Reserved
         //- 0xD8-DA Unassigned
 
-        OEM_4 = 0xDB, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '[{' key
-        OEM_5 = 0xDC, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '\|' key
-        OEM_6 = 0xDD, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ']}' key
-        OEM_7 = 0xDE, // Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the 'single-quote/double-quote' key
-        OEM_8 = 0xDF, // Used for miscellaneous characters; it can vary by keyboard.
+        OEM_4 = 0xDB, ///< Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '[{' key
+        OEM_5 = 0xDC, ///< Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '\|' key
+        OEM_6 = 0xDD, ///< Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ']}' key
+        OEM_7 = 0xDE, ///< Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the 'single-quote/double-quote' key
+        OEM_8 = 0xDF, ///< Used for miscellaneous characters; it can vary by keyboard.
 
         //- 0xE0 Reserved
         // 0xE1 OEM specific
 
-        OEM_102 = 0xE2, // The <> keys on the US standard keyboard, or the \\| key on the non-US 102-key keyboard
+        OEM_102 = 0xE2, ///< The <> keys on the US standard keyboard, or the \\| key on the non-US 102-key keyboard
 
         // 0xE3-E4 OEM specific
 
-        ProcessKey = 0xE5, // IME PROCESS key
+        ProcessKey = 0xE5, ///< IME PROCESS key
 
         // 0xE6 OEM specific
 
-        Packet = 0xE7, // Used to pass Unicode characters as if they were keystrokes. The VK_PACKET key is the low word of a 32-bit Virtual Key value used for non-keyboard input methods. For more information, see Remark in KEYBDINPUT, SendInput, WM_KEYDOWN, and WM_KEYUP
+        Packet = 0xE7, ///< Used to pass Unicode characters as if they were keystrokes. The VK_PACKET key is the low word of a 32-bit Virtual Key value used for non-keyboard input methods. For more information, see Remark in KEYBDINPUT, SendInput, WM_KEYDOWN, and WM_KEYUP
 
         //- 0xE8 Unassigned
         // 0xE9-F5 OEM specific
 
-        Attn      = 0xF6, // Attn key
-        CrSel     = 0xF7, // CrSel key
-        ExSel     = 0xF8, // ExSel key
-        EraseEOF  = 0xF9, // Erase EOF key
-        Play      = 0xFA, // Play key
-        Zoom      = 0xFB, // Zoom key
-        NONAME    = 0xFC, // Reserved
-        PA1       = 0xFD, // PA1 key
-        OEM_Clear = 0xFE, // Clear key
+        Attn      = 0xF6, ///< Attn key
+        CrSel     = 0xF7, ///< CrSel key
+        ExSel     = 0xF8, ///< ExSel key
+        EraseEOF  = 0xF9, ///< Erase EOF key
+        Play      = 0xFA, ///< Play key
+        Zoom      = 0xFB, ///< Zoom key
+        NONAME    = 0xFC, ///< Reserved
+        PA1       = 0xFD, ///< PA1 key
+        OEM_Clear = 0xFE, ///< Clear key
     };
 
     /**
      * @brief 鼠标事件时用于判断按键状态
      */
     enum class MouseKey {
-        Ctrl        = MK_CONTROL,  // The CTRL key is down.
-        MouseLeft   = MK_LBUTTON,  // The left mouse button is down.
-        MouseMiddle = MK_MBUTTON,  // The middle mouse button is down.
-        MouseRight  = MK_RBUTTON,  // The right mouse button is down.
-        Shift       = MK_SHIFT,    // The SHIFT key is down.
-        MouseX1     = MK_XBUTTON1, // The first X button is down.
-        MouseX2     = MK_XBUTTON2, // The second X button is down.
+        Ctrl        = MK_CONTROL,  ///< The CTRL key is down.
+        MouseLeft   = MK_LBUTTON,  ///< The left mouse button is down.
+        MouseMiddle = MK_MBUTTON,  ///< The middle mouse button is down.
+        MouseRight  = MK_RBUTTON,  ///< The right mouse button is down.
+        Shift       = MK_SHIFT,    ///< The SHIFT key is down.
+        MouseX1     = MK_XBUTTON1, ///< The first X button is down.
+        MouseX2     = MK_XBUTTON2, ///< The second X button is down.
     };
 
     /**
@@ -3015,11 +3039,11 @@ namespace sw
      * @brief 表示热键框控件中的辅助按键，可以是一个或多个按键
      */
     enum class HotKeyModifier {
-        None  = 0,                       // 无按键
-        Shift = /*HOTKEYF_SHIFT*/ 0x1,   // Alt键
-        Ctrl  = /*HOTKEYF_CONTROL*/ 0x2, // Ctrl键
-        Alt   = /*HOTKEYF_ALT*/ 0x4,     // 扩展键
-        Ext   = /*HOTKEYF_EXT*/ 0x8,     // Shift键
+        None  = 0,                       ///< 无按键
+        Shift = /*HOTKEYF_SHIFT*/ 0x1,   ///< Alt键
+        Ctrl  = /*HOTKEYF_CONTROL*/ 0x2, ///< Ctrl键
+        Alt   = /*HOTKEYF_ALT*/ 0x4,     ///< 扩展键
+        Ext   = /*HOTKEYF_EXT*/ 0x8,     ///< Shift键
     };
 
     /**
@@ -5170,8 +5194,8 @@ namespace sw
      * @brief 线程退出消息循环的方式
      */
     enum class AppQuitMode {
-        Auto,   // 线程中所有窗口都销毁时自动退出消息循环
-        Manual, // 需手动调用QuitMsgLoop以退出消息循环
+        Auto,   ///< 线程中所有窗口都销毁时自动退出消息循环
+        Manual, ///< 需手动调用QuitMsgLoop以退出消息循环
     };
 
     /**
@@ -5238,40 +5262,40 @@ namespace sw
      * @brief https://learn.microsoft.com/en-us/windows/win32/api/commdlg/ns-commdlg-choosecolora-r1
      */
     enum class ColorDialogFlags : DWORD {
-        // Causes the dialog box to display all available colors in the set of basic colors.
+        /// Causes the dialog box to display all available colors in the set of basic colors.
         AnyColor = 0x00000100,
 
-        // Enables the hook procedure specified in the lpfnHook member of this structure.
-        // This flag is used only to initialize the dialog box.
+        /// Enables the hook procedure specified in the lpfnHook member of this structure.
+        /// This flag is used only to initialize the dialog box.
         EnableHook = 0x00000010,
 
-        // The hInstance and lpTemplateName members specify a dialog box template to use in
-        // place of the default template. This flag is used only to initialize the dialog box.
+        /// The hInstance and lpTemplateName members specify a dialog box template to use in
+        /// place of the default template. This flag is used only to initialize the dialog box.
         EnableTemplate = 0x00000020,
 
-        // The hInstance member identifies a data block that contains a preloaded dialog box
-        // template. The system ignores the lpTemplateName member if this flag is specified.
-        // This flag is used only to initialize the dialog box.
+        /// The hInstance member identifies a data block that contains a preloaded dialog box
+        /// template. The system ignores the lpTemplateName member if this flag is specified.
+        /// This flag is used only to initialize the dialog box.
         EnableTemplateHandle = 0x00000040,
 
-        // Causes the dialog box to display the additional controls that allow the user to
-        // create custom colors. If this flag is not set, the user must click the Define Custom
-        // Color button to display the custom color controls.
+        /// Causes the dialog box to display the additional controls that allow the user to
+        /// create custom colors. If this flag is not set, the user must click the Define Custom
+        /// Color button to display the custom color controls.
         FullOpen = 0x00000002,
 
-        // Disables the Define Custom Color button.
+        /// Disables the Define Custom Color button.
         PreventFullOpen = 0x00000004,
 
-        // Causes the dialog box to use the color specified in the rgbResult member as the
-        // initial color selection.
+        /// Causes the dialog box to use the color specified in the rgbResult member as the
+        /// initial color selection.
         RgbInit = 0x00000001,
 
-        // Causes the dialog box to display the Help button. The hwndOwner member must specify
-        // the window to receive the HELPMSGSTRING registered messages that the dialog box sends
-        // when the user clicks the Help button.
+        /// Causes the dialog box to display the Help button. The hwndOwner member must specify
+        /// the window to receive the HELPMSGSTRING registered messages that the dialog box sends
+        /// when the user clicks the Help button.
         ShowHelp = 0x00000008,
 
-        // Causes the dialog box to display only solid colors in the set of basic colors.
+        /// Causes the dialog box to display only solid colors in the set of basic colors.
         SolidColor = 0x00000080,
     };
 
@@ -5410,87 +5434,87 @@ namespace sw
      * @brief https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/ns-shlobj_core-browseinfoa
      */
     enum class FolderDialogFlags : UINT {
-        // Only return file system directories. If the user selects folders that are not part of the
-        // file system, the OK button is grayed.
-        // Note  The OK button remains enabled for "\\server" items, as well as "\\server\share" and
-        // directory items. However, if the user selects a "\\server" item, passing the PIDL returned
-        // by SHBrowseForFolder to SHGetPathFromIDList fails.
+        /// Only return file system directories. If the user selects folders that are not part of the
+        /// file system, the OK button is grayed.
+        /// Note  The OK button remains enabled for "\\server" items, as well as "\\server\share" and
+        /// directory items. However, if the user selects a "\\server" item, passing the PIDL returned
+        /// by SHBrowseForFolder to SHGetPathFromIDList fails.
         ReturnOnlyFileSystemDirs = 0x00000001,
 
-        // Do not include network folders below the domain level in the dialog box's tree view control.
+        /// Do not include network folders below the domain level in the dialog box's tree view control.
         DontGoBelowDomain = 0x00000002,
 
-        // Include a status area in the dialog box. The callback function can set the status text by
-        // sending messages to the dialog box. This flag is not supported when BIF_NEWDIALOGSTYLE is
-        // specified.
+        /// Include a status area in the dialog box. The callback function can set the status text by
+        /// sending messages to the dialog box. This flag is not supported when BIF_NEWDIALOGSTYLE is
+        /// specified.
         StatusText = 0x00000004,
 
-        // Only return file system ancestors. An ancestor is a subfolder that is beneath the root folder
-        // in the namespace hierarchy. If the user selects an ancestor of the root folder that is not
-        // part of the file system, the OK button is grayed.
+        /// Only return file system ancestors. An ancestor is a subfolder that is beneath the root folder
+        /// in the namespace hierarchy. If the user selects an ancestor of the root folder that is not
+        /// part of the file system, the OK button is grayed.
         ReturnFileSystemAncestors = 0x00000008,
 
-        // Version 4.71. Include an edit control in the browse dialog box that allows the user to type
-        // the name of an item.
+        /// Version 4.71. Include an edit control in the browse dialog box that allows the user to type
+        /// the name of an item.
         EditBox = 0x00000010,
 
-        // Version 4.71. If the user types an invalid name into the edit box, the browse dialog box calls
-        // the application's BrowseCallbackProc with the BFFM_VALIDATEFAILED message. This flag is ignored
-        // if BIF_EDITBOX is not specified.
+        /// Version 4.71. If the user types an invalid name into the edit box, the browse dialog box calls
+        /// the application's BrowseCallbackProc with the BFFM_VALIDATEFAILED message. This flag is ignored
+        /// if BIF_EDITBOX is not specified.
         Validate = 0x00000020,
 
-        // Version 5.0. Use the new user interface. Setting this flag provides the user with a larger
-        // dialog box that can be resized. The dialog box has several new capabilities, including:
-        // drag-and-drop capability within the dialog box, reordering, shortcut menus, new folders,
-        // delete, and other shortcut menu commands.
-        // Note  If COM is initialized through CoInitializeEx with the COINIT_MULTITHREADED flag set,
-        // SHBrowseForFolder fails if BIF_NEWDIALOGSTYLE is passed.
+        /// Version 5.0. Use the new user interface. Setting this flag provides the user with a larger
+        /// dialog box that can be resized. The dialog box has several new capabilities, including:
+        /// drag-and-drop capability within the dialog box, reordering, shortcut menus, new folders,
+        /// delete, and other shortcut menu commands.
+        /// Note  If COM is initialized through CoInitializeEx with the COINIT_MULTITHREADED flag set,
+        /// SHBrowseForFolder fails if BIF_NEWDIALOGSTYLE is passed.
         NewDialogStyle = 0x00000040,
 
-        // Version 5.0. The browse dialog box can display URLs. The BIF_USENEWUI and BIF_BROWSEINCLUDEFILES
-        // flags must also be set. If any of these three flags are not set, the browser dialog box rejects
-        // URLs. Even when these flags are set, the browse dialog box displays URLs only if the folder that
-        // contains the selected item supports URLs. When the folder's IShellFolder::GetAttributesOf method
-        // is called to request the selected item's attributes, the folder must set the SFGAO_FOLDER attribute
-        // flag. Otherwise, the browse dialog box will not display the URL.
+        /// Version 5.0. The browse dialog box can display URLs. The BIF_USENEWUI and BIF_BROWSEINCLUDEFILES
+        /// flags must also be set. If any of these three flags are not set, the browser dialog box rejects
+        /// URLs. Even when these flags are set, the browse dialog box displays URLs only if the folder that
+        /// contains the selected item supports URLs. When the folder's IShellFolder::GetAttributesOf method
+        /// is called to request the selected item's attributes, the folder must set the SFGAO_FOLDER attribute
+        /// flag. Otherwise, the browse dialog box will not display the URL.
         BrowseIncludeUrls = 0x00000080,
 
-        // Version 5.0. Use the new user interface, including an edit box. This flag is equivalent to
-        // BIF_EDITBOX | BIF_NEWDIALOGSTYLE.
-        // Note  If COM is initialized through CoInitializeEx with the COINIT_MULTITHREADED flag set,
-        // SHBrowseForFolder fails if BIF_USENEWUI is passed.
+        /// Version 5.0. Use the new user interface, including an edit box. This flag is equivalent to
+        /// BIF_EDITBOX | BIF_NEWDIALOGSTYLE.
+        /// Note  If COM is initialized through CoInitializeEx with the COINIT_MULTITHREADED flag set,
+        /// SHBrowseForFolder fails if BIF_USENEWUI is passed.
         UseNewUI = 0x00000010 | 0x00000040,
 
-        // Version 6.0. When combined with BIF_NEWDIALOGSTYLE, adds a usage hint to the dialog box, in place
-        // of the edit box. BIF_EDITBOX overrides this flag.
+        /// Version 6.0. When combined with BIF_NEWDIALOGSTYLE, adds a usage hint to the dialog box, in place
+        /// of the edit box. BIF_EDITBOX overrides this flag.
         UsageHint = 0x00000100,
 
-        // Version 6.0. Do not include the New Folder button in the browse dialog box.
+        /// Version 6.0. Do not include the New Folder button in the browse dialog box.
         NoNewFolderButton = 0x00000200,
 
-        // Version 6.0. When the selected item is a shortcut, return the PIDL of the shortcut itself rather
-        // than its target.
+        /// Version 6.0. When the selected item is a shortcut, return the PIDL of the shortcut itself rather
+        /// than its target.
         NoTranslateTargets = 0x00000400,
 
-        // Only return computers. If the user selects anything other than a computer, the OK button is grayed.
+        /// Only return computers. If the user selects anything other than a computer, the OK button is grayed.
         BrowseForComputer = 0x00001000,
 
-        // Only allow the selection of printers. If the user selects anything other than a printer, the OK
-        // button is grayed.
-        // In Windows XP and later systems, the best practice is to use a Windows XP-style dialog, setting
-        // the root of the dialog to the Printers and Faxes folder (CSIDL_PRINTERS).
+        /// Only allow the selection of printers. If the user selects anything other than a printer, the OK
+        /// button is grayed.
+        /// In Windows XP and later systems, the best practice is to use a Windows XP-style dialog, setting
+        /// the root of the dialog to the Printers and Faxes folder (CSIDL_PRINTERS).
         BrowseForPrinter = 0x00002000,
 
-        // Version 4.71. The browse dialog box displays files as well as folders.
+        /// Version 4.71. The browse dialog box displays files as well as folders.
         BrowseIncludeFiles = 0x00004000,
 
-        // Version 5.0. The browse dialog box can display sharable resources on remote systems. This is intended
-        // for applications that want to expose remote shares on a local system. The BIF_NEWDIALOGSTYLE flag must
-        // also be set.
+        /// Version 5.0. The browse dialog box can display sharable resources on remote systems. This is intended
+        /// for applications that want to expose remote shares on a local system. The BIF_NEWDIALOGSTYLE flag must
+        /// also be set.
         Sharable = 0x00008000,
 
-        // Windows 7 and later. Allow folder junctions such as a library or a compressed file with a .zip file
-        // name extension to be browsed.
+        /// Windows 7 and later. Allow folder junctions such as a library or a compressed file with a .zip file
+        /// name extension to be browsed.
         BrowseFileJunctions = 0x00010000,
     };
 
@@ -5601,129 +5625,129 @@ namespace sw
      * @brief https://learn.microsoft.com/en-us/windows/win32/api/commdlg/ns-commdlg-choosefonta
      */
     enum class FontDialogFlags : DWORD {
-        // Causes the dialog box to display the Apply button. You should provide a hook procedure to process
-        // WM_COMMAND messages for the Apply button. The hook procedure can send the WM_CHOOSEFONT_GETLOGFONT
-        // message to the dialog box to retrieve the address of the structure that contains the current selections
-        // for the font.
+        /// Causes the dialog box to display the Apply button. You should provide a hook procedure to process
+        /// WM_COMMAND messages for the Apply button. The hook procedure can send the WM_CHOOSEFONT_GETLOGFONT
+        /// message to the dialog box to retrieve the address of the structure that contains the current selections
+        /// for the font.
         Apply = 0x00000200,
 
-        // This flag is obsolete. To limit font selections to all scripts except those that use the OEM or Symbol
-        // character sets, use CF_SCRIPTSONLY. To get the original CF_ANSIONLY behavior, use CF_SELECTSCRIPT and
-        // specify ANSI_CHARSET in the lfCharSet member of the LOGFONT structure pointed to by lpLogFont.
+        /// This flag is obsolete. To limit font selections to all scripts except those that use the OEM or Symbol
+        /// character sets, use CF_SCRIPTSONLY. To get the original CF_ANSIONLY behavior, use CF_SELECTSCRIPT and
+        /// specify ANSI_CHARSET in the lfCharSet member of the LOGFONT structure pointed to by lpLogFont.
         ANSIOnly = 0x00000400,
 
-        // This flag is ignored for font enumeration.
-        // Windows Vista and Windows XP/2000:  Causes the dialog box to list the available printer and screen fonts.
-        // The hDC member is a handle to the device context or information context associated with the printer. This
-        // flag is a combination of the CF_SCREENFONTS and CF_PRINTERFONTS flags.
+        /// This flag is ignored for font enumeration.
+        /// Windows Vista and Windows XP/2000:  Causes the dialog box to list the available printer and screen fonts.
+        /// The hDC member is a handle to the device context or information context associated with the printer. This
+        /// flag is a combination of the CF_SCREENFONTS and CF_PRINTERFONTS flags.
         Both = 0x00000003,
 
-        // Causes the dialog box to display the controls that allow the user to specify strikeout, underline, and
-        // text color options. If this flag is set, you can use the rgbColors member to specify the initial text color.
-        // You can use the lfStrikeOut and lfUnderline members of the structure pointed to by lpLogFont to specify the
-        // initial settings of the strikeout and underline check boxes. ChooseFont can use these members to return the
-        // user's selections.
+        /// Causes the dialog box to display the controls that allow the user to specify strikeout, underline, and
+        /// text color options. If this flag is set, you can use the rgbColors member to specify the initial text color.
+        /// You can use the lfStrikeOut and lfUnderline members of the structure pointed to by lpLogFont to specify the
+        /// initial settings of the strikeout and underline check boxes. ChooseFont can use these members to return the
+        /// user's selections.
         Effects = 0x00000100,
 
-        // Enables the hook procedure specified in the lpfnHook member of this structure.
+        /// Enables the hook procedure specified in the lpfnHook member of this structure.
         EnableHook = 0x00000008,
 
-        // Indicates that the hInstance and lpTemplateName members specify a dialog box template to use in place of
-        // the default template.
+        /// Indicates that the hInstance and lpTemplateName members specify a dialog box template to use in place of
+        /// the default template.
         EnableTemplate = 0x00000010,
 
-        // Indicates that the hInstance member identifies a data block that contains a preloaded dialog box template.
-        // The system ignores the lpTemplateName member if this flag is specified.
+        /// Indicates that the hInstance member identifies a data block that contains a preloaded dialog box template.
+        /// The system ignores the lpTemplateName member if this flag is specified.
         EnableTemplateHandle = 0x00000020,
 
-        // ChooseFont should enumerate and allow selection of only fixed-pitch fonts.
+        /// ChooseFont should enumerate and allow selection of only fixed-pitch fonts.
         FixedPitchOnly = 0x00004000,
 
-        // ChooseFont should indicate an error condition if the user attempts to select a font or style that is not
-        // listed in the dialog box.
+        /// ChooseFont should indicate an error condition if the user attempts to select a font or style that is not
+        /// listed in the dialog box.
         ForceFontExist = 0x00010000,
 
-        // ChooseFont should additionally display fonts that are set to Hide in Fonts Control Panel.
-        // Windows Vista and Windows XP/2000:  This flag is not supported until Windows 7.
+        /// ChooseFont should additionally display fonts that are set to Hide in Fonts Control Panel.
+        /// Windows Vista and Windows XP/2000:  This flag is not supported until Windows 7.
         InavtiveFonts = 0x02000000,
 
-        // ChooseFont should use the structure pointed to by the lpLogFont member to initialize the dialog box controls.
+        /// ChooseFont should use the structure pointed to by the lpLogFont member to initialize the dialog box controls.
         InitToLogFontStruct = 0x00000040,
 
-        // ChooseFont should select only font sizes within the range specified by the nSizeMin and nSizeMax members.
+        /// ChooseFont should select only font sizes within the range specified by the nSizeMin and nSizeMax members.
         LimitSize = 0x00002000,
 
-        // Same as the CF_NOVECTORFONTS flag.
+        /// Same as the CF_NOVECTORFONTS flag.
         NoOemFonts = 0x00000800,
 
-        // When using a LOGFONT structure to initialize the dialog box controls, use this flag to prevent the dialog
-        // box from displaying an initial selection for the font name combo box. This is useful when there is no single
-        // font name that applies to the text selection.
+        /// When using a LOGFONT structure to initialize the dialog box controls, use this flag to prevent the dialog
+        /// box from displaying an initial selection for the font name combo box. This is useful when there is no single
+        /// font name that applies to the text selection.
         NoFaceSel = 0x00080000,
 
-        // Disables the Script combo box. When this flag is set, the lfCharSet member of the LOGFONT structure is set
-        // to DEFAULT_CHARSET when ChooseFont returns. This flag is used only to initialize the dialog box.
+        /// Disables the Script combo box. When this flag is set, the lfCharSet member of the LOGFONT structure is set
+        /// to DEFAULT_CHARSET when ChooseFont returns. This flag is used only to initialize the dialog box.
         NoScriptSel = 0x00800000,
 
-        // ChooseFont should not display or allow selection of font simulations.
+        /// ChooseFont should not display or allow selection of font simulations.
         NoSimulations = 0x00001000,
 
-        // When using a structure to initialize the dialog box controls, use this flag to prevent the dialog box from
-        // displaying an initial selection for the Font Size combo box. This is useful when there is no single font size
-        // that applies to the text selection.
+        /// When using a structure to initialize the dialog box controls, use this flag to prevent the dialog box from
+        /// displaying an initial selection for the Font Size combo box. This is useful when there is no single font size
+        /// that applies to the text selection.
         NoSizeSel = 0x00200000,
 
-        // When using a LOGFONT structure to initialize the dialog box controls, use this flag to prevent the dialog box
-        // from displaying an initial selection for the Font Style combo box. This is useful when there is no single font
-        // style that applies to the text selection.
+        /// When using a LOGFONT structure to initialize the dialog box controls, use this flag to prevent the dialog box
+        /// from displaying an initial selection for the Font Style combo box. This is useful when there is no single font
+        /// style that applies to the text selection.
         NoStyleSel = 0x00100000,
 
-        // ChooseFont should not allow vector font selections.
+        /// ChooseFont should not allow vector font selections.
         NoVectorFonts = 0x00000800,
 
-        // Causes the Font dialog box to list only horizontally oriented fonts.
+        /// Causes the Font dialog box to list only horizontally oriented fonts.
         NoVertFonts = 0x01000000,
 
-        // This flag is ignored for font enumeration.
-        // Windows Vista and Windows XP/2000:  Causes the dialog box to list only the fonts supported by the printer
-        // associated with the device context or information context identified by the hDC member. It also causes the font
-        // type description label to appear at the bottom of the Font dialog box.
+        /// This flag is ignored for font enumeration.
+        /// Windows Vista and Windows XP/2000:  Causes the dialog box to list only the fonts supported by the printer
+        /// associated with the device context or information context identified by the hDC member. It also causes the font
+        /// type description label to appear at the bottom of the Font dialog box.
         PrinterFonts = 0x00000002,
 
-        // Specifies that ChooseFont should allow only the selection of scalable fonts. Scalable fonts include vector fonts,
-        // scalable printer fonts, TrueType fonts, and fonts scaled by other technologies.
+        /// Specifies that ChooseFont should allow only the selection of scalable fonts. Scalable fonts include vector fonts,
+        /// scalable printer fonts, TrueType fonts, and fonts scaled by other technologies.
         ScalableOnly = 0x00020000,
 
-        // This flag is ignored for font enumeration.
-        // Windows Vista and Windows XP/2000:  Causes the dialog box to list only the screen fonts supported by the system.
+        /// This flag is ignored for font enumeration.
+        /// Windows Vista and Windows XP/2000:  Causes the dialog box to list only the screen fonts supported by the system.
         ScreenFonts = 0x00000001,
 
-        // ChooseFont should allow selection of fonts for all non-OEM and Symbol character sets, as well as the ANSI character
-        // set. This supersedes the CF_ANSIONLY value.
+        /// ChooseFont should allow selection of fonts for all non-OEM and Symbol character sets, as well as the ANSI character
+        /// set. This supersedes the CF_ANSIONLY value.
         ScriptsOnly = 0x00000400,
 
-        // When specified on input, only fonts with the character set identified in the lfCharSet member of the LOGFONT structure
-        // are displayed. The user will not be allowed to change the character set specified in the Scripts combo box.
+        /// When specified on input, only fonts with the character set identified in the lfCharSet member of the LOGFONT structure
+        /// are displayed. The user will not be allowed to change the character set specified in the Scripts combo box.
         SelectScript = 0x00400000,
 
-        // Causes the dialog box to display the Help button. The hwndOwner member must specify the window to receive the
-        // HELPMSGSTRING registered messages that the dialog box sends when the user clicks the Help button.
+        /// Causes the dialog box to display the Help button. The hwndOwner member must specify the window to receive the
+        /// HELPMSGSTRING registered messages that the dialog box sends when the user clicks the Help button.
         ShowHelp = 0x00000004,
 
-        // ChooseFont should only enumerate and allow the selection of TrueType fonts.
+        /// ChooseFont should only enumerate and allow the selection of TrueType fonts.
         TrueTypeOnly = 0x00040000,
 
-        // The lpszStyle member is a pointer to a buffer that contains style data that ChooseFont should use to initialize the
-        // Font Style combo box. When the user closes the dialog box, ChooseFont copies style data for the user's selection to
-        // this buffer.
-        // [Note] To globalize your application, you should specify the style by using the lfWeight and lfItalic members of the
-        // LOGFONT structure pointed to by lpLogFont. The style name may change depending on the system user interface language.
+        /// The lpszStyle member is a pointer to a buffer that contains style data that ChooseFont should use to initialize the
+        /// Font Style combo box. When the user closes the dialog box, ChooseFont copies style data for the user's selection to
+        /// this buffer.
+        /// [Note] To globalize your application, you should specify the style by using the lfWeight and lfItalic members of the
+        /// LOGFONT structure pointed to by lpLogFont. The style name may change depending on the system user interface language.
         UseStyle = 0x00000080,
 
-        // Obsolete. ChooseFont ignores this flag.
-        // Windows Vista and Windows XP/2000: ChooseFont should allow only the selection of fonts available on both the printer
-        // and the display. If this flag is specified, the CF_SCREENSHOTS and CF_PRINTERFONTS, or CF_BOTH flags should also be
-        // specified.
+        /// Obsolete. ChooseFont ignores this flag.
+        /// Windows Vista and Windows XP/2000: ChooseFont should allow only the selection of fonts available on both the printer
+        /// and the display. If this flag is specified, the CF_SCREENSHOTS and CF_PRINTERFONTS, or CF_BOTH flags should also be
+        /// specified.
         WYSIWYG = 0x00008000,
     };
 
@@ -6118,10 +6142,10 @@ namespace sw
         }
 
         /**
-         * @brief 获取对象的类型索引
+         * @brief 获取对象的类型信息
          * @return 对象的类型索引
          */
-        std::type_index GetTypeIndex() const
+        std::type_index GetType() const
         {
 #if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot get type index.");
@@ -6227,6 +6251,7 @@ namespace sw
          * @tparam T 目标类型
          * @return 指定类型的引用
          * @note 若目标类型与当前类型不兼容，则行为未定义
+         * @note 由于目标类型无法通过static_cast转换（如虚继承场景），该重载内部回退到DynamicCast实现
          */
         template <typename T>
         auto UnsafeCast()
@@ -6255,6 +6280,7 @@ namespace sw
          * @tparam T 目标类型
          * @return 指定类型的引用
          * @note 若目标类型与当前类型不兼容，则行为未定义
+         * @note 由于目标类型无法通过static_cast转换（如虚继承场景），该重载内部回退到DynamicCast实现
          */
         template <typename T>
         auto UnsafeCast() const
@@ -6384,6 +6410,43 @@ namespace sw
         template <typename T>
         auto UnsafeCast() const
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value && !_IsStaticCastable<DynamicObject *, T *>::value, const T &>::type;
+
+    private:
+        /**
+         * @brief 获取装箱对象的类型信息
+         * @return 装箱对象中值的类型索引
+         */
+        virtual std::type_index GetBoxedType() const noexcept
+        {
+            return typeid(void);
+        }
+
+        /**
+         * @brief 判断对象是否为装箱的多态类型
+         * @return 如果对象为装箱的多态类型则返回true，否则返回false
+         */
+        virtual bool IsBoxedPolymorphic() const noexcept
+        {
+            return false;
+        }
+
+        /**
+         * @brief 获取装箱对象的原始指针
+         * @return 指向装箱对象中值的指针，若当前对象不是装箱对象或为空引用则返回nullptr
+         */
+        virtual void *GetBoxedRawPtr() noexcept
+        {
+            return nullptr;
+        }
+
+        /**
+         * @brief 获取装箱对象的原始指针
+         * @return 指向装箱对象中值的常量指针，若当前对象不是装箱对象或为空引用则返回nullptr
+         */
+        virtual const void *GetBoxedRawPtr() const noexcept
+        {
+            return nullptr;
+        }
     };
 
     /*================================================================================*/
@@ -6404,13 +6467,23 @@ namespace sw
 
         /**
          * @brief 内部数据联合体
-         * @note 一些旧版编译器对抽象类用alignas(T)会报错无法实例化，所以需要在对于路径避免使用alignas(T)
          */
         template <typename U, typename = void>
-        union _InternalData;
+        union _InternalData {
+            /**
+             * @brief 引用指针
+             */
+            U *refptr;
+
+            /**
+             * @brief 对象缓冲区
+             */
+            alignas(U) uint8_t objbuf[sizeof(U)];
+        };
 
         /**
          * @brief _InternalData模板特化（对于抽象类）
+         * @note 一些旧版编译器对抽象类用alignas(T)会报错无法实例化，所以需要在对应路径避免使用alignas(T)
          */
         template <typename U>
         union _InternalData<U, typename std::enable_if<std::is_abstract<U>::value>::type> {
@@ -6424,22 +6497,6 @@ namespace sw
              * @note 抽象类无法构造，objbuf作为占位符，不会使用
              */
             uint8_t objbuf[1];
-        };
-
-        /**
-         * @brief _InternalData模板特化（对于普通类）
-         */
-        template <typename U>
-        union _InternalData<U, typename std::enable_if<!std::is_abstract<U>::value>::type> {
-            /**
-             * @brief 引用指针
-             */
-            U *refptr;
-
-            /**
-             * @brief 对象缓冲区
-             */
-            alignas(U) uint8_t objbuf[sizeof(U)];
         };
 
     private:
@@ -6670,6 +6727,43 @@ namespace sw
             assert(HasValue());
             return _isRef ? *_data.refptr : *reinterpret_cast<const T *>(_data.objbuf);
         }
+
+    private:
+        /**
+         * @brief 获取装箱对象的类型信息
+         * @return 装箱对象中值的类型索引
+         */
+        virtual std::type_index GetBoxedType() const noexcept override
+        {
+            return typeid(T);
+        }
+
+        /**
+         * @brief 判断对象是否为装箱的多态类型
+         * @return 如果对象为装箱的多态类型则返回true，否则返回false
+         */
+        virtual bool IsBoxedPolymorphic() const noexcept override
+        {
+            return std::is_polymorphic<T>::value;
+        }
+
+        /**
+         * @brief 获取装箱对象的原始指针
+         * @return 指向装箱对象中值的指针，若当前对象不是装箱对象或为空引用则返回nullptr
+         */
+        virtual void *GetBoxedRawPtr() noexcept override
+        {
+            return _isRef ? static_cast<void *>(_data.refptr) : static_cast<void *>(_data.objbuf);
+        }
+
+        /**
+         * @brief 获取装箱对象的原始指针
+         * @return 指向装箱对象中值的常量指针，若当前对象不是装箱对象或为空引用则返回nullptr
+         */
+        virtual const void *GetBoxedRawPtr() const noexcept override
+        {
+            return _isRef ? static_cast<const void *>(_data.refptr) : static_cast<const void *>(_data.objbuf);
+        }
     };
 
     /*================================================================================*/
@@ -6695,18 +6789,18 @@ namespace sw
                 return *pout != nullptr;
             }
         } else {
-            BoxedObject<T> *obj = nullptr;
-
-            if (!IsType(&obj) || obj->IsNullRef()) {
+            if (GetBoxedType() == typeid(T)) {
+                if (pout == nullptr) {
+                    return GetBoxedRawPtr() != nullptr;
+                } else {
+                    *pout = static_cast<T *>(GetBoxedRawPtr());
+                    return *pout != nullptr;
+                }
+            } else {
                 if (pout != nullptr) {
                     *pout = nullptr;
                 }
                 return false;
-            } else {
-                if (pout != nullptr) {
-                    *pout = &obj->Unbox();
-                }
-                return true;
             }
         }
 #endif
@@ -6731,18 +6825,18 @@ namespace sw
             }
             return false;
         } else {
-            BoxedObject<T> *obj = nullptr;
-
-            if (!IsType(&obj) || obj->IsNullRef()) {
+            if (GetBoxedType() == typeid(T)) {
+                if (pout == nullptr) {
+                    return GetBoxedRawPtr() != nullptr;
+                } else {
+                    *pout = static_cast<T *>(GetBoxedRawPtr());
+                    return *pout != nullptr;
+                }
+            } else {
                 if (pout != nullptr) {
                     *pout = nullptr;
                 }
                 return false;
-            } else {
-                if (pout != nullptr) {
-                    *pout = &obj->Unbox();
-                }
-                return true;
             }
         }
 #endif
@@ -6769,18 +6863,18 @@ namespace sw
                 return *pout != nullptr;
             }
         } else {
-            const BoxedObject<T> *obj = nullptr;
-
-            if (!IsType(&obj) || obj->IsNullRef()) {
+            if (GetBoxedType() == typeid(T)) {
+                if (pout == nullptr) {
+                    return GetBoxedRawPtr() != nullptr;
+                } else {
+                    *pout = static_cast<const T *>(GetBoxedRawPtr());
+                    return *pout != nullptr;
+                }
+            } else {
                 if (pout != nullptr) {
                     *pout = nullptr;
                 }
                 return false;
-            } else {
-                if (pout != nullptr) {
-                    *pout = &obj->Unbox();
-                }
-                return true;
             }
         }
 #endif
@@ -6805,18 +6899,18 @@ namespace sw
             }
             return false;
         } else {
-            const BoxedObject<T> *obj = nullptr;
-
-            if (!IsType(&obj) || obj->IsNullRef()) {
+            if (GetBoxedType() == typeid(T)) {
+                if (pout == nullptr) {
+                    return GetBoxedRawPtr() != nullptr;
+                } else {
+                    *pout = static_cast<const T *>(GetBoxedRawPtr());
+                    return *pout != nullptr;
+                }
+            } else {
                 if (pout != nullptr) {
                     *pout = nullptr;
                 }
                 return false;
-            } else {
-                if (pout != nullptr) {
-                    *pout = &obj->Unbox();
-                }
-                return true;
             }
         }
 #endif
@@ -6838,7 +6932,12 @@ namespace sw
         if (!_isBoxedObject) {
             return dynamic_cast<T &>(*this);
         } else {
-            return dynamic_cast<BoxedObject<T> &>(*this).Unbox();
+            void *rawPtr = GetBoxedRawPtr();
+            if (rawPtr == nullptr || GetBoxedType() != typeid(T)) {
+                throw std::bad_cast();
+            } else {
+                return *static_cast<T *>(rawPtr);
+            }
         }
 #endif
     }
@@ -6859,7 +6958,12 @@ namespace sw
         if (!_isBoxedObject) {
             throw std::bad_cast();
         } else {
-            return dynamic_cast<BoxedObject<T> &>(*this).Unbox();
+            void *rawPtr = GetBoxedRawPtr();
+            if (rawPtr == nullptr || GetBoxedType() != typeid(T)) {
+                throw std::bad_cast();
+            } else {
+                return *static_cast<T *>(rawPtr);
+            }
         }
 #endif
     }
@@ -6880,7 +6984,12 @@ namespace sw
         if (!_isBoxedObject) {
             return dynamic_cast<const T &>(*this);
         } else {
-            return dynamic_cast<const BoxedObject<T> &>(*this).Unbox();
+            const void *rawPtr = GetBoxedRawPtr();
+            if (rawPtr == nullptr || GetBoxedType() != typeid(T)) {
+                throw std::bad_cast();
+            } else {
+                return *static_cast<const T *>(rawPtr);
+            }
         }
 #endif
     }
@@ -6901,7 +7010,12 @@ namespace sw
         if (!_isBoxedObject) {
             throw std::bad_cast();
         } else {
-            return dynamic_cast<const BoxedObject<T> &>(*this).Unbox();
+            const void *rawPtr = GetBoxedRawPtr();
+            if (rawPtr == nullptr || GetBoxedType() != typeid(T)) {
+                throw std::bad_cast();
+            } else {
+                return *static_cast<const T *>(rawPtr);
+            }
         }
 #endif
     }
@@ -6928,6 +7042,7 @@ namespace sw
      * @tparam T 目标类型
      * @return 指定类型的引用
      * @note 若目标类型与当前类型不兼容，则行为未定义
+     * @note 由于目标类型无法通过static_cast转换（如虚继承场景），当对象为非装箱对象时，内部回退到DynamicCast实现
      */
     template <typename T>
     auto DynamicObject::UnsafeCast()
@@ -6962,6 +7077,7 @@ namespace sw
      * @tparam T 目标类型
      * @return 指定类型的引用
      * @note 若目标类型与当前类型不兼容，则行为未定义
+     * @note 由于目标类型无法通过static_cast转换（如虚继承场景），当对象为非装箱对象时，内部回退到DynamicCast实现
      */
     template <typename T>
     auto DynamicObject::UnsafeCast() const
@@ -7344,136 +7460,136 @@ namespace sw
      */
     enum RoutedEventType : uint32_t //
     {
-        // 无效的路由事件类型，表示未指定事件类型或事件类型无效
+        /// 无效的路由事件类型，表示未指定事件类型或事件类型无效
         RoutedEventType_Null = 0,
 
-        // 从该值开始到RoutedEventType_UserEnd结束表示用户可以自定义路由事件的值范围
+        /// 从该值开始到RoutedEventType_UserEnd结束表示用户可以自定义路由事件的值范围
         RoutedEventType_User = 1,
 
-        // 用户自定义路由事件的值的最大值
+        /// 用户自定义路由事件的值的最大值
         RoutedEventType_UserEnd = 0x80000000,
 
-        // 尺寸改变，参数类型为sw::SizeChangedEventArgs
+        /// 尺寸改变，参数类型为sw::SizeChangedEventArgs
         UIElement_SizeChanged,
 
-        // 位置改变，参数类型为sw::PositionChangedEventArgs
+        /// 位置改变，参数类型为sw::PositionChangedEventArgs
         UIElement_PositionChanged,
 
-        // Text属性发生变化，参数类型为sw::RoutedEventArgs
+        /// Text属性发生变化，参数类型为sw::RoutedEventArgs
         UIElement_TextChanged,
 
-        // 获取到焦点，参数类型为sw::RoutedEventArgs
+        /// 获取到焦点，参数类型为sw::RoutedEventArgs
         UIElement_GotFocus,
 
-        // 失去焦点，参数类型为sw::RoutedEventArgs
+        /// 失去焦点，参数类型为sw::RoutedEventArgs
         UIElement_LostFocus,
 
-        // 输入字符，参数类型为sw::GotCharEventArgs
+        /// 输入字符，参数类型为sw::GotCharEventArgs
         UIElement_GotChar,
 
-        // 键盘按键按下，参数类型为sw::KeyDownEventArgs
+        /// 键盘按键按下，参数类型为sw::KeyDownEventArgs
         UIElement_KeyDown,
 
-        // 键盘按键抬起，参数类型为sw::KeyUpEventArgs
+        /// 键盘按键抬起，参数类型为sw::KeyUpEventArgs
         UIElement_KeyUp,
 
-        // 鼠标移动，参数类型为sw::MouseMoveEventArgs
+        /// 鼠标移动，参数类型为sw::MouseMoveEventArgs
         UIElement_MouseMove,
 
-        // 鼠标离开，参数类型为sw::RoutedEventArgs
+        /// 鼠标离开，参数类型为sw::RoutedEventArgs
         UIElement_MouseLeave,
 
-        // 鼠标滚轮滚动，参数类型为sw::MouseWheelEventArgs
+        /// 鼠标滚轮滚动，参数类型为sw::MouseWheelEventArgs
         UIElement_MouseWheel,
 
-        // 鼠标按键按下，参数类型为sw::MouseButtonDownEventArgs
+        /// 鼠标按键按下，参数类型为sw::MouseButtonDownEventArgs
         UIElement_MouseButtonDown,
 
-        // 鼠标按键抬起，参数类型为sw::MouseButtonUpEventArgs
+        /// 鼠标按键抬起，参数类型为sw::MouseButtonUpEventArgs
         UIElement_MouseButtonUp,
 
-        // 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
+        /// 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
         UIElement_ShowContextMenu,
 
-        // 接收到文件拖放，参数类型为sw::DropFilesEventArgs
+        /// 接收到文件拖放，参数类型为sw::DropFilesEventArgs
         UIElement_DropFiles,
 
-        // 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
+        /// 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
         Window_Closing,
 
-        // 窗口已关闭，参数类型为sw::RoutedEventArgs
+        /// 窗口已关闭，参数类型为sw::RoutedEventArgs
         Window_Closed,
 
-        // 窗口成为前台窗口，参数类型为sw::RoutedEventArgs
+        /// 窗口成为前台窗口，参数类型为sw::RoutedEventArgs
         Window_Actived,
 
-        // 窗口成为后台窗口，参数类型为sw::RoutedEventArgs
+        /// 窗口成为后台窗口，参数类型为sw::RoutedEventArgs
         Window_Inactived,
 
-        // 按钮被单击，参数类型为sw::RoutedEventArgs
+        /// 按钮被单击，参数类型为sw::RoutedEventArgs
         ButtonBase_Clicked,
 
-        // 按钮被双击，参数类型为sw::RoutedEventArgs
+        /// 按钮被双击，参数类型为sw::RoutedEventArgs
         ButtonBase_DoubleClicked,
 
-        // 分割按钮的下拉箭头被单击，参数类型为sw::SplitButtonDropDownEventArgs
+        /// 分割按钮的下拉箭头被单击，参数类型为sw::SplitButtonDropDownEventArgs
         SplitButton_DropDown,
 
-        // 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
+        /// 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
         ItemsControl_SelectionChanged,
 
-        // 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
+        /// 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
         ListView_CheckStateChanged,
 
-        // 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
+        /// 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
         ListView_HeaderClicked,
 
-        // 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderDoubleClickedEventArgs
+        /// 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderDoubleClickedEventArgs
         ListView_HeaderDoubleClicked,
 
-        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
+        /// 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
         ListView_ItemClicked,
 
-        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemDoubleClickedEventArgs
+        /// 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemDoubleClickedEventArgs
         ListView_ItemDoubleClicked,
 
-        // 编辑状态结束，参数类型为sw::ListViewEndEditEventArgs
+        /// 编辑状态结束，参数类型为sw::ListViewEndEditEventArgs
         ListView_EndEdit,
 
-        // 滑块的值被改变，参数类型为sw::RoutedEventArgs
+        /// 滑块的值被改变，参数类型为sw::RoutedEventArgs
         Slider_ValueChanged,
 
-        // 滑块被释放，参数类型为sw::RoutedEventArgs
+        /// 滑块被释放，参数类型为sw::RoutedEventArgs
         Slider_EndTrack,
 
-        // 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
+        /// 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
         Layer_Scrolling,
 
-        // SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
+        /// SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
         TabControl_SelectedIndexChanged,
 
-        // DateTimePicker控件的时间改变，参数类型为sw::DateTimePickerTimeChangedEventArgs
+        /// DateTimePicker控件的时间改变，参数类型为sw::DateTimePickerTimeChangedEventArgs
         DateTimePicker_TimeChanged,
 
-        // 月历控件的时间改变，参数类型为sw::MonthCalendarTimeChangedEventArgs
+        /// 月历控件的时间改变，参数类型为sw::MonthCalendarTimeChangedEventArgs
         MonthCalendar_TimeChanged,
 
-        // IP地址框地址被改变，参数类型为sw::RoutedEventArgs
+        /// IP地址框地址被改变，参数类型为sw::RoutedEventArgs
         IPAddressControl_AddressChanged,
 
-        // SysLink控件链接被单击，参数类型为sw::SysLinkClickedEventArgs
+        /// SysLink控件链接被单击，参数类型为sw::SysLinkClickedEventArgs
         SysLink_Clicked,
 
-        // 热键框的值被改变，参数类型为sw::HotKeyValueChangedEventArgs
+        /// 热键框的值被改变，参数类型为sw::HotKeyValueChangedEventArgs
         HotKeyControl_ValueChanged,
 
-        // 树视图节点正在展开或折叠，参数类型为sw::TreeViewItemExpandingEventArgs
+        /// 树视图节点正在展开或折叠，参数类型为sw::TreeViewItemExpandingEventArgs
         TreeView_ItemExpanding,
 
-        // 树视图节点已展开或折叠，参数类型为sw::TreeViewItemExpandedEventArgs
+        /// 树视图节点已展开或折叠，参数类型为sw::TreeViewItemExpandedEventArgs
         TreeView_ItemExpanded,
 
-        // 树视图节点的复选框选中状态被改变，参数类型为sw::TreeViewCheckStateChangedEventArgs
+        /// 树视图节点的复选框选中状态被改变，参数类型为sw::TreeViewCheckStateChangedEventArgs
         TreeView_CheckStateChanged,
     };
 
@@ -10280,24 +10396,16 @@ namespace sw
      * @brief 绑定模式枚举
      */
     enum class BindingMode {
-        /**
-         * @brief 一次性绑定，在绑定创建时更新目标属性值
-         */
+        /// 一次性绑定，在绑定创建时更新目标属性值
         OneTime,
 
-        /**
-         * @brief 单向，从源到目标
-         */
+        /// 单向，从源到目标
         OneWay,
 
-        /**
-         * @brief 单向，从目标到源
-         */
+        /// 单向，从目标到源
         OneWayToSource,
 
-        /**
-         * @brief 双向，源和目标相互更新
-         */
+        /// 双向，源和目标相互更新
         TwoWay,
     };
 
@@ -11040,152 +11148,152 @@ namespace sw
      * @brief https://learn.microsoft.com/en-us/windows/win32/api/commdlg/ns-commdlg-openfilenamew
      */
     enum class FileDialogFlags : DWORD {
-        // The File Name list box allows multiple selections. If you also set the OFN_EXPLORER flag,
-        // the dialog box uses the Explorer-style user interface; otherwise, it uses the old-style
-        // user interface.
-        // If the user selects more than one file, the lpstrFile buffer returns the path to the
-        // current directory followed by the file names of the selected files. The nFileOffset member
-        // is the offset, in bytes or characters, to the first file name, and the nFileExtension
-        // member is not used. For Explorer-style dialog boxes, the directory and file name strings
-        // are NULL separated, with an extra NULL character after the last file name. This format
-        // enables the Explorer-style dialog boxes to return long file names that include spaces.
-        // For old-style dialog boxes, the directory and file name strings are separated by spaces
-        // and the function uses short file names for file names with spaces. You can use the
-        // FindFirstFile function to convert between long and short file names.
-        // If you specify a custom template for an old-style dialog box, the definition of the File
-        // Name list box must contain the LBS_EXTENDEDSEL value.
+        /// The File Name list box allows multiple selections. If you also set the OFN_EXPLORER flag,
+        /// the dialog box uses the Explorer-style user interface; otherwise, it uses the old-style
+        /// user interface.
+        /// If the user selects more than one file, the lpstrFile buffer returns the path to the
+        /// current directory followed by the file names of the selected files. The nFileOffset member
+        /// is the offset, in bytes or characters, to the first file name, and the nFileExtension
+        /// member is not used. For Explorer-style dialog boxes, the directory and file name strings
+        /// are NULL separated, with an extra NULL character after the last file name. This format
+        /// enables the Explorer-style dialog boxes to return long file names that include spaces.
+        /// For old-style dialog boxes, the directory and file name strings are separated by spaces
+        /// and the function uses short file names for file names with spaces. You can use the
+        /// FindFirstFile function to convert between long and short file names.
+        /// If you specify a custom template for an old-style dialog box, the definition of the File
+        /// Name list box must contain the LBS_EXTENDEDSEL value.
         AllowMultiSelect = 0x00000200,
 
-        // If the user specifies a file that does not exist, this flag causes the dialog box to
-        // prompt the user for permission to create the file. If the user chooses to create the
-        // file, the dialog box closes and the function returns the specified name; otherwise,
-        // the dialog box remains open. If you use this flag with the OFN_ALLOWMULTISELECT flag,
-        // the dialog box allows the user to specify only one nonexistent file.
+        /// If the user specifies a file that does not exist, this flag causes the dialog box to
+        /// prompt the user for permission to create the file. If the user chooses to create the
+        /// file, the dialog box closes and the function returns the specified name; otherwise,
+        /// the dialog box remains open. If you use this flag with the OFN_ALLOWMULTISELECT flag,
+        /// the dialog box allows the user to specify only one nonexistent file.
         CreatePrompt = 0x00002000,
 
-        // Prevents the system from adding a link to the selected file in the file system directory
-        // that contains the user's most recently used documents. To retrieve the location of this
-        // directory, call the SHGetSpecialFolderLocation function with the CSIDL_RECENT flag.
+        /// Prevents the system from adding a link to the selected file in the file system directory
+        /// that contains the user's most recently used documents. To retrieve the location of this
+        /// directory, call the SHGetSpecialFolderLocation function with the CSIDL_RECENT flag.
         DontAddTorecent = 0x02000000,
 
-        // Enables the hook function specified in the lpfnHook member.
+        /// Enables the hook function specified in the lpfnHook member.
         EnableHook = 0x00000020,
 
-        // Causes the dialog box to send CDN_INCLUDEITEM notification messages to your OFNHookProc hook
-        // procedure when the user opens a folder. The dialog box sends a notification for each item in
-        // the newly opened folder. These messages enable you to control which items the dialog box
-        // displays in the folder's item list.
+        /// Causes the dialog box to send CDN_INCLUDEITEM notification messages to your OFNHookProc hook
+        /// procedure when the user opens a folder. The dialog box sends a notification for each item in
+        /// the newly opened folder. These messages enable you to control which items the dialog box
+        /// displays in the folder's item list.
         EnableIncludeNotify = 0x00400000,
 
-        // Enables the Explorer-style dialog box to be resized using either the mouse or the keyboard.
-        // By default, the Explorer-style Open and Save As dialog boxes allow the dialog box to be resized
-        // regardless of whether this flag is set. This flag is necessary only if you provide a hook
-        // procedure or custom template. The old-style dialog box does not permit resizing.
+        /// Enables the Explorer-style dialog box to be resized using either the mouse or the keyboard.
+        /// By default, the Explorer-style Open and Save As dialog boxes allow the dialog box to be resized
+        /// regardless of whether this flag is set. This flag is necessary only if you provide a hook
+        /// procedure or custom template. The old-style dialog box does not permit resizing.
         EnableSizing = 0x00800000,
 
-        // The lpTemplateName member is a pointer to the name of a dialog template resource in the module
-        // identified by the hInstance member. If the OFN_EXPLORER flag is set, the system uses the specified
-        // template to create a dialog box that is a child of the default Explorer-style dialog box. If the
-        // OFN_EXPLORER flag is not set, the system uses the template to create an old-style dialog box that
-        // replaces the default dialog box.
+        /// The lpTemplateName member is a pointer to the name of a dialog template resource in the module
+        /// identified by the hInstance member. If the OFN_EXPLORER flag is set, the system uses the specified
+        /// template to create a dialog box that is a child of the default Explorer-style dialog box. If the
+        /// OFN_EXPLORER flag is not set, the system uses the template to create an old-style dialog box that
+        /// replaces the default dialog box.
         EnableTemplate = 0x00000040,
 
-        // The hInstance member identifies a data block that contains a preloaded dialog box template.
-        // The system ignores lpTemplateName if this flag is specified. If the OFN_EXPLORER flag is set,
-        // the system uses the specified template to create a dialog box that is a child of the default
-        // Explorer-style dialog box. If the OFN_EXPLORER flag is not set, the system uses the template to
-        // create an old-style dialog box that replaces the default dialog box.
+        /// The hInstance member identifies a data block that contains a preloaded dialog box template.
+        /// The system ignores lpTemplateName if this flag is specified. If the OFN_EXPLORER flag is set,
+        /// the system uses the specified template to create a dialog box that is a child of the default
+        /// Explorer-style dialog box. If the OFN_EXPLORER flag is not set, the system uses the template to
+        /// create an old-style dialog box that replaces the default dialog box.
         EnableTemplateHandle = 0x00000080,
 
-        // Indicates that any customizations made to the Open or Save As dialog box use the Explorer-style
-        // customization methods. For more information, see Explorer-Style Hook Procedures and Explorer-Style
-        // Custom Templates.
-        // By default, the Open and Save As dialog boxes use the Explorer-style user interface regardless of
-        // whether this flag is set. This flag is necessary only if you provide a hook procedure or custom template,
-        // or set the OFN_ALLOWMULTISELECT flag.
-        // If you want the old-style user interface, omit the OFN_EXPLORER flag and provide a replacement old-style
-        // template or hook procedure. If you want the old style but do not need a custom template or hook procedure,
-        // simply provide a hook procedure that always returns FALSE.
+        /// Indicates that any customizations made to the Open or Save As dialog box use the Explorer-style
+        /// customization methods. For more information, see Explorer-Style Hook Procedures and Explorer-Style
+        /// Custom Templates.
+        /// By default, the Open and Save As dialog boxes use the Explorer-style user interface regardless of
+        /// whether this flag is set. This flag is necessary only if you provide a hook procedure or custom template,
+        /// or set the OFN_ALLOWMULTISELECT flag.
+        /// If you want the old-style user interface, omit the OFN_EXPLORER flag and provide a replacement old-style
+        /// template or hook procedure. If you want the old style but do not need a custom template or hook procedure,
+        /// simply provide a hook procedure that always returns FALSE.
         Explorer = 0x00080000,
 
-        // The user typed a file name extension that differs from the extension specified by lpstrDefExt.
-        // The function does not use this flag if lpstrDefExt is NULL.
+        /// The user typed a file name extension that differs from the extension specified by lpstrDefExt.
+        /// The function does not use this flag if lpstrDefExt is NULL.
         ExtensionDifferent = 0x00000400,
 
-        // The user can type only names of existing files in the File Name entry field. If this flag is specified and
-        // the user enters an invalid name, the dialog box procedure displays a warning in a message box. If this flag
-        // is specified, the OFN_PATHMUSTEXIST flag is also used. This flag can be used in an Open dialog box. It cannot
-        // be used with a Save As dialog box.
+        /// The user can type only names of existing files in the File Name entry field. If this flag is specified and
+        /// the user enters an invalid name, the dialog box procedure displays a warning in a message box. If this flag
+        /// is specified, the OFN_PATHMUSTEXIST flag is also used. This flag can be used in an Open dialog box. It cannot
+        /// be used with a Save As dialog box.
         FileMustExist = 0x00001000,
 
-        // Forces the showing of system and hidden files, thus overriding the user setting to show or not show hidden
-        // files. However, a file that is marked both system and hidden is not shown.
+        /// Forces the showing of system and hidden files, thus overriding the user setting to show or not show hidden
+        /// files. However, a file that is marked both system and hidden is not shown.
         ForceShowHidden = 0x10000000,
 
-        // Hides the Read Only check box.
+        /// Hides the Read Only check box.
         HideReadOnly = 0x00000004,
 
-        // For old-style dialog boxes, this flag causes the dialog box to use long file names. If this flag is not
-        // specified, or if the OFN_ALLOWMULTISELECT flag is also set, old-style dialog boxes use short file names
-        // (8.3 format) for file names with spaces. Explorer-style dialog boxes ignore this flag and always display
-        // long file names.
+        /// For old-style dialog boxes, this flag causes the dialog box to use long file names. If this flag is not
+        /// specified, or if the OFN_ALLOWMULTISELECT flag is also set, old-style dialog boxes use short file names
+        /// (8.3 format) for file names with spaces. Explorer-style dialog boxes ignore this flag and always display
+        /// long file names.
         LongNames = 0x00200000,
 
-        // Restores the current directory to its original value if the user changed the directory while searching for files.
-        // This flag is ineffective for GetOpenFileName.
+        /// Restores the current directory to its original value if the user changed the directory while searching for files.
+        /// This flag is ineffective for GetOpenFileName.
         NoChangeDir = 0x00000008,
 
-        // Directs the dialog box to return the path and file name of the selected shortcut (.LNK) file. If this value
-        // is not specified, the dialog box returns the path and file name of the file referenced by the shortcut.
+        /// Directs the dialog box to return the path and file name of the selected shortcut (.LNK) file. If this value
+        /// is not specified, the dialog box returns the path and file name of the file referenced by the shortcut.
         NoDereferenceLinks = 0x00100000,
 
-        // For old-style dialog boxes, this flag causes the dialog box to use short file names (8.3 format). Explorer-style
-        // dialog boxes ignore this flag and always display long file names.
+        /// For old-style dialog boxes, this flag causes the dialog box to use short file names (8.3 format). Explorer-style
+        /// dialog boxes ignore this flag and always display long file names.
         NoLongNames = 0x00040000,
 
-        // Hides and disables the Network button.
+        /// Hides and disables the Network button.
         NoNetworkButton = 0x00020000,
 
-        // The returned file does not have the Read Only check box selected and is not in a write-protected directory.
+        /// The returned file does not have the Read Only check box selected and is not in a write-protected directory.
         NoReadOnlyReturn = 0x00008000,
 
-        // The file is not created before the dialog box is closed. This flag should be specified if the application saves
-        // the file on a create-nonmodify network share. When an application specifies this flag, the library does not
-        // check for write protection, a full disk, an open drive door, or network protection. Applications using this flag
-        // must perform file operations carefully, because a file cannot be reopened once it is closed.
+        /// The file is not created before the dialog box is closed. This flag should be specified if the application saves
+        /// the file on a create-nonmodify network share. When an application specifies this flag, the library does not
+        /// check for write protection, a full disk, an open drive door, or network protection. Applications using this flag
+        /// must perform file operations carefully, because a file cannot be reopened once it is closed.
         NoTestFileCreate = 0x00010000,
 
-        // The common dialog boxes allow invalid characters in the returned file name. Typically, the calling application
-        // uses a hook procedure that checks the file name by using the FILEOKSTRING message. If the text box in the edit
-        // control is empty or contains nothing but spaces, the lists of files and directories are updated. If the text box
-        // in the edit control contains anything else, nFileOffset and nFileExtension are set to values generated by parsing
-        // the text. No default extension is added to the text, nor is text copied to the buffer specified by lpstrFileTitle.
-        // If the value specified by nFileOffset is less than zero, the file name is invalid. Otherwise, the file name is valid,
-        // and nFileExtension and nFileOffset can be used as if the OFN_NOVALIDATE flag had not been specified.
+        /// The common dialog boxes allow invalid characters in the returned file name. Typically, the calling application
+        /// uses a hook procedure that checks the file name by using the FILEOKSTRING message. If the text box in the edit
+        /// control is empty or contains nothing but spaces, the lists of files and directories are updated. If the text box
+        /// in the edit control contains anything else, nFileOffset and nFileExtension are set to values generated by parsing
+        /// the text. No default extension is added to the text, nor is text copied to the buffer specified by lpstrFileTitle.
+        /// If the value specified by nFileOffset is less than zero, the file name is invalid. Otherwise, the file name is valid,
+        /// and nFileExtension and nFileOffset can be used as if the OFN_NOVALIDATE flag had not been specified.
         NoValidate = 0x00000100,
 
-        // Causes the Save As dialog box to generate a message box if the selected file already exists. The user must confirm
-        // whether to overwrite the file.
+        /// Causes the Save As dialog box to generate a message box if the selected file already exists. The user must confirm
+        /// whether to overwrite the file.
         OverwritePrompt = 0x00000002,
 
-        // The user can type only valid paths and file names. If this flag is used and the user types an invalid path and
-        // file name in the File Name entry field, the dialog box function displays a warning in a message box.
+        /// The user can type only valid paths and file names. If this flag is used and the user types an invalid path and
+        /// file name in the File Name entry field, the dialog box function displays a warning in a message box.
         PathMustExist = 0x00000800,
 
-        // Causes the Read Only check box to be selected initially when the dialog box is created. This flag indicates the
-        // state of the Read Only check box when the dialog box is closed.
+        /// Causes the Read Only check box to be selected initially when the dialog box is created. This flag indicates the
+        /// state of the Read Only check box when the dialog box is closed.
         ReadOnly = 0x00000001,
 
-        // Specifies that if a call to the OpenFile function fails because of a network sharing violation, the error is ignored
-        // and the dialog box returns the selected file name. If this flag is not set, the dialog box notifies your hook procedure
-        // when a network sharing violation occurs for the file name specified by the user. If you set the OFN_EXPLORER flag,
-        // the dialog box sends the CDN_SHAREVIOLATION message to the hook procedure. If you do not set OFN_EXPLORER, the dialog
-        // box sends the SHAREVISTRING registered message to the hook procedure.
+        /// Specifies that if a call to the OpenFile function fails because of a network sharing violation, the error is ignored
+        /// and the dialog box returns the selected file name. If this flag is not set, the dialog box notifies your hook procedure
+        /// when a network sharing violation occurs for the file name specified by the user. If you set the OFN_EXPLORER flag,
+        /// the dialog box sends the CDN_SHAREVIOLATION message to the hook procedure. If you do not set OFN_EXPLORER, the dialog
+        /// box sends the SHAREVISTRING registered message to the hook procedure.
         ShareAware = 0x00004000,
 
-        // Causes the dialog box to display the Help button. The hwndOwner member must specify the window to receive the
-        // HELPMSGSTRING registered messages that the dialog box sends when the user clicks the Help button. An Explorer-style
-        // dialog box sends a CDN_HELP notification message to your hook procedure when the user clicks the Help button.
+        /// Causes the dialog box to display the Help button. The hwndOwner member must specify the window to receive the
+        /// HELPMSGSTRING registered messages that the dialog box sends when the user clicks the Help button. An Explorer-style
+        /// dialog box sends a CDN_HELP notification message to your hook procedure when the user clicks the Help button.
         ShowHelp = 0x00000010,
     };
 
@@ -12056,10 +12164,10 @@ namespace sw
     {
     public:
         enum : uint64_t {
-            Left,   // 左边
-            Top,    // 顶边
-            Right,  // 右边
-            Bottom, // 底边
+            Left,   ///< 左边
+            Top,    ///< 顶边
+            Right,  ///< 右边
+            Bottom, ///< 底边
         };
 
     private:
@@ -12357,9 +12465,9 @@ namespace sw
      * @brief GridRow和GridColumn的类型
      */
     enum class GridRCType {
-        FixSize,    // 固定大小
-        AutoSize,   // 自动大小
-        FillRemain, // 填充剩余空间
+        FixSize,    ///< 固定大小
+        AutoSize,   ///< 自动大小
+        FillRemain, ///< 填充剩余空间
     };
 
     /**
@@ -13905,39 +14013,39 @@ namespace sw
      * @brief 消息框按钮类型
      */
     enum class MsgBoxButton {
-        AbortRetryIgnore    = MB_ABORTRETRYIGNORE,
-        CancelRetryContinue = MB_CANCELTRYCONTINUE,
-        Ok                  = MB_OK,
-        OkCancel            = MB_OKCANCEL,
-        RetryCancel         = MB_RETRYCANCEL,
-        YesNo               = MB_YESNO,
-        YesNoCancel         = MB_YESNOCANCEL,
+        AbortRetryIgnore    = MB_ABORTRETRYIGNORE,  ///< “中止”、“重试”、“忽略” 三按钮
+        CancelRetryContinue = MB_CANCELTRYCONTINUE, ///< “取消”、“重试”、“继续” 三按钮
+        Ok                  = MB_OK,                ///< “确定” 单按钮（默认）
+        OkCancel            = MB_OKCANCEL,          ///< “确定”、“取消” 双按钮
+        RetryCancel         = MB_RETRYCANCEL,       ///< “重试”、“取消” 双按钮
+        YesNo               = MB_YESNO,             ///< “是”、“否” 双按钮
+        YesNoCancel         = MB_YESNOCANCEL,       ///< “是”、“否”、“取消” 三按钮
     };
 
     /**
      * @brief 消息框图标类型
      */
     enum class MsgBoxIcon {
-        None        = 0,
-        Warning     = MB_ICONWARNING,
-        Information = MB_ICONINFORMATION,
-        Question    = MB_ICONQUESTION,
-        Error       = MB_ICONERROR,
+        None        = 0,                  ///< 不显示图标
+        Warning     = MB_ICONWARNING,     ///< 警告图标（黄色三角形）
+        Information = MB_ICONINFORMATION, ///< 信息图标（蓝色字母 i）
+        Question    = MB_ICONQUESTION,    ///< 问号图标（微软已不建议使用，推荐改用 Warning）
+        Error       = MB_ICONERROR,       ///< 错误图标（红色叉号）
     };
 
     /**
      * @brief 消息框结果
      */
     enum class MsgBoxResult {
-        Abort    = IDABORT,
-        Cancel   = IDCANCEL,
-        Continue = IDCONTINUE,
-        Ignore   = IDIGNORE,
-        No       = IDNO,
-        Ok       = IDOK,
-        Retry    = IDRETRY,
-        TryAgain = IDTRYAGAIN,
-        Yes      = IDYES,
+        Abort    = IDABORT,    ///< 用户点击了 “中止” 按钮
+        Cancel   = IDCANCEL,   ///< 用户点击了 “取消” 按钮，或按 Esc / 关闭按钮
+        Continue = IDCONTINUE, ///< 用户点击了 “继续” 按钮
+        Ignore   = IDIGNORE,   ///< 用户点击了 “忽略” 按钮
+        No       = IDNO,       ///< 用户点击了 “否” 按钮
+        Ok       = IDOK,       ///< 用户点击了 “确定” 按钮
+        Retry    = IDRETRY,    ///< 用户点击了 “重试” 按钮
+        TryAgain = IDTRYAGAIN, ///< 用户点击了 “重试” 按钮（仅 CancelRetryContinue 组合下产生）
+        Yes      = IDYES,      ///< 用户点击了 “是” 按钮
     };
 
     /**
@@ -14431,13 +14539,13 @@ namespace sw
      * @brief 提示信息图标类型
      */
     enum class ToolTipIcon {
-        None         = TTI_NONE,                // 无图标
-        Info         = TTI_INFO,                // 信息图标
-        Warning      = TTI_WARNING,             // 警告图标
-        Error        = TTI_ERROR,               // 错误图标
-        LargeInfo    = 4 /*TTI_INFO_LARGE*/,    // 大错误图标
-        LargeWarning = 5 /*TTI_WARNING_LARGE*/, // 大错误图标
-        LargeError   = 6 /*TTI_ERROR_LARGE*/,   // 大错误图标
+        None         = TTI_NONE,                ///< 无图标
+        Info         = TTI_INFO,                ///< 信息图标
+        Warning      = TTI_WARNING,             ///< 警告图标
+        Error        = TTI_ERROR,               ///< 错误图标
+        LargeInfo    = 4 /*TTI_INFO_LARGE*/,    ///< 大错误图标
+        LargeWarning = 5 /*TTI_WARNING_LARGE*/, ///< 大错误图标
+        LargeError   = 6 /*TTI_ERROR_LARGE*/,   ///< 大错误图标
     };
 
     /**
@@ -14542,47 +14650,31 @@ namespace sw
      * @brief 通知布局更新的条件
      */
     enum class LayoutUpdateCondition : uint32_t {
-        /**
-         * @brief 尺寸改变时更新布局
-         */
+        /// 尺寸改变时更新布局
         SizeChanged = 1 << 0,
 
-        /**
-         * @brief 位置改变时更新布局
-         */
+        /// 位置改变时更新布局
         PositionChanged = 1 << 1,
 
-        /**
-         * @brief 添加子元素时更新布局
-         */
+        /// 添加子元素时更新布局
         ChildAdded = 1 << 2,
 
-        /**
-         * @brief 移除子元素时更新布局
-         */
+        /// 移除子元素时更新布局
         ChildRemoved = 1 << 3,
 
-        /**
-         * @brief 文本改变时更新布局
-         */
+        /// 文本改变时更新布局
         TextChanged = 1 << 4,
 
-        /**
-         * @brief 字体改变时更新布局
-         */
+        /// 字体改变时更新布局
         FontChanged = 1 << 5,
 
-        /**
-         * @brief 框架内部使用，表示布局已失效
-         * @note 该标记指示了Measure函数的结果已失效，需要重新调用Measure函数来更新尺寸
-         */
+        /// 框架内部使用，表示布局已失效
+        /// @note 该标记指示了Measure函数的结果已失效，需要重新调用Measure函数来更新尺寸
         MeasureInvalidated = 1 << 29,
 
-        /**
-         * @brief 框架内部使用，表示不需要更新布局
-         * @note 一旦设置了该标记，InvalidateMeasure函数将不会更新状态和触发布局更新
-         * @note 该标记用于抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
-         */
+        /// 框架内部使用，表示不需要更新布局
+        /// @note 一旦设置了该标记，InvalidateMeasure函数将不会更新状态和触发布局更新
+        /// @note 该标记用于抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
         Supressed = 1 << 30,
     };
 
@@ -16975,9 +17067,9 @@ namespace sw
      * @brief 指定DateTimePicker控件显示的日期和时间格式
      */
     enum class DateTimePickerFormat {
-        Short,  // 以短格式显示日期
-        Long,   // 以长格式显示日期
-        Custom, // 自定义格式
+        Short,  ///< 以短格式显示日期
+        Long,   ///< 以长格式显示日期
+        Custom, ///< 自定义格式
     };
 
     /**
@@ -17092,14 +17184,14 @@ namespace sw
      * @brief 热键组合
      */
     enum class HotKeyCombination {
-        Alt          = HKCOMB_A,    // ALT
-        Ctrl         = HKCOMB_C,    // CTRL
-        CtrlAlt      = HKCOMB_CA,   // CTRL+ALT
-        None         = HKCOMB_NONE, // Unmodified keys
-        Shift        = HKCOMB_S,    // SHIFT
-        ShiftAlt     = HKCOMB_SA,   // SHIFT+ALT
-        ShiftCtrl    = HKCOMB_SC,   // SHIFT+CTRL
-        ShiftCtrlAlt = HKCOMB_SCA,  // SHIFT+CTRL+ALT
+        Alt          = HKCOMB_A,    ///< ALT
+        Ctrl         = HKCOMB_C,    ///< CTRL
+        CtrlAlt      = HKCOMB_CA,   ///< CTRL+ALT
+        None         = HKCOMB_NONE, ///< Unmodified keys
+        Shift        = HKCOMB_S,    ///< SHIFT
+        ShiftAlt     = HKCOMB_SA,   ///< SHIFT+ALT
+        ShiftCtrl    = HKCOMB_SC,   ///< SHIFT+CTRL
+        ShiftCtrlAlt = HKCOMB_SCA,  ///< SHIFT+CTRL+ALT
     };
 
     /**
@@ -17386,11 +17478,11 @@ namespace sw
      * @brief 边框类型
      */
     enum class BorderStyle {
-        None   = 0,           // 无边框
-        Bump   = EDGE_BUMP,   // 突出的凸起边框
-        Etched = EDGE_ETCHED, // 刻痕式边框
-        Raised = EDGE_RAISED, // 凸起边框
-        Sunked = EDGE_SUNKEN, // 凹陷边框
+        None   = 0,           ///< 无边框
+        Bump   = EDGE_BUMP,   ///< 突出的凸起边框
+        Etched = EDGE_ETCHED, ///< 刻痕式边框
+        Raised = EDGE_RAISED, ///< 凸起边框
+        Sunked = EDGE_SUNKEN, ///< 凹陷边框
     };
 
     /**
@@ -17485,9 +17577,9 @@ namespace sw
      * @brief 进度条状态
      */
     enum class ProgressBarState {
-        Normal = 0x0001, // 正常（PBST_NORMAL）
-        Error  = 0x0002, // 错误（PBST_ERROR）
-        Paused = 0x0003, // 暂停（PBST_PAUSED）
+        Normal = 0x0001, ///< 正常（PBST_NORMAL）
+        Error  = 0x0002, ///< 错误（PBST_ERROR）
+        Paused = 0x0003, ///< 暂停（PBST_PAUSED）
     };
 
     /**
@@ -17849,9 +17941,9 @@ namespace sw
      * @brief TabControl标签的位置
      */
     enum class TabAlignment {
-        Top,    // 顶部
-        Bottom, // 底部
-        Left,   // 左边
+        Top,    ///< 顶部
+        Bottom, ///< 底部
+        Left,   ///< 左边
         Right   // 右边
     };
 
@@ -18141,18 +18233,18 @@ namespace sw
      * @brief 窗口状态
      */
     enum class WindowState {
-        Normal,    // 普通窗口
-        Minimized, // 最小化窗口
-        Maximized, // 最大化窗口
+        Normal,    ///< 普通窗口
+        Minimized, ///< 最小化窗口
+        Maximized, ///< 最大化窗口
     };
 
     /**
      * @brief 窗口启动位置
      */
     enum class WindowStartupLocation {
-        Manual,       // 使用系统默认或手动设置
-        CenterScreen, // 屏幕中心
-        CenterOwner,  // 所有者窗口中心
+        Manual,       ///< 使用系统默认或手动设置
+        CenterScreen, ///< 屏幕中心
+        CenterOwner,  ///< 所有者窗口中心
     };
 
     /**
@@ -18537,11 +18629,11 @@ namespace sw
      * @brief 指定位图在BmpBox中的定位方式
      */
     enum class BmpBoxSizeMode {
-        Normal,       // 位图置于BmpBox左上角
-        StretchImage, // 拉伸位图填充BmpBox
-        AutoSize,     // 调整BmpBox大小，使其等于所包含位图的大小
-        CenterImage,  // 将位图居中显示
-        Zoom,         // 图像按照原来的比例缩放
+        Normal,       ///< 位图置于BmpBox左上角
+        StretchImage, ///< 拉伸位图填充BmpBox
+        AutoSize,     ///< 调整BmpBox大小，使其等于所包含位图的大小
+        CenterImage,  ///< 将位图居中显示
+        Zoom,         ///< 图像按照原来的比例缩放
     };
 
     /**
@@ -18771,9 +18863,9 @@ namespace sw
      * @brief 选中状态枚举类型
      */
     enum class CheckState {
-        Unchecked     = BST_UNCHECKED,     // 未选中
-        Checked       = BST_CHECKED,       // 已选中
-        Indeterminate = BST_INDETERMINATE, // 不确定状态
+        Unchecked     = BST_UNCHECKED,     ///< 未选中
+        Checked       = BST_CHECKED,       ///< 已选中
+        Indeterminate = BST_INDETERMINATE, ///< 不确定状态
     };
 
     /**
@@ -19547,9 +19639,9 @@ namespace sw
      * @brief 文本过长时末尾的处理方式
      */
     enum class TextTrimming {
-        None,         // 不处理
-        EndEllipsis,  // 按字符截断并显示“...”
-        WordEllipsis, // 按单词截断并显示“...”
+        None,         ///< 不处理
+        EndEllipsis,  ///< 按字符截断并显示“...”
+        WordEllipsis, ///< 按单词截断并显示“...”
     };
 
     /**
@@ -19826,19 +19918,19 @@ namespace sw
      * @brief 列表视图的图像列表枚举
      */
     enum class ListViewImageList {
-        Normal      = LVSIL_NORMAL,      // 包含大图标的图像列表
-        Small       = LVSIL_SMALL,       // 包含小图标的图像列表
-        State       = LVSIL_STATE,       // 包含状态图像的图像列表
-        GroupHeader = LVSIL_GROUPHEADER, // 组标头的图像列表
+        Normal      = LVSIL_NORMAL,      ///< 包含大图标的图像列表
+        Small       = LVSIL_SMALL,       ///< 包含小图标的图像列表
+        State       = LVSIL_STATE,       ///< 包含状态图像的图像列表
+        GroupHeader = LVSIL_GROUPHEADER, ///< 组标头的图像列表
     };
 
     /**
      * @brief 列表视图的列对齐方式
      */
     enum class ListViewColumnAlignment {
-        Left   = LVCFMT_LEFT,   // 左对齐
-        Right  = LVCFMT_RIGHT,  // 右对齐
-        Center = LVCFMT_CENTER, // 居中
+        Left   = LVCFMT_LEFT,   ///< 左对齐
+        Right  = LVCFMT_RIGHT,  ///< 右对齐
+        Center = LVCFMT_CENTER, ///< 居中
     };
 
     /**
@@ -20503,8 +20595,8 @@ namespace sw
      * @brief 树视图的图像列表枚举
      */
     enum class TreeViewImageList {
-        Normal = TVSIL_NORMAL, // 普通图像列表
-        State  = TVSIL_STATE,  // 状态映像列表
+        Normal = TVSIL_NORMAL, ///< 普通图像列表
+        State  = TVSIL_STATE,  ///< 状态映像列表
     };
 
     /**
@@ -21224,6 +21316,11 @@ namespace sw
 }
 
 // SimpleWindow.h
+
+/**
+ * @namespace sw
+ * @brief SimpleWindow框架的顶级命名空间，所有公共类型、控件、枚举和工具函数均定义于此。
+ */
 
 // 包含SimpleWindow所有头文件
 

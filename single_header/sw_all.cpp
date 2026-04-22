@@ -4287,18 +4287,6 @@ void sw::ImageList::_DestroyIfNotWrap()
     }
 }
 
-// Keys.cpp
-
-sw::KeyFlags::KeyFlags(LPARAM lParam)
-{
-    this->repeatCount      = (lParam >> 0) & 0xFFFF;
-    this->scanCode         = (lParam >> 16) & 0xFF;
-    this->isExtendedKey    = (lParam >> 24) & 0x01;
-    this->contextCode      = (lParam >> 29) & 0x01;
-    this->previousKeyState = (lParam >> 30) & 0x01;
-    this->transitionState  = (lParam >> 31) & 0x01;
-}
-
 // Label.cpp
 
 sw::Label::Label()
@@ -11390,9 +11378,8 @@ bool sw::Window::OnDpiChanged(int dpiX, int dpiY, RECT &newRect)
     });
 
     UpdateInternalRect();
-    UpdateFont();
-
     Rect = newRect;
+
     EnableLayout();
     return true;
 }
@@ -12189,35 +12176,35 @@ LRESULT sw::WndBase::WndProc(ProcMsg &refMsg)
         }
 
         case WM_CHAR: {
-            return this->OnChar((wchar_t)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnChar((wchar_t)refMsg.wParam, KeyFlags{refMsg.lParam}) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_DEADCHAR: {
-            return this->OnDeadChar((wchar_t)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnDeadChar((wchar_t)refMsg.wParam, KeyFlags{refMsg.lParam}) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_KEYDOWN: {
-            return this->OnKeyDown((VirtualKey)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnKeyDown((VirtualKey)refMsg.wParam, KeyFlags{refMsg.lParam}) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_KEYUP: {
-            return this->OnKeyUp((VirtualKey)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnKeyUp((VirtualKey)refMsg.wParam, KeyFlags{refMsg.lParam}) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_SYSCHAR: {
-            return this->OnSysChar((wchar_t)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnSysChar((wchar_t)refMsg.wParam, KeyFlags{refMsg.lParam}) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_SYSDEADCHAR: {
-            return this->OnSysDeadChar((wchar_t)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnSysDeadChar((wchar_t)refMsg.wParam, KeyFlags{refMsg.lParam}) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_SYSKEYDOWN: {
-            return this->OnSysKeyDown((VirtualKey)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnSysKeyDown((VirtualKey)refMsg.wParam, KeyFlags{refMsg.lParam}) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_SYSKEYUP: {
-            return this->OnSysKeyUp((VirtualKey)refMsg.wParam, refMsg.lParam) ? 0 : this->DefaultWndProc(refMsg);
+            return this->OnSysKeyUp((VirtualKey)refMsg.wParam, KeyFlags{refMsg.lParam}) ? 0 : this->DefaultWndProc(refMsg);
         }
 
         case WM_COMMAND: {
