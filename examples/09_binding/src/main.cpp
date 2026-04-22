@@ -1,6 +1,4 @@
 #include "MyWindow.hpp"
-#include <mutex>
-#include <thread>
 
 int APIENTRY WinMain(
     _In_     HINSTANCE hInstance,
