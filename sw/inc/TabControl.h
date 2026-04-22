@@ -9,9 +9,9 @@ namespace sw
      * @brief TabControl标签的位置
      */
     enum class TabAlignment {
-        Top,  ///< 顶部
+        Top,    ///< 顶部
         Bottom, ///< 底部
-        Left, ///< 左边
+        Left,   ///< 左边
         Right   // 右边
     };
 

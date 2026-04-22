@@ -8,8 +8,8 @@ namespace sw
      * @brief 选中状态枚举类型
      */
     enum class CheckState {
-        Unchecked     = BST_UNCHECKED,   ///< 未选中
-        Checked       = BST_CHECKED,     ///< 已选中
+        Unchecked     = BST_UNCHECKED,     ///< 未选中
+        Checked       = BST_CHECKED,       ///< 已选中
         Indeterminate = BST_INDETERMINATE, ///< 不确定状态
     };
 

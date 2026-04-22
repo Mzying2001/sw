@@ -8,8 +8,8 @@ namespace sw
      * @brief 文本过长时末尾的处理方式
      */
     enum class TextTrimming {
-        None,       ///< 不处理
-        EndEllipsis, ///< 按字符截断并显示“...”
+        None,         ///< 不处理
+        EndEllipsis,  ///< 按字符截断并显示“...”
         WordEllipsis, ///< 按单词截断并显示“...”
     };
 
