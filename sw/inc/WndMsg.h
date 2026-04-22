@@ -9,7 +9,7 @@ namespace sw
      */
     enum WndMsg : UINT {
         // SimpleWindow所用消息的起始位置
-        WM_SimpleWindowBegin = WM_USER + 0x3000,
+        WM_SimpleWindowBegin = WM_APP + 0x3000,
 
         // 控件布局发生变化时控件所在顶级窗口将收到该消息，wParam和lParam均未使用
         WM_UpdateLayout,
