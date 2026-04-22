@@ -11,39 +11,39 @@ namespace sw
      * @brief 消息框按钮类型
      */
     enum class MsgBoxButton {
-        AbortRetryIgnore    = MB_ABORTRETRYIGNORE,
-        CancelRetryContinue = MB_CANCELTRYCONTINUE,
-        Ok                  = MB_OK,
-        OkCancel            = MB_OKCANCEL,
-        RetryCancel         = MB_RETRYCANCEL,
-        YesNo               = MB_YESNO,
-        YesNoCancel         = MB_YESNOCANCEL,
+        AbortRetryIgnore    = MB_ABORTRETRYIGNORE,  ///< “中止”、“重试”、“忽略” 三按钮
+        CancelRetryContinue = MB_CANCELTRYCONTINUE, ///< “取消”、“重试”、“继续” 三按钮
+        Ok                  = MB_OK,                ///< “确定” 单按钮（默认）
+        OkCancel            = MB_OKCANCEL,          ///< “确定”、“取消” 双按钮
+        RetryCancel         = MB_RETRYCANCEL,       ///< “重试”、“取消” 双按钮
+        YesNo               = MB_YESNO,             ///< “是”、“否” 双按钮
+        YesNoCancel         = MB_YESNOCANCEL,       ///< “是”、“否”、“取消” 三按钮
     };
 
     /**
      * @brief 消息框图标类型
      */
     enum class MsgBoxIcon {
-        None        = 0,
-        Warning     = MB_ICONWARNING,
-        Information = MB_ICONINFORMATION,
-        Question    = MB_ICONQUESTION,
-        Error       = MB_ICONERROR,
+        None        = 0,                  ///< 不显示图标
+        Warning     = MB_ICONWARNING,     ///< 警告图标（黄色三角形）
+        Information = MB_ICONINFORMATION, ///< 信息图标（蓝色字母 i）
+        Question    = MB_ICONQUESTION,    ///< 问号图标（微软已不建议使用，推荐改用 Warning）
+        Error       = MB_ICONERROR,       ///< 错误图标（红色叉号）
     };
 
     /**
      * @brief 消息框结果
      */
     enum class MsgBoxResult {
-        Abort    = IDABORT,
-        Cancel   = IDCANCEL,
-        Continue = IDCONTINUE,
-        Ignore   = IDIGNORE,
-        No       = IDNO,
-        Ok       = IDOK,
-        Retry    = IDRETRY,
-        TryAgain = IDTRYAGAIN,
-        Yes      = IDYES,
+        Abort    = IDABORT,    ///< 用户点击了 “中止” 按钮
+        Cancel   = IDCANCEL,   ///< 用户点击了 “取消” 按钮，或按 Esc / 关闭按钮
+        Continue = IDCONTINUE, ///< 用户点击了 “继续” 按钮
+        Ignore   = IDIGNORE,   ///< 用户点击了 “忽略” 按钮
+        No       = IDNO,       ///< 用户点击了 “否” 按钮
+        Ok       = IDOK,       ///< 用户点击了 “确定” 按钮
+        Retry    = IDRETRY,    ///< 用户点击了 “重试” 按钮
+        TryAgain = IDTRYAGAIN, ///< 用户点击了 “重试” 按钮（仅 CancelRetryContinue 组合下产生）
+        Yes      = IDYES,      ///< 用户点击了 “是” 按钮
     };
 
     /**

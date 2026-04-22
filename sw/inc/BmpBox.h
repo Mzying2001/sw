@@ -8,11 +8,11 @@ namespace sw
      * @brief 指定位图在BmpBox中的定位方式
      */
     enum class BmpBoxSizeMode {
-        Normal,       // 位图置于BmpBox左上角
-        StretchImage, // 拉伸位图填充BmpBox
-        AutoSize,     // 调整BmpBox大小，使其等于所包含位图的大小
-        CenterImage,  // 将位图居中显示
-        Zoom,         // 图像按照原来的比例缩放
+        Normal,       ///< 位图置于BmpBox左上角
+        StretchImage, ///< 拉伸位图填充BmpBox
+        AutoSize,     ///< 调整BmpBox大小，使其等于所包含位图的大小
+        CenterImage,  ///< 将位图居中显示
+        Zoom,         ///< 图像按照原来的比例缩放
     };
 
     /**

@@ -10,24 +10,16 @@ namespace sw
      * @brief 绑定模式枚举
      */
     enum class BindingMode {
-        /**
-         * @brief 一次性绑定，在绑定创建时更新目标属性值
-         */
+        /// 一次性绑定，在绑定创建时更新目标属性值
         OneTime,
 
-        /**
-         * @brief 单向，从源到目标
-         */
+        /// 单向，从源到目标
         OneWay,
 
-        /**
-         * @brief 单向，从目标到源
-         */
+        /// 单向，从目标到源
         OneWayToSource,
 
-        /**
-         * @brief 双向，源和目标相互更新
-         */
+        /// 双向，源和目标相互更新
         TwoWay,
     };
 

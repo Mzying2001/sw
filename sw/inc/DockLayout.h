@@ -12,10 +12,10 @@ namespace sw
     {
     public:
         enum : uint64_t {
-            Left,   // 左边
-            Top,    // 顶边
-            Right,  // 右边
-            Bottom, // 底边
+            Left,   ///< 左边
+            Top,    ///< 顶边
+            Right,  ///< 右边
+            Bottom, ///< 底边
         };
 
     private:

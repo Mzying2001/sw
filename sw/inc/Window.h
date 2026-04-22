@@ -11,18 +11,18 @@ namespace sw
      * @brief 窗口状态
      */
     enum class WindowState {
-        Normal,    // 普通窗口
-        Minimized, // 最小化窗口
-        Maximized, // 最大化窗口
+        Normal,    ///< 普通窗口
+        Minimized, ///< 最小化窗口
+        Maximized, ///< 最大化窗口
     };
 
     /**
      * @brief 窗口启动位置
      */
     enum class WindowStartupLocation {
-        Manual,       // 使用系统默认或手动设置
-        CenterScreen, // 屏幕中心
-        CenterOwner,  // 所有者窗口中心
+        Manual,       ///< 使用系统默认或手动设置
+        CenterScreen, ///< 屏幕中心
+        CenterOwner,  ///< 所有者窗口中心
     };
 
     /**

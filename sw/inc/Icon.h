@@ -10,13 +10,13 @@ namespace sw
      * @brief https://learn.microsoft.com/en-us/windows/win32/menurc/about-icons
      */
     enum class StandardIcon {
-        Application = 32512, // Default application icon
-        Error       = 32513, // Error icon
-        Question    = 32514, // Question mark icon
-        Warning     = 32515, // Warning icon
-        Information = 32516, // Information icon
-        WinLogo     = 32517, // Windows logo icon
-        Shield      = 32518, // Security shield icon
+        Application = 32512, ///< Default application icon
+        Error       = 32513, ///< Error icon
+        Question    = 32514, ///< Question mark icon
+        Warning     = 32515, ///< Warning icon
+        Information = 32516, ///< Information icon
+        WinLogo     = 32517, ///< Windows logo icon
+        Shield      = 32518, ///< Security shield icon
     };
 
     /**

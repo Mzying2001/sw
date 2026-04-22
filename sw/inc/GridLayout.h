@@ -59,9 +59,9 @@ namespace sw
      * @brief GridRow和GridColumn的类型
      */
     enum class GridRCType {
-        FixSize,    // 固定大小
-        AutoSize,   // 自动大小
-        FillRemain, // 填充剩余空间
+        FixSize,    ///< 固定大小
+        AutoSize,   ///< 自动大小
+        FillRemain, ///< 填充剩余空间
     };
 
     /**

@@ -448,7 +448,6 @@
     <ClCompile Include="..\sw\src\IconBox.cpp" />
     <ClCompile Include="..\sw\src\ImageList.cpp" />
     <ClCompile Include="..\sw\src\IPAddressControl.cpp" />
-    <ClCompile Include="..\sw\src\Keys.cpp" />
     <ClCompile Include="..\sw\src\Label.cpp" />
     <ClCompile Include="..\sw\src\Layer.cpp" />
     <ClCompile Include="..\sw\src\LayoutHost.cpp" />
