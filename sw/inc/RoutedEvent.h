@@ -10,136 +10,136 @@ namespace sw
      */
     enum RoutedEventType : uint32_t //
     {
-        // 无效的路由事件类型，表示未指定事件类型或事件类型无效
+        /// 无效的路由事件类型，表示未指定事件类型或事件类型无效
         RoutedEventType_Null = 0,
 
-        // 从该值开始到RoutedEventType_UserEnd结束表示用户可以自定义路由事件的值范围
+        /// 从该值开始到RoutedEventType_UserEnd结束表示用户可以自定义路由事件的值范围
         RoutedEventType_User = 1,
 
-        // 用户自定义路由事件的值的最大值
+        /// 用户自定义路由事件的值的最大值
         RoutedEventType_UserEnd = 0x80000000,
 
-        // 尺寸改变，参数类型为sw::SizeChangedEventArgs
+        /// 尺寸改变，参数类型为sw::SizeChangedEventArgs
         UIElement_SizeChanged,
 
-        // 位置改变，参数类型为sw::PositionChangedEventArgs
+        /// 位置改变，参数类型为sw::PositionChangedEventArgs
         UIElement_PositionChanged,
 
-        // Text属性发生变化，参数类型为sw::RoutedEventArgs
+        /// Text属性发生变化，参数类型为sw::RoutedEventArgs
         UIElement_TextChanged,
 
-        // 获取到焦点，参数类型为sw::RoutedEventArgs
+        /// 获取到焦点，参数类型为sw::RoutedEventArgs
         UIElement_GotFocus,
 
-        // 失去焦点，参数类型为sw::RoutedEventArgs
+        /// 失去焦点，参数类型为sw::RoutedEventArgs
         UIElement_LostFocus,
 
-        // 输入字符，参数类型为sw::GotCharEventArgs
+        /// 输入字符，参数类型为sw::GotCharEventArgs
         UIElement_GotChar,
 
-        // 键盘按键按下，参数类型为sw::KeyDownEventArgs
+        /// 键盘按键按下，参数类型为sw::KeyDownEventArgs
         UIElement_KeyDown,
 
-        // 键盘按键抬起，参数类型为sw::KeyUpEventArgs
+        /// 键盘按键抬起，参数类型为sw::KeyUpEventArgs
         UIElement_KeyUp,
 
-        // 鼠标移动，参数类型为sw::MouseMoveEventArgs
+        /// 鼠标移动，参数类型为sw::MouseMoveEventArgs
         UIElement_MouseMove,
 
-        // 鼠标离开，参数类型为sw::RoutedEventArgs
+        /// 鼠标离开，参数类型为sw::RoutedEventArgs
         UIElement_MouseLeave,
 
-        // 鼠标滚轮滚动，参数类型为sw::MouseWheelEventArgs
+        /// 鼠标滚轮滚动，参数类型为sw::MouseWheelEventArgs
         UIElement_MouseWheel,
 
-        // 鼠标按键按下，参数类型为sw::MouseButtonDownEventArgs
+        /// 鼠标按键按下，参数类型为sw::MouseButtonDownEventArgs
         UIElement_MouseButtonDown,
 
-        // 鼠标按键抬起，参数类型为sw::MouseButtonUpEventArgs
+        /// 鼠标按键抬起，参数类型为sw::MouseButtonUpEventArgs
         UIElement_MouseButtonUp,
 
-        // 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
+        /// 要显示用户自定义的上下文菜单前触发该事件，参数类型为sw::ShowContextMenuEventArgs
         UIElement_ShowContextMenu,
 
-        // 接收到文件拖放，参数类型为sw::DropFilesEventArgs
+        /// 接收到文件拖放，参数类型为sw::DropFilesEventArgs
         UIElement_DropFiles,
 
-        // 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
+        /// 窗口正在关闭，参数类型为sw::WindowClosingEventArgs
         Window_Closing,
 
-        // 窗口已关闭，参数类型为sw::RoutedEventArgs
+        /// 窗口已关闭，参数类型为sw::RoutedEventArgs
         Window_Closed,
 
-        // 窗口成为前台窗口，参数类型为sw::RoutedEventArgs
+        /// 窗口成为前台窗口，参数类型为sw::RoutedEventArgs
         Window_Actived,
 
-        // 窗口成为后台窗口，参数类型为sw::RoutedEventArgs
+        /// 窗口成为后台窗口，参数类型为sw::RoutedEventArgs
         Window_Inactived,
 
-        // 按钮被单击，参数类型为sw::RoutedEventArgs
+        /// 按钮被单击，参数类型为sw::RoutedEventArgs
         ButtonBase_Clicked,
 
-        // 按钮被双击，参数类型为sw::RoutedEventArgs
+        /// 按钮被双击，参数类型为sw::RoutedEventArgs
         ButtonBase_DoubleClicked,
 
-        // 分割按钮的下拉箭头被单击，参数类型为sw::SplitButtonDropDownEventArgs
+        /// 分割按钮的下拉箭头被单击，参数类型为sw::SplitButtonDropDownEventArgs
         SplitButton_DropDown,
 
-        // 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
+        /// 列表视图/列表框/组合框的选中项改变，参数类型为sw::RoutedEventArgs
         ItemsControl_SelectionChanged,
 
-        // 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
+        /// 列表视图某个复选框的选中状态改变，参数类型为sw::ListViewCheckStateChangedEventArgs
         ListView_CheckStateChanged,
 
-        // 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
+        /// 鼠标左键单击列表视图的列标题，参数类型为sw::ListViewHeaderClickedEventArgs
         ListView_HeaderClicked,
 
-        // 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderDoubleClickedEventArgs
+        /// 鼠标左键双击列表视图的列标题，参数类型为sw::ListViewHeaderDoubleClickedEventArgs
         ListView_HeaderDoubleClicked,
 
-        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
+        /// 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemClickedEventArgs
         ListView_ItemClicked,
 
-        // 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemDoubleClickedEventArgs
+        /// 鼠标左键单击列表视图某个项，参数类型为sw::ListViewItemDoubleClickedEventArgs
         ListView_ItemDoubleClicked,
 
-        // 编辑状态结束，参数类型为sw::ListViewEndEditEventArgs
+        /// 编辑状态结束，参数类型为sw::ListViewEndEditEventArgs
         ListView_EndEdit,
 
-        // 滑块的值被改变，参数类型为sw::RoutedEventArgs
+        /// 滑块的值被改变，参数类型为sw::RoutedEventArgs
         Slider_ValueChanged,
 
-        // 滑块被释放，参数类型为sw::RoutedEventArgs
+        /// 滑块被释放，参数类型为sw::RoutedEventArgs
         Slider_EndTrack,
 
-        // 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
+        /// 窗口/面板滚动条滚动，参数类型为sw::ScrollingEventArgs
         Layer_Scrolling,
 
-        // SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
+        /// SelectedIndex属性被改变，参数类型为sw::RoutedEventArgs
         TabControl_SelectedIndexChanged,
 
-        // DateTimePicker控件的时间改变，参数类型为sw::DateTimePickerTimeChangedEventArgs
+        /// DateTimePicker控件的时间改变，参数类型为sw::DateTimePickerTimeChangedEventArgs
         DateTimePicker_TimeChanged,
 
-        // 月历控件的时间改变，参数类型为sw::MonthCalendarTimeChangedEventArgs
+        /// 月历控件的时间改变，参数类型为sw::MonthCalendarTimeChangedEventArgs
         MonthCalendar_TimeChanged,
 
-        // IP地址框地址被改变，参数类型为sw::RoutedEventArgs
+        /// IP地址框地址被改变，参数类型为sw::RoutedEventArgs
         IPAddressControl_AddressChanged,
 
-        // SysLink控件链接被单击，参数类型为sw::SysLinkClickedEventArgs
+        /// SysLink控件链接被单击，参数类型为sw::SysLinkClickedEventArgs
         SysLink_Clicked,
 
-        // 热键框的值被改变，参数类型为sw::HotKeyValueChangedEventArgs
+        /// 热键框的值被改变，参数类型为sw::HotKeyValueChangedEventArgs
         HotKeyControl_ValueChanged,
 
-        // 树视图节点正在展开或折叠，参数类型为sw::TreeViewItemExpandingEventArgs
+        /// 树视图节点正在展开或折叠，参数类型为sw::TreeViewItemExpandingEventArgs
         TreeView_ItemExpanding,
 
-        // 树视图节点已展开或折叠，参数类型为sw::TreeViewItemExpandedEventArgs
+        /// 树视图节点已展开或折叠，参数类型为sw::TreeViewItemExpandedEventArgs
         TreeView_ItemExpanded,
 
-        // 树视图节点的复选框选中状态被改变，参数类型为sw::TreeViewCheckStateChangedEventArgs
+        /// 树视图节点的复选框选中状态被改变，参数类型为sw::TreeViewCheckStateChangedEventArgs
         TreeView_CheckStateChanged,
     };
 

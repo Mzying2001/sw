@@ -18,14 +18,14 @@ namespace sw
      * @brief 热键组合
      */
     enum class HotKeyCombination {
-        Alt          = HKCOMB_A,    // ALT
-        Ctrl         = HKCOMB_C,    // CTRL
-        CtrlAlt      = HKCOMB_CA,   // CTRL+ALT
-        None         = HKCOMB_NONE, // Unmodified keys
-        Shift        = HKCOMB_S,    // SHIFT
-        ShiftAlt     = HKCOMB_SA,   // SHIFT+ALT
-        ShiftCtrl    = HKCOMB_SC,   // SHIFT+CTRL
-        ShiftCtrlAlt = HKCOMB_SCA,  // SHIFT+CTRL+ALT
+        Alt          = HKCOMB_A,  ///< ALT
+        Ctrl         = HKCOMB_C,  ///< CTRL
+        CtrlAlt      = HKCOMB_CA, ///< CTRL+ALT
+        None         = HKCOMB_NONE, ///< Unmodified keys
+        Shift        = HKCOMB_S,  ///< SHIFT
+        ShiftAlt     = HKCOMB_SA, ///< SHIFT+ALT
+        ShiftCtrl    = HKCOMB_SC, ///< SHIFT+CTRL
+        ShiftCtrlAlt = HKCOMB_SCA, ///< SHIFT+CTRL+ALT
     };
 
     /**

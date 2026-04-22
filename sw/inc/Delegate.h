@@ -94,9 +94,9 @@ namespace sw
          * @brief 当前状态枚举
          */
         enum : uint8_t {
-            STATE_NONE,   // 未存储任何可调用对象
-            STATE_SINGLE, // 储存了一个可调用对象
-            STATE_LIST,   // 储存了多个可调用对象
+            STATE_NONE,   ///< 未存储任何可调用对象
+            STATE_SINGLE, ///< 储存了一个可调用对象
+            STATE_LIST,   ///< 储存了多个可调用对象
         } _state = STATE_NONE;
 
     public:

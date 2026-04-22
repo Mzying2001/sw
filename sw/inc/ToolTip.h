@@ -9,13 +9,13 @@ namespace sw
      * @brief 提示信息图标类型
      */
     enum class ToolTipIcon {
-        None         = TTI_NONE,                // 无图标
-        Info         = TTI_INFO,                // 信息图标
-        Warning      = TTI_WARNING,             // 警告图标
-        Error        = TTI_ERROR,               // 错误图标
-        LargeInfo    = 4 /*TTI_INFO_LARGE*/,    // 大错误图标
-        LargeWarning = 5 /*TTI_WARNING_LARGE*/, // 大错误图标
-        LargeError   = 6 /*TTI_ERROR_LARGE*/,   // 大错误图标
+        None         = TTI_NONE,              ///< 无图标
+        Info         = TTI_INFO,              ///< 信息图标
+        Warning      = TTI_WARNING,           ///< 警告图标
+        Error        = TTI_ERROR,             ///< 错误图标
+        LargeInfo    = 4 /*TTI_INFO_LARGE*/,  ///< 大错误图标
+        LargeWarning = 5 /*TTI_WARNING_LARGE*/, ///< 大错误图标
+        LargeError   = 6 /*TTI_ERROR_LARGE*/, ///< 大错误图标
     };
 
     /**

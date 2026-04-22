@@ -27,47 +27,31 @@ namespace sw
      * @brief 通知布局更新的条件
      */
     enum class LayoutUpdateCondition : uint32_t {
-        /**
-         * @brief 尺寸改变时更新布局
-         */
+        /// 尺寸改变时更新布局
         SizeChanged = 1 << 0,
 
-        /**
-         * @brief 位置改变时更新布局
-         */
+        /// 位置改变时更新布局
         PositionChanged = 1 << 1,
 
-        /**
-         * @brief 添加子元素时更新布局
-         */
+        /// 添加子元素时更新布局
         ChildAdded = 1 << 2,
 
-        /**
-         * @brief 移除子元素时更新布局
-         */
+        /// 移除子元素时更新布局
         ChildRemoved = 1 << 3,
 
-        /**
-         * @brief 文本改变时更新布局
-         */
+        /// 文本改变时更新布局
         TextChanged = 1 << 4,
 
-        /**
-         * @brief 字体改变时更新布局
-         */
+        /// 字体改变时更新布局
         FontChanged = 1 << 5,
 
-        /**
-         * @brief 框架内部使用，表示布局已失效
-         * @note 该标记指示了Measure函数的结果已失效，需要重新调用Measure函数来更新尺寸
-         */
+        /// 框架内部使用，表示布局已失效
+        /// @note 该标记指示了Measure函数的结果已失效，需要重新调用Measure函数来更新尺寸
         MeasureInvalidated = 1 << 29,
 
-        /**
-         * @brief 框架内部使用，表示不需要更新布局
-         * @note 一旦设置了该标记，InvalidateMeasure函数将不会更新状态和触发布局更新
-         * @note 该标记用于抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
-         */
+        /// 框架内部使用，表示不需要更新布局
+        /// @note 一旦设置了该标记，InvalidateMeasure函数将不会更新状态和触发布局更新
+        /// @note 该标记用于抑制布局更新，可能会频繁被设置/取消，一般不建议用户直接使用
         Supressed = 1 << 30,
     };
 

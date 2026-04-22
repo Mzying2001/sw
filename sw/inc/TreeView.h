@@ -8,8 +8,8 @@ namespace sw
      * @brief 树视图的图像列表枚举
      */
     enum class TreeViewImageList {
-        Normal = TVSIL_NORMAL, // 普通图像列表
-        State  = TVSIL_STATE,  // 状态映像列表
+        Normal = TVSIL_NORMAL, ///< 普通图像列表
+        State  = TVSIL_STATE,  ///< 状态映像列表
     };
 
     /**

@@ -12,8 +12,8 @@ namespace sw
      * @brief 线程退出消息循环的方式
      */
     enum class AppQuitMode {
-        Auto,   // 线程中所有窗口都销毁时自动退出消息循环
-        Manual, // 需手动调用QuitMsgLoop以退出消息循环
+        Auto, ///< 线程中所有窗口都销毁时自动退出消息循环
+        Manual, ///< 需手动调用QuitMsgLoop以退出消息循环
     };
 
     /**

@@ -11,19 +11,19 @@ namespace sw
      * @brief 列表视图的图像列表枚举
      */
     enum class ListViewImageList {
-        Normal      = LVSIL_NORMAL,      // 包含大图标的图像列表
-        Small       = LVSIL_SMALL,       // 包含小图标的图像列表
-        State       = LVSIL_STATE,       // 包含状态图像的图像列表
-        GroupHeader = LVSIL_GROUPHEADER, // 组标头的图像列表
+        Normal      = LVSIL_NORMAL,    ///< 包含大图标的图像列表
+        Small       = LVSIL_SMALL,     ///< 包含小图标的图像列表
+        State       = LVSIL_STATE,     ///< 包含状态图像的图像列表
+        GroupHeader = LVSIL_GROUPHEADER, ///< 组标头的图像列表
     };
 
     /**
      * @brief 列表视图的列对齐方式
      */
     enum class ListViewColumnAlignment {
-        Left   = LVCFMT_LEFT,   // 左对齐
-        Right  = LVCFMT_RIGHT,  // 右对齐
-        Center = LVCFMT_CENTER, // 居中
+        Left   = LVCFMT_LEFT, ///< 左对齐
+        Right  = LVCFMT_RIGHT, ///< 右对齐
+        Center = LVCFMT_CENTER, ///< 居中
     };
 
     /**

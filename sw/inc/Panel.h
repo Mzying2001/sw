@@ -9,11 +9,11 @@ namespace sw
      * @brief 边框类型
      */
     enum class BorderStyle {
-        None   = 0,           // 无边框
-        Bump   = EDGE_BUMP,   // 突出的凸起边框
-        Etched = EDGE_ETCHED, // 刻痕式边框
-        Raised = EDGE_RAISED, // 凸起边框
-        Sunked = EDGE_SUNKEN, // 凹陷边框
+        None   = 0,         ///< 无边框
+        Bump   = EDGE_BUMP, ///< 突出的凸起边框
+        Etched = EDGE_ETCHED, ///< 刻痕式边框
+        Raised = EDGE_RAISED, ///< 凸起边框
+        Sunked = EDGE_SUNKEN, ///< 凹陷边框
     };
 
     /**

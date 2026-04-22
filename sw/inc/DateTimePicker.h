@@ -9,9 +9,9 @@ namespace sw
      * @brief 指定DateTimePicker控件显示的日期和时间格式
      */
     enum class DateTimePickerFormat {
-        Short,  // 以短格式显示日期
-        Long,   // 以长格式显示日期
-        Custom, // 自定义格式
+        Short, ///< 以短格式显示日期
+        Long, ///< 以长格式显示日期
+        Custom, ///< 自定义格式
     };
 
     /**

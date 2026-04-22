@@ -9,9 +9,9 @@ namespace sw
      * @brief 进度条状态
      */
     enum class ProgressBarState {
-        Normal = 0x0001, // 正常（PBST_NORMAL）
-        Error  = 0x0002, // 错误（PBST_ERROR）
-        Paused = 0x0003, // 暂停（PBST_PAUSED）
+        Normal = 0x0001, ///< 正常（PBST_NORMAL）
+        Error  = 0x0002, ///< 错误（PBST_ERROR）
+        Paused = 0x0003, ///< 暂停（PBST_PAUSED）
     };
 
     /**
