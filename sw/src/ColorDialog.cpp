@@ -69,7 +69,7 @@ sw::ColorDialog::ColorDialog()
 {
     _cc.lStructSize  = sizeof(CHOOSECOLORW);
     _cc.Flags        = DWORD(ColorDialogFlags::RgbInit);
-    _cc.rgbResult    = Color(KnownColor::Black);
+    _cc.rgbResult    = Color(KnownColors::Black);
     _cc.lpCustColors = _defaultCustomColors;
 }
 

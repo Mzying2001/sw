@@ -64,7 +64,7 @@
 #include "Internal.h"
 #include "ItemsControl.h"
 #include "Keys.h"
-#include "KnownColor.h"
+#include "KnownColors.h"
 #include "Label.h"
 #include "Layer.h"
 #include "LayoutHost.h"

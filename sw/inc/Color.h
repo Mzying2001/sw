@@ -2,7 +2,7 @@
 
 #include "IComparable.h"
 #include "IToString.h"
-#include "KnownColor.h"
+#include "KnownColors.h"
 #include <cstdint>
 #include <string>
 #include <type_traits>
@@ -45,9 +45,9 @@ namespace sw
         Color(uint8_t r, uint8_t g, uint8_t b);
 
         /**
-         * @brief 通过KnownColor构造Color结构体
+         * @brief 通过KnownColors构造Color结构体
          */
-        Color(KnownColor knownColor);
+        Color(KnownColors knownColor);
 
         /**
          * @brief 通过COLORREF构造Color结构体

@@ -184,12 +184,12 @@ namespace sw
         /**
          * @brief 背景颜色
          */
-        Color _backColor{KnownColor::White};
+        Color _backColor{KnownColors::White};
 
         /**
          * @brief 文本颜色
          */
-        Color _textColor{KnownColor::Black};
+        Color _textColor{KnownColors::Black};
 
         /**
          * @brief 是否使用透明背景

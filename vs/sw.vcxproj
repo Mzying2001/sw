@@ -347,7 +347,7 @@
     <ClInclude Include="..\sw\inc\IToString.h" />
     <ClInclude Include="..\sw\inc\IValueConverter.h" />
     <ClInclude Include="..\sw\inc\Keys.h" />
-    <ClInclude Include="..\sw\inc\KnownColor.h" />
+    <ClInclude Include="..\sw\inc\KnownColors.h" />
     <ClInclude Include="..\sw\inc\Label.h" />
     <ClInclude Include="..\sw\inc\Layer.h" />
     <ClInclude Include="..\sw\inc\LayoutHost.h" />

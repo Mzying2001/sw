@@ -7,7 +7,7 @@ namespace sw
     /**
      * @brief 已知的颜色
      */
-    enum class KnownColor {
+    enum class KnownColors {
         ActiveBorder            = RGB(0xb4, 0xb4, 0xb4), ///< 活动边框颜色
         ActiveCaption           = RGB(0x99, 0xb4, 0xd1), ///< 活动标题栏颜色
         ActiveCaptionText       = RGB(0x00, 0x00, 0x00), ///< 活动标题栏文本颜色

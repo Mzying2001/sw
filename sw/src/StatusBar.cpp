@@ -34,7 +34,7 @@ sw::StatusBar::StatusBar()
     this->InitControl(STATUSCLASSNAMEW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CCS_NORESIZE, 0);
     this->Height = 25;
     this->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Bottom);
-    this->Control::SetBackColor(KnownColor::Control, false);
+    this->Control::SetBackColor(KnownColors::Control, false);
 }
 
 bool sw::StatusBar::SetParts(std::initializer_list<double> parts)

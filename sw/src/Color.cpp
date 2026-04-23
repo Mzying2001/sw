@@ -6,7 +6,7 @@ sw::Color::Color(uint8_t r, uint8_t g, uint8_t b)
 {
 }
 
-sw::Color::Color(KnownColor knownColor)
+sw::Color::Color(KnownColors knownColor)
     : Color(static_cast<COLORREF>(knownColor))
 {
 }

@@ -117,7 +117,7 @@
     <ClInclude Include="..\sw\inc\Keys.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\sw\inc\KnownColor.h">
+    <ClInclude Include="..\sw\inc\KnownColors.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Label.h">
