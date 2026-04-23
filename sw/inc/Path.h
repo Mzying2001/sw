@@ -63,7 +63,7 @@ namespace sw
 
         /**
          * @brief 获取路径所对应的绝对路径
-         * @param paths 要转换的路径
+         * @param path 要转换的路径
          * @return 若函数成功则返回绝对路径，否则返回空字符串
          */
         static std::wstring GetAbsolutePath(const std::wstring &path);

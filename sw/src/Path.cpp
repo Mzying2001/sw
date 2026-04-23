@@ -104,7 +104,7 @@ std::wstring sw::Path::GetAbsolutePath(const std::wstring &path)
         return L"";
     }
 
-    // 移除不必要的空白字符
+    // 截断到实际长度（resize 时预留了含 '\0' 位的 bufferSize 个字符）
     absolutePath.resize(result);
 
     return absolutePath;
