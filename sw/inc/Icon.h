@@ -1,7 +1,7 @@
 #pragma once
 
-#include <windows.h>
 #include <string>
+#include <windows.h>
 
 namespace sw
 {
@@ -25,6 +25,9 @@ namespace sw
     class IconHelper
     {
     private:
+        /**
+         * @brief 静态类，禁止实例化
+         */
         IconHelper() = delete;
 
     public:

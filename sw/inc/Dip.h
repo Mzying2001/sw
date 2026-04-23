@@ -12,6 +12,9 @@ namespace sw
     class Dip
     {
     private:
+        /**
+         * @brief 静态类，禁止实例化
+         */
         Dip() = delete;
 
     public:

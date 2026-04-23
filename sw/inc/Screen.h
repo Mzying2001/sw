@@ -12,6 +12,9 @@ namespace sw
     class Screen
     {
     private:
+        /**
+         * @brief 静态类，禁止实例化
+         */
         Screen() = delete;
 
     public:

@@ -22,6 +22,9 @@ namespace sw
     class App
     {
     private:
+        /**
+         * @brief 静态类，禁止实例化
+         */
         App() = delete;
 
     public:
