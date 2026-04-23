@@ -39,7 +39,7 @@ std::wstring sw::Path::GetExtension(const std::wstring &path)
     if (lastDotPos == start) {
         return L"";
     }
-    return path.substr(lastDotPos + 1);
+    return path.substr(lastDotPos);
 }
 
 std::wstring sw::Path::GetDirectory(const std::wstring &path)

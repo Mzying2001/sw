@@ -31,7 +31,7 @@ namespace sw
         /**
          * @brief 获取扩展名
          * @param path 文件的路径
-         * @return 文件的扩展名，不包含前面的点
+         * @return 文件的扩展名，包含前面的点（如 ".txt"）；无扩展名时返回空字符串
          */
         static std::wstring GetExtension(const std::wstring &path);
 
