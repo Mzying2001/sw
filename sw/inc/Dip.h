@@ -31,26 +31,26 @@ namespace sw
         /**
          * @brief dpi改变时调用该函数更新缩放比例
          */
-        static void Update(int dpiX, int dpiY);
+        static void Update(int dpiX, int dpiY) noexcept;
 
         /**
          * @brief 像素转dip（水平方向）
          */
-        static double PxToDipX(int px);
+        static double PxToDipX(int px) noexcept;
 
         /**
          * @brief 像素转dip（垂直方向）
          */
-        static double PxToDipY(int px);
+        static double PxToDipY(int px) noexcept;
 
         /**
          * @brief dip转像素（水平方向）
          */
-        static int DipToPxX(double dip);
+        static int DipToPxX(double dip) noexcept;
 
         /**
          * @brief dip转像素（垂直方向）
          */
-        static int DipToPxY(double dip);
+        static int DipToPxY(double dip) noexcept;
     };
 }

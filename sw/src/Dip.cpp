@@ -24,15 +24,15 @@ namespace
         /**
          * @brief 构造函数，根据系统DPI计算缩放比例
          */
-        _ScaleInfo()
+        _ScaleInfo() noexcept
         {
             HDC hdc = GetDC(NULL);
             if (hdc == NULL) {
-                this->scaleX = 1;
-                this->scaleY = 1;
+                scaleX = 1;
+                scaleY = 1;
             } else {
-                this->scaleX = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / GetDeviceCaps(hdc, LOGPIXELSX);
-                this->scaleY = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / GetDeviceCaps(hdc, LOGPIXELSY);
+                scaleX = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / GetDeviceCaps(hdc, LOGPIXELSX);
+                scaleY = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / GetDeviceCaps(hdc, LOGPIXELSY);
                 ReleaseDC(NULL, hdc);
             }
         }
@@ -60,28 +60,28 @@ const sw::ReadOnlyProperty<double> sw::Dip::ScaleY(
         }) //
 );
 
-void sw::Dip::Update(int dpiX, int dpiY)
+void sw::Dip::Update(int dpiX, int dpiY) noexcept
 {
     _scaleInfo.scaleX = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / dpiX;
     _scaleInfo.scaleY = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / dpiY;
 }
 
-double sw::Dip::PxToDipX(int px)
+double sw::Dip::PxToDipX(int px) noexcept
 {
     return px * _scaleInfo.scaleX;
 }
 
-double sw::Dip::PxToDipY(int px)
+double sw::Dip::PxToDipY(int px) noexcept
 {
     return px * _scaleInfo.scaleY;
 }
 
-int sw::Dip::DipToPxX(double dip)
+int sw::Dip::DipToPxX(double dip) noexcept
 {
     return (int)std::lround(dip / _scaleInfo.scaleX);
 }
 
-int sw::Dip::DipToPxY(double dip)
+int sw::Dip::DipToPxY(double dip) noexcept
 {
     return (int)std::lround(dip / _scaleInfo.scaleY);
 }
