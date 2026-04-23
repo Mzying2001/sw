@@ -11,6 +11,9 @@ namespace sw
     class Path
     {
     private:
+        /**
+         * @brief 静态类，禁止实例化
+         */
         Path() = delete;
 
     public:
@@ -50,22 +53,23 @@ namespace sw
         static std::wstring Combine(std::initializer_list<std::wstring> paths);
 
         /**
+         * @brief 获取路径所对应的绝对路径
+         * @param path 要转换的路径
+         * @return 若函数成功则返回绝对路径，否则返回空字符串
+         */
+        static std::wstring GetAbsolutePath(const std::wstring &path);
+
+    public:
+        /**
          * @brief 对路径进行拼接
          * @param first 第一个路径
          * @param rest 要拼接的路径
          * @return 完整的路径
          */
         template <typename... Args>
-        static inline std::wstring Combine(const std::wstring &first, const Args &...rest)
+        static auto Combine(const std::wstring &first, const Args &...rest) -> std::wstring
         {
-            return Path::Combine({first, rest...});
+            return Path::Combine(std::initializer_list<std::wstring>{first, rest...});
         }
-
-        /**
-         * @brief 获取路径所对应的绝对路径
-         * @param path 要转换的路径
-         * @return 若函数成功则返回绝对路径，否则返回空字符串
-         */
-        static std::wstring GetAbsolutePath(const std::wstring &path);
     };
 }
