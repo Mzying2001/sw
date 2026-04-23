@@ -98,18 +98,44 @@ namespace sw
     public:
         /**
          * @brief 取两值中的较大值
+         * @note 避免std::max与windows.h中的宏冲突，框架中使用此函数作为替代
          */
         template <typename T>
-        static constexpr inline T Max(const T &a, const T &b)
+        static constexpr auto Max(T a, T b) noexcept
+            -> typename std::enable_if<std::is_scalar<T>::value, T>::type
+        {
+            return a > b ? a : b;
+        }
+
+        /**
+         * @brief 取两值中的较大值
+         * @note 避免std::max与windows.h中的宏冲突，框架中使用此函数作为替代
+         */
+        template <typename T>
+        static auto Max(const T &a, const T &b)
+            -> typename std::enable_if<!std::is_scalar<T>::value, T>::type
         {
             return a > b ? a : b;
         }
 
         /**
          * @brief 取两值中的较小值
+         * @note 避免std::min与windows.h中的宏冲突，框架中使用此函数作为替代
          */
         template <typename T>
-        static constexpr inline T Min(const T &a, const T &b)
+        static constexpr auto Min(T a, T b) noexcept
+            -> typename std::enable_if<std::is_scalar<T>::value, T>::type
+        {
+            return a < b ? a : b;
+        }
+
+        /**
+         * @brief 取两值中的较小值
+         * @note 避免std::min与windows.h中的宏冲突，框架中使用此函数作为替代
+         */
+        template <typename T>
+        static auto Min(const T &a, const T &b)
+            -> typename std::enable_if<!std::is_scalar<T>::value, T>::type
         {
             return a < b ? a : b;
         }
@@ -143,7 +169,7 @@ namespace sw
         static auto _BuildStr(std::wostream &wos, const T &arg)
             -> typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value>::type
         {
-            Utils::_BuildStr(wos, arg.ToString());
+            _BuildStr(wos, arg.ToString());
         }
 
         /**
@@ -153,7 +179,7 @@ namespace sw
         static auto _BuildStr(std::wostream &wos, const T &prop)
             -> typename std::enable_if<_IsProperty<T>::value>::type
         {
-            Utils::_BuildStr(wos, prop.Get());
+            _BuildStr(wos, prop.Get());
         }
 
         /**
