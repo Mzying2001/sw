@@ -4,6 +4,7 @@
 #include "Utils.h"
 #include "WndMsg.h"
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 #include <deque>
 
@@ -403,14 +404,21 @@ bool sw::UIElement::RemoveChildAt(int index)
         return false;
     }
 
-    std::vector<UIElement *>::iterator it =
-        this->_children.begin() + index;
+    UIElement *element = this->_children[index];
 
-    if (!(*it)->WndBase::SetParent(nullptr)) {
+    if (!element->WndBase::SetParent(nullptr)) {
         return false;
     }
 
-    UIElement *element = *it;
+    // SetParent会同步派发WM_PreSetParent并最终回调虚函数ParentChanged
+    // 与OnCurrentDataContextChanged，用户重写可能重入修改_children，
+    // 因此必须重新查找element位置而非沿用之前的索引或迭代器
+    auto it = std::find(this->_children.begin(), this->_children.end(), element);
+
+    if (it == this->_children.end()) {
+        return true; // 已被嵌套调用移除并触发了OnRemovedChild
+    }
+
     this->_children.erase(it);
     this->_RemoveFromLayoutVisibleChildren(element);
 
@@ -424,15 +432,21 @@ bool sw::UIElement::RemoveChild(UIElement *element)
         return false;
     }
 
-    std::vector<UIElement *>::iterator it =
-        std::find(this->_children.begin(), this->_children.end(), element);
-
-    if (it == this->_children.end()) {
+    if (std::find(this->_children.begin(), this->_children.end(), element) == this->_children.end()) {
         return false;
     }
 
     if (!element->WndBase::SetParent(nullptr)) {
         return false;
+    }
+
+    // SetParent会同步派发WM_PreSetParent并最终回调虚函数ParentChanged
+    // 与OnCurrentDataContextChanged，用户重写可能重入修改_children，
+    // 因此必须重新查找element位置以避免使用已失效的迭代器
+    auto it = std::find(this->_children.begin(), this->_children.end(), element);
+
+    if (it == this->_children.end()) {
+        return true; // 已被嵌套调用移除并触发了OnRemovedChild
     }
 
     this->_children.erase(it);
@@ -455,6 +469,10 @@ void sw::UIElement::ClearChildren()
 
     this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
 
+    // 提前清空_layoutVisibleChildren，避免循环中OnRemovedChild及其触发的属性变更
+    // 回调观察到已从_children移除却仍残留在_layoutVisibleChildren中的陈旧指针
+    this->_layoutVisibleChildren.clear();
+
     while (!this->_children.empty()) {
         UIElement *item = this->_children.back();
         item->WndBase::SetParent(nullptr);
@@ -463,7 +481,6 @@ void sw::UIElement::ClearChildren()
     }
 
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
-    this->_UpdateLayoutVisibleChildren();
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
         this->InvalidateMeasure();
@@ -1212,6 +1229,9 @@ bool sw::UIElement::SetParent(WndBase *parent)
                 oldParentElement->_RemoveFromLayoutVisibleChildren(this);
                 // 通知父元素改变以触发属性变更通知以及数据上下文变更
                 this->ParentChanged(nullptr);
+                // 与正常RemoveChild路径保持一致，发出ChildCount变更通知
+                // 并在ChildRemoved条件下让父元素布局失效
+                oldParentElement->OnRemovedChild(*this);
             }
             return true;
         }
@@ -1543,6 +1563,12 @@ void sw::UIElement::_UpdateLayoutVisibleChildren()
 
 bool sw::UIElement::_AddToLayoutVisibleChildren(UIElement *element)
 {
+    // 调用方需保证element未在_layoutVisibleChildren中，否则
+    // 后续_RemoveFromLayoutVisibleChildren只会移除首个匹配项造成静默泄漏
+    assert(std::find(this->_layoutVisibleChildren.begin(),
+                     this->_layoutVisibleChildren.end(), element) ==
+           this->_layoutVisibleChildren.end());
+
     if (element->_collapseWhenHide && !element->Visible)
         return false;
     else {
