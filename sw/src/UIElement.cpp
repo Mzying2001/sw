@@ -403,14 +403,21 @@ bool sw::UIElement::RemoveChildAt(int index)
         return false;
     }
 
-    std::vector<UIElement *>::iterator it =
-        this->_children.begin() + index;
+    UIElement *element = this->_children[index];
 
-    if (!(*it)->WndBase::SetParent(nullptr)) {
+    if (!element->WndBase::SetParent(nullptr)) {
         return false;
     }
 
-    UIElement *element = *it;
+    // SetParent会同步派发WM_PreSetParent并最终回调虚函数ParentChanged
+    // 与OnCurrentDataContextChanged，用户重写可能重入修改_children，
+    // 因此必须重新查找element位置而非沿用之前的索引或迭代器
+    auto it = std::find(this->_children.begin(), this->_children.end(), element);
+
+    if (it == this->_children.end()) {
+        return true; // 已被嵌套调用移除并触发了OnRemovedChild
+    }
+
     this->_children.erase(it);
     this->_RemoveFromLayoutVisibleChildren(element);
 
@@ -424,15 +431,21 @@ bool sw::UIElement::RemoveChild(UIElement *element)
         return false;
     }
 
-    std::vector<UIElement *>::iterator it =
-        std::find(this->_children.begin(), this->_children.end(), element);
-
-    if (it == this->_children.end()) {
+    if (std::find(this->_children.begin(), this->_children.end(), element) == this->_children.end()) {
         return false;
     }
 
     if (!element->WndBase::SetParent(nullptr)) {
         return false;
+    }
+
+    // SetParent会同步派发WM_PreSetParent并最终回调虚函数ParentChanged
+    // 与OnCurrentDataContextChanged，用户重写可能重入修改_children，
+    // 因此必须重新查找element位置以避免使用已失效的迭代器
+    auto it = std::find(this->_children.begin(), this->_children.end(), element);
+
+    if (it == this->_children.end()) {
+        return true; // 已被嵌套调用移除并触发了OnRemovedChild
     }
 
     this->_children.erase(it);
