@@ -1228,6 +1228,9 @@ bool sw::UIElement::SetParent(WndBase *parent)
                 oldParentElement->_RemoveFromLayoutVisibleChildren(this);
                 // 通知父元素改变以触发属性变更通知以及数据上下文变更
                 this->ParentChanged(nullptr);
+                // 与正常RemoveChild路径保持一致，发出ChildCount变更通知
+                // 并在ChildRemoved条件下让父元素布局失效
+                oldParentElement->OnRemovedChild(*this);
             }
             return true;
         }
