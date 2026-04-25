@@ -455,6 +455,10 @@ void sw::UIElement::ClearChildren()
 
     this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
 
+    // 提前清空_layoutVisibleChildren，避免循环中OnRemovedChild及其触发的属性变更
+    // 回调观察到已从_children移除却仍残留在_layoutVisibleChildren中的陈旧指针
+    this->_layoutVisibleChildren.clear();
+
     while (!this->_children.empty()) {
         UIElement *item = this->_children.back();
         item->WndBase::SetParent(nullptr);
@@ -463,7 +467,6 @@ void sw::UIElement::ClearChildren()
     }
 
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
-    this->_UpdateLayoutVisibleChildren();
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
         this->InvalidateMeasure();
