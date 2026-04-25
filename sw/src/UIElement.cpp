@@ -4,6 +4,7 @@
 #include "Utils.h"
 #include "WndMsg.h"
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 #include <deque>
 
@@ -1562,6 +1563,12 @@ void sw::UIElement::_UpdateLayoutVisibleChildren()
 
 bool sw::UIElement::_AddToLayoutVisibleChildren(UIElement *element)
 {
+    // 调用方需保证element未在_layoutVisibleChildren中，否则
+    // 后续_RemoveFromLayoutVisibleChildren只会移除首个匹配项造成静默泄漏
+    assert(std::find(this->_layoutVisibleChildren.begin(),
+                     this->_layoutVisibleChildren.end(), element) ==
+           this->_layoutVisibleChildren.end());
+
     if (element->_collapseWhenHide && !element->Visible)
         return false;
     else {
