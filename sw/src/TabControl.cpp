@@ -144,8 +144,14 @@ void sw::TabControl::OnAddedChild(UIElement &element)
 
 void sw::TabControl::OnRemovedChild(UIElement &element)
 {
-    this->UpdateTab();
-    this->_UpdateChildVisible(false);
+    // 程序退出阶段UIElement析构链可能在TabControl句柄已销毁后调用此函数
+    // （详见UIElement::SetParent的fallback路径），此时向已无效的句柄
+    // SendMessage会触发控件内部异常路径甚至卡住进程，故仅在句柄有效时
+    // 执行依赖HWND的维护操作
+    if (!IsDestroyed) {
+        this->UpdateTab();
+        this->_UpdateChildVisible(false);
+    }
     this->UIElement::OnRemovedChild(element);
 }
 

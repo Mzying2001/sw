@@ -783,6 +783,9 @@ namespace sw
         /**
          * @brief 移除子元素后调用该函数
          * @param element 移除的子元素
+         * @note 该函数也会在程序退出阶段（父元素HWND已销毁或正在销毁时）被调用，
+         *       重写中若对自身HWND执行SendMessage或调用其它依赖有效句柄的控件API，
+         *       必须先用!IsDestroyed守卫，否则可能触发控件内部异常路径甚至卡住进程
          */
         virtual void OnRemovedChild(UIElement &element);
 
