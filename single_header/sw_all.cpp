@@ -7918,8 +7918,14 @@ void sw::TabControl::OnAddedChild(UIElement &element)
 
 void sw::TabControl::OnRemovedChild(UIElement &element)
 {
-    this->UpdateTab();
-    this->_UpdateChildVisible(false);
+    // 程序退出阶段UIElement析构链可能在TabControl句柄已销毁后调用此函数
+    // （详见UIElement::SetParent的fallback路径），此时向已无效的句柄
+    // SendMessage会触发控件内部异常路径甚至卡住进程，故仅在句柄有效时
+    // 执行依赖HWND的维护操作
+    if (!IsDestroyed) {
+        this->UpdateTab();
+        this->_UpdateChildVisible(false);
+    }
     this->UIElement::OnRemovedChild(element);
 }
 
@@ -10312,8 +10318,11 @@ bool sw::UIElement::SetParent(WndBase *parent)
                 oldParentElement->_RemoveFromLayoutVisibleChildren(this);
                 // 通知父元素改变以触发属性变更通知以及数据上下文变更
                 this->ParentChanged(nullptr);
-                // 与正常RemoveChild路径保持一致，发出ChildCount变更通知
-                // 并在ChildRemoved条件下让父元素布局失效
+                // 进入此分支说明::SetParent失败，典型场景是程序退出时父元素
+                // 句柄已销毁或正在销毁。仍调用OnRemovedChild以保持ChildCount
+                // 通知与正常路径一致；子类若在重写中操作自身HWND（如
+                // TabControl向控件SendMessage），需自行用!IsDestroyed守卫，
+                // 避免句柄无效时触发控件内部异常路径甚至卡住进程。
                 oldParentElement->OnRemovedChild(*this);
             }
             return true;
