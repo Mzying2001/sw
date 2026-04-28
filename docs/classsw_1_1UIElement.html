@@ -3385,6 +3385,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>注解</dt><dd>该函数也会在程序退出阶段（父元素HWND已销毁或正在销毁时）被调用， 重写中若对自身HWND执行SendMessage或调用其它依赖有效句柄的控件API， 必须先用!IsDestroyed守卫，否则可能触发控件内部异常路径甚至卡住进程 </dd></dl>
 
 <p>被 <a class="el" href="classsw_1_1TabControl.html#a1642e450b1cf606338eb85bd9f93c82c">sw::TabControl</a> 重载.</p>
 
