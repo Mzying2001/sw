@@ -13,6 +13,6 @@ var searchData=
   ['procmsg_10',['procmsg',['../structsw_1_1ProcMsg.html#add0c6e4a852463ef11cc33aece3270c9',1,'sw::ProcMsg::ProcMsg()=default'],['../structsw_1_1ProcMsg.html#a4d88d40f2bcdf5cd8548122532c6257d',1,'sw::ProcMsg::ProcMsg(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)']]],
   ['progressbar_11',['ProgressBar',['../classsw_1_1ProgressBar.html#a461cb23f2cc6c276eda9312cb269a403',1,'sw::ProgressBar']]],
   ['property_12',['property',['../classsw_1_1Property.html#a2b3672bda46e29f85ec0601a87d0b284',1,'sw::Property::Property(const MemberPropertyInitializer&lt; TOwner, T &gt; &amp;initializer)'],['../classsw_1_1Property.html#a6b5b8d77443f71e57be28a983ecd8a98',1,'sw::Property::Property(const StaticPropertyInitializer&lt; T &gt; &amp;initializer)']]],
-  ['pxtodipx_13',['PxToDipX',['../classsw_1_1Dip.html#aa0244988630536a31439cdfde27ec209',1,'sw::Dip']]],
-  ['pxtodipy_14',['PxToDipY',['../classsw_1_1Dip.html#a54fd07b8418adcff0ecb8483098ab860',1,'sw::Dip']]]
+  ['pxtodipx_13',['PxToDipX',['../classsw_1_1Dip.html#a519b28b16e86f6844dad985a3abe470c',1,'sw::Dip']]],
+  ['pxtodipy_14',['PxToDipY',['../classsw_1_1Dip.html#a5cbad8c5a748a0cc6808b8bced5cd19c',1,'sw::Dip']]]
 ];

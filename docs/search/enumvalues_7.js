@@ -10,8 +10,8 @@ var searchData=
   ['hebrew_7',['Hebrew',['../namespacesw.html#ae74d5219af14bfa850d533c3c7c5156eac6c1f81a46666385fa7d85df7eaf8763',1,'sw']]],
   ['help_8',['help',['../namespacesw.html#ad45b3200c0c650c7c15da05594ab4a2ca6a26f548831e6a8c26bfbbd9f6ec61e0',1,'sw::Help'],['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a6a26f548831e6a8c26bfbbd9f6ec61e0',1,'sw::Help']]],
   ['hidereadonly_9',['HideReadOnly',['../namespacesw.html#ac4dcf0d2a487e02ca4fca93d1bbe33fbabbe868c7fb423004495e84f7234bcaaa',1,'sw']]],
-  ['highlight_10',['Highlight',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffa0b90582f4589d84be89f5b847d4d1ed1',1,'sw']]],
-  ['highlighttext_11',['HighlightText',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffa7eb304f22411df5b6814cda4ff2cb386',1,'sw']]],
+  ['highlight_10',['Highlight',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a0b90582f4589d84be89f5b847d4d1ed1',1,'sw']]],
+  ['highlighttext_11',['HighlightText',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a7eb304f22411df5b6814cda4ff2cb386',1,'sw']]],
   ['hitborder_12',['HitBorder',['../namespacesw.html#af46d3f9374c13150a788ff0bd0463953a91c422e2b4b20697c2de15baa6fb0a34',1,'sw']]],
   ['hitbottom_13',['HitBottom',['../namespacesw.html#af46d3f9374c13150a788ff0bd0463953a199c10079da219381d902e27e40983e4',1,'sw']]],
   ['hitbottomleft_14',['HitBottomLeft',['../namespacesw.html#af46d3f9374c13150a788ff0bd0463953a79684bf5edb3593969e3dc47612c5c46',1,'sw']]],
@@ -39,9 +39,9 @@ var searchData=
   ['hitvscroll_36',['HitVScroll',['../namespacesw.html#af46d3f9374c13150a788ff0bd0463953a0144d3a056cef8d2833b8fbcd28bce9a',1,'sw']]],
   ['hitzoom_37',['HitZoom',['../namespacesw.html#af46d3f9374c13150a788ff0bd0463953a0d1bba858042e687aa572b9ff74a2307',1,'sw']]],
   ['home_38',['Home',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a8cf04a9734132302f96da8e113e80ce5',1,'sw']]],
-  ['honeydew_39',['Honeydew',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffa4702a340a91866eea3143f6c1c735ef4',1,'sw']]],
+  ['honeydew_39',['Honeydew',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a4702a340a91866eea3143f6c1c735ef4',1,'sw']]],
   ['horizontal_40',['horizontal',['../namespacesw.html#af5a946abb233734b3e5503296ce36f19ac1b5fa03ecdb95d4a45dd1c40b02527f',1,'sw::Horizontal'],['../namespacesw.html#a76f86aea3091aaaf07306f99fb177835ac1b5fa03ecdb95d4a45dd1c40b02527f',1,'sw::Horizontal']]],
   ['hotkeycontrol_5fvaluechanged_41',['HotKeyControl_ValueChanged',['../namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a8c728f05ff0b66d13c1a1fc35c51b9c8',1,'sw']]],
-  ['hotpink_42',['HotPink',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffa1d4f55b32e039f4900e18b52b082c7a5',1,'sw']]],
-  ['hottrack_43',['HotTrack',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffa939046a32f567773db74dd550435bae0',1,'sw']]]
+  ['hotpink_42',['HotPink',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a1d4f55b32e039f4900e18b52b082c7a5',1,'sw']]],
+  ['hottrack_43',['HotTrack',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a939046a32f567773db74dd550435bae0',1,'sw']]]
 ];

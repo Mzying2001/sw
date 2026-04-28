@@ -1,8 +1,8 @@
 var searchData=
 [
   ['n_0',['N',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a8d9c307cb7f3c4a32822a51922d1ceaa',1,'sw']]],
-  ['navajowhite_1',['NavajoWhite',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffab3d9de5120e9a8c9387e8776c91ebfc8',1,'sw']]],
-  ['navy_2',['Navy',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffa13ad5ac690e735fa48cf982532174e79',1,'sw']]],
+  ['navajowhite_1',['NavajoWhite',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19ab3d9de5120e9a8c9387e8776c91ebfc8',1,'sw']]],
+  ['navy_2',['Navy',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a13ad5ac690e735fa48cf982532174e79',1,'sw']]],
   ['newdialogstyle_3',['NewDialogStyle',['../namespacesw.html#ae701cae891e27ca058472a7c58e77f2baa64a1e9ed9dd6eb29eebcd603ff444cf',1,'sw']]],
   ['nine_4',['Nine',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a24db11216549ee55172c33cf3def2f3f',1,'sw']]],
   ['no_5',['no',['../namespacesw.html#ad45b3200c0c650c7c15da05594ab4a2cabafd7322c6e97d25b6299b5d6fe8920b',1,'sw::No'],['../namespacesw.html#a388b6854a3e8dbe58a2fc7f94b56ed21abafd7322c6e97d25b6299b5d6fe8920b',1,'sw::No']]],

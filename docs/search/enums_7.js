@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['knowncolor_0',['KnownColor',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ff',1,'sw']]]
+  ['knowncolors_0',['KnownColors',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19',1,'sw']]]
 ];

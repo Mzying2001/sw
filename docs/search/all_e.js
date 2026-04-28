@@ -2,8 +2,8 @@ var searchData=
 [
   ['n_0',['N',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a8d9c307cb7f3c4a32822a51922d1ceaa',1,'sw']]],
   ['name_1',['name',['../classsw_1_1Font.html#a169e7893a4b799bcb3424c5df0d5f54d',1,'sw::Font::name'],['../structsw_1_1FileFilterItem.html#a351e74be2d3ecfd2f6bbff15f71d59e5',1,'sw::FileFilterItem::name']]],
-  ['navajowhite_2',['NavajoWhite',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffab3d9de5120e9a8c9387e8776c91ebfc8',1,'sw']]],
-  ['navy_3',['Navy',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffa13ad5ac690e735fa48cf982532174e79',1,'sw']]],
+  ['navajowhite_2',['NavajoWhite',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19ab3d9de5120e9a8c9387e8776c91ebfc8',1,'sw']]],
+  ['navy_3',['Navy',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a13ad5ac690e735fa48cf982532174e79',1,'sw']]],
   ['nchittest_4',['NcHitTest',['../classsw_1_1WndBase.html#a87c9d860ba24487f2b61b72987a4bd63',1,'sw::WndBase']]],
   ['newdialogstyle_5',['NewDialogStyle',['../namespacesw.html#ae701cae891e27ca058472a7c58e77f2baa64a1e9ed9dd6eb29eebcd603ff444cf',1,'sw']]],
   ['newfolderbutton_6',['NewFolderButton',['../classsw_1_1FolderBrowserDialog.html#a1146b36190727f370f2071b7cd7c25a7',1,'sw::FolderBrowserDialog']]],

@@ -58,7 +58,7 @@ var NAVTREEINDEX0 =
 "Internal_8h_source.html":[4,0,0,0,51],
 "ItemsControl_8h_source.html":[4,0,0,0,54],
 "Keys_8h_source.html":[4,0,0,0,57],
-"KnownColor_8h_source.html":[4,0,0,0,58],
+"KnownColors_8h_source.html":[4,0,0,0,58],
 "Label_8h_source.html":[4,0,0,0,59],
 "Layer_8h_source.html":[4,0,0,0,60],
 "LayoutHost_8h_source.html":[4,0,0,0,61],

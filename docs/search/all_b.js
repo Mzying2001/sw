@@ -9,6 +9,6 @@ var searchData=
   ['keyeventargs_3c_20uielement_5fkeyup_20_3e_6',['KeyEventArgs&lt; UIElement_KeyUp &gt;',['../structsw_1_1KeyEventArgs.html',1,'sw']]],
   ['keyflags_7',['keyflags',['../structsw_1_1KeyFlags.html',1,'sw::KeyFlags'],['../structsw_1_1KeyFlags.html#a51172874106a358f0032a80955b12b11',1,'sw::KeyFlags::KeyFlags()=default'],['../structsw_1_1KeyFlags.html#a8e5f523a257b1027f240622f81b8df55',1,'sw::KeyFlags::KeyFlags(LPARAM lParam)']]],
   ['keyupeventargs_8',['KeyUpEventArgs',['../structsw_1_1KeyUpEventArgs.html',1,'sw']]],
-  ['khaki_9',['Khaki',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffa7ec23b405c5319f55b7660569c077f41',1,'sw']]],
-  ['knowncolor_10',['KnownColor',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ff',1,'sw']]]
+  ['khaki_9',['Khaki',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a7ec23b405c5319f55b7660569c077f41',1,'sw']]],
+  ['knowncolors_10',['KnownColors',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19',1,'sw']]]
 ];

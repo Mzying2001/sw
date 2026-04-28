@@ -30,9 +30,9 @@ var searchData=
   ['readonlyproperty_3c_20sw_3a_3awindow_20_2a_20_3e_27',['ReadOnlyProperty&lt; sw::Window * &gt;',['../classsw_1_1ReadOnlyProperty.html',1,'sw']]],
   ['readonlyproperty_3c_20titem_20_3e_28',['ReadOnlyProperty&lt; TItem &gt;',['../classsw_1_1ReadOnlyProperty.html',1,'sw']]],
   ['readonlyproperty_3c_20treeviewnode_20_3e_29',['ReadOnlyProperty&lt; TreeViewNode &gt;',['../classsw_1_1ReadOnlyProperty.html',1,'sw']]],
-  ['rebeccapurple_30',['RebeccaPurple',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffa2e31f16d0f61e79b46d42f2228ca7bd6',1,'sw']]],
+  ['rebeccapurple_30',['RebeccaPurple',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a2e31f16d0f61e79b46d42f2228ca7bd6',1,'sw']]],
   ['rect_31',['rect',['../structsw_1_1Rect.html',1,'sw::Rect'],['../classsw_1_1NotifyIcon.html#a66d71e8b850dece9830ca205f733160e',1,'sw::NotifyIcon::Rect'],['../classsw_1_1WndBase.html#a7598603457217f09aae0deaad59ef063',1,'sw::WndBase::Rect'],['../structsw_1_1Rect.html#a0ce8fea568b9c5cca40ef22e7222d464',1,'sw::Rect::Rect()=default'],['../structsw_1_1Rect.html#aa0d64010d4d2a3403312e9a7885a1d65',1,'sw::Rect::Rect(double left, double top, double width, double height)'],['../structsw_1_1Rect.html#a5a1b5b335888c017996c9c79ac4cfc46',1,'sw::Rect::Rect(const RECT &amp;rect)']]],
-  ['red_32',['Red',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffaee38e4d5dd68c4e440825018d549cb47',1,'sw']]],
+  ['red_32',['Red',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19aee38e4d5dd68c4e440825018d549cb47',1,'sw']]],
   ['redraw_33',['Redraw',['../classsw_1_1WndBase.html#a6c0e2c8a2900eff9e5a390e251ada042',1,'sw::WndBase']]],
   ['reflection_34',['reflection',['../classsw_1_1Reflection.html#aff8f6d869254bb38b96099ddaf477c88',1,'sw::Reflection::Reflection()'],['../classsw_1_1Reflection.html',1,'sw::Reflection']]],
   ['registerroutedevent_35',['registerroutedevent',['../classsw_1_1UIElement.html#abf3fa432ed32889bf89e77a6ac687965',1,'sw::UIElement::RegisterRoutedEvent(const Action&lt; UIElement &amp;, TEventArgs &amp; &gt; &amp;handler) -&gt; typename std::enable_if&lt; std::is_base_of&lt; RoutedEventArgs, TEventArgs &gt;::value &amp;&amp;sw::_IsTypedRoutedEventArgs&lt; TEventArgs &gt;::value &gt;::type'],['../classsw_1_1UIElement.html#a56003fa15349db87f83afc91b3480bfd',1,'sw::UIElement::RegisterRoutedEvent(THandleObj &amp;obj, void(THandleObj::*handler)(UIElement &amp;, TEventArgs &amp;)) -&gt; typename std::enable_if&lt; std::is_base_of&lt; RoutedEventArgs, TEventArgs &gt;::value &amp;&amp;sw::_IsTypedRoutedEventArgs&lt; TEventArgs &gt;::value &gt;::type'],['../classsw_1_1UIElement.html#a09946400c66a4bfd34cfb8918652a34a',1,'sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, T &amp;obj, void(T::*handler)(UIElement &amp;, RoutedEventArgs &amp;))'],['../classsw_1_1UIElement.html#a2cfb72d4ea1966ec455e7805f0931205',1,'sw::UIElement::RegisterRoutedEvent(RoutedEventType eventType, const RoutedEventHandler &amp;handler)']]],
@@ -73,7 +73,7 @@ var searchData=
   ['rightwindows_70',['RightWindows',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a27b8f99931fa7ed354ba428be0dda0cb',1,'sw']]],
   ['roman_71',['Roman',['../namespacesw.html#a566edd50626539faf757d437dcc2e5e8ab5df36ac79aa6391ffb432b9e5ad7880',1,'sw']]],
   ['root_72',['Root',['../classsw_1_1TreeView.html#ae2bc81c3c3ac2cbf81a8975266f466a6',1,'sw::TreeView']]],
-  ['rosybrown_73',['RosyBrown',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffa36b966a66d6bd385bc65c4ea063c841c',1,'sw']]],
+  ['rosybrown_73',['RosyBrown',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a36b966a66d6bd385bc65c4ea063c841c',1,'sw']]],
   ['routedeventargs_74',['routedeventargs',['../structsw_1_1RoutedEventArgs.html',1,'sw::RoutedEventArgs'],['../structsw_1_1RoutedEventArgs.html#ad6e6da62f114abfabb682afd38b6f7a3',1,'sw::RoutedEventArgs::RoutedEventArgs(RoutedEventType eventType)'],['../structsw_1_1RoutedEventArgs.html#ad605f2e95b557170333c34421b4b5fa6',1,'sw::RoutedEventArgs::RoutedEventArgs()']]],
   ['routedeventhandler_75',['RoutedEventHandler',['../namespacesw.html#a9b9c0a40de408715cd138cc6cbc01f49',1,'sw']]],
   ['routedeventhandlerwrapper_76',['routedeventhandlerwrapper',['../classsw_1_1RoutedEventHandlerWrapper.html#a3e26d5a474255c2ef16652e565941a24',1,'sw::RoutedEventHandlerWrapper::RoutedEventHandlerWrapper()'],['../classsw_1_1RoutedEventHandlerWrapper.html',1,'sw::RoutedEventHandlerWrapper&lt; TEventArgs, type &gt;']]],
@@ -84,6 +84,6 @@ var searchData=
   ['row_81',['row',['../structsw_1_1GridLayoutTag.html#a8411afa319d4ad7cf2d95edd5aa3434c',1,'sw::GridLayoutTag']]],
   ['rows_82',['rows',['../classsw_1_1UniformGrid.html#a65a180db32f61dee181c0ae7e36364a6',1,'sw::UniformGrid::Rows'],['../classsw_1_1UniformGridLayout.html#a2cde92e2a61f62efb85761f11c221390',1,'sw::UniformGridLayout::rows'],['../classsw_1_1GridLayout.html#a5ac3f18d6079d89b414a9f0a342670ea',1,'sw::GridLayout::rows']]],
   ['rowspan_83',['rowSpan',['../structsw_1_1GridLayoutTag.html#a5caf39bc6aa93afd290f09ee15f2c722',1,'sw::GridLayoutTag']]],
-  ['royalblue_84',['RoyalBlue',['../namespacesw.html#ad18aba359d7e2dcc97d16ca62f8d78ffa3c6a0f673ebc53ef5e2912c59330c802',1,'sw']]],
+  ['royalblue_84',['RoyalBlue',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a3c6a0f673ebc53ef5e2912c59330c802',1,'sw']]],
   ['russian_85',['Russian',['../namespacesw.html#ae74d5219af14bfa850d533c3c7c5156eadeba6920e70615401385fe1fb5a379ec',1,'sw']]]
 ];

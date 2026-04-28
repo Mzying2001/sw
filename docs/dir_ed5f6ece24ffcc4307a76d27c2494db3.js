@@ -58,7 +58,7 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "IToString.h", "IToString_8h_source.html", null ],
     [ "IValueConverter.h", "IValueConverter_8h_source.html", null ],
     [ "Keys.h", "Keys_8h_source.html", null ],
-    [ "KnownColor.h", "KnownColor_8h_source.html", null ],
+    [ "KnownColors.h", "KnownColors_8h_source.html", null ],
     [ "Label.h", "Label_8h_source.html", null ],
     [ "Layer.h", "Layer_8h_source.html", null ],
     [ "LayoutHost.h", "LayoutHost_8h_source.html", null ],

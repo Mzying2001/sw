@@ -929,9 +929,9 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
 <div class="line">                    info.cbSize = <span class="keyword">sizeof</span>(info);</div>
 <div class="line">                    info.fMask  = SIF_RANGE | SIF_PAGE;</div>
 <div class="line">                    GetScrollInfo(self-&gt;Handle, SB_HORZ, &amp;info);</div>
-<div class="line">                    <span class="keywordflow">return</span> <a class="code hl_function" href="classsw_1_1Dip.html#aa0244988630536a31439cdfde27ec209">Dip::PxToDipX</a>(info.nMax - info.nPage + 1);</div>
+<div class="line">                    <span class="keywordflow">return</span> <a class="code hl_function" href="classsw_1_1Dip.html#a519b28b16e86f6844dad985a3abe470c">Dip::PxToDipX</a>(info.nMax - info.nPage + 1);</div>
 <div class="line">                })}</div>
-<div class="ttc" id="aclasssw_1_1Dip_html_aa0244988630536a31439cdfde27ec209"><div class="ttname"><a href="classsw_1_1Dip.html#aa0244988630536a31439cdfde27ec209">sw::Dip::PxToDipX</a></div><div class="ttdeci">static double PxToDipX(int px)</div><div class="ttdoc">像素转dip（水平方向）</div></div>
+<div class="ttc" id="aclasssw_1_1Dip_html_a519b28b16e86f6844dad985a3abe470c"><div class="ttname"><a href="classsw_1_1Dip.html#a519b28b16e86f6844dad985a3abe470c">sw::Dip::PxToDipX</a></div><div class="ttdeci">static double PxToDipX(int px) noexcept</div><div class="ttdoc">像素转dip（水平方向）</div></div>
 </div><!-- fragment -->
 <p>横向滚动条可设置的最大位置 </p>
 
@@ -957,13 +957,13 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
 <div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.cbSize = <span class="keyword">sizeof</span>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>);</div>
 <div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.fMask  = <a class="code hl_class" href="classsw_1_1IValueConverter.html">SIF_POS</a>;</div>
 <div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">GetScrollInfo</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;Handle, <a class="code hl_class" href="classsw_1_1IValueConverter.html">SB_HORZ</a>, &amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>);</div>
-<div class="line">                    <span class="keywordflow">return</span> <a class="code hl_function" href="classsw_1_1Dip.html#aa0244988630536a31439cdfde27ec209">Dip::PxToDipX</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.nPos);</div>
+<div class="line">                    <span class="keywordflow">return</span> <a class="code hl_function" href="classsw_1_1Dip.html#a519b28b16e86f6844dad985a3abe470c">Dip::PxToDipX</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.nPos);</div>
 <div class="line">                })</div>
 <div class="line">                .Setter([](<a class="code hl_class" href="classsw_1_1Layer.html">Layer</a> *<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>, <span class="keywordtype">double</span> value) {</div>
 <div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">SCROLLINFO</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>{};</div>
 <div class="line">                    info.cbSize = <span class="keyword">sizeof</span>(info);</div>
 <div class="line">                    info.fMask  = SIF_POS;</div>
-<div class="line">                    info.nPos   = <a class="code hl_function" href="classsw_1_1Dip.html#a66e3c3a119b77b632ec5f1f37051ee6d">Dip::DipToPxX</a>(value);</div>
+<div class="line">                    info.nPos   = <a class="code hl_function" href="classsw_1_1Dip.html#a23f9872bb5e2ed7cbcc89a2c97a95f36">Dip::DipToPxX</a>(value);</div>
 <div class="line">                    SetScrollInfo(self-&gt;Handle, SB_HORZ, &amp;info, <span class="keyword">true</span>);</div>
 <div class="line"> </div>
 <div class="line">                    LayoutHost *layout = self-&gt;_GetLayout();</div>
@@ -973,7 +973,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
 <div class="line">                        self-&gt;_MeasureAndArrangeWithoutResize(*layout, self-&gt;ClientRect-&gt;GetSize());</div>
 <div class="line">                    }</div>
 <div class="line">                })}</div>
-<div class="ttc" id="aclasssw_1_1Dip_html_a66e3c3a119b77b632ec5f1f37051ee6d"><div class="ttname"><a href="classsw_1_1Dip.html#a66e3c3a119b77b632ec5f1f37051ee6d">sw::Dip::DipToPxX</a></div><div class="ttdeci">static int DipToPxX(double dip)</div><div class="ttdoc">dip转像素（水平方向）</div></div>
+<div class="ttc" id="aclasssw_1_1Dip_html_a23f9872bb5e2ed7cbcc89a2c97a95f36"><div class="ttname"><a href="classsw_1_1Dip.html#a23f9872bb5e2ed7cbcc89a2c97a95f36">sw::Dip::DipToPxX</a></div><div class="ttdeci">static int DipToPxX(double dip) noexcept</div><div class="ttdoc">dip转像素（水平方向）</div></div>
 </div><!-- fragment -->
 <p>横向滚动条位置 </p>
 
@@ -1094,9 +1094,9 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
 <div class="line">                    info.cbSize = <span class="keyword">sizeof</span>(info);</div>
 <div class="line">                    info.fMask  = SIF_RANGE | SIF_PAGE;</div>
 <div class="line">                    GetScrollInfo(self-&gt;Handle, SB_VERT, &amp;info);</div>
-<div class="line">                    <span class="keywordflow">return</span> <a class="code hl_function" href="classsw_1_1Dip.html#a54fd07b8418adcff0ecb8483098ab860">Dip::PxToDipY</a>(info.nMax - info.nPage + 1);</div>
+<div class="line">                    <span class="keywordflow">return</span> <a class="code hl_function" href="classsw_1_1Dip.html#a5cbad8c5a748a0cc6808b8bced5cd19c">Dip::PxToDipY</a>(info.nMax - info.nPage + 1);</div>
 <div class="line">                })}</div>
-<div class="ttc" id="aclasssw_1_1Dip_html_a54fd07b8418adcff0ecb8483098ab860"><div class="ttname"><a href="classsw_1_1Dip.html#a54fd07b8418adcff0ecb8483098ab860">sw::Dip::PxToDipY</a></div><div class="ttdeci">static double PxToDipY(int px)</div><div class="ttdoc">像素转dip（垂直方向）</div></div>
+<div class="ttc" id="aclasssw_1_1Dip_html_a5cbad8c5a748a0cc6808b8bced5cd19c"><div class="ttname"><a href="classsw_1_1Dip.html#a5cbad8c5a748a0cc6808b8bced5cd19c">sw::Dip::PxToDipY</a></div><div class="ttdeci">static double PxToDipY(int px) noexcept</div><div class="ttdoc">像素转dip（垂直方向）</div></div>
 </div><!-- fragment -->
 <p>纵向滚动条可设置的最大位置 </p>
 
@@ -1122,14 +1122,14 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
 <div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.cbSize = <span class="keyword">sizeof</span>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>);</div>
 <div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.fMask  = <a class="code hl_class" href="classsw_1_1IValueConverter.html">SIF_POS</a>;</div>
 <div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">GetScrollInfo</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;Handle, <a class="code hl_class" href="classsw_1_1IValueConverter.html">SB_VERT</a>, &amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>);</div>
-<div class="line">                    <span class="keywordflow">return</span> <a class="code hl_function" href="classsw_1_1Dip.html#a54fd07b8418adcff0ecb8483098ab860">Dip::PxToDipY</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.nPos);</div>
+<div class="line">                    <span class="keywordflow">return</span> <a class="code hl_function" href="classsw_1_1Dip.html#a5cbad8c5a748a0cc6808b8bced5cd19c">Dip::PxToDipY</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.nPos);</div>
 <div class="line">                })</div>
 <div class="line">                .Setter(</div>
 <div class="line">                    [](<a class="code hl_class" href="classsw_1_1Layer.html">Layer</a> *<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>, <span class="keywordtype">double</span> value) {</div>
 <div class="line">                        <a class="code hl_class" href="classsw_1_1IValueConverter.html">SCROLLINFO</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>{};</div>
 <div class="line">                        info.cbSize = <span class="keyword">sizeof</span>(info);</div>
 <div class="line">                        info.fMask  = SIF_POS;</div>
-<div class="line">                        info.nPos   = <a class="code hl_function" href="classsw_1_1Dip.html#ae8986a97dc498280957b4c9e5fa53124">Dip::DipToPxY</a>(value);</div>
+<div class="line">                        info.nPos   = <a class="code hl_function" href="classsw_1_1Dip.html#a014f376b3114d8b015f57789ec747b40">Dip::DipToPxY</a>(value);</div>
 <div class="line">                        SetScrollInfo(self-&gt;Handle, SB_VERT, &amp;info, <span class="keyword">true</span>);</div>
 <div class="line"> </div>
 <div class="line">                        LayoutHost *layout = self-&gt;_GetLayout();</div>
@@ -1139,7 +1139,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
 <div class="line">                            self-&gt;_MeasureAndArrangeWithoutResize(*layout, self-&gt;ClientRect-&gt;GetSize());</div>
 <div class="line">                        }</div>
 <div class="line">                    })}</div>
-<div class="ttc" id="aclasssw_1_1Dip_html_ae8986a97dc498280957b4c9e5fa53124"><div class="ttname"><a href="classsw_1_1Dip.html#ae8986a97dc498280957b4c9e5fa53124">sw::Dip::DipToPxY</a></div><div class="ttdeci">static int DipToPxY(double dip)</div><div class="ttdoc">dip转像素（垂直方向）</div></div>
+<div class="ttc" id="aclasssw_1_1Dip_html_a014f376b3114d8b015f57789ec747b40"><div class="ttname"><a href="classsw_1_1Dip.html#a014f376b3114d8b015f57789ec747b40">sw::Dip::DipToPxY</a></div><div class="ttdeci">static int DipToPxY(double dip) noexcept</div><div class="ttdoc">dip转像素（垂直方向）</div></div>
 </div><!-- fragment -->
 <p>纵向滚动条位置 </p>
 
