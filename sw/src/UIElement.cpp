@@ -1229,9 +1229,12 @@ bool sw::UIElement::SetParent(WndBase *parent)
                 oldParentElement->_RemoveFromLayoutVisibleChildren(this);
                 // 通知父元素改变以触发属性变更通知以及数据上下文变更
                 this->ParentChanged(nullptr);
-                // 与正常RemoveChild路径保持一致，发出ChildCount变更通知
-                // 并在ChildRemoved条件下让父元素布局失效
-                oldParentElement->OnRemovedChild(*this);
+                // 注意：此处特意不调用oldParentElement->OnRemovedChild。
+                // 进入此分支意味着::SetParent失败，典型场景是程序退出时父元素
+                // 句柄已销毁或正在销毁。此时若调用OnRemovedChild，子类（如
+                // TabControl）的重写可能向已无效的句柄SendMessage，触发控件
+                // 内部异常路径甚至卡住进程。退出阶段也无消费者关心ChildCount
+                // 变更通知与InvalidateMeasure，故仅做最小清理。
             }
             return true;
         }
