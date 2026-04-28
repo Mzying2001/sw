@@ -96,6 +96,9 @@ namespace sw
     class CursorHelper
     {
     private:
+        /**
+         * @brief 静态类，禁止实例化
+         */
         CursorHelper() = delete;
 
     public:
@@ -1826,6 +1829,9 @@ namespace sw
     class IconHelper
     {
     private:
+        /**
+         * @brief 静态类，禁止实例化
+         */
         IconHelper() = delete;
 
     public:
@@ -1936,7 +1942,7 @@ namespace sw
     };
 }
 
-// KnownColor.h
+// KnownColors.h
 
 
 namespace sw
@@ -1944,7 +1950,7 @@ namespace sw
     /**
      * @brief 已知的颜色
      */
-    enum class KnownColor {
+    enum class KnownColors {
         ActiveBorder            = RGB(0xb4, 0xb4, 0xb4), ///< 活动边框颜色
         ActiveCaption           = RGB(0x99, 0xb4, 0xd1), ///< 活动标题栏颜色
         ActiveCaptionText       = RGB(0x00, 0x00, 0x00), ///< 活动标题栏文本颜色
@@ -2134,6 +2140,9 @@ namespace sw
     class Path
     {
     private:
+        /**
+         * @brief 静态类，禁止实例化
+         */
         Path() = delete;
 
     public:
@@ -2154,7 +2163,7 @@ namespace sw
         /**
          * @brief 获取扩展名
          * @param path 文件的路径
-         * @return 文件的扩展名，不包含前面的点
+         * @return 文件的扩展名，包含前面的点（如 ".txt"）；无扩展名时返回空字符串
          */
         static std::wstring GetExtension(const std::wstring &path);
 
@@ -2173,23 +2182,24 @@ namespace sw
         static std::wstring Combine(std::initializer_list<std::wstring> paths);
 
         /**
+         * @brief 获取路径所对应的绝对路径
+         * @param path 要转换的路径
+         * @return 若函数成功则返回绝对路径，否则返回空字符串
+         */
+        static std::wstring GetAbsolutePath(const std::wstring &path);
+
+    public:
+        /**
          * @brief 对路径进行拼接
          * @param first 第一个路径
          * @param rest 要拼接的路径
          * @return 完整的路径
          */
         template <typename... Args>
-        static inline std::wstring Combine(const std::wstring &first, const Args &...rest)
+        static auto Combine(const std::wstring &first, const Args &...rest) -> std::wstring
         {
-            return Path::Combine({first, rest...});
+            return Path::Combine(std::initializer_list<std::wstring>{first, rest...});
         }
-
-        /**
-         * @brief 获取路径所对应的绝对路径
-         * @param paths 要转换的路径
-         * @return 若函数成功则返回绝对路径，否则返回空字符串
-         */
-        static std::wstring GetAbsolutePath(const std::wstring &path);
     };
 }
 
@@ -2337,9 +2347,9 @@ namespace sw
         Color(uint8_t r, uint8_t g, uint8_t b);
 
         /**
-         * @brief 通过KnownColor构造Color结构体
+         * @brief 通过KnownColors构造Color结构体
          */
-        Color(KnownColor knownColor);
+        Color(KnownColors knownColor);
 
         /**
          * @brief 通过COLORREF构造Color结构体
@@ -5204,6 +5214,9 @@ namespace sw
     class App
     {
     private:
+        /**
+         * @brief 静态类，禁止实例化
+         */
         App() = delete;
 
     public:
@@ -5385,6 +5398,9 @@ namespace sw
     class Dip
     {
     private:
+        /**
+         * @brief 静态类，禁止实例化
+         */
         Dip() = delete;
 
     public:
@@ -5401,27 +5417,27 @@ namespace sw
         /**
          * @brief dpi改变时调用该函数更新缩放比例
          */
-        static void Update(int dpiX, int dpiY);
+        static void Update(int dpiX, int dpiY) noexcept;
 
         /**
          * @brief 像素转dip（水平方向）
          */
-        static double PxToDipX(int px);
+        static double PxToDipX(int px) noexcept;
 
         /**
          * @brief 像素转dip（垂直方向）
          */
-        static double PxToDipY(int px);
+        static double PxToDipY(int px) noexcept;
 
         /**
          * @brief dip转像素（水平方向）
          */
-        static int DipToPxX(double dip);
+        static int DipToPxX(double dip) noexcept;
 
         /**
          * @brief dip转像素（垂直方向）
          */
-        static int DipToPxY(double dip);
+        static int DipToPxY(double dip) noexcept;
     };
 }
 
@@ -7656,6 +7672,9 @@ namespace sw
     class Screen
     {
     private:
+        /**
+         * @brief 静态类，禁止实例化
+         */
         Screen() = delete;
 
     public:
@@ -7784,18 +7803,44 @@ namespace sw
     public:
         /**
          * @brief 取两值中的较大值
+         * @note 避免std::max与windows.h中的宏冲突，框架中使用此函数作为替代
          */
         template <typename T>
-        static constexpr inline T Max(const T &a, const T &b)
+        static constexpr auto Max(T a, T b) noexcept
+            -> typename std::enable_if<std::is_scalar<T>::value, T>::type
+        {
+            return a > b ? a : b;
+        }
+
+        /**
+         * @brief 取两值中的较大值
+         * @note 避免std::max与windows.h中的宏冲突，框架中使用此函数作为替代
+         */
+        template <typename T>
+        static auto Max(const T &a, const T &b)
+            -> typename std::enable_if<!std::is_scalar<T>::value, T>::type
         {
             return a > b ? a : b;
         }
 
         /**
          * @brief 取两值中的较小值
+         * @note 避免std::min与windows.h中的宏冲突，框架中使用此函数作为替代
          */
         template <typename T>
-        static constexpr inline T Min(const T &a, const T &b)
+        static constexpr auto Min(T a, T b) noexcept
+            -> typename std::enable_if<std::is_scalar<T>::value, T>::type
+        {
+            return a < b ? a : b;
+        }
+
+        /**
+         * @brief 取两值中的较小值
+         * @note 避免std::min与windows.h中的宏冲突，框架中使用此函数作为替代
+         */
+        template <typename T>
+        static auto Min(const T &a, const T &b)
+            -> typename std::enable_if<!std::is_scalar<T>::value, T>::type
         {
             return a < b ? a : b;
         }
@@ -7829,7 +7874,7 @@ namespace sw
         static auto _BuildStr(std::wostream &wos, const T &arg)
             -> typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value>::type
         {
-            Utils::_BuildStr(wos, arg.ToString());
+            _BuildStr(wos, arg.ToString());
         }
 
         /**
@@ -7839,7 +7884,7 @@ namespace sw
         static auto _BuildStr(std::wostream &wos, const T &prop)
             -> typename std::enable_if<_IsProperty<T>::value>::type
         {
-            Utils::_BuildStr(wos, prop.Get());
+            _BuildStr(wos, prop.Get());
         }
 
         /**
@@ -14807,12 +14852,12 @@ namespace sw
         /**
          * @brief 背景颜色
          */
-        Color _backColor{KnownColor::White};
+        Color _backColor{KnownColors::White};
 
         /**
          * @brief 文本颜色
          */
-        Color _textColor{KnownColor::Black};
+        Color _textColor{KnownColors::Black};
 
         /**
          * @brief 是否使用透明背景

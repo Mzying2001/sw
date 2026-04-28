@@ -742,7 +742,7 @@ sw::Color::Color(uint8_t r, uint8_t g, uint8_t b)
 {
 }
 
-sw::Color::Color(KnownColor knownColor)
+sw::Color::Color(KnownColors knownColor)
     : Color(static_cast<COLORREF>(knownColor))
 {
 }
@@ -837,7 +837,7 @@ sw::ColorDialog::ColorDialog()
 {
     _cc.lStructSize  = sizeof(CHOOSECOLORW);
     _cc.Flags        = DWORD(ColorDialogFlags::RgbInit);
-    _cc.rgbResult    = Color(KnownColor::Black);
+    _cc.rgbResult    = Color(KnownColors::Black);
     _cc.lpCustColors = _defaultCustomColors;
 }
 
@@ -1459,15 +1459,15 @@ namespace
         /**
          * @brief 构造函数，根据系统DPI计算缩放比例
          */
-        _ScaleInfo()
+        _ScaleInfo() noexcept
         {
             HDC hdc = GetDC(NULL);
             if (hdc == NULL) {
-                this->scaleX = 1;
-                this->scaleY = 1;
+                scaleX = 1;
+                scaleY = 1;
             } else {
-                this->scaleX = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / GetDeviceCaps(hdc, LOGPIXELSX);
-                this->scaleY = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / GetDeviceCaps(hdc, LOGPIXELSY);
+                scaleX = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / GetDeviceCaps(hdc, LOGPIXELSX);
+                scaleY = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / GetDeviceCaps(hdc, LOGPIXELSY);
                 ReleaseDC(NULL, hdc);
             }
         }
@@ -1495,28 +1495,28 @@ const sw::ReadOnlyProperty<double> sw::Dip::ScaleY(
         }) //
 );
 
-void sw::Dip::Update(int dpiX, int dpiY)
+void sw::Dip::Update(int dpiX, int dpiY) noexcept
 {
     _scaleInfo.scaleX = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / dpiX;
     _scaleInfo.scaleY = static_cast<double>(USER_DEFAULT_SCREEN_DPI) / dpiY;
 }
 
-double sw::Dip::PxToDipX(int px)
+double sw::Dip::PxToDipX(int px) noexcept
 {
     return px * _scaleInfo.scaleX;
 }
 
-double sw::Dip::PxToDipY(int px)
+double sw::Dip::PxToDipY(int px) noexcept
 {
     return px * _scaleInfo.scaleY;
 }
 
-int sw::Dip::DipToPxX(double dip)
+int sw::Dip::DipToPxX(double dip) noexcept
 {
     return (int)std::lround(dip / _scaleInfo.scaleX);
 }
 
-int sw::Dip::DipToPxY(double dip)
+int sw::Dip::DipToPxY(double dip) noexcept
 {
     return (int)std::lround(dip / _scaleInfo.scaleY);
 }
@@ -6611,74 +6611,51 @@ sw::PasswordBox::PasswordBox()
 
 std::wstring sw::Path::GetFileName(const std::wstring &path)
 {
-    // Find the last occurrence of either '/' or '\'
     size_t lastSlashPos = path.find_last_of(L"/\\");
-
-    // If no slash found or the last character is a slash (folder path)
-    if (lastSlashPos == std::wstring::npos || lastSlashPos == path.length() - 1) {
-        return L"";
-    }
-
-    // Extract the file name from the path and return it
-    return path.substr(lastSlashPos + 1);
+    size_t start        = (lastSlashPos == std::wstring::npos) ? 0 : lastSlashPos + 1;
+    return path.substr(start);
 }
 
 std::wstring sw::Path::GetFileNameWithoutExt(const std::wstring &path)
 {
-    // Find the last occurrence of either '/' or '\'
     size_t lastSlashPos = path.find_last_of(L"/\\");
+    size_t start        = (lastSlashPos == std::wstring::npos) ? 0 : lastSlashPos + 1;
 
-    // If no slash found or the last character is a slash (folder path)
-    if (lastSlashPos == std::wstring::npos || lastSlashPos == path.length() - 1) {
-        return L"";
+    size_t lastDotPos = path.find_last_of(L'.');
+
+    // 点号不在文件名段内、或是文件名首字符（如 ".bashrc"）、或是末尾的裸点，均视为无扩展名
+    if (lastDotPos == std::wstring::npos || lastDotPos <= start || lastDotPos == path.length() - 1) {
+        return path.substr(start);
     }
-
-    // Find the last occurrence of the dot (.) after the last slash
-    size_t lastDotPos = path.find_last_of(L'.', lastSlashPos);
-
-    // If no dot found or the dot is at the end of the string (file has no extension)
-    if (lastDotPos == std::wstring::npos || lastDotPos == path.length() - 1) {
-        // Extract the file name from the path and return it
-        return path.substr(lastSlashPos + 1);
-    }
-
-    // Extract the file name without extension from the path and return it
-    return path.substr(lastSlashPos + 1, lastDotPos - lastSlashPos - 1);
+    return path.substr(start, lastDotPos - start);
 }
 
 std::wstring sw::Path::GetExtension(const std::wstring &path)
 {
-    // Find the last occurrence of either '/' or '\'
     size_t lastSlashPos = path.find_last_of(L"/\\");
+    size_t lastDotPos   = path.find_last_of(L'.');
 
-    // Find the last occurrence of the dot (.) after the last slash
-    size_t lastDotPos = path.find_last_of(L'.');
-
-    // If no dot found or the dot is at the end of the string (file has no extension)
     if (lastDotPos == std::wstring::npos || lastDotPos == path.length() - 1) {
         return L"";
     }
-
-    // If no slash found or the last dot is before the last slash (file name has a dot)
-    if (lastSlashPos == std::wstring::npos || lastDotPos < lastSlashPos) {
+    // 点号若落在目录段，不视为扩展名
+    if (lastSlashPos != std::wstring::npos && lastDotPos <= lastSlashPos) {
         return L"";
     }
-
-    // Extract the extension from the path and return it
-    return path.substr(lastDotPos + 1);
+    // 点号若是文件名首字符（".bashrc"），不视为扩展名
+    size_t start = (lastSlashPos == std::wstring::npos) ? 0 : lastSlashPos + 1;
+    if (lastDotPos == start) {
+        return L"";
+    }
+    return path.substr(lastDotPos);
 }
 
 std::wstring sw::Path::GetDirectory(const std::wstring &path)
 {
-    // Find the last occurrence of either '/' or '\'
     size_t lastSlashPos = path.find_last_of(L"/\\");
-
-    // If no slash found or the last character is a slash (folder path)
-    if (lastSlashPos == std::wstring::npos || lastSlashPos == path.length() - 1) {
-        return path;
+    if (lastSlashPos == std::wstring::npos) {
+        return L"";
     }
-
-    // Return the directory part of the path along with the last slash
     return path.substr(0, lastSlashPos + 1);
 }
 
@@ -6691,12 +6668,21 @@ std::wstring sw::Path::Combine(std::initializer_list<std::wstring> paths)
             continue;
         }
 
-        if (!combinedPath.empty() && combinedPath.back() != L'/' && combinedPath.back() != L'\\') {
-            combinedPath.append(L"\\");
+        bool startsWithSep = path.front() == L'/' || path.front() == L'\\';
+
+        if (combinedPath.empty()) {
+            // 第一段整段保留，包括可能的前导分隔符（绝对路径、UNC）
+            combinedPath.append(path);
+            continue;
         }
 
-        if (path.front() == L'/' || path.front() == L'\\') {
-            combinedPath.append(path.substr(1)); // Skip the first separator
+        bool endsWithSep = combinedPath.back() == L'/' || combinedPath.back() == L'\\';
+
+        if (!endsWithSep && !startsWithSep) {
+            combinedPath.append(L"\\");
+            combinedPath.append(path);
+        } else if (endsWithSep && startsWithSep) {
+            combinedPath.append(path.substr(1)); // 避免双分隔符
         } else {
             combinedPath.append(path);
         }
@@ -6726,7 +6712,7 @@ std::wstring sw::Path::GetAbsolutePath(const std::wstring &path)
         return L"";
     }
 
-    // 移除不必要的空白字符
+    // 截断到实际长度（resize 时预留了含 '\0' 位的 bufferSize 个字符）
     absolutePath.resize(result);
 
     return absolutePath;
@@ -7614,7 +7600,7 @@ sw::StatusBar::StatusBar()
     this->InitControl(STATUSCLASSNAMEW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CCS_NORESIZE, 0);
     this->Height = 25;
     this->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Bottom);
-    this->Control::SetBackColor(KnownColor::Control, false);
+    this->Control::SetBackColor(KnownColors::Control, false);
 }
 
 bool sw::StatusBar::SetParts(std::initializer_list<double> parts)
@@ -9501,14 +9487,21 @@ bool sw::UIElement::RemoveChildAt(int index)
         return false;
     }
 
-    std::vector<UIElement *>::iterator it =
-        this->_children.begin() + index;
+    UIElement *element = this->_children[index];
 
-    if (!(*it)->WndBase::SetParent(nullptr)) {
+    if (!element->WndBase::SetParent(nullptr)) {
         return false;
     }
 
-    UIElement *element = *it;
+    // SetParent会同步派发WM_PreSetParent并最终回调虚函数ParentChanged
+    // 与OnCurrentDataContextChanged，用户重写可能重入修改_children，
+    // 因此必须重新查找element位置而非沿用之前的索引或迭代器
+    auto it = std::find(this->_children.begin(), this->_children.end(), element);
+
+    if (it == this->_children.end()) {
+        return true; // 已被嵌套调用移除并触发了OnRemovedChild
+    }
+
     this->_children.erase(it);
     this->_RemoveFromLayoutVisibleChildren(element);
 
@@ -9522,15 +9515,21 @@ bool sw::UIElement::RemoveChild(UIElement *element)
         return false;
     }
 
-    std::vector<UIElement *>::iterator it =
-        std::find(this->_children.begin(), this->_children.end(), element);
-
-    if (it == this->_children.end()) {
+    if (std::find(this->_children.begin(), this->_children.end(), element) == this->_children.end()) {
         return false;
     }
 
     if (!element->WndBase::SetParent(nullptr)) {
         return false;
+    }
+
+    // SetParent会同步派发WM_PreSetParent并最终回调虚函数ParentChanged
+    // 与OnCurrentDataContextChanged，用户重写可能重入修改_children，
+    // 因此必须重新查找element位置以避免使用已失效的迭代器
+    auto it = std::find(this->_children.begin(), this->_children.end(), element);
+
+    if (it == this->_children.end()) {
+        return true; // 已被嵌套调用移除并触发了OnRemovedChild
     }
 
     this->_children.erase(it);
@@ -9553,6 +9552,10 @@ void sw::UIElement::ClearChildren()
 
     this->_layoutUpdateCondition |= sw::LayoutUpdateCondition::Supressed;
 
+    // 提前清空_layoutVisibleChildren，避免循环中OnRemovedChild及其触发的属性变更
+    // 回调观察到已从_children移除却仍残留在_layoutVisibleChildren中的陈旧指针
+    this->_layoutVisibleChildren.clear();
+
     while (!this->_children.empty()) {
         UIElement *item = this->_children.back();
         item->WndBase::SetParent(nullptr);
@@ -9561,7 +9564,6 @@ void sw::UIElement::ClearChildren()
     }
 
     this->_layoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
-    this->_UpdateLayoutVisibleChildren();
 
     if (this->IsLayoutUpdateConditionSet(sw::LayoutUpdateCondition::ChildRemoved)) {
         this->InvalidateMeasure();
@@ -10310,6 +10312,9 @@ bool sw::UIElement::SetParent(WndBase *parent)
                 oldParentElement->_RemoveFromLayoutVisibleChildren(this);
                 // 通知父元素改变以触发属性变更通知以及数据上下文变更
                 this->ParentChanged(nullptr);
+                // 与正常RemoveChild路径保持一致，发出ChildCount变更通知
+                // 并在ChildRemoved条件下让父元素布局失效
+                oldParentElement->OnRemovedChild(*this);
             }
             return true;
         }
@@ -10641,6 +10646,12 @@ void sw::UIElement::_UpdateLayoutVisibleChildren()
 
 bool sw::UIElement::_AddToLayoutVisibleChildren(UIElement *element)
 {
+    // 调用方需保证element未在_layoutVisibleChildren中，否则
+    // 后续_RemoveFromLayoutVisibleChildren只会移除首个匹配项造成静默泄漏
+    assert(std::find(this->_layoutVisibleChildren.begin(),
+                     this->_layoutVisibleChildren.end(), element) ==
+           this->_layoutVisibleChildren.end());
+
     if (element->_collapseWhenHide && !element->Visible)
         return false;
     else {
