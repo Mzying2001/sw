@@ -340,20 +340,18 @@ sw::WndBase &sw::WndBase::GetChildAt(int index) const
 
 void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
-    static thread_local ATOM wndClsAtom = 0;
-
-    if (this->_hwnd != NULL) {
-        return;
-    }
-
-    if (wndClsAtom == 0) {
+    static ATOM wndClsAtom = []() -> ATOM {
         WNDCLASSEXW wc{};
         wc.cbSize        = sizeof(wc);
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = WndBase::_WndProc;
         wc.lpszClassName = _WindowClassName;
         wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
-        wndClsAtom       = RegisterClassExW(&wc);
+        return RegisterClassExW(&wc);
+    }();
+
+    if (this->_hwnd != NULL) {
+        return;
     }
 
     if (lpWindowName) {
