@@ -40,7 +40,7 @@ var searchData=
   ['fillremain_37',['FillRemain',['../namespacesw.html#a2c55bc0081f6f0db94455f2063a5fa68adf9dedff4d4e5972713a787dda10eda1',1,'sw']]],
   ['fillremaingridcolumn_38',['fillremaingridcolumn',['../structsw_1_1FillRemainGridColumn.html',1,'sw::FillRemainGridColumn'],['../structsw_1_1FillRemainGridColumn.html#a0835e5144c6f0246c6d7cf2c8dfd18a1',1,'sw::FillRemainGridColumn::FillRemainGridColumn()']]],
   ['fillremaingridrow_39',['fillremaingridrow',['../structsw_1_1FillRemainGridRow.html',1,'sw::FillRemainGridRow'],['../structsw_1_1FillRemainGridRow.html#ae4f6bd7474c82f753a03296a972bd308',1,'sw::FillRemainGridRow::FillRemainGridRow()']]],
-  ['filter_40',['filter',['../structsw_1_1FileFilterItem.html#a56c1ae80749f6aed11428e530e342660',1,'sw::FileFilterItem::filter'],['../classsw_1_1FileDialog.html#a290e5198df30af5e9c349ded8be923b8',1,'sw::FileDialog::Filter']]],
+  ['filter_40',['filter',['../classsw_1_1FileDialog.html#a290e5198df30af5e9c349ded8be923b8',1,'sw::FileDialog::Filter'],['../structsw_1_1FileFilterItem.html#a56c1ae80749f6aed11428e530e342660',1,'sw::FileFilterItem::filter']]],
   ['filterindex_41',['FilterIndex',['../classsw_1_1FileDialog.html#a0a0c06e354a41cecd168dd8aef79db67',1,'sw::FileDialog']]],
   ['final_42',['Final',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0abeae421a14a34f831c113f61323d1ab3',1,'sw']]],
   ['firebrick_43',['Firebrick',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a4a24cfa85918e60ba0fe11fe6274ff0f',1,'sw']]],
