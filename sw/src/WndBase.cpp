@@ -56,8 +56,11 @@ namespace
     const sw::FieldId _PropId_IsGroupStart = sw::Reflection::GetFieldId(&sw::WndBase::IsGroupStart);
 }
 
-// thread_local 静态成员定义，声明见 WndBase.h
+// 等待 CBT 钩子绑定的 WndBase 实例（声明见 WndBase.h）
 thread_local sw::WndBase *sw::WndBase::_pendingInit = nullptr;
+
+// 与 _pendingInit 配对的钩子句柄，回调里完成绑定后自卸（声明见 WndBase.h）
+thread_local HHOOK sw::WndBase::_pendingHook = NULL;
 
 sw::WndBase::WndBase()
     : _check(_WndBaseMagicNumber),
@@ -371,9 +374,9 @@ bool sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
     this->_isControl = false;
 
     _pendingInit = this;
-    HHOOK hHook  = SetWindowsHookExW(WH_CBT, WndBase::_CbtProc, NULL, GetCurrentThreadId());
+    _pendingHook = SetWindowsHookExW(WH_CBT, WndBase::_CbtProc, NULL, GetCurrentThreadId());
 
-    if (hHook == NULL) {
+    if (_pendingHook == NULL) {
         _pendingInit = nullptr;
         return false;
     }
@@ -393,8 +396,13 @@ bool sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
         NULL           // Additional application data
     );
 
-    UnhookWindowsHookEx(hHook);
-    _pendingInit = nullptr;
+    // 正常路径下 _CbtProc 已在 HCBT_CREATEWND 时自卸并清空 _pendingHook / _pendingInit。
+    // 异常路径（CreateWindowExW 在 HCBT 触发前失败）下需在此兜底。
+    if (_pendingHook != NULL) {
+        UnhookWindowsHookEx(_pendingHook);
+        _pendingHook = NULL;
+        _pendingInit = nullptr;
+    }
 
     if (this->_hwnd == NULL) {
         return false;
@@ -419,8 +427,8 @@ bool sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
     this->_isControl = true;
 
     // 注意：_GetControlInitContainer() 首次调用会嵌套进入 InitWindow，
-    // 必须在装 CBT 钩子之前完成，否则 _pendingInit 会被嵌套调用覆盖，
-    // 导致本控件创建时钩子无法绑定。
+    // 必须在装 CBT 钩子之前完成，否则嵌套调用会覆盖 _pendingInit / _pendingHook，
+    // 不仅本控件创建时钩子无法绑定，外层钩子句柄也会丢失导致兜底拆除失效。
     WndBase *container =
         WndBase::_GetControlInitContainer();
 
@@ -428,9 +436,9 @@ bool sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         static_cast<uintptr_t>(WndBase::_NextControlId()));
 
     _pendingInit = this;
-    HHOOK hHook  = SetWindowsHookExW(WH_CBT, WndBase::_CbtProc, NULL, GetCurrentThreadId());
+    _pendingHook = SetWindowsHookExW(WH_CBT, WndBase::_CbtProc, NULL, GetCurrentThreadId());
 
-    if (hHook == NULL) {
+    if (_pendingHook == NULL) {
         _pendingInit = nullptr;
         return false;
     }
@@ -447,8 +455,13 @@ bool sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         lpParam              // Additional application data
     );
 
-    UnhookWindowsHookEx(hHook);
-    _pendingInit = nullptr;
+    // 正常路径下 _CbtProc 已在 HCBT_CREATEWND 时自卸并清空 _pendingHook / _pendingInit。
+    // 异常路径（CreateWindowExW 在 HCBT 触发前失败）下需在此兜底。
+    if (_pendingHook != NULL) {
+        UnhookWindowsHookEx(_pendingHook);
+        _pendingHook = NULL;
+        _pendingInit = nullptr;
+    }
 
     if (this->_hwnd == NULL) {
         return false;
@@ -1367,9 +1380,11 @@ LRESULT CALLBACK sw::WndBase::_CbtProc(int code, WPARAM wParam, LPARAM lParam)
     {
         HWND hwnd   = reinterpret_cast<HWND>(wParam);
         auto *pThis = _pendingInit;
+        HHOOK hHook = _pendingHook;
 
-        // 立即清空，使后续（嵌套创建、外部创建）的窗口不再被绑定
+        // 立即清空，使嵌套创建、helper 窗口等后续 HCBT_CREATEWND 不再走绑定路径
         _pendingInit = nullptr;
+        _pendingHook = NULL;
 
         pThis->_hwnd = hwnd;
         WndBase::_SetWndBase(hwnd, *pThis);
@@ -1379,6 +1394,11 @@ LRESULT CALLBACK sw::WndBase::_CbtProc(int code, WPARAM wParam, LPARAM lParam)
         if (pThis->_isControl) {
             pThis->_originalWndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtrW(
                 hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
+        }
+
+        // 自卸：本钩子使命完成。链上的其他钩子（如外层 Init* 的）不受影响。
+        if (hHook != NULL) {
+            UnhookWindowsHookEx(hHook);
         }
     }
     return CallNextHookEx(NULL, code, wParam, lParam);

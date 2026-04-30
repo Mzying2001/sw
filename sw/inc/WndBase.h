@@ -42,6 +42,15 @@ namespace sw
          */
         static thread_local WndBase *_pendingInit;
 
+        /**
+         * @brief 当前线程中待自卸的CBT钩子句柄
+         *
+         * 与 _pendingInit 配对：调用方装钩子后写入，CBT 回调完成绑定时一并
+         * 取出并立即调用 UnhookWindowsHookEx 把自己摘掉，避免嵌套创建时
+         * 调用栈上累积多个钩子。
+         */
+        static thread_local HHOOK _pendingHook;
+
     private:
         /**
          * @brief 用于判断给定指针是否为指向WndBase的指针

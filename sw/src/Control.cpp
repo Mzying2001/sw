@@ -56,9 +56,9 @@ bool sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
     // 用 CBT 钩子让新 HWND 在 WM_NCCREATE 之前完成绑定与子类化，
     // 流程与 WndBase::InitControl 完全一致。
     WndBase::_pendingInit = this;
-    HHOOK hHook           = SetWindowsHookExW(WH_CBT, WndBase::_CbtProc, NULL, GetCurrentThreadId());
+    WndBase::_pendingHook = SetWindowsHookExW(WH_CBT, WndBase::_CbtProc, NULL, GetCurrentThreadId());
 
-    if (hHook == NULL) {
+    if (WndBase::_pendingHook == NULL) {
         WndBase::_pendingInit = nullptr;
         return false;
     }
@@ -78,8 +78,12 @@ bool sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
         lpParam        // Additional application data
     );
 
-    UnhookWindowsHookEx(hHook);
-    WndBase::_pendingInit = nullptr;
+    // 正常路径下 _CbtProc 已在 HCBT_CREATEWND 时自卸并清空。异常路径下兜底。
+    if (WndBase::_pendingHook != NULL) {
+        UnhookWindowsHookEx(WndBase::_pendingHook);
+        WndBase::_pendingHook = NULL;
+        WndBase::_pendingInit = nullptr;
+    }
 
     // CBT 钩子触发时已把 _hwnd 切换到新句柄；CreateWindowExW 失败时钩子不会
     // 触发，_hwnd 仍为 oldHwnd，可据此判断是否成功。
