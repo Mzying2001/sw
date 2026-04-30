@@ -33,11 +33,11 @@ bool sw::Control::ResetHandle(LPVOID lpParam)
 
 bool sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
 {
-    if (!CheckAccess()) {
+    if (_hwnd == NULL || _isDestroyed) {
         return false;
     }
 
-    if (_hwnd == NULL || _isDestroyed) {
+    if (!CheckAccess()) {
         return false;
     }
 
