@@ -7,6 +7,10 @@
 
 namespace
 {
+    // ============================================================
+    // 内部常量和变量
+    // ============================================================
+
     /**
      * @brief _check字段的值，用于判断给定指针是否为指向WndBase的指针
      */
@@ -27,9 +31,10 @@ namespace
      */
     std::atomic<int> _controlIdCounter{1073741827};
 
-    /**
-     * @brief 属性ID
-     */
+    // ============================================================
+    // 属性ID
+    // ============================================================
+
     const sw::FieldId _PropId_Font         = sw::Reflection::GetFieldId(&sw::WndBase::Font);
     const sw::FieldId _PropId_FontName     = sw::Reflection::GetFieldId(&sw::WndBase::FontName);
     const sw::FieldId _PropId_FontSize     = sw::Reflection::GetFieldId(&sw::WndBase::FontSize);
@@ -50,6 +55,12 @@ namespace
     const sw::FieldId _PropId_AcceptFiles  = sw::Reflection::GetFieldId(&sw::WndBase::AcceptFiles);
     const sw::FieldId _PropId_IsGroupStart = sw::Reflection::GetFieldId(&sw::WndBase::IsGroupStart);
 }
+
+// 等待 CBT 钩子绑定的 WndBase 实例（声明见 WndBase.h）
+thread_local sw::WndBase *sw::WndBase::_pendingInit = nullptr;
+
+// 与 _pendingInit 配对的钩子句柄，回调里完成绑定后自卸（声明见 WndBase.h）
+thread_local HHOOK sw::WndBase::_pendingHook = NULL;
 
 sw::WndBase::WndBase()
     : _check(_WndBaseMagicNumber),
@@ -338,29 +349,39 @@ sw::WndBase &sw::WndBase::GetChildAt(int index) const
     throw std::out_of_range("WndBase does not maintain child elements.");
 }
 
-void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
+bool sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle)
 {
-    static thread_local ATOM wndClsAtom = 0;
-
-    if (this->_hwnd != NULL) {
-        return;
-    }
-
-    if (wndClsAtom == 0) {
+    static ATOM wndClsAtom = []() -> ATOM {
         WNDCLASSEXW wc{};
         wc.cbSize        = sizeof(wc);
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = WndBase::_WndProc;
         wc.lpszClassName = _WindowClassName;
         wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
-        wndClsAtom       = RegisterClassExW(&wc);
+        return RegisterClassExW(&wc);
+    }();
+
+    (void)wndClsAtom; // 消除未使用变量警告
+
+    if (this->_hwnd != NULL) {
+        return true;
     }
 
     if (lpWindowName) {
         this->_text = lpWindowName;
     }
 
-    this->_hwnd = CreateWindowExW(
+    this->_isControl = false;
+
+    _pendingInit = this;
+    _pendingHook = SetWindowsHookExW(WH_CBT, WndBase::_CbtProc, NULL, GetCurrentThreadId());
+
+    if (_pendingHook == NULL) {
+        _pendingInit = nullptr;
+        return false;
+    }
+
+    CreateWindowExW(
         dwExStyle,           // Optional window styles
         _WindowClassName,    // Window class
         this->_text.c_str(), // Window text
@@ -372,33 +393,57 @@ void sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
         NULL,          // Parent window
         NULL,          // Menu
         App::Instance, // Instance handle
-        this           // Additional application data
+        NULL           // Additional application data
     );
 
-    WndBase::_SetWndBase(this->_hwnd, *this);
+    // 正常路径下 _CbtProc 已在 HCBT_CREATEWND 时自卸并清空 _pendingHook / _pendingInit。
+    // 异常路径（CreateWindowExW 在 HCBT 触发前失败）下需在此兜底。
+    if (_pendingHook != NULL) {
+        UnhookWindowsHookEx(_pendingHook);
+        _pendingHook = NULL;
+        _pendingInit = nullptr;
+    }
 
-    this->UpdateInternalRect();
-    this->HandleInitialized(this->_hwnd);
-    this->UpdateFont();
+    if (this->_hwnd == NULL) {
+        return false;
+    } else {
+        this->UpdateInternalRect();
+        this->HandleInitialized(this->_hwnd);
+        this->UpdateFont();
+        return true;
+    }
 }
 
-void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam)
+bool sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam)
 {
     if (this->_hwnd != NULL) {
-        return;
+        return true;
     }
 
     if (lpWindowName) {
         this->_text = lpWindowName;
     }
 
+    this->_isControl = true;
+
+    // 注意：_GetControlInitContainer() 首次调用会嵌套进入 InitWindow，
+    // 必须在装 CBT 钩子之前完成，否则嵌套调用会覆盖 _pendingInit / _pendingHook，
+    // 不仅本控件创建时钩子无法绑定，外层钩子句柄也会丢失导致兜底拆除失效。
     WndBase *container =
         WndBase::_GetControlInitContainer();
 
     HMENU id = reinterpret_cast<HMENU>(
         static_cast<uintptr_t>(WndBase::_NextControlId()));
 
-    this->_hwnd = CreateWindowExW(
+    _pendingInit = this;
+    _pendingHook = SetWindowsHookExW(WH_CBT, WndBase::_CbtProc, NULL, GetCurrentThreadId());
+
+    if (_pendingHook == NULL) {
+        _pendingInit = nullptr;
+        return false;
+    }
+
+    CreateWindowExW(
         dwExStyle,           // Optional window styles
         lpClassName,         // Window class
         this->_text.c_str(), // Window text
@@ -410,14 +455,21 @@ void sw::WndBase::InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD d
         lpParam              // Additional application data
     );
 
-    this->_isControl = true;
-    WndBase::_SetWndBase(this->_hwnd, *this);
+    // 正常路径下 _CbtProc 已在 HCBT_CREATEWND 时自卸并清空 _pendingHook / _pendingInit。
+    // 异常路径（CreateWindowExW 在 HCBT 触发前失败）下需在此兜底。
+    if (_pendingHook != NULL) {
+        UnhookWindowsHookEx(_pendingHook);
+        _pendingHook = NULL;
+        _pendingInit = nullptr;
+    }
 
-    this->_originalWndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtrW(
-        this->_hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
-
-    this->HandleInitialized(this->_hwnd);
-    this->UpdateFont();
+    if (this->_hwnd == NULL) {
+        return false;
+    } else {
+        this->HandleInitialized(this->_hwnd);
+        this->UpdateFont();
+        return true;
+    }
 }
 
 LRESULT sw::WndBase::DefaultWndProc(const ProcMsg &msg)
@@ -1312,24 +1364,44 @@ bool sw::WndBase::IsPtrValid(const WndBase *ptr) noexcept
 
 LRESULT sw::WndBase::_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    WndBase *pWnd = nullptr;
+    auto *pThis = WndBase::GetWndBase(hwnd);
 
-    if (hwnd != NULL) {
-        pWnd = WndBase::GetWndBase(hwnd);
-    }
-
-    if (pWnd == nullptr && (uMsg == WM_NCCREATE || uMsg == WM_CREATE)) {
-        auto temp = reinterpret_cast<WndBase *>(
-            reinterpret_cast<LPCREATESTRUCTW>(lParam)->lpCreateParams);
-        if (IsPtrValid(temp)) pWnd = temp;
-    }
-
-    if (pWnd != nullptr) {
+    if (pThis != nullptr) {
         ProcMsg msg{hwnd, uMsg, wParam, lParam};
-        return pWnd->WndProc(msg);
+        return pThis->WndProc(msg);
+    } else {
+        return DefWindowProcW(hwnd, uMsg, wParam, lParam);
     }
+}
 
-    return DefWindowProcW(hwnd, uMsg, wParam, lParam);
+LRESULT CALLBACK sw::WndBase::_CbtProc(int code, WPARAM wParam, LPARAM lParam)
+{
+    if (code == HCBT_CREATEWND && _pendingInit != nullptr) //
+    {
+        HWND hwnd   = reinterpret_cast<HWND>(wParam);
+        auto *pThis = _pendingInit;
+        HHOOK hHook = _pendingHook;
+
+        // 立即清空，使嵌套创建、helper 窗口等后续 HCBT_CREATEWND 不再走绑定路径
+        _pendingInit = nullptr;
+        _pendingHook = NULL;
+
+        pThis->_hwnd = hwnd;
+        WndBase::_SetWndBase(hwnd, *pThis);
+
+        // 控件场景下需要把 WndProc 替换为 _WndProc 以拦截后续消息；
+        // 此时 WM_NCCREATE 尚未派发，替换在所有消息之前完成。
+        if (pThis->_isControl) {
+            pThis->_originalWndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtrW(
+                hwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndBase::_WndProc)));
+        }
+
+        // 自卸：本钩子使命完成。链上的其他钩子（如外层 Init* 的）不受影响。
+        if (hHook != NULL) {
+            UnhookWindowsHookEx(hHook);
+        }
+    }
+    return CallNextHookEx(NULL, code, wParam, lParam);
 }
 
 sw::WndBase *sw::WndBase::_GetControlInitContainer()
@@ -1392,8 +1464,7 @@ sw::WndBase *sw::WndBase::_GetControlInitContainer()
         }
     };
 
-    if (_guard.container == nullptr ||
-        _guard.container->_isDestroyed) {
+    if (_guard.container == nullptr || _guard.container->_isDestroyed) {
         _guard.container = std::make_unique<_ControlInitContainer>();
     }
     return _guard.container.get();
