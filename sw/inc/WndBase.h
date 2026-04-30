@@ -33,6 +33,15 @@ namespace sw
         // HwndWrapper不使用InitWindow或InitControl初始化句柄，向其暴露底层细节以便实现相关功能
         friend class HwndWrapper;
 
+        /**
+         * @brief 当前线程中等待CBT钩子绑定HWND的WndBase实例
+         *
+         * Init* / ResetHandle 在调用 CreateWindowExW 之前把待绑定的实例
+         * 写入此变量，CBT 钩子在 HCBT_CREATEWND 时取出并将 HWND 与实例
+         * 关联，之后立即清空。
+         */
+        static thread_local WndBase *_pendingInit;
+
     private:
         /**
          * @brief 用于判断给定指针是否为指向WndBase的指针

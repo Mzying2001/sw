@@ -31,16 +31,6 @@ namespace
      */
     std::atomic<int> _controlIdCounter{1073741827};
 
-    /**
-     * @brief 当前线程中等待CBT钩子绑定HWND的WndBase实例
-     *
-     * InitWindow / InitControl 在调用 CreateWindowExW 之前把待绑定的实例
-     * 写入此变量，CBT 钩子在 HCBT_CREATEWND 时取出并将 HWND 与实例关联，
-     * 之后立即清空。clear 后再触发的 HCBT_CREATEWND（例如 WM_CREATE 期间
-     * 嵌套创建的窗口、外部钩子链上其他人创建的窗口）会被忽略。
-     */
-    thread_local sw::WndBase *_pendingInit = nullptr;
-
     // ============================================================
     // 属性ID
     // ============================================================
@@ -65,6 +55,9 @@ namespace
     const sw::FieldId _PropId_AcceptFiles  = sw::Reflection::GetFieldId(&sw::WndBase::AcceptFiles);
     const sw::FieldId _PropId_IsGroupStart = sw::Reflection::GetFieldId(&sw::WndBase::IsGroupStart);
 }
+
+// thread_local 静态成员定义，声明见 WndBase.h
+thread_local sw::WndBase *sw::WndBase::_pendingInit = nullptr;
 
 sw::WndBase::WndBase()
     : _check(_WndBaseMagicNumber),

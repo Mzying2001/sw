@@ -37,6 +37,10 @@ bool sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
         return false;
     }
 
+    if (_hwnd == NULL || _isDestroyed) {
+        return false;
+    }
+
     RECT rect = Rect;
     auto text = GetInternalText().c_str();
 
@@ -49,7 +53,17 @@ bool sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
     HMENU id = reinterpret_cast<HMENU>(
         static_cast<uintptr_t>(GetDlgCtrlID(oldHwnd)));
 
-    HWND newHwnd = CreateWindowExW(
+    // 用 CBT 钩子让新 HWND 在 WM_NCCREATE 之前完成绑定与子类化，
+    // 流程与 WndBase::InitControl 完全一致。
+    WndBase::_pendingInit = this;
+    HHOOK hHook           = SetWindowsHookExW(WH_CBT, WndBase::_CbtProc, NULL, GetCurrentThreadId());
+
+    if (hHook == NULL) {
+        WndBase::_pendingInit = nullptr;
+        return false;
+    }
+
+    CreateWindowExW(
         exStyle,   // Optional window styles
         className, // Window class
         text,      // Window text
@@ -64,13 +78,20 @@ bool sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
         lpParam        // Additional application data
     );
 
-    LONG_PTR wndproc =
-        SetWindowLongPtrW(oldHwnd, GWLP_WNDPROC, GetWindowLongPtrW(newHwnd, GWLP_WNDPROC));
+    UnhookWindowsHookEx(hHook);
+    WndBase::_pendingInit = nullptr;
 
-    WndBase::_SetWndBase(newHwnd, *this);
-    SetWindowLongPtrW(newHwnd, GWLP_WNDPROC, wndproc);
+    // CBT 钩子触发时已把 _hwnd 切换到新句柄；CreateWindowExW 失败时钩子不会
+    // 触发，_hwnd 仍为 oldHwnd，可据此判断是否成功。
+    if (_hwnd == oldHwnd) {
+        return false;
+    }
 
-    _hwnd = newHwnd;
+    // CBT 钩子已经把 _hwnd 切到新句柄，并刷新了 _originalWndProc（旧窗口和新窗口
+    // 同类，原始 WndProc 一致）。旧 HWND 仍指向 _WndProc 与本对象的 prop，必须把
+    // WndProc 还原为原始类 WndProc 后再销毁，让销毁路径走原生清理而不再回到框架。
+    SetWindowLongPtrW(oldHwnd, GWLP_WNDPROC,
+                      reinterpret_cast<LONG_PTR>(_originalWndProc));
     DestroyWindow(oldHwnd);
 
     SendMessageW(WM_SETFONT, (WPARAM)GetFontHandle(), TRUE);
