@@ -358,6 +358,8 @@ bool sw::WndBase::InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyl
         return RegisterClassExW(&wc);
     }();
 
+    (void)wndClsAtom; // 消除未使用变量警告
+
     if (this->_hwnd != NULL) {
         return true;
     }
