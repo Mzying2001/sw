@@ -251,13 +251,15 @@ namespace sw
     protected:
         /**
          * @brief 初始化为窗口，该函数会调用CreateWindowExW
+         * @return 若函数成功则返回true，否则返回false
          */
-        void InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
+        bool InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
 
         /**
          * @brief 初始化为控件，该函数会调用CreateWindowExW
+         * @return 若函数成功则返回true，否则返回false
          */
-        void InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam = NULL);
+        bool InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam = NULL);
 
         /**
          * @brief 调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc
@@ -884,6 +886,11 @@ namespace sw
          * @brief 窗口过程函数，调用对象的WndProc
          */
         static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
+         * @brief CBT钩子过程，在WM_NCCREATE之前完成HWND绑定与（控件场景下的）WndProc子类化
+         */
+        static LRESULT CALLBACK _CbtProc(int code, WPARAM wParam, LPARAM lParam);
 
         /**
          * @brief 获取控件创建时所在的容器
