@@ -13147,6 +13147,24 @@ namespace sw
         // HwndWrapper不使用InitWindow或InitControl初始化句柄，向其暴露底层细节以便实现相关功能
         friend class HwndWrapper;
 
+        /**
+         * @brief 当前线程中等待CBT钩子绑定HWND的WndBase实例
+         *
+         * Init* / ResetHandle 在调用 CreateWindowExW 之前把待绑定的实例
+         * 写入此变量，CBT 钩子在 HCBT_CREATEWND 时取出并将 HWND 与实例
+         * 关联，之后立即清空。
+         */
+        static thread_local WndBase *_pendingInit;
+
+        /**
+         * @brief 当前线程中待自卸的CBT钩子句柄
+         *
+         * 与 _pendingInit 配对：调用方装钩子后写入，CBT 回调完成绑定时一并
+         * 取出并立即调用 UnhookWindowsHookEx 把自己摘掉，避免嵌套创建时
+         * 调用栈上累积多个钩子。
+         */
+        static thread_local HHOOK _pendingHook;
+
     private:
         /**
          * @brief 用于判断给定指针是否为指向WndBase的指针
@@ -13365,13 +13383,15 @@ namespace sw
     protected:
         /**
          * @brief 初始化为窗口，该函数会调用CreateWindowExW
+         * @return 若函数成功则返回true，否则返回false
          */
-        void InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
+        bool InitWindow(LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle);
 
         /**
          * @brief 初始化为控件，该函数会调用CreateWindowExW
+         * @return 若函数成功则返回true，否则返回false
          */
-        void InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam = NULL);
+        bool InitControl(LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, DWORD dwExStyle, LPVOID lpParam = NULL);
 
         /**
          * @brief 调用默认的WndProc，对于窗口则调用DefWindowProcW，控件则调用_controlOldWndProc
@@ -13998,6 +14018,11 @@ namespace sw
          * @brief 窗口过程函数，调用对象的WndProc
          */
         static LRESULT CALLBACK _WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+        /**
+         * @brief CBT钩子过程，在WM_NCCREATE之前完成HWND绑定与（控件场景下的）WndProc子类化
+         */
+        static LRESULT CALLBACK _CbtProc(int code, WPARAM wParam, LPARAM lParam);
 
         /**
          * @brief 获取控件创建时所在的容器
