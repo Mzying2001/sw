@@ -338,6 +338,18 @@ namespace sw
         }
 
         /**
+         * @brief 获取内部对象的类型信息
+         * @return 内部对象的类型索引；若Variant为空则返回typeid(void)
+         * @note 语义与DynamicObject::GetType一致 —— 返回内部对象的最派生类型。
+         *       对引用语义的Variant会自动透视到被引用对象。
+         */
+        std::type_index GetType() const
+        {
+            const DynamicObject *p = Object();
+            return p == nullptr ? typeid(void) : p->GetType();
+        }
+
+        /**
          * @brief 判断当前Variant存储的对象是否为指定类型
          * @tparam T 目标类型
          * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
