@@ -6,8 +6,9 @@ namespace sw
 {
     /**
      * @brief 通用变体类，用于存储任意类型的对象
+     * @note 持入Variant的类型必须满足C++标准约定：析构函数不抛异常
      */
-    class Variant final : public IEqualityComparable<Variant>
+    class Variant final
     {
     private:
         /**
@@ -27,7 +28,16 @@ namespace sw
         Variant() = default;
 
         /**
+         * @brief 从nullptr构造一个空的Variant对象
+         */
+        Variant(std::nullptr_t) noexcept
+        {
+        }
+
+        /**
          * @brief 通用构造函数，接受任意类型的对象
+         * @warning 若T为基类引用且实际指向派生对象，会发生对象切片；
+         *          如需保留对外部对象的引用语义，请改用BoxedObject<T>::MakeRef显式包装后再放入。
          */
         template <
             typename T,
@@ -39,6 +49,7 @@ namespace sw
 
         /**
          * @brief 拷贝构造函数
+         * @throws std::runtime_error 如果对象不可拷贝
          */
         Variant(const Variant &other)
         {
@@ -58,7 +69,7 @@ namespace sw
         }
 
         /**
-         * @brief 拷贝构造函数
+         * @brief 拷贝赋值运算符
          * @throws std::runtime_error 如果对象不可拷贝
          */
         Variant &operator=(const Variant &other)
@@ -68,7 +79,7 @@ namespace sw
         }
 
         /**
-         * @brief 移动构造函数
+         * @brief 移动赋值运算符
          */
         Variant &operator=(Variant &&other) noexcept
         {
@@ -80,7 +91,7 @@ namespace sw
          * @brief 布尔转换运算符，判断Variant对象是否为空
          * @return 若Variant对象不为空则返回true，否则返回false
          */
-        operator bool() const noexcept
+        explicit operator bool() const noexcept
         {
             return _obj != nullptr;
         }
@@ -95,20 +106,40 @@ namespace sw
         }
 
         /**
-         * @brief 判断两Variant是否为同一对象
+         * @brief 判断Variant对象是否包含值
+         * @return 若Variant对象不为空则返回true，否则返回false
          */
-        bool Equals(const Variant &other) const noexcept
+        bool HasValue() const noexcept
         {
-            return _obj == other._obj;
+            return _obj != nullptr;
+        }
+
+        /**
+         * @brief 判断两Variant是否引用同一对象（指针身份比较）
+         * @return 若两Variant内部持有的对象指针相同（包含都为空）则返回true，否则返回false
+         * @note 这是引用相等而非值相等。若需值相等比较，请通过Object()或DynamicCast<T>()
+         *       获取内部对象后自行比较。
+         */
+        bool ReferenceEquals(const Variant &other) const noexcept
+        {
+            return _obj.get() == other._obj.get();
         }
 
         /**
          * @brief 重置Variant对象为空
          */
-        void Reset()
+        void Reset() noexcept
         {
             _obj.reset();
             _cloner = nullptr;
+        }
+
+        /**
+         * @brief 重置Variant对象为空
+         */
+        void Reset(std::nullptr_t) noexcept
+        {
+            Reset();
         }
 
         /**
@@ -175,9 +206,18 @@ namespace sw
 
         /**
          * @brief 获取内部动态对象指针
-         * @return 内部动态对象指针
+         * @return 内部动态对象指针，若Variant为空则返回nullptr
          */
-        DynamicObject *Object() const noexcept
+        DynamicObject *Object() noexcept
+        {
+            return _obj.get();
+        }
+
+        /**
+         * @brief 获取内部动态对象的常量指针
+         * @return 内部动态对象的常量指针，若Variant为空则返回nullptr
+         */
+        const DynamicObject *Object() const noexcept
         {
             return _obj.get();
         }
@@ -314,6 +354,8 @@ namespace sw
         /**
          * @brief 初始化克隆函数指针
          * @tparam T 对象类型
+         * @note 当T不可拷贝时，克隆函数指针在被调用时抛出std::runtime_error，
+         *       而非在编译期失败 —— 以便不可拷贝类型仍可被存放和移动。
          */
         template <typename T>
         auto ResetCloner()
