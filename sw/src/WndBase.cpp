@@ -335,8 +335,7 @@ std::wstring sw::WndBase::ToString() const
 
 sw::WndBase *sw::WndBase::GetParent() const
 {
-    HWND hwnd = ::GetParent(this->_hwnd);
-    return WndBase::GetWndBase(hwnd);
+    return nullptr;
 }
 
 int sw::WndBase::GetChildCount() const
@@ -1151,6 +1150,12 @@ bool sw::WndBase::OnMeasureItemSelf(MEASUREITEMSTRUCT *pMeasure)
 bool sw::WndBase::OnDropFiles(HDROP hDrop)
 {
     return false;
+}
+
+sw::WndBase *sw::WndBase::GetParentWnd() const
+{
+    HWND hwnd = ::GetParent(this->_hwnd);
+    return WndBase::GetWndBase(hwnd);
 }
 
 void sw::WndBase::UpdateInternalRect()

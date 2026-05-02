@@ -248,21 +248,24 @@ namespace sw
         virtual std::wstring ToString() const;
 
         /**
-         * @brief 获取父元素
-         * @return 父元素指针，如果没有父元素则返回nullptr
+         * @brief 获取逻辑树中的父元素
+         * @return 始终返回nullptr
+         * @note WndBase不管理父子关系；若需访问Win32 HWND父窗口请使用GetParentWnd
          */
         virtual WndBase *GetParent() const override;
 
         /**
-         * @brief 获取子元素数量
-         * @return 子元素数量
+         * @brief 获取逻辑树中的子元素数量
+         * @return 始终返回0
+         * @note WndBase不管理父子关系
          */
         virtual int GetChildCount() const override;
 
         /**
-         * @brief 获取指定索引处的子元素
+         * @brief 获取逻辑树中指定索引处的子元素
          * @param index 子元素索引
-         * @throw std::out_of_range 如果索引超出范围
+         * @throw std::out_of_range 始终抛出
+         * @note WndBase不管理父子关系
          */
         virtual WndBase &GetChildAt(int index) const override;
 
@@ -726,6 +729,13 @@ namespace sw
         virtual bool OnDropFiles(HDROP hDrop);
 
     public:
+        /**
+         * @brief 获取当前窗口对应的Win32父窗口（HWND父）的WndBase包装
+         * @return 若Win32父窗口存在且已注册为WndBase则返回该指针，否则返回nullptr
+         * @note 该函数访问的是Win32 HWND树，而非逻辑树；与GetParent()语义不同
+         */
+        WndBase *GetParentWnd() const;
+
         /**
          * @brief 同步窗口位置和尺寸到内部记录的Rect
          */

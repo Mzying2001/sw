@@ -132,19 +132,19 @@ namespace sw
 
     public:
         /**
-         * @brief 获取父元素
+         * @brief 获取逻辑树中的父元素
          * @return 父元素指针，如果没有父元素则返回nullptr
          */
         virtual FrameworkElement *GetParent() const = 0;
 
         /**
-         * @brief 获取子元素数量
+         * @brief 获取逻辑树中的子元素数量
          * @return 子元素数量
          */
         virtual int GetChildCount() const = 0;
 
         /**
-         * @brief 获取指定索引处的子元素
+         * @brief 获取逻辑树中指定索引处的子元素
          * @param index 子元素索引
          * @throw std::out_of_range 如果索引超出范围
          */
