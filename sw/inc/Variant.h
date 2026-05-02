@@ -18,8 +18,19 @@ namespace sw
     };
 
     /**
-     * @brief 通用变体类，用于存储任意类型的对象
-     * @note 持入Variant的类型必须满足C++标准约定：析构函数不抛异常
+     * @brief 通用变体类型容器，类型擦除地持有任意类型对象
+     * @note Variant自身是原生C++值类型，而非DynamicObject派生类。
+     *       它可持有任意类型对象 —— 既包括DynamicObject派生类型，也包括原生C++类型。
+     *       内部按持入类型与语义自动选择存储策略：
+     *       - 值语义 + DynamicObject派生类型：直接以unique_ptr<DynamicObject>持有；
+     *       - 值语义 + 其他原生C++类型：装箱为BoxedObject<T>持有；
+     *       - 引用语义 + DynamicObject派生类型：装箱为BoxedObject<ObjectRef>持有；
+     *       - 引用语义 + 其他原生C++类型：装箱为引用模式的BoxedObject<T>持有；
+     *       这些差异对Object()/IsType/DynamicCast/UnsafeCast等查询接口透明。
+     * @note 默认为值语义（拷贝/赋值会通过克隆函数指针深拷贝内部对象）；
+     *       通过Variant::MakeRef或显式构造ObjectRef可获得引用语义。
+     * @note 持入Variant的类型其析构函数不应抛出异常 —— C++11起析构函数默认即为
+     *       noexcept，Variant的多个noexcept移动操作依赖此前提。
      */
     class Variant final
     {
@@ -45,6 +56,21 @@ namespace sw
          */
         Variant(std::nullptr_t) noexcept
         {
+        }
+
+        /**
+         * @brief 以引用语义构造Variant
+         * @param ref 引用标记
+         * @note 与Variant::MakeRef等价的低层入口，内部以装箱的ObjectRef表示。
+         *       使用方需保证被引用对象在Variant存活期间始终有效。
+         * @note 若ref.ptr为nullptr则构造为空Variant，行为与Variant(std::nullptr_t)一致。
+         */
+        Variant(ObjectRef ref)
+        {
+            if (ref.ptr != nullptr) {
+                _obj.reset(new BoxedObject<ObjectRef>(ref));
+                ResetCloner<ObjectRef>();
+            }
         }
 
         /**
@@ -190,6 +216,23 @@ namespace sw
         void Reset(std::nullptr_t) noexcept
         {
             Reset();
+        }
+
+        /**
+         * @brief 重置Variant对象为指定的引用标记
+         * @param ref 引用标记
+         * @note 内部以装箱的ObjectRef表示，使Variant以引用语义持有DynamicObject。
+         *       使用方需保证被引用对象在Variant存活期间始终有效。
+         * @note 若ref.ptr为nullptr则置为空Variant，行为与Reset(std::nullptr_t)一致。
+         */
+        void Reset(ObjectRef ref)
+        {
+            if (ref.ptr == nullptr) {
+                Reset();
+            } else {
+                _obj.reset(new BoxedObject<ObjectRef>(ref));
+                ResetCloner<ObjectRef>();
+            }
         }
 
         /**
