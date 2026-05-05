@@ -56,6 +56,9 @@ namespace sw
 
         /**
          * @brief 数据上下文
+         * @note 若需以引用语义持有外部对象，请使用Variant::MakeRef构造，
+         *       而非传入DynamicObject*裸指针 —— 后者会被Variant按值装箱为
+         *       BoxedObject<DynamicObject*>，导致绑定无法解析到原对象。
          */
         const Property<Variant> DataContext;
 
