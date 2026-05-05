@@ -2,6 +2,7 @@
 
 #include "Binding.h"
 #include "ObservableObject.h"
+#include "Variant.h"
 #include <unordered_map>
 
 namespace sw
@@ -40,7 +41,7 @@ namespace sw
         /**
          * @brief 数据上下文
          */
-        DynamicObject *_dataContext = nullptr;
+        Variant _dataContext = nullptr;
 
         /**
          * @brief 数据上下文改变事件委托
@@ -56,7 +57,7 @@ namespace sw
         /**
          * @brief 数据上下文
          */
-        const Property<DynamicObject *> DataContext;
+        const Property<Variant> DataContext;
 
         /**
          * @brief 当前元素的有效数据上下文
