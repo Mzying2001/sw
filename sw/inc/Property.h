@@ -204,7 +204,8 @@ namespace sw
          * @brief 指针类型，直接返回值
          */
         template <typename U = T>
-        typename std::enable_if<std::is_pointer<U>::value, U>::type operator->()
+        auto operator->()
+            -> typename std::enable_if<std::is_pointer<U>::value, U>::type
         {
             return this->value;
         }
@@ -213,7 +214,8 @@ namespace sw
          * @brief 非指针类型，且无operator->，返回值的地址
          */
         template <typename U = T>
-        typename std::enable_if<!std::is_pointer<U>::value && !_HasArrowOperator<U>::value, U *>::type operator->()
+        auto operator->()
+            -> typename std::enable_if<!std::is_pointer<U>::value && !_HasArrowOperator<U>::value, U *>::type
         {
             return &this->value;
         }
@@ -222,7 +224,8 @@ namespace sw
          * @brief 非指针类型，且有operator->，转发operator->
          */
         template <typename U = T>
-        typename std::enable_if<!std::is_pointer<U>::value && _HasArrowOperator<U>::value, typename _HasArrowOperator<U>::type>::type operator->()
+        auto operator->()
+            -> typename std::enable_if<!std::is_pointer<U>::value && _HasArrowOperator<U>::value, typename _HasArrowOperator<U>::type>::type
         {
             return this->value.operator->();
         }
@@ -1512,7 +1515,8 @@ namespace sw
          * @brief 获取成员属性初始化器
          */
         template <typename TOwner>
-        static MemberPropertyInitializer<TOwner, T> Init(TOwner *owner)
+        static auto Init(TOwner *owner)
+            -> MemberPropertyInitializer<TOwner, T>
         {
             return MemberPropertyInitializer<TOwner, T>(owner);
         }
@@ -1520,7 +1524,8 @@ namespace sw
         /**
          * @brief 获取静态属性初始化器
          */
-        static StaticPropertyInitializer<T> Init()
+        static auto Init()
+            -> StaticPropertyInitializer<T>
         {
             return StaticPropertyInitializer<T>();
         }
