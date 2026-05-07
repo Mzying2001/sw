@@ -68,7 +68,7 @@ namespace sw
     _SW_DEFINE_UNARY_OPERATION_HELPER(_LogicNotOperationHelper, !);
     _SW_DEFINE_UNARY_OPERATION_HELPER(_BitNotOperationHelper, ~);
     _SW_DEFINE_UNARY_OPERATION_HELPER(_DerefOperationHelper, *);
-    _SW_DEFINE_UNARY_OPERATION_HELPER(_AddrOperationHelper, &);
+    // _SW_DEFINE_UNARY_OPERATION_HELPER(_AddrOperationHelper, &);
     _SW_DEFINE_UNARY_OPERATION_HELPER(_UnaryPlusOperationHelper, +);
     _SW_DEFINE_UNARY_OPERATION_HELPER(_UnaryMinusOperationHelper, -);
     // _SW_DEFINE_UNARY_OPERATION_HELPER(_PreIncOperationHelper, ++);
@@ -1016,22 +1016,32 @@ namespace sw
 
         /**
          * @brief 解引用运算
+         * @note 仅在T的operator*返回非引用类型时启用：Get()可能返回临时对象，
+         *       若T的operator*返回引用，将产生悬空引用，因此不允许通过属性的
+         *       operator*直接访问返回引用的重载，应先将Get()的结果保存到变量后再使用。
          */
         template <typename U = T>
         auto operator*() const
-            -> typename std::enable_if<_DerefOperationHelper<U>::value, typename _DerefOperationHelper<U>::type>::type
+            -> typename std::enable_if<
+                _DerefOperationHelper<U>::value &&
+                    !std::is_reference<typename _DerefOperationHelper<U>::type>::value,
+                typename _DerefOperationHelper<U>::type>::type
         {
             return *this->Get();
         }
 
         /**
-         * @brief 地址运算
+         * @brief 指针解引用运算
+         * @note T为指针时，Get()返回的指针虽是临时对象，但其指向的内存独立存在，
+         *       故此处即使operator*返回引用也不会产生悬空引用，无需限制返回类型。
          */
         template <typename U = T>
-        auto operator&() const
-            -> typename std::enable_if<_AddrOperationHelper<U>::value, typename _AddrOperationHelper<U>::type>::type
+        auto operator*() const
+            -> typename std::enable_if<
+                _DerefOperationHelper<U>::value && std::is_pointer<T>::value,
+                typename _DerefOperationHelper<U>::type>::type
         {
-            return &this->Get();
+            return *this->Get();
         }
 
         /**
