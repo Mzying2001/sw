@@ -1418,6 +1418,9 @@ namespace sw
 
         /**
          * @brief 下标运算
+         * @note 仅在T的operator[]返回非引用类型时启用：Get()可能返回临时对象，
+         *       若T的operator[]返回引用，将产生悬空引用，因此不允许通过属性的
+         *       operator[]直接访问返回引用的重载，应先将Get()的结果保存到变量后再使用。
          */
         template <typename U>
         auto operator[](U &&value) const
@@ -1431,6 +1434,9 @@ namespace sw
 
         /**
          * @brief 下标运算
+         * @note 仅在T的operator[]返回非引用类型时启用：Get()可能返回临时对象，
+         *       若T的operator[]返回引用，将产生悬空引用，因此不允许通过属性的
+         *       operator[]直接访问返回引用的重载，应先将Get()的结果保存到变量后再使用。
          */
         template <typename D, typename U>
         auto operator[](const PropertyBase<U, D> &prop) const
@@ -1444,6 +1450,8 @@ namespace sw
 
         /**
          * @brief 指针下标运算
+         * @note T为指针时，Get()返回的指针虽是临时对象，但其指向的内存独立存在，
+         *       故此处即使operator[]返回引用也不会产生悬空引用，无需限制返回类型。
          */
         template <typename U>
         auto operator[](U &&value) const
@@ -1456,6 +1464,8 @@ namespace sw
 
         /**
          * @brief 指针下标运算
+         * @note T为指针时，Get()返回的指针虽是临时对象，但其指向的内存独立存在，
+         *       故此处即使operator[]返回引用也不会产生悬空引用，无需限制返回类型。
          */
         template <typename D, typename U>
         auto operator[](const PropertyBase<U, D> &prop) const
