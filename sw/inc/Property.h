@@ -249,13 +249,16 @@ namespace sw
 
         /**
          * @brief getter函数指针
+         * @note 第一参数为void*以匹配Property调用端的TGetter签名T(*)(void*)，
+         *       使函数定义类型与调用类型一致，避免[expr.reinterpret.cast]/6的UB。
          */
-        TValue (*_getter)(TOwner *);
+        TValue (*_getter)(void *);
 
         /**
          * @brief setter函数指针
+         * @note 第一参数为void*以匹配Property调用端的TSetter签名，理由同上。
          */
-        void (*_setter)(TOwner *, _PropertySetterParamType<TValue>);
+        void (*_setter)(void *, _PropertySetterParamType<TValue>);
 
     public:
         /**
@@ -268,19 +271,48 @@ namespace sw
 
         /**
          * @brief 设置getter
+         * @note 仅接受类类型(lambda或空仿函数)。每个不同的lambda lexical occurrence拥有唯一类型F，
+         *       static-per-F槽因此独立；同一lambda类型在程序中decay到同一个函数指针，
+         *       故对同一槽的多次赋值是幂等的，不存在覆盖问题。
+         *       拒绝裸函数指针(F不是类类型)，避免不同函数共享同一static槽导致后注册覆盖前注册。
          */
-        MemberPropertyInitializer &Getter(TValue (*getter)(TOwner *))
+        template <typename F>
+        auto Getter(F &&getter)
+            -> typename std::enable_if<
+                std::is_class<typename std::decay<F>::type>::value &&
+                    std::is_convertible<F, TValue (*)(TOwner *)>::value,
+                MemberPropertyInitializer &>::type
         {
-            this->_getter = getter;
+            using TFunc = TValue (*)(TOwner *);
+
+            static TFunc stored{};
+            stored = static_cast<TFunc>(std::forward<F>(getter));
+
+            this->_getter = [](void *owner) -> TValue {
+                return stored(static_cast<TOwner *>(owner));
+            };
             return *this;
         }
 
         /**
          * @brief 设置setter
+         * @note 同Getter的处理思路与约束。
          */
-        MemberPropertyInitializer &Setter(void (*setter)(TOwner *, _PropertySetterParamType<TValue>))
+        template <typename F>
+        auto Setter(F &&setter)
+            -> typename std::enable_if<
+                std::is_class<typename std::decay<F>::type>::value &&
+                    std::is_convertible<F, void (*)(TOwner *, _PropertySetterParamType<TValue>)>::value,
+                MemberPropertyInitializer &>::type
         {
-            this->_setter = setter;
+            using TFunc = void (*)(TOwner *, _PropertySetterParamType<TValue>);
+
+            static TFunc stored{};
+            stored = static_cast<TFunc>(std::forward<F>(setter));
+
+            this->_setter = [](void *owner, _PropertySetterParamType<TValue> value) {
+                stored(static_cast<TOwner *>(owner), value);
+            };
             return *this;
         }
 
@@ -290,10 +322,10 @@ namespace sw
         template <TValue (TOwner::*getter)()>
         MemberPropertyInitializer &Getter()
         {
-            return this->Getter(
-                [](TOwner *owner) -> TValue {
-                    return (owner->*getter)();
-                });
+            this->_getter = [](void *owner) -> TValue {
+                return (static_cast<TOwner *>(owner)->*getter)();
+            };
+            return *this;
         }
 
         /**
@@ -302,10 +334,10 @@ namespace sw
         template <TValue (TOwner::*getter)() const>
         MemberPropertyInitializer &Getter()
         {
-            return this->Getter(
-                [](TOwner *owner) -> TValue {
-                    return (owner->*getter)();
-                });
+            this->_getter = [](void *owner) -> TValue {
+                return (static_cast<TOwner *>(owner)->*getter)();
+            };
+            return *this;
         }
 
         /**
@@ -314,10 +346,10 @@ namespace sw
         template <void (TOwner::*setter)(_PropertySetterParamType<TValue>)>
         MemberPropertyInitializer &Setter()
         {
-            return this->Setter(
-                [](TOwner *owner, _PropertySetterParamType<TValue> value) {
-                    (owner->*setter)(value);
-                });
+            this->_setter = [](void *owner, _PropertySetterParamType<TValue> value) {
+                (static_cast<TOwner *>(owner)->*setter)(value);
+            };
+            return *this;
         }
 
         /**
@@ -326,10 +358,10 @@ namespace sw
         template <void (TOwner::*setter)(_PropertySetterParamType<TValue>) const>
         MemberPropertyInitializer &Setter()
         {
-            return this->Setter(
-                [](TOwner *owner, _PropertySetterParamType<TValue> value) {
-                    (owner->*setter)(value);
-                });
+            this->_setter = [](void *owner, _PropertySetterParamType<TValue> value) {
+                (static_cast<TOwner *>(owner)->*setter)(value);
+            };
+            return *this;
         }
 
         /**
@@ -338,10 +370,10 @@ namespace sw
         template <TValue TOwner::*field>
         MemberPropertyInitializer &Getter()
         {
-            return this->Getter(
-                [](TOwner *owner) -> TValue {
-                    return owner->*field;
-                });
+            this->_getter = [](void *owner) -> TValue {
+                return static_cast<TOwner *>(owner)->*field;
+            };
+            return *this;
         }
 
         /**
@@ -350,10 +382,10 @@ namespace sw
         template <TValue TOwner::*field>
         MemberPropertyInitializer &Setter()
         {
-            return this->Setter(
-                [](TOwner *owner, _PropertySetterParamType<TValue> value) {
-                    owner->*field = value;
-                });
+            this->_setter = [](void *owner, _PropertySetterParamType<TValue> value) {
+                static_cast<TOwner *>(owner)->*field = value;
+            };
+            return *this;
         }
     };
 
