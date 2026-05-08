@@ -734,7 +734,7 @@ namespace sw
          * @return 若Win32父窗口存在且已注册为WndBase则返回该指针，否则返回nullptr
          * @note 该函数访问的是Win32 HWND树，而非逻辑树；与GetParent()语义不同
          */
-        WndBase *GetParentWnd() const;
+        WndBase *GetParentWnd() const noexcept;
 
         /**
          * @brief 同步窗口位置和尺寸到内部记录的Rect
@@ -769,7 +769,7 @@ namespace sw
         /**
          * @brief 获取字体句柄
          */
-        HFONT GetFontHandle();
+        HFONT GetFontHandle() const noexcept;
 
         /**
          * @brief 重画
@@ -781,87 +781,87 @@ namespace sw
         /**
          * @brief 判断当前对象在界面中是否可视，与Visible属性不同的是该函数返回值会受父窗口的影响
          */
-        bool IsVisible() const;
+        bool IsVisible() const noexcept;
 
         /**
          * @brief 获取窗口样式
          */
-        DWORD GetStyle() const;
+        DWORD GetStyle() const noexcept;
 
         /**
          * @brief 设置窗口样式
          */
-        void SetStyle(DWORD style);
+        void SetStyle(DWORD style) noexcept;
 
         /**
          * @brief 判断窗口是否设有指定样式
          * @param mask 样式的位掩码，可以是多个样式
          */
-        bool GetStyle(DWORD mask) const;
+        bool GetStyle(DWORD mask) const noexcept;
 
         /**
          * @brief 打开或关闭指定的样式
          * @param mask 样式的位掩码，可以是多个样式
          * @param value 是否启用指定的样式
          */
-        void SetStyle(DWORD mask, bool value);
+        void SetStyle(DWORD mask, bool value) noexcept;
 
         /**
          * @brief 获取扩展窗口样式
          */
-        DWORD GetExtendedStyle() const;
+        DWORD GetExtendedStyle() const noexcept;
 
         /**
          * @brief 设置扩展窗口样式
          */
-        void SetExtendedStyle(DWORD style);
+        void SetExtendedStyle(DWORD style) noexcept;
 
         /**
          * @brief 判断窗口是否设有指定扩展样式
          * @param mask 扩展样式的位掩码，可以是多个扩展样式
          */
-        bool GetExtendedStyle(DWORD mask);
+        bool GetExtendedStyle(DWORD mask) const noexcept;
 
         /**
          * @brief 打开或关闭指定的扩展样式
          * @param mask 扩展样式的位掩码，可以是多个扩展样式
          * @param value 是否启用指定的扩展样式
          */
-        void SetExtendedStyle(DWORD mask, bool value);
+        void SetExtendedStyle(DWORD mask, bool value) noexcept;
 
         /**
          * @brief 获取用户区点在屏幕上点的位置
          * @param point 用户区坐标
          * @return 该点在屏幕上的坐标
          */
-        Point PointToScreen(const Point &point) const;
+        Point PointToScreen(const Point &point) const noexcept;
 
         /**
          * @brief 获取屏幕上点在当前用户区点的位置
          * @param screenPoint 屏幕上点的坐标
          * @return 该点在用户区的坐标
          */
-        Point PointFromScreen(const Point &screenPoint) const;
+        Point PointFromScreen(const Point &screenPoint) const noexcept;
 
         /**
          * @brief 发送消息（ASCII）
          */
-        LRESULT SendMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam);
+        LRESULT SendMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam) const;
 
         /**
          * @brief 发送消息（UNICODE）
          */
-        LRESULT SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
+        LRESULT SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam) const;
 
         /**
          * @brief 发送消息（ASCII）并立即返回
          */
-        BOOL PostMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam);
+        BOOL PostMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam) const noexcept;
 
         /**
          * @brief 发送消息（UNICODE）并立即返回
          */
-        BOOL PostMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
+        BOOL PostMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam) const noexcept;
 
         /**
          * @brief 测试指定点在窗口的哪一部分
@@ -878,23 +878,24 @@ namespace sw
         /**
          * @brief 在窗口线程上执行指定委托，并立即返回
          * @param action 要执行的委托
+         * @return 若成功将委托放入窗口线程的消息队列则返回true，否则返回false
          */
-        void InvokeAsync(const Action<> &action);
+        bool InvokeAsync(const Action<> &action);
 
         /**
          * @brief 获取当前窗口所属线程的线程id
          */
-        DWORD GetThreadId() const;
+        DWORD GetThreadId() const noexcept;
 
         /**
          * @brief 判断当前线程是否为窗口所属线程
          */
-        bool CheckAccess() const;
+        bool CheckAccess() const noexcept;
 
         /**
          * @brief 判断当前对象所属线程是否与另一个WndBase对象所属线程相同
          */
-        bool CheckAccess(const WndBase &other) const;
+        bool CheckAccess(const WndBase &other) const noexcept;
 
     public:
         /**

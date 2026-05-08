@@ -1152,10 +1152,10 @@ bool sw::WndBase::OnDropFiles(HDROP hDrop)
     return false;
 }
 
-sw::WndBase *sw::WndBase::GetParentWnd() const
+sw::WndBase *sw::WndBase::GetParentWnd() const noexcept
 {
     HWND hwnd = ::GetParent(this->_hwnd);
-    return WndBase::GetWndBase(hwnd);
+    return hwnd == NULL ? nullptr : WndBase::GetWndBase(hwnd);
 }
 
 void sw::WndBase::UpdateInternalRect()
@@ -1208,7 +1208,7 @@ void sw::WndBase::UpdateFont()
     this->FontChanged(this->_hfont);
 }
 
-HFONT sw::WndBase::GetFontHandle()
+HFONT sw::WndBase::GetFontHandle() const noexcept
 {
     return this->_hfont;
 }
@@ -1219,27 +1219,27 @@ void sw::WndBase::Redraw(bool erase, bool updateWindow)
     if (updateWindow) UpdateWindow(this->_hwnd);
 }
 
-bool sw::WndBase::IsVisible() const
+bool sw::WndBase::IsVisible() const noexcept
 {
     return IsWindowVisible(this->_hwnd);
 }
 
-DWORD sw::WndBase::GetStyle() const
+DWORD sw::WndBase::GetStyle() const noexcept
 {
     return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE));
 }
 
-void sw::WndBase::SetStyle(DWORD style)
+void sw::WndBase::SetStyle(DWORD style) noexcept
 {
     SetWindowLongPtrW(this->_hwnd, GWL_STYLE, LONG_PTR(style));
 }
 
-bool sw::WndBase::GetStyle(DWORD mask) const
+bool sw::WndBase::GetStyle(DWORD mask) const noexcept
 {
     return (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) & mask) == mask;
 }
 
-void sw::WndBase::SetStyle(DWORD mask, bool value)
+void sw::WndBase::SetStyle(DWORD mask, bool value) noexcept
 {
     DWORD newstyle =
         value ? (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) | mask)
@@ -1247,22 +1247,22 @@ void sw::WndBase::SetStyle(DWORD mask, bool value)
     SetWindowLongPtrW(this->_hwnd, GWL_STYLE, LONG_PTR(newstyle));
 }
 
-DWORD sw::WndBase::GetExtendedStyle() const
+DWORD sw::WndBase::GetExtendedStyle() const noexcept
 {
     return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE));
 }
 
-void sw::WndBase::SetExtendedStyle(DWORD style)
+void sw::WndBase::SetExtendedStyle(DWORD style) noexcept
 {
     SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, LONG_PTR(style));
 }
 
-bool sw::WndBase::GetExtendedStyle(DWORD mask)
+bool sw::WndBase::GetExtendedStyle(DWORD mask) const noexcept
 {
     return (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE)) & mask) == mask;
 }
 
-void sw::WndBase::SetExtendedStyle(DWORD mask, bool value)
+void sw::WndBase::SetExtendedStyle(DWORD mask, bool value) noexcept
 {
     DWORD newstyle =
         value ? (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE)) | mask)
@@ -1270,36 +1270,36 @@ void sw::WndBase::SetExtendedStyle(DWORD mask, bool value)
     SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, LONG_PTR(newstyle));
 }
 
-sw::Point sw::WndBase::PointToScreen(const Point &point) const
+sw::Point sw::WndBase::PointToScreen(const Point &point) const noexcept
 {
     POINT p = point;
     ClientToScreen(this->_hwnd, &p);
     return p;
 }
 
-sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint) const
+sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint) const noexcept
 {
     POINT p = screenPoint;
     ScreenToClient(this->_hwnd, &p);
     return p;
 }
 
-LRESULT sw::WndBase::SendMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT sw::WndBase::SendMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam) const
 {
     return ::SendMessageA(this->_hwnd, uMsg, wParam, lParam);
 }
 
-LRESULT sw::WndBase::SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT sw::WndBase::SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam) const
 {
     return ::SendMessageW(this->_hwnd, uMsg, wParam, lParam);
 }
 
-BOOL sw::WndBase::PostMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam)
+BOOL sw::WndBase::PostMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam) const noexcept
 {
     return ::PostMessageA(this->_hwnd, uMsg, wParam, lParam);
 }
 
-BOOL sw::WndBase::PostMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)
+BOOL sw::WndBase::PostMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam) const noexcept
 {
     return ::PostMessageW(this->_hwnd, uMsg, wParam, lParam);
 }
@@ -1323,27 +1323,37 @@ void sw::WndBase::Invoke(const Action<> &action)
     }
 }
 
-void sw::WndBase::InvokeAsync(const Action<> &action)
+bool sw::WndBase::InvokeAsync(const Action<> &action)
 {
-    if (action == nullptr)
-        return;
-    else {
-        Action<> *p = new Action<>(action);
-        this->PostMessageW(WM_InvokeAction, true, reinterpret_cast<LPARAM>(p));
+    bool result;
+
+    if (action == nullptr) {
+        result = false;
+    } else {
+        auto *p = new Action<>(action);
+
+        if (this->PostMessageW(
+                WM_InvokeAction, true, reinterpret_cast<LPARAM>(p)) != FALSE) {
+            result = true;
+        } else {
+            delete p;
+            result = false;
+        }
     }
+    return result;
 }
 
-DWORD sw::WndBase::GetThreadId() const
+DWORD sw::WndBase::GetThreadId() const noexcept
 {
     return GetWindowThreadProcessId(this->_hwnd, NULL);
 }
 
-bool sw::WndBase::CheckAccess() const
+bool sw::WndBase::CheckAccess() const noexcept
 {
     return this->GetThreadId() == GetCurrentThreadId();
 }
 
-bool sw::WndBase::CheckAccess(const WndBase &other) const
+bool sw::WndBase::CheckAccess(const WndBase &other) const noexcept
 {
     return this == &other || this->GetThreadId() == other.GetThreadId();
 }
