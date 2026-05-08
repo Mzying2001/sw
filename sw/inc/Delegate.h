@@ -125,6 +125,9 @@ namespace sw
 
         /**
          * @brief 拷贝赋值运算
+         * @note 强异常安全：先在本地完成可能抛异常的 Clone / vector 拷贝，
+         *       全部成功后再原子地切换 *this 的状态。提交阶段（_Reset(state) 与
+         *       unique_ptr/vector 的移动赋值）均为 noexcept，不会导致中间不一致。
          */
         CallableList &operator=(const CallableList &other)
         {
@@ -132,18 +135,21 @@ namespace sw
                 return *this;
             }
 
-            _Reset(other._state);
-
             switch (other._state) {
                 case STATE_NONE: {
+                    _Reset();
                     break;
                 }
                 case STATE_SINGLE: {
-                    _GetSingle().reset(other._GetSingle()->Clone());
+                    std::unique_ptr<TCallable> cloned(other._GetSingle()->Clone());
+                    _Reset(STATE_SINGLE);
+                    _GetSingle() = std::move(cloned);
                     break;
                 }
                 case STATE_LIST: {
-                    _GetList() = other._GetList();
+                    TSharedList copied = other._GetList();
+                    _Reset(STATE_LIST);
+                    _GetList() = std::move(copied);
                     break;
                 }
             }
