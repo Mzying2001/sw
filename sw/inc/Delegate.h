@@ -226,6 +226,12 @@ namespace sw
         /**
          * @brief 添加一个可调用对象到列表中
          * @note 传入对象的生命周期将由CallableList管理
+         * @note 异常安全：
+         *       - SINGLE→LIST 升级时使用 reserve(2) 避免后续 emplace_back 触发扩容，
+         *         此时唯一的失败路径是 shared_ptr 控制块分配失败，shared_ptr 构造函数
+         *         保证抛异常时自动 delete 传入的裸指针。
+         *       - STATE_LIST 分支先把裸指针转交给本地 shared_ptr，再 emplace_back，
+         *         即使 vector 扩容失败，本地 shared_ptr 析构时也会正确释放对象。
          */
         void Add(TCallable *callable)
         {
@@ -241,6 +247,7 @@ namespace sw
                 }
                 case STATE_SINGLE: {
                     TSharedList list;
+                    list.reserve(2);
                     list.emplace_back(_GetSingle().release());
                     list.emplace_back(callable);
                     _Reset(STATE_LIST);
@@ -248,7 +255,8 @@ namespace sw
                     break;
                 }
                 case STATE_LIST: {
-                    _GetList().emplace_back(callable);
+                    std::shared_ptr<TCallable> sp(callable);
+                    _GetList().emplace_back(std::move(sp));
                     break;
                 }
             }
