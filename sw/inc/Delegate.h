@@ -10,28 +10,8 @@
 #include <typeindex>
 #include <vector>
 
-#if defined(__cpp_lib_launder) && __cpp_lib_launder >= 201606L
-#include <new>
-#endif
-
 namespace sw
 {
-    namespace _DelegateInternal
-    {
-        // C++17 起，placement-new 后通过原始字节缓冲访问对象需要 std::launder 才能
-        // 严格符合标准（避免严格别名 UB）。C++14 下 std::launder 不可用，回退为
-        // 直接 reinterpret_cast，行为在主流编译器上一致。
-        template <typename T>
-        constexpr T *_LaunderPtr(T *p) noexcept
-        {
-#if defined(__cpp_lib_launder) && __cpp_lib_launder >= 201606L
-            return std::launder(p);
-#else
-            return p;
-#endif
-        }
-    }
-
     // ICallable接口声明
     template <typename>
     struct ICallable;
@@ -352,7 +332,7 @@ namespace sw
          */
         constexpr TSinglePtr &_GetSingle() const noexcept
         {
-            return *_DelegateInternal::_LaunderPtr(reinterpret_cast<TSinglePtr *>(_data._single));
+            return *reinterpret_cast<TSinglePtr *>(_data._single);
         }
 
         /**
@@ -360,7 +340,7 @@ namespace sw
          */
         constexpr TSharedList &_GetList() const noexcept
         {
-            return *_DelegateInternal::_LaunderPtr(reinterpret_cast<TSharedList *>(_data._list));
+            return *reinterpret_cast<TSharedList *>(_data._list);
         }
 
         /**
@@ -466,7 +446,7 @@ namespace sw
             }
             T &GetValue() const noexcept
             {
-                return *_DelegateInternal::_LaunderPtr(reinterpret_cast<T *>(_storage));
+                return *reinterpret_cast<T *>(_storage);
             }
             TRet Invoke(Args... args) const override
             {
