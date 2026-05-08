@@ -306,11 +306,9 @@ namespace sw
                     if (list.empty()) {
                         _Reset();
                     }
-                    // else if (list.size() == 1) {
-                    //     auto ptr = list.front()->Clone();
-                    //     _Reset(STATE_SINGLE);
-                    //     _GetSingle().reset(ptr);
-                    // }
+                    // 注：LIST 仅剩 1 元素时不降级回 SINGLE。shared_ptr 无法转移给
+                    // unique_ptr，强行 Clone 反而带来额外开销，保留 LIST 单元素状态
+                    // 在功能与性能上都可接受。
                     return true;
                 }
                 default: {
