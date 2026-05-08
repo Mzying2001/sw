@@ -1488,6 +1488,13 @@ namespace sw
 
     protected:
         /**
+         * @brief 用于存储任意签名函数指针的通用类型
+         * @note 函数指针类型间通过reinterpret_cast互转再转回原类型不丢失信息（C++标准良定义），
+         *       使用统一的函数指针类型作为存储可避免函数指针与void*之间的conditionally-supported转换。
+         */
+        using TFuncPtr = void (*)();
+
+        /**
          * @brief 静态属性偏移量标记
          */
         static constexpr std::ptrdiff_t _STATICOFFSET =
@@ -1746,6 +1753,7 @@ namespace sw
         using TBase         = PropertyBase<T, Property<T>>;
         using TValue        = typename TBase::TValue;
         using TSetterParam  = typename TBase::TSetterParam;
+        using TFuncPtr      = typename TBase::TFuncPtr;
         using TGetter       = T (*)(void *);
         using TSetter       = void (*)(void *, TSetterParam);
         using TStaticGetter = T (*)();
@@ -1755,12 +1763,12 @@ namespace sw
         /**
          * @brief getter函数指针
          */
-        void *_getter;
+        TFuncPtr _getter;
 
         /**
          * @brief setter函数指针
          */
-        void *_setter;
+        TFuncPtr _setter;
 
     public:
         /**
@@ -1779,8 +1787,8 @@ namespace sw
             assert(initializer._setter != nullptr);
 
             this->SetOwner(initializer._owner);
-            this->_getter = reinterpret_cast<void *>(initializer._getter);
-            this->_setter = reinterpret_cast<void *>(initializer._setter);
+            this->_getter = reinterpret_cast<TFuncPtr>(initializer._getter);
+            this->_setter = reinterpret_cast<TFuncPtr>(initializer._setter);
         }
 
         /**
@@ -1792,8 +1800,8 @@ namespace sw
             assert(initializer._setter != nullptr);
 
             this->SetOwner(nullptr);
-            this->_getter = reinterpret_cast<void *>(initializer._getter);
-            this->_setter = reinterpret_cast<void *>(initializer._setter);
+            this->_getter = reinterpret_cast<TFuncPtr>(initializer._getter);
+            this->_setter = reinterpret_cast<TFuncPtr>(initializer._setter);
         }
 
         /**
@@ -1831,6 +1839,7 @@ namespace sw
         using TBase         = PropertyBase<T, ReadOnlyProperty<T>>;
         using TValue        = typename TBase::TValue;
         using TSetterParam  = typename TBase::TSetterParam;
+        using TFuncPtr      = typename TBase::TFuncPtr;
         using TGetter       = T (*)(void *);
         using TStaticGetter = T (*)();
 
@@ -1838,7 +1847,7 @@ namespace sw
         /**
          * @brief getter函数指针
          */
-        void *_getter;
+        TFuncPtr _getter;
 
     public:
         /**
@@ -1851,7 +1860,7 @@ namespace sw
             assert(initializer._getter != nullptr);
 
             this->SetOwner(initializer._owner);
-            this->_getter = reinterpret_cast<void *>(initializer._getter);
+            this->_getter = reinterpret_cast<TFuncPtr>(initializer._getter);
         }
 
         /**
@@ -1862,7 +1871,7 @@ namespace sw
             assert(initializer._getter != nullptr);
 
             this->SetOwner(nullptr);
-            this->_getter = reinterpret_cast<void *>(initializer._getter);
+            this->_getter = reinterpret_cast<TFuncPtr>(initializer._getter);
         }
 
         /**
@@ -1888,6 +1897,7 @@ namespace sw
         using TBase         = PropertyBase<T, WriteOnlyProperty<T>>;
         using TValue        = typename TBase::TValue;
         using TSetterParam  = typename TBase::TSetterParam;
+        using TFuncPtr      = typename TBase::TFuncPtr;
         using TSetter       = void (*)(void *, TSetterParam);
         using TStaticSetter = void (*)(TSetterParam);
 
@@ -1895,7 +1905,7 @@ namespace sw
         /**
          * @brief setter函数指针
          */
-        void *_setter;
+        TFuncPtr _setter;
 
     public:
         /**
@@ -1913,7 +1923,7 @@ namespace sw
             assert(initializer._setter != nullptr);
 
             this->SetOwner(initializer._owner);
-            this->_setter = reinterpret_cast<void *>(initializer._setter);
+            this->_setter = reinterpret_cast<TFuncPtr>(initializer._setter);
         }
 
         /**
@@ -1924,7 +1934,7 @@ namespace sw
             assert(initializer._setter != nullptr);
 
             this->SetOwner(nullptr);
-            this->_setter = reinterpret_cast<void *>(initializer._setter);
+            this->_setter = reinterpret_cast<TFuncPtr>(initializer._setter);
         }
 
         /**
