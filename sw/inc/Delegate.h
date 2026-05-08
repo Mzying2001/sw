@@ -433,12 +433,6 @@ namespace sw
                 memset(_storage, 0, sizeof(_storage));
                 new (_storage) T(std::move(value));
             }
-            // 禁用拷贝/移动：默认实现会按字节拷贝 _storage，不会调用 T 的构造函数，
-            // 对非平凡可拷贝类型会破坏不变式。需要克隆请走 Clone()。
-            _CallableWrapperImpl(const _CallableWrapperImpl &)            = delete;
-            _CallableWrapperImpl(_CallableWrapperImpl &&)                 = delete;
-            _CallableWrapperImpl &operator=(const _CallableWrapperImpl &) = delete;
-            _CallableWrapperImpl &operator=(_CallableWrapperImpl &&)      = delete;
             virtual ~_CallableWrapperImpl()
             {
                 GetValue().~T();
@@ -496,6 +490,14 @@ namespace sw
             {
                 return this == &other;
             }
+
+        public:
+            // 禁用拷贝/移动：默认实现会按字节拷贝 _storage，不会调用 T 的构造函数，
+            // 对非平凡可拷贝类型会破坏不变式。需要克隆请走 Clone()。
+            _CallableWrapperImpl(const _CallableWrapperImpl &)            = delete;
+            _CallableWrapperImpl(_CallableWrapperImpl &&)                 = delete;
+            _CallableWrapperImpl &operator=(const _CallableWrapperImpl &) = delete;
+            _CallableWrapperImpl &operator=(_CallableWrapperImpl &&)      = delete;
         };
 
         template <typename T>
@@ -512,10 +514,6 @@ namespace sw
                 : obj(&obj), func(func)
             {
             }
-            _MemberFuncWrapper(const _MemberFuncWrapper &)            = delete;
-            _MemberFuncWrapper(_MemberFuncWrapper &&)                 = delete;
-            _MemberFuncWrapper &operator=(const _MemberFuncWrapper &) = delete;
-            _MemberFuncWrapper &operator=(_MemberFuncWrapper &&)      = delete;
             TRet Invoke(Args... args) const override
             {
                 return (obj->*func)(std::forward<Args>(args)...);
@@ -539,6 +537,13 @@ namespace sw
                 const auto &otherWrapper = static_cast<const _MemberFuncWrapper &>(other);
                 return obj == otherWrapper.obj && func == otherWrapper.func;
             }
+
+        public:
+            // 禁用拷贝/移动：与 _CallableWrapperImpl 保持一致，需要克隆请走 Clone()。
+            _MemberFuncWrapper(const _MemberFuncWrapper &)            = delete;
+            _MemberFuncWrapper(_MemberFuncWrapper &&)                 = delete;
+            _MemberFuncWrapper &operator=(const _MemberFuncWrapper &) = delete;
+            _MemberFuncWrapper &operator=(_MemberFuncWrapper &&)      = delete;
         };
 
         template <typename T>
@@ -552,10 +557,6 @@ namespace sw
                 : obj(&obj), func(func)
             {
             }
-            _ConstMemberFuncWrapper(const _ConstMemberFuncWrapper &)            = delete;
-            _ConstMemberFuncWrapper(_ConstMemberFuncWrapper &&)                 = delete;
-            _ConstMemberFuncWrapper &operator=(const _ConstMemberFuncWrapper &) = delete;
-            _ConstMemberFuncWrapper &operator=(_ConstMemberFuncWrapper &&)      = delete;
             TRet Invoke(Args... args) const override
             {
                 return (obj->*func)(std::forward<Args>(args)...);
@@ -579,6 +580,13 @@ namespace sw
                 const auto &otherWrapper = static_cast<const _ConstMemberFuncWrapper &>(other);
                 return obj == otherWrapper.obj && func == otherWrapper.func;
             }
+
+        public:
+            // 禁用拷贝/移动：与 _CallableWrapperImpl 保持一致，需要克隆请走 Clone()。
+            _ConstMemberFuncWrapper(const _ConstMemberFuncWrapper &)            = delete;
+            _ConstMemberFuncWrapper(_ConstMemberFuncWrapper &&)                 = delete;
+            _ConstMemberFuncWrapper &operator=(const _ConstMemberFuncWrapper &) = delete;
+            _ConstMemberFuncWrapper &operator=(_ConstMemberFuncWrapper &&)      = delete;
         };
 
     private:
