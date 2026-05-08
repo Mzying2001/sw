@@ -52,6 +52,9 @@ namespace sw
 
         /**
          * @brief 隐式转换RECT
+         * @note 由于DIP↔像素之间存在非线性舍入，对从RECT构造的Rect再转回RECT
+         *       不保证与原始RECT逐字段相等：right/bottom由(left+width)/(top+height)
+         *       重新换算，在非整数倍DPI缩放下可能存在±1像素偏差
          */
         operator RECT() const noexcept;
 

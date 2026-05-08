@@ -357,7 +357,7 @@ bool sw::Window::OnPaint()
     HBITMAP hBmpWnd = CreateCompatibleBitmap(hdc, sizeClient.cx, sizeClient.cy);
     HBITMAP hBmpOld = (HBITMAP)SelectObject(hdcMem, hBmpWnd);
 
-    HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
+    HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
     FillRect(hdcMem, &rtClient, hBrush);
     BitBlt(hdc, 0, 0, sizeClient.cx, sizeClient.cy, hdcMem, 0, 0, SRCCOPY);
 

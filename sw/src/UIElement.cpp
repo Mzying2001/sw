@@ -1477,8 +1477,8 @@ void sw::UIElement::OnMenuCommand(int id)
 
 bool sw::UIElement::OnColor(HDC hdc, HBRUSH &hRetBrush)
 {
-    COLORREF textColor = this->GetRealTextColor();
-    COLORREF backColor = this->GetRealBackColor();
+    COLORREF textColor = static_cast<COLORREF>(this->GetRealTextColor());
+    COLORREF backColor = static_cast<COLORREF>(this->GetRealBackColor());
 
     ::SetTextColor(hdc, textColor);
     ::SetBkColor(hdc, backColor);

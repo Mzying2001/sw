@@ -55,13 +55,16 @@ namespace sw
 
         /**
          * @brief 从RECT结构体构造Thickness结构体
+         * @note 此处RECT被解读为四个独立的边距值（left/top/right/bottom），
+         *       而非角坐标矩形；这与Rect(const RECT&)按角坐标计算width/height
+         *       的语义不同，故标记为explicit以避免误用
          */
-        Thickness(const RECT &rect) noexcept;
+        explicit Thickness(const RECT &rect) noexcept;
 
         /**
-         * @brief 隐式转换为RECT
+         * @brief 显式转换为RECT（与explicit Thickness(const RECT&)对称）
          */
-        operator RECT() const noexcept;
+        explicit operator RECT() const noexcept;
 
         /**
          * @brief 判断两个Thickness是否相同

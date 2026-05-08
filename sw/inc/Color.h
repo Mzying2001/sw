@@ -51,13 +51,15 @@ namespace sw
 
         /**
          * @brief 通过COLORREF构造Color结构体
+         * @note 标记为explicit以避免与隐式转换operator COLORREF()联用时
+         *       发生意外的隐式整数到Color的转换路径
          */
-        Color(COLORREF color) noexcept;
+        explicit Color(COLORREF color) noexcept;
 
         /**
-         * @brief 隐式转换COLORREF
+         * @brief 显式转换为COLORREF（与explicit Color(COLORREF)对称）
          */
-        operator COLORREF() const noexcept;
+        explicit operator COLORREF() const noexcept;
 
         /**
          * @brief 判断两个Color是否相等

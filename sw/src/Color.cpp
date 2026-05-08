@@ -12,7 +12,7 @@ sw::Color::Color(KnownColors knownColor) noexcept
 }
 
 sw::Color::Color(COLORREF color) noexcept
-    : r((color >> 0) & 0xFF), g((color >> 8) & 0xFF), b((color >> 16) & 0xFF)
+    : r(GetRValue(color)), g(GetGValue(color)), b(GetBValue(color)), _reserved(0)
 {
 }
 

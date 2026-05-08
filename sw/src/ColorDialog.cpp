@@ -39,10 +39,10 @@ sw::ColorDialog::ColorDialog()
       SelectedColor(
           Property<Color>::Init(this)
               .Getter([](ColorDialog *self) -> Color {
-                  return self->_cc.rgbResult;
+                  return static_cast<Color>(self->_cc.rgbResult);
               })
               .Setter([](ColorDialog *self, const Color &value) {
-                  self->_cc.rgbResult = value;
+                  self->_cc.rgbResult = static_cast<COLORREF>(value);
               })),
 
       FullOpen(
@@ -69,7 +69,7 @@ sw::ColorDialog::ColorDialog()
 {
     _cc.lStructSize  = sizeof(CHOOSECOLORW);
     _cc.Flags        = DWORD(ColorDialogFlags::RgbInit);
-    _cc.rgbResult    = Color(KnownColors::Black);
+    _cc.rgbResult    = static_cast<COLORREF>(Color(KnownColors::Black));
     _cc.lpCustColors = _defaultCustomColors;
 }
 

@@ -63,10 +63,10 @@ sw::FontDialog::FontDialog()
       SelectedColor(
           Property<Color>::Init(this)
               .Getter([](FontDialog *self) -> Color {
-                  return self->_cf.rgbColors;
+                  return static_cast<Color>(self->_cf.rgbColors);
               })
               .Setter([](FontDialog *self, const Color &value) {
-                  self->_cf.rgbColors = value;
+                  self->_cf.rgbColors = static_cast<COLORREF>(value);
               }))
 {
     _font           = Font::GetDefaultFont();

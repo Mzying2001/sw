@@ -88,7 +88,7 @@ bool sw::BmpBox::OnPaint()
     HBITMAP hBitmap    = CreateCompatibleBitmap(hdc, width, height);
     HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
 
-    HBRUSH hBackColorBrush = CreateSolidBrush(this->GetRealBackColor());
+    HBRUSH hBackColorBrush = CreateSolidBrush(static_cast<COLORREF>(this->GetRealBackColor()));
     FillRect(hdcMem, &clientRect, hBackColorBrush);
 
     if (this->_hBitmap != NULL &&
