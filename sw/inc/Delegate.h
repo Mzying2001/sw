@@ -435,6 +435,12 @@ namespace sw
                 memset(_storage, 0, sizeof(_storage));
                 new (_storage) T(std::move(value));
             }
+            // 禁用拷贝/移动：默认实现会按字节拷贝 _storage，不会调用 T 的构造函数，
+            // 对非平凡可拷贝类型会破坏不变式。需要克隆请走 Clone()。
+            _CallableWrapperImpl(const _CallableWrapperImpl &)            = delete;
+            _CallableWrapperImpl(_CallableWrapperImpl &&)                 = delete;
+            _CallableWrapperImpl &operator=(const _CallableWrapperImpl &) = delete;
+            _CallableWrapperImpl &operator=(_CallableWrapperImpl &&)      = delete;
             virtual ~_CallableWrapperImpl()
             {
                 GetValue().~T();
@@ -508,6 +514,10 @@ namespace sw
                 : obj(&obj), func(func)
             {
             }
+            _MemberFuncWrapper(const _MemberFuncWrapper &)            = delete;
+            _MemberFuncWrapper(_MemberFuncWrapper &&)                 = delete;
+            _MemberFuncWrapper &operator=(const _MemberFuncWrapper &) = delete;
+            _MemberFuncWrapper &operator=(_MemberFuncWrapper &&)      = delete;
             TRet Invoke(Args... args) const override
             {
                 return (obj->*func)(std::forward<Args>(args)...);
@@ -544,6 +554,10 @@ namespace sw
                 : obj(&obj), func(func)
             {
             }
+            _ConstMemberFuncWrapper(const _ConstMemberFuncWrapper &)            = delete;
+            _ConstMemberFuncWrapper(_ConstMemberFuncWrapper &&)                 = delete;
+            _ConstMemberFuncWrapper &operator=(const _ConstMemberFuncWrapper &) = delete;
+            _ConstMemberFuncWrapper &operator=(_ConstMemberFuncWrapper &&)      = delete;
             TRet Invoke(Args... args) const override
             {
                 return (obj->*func)(std::forward<Args>(args)...);
