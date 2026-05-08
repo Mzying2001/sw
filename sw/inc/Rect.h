@@ -43,32 +43,32 @@ namespace sw
         /**
          * @brief 构造Rect
          */
-        Rect(double left, double top, double width, double height);
+        Rect(double left, double top, double width, double height) noexcept;
 
         /**
          * @brief 从RECT构造Rect
          */
-        Rect(const RECT &rect);
+        Rect(const RECT &rect) noexcept;
 
         /**
          * @brief 隐式转换RECT
          */
-        operator RECT() const;
+        operator RECT() const noexcept;
 
         /**
          * @brief 获取Rect左上角的位置
          */
-        Point GetPos() const;
+        Point GetPos() const noexcept;
 
         /**
          * @brief 获取Rect的尺寸
          */
-        Size GetSize() const;
+        Size GetSize() const noexcept;
 
         /**
          * @brief 判断两个Rect是否相等
          */
-        bool Equals(const Rect &other) const;
+        bool Equals(const Rect &other) const noexcept;
 
         /**
          * @brief 获取描述当前对象的字符串

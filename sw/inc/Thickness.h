@@ -41,32 +41,32 @@ namespace sw
         /**
          * @brief 构造一个四边都相同的Thickness结构体
          */
-        Thickness(double thickness);
+        Thickness(double thickness) noexcept;
 
         /**
          * @brief 指定横向和纵向值构造Thickness结构体
          */
-        Thickness(double horizontal, double vertical);
+        Thickness(double horizontal, double vertical) noexcept;
 
         /**
          * @brief 指定四边的值构造Thickness结构体
          */
-        Thickness(double left, double top, double right, double bottom);
+        Thickness(double left, double top, double right, double bottom) noexcept;
 
         /**
          * @brief 从RECT结构体构造Thickness结构体
          */
-        Thickness(const RECT &rect);
+        Thickness(const RECT &rect) noexcept;
 
         /**
          * @brief 隐式转换为RECT
          */
-        operator RECT() const;
+        operator RECT() const noexcept;
 
         /**
          * @brief 判断两个Thickness是否相同
          */
-        bool Equals(const Thickness &other) const;
+        bool Equals(const Thickness &other) const noexcept;
 
         /**
          * @brief 获取描述当前对象的字符串

@@ -2,12 +2,12 @@
 #include "Dip.h"
 #include "Utils.h"
 
-sw::Rect::Rect(double left, double top, double width, double height)
+sw::Rect::Rect(double left, double top, double width, double height) noexcept
     : left(left), top(top), width(width), height(height)
 {
 }
 
-sw::Rect::Rect(const RECT &rect)
+sw::Rect::Rect(const RECT &rect) noexcept
     : left(Dip::PxToDipX(rect.left)),
       top(Dip::PxToDipY(rect.top)),
       width(Dip::PxToDipX(rect.right - rect.left)),
@@ -15,7 +15,7 @@ sw::Rect::Rect(const RECT &rect)
 {
 }
 
-sw::Rect::operator RECT() const
+sw::Rect::operator RECT() const noexcept
 {
     return {Dip::DipToPxX(this->left),
             Dip::DipToPxY(this->top),
@@ -23,17 +23,17 @@ sw::Rect::operator RECT() const
             Dip::DipToPxY(this->top + this->height)};
 }
 
-sw::Point sw::Rect::GetPos() const
+sw::Point sw::Rect::GetPos() const noexcept
 {
     return Point(this->left, this->top);
 }
 
-sw::Size sw::Rect::GetSize() const
+sw::Size sw::Rect::GetSize() const noexcept
 {
     return Size(this->width, this->height);
 }
 
-bool sw::Rect::Equals(const Rect &other) const
+bool sw::Rect::Equals(const Rect &other) const noexcept
 {
     return (this->left == other.left) &&
            (this->top == other.top) &&

@@ -31,22 +31,22 @@ namespace sw
         /**
          * @brief 构造指定xy值的Point结构体
          */
-        Point(double x, double y);
+        Point(double x, double y) noexcept;
 
         /**
          * @brief 从POINT构造Point结构体
          */
-        Point(const POINT &point);
+        Point(const POINT &point) noexcept;
 
         /**
          * @brief 隐式转换POINT
          */
-        operator POINT() const;
+        operator POINT() const noexcept;
 
         /**
          * @brief 判断两个Point是否相等
          */
-        bool Equals(const Point &other) const;
+        bool Equals(const Point &other) const noexcept;
 
         /**
          * @brief 获取描述当前对象的字符串

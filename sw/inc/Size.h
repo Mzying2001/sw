@@ -31,22 +31,22 @@ namespace sw
         /**
          * @brief 构造指定宽高的Size结构体
          */
-        Size(double width, double height);
+        Size(double width, double height) noexcept;
 
         /**
          * @brief 从SIZE构造Size结构体
          */
-        Size(const SIZE &size);
+        Size(const SIZE &size) noexcept;
 
         /**
          * @brief 隐式转换SIZE
          */
-        operator SIZE() const;
+        operator SIZE() const noexcept;
 
         /**
          * @brief 判断两个Size是否相等
          */
-        bool Equals(const Size &other) const;
+        bool Equals(const Size &other) const noexcept;
 
         /**
          * @brief 获取描述当前对象的字符串
