@@ -890,7 +890,7 @@ namespace sw
          * @brief 判断当前委托是否有效
          * @return 如果委托不为空则返回true，否则返回false
          */
-        operator bool() const noexcept
+        explicit operator bool() const noexcept
         {
             return !_data.IsEmpty();
         }

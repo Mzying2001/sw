@@ -68,7 +68,7 @@ namespace sw
         /**
          * @brief 判断当前项是否有效
          */
-        operator bool() const;
+        explicit operator bool() const;
 
         /**
          * @brief 获取当前项的文本
