@@ -978,6 +978,8 @@ namespace sw
          * @brief 调用所有存储的可调用对象，并返回它们的结果
          * @param args 函数参数
          * @return 返回一个包含所有可调用对象返回值的vector
+         * @note 多播调用时，前 N-1 次按左值传参，仅最后一次执行 std::forward，
+         *       避免对 move-only 类型或右值引用形参反复 move 同一对象。
          */
         template <typename U = TRet>
         auto InvokeAll(Args... args) const
@@ -991,10 +993,11 @@ namespace sw
                 results.emplace_back(_data[0]->Invoke(std::forward<Args>(args)...));
             } else {
                 auto list = _data;
-                results.reserve(count = list.Count());
-                for (size_t i = 0; i < count; ++i) {
-                    results.emplace_back(list[i]->Invoke(std::forward<Args>(args)...));
+                results.reserve(count);
+                for (size_t i = 0; i + 1 < count; ++i) {
+                    results.emplace_back(list[i]->Invoke(args...));
                 }
+                results.emplace_back(list[count - 1]->Invoke(std::forward<Args>(args)...));
             }
             return results;
         }
@@ -1023,6 +1026,8 @@ namespace sw
 
         /**
          * @brief 内部函数，Invoke和operator()的实现
+         * @note 多播调用时，前 N-1 次按左值传参，仅最后一次执行 std::forward，
+         *       避免对 move-only 类型或右值引用形参反复 move 同一对象。
          */
         inline TRet _InvokeImpl(Args... args) const
         {
@@ -1033,8 +1038,8 @@ namespace sw
                 return _data[0]->Invoke(std::forward<Args>(args)...);
             } else {
                 auto list = _data;
-                for (size_t i = 0; i < count - 1; ++i)
-                    list[i]->Invoke(std::forward<Args>(args)...);
+                for (size_t i = 0; i + 1 < count; ++i)
+                    list[i]->Invoke(args...);
                 return list[count - 1]->Invoke(std::forward<Args>(args)...);
             }
         }
