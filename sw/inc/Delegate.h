@@ -704,13 +704,17 @@ namespace sw
 
         /**
          * @brief 添加一个可调用对象到委托中
+         * @note 当传入对象是同类型 Delegate 时：
+         *       - 内部为空：直接返回；
+         *       - 内部恰好 1 个元素：展开添加该元素的克隆（与单播添加等价）；
+         *       - 内部 ≥2 个元素：作为整体嵌套加入，不展开。
+         *       后一种"不展开"是有意为之，目的是保证 += 与 -= 的对称性：
+         *       后续 `*this -= callable` 仍可按整体匹配并撤销本次添加。
+         *       因此 `b += a; b == a` 在 a 含 ≥2 元素时为 false（Count 不同），
+         *       但 `b += a; b -= a` 后 b 与添加前等价。
          */
         void Add(const ICallable<TRet(Args...)> &callable)
         {
-            // 当添加的可调用对象与当前委托类型相同时（针对单播委托进行优化）：
-            // - 若委托内容为空，则直接返回
-            // - 若委托内容只有一个元素，则克隆该元素并添加到当前委托中
-            // - 否则，直接添加该可调用对象的克隆
             if (callable.GetType() == GetType()) {
                 auto &delegate = static_cast<const Delegate &>(callable);
                 if (delegate._data.IsEmpty()) {
@@ -773,13 +777,14 @@ namespace sw
          * @brief 移除一个可调用对象
          * @return 如果成功移除则返回true，否则返回false
          * @note 按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
+         * @note 与 Add 逻辑严格对称——当传入对象是同类型 Delegate 时：
+         *       - 内部为空：返回 false；
+         *       - 内部恰好 1 个元素：尝试匹配并移除该元素本身；
+         *       - 内部 ≥2 个元素：按整体（嵌套 Delegate）匹配并移除，
+         *         恰好对应 Add 时"不展开整体加入"的行为。
          */
         bool Remove(const ICallable<TRet(Args...)> &callable)
         {
-            // 当移除的可调用对象与当前委托类型相同时（与Add逻辑相对应）：
-            // - 若委托内容为空，则直接返回false
-            // - 若委托内容只有一个元素，则尝试移除该元素
-            // - 否则，直接调用_Remove函数进行移除
             if (callable.GetType() == GetType()) {
                 auto &delegate = static_cast<const Delegate &>(callable);
                 if (delegate._data.IsEmpty()) {
