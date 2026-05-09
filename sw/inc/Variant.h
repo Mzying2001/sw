@@ -127,62 +127,6 @@ namespace sw
         }
 
         /**
-         * @brief 创建一个对另一Variant内部对象的引用Variant（Variant转发重载）
-         * @param v 源Variant
-         * @return 一个引用语义的Variant，引用v当前承载的对象；若v为空则返回空Variant
-         * @note 避免对Variant调用泛型MakeRef时产生BoxedObject<Variant>嵌套包装。
-         *       结果直接引用v.Object()返回的指针，因此当v本身已是引用语义时，
-         *       结果与v共享同一被引用对象，不会形成多层引用链。
-         */
-        static Variant MakeRef(Variant &v)
-        {
-            DynamicObject *p = v.Object();
-            return p == nullptr ? Variant{} : MakeRef(*p);
-        }
-
-        /**
-         * @brief 创建一个对外部对象的引用Variant（DynamicObject派生类型重载）
-         * @tparam T 被引用的对象类型，必须为DynamicObject的派生类
-         * @param obj 被引用的对象
-         * @return 一个引用语义的Variant，与obj共享生命周期
-         * @note 内部以装箱的ObjectRef表示，Variant的类型查询接口对此透明。
-         *       使用方需保证obj在Variant存活期间始终有效。
-         */
-        template <typename T>
-        static auto MakeRef(T &obj)
-            -> typename std::enable_if<
-                !std::is_same<T, Variant>::value &&
-                    std::is_base_of<DynamicObject, T>::value,
-                Variant>::type
-        {
-            Variant v;
-            v._obj.reset(new BoxedObject<ObjectRef>(ObjectRef{&obj}));
-            v.ResetCloner<ObjectRef>();
-            return v;
-        }
-
-        /**
-         * @brief 创建一个对外部对象的引用Variant（非DynamicObject类型重载）
-         * @tparam T 被引用的对象类型
-         * @param obj 被引用的对象
-         * @return 一个引用语义的Variant，与obj共享生命周期
-         * @note 内部以引用模式的BoxedObject<T>表示。
-         *       使用方需保证obj在Variant存活期间始终有效。
-         */
-        template <typename T>
-        static auto MakeRef(T &obj)
-            -> typename std::enable_if<
-                !std::is_same<T, Variant>::value &&
-                    !std::is_base_of<DynamicObject, T>::value,
-                Variant>::type
-        {
-            Variant v;
-            v._obj.reset(new BoxedObject<T>(BoxedObject<T>::MakeRef(&obj)));
-            v.ResetCloner<T>();
-            return v;
-        }
-
-        /**
          * @brief 布尔转换运算符，判断Variant对象是否为空
          * @return 若Variant对象不为空则返回true，否则返回false
          */
@@ -525,6 +469,107 @@ namespace sw
             _cloner = [](const DynamicObject &other) -> DynamicObject * {
                 throw std::runtime_error("Object is not copy constructible.");
             };
+        }
+
+    public:
+        /**
+         * @brief 就地构造一个值语义的Variant（DynamicObject派生类型重载）
+         * @tparam T 要构造的对象类型，必须为DynamicObject的派生类
+         * @tparam Args 构造参数类型包
+         * @param args 转发给T构造函数的参数
+         * @return 持有就地构造的T对象的Variant
+         * @note 相较于Variant{T{args...}}，避免了一次T的移动构造，
+         *       且支持不可移动/不可拷贝但可构造的类型。
+         */
+        template <typename T, typename... Args>
+        static auto MakeVal(Args &&...args)
+            -> typename std::enable_if<
+                !std::is_same<T, Variant>::value &&
+                    std::is_base_of<DynamicObject, T>::value,
+                Variant>::type
+        {
+            Variant v;
+            v._obj.reset(new T(std::forward<Args>(args)...));
+            v.ResetCloner<T>();
+            return v;
+        }
+
+        /**
+         * @brief 就地构造一个值语义的Variant（非DynamicObject类型重载）
+         * @tparam T 要构造的对象类型
+         * @tparam Args 构造参数类型包
+         * @param args 转发给T构造函数的参数
+         * @return 持有就地装箱构造的T对象的Variant
+         * @note 相较于Variant{T{args...}}，避免了一次T的移动构造，
+         *       且支持不可移动/不可拷贝但可构造的类型。
+         */
+        template <typename T, typename... Args>
+        static auto MakeVal(Args &&...args)
+            -> typename std::enable_if<
+                !std::is_same<T, Variant>::value &&
+                    !std::is_base_of<DynamicObject, T>::value,
+                Variant>::type
+        {
+            Variant v;
+            v._obj.reset(new BoxedObject<T>(std::forward<Args>(args)...));
+            v.ResetCloner<T>();
+            return v;
+        }
+
+        /**
+         * @brief 创建一个对另一Variant内部对象的引用Variant（Variant转发重载）
+         * @param v 源Variant
+         * @return 一个引用语义的Variant，引用v当前承载的对象；若v为空则返回空Variant
+         * @note 避免对Variant调用泛型MakeRef时产生BoxedObject<Variant>嵌套包装。
+         *       结果直接引用v.Object()返回的指针，因此当v本身已是引用语义时，
+         *       结果与v共享同一被引用对象，不会形成多层引用链。
+         */
+        static Variant MakeRef(Variant &v)
+        {
+            DynamicObject *p = v.Object();
+            return p == nullptr ? Variant{} : MakeRef(*p);
+        }
+
+        /**
+         * @brief 创建一个对外部对象的引用Variant（DynamicObject派生类型重载）
+         * @tparam T 被引用的对象类型，必须为DynamicObject的派生类
+         * @param obj 被引用的对象
+         * @return 一个引用语义的Variant，与obj共享生命周期
+         * @note 内部以装箱的ObjectRef表示，Variant的类型查询接口对此透明。
+         *       使用方需保证obj在Variant存活期间始终有效。
+         */
+        template <typename T>
+        static auto MakeRef(T &obj)
+            -> typename std::enable_if<
+                !std::is_same<T, Variant>::value &&
+                    std::is_base_of<DynamicObject, T>::value,
+                Variant>::type
+        {
+            Variant v;
+            v._obj.reset(new BoxedObject<ObjectRef>(ObjectRef{&obj}));
+            v.ResetCloner<ObjectRef>();
+            return v;
+        }
+
+        /**
+         * @brief 创建一个对外部对象的引用Variant（非DynamicObject类型重载）
+         * @tparam T 被引用的对象类型
+         * @param obj 被引用的对象
+         * @return 一个引用语义的Variant，与obj共享生命周期
+         * @note 内部以引用模式的BoxedObject<T>表示。
+         *       使用方需保证obj在Variant存活期间始终有效。
+         */
+        template <typename T>
+        static auto MakeRef(T &obj)
+            -> typename std::enable_if<
+                !std::is_same<T, Variant>::value &&
+                    !std::is_base_of<DynamicObject, T>::value,
+                Variant>::type
+        {
+            Variant v;
+            v._obj.reset(new BoxedObject<T>(BoxedObject<T>::MakeRef(&obj)));
+            v.ResetCloner<T>();
+            return v;
         }
     };
 }
