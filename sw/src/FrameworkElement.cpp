@@ -8,6 +8,11 @@ sw::FrameworkElement::FrameworkElement()
                   return self->_dataContextChanged;
               })),
 
+      Tag(
+          Property<Variant>::Init(this)
+              .Getter<&FrameworkElement::GetTag>()
+              .Setter<&FrameworkElement::SetTag>()),
+
       DataContext(
           Property<Variant>::Init(this)
               .Getter([](FrameworkElement *self) -> Variant {
@@ -79,6 +84,19 @@ bool sw::FrameworkElement::RemoveBinding(FieldId propertyId)
     } else {
         this->_bindings.erase(propertyId);
         return true;
+    }
+}
+
+sw::Variant sw::FrameworkElement::GetTag() const
+{
+    return this->_tag;
+}
+
+void sw::FrameworkElement::SetTag(const Variant &tag)
+{
+    if (!this->_tag.ReferenceEquals(tag)) {
+        this->_tag = tag;
+        this->RaisePropertyChanged(&FrameworkElement::Tag);
     }
 }
 

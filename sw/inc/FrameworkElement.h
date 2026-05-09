@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Binding.h"
+#include "ITag.h"
 #include "ObservableObject.h"
 #include "Variant.h"
 #include <unordered_map>
@@ -30,13 +31,19 @@ namespace sw
     /**
      * @brief 框架元素类，提供数据上下文和绑定功能
      */
-    class FrameworkElement : public ObservableObject
+    class FrameworkElement : public ObservableObject,
+                             public ITag<Variant>
     {
     private:
         /**
          * @brief 属性的绑定信息
          */
         std::unordered_map<FieldId, std::unique_ptr<BindingBase>> _bindings{};
+
+        /**
+         * @brief 用户自定义数据标签
+         */
+        Variant _tag = nullptr;
 
         /**
          * @brief 数据上下文
@@ -53,6 +60,11 @@ namespace sw
          * @brief 数据上下文改变时触发该事件
          */
         const Event<DataContextChangedEventHandler> DataContextChanged;
+
+        /**
+         * @brief 自定义数据标签，可用于存储任意用户数据
+         */
+        const Property<Variant> Tag;
 
         /**
          * @brief 数据上下文
@@ -126,6 +138,17 @@ namespace sw
         template <typename T, typename TProperty>
         bool RemoveBinding(TProperty T::*prop)
         { return RemoveBinding(Reflection::GetFieldId(prop)); }
+
+    public:
+        /**
+         * @brief 获取Tag
+         */
+        virtual Variant GetTag() const override final;
+
+        /**
+         * @brief 设置Tag
+         */
+        virtual void SetTag(const Variant &tag) override final;
 
     protected:
         /**
