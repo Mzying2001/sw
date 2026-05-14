@@ -105,7 +105,7 @@ bool sw::Panel::OnPaint()
     HWND hwnd = Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
-    HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
+    HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
     FillRect(hdc, &ps.rcPaint, hBrush);
 
     DeleteObject(hBrush);
@@ -177,7 +177,7 @@ void sw::Panel::OnDrawPadding(HDC hdc, RECT &rect)
         HRGN hRgnDiff  = CreateRectRgn(0, 0, 0, 0);
         CombineRgn(hRgnDiff, hRgnOuter, hRgnInner, RGN_DIFF);
 
-        HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
+        HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
         FillRgn(hdc, hRgnDiff, hBrush);
 
         DeleteObject(hRgnOuter);

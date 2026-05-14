@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Binding.h"
+#include "ITag.h"
 #include "ObservableObject.h"
+#include "Variant.h"
 #include <unordered_map>
 
 namespace sw
@@ -29,7 +31,8 @@ namespace sw
     /**
      * @brief 框架元素类，提供数据上下文和绑定功能
      */
-    class FrameworkElement : public ObservableObject
+    class FrameworkElement : public ObservableObject,
+                             public ITag<Variant>
     {
     private:
         /**
@@ -38,9 +41,14 @@ namespace sw
         std::unordered_map<FieldId, std::unique_ptr<BindingBase>> _bindings{};
 
         /**
+         * @brief 用户自定义数据标签
+         */
+        Variant _tag = nullptr;
+
+        /**
          * @brief 数据上下文
          */
-        DynamicObject *_dataContext = nullptr;
+        Variant _dataContext = nullptr;
 
         /**
          * @brief 数据上下文改变事件委托
@@ -54,9 +62,17 @@ namespace sw
         const Event<DataContextChangedEventHandler> DataContextChanged;
 
         /**
-         * @brief 数据上下文
+         * @brief 自定义数据标签，可用于存储任意用户数据
          */
-        const Property<DynamicObject *> DataContext;
+        const Property<Variant> Tag;
+
+        /**
+         * @brief 数据上下文
+         * @note 若需以引用语义持有外部对象，请使用Variant::MakeRef构造，
+         *       而非传入DynamicObject*裸指针 —— 后者会被Variant按值装箱为
+         *       BoxedObject<DynamicObject*>，导致绑定无法解析到原对象。
+         */
+        const Property<Variant> DataContext;
 
         /**
          * @brief 当前元素的有效数据上下文
@@ -123,6 +139,17 @@ namespace sw
         bool RemoveBinding(TProperty T::*prop)
         { return RemoveBinding(Reflection::GetFieldId(prop)); }
 
+    public:
+        /**
+         * @brief 获取Tag
+         */
+        virtual Variant GetTag() const override final;
+
+        /**
+         * @brief 设置Tag
+         */
+        virtual void SetTag(const Variant &tag) override final;
+
     protected:
         /**
          * @brief 当CurrentDataContext更改时调用此函数
@@ -132,19 +159,19 @@ namespace sw
 
     public:
         /**
-         * @brief 获取父元素
+         * @brief 获取逻辑树中的父元素
          * @return 父元素指针，如果没有父元素则返回nullptr
          */
         virtual FrameworkElement *GetParent() const = 0;
 
         /**
-         * @brief 获取子元素数量
+         * @brief 获取逻辑树中的子元素数量
          * @return 子元素数量
          */
         virtual int GetChildCount() const = 0;
 
         /**
-         * @brief 获取指定索引处的子元素
+         * @brief 获取逻辑树中指定索引处的子元素
          * @param index 子元素索引
          * @throw std::out_of_range 如果索引超出范围
          */

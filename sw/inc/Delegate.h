@@ -125,6 +125,9 @@ namespace sw
 
         /**
          * @brief 拷贝赋值运算
+         * @note 强异常安全：先在本地完成可能抛异常的 Clone / vector 拷贝，
+         *       全部成功后再原子地切换 *this 的状态。提交阶段（_Reset(state) 与
+         *       unique_ptr/vector 的移动赋值）均为 noexcept，不会导致中间不一致。
          */
         CallableList &operator=(const CallableList &other)
         {
@@ -132,18 +135,21 @@ namespace sw
                 return *this;
             }
 
-            _Reset(other._state);
-
             switch (other._state) {
                 case STATE_NONE: {
+                    _Reset();
                     break;
                 }
                 case STATE_SINGLE: {
-                    _GetSingle().reset(other._GetSingle()->Clone());
+                    std::unique_ptr<TCallable> cloned(other._GetSingle()->Clone());
+                    _Reset(STATE_SINGLE);
+                    _GetSingle() = std::move(cloned);
                     break;
                 }
                 case STATE_LIST: {
-                    _GetList() = other._GetList();
+                    TSharedList copied = other._GetList();
+                    _Reset(STATE_LIST);
+                    _GetList() = std::move(copied);
                     break;
                 }
             }
@@ -226,6 +232,12 @@ namespace sw
         /**
          * @brief 添加一个可调用对象到列表中
          * @note 传入对象的生命周期将由CallableList管理
+         * @note 异常安全：
+         *       - SINGLE→LIST 升级时使用 reserve(2) 避免后续 emplace_back 触发扩容，
+         *         此时唯一的失败路径是 shared_ptr 控制块分配失败，shared_ptr 构造函数
+         *         保证抛异常时自动 delete 传入的裸指针。
+         *       - STATE_LIST 分支先把裸指针转交给本地 shared_ptr，再 emplace_back，
+         *         即使 vector 扩容失败，本地 shared_ptr 析构时也会正确释放对象。
          */
         void Add(TCallable *callable)
         {
@@ -241,6 +253,7 @@ namespace sw
                 }
                 case STATE_SINGLE: {
                     TSharedList list;
+                    list.reserve(2);
                     list.emplace_back(_GetSingle().release());
                     list.emplace_back(callable);
                     _Reset(STATE_LIST);
@@ -248,7 +261,8 @@ namespace sw
                     break;
                 }
                 case STATE_LIST: {
-                    _GetList().emplace_back(callable);
+                    std::shared_ptr<TCallable> sp(callable);
+                    _GetList().emplace_back(std::move(sp));
                     break;
                 }
             }
@@ -278,11 +292,9 @@ namespace sw
                     if (list.empty()) {
                         _Reset();
                     }
-                    // else if (list.size() == 1) {
-                    //     auto ptr = list.front()->Clone();
-                    //     _Reset(STATE_SINGLE);
-                    //     _GetSingle().reset(ptr);
-                    // }
+                    // 注：LIST 仅剩 1 元素时不降级回 SINGLE。shared_ptr 无法转移给
+                    // unique_ptr，强行 Clone 反而带来额外开销，保留 LIST 单元素状态
+                    // 在功能与性能上都可接受。
                     return true;
                 }
                 default: {
@@ -484,6 +496,14 @@ namespace sw
             {
                 return this == &other;
             }
+
+        public:
+            // 禁用拷贝/移动：默认实现会按字节拷贝 _storage，不会调用 T 的构造函数，
+            // 对非平凡可拷贝类型会破坏不变式。需要克隆请走 Clone()。
+            _CallableWrapperImpl(const _CallableWrapperImpl &)            = delete;
+            _CallableWrapperImpl(_CallableWrapperImpl &&)                 = delete;
+            _CallableWrapperImpl &operator=(const _CallableWrapperImpl &) = delete;
+            _CallableWrapperImpl &operator=(_CallableWrapperImpl &&)      = delete;
         };
 
         template <typename T>
@@ -523,6 +543,13 @@ namespace sw
                 const auto &otherWrapper = static_cast<const _MemberFuncWrapper &>(other);
                 return obj == otherWrapper.obj && func == otherWrapper.func;
             }
+
+        public:
+            // 禁用拷贝/移动：与 _CallableWrapperImpl 保持一致，需要克隆请走 Clone()。
+            _MemberFuncWrapper(const _MemberFuncWrapper &)            = delete;
+            _MemberFuncWrapper(_MemberFuncWrapper &&)                 = delete;
+            _MemberFuncWrapper &operator=(const _MemberFuncWrapper &) = delete;
+            _MemberFuncWrapper &operator=(_MemberFuncWrapper &&)      = delete;
         };
 
         template <typename T>
@@ -559,6 +586,13 @@ namespace sw
                 const auto &otherWrapper = static_cast<const _ConstMemberFuncWrapper &>(other);
                 return obj == otherWrapper.obj && func == otherWrapper.func;
             }
+
+        public:
+            // 禁用拷贝/移动：与 _CallableWrapperImpl 保持一致，需要克隆请走 Clone()。
+            _ConstMemberFuncWrapper(const _ConstMemberFuncWrapper &)            = delete;
+            _ConstMemberFuncWrapper(_ConstMemberFuncWrapper &&)                 = delete;
+            _ConstMemberFuncWrapper &operator=(const _ConstMemberFuncWrapper &) = delete;
+            _ConstMemberFuncWrapper &operator=(_ConstMemberFuncWrapper &&)      = delete;
         };
 
     private:
@@ -664,13 +698,17 @@ namespace sw
 
         /**
          * @brief 添加一个可调用对象到委托中
+         * @note 当传入对象是同类型 Delegate 时：
+         *       - 内部为空：直接返回；
+         *       - 内部恰好 1 个元素：展开添加该元素的克隆（与单播添加等价）；
+         *       - 内部 ≥2 个元素：作为整体嵌套加入，不展开。
+         *       后一种"不展开"是有意为之，目的是保证 += 与 -= 的对称性：
+         *       后续 `*this -= callable` 仍可按整体匹配并撤销本次添加。
+         *       因此 `b += a; b == a` 在 a 含 ≥2 元素时为 false（Count 不同），
+         *       但 `b += a; b -= a` 后 b 与添加前等价。
          */
         void Add(const ICallable<TRet(Args...)> &callable)
         {
-            // 当添加的可调用对象与当前委托类型相同时（针对单播委托进行优化）：
-            // - 若委托内容为空，则直接返回
-            // - 若委托内容只有一个元素，则克隆该元素并添加到当前委托中
-            // - 否则，直接添加该可调用对象的克隆
             if (callable.GetType() == GetType()) {
                 auto &delegate = static_cast<const Delegate &>(callable);
                 if (delegate._data.IsEmpty()) {
@@ -733,13 +771,14 @@ namespace sw
          * @brief 移除一个可调用对象
          * @return 如果成功移除则返回true，否则返回false
          * @note 按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
+         * @note 与 Add 逻辑严格对称——当传入对象是同类型 Delegate 时：
+         *       - 内部为空：返回 false；
+         *       - 内部恰好 1 个元素：尝试匹配并移除该元素本身；
+         *       - 内部 ≥2 个元素：按整体（嵌套 Delegate）匹配并移除，
+         *         恰好对应 Add 时"不展开整体加入"的行为。
          */
         bool Remove(const ICallable<TRet(Args...)> &callable)
         {
-            // 当移除的可调用对象与当前委托类型相同时（与Add逻辑相对应）：
-            // - 若委托内容为空，则直接返回false
-            // - 若委托内容只有一个元素，则尝试移除该元素
-            // - 否则，直接调用_Remove函数进行移除
             if (callable.GetType() == GetType()) {
                 auto &delegate = static_cast<const Delegate &>(callable);
                 if (delegate._data.IsEmpty()) {
@@ -851,7 +890,7 @@ namespace sw
          * @brief 判断当前委托是否有效
          * @return 如果委托不为空则返回true，否则返回false
          */
-        operator bool() const noexcept
+        explicit operator bool() const noexcept
         {
             return !_data.IsEmpty();
         }
@@ -978,6 +1017,8 @@ namespace sw
          * @brief 调用所有存储的可调用对象，并返回它们的结果
          * @param args 函数参数
          * @return 返回一个包含所有可调用对象返回值的vector
+         * @note 多播调用时，前 N-1 次按左值传参，仅最后一次执行 std::forward，
+         *       避免对 move-only 类型或右值引用形参反复 move 同一对象。
          */
         template <typename U = TRet>
         auto InvokeAll(Args... args) const
@@ -991,10 +1032,11 @@ namespace sw
                 results.emplace_back(_data[0]->Invoke(std::forward<Args>(args)...));
             } else {
                 auto list = _data;
-                results.reserve(count = list.Count());
-                for (size_t i = 0; i < count; ++i) {
-                    results.emplace_back(list[i]->Invoke(std::forward<Args>(args)...));
+                results.reserve(count);
+                for (size_t i = 0; i + 1 < count; ++i) {
+                    results.emplace_back(list[i]->Invoke(args...));
                 }
+                results.emplace_back(list[count - 1]->Invoke(std::forward<Args>(args)...));
             }
             return results;
         }
@@ -1023,6 +1065,8 @@ namespace sw
 
         /**
          * @brief 内部函数，Invoke和operator()的实现
+         * @note 多播调用时，前 N-1 次按左值传参，仅最后一次执行 std::forward，
+         *       避免对 move-only 类型或右值引用形参反复 move 同一对象。
          */
         inline TRet _InvokeImpl(Args... args) const
         {
@@ -1033,8 +1077,8 @@ namespace sw
                 return _data[0]->Invoke(std::forward<Args>(args)...);
             } else {
                 auto list = _data;
-                for (size_t i = 0; i < count - 1; ++i)
-                    list[i]->Invoke(std::forward<Args>(args)...);
+                for (size_t i = 0; i + 1 < count; ++i)
+                    list[i]->Invoke(args...);
                 return list[count - 1]->Invoke(std::forward<Args>(args)...);
             }
         }

@@ -37,11 +37,11 @@ sw::ButtonBase::ButtonBase()
               .Getter([](ButtonBase *self) -> Thickness {
                   RECT rect{};
                   self->_GetTextMargin(rect);
-                  return rect;
+                  return Thickness(rect);
               })
               .Setter([](ButtonBase *self, const Thickness &value) {
                   if (self->TextMargin != value) {
-                      RECT rect = value;
+                      RECT rect = static_cast<RECT>(value);
                       self->_SetTextMargin(rect);
                       self->RaisePropertyChanged(&ButtonBase::TextMargin);
                       if (self->_autoSize) {

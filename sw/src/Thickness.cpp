@@ -2,22 +2,22 @@
 #include "Dip.h"
 #include "Utils.h"
 
-sw::Thickness::Thickness(double thickness)
+sw::Thickness::Thickness(double thickness) noexcept
     : left(thickness), top(thickness), right(thickness), bottom(thickness)
 {
 }
 
-sw::Thickness::Thickness(double horizontal, double vertical)
+sw::Thickness::Thickness(double horizontal, double vertical) noexcept
     : left(horizontal), top(vertical), right(horizontal), bottom(vertical)
 {
 }
 
-sw::Thickness::Thickness(double left, double top, double right, double bottom)
+sw::Thickness::Thickness(double left, double top, double right, double bottom) noexcept
     : left(left), top(top), right(right), bottom(bottom)
 {
 }
 
-sw::Thickness::Thickness(const RECT &rect)
+sw::Thickness::Thickness(const RECT &rect) noexcept
     : Thickness(
           Dip::PxToDipX(rect.left),
           Dip::PxToDipY(rect.top),
@@ -26,7 +26,7 @@ sw::Thickness::Thickness(const RECT &rect)
 {
 }
 
-sw::Thickness::operator RECT() const
+sw::Thickness::operator RECT() const noexcept
 {
     return RECT{
         Dip::DipToPxX(this->left),
@@ -35,7 +35,7 @@ sw::Thickness::operator RECT() const
         Dip::DipToPxY(this->bottom)};
 }
 
-bool sw::Thickness::Equals(const Thickness &other) const
+bool sw::Thickness::Equals(const Thickness &other) const noexcept
 {
     return (this->left == other.left) &&
            (this->top == other.top) &&

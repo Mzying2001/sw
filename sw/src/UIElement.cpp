@@ -18,7 +18,6 @@ namespace
     const sw::FieldId _PropId_VerticalAlignment   = sw::Reflection::GetFieldId(&sw::UIElement::VerticalAlignment);
     const sw::FieldId _PropId_ChildCount          = sw::Reflection::GetFieldId(&sw::UIElement::ChildCount);
     const sw::FieldId _PropId_CollapseWhenHide    = sw::Reflection::GetFieldId(&sw::UIElement::CollapseWhenHide);
-    const sw::FieldId _PropId_Tag                 = sw::Reflection::GetFieldId(&sw::UIElement::Tag);
     const sw::FieldId _PropId_LayoutTag           = sw::Reflection::GetFieldId(&sw::UIElement::LayoutTag);
     const sw::FieldId _PropId_ContextMenu         = sw::Reflection::GetFieldId(&sw::UIElement::ContextMenu);
     const sw::FieldId _PropId_Float               = sw::Reflection::GetFieldId(&sw::UIElement::Float);
@@ -91,15 +90,6 @@ sw::UIElement::UIElement()
                           self->_parent->InvalidateMeasure();
                       }
                   }
-              })),
-
-      Tag(
-          Property<uint64_t>::Init(this)
-              .Getter([](UIElement *self) -> uint64_t {
-                  return self->GetTag();
-              })
-              .Setter([](UIElement *self, uint64_t value) {
-                  self->SetTag(value);
               })),
 
       LayoutTag(
@@ -771,19 +761,6 @@ int sw::UIElement::GetChildCount() const
 sw::UIElement &sw::UIElement::GetChildAt(int index) const
 {
     return *this->_children.at(index);
-}
-
-uint64_t sw::UIElement::GetTag() const
-{
-    return this->_tag;
-}
-
-void sw::UIElement::SetTag(uint64_t tag)
-{
-    if (this->_tag != tag) {
-        this->_tag = tag;
-        this->RaisePropertyChanged(_PropId_Tag);
-    }
 }
 
 uint64_t sw::UIElement::GetLayoutTag() const
@@ -1477,8 +1454,8 @@ void sw::UIElement::OnMenuCommand(int id)
 
 bool sw::UIElement::OnColor(HDC hdc, HBRUSH &hRetBrush)
 {
-    COLORREF textColor = this->GetRealTextColor();
-    COLORREF backColor = this->GetRealBackColor();
+    COLORREF textColor = static_cast<COLORREF>(this->GetRealTextColor());
+    COLORREF backColor = static_cast<COLORREF>(this->GetRealBackColor());
 
     ::SetTextColor(hdc, textColor);
     ::SetBkColor(hdc, backColor);

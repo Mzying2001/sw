@@ -7,7 +7,6 @@
 #include "EnumBit.h"
 #include "EventHandlerWrapper.h"
 #include "ILayout.h"
-#include "ITag.h"
 #include "RoutedEvent.h"
 #include "RoutedEventArgs.h"
 #include "Thickness.h"
@@ -64,8 +63,7 @@ namespace sw
      * @brief 表示界面中的元素
      */
     class UIElement : public WndBase,
-                      public ILayout,
-                      public ITag<uint64_t>
+                      public ILayout
     {
     private:
         /**
@@ -135,11 +133,6 @@ namespace sw
          * @brief 记录路由事件的map
          */
         std::unordered_map<RoutedEventType, RoutedEventHandler> _eventMap{};
-
-        /**
-         * @brief 储存用户自定义信息
-         */
-        uint64_t _tag = 0;
 
         /**
          * @brief 布局标记
@@ -276,11 +269,6 @@ namespace sw
          * @brief 是否在不可见时不参与布局
          */
         const Property<bool> CollapseWhenHide;
-
-        /**
-         * @brief 储存用户自定义信息的标记
-         */
-        const Property<uint64_t> Tag;
 
         /**
          * @brief 布局标记，对于不同的布局有不同含义
@@ -601,33 +589,23 @@ namespace sw
         virtual UIElement *ToUIElement() override final;
 
         /**
-         * @brief 获取父元素
+         * @brief 获取逻辑树中的父元素
          * @return 父元素指针，如果没有父元素则返回nullptr
          */
         virtual UIElement *GetParent() const override final;
 
         /**
-         * @brief 获取子元素数量
+         * @brief 获取逻辑树中的子元素数量
          * @return 子元素数量
          */
         virtual int GetChildCount() const override final;
 
         /**
-         * @brief 获取指定索引处的子元素
+         * @brief 获取逻辑树中指定索引处的子元素
          * @param index 子元素索引
          * @throw std::out_of_range 如果索引超出范围
          */
         virtual UIElement &GetChildAt(int index) const override final;
-
-        /**
-         * @brief 获取Tag
-         */
-        virtual uint64_t GetTag() const override;
-
-        /**
-         * @brief 设置Tag
-         */
-        virtual void SetTag(uint64_t tag) override;
 
         /**
          * @brief 获取布局标记

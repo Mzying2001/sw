@@ -15,8 +15,22 @@ headers = []
 
 # 输出文件
 outputfile = open(os.path.join(basedir, 'sw_all.h'), 'w', encoding='utf-8')
-outputfile.write('// https://github.com/Mzying2001/sw\n\n')
-outputfile.write('#pragma once\n')
+
+# 文件头部注释和防重复包含指令
+outputfile.write('''\
+/**
+ * @file    sw_all.h
+ * @brief   SimpleWindow单文件版本（合并头文件）
+ * @details 本文件由 single_header/build.py 脚本根据 sw/inc 目录下的全部头文件
+ *          按依赖关系进行拓扑排序后自动合并生成，包含SimpleWindow框架对外公开
+ *          的所有类型、控件、宏与工具函数声明，可作为单头文件分发版本使用。
+ * @note    该文件为自动生成产物，请勿手动修改；如需变更内容，请编辑 sw/inc 下
+ *          对应的源头文件并重新运行 single_header/build.py 重新生成。
+ * @see     https://github.com/Mzying2001/sw
+ */
+
+#pragma once
+''')
 
 # 添加文件到列表
 for item in sorted(os.listdir(incpath)):
@@ -115,7 +129,22 @@ sources = []
 
 # 输出文件
 outputfile = open(os.path.join(basedir, 'sw_all.cpp'), 'w', encoding='utf-8')
-outputfile.write('#include "sw_all.h"\n')
+
+# 文件头部注释和主头文件包含
+outputfile.write('''\
+/**
+ * @file    sw_all.cpp
+ * @brief   SimpleWindow单文件版本（合并实现文件）
+ * @details 本文件由 single_header/build.py 脚本根据 sw/src 目录下的全部源文件
+ *          合并生成，包含SimpleWindow框架对外公开类型与控件的全部实现代码，
+ *          需与 sw_all.h 配合使用，可作为单文件分发版本使用。
+ * @note    该文件为自动生成产物，请勿手动修改；如需变更内容，请编辑 sw/src 下
+ *          对应的源文件并重新运行 single_header/build.py 重新生成。
+ * @see     https://github.com/Mzying2001/sw
+ */
+
+#include "sw_all.h"
+''')
 
 # 输出的源文件代码
 code = ''

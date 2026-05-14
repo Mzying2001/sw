@@ -67,7 +67,7 @@ bool sw::Splitter::OnPaint()
     RECT rect;
     GetClientRect(hwnd, &rect);
 
-    HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
+    HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
     FillRect(hdc, &rect, hBrush);
 
     if (_drawSplitterLine) {

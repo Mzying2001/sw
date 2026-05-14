@@ -43,9 +43,9 @@ void sw::GroupBox::OnDrawBorder(HDC hdc, RECT &rect)
         rect.top + headerHeight};
 
     if (hdc != NULL) {
-        HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
-        ::SetBkColor(hdc, GetRealBackColor());
-        ::SetTextColor(hdc, GetRealTextColor());
+        HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
+        ::SetBkColor(hdc, static_cast<COLORREF>(GetRealBackColor()));
+        ::SetTextColor(hdc, static_cast<COLORREF>(GetRealTextColor()));
         ::SelectObject(hdc, GetFontHandle());
 
         RECT rtHeaderRow = {

@@ -42,27 +42,29 @@ namespace sw
         /**
          * @brief 通过rgb构造Color结构体
          */
-        Color(uint8_t r, uint8_t g, uint8_t b);
+        Color(uint8_t r, uint8_t g, uint8_t b) noexcept;
 
         /**
          * @brief 通过KnownColors构造Color结构体
          */
-        Color(KnownColors knownColor);
+        Color(KnownColors knownColor) noexcept;
 
         /**
          * @brief 通过COLORREF构造Color结构体
+         * @note 标记为explicit以避免与隐式转换operator COLORREF()联用时
+         *       发生意外的隐式整数到Color的转换路径
          */
-        Color(COLORREF color);
+        explicit Color(COLORREF color) noexcept;
 
         /**
-         * @brief 隐式转换COLORREF
+         * @brief 显式转换为COLORREF（与explicit Color(COLORREF)对称）
          */
-        operator COLORREF() const;
+        explicit operator COLORREF() const noexcept;
 
         /**
          * @brief 判断两个Color是否相等
          */
-        bool Equals(const Color &other) const;
+        bool Equals(const Color &other) const noexcept;
 
         /**
          * @brief 获取描述当前对象的字符串

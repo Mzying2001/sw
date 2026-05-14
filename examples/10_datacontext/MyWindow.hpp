@@ -36,7 +36,7 @@ private:
          */
 
         // 设置当前窗口的DataContext为viewModel实例
-        DataContext = &viewModel;
+        DataContext = sw::Variant::MakeRef(viewModel);
 
         // 绑定slider的Value属性到viewModel的Value属性，双向绑定
         // 添加绑定时若没有指定源对象，则自动绑定到CurrentDataContext

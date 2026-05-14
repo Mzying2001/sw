@@ -8,17 +8,22 @@ sw::FrameworkElement::FrameworkElement()
                   return self->_dataContextChanged;
               })),
 
+      Tag(
+          Property<Variant>::Init(this)
+              .Getter<&FrameworkElement::GetTag>()
+              .Setter<&FrameworkElement::SetTag>()),
+
       DataContext(
-          Property<DynamicObject *>::Init(this)
-              .Getter([](FrameworkElement *self) -> DynamicObject * {
+          Property<Variant>::Init(this)
+              .Getter([](FrameworkElement *self) -> Variant {
                   return self->_dataContext;
               })
-              .Setter([](FrameworkElement *self, DynamicObject *value) {
-                  if (self->_dataContext != value) {
+              .Setter([](FrameworkElement *self, const Variant &value) {
+                  if (!self->_dataContext.ReferenceEquals(value)) {
                       auto oldDataContext = self->CurrentDataContext.Get();
                       self->_dataContext  = value;
                       self->RaisePropertyChanged(&FrameworkElement::DataContext);
-                      if (oldDataContext != value) {
+                      if (oldDataContext != self->_dataContext.Object()) {
                           self->OnCurrentDataContextChanged(oldDataContext);
                       }
                   }
@@ -30,7 +35,7 @@ sw::FrameworkElement::FrameworkElement()
                   DynamicObject *result     = nullptr;
                   FrameworkElement *element = self;
                   do {
-                      result  = element->_dataContext;
+                      result  = element->_dataContext.Object();
                       element = element->GetParent();
                   } while (result == nullptr && element != nullptr);
                   return result;
@@ -82,12 +87,26 @@ bool sw::FrameworkElement::RemoveBinding(FieldId propertyId)
     }
 }
 
+sw::Variant sw::FrameworkElement::GetTag() const
+{
+    return this->_tag;
+}
+
+void sw::FrameworkElement::SetTag(const Variant &tag)
+{
+    if (!this->_tag.ReferenceEquals(tag)) {
+        this->_tag = tag;
+        this->RaisePropertyChanged(&FrameworkElement::Tag);
+    }
+}
+
 void sw::FrameworkElement::OnCurrentDataContextChanged(DynamicObject *oldDataContext)
 {
     std::vector<FrameworkElement *> stack;
     stack.push_back(this);
 
-    while (!stack.empty()) {
+    while (!stack.empty()) //
+    {
         auto current = stack.back();
         stack.pop_back();
 
@@ -102,9 +121,11 @@ void sw::FrameworkElement::OnCurrentDataContextChanged(DynamicObject *oldDataCon
 
         int childCount = current->GetChildCount();
 
-        for (int i = 0; i < childCount; i++) {
+        for (int i = 0; i < childCount; ++i) //
+        {
             auto &child = current->GetChildAt(i);
-            if (child._dataContext == nullptr) {
+
+            if (child._dataContext.IsNull()) {
                 stack.push_back(&child);
             }
         }
