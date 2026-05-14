@@ -162,7 +162,16 @@ namespace sw
          */
         bool ReferenceEquals(const Variant &other) const noexcept
         {
-            return Object() == other.Object();
+            const DynamicObject *a = Object();
+            const DynamicObject *b = other.Object();
+
+            if (a == nullptr && b == nullptr) {
+                return true;
+            }
+            if (a == nullptr || b == nullptr) {
+                return false;
+            }
+            return a->ReferenceEquals(*b);
         }
 
         /**
