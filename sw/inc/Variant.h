@@ -576,7 +576,7 @@ namespace sw
                 Variant>::type
         {
             Variant v;
-            v._obj.reset(new BoxedObject<T>(BoxedObject<T>::MakeRef(&obj)));
+            v._obj.reset(new BoxedObject<T>(BoxedObject<T>::MakeRef(obj)));
             v.ResetCloner<T>();
             return v;
         }

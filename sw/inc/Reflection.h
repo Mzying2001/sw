@@ -498,6 +498,16 @@ namespace sw
 
         /**
          * @brief 创建引用类型的装箱对象
+         * @param ref 被引用的外部对象
+         * @return 引用类型的装箱对象
+         */
+        static BoxedObject<T> MakeRef(T &ref) noexcept
+        {
+            return MakeRef(&ref);
+        }
+
+        /**
+         * @brief 创建引用类型的装箱对象
          * @tparam U 目标类型
          * @param other 另一个装箱对象
          * @return 引用类型的装箱对象
@@ -1266,7 +1276,7 @@ namespace sw
                                        decltype(method(std::declval<DynamicObject &>(), std::forward<Args>(args)...))>::type
         {
             assert(method != nullptr);
-            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            auto boxed = BoxedObject<T>::MakeRef(obj);
             return method(boxed, std::forward<Args>(args)...);
         }
 
@@ -1299,7 +1309,7 @@ namespace sw
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TField &>::type
         {
             assert(accessor != nullptr);
-            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            auto boxed = BoxedObject<T>::MakeRef(obj);
             return accessor(boxed);
         }
 
@@ -1332,7 +1342,7 @@ namespace sw
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TValue>::type
         {
             assert(getter != nullptr);
-            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            auto boxed = BoxedObject<T>::MakeRef(obj);
             return getter(boxed);
         }
 
@@ -1367,7 +1377,7 @@ namespace sw
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value>::type
         {
             assert(setter != nullptr);
-            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            auto boxed = BoxedObject<T>::MakeRef(obj);
             setter(boxed, std::forward<TValue>(value));
         }
     };
