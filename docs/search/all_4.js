@@ -19,7 +19,7 @@ var searchData=
   ['darkturquoise_16',['DarkTurquoise',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a487636cd224cb1ace6e49fc51d4ef8dc',1,'sw']]],
   ['darkviolet_17',['DarkViolet',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19afb49b4fcac3fd7164a4419a7f1db7c38',1,'sw']]],
   ['databinding_18',['DataBinding',['../classsw_1_1DataBinding.html',1,'sw']]],
-  ['datacontext_19',['DataContext',['../classsw_1_1FrameworkElement.html#a2d530997a4d6cd5b90225e3602504935',1,'sw::FrameworkElement']]],
+  ['datacontext_19',['DataContext',['../classsw_1_1FrameworkElement.html#ad21550b436b1594e8c4f9d0243c8c3f9',1,'sw::FrameworkElement']]],
   ['datacontextchanged_20',['DataContextChanged',['../classsw_1_1FrameworkElement.html#a316adf470818d610d9a8d77f85178cb2',1,'sw::FrameworkElement']]],
   ['datacontextchangedeventargs_21',['DataContextChangedEventArgs',['../structsw_1_1DataContextChangedEventArgs.html',1,'sw']]],
   ['datacontextchangedeventhandler_22',['DataContextChangedEventHandler',['../namespacesw.html#ac164be0192986b2e97f47bac93081058',1,'sw']]],

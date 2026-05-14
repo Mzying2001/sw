@@ -131,9 +131,8 @@ Public 成员函数</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>CallableList</b> (<a class="el" href="classsw_1_1CallableList.html">CallableList</a> &amp;&amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
 <tr class="memdesc:a337d73adf784038508899e699a0c865b"><td class="mdescLeft">&#160;</td><td class="mdescRight">移动构造函数 <br /></td></tr>
 <tr class="separator:a337d73adf784038508899e699a0c865b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67adc78915ce94cdf1b0057dc7bec681" id="r_a67adc78915ce94cdf1b0057dc7bec681"><td class="memItemLeft" align="right" valign="top"><a id="a67adc78915ce94cdf1b0057dc7bec681" name="a67adc78915ce94cdf1b0057dc7bec681"></a>
-<a class="el" href="classsw_1_1CallableList.html">CallableList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1CallableList.html">CallableList</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>)</td></tr>
-<tr class="memdesc:a67adc78915ce94cdf1b0057dc7bec681"><td class="mdescLeft">&#160;</td><td class="mdescRight">拷贝赋值运算 <br /></td></tr>
+<tr class="memitem:a67adc78915ce94cdf1b0057dc7bec681" id="r_a67adc78915ce94cdf1b0057dc7bec681"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1CallableList.html">CallableList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1CallableList.html#a67adc78915ce94cdf1b0057dc7bec681">operator=</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1CallableList.html">CallableList</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>)</td></tr>
+<tr class="memdesc:a67adc78915ce94cdf1b0057dc7bec681"><td class="mdescLeft">&#160;</td><td class="mdescRight">拷贝赋值运算  <br /></td></tr>
 <tr class="separator:a67adc78915ce94cdf1b0057dc7bec681"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69f01558b3f9a7c63cb3fa38539077b7" id="r_a69f01558b3f9a7c63cb3fa38539077b7"><td class="memItemLeft" align="right" valign="top"><a id="a69f01558b3f9a7c63cb3fa38539077b7" name="a69f01558b3f9a7c63cb3fa38539077b7"></a>
 <a class="el" href="classsw_1_1CallableList.html">CallableList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classsw_1_1CallableList.html">CallableList</a> &amp;&amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
@@ -197,7 +196,13 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 </div><div class="memdoc">
 
 <p>添加一个可调用对象到列表中 </p>
-<dl class="section note"><dt>注解</dt><dd>传入对象的生命周期将由CallableList管理 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>传入对象的生命周期将由CallableList管理 </dd>
+<dd>
+异常安全：<ul>
+<li>SINGLE→LIST 升级时使用 reserve(2) 避免后续 emplace_back 触发扩容， 此时唯一的失败路径是 shared_ptr 控制块分配失败，shared_ptr 构造函数 保证抛异常时自动 delete 传入的裸指针。</li>
+<li>STATE_LIST 分支先把裸指针转交给本地 shared_ptr，再 emplace_back， 即使 vector 扩容失败，本地 shared_ptr 析构时也会正确释放对象。 </li>
+</ul>
+</dd></dl>
 
 </div>
 </div>
@@ -289,6 +294,37 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 
 <p>判断当前存储的可调用对象是否为空 </p>
 <dl class="section return"><dt>返回</dt><dd>如果没有存储任何可调用对象则返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a67adc78915ce94cdf1b0057dc7bec681" name="a67adc78915ce94cdf1b0057dc7bec681"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67adc78915ce94cdf1b0057dc7bec681">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1CallableList.html">CallableList</a> &amp; <a class="el" href="classsw_1_1CallableList.html">sw::CallableList</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1CallableList.html">CallableList</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>拷贝赋值运算 </p>
+<dl class="section note"><dt>注解</dt><dd>强异常安全：先在本地完成可能抛异常的 Clone / vector 拷贝， 全部成功后再原子地切换 *this 的状态。提交阶段（_Reset(state) 与 unique_ptr/vector 的移动赋值）均为 noexcept，不会导致中间不一致。 </dd></dl>
 
 </div>
 </div>

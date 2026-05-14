@@ -1,11 +1,11 @@
 var structsw_1_1Color =
 [
     [ "Color", "structsw_1_1Color.html#a9583e7f024015250d8ec94d1912c3c89", null ],
-    [ "Color", "structsw_1_1Color.html#a377fdd6222c311557980e216d7fb4a73", null ],
-    [ "Color", "structsw_1_1Color.html#a491497b5a8bab01ecdb8d5adad304945", null ],
-    [ "Color", "structsw_1_1Color.html#aa42552f373fab2b4132c73de6febad58", null ],
-    [ "Equals", "structsw_1_1Color.html#a187d0c5f5a8b50ecde277a6c81be5863", null ],
-    [ "operator COLORREF", "structsw_1_1Color.html#abb6da0ffa872c60d0a9f578b7a785bde", null ],
+    [ "Color", "structsw_1_1Color.html#a8ce47b6f84eec3c0a65253ef27121192", null ],
+    [ "Color", "structsw_1_1Color.html#a5920ae65de75a1d83d0ef774c8b9f29d", null ],
+    [ "Color", "structsw_1_1Color.html#ae10900e021de0eb6ba483ed5a4de6a19", null ],
+    [ "Equals", "structsw_1_1Color.html#afd936bf3854f3c24793eceeb5cf7ce91", null ],
+    [ "operator COLORREF", "structsw_1_1Color.html#a4fa11e56fbfa70d549c19cde16398351", null ],
     [ "ToString", "structsw_1_1Color.html#a75a897bd4043455bbc1d9e1f7abbc28d", null ],
     [ "_reserved", "structsw_1_1Color.html#ad432609396ec72641f339a89ce78d64f", null ],
     [ "b", "structsw_1_1Color.html#aeeb136eece447ed3f36a6767a807bb4d", null ],

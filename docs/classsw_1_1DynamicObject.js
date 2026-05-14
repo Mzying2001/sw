@@ -16,6 +16,7 @@ var classsw_1_1DynamicObject =
     [ "IsType", "classsw_1_1DynamicObject.html#acb57fde90efb426823b9fc4a2b0e1465", null ],
     [ "IsType", "classsw_1_1DynamicObject.html#af619f977238e3601d6708ed44559dd33", null ],
     [ "IsType", "classsw_1_1DynamicObject.html#aa9aa42dd259714b0fc24f62197ff3f88", null ],
+    [ "ReferenceEquals", "classsw_1_1DynamicObject.html#a69da399b726fd71ca62d1717209314e4", null ],
     [ "UnsafeCast", "classsw_1_1DynamicObject.html#a4da79ecaa6e4b45aac865eda4e44bbb1", null ],
     [ "UnsafeCast", "classsw_1_1DynamicObject.html#a069419cf5cc9ba541bd89002ff6ecd59", null ],
     [ "UnsafeCast", "classsw_1_1DynamicObject.html#af301cce53128622687bd44cb5be2a8b7", null ],

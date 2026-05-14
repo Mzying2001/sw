@@ -286,9 +286,6 @@ var hierarchy =
     [ "sw::IEqualityComparable< TreeViewNode >", "classsw_1_1IEqualityComparable.html", [
       [ "sw::TreeViewNode", "classsw_1_1TreeViewNode.html", null ]
     ] ],
-    [ "sw::IEqualityComparable< Variant >", "classsw_1_1IEqualityComparable.html", [
-      [ "sw::Variant", "classsw_1_1Variant.html", null ]
-    ] ],
     [ "sw::IEqualityComparable< WndBase >", "classsw_1_1IEqualityComparable.html", [
       [ "sw::WndBase", "classsw_1_1WndBase.html", null ]
     ] ],
@@ -308,8 +305,10 @@ var hierarchy =
     ] ],
     [ "sw::ITag< T >", "classsw_1_1ITag.html", null ],
     [ "sw::ITag< uint64_t >", "classsw_1_1ITag.html", [
-      [ "sw::MenuItem", "classsw_1_1MenuItem.html", null ],
-      [ "sw::UIElement", "classsw_1_1UIElement.html", null ]
+      [ "sw::MenuItem", "classsw_1_1MenuItem.html", null ]
+    ] ],
+    [ "sw::ITag< Variant >", "classsw_1_1ITag.html", [
+      [ "sw::FrameworkElement", "classsw_1_1FrameworkElement.html", null ]
     ] ],
     [ "sw::IToString< TDerived >", "classsw_1_1IToString.html", [
       [ "sw::List< sw::GridRow >", "classsw_1_1List.html", null ],
@@ -459,6 +458,7 @@ var hierarchy =
     [ "sw::NumericNegationConverter< T, typename >", "classsw_1_1NumericNegationConverter.html", null ],
     [ "sw::NumericToBoolConverter< TSource, typename >", "classsw_1_1NumericToBoolConverter.html", null ],
     [ "sw::NumericToEnumConverter< TSource, TTarget, typename >", "classsw_1_1NumericToEnumConverter.html", null ],
+    [ "sw::ObjectRef", "structsw_1_1ObjectRef.html", null ],
     [ "sw::Path", "classsw_1_1Path.html", null ],
     [ "sw::ProcMsg", "structsw_1_1ProcMsg.html", null ],
     [ "sw::PropertyBase< T, TDerived >", "classsw_1_1PropertyBase.html", [
@@ -480,7 +480,7 @@ var hierarchy =
       [ "sw::Property< sw::Font >", "classsw_1_1Property.html", null ],
       [ "sw::Property< double >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::FontWeight >", "classsw_1_1Property.html", null ],
-      [ "sw::Property< sw::DynamicObject * >", "classsw_1_1Property.html", null ],
+      [ "sw::Property< sw::Variant >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::HotKey >", "classsw_1_1Property.html", null ],
       [ "sw::Property< uint32_t >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::HorizontalAlignment >", "classsw_1_1Property.html", null ],
@@ -557,7 +557,6 @@ var hierarchy =
     [ "sw::PropertyBase< sw::CheckState, Property< sw::CheckState > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Color, Property< sw::Color > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::ContextMenu *, Property< sw::ContextMenu * > >", "classsw_1_1PropertyBase.html", null ],
-    [ "sw::PropertyBase< sw::DynamicObject *, Property< sw::DynamicObject * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::DynamicObject *, ReadOnlyProperty< sw::DynamicObject * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::FileFilter *, ReadOnlyProperty< sw::FileFilter * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Font, Property< sw::Font > >", "classsw_1_1PropertyBase.html", null ],
@@ -576,6 +575,7 @@ var hierarchy =
     [ "sw::PropertyBase< sw::TextTrimming, Property< sw::TextTrimming > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Thickness, Property< sw::Thickness > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::TreeViewNode, ReadOnlyProperty< sw::TreeViewNode > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< sw::Variant, Property< sw::Variant > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::VerticalAlignment, Property< sw::VerticalAlignment > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Window *, Property< sw::Window * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Window *, ReadOnlyProperty< sw::Window * > >", "classsw_1_1PropertyBase.html", null ],
@@ -623,5 +623,6 @@ var hierarchy =
     [ "_IsPropertyImpl::type", null, [
       [ "sw::_IsProperty< T >", "structsw_1_1__IsProperty.html", null ]
     ] ],
-    [ "sw::Utils", "classsw_1_1Utils.html", null ]
+    [ "sw::Utils", "classsw_1_1Utils.html", null ],
+    [ "sw::Variant", "classsw_1_1Variant.html", null ]
 ];

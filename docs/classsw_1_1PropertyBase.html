@@ -93,6 +93,7 @@ $(document).ready(function(){initNavTree('classsw_1_1PropertyBase.html',''); ini
 <a href="#pub-types">Public 类型</a> &#124;
 <a href="#pub-methods">Public 成员函数</a> &#124;
 <a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pro-types">Protected 类型</a> &#124;
 <a href="#pro-methods">Protected 成员函数</a> &#124;
 <a href="#pro-attribs">Protected 属性</a> &#124;
 <a href="#pro-static-attribs">静态 Protected 属性</a> &#124;
@@ -129,7 +130,7 @@ $(document).ready(function(){initNavTree('classsw_1_1PropertyBase.html',''); ini
 <area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Font &gt;" shape="rect" coords="298,896,586,920"/>
 <area href="classsw_1_1Property.html" alt="sw::Property&lt; double &gt;" shape="rect" coords="298,952,586,976"/>
 <area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::FontWeight &gt;" shape="rect" coords="298,1008,586,1032"/>
-<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::DynamicObject * &gt;" shape="rect" coords="298,1064,586,1088"/>
+<area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::Variant &gt;" shape="rect" coords="298,1064,586,1088"/>
 <area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::HotKey &gt;" shape="rect" coords="298,1120,586,1144"/>
 <area href="classsw_1_1Property.html" alt="sw::Property&lt; uint32_t &gt;" shape="rect" coords="298,1176,586,1200"/>
 <area href="classsw_1_1Property.html" alt="sw::Property&lt; sw::HorizontalAlignment &gt;" shape="rect" coords="298,1232,586,1256"/>
@@ -455,16 +456,14 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 <tr class="memitem:a915bf480513a9cc1c4021ca814e4083b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator~</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="classsw_1_1IValueConverter.html">_BitNotOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">_BitNotOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
 <tr class="memdesc:a915bf480513a9cc1c4021ca814e4083b"><td class="mdescLeft">&#160;</td><td class="mdescRight">按位非运算 <br /></td></tr>
 <tr class="separator:a915bf480513a9cc1c4021ca814e4083b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10620b28036472c4f1e6dce1244dba5a" id="r_a10620b28036472c4f1e6dce1244dba5a"><td class="memTemplParams" colspan="2"><a id="a10620b28036472c4f1e6dce1244dba5a" name="a10620b28036472c4f1e6dce1244dba5a"></a>
-template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>  = T&gt; </td></tr>
-<tr class="memitem:a10620b28036472c4f1e6dce1244dba5a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator*</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="classsw_1_1IValueConverter.html">_DerefOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">_DerefOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
-<tr class="memdesc:a10620b28036472c4f1e6dce1244dba5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">解引用运算 <br /></td></tr>
-<tr class="separator:a10620b28036472c4f1e6dce1244dba5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a404134e5524b6c27a5c083bdf12f0fc0" id="r_a404134e5524b6c27a5c083bdf12f0fc0"><td class="memTemplParams" colspan="2"><a id="a404134e5524b6c27a5c083bdf12f0fc0" name="a404134e5524b6c27a5c083bdf12f0fc0"></a>
-template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>  = T&gt; </td></tr>
-<tr class="memitem:a404134e5524b6c27a5c083bdf12f0fc0"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&amp;</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="classsw_1_1IValueConverter.html">_AddrOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">_AddrOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
-<tr class="memdesc:a404134e5524b6c27a5c083bdf12f0fc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">地址运算 <br /></td></tr>
-<tr class="separator:a404134e5524b6c27a5c083bdf12f0fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac84e7640fc879c945715a6d18d78ac36" id="r_ac84e7640fc879c945715a6d18d78ac36"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>  = T&gt; </td></tr>
+<tr class="memitem:ac84e7640fc879c945715a6d18d78ac36"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1PropertyBase.html#ac84e7640fc879c945715a6d18d78ac36">operator*</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="classsw_1_1IValueConverter.html">_DerefOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value &amp;&amp;!std::is_reference&lt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">_DerefOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">_DerefOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
+<tr class="memdesc:ac84e7640fc879c945715a6d18d78ac36"><td class="mdescLeft">&#160;</td><td class="mdescRight">解引用运算  <br /></td></tr>
+<tr class="separator:ac84e7640fc879c945715a6d18d78ac36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3323dd00810ff0df906980290c9f3c3" id="r_ad3323dd00810ff0df906980290c9f3c3"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>  = T&gt; </td></tr>
+<tr class="memitem:ad3323dd00810ff0df906980290c9f3c3"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1PropertyBase.html#ad3323dd00810ff0df906980290c9f3c3">operator*</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="classsw_1_1IValueConverter.html">_DerefOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value &amp;&amp;std::is_pointer&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">_DerefOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
+<tr class="memdesc:ad3323dd00810ff0df906980290c9f3c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">指针解引用运算  <br /></td></tr>
+<tr class="separator:ad3323dd00810ff0df906980290c9f3c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb8f05d82985f8b3bbc5a245bfce1c70" id="r_afb8f05d82985f8b3bbc5a245bfce1c70"><td class="memTemplParams" colspan="2"><a id="afb8f05d82985f8b3bbc5a245bfce1c70" name="afb8f05d82985f8b3bbc5a245bfce1c70"></a>
 template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>  = T&gt; </td></tr>
 <tr class="memitem:afb8f05d82985f8b3bbc5a245bfce1c70"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator+</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="classsw_1_1IValueConverter.html">_UnaryPlusOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">_UnaryPlusOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
@@ -653,38 +652,40 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 <tr class="memitem:a7f90e9973eaf726242bf23b088642294"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator||</b> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0af623e75af30e62bbd73d6df5b50bb7b5">D</a> &gt; &amp;<a class="el" href="classsw_1_1IValueConverter.html">prop</a>) <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="classsw_1_1IValueConverter.html">_LogicOrOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">_LogicOrOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
 <tr class="memdesc:a7f90e9973eaf726242bf23b088642294"><td class="mdescLeft">&#160;</td><td class="mdescRight">逻辑或运算 <br /></td></tr>
 <tr class="separator:a7f90e9973eaf726242bf23b088642294"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9de9d21282cd5f644a3981f6824e8ef8" id="r_a9de9d21282cd5f644a3981f6824e8ef8"><td class="memTemplParams" colspan="2"><a id="a9de9d21282cd5f644a3981f6824e8ef8" name="a9de9d21282cd5f644a3981f6824e8ef8"></a>
-template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt; </td></tr>
-<tr class="memitem:a9de9d21282cd5f644a3981f6824e8ef8"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator[]</b> (<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &amp;&amp;value) <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value &amp;&amp;!std::is_reference&lt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
-<tr class="memdesc:a9de9d21282cd5f644a3981f6824e8ef8"><td class="mdescLeft">&#160;</td><td class="mdescRight">下标运算 <br /></td></tr>
+<tr class="memitem:a9de9d21282cd5f644a3981f6824e8ef8" id="r_a9de9d21282cd5f644a3981f6824e8ef8"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt; </td></tr>
+<tr class="memitem:a9de9d21282cd5f644a3981f6824e8ef8"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1PropertyBase.html#a9de9d21282cd5f644a3981f6824e8ef8">operator[]</a> (<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &amp;&amp;value) <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value &amp;&amp;!std::is_reference&lt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
+<tr class="memdesc:a9de9d21282cd5f644a3981f6824e8ef8"><td class="mdescLeft">&#160;</td><td class="mdescRight">下标运算  <br /></td></tr>
 <tr class="separator:a9de9d21282cd5f644a3981f6824e8ef8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e10d619f537109525057b28250541b4" id="r_a4e10d619f537109525057b28250541b4"><td class="memTemplParams" colspan="2"><a id="a4e10d619f537109525057b28250541b4" name="a4e10d619f537109525057b28250541b4"></a>
-template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0af623e75af30e62bbd73d6df5b50bb7b5">D</a> , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt; </td></tr>
-<tr class="memitem:a4e10d619f537109525057b28250541b4"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator[]</b> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0af623e75af30e62bbd73d6df5b50bb7b5">D</a> &gt; &amp;<a class="el" href="classsw_1_1IValueConverter.html">prop</a>) <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value &amp;&amp;!std::is_reference&lt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
-<tr class="memdesc:a4e10d619f537109525057b28250541b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">下标运算 <br /></td></tr>
+<tr class="memitem:a4e10d619f537109525057b28250541b4" id="r_a4e10d619f537109525057b28250541b4"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0af623e75af30e62bbd73d6df5b50bb7b5">D</a> , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt; </td></tr>
+<tr class="memitem:a4e10d619f537109525057b28250541b4"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1PropertyBase.html#a4e10d619f537109525057b28250541b4">operator[]</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0af623e75af30e62bbd73d6df5b50bb7b5">D</a> &gt; &amp;<a class="el" href="classsw_1_1IValueConverter.html">prop</a>) <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value &amp;&amp;!std::is_reference&lt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
+<tr class="memdesc:a4e10d619f537109525057b28250541b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">下标运算  <br /></td></tr>
 <tr class="separator:a4e10d619f537109525057b28250541b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a062e1cd4f82b11607a47bcf92b5132e5" id="r_a062e1cd4f82b11607a47bcf92b5132e5"><td class="memTemplParams" colspan="2"><a id="a062e1cd4f82b11607a47bcf92b5132e5" name="a062e1cd4f82b11607a47bcf92b5132e5"></a>
-template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt; </td></tr>
-<tr class="memitem:a062e1cd4f82b11607a47bcf92b5132e5"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator[]</b> (<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &amp;&amp;value) <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value &amp;&amp;std::is_pointer&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
-<tr class="memdesc:a062e1cd4f82b11607a47bcf92b5132e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">指针下标运算 <br /></td></tr>
+<tr class="memitem:a062e1cd4f82b11607a47bcf92b5132e5" id="r_a062e1cd4f82b11607a47bcf92b5132e5"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt; </td></tr>
+<tr class="memitem:a062e1cd4f82b11607a47bcf92b5132e5"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1PropertyBase.html#a062e1cd4f82b11607a47bcf92b5132e5">operator[]</a> (<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &amp;&amp;value) <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value &amp;&amp;std::is_pointer&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
+<tr class="memdesc:a062e1cd4f82b11607a47bcf92b5132e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">指针下标运算  <br /></td></tr>
 <tr class="separator:a062e1cd4f82b11607a47bcf92b5132e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02c088c26a2de9059e9a10b203c499e0" id="r_a02c088c26a2de9059e9a10b203c499e0"><td class="memTemplParams" colspan="2"><a id="a02c088c26a2de9059e9a10b203c499e0" name="a02c088c26a2de9059e9a10b203c499e0"></a>
-template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0af623e75af30e62bbd73d6df5b50bb7b5">D</a> , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt; </td></tr>
-<tr class="memitem:a02c088c26a2de9059e9a10b203c499e0"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator[]</b> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0af623e75af30e62bbd73d6df5b50bb7b5">D</a> &gt; &amp;<a class="el" href="classsw_1_1IValueConverter.html">prop</a>) <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value &amp;&amp;std::is_pointer&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
-<tr class="memdesc:a02c088c26a2de9059e9a10b203c499e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">指针下标运算 <br /></td></tr>
+<tr class="memitem:a02c088c26a2de9059e9a10b203c499e0" id="r_a02c088c26a2de9059e9a10b203c499e0"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0af623e75af30e62bbd73d6df5b50bb7b5">D</a> , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt; </td></tr>
+<tr class="memitem:a02c088c26a2de9059e9a10b203c499e0"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsw_1_1PropertyBase.html#a02c088c26a2de9059e9a10b203c499e0">operator[]</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0af623e75af30e62bbd73d6df5b50bb7b5">D</a> &gt; &amp;<a class="el" href="classsw_1_1IValueConverter.html">prop</a>) <a class="el" href="classsw_1_1IValueConverter.html">const</a> -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::value &amp;&amp;std::is_pointer&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::value, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt;::type &gt;::type</td></tr>
+<tr class="memdesc:a02c088c26a2de9059e9a10b203c499e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">指针下标运算  <br /></td></tr>
 <tr class="separator:a02c088c26a2de9059e9a10b203c499e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 静态 Public 成员函数</h2></td></tr>
-<tr class="memitem:a91ad891bd83f4d82ff10392ef1a071c6" id="r_a91ad891bd83f4d82ff10392ef1a071c6"><td class="memTemplParams" colspan="2"><a id="a91ad891bd83f4d82ff10392ef1a071c6" name="a91ad891bd83f4d82ff10392ef1a071c6"></a>
+<tr class="memitem:a8e525820168dbc8f29c19c2207aabe05" id="r_a8e525820168dbc8f29c19c2207aabe05"><td class="memTemplParams" colspan="2"><a id="a8e525820168dbc8f29c19c2207aabe05" name="a8e525820168dbc8f29c19c2207aabe05"></a>
 template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TOwner</a> &gt; </td></tr>
-<tr class="memitem:a91ad891bd83f4d82ff10392ef1a071c6"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1MemberPropertyInitializer.html">MemberPropertyInitializer</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">TOwner</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Init</b> (<a class="el" href="classsw_1_1IValueConverter.html">TOwner</a> *<a class="el" href="classsw_1_1IValueConverter.html">owner</a>)</td></tr>
-<tr class="memdesc:a91ad891bd83f4d82ff10392ef1a071c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取成员属性初始化器 <br /></td></tr>
-<tr class="separator:a91ad891bd83f4d82ff10392ef1a071c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04b2576f3c802576a2eb2f0eb1b84020" id="r_a04b2576f3c802576a2eb2f0eb1b84020"><td class="memItemLeft" align="right" valign="top"><a id="a04b2576f3c802576a2eb2f0eb1b84020" name="a04b2576f3c802576a2eb2f0eb1b84020"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1StaticPropertyInitializer.html">StaticPropertyInitializer</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
-<tr class="memdesc:a04b2576f3c802576a2eb2f0eb1b84020"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取静态属性初始化器 <br /></td></tr>
-<tr class="separator:a04b2576f3c802576a2eb2f0eb1b84020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e525820168dbc8f29c19c2207aabe05"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Init</b> (<a class="el" href="classsw_1_1IValueConverter.html">TOwner</a> *<a class="el" href="classsw_1_1IValueConverter.html">owner</a>) -&gt; <a class="el" href="classsw_1_1MemberPropertyInitializer.html">MemberPropertyInitializer</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">TOwner</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;</td></tr>
+<tr class="memdesc:a8e525820168dbc8f29c19c2207aabe05"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取成员属性初始化器 <br /></td></tr>
+<tr class="separator:a8e525820168dbc8f29c19c2207aabe05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80fa720dc8f7ec58a54a9d3f19421520" id="r_a80fa720dc8f7ec58a54a9d3f19421520"><td class="memItemLeft" align="right" valign="top"><a id="a80fa720dc8f7ec58a54a9d3f19421520" name="a80fa720dc8f7ec58a54a9d3f19421520"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> () -&gt; <a class="el" href="classsw_1_1StaticPropertyInitializer.html">StaticPropertyInitializer</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;</td></tr>
+<tr class="memdesc:a80fa720dc8f7ec58a54a9d3f19421520"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取静态属性初始化器 <br /></td></tr>
+<tr class="separator:a80fa720dc8f7ec58a54a9d3f19421520"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-types" name="pro-types"></a>
+Protected 类型</h2></td></tr>
+<tr class="memitem:ada19cf5eb84202ba114b07ccc5a55834" id="r_ada19cf5eb84202ba114b07ccc5a55834"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">using</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1PropertyBase.html#ada19cf5eb84202ba114b07ccc5a55834">TFuncPtr</a> = <a class="el" href="classsw_1_1IValueConverter.html">void</a>(*)()</td></tr>
+<tr class="memdesc:ada19cf5eb84202ba114b07ccc5a55834"><td class="mdescLeft">&#160;</td><td class="mdescRight">用于存储任意签名函数指针的通用类型  <br /></td></tr>
+<tr class="separator:ada19cf5eb84202ba114b07ccc5a55834"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
@@ -718,7 +719,35 @@ std::ptrdiff_t&#160;</td><td class="memItemRight" valign="bottom"><b>_offset</b>
 <div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a>&gt;<br />
 class sw::PropertyBase&lt; T, TDerived &gt;</div><p>属性基类模板 </p>
 <p>向前声明 </p>
-</div><h2 class="groupheader">成员函数说明</h2>
+</div><h2 class="groupheader">成员类型定义说明</h2>
+<a id="ada19cf5eb84202ba114b07ccc5a55834" name="ada19cf5eb84202ba114b07ccc5a55834"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada19cf5eb84202ba114b07ccc5a55834">&#9670;&#160;</a></span>TFuncPtr</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">using</a> <a class="el" href="classsw_1_1PropertyBase.html">sw::PropertyBase</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a> &gt;::TFuncPtr =  <a class="el" href="classsw_1_1IValueConverter.html">void</a> (*)()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>用于存储任意签名函数指针的通用类型 </p>
+<dl class="section note"><dt>注解</dt><dd>函数指针类型间通过reinterpret_cast互转再转回原类型不丢失信息（C++标准良定义）， 使用统一的函数指针类型作为存储可避免函数指针与void*之间的conditionally-supported转换。 </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
 <a id="a4efb922caa4e800112f82cb9161d86c4" name="a4efb922caa4e800112f82cb9161d86c4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4efb922caa4e800112f82cb9161d86c4">&#9670;&#160;</a></span>operator!=() <span class="overload">[1/2]</span></h2>
 
@@ -784,6 +813,223 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 
 <p>不等于运算 </p>
 <dl class="section note"><dt>注解</dt><dd>避免与c++20自动生成的!=冲突，通过==取反实现 </dd></dl>
+
+</div>
+</div>
+<a id="ac84e7640fc879c945715a6d18d78ac36" name="ac84e7640fc879c945715a6d18d78ac36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac84e7640fc879c945715a6d18d78ac36">&#9670;&#160;</a></span>operator*() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a> &gt; </div>
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>  = T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">auto</a> <a class="el" href="classsw_1_1PropertyBase.html">sw::PropertyBase</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a> &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt;
+                <a class="el" href="classsw_1_1IValueConverter.html">_DerefOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::value &amp;&amp;
+                    !std::is_reference&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">_DerefOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::type&gt;::value,
+                <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">_DerefOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::type&gt;::type
+        </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>解引用运算 </p>
+<dl class="section note"><dt>注解</dt><dd>仅在T的operator*返回非引用类型时启用：Get()可能返回临时对象， 若T的operator*返回引用，将产生悬空引用，因此不允许通过属性的 operator*直接访问返回引用的重载，应先将Get()的结果保存到变量后再使用。 </dd></dl>
+
+</div>
+</div>
+<a id="ad3323dd00810ff0df906980290c9f3c3" name="ad3323dd00810ff0df906980290c9f3c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3323dd00810ff0df906980290c9f3c3">&#9670;&#160;</a></span>operator*() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a> &gt; </div>
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>  = T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">auto</a> <a class="el" href="classsw_1_1PropertyBase.html">sw::PropertyBase</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a> &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt;
+                <a class="el" href="classsw_1_1IValueConverter.html">_DerefOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::value &amp;&amp; std::is_pointer&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>&gt;::value,
+                <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">_DerefOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::type&gt;::type
+        </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>指针解引用运算 </p>
+<dl class="section note"><dt>注解</dt><dd>T为指针时，Get()返回的指针虽是临时对象，但其指向的内存独立存在， 故此处即使operator*返回引用也不会产生悬空引用，无需限制返回类型。 </dd></dl>
+
+</div>
+</div>
+<a id="a4e10d619f537109525057b28250541b4" name="a4e10d619f537109525057b28250541b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e10d619f537109525057b28250541b4">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a> &gt; </div>
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0af623e75af30e62bbd73d6df5b50bb7b5">D</a> , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">auto</a> <a class="el" href="classsw_1_1PropertyBase.html">sw::PropertyBase</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a> &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0af623e75af30e62bbd73d6df5b50bb7b5">D</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>prop</em></td><td>)</td>
+          <td> const -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt;
+                <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::value &amp;&amp;
+                    !std::is_reference&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::type&gt;::value,
+                <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::type&gt;::type
+        </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>下标运算 </p>
+<dl class="section note"><dt>注解</dt><dd>仅在T的operator[]返回非引用类型时启用：Get()可能返回临时对象， 若T的operator[]返回引用，将产生悬空引用，因此不允许通过属性的 operator[]直接访问返回引用的重载，应先将Get()的结果保存到变量后再使用。 </dd></dl>
+
+</div>
+</div>
+<a id="a02c088c26a2de9059e9a10b203c499e0" name="a02c088c26a2de9059e9a10b203c499e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02c088c26a2de9059e9a10b203c499e0">&#9670;&#160;</a></span>operator[]() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a> &gt; </div>
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0af623e75af30e62bbd73d6df5b50bb7b5">D</a> , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">auto</a> <a class="el" href="classsw_1_1PropertyBase.html">sw::PropertyBase</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a> &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1PropertyBase.html">PropertyBase</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0af623e75af30e62bbd73d6df5b50bb7b5">D</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>prop</em></td><td>)</td>
+          <td> const -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt;
+                <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::value &amp;&amp; std::is_pointer&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>&gt;::value,
+                <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::type&gt;::type
+        </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>指针下标运算 </p>
+<dl class="section note"><dt>注解</dt><dd>T为指针时，Get()返回的指针虽是临时对象，但其指向的内存独立存在， 故此处即使operator[]返回引用也不会产生悬空引用，无需限制返回类型。 </dd></dl>
+
+</div>
+</div>
+<a id="a9de9d21282cd5f644a3981f6824e8ef8" name="a9de9d21282cd5f644a3981f6824e8ef8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9de9d21282cd5f644a3981f6824e8ef8">&#9670;&#160;</a></span>operator[]() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a> &gt; </div>
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">auto</a> <a class="el" href="classsw_1_1PropertyBase.html">sw::PropertyBase</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a> &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> const -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt;
+                <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::value &amp;&amp;
+                    !std::is_reference&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::type&gt;::value,
+                <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::type&gt;::type
+        </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>下标运算 </p>
+<dl class="section note"><dt>注解</dt><dd>仅在T的operator[]返回非引用类型时启用：Get()可能返回临时对象， 若T的operator[]返回引用，将产生悬空引用，因此不允许通过属性的 operator[]直接访问返回引用的重载，应先将Get()的结果保存到变量后再使用。 </dd></dl>
+
+</div>
+</div>
+<a id="a062e1cd4f82b11607a47bcf92b5132e5" name="a062e1cd4f82b11607a47bcf92b5132e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a062e1cd4f82b11607a47bcf92b5132e5">&#9670;&#160;</a></span>operator[]() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a> &gt; </div>
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">auto</a> <a class="el" href="classsw_1_1PropertyBase.html">sw::PropertyBase</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="classsw_1_1IValueConverter.html">TDerived</a> &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> const -&gt; <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt;
+                <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::value &amp;&amp; std::is_pointer&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>&gt;::value,
+                <a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="structsw_1_1__BracketOperationHelper.html">_BracketOperationHelper</a>&lt;<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a4c614360da93c0a041b22e537de151eb">U</a>&gt;::type&gt;::type
+        </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>指针下标运算 </p>
+<dl class="section note"><dt>注解</dt><dd>T为指针时，Get()返回的指针虽是临时对象，但其指向的内存独立存在， 故此处即使operator[]返回引用也不会产生悬空引用，无需限制返回类型。 </dd></dl>
 
 </div>
 </div>

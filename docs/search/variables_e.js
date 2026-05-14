@@ -6,5 +6,6 @@ var searchData=
   ['pitch_3',['pitch',['../classsw_1_1Font.html#ae48df531042cb4d94440eadbe61d532b',1,'sw::Font']]],
   ['previouskeystate_4',['previousKeyState',['../structsw_1_1KeyFlags.html#aa0f0719d6fc16f9590950bcbe0b2ff5a',1,'sw::KeyFlags']]],
   ['propertychanged_5',['PropertyChanged',['../classsw_1_1INotifyPropertyChanged.html#a08086f8d015d3187fc976e608bde2c25',1,'sw::INotifyPropertyChanged']]],
-  ['propertyid_6',['propertyId',['../structsw_1_1PropertyChangedEventArgs.html#add0ea8f9424c8b888fb6efe66cb0cc1f',1,'sw::PropertyChangedEventArgs']]]
+  ['propertyid_6',['propertyId',['../structsw_1_1PropertyChangedEventArgs.html#add0ea8f9424c8b888fb6efe66cb0cc1f',1,'sw::PropertyChangedEventArgs']]],
+  ['ptr_7',['ptr',['../structsw_1_1ObjectRef.html#adddaccb61186a64c6bd14da4836990e5',1,'sw::ObjectRef']]]
 ];

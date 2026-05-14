@@ -39,7 +39,6 @@ var classsw_1_1UIElement =
     [ "GetRealBackColor", "classsw_1_1UIElement.html#a885fcd0ce2feb766f2e3a35ceb8fa8a5", null ],
     [ "GetRealTextColor", "classsw_1_1UIElement.html#a00f4c0ead1a834d62c5a3e898949c3bd", null ],
     [ "GetRootElement", "classsw_1_1UIElement.html#a560ae73ce93ab62df8d04170b11a1f39", null ],
-    [ "GetTag", "classsw_1_1UIElement.html#a04f8d1269f1e70d0d8131a92c5752119", null ],
     [ "IndexOf", "classsw_1_1UIElement.html#a8ff6722c909efcb10fbbc63476ab64d6", null ],
     [ "IndexOf", "classsw_1_1UIElement.html#a45cf2817669c10b59535acf8406a1a09", null ],
     [ "InvalidateMeasure", "classsw_1_1UIElement.html#afea960f1d4f8148b4807d2121f32a6c1", null ],
@@ -106,7 +105,6 @@ var classsw_1_1UIElement =
     [ "SetCursor", "classsw_1_1UIElement.html#a0ce7edc8a920e950a9a75cf1a84ea627", null ],
     [ "SetCursor", "classsw_1_1UIElement.html#a848d8b2ee3267758e9a784be75b65e46", null ],
     [ "SetParent", "classsw_1_1UIElement.html#ad685138138402ddd8a5fde67bbb85a45", null ],
-    [ "SetTag", "classsw_1_1UIElement.html#a09acdba6221e69b6ecb17b49975a1414", null ],
     [ "SetTextColor", "classsw_1_1UIElement.html#ab8557638ba9975346d62f5339de55664", null ],
     [ "ShowContextMenu", "classsw_1_1UIElement.html#a6cf5a64206d296adf153e4d48db9e4ed", null ],
     [ "ToUIElement", "classsw_1_1UIElement.html#a0e0e76a77ca681df2992b06e13380a04", null ],
@@ -133,7 +131,6 @@ var classsw_1_1UIElement =
     [ "MinHeight", "classsw_1_1UIElement.html#a360ea4cc7f6cf85fef3533f425af97d3", null ],
     [ "MinWidth", "classsw_1_1UIElement.html#a99fb629a6497ed371a43572388d0207b", null ],
     [ "TabStop", "classsw_1_1UIElement.html#a2b54e00e1e41af2a634ad694da3ffa98", null ],
-    [ "Tag", "classsw_1_1UIElement.html#a895d79a2fa53382a43b3d02dee195360", null ],
     [ "TextColor", "classsw_1_1UIElement.html#aeaf2381fdffd82bd41e90c1a2cf69022", null ],
     [ "Transparent", "classsw_1_1UIElement.html#aa9d544a538ca2cfa3d022da61e7637e5", null ],
     [ "VerticalAlignment", "classsw_1_1UIElement.html#ad9f49244beb6b854b436e8bbd18f4e21", null ]

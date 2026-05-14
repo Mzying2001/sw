@@ -1,0 +1,810 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: Macros.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('Macros_8h.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#define-members">宏定义</a>  </div>
+  <div class="headertitle"><div class="title">Macros.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>属性定义辅助宏，用于在类中以单行声明的方式生成 <a class="el" href="classsw_1_1Property.html" title="属性">sw::Property</a> 系列成员  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;INotifyPropertyChanged.h&quot;</code><br />
+<code>#include &quot;Property.h&quot;</code><br />
+</div>
+<p><a href="Macros_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:a488f35740dcb1b2dd4a77feb0bdb9c06" id="r_a488f35740dcb1b2dd4a77feb0bdb9c06"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Macros_8h.html#a488f35740dcb1b2dd4a77feb0bdb9c06">_SW_DEFINE_STATIC_GETTER</a>(field)</td></tr>
+<tr class="memdesc:a488f35740dcb1b2dd4a77feb0bdb9c06"><td class="mdescLeft">&#160;</td><td class="mdescRight">在类内定义读取字段值的静态分发函数 <em>Get</em>##field（及配套 trait <em>HasUserGetter</em>##field）  <br /></td></tr>
+<tr class="separator:a488f35740dcb1b2dd4a77feb0bdb9c06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a928564f2047083e823492e2e59a94c0f" id="r_a928564f2047083e823492e2e59a94c0f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Macros_8h.html#a928564f2047083e823492e2e59a94c0f">_SW_DEFINE_STATIC_SETTER</a>(field)</td></tr>
+<tr class="memdesc:a928564f2047083e823492e2e59a94c0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">在类内定义写入字段值的静态分发函数 <em>Set</em>##field（及配套 trait <em>HasUserSetter</em>##field）  <br /></td></tr>
+<tr class="separator:a928564f2047083e823492e2e59a94c0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7e4fe539028ff153f53350d315d64cf" id="r_ae7e4fe539028ff153f53350d315d64cf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Macros_8h.html#ae7e4fe539028ff153f53350d315d64cf">SW_DEFINE_PROPERTY</a>(name,  field)</td></tr>
+<tr class="memdesc:ae7e4fe539028ff153f53350d315d64cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">定义基于字段的可读写属性  <br /></td></tr>
+<tr class="separator:ae7e4fe539028ff153f53350d315d64cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05176f8beda334c73a66a041e64c19a8" id="r_a05176f8beda334c73a66a041e64c19a8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Macros_8h.html#a05176f8beda334c73a66a041e64c19a8">SW_DEFINE_READONLY_PROPERTY</a>(name,  field)</td></tr>
+<tr class="memdesc:a05176f8beda334c73a66a041e64c19a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">定义基于字段的只读属性  <br /></td></tr>
+<tr class="separator:a05176f8beda334c73a66a041e64c19a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a176157056dc634ed43c106857ab481fb" id="r_a176157056dc634ed43c106857ab481fb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Macros_8h.html#a176157056dc634ed43c106857ab481fb">SW_DEFINE_WRITEONLY_PROPERTY</a>(name,  field)</td></tr>
+<tr class="memdesc:a176157056dc634ed43c106857ab481fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">定义基于字段的只写属性  <br /></td></tr>
+<tr class="separator:a176157056dc634ed43c106857ab481fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb3deb2150274c39be24a15856b2534e" id="r_afb3deb2150274c39be24a15856b2534e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Macros_8h.html#afb3deb2150274c39be24a15856b2534e">SW_DEFINE_NOTIFY_PROPERTY</a>(name,  field)</td></tr>
+<tr class="memdesc:afb3deb2150274c39be24a15856b2534e"><td class="mdescLeft">&#160;</td><td class="mdescRight">定义基于字段的通知属性，赋值时通过 PropertyChanged 派发变更通知  <br /></td></tr>
+<tr class="separator:afb3deb2150274c39be24a15856b2534e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac647db0911401a5d30832dc67ce0dbd0" id="r_ac647db0911401a5d30832dc67ce0dbd0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Macros_8h.html#ac647db0911401a5d30832dc67ce0dbd0">_SW_DEFINE_EXPR_PROPERTY_VALUETYPE_HELPER</a>(propname)</td></tr>
+<tr class="memdesc:ac647db0911401a5d30832dc67ce0dbd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">定义计算表达式属性值类型的辅助模板 <em>ExprPropertyValueTypeHelper</em>##propname  <br /></td></tr>
+<tr class="separator:ac647db0911401a5d30832dc67ce0dbd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0dd60cd133a8eb168b273e0a98e235d" id="r_ac0dd60cd133a8eb168b273e0a98e235d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Macros_8h.html#ac0dd60cd133a8eb168b273e0a98e235d">_SW_EXPR_PROPERTY_VALUETYPE</a>(propname,  expr)&#160;&#160;&#160;    typename _ExprPropertyValueTypeHelper_##propname&lt;decltype(expr)&gt;::type</td></tr>
+<tr class="memdesc:ac0dd60cd133a8eb168b273e0a98e235d"><td class="mdescLeft">&#160;</td><td class="mdescRight">取出表达式对应的属性值类型（属性时为其 TValue，否则为 decay 后的表达式类型）  <br /></td></tr>
+<tr class="separator:ac0dd60cd133a8eb168b273e0a98e235d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2eaf7a5a893c25231e3ef871a32c13c1" id="r_a2eaf7a5a893c25231e3ef871a32c13c1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Macros_8h.html#a2eaf7a5a893c25231e3ef871a32c13c1">_SW_DEFINE_EXPR_STATIC_GETTER</a>(propname,  expr)</td></tr>
+<tr class="memdesc:a2eaf7a5a893c25231e3ef871a32c13c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">在类内定义读取表达式值的静态分发函数 <em>Get</em>##propname  <br /></td></tr>
+<tr class="separator:a2eaf7a5a893c25231e3ef871a32c13c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d4fe234ffa596460531a0a47911d15c" id="r_a7d4fe234ffa596460531a0a47911d15c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Macros_8h.html#a7d4fe234ffa596460531a0a47911d15c">_SW_DEFINE_EXPR_STATIC_SETTER</a>(propname,  expr)</td></tr>
+<tr class="memdesc:a7d4fe234ffa596460531a0a47911d15c"><td class="mdescLeft">&#160;</td><td class="mdescRight">在类内定义写入表达式值的静态分发函数 <em>Set</em>##propname  <br /></td></tr>
+<tr class="separator:a7d4fe234ffa596460531a0a47911d15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a7e54c9d91d8dbe479ae5dbbd395e38" id="r_a9a7e54c9d91d8dbe479ae5dbbd395e38"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Macros_8h.html#a9a7e54c9d91d8dbe479ae5dbbd395e38">SW_DEFINE_EXPR_PROPERTY</a>(name,  expr)</td></tr>
+<tr class="memdesc:a9a7e54c9d91d8dbe479ae5dbbd395e38"><td class="mdescLeft">&#160;</td><td class="mdescRight">定义基于表达式 self-&gt;{expr} 的可读写属性，不支持自定义 Getter/Setter  <br /></td></tr>
+<tr class="separator:a9a7e54c9d91d8dbe479ae5dbbd395e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d6ad4421b71e4c0888e12f7a35721f4" id="r_a4d6ad4421b71e4c0888e12f7a35721f4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Macros_8h.html#a4d6ad4421b71e4c0888e12f7a35721f4">SW_DEFINE_EXPR_READONLY_PROPERTY</a>(name,  expr)</td></tr>
+<tr class="memdesc:a4d6ad4421b71e4c0888e12f7a35721f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">定义基于表达式 self-&gt;{expr} 的只读属性，不支持自定义 Getter  <br /></td></tr>
+<tr class="separator:a4d6ad4421b71e4c0888e12f7a35721f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac59817cf0d7c9eb9547645c74b854402" id="r_ac59817cf0d7c9eb9547645c74b854402"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Macros_8h.html#ac59817cf0d7c9eb9547645c74b854402">SW_DEFINE_EXPR_WRITEONLY_PROPERTY</a>(name,  expr)</td></tr>
+<tr class="memdesc:ac59817cf0d7c9eb9547645c74b854402"><td class="mdescLeft">&#160;</td><td class="mdescRight">定义基于表达式 self-&gt;{expr} 的只写属性，不支持自定义 Setter  <br /></td></tr>
+<tr class="separator:ac59817cf0d7c9eb9547645c74b854402"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae335c7afacef784c7979b9865ea08154" id="r_ae335c7afacef784c7979b9865ea08154"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Macros_8h.html#ae335c7afacef784c7979b9865ea08154">SW_DEFINE_EXPR_NOTIFY_PROPERTY</a>(name,  expr)</td></tr>
+<tr class="memdesc:ae335c7afacef784c7979b9865ea08154"><td class="mdescLeft">&#160;</td><td class="mdescRight">定义基于表达式 self-&gt;{expr} 的通知属性，赋值时通过 PropertyChanged 派发变更通知  <br /></td></tr>
+<tr class="separator:ae335c7afacef784c7979b9865ea08154"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>属性定义辅助宏，用于在类中以单行声明的方式生成 <a class="el" href="classsw_1_1Property.html" title="属性">sw::Property</a> 系列成员 </p>
+<dl class="section user"><dt>SW_DEFINE_*_PROPERTY 系列（基于字段）</dt><dd>对类内的非静态数据成员进行属性封装。若类中定义了 Get_{field}/Set_{field} 函数， 生成的属性会优先调用这些函数；否则直接访问字段本身。<ul>
+<li><a class="el" href="Macros_8h.html#ae7e4fe539028ff153f53350d315d64cf" title="定义基于字段的可读写属性">SW_DEFINE_PROPERTY(name, field)</a></li>
+<li><a class="el" href="Macros_8h.html#a05176f8beda334c73a66a041e64c19a8" title="定义基于字段的只读属性">SW_DEFINE_READONLY_PROPERTY(name, field)</a></li>
+<li><a class="el" href="Macros_8h.html#a176157056dc634ed43c106857ab481fb" title="定义基于字段的只写属性">SW_DEFINE_WRITEONLY_PROPERTY(name, field)</a></li>
+<li><a class="el" href="Macros_8h.html#afb3deb2150274c39be24a15856b2534e" title="定义基于字段的通知属性，赋值时通过 PropertyChanged 派发变更通知">SW_DEFINE_NOTIFY_PROPERTY(name, field)</a></li>
+</ul>
+</dd></dl>
+<dl class="section user"><dt>SW_DEFINE_EXPR_*_PROPERTY 系列（基于表达式）</dt><dd>对形如 this-&gt;{expr} 的表达式进行属性封装。当表达式结果是另一个属性时， Get/Set 会转发到该属性；否则直接读写表达式。该系列不支持自定义 Getter/Setter。<ul>
+<li><a class="el" href="Macros_8h.html#a9a7e54c9d91d8dbe479ae5dbbd395e38" title="定义基于表达式 self-&gt;{expr} 的可读写属性，不支持自定义 Getter/Setter">SW_DEFINE_EXPR_PROPERTY(name, expr)</a></li>
+<li><a class="el" href="Macros_8h.html#a4d6ad4421b71e4c0888e12f7a35721f4" title="定义基于表达式 self-&gt;{expr} 的只读属性，不支持自定义 Getter">SW_DEFINE_EXPR_READONLY_PROPERTY(name, expr)</a></li>
+<li><a class="el" href="Macros_8h.html#ac59817cf0d7c9eb9547645c74b854402" title="定义基于表达式 self-&gt;{expr} 的只写属性，不支持自定义 Setter">SW_DEFINE_EXPR_WRITEONLY_PROPERTY(name, expr)</a></li>
+<li><a class="el" href="Macros_8h.html#ae335c7afacef784c7979b9865ea08154" title="定义基于表达式 self-&gt;{expr} 的通知属性，赋值时通过 PropertyChanged 派发变更通知">SW_DEFINE_EXPR_NOTIFY_PROPERTY(name, expr)</a> </li>
+</ul>
+</dd></dl>
+</div><h2 class="groupheader">宏定义说明</h2>
+<a id="ac647db0911401a5d30832dc67ce0dbd0" name="ac647db0911401a5d30832dc67ce0dbd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac647db0911401a5d30832dc67ce0dbd0">&#9670;&#160;</a></span>_SW_DEFINE_EXPR_PROPERTY_VALUETYPE_HELPER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define _SW_DEFINE_EXPR_PROPERTY_VALUETYPE_HELPER</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">propname</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TExpr, <span class="keyword">typename</span> = <span class="keywordtype">void</span>&gt;                                 \</div>
+<div class="line">    <span class="keyword">struct </span>_ExprPropertyValueTypeHelper_##propname {                           \</div>
+<div class="line">        <span class="keyword">using </span>type = <span class="keyword">typename</span> std::decay&lt;TExpr&gt;::type;                         \</div>
+<div class="line">    };                                                                         \</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TExpr&gt;                                                  \</div>
+<div class="line">    <span class="keyword">struct </span>_ExprPropertyValueTypeHelper_##propname&lt;                            \</div>
+<div class="line">        TExpr, typename std::enable_if&lt;sw::_IsProperty&lt;TExpr&gt;::value&gt;::type&gt; { \</div>
+<div class="line">        <span class="keyword">using </span>type = <span class="keyword">typename</span> TExpr::TValue;                                   \</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>定义计算表达式属性值类型的辅助模板 <em>ExprPropertyValueTypeHelper</em>##propname </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">propname</td><td>属性名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>表达式类型为属性时 type 取属性的 TValue；否则取 std::decay 后的表达式类型 </dd></dl>
+
+</div>
+</div>
+<a id="a2eaf7a5a893c25231e3ef871a32c13c1" name="a2eaf7a5a893c25231e3ef871a32c13c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2eaf7a5a893c25231e3ef871a32c13c1">&#9670;&#160;</a></span>_SW_DEFINE_EXPR_STATIC_GETTER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define _SW_DEFINE_EXPR_STATIC_GETTER</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">propname, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">expr&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U = decltype(expr)&gt;                                  \</div>
+<div class="line">    <span class="keyword">static</span> <span class="keyword">auto</span> _Get_##propname(T &amp;self)                                                \</div>
+<div class="line">        -&gt; <span class="keyword">typename</span> std::enable_if&lt;sw::_IsProperty&lt;U&gt;::value, <span class="keyword">typename</span> U::TValue&gt;::type \</div>
+<div class="line">    {                                                                                   \</div>
+<div class="line">        return (self.expr).Get();                                                       \</div>
+<div class="line">    }                                                                                   \</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U = decltype(expr)&gt;                                  \</div>
+<div class="line">    <span class="keyword">static</span> <span class="keyword">auto</span> _Get_##propname(T &amp;self)                                                \</div>
+<div class="line">        -&gt; <span class="keyword">typename</span> std::enable_if&lt;!sw::_IsProperty&lt;U&gt;::value, U&gt;::type                 \</div>
+<div class="line">    {                                                                                   \</div>
+<div class="line">        return (self.expr);                                                             \</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>在类内定义读取表达式值的静态分发函数 <em>Get</em>##propname </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">propname</td><td>属性名 </td></tr>
+    <tr><td class="paramname">expr</td><td>形如 self-&gt;{expr} 的表达式片段 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>表达式结果为属性时调用其 Get()，否则直接读取表达式 </dd></dl>
+
+</div>
+</div>
+<a id="a7d4fe234ffa596460531a0a47911d15c" name="a7d4fe234ffa596460531a0a47911d15c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d4fe234ffa596460531a0a47911d15c">&#9670;&#160;</a></span>_SW_DEFINE_EXPR_STATIC_SETTER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define _SW_DEFINE_EXPR_STATIC_SETTER</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">propname, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">expr&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U, <span class="keyword">typename</span> V = decltype(expr)&gt;   \</div>
+<div class="line">    <span class="keyword">static</span> <span class="keyword">auto</span> _Set_##propname(T &amp;self, U &amp;&amp;value)                  \</div>
+<div class="line">        -&gt; <span class="keyword">typename</span> std::enable_if&lt;sw::_IsProperty&lt;V&gt;::value&gt;::type  \</div>
+<div class="line">    {                                                                \</div>
+<div class="line">        (self.expr).Set(std::forward&lt;U&gt;(value));                     \</div>
+<div class="line">    }                                                                \</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U, <span class="keyword">typename</span> V = decltype(expr)&gt;   \</div>
+<div class="line">    <span class="keyword">static</span> <span class="keyword">auto</span> _Set_##propname(T &amp;self, U &amp;&amp;value)                  \</div>
+<div class="line">        -&gt; <span class="keyword">typename</span> std::enable_if&lt;!sw::_IsProperty&lt;V&gt;::value&gt;::type \</div>
+<div class="line">    {                                                                \</div>
+<div class="line">        (self.expr) = std::forward&lt;U&gt;(value);                        \</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>在类内定义写入表达式值的静态分发函数 <em>Set</em>##propname </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">propname</td><td>属性名 </td></tr>
+    <tr><td class="paramname">expr</td><td>形如 self-&gt;{expr} 的表达式片段 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>表达式结果为属性时调用其 Set()，否则直接对表达式赋值 </dd></dl>
+
+</div>
+</div>
+<a id="a488f35740dcb1b2dd4a77feb0bdb9c06" name="a488f35740dcb1b2dd4a77feb0bdb9c06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a488f35740dcb1b2dd4a77feb0bdb9c06">&#9670;&#160;</a></span>_SW_DEFINE_STATIC_GETTER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define _SW_DEFINE_STATIC_GETTER</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">field</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> = <span class="keywordtype">void</span>&gt;                                                               \</div>
+<div class="line">    <span class="keyword">struct </span>_HasUserGetter_##field : std::false_type {                                                    \</div>
+<div class="line">    };                                                                                                   \</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;                                                                                \</div>
+<div class="line">    <span class="keyword">struct </span>_HasUserGetter_##field&lt;T, decltype(void(&amp;T::Get_##field))&gt; : std::true_type {                 \</div>
+<div class="line">    };                                                                                                   \</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;                                                                                \</div>
+<div class="line">    <span class="keyword">static</span> <span class="keyword">auto</span> _Get_##field(T &amp;self)                                                                    \</div>
+<div class="line">        -&gt; <span class="keyword">typename</span> std::enable_if&lt;_HasUserGetter_##field&lt;T&gt;::value, <span class="keyword">decltype</span>(self.Get_##field())&gt;::type \</div>
+<div class="line">    {                                                                                                    \</div>
+<div class="line">        <span class="keywordflow">return</span> self.Get_##field();                                                                       \</div>
+<div class="line">    }                                                                                                    \</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;                                                                                \</div>
+<div class="line">    <span class="keyword">static</span> <span class="keyword">auto</span> _Get_##field(T &amp;self)                                                                    \</div>
+<div class="line">        -&gt; <span class="keyword">typename</span> std::enable_if&lt;!_HasUserGetter_##field&lt;T&gt;::value, <span class="keyword">decltype</span>(T::field) &amp;&gt;::type        \</div>
+<div class="line">    {                                                                                                    \</div>
+<div class="line">        <span class="keywordflow">return</span> self.field;                                                                               \</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>在类内定义读取字段值的静态分发函数 <em>Get</em>##field（及配套 trait <em>HasUserGetter</em>##field） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">field</td><td>类中已声明的非静态数据成员名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>若类中存在自定义 Get_##field()，_Get_##field 转发调用之；否则直接返回 self.field 的引用 </dd></dl>
+
+</div>
+</div>
+<a id="a928564f2047083e823492e2e59a94c0f" name="a928564f2047083e823492e2e59a94c0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a928564f2047083e823492e2e59a94c0f">&#9670;&#160;</a></span>_SW_DEFINE_STATIC_SETTER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define _SW_DEFINE_STATIC_SETTER</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">field</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> = <span class="keywordtype">void</span>&gt;                                               \</div>
+<div class="line">    <span class="keyword">struct </span>_HasUserSetter_##field : std::false_type {                                    \</div>
+<div class="line">    };                                                                                   \</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;                                                                \</div>
+<div class="line">    <span class="keyword">struct </span>_HasUserSetter_##field&lt;T, decltype(void(&amp;T::Set_##field))&gt; : std::true_type { \</div>
+<div class="line">    };                                                                                   \</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;                                                    \</div>
+<div class="line">    <span class="keyword">static</span> <span class="keyword">auto</span> _Set_##field(T &amp;self, U &amp;&amp;value)                                         \</div>
+<div class="line">        -&gt; <span class="keyword">typename</span> std::enable_if&lt;_HasUserSetter_##field&lt;T&gt;::value&gt;::type               \</div>
+<div class="line">    {                                                                                    \</div>
+<div class="line">        self.Set_##field(std::forward&lt;U&gt;(value));                                        \</div>
+<div class="line">    }                                                                                    \</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;                                                    \</div>
+<div class="line">    <span class="keyword">static</span> <span class="keyword">auto</span> _Set_##field(T &amp;self, U &amp;&amp;value)                                         \</div>
+<div class="line">        -&gt; <span class="keyword">typename</span> std::enable_if&lt;!_HasUserSetter_##field&lt;T&gt;::value&gt;::type              \</div>
+<div class="line">    {                                                                                    \</div>
+<div class="line">        self.field = std::forward&lt;U&gt;(value);                                             \</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>在类内定义写入字段值的静态分发函数 <em>Set</em>##field（及配套 trait <em>HasUserSetter</em>##field） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">field</td><td>类中已声明的非静态数据成员名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>若类中存在自定义 Set_##field()，_Set_##field 转发调用之；否则直接对 self.field 赋值 </dd></dl>
+
+</div>
+</div>
+<a id="ac0dd60cd133a8eb168b273e0a98e235d" name="ac0dd60cd133a8eb168b273e0a98e235d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0dd60cd133a8eb168b273e0a98e235d">&#9670;&#160;</a></span>_SW_EXPR_PROPERTY_VALUETYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define _SW_EXPR_PROPERTY_VALUETYPE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">propname, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">expr&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;    typename _ExprPropertyValueTypeHelper_##propname&lt;decltype(expr)&gt;::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>取出表达式对应的属性值类型（属性时为其 TValue，否则为 decay 后的表达式类型） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">propname</td><td>属性名 </td></tr>
+    <tr><td class="paramname">expr</td><td>形如 self-&gt;{expr} 的表达式片段 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae335c7afacef784c7979b9865ea08154" name="ae335c7afacef784c7979b9865ea08154"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae335c7afacef784c7979b9865ea08154">&#9670;&#160;</a></span>SW_DEFINE_EXPR_NOTIFY_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SW_DEFINE_EXPR_NOTIFY_PROPERTY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">expr&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>定义基于表达式 self-&gt;{expr} 的通知属性，赋值时通过 PropertyChanged 派发变更通知 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>生成的 <a class="el" href="classsw_1_1Property.html" title="属性">sw::Property</a> 成员名 </td></tr>
+    <tr><td class="paramname">expr</td><td>形如 self-&gt;{expr} 的表达式片段 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>应在派生自 <a class="el" href="classsw_1_1INotifyPropertyChanged.html" title="属性变更通知接口">sw::INotifyPropertyChanged</a> 的类中使用。 表达式结果为属性时转发到其 Get/Set，否则直接访问表达式； Setter 在类型支持 == 比较时先比较，仅在值发生变更时触发 PropertyChanged； 不支持 == 比较时每次赋值都触发。 </dd></dl>
+
+</div>
+</div>
+<a id="a9a7e54c9d91d8dbe479ae5dbbd395e38" name="a9a7e54c9d91d8dbe479ae5dbbd395e38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a7e54c9d91d8dbe479ae5dbbd395e38">&#9670;&#160;</a></span>SW_DEFINE_EXPR_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SW_DEFINE_EXPR_PROPERTY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">expr&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="Macros_8h.html#ac647db0911401a5d30832dc67ce0dbd0">_SW_DEFINE_EXPR_PROPERTY_VALUETYPE_HELPER</a>(name);                      \</div>
+<div class="line">    _SW_DEFINE_EXPR_STATIC_GETTER(name, expr);                            \</div>
+<div class="line">    _SW_DEFINE_EXPR_STATIC_SETTER(name, expr);                            \</div>
+<div class="line">    <a class="code hl_class" href="classsw_1_1Property.html">sw::Property</a>&lt;<a class="code hl_define" href="Macros_8h.html#ac0dd60cd133a8eb168b273e0a98e235d">_SW_EXPR_PROPERTY_VALUETYPE</a>(name, expr)&gt; name            \</div>
+<div class="line">    {                                                                     \</div>
+<div class="line">        <a class="code hl_class" href="classsw_1_1Property.html">sw::Property</a>&lt;<a class="code hl_define" href="Macros_8h.html#ac0dd60cd133a8eb168b273e0a98e235d">_SW_EXPR_PROPERTY_VALUETYPE</a>(name, expr)&gt;::Init(<span class="keyword">this</span>) \</div>
+<div class="line">            .Getter([](<span class="keyword">auto</span> self) {                                       \</div>
+<div class="line">                <span class="keywordflow">return</span> _Get_##name(*self);                                \</div>
+<div class="line">            })                                                            \</div>
+<div class="line">            .Setter([](<span class="keyword">auto</span> self, <span class="keyword">auto</span> value) {                           \</div>
+<div class="line">                _Set_##name(*self, value);                                \</div>
+<div class="line">            })                                                            \</div>
+<div class="line">    }</div>
+<div class="ttc" id="aMacros_8h_html_ac0dd60cd133a8eb168b273e0a98e235d"><div class="ttname"><a href="Macros_8h.html#ac0dd60cd133a8eb168b273e0a98e235d">_SW_EXPR_PROPERTY_VALUETYPE</a></div><div class="ttdeci">#define _SW_EXPR_PROPERTY_VALUETYPE(propname, expr)</div><div class="ttdoc">取出表达式对应的属性值类型（属性时为其 TValue，否则为 decay 后的表达式类型）</div><div class="ttdef"><b>Definition</b> Macros.h:220</div></div>
+<div class="ttc" id="aMacros_8h_html_ac647db0911401a5d30832dc67ce0dbd0"><div class="ttname"><a href="Macros_8h.html#ac647db0911401a5d30832dc67ce0dbd0">_SW_DEFINE_EXPR_PROPERTY_VALUETYPE_HELPER</a></div><div class="ttdeci">#define _SW_DEFINE_EXPR_PROPERTY_VALUETYPE_HELPER(propname)</div><div class="ttdoc">定义计算表达式属性值类型的辅助模板 ExprPropertyValueTypeHelper##propname</div><div class="ttdef"><b>Definition</b> Macros.h:204</div></div>
+<div class="ttc" id="aclasssw_1_1Property_html"><div class="ttname"><a href="classsw_1_1Property.html">sw::Property</a></div><div class="ttdoc">属性</div><div class="ttdef"><b>Definition</b> Property.h:1751</div></div>
+</div><!-- fragment -->
+<p>定义基于表达式 self-&gt;{expr} 的可读写属性，不支持自定义 Getter/Setter </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>生成的 <a class="el" href="classsw_1_1Property.html" title="属性">sw::Property</a> 成员名 </td></tr>
+    <tr><td class="paramname">expr</td><td>形如 self-&gt;{expr} 的表达式片段 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>表达式结果为属性时转发到其 Get/Set，否则直接访问表达式 </dd></dl>
+
+</div>
+</div>
+<a id="a4d6ad4421b71e4c0888e12f7a35721f4" name="a4d6ad4421b71e4c0888e12f7a35721f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d6ad4421b71e4c0888e12f7a35721f4">&#9670;&#160;</a></span>SW_DEFINE_EXPR_READONLY_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SW_DEFINE_EXPR_READONLY_PROPERTY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">expr&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="Macros_8h.html#ac647db0911401a5d30832dc67ce0dbd0">_SW_DEFINE_EXPR_PROPERTY_VALUETYPE_HELPER</a>(name);                      \</div>
+<div class="line">    _SW_DEFINE_EXPR_STATIC_GETTER(name, expr);                            \</div>
+<div class="line">    <a class="code hl_class" href="classsw_1_1ReadOnlyProperty.html">sw::ReadOnlyProperty</a>&lt;<a class="code hl_define" href="Macros_8h.html#ac0dd60cd133a8eb168b273e0a98e235d">_SW_EXPR_PROPERTY_VALUETYPE</a>(name, expr)&gt; name    \</div>
+<div class="line">    {                                                                     \</div>
+<div class="line">        <a class="code hl_class" href="classsw_1_1Property.html">sw::Property</a>&lt;<a class="code hl_define" href="Macros_8h.html#ac0dd60cd133a8eb168b273e0a98e235d">_SW_EXPR_PROPERTY_VALUETYPE</a>(name, expr)&gt;::Init(<span class="keyword">this</span>) \</div>
+<div class="line">            .Getter([](<span class="keyword">auto</span> self) {                                       \</div>
+<div class="line">                <span class="keywordflow">return</span> _Get_##name(*self);                                \</div>
+<div class="line">            })                                                            \</div>
+<div class="line">    }</div>
+<div class="ttc" id="aclasssw_1_1ReadOnlyProperty_html"><div class="ttname"><a href="classsw_1_1ReadOnlyProperty.html">sw::ReadOnlyProperty</a></div><div class="ttdoc">只读属性</div><div class="ttdef"><b>Definition</b> Property.h:1837</div></div>
+</div><!-- fragment -->
+<p>定义基于表达式 self-&gt;{expr} 的只读属性，不支持自定义 Getter </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>生成的 <a class="el" href="classsw_1_1ReadOnlyProperty.html" title="只读属性">sw::ReadOnlyProperty</a> 成员名 </td></tr>
+    <tr><td class="paramname">expr</td><td>形如 self-&gt;{expr} 的表达式片段 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>表达式结果为属性时调用其 Get()，否则直接读取表达式 </dd></dl>
+
+</div>
+</div>
+<a id="ac59817cf0d7c9eb9547645c74b854402" name="ac59817cf0d7c9eb9547645c74b854402"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac59817cf0d7c9eb9547645c74b854402">&#9670;&#160;</a></span>SW_DEFINE_EXPR_WRITEONLY_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SW_DEFINE_EXPR_WRITEONLY_PROPERTY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">expr&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="Macros_8h.html#ac647db0911401a5d30832dc67ce0dbd0">_SW_DEFINE_EXPR_PROPERTY_VALUETYPE_HELPER</a>(name);                      \</div>
+<div class="line">    _SW_DEFINE_EXPR_STATIC_SETTER(name, expr);                            \</div>
+<div class="line">    <a class="code hl_class" href="classsw_1_1WriteOnlyProperty.html">sw::WriteOnlyProperty</a>&lt;<a class="code hl_define" href="Macros_8h.html#ac0dd60cd133a8eb168b273e0a98e235d">_SW_EXPR_PROPERTY_VALUETYPE</a>(name, expr)&gt; name   \</div>
+<div class="line">    {                                                                     \</div>
+<div class="line">        <a class="code hl_class" href="classsw_1_1Property.html">sw::Property</a>&lt;<a class="code hl_define" href="Macros_8h.html#ac0dd60cd133a8eb168b273e0a98e235d">_SW_EXPR_PROPERTY_VALUETYPE</a>(name, expr)&gt;::Init(<span class="keyword">this</span>) \</div>
+<div class="line">            .Setter([](<span class="keyword">auto</span> self, <span class="keyword">auto</span> value) {                           \</div>
+<div class="line">                _Set_##name(*self, value);                                \</div>
+<div class="line">            })                                                            \</div>
+<div class="line">    }</div>
+<div class="ttc" id="aclasssw_1_1WriteOnlyProperty_html"><div class="ttname"><a href="classsw_1_1WriteOnlyProperty.html">sw::WriteOnlyProperty</a></div><div class="ttdoc">只写属性</div><div class="ttdef"><b>Definition</b> Property.h:1895</div></div>
+</div><!-- fragment -->
+<p>定义基于表达式 self-&gt;{expr} 的只写属性，不支持自定义 Setter </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>生成的 <a class="el" href="classsw_1_1WriteOnlyProperty.html" title="只写属性">sw::WriteOnlyProperty</a> 成员名 </td></tr>
+    <tr><td class="paramname">expr</td><td>形如 self-&gt;{expr} 的表达式片段 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>表达式结果为属性时调用其 Set()，否则直接对表达式赋值 </dd></dl>
+
+</div>
+</div>
+<a id="afb3deb2150274c39be24a15856b2534e" name="afb3deb2150274c39be24a15856b2534e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb3deb2150274c39be24a15856b2534e">&#9670;&#160;</a></span>SW_DEFINE_NOTIFY_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SW_DEFINE_NOTIFY_PROPERTY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">field&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>定义基于字段的通知属性，赋值时通过 PropertyChanged 派发变更通知 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>生成的 <a class="el" href="classsw_1_1Property.html" title="属性">sw::Property</a> 成员名 </td></tr>
+    <tr><td class="paramname">field</td><td>类中已声明的非静态数据成员名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>应在派生自 <a class="el" href="classsw_1_1INotifyPropertyChanged.html" title="属性变更通知接口">sw::INotifyPropertyChanged</a> 的类中使用。 类中存在自定义 Get_##field/Set_##field 时优先调用，否则直接访问字段。 未自定义 Setter 时：若字段类型支持 == 比较则先比较，仅在值发生变更时触发 PropertyChanged； 不支持 == 比较时每次赋值都触发。自定义 Setter 时由用户负责通知（宏不主动触发）。 </dd></dl>
+
+</div>
+</div>
+<a id="ae7e4fe539028ff153f53350d315d64cf" name="ae7e4fe539028ff153f53350d315d64cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7e4fe539028ff153f53350d315d64cf">&#9670;&#160;</a></span>SW_DEFINE_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SW_DEFINE_PROPERTY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">field&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="Macros_8h.html#a488f35740dcb1b2dd4a77feb0bdb9c06">_SW_DEFINE_STATIC_GETTER</a>(field);              \</div>
+<div class="line">    _SW_DEFINE_STATIC_SETTER(field);              \</div>
+<div class="line">    <a class="code hl_class" href="classsw_1_1Property.html">sw::Property</a>&lt;<span class="keyword">decltype</span>(field)&gt; name            \</div>
+<div class="line">    {                                             \</div>
+<div class="line">        <a class="code hl_class" href="classsw_1_1Property.html">sw::Property</a>&lt;<span class="keyword">decltype</span>(field)&gt;::Init(<span class="keyword">this</span>) \</div>
+<div class="line">            .Getter([](<span class="keyword">auto</span> self) {               \</div>
+<div class="line">                <span class="keywordflow">return</span> _Get_##field(*self);       \</div>
+<div class="line">            })                                    \</div>
+<div class="line">            .Setter([](<span class="keyword">auto</span> self, <span class="keyword">auto</span> value) {   \</div>
+<div class="line">                _Set_##field(*self, value);       \</div>
+<div class="line">            })                                    \</div>
+<div class="line">    }</div>
+<div class="ttc" id="aMacros_8h_html_a488f35740dcb1b2dd4a77feb0bdb9c06"><div class="ttname"><a href="Macros_8h.html#a488f35740dcb1b2dd4a77feb0bdb9c06">_SW_DEFINE_STATIC_GETTER</a></div><div class="ttdeci">#define _SW_DEFINE_STATIC_GETTER(field)</div><div class="ttdoc">在类内定义读取字段值的静态分发函数 Get##field（及配套 trait HasUserGetter##field）</div><div class="ttdef"><b>Definition</b> Macros.h:36</div></div>
+</div><!-- fragment -->
+<p>定义基于字段的可读写属性 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>生成的 <a class="el" href="classsw_1_1Property.html" title="属性">sw::Property</a> 成员名 </td></tr>
+    <tr><td class="paramname">field</td><td>类中已声明的非静态数据成员名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>类中存在自定义 Get_##field/Set_##field 时优先调用，否则直接访问字段 </dd></dl>
+
+</div>
+</div>
+<a id="a05176f8beda334c73a66a041e64c19a8" name="a05176f8beda334c73a66a041e64c19a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05176f8beda334c73a66a041e64c19a8">&#9670;&#160;</a></span>SW_DEFINE_READONLY_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SW_DEFINE_READONLY_PROPERTY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">field&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="Macros_8h.html#a488f35740dcb1b2dd4a77feb0bdb9c06">_SW_DEFINE_STATIC_GETTER</a>(field);              \</div>
+<div class="line">    <a class="code hl_class" href="classsw_1_1ReadOnlyProperty.html">sw::ReadOnlyProperty</a>&lt;<span class="keyword">decltype</span>(field)&gt; name    \</div>
+<div class="line">    {                                             \</div>
+<div class="line">        <a class="code hl_class" href="classsw_1_1Property.html">sw::Property</a>&lt;<span class="keyword">decltype</span>(field)&gt;::Init(<span class="keyword">this</span>) \</div>
+<div class="line">            .Getter([](<span class="keyword">auto</span> self) {               \</div>
+<div class="line">                <span class="keywordflow">return</span> _Get_##field(*self);       \</div>
+<div class="line">            })                                    \</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>定义基于字段的只读属性 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>生成的 <a class="el" href="classsw_1_1ReadOnlyProperty.html" title="只读属性">sw::ReadOnlyProperty</a> 成员名 </td></tr>
+    <tr><td class="paramname">field</td><td>类中已声明的非静态数据成员名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>类中存在自定义 Get_##field 时优先调用，否则直接访问字段 </dd></dl>
+
+</div>
+</div>
+<a id="a176157056dc634ed43c106857ab481fb" name="a176157056dc634ed43c106857ab481fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a176157056dc634ed43c106857ab481fb">&#9670;&#160;</a></span>SW_DEFINE_WRITEONLY_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SW_DEFINE_WRITEONLY_PROPERTY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">field&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="Macros_8h.html#a928564f2047083e823492e2e59a94c0f">_SW_DEFINE_STATIC_SETTER</a>(field);              \</div>
+<div class="line">    <a class="code hl_class" href="classsw_1_1WriteOnlyProperty.html">sw::WriteOnlyProperty</a>&lt;<span class="keyword">decltype</span>(field)&gt; name   \</div>
+<div class="line">    {                                             \</div>
+<div class="line">        <a class="code hl_class" href="classsw_1_1Property.html">sw::Property</a>&lt;<span class="keyword">decltype</span>(field)&gt;::Init(<span class="keyword">this</span>) \</div>
+<div class="line">            .Setter([](<span class="keyword">auto</span> self, <span class="keyword">auto</span> value) {   \</div>
+<div class="line">                _Set_##field(*self, value);       \</div>
+<div class="line">            })                                    \</div>
+<div class="line">    }</div>
+<div class="ttc" id="aMacros_8h_html_a928564f2047083e823492e2e59a94c0f"><div class="ttname"><a href="Macros_8h.html#a928564f2047083e823492e2e59a94c0f">_SW_DEFINE_STATIC_SETTER</a></div><div class="ttdeci">#define _SW_DEFINE_STATIC_SETTER(field)</div><div class="ttdoc">在类内定义写入字段值的静态分发函数 Set##field（及配套 trait HasUserSetter##field）</div><div class="ttdef"><b>Definition</b> Macros.h:61</div></div>
+</div><!-- fragment -->
+<p>定义基于字段的只写属性 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>生成的 <a class="el" href="classsw_1_1WriteOnlyProperty.html" title="只写属性">sw::WriteOnlyProperty</a> 成员名 </td></tr>
+    <tr><td class="paramname">field</td><td>类中已声明的非静态数据成员名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>类中存在自定义 Set_##field 时优先调用，否则直接访问字段 </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><a class="el" href="Macros_8h.html">Macros.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

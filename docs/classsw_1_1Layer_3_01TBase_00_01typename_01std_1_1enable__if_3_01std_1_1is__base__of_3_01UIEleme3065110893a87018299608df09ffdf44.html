@@ -853,7 +853,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
       </table>
 </div><div class="memdoc">
 <b>初始值:</b><div class="fragment"><div class="line">{</div>
-<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;bool&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a80fa720dc8f7ec58a54a9d3f19421520">Property&lt;bool&gt;::Init</a>(<span class="keyword">this</span>)</div>
 <div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">bool</span> {</div>
 <div class="line">                    <span class="keywordflow">return</span> self-&gt;_autoSize;</div>
 <div class="line">                })</div>
@@ -865,7 +865,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
 <div class="line">                })}</div>
 <div class="ttc" id="aclasssw_1_1IValueConverter_html"><div class="ttname"><a href="classsw_1_1IValueConverter.html">sw::IValueConverter</a></div><div class="ttdoc">值转换器接口</div><div class="ttdef"><b>Definition</b> IValueConverter.h:14</div></div>
 <div class="ttc" id="aclasssw_1_1Layer_html"><div class="ttname"><a href="classsw_1_1Layer.html">sw::Layer</a></div><div class="ttdef"><b>Definition</b> Layer.h:12</div></div>
-<div class="ttc" id="aclasssw_1_1PropertyBase_html_a04b2576f3c802576a2eb2f0eb1b84020"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">sw::PropertyBase&lt; T, Property&lt; T &gt; &gt;::Init</a></div><div class="ttdeci">static StaticPropertyInitializer&lt; T &gt; Init()</div><div class="ttdoc">获取静态属性初始化器</div><div class="ttdef"><b>Definition</b> Property.h:1523</div></div>
+<div class="ttc" id="aclasssw_1_1PropertyBase_html_a80fa720dc8f7ec58a54a9d3f19421520"><div class="ttname"><a href="classsw_1_1PropertyBase.html#a80fa720dc8f7ec58a54a9d3f19421520">sw::PropertyBase&lt; T, Property&lt; T &gt; &gt;::Init</a></div><div class="ttdeci">static auto Init() -&gt; StaticPropertyInitializer&lt; T &gt;</div><div class="ttdoc">获取静态属性初始化器</div><div class="ttdef"><b>Definition</b> Property.h:1554</div></div>
 </div><!-- fragment -->
 <p>是否按照布局方式与子元素自动调整尺寸，该属性仅在当前元素已设置布局方式并且非顶级元素时有效 </p>
 
@@ -885,7 +885,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
       </table>
 </div><div class="memdoc">
 <b>初始值:</b><div class="fragment"><div class="line">{</div>
-<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;bool&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a80fa720dc8f7ec58a54a9d3f19421520">Property&lt;bool&gt;::Init</a>(<span class="keyword">this</span>)</div>
 <div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">bool</span> {</div>
 <div class="line">                    <span class="keywordflow">return</span> self-&gt;GetStyle(WS_HSCROLL);</div>
 <div class="line">                })</div>
@@ -920,7 +920,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
       </table>
 </div><div class="memdoc">
 <b>初始值:</b><div class="fragment"><div class="line">{</div>
-<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;double&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a80fa720dc8f7ec58a54a9d3f19421520">Property&lt;double&gt;::Init</a>(<span class="keyword">this</span>)</div>
 <div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">double</span> {</div>
 <div class="line">                    <span class="keywordflow">if</span> (self-&gt;_horizontalScrollDisabled) {</div>
 <div class="line">                        return 0;</div>
@@ -951,7 +951,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
       </table>
 </div><div class="memdoc">
 <b>初始值:</b><div class="fragment"><div class="line">{</div>
-<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;double&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a80fa720dc8f7ec58a54a9d3f19421520">Property&lt;double&gt;::Init</a>(<span class="keyword">this</span>)</div>
 <div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">double</span> {</div>
 <div class="line">                    SCROLLINFO info{};</div>
 <div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.cbSize = <span class="keyword">sizeof</span>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>);</div>
@@ -993,7 +993,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
       </table>
 </div><div class="memdoc">
 <b>初始值:</b><div class="fragment"><div class="line">{</div>
-<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;LayoutHost *&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a80fa720dc8f7ec58a54a9d3f19421520">Property&lt;LayoutHost *&gt;::Init</a>(<span class="keyword">this</span>)</div>
 <div class="line">                .Getter([](Layer *self) -&gt; LayoutHost * {</div>
 <div class="line">                    <span class="keywordflow">return</span> self-&gt;_customLayout;</div>
 <div class="line">                })</div>
@@ -1024,7 +1024,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
       </table>
 </div><div class="memdoc">
 <b>初始值:</b><div class="fragment"><div class="line">{</div>
-<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;bool&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a80fa720dc8f7ec58a54a9d3f19421520">Property&lt;bool&gt;::Init</a>(<span class="keyword">this</span>)</div>
 <div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">bool</span> {</div>
 <div class="line">                    <span class="keywordflow">return</span> self-&gt;_mouseWheelScrollEnabled;</div>
 <div class="line">                })</div>
@@ -1050,7 +1050,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
       </table>
 </div><div class="memdoc">
 <b>初始值:</b><div class="fragment"><div class="line">{</div>
-<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;bool&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a80fa720dc8f7ec58a54a9d3f19421520">Property&lt;bool&gt;::Init</a>(<span class="keyword">this</span>)</div>
 <div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">bool</span> {</div>
 <div class="line">                    <span class="keywordflow">return</span> self-&gt;GetStyle(WS_VSCROLL);</div>
 <div class="line">                })</div>
@@ -1085,7 +1085,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
       </table>
 </div><div class="memdoc">
 <b>初始值:</b><div class="fragment"><div class="line">{</div>
-<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;double&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a80fa720dc8f7ec58a54a9d3f19421520">Property&lt;double&gt;::Init</a>(<span class="keyword">this</span>)</div>
 <div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">double</span> {</div>
 <div class="line">                    <span class="keywordflow">if</span> (self-&gt;_verticalScrollDisabled) {</div>
 <div class="line">                        return 0;</div>
@@ -1116,7 +1116,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TB
       </table>
 </div><div class="memdoc">
 <b>初始值:</b><div class="fragment"><div class="line">{</div>
-<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a04b2576f3c802576a2eb2f0eb1b84020">Property&lt;double&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line">            <a class="code hl_function" href="classsw_1_1PropertyBase.html#a80fa720dc8f7ec58a54a9d3f19421520">Property&lt;double&gt;::Init</a>(<span class="keyword">this</span>)</div>
 <div class="line">                .Getter([](Layer *self) -&gt; <span class="keywordtype">double</span> {</div>
 <div class="line">                    SCROLLINFO info{};</div>
 <div class="line">                    <a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>.cbSize = <span class="keyword">sizeof</span>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">info</a>);</div>

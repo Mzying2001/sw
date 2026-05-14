@@ -150,6 +150,9 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:ae60438349991563193cab03dc1af4875" id="r_ae60438349991563193cab03dc1af4875"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1DynamicObject.html#ae60438349991563193cab03dc1af4875">IsBoxedObject</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
 <tr class="memdesc:ae60438349991563193cab03dc1af4875"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断对象是否为装箱对象  <br /></td></tr>
 <tr class="separator:ae60438349991563193cab03dc1af4875"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69da399b726fd71ca62d1717209314e4" id="r_a69da399b726fd71ca62d1717209314e4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1DynamicObject.html#a69da399b726fd71ca62d1717209314e4">ReferenceEquals</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>) <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a69da399b726fd71ca62d1717209314e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断与另一DynamicObject是否引用同一对象  <br /></td></tr>
+<tr class="separator:a69da399b726fd71ca62d1717209314e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa99b1fcd3441b733110d06ff6659fd16" id="r_aa99b1fcd3441b733110d06ff6659fd16"><td class="memItemLeft" align="right" valign="top">std::type_index&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1DynamicObject.html#aa99b1fcd3441b733110d06ff6659fd16">GetType</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
 <tr class="memdesc:aa99b1fcd3441b733110d06ff6659fd16"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取对象的类型信息  <br /></td></tr>
 <tr class="separator:aa99b1fcd3441b733110d06ff6659fd16"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -748,6 +751,36 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>如果对象为指定类型则返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a69da399b726fd71ca62d1717209314e4" name="a69da399b726fd71ca62d1717209314e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69da399b726fd71ca62d1717209314e4">&#9670;&#160;</a></span>ReferenceEquals()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::DynamicObject::ReferenceEquals </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1DynamicObject.html">DynamicObject</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断与另一DynamicObject是否引用同一对象 </p>
+<dl class="section return"><dt>返回</dt><dd>引用同一对象时返回true </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>若为引用装箱则比较被引用对象的地址 </dd></dl>
 
 </div>
 </div>

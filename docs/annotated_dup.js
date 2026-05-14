@@ -178,6 +178,7 @@ var annotated_dup =
       [ "NumericToBoolConverter< TSource, typename std::enable_if< std::is_arithmetic< TSource >::value >::type >", "classsw_1_1NumericToBoolConverter_3_01TSource_00_01typename_01std_1_1enable__if_3_01std_1_1is__a849fb0b165e3a9b6189e5935765b4e99.html", null ],
       [ "NumericToEnumConverter", "classsw_1_1NumericToEnumConverter.html", null ],
       [ "NumericToEnumConverter< TSource, TTarget, typename std::enable_if< std::is_arithmetic< TSource >::value &&std::is_enum< TTarget >::value >::type >", "classsw_1_1NumericToEnumConverter_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_0bf5e32abf57279b0531b984dfdd92fcc.html", null ],
+      [ "ObjectRef", "structsw_1_1ObjectRef.html", "structsw_1_1ObjectRef" ],
       [ "ObservableObject", "classsw_1_1ObservableObject.html", "classsw_1_1ObservableObject" ],
       [ "OpenFileDialog", "classsw_1_1OpenFileDialog.html", "classsw_1_1OpenFileDialog" ],
       [ "Panel", "classsw_1_1Panel.html", "classsw_1_1Panel" ],

@@ -51,7 +51,11 @@ var NAVTREE =
       ] ]
     ] ],
     [ "文件", "files.html", [
-      [ "文件列表", "files.html", "files_dup" ]
+      [ "文件列表", "files.html", "files_dup" ],
+      [ "文件成员", "globals.html", [
+        [ "全部", "globals.html", null ],
+        [ "宏定义", "globals_defs.html", null ]
+      ] ]
     ] ]
   ] ]
 ];
@@ -59,24 +63,24 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "Alignment_8h_source.html",
-"classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html#ac20d355ecbd6beb4bbb354a11535aa55",
-"classsw_1_1DateTimePicker.html#a5c8cb68171115f0dc5cbddf40d3a64ae",
-"classsw_1_1Event_3_01Delegate_3_01TRet_07Args_8_8_8_08_4_01_4.html#ad0bbc7cf96383950cbbf287800ff5267",
-"classsw_1_1HotKeyControl.html#adea9a710792f25863f73ec40b0699ec6",
-"classsw_1_1ItemsControl.html#a36312564b15eb327474696bf407b7864",
-"classsw_1_1ListView.html#a3c9979454e598336e819586d0cd8ea33",
-"classsw_1_1MsgBoxResultHelper.html#a4c8e5fa619715bfa1cb71808741b6fb1",
-"classsw_1_1PropertyBase.html#a887cf351daee70e01e4a87b84ba40c09",
-"classsw_1_1StackPanel.html#a1d7bd2e8b8293003e47f5d297c58044b",
-"classsw_1_1TreeViewNode.html#a1523a21a3a969045d9c5d7b0d98bf0fc",
-"classsw_1_1UIElement.html#aa3c89be6a33c3f96b4dd406bd5a9410a",
-"classsw_1_1WndBase.html#a0b409a458c45a42afda42e8f0a856be4",
-"classsw_1_1WrapLayoutH.html#a5680c5c409a6da0a35b9bc487735a42a",
-"namespacesw.html#a4263585da86870849cd0b61305ddbdd8abce0118bd8f5bf5e7f849dff486de57f",
-"namespacesw.html#a9409cdb590d80c4cb0d3bace9afdd51b",
-"namespacesw.html#ac4dcf0d2a487e02ca4fca93d1bbe33fba61f14ec699fd4607793f695f5323f15d",
-"structsw_1_1Color.html#ab334150d36ae29d3db72843e072994c9",
-"structsw_1_1Rect.html#a0df30b3f69e30e6b7b598c2549301334"
+"classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html#a072f73f8546eb3efb3d7c3240fabf7fd",
+"classsw_1_1DataBinding.html#afa089b7f40160cc7ca8547f0ed05ddbe",
+"classsw_1_1EnumToNumericConverter_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_0335d346f0b0522082eff2b4274ccd3a1.html",
+"classsw_1_1GroupBox.html#a57d54cae427edb43cb05981b31d4164a",
+"classsw_1_1ImageList.html#ac7a6e514c37ea4efc090d6a927f74e0b",
+"classsw_1_1ListView.html",
+"classsw_1_1MonthCalendar.html#ac735773615992feb4f3394a7d361a8c1",
+"classsw_1_1PropertyBase.html#a5c1b40d493ef0ab60ebf9c81ef9f6550",
+"classsw_1_1Splitter.html",
+"classsw_1_1TreeView.html#a83c864c86586e11967fcb0f65a2a6b4c",
+"classsw_1_1UIElement.html#a9300cb1e5f4c32854304563dcfe1dc7e",
+"classsw_1_1Window.html#a9046c167eb2a1572f420ecd5bd8aef1c",
+"classsw_1_1WndBase.html#ae366fb6dcb13010e4bce0e30e8e6dd13",
+"namespacesw.html#a3a041d852b47daa81ce6c2e266d333f3a1457949e98af5498193e517164b01963",
+"namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ad20caec3b48a1eef164cb4ca81ba2587",
+"namespacesw.html#aab92e46942fae40080eb40f4657e029d",
+"namespacesw.html#aff2f009267ebe4714fea2e8f620fdc1fa7b93ef25b7daa4615de89de92abc06e4",
+"structsw_1_1NotifyIconMouseEventArgs.html#ac553c912f62726c007db9072c78041b5"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

@@ -156,9 +156,8 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 <a class="el" href="classsw_1_1Delegate.html">Delegate</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classsw_1_1Delegate.html">Delegate</a> &amp;&amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
 <tr class="memdesc:a3d28f9051df8f0c23b9e7071ba1b275b"><td class="mdescLeft">&#160;</td><td class="mdescRight">移动赋值运算符 <br /></td></tr>
 <tr class="separator:a3d28f9051df8f0c23b9e7071ba1b275b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd4c86a7a6e46fc8d507032fc0eb2424" id="r_acd4c86a7a6e46fc8d507032fc0eb2424"><td class="memItemLeft" align="right" valign="top"><a id="acd4c86a7a6e46fc8d507032fc0eb2424" name="acd4c86a7a6e46fc8d507032fc0eb2424"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Add</b> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="structsw_1_1ICallable.html">ICallable</a>&lt; TRet(Args...)&gt; &amp;<a class="el" href="classsw_1_1IValueConverter.html">callable</a>)</td></tr>
-<tr class="memdesc:acd4c86a7a6e46fc8d507032fc0eb2424"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加一个可调用对象到委托中 <br /></td></tr>
+<tr class="memitem:acd4c86a7a6e46fc8d507032fc0eb2424" id="r_acd4c86a7a6e46fc8d507032fc0eb2424"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1Delegate_3_01TRet_07Args_8_8_8_08_4.html#acd4c86a7a6e46fc8d507032fc0eb2424">Add</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="structsw_1_1ICallable.html">ICallable</a>&lt; TRet(Args...)&gt; &amp;<a class="el" href="classsw_1_1IValueConverter.html">callable</a>)</td></tr>
+<tr class="memdesc:acd4c86a7a6e46fc8d507032fc0eb2424"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加一个可调用对象到委托中  <br /></td></tr>
 <tr class="separator:acd4c86a7a6e46fc8d507032fc0eb2424"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a095bd14b4cab41f118682a8c46eed437" id="r_a095bd14b4cab41f118682a8c46eed437"><td class="memItemLeft" align="right" valign="top"><a id="a095bd14b4cab41f118682a8c46eed437" name="a095bd14b4cab41f118682a8c46eed437"></a>
 <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Add</b> (TRet(*func)(Args...))</td></tr>
@@ -268,6 +267,42 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 <div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TRet, typename... Args&gt;<br />
 class sw::Delegate&lt; TRet(Args...)&gt;</div><p>委托类，类似于C::中的委托，支持存储和调用任意可调用对象 </p>
 </div><h2 class="groupheader">成员函数说明</h2>
+<a id="acd4c86a7a6e46fc8d507032fc0eb2424" name="acd4c86a7a6e46fc8d507032fc0eb2424"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd4c86a7a6e46fc8d507032fc0eb2424">&#9670;&#160;</a></span>Add()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TRet , typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1Delegate.html">sw::Delegate</a>&lt; TRet(Args...)&gt;::Add </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="structsw_1_1ICallable.html">ICallable</a>&lt; TRet(Args...)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>callable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>添加一个可调用对象到委托中 </p>
+<dl class="section note"><dt>注解</dt><dd>当传入对象是同类型 <a class="el" href="classsw_1_1Delegate.html">Delegate</a> 时：<ul>
+<li>内部为空：直接返回；</li>
+<li>内部恰好 1 个元素：展开添加该元素的克隆（与单播添加等价）；</li>
+<li>内部 ≥2 个元素：作为整体嵌套加入，不展开。 后一种"不展开"是有意为之，目的是保证 += 与 -= 的对称性： 后续 <code>*this -= callable</code> 仍可按整体匹配并撤销本次添加。 因此 <code>b += a; b == a</code> 在 a 含 ≥2 元素时为 false（Count 不同）， 但 <code>b += a; b -= a</code> 后 b 与添加前等价。 </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
 <a id="a7a2aa83eeda7280dd0ae3c99e610f176" name="a7a2aa83eeda7280dd0ae3c99e610f176"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7a2aa83eeda7280dd0ae3c99e610f176">&#9670;&#160;</a></span>Clone()</h2>
 
@@ -451,6 +486,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>返回一个包含所有可调用对象返回值的vector </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>多播调用时，前 N-1 次按左值传参，仅最后一次执行 std::forward， 避免对 move-only 类型或右值引用形参反复 move 同一对象。 </dd></dl>
 
 </div>
 </div>
@@ -474,7 +510,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TR
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -883,7 +919,14 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TR
 
 <p>移除一个可调用对象 </p>
 <dl class="section return"><dt>返回</dt><dd>如果成功移除则返回true，否则返回false </dd></dl>
-<dl class="section note"><dt>注解</dt><dd>按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除 </dd>
+<dd>
+与 Add 逻辑严格对称——当传入对象是同类型 <a class="el" href="classsw_1_1Delegate.html">Delegate</a> 时：<ul>
+<li>内部为空：返回 false；</li>
+<li>内部恰好 1 个元素：尝试匹配并移除该元素本身；</li>
+<li>内部 ≥2 个元素：按整体（嵌套 Delegate）匹配并移除， 恰好对应 Add 时"不展开整体加入"的行为。 </li>
+</ul>
+</dd></dl>
 
 </div>
 </div>
