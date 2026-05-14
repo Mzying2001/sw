@@ -1,4 +1,13 @@
-// https://github.com/Mzying2001/sw
+/**
+ * @file    sw_all.h
+ * @brief   SimpleWindow单文件版本（合并头文件）
+ * @details 本文件由 single_header/build.py 脚本根据 sw/inc 目录下的全部头文件
+ *          按依赖关系进行拓扑排序后自动合并生成，包含SimpleWindow框架对外公开
+ *          的所有类型、控件、宏与工具函数声明，可作为单头文件分发版本使用。
+ * @note    该文件为自动生成产物，请勿手动修改；如需变更内容，请编辑 sw/inc 下
+ *          对应的源头文件并重新运行 single_header/build.py 重新生成。
+ * @see     https://github.com/Mzying2001/sw
+ */
 
 #pragma once
 #include <windows.h>
@@ -244,6 +253,9 @@ namespace sw
 
         /**
          * @brief 拷贝赋值运算
+         * @note 强异常安全：先在本地完成可能抛异常的 Clone / vector 拷贝，
+         *       全部成功后再原子地切换 *this 的状态。提交阶段（_Reset(state) 与
+         *       unique_ptr/vector 的移动赋值）均为 noexcept，不会导致中间不一致。
          */
         CallableList &operator=(const CallableList &other)
         {
@@ -251,18 +263,21 @@ namespace sw
                 return *this;
             }
 
-            _Reset(other._state);
-
             switch (other._state) {
                 case STATE_NONE: {
+                    _Reset();
                     break;
                 }
                 case STATE_SINGLE: {
-                    _GetSingle().reset(other._GetSingle()->Clone());
+                    std::unique_ptr<TCallable> cloned(other._GetSingle()->Clone());
+                    _Reset(STATE_SINGLE);
+                    _GetSingle() = std::move(cloned);
                     break;
                 }
                 case STATE_LIST: {
-                    _GetList() = other._GetList();
+                    TSharedList copied = other._GetList();
+                    _Reset(STATE_LIST);
+                    _GetList() = std::move(copied);
                     break;
                 }
             }
@@ -345,6 +360,12 @@ namespace sw
         /**
          * @brief 添加一个可调用对象到列表中
          * @note 传入对象的生命周期将由CallableList管理
+         * @note 异常安全：
+         *       - SINGLE→LIST 升级时使用 reserve(2) 避免后续 emplace_back 触发扩容，
+         *         此时唯一的失败路径是 shared_ptr 控制块分配失败，shared_ptr 构造函数
+         *         保证抛异常时自动 delete 传入的裸指针。
+         *       - STATE_LIST 分支先把裸指针转交给本地 shared_ptr，再 emplace_back，
+         *         即使 vector 扩容失败，本地 shared_ptr 析构时也会正确释放对象。
          */
         void Add(TCallable *callable)
         {
@@ -360,6 +381,7 @@ namespace sw
                 }
                 case STATE_SINGLE: {
                     TSharedList list;
+                    list.reserve(2);
                     list.emplace_back(_GetSingle().release());
                     list.emplace_back(callable);
                     _Reset(STATE_LIST);
@@ -367,7 +389,8 @@ namespace sw
                     break;
                 }
                 case STATE_LIST: {
-                    _GetList().emplace_back(callable);
+                    std::shared_ptr<TCallable> sp(callable);
+                    _GetList().emplace_back(std::move(sp));
                     break;
                 }
             }
@@ -397,11 +420,9 @@ namespace sw
                     if (list.empty()) {
                         _Reset();
                     }
-                    // else if (list.size() == 1) {
-                    //     auto ptr = list.front()->Clone();
-                    //     _Reset(STATE_SINGLE);
-                    //     _GetSingle().reset(ptr);
-                    // }
+                    // 注：LIST 仅剩 1 元素时不降级回 SINGLE。shared_ptr 无法转移给
+                    // unique_ptr，强行 Clone 反而带来额外开销，保留 LIST 单元素状态
+                    // 在功能与性能上都可接受。
                     return true;
                 }
                 default: {
@@ -603,6 +624,14 @@ namespace sw
             {
                 return this == &other;
             }
+
+        public:
+            // 禁用拷贝/移动：默认实现会按字节拷贝 _storage，不会调用 T 的构造函数，
+            // 对非平凡可拷贝类型会破坏不变式。需要克隆请走 Clone()。
+            _CallableWrapperImpl(const _CallableWrapperImpl &)            = delete;
+            _CallableWrapperImpl(_CallableWrapperImpl &&)                 = delete;
+            _CallableWrapperImpl &operator=(const _CallableWrapperImpl &) = delete;
+            _CallableWrapperImpl &operator=(_CallableWrapperImpl &&)      = delete;
         };
 
         template <typename T>
@@ -642,6 +671,13 @@ namespace sw
                 const auto &otherWrapper = static_cast<const _MemberFuncWrapper &>(other);
                 return obj == otherWrapper.obj && func == otherWrapper.func;
             }
+
+        public:
+            // 禁用拷贝/移动：与 _CallableWrapperImpl 保持一致，需要克隆请走 Clone()。
+            _MemberFuncWrapper(const _MemberFuncWrapper &)            = delete;
+            _MemberFuncWrapper(_MemberFuncWrapper &&)                 = delete;
+            _MemberFuncWrapper &operator=(const _MemberFuncWrapper &) = delete;
+            _MemberFuncWrapper &operator=(_MemberFuncWrapper &&)      = delete;
         };
 
         template <typename T>
@@ -678,6 +714,13 @@ namespace sw
                 const auto &otherWrapper = static_cast<const _ConstMemberFuncWrapper &>(other);
                 return obj == otherWrapper.obj && func == otherWrapper.func;
             }
+
+        public:
+            // 禁用拷贝/移动：与 _CallableWrapperImpl 保持一致，需要克隆请走 Clone()。
+            _ConstMemberFuncWrapper(const _ConstMemberFuncWrapper &)            = delete;
+            _ConstMemberFuncWrapper(_ConstMemberFuncWrapper &&)                 = delete;
+            _ConstMemberFuncWrapper &operator=(const _ConstMemberFuncWrapper &) = delete;
+            _ConstMemberFuncWrapper &operator=(_ConstMemberFuncWrapper &&)      = delete;
         };
 
     private:
@@ -783,13 +826,17 @@ namespace sw
 
         /**
          * @brief 添加一个可调用对象到委托中
+         * @note 当传入对象是同类型 Delegate 时：
+         *       - 内部为空：直接返回；
+         *       - 内部恰好 1 个元素：展开添加该元素的克隆（与单播添加等价）；
+         *       - 内部 ≥2 个元素：作为整体嵌套加入，不展开。
+         *       后一种"不展开"是有意为之，目的是保证 += 与 -= 的对称性：
+         *       后续 `*this -= callable` 仍可按整体匹配并撤销本次添加。
+         *       因此 `b += a; b == a` 在 a 含 ≥2 元素时为 false（Count 不同），
+         *       但 `b += a; b -= a` 后 b 与添加前等价。
          */
         void Add(const ICallable<TRet(Args...)> &callable)
         {
-            // 当添加的可调用对象与当前委托类型相同时（针对单播委托进行优化）：
-            // - 若委托内容为空，则直接返回
-            // - 若委托内容只有一个元素，则克隆该元素并添加到当前委托中
-            // - 否则，直接添加该可调用对象的克隆
             if (callable.GetType() == GetType()) {
                 auto &delegate = static_cast<const Delegate &>(callable);
                 if (delegate._data.IsEmpty()) {
@@ -852,13 +899,14 @@ namespace sw
          * @brief 移除一个可调用对象
          * @return 如果成功移除则返回true，否则返回false
          * @note 按照添加顺序从后向前查找，找到第一个匹配的可调用对象并移除
+         * @note 与 Add 逻辑严格对称——当传入对象是同类型 Delegate 时：
+         *       - 内部为空：返回 false；
+         *       - 内部恰好 1 个元素：尝试匹配并移除该元素本身；
+         *       - 内部 ≥2 个元素：按整体（嵌套 Delegate）匹配并移除，
+         *         恰好对应 Add 时"不展开整体加入"的行为。
          */
         bool Remove(const ICallable<TRet(Args...)> &callable)
         {
-            // 当移除的可调用对象与当前委托类型相同时（与Add逻辑相对应）：
-            // - 若委托内容为空，则直接返回false
-            // - 若委托内容只有一个元素，则尝试移除该元素
-            // - 否则，直接调用_Remove函数进行移除
             if (callable.GetType() == GetType()) {
                 auto &delegate = static_cast<const Delegate &>(callable);
                 if (delegate._data.IsEmpty()) {
@@ -970,7 +1018,7 @@ namespace sw
          * @brief 判断当前委托是否有效
          * @return 如果委托不为空则返回true，否则返回false
          */
-        operator bool() const noexcept
+        explicit operator bool() const noexcept
         {
             return !_data.IsEmpty();
         }
@@ -1097,6 +1145,8 @@ namespace sw
          * @brief 调用所有存储的可调用对象，并返回它们的结果
          * @param args 函数参数
          * @return 返回一个包含所有可调用对象返回值的vector
+         * @note 多播调用时，前 N-1 次按左值传参，仅最后一次执行 std::forward，
+         *       避免对 move-only 类型或右值引用形参反复 move 同一对象。
          */
         template <typename U = TRet>
         auto InvokeAll(Args... args) const
@@ -1110,10 +1160,11 @@ namespace sw
                 results.emplace_back(_data[0]->Invoke(std::forward<Args>(args)...));
             } else {
                 auto list = _data;
-                results.reserve(count = list.Count());
-                for (size_t i = 0; i < count; ++i) {
-                    results.emplace_back(list[i]->Invoke(std::forward<Args>(args)...));
+                results.reserve(count);
+                for (size_t i = 0; i + 1 < count; ++i) {
+                    results.emplace_back(list[i]->Invoke(args...));
                 }
+                results.emplace_back(list[count - 1]->Invoke(std::forward<Args>(args)...));
             }
             return results;
         }
@@ -1142,6 +1193,8 @@ namespace sw
 
         /**
          * @brief 内部函数，Invoke和operator()的实现
+         * @note 多播调用时，前 N-1 次按左值传参，仅最后一次执行 std::forward，
+         *       避免对 move-only 类型或右值引用形参反复 move 同一对象。
          */
         inline TRet _InvokeImpl(Args... args) const
         {
@@ -1152,8 +1205,8 @@ namespace sw
                 return _data[0]->Invoke(std::forward<Args>(args)...);
             } else {
                 auto list = _data;
-                for (size_t i = 0; i < count - 1; ++i)
-                    list[i]->Invoke(std::forward<Args>(args)...);
+                for (size_t i = 0; i + 1 < count; ++i)
+                    list[i]->Invoke(args...);
                 return list[count - 1]->Invoke(std::forward<Args>(args)...);
             }
         }
@@ -2344,27 +2397,29 @@ namespace sw
         /**
          * @brief 通过rgb构造Color结构体
          */
-        Color(uint8_t r, uint8_t g, uint8_t b);
+        Color(uint8_t r, uint8_t g, uint8_t b) noexcept;
 
         /**
          * @brief 通过KnownColors构造Color结构体
          */
-        Color(KnownColors knownColor);
+        Color(KnownColors knownColor) noexcept;
 
         /**
          * @brief 通过COLORREF构造Color结构体
+         * @note 标记为explicit以避免与隐式转换operator COLORREF()联用时
+         *       发生意外的隐式整数到Color的转换路径
          */
-        Color(COLORREF color);
+        explicit Color(COLORREF color) noexcept;
 
         /**
-         * @brief 隐式转换COLORREF
+         * @brief 显式转换为COLORREF（与explicit Color(COLORREF)对称）
          */
-        operator COLORREF() const;
+        explicit operator COLORREF() const noexcept;
 
         /**
          * @brief 判断两个Color是否相等
          */
-        bool Equals(const Color &other) const;
+        bool Equals(const Color &other) const noexcept;
 
         /**
          * @brief 获取描述当前对象的字符串
@@ -3090,22 +3145,22 @@ namespace sw
         /**
          * @brief 构造指定xy值的Point结构体
          */
-        Point(double x, double y);
+        Point(double x, double y) noexcept;
 
         /**
          * @brief 从POINT构造Point结构体
          */
-        Point(const POINT &point);
+        Point(const POINT &point) noexcept;
 
         /**
          * @brief 隐式转换POINT
          */
-        operator POINT() const;
+        operator POINT() const noexcept;
 
         /**
          * @brief 判断两个Point是否相等
          */
-        bool Equals(const Point &other) const;
+        bool Equals(const Point &other) const noexcept;
 
         /**
          * @brief 获取描述当前对象的字符串
@@ -3182,7 +3237,7 @@ namespace sw
     _SW_DEFINE_UNARY_OPERATION_HELPER(_LogicNotOperationHelper, !);
     _SW_DEFINE_UNARY_OPERATION_HELPER(_BitNotOperationHelper, ~);
     _SW_DEFINE_UNARY_OPERATION_HELPER(_DerefOperationHelper, *);
-    _SW_DEFINE_UNARY_OPERATION_HELPER(_AddrOperationHelper, &);
+    // _SW_DEFINE_UNARY_OPERATION_HELPER(_AddrOperationHelper, &);
     _SW_DEFINE_UNARY_OPERATION_HELPER(_UnaryPlusOperationHelper, +);
     _SW_DEFINE_UNARY_OPERATION_HELPER(_UnaryMinusOperationHelper, -);
     // _SW_DEFINE_UNARY_OPERATION_HELPER(_PreIncOperationHelper, ++);
@@ -3318,7 +3373,8 @@ namespace sw
          * @brief 指针类型，直接返回值
          */
         template <typename U = T>
-        typename std::enable_if<std::is_pointer<U>::value, U>::type operator->()
+        auto operator->()
+            -> typename std::enable_if<std::is_pointer<U>::value, U>::type
         {
             return this->value;
         }
@@ -3327,7 +3383,8 @@ namespace sw
          * @brief 非指针类型，且无operator->，返回值的地址
          */
         template <typename U = T>
-        typename std::enable_if<!std::is_pointer<U>::value && !_HasArrowOperator<U>::value, U *>::type operator->()
+        auto operator->()
+            -> typename std::enable_if<!std::is_pointer<U>::value && !_HasArrowOperator<U>::value, U *>::type
         {
             return &this->value;
         }
@@ -3336,7 +3393,8 @@ namespace sw
          * @brief 非指针类型，且有operator->，转发operator->
          */
         template <typename U = T>
-        typename std::enable_if<!std::is_pointer<U>::value && _HasArrowOperator<U>::value, typename _HasArrowOperator<U>::type>::type operator->()
+        auto operator->()
+            -> typename std::enable_if<!std::is_pointer<U>::value && _HasArrowOperator<U>::value, typename _HasArrowOperator<U>::type>::type
         {
             return this->value.operator->();
         }
@@ -4127,22 +4185,32 @@ namespace sw
 
         /**
          * @brief 解引用运算
+         * @note 仅在T的operator*返回非引用类型时启用：Get()可能返回临时对象，
+         *       若T的operator*返回引用，将产生悬空引用，因此不允许通过属性的
+         *       operator*直接访问返回引用的重载，应先将Get()的结果保存到变量后再使用。
          */
         template <typename U = T>
         auto operator*() const
-            -> typename std::enable_if<_DerefOperationHelper<U>::value, typename _DerefOperationHelper<U>::type>::type
+            -> typename std::enable_if<
+                _DerefOperationHelper<U>::value &&
+                    !std::is_reference<typename _DerefOperationHelper<U>::type>::value,
+                typename _DerefOperationHelper<U>::type>::type
         {
             return *this->Get();
         }
 
         /**
-         * @brief 地址运算
+         * @brief 指针解引用运算
+         * @note T为指针时，Get()返回的指针虽是临时对象，但其指向的内存独立存在，
+         *       故此处即使operator*返回引用也不会产生悬空引用，无需限制返回类型。
          */
         template <typename U = T>
-        auto operator&() const
-            -> typename std::enable_if<_AddrOperationHelper<U>::value, typename _AddrOperationHelper<U>::type>::type
+        auto operator*() const
+            -> typename std::enable_if<
+                _DerefOperationHelper<U>::value && std::is_pointer<T>::value,
+                typename _DerefOperationHelper<U>::type>::type
         {
-            return &this->Get();
+            return *this->Get();
         }
 
         /**
@@ -4529,6 +4597,9 @@ namespace sw
 
         /**
          * @brief 下标运算
+         * @note 仅在T的operator[]返回非引用类型时启用：Get()可能返回临时对象，
+         *       若T的operator[]返回引用，将产生悬空引用，因此不允许通过属性的
+         *       operator[]直接访问返回引用的重载，应先将Get()的结果保存到变量后再使用。
          */
         template <typename U>
         auto operator[](U &&value) const
@@ -4542,6 +4613,9 @@ namespace sw
 
         /**
          * @brief 下标运算
+         * @note 仅在T的operator[]返回非引用类型时启用：Get()可能返回临时对象，
+         *       若T的operator[]返回引用，将产生悬空引用，因此不允许通过属性的
+         *       operator[]直接访问返回引用的重载，应先将Get()的结果保存到变量后再使用。
          */
         template <typename D, typename U>
         auto operator[](const PropertyBase<U, D> &prop) const
@@ -4555,6 +4629,8 @@ namespace sw
 
         /**
          * @brief 指针下标运算
+         * @note T为指针时，Get()返回的指针虽是临时对象，但其指向的内存独立存在，
+         *       故此处即使operator[]返回引用也不会产生悬空引用，无需限制返回类型。
          */
         template <typename U>
         auto operator[](U &&value) const
@@ -4567,6 +4643,8 @@ namespace sw
 
         /**
          * @brief 指针下标运算
+         * @note T为指针时，Get()返回的指针虽是临时对象，但其指向的内存独立存在，
+         *       故此处即使operator[]返回引用也不会产生悬空引用，无需限制返回类型。
          */
         template <typename D, typename U>
         auto operator[](const PropertyBase<U, D> &prop) const
@@ -4578,6 +4656,13 @@ namespace sw
         }
 
     protected:
+        /**
+         * @brief 用于存储任意签名函数指针的通用类型
+         * @note 函数指针类型间通过reinterpret_cast互转再转回原类型不丢失信息（C++标准良定义），
+         *       使用统一的函数指针类型作为存储可避免函数指针与void*之间的conditionally-supported转换。
+         */
+        using TFuncPtr = void (*)();
+
         /**
          * @brief 静态属性偏移量标记
          */
@@ -4626,7 +4711,8 @@ namespace sw
          * @brief 获取成员属性初始化器
          */
         template <typename TOwner>
-        static MemberPropertyInitializer<TOwner, T> Init(TOwner *owner)
+        static auto Init(TOwner *owner)
+            -> MemberPropertyInitializer<TOwner, T>
         {
             return MemberPropertyInitializer<TOwner, T>(owner);
         }
@@ -4634,7 +4720,8 @@ namespace sw
         /**
          * @brief 获取静态属性初始化器
          */
-        static StaticPropertyInitializer<T> Init()
+        static auto Init()
+            -> StaticPropertyInitializer<T>
         {
             return StaticPropertyInitializer<T>();
         }
@@ -4835,6 +4922,7 @@ namespace sw
         using TBase         = PropertyBase<T, Property<T>>;
         using TValue        = typename TBase::TValue;
         using TSetterParam  = typename TBase::TSetterParam;
+        using TFuncPtr      = typename TBase::TFuncPtr;
         using TGetter       = T (*)(void *);
         using TSetter       = void (*)(void *, TSetterParam);
         using TStaticGetter = T (*)();
@@ -4844,12 +4932,12 @@ namespace sw
         /**
          * @brief getter函数指针
          */
-        void *_getter;
+        TFuncPtr _getter;
 
         /**
          * @brief setter函数指针
          */
-        void *_setter;
+        TFuncPtr _setter;
 
     public:
         /**
@@ -4868,8 +4956,8 @@ namespace sw
             assert(initializer._setter != nullptr);
 
             this->SetOwner(initializer._owner);
-            this->_getter = reinterpret_cast<void *>(initializer._getter);
-            this->_setter = reinterpret_cast<void *>(initializer._setter);
+            this->_getter = reinterpret_cast<TFuncPtr>(initializer._getter);
+            this->_setter = reinterpret_cast<TFuncPtr>(initializer._setter);
         }
 
         /**
@@ -4881,8 +4969,8 @@ namespace sw
             assert(initializer._setter != nullptr);
 
             this->SetOwner(nullptr);
-            this->_getter = reinterpret_cast<void *>(initializer._getter);
-            this->_setter = reinterpret_cast<void *>(initializer._setter);
+            this->_getter = reinterpret_cast<TFuncPtr>(initializer._getter);
+            this->_setter = reinterpret_cast<TFuncPtr>(initializer._setter);
         }
 
         /**
@@ -4920,6 +5008,7 @@ namespace sw
         using TBase         = PropertyBase<T, ReadOnlyProperty<T>>;
         using TValue        = typename TBase::TValue;
         using TSetterParam  = typename TBase::TSetterParam;
+        using TFuncPtr      = typename TBase::TFuncPtr;
         using TGetter       = T (*)(void *);
         using TStaticGetter = T (*)();
 
@@ -4927,7 +5016,7 @@ namespace sw
         /**
          * @brief getter函数指针
          */
-        void *_getter;
+        TFuncPtr _getter;
 
     public:
         /**
@@ -4940,7 +5029,7 @@ namespace sw
             assert(initializer._getter != nullptr);
 
             this->SetOwner(initializer._owner);
-            this->_getter = reinterpret_cast<void *>(initializer._getter);
+            this->_getter = reinterpret_cast<TFuncPtr>(initializer._getter);
         }
 
         /**
@@ -4951,7 +5040,7 @@ namespace sw
             assert(initializer._getter != nullptr);
 
             this->SetOwner(nullptr);
-            this->_getter = reinterpret_cast<void *>(initializer._getter);
+            this->_getter = reinterpret_cast<TFuncPtr>(initializer._getter);
         }
 
         /**
@@ -4977,6 +5066,7 @@ namespace sw
         using TBase         = PropertyBase<T, WriteOnlyProperty<T>>;
         using TValue        = typename TBase::TValue;
         using TSetterParam  = typename TBase::TSetterParam;
+        using TFuncPtr      = typename TBase::TFuncPtr;
         using TSetter       = void (*)(void *, TSetterParam);
         using TStaticSetter = void (*)(TSetterParam);
 
@@ -4984,7 +5074,7 @@ namespace sw
         /**
          * @brief setter函数指针
          */
-        void *_setter;
+        TFuncPtr _setter;
 
     public:
         /**
@@ -5002,7 +5092,7 @@ namespace sw
             assert(initializer._setter != nullptr);
 
             this->SetOwner(initializer._owner);
-            this->_setter = reinterpret_cast<void *>(initializer._setter);
+            this->_setter = reinterpret_cast<TFuncPtr>(initializer._setter);
         }
 
         /**
@@ -5013,7 +5103,7 @@ namespace sw
             assert(initializer._setter != nullptr);
 
             this->SetOwner(nullptr);
-            this->_setter = reinterpret_cast<void *>(initializer._setter);
+            this->_setter = reinterpret_cast<TFuncPtr>(initializer._setter);
         }
 
         /**
@@ -5089,22 +5179,22 @@ namespace sw
         /**
          * @brief 构造指定宽高的Size结构体
          */
-        Size(double width, double height);
+        Size(double width, double height) noexcept;
 
         /**
          * @brief 从SIZE构造Size结构体
          */
-        Size(const SIZE &size);
+        Size(const SIZE &size) noexcept;
 
         /**
          * @brief 隐式转换SIZE
          */
-        operator SIZE() const;
+        operator SIZE() const noexcept;
 
         /**
          * @brief 判断两个Size是否相等
          */
-        bool Equals(const Size &other) const;
+        bool Equals(const Size &other) const noexcept;
 
         /**
          * @brief 获取描述当前对象的字符串
@@ -5156,32 +5246,35 @@ namespace sw
         /**
          * @brief 构造一个四边都相同的Thickness结构体
          */
-        Thickness(double thickness);
+        Thickness(double thickness) noexcept;
 
         /**
          * @brief 指定横向和纵向值构造Thickness结构体
          */
-        Thickness(double horizontal, double vertical);
+        Thickness(double horizontal, double vertical) noexcept;
 
         /**
          * @brief 指定四边的值构造Thickness结构体
          */
-        Thickness(double left, double top, double right, double bottom);
+        Thickness(double left, double top, double right, double bottom) noexcept;
 
         /**
          * @brief 从RECT结构体构造Thickness结构体
+         * @note 此处RECT被解读为四个独立的边距值（left/top/right/bottom），
+         *       而非角坐标矩形；这与Rect(const RECT&)按角坐标计算width/height
+         *       的语义不同，故标记为explicit以避免误用
          */
-        Thickness(const RECT &rect);
+        explicit Thickness(const RECT &rect) noexcept;
 
         /**
-         * @brief 隐式转换为RECT
+         * @brief 显式转换为RECT（与explicit Thickness(const RECT&)对称）
          */
-        operator RECT() const;
+        explicit operator RECT() const noexcept;
 
         /**
          * @brief 判断两个Thickness是否相同
          */
-        bool Equals(const Thickness &other) const;
+        bool Equals(const Thickness &other) const noexcept;
 
         /**
          * @brief 获取描述当前对象的字符串
@@ -6061,32 +6154,35 @@ namespace sw
         /**
          * @brief 构造Rect
          */
-        Rect(double left, double top, double width, double height);
+        Rect(double left, double top, double width, double height) noexcept;
 
         /**
          * @brief 从RECT构造Rect
          */
-        Rect(const RECT &rect);
+        Rect(const RECT &rect) noexcept;
 
         /**
          * @brief 隐式转换RECT
+         * @note 由于DIP↔像素之间存在非线性舍入，对从RECT构造的Rect再转回RECT
+         *       不保证与原始RECT逐字段相等：right/bottom由(left+width)/(top+height)
+         *       重新换算，在非整数倍DPI缩放下可能存在±1像素偏差
          */
-        operator RECT() const;
+        operator RECT() const noexcept;
 
         /**
          * @brief 获取Rect左上角的位置
          */
-        Point GetPos() const;
+        Point GetPos() const noexcept;
 
         /**
          * @brief 获取Rect的尺寸
          */
-        Size GetSize() const;
+        Size GetSize() const noexcept;
 
         /**
          * @brief 判断两个Rect是否相等
          */
-        bool Equals(const Rect &other) const;
+        bool Equals(const Rect &other) const noexcept;
 
         /**
          * @brief 获取描述当前对象的字符串
@@ -6155,6 +6251,18 @@ namespace sw
         bool IsBoxedObject() const noexcept
         {
             return _isBoxedObject;
+        }
+
+        /**
+         * @brief 判断与另一DynamicObject是否引用同一对象
+         * @return 引用同一对象时返回true
+         * @note 若为引用装箱则比较被引用对象的地址
+         */
+        bool ReferenceEquals(const DynamicObject &other) const noexcept
+        {
+            if (IsBoxedObject() && other.IsBoxedObject())
+                return GetBoxedRawPtr() == other.GetBoxedRawPtr();
+            return this == &other;
         }
 
         /**
@@ -10111,9 +10219,34 @@ namespace sw
 namespace sw
 {
     /**
-     * @brief 通用变体类，用于存储任意类型的对象
+     * @brief 动态对象引用标记类型
+     * @note 当Variant内部以BoxedObject<ObjectRef>形式装箱时表示对DynamicObject的引用语义。
+     *       Variant的Object()/IsType/DynamicCast/UnsafeCast会自动透视此标记，
+     *       使引用对象的访问与值语义一致。一般通过Variant::MakeRef构造，无需直接使用。
      */
-    class Variant final : public IEqualityComparable<Variant>
+    struct ObjectRef final {
+        /**
+         * @brief 被引用的DynamicObject指针
+         */
+        DynamicObject *ptr;
+    };
+
+    /**
+     * @brief 通用变体类型容器，类型擦除地持有任意类型对象
+     * @note Variant自身是原生C++值类型，而非DynamicObject派生类。
+     *       它可持有任意类型对象 —— 既包括DynamicObject派生类型，也包括原生C++类型。
+     *       内部按持入类型与语义自动选择存储策略：
+     *       - 值语义 + DynamicObject派生类型：直接以unique_ptr<DynamicObject>持有；
+     *       - 值语义 + 其他原生C++类型：装箱为BoxedObject<T>持有；
+     *       - 引用语义 + DynamicObject派生类型：装箱为BoxedObject<ObjectRef>持有；
+     *       - 引用语义 + 其他原生C++类型：装箱为引用模式的BoxedObject<T>持有；
+     *       这些差异对Object()/IsType/DynamicCast/UnsafeCast等查询接口透明。
+     * @note 默认为值语义（拷贝/赋值会通过克隆函数指针深拷贝内部对象）；
+     *       通过Variant::MakeRef或显式构造ObjectRef可获得引用语义。
+     * @note 持入Variant的类型其析构函数不应抛出异常 —— C++11起析构函数默认即为
+     *       noexcept，Variant的多个noexcept移动操作依赖此前提。
+     */
+    class Variant final
     {
     private:
         /**
@@ -10133,7 +10266,31 @@ namespace sw
         Variant() = default;
 
         /**
-         * @brief 通用构造函数，接受任意类型的对象
+         * @brief 从nullptr构造一个空的Variant对象
+         */
+        Variant(std::nullptr_t) noexcept
+        {
+        }
+
+        /**
+         * @brief 以引用语义构造Variant
+         * @param ref 引用标记
+         * @note 与Variant::MakeRef等价的低层入口，内部以装箱的ObjectRef表示。
+         *       使用方需保证被引用对象在Variant存活期间始终有效。
+         * @note 若ref.ptr为nullptr则构造为空Variant，行为与Variant(std::nullptr_t)一致。
+         */
+        Variant(ObjectRef ref)
+        {
+            if (ref.ptr != nullptr) {
+                _obj.reset(new BoxedObject<ObjectRef>(ref));
+                ResetCloner<ObjectRef>();
+            }
+        }
+
+        /**
+         * @brief 通用构造函数，接受任意类型的对象（值语义）
+         * @warning 若T为基类引用且实际指向派生对象，会发生对象切片；
+         *          如需保留对外部对象的引用语义，请改用Variant::MakeRef<T>。
          */
         template <
             typename T,
@@ -10145,6 +10302,7 @@ namespace sw
 
         /**
          * @brief 拷贝构造函数
+         * @throws std::runtime_error 如果对象不可拷贝
          */
         Variant(const Variant &other)
         {
@@ -10164,7 +10322,7 @@ namespace sw
         }
 
         /**
-         * @brief 拷贝构造函数
+         * @brief 拷贝赋值运算符
          * @throws std::runtime_error 如果对象不可拷贝
          */
         Variant &operator=(const Variant &other)
@@ -10174,7 +10332,7 @@ namespace sw
         }
 
         /**
-         * @brief 移动构造函数
+         * @brief 移动赋值运算符
          */
         Variant &operator=(Variant &&other) noexcept
         {
@@ -10186,7 +10344,7 @@ namespace sw
          * @brief 布尔转换运算符，判断Variant对象是否为空
          * @return 若Variant对象不为空则返回true，否则返回false
          */
-        operator bool() const noexcept
+        explicit operator bool() const noexcept
         {
             return _obj != nullptr;
         }
@@ -10201,20 +10359,67 @@ namespace sw
         }
 
         /**
-         * @brief 判断两Variant是否为同一对象
+         * @brief 判断Variant对象是否包含值
+         * @return 若Variant对象不为空则返回true，否则返回false
          */
-        bool Equals(const Variant &other) const noexcept
+        bool HasValue() const noexcept
         {
-            return _obj == other._obj;
+            return _obj != nullptr;
+        }
+
+        /**
+         * @brief 判断两Variant是否引用同一对象（指针身份比较）
+         * @return 若两Variant的有效对象指针相同（含都为空）则返回true，否则返回false
+         * @note 这是引用相等而非值相等。比较的是Object()返回的指针，因此引用语义的
+         *       Variant与持有同一原始对象的Variant会被视为相等。若需值相等比较，
+         *       请通过Object()或DynamicCast<T>()获取内部对象后自行比较。
+         */
+        bool ReferenceEquals(const Variant &other) const noexcept
+        {
+            const DynamicObject *a = Object();
+            const DynamicObject *b = other.Object();
+
+            if (a == nullptr && b == nullptr) {
+                return true;
+            }
+            if (a == nullptr || b == nullptr) {
+                return false;
+            }
+            return a->ReferenceEquals(*b);
         }
 
         /**
          * @brief 重置Variant对象为空
          */
-        void Reset()
+        void Reset() noexcept
         {
             _obj.reset();
             _cloner = nullptr;
+        }
+
+        /**
+         * @brief 重置Variant对象为空
+         */
+        void Reset(std::nullptr_t) noexcept
+        {
+            Reset();
+        }
+
+        /**
+         * @brief 重置Variant对象为指定的引用标记
+         * @param ref 引用标记
+         * @note 内部以装箱的ObjectRef表示，使Variant以引用语义持有DynamicObject。
+         *       使用方需保证被引用对象在Variant存活期间始终有效。
+         * @note 若ref.ptr为nullptr则置为空Variant，行为与Reset(std::nullptr_t)一致。
+         */
+        void Reset(ObjectRef ref)
+        {
+            if (ref.ptr == nullptr) {
+                Reset();
+            } else {
+                _obj.reset(new BoxedObject<ObjectRef>(ref));
+                ResetCloner<ObjectRef>();
+            }
         }
 
         /**
@@ -10281,30 +10486,54 @@ namespace sw
 
         /**
          * @brief 获取内部动态对象指针
-         * @return 内部动态对象指针
+         * @return 内部动态对象指针，若Variant为空则返回nullptr
+         * @note 若Variant以引用语义持有DynamicObject（即装箱的ObjectRef），
+         *       返回被引用对象的指针；否则返回内部对象指针。
          */
-        DynamicObject *Object() const noexcept
+        DynamicObject *Object() noexcept
         {
+            if (_obj == nullptr) {
+                return nullptr;
+            }
+
+            ObjectRef *ref = nullptr;
+
+            if (_obj->IsType<ObjectRef>(&ref)) {
+                return ref->ptr;
+            }
             return _obj.get();
         }
 
         /**
-         * @brief 判断当前Variant存储的对象是否为指定类型
-         * @tparam T 目标类型
-         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
-         * @return 如果Variant对象为指定类型则返回true，否则返回false
+         * @brief 获取内部动态对象的常量指针
+         * @return 内部动态对象的常量指针，若Variant为空则返回nullptr
+         * @note 若Variant以引用语义持有DynamicObject（即装箱的ObjectRef），
+         *       返回被引用对象的指针；否则返回内部对象指针。
          */
-        template <typename T>
-        bool IsType(T **pout = nullptr)
+        const DynamicObject *Object() const noexcept
         {
             if (_obj == nullptr) {
-                if (pout != nullptr) {
-                    *pout = nullptr;
-                }
-                return false;
-            } else {
-                return _obj->IsType<T>(pout);
+                return nullptr;
             }
+
+            const ObjectRef *ref = nullptr;
+
+            if (_obj->IsType<ObjectRef>(&ref)) {
+                return ref->ptr;
+            }
+            return _obj.get();
+        }
+
+        /**
+         * @brief 获取内部对象的类型信息
+         * @return 内部对象的类型索引；若Variant为空则返回typeid(void)
+         * @note 语义与DynamicObject::GetType一致 —— 返回内部对象的最派生类型。
+         *       对引用语义的Variant会自动透视到被引用对象。
+         */
+        std::type_index GetType() const
+        {
+            const DynamicObject *p = Object();
+            return p == nullptr ? typeid(void) : p->GetType();
         }
 
         /**
@@ -10312,18 +10541,41 @@ namespace sw
          * @tparam T 目标类型
          * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
          * @return 如果Variant对象为指定类型则返回true，否则返回false
+         * @note 对引用语义的Variant会自动透视到被引用对象，调用方无需关心存储形式。
          */
         template <typename T>
-        bool IsType(const T **pout = nullptr) const
+        bool IsType(T **pout = nullptr)
         {
-            if (_obj == nullptr) {
+            DynamicObject *p = Object();
+
+            if (p == nullptr) {
                 if (pout != nullptr) {
                     *pout = nullptr;
                 }
                 return false;
-            } else {
-                return _obj->IsType<T>(pout);
             }
+            return p->IsType<T>(pout);
+        }
+
+        /**
+         * @brief 判断当前Variant存储的对象是否为指定类型
+         * @tparam T 目标类型
+         * @param pout 如果不为nullptr，则将转换后的指针赋值给该参数
+         * @return 如果Variant对象为指定类型则返回true，否则返回false
+         * @note 对引用语义的Variant会自动透视到被引用对象，调用方无需关心存储形式。
+         */
+        template <typename T>
+        bool IsType(const T **pout = nullptr) const
+        {
+            const DynamicObject *p = Object();
+
+            if (p == nullptr) {
+                if (pout != nullptr) {
+                    *pout = nullptr;
+                }
+                return false;
+            }
+            return p->IsType<T>(pout);
         }
 
         /**
@@ -10331,12 +10583,17 @@ namespace sw
          * @tparam T 目标类型
          * @return 指定类型的引用
          * @throws std::bad_cast 如果转换失败或Variant为空
+         * @note 对引用语义的Variant会自动透视到被引用对象。
          */
         template <typename T>
         T &DynamicCast()
         {
-            ThrowBadCastIfEmpty();
-            return _obj->DynamicCast<T>();
+            DynamicObject *p = Object();
+
+            if (p == nullptr) {
+                throw std::bad_cast();
+            }
+            return p->DynamicCast<T>();
         }
 
         /**
@@ -10344,12 +10601,17 @@ namespace sw
          * @tparam T 目标类型
          * @return 指定类型的常量引用
          * @throws std::bad_cast 如果转换失败或Variant为空
+         * @note 对引用语义的Variant会自动透视到被引用对象。
          */
         template <typename T>
         const T &DynamicCast() const
         {
-            ThrowBadCastIfEmpty();
-            return _obj->DynamicCast<T>();
+            const DynamicObject *p = Object();
+
+            if (p == nullptr) {
+                throw std::bad_cast();
+            }
+            return p->DynamicCast<T>();
         }
 
         /**
@@ -10358,12 +10620,17 @@ namespace sw
          * @return 指定类型的引用
          * @throws std::bad_cast 如果Variant为空
          * @note 若目标类型与存储类型不匹配，则行为未定义
+         * @note 对引用语义的Variant会自动透视到被引用对象。
          */
         template <typename T>
         T &UnsafeCast()
         {
-            ThrowBadCastIfEmpty();
-            return _obj->UnsafeCast<T>();
+            DynamicObject *p = Object();
+
+            if (p == nullptr) {
+                throw std::bad_cast();
+            }
+            return p->UnsafeCast<T>();
         }
 
         /**
@@ -10372,25 +10639,20 @@ namespace sw
          * @return 指定类型的常量引用
          * @throws std::bad_cast 如果Variant为空
          * @note 若目标类型与存储类型不匹配，则行为未定义
+         * @note 对引用语义的Variant会自动透视到被引用对象。
          */
         template <typename T>
         const T &UnsafeCast() const
         {
-            ThrowBadCastIfEmpty();
-            return _obj->UnsafeCast<T>();
+            const DynamicObject *p = Object();
+
+            if (p == nullptr) {
+                throw std::bad_cast();
+            }
+            return p->UnsafeCast<T>();
         }
 
     private:
-        /**
-         * @brief 抛出Variant为空的异常
-         */
-        void ThrowBadCastIfEmpty() const
-        {
-            if (_obj == nullptr) {
-                throw std::bad_cast();
-            }
-        }
-
         /**
          * @brief 初始化克隆函数指针
          * @tparam T 对象类型
@@ -10420,6 +10682,8 @@ namespace sw
         /**
          * @brief 初始化克隆函数指针
          * @tparam T 对象类型
+         * @note 当T不可拷贝时，克隆函数指针在被调用时抛出std::runtime_error，
+         *       而非在编译期失败 —— 以便不可拷贝类型仍可被存放和移动。
          */
         template <typename T>
         auto ResetCloner()
@@ -10428,6 +10692,107 @@ namespace sw
             _cloner = [](const DynamicObject &other) -> DynamicObject * {
                 throw std::runtime_error("Object is not copy constructible.");
             };
+        }
+
+    public:
+        /**
+         * @brief 就地构造一个值语义的Variant（DynamicObject派生类型重载）
+         * @tparam T 要构造的对象类型，必须为DynamicObject的派生类
+         * @tparam Args 构造参数类型包
+         * @param args 转发给T构造函数的参数
+         * @return 持有就地构造的T对象的Variant
+         * @note 相较于Variant{T{args...}}，避免了一次T的移动构造，
+         *       且支持不可移动/不可拷贝但可构造的类型。
+         */
+        template <typename T, typename... Args>
+        static auto MakeVal(Args &&...args)
+            -> typename std::enable_if<
+                !std::is_same<T, Variant>::value &&
+                    std::is_base_of<DynamicObject, T>::value,
+                Variant>::type
+        {
+            Variant v;
+            v._obj.reset(new T(std::forward<Args>(args)...));
+            v.ResetCloner<T>();
+            return v;
+        }
+
+        /**
+         * @brief 就地构造一个值语义的Variant（非DynamicObject类型重载）
+         * @tparam T 要构造的对象类型
+         * @tparam Args 构造参数类型包
+         * @param args 转发给T构造函数的参数
+         * @return 持有就地装箱构造的T对象的Variant
+         * @note 相较于Variant{T{args...}}，避免了一次T的移动构造，
+         *       且支持不可移动/不可拷贝但可构造的类型。
+         */
+        template <typename T, typename... Args>
+        static auto MakeVal(Args &&...args)
+            -> typename std::enable_if<
+                !std::is_same<T, Variant>::value &&
+                    !std::is_base_of<DynamicObject, T>::value,
+                Variant>::type
+        {
+            Variant v;
+            v._obj.reset(new BoxedObject<T>(std::forward<Args>(args)...));
+            v.ResetCloner<T>();
+            return v;
+        }
+
+        /**
+         * @brief 创建一个对另一Variant内部对象的引用Variant（Variant转发重载）
+         * @param v 源Variant
+         * @return 一个引用语义的Variant，引用v当前承载的对象；若v为空则返回空Variant
+         * @note 避免对Variant调用泛型MakeRef时产生BoxedObject<Variant>嵌套包装。
+         *       结果直接引用v.Object()返回的指针，因此当v本身已是引用语义时，
+         *       结果与v共享同一被引用对象，不会形成多层引用链。
+         */
+        static Variant MakeRef(Variant &v)
+        {
+            DynamicObject *p = v.Object();
+            return p == nullptr ? Variant{} : MakeRef(*p);
+        }
+
+        /**
+         * @brief 创建一个对外部对象的引用Variant（DynamicObject派生类型重载）
+         * @tparam T 被引用的对象类型，必须为DynamicObject的派生类
+         * @param obj 被引用的对象
+         * @return 一个引用语义的Variant，与obj共享生命周期
+         * @note 内部以装箱的ObjectRef表示，Variant的类型查询接口对此透明。
+         *       使用方需保证obj在Variant存活期间始终有效。
+         */
+        template <typename T>
+        static auto MakeRef(T &obj)
+            -> typename std::enable_if<
+                !std::is_same<T, Variant>::value &&
+                    std::is_base_of<DynamicObject, T>::value,
+                Variant>::type
+        {
+            Variant v;
+            v._obj.reset(new BoxedObject<ObjectRef>(ObjectRef{&obj}));
+            v.ResetCloner<ObjectRef>();
+            return v;
+        }
+
+        /**
+         * @brief 创建一个对外部对象的引用Variant（非DynamicObject类型重载）
+         * @tparam T 被引用的对象类型
+         * @param obj 被引用的对象
+         * @return 一个引用语义的Variant，与obj共享生命周期
+         * @note 内部以引用模式的BoxedObject<T>表示。
+         *       使用方需保证obj在Variant存活期间始终有效。
+         */
+        template <typename T>
+        static auto MakeRef(T &obj)
+            -> typename std::enable_if<
+                !std::is_same<T, Variant>::value &&
+                    !std::is_base_of<DynamicObject, T>::value,
+                Variant>::type
+        {
+            Variant v;
+            v._obj.reset(new BoxedObject<T>(BoxedObject<T>::MakeRef(&obj)));
+            v.ResetCloner<T>();
+            return v;
         }
     };
 }
@@ -11699,29 +12064,32 @@ namespace sw
 /*================================================================================*/
 
 /**
- * SW_DEFINE_*_PROPERTY系列宏：
- * 用于简化对字段的属性封装，该系列宏均支持自定义Getter和Setter函数，只需在类中定义对应的Get_{field name}和
- * Set_{field name}函数即可，生成的属性会自动调用这些函数，否则会直接访问字段本身。
+ * @file Macros.h
+ * @brief 属性定义辅助宏，用于在类中以单行声明的方式生成 sw::Property 系列成员
  *
- * - SW_DEFINE_PROPERTY(name, field)
- * - SW_DEFINE_READONLY_PROPERTY(name, field)
- * - SW_DEFINE_WRITEONLY_PROPERTY(name, field)
- * - SW_DEFINE_NOTIFY_PROPERTY(name, field)
+ * @par SW_DEFINE_*_PROPERTY 系列（基于字段）
+ * 对类内的非静态数据成员进行属性封装。若类中定义了 Get_{field}/Set_{field} 函数，
+ * 生成的属性会优先调用这些函数；否则直接访问字段本身。
+ *  - SW_DEFINE_PROPERTY(name, field)
+ *  - SW_DEFINE_READONLY_PROPERTY(name, field)
+ *  - SW_DEFINE_WRITEONLY_PROPERTY(name, field)
+ *  - SW_DEFINE_NOTIFY_PROPERTY(name, field)
  *
- * SW_DEFINE_EXPR_*_PROPERTY系列宏：
- * 用于简化对this->{expr}表达式的属性封装，当表达式结果是属性时会进行转发调用，否则直接访问表达式本身，该系列宏
- * 不支持自定义Getter和Setter函数。
- *
- * - SW_DEFINE_EXPR_PROPERTY(name, expr)
- * - SW_DEFINE_EXPR_READONLY_PROPERTY(name, expr)
- * - SW_DEFINE_EXPR_WRITEONLY_PROPERTY(name, expr)
- * - SW_DEFINE_EXPR_NOTIFY_PROPERTY(name, expr)
+ * @par SW_DEFINE_EXPR_*_PROPERTY 系列（基于表达式）
+ * 对形如 this->{expr} 的表达式进行属性封装。当表达式结果是另一个属性时，
+ * Get/Set 会转发到该属性；否则直接读写表达式。该系列不支持自定义 Getter/Setter。
+ *  - SW_DEFINE_EXPR_PROPERTY(name, expr)
+ *  - SW_DEFINE_EXPR_READONLY_PROPERTY(name, expr)
+ *  - SW_DEFINE_EXPR_WRITEONLY_PROPERTY(name, expr)
+ *  - SW_DEFINE_EXPR_NOTIFY_PROPERTY(name, expr)
  */
 
 /*================================================================================*/
 
 /**
- * _Get_{field name}: 当前类有自定义的Get_{field name}函数时，调用该函数获取field值，否则直接访问field字段
+ * @brief 在类内定义读取字段值的静态分发函数 _Get_##field（及配套 trait _HasUserGetter_##field）
+ * @param field 类中已声明的非静态数据成员名
+ * @note 若类中存在自定义 Get_##field()，_Get_##field 转发调用之；否则直接返回 self.field 的引用
  */
 #define _SW_DEFINE_STATIC_GETTER(field)                                                                  \
     template <typename T, typename = void>                                                               \
@@ -11740,11 +12108,13 @@ namespace sw
     static auto _Get_##field(T &self)                                                                    \
         -> typename std::enable_if<!_HasUserGetter_##field<T>::value, decltype(T::field) &>::type        \
     {                                                                                                    \
-        return self.##field;                                                                             \
+        return self.field;                                                                               \
     }
 
 /**
- * _Set_{field name}: 当前类有自定义的Set_{field name}函数时，调用该函数设置field值，否则直接访问field字段
+ * @brief 在类内定义写入字段值的静态分发函数 _Set_##field（及配套 trait _HasUserSetter_##field）
+ * @param field 类中已声明的非静态数据成员名
+ * @note 若类中存在自定义 Set_##field()，_Set_##field 转发调用之；否则直接对 self.field 赋值
  */
 #define _SW_DEFINE_STATIC_SETTER(field)                                                  \
     template <typename T, typename = void>                                               \
@@ -11763,13 +12133,16 @@ namespace sw
     static auto _Set_##field(T &self, U &&value)                                         \
         -> typename std::enable_if<!_HasUserSetter_##field<T>::value>::type              \
     {                                                                                    \
-        self.##field = std::forward<U>(value);                                           \
+        self.field = std::forward<U>(value);                                             \
     }
 
 /*================================================================================*/
 
 /**
- * 定义基于字段的属性，若类中有自定义的Get_{field name}和Set_{field name}函数，则会调用这些函数，否则直接访问字段
+ * @brief 定义基于字段的可读写属性
+ * @param name 生成的 sw::Property 成员名
+ * @param field 类中已声明的非静态数据成员名
+ * @note 类中存在自定义 Get_##field/Set_##field 时优先调用，否则直接访问字段
  */
 #define SW_DEFINE_PROPERTY(name, field)           \
     _SW_DEFINE_STATIC_GETTER(field);              \
@@ -11786,7 +12159,10 @@ namespace sw
     }
 
 /**
- * 定义基于字段的只读属性，若类中有自定义的Get_{field name}函数，则会调用该函数，否则直接访问字段
+ * @brief 定义基于字段的只读属性
+ * @param name 生成的 sw::ReadOnlyProperty 成员名
+ * @param field 类中已声明的非静态数据成员名
+ * @note 类中存在自定义 Get_##field 时优先调用，否则直接访问字段
  */
 #define SW_DEFINE_READONLY_PROPERTY(name, field)  \
     _SW_DEFINE_STATIC_GETTER(field);              \
@@ -11799,7 +12175,10 @@ namespace sw
     }
 
 /**
- * 定义基于字段的只写属性，若类中有自定义的Set_{field name}函数，则会调用该函数，否则直接访问字段
+ * @brief 定义基于字段的只写属性
+ * @param name 生成的 sw::WriteOnlyProperty 成员名
+ * @param field 类中已声明的非静态数据成员名
+ * @note 类中存在自定义 Set_##field 时优先调用，否则直接访问字段
  */
 #define SW_DEFINE_WRITEONLY_PROPERTY(name, field) \
     _SW_DEFINE_STATIC_SETTER(field);              \
@@ -11812,54 +12191,73 @@ namespace sw
     }
 
 /**
- * 定义基于字段的通知属性，若类中有自定义的Get_{field name}和Set_{field name}函数，则会调用这些函数，否则直接访问字段
- * 该宏应在实现了INotifyPropertyChanged接口的类中使用，若未自定义Setter则会尝试比较并在字段发生变更时触发属性变更通知
+ * @brief 定义基于字段的通知属性，赋值时通过 PropertyChanged 派发变更通知
+ * @param name 生成的 sw::Property 成员名
+ * @param field 类中已声明的非静态数据成员名
+ * @note 应在派生自 sw::INotifyPropertyChanged 的类中使用。
+ *       类中存在自定义 Get_##field/Set_##field 时优先调用，否则直接访问字段。
+ *       未自定义 Setter 时：若字段类型支持 == 比较则先比较，仅在值发生变更时触发 PropertyChanged；
+ *       不支持 == 比较时每次赋值都触发。自定义 Setter 时由用户负责通知（宏不主动触发）。
  */
-#define SW_DEFINE_NOTIFY_PROPERTY(name, field)                                                                      \
-    _SW_DEFINE_STATIC_GETTER(field);                                                                                \
-    template <typename T, typename = void>                                                                          \
-    struct _HasUserSetter_##field : std::false_type {                                                               \
-    };                                                                                                              \
-    template <typename T>                                                                                           \
-    struct _HasUserSetter_##field<T, decltype(void(&T::Set_##field))> : std::true_type {                            \
-    };                                                                                                              \
-    template <typename T, typename U>                                                                               \
-    static auto _Set_##field(T &self, U &&value)                                                                    \
-        -> typename std::enable_if<_HasUserSetter_##field<T>::value>::type                                          \
-    {                                                                                                               \
-        self.Set_##field(std::forward<U>(value));                                                                   \
-    }                                                                                                               \
-    template <typename T, typename U>                                                                               \
-    static auto _Set_##field(T &self, U &&value)                                                                    \
-        -> typename std::enable_if<!_HasUserSetter_##field<T>::value && sw::_EqOperationHelper<U, U>::value>::type  \
-    {                                                                                                               \
-        if (!(_Get_##field(self) == value)) {                                                                       \
-            self.##field = std::forward<U>(value);                                                                  \
-            if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));           \
-        }                                                                                                           \
-    }                                                                                                               \
-    template <typename T, typename U>                                                                               \
-    static auto _Set_##field(T &self, U &&value)                                                                    \
-        -> typename std::enable_if<!_HasUserSetter_##field<T>::value && !sw::_EqOperationHelper<U, U>::value>::type \
-    {                                                                                                               \
-        self.##field = std::forward<U>(value);                                                                      \
-        if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));               \
-    }                                                                                                               \
-    sw::Property<decltype(field)> name                                                                              \
-    {                                                                                                               \
-        sw::Property<decltype(field)>::Init(this)                                                                   \
-            .Getter([](auto self) {                                                                                 \
-                return _Get_##field(*self);                                                                         \
-            })                                                                                                      \
-            .Setter([](auto self, auto value) {                                                                     \
-                _Set_##field(*self, value);                                                                         \
-            })                                                                                                      \
+#define SW_DEFINE_NOTIFY_PROPERTY(name, field)                                                    \
+    _SW_DEFINE_STATIC_GETTER(field);                                                              \
+    template <typename T, typename = void>                                                        \
+    struct _HasUserSetter_##field : std::false_type {                                             \
+    };                                                                                            \
+    template <typename T>                                                                         \
+    struct _HasUserSetter_##field<T, decltype(void(&T::Set_##field))> : std::true_type {          \
+    };                                                                                            \
+    template <typename T, typename U>                                                             \
+    static auto _Set_##field(T &self, U &&value)                                                  \
+        -> typename std::enable_if<_HasUserSetter_##field<T>::value>::type                        \
+    {                                                                                             \
+        self.Set_##field(std::forward<U>(value));                                                 \
+    }                                                                                             \
+    template <typename T, typename U>                                                             \
+    static auto _Set_##field(T &self, U &&value)                                                  \
+        -> typename std::enable_if<                                                               \
+            !_HasUserSetter_##field<T>::value &&                                                  \
+            sw::_EqOperationHelper<decltype(_Get_##field(std::declval<T &>())), U>::value>::type  \
+    {                                                                                             \
+        if (!(_Get_##field(self) == value)) {                                                     \
+            self.field = std::forward<U>(value);                                                  \
+            if (auto &_d = self.GetPropertyChangedEventDelegate()) {                              \
+                sw::PropertyChangedEventArgs _a{};                                                \
+                _a.propertyId = sw::Reflection::GetFieldId(&T::name);                             \
+                _d(self, _a);                                                                     \
+            }                                                                                     \
+        }                                                                                         \
+    }                                                                                             \
+    template <typename T, typename U>                                                             \
+    static auto _Set_##field(T &self, U &&value)                                                  \
+        -> typename std::enable_if<                                                               \
+            !_HasUserSetter_##field<T>::value &&                                                  \
+            !sw::_EqOperationHelper<decltype(_Get_##field(std::declval<T &>())), U>::value>::type \
+    {                                                                                             \
+        self.field = std::forward<U>(value);                                                      \
+        if (auto &_d = self.GetPropertyChangedEventDelegate()) {                                  \
+            sw::PropertyChangedEventArgs _a{};                                                    \
+            _a.propertyId = sw::Reflection::GetFieldId(&T::name);                                 \
+            _d(self, _a);                                                                         \
+        }                                                                                         \
+    }                                                                                             \
+    sw::Property<decltype(field)> name                                                            \
+    {                                                                                             \
+        sw::Property<decltype(field)>::Init(this)                                                 \
+            .Getter([](auto self) {                                                               \
+                return _Get_##field(*self);                                                       \
+            })                                                                                    \
+            .Setter([](auto self, auto value) {                                                   \
+                _Set_##field(*self, value);                                                       \
+            })                                                                                    \
     }
 
 /*================================================================================*/
 
 /**
- * 定义表达式属性值类型辅助模板结构体
+ * @brief 定义计算表达式属性值类型的辅助模板 _ExprPropertyValueTypeHelper_##propname
+ * @param propname 属性名
+ * @note 表达式类型为属性时 type 取属性的 TValue；否则取 std::decay 后的表达式类型
  */
 #define _SW_DEFINE_EXPR_PROPERTY_VALUETYPE_HELPER(propname)                    \
     template <typename TExpr, typename = void>                                 \
@@ -11873,50 +12271,60 @@ namespace sw
     }
 
 /**
- * 计算表达式的值类型，若表达式是属性则取其属性值类型，否则取表达式类型本身
+ * @brief 取出表达式对应的属性值类型（属性时为其 TValue，否则为 decay 后的表达式类型）
+ * @param propname 属性名
+ * @param expr 形如 self->{expr} 的表达式片段
  */
 #define _SW_EXPR_PROPERTY_VALUETYPE(propname, expr) \
     typename _ExprPropertyValueTypeHelper_##propname<decltype(expr)>::type
 
 /**
- * _Get_{propname}: 若表达式是属性则调用其Get函数获取值，否则直接访问表达式
+ * @brief 在类内定义读取表达式值的静态分发函数 _Get_##propname
+ * @param propname 属性名
+ * @param expr 形如 self->{expr} 的表达式片段
+ * @note 表达式结果为属性时调用其 Get()，否则直接读取表达式
  */
 #define _SW_DEFINE_EXPR_STATIC_GETTER(propname, expr)                                   \
     template <typename T, typename U = decltype(expr)>                                  \
     static auto _Get_##propname(T &self)                                                \
         -> typename std::enable_if<sw::_IsProperty<U>::value, typename U::TValue>::type \
     {                                                                                   \
-        return (self.##expr).Get();                                                     \
+        return (self.expr).Get();                                                       \
     }                                                                                   \
     template <typename T, typename U = decltype(expr)>                                  \
     static auto _Get_##propname(T &self)                                                \
         -> typename std::enable_if<!sw::_IsProperty<U>::value, U>::type                 \
     {                                                                                   \
-        return (self.##expr);                                                           \
+        return (self.expr);                                                             \
     }
 
 /**
- * _Set_{propname}: 若表达式是属性则调用其Set函数设置值，否则直接访问表达式
+ * @brief 在类内定义写入表达式值的静态分发函数 _Set_##propname
+ * @param propname 属性名
+ * @param expr 形如 self->{expr} 的表达式片段
+ * @note 表达式结果为属性时调用其 Set()，否则直接对表达式赋值
  */
 #define _SW_DEFINE_EXPR_STATIC_SETTER(propname, expr)                \
     template <typename T, typename U, typename V = decltype(expr)>   \
     static auto _Set_##propname(T &self, U &&value)                  \
         -> typename std::enable_if<sw::_IsProperty<V>::value>::type  \
     {                                                                \
-        (self.##expr).Set(std::forward<U>(value));                   \
+        (self.expr).Set(std::forward<U>(value));                     \
     }                                                                \
     template <typename T, typename U, typename V = decltype(expr)>   \
     static auto _Set_##propname(T &self, U &&value)                  \
         -> typename std::enable_if<!sw::_IsProperty<V>::value>::type \
     {                                                                \
-        (self.##expr) = std::forward<U>(value);                      \
+        (self.expr) = std::forward<U>(value);                        \
     }
 
 /*================================================================================*/
 
 /**
- * 定义基于表达式的属性，访问this->{expr}，不支持自定义Getter和Setter
- * 当表达式为属性时，Getter和Setter会调用该属性的Get和Set函数，否则直接访问表达式
+ * @brief 定义基于表达式 self->{expr} 的可读写属性，不支持自定义 Getter/Setter
+ * @param name 生成的 sw::Property 成员名
+ * @param expr 形如 self->{expr} 的表达式片段
+ * @note 表达式结果为属性时转发到其 Get/Set，否则直接访问表达式
  */
 #define SW_DEFINE_EXPR_PROPERTY(name, expr)                               \
     _SW_DEFINE_EXPR_PROPERTY_VALUETYPE_HELPER(name);                      \
@@ -11934,8 +12342,10 @@ namespace sw
     }
 
 /**
- * 定义基于表达式的只读属性，访问this->{expr}，不支持自定义Getter
- * 当表达式为属性时，Getter会调用该属性的Get函数，否则直接访问表达式
+ * @brief 定义基于表达式 self->{expr} 的只读属性，不支持自定义 Getter
+ * @param name 生成的 sw::ReadOnlyProperty 成员名
+ * @param expr 形如 self->{expr} 的表达式片段
+ * @note 表达式结果为属性时调用其 Get()，否则直接读取表达式
  */
 #define SW_DEFINE_EXPR_READONLY_PROPERTY(name, expr)                      \
     _SW_DEFINE_EXPR_PROPERTY_VALUETYPE_HELPER(name);                      \
@@ -11949,8 +12359,10 @@ namespace sw
     }
 
 /**
- * 定义基于表达式的只写属性，访问this->{expr}，不支持自定义Setter
- * 当表达式为属性时，Setter会调用该属性的Set函数，否则直接访问表达式
+ * @brief 定义基于表达式 self->{expr} 的只写属性，不支持自定义 Setter
+ * @param name 生成的 sw::WriteOnlyProperty 成员名
+ * @param expr 形如 self->{expr} 的表达式片段
+ * @note 表达式结果为属性时调用其 Set()，否则直接对表达式赋值
  */
 #define SW_DEFINE_EXPR_WRITEONLY_PROPERTY(name, expr)                     \
     _SW_DEFINE_EXPR_PROPERTY_VALUETYPE_HELPER(name);                      \
@@ -11964,54 +12376,82 @@ namespace sw
     }
 
 /**
- * 定义基于表达式的通知属性，访问this->{expr}，不支持自定义Getter和Setter
- * 当表达式为属性时，Getter和Setter会调用该属性的Get和Set函数，否则直接访问表达式
- * 该宏应在实现了INotifyPropertyChanged接口的类中使用，Setter会尝试比较并在表达式的值发生变更时触发属性变更通知
+ * @brief 定义基于表达式 self->{expr} 的通知属性，赋值时通过 PropertyChanged 派发变更通知
+ * @param name 生成的 sw::Property 成员名
+ * @param expr 形如 self->{expr} 的表达式片段
+ * @note 应在派生自 sw::INotifyPropertyChanged 的类中使用。
+ *       表达式结果为属性时转发到其 Get/Set，否则直接访问表达式；
+ *       Setter 在类型支持 == 比较时先比较，仅在值发生变更时触发 PropertyChanged；
+ *       不支持 == 比较时每次赋值都触发。
  */
-#define SW_DEFINE_EXPR_NOTIFY_PROPERTY(name, expr)                                                           \
-    _SW_DEFINE_EXPR_PROPERTY_VALUETYPE_HELPER(name);                                                         \
-    _SW_DEFINE_EXPR_STATIC_GETTER(name, expr);                                                               \
-    template <typename T, typename U, typename V = decltype(expr)>                                           \
-    static auto _Set_##name(T &self, U &&value)                                                              \
-        -> typename std::enable_if<sw::_IsProperty<V>::value && sw::_EqOperationHelper<U, U>::value>::type   \
-    {                                                                                                        \
-        if (!((self.##expr).Get() == value)) {                                                               \
-            (self.##expr).Set(std::forward<U>(value));                                                       \
-            if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));    \
-        }                                                                                                    \
-    }                                                                                                        \
-    template <typename T, typename U, typename V = decltype(expr)>                                           \
-    static auto _Set_##name(T &self, U &&value)                                                              \
-        -> typename std::enable_if<sw::_IsProperty<V>::value && !sw::_EqOperationHelper<U, U>::value>::type  \
-    {                                                                                                        \
-        (self.##expr).Set(std::forward<U>(value));                                                           \
-        if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));        \
-    }                                                                                                        \
-    template <typename T, typename U, typename V = decltype(expr)>                                           \
-    static auto _Set_##name(T &self, U &&value)                                                              \
-        -> typename std::enable_if<!sw::_IsProperty<V>::value && sw::_EqOperationHelper<U, U>::value>::type  \
-    {                                                                                                        \
-        if (!((self.##expr) == value)) {                                                                     \
-            (self.##expr) = std::forward<U>(value);                                                          \
-            if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));    \
-        }                                                                                                    \
-    }                                                                                                        \
-    template <typename T, typename U, typename V = decltype(expr)>                                           \
-    static auto _Set_##name(T &self, U &&value)                                                              \
-        -> typename std::enable_if<!sw::_IsProperty<V>::value && !sw::_EqOperationHelper<U, U>::value>::type \
-    {                                                                                                        \
-        (self.##expr) = std::forward<U>(value);                                                              \
-        if (self.PropertyChanged) self.PropertyChanged(self, sw::Reflection::GetFieldId(&T::##name));        \
-    }                                                                                                        \
-    sw::Property<_SW_EXPR_PROPERTY_VALUETYPE(name, expr)> name                                               \
-    {                                                                                                        \
-        sw::Property<_SW_EXPR_PROPERTY_VALUETYPE(name, expr)>::Init(this)                                    \
-            .Getter([](auto self) {                                                                          \
-                return _Get_##name(*self);                                                                   \
-            })                                                                                               \
-            .Setter([](auto self, auto value) {                                                              \
-                _Set_##name(*self, value);                                                                   \
-            })                                                                                               \
+#define SW_DEFINE_EXPR_NOTIFY_PROPERTY(name, expr)                        \
+    _SW_DEFINE_EXPR_PROPERTY_VALUETYPE_HELPER(name);                      \
+    _SW_DEFINE_EXPR_STATIC_GETTER(name, expr);                            \
+    template <typename T, typename U, typename V = decltype(expr)>        \
+    static auto _Set_##name(T &self, U &&value)                           \
+        -> typename std::enable_if<                                       \
+            sw::_IsProperty<V>::value &&                                  \
+            sw::_EqOperationHelper<typename V::TValue, U>::value>::type   \
+    {                                                                     \
+        if (!((self.expr).Get() == value)) {                              \
+            (self.expr).Set(std::forward<U>(value));                      \
+            if (auto &_d = self.GetPropertyChangedEventDelegate()) {      \
+                sw::PropertyChangedEventArgs _a{};                        \
+                _a.propertyId = sw::Reflection::GetFieldId(&T::name);     \
+                _d(self, _a);                                             \
+            }                                                             \
+        }                                                                 \
+    }                                                                     \
+    template <typename T, typename U, typename V = decltype(expr)>        \
+    static auto _Set_##name(T &self, U &&value)                           \
+        -> typename std::enable_if<                                       \
+            sw::_IsProperty<V>::value &&                                  \
+            !sw::_EqOperationHelper<typename V::TValue, U>::value>::type  \
+    {                                                                     \
+        (self.expr).Set(std::forward<U>(value));                          \
+        if (auto &_d = self.GetPropertyChangedEventDelegate()) {          \
+            sw::PropertyChangedEventArgs _a{};                            \
+            _a.propertyId = sw::Reflection::GetFieldId(&T::name);         \
+            _d(self, _a);                                                 \
+        }                                                                 \
+    }                                                                     \
+    template <typename T, typename U, typename V = decltype(expr)>        \
+    static auto _Set_##name(T &self, U &&value)                           \
+        -> typename std::enable_if<                                       \
+            !sw::_IsProperty<V>::value &&                                 \
+            sw::_EqOperationHelper<V, U>::value>::type                    \
+    {                                                                     \
+        if (!((self.expr) == value)) {                                    \
+            (self.expr) = std::forward<U>(value);                         \
+            if (auto &_d = self.GetPropertyChangedEventDelegate()) {      \
+                sw::PropertyChangedEventArgs _a{};                        \
+                _a.propertyId = sw::Reflection::GetFieldId(&T::name);     \
+                _d(self, _a);                                             \
+            }                                                             \
+        }                                                                 \
+    }                                                                     \
+    template <typename T, typename U, typename V = decltype(expr)>        \
+    static auto _Set_##name(T &self, U &&value)                           \
+        -> typename std::enable_if<                                       \
+            !sw::_IsProperty<V>::value &&                                 \
+            !sw::_EqOperationHelper<V, U>::value>::type                   \
+    {                                                                     \
+        (self.expr) = std::forward<U>(value);                             \
+        if (auto &_d = self.GetPropertyChangedEventDelegate()) {          \
+            sw::PropertyChangedEventArgs _a{};                            \
+            _a.propertyId = sw::Reflection::GetFieldId(&T::name);         \
+            _d(self, _a);                                                 \
+        }                                                                 \
+    }                                                                     \
+    sw::Property<_SW_EXPR_PROPERTY_VALUETYPE(name, expr)> name            \
+    {                                                                     \
+        sw::Property<_SW_EXPR_PROPERTY_VALUETYPE(name, expr)>::Init(this) \
+            .Getter([](auto self) {                                       \
+                return _Get_##name(*self);                                \
+            })                                                            \
+            .Setter([](auto self, auto value) {                           \
+                _Set_##name(*self, value);                                \
+            })                                                            \
     }
 
 /*================================================================================*/
@@ -12078,6 +12518,50 @@ namespace sw
         ObjectDeadEventHandler _objectDead;
 
     public:
+        /**
+         * @brief 默认构造函数
+         */
+        ObservableObject() = default;
+
+        /**
+         * @brief 禁用拷贝构造
+         * @note 事件订阅不应随对象拷贝传播，否则订阅者会收到来自副本的额外通知
+         */
+        ObservableObject(const ObservableObject &) = delete;
+
+        /**
+         * @brief 禁用拷贝赋值
+         * @note 事件订阅不应随对象拷贝传播，否则订阅者会收到来自副本的额外通知
+         */
+        ObservableObject &operator=(const ObservableObject &) = delete;
+
+        /**
+         * @brief 移动构造函数
+         * @note 将事件订阅从被移动对象转移到新对象
+         */
+        ObservableObject(ObservableObject &&other) noexcept
+            : DynamicObject(std::move(other)),
+              INotifyObjectDead(std::move(other)),
+              INotifyPropertyChanged(std::move(other)),
+              _propertyChanged(std::move(other._propertyChanged)),
+              _objectDead(std::move(other._objectDead))
+        {
+        }
+
+        /**
+         * @brief 移动赋值运算符
+         * @note 将事件订阅从被移动对象转移到当前对象，覆盖当前对象已有的订阅
+         */
+        ObservableObject &operator=(ObservableObject &&other) noexcept
+        {
+            if (this != &other) {
+                DynamicObject::operator=(std::move(other));
+                _propertyChanged = std::move(other._propertyChanged);
+                _objectDead      = std::move(other._objectDead);
+            }
+            return *this;
+        }
+
         /**
          * @brief 析构时触发对象销毁事件
          */
@@ -12328,7 +12812,8 @@ namespace sw
     /**
      * @brief 框架元素类，提供数据上下文和绑定功能
      */
-    class FrameworkElement : public ObservableObject
+    class FrameworkElement : public ObservableObject,
+                             public ITag<Variant>
     {
     private:
         /**
@@ -12337,9 +12822,14 @@ namespace sw
         std::unordered_map<FieldId, std::unique_ptr<BindingBase>> _bindings{};
 
         /**
+         * @brief 用户自定义数据标签
+         */
+        Variant _tag = nullptr;
+
+        /**
          * @brief 数据上下文
          */
-        DynamicObject *_dataContext = nullptr;
+        Variant _dataContext = nullptr;
 
         /**
          * @brief 数据上下文改变事件委托
@@ -12353,9 +12843,17 @@ namespace sw
         const Event<DataContextChangedEventHandler> DataContextChanged;
 
         /**
-         * @brief 数据上下文
+         * @brief 自定义数据标签，可用于存储任意用户数据
          */
-        const Property<DynamicObject *> DataContext;
+        const Property<Variant> Tag;
+
+        /**
+         * @brief 数据上下文
+         * @note 若需以引用语义持有外部对象，请使用Variant::MakeRef构造，
+         *       而非传入DynamicObject*裸指针 —— 后者会被Variant按值装箱为
+         *       BoxedObject<DynamicObject*>，导致绑定无法解析到原对象。
+         */
+        const Property<Variant> DataContext;
 
         /**
          * @brief 当前元素的有效数据上下文
@@ -12422,6 +12920,17 @@ namespace sw
         bool RemoveBinding(TProperty T::*prop)
         { return RemoveBinding(Reflection::GetFieldId(prop)); }
 
+    public:
+        /**
+         * @brief 获取Tag
+         */
+        virtual Variant GetTag() const override final;
+
+        /**
+         * @brief 设置Tag
+         */
+        virtual void SetTag(const Variant &tag) override final;
+
     protected:
         /**
          * @brief 当CurrentDataContext更改时调用此函数
@@ -12431,19 +12940,19 @@ namespace sw
 
     public:
         /**
-         * @brief 获取父元素
+         * @brief 获取逻辑树中的父元素
          * @return 父元素指针，如果没有父元素则返回nullptr
          */
         virtual FrameworkElement *GetParent() const = 0;
 
         /**
-         * @brief 获取子元素数量
+         * @brief 获取逻辑树中的子元素数量
          * @return 子元素数量
          */
         virtual int GetChildCount() const = 0;
 
         /**
-         * @brief 获取指定索引处的子元素
+         * @brief 获取逻辑树中指定索引处的子元素
          * @param index 子元素索引
          * @throw std::out_of_range 如果索引超出范围
          */
@@ -13362,21 +13871,24 @@ namespace sw
         virtual std::wstring ToString() const;
 
         /**
-         * @brief 获取父元素
-         * @return 父元素指针，如果没有父元素则返回nullptr
+         * @brief 获取逻辑树中的父元素
+         * @return 始终返回nullptr
+         * @note WndBase不管理父子关系；若需访问Win32 HWND父窗口请使用GetParentWnd
          */
         virtual WndBase *GetParent() const override;
 
         /**
-         * @brief 获取子元素数量
-         * @return 子元素数量
+         * @brief 获取逻辑树中的子元素数量
+         * @return 始终返回0
+         * @note WndBase不管理父子关系
          */
         virtual int GetChildCount() const override;
 
         /**
-         * @brief 获取指定索引处的子元素
+         * @brief 获取逻辑树中指定索引处的子元素
          * @param index 子元素索引
-         * @throw std::out_of_range 如果索引超出范围
+         * @throw std::out_of_range 始终抛出
+         * @note WndBase不管理父子关系
          */
         virtual WndBase &GetChildAt(int index) const override;
 
@@ -13841,6 +14353,13 @@ namespace sw
 
     public:
         /**
+         * @brief 获取当前窗口对应的Win32父窗口（HWND父）的WndBase包装
+         * @return 若Win32父窗口存在且已注册为WndBase则返回该指针，否则返回nullptr
+         * @note 该函数访问的是Win32 HWND树，而非逻辑树；与GetParent()语义不同
+         */
+        WndBase *GetParentWnd() const noexcept;
+
+        /**
          * @brief 同步窗口位置和尺寸到内部记录的Rect
          */
         void UpdateInternalRect();
@@ -13873,7 +14392,7 @@ namespace sw
         /**
          * @brief 获取字体句柄
          */
-        HFONT GetFontHandle();
+        HFONT GetFontHandle() const noexcept;
 
         /**
          * @brief 重画
@@ -13885,87 +14404,87 @@ namespace sw
         /**
          * @brief 判断当前对象在界面中是否可视，与Visible属性不同的是该函数返回值会受父窗口的影响
          */
-        bool IsVisible() const;
+        bool IsVisible() const noexcept;
 
         /**
          * @brief 获取窗口样式
          */
-        DWORD GetStyle() const;
+        DWORD GetStyle() const noexcept;
 
         /**
          * @brief 设置窗口样式
          */
-        void SetStyle(DWORD style);
+        void SetStyle(DWORD style) noexcept;
 
         /**
          * @brief 判断窗口是否设有指定样式
          * @param mask 样式的位掩码，可以是多个样式
          */
-        bool GetStyle(DWORD mask) const;
+        bool GetStyle(DWORD mask) const noexcept;
 
         /**
          * @brief 打开或关闭指定的样式
          * @param mask 样式的位掩码，可以是多个样式
          * @param value 是否启用指定的样式
          */
-        void SetStyle(DWORD mask, bool value);
+        void SetStyle(DWORD mask, bool value) noexcept;
 
         /**
          * @brief 获取扩展窗口样式
          */
-        DWORD GetExtendedStyle() const;
+        DWORD GetExtendedStyle() const noexcept;
 
         /**
          * @brief 设置扩展窗口样式
          */
-        void SetExtendedStyle(DWORD style);
+        void SetExtendedStyle(DWORD style) noexcept;
 
         /**
          * @brief 判断窗口是否设有指定扩展样式
          * @param mask 扩展样式的位掩码，可以是多个扩展样式
          */
-        bool GetExtendedStyle(DWORD mask);
+        bool GetExtendedStyle(DWORD mask) const noexcept;
 
         /**
          * @brief 打开或关闭指定的扩展样式
          * @param mask 扩展样式的位掩码，可以是多个扩展样式
          * @param value 是否启用指定的扩展样式
          */
-        void SetExtendedStyle(DWORD mask, bool value);
+        void SetExtendedStyle(DWORD mask, bool value) noexcept;
 
         /**
          * @brief 获取用户区点在屏幕上点的位置
          * @param point 用户区坐标
          * @return 该点在屏幕上的坐标
          */
-        Point PointToScreen(const Point &point) const;
+        Point PointToScreen(const Point &point) const noexcept;
 
         /**
          * @brief 获取屏幕上点在当前用户区点的位置
          * @param screenPoint 屏幕上点的坐标
          * @return 该点在用户区的坐标
          */
-        Point PointFromScreen(const Point &screenPoint) const;
+        Point PointFromScreen(const Point &screenPoint) const noexcept;
 
         /**
          * @brief 发送消息（ASCII）
          */
-        LRESULT SendMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam);
+        LRESULT SendMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam) const;
 
         /**
          * @brief 发送消息（UNICODE）
          */
-        LRESULT SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
+        LRESULT SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam) const;
 
         /**
          * @brief 发送消息（ASCII）并立即返回
          */
-        BOOL PostMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam);
+        BOOL PostMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam) const noexcept;
 
         /**
          * @brief 发送消息（UNICODE）并立即返回
          */
-        BOOL PostMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam);
+        BOOL PostMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam) const noexcept;
 
         /**
          * @brief 测试指定点在窗口的哪一部分
@@ -13982,23 +14501,24 @@ namespace sw
         /**
          * @brief 在窗口线程上执行指定委托，并立即返回
          * @param action 要执行的委托
+         * @return 若成功将委托放入窗口线程的消息队列则返回true，否则返回false
          */
-        void InvokeAsync(const Action<> &action);
+        bool InvokeAsync(const Action<> &action);
 
         /**
          * @brief 获取当前窗口所属线程的线程id
          */
-        DWORD GetThreadId() const;
+        DWORD GetThreadId() const noexcept;
 
         /**
          * @brief 判断当前线程是否为窗口所属线程
          */
-        bool CheckAccess() const;
+        bool CheckAccess() const noexcept;
 
         /**
          * @brief 判断当前对象所属线程是否与另一个WndBase对象所属线程相同
          */
-        bool CheckAccess(const WndBase &other) const;
+        bool CheckAccess(const WndBase &other) const noexcept;
 
     public:
         /**
@@ -14757,8 +15277,7 @@ namespace sw
      * @brief 表示界面中的元素
      */
     class UIElement : public WndBase,
-                      public ILayout,
-                      public ITag<uint64_t>
+                      public ILayout
     {
     private:
         /**
@@ -14828,11 +15347,6 @@ namespace sw
          * @brief 记录路由事件的map
          */
         std::unordered_map<RoutedEventType, RoutedEventHandler> _eventMap{};
-
-        /**
-         * @brief 储存用户自定义信息
-         */
-        uint64_t _tag = 0;
 
         /**
          * @brief 布局标记
@@ -14969,11 +15483,6 @@ namespace sw
          * @brief 是否在不可见时不参与布局
          */
         const Property<bool> CollapseWhenHide;
-
-        /**
-         * @brief 储存用户自定义信息的标记
-         */
-        const Property<uint64_t> Tag;
 
         /**
          * @brief 布局标记，对于不同的布局有不同含义
@@ -15294,33 +15803,23 @@ namespace sw
         virtual UIElement *ToUIElement() override final;
 
         /**
-         * @brief 获取父元素
+         * @brief 获取逻辑树中的父元素
          * @return 父元素指针，如果没有父元素则返回nullptr
          */
         virtual UIElement *GetParent() const override final;
 
         /**
-         * @brief 获取子元素数量
+         * @brief 获取逻辑树中的子元素数量
          * @return 子元素数量
          */
         virtual int GetChildCount() const override final;
 
         /**
-         * @brief 获取指定索引处的子元素
+         * @brief 获取逻辑树中指定索引处的子元素
          * @param index 子元素索引
          * @throw std::out_of_range 如果索引超出范围
          */
         virtual UIElement &GetChildAt(int index) const override final;
-
-        /**
-         * @brief 获取Tag
-         */
-        virtual uint64_t GetTag() const override;
-
-        /**
-         * @brief 设置Tag
-         */
-        virtual void SetTag(uint64_t tag) override;
 
         /**
          * @brief 获取布局标记
@@ -20728,7 +21227,7 @@ namespace sw
         /**
          * @brief 判断当前项是否有效
          */
-        operator bool() const;
+        explicit operator bool() const;
 
         /**
          * @brief 获取当前项的文本

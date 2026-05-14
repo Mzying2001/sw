@@ -1,3 +1,14 @@
+/**
+ * @file    sw_all.cpp
+ * @brief   SimpleWindow单文件版本（合并实现文件）
+ * @details 本文件由 single_header/build.py 脚本根据 sw/src 目录下的全部源文件
+ *          合并生成，包含SimpleWindow框架对外公开类型与控件的全部实现代码，
+ *          需与 sw_all.h 配合使用，可作为单文件分发版本使用。
+ * @note    该文件为自动生成产物，请勿手动修改；如需变更内容，请编辑 sw/src 下
+ *          对应的源文件并重新运行 single_header/build.py 重新生成。
+ * @see     https://github.com/Mzying2001/sw
+ */
+
 #include "sw_all.h"
 #include <strsafe.h>
 #include <climits>
@@ -286,7 +297,7 @@ bool sw::BmpBox::OnPaint()
     HBITMAP hBitmap    = CreateCompatibleBitmap(hdc, width, height);
     HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMem, hBitmap);
 
-    HBRUSH hBackColorBrush = CreateSolidBrush(this->GetRealBackColor());
+    HBRUSH hBackColorBrush = CreateSolidBrush(static_cast<COLORREF>(this->GetRealBackColor()));
     FillRect(hdcMem, &clientRect, hBackColorBrush);
 
     if (this->_hBitmap != NULL &&
@@ -478,11 +489,11 @@ sw::ButtonBase::ButtonBase()
               .Getter([](ButtonBase *self) -> Thickness {
                   RECT rect{};
                   self->_GetTextMargin(rect);
-                  return rect;
+                  return Thickness(rect);
               })
               .Setter([](ButtonBase *self, const Thickness &value) {
                   if (self->TextMargin != value) {
-                      RECT rect = value;
+                      RECT rect = static_cast<RECT>(value);
                       self->_SetTextMargin(rect);
                       self->RaisePropertyChanged(&ButtonBase::TextMargin);
                       if (self->_autoSize) {
@@ -737,27 +748,27 @@ void sw::CheckableButton::OnDoubleClicked()
 
 // Color.cpp
 
-sw::Color::Color(uint8_t r, uint8_t g, uint8_t b)
+sw::Color::Color(uint8_t r, uint8_t g, uint8_t b) noexcept
     : r(r), g(g), b(b), _reserved(0)
 {
 }
 
-sw::Color::Color(KnownColors knownColor)
+sw::Color::Color(KnownColors knownColor) noexcept
     : Color(static_cast<COLORREF>(knownColor))
 {
 }
 
-sw::Color::Color(COLORREF color)
-    : r((color >> 0) & 0xFF), g((color >> 8) & 0xFF), b((color >> 16) & 0xFF)
+sw::Color::Color(COLORREF color) noexcept
+    : r(GetRValue(color)), g(GetGValue(color)), b(GetBValue(color)), _reserved(0)
 {
 }
 
-sw::Color::operator COLORREF() const
+sw::Color::operator COLORREF() const noexcept
 {
     return RGB(this->r, this->g, this->b);
 }
 
-bool sw::Color::Equals(const Color &other) const
+bool sw::Color::Equals(const Color &other) const noexcept
 {
     return (this->r == other.r) && (this->g == other.g) && (this->b == other.b);
 }
@@ -807,10 +818,10 @@ sw::ColorDialog::ColorDialog()
       SelectedColor(
           Property<Color>::Init(this)
               .Getter([](ColorDialog *self) -> Color {
-                  return self->_cc.rgbResult;
+                  return static_cast<Color>(self->_cc.rgbResult);
               })
               .Setter([](ColorDialog *self, const Color &value) {
-                  self->_cc.rgbResult = value;
+                  self->_cc.rgbResult = static_cast<COLORREF>(value);
               })),
 
       FullOpen(
@@ -837,7 +848,7 @@ sw::ColorDialog::ColorDialog()
 {
     _cc.lStructSize  = sizeof(CHOOSECOLORW);
     _cc.Flags        = DWORD(ColorDialogFlags::RgbInit);
-    _cc.rgbResult    = Color(KnownColors::Black);
+    _cc.rgbResult    = static_cast<COLORREF>(Color(KnownColors::Black));
     _cc.lpCustColors = _defaultCustomColors;
 }
 
@@ -2566,10 +2577,10 @@ sw::FontDialog::FontDialog()
       SelectedColor(
           Property<Color>::Init(this)
               .Getter([](FontDialog *self) -> Color {
-                  return self->_cf.rgbColors;
+                  return static_cast<Color>(self->_cf.rgbColors);
               })
               .Setter([](FontDialog *self, const Color &value) {
-                  self->_cf.rgbColors = value;
+                  self->_cf.rgbColors = static_cast<COLORREF>(value);
               }))
 {
     _font           = Font::GetDefaultFont();
@@ -2626,17 +2637,22 @@ sw::FrameworkElement::FrameworkElement()
                   return self->_dataContextChanged;
               })),
 
+      Tag(
+          Property<Variant>::Init(this)
+              .Getter<&FrameworkElement::GetTag>()
+              .Setter<&FrameworkElement::SetTag>()),
+
       DataContext(
-          Property<DynamicObject *>::Init(this)
-              .Getter([](FrameworkElement *self) -> DynamicObject * {
+          Property<Variant>::Init(this)
+              .Getter([](FrameworkElement *self) -> Variant {
                   return self->_dataContext;
               })
-              .Setter([](FrameworkElement *self, DynamicObject *value) {
-                  if (self->_dataContext != value) {
+              .Setter([](FrameworkElement *self, const Variant &value) {
+                  if (!self->_dataContext.ReferenceEquals(value)) {
                       auto oldDataContext = self->CurrentDataContext.Get();
                       self->_dataContext  = value;
                       self->RaisePropertyChanged(&FrameworkElement::DataContext);
-                      if (oldDataContext != value) {
+                      if (oldDataContext != self->_dataContext.Object()) {
                           self->OnCurrentDataContextChanged(oldDataContext);
                       }
                   }
@@ -2648,7 +2664,7 @@ sw::FrameworkElement::FrameworkElement()
                   DynamicObject *result     = nullptr;
                   FrameworkElement *element = self;
                   do {
-                      result  = element->_dataContext;
+                      result  = element->_dataContext.Object();
                       element = element->GetParent();
                   } while (result == nullptr && element != nullptr);
                   return result;
@@ -2700,12 +2716,26 @@ bool sw::FrameworkElement::RemoveBinding(FieldId propertyId)
     }
 }
 
+sw::Variant sw::FrameworkElement::GetTag() const
+{
+    return this->_tag;
+}
+
+void sw::FrameworkElement::SetTag(const Variant &tag)
+{
+    if (!this->_tag.ReferenceEquals(tag)) {
+        this->_tag = tag;
+        this->RaisePropertyChanged(&FrameworkElement::Tag);
+    }
+}
+
 void sw::FrameworkElement::OnCurrentDataContextChanged(DynamicObject *oldDataContext)
 {
     std::vector<FrameworkElement *> stack;
     stack.push_back(this);
 
-    while (!stack.empty()) {
+    while (!stack.empty()) //
+    {
         auto current = stack.back();
         stack.pop_back();
 
@@ -2720,9 +2750,11 @@ void sw::FrameworkElement::OnCurrentDataContextChanged(DynamicObject *oldDataCon
 
         int childCount = current->GetChildCount();
 
-        for (int i = 0; i < childCount; i++) {
+        for (int i = 0; i < childCount; ++i) //
+        {
             auto &child = current->GetChildAt(i);
-            if (child._dataContext == nullptr) {
+
+            if (child._dataContext.IsNull()) {
                 stack.push_back(&child);
             }
         }
@@ -3503,9 +3535,9 @@ void sw::GroupBox::OnDrawBorder(HDC hdc, RECT &rect)
         rect.top + headerHeight};
 
     if (hdc != NULL) {
-        HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
-        ::SetBkColor(hdc, GetRealBackColor());
-        ::SetTextColor(hdc, GetRealTextColor());
+        HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
+        ::SetBkColor(hdc, static_cast<COLORREF>(GetRealBackColor()));
+        ::SetTextColor(hdc, static_cast<COLORREF>(GetRealTextColor()));
         ::SelectObject(hdc, GetFontHandle());
 
         RECT rtHeaderRow = {
@@ -6531,7 +6563,7 @@ bool sw::Panel::OnPaint()
     HWND hwnd = Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
-    HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
+    HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
     FillRect(hdc, &ps.rcPaint, hBrush);
 
     DeleteObject(hBrush);
@@ -6603,7 +6635,7 @@ void sw::Panel::OnDrawPadding(HDC hdc, RECT &rect)
         HRGN hRgnDiff  = CreateRectRgn(0, 0, 0, 0);
         CombineRgn(hRgnDiff, hRgnOuter, hRgnInner, RGN_DIFF);
 
-        HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
+        HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
         FillRgn(hdc, hRgnDiff, hBrush);
 
         DeleteObject(hRgnOuter);
@@ -6745,22 +6777,22 @@ std::wstring sw::Path::GetAbsolutePath(const std::wstring &path)
 
 // Point.cpp
 
-sw::Point::Point(double x, double y)
+sw::Point::Point(double x, double y) noexcept
     : x(x), y(y)
 {
 }
 
-sw::Point::Point(const POINT &point)
+sw::Point::Point(const POINT &point) noexcept
     : x(Dip::PxToDipX(point.x)), y(Dip::PxToDipY(point.y))
 {
 }
 
-sw::Point::operator POINT() const
+sw::Point::operator POINT() const noexcept
 {
     return {Dip::DipToPxX(this->x), Dip::DipToPxY(this->y)};
 }
 
-bool sw::Point::Equals(const Point &other) const
+bool sw::Point::Equals(const Point &other) const noexcept
 {
     return (this->x == other.x) && (this->y == other.y);
 }
@@ -6874,12 +6906,12 @@ sw::RadioButton::RadioButton()
 
 // Rect.cpp
 
-sw::Rect::Rect(double left, double top, double width, double height)
+sw::Rect::Rect(double left, double top, double width, double height) noexcept
     : left(left), top(top), width(width), height(height)
 {
 }
 
-sw::Rect::Rect(const RECT &rect)
+sw::Rect::Rect(const RECT &rect) noexcept
     : left(Dip::PxToDipX(rect.left)),
       top(Dip::PxToDipY(rect.top)),
       width(Dip::PxToDipX(rect.right - rect.left)),
@@ -6887,7 +6919,7 @@ sw::Rect::Rect(const RECT &rect)
 {
 }
 
-sw::Rect::operator RECT() const
+sw::Rect::operator RECT() const noexcept
 {
     return {Dip::DipToPxX(this->left),
             Dip::DipToPxY(this->top),
@@ -6895,17 +6927,17 @@ sw::Rect::operator RECT() const
             Dip::DipToPxY(this->top + this->height)};
 }
 
-sw::Point sw::Rect::GetPos() const
+sw::Point sw::Rect::GetPos() const noexcept
 {
     return Point(this->left, this->top);
 }
 
-sw::Size sw::Rect::GetSize() const
+sw::Size sw::Rect::GetSize() const noexcept
 {
     return Size(this->width, this->height);
 }
 
-bool sw::Rect::Equals(const Rect &other) const
+bool sw::Rect::Equals(const Rect &other) const noexcept
 {
     return (this->left == other.left) &&
            (this->top == other.top) &&
@@ -6972,22 +7004,22 @@ const sw::ReadOnlyProperty<sw::Point> sw::Screen::CursorPosition(
 
 // Size.cpp
 
-sw::Size::Size(double width, double height)
+sw::Size::Size(double width, double height) noexcept
     : width(width), height(height)
 {
 }
 
-sw::Size::Size(const SIZE &size)
+sw::Size::Size(const SIZE &size) noexcept
     : width(Dip::PxToDipX(size.cx)), height(Dip::PxToDipY(size.cy))
 {
 }
 
-sw::Size::operator SIZE() const
+sw::Size::operator SIZE() const noexcept
 {
     return {Dip::DipToPxX(this->width), Dip::DipToPxY(this->height)};
 }
 
-bool sw::Size::Equals(const Size &other) const
+bool sw::Size::Equals(const Size &other) const noexcept
 {
     return (this->width == other.width) && (this->height == other.height);
 }
@@ -7444,7 +7476,7 @@ bool sw::Splitter::OnPaint()
     RECT rect;
     GetClientRect(hwnd, &rect);
 
-    HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
+    HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
     FillRect(hdc, &rect, hBrush);
 
     if (_drawSplitterLine) {
@@ -8376,22 +8408,22 @@ void sw::TextBoxBase::_SetHorzContentAlignment(sw::HorizontalAlignment value)
 
 // Thickness.cpp
 
-sw::Thickness::Thickness(double thickness)
+sw::Thickness::Thickness(double thickness) noexcept
     : left(thickness), top(thickness), right(thickness), bottom(thickness)
 {
 }
 
-sw::Thickness::Thickness(double horizontal, double vertical)
+sw::Thickness::Thickness(double horizontal, double vertical) noexcept
     : left(horizontal), top(vertical), right(horizontal), bottom(vertical)
 {
 }
 
-sw::Thickness::Thickness(double left, double top, double right, double bottom)
+sw::Thickness::Thickness(double left, double top, double right, double bottom) noexcept
     : left(left), top(top), right(right), bottom(bottom)
 {
 }
 
-sw::Thickness::Thickness(const RECT &rect)
+sw::Thickness::Thickness(const RECT &rect) noexcept
     : Thickness(
           Dip::PxToDipX(rect.left),
           Dip::PxToDipY(rect.top),
@@ -8400,7 +8432,7 @@ sw::Thickness::Thickness(const RECT &rect)
 {
 }
 
-sw::Thickness::operator RECT() const
+sw::Thickness::operator RECT() const noexcept
 {
     return RECT{
         Dip::DipToPxX(this->left),
@@ -8409,7 +8441,7 @@ sw::Thickness::operator RECT() const
         Dip::DipToPxY(this->bottom)};
 }
 
-bool sw::Thickness::Equals(const Thickness &other) const
+bool sw::Thickness::Equals(const Thickness &other) const noexcept
 {
     return (this->left == other.left) &&
            (this->top == other.top) &&
@@ -9132,7 +9164,6 @@ namespace
     const sw::FieldId _PropId_VerticalAlignment   = sw::Reflection::GetFieldId(&sw::UIElement::VerticalAlignment);
     const sw::FieldId _PropId_ChildCount          = sw::Reflection::GetFieldId(&sw::UIElement::ChildCount);
     const sw::FieldId _PropId_CollapseWhenHide    = sw::Reflection::GetFieldId(&sw::UIElement::CollapseWhenHide);
-    const sw::FieldId _PropId_Tag                 = sw::Reflection::GetFieldId(&sw::UIElement::Tag);
     const sw::FieldId _PropId_LayoutTag           = sw::Reflection::GetFieldId(&sw::UIElement::LayoutTag);
     const sw::FieldId _PropId_ContextMenu         = sw::Reflection::GetFieldId(&sw::UIElement::ContextMenu);
     const sw::FieldId _PropId_Float               = sw::Reflection::GetFieldId(&sw::UIElement::Float);
@@ -9205,15 +9236,6 @@ sw::UIElement::UIElement()
                           self->_parent->InvalidateMeasure();
                       }
                   }
-              })),
-
-      Tag(
-          Property<uint64_t>::Init(this)
-              .Getter([](UIElement *self) -> uint64_t {
-                  return self->GetTag();
-              })
-              .Setter([](UIElement *self, uint64_t value) {
-                  self->SetTag(value);
               })),
 
       LayoutTag(
@@ -9885,19 +9907,6 @@ int sw::UIElement::GetChildCount() const
 sw::UIElement &sw::UIElement::GetChildAt(int index) const
 {
     return *this->_children.at(index);
-}
-
-uint64_t sw::UIElement::GetTag() const
-{
-    return this->_tag;
-}
-
-void sw::UIElement::SetTag(uint64_t tag)
-{
-    if (this->_tag != tag) {
-        this->_tag = tag;
-        this->RaisePropertyChanged(_PropId_Tag);
-    }
 }
 
 uint64_t sw::UIElement::GetLayoutTag() const
@@ -10591,8 +10600,8 @@ void sw::UIElement::OnMenuCommand(int id)
 
 bool sw::UIElement::OnColor(HDC hdc, HBRUSH &hRetBrush)
 {
-    COLORREF textColor = this->GetRealTextColor();
-    COLORREF backColor = this->GetRealBackColor();
+    COLORREF textColor = static_cast<COLORREF>(this->GetRealTextColor());
+    COLORREF backColor = static_cast<COLORREF>(this->GetRealBackColor());
 
     ::SetTextColor(hdc, textColor);
     ::SetBkColor(hdc, backColor);
@@ -11330,7 +11339,7 @@ bool sw::Window::OnPaint()
     HBITMAP hBmpWnd = CreateCompatibleBitmap(hdc, sizeClient.cx, sizeClient.cy);
     HBITMAP hBmpOld = (HBITMAP)SelectObject(hdcMem, hBmpWnd);
 
-    HBRUSH hBrush = CreateSolidBrush(GetRealBackColor());
+    HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
     FillRect(hdcMem, &rtClient, hBrush);
     BitBlt(hdc, 0, 0, sizeClient.cx, sizeClient.cy, hdcMem, 0, 0, SRCCOPY);
 
@@ -11965,8 +11974,7 @@ std::wstring sw::WndBase::ToString() const
 
 sw::WndBase *sw::WndBase::GetParent() const
 {
-    HWND hwnd = ::GetParent(this->_hwnd);
-    return WndBase::GetWndBase(hwnd);
+    return nullptr;
 }
 
 int sw::WndBase::GetChildCount() const
@@ -12783,6 +12791,12 @@ bool sw::WndBase::OnDropFiles(HDROP hDrop)
     return false;
 }
 
+sw::WndBase *sw::WndBase::GetParentWnd() const noexcept
+{
+    HWND hwnd = ::GetParent(this->_hwnd);
+    return hwnd == NULL ? nullptr : WndBase::GetWndBase(hwnd);
+}
+
 void sw::WndBase::UpdateInternalRect()
 {
     RECT rect;
@@ -12833,7 +12847,7 @@ void sw::WndBase::UpdateFont()
     this->FontChanged(this->_hfont);
 }
 
-HFONT sw::WndBase::GetFontHandle()
+HFONT sw::WndBase::GetFontHandle() const noexcept
 {
     return this->_hfont;
 }
@@ -12844,27 +12858,27 @@ void sw::WndBase::Redraw(bool erase, bool updateWindow)
     if (updateWindow) UpdateWindow(this->_hwnd);
 }
 
-bool sw::WndBase::IsVisible() const
+bool sw::WndBase::IsVisible() const noexcept
 {
     return IsWindowVisible(this->_hwnd);
 }
 
-DWORD sw::WndBase::GetStyle() const
+DWORD sw::WndBase::GetStyle() const noexcept
 {
     return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE));
 }
 
-void sw::WndBase::SetStyle(DWORD style)
+void sw::WndBase::SetStyle(DWORD style) noexcept
 {
     SetWindowLongPtrW(this->_hwnd, GWL_STYLE, LONG_PTR(style));
 }
 
-bool sw::WndBase::GetStyle(DWORD mask) const
+bool sw::WndBase::GetStyle(DWORD mask) const noexcept
 {
     return (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) & mask) == mask;
 }
 
-void sw::WndBase::SetStyle(DWORD mask, bool value)
+void sw::WndBase::SetStyle(DWORD mask, bool value) noexcept
 {
     DWORD newstyle =
         value ? (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_STYLE)) | mask)
@@ -12872,22 +12886,22 @@ void sw::WndBase::SetStyle(DWORD mask, bool value)
     SetWindowLongPtrW(this->_hwnd, GWL_STYLE, LONG_PTR(newstyle));
 }
 
-DWORD sw::WndBase::GetExtendedStyle() const
+DWORD sw::WndBase::GetExtendedStyle() const noexcept
 {
     return DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE));
 }
 
-void sw::WndBase::SetExtendedStyle(DWORD style)
+void sw::WndBase::SetExtendedStyle(DWORD style) noexcept
 {
     SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, LONG_PTR(style));
 }
 
-bool sw::WndBase::GetExtendedStyle(DWORD mask)
+bool sw::WndBase::GetExtendedStyle(DWORD mask) const noexcept
 {
     return (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE)) & mask) == mask;
 }
 
-void sw::WndBase::SetExtendedStyle(DWORD mask, bool value)
+void sw::WndBase::SetExtendedStyle(DWORD mask, bool value) noexcept
 {
     DWORD newstyle =
         value ? (DWORD(GetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE)) | mask)
@@ -12895,36 +12909,36 @@ void sw::WndBase::SetExtendedStyle(DWORD mask, bool value)
     SetWindowLongPtrW(this->_hwnd, GWL_EXSTYLE, LONG_PTR(newstyle));
 }
 
-sw::Point sw::WndBase::PointToScreen(const Point &point) const
+sw::Point sw::WndBase::PointToScreen(const Point &point) const noexcept
 {
     POINT p = point;
     ClientToScreen(this->_hwnd, &p);
     return p;
 }
 
-sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint) const
+sw::Point sw::WndBase::PointFromScreen(const Point &screenPoint) const noexcept
 {
     POINT p = screenPoint;
     ScreenToClient(this->_hwnd, &p);
     return p;
 }
 
-LRESULT sw::WndBase::SendMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT sw::WndBase::SendMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam) const
 {
     return ::SendMessageA(this->_hwnd, uMsg, wParam, lParam);
 }
 
-LRESULT sw::WndBase::SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT sw::WndBase::SendMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam) const
 {
     return ::SendMessageW(this->_hwnd, uMsg, wParam, lParam);
 }
 
-BOOL sw::WndBase::PostMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam)
+BOOL sw::WndBase::PostMessageA(UINT uMsg, WPARAM wParam, LPARAM lParam) const noexcept
 {
     return ::PostMessageA(this->_hwnd, uMsg, wParam, lParam);
 }
 
-BOOL sw::WndBase::PostMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam)
+BOOL sw::WndBase::PostMessageW(UINT uMsg, WPARAM wParam, LPARAM lParam) const noexcept
 {
     return ::PostMessageW(this->_hwnd, uMsg, wParam, lParam);
 }
@@ -12948,27 +12962,37 @@ void sw::WndBase::Invoke(const Action<> &action)
     }
 }
 
-void sw::WndBase::InvokeAsync(const Action<> &action)
+bool sw::WndBase::InvokeAsync(const Action<> &action)
 {
-    if (action == nullptr)
-        return;
-    else {
-        Action<> *p = new Action<>(action);
-        this->PostMessageW(WM_InvokeAction, true, reinterpret_cast<LPARAM>(p));
+    bool result;
+
+    if (action == nullptr) {
+        result = false;
+    } else {
+        auto *p = new Action<>(action);
+
+        if (this->PostMessageW(
+                WM_InvokeAction, true, reinterpret_cast<LPARAM>(p)) != FALSE) {
+            result = true;
+        } else {
+            delete p;
+            result = false;
+        }
     }
+    return result;
 }
 
-DWORD sw::WndBase::GetThreadId() const
+DWORD sw::WndBase::GetThreadId() const noexcept
 {
     return GetWindowThreadProcessId(this->_hwnd, NULL);
 }
 
-bool sw::WndBase::CheckAccess() const
+bool sw::WndBase::CheckAccess() const noexcept
 {
     return this->GetThreadId() == GetCurrentThreadId();
 }
 
-bool sw::WndBase::CheckAccess(const WndBase &other) const
+bool sw::WndBase::CheckAccess(const WndBase &other) const noexcept
 {
     return this == &other || this->GetThreadId() == other.GetThreadId();
 }
