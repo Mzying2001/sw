@@ -76,14 +76,18 @@ namespace sw
 
         /**
          * @brief 获取对象的类型信息
-         * @return 对象的类型索引
+         * @return 对象的类型索引，若为装箱对象则返回被装箱类型的类型索引
          */
-        std::type_index GetType() const
+        std::type_index GetType() const noexcept
         {
 #if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot get type index.");
 #else
-            return typeid(*this);
+            if (IsBoxedObject()) {
+                return GetBoxedType();
+            } else {
+                return typeid(*this);
+            }
 #endif
         }
 
