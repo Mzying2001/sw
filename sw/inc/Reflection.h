@@ -64,14 +64,18 @@ namespace sw
 
         /**
          * @brief 判断与另一DynamicObject是否引用同一对象
-         * @return 引用同一对象时返回true
+         * @return 引用同一对象时返回true，否则返回false
          * @note 若为引用装箱则比较被引用对象的地址
          */
         bool ReferenceEquals(const DynamicObject &other) const noexcept
         {
-            if (IsBoxedObject() && other.IsBoxedObject())
+            if (this == &other) {
+                return true;
+            }
+            if (IsBoxedObject() && other.IsBoxedObject()) {
                 return GetBoxedRawPtr() == other.GetBoxedRawPtr();
-            return this == &other;
+            }
+            return false;
         }
 
         /**
