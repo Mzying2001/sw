@@ -115,10 +115,17 @@ namespace sw
          */
         Binding() = default;
 
-        Binding(const Binding &)            = delete; // 删除拷贝构造函数
-        Binding(Binding &&)                 = delete; // 删除移动构造函数
-        Binding &operator=(const Binding &) = delete; // 删除拷贝赋值运算符
-        Binding &operator=(Binding &&)      = delete; // 删除移动赋值运算符
+        // 删除拷贝构造函数
+        Binding(const Binding &) = delete;
+
+        // 删除移动构造函数
+        Binding(Binding &&) = delete;
+
+        // 删除拷贝赋值运算符
+        Binding &operator=(const Binding &) = delete;
+
+        // 删除移动赋值运算符
+        Binding &operator=(Binding &&) = delete;
 
     public:
         /**
