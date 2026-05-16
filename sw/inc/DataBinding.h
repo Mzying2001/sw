@@ -77,6 +77,22 @@ namespace sw
         }
 
         /**
+         * @brief 获取绑定模式
+         */
+        BindingMode GetBindingMode() const
+        {
+            return _innerBinding->GetBindingMode();
+        }
+
+        /**
+         * @brief 设置绑定模式
+         */
+        void SetBindingMode(BindingMode mode)
+        {
+            _innerBinding->SetBindingMode(mode);
+        }
+
+        /**
          * @brief 获取目标元素
          * @return 目标元素指针
          */
