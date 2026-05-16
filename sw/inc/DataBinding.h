@@ -80,7 +80,7 @@ namespace sw
          * @brief 获取目标元素
          * @return 目标元素指针
          */
-        FrameworkElement *GetTargetElement() const
+        FrameworkElement *GetTargetObject() const
         {
             return _targetElement;
         }
@@ -89,7 +89,7 @@ namespace sw
          * @brief 设置目标元素
          * @param element 目标元素指针
          */
-        void SetTargetElement(FrameworkElement *element)
+        void SetTargetObject(FrameworkElement *element)
         {
             if (_targetElement != element) {
                 UnregisterNotifications();
@@ -149,7 +149,7 @@ namespace sw
          */
         void OnTargetElementDead(INotifyObjectDead &sender, EventArgs &e)
         {
-            SetTargetElement(nullptr);
+            SetTargetObject(nullptr);
         }
 
         /**
