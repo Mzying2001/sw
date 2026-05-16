@@ -67,6 +67,16 @@ bool sw::FrameworkElement::AddBinding(Binding *binding)
     }
 }
 
+bool sw::FrameworkElement::AddBinding(SelfBinding *binding)
+{
+    if (binding == nullptr) {
+        return false;
+    } else {
+        binding->SetTargetObject(this);
+        return this->AddBinding(static_cast<BindingBase *>(binding));
+    }
+}
+
 bool sw::FrameworkElement::AddBinding(DataBinding *binding)
 {
     if (binding == nullptr) {

@@ -3,6 +3,7 @@
 #include "Binding.h"
 #include "ITag.h"
 #include "ObservableObject.h"
+#include "SelfBinding.h"
 #include "Variant.h"
 #include <unordered_map>
 
@@ -116,6 +117,14 @@ namespace sw
          * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
          */
         bool AddBinding(Binding *binding);
+
+        /**
+         * @brief 添加自绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         */
+        bool AddBinding(SelfBinding *binding);
 
         /**
          * @brief 添加绑定到DataContext的绑定对象

@@ -93,6 +93,7 @@
 #include "RoutedEventArgs.h"
 #include "Screen.h"
 #include "ScrollEnums.h"
+#include "SelfBinding.h"
 #include "Size.h"
 #include "Slider.h"
 #include "SpinBox.h"
