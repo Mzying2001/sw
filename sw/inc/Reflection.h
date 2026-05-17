@@ -472,6 +472,128 @@ namespace sw
             }
         }
 
+        /**
+         * @brief 非引用的拷贝构造实现
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果T不可拷贝构造
+         */
+        template <typename U = T>
+        auto NotRefCopyConstructImpl(const BoxedObject &other) noexcept(std::is_nothrow_copy_constructible<U>::value)
+            -> typename std::enable_if<std::is_copy_constructible<U>::value>::type
+        {
+            new (_data.objbuf) T(other.Unbox());
+        }
+
+        /**
+         * @brief 非引用的拷贝构造实现（T不可拷贝构造时，抛出异常）
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果T不可拷贝构造
+         */
+        template <typename U = T>
+        auto NotRefCopyConstructImpl(const BoxedObject &other) noexcept(false)
+            -> typename std::enable_if<!std::is_copy_constructible<U>::value>::type
+        {
+            throw std::logic_error("Type T must be copy constructible to copy construct a non-ref BoxedObject.");
+        }
+
+        /**
+         * @brief 非引用的移动构造实现
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果T不可移动构造
+         */
+        template <typename U = T>
+        auto NotRefMoveConstructImpl(BoxedObject &&other) noexcept(std::is_nothrow_move_constructible<U>::value)
+            -> typename std::enable_if<std::is_move_constructible<U>::value>::type
+        {
+            new (_data.objbuf) T(std::move(other.Unbox()));
+        }
+
+        /**
+         * @brief 非引用的移动构造实现（T不可移动构造时，抛出异常）
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果T不可移动构造
+         */
+        template <typename U = T>
+        auto NotRefMoveConstructImpl(BoxedObject &&other) noexcept(false)
+            -> typename std::enable_if<!std::is_move_constructible<U>::value>::type
+        {
+            throw std::logic_error("Type T must be move constructible to move construct a non-ref BoxedObject.");
+        }
+
+        /**
+         * @brief 非引用的拷贝赋值实现
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果other为非引用装箱且T不可拷贝赋值
+         */
+        template <typename U = T>
+        auto NotRefCopyAssignImpl(const BoxedObject &other)
+            -> typename std::enable_if<std::is_copy_assignable<U>::value>::type
+        {
+            if (other._isRef) {
+                Release();
+                _data.refptr = other._data.refptr;
+                _isRef       = true;
+            } else {
+                Unbox() = other.Unbox();
+            }
+        }
+
+        /**
+         * @brief 非引用的拷贝赋值实现（T不可拷贝赋值时，抛出异常）
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果other为非引用装箱且T不可拷贝赋值
+         */
+        template <typename U = T>
+        auto NotRefCopyAssignImpl(const BoxedObject &other)
+            -> typename std::enable_if<!std::is_copy_assignable<U>::value>::type
+        {
+            if (other._isRef) {
+                Release();
+                _data.refptr = other._data.refptr;
+                _isRef       = true;
+            } else {
+                throw std::logic_error("Type T must be copy assignable to copy assign a non-ref BoxedObject.");
+            }
+        }
+
+        /**
+         * @brief 非引用的移动赋值实现
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果other为非引用装箱且T不可移动赋值
+         */
+        template <typename U = T>
+        auto NotRefMoveAssignImpl(BoxedObject &&other)
+            -> typename std::enable_if<std::is_move_assignable<U>::value>::type
+        {
+            if (other._isRef) {
+                Release();
+                _data.refptr       = other._data.refptr;
+                _isRef             = true;
+                other._data.refptr = nullptr;
+            } else {
+                Unbox() = std::move(other.Unbox());
+            }
+        }
+
+        /**
+         * @brief 非引用的移动赋值实现（T不可移动赋值时，抛出异常）
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果other为非引用装箱且T不可移动赋值
+         */
+        template <typename U = T>
+        auto NotRefMoveAssignImpl(BoxedObject &&other)
+            -> typename std::enable_if<!std::is_move_assignable<U>::value>::type
+        {
+            if (other._isRef) {
+                Release();
+                _data.refptr       = other._data.refptr;
+                _isRef             = true;
+                other._data.refptr = nullptr;
+            } else {
+                throw std::logic_error("Type T must be move assignable to move assign a non-ref BoxedObject.");
+            }
+        }
+
     public:
         /**
          * @brief 构造值类型的装箱对象
@@ -532,6 +654,7 @@ namespace sw
         /**
          * @brief 拷贝构造函数
          * @param other 另一个装箱对象
+         * @throws std::logic_error 如果other为非引用装箱且T不可拷贝构造
          */
         BoxedObject(const BoxedObject &other) noexcept(std::is_nothrow_copy_constructible<T>::value)
             : BoxedObject(_IsRefParam{other._isRef})
@@ -539,13 +662,14 @@ namespace sw
             if (_isRef) {
                 _data.refptr = other._data.refptr;
             } else {
-                new (_data.objbuf) T(other.Unbox());
+                NotRefCopyConstructImpl(other);
             }
         }
 
         /**
          * @brief 移动构造函数
          * @param other 另一个装箱对象
+         * @throws std::logic_error 如果other为非引用装箱且T不可移动构造
          */
         BoxedObject(BoxedObject &&other) noexcept(std::is_nothrow_move_constructible<T>::value)
             : BoxedObject(_IsRefParam{other._isRef})
@@ -554,7 +678,7 @@ namespace sw
                 _data.refptr       = other._data.refptr;
                 other._data.refptr = nullptr;
             } else {
-                new (_data.objbuf) T(std::move(other.Unbox()));
+                NotRefMoveConstructImpl(std::move(other));
             }
         }
 
@@ -562,6 +686,8 @@ namespace sw
          * @brief 拷贝赋值运算符
          * @param other 另一个装箱对象
          * @return 当前装箱对象的引用
+         * @throws std::logic_error 如果当前对象为引用装箱且other为非引用装箱，同时T不可拷贝构造
+         * @throws std::logic_error 如果当前对象为非引用装箱且other为非引用装箱，同时T不可拷贝赋值
          */
         BoxedObject &operator=(const BoxedObject &other)
         {
@@ -574,7 +700,7 @@ namespace sw
                 } else {
                     auto oldPtr = _data.refptr;
                     try {
-                        new (_data.objbuf) T(other.Unbox());
+                        NotRefCopyConstructImpl(other);
                         _isRef = false;
                     } catch (...) {
                         _data.refptr = oldPtr;
@@ -582,13 +708,7 @@ namespace sw
                     }
                 }
             } else {
-                if (other._isRef) {
-                    Release();
-                    _data.refptr = other._data.refptr;
-                    _isRef       = true;
-                } else {
-                    Unbox() = other.Unbox();
-                }
+                NotRefCopyAssignImpl(other);
             }
             return *this;
         }
@@ -597,6 +717,8 @@ namespace sw
          * @brief 移动赋值运算符
          * @param other 另一个装箱对象
          * @return 当前装箱对象的引用
+         * @throws std::logic_error 如果当前对象为引用装箱且other为非引用装箱，同时T不可移动构造
+         * @throws std::logic_error 如果当前对象为非引用装箱且other为非引用装箱，同时T不可移动赋值
          */
         BoxedObject &operator=(BoxedObject &&other)
         {
@@ -610,7 +732,7 @@ namespace sw
                 } else {
                     auto oldPtr = _data.refptr;
                     try {
-                        new (_data.objbuf) T(std::move(other.Unbox()));
+                        NotRefMoveConstructImpl(std::move(other));
                         _isRef = false;
                     } catch (...) {
                         _data.refptr = oldPtr;
@@ -618,14 +740,7 @@ namespace sw
                     }
                 }
             } else {
-                if (other._isRef) {
-                    Release();
-                    _data.refptr       = other._data.refptr;
-                    _isRef             = true;
-                    other._data.refptr = nullptr;
-                } else {
-                    Unbox() = std::move(other.Unbox());
-                }
+                NotRefMoveAssignImpl(std::move(other));
             }
             return *this;
         }
@@ -704,7 +819,9 @@ namespace sw
          */
         virtual void *GetBoxedRawPtr() noexcept override
         {
-            return _isRef ? static_cast<void *>(_data.refptr) : static_cast<void *>(_data.objbuf);
+            // 当T带const时，refptr无法直接转换为void*，需要先转换为const void*再去掉const
+            return const_cast<void *>(
+                _isRef ? static_cast<const void *>(_data.refptr) : static_cast<const void *>(_data.objbuf));
         }
 
         /**
