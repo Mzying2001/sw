@@ -28,7 +28,6 @@
 #include "DataBinding.h"
 #include "DateTimePicker.h"
 #include "Delegate.h"
-#include "Dictionary.h"
 #include "Dip.h"
 #include "DockLayout.h"
 #include "DockPanel.h"
