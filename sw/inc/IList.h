@@ -137,16 +137,10 @@ namespace sw
             -> typename std::enable_if<!std::is_same<U, Variant>::value>::type
         {
             if (value.IsNull()) {
-                throw std::invalid_argument("Cannot set a null Variant to a non-Variant IListT.");
+                throw std::invalid_argument(
+                    "Cannot set a null Variant to a non-Variant IListT.");
             }
-
-            const T *ptr = nullptr;
-
-            if (value.IsType(&ptr)) {
-                SetAt(index, *ptr);
-            } else {
-                throw std::bad_cast("Variant type mismatch when setting value to IListT.");
-            }
+            SetAt(index, value.DynamicCast<T>());
         }
 
     public:
