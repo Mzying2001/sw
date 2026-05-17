@@ -162,10 +162,10 @@ namespace sw
          * @return 当前列表的引用，支持链式调用
          * @throws std::out_of_range 索引超出范围
          */
-        List<T> &InsertAt(int index, const T &value)
+        List<T> &Insert(int index, const T &value)
         {
             if (index < 0 || index > Count()) {
-                throw std::out_of_range("Index out of range in List::InsertAt.");
+                throw std::out_of_range("Index out of range in List::Insert.");
             }
             _data.insert(_data.begin() + static_cast<size_t>(index), value);
             return *this;
@@ -178,10 +178,10 @@ namespace sw
          * @return 当前列表的引用，支持链式调用
          * @throws std::out_of_range 索引超出范围
          */
-        List<T> &InsertAt(int index, T &&value)
+        List<T> &Insert(int index, T &&value)
         {
             if (index < 0 || index > Count()) {
-                throw std::out_of_range("Index out of range in List::InsertAt.");
+                throw std::out_of_range("Index out of range in List::Insert.");
             }
             _data.insert(_data.begin() + static_cast<size_t>(index), std::move(value));
             return *this;
