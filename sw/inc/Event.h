@@ -128,6 +128,20 @@ namespace sw
     template <typename TRet, typename... Args>
     class Event<Delegate<TRet(Args...)>> final
     {
+    private:
+        /**
+         * @brief 用于存储任意签名函数指针的通用类型
+         * @note 函数指针类型间通过reinterpret_cast互转再转回原类型不丢失信息（C++标准良定义），
+         *       使用统一的函数指针类型作为存储可避免函数指针与void*之间的conditionally-supported转换。
+         */
+        using TFuncPtr = void (*)();
+
+        /**
+         * @brief 静态偏移量，表示静态事件
+         */
+        static constexpr std::ptrdiff_t _STATICOFFSET =
+            (std::numeric_limits<std::ptrdiff_t>::max)();
+
     public:
         /**
          * @brief 事件的委托类型
@@ -151,9 +165,9 @@ namespace sw
             assert(initializer._accessor != nullptr);
 
             SetOwner(initializer._owner);
-            _accessor = reinterpret_cast<void *>(initializer._accessor);
+            _accessor = reinterpret_cast<TFuncPtr>(initializer._accessor);
 
-            _extractor = [](void *owner, void *accessor) -> TDelegate & {
+            _extractor = [](void *owner, TFuncPtr accessor) -> TDelegate & {
                 return reinterpret_cast<TDelegate &(*)(TOwner *)>(accessor)(reinterpret_cast<TOwner *>(owner));
             };
         }
@@ -167,9 +181,9 @@ namespace sw
             assert(initializer._accessor != nullptr);
 
             SetOwner(nullptr);
-            _accessor = reinterpret_cast<void *>(initializer._accessor);
+            _accessor = reinterpret_cast<TFuncPtr>(initializer._accessor);
 
-            _extractor = [](void * /*owner*/, void *accessor) -> TDelegate & {
+            _extractor = [](void * /*owner*/, TFuncPtr accessor) -> TDelegate & {
                 return reinterpret_cast<TDelegate &(*)()>(accessor)();
             };
         }
@@ -216,12 +230,6 @@ namespace sw
 
     private:
         /**
-         * @brief 静态偏移量，表示静态事件
-         */
-        static constexpr std::ptrdiff_t _STATICOFFSET =
-            (std::numeric_limits<std::ptrdiff_t>::max)();
-
-        /**
          * @brief 事件所有者对象相对于当前事件对象的偏移量
          */
         std::ptrdiff_t _offset;
@@ -229,12 +237,12 @@ namespace sw
         /**
          * @brief 委托访问器指针
          */
-        void *_accessor;
+        TFuncPtr _accessor;
 
         /**
          * @brief 类型擦除的委托访问器，用于获取事件的委托引用
          */
-        TDelegate &(*_extractor)(void *owner, void *accessor);
+        TDelegate &(*_extractor)(void *owner, TFuncPtr accessor);
 
         /**
          * @brief 判断事件是否为静态事件
