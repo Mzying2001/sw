@@ -52,6 +52,7 @@
 #include "IComparable.h"
 #include "IDialog.h"
 #include "ILayout.h"
+#include "IList.h"
 #include "INotifyObjectDead.h"
 #include "INotifyPropertyChanged.h"
 #include "IPAddressControl.h"

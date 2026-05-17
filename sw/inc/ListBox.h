@@ -8,7 +8,7 @@ namespace sw
     /**
      * @brief 列表框
      */
-    class ListBox : public StrItemsControl
+    class ListBox : public ItemsControl<std::wstring>
     {
     public:
         /**
@@ -125,7 +125,7 @@ namespace sw
          * @brief 多选状态下可通过该函数获取所有选中项的内容
          * @return 所有选中项的内容
          */
-        StrList GetSelectedItems();
+        List<std::wstring> GetSelectedItems();
 
         /**
          * @brief 获取指定索引处子项的选中状态

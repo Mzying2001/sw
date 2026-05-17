@@ -69,7 +69,7 @@ namespace sw
     /**
      * @brief 列表视图
      */
-    class ListView : public ItemsControl<StrList>
+    class ListView : public ItemsControl<List<std::wstring>>
     {
     public:
         /**
@@ -137,7 +137,7 @@ namespace sw
         /**
          * @brief 获取选中项
          */
-        virtual StrList GetSelectedItem() override;
+        virtual List<std::wstring> GetSelectedItem() override;
 
         /**
          * @brief 设置背景颜色
@@ -222,14 +222,14 @@ namespace sw
          * @brief 获取指定索引处子项的值
          * @param index 子项的索引
          */
-        virtual StrList GetItemAt(int index) override;
+        virtual List<std::wstring> GetItemAt(int index) override;
 
         /**
          * @brief 添加新的子项
          * @param item 要添加的子项
          * @return 是否添加成功
          */
-        virtual bool AddItem(const StrList &item) override;
+        virtual bool AddItem(const List<std::wstring> &item) override;
 
         /**
          * @brief 添加子项到指定索引
@@ -237,7 +237,7 @@ namespace sw
          * @param item 要添加的子项
          * @return 是否添加成功
          */
-        virtual bool InsertItem(int index, const StrList &item) override;
+        virtual bool InsertItem(int index, const List<std::wstring> &item) override;
 
         /**
          * @brief 更新指定位置的子项
@@ -245,7 +245,7 @@ namespace sw
          * @param newValue 子项的新值
          * @return 操作是否成功
          */
-        virtual bool UpdateItem(int index, const StrList &newValue) override;
+        virtual bool UpdateItem(int index, const List<std::wstring> &newValue) override;
 
         /**
          * @brief 移除指定索引处的子项

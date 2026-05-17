@@ -7,7 +7,7 @@ namespace sw
     /**
      * @brief 组合框
      */
-    class ComboBox : public StrItemsControl
+    class ComboBox : public ItemsControl<std::wstring>
     {
     private:
         /**

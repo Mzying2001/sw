@@ -180,7 +180,7 @@ sw::FileDialog::FileDialog()
                   if (*pFile == 0) { // 多选状态下只选中一项时，buffer中存放的就是选择的文件路径
                       if (!path.empty()) {
                           result.Append(path);
-                          self->ProcessFileName(result[result.Count() - 1]);
+                          self->ProcessFileName(result.GetAt(result.Count() - 1));
                       }
                       return result;
                   }
@@ -188,7 +188,7 @@ sw::FileDialog::FileDialog()
                   while (*pFile) {
                       std::wstring file = pFile;
                       result.Append(Path::Combine({path, file}));
-                      self->ProcessFileName(result[result.Count() - 1]);
+                      self->ProcessFileName(result.GetAt(result.Count() - 1));
                       pFile += file.size() + 1;
                   }
                   return result;

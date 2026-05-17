@@ -167,10 +167,10 @@ sw::List<int> sw::ListBox::GetSelectedIndices()
     return result;
 }
 
-sw::StrList sw::ListBox::GetSelectedItems()
+sw::List<std::wstring> sw::ListBox::GetSelectedItems()
 {
-    StrList result;
-    for (int i : this->GetSelectedIndices()) {
+    List<std::wstring> result;
+    for (int i : this->GetSelectedIndices().GetStdVector()) {
         result.Append(this->GetItemAt(i));
     }
     return result;

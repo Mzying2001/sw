@@ -163,7 +163,7 @@ void sw::ListView::SetSelectedIndex(int index)
     this->SendMessageW(LVM_SETITEMSTATE, index, reinterpret_cast<LPARAM>(&lvi));
 }
 
-sw::StrList sw::ListView::GetSelectedItem()
+sw::List<std::wstring> sw::ListView::GetSelectedItem()
 {
     return this->GetItemAt(this->GetSelectedIndex());
 }
@@ -289,9 +289,9 @@ void sw::ListView::Clear()
     this->RaisePropertyChanged(&ListView::ItemsCount);
 }
 
-sw::StrList sw::ListView::GetItemAt(int index)
+sw::List<std::wstring> sw::ListView::GetItemAt(int index)
 {
-    StrList result;
+    List<std::wstring> result;
     if (index < 0) return result;
 
     int rows = this->_GetRowCount();
@@ -342,12 +342,12 @@ sw::StrList sw::ListView::GetItemAt(int index)
     return result;
 }
 
-bool sw::ListView::AddItem(const StrList &item)
+bool sw::ListView::AddItem(const List<std::wstring> &item)
 {
     return this->InsertItem(this->_GetRowCount(), item);
 }
 
-bool sw::ListView::InsertItem(int index, const StrList &item)
+bool sw::ListView::InsertItem(int index, const List<std::wstring> &item)
 {
     int colCount = item.Count();
     if (colCount == 0) return false;
@@ -356,7 +356,7 @@ bool sw::ListView::InsertItem(int index, const StrList &item)
     lvi.mask     = LVIF_TEXT;
     lvi.iItem    = index;
     lvi.iSubItem = 0;
-    lvi.pszText  = const_cast<LPWSTR>(item[0].c_str());
+    lvi.pszText  = const_cast<LPWSTR>(item.GetAt(0).c_str());
 
     index = (int)this->SendMessageW(LVM_INSERTITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
     if (index == -1) return false;
@@ -364,7 +364,7 @@ bool sw::ListView::InsertItem(int index, const StrList &item)
     lvi.iItem = index;
     for (int j = 1; j < colCount; ++j) {
         lvi.iSubItem = j;
-        lvi.pszText  = const_cast<LPWSTR>(item[j].c_str());
+        lvi.pszText  = const_cast<LPWSTR>(item.GetAt(j).c_str());
         this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
     }
 
@@ -372,9 +372,9 @@ bool sw::ListView::InsertItem(int index, const StrList &item)
     return true;
 }
 
-bool sw::ListView::UpdateItem(int index, const StrList &newValue)
+bool sw::ListView::UpdateItem(int index, const List<std::wstring> &newValue)
 {
-    if (index < 0 || index >= this->_GetRowCount() || newValue.IsEmpty()) {
+    if (index < 0 || index >= this->_GetRowCount() || newValue.Count() == 0) {
         return false;
     }
 
@@ -385,7 +385,7 @@ bool sw::ListView::UpdateItem(int index, const StrList &newValue)
     int colCount = newValue.Count();
     for (int j = 0; j < colCount; ++j) {
         lvi.iSubItem = j;
-        lvi.pszText  = const_cast<LPWSTR>(newValue[j].c_str());
+        lvi.pszText  = const_cast<LPWSTR>(newValue.GetAt(j).c_str());
         this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
     }
 

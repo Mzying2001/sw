@@ -4,14 +4,6 @@
 
 namespace sw
 {
-    template <typename TItem>
-    class ItemsControl; // 向前声明
-
-    /**
-     * @brief 表示可用于呈现一组字符串的控件
-     */
-    typedef ItemsControl<std::wstring> StrItemsControl;
-
     /**
      * @brief 表示可用于呈现一组项的控件
      */
