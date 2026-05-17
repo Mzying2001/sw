@@ -311,7 +311,6 @@
     <ClInclude Include="..\sw\inc\DataBinding.h" />
     <ClInclude Include="..\sw\inc\DateTimePicker.h" />
     <ClInclude Include="..\sw\inc\Delegate.h" />
-    <ClInclude Include="..\sw\inc\Dictionary.h" />
     <ClInclude Include="..\sw\inc\Dip.h" />
     <ClInclude Include="..\sw\inc\DockLayout.h" />
     <ClInclude Include="..\sw\inc\DockPanel.h" />
@@ -337,6 +336,7 @@
     <ClInclude Include="..\sw\inc\IconBox.h" />
     <ClInclude Include="..\sw\inc\IDialog.h" />
     <ClInclude Include="..\sw\inc\ILayout.h" />
+    <ClInclude Include="..\sw\inc\IList.h" />
     <ClInclude Include="..\sw\inc\ImageList.h" />
     <ClInclude Include="..\sw\inc\INotifyObjectDead.h" />
     <ClInclude Include="..\sw\inc\INotifyPropertyChanged.h" />

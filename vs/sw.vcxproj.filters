@@ -57,9 +57,6 @@
     <ClInclude Include="..\sw\inc\DateTimePicker.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\sw\inc\Dictionary.h">
-      <Filter>inc</Filter>
-    </ClInclude>
     <ClInclude Include="..\sw\inc\Dip.h">
       <Filter>inc</Filter>
     </ClInclude>
@@ -370,6 +367,9 @@
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\SelfBinding.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\IList.h">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>
