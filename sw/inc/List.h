@@ -91,6 +91,28 @@ namespace sw
         }
 
         /**
+         * @brief 获取指定索引处的元素引用
+         * @param index 元素索引
+         * @return 元素引用
+         * @throws std::out_of_range 索引超出范围
+         */
+        T &operator[](int index)
+        {
+            return GetAt(index);
+        }
+
+        /**
+         * @brief 获取指定索引处的const元素引用
+         * @param index 元素索引
+         * @return const元素引用
+         * @throws std::out_of_range 索引超出范围
+         */
+        const T &operator[](int index) const
+        {
+            return GetAt(index);
+        }
+
+        /**
          * @brief 获取当前分配的容量
          * @return 容量大小
          */
