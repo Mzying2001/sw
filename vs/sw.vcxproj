@@ -338,6 +338,7 @@
     <ClInclude Include="..\sw\inc\ILayout.h" />
     <ClInclude Include="..\sw\inc\IList.h" />
     <ClInclude Include="..\sw\inc\ImageList.h" />
+    <ClInclude Include="..\sw\inc\INotifyCollectionChanged.h" />
     <ClInclude Include="..\sw\inc\INotifyObjectDead.h" />
     <ClInclude Include="..\sw\inc\INotifyPropertyChanged.h" />
     <ClInclude Include="..\sw\inc\Internal.h" />

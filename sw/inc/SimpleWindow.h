@@ -52,6 +52,7 @@
 #include "IDialog.h"
 #include "ILayout.h"
 #include "IList.h"
+#include "INotifyCollectionChanged.h"
 #include "INotifyObjectDead.h"
 #include "INotifyPropertyChanged.h"
 #include "IPAddressControl.h"
