@@ -4,6 +4,8 @@
 #include "IToString.h"
 #include "Utils.h"
 #include <algorithm>
+#include <initializer_list>
+#include <stdexcept>
 
 namespace sw
 {
