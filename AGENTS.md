@@ -54,19 +54,19 @@ ObservableObject
 
 ### Core Systems
 
-- **Property System** (`Property.h`, `Macros.h`): SFINAE-based C#-like properties declared via macros (`SW_DEFINE_PROPERTY`, `SW_DEFINE_READONLY_PROPERTY`, `SW_DEFINE_WRITEONLY_PROPERTY`, `SW_DEFINE_NOTIFY_PROPERTY`, `SW_DEFINE_EXPR_PROPERTY`, `SW_DEFINE_EXPR_READONLY_PROPERTY`, `SW_DEFINE_EXPR_WRITEONLY_PROPERTY`, `SW_DEFINE_EXPR_NOTIFY_PROPERTY`)
-- **Delegates** (`Delegate.h`): Type-erased function wrappers supporting lambdas, std::function, member functions
-- **Routed Events** (`Event.h`): WPF-style event bubbling through the control hierarchy
+- **Property System** (`Property.h`): SFINAE-based C#-like properties
+- **Delegates** (`Delegate.h`): C#-style multicast delegates
+- **Reflection** (`Reflection.h`): Runtime type information, `Variant` type, dynamic objects
 - **Observable Objects** (`ObservableObject.h`): Base class for property change notifications
 - **Data Binding** (`FrameworkElement.h`, `Binding.h`, `DataBinding.h`): DataContext and two-way property binding with value converters (`Converters.h`), defined at `FrameworkElement` level
-- **Reflection** (`Reflection.h`): Runtime type information, `Variant` type, dynamic objects
 - **Layouts** (`ILayout.h`): GridLayout, StackLayout, DockLayout, CanvasLayout, WrapLayout, UniformGridLayout, FillLayout
+- **Routed Events** (`Event.h`): WPF-style event bubbling through the control hierarchy
 
 ### Directory Layout
 
 - `sw/inc/` — Header files (public API). `SimpleWindow.h` is the master include.
 - `sw/src/` — Implementation files
-- `examples/` — 10 example apps demonstrating features
+- `examples/` — Example apps demonstrating features
 - `single_header/` — Auto-generated `sw_all.h` + `sw_all.cpp` (via `build.py` topological sort). **Do not edit these files manually** when modifying code; they are regenerated from `sw/inc/` and `sw/src/` by `build.py`.
 - `vs/` — Visual Studio project files
 - `docs/` — Doxygen HTML output
@@ -75,7 +75,14 @@ ObservableObject
 
 - **Naming**: PascalCase for classes, methods, properties, enums. `_camelCase` for private fields.
 - **Style**: 4-space indent, clang-format (Microsoft style), `#pragma once` include guards
-- **Docs**: Doxygen comments, bilingual (Chinese + English)
+- **Docs**: Doxygen comments in Chinese
+
+## Git Commit Conventions
+
+- Use Conventional Commits: `<type>(<scope>): <summary>`
+- Common types: `feat`, `fix`, `refactor`, `build`, `docs`, `test`, `chore`
+- Use an optional scope for the affected class or file, such as `Button`, `CMakeLists.txt`, or no scope
+- Write concise Chinese summaries, matching the existing commit history
 
 ## Compiler Notes
 
