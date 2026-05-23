@@ -160,7 +160,7 @@ sw::List<int> sw::ListBox::GetSelectedIndices()
     if (selectedCount > 0) {
         int *buf = new int[selectedCount];
         if (this->SendMessageW(LB_GETSELITEMS, selectedCount, reinterpret_cast<LPARAM>(buf)) != LB_ERR) {
-            for (int i = 0; i < selectedCount; ++i) result.Append(buf[i]);
+            for (int i = 0; i < selectedCount; ++i) result.Add(buf[i]);
         }
         delete[] buf;
     }
@@ -171,7 +171,7 @@ sw::List<std::wstring> sw::ListBox::GetSelectedItems()
 {
     List<std::wstring> result;
     for (int i : this->GetSelectedIndices().GetStdVector()) {
-        result.Append(this->GetItemAt(i));
+        result.Add(this->GetItemAt(i));
     }
     return result;
 }

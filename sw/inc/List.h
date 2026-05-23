@@ -145,7 +145,7 @@ namespace sw
          * @param value 要追加的值
          * @return 当前列表的引用，支持链式调用
          */
-        List<T> &Append(const T &value)
+        List<T> &Add(const T &value)
         {
             _data.push_back(value);
             return *this;
@@ -156,7 +156,7 @@ namespace sw
          * @param value 要追加的值
          * @return 当前列表的引用，支持链式调用
          */
-        List<T> &Append(T &&value)
+        List<T> &Add(T &&value)
         {
             _data.push_back(std::move(value));
             return *this;

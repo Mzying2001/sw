@@ -337,7 +337,7 @@ sw::List<std::wstring> sw::ListView::GetItemAt(int index)
     // }
 
     for (int j = 0; j < cols; ++j) {
-        result.Append(this->GetItemAt(index, j));
+        result.Add(this->GetItemAt(index, j));
     }
     return result;
 }
@@ -502,7 +502,7 @@ sw::List<int> sw::ListView::GetSelectedIndices()
 {
     List<int> result;
     for (int i = -1; (i = (int)this->SendMessageW(LVM_GETNEXTITEM, i, LVNI_SELECTED)) != -1;)
-        result.Append(i);
+        result.Add(i);
     return result;
 }
 
@@ -513,7 +513,7 @@ sw::List<int> sw::ListView::GetCheckedIndices()
     int rowCount = this->_GetRowCount();
     for (int i = 0; i < rowCount; ++i) {
         int state = (int)ListView_GetCheckState(hwnd, i);
-        if (state != -1 && state) result.Append(i);
+        if (state != -1 && state) result.Add(i);
     }
     return result;
 }
