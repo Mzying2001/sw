@@ -106,6 +106,17 @@ namespace sw
         }
 
         /**
+         * @brief 刷新集合，触发集合重置通知
+         */
+        void Refresh()
+        {
+            NotifyCollectionChangedEventArgs args{};
+            args.action = NotifyCollectionChangedAction::Reset;
+            args.list   = this;
+            OnCollectionChanged(args);
+        }
+
+        /**
          * @brief 清空集合中的所有元素，并触发集合重置通知
          */
         void Clear()
