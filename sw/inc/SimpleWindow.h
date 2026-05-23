@@ -79,6 +79,7 @@
 #include "MonthCalendar.h"
 #include "MsgBox.h"
 #include "NotifyIcon.h"
+#include "ObservableCollection.h"
 #include "ObservableObject.h"
 #include "Panel.h"
 #include "PasswordBox.h"
