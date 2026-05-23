@@ -349,7 +349,7 @@ namespace sw
          * @brief 返回列表中的元素数量
          * @return 元素数量
          */
-        virtual int Count() const noexcept override
+        virtual int Count() const noexcept override final
         {
             return _items.Count();
         }
@@ -360,7 +360,7 @@ namespace sw
          * @return 元素引用
          * @throws std::out_of_range 索引超出范围
          */
-        virtual T &GetAt(int index) override
+        virtual T &GetAt(int index) override final
         {
             return _items.GetAt(index);
         }
@@ -371,7 +371,7 @@ namespace sw
          * @return const元素引用
          * @throws std::out_of_range 索引超出范围
          */
-        virtual const T &GetAt(int index) const override
+        virtual const T &GetAt(int index) const override final
         {
             return _items.GetAt(index);
         }
@@ -382,7 +382,7 @@ namespace sw
          * @param value 要设置的值
          * @throws std::out_of_range 索引超出范围
          */
-        virtual void SetAt(int index, _OptimalParamType<T> value) override
+        virtual void SetAt(int index, _OptimalParamType<T> value) override final
         {
             _items.SetAt(index, value);
 
