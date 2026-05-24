@@ -294,7 +294,7 @@ namespace sw
          * @throws std::out_of_range 索引超出范围
          */
         template <typename U = T>
-        auto SetAtImpl(int index, _OptimalParamType<T> value)
+        auto SetAtImpl(int index, const T &value)
             -> typename std::enable_if<std::is_copy_assignable<U>::value>::type
         {
             if (index < 0 || index >= Count()) {
@@ -310,10 +310,39 @@ namespace sw
          * @throws std::logic_error T不可拷贝赋值
          */
         template <typename U = T>
-        auto SetAtImpl(int index, _OptimalParamType<T> value)
+        auto SetAtImpl(int index, const T &value)
             -> typename std::enable_if<!std::is_copy_assignable<U>::value>::type
         {
             throw std::logic_error("Type T must be copy assignable to use SetAt in List.");
+        }
+
+        /**
+         * @brief 设置元素值的实现（移动语义，T可移动赋值时）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         */
+        template <typename U = T>
+        auto SetAtImpl(int index, T &&value)
+            -> typename std::enable_if<std::is_move_assignable<U>::value>::type
+        {
+            if (index < 0 || index >= Count()) {
+                throw std::out_of_range("Index out of range in List::SetAt.");
+            }
+            _data[static_cast<size_t>(index)] = std::move(value);
+        }
+
+        /**
+         * @brief 设置元素值的实现（移动语义，T不可移动赋值时，抛出异常）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::logic_error T不可移动赋值
+         */
+        template <typename U = T>
+        auto SetAtImpl(int index, T &&value)
+            -> typename std::enable_if<!std::is_move_assignable<U>::value>::type
+        {
+            throw std::logic_error("Type T must be move assignable to use move SetAt in List.");
         }
 
     public:
@@ -359,11 +388,23 @@ namespace sw
          * @param index 元素索引
          * @param value 要设置的值
          * @throws std::out_of_range 索引超出范围
-         * @throws std::logic_error 类型T不支持复制赋值
+         * @throws std::logic_error T不可复制赋值时
          */
-        virtual void SetAt(int index, _OptimalParamType<T> value) override
+        virtual void SetAt(int index, const T &value) override
         {
             SetAtImpl(index, value);
+        }
+
+        /**
+         * @brief 设置指定索引处的元素值（移动语义）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可移动赋值时
+         */
+        virtual void SetAt(int index, T &&value) override
+        {
+            SetAtImpl(index, std::move(value));
         }
     };
 }

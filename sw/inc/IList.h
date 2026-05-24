@@ -51,6 +51,14 @@ namespace sw
          * @throws std::out_of_range 索引超出范围
          */
         virtual void SetVariantAt(int index, const Variant &value) = 0;
+
+        /**
+         * @brief 设置指定索引处的元素值（移动语义）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         */
+        virtual void MoveVariantAt(int index, Variant &value) = 0;
     };
 
     /**
@@ -102,12 +110,27 @@ namespace sw
          * @param index 元素索引
          * @param value 要设置的值
          * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可复制赋值时
          * @throws std::invalid_argument value为null（T不为Variant时）
          * @throws std::bad_cast Variant类型与T不匹配（T不为Variant时）
          */
         virtual void SetVariantAt(int index, const Variant &value) override final
         {
             SetVariantAtImpl(index, value);
+        }
+
+        /**
+         * @brief 设置指定索引处的元素值（移动语义）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可移动赋值时
+         * @throws std::invalid_argument value为null（T不为Variant时）
+         * @throws std::bad_cast Variant类型与T不匹配（T不为Variant时）
+         */
+        virtual void MoveVariantAt(int index, Variant &value) override final
+        {
+            MoveVariantAtImpl(index, value);
         }
 
     private:
@@ -143,6 +166,38 @@ namespace sw
             SetAt(index, value.DynamicCast<T>());
         }
 
+        /**
+         * @brief 设置指定索引处的元素值（移动语义）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         */
+        template <typename U = T>
+        auto MoveVariantAtImpl(int index, Variant &value)
+            -> typename std::enable_if<std::is_same<U, Variant>::value>::type
+        {
+            SetAt(index, std::move(value));
+        }
+
+        /**
+         * @brief 设置指定索引处的元素值（移动语义）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::invalid_argument value为null
+         * @throws std::bad_cast Variant类型与T不匹配
+         */
+        template <typename U = T>
+        auto MoveVariantAtImpl(int index, Variant &value)
+            -> typename std::enable_if<!std::is_same<U, Variant>::value>::type
+        {
+            if (value.IsNull()) {
+                throw std::invalid_argument(
+                    "Cannot set a null Variant to a non-Variant IListT.");
+            }
+            SetAt(index, std::move(value.DynamicCast<T>()));
+        }
+
     public:
         /**
          * @brief 返回列表中的元素数量
@@ -171,7 +226,17 @@ namespace sw
          * @param index 元素索引
          * @param value 要设置的值
          * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可复制赋值时
          */
-        virtual void SetAt(int index, _OptimalParamType<T> value) = 0;
+        virtual void SetAt(int index, const T &value) = 0;
+
+        /**
+         * @brief 设置指定索引处的元素值（移动语义）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可移动赋值时
+         */
+        virtual void SetAt(int index, T &&value) = 0;
     };
 }

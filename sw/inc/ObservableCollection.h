@@ -381,10 +381,29 @@ namespace sw
          * @param index 元素索引
          * @param value 要设置的值
          * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可复制赋值时
          */
-        virtual void SetAt(int index, _OptimalParamType<T> value) override final
+        virtual void SetAt(int index, const T &value) override final
         {
             _items.SetAt(index, value);
+
+            NotifyCollectionChangedEventArgs args{};
+            args.action = NotifyCollectionChangedAction::Replace;
+            args.list   = this;
+            args.index  = index;
+            OnCollectionChanged(args);
+        }
+
+        /**
+         * @brief 设置指定索引处的元素值（移动语义）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可移动赋值时
+         */
+        virtual void SetAt(int index, T &&value) override final
+        {
+            _items.SetAt(index, std::move(value));
 
             NotifyCollectionChangedEventArgs args{};
             args.action = NotifyCollectionChangedAction::Replace;
