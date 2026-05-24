@@ -381,7 +381,7 @@ namespace sw
          * @param index 元素索引
          * @param value 要设置的值
          * @throws std::out_of_range 索引超出范围
-         * @throws std::logic_error T不可复制赋值时
+         * @throws std::logic_error T不可拷贝赋值时
          */
         virtual void SetAt(int index, const T &value) override final
         {
