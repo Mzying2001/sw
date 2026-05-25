@@ -29,7 +29,9 @@ namespace sw
     /**
      * @brief 集合变更事件参数类型
      */
-    struct NotifyCollectionChangedEventArgs : EventArgs {
+    class NotifyCollectionChangedEventArgs : public EventArgs
+    {
+    public:
         /**
          * @brief 集合变更的原因
          */
