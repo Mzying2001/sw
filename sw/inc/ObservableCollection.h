@@ -136,9 +136,8 @@ namespace sw
         /**
          * @brief 在集合末尾追加元素，并触发添加通知
          * @param value 要追加的值
-         * @return 当前集合的引用，支持链式调用
          */
-        ObservableCollection<T> &Add(const T &value)
+        void Add(const T &value)
         {
             int index = _items.Count();
             _items.Add(value);
@@ -148,16 +147,13 @@ namespace sw
             args.list   = this;
             args.index  = index;
             OnCollectionChanged(args);
-
-            return *this;
         }
 
         /**
          * @brief 在集合末尾追加元素（移动语义），并触发添加通知
          * @param value 要追加的值
-         * @return 当前集合的引用，支持链式调用
          */
-        ObservableCollection<T> &Add(T &&value)
+        void Add(T &&value)
         {
             int index = _items.Count();
             _items.Add(std::move(value));
@@ -167,17 +163,14 @@ namespace sw
             args.list   = this;
             args.index  = index;
             OnCollectionChanged(args);
-
-            return *this;
         }
 
         /**
          * @brief 移除指定索引处的元素，并触发移除通知
          * @param index 要移除的元素索引
-         * @return 当前集合的引用，支持链式调用
          * @throws std::out_of_range 索引超出范围
          */
-        ObservableCollection<T> &RemoveAt(int index)
+        void RemoveAt(int index)
         {
             _items.RemoveAt(index);
 
@@ -186,18 +179,15 @@ namespace sw
             args.list   = this;
             args.index  = index;
             OnCollectionChanged(args);
-
-            return *this;
         }
 
         /**
          * @brief 在指定索引处插入元素，并触发添加通知
          * @param index 插入位置
          * @param value 要插入的值
-         * @return 当前集合的引用，支持链式调用
          * @throws std::out_of_range 索引超出范围
          */
-        ObservableCollection<T> &Insert(int index, const T &value)
+        void Insert(int index, const T &value)
         {
             _items.Insert(index, value);
 
@@ -206,18 +196,15 @@ namespace sw
             args.list   = this;
             args.index  = index;
             OnCollectionChanged(args);
-
-            return *this;
         }
 
         /**
          * @brief 在指定索引处插入元素（移动语义），并触发添加通知
          * @param index 插入位置
          * @param value 要插入的值
-         * @return 当前集合的引用，支持链式调用
          * @throws std::out_of_range 索引超出范围
          */
-        ObservableCollection<T> &Insert(int index, T &&value)
+        void Insert(int index, T &&value)
         {
             _items.Insert(index, std::move(value));
 
@@ -226,18 +213,15 @@ namespace sw
             args.list   = this;
             args.index  = index;
             OnCollectionChanged(args);
-
-            return *this;
         }
 
         /**
          * @brief 将元素从一个索引移动到另一个索引，并触发移动通知
          * @param oldIndex 要移动的元素原索引
          * @param newIndex 移动后的元素索引
-         * @return 当前集合的引用，支持链式调用
          * @throws std::out_of_range 索引超出范围
          */
-        ObservableCollection<T> &Move(int oldIndex, int newIndex)
+        void Move(int oldIndex, int newIndex)
         {
             int count = _items.Count();
             if (oldIndex < 0 || oldIndex >= count || newIndex < 0 || newIndex >= count) {
@@ -245,7 +229,7 @@ namespace sw
             }
 
             if (oldIndex == newIndex) {
-                return *this;
+                return;
             }
 
             auto &items = _items.GetStdVector();
@@ -260,8 +244,6 @@ namespace sw
             args.index    = newIndex;
             args.oldIndex = oldIndex;
             OnCollectionChanged(args);
-
-            return *this;
         }
 
         /**

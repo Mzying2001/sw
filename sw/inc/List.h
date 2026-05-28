@@ -146,70 +146,60 @@ namespace sw
         /**
          * @brief 在列表末尾追加元素
          * @param value 要追加的值
-         * @return 当前列表的引用，支持链式调用
          */
-        List<T> &Add(const T &value)
+        void Add(const T &value)
         {
             _data.push_back(value);
-            return *this;
         }
 
         /**
          * @brief 在列表末尾追加元素（移动语义）
          * @param value 要追加的值
-         * @return 当前列表的引用，支持链式调用
          */
-        List<T> &Add(T &&value)
+        void Add(T &&value)
         {
             _data.push_back(std::move(value));
-            return *this;
         }
 
         /**
          * @brief 移除指定索引处的元素
          * @param index 要移除的元素索引
-         * @return 当前列表的引用，支持链式调用
          * @throws std::out_of_range 索引超出范围
          */
-        List<T> &RemoveAt(int index)
+        void RemoveAt(int index)
         {
             if (index < 0 || index >= Count()) {
                 throw std::out_of_range("Index out of range in List::RemoveAt.");
             }
             _data.erase(_data.begin() + static_cast<size_t>(index));
-            return *this;
         }
 
         /**
          * @brief 在指定索引处插入元素
          * @param index 插入位置
          * @param value 要插入的值
-         * @return 当前列表的引用，支持链式调用
          * @throws std::out_of_range 索引超出范围
          */
-        List<T> &Insert(int index, const T &value)
+        void Insert(int index, const T &value)
         {
             if (index < 0 || index > Count()) {
                 throw std::out_of_range("Index out of range in List::Insert.");
             }
             _data.insert(_data.begin() + static_cast<size_t>(index), value);
-            return *this;
         }
 
         /**
          * @brief 在指定索引处插入元素（移动语义）
          * @param index 插入位置
          * @param value 要插入的值
-         * @return 当前列表的引用，支持链式调用
          * @throws std::out_of_range 索引超出范围
          */
-        List<T> &Insert(int index, T &&value)
+        void Insert(int index, T &&value)
         {
             if (index < 0 || index > Count()) {
                 throw std::out_of_range("Index out of range in List::Insert.");
             }
             _data.insert(_data.begin() + static_cast<size_t>(index), std::move(value));
-            return *this;
         }
 
         /**
@@ -255,7 +245,8 @@ namespace sw
             if (index == -1) {
                 return false;
             } else {
-                return RemoveAt(index), true;
+                RemoveAt(index);
+                return true;
             }
         }
 
