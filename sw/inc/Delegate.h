@@ -234,8 +234,8 @@ namespace sw
          * @note 传入对象的生命周期将由CallableList管理
          * @note 异常安全：
          *       - SINGLE→LIST 升级时使用 reserve(2) 避免后续 emplace_back 触发扩容，
-         *         此时唯一的失败路径是 shared_ptr 控制块分配失败，shared_ptr 构造函数
-         *         保证抛异常时自动 delete 传入的裸指针。
+         *         并使用 shared_ptr(unique_ptr&&) 接管所有权，构造失败时原 unique_ptr
+         *         不会释放其管理的对象。
          *       - STATE_LIST 分支先把裸指针转交给本地 shared_ptr，再 emplace_back，
          *         即使 vector 扩容失败，本地 shared_ptr 析构时也会正确释放对象。
          */
@@ -256,8 +256,10 @@ namespace sw
                 case STATE_SINGLE: {
                     TSharedList list;
                     list.reserve(2);
-                    list.emplace_back(_GetSingle()->Clone());
-                    list.emplace_back(std::move(owned));
+                    std::shared_ptr<TCallable> incoming(std::move(owned));
+                    std::shared_ptr<TCallable> current(std::move(_GetSingle()));
+                    list.emplace_back(std::move(current));
+                    list.emplace_back(std::move(incoming));
                     _Reset(STATE_LIST);
                     _GetList() = std::move(list);
                     break;
