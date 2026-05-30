@@ -18,12 +18,13 @@ var searchData=
   ['treeview_5fcheckstatechanged_15',['TreeView_CheckStateChanged',['../namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a76d53ae552218bdd8175d51f7351f487',1,'sw']]],
   ['treeview_5fitemexpanded_16',['TreeView_ItemExpanded',['../namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a8cf6322afe402bc51d1926b7f218f0b3',1,'sw']]],
   ['treeview_5fitemexpanding_17',['TreeView_ItemExpanding',['../namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210ad7251f4958069158b3713f34aa600f49',1,'sw']]],
-  ['truetype_18',['TrueType',['../namespacesw.html#a5be2499bb0599c8050838b662e8e5fa1a4cb9f29b541dddb3038f8b7d68393c0f',1,'sw']]],
-  ['truetypeonly_19',['truetypeonly',['../namespacesw.html#a5be2499bb0599c8050838b662e8e5fa1aad8fec9ca3a3e302d56a56c5e4f777be',1,'sw::TrueTypeOnly'],['../namespacesw.html#a3a041d852b47daa81ce6c2e266d333f3aad8fec9ca3a3e302d56a56c5e4f777be',1,'sw::TrueTypeOnly']]],
-  ['tryagain_20',['TryAgain',['../namespacesw.html#a388b6854a3e8dbe58a2fc7f94b56ed21aebd61744195aaefd6ea1e66a92e25589',1,'sw']]],
-  ['tt_5falways_21',['TT_Always',['../namespacesw.html#abb93f424c1675e2e2d7722e4af00264faf408a05dfee4e4cbea2b923f70463f93',1,'sw']]],
-  ['turkish_22',['Turkish',['../namespacesw.html#ae74d5219af14bfa850d533c3c7c5156eac1612bbdebfa45467e8ab814e08daff1',1,'sw']]],
-  ['turquoise_23',['Turquoise',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19ada3a4f0a911cebe3bc75f6e39c324696',1,'sw']]],
-  ['two_24',['Two',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0aaada29daee1d64ed0fe907043855cb7e',1,'sw']]],
-  ['twoway_25',['TwoWay',['../namespacesw.html#ab49c2fac99d3b8658a9e4a8f56f7daf5a6c267346f8ebb889610a5a90838be815',1,'sw']]]
+  ['treeview_5fselectionchanged_18',['TreeView_SelectionChanged',['../namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a203bef3bbb846686f5ada78f14848c6d',1,'sw']]],
+  ['truetype_19',['TrueType',['../namespacesw.html#a5be2499bb0599c8050838b662e8e5fa1a4cb9f29b541dddb3038f8b7d68393c0f',1,'sw']]],
+  ['truetypeonly_20',['truetypeonly',['../namespacesw.html#a5be2499bb0599c8050838b662e8e5fa1aad8fec9ca3a3e302d56a56c5e4f777be',1,'sw::TrueTypeOnly'],['../namespacesw.html#a3a041d852b47daa81ce6c2e266d333f3aad8fec9ca3a3e302d56a56c5e4f777be',1,'sw::TrueTypeOnly']]],
+  ['tryagain_21',['TryAgain',['../namespacesw.html#a388b6854a3e8dbe58a2fc7f94b56ed21aebd61744195aaefd6ea1e66a92e25589',1,'sw']]],
+  ['tt_5falways_22',['TT_Always',['../namespacesw.html#abb93f424c1675e2e2d7722e4af00264faf408a05dfee4e4cbea2b923f70463f93',1,'sw']]],
+  ['turkish_23',['Turkish',['../namespacesw.html#ae74d5219af14bfa850d533c3c7c5156eac1612bbdebfa45467e8ab814e08daff1',1,'sw']]],
+  ['turquoise_24',['Turquoise',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19ada3a4f0a911cebe3bc75f6e39c324696',1,'sw']]],
+  ['two_25',['Two',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0aaada29daee1d64ed0fe907043855cb7e',1,'sw']]],
+  ['twoway_26',['TwoWay',['../namespacesw.html#ab49c2fac99d3b8658a9e4a8f56f7daf5a6c267346f8ebb889610a5a90838be815',1,'sw']]]
 ];

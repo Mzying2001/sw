@@ -6,7 +6,7 @@ var searchData=
   ['selectedcolor_3',['selectedcolor',['../classsw_1_1ColorDialog.html#a63667422eddade87f5913e7d23fc9d9c',1,'sw::ColorDialog::SelectedColor'],['../classsw_1_1FontDialog.html#a3092af0783c73eb68c4e81248f65f5c8',1,'sw::FontDialog::SelectedColor']]],
   ['selectedcount_4',['selectedcount',['../classsw_1_1ListBox.html#a6f921779be05ff24d598701feffd1705',1,'sw::ListBox::SelectedCount'],['../classsw_1_1ListView.html#ae1e499b6f04912769eb8f4fe732ad35c',1,'sw::ListView::SelectedCount']]],
   ['selectedindex_5',['selectedindex',['../classsw_1_1ItemsControl.html#ae78a074093f7746f18c1ece3654fdcf6',1,'sw::ItemsControl::SelectedIndex'],['../classsw_1_1TabControl.html#a5e70f66a21997157773d149dec3339ce',1,'sw::TabControl::SelectedIndex']]],
-  ['selecteditem_6',['SelectedItem',['../classsw_1_1ItemsControl.html#a81efc45fe838c47908e37e241614c672',1,'sw::ItemsControl']]],
+  ['selecteditem_6',['selecteditem',['../classsw_1_1ItemsControl.html#a81efc45fe838c47908e37e241614c672',1,'sw::ItemsControl::SelectedItem'],['../classsw_1_1TreeView.html#a74b5e86e834914a366b2cebc681afd3c',1,'sw::TreeView::SelectedItem']]],
   ['selectedpath_7',['SelectedPath',['../classsw_1_1FolderBrowserDialog.html#a23e01f7f30858e02a46722fcedfc2d2a',1,'sw::FolderBrowserDialog']]],
   ['shareimagelists_8',['ShareImageLists',['../classsw_1_1ListView.html#acfb43542368bf6e08c732f5151222190',1,'sw::ListView']]],
   ['showeffects_9',['ShowEffects',['../classsw_1_1FontDialog.html#ad2a8869292450ecff8c7440279859443',1,'sw::FontDialog']]],

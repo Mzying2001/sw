@@ -4,6 +4,7 @@ var classsw_1_1FrameworkElement =
     [ "AddBinding", "classsw_1_1FrameworkElement.html#a2e30a2f2dbc500de94674fa036022ad4", null ],
     [ "AddBinding", "classsw_1_1FrameworkElement.html#a5fb0001b7753e73ba1bdbc9386b565aa", null ],
     [ "AddBinding", "classsw_1_1FrameworkElement.html#a05bf3985d494be4a97f3ee647e57081e", null ],
+    [ "AddBinding", "classsw_1_1FrameworkElement.html#ab509965ecc4804181e300a061d9b7619", null ],
     [ "GetChildAt", "classsw_1_1FrameworkElement.html#aae686c57ff951a2b9a642f7ada0891c6", null ],
     [ "GetChildCount", "classsw_1_1FrameworkElement.html#a5d3bf6602bc526d87d3018972ba920aa", null ],
     [ "GetParent", "classsw_1_1FrameworkElement.html#a23138cc545d5e59fbf33bc5a8b8fd793", null ],

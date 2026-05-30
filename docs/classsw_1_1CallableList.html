@@ -199,7 +199,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 <dl class="section note"><dt>注解</dt><dd>传入对象的生命周期将由CallableList管理 </dd>
 <dd>
 异常安全：<ul>
-<li>SINGLE→LIST 升级时使用 reserve(2) 避免后续 emplace_back 触发扩容， 此时唯一的失败路径是 shared_ptr 控制块分配失败，shared_ptr 构造函数 保证抛异常时自动 delete 传入的裸指针。</li>
+<li>SINGLE→LIST 升级时使用 reserve(2) 避免后续 emplace_back 触发扩容， 并使用 shared_ptr(unique_ptr&amp;&amp;) 接管所有权，构造失败时原 unique_ptr 不会释放其管理的对象。</li>
 <li>STATE_LIST 分支先把裸指针转交给本地 shared_ptr，再 emplace_back， 即使 vector 扩容失败，本地 shared_ptr 析构时也会正确释放对象。 </li>
 </ul>
 </dd></dl>

@@ -202,6 +202,7 @@ var annotated_dup =
       [ "SaveFileDialog", "classsw_1_1SaveFileDialog.html", "classsw_1_1SaveFileDialog" ],
       [ "Screen", "classsw_1_1Screen.html", null ],
       [ "ScrollingEventArgs", "structsw_1_1ScrollingEventArgs.html", null ],
+      [ "SelfBinding", "classsw_1_1SelfBinding.html", "classsw_1_1SelfBinding" ],
       [ "ShowContextMenuEventArgs", "structsw_1_1ShowContextMenuEventArgs.html", null ],
       [ "Size", "structsw_1_1Size.html", "structsw_1_1Size" ],
       [ "SizeChangedEventArgs", "structsw_1_1SizeChangedEventArgs.html", null ],
