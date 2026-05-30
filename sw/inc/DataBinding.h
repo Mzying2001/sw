@@ -213,7 +213,8 @@ namespace sw
                     _IsProperty<TSourceProperty>::value &&
                     std::is_base_of<DynamicObject, TTargetObject>::value &&
                     std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                    _IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
+                    _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
                 DataBinding *>::type
         {
             return new DataBinding(nullptr, Binding::Create(targetProperty, sourceProperty, mode, converter));
@@ -242,7 +243,8 @@ namespace sw
                     _IsProperty<TSourceProperty>::value &&
                     std::is_base_of<DynamicObject, TTargetObject>::value &&
                     std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    !std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                    !(_IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
+                      _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value),
                 DataBinding *>::type
         {
             return new DataBinding(nullptr, Binding::Create(targetProperty, sourceProperty, mode, converter));
