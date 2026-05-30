@@ -83,6 +83,7 @@ ObservableObject
 - Common types: `feat`, `fix`, `refactor`, `build`, `docs`, `test`, `chore`
 - Use an optional scope for the affected class or file, such as `Button`, `CMakeLists.txt`, or no scope
 - Write concise Chinese summaries, matching the existing commit history
+- For non-trivial changes, include a Chinese body explaining the reason and implementation/fix approach
 
 ## Compiler Notes
 

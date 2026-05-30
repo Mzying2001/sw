@@ -234,34 +234,38 @@ namespace sw
          * @note 传入对象的生命周期将由CallableList管理
          * @note 异常安全：
          *       - SINGLE→LIST 升级时使用 reserve(2) 避免后续 emplace_back 触发扩容，
-         *         此时唯一的失败路径是 shared_ptr 控制块分配失败，shared_ptr 构造函数
-         *         保证抛异常时自动 delete 传入的裸指针。
+         *         并使用 shared_ptr(unique_ptr&&) 接管所有权，构造失败时原 unique_ptr
+         *         不会释放其管理的对象。
          *       - STATE_LIST 分支先把裸指针转交给本地 shared_ptr，再 emplace_back，
          *         即使 vector 扩容失败，本地 shared_ptr 析构时也会正确释放对象。
          */
         void Add(TCallable *callable)
         {
-            if (callable == nullptr) {
+            TSinglePtr owned(callable);
+
+            if (owned == nullptr) {
                 return;
             }
 
             switch (_state) {
                 case STATE_NONE: {
                     _Reset(STATE_SINGLE);
-                    _GetSingle().reset(callable);
+                    _GetSingle() = std::move(owned);
                     break;
                 }
                 case STATE_SINGLE: {
                     TSharedList list;
                     list.reserve(2);
-                    list.emplace_back(_GetSingle().release());
-                    list.emplace_back(callable);
+                    std::shared_ptr<TCallable> incoming(std::move(owned));
+                    std::shared_ptr<TCallable> current(std::move(_GetSingle()));
+                    list.emplace_back(std::move(current));
+                    list.emplace_back(std::move(incoming));
                     _Reset(STATE_LIST);
                     _GetList() = std::move(list);
                     break;
                 }
                 case STATE_LIST: {
-                    std::shared_ptr<TCallable> sp(callable);
+                    std::shared_ptr<TCallable> sp(std::move(owned));
                     _GetList().emplace_back(std::move(sp));
                     break;
                 }
@@ -678,10 +682,13 @@ namespace sw
             if (this == &other) {
                 return *this;
             }
-            _data.Clear();
+
+            CallableList<TRet(Args...)> copied;
+
             for (size_t i = 0; i < other._data.Count(); ++i) {
-                _data.Add(other._data[i]->Clone());
+                copied.Add(other._data[i]->Clone());
             }
+            _data = std::move(copied);
             return *this;
         }
 
