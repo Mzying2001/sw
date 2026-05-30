@@ -2696,12 +2696,22 @@ bool sw::FrameworkElement::AddBinding(Binding *binding)
     }
 }
 
+bool sw::FrameworkElement::AddBinding(SelfBinding *binding)
+{
+    if (binding == nullptr) {
+        return false;
+    } else {
+        binding->SetTargetObject(this);
+        return this->AddBinding(static_cast<BindingBase *>(binding));
+    }
+}
+
 bool sw::FrameworkElement::AddBinding(DataBinding *binding)
 {
     if (binding == nullptr) {
         return false;
     } else {
-        binding->SetTargetElement(this);
+        binding->SetTargetObject(this);
         return this->AddBinding(static_cast<BindingBase *>(binding));
     }
 }
@@ -8879,6 +8889,10 @@ sw::TreeView::TreeView()
           Property<TreeViewNode>::Init(this)
               .Getter<&TreeView::_GetRoot>()),
 
+      SelectedItem(
+          Property<TreeViewNode>::Init(this)
+              .Getter<&TreeView::_GetSelectedItem>()),
+
       AllItemsCount(
           Property<int>::Init(this)
               .Getter([](TreeView *self) -> int {
@@ -8921,46 +8935,6 @@ sw::TreeView::TreeView()
 
     Rect    = {0, 0, 200, 200};
     TabStop = true;
-}
-
-int sw::TreeView::GetItemsCount()
-{
-    int cnt = 0;
-
-    TreeViewNode node = _GetRoot();
-    while (!node.IsNull()) {
-        cnt++;
-        node = node.GetNextNode();
-    }
-    return cnt;
-}
-
-int sw::TreeView::GetSelectedIndex()
-{
-    int index = 0;
-
-    TreeViewNode node = _GetRoot();
-    while (!node.IsNull()) {
-        if (node.IsSelected()) {
-            return index;
-        } else {
-            ++index;
-            node = node.GetNextNode();
-        }
-    }
-    return -1;
-}
-
-void sw::TreeView::SetSelectedIndex(int index)
-{
-    TreeViewNode node = GetItemAt(index);
-    if (!node.IsNull()) node.Select();
-}
-
-sw::TreeViewNode sw::TreeView::GetSelectedItem()
-{
-    HWND hwnd = Handle;
-    return TreeViewNode{hwnd, TreeView_GetSelection(hwnd)};
 }
 
 void sw::TreeView::SetBackColor(Color color, bool redraw)
@@ -9014,6 +8988,12 @@ bool sw::TreeView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     return TBase::OnNotified(pNMHDR, result);
 }
 
+void sw::TreeView::OnSelectionChanged()
+{
+    RaisePropertyChanged(&TreeView::SelectedItem);
+    RaiseRoutedEvent(TreeView_SelectionChanged);
+}
+
 bool sw::TreeView::OnClicked(NMHDR *pNMHDR, LRESULT &result)
 {
     return false;
@@ -9065,59 +9045,9 @@ void sw::TreeView::Clear()
     TreeView_DeleteAllItems(hwnd);
 }
 
-sw::TreeViewNode sw::TreeView::GetItemAt(int index)
-{
-    if (index < 0) {
-        return TreeViewNode{};
-    }
-
-    int curIndex = 0;
-
-    TreeViewNode node = _GetRoot();
-    while (!node.IsNull()) {
-        if (curIndex == index) {
-            return node;
-        } else {
-            ++curIndex;
-            node = node.GetNextNode();
-        }
-    }
-    return TreeViewNode{};
-}
-
-bool sw::TreeView::AddItem(const TreeViewNode &item)
-{
-    return false;
-}
-
-bool sw::TreeView::InsertItem(int index, const TreeViewNode &item)
-{
-    return false;
-}
-
-bool sw::TreeView::UpdateItem(int index, const TreeViewNode &newValue)
-{
-    return false;
-}
-
-bool sw::TreeView::RemoveItemAt(int index)
-{
-    TreeViewNode node = GetItemAt(index);
-    return node.IsNull() ? false : node.Delete();
-}
-
 sw::TreeViewNode sw::TreeView::AddItem(const std::wstring &text)
 {
     return _InsertItem(TVI_ROOT, TVI_LAST, text);
-}
-
-sw::TreeViewNode sw::TreeView::InsertItem(int index, const std::wstring &text)
-{
-    if (index <= 0) {
-        return _InsertItem(TVI_ROOT, TVI_FIRST, text);
-    }
-    TreeViewNode prevNode = GetItemAt(index - 1);
-    return prevNode.IsNull() ? TreeViewNode{} : _InsertItem(TVI_ROOT, prevNode.GetHandle(), text);
 }
 
 sw::ImageList sw::TreeView::GetImageList(TreeViewImageList imageList)
@@ -9136,6 +9066,12 @@ sw::TreeViewNode sw::TreeView::_GetRoot()
 {
     HWND hwnd = Handle;
     return TreeViewNode{hwnd, TreeView_GetRoot(hwnd)};
+}
+
+sw::TreeViewNode sw::TreeView::_GetSelectedItem()
+{
+    HWND hwnd = Handle;
+    return TreeViewNode{hwnd, TreeView_GetSelection(hwnd)};
 }
 
 sw::TreeViewNode sw::TreeView::_InsertItem(HTREEITEM hParent, HTREEITEM hInsertAfter, const std::wstring &text)
@@ -11012,8 +10948,8 @@ const sw::ReadOnlyProperty<sw::Window *> sw::Window::ActiveWindow(
     Property<sw::Window *>::Init()
         .Getter([]() -> sw::Window * {
             HWND hwnd = GetActiveWindow();
-            // return _GetWindowPtr(hwnd); // vs2015无法识别此处的作用域？
-            return reinterpret_cast<sw::Window *>(GetPropW(hwnd, _WindowPtrProp));
+            auto *wnd = reinterpret_cast<sw::Window *>(GetPropW(hwnd, _WindowPtrProp));
+            return wnd != nullptr && wnd->CheckAccess() ? wnd : nullptr;
         }) //
 );
 
