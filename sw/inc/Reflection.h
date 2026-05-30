@@ -64,26 +64,34 @@ namespace sw
 
         /**
          * @brief 判断与另一DynamicObject是否引用同一对象
-         * @return 引用同一对象时返回true
+         * @return 引用同一对象时返回true，否则返回false
          * @note 若为引用装箱则比较被引用对象的地址
          */
         bool ReferenceEquals(const DynamicObject &other) const noexcept
         {
-            if (IsBoxedObject() && other.IsBoxedObject())
+            if (this == &other) {
+                return true;
+            }
+            if (IsBoxedObject() && other.IsBoxedObject()) {
                 return GetBoxedRawPtr() == other.GetBoxedRawPtr();
-            return this == &other;
+            }
+            return false;
         }
 
         /**
          * @brief 获取对象的类型信息
-         * @return 对象的类型索引
+         * @return 对象的类型索引，若为装箱对象则返回被装箱类型的类型索引
          */
-        std::type_index GetType() const
+        std::type_index GetType() const noexcept
         {
 #if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot get type index.");
 #else
-            return typeid(*this);
+            if (IsBoxedObject()) {
+                return GetBoxedType();
+            } else {
+                return typeid(*this);
+            }
 #endif
         }
 
@@ -494,6 +502,16 @@ namespace sw
             BoxedObject<T> result{_IsRefParam{true}};
             result._data.refptr = ptr;
             return result;
+        }
+
+        /**
+         * @brief 创建引用类型的装箱对象
+         * @param ref 被引用的外部对象
+         * @return 引用类型的装箱对象
+         */
+        static BoxedObject<T> MakeRef(T &ref) noexcept
+        {
+            return MakeRef(&ref);
         }
 
         /**
@@ -1266,7 +1284,7 @@ namespace sw
                                        decltype(method(std::declval<DynamicObject &>(), std::forward<Args>(args)...))>::type
         {
             assert(method != nullptr);
-            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            auto boxed = BoxedObject<T>::MakeRef(obj);
             return method(boxed, std::forward<Args>(args)...);
         }
 
@@ -1299,7 +1317,7 @@ namespace sw
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TField &>::type
         {
             assert(accessor != nullptr);
-            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            auto boxed = BoxedObject<T>::MakeRef(obj);
             return accessor(boxed);
         }
 
@@ -1332,7 +1350,7 @@ namespace sw
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TValue>::type
         {
             assert(getter != nullptr);
-            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            auto boxed = BoxedObject<T>::MakeRef(obj);
             return getter(boxed);
         }
 
@@ -1367,7 +1385,7 @@ namespace sw
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value>::type
         {
             assert(setter != nullptr);
-            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            auto boxed = BoxedObject<T>::MakeRef(obj);
             setter(boxed, std::forward<TValue>(value));
         }
     };

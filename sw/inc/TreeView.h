@@ -1,5 +1,5 @@
+#include "Control.h"
 #include "ImageList.h"
-#include "ItemsControl.h"
 #include <commctrl.h>
 
 namespace sw
@@ -233,19 +233,24 @@ namespace sw
     /**
      * @brief 树视图控件
      */
-    class TreeView : public ItemsControl<TreeViewNode>
+    class TreeView : public Control
     {
     private:
         /**
          * @brief 基类别名，方便调用基类函数实现
          */
-        using TBase = ItemsControl<TreeViewNode>;
+        using TBase = Control;
 
     public:
         /**
          * @brief 根节点
          */
         const ReadOnlyProperty<TreeViewNode> Root;
+
+        /**
+         * @brief 选中的节点，若无选中节点则返回空节点
+         */
+        const ReadOnlyProperty<TreeViewNode> SelectedItem;
 
         /**
          * @brief 所有节点数
@@ -275,26 +280,6 @@ namespace sw
 
     protected:
         /**
-         * @brief 获取子项数
-         */
-        virtual int GetItemsCount() override;
-
-        /**
-         * @brief 选中项的索引，当无选中项时为-1
-         */
-        virtual int GetSelectedIndex() override;
-
-        /**
-         * @brief 设置选中项索引
-         */
-        virtual void SetSelectedIndex(int index) override;
-
-        /**
-         * @brief 获取选中项
-         */
-        virtual TreeViewNode GetSelectedItem() override;
-
-        /**
          * @brief 设置背景颜色
          * @param color 要设置的颜色
          * @param redraw 是否重绘
@@ -315,6 +300,11 @@ namespace sw
          * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
+
+        /**
+         * @brief 选中的节点发生改变时调用该函数
+         */
+        virtual void OnSelectionChanged();
 
         /**
          * @brief 控件被单机时调用该函数
@@ -359,48 +349,9 @@ namespace sw
 
     public:
         /**
-         * @brief 清空所有子项
+         * @brief 清空所有节点
          */
-        virtual void Clear() override;
-
-        /**
-         * @brief 获取指定索引处子项的值
-         * @param index 子项的索引
-         */
-        virtual TreeViewNode GetItemAt(int index) override;
-
-        /**
-         * @brief 添加新的子项
-         * @param item 要添加的子项
-         * @return 是否添加成功
-         * @note TreeView不支持该操作，该函数始终返回false
-         */
-        virtual bool AddItem(const TreeViewNode &item) override;
-
-        /**
-         * @brief 添加子项到指定索引
-         * @param index 要插入的位置
-         * @param item 要添加的子项
-         * @return 是否添加成功
-         * @note TreeView不支持该操作，该函数始终返回false
-         */
-        virtual bool InsertItem(int index, const TreeViewNode &item) override;
-
-        /**
-         * @brief 更新指定位置的子项
-         * @param index 要更新子项的位置
-         * @param newValue 子项的新值
-         * @return 操作是否成功
-         * @note TreeView不支持该操作，该函数始终返回false
-         */
-        virtual bool UpdateItem(int index, const TreeViewNode &newValue) override;
-
-        /**
-         * @brief 移除指定索引处的子项
-         * @param index 要移除子项的索引
-         * @return 操作是否成功
-         */
-        virtual bool RemoveItemAt(int index) override;
+        void Clear();
 
         /**
          * @brief 添加新节点到根节点
@@ -408,14 +359,6 @@ namespace sw
          * @return 新插入的节点
          */
         TreeViewNode AddItem(const std::wstring &text);
-
-        /**
-         * @brief 在指定索引处插入新节点
-         * @param index 节点索引
-         * @param text 节点文本
-         * @return 新插入的节点
-         */
-        TreeViewNode InsertItem(int index, const std::wstring &text);
 
         /**
          * @brief 获取指定类型的图像列表
@@ -435,6 +378,11 @@ namespace sw
          * @brief 获取根节点
          */
         TreeViewNode _GetRoot();
+
+        /**
+         * @brief 获取选中的节点，若无选中节点则返回空节点
+         */
+        TreeViewNode _GetSelectedItem();
 
         /**
          * @brief 插入新节点

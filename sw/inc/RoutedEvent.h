@@ -133,6 +133,9 @@ namespace sw
         /// 热键框的值被改变，参数类型为sw::HotKeyValueChangedEventArgs
         HotKeyControl_ValueChanged,
 
+        /// 树视图选中的节点发生改变，参数类型为sw::RoutedEventArgs
+        TreeView_SelectionChanged,
+
         /// 树视图节点正在展开或折叠，参数类型为sw::TreeViewItemExpandingEventArgs
         TreeView_ItemExpanding,
 
