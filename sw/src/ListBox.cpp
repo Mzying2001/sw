@@ -140,11 +140,11 @@ bool sw::ListBox::OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem)
         return true;
     }
 
-    std::wstring text;
-    GetDisplayText(items->GetVariantAt(index), text);
-
     HDC hdc   = pDrawItem->hDC;
     RECT rect = pDrawItem->rcItem;
+
+    std::wstring text =
+        GetDisplayText(index, items->GetVariantAt(index));
 
     if (pDrawItem->itemState & ODS_SELECTED) {
         ::SetBkColor(hdc, static_cast<COLORREF>(_selectedBackColor));
@@ -163,13 +163,14 @@ bool sw::ListBox::OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem)
     return true;
 }
 
-void sw::ListBox::GetDisplayText(const Variant &item, std::wstring &text)
+std::wstring sw::ListBox::GetDisplayText(int index, const Variant &item)
 {
-    text.clear();
+    std::wstring text;
 
     if (item.IsType<std::wstring>()) {
         text = item.UnsafeCast<std::wstring>();
     }
+    return text;
 }
 
 void sw::ListBox::_SetCount(int count)
