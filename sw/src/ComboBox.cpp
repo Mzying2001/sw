@@ -37,10 +37,11 @@ void sw::ComboBox::Refresh()
     int index = GetSelectedIndex();
     SendMessageW(WM_SETREDRAW, FALSE, 0);
     _UpdateItems();
-    SendMessageW(WM_SETREDRAW, TRUE, 0);
     SetSelectedIndex(index);
     _UpdateSelectedText();
+    SendMessageW(WM_SETREDRAW, TRUE, 0);
     Redraw();
+    RaisePropertyChanged(&TBase::ItemsCount);
 }
 
 void sw::ComboBox::ShowDropDown()
@@ -68,12 +69,15 @@ void sw::ComboBox::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionC
     int index = GetSelectedIndex();
     SendMessageW(WM_SETREDRAW, FALSE, 0);
 
+    bool itemsCountChanged = false;
+
     switch (args.action) {
         case NotifyCollectionChangedAction::Add:
             if (index >= args.index) {
                 index++;
             }
             _InsertString(args.index, GetDisplayText(args.index, args.list->GetVariantAt(args.index)));
+            itemsCountChanged = true;
             break;
 
         case NotifyCollectionChangedAction::Remove:
@@ -83,10 +87,12 @@ void sw::ComboBox::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionC
                 index--;
             }
             _DeleteString(args.index);
+            itemsCountChanged = true;
             break;
 
         case NotifyCollectionChangedAction::Reset:
             _UpdateItems();
+            itemsCountChanged = true;
             break;
 
         case NotifyCollectionChangedAction::Replace:
@@ -110,6 +116,10 @@ void sw::ComboBox::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionC
     SetSelectedIndex(index);
     SendMessageW(WM_SETREDRAW, TRUE, 0);
     Redraw();
+
+    if (itemsCountChanged) {
+        RaisePropertyChanged(&TBase::ItemsCount);
+    }
 }
 
 int sw::ComboBox::GetSelectedIndex()
