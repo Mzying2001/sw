@@ -29,29 +29,29 @@ sw::ListBox::ListBox()
                   self->SendMessageW(LB_SETTOPINDEX, value, 0);
               })),
 
-      SelectedBackColor(
+      SelectedItemBackColor(
           Property<Color>::Init(this)
               .Getter([](ListBox *self) -> Color {
-                  return self->_selectedBackColor;
+                  return self->_selectedItemBackColor;
               })
               .Setter([](ListBox *self, const Color &value) {
-                  if (self->_selectedBackColor != value) {
-                      self->_selectedBackColor = value;
+                  if (self->_selectedItemBackColor != value) {
+                      self->_selectedItemBackColor = value;
                       self->Redraw();
-                      self->RaisePropertyChanged(&ListBox::SelectedBackColor);
+                      self->RaisePropertyChanged(&ListBox::SelectedItemBackColor);
                   }
               })),
 
-      SelectedTextColor(
+      SelectedItemTextColor(
           Property<Color>::Init(this)
               .Getter([](ListBox *self) -> Color {
-                  return self->_selectedTextColor;
+                  return self->_selectedItemTextColor;
               })
               .Setter([](ListBox *self, const Color &value) {
-                  if (self->_selectedTextColor != value) {
-                      self->_selectedTextColor = value;
+                  if (self->_selectedItemTextColor != value) {
+                      self->_selectedItemTextColor = value;
                       self->Redraw();
-                      self->RaisePropertyChanged(&ListBox::SelectedTextColor);
+                      self->RaisePropertyChanged(&ListBox::SelectedItemTextColor);
                   }
               }))
 {
@@ -150,8 +150,8 @@ bool sw::ListBox::OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem)
         GetDisplayText(index, items->GetVariantAt(index));
 
     if (pDrawItem->itemState & ODS_SELECTED) {
-        ::SetBkColor(hdc, static_cast<COLORREF>(_selectedBackColor));
-        ::SetTextColor(hdc, static_cast<COLORREF>(_selectedTextColor));
+        ::SetBkColor(hdc, static_cast<COLORREF>(_selectedItemBackColor));
+        ::SetTextColor(hdc, static_cast<COLORREF>(_selectedItemTextColor));
     } else {
         ::SetBkColor(hdc, static_cast<COLORREF>(GetRealBackColor()));
         ::SetTextColor(hdc, static_cast<COLORREF>(GetRealTextColor()));

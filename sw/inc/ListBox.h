@@ -19,12 +19,12 @@ namespace sw
         /**
          * @brief 选中项的背景颜色
          */
-        Color _selectedBackColor{GetSysColor(COLOR_HIGHLIGHT)};
+        Color _selectedItemBackColor{GetSysColor(COLOR_HIGHLIGHT)};
 
         /**
          * @brief 选中项的文本颜色
          */
-        Color _selectedTextColor{GetSysColor(COLOR_HIGHLIGHTTEXT)};
+        Color _selectedItemTextColor{GetSysColor(COLOR_HIGHLIGHTTEXT)};
 
     public:
         /**
@@ -45,12 +45,12 @@ namespace sw
         /**
          * @brief 选中项的背景颜色
          */
-        const Property<Color> SelectedBackColor;
+        const Property<Color> SelectedItemBackColor;
 
         /**
          * @brief 选中项的文本颜色
          */
-        const Property<Color> SelectedTextColor;
+        const Property<Color> SelectedItemTextColor;
 
     public:
         /**
