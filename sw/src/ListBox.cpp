@@ -146,13 +146,12 @@ bool sw::ListBox::OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem)
         HDC hdc   = pDrawItem->hDC;
         RECT rect = pDrawItem->rcItem;
 
-        // 绘制背景
         if (pDrawItem->itemState & ODS_SELECTED) {
-            ::SetBkColor(hdc, static_cast<COLORREF>(SelectedBackColor));
-            ::SetTextColor(hdc, static_cast<COLORREF>(SelectedTextColor));
+            ::SetBkColor(hdc, static_cast<COLORREF>(_selectedBackColor));
+            ::SetTextColor(hdc, static_cast<COLORREF>(_selectedTextColor));
         } else {
-            ::SetBkColor(hdc, static_cast<COLORREF>(BackColor));
-            ::SetTextColor(hdc, static_cast<COLORREF>(TextColor));
+            ::SetBkColor(hdc, static_cast<COLORREF>(GetRealBackColor()));
+            ::SetTextColor(hdc, static_cast<COLORREF>(GetRealTextColor()));
         }
 
         ::ExtTextOutW(hdc, rect.left, rect.top, ETO_OPAQUE, &rect, nullptr, 0, nullptr);
