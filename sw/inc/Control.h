@@ -71,35 +71,53 @@ namespace sw
 
         /**
          * @brief 擦除背景前调用该函数
-         * @param hdc 绘制设备句柄
+         * @param pNMCD 包含有关自定义绘制的信息
          * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
          * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
          */
-        virtual bool OnPreErase(HDC hdc, LRESULT &result);
+        virtual bool OnPreErase(NMCUSTOMDRAW *pNMCD, LRESULT &result);
 
         /**
          * @brief 擦除背景后调用该函数
-         * @param hdc 绘制设备句柄
+         * @param pNMCD 包含有关自定义绘制的信息
          * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
          * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
          */
-        virtual bool OnPostErase(HDC hdc, LRESULT &result);
+        virtual bool OnPostErase(NMCUSTOMDRAW *pNMCD, LRESULT &result);
 
         /**
          * @brief 绘制控件前调用该函数
-         * @param hdc 绘制设备句柄
+         * @param pNMCD 包含有关自定义绘制的信息
          * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
          * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
          */
-        virtual bool OnPrePaint(HDC hdc, LRESULT &result);
+        virtual bool OnPrePaint(NMCUSTOMDRAW *pNMCD, LRESULT &result);
 
         /**
          * @brief 绘制控件后调用该函数
-         * @param hdc 绘制设备句柄
+         * @param pNMCD 包含有关自定义绘制的信息
          * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
          * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
          */
-        virtual bool OnPostPaint(HDC hdc, LRESULT &result);
+        virtual bool OnPostPaint(NMCUSTOMDRAW *pNMCD, LRESULT &result);
+
+        /**
+         * @brief 绘制子项前调用该函数
+         * @param pNMCD 包含有关自定义绘制的信息
+         * @param subItem 若消息包含CDDS_SUBITEM标志则该值为true，否则为false
+         * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
+         * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
+         */
+        virtual bool OnItemPrePaint(NMCUSTOMDRAW *pNMCD, bool subItem, LRESULT &result);
+
+        /**
+         * @brief 绘制子项后调用该函数
+         * @param pNMCD 包含有关自定义绘制的信息
+         * @param subItem 若消息包含CDDS_SUBITEM标志则该值为true，否则为false
+         * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
+         * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
+         */
+        virtual bool OnItemPostPaint(NMCUSTOMDRAW *pNMCD, bool subItem, LRESULT &result);
 
         /**
          * @brief 控件句柄发生改变时调用该函数
