@@ -99,6 +99,11 @@ namespace sw
 
     private:
         /**
+         * @brief 根据当前选中项更新组合框的文本内容
+         */
+        void _UpdateSelectedText();
+
+        /**
          * @brief 根据数据源更新组合框的项内容
          */
         void _UpdateItems();

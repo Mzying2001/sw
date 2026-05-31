@@ -39,6 +39,7 @@ void sw::ComboBox::Refresh()
     _UpdateItems();
     SendMessageW(WM_SETREDRAW, TRUE, 0);
     SetSelectedIndex(index);
+    _UpdateSelectedText();
     Redraw();
 }
 
@@ -130,14 +131,7 @@ void sw::ComboBox::OnCommand(int code)
 
 void sw::ComboBox::OnSelectionChanged()
 {
-    auto items = GetCurrentItemsSource();
-    int index  = GetSelectedIndex();
-
-    if (items == nullptr || index < 0 || index >= items->Count()) {
-        SetInternalText(L"");
-    } else {
-        SetInternalText(GetDisplayText(index, items->GetVariantAt(index)));
-    }
+    _UpdateSelectedText();
     ItemsControl::OnSelectionChanged();
 }
 
@@ -149,6 +143,18 @@ std::wstring sw::ComboBox::GetDisplayText(int index, const Variant &item)
         text = item.UnsafeCast<std::wstring>();
     }
     return text;
+}
+
+void sw::ComboBox::_UpdateSelectedText()
+{
+    auto items = GetCurrentItemsSource();
+    int index  = GetSelectedIndex();
+
+    if (items == nullptr || index < 0 || index >= items->Count()) {
+        SetInternalText(L"");
+    } else {
+        SetInternalText(GetDisplayText(index, items->GetVariantAt(index)));
+    }
 }
 
 void sw::ComboBox::_UpdateItems()
