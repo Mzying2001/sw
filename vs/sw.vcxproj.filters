@@ -638,5 +638,8 @@
     <ClCompile Include="..\sw\src\FrameworkElement.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\ItemsControl.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

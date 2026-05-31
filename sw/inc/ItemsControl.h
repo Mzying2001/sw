@@ -1,62 +1,106 @@
 #pragma once
 
 #include "Control.h"
+#include "IList.h"
+#include "INotifyCollectionChanged.h"
 
 namespace sw
 {
     /**
      * @brief 表示可用于呈现一组项的控件
      */
-    template <typename TItem>
     class ItemsControl : public Control
     {
+    private:
+        /**
+         * @brief 用户设置的数据源
+         */
+        IList *_itemsSource = nullptr;
+
+        /**
+         * @brief 当前数据源相关的状态
+         */
+        struct {
+            /// @brief 当前数据源的IList指针
+            IList *itemsSource = nullptr;
+
+            /// @brief 若当前数据源实现了INotifyCollectionChanged接口，
+            ///        则该指针指向该接口以便订阅事件；否则为nullptr
+            INotifyCollectionChanged *notifyCollectionChanged = nullptr;
+        } _current;
+
     public:
         /**
-         * @brief 项数
+         * @brief 数据源
          */
-        const ReadOnlyProperty<int> ItemsCount{
-            Property<int>::Init(this)
-                .Getter([](ItemsControl *self) -> int {
-                    return self->GetItemsCount();
-                })};
+        const Property<IList *> ItemsSource;
+
+        /**
+         * @brief 子项数量
+         */
+        const ReadOnlyProperty<int> ItemsCount;
 
         /**
          * @brief 选中项的索引，当无选中项时为-1
          */
-        const Property<int> SelectedIndex{
-            Property<int>::Init(this)
-                .Getter([](ItemsControl *self) -> int {
-                    return self->GetSelectedIndex();
-                })
-                .Setter([](ItemsControl *self, int value) {
-                    self->SetSelectedIndex(value);
-                })};
+        const Property<int> SelectedIndex;
 
         /**
-         * @brief 选中项
+         * @brief 当前选中项的引用，当无选中项时返回空Variant对象
          */
-        const ReadOnlyProperty<TItem> SelectedItem{
-            Property<TItem>::Init(this)
-                .Getter([](ItemsControl *self) -> TItem {
-                    return self->GetSelectedItem();
-                })};
+        const ReadOnlyProperty<Variant> SelectedItem;
+
+    public:
+        /**
+         * @brief 构造函数
+         */
+        ItemsControl();
 
     protected:
+        /**
+         * @brief 获取当前正在使用的数据源
+         */
+        IList *GetCurrentItemsSource();
+
+        /**
+         * @brief 更新当前数据源状态并订阅新数据源的CollectionChanged事件（如果支持）
+         */
+        void UpdateCurrentItemsSource();
+
         /**
          * @brief 选中项改变时调用该函数
          */
-        virtual void OnSelectionChanged()
-        {
-            this->RaisePropertyChanged(&ItemsControl<TItem>::SelectedIndex);
-            this->RaisePropertyChanged(&ItemsControl<TItem>::SelectedItem);
-            this->RaiseRoutedEvent(ItemsControl_SelectionChanged);
-        }
+        virtual void OnSelectionChanged();
+
+    private:
+        /**
+         * @brief 处理数据源集合变更事件的函数
+         * @param sender 事件发送者，即数据源对象
+         * @param args 集合变更事件参数
+         */
+        void _CollectionChangedEventHandler(
+            INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args);
 
     protected:
         /**
-         * @brief 获取子项数
+         * @brief 获取默认数据源，当ItemsSource未设置时使用该数据源
+         * @return 默认数据源的IList指针，若无默认数据源则返回nullptr
+         * @note 子类应确保返回的IList在ItemsControl生命周期内始终有效，且保证多次调用返回同一指针
          */
-        virtual int GetItemsCount() = 0;
+        virtual IList *GetDefaultItemsSource() = 0;
+
+        /**
+         * @brief 当前数据源改变时调用该函数
+         * @param oldItemsSource 旧的数据源
+         * @param newItemsSource 新的数据源
+         */
+        virtual void OnCurrentItemsSourceChanged(IList *oldItemsSource, IList *newItemsSource) = 0;
+
+        /**
+         * @brief 当数据源集合发生变更时调用该函数
+         * @param args 包含集合变更信息的事件参数
+         */
+        virtual void OnCurrentItemsSourceCollectionChanged(const NotifyCollectionChangedEventArgs &args) = 0;
 
         /**
          * @brief 选中项的索引，当无选中项时为-1
@@ -67,52 +111,5 @@ namespace sw
          * @brief 设置选中项索引
          */
         virtual void SetSelectedIndex(int index) = 0;
-
-        /**
-         * @brief 获取选中项
-         */
-        virtual TItem GetSelectedItem() = 0;
-
-    public:
-        /**
-         * @brief 清空所有子项
-         */
-        virtual void Clear() = 0;
-
-        /**
-         * @brief 获取指定索引处子项的值
-         * @param index 子项的索引
-         */
-        virtual TItem GetItemAt(int index) = 0;
-
-        /**
-         * @brief 添加新的子项
-         * @param item 要添加的子项
-         * @return 是否添加成功
-         */
-        virtual bool AddItem(const TItem &item) = 0;
-
-        /**
-         * @brief 添加子项到指定索引
-         * @param index 要插入的位置
-         * @param item 要添加的子项
-         * @return 是否添加成功
-         */
-        virtual bool InsertItem(int index, const TItem &item) = 0;
-
-        /**
-         * @brief 更新指定位置的子项
-         * @param index 要更新子项的位置
-         * @param newValue 子项的新值
-         * @return 操作是否成功
-         */
-        virtual bool UpdateItem(int index, const TItem &newValue) = 0;
-
-        /**
-         * @brief 移除指定索引处的子项
-         * @param index 要移除子项的索引
-         * @return 操作是否成功
-         */
-        virtual bool RemoveItemAt(int index) = 0;
     };
 }

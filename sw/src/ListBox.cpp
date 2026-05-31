@@ -1,7 +1,25 @@
 #include "ListBox.h"
+#include "Dip.h"
 
 sw::ListBox::ListBox()
-    : TopIndex(
+    : Items(
+          Property<ObservableCollection<std::wstring> *>::Init(this)
+              .Getter([](ListBox *self) -> ObservableCollection<std::wstring> * {
+                  return &self->_items;
+              })),
+
+      ItemHeight(
+          Property<double>::Init(this)
+              .Getter([](ListBox *self) -> double {
+                  return Dip::PxToDipY((int)self->SendMessageW(LB_GETITEMHEIGHT, 0, 0));
+              })
+              .Setter([](ListBox *self, double value) {
+                  if (self->ItemHeight != value) {
+                      self->SendMessageW(LB_SETITEMHEIGHT, 0, Dip::DipToPxY(value));
+                  }
+              })),
+
+      TopIndex(
           Property<int>::Init(this)
               .Getter([](ListBox *self) -> int {
                   return (int)self->SendMessageW(LB_GETTOPINDEX, 0, 0);
@@ -10,178 +28,148 @@ sw::ListBox::ListBox()
                   self->SendMessageW(LB_SETTOPINDEX, value, 0);
               })),
 
-      MultiSelect(
-          Property<bool>::Init(this)
-              .Getter([](ListBox *self) -> bool {
-                  return self->GetStyle(LBS_MULTIPLESEL);
+      SelectedBackColor(
+          Property<Color>::Init(this)
+              .Getter([](ListBox *self) -> Color {
+                  return self->_selectedBackColor;
               })
-              .Setter([](ListBox *self, bool value) {
-                  if (self->GetStyle(LBS_MULTIPLESEL) != value) {
-                      self->SetStyle(LBS_MULTIPLESEL, value);
-                      self->ResetHandle();
+              .Setter([](ListBox *self, const Color &value) {
+                  if (self->_selectedBackColor != value) {
+                      self->_selectedBackColor = value;
+                      self->Redraw();
                   }
               })),
 
-      SelectedCount(
-          Property<int>::Init(this)
-              .Getter([](ListBox *self) -> int {
-                  return (int)self->SendMessageW(LB_GETSELCOUNT, 0, 0);
+      SelectedTextColor(
+          Property<Color>::Init(this)
+              .Getter([](ListBox *self) -> Color {
+                  return self->_selectedTextColor;
+              })
+              .Setter([](ListBox *self, const Color &value) {
+                  if (self->_selectedTextColor != value) {
+                      self->_selectedTextColor = value;
+                      self->Redraw();
+                  }
               }))
 {
-    this->InitControl(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY, 0);
-    this->Rect    = sw::Rect(0, 0, 150, 200);
-    this->TabStop = true;
+    InitControl(
+        L"LISTBOX", L"",
+        WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | LBS_NODATA, 0);
+
+    Rect    = sw::Rect(0, 0, 150, 200);
+    TabStop = true;
+    UpdateCurrentItemsSource();
 }
 
-int sw::ListBox::GetItemsCount()
+void sw::ListBox::Refresh()
 {
-    return (int)this->SendMessageW(LB_GETCOUNT, 0, 0);
-}
-
-int sw::ListBox::GetSelectedIndex()
-{
-    return (int)this->SendMessageW(LB_GETCURSEL, 0, 0);
-}
-
-void sw::ListBox::SetSelectedIndex(int index)
-{
-    this->SendMessageW(LB_SETCURSEL, index, 0);
-    this->OnSelectionChanged();
-}
-
-std::wstring sw::ListBox::GetSelectedItem()
-{
-    return this->GetItemAt(this->GetSelectedIndex());
-}
-
-bool sw::ListBox::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
-{
-    int index = this->GetItemIndexFromPoint(this->PointFromScreen(mousePosition));
-
-    if (index >= 0 && index < this->GetItemsCount()) {
-        this->SetSelectedIndex(index);
-    }
-
-    return this->UIElement::OnContextMenu(isKeyboardMsg, mousePosition);
-}
-
-void sw::ListBox::OnCommand(int code)
-{
-    if (code == LBN_SELCHANGE) {
-        this->OnSelectionChanged();
-    }
-}
-
-void sw::ListBox::Clear()
-{
-    this->SendMessageW(LB_RESETCONTENT, 0, 0);
-    this->RaisePropertyChanged(&ListBox::ItemsCount);
-}
-
-std::wstring sw::ListBox::GetItemAt(int index)
-{
-    int len = (int)this->SendMessageW(LB_GETTEXTLEN, index, 0);
-
-    if (len <= 0) {
-        return std::wstring{};
-    }
-
-    // wchar_t *buf = new wchar_t[len + 1];
-    // this->SendMessageW(LB_GETTEXT, index, reinterpret_cast<LPARAM>(buf));
-    // std::wstring result = buf;
-    // delete[] buf;
-    // return result;
-
-    std::wstring result;
-    result.resize(len + 1);
-    this->SendMessageW(LB_GETTEXT, index, reinterpret_cast<LPARAM>(&result[0]));
-    result.resize(len);
-    return result;
-}
-
-bool sw::ListBox::AddItem(const std::wstring &item)
-{
-    int count = this->GetItemsCount();
-    this->SendMessageW(LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(item.c_str()));
-
-    bool success = this->GetItemsCount() == count + 1;
-    if (success) {
-        this->RaisePropertyChanged(&ListBox::ItemsCount);
-    }
-    return success;
-}
-
-bool sw::ListBox::InsertItem(int index, const std::wstring &item)
-{
-    int count = this->GetItemsCount();
-    this->SendMessageW(LB_INSERTSTRING, index, reinterpret_cast<LPARAM>(item.c_str()));
-
-    bool success = this->GetItemsCount() == count + 1;
-    if (success) {
-        this->RaisePropertyChanged(&ListBox::ItemsCount);
-    }
-    return success;
-}
-
-bool sw::ListBox::UpdateItem(int index, const std::wstring &newValue)
-{
-    bool selected = this->GetSelectedIndex() == index;
-    bool updated  = this->RemoveItemAt(index) && this->InsertItem(index, newValue.c_str());
-
-    if (updated && selected) {
-        this->SetSelectedIndex(index);
-    }
-
-    return updated;
-}
-
-bool sw::ListBox::RemoveItemAt(int index)
-{
-    int count = this->GetItemsCount();
-    this->SendMessageW(LB_DELETESTRING, index, 0);
-
-    bool success = this->GetItemsCount() == count - 1;
-    if (success) {
-        this->RaisePropertyChanged(&ListBox::ItemsCount);
-    }
-    return success;
+    _UpdateCount();
+    Redraw();
 }
 
 int sw::ListBox::GetItemIndexFromPoint(const Point &point)
 {
     POINT p = point;
-    return (int)this->SendMessageW(LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y));
+    return (int)SendMessageW(LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y));
 }
 
-sw::List<int> sw::ListBox::GetSelectedIndices()
+sw::IList *sw::ListBox::GetDefaultItemsSource()
 {
-    List<int> result;
-    int selectedCount = this->SelectedCount.Get();
-    if (selectedCount > 0) {
-        int *buf = new int[selectedCount];
-        if (this->SendMessageW(LB_GETSELITEMS, selectedCount, reinterpret_cast<LPARAM>(buf)) != LB_ERR) {
-            for (int i = 0; i < selectedCount; ++i) result.Add(buf[i]);
+    return &_items;
+}
+
+void sw::ListBox::OnCurrentItemsSourceChanged(IList *oldItemsSource, IList *newItemsSource)
+{
+    Refresh();
+}
+
+void sw::ListBox::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionChangedEventArgs &args)
+{
+    switch (args.action) {
+        case NotifyCollectionChangedAction::Add:
+        case NotifyCollectionChangedAction::Remove:
+        case NotifyCollectionChangedAction::Reset:
+            _UpdateCount();
+            break;
+        case NotifyCollectionChangedAction::Replace:
+        case NotifyCollectionChangedAction::Move:
+            break; // 数量未变无需更新
+    }
+    Redraw();
+}
+
+int sw::ListBox::GetSelectedIndex()
+{
+    return (int)SendMessageW(LB_GETCURSEL, 0, 0);
+}
+
+void sw::ListBox::SetSelectedIndex(int index)
+{
+    SendMessageW(LB_SETCURSEL, index, 0);
+    OnSelectionChanged();
+}
+
+void sw::ListBox::OnCommand(int code)
+{
+    if (code == LBN_SELCHANGE) {
+        OnSelectionChanged();
+    }
+}
+
+bool sw::ListBox::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
+{
+    int index = GetItemIndexFromPoint(PointFromScreen(mousePosition));
+    int count = ItemsCount;
+
+    if (index >= 0 && index < count) {
+        SetSelectedIndex(index);
+    }
+    return UIElement::OnContextMenu(isKeyboardMsg, mousePosition);
+}
+
+bool sw::ListBox::OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem)
+{
+    IList *items = GetCurrentItemsSource();
+
+    int index = static_cast<int>(pDrawItem->itemID);
+    int count = items ? items->Count() : 0;
+
+    if (index < 0 || index >= count) {
+        return false;
+    }
+
+    std::wstring *pText = nullptr;
+
+    if (items->GetVariantAt(index).IsType(&pText)) {
+        HDC hdc   = pDrawItem->hDC;
+        RECT rect = pDrawItem->rcItem;
+
+        // 绘制背景
+        if (pDrawItem->itemState & ODS_SELECTED) {
+            ::SetBkColor(hdc, static_cast<COLORREF>(SelectedBackColor));
+            ::SetTextColor(hdc, static_cast<COLORREF>(SelectedTextColor));
+        } else {
+            ::SetBkColor(hdc, static_cast<COLORREF>(BackColor));
+            ::SetTextColor(hdc, static_cast<COLORREF>(TextColor));
         }
-        delete[] buf;
+
+        ::ExtTextOutW(hdc, rect.left, rect.top, ETO_OPAQUE, &rect, nullptr, 0, nullptr);
+        ::DrawTextW(hdc, pText->c_str(), -1, &rect, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+        return true;
     }
-    return result;
+
+    return false;
 }
 
-sw::List<std::wstring> sw::ListBox::GetSelectedItems()
+void sw::ListBox::_SetCount(int count)
 {
-    List<std::wstring> result;
-    for (int i : this->GetSelectedIndices().GetStdVector()) {
-        result.Add(this->GetItemAt(i));
-    }
-    return result;
+    SendMessageW(LB_SETCOUNT, count, 0);
+    int a = GetLastError();
 }
 
-bool sw::ListBox::GetItemSelectionState(int index)
+void sw::ListBox::_UpdateCount()
 {
-    return this->SendMessageW(LB_GETSEL, index, 0) > 0;
-}
-
-void sw::ListBox::SetItemSelectionState(int index, bool value)
-{
-    this->SendMessageW(LB_SETSEL, value, index);
+    IList *currentItemsSource = GetCurrentItemsSource();
+    _SetCount(currentItemsSource ? currentItemsSource->Count() : 0);
+    RaisePropertyChanged(&ItemsControl::ItemsCount);
 }
