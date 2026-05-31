@@ -1,125 +1,125 @@
-// #pragma once
+#pragma once
 
-// #include "ItemsControl.h"
+#include "ItemsControl.h"
+#include "ObservableCollection.h"
 
-// namespace sw
-// {
-//     /**
-//      * @brief 组合框
-//      */
-//     class ComboBox : public ItemsControl<std::wstring>
-//     {
-//     private:
-//         /**
-//          * @brief 在读取Text属性时用于判断是否需要更新储存的文本
-//          */
-//         bool _isTextChanged = false;
+namespace sw
+{
+    /**
+     * @brief 组合框
+     */
+    class ComboBox : public ItemsControl
+    {
+    private:
+        /**
+         * @brief 组合框的默认数据源
+         */
+        ObservableCollection<std::wstring> _items;
 
-//     public:
-//         /**
-//          * @brief 组合框内容是否可编辑，更新该属性会导致已添加的子项被清空
-//          */
-//         const Property<bool> IsEditable;
+    public:
+        /**
+         * @brief 列表框的子项集合，当未设置ItemsSource时使用该集合作为数据源
+         */
+        const ReadOnlyProperty<ObservableCollection<std::wstring> *> Items;
 
-//     public:
-//         /**
-//          * @brief 初始化组合框
-//          */
-//         ComboBox();
+        /**
+         * @brief 组合框内容是否可编辑
+         */
+        const Property<bool> IsEditable;
 
-//     protected:
-//         /**
-//          * @brief 获取子项数
-//          */
-//         virtual int GetItemsCount() override;
+    public:
+        /**
+         * @brief 初始化组合框
+         */
+        ComboBox();
 
-//         /**
-//          * @brief 选中项的索引，当无选中项时为-1
-//          */
-//         virtual int GetSelectedIndex() override;
+        /**
+         * @brief 刷新控件以反映数据源的当前状态
+         */
+        void Refresh();
 
-//         /**
-//          * @brief 设置选中项索引
-//          */
-//         virtual void SetSelectedIndex(int index) override;
+        /**
+         * @brief 显示下拉列表
+         */
+        void ShowDropDown();
 
-//         /**
-//          * @brief 获取选中项
-//          */
-//         virtual std::wstring GetSelectedItem() override;
+        /**
+         * @brief 关闭下拉列表
+         */
+        void CloseDropDown();
 
-//         /**
-//          * @brief 获取可编辑状态下的编辑框文本内容
-//          */
-//         virtual std::wstring &GetInternalText() override;
+    protected:
+        /**
+         * @brief 获取默认数据源，当ItemsSource未设置时使用该数据源
+         * @return 默认数据源的IList指针，若无默认数据源则返回nullptr
+         * @note 子类应确保返回的IList在ItemsControl生命周期内始终有效，且保证多次调用返回同一指针
+         */
+        virtual IList *GetDefaultItemsSource() override final;
 
-//         /**
-//          * @brief 设置Text属性时调用该函数
-//          * @param value 要设置的文本
-//          */
-//         virtual void SetInternalText(const std::wstring &value) override;
+        /**
+         * @brief 当前数据源改变时调用该函数
+         * @param oldItemsSource 旧的数据源
+         * @param newItemsSource 新的数据源
+         */
+        virtual void OnCurrentItemsSourceChanged(IList *oldItemsSource, IList *newItemsSource) override;
 
-//         /**
-//          * @brief 当父窗口接收到控件的WM_COMMAND时调用该函数
-//          * @param code 通知代码
-//          */
-//         virtual void OnCommand(int code) override;
+        /**
+         * @brief 当数据源集合发生变更时调用该函数
+         * @param args 包含集合变更信息的事件参数
+         */
+        virtual void OnCurrentItemsSourceCollectionChanged(const NotifyCollectionChangedEventArgs &args) override;
 
-//         /**
-//          * @brief 选中项改变时调用该函数
-//          */
-//         virtual void OnSelectionChanged() override;
+        /**
+         * @brief 选中项的索引，当无选中项时为-1
+         */
+        virtual int GetSelectedIndex() override;
 
-//     public:
-//         /**
-//          * @brief 清空所有子项
-//          */
-//         virtual void Clear() override;
+        /**
+         * @brief 设置选中项索引
+         */
+        virtual void SetSelectedIndex(int index) override;
 
-//         /**
-//          * @brief 获取指定索引处子项的值
-//          * @param index 子项的索引
-//          */
-//         virtual std::wstring GetItemAt(int index) override;
+        /**
+         * @brief 当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
+         */
+        virtual void OnCommand(int code) override;
 
-//         /**
-//          * @brief 添加新的子项
-//          * @param item 要添加的子项
-//          * @return 是否添加成功
-//          */
-//         virtual bool AddItem(const std::wstring &item) override;
+        /**
+         * @brief 选中项改变时调用该函数
+         */
+        virtual void OnSelectionChanged() override;
 
-//         /**
-//          * @brief 添加子项到指定索引
-//          * @param index 要插入的位置
-//          * @param item 要添加的子项
-//          * @return 是否添加成功
-//          */
-//         virtual bool InsertItem(int index, const std::wstring &item) override;
+        /**
+         * @brief 获取子项要显示的文本
+         * @param index 子项索引
+         * @param item 包含子项数据的Variant对象
+         */
+        virtual std::wstring GetDisplayText(int index, const Variant &item);
 
-//         /**
-//          * @brief 更新指定位置的子项
-//          * @param index 要更新子项的位置
-//          * @param newValue 子项的新值
-//          * @return 操作是否成功
-//          */
-//         virtual bool UpdateItem(int index, const std::wstring &newValue) override;
+    private:
+        /**
+         * @brief 根据数据源更新组合框的项内容
+         */
+        void _UpdateItems();
 
-//         /**
-//          * @brief 移除指定索引处的子项
-//          * @param index 要移除子项的索引
-//          * @return 操作是否成功
-//          */
-//         virtual bool RemoveItemAt(int index) override;
+        /**
+         * @brief 发送CB_ADDSTRING消息添加一个字符串项
+         * @param str 要添加的字符串
+         */
+        void _AddString(const std::wstring &str);
 
-//         /**
-//          * @brief 显示下拉列表
-//          */
-//         void ShowDropDown();
+        /**
+         * @brief 发送CB_INSERTSTRING消息在指定索引处插入一个字符串项
+         * @param index 要插入的项的索引
+         * @param str 要插入的字符串
+         */
+        void _InsertString(int index, const std::wstring &str);
 
-//         /**
-//          * @brief 关闭下拉列表
-//          */
-//         void CloseDropDown();
-//     };
-// }
+        /**
+         * @brief 发送CB_DELETESTRING消息删除指定索引处的项
+         * @param index 要删除的项的索引
+         */
+        void _DeleteString(int index);
+    };
+}

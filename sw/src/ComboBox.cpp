@@ -1,171 +1,180 @@
-// #include "ComboBox.h"
+#include "ComboBox.h"
 
-// sw::ComboBox::ComboBox()
-//     : IsEditable(
-//           Property<bool>::Init(this)
-//               .Getter([](ComboBox *self) -> bool {
-//                   return (self->GetStyle() & (CBS_DROPDOWN | CBS_DROPDOWNLIST)) == CBS_DROPDOWN;
-//               })
-//               .Setter([](ComboBox *self, bool value) {
-//                   if (self->IsEditable != value) {
-//                       auto baseStyle = self->GetStyle() & ~(CBS_DROPDOWN | CBS_DROPDOWNLIST);
-//                       self->SetStyle(baseStyle | (value ? CBS_DROPDOWN : CBS_DROPDOWNLIST));
-//                       self->ResetHandle();
-//                       self->SetInternalText(self->WndBase::GetInternalText()); // 使切换后文本框内容能够保留
-//                   }
-//               }))
-// {
-//     this->InitControl(L"COMBOBOX", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWNLIST, 0);
-//     this->Rect    = sw::Rect(0, 0, 100, 24);
-//     this->TabStop = true;
-// }
+sw::ComboBox::ComboBox()
+    : Items(
+          Property<ObservableCollection<std::wstring> *>::Init(this)
+              .Getter([](ComboBox *self) -> ObservableCollection<std::wstring> * {
+                  return &self->_items;
+              })),
 
-// int sw::ComboBox::GetItemsCount()
-// {
-//     return (int)this->SendMessageW(CB_GETCOUNT, 0, 0);
-// }
+      IsEditable(
+          Property<bool>::Init(this)
+              .Getter([](ComboBox *self) -> bool {
+                  return (self->GetStyle() & (CBS_DROPDOWN | CBS_DROPDOWNLIST)) == CBS_DROPDOWN;
+              })
+              .Setter([](ComboBox *self, bool value) {
+                  if (self->IsEditable != value) {
+                      auto baseStyle = self->GetStyle() & ~(CBS_DROPDOWN | CBS_DROPDOWNLIST);
+                      self->SetStyle(baseStyle | (value ? CBS_DROPDOWN : CBS_DROPDOWNLIST));
+                      self->ResetHandle();
+                      self->Refresh();
+                      self->OnSelectionChanged();
+                      self->RaisePropertyChanged(&ComboBox::IsEditable);
+                  }
+              }))
+{
+    InitControl(
+        L"COMBOBOX", L"",
+        WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_DROPDOWNLIST | CBS_HASSTRINGS, 0);
 
-// int sw::ComboBox::GetSelectedIndex()
-// {
-//     return (int)this->SendMessageW(CB_GETCURSEL, 0, 0);
-// }
+    Rect    = sw::Rect(0, 0, 100, 24);
+    TabStop = true;
+    UpdateCurrentItemsSource();
+}
 
-// void sw::ComboBox::SetSelectedIndex(int index)
-// {
-//     this->SendMessageW(CB_SETCURSEL, index, 0);
-//     this->OnSelectionChanged();
-// }
+void sw::ComboBox::Refresh()
+{
+    int index = GetSelectedIndex();
+    SendMessageW(WM_SETREDRAW, FALSE, 0);
+    _UpdateItems();
+    SendMessageW(WM_SETREDRAW, TRUE, 0);
+    SetSelectedIndex(index);
+    Redraw();
+}
 
-// std::wstring sw::ComboBox::GetSelectedItem()
-// {
-//     return this->GetItemAt(this->GetSelectedIndex());
-// }
+void sw::ComboBox::ShowDropDown()
+{
+    SendMessageW(CB_SHOWDROPDOWN, TRUE, 0);
+}
 
-// std::wstring &sw::ComboBox::GetInternalText()
-// {
-//     if (this->_isTextChanged) {
-//         this->UpdateInternalText();
-//         this->_isTextChanged = false;
-//     }
-//     return this->WndBase::GetInternalText();
-// }
+void sw::ComboBox::CloseDropDown()
+{
+    SendMessageW(CB_SHOWDROPDOWN, FALSE, 0);
+}
 
-// void sw::ComboBox::SetInternalText(const std::wstring &value)
-// {
-//     // 当组合框可编辑时，直接调用WndBase::SetInternalText以更新文本框
-//     // 不可编辑时，直接修改_text字段（WndBase中定义，用于保存窗体文本）
-//     // 修改IsEditable属性后会重新创建句柄，会直接将_text字段设为新的文本
-//     // 这里直接修改_text以实现在IsEditable为false时修改的Text能够在IsEditable更改为true时文本框内容能正确显示
+sw::IList *sw::ComboBox::GetDefaultItemsSource()
+{
+    return &_items;
+}
 
-//     if (this->IsEditable) {
-//         this->WndBase::SetInternalText(value);
-//     } else {
-//         this->WndBase::GetInternalText() = value;
-//         this->_isTextChanged             = false;
-//     }
-// }
+void sw::ComboBox::OnCurrentItemsSourceChanged(IList *oldItemsSource, IList *newItemsSource)
+{
+    Refresh();
+}
 
-// void sw::ComboBox::OnCommand(int code)
-// {
-//     switch (code) {
-//         case CBN_EDITCHANGE:
-//             this->_isTextChanged = true;
-//             this->OnTextChanged();
-//             break;
+void sw::ComboBox::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionChangedEventArgs &args)
+{
+    int index = GetSelectedIndex();
+    SendMessageW(WM_SETREDRAW, FALSE, 0);
 
-//         case CBN_SELCHANGE:
-//             this->OnSelectionChanged();
-//             this->OnTextChanged();
-//             break;
+    switch (args.action) {
+        case NotifyCollectionChangedAction::Add:
+            _AddString(GetDisplayText(args.index, args.list->GetVariantAt(args.index)));
+            break;
 
-//         default:
-//             break;
-//     }
-// }
+        case NotifyCollectionChangedAction::Remove:
+            if (index == args.index) {
+                index = -1;
+            } else if (index > args.index) {
+                index--;
+            }
+            _DeleteString(args.index);
+            break;
 
-// void sw::ComboBox::OnSelectionChanged()
-// {
-//     this->_isTextChanged             = false;
-//     this->WndBase::GetInternalText() = this->GetSelectedItem();
+        case NotifyCollectionChangedAction::Reset:
+            _UpdateItems();
+            break;
 
-//     this->ItemsControl::OnSelectionChanged();
-// }
+        case NotifyCollectionChangedAction::Replace:
+            _DeleteString(args.index);
+            _InsertString(args.index, GetDisplayText(args.index, args.list->GetVariantAt(args.index)));
+            break;
 
-// void sw::ComboBox::Clear()
-// {
-//     this->SendMessageW(CB_RESETCONTENT, 0, 0);
-//     this->RaisePropertyChanged(&ComboBox::ItemsCount);
-// }
+        case NotifyCollectionChangedAction::Move:
+            if (index == args.oldIndex) {
+                index = args.index;
+            } else if (index > args.oldIndex && index <= args.index) {
+                index--;
+            } else if (index < args.oldIndex && index >= args.index) {
+                index++;
+            }
+            _DeleteString(args.oldIndex);
+            _InsertString(args.index, GetDisplayText(args.index, args.list->GetVariantAt(args.index)));
+            break;
+    }
 
-// std::wstring sw::ComboBox::GetItemAt(int index)
-// {
-//     int len = (int)this->SendMessageW(CB_GETLBTEXTLEN, index, 0);
+    SetSelectedIndex(index);
+    SendMessageW(WM_SETREDRAW, TRUE, 0);
+    Redraw();
+}
 
-//     if (len <= 0) {
-//         return std::wstring{};
-//     }
+int sw::ComboBox::GetSelectedIndex()
+{
+    return (int)SendMessageW(CB_GETCURSEL, 0, 0);
+}
 
-//     std::wstring result;
-//     result.resize(len + 1);
-//     this->SendMessageW(CB_GETLBTEXT, index, reinterpret_cast<LPARAM>(&result[0]));
-//     result.resize(len);
-//     return result;
-// }
+void sw::ComboBox::SetSelectedIndex(int index)
+{
+    if (GetSelectedIndex() != index) {
+        SendMessageW(CB_SETCURSEL, index, 0);
+        OnSelectionChanged();
+    }
+}
 
-// bool sw::ComboBox::AddItem(const std::wstring &item)
-// {
-//     int count = this->GetItemsCount();
-//     this->SendMessageW(CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(item.c_str()));
+void sw::ComboBox::OnCommand(int code)
+{
+    if (code == CBN_SELCHANGE) {
+        OnSelectionChanged();
+    }
+}
 
-//     bool success = this->GetItemsCount() == count + 1;
-//     if (success) {
-//         this->RaisePropertyChanged(&ComboBox::ItemsCount);
-//     }
-//     return success;
-// }
+void sw::ComboBox::OnSelectionChanged()
+{
+    auto items = GetCurrentItemsSource();
+    int index  = GetSelectedIndex();
 
-// bool sw::ComboBox::InsertItem(int index, const std::wstring &item)
-// {
-//     int count = this->GetItemsCount();
-//     this->SendMessageW(CB_INSERTSTRING, index, reinterpret_cast<LPARAM>(item.c_str()));
-//     this->RaisePropertyChanged(&ComboBox::ItemsCount);
+    if (items == nullptr || index < 0 || index >= items->Count()) {
+        SetInternalText(L"");
+    } else {
+        SetInternalText(GetDisplayText(index, items->GetVariantAt(index)));
+    }
+    ItemsControl::OnSelectionChanged();
+}
 
-//     bool success = this->GetItemsCount() == count + 1;
-//     if (success) {
-//         this->RaisePropertyChanged(&ComboBox::ItemsCount);
-//     }
-//     return success;
-// }
+std::wstring sw::ComboBox::GetDisplayText(int index, const Variant &item)
+{
+    std::wstring text;
 
-// bool sw::ComboBox::UpdateItem(int index, const std::wstring &newValue)
-// {
-//     bool selected = this->GetSelectedIndex() == index;
-//     bool updated  = this->RemoveItemAt(index) && this->InsertItem(index, newValue);
+    if (item.IsType<std::wstring>()) {
+        text = item.UnsafeCast<std::wstring>();
+    }
+    return text;
+}
 
-//     if (updated && selected) {
-//         this->SetSelectedIndex(index);
-//     }
-//     return updated;
-// }
+void sw::ComboBox::_UpdateItems()
+{
+    SendMessageW(CB_RESETCONTENT, 0, 0);
 
-// bool sw::ComboBox::RemoveItemAt(int index)
-// {
-//     int count = this->GetItemsCount();
-//     this->SendMessageW(CB_DELETESTRING, index, 0);
+    IList *items = GetCurrentItemsSource();
+    if (items == nullptr) return;
 
-//     bool success = this->GetItemsCount() == count - 1;
-//     if (success) {
-//         this->RaisePropertyChanged(&ComboBox::ItemsCount);
-//     }
-//     return success;
-// }
+    for (int i = 0; i < items->Count(); i++) {
+        std::wstring text = GetDisplayText(i, items->GetVariantAt(i));
+        SendMessageW(CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(text.c_str()));
+    }
+}
 
-// void sw::ComboBox::ShowDropDown()
-// {
-//     this->SendMessageW(CB_SHOWDROPDOWN, TRUE, 0);
-// }
+void sw::ComboBox::_AddString(const std::wstring &str)
+{
+    SendMessageW(CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(str.c_str()));
+}
 
-// void sw::ComboBox::CloseDropDown()
-// {
-//     this->SendMessageW(CB_SHOWDROPDOWN, FALSE, 0);
-// }
+void sw::ComboBox::_InsertString(int index, const std::wstring &str)
+{
+    SendMessageW(CB_INSERTSTRING, index, reinterpret_cast<LPARAM>(str.c_str()));
+}
+
+void sw::ComboBox::_DeleteString(int index)
+{
+    SendMessageW(CB_DELETESTRING, index, 0);
+}
