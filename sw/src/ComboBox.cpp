@@ -70,7 +70,10 @@ void sw::ComboBox::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionC
 
     switch (args.action) {
         case NotifyCollectionChangedAction::Add:
-            _AddString(GetDisplayText(args.index, args.list->GetVariantAt(args.index)));
+            if (index >= args.index) {
+                index++;
+            }
+            _InsertString(args.index, GetDisplayText(args.index, args.list->GetVariantAt(args.index)));
             break;
 
         case NotifyCollectionChangedAction::Remove:
