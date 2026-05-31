@@ -16,6 +16,7 @@ sw::ListBox::ListBox()
               .Setter([](ListBox *self, double value) {
                   if (self->ItemHeight != value) {
                       self->SendMessageW(LB_SETITEMHEIGHT, 0, Dip::DipToPxY(value));
+                      self->RaisePropertyChanged(&ListBox::ItemHeight);
                   }
               })),
 
@@ -37,6 +38,7 @@ sw::ListBox::ListBox()
                   if (self->_selectedBackColor != value) {
                       self->_selectedBackColor = value;
                       self->Redraw();
+                      self->RaisePropertyChanged(&ListBox::SelectedBackColor);
                   }
               })),
 
@@ -49,6 +51,7 @@ sw::ListBox::ListBox()
                   if (self->_selectedTextColor != value) {
                       self->_selectedTextColor = value;
                       self->Redraw();
+                      self->RaisePropertyChanged(&ListBox::SelectedTextColor);
                   }
               }))
 {
