@@ -137,29 +137,39 @@ bool sw::ListBox::OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem)
     int count = items ? items->Count() : 0;
 
     if (index < 0 || index >= count) {
-        return false;
-    }
-
-    std::wstring *pText = nullptr;
-
-    if (items->GetVariantAt(index).IsType(&pText)) {
-        HDC hdc   = pDrawItem->hDC;
-        RECT rect = pDrawItem->rcItem;
-
-        if (pDrawItem->itemState & ODS_SELECTED) {
-            ::SetBkColor(hdc, static_cast<COLORREF>(_selectedBackColor));
-            ::SetTextColor(hdc, static_cast<COLORREF>(_selectedTextColor));
-        } else {
-            ::SetBkColor(hdc, static_cast<COLORREF>(GetRealBackColor()));
-            ::SetTextColor(hdc, static_cast<COLORREF>(GetRealTextColor()));
-        }
-
-        ::ExtTextOutW(hdc, rect.left, rect.top, ETO_OPAQUE, &rect, nullptr, 0, nullptr);
-        ::DrawTextW(hdc, pText->c_str(), -1, &rect, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
         return true;
     }
 
-    return false;
+    std::wstring text;
+    GetDisplayText(items->GetVariantAt(index), text);
+
+    HDC hdc   = pDrawItem->hDC;
+    RECT rect = pDrawItem->rcItem;
+
+    if (pDrawItem->itemState & ODS_SELECTED) {
+        ::SetBkColor(hdc, static_cast<COLORREF>(_selectedBackColor));
+        ::SetTextColor(hdc, static_cast<COLORREF>(_selectedTextColor));
+    } else {
+        ::SetBkColor(hdc, static_cast<COLORREF>(GetRealBackColor()));
+        ::SetTextColor(hdc, static_cast<COLORREF>(GetRealTextColor()));
+    }
+
+    ::ExtTextOutW(hdc, rect.left, rect.top, ETO_OPAQUE, &rect, nullptr, 0, nullptr);
+    ::DrawTextW(hdc, text.c_str(), -1, &rect, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+
+    if ((pDrawItem->itemState & ODS_FOCUS) && IsFocusedViaTab) {
+        ::DrawFocusRect(hdc, &rect);
+    }
+    return true;
+}
+
+void sw::ListBox::GetDisplayText(const Variant &item, std::wstring &text)
+{
+    text.clear();
+
+    if (item.IsType<std::wstring>()) {
+        text = item.UnsafeCast<std::wstring>();
+    }
 }
 
 void sw::ListBox::_SetCount(int count)

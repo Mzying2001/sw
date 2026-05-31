@@ -121,6 +121,13 @@ namespace sw
          */
         virtual bool OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem) override;
 
+        /**
+         * @brief 获取描述子项文本的字符串
+         * @param item 包含子项数据的Variant对象
+         * @param text 输出参数，返回描述子项文本的字符串
+         */
+        virtual void GetDisplayText(const Variant &item, std::wstring &text);
+
     private:
         /**
          * @brief 设置子项数量
