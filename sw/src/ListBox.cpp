@@ -105,8 +105,10 @@ int sw::ListBox::GetSelectedIndex()
 
 void sw::ListBox::SetSelectedIndex(int index)
 {
-    SendMessageW(LB_SETCURSEL, index, 0);
-    OnSelectionChanged();
+    if (GetSelectedIndex() != index) {
+        SendMessageW(LB_SETCURSEL, index, 0);
+        OnSelectionChanged();
+    }
 }
 
 void sw::ListBox::OnCommand(int code)
@@ -169,7 +171,11 @@ void sw::ListBox::_SetCount(int count)
 
 void sw::ListBox::_UpdateCount()
 {
+    int selectedIndex = GetSelectedIndex();
+
     IList *currentItemsSource = GetCurrentItemsSource();
     _SetCount(currentItemsSource ? currentItemsSource->Count() : 0);
+
     RaisePropertyChanged(&ItemsControl::ItemsCount);
+    SetSelectedIndex(selectedIndex); // 尝试恢复选中项，若原选中项索引超出范围则会被重置为-1
 }
