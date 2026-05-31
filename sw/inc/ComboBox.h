@@ -12,6 +12,16 @@ namespace sw
     {
     private:
         /**
+         * @brief 基类别名，方便调用基类函数
+         */
+        using TBase = ItemsControl;
+
+        /**
+         * @brief 当控件为可编辑时标记文本是否被用户修改过
+         */
+        bool _isTextChanged = false;
+
+        /**
          * @brief 组合框的默认数据源
          */
         ObservableCollection<std::wstring> _items;
@@ -78,6 +88,12 @@ namespace sw
          * @brief 设置选中项索引
          */
         virtual void SetSelectedIndex(int index) override;
+
+        /**
+         * @brief 获取窗口文本
+         * @return 编辑框的文本内容
+         */
+        virtual std::wstring &GetInternalText() override;
 
         /**
          * @brief 当父窗口接收到控件的WM_COMMAND时调用该函数

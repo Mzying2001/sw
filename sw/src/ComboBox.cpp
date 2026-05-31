@@ -122,17 +122,33 @@ void sw::ComboBox::SetSelectedIndex(int index)
     }
 }
 
+std::wstring &sw::ComboBox::GetInternalText()
+{
+    if (_isTextChanged) {
+        UpdateInternalText();
+        _isTextChanged = false;
+    }
+    return TBase::GetInternalText();
+}
+
 void sw::ComboBox::OnCommand(int code)
 {
-    if (code == CBN_SELCHANGE) {
-        OnSelectionChanged();
+    switch (code) {
+        case CBN_SELCHANGE:
+            OnSelectionChanged();
+            break;
+
+        case CBN_EDITCHANGE:
+            _isTextChanged = true;
+            OnTextChanged();
+            break;
     }
 }
 
 void sw::ComboBox::OnSelectionChanged()
 {
     _UpdateSelectedText();
-    ItemsControl::OnSelectionChanged();
+    TBase::OnSelectionChanged();
 }
 
 std::wstring sw::ComboBox::GetDisplayText(int index, const Variant &item)
