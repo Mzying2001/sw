@@ -179,7 +179,6 @@ std::wstring sw::ListBox::GetDisplayText(int index, const Variant &item)
 void sw::ListBox::_SetCount(int count)
 {
     SendMessageW(LB_SETCOUNT, count, 0);
-    int a = GetLastError();
 }
 
 void sw::ListBox::_UpdateCount()
