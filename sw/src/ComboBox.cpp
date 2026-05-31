@@ -180,12 +180,11 @@ void sw::ComboBox::_UpdateItems()
 {
     SendMessageW(CB_RESETCONTENT, 0, 0);
 
-    IList *items = GetCurrentItemsSource();
-    if (items == nullptr) return;
-
-    for (int i = 0; i < items->Count(); i++) {
-        std::wstring text = GetDisplayText(i, items->GetVariantAt(i));
-        SendMessageW(CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(text.c_str()));
+    if (IList *items = GetCurrentItemsSource()) {
+        int count = items->Count();
+        for (int i = 0; i < count; ++i) {
+            _AddString(GetDisplayText(i, items->GetVariantAt(i)));
+        }
     }
 }
 
