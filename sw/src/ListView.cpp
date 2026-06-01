@@ -51,8 +51,10 @@ sw::ListViewColumn::operator LVCOLUMNW() const
 }
 
 sw::ListViewItem::ListViewItem(ListViewItem &&other) noexcept
-    : subItems(std::move(other.subItems))
+    : subItems(std::move(other.subItems)), imageIndex(other.imageIndex), checked(other.checked)
 {
+    other.imageIndex = -1;
+    other.checked    = false;
 }
 
 sw::ListViewItem::ListViewItem(std::initializer_list<std::wstring> subItems)
@@ -206,32 +208,24 @@ bool sw::ListView::RemoveColumnAt(int index)
 sw::List<int> sw::ListView::GetSelectedIndices()
 {
     List<int> result;
-    for (int i = -1; (i = (int)SendMessageW(LVM_GETNEXTITEM, i, LVNI_SELECTED)) != -1;)
-        result.Add(i);
-    return result;
-}
 
-sw::List<int> sw::ListView::GetCheckedIndices()
-{
-    List<int> result;
-    HWND hwnd    = Handle;
-    int rowCount = _GetRowCount();
-    for (int i = 0; i < rowCount; ++i) {
-        int state = (int)ListView_GetCheckState(hwnd, i);
-        if (state != -1 && state) result.Add(i);
+    for (int i = -1; (i = (int)SendMessageW(LVM_GETNEXTITEM, i, LVNI_SELECTED)) != -1;) {
+        result.Add(i);
     }
     return result;
 }
 
 bool sw::ListView::GetItemCheckState(int index)
 {
-    int result = (int)ListView_GetCheckState(Handle, index);
-    return result == -1 ? false : result;
+    bool checked = false;
+
+    OnGetItemCheckState(index, checked);
+    return checked;
 }
 
 void sw::ListView::SetItemCheckState(int index, bool value)
 {
-    ListView_SetCheckState(Handle, index, value);
+    OnSetItemCheckState(index, value);
 }
 
 int sw::ListView::GetItemIndexFromPoint(const Point &point)
@@ -374,17 +368,52 @@ bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     return Control::OnNotified(pNMHDR, result);
 }
 
+bool sw::ListView::OnPrePaint(NMCUSTOMDRAW *pNMCD, LRESULT &result)
+{
+    result = CDRF_NOTIFYITEMDRAW;
+    return true;
+}
+
+bool sw::ListView::OnItemPrePaint(NMCUSTOMDRAW *pNMCD, bool subItem, LRESULT &result)
+{
+    if (!subItem) {
+        result = CDRF_NOTIFYSUBITEMDRAW;
+        return true;
+    }
+
+    if (!CheckBoxes) {
+        return false;
+    }
+
+    auto *pCD =
+        reinterpret_cast<LPNMLVCUSTOMDRAW>(pNMCD);
+
+    int row = static_cast<int>(pCD->nmcd.dwItemSpec);
+    int col = pCD->iSubItem;
+
+    if (col == 0) {
+        RECT rtCheck{};
+        GetCheckBoxRect(row, rtCheck);
+
+        DrawFrameControl(
+            pCD->nmcd.hdc,
+            &rtCheck,
+            DFC_BUTTON,
+            DFCS_BUTTONCHECK | (GetItemCheckState(row) ? DFCS_CHECKED : 0));
+
+        result = CDRF_DODEFAULT;
+    }
+    return true;
+}
+
 void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
 {
     if (pNMLV->uChanged & LVIF_STATE) {
-        auto changedState = pNMLV->uOldState ^ pNMLV->uNewState;
+        auto changedState =
+            pNMLV->uOldState ^ pNMLV->uNewState;
 
         if (changedState & LVIS_SELECTED) {
             OnSelectionChanged();
-        }
-
-        if (((changedState & LVIS_STATEIMAGEMASK) >> 12) & ~1) { // checkbox state changed
-            OnCheckStateChanged(pNMLV->iItem);
         }
     }
 }
@@ -411,12 +440,30 @@ void sw::ListView::OnItemClicked(NMITEMACTIVATE *pNMIA)
 {
     ListViewItemClickedEventArgs args(pNMIA->iItem, pNMIA->iSubItem);
     RaiseRoutedEvent(args);
+
+    if (!args.handled && CheckBoxes) {
+        POINT pt;
+        GetCursorPos(&pt);
+        ScreenToClient(Handle, &pt);
+
+        RECT rtCheck{};
+        GetCheckBoxRect(pNMIA->iItem, rtCheck);
+
+        if (PtInRect(&rtCheck, pt)) {
+            OnCheckBoxClicked(pNMIA->iItem);
+        }
+    }
 }
 
 void sw::ListView::OnItemDoubleClicked(NMITEMACTIVATE *pNMIA)
 {
     ListViewItemDoubleClickedEventArgs args(pNMIA->iItem, pNMIA->iSubItem);
     RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnCheckBoxClicked(int index)
+{
+    SetItemCheckState(index, !GetItemCheckState(index));
 }
 
 bool sw::ListView::OnEndEdit(NMLVDISPINFOW *pNMInfo)
@@ -474,6 +521,51 @@ void sw::ListView::GetDisplayInfo(int index, const Variant &item, NMLVDISPINFOW 
                 pNMInfo->item.pszText = const_cast<LPWSTR>(subItems[subIndex].c_str());
             }
         }
+    }
+}
+
+void sw::ListView::GetCheckBoxRect(int index, RECT &rect)
+{
+    ListView_GetItemRect(Handle, index, &rect, LVIR_ICON);
+
+    int rowHeight   = rect.bottom - rect.top;
+    int cxMenuCheck = GetSystemMetrics(SM_CXMENUCHECK);
+    int cyMenuCheck = GetSystemMetrics(SM_CYMENUCHECK);
+
+    rect.top += (rowHeight - cyMenuCheck) / 2;
+    rect.left -= cxMenuCheck;
+    rect.right  = rect.left + cxMenuCheck;
+    rect.bottom = rect.top + cyMenuCheck;
+}
+
+void sw::ListView::OnGetItemCheckState(int index, bool &checked)
+{
+    if (GetCurrentItemsSource() != GetDefaultItemsSource()) {
+        return;
+    }
+
+    if (index < 0 || index >= _items.Count()) {
+        checked = false;
+    } else {
+        checked = _items.GetAt(index).checked;
+    }
+}
+
+void sw::ListView::OnSetItemCheckState(int index, bool checked)
+{
+    if (GetCurrentItemsSource() != GetDefaultItemsSource()) {
+        return;
+    }
+    if (index < 0 || index >= _items.Count()) {
+        return;
+    }
+
+    auto &item = _items.GetAt(index);
+
+    if (item.checked != checked) {
+        item.checked = checked;
+        Redraw();
+        OnCheckStateChanged(index);
     }
 }
 

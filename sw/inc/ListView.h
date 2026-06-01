@@ -60,6 +60,9 @@ namespace sw
         /// @brief 关联图像在图像列表中的索引，-1表示无图像
         int imageIndex = -1;
 
+        /// @brief 复选框选中状态
+        bool checked = false;
+
         /// @brief 默认构造函数
         ListViewItem() = default;
 
@@ -206,11 +209,6 @@ namespace sw
         List<int> GetSelectedIndices();
 
         /**
-         * @brief 获取所有复选框选中的项的索引
-         */
-        List<int> GetCheckedIndices();
-
-        /**
          * @brief 获取指定索引项的复选框是否选中
          */
         bool GetItemCheckState(int index);
@@ -314,7 +312,25 @@ namespace sw
         virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
 
         /**
+         * @brief 绘制控件前调用该函数
+         * @param pNMCD 包含有关自定义绘制的信息
+         * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
+         * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
+         */
+        virtual bool OnPrePaint(NMCUSTOMDRAW *pNMCD, LRESULT &result) override;
+
+        /**
+         * @brief 绘制子项前调用该函数
+         * @param pNMCD 包含有关自定义绘制的信息
+         * @param subItem 若消息包含CDDS_SUBITEM标志则该值为true，否则为false
+         * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
+         * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
+         */
+        virtual bool OnItemPrePaint(NMCUSTOMDRAW *pNMCD, bool subItem, LRESULT &result) override;
+
+        /**
          * @brief 列表项某些属性发生变化时调用该函数
+         * @param pNMLV 包含有关列表项变化的信息
          */
         virtual void OnItemChanged(NMLISTVIEW *pNMLV);
 
@@ -326,23 +342,33 @@ namespace sw
 
         /**
          * @brief 鼠标左键单击列标题时调用该函数
+         * @note 内部Header控件接收到HDN_ITEMCLICKW通知后会调用该函数
          */
         virtual void OnHeaderItemClicked(NMHEADERW *pNMH);
 
         /**
          * @brief 鼠标左键双击列标题时调用该函数
+         * @note 内部Header控件接收到HDN_ITEMDBLCLICKW通知后会调用该函数
          */
         virtual void OnHeaderItemDoubleClicked(NMHEADERW *pNMH);
 
         /**
          * @brief 鼠标左键单击某一项时调用该函数
+         * @note 控件接收到NM_CLICK通知后会调用该函数
          */
         virtual void OnItemClicked(NMITEMACTIVATE *pNMIA);
 
         /**
          * @brief 鼠标左键双击某一项调用该函数
+         * @note 控件接收到NM_DBLCLK通知后会调用该函数
          */
         virtual void OnItemDoubleClicked(NMITEMACTIVATE *pNMIA);
+
+        /**
+         * @brief 复选框被点击时调用该函数
+         * @param index 被点击项的索引
+         */
+        virtual void OnCheckBoxClicked(int index);
 
         /**
          * @brief 编辑状态结束后调用该函数
@@ -363,6 +389,27 @@ namespace sw
          * @param pNMInfo 包含有关通知消息的信息，修改该结构体以提供要显示的信息
          */
         virtual void GetDisplayInfo(int index, const Variant &item, NMLVDISPINFOW *pNMInfo);
+
+        /**
+         * @brief 获取指定索引项的复选框矩形
+         * @param index 项索引
+         * @param rect 用于接收复选框矩形的RECT结构体
+         */
+        virtual void GetCheckBoxRect(int index, RECT &rect);
+
+        /**
+         * @brief 获取指定索引项的复选框是否选中
+         * @param index 项索引
+         * @param checked 用于接收复选框选中状态的布尔变量
+         */
+        virtual void OnGetItemCheckState(int index, bool &checked);
+
+        /**
+         * @brief 设置指定索引项复选框的选中状态
+         * @param index 项索引
+         * @param checked 要设置的选中状态
+         */
+        virtual void OnSetItemCheckState(int index, bool checked);
 
     private:
         /**
